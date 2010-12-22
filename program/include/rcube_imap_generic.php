@@ -1150,9 +1150,12 @@ class rcube_imap_generic
             array("($field)", $encoding, 'ALL' . (!empty($add) ? ' '.$add : '')));
 
         if ($code == self::ERROR_OK) {
-            // remove prefix and \r\n from raw response
-            $response = str_replace("\r\n", '', substr($response, 7));
-            return preg_split('/\s+/', $response, -1, PREG_SPLIT_NO_EMPTY);
+            // remove prefix and unilateral untagged server responses
+            $response = substr($response, stripos($response, '* SORT') + 7);
+            if ($pos = strpos($response, '*')) {
+                $response = substr($response, 0, $pos);
+            }
+            return preg_split('/[\s\r\n]+/', $response, -1, PREG_SPLIT_NO_EMPTY);
         }
 
         return false;
@@ -1889,9 +1892,15 @@ class rcube_imap_generic
         list($code, $response) = $this->execute('THREAD', array(
             $algorithm, $encoding, $criteria));
 
-        if ($code == self::ERROR_OK && preg_match('/^\* THREAD /i', $response)) {
-            // remove prefix and \r\n from raw response
-            $response    = str_replace("\r\n", '', substr($response, 9));
+        if ($code == self::ERROR_OK) {
+            // remove prefix...
+            $response = substr($response, stripos($response, '* THREAD') + 9);
+            // ...unilateral untagged server responses
+            if ($pos = strpos($response, '*')) {
+                $response = substr($response, 0, $pos);
+            }
+
+            $response    = str_replace("\r\n", '', $response);
             $depthmap    = array();
             $haschildren = array();
 
@@ -1949,9 +1958,13 @@ class rcube_imap_generic
             array($params));
 
         if ($code == self::ERROR_OK) {
-            // remove prefix and \r\n from raw response
-            $response = substr($response, $esearch ? 10 : 9);
-            $response = str_replace("\r\n", '', $response);
+            // remove prefix...
+            $response = substr($response, stripos($response, 
+                $esearch ? '* ESEARCH' : '* SEARCH') + ($esearch ? 10 : 9));
+            // ...and unilateral untagged server responses
+            if ($pos = strpos($response, '*')) {
+                $response = rtrim(substr($response, 0, $pos));
+            }
 
             if ($esearch) {
                 // Skip prefix: ... (TAG "A285") UID ...
@@ -1970,7 +1983,7 @@ class rcube_imap_generic
                 return $result;
             }
             else {
-                $response = preg_split('/\s+/', $response, -1, PREG_SPLIT_NO_EMPTY);
+                $response = preg_split('/[\s\r\n]+/', $response, -1, PREG_SPLIT_NO_EMPTY);
 
                 if (!empty($items)) {
                     $result = array();
