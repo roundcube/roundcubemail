@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Show the same message only once (#1487641)
+
 RELEASE 0.5-RC
 --------------
 - Plugin API: Add 'pass' argument in 'authenticate' hook (#1487134)

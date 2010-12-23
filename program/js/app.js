@@ -37,7 +37,7 @@ function rcube_webmail()
 
   // webmail client settings
   this.dblclick_time = 500;
-  this.message_time = 1500;
+  this.message_time = 2000;
 
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
@@ -4520,35 +4520,35 @@ function rcube_webmail()
 
     type = type ? type : 'notice';
 
-    var date = new Date(),
-      id = type + date.getTime();
+    var ref = this,
+      date = new Date(),
+      id = type + date.getTime(),
+      timeout = type == 'loading' ? this.env.request_timeout * 1000 : (this.message_time * (type == 'error' || type == 'warning' ? 2 : 1));
 
-    if (type == 'loading') {
-      if (!msg)
-        msg = this.get_label('loading');
+    if (type == 'loading' && !msg)
+      msg = this.get_label('loading');
 
-      // The same message of type 'loading' is already displayed
-      if (this.messages[msg]) {
-        this.messages[msg].elements.push(id);
-        return id;
-      }
+    // The same message is already displayed
+    if (this.messages[msg]) {
+      this.messages[msg].elements.push(id);
+      window.setTimeout(function() { ref.hide_message(id, true); }, timeout);
+      return id;
     }
 
-    var ref = this,
-      obj = $('<div>').addClass(type).html(msg),
+    var obj = $('<div>').addClass(type).html(msg).data('msg', msg),
       cont = $(this.gui_objects.message).show();
 
     if (type == 'loading') {
       obj.appendTo(cont);
       this.messages[msg] = {'obj': obj, 'elements': [id]};
-      window.setTimeout(function() { rcmail.hide_message(id); }, this.env.request_timeout * 1000);
+      window.setTimeout(function() { rcmail.hide_message(id); }, timeout);
       return id;
     }
     else {
-      obj.appendTo(cont).bind('mousedown', function() { return ref.hide_message(obj); });
-      window.setTimeout(function() { ref.hide_message(obj, true); },
-        this.message_time * (type == 'error' ? 2 : 1));
-      return obj;
+      obj.appendTo(cont).bind('mousedown', function() { return ref.hide_message(obj, true); });
+      window.setTimeout(function() { ref.hide_message(id, true); }, timeout);
+      this.messages[msg] = { 'obj': obj, 'elements': [id] };
+      return id;
     }
   };
 
@@ -4560,16 +4560,21 @@ function rcube_webmail()
       return parent.rcmail.hide_message(obj, fade);
 
     if (typeof(obj) == 'object') {
-      // custom message
+      // hide message object
       $(obj)[fade?'fadeOut':'hide']();
+      
+      var msg = $(obj).data('msg');
+      if (this.messages[msg])
+        delete this.messages[msg];
     }
     else {
-      // 'loading' message
+      // hide message by id
       var k, n, m = this.messages;
       for (k in m) {
         for (n in m[k].elements) {
           if (m[k] && m[k].elements[n] == obj) {
             m[k].elements.splice(n, 1);
+            // hide dom element if last instance is removed
             if (!m[k].elements.length) {
               m[k].obj[fade?'fadeOut':'hide']();
               delete m[k];
