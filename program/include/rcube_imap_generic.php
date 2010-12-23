@@ -109,6 +109,8 @@ class rcube_imap_generic
     private $prefs;
     private $cmd_tag;
     private $cmd_num = 0;
+    private $_debug = false;
+    private $_debug_handler = false;
 
     const ERROR_OK = 0;
     const ERROR_NO = -1;
@@ -142,8 +144,8 @@ class rcube_imap_generic
         if (!$this->fp)
             return false;
 
-        if (!empty($this->prefs['debug_mode'])) {
-            write_log('imap', 'C: '. rtrim($string));
+        if ($this->_debug) {
+            $this->debug('C: '. rtrim($string));
         }
 
         $res = fwrite($this->fp, $string . ($endln ? "\r\n" : ''));
@@ -231,8 +233,8 @@ class rcube_imap_generic
                 $this->fp = null;
                 break;
             }
-            if (!empty($this->prefs['debug_mode'])) {
-                write_log('imap', 'S: '. rtrim($buffer));
+            if ($this->_debug) {
+                $this->debug('S: '. rtrim($buffer));
             }
             $line .= $buffer;
         } while ($buffer[strlen($buffer)-1] != "\n");
@@ -268,8 +270,8 @@ class rcube_imap_generic
         while ($len < $bytes && !feof($this->fp))
         {
             $d = fread($this->fp, $bytes-$len);
-            if (!empty($this->prefs['debug_mode'])) {
-                write_log('imap', 'S: '. $d);
+            if ($this->_debug) {
+                $this->debug('S: '. $d);
             }
             $data .= $d;
             $data_len = strlen($data);
@@ -686,8 +688,8 @@ class rcube_imap_generic
 
         $line = trim(fgets($this->fp, 8192));
 
-        if ($this->prefs['debug_mode'] && $line) {
-            write_log('imap', 'S: '. $line);
+        if ($this->_debug && $line) {
+            $this->debug('S: '. $line);
         }
 
         // Connected to wrong port or connection error?
@@ -3236,6 +3238,37 @@ class rcube_imap_generic
     static function unEscape($string)
     {
         return strtr($string, array('\\"'=>'"', '\\\\' => '\\'));
+    }
+
+    /**
+     * Set the value of the debugging flag.
+     *
+     * @param   boolean $debug      New value for the debugging flag.
+     *
+     * @access  public
+     * @since   0.5-stable
+     */
+    function setDebug($debug, $handler = null)
+    {
+        $this->_debug = $debug;
+        $this->_debug_handler = $handler;
+    }
+
+    /**
+     * Write the given debug text to the current debug output handler.
+     *
+     * @param   string  $message    Debug mesage text.
+     *
+     * @access  private
+     * @since   0.5-stable
+     */
+    private function debug($message)
+    {
+        if ($this->_debug_handler) {
+            call_user_func_array($this->_debug_handler, array(&$this, $message));
+        } else {
+            echo "DEBUG: $message\n";
+        }
     }
 
 }

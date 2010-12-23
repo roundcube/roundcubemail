@@ -503,7 +503,7 @@ class rcmail
       'auth_method' => $this->config->get('imap_auth_type', 'check'),
       'auth_cid'    => $this->config->get('imap_auth_cid'),
       'auth_pw'     => $this->config->get('imap_auth_pw'),
-      'debug_mode'  => (bool) $this->config->get('imap_debug', 0),
+      'debug'       => (bool) $this->config->get('imap_debug', 0),
       'force_caps'  => (bool) $this->config->get('imap_force_caps'),
       'timeout'     => (int) $this->config->get('imap_timeout', 0),
     );

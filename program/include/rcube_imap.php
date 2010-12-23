@@ -148,6 +148,9 @@ class rcube_imap
 
         $this->options['port'] = $port;
 
+        if ($this->options['debug'])
+            $this->conn->setDebug(true, array($this, 'debug_handler'));
+
         $attempt = 0;
         do {
             $data = rcmail::get_instance()->plugins->exec_hook('imap_connect',
@@ -223,7 +226,7 @@ class rcube_imap
      */
     function get_error_code()
     {
-        return ($this->conn) ? $this->conn->errornum : 0;
+        return $this->conn->errornum;
     }
 
 
@@ -234,7 +237,7 @@ class rcube_imap
      */
     function get_error_str()
     {
-        return ($this->conn) ? $this->conn->error : null;
+        return $this->conn->error;
     }
 
 
@@ -245,9 +248,6 @@ class rcube_imap
      */
     function get_response_code()
     {
-        if (!$this->conn)
-            return self::UNKNOWN;
-
         switch ($this->conn->resultcode) {
             case 'NOPERM':
                 return self::NOPERM;
@@ -278,7 +278,7 @@ class rcube_imap
      */
     function get_response_str()
     {
-        return ($this->conn) ? $this->conn->result : null;
+        return $this->conn->result;
     }
 
 
@@ -546,7 +546,7 @@ class rcube_imap
         $imap_shared    = $config->get('imap_ns_shared');
         $imap_delimiter = $config->get('imap_delimiter');
 
-        if (!$this->conn)
+        if (!$this->conn->connected())
             return;
 
         $ns = $this->conn->getNamespace();
@@ -4738,6 +4738,16 @@ class rcube_imap
         }
 
         return $result;
+    }
+
+
+    /**
+     * This is our own debug handler for the IMAP connection
+     * @access public
+     */
+    public function debug_handler(&$imap, $message)
+    {
+        write_log('imap', $message);
     }
 
 }  // end class rcube_imap
