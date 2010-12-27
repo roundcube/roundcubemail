@@ -3318,28 +3318,22 @@ class rcube_imap
             // If folder contains namespace prefix, don't modify it
             if (is_array($this->namespace['shared'])) {
                 foreach ($this->namespace['shared'] as $ns) {
-                    foreach ((array)$ns as $root) {
-                        if ($root[0] && strpos($mbox_name, $root[0]) === 0) {
-                            return $mbox_name;
-                        }
+                    if ($ns[0] && strpos($mbox_name, $ns[0]) === 0) {
+                        return $mbox_name;
                     }
                 }
             }
             if (is_array($this->namespace['other'])) {
                 foreach ($this->namespace['other'] as $ns) {
-                    foreach ((array)$ns as $root) {
-                        if ($root[0] && strpos($mbox_name, $root[0]) === 0) {
-                            return $mbox_name;
-                        }
+                    if ($ns[0] && strpos($mbox_name, $ns[0]) === 0) {
+                        return $mbox_name;
                     }
                 }
             }
             if (is_array($this->namespace['personal'])) {
                 foreach ($this->namespace['personal'] as $ns) {
-                    foreach ((array)$ns as $root) {
-                        if ($root[0] && strpos($mbox_name, $root[0]) === 0) {
-                            return $mbox_name;
-                        }
+                    if ($ns[0] && strpos($mbox_name, $ns[0]) === 0) {
+                        return $mbox_name;
                     }
                 }
                 // Add prefix if first personal namespace is non-empty

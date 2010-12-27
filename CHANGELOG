@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Show the same message only once (#1487641)
+- Fix namespaces handling (#1487649)
 
 RELEASE 0.5-RC
 --------------
