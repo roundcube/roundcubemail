@@ -11,6 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Dennis Heeren <dennis.heeren@gmail.com>                       |
+|         Simon De Schoenmaeker <sds@simonds.be>                        |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -24,6 +25,8 @@ $messages['sessionerror'] = 'Sessie is reeds beëindigd of is ongeldig...';
 $messages['imaperror'] = 'Kon geen verbinding maken met de IMAP server...';
 $messages['servererror'] = 'Server fout!';
 $messages['servererrormsg'] = 'Server fout: $msg';
+$messages['errorreadonly'] = 'Kon opdracht niet uitvoeren. Map is alleen-lezen';
+$messages['errornoperm'] = 'Kon opdracht niet uitvoeren. Toegang geweigerd';
 $messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgeslagen.';
 $messages['nomessagesfound'] = 'Er zijn geen berichten in deze map...';
 $messages['loggedout'] = 'U bent nu afgemeld. Tot ziens!';
@@ -75,7 +78,8 @@ $messages['searchnomatch'] = 'Zoekopdracht leverde geen resultaten';
 $messages['searching'] = 'Bezig met zoeken...';
 $messages['checking'] = 'Bezig met controleren...';
 $messages['nospellerrors'] = 'Geen spelfouten gevonden';
-$messages['folderdeleted'] = 'Mappen met succes verwijderd';
+$messages['folderdeleted'] = 'Map met succes verwijderd';
+$messages['folderexpunged'] = 'Map met succes geleegd';
 $messages['deletedsuccessfully'] = 'Succesvol verwijderd';
 $messages['converting'] = 'Opmaak van het bericht wordt gewist...';
 $messages['messageopenerror'] = 'Kon het bericht niet ophalen van de server';
@@ -87,6 +91,8 @@ $messages['sourceisreadonly'] = 'Het adres kan niet worden opgeslagen';
 $messages['errorsavingcontact'] = 'Kon de contactpersoon niet bewaren';
 $messages['movingmessage'] = 'Bericht wordt verplaatst...';
 $messages['copyingmessage'] = 'Bericht wordt gekopieerd...';
+$messages['deletingmessage'] = 'Bericht wordt verwijderd...';
+$messages['markingmessage'] = 'Bericht wordt gemarkeerd...';
 $messages['receiptsent'] = 'Ontvangstbevestiging verstuurd';
 $messages['errorsendingreceipt'] = 'Kon de ontvangstbevestigign niet versturen';
 $messages['nodeletelastidentity'] = 'U kunt dit laatste afzendadres niet verwijderen.';
@@ -107,10 +113,25 @@ $messages['smtpautherror'] = 'SMTP Fout ($code): Authenticatie mislukt';
 $messages['smtpfromerror'] = 'SMTP Fout ($code): Kon afzender "$from" niet instellen ($msg)';
 $messages['smtptoerror'] = 'SMTP Fout ($code): Kon ontvanger "$to" niet toevoegen ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Fout: Kon lijst van ontvangers niet verwerken';
+$messages['smtpdsnerror'] = 'SMTP Fout: Delivery Status Notifications worden niet ondersteund';
 $messages['smtperror'] = 'SMTP Fout: $msg';
 $messages['emailformaterror'] = 'Ongeldig e-mailadres: $email';
 $messages['toomanyrecipients'] = 'Te veel geadresseerden. Verminder de hoeveelheid geadresseerden tot $max';
 $messages['maxgroupmembersreached'] = 'Het aantal leden van de groep groter is dan de maximale van $max';
 $messages['internalerror'] = 'Er is een interne fout opgetreden. Probeer het nogmaals';
+$messages['contactdelerror'] = 'Kon contactpersoon niet verwijderen';
+$messages['contactdeleted'] = 'Contactpersoon succesvol verwijderd';
+$messages['groupdeleted'] = 'Groep succesvol verwijderd';
+$messages['grouprenamed'] = 'Groep succesvol hernoemd';
+$messages['groupcreated'] = 'Groep succesvol aangemaakt';
+$messages['messagedeleted'] = 'Bericht(en) succesvol verwijderd';
+$messages['messagemoved'] = 'Bericht(en) succesvol verplaatst';
+$messages['messagecopied'] = 'Bericht(en) succesvol gekopieerd';
+$messages['messagemarked'] = 'Bericht(en) succesvol gemarkeerd';
+$messages['autocompletechars'] = 'Geef ten minste $min karakters voor auto aanvullen';
+$messages['namecannotbeempty'] = 'Naam kan niet leeg zijn';
+$messages['nametoolong'] = 'Naam is te lang';
+$messages['folderupdated'] = 'Map succesvol geüpdatet';
+$messages['foldercreated'] = 'Map succesvol aangemaakt';
 
 ?>

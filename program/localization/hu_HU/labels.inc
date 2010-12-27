@@ -1,4 +1,4 @@
-<?php	
+<?php
 
 /*
 
@@ -46,9 +46,6 @@ $labels['size'] = 'Méret';
 $labels['priority'] = 'Sürgősség';
 $labels['organization'] = 'Szervezet';
 $labels['readstatus'] = 'Olvasott';
-$labels['reply-to'] = 'Válaszcím';
-$labels['mail-reply-to'] = 'Hírcsoport';
-$labels['mail-followup-to'] = 'Hírcsoport válasz';
 $labels['mailboxlist'] = 'Mappák';
 $labels['messagesfromto'] = 'Üzenetek: $from - $to / $count';
 $labels['threadsfromto'] = 'Témák ($from - $to, összesen $count)';
@@ -322,15 +319,23 @@ $labels['previewpanemarkread'] = 'Előnézetben megjelent üzenetek megjelölés
 $labels['afternseconds'] = '$n másodperc elteltével';
 $labels['reqmdn'] = 'Olvasási visszaigazolás megkövetelése';
 $labels['reqdsn'] = 'Kézbesítési visszaigazolás megkövetelése';
+$labels['replysamefolder'] = 'Válaszok azonos mappába helyezése';
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Mappák';
 $labels['foldername'] = 'Mappa neve';
-$labels['subscribed'] = 'Feliratkozás';
 $labels['messagecount'] = 'Üzenet';
 $labels['create'] = 'Létrehozás';
 $labels['createfolder'] = 'Új mappa létrehozása';
+$labels['rename'] = 'Átnevezés';
 $labels['managefolders'] = 'Mappák kezelése';
 $labels['specialfolders'] = 'Különleges mappák';
+$labels['properties'] = 'Tulajdonságok';
+$labels['folderproperties'] = 'Mappa tulajdonságai';
+$labels['parentfolder'] = 'Szülőmappa';
+$labels['location'] = 'Hely';
+$labels['info'] = 'Információk';
+$labels['getfoldersize'] = 'Mappa mérete';
+$labels['changesubscription'] = 'Feliratkozás megváltoztatása';
 $labels['sortby'] = 'Rendezés';
 $labels['sortasc'] = 'növekvő';
 $labels['sortdesc'] = 'csökkenő';

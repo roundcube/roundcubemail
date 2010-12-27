@@ -12,6 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Dennis Heeren <dennis.heeren@gmail.com>                       |
 |         Laurens Vets <laurens@daemon.be>                              |
+|         Simon De Schoenmaeker <sds@simonds.be>                        |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -39,11 +40,12 @@ $labels['to'] = 'Aan';
 $labels['cc'] = 'Cc';
 $labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'Antwoorden aan';
+$labels['followupto'] = 'Followup aan';
 $labels['date'] = 'Datum';
 $labels['size'] = 'Grootte';
 $labels['priority'] = 'Prioriteit';
 $labels['organization'] = 'Organisatie';
-$labels['reply-to'] = 'Antwoorden aan';
+$labels['readstatus'] = 'Gelezen?';
 $labels['mailboxlist'] = 'Mappen';
 $labels['messagesfromto'] = 'Berichten $from - $to van $count';
 $labels['threadsfromto'] = 'Conversatie $from - $to van $count';
@@ -172,6 +174,7 @@ $labels['addattachment'] = 'Bestand toevoegen als bijlage';
 $labels['charset'] = 'Karakterset';
 $labels['editortype'] = 'Opmaak';
 $labels['returnreceipt'] = 'Ontvangstbevestiging';
+$labels['dsn'] = 'Delivery Status Notification';
 $labels['editidents'] = 'Bewerk identiteiten';
 $labels['checkspelling'] = 'Controleer spelling';
 $labels['resumeediting'] = 'Hervat bewerken';
@@ -196,6 +199,7 @@ $labels['maxuploadsize'] = 'Maximum toegestane bestandsgrootte is $size';
 $labels['addcc'] = 'Cc toevoegen';
 $labels['addbcc'] = 'Bcc toevoegen';
 $labels['addreplyto'] = 'Antwoorden aan toevoegen';
+$labels['addfollowupto'] = 'Followup aan toevoegen';
 $labels['mdnrequest'] = 'De afzender heeft een ontvangstbevestiging gevraagd. Wilt u deze versturen?';
 $labels['receiptread'] = 'Ontvangstbevestiging (gelezen)';
 $labels['yourmessage'] = 'Dir is een onvangstbevestiging voor uw bericht';
@@ -212,6 +216,7 @@ $labels['edit'] = 'Bewerken';
 $labels['cancel'] = 'Annuleren';
 $labels['save'] = 'Opslaan';
 $labels['delete'] = 'Verwijderen';
+$labels['rename'] = 'Hernoemen';
 $labels['newcontact'] = 'Contactpersoon toevoegen';
 $labels['deletecontact'] = 'Verwijder geselecteerde contactpersonen';
 $labels['composeto'] = 'Mail sturen aan';
@@ -314,15 +319,24 @@ $labels['insertsignature'] = 'Handtekening invoegen';
 $labels['previewpanemarkread'] = 'Markeer voorbeeldbericht als gelezen';
 $labels['afternseconds'] = 'Na $n seconden';
 $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
+$labels['reqdsn'] = 'Vraag altijd een Delivery Status Notification';
+$labels['replysamefolder'] = 'Plaats antwoorden in de map van het beantwoorde bericht';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Mappen';
 $labels['foldername'] = 'Naam';
-$labels['subscribed'] = 'Gebruiken';
+$labels['subscribed'] = 'Geabonneerd';
 $labels['messagecount'] = 'Berichten';
 $labels['create'] = 'Aanmaken';
 $labels['createfolder'] = 'Nieuwe map aanmaken';
 $labels['managefolders'] = 'Mappen beheren';
 $labels['specialfolders'] = 'Speciale mappen';
+$labels['properties'] = 'Eigenschappen';
+$labels['folderproperties'] = 'Eigenschappen van map';
+$labels['parentfolder'] = 'Bovenliggende map';
+$labels['location'] = 'Locatie';
+$labels['info'] = 'Informatie';
+$labels['getfoldersize'] = 'Klik voor de grootte van de map';
+$labels['changesubscription'] = 'Klik voor abonnement te wijzigen';
 $labels['sortby'] = 'Sorteren op';
 $labels['sortasc'] = 'Oplopend sorteren';
 $labels['sortdesc'] = 'Aflopend sorteren';
