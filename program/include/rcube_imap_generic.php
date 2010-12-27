@@ -2806,37 +2806,46 @@ class rcube_imap_generic
         list($code, $response) = $this->execute('GETMETADATA', array(
             $this->escape($mailbox), $optlist));
 
-        if ($code == self::ERROR_OK && preg_match('/^\* METADATA /i', $response)) {
-            // Parse server response (remove "* METADATA ")
-            $response = substr($response, 11);
-            $ret_mbox = $this->tokenizeResponse($response, 1);
-            $data     = $this->tokenizeResponse($response);
+        if ($code == self::ERROR_OK) {
+            $result = array();
+            $data   = $this->tokenizeResponse($response);
 
             // The METADATA response can contain multiple entries in a single
             // response or multiple responses for each entry or group of entries
             if (!empty($data) && ($size = count($data))) {
                 for ($i=0; $i<$size; $i++) {
-                    if (is_array($data[$i])) {
+                    if (isset($mbox) && is_array($data[$i])) {
                         $size_sub = count($data[$i]);
                         for ($x=0; $x<$size_sub; $x++) {
-                            $data[$data[$i][$x]] = $data[$i][++$x];
+                            $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
                         }
                         unset($data[$i]);
                     }
-                    else if ($data[$i] == '*' && $data[$i+1] == 'METADATA') {
-                        unset($data[$i]);   // "*"
-                        unset($data[++$i]); // "METADATA"
-                        unset($data[++$i]); // Mailbox
+                    else if ($data[$i] == '*') {
+                        if ($data[$i+1] == 'METADATA') {
+                            $mbox = $data[$i+2];
+                            unset($data[$i]);   // "*"
+                            unset($data[++$i]); // "METADATA"
+                            unset($data[++$i]); // Mailbox
+                        }
+                        // get rid of other untagged responses
+                        else {
+                            unset($mbox);
+                            unset($data[$i]);
+                        }
                     }
-                    else {
-                        $data[$data[$i]] = $data[++$i];
+                    else if (isset($mbox)) {
+                        $result[$mbox][$data[$i]] = $data[++$i];
                         unset($data[$i]);
                         unset($data[$i-1]);
+                    }
+                    else {
+                        unset($data[$i]);
                     }
                 }
             }
 
-            return $data;
+            return $result;
         }
 
         return NULL;
@@ -2940,43 +2949,58 @@ class rcube_imap_generic
         list($code, $response) = $this->execute('GETANNOTATION', array(
             $this->escape($mailbox), $entries, $attribs));
 
-        if ($code == self::ERROR_OK && preg_match('/^\* ANNOTATION /i', $response)) {
-            // Parse server response (remove "* ANNOTATION ")
-            $response = substr($response, 13);
-            $ret_mbox = $this->tokenizeResponse($response, 1);
-            $data     = $this->tokenizeResponse($response);
-            $res      = array();
+        if ($code == self::ERROR_OK) {
+            $result = array();
+            $data   = $this->tokenizeResponse($response);
 
             // Here we returns only data compatible with METADATA result format
             if (!empty($data) && ($size = count($data))) {
                 for ($i=0; $i<$size; $i++) {
-                    $entry = $data[$i++];
-                    if (is_array($entry)) {
+                    $entry = $data[$i];
+                    if (isset($mbox) && is_array($entry)) {
                         $attribs = $entry;
                         $entry   = $last_entry;
                     }
-                    else
-                        $attribs = $data[$i++];
+                    else if ($entry == '*') {
+                        if ($data[$i+1] == 'ANNOTATION') {
+                            $mbox = $data[$i+2];
+                            unset($data[$i]);   // "*"
+                            unset($data[++$i]); // "ANNOTATION"
+                            unset($data[++$i]); // Mailbox
+                        }
+                        // get rid of other untagged responses
+                        else {
+                            unset($mbox);
+                            unset($data[$i]);
+                        }
+                        continue;
+                    }
+                    else if (isset($mbox)) {
+                        $attribs = $data[++$i];
+                    }
+                    else {
+                        unset($data[$i]);
+                        continue;
+                    }
 
                     if (!empty($attribs)) {
                         for ($x=0, $len=count($attribs); $x<$len;) {
                             $attr  = $attribs[$x++];
                             $value = $attribs[$x++];
                             if ($attr == 'value.priv') {
-                                $res['/private' . $entry] = $value;
+                                $result[$mbox]['/private' . $entry] = $value;
                             }
                             else if ($attr == 'value.shared') {
-                                $res['/shared' . $entry] = $value;
+                                $result[$mbox]['/shared' . $entry] = $value;
                             }
                         }
                     }
                     $last_entry = $entry;
-                    unset($data[$i-1]);
-                    unset($data[$i-2]);
+                    unset($data[$i]);
                 }
             }
 
-            return $res;
+            return $result;
         }
 
         return NULL;
