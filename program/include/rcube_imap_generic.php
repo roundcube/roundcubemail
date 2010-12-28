@@ -2881,8 +2881,9 @@ class rcube_imap_generic
                 $value = sprintf("{%d}\r\n%s", strlen($value), $value);
             }
 
+            // ANNOTATEMORE drafts before version 08 require quoted parameters
             $entries[] = sprintf('%s (%s %s)',
-                $this->escape($name), $this->escape($attr), $value);
+                $this->escape($name, true), $this->escape($attr, true), $value);
         }
 
         $entries = implode(' ', $entries);
@@ -2932,8 +2933,9 @@ class rcube_imap_generic
             $entries = array($entries);
         }
         // create entries string
+        // ANNOTATEMORE drafts before version 08 require quoted parameters
         foreach ($entries as $idx => $name) {
-            $entries[$idx] = $this->escape($name);
+            $entries[$idx] = $this->escape($name, true);
         }
         $entries = '(' . implode(' ', $entries) . ')';
 
@@ -2942,7 +2944,7 @@ class rcube_imap_generic
         }
         // create entries string
         foreach ($attribs as $idx => $name) {
-            $attribs[$idx] = $this->escape($name);
+            $attribs[$idx] = $this->escape($name, true);
         }
         $attribs = '(' . implode(' ', $attribs) . ')';
 
@@ -3237,12 +3239,13 @@ class rcube_imap_generic
     /**
      * Escapes a string when it contains special characters (RFC3501)
      *
-     * @param string $string IMAP string
+     * @param string  $string       IMAP string
+     * @param boolean $force_quotes Forces string quoting
      *
      * @return string Escaped string
      * @todo String literals, lists
      */
-    static function escape($string)
+    static function escape($string, $force_quotes=false)
     {
         if ($string === null) {
             return 'NIL';
@@ -3250,7 +3253,9 @@ class rcube_imap_generic
         else if ($string === '') {
             return '""';
         }
-        else if (preg_match('/([\x00-\x20\x28-\x29\x7B\x25\x2A\x22\x5C\x5D\x7F]+)/', $string)) {
+        else if ($force_quotes ||
+            preg_match('/([\x00-\x20\x28-\x29\x7B\x25\x2A\x22\x5C\x5D\x7F]+)/', $string)
+        ) {
             // string: special chars: SP, CTL, (, ), {, %, *, ", \, ]
             return '"' . strtr($string, array('"'=>'\\"', '\\' => '\\\\')) . '"';
         }
