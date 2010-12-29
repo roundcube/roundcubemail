@@ -1917,7 +1917,7 @@ function rcube_webmail()
     var url = '', target = window;
 
     if (!mbox)
-      mbox = this.env.mailbox;
+      mbox = this.env.mailbox ? this.env.mailbox : 'INBOX';
 
     if (add_url)
       url += add_url;
