@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Show the same message only once (#1487641)
 - Fix namespaces handling (#1487649)
 - Add handling of multifolder METADATA/ANNOTATION responses
+- Fix handling of INBOX when personal namespace prefix is non-empty (#1487657)
 
 RELEASE 0.5-RC
 --------------

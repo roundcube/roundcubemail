@@ -3337,7 +3337,7 @@ class rcube_imap
                     }
                 }
                 // Add prefix if first personal namespace is non-empty
-                if ($this->namespace['personal'][0][0]) {
+                if ($mbox_name != 'INBOX' && $this->namespace['personal'][0][0]) {
                     return $this->namespace['personal'][0][0].$mbox_name;
                 }
             }
