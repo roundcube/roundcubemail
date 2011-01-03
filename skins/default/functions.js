@@ -67,7 +67,7 @@ function rcube_init_tabs(id, current)
 function rcube_show_tab(id, index)
 {
   var content = document.getElementById(id),
-    fs = $('fieldset', content);
+    fs = $('fieldset', content).not('fieldset > fieldset');
 
   fs.each(function(idx) {
     // Show/hide fieldset (tab content)
