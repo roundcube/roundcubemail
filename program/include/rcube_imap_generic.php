@@ -2606,13 +2606,13 @@ class rcube_imap_generic
      */
     function getACL($mailbox)
     {
-        list($code, $response) = $this->execute('GETACL', $this->escape($mailbox));
+        list($code, $response) = $this->execute('GETACL', array($this->escape($mailbox)));
 
         if ($code == self::ERROR_OK && preg_match('/^\* ACL /i', $response)) {
             // Parse server response (remove "* ACL ")
             $response = substr($response, 6);
             $ret  = $this->tokenizeResponse($response);
-            $mbox = array_unshift($ret);
+            $mbox = array_shift($ret);
             $size = count($ret);
 
             // Create user-rights hash array
@@ -2679,7 +2679,7 @@ class rcube_imap_generic
      */
     function myRights($mailbox)
     {
-        list($code, $response) = $this->execute('MYRIGHTS', array($this->escape(mailbox)));
+        list($code, $response) = $this->execute('MYRIGHTS', array($this->escape($mailbox)));
 
         if ($code == self::ERROR_OK && preg_match('/^\* MYRIGHTS /i', $response)) {
             // Parse server response (remove "* MYRIGHTS ")
