@@ -105,7 +105,14 @@ function rcube_autoload($classname)
         ),
         $classname
     );
-    include $filename. '.php';
+
+    if ($fp = @fopen("$filename.php", 'r', true)) {
+        fclose($fp);
+        include_once("$filename.php");
+        return true;
+    }
+
+    return false;
 }
 
 spl_autoload_register('rcube_autoload');

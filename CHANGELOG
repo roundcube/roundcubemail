@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make rcube_autoload silently skip unknown classes (#1487109)
 - Fix charset detection in vcards with encoded values (#1485542)
 - Better CSS cursors for splitters (#1486874)
 - Show the same message only once (#1487641)
