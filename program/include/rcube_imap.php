@@ -470,12 +470,12 @@ class rcube_imap
     {
         $this->threading = false;
 
-        if ($enable) {
-            if ($this->get_capability('THREAD=REFS'))
+        if ($enable && ($caps = $this->get_capability('THREAD'))) {
+            if (in_array('REFS', $caps))
                 $this->threading = 'REFS';
-            else if ($this->get_capability('THREAD=REFERENCES'))
+            else if (in_array('REFERENCES', $caps))
                 $this->threading = 'REFERENCES';
-            else if ($this->get_capability('THREAD=ORDEREDSUBJECT'))
+            else if (in_array('ORDEREDSUBJECT', $caps))
                 $this->threading = 'ORDEREDSUBJECT';
         }
 

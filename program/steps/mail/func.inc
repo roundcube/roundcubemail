@@ -102,14 +102,10 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   // set current mailbox and some other vars in client environment
   $OUTPUT->set_env('mailbox', $mbox_name);
   $OUTPUT->set_env('pagesize', $IMAP->page_size);
-  $OUTPUT->set_env('quota', $IMAP->get_capability('quota'));
+  $OUTPUT->set_env('quota', $IMAP->get_capability('QUOTA'));
   $OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
   $OUTPUT->set_env('threading', (bool) $IMAP->threading);
-  $OUTPUT->set_env('threads', $IMAP->threading
-	|| $IMAP->get_capability('thread=references')
-        || $IMAP->get_capability('thread=orderedsubject')
-        || $IMAP->get_capability('thread=refs')  
-  );
+  $OUTPUT->set_env('threads', $IMAP->threading || $IMAP->get_capability('THREAD'));
 
   if ($CONFIG['flag_for_deletion'])
     $OUTPUT->set_env('flag_for_deletion', true);

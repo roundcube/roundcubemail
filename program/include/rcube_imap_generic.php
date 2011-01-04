@@ -764,18 +764,14 @@ class rcube_imap_generic
 
         // check for supported auth methods
         if ($auth_method == 'CHECK') {
-            if ($this->getCapability('AUTH=DIGEST-MD5')) {
-                $auth_methods[] = 'DIGEST-MD5';
-            }
-            if ($this->getCapability('AUTH=CRAM-MD5') || $this->getCapability('AUTH=CRAM_MD5')) {
-                $auth_methods[] = 'CRAM-MD5';
-            }
-            if ($this->getCapability('AUTH=PLAIN')) {
-                $auth_methods[] = 'PLAIN';
+            if ($auth_caps = $this->getCapability('AUTH')) {
+                $auth_methods = $auth_caps;
             }
             // RFC 2595 (LOGINDISABLED) LOGIN disabled when connection is not secure
-            if (!$this->getCapability('LOGINDISABLED')) {
-                $auth_methods[] = 'LOGIN';
+            if (($key = array_search('LOGIN', $auth_methods)) !== false
+                && $this->getCapability('LOGINDISABLED')
+            ) {
+                unset($auth_methods[$key]);
             }
         }
         else {
@@ -795,8 +791,10 @@ class rcube_imap_generic
         // Authenticate
         foreach ($auth_methods as $method) {
             switch ($method) {
-            case 'DIGEST-MD5':
+            case 'CRAM_MD5':
+                $method = 'CRAM-MD5';
             case 'CRAM-MD5':
+            case 'DIGEST-MD5':
             case 'PLAIN':
                 $result = $this->authenticate($user, $password, $method);
                 break;

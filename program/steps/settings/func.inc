@@ -334,9 +334,7 @@ function rcmail_user_prefs($current=null)
     }
 
     $RCMAIL->imap_connect();
-    $threading_supported = $RCMAIL->imap->get_capability('thread=references')
-      || $RCMAIL->imap->get_capability('thread=orderedsubject')
-      || $RCMAIL->imap->get_capability('thread=refs');
+    $threading_supported = $RCMAIL->imap->get_capability('THREAD');
 
     if (!isset($no_override['autoexpand_threads']) && $threading_supported) {
       $field_id = 'rcmfd_autoexpand_threads';
@@ -346,8 +344,8 @@ function rcmail_user_prefs($current=null)
       $select_autoexpand_threads->add(rcube_label('expand_only_unread'), 2);
 
       $blocks['main']['options']['autoexpand_threads'] = array(
-	'title' => html::label($field_id, Q(rcube_label('autoexpand_threads'))),
-	'content' => $select_autoexpand_threads->show($config['autoexpand_threads']),
+        'title' => html::label($field_id, Q(rcube_label('autoexpand_threads'))),
+        'content' => $select_autoexpand_threads->show($config['autoexpand_threads']),
       );
     }
 
