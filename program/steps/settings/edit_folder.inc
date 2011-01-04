@@ -248,7 +248,7 @@ function rcmail_get_form_part($form)
         $content = $table->show();
     }
     else {
-        $content = $tag['content'];
+        $content = $form['content'];
     }
 
     return $content;
