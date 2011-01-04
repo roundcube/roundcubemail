@@ -371,10 +371,43 @@ class rcube_imap_generic
         return false;
     }
 
-    function getCapability($name)
+    private function hasCapability($name)
     {
+        if (empty($this->capability) || $name == '') {
+            return false;
+        }
+
         if (in_array($name, $this->capability)) {
             return true;
+        }
+        else if (strpos($name, '=')) {
+            return false;
+        }
+
+        $result = array();
+        foreach ($this->capability as $cap) {
+            $entry = explode('=', $cap);
+            if ($entry[0] == $name) {
+                $result[] = $entry[1];
+            }
+        }
+
+        return !empty($result) ? $result : false;
+    }
+
+    /**
+     * Capabilities checker
+     *
+     * @param string $name Capability name
+     *
+     * @return mixed Capability values array for key=value pairs, true/false for others
+     */
+    function getCapability($name)
+    {
+        $result = $this->hasCapability($name);
+
+        if (!empty($result)) {
+            return $result;
         }
         else if ($this->capability_readed) {
             return false;
@@ -390,11 +423,7 @@ class rcube_imap_generic
 
         $this->capability_readed = true;
 
-        if (in_array($name, $this->capability)) {
-            return true;
-        }
-
-        return false;
+        return $this->hasCapability($name);
     }
 
     function clearCapability()
