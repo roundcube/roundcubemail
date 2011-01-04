@@ -28,6 +28,7 @@
  */
 class rcube_vcard
 {
+  private static $values_decoded = false;
   private $raw = array(
     'FN' => array(),
     'N' => array(array('','','','','')),
@@ -47,10 +48,10 @@ class rcube_vcard
   /**
    * Constructor
    */
-  public function __construct($vcard = null, $charset = RCMAIL_CHARSET)
+  public function __construct($vcard = null, $charset = RCMAIL_CHARSET, $detect = false)
   {
     if (!empty($vcard))
-      $this->load($vcard, $charset);
+      $this->load($vcard, $charset, $detect);
   }
 
 
@@ -58,14 +59,23 @@ class rcube_vcard
    * Load record from (internal, unfolded) vcard 3.0 format
    *
    * @param string vCard string to parse
+   * @param string Charset of string values
+   * @param boolean True if loading a 'foreign' vcard and extra heuristics for charset detection is required
    */
-  public function load($vcard, $charset = RCMAIL_CHARSET)
+  public function load($vcard, $charset = RCMAIL_CHARSET, $detect = false)
   {
+    self::$values_decoded = false;
     $this->raw = self::vcard_decode($vcard);
-    
+
     // resolve charset parameters
-    if ($charset == null)
-      $this->raw = $this->charset_convert($this->raw);
+    if ($charset == null) {
+      $this->raw = self::charset_convert($this->raw);
+    }
+    // vcard has encoded values and charset should be detected
+    else if ($detect && self::$values_decoded &&
+      ($detected_charset = self::detect_encoding(self::vcard_encode($this->raw))) && $detected_charset != RCMAIL_CHARSET) {
+        $this->raw = self::charset_convert($this->raw, $detected_charset);
+    }
 
     // find well-known address fields
     $this->displayname = $this->raw['FN'][0][0];
@@ -171,13 +181,13 @@ class rcube_vcard
   
   /**
    * Convert a whole vcard (array) to UTF-8.
-   * Each member value that has a charset parameter will be converted.
+   * If $force_charset is null, each member value that has a charset parameter will be converted
    */
-  private function charset_convert($card)
+  private static function charset_convert($card, $force_charset = null)
   {
     foreach ($card as $key => $node) {
       foreach ($node as $i => $subnode) {
-        if (is_array($subnode) && $subnode['charset'] && ($charset = $subnode['charset'][0])) {
+        if (is_array($subnode) && (($charset = $force_charset) || ($subnode['charset'] && ($charset = $subnode['charset'][0])))) {
           foreach ($subnode as $j => $value) {
             if (is_numeric($j) && is_string($value))
               $card[$key][$i][$j] = rcube_charset_convert($value, $charset);
@@ -222,7 +232,7 @@ class rcube_vcard
 
       if (preg_match('/^END:VCARD$/i', $line)) {
         // parse vcard
-        $obj = new rcube_vcard(self::cleanup($vcard_block), $charset);
+        $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true);
         if (!empty($obj->displayname))
           $out[] = $obj;
 
@@ -363,9 +373,11 @@ class rcube_vcard
   {
     switch (strtolower($encoding)) {
       case 'quoted-printable':
+        self::$values_decoded = true;
         return quoted_printable_decode($value);
 
       case 'base64':
+        self::$values_decoded = true;
         return base64_decode($value);
 
       default:

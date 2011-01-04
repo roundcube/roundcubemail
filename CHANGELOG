@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix charset detection in vcards with encoded values (#1485542)
 - Better CSS cursors for splitters (#1486874)
 - Show the same message only once (#1487641)
 - Fix namespaces handling (#1487649)

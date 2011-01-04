@@ -48,6 +48,10 @@ class rcube_test_vcards extends UnitTestCase
     $this->assertEqual(2, count($vcards), "Detected 2 vcards");
     $this->assertEqual("Apple Computer AG", $vcards[0]->displayname, "FN => displayname");
     $this->assertEqual("John Doë", $vcards[1]->displayname, "Displayname with correct charset");
+    
+    // http://trac.roundcube.net/ticket/1485542
+    $vcards2 = rcube_vcard::import(file_get_contents($this->_srcpath('thebat.vcf')));
+    $this->assertEqual("Iksiñski", $vcards2[0]->surname, "Detect charset in encoded values");
   }
   
 }
