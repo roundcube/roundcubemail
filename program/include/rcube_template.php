@@ -1059,6 +1059,7 @@ class rcube_template extends rcube_html_page
         $host_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
         $pass_attrib = $autocomplete > 1 ? array() : array('autocomplete' => 'off');
 
+        $input_task   = new html_hiddenfield(array('name' => '_task', 'value' => 'login'));
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
         $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
         $input_url    = new html_hiddenfield(array('name' => '_url', 'id' => 'rcmloginurl', 'value' => $url));
@@ -1109,7 +1110,8 @@ class rcube_template extends rcube_html_page
             $table->add(null, $input_host->show(get_input_value('_host', RCUBE_INPUT_GPC)));
         }
 
-        $out = $input_action->show();
+        $out  = $input_task->show();
+        $out .= $input_action->show();
         $out .= $input_tzone->show();
         $out .= $input_url->show();
         $out .= $table->show();

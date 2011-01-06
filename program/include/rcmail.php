@@ -208,7 +208,7 @@ class rcmail
     $task = asciiwords($task);
 
     if ($this->user && $this->user->ID)
-      $task = !$task || $task == 'login' ? 'mail' : $task;
+      $task = !$task ? 'mail' : $task;
     else
       $task = 'login';
 

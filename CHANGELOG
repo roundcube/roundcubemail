@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix double-login/session issue (#1487104)
 - Wrap HTML parts with <html><body> and add Doctype declaration (#1487098)
 - Make rcube_autoload silently skip unknown classes (#1487109)
 - Fix charset detection in vcards with encoded values (#1485542)

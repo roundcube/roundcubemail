@@ -104,7 +104,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     rcmail_log_login();
 
     // restore original request parameters
-    $query = array();
+    $query = array('_task' => 'mail');
     if ($url = get_input_value('_url', RCUBE_INPUT_POST))
       parse_str($url, $query);
 
