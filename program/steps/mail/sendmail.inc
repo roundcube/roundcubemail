@@ -166,7 +166,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
       $name = trim($name);
       if ($name && ($name[0] != '"' || $name[strlen($name)-1] != '"')
           && preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
-	  $name = '"'.addcslashes($name, '"').'"';
+            $name = '"'.addcslashes($name, '"').'"';
       }
       $address = idn_to_ascii($address);
       if (!preg_match('/^<\S+@\S+>$/', $address))
@@ -399,7 +399,11 @@ if (!$savedraft) {
     // add inline css for blockquotes
     $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%';
     $message_body = preg_replace('/<blockquote>/',
-	'<blockquote type="cite" style="'.$bstyle.'">', $message_body);
+      '<blockquote type="cite" style="'.$bstyle.'">', $message_body);
+
+    // append doctype and html/body wrappers
+    $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">' .
+      "\r\n<html><body>\r\n" . $message_body;
   }
 
   // generic footer for all messages
@@ -415,6 +419,8 @@ if (!$savedraft) {
   }
   if ($footer)
     $message_body .= "\r\n" . $footer;
+  if ($isHtml)
+    $message_body .= "\r\n</body></html>\r\n";
 }
 
 // set line length for body wrapping
