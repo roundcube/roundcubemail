@@ -4521,16 +4521,23 @@ function rcube_webmail()
     type = type ? type : 'notice';
 
     var ref = this,
+      key = msg,
       date = new Date(),
       id = type + date.getTime(),
-      timeout = type == 'loading' ? this.env.request_timeout * 1000 : (this.message_time * (type == 'error' || type == 'warning' ? 2 : 1));
-
-    if (type == 'loading' && !msg)
-      msg = this.get_label('loading');
+      timeout = this.message_time * (type == 'error' || type == 'warning' ? 2 : 1);
+      
+    if (type == 'loading') {
+      key = 'loading';
+      timeout = this.env.request_timeout * 1000;
+      if (!msg)
+        msg = this.get_label('loading');
+    }
 
     // The same message is already displayed
-    if (this.messages[msg]) {
-      this.messages[msg].elements.push(id);
+    if (this.messages[key]) {
+      if (this.messages[key].obj)
+        this.messages[key].obj.html(msg);
+      this.messages[key].elements.push(id);
       window.setTimeout(function() { ref.hide_message(id, true); }, timeout);
       return id;
     }
@@ -4540,14 +4547,14 @@ function rcube_webmail()
 
     if (type == 'loading') {
       obj.appendTo(cont);
-      this.messages[msg] = {'obj': obj, 'elements': [id]};
+      this.messages[key] = {'obj': obj, 'elements': [id]};
       window.setTimeout(function() { rcmail.hide_message(id); }, timeout);
       return id;
     }
     else {
       obj.appendTo(cont).bind('mousedown', function() { return ref.hide_message(obj, true); });
       window.setTimeout(function() { ref.hide_message(id, true); }, timeout);
-      this.messages[msg] = { 'obj': obj, 'elements': [id] };
+      this.messages[key] = { 'obj': obj, 'elements': [id] };
       return id;
     }
   };
