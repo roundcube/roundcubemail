@@ -197,7 +197,7 @@ img
 #message div
 {
   width: 400px;
-  margin: 0px auto;
+  margin: 0px;
   min-height: 22px;
   padding: 8px 10px 8px 46px;
 }
