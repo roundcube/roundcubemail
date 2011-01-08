@@ -768,10 +768,14 @@ class rcube_imap_generic
                 $auth_methods = $auth_caps;
             }
             // RFC 2595 (LOGINDISABLED) LOGIN disabled when connection is not secure
-            if (($key = array_search('LOGIN', $auth_methods)) !== false
-                && $this->getCapability('LOGINDISABLED')
-            ) {
-                unset($auth_methods[$key]);
+            $login_disabled = $this->getCapability('LOGINDISABLED');
+            if (($key = array_search('LOGIN', $auth_methods)) !== false) {
+                if ($login_disabled) {
+                    unset($auth_methods[$key]);
+                }
+            }
+            else if (!$login_disabled) {
+                $auth_methods[] = 'LOGIN';
             }
         }
         else {
