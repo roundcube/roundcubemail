@@ -4535,28 +4535,34 @@ function rcube_webmail()
 
     // The same message is already displayed
     if (this.messages[key]) {
+      // replace label
       if (this.messages[key].obj)
         this.messages[key].obj.html(msg);
+      // store label in stack
+      if (type == 'loading') {
+        this.messages[key].labels.push({'id': id, 'msg': msg});
+      }
+      // add element and set timeout
       this.messages[key].elements.push(id);
-      window.setTimeout(function() { ref.hide_message(id, true); }, timeout);
+      window.setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
       return id;
     }
 
-    var obj = $('<div>').addClass(type).html(msg).data('msg', msg),
-      cont = $(this.gui_objects.message).show();
+    // create DOM object and display it
+    var obj = $('<div>').addClass(type).html(msg).data('key', key),
+      cont = $(this.gui_objects.message).append(obj).show();
+
+    this.messages[key] = {'obj': obj, 'elements': [id]};
 
     if (type == 'loading') {
-      obj.appendTo(cont);
-      this.messages[key] = {'obj': obj, 'elements': [id]};
-      window.setTimeout(function() { rcmail.hide_message(id); }, timeout);
-      return id;
+      this.messages[key].labels = [{'id': id, 'msg': msg}];
     }
     else {
-      obj.appendTo(cont).bind('mousedown', function() { return ref.hide_message(obj, true); });
-      window.setTimeout(function() { ref.hide_message(id, true); }, timeout);
-      this.messages[key] = { 'obj': obj, 'elements': [id] };
-      return id;
+      obj.click(function() { return ref.hide_message(obj); });
     }
+
+    window.setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
+    return id;
   };
 
   // make a message to disapear
@@ -4566,25 +4572,37 @@ function rcube_webmail()
     if (this.is_framed())
       return parent.rcmail.hide_message(obj, fade);
 
+    var k, n, i, msg, m = this.messages;
+
+    // Hide message by object, don't use for 'loading'!
     if (typeof(obj) == 'object') {
-      // hide message object
       $(obj)[fade?'fadeOut':'hide']();
-      
-      var msg = $(obj).data('msg');
+      msg = $(obj).data('key');
       if (this.messages[msg])
         delete this.messages[msg];
     }
+    // Hide message by id
     else {
-      // hide message by id
-      var k, n, m = this.messages;
       for (k in m) {
         for (n in m[k].elements) {
           if (m[k] && m[k].elements[n] == obj) {
             m[k].elements.splice(n, 1);
-            // hide dom element if last instance is removed
+            // hide DOM element if last instance is removed
             if (!m[k].elements.length) {
               m[k].obj[fade?'fadeOut':'hide']();
               delete m[k];
+            }
+            // set pending action label for 'loading' message
+            else if (k == 'loading') {
+              for (i in m[k].labels) {
+                if (m[k].labels[i].id == obj) {
+                  delete m[k].labels[i];
+                }
+                else {
+                  msg = m[k].labels[i].msg;
+                }
+                m[k].obj.html(msg);
+              }
             }
           }
         }
