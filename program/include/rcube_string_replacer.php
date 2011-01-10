@@ -37,13 +37,14 @@ class rcube_string_replacer
   {
     // Simplified domain expression for UTF8 characters handling
     $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.[a-z]{2,5}';
-    $url = '[a-z0-9%=#@+?.:;&\\/_~\\[\\]-]+';
+    $url1 = '.:;';
+    $url2 = 'a-z0-9%=#@+?&\\/_~\\[\\]-';
 
-    $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)($utf_domain($url)?)/i";
+    $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)($utf_domain([$url1]?[$url2]+)*)/i";
     $this->mailto_pattern = "/("
         ."[-\w!\#\$%&\'*+~\/^`|{}=]+(?:\.[-\w!\#\$%&\'*+~\/^`|{}=]+)*"  // local-part
         ."@$utf_domain"                                                 // domain-part
-        ."(\?$url)?"                                                    // e.g. ?subject=test...
+        ."(\?[$url1$url2]+)?"                                           // e.g. ?subject=test...
         .")/i";
   }
 
@@ -88,11 +89,13 @@ class rcube_string_replacer
       $prefix     = $m[1];
     }
 
-    $suffix = $this->parse_url_brackets($url);
-    $i = $this->add($prefix . html::a(array(
-      'href' => $url_prefix . $url,
-      'target' => '_blank'
-      ), Q($url)) . $suffix);
+    if ($url) {
+      $suffix = $this->parse_url_brackets($url);
+      $i = $this->add($prefix . html::a(array(
+          'href' => $url_prefix . $url,
+          'target' => '_blank'
+        ), Q($url)) . $suffix);
+    }
 
     // Return valid link for recognized schemes, otherwise, return the unmodified string for unrecognized schemes.
     return $i >= 0 ? $this->get_replacement($i) : $matches[0];

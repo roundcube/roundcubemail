@@ -112,7 +112,7 @@ class rcube_test_mailfunc extends UnitTestCase
     $html = rcmail_print_body($part, array('safe' => true));
 
     $this->assertPattern('/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/', $html, "Mailto links with onclick");
-    $this->assertPattern('#<a href="http://www.apple.com/legal/privacy/" target="_blank">http://www.apple.com/legal/privacy/</a>#', $html, "Links with target=_blank");
+    $this->assertPattern('#<a href="http://www.apple.com/legal/privacy" target="_blank">http://www.apple.com/legal/privacy</a>#', $html, "Links with target=_blank");
     $this->assertPattern('#\\[<a href="http://example.com/\\?tx\\[a\\]=5" target="_blank">http://example.com/\\?tx\\[a\\]=5</a>\\]#', $html, "Links with square brackets");
   }
 
