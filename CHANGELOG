@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix namespaces handling (#1487649)
 - Add handling of multifolder METADATA/ANNOTATION responses
 - Fix handling of INBOX when personal namespace prefix is non-empty (#1487657)
+- Fix handling square brackets in links (#1487672)
 
 RELEASE 0.5-RC
 --------------

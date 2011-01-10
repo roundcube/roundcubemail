@@ -110,9 +110,10 @@ class rcube_test_mailfunc extends UnitTestCase
     $part->ctype_secondary = 'plain';
     $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
     $html = rcmail_print_body($part, array('safe' => true));
-    
+
     $this->assertPattern('/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/', $html, "Mailto links with onclick");
     $this->assertPattern('#<a href="http://www.apple.com/legal/privacy/" target="_blank">http://www.apple.com/legal/privacy/</a>#', $html, "Links with target=_blank");
+    $this->assertPattern('#\\[<a href="http://example.com/\\?tx\\[a\\]=5" target="_blank">http://example.com/\\?tx\\[a\\]=5</a>\\]#', $html, "Links with square brackets");
   }
 
   /**

@@ -37,7 +37,7 @@ class rcube_string_replacer
   {
     // Simplified domain expression for UTF8 characters handling
     $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.[a-z]{2,5}';
-    $url = '[a-z0-9%=#@+?.:;&\\/_~-]+';
+    $url = '[a-z0-9%=#@+?.:;&\\/_~\\[\\]-]+';
 
     $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)($utf_domain($url)?)/i";
     $this->mailto_pattern = "/("
@@ -81,12 +81,18 @@ class rcube_string_replacer
 
     if (preg_match('!^(http|ftp|file)s?://!', $scheme)) {
       $url = $matches[1] . $matches[2];
-      $i = $this->add(html::a(array('href' => $url, 'target' => '_blank'), Q($url)));
     }
     else if (preg_match('/^(\W)www\.$/', $matches[1], $m)) {
-      $url = 'www.' . $matches[2];
-      $i = $this->add($m[1] . html::a(array('href' => 'http://' . $url, 'target' => '_blank'), Q($url)));
+      $url        = 'www.' . $matches[2];
+      $url_prefix = 'http://';
+      $prefix     = $m[1];
     }
+
+    $suffix = $this->parse_url_brackets($url);
+    $i = $this->add($prefix . html::a(array(
+      'href' => $url_prefix . $url,
+      'target' => '_blank'
+      ), Q($url)) . $suffix);
 
     // Return valid link for recognized schemes, otherwise, return the unmodified string for unrecognized schemes.
     return $i >= 0 ? $this->get_replacement($i) : $matches[0];
@@ -100,11 +106,13 @@ class rcube_string_replacer
    */
   public function mailto_callback($matches)
   {
+    $href   = $matches[1];
+    $suffix = $this->parse_url_brackets($href);
+
     $i = $this->add(html::a(array(
-        'href' => 'mailto:' . $matches[1],
-        'onclick' => "return ".JS_OBJECT_NAME.".command('compose','".JQ($matches[1])."',this)",
-      ),
-      Q($matches[1])));
+        'href' => 'mailto:' . $href,
+        'onclick' => "return ".JS_OBJECT_NAME.".command('compose','".JQ($href)."',this)",
+      ), Q($href)) . $suffix);
 
     return $i >= 0 ? $this->get_replacement($i) : '';
   }
@@ -127,6 +135,40 @@ class rcube_string_replacer
   public function resolve($str)
   {
     return preg_replace_callback(self::$pattern, array($this, 'replace_callback'), $str);
+  }
+
+  /**
+   * Fixes bracket characters in URL handling
+   */
+  public static function parse_url_brackets(&$url)
+  {
+    // #1487672: special handling of square brackets,
+    // URL regexp allows [] characters in URL, for example:
+    // "http://example.com/?a[b]=c". However we need to handle
+    // properly situation when a bracket is placed at the end
+    // of the link e.g. "[http://example.com]"
+    if (preg_match('/(\\[|\\])/', $url)) {
+      $in = false;
+      for ($i=0, $len=strlen($url); $i<$len; $i++) {
+        if ($url[$i] == '[') {
+          if ($in)
+            break;
+          $in = true;
+        }
+        else if ($url[$i] == ']') {
+          if (!$in)
+            break;
+          $in = false;
+        }
+      }
+
+      if ($i<$len) {
+        $suffix = substr($url, $i);
+        $url    = substr($url, 0, $i);
+      }
+    }
+
+    return $suffix;
   }
 
 }
