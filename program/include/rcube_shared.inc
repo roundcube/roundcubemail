@@ -5,7 +5,7 @@
  | rcube_shared.inc                                                      |
  |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2007, Roundcube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |

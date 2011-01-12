@@ -5,7 +5,7 @@
  | program/include/rcube_html_page.php                                   |
  |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2009, Roundcube Dev. - Switzerland                 |
+ | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |

@@ -6,7 +6,7 @@
 | language/ast/messages.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2008, Roundcube Dev. - Switzerland                 |
+| Copyright (C) 2005-2008, The Roundcube Dev Team                       |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+

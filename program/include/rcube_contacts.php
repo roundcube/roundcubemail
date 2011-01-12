@@ -5,7 +5,7 @@
  | program/include/rcube_contacts.php                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2010, Roundcube Dev. - Switzerland                 |
+ | Copyright (C) 2006-2010, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |

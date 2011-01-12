@@ -5,7 +5,7 @@
  | rcube_install.php                                                     |
  |                                                                       |
  | This file is part of the Roundcube Webmail package                    |
- | Copyright (C) 2008-2009, Roundcube Dev. - Switzerland                 |
+ | Copyright (C) 2008-2009, The Roundcube Dev Team                       |
  | Licensed under the GNU Public License                                 |
  +-----------------------------------------------------------------------+
 

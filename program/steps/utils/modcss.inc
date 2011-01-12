@@ -5,7 +5,7 @@
  | program/steps/utils/modcss.inc                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2007-2010, Roundcube Dev. - Switzerland                 |
+ | Copyright (C) 2007-2010, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
