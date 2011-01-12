@@ -3,7 +3,7 @@
  | Roundcube common js library                                           |
  |                                                                       |
  | This file is part of the Roundcube web development suite              |
- | Copyright (C) 2005-2007, Roundcube Dev, - Switzerland                 |
+ | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+

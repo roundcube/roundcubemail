@@ -5,7 +5,7 @@
 | language/kh_KH/labels.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2008-2009, RoundQube Dev. - Switzerland                 |
+| Copyright (C) 2008-2009, The Roundcube Dev Team                       |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 | Language: Khmer (ភាសាខ្មែរ)												|
