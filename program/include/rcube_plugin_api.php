@@ -395,7 +395,7 @@ class rcube_plugin_api
   {
     if ($this->output->type == 'html') {
       $src = $this->resource_url($fn);
-      $this->output->add_header(html::tag('link', array('rel' => "stylesheet", 'type' => "text/css", 'href' => $src)));
+      $this->output->include_css($src);
     }
   }
   
@@ -437,4 +437,3 @@ class rcube_plugin_api
   }
 
 }
-
