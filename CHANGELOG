@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Add handling of multifolder METADATA/ANNOTATION responses
 - Fix handling of INBOX when personal namespace prefix is non-empty (#1487657)
 - Fix handling square brackets in links (#1487672)
+- Add description of 'use_https' option in main.inc.php.dist file
 
 RELEASE 0.5-RC
 --------------
