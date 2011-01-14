@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Require PHP 5.2.1 or greater
+
 RELEASE 0.5
 -----------
 - Fix double-login/session issue (#1487104)
