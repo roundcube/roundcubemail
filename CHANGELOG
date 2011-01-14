@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix login redirect issues (#1487686)
 - Require PHP 5.2.1 or greater
 
 RELEASE 0.5
