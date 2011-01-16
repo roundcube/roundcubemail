@@ -1757,4 +1757,17 @@ $OUTPUT->add_handlers(array(
   'searchform' => array($OUTPUT, 'search_form'),
 ));
 
-
+// register action aliases
+$RCMAIL->register_action_map(array(
+    'preview' => 'show.inc',
+    'print'   => 'show.inc',
+    'moveto'  => 'move_del.inc',
+    'delete'  => 'move_del.inc',
+    'send'    => 'sendmail.inc',
+    'expunge' => 'folders.inc',
+    'purge'   => 'folders.inc',
+    'remove-attachment'  => 'attachments.inc',
+    'display-attachment' => 'attachments.inc',
+    'upload'             => 'attachments.inc',
+    'group-expand'       => 'autocomplete.inc',
+));

@@ -194,43 +194,6 @@ else if ($RCMAIL->action == 'save-pref') {
 }
 
 
-// map task/action to a certain include file
-$action_map = array(
-  'mail' => array(
-    'preview' => 'show.inc',
-    'print'   => 'show.inc',
-    'moveto'  => 'move_del.inc',
-    'delete'  => 'move_del.inc',
-    'send'    => 'sendmail.inc',
-    'expunge' => 'folders.inc',
-    'purge'   => 'folders.inc',
-    'remove-attachment'  => 'attachments.inc',
-    'display-attachment' => 'attachments.inc',
-    'upload' => 'attachments.inc',
-    'group-expand' => 'autocomplete.inc',
-  ),
-  
-  'addressbook' => array(
-    'add' => 'edit.inc',
-    'group-create' => 'groups.inc',
-    'group-rename' => 'groups.inc',
-    'group-delete' => 'groups.inc',
-    'group-addmembers' => 'groups.inc',
-    'group-delmembers' => 'groups.inc',
-  ),
-
-  'settings' => array(
-    'folders'       => 'folders.inc',
-    'rename-folder' => 'folders.inc',
-    'delete-folder' => 'folders.inc',
-    'subscribe'     => 'folders.inc',
-    'unsubscribe'   => 'folders.inc',
-    'purge'         => 'folders.inc',
-    'folder-size'   => 'folders.inc',
-    'add-identity'  => 'edit_identity.inc',
-  )
-);
-
 // include task specific functions
 if (is_file($incfile = 'program/steps/'.$RCMAIL->task.'/func.inc'))
   include_once($incfile);
@@ -238,9 +201,6 @@ if (is_file($incfile = 'program/steps/'.$RCMAIL->task.'/func.inc'))
 // allow 5 "redirects" to another action
 $redirects = 0; $incstep = null;
 while ($redirects < 5) {
-  $stepfile = !empty($action_map[$RCMAIL->task][$RCMAIL->action]) ?
-    $action_map[$RCMAIL->task][$RCMAIL->action] : strtr($RCMAIL->action, '-', '_') . '.inc';
-    
   // execute a plugin action
   if ($RCMAIL->plugins->is_plugin_task($RCMAIL->task)) {
     $RCMAIL->plugins->exec_action($RCMAIL->task.'.'.$RCMAIL->action);
@@ -251,7 +211,9 @@ while ($redirects < 5) {
     break;
   }
   // try to include the step file
-  else if (is_file($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile)) {
+  else if (($stepfile = $RCMAIL->get_action_file())
+    && is_file($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile)
+  ) {
     include($incfile);
     $redirects++;
   }

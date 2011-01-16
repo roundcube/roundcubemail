@@ -115,6 +115,7 @@ class rcmail
 
   private $texts;
   private $books = array();
+  private $action_map = array();
 
 
   /**
@@ -1322,6 +1323,33 @@ class rcmail
     setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'],
       rcube_https_check(), true);
   }
+
+  /**
+   * Registers action aliases for current task
+   *
+   * @param array $map Alias-to-filename hash array
+   */
+  public function register_action_map($map)
+  {
+    if (is_array($map)) {
+      foreach ($map as $idx => $val) {
+        $this->action_map[$idx] = $val;
+      }
+    }
+  }
+  
+  /**
+   * Returns current action filename
+   *
+   * @param array $map Alias-to-filename hash array
+   */
+  public function get_action_file()
+  {
+    if (!empty($this->action_map[$this->action])) {
+      return $this->action_map[$this->action];
+    }
+
+    return strtr($this->action, '-', '_') . '.inc';
+  }
+
 }
-
-

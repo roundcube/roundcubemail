@@ -764,3 +764,14 @@ $OUTPUT->add_handlers(array(
   'identitieslist' => 'rcmail_identities_list',
 ));
 
+// register action aliases
+$RCMAIL->register_action_map(array(
+    'folders'       => 'folders.inc',
+    'rename-folder' => 'folders.inc',
+    'delete-folder' => 'folders.inc',
+    'subscribe'     => 'folders.inc',
+    'unsubscribe'   => 'folders.inc',
+    'purge'         => 'folders.inc',
+    'folder-size'   => 'folders.inc',
+    'add-identity'  => 'edit_identity.inc',
+));

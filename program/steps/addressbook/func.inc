@@ -293,3 +293,13 @@ $OUTPUT->add_handlers(array(
     'recordscountdisplay' => 'rcmail_rowcount_display',
     'searchform' => array($OUTPUT, 'search_form')
 ));
+
+// register action aliases
+$RCMAIL->register_action_map(array(
+    'add' => 'edit.inc',
+    'group-create' => 'groups.inc',
+    'group-rename' => 'groups.inc',
+    'group-delete' => 'groups.inc',
+    'group-addmembers' => 'groups.inc',
+    'group-delmembers' => 'groups.inc',
+));
