@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Require PHP 5.2.1 or greater
 - Fix %h/%z variables in username_domain option (#1487701)
 - Workaround for setting charset in case of malformed bodystructure response (#1487700)
+- Fix impossible to subscribe to protected folders (#1487656)
 
 RELEASE 0.5
 -----------

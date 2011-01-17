@@ -4309,6 +4309,14 @@ function rcube_webmail()
     }
   };
 
+  // disables subscription checkbox (for protected folder)
+  this.disable_subscription = function(folder)
+  {
+    var id = this.get_folder_row_id(folder);
+    if (id)
+      $('input[name="_subscribed[]"]', $('#'+id)).attr('disabled', true);
+  };
+
   this.folder_size = function(folder)
   {
     var lock = this.set_busy(true, 'loading');
