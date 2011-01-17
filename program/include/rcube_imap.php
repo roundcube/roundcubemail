@@ -2053,7 +2053,7 @@ class rcube_imap
                 return false;
         }
 
-        $struct = &$this->_structure_part($structure);
+        $struct = &$this->_structure_part($structure, 0, '', $headers);
         $struct->headers = get_object_vars($headers);
 
         // don't trust given content-type
@@ -2183,6 +2183,11 @@ class rcube_imap
 
             if (isset($struct->ctype_parameters['charset']))
                 $struct->charset = $struct->ctype_parameters['charset'];
+        }
+
+        // #1487700: workaround for lack of charset in malformed structure
+        if (empty($struct->charset) && !empty($mime_headers) && $mime_headers->charset) {
+            $struct->charset = $mime_headers->charset;
         }
 
         // read content encoding
