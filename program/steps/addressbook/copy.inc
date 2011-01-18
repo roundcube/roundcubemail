@@ -48,7 +48,7 @@ if ($cid && preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid) &
           'record' => $a_record, 'source' => $target, 'group' => $target_group));
 
         if (!$plugin['abort']) {
-          if ($insert_id = $TARGET->insert($a_record, false)) {
+          if ($insert_id = $TARGET->insert($plugin['record'], false)) {
             $ids[] = $insert_id;
             $success++;
           }

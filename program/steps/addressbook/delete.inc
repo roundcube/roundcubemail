@@ -38,6 +38,10 @@ if ($OUTPUT->ajax_call &&
         // count contacts for this user
         $result = $CONTACTS->count();
 
+        // update saved search after data changed
+        if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request]))
+            $_SESSION['search'][$search_request] = $CONTACTS->refresh_search();
+
         // update message count display
         $OUTPUT->set_env('pagecount', ceil($result->count / $CONTACTS->page_size));
         $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result->count));

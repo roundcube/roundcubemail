@@ -25,9 +25,8 @@ function rcube_show_advanced(visible)
 // Warning: don't place "caller" <script> inside page element (id)
 function rcube_init_tabs(id, current)
 {
-  var content = document.getElementById(id),
-    // get fieldsets of the higher-level (skip nested fieldsets)
-    fs = $('fieldset', content).not('fieldset > fieldset');
+  var content = $('#'+id),
+    fs = content.children('fieldset');
 
   if (!fs.length)
     return;
@@ -42,9 +41,7 @@ function rcube_init_tabs(id, current)
 
   // convert fildsets into tabs
   fs.each(function(idx) {
-    var tab, a, elm = $(this),
-      // get first legend element
-      legend = $(elm).children('legend');
+    var tab, a, elm = $(this), legend = elm.children('legend');
 
     // create a tab
     a   = $('<a>').text(legend.text()).attr('href', '#');
@@ -66,8 +63,7 @@ function rcube_init_tabs(id, current)
 
 function rcube_show_tab(id, index)
 {
-  var content = document.getElementById(id),
-    fs = $('fieldset', content).not('fieldset > fieldset');
+  var fs = $('#'+id).children('fieldset');
 
   fs.each(function(idx) {
     // Show/hide fieldset (tab content)
@@ -94,7 +90,8 @@ function rcube_mail_ui()
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
     composemenu:    {id:'composeoptionsmenu', editable:1},
     // toggle: #1486823, #1486930
-    uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:!bw.ie&&!bw.linux }
+    uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:!bw.ie&&!bw.linux },
+    uploadform:     {id:'upload-form', editable:1, toggle:!bw.ie&&!bw.linux }
   };
 
   var obj;
@@ -135,6 +132,9 @@ show_popupmenu: function(popup, show)
 
     if (!above && pos.top + ref.offsetHeight + obj.height() > window.innerHeight)
       above = true;
+
+    if (pos.left + obj.width() > window.innerWidth)
+      pos.left = window.innerWidth - obj.width() - 30;
 
     obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
   }
@@ -499,6 +499,9 @@ function rcube_init_mail_ui()
 
     if (rcmail.env.action == 'compose')
       rcmail_ui.init_compose_form();
+  }
+  else if (rcmail.env.task == 'addressbook') {
+    rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); });
   }
 }
 

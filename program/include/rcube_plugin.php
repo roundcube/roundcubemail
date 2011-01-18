@@ -83,7 +83,20 @@ abstract class rcube_plugin
    * Initialization method, needs to be implemented by the plugin itself
    */
   abstract function init();
-  
+
+
+  /**
+   * Attempt to load the given plugin which is required for the current plugin
+   *
+   * @param string Plugin name
+   * @return boolean True on success, false on failure
+   */
+  public function require_plugin($plugin_name)
+  {
+    return $this->api->load_plugin($plugin_name);
+  }
+
+
   /**
    * Load local config file from plugins directory.
    * The loaded values are patched over the global configuration.

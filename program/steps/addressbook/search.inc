@@ -5,7 +5,7 @@
  | program/steps/addressbook/search.inc                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -28,11 +28,11 @@ $search_request = md5('addr'.$search);
 // get contacts for this user
 $result = $CONTACTS->search(array('name','email'), $search);
 
+// save search settings in session
+$_SESSION['search'][$search_request] = $CONTACTS->get_search_set();
+
 if ($result->count > 0)
 {
-  // save search settings in session
-  $_SESSION['search'][$search_request] = $CONTACTS->get_search_set();
-
   // create javascript list
   rcmail_js_contacts_list($result);
 }

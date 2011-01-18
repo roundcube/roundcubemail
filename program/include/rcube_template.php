@@ -996,8 +996,11 @@ class rcube_template extends rcube_html_page
         $attrib['action'] = './';
 
         // we already have a <form> tag
-        if ($attrib['form'])
+        if ($attrib['form']) {
+            if ($this->framed || !empty($_REQUEST['_framed']))
+                $hidden->add(array('name' => '_framed', 'value' => '1'));
             return $hidden->show() . $content;
+        }
         else
             return $this->form_tag($attrib, $hidden->show() . $content);
     }

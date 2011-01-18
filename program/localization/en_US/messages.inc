@@ -104,7 +104,7 @@ $messages['forbiddencharacter'] = 'Folder name contains a forbidden character';
 $messages['selectimportfile'] = 'Please select a file to upload';
 $messages['addresswriterror'] = 'The selected address book is not writeable';
 $messages['contactaddedtogroup'] = 'Successfully added the contacts to this group';
-$messages['contactremovedfromgroup'] = 'Successfully remove contacts from this group';
+$messages['contactremovedfromgroup'] = 'Successfully removed contacts from this group';
 $messages['importwait'] = 'Importing, please wait...';
 $messages['importerror'] = 'Import failed! The uploaded file is not a valid vCard file.';
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts, $skipped existing entries skipped</b>:<p><em>$names</em></p>';
@@ -137,5 +137,6 @@ $messages['namecannotbeempty'] = 'Name cannot be empty';
 $messages['nametoolong'] = 'Name is too long';
 $messages['folderupdated'] = 'Folder updated successfully';
 $messages['foldercreated'] = 'Folder created successfully';
+$messages['invalidimageformat'] = 'Not a valid image format';
 
 ?>

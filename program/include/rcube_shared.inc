@@ -485,6 +485,25 @@ function rc_mime_content_type($path, $name, $failover = 'application/octet-strea
     return $mime_type;
 }
 
+
+/**
+ * Detect image type of the given binary data by checking magic numbers
+ *
+ * @param string  Binary file content
+ * @return string Detected mime-type or jpeg as fallback
+ */
+function rc_image_content_type($data)
+{
+    $type = 'jpeg';
+    if      (preg_match('/^\x89\x50\x4E\x47/', $data)) $type = 'png';
+    else if (preg_match('/^\x47\x49\x46\x38/', $data)) $type = 'gif';
+    else if (preg_match('/^\x00\x00\x01\x00/', $data)) $type = 'ico';
+//  else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) $type = 'jpeg';
+
+    return 'image/' . $type;
+}
+
+
 /**
  * A method to guess encoding of a string.
  *

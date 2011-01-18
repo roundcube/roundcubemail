@@ -5,18 +5,34 @@
 <roundcube:include file="/includes/links.html" />
 <script type="text/javascript" src="/functions.js"></script>
 </head>
-<body class="iframe">
+<body class="iframe" onload="rcube_init_mail_ui()">
 
 <div id="contact-title" class="boxtitle"><roundcube:label name="editcontact" /></div>
 <div id="contact-details" class="boxcontent">
-  <roundcube:object name="contacteditform" size="40" />
+<form name="editform" method="post" action="./">
+  <div id="contactphoto">
+    <roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" />
+    <div class="formlinks">
+      <roundcube:button command="upload-photo" id="uploadformlink" type="link" label="replacephoto" class="disabled" classAct="active" onclick="rcmail_ui.show_popup('uploadform', true);return false" condition="env:photocol" /><br/>
+      <roundcube:button command="delete-photo" type="link" label="delete" class="disabled" classAct="active" condition="env:photocol" />
+    </div>
+  </div>
+  <roundcube:object name="contactedithead" id="contacthead" size="16" form="editform" />
+  <div style="clear:both"></div>
+  
+  <div id="contacttabs">
+    <roundcube:object name="contacteditform" size="40" textareacols="60" deleteIcon="/images/icons/delete.png" form="editform" />
+  </div>
   <p>
     <roundcube:button command="show" type="input" class="button" label="cancel" />&nbsp;
     <roundcube:button command="save" type="input" class="button mainaction" label="save" />
   </p>
 </form>
 </div>
-<script type="text/javascript">rcube_init_tabs('contact-details')</script>
+
+<roundcube:object name="photoUploadForm" id="upload-form" size="30" class="popupmenu" />
+
+<script type="text/javascript">rcube_init_tabs('contacttabs')</script>
 
 </body>
 </html>

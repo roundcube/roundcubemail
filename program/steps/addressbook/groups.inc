@@ -79,8 +79,7 @@ else if ($RCMAIL->action == 'group-create') {
 
   if ($created && $OUTPUT->ajax_call) {
     $OUTPUT->show_message('groupcreated', 'confirmation');
-    $OUTPUT->command('insert_contact_group', array(
-      'source' => $source, 'id' => $created['id'], 'name' => $created['name']));
+    $OUTPUT->command('insert_contact_group', array('source' => $source) + $created);
   }
   else if (!$created) {
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');

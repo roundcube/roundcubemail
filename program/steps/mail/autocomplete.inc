@@ -29,8 +29,10 @@ if ($RCMAIL->action == 'group-expand') {
     $abook->set_group($gid);
     $abook->set_pagesize(1000);  // TODO: limit number of group members by config
     $result = $abook->list_records(array('email','name'));
-    while ($result && ($sql_arr = $result->iterate()))
-      $members[] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
+    while ($result && ($sql_arr = $result->iterate())) {
+      foreach ((array)$sql_arr['email'] as $email)
+        $members[] = format_email_recipient($email, $sql_arr['name']);
+    }
 
     $OUTPUT->command('replace_group_recipients', $gid, join(', ', $members));
   }
@@ -45,12 +47,14 @@ else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, tr
 
     if ($result = $abook->search(array('email','name'), $search, false, true, true, 'email')) {
       while ($sql_arr = $result->iterate()) {
-        $contact = format_email_recipient($sql_arr['email'], $sql_arr['name']);
-        // when we've got more than one book, we need to skip duplicates
-        if ($books_num == 1 || !in_array($contact, $contacts)) {
-          $contacts[] = $contact;
-          if (count($contacts) >= $MAXNUM)
-            break 2;
+        foreach ((array)$abook->get_col_values('email', $sql_arr, true) as $email) {
+          $contact = format_email_recipient($email, $sql_arr['name']);
+          // when we've got more than one book, we need to skip duplicates
+          if ($books_num == 1 || !in_array($contact, $contacts)) {
+            $contacts[] = $contact;
+            if (count($contacts) >= $MAXNUM)
+              break 2;
+          }
         }
       }
     }

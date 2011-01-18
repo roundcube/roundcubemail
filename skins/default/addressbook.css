@@ -214,3 +214,166 @@ body.iframe,
   text-align: right;
 }
 
+#contacttabs
+{
+	position: relative;
+	padding-bottom: 22px;
+}
+
+#contacttabs div.tabsbar {
+	top: 0;
+	left: 2px;
+}
+
+#contacttabs fieldset.tabbed {
+	position: relative;
+	top: 22px;
+	min-height: 5em;
+}
+
+#contacthead
+{
+	margin-bottom: 1em;
+	border: 0;
+	padding: 0;
+}
+
+#contacthead .names span.namefield,
+#contacthead .names input
+{
+	font-size: 140%;
+}
+
+#contacthead .displayname span.namefield
+{
+	font-size: 120%;
+}
+
+#contacthead span.nickname:before,
+#contacthead span.nickname:after,
+#contacthead input.ff_nickname:before,
+#contacthead input.ff_nickname:after
+{
+	content: '"';
+}
+
+#contacthead input
+{
+	margin-right: 6px;
+	margin-bottom: 0.2em;
+}
+
+#contacthead .names input,
+#contacthead .addnames input,
+#contacthead .jobnames input
+{
+	width: 180px;
+}
+
+#contacthead input.ff_prefix,
+#contacthead input.ff_suffix
+{
+	width: 90px;
+}
+
+#contacthead .addnames input.ff_name
+{
+	width: 374px;
+}
+
+#contactphoto
+{
+	float: right;
+	width: 60px;
+	margin-left: 3em;
+	margin-right: 4px;
+}
+
+#contactpic
+{
+	width: 60px;
+	min-height: 60px;
+	border: 1px solid #ccc;
+	background: white;
+}
+
+#contactpic img {
+	width: 60px;
+}
+
+#contactphoto .formlinks
+{
+	margin-top: 0.5em;
+	text-align: center;
+}
+
+fieldset.contactfieldgroup
+{
+	border: 0;
+	margin: 0.5em 0;
+	padding: 0.5em 2px;
+}
+
+fieldset.contactfieldgroup legend
+{
+	font-size: 0.9em;
+}
+
+.contactfieldgroup .row
+{
+	position: relative;
+	margin-bottom: 0.4em;
+}
+
+.contactfieldgroup .contactfieldlabel
+{
+	position: absolute;
+	top: 0;
+	left: 2px;
+	width: 90px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #666;
+	font-weight: bold;
+}
+
+.contactfieldgroup .contactfieldlabel select
+{
+	width: 78px;
+	background: none;
+	border: 0;
+	color: #666;
+	font-weight: bold;
+	padding-left: 0;
+}
+
+.contactfieldgroup .contactfieldcontent
+{
+	padding-left: 100px;
+	min-height: 1em;
+	line-height: 1.3em;
+}
+
+.contactfieldgroup .contactfield {
+	line-height: 1.3em;
+}
+
+.contactcontrolleraddress .contactfieldcontent input {
+	margin-bottom: 0.1em;
+}
+
+.contactfieldcontent .contactfieldbutton {
+	vertical-align: middle;
+	margin-left: 0.5em;
+}
+
+#upload-form
+{
+	padding: 6px;
+}
+
+#upload-form div
+{
+	padding: 2px;
+}

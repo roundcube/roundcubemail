@@ -308,6 +308,15 @@ $rcmail_config['identities_level'] = 0;
 // mime magic database
 $rcmail_config['mime_magic'] = '/usr/share/misc/magic';
 
+// path to imagemagick identify binary
+$rcmail_config['im_identify_path'] = null;
+
+// path to imagemagick convert binary
+$rcmail_config['im_convert_path'] = null;
+
+// maximum size of uploaded contact photos in pixel
+$rcmail_config['contact_photo_size'] = 160;
+
 // Enable DNS checking for e-mail address validation
 $rcmail_config['email_dns_check'] = false;
 
@@ -345,6 +354,9 @@ $rcmail_config['date_long'] = 'd.m.Y H:i';
 
 // use this format for today's date display (date or strftime format)
 $rcmail_config['date_today'] = 'H:i';
+
+// use this format for date display without time (date or strftime format)
+$rcmail_config['date_format'] = 'Y-m-d';
 
 // store draft message is this mailbox
 // leave blank if draft messages should not be stored
@@ -458,7 +470,6 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // The login name is used to search for the DN to bind with
   'search_base_dn' => '',
   'search_filter'  => '',   // e.g. '(&(objectClass=posixAccount)(uid=%u))'
-
   'writable'      => false,   // Indicates if we can write to the LDAP directory or not.
   // If writable is true then these fields need to be populated:
   // LDAP_Object_Classes, required_fields, LDAP_rdn
@@ -467,10 +478,21 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   'LDAP_rdn'      => 'mail', // The RDN field that is used for new entries, this field needs to be one of the search_fields, the base of base_dn is appended to the RDN to insert into the LDAP directory.
   'ldap_version'  => 3,       // using LDAPv3
   'search_fields' => array('mail', 'cn'),  // fields to search in
-  'name_field'    => 'cn',    // this field represents the contact's name
-  'email_field'   => 'mail',  // this field represents the contact's e-mail
-  'surname_field' => 'sn',    // this field represents the contact's last name
-  'firstname_field' => 'gn',  // this field represents the contact's first name
+  'fieldmap' => array(      // mapping of contact fields to directory attributes
+    // Roundcube  => LDAP
+    'name'        => 'cn',
+    'surname'     => 'sn',
+    'firstname'   => 'givenName',
+    'email'       => 'mail',
+    'phone:home'  => 'homePhone',
+    'phone:work'  => 'telephoneNumber',
+    'phone:mobile' => 'mobile',
+    'street'      => 'street',
+    'zipcode'     => 'postalCode',
+    'locality'    => 'l',
+    'country'     => 'c',
+    'organization' => 'o',
+  ),
   'sort'          => 'cn',    // The field to sort the listing by.
   'scope'         => 'sub',   // search mode: sub|base|list
   'filter'        => '',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
@@ -488,6 +510,10 @@ $rcmail_config['autocomplete_addressbooks'] = array('sql');
 // before address books will be searched. Most useful for LDAP directories that
 // may need to do lengthy results building given overly-broad searches
 $rcmail_config['autocomplete_min_length'] = 1;
+
+// show address fields in this order
+// available placeholders: {street}, {locality}, {zipcode}, {country}, {region}
+$rcmail_config['address_template'] = '{street}<br/>{locality} {zipcode}<br/>{country} {region}';
 
 // ----------------------------------
 // USER PREFERENCES

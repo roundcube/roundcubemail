@@ -150,13 +150,8 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
         }
       }
       
-      $a_record = array(
-        'name' => $vcard->displayname,
-        'firstname' => $vcard->firstname,
-        'surname' => $vcard->surname,
-        'email' => $email,
-        'vcard' => $vcard->export(),
-      );
+      $a_record = $vcard->get_assoc();
+      $a_record['vcard'] = $vcard->export();
       
       $plugin = $RCMAIL->plugins->exec_hook('contact_create', array('record' => $a_record, 'source' => null));
       $a_record = $plugin['record'];

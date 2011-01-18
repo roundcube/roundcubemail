@@ -29,8 +29,10 @@ if ($cid && preg_match('/^[a-z0-9\+\/=_-]+(,[a-z0-9\+\/=_-]+)*$/i', $cid) && $CO
   $CONTACTS->set_pagesize(100);
   $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid);
 
-  while (is_object($recipients) && ($rec = $recipients->iterate()))
-    $mailto[] = format_email_recipient($rec['email'], $rec['name']);
+  while (is_object($recipients) && ($rec = $recipients->iterate())) {
+    $emails = $CONTACTS->get_col_values('email', $rec, true);
+    $mailto[] = format_email_recipient($emails[0], $rec['name']);
+  }
 }
 
 if (!empty($mailto))

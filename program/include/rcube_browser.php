@@ -68,6 +68,7 @@ class rcube_browser
         $this->dom = ($this->mz || $this->safari || ($this->ie && $this->ver>=5) || ($this->opera && $this->ver>=7));
         $this->pngalpha = $this->mz || $this->safari || ($this->ie && $this->ver>=5.5) ||
             ($this->ie && $this->ver>=5 && $this->mac) || ($this->opera && $this->ver>=7) ? true : false;
+        $this->imgdata = !$this->ie;
     }
 }
 

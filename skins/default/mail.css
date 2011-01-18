@@ -1342,20 +1342,6 @@ input.from_address
   display: none;
 }
 
-.formlinks a,
-.formlinks a:visited
-{
-  color: #999999;
-  font-size: 11px;
-  text-decoration: none;
-}
-
-.formlinks a,
-.formlinks a:visited
-{
-  color: #CC0000;
-}
-
 #compose-editorfooter
 {
   position: absolute;

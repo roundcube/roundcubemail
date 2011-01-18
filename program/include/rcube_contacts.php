@@ -47,13 +47,17 @@ class rcube_contacts extends rcube_addressbook
     private $table_cols = array('name', 'email', 'firstname', 'surname', 'vcard');
 
     // public properties
-    var $primary_key = 'contact_id';
-    var $readonly = false;
-    var $groups = true;
-    var $list_page = 1;
-    var $page_size = 10;
-    var $group_id = 0;
-    var $ready = false;
+    public $primary_key = 'contact_id';
+    public $readonly = false;
+    public $groups = true;
+    public $list_page = 1;
+    public $page_size = 10;
+    public $group_id = 0;
+    public $ready = false;
+    public $coltypes = array('name', 'firstname', 'surname', 'middlename', 'prefix', 'suffix', 'nickname',
+      'jobtitle', 'organization', 'department', 'assistant', 'manager',
+      'gender', 'maidenname', 'spouse', 'email', 'phone', 'address',
+      'birthday', 'anniversary', 'website', 'im', 'notes', 'photo');
 
 
     /**
@@ -152,7 +156,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param  array   List of cols to show
+     * @param  array   List of cols to show, Null means all
      * @param  int     Only return this number of records, use negative values for tail
      * @param  boolean True to skip the count query (select only)
      * @return array  Indexed list of contact records, each a hash array
@@ -187,11 +191,21 @@ class rcube_contacts extends rcube_addressbook
             $this->user_id,
             $this->group_id);
 
+        // determine whether we have to parse the vcard or if only db cols are requested
+        $read_vcard = !$cols || count(array_intersect($cols, $this->table_cols)) < count($cols);
+        
         while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
             $sql_arr['ID'] = $sql_arr[$this->primary_key];
+
+            if ($read_vcard)
+                $sql_arr = $this->convert_db_data($sql_arr);
+            else
+                $sql_arr['email'] = preg_split('/,\s*/', $sql_arr['email']);
+            
             // make sure we have a name to display
             if (empty($sql_arr['name']))
-                $sql_arr['name'] = $sql_arr['email'];
+                $sql_arr['name'] = $sql_arr['email'][0];
+
             $this->result->add($sql_arr);
         }
 
@@ -222,7 +236,7 @@ class rcube_contacts extends rcube_addressbook
      * @param boolean True if results are requested, False if count only
      * @param boolean True to skip the count query (select only)
      * @param array   List of fields that cannot be empty
-     * @return Indexed list of contact records and 'count' value
+     * @return object rcube_result_set Contact records and 'count' value
      */
     function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
     {
@@ -345,12 +359,12 @@ class rcube_contacts extends rcube_addressbook
         );
 
         if ($sql_arr = $this->db->fetch_assoc()) {
-            $sql_arr['ID'] = $sql_arr[$this->primary_key];
+            $record = $this->convert_db_data($sql_arr);
             $this->result = new rcube_result_set(1);
-            $this->result->add($sql_arr);
+            $this->result->add($record);
         }
 
-        return $assoc && $sql_arr ? $sql_arr : $this->result;
+        return $assoc && $record ? $record : $this->result;
     }
 
 
@@ -389,21 +403,29 @@ class rcube_contacts extends rcube_addressbook
      */
     function insert($save_data, $check=false)
     {
-        if (is_object($save_data) && is_a($save_data, rcube_result_set))
-            return $this->insert_recset($save_data, $check);
+        if (!is_array($save_data))
+            return false;
 
         $insert_id = $existing = false;
 
-        if ($check)
-            $existing = $this->search('email', $save_data['email'], true, false);
+        if ($check) {
+            foreach ($save_data as $col => $values) {
+                if (strpos($col, 'email') === 0) {
+                    foreach ((array)$values as $email) {
+                        if ($existing = $this->search('email', $email, true, false))
+                            break 2;
+                    }
+                }
+            }
+        }
 
+        $save_data = $this->convert_save_data($save_data);
         $a_insert_cols = $a_insert_values = array();
 
-        foreach ($this->table_cols as $col)
-            if (isset($save_data[$col])) {
-                $a_insert_cols[]   = $this->db->quoteIdentifier($col);
-                $a_insert_values[] = $this->db->quote($save_data[$col]);
-            }
+        foreach ($save_data as $col => $value) {
+            $a_insert_cols[]   = $this->db->quoteIdentifier($col);
+            $a_insert_values[] = $this->db->quote($value);
+        }
 
         if (!$existing->count && !empty($a_insert_cols)) {
             $this->db->query(
@@ -426,20 +448,6 @@ class rcube_contacts extends rcube_addressbook
 
 
     /**
-     * Insert new contacts for each row in set
-     */
-    function insert_recset($result, $check=false)
-    {
-        $ids = array();
-        while ($row = $result->next()) {
-            if ($insert = $this->insert($row, $check))
-                $ids[] = $insert;
-        }
-        return $ids;
-    }
-
-
-    /**
      * Update a specific contact record
      *
      * @param mixed Record identifier
@@ -450,11 +458,12 @@ class rcube_contacts extends rcube_addressbook
     {
         $updated = false;
         $write_sql = array();
+        $record = $this->get_record($id, true);
+        $save_cols = $this->convert_save_data($save_cols, $record);
 
-        foreach ($this->table_cols as $col)
-            if (isset($save_cols[$col]))
-                $write_sql[] = sprintf("%s=%s", $this->db->quoteIdentifier($col),
-                    $this->db->quote($save_cols[$col]));
+        foreach ($save_cols as $col => $value) {
+            $write_sql[] = sprintf("%s=%s", $this->db->quoteIdentifier($col), $this->db->quote($value));
+        }
 
         if (!empty($write_sql)) {
             $this->db->query(
@@ -468,9 +477,60 @@ class rcube_contacts extends rcube_addressbook
             );
 
             $updated = $this->db->affected_rows();
+            $this->result = null;  // clear current result (from get_record())
         }
 
         return $updated;
+    }
+    
+    
+    private function convert_db_data($sql_arr)
+    {
+        $record = array();
+        $record['ID'] = $sql_arr[$this->primary_key];
+        
+        if ($sql_arr['vcard']) {
+            unset($sql_arr['email']);
+            $vcard = new rcube_vcard($sql_arr['vcard']);
+            $record += $vcard->get_assoc() + $sql_arr;
+        }
+        else {
+            $record += $sql_arr;
+            $record['email'] = preg_split('/,\s*/', $record['email']);
+        }
+        
+        return $record;
+    }
+
+
+    private function convert_save_data($save_data, $record = array())
+    {
+        $out = array();
+
+        // copy values into vcard object
+        $vcard = new rcube_vcard($record['vcard'] ? $record['vcard'] : $save_data['vcard']);
+        $vcard->reset();
+        foreach ($save_data as $key => $values) {
+            list($field, $section) = explode(':', $key);
+            foreach ((array)$values as $value) {
+                if (isset($value))
+                    $vcard->set($field, $value, $section);
+            }
+        }
+        $out['vcard'] = $vcard->export();
+
+        foreach ($this->table_cols as $col) {
+            $key = $col;
+            if (!isset($save_data[$key]))
+                $key .= ':home';
+            if (isset($save_data[$key]))
+                $out[$col] = is_array($save_data[$key]) ? join(',', $save_data[$key]) : $save_data[$key];
+        }
+
+        // save all e-mails in database column
+        $out['email'] = join(", ", $vcard->email);
+
+        return $out;
     }
 
 

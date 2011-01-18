@@ -76,6 +76,12 @@ input, textarea
   padding: 1px 3px;
 }
 
+input.placeholder,
+textarea.placeholder
+{
+  color: #aaa;
+}
+
 input.button
 {
   height: 20px;
@@ -112,6 +118,20 @@ img
 {
   color: #666;
   font-size: 11px;
+}
+
+.formlinks a,
+.formlinks a:visited
+{
+  color: #CC0000;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.formlinks a.disabled,
+.formlinks a.disabled:visited
+{
+  color: #999999;
 }
 
 /** common user interface objects */

@@ -20,7 +20,7 @@
 */
 
 // get contacts for this user
-$result = $CONTACTS->list_records();
+$result = $CONTACTS->list_records(array('name'));
 
 // update message count display
 $OUTPUT->set_env('pagecount', ceil($result->count / $CONTACTS->page_size));

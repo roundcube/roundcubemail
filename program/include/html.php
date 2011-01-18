@@ -71,6 +71,9 @@ class html
      */
     public static function tag($tagname, $attrib = array(), $content = null, $allowed_attrib = null)
     {
+        if (is_string($attrib))
+            $attrib = array('class' => $attrib);
+
         $inline_tags = array('a','span','img');
         $suffix = $attrib['nl'] || ($content && $attrib['nl'] !== false && !in_array($tagname, $inline_tags)) ? "\n" : '';
 
@@ -147,7 +150,7 @@ class html
             $attr = array('href' => $attr);
         }
         return self::tag('a', $attr, $cont, array_merge(self::$common_attrib,
-	    array('href','target','name','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
+	    array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
     }
 
     /**
@@ -501,7 +504,7 @@ class html_select extends html
     protected $tagname = 'select';
     protected $options = array();
     protected $allowed = array('name','size','tabindex','autocomplete',
-	'multiple','onchange','disabled');
+	'multiple','onchange','disabled','rel');
     
     /**
      * Add a new option to this drop-down

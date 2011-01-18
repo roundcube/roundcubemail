@@ -109,42 +109,9 @@ class rcube_plugin_api
     $this->output = $rcmail->output;
     $this->config = $rcmail->config;
 
-    $plugins_dir = dir($this->dir);
-    $plugins_dir = unslashify($plugins_dir->path);
     $plugins_enabled = (array)$rcmail->config->get('plugins', array());
-
     foreach ($plugins_enabled as $plugin_name) {
-      $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
-
-      if (file_exists($fn)) {
-        include($fn);
-
-        // instantiate class if exists
-        if (class_exists($plugin_name, false)) {
-          $plugin = new $plugin_name($this);
-          // check inheritance...
-          if (is_subclass_of($plugin, 'rcube_plugin')) {
-            // ... task, request type and framed mode
-            if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $rcmail->task))
-                && (!$plugin->noajax || is_a($this->output, 'rcube_template'))
-                && (!$plugin->noframe || empty($_REQUEST['_framed']))
-            ) {
-              $plugin->init();
-              $this->plugins[] = $plugin;
-            }
-          }
-        }
-        else {
-          raise_error(array('code' => 520, 'type' => 'php',
-	    'file' => __FILE__, 'line' => __LINE__,
-	    'message' => "No plugin class $plugin_name found in $fn"), true, false);
-        }
-      }
-      else {
-        raise_error(array('code' => 520, 'type' => 'php',
-	  'file' => __FILE__, 'line' => __LINE__,
-	  'message' => "Failed to load plugin file $fn"), true, false);
-      }
+      $this->load_plugin($plugin_name);
     }
     
     // check existance of all required core plugins
@@ -158,31 +125,14 @@ class rcube_plugin_api
       }
       
       // load required core plugin if no derivate was found
-      if (!$loaded) {
-        $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+      if (!$loaded)
+        $loaded = $this->load_plugin($plugin_name);
 
-        if (file_exists($fn)) {
-          include_once($fn);
-          
-          if (class_exists($plugin_name, false)) {
-            $plugin = new $plugin_name($this);
-            // check inheritance
-            if (is_subclass_of($plugin, 'rcube_plugin')) {
-	      if (!$plugin->task || preg_match('/('.$plugin->task.')/i', $rcmail->task)) {
-                $plugin->init();
-                $this->plugins[] = $plugin;
-              }
-	      $loaded = true;
-            }
-          }
-        }
-      }
-      
       // trigger fatal error if still not loaded
       if (!$loaded) {
         raise_error(array('code' => 520, 'type' => 'php',
-	  'file' => __FILE__, 'line' => __LINE__,
-	  'message' => "Requried plugin $plugin_name was not loaded"), true, true);
+          'file' => __FILE__, 'line' => __LINE__,
+          'message' => "Requried plugin $plugin_name was not loaded"), true, true);
       }
     }
 
@@ -190,6 +140,64 @@ class rcube_plugin_api
     $this->register_hook('template_container', array($this, 'template_container_hook'));
     
     // maybe also register a shudown function which triggers shutdown functions of all plugin objects
+  }
+
+
+  /**
+   * Load the specified plugin
+   *
+   * @param string Plugin name
+   * @return boolean True on success, false if not loaded or failure
+   */
+  public function load_plugin($plugin_name)
+  {
+    static $plugins_dir;
+    
+    $rcmail = rcmail::get_instance();
+    
+    if (!$plugins_dir) {
+      $dir = dir($this->dir);
+      $plugins_dir = unslashify($dir->path);
+    }
+    
+    // plugin already loaded
+    if ($this->plugins[$plugin_name] || class_exists($plugin_name, false))
+      return true;
+    
+    $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+
+    if (file_exists($fn)) {
+      include($fn);
+
+      // instantiate class if exists
+      if (class_exists($plugin_name, false)) {
+        $plugin = new $plugin_name($this);
+        // check inheritance...
+        if (is_subclass_of($plugin, 'rcube_plugin')) {
+          // ... task, request type and framed mode
+          if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $rcmail->task)) /*
+              && (!$plugin->noajax || is_a($rcmail->output, 'rcube_template'))
+              && (!$plugin->noframe || empty($_REQUEST['_framed']))*/
+          ) {
+            $plugin->init();
+            $this->plugins[$plugin_name] = $plugin;
+          }
+          return true;
+        }
+      }
+      else {
+        raise_error(array('code' => 520, 'type' => 'php',
+          'file' => __FILE__, 'line' => __LINE__,
+          'message' => "No plugin class $plugin_name found in $fn"), true, false);
+      }
+    }
+    else {
+      raise_error(array('code' => 520, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Failed to load plugin file $fn"), true, false);
+    }
+    
+    return false;
   }
   
   

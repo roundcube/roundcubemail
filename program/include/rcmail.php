@@ -114,7 +114,7 @@ class rcmail
   public $comm_path = './';
 
   private $texts;
-  private $books = array();
+  private $address_books = array();
   private $action_map = array();
 
 
@@ -331,6 +331,10 @@ class rcmail
     if ($plugin['instance'] instanceof rcube_addressbook) {
       $contacts = $plugin['instance'];
     }
+    // use existing instance
+    else if (isset($this->address_books[$id]) && is_a($this->address_books[$id], 'rcube_addressbook') && (!$writeable || !$this->address_books[$id]->readonly)) {
+      $contacts = $this->address_books[$id];
+    }
     else if ($id && $ldap_config[$id]) {
       $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $this->config->mail_domain($_SESSION['imap_host']));
     }
@@ -351,8 +355,8 @@ class rcmail
     }
 
     // add to the 'books' array for shutdown function
-    if (!in_array($contacts, $this->books))
-      $this->books[] = $contacts;
+    if (!isset($this->address_books[$id]))
+      $this->address_books[$id] = $contacts;
 
     return $contacts;
   }
@@ -373,11 +377,12 @@ class rcmail
 
     // We are using the DB address book
     if ($abook_type != 'ldap') {
-      $contacts = new rcube_contacts($this->db, null);
+      if (!isset($this->address_books['0']))
+        $this->address_books['0'] = new rcube_contacts($this->db, $this->user->ID);
       $list['0'] = array(
-        'id' => 0,
+        'id' => '0',
         'name' => rcube_label('personaladrbook'),
-        'groups' => $contacts->groups,
+        'groups' => $this->address_books['0']->groups,
         'readonly' => false,
         'autocomplete' => in_array('sql', $autocomplete)
       );
@@ -398,14 +403,15 @@ class rcmail
     $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
     $list = $plugin['sources'];
 
-    if ($writeable && !empty($list)) {
-      foreach ($list as $idx => $item) {
-        if ($item['readonly']) {
+    foreach ($list as $idx => $item) {
+      // register source for shutdown function
+      if (!is_object($this->address_books[$item['id']]))
+        $this->address_books[$item['id']] = $item;
+      // remove from list if not writeable as requested
+      if ($writeable && $item['readonly'])
           unset($list[$idx]);
-        }
-      }
     }
-
+    
     return $list;
   }
 
@@ -1078,9 +1084,12 @@ class rcmail
     if (is_object($this->smtp))
       $this->smtp->disconnect();
 
-    foreach ($this->books as $book)
-      if (is_object($book))
+    foreach ($this->address_books as $book) {
+      if (!is_object($book))  // maybe an address book instance wasn't fetched using get_address_book() yet
+        $book = $this->get_address_book($book['id']);
+      if (is_a($book, 'rcube_addressbook'))
         $book->close();
+    }
 
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'])
@@ -1303,6 +1312,112 @@ class rcmail
       }
     }
     return $url;
+  }
+
+
+  /**
+   * Use imagemagick or GD lib to read image properties
+   *
+   * @param string Absolute file path
+   * @return mixed Hash array with image props like type, width, height or False on error
+   */
+  public static function imageprops($filepath)
+  {
+    $rcmail = rcmail::get_instance();
+    if ($cmd = $rcmail->config->get('im_identify_path', false)) {
+      list(, $type, $size) = explode(' ', strtolower(rcmail::exec($cmd. ' 2>/dev/null {in}', array('in' => $filepath))));
+      if ($size)
+        list($width, $height) = explode('x', $size);
+    }
+    else if (function_exists('getimagesize')) {
+      $imsize = @getimagesize($filepath);
+      $width = $imsize[0];
+      $height = $imsize[1];
+      $type = preg_replace('!image/!', '', $imsize['mime']);
+    }
+
+    return $type ? array('type' => $type, 'width' => $width, 'height' => $height) : false;
+  }
+
+
+  /**
+   * Convert an image to a given size and type using imagemagick (ensures input is an image)
+   *
+   * @param $p['in']  Input filename (mandatory)
+   * @param $p['out'] Output filename (mandatory)
+   * @param $p['size']  Width x height of resulting image, e.g. "160x60"
+   * @param $p['type']  Output file type, e.g. "jpg"
+   * @param $p['-opts'] Custom command line options to ImageMagick convert
+   * @return Success of convert as true/false
+   */
+  public static function imageconvert($p)
+  {
+    $result = false;
+    $rcmail = rcmail::get_instance();
+    $convert  = $rcmail->config->get('im_convert_path', false);
+    $identify = $rcmail->config->get('im_identify_path', false);
+    
+    // imagemagick is required for this
+    if (!$convert)
+        return false;
+
+    if (!(($imagetype = @exif_imagetype($p['in'])) && ($type = image_type_to_extension($imagetype, false))))
+      list(, $type) = explode(' ', strtolower(rcmail::exec($identify . ' 2>/dev/null {in}', $p))); # for things like eps
+
+    $type = strtr($type, array("jpeg" => "jpg", "tiff" => "tif", "ps" => "eps", "ept" => "eps"));
+    $p += array('type' => $type, 'types' => "bmp,eps,gif,jp2,jpg,png,svg,tif", 'quality' => 75);
+    $p['-opts'] = array('-resize' => $p['size'].'>') + (array)$p['-opts'];
+
+    if (in_array($type, explode(',', $p['types']))) # Valid type?
+      $result = rcmail::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p) === "";
+
+    return $result;
+  }
+
+
+  /**
+   * Construct shell command, execute it and return output as string.
+   * Keywords {keyword} are replaced with arguments
+   *
+   * @param $cmd Format string with {keywords} to be replaced
+   * @param $values (zero, one or more arrays can be passed)
+   * @return output of command. shell errors not detectable
+   */
+  public static function exec(/* $cmd, $values1 = array(), ... */)
+  {
+    $args = func_get_args();
+    $cmd = array_shift($args);
+    $values = $replacements = array();
+
+    // merge values into one array
+    foreach ($args as $arg)
+      $values += (array)$arg;
+
+    preg_match_all('/({(-?)([a-z]\w*)})/', $cmd, $matches, PREG_SET_ORDER);
+    foreach ($matches as $tags) {
+      list(, $tag, $option, $key) = $tags;
+      $parts = array();
+
+      if ($option) {
+        foreach ((array)$values["-$key"] as $key => $value) {
+          if ($value === true || $value === false || $value === null)
+            $parts[] = $value ? $key : "";
+          else foreach ((array)$value as $val)
+            $parts[] = "$key " . escapeshellarg($val);
+        }
+      }
+      else {
+        foreach ((array)$values[$key] as $value)
+          $parts[] = escapeshellarg($value);
+      }
+
+      $replacements[$tag] = join(" ", $parts);
+    }
+
+    // use strtr behaviour of going through source string once
+    $cmd = strtr($cmd, $replacements);
+    
+    return (string)shell_exec($cmd);
   }
 
 

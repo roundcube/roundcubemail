@@ -319,7 +319,20 @@ function rcube_webmail()
 
         if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform) {
           this.enable_command('save', true);
-          $("input[type='text']").first().select();
+          this.enable_command('upload-photo', this.env.coltypes.photo ? true : false);
+          this.enable_command('delete-photo', this.env.coltypes.photo && this.env.action == 'edit');
+
+          for (var col in this.env.coltypes)
+            this.init_edit_field(col, null);
+
+          $('.contactfieldgroup .row a.deletebutton').click(function(){ ref.delete_edit_field(this); return false });
+
+          $('select.addfieldmenu').change(function(e){
+            ref.insert_edit_field($(this).val(), $(this).attr('rel'), this);
+            this.selectedIndex = 0;
+          });
+
+          $("input[type='text']").first().focus();
         }
         else if (this.gui_objects.qsearchbox) {
           this.enable_command('search', 'reset-search', 'moveto', true);
@@ -639,6 +652,9 @@ function rcube_webmail()
               input_email.focus();
               break;
             }
+            
+            // clear empty input fields
+            $('input.placeholder').each(function(){ if (this.value == this._placeholder) this.value = ''; });
           }
 
           this.gui_objects.editform.submit();
@@ -996,12 +1012,16 @@ function rcube_webmail()
 
       case 'export':
         if (this.contact_list.rowcount > 0) {
-          var add_url = (this.env.source ? '_source='+urlencode(this.env.source)+'&' : '');
-          if (this.env.search_request)
-            add_url += '_search='+this.env.search_request;
-
-          this.goto_url('export', add_url);
+          this.goto_url('export', { _source:this.env.source, _gid:this.env.group, _search:this.env.search_request });
         }
+        break;
+        
+      case 'upload-photo':
+        this.upload_contact_photo(props);
+        break;
+
+      case 'delete-photo':
+        this.replace_contact_photo('-del-');
         break;
 
       // user settings commands
@@ -1158,7 +1178,7 @@ function rcube_webmail()
 
   this.is_framed = function()
   {
-    return (this.env.framed && parent.rcmail);
+    return (this.env.framed && parent.rcmail && parent.rcmail != this && parent.rcmail.command);
   };
 
 
@@ -3177,27 +3197,7 @@ function rcube_webmail()
 
     // create hidden iframe and post upload form
     if (send) {
-      var ts = new Date().getTime();
-      var frame_name = 'rcmupload'+ts;
-
-      // have to do it this way for IE
-      // otherwise the form will be posted to a new window
-      if (document.all) {
-        var html = '<iframe name="'+frame_name+'" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
-        document.body.insertAdjacentHTML('BeforeEnd',html);
-      }
-      else { // for standards-compilant browsers
-        var frame = document.createElement('iframe');
-        frame.name = frame_name;
-        frame.style.border = 'none';
-        frame.style.width = 0;
-        frame.style.height = 0;
-        frame.style.visibility = 'hidden';
-        document.body.appendChild(frame);
-      }
-
-      // handle upload errors, parsing iframe content in onload
-      $(frame_name).bind('load', {ts:ts}, function(e) {
+      this.async_upload_form(form, 'upload', function(e) {
         var d, content = '';
         try {
           if (this.contentDocument) {
@@ -3217,11 +3217,6 @@ function rcube_webmail()
         if (bw.opera)
           rcmail.env.uploadframe = e.data.ts;
       });
-
-      form.target = frame_name;
-      form.action = this.env.comm_path+'&_action=upload&_uploadid='+ts;
-      form.setAttribute('enctype', 'multipart/form-data');
-      form.submit();
 
       // display upload indicator and cancel button
       var content = this.get_label('uploading');
@@ -3979,6 +3974,165 @@ function rcube_webmail()
   };
 
 
+  this.init_edit_field = function(col, elem)
+  {
+    if (!elem)
+      elem = $('.ff_' + col);
+    
+    elem.focus(function(){ ref.focus_textfield(this); })
+      .blur(function(){ ref.blur_textfield(this); })
+      .each(function(){ this._placeholder = ref.env.coltypes[col].label; ref.blur_textfield(this); });
+  };
+
+  this.insert_edit_field = function(col, section, menu)
+  {
+    // just make pre-defined input field visible
+    var elem = $('#ff_'+col);
+    if (elem.length) {
+      elem.show().focus();
+      $(menu).children('option[value="'+col+'"]').attr('disabled', true);
+    }
+    else {
+      var lastelem = $('.ff_'+col),
+        appendcontainer = $('#contactsection'+section+' .contactcontroller'+col);
+      
+      if (!appendcontainer.length)
+        appendcontainer = $('<fieldset>').addClass('contactfieldgroup contactcontroller'+col).insertAfter($('#contactsection'+section+' .contactfieldgroup').last());
+
+      if (appendcontainer.length && appendcontainer.get(0).nodeName == 'FIELDSET') {
+        var input, colprop = this.env.coltypes[col],
+          row = $('<div>').addClass('row'),
+          cell = $('<div>').addClass('contactfieldcontent data'),
+          label = $('<div>').addClass('contactfieldlabel label');
+          
+        if (colprop.subtypes_select)
+          label.html(colprop.subtypes_select);
+        else
+          label.html(colprop.label);
+
+        var name_suffix = colprop.limit != 1 ? '[]' : '';
+        if (colprop.type == 'text' || colprop.type == 'date') {
+          input = $('<input>')
+            .addClass('ff_'+col)
+            .attr('type', 'text')
+            .attr('name', '_'+col+name_suffix)
+            .attr('size', colprop.size)
+            .appendTo(cell);
+
+          this.init_edit_field(col, input);
+        }
+        else if (colprop.type == 'composite') {
+          var childcol, cp, first;
+          for (var childcol in colprop.childs) {
+            cp = colprop.childs[childcol];
+            input = $('<input>')
+              .addClass('ff_'+childcol)
+              .attr('type', 'text')
+              .attr('name', '_'+childcol+name_suffix)
+              .attr('size', cp.size)
+              .appendTo(cell);
+            cell.append(" ");
+            this.init_edit_field(childcol, input);
+            if (!first) first = input;
+          }
+          input = first;  // set focus to the first of this composite fields
+        }
+        else if (colprop.type == 'select') {
+          input = $('<select>')
+            .addClass('ff_'+col)
+            .attr('name', '_'+col+name_suffix)
+            .appendTo(cell);
+          
+          var options = input.attr('options');
+          options[options.length] = new Option('---', '');
+          if (colprop.options)
+            $.each(colprop.options, function(i, val){ options[options.length] = new Option(val, i); });
+        }
+
+        if (input) {
+          var delbutton = $('<a href="#del"></a>')
+            .addClass('contactfieldbutton deletebutton')
+            .attr('title', this.get_label('delete'))
+            .attr('rel', col)
+            .html(this.env.delbutton)
+            .click(function(){ ref.delete_edit_field(this); return false })
+            .appendTo(cell);
+          
+          row.append(label).append(cell).appendTo(appendcontainer.show());
+          input.first().focus();
+          
+          // disable option if limit reached
+          if (!colprop.count) colprop.count = 0;
+          if (++colprop.count == colprop.limit && colprop.limit)
+            $(menu).children('option[value="'+col+'"]').attr('disabled', true);
+        }
+      }
+    }
+  };
+
+  this.delete_edit_field = function(elem)
+  {
+    var col = $(elem).attr('rel'),
+      colprop = this.env.coltypes[col],
+      fieldset = $(elem).parents('fieldset.contactfieldgroup'),
+      addmenu = fieldset.parent().find('select.addfieldmenu');
+    
+    // just clear input but don't hide the last field
+    if (--colprop.count <= 0 && colprop.visible)
+      $(elem).parent().children('input').val('').blur();
+    else {
+      $(elem).parents('div.row').remove();
+      // hide entire fieldset if no more rows
+      if (!fieldset.children('div.row').length)
+        fieldset.hide();
+    }
+    
+    // enable option in add-field selector or insert it if necessary
+    if (addmenu.length) {
+      var option = addmenu.children('option[value="'+col+'"]');
+      if (option.length)
+        option.attr('disabled', false);
+      else
+        option = $('<option>').attr('value', col).html(colprop.label).appendTo(addmenu);
+      addmenu.show();
+    }
+  };
+
+
+  this.upload_contact_photo = function(form)
+  {
+    if (form && form.elements._photo.value) {
+      this.async_upload_form(form, 'upload-photo', function(e) {
+        rcmail.set_busy(false, null, rcmail.photo_upload_id);
+      });
+
+      // display upload indicator
+      this.photo_upload_id = this.set_busy(true, 'uploading');
+    }
+  };
+  
+  this.replace_contact_photo = function(id)
+  {
+    $('#ff_photo').val(id);
+    
+    var buttons = this.buttons['upload-photo'];
+    for (var n=0; n < buttons.length; n++)
+      $('#'+buttons[n].id).html(this.get_label(id == '-del-' ? 'addphoto' : 'replacephoto'));
+    
+    var img_src = id == '-del-' ? this.env.photo_placeholder :
+      this.env.comm_path + '&_action=photo&_source=' + this.env.source + '&_cid=' + this.env.cid + '&_photo=' + id;
+    $(this.gui_objects.contactphoto).children('img').attr('src', img_src);
+    
+    this.enable_command('delete-photo', id != '-del-');
+  };
+  
+  this.photo_upload_end = function()
+  {
+    this.set_busy(false, null, this.photo_upload_id);
+    delete this.photo_upload_id;
+  };
+
+
   /*********************************************************/
   /*********        user settings methods          *********/
   /*********************************************************/
@@ -4505,6 +4659,23 @@ function rcube_webmail()
     }
   };
 
+
+  this.focus_textfield = function(elem)
+  {
+    elem._hasfocus = true;
+    var $elem = $(elem);
+    if ($elem.hasClass('placeholder') || $elem.val() == elem._placeholder)
+      $elem.val('').removeClass('placeholder').attr('spellcheck', true);
+  };
+
+  this.blur_textfield = function(elem)
+  {
+    elem._hasfocus = false;
+    var $elem = $(elem);
+    if (elem._placeholder && (!$elem.val() || $elem.val() == elem._placeholder))
+      $elem.addClass('placeholder').attr('spellcheck', false).val(elem._placeholder);
+  };
+  
   // write to the document/window title
   this.set_pagetitle = function(title)
   {
@@ -4951,6 +5122,39 @@ function rcube_webmail()
   /********************************************************/
   /*********        remote request methods        *********/
   /********************************************************/
+  
+  // compose a valid url with the given parameters
+  this.url = function(action, query)
+  {
+    var querystring = typeof(query) == 'string' ? '&' + query : '';
+    
+    if (typeof action != 'string')
+      query = action;
+    else if (!query || typeof(query) != 'object')
+      query = {};
+    
+    if (action)
+      query._action = action;
+    else
+      query._action = this.env.action;
+    
+    var base = this.env.comm_path;
+
+    // overwrite task name
+    if (query._action.match(/([a-z]+)\/([a-z-_]+)/)) {
+      query._action = RegExp.$2;
+      base = base.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
+    }
+    
+    // remove undefined values
+    var param = {};
+    for (var k in query) {
+      if (typeof(query[k]) != 'undefined' && query[k] !== null)
+        param[k] = query[k];
+    }
+    
+    return base + '&' + $.param(param) + querystring;
+  };
 
   this.redirect = function(url, lock)
   {
@@ -4965,28 +5169,13 @@ function rcube_webmail()
 
   this.goto_url = function(action, query, lock)
   {
-    var url = this.env.comm_path,
-     querystring = query ? '&'+query : '';
-
-    // overwrite task name
-    if (action.match(/([a-z]+)\/([a-z-_]+)/)) {
-      action = RegExp.$2;
-      url = url.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
-    }
-
-    this.redirect(url+'&_action='+action+querystring, lock);
+    this.redirect(this.url(action, query));
   };
 
   // send a http request to the server
   this.http_request = function(action, query, lock)
   {
-    var url = this.env.comm_path;
-
-    // overwrite task name
-    if (action.match(/([a-z]+)\/([a-z-_]+)/)) {
-      action = RegExp.$2;
-      url = url.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
-    }
+    var url = this.url(action, query);
 
     // trigger plugin hook
     var result = this.triggerEvent('request'+action, query);
@@ -4999,7 +5188,7 @@ function rcube_webmail()
         query = result;
     }
 
-    url += '&_remote=1&_action=' + action + (query ? '&' : '') + query;
+    url += '&_remote=1';
 
     // send request
     console.log('HTTP GET: ' + url);
@@ -5013,15 +5202,7 @@ function rcube_webmail()
   // send a http POST request to the server
   this.http_post = function(action, postdata, lock)
   {
-    var url = this.env.comm_path;
-
-    // overwrite task name
-    if (action.match(/([a-z]+)\/([a-z-_]+)/)) {
-      action = RegExp.$2;
-      url = url.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
-    }
-
-    url += '&_action=' + action;
+    var url = this.url(action);
 
     if (postdata && typeof(postdata) == 'object') {
       postdata._remote = 1;
@@ -5168,6 +5349,37 @@ function rcube_webmail()
       this.display_message(this.get_label('servererror') + ' (' + errmsg + ')', 'error');
   };
 
+  // post the given form to a hidden iframe
+  this.async_upload_form = function(form, action, onload)
+  {
+    var ts = new Date().getTime();
+    var frame_name = 'rcmupload'+ts;
+
+    // have to do it this way for IE
+    // otherwise the form will be posted to a new window
+    if (document.all) {
+      var html = '<iframe name="'+frame_name+'" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
+      document.body.insertAdjacentHTML('BeforeEnd', html);
+    }
+    else { // for standards-compilant browsers
+      var frame = document.createElement('iframe');
+      frame.name = frame_name;
+      frame.style.border = 'none';
+      frame.style.width = 0;
+      frame.style.height = 0;
+      frame.style.visibility = 'hidden';
+      document.body.appendChild(frame);
+    }
+
+    // handle upload errors, parsing iframe content in onload
+    $(frame_name).bind('load', {ts:ts}, onload);
+
+    form.target = frame_name;
+    form.action = this.url(action, { _uploadid:ts });
+    form.setAttribute('enctype', 'multipart/form-data');
+    form.submit();
+  };
+  
   // starts interval for keep-alive/check-recent signal
   this.start_keepalive = function()
   {
