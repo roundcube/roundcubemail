@@ -273,7 +273,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       if (in_array($col, array('from', 'to', 'cc', 'replyto')))
         $cont = Q(rcmail_address_string($header->$col, 3), 'show');
       else if ($col=='subject') {
-        $cont = abbreviate_string(trim($IMAP->decode_header($header->$col)), 160);
+        $cont = trim($IMAP->decode_header($header->$col));
         if (!$cont) $cont = rcube_label('nosubject');
         $cont = Q($cont);
       }

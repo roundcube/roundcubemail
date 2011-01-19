@@ -1715,7 +1715,7 @@ function rcube_webmail()
       var action = flags.mbox == this.env.drafts_mailbox ? 'compose' : 'show';
       var uid_param = flags.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid';
       cols.subject = '<a href="./?_task=mail&_action='+action+'&_mbox='+urlencode(flags.mbox)+'&'+uid_param+'='+uid+'"'+
-        ' onclick="return rcube_event.cancel(event)">'+cols.subject+'</a>';
+        ' onclick="return rcube_event.cancel(event)" onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')">'+cols.subject+'</a>';
     }
 
     // add each submitted col
@@ -5502,6 +5502,17 @@ function rcube_webmail()
   };
 
 }  // end object rcube_webmail
+
+
+// some static methods
+rcube_webmail.long_subject_title = function(elem, indent)
+{
+  if (!elem.title) {
+    var $elem = $(elem);
+    if ($elem.width() + indent * 15 > $elem.parent().width())
+      elem.title = $elem.html();
+  }
+};
 
 // copy event engine prototype
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
