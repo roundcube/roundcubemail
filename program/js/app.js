@@ -4845,6 +4845,7 @@ function rcube_webmail()
         }
         th.appendChild(tr);
         thead.parentNode.replaceChild(th, thead);
+        thead = th;
       }
 
       for (n=0, len=this.env.coltypes.length; n<len; n++) {
