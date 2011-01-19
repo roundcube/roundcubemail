@@ -756,7 +756,6 @@ function rcmail_get_skins()
   return $skins;
 }
 
-
 // register UI objects
 $OUTPUT->add_handlers(array(
   'prefsframe' => 'rcmail_preferences_frame',
