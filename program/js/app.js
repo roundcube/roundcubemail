@@ -652,7 +652,7 @@ function rcube_webmail()
               input_email.focus();
               break;
             }
-            
+
             // clear empty input fields
             $('input.placeholder').each(function(){ if (this.value == this._placeholder) this.value = ''; });
           }
@@ -1015,7 +1015,7 @@ function rcube_webmail()
           this.goto_url('export', { _source:this.env.source, _gid:this.env.group, _search:this.env.search_request });
         }
         break;
-        
+
       case 'upload-photo':
         this.upload_contact_photo(props);
         break;
@@ -1026,15 +1026,9 @@ function rcube_webmail()
 
       // user settings commands
       case 'preferences':
-        this.goto_url('');
-        break;
-
       case 'identities':
-        this.goto_url('settings/identities');
-        break;
-
       case 'folders':
-        this.goto_url('settings/folders');
+        this.goto_url('settings/' + command);
         break;
 
       // unified command call (command name == function name)
