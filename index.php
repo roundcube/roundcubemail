@@ -105,11 +105,16 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
     // restore original request parameters
     $query = array();
-    if ($url = get_input_value('_url', RCUBE_INPUT_POST))
+    if ($url = get_input_value('_url', RCUBE_INPUT_POST)) {
       parse_str($url, $query);
+      
+      // prevent endless looping on login page
+      if ($query['_task'] == 'login')
+        unset($query['_task']);
+    }
 
     // allow plugins to control the redirect url after login success
-    $redir = $RCMAIL->plugins->exec_hook('login_after', array('_task' => 'mail') + $query);
+    $redir = $RCMAIL->plugins->exec_hook('login_after', $query + array('_task' => 'mail'));
     unset($redir['abort']);
 
     // send redirect
