@@ -86,8 +86,8 @@ class rcube_plugin_api
 
     return self::$instance;
   }
-  
-  
+
+
   /**
    * Private constructor
    */
@@ -95,8 +95,8 @@ class rcube_plugin_api
   {
     $this->dir = INSTALL_PATH . $this->url;
   }
-  
-  
+
+
   /**
    * Load and init all enabled plugins
    *
@@ -113,7 +113,7 @@ class rcube_plugin_api
     foreach ($plugins_enabled as $plugin_name) {
       $this->load_plugin($plugin_name);
     }
-    
+
     // check existance of all required core plugins
     foreach ($this->required_plugins as $plugin_name) {
       $loaded = false;
@@ -123,7 +123,7 @@ class rcube_plugin_api
           break;
         }
       }
-      
+
       // load required core plugin if no derivate was found
       if (!$loaded)
         $loaded = $this->load_plugin($plugin_name);
@@ -138,7 +138,7 @@ class rcube_plugin_api
 
     // register an internal hook
     $this->register_hook('template_container', array($this, 'template_container_hook'));
-    
+
     // maybe also register a shudown function which triggers shutdown functions of all plugin objects
   }
 
@@ -152,18 +152,18 @@ class rcube_plugin_api
   public function load_plugin($plugin_name)
   {
     static $plugins_dir;
-    
+
     $rcmail = rcmail::get_instance();
-    
+
     if (!$plugins_dir) {
       $dir = dir($this->dir);
       $plugins_dir = unslashify($dir->path);
     }
-    
+
     // plugin already loaded
     if ($this->plugins[$plugin_name] || class_exists($plugin_name, false))
       return true;
-    
+
     $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
 
     if (file_exists($fn)) {
@@ -175,9 +175,9 @@ class rcube_plugin_api
         // check inheritance...
         if (is_subclass_of($plugin, 'rcube_plugin')) {
           // ... task, request type and framed mode
-          if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $rcmail->task)) /*
+          if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $rcmail->task))
               && (!$plugin->noajax || is_a($rcmail->output, 'rcube_template'))
-              && (!$plugin->noframe || empty($_REQUEST['_framed']))*/
+              && (!$plugin->noframe || empty($_REQUEST['_framed']))
           ) {
             $plugin->init();
             $this->plugins[$plugin_name] = $plugin;
@@ -196,11 +196,11 @@ class rcube_plugin_api
         'file' => __FILE__, 'line' => __LINE__,
         'message' => "Failed to load plugin file $fn"), true, false);
     }
-    
+
     return false;
   }
-  
-  
+
+
   /**
    * Allows a plugin object to register a callback for a certain hook
    *
@@ -223,8 +223,8 @@ class rcube_plugin_api
         'file' => __FILE__, 'line' => __LINE__,
         'message' => "Invalid callback function for $hook"), true, false);
   }
-  
-  
+
+
   /**
    * Triggers a plugin hook.
    * This is called from the application and executes all registered handlers
@@ -240,16 +240,16 @@ class rcube_plugin_api
 
     $args += array('abort' => false);
     $this->active_hook = $hook;
-    
+
     foreach ((array)$this->handlers[$hook] as $callback) {
       $ret = call_user_func($callback, $args);
       if ($ret && is_array($ret))
         $args = $ret + $args;
-      
+
       if ($args['abort'])
         break;
     }
-    
+
     $this->active_hook = false;
     return $args;
   }
@@ -315,7 +315,7 @@ class rcube_plugin_api
     // check name
     if (strpos($name, 'plugin.') !== 0)
       $name = 'plugin.'.$name;
-    
+
     // can register handler only if it's not taken or registered by myself
     if (!isset($this->objectsmap[$name]) || $this->objectsmap[$name] == $owner) {
       $this->output->add_handler($name, $callback);
@@ -327,8 +327,8 @@ class rcube_plugin_api
         'message' => "Cannot register template handler $name; already taken by another plugin"), true, false);
     }
   }
-  
-  
+
+
   /**
    * Register this plugin to be responsible for a specific task
    *
@@ -352,7 +352,7 @@ class rcube_plugin_api
       rcmail::$main_tasks[] = $task;
       return true;
     }
-    
+
     return false;
   }
 
@@ -380,7 +380,7 @@ class rcube_plugin_api
   {
     return $this->active_hook && (!$hook || $this->active_hook == $hook);
   }
-  
+
   /**
    * Include a plugin script file in the current HTML page
    *
@@ -394,6 +394,7 @@ class rcube_plugin_api
     }
   }
 
+
   /**
    * Include a plugin stylesheet in the current HTML page
    *
@@ -406,7 +407,8 @@ class rcube_plugin_api
       $this->output->include_css($src);
     }
   }
-  
+
+
   /**
    * Save the given HTML content to be added to a template container
    *
@@ -417,7 +419,8 @@ class rcube_plugin_api
   {
     $this->template_contents[$container] .= $html . "\n";
   }
-  
+
+
   /**
    * Callback for template_container hooks
    *
@@ -429,7 +432,8 @@ class rcube_plugin_api
     $container = $attrib['name'];
     return array('content' => $attrib['content'] . $this->template_contents[$container]);
   }
-  
+
+
   /**
    * Make the given file name link into the plugins directory
    *
