@@ -237,6 +237,11 @@ table.records-table thead tr td
   margin-top: 2px;
 }
 
+#directorylistbox div
+{
+  min-height: 0;
+}
+
 .contactfieldgroup legend
 {
 	padding: 0 0 0.5em 0;
