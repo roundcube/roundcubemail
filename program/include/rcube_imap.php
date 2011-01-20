@@ -4696,10 +4696,13 @@ class rcube_imap
     private function _parse_address_list($str, $decode=true)
     {
         // remove any newlines and carriage returns before
-        $a = rcube_explode_quoted_string('[,;]', preg_replace( "/[\r\n]/", " ", $str));
+        $str = preg_replace('/\r?\n(\s|\t)?/', ' ', $str);
+
+        // extract list items, remove comments
+        $str = self::explode_header_string(',;', $str, true);
         $result = array();
 
-        foreach ($a as $key => $val) {
+        foreach ($str as $key => $val) {
             $name    = '';
             $address = '';
             $val     = trim($val);
@@ -4734,6 +4737,81 @@ class rcube_imap
             if ($address) {
                 $result[$key] = array('name' => $name, 'address' => $address);
             }
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * Explodes header (e.g. address-list) string into array of strings
+     * using specified separator characters with proper handling
+     * of quoted-strings and comments (RFC2822)
+     *
+     * @param string $separator       String containing separator characters
+     * @param string $str             Header string
+     * @param bool   $remove_comments Enable to remove comments
+     *
+     * @return array Header items
+     */
+    static function explode_header_string($separator, $str, $remove_comments=false)
+    {
+        $length  = strlen($str);
+        $result  = array();
+        $quoted  = false;
+        $comment = 0;
+        $out     = '';
+
+        for ($i=0; $i<$length; $i++) {
+            // we're inside a quoted string
+            if ($quoted) {
+                if ($str[$i] == '"') {
+                    $quoted = false;
+                }
+                else if ($str[$i] == '\\') {
+                    if ($comment <= 0) {
+                        $out .= '\\';
+                    }
+                    $i++;
+                }
+            }
+            // we're inside a comment string
+            else if ($comment > 0) {
+                    if ($str[$i] == ')') {
+                        $comment--;
+                    }
+                    else if ($str[$i] == '(') {
+                        $comment++;
+                    }
+                    else if ($str[$i] == '\\') {
+                        $i++;
+                    }
+                    continue;
+            }
+            // separator, add to result array
+            else if (strpos($separator, $str[$i]) !== false) {
+                    if ($out) {
+                        $result[] = $out;
+                    }
+                    $out = '';
+                    continue;
+            }
+            // start of quoted string
+            else if ($str[$i] == '"') {
+                    $quoted = true;
+            }
+            // start of comment
+            else if ($remove_comments && $str[$i] == '(') {
+                    $comment++;
+            }
+
+            if ($comment <= 0) {
+                $out .= $str[$i];
+            }
+        }
+
+        if ($out && $comment <= 0) {
+            $result[] = $out;
         }
 
         return $result;

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of comments inside an email address spec. (#1487673)
 - Fix randomly disappearing folders list in IE (#1487704)
 - Fix list column add/removal in IE (#1487703)
 - Fix login redirect issues (#1487686)
