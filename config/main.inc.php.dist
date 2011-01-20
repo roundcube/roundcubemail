@@ -428,7 +428,6 @@ $rcmail_config['address_book_type'] = 'sql';
 // example further below. if you would like to test, simply uncomment the example.
 $rcmail_config['ldap_public'] = array();
 
-//
 // If you are going to use LDAP for individual address books, you will need to 
 // set 'user_specific' to true and use the variables to generate the appropriate DNs to access it.
 //
@@ -456,6 +455,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
   'use_tls'	      => false,
+  'ldap_version'  => 3,       // using LDAPv3
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
   // %fu - The full username provided, assumes the username is an email
   //       address, uses the username_domain value if not an email address.
@@ -470,15 +470,23 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // The login name is used to search for the DN to bind with
   'search_base_dn' => '',
   'search_filter'  => '',   // e.g. '(&(objectClass=posixAccount)(uid=%u))'
-  'writable'      => false,   // Indicates if we can write to the LDAP directory or not.
+  // Indicates if we can write to the LDAP directory or not.
   // If writable is true then these fields need to be populated:
   // LDAP_Object_Classes, required_fields, LDAP_rdn
-  'LDAP_Object_Classes' => array("top", "inetOrgPerson"), // To create a new contact these are the object classes to specify (or any other classes you wish to use).
-  'required_fields'     => array("cn", "sn", "mail"),     // The required fields needed to build a new contact as required by the object classes (can include additional fields not required by the object classes).
-  'LDAP_rdn'      => 'mail', // The RDN field that is used for new entries, this field needs to be one of the search_fields, the base of base_dn is appended to the RDN to insert into the LDAP directory.
-  'ldap_version'  => 3,       // using LDAPv3
-  'search_fields' => array('mail', 'cn'),  // fields to search in
-  'fieldmap' => array(      // mapping of contact fields to directory attributes
+  'writable'       => false,
+  // To create a new contact these are the object classes to specify
+  // (or any other classes you wish to use).
+  'LDAP_Object_Classes' => array('top', 'inetOrgPerson'),
+  // The RDN field that is used for new entries, this field needs
+  // to be one of the search_fields, the base of base_dn is appended
+  // to the RDN to insert into the LDAP directory.
+  'LDAP_rdn'       => 'mail',
+  // The required fields needed to build a new contact as required by
+  // the object classes (can include additional fields not required by the object classes).
+  'required_fields' => array('cn', 'sn', 'mail'),
+  'search_fields'   => array('mail', 'cn'),  // fields to search in
+  // mapping of contact fields to directory attributes
+  'fieldmap' => array(
     // Roundcube  => LDAP
     'name'        => 'cn',
     'surname'     => 'sn',
