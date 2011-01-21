@@ -128,13 +128,13 @@ show_popupmenu: function(popup, show)
 
   if (show && ref) {
     var parent = $(ref).parent(),
+      win = $(window),
       pos = parent.hasClass('dropbutton') ? parent.offset() : $(ref).offset();
 
-    if (!above && pos.top + ref.offsetHeight + obj.height() > window.innerHeight)
+    if (!above && pos.top + ref.offsetHeight + obj.height() > win.height())
       above = true;
-
-    if (pos.left + obj.width() > window.innerWidth)
-      pos.left = window.innerWidth - obj.width() - 30;
+    if (pos.left + obj.width() > win.width())
+      pos.left = win.width() - obj.width() - 30;
 
     obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
   }
