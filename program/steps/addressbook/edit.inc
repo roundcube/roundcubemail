@@ -95,15 +95,20 @@ function rcmail_contact_editform($attrib)
         'info' => array(
             'name'    => rcube_label('contactproperties'),
             'content' => array(
-                'gender' => array('visible' => false),
-                'maidenname' => array('size' => $i_size),
                 'email' => array('size' => $i_size, 'visible' => true),
                 'phone' => array('size' => $i_size, 'visible' => true),
                 'address' => array('visible' => true),
-                'birthday' => array('size' => 12),
-                'anniversary' => array('size' => $i_size),
                 'website' => array('size' => $i_size),
                 'im' => array('size' => $i_size),
+            ),
+        ),
+        'personal' => array(
+            'name'    => rcube_label('personalinfo'),
+            'content' => array(
+                'gender' => array('visible' => true),
+                'maidenname' => array('size' => $i_size),
+                'birthday' => array('visible' => true),
+                'anniversary' => array('size' => $i_size),
                 'manager' => array('size' => $i_size),
                 'assistant' => array('size' => $i_size),
                 'spouse' => array('size' => $i_size),

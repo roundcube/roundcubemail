@@ -279,6 +279,7 @@ $labels['addcontact'] = 'Add new contact';
 $labels['editcontact'] = 'Edit contact';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
+$labels['personalinfo'] = 'Personal information';
 
 $labels['edit']   = 'Edit';
 $labels['cancel'] = 'Cancel';

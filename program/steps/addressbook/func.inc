@@ -497,7 +497,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 }
                 
                 // wrap rows in fieldgroup container
-                $content .= html::tag('fieldset', array('class' => 'contactfieldgroup contactcontroller' . $col, 'style' => ($rows ? null : 'display:none')),
+                $content .= html::tag('fieldset', array('class' => 'contactfieldgroup ' . ($colprop['subtypes'] ? 'contactfieldgroupmulti ' : '') . 'contactcontroller' . $col, 'style' => ($rows ? null : 'display:none')),
                   ($colprop['subtypes'] ? html::tag('legend', null, Q($colprop['label'])) : ' ') .
                   $rows);
             }

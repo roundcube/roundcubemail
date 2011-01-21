@@ -93,18 +93,23 @@ function rcmail_contact_details($attrib)
         'info' => array(
             'name'    => rcube_label('contactproperties'),
             'content' => array(
-              'gender' => array('size' => $i_size),
-              'maidenname' => array('size' => $i_size),
               'email' => array('size' => $i_size, 'render_func' => 'rcmail_render_email_value'),
               'phone' => array('size' => $i_size),
               'address' => array(),
-              'birthday' => array('size' => $i_size),
-              'anniversary' => array('size' => $i_size),
               'website' => array('size' => $i_size, 'render_func' => 'rcmail_render_url_value'),
               'im' => array('size' => $i_size),
-              'manager' => array('size' => $i_size),
-              'assistant' => array('size' => $i_size),
-              'spouse' => array('size' => $i_size),
+            ),
+        ),
+        'personal' => array(
+            'name'    => rcube_label('personalinfo'),
+            'content' => array(
+                'gender' => array('size' => $i_size),
+                'maidenname' => array('size' => $i_size),
+                'birthday' => array('size' => $i_size),
+                'anniversary' => array('size' => $i_size),
+                'manager' => array('size' => $i_size),
+                'assistant' => array('size' => $i_size),
+                'spouse' => array('size' => $i_size),
             ),
         ),
     );
