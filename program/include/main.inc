@@ -978,6 +978,37 @@ function parse_attrib_string($str)
 
 
 /**
+ * Improved equivalent to strtotime()
+ *
+ * @param string Date string
+ * @return int 
+ */
+function rcube_strtotime($date)
+{
+  // check for MS Outlook vCard date format YYYYMMDD
+  if (preg_match('/^([12][90]\d\d)([01]\d)(\d\d)$/', trim($date), $matches)) {
+    return mktime(0,0,0, intval($matches[2]), intval($matches[3]), intval($matches[1]));
+  }
+  else if (is_numeric($date))
+    return $date;
+
+  // support non-standard "GMTXXXX" literal
+  $date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
+
+  // if date parsing fails, we have a date in non-rfc format.
+  // remove token from the end and try again
+  while ((($ts = @strtotime($date)) === false) || ($ts < 0)) {
+    $d = explode(' ', $date);
+    array_pop($d);
+    if (!$d) break;
+    $date = implode(' ', $d);
+  }
+
+  return $ts;
+}
+
+
+/**
  * Convert the given date to a human readable form
  * This uses the date formatting properties from config
  *
@@ -991,22 +1022,8 @@ function format_date($date, $format=NULL)
   
   $ts = NULL;
 
-  if (is_numeric($date))
-    $ts = $date;
-  else if (!empty($date))
-    {
-    // support non-standard "GMTXXXX" literal
-    $date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
-    // if date parsing fails, we have a date in non-rfc format.
-    // remove token from the end and try again
-    while ((($ts = @strtotime($date))===false) || ($ts < 0))
-      {
-        $d = explode(' ', $date);
-        array_pop($d);
-        if (!$d) break;
-        $date = implode(' ', $d);
-      }
-    }
+  if (!empty($date))
+    $ts = rcube_strtotime($date);
 
   if (empty($ts))
     return '';

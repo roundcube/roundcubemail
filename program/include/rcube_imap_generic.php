@@ -3223,21 +3223,7 @@ class rcube_imap_generic
      */
     private function strToTime($date)
     {
-        // support non-standard "GMTXXXX" literal
-        $date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
-        // if date parsing fails, we have a date in non-rfc format.
-        // remove token from the end and try again
-        while ((($ts = @strtotime($date))===false) || ($ts < 0)) {
-            $d = explode(' ', $date);
-            array_pop($d);
-            if (!$d) {
-                break;
-            }
-            $date = implode(' ', $d);
-        }
-
-        $ts = (int) $ts;
-
+        $ts = (int) rcube_strtotime($date);
         return $ts < 0 ? 0 : $ts;
     }
 
