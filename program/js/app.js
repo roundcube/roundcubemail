@@ -4914,11 +4914,14 @@ function rcube_webmail()
   // update the mailbox count display
   this.set_unread_count_display = function(mbox, set_title)
   {
-    var reg, text_obj, item, mycount, childcount, div;
+    var reg, link, text_obj, item, mycount, childcount, div;
 
     if (item = this.get_folder_li(mbox)) {
       mycount = this.env.unread_counts[mbox] ? this.env.unread_counts[mbox] : 0;
-      text_obj = item.getElementsByTagName('a')[0];
+      link = $(item).children('a').eq(0);
+      text_obj = link.children('span.unreadcount');
+      if (!text_obj.length && mycount)
+        text_obj = $('<span>').addClass('unreadcount').appendTo(link);
       reg = /\s+\([0-9]+\)$/i;
 
       childcount = 0;
@@ -4930,12 +4933,10 @@ function rcube_webmail()
             childcount += this.env.unread_counts[k];
       }
 
-      if (mycount && text_obj.innerHTML.match(reg))
-        text_obj.innerHTML = text_obj.innerHTML.replace(reg, ' ('+mycount+')');
-      else if (mycount)
-        text_obj.innerHTML += ' ('+mycount+')';
-      else
-        text_obj.innerHTML = text_obj.innerHTML.replace(reg, '');
+      if (mycount && text_obj.length)
+        text_obj.html(' ('+mycount+')');
+      else if (text_obj.length)
+        text_obj.remove();
 
       // set parent's display
       reg = new RegExp(RegExp.escape(this.env.delimiter) + '[^' + RegExp.escape(this.env.delimiter) + ']+$');
