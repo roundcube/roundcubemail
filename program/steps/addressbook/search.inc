@@ -39,7 +39,6 @@ if ($result->count > 0)
 else
 {
   $OUTPUT->show_message('nocontactsfound', 'notice');
-  $search_request = null;
 }
 
 // update message count display

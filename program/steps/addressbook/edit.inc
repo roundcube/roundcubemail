@@ -108,7 +108,7 @@ function rcmail_contact_editform($attrib)
                 'gender' => array('visible' => true),
                 'maidenname' => array('size' => $i_size),
                 'birthday' => array('visible' => true),
-                'anniversary' => array('size' => $i_size),
+                'anniversary' => array(),
                 'manager' => array('size' => $i_size),
                 'assistant' => array('size' => $i_size),
                 'spouse' => array('size' => $i_size),
