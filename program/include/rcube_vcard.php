@@ -147,9 +147,21 @@ class rcube_vcard
         if (is_array($raw)) {
           $k = -1;
           $key = $col;
+          
           $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
           while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref'))
             $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
+          
+          // read vcard 2.1 subtype
+          if (!$subtype) {
+            foreach ($raw as $k => $v) {
+              if (!is_numeric($k) && $v === true && !in_array(strtolower($k), array('pref','internet','voice','base64'))) {
+                $subtype = $typemap[$k] ? $typemap[$k] : strtolower($k);
+                break;
+              }
+            }
+          }
+          
           if ($subtype)
             $key .= ':' . $subtype;
 
@@ -278,7 +290,7 @@ class rcube_vcard
         break;
 
       case 'birthday':
-        if ($val = @strtotime($value))
+        if ($val = rcube_strtotime($value))
           $this->raw['BDAY'][] = array(0 => date('Y-m-d', $val), 'value' => array('date'));
         break;
 
@@ -412,6 +424,12 @@ class rcube_vcard
 
     // Remove cruft like item1.X-AB*, item1.ADR instead of ADR, and empty lines
     $vcard = preg_replace(array('/^item\d*\.X-AB.*$/m', '/^item\d*\./m', "/\n+/"), array('', '', "\n"), $vcard);
+    
+    // convert X-WAB-GENDER to X-GENDER
+    if (preg_match('/X-WAB-GENDER:(\d)/', $vcard, $matches)) {
+      $value = $matches[1] == '2' ? 'male' : 'female';
+      $vcard = preg_replace('/X-WAB-GENDER:\d/', 'X-GENDER:' . $value, $vcard);
+    }
 
     // if N doesn't have any semicolons, add some 
     $vcard = preg_replace('/^(N:[^;\R]*)$/m', '\1;;;;', $vcard);
