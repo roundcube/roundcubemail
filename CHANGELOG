@@ -1,9 +1,11 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve parsing of MS Outlook vCards (#1487716)
 - Updated PEAR::Net_Socket to 1.0.10
 - Updated PEAR::Net_IDNA2 to 0.1.1
 - Fix handling of comments inside an email address spec. (#1487673)
+- Show full mail subject as title when hovering a cut subject link (#1487128)
 - Fix randomly disappearing folders list in IE (#1487704)
 - Fix list column add/removal in IE (#1487703)
 - Fix login redirect issues (#1487686)
