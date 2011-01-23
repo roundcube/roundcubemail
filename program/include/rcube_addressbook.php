@@ -38,6 +38,7 @@ abstract class rcube_addressbook
     public $groups = false;
     public $readonly = true;
     public $ready = false;
+    public $group_id = null;
     public $list_page = 1;
     public $page_size = 10;
     public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
