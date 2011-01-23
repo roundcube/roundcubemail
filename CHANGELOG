@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add part MIME ID to message_part_* hooks (#1487718) 
 - Improve parsing of MS Outlook vCards (#1487716)
 - Updated PEAR::Net_Socket to 1.0.10
 - Updated PEAR::Net_IDNA2 to 0.1.1

@@ -665,7 +665,8 @@ function rcmail_print_body($part, $p = array())
 
   // trigger plugin hook
   $data = $RCMAIL->plugins->exec_hook('message_part_before',
-    array('type' => $part->ctype_secondary, 'body' => $part->body) + $p + array('safe' => false, 'plain' => false, 'inline_html' => true));
+    array('type' => $part->ctype_secondary, 'body' => $part->body, 'id' => $part->mime_id)
+        + $p + array('safe' => false, 'plain' => false, 'inline_html' => true));
 
   // convert html to text/plain
   if ($data['type'] == 'html' && $data['plain']) {
@@ -698,7 +699,8 @@ function rcmail_print_body($part, $p = array())
     $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
 
   // allow post-processing of the message body
-  $data = $RCMAIL->plugins->exec_hook('message_part_after', array('type' => $part->ctype_secondary, 'body' => $body) + $data);
+  $data = $RCMAIL->plugins->exec_hook('message_part_after',
+    array('type' => $part->ctype_secondary, 'body' => $body, 'id' => $part->mime_id) + $data);
 
   return $data['type'] == 'html' ? $data['body'] : html::tag('pre', array(), $data['body']);
 }
