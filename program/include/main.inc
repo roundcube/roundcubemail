@@ -1492,7 +1492,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
       $classes[] = 'unread';
 
     $js_name = JQ($folder['id']);
-    $html_name = Q($foldername . ($unread ? " ($unread)" : ''));
+    $html_name = Q($foldername) . ($unread ? html::span('unreadcount', " ($unread)") : '');
     $link_attrib = $folder['virtual'] ? array() : array(
       'href' => rcmail_url('', array('_mbox' => $folder['id'])),
       'onclick' => sprintf("return %s.command('list','%s',this)", JS_OBJECT_NAME, $js_name),
