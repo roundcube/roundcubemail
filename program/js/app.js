@@ -3766,6 +3766,9 @@ function rcube_webmail()
         this.show_contentframe(false);
     }
 
+    if (this.env.group)
+      qs += '&_gid='+urlencode(this.env.group);
+
     // also send search request to get the right records from the next page
     if (this.env.search_request) 
       qs += '&_search='+this.env.search_request;
