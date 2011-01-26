@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix settings UI on IE 6 (#1487724)
 - Remove double borders in folder listing (#1487713)
 - Separate full message headers UI element from headers table (#1487715)
 - Add part MIME ID to message_part_* hooks (#1487718) 
