@@ -848,7 +848,7 @@ span.tablink-selected
 span.tablink a,
 span.tablink-selected a
 {
-  display: block;
+  display: inline-block;
   padding: 5px 10px 0 5px;
   margin-left: 5px;
   height: 23px;
