@@ -383,6 +383,11 @@
   border-bottom: 1px solid #EBEBEB;
 }
 
+#mailboxlist li ul li:last-child
+{
+  border-bottom: none;
+}
+
 #mailboxlist li div
 {
   position: absolute;
@@ -1007,17 +1012,12 @@ table.headers-table
   background-color: #EBEBEB;
 }
 
+#messagebody #full-headers,
 #messagebody table.headers-table
 {
   width: auto;
   margin: 6px 8px;
   background-color: #F4F4F4;
-  border: 1px solid #ccc;
-}
-
-#messageframe table.headers-table
-{
-  border-bottom: 1px solid #ccc;
 }
 
 table.headers-table tr td
@@ -1033,7 +1033,7 @@ table.headers-table tr td.header-title
   font-weight: bold;
   text-align: right;
   white-space: nowrap;
-  padding: 0 4px;
+  padding: 0 4px 0 8px;
 }
 
 table.headers-table tr td.header
@@ -1046,25 +1046,6 @@ table.headers-table tr td.subject
   font-weight: bold;
 }
 
-table.headers-table tr td.all
-{
-  width: 100%;
-  color: #666666;
-  text-align: left;
-  padding-right: 10px;
-  text-align: center;
-  padding: 2px 6px 4px 6px;
-  border-bottom: 0;
-}
-
-table.headers-table tr td.more-headers
-{
-  cursor: pointer;
-  width: 100%;
-  height: 8px;
-  border-bottom: 0;
-}
-
 #attachment-list
 {
   margin: 0;
@@ -1073,6 +1054,16 @@ table.headers-table tr td.more-headers
   list-style-image: none;
   list-style-type: none;
   background: url(images/icons/attachment.png) 4px 2px no-repeat #DFDFDF;
+}
+
+#messageframe #attachment-list
+{
+  border-bottom: 1px solid #ccc;
+}
+
+.messageheaderbox #attachment-list
+{
+  border-top: 1px solid #ccc;
 }
 
 #attachment-list:after
@@ -1210,31 +1201,45 @@ div.message-htmlpart div.rcmBody
   border: 0;
 }
 
-td.show-headers
+#full-headers
+{
+  color: #666666;
+  text-align: center;
+  padding: 2px 6px;
+  border-bottom: 1px solid #ccc;
+  background-color: #EBEBEB;
+}
+
+.messageheaderbox #full-headers
+{
+  border-bottom: 0;
+}
+
+div.more-headers
+{
+  cursor: pointer;
+  height: 8px;
+  border-bottom: 0;
+}
+
+div.show-headers
 {
   background: url(images/icons/down_small.gif) no-repeat center;
 }
 
-td.hide-headers
+div.hide-headers
 {
   background: url(images/icons/up_small.gif) no-repeat center;
 }
 
-#all-headers
-{
-  height: 150px;
-  display: none;
-}
-
 #headers-source
 {
-  margin: 0 5px;
+  margin: 0 0 2px 0;
   padding: 0.5em;
   height: 145px;
   background: white;
   overflow: auto;
   font-size: 11px;
-  white-space: nowrap;
   border: 1px solid #999999;
   display: none;
   text-align: left;

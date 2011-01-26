@@ -942,16 +942,25 @@ function rcmail_message_headers($attrib, $headers=NULL)
     $table->add(array('class' => 'header '.$hkey), Q($row['value'], ($hkey == 'subject' ? 'strict' : 'show')));
   }
 
-  // all headers division
-  $table->add(array('colspan' => 2, 'class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('load-headers','',this)"), '');
-  $table->add_row(array('id' => "all-headers"));
-  $table->add(array('colspan' => 2, 'class' => "all"), html::div(array('id' => 'headers-source'), ''));
+  return $table->show($attrib);
+}
+
+
+/**
+ * return block to show full message headers
+ */
+function rcmail_message_full_headers($attrib, $headers=NULL)
+{
+  global $OUTPUT;
+  
+  $html = html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('load-headers','',this)"), '');
+  $html .= html::div(array('id' => "all-headers", 'class' => "all", 'style' => 'display:none'), html::div(array('id' => 'headers-source'), ''));
   
   $OUTPUT->add_gui_object('all_headers_row', 'all-headers');
   $OUTPUT->add_gui_object('all_headers_box', 'headers-source');
-
-  return $table->show($attrib);
-  }
+  
+  return html::div($attrib, $html);
+}
 
 
 /**
@@ -1751,6 +1760,7 @@ $OUTPUT->add_handlers(array(
   'quotadisplay' => 'rcmail_quota_display',
   'mailboxname' => 'rcmail_mailbox_name_display',
   'messageheaders' => 'rcmail_message_headers',
+  'messagefullheaders' => 'rcmail_message_full_headers',
   'messagebody' => 'rcmail_message_body',
   'messagecontentframe' => 'rcmail_messagecontent_frame',
   'messagepartframe' => 'rcmail_message_part_frame',
