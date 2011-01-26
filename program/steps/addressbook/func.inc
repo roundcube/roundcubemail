@@ -156,13 +156,13 @@ function rcmail_contact_groups($args)
 
     if (!empty($groups)) {
         $line_templ = html::tag('li', array(
-            'id' => 'rcmliG%s%s', 'class' => 'contactgroup'),
+            'id' => 'rcmliG%s', 'class' => 'contactgroup'),
             html::a(array('href' => '#',
                 'onclick' => "return ".JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)"), '%s'));
 
         $jsdata = array();
         foreach ($groups as $group) {
-            $args['out'] .= sprintf($line_templ, $args['source'], $group['ID'], $args['source'], $group['ID'], Q($group['name']));
+            $args['out'] .= sprintf($line_templ, asciiwords($args['source'] . $group['ID'], true, '_'), $args['source'], $group['ID'], Q($group['name']));
             $args['jsdata']['G'.$args['source'].$group['ID']] = array(
                 'source' => $args['source'], 'id' => $group['ID'],
                 'name' => $group['name'], 'type' => 'group');
