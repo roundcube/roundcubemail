@@ -872,8 +872,8 @@ function rcmail_mod_css_styles($source, $container_id)
   $replacements = new rcube_string_replacer;
 
   // ignore the whole block if evil styles are detected
-  $stripped = preg_replace('/[^a-z\(:]/', '', rcmail_xss_entity_decode($source));
-  if (preg_match('/expression|behavior|url\(|import/', $stripped))
+  $stripped = preg_replace('/[^a-z\(:;]/', '', rcmail_xss_entity_decode($source));
+  if (preg_match('/expression|behavior|url\(|import[^a]/', $stripped))
     return '/* evil! */';
 
   // remove css comments (sometimes used for some ugly hacks)

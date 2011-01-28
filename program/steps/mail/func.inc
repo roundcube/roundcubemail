@@ -829,10 +829,10 @@ function rcmail_washtml_callback($tagname, $attrib, $content)
 
     case 'style':
       // decode all escaped entities and reduce to ascii strings
-      $stripped = preg_replace('/[^a-zA-Z\(:]/', '', rcmail_xss_entity_decode($content));
+      $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcmail_xss_entity_decode($content));
 
       // now check for evil strings like expression, behavior or url()
-      if (!preg_match('/expression|behavior|url\(|import/', $stripped)) {
+      if (!preg_match('/expression|behavior|url\(|import[^a]/', $stripped)) {
         $out = html::tag('style', array('type' => 'text/css'), $content);
         break;
       }
