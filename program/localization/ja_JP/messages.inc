@@ -6,7 +6,7 @@
 | language/ja_JP/messages.inc                                           |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+| Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -16,7 +16,7 @@
 
 @version $Id$
 
-//  EN-Revision: 4321
+//  EN-Revision: 4424
 
 */
 
@@ -140,5 +140,6 @@ $messages['namecannotbeempty'] = '名前は空にできません。';
 $messages['nametoolong'] = '名前が長すぎます。';
 $messages['folderupdated'] = 'フォルダーの更新に成功しました。';
 $messages['foldercreated'] = 'フォルダーの作成に成功しました。';
+$messages['invalidimageformat'] = '画像の形式が正しくありません。';
 
 ?>

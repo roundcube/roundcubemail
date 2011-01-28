@@ -138,5 +138,6 @@ $messages['namecannotbeempty'] = 'Имя не может быть пустым';
 $messages['nametoolong'] = 'Слишком длинное имя';
 $messages['folderupdated'] = 'Папка обновлена';
 $messages['foldercreated'] = 'Папка создана';
+$messages['invalidimageformat'] = 'Неверный формат изображения';
 
 ?>

@@ -6,7 +6,7 @@
 | language/ja_JP/labels.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+| Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -16,7 +16,7 @@
 
 @version $Id$
 
-EN-Revision: 4353
+EN-Revision: 4441
 
 */
 
@@ -41,11 +41,11 @@ $labels['to'] = '宛先';
 $labels['cc'] = 'コピー';
 $labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'Reply-To (返信先)';
-$labels['followupto'] = 'Followup-To';
+$labels['followupto'] = 'Followup-To (ML の宛先)';
 $labels['date'] = '日付';
 $labels['size'] = '容量';
 $labels['priority'] = '優先度';
-$labels['organization'] = '所属';
+$labels['organization'] = '企業名';
 $labels['readstatus'] = '閲覧の状態';
 $labels['mailboxlist'] = 'フォルダー一覧';
 $labels['messagesfromto'] = '表示中のメール: $from ～ $to (全: $count 件)';
@@ -157,7 +157,6 @@ $labels['listmode'] = '一覧表示モード';
 $labels['folderactions'] = 'フォルダーの操作...';
 $labels['compact'] = 'コンパクト';
 $labels['empty'] = '空';
-$labels['purge'] = 'ごみ箱を空にする';
 $labels['quota'] = 'ディスク使用量';
 $labels['unknown'] = '不明';
 $labels['unlimited'] = '無制限';
@@ -206,18 +205,47 @@ $labels['receiptread'] = '開封確認 (表示済み)';
 $labels['yourmessage'] = 'これはあなたが送信したメールに対する開封確認です。';
 $labels['receiptnote'] = '注意: この開封確認はメールが受信者に表示されたことの通知です。受信者がメールを読んだこと、内容を理解したことを保証するものではありません。';
 $labels['name'] = '表示名';
-$labels['firstname'] = '名 (ファースト ネーム)';
-$labels['surname'] = '姓 (ラスト ネーム)';
+$labels['firstname'] = '名 (ファーストネーム)';
+$labels['surname'] = '姓 (ラストネーム)';
+$labels['middlename'] = 'ミドルネーム';
+$labels['nameprefix'] = '敬称 (名前の前)';
+$labels['namesuffix'] = '敬称 (名前の後)';
+$labels['nickname'] = 'ニックネーム';
+$labels['jobtitle'] = '肩書き';
+$labels['department'] = '部署名';
+$labels['gender'] = '性別';
+$labels['maidenname'] = '旧姓';
 $labels['email'] = 'メールアドレス';
+$labels['phone'] = '電話番号';
+$labels['address'] = '住所';
+$labels['street'] = '通り';
+$labels['locality'] = '都市';
+$labels['zipcode'] = '郵便番号';
+$labels['region'] = '州';
+$labels['country'] = '国';
+$labels['birthday'] = '誕生日';
+$labels['anniversary'] = '記念日';
+$labels['website'] = 'ウェブサイト';
+$labels['instantmessenger'] = 'IM';
+$labels['notes'] = 'Notes';
+$labels['male'] = '男性';
+$labels['female'] = '女性';
+$labels['manager'] = '管理者';
+$labels['assistant'] = 'アシスタント';
+$labels['spouse'] = '配偶者';
+$labels['addfield'] = '項目の追加...';
 $labels['addcontact'] = '連絡先の新規追加';
 $labels['editcontact'] = '連絡先の編集';
 $labels['contacts'] = '連絡先';
 $labels['contactproperties'] = '連絡先のプロパティ';
+$labels['personalinfo'] = '個人情報';
 $labels['edit'] = '編集';
 $labels['cancel'] = 'キャンセル';
 $labels['save'] = '保存';
 $labels['delete'] = '削除';
 $labels['rename'] = '名前の変更';
+$labels['addphoto'] = '追加';
+$labels['replacephoto'] = '置換';
 $labels['newcontact'] = '連絡先の新規作成';
 $labels['deletecontact'] = '連絡先の削除';
 $labels['composeto'] = 'この連絡先へメールの送信';
