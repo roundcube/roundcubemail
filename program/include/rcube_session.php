@@ -5,7 +5,7 @@
  | program/include/rcube_session.php                                     |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -31,12 +31,17 @@ class rcube_session
 {
   private $db;
   private $ip;
+  private $start;
   private $changed;
   private $unsets = array();
   private $gc_handlers = array();
-  private $start;
+  private $cookiename = 'roundcube_sessauth';
   private $vars = false;
   private $key;
+  private $now;
+  private $prev;
+  private $secret = '';
+  private $ip_check = false;
   private $keep_alive = 0;
 
   /**
@@ -47,6 +52,12 @@ class rcube_session
     $this->db = $db;
     $this->lifetime = $lifetime;
     $this->start = microtime(true);
+    $this->ip = $_SERVER['REMOTE_ADDR'];
+
+    // valid time range is now - 1/2 lifetime to now + 1/2 lifetime
+    $now = time();
+    $this->now = $now - ($now % ($this->lifetime / 2));
+    $this->prev = $this->now - ($this->lifetime / 2);
 
     // set custom functions for PHP session management
     session_set_save_handler(
@@ -93,7 +104,14 @@ class rcube_session
   }
 
 
-  // save session data
+  /**
+   * Save session data.
+   * handler for session_read()
+   *
+   * @param string Session ID
+   * @param string Serialized session vars
+   * @return boolean True on success
+   */
   public function write($key, $vars)
   {
     $ts = microtime(true);
@@ -118,20 +136,14 @@ class rcube_session
       else
         $newvars = $vars;
 
-      if (!$this->lifetime) {
-        $timeout = 600;
-      }
-      else if ($this->keep_alive>0) {
-        $timeout = min($this->lifetime * 0.5, $this->lifetime - $this->keep_alive);
-      } else {
-        $timeout = 0;
-      }
-
-      if (!($newvars === $oldvars) || ($ts - $this->changed > $timeout)) {
+      if ($newvars !== $oldvars) {
         $this->db->query(
-          sprintf("UPDATE %s SET vars = ?, changed = %s WHERE sess_id = ?",
+          sprintf("UPDATE %s SET vars=?, changed=%s WHERE sess_id=?",
             get_table_name('session'), $now),
           base64_encode($newvars), $key);
+      }
+      else if ($ts - $this->changed > $this->lifetime / 2) {
+        $this->db->query("UPDATE ".get_table_name('session')." SET changed=$now WHERE sess_id=?", $key);
       }
     }
     else {
@@ -139,7 +151,7 @@ class rcube_session
         sprintf("INSERT INTO %s (sess_id, vars, ip, created, changed) ".
           "VALUES (?, ?, ?, %s, %s)",
           get_table_name('session'), $now, $now),
-        $key, base64_encode($vars), (string)$_SERVER['REMOTE_ADDR']);
+        $key, base64_encode($vars), (string)$this->ip);
     }
 
     $this->unsets = array();
@@ -147,7 +159,12 @@ class rcube_session
   }
 
 
-  // handler for session_destroy()
+  /**
+   * Handler for session_destroy()
+   *
+   * @param string Session ID
+   * @return boolean True on success
+   */
   public function destroy($key)
   {
     $this->db->query(
@@ -158,7 +175,12 @@ class rcube_session
   }
 
 
-  // garbage collecting function
+  /**
+   * Garbage collecting function
+   *
+   * @param string Session lifetime in seconds
+   * @return boolean True on success
+   */
   public function gc($maxlifetime)
   {
     // just delete all expired sessions
@@ -173,7 +195,11 @@ class rcube_session
   }
 
 
-  // registering additional garbage collector functions
+  /**
+   * Register additional garbage collector functions
+   *
+   * @param mixed Callback function
+   */
   public function register_gc_handler($func_name)
   {
     if ($func_name && !in_array($func_name, $this->gc_handlers))
@@ -181,33 +207,41 @@ class rcube_session
   }
 
 
+  /**
+   * Generate and set new session id
+   */
   public function regenerate_id()
   {
+    // delete old session record
+    $this->destroy(session_id());
+    $this->vars = false;
+
     $randval = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     for ($random = '', $i=1; $i <= 32; $i++) {
       $random .= substr($randval, mt_rand(0,(strlen($randval) - 1)), 1);
     }
 
-    // use md5 value for id or remove capitals from string $randval
-    $random = md5($random);
-
-    // delete old session record
-    $this->destroy(session_id());
-
-    session_id($random);
+    // use md5 value for id
+    $this->key = md5($random);
+    session_id($this->key);
 
     $cookie   = session_get_cookie_params();
     $lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
 
-    rcmail::setcookie(session_name(), $random, $lifetime);
+    rcmail::setcookie(session_name(), $this->key, $lifetime);
 
     return true;
   }
 
 
-  // unset session variable
-  public function remove($var=NULL)
+  /**
+   * Unset a session variable
+   *
+   * @param string Varibale name
+   * @return boolean True on success
+   */
+  public function remove($var=null)
   {
     if (empty($var))
       return $this->destroy(session_id());
@@ -217,9 +251,20 @@ class rcube_session
 
     return true;
   }
+  
+  /**
+   * Kill this session
+   */
+  public function kill()
+  {
+    $this->destroy(session_id());
+    rcmail::setcookie($this->cookiename, '-del-', time() - 60);
+  }
 
 
-  // serialize session data
+  /**
+   * Serialize session data
+   */
   private function serialize($vars)
   {
     $data = '';
@@ -232,8 +277,10 @@ class rcube_session
   }
 
 
-  // unserialize session data
-  // http://www.php.net/manual/en/function.session-decode.php#56106
+  /**
+   * Unserialize session data
+   * http://www.php.net/manual/en/function.session-decode.php#56106
+   */
   private function unserialize($str)
   {
     $str = (string)$str;
@@ -318,26 +365,99 @@ class rcube_session
     return unserialize( 'a:' . $items . ':{' . $serialized . '}' );
   }
 
+  /**
+   * Setter for keep_alive interval
+   */
   public function set_keep_alive($keep_alive)
   {
     $this->keep_alive = $keep_alive;
   }
 
+  /**
+   * Getter for keep_alive interval
+   */
   public function get_keep_alive()
   {
     return $this->keep_alive;
   }
 
-  // getter for private variables
-  public function get_ts()
-  {
-    return $this->changed;
-  }
-
-  // getter for private variables
+  /**
+   * Getter for remote IP saved with this session
+   */
   public function get_ip()
   {
     return $this->ip;
+  }
+  
+  /**
+   * Setter for cookie encryption secret
+   */
+  function set_secret($secret)
+  {
+    $this->secret = $secret;
+  }
+
+
+  /**
+   * Enable/disable IP check
+   */
+  function set_ip_check($check)
+  {
+    $this->ip_check = $check;
+  }
+  
+  /**
+   * Setter for the cookie name used for session cookie
+   */
+  function set_cookiename($cookiename)
+  {
+    if ($cookiename)
+      $this->cookiename = $cookiename;
+  }
+
+
+  /**
+   * Check session authentication cookie
+   *
+   * @return boolean True if valid, False if not
+   */
+  function check_auth()
+  {
+    $this->cookie = $_COOKIE[$this->cookiename];
+    $result = $this->ip_check ? $_SERVER['REMOTE_ADDR'] == $this->ip : true;
+
+    if ($result && $this->_mkcookie($this->now) != $this->cookie) {
+      // Check if using id from previous time slot
+      if ($this->_mkcookie($this->prev) == $this->cookie)
+        $this->set_auth_cookie();
+      else
+        $result = false;
+    }
+
+    return $result;
+  }
+
+
+  /**
+   * Set session authentication cookie
+   */
+  function set_auth_cookie()
+  {
+    $this->cookie = $this->_mkcookie($this->now);
+    rcmail::setcookie($this->cookiename, $this->cookie, 0);
+    $_COOKIE[$this->cookiename] = $this->cookie;
+  }
+
+
+  /**
+   * Create session cookie from session data
+   *
+   * @param int Time slot to use
+   */
+  function _mkcookie($timeslot)
+  {
+    $auth_string = "$this->key,$this->secret,$timeslot";
+    return "S" . (function_exists('sha1') ? sha1($auth_string) : md5($auth_string));
   }
 
 }

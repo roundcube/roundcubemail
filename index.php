@@ -98,7 +98,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $RCMAIL->session->regenerate_id();
 
     // send auth cookie if necessary
-    $RCMAIL->authenticate_session();
+    $RCMAIL->session->set_auth_cookie();
 
     // log successful login
     rcmail_log_login();
@@ -141,7 +141,7 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
 
 // check session and auth cookie
 else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 'send') {
-  if (!$RCMAIL->authenticate_session()) {
+  if (!$RCMAIL->session->check_auth()) {
     $OUTPUT->show_message('sessionerror', 'error');
     $RCMAIL->kill_session();
   }

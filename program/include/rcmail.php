@@ -599,10 +599,8 @@ class rcmail
       session_start();
 
     // set initial session vars
-    if (!isset($_SESSION['auth_time'])) {
-      $_SESSION['auth_time'] = time();
+    if (!$_SESSION['user_id'])
       $_SESSION['temp'] = true;
-    }
   }
 
 
@@ -624,6 +622,9 @@ class rcmail
       $keep_alive = max(60, $keep_alive);
       $this->session->set_keep_alive($keep_alive);
     }
+    
+    $this->session->set_secret($this->config->get('des_key') . $_SERVER['HTTP_USER_AGENT']);
+    $this->session->set_ip_check($this->config->get('ip_check'));
   }
 
 
@@ -776,7 +777,7 @@ class rcmail
       $_SESSION['imap_ssl']  = $imap_ssl;
       $_SESSION['password']  = $this->encrypt($pass);
       $_SESSION['login_time'] = mktime();
-
+      
       if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_')
         $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
 
@@ -999,50 +1000,14 @@ class rcmail
 
 
   /**
-   * Check the auth hash sent by the client against the local session credentials
-   *
-   * @return boolean True if valid, False if not
-   */
-  function authenticate_session()
-  {
-    // advanced session authentication
-    if ($this->config->get('double_auth')) {
-      $now = time();
-      $valid = ($_COOKIE['sessauth'] == $this->get_auth_hash(session_id(), $_SESSION['auth_time']) ||
-                $_COOKIE['sessauth'] == $this->get_auth_hash(session_id(), $_SESSION['last_auth']));
-
-      // renew auth cookie every 5 minutes (only for GET requests)
-      if (!$valid || ($_SERVER['REQUEST_METHOD']!='POST' && $now - $_SESSION['auth_time'] > 300)) {
-        $_SESSION['last_auth'] = $_SESSION['auth_time'];
-        $_SESSION['auth_time'] = $now;
-        rcmail::setcookie('sessauth', $this->get_auth_hash(session_id(), $now), 0);
-      }
-    }
-    else {
-      $valid = $this->config->get('ip_check') ? $_SERVER['REMOTE_ADDR'] == $this->session->get_ip() : true;
-    }
-
-    // check session filetime
-    $lifetime = $this->config->get('session_lifetime');
-    $sess_ts = $this->session->get_ts();
-    if (!empty($lifetime) && !empty($sess_ts) && $sess_ts + $lifetime*60 < time()) {
-      $valid = false;
-    }
-
-    return $valid;
-  }
-
-
-  /**
    * Destroy session data and remove cookie
    */
   public function kill_session()
   {
     $this->plugins->exec_hook('session_destroy');
 
-    $this->session->remove();
-    $_SESSION = array('language' => $this->user->language, 'auth_time' => time(), 'temp' => true);
-    rcmail::setcookie('sessauth', '-del-', time() - 60);
+    $this->session->kill();
+    $_SESSION = array('language' => $this->user->language, 'temp' => true);
     $this->user->reset();
   }
 
@@ -1056,7 +1021,7 @@ class rcmail
 
     // on logout action we're not connected to imap server
     if (($config['logout_purge'] && !empty($config['trash_mbox'])) || $config['logout_expunge']) {
-      if (!$this->authenticate_session())
+      if (!$this->session->check_auth())
         return;
 
       $this->imap_connect();
