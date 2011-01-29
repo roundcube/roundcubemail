@@ -2238,7 +2238,11 @@ class rcube_imap
                 $mime_headers = $this->conn->fetchPartHeader(
                     $this->mailbox, $this->_msg_id, false, $struct->mime_id);
             }
-            $struct->headers = $this->_parse_headers($mime_headers) + $struct->headers;
+
+            if (is_string($mime_headers))
+                $struct->headers = $this->_parse_headers($mime_headers) + $struct->headers;
+            else if (is_object($mime_headers))
+                $struct->headers = get_object_vars($mime_headers) + $struct->headers;
 
             // get real content-type of message/rfc822
             if ($struct->mimetype == 'message/rfc822') {
