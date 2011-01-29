@@ -394,7 +394,7 @@ class rcmail
         $list[$id] = array(
           'id' => $id,
           'name' => $prop['name'],
-          'groups' => false,
+          'groups' => is_array($prop['groups']),
           'readonly' => !$prop['writable'],
           'autocomplete' => in_array('sql', $autocomplete)
         );

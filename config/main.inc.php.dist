@@ -501,8 +501,13 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   'scope'         => 'sub',   // search mode: sub|base|list
   'filter'        => '',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
   'fuzzy_search'  => true,    // server allows wildcard search
-  'sizelimit'     => '0',     // Enables you to limit the count of entries fetched. Setting this to 0 means no limit. 
-  'timelimit'     => '0',     // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit. 
+  'sizelimit'     => '0',     // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
+  'timelimit'     => '0',     // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
+  // definition for groups, set to false if no groups are supported
+  'groups'        => array(
+    'base_dn'     => 'ou=groups,ou=rcabook,dc=localhost',
+    'filter'      => '(objectClass=groupOfNames)',
+  ),
 );
 */
 

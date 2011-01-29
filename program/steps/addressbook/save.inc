@@ -242,7 +242,7 @@ else {
 
   if ($insert_id) {
     // add new contact to the specified group
-    if ($CONTACTS->group_id) {
+    if ($CONTACTS->groups && $CONTACTS->group_id) {
       $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array('group_id' => $CONTACTS->group_id, 'ids' => $insert_id, 'source' => $source));
 
       if (!$plugin['abort']) {

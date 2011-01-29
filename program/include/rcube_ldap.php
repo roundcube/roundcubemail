@@ -4,7 +4,7 @@
  | program/include/rcube_ldap.php                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -12,6 +12,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ |         Andreas Dick <andudi (at) gmx (dot) ch>                       |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -40,10 +41,15 @@ class rcube_ldap extends rcube_addressbook
   /** public properties */
   public $primary_key = 'ID';
   public $readonly = true;
+  public $groups = false;
   public $list_page = 1;
   public $page_size = 10;
+  public $group_id = 0;
   public $ready = false;
   public $coltypes = array();
+
+  private $group_cache = array();
+  private $group_members = array();
 
 
   /**
@@ -58,6 +64,10 @@ class rcube_ldap extends rcube_addressbook
   {
     $this->prop = $p;
 
+    // check if groups are configured
+    if (is_array($p['groups']))
+      $this->groups = true;
+    
     // fieldmap property is given
     if (is_array($p['fieldmap'])) {
       foreach ($p['fieldmap'] as $rf => $lf)
@@ -345,6 +355,21 @@ class rcube_ldap extends rcube_addressbook
       $entries = ldap_get_entries($this->conn, $this->ldap_result);
       for ($i = $start_row; $i < min($entries['count'], $last_row); $i++)
         $this->result->add($this->_ldap2result($entries[$i]));
+    }
+
+    // temp hack for filtering group members
+    if ($this->group_id)
+    {
+        $result = new rcube_result_set();
+        while ($record = $this->result->iterate())
+        {
+            if ($this->group_members[$record['ID']])
+            {
+                $result->add($record);
+                $result->count++;
+            }
+        }
+        $this->result = $result;
     }
 
     return $this->result;
@@ -799,5 +824,247 @@ class rcube_ldap extends rcube_addressbook
     return strtr($str, $replace);
   }
 
+
+    /**
+     * Setter for the current group
+     * (empty, has to be re-implemented by extending class)
+     */
+    function set_group($group_id)
+    {
+        if ($group_id)
+        {
+            if (! $this->group_cache) $this->list_groups();
+            $cache = $this->group_cache[$group_id]['members'];
+
+            $members = array();
+            for ($i=1; $i<$cache["count"]; $i++)
+            {
+                $member_dn = base64_encode($cache[$i]);
+                $members[$member_dn] = 1;
+            }
+            $this->group_members = $members;
+            $this->group_id = $group_id;
+        }
+        else $this->group_id = 0;
+    }
+
+    /**
+     * List all active contact groups of this source
+     *
+     * @param string  Optional search string to match group name
+     * @return array  Indexed list of contact groups, each a hash array
+     */
+    function list_groups($search = null)
+    {
+        if (!$this->prop['groups'])
+          return array();
+
+        $base_dn = $this->prop['groups']['base_dn'];
+        $filter = $this->prop['groups']['filter'];
+
+        $res = ldap_search($this->conn, $base_dn, $filter, array('cn','member'));
+        if ($res === false)
+        {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SAVING, 'errorsaving');
+            return array();
+        }
+        $ldap_data = ldap_get_entries($this->conn, $res);
+
+        $groups = array();
+        $group_sortnames = array();
+        for ($i=0; $i<$ldap_data["count"]; $i++)
+        {
+            $group_name = $ldap_data[$i]['cn'][0];
+            $group_id = base64_encode($group_name);
+            $groups[$group_id]['ID'] = $group_id;
+            $groups[$group_id]['name'] = $group_name;
+            $groups[$group_id]['members'] = $ldap_data[$i]['member'];
+            $group_sortnames[] = strtolower($group_name);
+        }
+        array_multisort($group_sortnames, SORT_ASC, SORT_STRING, $groups);
+
+        $this->group_cache = $groups;
+        return $groups;
+    }
+
+    /**
+     * Create a contact group with the given name
+     *
+     * @param string The group name
+     * @return mixed False on error, array with record props in success
+     */
+    function create_group($group_name)
+    {
+        if (!$this->group_cache)
+            $this->list_groups();
+
+        $base_dn = $this->prop['groups']['base_dn'];
+        $new_dn = "cn=$group_name,$base_dn";
+        $new_gid = base64_encode($group_name);
+
+        $new_entry = array(
+            'objectClass' => array('top', 'groupOfNames'),
+            'cn' => $group_name,
+            'member' => '',
+        );
+
+        $res = ldap_add($this->conn, $new_dn, $new_entry);
+        if ($res === false)
+        {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SAVING, 'errorsaving');
+            return false;
+        }
+        return array('id' => $new_gid, 'name' => $group_name);
+    }
+
+    /**
+     * Delete the given group and all linked group members
+     *
+     * @param string Group identifier
+     * @return boolean True on success, false if no data was changed
+     */
+    function delete_group($group_id)
+    {
+        if (!$this->group_cache)
+            $this->list_groups();
+
+        $base_dn = $this->prop['groups']['base_dn'];
+        $group_name = $this->group_cache[$group_id]['name'];
+
+        $del_dn = "cn=$group_name,$base_dn";
+        $res = ldap_delete($this->conn, $del_dn);
+        if ($res === false)
+        {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SAVING, 'errorsaving');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Rename a specific contact group
+     *
+     * @param string Group identifier
+     * @param string New name to set for this group
+     * @return boolean New name on success, false if no data was changed
+     */
+    function rename_group($group_id, $new_name)
+    {
+        if (!$this->group_cache)
+            $this->list_groups();
+
+        $base_dn = $this->prop['groups']['base_dn'];
+        $group_name = $this->group_cache[$group_id]['name'];
+        $old_dn = "cn=$group_name,$base_dn";
+        $new_rdn = "cn=$new_name";
+
+        $res = ldap_rename($this->conn, $old_dn, $new_rdn, NULL, TRUE);
+        if ($res === false)
+        {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SAVING, 'errorsaving');
+            return false;
+        }
+        return $new_name;
+    }
+
+    /**
+     * Add the given contact records the a certain group
+     *
+     * @param string  Group identifier
+     * @param array   List of contact identifiers to be added
+     * @return int    Number of contacts added
+     */
+    function add_to_group($group_id, $contact_ids)
+    {
+        if (!$this->group_cache)
+            $this->list_groups();
+
+        $base_dn = $this->prop['groups']['base_dn'];
+        $group_name = $this->group_cache[$group_id]['name'];
+        $group_dn = "cn=$group_name,$base_dn";
+
+        $new_attrs = array();
+        foreach (explode(",", $contact_ids) as $id)
+            $new_attrs['member'][] = base64_decode($id);
+
+        $res = ldap_mod_add($this->conn, $group_dn, $new_attrs);
+        if ($res === false)
+        {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SAVING, 'errorsaving');
+            return 0;
+        }
+        return count($new_attrs['member']);
+    }
+
+    /**
+     * Remove the given contact records from a certain group
+     *
+     * @param string  Group identifier
+     * @param array   List of contact identifiers to be removed
+     * @return int    Number of deleted group members
+     */
+    function remove_from_group($group_id, $contact_ids)
+    {
+        if (!$this->group_cache)
+            $this->list_groups();
+
+        $base_dn = $this->prop['groups']['base_dn'];
+        $group_name = $this->group_cache[$group_id]['name'];
+        $group_dn = "cn=$group_name,$base_dn";
+
+        $del_attrs = array();
+        foreach (explode(",", $contact_ids) as $id)
+            $del_attrs['member'][] = base64_decode($id);
+
+        $res = ldap_mod_del($this->conn, $group_dn, $del_attrs);
+        if ($res === false)
+        {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SAVING, 'errorsaving');
+            return 0;
+        }
+        return count($del_attrs['member']);
+    }
+
+    /**
+     * Get group assignments of a specific contact record
+     *
+     * @param mixed Record identifier
+     *
+     * @return array List of assigned groups as ID=>Name pairs
+     * @since 0.5-beta
+     */
+    function get_record_groups($contact_id)
+    {
+        if (!$this->prop['groups'])
+            return array();
+
+        $base_dn = $this->prop['groups']['base_dn'];
+        $contact_dn = base64_decode($contact_id);
+        $filter = "(member=$contact_dn)";
+
+        $res = ldap_search($this->conn, $base_dn, $filter, array('cn'));
+        if ($res === false)
+        {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SAVING, 'errorsaving');
+            return array();
+        }
+        $ldap_data = ldap_get_entries($this->conn, $res);
+
+        $groups = array();
+        for ($i=0; $i<$ldap_data["count"]; $i++)
+        {
+            $group_name = $ldap_data[$i]['cn'][0];
+            $group_id = base64_encode($group_name);
+            $groups[$group_id] = $group_id;
+        }
+        return $groups;
+    }
 }
 
