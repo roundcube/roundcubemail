@@ -180,3 +180,5 @@ INSERT INTO contacts (contact_id, user_id, changed, del, name, email, firstname,
 CREATE INDEX ix_contacts_user_id ON contacts(user_id, email);
 DROP TABLE contacts_tmp;
 
+DELETE FROM messages;
+

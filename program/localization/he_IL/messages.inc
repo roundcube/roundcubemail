@@ -136,5 +136,6 @@ $messages['namecannotbeempty'] = 'השם אינו יכול להיות ריק';
 $messages['nametoolong'] = 'השם ארוך מדי';
 $messages['folderupdated'] = 'התיק עודכן בהצלחה';
 $messages['foldercreated'] = 'התיק נוצר בהצלחה';
+$messages['invalidimageformat'] = 'פורמט תמונה לא חוקי';
 
 ?>

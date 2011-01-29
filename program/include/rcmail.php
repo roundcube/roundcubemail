@@ -673,9 +673,9 @@ class rcmail
     // Check if we need to add domain
     if (!empty($config['username_domain']) && strpos($username, '@') === false) {
       if (is_array($config['username_domain']) && isset($config['username_domain'][$host]))
-        $username .= '@'.rcube_parse_host($config['username_domain'][$host]);
+        $username .= '@'.rcube_parse_host($config['username_domain'][$host], $host);
       else if (is_string($config['username_domain']))
-        $username .= '@'.rcube_parse_host($config['username_domain']);
+        $username .= '@'.rcube_parse_host($config['username_domain'], $host);
     }
 
     // Convert username to lowercase. If IMAP backend

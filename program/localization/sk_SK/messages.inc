@@ -14,6 +14,7 @@
 |         Lukas Kraic  <lukas.kraic@truni.sk>                           |
 |         Peter Mann   <peter.mann@tuke.sk>                             |
 |         Ales Pospichal   <ales@pospichalales.info>                    |
+|         Martin Lacina	<martin@whistler.sk>                            |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -26,6 +27,9 @@ $messages['cookiesdisabled'] = 'Váš internetový prehliadač nepodporuje cooki
 $messages['sessionerror'] = 'Vaše prihlásenie je neplatné alebo vypršala jeho platnosť';
 $messages['imaperror'] = 'Nepodarilo sa spojiť s IMAP serverom';
 $messages['servererror'] = 'Chyba servera!';
+$messages['servererrormsg'] = 'Chyba servera: $msg';
+$messages['errorreadonly'] = 'Nemožno vykonať operáciu. Adresár je len na čítanie';
+$messages['errornoperm'] = 'Nemožno vykonať operáciu. Prístup odmietnutý';
 $messages['invalidrequest'] = 'Chybný požiadavek. Žiadne údaje neboli uložené.';
 $messages['nomessagesfound'] = 'Vo Vašej schránke nie je žiadna správa';
 $messages['loggedout'] = 'Odhlásenie prebehlo úspešne. Dovidenia.';
@@ -59,6 +63,8 @@ $messages['deletefolderconfirm'] = 'Ste si istý, že chcete zmazať tento prie�
 $messages['purgefolderconfirm'] = 'Ste si istý, že chcete zmazať všetky správy v tomto priečinku?';
 $messages['folderdeleting'] = 'Odstraňuje sa priečinok ...';
 $messages['foldermoving'] = 'Prečinok sa presúva ...';
+$messages['foldersubscribing'] = 'Prihlasujem sa k adresáru...';
+$messages['folderunsubscribing'] = 'Odhlasujem sa z adresára...';
 $messages['formincomplete'] = 'Formulár nie je kompletne vyplnený';
 $messages['noemailwarning'] = 'Prosím, vložte platnú emailovú adresu';
 $messages['nonamewarning'] = 'Prosím, zadajte meno';
@@ -78,6 +84,10 @@ $messages['searching'] = 'Vyhľadáva sa...';
 $messages['checking'] = 'Kontroluje sa...';
 $messages['nospellerrors'] = 'Pri kontrole pravopisu neboli nájdené chyby';
 $messages['folderdeleted'] = 'Priečinok bol zmazaný';
+$messages['foldersubscribed'] = 'Úspešne prihlásený k adresáru';
+$messages['folderunsubscribed'] = 'Úspešne odhlásený z adresára';
+$messages['folderpurged'] = 'Adresár bol vyprázdnený';
+$messages['folderexpunged'] = 'Adresár bol zhustený';
 $messages['deletedsuccessfully'] = 'Úspešne zmazané';
 $messages['converting'] = 'Odstraňuje sa formátovanie správy...';
 $messages['messageopenerror'] = 'Nedá sa načítať správa zo servera';
@@ -89,6 +99,8 @@ $messages['sourceisreadonly'] = 'Tento zdroj adries je len na čítanie';
 $messages['errorsavingcontact'] = 'Nedá sa uložiť adresa kontaktu';
 $messages['movingmessage'] = 'Správa sa presúva...';
 $messages['copyingmessage'] = 'Správa sa kopíruje...';
+$messages['deletingmessage'] = 'Mažem správu(y)...';
+$messages['markingmessage'] = 'Označujem správu(y)...';
 $messages['receiptsent'] = 'Potvrdenie o prijatí správy bolo odoslané';
 $messages['errorsendingreceipt'] = 'Potvrdenie o prijatí správy sa nedalo odoslať';
 $messages['nodeletelastidentity'] = 'Identita sa nedá odstrániť, je posledná a musí zostať.';
@@ -109,10 +121,25 @@ $messages['smtpautherror'] = 'Chyba SMTP: Autorizácie zlyhala';
 $messages['smtpfromerror'] = 'Chyba SMTP: Nemožno nastaviť odosielateľa ($msg)';
 $messages['smtptoerror'] = 'Chyba SMTP: Nemožno pridať príjemca ($msg)';
 $messages['smtprecipientserror'] = 'Chyba SMTP: Nemožno spracovať zoznam príjemcov';
+$messages['smtpdsnerror'] = 'SMTP chyba: Oznámenie o doručení nie je podporované';
 $messages['smtperror'] = 'Chyba SMTP: $msg';
 $messages['emailformaterror'] = 'Neplatná e-mailová adresa: $email';
 $messages['toomanyrecipients'] = 'Príliš veľa príjemcov. Zmenšite počet príjemcov na $max.';
 $messages['maxgroupmembersreached'] = 'Počet členov skupiny dosiahol maxima z $max';
 $messages['internalerror'] = 'Došlo k internej chybe. Skúste to znova';
+$messages['contactdelerror'] = 'Nemôžem vymazať kontakt(y)';
+$messages['contactdeleted'] = 'Kontakt(y) bol vymazaný';
+$messages['groupdeleted'] = 'Skupina bola vymazaná';
+$messages['grouprenamed'] = 'Skupina bola premenovaná';
+$messages['groupcreated'] = 'Skupina bola vytvorená';
+$messages['messagedeleted'] = 'Správa(y) bola vymazaná';
+$messages['messagemoved'] = 'Správa(y) bola presunutá';
+$messages['messagecopied'] = 'Správa(y) bola skopírovaná';
+$messages['messagemarked'] = 'Správa(y) bola označená';
+$messages['autocompletechars'] = 'Zadajte najmenej $min znamkov pre automatické dopĺňanie';
+$messages['namecannotbeempty'] = 'Meno nemôže byť prázdne';
+$messages['nametoolong'] = 'Meno je príliš dlhé';
+$messages['folderupdated'] = 'Adresár bol aktualizovaný';
+$messages['foldercreated'] = 'Adresár bol vytvorený';
 
 ?>

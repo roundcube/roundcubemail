@@ -42,8 +42,16 @@ if ($RCMAIL->action == 'subscribe')
             }
         }
 
-        if ($result)
+        if ($result) {
+            // Handle subscription of protected folder (#1487656)
+            if ($CONFIG['protect_default_folders'] == true
+                && in_array($mbox, $CONFIG['default_imap_folders'])
+            ) {
+                $OUTPUT->command('disable_subscription', $mbox);
+            }
+
             $OUTPUT->show_message('foldersubscribed', 'confirmation');
+        }
         else
             rcmail_display_server_error('errorsaving');
     }
@@ -294,13 +302,16 @@ function rcube_subscription_form($attrib)
             $noselect = in_array('\\Noselect', $opts);
         }
 
+        $disabled = (($protected && $subscribed) || $noselect);
+
         $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes)));
     
         $table->add('name', $display_folder);
         $table->add('subscribed', $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''),
-            array('value' => $folder_utf8, 'disabled' => ($protected || $noselect) ? 'disabled' : '')));
+            array('value' => $folder_utf8, 'disabled' => $disabled ? 'disabled' : '')));
 
-        $a_js_folders['rcmrow'.$idx] = array($folder_utf8, Q($display_folder), $protected || $folder['virtual']);
+        $a_js_folders['rcmrow'.$idx] = array($folder_utf8,
+            Q($display_folder), $protected || $folder['virtual']);
     }
 
     $RCMAIL->plugins->exec_hook('folders_list', array('table' => $table));

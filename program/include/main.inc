@@ -861,8 +861,8 @@ function rcmail_mod_css_styles($source, $container_id)
   $replacements = new rcube_string_replacer;
 
   // ignore the whole block if evil styles are detected
-  $stripped = preg_replace('/[^a-z\(:]/', '', rcmail_xss_entity_decode($source));
-  if (preg_match('/expression|behavior|url\(|import/', $stripped))
+  $stripped = preg_replace('/[^a-z\(:;]/', '', rcmail_xss_entity_decode($source));
+  if (preg_match('/expression|behavior|url\(|import[^a]/', $stripped))
     return '/* evil! */';
 
   // remove css comments (sometimes used for some ugly hacks)
@@ -1771,16 +1771,17 @@ function rcube_sess_unset($var_name=null)
  * Replaces hostname variables
  *
  * @param string $name Hostname
+ * @param string $host Optional IMAP hostname
  * @return string
  */
-function rcube_parse_host($name)
+function rcube_parse_host($name, $host='')
 {
   // %n - host
   $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
   // %d - domain name without first part, e.g. %d=mail.domain.tld, %m=domain.tld
   $d = preg_replace('/^[^\.]+\./', '', $n);
   // %h - IMAP host
-  $h = $_SESSION['imap_host'];
+  $h = $_SESSION['imap_host'] ? $_SESSION['imap_host'] : $host;
   // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
   $z = preg_replace('/^[^\.]+\./', '', $h);
 

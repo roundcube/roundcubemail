@@ -1006,15 +1006,9 @@ function rcube_webmail()
 
       // user settings commands
       case 'preferences':
-        this.goto_url('');
-        break;
-
       case 'identities':
-        this.goto_url('settings/identities');
-        break;
-
       case 'folders':
-        this.goto_url('settings/folders');
+        this.goto_url('settings/' + command);
         break;
 
       // unified command call (command name == function name)
@@ -1701,7 +1695,7 @@ function rcube_webmail()
       var action = flags.mbox == this.env.drafts_mailbox ? 'compose' : 'show';
       var uid_param = flags.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid';
       cols.subject = '<a href="./?_task=mail&_action='+action+'&_mbox='+urlencode(flags.mbox)+'&'+uid_param+'='+uid+'"'+
-        ' onclick="return rcube_event.cancel(event)">'+cols.subject+'</a>';
+        ' onclick="return rcube_event.cancel(event)" onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')">'+cols.subject+'</a>';
     }
 
     // add each submitted col
@@ -3777,6 +3771,9 @@ function rcube_webmail()
         this.show_contentframe(false);
     }
 
+    if (this.env.group)
+      qs += '&_gid='+urlencode(this.env.group);
+
     // also send search request to get the right records from the next page
     if (this.env.search_request) 
       qs += '&_search='+this.env.search_request;
@@ -4309,6 +4306,14 @@ function rcube_webmail()
     }
   };
 
+  // disables subscription checkbox (for protected folder)
+  this.disable_subscription = function(folder)
+  {
+    var id = this.get_folder_row_id(folder);
+    if (id)
+      $('input[name="_subscribed[]"]', $('#'+id)).attr('disabled', true);
+  };
+
   this.folder_size = function(folder)
   {
     var lock = this.set_busy(true, 'loading');
@@ -4666,6 +4671,7 @@ function rcube_webmail()
         }
         th.appendChild(tr);
         thead.parentNode.replaceChild(th, thead);
+        thead = th;
       }
 
       for (n=0, len=this.env.coltypes.length; n<len; n++) {
@@ -5287,6 +5293,17 @@ function rcube_webmail()
   };
 
 }  // end object rcube_webmail
+
+
+// some static methods
+rcube_webmail.long_subject_title = function(elem, indent)
+{
+  if (!elem.title) {
+    var $elem = $(elem);
+    if ($elem.width() + indent * 15 > $elem.parent().width())
+      elem.title = $elem.html();
+  }
+};
 
 // copy event engine prototype
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;

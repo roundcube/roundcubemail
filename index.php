@@ -2,9 +2,9 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 0.5                                                             |
+ | Version 0.5.1                                                           |
  |                                                                         |
- | Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                   |
+ | Copyright (C) 2005-2011, Roundcube Dev. - Switzerland                   |
  |                                                                         |
  | This program is free software; you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License version 2          |
@@ -104,12 +104,17 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     rcmail_log_login();
 
     // restore original request parameters
-    $query = array('_task' => 'mail');
-    if ($url = get_input_value('_url', RCUBE_INPUT_POST))
+    $query = array();
+    if ($url = get_input_value('_url', RCUBE_INPUT_POST)) {
       parse_str($url, $query);
+      
+      // prevent endless looping on login page
+      if ($query['_task'] == 'login')
+        unset($query['_task']);
+    }
 
     // allow plugins to control the redirect url after login success
-    $redir = $RCMAIL->plugins->exec_hook('login_after', $query);
+    $redir = $RCMAIL->plugins->exec_hook('login_after', $query + array('_task' => 'mail'));
     unset($redir['abort']);
 
     // send redirect

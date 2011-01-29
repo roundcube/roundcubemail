@@ -139,5 +139,6 @@ $messages['namecannotbeempty'] = 'Namnet får inte vara tomt';
 $messages['nametoolong'] = 'Namnet är för långt';
 $messages['folderupdated'] = 'Katalog uppdaterad';
 $messages['foldercreated'] = 'Katalog skapad';
+$messages['invalidimageformat'] = 'Ogiltigt bildfilsformat';
 
 ?>

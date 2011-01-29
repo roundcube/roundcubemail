@@ -116,7 +116,7 @@ ul.toolbarmenu li.separator_below
   height: expression((parseInt(this.parentNode.offsetHeight)-23-parseInt(this.style.top?this.style.top:21))+'px');
 }
 
-#directorylistbox
+#directorylistbox, #folder-manager
 {
   height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }

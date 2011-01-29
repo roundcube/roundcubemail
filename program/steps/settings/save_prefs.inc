@@ -129,6 +129,8 @@ switch ($CURR_SECTION)
     if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['pagesize'] > $CONFIG['max_pagesize']))
       $a_user_prefs['pagesize'] = (int) $CONFIG['max_pagesize'];
 
+    $a_user_prefs['timezone'] = $_SESSION['timezone'] = (string) $a_user_prefs['timezone'];
+
   break;
   case 'mailbox':
 

@@ -2053,7 +2053,7 @@ class rcube_imap
                 return false;
         }
 
-        $struct = &$this->_structure_part($structure);
+        $struct = &$this->_structure_part($structure, 0, '', $headers);
         $struct->headers = get_object_vars($headers);
 
         // don't trust given content-type
@@ -2185,6 +2185,11 @@ class rcube_imap
                 $struct->charset = $struct->ctype_parameters['charset'];
         }
 
+        // #1487700: workaround for lack of charset in malformed structure
+        if (empty($struct->charset) && !empty($mime_headers) && $mime_headers->charset) {
+            $struct->charset = $mime_headers->charset;
+        }
+
         // read content encoding
         if (!empty($part[5]) && $part[5]!='NIL') {
             $struct->encoding = strtolower($part[5]);
@@ -2233,7 +2238,11 @@ class rcube_imap
                 $mime_headers = $this->conn->fetchPartHeader(
                     $this->mailbox, $this->_msg_id, false, $struct->mime_id);
             }
-            $struct->headers = $this->_parse_headers($mime_headers) + $struct->headers;
+
+            if (is_string($mime_headers))
+                $struct->headers = $this->_parse_headers($mime_headers) + $struct->headers;
+            else if (is_object($mime_headers))
+                $struct->headers = get_object_vars($mime_headers) + $struct->headers;
 
             // get real content-type of message/rfc822
             if ($struct->mimetype == 'message/rfc822') {
@@ -4691,10 +4700,13 @@ class rcube_imap
     private function _parse_address_list($str, $decode=true)
     {
         // remove any newlines and carriage returns before
-        $a = rcube_explode_quoted_string('[,;]', preg_replace( "/[\r\n]/", " ", $str));
+        $str = preg_replace('/\r?\n(\s|\t)?/', ' ', $str);
+
+        // extract list items, remove comments
+        $str = self::explode_header_string(',;', $str, true);
         $result = array();
 
-        foreach ($a as $key => $val) {
+        foreach ($str as $key => $val) {
             $name    = '';
             $address = '';
             $val     = trim($val);
@@ -4729,6 +4741,81 @@ class rcube_imap
             if ($address) {
                 $result[$key] = array('name' => $name, 'address' => $address);
             }
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * Explodes header (e.g. address-list) string into array of strings
+     * using specified separator characters with proper handling
+     * of quoted-strings and comments (RFC2822)
+     *
+     * @param string $separator       String containing separator characters
+     * @param string $str             Header string
+     * @param bool   $remove_comments Enable to remove comments
+     *
+     * @return array Header items
+     */
+    static function explode_header_string($separator, $str, $remove_comments=false)
+    {
+        $length  = strlen($str);
+        $result  = array();
+        $quoted  = false;
+        $comment = 0;
+        $out     = '';
+
+        for ($i=0; $i<$length; $i++) {
+            // we're inside a quoted string
+            if ($quoted) {
+                if ($str[$i] == '"') {
+                    $quoted = false;
+                }
+                else if ($str[$i] == '\\') {
+                    if ($comment <= 0) {
+                        $out .= '\\';
+                    }
+                    $i++;
+                }
+            }
+            // we're inside a comment string
+            else if ($comment > 0) {
+                    if ($str[$i] == ')') {
+                        $comment--;
+                    }
+                    else if ($str[$i] == '(') {
+                        $comment++;
+                    }
+                    else if ($str[$i] == '\\') {
+                        $i++;
+                    }
+                    continue;
+            }
+            // separator, add to result array
+            else if (strpos($separator, $str[$i]) !== false) {
+                    if ($out) {
+                        $result[] = $out;
+                    }
+                    $out = '';
+                    continue;
+            }
+            // start of quoted string
+            else if ($str[$i] == '"') {
+                    $quoted = true;
+            }
+            // start of comment
+            else if ($remove_comments && $str[$i] == '(') {
+                    $comment++;
+            }
+
+            if ($comment <= 0) {
+                $out .= $str[$i];
+            }
+        }
+
+        if ($out && $comment <= 0) {
+            $result[] = $out;
         }
 
         return $result;

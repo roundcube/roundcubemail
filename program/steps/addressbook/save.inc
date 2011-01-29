@@ -121,6 +121,18 @@ else {
 
 
   if ($insert_id) {
+    // add new contact to the specified group
+    if ($CONTACTS->group_id) {
+      $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array('group_id' => $CONTACTS->group_id, 'ids' => $insert_id, 'source' => $source));
+
+      if (!$plugin['abort']) {
+        if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + 1 > $maxnum))
+          $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
+
+        $CONTACTS->add_to_group($gid, $plugin['ids']);
+      }
+    }
+    
     // add contact row or jump to the page where it should appear
     $CONTACTS->reset();
     $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);

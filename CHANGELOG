@@ -1,6 +1,27 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.5.1
+-------------
+- Fix settings UI on IE 6 (#1487724)
+- Remove double borders in folder listing (#1487713)
+- Separate full message headers UI element from headers table (#1487715)
+- Add part MIME ID to message_part_* hooks (#1487718) 
+- Updated PEAR::Net_Socket to 1.0.10
+- Updated PEAR::Net_IDNA2 to 0.1.1
+- Fix handling of comments inside an email address spec. (#1487673)
+- Show full mail subject as title when hovering a cut subject link (#1487128)
+- Fix randomly disappearing folders list in IE (#1487704)
+- Fix list column add/removal in IE (#1487703)
+- Fix login redirect issues (#1487686)
+- Require PHP 5.2.1 or greater
+- Fix %h/%z variables in username_domain option (#1487701)
+- Workaround for setting charset in case of malformed bodystructure response (#1487700)
+- Fix impossible to subscribe to protected folders (#1487656)
+- Fix setting timezone in Preferences (#1487705)
+
+RELEASE 0.5
+-----------
 - Fix double-login/session issue (#1487104)
 - Wrap HTML parts with <html><body> and add Doctype declaration (#1487098)
 - Make rcube_autoload silently skip unknown classes (#1487109)

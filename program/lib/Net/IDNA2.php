@@ -49,11 +49,11 @@ require_once 'Net/IDNA2/Exception/Nameprep.php';
  *
  * ACE input and output is always expected to be ASCII.
  *
+ * @package Net
  * @author  Markus Nix <mnix@docuverse.de>
  * @author  Matthias Sommerfeld <mso@phlylabs.de>
  * @author  Stefan Neufeind <pear.neufeind@speedpartner.de>
- * @package Net
- * @version $Id: IDNA2.php 301175 2010-07-12 03:31:17Z clockwerx $
+ * @version $Id: IDNA2.php 305344 2010-11-14 23:52:42Z neufeind $
  */
 class Net_IDNA2
 {
@@ -1124,8 +1124,8 @@ class Net_IDNA2
         0x33BE  => array(0x6B, 0x77),
         0x33BF  => array(0x6D, 0x77),
         0x33C0  => array(0x6B, 0x3C9),
-        0x33C1  => array(0x6D, 0x3C9), /*
-        0x33C2  => array(0x61, 0x2E, 0x6D, 0x2E), */
+        0x33C1  => array(0x6D, 0x3C9),
+        /* 0x33C2  => array(0x61, 0x2E, 0x6D, 0x2E), */
         0x33C3  => array(0x62, 0x71),
         0x33C6  => array(0x63, 0x2215, 0x6B, 0x67),
         0x33C7  => array(0x63, 0x6F, 0x2E),
@@ -2194,6 +2194,20 @@ class Net_IDNA2
     private $_strict_mode = false;
 
     /**
+     * IDNA-version to use
+     *
+     * Values are "2003" and "2008".
+     * Defaults to "2003", since that was the original version and for
+     * compatibility with previous versions of this library.
+     * If you need to encode "new" characters like the German "Eszett",
+     * please switch to 2008 first before encoding.
+     *
+     * @var bool
+     * @access private
+     */
+    private $_version = '2003';
+
+    /**
      * Cached value indicating whether or not mbstring function overloading is
      * on for strlen
      *
@@ -2210,7 +2224,8 @@ class Net_IDNA2
     /**
      * Constructor
      *
-     * @param  array  $options
+     * @param array $options Options to initialise the object with
+     *
      * @access public
      * @see    setParams()
      */
@@ -2243,10 +2258,11 @@ class Net_IDNA2
      *             on failures; false: loose mode, ideal for "wildlife" applications
      *             by silently ignoring errors and returning the original input instead]
      *
-     * @param    mixed     $option      Parameter to set (string: single parameter; array of Parameter => Value pairs)
-     * @param    string    $value       Value to use (if parameter 1 is a string)
-     * @return   boolean                true on success, false otherwise
-     * @access   public
+     * @param mixed  $option Parameter to set (string: single parameter; array of Parameter => Value pairs)
+     * @param string $value  Value to use (if parameter 1 is a string)
+     *
+     * @return boolean       true on success, false otherwise
+     * @access public
      */
     public function setParams($option, $value = false)
     {
@@ -2278,6 +2294,14 @@ class Net_IDNA2
                 $this->_strict_mode = ($v) ? true : false;
                 break;
 
+            case 'version':
+                if (in_array($v, array('2003', '2008'))) {
+                    $this->_version = $v;
+                } else {
+                    throw new InvalidArgumentException('Set Parameter: Invalid parameter '.$v.' for option '.$k);
+                }
+                break;
+
             default:
                 return false;
             }
@@ -2289,12 +2313,14 @@ class Net_IDNA2
     /**
      * Encode a given UTF-8 domain name.
      *
-     * @param    string     $decoded     Domain name (UTF-8 or UCS-4)
-     * [@param    string     $encoding    Desired input encoding, see {@link set_parameter}]
-     * @return   string                  Encoded Domain name (ACE string)
-     * @return   mixed                   processed string
-     * @throws   Exception
-     * @access   public
+     * @param string $decoded           Domain name (UTF-8 or UCS-4)
+     * @param string $one_time_encoding Desired input encoding, see {@link set_parameter}
+     *                                  If not given will use default-encoding
+     *
+     * @return string Encoded Domain name (ACE string)
+     * @return mixed  processed string
+     * @throws Exception
+     * @access public
      */
     public function encode($decoded, $one_time_encoding = false)
     {
@@ -2305,9 +2331,9 @@ class Net_IDNA2
             $decoded = $this->_utf8_to_ucs4($decoded);
             break;
         case 'ucs4_string':
-           $decoded = $this->_ucs4_string_to_ucs4($decoded);
+            $decoded = $this->_ucs4_string_to_ucs4($decoded);
         case 'ucs4_array': // No break; before this line. Catch case, but do nothing
-           break;
+            break;
         default:
             throw new InvalidArgumentException('Unsupported input format');
         }
@@ -2338,7 +2364,7 @@ class Net_IDNA2
             case 0x40:
                 // Neither email addresses nor URLs allowed in strict mode
                 if ($this->_strict_mode) {
-                   throw new InvalidArgumentException('Neither email addresses nor URLs are allowed in strict mode.');
+                    throw new InvalidArgumentException('Neither email addresses nor URLs are allowed in strict mode.');
                 }
                 // Skip first char
                 if ($k) {
@@ -2377,11 +2403,12 @@ class Net_IDNA2
     /**
      * Decode a given ACE domain name.
      *
-     * @param    string     $encoded     Domain name (ACE string)
-     * @param    string     $encoding    Desired output encoding, see {@link set_parameter}
-     * @return   string                  Decoded Domain name (UTF-8 or UCS-4)
-     * @throws   Exception
-     * @access   public
+     * @param string $input             Domain name (ACE string)
+     * @param string $one_time_encoding Desired output encoding, see {@link set_parameter}
+     *
+     * @return string                   Decoded Domain name (UTF-8 or UCS-4)
+     * @throws Exception
+     * @access public
      */
     public function decode($input, $one_time_encoding = false)
     {
@@ -2430,7 +2457,7 @@ class Net_IDNA2
                 if (isset($parsed['scheme'])) {
                     $parsed['scheme'] .= (strtolower($parsed['scheme']) == 'mailto') ? ':' : '://';
                 }
-                $return = join('', $parsed);
+                $return = $this->_unparse_url($parsed);
             } else { // parse_url seems to have failed, try without it
                 $arr = explode('.', $input);
                 foreach ($arr as $k => $v) {
@@ -2449,8 +2476,8 @@ class Net_IDNA2
             return $return;
             break;
         case 'ucs4_string':
-           return $this->_ucs4_to_ucs4_string($this->_utf8_to_ucs4($return));
-           break;
+            return $this->_ucs4_to_ucs4_string($this->_utf8_to_ucs4($return));
+            break;
         case 'ucs4_array':
             return $this->_utf8_to_ucs4($return);
             break;
@@ -2462,11 +2489,49 @@ class Net_IDNA2
 
     // {{{ private
     /**
+     * Opposite function to parse_url()
+     *
+     * Inspired by code from comments of php.net-documentation for parse_url()
+     *
+     * @param array $parts_arr parts (strings) as returned by parse_url()
+     *
+     * @return string
+     * @access private
+     */
+    private function _unparse_url($parts_arr)
+    {
+        if (!empty($parts_arr['scheme'])) {
+            $ret_url = $parts_arr['scheme'];
+        }
+        if (!empty($parts_arr['user'])) {
+            $ret_url .= $parts_arr['user'];
+            if (!empty($parts_arr['pass'])) {
+                $ret_url .= ':' . $parts_arr['pass'];
+            }
+            $ret_url .= '@';
+        }
+        $ret_url .= $parts_arr['host'];
+        if (!empty($parts_arr['port'])) {
+            $ret_url .= ':' . $parts_arr['port'];
+        }
+        $ret_url .= $parts_arr['path'];
+        if (!empty($parts_arr['query'])) {
+            $ret_url .= '?' . $parts_arr['query'];
+        }
+        if (!empty($parts_arr['fragment'])) {
+            $ret_url .= '#' . $parts_arr['fragment'];
+        }
+        return $ret_url;
+    }
+
+    /**
      * The actual encoding algorithm.
      *
-     * @return   string
-     * @throws   Exception
-     * @access   private
+     * @param string $decoded Decoded string which should be encoded
+     *
+     * @return string         Encoded string
+     * @throws Exception
+     * @access private
      */
     private function _encode($decoded)
     {
@@ -2517,9 +2582,10 @@ class Net_IDNA2
             $test = $decoded[$i];
             // Will match [0-9a-zA-Z-]
             if ((0x2F < $test && $test < 0x40)
-                    || (0x40 < $test && $test < 0x5B)
-                    || (0x60 < $test && $test <= 0x7B)
-                    || (0x2D == $test)) {
+                || (0x40 < $test && $test < 0x5B)
+                || (0x60 < $test && $test <= 0x7B)
+                || (0x2D == $test)
+            ) {
                 $encoded .= chr($decoded[$i]);
                 $codecount++;
             }
@@ -2592,9 +2658,11 @@ class Net_IDNA2
     /**
      * The actual decoding algorithm.
      *
-     * @return   string
-     * @throws   Exception
-     * @access   private
+     * @param string $encoded Encoded string which should be decoded
+     *
+     * @return string         Decoded string
+     * @throws Exception
+     * @access private
      */
     private function _decode($encoded)
     {
@@ -2667,7 +2735,12 @@ class Net_IDNA2
     /**
      * Adapt the bias according to the current code point and position.
      *
-     * @access   private
+     * @param int     $delta    ...
+     * @param int     $npoints  ...
+     * @param boolean $is_first ...
+     *
+     * @return int
+     * @access private
      */
     private function _adapt($delta, $npoints, $is_first)
     {
@@ -2684,7 +2757,10 @@ class Net_IDNA2
     /**
      * Encoding a certain digit.
      *
-     * @access   private
+     * @param int $d One digit to encode
+     *
+     * @return char  Encoded digit
+     * @access private
      */
     private function _encodeDigit($d)
     {
@@ -2694,7 +2770,10 @@ class Net_IDNA2
     /**
      * Decode a certain digit.
      *
-     * @access   private
+     * @param char $cp One digit (character) to decode
+     *
+     * @return int     Decoded digit
+     * @access private
      */
     private function _decodeDigit($cp)
     {
@@ -2705,10 +2784,11 @@ class Net_IDNA2
     /**
      * Do Nameprep according to RFC3491 and RFC3454.
      *
-     * @param    array      $input       Unicode Characters
-     * @return   string                  Unicode Characters, Nameprep'd
-     * @throws   Exception
-     * @access   private
+     * @param array $input Unicode Characters
+     *
+     * @return string      Unicode Characters, Nameprep'd
+     * @throws Exception
+     * @access private
      */
     private function _nameprep($input)
     {
@@ -2740,7 +2820,9 @@ class Net_IDNA2
                 foreach ($this->_hangulDecompose($v) as $out) {
                     $output[] = $out;
                 }
-            } else if (isset(self::$_np_replacemaps[$v])) { // There's a decomposition mapping for that code point
+            } else if (($this->_version == '2003') && isset(self::$_np_replacemaps[$v])) {
+                // There's a decomposition mapping for that code point
+                // Decompositions only in version 2003 (original) of IDNA
                 foreach ($this->_applyCannonicalOrdering(self::$_np_replacemaps[$v]) as $out) {
                     $output[] = $out;
                 }
@@ -2800,10 +2882,11 @@ class Net_IDNA2
      * Decomposes a Hangul syllable
      * (see http://www.unicode.org/unicode/reports/tr15/#Hangul).
      *
-     * @param    integer    $char        32bit UCS4 code point
-     * @return   array                   Either Hangul Syllable decomposed or original 32bit
-     *                                   value as one value array
-     * @access   private
+     * @param integer $char 32bit UCS4 code point
+     *
+     * @return array        Either Hangul Syllable decomposed or original 32bit
+     *                      value as one value array
+     * @access private
      */
     private function _hangulDecompose($char)
     {
@@ -2829,9 +2912,10 @@ class Net_IDNA2
      * Ccomposes a Hangul syllable
      * (see http://www.unicode.org/unicode/reports/tr15/#Hangul).
      *
-     * @param    array      $input       Decomposed UCS4 sequence
-     * @return   array                   UCS4 sequence with syllables composed
-     * @access   private
+     * @param array $input Decomposed UCS4 sequence
+     *
+     * @return array       UCS4 sequence with syllables composed
+     * @access private
      */
     private function _hangulCompose($input)
     {
@@ -2893,9 +2977,10 @@ class Net_IDNA2
     /**
      * Returns the combining class of a certain wide char.
      *
-     * @param    integer    $char        Wide char to check (32bit integer)
-     * @return   integer                 Combining class if found, else 0
-     * @access   private
+     * @param integer $char Wide char to check (32bit integer)
+     *
+     * @return integer      Combining class if found, else 0
+     * @access private
      */
     private function _getCombiningClass($char)
     {
@@ -2905,9 +2990,10 @@ class Net_IDNA2
     /**
      * Apllies the cannonical ordering of a decomposed UCS4 sequence.
      *
-     * @param    array      $input       Decomposed UCS4 sequence
-     * @return   array                   Ordered USC4 sequence
-     * @access   private
+     * @param array $input Decomposed UCS4 sequence
+     *
+     * @return array       Ordered USC4 sequence
+     * @access private
      */
     private function _applyCannonicalOrdering($input)
     {
@@ -2948,9 +3034,10 @@ class Net_IDNA2
     /**
      * Do composition of a sequence of starter and non-starter.
      *
-     * @param    array      $input       UCS4 Decomposed sequence
-     * @return   array                   Ordered USC4 sequence
-     * @access   private
+     * @param array $input UCS4 Decomposed sequence
+     *
+     * @return array       Ordered USC4 sequence
+     * @access private
      */
     private function _combine($input)
     {
@@ -3011,7 +3098,11 @@ class Net_IDNA2
      *
      * Each x represents a bit that can be used to store character data.
      *
-     * @access   private
+     * @param string $input utf8-encoded string
+     *
+     * @return array        ucs4-encoded array
+     * @throws Exception
+     * @access private
      */
     private function _utf8_to_ucs4($input)
     {
@@ -3082,10 +3173,13 @@ class Net_IDNA2
     }
 
     /**
-     * Convert UCS-4 array into UTF-8 string.
+     * Convert UCS-4 array into UTF-8 string
      *
-     * @throws   Exception
-     * @access   private
+     * @param array $input ucs4-encoded array
+     *
+     * @return string      utf8-encoded string
+     * @throws Exception
+     * @access private
      */
     private function _ucs4_to_utf8($input)
     {
@@ -3138,8 +3232,11 @@ class Net_IDNA2
     /**
      * Convert UCS-4 array into UCS-4 string
      *
-     * @throws   Exception
-     * @access   private
+     * @param array $input ucs4-encoded array
+     *
+     * @return string      ucs4-encoded string
+     * @throws Exception
+     * @access private
      */
     private function _ucs4_to_ucs4_string($input)
     {
@@ -3153,10 +3250,13 @@ class Net_IDNA2
     }
 
     /**
-     * Convert UCS-4 strin into UCS-4 garray
+     * Convert UCS-4 string into UCS-4 array
      *
-     * @throws   InvalidArgumentException
-     * @access   private
+     * @param string $input ucs4-encoded string
+     *
+     * @return array        ucs4-encoded array
+     * @throws InvalidArgumentException
+     * @access private
      */
     private function _ucs4_string_to_ucs4($input)
     {
@@ -3187,11 +3287,12 @@ class Net_IDNA2
     /**
      * Echo hex representation of UCS4 sequence.
      *
-     * @param    array      $input       UCS4 sequence
-     * @param    boolean    $include_bit Include bitmask in output
-     * @return   void
+     * @param array   $input       UCS4 sequence
+     * @param boolean $include_bit Include bitmask in output
+     *
+     * @return void
      * @static
-     * @access   private
+     * @access private
      */
     private static function _showHex($input, $include_bit = false)
     {
@@ -3210,8 +3311,11 @@ class Net_IDNA2
      * Gives you a bit representation of given Byte (8 bits), Word (16 bits) or DWord (32 bits)
      * Output width is automagically determined
      *
+     * @param int $octet ...
+     *
+     * @return string    Bitmask-representation
      * @static
-     * @access   private
+     * @access private
      */
     private static function _showBitmask($octet)
     {
@@ -3226,7 +3330,7 @@ class Net_IDNA2
         $return = '';
 
         for ($i = $w; $i > -1; $i--) {
-            $return .= ($octet & (1 << $i))? 1 : '0';
+            $return .= ($octet & (1 << $i))? '1' : '0';
         }
 
         return $return;
