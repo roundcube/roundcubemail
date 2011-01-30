@@ -147,7 +147,7 @@ function rcmail_render_email_value($email, $col)
 
 function rcmail_render_url_value($url, $col)
 {
-    $prefix = preg_match('![htfps]+://!', $url) ? '' : 'http://';
+    $prefix = preg_match('!^(http|ftp)s?://!', $url) ? '' : 'http://';
     return html::a(array(
         'href' => $prefix . $url,
         'target' => '_blank',
