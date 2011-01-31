@@ -56,7 +56,7 @@ if (!empty($_GET['_page']))
 
 // set default sort col/order to session
 if (!isset($_SESSION['sort_col']))
-  $_SESSION['sort_col'] = $CONFIG['message_sort_col'];
+  $_SESSION['sort_col'] = !empty($CONFIG['message_sort_col']) ? $CONFIG['message_sort_col'] : '';
 if (!isset($_SESSION['sort_order']))
   $_SESSION['sort_order'] = strtoupper($CONFIG['message_sort_order']) == 'ASC' ? 'ASC' : 'DESC';
 
