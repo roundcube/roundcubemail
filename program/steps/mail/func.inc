@@ -58,7 +58,7 @@ if (!empty($_GET['_page']))
 if (!isset($_SESSION['sort_col']))
   $_SESSION['sort_col'] = $CONFIG['message_sort_col'];
 if (!isset($_SESSION['sort_order']))
-  $_SESSION['sort_order'] = $CONFIG['message_sort_order'];
+  $_SESSION['sort_order'] = strtoupper($CONFIG['message_sort_order']) == 'ASC' ? 'ASC' : 'DESC';
 
 // set threads mode
 $a_threading = $RCMAIL->config->get('message_threading', array());
