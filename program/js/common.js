@@ -167,7 +167,7 @@ get_keycode: function(e)
 get_button: function(e)
 {
   e = e || window.event;
-  return e && (typeof e.button != 'undefined') ? e.button : (e && e.which ? e.which : 0);
+  return e && e.button !== undefined ? e.button : (e && e.which ? e.which : 0);
 },
 
 /**
@@ -318,7 +318,7 @@ addEventListener: function(evt, func, obj)
  */
 removeEventListener: function(evt, func, obj)
 {
-  if (typeof obj == 'undefined')
+  if (obj === undefined)
     obj = window;
 
   for (var h,i=0; this._events && this._events[evt] && i < this._events[evt].length; i++)
@@ -335,22 +335,22 @@ removeEventListener: function(evt, func, obj)
 triggerEvent: function(evt, e)
 {
   var ret, h;
-  if (typeof e == 'undefined')
+  if (e === undefined)
     e = this;
-  else if (typeof e == 'object')
+  else if (typeof e === 'object')
     e.event = evt;
 
   if (this._events && this._events[evt] && !this._event_exec) {
     this._event_exec = true;
     for (var i=0; i < this._events[evt].length; i++) {
       if ((h = this._events[evt][i])) {
-        if (typeof h.func == 'function')
+        if (typeof h.func === 'function')
           ret = h.func.call ? h.func.call(h.obj, e) : h.func(e);
-        else if (typeof h.obj[h.func] == 'function')
+        else if (typeof h.obj[h.func] === 'function')
           ret = h.obj[h.func](e);
 
         // cancel event execution
-        if (typeof ret != 'undefined' && !ret)
+        if (ret !== undefined && !ret)
           break;
       }
     }
@@ -513,7 +513,7 @@ function rcube_clone_object(obj)
   var out = {};
 
   for (var key in obj) {
-    if (obj[key] && typeof obj[key] == 'object')
+    if (obj[key] && typeof obj[key] === 'object')
       out[key] = clone_object(obj[key]);
     else
       out[key] = obj[key];

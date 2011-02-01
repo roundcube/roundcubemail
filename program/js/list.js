@@ -58,7 +58,7 @@ function rcube_list_widget(list, p)
   this.row_init = function(){};
 
   // overwrite default paramaters
-  if (p && typeof(p) == 'object')
+  if (p && typeof p === 'object')
     for (var n in p)
       this[n] = p[n];
 };

@@ -91,7 +91,7 @@ function GoogieSpell(img_dir, server_url) {
 
 
 this.decorateTextarea = function(id) {
-    this.text_area = typeof(id) == 'string' ? document.getElementById(id) : id;
+    this.text_area = typeof id === 'string' ? document.getElementById(id) : id;
 
     if (this.text_area) {
         if (!this.spell_container && this.decoration) {
@@ -120,7 +120,7 @@ this.decorateTextarea = function(id) {
 // API Functions (the ones that you can call)
 /////
 this.setSpellContainer = function(id) {
-    this.spell_container = typeof(id) == 'string' ? document.getElementById(id) : id;
+    this.spell_container = typeof id === 'string' ? document.getElementById(id) : id;
 };
 
 this.setLanguages = function(lang_dict) {
@@ -931,7 +931,7 @@ this.checkSpellingState = function(fire) {
 // Misc. functions
 /////
 this.isDefined = function(o) {
-    return (o != 'undefined' && o != null)
+    return (o !== undefined && o !== null)
 };
 
 this.errorFixed = function() { 
