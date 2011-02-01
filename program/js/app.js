@@ -17,7 +17,6 @@
   $Id$
 */
 
-
 function rcube_webmail()
 {
   this.env = {};
@@ -63,7 +62,7 @@ function rcube_webmail()
   // set environment variable(s)
   this.set_env = function(p, value)
   {
-    if (p != null && typeof(p) == 'object' && !value)
+    if (p != null && typeof p === 'object' && !value)
       for (var n in p)
         this.env[n] = p[n];
     else
@@ -428,9 +427,9 @@ function rcube_webmail()
     // execute all foreign onload scripts
     // @deprecated
     for (var i in this.onloads) {
-      if (typeof(this.onloads[i]) == 'string')
+      if (typeof this.onloads[i] === 'string')
         eval(this.onloads[i]);
-      else if (typeof(this.onloads[i]) == 'function')
+      else if (typeof this.onloads[i] === 'function')
         this.onloads[i]();
       }
 
@@ -468,19 +467,19 @@ function rcube_webmail()
     }
 
     // process external commands
-    if (typeof this.command_handlers[command] == 'function') {
+    if (typeof this.command_handlers[command] === 'function') {
       var ret = this.command_handlers[command](props, obj);
-      return ret !== null ? ret : (obj ? false : true);
+      return ret !== undefined ? ret : (obj ? false : true);
     }
-    else if (typeof this.command_handlers[command] == 'string') {
+    else if (typeof this.command_handlers[command] === 'string') {
       var ret = window[this.command_handlers[command]](props, obj);
-      return ret !== null ? ret : (obj ? false : true);
+      return ret !== undefined ? ret : (obj ? false : true);
     }
 
     // trigger plugin hooks
     this.triggerEvent('actionbefore', {props:props, action:command});
     var event_ret = this.triggerEvent('before'+command, props);
-    if (typeof event_ret != 'undefined') {
+    if (event_ret !== undefined) {
       // abort if one the handlers returned false
       if (event_ret === false)
         return false;
@@ -1034,7 +1033,7 @@ function rcube_webmail()
       // unified command call (command name == function name)
       default:
         var func = command.replace(/-/g, '_');
-        if (this[func] && typeof this[func] == 'function')
+        if (this[func] && typeof this[func] === 'function')
           this[func](props);
         break;
     }
@@ -1410,7 +1409,7 @@ function rcube_webmail()
     // reset 'pressed' buttons
     if (this.buttons_sel) {
       for (var id in this.buttons_sel)
-        if (typeof id != 'function')
+        if (typeof id !== 'function')
           this.button_out(this.buttons_sel[id], id);
       this.buttons_sel = {};
     }
@@ -1696,7 +1695,7 @@ function rcube_webmail()
           message.expanded = true;
       }
       else if (message.has_children) {
-        if (typeof(message.expanded) == 'undefined' && (this.env.autoexpand_threads == 1 || (this.env.autoexpand_threads == 2 && message.unread_children))) {
+        if (message.expanded === undefined && (this.env.autoexpand_threads == 1 || (this.env.autoexpand_threads == 2 && message.unread_children))) {
           message.expanded = true;
         }
       }
@@ -1784,7 +1783,7 @@ function rcube_webmail()
   {
     var update, add_url = '';
 
-    if (typeof sort_col == 'undefined')
+    if (sort_col === undefined)
       sort_col = this.env.sort_col;
     if (!sort_order)
       sort_order = this.env.sort_order;
@@ -2380,7 +2379,7 @@ function rcube_webmail()
   // copy selected messages to the specified mailbox
   this.copy_messages = function(mbox)
   {
-    if (mbox && typeof mbox == 'object')
+    if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
 
     // exit if current or no mailbox specified or if selection is empty
@@ -2409,7 +2408,7 @@ function rcube_webmail()
   // move selected messages to the specified mailbox
   this.move_messages = function(mbox)
   {
-    if (mbox && typeof mbox == 'object')
+    if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
 
     // exit if current or no mailbox specified or if selection is empty
@@ -2900,7 +2899,7 @@ function rcube_webmail()
 
     // check if all files has been uploaded
     for (var key in this.env.attachments) {
-      if (typeof this.env.attachments[key] == 'object' && !this.env.attachments[key].complete) {
+      if (typeof this.env.attachments[key] === 'object' && !this.env.attachments[key].complete) {
         alert(this.get_label('notuploadedwarning'));
         return false;
       }
@@ -3438,13 +3437,13 @@ function rcube_webmail()
       end = inp_value.substring(p+this.ksearch_value.length, inp_value.length);
 
     // insert all members of a group
-    if (typeof this.env.contacts[id] == 'object' && this.env.contacts[id].id) {
+    if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].id) {
       insert += this.env.contacts[id].name + ', ';
       this.group2expand = $.extend({}, this.env.contacts[id]);
       this.group2expand.input = this.ksearch_input;
       this.http_request('group-expand', '_source='+urlencode(this.env.contacts[id].source)+'&_gid='+urlencode(this.env.contacts[id].id), false);
     }
-    else if (typeof this.env.contacts[id] == 'string')
+    else if (typeof this.env.contacts[id] === 'string')
       insert = this.env.contacts[id] + ', ';
 
     this.ksearch_input.value = pre + insert + end;
@@ -3543,7 +3542,7 @@ function rcube_webmail()
 
       // add each result line to list
       for (i=0; i < a_results.length; i++) {
-        text = typeof a_results[i] == 'object' ? a_results[i].name : a_results[i];
+        text = typeof a_results[i] === 'object' ? a_results[i].name : a_results[i];
         li = document.createElement('LI');
         li.innerHTML = text.replace(new RegExp('('+RegExp.escape(s_val)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
@@ -4495,7 +4494,7 @@ function rcube_webmail()
   this.init_buttons = function()
   {
     for (var cmd in this.buttons) {
-      if (typeof cmd != 'string')
+      if (typeof cmd !== 'string')
         continue;
 
       for (var i=0; i< this.buttons[cmd].length; i++) {
@@ -4556,7 +4555,7 @@ function rcube_webmail()
         obj.src = button[state];
       }
       // set class name according to button state
-      else if (obj && typeof(button[state])!='undefined') {
+      else if (obj && button[state] !== undefined) {
         button.status = state;
         obj.className = button[state];
       }
@@ -4751,7 +4750,7 @@ function rcube_webmail()
     var k, n, i, msg, m = this.messages;
 
     // Hide message by object, don't use for 'loading'!
-    if (typeof(obj) == 'object') {
+    if (typeof obj === 'object') {
       $(obj)[fade?'fadeOut':'hide']();
       msg = $(obj).data('key');
       if (this.messages[msg])
@@ -4897,7 +4896,7 @@ function rcube_webmail()
   this.set_quota = function(content)
   {
     if (content && this.gui_objects.quotadisplay) {
-      if (typeof(content) == 'object' && content.type == 'image')
+      if (typeof content === 'object' && content.type == 'image')
         this.percent_indicator(this.gui_objects.quotadisplay, content);
       else
         $(this.gui_objects.quotadisplay).html(content);
@@ -5125,18 +5124,18 @@ function rcube_webmail()
   // compose a valid url with the given parameters
   this.url = function(action, query)
   {
-    var querystring = typeof(query) == 'string' ? '&' + query : '';
-    
-    if (typeof action != 'string')
+    var querystring = typeof query === 'string' ? '&' + query : '';
+
+    if (typeof action !== 'string')
       query = action;
-    else if (!query || typeof(query) != 'object')
+    else if (!query || typeof query !== 'object')
       query = {};
-    
+
     if (action)
       query._action = action;
     else
       query._action = this.env.action;
-    
+
     var base = this.env.comm_path;
 
     // overwrite task name
@@ -5144,14 +5143,14 @@ function rcube_webmail()
       query._action = RegExp.$2;
       base = base.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
     }
-    
+
     // remove undefined values
     var param = {};
     for (var k in query) {
-      if (typeof(query[k]) != 'undefined' && query[k] !== null)
+      if (query[k] !== undefined && query[k] !== null)
         param[k] = query[k];
     }
-    
+
     return base + '&' + $.param(param) + querystring;
   };
 
@@ -5179,7 +5178,7 @@ function rcube_webmail()
     // trigger plugin hook
     var result = this.triggerEvent('request'+action, query);
 
-    if (typeof result != 'undefined') {
+    if (result !== undefined) {
       // abort if one the handlers returned false
       if (result === false)
         return false;
@@ -5203,7 +5202,7 @@ function rcube_webmail()
   {
     var url = this.url(action);
 
-    if (postdata && typeof(postdata) == 'object') {
+    if (postdata && typeof postdata === 'object') {
       postdata._remote = 1;
       postdata._unlock = (lock ? lock : 0);
     }
@@ -5212,7 +5211,7 @@ function rcube_webmail()
 
     // trigger plugin hook
     var result = this.triggerEvent('request'+action, postdata);
-    if (typeof result != 'undefined') {
+    if (result !== undefined) {
       // abort if one the handlers returned false
       if (result === false)
         return false;
@@ -5246,9 +5245,9 @@ function rcube_webmail()
       this.set_env(response.env);
 
     // we have labels to add
-    if (typeof response.texts == 'object') {
+    if (typeof response.texts === 'object') {
       for (var name in response.texts)
-        if (typeof response.texts[name] == 'string')
+        if (typeof response.texts[name] === 'string')
           this.add_label(name, response.texts[name]);
     }
 
@@ -5444,7 +5443,7 @@ function rcube_webmail()
   // gets cursor position
   this.get_caret_pos = function(obj)
   {
-    if (typeof(obj.selectionEnd)!='undefined')
+    if (obj.selectionEnd !== undefined)
       return obj.selectionEnd;
     else if (document.selection && document.selection.createRange) {
       var range = document.selection.createRange();
