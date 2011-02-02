@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix parsing FETCH response for very long headers (#1487753)
 - Fix add/remove columns in message list when message_sort_order isn't set (#1487751)
 - Check mime headers before attempt to parse them (#1487745)
 - Quote header values in show_additional_headers plugin (#1487744)

@@ -1494,7 +1494,7 @@ class rcube_imap_generic
                 // INTERNALDATE "16-Nov-2008 21:08:46 +0100" BODYSTRUCTURE (...)
                 // BODY[HEADER.FIELDS ...
 
-                if (preg_match('/^\* [0-9]+ FETCH \((.*) BODY/s', $line, $matches)) {
+                if (preg_match('/^\* [0-9]+ FETCH \((.*) BODY/sU', $line, $matches)) {
                     $str = $matches[1];
 
                     // swap parents with quotes, then explode
@@ -1531,7 +1531,7 @@ class rcube_imap_generic
 
                     // BODYSTRUCTURE
                     if ($bodystr) {
-                        while (!preg_match('/ BODYSTRUCTURE (.*) BODY\[HEADER.FIELDS/s', $line, $m)) {
+                        while (!preg_match('/ BODYSTRUCTURE (.*) BODY\[HEADER.FIELDS/sU', $line, $m)) {
                             $line2 = $this->readLine(1024);
                             $line .= $this->multLine($line2, true);
                         }
