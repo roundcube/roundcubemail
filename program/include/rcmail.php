@@ -768,6 +768,7 @@ class rcmail
     // login succeeded
     if (is_object($user) && $user->ID) {
       $this->set_user($user);
+      $this->session_configure();
 
       // set session vars
       $_SESSION['user_id']   = $user->ID;

@@ -50,14 +50,10 @@ class rcube_session
   public function __construct($db, $lifetime=60)
   {
     $this->db = $db;
-    $this->lifetime = $lifetime;
     $this->start = microtime(true);
     $this->ip = $_SERVER['REMOTE_ADDR'];
 
-    // valid time range is now - 1/2 lifetime to now + 1/2 lifetime
-    $now = time();
-    $this->now = $now - ($now % ($this->lifetime / 2));
-    $this->prev = $this->now - ($this->lifetime / 2);
+    $this->set_lifetime($lifetime);
 
     // set custom functions for PHP session management
     session_set_save_handler(
@@ -365,12 +361,29 @@ class rcube_session
     return unserialize( 'a:' . $items . ':{' . $serialized . '}' );
   }
 
+
+  /**
+   * Setter for session lifetime
+   */
+  public function set_lifetime($lifetime)
+  {
+      $this->lifetime = max(120, $lifetime);
+
+      // valid time range is now - 1/2 lifetime to now + 1/2 lifetime
+      $now = time();
+      $this->now = $now - ($now % ($this->lifetime / 2));
+      $this->prev = $this->now - ($this->lifetime / 2);
+  }
+
   /**
    * Setter for keep_alive interval
    */
   public function set_keep_alive($keep_alive)
   {
     $this->keep_alive = $keep_alive;
+    
+    if ($this->lifetime < $keep_alive)
+        $this->set_lifetime($keep_alive + 30);
   }
 
   /**
