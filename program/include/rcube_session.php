@@ -253,6 +253,7 @@ class rcube_session
    */
   public function kill()
   {
+    $this->vars = false;
     $this->destroy(session_id());
     rcmail::setcookie($this->cookiename, '-del-', time() - 60);
   }

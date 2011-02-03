@@ -75,6 +75,8 @@ $RCMAIL->action = $startup['action'];
 
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
+  $request_valid = $_SESSION['temp'] && $RCMAIL->check_request(RCUBE_INPUT_POST, 'login');
+
   // purge the session in case of new login when a session already exists 
   $RCMAIL->kill_session();
 
@@ -84,13 +86,14 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     'pass' => get_input_value('_pass', RCUBE_INPUT_POST, true,
        $RCMAIL->config->get('password_charset', 'ISO-8859-1')),
     'cookiecheck' => true,
+    'valid' => $request_valid,
   ));
 
   // check if client supports cookies
   if ($auth['cookiecheck'] && empty($_COOKIE)) {
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
-  else if ($_SESSION['temp'] && !$auth['abort'] &&
+  else if ($auth['valid'] && !$auth['abort'] &&
         !empty($auth['host']) && !empty($auth['user']) &&
         $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
     // create new session ID
@@ -123,7 +126,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   else {
     $error_code = is_object($IMAP) ? $IMAP->get_error_code() : -1;
 
-    $OUTPUT->show_message($error_code < -1 ? 'imaperror' : 'loginfailed', 'warning');
+    $OUTPUT->show_message($error_code < -1 ? 'imaperror' : (!$auth['valid'] ? 'invalidrequest' : 'loginfailed'), 'warning');
     $RCMAIL->plugins->exec_hook('login_failed', array(
       'code' => $error_code, 'host' => $auth['host'], 'user' => $auth['user']));
     $RCMAIL->kill_session();
@@ -167,7 +170,7 @@ if (empty($RCMAIL->user->ID)) {
     );
   }
 
-  $OUTPUT->set_env('task', 'login');
+  $RCMAIL->set_task('login');
   $OUTPUT->send('login');
 }
 // CSRF prevention

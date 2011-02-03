@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Security: protect login form submission from CSRF
 - Security: prevent from relaying malicious requests through modcss.inc
 - Fix handling of non-image attachments in multipart/related messages (#1487750)
 - Fix IDNA support when IDN/INTL modules are in use (#1487742)
