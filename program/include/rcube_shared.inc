@@ -719,7 +719,7 @@ if (!function_exists('idn_to_utf8'))
             $loaded = true;
         }
 
-        if ($idn && $domain && preg_match('/(^|@|\.)xn--/i', $domain)) {
+        if ($idn && $domain && preg_match('/(^|\.)xn--/i', $domain)) {
             try {
                 $domain = $idn->decode($domain);
             }

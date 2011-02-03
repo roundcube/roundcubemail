@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix IDNA support when IDN/INTL modules are in use (#1487742)
 - Fix handling of invalid HTML comments in messages (#1487759)
 - Fix parsing FETCH response for very long headers (#1487753)
 - Fix add/remove columns in message list when message_sort_order isn't set (#1487751)

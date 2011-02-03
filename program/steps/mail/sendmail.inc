@@ -153,11 +153,11 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
     $item = trim($item);
     // address in brackets without name (do nothing)
     if (preg_match('/^<\S+@\S+>$/', $item)) {
-      $item = idn_to_ascii($item);
+      $item = rcube_idn_to_ascii($item);
       $result[] = $item;
     // address without brackets and without name (add brackets)
     } else if (preg_match('/^\S+@\S+$/', $item)) {
-      $item = idn_to_ascii($item);
+      $item = rcube_idn_to_ascii($item);
       $result[] = '<'.$item.'>';
     // address with name (handle name)
     } else if (preg_match('/\S+@\S+>*$/', $item, $matches)) {
@@ -168,7 +168,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
           && preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
             $name = '"'.addcslashes($name, '"').'"';
       }
-      $address = idn_to_ascii($address);
+      $address = rcube_idn_to_ascii($address);
       if (!preg_match('/^<\S+@\S+>$/', $address))
         $address = '<'.$address.'>';
 

@@ -59,7 +59,7 @@ if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3)
 // Validate e-mail addresses
 foreach (array('email', 'reply-to', 'bcc') as $item) {
   if ($email = $save_data[$item]) {
-    $ascii_email = idn_to_ascii($email);
+    $ascii_email = rcube_idn_to_ascii($email);
     if (!check_email($ascii_email, false)) {
       // show error message
       $OUTPUT->show_message('emailformaterror', 'error', array('email' => $email), false);
@@ -77,11 +77,11 @@ if ($_POST['_iid'])
   $save_data = $plugin['record'];
 
   if ($save_data['email'])
-    $save_data['email'] = idn_to_ascii($save_data['email']);
+    $save_data['email'] = rcube_idn_to_ascii($save_data['email']);
   if ($save_data['bcc'])
-    $save_data['bcc'] = idn_to_ascii($save_data['bcc']);
+    $save_data['bcc'] = rcube_idn_to_ascii($save_data['bcc']);
   if ($save_data['reply-to'])
-    $save_data['reply-to'] = idn_to_ascii($save_data['reply-to']);
+    $save_data['reply-to'] = rcube_idn_to_ascii($save_data['reply-to']);
 
   if (!$plugin['abort'])
     $updated = $USER->update_identity($iid, $save_data);
@@ -116,9 +116,9 @@ else if (IDENTITIES_LEVEL < 2)
   $plugin = $RCMAIL->plugins->exec_hook('identity_create', array('record' => $save_data));
   $save_data = $plugin['record'];
 
-  $save_data['email']    = idn_to_ascii($save_data['email']);
-  $save_data['bcc']      = idn_to_ascii($save_data['bcc']);
-  $save_data['reply-to'] = idn_to_ascii($save_data['reply-to']);
+  $save_data['email']    = rcube_idn_to_ascii($save_data['email']);
+  $save_data['bcc']      = rcube_idn_to_ascii($save_data['bcc']);
+  $save_data['reply-to'] = rcube_idn_to_ascii($save_data['reply-to']);
 
   if (!$plugin['abort'])
     $insert_id = $save_data['email'] ? $USER->insert_identity($save_data) : null;

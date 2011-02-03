@@ -72,7 +72,7 @@ function rcmail_identities_list($attrib)
   // get identities list and define 'mail' column
   $list = $USER->list_identities();
   foreach ($list as $idx => $row)
-    $list[$idx]['mail'] = trim($row['name'] . ' <' . idn_to_utf8($row['email']) .'>');
+    $list[$idx]['mail'] = trim($row['name'] . ' <' . rcube_idn_to_utf8($row['email']) .'>');
 
   // get all identites from DB and define list of cols to be displayed
   $plugin = $RCMAIL->plugins->exec_hook('identities_list', array(

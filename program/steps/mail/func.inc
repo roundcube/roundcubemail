@@ -1250,10 +1250,10 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
 
     // IDNA ASCII to Unicode
     if ($name == $mailto)
-      $name = idn_to_utf8($name);
+      $name = rcube_idn_to_utf8($name);
     if ($string == $mailto)
-      $string = idn_to_utf8($string);
-    $mailto = idn_to_utf8($mailto);
+      $string = rcube_idn_to_utf8($string);
+    $mailto = rcube_idn_to_utf8($mailto);
 
     if ($PRINT_MODE) {
       $out .= sprintf('%s &lt;%s&gt;', Q($name), $mailto);

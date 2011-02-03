@@ -699,12 +699,12 @@ class rcmail
 
     // Here we need IDNA ASCII
     // Only rcube_contacts class is using domain names in Unicode
-    $host = idn_to_ascii($host);
+    $host = rcube_idn_to_ascii($host);
     if (strpos($username, '@')) {
       // lowercase domain name
       list($local, $domain) = explode('@', $username);
       $username = $local . '@' . mb_strtolower($domain);
-      $username = idn_to_ascii($username);
+      $username = rcube_idn_to_ascii($username);
     }
 
     // user already registered -> overwrite username

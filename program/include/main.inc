@@ -1891,6 +1891,39 @@ function check_email($email, $dns_check=true)
   return false;
 }
 
+/*
+ * Idn_to_ascii wrapper.
+ * Intl/Idn modules version of this function doesn't work with e-mail address
+ */
+function rcube_idn_to_ascii($str)
+{
+  return rcube_idn_convert($str, true);
+}
+
+/*
+ * Idn_to_ascii wrapper.
+ * Intl/Idn modules version of this function doesn't work with e-mail address
+ */
+function rcube_idn_to_utf8($str)
+{
+  return rcube_idn_convert($str, false);
+}
+
+function rcube_idn_convert($input, $is_utf=false)
+{
+  if ($at = strpos($input, '@')) {
+    $user   = substr($input, 0, $at);
+    $domain = substr($input, $at+1);
+  }
+  else {
+    $domain = $input;
+  }
+
+  $domain = $is_utf ? idn_to_ascii($domain) : idn_to_utf8($domain);
+
+  return $at ? $user . '@' . $domain : $domain;
+}
+
 
 /**
  * Helper class to turn relative urls into absolute ones

@@ -142,7 +142,7 @@ if (empty($a_record['name'])/* || empty($a_record['email'])*/) {
 // Validity checks
 foreach ($CONTACTS->get_col_values('email', $a_record, true) as $email) {
   if (strlen($email)) {
-    $_email = idn_to_ascii($email);
+    $_email = rcube_idn_to_ascii($email);
     if (!check_email($_email, false)) {
       $OUTPUT->show_message('emailformaterror', 'warning', array('email' => $email));
       rcmail_overwrite_action($return_action);
