@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of invalid HTML comments in messages (#1487759)
 - Fix parsing FETCH response for very long headers (#1487753)
 - Fix add/remove columns in message list when message_sort_order isn't set (#1487751)
 - Check mime headers before attempt to parse them (#1487745)
