@@ -506,6 +506,16 @@ class rcube_message
                     ) {
                         $this->attachments[] = $inline_object;
                     }
+                    // MS Outlook sometimes also adds non-image attachments as related
+                    // We'll add all such attachments to the attachments list
+                    // Warning: some browsers support pdf in <img/>
+                    // @TODO: we should fetch HTML body and find attachment's content-id
+                    // to handle also image attachments without reference in the body
+                    if (!empty($inline_object->filename)
+                        && !preg_match('/^image\/(gif|jpe?g|png|tiff|bmp|svg)/', $inline_object->mimetype)
+                    ) {
+                        $this->attachments[] = $inline_object;
+                    }
                 }
 
                 // add replace array to each content part

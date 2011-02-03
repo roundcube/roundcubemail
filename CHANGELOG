@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of non-image attachments in multipart/related messages (#1487750)
 - Fix IDNA support when IDN/INTL modules are in use (#1487742)
 - Fix handling of invalid HTML comments in messages (#1487759)
 - Fix parsing FETCH response for very long headers (#1487753)
