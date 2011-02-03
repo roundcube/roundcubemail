@@ -1194,15 +1194,16 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
  */
 function rcmail_alter_html_link($matches)
 {
-  global $EMAIL_ADDRESS_PATTERN;
+  global $RCMAIL, $EMAIL_ADDRESS_PATTERN;
 
   $tag = $matches[1];
   $attrib = parse_attrib_string($matches[2]);
   $end = '>';
 
   if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
-    $attrib['href'] = "?_task=utils&amp;_action=modcss&amp;u=" . urlencode($attrib['href'])
-        . "&amp;c=" . urlencode($GLOBALS['rcmail_html_container_id']);
+    $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
+    $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
+    $attrib['href'] = $RCMAIL->url(array('task' => 'utils', 'action' => 'modcss', 'u' => $tempurl, 'c' => $GLOBALS['rcmail_html_container_id']));
     $end = ' />';
   }
   else if (preg_match('/^mailto:'.$EMAIL_ADDRESS_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
