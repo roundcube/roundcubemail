@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix email_dns_check setting not used for identities/contacts (#1487740)
 - Fix ICANN example addresses doesn't validate (#1487742)
 - Security: protect login form submission from CSRF
 - Security: prevent from relaying malicious requests through modcss.inc

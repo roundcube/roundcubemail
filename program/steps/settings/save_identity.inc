@@ -60,7 +60,7 @@ if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3)
 foreach (array('email', 'reply-to', 'bcc') as $item) {
   if ($email = $save_data[$item]) {
     $ascii_email = rcube_idn_to_ascii($email);
-    if (!check_email($ascii_email, false)) {
+    if (!check_email($ascii_email)) {
       // show error message
       $OUTPUT->show_message('emailformaterror', 'error', array('email' => $email), false);
       rcmail_overwrite_action('edit-identity');
