@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix ICANN example addresses doesn't validate (#1487742)
 - Security: protect login form submission from CSRF
 - Security: prevent from relaying malicious requests through modcss.inc
 - Fix handling of non-image attachments in multipart/related messages (#1487750)
