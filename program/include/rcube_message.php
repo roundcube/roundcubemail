@@ -490,6 +490,7 @@ class rcube_message
             // if this was a related part try to resolve references
             if ($mimetype == 'multipart/related' && sizeof($this->inline_parts)) {
                 $a_replaces = array();
+                $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
                 foreach ($this->inline_parts as $inline_object) {
                     $part_url = $this->get_part_url($inline_object->mime_id);
@@ -498,23 +499,23 @@ class rcube_message
                     if ($inline_object->content_location) {
                         $a_replaces[$inline_object->content_location] = $part_url;
                     }
-                    // MS Outlook sends sometimes non-related attachments as related
-                    // In this case multipart/related message has only one text part
-                    // We'll add all such attachments to the attachments list
-                    if (!isset($got_html_part) && empty($inline_object->content_id)
-                        && !empty($inline_object->filename)
-                    ) {
-                        $this->attachments[] = $inline_object;
-                    }
-                    // MS Outlook sometimes also adds non-image attachments as related
-                    // We'll add all such attachments to the attachments list
-                    // Warning: some browsers support pdf in <img/>
-                    // @TODO: we should fetch HTML body and find attachment's content-id
-                    // to handle also image attachments without reference in the body
-                    if (!empty($inline_object->filename)
-                        && !preg_match('/^image\/(gif|jpe?g|png|tiff|bmp|svg)/', $inline_object->mimetype)
-                    ) {
-                        $this->attachments[] = $inline_object;
+
+                    if (!empty($inline_object->filename)) {
+                        // MS Outlook sends sometimes non-related attachments as related
+                        // In this case multipart/related message has only one text part
+                        // We'll add all such attachments to the attachments list
+                        if (!isset($got_html_part) && empty($inline_object->content_id)) {
+                            $this->attachments[] = $inline_object;
+                        }
+                        // MS Outlook sometimes also adds non-image attachments as related
+                        // We'll add all such attachments to the attachments list
+                        // Warning: some browsers support pdf in <img/>
+                        else if (!preg_match($img_regexp, $inline_object->mimetype)) {
+                            $this->attachments[] = $inline_object;
+                        }
+                        // @TODO: we should fetch HTML body and find attachment's content-id
+                        // to handle also image attachments without reference in the body
+                        // @TODO: should we list all image attachments in text mode?
                     }
                 }
 
