@@ -41,7 +41,9 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
       $OUTPUT->show_message('errorsavingcontact', 'error');
       $OUTPUT->send();
     }
-    else if (!check_email($contact['email'], false)) {
+    
+    $email = rcube_idn_to_ascii($contact['email']);
+    if (!check_email($email, false)) {
       $OUTPUT->show_message('emailformaterror', 'error', array('email' => $contact['email']));
       $OUTPUT->send();
     }
