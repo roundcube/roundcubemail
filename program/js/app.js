@@ -3947,7 +3947,7 @@ function rcube_webmail()
     var link = $('<a>').attr('href', '#')
       .bind('click', function() { return rcmail.command('listgroup', prop, this);})
       .html(prop.name);
-    var li = $('<li>').attr('id', 'rcmli'+key)
+    var li = $('<li>').attr('id', 'rcmli'+key.replace(this.identifier_expr, '_'))
       .addClass('contactgroup')
       .append(link)
       .insertAfter(this.get_folder_li(prop.source));
