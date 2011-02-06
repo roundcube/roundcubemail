@@ -274,6 +274,18 @@ $labels['manager'] = 'Manager';
 $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
 
+$labels['typehome']   = 'Home';
+$labels['typework']   = 'Work';
+$labels['typeother']  = 'Other';
+$labels['typemobile']  = 'Mobile';
+$labels['typemain']  = 'Main';
+$labels['typehomefax']  = 'Home Fax';
+$labels['typeworkfax']  = 'Work Fax';
+$labels['typecar']  = 'Car';
+$labels['typepager']  = 'Pager';
+$labels['typevideo']  = 'Video';
+$labels['typeassistant']  = 'Assistant';
+
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Add new contact';
 $labels['editcontact'] = 'Edit contact';

@@ -90,7 +90,7 @@ function rcmail_contact_details($attrib)
     $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
 
     $form = array(
-        'info' => array(
+        'contact' => array(
             'name'    => rcube_label('contactproperties'),
             'content' => array(
               'email' => array('size' => $i_size, 'render_func' => 'rcmail_render_email_value'),

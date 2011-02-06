@@ -92,7 +92,7 @@ function rcmail_contact_editform($attrib)
     $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
 
     $form = array(
-        'info' => array(
+        'contact' => array(
             'name'    => rcube_label('contactproperties'),
             'content' => array(
                 'email' => array('size' => $i_size, 'visible' => true),

@@ -281,6 +281,20 @@ function rcmail_get_rowcount_text()
 }
 
 
+function rcmail_get_type_label($type)
+{
+    $label = 'type'.$type;
+    if (rcube_label_exists($label))
+        return rcube_label($label);
+    else if (preg_match('/\w+(\d+)$/', $label, $m)
+            && ($label = preg_replace('/(\d+)$/', '', $label))
+            && rcube_label_exists($label))
+        return rcube_label($label) . ' ' . $m[1];
+    
+    return ucfirst($type);
+}
+
+
 function rcmail_contact_form($form, $record, $attrib = null)
 {
     global $RCMAIL, $CONFIG;
@@ -324,6 +338,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
         if ($section == 'head') {
             $content = '';
             
+            // TODO: use the save name composition function as in save.inc
             $names_arr = array($record['prefix'], $record['firstname'], $record['middlename'], $record['surname'], $record['suffix']);
             if ($record['name'] == join(' ', array_filter($names_arr)))
               unset($record['name']);
@@ -384,8 +399,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
                 // prepare subtype selector in edit mode
                 if ($edit_mode && is_array($colprop['subtypes'])) {
+                    $subtype_names = array_map('rcmail_get_type_label', $colprop['subtypes']);
                     $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype'));
-                    $select_subtype->add($colprop['subtypes']);
+                    $select_subtype->add($subtype_names, $colprop['subtypes']);
                 }
                 else
                     $select_subtype = null;
@@ -474,7 +490,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
                     // use subtype as label
                     if ($colprop['subtypes'])
-                        $label = $subtype;
+                        $label = rcmail_get_type_label($subtype);
 
                     // add delete button/link
                     if ($edit_mode && !($colprop['visible'] && $colprop['limit'] == 1))
