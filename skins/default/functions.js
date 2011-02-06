@@ -46,7 +46,7 @@ function rcube_init_tabs(id, current)
     // create a tab
     a   = $('<a>').text(legend.text()).attr('href', '#');
     tab = $('<span>').attr({'id': 'tab'+idx, 'class': 'tablink'})
-        .click(function() { return rcube_show_tab(id, idx); })
+        .click(function() { rcube_show_tab(id, idx); return false })
 
     // remove legend
     legend.remove();
