@@ -170,11 +170,8 @@ class rcube_json_output
     {
         if ($override || !$this->message) {
             $this->message = $message;
-            $this->command(
-                'display_message',
-                rcube_label(array('name' => $message, 'vars' => $vars)),
-                $type
-            );
+            $msgtext = rcube_label_exists($message) ? rcube_label(array('name' => $message, 'vars' => $vars)) : $message;
+            $this->command('display_message', $msgtext, $type);
         }
     }
 

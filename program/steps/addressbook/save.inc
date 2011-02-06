@@ -128,27 +128,18 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
 }
 
-if (empty($a_record['name']))
-  $a_record['name'] = join(' ', array_filter(array($a_record['prefix'], $a_record['firstname'], $a_record['middlename'], $a_record['surname'], $a_record['suffix'],)));
-
-
-// Basic input checks (TODO: delegate to $CONTACTS instance)
-if (empty($a_record['name'])/* || empty($a_record['email'])*/) {
-  $OUTPUT->show_message('formincomplete', 'warning');
-  rcmail_overwrite_action($return_action);
-  return;
+if (empty($a_record['name'])) {
+    // TODO: let a dedicated function or a plugin compose the full name
+    $a_record['name'] = join(' ', array_filter(array($a_record['prefix'], $a_record['firstname'], $a_record['middlename'], $a_record['surname'], $a_record['suffix'],)));
 }
 
-// Validity checks
-foreach ($CONTACTS->get_col_values('email', $a_record, true) as $email) {
-  if (strlen($email)) {
-    $_email = rcube_idn_to_ascii($email);
-    if (!check_email($_email)) {
-      $OUTPUT->show_message('emailformaterror', 'warning', array('email' => $email));
-      rcmail_overwrite_action($return_action);
-      return;
-    }
-  }
+
+// do input checks (delegated to $CONTACTS instance)
+if (!$CONTACTS->validate($a_record)) {
+    $err = (array)$CONTACTS->get_error() + array('message' => 'formincomplete', 'type' => 'warning');
+    $OUTPUT->show_message($err['message'], $err['type']);
+    rcmail_overwrite_action($return_action);
+    return;
 }
 
 // get raw photo data if changed

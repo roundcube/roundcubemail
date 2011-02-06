@@ -168,6 +168,35 @@ abstract class rcube_addressbook
         $this->page_size = (int)$size;
     }
 
+
+    /**
+     * Check the given data before saving.
+     * If input not valid, the message to display can be fetched using get_error()
+     *
+     * @param array Assoziative array with data to save
+     * @return boolean True if input is valid, False if not.
+     */
+    public function validate($save_data)
+    {
+        if (empty($save_data['name'])) {
+            $this->set_error('warning', 'nonamewarning');
+            return false;
+        }
+
+        // check validity of email addresses
+        foreach ($this->get_col_values('email', $save_data, true) as $email) {
+            if (strlen($email)) {
+                if (!check_email(rcube_idn_to_ascii($email))) {
+                    $this->set_error('warning', rcube_label(array('name' => 'emailformaterror', 'vars' => array('email' => $email))));
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+
     /**
      * Create a new contact record
      *

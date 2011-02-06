@@ -84,12 +84,25 @@ function get_sequence_name($sequence)
  * It's a global wrapper for rcmail::gettext()
  *
  * @param mixed Named parameters array or label name
+ * @param string Domain to search in (e.g. plugin name)
  * @return string Localized text
  * @see rcmail::gettext()
  */
 function rcube_label($p, $domain=null)
 {
   return rcmail::get_instance()->gettext($p, $domain);
+}
+
+
+/**
+ * Global wrapper of rcmail::text_exists()
+ * to check whether a text label is defined
+ *
+ * @see rcmail::text_exists()
+ */
+function rcube_label_exists($name, $domain=null)
+{
+  return rcmail::get_instance()->text_exists($name, $domain);
 }
 
 

@@ -926,6 +926,22 @@ class rcmail
 
 
   /**
+   * Check if the given text lable exists
+   *
+   * @param string Label name
+   * @return boolean True if text exists (either in the current language or in en_US)
+   */
+  public function text_exists($name, $domain=null)
+  {
+    // load localization files if not done yet
+    if (empty($this->texts))
+      $this->load_language();
+
+    // check for text with domain first
+    return ($domain && isset($this->texts[$domain.'.'.$name])) || isset($this->texts[$name]);
+  }
+
+  /**
    * Load a localization package
    *
    * @param string Language ID

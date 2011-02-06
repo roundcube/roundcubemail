@@ -331,7 +331,7 @@ function rcube_webmail()
             this.selectedIndex = 0;
           });
 
-          $("input[type='text']").first().focus();
+          $("input[type='text']:visible").first().focus();
         }
         else if (this.gui_objects.qsearchbox) {
           this.enable_command('search', 'reset-search', 'moveto', true);
@@ -646,7 +646,7 @@ function rcube_webmail()
               input_name.focus();
               break;
             }
-            else if (input_email.length && !rcube_check_email(input_email.val())) {
+            else if (this.task == 'settings' && input_email.length && !rcube_check_email(input_email.val())) {
               alert(this.get_label('noemailwarning'));
               input_email.focus();
               break;
@@ -3977,7 +3977,7 @@ function rcube_webmail()
     
     elem.focus(function(){ ref.focus_textfield(this); })
       .blur(function(){ ref.blur_textfield(this); })
-      .each(function(){ this._placeholder = ref.env.coltypes[col].label; ref.blur_textfield(this); });
+      .each(function(){ this._placeholder = this.title = ref.env.coltypes[col].label; ref.blur_textfield(this); });
   };
 
   this.insert_edit_field = function(col, section, menu)

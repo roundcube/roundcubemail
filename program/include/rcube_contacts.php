@@ -396,6 +396,28 @@ class rcube_contacts extends rcube_addressbook
 
 
     /**
+     * Check the given data before saving.
+     * If input not valid, the message to display can be fetched using get_error()
+     *
+     * @param array Assoziative array with data to save
+     * @return boolean True if input is valid, False if not.
+     */
+    public function validate($save_data)
+    {
+        // check for name input
+        $valid = parent::validate($save_data);
+
+        // require at least one e-mail address (syntax check is done later in save.inc)
+        if ($valid && !array_filter($this->get_col_values('email', $save_data, true))) {
+            $this->set_error('warning', 'noemailwarning');
+            $valid = false;
+        }
+
+        return $valid;
+    }
+
+
+    /**
      * Create a new contact record
      *
      * @param array Associative array with save data
