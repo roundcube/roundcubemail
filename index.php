@@ -133,8 +133,8 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   }
 }
 
-// end session
-else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
+// end session (after optional referer check)
+else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcube_check_referer())) {
   $userdata = array('user' => $_SESSION['username'], 'host' => $_SESSION['imap_host'], 'lang' => $RCMAIL->user->language);
   $OUTPUT->show_message('loggedout');
   $RCMAIL->logout_actions();
