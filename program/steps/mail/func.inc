@@ -1261,7 +1261,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
     }
     else if (check_email($part['mailto'], false)) {
       if ($linked) {
-        $out .= html::a(array(
+        $address = html::a(array(
             'href' => 'mailto:'.$mailto,
             'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
             'title' => $mailto,
@@ -1270,12 +1270,12 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
         Q($name ? $name : $mailto));
       }
       else {
-        $out .= html::span(array('title' => $mailto, 'class' => "rcmContactAddress"),
+        $address = html::span(array('title' => $mailto, 'class' => "rcmContactAddress"),
           Q($name ? $name : $mailto));
       }
 
       if ($addicon && $got_writable_abook) {
-        $out .= '&nbsp;' . html::a(array(
+        $address = '<span>' . $address . html::a(array(
             'href' => "#add",
             'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($string)),
             'title' => rcube_label('addtoaddressbook'),
@@ -1283,8 +1283,9 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
           html::img(array(
             'src' => $CONFIG['skin_path'] . $addicon,
             'alt' => "Add contact",
-          )));
+          ))) . '</span>';
       }
+      $out .= $address;
     }
     else {
       if ($name)

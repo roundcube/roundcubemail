@@ -1046,6 +1046,11 @@ table.headers-table tr td.subject
   font-weight: bold;
 }
 
+table.headers-table tr td.header span
+{
+  white-space: nowrap;
+}
+
 #attachment-list
 {
   margin: 0;
