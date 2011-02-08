@@ -1275,7 +1275,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
       }
 
       if ($addicon && $got_writable_abook) {
-        $address = '<span>' . $address . html::a(array(
+        $address = html::span(null, $address . html::a(array(
             'href' => "#add",
             'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($string)),
             'title' => rcube_label('addtoaddressbook'),
@@ -1283,7 +1283,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
           html::img(array(
             'src' => $CONFIG['skin_path'] . $addicon,
             'alt' => "Add contact",
-          ))) . '</span>';
+          ))));
       }
       $out .= $address;
     }
