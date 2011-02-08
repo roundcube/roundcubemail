@@ -190,6 +190,14 @@ else {
     $OUTPUT->show_message('invalidrequest', 'error');
     $OUTPUT->send($RCMAIL->task);
   }
+
+  // check referer if configured
+  if (!$request_check_whitelist[$RCMAIL->action] && $RCMAIL->config->get('referer_check') && !rcube_check_referer()) {
+    raise_error(array(
+      'code' => 403,
+      'type' => 'php',
+      'message' => "Referer check failed"), true, true);
+  }
 }
 
 // handle special actions

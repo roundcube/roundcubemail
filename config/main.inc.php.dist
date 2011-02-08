@@ -212,6 +212,9 @@ $rcmail_config['session_domain'] = '';
 // check client IP in session athorization
 $rcmail_config['ip_check'] = false;
 
+// check referer of incoming requests
+$rcmail_config['referer_check'] = false;
+
 // this key is used to encrypt the users imap password which is stored
 // in the session record (and the client cookie if remember password is enabled).
 // please provide a string of exactly 24 chars.

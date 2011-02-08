@@ -5,7 +5,7 @@
  | program/steps/utils/error.inc                                         |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -44,6 +44,13 @@ EOF;
 else if ($ERROR_CODE==401) {
   $__error_title = "AUTHORIZATION FAILED";
   $__error_text  = "Could not verify that you are authorized to access this service!<br />\n".
+                   "Please contact your server-administrator.";
+}
+
+// forbidden due to request check
+else if ($ERROR_CODE==403) {
+  $__error_title = "REQUEST CHECK FAILED";
+  $__error_text  = "Access to this service was denied due to failing security checks!<br />\n".
                    "Please contact your server-administrator.";
 }
 
