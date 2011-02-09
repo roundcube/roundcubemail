@@ -141,5 +141,3 @@ $messages['foldercreated'] = 'Cartella creata correttamente';
 $messages['invalidimageformat'] = 'Formato non valido';
 
 ?>
-
-

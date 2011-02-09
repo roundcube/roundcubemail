@@ -134,5 +134,6 @@ $messages['namecannotbeempty'] = 'Imena ni mogoče izbrisati';
 $messages['nametoolong'] = 'Ime je predolgo';
 $messages['folderupdated'] = 'Mapa je bila uspešno posodobljena';
 $messages['foldercreated'] = 'Mapa je bila uspešno ustvarjena';
+$messages['invalidimageformat'] = 'Neveljaven format slike';
 
 ?>

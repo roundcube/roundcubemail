@@ -231,11 +231,23 @@ $labels['female'] = 'femmina';
 $labels['manager'] = 'Manager';
 $labels['assistant'] = 'Assistente';
 $labels['spouse'] = 'Coniuge';
+$labels['typehome'] = 'Casa';
+$labels['typework'] = 'Lavoro';
+$labels['typeother'] = 'Altro';
+$labels['typemobile'] = 'Cellulare';
+$labels['typemain'] = 'Principale';
+$labels['typehomefax'] = 'Fax casa';
+$labels['typeworkfax'] = 'Fax lavoro';
+$labels['typecar'] = 'Auto';
+$labels['typepager'] = 'Teledrin';
+$labels['typevideo'] = 'Video';
+$labels['typeassistant'] = 'Assistente';
 $labels['addfield'] = 'Aggiungi campo...';
 $labels['addcontact'] = 'Aggiungi contatto alla rubrica';
 $labels['editcontact'] = 'Modifica contatto';
 $labels['contacts'] = 'Contatti';
 $labels['contactproperties'] = 'Proprietà contatto';
+$labels['personalinfo'] = 'Informazioni personali';
 $labels['edit'] = 'Modifica';
 $labels['cancel'] = 'Annulla';
 $labels['save'] = 'Salva';
@@ -390,5 +402,3 @@ $labels['korean'] = 'Coreano';
 $labels['chinese'] = 'Cinese';
 
 ?>
-
-
