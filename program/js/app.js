@@ -3781,6 +3781,9 @@ function rcube_webmail()
   // update a contact record in the list
   this.update_contact_row = function(cid, cols_arr, newcid)
   {
+    cid = String(cid).replace(this.identifier_expr, '_');
+    newcid = String(newcid).replace(this.identifier_expr, '_');
+
     var row;
     if (this.contact_list.rows[cid] && (row = this.contact_list.rows[cid].obj)) {
       for (var c=0; c<cols_arr.length; c++)
@@ -3813,7 +3816,7 @@ function rcube_webmail()
       even = rowcount%2,
       row = document.createElement('tr');
 
-    row.id = 'rcmrow'+cid;
+    row.id = 'rcmrow'+String(cid).replace(this.identifier_expr, '_');
     row.className = 'contact '+(even ? 'even' : 'odd');
 
     if (this.contact_list.in_selection(cid))

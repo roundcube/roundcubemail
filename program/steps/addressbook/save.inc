@@ -249,7 +249,7 @@ else {
     $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
 
     rcmail_js_contacts_list($result, 'parent.');
-    $OUTPUT->command('parent.contact_list.select', $insert_id);
+    $OUTPUT->command('parent.contact_list.select', html_identifier($insert_id));
 
     // update record count display
     $CONTACTS->reset();

@@ -741,6 +741,16 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 }
 
 /**
+ * Convert the given string into a valid HTML identifier
+ * Same functionality as done in app.js with this.identifier_expr
+ *
+ */
+function html_identifier($str)
+{
+  return asciiwords($str, true, '_');
+}
+
+/**
  * Remove single and double quotes from given string
  *
  * @param string Input value
@@ -791,7 +801,7 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
     while ($table_data && ($sql_arr = $db->fetch_assoc($table_data)))
     {
       $zebra_class = $c % 2 ? 'even' : 'odd';
-      $table->add_row(array('id' => 'rcmrow' . $sql_arr[$id_col], 'class' => $zebra_class));
+      $table->add_row(array('id' => 'rcmrow' . html_identifier($sql_arr[$id_col]), 'class' => $zebra_class));
 
       // format each col
       foreach ($a_show_cols as $col)
@@ -808,7 +818,7 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
       if (!empty($row_data['class']))
         $zebra_class .= ' '.$row_data['class'];
 
-      $table->add_row(array('id' => 'rcmrow' . $row_data[$id_col], 'class' => $zebra_class));
+      $table->add_row(array('id' => 'rcmrow' . html_identifier($row_data[$id_col]), 'class' => $zebra_class));
 
       // format each col
       foreach ($a_show_cols as $col)
@@ -1487,7 +1497,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
     }
 
     // make folder name safe for ids and class names
-    $folder_id = asciiwords($folder['id'], true, '_');
+    $folder_id = html_identifier($folder['id']);
     $classes = array('mailbox');
 
     // set special class for Sent, Drafts, Trash and Junk
@@ -1522,6 +1532,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
     $link_attrib = $folder['virtual'] ? array() : array(
       'href' => rcmail_url('', array('_mbox' => $folder['id'])),
       'onclick' => sprintf("return %s.command('list','%s',this)", JS_OBJECT_NAME, $js_name),
+      'rel' => $folder['id'],
       'title' => $title,
     );
 

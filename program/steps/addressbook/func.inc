@@ -120,6 +120,7 @@ function rcmail_directory_list($attrib)
     $line_templ = html::tag('li', array(
         'id' => 'rcmli%s', 'class' => 'addressbook %s'),
         html::a(array('href' => '%s',
+            'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
 
     // currently selected is the first address source in the list
@@ -129,9 +130,11 @@ function rcmail_directory_list($attrib)
     foreach ((array)$OUTPUT->env['address_sources'] as $j => $source) {
         $id = strval($source['id'] ? $source['id'] : $j);
         $js_id = JQ($id);
-        $dom_id = preg_replace('/[^a-z0-9\-_]/i', '_', $id);
-        $out .= sprintf($line_templ, $dom_id, ($current === $id ? 'selected' : ''),
+        $out .= sprintf($line_templ,
+            html_identifier($id),
+            ($current === $id ? 'selected' : ''),
             Q(rcmail_url(null, array('_source' => $id))),
+            $source['id'],
             $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
 
         $groupdata = array('out' => $out, 'jsdata' => $jsdata, 'source' => $id);
@@ -158,11 +161,16 @@ function rcmail_contact_groups($args)
         $line_templ = html::tag('li', array(
             'id' => 'rcmliG%s', 'class' => 'contactgroup'),
             html::a(array('href' => '#',
+                'rel' => '%s:%s',
                 'onclick' => "return ".JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)"), '%s'));
 
         $jsdata = array();
         foreach ($groups as $group) {
-            $args['out'] .= sprintf($line_templ, asciiwords($args['source'] . $group['ID'], true, '_'), $args['source'], $group['ID'], Q($group['name']));
+            $args['out'] .= sprintf($line_templ,
+                html_identifier($args['source'] . $group['ID']),
+                $args['source'], $group['ID'],
+                $args['source'], $group['ID'], Q($group['name'])
+            );
             $args['jsdata']['G'.$args['source'].$group['ID']] = array(
                 'source' => $args['source'], 'id' => $group['ID'],
                 'name' => $group['name'], 'type' => 'group');
