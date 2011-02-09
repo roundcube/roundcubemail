@@ -101,7 +101,7 @@ class rcube_smtp
       $helo_host = 'localhost';
 
     // IDNA Support
-    $smtp_host = idn_to_ascii($smtp_host);
+    $smtp_host = rcube_idn_to_ascii($smtp_host);
 
     $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
 
@@ -132,8 +132,9 @@ class rcube_smtp
     if ($smtp_user && $smtp_pass)
     {
       // IDNA Support
-      if (strpos($smtp_user, '@'))
-        $smtp_user = idn_to_ascii($smtp_user);
+      if (strpos($smtp_user, '@')) {
+        $smtp_user = rcube_idn_to_ascii($smtp_user);
+      }
 
       $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls, $smtp_authz);
 

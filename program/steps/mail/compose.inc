@@ -321,7 +321,7 @@ function rcmail_compose_headers($attrib)
         if (empty($addr_part['mailto']))
           continue;
 
-        $mailto = idn_to_utf8($addr_part['mailto']);
+        $mailto = rcube_idn_to_utf8($addr_part['mailto']);
 
         if (!in_array($mailto, $sa_recipients)
             && (!$MESSAGE->compose_from
@@ -360,7 +360,7 @@ function rcmail_compose_headers($attrib)
       if (empty($addr_part['mailto']))
         continue;
 
-      $mailto = idn_to_utf8($addr_part['mailto']);
+      $mailto = rcube_idn_to_utf8($addr_part['mailto']);
 
       if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
         $string = format_email_recipient($mailto, $addr_part['name']);
@@ -437,7 +437,7 @@ function rcmail_compose_header_from($attrib)
     // create SELECT element
     foreach ($user_identities as $sql_arr)
     {
-      $email = mb_strtolower(idn_to_utf8($sql_arr['email']));
+      $email = mb_strtolower(rcube_idn_to_utf8($sql_arr['email']));
       $identity_id = $sql_arr['identity_id'];
       $select_from->add(format_email_recipient($email, $sql_arr['name']), $identity_id);
 
@@ -732,9 +732,9 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
   // build reply prefix
-  $from = array_pop($RCMAIL->imap->decode_address_list($MESSAGE->get_header('from')));
+  $from = array_pop($RCMAIL->imap->decode_address_list($MESSAGE->get_header('from'), 1, false));
   $prefix = sprintf("On %s, %s wrote:",
-    $MESSAGE->headers->date, $from['name'] ? $from['name'] : idn_to_utf8($from['mailto']));
+    $MESSAGE->headers->date, $from['name'] ? $from['name'] : rcube_idn_to_utf8($from['mailto']));
 
   if (!$bodyIsHtml) {
     $body = preg_replace('/\r?\n/', "\n", $body);

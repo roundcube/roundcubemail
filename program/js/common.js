@@ -493,11 +493,27 @@ function rcube_check_email(input, inline)
       // So, e-mail address should be validated also on server side after idn_to_ascii() use
       //domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d',
       //sub_domain = '('+atom+'|'+domain_literal+')',
-      domain = '([^@\\x2e]+\\x2e)+[a-z]{2,}',
+      // allow punycode in last domain part for ICANN test domains
+      domain = '([^@\\x2e]+\\x2e)+([a-z]{2,}|xn--[a-z0-9]{2,})',
+      // ICANN e-mail test (http://idn.icann.org/E-mail_test)
+      icann_domains = [
+        '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631',
+        '\\u4f8b\\u5b50\\x2e\\u6d4b\\u8bd5',
+        '\\u4f8b\\u5b50\\x2e\\u6e2c\\u8a66',
+        '\\u03c0\\u03b1\\u03c1\\u03ac\\u03b4\\u03b5\\u03b9\\u03b3\\u03bc\\u03b1\\x2e\\u03b4\\u03bf\\u03ba\\u03b9\\u03bc\\u03ae',
+        '\\u0909\\u0926\\u093e\\u0939\\u0930\\u0923\\x2e\\u092a\\u0930\\u0940\\u0915\\u094d\\u0937\\u093e',
+        '\\u4f8b\\u3048\\x2e\\u30c6\\u30b9\\u30c8',
+        '\\uc2e4\\ub840\\x2e\\ud14c\\uc2a4\\ud2b8',
+        '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0622\\u0632\\u0645\\u0627\\u06cc\\u0634\u06cc',
+        '\\u043f\\u0440\\u0438\\u043c\\u0435\\u0440\\x2e\\u0438\\u0441\\u043f\\u044b\\u0442\\u0430\\u043d\\u0438\\u0435',
+        '\\u0b89\\u0ba4\\u0bbe\\u0bb0\\u0ba3\\u0bae\\u0bcd\\x2e\\u0baa\\u0bb0\\u0bbf\\u0b9f\\u0bcd\\u0b9a\\u0bc8',
+        '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8'
+      ],
+      icann_addr = 'mailtest\\x40('+icann_domains.join('|')+')',
       word = '('+atom+'|'+quoted_string+')',
       delim = '[,;\s\n]',
       local_part = word+'(\\x2e'+word+')*',
-      addr_spec = local_part+'\\x40'+domain,
+      addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',
       reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
 
     return reg1.test(input) ? true : false;

@@ -47,6 +47,13 @@ else if ($ERROR_CODE==401) {
                    "Please contact your server-administrator.";
 }
 
+// forbidden due to request check
+else if ($ERROR_CODE==403) {
+  $__error_title = "REQUEST CHECK FAILED";
+  $__error_text  = "Access to this service was denied due to failing security checks!<br />\n".
+                   "Please contact your server-administrator.";
+}
+
 // failed request (wrong step in URL)
 else if ($ERROR_CODE==404) {
   $__error_title = "REQUEST FAILED/FILE NOT FOUND";

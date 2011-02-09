@@ -56,9 +56,9 @@ if (!empty($_GET['_page']))
 
 // set default sort col/order to session
 if (!isset($_SESSION['sort_col']))
-  $_SESSION['sort_col'] = $CONFIG['message_sort_col'];
+  $_SESSION['sort_col'] = !empty($CONFIG['message_sort_col']) ? $CONFIG['message_sort_col'] : '';
 if (!isset($_SESSION['sort_order']))
-  $_SESSION['sort_order'] = $CONFIG['message_sort_order'];
+  $_SESSION['sort_order'] = strtoupper($CONFIG['message_sort_order']) == 'ASC' ? 'ASC' : 'DESC';
 
 // set threads mode
 $a_threading = $RCMAIL->config->get('message_threading', array());
@@ -1194,15 +1194,16 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
  */
 function rcmail_alter_html_link($matches)
 {
-  global $EMAIL_ADDRESS_PATTERN;
+  global $RCMAIL, $EMAIL_ADDRESS_PATTERN;
 
   $tag = $matches[1];
   $attrib = parse_attrib_string($matches[2]);
   $end = '>';
 
   if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
-    $attrib['href'] = "?_task=utils&amp;_action=modcss&amp;u=" . urlencode($attrib['href'])
-        . "&amp;c=" . urlencode($GLOBALS['rcmail_html_container_id']);
+    $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
+    $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
+    $attrib['href'] = $RCMAIL->url(array('task' => 'utils', 'action' => 'modcss', 'u' => $tempurl, 'c' => $GLOBALS['rcmail_html_container_id']));
     $end = ' />';
   }
   else if (preg_match('/^mailto:'.$EMAIL_ADDRESS_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
@@ -1250,10 +1251,10 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
 
     // IDNA ASCII to Unicode
     if ($name == $mailto)
-      $name = idn_to_utf8($name);
+      $name = rcube_idn_to_utf8($name);
     if ($string == $mailto)
-      $string = idn_to_utf8($string);
-    $mailto = idn_to_utf8($mailto);
+      $string = rcube_idn_to_utf8($string);
+    $mailto = rcube_idn_to_utf8($mailto);
 
     if ($PRINT_MODE) {
       $out .= sprintf('%s &lt;%s&gt;', Q($name), $mailto);

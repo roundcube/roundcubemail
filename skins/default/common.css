@@ -9,7 +9,7 @@ body
 
 body.iframe
 {
-  margin: 0px;
+  margin: 20px 0 0 0;
   background-color: #FFF;
 }
 
@@ -252,6 +252,14 @@ img
 .boxtitle .rightalign
 {
   float: right;
+}
+
+body.iframe .boxtitle
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 .boxcontent

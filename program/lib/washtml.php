@@ -75,6 +75,7 @@
  * - changed $ignore_elements behaviour
  * - added RFC2397 support
  * - base URL support
+ * - invalid HTML comments removal before parsing
  */
 
 class washtml
@@ -270,6 +271,9 @@ class washtml
       $this->config['base_url'] = $matches[1];
     else
       $this->config['base_url'] = '';
+
+    // Remove invalid HTML comments (#1487759)
+    $html = preg_replace('/<![^>]*>/', '', $html);
 
     @$node->loadHTML($html);
     return $this->dumpHtml($node);

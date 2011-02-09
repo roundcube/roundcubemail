@@ -1224,6 +1224,19 @@ function rcmail_remote_ip()
 
 
 /**
+ * Check whether the HTTP referer matches the current request
+ *
+ * @return boolean True if referer is the same host+path, false if not
+ */
+function rcube_check_referer()
+{
+  $uri = parse_url($_SERVER['REQUEST_URI']);
+  $referer = parse_url(rc_request_header('Referer'));
+  return $referer['host'] == rc_request_header('Host') && $referer['path'] == $uri['path'];
+}
+
+
+/**
  * @access private
  * @return mixed
  */
@@ -1861,6 +1874,39 @@ function check_email($email, $dns_check=true)
   }
 
   return false;
+}
+
+/*
+ * Idn_to_ascii wrapper.
+ * Intl/Idn modules version of this function doesn't work with e-mail address
+ */
+function rcube_idn_to_ascii($str)
+{
+  return rcube_idn_convert($str, true);
+}
+
+/*
+ * Idn_to_ascii wrapper.
+ * Intl/Idn modules version of this function doesn't work with e-mail address
+ */
+function rcube_idn_to_utf8($str)
+{
+  return rcube_idn_convert($str, false);
+}
+
+function rcube_idn_convert($input, $is_utf=false)
+{
+  if ($at = strpos($input, '@')) {
+    $user   = substr($input, 0, $at);
+    $domain = substr($input, $at+1);
+  }
+  else {
+    $domain = $input;
+  }
+
+  $domain = $is_utf ? idn_to_ascii($domain) : idn_to_utf8($domain);
+
+  return $at ? $user . '@' . $domain : $domain;
 }
 
 

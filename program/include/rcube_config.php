@@ -287,7 +287,7 @@ class rcube_config
             $domain = rcube_parse_host($this->prop['mail_domain']);
 
         if ($encode)
-            $domain = idn_to_ascii($domain);
+            $domain = rcube_idn_to_ascii($domain);
 
         return $domain;
     }

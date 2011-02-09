@@ -49,8 +49,8 @@ foreach ($a_save_cols as $col) {
 }
 
 // Validity checks
-$_email = idn_to_ascii($a_record['email']);
-if (!check_email($_email, false)) {
+$_email = rcube_idn_to_ascii($a_record['email']);
+if (!check_email($_email)) {
   $OUTPUT->show_message('emailformaterror', 'warning', array('email' => $_email));
   rcmail_overwrite_action($return_action);
   return;

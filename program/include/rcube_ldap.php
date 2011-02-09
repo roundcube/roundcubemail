@@ -99,7 +99,7 @@ class rcube_ldap extends rcube_addressbook
 
     foreach ($this->prop['hosts'] as $host)
     {
-      $host = idn_to_ascii(rcube_parse_host($host));
+      $host = rcube_idn_to_ascii(rcube_parse_host($host));
       $this->_debug("C: Connect [$host".($this->prop['port'] ? ':'.$this->prop['port'] : '')."]");
 
       if ($lc = @ldap_connect($host, $this->prop['port']))

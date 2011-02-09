@@ -1031,7 +1031,7 @@ class rcube_template extends rcube_html_page
             $username = $this->app->user->get_username();
         }
 
-        return idn_to_utf8($username);
+        return rcube_idn_to_utf8($username);
     }
 
 

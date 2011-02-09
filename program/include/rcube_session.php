@@ -154,6 +154,8 @@ class rcube_session
       sprintf("DELETE FROM %s WHERE sess_id = ?", get_table_name('session')),
       $key);
 
+    if ($key == $this->key)
+        $this->vars = false;
     return true;
   }
 

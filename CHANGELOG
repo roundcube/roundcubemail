@@ -3,6 +3,16 @@ CHANGELOG Roundcube Webmail
 
 RELEASE 0.5.1
 -------------
+- Security: add optional referer check to prevent CSRF in GET requests
+- Fix email_dns_check setting not used for identities/contacts (#1487740)
+- Fix ICANN example addresses doesn't validate (#1487742)
+- Security: protect login form submission from CSRF
+- Security: prevent from relaying malicious requests through modcss.inc
+- Fix handling of non-image attachments in multipart/related messages (#1487750)
+- Fix IDNA support when IDN/INTL modules are in use (#1487742)
+- Fix handling of invalid HTML comments in messages (#1487759)
+- Fix parsing FETCH response for very long headers (#1487753)
+- Fix add/remove columns in message list when message_sort_order isn't set (#1487751)
 - Fix settings UI on IE 6 (#1487724)
 - Remove double borders in folder listing (#1487713)
 - Separate full message headers UI element from headers table (#1487715)
