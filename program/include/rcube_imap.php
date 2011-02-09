@@ -148,8 +148,17 @@ class rcube_imap
 
         $this->options['port'] = $port;
 
-        if ($this->options['debug'])
+        if ($this->options['debug']) {
             $this->conn->setDebug(true, array($this, 'debug_handler'));
+
+            $this->options['ident'] = array(
+                'name' => 'Roundcube Webmail',
+                'version' => RCMAIL_VERSION,
+                'php' => PHP_VERSION,
+                'os' => PHP_OS,
+                'command' => $_SERVER['REQUEST_URI'],
+            );
+        }
 
         $attempt = 0;
         do {

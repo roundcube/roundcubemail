@@ -3,6 +3,9 @@ CHANGELOG Roundcube Webmail
 
 RELEASE 0.5.1
 -------------
+- Fix handling of attachments with invalid content type (#1487767)
+- Add workaround for DBMail's bug http://www.dbmail.org/mantis/view.php?id=881 (#1487766)
+- Use IMAP's ID extension (RFC2971) to print more info into debug log
 - Security: add optional referer check to prevent CSRF in GET requests
 - Fix email_dns_check setting not used for identities/contacts (#1487740)
 - Fix ICANN example addresses doesn't validate (#1487742)
