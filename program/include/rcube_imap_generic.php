@@ -3313,10 +3313,11 @@ class rcube_imap_generic
         else if ($string === '') {
             return '""';
         }
+        // need quoted-string? find special chars: SP, CTL, (, ), {, %, *, ", \, ]
+        // plus [ character as a workaround for DBMail's bug (#1487766)
         else if ($force_quotes ||
-            preg_match('/([\x00-\x20\x28-\x29\x7B\x25\x2A\x22\x5C\x5D\x7F]+)/', $string)
+            preg_match('/([\x00-\x20\x28-\x29\x7B\x25\x2A\x22\x5B\x5C\x5D\x7F]+)/', $string)
         ) {
-            // string: special chars: SP, CTL, (, ), {, %, *, ", \, ]
             return '"' . strtr($string, array('"'=>'\\"', '\\' => '\\\\')) . '"';
         }
 
