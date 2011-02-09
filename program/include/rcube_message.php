@@ -478,10 +478,21 @@ class rcube_message
                         if (!empty($mail_part->filename))
                             $this->attachments[] = $mail_part;
                     }
-                    // is a regular attachment (content-type name regexp according to RFC4288.4.2)
+                    // regular attachment with valid content type
+                    // (content-type name regexp according to RFC4288.4.2)
                     else if (preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
                         if (!$mail_part->filename)
                             $mail_part->filename = 'Part '.$mail_part->mime_id;
+
+                        $this->attachments[] = $mail_part;
+                    }
+                    // attachment with invalid content type
+                    // replace malformed content type with application/octet-stream (#1487767)
+                    else if ($mail_part->filename) {
+                        $mail_part->ctype_primary   = 'application';
+                        $mail_part->ctype_secondary = 'octet-stream';
+                        $mail_part->mimetype        = 'application/octet-stream';
+
                         $this->attachments[] = $mail_part;
                     }
                 }
