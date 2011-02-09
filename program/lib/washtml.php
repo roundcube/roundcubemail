@@ -273,7 +273,7 @@ class washtml
       $this->config['base_url'] = '';
 
     // Remove invalid HTML comments (#1487759)
-    $html = preg_replace('/<![^>]*>/', '', $html);
+    $html = preg_replace('/<!--[^->]*>/', '', $html);
 
     @$node->loadHTML($html);
     return $this->dumpHtml($node);
