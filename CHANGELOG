@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use IMAP's ID extension (RFC2971) to print more info into debug log
 - Security: add optional referer check to prevent CSRF in GET requests
 - Fix email_dns_check setting not used for identities/contacts (#1487740)
 - Fix ICANN example addresses doesn't validate (#1487742)

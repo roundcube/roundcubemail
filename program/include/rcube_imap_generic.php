@@ -759,6 +759,11 @@ class rcube_imap_generic
             }
         }
 
+        // Send ID info
+        if (!empty($this->prefs['ident']) && $this->getCapability('ID')) {
+            $this->id($this->prefs['ident']);
+        }
+
         $auth_methods = array();
         $result       = null;
 
@@ -1152,6 +1157,44 @@ class rcube_imap_generic
         $index = $this->search($mailbox, 'ALL UNSEEN', false, array('COUNT'));
         if (is_array($index)) {
             return (int) $index['COUNT'];
+        }
+
+        return false;
+    }
+
+    /**
+     * Executes ID command (RFC2971)
+     *
+     * @param array $items Client identification information key/value hash
+     *
+     * @return array Server identification information key/value hash
+     * @access public
+     * @since 0.6
+     */
+    function id($items=array())
+    {
+        if (is_array($items) && !empty($items)) {
+            foreach ($items as $key => $value) {
+                $args[] = $this->escape($key);
+                $args[] = $this->escape($value);
+            }
+        }
+
+        list($code, $response) = $this->execute('ID', array(
+            !empty($args) ? '(' . implode(' ', (array) $args) . ')' : $this->escape(null)
+        ));
+
+
+        if ($code == self::ERROR_OK && preg_match('/\* ID /i', $response)) {
+            $response = substr($response, 5); // remove prefix "* ID "
+            $items    = $this->tokenizeResponse($response);
+            $result   = null;
+
+            for ($i=0, $len=count($items); $i<$len; $i += 2) {
+                $result[$items[$i]] = $items[$i+1];
+            }
+
+            return $result;
         }
 
         return false;
