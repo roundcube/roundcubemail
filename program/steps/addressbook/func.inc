@@ -324,8 +324,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
     
     foreach ($coltypes as $col => $prop) {
         if ($prop['subtypes']) {
+            $subtype_names = array_map('rcmail_get_type_label', $prop['subtypes']);
             $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype'));
-            $select_subtype->add($prop['subtypes']);
+            $select_subtype->add($subtype_names, $prop['subtypes']);
             $coltypes[$col]['subtypes_select'] = $select_subtype->show();
         }
         if ($prop['childs']) {
