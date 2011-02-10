@@ -1040,7 +1040,7 @@ function rcube_strtotime($date)
  * @return string Formatted date string
  */
 function format_date($date, $format=NULL)
-  {
+{
   global $CONFIG;
   
   $ts = NULL;
@@ -1050,7 +1050,7 @@ function format_date($date, $format=NULL)
 
   if (empty($ts))
     return '';
-   
+
   // get user's timezone
   if ($CONFIG['timezone'] === 'auto')
     $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
@@ -1062,7 +1062,7 @@ function format_date($date, $format=NULL)
 
   // convert time to user's timezone
   $timestamp = $ts - date('Z', $ts) + ($tz * 3600);
-  
+
   // get current timestamp in user's timezone
   $now = time();  // local time
   $now -= (int)date('Z'); // make GMT time
@@ -1070,30 +1070,33 @@ function format_date($date, $format=NULL)
   $now_date = getdate($now);
 
   $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
-  $week_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
+  $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
 
   // define date format depending on current time
   if (!$format) {
-    if ($CONFIG['prettydate'] && $timestamp > $today_limit && $timestamp < $now)
-      return sprintf('%s %s', rcube_label('today'), date($CONFIG['date_today'] ? $CONFIG['date_today'] : 'H:i', $timestamp));
+    if ($CONFIG['prettydate'] && $timestamp > $today_limit && $timestamp < $now) {
+      $format = $CONFIG['date_today'] ? $CONFIG['date_today'] : 'H:i';
+      $today  = true;
+    }
     else if ($CONFIG['prettydate'] && $timestamp > $week_limit && $timestamp < $now)
       $format = $CONFIG['date_short'] ? $CONFIG['date_short'] : 'D H:i';
     else
       $format = $CONFIG['date_long'] ? $CONFIG['date_long'] : 'd.m.Y H:i';
-    }
+  }
 
   // strftime() format
-  if (preg_match('/%[a-z]+/i', $format))
-    return strftime($format, $timestamp);
+  if (preg_match('/%[a-z]+/i', $format)) {
+    $format = strftime($format, $timestamp);
+    return $today ? (rcube_label('today') . ' ' . $format) : $format;
+  }
 
   // parse format string manually in order to provide localized weekday and month names
   // an alternative would be to convert the date() format string to fit with strftime()
   $out = '';
-  for($i=0; $i<strlen($format); $i++)
-    {
+  for($i=0; $i<strlen($format); $i++) {
     if ($format{$i}=='\\')  // skip escape chars
       continue;
-    
+
     // write char "as-is"
     if ($format{$i}==' ' || $format{$i-1}=='\\')
       $out .= $format{$i};
@@ -1113,10 +1116,10 @@ function format_date($date, $format=NULL)
       $out .= strftime('%x %X', $timestamp);
     else
       $out .= date($format{$i}, $timestamp);
-    }
-  
-  return $out;
   }
+
+  return $today ? (rcube_label('today') . ' ' . $out) : $out;
+}
 
 
 /**
