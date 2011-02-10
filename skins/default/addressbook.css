@@ -345,7 +345,7 @@ fieldset.contactfieldgroup legend
 
 .contactfieldgroup .contactfieldlabel select
 {
-	width: 78px;
+	width: 100%;
 	background: none;
 	border: 0;
 	color: #666;
