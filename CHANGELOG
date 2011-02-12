@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Removed redundant </form> tags from contact add/edit pages
+- Fix CSS error in contact details screen on IE7 (#1487775)
 
 RELEASE 0.5.1
 -------------
