@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Removed redundant </form> tags from contact add/edit pages
+
 RELEASE 0.5.1
 -------------
 - Fix handling of attachments with invalid content type (#1487767)
