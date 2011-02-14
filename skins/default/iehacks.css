@@ -170,6 +170,11 @@ div.message-part div.pre
   height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }
 
+#directorylistbox
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
+}
+
 #contacts-table
 {
   width: expression(document.getElementById('addresslist').clientWidth);
