@@ -89,3 +89,9 @@ ALTER TABLE users ADD UNIQUE (username, mail_host);
 ALTER TABLE contacts ALTER email TYPE varchar(255);
 
 TRUNCATE messages;
+
+
+-- Updates from version 0.5.x
+
+ALTER TABLE contacts ADD words TEXT NULL;
+

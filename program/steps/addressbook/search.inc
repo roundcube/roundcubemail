@@ -26,7 +26,7 @@ $search = trim(get_input_value('_q', RCUBE_INPUT_GET));
 $search_request = md5('addr'.$search);
 
 // get contacts for this user
-$result = $CONTACTS->search(array('name','email'), $search);
+$result = $CONTACTS->search('*', $search);
 
 // save search settings in session
 $_SESSION['search'][$search_request] = $CONTACTS->get_search_set();

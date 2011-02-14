@@ -5,7 +5,7 @@
  | program/include/rcube_contacts.php                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -41,10 +41,11 @@ class rcube_contacts extends rcube_addressbook
     private $user_id = 0;
     private $filter = null;
     private $result = null;
-    private $search_fields;
-    private $search_string;
     private $cache;
-    private $table_cols = array('name', 'email', 'firstname', 'surname', 'vcard');
+    private $table_cols = array('name', 'email', 'firstname', 'surname');
+    private $fulltext_cols = array('name', 'firstname', 'surname', 'middlename', 'nickname',
+      'jobtitle', 'organization', 'department', 'maidenname', 'email', 'phone',
+      'address', 'street', 'locality', 'zipcode', 'region', 'country', 'website', 'im', 'notes');
 
     // public properties
     public $primary_key = 'contact_id';
@@ -115,8 +116,6 @@ class rcube_contacts extends rcube_addressbook
     {
         $this->result = null;
         $this->filter = null;
-        $this->search_fields = null;
-        $this->search_string = null;
         $this->cache = null;
     }
 
@@ -253,8 +252,15 @@ class rcube_contacts extends rcube_addressbook
                 $ids     = $this->db->array2list($ids, 'integer');
                 $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
             }
-            else if ($strict)
+            else if ($strict) {
                 $where[] = $this->db->quoteIdentifier($col).' = '.$this->db->quote($value);
+            }
+            else if ($col == '*') {
+                $words = array();
+                foreach(explode(" ", self::normalize_string($value)) as $word)
+                    $words[] = $this->db->ilike('words', '%'.$word.'%');
+                $where[] = '(' . join(' AND ', $words) . ')';
+              }
             else
                 $where[] = $this->db->ilike($col, '%'.$value.'%');
         }
@@ -528,15 +534,21 @@ class rcube_contacts extends rcube_addressbook
     private function convert_save_data($save_data, $record = array())
     {
         $out = array();
+        $words = '';
 
         // copy values into vcard object
         $vcard = new rcube_vcard($record['vcard'] ? $record['vcard'] : $save_data['vcard']);
         $vcard->reset();
         foreach ($save_data as $key => $values) {
             list($field, $section) = explode(':', $key);
+            $fulltext = in_array($field, $this->fulltext_cols);
             foreach ((array)$values as $value) {
                 if (isset($value))
                     $vcard->set($field, $value, $section);
+                if ($fulltext && is_array($value))
+                    $words .= ' ' . self::normalize_string(join(" ", $value));
+                else if ($fulltext && strlen($value) >= 3)
+                    $words .= ' ' . self::normalize_string($value);
             }
         }
         $out['vcard'] = $vcard->export();
@@ -551,6 +563,9 @@ class rcube_contacts extends rcube_addressbook
 
         // save all e-mails in database column
         $out['email'] = join(", ", $vcard->email);
+
+        // join words for fulltext search
+        $out['words'] = join(" ", array_unique(explode(" ", $words)));
 
         return $out;
     }

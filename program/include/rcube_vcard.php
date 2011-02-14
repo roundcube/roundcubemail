@@ -135,11 +135,15 @@ class rcube_vcard
     $typemap = $this->typemap;
     
     // copy name fields to output array
-    foreach (array('firstname','surname','middlename','nickname','organization') as $col)
-      $out[$col] = $this->$col;
+    foreach (array('firstname','surname','middlename','nickname','organization') as $col) {
+      if (strlen($this->$col))
+        $out[$col] = $this->$col;
+    }
     
-    $out['prefix'] = $this->raw['N'][0][3];
-    $out['suffix'] = $this->raw['N'][0][4];
+    if ($this->raw['N'][0][3])
+      $out['prefix'] = $this->raw['N'][0][3];
+    if ($this->raw['N'][0][4])
+      $out['suffix'] = $this->raw['N'][0][4];
     
     // convert from raw vcard data into associative data for Roundcube
     foreach (array_flip($this->fieldmap) as $tag => $col) {

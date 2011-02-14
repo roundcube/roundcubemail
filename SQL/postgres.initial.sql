@@ -103,14 +103,15 @@ CREATE SEQUENCE contact_ids
 CREATE TABLE contacts (
     contact_id integer DEFAULT nextval('contact_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL
-	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     changed timestamp with time zone DEFAULT now() NOT NULL,
     del smallint DEFAULT 0 NOT NULL,
     name varchar(128) DEFAULT '' NOT NULL,
     email varchar(255) DEFAULT '' NOT NULL,
     firstname varchar(128) DEFAULT '' NOT NULL,
     surname varchar(128) DEFAULT '' NOT NULL,
-    vcard text
+    vcard text,
+    words text
 );
 
 CREATE INDEX contacts_user_id_idx ON contacts (user_id, email);

@@ -32,6 +32,7 @@ abstract class rcube_addressbook
     const ERROR_NO_CONNECTION = 2;
     const ERROR_INCOMPLETE = 3;
     const ERROR_SAVING = 4;
+    const ERROR_SEARCH = 5;
     
     /** public properties (mandatory) */
     public $primary_key;
@@ -383,6 +384,26 @@ abstract class rcube_addressbook
         }
       
         return $out;
+    }
+
+
+    /**
+     * Normalize the given string for fulltext search.
+     * Currently only optimized for Latin-1 characters; to be extended
+     *
+     * @param string Input string (UTF-8)
+     * @return string Normalized string
+     */
+    protected static function normalize_string($str)
+    {
+        $norm = strtolower(strtr(utf8_decode($str),
+            'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙıİ',
+            'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy'));
+
+        return preg_replace(
+            array('/[\s;\+\-\/]+/i', '/(\d)\s+(\d)/', '/\s\w{1,3}\s/'),
+            array(' ', '\\1\\2', ' '),
+            $norm);
     }
     
 }
