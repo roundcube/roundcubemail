@@ -27,15 +27,23 @@ input, textarea
   background-color: #ffffff;
 }
 
-#tabsbar
+#tabsbar,
+#partheader
 {
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
-#mainscreen
+#mainscreen,
+#directorylistbox,
+#addressscreen
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
+}
+
+#mainscreen,
+#messagepartcontainer
 {
   width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }
 
 #messagetoolbar
@@ -98,7 +106,6 @@ input, textarea
 
 #messagepartcontainer
 {
-  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
   height: expression((parseInt(document.documentElement.clientHeight)-90)+'px');
 }
 
@@ -110,11 +117,6 @@ input, textarea
 #compose-div
 {
   height: expression((parseInt(this.parentNode.offsetHeight)-1-parseInt(document.getElementById('compose-headers').offsetHeight))+'px');
-}
-
-#partheader
-{
-  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
 #subscription-table
@@ -167,7 +169,6 @@ div.message-part div.pre
 #addressscreen
 {
   width: expression((parseInt(document.documentElement.clientWidth)-245)+'px');
-  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }
 
 #contacts-table
@@ -235,11 +236,6 @@ table.records-table thead tr td
 #listcontrols input
 {
   margin-top: 2px;
-}
-
-#directorylistbox div
-{
-  min-height: 0;
 }
 
 .contactfieldgroup legend
