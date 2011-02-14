@@ -241,8 +241,3 @@ table.records-table thead tr td
 {
   margin-top: 2px;
 }
-
-#directorylistbox div
-{
-  min-height: 0;
-}
