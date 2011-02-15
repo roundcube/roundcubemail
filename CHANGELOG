@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix dont_override setting does not override existing user preferences (#1487664)
 - Use only one from IMAP authentication methods to prevent login delays (1487784)
 - Replying to a sent message puts the old recipient as the new recipient (#1487074)
 - Fulltext search over (almost) all data for contacts

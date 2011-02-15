@@ -188,8 +188,18 @@ class rcube_config
      */
     public function set_user_prefs($prefs)
     {
+        // Honor the dont_override setting for any existing user preferences
+        $dont_override = $this->get('dont_override');
+        if (is_array($dont_override) && !empty($dont_override)) {
+            foreach ($prefs as $key => $pref) {
+                if (in_array($key, $dont_override)) {
+                    unset($prefs[$key]);
+                }
+            }
+        }
+
         $this->userprefs = $prefs;
-        $this->prop = array_merge($this->prop, $prefs);
+        $this->prop      = array_merge($this->prop, $prefs);
     }
 
 
