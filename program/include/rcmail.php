@@ -1060,9 +1060,6 @@ class rcmail
    */
   public function shutdown()
   {
-    if (is_object($this->imap))
-      $this->imap->close();
-
     if (is_object($this->smtp))
       $this->smtp->disconnect();
 
@@ -1072,6 +1069,9 @@ class rcmail
       if (is_a($book, 'rcube_addressbook'))
         $book->close();
     }
+
+    if (is_object($this->imap))
+      $this->imap->close();
 
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'])
