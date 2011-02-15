@@ -310,9 +310,10 @@ abstract class rcube_addressbook
      *
      * @param string Group identifier
      * @param string New name to set for this group
+     * @param string New group identifier (if changed, otherwise don't set)
      * @return boolean New name on success, false if no data was changed
      */
-    function rename_group($gid, $newname)
+    function rename_group($gid, $newname, &$newid)
     {
         /* empty for address books don't supporting groups */
         return false;

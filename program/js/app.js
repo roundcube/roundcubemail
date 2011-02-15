@@ -3948,6 +3948,7 @@ function rcube_webmail()
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
 
     var link = $('<a>').attr('href', '#')
+      .attr('rel', prop.source+':'+prop.id)
       .bind('click', function() { return rcmail.command('listgroup', prop, this);})
       .html(prop.name);
     var li = $('<li>').attr('id', 'rcmli'+key.replace(this.identifier_expr, '_'))
@@ -3963,13 +3964,33 @@ function rcube_webmail()
   {
     this.reset_add_input();
 
-    var key = 'G'+prop.source+prop.id, link, li = this.get_folder_li(key);
+    var key = 'G'+prop.source+prop.id,
+      li = this.get_folder_li(key),
+      link;
 
-    if (li && (link = li.firstChild) && link.tagName.toLowerCase() == 'a')
+    // group ID has changed, replace link node and identifiers
+    if (li && prop.newid) {
+      var newkey = 'G'+prop.source+prop.newid;
+      li.id = String('rcmli'+newkey).replace(this.identifier_expr, '_');
+      this.env.contactfolders[newkey] = this.env.contactfolders[key];
+      this.env.group = prop.newid;
+      
+      var newprop = $.extend({}, prop);
+      newprop.id = prop.newid;
+      newprop.type = 'group';
+      
+      link = $('<a>').attr('href', '#')
+        .attr('rel', prop.source+':'+prop.newid)
+        .bind('click', function() { return rcmail.command('listgroup', newprop, this);})
+        .html(prop.name);
+      $(li).children().replaceWith(link);
+    }
+    // update displayed group name
+    else if (li && (link = li.firstChild) && link.tagName.toLowerCase() == 'a')
       link.innerHTML = prop.name;
 
     this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
-    this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
+    this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0], newid:prop.newid });
   };
 
 

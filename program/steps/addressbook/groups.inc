@@ -91,7 +91,7 @@ else if ($RCMAIL->action == 'group-rename') {
     $plugin = $RCMAIL->plugins->exec_hook('group_rename', array('group_id' => $gid, 'name' => $name, 'source' => $source));
 
     if (!$plugin['abort'])
-      $newname = $CONTACTS->rename_group($gid, $plugin['name']);
+      $newname = $CONTACTS->rename_group($gid, $plugin['name'], $newgid);
     else
       $newname = $plugin['result'];
   }
@@ -99,7 +99,7 @@ else if ($RCMAIL->action == 'group-rename') {
   if ($newname && $OUTPUT->ajax_call) {
     $OUTPUT->show_message('grouprenamed', 'confirmation');
     $OUTPUT->command('update_contact_group', array(
-      'source' => $source, 'id' => $gid, 'name' => $newname));
+      'source' => $source, 'id' => $gid, 'name' => $newname, 'newid' => $newgid));
   }
   else if (!$newname)
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');

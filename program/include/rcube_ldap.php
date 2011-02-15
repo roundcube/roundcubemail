@@ -995,9 +995,10 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param string Group identifier
      * @param string New name to set for this group
+     * @param string New group identifier (if changed, otherwise don't set)
      * @return boolean New name on success, false if no data was changed
      */
-    function rename_group($group_id, $new_name)
+    function rename_group($group_id, $new_name, &$new_id)
     {
         if (!$this->group_cache)
             $this->list_groups();
@@ -1006,6 +1007,7 @@ class rcube_ldap extends rcube_addressbook
         $group_name = $this->group_cache[$group_id]['name'];
         $old_dn = "cn=$group_name,$base_dn";
         $new_rdn = "cn=$new_name";
+        $new_id = base64_encode($new_rdn . ",$base_dn");
 
         $res = ldap_rename($this->conn, $old_dn, $new_rdn, NULL, TRUE);
         if ($res === false)
