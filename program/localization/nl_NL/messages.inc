@@ -140,5 +140,6 @@ $messages['namecannotbeempty'] = 'Naam kan niet leeg zijn';
 $messages['nametoolong'] = 'Naam is te lang';
 $messages['folderupdated'] = 'Map succesvol bijgewerkt';
 $messages['foldercreated'] = 'Map succesvol aangemaakt';
+$messages['invalidimageformat'] = 'Geen geldig afbeeldings formaat';
 
 ?>
