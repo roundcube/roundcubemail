@@ -217,6 +217,189 @@ if (!empty($msg_uid))
   }
 }
 
+$MESSAGE->compose = array();
+
+// get user's identities
+$MESSAGE->identities = $USER->list_identities();
+if (count($MESSAGE->identities))
+{
+  foreach ($MESSAGE->identities as $idx => $sql_arr) {
+    $email = mb_strtolower(rcube_idn_to_utf8($sql_arr['email']));
+    $MESSAGE->identities[$idx]['email_ascii'] = $sql_arr['email'];
+    $MESSAGE->identities[$idx]['email']       = $email;
+  }
+}
+
+// Set From field value
+if (!empty($_POST['_from'])) {
+  $MESSAGE->compose['from'] = get_input_value('_from', RCUBE_INPUT_POST);
+}
+else if (!empty($_SESSION['compose']['param']['from'])) {
+  $MESSAGE->compose['from'] = $_SESSION['compose']['param']['from'];
+}
+else if (count($MESSAGE->identities)) {
+  // extract all recipients of the reply-message
+  $a_recipients = array();
+  if ($compose_mode == RCUBE_COMPOSE_REPLY && is_object($MESSAGE->headers))
+  {
+    $a_to = $IMAP->decode_address_list($MESSAGE->headers->to);
+    foreach ($a_to as $addr) {
+      if (!empty($addr['mailto']))
+        $a_recipients[] = strtolower($addr['mailto']);
+    }
+
+    if (!empty($MESSAGE->headers->cc)) {
+      $a_cc = $IMAP->decode_address_list($MESSAGE->headers->cc);
+      foreach ($a_cc as $addr) {
+        if (!empty($addr['mailto']))
+          $a_recipients[] = strtolower($addr['mailto']);
+      }
+    }
+  }
+
+  $from_idx         = null;
+  $default_identity = 0;
+  $return_path      = $MESSAGE->headers->others['return-path'];
+
+  // Select identity
+  foreach ($MESSAGE->identities as $idx => $sql_arr) {
+    // save default identity ID
+    if ($sql_arr['standard']) {
+      $default_identity = $idx;
+    }
+    // we need ascii here
+    $email = $sql_arr['email_ascii'];
+    $ident = format_email_recipient($email, $sql_arr['name']);
+
+    // select identity
+    if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
+      if ($MESSAGE->headers->from == $ident) {
+        $from_idx = $idx;
+        break;
+      }
+    }
+    // reply to self, force To header value
+    else if ($compose_mode == RCUBE_COMPOSE_REPLY && $MESSAGE->headers->from == $ident) {
+      $from_idx = $idx;
+      $MESSAGE->compose['to'] = $MESSAGE->headers->to;
+      break;
+    }
+    // set identity if it's one of the reply-message recipients
+    else if (in_array($email, $a_recipients) && ($from_idx === null || $sql_arr['standard'])) {
+      $from_idx = $idx;
+    }
+    // set identity when replying to mailing list
+    else if (strpos($return_path, str_replace('@', '=', $email).'@') !== false) {
+      $from_idx = $idx;
+    }
+  }
+
+  // Still no ID, use first identity
+  if ($from_idx === null) {
+    $from_idx = $default_identity;
+  }
+
+  $ident   = $MESSAGE->identities[$from_idx];
+  $from_id = $ident['identity_id'];
+
+  $MESSAGE->compose['from_email'] = $ident['email'];
+  $MESSAGE->compose['from']       = $from_id;
+}
+
+// Set other headers
+$a_recipients = array();
+$parts        = array('to', 'cc', 'bcc', 'replyto', 'followupto');
+
+foreach ($parts as $header) {
+  $fvalue = '';
+
+  // we have a set of recipients stored is session
+  if ($header == 'to' && ($mailto_id = $_SESSION['compose']['param']['mailto'])
+      && $_SESSION['mailto'][$mailto_id]
+  ) {
+    $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
+  }
+  else if (!empty($_POST['_'.$header])) {
+    $fvalue = get_input_value('_'.$header, RCUBE_INPUT_POST, TRUE);
+  }
+  else if (!empty($_SESSION['compose']['param'][$header])) {
+    $fvalue = $_SESSION['compose']['param'][$header];
+  }
+  else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
+    // get recipent address(es) out of the message headers
+    if ($header == 'to') {
+      $mailfollowup = $MESSAGE->headers->others['mail-followup-to'];
+      $mailreplyto  = $MESSAGE->headers->others['mail-reply-to'];
+
+      if ($MESSAGE->compose['to'])
+        $fvalue = $MESSAGE->compose['to'];
+      else if ($MESSAGE->reply_all == 'list' && $mailfollowup)
+        $fvalue = $mailfollowup;
+      else if ($MESSAGE->reply_all == 'list'
+        && preg_match('/<mailto:([^>]+)>/i', $MESSAGE->headers->others['list-post'], $m))
+        $fvalue = $m[1];
+      else if ($mailreplyto)
+        $fvalue = $mailreplyto;
+      else if (!empty($MESSAGE->headers->replyto))
+        $fvalue = $MESSAGE->headers->replyto;
+      else if (!empty($MESSAGE->headers->from))
+        $fvalue = $MESSAGE->headers->from;
+    }
+    // add recipient of original message if reply to all
+    else if ($header == 'cc' && !empty($MESSAGE->reply_all) && $MESSAGE->reply_all != 'list') {
+      if ($v = $MESSAGE->headers->to)
+        $fvalue .= $v;
+      if ($v = $MESSAGE->headers->cc)
+        $fvalue .= (!empty($fvalue) ? ', ' : '') . $v;
+    }
+  }
+  else if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
+    // get drafted headers
+    if ($header=='to' && !empty($MESSAGE->headers->to))
+      $fvalue = $MESSAGE->get_header('to');
+    else if ($header=='cc' && !empty($MESSAGE->headers->cc))
+      $fvalue = $MESSAGE->get_header('cc');
+    else if ($header=='bcc' && !empty($MESSAGE->headers->bcc))
+      $fvalue = $MESSAGE->get_header('bcc');
+    else if ($header=='replyto' && !empty($MESSAGE->headers->others['mail-reply-to']))
+      $fvalue = $MESSAGE->get_header('mail-reply-to');
+    else if ($header=='replyto' && !empty($MESSAGE->headers->replyto))
+      $fvalue = $MESSAGE->get_header('reply-to');
+    else if ($header=='followupto' && !empty($MESSAGE->headers->others['mail-followup-to']))
+      $fvalue = $MESSAGE->get_header('mail-followup-to');
+  }
+
+  // split recipients and put them back together in a unique way
+  if (!empty($fvalue) && in_array($header, array('to', 'cc', 'bcc'))) {
+    $to_addresses = $IMAP->decode_address_list($fvalue);
+    $fvalue = array();
+
+    foreach ($to_addresses as $addr_part) {
+      if (empty($addr_part['mailto']))
+        continue;
+
+      $mailto = mb_strtolower(rcube_idn_to_utf8($addr_part['mailto']));
+
+      if (!in_array($mailto, $a_recipients)
+        && (empty($MESSAGE->compose['from_email']) || $mailto != $MESSAGE->compose['from_email'])
+      ) {
+        if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
+          $string = format_email_recipient($mailto, $addr_part['name']);
+        else
+          $string = $mailto;
+
+        $fvalue[] = $string;
+        $a_recipients[] = $addr_part['mailto'];
+      }
+    }
+    
+    $fvalue = implode(', ', $fvalue);
+  }
+
+  $MESSAGE->compose[$header] = $fvalue;
+}
+unset($a_recipients);
+
 // process $MESSAGE body/attachments, set $MESSAGE_BODY/$HTML_MODE vars and some session data
 $MESSAGE_BODY = rcmail_prepare_message_body();
 
@@ -225,12 +408,11 @@ $MESSAGE_BODY = rcmail_prepare_message_body();
 
 function rcmail_compose_headers($attrib)
 {
-  global $IMAP, $MESSAGE, $DB, $compose_mode;
-  static $sa_recipients = array();
+  global $MESSAGE;
 
   list($form_start, $form_end) = get_form_tags($attrib);
 
-  $out = '';
+  $out  = '';
   $part = strtolower($attrib['part']);
 
   switch ($part)
@@ -239,23 +421,10 @@ function rcmail_compose_headers($attrib)
       return $form_start . rcmail_compose_header_from($attrib);
 
     case 'to':
-      $fname = '_to';
-      $header = $param = 'to';
-
-      // we have a set of recipients stored is session
-      if (($mailto_id = $_SESSION['compose']['param']['mailto']) && $_SESSION['mailto'][$mailto_id])
-        $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
-
     case 'cc':
-      if (!$fname) {
-        $fname = '_cc';
-        $header = $param = 'cc';
-      }
     case 'bcc':
-      if (!$fname) {
-        $fname = '_bcc';
-        $header = $param = 'bcc';
-      }
+      $fname = '_' . $part;
+      $header = $param = $part;
 
       $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'tabindex');
       $field_type = 'html_textarea';
@@ -280,96 +449,6 @@ function rcmail_compose_headers($attrib)
       break;
   }
 
-  if ($fname && !empty($_POST[$fname])) {
-    $fvalue = get_input_value($fname, RCUBE_INPUT_POST, TRUE);
-  }
-  else if ($fname && !$fvalue && !empty($_SESSION['compose']['param'][$param])) {
-    $fvalue = $_SESSION['compose']['param'][$param];
-  }
-  else if ($header && $compose_mode == RCUBE_COMPOSE_REPLY) {
-    // get recipent address(es) out of the message headers
-    if ($header == 'to') {
-      $mailfollowup = $MESSAGE->headers->others['mail-followup-to'];
-      $mailreplyto  = $MESSAGE->headers->others['mail-reply-to'];
-
-      if ($MESSAGE->reply_all == 'list' && $mailfollowup)
-        $fvalue = $mailfollowup;
-      else if ($MESSAGE->reply_all == 'list'
-        && preg_match('/<mailto:([^>]+)>/i', $MESSAGE->headers->others['list-post'], $m))
-        $fvalue = $m[1];
-      else if ($mailreplyto)
-        $fvalue = $mailreplyto;
-      else if (!empty($MESSAGE->headers->replyto))
-        $fvalue = $MESSAGE->headers->replyto;
-      else if (!empty($MESSAGE->headers->from))
-        $fvalue = $MESSAGE->headers->from;
-    }
-    // add recipent of original message if reply to all
-    else if ($header == 'cc' && !empty($MESSAGE->reply_all) && $MESSAGE->reply_all != 'list') {
-      if ($v = $MESSAGE->headers->to)
-        $fvalue .= $v;
-      if ($v = $MESSAGE->headers->cc)
-        $fvalue .= (!empty($fvalue) ? ', ' : '') . $v;
-    }
-
-    // split recipients and put them back together in a unique way
-    if (!empty($fvalue)) {
-      $to_addresses = $IMAP->decode_address_list($fvalue);
-      $fvalue = '';
-
-      foreach ($to_addresses as $addr_part) {
-        if (empty($addr_part['mailto']))
-          continue;
-
-        $mailto = rcube_idn_to_utf8($addr_part['mailto']);
-
-        if (!in_array($mailto, $sa_recipients)
-            && (!$MESSAGE->compose_from
-                || !in_array_nocase($mailto, $MESSAGE->compose_from)
-                || (count($to_addresses)==1 && $header=='to')) // allow reply to yourself
-        ) {
-          if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
-            $string = format_email_recipient($mailto, $addr_part['name']);
-          else
-            $string = $mailto;
-          $fvalue .= (strlen($fvalue) ? ', ':'') . $string;
-          $sa_recipients[] = $addr_part['mailto'];
-        }
-      }
-    }
-  }
-  else if ($header && in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
-    // get drafted headers
-    if ($header=='to' && !empty($MESSAGE->headers->to))
-      $fvalue = $MESSAGE->get_header('to');
-    else if ($header=='cc' && !empty($MESSAGE->headers->cc))
-      $fvalue = $MESSAGE->get_header('cc');
-    else if ($header=='bcc' && !empty($MESSAGE->headers->bcc))
-      $fvalue = $MESSAGE->get_header('bcc');
-    else if ($header=='reply-to' && !empty($MESSAGE->headers->others['mail-reply-to']))
-      $fvalue = $MESSAGE->get_header('mail-reply-to');
-    else if ($header=='reply-to' && !empty($MESSAGE->headers->replyto))
-      $fvalue = $MESSAGE->get_header('reply-to');
-    else if ($header=='mail-followup-to' && !empty($MESSAGE->headers->others['mail-followup-to']))
-      $fvalue = $MESSAGE->get_header('mail-followup-to');
-
-    $addresses = $IMAP->decode_address_list($fvalue);
-    $fvalue = '';
-
-    foreach ($addresses as $addr_part) {
-      if (empty($addr_part['mailto']))
-        continue;
-
-      $mailto = rcube_idn_to_utf8($addr_part['mailto']);
-
-      if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
-        $string = format_email_recipient($mailto, $addr_part['name']);
-      else
-        $string = $mailto;
-      $fvalue .= (strlen($fvalue) ? ', ':'') . $string;
-    }
-  }
-
   if ($fname && $field_type)
   {
     // pass the following attributes to the form class
@@ -380,7 +459,7 @@ function rcmail_compose_headers($attrib)
 
     // create teaxtarea object
     $input = new $field_type($field_attrib);
-    $out = $input->show($fvalue);
+    $out = $input->show($MESSAGE->compose[$param]);
   }
   
   if ($form_start)
@@ -392,42 +471,15 @@ function rcmail_compose_headers($attrib)
 
 function rcmail_compose_header_from($attrib)
 {
-  global $IMAP, $MESSAGE, $DB, $USER, $OUTPUT, $compose_mode;
-    
+  global $MESSAGE, $OUTPUT;
+
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_from');
   foreach ($attrib as $attr => $value)
     if (in_array($attr, array('id', 'class', 'style', 'size', 'tabindex')))
       $field_attrib[$attr] = $value;
 
-  // extract all recipients of the reply-message
-  $a_recipients = array();
-  if ($compose_mode == RCUBE_COMPOSE_REPLY && is_object($MESSAGE->headers))
-  {
-    $MESSAGE->compose_from = array();
-
-    $a_to = $IMAP->decode_address_list($MESSAGE->headers->to);
-    foreach ($a_to as $addr)
-    {
-      if (!empty($addr['mailto']))
-        $a_recipients[] = strtolower($addr['mailto']);
-    }
-
-    if (!empty($MESSAGE->headers->cc))
-    {
-      $a_cc = $IMAP->decode_address_list($MESSAGE->headers->cc);
-      foreach ($a_cc as $addr)
-      {
-        if (!empty($addr['mailto']))
-          $a_recipients[] = strtolower($addr['mailto']);
-      }
-    }
-  }
-
-  // get this user's identities
-  $user_identities = $USER->list_identities();
-
-  if (count($user_identities))
+  if (count($MESSAGE->identities))
   {
     $a_signatures = array();
 
@@ -435,11 +487,10 @@ function rcmail_compose_header_from($attrib)
     $select_from = new html_select($field_attrib);
 
     // create SELECT element
-    foreach ($user_identities as $sql_arr)
+    foreach ($MESSAGE->identities as $sql_arr)
     {
-      $email = mb_strtolower(rcube_idn_to_utf8($sql_arr['email']));
       $identity_id = $sql_arr['identity_id'];
-      $select_from->add(format_email_recipient($email, $sql_arr['name']), $identity_id);
+      $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $identity_id);
 
       // add signature to array
       if (!empty($sql_arr['signature']) && empty($_SESSION['compose']['param']['nosig']))
@@ -452,43 +503,9 @@ function rcmail_compose_header_from($attrib)
             $a_signatures[$identity_id]['plain_text'] = trim($h2t->get_text());
         }
       }
-
-      if ($compose_mode == RCUBE_COMPOSE_REPLY && is_array($MESSAGE->compose_from))
-        $MESSAGE->compose_from[] = $email;
     }
 
-    $from_id = 0;
-
-    // overwrite identity selection with post parameter
-    if (!empty($_POST['_from']))
-      $from_id = get_input_value('_from', RCUBE_INPUT_POST);
-    else if (!empty($_SESSION['compose']['param']['from']))
-      $from_id = $_SESSION['compose']['param']['from'];
-    else {
-      $return_path = $MESSAGE->headers->others['return-path'];
-
-      // Set identity
-      foreach ($user_identities as $sql_arr) {
-        // set draft's identity
-        if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
-          if ($MESSAGE->headers->from == format_email_recipient($sql_arr['email'], $sql_arr['name'])) {
-            $from_id = $sql_arr['identity_id'];
-            break;
-          }
-        }
-        // set identity if it's one of the reply-message recipients (with prio for default identity)
-        else if (in_array($sql_arr['email'], $a_recipients) && (empty($from_id) || $sql_arr['standard']))
-          $from_id = $sql_arr['identity_id'];
-        // set identity when replying to mailing list
-        else if (strpos($return_path, str_replace('@', '=', $sql_arr['email']).'@') !== false)
-          $from_id = $sql_arr['identity_id'];
-
-        if ($from_id)
-          break;
-      }
-    }
-
-    $out = $select_from->show($from_id);
+    $out = $select_from->show($MESSAGE->compose['from']);
 
     // add signatures to client
     $OUTPUT->set_env('signatures', $a_signatures);
@@ -497,7 +514,7 @@ function rcmail_compose_header_from($attrib)
   else {
     $field_attrib['class'] = 'from_address';
     $input_from = new html_inputfield($field_attrib);
-    $out = $input_from->show($_POST['_from']);
+    $out = $input_from->show($MESSAGE->compose['from']);
   }
 
   return $out;

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Replying to a sent message puts the old recipient as the new recipient (#1487074)
 - Fulltext search over (almost) all data for contacts
 - Extend address book with rich contact information
 - Support strftime format in date_today option
