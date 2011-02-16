@@ -5,7 +5,7 @@
 | plugins/password/localization/ru_RU.inc                               |
 |                                                                       |
 | Language file of the Roundcube help plugin                            |
-| Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+

@@ -20,7 +20,7 @@
 function password_save($currpass, $newpass)
 {
     $rcmail = rcmail::get_instance();
-    list($user,$domain) = split('@',$_SESSION['username']);
+    list($user,$domain) = explode('@', $_SESSION['username']);
 
     $xmail = new XMail;
 

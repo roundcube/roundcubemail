@@ -201,7 +201,7 @@
 
  As in sasl driver this one allows to change password using shell
  utility called "virtualmin". See drivers/chgvirtualminpasswd.c for
- installation instructions.
+ installation instructions. See also config.inc.php.dist file.
 
 
  2.9. hMailServer (hmail)

@@ -128,7 +128,15 @@ class password extends rcube_plugin
             // try to save the password
             else if (!($res = $this->_save($curpwd, $newpwd))) {
                 $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+
+                // Reset session password
                 $_SESSION['password'] = $rcmail->encrypt($newpwd);
+
+                // Log password change
+                if ($rcmail->config->get('password_log')) {
+                    write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
+                        $rcmail->user->get_username(), $rcmail->user->ID, rcmail_remote_ip()));
+                }
             }
             else {
                 $rcmail->output->command('display_message', $res, 'error');
@@ -232,8 +240,8 @@ class password extends rcube_plugin
         $result = password_save($curpass, $passwd);
 
         if (is_array($result)) {
-            $result  = $result['code'];
             $message = $result['message'];
+            $result  = $result['code'];
         }
 
         switch ($result) {

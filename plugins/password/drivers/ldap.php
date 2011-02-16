@@ -62,10 +62,28 @@ function password_save($curpass, $passwd)
         return PASSWORD_CONNECT_ERROR;
     }
 
-    // Crypting new password
-    $newCryptedPassword = hashPassword($passwd, $rcmail->config->get('password_ldap_encodage'));
-    if (!$newCryptedPassword) {
+    $crypted_pass = hashPassword($passwd, $rcmail->config->get('password_ldap_encodage'));
+    $force        = $rcmail->config->get('password_ldap_force_replace');
+    $pwattr       = $rcmail->config->get('password_ldap_pwattr');
+    $lchattr      = $rcmail->config->get('password_ldap_lchattr');
+    $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
+    $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
+    $samba        = $rcmail->config->get('password_ldap_samba');
+
+    // Support password_ldap_samba option for backward compat.
+    if ($samba && !$smbpwattr) {
+        $smbpwattr  = 'sambaNTPassword';
+        $smblchattr = 'sambaPwdLastSet';
+    }
+
+    // Crypt new password
+    if (!$crypted_pass) {
         return PASSWORD_CRYPT_ERROR;
+    }
+
+    // Crypt new samba password
+    if ($smbpwattr && !($samba_pass = hashPassword($passwd, 'samba'))) {
+	    return PASSWORD_CRYPT_ERROR;
     }
 
     // Writing new crypted password to LDAP
@@ -74,31 +92,29 @@ function password_save($curpass, $passwd)
         return PASSWORD_CONNECT_ERROR;
     }
 
-    $pwattr = $rcmail->config->get('password_ldap_pwattr');
-    $force = $rcmail->config->get('password_ldap_force_replace');
-
-    if (!$userEntry->replace(array($pwattr => $newCryptedPassword), $force)) {
+    if (!$userEntry->replace(array($pwattr => $crypted_pass), $force)) {
         return PASSWORD_CONNECT_ERROR;
     }
 
     // Updating PasswordLastChange Attribute if desired
-    if ($lchattr = $rcmail->config->get('password_ldap_lchattr')) {
+    if ($lchattr) {
        $current_day = (int)(time() / 86400);
        if (!$userEntry->replace(array($lchattr => $current_day), $force)) {
            return PASSWORD_CONNECT_ERROR;
        }
     }
 
-    if (Net_LDAP2::isError($userEntry->update())) {
-        return PASSWORD_CONNECT_ERROR;
+    // Update Samba password and last change fields
+    if ($smbpwattr) {
+        $userEntry->replace(array($smbpwattr => $samba_pass), $force);
+    }
+    // Update Samba password last change field
+    if ($smblchattr) {
+        $userEntry->replace(array($smblchattr => time()), $force);
     }
 
-    // Update Samba password fields, ignore errors if attributes are not found
-    if ($rcmail->config->get('password_ldap_samba')) {
-        $sambaNTPassword = hash('md4', rcube_charset_convert($passwd, RCMAIL_CHARSET, 'UTF-16LE'));
-        $userEntry->replace(array('sambaNTPassword' => $sambaNTPassword), $force);
-        $userEntry->replace(array('sambaPwdLastSet' => time()), $force);
-        $userEntry->update();
+    if (Net_LDAP2::isError($userEntry->update())) {
+        return PASSWORD_CONNECT_ERROR;
     }
 
     // All done, no error
@@ -250,6 +266,15 @@ function hashPassword( $passwordClear, $encodageType )
                 $cryptedPassword = '{SMD5}'.base64_encode( mhash( MHASH_MD5, $passwordClear.$salt ).$salt );
             } else {
                 return FALSE; //Your PHP install does not have the mhash() function. Cannot do SHA hashes.
+            }
+            break;
+
+        case 'samba':
+            if (function_exists('hash')) {
+                $cryptedPassword = hash('md4', rcube_charset_convert($password_clear, RCMAIL_CHARSET, 'UTF-16LE'));
+            } else {
+				/* Your PHP install does not have the hash() function */
+				return false;
             }
             break;
 

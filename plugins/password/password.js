@@ -7,13 +7,11 @@ if (window.rcmail) {
   rcmail.addEventListener('init', function(evt) {
     // <span id="settingstabdefault" class="tablink"><roundcube:button command="preferences" type="link" label="preferences" title="editpreferences" /></span>
     var tab = $('<span>').attr('id', 'settingstabpluginpassword').addClass('tablink');
-    
-    var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.password').html(rcmail.gettext('password')).appendTo(tab);
-    button.bind('click', function(e){ return rcmail.command('plugin.password', this) });
+    var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.password')
+      .html(rcmail.gettext('password')).appendTo(tab);
 
     // add button and register commands
     rcmail.add_element(tab, 'tabs');
-    rcmail.register_command('plugin.password', function() { rcmail.goto_url('plugin.password') }, true);
     rcmail.register_command('plugin.password-save', function() { 
       var input_curpasswd = rcube_find_object('_curpasswd');
       var input_newpasswd = rcube_find_object('_newpasswd');

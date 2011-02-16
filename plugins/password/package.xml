@@ -15,8 +15,8 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date></date>
-	<time></time>
+	<date>2011-02-15</date>
+	<time>12:00</time>
 	<version>
 		<release>2.2</release>
 		<api>1.6</api>
@@ -34,6 +34,11 @@
 - ldap_simple driver: fix parse error
 - ldap/ldap_simple drivers: support %dc variable in config
 - ldap/ldap_simple drivers: support Samba password change
+- Fix extended error messages handling (#1487676)
+- Fix double request when clicking on Password tab in Firefox
+- Fix deprecated split() usage in xmail and directadmin drivers (#1487769)
+- Added option (password_log) for logging password changes
+- Virtualmin driver: Add option for setting username format (#1487781)
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -61,6 +66,7 @@
 			<file name="localization/et_EE.inc" role="data"></file>
 			<file name="localization/fi_FI.inc" role="data"></file>
 			<file name="localization/fr_FR.inc" role="data"></file>
+			<file name="localization/gl_ES.inc" role="data"></file>
 			<file name="localization/hu_HU.inc" role="data"></file>
 			<file name="localization/it_IT.inc" role="data"></file>
 			<file name="localization/lt_LT.inc" role="data"></file>

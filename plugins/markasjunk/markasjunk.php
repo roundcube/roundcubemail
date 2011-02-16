@@ -27,7 +27,9 @@ class markasjunk extends rcube_plugin
         'command' => 'plugin.markasjunk',
         'imagepas' => $skin_path.'/junk_pas.png',
         'imageact' => $skin_path.'/junk_act.png',
-	'title' => 'markasjunk.buttontitle'), 'toolbar');
+        'width' => 32,
+        'height' => 32,
+        'title' => 'markasjunk.buttontitle'), 'toolbar');
     }
   }
 

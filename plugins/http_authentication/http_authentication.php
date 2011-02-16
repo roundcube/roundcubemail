@@ -5,7 +5,7 @@
  *
  * Make use of an existing HTTP authentication and perform login with the existing user credentials
  *
- * @version 1.1
+ * @version 1.2
  * @author Thomas Bruederli
  */
 class http_authentication extends rcube_plugin
@@ -36,6 +36,7 @@ class http_authentication extends rcube_plugin
     }
     
     $args['cookiecheck'] = false;
+    $args['valid'] = true;
   
     return $args;
   }

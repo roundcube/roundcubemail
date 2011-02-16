@@ -7,12 +7,10 @@ if (window.rcmail) {
     var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.managesieve')
       .attr('title', rcmail.gettext('managesieve.managefilters'))
       .html(rcmail.gettext('managesieve.filters'))
-      .bind('click', function(e){ return rcmail.command('plugin.managesieve', this) })
       .appendTo(tab);
 
     // add button and register commands
     rcmail.add_element(tab, 'tabs');
-    rcmail.register_command('plugin.managesieve', function() { rcmail.goto_url('plugin.managesieve') }, true);
     rcmail.register_command('plugin.managesieve-save', function() { rcmail.managesieve_save() }, true);
     rcmail.register_command('plugin.managesieve-add', function() { rcmail.managesieve_add() }, true);
     rcmail.register_command('plugin.managesieve-del', function() { rcmail.managesieve_del() }, true);

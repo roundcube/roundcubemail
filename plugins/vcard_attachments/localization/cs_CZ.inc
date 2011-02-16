@@ -5,7 +5,7 @@
 | language/cs_CZ/labels.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2008-2010, RoundQube Dev. - Switzerland                 |
+| Copyright (C) 2008-2010, The Roundcube Dev Team                       |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+

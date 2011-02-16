@@ -316,8 +316,8 @@ class HTTPSocket {
             }
 
         }
-        
-        list($this->result_header,$this->result_body) = split("\r\n\r\n",$this->result,2);
+
+        list($this->result_header, $this->result_body) = explode("\r\n\r\n", $this->result, 2);
 
         if ($this->bind_host)
         {
@@ -378,7 +378,7 @@ class HTTPSocket {
         {
             if ($asArray)
             {
-                return split("\n",$this->fetch_body());
+                return explode("\n", $this->fetch_body());
             }
 
             return $this->fetch_body();
@@ -438,14 +438,14 @@ class HTTPSocket {
      */
     function fetch_header( $header = '' )
     {
-        $array_headers = split("\r\n",$this->result_header);
-        
+        $array_headers = explode("\r\n", $this->result_header);
+
         $array_return = array( 0 => $array_headers[0] );
         unset($array_headers[0]);
 
         foreach ( $array_headers as $pair )
         {
-            list($key,$value) = split(": ",$pair,2);
+            list($key,$value) = explode(": ", $pair, 2);
             $array_return[strtolower($key)] = $value;
         }
 

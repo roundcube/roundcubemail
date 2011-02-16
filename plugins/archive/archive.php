@@ -30,6 +30,8 @@ class archive extends rcube_plugin
             'command' => 'plugin.archive',
             'imagepas' => $skin_path.'/archive_pas.png',
             'imageact' => $skin_path.'/archive_act.png',
+            'width' => 32,
+            'height' => 32,
             'title' => 'buttontitle',
             'domain' => $this->ID,
         ),

@@ -31,6 +31,8 @@ class autologon extends rcube_plugin
       $args['user'] = 'me';
       $args['pass'] = '******';
       $args['host'] = 'localhost';
+      $args['cookiecheck'] = false;
+      $args['valid'] = true;
     }
   
     return $args;
