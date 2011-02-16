@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix SQL query in rcube_user::query() so it uses index on MySQL again
+- Use only one from IMAP authentication methods to prevent login delays (1487784)
+- Fix strftime format support in date_today option
 - Removed redundant </form> tags from contact add/edit pages
 - Fix CSS error in contact details screen on IE7 (#1487775)
 

@@ -1071,9 +1071,6 @@ class rcmail
    */
   public function shutdown()
   {
-    if (is_object($this->imap))
-      $this->imap->close();
-
     if (is_object($this->smtp))
       $this->smtp->disconnect();
 
@@ -1197,6 +1194,9 @@ class rcmail
         ), true, true);
       }
     }
+
+    if (is_object($this->imap))
+      $this->imap->close();
 
     return $base64 ? base64_encode($cipher) : $cipher;
   }

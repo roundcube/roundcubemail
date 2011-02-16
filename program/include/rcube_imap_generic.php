@@ -757,6 +757,13 @@ class rcube_imap_generic
                 // Now we're secure, capabilities need to be reread
                 $this->clearCapability();
             }
+
+            // Use best (for security) supported authentication method
+            foreach (array('DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN') as $auth_method) {
+                if (in_array($auth_method, $auth_methods)) {
+                    break;
+                }
+            }
         }
 
         // Send ID info
@@ -782,6 +789,13 @@ class rcube_imap_generic
             else if (!$login_disabled) {
                 $auth_methods[] = 'LOGIN';
             }
+
+            // Use best (for security) supported authentication method
+            foreach (array('DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN') as $auth_method) {
+                if (in_array($auth_method, $auth_methods)) {
+                    break;
+                }
+            }
         }
         else {
             // Prevent from sending credentials in plain text when connection is not secure
@@ -791,32 +805,28 @@ class rcube_imap_generic
                 return false;
             }
             // replace AUTH with CRAM-MD5 for backward compat.
-            $auth_methods[] = $auth_method == 'AUTH' ? 'CRAM-MD5' : $auth_method;
+            if ($auth_method == 'AUTH') {
+                $auth_method = 'CRAM-MD5';
+            }
         }
 
         // pre-login capabilities can be not complete
         $this->capability_readed = false;
 
         // Authenticate
-        foreach ($auth_methods as $method) {
-            switch ($method) {
+        switch ($auth_method) {
             case 'CRAM_MD5':
-                $method = 'CRAM-MD5';
+                $auth_method = 'CRAM-MD5';
             case 'CRAM-MD5':
             case 'DIGEST-MD5':
             case 'PLAIN':
-                $result = $this->authenticate($user, $password, $method);
+                $result = $this->authenticate($user, $password, $auth_method);
                 break;
             case 'LOGIN':
                 $result = $this->login($user, $password);
                 break;
             default:
-                $this->setError(self::ERROR_BAD, "Configuration error. Unknown auth method: $method");
-            }
-
-            if (is_resource($result)) {
-                break;
-            }
+                $this->setError(self::ERROR_BAD, "Configuration error. Unknown auth method: $auth_method");
         }
 
         // Connected and authenticated
