@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add LDAP SASL bind and proxy authentication (#1486692)
 - Add variable for 'Today' label in date_today option (#1486120)
 - Fix dont_override setting does not override existing user preferences (#1487664)
 - Use only one from IMAP authentication methods to prevent login delays (1487784)

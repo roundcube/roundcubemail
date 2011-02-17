@@ -162,11 +162,16 @@ class rcube_ldap extends rcube_addressbook
         {
             $this->ready = true;
 
+            $bind_pass = $this->prop['bind_pass'];
+            $bind_user = $this->prop['bind_user'];
+            $bind_dn   = $this->prop['bind_dn'];
+            $base_dn   = $this->prop['base_dn'];
+
             // User specific access, generate the proper values to use.
             if ($this->prop['user_specific']) {
                 // No password set, use the session password
-                if (empty($this->prop['bind_pass'])) {
-                    $this->prop['bind_pass'] = $RCMAIL->decrypt($_SESSION['password']);
+                if (empty($bind_pass)) {
+                    $bind_pass = $RCMAIL->decrypt($_SESSION['password']);
                 }
 
                 // Get the pieces needed for variable replacement.
@@ -190,19 +195,31 @@ class rcube_ldap extends rcube_addressbook
                         $this->_debug("S: search returned dn: $bind_dn");
 
                         if ($bind_dn) {
-                            $this->prop['bind_dn'] = $bind_dn;
                             $dn = ldap_explode_dn($bind_dn, 1);
                             $replaces['%dn'] = $dn[0];
                         }
                     }
                 }
                 // Replace the bind_dn and base_dn variables.
-                $this->prop['bind_dn'] = strtr($this->prop['bind_dn'], $replaces);
-                $this->prop['base_dn'] = strtr($this->prop['base_dn'], $replaces);
+                $bind_dn   = strtr($bind_dn, $replaces);
+                $base_dn   = strtr($base_dn, $replaces);
+
+                if (empty($bind_user)) {
+                    $bind_user = $u;
+                }
             }
 
-            if (!empty($this->prop['bind_dn']) && !empty($this->prop['bind_pass']))
-                $this->ready = $this->_bind($this->prop['bind_dn'], $this->prop['bind_pass']);
+            if (!empty($bind_pass)) {
+                if (!empty($bind_dn)) {
+                    $this->ready = $this->_bind($bind_dn, $bind_pass);
+                }
+                else if (!empty($this->prop['auth_cid'])) {
+                    $this->ready = $this->_sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
+                }
+                else {
+                    $this->ready = $this->_sasl_bind($bind_user, $bind_pass);
+                }
+            }
         }
         else
             raise_error(array('code' => 100, 'type' => 'ldap',
@@ -213,6 +230,59 @@ class rcube_ldap extends rcube_addressbook
         if ($this->prop['writable']) {
             $this->readonly = false;
         } // end if
+    }
+
+
+    /**
+     * Bind connection with (SASL-) user and password
+     *
+     * @param string $authc Authentication user
+     * @param string $pass  Bind password
+     * @param string $authz Autorization user
+     *
+     * @return boolean True on success, False on error
+     */
+    private function _sasl_bind($authc, $pass, $authz=null)
+    {
+        if (!$this->conn) {
+            return false;
+        }
+
+        if (!function_exists('ldap_sasl_bind')) {
+            raise_error(array(
+                'code' => 100, 'type' => 'ldap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Unable to bind: ldap_sasl_bind() not exists"),
+            true, true);
+        }
+
+        if (!empty($authz)) {
+            $authz = 'u:' . $authz;
+        }
+
+        if (!empty($this->prop['auth_method'])) {
+            $method = $this->prop['auth_method'];
+        }
+        else {
+            $method = 'DIGEST-MD5';
+        }
+
+        $this->_debug("C: Bind [mech: $method, authc: $authc, authz: $authz] [pass: $pass]");
+
+        if (ldap_sasl_bind($this->conn, NULL, $pass, $method, NULL, $authc, $authz)) {
+            $this->_debug("S: OK");
+            return true;
+        }
+
+        $this->_debug("S: ".ldap_error($this->conn));
+
+        raise_error(array(
+            'code' => ldap_errno($this->conn), 'type' => 'ldap',
+            'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Bind failed for authcid=$authc ".ldap_error($this->conn)),
+            true);
+
+        return false;
     }
 
 

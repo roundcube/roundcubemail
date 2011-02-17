@@ -470,6 +470,11 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // The login name is used to search for the DN to bind with
   'search_base_dn' => '',
   'search_filter'  => '',   // e.g. '(&(objectClass=posixAccount)(uid=%u))'
+  // Optional authentication identifier to be used as SASL authorization proxy
+  // bind_dn need to be empty
+  'auth_cid'       => '',
+  // SASL authentication method (for proxy auth), e.g. DIGEST-MD5
+  'auth_method'    => '',
   // Indicates if we can write to the LDAP directory or not.
   // If writable is true then these fields need to be populated:
   // LDAP_Object_Classes, required_fields, LDAP_rdn
