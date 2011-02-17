@@ -3321,7 +3321,7 @@ class rcube_imap_generic
         else if ($force_quotes ||
             preg_match('/([\x00-\x20\x28-\x29\x7B\x25\x2A\x22\x5B\x5C\x5D\x7F]+)/', $string)
         ) {
-            return '"' . strtr($string, array('"'=>'\\"', '\\' => '\\\\')) . '"';
+            return '"' . addcslashes($string, '\\"') . '"';
         }
 
         // atom
@@ -3330,7 +3330,7 @@ class rcube_imap_generic
 
     static function unEscape($string)
     {
-        return strtr($string, array('\\"'=>'"', '\\\\' => '\\'));
+        return stripslashes($string);
     }
 
     /**
