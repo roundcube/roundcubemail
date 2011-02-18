@@ -266,19 +266,23 @@ class rcube_html_page
             $output = substr($output, 0, $pos) . $css . substr($output, $pos);
         }
 
-	    $this->base_path = $base_path;
+        $this->base_path = $base_path;
 
         // correct absolute paths in images and other tags
-	    // add timestamp to .js and .css filename
+        // add timestamp to .js and .css filename
         $output = preg_replace_callback(
             '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
-	        array($this, 'file_callback'), $output);
+            array($this, 'file_callback'), $output);
         $output = str_replace('$__skin_path', $base_path, $output);
 
-        if ($this->charset != RCMAIL_CHARSET)
-	        echo rcube_charset_convert($output, RCMAIL_CHARSET, $this->charset);
-	    else
-	        echo $output;
+        // trigger hook with final HTML content to be sent
+        $hook = rcmail::get_instance()->plugins->exec_hook("send_page", array('content' => $output));
+        if (!$hook['abort']) {
+            if ($this->charset != RCMAIL_CHARSET)
+                echo rcube_charset_convert($hook['content'], RCMAIL_CHARSET, $this->charset);
+            else
+                echo $hook['content'];
+        }
     }
     
     /**
