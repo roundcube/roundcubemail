@@ -3486,15 +3486,14 @@ function rcube_webmail()
     if (q == this.ksearch_value)
       return;
 
-    if (q.length < min) {
+    if (q.length && q.length < min) {
       if (!this.env.acinfo) {
-        var label = this.get_label('autocompletechars');
-        label = label.replace('$min', min);
-        this.env.acinfo = this.display_message(label);
+        this.env.acinfo = this.display_message(
+          this.get_label('autocompletechars').replace('$min', min));
       }
       return;
     }
-    else if (this.env.acinfo && q.length == min) {
+    else if (this.env.acinfo) {
       this.hide_message(this.env.acinfo);
     }
 
