@@ -37,7 +37,7 @@ function rcube_init_tabs(id, current)
   fs.each(function(idx) { if (idx != current) $(this).hide(); });
 
   // create tabs container
-  var tabs = $('<div>').addClass('tabsbar').appendTo($(content));
+  var tabs = $('<div>').addClass('tabsbar').appendTo(content);
 
   // convert fildsets into tabs
   fs.each(function(idx) {
