@@ -1748,7 +1748,7 @@ function rcube_html_editor($mode='')
 {
   global $RCMAIL, $CONFIG;
 
-  $hook = $RCMAIL->plugins->exec_hook('hmtl_editor', array('mode' => $mode));
+  $hook = $RCMAIL->plugins->exec_hook('html_editor', array('mode' => $mode));
 
   if ($hook['abort'])
     return;  
