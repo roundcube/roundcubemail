@@ -117,7 +117,8 @@ CREATE TABLE `contactgroupmembers` (
   CONSTRAINT `contactgroup_id_fk_contactgroups` FOREIGN KEY (`contactgroup_id`)
     REFERENCES `contactgroups`(`contactgroup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `contact_id_fk_contacts` FOREIGN KEY (`contact_id`)
-    REFERENCES `contacts`(`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    REFERENCES `contacts`(`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  INDEX `contactgroupmembers_contact_index` (`contact_id`)
 ) /*!40000 ENGINE=INNODB */;
 
 

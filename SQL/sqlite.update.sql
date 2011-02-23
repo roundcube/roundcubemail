@@ -221,3 +221,4 @@ CREATE INDEX ix_contacts_user_id ON contacts(user_id, email);
 DROP TABLE contacts_tmp;
 
 DELETE FROM messages;
+CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);

@@ -157,6 +157,8 @@ CREATE TABLE contactgroupmembers (
     PRIMARY KEY (contactgroup_id, contact_id)
 );
 
+CREATE INDEX contactgroupmembers_contact_id_idx ON contactgroupmembers (contact_id);
+
 --
 -- Sequence "cache_ids"
 -- Name: cache_ids; Type: SEQUENCE; Schema: public; Owner: postgres

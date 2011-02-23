@@ -136,3 +136,5 @@ TRUNCATE TABLE `messages`;
 -- Updates from version 0.5.*
 
 ALTER TABLE `contacts` ADD `words` TEXT NULL AFTER `vcard`;
+ALTER TABLE `contactgroupmembers` ADD INDEX `contactgroupmembers_contact_index` (`contact_id`);
+ 

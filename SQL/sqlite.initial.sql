@@ -56,6 +56,8 @@ CREATE TABLE contactgroupmembers (
   PRIMARY KEY (contactgroup_id, contact_id)
 );
 
+CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);
+
 
 -- --------------------------------------------------------
 

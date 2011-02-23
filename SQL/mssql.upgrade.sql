@@ -101,3 +101,5 @@ GO
 
 ALTER TABLE [dbo].[contacts] ADD [words] [text] COLLATE Latin1_General_CI_AI NULL 
 GO
+CREATE  INDEX [IX_contactgroupmembers_contact_id] ON [dbo].[contactgroupmembers]([contact_id]) ON [PRIMARY]
+GO

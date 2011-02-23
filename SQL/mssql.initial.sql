@@ -195,6 +195,8 @@ ALTER TABLE [dbo].[contactgroupmembers] ADD
 	CONSTRAINT [DF_contactgroupmembers_created] DEFAULT (getdate()) FOR [created]
 GO
 
+CREATE  INDEX [IX_contactgroupmembers_contact_id] ON [dbo].[contactgroupmembers]([contact_id]) ON [PRIMARY]
+GO
 
 ALTER TABLE [dbo].[identities] ADD 
 	CONSTRAINT [DF_identities_user] DEFAULT ('0') FOR [user_id],
