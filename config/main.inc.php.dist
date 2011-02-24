@@ -347,6 +347,7 @@ $rcmail_config['date_short'] = 'D H:i';
 $rcmail_config['date_long'] = 'd.m.Y H:i';
 
 // use this format for today's date display (date or strftime format)
+// Note: $ character will be replaced with 'Today' label
 $rcmail_config['date_today'] = 'H:i';
 
 // store draft message is this mailbox

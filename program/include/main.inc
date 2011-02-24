@@ -1067,7 +1067,18 @@ function format_date($date, $format=NULL)
       $out .= date($format{$i}, $timestamp);
   }
 
-  return $today ? (rcube_label('today') . ' ' . $out) : $out;
+  if ($today) {
+    $label = rcube_label('today');
+    // replcae $ character with "Today" label (#1486120)
+    if (strpos($out, '$') !== false) {
+      $out = preg_replace('/\$/', $label, $out, 1);
+    }
+    else {
+      $out = $label . ' ' . $out;
+    }
+  }
+
+  return $out;
 }
 
 
@@ -1685,7 +1696,7 @@ function rcube_html_editor($mode='')
 {
   global $RCMAIL, $CONFIG;
 
-  $hook = $RCMAIL->plugins->exec_hook('hmtl_editor', array('mode' => $mode));
+  $hook = $RCMAIL->plugins->exec_hook('html_editor', array('mode' => $mode));
 
   if ($hook['abort'])
     return;  

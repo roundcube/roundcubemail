@@ -475,7 +475,9 @@ class Net_Sieve
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
             return PEAR::raiseError('Not currently in TRANSACTION state', 1);
         }
-        if (PEAR::isError($res = $this->_doCmd(sprintf('HAVESPACE "%s" %d', $scriptname, $size)))) {
+
+        $command = sprintf('HAVESPACE %s %d', $this->_escape($scriptname), $size);
+        if (PEAR::isError($res = $this->_doCmd($command))) {
             return $res;
         }
         return true;
@@ -740,7 +742,9 @@ class Net_Sieve
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
             return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
-        if (PEAR::isError($res = $this->_doCmd(sprintf('DELETESCRIPT "%s"', $scriptname)))) {
+
+        $command = sprintf('DELETESCRIPT %s', $this->_escape($scriptname));
+        if (PEAR::isError($res = $this->_doCmd($command))) {
             return $res;
         }
         return true;
@@ -759,7 +763,8 @@ class Net_Sieve
             return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
 
-        if (PEAR::isError($res = $this->_doCmd(sprintf('GETSCRIPT "%s"', $scriptname)))) {
+        $command = sprintf('GETSCRIPT %s', $this->_escape($scriptname));
+        if (PEAR::isError($res = $this->_doCmd($command))) {
             return $res;
         }
 
@@ -779,9 +784,12 @@ class Net_Sieve
         if (NET_SIEVE_STATE_TRANSACTION != $this->_state) {
             return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
-        if (PEAR::isError($res = $this->_doCmd(sprintf('SETACTIVE "%s"', $scriptname)))) {
+
+        $command = sprintf('SETACTIVE %s', $this->_escape($scriptname));
+        if (PEAR::isError($res = $this->_doCmd($command))) {
             return $res;
         }
+
         $this->_activeScript = $scriptname;
         return true;
     }
@@ -808,9 +816,10 @@ class Net_Sieve
         $res = explode("\r\n", $res);
         foreach ($res as $value) {
             if (preg_match('/^"(.*)"( ACTIVE)?$/i', $value, $matches)) {
-                $scripts[] = $matches[1];
+                $script_name = stripslashes($matches[1]);
+                $scripts[] = $script_name;
                 if (!empty($matches[2])) {
-                    $activescript = $matches[1];
+                    $activescript = $script_name;
                 }
             }
         }
@@ -833,8 +842,10 @@ class Net_Sieve
         }
 
         $stringLength = $this->_getLineLength($scriptdata);
+        $command      = sprintf("PUTSCRIPT %s {%d+}\r\n%s",
+            $this->_escape($scriptname), $stringLength, $scriptdata);
 
-        if (PEAR::isError($res = $this->_doCmd(sprintf("PUTSCRIPT \"%s\" {%d+}\r\n%s", $scriptname, $stringLength, $scriptdata)))) {
+        if (PEAR::isError($res = $this->_doCmd($command))) {
             return $res;
         }
 
@@ -1210,6 +1221,24 @@ class Net_Sieve
         $string = strtoupper($string);
         setlocale(LC_CTYPE, $language);
         return $string;
+    }
+
+    /**
+     * Convert string into RFC's quoted-string or literal-c2s form
+     *
+     * @param string $string The string to convert.
+     *
+     * @return string Result string
+     */
+    function _escape($string)
+    {
+        // Some implementations doesn't allow UTF-8 characters in quoted-string
+        // It's safe to use literal-c2s
+        if (preg_match('/[^\x01-\x09\x0B-\x0C\x0E-\x7F]/', $string)) {
+            return sprintf("{%d+}\r\n%s", $this->_getLineLength($string), $string);
+        }
+
+        return '"' . addcslashes($string, '\\"') . '"';
     }
 
     /**

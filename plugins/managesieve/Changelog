@@ -1,5 +1,8 @@
 - Fix escaping of backslash character in quoted strings (#1487780)
 - Fix STARTTLS for timsieved < 2.3.10
+- Fix handling of non-safe characters (double-quote, backslash)
+  or UTF-8 characters (dovecot's implementation bug workaround)
+  in script names
 
 * version 3.0 [2011-02-01]
 -----------------------------------------------------------
