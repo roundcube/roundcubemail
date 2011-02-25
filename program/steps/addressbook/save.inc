@@ -204,20 +204,13 @@ if (!empty($cid))
 
 // insert a new contact
 else {
-  // check for existing contacts
+  // show notice if existing contacts with same e-mail are found
   $existing = false;
   foreach ($CONTACTS->get_col_values('email', $a_record, true) as $email) {
-      if (($res = $CONTACTS->search('email', $email, true, false)) && $res->count) {
-          $existing = true;
+      if (($res = $CONTACTS->search('email', $email, false, false)) && $res->count) {
+          $OUTPUT->show_message('contactexists', 'notice', null, false);
           break;
       }
-  }
-
-  // show warning message
-  if ($existing) {
-    $OUTPUT->show_message('contactexists', 'warning', null, false);
-    rcmail_overwrite_action('add');
-    return;
   }
 
   $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
