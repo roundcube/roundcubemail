@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- jQuery 1.5.1
 - Fix problem with contactgroupmembers table creation on MySQL 4.x, add index on contact_id column
 - Add LDAP SASL bind and proxy authentication (#1486692)
 - Add variable for 'Today' label in date_today option (#1486120)

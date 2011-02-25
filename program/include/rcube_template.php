@@ -84,7 +84,7 @@ class rcube_template extends rcube_html_page
         $this->add_script($javascript, 'head_top');
         $this->add_script($javascript_foot, 'foot');
         $this->scripts_path = 'program/js/';
-        $this->include_script('jquery-1.4.min.js');
+        $this->include_script('jquery-1.5.min.js');
         $this->include_script('common.js');
         $this->include_script('app.js');
 
