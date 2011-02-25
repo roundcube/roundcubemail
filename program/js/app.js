@@ -3190,7 +3190,7 @@ function rcube_webmail()
 
     // create hidden iframe and post upload form
     if (send) {
-      this.async_upload_form(form, 'upload', function(e) {
+      var frame_name = this.async_upload_form(form, 'upload', function(e) {
         var d, content = '';
         try {
           if (this.contentDocument) {
@@ -3199,7 +3199,7 @@ function rcube_webmail()
             d = this.contentWindow.document;
           }
           content = d.childNodes[0].innerHTML;
-        } catch (e) {}
+        } catch (err) {}
 
         if (!content.match(/add2attachment/) && (!bw.opera || (rcmail.env.uploadframe && rcmail.env.uploadframe == e.data.ts))) {
           if (!content.match(/display_message/))
@@ -3212,7 +3212,9 @@ function rcube_webmail()
       });
 
       // display upload indicator and cancel button
-      var content = this.get_label('uploading');
+      var content = this.get_label('uploading'),
+        ts = frame_name.replace(/^rcmupload/, '');
+
       if (this.env.loadingicon)
         content = '<img src="'+this.env.loadingicon+'" alt="" />'+content;
       if (this.env.cancelicon)
@@ -5373,8 +5375,8 @@ function rcube_webmail()
   // post the given form to a hidden iframe
   this.async_upload_form = function(form, action, onload)
   {
-    var ts = new Date().getTime();
-    var frame_name = 'rcmupload'+ts;
+    var ts = new Date().getTime(),
+      frame_name = 'rcmupload'+ts;
 
     // have to do it this way for IE
     // otherwise the form will be posted to a new window
@@ -5399,6 +5401,8 @@ function rcube_webmail()
     form.action = this.url(action, { _uploadid:ts });
     form.setAttribute('enctype', 'multipart/form-data');
     form.submit();
+
+    return frame_name;
   };
   
   // starts interval for keep-alive/check-recent signal
