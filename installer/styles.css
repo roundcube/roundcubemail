@@ -1,62 +1,53 @@
-
 body {
-  margin: 1em 2em 2em 2em;
-  background-color: #fff;
-}
-
-body, td, th, div, p {
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-  font-size: small;
-  color: #000;
+	background: white;
+	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+	font-size: small;
+	color: black;
+	margin: 0;
 }
 
 #banner {
-  position: relative;
+	position: relative;
+	height: 58px;
+	margin: 0 0 1em 0;
+	padding: 10px 20px;
+	background: url('images/banner_gradient.gif') top left repeat-x #d8edfd;
+	overflow: hidden;
 }
 
-#header {
-  position: relative;
-  height: 56px;
-  background: url('images/banner_bg.gif') top left repeat-x #fff;
+#banner .banner-bg {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 630px;
+	height: 78px;
+	background: url('images/banner_schraffur.gif') top right no-repeat;
+	z-index: 0;
 }
 
-#header div.banner-logo {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 200px;
-  height: 56px;
+#banner .banner-logo {
+	position: absolute;
+	top: 10px;
+	left: 20px;
+	z-index: 4;
 }
 
-#header div.banner-right {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 10px;
-  height: 56px;
+#banner .banner-logo a {
+	border: 0;
 }
 
 #topnav {
-  position: absolute;
-  right: 20px;
-  bottom: 8px;
-  text-align: right;
-  color: #ebebeb;
-  font-size: smaller;
+	position: absolute;
+	top: 3.6em;
+	right: 20px;
 }
 
 #topnav a {
-  color: #ebebeb;
-  font-size: 11px;
-  text-decoration: none;
-}
-
-#topnav a:hover {
-  text-decoration: underline;
+	color: #666;
 }
 
 #content {
-  margin: 8px 20px;
+	margin: 2em 20px;
 }
 
 #footer {

@@ -183,7 +183,7 @@ DROP TABLE contacts_tmp;
 DELETE FROM messages;
 
 
--- Updates from version 0.5.x
+-- Updates from version 0.5.1
 
 CREATE TABLE contacts_tmp (
     contact_id integer NOT NULL PRIMARY KEY,

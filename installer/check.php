@@ -22,6 +22,7 @@ $required_libs = array(
     'PEAR'      => 'PEAR.php',
     'MDB2'      => 'MDB2.php',
     'Net_SMTP'  => 'Net/SMTP.php',
+    'Net_IDNA2' => 'Net/IDNA2.php',
     'Mail_mime' => 'Mail/mime.php',
 );
 

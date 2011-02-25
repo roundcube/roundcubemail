@@ -133,7 +133,7 @@ ALTER TABLE `contacts` MODIFY `email` varchar(255) NOT NULL;
 
 TRUNCATE TABLE `messages`;
 
--- Updates from version 0.5.*
+-- Updates from version 0.5.1
 
 ALTER TABLE `contacts` ADD `words` TEXT NULL AFTER `vcard`;
 ALTER TABLE `contactgroupmembers` ADD INDEX `contactgroupmembers_contact_index` (`contact_id`);

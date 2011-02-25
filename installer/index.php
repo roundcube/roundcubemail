@@ -68,14 +68,13 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 <body>
 
 <div id="banner">
-  <div id="header">
-    <div class="banner-logo"><a href="http://www.roundcube.net"><img src="images/banner_logo.gif" width="200" height="56" border="0" alt="Roundcube Webmal Project" /></a></div>
-    <div class="banner-right"><img src="images/banner_right.gif" width="10" height="56" alt="" /></div>
-  </div>
-  <div id="topnav">
-    <a href="http://trac.roundcube.net/wiki/Howto_Install">How-to Wiki</a>
-  </div>
- </div>
+  <div class="banner-bg"></div>
+  <div class="banner-logo"><a href="http://roundcube.net"><img src="images/rcube_logo.gif" width="210" height="55" border="0" alt="Roundcube - Open source webmail project" /></a></div>
+</div>
+
+<div id="topnav">
+  <a href="http://trac.roundcube.net/wiki/Howto_Install">How-to Wiki</a>
+</div>
 
 <div id="content">
 
@@ -120,7 +119,7 @@ else {
 </div>
 
 <div id="footer">
-  Installer by the Roundcube Dev Team. Copyright &copy; 2008 - Published under the GNU Public License;&nbsp;
+  Installer by the Roundcube Dev Team. Copyright &copy; 2008-2011 - Published under the GNU Public License;&nbsp;
   Icons by <a href="http://famfamfam.com">famfamfam</a>
 </div>
 </body>

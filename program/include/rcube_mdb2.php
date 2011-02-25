@@ -413,6 +413,23 @@ class rcube_mdb2
 
 
     /**
+     * Wrapper for SHOW COLUMNS command
+     *
+     * @param string Table name
+     * @return array List of table cols
+     */
+    function list_cols($table)
+    {
+        $this->db_handle->loadModule('Manager');
+        if (!PEAR::isError($result = $this->db_handle->listTableFields($table))) {
+            return $result;
+        }
+        
+        return null;
+    }
+
+
+    /**
      * Formats input so it can be safely used in a query
      *
      * @param  mixed  $input  Value to quote

@@ -1,12 +1,45 @@
 #!/usr/bin/env php
 <?php
+/*
+ +-----------------------------------------------------------------------+
+ | bin/update.sh                                                         |
+ |                                                                       |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2010-2011, The Roundcube Dev Team                       |
+ | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   Check local configuration and database schema after upgrading       |
+ |   to a new version                                                    |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ +-----------------------------------------------------------------------+
+
+ $Id$
+
+*/
+
 if (php_sapi_name() != 'cli') {
     die('Not on the "shell" (php-cli).');
 }
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 
-require_once INSTALL_PATH . 'program/include/iniset.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
 require_once INSTALL_PATH . 'installer/rcube_install.php';
+
+// get arguments
+$opts = get_opt(array('v' => 'version'));
+
+// ask user if no version is specified
+if (!$opts['version']) {
+  echo "What version are you upgrading from? Type '?' if you don't know.\n";
+  if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z-]*$/', $input))
+    $opts['version'] = $input;
+}
+
+if ($opts['version'] && version_compare($opts['version'], RCMAIL_VERSION, '>'))
+  die("Nothing to be done here. Bye!\n");
+
 
 $RCI = rcube_install::get_instance();
 $RCI->load_config();
@@ -88,7 +121,7 @@ if ($RCI->configured) {
         }
       }
       else {
-        echo "Please update your config files manually according to the above messages.\n";
+        echo "Please update your config files manually according to the above messages.\n\n";
       }
     }
 
@@ -113,12 +146,22 @@ if ($RCI->configured) {
       echo "Error connecting to database: $db_error_msg\n";
       $success = false;
     }
-    else if ($RCI->db_schema_check($DB, false)) {
-      $db_map = array('pgsql' => 'postgres', 'mysqli' => 'mysql', 'sqlsrv' => 'mssql');
-      $updatefile = INSTALL_PATH . 'SQL/' . (isset($db_map[$DB->db_provider]) ? $db_map[$DB->db_provider] : $DB->db_provider) . '.update.sql';
+    else if ($err = $RCI->db_schema_check($DB, false)) {
+      $updatefile = INSTALL_PATH . 'SQL/' . (isset($RCI->db_map[$DB->db_provider]) ? $RCI->db_map[$DB->db_provider] : $DB->db_provider) . '.update.sql';
       echo "WARNING: Database schema needs to be updated!\n";
-      echo "Open $updatefile and execute all queries that are superscribed with the currently installed version number\n";
+      echo join("\n", $err) . "\n\n";
       $success = false;
+      
+      if ($opts['version']) {
+        echo "Do you want to run the update queries to get the schmea fixed? (y/N)\n";
+        $input = trim(fgets(STDIN));
+        if (strtolower($input) == 'y') {
+          $success = $RCI->update_db($DB, $opts['version']);
+        }
+      }
+      
+      if (!$success)
+        echo "Open $updatefile and execute all queries below the comment with the currently installed version number.\n";
     }
   }
   
