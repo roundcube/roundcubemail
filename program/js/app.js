@@ -3974,6 +3974,7 @@ function rcube_webmail()
       var newkey = 'G'+prop.source+prop.newid;
       li.id = String('rcmli'+newkey).replace(this.identifier_expr, '_');
       this.env.contactfolders[newkey] = this.env.contactfolders[key];
+      this.env.contactfolders[newkey].id = prop.newid;
       this.env.group = prop.newid;
       
       var newprop = $.extend({}, prop);
