@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed de_CH Localization bugs (#1487773)
 - Add variable for 'Today' label in date_today option (#1486120)
 - Applied plugin changes since 0.5-stable release
 - Fix SQL query in rcube_user::query() so it uses index on MySQL again
