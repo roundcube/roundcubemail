@@ -138,7 +138,7 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
       // We're using UTF8 internally
       $email = rcube_idn_to_utf8($email);
       
-      if (!$replace) {
+      if (!$replace && $email) {
         // compare e-mail address
         $existing = $CONTACTS->search('email', $email, false, false);
         if (!$existing->count) {  // compare display name

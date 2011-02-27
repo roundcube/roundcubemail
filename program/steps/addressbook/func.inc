@@ -365,6 +365,10 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     // skip cols unknown to the backend
                     if (!$coltypes[$col])
                         continue;
+                    
+                    // only string values are expected here
+                    if (is_array($record[$col]))
+                        $record[$col] = join(' ', $record[$col]);
 
                     if ($RCMAIL->action == 'show') {
                         if (!empty($record[$col]))
@@ -563,7 +567,9 @@ function rcmail_contact_photo($attrib)
     if ($CONTACT_COLTYPES['photo']) {
         $RCMAIL->output->set_env('photo_placeholder', $photo_img);
         
-        if ($record['photo'])
+        if (strpos($record['photo'], 'http:') === 0)
+            $photo_img = $record['photo'];
+        else if ($record['photo'])
             $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $_REQUEST['_source']));
         $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => ''));
         $content = html::div($attrib, $img);

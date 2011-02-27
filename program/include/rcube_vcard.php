@@ -40,6 +40,7 @@ class rcube_vcard
     'notes'    => 'NOTE',
     'email'    => 'EMAIL',
     'address'  => 'ADR',
+    'jobtitle' => 'TITLE',
     'gender'      => 'X-GENDER',
     'maidenname'  => 'X-MAIDENNAME',
     'anniversary' => 'X-ANNIVERSARY',
@@ -165,6 +166,10 @@ class rcube_vcard
               }
             }
           }
+
+          // force subtype if none set
+          if (preg_match('/^(email|phone|address|website)/', $key) && !$subtype)
+            $subtype = 'other';
           
           if ($subtype)
             $key .= ':' . $subtype;
@@ -277,8 +282,14 @@ class rcube_vcard
         break;
         
       case 'photo':
-        $encoded = !preg_match('![^a-z0-9/=+-]!i', $value);
-        $this->raw['PHOTO'][0] = array(0 => $encoded ? $value : base64_encode($value), 'BASE64' => true);
+        if (strpos($value, 'http:') === 0) {
+            // TODO: fetch file from URL and save it locally?
+            $this->raw['PHOTO'][0] = array(0 => $value, 'URL' => true);
+        }
+        else {
+            $encoded = !preg_match('![^a-z0-9/=+-]!i', $value);
+            $this->raw['PHOTO'][0] = array(0 => $encoded ? $value : base64_encode($value), 'BASE64' => true);
+        }
         break;
         
       case 'email':
@@ -422,8 +433,14 @@ class rcube_vcard
   {
     // Convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
     $vcard = preg_replace(
-      '/item(\d+)\.(TEL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./s',
+      '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./s',
       '\2;type=\5\3:\4',
+      $vcard);
+
+    // convert Apple X-ABRELATEDNAMES into X-* fields for better compatibility
+    $vcard = preg_replace_callback(
+      '/item(\d+)\.(X-ABRELATEDNAMES)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./s',
+      array('self', 'x_abrelatednames_callback'),
       $vcard);
 
     // Remove cruft like item1.X-AB*, item1.ADR instead of ADR, and empty lines
@@ -439,6 +456,11 @@ class rcube_vcard
     $vcard = preg_replace('/^(N:[^;\R]*)$/m', '\1;;;;', $vcard);
 
     return $vcard;
+  }
+  
+  private static function x_abrelatednames_callback($matches)
+  {
+    return 'X-' . strtoupper($matches[5]) . $matches[3] . ':'. $matches[4];
   }
 
   private static function rfc2425_fold_callback($matches)
@@ -630,6 +652,12 @@ class rcube_vcard
     if (substr($string, 0, 2) == "\xFE\xFF")     return 'UTF-16BE';  // Big Endian
     if (substr($string, 0, 2) == "\xFF\xFE")     return 'UTF-16LE';  // Little Endian
     if (substr($string, 0, 3) == "\xEF\xBB\xBF") return 'UTF-8';
+
+    // heuristics
+    if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-32BE';
+    if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") return 'UTF-32LE';
+    if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
+    if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
 
     // use mb_detect_encoding()
     $encodings = array('UTF-8', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3',

@@ -54,4 +54,12 @@ class rcube_test_vcards extends UnitTestCase
     $this->assertEqual("Iksiñski", $vcards2[0]->surname, "Detect charset in encoded values");
   }
   
+  function test_encodings()
+  {
+      $input = file_get_contents($this->_srcpath('utf-16_sample.vcf'));
+      
+      $vcards = rcube_vcard::import($input);
+      $this->assertEqual("Ǽgean ĽdaMonté", $vcards[0]->displayname, "Decoded from UTF-16");
+  }
+  
 }
