@@ -62,13 +62,27 @@ function rcmail_import_confirm($attrib)
   global $IMPORT_STATS;
   
   $vars = get_object_vars($IMPORT_STATS);
-  $vars['names'] = join(', ', array_map('Q', $IMPORT_STATS->names));
+  $vars['names'] = $vars['skipped_names'] = '';
   
-  return html::p($attrib, Q(rcube_label(array(
-    'name' => 'importconfirm',
-    'nr' => $IMORT_STATS->inserted,
-    'vars' => $vars,
-  )), 'show'));
+  $content = html::p(null, rcube_label(array(
+      'name' => 'importconfirm',
+      'nr' => $IMORT_STATS->inserted,
+      'vars' => $vars,
+    )) . ($IMPORT_STATS->names ? ':' : '.'));
+    
+  if ($IMPORT_STATS->names)
+    $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->names)));
+  
+  if ($IMPORT_STATS->skipped) {
+      $content .= html::p(null, rcube_label(array(
+          'name' => 'importconfirmskipped',
+          'nr' => $IMORT_STATS->skipped,
+          'vars' => $vars,
+        )) . ':');
+      $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->skipped_names)));
+  }
+  
+  return html::div($attrib, $content);
 }
 
 
@@ -120,6 +134,7 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
   else {
     $IMPORT_STATS = new stdClass;
     $IMPORT_STATS->names = array();
+    $IMPORT_STATS->skipped_names = array();
     $IMPORT_STATS->count = count($vcards);
     $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->nomail = $IMPORT_STATS->errors = 0;
     
@@ -146,6 +161,7 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
         }
         if ($existing->count) {
           $IMPORT_STATS->skipped++;
+          $IMPORT_STATS->skipped_names[] = $vcard->displayname;
           continue;
         }
       }

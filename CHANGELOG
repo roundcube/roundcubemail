@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Better display of vcard import results (#1485457)
+- Improved vcard import
 - Interactive update script with improved DB schema check
 - jQuery 1.5.1
 - Fix problem with contactgroupmembers table creation on MySQL 4.x, add index on contact_id column
