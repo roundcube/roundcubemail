@@ -427,6 +427,10 @@ $labels['location'] = 'Location';
 $labels['info'] = 'Information';
 $labels['getfoldersize'] = 'Click to get folder size';
 $labels['changesubscription'] = 'Click to change subscription';
+$labels['foldertype'] = 'Folder Type';
+$labels['personalfolder']  = 'Private Folder';
+$labels['otherfolder']  = 'Other User\'s Folder';
+$labels['sharedfolder']  = 'Public Folder';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';

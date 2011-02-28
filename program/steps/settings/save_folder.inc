@@ -34,12 +34,10 @@ $old_imap  = rcube_charset_convert($old, RCMAIL_CHARSET, 'UTF7-IMAP');
 // $path is in UTF7-IMAP already
 
 $delimiter = $IMAP->get_hierarchy_delimiter();
-$special   = (strlen($old_imap) && in_array($old_imap, (array) $RCMAIL->config->get('default_imap_folders')));
-$protected = ($special && $RCMAIL->config->get('protect_default_folders'));
-
+$options = strlen($old_imap) ? rcube_folder_options($old_imap) : array();
 
 // Folder name checks
-if ($protected) {
+if ($options['protected'] || $options['norename']) {
 }
 else if (!strlen($name)) {
     $error = rcube_label('cannotbeempty');
@@ -61,7 +59,7 @@ if ($error) {
     $OUTPUT->command('display_message', $error, 'error');
 }
 else {
-    if ($protected) {
+    if ($options['protected'] || $options['norename']) {
         $name_imap = $old_imap;
     }
     else if (strlen($path)) {
@@ -141,7 +139,6 @@ else if (!$error) {
 
             // In case of name change update names of childrens in settings
             if ($rename) {
-                $delimiter  = $RCMAIL->imap->get_hierarchy_delimiter();
                 $oldprefix  = '/^' . preg_quote($folder['oldname'] . $delimiter, '/') . '/';
                 foreach ($a_threaded as $key => $val) {
                     if ($key == $folder['oldname']) {

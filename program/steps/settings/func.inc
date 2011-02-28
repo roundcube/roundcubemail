@@ -756,6 +756,46 @@ function rcmail_get_skins()
   return $skins;
 }
 
+
+function rcube_folder_options($mailbox)
+{
+    global $RCMAIL;
+
+    $acl             = $RCMAIL->imap->get_capability('ACL');
+    $default_folders = (array) $RCMAIL->config->get('default_imap_folders');
+    $options         = array();
+
+    $options['name']      = $mailbox;
+    $options['options']   = $RCMAIL->imap->mailbox_options($mailbox, true);
+    $options['namespace'] = $RCMAIL->imap->mailbox_namespace($mailbox);
+    $options['rights']    = $acl ? (array)$RCMAIL->imap->my_rights($mailbox) : array();
+    $options['special']   = in_array($mailbox, $default_folders);
+    $options['protected'] = $options['special'] && $RCMAIL->config->get('protect_default_folders');
+
+    if (is_array($options['options'])) {
+        foreach ($options['options'] as $opt) {
+            $opt = strtolower($opt);
+            if ($opt == '\noselect' || $opt == '\nonexistent') {
+                $options['noselect'] = true;
+            }
+        }
+    }
+    else {
+        $options['noselect'] = true;
+    }
+
+    if (!empty($options['rights'])) {
+        $options['norename'] = !in_array('x', $options['rights']) &&
+            (!in_array('c', $options['rights']) || !in_array('d', $options['rights']));
+        if (!$options['noselect']) {
+            $options['noselect'] = !in_array('r', $options['rights']);
+        }
+    }
+
+    return $options;    
+}
+
+
 // register UI objects
 $OUTPUT->add_handlers(array(
   'prefsframe' => 'rcmail_preferences_frame',

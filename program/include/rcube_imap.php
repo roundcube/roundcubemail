@@ -3321,6 +3321,38 @@ class rcube_imap
 
 
     /**
+     * Returns the namespace where the folder is in
+     *
+     * @param string $mbox_name Folder name
+     *
+     * @return string One of 'personal', 'other' or 'shared'
+     * @access public
+     */
+    function mailbox_namespace($mbox_name)
+    {
+        if ($mbox_name == 'INBOX') {
+            return 'personal';
+        }
+
+        foreach ($this->namespace as $type => $namespace) {
+            if (is_array($namespace)) {
+                foreach ($namespace as $ns) {
+                    if (strlen($ns[0])) {
+                        if ((strlen($ns[0])>1 && $mbox_name == substr($ns[0], 0, -1))
+                            || strpos($mbox_name, $ns[0]) === 0
+                        ) {
+                            return $type;
+                        }
+                    }
+                }
+            }
+        }
+
+        return 'personal';
+    }
+
+
+    /**
      * Modify folder name for input/output according to root dir and namespace
      *
      * @param string  $mbox_name Folder name

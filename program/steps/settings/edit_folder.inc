@@ -36,25 +36,24 @@ function rcube_folder_form($attrib)
     $parent      = trim(get_input_value('_path', RCUBE_INPUT_GPC, true));
     $parent_imap = rcube_charset_convert($parent, RCMAIL_CHARSET, 'UTF7-IMAP');
 
-    $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
-    $special   = (strlen($mbox_imap) && in_array($mbox_imap, (array) $RCMAIL->config->get('default_imap_folders')));
-    $protected = ($special && $RCMAIL->config->get('protect_default_folders'));
     $threading_supported = $RCMAIL->imap->get_capability('THREAD');
+    $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
 
-    // Get mailbox stats (messages count, etc.), mailbox name and parent
+    // Get mailbox parameters
     if (strlen($mbox)) {
-        $msgcount = $RCMAIL->imap->messagecount($mbox_imap, 'ALL', true, false);
+        $options   = rcube_folder_options($mbox_imap);
+        $namespace = $RCMAIL->imap->get_namespace();
 
         $path   = explode($delimiter, $mbox_imap);
         $folder = array_pop($path);
         $path   = implode($delimiter, $path);
-
         $folder = rcube_charset_convert($folder, 'UTF7-IMAP');
 
         $hidden_fields = array('name' => '_mbox', 'value' => $mbox);
     }
     else {
-        $path = $parent_imap;
+        $options = array();
+        $path    = $parent_imap;
     }
 
     $form = array();
@@ -65,8 +64,12 @@ function rcube_folder_form($attrib)
     );
 
     // Location (name)
-    if ($protected)
-        $foldername = rcmail_localize_foldername($mbox_imap);
+    if ($options['protected']) {
+        $foldername = Q(rcmail_localize_foldername($mbox_imap));
+    }
+    else if ($options['norename']) {
+        $foldername = Q($folder);
+    }
     else {
         if (isset($_POST['_name']))
             $folder = trim(get_input_value('_name', RCUBE_INPUT_POST, true));
@@ -74,8 +77,9 @@ function rcube_folder_form($attrib)
         $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
         $foldername = $foldername->show($folder);
 
-        if ($special)
-            $foldername .= '&nbsp;(' . rcmail_localize_foldername($mbox_imap) .')';
+        if ($options['special']) {
+            $foldername .= '&nbsp;(' . Q(rcmail_localize_foldername($mbox_imap)) .')';
+        }
     }
 
     $form['props']['fieldsets']['location'] = array(
@@ -89,19 +93,26 @@ function rcube_folder_form($attrib)
     );
 
     if (strlen($path)) {
-        $radio1 = new html_radiobutton(array('name' => '_parent', 'value' => ''));
-        $radio2 = new html_radiobutton(array('name' => '_parent', 'value' => $path));
-        $selected  = isset($_POST['_parent']) ? $_POST['_parent'] : $path;
+        if ($options['norename'] || $options['namespace'] != 'personal') {
+            // prevent user from moving folder
+            $hidden_path = new html_hiddenfield(array('name' => '_parent', 'value' => $path));
+            $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
+        }
+        else {
+            $radio1 = new html_radiobutton(array('name' => '_parent', 'value' => ''));
+            $radio2 = new html_radiobutton(array('name' => '_parent', 'value' => $path));
+            $selected  = isset($_POST['_parent']) ? $_POST['_parent'] : $path;
 
-        $html_path = str_replace($delimiter, ' &raquo; ', rcmail_localize_folderpath($path));
+            $html_path = str_replace($delimiter, ' &raquo; ', rcmail_localize_folderpath($path));
 
-        $folderpath = $radio1->show($selected) . Q(rcube_label('none')) . '&nbsp;'
-            .$radio2->show($selected) . Q($html_path);
+            $folderpath = $radio1->show($selected) . Q(rcube_label('none')) . '&nbsp;'
+                .$radio2->show($selected) . Q($html_path);
 
-        $form['props']['fieldsets']['location']['content']['path'] = array(
-            'label' => rcube_label('parentfolder'),
-            'value' => $folderpath,
-        );
+            $form['props']['fieldsets']['location']['content']['path'] = array(
+                'label' => rcube_label('parentfolder'),
+                'value' => $folderpath,
+            );
+        }
     }
 
     // Settings
@@ -110,7 +121,7 @@ function rcube_folder_form($attrib)
     );
 
     // Settings: threading
-    if ($threading_supported) {
+    if ($threading_supported && !$options['noselect']) {
         $select = new html_select(array('name' => '_viewmode', 'id' => '_listmode'));
         $select->add(rcube_label('list'), 0);
         $select->add(rcube_label('threads'), 1);
@@ -164,34 +175,46 @@ function rcube_folder_form($attrib)
         // Number of messages
         $form['props']['fieldsets']['info'] = array(
             'name'  => rcube_label('info'),
-            'content' => array(
-                'count' => array(
-                    'label' => rcube_label('messagecount'),
-                    'value' => (int) $msgcount,
-                ),
-            ),
+            'content' => array()
         );
 
-        // Size
-        if ($msgcount) {
-            // create link with folder-size command
-            $onclick = sprintf("return %s.command('folder-size', '%s', this)",
-                JS_OBJECT_NAME, JQ($mbox_imap));
-            $size = html::a(array('href' => '#', 'onclick' => $onclick, 'id' => 'folder-size'),
-                rcube_label('getfoldersize'));
+        if (!$options['noselect']) {
+            $msgcount = $RCMAIL->imap->messagecount($mbox_imap, 'ALL', true, false);
+
+            // Size
+            if ($msgcount) {
+                // create link with folder-size command
+                $onclick = sprintf("return %s.command('folder-size', '%s', this)",
+                    JS_OBJECT_NAME, JQ($mbox_imap));
+                $size = html::a(array('href' => '#', 'onclick' => $onclick,
+                    'id' => 'folder-size'), rcube_label('getfoldersize'));
+            }
+            else {
+                // no messages -> zero size
+                $size = 0;
+            }
+
+            $form['props']['fieldsets']['info']['content']['count'] = array(
+                'label' => rcube_label('messagecount'),
+                'value' => (int) $msgcount
+            );
+            $form['props']['fieldsets']['info']['content']['size'] = array(
+                'label' => rcube_label('size'),
+                'value' => $size,
+            );
         }
-        else {
-            // no messages -> zero size
-            $size = 0;
+
+        // show folder type only if we have non-private namespaces
+        if (!empty($namespace['shared']) || !empty($namespace['others'])) {
+            $form['props']['fieldsets']['info']['content']['foldertype'] = array(
+                'label' => rcube_label('foldertype'),
+                'value' => rcube_label($options['namespace'] . 'folder'));
         }
-        $form['props']['fieldsets']['info']['content']['size'] = array(
-            'label' => rcube_label('size'),
-            'value' => $size,
-        );
     }
 
     // Allow plugins to modify folder form content
-    $plugin = $RCMAIL->plugins->exec_hook('folder_form', array('form' => $form));
+    $plugin = $RCMAIL->plugins->exec_hook('folder_form',
+        array('form' => $form, 'options' => $options));
 
     $form = $plugin['form'];
 
@@ -267,9 +290,6 @@ function rcmail_localize_folderpath($path)
         if ($protect_folders && in_array($directory, $default_folders)) {
             unset($result);
             $result[] = rcmail_localize_foldername($directory);
-        }
-        else if ($protect_folders && in_array($dir, $default_folders)) {
-            $result[] = rcmail_localize_foldername($dir);
         }
         else {
             $result[] = rcube_charset_convert($dir, 'UTF7-IMAP');
