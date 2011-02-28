@@ -1851,7 +1851,7 @@ function rcube_webmail()
       if (!this.env.frame_lock) {
         (this.is_framed() ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
       }
-      target.location.href = this.env.comm_path+url;
+      this.location_href(this.env.comm_path+url, target);
 
       // mark as read and change mbox unread counter
       if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
@@ -1973,7 +1973,7 @@ function rcube_webmail()
     // load message list to target frame/window
     if (mbox) {
       this.set_busy(true, 'loading');
-      target.location.href = this.env.comm_path+'&_mbox='+urlencode(mbox)+(page ? '&_page='+page : '')+url;
+      this.location_href(this.env.comm_path+'&_mbox='+urlencode(mbox)+(page ? '&_page='+page : '')+url, target);
     }
   };
 
@@ -3666,7 +3666,7 @@ function rcube_webmail()
       add_url += '&_search='+this.env.search_request;
 
     this.set_busy(true, 'loading');
-    target.location.href = this.env.comm_path + (src ? '&_source='+urlencode(src) : '') + add_url;
+    this.location_href(this.env.comm_path + (src ? '&_source='+urlencode(src) : '') + add_url, target);
   };
 
   // send remote request to load contacts list
@@ -3712,7 +3712,7 @@ function rcube_webmail()
         add_url += '&_gid='+urlencode(this.env.group);
 
       this.set_busy(true);
-      target.location.href = this.env.comm_path+'&_action='+action+'&_source='+urlencode(this.env.source)+'&_cid='+urlencode(cid) + add_url;
+      this.location_href(this.env.comm_path+'&_action='+action+'&_source='+urlencode(this.env.source)+'&_cid='+urlencode(cid) + add_url, target);
     }
     return true;
   };
@@ -4187,7 +4187,7 @@ function rcube_webmail()
         add_url = '&_framed=1';
         target = window.frames[this.env.contentframe];
       }
-      target.location.href = this.env.comm_path+'&_action=edit-prefs&_section='+id+add_url;
+      this.location_href(this.env.comm_path+'&_action=edit-prefs&_section='+id+add_url, target);
     }
 
     return true;
@@ -4216,7 +4216,7 @@ function rcube_webmail()
 
     if (action && (id || action=='add-identity')) {
       this.set_busy(true);
-      target.location.href = this.env.comm_path+'&_action='+action+'&_iid='+id+add_url;
+      this.location_href(this.env.comm_path+'&_action='+action+'&_iid='+id+add_url, target);
     }
 
     return true;
@@ -4481,7 +4481,7 @@ function rcube_webmail()
       if (!this.env.frame_lock) {
         (parent.rcmail ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
       }
-      target.location.href = this.env.comm_path+url;
+      this.location_href(this.env.comm_path+url, target);
     }
   };
 
@@ -5185,15 +5185,24 @@ function rcube_webmail()
     if (lock || lock === null)
       this.set_busy(true);
 
-    if (this.env.framed && window.parent)
-      parent.location.href = url;
+    if (this.is_framed())
+      parent.redirect(url, lock);
     else
-      location.href = url;
+      this.location_href(url, window);
   };
 
   this.goto_url = function(action, query, lock)
   {
     this.redirect(this.url(action, query));
+  };
+
+  this.location_href = function(url, target)
+  {
+    // simulate real link click to force IE to send referer header
+    if (bw.ie && target == window)
+      $('<a>').attr('href', url).appendTo(document.body).get(0).click();
+    else
+      target.location.href = url;
   };
 
   // send a http request to the server
