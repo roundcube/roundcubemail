@@ -652,10 +652,12 @@ class html2text
         case 'h':
             return $this->_strtoupper("\n\n". $matches[2] ."\n\n");
         case 'a':
-            return $this->_build_link_list($matches[3], $matches[4]);
+            // Remove spaces in URL (#1487805)
+            $url = str_replace(' ', '', $matches[3]);
+            return $this->_build_link_list($url, $matches[4]);
         }
     }
-    
+
     /**
      *  Strtoupper multibyte wrapper function
      *

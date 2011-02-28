@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix parsing links with non-printable characters inside (#1487805)
 - Force IE to send referers (#1487806)
 - Fixed de_CH Localization bugs (#1487773)
 - Better display of vcard import results (#1485457)

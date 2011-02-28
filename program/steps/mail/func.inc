@@ -1200,6 +1200,9 @@ function rcmail_alter_html_link($matches)
   $attrib = parse_attrib_string($matches[2]);
   $end = '>';
 
+  // Remove non-printable characters in URL (#1487805)
+  $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
+
   if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
     $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
     $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
