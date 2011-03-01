@@ -75,12 +75,11 @@ class rcube_template extends rcube_html_page
         $this->set_skin($this->config['skin']);
 
         // add common javascripts
-        $javascript = 'var '.JS_OBJECT_NAME.' = new rcube_webmail();';
+        $this->add_script('var '.JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)
         $this->add_script(JS_OBJECT_NAME.'.init();', 'docready');
 
-        $this->add_script($javascript, 'head_top');
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery-1.5.min.js');
         $this->include_script('common.js');
