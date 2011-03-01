@@ -658,7 +658,8 @@ class rcube_template extends rcube_html_page
             // show a label
             case 'label':
                 if ($attrib['name'] || $attrib['command']) {
-                    return Q(rcube_label($attrib + array('vars' => array('product' => $this->config['product_name']))));
+                    $label = rcube_label($attrib + array('vars' => array('product' => $this->config['product_name'])));
+                    return !$attrbi['noshow'] ? Q($label) : '';
                 }
                 break;
 
@@ -708,6 +709,12 @@ class rcube_template extends rcube_html_page
                 // execute object handler function
                 else if (function_exists($handler)) {
                     $content = call_user_func($handler, $attrib);
+                }
+                else if ($object == 'logo') {
+                    $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
+                    if ($this->config['skin_logo'])
+                        $attrib['src'] = $this->config['skin_logo'];
+                    $content = html::img($attrib);
                 }
                 else if ($object == 'productname') {
                     $name = !empty($this->config['product_name']) ? $this->config['product_name'] : 'Roundcube Webmail';

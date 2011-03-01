@@ -874,6 +874,10 @@ class rcmail
 
     $nr = is_numeric($attrib['nr']) ? $attrib['nr'] : 1;
     $name = $attrib['name'] ? $attrib['name'] : '';
+    
+    // attrib contain text values: use them from now
+    if (($setval = $attrib[strtolower($_SESSION['language'])]) || ($setval = $attrib['en_us']))
+        $this->texts[$name] = $setval;
 
     // check for text with domain
     if ($domain && ($text_item = $this->texts[$domain.'.'.$name]))

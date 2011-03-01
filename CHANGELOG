@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- New config option for custom logo
+- Allow skins to define/override texts with <roundcube:label />
 - Add simple ACL rights/namespace handling in folder manager
 - Fix parsing links with non-printable characters inside (#1487805)
 - Force IE to send referers (#1487806)
