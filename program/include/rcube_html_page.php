@@ -5,7 +5,7 @@
  | program/include/rcube_html_page.php                                   |
  |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011 The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | CONTENTS:                                                             |
@@ -33,7 +33,7 @@ class rcube_html_page
     protected $charset = RCMAIL_CHARSET;
 
     protected $script_tag_file = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
-    protected $script_tag  =  "<script type=\"text/javascript\">\n/* <![CDATA[ */\n%s\n/* ]]> */\n</script>";
+    protected $script_tag  =  "<script type=\"text/javascript\">\n/* <![CDATA[ */\n%s\n/* ]]> */\n</script>\n";
     protected $link_css_file = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
 
@@ -208,6 +208,11 @@ class rcube_html_page
             $page_header .= $this->header;
         }
 
+        // put docready commands into page footer
+        if (!empty($this->scripts['docready'])) {
+            $this->add_script('$(document).ready(function(){ ' . $this->scripts['docready'] . "\n});", 'foot');
+        }
+        
         if (is_array($this->script_files['foot'])) {
             foreach ($this->script_files['foot'] as $file) {
                 $page_footer .= sprintf($this->script_tag_file, $file);

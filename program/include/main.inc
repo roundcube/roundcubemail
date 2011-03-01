@@ -1661,8 +1661,7 @@ function rcmail_quota_display($attrib)
 
   $quota = rcmail_quota_content($attrib);
 
-  $OUTPUT->add_script('$(document).ready(function(){
-	rcmail.set_quota('.json_serialize($quota).')});', 'foot');
+  $OUTPUT->add_script('rcmail.set_quota('.json_serialize($quota).');', 'docready');
 
   return html::span($attrib, '');
 }

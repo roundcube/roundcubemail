@@ -5,7 +5,7 @@
  | program/include/rcube_template.php                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -57,7 +57,6 @@ class rcube_template extends rcube_html_page
     /**
      * Constructor
      *
-     * @todo   Use jQuery's $(document).ready() here.
      * @todo   Replace $this->config with the real rcube_config object
      */
     public function __construct($task, $framed = false)
@@ -79,10 +78,9 @@ class rcube_template extends rcube_html_page
         $javascript = 'var '.JS_OBJECT_NAME.' = new rcube_webmail();';
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)
-        $javascript_foot = '$(document).ready(function(){ '.JS_OBJECT_NAME.'.init(); });';
+        $this->add_script(JS_OBJECT_NAME.'.init();', 'docready');
 
         $this->add_script($javascript, 'head_top');
-        $this->add_script($javascript_foot, 'foot');
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery-1.5.min.js');
         $this->include_script('common.js');
@@ -1152,12 +1150,11 @@ class rcube_template extends rcube_html_page
         if (empty($images) || $this->app->task == 'logout')
             return;
 
-        $this->add_script('$(document).ready(function(){
-            var images = ' . json_serialize($images) .';
+        $this->add_script('var images = ' . json_serialize($images) .';
             for (var i=0; i<images.length; i++) {
                 img = new Image();
                 img.src = images[i];
-            }});', 'foot');
+            }', 'docready');
     }
 
 
