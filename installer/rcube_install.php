@@ -511,6 +511,20 @@ class rcube_install
     return $select;
   }
   
+  /**
+   * Return a list with available subfolders of the skin directory
+   */
+  function list_skins()
+  {
+    $skins = array();
+    $skindir = INSTALL_PATH . 'skins/';
+    foreach (glob($skindir . '*') as $path) {
+      if (is_dir($path) && is_readable($path)) {
+        $skins[] = substr($path, strlen($skindir));
+      }
+    }
+    return $skins;
+  }
   
   /**
    * Display OK status

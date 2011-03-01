@@ -500,11 +500,24 @@ echo $input_locale->show($RCI->getprop('language'));
 <dd>
 <?php
 
-$input_skin = new html_inputfield(array('name' => '_skin', 'size' => 30, 'id' => "cfgskin"));
+$input_skin = new html_select(array('name' => '_skin', 'id' => "cfgskin"));
+$input_skin->add($RCI->list_skins());
 echo $input_skin->show($RCI->getprop('skin'));
 
 ?>
 <div>Name of interface skin (folder in /skins)</div>
+</dd>
+
+<dt class="propname">skin_logo</dt>
+<dd>
+<?php
+
+$input_skin = new html_inputfield(array('name' => '_skin_logo', 'size' => 50, 'id' => "cfgskinlogo"));
+echo $input_skin->show($RCI->getprop('skin_logo'));
+
+?>
+<div>Custom image to display instead of the Roundcube logo.</div>
+<p class="hint">Enter a URL relative to the document root of this Roundcube installation.</p>
 </dd>
 
 <dt class="propname">pagesize <span class="userconf">*</span></dt>
