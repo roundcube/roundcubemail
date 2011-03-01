@@ -142,5 +142,7 @@ $messages['folderupdated'] = 'Folder został pomyślnie zaktualizowany';
 $messages['foldercreated'] = 'Folder został pomyślnie utworzony';
 $messages['errorreadonly'] = 'Nie można wykonać operacji. Folder tylko do odczytu';
 $messages['errornoperm'] = 'Nie można wykonać operacji. Brak uprawnień';
+$messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów</b>';
+$messages['invalidimageformat'] = 'Niepoprawny format obrazka';
 
 ?>
