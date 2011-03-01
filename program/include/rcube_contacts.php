@@ -440,7 +440,7 @@ class rcube_contacts extends rcube_addressbook
             foreach ($save_data as $col => $values) {
                 if (strpos($col, 'email') === 0) {
                     foreach ((array)$values as $email) {
-                        if ($existing = $this->search('email', $email, true, false))
+                        if ($existing = $this->search('email', $email, false, false))
                             break 2;
                     }
                 }
