@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of mime-encoded words with non-integral number of octets in a word (#1487801)
 - New config option for custom logo
 - Allow skins to define/override texts with <roundcube:label />
 - Add simple ACL rights/namespace handling in folder manager

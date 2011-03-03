@@ -4376,80 +4376,95 @@ class rcube_imap
      */
     public static function decode_mime_string($input, $fallback=null)
     {
-        // Initialize variable
-        $out = '';
+        if (!empty($fallback)) {
+            $default_charset = $fallback;
+        }
+        else {
+            $default_charset = rcmail::get_instance()->config->get('default_charset', 'ISO-8859-1');
+        }
 
-        // Iterate instead of recursing, this way if there are too many values we don't have stack overflows
         // rfc: all line breaks or other characters not found
         // in the Base64 Alphabet must be ignored by decoding software
         // delete all blanks between MIME-lines, differently we can
         // receive unnecessary blanks and broken utf-8 symbols
         $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
 
-        // Check if there is stuff to decode
-        if (strpos($input, '=?') !== false) {
-            // Loop through the string to decode all occurences of =? ?= into the variable $out
-            while(($pos = strpos($input, '=?')) !== false) {
+        // encoded-word regexp
+        $re = '/=\?([^?]+)\?([BbQq])\?([^?\n]*)\?=/';
+
+        // Find all RFC2047's encoded words
+        if (preg_match_all($re, $input, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
+            // Initialize variables
+            $tmp   = array();
+            $out   = '';
+            $start = 0;
+
+            foreach ($matches as $idx => $m) {
+                $pos      = $m[0][1];
+                $charset  = $m[1][0];
+                $encoding = $m[2][0];
+                $text     = $m[3][0];
+                $length   = strlen($m[0][0]);
+
                 // Append everything that is before the text to be decoded
-                $out .= substr($input, 0, $pos);
+                if ($start != $pos) {
+                    $substr = substr($input, $start, $pos-$start);
+                    $out   .= rcube_charset_convert($substr, $default_charset);
+                    $start  = $pos;
+                }
+                $start += $length;
 
-                // Get the location of the text to decode
-                $end_cs_pos = strpos($input, "?", $pos+2);
-                $end_en_pos = strpos($input, "?", $end_cs_pos+1);
-                $end_pos = strpos($input, "?=", $end_en_pos+1);
+                // Per RFC2047, each string part "MUST represent an integral number
+                // of characters . A multi-octet character may not be split across
+                // adjacent encoded-words." However, some mailers break this, so we
+                // try to handle characters spanned across parts anyway by iterating
+                // through and aggregating sequential encoded parts with the same
+                // character set and encoding, then perform the decoding on the
+                // aggregation as a whole.
 
-                // Extract the encoded string
-                $encstr = substr($input, $pos+2, ($end_pos-$pos-2));
-                // Extract the remaining string
-                $input = substr($input, $end_pos+2);
+                $tmp[] = $text;
+                if ($next_match = $matches[$idx+1]) {
+                    if ($next_match[0][1] == $start
+                        && $next_match[1][0] == $charset
+                        && $next_match[2][0] == $encoding
+                    ) {
+                        continue;
+                    }
+                }
 
-                // Decode the string fragement
-                $out .= rcube_imap::_decode_mime_string_part($encstr);
+                $count = count($tmp);
+                $text  = '';
+
+                // Decode and join encoded-word's chunks
+                if ($encoding == 'B' || $encoding == 'b') {
+                    // base64 must be decoded a segment at a time
+                    for ($i=0; $i<$count; $i++)
+                        $text .= base64_decode($tmp[$i]);
+                }
+                else { //if ($encoding == 'Q' || $encoding == 'q') {
+                    // quoted printable can be combined and processed at once
+                    for ($i=0; $i<$count; $i++)
+                        $text .= $tmp[$i];
+
+                    $text = str_replace('_', ' ', $text);
+                    $text = quoted_printable_decode($text);
+                }
+
+                $out .= rcube_charset_convert($text, $charset);
+                $tmp = array();
             }
 
-            // Deocde the rest (if any)
-            if (strlen($input) != 0)
-                $out .= rcube_imap::decode_mime_string($input, $fallback);
+            // add the last part of the input string
+            if ($start != strlen($input)) {
+                $out .= rcube_charset_convert(substr($input, $start), $default_charset);
+            }
 
             // return the results
             return $out;
         }
 
         // no encoding information, use fallback
-        return rcube_charset_convert($input,
-            !empty($fallback) ? $fallback : rcmail::get_instance()->config->get('default_charset', 'ISO-8859-1'));
-    }
-
-
-    /**
-     * Decode a part of a mime-encoded string
-     *
-     * @param string $str String to decode
-     * @return string Decoded string
-     * @access private
-     */
-    private function _decode_mime_string_part($str)
-    {
-        $a = explode('?', $str);
-        $count = count($a);
-
-        // should be in format "charset?encoding?base64_string"
-        if ($count >= 3) {
-            for ($i=2; $i<$count; $i++)
-                $rest .= $a[$i];
-
-            if (($a[1]=='B') || ($a[1]=='b'))
-                $rest = base64_decode($rest);
-            else if (($a[1]=='Q') || ($a[1]=='q')) {
-                $rest = str_replace('_', ' ', $rest);
-                $rest = quoted_printable_decode($rest);
-            }
-
-            return rcube_charset_convert($rest, $a[0]);
-        }
-
-        // we dont' know what to do with this
-        return $str;
+        return rcube_charset_convert($input, $default_charset);
     }
 
 
