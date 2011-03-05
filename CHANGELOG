@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix some emails are not shown using Cyrus IMAP (#1487820)
 - Fix handling of mime-encoded words with non-integral number of octets in a word (#1487801)
 - New config option for custom logo
 - Allow skins to define/override texts with <roundcube:label />
