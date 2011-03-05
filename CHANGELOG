@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix some emails are not shown using Cyrus IMAP (#1487820)
+- Fix handling of mime-encoded words with non-integral number of octets in a word (#1487801)
+- Fix parsing links with non-printable characters inside (#1487805)
 - Fixed de_CH Localization bugs (#1487773)
 - Add variable for 'Today' label in date_today option (#1486120)
 - Applied plugin changes since 0.5-stable release
