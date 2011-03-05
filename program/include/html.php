@@ -524,7 +524,6 @@ class html_select extends html
         }
     }
 
-
     /**
      * Get HTML code for this object
      *
@@ -648,7 +647,6 @@ class html_table extends html
         }
     }
 
-
     /**
      * Jump to next row
      *
@@ -729,5 +727,15 @@ class html_table extends html
     {
       return count($this->rows);
     }
+
+    /**
+     * Remove table body (all rows)
+     */
+    public function remove_body()
+    {
+        $this->rows     = array();
+        $this->rowindex = 0;
+    }
+
 }
 
