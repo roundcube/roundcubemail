@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remove redundant DELETE query (for old session deletion) on login
 - Get around unreliable rand() and mt_rand() in session ID generation (#1486281)
 - Fix some emails are not shown using Cyrus IMAP (#1487820)
 - Fix handling of mime-encoded words with non-integral number of octets in a word (#1487801)

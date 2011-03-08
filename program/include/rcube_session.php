@@ -205,15 +205,15 @@ class rcube_session
 
   /**
    * Generate and set new session id
+   *
+   * @param boolean $destroy If enabled the current session will be destroyed
    */
-  public function regenerate_id()
+  public function regenerate_id($destroy=true)
   {
-    // delete old session record
-    $this->destroy(session_id());
-    $this->vars = false;
+    session_regenerate_id($destroy);
 
-    session_regenerate_id(false);
-    $this->key = session_id();
+    $this->vars = false;
+    $this->key  = session_id();
 
     return true;
   }
