@@ -212,20 +212,8 @@ class rcube_session
     $this->destroy(session_id());
     $this->vars = false;
 
-    $randval = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    for ($random = '', $i=1; $i <= 32; $i++) {
-      $random .= substr($randval, mt_rand(0,(strlen($randval) - 1)), 1);
-    }
-
-    // use md5 value for id
-    $this->key = md5($random);
-    session_id($this->key);
-
-    $cookie   = session_get_cookie_params();
-    $lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
-
-    rcmail::setcookie(session_name(), $this->key, $lifetime);
+    session_regenerate_id(false);
+    $this->key = session_id();
 
     return true;
   }
