@@ -95,11 +95,11 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   }
   else if ($auth['valid'] && !$auth['abort'] &&
         !empty($auth['host']) && !empty($auth['user']) &&
-        $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
-    // create new session ID
-    $RCMAIL->session->remove('temp');
-    // regenerate the session, don't destroy the current session
+        $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])
+  ) {
+    // create new session ID, don't destroy the current session
     // it was destroyed already by $RCMAIL->kill_session() above
+    $RCMAIL->session->remove('temp');
     $RCMAIL->session->regenerate_id(false);
 
     // send auth cookie if necessary
