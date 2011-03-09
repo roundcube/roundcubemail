@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add code for prevention from IMAP connection hangs when server closes socket unexpectedly
 - Remove redundant DELETE query (for old session deletion) on login
 - Get around unreliable rand() and mt_rand() in session ID generation (#1486281)
 - Fix some emails are not shown using Cyrus IMAP (#1487820)
