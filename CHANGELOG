@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Force names of unique constraints in PostgreSQL DDL
 - Add code for prevention from IMAP connection hangs when server closes socket unexpectedly
 - Remove redundant DELETE query (for old session deletion) on login
 - Get around unreliable rand() and mt_rand() in session ID generation (#1486281)
