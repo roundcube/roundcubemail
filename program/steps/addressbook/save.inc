@@ -57,6 +57,7 @@ if ($RCMAIL->action == 'upload-photo') {
                 'size' => $_FILES['_photo']['size'],
                 'name' => $_FILES['_photo']['name'],
                 'mimetype' => 'image/' . $imageprop['type'],
+                'group' => 'contact',
             ));
         }
         else
@@ -156,7 +157,7 @@ if (isset($a_record['photo'])) {
         unset($a_record['photo']);
     
     // cleanup session data
-    $RCMAIL->plugins->exec_hook('attachments_cleanup', array());
+    $RCMAIL->plugins->exec_hook('attachments_cleanup', array('group' => 'contact'));
     $RCMAIL->session->remove('contacts');
 }
 

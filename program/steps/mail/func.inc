@@ -1419,14 +1419,14 @@ function rcmail_message_part_frame($attrib)
 /**
  * clear message composing settings
  */
-function rcmail_compose_cleanup()
+function rcmail_compose_cleanup($id)
 {
-  if (!isset($_SESSION['compose']))
+  if (!isset($_SESSION['compose_data'][$id]))
     return;
 
   $rcmail = rcmail::get_instance();
-  $rcmail->plugins->exec_hook('attachments_cleanup', array());
-  $rcmail->session->remove('compose');
+  $rcmail->plugins->exec_hook('attachments_cleanup', array('group' => $id));
+  unset($_SESSION['compose_data'][$id]);
 }
 
 

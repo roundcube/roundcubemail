@@ -1078,8 +1078,10 @@ class rcmail
       $this->imap->close();
 
     // before closing the database connection, write session data
-    if ($_SERVER['REMOTE_ADDR'])
+    if ($_SERVER['REMOTE_ADDR']) {
+      $this->session->cleanup();
       session_write_close();
+    }
 
     // write performance stats to logs/console
     if ($this->config->get('devel_mode')) {

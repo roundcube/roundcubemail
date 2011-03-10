@@ -20,6 +20,9 @@
 */
 
 
+$COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
+$_SESSION['compose'] = $_SESSION['compose_data'][$COMPOSE_ID];
+
 if (!$_SESSION['compose']) {
   die("Invalid session var!");
 }
@@ -84,7 +87,8 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       'path' => $filepath,
       'size' => $_FILES['_attachments']['size'][$i],
       'name' => $_FILES['_attachments']['name'][$i],
-      'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i])
+      'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i]),
+      'group' => $COMPOSE_ID,
     );
 
     $attachment = $RCMAIL->plugins->exec_hook('attachment_upload', $attachment);

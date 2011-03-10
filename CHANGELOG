@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Allow multiple concurrent compose sessions
 - Force names of unique constraints in PostgreSQL DDL
 - Add code for prevention from IMAP connection hangs when server closes socket unexpectedly
 - Remove redundant DELETE query (for old session deletion) on login

@@ -192,6 +192,19 @@ class rcube_session
 
 
   /**
+   * Cleanup session data before saving
+   */
+  public function cleanup()
+  {
+    // current compose information is stored in $_SESSION['compose'], move it to $_SESSION['compose_data']
+    if ($_SESSION['compose']) {
+      $_SESSION['compose_data'][$_SESSION['compose']['id']] = $_SESSION['compose'];
+      $this->remove('compose');
+    }
+  }
+
+
+  /**
    * Register additional garbage collector functions
    *
    * @param mixed Callback function

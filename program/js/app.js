@@ -227,7 +227,7 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'toggle-editor'];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -3270,7 +3270,7 @@ function rcube_webmail()
   this.remove_attachment = function(name)
   {
     if (name && this.env.attachments[name])
-      this.http_post('remove-attachment', '_file='+urlencode(name));
+      this.http_post('remove-attachment', { _id:this.env.compose_id, _file:name });
 
     return true;
   };
@@ -5408,7 +5408,7 @@ function rcube_webmail()
     $(frame_name).bind('load', {ts:ts}, onload);
 
     form.target = frame_name;
-    form.action = this.url(action, { _uploadid:ts });
+    form.action = this.url(action, { _id:this.env.compose_id||'', _uploadid:ts });
     form.setAttribute('enctype', 'multipart/form-data');
     form.submit();
 

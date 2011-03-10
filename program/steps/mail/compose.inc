@@ -28,18 +28,15 @@ define('RCUBE_COMPOSE_EDIT', 0x0109);
 $MESSAGE_FORM = NULL;
 $MESSAGE = NULL;
 
+$COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GET);
+$_SESSION['compose'] = $_SESSION['compose_data'][$COMPOSE_ID];
+
 // Nothing below is called during message composition, only at "new/forward/reply/draft" initialization or
 // if a compose-ID is given (i.e. when the compose step is opened in a new window/tab).
-// Since there are many ways to leave the compose page improperly, it seems necessary to clean-up an old
-// compose when a "new/forward/reply/draft" is called - otherwise the old session attachments will appear
-
-$MESSAGE_ID = get_input_value('_id', RCUBE_INPUT_GET);
-if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != $MESSAGE_ID)
+if (!is_array($_SESSION['compose']))
 {
-  rcmail_compose_cleanup();
-
   // Infinite redirect prevention in case of broken session (#1487028)
-  if ($MESSAGE_ID)
+  if ($COMPOSE_ID)
     raise_error(array('code' => 500, 'type' => 'php',
       'file' => __FILE__, 'line' => __LINE__,
       'message' => "Invalid session"), true, true);
@@ -81,9 +78,10 @@ if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != $MESSAGE_ID
       else {
         $filename = basename($attach);
         $attachment = array(
+          'group' => $COMPOSE_ID,
           'name' => $filename,
           'mimetype' => rc_mime_content_type($attach, $filename),
-          'path' => $attach
+          'path' => $attach,
         );
       }
       
@@ -115,6 +113,8 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'fileuploaderror',
     'autocompletechars');
 
+$OUTPUT->set_env('compose_id', $COMPOSE_ID);
+
 // add config parameters to client script
 if (!empty($CONFIG['drafts_mbox'])) {
   $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
@@ -127,16 +127,16 @@ $OUTPUT->set_env('top_posting', $CONFIG['top_posting']);
 $OUTPUT->set_env('autocomplete_min_length', $CONFIG['autocomplete_min_length']);
 
 // get reference message and set compose mode
-if ($msg_uid = $_SESSION['compose']['param']['reply_uid'])
+if ($msg_uid = $_SESSION['compose']['param']['draft_uid']) {
+  $RCMAIL->imap->set_mailbox($CONFIG['drafts_mbox']);
+  $compose_mode = RCUBE_COMPOSE_DRAFT;
+}
+else if ($msg_uid = $_SESSION['compose']['param']['reply_uid'])
   $compose_mode = RCUBE_COMPOSE_REPLY;
 else if ($msg_uid = $_SESSION['compose']['param']['forward_uid'])
   $compose_mode = RCUBE_COMPOSE_FORWARD;
 else if ($msg_uid = $_SESSION['compose']['param']['uid'])
   $compose_mode = RCUBE_COMPOSE_EDIT;
-else if ($msg_uid = $_SESSION['compose']['param']['draft_uid']) {
-  $RCMAIL->imap->set_mailbox($CONFIG['drafts_mbox']);
-  $compose_mode = RCUBE_COMPOSE_DRAFT;
-}
 
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
 if ($config_show_sig == 1)
@@ -620,7 +620,7 @@ function rcmail_prepare_message_body()
     if ($attachment = rcmail_save_image('program/blocked.gif', 'image/gif')) {
       $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
       $body = preg_replace('#\./program/blocked\.gif#',
-        $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'],
+        $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$_SESSION['compose']['id'],
         $body);
     }
   }
@@ -921,7 +921,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
       if (!$skip && ($attachment = rcmail_save_attachment($message, $pid))) {
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
         if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
-          $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
+          $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$_SESSION['compose']['id'];
           if ($part->content_id)
             $cid_map['cid:'.$part->content_id] = $url;
           else
@@ -946,7 +946,7 @@ function rcmail_write_inline_attachments(&$message)
     if (($part->content_id || $part->content_location) && $part->filename) {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
-        $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'];
+        $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$_SESSION['compose']['id'];
         if ($part->content_id)
           $cid_map['cid:'.$part->content_id] = $url;
         else
@@ -980,6 +980,7 @@ function rcmail_save_attachment(&$message, $pid)
   }
 
   $attachment = array(
+    'group' => $_SESSION['compose']['id'],
     'name' => $part->filename ? $part->filename : 'Part_'.$pid.'.'.$part->ctype_secondary,
     'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
     'content_id' => $part->content_id,
@@ -1006,6 +1007,7 @@ function rcmail_save_image($path, $mimetype='')
   $data = file_get_contents($path);
 
   $attachment = array(
+    'group' => $_SESSION['compose']['id'],
     'name' => rcmail_basename($path),
     'mimetype' => $mimetype ? $mimetype : rc_mime_content_type($path, $name),
     'data' => $data,
@@ -1323,6 +1325,7 @@ function get_form_tags($attrib)
   {
     $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
+    $hiddenfields->add(array('name' => '_id', 'value' => $_SESSION['compose']['id']));
 
     $form_start = empty($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();

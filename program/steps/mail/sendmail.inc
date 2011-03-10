@@ -26,6 +26,9 @@ $OUTPUT->framed = TRUE;
 
 $savedraft = !empty($_POST['_draft']) ? true : false;
 
+$COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
+$_SESSION['compose'] = $_SESSION['compose_data'][$COMPOSE_ID];
+
 /****** checks ********/
 
 if (!isset($_SESSION['compose']['id'])) {
@@ -702,7 +705,7 @@ if ($savedraft)
   
   // remember new draft-uid
   $draftuids = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid, true);
-  $_SESSION['compose']['param']['_draft_uid'] = $draftuids[0];
+  $_SESSION['compose']['param']['draft_uid'] = $draftuids[0];
 
   // display success
   $OUTPUT->show_message('messagesaved', 'confirmation');
@@ -718,7 +721,7 @@ if ($savedraft)
   }
 else
   {
-  rcmail_compose_cleanup();
+  rcmail_compose_cleanup($COMPOSE_ID);
 
   if ($store_folder && !$saved)
     $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'));
