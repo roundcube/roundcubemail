@@ -106,6 +106,13 @@ class Net_SMTP
     var $_socket = null;
 
     /**
+     * The socket I/O timeout value in seconds.
+     * @var int
+     * @access private
+     */
+    var $_timeout = 0;
+
+    /**
      * The most recent server response code.
      * @var int
      * @access private
@@ -148,11 +155,13 @@ class Net_SMTP
      * @param integer $port       The port to connect to.
      * @param string  $localhost  The value to give when sending EHLO or HELO.
      * @param boolean $pipeling   Use SMTP command pipelining
+     * @param integer $timeout    Socket I/O timeout in seconds.
      *
      * @access  public
      * @since   1.0
      */
-    function Net_SMTP($host = null, $port = null, $localhost = null, $pipelining = false)
+    function Net_SMTP($host = null, $port = null, $localhost = null,
+        $pipelining = false, $timeout = 0)
     {
         if (isset($host)) {
             $this->host = $host;
@@ -166,6 +175,7 @@ class Net_SMTP
         $this->pipelining = $pipelining;
 
         $this->_socket = new Net_Socket();
+        $this->_timeout = $timeout;
 
         /* Include the Auth_SASL package.  If the package is not
          * available, we disable the authentication methods that
@@ -176,6 +186,19 @@ class Net_SMTP
             $pos = array_search('CRAM-MD5', $this->auth_methods);
             unset($this->auth_methods[$pos]);
         }
+    }
+
+    /**
+     * Set the socket I/O timeout value in seconds plus microseconds.
+     *
+     * @param   integer $seconds        Timeout value in seconds.
+     * @param   integer $microseconds   Additional value in microseconds.
+     *
+     * @access  public
+     * @since   1.5.0
+     */
+    function setTimeout($seconds, $microseconds = 0) {
+        return $this->_socket->setTimeout($seconds, $microseconds);
     }
 
     /**
@@ -369,7 +392,7 @@ class Net_SMTP
      * Attempt to connect to the SMTP server.
      *
      * @param   int     $timeout    The timeout value (in seconds) for the
-     *                              socket connection.
+     *                              socket connection attempt.
      * @param   bool    $persistent Should a persistent socket connection
      *                              be used?
      *
@@ -386,6 +409,16 @@ class Net_SMTP
         if (PEAR::isError($result)) {
             return PEAR::raiseError('Failed to connect socket: ' .
                                     $result->getMessage());
+        }
+
+        /*
+         * Now that we're connected, reset the socket's timeout value for 
+         * future I/O operations.  This allows us to have different socket 
+         * timeout values for the initial connection (our $timeout parameter) 
+         * and all other socket operations.
+         */
+        if (PEAR::isError($error = $this->setTimeout($this->_timeout))) {
+            return $error;
         }
 
         if (PEAR::isError($error = $this->_parseResponse(220))) {
@@ -617,7 +650,8 @@ class Net_SMTP
         $challenge = base64_decode($this->_arguments[0]);
         $digest = &Auth_SASL::factory('digestmd5');
         $auth_str = base64_encode($digest->getResponse($uid, $pwd, $challenge,
-                                                       $this->host, "smtp", $authz));
+                                                       $this->host, "smtp",
+                                                       $authz));
 
         if (PEAR::isError($error = $this->_put($auth_str))) {
             return $error;
@@ -830,7 +864,7 @@ class Net_SMTP
             } elseif (trim($params['verp'])) {
                 $args .= ' XVERP=' . $params['verp'];
             }
-        } elseif (is_string($params)) {
+        } elseif (is_string($params) && !empty($params)) {
             $args .= ' ' . $params;
         }
 
@@ -919,31 +953,29 @@ class Net_SMTP
             return PEAR::raiseError('Expected a string or file resource');
         }
 
-        /* RFC 1870, section 3, subsection 3 states "a value of zero
-         * indicates that no fixed maximum message size is in force".
-         * Furthermore, it says that if "the parameter is omitted no
-         * information is conveyed about the server's fixed maximum
-         * message size". */
-        if (isset($this->_esmtp['SIZE']) && ($this->_esmtp['SIZE'] > 0)) {
-            /* Start by considering the size of the optional headers string.  
-             * We also account for the addition 4 character "\r\n\r\n"
-             * separator sequence. */
-            $size = (is_null($headers)) ? 0 : strlen($headers) + 4;
+        /* Start by considering the size of the optional headers string.  We
+         * also account for the addition 4 character "\r\n\r\n" separator
+         * sequence. */
+        $size = (is_null($headers)) ? 0 : strlen($headers) + 4;
 
-            if (is_resource($data)) {
-                $stat = fstat($data);
-                if ($stat === false) {
-                    return PEAR::raiseError('Failed to get file size');
-                }
-                $size += $stat['size'];
-            } else {
-                $size += strlen($data);
+        if (is_resource($data)) {
+            $stat = fstat($data);
+            if ($stat === false) {
+                return PEAR::raiseError('Failed to get file size');
             }
+            $size += $stat['size'];
+        } else {
+            $size += strlen($data);
+        }
 
-            if ($size >= $this->_esmtp['SIZE']) {
-                $this->disconnect();
-                return PEAR::raiseError('Message size exceeds server limit');
-            }
+        /* RFC 1870, section 3, subsection 3 states "a value of zero indicates
+         * that no fixed maximum message size is in force".  Furthermore, it
+         * says that if "the parameter is omitted no information is conveyed
+         * about the server's fixed maximum message size". */
+        $limit = (isset($this->_esmtp['SIZE'])) ? $this->_esmtp['SIZE'] : 0;
+        if ($limit > 0 && $size >= $limit) {
+            $this->disconnect();
+            return PEAR::raiseError('Message size exceeds server limit');
         }
 
         /* Initiate the DATA command. */
@@ -974,8 +1006,6 @@ class Net_SMTP
                 }
             }
         } else {
-            if (!isset($size))
-                $size = strlen($data);
             /*
              * Break up the data by sending one chunk (up to 512k) at a time.  
              * This approach reduces our peak memory usage.
