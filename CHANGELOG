@@ -1,6 +1,11 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- PEAR::Net_SMTP 1.5.1
+- Force names of unique constraints in PostgreSQL DDL
+- Add code for prevention from IMAP connection hangs when server closes socket unexpectedly
+- Remove redundant DELETE query (for old session deletion) on login
+- Get around unreliable rand() and mt_rand() in session ID generation (#1486281)
 - Fix some emails are not shown using Cyrus IMAP (#1487820)
 - Fix handling of mime-encoded words with non-integral number of octets in a word (#1487801)
 - Fix parsing links with non-printable characters inside (#1487805)

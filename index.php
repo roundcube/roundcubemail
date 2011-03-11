@@ -95,10 +95,12 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   }
   else if ($auth['valid'] && !$auth['abort'] &&
         !empty($auth['host']) && !empty($auth['user']) &&
-        $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])) {
-    // create new session ID
+        $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])
+  ) {
+    // create new session ID, don't destroy the current session
+    // it was destroyed already by $RCMAIL->kill_session() above
     $RCMAIL->session->remove('temp');
-    $RCMAIL->session->regenerate_id();
+    $RCMAIL->session->regenerate_id(false);
 
     // send auth cookie if necessary
     $RCMAIL->authenticate_session();
@@ -110,7 +112,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $query = array();
     if ($url = get_input_value('_url', RCUBE_INPUT_POST)) {
       parse_str($url, $query);
-      
+
       // prevent endless looping on login page
       if ($query['_task'] == 'login')
         unset($query['_task']);

@@ -183,27 +183,12 @@ class rcube_session
   }
 
 
-  public function regenerate_id()
+  public function regenerate_id($destroy=true)
   {
-    $randval = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    session_regenerate_id($destroy);
 
-    for ($random = '', $i=1; $i <= 32; $i++) {
-      $random .= substr($randval, mt_rand(0,(strlen($randval) - 1)), 1);
-    }
-
-    // use md5 value for id or remove capitals from string $randval
-    $random = md5($random);
-
-    // delete old session record
-    $this->destroy(session_id());
-
-    session_id($random);
-
-    $cookie   = session_get_cookie_params();
-    $lifetime = $cookie['lifetime'] ? time() + $cookie['lifetime'] : 0;
-
-    rcmail::setcookie(session_name(), $random, $lifetime);
-
+    $this->vars = false;
+    $this->key  = session_id();
     return true;
   }
 

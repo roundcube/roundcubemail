@@ -25,7 +25,7 @@ CREATE TABLE users (
     last_login timestamp with time zone DEFAULT NULL,
     "language" varchar(5),
     preferences text DEFAULT ''::text NOT NULL,
-    UNIQUE (username, mail_host)
+    CONSTRAINT users_username_key UNIQUE (username, mail_host)
 );
 
 CREATE INDEX users_alias_id_idx ON users (alias);
@@ -217,7 +217,7 @@ CREATE TABLE messages (
     size integer DEFAULT 0 NOT NULL,
     headers text NOT NULL,
     structure text,
-    UNIQUE (user_id, cache_key, uid)
+    CONSTRAINT messages_user_id_key UNIQUE (user_id, cache_key, uid)
 );
 
 CREATE INDEX messages_index_idx ON messages (user_id, cache_key, idx);

@@ -213,31 +213,26 @@ class rcube_imap_generic
     {
         $line = '';
 
-        if (!$this->fp) {
-            return NULL;
-        }
-
         if (!$size) {
             $size = 1024;
         }
 
         do {
-            if (feof($this->fp)) {
+            if ($this->eof()) {
                 return $line ? $line : NULL;
             }
 
             $buffer = fgets($this->fp, $size);
 
             if ($buffer === false) {
-                @fclose($this->fp);
-                $this->fp = null;
+                $this->closeSocket();
                 break;
             }
             if ($this->_debug) {
                 $this->debug('S: '. rtrim($buffer));
             }
             $line .= $buffer;
-        } while ($buffer[strlen($buffer)-1] != "\n");
+        } while (substr($buffer, -1) != "\n");
 
         return $line;
     }
@@ -267,7 +262,7 @@ class rcube_imap_generic
     {
         $data = '';
         $len  = 0;
-        while ($len < $bytes && !feof($this->fp))
+        while ($len < $bytes && !$this->eof())
         {
             $d = fread($this->fp, $bytes-$len);
             if ($this->_debug) {
@@ -312,8 +307,7 @@ class rcube_imap_generic
             } else if ($res == 'BAD') {
                 $this->errornum = self::ERROR_BAD;
             } else if ($res == 'BYE') {
-                @fclose($this->fp);
-                $this->fp = null;
+                $this->closeSocket();
                 $this->errornum = self::ERROR_BYE;
             }
 
@@ -339,6 +333,32 @@ class rcube_imap_generic
         return self::ERROR_UNKNOWN;
     }
 
+    private function eof()
+    {
+        if (!is_resource($this->fp)) {
+            return true;
+        }
+
+        // If a connection opened by fsockopen() wasn't closed
+        // by the server, feof() will hang.
+        $start = microtime(true);
+
+        if (feof($this->fp) || 
+            ($this->prefs['timeout'] && (microtime(true) - $start > $this->prefs['timeout']))
+        ) {
+            $this->closeSocket();
+            return true;
+        }
+
+        return false;
+    }
+
+    private function closeSocket()
+    {
+        @fclose($this->fp);
+        $this->fp = null;
+    }
+
     function setError($code, $msg='')
     {
         $this->errornum = $code;
@@ -360,8 +380,7 @@ class rcube_imap_generic
         }
         if ($error && preg_match('/^\* (BYE|BAD) /i', $string, $m)) {
             if (strtoupper($m[1]) == 'BYE') {
-                @fclose($this->fp);
-                $this->fp = null;
+                $this->closeSocket();
             }
             return true;
         }
@@ -701,11 +720,12 @@ class rcube_imap_generic
             $host = $this->prefs['ssl_mode'] . '://' . $host;
         }
 
+        if ($this->prefs['timeout'] <= 0) {
+            $this->prefs['timeout'] = ini_get('default_socket_timeout');
+        }
+
         // Connect
-        if ($this->prefs['timeout'] > 0)
-            $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
-        else
-            $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr);
+        $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
 
         if (!$this->fp) {
             $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s", $host, $this->prefs['port'], $errstr));
@@ -855,8 +875,7 @@ class rcube_imap_generic
             $this->readReply();
         }
 
-        @fclose($this->fp);
-        $this->fp = false;
+        $this->closeSocket();
     }
 
     /**
