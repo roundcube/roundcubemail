@@ -81,7 +81,7 @@ function roundcube_browser()
     this.vendver = (/khtml\/([0-9\.]+)/.test(this.agent_lc)) ? parseFloat(RegExp.$1) : 0;
 
   // get real language out of safari's user agent
-  if(this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc)))
+  if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc)))
     this.lang = RegExp.$1;
 
   this.dhtml = ((this.ie4 && this.win) || this.ie5 || this.ie6 || this.ns4 || this.mz);
@@ -582,8 +582,8 @@ function rcube_find_object(id, d)
 // determine whether the mouse is over the given object or not
 function rcube_mouse_is_over(ev, obj)
 {
-  var mouse = rcube_event.get_mouse_pos(ev);
-  var pos = $(obj).offset();
+  var mouse = rcube_event.get_mouse_pos(ev),
+    pos = $(obj).offset();
 
   return ((mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
     (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight)));
@@ -603,18 +603,23 @@ function setCookie(name, value, expires, path, domain, secure)
 
 function getCookie(name)
 {
-  var dc = document.cookie;
-  var prefix = name + "=";
-  var begin = dc.indexOf("; " + prefix);
+  var dc = document.cookie,
+    prefix = name + "=",
+    begin = dc.indexOf("; " + prefix);
+
   if (begin == -1) {
     begin = dc.indexOf(prefix);
-    if (begin != 0) return null;
+    if (begin != 0)
+      return null;
   }
-  else
+  else {
     begin += 2;  
+  }
+
   var end = document.cookie.indexOf(";", begin);
   if (end == -1)
     end = dc.length;
+
   return unescape(dc.substring(begin + prefix.length, end));
 };
 
@@ -634,7 +639,7 @@ function rcube_console()
       else
         msg += '\n--------------------------------------\n';
 
-      // Konqueror doesn't allows to just change value of hidden element
+      // Konqueror doesn't allow to just change the value of hidden element
       if (bw.konq) {
         box.innerText += msg;
         box.value = box.innerText;
@@ -653,9 +658,6 @@ function rcube_console()
 
 var bw = new roundcube_browser();
 bw.set_html_class();
-
-if (!window.console) 
-  console = new rcube_console();
 
 
 // Add escape() method to RegExp object

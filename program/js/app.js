@@ -135,6 +135,14 @@ function rcube_webmail()
       return;
     }
 
+    // Enable debug console
+    if (!window.console) {
+      console = new rcube_console();
+    }
+    else {
+      $('#console').hide();
+    }
+
     // find all registered gui containers
     for (var n in this.gui_containers)
       this.gui_containers[n] = $('#'+this.gui_containers[n]);
