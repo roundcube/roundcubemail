@@ -154,7 +154,9 @@ else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
-  if ($OUTPUT->ajax_call)
+  if ($RCMAIL->action == 'keep-alive')
+    $OUTPUT->send();
+  else if ($OUTPUT->ajax_call)
     $OUTPUT->redirect(array(), 2000);
 
   if (!empty($_REQUEST['_framed']))
