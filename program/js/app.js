@@ -136,8 +136,8 @@ function rcube_webmail()
     }
 
     // Enable debug console
-    if (!window.console) {
-      console = new rcube_console();
+    if (!window.console || !window.console.log) {
+      window.console = new rcube_console();
     }
     else {
       $('#console').hide();
