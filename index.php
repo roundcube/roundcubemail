@@ -154,9 +154,7 @@ else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
-  if ($RCMAIL->action == 'keep-alive')
-    $OUTPUT->send();
-  else if ($OUTPUT->ajax_call)
+  if ($OUTPUT->ajax_call)
     $OUTPUT->redirect(array(), 2000);
 
   if (!empty($_REQUEST['_framed']))
@@ -184,7 +182,7 @@ else {
 
   // check client X-header to verify request origin
   if ($OUTPUT->ajax_call) {
-    if (rc_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token()) {
+    if (rc_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token() && !$RCMAIL->config->get('devel_mode')) {
       header('HTTP/1.1 404 Not Found');
       die("Invalid Request");
     }

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Stateless request tokens. No keep-alive necessary on login page (#1487829)
 - PEAR::Net_SMTP 1.5.1
 - Allow multiple concurrent compose sessions
 - Force names of unique constraints in PostgreSQL DDL
