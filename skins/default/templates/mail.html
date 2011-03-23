@@ -34,7 +34,7 @@
   <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 
 <roundcube:if condition="env:quota" />
-<img id="quotaimg" src="/images/quota.gif" alt="" />
+<img id="quotaimg" src="/images/quota.<roundcube:exp expression="browser:ie && browser:ver < 7 ? 'gif' : 'png'" />" alt="" />
 <div id="quota">
   <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
 </div>
