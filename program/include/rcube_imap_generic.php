@@ -56,13 +56,10 @@ class rcube_mail_header
     public $priority;
     public $mdn_to;
     public $mdn_sent = false;
-    public $is_draft = false;
     public $seen = false;
     public $deleted = false;
-    public $recent = false;
     public $answered = false;
     public $forwarded = false;
-    public $junk = false;
     public $flagged = false;
     public $has_children = false;
     public $depth = 0;
@@ -91,7 +88,6 @@ class rcube_imap_generic
     public $flags = array(
         'SEEN'     => '\\Seen',
         'DELETED'  => '\\Deleted',
-        'RECENT'   => '\\Recent',
         'ANSWERED' => '\\Answered',
         'DRAFT'    => '\\Draft',
         'FLAGGED'  => '\\Flagged',
@@ -1741,14 +1737,10 @@ class rcube_imap_generic
                                 $result[$id]->seen = true;
                             } else if ($flag == 'DELETED') {
                                 $result[$id]->deleted = true;
-                            } else if ($flag == 'RECENT') {
-                                $result[$id]->recent = true;
                             } else if ($flag == 'ANSWERED') {
                                 $result[$id]->answered = true;
                             } else if ($flag == '$FORWARDED') {
                                 $result[$id]->forwarded = true;
-                            } else if ($flag == 'DRAFT') {
-                                $result[$id]->is_draft = true;
                             } else if ($flag == '$MDNSENT') {
                                 $result[$id]->mdn_sent = true;
                             } else if ($flag == 'FLAGGED') {
