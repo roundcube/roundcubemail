@@ -1,16 +1,1 @@
-tinyMCE.addI18n('tr.searchreplace_dlg',{
-searchnext_desc:"Tekrar ara",
-notfound:"Arama tamamland\u0131. The search string could not be found.",
-search_title:"Bul",
-replace_title:"Bul/De\u011Fi\u015Ftir",
-allreplaced:"Aranan metin bulundu\u011Fu yerlede de\u011Fi\u015Ftirildi.",
-findwhat:"Aranan",
-replacewith:"Yeni de\u011Fer",
-direction:"Y\u00F6n",
-up:"Yukar\u0131",
-down:"A\u015Fa\u011F\u0131",
-mcase:"B\u00FCy\u00FCk/k\u00FC\u00E7\u00FCk duyarl\u0131",
-findnext:"Sonrakini bul",
-replace:"De\u011Fi\u015Ftir",
-replaceall:"T\u00FCm\u00FCn\u00FC de\u011Fi\u015Ftir"
-});
+tinyMCE.addI18n('tr.searchreplace_dlg',{findwhat:"Aranan",replacewith:"Yeni de\u011fer",direction:"Y\u00f6n",up:"Yukar\u0131",down:"A\u015fa\u011f\u0131",mcase:"B\u00fcy\u00fck/k\u00fc\u00e7\u00fck duyarl\u0131",findnext:"Sonrakini bul",allreplaced:"Aranan metin bulundu\u011fu yerlede de\u011fi\u015ftirildi.",searchnext_desc:"Tekrar ara",notfound:"Arama tamamland\u0131. Aranan metin bulunamad\u0131.",search_title:"Bul",replace_title:"Bul/De\u011fi\u015ftir",replaceall:"T\u00fcm\u00fcn\u00fc de\u011fi\u015ftir",replace:"De\u011fi\u015ftir"});

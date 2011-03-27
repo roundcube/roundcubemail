@@ -42,7 +42,7 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
       apply_source_formatting: true,
       theme: 'advanced',
       language: editor_lang,
-      plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,tabfocus' + (spellcheck ? ',spellchecker' : ''),
+      plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,tabfocus,contextmenu' + (spellcheck ? ',spellchecker' : ''),
       theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,ltr,rtl,blockquote,|,forecolor,backcolor,fontselect,fontsizeselect',
       theme_advanced_buttons2: 'link,unlink,code,|,emotions,charmap,image,media,|,search' + (spellcheck ? ',spellchecker' : '') + ',undo,redo',
       theme_advanced_buttons3: '',

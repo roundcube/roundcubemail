@@ -27,9 +27,11 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed) {
-			var t = this, lastRng;
+			var t = this, lastRng, showMenu, contextmenuNeverUseNative;
 
 			t.editor = ed;
+
+			contextmenuNeverUseNative = ed.settings.contextmenu_never_use_native;
 
 			/**
 			 * This event gets fired when the context menu is shown.
@@ -40,18 +42,18 @@
 			 */
 			t.onContextMenu = new tinymce.util.Dispatcher(this);
 
-			ed.onContextMenu.add(function(ed, e) {
-				if (!e.ctrlKey) {
-					// Restore the last selection since it was removed
-					if (lastRng)
-						ed.selection.setRng(lastRng);
+			showMenu = ed.onContextMenu.add(function(ed, e) {
+				if (e.ctrlKey && !contextmenuNeverUseNative) return;
 
-					t._getMenu(ed).showMenu(e.clientX, e.clientY);
-					Event.add(ed.getDoc(), 'click', function(e) {
-						hide(ed, e);
-					});
-					Event.cancel(e);
-				}
+				// Restore the last selection since it was removed
+				if (lastRng)
+					ed.selection.setRng(lastRng);
+
+				t._getMenu(ed).showMenu(e.clientX || e.pageX, e.clientY || e.pageX);
+				Event.add(ed.getDoc(), 'click', function(e) {
+					hide(ed, e);
+				});
+				Event.cancel(e);
 			});
 
 			ed.onRemove.add(function() {
@@ -78,6 +80,12 @@
 
 			ed.onMouseDown.add(hide);
 			ed.onKeyDown.add(hide);
+			ed.onKeyDown.add(function(ed, e) {
+				if (e.shiftKey && !e.ctrlKey && !e.altKey && e.keyCode === 121) {
+					Event.cancel(e);
+					showMenu(ed, e);
+				}
+			});
 		},
 
 		/**
@@ -111,7 +119,8 @@
 			m = ed.controlManager.createDropMenu('contextmenu', {
 				offset_x : p1.x + ed.getParam('contextmenu_offset_x', 0),
 				offset_y : p1.y + ed.getParam('contextmenu_offset_y', 0),
-				constrain : 1
+				constrain : 1,
+				keyboard_focus: true
 			});
 
 			t._menu = m;

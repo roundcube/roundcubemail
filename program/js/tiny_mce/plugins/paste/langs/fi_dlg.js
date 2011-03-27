@@ -1,5 +1,1 @@
-tinyMCE.addI18n('fi.paste_dlg',{
-text_title:"Paina CTRL+V liitt\u00E4\u00E4ksesi sis\u00E4ll\u00F6n ikkunaan.",
-text_linebreaks:"S\u00E4ilyt\u00E4 rivinvaihdot",
-word_title:"Paina CTRL+V liitt\u00E4\u00E4ksesi sis\u00E4ll\u00F6n ikkunaan."
-});
+tinyMCE.addI18n('fi.paste_dlg',{word_title:"Paina Ctrl+V liitt\u00e4\u00e4ksesi sis\u00e4ll\u00f6n ikkunaan.",text_linebreaks:"S\u00e4ilyt\u00e4 rivinvaihdot",text_title:"Paina Ctrl+V liitt\u00e4\u00e4ksesi sis\u00e4ll\u00f6n ikkunaan."});

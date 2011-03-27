@@ -1,5 +1,1 @@
-tinyMCE.addI18n('hu.paste_dlg',{
-text_title:"Haszn\u00E1lja a Ctrl+V-t a billenty\u0171zet\u00E9n a beilleszt\u00E9shez.",
-text_linebreaks:"Sort\u00F6r\u00E9sek megtart\u00E1sa",
-word_title:"Haszn\u00E1lja a Ctrl+V-t a billenty\u0171zet\u00E9n a beilleszt\u00E9shez."
-});
+tinyMCE.addI18n('hu.paste_dlg',{"word_title":"Haszn\u00e1lja a Ctrl+V-t a billenty\u0171zet\u00e9n a beilleszt\u00e9shez.","text_linebreaks":"Sort\u00f6r\u00e9sek megtart\u00e1sa","text_title":"Haszn\u00e1lja a Ctrl+V-t a billenty\u0171zet\u00e9n a beilleszt\u00e9shez."});
