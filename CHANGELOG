@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enable TinyMCE's contextmenu (#1487014)
 - TinyMCE 3.4.1
 - Stateless request tokens. No keep-alive necessary on login page (#1487829)
 - PEAR::Net_SMTP 1.5.1
