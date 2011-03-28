@@ -35,7 +35,7 @@ if (!$db->is_connected() || $db->is_error())
     die("No DB connection\n");
 
 // iterate over all users
-$sql_result = $db->query("SELECT user_id FROM " . $RCMAIL->config->get('db_table_users', 'users')." WHERE 1");
+$sql_result = $db->query("SELECT user_id FROM " . $RCMAIL->config->get('db_table_users', 'users')." WHERE 1=1");
 while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
     echo "Indexing contacts for user " . $sql_arr['user_id'] . "...";
     
