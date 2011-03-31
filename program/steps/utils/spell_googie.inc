@@ -41,6 +41,8 @@ if (!empty($CONFIG['spellcheck_uri']))
   }
 
 $data = file_get_contents('php://input');
+// Google has some problem with spaces, use \n instead
+$data = str_replace(' ', "\n", $data);
 $store = "";
 
 if ($fp = fsockopen($host, $port, $errno, $errstr, 30))

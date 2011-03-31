@@ -182,7 +182,7 @@ else {
 
   // check client X-header to verify request origin
   if ($OUTPUT->ajax_call) {
-    if (rc_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token()) {
+    if (rc_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token() && !$RCMAIL->config->get('devel_mode')) {
       header('HTTP/1.1 404 Not Found');
       die("Invalid Request");
     }

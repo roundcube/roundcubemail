@@ -80,7 +80,7 @@ if (!empty($CONFIG['spellcheck_uri']))
   $path = $a_uri['path'] . ($a_uri['query'] ? '?'.$a_uri['query'] : '') . $lang;
   }
 
-$wordstr = implode(' ', (array) $data);
+$wordstr = implode("\n", (array) $data);
 $data = '<?xml version="1.0" encoding="utf-8" ?>'
     .'<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
     .'<text>' . $wordstr . '</text>'

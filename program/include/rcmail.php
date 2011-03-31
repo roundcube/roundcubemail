@@ -1105,12 +1105,9 @@ class rcmail
    */
   public function get_request_token()
   {
-    $key = $this->task;
-
-    if (!$_SESSION['request_tokens'][$key])
-      $_SESSION['request_tokens'][$key] = md5(uniqid($key . mt_rand(), true));
-
-    return $_SESSION['request_tokens'][$key];
+    $sess_id = $_COOKIE[ini_get('session.name')];
+    if (!$sess_id) $sess_id = session_id();
+    return md5('RT' . $this->task . $this->config->get('des_key') . $sess_id);
   }
 
 
@@ -1123,7 +1120,8 @@ class rcmail
   public function check_request($mode = RCUBE_INPUT_POST)
   {
     $token = get_input_value('_token', $mode);
-    return !empty($token) && $_SESSION['request_tokens'][$this->task] == $token;
+    $sess_id = $_COOKIE[ini_get('session.name')];
+    return !empty($sess_id) && $token == $this->get_request_token();
   }
 
 
