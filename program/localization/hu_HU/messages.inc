@@ -139,5 +139,6 @@ $messages['namecannotbeempty'] = 'A név nem lehet üres';
 $messages['nametoolong'] = 'A név túl hosszú';
 $messages['folderupdated'] = 'Mappa sikeresen frissítve';
 $messages['foldercreated'] = 'Mappa sikeresen létrehozva';
+$messages['invalidimageformat'] = 'Érvénytelen képformátum';
 
 ?>

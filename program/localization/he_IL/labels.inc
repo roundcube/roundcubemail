@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  09122010                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  03032011                |
 +-----------------------------------------------------------------------+
 */
 
@@ -103,13 +103,9 @@ $labels['deletemessage'] = 'מחיקה';
 $labels['movemessagetotrash'] = 'השלכה לאשפה';
 $labels['printmessage'] = 'הדפסה';
 $labels['previousmessage'] = 'הצגת הודעה קודמת';
-$labels['previousmessages'] = 'הצגת קבוצה קודמת של הודעות';
 $labels['firstmessage'] = 'הצגת ההודעה הראשונה';
-$labels['firstmessages'] = 'הצגת הקבוצה הראשונה של ההודעות';
 $labels['nextmessage'] = 'הצגת ההודעה הבאה';
-$labels['nextmessages'] = 'הצגת קבוצה נוספת של הודעות';
 $labels['lastmessage'] = 'הצגת ההודעה האחרונה';
-$labels['lastmessages'] = 'הצגת הקבוצה האחרונה של ההודעות';
 $labels['backtolist'] = 'חזרה אל רשימת ההודעות';
 $labels['viewsource'] = 'הצגת קוד מקור';
 $labels['markmessages'] = 'סימון הודעות';
@@ -228,6 +224,17 @@ $labels['female'] = 'נקבה';
 $labels['manager'] = 'מנהל/ת';
 $labels['assistant'] = 'עוזר/ת';
 $labels['spouse'] = 'בן/בת זוג';
+$labels['typehome'] = 'בית';
+$labels['typework'] = 'עבודה';
+$labels['typeother'] = 'אחר';
+$labels['typemobile'] = 'נייד';
+$labels['typemain'] = 'עיקרי';
+$labels['typehomefax'] = 'פקס בית';
+$labels['typeworkfax'] = 'פקס עבודה';
+$labels['typecar'] = 'מכונית';
+$labels['typepager'] = 'זימונית';
+$labels['typevideo'] = 'וידאו';
+$labels['typeassistant'] = 'עוזר/ת';
 $labels['addfield'] = 'הוסף שדה';
 $labels['addcontact'] = 'הוספת איש קשר';
 $labels['editcontact'] = 'עריכת איש קשר';
@@ -361,6 +368,10 @@ $labels['location'] = 'מיקום';
 $labels['info'] = 'מידע';
 $labels['getfoldersize'] = 'הקשה להצגה של גודל תיק';
 $labels['changesubscription'] = 'הקשה לשינוי הרשמה';
+$labels['foldertype'] = 'סוג תיקיה';
+$labels['personalfolder'] = 'תיקיה פרטית';
+$labels['otherfolder'] = 'תיקית משתמש נוספת';
+$labels['sharedfolder'] = 'תיקיה ציבורית';
 $labels['sortby'] = 'מיון לפי';
 $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';

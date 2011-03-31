@@ -110,6 +110,7 @@ $messages['contactremovedfromgroup'] = 'Kontaktide eemaldamine grupist õnnestus
 $messages['importwait'] = 'Impordin, palun oota...';
 $messages['importerror'] = 'Import nurjus! Üleslaaditud fail ei ole vCard formaadis.';
 $messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped olemasolevat sissekannet vahele jäetud</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b> $skipped olemasolevat kirjet jäeti vahele</b>';
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';
 $messages['nofromaddress'] = 'Valitud identiteedil puudub e-posti aadress';
 $messages['editorwarning'] = 'Klaarteksti redaktorile lülitamine kaotab kogu teksti vorminduse. Soovid jätkata?';
@@ -139,5 +140,6 @@ $messages['namecannotbeempty'] = 'Nimi ei saa olla tühi';
 $messages['nametoolong'] = 'Nimi liiga pikk';
 $messages['folderupdated'] = 'Kaust uuendatud edukalt';
 $messages['foldercreated'] = 'Kaust loodud edukalt';
+$messages['invalidimageformat'] = 'Pole õige pildi formaat';
 
 ?>

@@ -111,6 +111,7 @@ $messages['contactremovedfromgroup'] = 'Contacto removido com sucesso deste grup
 $messages['importwait'] = 'A importar, por favor aguarde...';
 $messages['importerror'] = 'A importação falhou! O ficheiro submetido não é um ficheiro vCard válido.';
 $messages['importconfirm'] = '<b>$inserted contactos importados com sucesso, $skipped contactos já existentes ignorados</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = 'Ignoradas $skipped entradas já existentes.';
 $messages['opnotpermitted'] = 'Operação não permitida';
 $messages['nofromaddress'] = 'Falta o endereço de e-mail na identidade seleccionada';
 $messages['editorwarning'] = 'Ao mudar para o editor Plain Text vai perder toda a formação de texto. Deseja continuar?';

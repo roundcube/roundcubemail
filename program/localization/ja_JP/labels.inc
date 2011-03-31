@@ -16,7 +16,7 @@
 
 @version $Id$
 
-EN-Revision: 4441
+EN-Revision: 4548
 
 */
 
@@ -108,13 +108,9 @@ $labels['deletemessage'] = '削除';
 $labels['movemessagetotrash'] = 'ごみ箱に移動';
 $labels['printmessage'] = '印刷';
 $labels['previousmessage'] = '前のメールへ';
-$labels['previousmessages'] = '前の一覧へ';
 $labels['firstmessage'] = '最初のメールへ';
-$labels['firstmessages'] = '最初の一覧へ';
 $labels['nextmessage'] = '次のメールへ';
-$labels['nextmessages'] = '次の一覧へ';
 $labels['lastmessage'] = '最後のメールへ';
-$labels['lastmessages'] = '最後の一覧へ';
 $labels['backtolist'] = '一覧に戻る';
 $labels['viewsource'] = 'ソースの表示';
 $labels['markmessages'] = 'マークを付ける';
@@ -233,6 +229,19 @@ $labels['female'] = '女性';
 $labels['manager'] = '管理者';
 $labels['assistant'] = 'アシスタント';
 $labels['spouse'] = '配偶者';
+
+$labels['typehome']   = '自宅';
+$labels['typework']   = '職場';
+$labels['typeother']  = '他';
+$labels['typemobile']  = 'モバイル';
+$labels['typemain']  = '主要回線';
+$labels['typehomefax']  = '自宅 Fax';
+$labels['typeworkfax']  = '職場 Fax';
+$labels['typecar']  = '車';
+$labels['typepager']  = 'ポケベル(ページャー)';
+$labels['typevideo']  = 'ビデオ';
+$labels['typeassistant']  = 'アシスタント';
+
 $labels['addfield'] = '項目の追加...';
 $labels['addcontact'] = '連絡先の新規追加';
 $labels['editcontact'] = '連絡先の編集';
@@ -255,10 +264,10 @@ $labels['export'] = 'エクスポート';
 $labels['exportvcards'] = 'vCard 形式でエクスポート';
 $labels['newcontactgroup'] = '連絡先グループの新規作成';
 $labels['groupactions'] = '連絡先グループの操作...';
-$labels['previouspage'] = '前の一覧へ';
-$labels['firstpage'] = '最初の一覧へ';
-$labels['nextpage'] = '次の一覧へ';
-$labels['lastpage'] = '最後の一覧へ';
+$labels['previouspage'] = '前のページへ';
+$labels['firstpage'] = '最初のページへ';
+$labels['nextpage'] = '次のページへ';
+$labels['lastpage'] = '最後のページへ';
 $labels['group'] = 'グループ';
 $labels['groups'] = 'グループ';
 $labels['personaladrbook'] = '個人アドレス';

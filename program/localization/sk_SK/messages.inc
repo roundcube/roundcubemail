@@ -141,5 +141,6 @@ $messages['namecannotbeempty'] = 'Meno nemôže byť prázdne';
 $messages['nametoolong'] = 'Meno je príliš dlhé';
 $messages['folderupdated'] = 'Adresár bol aktualizovaný';
 $messages['foldercreated'] = 'Adresár bol vytvorený';
+$messages['invalidimageformat'] = 'Zlý formát obrázku';
 
 ?>

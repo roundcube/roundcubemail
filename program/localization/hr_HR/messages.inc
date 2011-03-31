@@ -11,6 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Edi Budimilic <edi@gemstudio.hr>                              |
+|       Tanja Dobričić <tanja.dobricic@everymail.info>                  |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -23,9 +24,12 @@ $messages['cookiesdisabled'] = 'Vaš Web preglednik ne podržava kolačiće (coo
 $messages['sessionerror'] = 'Morate se ponovno ulogirati';
 $messages['imaperror'] = 'Neuspješna veza na IMAP server';
 $messages['servererror'] = 'Greška poslužitelja';
+$messages['servererrormsg'] = 'Greška na serveru: $msg';
+$messages['errorreadonly'] = 'Nemoguća izvedba operacije. Mapa je samo za čitanje.';
+$messages['errornoperm'] = 'Nemoguća izvedba operacije. Dozvola odbijena.';
 $messages['invalidrequest'] = 'Nepravilan zahtijev! Podaci nisu spremljeni.';
 $messages['nomessagesfound'] = 'Nema poruka u sandučiću';
-$messages['loggedout'] = 'Uspješna odjava.';
+$messages['loggedout'] = 'Uspješno ste se odjavili. Zbogom!';
 $messages['mailboxempty'] = 'Sandučuć je prazan';
 $messages['loading'] = 'Učitavanje...';
 $messages['uploading'] = 'Presnimavak datoteku na poslužitelj';
@@ -47,6 +51,7 @@ $messages['senttooquickly'] = 'Molimo sačekajte $sec sek. prije slanja ove poru
 $messages['errorsavingsent'] = 'Greška pri spremanju poslane poruke';
 $messages['errorsaving'] = 'Greška pri spremanju';
 $messages['errormoving'] = 'Greška pri premještanju poruke';
+$messages['errorcopying'] = 'Greška pri kopiranju poruke';
 $messages['errordeleting'] = 'Greška pri brisanju poruke';
 $messages['errormarking'] = 'Nije moguće označiti poruku';
 $messages['deletecontactconfirm'] = 'Želite li obrisati izabrane kontakte?';
@@ -55,6 +60,8 @@ $messages['deletefolderconfirm'] = 'Želite li obrisati ovu mapu?';
 $messages['purgefolderconfirm'] = 'Želite li obrisati sve poruke u mapi?';
 $messages['folderdeleting'] = 'Brišem mapu...';
 $messages['foldermoving'] = 'Premještam mapu...';
+$messages['foldersubscribing'] = 'Pretplata na mapu...';
+$messages['folderunsubscribing'] = 'Poništavanje pretplate na mapu...';
 $messages['formincomplete'] = 'Obrazac nije u cjelosti popunjen';
 $messages['noemailwarning'] = 'Unesite valjanu e-mail adresu';
 $messages['nonamewarning'] = 'Unesite ime';
@@ -74,6 +81,10 @@ $messages['searching'] = 'Pretraga u tijeku...';
 $messages['checking'] = 'Provjera u tijeku...';
 $messages['nospellerrors'] = 'Nije pronađena niti jedna pravopisna greška';
 $messages['folderdeleted'] = 'Mapa uspješno obrisana';
+$messages['foldersubscribed'] = 'Mapa uspješno pretplaćena';
+$messages['folderunsubscribed'] = 'Pretplata na mapu uspješno poništena';
+$messages['folderpurged'] = 'Mapa uspješno ispražnjena';
+$messages['folderexpunged'] = 'Mapa uspješno zbijena';
 $messages['deletedsuccessfully'] = 'Uspješno obrisano';
 $messages['converting'] = 'Formatiranje poruke';
 $messages['messageopenerror'] = 'Nije moguće ';
@@ -84,15 +95,21 @@ $messages['copyerror'] = 'Nije uspjelo kopiranje adresa';
 $messages['sourceisreadonly'] = 'Ovaj resurs adresa je samo za čitanje';
 $messages['errorsavingcontact'] = 'Nije uspjelo spremanje adrese kontakta';
 $messages['movingmessage'] = 'Premještanje poruke...';
+$messages['copyingmessage'] = 'Kopiranje poruke...';
+$messages['deletingmessage'] = 'Brisanje poruke...';
+$messages['markingmessage'] = 'Označavanje poruke...';
 $messages['receiptsent'] = 'Uspješno poslana potvrda (pročitano)';
 $messages['errorsendingreceipt'] = 'Ne može poslati potvrdu';
 $messages['nodeletelastidentity'] = 'Ne možete izbrisati zadnji identitet.';
 $messages['forbiddencharacter'] = 'Naziv mape sadrži zabranjene znakove';
 $messages['selectimportfile'] = 'Odaberite datoteku za prijenos';
 $messages['addresswriterror'] = 'U odabrani adresar nije moguće zapisivat...';
+$messages['contactaddedtogroup'] = 'Kontakti uspješno dodani ovoj grupi';
+$messages['contactremovedfromgroup'] = 'Kontakti uspješno izbrisani iz ove grupe';
 $messages['importwait'] = 'Uvozim, molimo sačekajte...';
 $messages['importerror'] = 'Greška pri uvozu! Datoteka ne sadrži pravilan vCard format.';
 $messages['importconfirm'] = '<b>Uspješno je uvezeno $inserted kontakt(a), preskočeno $skipped već postojećih</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>Preskočeno $skipped postojećih unosa</b>';
 $messages['opnotpermitted'] = 'Operacija nije dozvoljena!';
 $messages['nofromaddress'] = 'Nije upisana e-mail adresa u odabrani identitet';
 $messages['editorwarning'] = 'Prebacivanje u čisti tekstualni uređivač će prouzrokovati gubljenje formatiranje teksta. Želite li nastaviti?';
@@ -102,7 +119,26 @@ $messages['smtpautherror'] = 'SMTP Greška ($code): Autentikacija nije uspjela';
 $messages['smtpfromerror'] = 'SMTP Greška ($code): Nije uspjelo postavljanje pošiljatelja "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP Greška ($code): Nije uspjelo dodavanje primatelja "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Greška: Nije moguće pročitati listu primatelja';
+$messages['smtpdsnerror'] = 'SMTP Greška: Nema podrške za obaviještenje o statusu isporuke';
 $messages['smtperror'] = 'SMTP Greška: $msg';
 $messages['emailformaterror'] = 'Nepravilna e-mail adresa: $email';
+$messages['toomanyrecipients'] = 'Previše primatelja. Smanjite broj primatelja na $max.';
+$messages['maxgroupmembersreached'] = 'Broj članova grupe prelazi preko maximuma od $max';
+$messages['internalerror'] = 'Dogodila se interna greška. Molimo Vas pokušajte ponovo.';
+$messages['contactdelerror'] = 'Kontakti ne mogu biti obrisani.';
+$messages['contactdeleted'] = 'Kontakti uspješno obrisani.';
+$messages['groupdeleted'] = 'Grupa uspješno obrisana.';
+$messages['grouprenamed'] = 'Grupa uspješno preimenovana.';
+$messages['groupcreated'] = 'Grupa uspješno kreirana.';
+$messages['messagedeleted'] = 'Poruke uspješno obrisane.';
+$messages['messagemoved'] = 'Poruke uspješno pomjerene.';
+$messages['messagecopied'] = 'Poruke uspješno kopirane.';
+$messages['messagemarked'] = 'Poruke uspješno označene.';
+$messages['autocompletechars'] = 'Unesite barem $min znakova za auto-dopunjavanje.';
+$messages['namecannotbeempty'] = 'Polje za ime ne može biti prazno.';
+$messages['nametoolong'] = 'Ime predugo.';
+$messages['folderupdated'] = 'Ažuriranje mape uspješno.';
+$messages['foldercreated'] = 'Kreiranje mape uspješno.';
+$messages['invalidimageformat'] = 'Format slike nije validan.';
 
 ?>

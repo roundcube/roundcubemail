@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
 +-----------------------------------------------------------------------+
@@ -38,6 +38,7 @@ $labels['to'] = 'អ្នកទទួល';
 $labels['cc'] = 'Cc';
 $labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'ឆ្លើយតបទៅកាន់';
+$labels['followupto'] = 'ឆ្លើយតបទៅកាន់ក្រុម';
 $labels['date'] = 'កាលបរិច្ឆេត';
 $labels['size'] = 'ទំហំ';
 $labels['priority'] = 'អទិភាព';
@@ -229,6 +230,17 @@ $labels['female'] = 'ស្រី';
 $labels['manager'] = 'នាយក';
 $labels['assistant'] = 'ការិនី';
 $labels['spouse'] = 'គ្រួសារ';
+$labels['typehome'] = 'គេហដ្ឋាន';
+$labels['typework'] = 'កន្លែងធ្វើការ';
+$labels['typeother'] = 'ផ្សេងពីនេះ';
+$labels['typemobile'] = 'ទូរស័ព្ទដៃ';
+$labels['typemain'] = 'ចំបង';
+$labels['typehomefax'] = 'ទូរសារនៅគេហដ្ឋាន';
+$labels['typeworkfax'] = 'ទូរសារនៅកន្លែងធ្វើការ';
+$labels['typecar'] = 'រថយន្ត';
+$labels['typepager'] = 'ឧបករណ៍ផ្តល់សារ';
+$labels['typevideo'] = 'វីដេអូរ';
+$labels['typeassistant'] = 'ជំនួយការ';
 $labels['addfield'] = 'បន្ថែម';
 $labels['addcontact'] = 'បន្ថែមអាសយដ្ឋានទាក់ទង';
 $labels['editcontact'] = 'កែប្រែអាសយដ្ឋានទាក់ទង';
@@ -297,6 +309,8 @@ $labels['mailboxview'] = 'មើលប្រអប់សំបុត្រ';
 $labels['mdnrequests'] = 'ប្រាប់អ្នកផ្ញើ';
 $labels['askuser'] = 'សួរអ្នកប្រើ';
 $labels['autosend'] = 'ផ្ញើស្វ័យប្រវត្តិ';
+$labels['autosendknown'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬក៏សួរខ្ញុំ';
+$labels['autosendknownignore'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬមិនបាច់ធ្វើអ្វីទាំងអស់';
 $labels['ignore'] = 'ទុកចោល';
 $labels['readwhendeleted'] = 'កំណត់សំបុត្រថាបានអាន នៅពេលលុបសំបុត្រនោះ';
 $labels['flagfordeletion'] = 'កំណត់សញ្ញាផ្កាយអោយសំបុត្រថាបានលុប ដោយមិនចាំបាច់លុបជាក់ស្តែង';
