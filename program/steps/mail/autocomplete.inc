@@ -47,8 +47,15 @@ else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, tr
 
     if ($result = $abook->search(array('email','name'), $search, false, true, true, 'email')) {
       while ($sql_arr = $result->iterate()) {
-        foreach ((array)$abook->get_col_values('email', $sql_arr, true) as $email) {
+        // Contact can have more than one e-mail address
+        $email_arr = (array)$abook->get_col_values('email', $sql_arr, true);
+        $email_cnt = count($email_arr);
+        foreach ($email_arr as $email) {
           $contact = format_email_recipient($email, $sql_arr['name']);
+          // skip entries that don't match
+          if ($email_cnt > 1 && strpos($contact, $search) === false) {
+            continue;
+          }
           // when we've got more than one book, we need to skip duplicates
           if ($books_num == 1 || !in_array($contact, $contacts)) {
             $contacts[] = $contact;

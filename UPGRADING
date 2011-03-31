@@ -3,12 +3,13 @@ UPGRADING instructions
 
 Follow these instructions if upgrading from a previous version
 of Roundcube Webmail. We recommend to carefully backup the existing
-installation as well as the database before executig the following steps.
+installation as well as the database before going through the following steps.
 
 Using the update script
 -----------------------
 There is a shell script (for unix based systems) that does the job for you.
-To use it, unpack the archive of the new Roundcube version to a temporary location (don't replace the Roundcube installation you want to update)
+To use it, unpack the archive of the new Roundcube version to a temporary location
+(don't replace the Roundcube installation you want to update)
 and cd into that directory. From there, run the following command in a shell:
 
   ./bin/installto.sh <TARGET-FOLDER>
@@ -18,11 +19,12 @@ which should be updated. The update script will then copy all new files to the
 target location and check and update the configuration and database schema.
 After all is done, the temporary folder with the new Roundcube files can be 
 removed again.
+See Post-Upgrade Activities section.
 
 
 Updating manually
 -----------------
-If you don't have shell access to the Roundcube instalaltion or if not running 
+If you don't have shell access to the Roundcube installation or if not running 
 it on a unix system, you need to do the following operations by hand:
 
 1. Replace index.php and all files in
@@ -39,6 +41,10 @@ it on a unix system, you need to do the following operations by hand:
 3. Let the update script/installer check your configuration and
    update your config files and database schema as suggested by the updater.
 4. Make sure 'enable_installer' is set to false again.
-5. Check .htaccess settings (some php settings could become required)
+5. See Post-Upgrade Activities section.
 
 
+Post-Upgrade Activities
+-----------------------
+1. Check .htaccess settings (some php settings could become required)
+2. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
