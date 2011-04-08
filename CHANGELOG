@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where default_charset was not used for text messages (#1487836)
 - Enable TinyMCE's contextmenu (#1487014)
 - TinyMCE 3.4.1
 - Stateless request tokens. No keep-alive necessary on login page (#1487829)
