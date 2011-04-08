@@ -3021,11 +3021,11 @@ function rcube_webmail()
   this.compose_field_hash = function(save)
   {
     // check input fields
-    var value_to = $("[name='_to']").val();
-    var value_cc = $("[name='_cc']").val();
-    var value_bcc = $("[name='_bcc']").val();
-    var value_subject = $("[name='_subject']").val();
-    var str = '';
+    var ed, str = '',
+      value_to = $("[name='_to']").val(),
+      value_cc = $("[name='_cc']").val(),
+      value_bcc = $("[name='_bcc']").val(),
+      value_subject = $("[name='_subject']").val();
 
     if (value_to)
       str += value_to+':';
@@ -3036,9 +3036,8 @@ function rcube_webmail()
     if (value_subject)
       str += value_subject+':';
 
-    var editor = tinyMCE.get(this.env.composebody);
-    if (editor)
-      str += editor.getContent();
+    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)))
+      str += ed.getContent();
     else
       str += $("[name='_message']").val();
 
@@ -3984,11 +3983,11 @@ function rcube_webmail()
       this.env.contactfolders[newkey] = this.env.contactfolders[key];
       this.env.contactfolders[newkey].id = prop.newid;
       this.env.group = prop.newid;
-      
+
       var newprop = $.extend({}, prop);
       newprop.id = prop.newid;
       newprop.type = 'group';
-      
+
       link = $('<a>').attr('href', '#')
         .attr('rel', prop.source+':'+prop.newid)
         .bind('click', function() { return rcmail.command('listgroup', newprop, this);})
@@ -4008,7 +4007,7 @@ function rcube_webmail()
   {
     if (!elem)
       elem = $('.ff_' + col);
-    
+
     elem.focus(function(){ ref.focus_textfield(this); })
       .blur(function(){ ref.blur_textfield(this); })
       .each(function(){ this._placeholder = this.title = ref.env.coltypes[col].label; ref.blur_textfield(this); });
