@@ -953,6 +953,16 @@ class rcube_imap_generic
 
             list($mbox, $items) = $this->tokenizeResponse($response, 2);
 
+            // Fix for #1487859. Some buggy server returns not quoted
+            // folder name with spaces. Let's try to handle this situation
+            if (!is_array($items) && ($pos = strpos($response, '(')) !== false) {
+                $response = substr($response, $pos);
+                $items = $this->tokenizeResponse($response, 1);
+                if (!is_array($items)) {
+                    return $result;
+                }
+            }
+
             for ($i=0, $len=count($items); $i<$len; $i += 2) {
                 $result[$items[$i]] = (int) $items[$i+1];
             }

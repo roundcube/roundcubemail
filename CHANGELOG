@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added workaround for some IMAP server with broken STATUS response (#1487859)
 - Fix bug where default_charset was not used for text messages (#1487836)
 - Enable TinyMCE's contextmenu (#1487014)
 - TinyMCE 3.4.1
