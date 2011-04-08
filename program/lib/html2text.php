@@ -572,9 +572,16 @@ class html2text
      */
     function _convert_pre(&$text)
     {
+        // get the content of PRE element
         while (preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches)) {
-            $result = preg_replace($this->pre_search, $this->pre_replace, $matches[1]);
-            $text = preg_replace('/<pre[^>]*>.*<\/pre>/ismU', '<div><br>' . $result . '<br></div>', $text, 1);
+            // convert the content
+            $this->pre_content = sprintf('<div><br>%s<br></div>',
+                preg_replace($this->pre_search, $this->pre_replace, $matches[1]));
+            // replace the content (use callback because content can contain $0 variable)
+            $text = preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU', 
+                array('html2text', '_preg_pre_callback'), $text, 1);
+            // free memory
+            $this->pre_content = '';
         }
     }
 
@@ -639,9 +646,8 @@ class html2text
      *
      *  @param  array PREG matches
      *  @return string
-     *  @access private
      */
-    function _preg_callback($matches)
+    private function _preg_callback($matches)
     {
         switch($matches[1]) {
         case 'b':
@@ -659,13 +665,23 @@ class html2text
     }
 
     /**
+     *  Callback function for preg_replace_callback use in PRE content handler.
+     *
+     *  @param  array PREG matches
+     *  @return string
+     */
+    private function _preg_pre_callback($matches)
+    {
+        return $this->pre_content;
+    }
+
+    /**
      *  Strtoupper multibyte wrapper function
      *
      *  @param  string
      *  @return string
-     *  @access private
      */
-    function _strtoupper($str)
+    private function _strtoupper($str)
     {
         if (function_exists('mb_strtoupper'))
             return mb_strtoupper($str);

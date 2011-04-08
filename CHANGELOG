@@ -1,8 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where some content would cause hang on html2text conversion (#1487863)
 - Improve space-stuffing handling in format=flowed messages (#1487861)
-- Fixed bug where some dates would produce SQL error in MySQL (#1487856)
+- Fix bug where some dates would produce SQL error in MySQL (#1487856)
 - Added workaround for some IMAP server with broken STATUS response (#1487859)
 - Fix bug where default_charset was not used for text messages (#1487836)
 - Enable TinyMCE's contextmenu (#1487014)
