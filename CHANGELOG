@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve space-stuffing handling in format=flowed messages (#1487861)
 - Fixed bug where some dates would produce SQL error in MySQL (#1487856)
 - Added workaround for some IMAP server with broken STATUS response (#1487859)
 - Fix bug where default_charset was not used for text messages (#1487836)

@@ -726,7 +726,9 @@ class rcube_message
                     $line  = $prefix . rc_wordwrap($line, $length - $level - 2, " \r\n$prefix ");
                 }
                 else if ($line) {
-                    $line = ' ' . rc_wordwrap(rtrim($line), $length - 2, " \r\n ");
+                    $line = rc_wordwrap(rtrim($line), $length - 2, " \r\n");
+                    // space-stuffing
+                    $line = preg_replace('/(^|\r\n)(From| |>)/', '\\1 \\2', $line);
                 }
 
                 $text[$idx] = $line;
