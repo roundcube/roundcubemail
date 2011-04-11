@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support 'abort' and 'result' response in 'preferences_save' hook, add error handling
 - Fix bug where some content would cause hang on html2text conversion (#1487863)
 - Improve space-stuffing handling in format=flowed messages (#1487861)
 - Fix bug where some dates would produce SQL error in MySQL (#1487856)
