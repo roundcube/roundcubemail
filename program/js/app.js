@@ -5193,7 +5193,7 @@ function rcube_webmail()
       this.set_busy(true);
 
     if (this.is_framed())
-      parent.redirect(url, lock);
+      parent.rcmail.redirect(url, lock);
     else
       this.location_href(url, window);
   };
