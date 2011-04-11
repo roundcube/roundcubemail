@@ -97,10 +97,10 @@ switch ($CURR_SECTION)
   break;
 }
 
-$data = rcmail::get_instance()->plugins->exec_hook('preferences_save',
+$plugin = rcmail::get_instance()->plugins->exec_hook('preferences_save',
   array('prefs' => $a_user_prefs, 'section' => $CURR_SECTION));
 
-$a_user_prefs = $data['prefs'];
+$a_user_prefs = $plugin['prefs'];
 
 // don't override these parameters
 foreach ((array)$CONFIG['dont_override'] as $p)
@@ -159,10 +159,17 @@ switch ($CURR_SECTION)
   break;
 }
 
-if ($USER->save_prefs($a_user_prefs))
+// Save preferences
+if (!$plugin['abort'])
+  $saved = $USER->save_prefs($a_user_prefs);
+else
+  $saved = $plugin['result'];
+
+if ($saved)
   $OUTPUT->show_message('successfullysaved', 'confirmation');
+else
+  $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
 
 // display the form again
 rcmail_overwrite_action('edit-prefs');
-
 

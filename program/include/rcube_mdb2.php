@@ -553,15 +553,7 @@ class rcube_mdb2
      */
     function fromunixtime($timestamp)
     {
-        switch($this->db_provider) {
-            case 'mysqli':
-            case 'mysql':
-            case 'sqlite':
-                return sprintf("FROM_UNIXTIME(%d)", $timestamp);
-
-            default:
-                return date("'Y-m-d H:i:s'", $timestamp);
-        }
+        return date("'Y-m-d H:i:s'", $timestamp);
     }
 
 

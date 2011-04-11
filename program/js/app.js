@@ -2994,11 +2994,11 @@ function rcube_webmail()
   this.compose_field_hash = function(save)
   {
     // check input fields
-    var value_to = $("[name='_to']").val();
-    var value_cc = $("[name='_cc']").val();
-    var value_bcc = $("[name='_bcc']").val();
-    var value_subject = $("[name='_subject']").val();
-    var str = '';
+    var ed, str = '',
+      value_to = $("[name='_to']").val(),
+      value_cc = $("[name='_cc']").val(),
+      value_bcc = $("[name='_bcc']").val(),
+      value_subject = $("[name='_subject']").val();
 
     if (value_to)
       str += value_to+':';
@@ -3009,9 +3009,8 @@ function rcube_webmail()
     if (value_subject)
       str += value_subject+':';
 
-    var editor = tinyMCE.get(this.env.composebody);
-    if (editor)
-      str += editor.getContent();
+    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)))
+      str += ed.getContent();
     else
       str += $("[name='_message']").val();
 
@@ -4622,7 +4621,7 @@ function rcube_webmail()
       var current_li, target_li;
 
       if ((current_li = this.get_folder_li(old, prefix))) {
-        $(current_li).removeClass('selected').removeClass('unfocused');
+        $(current_li).removeClass('selected').addClass('unfocused');
       }
       if ((target_li = this.get_folder_li(name, prefix))) {
         $(target_li).removeClass('unfocused').addClass('selected');

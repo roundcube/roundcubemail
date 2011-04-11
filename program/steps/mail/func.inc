@@ -726,71 +726,74 @@ function rcmail_plain_body($body, $flowed=false)
   $body = preg_replace_callback($replacer->mailto_pattern, array($replacer, 'mailto_callback'), $body);
 
   // split body into single lines
-  $a_lines = preg_split('/\r?\n/', $body);
+  $body = preg_split('/\r?\n/', $body);
   $quote_level = 0;
   $last = -1;
 
   // find/mark quoted lines...
-  for ($n=0, $cnt=count($a_lines); $n < $cnt; $n++) {
-    if ($a_lines[$n][0] == '>' && preg_match('/^(>+\s*)+/', $a_lines[$n], $regs)) {
+  for ($n=0, $cnt=count($body); $n < $cnt; $n++) {
+    if ($body[$n][0] == '>' && preg_match('/^(>+\s*)+/', $body[$n], $regs)) {
       $q = strlen(preg_replace('/\s/', '', $regs[0]));
-      $a_lines[$n] = substr($a_lines[$n], strlen($regs[0]));
+      $body[$n] = substr($body[$n], strlen($regs[0]));
 
-      if ($q > $quote_level)
-        $a_lines[$n] = $replacer->get_replacement($replacer->add(
-          str_repeat('<blockquote>', $q - $quote_level))) . $a_lines[$n];
-      else if ($q < $quote_level)
-        $a_lines[$n] = $replacer->get_replacement($replacer->add(
-          str_repeat('</blockquote>', $quote_level - $q))) . $a_lines[$n];
+      if ($q > $quote_level) {
+        $body[$n] = $replacer->get_replacement($replacer->add(
+          str_repeat('<blockquote>', $q - $quote_level))) . $body[$n];
+      }
+      else if ($q < $quote_level) {
+        $body[$n] = $replacer->get_replacement($replacer->add(
+          str_repeat('</blockquote>', $quote_level - $q))) . $body[$n];
+      }
       else if ($flowed) {
         // previous line is flowed
-        if (isset($a_lines[$last]) && $a_lines[$n]
-          && $a_lines[$last][strlen($a_lines[$last])-1] == ' ') {
+        if (isset($body[$last]) && $body[$n]
+          && $body[$last][strlen($body[$last])-1] == ' ') {
           // merge lines
-          $a_lines[$last] .= $a_lines[$n];
-          unset($a_lines[$n]);
+          $body[$last] .= $body[$n];
+          unset($body[$n]);
         }
-        else
+        else {
           $last = $n;
+        }
       }
     }
     else {
       $q = 0;
       if ($flowed) {
         // sig separator - line is fixed
-        if ($a_lines[$n] == '-- ') {
-          $last = $n;
+        if ($body[$n] == '-- ') {
+          $last = $last_sig = $n;
         }
         else {
           // remove space-stuffing
-          if ($a_lines[$n][0] == ' ')
-            $a_lines[$n] = substr($a_lines[$n], 1);
+          if ($body[$n][0] == ' ')
+            $body[$n] = substr($body[$n], 1);
 
           // previous line is flowed?
-          if (isset($a_lines[$last]) && $a_lines[$n]
-            && $a_lines[$last] != '-- '
-            && $a_lines[$last][strlen($a_lines[$last])-1] == ' '
+          if (isset($body[$last]) && $body[$n]
+            && $last != $last_sig
+            && $body[$last][strlen($body[$last])-1] == ' '
           ) {
-            $a_lines[$last] .= $a_lines[$n];
-            unset($a_lines[$n]);
+            $body[$last] .= $body[$n];
+            unset($body[$n]);
           }
           else {
             $last = $n;
           }
         }
         if ($quote_level > 0)
-          $a_lines[$last] = $replacer->get_replacement($replacer->add(
-            str_repeat('</blockquote>', $quote_level))) . $a_lines[$last];
+          $body[$last] = $replacer->get_replacement($replacer->add(
+            str_repeat('</blockquote>', $quote_level))) . $body[$last];
       }
       else if ($quote_level > 0)
-        $a_lines[$n] = $replacer->get_replacement($replacer->add(
-          str_repeat('</blockquote>', $quote_level))) . $a_lines[$n];
+        $body[$n] = $replacer->get_replacement($replacer->add(
+          str_repeat('</blockquote>', $quote_level))) . $body[$n];
     }
 
     $quote_level = $q;
   }
 
-  $body = join("\n", $a_lines);
+  $body = join("\n", $body);
 
   // quote plain text (don't use Q() here, to display entities "as is")
   $table = get_html_translation_table(HTML_SPECIALCHARS);

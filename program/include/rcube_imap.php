@@ -2426,9 +2426,11 @@ class rcube_imap
      * @param  rcube_message_part $o_part Part object created by get_structure()
      * @param  mixed              $print  True to print part, ressource to write part contents in
      * @param  resource           $fp     File pointer to save the message part
+     * @param  boolean            $skip_charset_conv Disables charset conversion
+     *
      * @return string Message/part body if not printed
      */
-    function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL)
+    function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL, $skip_charset_conv=false)
     {
         // get part encoding if not provided
         if (!is_object($o_part)) {
@@ -2458,10 +2460,13 @@ class rcube_imap
             return true;
         }
 
-        // convert charset (if text or message part) and part's charset is specified
-        if ($body && $o_part->charset
-            && preg_match('/^(text|message)$/', $o_part->ctype_primary)
+        // convert charset (if text or message part)
+        if ($body && !$skip_charset_conv &&
+            preg_match('/^(text|message)$/', $o_part->ctype_primary)
         ) {
+            if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
+                $o_part->charset = $this->default_charset;
+            }
             $body = rcube_charset_convert($body, $o_part->charset);
         }
 

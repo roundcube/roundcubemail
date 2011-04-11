@@ -964,6 +964,16 @@ class rcube_imap_generic
 
             list($mbox, $items) = $this->tokenizeResponse($response, 2);
 
+            // Fix for #1487859. Some buggy server returns not quoted
+            // folder name with spaces. Let's try to handle this situation
+            if (!is_array($items) && ($pos = strpos($response, '(')) !== false) {
+                $response = substr($response, $pos);
+                $items = $this->tokenizeResponse($response, 1);
+                if (!is_array($items)) {
+                    return $result;
+                }
+            }
+
             for ($i=0, $len=count($items); $i<$len; $i += 2) {
                 $result[$items[$i]] = (int) $items[$i+1];
             }
@@ -1569,36 +1579,21 @@ class rcube_imap_generic
                 if (preg_match('/^\* [0-9]+ FETCH \((.*) BODY/sU', $line, $matches)) {
                     $str = $matches[1];
 
-                    // swap parents with quotes, then explode
-                    $str = preg_replace('/[()]/', '"', $str);
-                    $a = rcube_explode_quoted_string(' ', $str);
-
-                    // did we get the right number of replies?
-                    $parts_count = count($a);
-                    if ($parts_count>=6) {
-                        for ($i=0; $i<$parts_count; $i=$i+2) {
-                            if ($a[$i] == 'UID') {
-                                $result[$id]->uid = intval($a[$i+1]);
-                            }
-                            else if ($a[$i] == 'RFC822.SIZE') {
-                                $result[$id]->size = intval($a[$i+1]);
-                            }
-                            else if ($a[$i] == 'INTERNALDATE') {
-                                $time_str = $a[$i+1];
-                            }
-                            else if ($a[$i] == 'FLAGS') {
-                                $flags_str = $a[$i+1];
-                            }
+                    while (list($name, $value) = $this->tokenizeResponse($str, 2)) {
+                        if ($name == 'UID') {
+                            $result[$id]->uid = intval($value);
                         }
-
-                        $time_str = str_replace('"', '', $time_str);
-
-                        // if time is gmt...
-                        $time_str = str_replace('GMT','+0000',$time_str);
-
-                        $result[$id]->internaldate = $time_str;
-                        $result[$id]->timestamp    = $this->StrToTime($time_str);
-                        $result[$id]->date         = $time_str;
+                        else if ($name == 'RFC822.SIZE') {
+                            $result[$id]->size = intval($value);
+                        }
+                        else if ($name == 'INTERNALDATE') {
+                            $result[$id]->internaldate = $value;
+                            $result[$id]->date         = $value;
+                            $result[$id]->timestamp    = $this->StrToTime($value);
+                        }
+                        else if ($name == 'FLAGS') {
+                            $flags_a = $value;
+                        }
                     }
 
                     // BODYSTRUCTURE
@@ -1646,7 +1641,7 @@ class rcube_imap_generic
 
                     // handle FLAGS reply after headers (AOL, Zimbra?)
                     if (preg_match('/\s+FLAGS \((.*)\)\)$/', $line, $matches)) {
-                        $flags_str = $matches[1];
+                        $flags_a = $this->tokenizeResponse($matches[1]);
                         break;
                     }
 
@@ -1670,10 +1665,10 @@ class rcube_imap_generic
 
                     // create array with header field:data
                     while (list($lines_key, $str) = each($lines)) {
-                        list($field, $string) = $this->splitHeaderLine($str);
+                        list($field, $string) = explode(':', $str, 2);
 
                         $field  = strtolower($field);
-                        $string = preg_replace('/\n\s*/', ' ', $string);
+                        $string = preg_replace('/\n[\t\s]*/', ' ', trim($string));
 
                         switch ($field) {
                         case 'date';
@@ -1737,32 +1732,31 @@ class rcube_imap_generic
                 }
 
                 // process flags
-                if (!empty($flags_str)) {
-                    $flags_str = preg_replace('/[\\\"]/', '', $flags_str);
-                    $flags_a   = explode(' ', $flags_str);
+                if (!empty($flags_a)) {
+                    foreach ($flags_a as $flag) {
+                        $flag = str_replace('\\', '', $flag);
+                        $result[$id]->flags[] = $flag;
 
-                    if (is_array($flags_a)) {
-                        foreach($flags_a as $flag) {
-                            $flag = strtoupper($flag);
-                            if ($flag == 'SEEN') {
-                                $result[$id]->seen = true;
-                            } else if ($flag == 'DELETED') {
-                                $result[$id]->deleted = true;
-                            } else if ($flag == 'RECENT') {
-                                $result[$id]->recent = true;
-                            } else if ($flag == 'ANSWERED') {
-                                $result[$id]->answered = true;
-                            } else if ($flag == '$FORWARDED') {
-                                $result[$id]->forwarded = true;
-                            } else if ($flag == 'DRAFT') {
-                                $result[$id]->is_draft = true;
-                            } else if ($flag == '$MDNSENT') {
-                                $result[$id]->mdn_sent = true;
-                            } else if ($flag == 'FLAGGED') {
-                                 $result[$id]->flagged = true;
-                            }
+                        switch (strtoupper($flag)) {
+                        case 'SEEN':
+                            $result[$id]->seen = true;
+                            break;
+                        case 'DELETED':
+                            $result[$id]->deleted = true;
+                            break;
+                        case 'ANSWERED':
+                            $result[$id]->answered = true;
+                            break;
+                        case '$FORWARDED':
+                            $result[$id]->forwarded = true;
+                            break;
+                        case '$MDNSENT':
+                            $result[$id]->mdn_sent = true;
+                            break;
+                        case 'FLAGGED':
+                            $result[$id]->flagged = true;
+                            break;
                         }
-                        $result[$id]->flags = $flags_a;
                     }
                 }
             }
@@ -3297,9 +3291,10 @@ class rcube_imap_generic
     {
         // support non-standard "GMTXXXX" literal
         $date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
+
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again
-        while ((($ts = @strtotime($date))===false) || ($ts < 0)) {
+        while (($ts = intval(@strtotime($date))) <= 0) {
             $d = explode(' ', $date);
             array_pop($d);
             if (!$d) {
@@ -3311,17 +3306,6 @@ class rcube_imap_generic
         $ts = (int) $ts;
 
         return $ts < 0 ? 0 : $ts;
-    }
-
-    private function splitHeaderLine($string)
-    {
-        $pos = strpos($string, ':');
-        if ($pos>0) {
-            $res[0] = substr($string, 0, $pos);
-            $res[1] = trim(substr($string, $pos+1));
-            return $res;
-        }
-        return $string;
     }
 
     private function parseCapability($str, $trusted=false)
