@@ -140,7 +140,7 @@ function in_array_nocase($needle, $haystack)
 function get_boolean($str)
 {
   $str = strtolower($str);
-  if (in_array($str, array('false', '0', 'no', 'nein', ''), TRUE))
+  if (in_array($str, array('false', '0', 'no', 'off', 'nein', ''), TRUE))
     return FALSE;
   else
     return TRUE;
