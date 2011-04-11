@@ -180,7 +180,7 @@ function parse_bytes($str)
 
   return floatval($bytes);
 }
-    
+
 /**
  * Create a human readable string for a number of bytes
  *
@@ -189,24 +189,23 @@ function parse_bytes($str)
  */
 function show_bytes($bytes)
 {
-  if ($bytes > 1073741824)
+  if ($bytes >= 1073741824)
   {
     $gb = $bytes/1073741824;
     $str = sprintf($gb>=10 ? "%d " : "%.1f ", $gb) . rcube_label('GB');
   }
-  else if ($bytes > 1048576)
+  else if ($bytes >= 1048576)
   {
     $mb = $bytes/1048576;
     $str = sprintf($mb>=10 ? "%d " : "%.1f ", $mb) . rcube_label('MB');
   }
-  else if ($bytes > 1024)
+  else if ($bytes >= 1024)
     $str = sprintf("%d ",  round($bytes/1024)) . rcube_label('KB');
   else
     $str = sprintf('%d ', $bytes) . rcube_label('B');
 
   return $str;
 }
-
 
 /**
  * Convert paths like ../xxx to an absolute path using a base url
