@@ -4825,7 +4825,7 @@ function rcube_webmail()
       var current_li, target_li;
 
       if ((current_li = this.get_folder_li(old, prefix))) {
-        $(current_li).removeClass('selected').removeClass('unfocused');
+        $(current_li).removeClass('selected').addClass('unfocused');
       }
       if ((target_li = this.get_folder_li(name, prefix))) {
         $(target_li).removeClass('unfocused').addClass('selected');
