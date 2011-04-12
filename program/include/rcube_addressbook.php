@@ -397,14 +397,24 @@ abstract class rcube_addressbook
      */
     protected static function normalize_string($str)
     {
-        $norm = strtolower(strtr(utf8_decode($str),
-            'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙıİ',
-            'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy'));
-
-        return preg_replace(
-            array('/[\s;\+\-\/]+/i', '/(\d)\s+(\d)/', '/\s\w{1,3}\s/'),
+        // split by words
+        $arr = explode(" ", preg_replace(
+            array('/[\s;\+\-\/]+/i', '/(\d)[-.\s]+(\d)/', '/\s\w{1,3}\s/'),
             array(' ', '\\1\\2', ' '),
-            $norm);
+            $str));
+        
+        foreach ($arr as $i => $part) {
+            if (utf8_encode(utf8_decode($part)) == $part) {  // is latin-1 ?
+                $arr[$i] = strtr(strtolower(strtr(utf8_decode($part),
+                    'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙıİ',
+                    'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy')),
+                    array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+            }
+            else
+                $arr[$i] = strtolower($part);
+        }
+        
+        return join(" ", $arr);
     }
     
 }
