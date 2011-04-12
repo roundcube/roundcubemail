@@ -31,18 +31,28 @@ if ($CONTACTS->readonly) {
 }
 
 
+function rcmail_get_edit_record()
+{
+    global $RCMAIL, $CONTACTS;
+
+     // check if we have a valid result
+     if ($GLOBALS['EDIT_RECORD']) {
+         $record = $GLOBALS['EDIT_RECORD'];
+     }
+     else if ($RCMAIL->action != 'add'
+         && !(($result = $CONTACTS->get_result()) && ($record = $result->first()))
+     ) {
+         $RCMAIL->output->show_message('contactnotfound');
+         return false;
+     }
+     
+     return $record;
+}
+
 function rcmail_contact_edithead($attrib)
 {
-   global $RCMAIL, $CONTACTS;
-
     // check if we have a valid result
-    if ($RCMAIL->action != 'add'
-        && !(($result = $CONTACTS->get_result()) && ($record = $result->first()))
-    ) {
-        $RCMAIL->output->show_message('contactnotfound');
-        return false;
-    }
-    
+    $record = rcmail_get_edit_record();
     $i_size = !empty($attrib['size']) ? $attrib['size'] : 20;
 
     $form = array(
@@ -74,15 +84,9 @@ function rcmail_contact_edithead($attrib)
 
 function rcmail_contact_editform($attrib)
 {
-   global $RCMAIL, $CONTACTS, $CONTACT_COLTYPES;
+    global $RCMAIL, $CONTACT_COLTYPES;
 
-    // check if we have a valid result
-    if ($RCMAIL->action != 'add'
-        && !(($result = $CONTACTS->get_result()) && ($record = $result->first()))
-    ) {
-        $RCMAIL->output->show_message('contactnotfound');
-        return false;
-    }
+    $record = rcmail_get_edit_record();
 
     // add some labels to client
     $RCMAIL->output->add_label('noemailwarning', 'nonamewarning');
