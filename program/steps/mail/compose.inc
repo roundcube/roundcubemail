@@ -312,12 +312,14 @@ $parts        = array('to', 'cc', 'bcc', 'replyto', 'followupto');
 
 foreach ($parts as $header) {
   $fvalue = '';
+  $decode_header = true;
 
   // we have a set of recipients stored is session
   if ($header == 'to' && ($mailto_id = $_SESSION['compose']['param']['mailto'])
       && $_SESSION['mailto'][$mailto_id]
   ) {
     $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
+    $decode_header = false;
   }
   else if (!empty($_POST['_'.$header])) {
     $fvalue = get_input_value('_'.$header, RCUBE_INPUT_POST, TRUE);
@@ -371,7 +373,7 @@ foreach ($parts as $header) {
 
   // split recipients and put them back together in a unique way
   if (!empty($fvalue) && in_array($header, array('to', 'cc', 'bcc'))) {
-    $to_addresses = $IMAP->decode_address_list($fvalue);
+    $to_addresses = $IMAP->decode_address_list($fvalue, null, $decode_header);
     $fvalue = array();
 
     foreach ($to_addresses as $addr_part) {
