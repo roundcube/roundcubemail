@@ -87,12 +87,9 @@ class rcube_config
                 ini_set('error_log', $this->prop['log_dir'].'/errors');
             }
         }
-        if ($this->prop['debug_level'] & 4) {
-            ini_set('display_errors', 1);
-        }
-        else {
-            ini_set('display_errors', 0);
-        }
+
+        // enable display_errors in 'show' level, but not for ajax requests
+        ini_set('display_errors', intval(empty($_REQUEST['_remote']) && ($this->prop['debug_level'] & 4)));
 
         // export config data
         $GLOBALS['CONFIG'] = &$this->prop;

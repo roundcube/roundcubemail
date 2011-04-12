@@ -1141,192 +1141,13 @@ function format_date($date, $format=NULL)
  * @return string Formatted string
  */
 function format_email_recipient($email, $name='')
-  {
-  if ($name && $name != $email)
-    {
+{
+  if ($name && $name != $email) {
     // Special chars as defined by RFC 822 need to in quoted string (or escaped).
     return sprintf('%s <%s>', preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name) ? '"'.addcslashes($name, '"').'"' : $name, trim($email));
-    }
-  else
-    return trim($email);
   }
 
-
-
-/****** debugging functions ********/
-
-
-/**
- * Print or write debug messages
- *
- * @param mixed Debug message or data
- * @return void
- */
-function console()
-  {
-  $args = func_get_args();
-
-  if (class_exists('rcmail', false)) {
-    $rcmail = rcmail::get_instance();
-    if (is_object($rcmail->plugins))
-      $rcmail->plugins->exec_hook('console', $args);
-  }
-
-  $msg = array();
-  foreach ($args as $arg)
-    $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
-
-  if (!($GLOBALS['CONFIG']['debug_level'] & 4))
-    write_log('console', join(";\n", $msg));
-  else if ($GLOBALS['OUTPUT']->ajax_call)
-    print "/*\n " . join(";\n", $msg) . " \n*/\n";
-  else
-    {
-    print '<div style="background:#eee; border:1px solid #ccc; margin-bottom:3px; padding:6px"><pre>';
-    print join(";<br/>\n", $msg);
-    print "</pre></div>\n";
-    }
-  }
-
-
-/**
- * Append a line to a logfile in the logs directory.
- * Date will be added automatically to the line.
- *
- * @param $name name of log file
- * @param line Line to append
- * @return void
- */
-function write_log($name, $line)
-  {
-  global $CONFIG, $RCMAIL;
-
-  if (!is_string($line))
-    $line = var_export($line, true);
- 
-  if (empty($CONFIG['log_date_format']))
-    $CONFIG['log_date_format'] = 'd-M-Y H:i:s O';
-  
-  $date = date($CONFIG['log_date_format']);
-  
-  // trigger logging hook
-  if (is_object($RCMAIL) && is_object($RCMAIL->plugins)) {
-    $log = $RCMAIL->plugins->exec_hook('write_log', array('name' => $name, 'date' => $date, 'line' => $line));
-    $name = $log['name'];
-    $line = $log['line'];
-    $date = $log['date'];
-    if ($log['abort'])
-      return true;
-  }
- 
-  if ($CONFIG['log_driver'] == 'syslog') {
-    $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
-    syslog($prio, $line);
-    return true;
-  }
-  else {
-    $line = sprintf("[%s]: %s\n", $date, $line);
-
-    // log_driver == 'file' is assumed here
-    if (empty($CONFIG['log_dir']))
-      $CONFIG['log_dir'] = INSTALL_PATH.'logs';
-
-    // try to open specific log file for writing
-    $logfile = $CONFIG['log_dir'].'/'.$name;
-    if ($fp = @fopen($logfile, 'a')) {
-      fwrite($fp, $line);
-      fflush($fp);
-      fclose($fp);
-      return true;
-    }
-    else
-      trigger_error("Error writing to log file $logfile; Please check permissions", E_USER_WARNING);
-  }
-  return false;
-}
-
-
-/**
- * Write login data (name, ID, IP address) to the 'userlogins' log file.
- *
- * @return void
- */
-function rcmail_log_login()
-{
-  global $RCMAIL;
-
-  if (!$RCMAIL->config->get('log_logins') || !$RCMAIL->user)
-    return;
-
-  write_log('userlogins', sprintf('Successful login for %s (ID: %d) from %s',
-    $RCMAIL->user->get_username(), $RCMAIL->user->ID, rcmail_remote_ip()));
-}
-
-
-/**
- * Returns remote IP address and forwarded addresses if found
- *
- * @return string Remote IP address(es)
- */
-function rcmail_remote_ip()
-{
-    $address = $_SERVER['REMOTE_ADDR'];
-
-    // append the NGINX X-Real-IP header, if set
-    if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-        $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
-    }
-    // append the X-Forwarded-For header, if set
-    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-
-    if (!empty($remote_ip))
-        $address .= '(' . implode(',', $remote_ip) . ')';
-
-    return $address;
-}
-
-
-/**
- * Check whether the HTTP referer matches the current request
- *
- * @return boolean True if referer is the same host+path, false if not
- */
-function rcube_check_referer()
-{
-  $uri = parse_url($_SERVER['REQUEST_URI']);
-  $referer = parse_url(rc_request_header('Referer'));
-  return $referer['host'] == rc_request_header('Host') && $referer['path'] == $uri['path'];
-}
-
-
-/**
- * @access private
- * @return mixed
- */
-function rcube_timer()
-{
-  return microtime(true);
-}
-
-
-/**
- * @access private
- * @return void
- */
-function rcube_print_time($timer, $label='Timer', $dest='console')
-{
-  static $print_count = 0;
-  
-  $print_count++;
-  $now = rcube_timer();
-  $diff = $now-$timer;
-  
-  if (empty($label))
-    $label = 'Timer '.$print_count;
-  
-  write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
+  return trim($email);
 }
 
 
@@ -1844,7 +1665,6 @@ function rcube_sess_unset($var_name=null)
 }
 
 
-
 /**
  * Replaces hostname variables
  *
@@ -1995,6 +1815,178 @@ class rcube_base_replacer
 }
 
 
+/****** debugging and logging functions ********/
+
+/**
+ * Print or write debug messages
+ *
+ * @param mixed Debug message or data
+ * @return void
+ */
+function console()
+{
+    $args = func_get_args();
+
+    if (class_exists('rcmail', false)) {
+        $rcmail = rcmail::get_instance();
+        if (is_object($rcmail->plugins)) {
+            $plugin = $rcmail->plugins->exec_hook('console', array('args' => $args));
+            if ($plugin['abort'])
+                return;
+            $args = $plugin['args'];
+        }
+    }
+
+    $msg = array();
+    foreach ($args as $arg)
+        $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
+
+    write_log('console', join(";\n", $msg));
+}
+
+
+/**
+ * Append a line to a logfile in the logs directory.
+ * Date will be added automatically to the line.
+ *
+ * @param $name name of log file
+ * @param line Line to append
+ * @return void
+ */
+function write_log($name, $line)
+{
+  global $CONFIG, $RCMAIL;
+
+  if (!is_string($line))
+    $line = var_export($line, true);
+ 
+  if (empty($CONFIG['log_date_format']))
+    $CONFIG['log_date_format'] = 'd-M-Y H:i:s O';
+  
+  $date = date($CONFIG['log_date_format']);
+  
+  // trigger logging hook
+  if (is_object($RCMAIL) && is_object($RCMAIL->plugins)) {
+    $log = $RCMAIL->plugins->exec_hook('write_log', array('name' => $name, 'date' => $date, 'line' => $line));
+    $name = $log['name'];
+    $line = $log['line'];
+    $date = $log['date'];
+    if ($log['abort'])
+      return true;
+  }
+ 
+  if ($CONFIG['log_driver'] == 'syslog') {
+    $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
+    syslog($prio, $line);
+    return true;
+  }
+  else {
+    $line = sprintf("[%s]: %s\n", $date, $line);
+
+    // log_driver == 'file' is assumed here
+    if (empty($CONFIG['log_dir']))
+      $CONFIG['log_dir'] = INSTALL_PATH.'logs';
+
+    // try to open specific log file for writing
+    $logfile = $CONFIG['log_dir'].'/'.$name;
+    if ($fp = @fopen($logfile, 'a')) {
+      fwrite($fp, $line);
+      fflush($fp);
+      fclose($fp);
+      return true;
+    }
+    else
+      trigger_error("Error writing to log file $logfile; Please check permissions", E_USER_WARNING);
+  }
+
+  return false;
+}
+
+
+/**
+ * Write login data (name, ID, IP address) to the 'userlogins' log file.
+ *
+ * @return void
+ */
+function rcmail_log_login()
+{
+  global $RCMAIL;
+
+  if (!$RCMAIL->config->get('log_logins') || !$RCMAIL->user)
+    return;
+
+  write_log('userlogins', sprintf('Successful login for %s (ID: %d) from %s',
+    $RCMAIL->user->get_username(), $RCMAIL->user->ID, rcmail_remote_ip()));
+}
+
+
+/**
+ * Returns remote IP address and forwarded addresses if found
+ *
+ * @return string Remote IP address(es)
+ */
+function rcmail_remote_ip()
+{
+    $address = $_SERVER['REMOTE_ADDR'];
+
+    // append the NGINX X-Real-IP header, if set
+    if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+        $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
+    }
+    // append the X-Forwarded-For header, if set
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+
+    if (!empty($remote_ip))
+        $address .= '(' . implode(',', $remote_ip) . ')';
+
+    return $address;
+}
+
+
+/**
+ * Check whether the HTTP referer matches the current request
+ *
+ * @return boolean True if referer is the same host+path, false if not
+ */
+function rcube_check_referer()
+{
+  $uri = parse_url($_SERVER['REQUEST_URI']);
+  $referer = parse_url(rc_request_header('Referer'));
+  return $referer['host'] == rc_request_header('Host') && $referer['path'] == $uri['path'];
+}
+
+
+/**
+ * @access private
+ * @return mixed
+ */
+function rcube_timer()
+{
+  return microtime(true);
+}
+
+
+/**
+ * @access private
+ * @return void
+ */
+function rcube_print_time($timer, $label='Timer', $dest='console')
+{
+  static $print_count = 0;
+  
+  $print_count++;
+  $now = rcube_timer();
+  $diff = $now-$timer;
+  
+  if (empty($label))
+    $label = 'Timer '.$print_count;
+  
+  write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
+}
+
+
 /**
  * Throw system error and show error page
  *
@@ -2015,7 +2007,7 @@ function raise_error($arg=array(), $log=false, $terminate=false)
 
     // report bug (if not incompatible browser)
     if ($log && $arg['type'] && $arg['message'])
-        log_bug($arg);
+        rcube_log_bug($arg);
 
     // display error page and terminate script
     if ($terminate) {
@@ -2035,13 +2027,20 @@ function raise_error($arg=array(), $log=false, $terminate=false)
  * @return void
  * @see raise_error()
  */
-function log_bug($arg_arr)
+function rcube_log_bug($arg_arr)
 {
     global $CONFIG;
+
     $program = strtoupper($arg_arr['type']);
+    $level   = $CONFIG['debug_level'];
+
+    // disable errors for ajax requests, write to log instead (#1487831)
+    if (($level & 4) && !empty($_REQUEST['_remote'])) {
+        $level = ($level ^ 4) | 1;
+    }
 
     // write error to local log file
-    if ($CONFIG['debug_level'] & 1) {
+    if ($level & 1) {
         $post_query = ($_SERVER['REQUEST_METHOD'] == 'POST' ? '?_task='.urlencode($_POST['_task']).'&_action='.urlencode($_POST['_action']) : '');
         $log_entry = sprintf("%s Error: %s%s (%s %s)",
             $program,
@@ -2056,13 +2055,13 @@ function log_bug($arg_arr)
         }
     }
 
-    // resport the bug to the global bug reporting system
-    if ($CONFIG['debug_level'] & 2) {
+    // report the bug to the global bug reporting system
+    if ($level & 2) {
         // TODO: Send error via HTTP
     }
 
     // show error if debug_mode is on
-    if ($CONFIG['debug_level'] & 4) {
+    if ($level & 4) {
         print "<b>$program Error";
 
         if (!empty($arg_arr['file']) && !empty($arg_arr['line']))

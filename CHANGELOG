@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of debug_level=4 in ajax requests (#1487831)
 - Support 'abort' and 'result' response in 'preferences_save' hook, add error handling
 - Fix bug where some content would cause hang on html2text conversion (#1487863)
 - Improve space-stuffing handling in format=flowed messages (#1487861)
