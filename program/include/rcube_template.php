@@ -368,16 +368,19 @@ class rcube_template extends rcube_html_page
     private function parse($name = 'main', $exit = true)
     {
         $skin_path = $this->config['skin_path'];
-        $plugin = false;
+        $plugin    = false;
+        $realname  = $name;
+        $temp      = explode('.', $name, 2);
         $this->plugin_skin_path = null;
 
-        $temp = explode(".", $name, 2);
         if (count($temp) > 1) {
-            $plugin = $temp[0];
-            $name = $temp[1];
-            $skin_dir = $plugin . '/skins/' . $this->config['skin'];
+            $plugin    = $temp[0];
+            $name      = $temp[1];
+            $skin_dir  = $plugin . '/skins/' . $this->config['skin'];
             $skin_path = $this->plugin_skin_path = $this->app->plugins->dir . $skin_dir;
-            if (!is_dir($skin_path)) {  // fallback to default skin
+
+            // fallback to default skin
+            if (!is_dir($skin_path)) {
                 $skin_dir = $plugin . '/skins/default';
                 $skin_path = $this->plugin_skin_path = $this->app->plugins->dir . $skin_dir;
             }
@@ -385,12 +388,13 @@ class rcube_template extends rcube_html_page
 
         $path = "$skin_path/templates/$name.html";
 
-        if (!is_readable($path) && $this->deprecated_templates[$name]) {
-            $path = "$skin_path/templates/".$this->deprecated_templates[$name].".html";
+        if (!is_readable($path) && $this->deprecated_templates[$realname]) {
+            $path = "$skin_path/templates/".$this->deprecated_templates[$realname].".html";
             if (is_readable($path))
                 raise_error(array('code' => 502, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Using deprecated template '".$this->deprecated_templates[$name]."' in ".$this->config['skin_path']."/templates. Please rename to '".$name."'"),
+                    'message' => "Using deprecated template '".$this->deprecated_templates[$realname]
+                        ."' in ".$this->config['skin_path']."/templates. Please rename to '".$realname."'"),
                 true, false);
         }
 
@@ -401,7 +405,7 @@ class rcube_template extends rcube_html_page
                 'type' => 'php',
                 'line' => __LINE__,
                 'file' => __FILE__,
-                'message' => 'Error loading template for '.$name
+                'message' => 'Error loading template for '.$realname
                 ), true, true);
             return false;
         }
@@ -417,7 +421,7 @@ class rcube_template extends rcube_html_page
         $output = $this->parse_xml($output);
 
         // trigger generic hook where plugins can put additional content to the page
-        $hook = $this->app->plugins->exec_hook("render_page", array('template' => $name, 'content' => $output));
+        $hook = $this->app->plugins->exec_hook("render_page", array('template' => $realname, 'content' => $output));
 
         // add debug console
         if ($this->config['debug_level'] & 8) {

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where template name without plugin prefix was used in render_page hook
 - Fix handling of debug_level=4 in ajax requests (#1487831)
 - Support 'abort' and 'result' response in 'preferences_save' hook, add error handling
 - Fix bug where some content would cause hang on html2text conversion (#1487863)
