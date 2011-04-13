@@ -405,10 +405,10 @@ abstract class rcube_addressbook
         
         foreach ($arr as $i => $part) {
             if (utf8_encode(utf8_decode($part)) == $part) {  // is latin-1 ?
-                $arr[$i] = strtr(strtolower(strtr(utf8_decode($part),
+                $arr[$i] = utf8_encode(strtr(strtolower(strtr(utf8_decode($part),
                     'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙıİ',
                     'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy')),
-                    array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+                    array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u')));
             }
             else
                 $arr[$i] = strtolower($part);
