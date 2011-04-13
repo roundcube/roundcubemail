@@ -411,7 +411,7 @@ abstract class rcube_addressbook
                     array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u')));
             }
             else
-                $arr[$i] = strtolower($part);
+                $arr[$i] = mb_strtolower($part);
         }
         
         return join(" ", $arr);
