@@ -467,7 +467,6 @@ class rcube_vcard
   {
     // use mb string function if available
     if (function_exists('mb_ereg_replace')) {
-      mb_internal_encoding(RCMAIL_CHARSET);
       return ":\n  " . mb_ereg_replace('(.{70})', "\\1\n  ", $matches[1]);
     }
     
