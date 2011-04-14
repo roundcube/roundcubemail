@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix vcard folding with uncode characters (#1487868)
 - Keep all submitted data if contact form validation fails (#1487865)
 - Handle uncode strings in rcube_addressbook::normalize_string() (#1487866)
 - Fix bug where template name without plugin prefix was used in render_page hook
