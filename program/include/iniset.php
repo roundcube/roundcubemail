@@ -74,9 +74,10 @@ ini_set('error_reporting', E_ALL&~E_NOTICE);
 @set_time_limit(120);
 
 // set internal encoding for mbstring extension
-if(extension_loaded('mbstring'))
+if (extension_loaded('mbstring')) {
     mb_internal_encoding(RCMAIL_CHARSET);
-
+    @mb_regex_encoding(RCMAIL_CHARSET);
+}
 
 /**
  * Use PHP5 autoload for dynamic class loading

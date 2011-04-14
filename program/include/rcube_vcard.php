@@ -467,16 +467,16 @@ class rcube_vcard
   {
     // use mb string function if available
     if (function_exists('mb_ereg_replace')) {
-      return ":\n  " . mb_ereg_replace('(.{70})', "\\1\n  ", $matches[1]);
+      return ":\n " . mb_ereg_replace('(.{70})', "\\1\n ", $matches[1]);
     }
     
     // chunk_split string and avoid lines breaking multibyte characters
     $c = 66;
-    $out = ":\n  " . substr($matches[1], 0, $c);
+    $out = ":\n " . substr($matches[1], 0, $c);
     for ($n = $c; $c < strlen($matches[1]); $c++) {
       // break if length > 70 or mutlibyte character starts after position 66
       if ($n > 70 || ($n > 66 && ord($matches[1][$c]) >> 6 == 3)) {
-        $out .= "\n  ";
+        $out .= "\n ";
         $n = 0;
       }
       $out .= $matches[1][$c];
