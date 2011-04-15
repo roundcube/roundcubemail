@@ -167,7 +167,7 @@ class rcube_ldap extends rcube_addressbook
             $bind_pass = $this->prop['bind_pass'];
             $bind_user = $this->prop['bind_user'];
             $bind_dn   = $this->prop['bind_dn'];
-            $base_dn   = $this->prop['base_dn'];
+            $this->base_dn   = $this->prop['base_dn'];
 
             // User specific access, generate the proper values to use.
             if ($this->prop['user_specific']) {
@@ -204,7 +204,7 @@ class rcube_ldap extends rcube_addressbook
                 }
                 // Replace the bind_dn and base_dn variables.
                 $bind_dn   = strtr($bind_dn, $replaces);
-                $this->base_dn   = strtr($base_dn, $replaces);
+                $this->base_dn   = strtr($this->base_dn, $replaces);
 
                 if (empty($bind_user)) {
                     $bind_user = $u;
