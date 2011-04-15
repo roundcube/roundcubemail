@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Replace LDAP vars in group queries (#1487837)
 - Fix vcard folding with uncode characters (#1487868)
 - Keep all submitted data if contact form validation fails (#1487865)
 - Handle uncode strings in rcube_addressbook::normalize_string() (#1487866)

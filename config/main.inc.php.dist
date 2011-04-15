@@ -512,14 +512,19 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   ),
   'sort'          => 'cn',    // The field to sort the listing by.
   'scope'         => 'sub',   // search mode: sub|base|list
-  'filter'        => '',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
+  'filter'        => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
   'fuzzy_search'  => true,    // server allows wildcard search
   'sizelimit'     => '0',     // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
   'timelimit'     => '0',     // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
-  // definition for groups, set to false if no groups are supported
+
+  // definition for contact groups (uncomment if no groups are supported)
+  // for the groups base_dn, the user replacements %fu, %u, $d and %dc work as for base_dn (see above)
+  // if the groups base_dn is empty, the contact base_dn is used for the groups as well
+  // -> in thist case, assure that groups and contacts are seperated due to the concernig filters! 
   'groups'        => array(
-    'base_dn'     => 'ou=groups,ou=rcabook,dc=localhost',
+    'base_dn'     => '',   
     'filter'      => '(objectClass=groupOfNames)',
+    'object_classes' => array("top", "groupOfNames"),
   ),
 );
 */
