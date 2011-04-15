@@ -15,6 +15,7 @@ function rcube_splitter(attrib)
   this.pos = attrib.start ? attrib.start * 1 : 0;
   this.relative = attrib.relative ? true : false;
   this.drag_active = false;
+  this.callback = attrib.callback;
 
   this.init = function()
   {
@@ -167,6 +168,9 @@ function rcube_splitter(attrib)
     $('div.iframe-splitter-fix').each(function() { this.parentNode.removeChild(this); });
 
     this.set_cookie();
+
+    if (typeof this.callback == 'function')
+      this.callback(this);
 
     return bw.safari ? true : rcube_event.cancel(e);
   };

@@ -497,6 +497,14 @@ function rcube_init_mail_ui()
     rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
     rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
 
+    if (rcmail.gui_objects.mailboxlist) {
+      rcmail.addEventListener('responseaftermark', rcube_render_mailboxlist);
+      rcmail.addEventListener('responseaftergetunread', rcube_render_mailboxlist);
+      rcmail.addEventListener('responseaftercheck-recent', rcube_render_mailboxlist);
+      rcmail.addEventListener('aftercollapse-folder', rcube_render_mailboxlist);
+      rcube_render_mailboxlist();
+    }
+
     if (rcmail.env.action == 'compose')
       rcmail_ui.init_compose_form();
   }
@@ -513,3 +521,58 @@ function iframe_events()
   rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
 }
 
+// Abbreviate mailbox names to fit width of the container
+function rcube_render_mailboxlist()
+{
+  if (bw.ie6)  // doesn't work well on IE6
+    return;
+
+  $('#mailboxlist > li a, #mailboxlist ul:visible > li a').each(function(){
+    var elem = $(this);
+    var text = elem.data('text');
+    if (!text) {
+      text = elem.text().replace(/\s+\(.+$/, '');
+      elem.data('text', text);
+    }
+    if (text.length < 6)
+      return;
+
+    var abbrev = fit_string_to_size(text, elem, elem.width() - elem.children('span.unreadcount').width());
+    if (abbrev != text)
+      elem.attr('title', text);
+    elem.contents().filter(function(){ return (this.nodeType == 3); }).get(0).data = abbrev;
+  });
+}
+
+// inspired by https://gist.github.com/24261/7fdb113f1e26111bd78c0c6fe515f6c0bf418af5
+function fit_string_to_size(str, elem, len)
+{
+    var result = str;
+    var ellip = '...';
+    var span = $('<b>').css({ visibility:'hidden', padding:'0px' }).appendTo(elem).get(0);
+
+    // on first run, check if string fits into the length already.
+    span.innerHTML = result;
+    if (span.offsetWidth > len) {
+        var cut = Math.max(1, Math.floor(str.length * ((span.offsetWidth - len) / span.offsetWidth) / 2)),
+          mid = Math.floor(str.length / 2);
+        var offLeft = mid, offRight = mid;
+        while (true) {
+            offLeft = mid - cut;
+            offRight = mid + cut;
+            span.innerHTML = str.substring(0,offLeft) + ellip + str.substring(offRight);
+
+            // break loop if string fits size
+            if (span.offsetWidth <= len || offLeft < 3)
+              break;
+
+            cut++;
+        }
+
+        // build resulting string
+        result = str.substring(0,offLeft) + ellip + str.substring(offRight);
+    }
+    
+    span.parentNode.removeChild(span);
+    return result;
+}
