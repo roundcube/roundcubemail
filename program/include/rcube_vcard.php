@@ -472,7 +472,7 @@ class rcube_vcard
     for ($n = $c; $c < strlen($matches[1]); $c++) {
       // break if length > 75 or mutlibyte character starts after position 71
       if ($n > 75 || ($n > 71 && ord($matches[1][$c]) >> 6 == 3)) {
-        $out .= "\n  ";
+        $out .= "\r\n ";
         $n = 0;
       }
       $out .= $matches[1][$c];
