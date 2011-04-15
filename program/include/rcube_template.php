@@ -69,7 +69,6 @@ class rcube_template extends rcube_html_page
 
         //$this->framed = $framed;
         $this->set_env('task', $task);
-        $this->set_env('request_token', $this->app->get_request_token());
 
         // load the correct skin (in case user-defined)
         $this->set_skin($this->config['skin']);
@@ -342,6 +341,9 @@ class rcube_template extends rcube_html_page
         else if ($unlock) {
             array_unshift($this->js_commands, array('hide_message', $unlock));
         }
+
+        $this->set_env('request_token', $this->app->get_request_token());
+
         // write all env variables to client
         $js = $this->framed ? "if(window.parent) {\n" : '';
         $js .= $this->get_js_commands() . ($this->framed ? ' }' : '');

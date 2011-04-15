@@ -1108,7 +1108,8 @@ class rcmail
   {
     $sess_id = $_COOKIE[ini_get('session.name')];
     if (!$sess_id) $sess_id = session_id();
-    return md5('RT' . $this->task . $this->config->get('des_key') . $sess_id);
+    $plugin = $this->plugins->exec_hook('request_token', array('value' => md5('RT' . $this->task . $this->config->get('des_key') . $sess_id)));
+    return $plugin['value'];
   }
 
 
