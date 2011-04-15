@@ -206,9 +206,10 @@ class rcube_vcard
   /**
    * Convert the data structure into a vcard 3.0 string
    */
-  public function export()
+  public function export($folded = true)
   {
-    return self::rfc2425_fold(self::vcard_encode($this->raw));
+    $vcard = self::vcard_encode($this->raw);
+    return $folded ? self::rfc2425_fold($vcard) : $vcard;
   }
   
   
@@ -465,18 +466,13 @@ class rcube_vcard
 
   private static function rfc2425_fold_callback($matches)
   {
-    // use mb string function if available
-    if (function_exists('mb_ereg_replace')) {
-      return ":\n " . mb_ereg_replace('(.{70})', "\\1\n ", $matches[1]);
-    }
-    
     // chunk_split string and avoid lines breaking multibyte characters
-    $c = 66;
-    $out = ":\n " . substr($matches[1], 0, $c);
+    $c = 71;
+    $out .= substr($matches[1], 0, $c);
     for ($n = $c; $c < strlen($matches[1]); $c++) {
-      // break if length > 70 or mutlibyte character starts after position 66
-      if ($n > 70 || ($n > 66 && ord($matches[1][$c]) >> 6 == 3)) {
-        $out .= "\n ";
+      // break if length > 75 or mutlibyte character starts after position 71
+      if ($n > 75 || ($n > 71 && ord($matches[1][$c]) >> 6 == 3)) {
+        $out .= "\n  ";
         $n = 0;
       }
       $out .= $matches[1][$c];
@@ -486,9 +482,9 @@ class rcube_vcard
     return $out;
   }
 
-  private static function rfc2425_fold($val)
+  public static function rfc2425_fold($val)
   {
-    return preg_replace_callback('/:([^\n]{72,})/', array('self', 'rfc2425_fold_callback'), $val) . "\n";
+    return preg_replace_callback('/([^\n]{72,})/', array('self', 'rfc2425_fold_callback'), $val);
   }
 
 

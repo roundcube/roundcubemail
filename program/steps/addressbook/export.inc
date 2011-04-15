@@ -32,7 +32,7 @@ header('Content-Disposition: attachment; filename="rcube_contacts.vcf"');
 while ($result && ($row = $result->next())) {
   // we already have a vcard record
   if ($row['vcard']) {
-    echo $row['vcard'] . "\n";
+    echo rcube_vcard::rfc2425_fold($row['vcard']) . "\n";
   }
   // copy values into vcard object
   else {
@@ -46,7 +46,7 @@ while ($result && ($row = $result->next())) {
       }
     }
 
-    echo $vcard->export() . "\n";
+    echo $vcard->export(true) . "\n";
   }
 }
 

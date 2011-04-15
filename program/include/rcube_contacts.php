@@ -551,7 +551,7 @@ class rcube_contacts extends rcube_addressbook
                     $words .= ' ' . self::normalize_string($value);
             }
         }
-        $out['vcard'] = $vcard->export();
+        $out['vcard'] = $vcard->export(false);
 
         foreach ($this->table_cols as $col) {
             $key = $col;
