@@ -106,6 +106,14 @@ class Net_SMTP
     var $_socket = null;
 
     /**
+     * Array of socket options that will be passed to Net_Socket::connect().
+     * @see stream_context_create()
+     * @var array
+     * @access private
+     */
+    var $_socket_options = null;
+
+    /**
      * The socket I/O timeout value in seconds.
      * @var int
      * @access private
@@ -156,12 +164,13 @@ class Net_SMTP
      * @param string  $localhost  The value to give when sending EHLO or HELO.
      * @param boolean $pipeling   Use SMTP command pipelining
      * @param integer $timeout    Socket I/O timeout in seconds.
+     * @param array   $socket_options Socket stream_context_create() options.
      *
      * @access  public
      * @since   1.0
      */
     function Net_SMTP($host = null, $port = null, $localhost = null,
-        $pipelining = false, $timeout = 0)
+        $pipelining = false, $timeout = 0, $socket_options = null)
     {
         if (isset($host)) {
             $this->host = $host;
@@ -175,6 +184,7 @@ class Net_SMTP
         $this->pipelining = $pipelining;
 
         $this->_socket = new Net_Socket();
+        $this->_socket_options = $socket_options;
         $this->_timeout = $timeout;
 
         /* Include the Auth_SASL package.  If the package is not
@@ -405,7 +415,8 @@ class Net_SMTP
     {
         $this->_greeting = null;
         $result = $this->_socket->connect($this->host, $this->port,
-                                          $persistent, $timeout);
+                                          $persistent, $timeout,
+                                          $this->_socket_options);
         if (PEAR::isError($result)) {
             return PEAR::raiseError('Failed to connect socket: ' .
                                     $result->getMessage());
@@ -417,8 +428,10 @@ class Net_SMTP
          * timeout values for the initial connection (our $timeout parameter) 
          * and all other socket operations.
          */
-        if (PEAR::isError($error = $this->setTimeout($this->_timeout))) {
-            return $error;
+        if ($this->_timeout > 0) {
+            if (PEAR::isError($error = $this->setTimeout($this->_timeout))) {
+                return $error;
+            }
         }
 
         if (PEAR::isError($error = $this->_parseResponse(220))) {
