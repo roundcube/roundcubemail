@@ -4650,17 +4650,18 @@ function rcube_webmail()
   // and for setting some message list global variables
   this.set_message_coltypes = function(coltypes, repl)
   {
-    this.env.coltypes = coltypes;
+    var list = this.message_list,
+      thead = list ? list.list.tHead : null,
+      cell, col, n, len, th, tr;
 
-    // set correct list titles
-    var thead = this.gui_objects.messagelist ? this.gui_objects.messagelist.tHead : null,
-      cell, col, n, len;
+    this.env.coltypes = coltypes;
 
     // replace old column headers
     if (thead) {
       if (repl) {
-        var th = document.createElement('thead'),
-          tr = document.createElement('tr');
+        th = document.createElement('thead');
+        tr = document.createElement('tr');
+
         for (c=0, len=repl.length; c < len; c++) {
           cell = document.createElement('td');
           cell.innerHTML = repl[c].html;
@@ -4694,15 +4695,16 @@ function rcube_webmail()
 
     if ((n = $.inArray('subject', this.env.coltypes)) >= 0) {
       this.set_env('subject_col', n);
-      if (this.message_list)
-        this.message_list.subject_col = n;
+      if (list)
+        list.subject_col = n;
     }
     if ((n = $.inArray('flag', this.env.coltypes)) >= 0)
       this.set_env('flagged_col', n);
     if ((n = $.inArray('status', this.env.coltypes)) >= 0)
       this.set_env('status_col', n);
 
-    this.message_list.init_header();
+    if (list)
+      list.init_header();
   };
 
   // replace content of row count display

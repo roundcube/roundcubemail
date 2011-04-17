@@ -102,8 +102,8 @@ init_row: function(row)
 {
   // make references in internal array and set event handlers
   if (row && String(row.id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i)) {
-    var self = this;
-    var uid = RegExp.$1;
+    var self = this,
+      uid = RegExp.$1;
     row.uid = uid;
     this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
@@ -170,6 +170,10 @@ clear: function(sel)
 
   if (sel)
     this.clear_selection();
+
+  // reset scroll position (in Opera)
+  if (this.frame)
+    this.frame.scrollTop = 0;
 },
 
 
@@ -212,10 +216,10 @@ insert_row: function(row, attop)
  */
 focus: function(e)
 {
-  var id;
+  var n, id;
   this.focused = true;
 
-  for (var n in this.selection) {
+  for (n in this.selection) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
       $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
@@ -236,9 +240,9 @@ focus: function(e)
  */
 blur: function()
 {
-  var id;
+  var n, id;
   this.focused = false;
-  for (var n in this.selection) {
+  for (n in this.selection) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
       $(this.rows[id].obj).removeClass('selected').addClass('unfocused');
@@ -430,8 +434,7 @@ collapse: function(row)
 
 expand: function(row)
 {
-  var depth, new_row;
-  var last_expanded_parent_depth;
+  var r, p, depth, new_row, last_expanded_parent_depth;
 
   if (row) {
     row.expanded = true;
@@ -449,13 +452,13 @@ expand: function(row)
 
   while (new_row) {
     if (new_row.nodeType == 1) {
-      var r = this.rows[new_row.uid];
+      r = this.rows[new_row.uid];
       if (r) {
         if (row && (!r.depth || r.depth <= depth))
           break;
 
         if (r.parent_uid) {
-          var p = this.rows[r.parent_uid];
+          p = this.rows[r.parent_uid];
           if (p && p.expanded) {
             if ((row && p == row) || last_expanded_parent_depth >= p.depth - 1) {
               last_expanded_parent_depth = p.depth;
@@ -696,9 +699,10 @@ select: function(id)
  */
 select_next: function()
 {
-  var next_row = this.get_next_row();
-  var prev_row = this.get_prev_row();
-  var new_row = (next_row) ? next_row : prev_row;
+  var next_row = this.get_next_row(),
+    prev_row = this.get_prev_row(),
+    new_row = (next_row) ? next_row : prev_row;
+
   if (new_row)
     this.select_row(new_row.uid, false, false);
 },
@@ -710,13 +714,16 @@ select_next: function()
 select_first: function(mod_key)
 {
   var row = this.get_first_row();
-  if (row && mod_key) {
-    this.shift_select(row, mod_key);
-    this.triggerEvent('select');
-    this.scrollto(row);
+  if (row) {
+    if (mod_key) {
+      this.shift_select(row, mod_key);
+      this.triggerEvent('select');
+      this.scrollto(row);
+    }
+    else {
+      this.select(row);
+    }
   }
-  else if (row)
-    this.select(row);
 },
 
 
@@ -726,13 +733,16 @@ select_first: function(mod_key)
 select_last: function(mod_key)
 {
   var row = this.get_last_row();
-  if (row && mod_key) {
-    this.shift_select(row, mod_key);
-    this.triggerEvent('select');
-    this.scrollto(row);
+  if (row) {
+    if (mod_key) {
+      this.shift_select(row, mod_key);
+      this.triggerEvent('select');
+      this.scrollto(row);
+    }
+    else {
+      this.select(row);
+    }
   }
-  else if (row)
-    this.select(row);
 },
 
 
@@ -744,8 +754,9 @@ select_childs: function(uid)
   if (!this.rows[uid] || !this.rows[uid].has_children)
     return;
 
-  var depth = this.rows[uid].depth;
-  var row = this.rows[uid].obj.nextSibling;
+  var depth = this.rows[uid].depth,
+    row = this.rows[uid].obj.nextSibling;
+
   while (row) {
     if (row.nodeType == 1) {
       if ((r = this.rows[row.uid])) {
@@ -768,20 +779,20 @@ shift_select: function(id, control)
   if (!this.rows[this.shift_start] || !this.selection.length)
     this.shift_start = id;
 
-  var from_rowIndex = this.rows[this.shift_start].obj.rowIndex,
+  var n, from_rowIndex = this.rows[this.shift_start].obj.rowIndex,
     to_rowIndex = this.rows[id].obj.rowIndex,
     i = ((from_rowIndex < to_rowIndex)? from_rowIndex : to_rowIndex),
     j = ((from_rowIndex > to_rowIndex)? from_rowIndex : to_rowIndex);
 
   // iterate through the entire message list
-  for (var n in this.rows) {
+  for (n in this.rows) {
     if (this.rows[n].obj.rowIndex >= i && this.rows[n].obj.rowIndex <= j) {
       if (!this.in_selection(n)) {
         this.highlight_row(n, true);
       }
     }
     else {
-      if  (this.in_selection(n) && !control) {
+      if (this.in_selection(n) && !control) {
         this.highlight_row(n, true);
       }
     }
@@ -794,7 +805,7 @@ shift_select: function(id, control)
  */
 in_selection: function(id)
 {
-  for(var n in this.selection)
+  for (var n in this.selection)
     if (this.selection[n]==id)
       return true;
 
@@ -811,10 +822,10 @@ select_all: function(filter)
     return false;
 
   // reset but remember selection first
-  var select_before = this.selection.join(',');
+  var n, select_before = this.selection.join(',');
   this.selection = [];
 
-  for (var n in this.rows) {
+  for (n in this.rows) {
     if (!filter || this.rows[n][filter] == true) {
       this.last_selected = n;
       this.highlight_row(n, true);
@@ -843,9 +854,9 @@ invert_selection: function()
     return false;
 
   // remember old selection
-  var select_before = this.selection.join(',');
+  var n, select_before = this.selection.join(',');
 
-  for (var n in this.rows)
+  for (n in this.rows)
     this.highlight_row(n, true);
 
   // trigger event if selection changed
@@ -863,11 +874,11 @@ invert_selection: function()
  */
 clear_selection: function(id)
 {
-  var num_select = this.selection.length;
+  var n, num_select = this.selection.length;
 
   // one row
   if (id) {
-    for (var n in this.selection)
+    for (n in this.selection)
       if (this.selection[n] == id) {
         this.selection.splice(n,1);
         break;
@@ -875,7 +886,7 @@ clear_selection: function(id)
   }
   // all rows
   else {
-    for (var n in this.selection)
+    for (n in this.selection)
       if (this.rows[this.selection[n]]) {
         $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused');
       }
@@ -927,9 +938,10 @@ highlight_row: function(id, multiple)
       $(this.rows[id].obj).addClass('selected');
     }
     else { // unselect row
-      var p = $.inArray(id, this.selection);
-      var a_pre = this.selection.slice(0, p);
-      var a_post = this.selection.slice(p+1, this.selection.length);
+      var p = $.inArray(id, this.selection),
+        a_pre = this.selection.slice(0, p),
+        a_post = this.selection.slice(p+1, this.selection.length);
+
       this.selection = a_pre.concat(a_post);
       $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
     }
@@ -945,8 +957,8 @@ key_press: function(e)
   if (this.focused != true)
     return true;
 
-  var keyCode = rcube_event.get_keycode(e);
-  var mod_key = rcube_event.get_modifier(e);
+  var keyCode = rcube_event.get_keycode(e),
+    mod_key = rcube_event.get_modifier(e);
 
   switch (keyCode) {
     case 40:
@@ -1371,7 +1383,7 @@ del_dragfix: function()
  */
 column_replace: function(from, to)
 {
-  var cells = this.list.tHead.rows[0].cells,
+  var len, cells = this.list.tHead.rows[0].cells,
     elem = cells[from],
     before = cells[to],
     td = document.createElement('td');
@@ -1384,7 +1396,7 @@ column_replace: function(from, to)
   cells[0].parentNode.replaceChild(elem, td);
 
   // replace list cells
-  for (r=0; r<this.list.tBodies[0].rows.length; r++) {
+  for (r=0, len=this.list.tBodies[0].rows.length; r<len; r++) {
     row = this.list.tBodies[0].rows[r];
 
     elem = row.cells[from];

@@ -135,7 +135,7 @@ $messages['namecannotbeempty'] = 'Der Name darf nicht leer sein';
 $messages['nametoolong'] = 'Der Name ist zu lang';
 $messages['folderupdated'] = 'Der Ordner wurde erfolgreich aktualisiert';
 $messages['foldercreated'] = 'Der Ordner wurde erfolgreich erstellt';
-$messages['errorreadonly'] = 'Die Aktion nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
-$messages['errornoperm'] = 'Die Aktion nicht ausgeführt werden. Zugriff verweigert.';
+$messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
+$messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
 
 ?>

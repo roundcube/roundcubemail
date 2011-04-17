@@ -105,7 +105,7 @@ class rcube_smtp
 
     $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
 
-    if($RCMAIL->config->get('smtp_debug'))
+    if ($RCMAIL->config->get('smtp_debug'))
       $this->conn->setDebug(true, array($this, 'debug_handler'));
 
     // try to connect to server and exit on failure
@@ -116,6 +116,13 @@ class rcube_smtp
       $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => $this->conn->_code));
       $this->conn = null;
       return false;
+    }
+
+    // workaround for timeout bug in Net_SMTP 1.5.[0-1] (#1487843)
+    if (method_exists($this->conn, 'setTimeout')
+      && ($timeout = ini_get('default_socket_timeout'))
+    ) {
+      $this->conn->setTimeout($timeout);
     }
 
     $smtp_user = str_replace('%u', $_SESSION['username'], $CONFIG['smtp_user']);

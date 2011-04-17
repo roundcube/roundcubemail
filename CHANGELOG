@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- PEAR::Net_SMTP 1.5.2, fixed timeout issue (#1487843)
+- Fix bug where template name without plugin prefix was used in render_page hook
 - Support 'abort' and 'result' response in 'preferences_save' hook, add error handling
 - Fix bug where some content would cause hang on html2text conversion (#1487863)
 - Improve space-stuffing handling in format=flowed messages (#1487861)
@@ -8,7 +10,6 @@ CHANGELOG Roundcube Webmail
 - Added workaround for some IMAP server with broken STATUS response (#1487859)
 - Fix bug where default_charset was not used for text messages (#1487836)
 - Stateless request tokens. No keep-alive necessary on login page (#1487829)
-- PEAR::Net_SMTP 1.5.1
 - Force names of unique constraints in PostgreSQL DDL
 - Add code for prevention from IMAP connection hangs when server closes socket unexpectedly
 - Remove redundant DELETE query (for old session deletion) on login
@@ -16,7 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix some emails are not shown using Cyrus IMAP (#1487820)
 - Fix handling of mime-encoded words with non-integral number of octets in a word (#1487801)
 - Fix parsing links with non-printable characters inside (#1487805)
-- Fixed de_CH Localization bugs (#1487773)
+- Fixed de_CH/de_DE localization bugs (#1487773)
 - Add variable for 'Today' label in date_today option (#1486120)
 - Applied plugin changes since 0.5-stable release
 - Fix SQL query in rcube_user::query() so it uses index on MySQL again
