@@ -30,7 +30,7 @@
  * @author     David Saez Padros <david@ols.es>
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Lukas Kahwe Smith <smith@pooteeweet.org>
- * @version    1.17
+ * @version    1.18
  * @link       http://pear.php.net/package/MDB2
  */
 class rcube_mdb2
@@ -142,7 +142,9 @@ class rcube_mdb2
 
         $this->db_handle = $this->dsn_connect($dsn);
         $this->db_connected = !PEAR::isError($this->db_handle);
-        $this->db_mode = $mode;
+
+        if ($this->db_connected)
+          $this->db_mode = $mode;
     }
 
 
@@ -291,7 +293,7 @@ class rcube_mdb2
      */
     function num_rows($res_id=null)
     {
-        if (!$this->db_handle)
+        if (!$this->db_connected)
             return false;
 
         if ($result = $this->_get_result($res_id))
@@ -310,7 +312,7 @@ class rcube_mdb2
      */
     function affected_rows($res_id = null)
     {
-        if (!$this->db_handle)
+        if (!$this->db_connected)
             return false;
 
         return (int) $this->_get_result($res_id);
@@ -327,7 +329,7 @@ class rcube_mdb2
      */
     function insert_id($table = '')
     {
-        if (!$this->db_handle || $this->db_mode == 'r')
+        if (!$this->db_connected || $this->db_mode == 'r')
             return false;
 
         if ($table) {
@@ -449,7 +451,7 @@ class rcube_mdb2
         if (!$this->db_handle)
             $this->db_connect('r');
 
-        return $this->db_handle->quote($input, $type);
+        return $this->db_connected ? $this->db_handle->quote($input, $type) : addslashes($input);
     }
 
 
@@ -480,7 +482,7 @@ class rcube_mdb2
         if (!$this->db_handle)
             $this->db_connect('r');
 
-        return $this->db_handle->quoteIdentifier($str);
+        return $this->db_connected ? $this->db_handle->quoteIdentifier($str) : $str;
     }
 
 
