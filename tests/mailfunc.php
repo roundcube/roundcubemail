@@ -121,7 +121,7 @@ class rcube_test_mailfunc extends UnitTestCase
   function test_mailto()
   {
     $part = $this->get_html_part('src/mailto.txt');
-    
+
     // render HTML in normal mode
     $html = rcmail_html4inline(rcmail_print_body($part, array('safe' => false)), 'foo');
 
@@ -129,6 +129,20 @@ class rcube_test_mailfunc extends UnitTestCase
       .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)">e-mail</a>';
 
     $this->assertPattern('|'.preg_quote($mailto, '|').'|', $html, "Extended mailto links");
+  }
+
+  /**
+   * Test the elimination of HTML comments
+   */
+  function test_html_comments()
+  {
+    $part = $this->get_html_part('src/htmlcom.txt');
+    $washed = rcmail_print_body($part, array('safe' => true));
+
+    // #1487759
+    $this->assertPattern('|<p>test1</p>|', $washed, "Buggy HTML comments");
+    // but conditional comments (<!--[if ...) should be removed
+    $this->assertNoPattern('|<p>test2</p>|', $washed, "Conditional HTML comments");
   }
 
 }
