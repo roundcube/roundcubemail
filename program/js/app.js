@@ -654,7 +654,7 @@ function rcube_webmail()
               input_name.focus();
               break;
             }
-            else if (this.task == 'settings' && input_email.length && !rcube_check_email(input_email.val())) {
+            else if (this.task == 'settings' && input_email.length && (this.env.identities_level % 2) == 0 && !rcube_check_email(input_email.val())) {
               alert(this.get_label('noemailwarning'));
               input_email.focus();
               break;
