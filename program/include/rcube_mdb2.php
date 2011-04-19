@@ -266,7 +266,9 @@ class rcube_mdb2
 
                 raise_error(array('code' => 500, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => $this->db_error_msg), true, true);
+                    'message' => $this->db_error_msg), true, false);
+                
+                $result = false;
             }
             else {
                 $result = $q->execute($params);

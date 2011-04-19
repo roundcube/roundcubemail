@@ -34,10 +34,10 @@ if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid))
   
   $deleted = !$plugin['abort'] ? $USER->delete_identity($iid) : $plugin['result'];
 
-  if ($deleted)
+  if ($deleted > 0 && $deleted !== false)
     $OUTPUT->show_message('deletedsuccessfully', 'confirmation', null, false);
   else
-    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'nodeletelastidentity', 'error', null, false);
+    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : ($deleted < 0 ? 'nodeletelastidentity' : 'errorsaving'), 'error', null, false);
 
   // send response
   if ($OUTPUT->ajax_call)

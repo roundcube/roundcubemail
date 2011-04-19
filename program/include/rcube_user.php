@@ -288,7 +288,7 @@ class rcube_user
 
         // we'll not delete last identity
         if ($sql_arr['ident_count'] <= 1)
-            return false;
+            return -1;
 
         $this->db->query(
             "UPDATE ".get_table_name('identities').
