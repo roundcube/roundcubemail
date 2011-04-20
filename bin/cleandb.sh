@@ -20,12 +20,9 @@
 
 */
 
-if (php_sapi_name() != 'cli') {
-    die('Not on the "shell" (php-cli).');
-}
-
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
-require INSTALL_PATH.'program/include/iniset.php';
+
+require INSTALL_PATH.'program/include/clisetup.php';
 
 // mapping for table name => primary key
 $primary_keys = array(

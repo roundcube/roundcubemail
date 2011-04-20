@@ -19,12 +19,9 @@
 
 */
 
-if (php_sapi_name() != 'cli') {
-    die('Not on the "shell" (php-cli).');
-}
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 
-require_once INSTALL_PATH . 'program/include/iniset.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 $target_dir = unslashify($_SERVER['argv'][1]);
 

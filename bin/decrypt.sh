@@ -52,12 +52,9 @@
  *  - you are dealing with counterfeit header data.
  */
 
-if (php_sapi_name() != 'cli') {
-	die("Not on the 'shell' (php-cli).\n");
-}
-
 define('INSTALL_PATH', realpath(dirname(__FILE__).'/..') . '/');
-require INSTALL_PATH . 'program/include/iniset.php';
+
+require INSTALL_PATH . 'program/include/clisetup.php';
 
 if ($argc < 2) {
 	die("Usage: " . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");
