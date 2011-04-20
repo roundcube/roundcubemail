@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Move folder name truncation to client/skin (#1485412)
 - PEAR::Net_SMTP 1.5.2, fixed timeout issue (#1487843)
 - Added plugin hook for request token creation
 - Replace LDAP vars in group queries (#1487837)
