@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- TinyMCE 3.4.2 now compatible with IE9
 - Move folder name truncation to client/skin (#1485412)
 - PEAR::Net_SMTP 1.5.2, fixed timeout issue (#1487843)
 - Added plugin hook for request token creation
@@ -17,7 +18,6 @@ CHANGELOG Roundcube Webmail
 - Added workaround for some IMAP server with broken STATUS response (#1487859)
 - Fix bug where default_charset was not used for text messages (#1487836)
 - Enable TinyMCE's contextmenu (#1487014)
-- TinyMCE 3.4.1
 - Stateless request tokens. No keep-alive necessary on login page (#1487829)
 - Allow multiple concurrent compose sessions
 - Force names of unique constraints in PostgreSQL DDL

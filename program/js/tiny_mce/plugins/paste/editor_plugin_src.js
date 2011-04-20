@@ -25,6 +25,7 @@
 			paste_dialog_height : "400",
 			paste_text_use_dialog : false,
 			paste_text_sticky : false,
+			paste_text_sticky_default : false,
 			paste_text_notifyalways : false,
 			paste_text_linebreaktype : "p",
 			paste_text_replacements : [
@@ -70,7 +71,7 @@
 			});
 
 			// Initialize plain text flag
-			ed.pasteAsPlainText = false;
+			ed.pasteAsPlainText = getParam(ed, 'paste_text_sticky_default');
 
 			// This function executes the process handlers and inserts the contents
 			// force_rich overrides plain text mode set by user, important for pasting with execCommand
@@ -165,7 +166,7 @@
 					return;
 
 				// Create container to paste into
-				n = dom.add(body, 'div', {id : '_mcePaste', 'class' : 'mcePaste', 'data-mce-bogus' : '1'}, '\uFEFF\uFEFF<br data-mce-bogus="1">');
+				n = dom.add(body, 'div', {id : '_mcePaste', 'class' : 'mcePaste', 'data-mce-bogus' : '1'}, '\uFEFF\uFEFF');
 
 				// If contentEditable mode we need to find out the position of the closest element
 				if (body != ed.getDoc().body)
@@ -197,7 +198,7 @@
 
 					// Check if the contents was changed, if it wasn't then clipboard extraction failed probably due
 					// to IE security settings so we pass the junk though better than nothing right
-					if (n.innerHTML === '\uFEFF') {
+					if (n.innerHTML === '\uFEFF\uFEFF') {
 						ed.execCommand('mcePasteWord');
 						e.preventDefault();
 						return;
@@ -228,11 +229,11 @@
 
 					or = ed.selection.getRng();
 
-					// Move caret into hidden div
+					// Move select contents inside DIV
 					n = n.firstChild;
 					rng = ed.getDoc().createRange();
 					rng.setStart(n, 0);
-					rng.setEnd(n, 1);
+					rng.setEnd(n, 2);
 					sel.setRng(rng);
 
 					// Wait a while and grab the pasted contents
@@ -305,17 +306,19 @@
 				}
 			}
 
-			// Block all drag/drop events
-			if (getParam(ed, "paste_block_drop")) {
-				ed.onInit.add(function() {
+			ed.onInit.add(function() {
+				ed.controlManager.setActive("pastetext", ed.pasteAsPlainText);
+
+				// Block all drag/drop events
+				if (getParam(ed, "paste_block_drop")) {
 					ed.dom.bind(ed.getBody(), ['dragend', 'dragover', 'draggesture', 'dragdrop', 'drop', 'drag'], function(e) {
 						e.preventDefault();
 						e.stopPropagation();
 
 						return false;
 					});
-				});
-			}
+				}
+			});
 
 			// Add legacy support
 			t._legacySupport();

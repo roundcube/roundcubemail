@@ -27,7 +27,7 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed) {
-			var t = this, lastRng, showMenu, contextmenuNeverUseNative;
+			var t = this, showMenu, contextmenuNeverUseNative, realCtrlKey;
 
 			t.editor = ed;
 
@@ -43,17 +43,22 @@
 			t.onContextMenu = new tinymce.util.Dispatcher(this);
 
 			showMenu = ed.onContextMenu.add(function(ed, e) {
-				if (e.ctrlKey && !contextmenuNeverUseNative) return;
+				// Block TinyMCE menu on ctrlKey and work around Safari issue
+				if ((realCtrlKey !== 0 ? realCtrlKey : e.ctrlKey) && !contextmenuNeverUseNative)
+					return;
 
-				// Restore the last selection since it was removed
-				if (lastRng)
-					ed.selection.setRng(lastRng);
+				Event.cancel(e);
+
+				// Select the image if it's clicked. WebKit would other wise expand the selection
+				if (e.target.nodeName == 'IMG')
+					ed.selection.select(e.target);
 
 				t._getMenu(ed).showMenu(e.clientX || e.pageX, e.clientY || e.pageX);
 				Event.add(ed.getDoc(), 'click', function(e) {
 					hide(ed, e);
 				});
-				Event.cancel(e);
+
+				ed.nodeChanged();
 			});
 
 			ed.onRemove.add(function() {
@@ -62,12 +67,12 @@
 			});
 
 			function hide(ed, e) {
-				lastRng = null;
+				realCtrlKey = 0;
 
 				// Since the contextmenu event moves
 				// the selection we need to store it away
 				if (e && e.button == 2) {
-					lastRng = ed.selection.getRng();
+					realCtrlKey = e.ctrlKey;
 					return;
 				}
 
