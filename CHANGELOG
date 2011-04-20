@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve performance by including files with absolute path (#1487849)
 - TinyMCE 3.4.2 now compatible with IE9
 - Move folder name truncation to client/skin (#1485412)
 - PEAR::Net_SMTP 1.5.2, fixed timeout issue (#1487843)

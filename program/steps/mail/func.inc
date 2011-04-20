@@ -682,7 +682,7 @@ function rcmail_print_body($part, $p = array())
   // text/enriched
   else if ($data['type'] == 'enriched') {
     $part->ctype_secondary = 'html';
-    require_once('lib/enriched.inc');
+    require_once(INSTALL_PATH . 'program/lib/enriched.inc');
     $body = Q(enriched_to_html($data['body']), 'show');
   }
   else {

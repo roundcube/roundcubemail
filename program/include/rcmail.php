@@ -1343,7 +1343,7 @@ class rcmail
     $rcmail = rcmail::get_instance();
     $convert  = $rcmail->config->get('im_convert_path', false);
     $identify = $rcmail->config->get('im_identify_path', false);
-    
+
     // imagemagick is required for this
     if (!$convert)
         return false;

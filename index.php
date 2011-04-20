@@ -208,13 +208,13 @@ if ($RCMAIL->action == 'keep-alive') {
   $OUTPUT->send();
 }
 else if ($RCMAIL->action == 'save-pref') {
-  include 'steps/utils/save_pref.inc';
+  include INSTALL_PATH . 'program/steps/utils/save_pref.inc';
 }
 
 
 // include task specific functions
-if (is_file($incfile = 'program/steps/'.$RCMAIL->task.'/func.inc'))
-  include_once($incfile);
+if (is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/func.inc'))
+  include_once $incfile;
 
 // allow 5 "redirects" to another action
 $redirects = 0; $incstep = null;
@@ -230,9 +230,9 @@ while ($redirects < 5) {
   }
   // try to include the step file
   else if (($stepfile = $RCMAIL->get_action_file())
-    && is_file($incfile = 'program/steps/'.$RCMAIL->task.'/'.$stepfile)
+    && is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/'.$stepfile)
   ) {
-    include($incfile);
+    include $incfile;
     $redirects++;
   }
   else {

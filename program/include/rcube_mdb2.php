@@ -724,7 +724,7 @@ class rcube_mdb2
      */
     private function _sqlite_prepare()
     {
-        include_once('include/rcube_sqlite.inc');
+        include_once(INSTALL_PATH . 'program/include/rcube_sqlite.inc');
 
         // we emulate via callback some missing MySQL function
         sqlite_create_function($this->db_handle->connection,

@@ -26,11 +26,8 @@
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
 
-require_once('lib/utf7.inc');
-require_once('include/rcube_shared.inc');
-
-// fallback if not PHP modules are available
-@include_once('lib/utf8.class.php');
+require_once 'lib/utf7.inc';
+require_once INSTALL_PATH . 'program/include/rcube_shared.inc';
 
 // define constannts for input reading
 define('RCUBE_INPUT_GET', 0x0101);
@@ -290,7 +287,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
     }
     $error = true;
   }
-  
+
   // encode string for output
   if ($from == 'UTF-8') {
     // @TODO: we need a function for UTF-7 (RFC2152) conversion
@@ -312,7 +309,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
     }
     $error = true;
   }
-  
+
   // report error
   if ($error && !$convert_warning) {
     raise_error(array(
@@ -322,10 +319,10 @@ function rcube_charset_convert($str, $from, $to=NULL)
       'line' => __LINE__,
       'message' => "Could not convert string from $from to $to. Make sure iconv/mbstring is installed or lib/utf8.class is available."
       ), true, false);
-    
+
     $convert_warning = true;
   }
-  
+
   // return UTF-8 or original string
   return $str;
   }
@@ -1975,14 +1972,14 @@ function rcube_timer()
 function rcube_print_time($timer, $label='Timer', $dest='console')
 {
   static $print_count = 0;
-  
+
   $print_count++;
   $now = rcube_timer();
   $diff = $now-$timer;
-  
+
   if (empty($label))
     $label = 'Timer '.$print_count;
-  
+
   write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
 }
 
@@ -2013,7 +2010,7 @@ function raise_error($arg=array(), $log=false, $terminate=false)
     if ($terminate) {
         $ERROR_CODE = $arg['code'];
         $ERROR_MESSAGE = $arg['message'];
-        include('program/steps/utils/error.inc');
+        include INSTALL_PATH . 'program/steps/utils/error.inc';
         exit;
     }
 }
