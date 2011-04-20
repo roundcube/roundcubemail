@@ -106,6 +106,7 @@ $messages['contactremovedfromgroup'] = 'Ünvanlar qrupdan silindi';
 $messages['importwait'] = 'İdxal gedir, lütfən gözləyin...';
 $messages['importerror'] = 'İdxal alınmadı! Yüklənilən fayl düzgün vCard fayl deyil.';
 $messages['importconfirm'] = '<b>$inserted ünvanlar müvəffəqiyyətlə idxal edildi, mövcud $skipped buraxılıb</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>Buraxılmış $skipped mövcud daxillər</b>	';
 $messages['opnotpermitted'] = 'Əməliyyat qadağandır!';
 $messages['nofromaddress'] = 'Seçilmiş kimlikdə e-poçt ünvanları yoxdur';
 $messages['editorwarning'] = 'Adi mətn redaktoruna keçid, bütün mətn formatlarının itkisinə gətirəcək. Davam edilsin?';

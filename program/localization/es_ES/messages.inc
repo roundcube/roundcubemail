@@ -111,6 +111,7 @@ $messages['contactremovedfromgroup'] = 'Se han borrado correctamente los contact
 $messages['importwait'] = 'Importando, espere...';
 $messages['importerror'] = '¡Error al importar! Este archivo no es un formato válido vCard.';
 $messages['importconfirm'] = '<b>Se han insertado: $inserted contactos, y se han omitido: $skipped porque ya existían</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = 'Ignorar $skipped entradas existentes';
 $messages['opnotpermitted'] = '¡Operación no permitida!';
 $messages['nofromaddress'] = 'El contacto seleccionado no tiene dirección de e-mail';
 $messages['editorwarning'] = 'Cambiando a texto plano perderá el formato del mensaje. ¿Desea continuar?';
@@ -140,5 +141,6 @@ $messages['namecannotbeempty'] = 'Hay que poner el nombre';
 $messages['nametoolong'] = 'El nombre es demasiado largo';
 $messages['folderupdated'] = 'Bandeja actualizada correctamente';
 $messages['foldercreated'] = 'Bandeja creada correctamente';
+$messages['invalidimageformat'] = 'No es un formato de imagen válido';
 
 ?>

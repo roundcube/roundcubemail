@@ -44,9 +44,6 @@ $labels['size'] = 'الحجم';
 $labels['priority'] = 'الأولوية';
 $labels['organization'] = 'المنظمة';
 $labels['readstatus'] = 'حالة القراءة';
-$labels['reply-to'] = 'الرد إلى';
-$labels['mail-reply-to'] = 'Mail-Reply-To';
-$labels['mail-followup-to'] = 'Mail-Followup-To';
 $labels['mailboxlist'] = 'المجلدات';
 $labels['messagesfromto'] = 'الرسالة $from إلى $to من مجموع $count';
 $labels['threadsfromto'] = 'جهات الإتصال $from إلى $to من مجموع $count';
@@ -108,13 +105,9 @@ $labels['deletemessage'] = 'حذف الرسالة إلى المهملات';
 $labels['movemessagetotrash'] = 'انقل الرسالة إلى سلة المهملات';
 $labels['printmessage'] = 'طباعة هذه الرسالة';
 $labels['previousmessage'] = 'عرض الرسالة السابقة';
-$labels['previousmessages'] = 'عرض المجموعة السابقة من الرسائل';
 $labels['firstmessage'] = 'عرض الرسالة الأولى';
-$labels['firstmessages'] = 'عرض مجموعة الرسائل الأولى';
 $labels['nextmessage'] = 'عرض الرسالة التالية';
-$labels['nextmessages'] = 'عرض المجموعة التالية من الرسائل';
 $labels['lastmessage'] = 'عرض الرسالة الأخيرة';
-$labels['lastmessages'] = 'عرض مجموعة الرسائل الأخيرة';
 $labels['backtolist'] = 'العودة إلى لائحة الرسائل';
 $labels['viewsource'] = 'إظهار المصدر';
 $labels['markmessages'] = 'وسم الرسالة';
@@ -157,7 +150,6 @@ $labels['listmode'] = 'وضع طريقة السرد';
 $labels['folderactions'] = 'إجراءات المجلد...';
 $labels['compact'] = 'ضغط';
 $labels['empty'] = 'تفريغ';
-$labels['purge'] = 'إزالة';
 $labels['quota'] = 'المساحة المستخدمة';
 $labels['unknown'] = 'مجهول';
 $labels['unlimited'] = 'غير محدود';
@@ -208,15 +200,56 @@ $labels['receiptnote'] = 'ملاحظة: يُعلمك هذا الإيصال بأ�
 $labels['name'] = 'اسم العرض';
 $labels['firstname'] = 'الإسم الأول';
 $labels['surname'] = 'الإسم الأخير';
+$labels['middlename'] = 'الاسم الثاني';
+$labels['nameprefix'] = 'السابقة';
+$labels['namesuffix'] = 'اللاحقة';
+$labels['nickname'] = 'اللقب';
+$labels['jobtitle'] = 'المسمى الوظيفي';
+$labels['department'] = 'الإدارة';
+$labels['gender'] = 'الجنس';
+$labels['maidenname'] = 'إسم الزواج';
 $labels['email'] = 'البريد الإلكتروني';
+$labels['phone'] = 'الهاتف';
+$labels['address'] = 'العنوان';
+$labels['street'] = 'الشارع';
+$labels['locality'] = 'المدينة';
+$labels['zipcode'] = 'الرمز البريدي';
+$labels['region'] = 'المنطقة';
+$labels['country'] = 'الدولة';
+$labels['birthday'] = 'تاريخ الميلاد';
+$labels['anniversary'] = 'المناسبة السنوية';
+$labels['website'] = 'الموقع';
+$labels['instantmessenger'] = 'IM';
+$labels['notes'] = 'ملاحظات';
+$labels['male'] = 'ذكر';
+$labels['female'] = 'أنثى';
+$labels['manager'] = 'مدير';
+$labels['assistant'] = 'مساعد';
+$labels['spouse'] = 'زوجة';
+$labels['typehome'] = 'المنزل';
+$labels['typework'] = 'العمل';
+$labels['typeother'] = 'آخر';
+$labels['typemobile'] = 'المحمول';
+$labels['typemain'] = 'الرئيسي';
+$labels['typehomefax'] = 'فاكس المنزل';
+$labels['typeworkfax'] = 'فاكس العمل';
+$labels['typecar'] = 'السيارة';
+$labels['typepager'] = 'الرنان';
+$labels['typevideo'] = 'الفيديو';
+$labels['typeassistant'] = 'المساعد';
+$labels['addfield'] = 'إضافة حقل...';
 $labels['addcontact'] = 'إضافة المراسل المحدد إلى دفتر عناويني';
 $labels['editcontact'] = 'تحرير بيانات المراسل';
 $labels['contacts'] = 'المراسلين';
 $labels['contactproperties'] = 'خواص جهة الإتصال';
+$labels['personalinfo'] = 'المعلومات الشخصية';
 $labels['edit'] = 'تحرير';
 $labels['cancel'] = 'إلغاء';
 $labels['save'] = 'حفظ';
 $labels['delete'] = 'حذف';
+$labels['rename'] = 'إعادة التسمية';
+$labels['addphoto'] = 'إضافة';
+$labels['replacephoto'] = 'استبدال';
 $labels['newcontact'] = 'إنشاء بطاقة مراسل جديدة';
 $labels['deletecontact'] = 'حذف المراسلين المحددين';
 $labels['composeto'] = 'إنشاء رسالة إليه';
@@ -337,6 +370,10 @@ $labels['location'] = 'الموضع';
 $labels['info'] = 'معلومات';
 $labels['getfoldersize'] = 'اضغط لمعرفة حجم المجلد';
 $labels['changesubscription'] = 'اضغط لتغيير حالة الإشتراك';
+$labels['foldertype'] = 'نوع المجلد';
+$labels['personalfolder'] = 'مجلد خاص';
+$labels['otherfolder'] = 'مجلد مستخدم آخر';
+$labels['sharedfolder'] = 'مجلد عام';
 $labels['sortby'] = 'ترتيب بحسب';
 $labels['sortasc'] = 'ترتيب تصاعدي';
 $labels['sortdesc'] = 'ترتيب تنازلي';

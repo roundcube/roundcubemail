@@ -108,6 +108,7 @@ $messages['contactremovedfromgroup'] = 'УКонтакти успішно вид
 $messages['importwait'] = 'Імпортування, будь ласка, зачекайте...';
 $messages['importerror'] = 'Імпорт завершився невдало! Завантажений файл не є правильним файлом vCard';
 $messages['importconfirm'] = '<b>Успішно імпортовано $inserted контактів, пропущено $skipped існуючих</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>Пропущені $skipped наявні записи</b>';
 $messages['opnotpermitted'] = 'Дія заборонена!';
 $messages['nofromaddress'] = 'В обраному профілі не вистачає адреси електронної пошти';
 $messages['editorwarning'] = 'Перемикання в режим звичайного тексту спричинить втрату всього форматування. Продовжити?';
