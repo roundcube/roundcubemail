@@ -342,7 +342,8 @@ class rcube_template extends rcube_html_page
             array_unshift($this->js_commands, array('hide_message', $unlock));
         }
 
-        $this->set_env('request_token', $this->app->get_request_token());
+        if (!empty($this->script_files))
+          $this->set_env('request_token', $this->app->get_request_token());
 
         // write all env variables to client
         $js = $this->framed ? "if(window.parent) {\n" : '';
