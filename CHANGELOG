@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- TinyMCE 3.4.2 now compatible with IE9
 - PEAR::Net_SMTP 1.5.2, fixed timeout issue (#1487843)
 - Fix bug where template name without plugin prefix was used in render_page hook
 - Support 'abort' and 'result' response in 'preferences_save' hook, add error handling
