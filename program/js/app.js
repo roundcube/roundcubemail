@@ -5387,7 +5387,7 @@ function rcube_webmail()
     this.set_busy(false, null, lock);
     request.abort();
 
-    if (errmsg)
+    if (request.status && errmsg)
       this.display_message(this.get_label('servererror') + ' (' + errmsg + ')', 'error');
   };
 
