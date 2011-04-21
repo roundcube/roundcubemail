@@ -383,7 +383,7 @@ class rcmail
         'id' => '0',
         'name' => rcube_label('personaladrbook'),
         'groups' => $this->address_books['0']->groups,
-        'readonly' => false,
+        'readonly' => $this->address_books['0']->readonly,
         'autocomplete' => in_array('sql', $autocomplete)
       );
     }
@@ -411,7 +411,7 @@ class rcmail
       if ($writeable && $item['readonly'])
           unset($list[$idx]);
     }
-    
+
     return $list;
   }
 
