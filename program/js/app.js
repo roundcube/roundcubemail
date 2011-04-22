@@ -3789,28 +3789,25 @@ function rcube_webmail()
   // update a contact record in the list
   this.update_contact_row = function(cid, cols_arr, newcid)
   {
-    cid = String(cid).replace(this.identifier_expr, '_');
-    newcid = String(newcid).replace(this.identifier_expr, '_');
+    var c, row, list = this.contact_list;
 
-    var row;
-    if (this.contact_list.rows[cid] && (row = this.contact_list.rows[cid].obj)) {
-      for (var c=0; c<cols_arr.length; c++)
+    cid = String(cid).replace(this.identifier_expr, '_');
+
+    if (list.rows[cid] && (row = list.rows[cid].obj)) {
+      for (c=0; c<cols_arr.length; c++)
         if (row.cells[c])
           $(row.cells[c]).html(cols_arr[c]);
 
       // cid change
       if (newcid) {
+        newcid = String(newcid).replace(this.identifier_expr, '_');
         row.id = 'rcmrow' + newcid;
-        this.contact_list.remove_row(cid);
-        this.contact_list.init_row(row);
-        this.contact_list.selection[0] = newcid;
+        list.remove_row(cid);
+        list.init_row(row);
+        list.selection[0] = newcid;
         row.style.display = '';
       }
-
-      return true;
     }
-
-    return false;
   };
 
   // add row to contacts list
