@@ -902,9 +902,9 @@ fieldset.tabbed
   cursor: default;
 }
 .quota_bg { background-color: white; }
-.quota_high { background-color: #F33131; }
-.quota_mid { background-color: #F5AD3C; }
-.quota_low { background-color: #91E164; }
+.quota_high { background: url(images/quota-colors.png) repeat-x 0 -28px #f90509; }
+.quota_mid { background: url(images/quota-colors.png) repeat-x 0 -14px #e3e909; }
+.quota_low { background: url(images/quota-colors.png) repeat-x 0 0px #05f905; }
 .quota_text_high { color: white; }
 .quota_text_mid { color: #666; }
 .quota_text_low { color: #666; }

@@ -5113,7 +5113,7 @@ function rcube_webmail()
       bar1.addClass('quota_mid');
     }
     else {
-      main.addClass(' quota_text_normal');
+      main.addClass(' quota_text_low');
       bar1.addClass('quota_low');
     }
 
