@@ -5430,14 +5430,7 @@ function rcube_webmail()
     if (this.env.keep_alive && !this.env.framed && this.task == 'mail' && this.gui_objects.mailboxlist)
       this._int = setInterval(function(){ ref.check_for_recent(false); }, this.env.keep_alive * 1000);
     else if (this.env.keep_alive && !this.env.framed && this.task != 'login' && this.env.action != 'print')
-      this._int = setInterval(function(){ ref.send_keep_alive(); }, this.env.keep_alive * 1000);
-  };
-
-  // sends keep-alive signal to the server
-  this.send_keep_alive = function()
-  {
-    var d = new Date();
-    this.http_request('keep-alive', '_t='+d.getTime());
+      this._int = setInterval(function(){ ref.http_request('keep-alive'); }, this.env.keep_alive * 1000);
   };
 
   // sends request to check for recent messages
@@ -5446,7 +5439,7 @@ function rcube_webmail()
     if (this.busy)
       return;
 
-    var lock, addurl = '_t=' + (new Date().getTime()) + '&_mbox=' + urlencode(this.env.mailbox);
+    var lock, addurl = '_mbox=' + urlencode(this.env.mailbox);
 
     if (refresh) {
       lock = this.set_busy(true, 'checkingmail');
