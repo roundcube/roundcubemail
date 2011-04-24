@@ -26,6 +26,7 @@ $messages['sessionerror'] = 'Votre session est invalide ou a expiré';
 $messages['imaperror'] = 'Erreur de connexion au serveur IMAP';
 $messages['servererror'] = 'Erreur Serveur !';
 $messages['servererrormsg'] = 'Erreur du serveur: $msg';
+$messages['databaserror'] = 'Erreur avec la base de donnée!';
 $messages['errorreadonly'] = 'Impossible d\'effectuer cette opération. Le dossier est en lecture seule';
 $messages['errornoperm'] = 'Impossible d\'effectuer cette opération. Permission refusée';
 $messages['invalidrequest'] = 'Requête invalide ! Aucune donnée n\'a été sauvegardée.';
@@ -139,5 +140,6 @@ $messages['namecannotbeempty'] = 'Le nom ne peut pas être vide';
 $messages['nametoolong'] = 'Le nom est trop long';
 $messages['folderupdated'] = 'Le dossier a bien été mis à jour';
 $messages['foldercreated'] = 'Le dossier a bien été créé';
+$messages['invalidimageformat'] = 'Format d\'image invalide';
 
 ?>
