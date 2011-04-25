@@ -1179,7 +1179,7 @@ class rcmail
       mcrypt_module_close($td);
     }
     else {
-      @include_once('lib/des.inc');
+      @include_once 'des.inc';
 
       if (function_exists('des')) {
         $des_iv_size = 8;
@@ -1231,7 +1231,7 @@ class rcmail
       mcrypt_module_close($td);
     }
     else {
-      @include_once('lib/des.inc');
+      @include_once 'des.inc';
 
       if (function_exists('des')) {
         $des_iv_size = 8;

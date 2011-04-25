@@ -57,9 +57,7 @@ if (!defined('PATH_SEPARATOR')) {
 // RC include folders MUST be included FIRST to avoid other
 // possible not compatible libraries (i.e PEAR) to be included
 // instead the ones provided by RC
-$include_path = INSTALL_PATH . 'program' . PATH_SEPARATOR;
-$include_path.= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
-$include_path.= INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
+$include_path = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
 $include_path.= ini_get('include_path');
 
 if (set_include_path($include_path) === false) {
@@ -88,6 +86,7 @@ function rcube_autoload($classname)
 {
     $filename = preg_replace(
         array(
+            '/rcube_/',
             '/MDB2_(.+)/',
             '/Mail_(.+)/',
             '/Net_(.+)/',
@@ -96,6 +95,7 @@ function rcube_autoload($classname)
             '/^utf8$/',
         ),
         array(
+            INSTALL_PATH . 'program/include/rcube_',
             'MDB2/\\1',
             'Mail/\\1',
             'Net/\\1',

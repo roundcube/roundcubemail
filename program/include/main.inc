@@ -26,7 +26,7 @@
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
 
-require_once 'lib/utf7.inc';
+require_once 'utf7.inc';
 require_once INSTALL_PATH . 'program/include/rcube_shared.inc';
 
 // define constannts for input reading
