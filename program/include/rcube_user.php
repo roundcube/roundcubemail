@@ -154,7 +154,7 @@ class rcube_user
 
         $this->language = $_SESSION['language'];
 
-        if ($this->db->affected_rows()) {
+        if ($this->db->affected_rows() !== false) {
             $config->set_user_prefs($a_user_prefs);
             $this->data['preferences'] = $save_prefs;
             return true;
