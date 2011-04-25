@@ -5,7 +5,7 @@
  | program/include/rcmail.php                                            |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -570,13 +570,12 @@ class rcmail
     if (session_id())
       return;
 
-    $lifetime = $this->config->get('session_lifetime', 0) * 60;
-
     // set session domain
     if ($domain = $this->config->get('session_domain')) {
       ini_set('session.cookie_domain', $domain);
     }
     // set session garbage collecting time according to session_lifetime
+    $lifetime = $this->config->get('session_lifetime', 0) * 60;
     if ($lifetime) {
       ini_set('session.gc_maxlifetime', $lifetime * 2);
     }
@@ -588,7 +587,7 @@ class rcmail
     ini_set('session.serialize_handler', 'php');
 
     // use database for storing session data
-    $this->session = new rcube_session($this->get_dbh(), $lifetime);
+    $this->session = new rcube_session($this->get_dbh(), $this->config);
 
     $this->session->register_gc_handler('rcmail_temp_gc');
     if ($this->config->get('enable_caching'))

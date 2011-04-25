@@ -213,6 +213,15 @@ $rcmail_config['session_lifetime'] = 10;
 // session domain: .example.org
 $rcmail_config['session_domain'] = '';
 
+// Backend to use for session storage. Can either be 'db' (default) or 'memcache'
+// If set to memcache, a list of servers need to be specified in 'memcache_hosts'
+// Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
+$rcmail_config['session_storage'] = 'db';
+
+// Use these hosts for accessing memcached
+// Define any number of hosts in the form hostname:port
+$rcmail_config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211' );
+
 // check client IP in session athorization
 $rcmail_config['ip_check'] = false;
 

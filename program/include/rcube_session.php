@@ -43,26 +43,59 @@ class rcube_session
   private $secret = '';
   private $ip_check = false;
   private $keep_alive = 0;
+  private $memcache;
 
   /**
    * Default constructor
    */
-  public function __construct($db, $lifetime=60)
+  public function __construct($db, $config)
   {
     $this->db = $db;
     $this->start = microtime(true);
     $this->ip = $_SERVER['REMOTE_ADDR'];
 
+    $lifetime = $config->get('session_lifetime', 1) * 60;
     $this->set_lifetime($lifetime);
 
-    // set custom functions for PHP session management
-    session_set_save_handler(
-      array($this, 'open'),
-      array($this, 'close'),
-      array($this, 'read'),
-      array($this, 'write'),
-      array($this, 'destroy'),
-      array($this, 'gc'));
+    // use memcache backend
+    if ($config->get('session_storage', 'db') == 'memcache') {
+      $this->memcache = new Memcache;
+      $mc_available = 0;
+      foreach ($config->get('memcache_hosts', array()) as $host) {
+        list($host, $port) = explode(':', $host);
+        if (!$port) $port = 11211;
+        // add server and attempt to connect if not already done yet
+        if ($this->memcache->addServer($host, $port) && !$mc_available)
+          $mc_available += intval($this->memcache->connect($host, $port));
+      }
+
+      // set custom functions for PHP session management if memcache is available
+      if ($mc_available) {
+        session_set_save_handler(
+          array($this, 'open'),
+          array($this, 'close'),
+          array($this, 'mc_read'),
+          array($this, 'mc_write'),
+          array($this, 'mc_destroy'),
+          array($this, 'rcube_gc'));
+      }
+      else {
+        raise_error(array('code' => 604, 'type' => 'db',
+          'line' => __LINE__, 'file' => __FILE__,
+          'message' => "Failed to connect to memcached. Please check configuration"),
+          true, true);
+      }
+    }
+    else {
+      // set custom functions for PHP session management
+      session_set_save_handler(
+        array($this, 'open'),
+        array($this, 'close'),
+        array($this, 'db_read'),
+        array($this, 'db_write'),
+        array($this, 'db_destroy'),
+        array($this, 'db_gc'));
+      }
   }
 
 
@@ -78,8 +111,24 @@ class rcube_session
   }
 
 
-  // read session data
-  public function read($key)
+  /**
+   * Delete session data for the given key
+   *
+   * @param string Session ID
+   */
+  public function destroy($key)
+  {
+    return $this->memcache ? $this->mc_destroy($key) : $this->db_destroy($key);
+  }
+
+
+  /**
+   * Read session data from database
+   *
+   * @param string Session ID
+   * @return string Session vars
+   */
+  public function db_read($key)
   {
     $sql_result = $this->db->query(
       sprintf("SELECT vars, ip, %s AS changed FROM %s WHERE sess_id = ?",
@@ -108,7 +157,7 @@ class rcube_session
    * @param string Serialized session vars
    * @return boolean True on success
    */
-  public function write($key, $vars)
+  public function db_write($key, $vars)
   {
     $ts = microtime(true);
     $now = $this->db->fromunixtime((int)$ts);
@@ -121,17 +170,8 @@ class rcube_session
     }
 
     if ($oldvars !== false) {
-      $a_oldvars = $this->unserialize($oldvars);
-      if (is_array($a_oldvars)) {
-        foreach ((array)$this->unsets as $k)
-          unset($a_oldvars[$k]);
-
-        $newvars = $this->serialize(array_merge(
-          (array)$a_oldvars, (array)$this->unserialize($vars)));
-      }
-      else
-        $newvars = $vars;
-
+      $newvars = $this->_fixvars($vars, $oldvars);
+      
       if ($newvars !== $oldvars) {
         $this->db->query(
           sprintf("UPDATE %s SET vars=?, changed=%s WHERE sess_id=?",
@@ -153,6 +193,28 @@ class rcube_session
     $this->unsets = array();
     return true;
   }
+  
+  
+  private function _fixvars($vars, $oldvars)
+  {
+    $ts = microtime(true);
+
+    if ($oldvars !== false) {
+      $a_oldvars = $this->unserialize($oldvars);
+      if (is_array($a_oldvars)) {
+        foreach ((array)$this->unsets as $k)
+          unset($a_oldvars[$k]);
+
+        $newvars = $this->serialize(array_merge(
+          (array)$a_oldvars, (array)$this->unserialize($vars)));
+      }
+      else
+        $newvars = $vars;
+    }
+    
+    $this->unsets = array();
+    return $newvars;
+  }
 
 
   /**
@@ -161,7 +223,7 @@ class rcube_session
    * @param string Session ID
    * @return boolean True on success
    */
-  public function destroy($key)
+  public function db_destroy($key)
   {
     $this->db->query(
       sprintf("DELETE FROM %s WHERE sess_id = ?", get_table_name('session')),
@@ -177,17 +239,86 @@ class rcube_session
    * @param string Session lifetime in seconds
    * @return boolean True on success
    */
-  public function gc($maxlifetime)
+  public function db_gc($maxlifetime)
   {
     // just delete all expired sessions
     $this->db->query(
       sprintf("DELETE FROM %s WHERE changed < %s",
         get_table_name('session'), $this->db->fromunixtime(time() - $maxlifetime)));
 
-    foreach ($this->gc_handlers as $fct)
-      $fct();
+    $this->rcube_gc();
 
     return true;
+  }
+
+
+  /**
+   * Read session data from memcache
+   *
+   * @param string Session ID
+   * @return string Session vars
+   */
+  public function mc_read($key)
+  {
+    if ($value = $this->memcache->get($key)) {
+      $arr = unserialize($value);
+      $this->changed = $arr['changed'];
+      $this->ip      = $arr['ip'];
+      $this->vars    = $arr['vars'];
+      $this->key     = $key;
+
+      if (!empty($this->vars))
+        return $this->vars;
+    }
+
+    return false;
+  }
+
+  /**
+   * Save session data.
+   * handler for session_read()
+   *
+   * @param string Session ID
+   * @param string Serialized session vars
+   * @return boolean True on success
+   */
+  public function mc_write($key, $vars)
+  {
+    $ts = microtime(true);
+
+    // use internal data for fast requests (up to 0.5 sec.)
+    if ($key == $this->key && $ts - $this->start < 0.5)
+      $oldvars = $this->vars;
+    else // else read data again
+      $oldvars = $this->mc_read($key);
+
+    $newvars = $oldvars !== false ? $this->_fixvars($vars, $oldvars) : $vars;
+    
+    if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 2)
+      return $this->memcache->set($key, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars)), MEMCACHE_COMPRESSED, $this->lifetime);
+    
+    return true;
+  }
+
+  /**
+   * Handler for session_destroy() with memcache backend
+   *
+   * @param string Session ID
+   * @return boolean True on success
+   */
+  public function mc_destroy($key)
+  {
+    return $this->memcache->delete($key);
+  }
+
+
+  /**
+   * Execute registered garbage collector routines
+   */
+  public function rcube_gc()
+  {
+    foreach ($this->gc_handlers as $fct)
+      $fct();
   }
 
 
