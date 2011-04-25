@@ -1203,8 +1203,8 @@ class rcube_imap_generic
     {
         if (is_array($items) && !empty($items)) {
             foreach ($items as $key => $value) {
-                $args[] = $this->escape($key);
-                $args[] = $this->escape($value);
+                $args[] = $this->escape($key, true);
+                $args[] = $this->escape($value, true);
             }
         }
 
