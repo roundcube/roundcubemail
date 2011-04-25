@@ -315,7 +315,7 @@ class rcube_mdb2
         if (!$this->db_connected)
             return false;
 
-        return (int) $this->_get_result($res_id);
+        return $this->_get_result($res_id);
     }
 
 
@@ -664,6 +664,7 @@ class rcube_mdb2
                 'message' => $res->getMessage() . " Query: " 
                 . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)),
                 true, false);
+            $res = false;
         }
 
         $res_id = sizeof($this->a_query_results);
