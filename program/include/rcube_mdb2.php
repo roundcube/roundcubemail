@@ -664,7 +664,6 @@ class rcube_mdb2
                 'message' => $res->getMessage() . " Query: " 
                 . substr(preg_replace('/[\r\n]+\s*/', ' ', $res->userinfo), 0, 512)),
                 true, false);
-            $res = false;
         }
 
         $res_id = sizeof($this->a_query_results);
