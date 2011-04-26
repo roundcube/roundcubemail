@@ -22,11 +22,11 @@
 // setup some global vars used by mail steps
 $SENT_MBOX = $RCMAIL->config->get('sent_mbox');
 $DRAFTS_MBOX = $RCMAIL->config->get('drafts_mbox');
-$SEARCH_MODS_DEFAULT = array('*' => array('subject'=>1, 'from'=>1), $SENT_MBOX => array('subject'=>1, 'to'=>1), $DRAFTS_MBOX => array('subject'=>1, 'to'=>1));
-
-// Simplified for IDN in Unicode
-//$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
-$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[^&@"\'.][^@&"\']*\\.[a-z]{2,5})';
+$SEARCH_MODS_DEFAULT = array(
+    '*'         => array('subject'=>1, 'from'=>1),
+    $SENT_MBOX  => array('subject'=>1, 'to'=>1),
+    $DRAFTS_MBOX => array('subject'=>1, 'to'=>1)
+);
 
 // actions that do not require imap connection here
 $NOIMAP_ACTIONS = array('addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment', 'get');
@@ -1197,7 +1197,10 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
  */
 function rcmail_alter_html_link($matches)
 {
-  global $RCMAIL, $EMAIL_ADDRESS_PATTERN;
+  global $RCMAIL;
+
+  // Support unicode/punycode in top-level domain part
+  $EMAIL_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[^&@"\'.][^@&"\']*\\.([^\\x00-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,}))';
 
   $tag = $matches[1];
   $attrib = parse_attrib_string($matches[2]);
@@ -1212,12 +1215,12 @@ function rcmail_alter_html_link($matches)
     $attrib['href'] = $RCMAIL->url(array('task' => 'utils', 'action' => 'modcss', 'u' => $tempurl, 'c' => $GLOBALS['rcmail_html_container_id']));
     $end = ' />';
   }
-  else if (preg_match('/^mailto:'.$EMAIL_ADDRESS_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
+  else if (preg_match('/^mailto:'.$EMAIL_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
     $attrib['href'] = $mailto[0];
     $attrib['onclick'] = sprintf(
       "return %s.command('compose','%s',this)",
       JS_OBJECT_NAME,
-      JQ($mailto[1].$mailto[2]));
+      JQ($mailto[1].$mailto[3]));
   }
   else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
     $attrib['target'] = '_blank';
