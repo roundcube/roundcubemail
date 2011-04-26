@@ -166,12 +166,12 @@ class rcube_session
     if ($key == $this->key && $ts - $this->start < 0.5) {
       $oldvars = $this->vars;
     } else { // else read data again from DB
-      $oldvars = $this->read($key);
+      $oldvars = $this->db_read($key);
     }
 
     if ($oldvars !== false) {
       $newvars = $this->_fixvars($vars, $oldvars);
-      
+
       if ($newvars !== $oldvars) {
         $this->db->query(
           sprintf("UPDATE %s SET vars=?, changed=%s WHERE sess_id=?",
@@ -193,8 +193,8 @@ class rcube_session
     $this->unsets = array();
     return true;
   }
-  
-  
+
+
   private function _fixvars($vars, $oldvars)
   {
     $ts = microtime(true);
@@ -211,7 +211,7 @@ class rcube_session
       else
         $newvars = $vars;
     }
-    
+
     $this->unsets = array();
     return $newvars;
   }
@@ -246,7 +246,7 @@ class rcube_session
       sprintf("DELETE FROM %s WHERE changed < %s",
         get_table_name('session'), $this->db->fromunixtime(time() - $maxlifetime)));
 
-    $this->rcube_gc();
+    $this->gc();
 
     return true;
   }
@@ -315,7 +315,7 @@ class rcube_session
   /**
    * Execute registered garbage collector routines
    */
-  public function rcube_gc()
+  public function gc()
   {
     foreach ($this->gc_handlers as $fct)
       $fct();
