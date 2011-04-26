@@ -86,7 +86,6 @@ function rcube_autoload($classname)
 {
     $filename = preg_replace(
         array(
-            '/rcube_/',
             '/MDB2_(.+)/',
             '/Mail_(.+)/',
             '/Net_(.+)/',
@@ -95,7 +94,6 @@ function rcube_autoload($classname)
             '/^utf8$/',
         ),
         array(
-            INSTALL_PATH . 'program/include/rcube_',
             'MDB2/\\1',
             'Mail/\\1',
             'Net/\\1',
