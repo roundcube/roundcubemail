@@ -19,7 +19,7 @@ class rcube_test_mailfunc extends UnitTestCase
     $RCMAIL->imap_init(false);
     $IMAP = $RCMAIL->imap;
     
-    require_once 'steps/mail/func.inc';
+    require_once INSTALL_PATH . 'program/steps/mail/func.inc';
     
     $GLOBALS['EMAIL_ADDRESS_PATTERN'] = $EMAIL_ADDRESS_PATTERN;
   }
