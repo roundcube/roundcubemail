@@ -324,22 +324,9 @@ function rcube_webmail()
           }
         }
 
-        if ((this.env.action=='add' || this.env.action=='edit') && this.gui_objects.editform) {
+        if ((this.env.action == 'add' || this.env.action == 'edit') && this.gui_objects.editform) {
           this.enable_command('save', true);
-          this.enable_command('upload-photo', this.env.coltypes.photo ? true : false);
-          this.enable_command('delete-photo', this.env.coltypes.photo && this.env.action == 'edit');
-
-          for (var col in this.env.coltypes)
-            this.init_edit_field(col, null);
-
-          $('.contactfieldgroup .row a.deletebutton').click(function(){ ref.delete_edit_field(this); return false });
-
-          $('select.addfieldmenu').change(function(e){
-            ref.insert_edit_field($(this).val(), $(this).attr('rel'), this);
-            this.selectedIndex = 0;
-          });
-
-          $("input[type='text']:visible").first().focus();
+          this.init_contact_form();
         }
         else if (this.gui_objects.qsearchbox) {
           this.enable_command('search', 'reset-search', 'moveto', true);
@@ -356,14 +343,14 @@ function rcube_webmail()
       case 'settings':
         this.enable_command('preferences', 'identities', 'save', 'folders', true);
 
-        if (this.env.action=='identities') {
+        if (this.env.action == 'identities') {
           this.enable_command('add', this.env.identities_level < 2);
         }
-        else if (this.env.action=='edit-identity' || this.env.action=='add-identity') {
+        else if (this.env.action == 'edit-identity' || this.env.action == 'add-identity') {
           this.enable_command('add', this.env.identities_level < 2);
           this.enable_command('save', 'delete', 'edit', 'toggle-editor', true);
         }
-        else if (this.env.action=='folders') {
+        else if (this.env.action == 'folders') {
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', true);
         }
         else if (this.env.action == 'edit-folder' && this.gui_objects.editform) {
@@ -3598,7 +3585,7 @@ function rcube_webmail()
 
     if (this.ksearch_pane)
       this.ksearch_pane.hide();
-  };
+   };
 
 
   /*********************************************************/
@@ -3838,6 +3825,28 @@ function rcube_webmail()
     this.contact_list.insert_row(row);
 
     this.enable_command('export', (this.contact_list.rowcount > 0));
+  };
+
+  this.init_contact_form = function()
+  {
+    var ref = this, col;
+
+    this.set_photo_actions($('#ff_photo').val());
+
+    for (col in this.env.coltypes)
+      this.init_edit_field(col, null);
+
+    $('.contactfieldgroup .row a.deletebutton').click(function() {
+      ref.delete_edit_field(this);
+      return false;
+    });
+
+    $('select.addfieldmenu').change(function(e) {
+      ref.insert_edit_field($(this).val(), $(this).attr('rel'), this);
+      this.selectedIndex = 0;
+    });
+
+    $("input[type='text']:visible").first().focus();
   };
 
   this.group_create = function()
@@ -4136,26 +4145,31 @@ function rcube_webmail()
       this.photo_upload_id = this.set_busy(true, 'uploading');
     }
   };
-  
+
   this.replace_contact_photo = function(id)
   {
-    $('#ff_photo').val(id);
-    
-    var buttons = this.buttons['upload-photo'];
-    for (var n=0; n < buttons.length; n++)
-      $('#'+buttons[n].id).html(this.get_label(id == '-del-' ? 'addphoto' : 'replacephoto'));
-    
     var img_src = id == '-del-' ? this.env.photo_placeholder :
       this.env.comm_path + '&_action=photo&_source=' + this.env.source + '&_cid=' + this.env.cid + '&_photo=' + id;
+
+    this.set_photo_actions(id);
     $(this.gui_objects.contactphoto).children('img').attr('src', img_src);
-    
-    this.enable_command('delete-photo', id != '-del-');
   };
-  
+
   this.photo_upload_end = function()
   {
     this.set_busy(false, null, this.photo_upload_id);
     delete this.photo_upload_id;
+  };
+
+  this.set_photo_actions = function(id)
+  {
+    var n, buttons = this.buttons['upload-photo'];
+    for (n=0; n < buttons.length; n++)
+      $('#'+buttons[n].id).html(this.get_label(id == '-del-' ? 'addphoto' : 'replacephoto'));
+
+    $('#ff_photo').val(id);
+    this.enable_command('upload-photo', this.env.coltypes.photo ? true : false);
+    this.enable_command('delete-photo', this.env.coltypes.photo && id != '-del-');
   };
 
 

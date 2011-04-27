@@ -557,31 +557,34 @@ function rcmail_contact_form($form, $record, $attrib = null)
 function rcmail_contact_photo($attrib)
 {
     global $CONTACTS, $CONTACT_COLTYPES, $RCMAIL, $CONFIG;
-    
+
+    if (!$CONTACT_COLTYPES['photo'])
+        return '';
+
     if ($result = $CONTACTS->get_result())
         $record = $result->first();
-    
+
     $photo_img = $attrib['placeholder'] ? $CONFIG['skin_path'] . $attrib['placeholder'] : 'program/blank.gif';
+    $RCMAIL->output->set_env('photo_placeholder', $photo_img);
     unset($attrib['placeholder']);
-    
-    if ($CONTACT_COLTYPES['photo']) {
-        $RCMAIL->output->set_env('photo_placeholder', $photo_img);
-        
-        if (strpos($record['photo'], 'http:') === 0)
-            $photo_img = $record['photo'];
-        else if ($record['photo'])
-            $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $_REQUEST['_source']));
-        $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => ''));
-        $content = html::div($attrib, $img);
-      
-        if ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add') {
-            $RCMAIL->output->add_gui_object('contactphoto', $attrib['id']);
-            $hidden = new html_hiddenfield(array('name' => '_photo', 'id' => 'ff_photo'));
-            $content .= $hidden->show();
-        }
-  }
-  
-  return $content;
+
+    if (strpos($record['photo'], 'http:') === 0)
+        $photo_img = $record['photo'];
+    else if ($record['photo'])
+        $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $_REQUEST['_source']));
+    else
+        $ff_value = '-del-'; // will disable delete-photo action
+
+    $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => ''));
+    $content = html::div($attrib, $img);
+
+    if ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add') {
+        $RCMAIL->output->add_gui_object('contactphoto', $attrib['id']);
+        $hidden = new html_hiddenfield(array('name' => '_photo', 'id' => 'ff_photo', 'value' => $ff_value));
+        $content .= $hidden->show();
+    }
+
+    return $content;
 }
 
 
