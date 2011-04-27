@@ -86,7 +86,7 @@ CREATE TABLE `contacts` (
  `email` varchar(255) NOT NULL,
  `firstname` varchar(128) NOT NULL DEFAULT '',
  `surname` varchar(128) NOT NULL DEFAULT '',
- `vcard` text NULL,
+ `vcard` longtext NULL,
  `words` text NULL,
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY(`contact_id`),
