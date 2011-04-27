@@ -77,7 +77,7 @@ class rcube_session
           array($this, 'mc_read'),
           array($this, 'mc_write'),
           array($this, 'mc_destroy'),
-          array($this, 'rcube_gc'));
+          array($this, 'gc'));
       }
       else {
         raise_error(array('code' => 604, 'type' => 'db',
@@ -190,11 +190,13 @@ class rcube_session
         $key, base64_encode($vars), (string)$this->ip);
     }
 
-    $this->unsets = array();
     return true;
   }
 
 
+  /**
+   * Merge vars with old vars and apply unsets
+   */
   private function _fixvars($vars, $oldvars)
   {
     $ts = microtime(true);
