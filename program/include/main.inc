@@ -1673,14 +1673,17 @@ function rcube_parse_host($name, $host='')
 {
   // %n - host
   $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
-  // %d - domain name without first part, e.g. %d=mail.domain.tld, %m=domain.tld
+  // %d - domain name without first part, e.g. %n=mail.domain.tld, %d=domain.tld
   $d = preg_replace('/^[^\.]+\./', '', $n);
   // %h - IMAP host
   $h = $_SESSION['imap_host'] ? $_SESSION['imap_host'] : $host;
   // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
   $z = preg_replace('/^[^\.]+\./', '', $h);
+  // %s - domain name after the '@' from e-mail address provided at login screen
+  if ( filter_var(get_input_value('_user', RCUBE_INPUT_POST), FILTER_VALIDATE_EMAIL) !== FALSE )
+    preg_match('/[^@]+$/', get_input_value('_user', RCUBE_INPUT_POST), $s);
 
-  $name = str_replace(array('%n', '%d', '%h', '%z'), array($n, $d, $h, $z), $name);
+  $name = str_replace(array('%n', '%d', '%h', '%z', '%s'), array($n, $d, $h, $z, $s[0]), $name);
   return $name;
 }
 
