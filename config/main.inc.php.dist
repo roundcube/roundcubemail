@@ -120,7 +120,6 @@ $rcmail_config['imap_auth_pw'] = null;
 // %h - user's IMAP hostname
 // %n - http hostname ($_SERVER['SERVER_NAME'])
 // %d - domain (http hostname without the first part)
-// %s - domain name after the '@' from e-mail address provided at login screen
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %d = domain.tld
 $rcmail_config['smtp_server'] = '';
