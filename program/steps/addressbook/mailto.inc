@@ -19,14 +19,14 @@
 
 */
 
-$cid = get_input_value('_cid', RCUBE_INPUT_GET);
+$cid = get_input_value('_cid', RCUBE_INPUT_POST);
 $recipients = null;
 $mailto = array();
 
 if ($cid && preg_match('/^[a-z0-9\+\/=_-]+(,[a-z0-9\+\/=_-]+)*$/i', $cid) && $CONTACTS->ready)
 {
   $CONTACTS->set_page(1);
-  $CONTACTS->set_pagesize(100);
+  $CONTACTS->set_pagesize(substr_count($cid, ',')+2); // +2 to skip counting query
   $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid);
 
   while (is_object($recipients) && ($rec = $recipients->iterate())) {

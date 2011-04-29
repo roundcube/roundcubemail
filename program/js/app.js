@@ -808,10 +808,10 @@ function rcube_webmail()
       case 'compose':
         var url = this.env.comm_path+'&_action=compose';
 
-        if (this.task=='mail') {
+        if (this.task == 'mail') {
           url += '&_mbox='+urlencode(this.env.mailbox);
 
-          if (this.env.mailbox==this.env.drafts_mailbox) {
+          if (this.env.mailbox == this.env.drafts_mailbox) {
             var uid;
             if (uid = this.get_single_uid())
               url += '&_draft_uid='+uid;
@@ -820,7 +820,7 @@ function rcube_webmail()
              url += '&_to='+urlencode(props);
         }
         // modify url if we're in addressbook
-        else if (this.task=='addressbook') {
+        else if (this.task == 'addressbook') {
           // switch to mail compose step directly
           if (props && props.indexOf('@') > 0) {
             url = this.get_task_url('mail', url);
@@ -829,24 +829,21 @@ function rcube_webmail()
           }
 
           // use contact_id passed as command parameter
-          var a_cids = [];
+          var n, len, a_cids = [];
           if (props)
             a_cids.push(props);
           // get selected contacts
           else if (this.contact_list) {
             var selection = this.contact_list.get_selection();
-            for (var n=0; n<selection.length; n++)
+            for (n=0, len=selection.length; n<len; n++)
               a_cids.push(selection[n]);
           }
 
           if (a_cids.length)
-            this.http_request('mailto', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source), true);
+            this.http_post('mailto', {_cid: a_cids.join(','), _source: this.env.source}, true);
 
           break;
         }
-
-        // don't know if this is necessary...
-        url = url.replace(/&_framed=1/, '');
 
         this.redirect(url);
         break;

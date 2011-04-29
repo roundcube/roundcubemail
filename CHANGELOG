@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix a bug where selecting too many contacts would produce too large URI request (#1487892)
 - Fix relative URLs handling according to a <base> in HTML (#1487889)
 - Fix handling of top-level domains with more than 5 chars or unicode chars (#1487883)
 - Fix usage of non-standard HTTP error codes (#1487797)
