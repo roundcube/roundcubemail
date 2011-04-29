@@ -145,4 +145,16 @@ class rcube_test_mailfunc extends UnitTestCase
     $this->assertNoPattern('|<p>test2</p>|', $washed, "Conditional HTML comments");
   }
 
+  /**
+   * Test URI base resolving in HTML messages
+   */
+  function test_resolve_base()
+  {
+    $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
+    $html = rcmail_resolve_base($html);
+
+    $this->assertPattern('|src="http://alec\.pl/dir/img1\.gif"|', $html, "URI base resolving [1]");
+    $this->assertPattern('|src="http://alec\.pl/dir/img2\.gif"|', $html, "URI base resolving [2]");
+    $this->assertPattern('|src="http://alec\.pl/img3\.gif"|', $html, "URI base resolving [3]");
+  }
 }

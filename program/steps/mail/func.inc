@@ -607,6 +607,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
       $html = '<head></head>'. $html;
     $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
   }
+
   // turn relative into absolute urls
   $html = rcmail_resolve_base($html);
 
@@ -955,13 +956,13 @@ function rcmail_message_headers($attrib, $headers=NULL)
 function rcmail_message_full_headers($attrib, $headers=NULL)
 {
   global $OUTPUT;
-  
+
   $html = html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('load-headers','',this)"), '');
   $html .= html::div(array('id' => "all-headers", 'class' => "all", 'style' => 'display:none'), html::div(array('id' => 'headers-source'), ''));
-  
+
   $OUTPUT->add_gui_object('all_headers_row', 'all-headers');
   $OUTPUT->add_gui_object('all_headers_box', 'headers-source');
-  
+
   return html::div($attrib, $html);
 }
 
@@ -1086,8 +1087,8 @@ function rcmail_resolve_base($body)
     $replacer = new rcube_base_replacer($regs[2]);
 
     // replace all relative paths
-    $body = preg_replace_callback('/(src|background|href)=(["\']?)([\.\/]+[^"\'\s]+)(\2|\s|>)/Ui', array($replacer, 'callback'), $body);
-    $body = preg_replace_callback('/(url\s*\()(["\']?)([\.\/]+[^"\'\)\s]+)(\2)\)/Ui', array($replacer, 'callback'), $body);
+    $body = preg_replace_callback('/(src|background|href)=(["\']?)([^"\'\s]+)(\2|\s|>)/Ui', array($replacer, 'callback'), $body);
+    $body = preg_replace_callback('/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/Ui', array($replacer, 'callback'), $body);
   }
 
   return $body;
