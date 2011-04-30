@@ -163,7 +163,7 @@ class rcube_session
     $now = $this->db->fromunixtime((int)$ts);
 
     // use internal data from read() for fast requests (up to 0.5 sec.)
-    if ($key == $this->key && $ts - $this->start < 0.5) {
+    if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5)) {
       $oldvars = $this->vars;
     } else { // else read data again from DB
       $oldvars = $this->db_read($key);
@@ -289,7 +289,7 @@ class rcube_session
     $ts = microtime(true);
 
     // use internal data for fast requests (up to 0.5 sec.)
-    if ($key == $this->key && $ts - $this->start < 0.5)
+    if ($key == $this->key && !($this->vars || $ts - $this->start < 0.5))
       $oldvars = $this->vars;
     else // else read data again
       $oldvars = $this->mc_read($key);
