@@ -1679,11 +1679,14 @@ function rcube_parse_host($name, $host='')
   $h = $_SESSION['imap_host'] ? $_SESSION['imap_host'] : $host;
   // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
   $z = preg_replace('/^[^\.]+\./', '', $h);
-  // %s - domain name after the '@' from e-mail address provided at login screen
-  if ( filter_var(get_input_value('_user', RCUBE_INPUT_POST), FILTER_VALIDATE_EMAIL) !== FALSE )
-    preg_match('/[^@]+$/', get_input_value('_user', RCUBE_INPUT_POST), $s);
+  // %s - domain name after the '@' from e-mail address provided at login screen. Returns FALSE if an invalid email is provided
+  if ( strpos($name, '%s') !== false ){
+    $user_email = rcube_idn_convert(get_input_value('_user', RCUBE_INPUT_POST), true);
+    if ( preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s) < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false )
+      return false;
+  }
 
-  $name = str_replace(array('%n', '%d', '%h', '%z', '%s'), array($n, $d, $h, $z, $s[0]), $name);
+  $name = str_replace(array('%n', '%d', '%h', '%z', '%s'), array($n, $d, $h, $z, $s[2]), $name);
   return $name;
 }
 
