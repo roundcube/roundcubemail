@@ -576,3 +576,9 @@ function fit_string_to_size(str, elem, len)
     span.parentNode.removeChild(span);
     return result;
 }
+
+// Optional parameters used by TinyMCE
+var rcmail_editor_settings = {
+  skin : "default", // "default", "o2k7"
+  skin_variant : "" // "", "silver", "black"
+};
