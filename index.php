@@ -221,6 +221,7 @@ $redirects = 0; $incstep = null;
 while ($redirects < 5) {
   // execute a plugin action
   if ($RCMAIL->plugins->is_plugin_task($RCMAIL->task)) {
+    if (!$RCMAIL->action) $RCMAIL->action = 'index';
     $RCMAIL->plugins->exec_action($RCMAIL->task.'.'.$RCMAIL->action);
     break;
   }
