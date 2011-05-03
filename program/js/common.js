@@ -55,16 +55,13 @@ function roundcube_browser()
   this.ie7 = (this.dom && this.appver.indexOf('MSIE 7')>0);
   this.ie6 = (this.dom && !this.ie8 && !this.ie7 && this.appver.indexOf('MSIE 6')>0);
 
-  this.mz = (this.dom && this.ver >= 5);  // (this.dom && this.product=='Gecko')
   this.ns = ((this.ver < 5 && this.name == 'Netscape') || (this.ver >= 5 && this.vendor.indexOf('Netscape') >= 0));
-  this.ns6 = (this.ns && parseInt(this.vendver) == 6);  // (this.mz && this.ns) ? true : false;
-  this.ns7 = (this.ns && parseInt(this.vendver) == 7);  // this.agent.indexOf('Netscape/7')>0);
   this.chrome = (this.agent_lc.indexOf('chrome') > 0);
   this.safari = (!this.chrome && (this.agent_lc.indexOf('safari') > 0 || this.agent_lc.indexOf('applewebkit') > 0));
+  this.mz = (this.dom && !this.ie && !this.ns && !this.chrome && !this.safari && this.agent.indexOf('Mozilla') >= 0);
   this.konq   = (this.agent_lc.indexOf('konqueror') > 0);
   this.iphone = (this.safari && this.agent_lc.indexOf('iphone') > 0);
   this.ipad = (this.safari && this.agent_lc.indexOf('ipad') > 0);
-
   this.opera = window.opera ? true : false;
 
   if (this.opera && window.RegExp)
@@ -129,10 +126,6 @@ function roundcube_browser()
       classname += ' iphone';
     else if (this.ipad)
       classname += ' ipad';
-    else if (this.ns6)
-      classname += ' netscape6';
-    else if (this.ns7)
-      classname += ' netscape7';
 
     if (document.documentElement)
       document.documentElement.className += classname;
