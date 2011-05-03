@@ -473,13 +473,13 @@ function rcube_webmail()
 
     // trigger plugin hooks
     this.triggerEvent('actionbefore', {props:props, action:command});
-    var event_ret = this.triggerEvent('before'+command, props);
-    if (event_ret !== undefined) {
+    var ret = this.triggerEvent('before'+command, props);
+    if (ret !== undefined) {
       // abort if one the handlers returned false
-      if (event_ret === false)
+      if (ret === false)
         return false;
       else
-        props = event_ret;
+        props = ret;
     }
 
     // process internal command
@@ -3171,16 +3171,12 @@ function rcube_webmail()
     if (!form)
       return false;
 
-    // get file input fields
-    var send = false;
-    for (var n=0; n<form.elements.length; n++)
-      if (form.elements[n].type=='file' && form.elements[n].value) {
-        send = true;
-        break;
-      }
+    // get file input field, count files on capable browser
+    var field = $('input[type=file]', form).get(0),
+      files = field.files ? field.files.length : field.value ? 1 : 0;
 
     // create hidden iframe and post upload form
-    if (send) {
+    if (files) {
       var frame_name = this.async_upload_form(form, 'upload', function(e) {
         var d, content = '';
         try {
@@ -3203,7 +3199,7 @@ function rcube_webmail()
       });
 
       // display upload indicator and cancel button
-      var content = this.get_label('uploading'),
+      var content = this.get_label('uploading' + (files > 1 ? 'many' : '')),
         ts = frame_name.replace(/^rcmupload/, '');
 
       if (this.env.loadingicon)
@@ -3225,8 +3221,7 @@ function rcube_webmail()
     if (!this.gui_objects.attachmentlist)
       return false;
 
-    var li = $('<li>').attr('id', name).html(att.html);
-    var indicator;
+    var indicator, li = $('<li>').attr('id', name).html(att.html);
 
     // replace indicator's li
     if (upload_id && (indicator = document.getElementById(upload_id))) {
@@ -3253,7 +3248,7 @@ function rcube_webmail()
       return false;
 
     var list = this.gui_objects.attachmentlist.getElementsByTagName("li");
-    for (i=0;i<list.length;i++)
+    for (i=0; i<list.length; i++)
       if (list[i].id == name)
         this.gui_objects.attachmentlist.removeChild(list[i]);
   };

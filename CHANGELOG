@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enable multiselection for attachments uploading in capable browsers (#1485969)
 - Add possibility to change HTML editor configuration by skin
 - Fix a bug where selecting too many contacts would produce too large URI request (#1487892)
 - Fix relative URLs handling according to a <base> in HTML (#1487889)

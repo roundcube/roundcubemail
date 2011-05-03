@@ -271,7 +271,7 @@ class html_inputfield extends html
     protected $type = 'text';
     protected $allowed = array('type','name','value','size','tabindex',
 	'autocomplete','checked','onchange','onclick','disabled','readonly',
-	'spellcheck','results','maxlength','src');
+	'spellcheck','results','maxlength','src','multiple');
 
     /**
      * Object constructor

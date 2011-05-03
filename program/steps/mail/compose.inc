@@ -1148,6 +1148,8 @@ function rcmail_compose_attachment_form($attrib)
   $max_postsize = parse_bytes(ini_get('post_max_size'));
   if ($max_postsize && $max_postsize < $max_filesize)
     $max_filesize = $max_postsize;
+
+  $OUTPUT->set_env('max_filesize', $max_filesize);
   $max_filesize = show_bytes($max_filesize);
   
   $button = new html_inputfield(array('type' => 'button'));
@@ -1172,6 +1174,8 @@ function rcmail_compose_attachment_field($attrib)
 {
   $attrib['type'] = 'file';
   $attrib['name'] = '_attachments[]';
+  $attrib['multiple'] = 'multiple';
+
   $field = new html_inputfield($attrib);
   return $field->show();
 }
