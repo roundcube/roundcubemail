@@ -35,6 +35,7 @@ $messages['loggedout'] = 'Użytkownik wylogował się poprawnie.';
 $messages['mailboxempty'] = 'Skrzynka jest pusta!';
 $messages['loading'] = 'Ładowanie...';
 $messages['uploading'] = 'Zapisywanie pliku...';
+$messages['uploadingmany'] = 'Zapisywanie plików...';
 $messages['loadingdata'] = 'Ładowanie danych...';
 $messages['checkingmail'] = 'Sprawdzanie nowych wiadomości...';
 $messages['sendingmessage'] = 'Wysyłanie wiadomości...';

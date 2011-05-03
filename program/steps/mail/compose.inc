@@ -110,8 +110,8 @@ if (!is_array($_SESSION['compose']))
 // add some labels to client
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
-    'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'fileuploaderror',
-    'autocompletechars');
+    'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
+    'fileuploaderror', 'autocompletechars');
 
 $OUTPUT->set_env('compose_id', $COMPOSE_ID);
 

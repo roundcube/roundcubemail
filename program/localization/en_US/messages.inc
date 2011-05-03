@@ -33,6 +33,7 @@ $messages['loggedout'] = 'You have successfully terminated the session. Good bye
 $messages['mailboxempty'] = 'Mailbox is empty';
 $messages['loading'] = 'Loading...';
 $messages['uploading'] = 'Uploading file...';
+$messages['uploadingmany'] = 'Uploading files...';
 $messages['loadingdata'] = 'Loading data...';
 $messages['checkingmail'] = 'Checking for new messages...';
 $messages['sendingmessage'] = 'Sending message...';
