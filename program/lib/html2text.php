@@ -515,6 +515,9 @@ class html2text
         $text = preg_replace("/\n\s+\n/", "\n\n", $text);
         $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
 
+        // remove leading empty lines (can be produced by eg. P tag on the beginning)
+        $text = preg_replace('/^\n+/', '', $text);
+
         // Wrap the text to a readable format
         // for PHP versions >= 4.0.2. Default width is 75
         // If width is 0 or less, don't wrap the text.
