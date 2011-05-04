@@ -36,7 +36,8 @@ class rcube_string_replacer
   function __construct()
   {
     // Simplified domain expression for UTF8 characters handling
-    $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.[a-z]{2,5}';
+    // Support unicode/punycode in top-level domain part
+    $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.([^\\x00-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,})';
     $url1 = '.:;';
     $url2 = 'a-z0-9%=#@+?&\\/_~\\[\\]-';
 

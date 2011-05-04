@@ -4872,8 +4872,9 @@ function rcube_webmail()
       quota_width = parseInt(quota / 100 * width),
       pos = $(obj).position();
 
-    // Opera bug?
+    // workarounds for Opera and Webkit bugs
     pos.top = Math.max(0, pos.top);
+    pos.left = Math.max(0, pos.left);
 
     this.env.indicator_width = width;
     this.env.indicator_height = height;
@@ -5163,7 +5164,7 @@ function rcube_webmail()
     this.set_busy(false, null, lock);
     request.abort();
 
-    if (errmsg)
+    if (request.status && errmsg)
       this.display_message(this.get_label('servererror') + ' (' + errmsg + ')', 'error');
   };
 

@@ -1207,8 +1207,8 @@ class rcube_imap_generic
     {
         if (is_array($items) && !empty($items)) {
             foreach ($items as $key => $value) {
-                $args[] = $this->escape($key);
-                $args[] = $this->escape($value);
+                $args[] = $this->escape($key, true);
+                $args[] = $this->escape($value, true);
             }
         }
 
@@ -1219,7 +1219,7 @@ class rcube_imap_generic
 
         if ($code == self::ERROR_OK && preg_match('/\* ID /i', $response)) {
             $response = substr($response, 5); // remove prefix "* ID "
-            $items    = $this->tokenizeResponse($response);
+            $items    = $this->tokenizeResponse($response, 1);
             $result   = null;
 
             for ($i=0, $len=count($items); $i<$len; $i += 2) {

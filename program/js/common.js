@@ -493,8 +493,8 @@ function rcube_check_email(input, inline)
       // So, e-mail address should be validated also on server side after idn_to_ascii() use
       //domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d',
       //sub_domain = '('+atom+'|'+domain_literal+')',
-      // allow punycode in last domain part for ICANN test domains
-      domain = '([^@\\x2e]+\\x2e)+([a-z]{2,}|xn--[a-z0-9]{2,})',
+      // allow punycode/unicode top-level domain
+      domain = '([^@\\x2e]+\\x2e)+([^\\x00-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,})',
       // ICANN e-mail test (http://idn.icann.org/E-mail_test)
       icann_domains = [
         '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631',

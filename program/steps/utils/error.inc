@@ -91,10 +91,11 @@ else {
     $__error_text = sprintf('Error No. [%s]', $ERROR_CODE);
 }
 
+$HTTP_ERR_CODE = $ERROR_CODE && $ERROR_CODE < 600 ? $ERROR_CODE : 500;
 
 // Ajax request
 if ($OUTPUT && ($OUTPUT instanceof rcube_json_output)) {
-  header("HTTP/1.0 $ERROR_CODE $__error_title");
+  header("HTTP/1.0 $HTTP_ERR_CODE $__error_title");
   die;
 }
 
@@ -112,12 +113,13 @@ if ($OUTPUT && $OUTPUT->template_exists('error')) {
 }
 
 $__skin = $CONFIG->skin ? $CONFIG->skin : 'default';
+$__productname = $CONFIG['product_name'] ? $CONFIG['product_name'] : 'Roundcube Webmail';
 
 // print system error page
 print <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-<title>Roundcube|Mail : ERROR $ERROR_CODE</title>
+<title>$__productname :: ERROR</title>
 <link rel="stylesheet" type="text/css" href="skins/$__skin/common.css" />
 </head>
 <body>

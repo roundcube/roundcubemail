@@ -22,11 +22,11 @@
 // setup some global vars used by mail steps
 $SENT_MBOX = $RCMAIL->config->get('sent_mbox');
 $DRAFTS_MBOX = $RCMAIL->config->get('drafts_mbox');
-$SEARCH_MODS_DEFAULT = array('*' => array('subject'=>1, 'from'=>1), $SENT_MBOX => array('subject'=>1, 'to'=>1), $DRAFTS_MBOX => array('subject'=>1, 'to'=>1));
-
-// Simplified for IDN in Unicode
-//$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9][a-z0-9\-\.]*\\.[a-z]{2,5})';
-$EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[^&@"\'.][^@&"\']*\\.[a-z]{2,5})';
+$SEARCH_MODS_DEFAULT = array(
+    '*'         => array('subject'=>1, 'from'=>1),
+    $SENT_MBOX  => array('subject'=>1, 'to'=>1),
+    $DRAFTS_MBOX => array('subject'=>1, 'to'=>1)
+);
 
 // actions that do not require imap connection here
 $NOIMAP_ACTIONS = array('addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment', 'get');
@@ -607,6 +607,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
       $html = '<head></head>'. $html;
     $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
   }
+
   // turn relative into absolute urls
   $html = rcmail_resolve_base($html);
 
@@ -955,13 +956,13 @@ function rcmail_message_headers($attrib, $headers=NULL)
 function rcmail_message_full_headers($attrib, $headers=NULL)
 {
   global $OUTPUT;
-  
+
   $html = html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('load-headers','',this)"), '');
   $html .= html::div(array('id' => "all-headers", 'class' => "all", 'style' => 'display:none'), html::div(array('id' => 'headers-source'), ''));
-  
+
   $OUTPUT->add_gui_object('all_headers_row', 'all-headers');
   $OUTPUT->add_gui_object('all_headers_box', 'headers-source');
-  
+
   return html::div($attrib, $html);
 }
 
@@ -1086,8 +1087,8 @@ function rcmail_resolve_base($body)
     $replacer = new rcube_base_replacer($regs[2]);
 
     // replace all relative paths
-    $body = preg_replace_callback('/(src|background|href)=(["\']?)([\.\/]+[^"\'\s]+)(\2|\s|>)/Ui', array($replacer, 'callback'), $body);
-    $body = preg_replace_callback('/(url\s*\()(["\']?)([\.\/]+[^"\'\)\s]+)(\2)\)/Ui', array($replacer, 'callback'), $body);
+    $body = preg_replace_callback('/(src|background|href)=(["\']?)([^"\'\s]+)(\2|\s|>)/Ui', array($replacer, 'callback'), $body);
+    $body = preg_replace_callback('/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/Ui', array($replacer, 'callback'), $body);
   }
 
   return $body;
@@ -1197,7 +1198,10 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
  */
 function rcmail_alter_html_link($matches)
 {
-  global $RCMAIL, $EMAIL_ADDRESS_PATTERN;
+  global $RCMAIL;
+
+  // Support unicode/punycode in top-level domain part
+  $EMAIL_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[^&@"\'.][^@&"\']*\\.([^\\x00-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,}))';
 
   $tag = $matches[1];
   $attrib = parse_attrib_string($matches[2]);
@@ -1212,12 +1216,12 @@ function rcmail_alter_html_link($matches)
     $attrib['href'] = $RCMAIL->url(array('task' => 'utils', 'action' => 'modcss', 'u' => $tempurl, 'c' => $GLOBALS['rcmail_html_container_id']));
     $end = ' />';
   }
-  else if (preg_match('/^mailto:'.$EMAIL_ADDRESS_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
+  else if (preg_match('/^mailto:'.$EMAIL_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
     $attrib['href'] = $mailto[0];
     $attrib['onclick'] = sprintf(
       "return %s.command('compose','%s',this)",
       JS_OBJECT_NAME,
-      JQ($mailto[1].$mailto[2]));
+      JQ($mailto[1].$mailto[3]));
   }
   else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
     $attrib['target'] = '_blank';

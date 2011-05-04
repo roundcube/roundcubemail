@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix relative URLs handling according to a <base> in HTML (#1487889)
+- Fix handling of top-level domains with more than 5 chars or unicode chars (#1487883)
+- Fix usage of non-standard HTTP error codes (#1487797)
 - Fix PHP warning on mistaken in_array() usage (#1487901)
 
 RELEASE 0.5.2
