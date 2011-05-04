@@ -777,13 +777,6 @@ class rcube_imap_generic
                 // Now we're secure, capabilities need to be reread
                 $this->clearCapability();
             }
-
-            // Use best (for security) supported authentication method
-            foreach (array('DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN') as $auth_method) {
-                if (in_array($auth_method, $auth_methods)) {
-                    break;
-                }
-            }
         }
 
         // Send ID info

@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix PHP warning on mistaken in_array() usage (#1487901)
+
+RELEASE 0.5.2
+-------------
 - TinyMCE 3.4.2 now compatible with IE9
 - PEAR::Net_SMTP 1.5.2, fixed timeout issue (#1487843)
 - Fix bug where template name without plugin prefix was used in render_page hook
