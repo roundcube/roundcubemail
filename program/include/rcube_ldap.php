@@ -127,8 +127,9 @@ class rcube_ldap extends rcube_addressbook
 
         if (!function_exists('ldap_connect'))
             raise_error(array('code' => 100, 'type' => 'ldap',
-            'file' => __FILE__, 'line' => __LINE__,
-            'message' => "No ldap support in this installation of PHP"), true);
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "No ldap support in this installation of PHP"),
+                true, true);
 
         if (is_resource($this->conn))
             return true;
@@ -251,11 +252,10 @@ class rcube_ldap extends rcube_addressbook
         }
 
         if (!function_exists('ldap_sasl_bind')) {
-            raise_error(array(
-                'code' => 100, 'type' => 'ldap',
+            raise_error(array('code' => 100, 'type' => 'ldap',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Unable to bind: ldap_sasl_bind() not exists"),
-            true, true);
+                true, true);
         }
 
         if (!empty($authz)) {
@@ -310,11 +310,11 @@ class rcube_ldap extends rcube_addressbook
 
         $this->_debug("S: ".ldap_error($this->conn));
 
-        $error =  array(
-                'code' => ldap_errno($this->conn), 'type' => 'ldap',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn));
-        raise_error($error,true);
+        raise_error(array(
+            'code' => ldap_errno($this->conn), 'type' => 'ldap',
+            'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
+            true);
 
         return false;
     }
