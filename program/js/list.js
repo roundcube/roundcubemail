@@ -988,6 +988,8 @@ key_press: function(e)
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
       this.triggerEvent('keypress');
+      // reset shiftkey flag, we need it only for registered events
+      this.shiftkey = false;
 
       if (this.key_pressed == this.BACKSPACE_KEY)
         return rcube_event.cancel(e);

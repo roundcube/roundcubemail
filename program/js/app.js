@@ -657,13 +657,13 @@ function rcube_webmail()
 
       case 'delete':
         // mail task
-        if (this.task=='mail')
+        if (this.task == 'mail')
           this.delete_messages();
         // addressbook task
-        else if (this.task=='addressbook')
+        else if (this.task == 'addressbook')
           this.delete_contacts();
         // user settings task
-        else if (this.task=='settings')
+        else if (this.task == 'settings')
           this.delete_identity();
         break;
 
@@ -1364,22 +1364,20 @@ function rcube_webmail()
 
   this.doc_mouse_up = function(e)
   {
-    var model, list, li;
+    var model, list, li, id;
 
-    if (this.message_list) {
-      if (!rcube_mouse_is_over(e, this.message_list.list.parentNode))
-        this.message_list.blur();
+    if (list = this.message_list) {
+      if (!rcube_mouse_is_over(e, list.list.parentNode))
+        list.blur();
       else
-        this.message_list.focus();
-      list = this.message_list;
+        list.focus();
       model = this.env.mailboxes;
     }
-    else if (this.contact_list) {
-      if (!rcube_mouse_is_over(e, this.contact_list.list.parentNode))
-        this.contact_list.blur();
+    else if (list = this.contact_list) {
+      if (!rcube_mouse_is_over(e, list.list.parentNode))
+        list.blur();
       else
-        this.contact_list.focus();
-      list = this.contact_list;
+        list.focus();
       model = this.env.contactfolders;
     }
     else if (this.ksearch_value) {
@@ -1400,7 +1398,7 @@ function rcube_webmail()
 
     // reset 'pressed' buttons
     if (this.buttons_sel) {
-      for (var id in this.buttons_sel)
+      for (id in this.buttons_sel)
         if (typeof id !== 'function')
           this.button_out(this.buttons_sel[id], id);
       this.buttons_sel = {};
@@ -1499,8 +1497,6 @@ function rcube_webmail()
       this.command('previouspage');
     else if (list.key_pressed == 34)
       this.command('nextpage');
-    else
-      list.shiftkey = false;
   };
 
   this.msglist_get_preview = function()
@@ -2426,17 +2422,19 @@ function rcube_webmail()
   // delete selected messages from the current mailbox
   this.delete_messages = function()
   {
-    var selection = this.message_list ? $.merge([], this.message_list.get_selection()) : [];
+    var uid, i, len, trash = this.env.trash_mailbox,
+      list = this.message_list,
+      selection = list ? $.merge([], list.get_selection()) : [];
 
     // exit if no mailbox specified or if selection is empty
     if (!this.env.uid && !selection.length)
       return;
 
     // also select childs of collapsed rows
-    for (var uid, i=0, len=selection.length; i<len; i++) {
+    for (i=0, len=selection.length; i<len; i++) {
       uid = selection[i];
-      if (this.message_list.rows[uid].has_children && !this.message_list.rows[uid].expanded)
-        this.message_list.select_childs(uid);
+      if (list.rows[uid].has_children && !list.rows[uid].expanded)
+        list.select_childs(uid);
     }
 
     // if config is set to flag for deletion
@@ -2445,17 +2443,18 @@ function rcube_webmail()
       return false;
     }
     // if there isn't a defined trash mailbox or we are in it
-    else if (!this.env.trash_mailbox || this.env.mailbox == this.env.trash_mailbox)
+    // @TODO: we should check if defined trash mailbox exists
+    else if (!trash || this.env.mailbox == trash)
       this.permanently_remove_messages();
     // if there is a trash mailbox defined and we're not currently in it
     else {
       // if shift was pressed delete it immediately
-      if (this.message_list && this.message_list.shiftkey) {
+      if (list && list.shiftkey) {
         if (confirm(this.get_label('deletemessagesconfirm')))
           this.permanently_remove_messages();
       }
       else
-        this.move_messages(this.env.trash_mailbox);
+        this.move_messages(trash);
     }
 
     return true;

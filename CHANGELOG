@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where messages were deleted instead moved to trash folder after Shift key was used (#1487902)
 - Enable multiselection for attachments uploading in capable browsers (#1485969)
 - Add possibility to change HTML editor configuration by skin
 - Fix a bug where selecting too many contacts would produce too large URI request (#1487892)
