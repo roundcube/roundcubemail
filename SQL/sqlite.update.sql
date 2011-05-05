@@ -183,7 +183,7 @@ DROP TABLE contacts_tmp;
 DELETE FROM messages;
 
 
--- Updates from version 0.5.1
+-- Updates from version 0.5.2
 
 CREATE TABLE contacts_tmp (
     contact_id integer NOT NULL PRIMARY KEY,
@@ -221,4 +221,5 @@ CREATE INDEX ix_contacts_user_id ON contacts(user_id, email);
 DROP TABLE contacts_tmp;
 
 DELETE FROM messages;
+DELETE FROM cache;
 CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);

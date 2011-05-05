@@ -54,6 +54,20 @@ function rcube_folder_form($attrib)
     else {
         $options = array();
         $path    = $parent_imap;
+
+        // allow creating subfolders of INBOX folder
+        if ($path == 'INBOX') {
+            $path = $RCMAIL->imap->mod_mailbox($path, 'in');
+        }
+    }
+
+    // remove personal namespace prefix
+    if (strlen($path)) {
+        $path_id = $path;
+        $path    = $RCMAIL->imap->mod_mailbox($path.$delimiter);
+        if ($path[strlen($path)-1] == $delimiter) {
+            $path = substr($path, 0, -1);
+        }
     }
 
     $form = array();
@@ -93,15 +107,15 @@ function rcube_folder_form($attrib)
     );
 
     if (strlen($path)) {
-        if ($options['norename'] || $options['namespace'] != 'personal') {
+        if (!empty($options) && ($options['norename'] || $options['namespace'] != 'personal')) {
             // prevent user from moving folder
             $hidden_path = new html_hiddenfield(array('name' => '_parent', 'value' => $path));
             $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
         }
         else {
             $radio1 = new html_radiobutton(array('name' => '_parent', 'value' => ''));
-            $radio2 = new html_radiobutton(array('name' => '_parent', 'value' => $path));
-            $selected  = isset($_POST['_parent']) ? $_POST['_parent'] : $path;
+            $radio2 = new html_radiobutton(array('name' => '_parent', 'value' => $path_id));
+            $selected  = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
 
             $html_path = str_replace($delimiter, ' &raquo; ', rcmail_localize_folderpath($path));
 

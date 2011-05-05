@@ -90,7 +90,10 @@ ALTER TABLE contacts ALTER email TYPE varchar(255);
 
 TRUNCATE messages;
 
--- Updates from version 0.5.1
+-- Updates from version 0.5.2
 
 ALTER TABLE contacts ADD words TEXT NULL;
 CREATE INDEX contactgroupmembers_contact_id_idx ON contactgroupmembers (contact_id);
+
+TRUNCATE messages;
+TRUNCATE cache;

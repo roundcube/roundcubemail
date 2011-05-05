@@ -735,9 +735,13 @@ class rcmail
 
     // user already registered -> update user's record
     if (is_object($user)) {
+      // fix some old settings according to namespace prefix
+      $this->fix_namespace_settings($user);
+
       // create default folders on first login
       if (!$user->data['last_login'] && $config['create_default_folders'])
         $this->imap->create_default_folders();
+      // update last login timestamp
       $user->touch();
     }
     // create new system user
@@ -1451,6 +1455,106 @@ class rcmail
     }
 
     return strtr($this->action, '-', '_') . '.inc';
+  }
+
+  /**
+   * Fixes some user preferences according to namespace handling change.
+   * Old Roundcube versions were using folder names with removed namespace prefix.
+   * Now we need to add the prefix on servers where personal namespace has prefix.
+   *
+   * @param rcube_user $user User object
+   */
+  private function fix_namespace_settings($user)
+  {
+    $prefix     = $this->imap->get_namespace('prefix');
+    $prefix_len = strlen($prefix);
+
+    if (!$prefix_len)
+      return;
+
+    $prefs = $user->get_prefs();
+    if (empty($prefs) || $prefs['namespace_fixed'])
+      return;
+
+    // Build namespace prefix regexp
+    $ns     = $this->imap->get_namespace();
+    $regexp = array();
+
+    foreach ($ns as $entry) {
+      if (!empty($entry)) {
+        foreach ($entry as $item) {
+          if (strlen($item[0])) {
+            $regexp[] = preg_quote($item[0], '/');
+          }
+        }
+      }
+    }
+    $regexp = '/^('. implode('|', $regexp).')/';
+
+    // Fix preferences
+    $opts = array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox', 'archive_mbox');
+    foreach ($opts as $opt) {
+      if ($value = $prefs[$opt]) {
+        if ($value != 'INBOX' && !preg_match($regexp, $value)) {
+          $prefs[$opt] = $prefix.$value;
+        }
+      }
+    }
+
+    if (!empty($prefs['default_imap_folders'])) {
+      foreach ($prefs['default_imap_folders'] as $idx => $name) {
+        if ($name != 'INBOX' && !preg_match($regexp, $name)) {
+          $prefs['default_imap_folders'][$idx] = $prefix.$name;
+        }
+      }
+    }
+
+    if (!empty($prefs['search_mods'])) {
+      $folders = array();
+      foreach ($prefs['search_mods'] as $idx => $value) {
+        if ($idx != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
+          $idx = $prefix.$idx;
+        }
+        $folders[$idx] = $value;
+      }
+      $prefs['search_mods'] = $folders;
+    }
+
+    if (!empty($prefs['message_threading'])) {
+      $folders = array();
+      foreach ($prefs['message_threading'] as $idx => $value) {
+        if ($idx != 'INBOX' && !preg_match($regexp, $idx)) {
+          $idx = $prefix.$idx;
+        }
+        $folders[$prefix.$idx] = $value;
+      }
+      $prefs['message_threading'] = $folders;
+    }
+
+    if (!empty($prefs['collapsed_folders'])) {
+      $folders     = explode('&&', $prefs['collapsed_folders']);
+      $count       = count($folders);
+      $folders_str = '';
+
+      if ($count) {
+          $folders[0]        = substr($folders[0], 1);
+          $folders[$count-1] = substr($folders[$count-1], 0, -1);
+      }
+
+      foreach ($folders as $value) {
+        if ($value != 'INBOX' && !preg_match($regexp, $value)) {
+          $value = $prefix.$value;
+        }
+        $folders_str .= '&'.$value.'&';
+      }
+      $prefs['collapsed_folders'] = $folders_str;
+    }
+
+    $prefs['namespace_fixed'] = true;
+
+    // save updated preferences and reset imap settings (default folders)
+    $user->save_prefs($prefs);
+    $this->set_imap_prop();
   }
 
 }

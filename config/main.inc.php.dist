@@ -374,21 +374,26 @@ $rcmail_config['date_format'] = 'Y-m-d';
 
 // store draft message is this mailbox
 // leave blank if draft messages should not be stored
+// NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $rcmail_config['drafts_mbox'] = 'Drafts';
 
 // store spam messages in this mailbox
+// NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $rcmail_config['junk_mbox'] = 'Junk';
 
 // store sent message is this mailbox
 // leave blank if sent messages should not be stored
+// NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $rcmail_config['sent_mbox'] = 'Sent';
 
 // move messages to this folder when deleting them
 // leave blank if they should be deleted directly
+// NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $rcmail_config['trash_mbox'] = 'Trash';
 
 // display these folders separately in the mailbox list.
 // these folders will also be displayed with localized names
+// NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
 // automatically create the above listed default folders on login

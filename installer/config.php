@@ -361,7 +361,7 @@ echo $text_sentmbox->show($RCI->getprop('sent_mbox'));
 ?>
 <div>Store sent messages in this folder</div>
 
-<p class="hint">Leave blank if sent messages should not be stored</p>
+<p class="hint">Leave blank if sent messages should not be stored. Note: folder must include namespace prefix if any.</p>
 </dd>
 
 <dt class="propname">trash_mbox</dt>
@@ -374,7 +374,7 @@ echo $text_trashmbox->show($RCI->getprop('trash_mbox'));
 ?>
 <div>Move messages to this folder when deleting them</div>
 
-<p class="hint">Leave blank if they should be deleted directly</p>
+<p class="hint">Leave blank if they should be deleted directly. Note: folder must include namespace prefix if any.</p>
 </dd>
 
 <dt class="propname">drafts_mbox</dt>
@@ -387,7 +387,7 @@ echo $text_draftsmbox->show($RCI->getprop('drafts_mbox'));
 ?>
 <div>Store draft messages in this folder</div>
 
-<p class="hint">Leave blank if they should not be stored</p>
+<p class="hint">Leave blank if they should not be stored. Note: folder must include namespace prefix if any.</p>
 </dd>
 
 <dt class="propname">junk_mbox</dt>
@@ -399,6 +399,10 @@ echo $text_junkmbox->show($RCI->getprop('junk_mbox'));
 
 ?>
 <div>Store spam messages in this folder</div>
+
+<p class="hint">Note: folder must include namespace prefix if any.</p>
+</dd>
+
 </dd>
 </dl>
 </fieldset>

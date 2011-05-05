@@ -133,8 +133,11 @@ ALTER TABLE `contacts` MODIFY `email` varchar(255) NOT NULL;
 
 TRUNCATE TABLE `messages`;
 
--- Updates from version 0.5.1
+-- Updates from version 0.5.2
 
 ALTER TABLE `contacts` ADD `words` TEXT NULL AFTER `vcard`;
 ALTER TABLE `contacts` CHANGE `vcard` `vcard` LONGTEXT /*!40101 CHARACTER SET utf8 */ NULL DEFAULT NULL;
 ALTER TABLE `contactgroupmembers` ADD INDEX `contactgroupmembers_contact_index` (`contact_id`);
+
+TRUNCATE TABLE `messages`;
+TRUNCATE TABLE `cache`;

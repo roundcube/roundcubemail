@@ -126,12 +126,11 @@ else if ($RCMAIL->action == 'rename-folder')
         // subfolders
         for ($x=sizeof($folderlist)-1; $x>=0; $x--) {
             if (preg_match($regexp, $folderlist[$x])) {
-                $oldfolder = $oldname . $delimiter . preg_replace($regexp, '', $folderlist[$x]);
-                $foldersplit = explode($delimiter, $folderlist[$x]);
-                $level = count($foldersplit) - 1;
+                $oldfolder   = $oldname . $delimiter . preg_replace($regexp, '', $folderlist[$x]);
+                $foldersplit = explode($delimiter, $IMAP->mod_mailbox($folderlist[$x]));
+                $level       = count($foldersplit) - 1;
                 $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) 
                     . rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP');
-
                 $before = isset($folderlist[$x+1]) ? rcube_charset_convert($folderlist[$x+1], 'UTF7-IMAP') : false;
 
                 $OUTPUT->command('replace_folder_row', rcube_charset_convert($oldfolder, 'UTF7-IMAP'),
@@ -139,14 +138,14 @@ else if ($RCMAIL->action == 'rename-folder')
             }
         }
 
+        $index       = array_search($name, $folderlist);
+        $name        = $IMAP->mod_mailbox($name);
         $foldersplit = explode($delimiter, $name);
-        $level = count($foldersplit) - 1;
+        $level       = count($foldersplit) - 1;
         $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP');
-        $index = array_search($name, $folderlist);
-        $before = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF7-IMAP') : false;
+        $before         = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF7-IMAP') : false;
 
-        $OUTPUT->command('replace_folder_row', $oldname_utf8,
-            rcube_charset_convert($name, 'UTF7-IMAP'), $display_rename, $before);
+        $OUTPUT->command('replace_folder_row', $oldname_utf8, $name_utf8, $display_rename, $before);
     }
     else if (!$rename) {
         rcmail_display_server_error('errorsaving');
@@ -243,13 +242,15 @@ function rcube_subscription_form($attrib)
 
     // pre-process folders list
     foreach ($a_unsubscribed as $i => $folder) {
-        $foldersplit = explode($delimiter, $folder);
-        $name = rcube_charset_convert(array_pop($foldersplit), 'UTF7-IMAP');
+        $folder_id     = $folder;
+        $folder        = $IMAP->mod_mailbox($folder);
+        $foldersplit   = explode($delimiter, $folder);
+        $name          = rcube_charset_convert(array_pop($foldersplit), 'UTF7-IMAP');
         $parent_folder = join($delimiter, $foldersplit);
-        $level = count($foldersplit);
+        $level         = count($foldersplit);
 
         // add any necessary "virtual" parent folders
-        if ($parent_folder && !$seen[$parent_folder]) {
+        if ($parent_folder && !isset($seen[$parent_folder])) {
             for ($i=1; $i<=$level; $i++) {
 	            $ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
 	            if ($ancestor_folder && !$seen[$ancestor_folder]++) {
@@ -263,11 +264,16 @@ function rcube_subscription_form($attrib)
 	            }
             }
         }
-    
+
+        // Handle properly INBOX.INBOX situation
+        if (isset($seen[$folder])) {
+            continue;
+        }
+
         $seen[$folder]++;
 
         $list_folders[] = array(
-            'id'    => $folder,
+            'id'    => $folder_id,
             'name'  => $name,
             'level' => $level,
         );
@@ -354,11 +360,11 @@ function rcmail_rename_folder($oldname, $newname)
         foreach ($a_threaded as $key => $val) {
             if ($key == $oldname) {
                 unset($a_threaded[$key]);
-                $a_threaded[$newname] = true;
+    	        $a_threaded[$newname] = true;
             }
             else if (preg_match($oldprefix, $key)) {
                 unset($a_threaded[$key]);
-                $a_threaded[preg_replace($oldprefix, $newname.$delimiter, $key)] = true;
+	            $a_threaded[preg_replace($oldprefix, $newname.$delimiter, $key)] = true;
             }
         }
         $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));

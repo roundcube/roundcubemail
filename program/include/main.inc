@@ -1228,17 +1228,20 @@ function rcmail_mailbox_select($p = array())
   else
     $list = $RCMAIL->imap->list_mailboxes();
 
-  foreach ($list as $folder)
+  $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
+
+  foreach ($list as $folder) {
     if (empty($p['exceptions']) || !in_array($folder, $p['exceptions']))
-      rcmail_build_folder_tree($a_mailboxes, $folder, $RCMAIL->imap->get_hierarchy_delimiter());
+      rcmail_build_folder_tree($a_mailboxes, $folder, $delimiter);
+  }
 
   $select = new html_select($p);
-  
+
   if ($p['noselection'])
     $select->add($p['noselection'], '');
-    
+
   rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames']);
-  
+
   return $select;
 }
 
@@ -1251,6 +1254,17 @@ function rcmail_mailbox_select($p = array())
 function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
 {
   global $RCMAIL;
+
+  // Handle namespace prefix
+  $prefix = '';
+  if (!$path) {
+    $n_folder = $folder;
+    $folder = $RCMAIL->imap->mod_mailbox($folder);
+
+    if ($n_folder != $folder) {
+      $prefix = substr($n_folder, 0, -strlen($folder));
+    }
+  }
 
   $pos = strpos($folder, $delm);
 
@@ -1272,14 +1286,14 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
     $virtual = false;
   }
 
-  $path .= $currentFolder;
-
-  // Check \Noselect option (if options are in cache)
-  if (!$virtual && ($opts = $RCMAIL->imap->mailbox_options($path))) {
-    $virtual = in_array('\\Noselect', $opts);
-  }
+  $path .= $prefix.$currentFolder;
 
   if (!isset($arrFolders[$currentFolder])) {
+    // Check \Noselect option (if options are in cache)
+    if (!$virtual && ($opts = $RCMAIL->imap->mailbox_options($path))) {
+      $virtual = in_array('\\Noselect', $opts);
+    }
+
     $arrFolders[$currentFolder] = array(
       'id' => $path,
       'name' => rcube_charset_convert($currentFolder, 'UTF7-IMAP'),

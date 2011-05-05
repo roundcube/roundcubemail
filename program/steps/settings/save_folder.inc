@@ -65,6 +65,9 @@ else {
     else if (strlen($path)) {
         $name_imap = $path . $delimiter . $name_imap;
     }
+    else {
+        $name_imap = $RCMAIL->imap->mod_mailbox($name, 'in'); 
+    }
 
     $folder['name']     = $name_imap;
     $folder['oldname']  = $old_imap;

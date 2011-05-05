@@ -97,9 +97,13 @@ GO
 ALTER TABLE [dbo].[contacts] ALTER COLUMN [email] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL
 GO
 
--- Updates from version 0.5.1
+-- Updates from version 0.5.2
 
 ALTER TABLE [dbo].[contacts] ADD [words] [text] COLLATE Latin1_General_CI_AI NULL 
 GO
-CREATE  INDEX [IX_contactgroupmembers_contact_id] ON [dbo].[contactgroupmembers]([contact_id]) ON [PRIMARY]
+CREATE INDEX [IX_contactgroupmembers_contact_id] ON [dbo].[contactgroupmembers]([contact_id]) ON [PRIMARY]
+GO
+DELETE FROM [dbo].[messages]
+GO
+DELETE FROM [dbo].[cache]
 GO

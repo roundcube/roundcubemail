@@ -48,3 +48,6 @@ Post-Upgrade Activities
 -----------------------
 1. Check .htaccess settings (some php settings could become required)
 2. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
+3. When upgrading from version older than 0.6-beta you should make sure
+   your folder settings contain namespace prefix. For example Courier users
+   should add INBOX. prefix to folder names in main configuration file.

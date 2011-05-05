@@ -130,7 +130,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
       'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
       'copy', 'move', 'quota');
 
-  $OUTPUT->set_pagetitle(rcmail_localize_foldername($mbox_name));
+  $OUTPUT->set_pagetitle(rcmail_localize_foldername($IMAP->mod_mailbox($mbox_name)));
 }
 
 
