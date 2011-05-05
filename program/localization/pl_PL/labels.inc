@@ -403,6 +403,6 @@ $labels['replacephoto'] = 'Zamień';
 $labels['foldertype'] = 'Typ folderu';
 $labels['personalfolder'] = 'Folder prywatny';
 $labels['otherfolder'] = 'Folder innego użytkownika'; 
-$labels['sharedfolder'] = 'Folder publiczny';
+$labels['sharedfolder'] = 'Folder współdzielony';
 
 ?>
