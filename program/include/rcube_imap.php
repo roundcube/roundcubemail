@@ -3051,7 +3051,7 @@ class rcube_imap
     {
         $cache_key = 'mailboxes';
         if (!empty($filter)) {
-            $cache_key .= ':'.substr((is_string($filter) ? $filter : serialize($filter)), 0, 90);
+            $cache_key .= '.'.substr((is_string($filter) ? $filter : serialize($filter)), 0, 90);
         }
 
         // get cached folder list
