@@ -149,7 +149,7 @@
   padding-left: 15px;
 }
 
-#messagetoolbar select.mboxlist option[value="0"]
+#messagetoolbar select.mboxlist option[value=""]
 {
   padding-left: 2px;
 }
