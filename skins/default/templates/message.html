@@ -28,7 +28,7 @@
 <roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletemessage" content=" " />
 <roundcube:container name="toolbar" id="messagetoolbar" />
 <roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
-<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" />
+<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" folder_filter="mail" />
 </div>
 
 <roundcube:include file="/includes/replyallmenu.html" />

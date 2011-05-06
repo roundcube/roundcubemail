@@ -19,7 +19,7 @@
 
 */
 
-$a_folders = $IMAP->list_mailboxes();
+$a_folders = $IMAP->list_mailboxes('', '*', 'mail');
 
 if (!empty($a_folders))
 {

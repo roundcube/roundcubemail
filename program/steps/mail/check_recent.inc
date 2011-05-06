@@ -24,7 +24,7 @@ $check_all = !empty($_GET['_refresh']) || (bool)$RCMAIL->config->get('check_all_
 
 // list of folders to check
 if ($check_all) {
-    $a_mailboxes = $IMAP->list_mailboxes();
+    $a_mailboxes = $IMAP->list_mailboxes('', '*', 'mail');
 }
 else {
     $a_mailboxes = (array) $current;

@@ -3014,18 +3014,20 @@ class rcube_imap
      * Public method for listing subscribed folders
      *
      * @param   string  $root   Optional root folder
-     * @param   string  $filter Optional filter for mailbox listing
+     * @param   string  $name   Optional name pattern
+     * @param   string  $filter Optional filter
      *
      * @return  array   List of mailboxes/folders
      * @access  public
      */
-    function list_mailboxes($root='', $filter='*')
+    function list_mailboxes($root='', $name='*', $filter=null)
     {
-        $a_mboxes = $this->_list_mailboxes($root, $filter);
+        $a_mboxes = $this->_list_mailboxes($root, $name, $filter);
 
         // INBOX should always be available
-        if (!in_array('INBOX', $a_mboxes))
+        if ((!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
             array_unshift($a_mboxes, 'INBOX');
+        }
 
         // sort mailboxes
         $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
@@ -3038,23 +3040,31 @@ class rcube_imap
      * Private method for mailbox listing
      *
      * @param   string  $root   Optional root folder
-     * @param   string  $filter Optional filter for mailbox listing
+     * @param   string  $name   Optional name pattern
+     * @param   mixed   $filter Optional filter
+     *
      * @return  array   List of mailboxes/folders
      * @see     rcube_imap::list_mailboxes()
      * @access  private
      */
-    private function _list_mailboxes($root='', $filter='*')
+    private function _list_mailboxes($root='', $name='*', $filter=null)
     {
+        $cache_key = 'mailboxes';
+        if (!empty($filter)) {
+            $cache_key .= ':'.substr((is_string($filter) ? $filter : serialize($filter)), 0, 90);
+        }
+
         // get cached folder list
-        $a_mboxes = $this->get_cache('mailboxes');
-        if (is_array($a_mboxes))
+        $a_mboxes = $this->get_cache($cache_key);
+        if (is_array($a_mboxes)) {
             return $a_mboxes;
+        }
 
         $a_defaults = $a_out = array();
 
         // Give plugins a chance to provide a list of mailboxes
         $data = rcmail::get_instance()->plugins->exec_hook('mailboxes_list',
-            array('root' => $root, 'filter' => $filter, 'mode' => 'LSUB'));
+            array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LSUB'));
 
         if (isset($data['folders'])) {
             $a_folders = $data['folders'];
@@ -3065,7 +3075,7 @@ class rcube_imap
             // #1486225: Some dovecot versions returns wrong result using LIST-EXTENDED
             if (!$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED')) {
                 // This will also set mailbox options, LSUB doesn't do that
-                $a_folders = $this->conn->listMailboxes($root, $filter,
+                $a_folders = $this->conn->listMailboxes($root, $name,
                     NULL, array('SUBSCRIBED'));
 
                 // remove non-existent folders
@@ -3081,15 +3091,16 @@ class rcube_imap
             }
             // retrieve list of folders from IMAP server using LSUB
             else {
-                $a_folders = $this->conn->listSubscribed($root, $filter);
+                $a_folders = $this->conn->listSubscribed($root, $name);
             }
         }
 
-        if (!is_array($a_folders) || !sizeof($a_folders))
+        if (!is_array($a_folders) || !sizeof($a_folders)) {
             $a_folders = array();
+        }
 
         // write mailboxlist to cache
-        $this->update_cache('mailboxes', $a_folders);
+        $this->update_cache($cache_key, $a_folders);
 
         return $a_folders;
     }
@@ -3099,21 +3110,24 @@ class rcube_imap
      * Get a list of all folders available on the IMAP server
      *
      * @param string $root   IMAP root dir
-     * @param string $filter Optional filter for mailbox listing
+     * @param string  $name   Optional name pattern
+     * @param mixed   $filter Optional filter
+     *
      * @return array Indexed array with folder names
      */
-    function list_unsubscribed($root='', $filter='*')
+    function list_unsubscribed($root='', $name='*', $filter=null)
     {
+        // @TODO: caching
         // Give plugins a chance to provide a list of mailboxes
         $data = rcmail::get_instance()->plugins->exec_hook('mailboxes_list',
-            array('root' => $root, 'filter' => $filter, 'mode' => 'LIST'));
+            array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LIST'));
 
         if (isset($data['folders'])) {
             $a_mboxes = $data['folders'];
         }
         else {
             // retrieve list of folders from IMAP server
-            $a_mboxes = $this->conn->listMailboxes($root, $filter);
+            $a_mboxes = $this->conn->listMailboxes($root, $name);
         }
 
         if (!is_array($a_mboxes)) {
@@ -3121,8 +3135,9 @@ class rcube_imap
         }
 
         // INBOX should always be available
-        if (!in_array('INBOX', $a_mboxes))
+        if ((!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
             array_unshift($a_mboxes, 'INBOX');
+        }
 
         // filter folders and sort them
         $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
@@ -3263,7 +3278,7 @@ class rcube_imap
 
             // clear cache
             $this->clear_message_cache($mailbox.'.msg');
-            $this->clear_cache('mailboxes');
+            $this->clear_cache('/^mailboxes.*/', true);
         }
 
         return $result;
@@ -3305,7 +3320,7 @@ class rcube_imap
 
             // clear mailbox-related cache
             $this->clear_message_cache($mailbox.'.msg');
-            $this->clear_cache('mailboxes');
+            $this->clear_cache('/^mailboxes.*/', true);
         }
 
         return $result;
@@ -3777,21 +3792,35 @@ class rcube_imap
     /**
      * Clears the cache.
      *
-     * @param string $key Cache key
+     * @param string  $key          Cache key name or pattern
+     * @param boolean $pattern_mode Enable it to clear all keys with name
+     *                              matching PREG pattern in $key
      * @access public
      */
-    function clear_cache($key=NULL)
+    function clear_cache($key=null, $pattern_mode=false)
     {
         if (!$this->caching_enabled)
             return;
 
-        if ($key===NULL) {
-            foreach ($this->cache as $key => $data)
+        if ($key === null) {
+            foreach (array_keys($this->cache) as $key)
                 $this->_clear_cache_record($key);
 
             $this->cache = array();
             $this->cache_changed = false;
             $this->cache_changes = array();
+        }
+        else if ($pattern_mode) {
+            foreach (array_keys($this->cache) as $k) {
+                if (preg_match($key, $k)) {
+                    $this->_clear_cache_record($k);
+                    $this->cache_changes[$k] = false;
+                    unset($this->cache[$key]);
+                }
+            }
+            if (!count($this->cache)) {
+                $this->cache_changed = false;
+            }
         }
         else {
             $this->_clear_cache_record($key);

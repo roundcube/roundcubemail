@@ -1170,13 +1170,16 @@ function rcmail_mailbox_list($attrib)
   if ($type=='ul' && !$attrib['id'])
     $attrib['id'] = 'rcmboxlist';
 
+  if (empty($attrib['folder_name']))
+    $attrib['folder_name'] = '*';
+
   // get mailbox list
   $mbox_name = $RCMAIL->imap->get_mailbox_name();
   
   // build the folders tree
   if (empty($a_mailboxes)) {
     // get mailbox list
-    $a_folders = $RCMAIL->imap->list_mailboxes();
+    $a_folders = $RCMAIL->imap->list_mailboxes('', $attrib['folder_name'], $attrib['folder_filter']);
     $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
     $a_mailboxes = array();
 
@@ -1223,10 +1226,13 @@ function rcmail_mailbox_select($p = array())
   $p += array('maxlength' => 100, 'realnames' => false);
   $a_mailboxes = array();
 
+  if (empty($p['folder_name']))
+    $p['folder_name'] = '*';
+
   if ($p['unsubscribed'])
-    $list = $RCMAIL->imap->list_unsubscribed();
+    $list = $RCMAIL->imap->list_unsubscribed('', $p['folder_name'], $p['folder_filter']);
   else
-    $list = $RCMAIL->imap->list_mailboxes();
+    $list = $RCMAIL->imap->list_mailboxes('', $p['folder_name'], $p['folder_filter']);
 
   $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
 
