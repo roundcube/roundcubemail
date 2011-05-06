@@ -228,7 +228,8 @@ function rcube_folder_form($attrib)
 
     // Allow plugins to modify folder form content
     $plugin = $RCMAIL->plugins->exec_hook('folder_form',
-        array('form' => $form, 'options' => $options));
+        array('form' => $form, 'options' => $options,
+            'name' => $mbox_imap, 'parent_name' => $parent_imap));
 
     $form = $plugin['form'];
 
