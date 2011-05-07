@@ -171,13 +171,15 @@ class rcube_imap_generic
         if ($endln)
             $string .= "\r\n";
 
+
         $res = 0;
         if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
             for ($i=0, $cnt=count($parts); $i<$cnt; $i++) {
-                if (preg_match('/^\{[0-9]+\}\r\n$/', $parts[$i+1])) {
+                if (preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i+1], $matches)) {
                     // LITERAL+ support
-                    if ($this->prefs['literal+'])
-                        $parts[$i+1] = preg_replace('/([0-9]+)/', '\\1+', $parts[$i+1]);
+                    if ($this->prefs['literal+']) {
+                        $parts[$i+1] = sprintf("{%d+}\r\n", $matches[1]);
+                    }
 
                     $bytes = $this->putLine($parts[$i].$parts[$i+1], false);
                     if ($bytes === false)
@@ -201,7 +203,6 @@ class rcube_imap_generic
                 }
             }
         }
-
         return $res;
     }
 
@@ -2798,13 +2799,7 @@ class rcube_imap_generic
         }
 
         foreach ($entries as $name => $value) {
-            if ($value === null) {
-                $value = 'NIL';
-            }
-            else {
-                $value = sprintf("{%d}\r\n%s", strlen($value), $value);
-            }
-            $entries[$name] = $this->escape($name) . ' ' . $value;
+            $entries[$name] = $this->escape($name) . ' ' . $this->escape($value);
         }
 
         $entries = implode(' ', $entries);
@@ -2956,20 +2951,9 @@ class rcube_imap_generic
         }
 
         foreach ($data as $entry) {
-            $name  = $entry[0];
-            $attr  = $entry[1];
-            $value = $entry[2];
-
-            if ($value === null) {
-                $value = 'NIL';
-            }
-            else {
-                $value = sprintf("{%d}\r\n%s", strlen($value), $value);
-            }
-
             // ANNOTATEMORE drafts before version 08 require quoted parameters
-            $entries[] = sprintf('%s (%s %s)',
-                $this->escape($name, true), $this->escape($attr, true), $value);
+            $entries[] = sprintf('%s (%s %s)', $this->escape($entry[0], true),
+                $this->escape($entry[1], true), $this->escape($entry[2], true));
         }
 
         $entries = implode(' ', $entries);
@@ -3314,29 +3298,30 @@ class rcube_imap_generic
      * Escapes a string when it contains special characters (RFC3501)
      *
      * @param string  $string       IMAP string
-     * @param boolean $force_quotes Forces string quoting
+     * @param boolean $force_quotes Forces string quoting (for atoms)
      *
-     * @return string Escaped string
-     * @todo String literals, lists
+     * @return string String atom, quoted-string or string literal
+     * @todo lists
      */
     static function escape($string, $force_quotes=false)
     {
         if ($string === null) {
             return 'NIL';
         }
-        else if ($string === '') {
+        if ($string === '') {
             return '""';
         }
-        // need quoted-string? find special chars: SP, CTL, (, ), {, %, *, ", \, ]
-        // plus [ character as a workaround for DBMail's bug (#1487766)
-        else if ($force_quotes ||
-            preg_match('/([\x00-\x20\x28-\x29\x7B\x25\x2A\x22\x5B\x5C\x5D\x7F]+)/', $string)
-        ) {
+        // atom-string (only safe characters)
+        if (!$force_quotes && !preg_match('/[\x00-\x20\x22\x28-\x2A\x5B-\x5D\x7B\x7D\x80-\xFF]/', $string)) {
+            return $string;
+        }
+        // quoted-string
+        if (!preg_match('/[\r\n\x00\x80-\xFF]/', $string)) {
             return '"' . addcslashes($string, '\\"') . '"';
         }
 
-        // atom
-        return $string;
+        // literal-string
+        return sprintf("{%d}\r\n%s", strlen($string), $string);
     }
 
     static function unEscape($string)
