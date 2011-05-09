@@ -109,7 +109,6 @@ class rcube_template extends rcube_html_page
         }
     }
 
-
     /**
      * Set page title variable
      */
@@ -117,7 +116,6 @@ class rcube_template extends rcube_html_page
     {
         $this->pagetitle = $title;
     }
-
 
     /**
      * Getter for the current page title
@@ -138,7 +136,6 @@ class rcube_template extends rcube_html_page
 
         return $title;
     }
-
 
     /**
      * Set skin
@@ -222,7 +219,6 @@ class rcube_template extends rcube_html_page
           $this->js_commands[] = $cmd;
     }
 
-
     /**
      * Add a localized label to the client environment
      */
@@ -236,7 +232,6 @@ class rcube_template extends rcube_html_page
             $this->command('add_label', $name, rcube_label($name));
         }
     }
-
 
     /**
      * Invoke display_message command
@@ -255,7 +250,6 @@ class rcube_template extends rcube_html_page
             $this->command('display_message', $msgtext, $type);
         }
     }
-
 
     /**
      * Delete all stored env variables and commands
@@ -276,7 +270,6 @@ class rcube_template extends rcube_html_page
         parent::reset();
     }
 
-
     /**
      * Redirect to a certain url
      *
@@ -289,7 +282,6 @@ class rcube_template extends rcube_html_page
         header('Location: ' . $location);
         exit;
     }
-
 
     /**
      * Send the request output to the client.
@@ -359,16 +351,15 @@ class rcube_template extends rcube_html_page
     }
 
     /**
-     * Parse a specific skin template and deliver to stdout
-     *
-     * Either returns nothing, or exists hard (exit();)
+     * Parse a specific skin template and deliver to stdout (or return)
      *
      * @param  string  Template name
      * @param  boolean Exit script
-     * @return void
+     * @param  boolean Don't write to stdout, return parsed content instead
+     *
      * @link   http://php.net/manual/en/function.exit.php
      */
-    private function parse($name = 'main', $exit = true)
+    function parse($name = 'main', $exit = true, $write = true)
     {
         $skin_path = $this->config['skin_path'];
         $plugin    = false;
@@ -426,21 +417,26 @@ class rcube_template extends rcube_html_page
         // trigger generic hook where plugins can put additional content to the page
         $hook = $this->app->plugins->exec_hook("render_page", array('template' => $realname, 'content' => $output));
 
-        // add debug console
-        if ($this->config['debug_level'] & 8) {
-            $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;">
-                <a href="#toggle" onclick="con=$(\'#dbgconsole\');con[con.is(\':visible\')?\'hide\':\'show\']();return false">console</a>
-                <textarea name="console" id="dbgconsole" rows="20" cols="40" wrap="off" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></div>'
-            );
+        $output = $this->parse_with_globals($hook['content']);
+
+        if ($write) {
+            // add debug console
+            if ($this->config['debug_level'] & 8) {
+                $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;">
+                    <a href="#toggle" onclick="con=$(\'#dbgconsole\');con[con.is(\':visible\')?\'hide\':\'show\']();return false">console</a>
+                    <textarea name="console" id="dbgconsole" rows="20" cols="40" wrap="off" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></div>'
+                );
+            }
+            $this->write(trim($output));
+        }
+        else {
+            return $output;
         }
 
-        $output = $this->parse_with_globals($hook['content']);
-        $this->write(trim($output));
         if ($exit) {
             exit;
         }
     }
-
 
     /**
      * Return executable javascript code for all registered commands
