@@ -574,7 +574,12 @@ class rcube_mdb2
      */
     function fromunixtime($timestamp)
     {
-        return date("'Y-m-d H:i:s'", $timestamp);
+        switch ($this->db_provider) {
+            case 'mysql':
+                return 'FROM_UNIXTIME(' . intval($timestamp) . ')';
+            default:
+                return date("'Y-m-d H:i:s'", $timestamp);
+        }
     }
 
 
