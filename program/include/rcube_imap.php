@@ -3049,10 +3049,12 @@ class rcube_imap
      */
     private function _list_mailboxes($root='', $name='*', $filter=null)
     {
-        $cache_key = 'mailboxes';
+        $cache_key = $root.':'.$name;
         if (!empty($filter)) {
-            $cache_key .= '.'.substr((is_string($filter) ? $filter : serialize($filter)), 0, 90);
+            $cache_key .= ':'.(is_string($filter) ? $filter : serialize($filter));
         }
+
+        $cache_key = 'mailboxes.'.md5($cache_key);
 
         // get cached folder list
         $a_mboxes = $this->get_cache($cache_key);
