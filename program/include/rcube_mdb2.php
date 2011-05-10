@@ -545,9 +545,12 @@ class rcube_mdb2
     /**
      * Return SQL statement to convert a field value into a unix timestamp
      *
+     * This method is deprecated and should not be used anymore due to limitations
+     * of timestamp functions in Mysql (year 2038 problem)
+     *
      * @param  string $field Field name
      * @return string  SQL statement to use in query
-     * @access public
+     * @deprecated
      */
     function unixtimestamp($field)
     {
@@ -574,12 +577,7 @@ class rcube_mdb2
      */
     function fromunixtime($timestamp)
     {
-        switch ($this->db_provider) {
-            case 'mysql':
-                return 'FROM_UNIXTIME(' . intval($timestamp) . ')';
-            default:
-                return date("'Y-m-d H:i:s'", $timestamp);
-        }
+        return date("'Y-m-d H:i:s'", $timestamp);
     }
 
 

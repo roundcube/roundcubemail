@@ -131,12 +131,11 @@ class rcube_session
   public function db_read($key)
   {
     $sql_result = $this->db->query(
-      sprintf("SELECT vars, ip, %s AS changed FROM %s WHERE sess_id = ?",
-        $this->db->unixtimestamp('changed'), get_table_name('session')),
+      "SELECT vars, ip, changed FROM ".get_table_name('session')." WHERE sess_id = ?",
       $key);
 
     if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-      $this->changed = $sql_arr['changed'];
+      $this->changed = strtotime($sql_arr['changed']);
       $this->ip      = $sql_arr['ip'];
       $this->vars    = base64_decode($sql_arr['vars']);
       $this->key     = $key;
