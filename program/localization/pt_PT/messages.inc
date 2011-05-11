@@ -27,6 +27,7 @@ $messages['sessionerror'] = 'A sua sessão é inválida ou expirou';
 $messages['imaperror'] = 'A ligação ao servidor IMAP falhou';
 $messages['servererror'] = 'Erro do Servidor!';
 $messages['servererrormsg'] = 'Erro do Servidor: $msg';
+$messages['databaserror'] = 'Erro de base de dados!';
 $messages['errorreadonly'] = 'Não foi possível efectuar a operação. A pasta é só de leitura.';
 $messages['errornoperm'] = 'Não tem permissões para efectuar esta operação.';
 $messages['invalidrequest'] = 'Pedido inválido! Não foi guardada nenhuma informação.';

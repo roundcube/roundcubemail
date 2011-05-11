@@ -16,7 +16,7 @@
 
 @version $Id$
 
-EN-Revision: 4548
+EN-Revision: 4581
 
 */
 
@@ -40,8 +40,8 @@ $labels['from'] = '差出人';
 $labels['to'] = '宛先';
 $labels['cc'] = 'コピー';
 $labels['bcc'] = 'Bcc';
-$labels['replyto'] = 'Reply-To (返信先)';
-$labels['followupto'] = 'Followup-To (ML の宛先)';
+$labels['replyto'] = 'Reply-To';
+$labels['followupto'] = 'Followup-To';
 $labels['date'] = '日付';
 $labels['size'] = '容量';
 $labels['priority'] = '優先度';
@@ -375,6 +375,10 @@ $labels['location'] = '場所';
 $labels['info'] = '情報';
 $labels['getfoldersize'] = 'クリックでフォルダー サイズの取得';
 $labels['changesubscription'] = 'クリックで購読の変更';
+$labels['personalfolder']  = '個人フォルダー';
+$labels['otherfolder']  = '他のユーザーのフォルダー';
+$labels['sharedfolder']  = '後悔フォルダー';     
+
 $labels['sortby'] = '並び替えの基準';
 $labels['sortasc'] = '昇順で並び替え';
 $labels['sortdesc'] = '降順で並び替え';

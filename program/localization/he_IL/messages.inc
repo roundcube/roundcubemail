@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  03032011                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  03052011                |
 +-----------------------------------------------------------------------+
 
 */
@@ -23,6 +23,7 @@ $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או 
 $messages['imaperror'] = 'הקשר לשרת הדואר נכשל';
 $messages['servererror'] = '! שגיאת שרת';
 $messages['servererrormsg'] = '$msg  שגיאת שרת';
+$messages['databaserror'] = '! שגיאה במסד הנתונים';
 $messages['errorreadonly'] = 'לא ניתן לבצע הפעולה כי התיק ניתן לקריאה בלבד';
 $messages['errornoperm'] = 'לא ניתן לבצע הפעולה כי אין הרשאה לבצעה';
 $messages['invalidrequest'] = 'בקשה לא חוקית. המידע לא נשמר';
@@ -31,6 +32,7 @@ $messages['loggedout'] = 'הקשר הסתיים. להתראות!';
 $messages['mailboxempty'] = 'רשימת ההודעות ריקה';
 $messages['loading'] = 'טעינה...';
 $messages['uploading'] = 'קובץ עולה...';
+$messages['uploadingmany'] = 'מעלה קבצים...';
 $messages['loadingdata'] = 'טעינת מידע...';
 $messages['checkingmail'] = 'בדיקת קיום הודעות חדשות...';
 $messages['sendingmessage'] = 'ההודעה נמסרת...';
