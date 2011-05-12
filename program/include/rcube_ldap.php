@@ -610,6 +610,26 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
+     * Check the given data before saving.
+     * If input not valid, the message to display can be fetched using get_error()
+     *
+     * @param array Assoziative array with data to save
+     * @return boolean True if input is valid, False if not.
+     */
+    public function validate($save_data)
+    {
+        // check for name input
+        if (empty($save_data['name'])) {
+            $this->set_error('warning', 'nonamewarning');
+            return false;
+        }
+        
+        // validate e-mail addresses
+        return parent::validate($save_data);
+    }
+
+
+    /**
     * Create a new contact record
     *
     * @param array    Hash array with save data

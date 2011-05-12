@@ -346,10 +346,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
         // render head section with name fields (not a regular list of rows)
         if ($section == 'head') {
             $content = '';
-            
-            // TODO: use the save name composition function as in save.inc
-            $names_arr = array($record['prefix'], $record['firstname'], $record['middlename'], $record['surname'], $record['suffix']);
-            if ($record['name'] == join(' ', array_filter($names_arr)))
+
+            // unset display name if it is composed from name parts (same composition function as in save.inc)
+            if ($record['name'] == rcube_addressbook::compose_display_name(array('name' => '') + $record))
               unset($record['name']);
 
             // group fields

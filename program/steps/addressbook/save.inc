@@ -129,9 +129,9 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
 }
 
+// let a dedicated function or a plugin compose the full name if empty
 if (empty($a_record['name'])) {
-    // TODO: let a dedicated function or a plugin compose the full name
-    $a_record['name'] = join(' ', array_filter(array($a_record['prefix'], $a_record['firstname'], $a_record['middlename'], $a_record['surname'], $a_record['suffix'],)));
+    $a_record['name'] = rcube_addressbook::compose_display_name($a_record);
 }
 
 
@@ -185,6 +185,9 @@ if (!empty($cid))
     // define list of cols to be displayed
     $a_js_cols = array();
     $record = $CONTACTS->get_record($newcid ? $newcid : $cid, true);
+    $record['email'] = reset($CONTACTS->get_col_values('email', $record, true));
+    if (!$record['name'])
+      $record['name'] = $record['email'];
 
     foreach (array('name', 'email') as $col)
       $a_js_cols[] = (string)$record[$col];

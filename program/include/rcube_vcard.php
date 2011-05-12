@@ -115,13 +115,6 @@ class rcube_vcard
       $this->email[0] = $this->email[$pref_index];
       $this->email[$pref_index] = $tmp;
     }
-
-    // make sure displayname is not empty (required by RFC2426)
-    if (!strlen($this->displayname)) {
-      // the same method is used in steps/mail/addcontact.inc
-      $this->displayname = ucfirst(preg_replace('/[\.\-]/', ' ',
-        substr($this->email[0], 0, strpos($this->email[0], '@'))));
-    }
   }
 
 
@@ -584,6 +577,10 @@ class rcube_vcard
       /* valid N has 5 properties */
       while ($type == "N" && is_array($entries[0]) && count($entries[0]) < 5)
         $entries[0][] = "";
+
+      // make sure FN is not empty (required by RFC2426)
+      if ($type == "FN" && empty($entries))
+        $entries[0] = $data['EMAIL'][0][0];
 
       foreach((array)$entries as $entry) {
         $attr = '';

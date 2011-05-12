@@ -49,10 +49,7 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
     }
 
     $contact['email'] = rcube_idn_to_utf8($contact['email']);
-
-    // use email address part for name
-    if (empty($contact['name']) || $contact['name'] == $contact['email'])
-      $contact['name'] = ucfirst(preg_replace('/[\.\-]/', ' ', substr($contact['email'], 0, strpos($contact['email'], '@'))));
+    $contact['name'] = rcube_addressbook::compose_display_name($contact);
 
     // check for existing contacts
     $existing = $CONTACTS->search('email', $contact['email'], true, false);

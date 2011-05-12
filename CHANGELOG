@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve display name composition when saving contacts (#1487143)
 - Fixed handling of folder with name "0" in folder selector
 - Fix problems with subfolders of INBOX folder on some IMAP servers (#1487725)
 - Fix handling of folders that doesn't belong to any namespace (#1487637)

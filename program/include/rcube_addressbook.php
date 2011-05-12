@@ -172,18 +172,13 @@ abstract class rcube_addressbook
 
     /**
      * Check the given data before saving.
-     * If input not valid, the message to display can be fetched using get_error()
+     * If input isn't valid, the message to display can be fetched using get_error()
      *
      * @param array Assoziative array with data to save
      * @return boolean True if input is valid, False if not.
      */
     public function validate($save_data)
     {
-        if (empty($save_data['name'])) {
-            $this->set_error('warning', 'nonamewarning');
-            return false;
-        }
-
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
@@ -416,6 +411,34 @@ abstract class rcube_addressbook
         
         return join(" ", $arr);
     }
-    
+
+
+    /**
+     * Compose a valid display name from the given structured contact data
+     *
+     * @param array  Hash array with contact data as key-value pairs
+     * @return string Display name
+     */
+    public static function compose_display_name($contact)
+    {
+        $contact = rcmail::get_instance()->plugins->exec_hook('contact_displayname', $contact);
+        $fn = $contact['name'];
+
+        if (!$fn)
+            $fn = join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
+
+        // use email address part for name
+        $email = is_array($contact['email']) ? $contact['email'][0] : $contact['email'];
+        if ($email && (empty($fn) || $fn == $email)) {
+            list($emailname) = explode('@', $email);
+            if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match))
+                $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));
+            else
+                $fn = ucfirst($emailname);
+        }
+
+        return $fn;
+    }
+
 }
 

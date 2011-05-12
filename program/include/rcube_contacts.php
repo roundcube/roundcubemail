@@ -184,7 +184,7 @@ class rcube_contacts extends rcube_addressbook
                 " AND c.user_id=?" .
                 ($this->group_id ? " AND m.contactgroup_id=?" : "").
                 ($this->filter ? " AND (".$this->filter.")" : "") .
-            " ORDER BY c.name",
+            " ORDER BY c.name, c.email",
             $start_row,
             $length,
             $this->user_id,
@@ -410,10 +410,10 @@ class rcube_contacts extends rcube_addressbook
      */
     public function validate($save_data)
     {
-        // check for name input
+        // validate e-mail addresses
         $valid = parent::validate($save_data);
 
-        // require at least one e-mail address (syntax check is done later in save.inc)
+        // require at least one e-mail address (syntax check is already done)
         if ($valid && !array_filter($this->get_col_values('email', $save_data, true))) {
             $this->set_error('warning', 'noemailwarning');
             $valid = false;

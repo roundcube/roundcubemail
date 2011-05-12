@@ -5,7 +5,7 @@
  | program/steps/addressbook/export.inc                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -31,7 +31,7 @@ header('Content-Disposition: attachment; filename="rcube_contacts.vcf"');
 
 while ($result && ($row = $result->next())) {
   // we already have a vcard record
-  if ($row['vcard']) {
+  if ($row['vcard'] && $row['name']) {
     echo rcube_vcard::rfc2425_fold($row['vcard']) . "\n";
   }
   // copy values into vcard object
