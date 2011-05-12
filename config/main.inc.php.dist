@@ -193,6 +193,8 @@ $rcmail_config['login_autocomplete'] = 0;
 
 // If users authentication is not case sensitive this must be enabled.
 // You can also use it to force conversion of logins to lower case.
+// After enabling it all user records need to be updated, e.g. with query:
+// UPDATE users SET username = LOWER(username);
 $rcmail_config['login_lc'] = false;
 
 // automatically create a new Roundcube user when log-in the first time.
