@@ -1248,7 +1248,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
   $j = 0;
   $out = '';
 
-  if ($got_writable_abook === null && $books = $RCMAIL->get_address_sources(true)) {
+  if ($addicon && $got_writable_abook === null && $books = $RCMAIL->get_address_sources(true)) {
     $got_writable_abook = true;
   }
 
