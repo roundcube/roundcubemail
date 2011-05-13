@@ -211,7 +211,7 @@ function rcube_webmail()
 
         this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list', 'forward',
           'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'download',
-          'print', 'load-attachment', 'load-headers'];
+          'print', 'load-attachment', 'load-headers', 'forward-attachment'];
 
         if (this.env.action=='show' || this.env.action=='preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
@@ -929,10 +929,12 @@ function rcube_webmail()
         }
         break;
 
+      case 'forward-attachment':
       case 'forward':
         var uid;
         if (uid = this.get_single_uid())
-          this.goto_url('compose', '_forward_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true);
+          this.goto_url('compose', '_forward_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)
+            + (command == 'forward-attachment' ? '&_attachment=1' : ''), true);
         break;
 
       case 'print':
@@ -1431,7 +1433,7 @@ function rcube_webmail()
     if (selected) {
       // Hide certain command buttons when Drafts folder is selected
       if (this.env.mailbox == this.env.drafts_mailbox)
-        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', false);
+        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-attachment', false);
       // Disable reply-list when List-Post header is not set
       else {
         var msg = this.env.messages[list.get_single_selection()];

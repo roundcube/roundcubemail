@@ -2521,14 +2521,17 @@ class rcube_imap
 
 
     /**
-     * Returns the whole message source as string
+     * Returns the whole message source as string (or saves to a file)
      *
-     * @param int $uid Message UID
+     * @param int      $uid Message UID
+     * @param resource $fp  File pointer to save the message
+     *
      * @return string Message source string
      */
-    function &get_raw_body($uid)
+    function &get_raw_body($uid, $fp=null)
     {
-        return $this->conn->handlePartBody($this->mailbox, $uid, true);
+        return $this->conn->handlePartBody($this->mailbox, $uid,
+            true, null, null, false, $fp);
     }
 
 

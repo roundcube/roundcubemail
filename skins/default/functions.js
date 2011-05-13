@@ -82,6 +82,7 @@ function rcube_mail_ui()
   this.popups = {
     markmenu:       {id:'markmessagemenu'},
     replyallmenu:   {id:'replyallmenu'},
+    forwardmenu:    {id:'forwardmenu'},
     searchmenu:     {id:'searchmenu', editable:1},
     messagemenu:    {id:'messagemenu'},
     listmenu:       {id:'listmenu', editable:1},

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add forward-as-attachment feature
 - jQuery-1.6.1 (#1487913, #1487144)
 - Improve display name composition when saving contacts (#1487143)
 - Fixed handling of folder with name "0" in folder selector
