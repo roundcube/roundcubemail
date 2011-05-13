@@ -156,12 +156,12 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
       if (!$replace && $email) {
         // compare e-mail address
         $existing = $CONTACTS->search('email', $email, false, false);
-        if (!$existing->count) {  // compare display name
+        if (!$existing->count && $vcard->displayname) {  // compare display name
           $existing = $CONTACTS->search('name', $vcard->displayname, false, false);
         }
         if ($existing->count) {
           $IMPORT_STATS->skipped++;
-          $IMPORT_STATS->skipped_names[] = $vcard->displayname;
+          $IMPORT_STATS->skipped_names[] = $vcard->displayname ? $vcard->displayname : $email;
           continue;
         }
       }
@@ -180,7 +180,7 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
 
       if ($success) {
         $IMPORT_STATS->inserted++;
-        $IMPORT_STATS->names[] = $vcard->displayname;
+        $IMPORT_STATS->names[] = $vcard->displayname ? $vcard->displayname : $email;
       } else {
         $IMPORT_STATS->errors++;
       }

@@ -95,6 +95,10 @@ class rcube_vcard
       ($detected_charset = self::detect_encoding(self::vcard_encode($this->raw))) && $detected_charset != RCMAIL_CHARSET) {
         $this->raw = self::charset_convert($this->raw, $detected_charset);
     }
+    
+    // consider FN empty if the same as the primary e-mail address
+    if ($this->raw['FN'][0][0] == $this->raw['EMAIL'][0][0])
+      $this->raw['FN'][0][0] = '';
 
     // find well-known address fields
     $this->displayname = $this->raw['FN'][0][0];
@@ -402,7 +406,7 @@ class rcube_vcard
       if (preg_match('/^END:VCARD$/i', $line)) {
         // parse vcard
         $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true);
-        if (!empty($obj->displayname))
+        if (!empty($obj->displayname) || !empty($obj->email))
           $out[] = $obj;
 
         $in_vcard_block = false;
