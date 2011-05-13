@@ -200,10 +200,13 @@ class rcube_contacts extends rcube_addressbook
                 $sql_arr = $this->convert_db_data($sql_arr);
             else
                 $sql_arr['email'] = preg_split('/,\s*/', $sql_arr['email']);
-            
+
             // make sure we have a name to display
-            if (empty($sql_arr['name']))
+            if (empty($sql_arr['name'])) {
+                if (empty($sql_arr['email']))
+                  $sql_arr['email'] = $this->get_col_values('email', $sql_arr, true);
                 $sql_arr['name'] = $sql_arr['email'][0];
+            }
 
             $this->result->add($sql_arr);
         }
