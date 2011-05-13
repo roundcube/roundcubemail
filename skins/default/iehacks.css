@@ -119,11 +119,6 @@ input, textarea
   height: expression((parseInt(this.parentNode.offsetHeight)-1-parseInt(document.getElementById('compose-headers').offsetHeight))+'px');
 }
 
-#subscription-table
-{
-  width: auto;
-}
-
 #messagelist
 {
   width: inherit;

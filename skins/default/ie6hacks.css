@@ -147,3 +147,8 @@ body.iframe .boxtitle
 {
   position: absolute;
 }
+
+#subscription-table
+{
+  width: auto;
+}
