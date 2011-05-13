@@ -38,6 +38,7 @@ class rcube_template extends rcube_html_page
     private $js_commands = array();
     private $object_handlers = array();
     private $plugin_skin_path;
+    private $template_name;
 
     public $browser;
     public $framed = false;
@@ -365,7 +366,9 @@ class rcube_template extends rcube_html_page
         $plugin    = false;
         $realname  = $name;
         $temp      = explode('.', $name, 2);
+
         $this->plugin_skin_path = null;
+        $this->template_name    = $realname;
 
         if (count($temp) > 1) {
             $plugin    = $temp[0];
@@ -600,7 +603,8 @@ class rcube_template extends rcube_html_page
                 '/env:([a-z0-9_]+)/i',
                 '/request:([a-z0-9_]+)/i',
                 '/cookie:([a-z0-9_]+)/i',
-                '/browser:([a-z0-9_]+)/i'
+                '/browser:([a-z0-9_]+)/i',
+                '/template:name/i',
             ),
             array(
                 "\$_SESSION['\\1']",
@@ -608,7 +612,8 @@ class rcube_template extends rcube_html_page
                 "\$this->env['\\1']",
                 "get_input_value('\\1', RCUBE_INPUT_GPC)",
                 "\$_COOKIE['\\1']",
-                "\$this->browser->{'\\1'}"
+                "\$this->browser->{'\\1'}",
+                $this->template_name,
             ),
             $expression);
     }
