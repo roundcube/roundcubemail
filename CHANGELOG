@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- jQuery-1.6.1 (#1487913, #1487144)
 - Improve display name composition when saving contacts (#1487143)
 - Fixed handling of folder with name "0" in folder selector
 - Fix problems with subfolders of INBOX folder on some IMAP servers (#1487725)
@@ -29,7 +30,6 @@ CHANGELOG Roundcube Webmail
 - Better display of vcard import results (#1485457)
 - Improved vcard import
 - Interactive update script with improved DB schema check
-- jQuery 1.5.2
 - Fix problem with contactgroupmembers table creation on MySQL 4.x, add index on contact_id column
 - Add LDAP SASL bind and proxy authentication (#1486692)
 - Replying to a sent message puts the old recipient as the new recipient (#1487074)

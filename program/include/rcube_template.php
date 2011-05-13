@@ -80,7 +80,7 @@ class rcube_template extends rcube_html_page
         $this->add_script(JS_OBJECT_NAME.'.init();', 'docready');
 
         $this->scripts_path = 'program/js/';
-        $this->include_script('jquery-1.5.min.js');
+        $this->include_script('jquery.min.js');
         $this->include_script('common.js');
         $this->include_script('app.js');
 
