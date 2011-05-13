@@ -101,7 +101,7 @@ init: function()
 init_row: function(row)
 {
   // make references in internal array and set event handlers
-  if (row && String(row.id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i)) {
+  if (row && String(row.id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i)) {
     var self = this,
       uid = RegExp.$1;
     row.uid = uid;
@@ -601,7 +601,7 @@ get_first_row: function()
     var i, len, rows = this.list.tBodies[0].rows;
 
     for (i=0, len=rows.length-1; i<len; i++)
-      if (rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+      if (rows[i].id && String(rows[i].id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
 	    return RegExp.$1;
   }
 
@@ -614,7 +614,7 @@ get_last_row: function()
     var i, rows = this.list.tBodies[0].rows;
 
     for (i=rows.length-1; i>=0; i--)
-      if (rows[i].id && String(rows[i].id).match(/rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+      if (rows[i].id && String(rows[i].id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
         return RegExp.$1;
   }
 
@@ -988,6 +988,8 @@ key_press: function(e)
       this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
       this.triggerEvent('keypress');
+      // reset shiftkey flag, we need it only for registered events
+      this.shiftkey = false;
 
       if (this.key_pressed == this.BACKSPACE_KEY)
         return rcube_event.cancel(e);

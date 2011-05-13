@@ -13,10 +13,10 @@
 		<email>roundcube@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2010-12-02</date>
-	<time>12:00:00</time>
+	<date>2011-05-12</date>
+	<time>10:00</time>
 	<version>
-		<release>1.3</release>
+		<release>1.4</release>
 		<api>1.0</api>
 	</version>
 	<stability>
@@ -25,8 +25,7 @@
 	</stability>
 	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
 	<notes>
-- Added setting of focus on name input
-- Added gl_ES translation
+- Fixed IDNA encoding/decoding of e-mail addresses (#1487909)
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -117,6 +116,23 @@
 	        <notes>
 - Add overlay box only to mail task main template
 - Fix possible error on form submission (#1486103)
+            </notes>
+        </release>
+        <release>
+	        <date>2010-12-02</date>
+	        <time>12:00:00</time>
+	        <version>
+		        <release>1.3</release>
+		        <api>1.0</api>
+	        </version>
+	        <stability>
+		        <release>stable</release>
+		        <api>stable</api>
+	        </stability>
+	        <license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	        <notes>
+- Added setting of focus on name input
+- Added gl_ES translation
             </notes>
         </release>
     </changelog>

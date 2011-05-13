@@ -62,7 +62,7 @@ class new_user_dialog extends rcube_plugin
       $table->add(null, html::tag('input', array(
         'type' => 'text',
         'name' => '_email',
-        'value' => idn_to_utf8($identity['email']),
+        'value' => rcube_idn_to_utf8($identity['email']),
         'disabled' => ($identities_level == 1 || $identities_level == 3)
       )));
 
@@ -113,7 +113,7 @@ class new_user_dialog extends rcube_plugin
     if ($identities_level == 1 || $identities_level == 3)
       $save_data['email'] = $identity['email'];
     else
-      $save_data['email'] = idn_to_ascii($save_data['email']);
+      $save_data['email'] = rcube_idn_to_ascii($save_data['email']);
 
     // save data if not empty
     if (!empty($save_data['name']) && !empty($save_data['email'])) {

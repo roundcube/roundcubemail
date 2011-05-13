@@ -117,11 +117,6 @@ input, textarea
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
-#subscription-table
-{
-  width: auto;
-}
-
 #messagelist
 {
   width: inherit;
@@ -181,9 +176,11 @@ div.message-part div.pre
 }
 
 #contacts-box,
-#prefs-box
+#prefs-box,
+#folder-box
 {
   width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');
+  overflow: hidden;
 }
 
 #rcmdraglayer

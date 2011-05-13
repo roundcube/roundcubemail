@@ -143,3 +143,12 @@ ul.toolbarmenu li.separator_below
   background-image: url(images/messageicons.gif);
 }
 
+body.iframe .boxtitle
+{
+  position: absolute;
+}
+
+#subscription-table
+{
+  width: auto;
+}

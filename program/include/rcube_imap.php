@@ -3564,7 +3564,7 @@ class rcube_imap
             return $this->conn->setMetadata($mailbox, $entries);
         }
         else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
-            foreach ($entries as $entry => $value) {
+            foreach ((array)$entries as $entry => $value) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $entries[$entry] = array($ent, $attr, $value);
             }
@@ -3597,7 +3597,7 @@ class rcube_imap
             return $this->conn->deleteMetadata($mailbox, $entries);
         }
         else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
-            foreach ($entries as $idx => $entry) {
+            foreach ((array)$entries as $idx => $entry) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $entries[$idx] = array($ent, $attr, NULL);
             }
@@ -3626,7 +3626,7 @@ class rcube_imap
             $mailbox = $this->mod_mailbox($mailbox);
 
         if ($this->get_capability('METADATA') || 
-            !strlen(($mailbox) && $this->get_capability('METADATA-SERVER'))
+            (!strlen($mailbox) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->getMetadata($mailbox, $entries, $options);
         }
@@ -3635,7 +3635,7 @@ class rcube_imap
             $res     = array();
 
             // Convert entry names
-            foreach ($entries as $entry) {
+            foreach ((array)$entries as $entry) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $queries[$attr][] = $ent;
             }
@@ -3656,11 +3656,11 @@ class rcube_imap
      * Converts the METADATA extension entry name into the correct
      * entry-attrib names for older ANNOTATEMORE version.
      *
-     * @param string Entry name
+     * @param string $entry Entry name
      *
      * @return array Entry-attribute list, NULL if not supported (?)
      */
-    private function md2annotate($name)
+    private function md2annotate($entry)
     {
         if (substr($entry, 0, 7) == '/shared') {
             return array(substr($entry, 7), 'value.shared');
