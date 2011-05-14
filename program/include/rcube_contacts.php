@@ -184,7 +184,7 @@ class rcube_contacts extends rcube_addressbook
                 " AND c.user_id=?" .
                 ($this->group_id ? " AND m.contactgroup_id=?" : "").
                 ($this->filter ? " AND (".$this->filter.")" : "") .
-            " ORDER BY c.name, c.email",
+            " ORDER BY ". $this->db->concat('c.name', 'c.email'),
             $start_row,
             $length,
             $this->user_id,

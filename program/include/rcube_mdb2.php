@@ -600,6 +600,32 @@ class rcube_mdb2
         }
     }
 
+    /**
+     * Abstract SQL statement for value concatenation
+     *
+     * @return string SQL statement to be used in query
+     * @access public
+     */
+    function concat(/* col1, col2, ... */)
+    {
+        $func = '';
+        switch($this->db_provider) {
+            case 'mysql':
+            case 'mysqli':
+                $func = 'CONCAT';
+                $delim = ', ';
+                break;
+            case 'mssql':
+            case 'sqlsrv':
+                $delim = ' + ';
+                break;
+            default:
+                $delim = ' || ';
+        }
+        
+        return $func . '(' . join($delim, func_get_args()) . ')';
+    }
+
 
     /**
      * Encodes non-UTF-8 characters in string/array/object (recursive)
