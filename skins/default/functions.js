@@ -176,12 +176,12 @@ searchmenu: function(show)
   if (show && ref) {
     var pos = $(ref).offset();
     obj.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)})
-        .find(':checked').attr('checked', false);
+        .find(':checked').prop('checked', false);
 
     if (rcmail.env.search_mods) {
       var search_mods = rcmail.env.search_mods[rcmail.env.mailbox] ? rcmail.env.search_mods[rcmail.env.mailbox] : rcmail.env.search_mods['*'];
       for (var n in search_mods)
-        $('#s_mod_' + n).attr('checked', true);
+        $('#s_mod_' + n).prop('checked', true);
     }
   }
   obj[show?'show':'hide']();
@@ -219,21 +219,20 @@ listmenu: function(show)
 
     obj.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)});
     // set form values
-    $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]').attr('checked', 1);
-    $('input[name="sort_ord"][value="DESC"]').attr('checked', rcmail.env.sort_order=='DESC' ? 1 : 0);
-    $('input[name="sort_ord"][value="ASC"]').attr('checked', rcmail.env.sort_order=='DESC' ? 0 : 1);
-    $('input[name="view"][value="thread"]').attr('checked', rcmail.env.threading ? 1 : 0);
-    $('input[name="view"][value="list"]').attr('checked', rcmail.env.threading ? 0 : 1);
+    $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]').prop('checked', true);
+    $('input[name="sort_ord"][value="DESC"]').prop('checked', rcmail.env.sort_order == 'DESC');
+    $('input[name="sort_ord"][value="ASC"]').prop('checked', rcmail.env.sort_order != 'DESC');
+    $('input[name="view"][value="thread"]').prop('checked', rcmail.env.threading ? true : false);
+    $('input[name="view"][value="list"]').prop('checked', rcmail.env.threading ? false : true);
     // list columns
-    var cols = $('input[name="list_col[]"]');
+    var found, cols = $('input[name="list_col[]"]');
     for (var i=0; i<cols.length; i++) {
-      var found = 0;
       if (cols[i].value != 'from')
         found = jQuery.inArray(cols[i].value, rcmail.env.coltypes) != -1;
       else
         found = (jQuery.inArray('from', rcmail.env.coltypes) != -1
-	    || jQuery.inArray('to', rcmail.env.coltypes) != -1);
-      $(cols[i]).attr('checked',found ? 1 : 0);
+	        || jQuery.inArray('to', rcmail.env.coltypes) != -1);
+      $(cols[i]).prop('checked', found);
     }
   }
 

@@ -394,7 +394,7 @@ function rcube_webmail()
 
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {
-          $('input[type=submit]', this).attr('disabled', true);
+          $('input[type=submit]', this).prop('disabled', true);
           rcmail.display_message('', 'loading');
         });
 
@@ -4018,7 +4018,7 @@ function rcube_webmail()
     var elem = $('#ff_'+col);
     if (elem.length) {
       elem.show().focus();
-      $(menu).children('option[value="'+col+'"]').attr('disabled', true);
+      $(menu).children('option[value="'+col+'"]').prop('disabled', true);
     }
     else {
       var lastelem = $('.ff_'+col),
@@ -4042,22 +4042,18 @@ function rcube_webmail()
         if (colprop.type == 'text' || colprop.type == 'date') {
           input = $('<input>')
             .addClass('ff_'+col)
-            .attr('type', 'text')
-            .attr('name', '_'+col+name_suffix)
-            .attr('size', colprop.size)
+            .attr({type: 'text', name: '_'+col+name_suffix, size: colprop.size})
             .appendTo(cell);
 
           this.init_edit_field(col, input);
         }
         else if (colprop.type == 'composite') {
           var childcol, cp, first;
-          for (var childcol in colprop.childs) {
+          for (childcol in colprop.childs) {
             cp = colprop.childs[childcol];
             input = $('<input>')
               .addClass('ff_'+childcol)
-              .attr('type', 'text')
-              .attr('name', '_'+childcol+name_suffix)
-              .attr('size', cp.size)
+              .attr({type: 'text', name: '_'+childcol+name_suffix, size: cp.size})
               .appendTo(cell);
             cell.append(" ");
             this.init_edit_field(childcol, input);
@@ -4080,8 +4076,7 @@ function rcube_webmail()
         if (input) {
           var delbutton = $('<a href="#del"></a>')
             .addClass('contactfieldbutton deletebutton')
-            .attr('title', this.get_label('delete'))
-            .attr('rel', col)
+            .attr({title: this.get_label('delete'), rel: col})
             .html(this.env.delbutton)
             .click(function(){ ref.delete_edit_field(this); return false })
             .appendTo(cell);
@@ -4092,7 +4087,7 @@ function rcube_webmail()
           // disable option if limit reached
           if (!colprop.count) colprop.count = 0;
           if (++colprop.count == colprop.limit && colprop.limit)
-            $(menu).children('option[value="'+col+'"]').attr('disabled', true);
+            $(menu).children('option[value="'+col+'"]').prop('disabled', true);
         }
       }
     }
@@ -4119,13 +4114,12 @@ function rcube_webmail()
     if (addmenu.length) {
       var option = addmenu.children('option[value="'+col+'"]');
       if (option.length)
-        option.attr('disabled', false);
+        option.prop('disabled', false);
       else
         option = $('<option>').attr('value', col).html(colprop.label).appendTo(addmenu);
       addmenu.show();
     }
   };
-
 
   this.upload_contact_photo = function(form)
   {
@@ -4392,7 +4386,7 @@ function rcube_webmail()
       row.cells[1].innerHTML = '*';
 
       // update subscription checkbox
-      $('input[name="_subscribed[]"]', row).val(name).attr('checked', true);
+      $('input[name="_subscribed[]"]', row).val(name).prop('checked', true);
     }
 
     this.init_subscription_list();
@@ -4501,7 +4495,7 @@ function rcube_webmail()
   {
     var id = this.get_folder_row_id(folder);
     if (id)
-      $('input[name="_subscribed[]"]', $('#'+id)).attr('disabled', true);
+      $('input[name="_subscribed[]"]', $('#'+id)).prop('disabled', true);
   };
 
   this.folder_size = function(folder)
