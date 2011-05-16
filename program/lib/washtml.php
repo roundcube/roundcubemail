@@ -274,7 +274,7 @@ class washtml
 
     // Remove invalid HTML comments (#1487759)
     // Don't remove valid conditional comments
-    $html = preg_replace('/<!--[^->[]*>/', '', $html);
+    $html = preg_replace('/<!--[^->[\n]*>/', '', $html);
 
     @$node->loadHTML($html);
     return $this->dumpHtml($node);
