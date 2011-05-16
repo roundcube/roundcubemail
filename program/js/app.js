@@ -161,7 +161,7 @@ function rcube_webmail()
     }
 
     // enable general commands
-    this.enable_command('logout', 'mail', 'addressbook', 'settings', true);
+    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', true);
 
     if (this.env.permaurl)
       this.enable_command('permaurl', true);
@@ -1168,6 +1168,18 @@ function rcube_webmail()
     return (this.env.framed && parent.rcmail && parent.rcmail != this && parent.rcmail.command);
   };
 
+  this.save_pref = function(prop)
+  {
+    var request = {'_name': prop.name, '_value': urlencode(prop.value)};
+
+    if (prop.session)
+      request['_session'] = urlencode(prop.session);
+    if (prop.env)
+      this.env[prop.env] = prop.value;
+
+    this.http_post('save-pref', request);
+  };
+
 
   /*********************************************************/
   /*********        event handling methods         *********/
@@ -1360,7 +1372,7 @@ function rcube_webmail()
       }
     }
 
-    this.http_post('save-pref', '_name=collapsed_folders&_value='+urlencode(this.env.collapsed_folders));
+    this.command('save-pref', { name: collapsed_folders, value: this.env.collapsed_folders });
     this.set_unread_count_display(id, false);
   };
 
@@ -1534,7 +1546,7 @@ function rcube_webmail()
     if ((found = $.inArray('subject', this.env.coltypes)) >= 0)
       this.set_env('subject_col', found);
 
-    this.http_post('save-pref', { '_name':'list_cols', '_value':this.env.coltypes, '_session':'list_attrib/columns' });
+    this.command('save-pref', { name: 'list_cols', value: this.env.coltypes, session: 'list_attrib/columns' });
   };
 
   this.check_droptarget = function(id)

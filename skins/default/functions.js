@@ -347,7 +347,8 @@ switch_preview_pane: function(elem)
     rcmail.env.contentframe = null;
     rcmail.show_contentframe(false);
   }
-  rcmail.http_post('save-pref', '_name=preview_pane&_value='+(elem.checked?1:0));
+
+  rcmail.command('save-pref', {name: 'preview_pane', value: (elem.checked?1:0)});
 },
 
 /* Message composing */
