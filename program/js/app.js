@@ -931,10 +931,13 @@ function rcube_webmail()
 
       case 'forward-attachment':
       case 'forward':
-        var uid;
-        if (uid = this.get_single_uid())
-          this.goto_url('compose', '_forward_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)
-            + (command == 'forward-attachment' ? '&_attachment=1' : ''), true);
+        var uid, url;
+        if (uid = this.get_single_uid()) {
+          url = '_forward_uid='+uid+'&_mbox='+urlencode(this.env.mailbox);
+          if (command == 'forward-attachment' || (!props && this.env.forward_attachment))
+            url += '&_attachment=1';
+          this.goto_url('compose', url, true);
+        }
         break;
 
       case 'print':

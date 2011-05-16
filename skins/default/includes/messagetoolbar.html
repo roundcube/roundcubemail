@@ -26,9 +26,15 @@
 </div>
 
 <div id="forwardmenu" class="popupmenu">
-    <ul>
-        <li><roundcube:button command="forward" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" /></li>
-        <li><roundcube:button command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" /></li>
+    <ul class="toolbarmenu">
+        <li>
+            <input type="radio" name="forwardtype" value="0" onchange="rcmail.command('save-pref', {name: 'forward_attachment', value: 0, env: 'forward_attachment'});" />
+            <roundcube:button command="forward" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" />
+        </li>
+        <li>
+            <input type="radio" name="forwardtype" value="1" onchange="rcmail.command('save-pref', {name: 'forward_attachment', value: 1, env: 'forward_attachment'})" />
+            <roundcube:button command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" />
+        </li>    
         <roundcube:container name="forwardmenu" id="forwardmenu" />
     </ul>
 </div>

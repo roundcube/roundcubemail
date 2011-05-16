@@ -148,6 +148,13 @@ dragmessagemenu: function(show)
   this.popups.dragmessagemenu.obj[show?'show':'hide']();
 },
 
+forwardmenu: function(show)
+{
+  $("input[name='forwardtype'][value="+(rcmail.env.forward_attachment ? 1 : 0)+"]", this.popups.forwardmenu.obj)
+    .prop('checked', true);
+  this.show_popupmenu('forwardmenu', show);
+},
+
 uploadmenu: function(show)
 {
   if (typeof show == 'object') // called as event handler

@@ -490,6 +490,11 @@ body.iframe .boxtitle
   background-color: #c00;
 }
 
+.popupmenu li input
+{
+  float: left;
+}
+
 .darkbg
 {
   background-color: #F2F2F2 !important;

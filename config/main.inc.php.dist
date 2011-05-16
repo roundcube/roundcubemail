@@ -695,4 +695,7 @@ $rcmail_config['dsn_default'] = 0;
 // Place replies in the folder of the message being replied to
 $rcmail_config['reply_same_folder'] = false;
 
+// Sets default mode of Forward feature to "forward as attachment"
+$rcmail_config['forward_attachment'] = false;
+
 // end of config file
