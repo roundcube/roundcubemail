@@ -3230,8 +3230,13 @@ class rcube_imap
         $result = $this->conn->createFolder($mailbox);
 
         // try to subscribe it
-        if ($result && $subscribe)
-            $this->subscribe($mailbox);
+        if ($result) {
+            // clear cache
+            $this->clear_cache('/^mailboxes.*/', true);
+
+            if ($subscribe)
+                $this->subscribe($mailbox);
+        }
 
         return $result;
     }
