@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue which cases IMAP disconnection when encrypt() method was used (#1487900)
 - Fix some CSS issues in Settings for Internet Explorer
 - Fixed handling of folder with name "0" in folder selector
 - Fix bug where messages were deleted instead moved to trash folder after Shift key was used (#1487902)

@@ -1078,6 +1078,9 @@ class rcmail
       if (is_object($book))
         $book->close();
 
+    if (is_object($this->imap))
+      $this->imap->close();
+
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'])
       session_write_close();
@@ -1192,9 +1195,6 @@ class rcmail
         ), true, true);
       }
     }
-
-    if (is_object($this->imap))
-      $this->imap->close();
 
     return $base64 ? base64_encode($cipher) : $cipher;
   }
