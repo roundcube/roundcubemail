@@ -36,6 +36,7 @@ $messages['loggedout'] = 'A sua sessão foi terminada com sucesso. Até breve!';
 $messages['mailboxempty'] = 'A caixa de entrada está vazia';
 $messages['loading'] = 'A carregar...';
 $messages['uploading'] = 'A enviar ficheiro...';
+$messages['uploadingmany'] = 'A carregar ficheiros...';
 $messages['loadingdata'] = 'A carregar informações...';
 $messages['checkingmail'] = 'A verificar novas mensagens...';
 $messages['sendingmessage'] = 'A enviar mensagem...';
