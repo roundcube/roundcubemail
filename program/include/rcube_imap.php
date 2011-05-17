@@ -3768,9 +3768,9 @@ class rcube_imap
      *
      * @param string $key  Cache key
      * @param mixed  $data Data
-     * @access private
+     * @access public
      */
-    private function update_cache($key, $data)
+    function update_cache($key, $data)
     {
         $this->cache[$key] = $data;
         $this->cache_changed = true;
