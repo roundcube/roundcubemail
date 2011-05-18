@@ -122,6 +122,7 @@ class rcmail
 
   private $texts;
   private $address_books = array();
+  private $caches = array();
   private $action_map = array();
 
 
@@ -352,6 +353,24 @@ class rcmail
 
 
   /**
+   * Initialize and get cache object
+   *
+   * @param string $name Cache identifier
+   * @param string $type Cache type ('db' or 'memcache')
+   *
+   * @return rcube_cache Cache object
+   */
+  public function get_cache($name, $type)
+  {
+    if (!isset($this->caches[$name])) {
+      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name.'.');
+    }
+
+    return $this->caches[$name];
+  }
+
+
+  /**
    * Return instance of the internal address book class
    *
    * @param string  Address book identifier
@@ -531,14 +550,22 @@ class rcmail
     if (is_object($this->imap))
       return;
 
-    $this->imap = new rcube_imap($this->db);
+    $this->imap = new rcube_imap();
     $this->imap->debug_level = $this->config->get('debug_level');
     $this->imap->skip_deleted = $this->config->get('skip_deleted');
 
     // enable caching of imap data
-    if ($this->config->get('enable_caching')) {
-      $this->imap->set_caching(true);
+    $imap_cache = $this->config->get('imap_cache');
+    $messages_cache = $this->config->get('messages_cache');
+    // for backward compatybility
+    if ($imap_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
+        $imap_cache     = 'db';
+        $messages_cache = true;
     }
+    if ($imap_cache)
+        $this->imap->set_caching($imap_cache);
+    if ($messages_cache)
+        $this->imap->set_messages_caching(true);
 
     // set pagesize from config
     $this->imap->set_pagesize($this->config->get('pagesize', 50));
@@ -1114,6 +1141,11 @@ class rcmail
         $book = $this->get_address_book($book['id']);
       if (is_a($book, 'rcube_addressbook'))
         $book->close();
+    }
+
+    foreach ($this->caches as $cache) {
+        if (is_object($cache))
+            $cache->close();
     }
 
     if (is_object($this->imap))

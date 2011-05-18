@@ -52,19 +52,23 @@ class rcube_imap
      * @var rcube_mdb2
      */
     private $db;
+
+    /**
+     * Instance of rcube_cache
+     *
+     * @var rcube_cache
+     */
+    private $cache;
     private $mailbox = 'INBOX';
     private $delimiter = NULL;
     private $namespace = NULL;
     private $sort_field = '';
     private $sort_order = 'DESC';
-    private $caching_enabled = false;
     private $default_charset = 'ISO-8859-1';
     private $struct_charset = NULL;
     private $default_folders = array('INBOX');
+    private $messages_caching = false;
     private $icache = array();
-    private $cache = array();
-    private $cache_keys = array();
-    private $cache_changes = array();
     private $uid_id_map = array();
     private $msg_headers = array();
     public  $search_set = NULL;
@@ -112,13 +116,10 @@ class rcube_imap
 
 
     /**
-     * Object constructor
-     *
-     * @param object DB Database connection
+     * Object constructor.
      */
-    function __construct($db_conn)
+    function __construct()
     {
-        $this->db = $db_conn;
         $this->conn = new rcube_imap_generic();
     }
 
@@ -207,7 +208,6 @@ class rcube_imap
     function close()
     {
         $this->conn->closeConnection();
-        $this->write_cache();
     }
 
 
@@ -706,7 +706,7 @@ class rcube_imap
                 $search_str .= " UNSEEN";
             }
             else {
-                if ($this->caching_enabled) {
+                if ($this->messages_caching) {
                     $keys[] = 'ALL';
                 }
                 if ($status) {
@@ -722,7 +722,7 @@ class rcube_imap
             $count = is_array($index) ? $index['COUNT'] : 0;
 
             if ($mode == 'ALL') {
-                if ($need_uid && $this->caching_enabled) {
+                if ($need_uid && $this->messages_caching) {
                     // Save messages index for check_cache_status()
                     $this->icache['all_undeleted_idx'] = $index['ALL'];
                 }
@@ -838,7 +838,7 @@ class rcube_imap
         $page         = $page ? $page : $this->list_page;
         $cache_key    = $mailbox.'.msg';
 
-        if ($this->caching_enabled) {
+        if ($this->messages_caching) {
             // cache is OK, we can get messages from local cache
             // (assume cache is in sync when in recursive mode)
             if ($recursive || $this->check_cache_status($mailbox, $cache_key)>0) {
@@ -1320,7 +1320,7 @@ class rcube_imap
         }
 
         // Update cache
-        if ($this->caching_enabled && $cache_key) {
+        if ($this->messages_caching && $cache_key) {
             // cache is incomplete?
             $cache_index = $this->get_message_cache_index($cache_key);
 
@@ -2104,7 +2104,7 @@ class rcube_imap
         }
 
         // write structure to cache
-        if ($this->caching_enabled)
+        if ($this->messages_caching)
             $this->add_message_cache($cache_key, $this->_msg_id, $headers, $struct,
                 $this->icache['message.id'][$uid], true);
         }
@@ -2584,7 +2584,7 @@ class rcube_imap
 
         if ($result) {
             // reload message headers if cached
-            if ($this->caching_enabled && !$skip_cache) {
+            if ($this->messages_caching && !$skip_cache) {
                 $cache_key = $mailbox.'.msg';
                 if ($all_mode)
                     $this->clear_message_cache($cache_key);
@@ -3498,7 +3498,7 @@ class rcube_imap
         $headers = explode(' ', $this->fetch_add_headers);
         $headers = array_map('strtoupper', $headers);
 
-        if ($this->caching_enabled || $this->get_all_headers)
+        if ($this->messages_caching || $this->get_all_headers)
             $headers = array_merge($headers, $this->all_headers);
 
         return implode(' ', array_unique($headers));
@@ -3736,17 +3736,22 @@ class rcube_imap
      * --------------------------------*/
 
     /**
-     * Enable or disable caching
+     * Enable or disable indexes caching
      *
-     * @param boolean $set Flag
+     * @param boolean $type Cache type (memcache' or 'db')
      * @access public
      */
-    function set_caching($set)
+    function set_caching($type)
     {
-        if ($set && is_object($this->db))
-            $this->caching_enabled = true;
-        else
-            $this->caching_enabled = false;
+        if ($type) {
+            $rcmail = rcmail::get_instance();
+            $this->cache = $rcmail->get_cache('IMAP', $type);
+        }
+        else {
+            if ($this->cache)
+                $this->cache->close();
+            $this->cache = null;
+        }
     }
 
 
@@ -3759,14 +3764,10 @@ class rcube_imap
      */
     function get_cache($key)
     {
-        // read cache (if it was not read before)
-        if (!count($this->cache) && $this->caching_enabled) {
-            return $this->_read_cache_record($key);
+        if ($this->cache) {
+            return $this->cache->get($key);
         }
-
-        return $this->cache[$key];
     }
-
 
     /**
      * Update cache
@@ -3777,27 +3778,10 @@ class rcube_imap
      */
     function update_cache($key, $data)
     {
-        $this->cache[$key] = $data;
-        $this->cache_changed = true;
-        $this->cache_changes[$key] = true;
-    }
-
-
-    /**
-     * Writes the cache
-     *
-     * @access private
-     */
-    private function write_cache()
-    {
-        if ($this->caching_enabled && $this->cache_changed) {
-            foreach ($this->cache as $key => $data) {
-                if ($this->cache_changes[$key])
-                    $this->_write_cache_record($key, serialize($data));
-            }
+        if ($this->cache) {
+            $this->cache->set($key, $data);
         }
     }
-
 
     /**
      * Clears the cache.
@@ -3809,138 +3793,34 @@ class rcube_imap
      */
     function clear_cache($key=null, $pattern_mode=false)
     {
-        if (!$this->caching_enabled)
-            return;
-
-        if ($key === null) {
-            foreach (array_keys($this->cache) as $key)
-                $this->_clear_cache_record($key);
-
-            $this->cache = array();
-            $this->cache_changed = false;
-            $this->cache_changes = array();
-        }
-        else if ($pattern_mode) {
-            foreach (array_keys($this->cache) as $k) {
-                if (preg_match($key, $k)) {
-                    $this->_clear_cache_record($k);
-                    $this->cache_changes[$k] = false;
-                    unset($this->cache[$key]);
-                }
-            }
-            if (!count($this->cache)) {
-                $this->cache_changed = false;
-            }
-        }
-        else {
-            $this->_clear_cache_record($key);
-            $this->cache_changes[$key] = false;
-            unset($this->cache[$key]);
+        if ($this->cache) {
+            $this->cache->remove($key, $pattern_mode);
         }
     }
-
-
-    /**
-     * Returns cached entry
-     *
-     * @param string $key Cache key
-     * @return mixed Cached value
-     * @access private
-     */
-    private function _read_cache_record($key)
-    {
-        if ($this->db) {
-            // get cached data from DB
-            $sql_result = $this->db->query(
-                "SELECT cache_id, data, cache_key ".
-                "FROM ".get_table_name('cache').
-                " WHERE user_id=? ".
-	            "AND cache_key LIKE 'IMAP.%'",
-                $_SESSION['user_id']);
-
-            while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-	            $sql_key = preg_replace('/^IMAP\./', '', $sql_arr['cache_key']);
-                $this->cache_keys[$sql_key] = $sql_arr['cache_id'];
-	            if (!isset($this->cache[$sql_key]))
-	                $this->cache[$sql_key] = $sql_arr['data'] ? unserialize($sql_arr['data']) : false;
-            }
-        }
-
-        return $this->cache[$key];
-    }
-
-
-    /**
-     * Writes single cache record
-     *
-     * @param string $key  Cache key
-     * @param mxied  $data Cache value
-     * @access private
-     */
-    private function _write_cache_record($key, $data)
-    {
-        if (!$this->db)
-            return false;
-
-        // update existing cache record
-        if ($this->cache_keys[$key]) {
-            $this->db->query(
-                "UPDATE ".get_table_name('cache').
-                " SET created=". $this->db->now().", data=? ".
-                "WHERE user_id=? ".
-                "AND cache_key=?",
-                $data,
-                $_SESSION['user_id'],
-                'IMAP.'.$key);
-        }
-        // add new cache record
-        else {
-            $this->db->query(
-                "INSERT INTO ".get_table_name('cache').
-                " (created, user_id, cache_key, data) ".
-                "VALUES (".$this->db->now().", ?, ?, ?)",
-                $_SESSION['user_id'],
-                'IMAP.'.$key,
-                $data);
-
-            // get cache entry ID for this key
-            $sql_result = $this->db->query(
-                "SELECT cache_id ".
-                "FROM ".get_table_name('cache').
-                " WHERE user_id=? ".
-                "AND cache_key=?",
-                $_SESSION['user_id'],
-                'IMAP.'.$key);
-
-            if ($sql_arr = $this->db->fetch_assoc($sql_result))
-                $this->cache_keys[$key] = $sql_arr['cache_id'];
-        }
-    }
-
-
-    /**
-     * Clears cache for single record
-     *
-     * @param string $ket Cache key
-     * @access private
-     */
-    private function _clear_cache_record($key)
-    {
-        $this->db->query(
-            "DELETE FROM ".get_table_name('cache').
-            " WHERE user_id=? ".
-            "AND cache_key=?",
-            $_SESSION['user_id'],
-            'IMAP.'.$key);
-
-        unset($this->cache_keys[$key]);
-    }
-
 
 
     /* --------------------------------
      *   message caching methods
      * --------------------------------*/
+
+    /**
+     * Enable or disable messages caching
+     *
+     * @param boolean $set Flag
+     * @access public
+     */
+    function set_messages_caching($set)
+    {
+        $rcmail = rcmail::get_instance();
+
+        if ($set && ($dbh = $rcmail->get_dbh())) {
+            $this->db = $dbh;
+            $this->messages_caching = true;
+        }
+        else {
+            $this->messages_caching = false;
+        }
+    }
 
     /**
      * Checks if the cache is up-to-date
@@ -3951,7 +3831,7 @@ class rcube_imap
      */
     private function check_cache_status($mailbox, $cache_key)
     {
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return -3;
 
         $cache_index = $this->get_message_cache_index($cache_key);
@@ -4009,7 +3889,7 @@ class rcube_imap
      */
     private function get_message_cache($key, $from, $to, $sort_field, $sort_order)
     {
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return NULL;
 
         // use idx sort as default sorting
@@ -4054,7 +3934,7 @@ class rcube_imap
     {
         $internal_key = 'message';
 
-        if ($this->caching_enabled && !isset($this->icache[$internal_key][$uid])) {
+        if ($this->messages_caching && !isset($this->icache[$internal_key][$uid])) {
             $sql_result = $this->db->query(
                 "SELECT idx, headers, structure, message_id".
                 " FROM ".get_table_name('messages').
@@ -4088,7 +3968,7 @@ class rcube_imap
      */
     private function get_message_cache_index($key, $sort_field='idx', $sort_order='ASC')
     {
-        if (!$this->caching_enabled || empty($key))
+        if (!$this->messages_caching || empty($key))
             return NULL;
 
         // use idx sort as default
@@ -4143,7 +4023,7 @@ class rcube_imap
         }
 
         // no further caching
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return;
 
         // known message id
@@ -4210,7 +4090,7 @@ class rcube_imap
      */
     private function remove_message_cache($key, $ids, $idx=false)
     {
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return;
 
         $this->db->query(
@@ -4232,7 +4112,7 @@ class rcube_imap
      */
     private function clear_message_cache($key, $start_index=1)
     {
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return;
 
         $this->db->query(
@@ -4251,7 +4131,7 @@ class rcube_imap
      */
     private function get_message_cache_index_min($key, $uids=NULL)
     {
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return;
 
         if (!empty($uids) && !is_array($uids)) {
@@ -4285,7 +4165,7 @@ class rcube_imap
      */
     private function get_cache_id2uid($key, $id)
     {
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return null;
 
         if (array_key_exists('index', $this->icache)
@@ -4317,7 +4197,7 @@ class rcube_imap
      */
     private function get_cache_uid2id($key, $uid)
     {
-        if (!$this->caching_enabled)
+        if (!$this->messages_caching)
             return null;
 
         if (array_key_exists('index', $this->icache)

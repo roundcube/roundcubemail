@@ -109,6 +109,13 @@ $rcmail_config['imap_auth_cid'] = null;
 // Optional IMAP authentication password to be used for imap_auth_cid
 $rcmail_config['imap_auth_pw'] = null;
 
+// Type of IMAP indexes cache. Supported values: 'db' and 'memcache'.
+$rcmail_config['imap_cache'] = null;
+
+// Enables messages cache. Only 'db' cache is supported.
+$rcmail_config['messages_cache'] = false;
+
+
 // ----------------------------------
 // SMTP
 // ----------------------------------
@@ -168,10 +175,6 @@ $rcmail_config['log_dir'] = 'logs/';
 
 // use this folder to store temp files (must be writeable for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
-
-// enable caching of messages and mailbox data in the local database.
-// this is recommended if the IMAP server does not run on the same machine
-$rcmail_config['enable_caching'] = false;
 
 // lifetime of message cache
 // possible units: s, m, h, d, w
