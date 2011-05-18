@@ -208,7 +208,7 @@ class rcube_cache
         }
 
         if ($this->type == 'memcache') {
-            $data = $this->db->get($key);
+            $data = $this->db->get($this->mc_key($key));
 	        
             if ($data) {
                 $this->cache_sums[$key] = md5($data);
@@ -263,6 +263,7 @@ class rcube_cache
         }
 
         if ($this->type == 'memcache') {
+            $key = $this->mc_key($key);
             $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED);
             if (!$result)
                 $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED);
@@ -313,7 +314,7 @@ class rcube_cache
         }
 
         if ($this->type == 'memcache') {
-            return $this->db->delete($key);
+            return $this->db->delete($this->mc_key($key));
         }
 
         $this->db->query(
@@ -325,4 +326,15 @@ class rcube_cache
         unset($this->cache_keys[$key]);
     }
 
+
+    /**
+     * Creates per-user Memcache key
+     *
+     * @param string $key Cache key
+     * @access private
+     */
+    private function mc_key($key)
+    {
+        return sprintf('[%d]%s', $this->userid, $key);
+    }
 }
