@@ -1375,7 +1375,7 @@ function rcube_webmail()
       }
     }
 
-    this.command('save-pref', { name: collapsed_folders, value: this.env.collapsed_folders });
+    this.command('save-pref', { name: 'collapsed_folders', value: this.env.collapsed_folders });
     this.set_unread_count_display(id, false);
   };
 
