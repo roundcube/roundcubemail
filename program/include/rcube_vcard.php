@@ -331,6 +331,19 @@ class rcube_vcard
     }
   }
 
+  /**
+   * Setter for individual vcard properties
+   *
+   * @param string VCard tag name
+   * @param array Value-set of this vcard property
+   * @param boolean Set to true if the value-set should be appended instead of replacing any existing value-set
+   */
+  public function set_raw($tag, $value, $append = false)
+  {
+    $index = $append ? count($this->raw[$tag]) : 0;
+    $this->raw[$tag][$index] = (array)$value;
+  }
+
 
   /**
    * Find index with the '$type' attribute
@@ -651,7 +664,7 @@ class rcube_vcard
       return $result;
     }
     else {
-      return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';'));
+      return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';', '\:' => ':'));
     }
   }
 
