@@ -64,6 +64,13 @@ class rcmail
   public $db;
 
   /**
+   * Instace of Memcache class.
+   *
+   * @var rcube_mdb2
+   */
+  public $memcache;
+
+  /**
    * Instace of rcube_session class.
    *
    * @var rcube_session
@@ -309,6 +316,38 @@ class rcmail
     }
 
     return $this->db;
+  }
+  
+  
+  /**
+   * Get global handle for memcache access
+   *
+   * @return object Memcache
+   */
+  public function get_memcache()
+  {
+    if (!isset($this->memcache)) {
+      // no memcache support in PHP
+      if (!class_exists('Memcache')) {
+        $this->memcache = false;
+        return false;
+      }
+      
+      $this->memcache = new Memcache;
+      $mc_available = 0;
+      foreach ($this->config->get('memcache_hosts', array()) as $host) {
+        list($host, $port) = explode(':', $host);
+        if (!$port) $port = 11211;
+        // add server and attempt to connect if not already done yet
+        if ($this->memcache->addServer($host, $port) && !$mc_available)
+          $mc_available += intval($this->memcache->connect($host, $port));
+      }
+      
+      if (!$mc_available)
+        $this->memcache = false;
+    }
+    
+    return $this->memcache;
   }
 
 

@@ -59,18 +59,10 @@ class rcube_session
 
     // use memcache backend
     if ($config->get('session_storage', 'db') == 'memcache') {
-      $this->memcache = new Memcache;
-      $mc_available = 0;
-      foreach ($config->get('memcache_hosts', array()) as $host) {
-        list($host, $port) = explode(':', $host);
-        if (!$port) $port = 11211;
-        // add server and attempt to connect if not already done yet
-        if ($this->memcache->addServer($host, $port) && !$mc_available)
-          $mc_available += intval($this->memcache->connect($host, $port));
-      }
+      $this->memcache = rcmail::get_instance()->get_memcache();
 
       // set custom functions for PHP session management if memcache is available
-      if ($mc_available) {
+      if ($this->memcache) {
         session_set_save_handler(
           array($this, 'open'),
           array($this, 'close'),
