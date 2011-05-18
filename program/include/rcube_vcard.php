@@ -49,7 +49,7 @@ class rcube_vcard
     'spouse'      => 'X-SPOUSE',
   );
   private $typemap = array('iPhone' => 'mobile', 'CELL' => 'mobile');
-  private $phonetypemap = array('HOME1' => 'HOME', 'BUSINESS1' => 'WORK', 'BUSINESS2' => 'WORK2', 'WORKFAX' => 'BUSINESSFAX');
+  private $phonetypemap = array('HOME1' => 'HOME', 'BUSINESS1' => 'WORK', 'BUSINESS2' => 'WORK2', 'BUSINESSFAX' => 'WORKFAX');
   private $addresstypemap = array('BUSINESS' => 'WORK');
   private $immap = array('X-JABBER' => 'jabber', 'X-ICQ' => 'icq', 'X-MSN' => 'msn', 'X-AIM' => 'aim', 'X-YAHOO' => 'yahoo', 'X-SKYPE' => 'skype', 'X-SKYPE-USERNAME' => 'skype');
 
