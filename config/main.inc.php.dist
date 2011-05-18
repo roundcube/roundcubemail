@@ -109,7 +109,7 @@ $rcmail_config['imap_auth_cid'] = null;
 // Optional IMAP authentication password to be used for imap_auth_cid
 $rcmail_config['imap_auth_pw'] = null;
 
-// Type of IMAP indexes cache. Supported values: 'db' and 'memcache'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
 $rcmail_config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.

@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Added general rcube_cache class with memcache support
+- Added general rcube_cache class with Memcache and APC support
 - Improved caching performance by skipping writes of unchanged data
 - Option enable_caching replaced by imap_cache and messages_cache options
 - Add forward-as-attachment feature

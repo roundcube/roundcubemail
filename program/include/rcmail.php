@@ -356,7 +356,7 @@ class rcmail
    * Initialize and get cache object
    *
    * @param string $name Cache identifier
-   * @param string $type Cache type ('db' or 'memcache')
+   * @param string $type Cache type ('db', 'apc' or 'memcache')
    *
    * @return rcube_cache Cache object
    */

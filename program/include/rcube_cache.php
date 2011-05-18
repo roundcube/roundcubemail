@@ -51,17 +51,22 @@ class rcube_cache
     /**
      * Object constructor.
      *
-     * @param string $type   Engine type ('db' or 'memcache')
+     * @param string $type   Engine type ('db' or 'memcache' or 'apc')
      * @param int    $userid User identifier
      * @param string $prefix Key name prefix
      */
     function __construct($type, $userid, $prefix='')
     {
         $rcmail = rcmail::get_instance();
+        $type   = strtolower($type);
     
-        if (strtolower($type) == 'memcache') {
+        if ($type == 'memcache') {
             $this->type = 'memcache';
             $this->db   = $rcmail->get_memcache();
+        }
+        else if ($type == 'apc') {
+            $this->type = 'apc';
+            $this->db   = function_exists('apc_exists'); // APC 3.1.4 required
         }
         else {
             $this->type = 'db';
@@ -208,7 +213,17 @@ class rcube_cache
         }
 
         if ($this->type == 'memcache') {
-            $data = $this->db->get($this->mc_key($key));
+            $data = $this->db->get($this->ckey($key));
+	        
+            if ($data) {
+                $this->cache_sums[$key] = md5($data);
+                $data = unserialize($data);
+            }
+            return $this->cache[$key] = $data;
+        }
+
+        if ($this->type == 'apc') {
+            $data = apc_fetch($this->ckey($key));
 	        
             if ($data) {
                 $this->cache_sums[$key] = md5($data);
@@ -263,11 +278,18 @@ class rcube_cache
         }
 
         if ($this->type == 'memcache') {
-            $key = $this->mc_key($key);
+            $key = $this->ckey($key);
             $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED);
             if (!$result)
                 $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED);
             return $result;
+        }
+
+        if ($this->type == 'apc') {
+            $key = $this->ckey($key);
+            if (apc_exists($key))
+                apc_delete($key);
+            return apc_store($key, $data);
         }
 
         // update existing cache record
@@ -314,7 +336,11 @@ class rcube_cache
         }
 
         if ($this->type == 'memcache') {
-            return $this->db->delete($this->mc_key($key));
+            return $this->db->delete($this->ckey($key));
+        }
+
+        if ($this->type == 'apc') {
+            return apc_delete($this->ckey($key));
         }
 
         $this->db->query(
@@ -328,12 +354,12 @@ class rcube_cache
 
 
     /**
-     * Creates per-user Memcache key
+     * Creates per-user cache key (for memcache and apc)
      *
      * @param string $key Cache key
      * @access private
      */
-    private function mc_key($key)
+    private function ckey($key)
     {
         return sprintf('[%d]%s', $this->userid, $key);
     }

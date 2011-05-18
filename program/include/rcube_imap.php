@@ -3738,7 +3738,7 @@ class rcube_imap
     /**
      * Enable or disable indexes caching
      *
-     * @param boolean $type Cache type (memcache' or 'db')
+     * @param boolean $type Cache type (@see rcmail::get_cache)
      * @access public
      */
     function set_caching($type)
