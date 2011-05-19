@@ -41,7 +41,7 @@ if ($RCI->configured && ($RCI->getprop('enable_installer') || $_SESSION['allowin
 
   header('Content-type: text/plain');
   header('Content-Disposition: attachment; filename="'.$filename.'"');
-  
+
   $RCI->merge_config();
   echo $RCI->create_config($_GET['_mergeconfig'], true);
   exit;

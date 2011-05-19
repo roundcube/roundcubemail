@@ -123,8 +123,8 @@ class rcube_install
     
     return $value !== null && $value !== '' ? $value : $default;
   }
-  
-  
+
+
   /**
    * Take the default config file and replace the parameters
    * with the submitted form data
@@ -135,13 +135,14 @@ class rcube_install
   function create_config($which, $force = false)
   {
     $out = @file_get_contents(RCMAIL_CONFIG_DIR . "/{$which}.inc.php.dist");
-    
+
     if (!$out)
       return '[Warning: could not read the config template file]';
 
     foreach ($this->config as $prop => $default) {
+
       $value = (isset($_POST["_$prop"]) || $this->bool_config_props[$prop]) ? $_POST["_$prop"] : $default;
-      
+
       // convert some form data
       if ($prop == 'debug_level') {
         $val = 0;
@@ -193,9 +194,9 @@ class rcube_install
       else if (is_numeric($value)) {
         $value = intval($value);
       }
-      
+
       // skip this property
-      if (!$force && ($value == $default))
+      if (!$force && !$this->configured && ($value == $default))
         continue;
 
       // save change

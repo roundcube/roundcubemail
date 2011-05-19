@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix default_port option handling in Installer when config.inc.php file exists (#1487925)
 - Removed option focus_on_new_message, added newmail_notifier plugin
 - Added general rcube_cache class with Memcache and APC support
 - Improved caching performance by skipping writes of unchanged data
