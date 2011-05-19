@@ -349,16 +349,6 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    if (!isset($no_override['focus_on_new_message'])) {
-      $field_id = 'rcmfd_focus_on_new_message';
-      $input_focus_on_new_message = new html_checkbox(array('name' => '_focus_on_new_message', 'id' => $field_id, 'value' => 1));
-
-      $blocks['new_message']['options']['focus_on_new_message'] = array(
-        'title' => html::label($field_id, Q(rcube_label('focusonnewmessage'))),
-        'content' => $input_focus_on_new_message->show($config['focus_on_new_message']?1:0),
-      );
-    }
-
     if (!isset($no_override['keep_alive'])) {
       $field_id = 'rcmfd_keep_alive';
       $select_keep_alive = new html_select(array('name' => '_keep_alive', 'id' => $field_id));

@@ -607,9 +607,6 @@ $rcmail_config['preview_pane'] = false;
 // Set to -1 if messages in preview pane should not be marked as read
 $rcmail_config['preview_pane_mark_read'] = 0;
 
-// focus new window if new message arrives
-$rcmail_config['focus_on_new_message'] = true;
-
 // Clear Trash on logout
 $rcmail_config['logout_purge'] = false;
 

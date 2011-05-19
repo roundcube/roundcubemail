@@ -5017,16 +5017,6 @@ function rcube_webmail()
     }
   };
 
-  // notifies that a new message(s) has hit the mailbox
-  this.new_message_focus = function()
-  {
-    // focus main window
-    if (this.env.framed && window.parent)
-      window.parent.focus();
-    else
-      window.focus();
-  };
-
   this.toggle_prefer_html = function(checkbox)
   {
     var elem;

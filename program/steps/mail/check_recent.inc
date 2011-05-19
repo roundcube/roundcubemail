@@ -71,8 +71,6 @@ foreach ($a_mailboxes as $mbox_name) {
         $OUTPUT->set_env('current_page', $all_count ? $IMAP->list_page : 1);
 
         if ($status & 1) {
-            if ($RCMAIL->config->get('focus_on_new_message', true))
-                $OUTPUT->command('new_message_focus');
             // trigger plugin hook
             $RCMAIL->plugins->exec_hook('new_messages', array('mailbox' => $mbox_name));
         }
