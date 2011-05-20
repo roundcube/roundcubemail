@@ -4583,20 +4583,9 @@ class rcube_imap
                     $updated = $this->conn->unsubscribe($mailbox);
             }
 
-        // get cached mailbox list
+        // clear cached mailbox list(s)
         if ($updated) {
-            $a_mailbox_cache = $this->get_cache('mailboxes');
-            if (!is_array($a_mailbox_cache))
-                return $updated;
-
-            // modify cached list
-            if ($mode == 'subscribe')
-                $a_mailbox_cache = array_merge($a_mailbox_cache, $a_mboxes);
-            else if ($mode == 'unsubscribe')
-                $a_mailbox_cache = array_diff($a_mailbox_cache, $a_mboxes);
-
-            // write mailboxlist to cache
-            $this->update_cache('mailboxes', $this->_sort_mailbox_list($a_mailbox_cache));
+            $this->clear_cache('/^mailboxes.*/', true);
         }
 
         return $updated;
