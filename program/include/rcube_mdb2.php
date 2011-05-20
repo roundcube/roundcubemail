@@ -44,6 +44,7 @@ class rcube_mdb2
     var $db_error_msg = '';
 
     private $debug_mode = false;
+    private $write_failure = false;
     private $a_query_results = array('dummy');
     private $last_res_id = 0;
     private $tables;
@@ -124,7 +125,7 @@ class rcube_mdb2
         // Already connected
         if ($this->db_connected) {
             // connected to read-write db, current connection is ok
-            if ($this->db_mode == 'w')
+            if ($this->db_mode == 'w' && !$this->write_failure)
                 return;
 
             // no replication, current connection is ok for read and write
@@ -189,6 +190,16 @@ class rcube_mdb2
 
 
     /**
+     * Is database replication configured?
+     * This returns true if dsnw != dsnr
+     */
+    function is_replicated()
+    {
+      return !empty($this->db_dsnr) && $this->db_dsnw != $this->db_dsnr;
+    }
+
+
+    /**
      * Execute a SQL query
      *
      * @param  string  SQL query to execute
@@ -245,6 +256,10 @@ class rcube_mdb2
         // Read or write ?
         $mode = (strtolower(substr(trim($query),0,6)) == 'select') ? 'r' : 'w';
 
+        // don't event attempt to connect if previous write-operation failed
+        if ($this->write_failure && $mode == 'w')
+            return false;
+
         $this->db_connect($mode);
 
         // check connection before proceeding
@@ -277,6 +292,10 @@ class rcube_mdb2
                 $q->free();
             }
         }
+
+        // remember that write-operation failed
+        if ($mode == 'w' && ($result === false || PEAR::isError($result)))
+            $this->write_failure = true;
 
         // add result, even if it's an error
         return $this->_add_result($result);
