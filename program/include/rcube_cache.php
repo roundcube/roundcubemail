@@ -152,7 +152,14 @@ class rcube_cache
             $this->cache_changes = array();
         }
         else if ($pattern_mode) {
-            $key = $this->prefix.$key;
+            // add cache prefix into PCRE expression
+            if (preg_match('/^(.)([^a-z0-9]*).*/i', $key, $matches)) {
+                $key = $matches[1] . $matches[2] . preg_quote($this->prefix, $matches[1])
+                    . substr($key, strlen($matches[1].$matches[2]));
+            }
+            else {
+                $key = $this->prefix.$key;
+            }
 
             foreach (array_keys($this->cache) as $k) {
                 if (preg_match($key, $k)) {
