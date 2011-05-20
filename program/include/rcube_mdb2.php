@@ -609,6 +609,8 @@ class rcube_mdb2
     function concat(/* col1, col2, ... */)
     {
         $func = '';
+        $args = func_get_args();
+
         switch($this->db_provider) {
             case 'mysql':
             case 'mysqli':
@@ -622,8 +624,8 @@ class rcube_mdb2
             default:
                 $delim = ' || ';
         }
-        
-        return $func . '(' . join($delim, func_get_args()) . ')';
+
+        return $func . '(' . join($delim, $args) . ')';
     }
 
 
