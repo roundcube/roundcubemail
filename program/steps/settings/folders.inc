@@ -76,24 +76,12 @@ else if ($RCMAIL->action == 'delete-folder')
     $mbox_utf8 = get_input_value('_mbox', RCUBE_INPUT_POST, true);
     $mbox      = rcube_charset_convert($mbox_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
 
-    // get folder's children or all folders if the name contains special characters
-    $delimiter = $IMAP->get_hierarchy_delimiter();
-    if ((strpos($mbox, '%') === false) && (strpos($mbox, '*') === false))
-        $a_mboxes  = $IMAP->list_unsubscribed('', $mbox.$delimiter.'*');
-    else
-        $a_mboxes  = $IMAP->list_unsubscribed();
-
     if (strlen($mbox))
         $deleted = $IMAP->delete_mailbox($mbox);
 
     if ($OUTPUT->ajax_call && $deleted) {
         // Remove folder and subfolders rows
-        $OUTPUT->command('remove_folder_row', $mbox_utf8);
-        foreach ($a_mboxes as $folder) {
-            if (preg_match('/^'. preg_quote($mbox.$delimiter, '/') .'/', $folder)) {
-                $OUTPUT->command('remove_folder_row', rcube_charset_convert($folder, 'UTF7-IMAP'));
-            }
-        }
+        $OUTPUT->command('remove_folder_row', $mbox_utf8, true);
         $OUTPUT->show_message('folderdeleted', 'confirmation');
         // Clear content frame
         $OUTPUT->command('subscription_select');
@@ -118,34 +106,7 @@ else if ($RCMAIL->action == 'rename-folder')
     }
 
     if ($rename && $OUTPUT->ajax_call) {
-        $folderlist = $IMAP->list_unsubscribed();
-        $delimiter  = $IMAP->get_hierarchy_delimiter();
-
-        $regexp = '/^' . preg_quote($name . $delimiter, '/') . '/';
-
-        // subfolders
-        for ($x=sizeof($folderlist)-1; $x>=0; $x--) {
-            if (preg_match($regexp, $folderlist[$x])) {
-                $oldfolder   = $oldname . $delimiter . preg_replace($regexp, '', $folderlist[$x]);
-                $foldersplit = explode($delimiter, $IMAP->mod_mailbox($folderlist[$x]));
-                $level       = count($foldersplit) - 1;
-                $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) 
-                    . rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP');
-                $before = isset($folderlist[$x+1]) ? rcube_charset_convert($folderlist[$x+1], 'UTF7-IMAP') : false;
-
-                $OUTPUT->command('replace_folder_row', rcube_charset_convert($oldfolder, 'UTF7-IMAP'),
-                    rcube_charset_convert($folderlist[$x], 'UTF7-IMAP'), $display_rename, $before);
-            }
-        }
-
-        $index       = array_search($name, $folderlist);
-        $name        = $IMAP->mod_mailbox($name);
-        $foldersplit = explode($delimiter, $name);
-        $level       = count($foldersplit) - 1;
-        $display_rename = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP');
-        $before         = $index !== false && isset($folderlist[$index+1]) ? rcube_charset_convert($folderlist[$index+1], 'UTF7-IMAP') : false;
-
-        $OUTPUT->command('replace_folder_row', $oldname_utf8, $name_utf8, $display_rename, $before);
+        rcmail_update_folder_row($name, $oldname);
     }
     else if (!$rename) {
         rcmail_display_server_error('errorsaving');
@@ -374,6 +335,7 @@ function rcmail_rename_folder($oldname, $newname)
 
     return false;
 }
+
 
 $OUTPUT->set_pagetitle(rcube_label('folders'));
 $OUTPUT->include_script('list.js');

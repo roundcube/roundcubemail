@@ -34,7 +34,7 @@ $old_imap  = rcube_charset_convert($old, RCMAIL_CHARSET, 'UTF7-IMAP');
 // $path is in UTF7-IMAP already
 
 $delimiter = $IMAP->get_hierarchy_delimiter();
-$options = strlen($old_imap) ? rcube_folder_options($old_imap) : array();
+$options = strlen($old_imap) ? rcmail_folder_options($old_imap) : array();
 
 // Folder name checks
 if ($options['protected'] || $options['norename']) {
@@ -105,9 +105,9 @@ if (!$error && !strlen($old)) {
 
             $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
         }
-
+  
+        rcmail_update_folder_row($folder['name']);
         $OUTPUT->show_message('foldercreated', 'confirmation');
-        $OUTPUT->command('reload', 250);
         $OUTPUT->send('iframe');
     }
     else {
@@ -163,7 +163,7 @@ else if (!$error) {
 
         $OUTPUT->show_message('folderupdated', 'confirmation');
         if ($rename) {
-            $OUTPUT->command('reload', 250);
+            rcmail_update_folder_row($folder['name'], $folder['oldname']);
             $OUTPUT->send('iframe');
         }
     }

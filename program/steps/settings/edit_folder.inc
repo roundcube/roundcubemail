@@ -24,7 +24,7 @@
 // init IMAP connection
 $RCMAIL->imap_connect();
 
-function rcube_folder_form($attrib)
+function rcmail_folder_form($attrib)
 {
     global $RCMAIL;
 
@@ -41,7 +41,7 @@ function rcube_folder_form($attrib)
 
     // Get mailbox parameters
     if (strlen($mbox)) {
-        $options   = rcube_folder_options($mbox_imap);
+        $options   = rcmail_folder_options($mbox_imap);
         $namespace = $RCMAIL->imap->get_namespace();
 
         $path   = explode($delimiter, $mbox_imap);
@@ -319,7 +319,7 @@ function rcmail_localize_folderpath($path)
 
 // register UI objects
 $OUTPUT->add_handlers(array(
-    'folderdetails' => 'rcube_folder_form',
+    'folderdetails' => 'rcmail_folder_form',
 ));
 
 $OUTPUT->add_label('nonamewarning');
