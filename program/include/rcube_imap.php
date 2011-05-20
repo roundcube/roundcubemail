@@ -3232,7 +3232,7 @@ class rcube_imap
         // try to subscribe it
         if ($result) {
             // clear cache
-            $this->clear_cache('/^mailboxes.*/', true);
+            $this->clear_cache('mailboxes', true);
 
             if ($subscribe)
                 $this->subscribe($mailbox);
@@ -3288,7 +3288,7 @@ class rcube_imap
 
             // clear cache
             $this->clear_message_cache($mailbox.'.msg');
-            $this->clear_cache('/^mailboxes.*/', true);
+            $this->clear_cache('mailboxes', true);
         }
 
         return $result;
@@ -3330,7 +3330,7 @@ class rcube_imap
 
             // clear mailbox-related cache
             $this->clear_message_cache($mailbox.'.msg');
-            $this->clear_cache('/^mailboxes.*/', true);
+            $this->clear_cache('mailboxes', true);
         }
 
         return $result;
@@ -3786,12 +3786,12 @@ class rcube_imap
     /**
      * Clears the cache.
      *
-     * @param string  $key          Cache key name or pattern
-     * @param boolean $pattern_mode Enable it to clear all keys with name
-     *                              matching PREG pattern in $key
+     * @param string  $key         Cache key name or pattern
+     * @param boolean $prefix_mode Enable it to clear all keys starting
+     *                             with prefix specified in $key
      * @access public
      */
-    function clear_cache($key=null, $pattern_mode=false)
+    function clear_cache($key=null, $prefix_mode=false)
     {
         if ($this->cache) {
             $this->cache->remove($key, $pattern_mode);
@@ -4585,7 +4585,7 @@ class rcube_imap
 
         // clear cached mailbox list(s)
         if ($updated) {
-            $this->clear_cache('/^mailboxes.*/', true);
+            $this->clear_cache('mailboxes', true);
         }
 
         return $updated;

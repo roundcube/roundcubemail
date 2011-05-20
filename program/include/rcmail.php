@@ -363,7 +363,7 @@ class rcmail
   public function get_cache($name, $type)
   {
     if (!isset($this->caches[$name])) {
-      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name.'.');
+      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name);
     }
 
     return $this->caches[$name];
@@ -852,7 +852,7 @@ class rcmail
         $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
 
       // force reloading complete list of subscribed mailboxes
-      $this->imap->clear_cache('mailboxes');
+      $this->imap->clear_cache('mailboxes', true);
 
       return true;
     }

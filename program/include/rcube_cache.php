@@ -41,11 +41,11 @@ class rcube_cache
     private $type;
     private $userid;
     private $prefix;
+    private $db_readed;
     private $cache         = array();
     private $cache_keys    = array();
     private $cache_changes = array();
     private $cache_sums    = array();
-
 
 
     /**
@@ -87,32 +87,9 @@ class rcube_cache
      */
     function get($key)
     {
-        $key = $this->prefix.$key;
-    
-        if ($this->type == 'memcache') {
-            return $this->read_cache_record($key);
-        }
-
-        // read cache (if it was not read before)
-        if (!count($this->cache)) {
-            $do_read = true;
-        }
-        else if (isset($this->cache[$key])) {
-            $do_read = false;
-        }
-        // Find cache prefix, we'll load data for all keys
-        // with specified (class) prefix into internal cache (memory)
-        else if ($pos = strpos($key, '.')) {
-            $prefix = substr($key, 0, $pos);
-            $regexp = '/^' . preg_quote($prefix, '/') . '/';
-            if (!count(preg_grep($regexp, array_keys($this->cache_keys)))) {
-                $do_read = true;
-            }
-        }
-
-        if ($do_read) {
-            return $this->read_cache_record($key);
-        }
+        // read cache (if it was read before)
+        if (!$this->db_readed)
+            $this->read_cache();
 
         return $this->cache[$key];
     }
@@ -126,8 +103,6 @@ class rcube_cache
      */
     function set($key, $data)
     {
-        $key = $this->prefix.$key;
-
         $this->cache[$key]         = $data;
         $this->cache_changed       = true;
         $this->cache_changes[$key] = true;
@@ -137,48 +112,54 @@ class rcube_cache
     /**
      * Clears the cache.
      *
-     * @param string  $key          Cache key name or pattern
-     * @param boolean $pattern_mode Enable it to clear all keys with name
-     *                              matching PREG pattern in $key
+     * @param string  $key         Cache key name or pattern
+     * @param boolean $prefix_mode Enable it to clear all keys starting
+     *                             with prefix specified in $key
      */
     function remove($key=null, $pattern_mode=false)
     {
+        // Remove all keys
         if ($key === null) {
-            foreach (array_keys($this->cache) as $key)
-                $this->clear_cache_record($key);
-
             $this->cache         = array();
             $this->cache_changed = false;
             $this->cache_changes = array();
+            $this->cache_keys    = array();
+            $where = " AND cache_key LIKE " . $this->db->quote($this->prefix.'.%');
         }
-        else if ($pattern_mode) {
-            // add cache prefix into PCRE expression
-            if (preg_match('/^(.)([^a-z0-9]*).*/i', $key, $matches)) {
-                $key = $matches[1] . $matches[2] . preg_quote($this->prefix, $matches[1])
-                    . substr($key, strlen($matches[1].$matches[2]));
-            }
-            else {
-                $key = $this->prefix.$key;
-            }
-
+        // Remove keys by name prefix
+        else if (!$prefix_mode) {
+            $this->cache[$key] = null;
+            $this->cache_changes[$key] = false;
+            unset($this->cache_keys[$key]);
+            $where = " AND cache_key = " . $this->db->quote($this->prefix.'.'.$key);
+        }
+        // Remove one key by name
+        else {
             foreach (array_keys($this->cache) as $k) {
-                if (preg_match($key, $k)) {
-                    $this->clear_cache_record($k);
+                if (strpos($k, $key) === 0) {
+                    $this->cache[$k] = null;
                     $this->cache_changes[$k] = false;
-                    unset($this->cache[$key]);
+                    unset($this->cache_keys[$k]);
                 }
             }
+            $where = " AND cache_key LIKE " . $this->db->quote($this->prefix.'.'.$key.'%');
             if (!count($this->cache)) {
                 $this->cache_changed = false;
             }
         }
-        else {
-            $key = $this->prefix.$key;
 
-            $this->clear_cache_record($key);
-            $this->cache_changes[$key] = false;
-            unset($this->cache[$key]);
+        if (!$this->db) {
+            return;
         }
+
+        if ($this->type != 'db') {
+            return;
+        }
+
+        $this->db->query(
+            "DELETE FROM ".get_table_name('cache').
+            " WHERE user_id = ?" . $where,
+            $this->userid);
     }
 
 
@@ -191,112 +172,126 @@ class rcube_cache
             return;
         }
 
-        foreach ($this->cache as $key => $data) {
-            // The key has been used
-            if ($this->cache_changes[$key]) {
-                // Make sure we're not going to write unchanged data
-                // by comparing current md5 sum with the sum calculated on DB read
-                $data = serialize($data);
-                if (!$this->cache_sums[$key] || $this->cache_sums[$key] != md5($data)) {
-                    $this->write_cache_record($key, $data);
-                }
-            }
-        }
+        $this->write_cache();
     }
 
 
     /**
-     * Returns cached entry.
-     *
-     * @param string $key Cache key
-     *
-     * @return mixed Cached value
+     * Reads cache entries.
      * @access private
      */
-    private function read_cache_record($key)
+    private function read_cache()
     {
         if (!$this->db) {
             return null;
         }
 
         if ($this->type == 'memcache') {
-            $data = $this->db->get($this->ckey($key));
-	        
-            if ($data) {
-                $this->cache_sums[$key] = md5($data);
-                $data = unserialize($data);
+            $data = $this->db->get($this->ckey());
+        }
+        else if ($this->type == 'apc') {
+            $data = apc_fetch($this->ckey());
+	    }
+
+        if ($data) {
+            $this->cache_sums['data'] = md5($data);
+            $data = unserialize($data);
+            if (is_array($data)) {
+                $this->cache = $data;
             }
-            return $this->cache[$key] = $data;
         }
+        else if ($this->type == 'db') {
+            // get cached data from DB
+            $sql_result = $this->db->query(
+                "SELECT cache_id, data, cache_key".
+                " FROM ".get_table_name('cache').
+                " WHERE user_id = ?".
+                " AND cache_key LIKE " . $this->db->quote($this->prefix.'.%'),
+                $this->userid);
 
-        if ($this->type == 'apc') {
-            $data = apc_fetch($this->ckey($key));
-	        
-            if ($data) {
-                $this->cache_sums[$key] = md5($data);
-                $data = unserialize($data);
-            }
-            return $this->cache[$key] = $data;
-        }
-
-        // Find cache prefix, we'll load data for all keys
-        // with specified (class) prefix into internal cache (memory)
-        if ($pos = strpos($key, '.')) {
-            $prefix = substr($key, 0, $pos);
-            $where = " AND cache_key LIKE '$prefix%'";
-        }
-        else {
-            $where = " AND cache_key = ".$this->db->quote($key);
-        }
-
-        // get cached data from DB
-        $sql_result = $this->db->query(
-            "SELECT cache_id, data, cache_key".
-            " FROM ".get_table_name('cache').
-            " WHERE user_id = ?".$where,
-            $this->userid);
-
-        while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-            $sql_key = $sql_arr['cache_key'];
-            $this->cache_keys[$sql_key] = $sql_arr['cache_id'];
-	        if (!isset($this->cache[$sql_key])) {
+            while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+                $key = substr($sql_arr['cache_key'], strlen($this->prefix)+1);
                 $md5sum = $sql_arr['data'] ? md5($sql_arr['data']) : null;
-                $data   = $sql_arr['data'] ? unserialize($sql_arr['data']) : false;
-	            $this->cache[$sql_key]      = $data;
-	            $this->cache_sums[$sql_key] = $md5sum;
+                $data   = $sql_arr['data'] ? unserialize($sql_arr['data']) : null;
+    	        $this->cache[$key]      = $data;
+	            $this->cache_sums[$key] = $md5sum;
+                $this->cache_keys[$key] = $sql_arr['cache_id'];
             }
         }
 
-        return $this->cache[$key];
+        $this->db_readed = true;        
     }
 
 
     /**
-     * Writes single cache record.
+     * Writes the cache content into DB.
      *
-     * @param string $key  Cache key
-     * @param mxied  $data Cache value
+     * @return boolean Write result
      * @access private
      */
-    private function write_cache_record($key, $data)
+    private function write_cache()
     {
         if (!$this->db) {
             return false;
         }
 
-        if ($this->type == 'memcache') {
-            $key = $this->ckey($key);
-            $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED);
-            if (!$result)
-                $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED);
-            return $result;
+        if ($this->type == 'memcache' || $this->type == 'apc') {
+            // remove nulls
+            foreach ($this->cache as $idx => $value) {
+                if ($value === null)
+                    unset($this->cache[$idx]);
+            }
+
+            $data = serialize($this->cache);
+            $key  = $this->ckey();
+
+            // Don't save the data if nothing changed
+            if ($this->cache_sums['data'] && $this->cache_sums['data'] == md5($data)) {
+                return true;
+            }
+
+            if ($this->type == 'memcache') {
+                $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED);
+                if (!$result)
+                    $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED);
+                return $result;
+            }
+
+            if ($this->type == 'apc') {
+                if (apc_exists($key))
+                    apc_delete($key);
+                return apc_store($key, $data);
+            }
         }
 
-        if ($this->type == 'apc') {
-            $key = $this->ckey($key);
-            if (apc_exists($key))
-                apc_delete($key);
-            return apc_store($key, $data);
+        foreach ($this->cache as $key => $data) {
+            // The key has been used
+            if ($this->cache_changes[$key]) {
+                // Make sure we're not going to write unchanged data
+                // by comparing current md5 sum with the sum calculated on DB read
+                $data = serialize($data);
+
+                if (!$this->cache_sums[$key] || $this->cache_sums[$key] != md5($data)) {
+                    $this->write_record($key, $data);
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Writes single cache record into SQL database.
+     *
+     * @param string $key  Cache key
+     * @param mxied  $data Cache value
+     * @access private
+     */
+    private function write_record($key, $data)
+    {
+        if (!$this->db) {
+            return false;
         }
 
         // update existing cache record
@@ -306,7 +301,7 @@ class rcube_cache
                 " SET created = ". $this->db->now().", data = ?".
                 " WHERE user_id = ?".
                 " AND cache_key = ?",
-                $data, $this->userid, $key);
+                $data, $this->userid, $this->prefix . '.' . $key);
         }
         // add new cache record
         else {
@@ -314,60 +309,19 @@ class rcube_cache
                 "INSERT INTO ".get_table_name('cache').
                 " (created, user_id, cache_key, data)".
                 " VALUES (".$this->db->now().", ?, ?, ?)",
-                $this->userid, $key, $data);
-
-            // get cache entry ID for this key
-            $sql_result = $this->db->query(
-                "SELECT cache_id".
-                " FROM ".get_table_name('cache').
-                " WHERE user_id = ?".
-                " AND cache_key = ?",
-                $this->userid, $key);
-
-            if ($sql_arr = $this->db->fetch_assoc($sql_result))
-                $this->cache_keys[$key] = $sql_arr['cache_id'];
+                $this->userid, $this->prefix . '.' . $key, $data);
         }
-    }
-
-
-    /**
-     * Clears cache for single record.
-     *
-     * @param string $key Cache key
-     * @access private
-     */
-    private function clear_cache_record($key)
-    {
-        if (!$this->db) {
-            return false;
-        }
-
-        if ($this->type == 'memcache') {
-            return $this->db->delete($this->ckey($key));
-        }
-
-        if ($this->type == 'apc') {
-            return apc_delete($this->ckey($key));
-        }
-
-        $this->db->query(
-            "DELETE FROM ".get_table_name('cache').
-            " WHERE user_id = ?".
-            " AND cache_key = ?",
-            $this->userid, $key);
-
-        unset($this->cache_keys[$key]);
     }
 
 
     /**
      * Creates per-user cache key (for memcache and apc)
      *
-     * @param string $key Cache key
+     * @return string Cache key
      * @access private
      */
-    private function ckey($key)
+    private function ckey()
     {
-        return sprintf('[%d]%s', $this->userid, $key);
+        return sprintf('%d-%s', $this->userid, $this->prefix);
     }
 }

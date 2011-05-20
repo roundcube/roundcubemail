@@ -192,7 +192,7 @@ function rcube_subscription_form($attrib)
     }
 
     // get folders from server
-    $IMAP->clear_cache('/^mailboxes.*/', true);
+    $IMAP->clear_cache('mailboxes', true);
 
     $a_unsubscribed = $IMAP->list_unsubscribed();
     $a_subscribed   = $IMAP->list_mailboxes();
