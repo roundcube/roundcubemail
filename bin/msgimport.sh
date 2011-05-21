@@ -79,7 +79,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 	$fp = fopen($args['file'], 'r');
 	while (($line = fgets($fp)) !== false)
 	{
-		if (preg_match('/^From\s+/', $line) && $lastline == '')
+		if (preg_match('/^From\s+-/', $line) && $lastline == '')
 		{
 			if (!empty($message))
 			{

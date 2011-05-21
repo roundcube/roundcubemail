@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Added general rcube_cache class with Memcache and APC support
 - Improved caching performance by skipping writes of unchanged data
 - Option enable_caching replaced by imap_cache and messages_cache options
+- Fix WORKFAX saving in address book (#1487910)
 - Add forward-as-attachment feature
 - jQuery-1.6.1 (#1487913, #1487144)
 - Improve display name composition when saving contacts (#1487143)
