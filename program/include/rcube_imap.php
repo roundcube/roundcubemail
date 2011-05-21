@@ -3794,7 +3794,7 @@ class rcube_imap
     function clear_cache($key=null, $prefix_mode=false)
     {
         if ($this->cache) {
-            $this->cache->remove($key, $pattern_mode);
+            $this->cache->remove($key, $prefix_mode);
         }
     }
 
