@@ -355,16 +355,17 @@ class rcmail
   /**
    * Initialize and get cache object
    *
-   * @param string $name Cache identifier
-   * @param string $type Cache type ('db', 'apc' or 'memcache')
-   * @param int    $ttl  Expiration time for cache items in seconds
+   * @param string $name   Cache identifier
+   * @param string $type   Cache type ('db', 'apc' or 'memcache')
+   * @param int    $ttl    Expiration time for cache items in seconds
+   * @param bool   $packed Enables/disables data serialization
    *
    * @return rcube_cache Cache object
    */
-  public function get_cache($name, $type='db', $ttl=0)
+  public function get_cache($name, $type='db', $ttl=0, $packed=true)
   {
     if (!isset($this->caches[$name])) {
-      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name, $ttl);
+      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name, $ttl, $packed);
     }
 
     return $this->caches[$name];

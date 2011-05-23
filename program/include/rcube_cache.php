@@ -42,6 +42,7 @@ class rcube_cache
     private $userid;
     private $prefix;
     private $ttl;
+    private $packed;
     private $index;
     private $cache         = array();
     private $cache_keys    = array();
@@ -56,8 +57,11 @@ class rcube_cache
      * @param int    $userid User identifier
      * @param string $prefix Key name prefix
      * @param int    $ttl    Expiration time of memcache/apc items in seconds (max.2592000)
+     * @param bool   $packed Enables/disabled data serialization.
+     *                       It's possible to disable data serialization if you're sure
+     *                       stored data will be always a safe string
      */
-    function __construct($type, $userid, $prefix='', $ttl=0)
+    function __construct($type, $userid, $prefix='', $ttl=0, $packed=true)
     {
         $rcmail = rcmail::get_instance();
         $type   = strtolower($type);
@@ -75,9 +79,10 @@ class rcube_cache
             $this->db   = $rcmail->get_dbh();
         }
 
-        $this->userid = (int) $userid;
-        $this->ttl    = (int) $ttl;
-        $this->prefix = $prefix;
+        $this->userid    = (int) $userid;
+        $this->ttl       = (int) $ttl;
+        $this->packed    = $packed;
+        $this->prefix    = $prefix;
     }
 
 
@@ -109,6 +114,38 @@ class rcube_cache
         $this->cache[$key]         = $data;
         $this->cache_changed       = true;
         $this->cache_changes[$key] = true;
+    }
+
+
+    /**
+     * Returns cached value without storing it in internal memory.
+     *
+     * @param string $key Cache key name
+     *
+     * @return mixed Cached value
+     */
+    function read($key)
+    {
+        if (array_key_exists($key, $this->cache)) {
+            return $this->cache[$key];
+        }
+
+        return $this->read_record($key, true);
+    }
+
+
+    /**
+     * Sets (add/update) value in cache and immediately saves
+     * it in the backend, no internal memory will be used.
+     *
+     * @param string $key  Cache key name
+     * @param mixed  $data Cache data
+     *
+     * @param boolean True on success, False on failure
+     */
+    function write($key, $data)
+    {
+        return $this->write_record($key, $this->packed ? serialize($data) : $data);
     }
 
 
@@ -164,7 +201,7 @@ class rcube_cache
             if ($this->cache_changes[$key]) {
                 // Make sure we're not going to write unchanged data
                 // by comparing current md5 sum with the sum calculated on DB read
-                $data = serialize($data);
+                $data = $this->packed ? serialize($data) : $data;
 
                 if (!$this->cache_sums[$key] || $this->cache_sums[$key] != md5($data)) {
                     $this->write_record($key, $data);
@@ -179,11 +216,12 @@ class rcube_cache
     /**
      * Reads cache entry.
      *
-     * @param string $key Cache key name
+     * @param string  $key     Cache key name
+     * @param boolean $nostore Enable to skip in-memory store
      *
      * @return mixed Cached value
      */
-    private function read_record($key)
+    private function read_record($key, $nostore=false)
     {
         if (!$this->db) {
             return null;
@@ -197,10 +235,18 @@ class rcube_cache
 	    }
 
         if ($data) {
-            $this->cache_sums[$key] = md5($data);
-            $this->cache[$key]      = unserialize($data);
+            $md5sum = md5($data);
+            $data   = $this->packed ? unserialize($data) : $data;
+
+            if ($nostore) {
+                return $data;
+            }
+
+            $this->cache_sums[$key] = $md5sum;
+            $this->cache[$key]      = $data;
         }
-        else if ($this->type == 'db') {
+
+        if ($this->type == 'db') {
             $sql_result = $this->db->limitquery(
                 "SELECT cache_id, data, cache_key".
                 " FROM ".get_table_name('cache').
@@ -214,7 +260,14 @@ class rcube_cache
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
                 $key = substr($sql_arr['cache_key'], strlen($this->prefix)+1);
                 $md5sum = $sql_arr['data'] ? md5($sql_arr['data']) : null;
-                $data   = $sql_arr['data'] ? unserialize($sql_arr['data']) : null;
+                if ($sql_arr['data']) {
+                    $data = $this->packed ? unserialize($sql_arr['data']) : $sql_arr['data'];
+                }
+
+                if ($nostore) {
+                    return $data;
+                }
+
                 $this->cache[$key]      = $data;
 	            $this->cache_sums[$key] = $md5sum;
                 $this->cache_keys[$key] = $sql_arr['cache_id'];
@@ -230,6 +283,8 @@ class rcube_cache
      *
      * @param string $key  Cache key name
      * @param mxied  $data Serialized cache data 
+     *
+     * @param boolean True on success, False on failure
      */
     private function write_record($key, $data)
     {
@@ -257,7 +312,7 @@ class rcube_cache
 
         // update existing cache record
         if ($key_exists) {
-            $this->db->query(
+            $result = $this->db->query(
                 "UPDATE ".get_table_name('cache').
                 " SET created = ". $this->db->now().", data = ?".
                 " WHERE user_id = ?".
@@ -268,14 +323,14 @@ class rcube_cache
         else {
             // for better performance we allow more records for one key
             // so, no need to check if record exist (see rcube_cache::read_record())
-            $this->db->query(
+            $result = $this->db->query(
                 "INSERT INTO ".get_table_name('cache').
                 " (created, user_id, cache_key, data)".
                 " VALUES (".$this->db->now().", ?, ?, ?)",
                 $this->userid, $key, $data);
         }
 
-        return true;
+        return $this->db->affected_rows($result);
     }
 
 
@@ -341,21 +396,38 @@ class rcube_cache
 
     /**
      * Adds entry into memcache/apc DB.
+     *
+     * @param string  $key   Cache key name
+     * @param mxied   $data  Serialized cache data
+     * @param bollean $index Enables immediate index update
+     *
+     * @param boolean True on success, False on failure
      */
-    private function add_record($key, $data)
+    private function add_record($key, $data, $index=false)
     {
         if ($this->type == 'memcache') {
             $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
             if (!$result)
                 $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
-            return $result;
         }
-
-        if ($this->type == 'apc') {
+        else if ($this->type == 'apc') {
             if (apc_exists($key))
                 apc_delete($key);
-            return apc_store($key, $data, $this->ttl);
+            $result = apc_store($key, $data, $this->ttl);
         }
+
+        // Update index
+        if ($index && $result) {
+            $this->load_index();
+
+            if (array_search($key, $this->index) === false) {
+                $this->index[] = $key;
+                $data = serialize($this->index);
+                $this->add_record($this->ikey(), $data);
+            }
+        }
+
+        return $result;
     }
 
 
