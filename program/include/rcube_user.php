@@ -29,16 +29,23 @@
  */
 class rcube_user
 {
-    public $ID = null;
-    public $data = null;
-    public $language = null;
+    public $ID;
+    public $data;
+    public $language;
 
     /**
      * Holds database connection.
      *
      * @var rcube_mdb2
      */
-    private $db = null;
+    private $db;
+
+    /**
+     * rcmail object.
+     *
+     * @var rcmail
+     */
+    private $rc;
 
 
     /**
@@ -49,7 +56,8 @@ class rcube_user
      */
     function __construct($id = null, $sql_arr = null)
     {
-        $this->db = rcmail::get_instance()->get_dbh();
+        $this->rc = rcmail::get_instance();
+        $this->db = $this->rc->get_dbh();
 
         if ($id && !$sql_arr) {
             $sql_result = $this->db->query(
@@ -82,8 +90,7 @@ class rcube_user
             }
             // if no domain was provided...
             if (empty($domain)) {
-                $rcmail = rcmail::get_instance();
-                $domain = $rcmail->config->mail_domain($this->data['mail_host']);
+                $domain = $this->rc->config->mail_domain($this->data['mail_host']);
             }
 
             if ($part == 'domain') {
@@ -110,8 +117,22 @@ class rcube_user
         if (!empty($this->language))
             $prefs = array('language' => $this->language);
 
-        if ($this->ID && $this->data['preferences'])
-            $prefs += (array)unserialize($this->data['preferences']);
+        if ($this->ID) {
+            // Preferences from session (write-master is unavailable)
+            if (!empty($_SESSION['preferences'])) {
+                // Check last write attempt time, try to write again (every 5 minutes)
+                if ($_SESSION['preferences_time'] < time() - 5 * 60) {
+                    $this->save_prefs(unserialize($_SESSION['preferences']));
+                }
+                else {
+                    $this->data['preferences'] = $_SESSION['preferences'];
+                }
+            }
+
+            if ($this->data['preferences']) {
+                $prefs += (array)unserialize($this->data['preferences']);
+            }
+        }
 
         return $prefs;
     }
@@ -128,7 +149,7 @@ class rcube_user
         if (!$this->ID)
             return false;
 
-        $config = rcmail::get_instance()->config;
+        $config    = $this->rc->config;
         $old_prefs = (array)$this->get_prefs();
 
         // merge (partial) prefs array with existing settings
@@ -154,10 +175,25 @@ class rcube_user
 
         $this->language = $_SESSION['language'];
 
+        // Update success
         if ($this->db->affected_rows() !== false) {
             $config->set_user_prefs($a_user_prefs);
             $this->data['preferences'] = $save_prefs;
+
+            if (isset($_SESSION['preferences'])) {
+                $this->rc->session->remove('preferences');
+                $this->rc->session->remove('preferences_time');
+            }
             return true;
+        }
+        // Update error, but we are using replication (we have read-only DB connection)
+        // and we are storing session not in the SQL database
+        // we can store preferences in session and try to write later (see get_prefs())
+        else if ($this->db->is_replicated() && $config->get('session_storage', 'db') != 'db') {
+            $_SESSION['preferences'] = $save_prefs;
+            $_SESSION['preferences_time'] = time();
+            $config->set_user_prefs($a_user_prefs);
+            $this->data['preferences'] = $save_prefs;
         }
 
         return false;

@@ -1125,6 +1125,11 @@ class rcmail
     if ($config['logout_expunge']) {
       $this->imap->expunge('INBOX');
     }
+
+    // Try to save unsaved user preferences
+    if (!empty($_SESSION['preferences'])) {
+      $this->user->save_prefs(unserialize($_SESSION['preferences']));
+    }
   }
 
 

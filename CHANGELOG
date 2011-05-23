@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Store user preferences in session when write-master is not available and session is stored in memcache, write them later
 - Improve performence of folder manager operations
 - Fix default_port option handling in Installer when config.inc.php file exists (#1487925)
 - Removed option focus_on_new_message, added newmail_notifier plugin
