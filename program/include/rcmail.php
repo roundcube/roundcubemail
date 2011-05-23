@@ -333,7 +333,7 @@ class rcmail
         $this->memcache = false;
         return false;
       }
-      
+
       $this->memcache = new Memcache;
       $mc_available = 0;
       foreach ($this->config->get('memcache_hosts', array()) as $host) {
@@ -343,11 +343,11 @@ class rcmail
         if ($this->memcache->addServer($host, $port) && !$mc_available)
           $mc_available += intval($this->memcache->connect($host, $port));
       }
-      
+
       if (!$mc_available)
         $this->memcache = false;
     }
-    
+
     return $this->memcache;
   }
 
@@ -357,13 +357,14 @@ class rcmail
    *
    * @param string $name Cache identifier
    * @param string $type Cache type ('db', 'apc' or 'memcache')
+   * @param int    $ttl  Expiration time for cache items in seconds
    *
    * @return rcube_cache Cache object
    */
-  public function get_cache($name, $type)
+  public function get_cache($name, $type='db', $ttl=0)
   {
     if (!isset($this->caches[$name])) {
-      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name);
+      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name, $ttl);
     }
 
     return $this->caches[$name];

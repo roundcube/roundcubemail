@@ -41,6 +41,7 @@ class rcube_cache
     private $type;
     private $userid;
     private $prefix;
+    private $ttl;
     private $index;
     private $cache         = array();
     private $cache_keys    = array();
@@ -54,12 +55,13 @@ class rcube_cache
      * @param string $type   Engine type ('db' or 'memcache' or 'apc')
      * @param int    $userid User identifier
      * @param string $prefix Key name prefix
+     * @param int    $ttl    Expiration time of memcache/apc items in seconds (max.2592000)
      */
-    function __construct($type, $userid, $prefix='')
+    function __construct($type, $userid, $prefix='', $ttl=0)
     {
         $rcmail = rcmail::get_instance();
         $type   = strtolower($type);
-    
+
         if ($type == 'memcache') {
             $this->type = 'memcache';
             $this->db   = $rcmail->get_memcache();
@@ -74,6 +76,7 @@ class rcube_cache
         }
 
         $this->userid = (int) $userid;
+        $this->ttl    = (int) $ttl;
         $this->prefix = $prefix;
     }
 
@@ -179,7 +182,6 @@ class rcube_cache
      * @param string $key Cache key name
      *
      * @return mixed Cached value
-     * @access private
      */
     private function read_record($key)
     {
@@ -228,7 +230,6 @@ class rcube_cache
      *
      * @param string $key  Cache key name
      * @param mxied  $data Serialized cache data 
-     * @access private
      */
     private function write_record($key, $data)
     {
@@ -285,7 +286,6 @@ class rcube_cache
      * @param boolean $prefix_mode Enable it to clear all keys starting
      *                             with prefix specified in $key
      *
-     * @access private;
      */
     private function remove_record($key=null, $prefix_mode=false)
     {
@@ -341,28 +341,26 @@ class rcube_cache
 
     /**
      * Adds entry into memcache/apc DB.
-     * @access private
      */
     private function add_record($key, $data)
     {
         if ($this->type == 'memcache') {
-            $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED);
+            $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
             if (!$result)
-                $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED);
+                $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
             return $result;
         }
 
         if ($this->type == 'apc') {
             if (apc_exists($key))
                 apc_delete($key);
-            return apc_store($key, $data);
+            return apc_store($key, $data, $this->ttl);
         }
     }
 
 
     /**
      * Deletes entry from memcache/apc DB.
-     * @access private
      */
     private function delete_record($index=true)
     {
@@ -381,7 +379,6 @@ class rcube_cache
 
     /**
      * Writes the index entry into memcache/apc DB.
-     * @access private
      */
     private function write_index()
     {
@@ -411,7 +408,6 @@ class rcube_cache
 
     /**
      * Gets the index entry from memcache/apc DB.
-     * @access private
      */
     private function load_index()
     {
@@ -441,7 +437,6 @@ class rcube_cache
      * @param string $key Cache key name
      *
      * @return string Cache key
-     * @access private
      */
     private function ckey($key)
     {
@@ -453,7 +448,6 @@ class rcube_cache
      * Creates per-user index cache key name (for memcache and apc)
      *
      * @return string Cache key
-     * @access private
      */
     private function ikey()
     {
