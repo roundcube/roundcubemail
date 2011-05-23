@@ -47,6 +47,7 @@ class rcube_vcard
     'assistant'   => 'X-ASSISTANT',
     'manager'     => 'X-MANAGER',
     'spouse'      => 'X-SPOUSE',
+    'edit'        => 'X-AB-EDIT',
   );
   private $typemap = array('iPhone' => 'mobile', 'CELL' => 'mobile');
   private $phonetypemap = array('HOME1' => 'HOME', 'BUSINESS1' => 'WORK', 'BUSINESS2' => 'WORK2', 'BUSINESSFAX' => 'WORKFAX');
