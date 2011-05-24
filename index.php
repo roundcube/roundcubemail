@@ -205,6 +205,7 @@ else {
 // handle special actions
 if ($RCMAIL->action == 'keep-alive') {
   $OUTPUT->reset();
+  $RCMAIL->plugins->exec_hook('keep_alive', array());
   $OUTPUT->send();
 }
 else if ($RCMAIL->action == 'save-pref') {
