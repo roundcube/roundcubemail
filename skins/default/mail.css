@@ -954,11 +954,6 @@ body.messagelist
   clear: both;
 }
 
-#listmenu .toolbarmenu li input
-{
-  float: none;
-}
-
 /***** tree indicators *****/
 
 td span.branch div

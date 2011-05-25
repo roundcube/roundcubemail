@@ -490,7 +490,7 @@ body.iframe .boxtitle
   background-color: #c00;
 }
 
-.popupmenu li input
+.popupmenu li.block input
 {
   float: left;
 }
