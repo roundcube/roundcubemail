@@ -84,7 +84,7 @@ class rcube_mdb2
             'persistent'       => $this->db_pconn,
             'emulate_prepared' => $this->debug_mode,
             'debug'            => $this->debug_mode,
-            'debug_handler'    => 'mdb2_debug_handler',
+            'debug_handler'    => array($this, 'debug_handler'),
             'portability'      => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 
         if ($this->db_provider == 'pgsql') {
@@ -787,16 +787,17 @@ class rcube_mdb2
             'md5', 'rcube_sqlite_md5');
     }
 
-}  // end class rcube_db
 
-
-/* this is our own debug handler for the MDB2 connection */
-function mdb2_debug_handler(&$db, $scope, $message, $context = array())
-{
-    if ($scope != 'prepare') {
-        $debug_output = sprintf('%s(%d): %s;',
-            $scope, $db->db_index, rtrim($message, ';'));
-        write_log('sql', $debug_output);
+    /**
+     * Debug handler for the MDB2
+     */
+    function debug_handler(&$db, $scope, $message, $context = array())
+    {
+        if ($scope != 'prepare') {
+            $debug_output = sprintf('%s(%d): %s;',
+                $scope, $db->db_index, rtrim($message, ';'));
+            write_log('sql', $debug_output);
+        }
     }
-}
 
+}  // end class rcube_db
