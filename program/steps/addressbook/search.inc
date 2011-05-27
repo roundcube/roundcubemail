@@ -22,7 +22,7 @@
 $CONTACTS->set_page(1);
 $_SESSION['page'] = 1;
 
-$search = trim(get_input_value('_q', RCUBE_INPUT_GET));
+$search = trim(get_input_value('_q', RCUBE_INPUT_GET, true));
 $search_request = md5('addr'.$search);
 
 // get contacts for this user

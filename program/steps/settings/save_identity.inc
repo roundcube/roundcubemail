@@ -22,17 +22,17 @@
 define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 
 $a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature');
-$a_html_cols = array('signature');
+$a_html_cols = array('signature', 'name', 'organization');
 $a_boolean_cols = array('standard', 'html_signature');
 $updated = $default_id = false;
 
 // check input
 if (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))
-  {
+{
   $OUTPUT->show_message('formincomplete', 'warning');
   rcmail_overwrite_action('edit-identity');
   return;
-  }
+}
 
 
 $save_data = array();

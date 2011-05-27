@@ -95,7 +95,6 @@ if ($RCMAIL->action == 'upload-photo') {
     $OUTPUT->send('iframe');
 }
 
-
 // read POST values into hash array
 $a_record = array();
 foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
@@ -106,7 +105,7 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   if ($colprop['childs']) {
     $values = array();
     foreach ($colprop['childs'] as $childcol => $cp) {
-      $vals = get_input_value('_'.$childcol, RCUBE_INPUT_POST);
+      $vals = get_input_value('_'.$childcol, RCUBE_INPUT_POST, true);
       foreach ((array)$vals as $i => $val)
         $values[$i][$childcol] = $val;
     }
@@ -117,7 +116,7 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
   // assign values and subtypes
   else if (is_array($_POST[$fname])) {
-    $values = get_input_value($fname, RCUBE_INPUT_POST);
+    $values = get_input_value($fname, RCUBE_INPUT_POST, true);
     $subtypes = get_input_value('_subtype_' . $col, RCUBE_INPUT_POST);
     foreach ($values as $i => $val) {
       $subtype = $subtypes[$i] ? ':'.$subtypes[$i] : '';
@@ -125,7 +124,7 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
     }
   }
   else if (isset($_POST[$fname])) {
-    $a_record[$col] = get_input_value($fname, RCUBE_INPUT_POST);
+    $a_record[$col] = get_input_value($fname, RCUBE_INPUT_POST, true);
   }
 }
 
@@ -190,7 +189,7 @@ if (!empty($cid))
       $record['name'] = $record['email'];
 
     foreach (array('name', 'email') as $col)
-      $a_js_cols[] = (string)$record[$col];
+      $a_js_cols[] = Q((string)$record[$col]);
 
     // update the changed col in list
     $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid);

@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of "<" character in contact data, search fields and folder names (#1487864)
+- Fix saving "<" character in identity name and organization fields (#1487864)
 - Added option to specify to which address book add new contacts
 - Added plugin hook for keep-alive requests
 - Store user preferences in session when write-master is not available and session is stored in memcache, write them later
