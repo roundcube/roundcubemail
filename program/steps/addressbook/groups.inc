@@ -68,7 +68,7 @@ else if ($RCMAIL->action == 'group-delmembers') {
 }
 
 else if ($RCMAIL->action == 'group-create') {
-  if ($name = trim(get_input_value('_name', RCUBE_INPUT_POST))) {
+  if ($name = trim(get_input_value('_name', RCUBE_INPUT_POST, true))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_create', array('name' => $name, 'source' => $source));
 
     if (!$plugin['abort'])
@@ -78,6 +78,7 @@ else if ($RCMAIL->action == 'group-create') {
   }
 
   if ($created && $OUTPUT->ajax_call) {
+    $created['name'] = Q($created['name']);
     $OUTPUT->show_message('groupcreated', 'confirmation');
     $OUTPUT->command('insert_contact_group', array('source' => $source) + $created);
   }
@@ -87,7 +88,7 @@ else if ($RCMAIL->action == 'group-create') {
 }
 
 else if ($RCMAIL->action == 'group-rename') {
-  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($name = trim(get_input_value('_name', RCUBE_INPUT_POST)))) {
+  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($name = trim(get_input_value('_name', RCUBE_INPUT_POST, true)))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_rename', array('group_id' => $gid, 'name' => $name, 'source' => $source));
 
     if (!$plugin['abort'])
@@ -99,7 +100,7 @@ else if ($RCMAIL->action == 'group-rename') {
   if ($newname && $OUTPUT->ajax_call) {
     $OUTPUT->show_message('grouprenamed', 'confirmation');
     $OUTPUT->command('update_contact_group', array(
-      'source' => $source, 'id' => $gid, 'name' => $newname, 'newid' => $newgid));
+      'source' => $source, 'id' => $gid, 'name' => Q($newname), 'newid' => $newgid));
   }
   else if (!$newname)
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
