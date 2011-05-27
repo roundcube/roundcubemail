@@ -698,4 +698,9 @@ $rcmail_config['reply_same_folder'] = false;
 // Sets default mode of Forward feature to "forward as attachment"
 $rcmail_config['forward_attachment'] = false;
 
+// Defines address book (internal index) to which new contacts will be added
+// By default it is the first writeable addressbook.
+// Note: Use '0' for built-in address book.
+$rcmail_config['default_addressbook'] = null;
+
 // end of config file

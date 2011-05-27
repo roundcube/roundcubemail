@@ -131,6 +131,7 @@ function rcmail_user_prefs($current=null)
   $sections['mailbox'] = array('id' => 'mailbox', 'section' => rcube_label('mailboxview'));
   $sections['compose'] = array('id' => 'compose', 'section' => rcube_label('messagescomposition'));
   $sections['mailview'] = array('id' => 'mailview','section' => rcube_label('messagesdisplaying'));
+  $sections['addressbook'] = array('id' => 'addressbook','section' => rcube_label('addressbook'));
   $sections['folders'] = array('id' => 'folders', 'section' => rcube_label('specialfolders'));
   $sections['server'] = array('id' => 'server',  'section' => rcube_label('serversettings'));
 
@@ -577,6 +578,32 @@ function rcmail_user_prefs($current=null)
       $blocks['sig']['options']['strip_existing_sig'] = array(
         'title' => html::label($field_id, Q(rcube_label('replyremovesignature'))),
         'content' => $input_stripexistingsig->show($config['strip_existing_sig']?1:0),
+      );
+    }
+
+    break;
+
+
+    // Addressbook config
+    case 'addressbook':
+
+    $blocks = array(
+      'main' => array('name' => Q(rcube_label('mainoptions'))),
+    );
+
+    if (!isset($no_override['default_addressbook'])
+      && ($books = $RCMAIL->get_address_sources(true))
+    ) {
+      $field_id = 'rcmfd_default_addressbook';
+      $select_abook = new html_select(array('name' => '_default_addressbook', 'id' => $field_id));
+
+      foreach ($books as $book) {
+        $select_abook->add($book['name'], $book['id']);
+      }
+
+      $blocks['main']['options']['default_addressbook'] = array(
+        'title' => html::label($field_id, Q(rcube_label('defaultaddressbook'))),
+        'content' => $select_abook->show($config['default_addressbook']),
       );
     }
 

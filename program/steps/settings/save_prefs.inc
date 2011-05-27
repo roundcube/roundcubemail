@@ -37,6 +37,7 @@ switch ($CURR_SECTION)
     );
 
   break;
+
   case 'mailbox':
     $a_user_prefs = array(
       'preview_pane'         => isset($_POST['_preview_pane']) ? TRUE : FALSE,
@@ -48,6 +49,7 @@ switch ($CURR_SECTION)
     );
 
   break;
+
   case 'mailview':
     $a_user_prefs = array(
       'prefer_html'     => isset($_POST['_prefer_html']) ? TRUE : FALSE,
@@ -58,6 +60,7 @@ switch ($CURR_SECTION)
     );
 
   break;
+
   case 'compose':
     $a_user_prefs = array(
       'htmleditor'         => intval($_POST['_htmleditor']),
@@ -74,6 +77,14 @@ switch ($CURR_SECTION)
     );
 
   break;
+
+  case 'addressbook':
+    $a_user_prefs = array(
+      'default_addressbook' => get_input_value('_default_addressbook', RCUBE_INPUT_POST),
+    );
+
+  break;
+
   case 'server':
     $a_user_prefs = array(
       'read_when_deleted' => isset($_POST['_read_when_deleted']) ? TRUE : FALSE,
@@ -85,6 +96,7 @@ switch ($CURR_SECTION)
     );
 
   break;
+
   case 'folders':
     $a_user_prefs = array(
       'drafts_mbox' => get_input_value('_drafts_mbox', RCUBE_INPUT_POST),

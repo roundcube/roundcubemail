@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added option to specify to which address book add new contacts
 - Added plugin hook for keep-alive requests
 - Store user preferences in session when write-master is not available and session is stored in memcache, write them later
 - Improve performence of folder manager operations
