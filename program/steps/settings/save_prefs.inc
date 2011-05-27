@@ -80,7 +80,7 @@ switch ($CURR_SECTION)
 
   case 'addressbook':
     $a_user_prefs = array(
-      'default_addressbook' => get_input_value('_default_addressbook', RCUBE_INPUT_POST),
+      'default_addressbook' => get_input_value('_default_addressbook', RCUBE_INPUT_POST, true),
     );
 
   break;
@@ -99,10 +99,10 @@ switch ($CURR_SECTION)
 
   case 'folders':
     $a_user_prefs = array(
-      'drafts_mbox' => get_input_value('_drafts_mbox', RCUBE_INPUT_POST),
-      'sent_mbox'   => get_input_value('_sent_mbox', RCUBE_INPUT_POST),
-      'junk_mbox'   => get_input_value('_junk_mbox', RCUBE_INPUT_POST),
-      'trash_mbox'  => get_input_value('_trash_mbox', RCUBE_INPUT_POST),
+      'drafts_mbox' => get_input_value('_drafts_mbox', RCUBE_INPUT_POST, true),
+      'sent_mbox'   => get_input_value('_sent_mbox', RCUBE_INPUT_POST, true),
+      'junk_mbox'   => get_input_value('_junk_mbox', RCUBE_INPUT_POST, true),
+      'trash_mbox'  => get_input_value('_trash_mbox', RCUBE_INPUT_POST, true),
     );
 
   break;
