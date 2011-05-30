@@ -5,6 +5,7 @@
  | program/steps/utils/spell.inc                                         |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -18,15 +19,24 @@
 
 */
 
-// max. number of suggestions for one word
-define('MAX_SUGGESTIONS', 10);
+// read input
+$lang = get_input_value('lang', RCUBE_INPUT_GET);
+$data = file_get_contents('php://input');
 
-$tiny = !empty($_GET['tiny']) ? 'html_' : '';
+// Get data string
+$left = strpos($data, '<text>');
+$right = strrpos($data, '</text>');
+$data = substr($data, $left+6, $right-($left+6));
+$data = html_entity_decode($data, ENT_QUOTES, RCMAIL_CHARSET);
 
-if ($spell_engine = $RCMAIL->config->get('spellcheck_engine', 'googie')) {
-    include('spell_'.$tiny.$spell_engine.'.inc');
-}
+$spellchecker = new rcube_spellchecker($lang);
+$spellchecker->check($data);
+$result = $spellchecker->get_xml();
 
-header('HTTP/1.1 404 Not Found');
+// set response length
+header("Content-Length: " . strlen($result));
+
+// Don't use server's default Content-Type charset (#1486406)
+header("Content-Type: text/xml; charset=" . RCMAIL_CHARSET);
+print $result;
 exit;
-
