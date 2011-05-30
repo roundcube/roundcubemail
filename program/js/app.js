@@ -890,12 +890,14 @@ function rcube_webmail()
         self.clearTimeout(this.save_timer);
 
         // all checks passed, send message
-        var form = this.gui_objects.messageform,
+        var lang = this.spellcheck_lang(),
+          form = this.gui_objects.messageform,
           msgid = this.set_busy(true, 'sendingmessage');
 
         form.target = 'savetarget';
         form._draft.value = '';
         form.action = this.add_url(form.action, '_unlock', msgid);
+        form.action = this.add_url(form.action, '_lang', lang);
         form.submit();
 
         // clear timeout (sending could take longer)
@@ -3002,6 +3004,18 @@ function rcube_webmail()
   {
     this.spellcheck_ready = (s == 'ready' || s == 'no_error_found');
     this.enable_command('spellcheck', this.spellcheck_ready);
+  };
+
+  // get selected language
+  this.spellcheck_lang = function()
+  {
+    var ed;
+    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins.spellchecker) {
+      return ed.plugins.spellchecker.selectedLang;
+    }
+    else if (this.env.spellcheck) {
+      return GOOGIE_CUR_LANG;
+    }
   };
 
   this.set_draft_id = function(id)

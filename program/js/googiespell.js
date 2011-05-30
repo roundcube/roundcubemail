@@ -10,8 +10,8 @@
 	    Aleksander Machniak - alec [at] alec.pl
 */
 
-var SPELL_CUR_LANG = null;
-var GOOGIE_DEFAULT_LANG = 'en';
+var GOOGIE_CUR_LANG,
+    GOOGIE_DEFAULT_LANG = 'en';
 
 function GoogieSpell(img_dir, server_url) {
     var ref = this,
@@ -260,9 +260,9 @@ this.spellCheck = function(ignore) {
         	    ref.resumeEditingState();
     	    } else {
         	    if (!ref.custom_no_spelling_error)
-		        ref.flashNoSpellingErrorState();
-        	else
-            	ref.custom_no_spelling_error(ref);
+	    	        ref.flashNoSpellingErrorState();
+            	else
+                	ref.custom_no_spelling_error(ref);
     	    }
     	    ref.removeIndicator();
 	    }

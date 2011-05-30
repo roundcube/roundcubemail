@@ -413,7 +413,7 @@ if (!$savedraft) {
   if ($CONFIG['spellcheck_before_send'] && $CONFIG['enable_spellcheck']
     && empty($_SESSION['compose']['spell_checked'])
   ) {
-    $spellchecker = new rcube_spellchecker();
+    $spellchecker = new rcube_spellchecker(get_input_value('_lang', RCUBE_INPUT_GPC));
     $spell_result = $spellchecker->check($message_body, $isHtml);
 
     $_SESSION['compose']['spell_checked'] = true;

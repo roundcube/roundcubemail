@@ -52,7 +52,7 @@ class rcube_spellchecker
     {
         $this->rc = rcmail::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
-        $this->lang = $lang;
+        $this->lang = $lang ? $lang : 'en';
 
         if ($this->engine == 'pspell' && !extension_loaded('pspell')) {
             raise_error(array(
@@ -155,6 +155,29 @@ class rcube_spellchecker
         }
 
         $out .= '</spellresult>';
+
+        return $out;
+    }
+
+
+    /**
+     * Returns checking result (mispelled words with suggestions)
+     *
+     * @return array Spellchecking result. An array indexed by word.
+     */
+    function get()
+    {
+        $result = array();
+
+        foreach ($this->matches as $item) {
+            if ($this->engine == 'pspell') {
+                $word = $item[0];
+            }
+            else {
+                $word = mb_substr($this->content, $item[1], $item[2], RCMAIL_CHARSET);
+            }
+            $result[$word] = is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
+        }
 
         return $out;
     }
