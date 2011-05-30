@@ -409,6 +409,22 @@ if (!$savedraft) {
       "\r\n<html><body>\r\n" . $message_body;
   }
 
+  // Check spelling before send
+  if ($CONFIG['spellcheck_before_send'] && $CONFIG['enable_spellcheck']
+    && empty($_SESSION['compose']['spell_checked'])
+  ) {
+    $spellchecker = new rcube_spellchecker();
+    $spell_result = $spellchecker->check($message_body, $isHtml);
+
+    $_SESSION['compose']['spell_checked'] = true;
+
+    if (!$spell_result) {
+      $OUTPUT->show_message('mispellingsfound', 'error');
+      $OUTPUT->command('command', 'spellcheck');
+      $OUTPUT->send('iframe');
+    }
+  }
+
   // generic footer for all messages
   if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
       $footer = file_get_contents(realpath($CONFIG['generic_message_footer_html']));
@@ -420,6 +436,7 @@ if (!$savedraft) {
     if ($isHtml)
       $footer = '<pre>'.$footer.'</pre>';
   }
+
   if ($footer)
     $message_body .= "\r\n" . $footer;
   if ($isHtml)

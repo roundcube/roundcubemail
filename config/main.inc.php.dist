@@ -703,4 +703,7 @@ $rcmail_config['forward_attachment'] = false;
 // Note: Use '0' for built-in address book.
 $rcmail_config['default_addressbook'] = null;
 
+// Enables spell checking before sending a message.
+$rcmail_config['spellcheck_before_send'] = false;
+
 // end of config file

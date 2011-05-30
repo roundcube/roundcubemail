@@ -413,6 +413,7 @@ $labels['reqmdn'] = 'Always request a return receipt';
 $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultaddressbook'] = 'Add new contacts to the selected addressbook';
+$labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

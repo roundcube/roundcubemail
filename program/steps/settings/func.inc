@@ -545,6 +545,16 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['spellcheck_before_send']) && $config['enable_spellcheck']) {
+      $field_id = 'rcmfd_spellcheck_before_send';
+      $input_spellcheck = new html_checkbox(array('name' => '_spellcheck_before_send', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['spellcheck_before_send'] = array(
+        'title' => html::label($field_id, Q(rcube_label('spellcheckbeforesend'))),
+        'content' => $input_spellcheck->show($config['spellcheck_before_send']?1:0),
+      );
+    }
+
     if (!isset($no_override['show_sig'])) {
       $field_id = 'rcmfd_show_sig';
       $select_show_sig = new html_select(array('name' => '_show_sig', 'id' => $field_id));

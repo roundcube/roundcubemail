@@ -407,5 +407,6 @@ $labels['personalfolder'] = 'Folder prywatny';
 $labels['otherfolder'] = 'Folder innego użytkownika'; 
 $labels['sharedfolder'] = 'Folder współdzielony';
 $labels['defaultaddressbook'] = 'Nowe kontakty dodawaj do wybranej książki adresowej';
+$labels['spellcheckbeforesend'] = 'Przed wysłaniem wiadomości sprawdzaj pisownię';
 
 ?>

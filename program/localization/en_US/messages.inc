@@ -141,5 +141,6 @@ $messages['nametoolong'] = 'Name is too long';
 $messages['folderupdated'] = 'Folder updated successfully';
 $messages['foldercreated'] = 'Folder created successfully';
 $messages['invalidimageformat'] = 'Not a valid image format';
+$messages['mispellingsfound'] = 'Spelling errors detected in the message';
 
 ?>
