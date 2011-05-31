@@ -1090,28 +1090,28 @@ function format_date($date, $format=NULL)
   // an alternative would be to convert the date() format string to fit with strftime()
   $out = '';
   for($i=0; $i<strlen($format); $i++) {
-    if ($format{$i}=='\\')  // skip escape chars
+    if ($format[$i]=='\\')  // skip escape chars
       continue;
 
     // write char "as-is"
-    if ($format{$i}==' ' || $format{$i-1}=='\\')
-      $out .= $format{$i};
+    if ($format[$i]==' ' || $format{$i-1}=='\\')
+      $out .= $format[$i];
     // weekday (short)
-    else if ($format{$i}=='D')
+    else if ($format[$i]=='D')
       $out .= rcube_label(strtolower(date('D', $timestamp)));
     // weekday long
-    else if ($format{$i}=='l')
+    else if ($format[$i]=='l')
       $out .= rcube_label(strtolower(date('l', $timestamp)));
     // month name (short)
-    else if ($format{$i}=='M')
+    else if ($format[$i]=='M')
       $out .= rcube_label(strtolower(date('M', $timestamp)));
     // month name (long)
-    else if ($format{$i}=='F')
+    else if ($format[$i]=='F')
       $out .= rcube_label('long'.strtolower(date('M', $timestamp)));
-    else if ($format{$i}=='x')
+    else if ($format[$i]=='x')
       $out .= strftime('%x %X', $timestamp);
     else
-      $out .= date($format{$i}, $timestamp);
+      $out .= date($format[$i], $timestamp);
   }
 
   if ($today) {

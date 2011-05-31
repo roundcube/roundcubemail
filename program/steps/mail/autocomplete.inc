@@ -53,7 +53,7 @@ else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, tr
         foreach ($email_arr as $email) {
           $contact = format_email_recipient($email, $sql_arr['name']);
           // skip entries that don't match
-          if ($email_cnt > 1 && strpos($contact, $search) === false) {
+          if ($email_cnt > 1 && stripos($contact, $search) === false) {
             continue;
           }
           // when we've got more than one book, we need to skip duplicates
