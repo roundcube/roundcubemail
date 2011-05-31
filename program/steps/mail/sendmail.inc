@@ -411,7 +411,7 @@ if (!$savedraft) {
 
   // Check spelling before send
   if ($CONFIG['spellcheck_before_send'] && $CONFIG['enable_spellcheck']
-    && empty($_SESSION['compose']['spell_checked'])
+    && empty($_SESSION['compose']['spell_checked']) && !empty($message_body)
   ) {
     $spellchecker = new rcube_spellchecker(get_input_value('_lang', RCUBE_INPUT_GPC));
     $spell_result = $spellchecker->check($message_body, $isHtml);
@@ -419,8 +419,9 @@ if (!$savedraft) {
     $_SESSION['compose']['spell_checked'] = true;
 
     if (!$spell_result) {
+      $result = $isHtml ? $spellchecker->get_words() : $spellchecker->get_xml();
       $OUTPUT->show_message('mispellingsfound', 'error');
-      $OUTPUT->command('command', 'spellcheck');
+      $OUTPUT->command('spellcheck_resume', $isHtml, $result);
       $OUTPUT->send('iframe');
     }
   }

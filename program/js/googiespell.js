@@ -203,11 +203,48 @@ this.createXMLReq = function (text) {
 };
 
 this.spellCheck = function(ignore) {
+    this.prepare(ignore);
+
+    var req_text = this.escapeSpecial(this.orginal_text),
+        ref = this;
+
+    $.ajax({ type: 'POST', url: this.getUrl(),
+	data: this.createXMLReq(req_text), dataType: 'text',
+	    error: function(o) {
+            if (ref.custom_ajax_error)
+        	    ref.custom_ajax_error(ref);
+            else
+        	    alert('An error was encountered on the server. Please try again later.');
+            if (ref.main_controller) {
+        	    $(ref.spell_span).remove();
+        	    ref.removeIndicator();
+            }
+            ref.checkSpellingState();
+	    },
+        success: function(data) {
+    	    ref.processData(data);
+    	    if (!ref.results.length) {
+        	    if (!ref.custom_no_spelling_error)
+	    	        ref.flashNoSpellingErrorState();
+            	else
+                	ref.custom_no_spelling_error(ref);
+    	    }
+    	    ref.removeIndicator();
+	    }
+    });
+};
+
+
+//////
+// Spell checking functions
+/////
+this.prepare = function(ignore, no_indicator)
+{
     this.cnt_errors_fixed = 0;
     this.cnt_errors = 0;
     this.setStateChanged('checking_spell');
 
-    if (this.main_controller)
+    if (!no_indicator && this.main_controller)
         this.appendIndicator(this.spell_span);
 
     this.error_links = [];
@@ -235,44 +272,8 @@ this.spellCheck = function(ignore) {
         $(this.spell_span).unbind('click');
 
     this.orginal_text = $(this.text_area).val();
-    var req_text = this.escapeSpecial(this.orginal_text);
-    var ref = this;
-
-    $.ajax({ type: 'POST', url: this.getUrl(),
-	data: this.createXMLReq(req_text), dataType: 'text',
-	    error: function(o) {
-            if (ref.custom_ajax_error)
-        	    ref.custom_ajax_error(ref);
-            else
-        	    alert('An error was encountered on the server. Please try again later.');
-            if (ref.main_controller) {
-        	    $(ref.spell_span).remove();
-        	    ref.removeIndicator();
-            }
-            ref.checkSpellingState();
-	    },
-        success: function(data) {
-	        var r_text = data;
-    	    ref.results = ref.parseResult(r_text);
-    	    if (r_text.match(/<c.*>/) != null) {
-        	    // Before parsing be sure that errors were found
-        	    ref.showErrorsInIframe();
-        	    ref.resumeEditingState();
-    	    } else {
-        	    if (!ref.custom_no_spelling_error)
-	    	        ref.flashNoSpellingErrorState();
-            	else
-                	ref.custom_no_spelling_error(ref);
-    	    }
-    	    ref.removeIndicator();
-	    }
-    });
 };
 
-
-//////
-// Spell checking functions
-/////
 this.parseResult = function(r_text) {
     // Returns an array: result[item] -> ['attrs'], ['suggestions']
     var re_split_attr_c = /\w+="(\d+|true)"/g,
@@ -311,6 +312,14 @@ this.parseResult = function(r_text) {
     return results;
 };
 
+this.processData = function(data)
+{
+    this.results = this.parseResult(data);
+    if (this.results.length) {
+   	    this.showErrorsInIframe();
+   	    this.resumeEditingState();
+    }
+};
 
 //////
 // Error menu functions

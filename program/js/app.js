@@ -3018,6 +3018,24 @@ function rcube_webmail()
     }
   };
 
+  // resume spellchecking, highlight provided mispellings without new ajax request
+  this.spellcheck_resume = function(ishtml, data)
+  {
+    if (ishtml) {
+      var ed = tinyMCE.get(this.env.composebody);
+        sp = ed.plugins.spellchecker;
+
+      sp.active = 1;
+      sp._markWords(data);
+      ed.nodeChanged();
+    }
+    else {
+      var sp = this.env.spellcheck;
+      sp.prepare(false, true);
+      sp.processData(data);
+    }
+  }
+
   this.set_draft_id = function(id)
   {
     $("input[name='_draft_saveid']").val(id);
