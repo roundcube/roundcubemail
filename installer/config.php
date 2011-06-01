@@ -81,7 +81,7 @@ echo $check_ipcheck->show(intval($RCI->getprop('ip_check')), array('value' => 1)
 ?>
 <label for="cfgipcheck">Check client IP in session authorization</label><br />
 
-<p class="hint">This increases security but can cause sudden logouts when someone uses a proxy with changeing IPs.</p>
+<p class="hint">This increases security but can cause sudden logouts when someone uses a proxy with changing IPs.</p>
 </dd>
 
 <dt class="propname">des_key</dt>
@@ -93,7 +93,7 @@ echo $input_deskey->show($RCI->getprop('des_key'));
 
 ?>
 <div>This key is used to encrypt the users imap password before storing in the session record</div>
-<p class="hint">It's a random generated string to ensure that every installation has it's own key.
+<p class="hint">It's a random generated string to ensure that every installation has its own key.
 If you enter it manually please provide a string of exactly 24 chars.</p>
 </dd>
 
