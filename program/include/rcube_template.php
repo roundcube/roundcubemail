@@ -35,6 +35,7 @@ class rcube_template extends rcube_html_page
     private $pagetitle = '';
     private $message = null;
     private $js_env = array();
+    private $js_labels = array();
     private $js_commands = array();
     private $object_handlers = array();
     private $plugin_skin_path;
@@ -230,7 +231,7 @@ class rcube_template extends rcube_html_page
           $args = $args[0];
 
         foreach ($args as $name) {
-            $this->command('add_label', $name, rcube_label($name));
+            $this->js_labels[$name] = rcube_label($name);
         }
     }
 
@@ -266,6 +267,7 @@ class rcube_template extends rcube_html_page
     {
         $this->env = array();
         $this->js_env = array();
+        $this->js_labels = array();
         $this->js_commands = array();
         $this->object_handlers = array();
         parent::reset();
@@ -451,6 +453,9 @@ class rcube_template extends rcube_html_page
         $out = '';
         if (!$this->framed && !empty($this->js_env)) {
             $out .= JS_OBJECT_NAME . '.set_env('.json_serialize($this->js_env).");\n";
+        }
+        if (!empty($this->js_labels)) {
+            $this->command('add_label', $this->js_labels);
         }
         foreach ($this->js_commands as $i => $args) {
             $method = array_shift($args);

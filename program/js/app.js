@@ -70,9 +70,12 @@ function rcube_webmail()
   };
 
   // add a localized label to the client environment
-  this.add_label = function(key, value)
+  this.add_label = function(p, value)
   {
-    this.labels[key] = value;
+    if (typeof p == 'string')
+      this.labels[p] = value;
+    else if (typeof p == 'object')
+      $.extend(this.labels, p);
   };
 
   // add a button to the button list
