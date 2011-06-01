@@ -1205,7 +1205,7 @@ function rcmail_mailbox_list($attrib)
 
     $RCMAIL->output->add_gui_object('mailboxlist', $attrib['id']);
     $RCMAIL->output->set_env('mailboxes', $js_mailboxlist);
-    $RCMAIL->output->set_env('collapsed_folders', $RCMAIL->config->get('collapsed_folders'));
+    $RCMAIL->output->set_env('collapsed_folders', (string)$RCMAIL->config->get('collapsed_folders'));
   }
 
   return $out;

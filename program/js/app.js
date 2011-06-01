@@ -280,7 +280,6 @@ function rcube_webmail()
 
         break;
 
-
       case 'addressbook':
         if (this.gui_objects.folderlist)
           this.env.contactfolders = $.extend($.extend({}, this.env.address_sources), this.env.contactgroups);
@@ -1178,10 +1177,10 @@ function rcube_webmail()
 
   this.save_pref = function(prop)
   {
-    var request = {'_name': prop.name, '_value': urlencode(prop.value)};
+    var request = {'_name': prop.name, '_value': prop.value};
 
     if (prop.session)
-      request['_session'] = urlencode(prop.session);
+      request['_session'] = prop.session;
     if (prop.env)
       this.env[prop.env] = prop.value;
 
@@ -2606,12 +2605,13 @@ function rcube_webmail()
   // set class to read/unread
   this.toggle_read_status = function(flag, a_uids)
   {
-    // mark all message rows as read/unread
-    for (var i=0; i<a_uids.length; i++)
-      this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
-
-    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag,
+    var i, len = a_uids.length,
+      url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag,
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
+
+    // mark all message rows as read/unread
+    for (i=0; i<len; i++)
+      this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
 
     // also send search request to get the right messages
     if (this.env.search_request)
@@ -2619,19 +2619,20 @@ function rcube_webmail()
 
     this.http_post('mark', url, lock);
 
-    for (var i=0; i<a_uids.length; i++)
+    for (i=0; i<len; i++)
       this.update_thread_root(a_uids[i], flag);
   };
 
   // set image to flagged or unflagged
   this.toggle_flagged_status = function(flag, a_uids)
   {
-    // mark all message rows as flagged/unflagged
-    for (var i=0; i<a_uids.length; i++)
-      this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
-
-    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag,
+    var i, len = a_uids.length,
+      url = '_uid='+this.uids_to_list(a_uids)+'&_flag='+flag,
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
+
+    // mark all message rows as flagged/unflagged
+    for (i=0; i<len; i++)
+      this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
 
     // also send search request to get the right messages
     if (this.env.search_request)
@@ -2643,9 +2644,11 @@ function rcube_webmail()
   // mark all message rows as deleted/undeleted
   this.toggle_delete_status = function(a_uids)
   {
-    var rows = this.message_list ? this.message_list.rows : [];
+    var len = a_uids.length,
+      i, uid, all_deleted = true,
+      rows = this.message_list ? this.message_list.rows : [];
 
-    if (a_uids.length==1) {
+    if (len == 1) {
       if (!rows.length || (rows[a_uids[0]] && !rows[a_uids[0]].deleted))
         this.flag_as_deleted(a_uids);
       else
@@ -2654,8 +2657,7 @@ function rcube_webmail()
       return true;
     }
 
-    var uid, all_deleted = true;
-    for (var i=0, len=a_uids.length; i<len; i++) {
+    for (i=0; i<len; i++) {
       uid = a_uids[i];
       if (rows[uid] && !rows[uid].deleted) {
         all_deleted = false;
@@ -2673,11 +2675,12 @@ function rcube_webmail()
 
   this.flag_as_undeleted = function(a_uids)
   {
-    for (var i=0, len=a_uids.length; i<len; i++)
-      this.set_message(a_uids[i], 'deleted', false);
-
-    var url = '_uid='+this.uids_to_list(a_uids)+'&_flag=undelete',
+    var i, len=a_uids.length,
+      url = '_uid='+this.uids_to_list(a_uids)+'&_flag=undelete',
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
+
+    for (i=0; i<len; i++)
+      this.set_message(a_uids[i], 'deleted', false);
 
     // also send search request to get the right messages
     if (this.env.search_request)
@@ -2744,13 +2747,13 @@ function rcube_webmail()
   // argument should be a coma-separated list of uids
   this.flag_deleted_as_read = function(uids)
   {
-    var icn_src, uid,
-      rows = this.message_list ? this.message_list.rows : [],
-      str = String(uids),
-      a_uids = str.split(',');
+    var icn_src, uid, i, len,
+      rows = this.message_list ? this.message_list.rows : [];
 
-    for (var i=0; i<a_uids.length; i++) {
-      uid = a_uids[i];
+    uids = String(uids).split(',');
+
+    for (i=0, len=uids.length; i<len; i++) {
+      uid = uids[i];
       if (rows[uid])
         this.set_message(uid, 'unread', false);
     }
