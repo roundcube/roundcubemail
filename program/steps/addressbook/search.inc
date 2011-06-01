@@ -22,22 +22,35 @@
 $CONTACTS->set_page(1);
 $_SESSION['page'] = 1;
 
+// get input
 $search = trim(get_input_value('_q', RCUBE_INPUT_GET, true));
-$search_request = md5('addr'.$search);
+$fields = explode(',', get_input_value('_headers', RCUBE_INPUT_GET));
+
+if (empty($fields)) {
+    $fields = $SEARCH_MODS_DEFAULT;
+}
+
+$search_request = md5('addr'.$search.implode($fields, ','));
+
+// update search_mods setting
+$search_mods = array_fill_keys($fields, 1);
+$RCMAIL->user->save_prefs(array('addressbook_search_mods' => $search_mods));
+
+if ($fields['all'] || count($fields) == count($SEARCH_MODS_DEFAULT)) {
+    $fields = '*';
+}
 
 // get contacts for this user
-$result = $CONTACTS->search('*', $search);
+$result = $CONTACTS->search($fields, $search);
 
 // save search settings in session
 $_SESSION['search'][$search_request] = $CONTACTS->get_search_set();
 
-if ($result->count > 0)
-{
-  // create javascript list
-  rcmail_js_contacts_list($result);
+if ($result->count > 0) {
+    // create javascript list
+    rcmail_js_contacts_list($result);
 }
-else
-{
+else {
   $OUTPUT->show_message('nocontactsfound', 'notice');
 }
 
@@ -45,6 +58,6 @@ else
 $OUTPUT->set_env('search_request', $search_request);
 $OUTPUT->set_env('pagecount', ceil($result->count / $CONTACTS->page_size));
 $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text());
-  
+
 // send response
 $OUTPUT->send();

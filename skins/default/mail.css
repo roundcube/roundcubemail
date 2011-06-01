@@ -154,21 +154,6 @@
   padding-left: 2px;
 }
 
-#searchmenu
-{
-  width: 160px;
-}
-
-#searchmenu ul.toolbarmenu
-{
-  margin: 0;
-}
-
-#searchmenu ul.toolbarmenu li
-{
-  margin: 1px 4px 1px;
-}
-
 #messagemenu li a.active:hover,
 #markmessagemenu li a.active:hover
 {

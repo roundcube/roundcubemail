@@ -674,6 +674,9 @@ $rcmail_config['force_7bit'] = false;
 // Please note that folder names should to be in sync with $rcmail_config['default_imap_folders']
 $rcmail_config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'from'=>1), 'Sent' => array('subject'=>1, 'to'=>1));
 
+// Defaults of the addressbook search field configuration.
+$rcmail_config['addressbook_search_mods'] = null;  // Example: array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
+
 // 'Delete always'
 // This setting reflects if mail should be always deleted
 // when moving to Trash fails. This is necessary in some setups

@@ -617,7 +617,6 @@ table.records-table tr.unfocused td
   border: none;
 }
 
-
 /***** roundcube webmail pre-defined classes *****/
 
 #rcmversion
@@ -813,6 +812,21 @@ ul.toolbarmenu li.separator_above
   border-top: 1px solid #ccc;
   margin-top: 2px;
   padding-top: 2px;
+}
+
+#searchmenu
+{
+  width: 160px;
+}
+
+#searchmenu ul.toolbarmenu
+{
+  margin: 0;
+}
+
+#searchmenu ul.toolbarmenu li
+{
+  margin: 1px 4px 1px;
 }
 
 

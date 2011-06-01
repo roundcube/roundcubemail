@@ -479,21 +479,20 @@ class rcube_ldap extends rcube_addressbook
 
         $filter = '(|';
         $wc = !$strict && $this->prop['fuzzy_search'] ? '*' : '';
-        if ($fields != '*')
+        if ($fields == '*')
         {
             // search_fields are required for fulltext search
-            if (!$this->prop['search_fields'])
+            if (empty($this->prop['search_fields']))
             {
                 $this->set_error(self::ERROR_SEARCH, 'nofulltextsearch');
                 $this->result = new rcube_result_set();
                 return $this->result;
             }
-        }
-        
-        if (is_array($this->prop['search_fields']))
-        {
-            foreach ($this->prop['search_fields'] as $k => $field)
-                $filter .= "($field=$wc" . $this->_quote_string($value) . "$wc)";
+            if (is_array($this->prop['search_fields']))
+            {
+                foreach ($this->prop['search_fields'] as $k => $field)
+                    $filter .= "($field=$wc" . $this->_quote_string($value) . "$wc)";
+            }
         }
         else
         {

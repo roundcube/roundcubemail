@@ -192,7 +192,7 @@ class rcube_contacts extends rcube_addressbook
 
         // determine whether we have to parse the vcard or if only db cols are requested
         $read_vcard = !$cols || count(array_intersect($cols, $this->table_cols)) < count($cols);
-        
+
         while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
             $sql_arr['ID'] = $sql_arr[$this->primary_key];
 
@@ -255,17 +255,18 @@ class rcube_contacts extends rcube_addressbook
                 $ids     = $this->db->array2list($ids, 'integer');
                 $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
             }
-            else if ($strict) {
-                $where[] = $this->db->quoteIdentifier($col).' = '.$this->db->quote($value);
-            }
             else if ($col == '*') {
                 $words = array();
                 foreach(explode(" ", self::normalize_string($value)) as $word)
                     $words[] = $this->db->ilike('words', '%'.$word.'%');
                 $where[] = '(' . join(' AND ', $words) . ')';
-              }
-            else
+            }
+            else if ($strict) {
+                $where[] = $this->db->quoteIdentifier($col).' = '.$this->db->quote($value);
+            }
+            else if (in_array($col, $this->table_cols)) {
                 $where[] = $this->db->ilike($col, '%'.$value.'%');
+            }
         }
 
         foreach ($required as $col) {

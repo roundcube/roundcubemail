@@ -19,6 +19,8 @@
 
 */
 
+$SEARCH_MODS_DEFAULT = array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
+
 // add list of address sources to client env
 $js_list = $RCMAIL->get_address_sources();
 
@@ -39,7 +41,7 @@ if (!empty($_GET['_page']))
     $CONTACTS->set_page(($_SESSION['page'] = intval($_GET['_page'])));
 else
     $CONTACTS->set_page(isset($_SESSION['page']) ?$_SESSION['page'] : 1);
-  
+
 if (!empty($_REQUEST['_gid']))
     $CONTACTS->set_group(get_input_value('_gid', RCUBE_INPUT_GPC));
 
@@ -51,6 +53,8 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 $OUTPUT->set_env('source', $source ? $source : '0');
 $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
 if (!$OUTPUT->ajax_call) {
+    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
+    $OUTPUT->set_env('search_mods', $search_mods);
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_pagetitle(rcube_label('addressbook'));
 }

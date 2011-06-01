@@ -186,9 +186,25 @@ searchmenu: function(show)
         .find(':checked').prop('checked', false);
 
     if (rcmail.env.search_mods) {
-      var search_mods = rcmail.env.search_mods[rcmail.env.mailbox] ? rcmail.env.search_mods[rcmail.env.mailbox] : rcmail.env.search_mods['*'];
-      for (var n in search_mods)
-        $('#s_mod_' + n).prop('checked', true);
+      var n, mbox = rcmail.env.mailbox, mods = rcmail.env.search_mods;
+
+      if (rcmail.env.task != 'addressbook') {
+        mods = mods[mbox] ? mods[mbox] : mods['*'];
+
+        for (n in mods)
+          $('#s_mod_' + n).prop('checked', true);
+      }
+      else {
+        if (mods['*'])
+          $('input:checkbox[name="s_mods[]"]').map(function() {
+            this.checked = true;
+            this.disabled = this.value != '*';
+          });
+        else {
+          for (n in mods)
+            $('#s_mod_' + n).prop('checked', true);
+        }
+      }
     }
   }
   obj[show?'show':'hide']();
@@ -196,16 +212,46 @@ searchmenu: function(show)
 
 set_searchmod: function(elem)
 {
-  if (!rcmail.env.search_mods)
-    rcmail.env.search_mods = {};
+  var task = rcmail.env.task,
+    mods = rcmail.env.search_mods,
+    mbox = rcmail.env.mailbox;
 
-  if (!rcmail.env.search_mods[rcmail.env.mailbox])
-    rcmail.env.search_mods[rcmail.env.mailbox] = rcube_clone_object(rcmail.env.search_mods['*']);
+  if (!mods)
+    mods = {};
 
-  if (!elem.checked)
-    delete(rcmail.env.search_mods[rcmail.env.mailbox][elem.value]);
-  else
-    rcmail.env.search_mods[rcmail.env.mailbox][elem.value] = elem.value;
+  if (task == 'mail') {
+    if (!mods[mbox])
+      mods[mbox] = rcube_clone_object(mods['*']);
+    if (!elem.checked)
+      delete(mods[mbox][elem.value]);
+    else
+      mods[mbox][elem.value] = 1;
+  }
+  else { //addressbook
+    if (!elem.checked)
+      delete(mods[elem.value]);
+    else
+      mods[elem.value] = 1;
+
+    // mark all fields
+    if (elem.value == '*') {
+      $('input:checkbox[name="s_mods[]"]').map(function() {
+        if (this == elem)
+          return;
+
+        if (elem.checked) {
+          mods[this.value] = 1;
+          this.checked = true;
+          this.disabled = true;
+        }
+        else {
+          this.disabled = false;
+        }
+      });
+    }
+  }
+
+  rcmail.env.search_mods = mods;
 },
 
 listmenu: function(show)

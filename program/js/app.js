@@ -3332,21 +3332,24 @@ function rcube_webmail()
   this.qsearch = function(value)
   {
     if (value != '') {
-      var addurl = '';
+      var n, addurl = '', mods_arr = [],
+        mods = this.env.search_mods,
+        mbox = this.env.mailbox,
+        lock = this.set_busy(true, 'searching');
+
       if (this.message_list) {
         this.clear_message_list();
-        if (this.env.search_mods) {
-          var mods = this.env.search_mods[this.env.mailbox] ? this.env.search_mods[this.env.mailbox] : this.env.search_mods['*'];
-          if (mods) {
-            var head_arr = [];
-            for (var n in mods)
-              head_arr.push(n);
-            addurl += '&_headers='+head_arr.join(',');
-          }
-        }
+        if (mods)
+          mods = mods[mbox] ? mods[mbox] : mods['*'];
       } else if (this.contact_list) {
         this.contact_list.clear(true);
         this.show_contentframe(false);
+      }
+
+      if (mods) {
+        for (n in mods)
+          mods_arr.push(n);
+        addurl += '&_headers='+mods_arr.join(',');
       }
 
       if (this.gui_objects.search_filter)
@@ -3354,9 +3357,8 @@ function rcube_webmail()
 
       // reset vars
       this.env.current_page = 1;
-      var lock = this.set_busy(true, 'searching');
       this.http_request('search', '_q='+urlencode(value)
-        + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : '')
+        + (mbox ? '&_mbox='+urlencode(mbox) : '')
         + (this.env.source ? '&_source='+urlencode(this.env.source) : '')
         + (this.env.group ? '&_gid='+urlencode(this.env.group) : '')
         + (addurl ? addurl : ''), lock);

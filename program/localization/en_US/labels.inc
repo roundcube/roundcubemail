@@ -271,6 +271,7 @@ $labels['female'] = 'female';
 $labels['manager'] = 'Manager';
 $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
+$labels['allfields'] = 'All fields';
 
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';

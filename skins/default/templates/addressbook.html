@@ -29,9 +29,23 @@
 </div>
 
 <div id="quicksearchbar">
-<roundcube:button name="searchmenulink" id="searchmenulink" image="/images/icons/glass.png" />
+<roundcube:button name="searchmenulink" id="searchmenulink" image="/images/icons/glass_roll.png" onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" />
 <roundcube:object name="searchform" id="quicksearchbox" />
 <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
+</div>
+
+<div id="searchmenu" class="popupmenu">
+  <ul class="toolbarmenu">
+    <li><input type="checkbox" name="s_mods[]" value="name" id="s_mod_name" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_name"><roundcube:label name="name" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="firstname" id="s_mod_firstname" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_firstname"><roundcube:label name="firstname" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="surname" id="s_mod_surname" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_surname"><roundcube:label name="surname" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="email" id="s_mod_email" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_email"><roundcube:label name="email" /></label></li>
+    <li><input type="checkbox" name="s_mods[]" value="*" id="s_mod_all" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_all"><roundcube:label name="allfields" /></label></li>
+<!--
+    <li class="separator_below">
+    <li><roundcube:button command="advsearch" type="link" label="advsearch" style="padding-left: 0" classAct="active" /></li>
+-->
+  </ul>
 </div>
 
 <div id="directorylistbox">
