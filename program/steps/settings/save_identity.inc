@@ -116,9 +116,12 @@ else if (IDENTITIES_LEVEL < 2)
   $plugin = $RCMAIL->plugins->exec_hook('identity_create', array('record' => $save_data));
   $save_data = $plugin['record'];
 
-  $save_data['email']    = rcube_idn_to_ascii($save_data['email']);
-  $save_data['bcc']      = rcube_idn_to_ascii($save_data['bcc']);
-  $save_data['reply-to'] = rcube_idn_to_ascii($save_data['reply-to']);
+  if ($save_data['email'])
+    $save_data['email']    = rcube_idn_to_ascii($save_data['email']);
+  if ($save_data['bcc'])
+    $save_data['bcc']      = rcube_idn_to_ascii($save_data['bcc']);
+  if ($save_data['reply-to'])
+    $save_data['reply-to'] = rcube_idn_to_ascii($save_data['reply-to']);
 
   if (!$plugin['abort'])
     $insert_id = $save_data['email'] ? $USER->insert_identity($save_data) : null;
@@ -127,7 +130,7 @@ else if (IDENTITIES_LEVEL < 2)
 
   if ($insert_id) {
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
-    
+
     $_GET['_iid'] = $insert_id;
 
     if (!empty($_POST['_standard']))
