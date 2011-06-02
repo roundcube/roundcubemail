@@ -1,7 +1,6 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix identities "reply-to" and "bcc" fields have a bogus value when left empty (#1487943)
 - Add popup with basic fields selection for addressbook search
 - Case-insensitive matching in autocompletion (#1487933)
 - Added option to force spellchecking before sending a message (#1485458)
@@ -20,16 +19,11 @@ CHANGELOG Roundcube Webmail
 - Add forward-as-attachment feature
 - jQuery-1.6.1 (#1487913, #1487144)
 - Improve display name composition when saving contacts (#1487143)
-- Fixed handling of folder with name "0" in folder selector
 - Fix problems with subfolders of INBOX folder on some IMAP servers (#1487725)
 - Fix handling of folders that doesn't belong to any namespace (#1487637)
-- Fix bug where messages were deleted instead moved to trash folder after Shift key was used (#1487902)
 - Enable multiselection for attachments uploading in capable browsers (#1485969)
 - Add possibility to change HTML editor configuration by skin
 - Fix a bug where selecting too many contacts would produce too large URI request (#1487892)
-- Fix relative URLs handling according to a <base> in HTML (#1487889)
-- Fix handling of top-level domains with more than 5 chars or unicode chars (#1487883)
-- Fix usage of non-standard HTTP error codes (#1487797)
 - Improve performance by including files with absolute path (#1487849)
 - Move folder name truncation to client/skin (#1485412)
 - Added plugin hook for request token creation
@@ -52,6 +46,18 @@ CHANGELOG Roundcube Webmail
 - Replying to a sent message puts the old recipient as the new recipient (#1487074)
 - Fulltext search over (almost) all data for contacts
 - Extend address book with rich contact information
+
+RELEASE 0.5.3
+-------------
+- Fix identities "reply-to" and "bcc" fields have a bogus value when left empty (#1487943)
+- Fix issue which cases IMAP disconnection when encrypt() method was used (#1487900)
+- Fix some CSS issues in Settings for Internet Explorer 
+- Fixed handling of folder with name "0" in folder selector
+- Fix bug where messages were deleted instead moved to trash folder after Shift key was used (#1487902)
+- Fix relative URLs handling according to a <base> in HTML (#1487889)
+- Fix handling of top-level domains with more than 5 chars or unicode chars (#1487883)
+- Fix usage of non-standard HTTP error codes (#1487797)
+- Fix PHP warning on mistaken in_array() usage (#1487901)
 
 RELEASE 0.5.2
 -------------
