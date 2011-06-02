@@ -575,7 +575,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     '',
     '<html>',
   );
-  $html = preg_replace($html_search, $html_replace, $html);
+  $html = preg_replace($html_search, $html_replace, trim($html));
 
   // PCRE errors handling (#1486856), should we use something like for every preg_* use?
   if ($html === null && ($preg_error = preg_last_error()) != PREG_NO_ERROR) {
