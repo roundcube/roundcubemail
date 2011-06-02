@@ -1809,6 +1809,10 @@ function rcube_idn_convert($input, $is_utf=false)
 
   $domain = $is_utf ? idn_to_ascii($domain) : idn_to_utf8($domain);
 
+  if ($domain === false) {
+    return '';
+  }
+
   return $at ? $user . '@' . $domain : $domain;
 }
 
