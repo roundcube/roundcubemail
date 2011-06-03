@@ -284,7 +284,7 @@ class rcube_contacts extends rcube_addressbook
                         $where[] = '(' . join(' AND ', $words) . ')';
                     }
                     if (is_array($value))
-                        $post_search[$col] = $strict ? $val : mb_strtolower($val);
+                        $post_search[$col] = mb_strtolower($val);
                 }
             }
         }
@@ -331,9 +331,8 @@ class rcube_contacts extends rcube_addressbook
                             if (is_array($value)) {
                                 $value = implode($value);
                             }
-                            if (($strict && $value == $search)
-                                || (!$strict && strpos(mb_strtolower($value), $search) !== false)
-                            ) {
+                            $value = mb_strtolower($value);
+                            if (($strict && $value == $search) || (!$strict && strpos($value, $search) !== false)) {
                                 $found++;
                                 break;
                             }
@@ -349,7 +348,14 @@ class rcube_contacts extends rcube_addressbook
             // build WHERE clause
             $ids = $this->db->array2list($ids, 'integer');
             $where = 'c.' . $this->primary_key.' IN ('.$ids.')';
+            // reset counter
             unset($this->cache['count']);
+
+            // when we know we have an empty result
+            if ($ids == '0') {
+                $this->set_search_set($where);
+                return ($this->result = new rcube_result_set(0, 0));
+            }
         }
 
         if (!empty($where)) {
