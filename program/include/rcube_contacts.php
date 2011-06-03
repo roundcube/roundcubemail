@@ -321,7 +321,7 @@ class rcube_contacts extends rcube_addressbook
                 $this->list_records(null, $i, true);
                 while ($row = $this->result->next()) {
                     $id = $row[$this->primary_key];
-                    $found = 0;
+                    $found = array();
                     foreach (preg_grep($regexp, array_keys($row)) as $col) {
                         $pos     = strpos($col, ':');
                         $colname = $pos ? substr($col, 0, $pos) : $col;
@@ -333,13 +333,13 @@ class rcube_contacts extends rcube_addressbook
                             }
                             $value = mb_strtolower($value);
                             if (($strict && $value == $search) || (!$strict && strpos($value, $search) !== false)) {
-                                $found++;
+                                $found[$colname] = true;
                                 break;
                             }
                         }
                     }
                     // all fields match
-                    if ($found >= $scnt) {
+                    if (count($found) >= $scnt) {
                         $ids[] = $id;
                     }
                 }
