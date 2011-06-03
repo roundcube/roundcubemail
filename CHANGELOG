@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use 'address_template' config option when adding a new address block (#1487944)
 - Added addressbook advanced search
 - Add popup with basic fields selection for addressbook search
 - Case-insensitive matching in autocompletion (#1487933)

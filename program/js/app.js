@@ -4109,14 +4109,27 @@ function rcube_webmail()
           this.init_edit_field(col, input);
         }
         else if (colprop.type == 'composite') {
-          var childcol, cp, first;
-          for (childcol in colprop.childs) {
+          var childcol, cp, first, templ, cols = [], suffices = [];
+          // read template for composite field order
+          if ((templ = this.env[col+'_template'])) {
+            for (var j=0; j < templ.length; j++) {
+              cols.push(templ[j][1]);
+              suffices.push(templ[j][2]);
+            }
+          }
+          else {  // list fields according to appearance in colprop
+            for (childcol in colprop.childs)
+              cols.push(childcol);
+          }
+          
+          for (var i=0; i < cols.length; i++) {
+            childcol = cols[i];
             cp = colprop.childs[childcol];
             input = $('<input>')
               .addClass('ff_'+childcol)
-              .attr({type: 'text', name: '_'+childcol+name_suffix, size: cp.size})
+              .attr({ type: 'text', name: '_'+childcol+name_suffix, size: cp.size })
               .appendTo(cell);
-            cell.append(" ");
+            cell.append(suffices[i] || " ");
             this.init_edit_field(childcol, input);
             if (!first) first = input;
           }
