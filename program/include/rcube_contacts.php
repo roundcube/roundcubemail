@@ -339,7 +339,7 @@ class rcube_contacts extends rcube_addressbook
                         }
                     }
                     // all fields match
-                    if ($found == $scnt) {
+                    if ($found >= $scnt) {
                         $ids[] = $id;
                     }
                 }
