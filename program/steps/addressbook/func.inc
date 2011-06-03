@@ -21,15 +21,21 @@
 
 $SEARCH_MODS_DEFAULT = array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
 
-// add list of address sources to client env
-$js_list = $RCMAIL->get_address_sources();
-
 // select source
 $source = get_input_value('_source', RCUBE_INPUT_GPC);
 
-// if source is not set use first directory
-if (empty($source))
-    $source = $js_list[key($js_list)]['id'];
+if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
+    // add list of address sources to client env
+    $js_list = $RCMAIL->get_address_sources();
+
+    // if source is not set use first directory
+    if (empty($source))
+        $source = $js_list[key($js_list)]['id'];
+
+    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
+    $OUTPUT->set_env('search_mods', $search_mods);
+    $OUTPUT->set_env('address_sources', $js_list);
+}
 
 // instantiate a contacts object according to the given source
 $CONTACTS = $RCMAIL->get_address_book($source);
@@ -44,18 +50,17 @@ else
 
 if (!empty($_REQUEST['_gid']))
     $CONTACTS->set_group(get_input_value('_gid', RCUBE_INPUT_GPC));
-
+/*
 // set message set for search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
     $CONTACTS->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
-
+*/
 // set data source env
 $OUTPUT->set_env('source', $source ? $source : '0');
 $OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
 if (!$OUTPUT->ajax_call) {
     $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
     $OUTPUT->set_env('search_mods', $search_mods);
-    $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_pagetitle(rcube_label('addressbook'));
 }
 

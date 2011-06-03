@@ -19,6 +19,10 @@
 
 */
 
+// set message set for search result
+if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
+    $CONTACTS->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
+
 // get contacts for this user
 $result = $CONTACTS->list_records(array('name'));
 

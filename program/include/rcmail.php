@@ -381,18 +381,12 @@ class rcmail
    */
   public function get_address_book($id, $writeable = false)
   {
-    $contacts = null;
+    $contacts    = null;
     $ldap_config = (array)$this->config->get('ldap_public');
-    $abook_type = strtolower($this->config->get('address_book_type'));
+    $abook_type  = strtolower($this->config->get('address_book_type'));
 
-    $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
-
-    // plugin returned instance of a rcube_addressbook
-    if ($plugin['instance'] instanceof rcube_addressbook) {
-      $contacts = $plugin['instance'];
-    }
     // use existing instance
-    else if (isset($this->address_books[$id]) && is_a($this->address_books[$id], 'rcube_addressbook') && (!$writeable || !$this->address_books[$id]->readonly)) {
+    if (isset($this->address_books[$id]) && is_a($this->address_books[$id], 'rcube_addressbook') && (!$writeable || !$this->address_books[$id]->readonly)) {
       $contacts = $this->address_books[$id];
     }
     else if ($id && $ldap_config[$id]) {
@@ -401,17 +395,25 @@ class rcmail
     else if ($id === '0') {
       $contacts = new rcube_contacts($this->db, $this->user->ID);
     }
-    else if ($abook_type == 'ldap') {
-      // Use the first writable LDAP address book.
-      foreach ($ldap_config as $id => $prop) {
-        if (!$writeable || $prop['writable']) {
-          $contacts = new rcube_ldap($prop, $this->config->get('ldap_debug'), $this->config->mail_domain($_SESSION['imap_host']));
-          break;
+    else {
+      $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
+
+      // plugin returned instance of a rcube_addressbook
+      if ($plugin['instance'] instanceof rcube_addressbook) {
+        $contacts = $plugin['instance'];
+      }
+      else if ($abook_type == 'ldap') {
+        // Use the first writable LDAP address book.
+        foreach ($ldap_config as $id => $prop) {
+          if (!$writeable || $prop['writable']) {
+            $contacts = new rcube_ldap($prop, $this->config->get('ldap_debug'), $this->config->mail_domain($_SESSION['imap_host']));
+            break;
+          }
         }
       }
-    }
-    else { // $id == 'sql'
-      $contacts = new rcube_contacts($this->db, $this->user->ID);
+      else { // $id == 'sql'
+        $contacts = new rcube_contacts($this->db, $this->user->ID);
+      }
     }
 
     // add to the 'books' array for shutdown function
