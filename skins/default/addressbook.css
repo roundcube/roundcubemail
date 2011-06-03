@@ -72,6 +72,14 @@
   background-position: -162px 0;
 }
 
+#abooktoolbar a.search {
+  background-position: -170px 0;
+}
+
+#abooktoolbar a.searchSel {
+  background-position: -170px -32px;
+}
+
 #abookcountbar
 {
   margin-top: 4px;
@@ -208,12 +216,6 @@ body.iframe,
   border: none;
 }
 
-#contact-details table td.title
-{
-  font-weight: bold;
-  text-align: right;
-}
-
 #contacttabs
 {
 	position: relative;
@@ -335,7 +337,7 @@ fieldset.contactfieldgroup legend
 	position: absolute;
 	top: 0;
 	left: 2px;
-	width: 90px;
+	width: 110px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -355,7 +357,7 @@ fieldset.contactfieldgroup legend
 
 .contactfieldgroup .contactfieldcontent
 {
-	padding-left: 100px;
+	padding-left: 120px;
 	min-height: 1em;
 	line-height: 1.3em;
 }

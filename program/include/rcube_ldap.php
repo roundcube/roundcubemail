@@ -451,12 +451,13 @@ class rcube_ldap extends rcube_addressbook
     /**
     * Search contacts
     *
-    * @param array   List of fields to search in
-    * @param string  Search value
-    * @param boolean True for strict, False for partial (fuzzy) matching
-    * @param boolean True if results are requested, False if count only
-    * @param boolean (Not used)
-    * @param array   List of fields that cannot be empty
+    * @param mixed   $fields   The field name of array of field names to search in
+    * @param mixed   $value    Search value (or array of values when $fields is array)
+    * @param boolean $strict   True for strict, False for partial (fuzzy) matching
+    * @param boolean $select   True if results are requested, False if count only
+    * @param boolean $nocount  (Not used)
+    * @param array   $required List of fields that cannot be empty
+    *
     * @return array  Indexed list of contact records and 'count' value
     */
     function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
@@ -477,8 +478,10 @@ class rcube_ldap extends rcube_addressbook
             return $result;
         }
 
-        $filter = '(|';
-        $wc = !$strict && $this->prop['fuzzy_search'] ? '*' : '';
+        // use AND operator for advanced searches
+        $filter = is_array($value) ? '(&' : '(|';
+        $wc     = !$strict && $this->prop['fuzzy_search'] ? '*' : '';
+
         if ($fields == '*')
         {
             // search_fields are required for fulltext search
@@ -490,15 +493,19 @@ class rcube_ldap extends rcube_addressbook
             }
             if (is_array($this->prop['search_fields']))
             {
-                foreach ($this->prop['search_fields'] as $k => $field)
+                foreach ($this->prop['search_fields'] as $field) {
                     $filter .= "($field=$wc" . $this->_quote_string($value) . "$wc)";
+                }
             }
         }
         else
         {
-            foreach ((array)$fields as $field)
-                if ($f = $this->_map_field($field))
-                    $filter .= "($f=$wc" . $this->_quote_string($value) . "$wc)";
+            foreach ((array)$fields as $idx => $field) {
+                $val = is_array($value) ? $value[$idx] : $value;
+                if ($f = $this->_map_field($field)) {
+                    $filter .= "($f=$wc" . $this->_quote_string($val) . "$wc)";
+                }
+            }
         }
         $filter .= ')';
 

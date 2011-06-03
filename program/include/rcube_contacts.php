@@ -232,12 +232,13 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Search contacts
      *
-     * @param array   List of fields to search in
-     * @param string  Search value
-     * @param boolean True for strict (=), False for partial (LIKE) matching
-     * @param boolean True if results are requested, False if count only
-     * @param boolean True to skip the count query (select only)
-     * @param array   List of fields that cannot be empty
+     * @param mixed   $fields   The field name of array of field names to search in
+     * @param mixed   $value    Search value (or array of values when $fields is array)
+     * @param boolean $strict   True for strict (=), False for partial (LIKE) matching
+     * @param boolean $select   True if results are requested, False if count only
+     * @param boolean $nocount  True to skip the count query (select only)
+     * @param array   $required List of fields that cannot be empty
+     *
      * @return object rcube_result_set Contact records and 'count' value
      */
     function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
@@ -249,23 +250,42 @@ class rcube_contacts extends rcube_addressbook
 
         $where = $and_where = array();
 
-        foreach ($fields as $col) {
+        foreach ($fields as $idx => $col) {
+            // direct ID search
             if ($col == 'ID' || $col == $this->primary_key) {
                 $ids     = !is_array($value) ? explode(',', $value) : $value;
                 $ids     = $this->db->array2list($ids, 'integer');
                 $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
+                continue;
             }
+            // fulltext search in all fields
             else if ($col == '*') {
                 $words = array();
-                foreach(explode(" ", self::normalize_string($value)) as $word)
+                foreach (explode(" ", self::normalize_string($value)) as $word)
                     $words[] = $this->db->ilike('words', '%'.$word.'%');
                 $where[] = '(' . join(' AND ', $words) . ')';
             }
-            else if ($strict) {
-                $where[] = $this->db->quoteIdentifier($col).' = '.$this->db->quote($value);
-            }
-            else if (in_array($col, $this->table_cols)) {
-                $where[] = $this->db->ilike($col, '%'.$value.'%');
+            else {
+                $val = is_array($value) ? $value[$idx] : $value;
+                // table column
+                if (in_array($col, $this->table_cols)) {
+                    if ($strict) {
+                        $where[] = $this->db->quoteIdentifier($col).' = '.$this->db->quote($val);
+                    }
+                    else {
+                        $where[] = $this->db->ilike($col, '%'.$val.'%');
+                    }
+                }
+                // vCard field
+                else {
+                    if (in_array($col, $this->fulltext_cols)) {
+                        foreach (explode(" ", self::normalize_string($val)) as $word)
+                            $words[] = $this->db->ilike('words', '%'.$word.'%');
+                        $where[] = '(' . join(' AND ', $words) . ')';
+                    }
+                    if (is_array($value))
+                        $post_search[$col] = $strict ? $val : mb_strtolower($val);
+                }
             }
         }
 
@@ -273,11 +293,64 @@ class rcube_contacts extends rcube_addressbook
             $and_where[] = $this->db->quoteIdentifier($col).' <> '.$this->db->quote('');
         }
 
-        if (!empty($where))
-            $where = join(' OR ', $where);
+        if (!empty($where)) {
+            // use AND operator for advanced searches
+            $where = join(is_array($value) ? ' AND ' : ' OR ', $where);
+        }
 
         if (!empty($and_where))
             $where = ($where ? "($where) AND " : '') . join(' AND ', $and_where);
+
+        // Post-searching in vCard data fields
+        // we will search in all records and then build a where clause for their IDs
+        if (!empty($post_search)) {
+            $ids = array(0);
+            // build key name regexp
+            $regexp = '/^(' . implode(array_keys($post_search), '|') . ')(:.*?)$/';
+            // use initial WHERE clause, to limit records number if possible
+            if (!empty($where))
+                $this->set_search_set($where);
+
+            // count result pages
+            $cnt   = $this->count();
+            $pages = ceil($cnt / $this->page_size);
+            $scnt  = count($post_search);
+
+            // get (paged) result
+            for ($i=0; $i<$pages; $i++) {
+                $this->list_records(null, $i, true);
+                while ($row = $this->result->next()) {
+                    $id = $row[$this->primary_key];
+                    $found = 0;
+                    foreach (preg_grep($regexp, array_keys($row)) as $col) {
+                        $pos     = strpos($col, ':');
+                        $colname = $pos ? substr($col, 0, $pos) : $col;
+                        $search  = $post_search[$colname];
+                        foreach ((array)$row[$col] as $value) {
+                            // composite field, e.g. address
+                            if (is_array($value)) {
+                                $value = implode($value);
+                            }
+                            if (($strict && $value == $search)
+                                || (!$strict && strpos(mb_strtolower($value), $search) !== false)
+                            ) {
+                                $found++;
+                                break;
+                            }
+                        }
+                    }
+                    // all fields match
+                    if ($found == $scnt) {
+                        $ids[] = $id;
+                    }
+                }
+            }
+
+            // build WHERE clause
+            $ids = $this->db->array2list($ids, 'integer');
+            $where = 'c.' . $this->primary_key.' IN ('.$ids.')';
+            unset($this->cache['count']);
+        }
 
         if (!empty($where)) {
             $this->set_search_set($where);
@@ -287,7 +360,7 @@ class rcube_contacts extends rcube_addressbook
                 $this->result = $this->count();
         }
 
-        return $this->result; 
+        return $this->result;
     }
 
 

@@ -398,6 +398,7 @@ $labels['typecar'] = 'Samochód';
 $labels['typepager'] = 'Pager';
 $labels['typevideo'] = 'Wideo';
 $labels['typeassistant'] = 'Asystent';
+$labels['typehomepage'] = 'Strona domowa';
 $labels['addfield'] = 'Dodaj pole...';
 $labels['personalinfo'] = 'Informacje osobiste';
 $labels['addphoto'] = 'Dodaj';
@@ -409,5 +410,8 @@ $labels['sharedfolder'] = 'Folder współdzielony';
 $labels['defaultaddressbook'] = 'Nowe kontakty dodawaj do wybranej książki adresowej';
 $labels['spellcheckbeforesend'] = 'Przed wysłaniem wiadomości sprawdzaj pisownię';
 $labels['allfields'] = 'Wszystkie pola';
+$labels['search'] = 'Szukaj';
+$labels['advsearch'] = 'Zaawansowane wyszukiwanie';
+$labels['other'] = 'Inne';
 
 ?>

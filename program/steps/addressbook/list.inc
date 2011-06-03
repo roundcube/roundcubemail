@@ -28,7 +28,7 @@ $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($rowcount));
 
 // create javascript list
 rcmail_js_contacts_list($result);
-  
+
 // send response
 $OUTPUT->send();
 

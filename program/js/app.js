@@ -326,11 +326,12 @@ function rcube_webmail()
           }
         }
 
-        if ((this.env.action == 'add' || this.env.action == 'edit') && this.gui_objects.editform) {
+        if (this.gui_objects.editform) {
           this.enable_command('save', true);
-          this.init_contact_form();
+          if (this.env.action == 'add' || this.env.action == 'edit')
+              this.init_contact_form();
         }
-        else if (this.gui_objects.qsearchbox) {
+        if (this.gui_objects.qsearchbox) {
           this.enable_command('search', 'reset-search', 'moveto', true);
           $(this.gui_objects.qsearchbox).select();
         }
@@ -338,7 +339,7 @@ function rcube_webmail()
         if (this.contact_list && this.contact_list.rowcount > 0)
           this.enable_command('export', true);
 
-        this.enable_command('list', 'listgroup', true);
+        this.enable_command('list', 'listgroup', 'advanced-search', true);
         break;
 
 
@@ -587,7 +588,7 @@ function rcube_webmail()
 
       // common commands used in multiple tasks
       case 'show':
-        if (this.task=='mail') {
+        if (this.task == 'mail') {
           var uid = this.get_single_uid();
           if (uid && (!this.env.uid || uid != this.env.uid)) {
             if (this.env.mailbox == this.env.drafts_mailbox)
@@ -596,17 +597,17 @@ function rcube_webmail()
               this.show_message(uid);
           }
         }
-        else if (this.task=='addressbook') {
+        else if (this.task == 'addressbook') {
           var cid = props ? props : this.get_single_cid();
-          if (cid && !(this.env.action=='show' && cid==this.env.cid))
+          if (cid && !(this.env.action == 'show' && cid == this.env.cid))
             this.load_contact(cid, 'show');
         }
         break;
 
       case 'add':
-        if (this.task=='addressbook')
+        if (this.task == 'addressbook')
           this.load_contact(0, 'add');
-        else if (this.task=='settings') {
+        else if (this.task == 'settings') {
           this.identity_list.clear_selection();
           this.load_identity(0, 'add-identity');
         }
@@ -625,27 +626,29 @@ function rcube_webmail()
         break;
 
       case 'save':
-        if (this.gui_objects.editform) {
-          var input_pagesize = $("input[name='_pagesize']");
-          var input_name  = $("input[name='_name']");
-          var input_email = $("input[name='_email']");
-
+        var input, form = this.gui_objects.editform;
+        if (form) {
+          // adv. search
+          if (this.env.action == 'search') {
+          }
           // user prefs
-          if (input_pagesize.length && isNaN(parseInt(input_pagesize.val()))) {
+          else if ((input = $("input[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
             alert(this.get_label('nopagesizewarning'));
-            input_pagesize.focus();
+            input.focus();
             break;
           }
           // contacts/identities
           else {
-            if (input_name.length && input_name.val() == '') {
+            if ((input = $("input[name='_name']", form)) &&input.length && input.val() == '') {
               alert(this.get_label('nonamewarning'));
-              input_name.focus();
+              input.focus();
               break;
             }
-            else if (this.task == 'settings' && input_email.length && (this.env.identities_level % 2) == 0 && !rcube_check_email(input_email.val())) {
+            else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
+              (input = $("input[name='_email']", form)) && input.length&& !rcube_check_email(input.val())
+            ) {
               alert(this.get_label('noemailwarning'));
-              input_email.focus();
+              input.focus();
               break;
             }
 
@@ -653,7 +656,7 @@ function rcube_webmail()
             $('input.placeholder').each(function(){ if (this.value == this._placeholder) this.value = ''; });
           }
 
-          this.gui_objects.editform.submit();
+          form.submit();
         }
         break;
 
@@ -3348,8 +3351,7 @@ function rcube_webmail()
         if (mods)
           mods = mods[mbox] ? mods[mbox] : mods['*'];
       } else if (this.contact_list) {
-        this.contact_list.clear(true);
-        this.show_contentframe(false);
+        this.list_contacts_clear();
       }
 
       if (mods) {
@@ -3715,9 +3717,7 @@ function rcube_webmail()
   this.list_contacts_remote = function(src, group, page)
   {
     // clear message list first
-    this.contact_list.clear(true);
-    this.show_contentframe(false);
-    this.enable_command('delete', 'compose', false);
+    this.list_contacts_clear();
 
     // send request to server
     var url = (src ? '_source='+urlencode(src) : '') + (page ? (src?'&':'') + '_page='+page : ''),
@@ -3734,6 +3734,13 @@ function rcube_webmail()
       url += '&_search='+this.env.search_request;
 
     this.http_request('list', url, lock);
+  };
+
+  this.list_contacts_clear = function()
+  {
+    this.contact_list.clear(true);
+    this.show_contentframe(false);
+    this.enable_command('delete', 'compose', false);
   };
 
   // load contact record
@@ -4077,7 +4084,7 @@ function rcube_webmail()
     else {
       var lastelem = $('.ff_'+col),
         appendcontainer = $('#contactsection'+section+' .contactcontroller'+col);
-      
+
       if (!appendcontainer.length)
         appendcontainer = $('<fieldset>').addClass('contactfieldgroup contactcontroller'+col).insertAfter($('#contactsection'+section+' .contactfieldgroup').last());
 
@@ -4086,7 +4093,7 @@ function rcube_webmail()
           row = $('<div>').addClass('row'),
           cell = $('<div>').addClass('contactfieldcontent data'),
           label = $('<div>').addClass('contactfieldlabel label');
-          
+
         if (colprop.subtypes_select)
           label.html(colprop.subtypes_select);
         else
@@ -4120,7 +4127,7 @@ function rcube_webmail()
             .addClass('ff_'+col)
             .attr('name', '_'+col+name_suffix)
             .appendTo(cell);
-          
+
           var options = input.attr('options');
           options[options.length] = new Option('---', '');
           if (colprop.options)
@@ -4134,10 +4141,10 @@ function rcube_webmail()
             .html(this.env.delbutton)
             .click(function(){ ref.delete_edit_field(this); return false })
             .appendTo(cell);
-          
+
           row.append(label).append(cell).appendTo(appendcontainer.show());
           input.first().focus();
-          
+
           // disable option if limit reached
           if (!colprop.count) colprop.count = 0;
           if (++colprop.count == colprop.limit && colprop.limit)
@@ -4153,7 +4160,7 @@ function rcube_webmail()
       colprop = this.env.coltypes[col],
       fieldset = $(elem).parents('fieldset.contactfieldgroup'),
       addmenu = fieldset.parent().find('select.addfieldmenu');
-    
+
     // just clear input but don't hide the last field
     if (--colprop.count <= 0 && colprop.visible)
       $(elem).parent().children('input').val('').blur();
@@ -4163,7 +4170,7 @@ function rcube_webmail()
       if (!fieldset.children('div.row').length)
         fieldset.hide();
     }
-    
+
     // enable option in add-field selector or insert it if necessary
     if (addmenu.length) {
       var option = addmenu.children('option[value="'+col+'"]');
@@ -4211,6 +4218,26 @@ function rcube_webmail()
     $('#ff_photo').val(id);
     this.enable_command('upload-photo', this.env.coltypes.photo ? true : false);
     this.enable_command('delete-photo', this.env.coltypes.photo && id != '-del-');
+  };
+
+  // load advanced search page
+  this.advanced_search = function()
+  {
+    var add_url = '&_form=1', target = window;
+
+    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
+      add_url += '&_framed=1';
+      target = window.frames[this.env.contentframe];
+      this.contact_list.clear_selection();
+    }
+    else if (framed)
+      return false;
+
+    this.location_href(this.env.comm_path+'&_action=search'+add_url
+      +'&_source='+urlencode(this.env.source)
+      +(this.env.group ? '&_gid='+urlencode(this.env.group) : ''), target);
+
+    return true;
   };
 
 

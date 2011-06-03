@@ -44,27 +44,27 @@ class rcube_result_set
     {
         $this->records[] = $rec;
     }
-  
+
     function iterate()
     {
         return $this->records[$this->current++];
     }
-  
+
     function first()
     {
         $this->current = 0;
         return $this->records[$this->current++];
     }
-  
+
     // alias for iterate()
     function next()
     {
         return $this->iterate();
     }
-  
+
     function seek($i)
     {
         $this->current = $i;
     }
-  
+
 }

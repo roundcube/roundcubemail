@@ -272,6 +272,9 @@ $labels['manager'] = 'Manager';
 $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
 $labels['allfields'] = 'All fields';
+$labels['search'] = 'Search';
+$labels['advsearch'] = 'Advanced Search';
+$labels['other'] = 'Other';
 
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
@@ -284,6 +287,7 @@ $labels['typecar']  = 'Car';
 $labels['typepager']  = 'Pager';
 $labels['typevideo']  = 'Video';
 $labels['typeassistant']  = 'Assistant';
+$labels['typehomepage']  = 'Home page';
 
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Add new contact';

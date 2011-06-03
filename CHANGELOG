@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added addressbook advanced search
 - Add popup with basic fields selection for addressbook search
 - Case-insensitive matching in autocompletion (#1487933)
 - Added option to force spellchecking before sending a message (#1485458)
