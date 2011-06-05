@@ -304,14 +304,11 @@ function rcube_webmail()
           if (this.gui_objects.qsearchbox) {
             $(this.gui_objects.qsearchbox).focusin(function() { rcmail.contact_list.blur(); });
           }
+
+          this.enable_command('group-create', this.env.address_sources[this.env.source].groups);
         }
 
         this.set_page_buttons();
-
-        if (this.env.address_sources && this.env.address_sources[this.env.source] && !this.env.address_sources[this.env.source].readonly) {
-          this.enable_command('add', 'import', true);
-          this.enable_command('group-create', this.env.address_sources[this.env.source].groups);
-        }
 
         if (this.env.cid) {
           this.enable_command('show', 'edit', true);
@@ -339,6 +336,7 @@ function rcube_webmail()
         if (this.contact_list && this.contact_list.rowcount > 0)
           this.enable_command('export', true);
 
+        this.enable_command('add', 'import', !this.env.readonly);
         this.enable_command('list', 'listgroup', 'advanced-search', true);
         break;
 

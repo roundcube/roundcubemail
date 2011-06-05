@@ -50,14 +50,10 @@ else
 
 if (!empty($_REQUEST['_gid']))
     $CONTACTS->set_group(get_input_value('_gid', RCUBE_INPUT_GPC));
-/*
-// set message set for search result
-if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
-    $CONTACTS->set_search_set($_SESSION['search'][$_REQUEST['_search']]);
-*/
+
 // set data source env
 $OUTPUT->set_env('source', $source ? $source : '0');
-$OUTPUT->set_env('readonly', $CONTACTS->readonly, false);
+$OUTPUT->set_env('readonly', $CONTACTS->readonly);
 if (!$OUTPUT->ajax_call) {
     $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
     $OUTPUT->set_env('search_mods', $search_mods);

@@ -72,7 +72,8 @@ function rcmail_contact_search()
     }
 
     // search request ID
-    $search_request = md5('addr'.implode($fields, ',')
+    $search_request = md5('addr'
+        .(is_array($fields) ? implode($fields, ',') : $fields)
         .(is_array($search) ? implode($search, ',') : $search));
 
     // reset page
