@@ -411,7 +411,7 @@ $labels['defaultaddressbook'] = 'Nowe kontakty dodawaj do wybranej książki adr
 $labels['spellcheckbeforesend'] = 'Przed wysłaniem wiadomości sprawdzaj pisownię';
 $labels['allfields'] = 'Wszystkie pola';
 $labels['search'] = 'Szukaj';
-$labels['advsearch'] = 'Zaawansowane wyszukiwanie';
+$labels['advsearch'] = 'Wyszukiwanie zaawansowane';
 $labels['other'] = 'Inne';
 
 ?>
