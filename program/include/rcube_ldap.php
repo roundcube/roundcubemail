@@ -54,6 +54,9 @@ class rcube_ldap extends rcube_addressbook
     private $group_cache = array();
     private $group_members = array();
 
+    private $vlv_active = false;
+    private $vlv_count = 0;
+
 
     /**
     * Object constructor
@@ -417,10 +420,11 @@ class rcube_ldap extends rcube_addressbook
         // we have a search result resource
         if ($this->ldap_result && $this->result->count > 0)
         {
-            if ($this->sort_col && $this->prop['scope'] !== 'base')
+            if ($this->sort_col && $this->prop['scope'] !== 'base' && !$this->vlv_active)
                 ldap_sort($this->conn, $this->ldap_result, $this->sort_col);
 
-            $start_row = $subset < 0 ? $this->result->first + $this->page_size + $subset : $this->result->first;
+            $start_row = $this->vlv_active ? 0 : $this->result->first;
+            $start_row = $subset < 0 ? $start_row + $this->page_size + $subset : $start_row;
             $last_row = $this->result->first + $this->page_size;
             $last_row = $subset != 0 ? $start_row + abs($subset) : $last_row;
 
@@ -547,7 +551,7 @@ class rcube_ldap extends rcube_addressbook
     {
         $count = 0;
         if ($this->conn && $this->ldap_result) {
-            $count = ldap_count_entries($this->conn, $this->ldap_result);
+            $count = $this->vlv_active ? $this->vlv_count : ldap_count_entries($this->conn, $this->ldap_result);
         } // end if
         elseif ($this->conn) {
             // We have a connection but no result set, attempt to get one.
@@ -555,7 +559,7 @@ class rcube_ldap extends rcube_addressbook
                 // The filter is not set, set it.
                 $this->filter = $this->prop['filter'];
             } // end if
-            $this->_exec_search();
+            $this->_exec_search(true);
             if ($this->ldap_result) {
                 $count = ldap_count_entries($this->conn, $this->ldap_result);
             } // end if
@@ -856,7 +860,7 @@ class rcube_ldap extends rcube_addressbook
     *
     * @access private
     */
-    private function _exec_search()
+    private function _exec_search($all = false)
     {
         if ($this->ready)
         {
@@ -864,6 +868,13 @@ class rcube_ldap extends rcube_addressbook
             $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
 
             $this->_debug("C: Search [".$filter."]");
+
+            // when using VLV, we need to issue listing command first in order to get the full count
+            if (!$all && $function != 'ldap_read' && $this->prop['vlv']) {
+                $this->_exec_search(true);
+                $this->vlv_count = ldap_count_entries($this->conn, $this->ldap_result);
+                $this->vlv_active = $this->_vlv_set_controls();
+            }
 
             if ($this->ldap_result = @$function($this->conn, $this->base_dn, $filter,
                 array_values($this->fieldmap), 0, (int) $this->prop['sizelimit'], (int) $this->prop['timelimit']))
@@ -878,6 +889,26 @@ class rcube_ldap extends rcube_addressbook
         }
 
         return false;
+    }
+    
+    /**
+     * Set server controls for Virtual List View (paginated listing)
+     */
+    private function _vlv_set_controls()
+    {
+        $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => $this->_sort_ber_encode(array($this->sort_col)));
+        $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($this->list_page-1) * $this->page_size + 1), $this->page_size), 'iscritical' => true);
+
+        //$this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ({$this->sort_col});"
+        //    . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset)");
+
+        if (!ldap_set_option($this->conn, LDAP_OPT_SERVER_CONTROLS, array($sort_ctrl, $vlv_ctrl))) {
+            $this->_debug("S: ".ldap_error($this->conn));
+            $this->set_error(self::ERROR_SEARCH, 'vlvnotsupported');
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -1228,4 +1259,119 @@ class rcube_ldap extends rcube_addressbook
         }
         return $groups;
     }
+
+
+    /**
+     * Generate BER encoded string for Virtual List View option
+     *
+     * @param integer List offset (first record)
+     * @param integer Records per page
+     * @return string BER encoded option value
+     */
+    private function _vlv_ber_encode($offset, $rpp)
+    {
+        # this string is ber-encoded, php will prefix this value with:
+        # 04 (octet string) and 10 (length of 16 bytes)
+        # the code behind this string is broken down as follows:
+        # 30 = ber sequence with a length of 0e (14) bytes following
+        # 20 = type integer (in two's complement form) with 2 bytes following (beforeCount): 01 00 (ie 0)
+        # 20 = type integer (in two's complement form) with 2 bytes following (afterCount):  01 18 (ie 25-1=24)
+        # a0 = type context-specific/constructed with a length of 06 (6) bytes following
+        # 20 = type integer with 2 bytes following (offset): 01 01 (ie 1)
+        # 20 = type integer with 2 bytes following (contentCount):  01 00
+        # the following info was taken from the ISO/IEC 8825-1:2003 x.690 standard re: the
+        # encoding of integer values (note: these values are in
+        # two-complement form so since offset will never be negative bit 8 of the
+        # leftmost octet should never by set to 1):
+        # 8.3.2: If the contents octets of an integer value encoding consist
+        # of more than one octet, then the bits of the first octet (rightmost) and bit 8
+        # of the second (to the left of first octet) octet:
+        # a) shall not all be ones; and
+        # b) shall not all be zero
+
+        # construct the string from right to left
+        $str = "020100"; # contentCount
+        
+        $ber_val = self::_ber_encode_int($offset);  // returns encoded integer value in hex format
+
+        // calculate octet length of $ber_val
+        $str = self::_ber_addseq($ber_val, '02') . $str;
+
+        // now compute length over $str
+        $str = self::_ber_addseq($str, 'a0');
+
+        // now tack on records per page
+        $str = sprintf("0201000201%02x", min(255, $rpp)-1) . $str;
+
+        // now tack on sequence identifier and length
+        $str = self::_ber_addseq($str, '30');
+
+        return pack('H'.strlen($str), $str);
+    }
+
+
+    /**
+     * create ber encoding for sort control
+     *
+     * @pararm array List of cols to sort by
+     * @return string BER encoded option value
+     */
+    private function _sort_ber_encode($sortcols)
+    {
+        $str = '';
+        foreach (array_reverse((array)$sortcols) as $col) {
+            $ber_val = self::_string2hex($col);
+
+            # 30 = ber sequence with a length of octet value
+            # 04 = octet string with a length of the ascii value
+            $oct = self::_ber_addseq($ber_val, '04');
+            $str = self::_ber_addseq($oct, '30') . $str;
+        }
+
+        // now tack on sequence identifier and length
+        $str = self::_ber_addseq($str, '30');
+
+        return pack('H'.strlen($str), $str);
+    }
+
+    /**
+     * Add BER sequence with correct length and the given identifier
+     */
+    private static function _ber_addseq($str, $identifier)
+    {
+        $len = sprintf("%x", strlen($str)/2);
+        if (strlen($len) % 2 != 0)
+            $len = '0'.$len;
+
+        return $identifier . $len . $str;
+    }
+
+    /**
+     * Returns BER encoded integer value in hex format
+     */
+    private static function _ber_encode_int($offset)
+    {
+        $val = sprintf("%x", $offset);
+        $prefix = '';
+        
+        // check if bit 8 of high byte is 1
+        if (preg_match('/^[89abcdef]/', $val))
+            $prefix = '00';
+
+        if (strlen($val)%2 != 0)
+            $prefix .= '0';
+
+        return $prefix . $val;
+    }
+
+    /**
+     * Returns ascii string encoded in hex
+     */
+    private static function _string2hex($str) {
+        $hex = '';
+        for ($i=0; $i < strlen($str); $i++)
+            $hex .= dechex(ord($str[$i]));
+        return $hex;
+    }
+
 }
