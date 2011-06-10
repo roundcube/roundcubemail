@@ -860,7 +860,7 @@ class rcube_ldap extends rcube_addressbook
     *
     * @access private
     */
-    private function _exec_search($all = false)
+    private function _exec_search($count = false)
     {
         if ($this->ready)
         {
@@ -870,14 +870,16 @@ class rcube_ldap extends rcube_addressbook
             $this->_debug("C: Search [".$filter."]");
 
             // when using VLV, we need to issue listing command first in order to get the full count
-            if (!$all && $function != 'ldap_read' && $this->prop['vlv']) {
-                $this->_exec_search(true);
-                $this->vlv_count = ldap_count_entries($this->conn, $this->ldap_result);
+            if (!$count && $function != 'ldap_read' && $this->prop['vlv']) {
+                if ($this->_exec_search(true))
+                    $this->vlv_count = ldap_count_entries($this->conn, $this->ldap_result);
                 $this->vlv_active = $this->_vlv_set_controls();
             }
 
+            // only fetch dn for count (should keep the payload low)
+            $attrs = $count ? array('dn') : array_values($this->fieldmap);
             if ($this->ldap_result = @$function($this->conn, $this->base_dn, $filter,
-                array_values($this->fieldmap), 0, (int) $this->prop['sizelimit'], (int) $this->prop['timelimit']))
+                $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
             {
                 $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
                 return true;
