@@ -33,12 +33,26 @@
  */
 function __autoload($classname)
 {
-  $filename = preg_replace(
-      array('/MDB2_(.+)/', '/Mail_(.+)/', '/Net_(.+)/', '/^html_.+/', '/^utf8$/'),
-      array('MDB2/\\1', 'Mail/\\1', 'Net/\\1', 'html', 'utf8.class'),
-      $classname
-  );
-  include_once $filename. '.php';
+    $filename = preg_replace(
+        array(
+            '/MDB2_(.+)/',
+            '/Mail_(.+)/',
+            '/Net_(.+)/',
+            '/Auth_(.+)/',
+            '/^html_.+/',
+            '/^utf8$/'
+        ),
+        array(
+            'MDB2/\\1',
+            'Mail/\\1',
+            'Net/\\1',
+            'Auth/\\1',
+            'html',
+            'utf8.class'
+        ),
+        $classname
+    );
+    include_once $filename. '.php';
 }
 
 
@@ -47,6 +61,6 @@ function __autoload($classname)
  */
 function raise_error($p)
 {
-  $rci = rcube_install::get_instance();
-  $rci->raise_error($p);
+    $rci = rcube_install::get_instance();
+    $rci->raise_error($p);
 }
