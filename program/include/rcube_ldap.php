@@ -469,7 +469,7 @@ class rcube_ldap extends rcube_addressbook
         // special treatment for ID-based search
         if ($fields == 'ID' || $fields == $this->primary_key)
         {
-            $ids = explode(',', $value);
+            $ids = !is_array($value) ? explode(',', $value) : $value;
             $result = new rcube_result_set();
             foreach ($ids as $id)
             {
