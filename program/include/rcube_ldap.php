@@ -1343,7 +1343,7 @@ class rcube_ldap extends rcube_addressbook
      */
     private static function _ber_addseq($str, $identifier)
     {
-        $len = sprintf("%x", strlen($str)/2);
+        $len = dechex(strlen($str)/2);
         if (strlen($len) % 2 != 0)
             $len = '0'.$len;
 
@@ -1355,7 +1355,7 @@ class rcube_ldap extends rcube_addressbook
      */
     private static function _ber_encode_int($offset)
     {
-        $val = sprintf("%x", $offset);
+        $val = dechex($offset);
         $prefix = '';
         
         // check if bit 8 of high byte is 1
