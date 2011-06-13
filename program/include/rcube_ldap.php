@@ -882,6 +882,8 @@ class rcube_ldap extends rcube_addressbook
                 $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
             {
                 $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
+                if ($err = ldap_errno($this->conn))
+                    $this->_debug("S: Error: " .ldap_err2str($err));
                 return true;
             }
             else
@@ -901,8 +903,8 @@ class rcube_ldap extends rcube_addressbook
         $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => $this->_sort_ber_encode(array($this->sort_col)));
         $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($this->list_page-1) * $this->page_size + 1), $this->page_size), 'iscritical' => true);
 
-        //$this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ({$this->sort_col});"
-        //    . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset)");
+        $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ({$this->sort_col});"
+            . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset)");
 
         if (!ldap_set_option($this->conn, LDAP_OPT_SERVER_CONTROLS, array($sort_ctrl, $vlv_ctrl))) {
             $this->_debug("S: ".ldap_error($this->conn));
