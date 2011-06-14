@@ -31,17 +31,17 @@ $OUTPUT->send('contactsearch');
 
 function rcmail_contact_search()
 {
-    global $RCMAIL, $OUTPUT, $CONTACTS, $CONTACT_COLTYPES, $SEARCH_MODS_DEFAULT;
+    global $RCMAIL, $OUTPUT, $CONFIG, $SEARCH_MODS_DEFAULT;
 
     $adv = isset($_POST['_adv']);
 
     // get fields/values from advanced search form
     if ($adv) {
-        foreach ($CONTACT_COLTYPES as $col => $colprop) {
-            $s = trim(get_input_value('_'.$col, RCUBE_INPUT_POST, true));
-            if (strlen($s)) {
+        foreach (array_keys($_POST) as $key) {
+            $s = trim(get_input_value($key, RCUBE_INPUT_POST, true));
+            if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
                 $search[] = $s;
-                $fields[] = $col;
+                $fields[] = $m[1];
             }
         }
 
@@ -71,20 +71,77 @@ function rcmail_contact_search()
         }
     }
 
+    // get sources list
+    $sources    = $RCMAIL->get_address_sources();
+    $search_set = array();
+    $records    = array();
+
+    foreach ($sources as $s) {
+        $source = $RCMAIL->get_address_book($s['id']);
+
+        // check if all search fields are supported....
+        if (is_array($fields)) {
+            $cols = $source->coltypes[0] ? array_flip($source->coltypes) : $source->coltypes;
+            $supported = 0;
+
+            foreach ($fields as $f) {
+                if (array_key_exists($f, $cols)) {
+                    $supported ++;
+                }
+            }
+
+            // ...if not, we can skip this source
+            if ($supported < count($fields)) {
+                continue;
+            }
+        }
+
+        // reset page
+        $source->set_page(1);
+        $source->set_pagesize(9999);
+
+        // get contacts count
+        $result = $source->search($fields, $search, false, false);
+
+        if (!$result->count) {
+            continue;
+        }
+
+        // get records
+        $result = $source->list_records(array('name', 'email'));
+
+        while ($row = $result->next()) {
+            $row['sourceid'] = $s['id'];
+            $key = $row['name'] . ':' . $row['sourceid'];
+            $records[$key] = $row;
+        }
+
+        unset($result);
+        $search_set[$s['id']] = $source->get_search_set();
+    }
+
+    // sort the records
+    ksort($records, SORT_LOCALE_STRING);
+
+    // create resultset object
+    $count  = count($records);
+    $result = new rcube_result_set($count);
+
+    // cut first-page records
+    if ($CONFIG['pagesize'] < $count) {
+        $records = array_slice($records, 0, $CONFIG['pagesize']);
+    }
+
+    $result->records = array_values($records);
+
     // search request ID
     $search_request = md5('addr'
         .(is_array($fields) ? implode($fields, ',') : $fields)
         .(is_array($search) ? implode($search, ',') : $search));
 
-    // reset page
-    $CONTACTS->set_page(1);
-    $_SESSION['page'] = 1;
-
-    // get contacts for this user
-    $result = $CONTACTS->search($fields, $search);
-
     // save search settings in session
-    $_SESSION['search'][$search_request] = $CONTACTS->get_search_set();
+    $_SESSION['search'][$search_request] = $search_set;
+    $_SESSION['page'] = 1;
 
     if ($adv)
         $OUTPUT->command('list_contacts_clear');
@@ -99,8 +156,11 @@ function rcmail_contact_search()
 
     // update message count display
     $OUTPUT->command('set_env', 'search_request', $search_request);
-    $OUTPUT->command('set_env', 'pagecount', ceil($result->count / $CONTACTS->page_size));
-    $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text());
+    $OUTPUT->command('set_env', 'pagecount', ceil($result->count / $CONFIG['pagesize']));
+    $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
+
+    // unselect currently selected directory/group
+    $OUTPUT->command('unselect_directory');
 
     // send response
     $OUTPUT->send($adv ? 'iframe' : null);
@@ -108,7 +168,7 @@ function rcmail_contact_search()
 
 function rcmail_contact_search_form($attrib)
 {
-    global $RCMAIL, $CONTACTS, $CONTACT_COLTYPES;
+    global $RCMAIL, $CONTACT_COLTYPES;
 
     $i_size = !empty($attrib['size']) ? $attrib['size'] : 30;
 
@@ -130,7 +190,26 @@ function rcmail_contact_search_form($attrib)
         ),
     );
 
-    foreach ($CONTACT_COLTYPES as $col => $colprop)
+    // get supported coltypes from all address sources
+    $sources  = $RCMAIL->get_address_sources();
+    $coltypes = array();
+
+    foreach ($sources as $s) {
+        $CONTACTS = $RCMAIL->get_address_book($s['id']);
+
+        if (is_array($CONTACTS->coltypes)) {
+            $contact_cols = $CONTACTS->coltypes[0] ? array_flip($CONTACTS->coltypes) : $CONTACTS->coltypes;
+            $coltypes = array_merge($coltypes, $contact_cols);
+        }
+    }
+
+    // merge supported coltypes with $CONTACT_COLTYPES
+    foreach ($coltypes as $col => $colprop) {
+        $coltypes[$col] = $CONTACT_COLTYPES[$col] ? array_merge($CONTACT_COLTYPES[$col], (array)$colprop) : (array)$colprop;
+    }
+
+    // build form fields list
+    foreach ($coltypes as $col => $colprop)
     {
         if ($colprop['type'] != 'image' && !$colprop['nosearch'])
         {
@@ -142,15 +221,13 @@ function rcmail_contact_search_form($attrib)
                 $colprop['size'] = $i_size;
 
             $content  = html::div('row', html::div('contactfieldlabel label', Q($label))
-                . html::div('contactfieldcontent', rcmail_get_edit_field($col, '', $colprop, $ftype)));
+                . html::div('contactfieldcontent', rcmail_get_edit_field('search_'.$col, '', $colprop, $ftype)));
 
             $form[$category]['content'][] = $content;
         }
     }
 
-    $hiddenfields = new html_hiddenfield(array(
-        'name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
-    $hiddenfields->add(array('name' => '_gid', 'value' => $CONTACTS->group_id));
+    $hiddenfields = new html_hiddenfield();
     $hiddenfields->add(array('name' => '_adv', 'value' => 1));
 
     $out = $RCMAIL->output->request_form(array(

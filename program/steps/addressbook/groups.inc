@@ -19,12 +19,13 @@
 
 */
 
+$source = get_input_value('_source', RCUBE_INPUT_GPC);
+$CONTACTS = rcmail_contact_source($source, true);
+
 if ($CONTACTS->readonly || !$CONTACTS->groups) {
   $OUTPUT->show_message('sourceisreadonly', 'warning');
   $OUTPUT->send();
 }
-
-$source = get_input_value('_source', RCUBE_INPUT_GPC);
 
 if ($RCMAIL->action == 'group-addmembers') {
   if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = get_input_value('_cid', RCUBE_INPUT_POST))) {

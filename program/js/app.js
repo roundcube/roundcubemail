@@ -336,7 +336,7 @@ function rcube_webmail()
         if (this.contact_list && this.contact_list.rowcount > 0)
           this.enable_command('export', true);
 
-        this.enable_command('add', 'import', !this.env.readonly);
+        this.enable_command('add', 'import', this.env.writable_source);
         this.enable_command('list', 'listgroup', 'advanced-search', true);
         break;
 
@@ -529,12 +529,12 @@ function rcube_webmail()
           if (this.env.trash_mailbox)
             this.set_alttext('delete', this.env.mailbox != this.env.trash_mailbox ? 'movemessagetotrash' : 'deletemessage');
         }
-        else if (this.task=='addressbook') {
+        else if (this.task == 'addressbook') {
           if (!this.env.search_request || (props != this.env.source))
             this.reset_qsearch();
 
           this.list_contacts(props);
-          this.enable_command('add', 'import', (this.env.address_sources && !this.env.address_sources[this.env.source].readonly));
+          this.enable_command('add', 'import', this.env.writable_source);
         }
         break;
 
@@ -988,8 +988,14 @@ function rcube_webmail()
 
         if (s && this.env.mailbox)
           this.list_mailbox(this.env.mailbox);
-        else if (s && this.task == 'addressbook')
+        else if (s && this.task == 'addressbook') {
+          if (this.env.source == '') {
+            for (var n in this.env.address_sources) break;
+            this.env.source = n;
+            this.env.group = '';
+          }
           this.list_contacts(this.env.source, this.env.group);
+        }
         break;
 
       case 'listgroup':
@@ -3651,15 +3657,34 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var id, frame, ref = this;
+    var n, id, sid, ref = this, writable = false,
+      source = this.env.source ? this.env.address_sources[this.env.source] : null;
+
     if (id = list.get_single_selection())
       this.preview_timer = window.setTimeout(function(){ ref.load_contact(id, 'show'); }, 200);
     else if (this.env.contentframe)
       this.show_contentframe(false);
 
+    // no source = search result, we'll need to detect if any of
+    // selected contacts are in writable addressbook to enable edit/delete
+    if (list.selection.length) {
+      if (!source) {
+        for (n in list.selection) {
+          sid = String(list.selection[n]).replace(/^[^-]+-/, '');
+          if (sid && this.env.address_sources[sid] && !this.env.address_sources[sid].readonly) {
+            writable = true;
+            break;
+          }
+        }
+      }
+      else {
+        writable = !source.readonly;
+      }
+    }
+
     this.enable_command('compose', list.selection.length > 0);
-    this.enable_command('edit', (id && this.env.address_sources && !this.env.address_sources[this.env.source].readonly) ? true : false);
-    this.enable_command('delete', list.selection.length && this.env.address_sources && !this.env.address_sources[this.env.source].readonly);
+    this.enable_command('edit', id && writable);
+    this.enable_command('delete', list.selection.length && writable);
 
     return false;
   };
@@ -3797,12 +3822,12 @@ function rcube_webmail()
     if (!(selection.length || this.env.cid) || !confirm(this.get_label('deletecontactconfirm')))
       return;
 
-    var id, a_cids = [], qs = '';
+    var id, n, a_cids = [], qs = '';
 
     if (this.env.cid)
       a_cids.push(this.env.cid);
     else {
-      for (var n=0; n<selection.length; n++) {
+      for (n=0; n<selection.length; n++) {
         id = selection[n];
         a_cids.push(id);
         this.contact_list.remove_row(id, (n == selection.length-1));
@@ -3817,7 +3842,7 @@ function rcube_webmail()
       qs += '&_gid='+urlencode(this.env.group);
 
     // also send search request to get the right records from the next page
-    if (this.env.search_request) 
+    if (this.env.search_request)
       qs += '&_search='+this.env.search_request;
 
     // send request to server
@@ -4119,7 +4144,7 @@ function rcube_webmail()
             for (childcol in colprop.childs)
               cols.push(childcol);
           }
-          
+
           for (var i=0; i < cols.length; i++) {
             childcol = cols[i];
             cp = colprop.childs[childcol];
@@ -4241,14 +4266,20 @@ function rcube_webmail()
       target = window.frames[this.env.contentframe];
       this.contact_list.clear_selection();
     }
-    else if (framed)
-      return false;
 
-    this.location_href(this.env.comm_path+'&_action=search'+add_url
-      +'&_source='+urlencode(this.env.source)
-      +(this.env.group ? '&_gid='+urlencode(this.env.group) : ''), target);
+    this.location_href(this.env.comm_path+'&_action=search'+add_url, target);
 
     return true;
+  };
+
+  // unselect directory/group
+  this.unselect_directory = function()
+  {
+    if (this.env.address_sources.length > 1 || this.env.group != '') {
+      this.select_folder('', (this.env.group ? 'G'+this.env.source+this.env.group : this.env.source));
+      this.env.group = '';
+      this.env.source = '';
+    }
   };
 
 
@@ -5468,9 +5499,20 @@ function rcube_webmail()
     switch (response.action) {
       case 'delete':
         if (this.task == 'addressbook') {
-          var uid = this.contact_list.get_selection();
+          var sid, uid = this.contact_list.get_selection(), writable = false;
+
+          if (uid && this.contact_list.rows[uid]) {
+            // search results, get source ID from record ID
+            if (this.env.source == '') {
+              sid = String(uid).replace(/^[^-]+-/, '');
+              writable = sid && this.env.address_sources[sid] && !this.env.address_sources[sid].readonly;
+            }
+            else {
+              writable = !this.env.address_sources[this.env.source].readonly;
+            }
+          }
           this.enable_command('compose', (uid && this.contact_list.rows[uid]));
-          this.enable_command('delete', 'edit', (uid && this.contact_list.rows[uid] && this.env.address_sources && !this.env.address_sources[this.env.source].readonly));
+          this.enable_command('delete', 'edit', writable);
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
         }
 
@@ -5519,10 +5561,9 @@ function rcube_webmail()
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
 
           if (response.action == 'list' || response.action == 'search') {
-            this.enable_command('group-create',
-              (this.env.address_sources[this.env.source].groups && !this.env.address_sources[this.env.source].readonly));
-            this.enable_command('group-rename', 'group-delete',
-              (this.env.address_sources[this.env.source].groups && this.env.group && !this.env.address_sources[this.env.source].readonly));
+            var source = this.env.source != '' ? this.env.address_sources[this.env.source] : null;
+            this.enable_command('group-create', (source && source.groups && !source.readonly));
+            this.enable_command('group-rename', 'group-delete', (source && source.groups && this.env.group && !source.readonly));
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }
         }
@@ -5580,7 +5621,7 @@ function rcube_webmail()
 
     return frame_name;
   };
-  
+
   // starts interval for keep-alive/check-recent signal
   this.start_keepalive = function()
   {

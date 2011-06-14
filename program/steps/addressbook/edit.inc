@@ -19,15 +19,38 @@
 
 */
 
+if ($RCMAIL->action == 'edit') {
+    // Get contact ID and source ID from request
+    $cids   = rcmail_get_cids();
+    $source = key($cids);
+    $cid    = array_shift($cids[$source]);
 
-if (($cid = get_input_value('_cid', RCUBE_INPUT_GPC)) && ($record = $CONTACTS->get_record($cid, true)))
-    $OUTPUT->set_env('cid', $record['ID']);
+    // Initialize addressbook
+    $CONTACTS = rcmail_contact_source($source, true);
 
-// adding not allowed here
-if ($CONTACTS->readonly) {
-    $OUTPUT->show_message('sourceisreadonly');
-    rcmail_overwrite_action('show');
-    return;
+    // Contact edit
+    if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
+        $OUTPUT->set_env('cid', $record['ID']);
+    }
+
+    // adding not allowed here
+    if ($CONTACTS->readonly) {
+        $OUTPUT->show_message('sourceisreadonly');
+        rcmail_overwrite_action('show');
+        return;
+    }
+}
+else {
+    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+
+    $CONTACTS = $RCMAIL->get_address_book($source);
+
+    // find writable addressbook
+    if (!$CONTACTS || $CONTACTS->readonly)
+        $source = rcmail_default_source(true);
+
+    // Initialize addressbook
+    $CONTACTS = rcmail_contact_source($source, true);
 }
 
 
@@ -45,7 +68,7 @@ function rcmail_get_edit_record()
          $RCMAIL->output->show_message('contactnotfound');
          return false;
      }
-     
+
      return $record;
 }
 
@@ -90,7 +113,7 @@ function rcmail_contact_editform($attrib)
 
     // add some labels to client
     $RCMAIL->output->add_label('noemailwarning', 'nonamewarning');
-    
+
     // copy (parsed) address template to client
     if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $RCMAIL->config->get('address_template', ''), $templ, PREG_SET_ORDER))
       $RCMAIL->output->set_env('address_template', $templ);
@@ -123,7 +146,7 @@ function rcmail_contact_editform($attrib)
             ),
         ),
     );
-    
+
     if (isset($CONTACT_COLTYPES['notes'])) {
         $form['notes'] = array(
             'name'    => rcube_label('notes'),
@@ -158,11 +181,11 @@ function rcmail_upload_photo_form($attrib)
   if ($max_postsize && $max_postsize < $max_filesize)
     $max_filesize = $max_postsize;
   $max_filesize = show_bytes($max_filesize);
-  
+
   $hidden = new html_hiddenfield(array('name' => '_cid', 'value' => $GLOBALS['cid']));
   $input = new html_inputfield(array('type' => 'file', 'name' => '_photo', 'size' => $attrib['size']));
   $button = new html_inputfield(array('type' => 'button'));
-  
+
   $out = html::div($attrib,
     $OUTPUT->form_tag(array('name' => 'uploadform', 'method' => 'post', 'enctype' => 'multipart/form-data'),
       $hidden->show() .
@@ -174,7 +197,7 @@ function rcmail_upload_photo_form($attrib)
       )
     )
   );
-  
+
   $OUTPUT->add_label('addphoto','replacephoto');
   $OUTPUT->add_gui_object('uploadbox', $attrib['id']);
   return $out;
@@ -211,12 +234,14 @@ function get_form_tags($attrib)
 }
 
 
-$OUTPUT->add_handler('contactedithead', 'rcmail_contact_edithead');
-$OUTPUT->add_handler('contacteditform', 'rcmail_contact_editform');
-$OUTPUT->add_handler('contactphoto',    'rcmail_contact_photo');
-$OUTPUT->add_handler('photouploadform', 'rcmail_upload_photo_form');
+$OUTPUT->add_handlers(array(
+    'contactedithead' => 'rcmail_contact_edithead',
+    'contacteditform' => 'rcmail_contact_editform',
+    'contactphoto'    => 'rcmail_contact_photo',
+    'photouploadform' => 'rcmail_upload_photo_form',
+));
 
-if (!$CONTACTS->get_result() && $OUTPUT->template_exists('contactadd'))
+if ($RCMAIL->action == 'add' && $OUTPUT->template_exists('contactadd'))
     $OUTPUT->send('contactadd');
 
 // this will be executed if no template for addcontact exists

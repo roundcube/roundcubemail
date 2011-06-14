@@ -21,46 +21,6 @@
 
 $SEARCH_MODS_DEFAULT = array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
 
-// select source
-$source = get_input_value('_source', RCUBE_INPUT_GPC);
-
-if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
-    // add list of address sources to client env
-    $js_list = $RCMAIL->get_address_sources();
-
-    // if source is not set use first directory
-    if (empty($source))
-        $source = $js_list[key($js_list)]['id'];
-
-    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
-    $OUTPUT->set_env('search_mods', $search_mods);
-    $OUTPUT->set_env('address_sources', $js_list);
-}
-
-// instantiate a contacts object according to the given source
-$CONTACTS = $RCMAIL->get_address_book($source);
-
-$CONTACTS->set_pagesize($CONFIG['pagesize']);
-
-// set list properties and session vars
-if (!empty($_GET['_page']))
-    $CONTACTS->set_page(($_SESSION['page'] = intval($_GET['_page'])));
-else
-    $CONTACTS->set_page(isset($_SESSION['page']) ?$_SESSION['page'] : 1);
-
-if (!empty($_REQUEST['_gid']))
-    $CONTACTS->set_group(get_input_value('_gid', RCUBE_INPUT_GPC));
-
-// set data source env
-$OUTPUT->set_env('source', $source ? $source : '0');
-$OUTPUT->set_env('readonly', $CONTACTS->readonly);
-if (!$OUTPUT->ajax_call) {
-    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
-    $OUTPUT->set_env('search_mods', $search_mods);
-    $OUTPUT->set_pagetitle(rcube_label('addressbook'));
-}
-
-
 // general definition of contact coltypes
 $CONTACT_COLTYPES = array(
   'name'         => array('type' => 'text', 'size' => 40, 'limit' => 1, 'label' => rcube_label('name'), 'category' => 'main'),
@@ -96,19 +56,93 @@ $CONTACT_COLTYPES = array(
   // TODO: define fields for vcards like GEO, KEY
 );
 
-// reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
-if (is_array($CONTACTS->coltypes)) {
-    // remove cols not listed by the backend class
-    $contact_cols = $CONTACTS->coltypes[0] ? array_flip($CONTACTS->coltypes) : $CONTACTS->coltypes;
-    $CONTACT_COLTYPES = array_intersect_key($CONTACT_COLTYPES, $contact_cols);
-    // add associative coltypes definition
-    if (!$CONTACTS->coltypes[0]) {
-        foreach ($CONTACTS->coltypes as $col => $colprop)
-            $CONTACT_COLTYPES[$col] = $CONTACT_COLTYPES[$col] ? array_merge($CONTACT_COLTYPES[$col], $colprop) : $colprop;
+
+// Addressbook UI
+if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
+    // add list of address sources to client env
+    $js_list = $RCMAIL->get_address_sources();
+
+    // use first directory by default
+    $source = $js_list[key($js_list)]['id'];
+
+    // find writeable source
+    foreach ($js_list as $s) {
+        if (!$s['readonly']) {
+            $OUTPUT->set_env('writable_source', $s['id']);
+            break;
+        }
     }
+
+    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
+    $OUTPUT->set_env('search_mods', $search_mods);
+    $OUTPUT->set_env('address_sources', $js_list);
+
+    $OUTPUT->set_pagetitle(rcube_label('addressbook'));
+
+    $CONTACTS = rcmail_contact_source($source, true);
 }
 
-$OUTPUT->set_env('photocol', is_array($CONTACT_COLTYPES['photo']));
+
+// instantiate a contacts object according to the given source
+function rcmail_contact_source($source=null, $init_env=false)
+{
+    global $RCMAIL, $OUTPUT, $CONFIG, $CONTACT_COLTYPES;
+
+    if (!strlen($source)) {
+        $source = get_input_value('_source', RCUBE_INPUT_GPC);
+    }
+
+    if (!strlen($source)) {
+        return null;
+    }
+
+    // Get object
+    $CONTACTS = $RCMAIL->get_address_book($source);
+    $CONTACTS->set_pagesize($CONFIG['pagesize']);
+
+    // set list properties and session vars
+    if (!empty($_GET['_page']))
+        $CONTACTS->set_page(($_SESSION['page'] = intval($_GET['_page'])));
+    else
+        $CONTACTS->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
+
+    if (!empty($_REQUEST['_gid']))
+        $CONTACTS->set_group(get_input_value('_gid', RCUBE_INPUT_GPC));
+
+    if (!$init_env)
+        return $CONTACTS;
+
+    $OUTPUT->set_env('readonly', $CONTACTS->readonly);
+    $OUTPUT->set_env('source', $source);
+
+    // reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
+    if (is_array($CONTACTS->coltypes)) {
+        // remove cols not listed by the backend class
+        $contact_cols = $CONTACTS->coltypes[0] ? array_flip($CONTACTS->coltypes) : $CONTACTS->coltypes;
+        $CONTACT_COLTYPES = array_intersect_key($CONTACT_COLTYPES, $contact_cols);
+        // add associative coltypes definition
+        if (!$CONTACTS->coltypes[0]) {
+            foreach ($CONTACTS->coltypes as $col => $colprop)
+                $CONTACT_COLTYPES[$col] = $CONTACT_COLTYPES[$col] ? array_merge($CONTACT_COLTYPES[$col], $colprop) : $colprop;
+        }
+    }
+
+    $OUTPUT->set_env('photocol', is_array($CONTACT_COLTYPES['photo']));
+
+    return $CONTACTS;
+}
+
+
+function rcmail_default_source($writable=false)
+{
+    global $RCMAIL;
+
+    // get list of address sources
+    $list = $RCMAIL->get_address_sources($writable);
+
+    // use first directory by default
+    return $list[key($list)]['id'];
+}
 
 
 function rcmail_directory_list($attrib)
@@ -230,6 +264,11 @@ function rcmail_js_contacts_list($result, $prefix='')
     while ($row = $result->next()) {
         $a_row_cols = array();
 
+        // build contact ID with source ID
+        if (isset($row['sourceid'])) {
+            $row['ID'] = $row['ID'].'-'.$row['sourceid'];
+        }
+
         // format each col
         foreach ($a_show_cols as $col)
             $a_row_cols[$col] = Q($row[$col]);
@@ -246,7 +285,7 @@ function rcmail_contact_frame($attrib)
 
     if (!$attrib['id'])
         $attrib['id'] = 'rcmcontactframe';
-    
+
     $attrib['name'] = $attrib['id'];
 
     $OUTPUT->set_env('contentframe', $attrib['name']);
@@ -269,12 +308,14 @@ function rcmail_rowcount_display($attrib)
 }
 
 
-function rcmail_get_rowcount_text()
+function rcmail_get_rowcount_text($result=null)
 {
-    global $CONTACTS;
-  
+    global $CONTACTS, $CONFIG;
+
     // read nr of contacts
-    $result = $CONTACTS->get_result();
+    if (!$result) {
+        $result = $CONTACTS->get_result();
+    }
     if (!$result) {
         $result = $CONTACTS->count();
     }
@@ -286,7 +327,7 @@ function rcmail_get_rowcount_text()
             'name'  => 'contactsfromto',
             'vars'  => array(
             'from'  => $result->first + 1,
-            'to'    => min($result->count, $result->first + $CONTACTS->page_size),
+            'to'    => min($result->count, $result->first + $CONFIG['pagesize']),
             'count' => $result->count)
         ));
 
@@ -303,7 +344,7 @@ function rcmail_get_type_label($type)
             && ($label = preg_replace('/(\d+)$/', '', $label))
             && rcube_label_exists($label))
         return rcube_label($label) . ' ' . $m[1];
-    
+
     return ucfirst($type);
 }
 
@@ -322,11 +363,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
     $del_button = $attrib['deleteicon'] ? html::img(array('src' => $CONFIG['skin_path'] . $attrib['deleteicon'], 'alt' => rcube_label('delete'))) : rcube_label('delete');
     unset($attrib['deleteicon']);
     $out = '';
-    
+
     // get default coltypes
     $coltypes = $GLOBALS['CONTACT_COLTYPES'];
     $coltype_labels = array();
-    
+
     foreach ($coltypes as $col => $prop) {
         if ($prop['subtypes']) {
             $subtype_names = array_map('rcmail_get_type_label', $prop['subtypes']);
@@ -369,7 +410,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     // skip cols unknown to the backend
                     if (!$coltypes[$col])
                         continue;
-                    
+
                     // only string values are expected here
                     if (is_array($record[$col]))
                         $record[$col] = join(' ', $record[$col]);
@@ -390,7 +431,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 }
                 $content .= html::div($blockname, $fields);
             }
-            
+
             if ($edit_mode)
                 $content .= html::p('addfield', $select_add->show(null));
 
@@ -522,13 +563,13 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     else   // row without label
                         $rows .= html::div('row', html::div('contactfield', $val));
                 }
-                
+
                 // add option to the add-field menu
                 if (!$colprop['limit'] || $coltypes[$field]['count'] < $colprop['limit']) {
                     $select_add->add($colprop['label'], $col);
                     $select_add->_count++;
                 }
-                
+
                 // wrap rows in fieldgroup container
                 $content .= html::tag('fieldset', array('class' => 'contactfieldgroup ' . ($colprop['subtypes'] ? 'contactfieldgroupmulti ' : '') . 'contactcontroller' . $col, 'style' => ($rows ? null : 'display:none')),
                   ($colprop['subtypes'] ? html::tag('legend', null, Q($colprop['label'])) : ' ') .
@@ -598,6 +639,48 @@ function rcmail_format_date_col($val)
     return format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'));
 }
 
+
+/**
+ * Returns contact ID(s) and source(s) from GET/POST data
+ *
+ * @return array List of contact IDs per-source
+ */
+function rcmail_get_cids()
+{
+    // contact ID (or comma-separated list of IDs) is provided in two
+    // forms. If _source is an empty string then the ID is a string
+    // containing contact ID and source name in form: <ID>-<SOURCE>
+
+    $cid    = get_input_value('_cid', RCUBE_INPUT_GPC);
+    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+
+    if (!preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
+        return array();
+    }
+
+    $cid        = explode(',', $cid);
+    $got_source = strlen($source);
+    $result     = array();
+
+    // create per-source contact IDs array
+    foreach ($cid as $id) {
+        // if _source is not specified we'll find it from decoded ID
+        if (!$got_source) {
+            list ($c, $s) = explode('-', $id, 2);
+            if (strlen($s)) {
+                $result[$s][] = $c;
+            }
+            else if (strlen($source)) {
+                $result[$source][] = $c;
+            }
+        }
+        else {
+            $result[$source][] = $id;
+        }
+    }
+
+    return $result;
+}
 
 // register UI objects
 $OUTPUT->add_handlers(array(

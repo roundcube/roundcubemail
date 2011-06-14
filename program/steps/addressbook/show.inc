@@ -19,9 +19,16 @@
 
 */
 
+// Get contact ID and source ID from request
+$cids   = rcmail_get_cids();
+$source = key($cids);
+$cid    = array_shift($cids[$source]);
+
+// Initialize addressbook source
+$CONTACTS = rcmail_contact_source($source, true);
 
 // read contact record
-if (($cid = get_input_value('_cid', RCUBE_INPUT_GPC)) && ($record = $CONTACTS->get_record($cid, true))) {
+if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     $OUTPUT->set_env('cid', $record['ID']);
 }
 
@@ -41,7 +48,7 @@ if ($RCMAIL->action == 'photo') {
         if (!preg_match('![^a-z0-9/=+-]!i', $data))
             $data = base64_decode($data, true);
     }
-    
+
     header('Content-Type: ' . rc_image_content_type($data));
     echo $data ? $data : file_get_contents('program/blank.gif');
     exit;
@@ -190,14 +197,15 @@ function rcmail_contact_record_groups($contact_id)
     $form_end = '</form>';
 
     $RCMAIL->output->add_gui_object('editform', 'form');
-  
+
     return $form_start . $table->show() . $form_end;
 }
 
 
-//$OUTPUT->framed = $_framed;
-$OUTPUT->add_handler('contacthead', 'rcmail_contact_head');
-$OUTPUT->add_handler('contactdetails', 'rcmail_contact_details');
-$OUTPUT->add_handler('contactphoto', 'rcmail_contact_photo');
+$OUTPUT->add_handlers(array(
+    'contacthead'    => 'rcmail_contact_head',
+    'contactdetails' => 'rcmail_contact_details',
+    'contactphoto'   => 'rcmail_contact_photo',
+));
 
 $OUTPUT->send('contact');

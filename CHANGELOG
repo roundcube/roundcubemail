@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added searching in all addressbook sources
+- Added addressbook source selection in contacts import
 - Implement LDAPv3 Virtual List View (VLV) for paged results listing
 - Use 'address_template' config option when adding a new address block (#1487944)
 - Added addressbook advanced search

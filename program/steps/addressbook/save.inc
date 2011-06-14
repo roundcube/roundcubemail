@@ -19,8 +19,10 @@
 
 */
 
-$cid = get_input_value('_cid', RCUBE_INPUT_POST);
+$CONTACTS = rcmail_contact_source(null, true);
+$cid      = get_input_value('_cid', RCUBE_INPUT_POST);
 $return_action = empty($cid) ? 'add' : 'edit';
+
 
 // cannot edit record
 if ($CONTACTS->readonly) {
@@ -38,19 +40,19 @@ if ($RCMAIL->action == 'upload-photo') {
     if ($filepath = $_FILES['_photo']['tmp_name']) {
         // check file type and resize image
         $imageprop = rcmail::imageprops($_FILES['_photo']['tmp_name']);
-        
+
         if ($imageprop['width'] && $imageprop['height']) {
             $maxsize = intval($RCMAIL->config->get('contact_photo_size', 160));
             $tmpfname = tempnam($RCMAIL->config->get('temp_dir'), 'rcmImgConvert');
             $save_hook = 'attachment_upload';
-            
+
             // scale image to a maximum size
             if (($imageprop['width'] > $maxsize || $imageprop['height'] > $maxsize) &&
                   (rcmail::imageconvert(array('in' => $filepath, 'out' => $tmpfname, 'size' => $maxsize.'x'.$maxsize, 'type' => $imageprop['type'])) !== false)) {
                 $filepath = $tmpfname;
                 $save_hook = 'attachment_save';
             }
-            
+
             // save uploaded file in storage backend
             $attachment = $RCMAIL->plugins->exec_hook($save_hook, array(
                 'path' => $filepath,
@@ -87,10 +89,10 @@ if ($RCMAIL->action == 'upload-photo') {
             $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes($maxsize)))));
         else
             $msg = rcube_label('fileuploaderror');
-            
+
         $OUTPUT->command('display_message', $msg, 'error');
     }
-    
+
     $OUTPUT->command('photo_upload_end');
     $OUTPUT->send('iframe');
 }
@@ -155,7 +157,7 @@ if (isset($a_record['photo'])) {
     }
     else
         unset($a_record['photo']);
-    
+
     // cleanup session data
     $RCMAIL->plugins->exec_hook('attachments_cleanup', array('group' => 'contact'));
     $RCMAIL->session->remove('contacts');
@@ -240,7 +242,7 @@ else {
         $CONTACTS->add_to_group($gid, $plugin['ids']);
       }
     }
-    
+
     // add contact row or jump to the page where it should appear
     $CONTACTS->reset();
     $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);

@@ -19,33 +19,36 @@
 
 */
 
-$cid = get_input_value('_cid', RCUBE_INPUT_POST);
-$recipients = null;
+$cids   = rcmail_get_cids();
 $mailto = array();
 
-if ($cid && preg_match('/^[a-z0-9\+\/=_-]+(,[a-z0-9\+\/=_-]+)*$/i', $cid) && $CONTACTS->ready)
+foreach ($cids as $source => $cid)
 {
-  $CONTACTS->set_page(1);
-  $CONTACTS->set_pagesize(substr_count($cid, ',')+2); // +2 to skip counting query
-  $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid);
+    $CONTACTS = $RCMAIL->get_address_book($source);
 
-  while (is_object($recipients) && ($rec = $recipients->iterate())) {
-    $emails = $CONTACTS->get_col_values('email', $rec, true);
-    $mailto[] = format_email_recipient($emails[0], $rec['name']);
-  }
+    if ($CONTACTS->ready)
+    {
+        $CONTACTS->set_page(1);
+        $CONTACTS->set_pagesize(count($cid) + 2); // +2 to skip counting query
+        $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid, false, true, true, 'email');
+
+        while (is_object($recipients) && ($rec = $recipients->iterate())) {
+            $emails = $CONTACTS->get_col_values('email', $rec, true);
+            $mailto[] = format_email_recipient($emails[0], $rec['name']);
+        }
+    }
 }
 
 if (!empty($mailto))
 {
-  $mailto_str = join(', ', $mailto);
-  $mailto_id = substr(md5($mailto_str), 0, 16);
-  $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);
-  $OUTPUT->redirect(array('task' => 'mail', '_action' => 'compose', '_mailto' => $mailto_id));
+    $mailto_str = join(', ', $mailto);
+    $mailto_id = substr(md5($mailto_str), 0, 16);
+    $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);
+    $OUTPUT->redirect(array('task' => 'mail', '_action' => 'compose', '_mailto' => $mailto_id));
 }
-else
-  $OUTPUT->show_message('nocontactsfound', 'warning');
-
+else {
+    $OUTPUT->show_message('nocontactsfound', 'warning');
+}
 
 // send response
 $OUTPUT->send();
-

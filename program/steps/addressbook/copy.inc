@@ -23,75 +23,91 @@
 if (!$OUTPUT->ajax_call)
   return;
 
-$cid = get_input_value('_cid', RCUBE_INPUT_POST);
-$target = get_input_value('_to', RCUBE_INPUT_POST);
+
+$cids         = rcmail_get_cids();
+$target       = get_input_value('_to', RCUBE_INPUT_POST);
 $target_group = get_input_value('_togid', RCUBE_INPUT_POST);
 
-if ($cid && preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid) && strlen($target) && $target !== $source)
-{
-  $success = 0;
-  $TARGET = $RCMAIL->get_address_book($target);
+$success = 0;
+$maxnum  = $RCMAIL->config->get('max_group_members', 0);
 
-  if ($TARGET && $TARGET->ready && !$TARGET->readonly) {
-    $arr_cids = explode(',', $cid);
+foreach ($cids as $source => $cid)
+{
+    // Something wrong, target not specified
+    if (!strlen($target)) {
+        break;
+    }
+
+    // It maight happen when copying records from search result
+    // Do nothing, go to next source
+    if ($target == $source) {
+        continue;
+    }
+
+    $CONTACTS = $RCMAIL->get_address_book($source);
+    $TARGET   = $RCMAIL->get_address_book($target);
+
+    if (!$TARGET || !$TARGET->ready || $TARGET->readonly) {
+        break;
+    }
+
     $ids = array();
 
-    foreach ($arr_cids as $cid) {
-      $a_record = $CONTACTS->get_record($cid, true);
+    foreach ($cid as $cid) {
+        $a_record = $CONTACTS->get_record($cid, true);
 
-      // check if contact exists, if so, we'll need it's ID
-      $result = $TARGET->search('email', $a_record['email'], true, true);
+        // check if contact exists, if so, we'll need it's ID
+        $result = $TARGET->search('email', $a_record['email'], true, true);
 
-      // insert contact record
-      if (!$result->count) {
-        $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
-          'record' => $a_record, 'source' => $target, 'group' => $target_group));
+        // insert contact record
+        if (!$result->count) {
+            $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
+                'record' => $a_record, 'source' => $target, 'group' => $target_group));
 
-        if (!$plugin['abort']) {
-          if ($insert_id = $TARGET->insert($plugin['record'], false)) {
-            $ids[] = $insert_id;
-            $success++;
-          }
+            if (!$plugin['abort']) {
+                if ($insert_id = $TARGET->insert($plugin['record'], false)) {
+                    $ids[] = $insert_id;
+                    $success++;
+                }
+            }
+            else if ($plugin['result']) {
+                $ids = array_merge($ids, $plugin['result']);
+                $success++;
+            }
         }
-        else if ($plugin['result']) {
-          $ids = array_merge($ids, $plugin['result']);
-          $success++;
+        else {
+            $record = $result->first();
+            $ids[] = $record['ID'];
         }
-      }
-      else {
-        $record = $result->first();
-        $ids[] = $record['ID'];
-      }
     }
 
     // assign to group
     if ($target_group && $TARGET->groups && !empty($ids)) {
-      $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array(
-        'group_id' => $target_group, 'ids' => $ids, 'source' => $target));
+        $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array(
+            'group_id' => $target_group, 'ids' => $ids, 'source' => $target));
 
-      if (!$plugin['abort']) {
-        $TARGET->reset();
-        $TARGET->set_group($target_group);
+        if (!$plugin['abort']) {
+            $TARGET->reset();
+            $TARGET->set_group($target_group);
 
-        if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($TARGET->count()->count + count($plugin['ids']) > $maxnum)) {
-          $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
-          $OUTPUT->send();
+            if ($maxnum && ($TARGET->count()->count + count($plugin['ids']) > $maxnum)) {
+                $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
+                $OUTPUT->send();
+            }
+
+            if (($cnt = $TARGET->add_to_group($target_group, $plugin['ids'])) && $cnt > $success)
+                $success = $cnt;
         }
-
-        if (($cnt = $TARGET->add_to_group($target_group, $plugin['ids'])) && $cnt > $success)
-          $success = $cnt;
-      }
-      else if ($plugin['result'])
-        $success = $plugin['result'];
+        else if ($plugin['result']) {
+            $success = $plugin['result'];
+        }
     }
-  }
-
-  if ($success == 0)
-    $OUTPUT->show_message('copyerror', 'error');
-  else
-    $OUTPUT->show_message('copysuccess', 'notice', array('nr' => $success));
 }
+
+if ($success == 0)
+    $OUTPUT->show_message('copyerror', 'error');
+else
+    $OUTPUT->show_message('copysuccess', 'notice', array('nr' => $success));
 
 // send response
 $OUTPUT->send();
-

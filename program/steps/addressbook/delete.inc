@@ -19,42 +19,126 @@
 
 */
 
-if ($OUTPUT->ajax_call &&
-    ($cid = get_input_value('_cid', RCUBE_INPUT_POST)) &&
-    preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)
-) {
+// process ajax requests only
+if (!$OUTPUT->ajax_call)
+    return;
+
+$cids   = rcmail_get_cids();
+$delcnt = 0;
+
+foreach ($cids as $source => $cid)
+{
+    $CONTACTS = rcmail_contact_source($source);
+
+    if ($CONTACTS->readonly) {
+        // more sources? do nothing, probably we have search results from
+        // more than one source, some of these sources can be readonly
+        if (count($cids) == 1) {
+            $OUTPUT->show_message('contactdelerror', 'error');
+            $OUTPUT->command('list_contacts');
+        }
+        continue;
+    }
+
     $plugin = $RCMAIL->plugins->exec_hook('contact_delete', array(
-        'id' => $cid, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+        'id' => $cid, 'source' => $source));
 
     $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid) : $plugin['result'];
 
     if (!$deleted) {
         $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'contactdelerror', 'error');
         $OUTPUT->command('list_contacts');
+        $OUTPUT->send();
     }
     else {
-        $OUTPUT->show_message('contactdeleted', 'confirmation');
-
-        // count contacts for this user
-        $result = $CONTACTS->count();
-
-        // update saved search after data changed
-        if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request]))
-            $_SESSION['search'][$search_request] = $CONTACTS->refresh_search();
-
-        // update message count display
-        $OUTPUT->set_env('pagecount', ceil($result->count / $CONTACTS->page_size));
-        $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result->count));
-
-        // add new rows from next page (if any)
-        $pages = ceil(($result->count + $deleted) / $CONTACTS->page_size);
-        if ($_GET['_from'] != 'show' && $pages > 1 && $CONTACTS->list_page < $pages)
-            rcmail_js_contacts_list($CONTACTS->list_records(null, -$deleted));
+        $delcnt += $deleted;
     }
-
-    // send response
-    $OUTPUT->send();
 }
 
-exit;
+$OUTPUT->show_message('contactdeleted', 'confirmation');
 
+$page = isset($_SESSION['page']) ? $_SESSION['page'] : 1;
+
+// update saved search after data changed
+if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request])) {
+    $search  = (array)$_SESSION['search'][$search_request];
+    $records = array();
+
+    // Get records from all sources (refresh search)
+    foreach ($search as $s => $set) {
+        $source = $RCMAIL->get_address_book($s);
+
+        // reset page
+        $source->set_page(1);
+        $source->set_pagesize(9999);
+        $source->set_search_set($set);
+
+        // get records
+        $result = $source->list_records(array('name', 'email'));
+
+        if (!$result->count) {
+            unset($search[$s]);
+            continue;
+        }
+
+        while ($row = $result->next()) {
+            $row['sourceid'] = $s;
+            $key = $row['name'] . ':' . $row['sourceid'];
+            $records[$key] = $row;
+        }
+        unset($result);
+
+        $search[$s] = $source->get_search_set();
+    }
+
+    $_SESSION['search'][$search_request] = $search;
+
+    // create resultset object
+    $count  = count($records);
+    $first  = ($page-1) * $CONFIG['pagesize'];
+    $result = new rcube_result_set($count, $first);
+
+    // get records from the next page to add to the list
+    $pages = ceil((count($records) + $delcnt) / $CONFIG['pagesize']);
+    if ($_GET['_from'] != 'show' && $pages > 1 && $page < $pages) {
+        // sort the records
+        ksort($records, SORT_LOCALE_STRING);
+
+        $first += $CONFIG['pagesize'];
+        // create resultset object
+        $res = new rcube_result_set($count, $first - $delcnt);
+
+        if ($CONFIG['pagesize'] < $count) {
+            $records = array_slice($records, $first - $delcnt, $delcnt);
+        }
+
+        $res->records = array_values($records);
+        $records = $res;
+    }
+    else {
+        unset($records);
+    }
+}
+else {
+    // count contacts for this user
+    $result = $CONTACTS->count();
+
+    // get records from the next page to add to the list
+    $pages = ceil(($result->count + $delcnt) / $CONFIG['pagesize']);
+    if ($_GET['_from'] != 'show' && $pages > 1 && $page < $pages) {
+        $CONTACTS->set_page($page);
+        $records = $CONTACTS->list_records(null, -$delcnt);
+    }
+}
+
+// update message count display
+$OUTPUT->set_env('pagecount', ceil($result->count / $CONFIG['pagesize']));
+$OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
+
+// add new rows from next page (if any)
+if (!empty($records)) {
+    rcmail_js_contacts_list($records);
+}
+
+// send response
+$OUTPUT->send();

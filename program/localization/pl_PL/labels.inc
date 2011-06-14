@@ -413,5 +413,6 @@ $labels['allfields'] = 'Wszystkie pola';
 $labels['search'] = 'Szukaj';
 $labels['advsearch'] = 'Wyszukiwanie zaawansowane';
 $labels['other'] = 'Inne';
+$labels['importtarget'] = 'Dodaj nowe kontakty do książki adresowej:';
 
 ?>
