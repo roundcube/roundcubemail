@@ -62,8 +62,11 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     // add list of address sources to client env
     $js_list = $RCMAIL->get_address_sources();
 
+    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+
     // use first directory by default
-    $source = $js_list[key($js_list)]['id'];
+    if (!strlen($source) || !isset($js_list[$source]))
+        $source = $js_list[key($js_list)]['id'];
 
     // find writeable source
     foreach ($js_list as $s) {
@@ -155,18 +158,22 @@ function rcmail_directory_list($attrib)
     $out = '';
     $local_id = '0';
     $jsdata = array();
-    $current = get_input_value('_source', RCUBE_INPUT_GPC);
+
     $line_templ = html::tag('li', array(
         'id' => 'rcmli%s', 'class' => 'addressbook %s'),
         html::a(array('href' => '%s',
             'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
 
-    // currently selected is the first address source in the list
-    if (!isset($current))
-        $current = strval(key((array)$OUTPUT->env['address_sources']));
+    $sources = (array) $OUTPUT->env['address_sources'];
+    reset($sources);
 
-    foreach ((array)$OUTPUT->env['address_sources'] as $j => $source) {
+    // currently selected source
+    $current = get_input_value('_source', RCUBE_INPUT_GPC);
+    if (!strlen($current) || !isset($sources[$source]))
+        $current = strval(key($sources));
+
+    foreach ($sources as $j => $source) {
         $id = strval($source['id'] ? $source['id'] : $j);
         $js_id = JQ($id);
         $out .= sprintf($line_templ,
