@@ -113,7 +113,7 @@ class rcube_ldap extends rcube_addressbook
         foreach ($this->prop['required_fields'] as $key => $val)
             $this->prop['required_fields'][$key] = $this->_attr_name(strtolower($val));
 
-        $this->sort_col = $p['sort'];
+        $this->sort_col = is_array($p['sort']) ? $p['sort'][0] : $p['sort'];
         $this->debug = $debug;
         $this->mail_domain = $mail_domain;
 
@@ -900,7 +900,7 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _vlv_set_controls()
     {
-        $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => $this->_sort_ber_encode(array($this->sort_col)));
+        $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => $this->_sort_ber_encode((array)$this->prop['sort']));
         $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($this->list_page-1) * $this->page_size + 1), $this->page_size), 'iscritical' => true);
 
         $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ({$this->sort_col});"
