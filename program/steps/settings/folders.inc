@@ -259,7 +259,7 @@ function rcube_subscription_form($attrib)
         $folder_utf8    = rcube_charset_convert($folder['id'], 'UTF7-IMAP');
         $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level'])
             . Q($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
-    
+
         if ($folder['virtual']) {
             $classes[] = 'virtual';
         }
@@ -271,8 +271,9 @@ function rcube_subscription_form($attrib)
 
         $disabled = (($protected && $subscribed) || $noselect);
 
-        $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes)));
-    
+        $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes),
+            'foldername' => $folder['id']));
+
         $table->add('name', $display_folder);
         $table->add('subscribed', $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''),
             array('value' => $folder_utf8, 'disabled' => $disabled ? 'disabled' : '')));
@@ -297,7 +298,7 @@ function rcmail_folder_frame($attrib)
 
     if (!$attrib['id'])
         $attrib['id'] = 'rcmfolderframe';
-    
+
     $attrib['name'] = $attrib['id'];
 
     $OUTPUT->set_env('contentframe', $attrib['name']);
