@@ -713,7 +713,7 @@ class html_table extends html
             foreach ($this->header as $c => $col) {
                 $rowcontent .= self::tag('td', $col->attrib, $col->content);
             }
-            $thead = self::tag('thead', null, self::tag('tr', null, $rowcontent));
+            $thead = self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib));
         }
 
         foreach ($this->rows as $r => $row) {
@@ -723,7 +723,7 @@ class html_table extends html
             }
 
             if ($r < $this->rowindex || count($row->cells)) {
-                $tbody .= self::tag('tr', $row->attrib, $rowcontent);
+                $tbody .= self::tag('tr', $row->attrib, $rowcontent, parent::$common_attrib);
             }
         }
 
