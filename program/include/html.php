@@ -562,7 +562,7 @@ class html_table extends html
 {
     protected $tagname = 'table';
     protected $allowed = array('id','class','style','width','summary',
-	'cellpadding','cellspacing','border');
+	    'cellpadding','cellspacing','border');
 
     private $header = array();
     private $rows = array();
@@ -629,17 +629,17 @@ class html_table extends html
     public function remove_column($class)
     {
         // Remove the header
-        foreach($this->header as $index=>$header){
-            if($header->attrib['class'] == $class){
+        foreach ($this->header as $index=>$header){
+            if ($header->attrib['class'] == $class){
                 unset($this->header[$index]);
                 break;
             }
         }
 
         // Remove cells from rows
-        foreach($this->rows as $i=>$row){
-            foreach($row->cells as $j=>$cell){
-                if($cell->attrib['class'] == $class){
+        foreach ($this->rows as $i=>$row){
+            foreach ($row->cells as $j=>$cell){
+                if ($cell->attrib['class'] == $class){
                     unset($this->rows[$i]->cells[$j]);
                     break;
                 }
@@ -662,16 +662,36 @@ class html_table extends html
     }
 
     /**
-     * Set current row attrib
+     * Set row attributes
      *
-     * @param array $attr Row attributes
+     * @param array $attr  Row attributes
+     * @param int   $index Optional row index (default current row index)
      */
-    public function set_row_attribs($attr = array())
+    public function set_row_attribs($attr = array(), $index = null)
     {
         if (is_string($attr))
     	    $attr = array('class' => $attr);
 
-        $this->rows[$this->rowindex]->attrib = $attr;
+        if ($index === null)
+            $index = $this->rowindex;
+
+        if ($this->rows[$index])
+            $this->rows[$index]->attrib = $attr;
+    }
+
+    /**
+     * Get row attributes
+     *
+     * @param int $index Row index
+     *
+     * @return array Row attributes
+     */
+    public function get_row_attribs($index = null)
+    {
+        if ($index === null)
+            $index = $this->rowindex;
+
+        return $this->rows[$index] ? $this->rows[$index]->attrib : null;
     }
 
     /**
@@ -684,7 +704,7 @@ class html_table extends html
     {
         if (is_array($attrib))
             $this->attrib = array_merge($this->attrib, $attrib);
-        
+
         $thead = $tbody = "";
 
         // include <thead>
@@ -717,7 +737,7 @@ class html_table extends html
         unset($this->attrib['cols'], $this->attrib['rowsonly']);
         return parent::show();
     }
-    
+
     /**
      * Count number of rows
      *
