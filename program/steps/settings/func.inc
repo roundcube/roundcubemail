@@ -819,11 +819,18 @@ function rcmail_folder_options($mailbox)
         }
     }
 
-    return $options;    
+    return $options;
 }
 
-// Updates (or creates) folder row in the subscriptions table
-function rcmail_update_folder_row($name, $oldname=null)
+/**
+ * Updates (or creates) folder row in the subscriptions table
+ *
+ * @param string $name      Folder name
+ * @param string $oldname   Old folder name (for update)
+ * @param bool   $subscribe Checks subscription checkbox
+ * @param string $class     CSS class name for folder row
+ */
+function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class_name=null)
 {
     global $IMAP, $CONFIG, $OUTPUT;
 
@@ -837,10 +844,11 @@ function rcmail_update_folder_row($name, $oldname=null)
         . Q($protected ? rcmail_localize_foldername($name) : rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP'));
 
     if ($oldname === null)
-        $OUTPUT->command('add_folder_row', $name_utf8, $display_name, $protected, true);
+        $OUTPUT->command('add_folder_row', $name_utf8, $display_name, $protected, $subscribe,
+            false, $class_name);
     else
         $OUTPUT->command('replace_folder_row', rcube_charset_convert($oldname, 'UTF7-IMAP'),
-            $name_utf8, $display_name, $protected);
+            $name_utf8, $display_name, $protected, $class_name);
 }
 
 

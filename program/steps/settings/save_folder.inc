@@ -71,6 +71,7 @@ else {
 
     $folder['name']     = $name_imap;
     $folder['oldname']  = $old_imap;
+    $folder['class']    = '';
     $folder['settings'] = array(
         // List view mode: 0-list, 1-threads
         'view_mode'   => (int) get_input_value('_viewmode', RCUBE_INPUT_POST),
@@ -82,12 +83,14 @@ else {
 // create a new mailbox
 if (!$error && !strlen($old)) {
 
+    $folder['subscribe'] = true;
+
     $plugin = $RCMAIL->plugins->exec_hook('folder_create', array('record' => $folder));
 
     $folder = $plugin['record'];
 
     if (!$plugin['abort']) {
-        $created = $IMAP->create_mailbox($folder['name'], TRUE);
+        $created = $IMAP->create_mailbox($folder['name'], $folder['subscribe']);
     }
     else {
         $created = $plugin['result'];
@@ -105,9 +108,11 @@ if (!$error && !strlen($old)) {
 
             $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
         }
-  
-        rcmail_update_folder_row($folder['name']);
+
+        rcmail_update_folder_row($folder['name'], null, $folder['subscribe'], $folder['class']);
         $OUTPUT->show_message('foldercreated', 'confirmation');
+        // reset folder preview frame
+        $OUTPUT->command('subscription_select');
         $OUTPUT->send('iframe');
     }
     else {
@@ -163,7 +168,7 @@ else if (!$error) {
 
         $OUTPUT->show_message('folderupdated', 'confirmation');
         if ($rename) {
-            rcmail_update_folder_row($folder['name'], $folder['oldname']);
+            rcmail_update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
             $OUTPUT->send('iframe');
         }
     }

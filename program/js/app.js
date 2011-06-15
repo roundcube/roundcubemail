@@ -4461,7 +4461,7 @@ function rcube_webmail()
   };
 
   // Add folder row to the table and initialize it
-  this.add_folder_row = function (name, display_name, protected, subscribed, skip_init)
+  this.add_folder_row = function (name, display_name, protected, subscribed, skip_init, class_name)
   {
     if (!this.gui_objects.subscriptionlist)
       return false;
@@ -4478,8 +4478,11 @@ function rcube_webmail()
     }
 
     // clone a table row if there are existing rows
-    row    = $(refrow).clone(true);
+    row = $(refrow).clone(true);
+
+    // set ID, reset css class
     row.attr('id', id);
+    row.attr('class', class_name);
 
     // set folder name
     row.find('td:first').html(display_name);
@@ -4537,7 +4540,7 @@ function rcube_webmail()
   };
 
   // replace an existing table row with a new folder line (with subfolders)
-  this.replace_folder_row = function(oldfolder, newfolder, display_name, protected)
+  this.replace_folder_row = function(oldfolder, newfolder, display_name, protected, class_name)
   {
     if (!this.gui_objects.subscriptionlist)
       return false;
@@ -4553,7 +4556,7 @@ function rcube_webmail()
 
     // replace an existing table row
     this._remove_folder_row(id);
-    row = $(this.add_folder_row(newfolder, display_name, protected, subscribed, true));
+    row = $(this.add_folder_row(newfolder, display_name, protected, subscribed, true, class_name));
 
     // detect tree depth change
     if (len = list.length) {
