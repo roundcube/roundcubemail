@@ -292,12 +292,13 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Bind connection with DN and password
-    *
-    * @param string Bind DN
-    * @param string Bind password
-    * @return boolean True on success, False on error
-    */
+     * Bind connection with DN and password
+     *
+     * @param string Bind DN
+     * @param string Bind password
+     *
+     * @return boolean True on success, False on error
+     */
     private function _bind($dn, $pass)
     {
         if (!$this->conn) {
@@ -324,8 +325,8 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Close connection to LDAP server
-    */
+     * Close connection to LDAP server
+     */
     function close()
     {
         if ($this->conn)
@@ -338,11 +339,21 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Set internal list page
-    *
-    * @param  number  Page number to list
-    * @access public
-    */
+     * Returns address book name
+     *
+     * @return string Address book name
+     */
+    function get_name()
+    {
+        return $this->prop['name'];
+    }
+
+
+    /**
+     * Set internal list page
+     *
+     * @param number $page Page number to list
+     */
     function set_page($page)
     {
         $this->list_page = (int)$page;
@@ -350,11 +361,10 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Set internal page size
-    *
-    * @param  number  Number of messages to display on one page
-    * @access public
-    */
+     * Set internal page size
+     *
+     * @param number $size Number of messages to display on one page
+     */
     function set_pagesize($size)
     {
         $this->page_size = (int)$size;
@@ -362,10 +372,10 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Save a search string for future listings
-    *
-    * @param string Filter string
-    */
+     * Save a search string for future listings
+     *
+     * @param string $filter Filter string
+     */
     function set_search_set($filter)
     {
         $this->filter = $filter;
@@ -373,10 +383,10 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Getter for saved search properties
-    *
-    * @return mixed Search properties used by this class
-    */
+     * Getter for saved search properties
+     *
+     * @return mixed Search properties used by this class
+     */
     function get_search_set()
     {
         return $this->filter;
@@ -384,8 +394,8 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Reset all saved results and search parameters
-    */
+     * Reset all saved results and search parameters
+     */
     function reset()
     {
         $this->result = null;
@@ -395,12 +405,13 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * List the current set of contact records
-    *
-    * @param  array  List of cols to show
-    * @param  int    Only return this number of records
-    * @return array  Indexed list of contact records, each a hash array
-    */
+     * List the current set of contact records
+     *
+     * @param  array  List of cols to show
+     * @param  int    Only return this number of records
+     *
+     * @return array  Indexed list of contact records, each a hash array
+     */
     function list_records($cols=null, $subset=0)
     {
         // add general filter to query
@@ -453,17 +464,17 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Search contacts
-    *
-    * @param mixed   $fields   The field name of array of field names to search in
-    * @param mixed   $value    Search value (or array of values when $fields is array)
-    * @param boolean $strict   True for strict, False for partial (fuzzy) matching
-    * @param boolean $select   True if results are requested, False if count only
-    * @param boolean $nocount  (Not used)
-    * @param array   $required List of fields that cannot be empty
-    *
-    * @return array  Indexed list of contact records and 'count' value
-    */
+     * Search contacts
+     *
+     * @param mixed   $fields   The field name of array of field names to search in
+     * @param mixed   $value    Search value (or array of values when $fields is array)
+     * @param boolean $strict   True for strict, False for partial (fuzzy) matching
+     * @param boolean $select   True if results are requested, False if count only
+     * @param boolean $nocount  (Not used)
+     * @param array   $required List of fields that cannot be empty
+     *
+     * @return array  Indexed list of contact records and 'count' value
+     */
     function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
     {
         // special treatment for ID-based search
@@ -543,10 +554,10 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Count number of available contacts in database
-    *
-    * @return object rcube_result_set Resultset with values for 'count' and 'first'
-    */
+     * Count number of available contacts in database
+     *
+     * @return object rcube_result_set Resultset with values for 'count' and 'first'
+     */
     function count()
     {
         $count = 0;
@@ -570,10 +581,10 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Return the last result set
-    *
-    * @return object rcube_result_set Current resultset or NULL if nothing selected yet
-    */
+     * Return the last result set
+     *
+     * @return object rcube_result_set Current resultset or NULL if nothing selected yet
+     */
     function get_result()
     {
         return $this->result;
@@ -581,12 +592,13 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Get a specific contact record
-    *
-    * @param mixed   Record identifier
-    * @param boolean Return as associative array
-    * @return mixed  Hash array or rcube_result_set with all record fields
-    */
+     * Get a specific contact record
+     *
+     * @param mixed   Record identifier
+     * @param boolean Return as associative array
+     *
+     * @return mixed  Hash array or rcube_result_set with all record fields
+     */
     function get_record($dn, $assoc=false)
     {
         $res = null;
@@ -624,6 +636,7 @@ class rcube_ldap extends rcube_addressbook
      * If input not valid, the message to display can be fetched using get_error()
      *
      * @param array Assoziative array with data to save
+     *
      * @return boolean True if input is valid, False if not.
      */
     public function validate($save_data)
@@ -633,18 +646,19 @@ class rcube_ldap extends rcube_addressbook
             $this->set_error('warning', 'nonamewarning');
             return false;
         }
-        
+
         // validate e-mail addresses
         return parent::validate($save_data);
     }
 
 
     /**
-    * Create a new contact record
-    *
-    * @param array    Hash array with save data
-    * @return encoded record ID on success, False on error
-    */
+     * Create a new contact record
+     *
+     * @param array    Hash array with save data
+     *
+     * @return encoded record ID on success, False on error
+     */
     function insert($save_cols)
     {
         // Map out the column names to their LDAP ones to build the new entry.
@@ -698,12 +712,13 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Update a specific contact record
-    *
-    * @param mixed Record identifier
-    * @param array Hash array with save data
-    * @return boolean True on success, False on error
-    */
+     * Update a specific contact record
+     *
+     * @param mixed Record identifier
+     * @param array Hash array with save data
+     *
+     * @return boolean True on success, False on error
+     */
     function update($id, $save_cols)
     {
         $record = $this->get_record($id, true);
@@ -713,6 +728,7 @@ class rcube_ldap extends rcube_addressbook
         $newdata = array();
         $replacedata = array();
         $deletedata = array();
+
         foreach ($this->fieldmap as $col => $fld) {
             $val = $save_cols[$col];
             if ($fld) {
@@ -816,11 +832,12 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Mark one or more contact records as deleted
-    *
-    * @param array  Record identifiers
-    * @return boolean True on success, False on error
-    */
+     * Mark one or more contact records as deleted
+     *
+     * @param array  Record identifiers
+     *
+     * @return boolean True on success, False on error
+     */
     function delete($ids)
     {
         if (!is_array($ids)) {
@@ -856,10 +873,8 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Execute the LDAP search based on the stored credentials
-    *
-    * @access private
-    */
+     * Execute the LDAP search based on the stored credentials
+     */
     private function _exec_search($count = false)
     {
         if ($this->ready)
@@ -894,7 +909,7 @@ class rcube_ldap extends rcube_addressbook
 
         return false;
     }
-    
+
     /**
      * Set server controls for Virtual List View (paginated listing)
      */
@@ -917,8 +932,8 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * @access private
-    */
+     * Converts LDAP entry into an array
+     */
     private function _ldap2result($rec)
     {
         $out = array();
@@ -947,8 +962,8 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * @access private
-    */
+     * Return real field name (from fields map)
+     */
     private function _map_field($field)
     {
         return $this->fieldmap[$field];
@@ -956,9 +971,9 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * @access private
-    */
-    private function _attr_name($name)
+     * Returns unified attribute name (resolving aliases)
+     */
+    private static function _attr_name($name)
     {
         // list of known attribute aliases
         $aliases = array(
@@ -973,8 +988,8 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * @access private
-    */
+     * Prints debug info to the log
+     */
     private function _debug($str)
     {
         if ($this->debug)
@@ -983,9 +998,14 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * @static
-    */
-    private function _quote_string($str, $dn=false)
+     * Quotes attribute value string
+     *
+     * @param string $str Attribute value
+     * @param bool   $dn  True if the attribute is a DN
+     *
+     * @return string Quoted string
+     */
+    private static function _quote_string($str, $dn=false)
     {
         // take firt entry if array given
         if (is_array($str))
@@ -1295,7 +1315,7 @@ class rcube_ldap extends rcube_addressbook
 
         # construct the string from right to left
         $str = "020100"; # contentCount
-        
+
         $ber_val = self::_ber_encode_int($offset);  // returns encoded integer value in hex format
 
         // calculate octet length of $ber_val
@@ -1357,7 +1377,7 @@ class rcube_ldap extends rcube_addressbook
     {
         $val = dechex($offset);
         $prefix = '';
-        
+
         // check if bit 8 of high byte is 1
         if (preg_match('/^[89abcdef]/', $val))
             $prefix = '00';

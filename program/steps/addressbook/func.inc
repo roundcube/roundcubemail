@@ -81,6 +81,7 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $OUTPUT->set_env('address_sources', $js_list);
 
     $OUTPUT->set_pagetitle(rcube_label('addressbook'));
+    $_SESSION['addressbooks_count'] = count($js_list);
 
     $CONTACTS = rcmail_contact_source($source, true);
 }

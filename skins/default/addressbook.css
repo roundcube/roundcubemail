@@ -384,3 +384,10 @@ fieldset.contactfieldgroup legend
 {
 	padding: 2px;
 }
+
+#sourcename
+{
+  color: #666;
+  font-size: 10px;
+  margin-left: 2px;
+}

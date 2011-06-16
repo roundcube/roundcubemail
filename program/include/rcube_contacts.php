@@ -41,6 +41,7 @@ class rcube_contacts extends rcube_addressbook
     private $user_id = 0;
     private $filter = null;
     private $result = null;
+    private $name;
     private $cache;
     private $table_cols = array('name', 'email', 'firstname', 'surname');
     private $fulltext_cols = array('name', 'firstname', 'surname', 'middlename', 'nickname',
@@ -76,9 +77,18 @@ class rcube_contacts extends rcube_addressbook
 
 
     /**
+     * Returns addressbook name
+     */
+     function get_name()
+     {
+        return $this->name;
+     }
+
+
+    /**
      * Save a search string for future listings
      *
-     * @param  string SQL params to use in listing method
+     * @param string SQL params to use in listing method
      */
     function set_search_set($filter)
     {

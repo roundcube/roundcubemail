@@ -33,7 +33,7 @@ abstract class rcube_addressbook
     const ERROR_INCOMPLETE = 3;
     const ERROR_SAVING = 4;
     const ERROR_SEARCH = 5;
-    
+
     /** public properties (mandatory) */
     public $primary_key;
     public $groups = false;
@@ -43,8 +43,13 @@ abstract class rcube_addressbook
     public $list_page = 1;
     public $page_size = 10;
     public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
-    
+
     protected $error;
+
+    /**
+     * Returns addressbook name (e.g. for addressbooks listing)
+     */
+    abstract function get_name();
 
     /**
      * Save a search string for future listings
@@ -129,7 +134,7 @@ abstract class rcube_addressbook
     {
       return $this->error;
     }
-    
+
     /**
      * Setter for errors for internal use
      *
@@ -378,7 +383,7 @@ abstract class rcube_addressbook
                 }
             }
         }
-      
+
         return $out;
     }
 
@@ -397,7 +402,7 @@ abstract class rcube_addressbook
             array('/[\s;\+\-\/]+/i', '/(\d)[-.\s]+(\d)/', '/\s\w{1,3}\s/'),
             array(' ', '\\1\\2', ' '),
             $str));
-        
+
         foreach ($arr as $i => $part) {
             if (utf8_encode(utf8_decode($part)) == $part) {  // is latin-1 ?
                 $arr[$i] = utf8_encode(strtr(strtolower(strtr(utf8_decode($part),
@@ -408,7 +413,7 @@ abstract class rcube_addressbook
             else
                 $arr[$i] = mb_strtolower($part);
         }
-        
+
         return join(" ", $arr);
     }
 
