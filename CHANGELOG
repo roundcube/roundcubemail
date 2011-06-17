@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improved namespace roots handling in folder manager
 - Added searching in all addressbook sources
 - Added addressbook source selection in contacts import
 - Implement LDAPv3 Virtual List View (VLV) for paged results listing

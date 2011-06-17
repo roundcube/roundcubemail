@@ -72,6 +72,7 @@ else {
     $folder['name']     = $name_imap;
     $folder['oldname']  = $old_imap;
     $folder['class']    = '';
+    $folder['options']  = $options;
     $folder['settings'] = array(
         // List view mode: 0-list, 1-threads
         'view_mode'   => (int) get_input_value('_viewmode', RCUBE_INPUT_POST),

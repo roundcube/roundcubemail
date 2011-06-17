@@ -135,7 +135,7 @@ function rcmail_folder_form($attrib)
     );
 
     // Settings: threading
-    if ($threading_supported && !$options['noselect']) {
+    if ($threading_supported && !$options['noselect'] && !$options['is_root']) {
         $select = new html_select(array('name' => '_viewmode', 'id' => '_listmode'));
         $select->add(rcube_label('list'), 0);
         $select->add(rcube_label('threads'), 1);
@@ -192,7 +192,7 @@ function rcmail_folder_form($attrib)
             'content' => array()
         );
 
-        if (!$options['noselect']) {
+        if (!$options['noselect'] && !$options['is_root']) {
             $msgcount = $RCMAIL->imap->messagecount($mbox_imap, 'ALL', true, false);
 
             // Size

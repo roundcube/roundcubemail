@@ -179,7 +179,7 @@ function rcube_subscription_form($attrib)
 
     list($form_start, $form_end) = get_form_tags($attrib, 'folders');
     unset($attrib['form']);
-  
+
     if (!$attrib['id'])
         $attrib['id'] = 'rcmSubscriptionlist';
 
@@ -197,6 +197,7 @@ function rcube_subscription_form($attrib)
     $a_unsubscribed = $IMAP->list_unsubscribed();
     $a_subscribed   = $IMAP->list_mailboxes();
     $delimiter      = $IMAP->get_hierarchy_delimiter();
+    $namespace      = $IMAP->get_namespace();
     $a_js_folders   = array();
     $seen           = array();
     $list_folders   = array();
@@ -253,6 +254,7 @@ function rcube_subscription_form($attrib)
         $idx        = $i + 1;
         $subscribed = in_array($folder['id'], $a_subscribed);
         $protected  = ($CONFIG['protect_default_folders'] == true && in_array($folder['id'], $CONFIG['default_imap_folders']));
+        $noselect   = false;
         $classes    = array($i%2 ? 'even' : 'odd');
 
         $folder_js      = Q($folder['id']);
@@ -270,6 +272,19 @@ function rcube_subscription_form($attrib)
         }
 
         $disabled = (($protected && $subscribed) || $noselect);
+
+        // check if the folder is a namespace prefix, then disable subscription option on it
+        if (!$disabled && $folder['virtual'] && $folder['level'] == 0 && !empty($namespace)) {
+            $fname = $folder['id'] . $delimiter;
+            foreach ($namespace as $ns) {
+                foreach ($ns as $item) {
+                    if ($item[0] === $fname) {
+                        $disabled = true;
+                        break;
+                    }
+                }
+            }
+        }
 
         $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes),
             'foldername' => $folder['id']));
