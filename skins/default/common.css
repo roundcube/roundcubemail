@@ -163,7 +163,7 @@ img
   height: 24px;
   width: 100%;
   background: url(images/taskbar.png) top right no-repeat;
-  padding: 10px 4px 5px 0px;
+  padding: 10px 6px 5px 0px;
   text-align: right;
   white-space: nowrap;
   z-index: 2;
@@ -578,8 +578,8 @@ table.records-table tr.unfocused td
 {
   position: absolute;
   top: 55px;
-  right: 20px;
-  width: 182px;
+  right: 30px;
+  width: 190px;
   height: 20px;
   text-align: right;
   background: url(images/searchfield.gif) top left no-repeat;
@@ -589,7 +589,7 @@ table.records-table tr.unfocused td
 {
   position: absolute;
   top: 3px;
-  right: 4px;
+  right: 12px;
   text-decoration: none;
 }
 
@@ -597,7 +597,7 @@ table.records-table tr.unfocused td
 {
  position: absolute;
  top: 3px;
- right: 160px;
+ right: 168px;
 }
 
 #quicksearchbar img
