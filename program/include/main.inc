@@ -136,26 +136,24 @@ function rcmail_url($action, $p=array(), $task=null)
  * Remove temp files older than two days
  */
 function rcmail_temp_gc()
-  {
+{
   $rcmail = rcmail::get_instance();
 
   $tmp = unslashify($rcmail->config->get('temp_dir'));
   $expire = mktime() - 172800;  // expire in 48 hours
 
-  if ($dir = opendir($tmp))
-    {
-    while (($fname = readdir($dir)) !== false)
-      {
+  if ($dir = opendir($tmp)) {
+    while (($fname = readdir($dir)) !== false) {
       if ($fname{0} == '.')
         continue;
 
       if (filemtime($tmp.'/'.$fname) < $expire)
         @unlink($tmp.'/'.$fname);
-      }
+    }
 
     closedir($dir);
-    }
   }
+}
 
 
 /**
@@ -164,19 +162,19 @@ function rcmail_temp_gc()
  * @return void
  */
 function rcmail_cache_gc()
-  {
+{
   $rcmail = rcmail::get_instance();
   $db = $rcmail->get_dbh();
-  
+
   // get target timestamp
   $ts = get_offset_time($rcmail->config->get('message_cache_lifetime', '30d'), -1);
-  
+
   $db->query("DELETE FROM ".get_table_name('messages')."
              WHERE  created < " . $db->fromunixtime($ts));
 
   $db->query("DELETE FROM ".get_table_name('cache')."
               WHERE  created < " . $db->fromunixtime($ts));
-  }
+}
 
 
 /**
@@ -186,9 +184,9 @@ function rcmail_cache_gc()
  * @param  string Error message
  */ 
 function rcube_error_handler($errno, $errstr)
-  {
+{
   throw new ErrorException($errstr, 0, $errno);
-  }
+}
 
 
 /**
@@ -201,11 +199,10 @@ function rcube_error_handler($errno, $errstr)
  * @return string Converted string
  */
 function rcube_charset_convert($str, $from, $to=NULL)
-  {
+{
   static $iconv_options = null;
   static $mbstring_loaded = null;
   static $mbstring_list = null;
-  static $convert_warning = false;
   static $conv = null;
 
   $error = false;
@@ -243,11 +240,11 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
   if ($mbstring_loaded === null)
     $mbstring_loaded = extension_loaded('mbstring');
-    
+
   // convert charset using mbstring module
   if ($mbstring_loaded) {
     $aliases['WINDOWS-1257'] = 'ISO-8859-13';
-    
+
     if ($mbstring_list === null) {
       $mbstring_list = mb_list_encodings();
       $mbstring_list = array_map('strtoupper', $mbstring_list);
@@ -255,7 +252,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
 
     $mb_from = $aliases[$from] ? $aliases[$from] : $from;
     $mb_to = $aliases[$to] ? $aliases[$to] : $to;
-    
+
     // return if encoding found, string matches encoding and convert succeeded
     if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
       if (mb_check_encoding($str, $mb_from) && ($out = mb_convert_encoding($str, $mb_to, $mb_from)))
@@ -310,22 +307,9 @@ function rcube_charset_convert($str, $from, $to=NULL)
     $error = true;
   }
 
-  // report error
-  if ($error && !$convert_warning) {
-    raise_error(array(
-      'code' => 500,
-      'type' => 'php',
-      'file' => __FILE__,
-      'line' => __LINE__,
-      'message' => "Could not convert string from $from to $to. Make sure iconv/mbstring is installed or lib/utf8.class is available."
-      ), true, false);
-
-    $convert_warning = true;
-  }
-
   // return UTF-8 or original string
   return $str;
-  }
+}
 
 
 /**
@@ -337,7 +321,7 @@ function rcube_charset_convert($str, $from, $to=NULL)
  * @return string The validated charset name
  */
 function rcube_parse_charset($input)
-  {
+{
   static $charsets = array();
   $charset = strtoupper($input);
 
@@ -404,11 +388,11 @@ function rcube_parse_charset($input)
     // some clients sends windows-1252 text as latin1,
     // it is safe to use windows-1252 for all latin1
     $result = $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
-    }
+  }
   // handle broken charset names e.g. WINDOWS-1250HTTP-EQUIVCONTENT-TYPE
   else if (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
     $result = 'WINDOWS-' . $m[2];
-    }
+  }
   // LATIN
   else if (preg_match('/LATIN(.*)/', $str, $m)) {
     $aliases = array('2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
@@ -419,24 +403,24 @@ function rcube_parse_charset($input)
     // it is safe to use windows-1252 for all latin1
     if ($m[1] == 1) {
       $result = 'WINDOWS-1252';
-      }
+    }
     // if iconv is not supported we need ISO labels, it's also safe for iconv
     else if (!empty($aliases[$m[1]])) {
       $result = 'ISO-8859-'.$aliases[$m[1]];
-      }
+    }
     // iconv requires convertion of e.g. LATIN-1 to LATIN1
     else {
       $result = $str;
-      }
     }
+  }
   else {
     $result = $charset;
-    }
+  }
 
   $charsets[$input] = $result;
 
   return $result;
-  }
+}
 
 
 /**
