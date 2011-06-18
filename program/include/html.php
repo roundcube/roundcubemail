@@ -675,8 +675,7 @@ class html_table extends html
         if ($index === null)
             $index = $this->rowindex;
 
-        if ($this->rows[$index])
-            $this->rows[$index]->attrib = $attr;
+        $this->rows[$index]->attrib = $attr;
     }
 
     /**
