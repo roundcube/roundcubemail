@@ -161,7 +161,7 @@ function rcmail_directory_list($attrib)
     $jsdata = array();
 
     $line_templ = html::tag('li', array(
-        'id' => 'rcmli%s', 'class' => 'addressbook %s'),
+        'id' => 'rcmli%s', 'class' => '%s'),
         html::a(array('href' => '%s',
             'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
@@ -177,9 +177,19 @@ function rcmail_directory_list($attrib)
     foreach ($sources as $j => $source) {
         $id = strval($source['id'] ? $source['id'] : $j);
         $js_id = JQ($id);
+
+        // set class name(s)
+        $class_name = 'addressbook';
+        if ($current === $id)
+            $class_name .= ' selected';
+        if ($source['readonly'])
+            $class_name .= ' readonly';
+        if ($source['class'])
+            $class_name .= ' ' . $source['class'];
+
         $out .= sprintf($line_templ,
             html_identifier($id),
-            ($current === $id ? 'selected' : ''),
+            $class_name,
             Q(rcmail_url(null, array('_source' => $id))),
             $source['id'],
             $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
