@@ -28,7 +28,7 @@ $IMAP->select_mailbox($mbox_name);
 // Get messages count (only messages, no threads here)
 $cnt  = $IMAP->messagecount(NULL, 'ALL');
 
-if ($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] != 'DESC'
+if ($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC'
     && empty($_REQUEST['_search']) && !$CONFIG['skip_deleted'] && !$IMAP->threading
 ) {
     // this assumes that we are sorted by date_DESC
