@@ -51,6 +51,8 @@ else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, tr
         $email_arr = (array)$abook->get_col_values('email', $sql_arr, true);
         $email_cnt = count($email_arr);
         foreach ($email_arr as $email) {
+          if (empty($email))
+            continue;
           $contact = format_email_recipient($email, $sql_arr['name']);
           // skip entries that don't match
           if ($email_cnt > 1 && stripos($contact, $search) === false) {
