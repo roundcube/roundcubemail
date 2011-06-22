@@ -91,4 +91,6 @@ foreach ($a_mailboxes as $mbox_name) {
     }
 }
 
+$RCMAIL->plugins->exec_hook('keep_alive', array());
+
 $OUTPUT->send();
