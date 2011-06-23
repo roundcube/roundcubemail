@@ -3489,6 +3489,62 @@ class rcube_imap
 
 
     /**
+     * Returns extended information about the folder
+     *
+     * @param string $mailbox Folder name
+     *
+     * @return array Data
+     */
+    function mailbox_info($mailbox)
+    {
+        $acl       = $this->get_capability('ACL');
+        $namespace = $this->get_namespace();
+        $options   = array();
+
+        // check if the folder is a namespace prefix
+        if (!empty($namespace)) {
+            $mbox = $mailbox . $this->delimiter;
+            foreach ($namespace as $ns) {
+                foreach ($ns as $item) {
+                    if ($item[0] === $mbox) {
+                        $options['is_root'] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        $options['name']      = $mailbox;
+        $options['options']   = $this->mailbox_options($mailbox, true);
+        $options['namespace'] = $this->mailbox_namespace($mailbox);
+        $options['rights']    = $acl && !$options['is_root'] ? (array)$this->my_rights($mailbox) : array();
+        $options['special']   = in_array($mailbox, $this->default_folders);
+
+        if (is_array($options['options'])) {
+            foreach ($options['options'] as $opt) {
+                $opt = strtolower($opt);
+                if ($opt == '\noselect' || $opt == '\nonexistent') {
+                    $options['noselect'] = true;
+                }
+            }
+        }
+        else {
+            $options['noselect'] = true;
+        }
+
+        if (!empty($options['rights'])) {
+            $options['norename'] = !in_array('x', $options['rights']) &&
+                (!in_array('c', $options['rights']) || !in_array('d', $options['rights']));
+            if (!$options['noselect']) {
+                $options['noselect'] = !in_array('r', $options['rights']);
+            }
+        }
+
+        return $options;
+    }
+
+
+    /**
      * Get message header names for rcube_imap_generic::fetchHeader(s)
      *
      * @return string Space-separated list of header names
