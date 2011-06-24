@@ -670,7 +670,7 @@ function rcmail_get_cids()
     // containing contact ID and source name in form: <ID>-<SOURCE>
 
     $cid    = get_input_value('_cid', RCUBE_INPUT_GPC);
-    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+    $source = (string) get_input_value('_source', RCUBE_INPUT_GPC);
 
     if (!preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
         return array();
@@ -686,10 +686,7 @@ function rcmail_get_cids()
         if (!$got_source) {
             list ($c, $s) = explode('-', $id, 2);
             if (strlen($s)) {
-                $result[$s][] = $c;
-            }
-            else if (strlen($source)) {
-                $result[$source][] = $c;
+                $result[(string)$s][] = $c;
             }
         }
         else {

@@ -40,7 +40,7 @@ foreach ($cids as $source => $cid)
 
     // It maight happen when copying records from search result
     // Do nothing, go to next source
-    if ($target == $source) {
+    if ((string)$target == (string)$source) {
         continue;
     }
 
