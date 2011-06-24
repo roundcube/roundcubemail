@@ -329,7 +329,7 @@ class rcube_template extends rcube_html_page
     public function write($template = '')
     {
         // unlock interface after iframe load
-        $unlock = preg_replace('/[^a-z0-9]/i', '', $_GET['_unlock']);
+        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
         if ($this->framed) {
             array_unshift($this->js_commands, array('set_busy', false, null, $unlock));
         }
