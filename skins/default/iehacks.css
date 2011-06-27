@@ -33,9 +33,7 @@ input, textarea
   width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
 }
 
-#mainscreen,
-#directorylistbox,
-#addressscreen
+#mainscreen
 {
   height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
 }
@@ -94,7 +92,9 @@ input, textarea
 #identity-details,
 #contacts-box,
 #prefs-box,
-#folder-box
+#folder-box,
+#directorylistbox,
+#addressscreen
 {
   height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }

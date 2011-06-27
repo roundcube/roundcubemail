@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added vertical splitter for books/groups list in addressbook (#1487923)
 - Improved namespace roots handling in folder manager
 - Added searching in all addressbook sources
 - Added addressbook source selection in contacts import

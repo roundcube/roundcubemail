@@ -9,6 +9,9 @@
 #addresslist { width: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter-5 : 245" />px; }
 #contacts-box { left: <roundcube:exp expression="!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255" />px;
 	<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:addressviewsplitter) ? cookie:addressviewsplitter+5 : 255).')+\\'px\\');') : ''" />
+#directorylistbox { width: <roundcube:exp expression="!empty(cookie:addressviewsplitterd) ? cookie:addressviewsplitterd-5 : 195" />px; }
+#addressscreen { left: <roundcube:exp expression="!empty(cookie:addressviewsplitterd) ? cookie:addressviewsplitterd+5 : 205" />px;
+	<roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:addressviewsplitterd) ? cookie:addressviewsplitterd+5 : 205).')+\\'px\\');') : ''" />
 }
 </style>
 
@@ -44,6 +47,8 @@
     <li><input type="checkbox" name="s_mods[]" value="*" id="s_mod_all" onclick="rcmail_ui.set_searchmod(this)" /><label for="s_mod_all"><roundcube:label name="allfields" /></label></li>
   </ul>
 </div>
+
+<div id="mainscreen">
 
 <div id="directorylistbox">
 <div id="directorylist-title" class="boxtitle"><roundcube:label name="groups" /></div>
@@ -86,12 +91,16 @@
 <script type="text/javascript">
   var addrviewsplit = new rcube_splitter({id:'addressviewsplitter', p1: 'addresslist', p2: 'contacts-box', orientation: 'v', relative: true, start: 250});
   rcmail.add_onload('addrviewsplit.init()');
+
+  var addrviewsplitd = new rcube_splitter({id:'addressviewsplitterd', p1: 'directorylistbox', p2: 'addressscreen', orientation: 'v', relative: true, start: 200});
+  rcmail.add_onload('addrviewsplitd.init()');
 </script>
 
 <div id="contacts-box">
 <roundcube:object name="addressframe" id="contact-frame" width="100%" height="100%" frameborder="0" src="/watermark.html" />
 </div>
 
+</div>
 </div>
 
 </body>

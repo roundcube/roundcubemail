@@ -89,18 +89,18 @@
 #addressscreen
 {
   position: absolute;
-  top: 85px;
-  right: 20px;
-  bottom: 20px;
-  left: 225px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 205px;
 }
 
 #directorylistbox
 {
   position: absolute;
-  top: 85px;
-  bottom: 20px;
-  left: 20px;
+  top: 0;
+  bottom: 0;
+  left: 0;
   width: 195px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
