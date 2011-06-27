@@ -2180,7 +2180,7 @@ class rcube_imap_generic
             while ($this->tokenizeResponse($response, 1) == '*') {
                 $cmd = strtoupper($this->tokenizeResponse($response, 1));
                 // * LIST (<options>) <delimiter> <mailbox>
-                if (!$lstatus || $cmd == 'LIST' || $cmd == 'LSUB') {
+                if ($cmd == 'LIST' || $cmd == 'LSUB') {
                     list($opts, $delim, $mailbox) = $this->tokenizeResponse($response, 3);
 
                     // Add to result array
@@ -2208,6 +2208,14 @@ class rcube_imap_generic
                         list($name, $value) = $this->tokenizeResponse($status, 2);
                         $folders[$mailbox][$name] = $value;
                     }
+                }
+                // other untagged response line, skip it
+                else {
+                    $response = ltrim($response);
+                    if (($position = strpos($response, "\n")) !== false)
+                        $response = substr($response, $position+1);
+                    else
+                        $response = '';
                 }
             }
 
