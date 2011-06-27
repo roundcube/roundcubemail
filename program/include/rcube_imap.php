@@ -121,6 +121,13 @@ class rcube_imap
     function __construct()
     {
         $this->conn = new rcube_imap_generic();
+
+        // Set namespace and delimiter from session,
+        // so some methods would work before connection
+        if (isset($_SESSION['imap_namespace']))
+            $this->namespace = $_SESSION['imap_namespace'];
+        if (isset($_SESSION['imap_delimiter']))
+            $this->delimiter = $_SESSION['imap_delimiter'];
     }
 
 
@@ -549,12 +556,6 @@ class rcube_imap
     private function set_env()
     {
         if ($this->delimiter !== null && $this->namespace !== null) {
-            return;
-        }
-
-        if (isset($_SESSION['imap_namespace']) && isset($_SESSION['imap_delimiter'])) {
-            $this->namespace = $_SESSION['imap_namespace'];
-            $this->delimiter = $_SESSION['imap_delimiter'];
             return;
         }
 
@@ -3505,10 +3506,12 @@ class rcube_imap
         if (!empty($namespace)) {
             $mbox = $mailbox . $this->delimiter;
             foreach ($namespace as $ns) {
-                foreach ($ns as $item) {
-                    if ($item[0] === $mbox) {
-                        $options['is_root'] = true;
-                        break;
+                if (!empty($ns)) {
+                    foreach ($ns as $item) {
+                        if ($item[0] === $mbox) {
+                            $options['is_root'] = true;
+                            break;
+                        }
                     }
                 }
             }
