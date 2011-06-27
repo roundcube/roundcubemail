@@ -184,8 +184,8 @@ function rcmail_directory_list($attrib)
             $class_name .= ' selected';
         if ($source['readonly'])
             $class_name .= ' readonly';
-        if ($source['class'])
-            $class_name .= ' ' . $source['class'];
+        if ($source['class_name'])
+            $class_name .= ' ' . $source['class_name'];
 
         $out .= sprintf($line_templ,
             html_identifier($id),
