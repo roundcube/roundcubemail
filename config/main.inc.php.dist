@@ -535,7 +535,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   'scope'         => 'sub',   // search mode: sub|base|list
   'filter'        => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
   'fuzzy_search'  => true,    // server allows wildcard search
-  'vlv'           => false,   // Enable Virtual List View to mor efficiently fetch paginated data (if server supports it)
+  'vlv'           => false,   // Enable Virtual List View to more efficiently fetch paginated data (if server supports it)
   'numsub_filter' => '(objectClass=organizationalUnit)',   // with VLV, we also use numSubOrdinates to query the total number of records. Set this filter to get all numSubOrdinates attributes for counting
   'sizelimit'     => '0',     // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
   'timelimit'     => '0',     // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
@@ -543,7 +543,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // definition for contact groups (uncomment if no groups are supported)
   // for the groups base_dn, the user replacements %fu, %u, $d and %dc work as for base_dn (see above)
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
-  // -> in thist case, assure that groups and contacts are seperated due to the concernig filters! 
+  // -> in this case, assure that groups and contacts are separated due to the concernig filters! 
   'groups'        => array(
     'base_dn'     => '',   
     'filter'      => '(objectClass=groupOfNames)',
