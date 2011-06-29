@@ -25,7 +25,8 @@ $source = key($cids);
 $cid    = array_shift($cids[$source]);
 
 // Initialize addressbook source
-$CONTACTS = rcmail_contact_source($source, true);
+$CONTACTS  = rcmail_contact_source($source, true);
+$SOURCE_ID = $source;
 
 // read contact record
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {

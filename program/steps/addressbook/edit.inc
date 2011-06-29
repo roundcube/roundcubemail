@@ -53,6 +53,7 @@ else {
     $CONTACTS = rcmail_contact_source($source, true);
 }
 
+$SOURCE_ID = $source;
 
 function rcmail_get_edit_record()
 {

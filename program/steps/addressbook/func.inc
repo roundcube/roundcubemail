@@ -619,7 +619,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
 function rcmail_contact_photo($attrib)
 {
-    global $CONTACTS, $CONTACT_COLTYPES, $RCMAIL, $CONFIG;
+    global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL, $CONFIG;
 
     if (!$CONTACT_COLTYPES['photo'])
         return '';
@@ -634,7 +634,7 @@ function rcmail_contact_photo($attrib)
     if (strpos($record['photo'], 'http:') === 0)
         $photo_img = $record['photo'];
     else if ($record['photo'])
-        $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $_REQUEST['_source']));
+        $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID));
     else
         $ff_value = '-del-'; // will disable delete-photo action
 
