@@ -54,6 +54,7 @@ function rcmail_import_form($attrib)
   $form .= html::p(null, $check_replace->show(get_input_value('_replace', RCUBE_INPUT_GPC)) .
     html::label('rcmimportreplace', rcube_label('importreplace')));
 
+  $OUTPUT->set_env('writable_source', !empty($writable_books));
   $OUTPUT->add_label('selectimportfile','importwait');
   $OUTPUT->add_gui_object('importform', $attrib['id']);
 
