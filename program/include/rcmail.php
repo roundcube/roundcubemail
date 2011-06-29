@@ -1373,9 +1373,8 @@ class rcmail
 
     $url = './';
     $delm = '?';
-    foreach (array_reverse($p) as $key => $val)
-    {
-      if (!empty($val)) {
+    foreach (array_reverse($p) as $key => $val) {
+      if ($val !== '') {
         $par = $key[0] == '_' ? $key : '_'.$key;
         $url .= $delm.urlencode($par).'='.urlencode($val);
         $delm = '&';
