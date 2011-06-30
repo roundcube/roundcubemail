@@ -347,9 +347,14 @@ triggerEvent: function(evt, e)
           break;
       }
     }
+
+    if (ret)
+      delete ret.event;
   }
 
   this._event_exec = false;
+  delete e.event;
+
   return ret;
 }
 
