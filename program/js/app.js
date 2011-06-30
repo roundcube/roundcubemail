@@ -5619,6 +5619,7 @@ function rcube_webmail()
 
     form.target = frame_name;
     form.action = this.url(action, { _id:this.env.compose_id||'', _uploadid:ts });
+    form.setAttribute('method', 'POST');
     form.setAttribute('enctype', 'multipart/form-data');
     form.submit();
 
