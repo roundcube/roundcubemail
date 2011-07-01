@@ -25,7 +25,7 @@ CHANGELOG Roundcube Webmail
 - Option enable_caching replaced by imap_cache and messages_cache options
 - Fix WORKFAX saving in address book (#1487910)
 - Add forward-as-attachment feature
-- jQuery-1.6.1 (#1487913, #1487144)
+- jQuery-1.6.2 (#1487913, #1487144)
 - Improve display name composition when saving contacts (#1487143)
 - Fix problems with subfolders of INBOX folder on some IMAP servers (#1487725)
 - Fix handling of folders that doesn't belong to any namespace (#1487637)
