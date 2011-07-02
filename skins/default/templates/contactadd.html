@@ -10,6 +10,9 @@
 <div id="contact-title" class="boxtitle"><roundcube:label name="addcontact" /></div>
 <div id="contact-details" class="boxcontent">
 <form name="editform" method="post" action="./">
+  <div id="sourcename" style="height: 20px">
+    <roundcube:label name="addressbook" />: <roundcube:object name="sourceselector" class="hint" id="sourceselect" />
+  </div>
   <div id="contactphoto">
     <roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" />
     <div class="formlinks">

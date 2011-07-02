@@ -55,6 +55,7 @@ else {
 
 $SOURCE_ID = $source;
 
+
 function rcmail_get_edit_record()
 {
     global $RCMAIL, $CONTACTS;
@@ -104,7 +105,6 @@ function rcmail_contact_edithead($attrib)
 
     return $form_start . $out . $form_end;
 }
-
 
 function rcmail_contact_editform($attrib)
 {
@@ -167,7 +167,6 @@ function rcmail_contact_editform($attrib)
     return $form_start . $out . $form_end;
 }
 
-
 function rcmail_upload_photo_form($attrib)
 {
   global $OUTPUT;
@@ -204,17 +203,18 @@ function rcmail_upload_photo_form($attrib)
   return $out;
 }
 
-
 // similar function as in /steps/settings/edit_identity.inc
 function get_form_tags($attrib)
 {
-    global $CONTACTS, $EDIT_FORM, $RCMAIL;
+    global $CONTACTS, $EDIT_FORM, $RCMAIL, $SOURCE_ID;
 
     $form_start = $form_end = '';
 
     if (empty($EDIT_FORM)) {
-        $hiddenfields = new html_hiddenfield(array(
-            'name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
+        $hiddenfields = new html_hiddenfield();
+
+        if ($RCMAIL->action == 'edit')
+            $hiddenfields->add(array('name' => '_source', 'value' => $SOURCE_ID));
         $hiddenfields->add(array('name' => '_gid', 'value' => $CONTACTS->group_id));
 
         if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
@@ -234,12 +234,36 @@ function get_form_tags($attrib)
     return array($form_start, $form_end); 
 }
 
+function rcmail_source_selector($attrib)
+{
+    global $RCMAIL, $SOURCE_ID;
+
+    $sources_list = $RCMAIL->get_address_sources(true);
+
+    if (count($sources_list) < 2) {
+        $source = $sources_list[$SOURCE_ID];
+        $hiddenfield = new html_hiddenfield(array('name' => '_source', 'value' => $SOURCE_ID));
+        return html::span($attrib, Q($source['name']) . $hiddenfield->show());
+    }
+
+    $attrib['name'] = '_source';
+    $attrib['onchange'] = JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
+
+    $select = new html_select($attrib);
+
+    foreach ($sources_list as $source)
+        $select->add($source['name'], $source['id']);
+
+    return $select->show($SOURCE_ID);
+}
+
 
 $OUTPUT->add_handlers(array(
     'contactedithead' => 'rcmail_contact_edithead',
     'contacteditform' => 'rcmail_contact_editform',
     'contactphoto'    => 'rcmail_contact_photo',
     'photouploadform' => 'rcmail_upload_photo_form',
+    'sourceselector'  => 'rcmail_source_selector',
 ));
 
 if ($RCMAIL->action == 'add' && $OUTPUT->template_exists('contactadd'))

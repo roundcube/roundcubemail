@@ -24,6 +24,12 @@ $cid      = get_input_value('_cid', RCUBE_INPUT_POST);
 $return_action = empty($cid) ? 'add' : 'edit';
 
 
+// Source changed, display the form again
+if (!empty($_GET['_reload'])) {
+  rcmail_overwrite_action($return_action);
+  return;
+}
+
 // cannot edit record
 if ($CONTACTS->readonly) {
   $OUTPUT->show_message('contactreadonly', 'error');

@@ -637,7 +637,11 @@ function rcube_webmail()
           }
           // contacts/identities
           else {
-            if ((input = $("input[name='_name']", form)) &&input.length && input.val() == '') {
+            //
+            if (props == 'reload') {
+              form.action += '?_reload=1';
+            }
+            else if ((input = $("input[name='_name']", form)) &&input.length && input.val() == '') {
               alert(this.get_label('nonamewarning'));
               input.focus();
               break;

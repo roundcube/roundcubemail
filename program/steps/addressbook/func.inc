@@ -68,20 +68,22 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     if (!strlen($source) || !isset($js_list[$source]))
         $source = $js_list[key($js_list)]['id'];
 
-    // find writeable source
+    // count writeable sources
+    $writeable = 0;
     foreach ($js_list as $s) {
         if (!$s['readonly']) {
-            $OUTPUT->set_env('writable_source', $s['id']);
-            break;
+            $writeable++;
         }
     }
 
     $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
     $OUTPUT->set_env('search_mods', $search_mods);
     $OUTPUT->set_env('address_sources', $js_list);
+    $OUTPUT->set_env('writable_source', $writeable);
 
     $OUTPUT->set_pagetitle(rcube_label('addressbook'));
     $_SESSION['addressbooks_count'] = count($js_list);
+    $_SESSION['addressbooks_count_writeable'] = $writeable;
 
     $CONTACTS = rcmail_contact_source($source, true);
 }
