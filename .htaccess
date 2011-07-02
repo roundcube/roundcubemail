@@ -29,6 +29,9 @@ php_value	mbstring.func_overload	0
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteRule ^favicon.ico$ skins/default/images/favicon.ico
+# security rules
+RewriteRule .svn/ - [F]
+RewriteRule ^README|INSTALL|LICENSE|SQL|bin|CHANGELOG$ - [F]
 </IfModule>
 
 <IfModule mod_deflate.c>
@@ -46,5 +49,4 @@ ExpiresDefault "access plus 1 month"
 </IfModule>
 
 FileETag MTime Size
-
-
+Options -Indexes
