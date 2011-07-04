@@ -3264,14 +3264,19 @@ function rcube_webmail()
       });
 
       // display upload indicator and cancel button
-      var content = this.get_label('uploading' + (files > 1 ? 'many' : '')),
+      var content = '<span>' + this.get_label('uploading' + (files > 1 ? 'many' : '')) + '</span>',
         ts = frame_name.replace(/^rcmupload/, '');
 
-      if (this.env.loadingicon)
+      if (!this.env.upload_progress_time && this.env.loadingicon)
         content = '<img src="'+this.env.loadingicon+'" alt="" />'+content;
       if (this.env.cancelicon)
         content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
       this.add2attachment_list(ts, { name:'', html:content, complete:false });
+
+      // upload progress support
+      if (this.env.upload_progress_time) {
+        this.upload_progress_start('upload', ts);
+      }
     }
 
     // set reference to the form object
@@ -3334,6 +3339,25 @@ function rcube_webmail()
     this.remove_from_attachment_list(name);
     $("iframe[name='"+frame_name+"']").remove();
     return false;
+  };
+
+  this.upload_progress_start = function(action, name)
+  {
+    window.setTimeout(function() { rcmail.http_request(action, {_progress: name}); },
+      this.env.upload_progress_time * 1000);
+  };
+
+  this.upload_progress_update = function(param)
+  {
+    var elem = $('#'+param.name + '> span');
+
+    if (!elem.length || !param.text)
+      return;
+
+    elem.text(param.text);
+
+    if (!param.done)
+      this.upload_progress_start(param.action, param.name);
   };
 
   // send remote request to add a new contact
@@ -5601,6 +5625,19 @@ function rcube_webmail()
   {
     var ts = new Date().getTime(),
       frame_name = 'rcmupload'+ts;
+
+    // upload progress support
+    if (this.env.upload_progress_name) {
+      var fname = this.env.upload_progress_name,
+        field = $('input[name='+fname+']', form);
+
+      if (!field.length) {
+        field = $('<input>').attr({type: 'hidden', name: fname});
+        field.appendTo(form);
+      }
+
+      field.val(ts);
+    }
 
     // have to do it this way for IE
     // otherwise the form will be posted to a new window

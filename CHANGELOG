@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add optional textual upload progress indicator (#1486039)
 - Fix parsing URLs containing commas (#1487970)
 - Added vertical splitter for books/groups list in addressbook (#1487923)
 - Improved namespace roots handling in folder manager

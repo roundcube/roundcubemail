@@ -19,6 +19,10 @@
 
 */
 
+// Upload progress update
+if (!empty($_GET['_progress'])) {
+  rcube_upload_progress();
+}
 
 $COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
 $_SESSION['compose'] = $_SESSION['compose_data'][$COMPOSE_ID];

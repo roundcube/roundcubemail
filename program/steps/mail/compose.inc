@@ -1199,11 +1199,14 @@ function rcmail_compose_attachment_list($attrib)
 
 function rcmail_compose_attachment_form($attrib)
 {
-  global $OUTPUT;
+  global $RCMAIL, $OUTPUT;
 
   // add ID if not given
   if (!$attrib['id'])
     $attrib['id'] = 'rcmUploadbox';
+
+  // Enable upload progress bar
+  rcube_upload_progress_init();
 
   // find max filesize value
   $max_filesize = parse_bytes(ini_get('upload_max_filesize'));

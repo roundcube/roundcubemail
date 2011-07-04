@@ -2080,3 +2080,45 @@ function rcube_log_bug($arg_arr)
     }
 }
 
+function rcube_upload_progress()
+{
+    global $RCMAIL;
+
+    $prefix = ini_get('apc.rfc1867_prefix');
+    $params = array(
+        'action' => $RCMAIL->action,
+        'name' => get_input_value('_progress', RCUBE_INPUT_GET),
+    );
+
+    if (function_exists('apc_fetch')) {
+        $status = apc_fetch($prefix . $params['name']);
+
+        if (!empty($status)) {
+            $status['percent'] = $status['current']/$status['total']*100;
+            $params = array_merge($status, $params);
+        }
+    }
+
+    if (isset($params['percent']))
+        $params['text'] = rcube_label(array('name' => 'uploadprogress', 'vars' => array(
+            'percent' => $params['percent'] . '%',
+            'current' => show_bytes($params['current']),
+            'total'   => show_bytes($params['total'])
+        )));
+console($params);
+    $RCMAIL->output->command('upload_progress_update', $params);
+    $RCMAIL->output->send();
+}
+
+function rcube_upload_progress_init()
+{
+    global $RCMAIL;
+
+    // Enable upload progress bar
+    if (($seconds = $RCMAIL->config->get('upload_progress')) && ini_get('apc.rfc1867')) {
+        if ($field_name = ini_get('apc.rfc1867_name')) {
+            $RCMAIL->output->set_env('upload_progress_name', $field_name);
+            $RCMAIL->output->set_env('upload_progress_time', (int) $seconds);
+        }
+    }
+}

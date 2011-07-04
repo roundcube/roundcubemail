@@ -210,6 +210,7 @@ $labels['revertto']      = 'Revert to';
 
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
+$labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'Close';
 $labels['messageoptions']  = 'Message options...';
 
