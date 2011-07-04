@@ -12,13 +12,3 @@ for fn in app common googiespell list; do
 		echo "Reverted $JS_DIR/${fn}.js"
 	fi
 done
-
-for fn in tiny_mce/tiny_mce; do
-	if [ -d "$JS_DIR/.svn" ] && which svn >/dev/null 2>&1; then
-		rm -f "$JS_DIR/${fn}.js"
-		svn revert "$JS_DIR/${fn}.js"
-	else
-		cp "$JS_DIR/${fn}_src.js" "$JS_DIR/${fn}.js"
-		echo "Reverted $JS_DIR/${fn}.js"
-	fi
-done

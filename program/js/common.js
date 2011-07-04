@@ -383,21 +383,17 @@ function rcube_layer(id, attributes)
       parent = arg.parent,
       obj = document.createElement('DIV');
 
-    with (obj) {
-      id = this.name;
-      with (style) {
-	    position = 'absolute';
-        visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
-        left = l+'px';
-        top = t+'px';
-        if (w)
-	      width = w.toString().match(/\%$/) ? w : w+'px';
-        if (h)
-	      height = h.toString().match(/\%$/) ? h : h+'px';
-        if (z)
-          zIndex = z;
-	  }
-    }
+    obj.id = this.name;
+    obj.style.position = 'absolute';
+    obj.style.visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
+    obj.style.left = l+'px';
+    obj.style.top = t+'px';
+    if (w)
+	  obj.style.width = w.toString().match(/\%$/) ? w : w+'px';
+    if (h)
+	  obj.style.height = h.toString().match(/\%$/) ? h : h+'px';
+    if (z)
+      obj.style.zIndex = z;
 
     if (parent)
       parent.appendChild(obj);

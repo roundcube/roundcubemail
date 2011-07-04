@@ -4489,7 +4489,7 @@ function rcube_webmail()
   };
 
   // Add folder row to the table and initialize it
-  this.add_folder_row = function (name, display_name, protected, subscribed, skip_init, class_name)
+  this.add_folder_row = function (name, display_name, is_protected, subscribed, skip_init, class_name)
   {
     if (!this.gui_objects.subscriptionlist)
       return false;
@@ -4517,7 +4517,7 @@ function rcube_webmail()
 
     // update subscription checkbox
     $('input[name="_subscribed[]"]', row).val(name)
-      .prop({checked: subscribed ? true : false, disabled: protected ? true : false});
+      .prop({checked: subscribed ? true : false, disabled: is_protected ? true : false});
 
     // add to folder/row-ID map
     this.env.subscriptionrows[id] = [name, display_name, 0];
@@ -4568,7 +4568,7 @@ function rcube_webmail()
   };
 
   // replace an existing table row with a new folder line (with subfolders)
-  this.replace_folder_row = function(oldfolder, newfolder, display_name, protected, class_name)
+  this.replace_folder_row = function(oldfolder, newfolder, display_name, is_protected, class_name)
   {
     if (!this.gui_objects.subscriptionlist)
       return false;
@@ -4584,7 +4584,7 @@ function rcube_webmail()
 
     // replace an existing table row
     this._remove_folder_row(id);
-    row = $(this.add_folder_row(newfolder, display_name, protected, subscribed, true, class_name));
+    row = $(this.add_folder_row(newfolder, display_name, is_protected, subscribed, true, class_name));
 
     // detect tree depth change
     if (len = list.length) {

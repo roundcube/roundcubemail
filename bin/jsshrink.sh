@@ -41,8 +41,3 @@ for fn in app common googiespell list; do
 	echo "Shrinking $JS_DIR/${fn}.js"
 	do_shrink "$JS_DIR/${fn}.js.src" "$JS_DIR/${fn}.js"
 done
-
-for fn in tiny_mce/tiny_mce; do
-	echo "Shrinking $JS_DIR/${fn}.js"
-	do_shrink "$JS_DIR/${fn}_src.js" "$JS_DIR/${fn}.js"
-done
