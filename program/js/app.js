@@ -3267,7 +3267,7 @@ function rcube_webmail()
       var content = '<span>' + this.get_label('uploading' + (files > 1 ? 'many' : '')) + '</span>',
         ts = frame_name.replace(/^rcmupload/, '');
 
-      if (!this.env.upload_progress_time && this.env.loadingicon)
+      if (this.env.loadingicon)
         content = '<img src="'+this.env.loadingicon+'" alt="" />'+content;
       if (this.env.cancelicon)
         content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
