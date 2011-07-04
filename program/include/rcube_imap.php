@@ -83,16 +83,14 @@ class rcube_imap
 
     /**
      * All (additional) headers used (in any way) by Roundcube
-     * Not listed here: DATE, FROM, TO, SUBJECT, CONTENT-TYPE, LIST-POST
+     * Not listed here: DATE, FROM, TO, CC, REPLY-TO, SUBJECT, CONTENT-TYPE, LIST-POST
      * (used for messages listing) are hardcoded in rcube_imap_generic::fetchHeaders()
      *
      * @var array
      * @see rcube_imap::fetch_add_headers
      */
     private $all_headers = array(
-        'REPLY-TO',
         'IN-REPLY-TO',
-        'CC',
         'BCC',
         'MESSAGE-ID',
         'CONTENT-TRANSFER-ENCODING',
