@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix sorting of contact groups after group create (#1487747)
 - Add optional textual upload progress indicator (#1486039)
 - Fix parsing URLs containing commas (#1487970)
 - Added vertical splitter for books/groups list in addressbook (#1487923)

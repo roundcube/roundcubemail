@@ -4064,17 +4064,16 @@ function rcube_webmail()
     this.reset_add_input();
 
     prop.type = 'group';
-    var key = 'G'+prop.source+prop.id;
-    this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
+    var key = 'G'+prop.source+prop.id,
+      link = $('<a>').attr('href', '#')
+        .attr('rel', prop.source+':'+prop.id)
+        .click(function() { return rcmail.command('listgroup', prop, this); })
+        .html(prop.name),
+      li = $('<li>').attr({id: 'rcmli'+key.replace(this.identifier_expr, '_'), 'class': 'contactgroup'})
+        .append(link);
 
-    var link = $('<a>').attr('href', '#')
-      .attr('rel', prop.source+':'+prop.id)
-      .bind('click', function() { return rcmail.command('listgroup', prop, this);})
-      .html(prop.name);
-    var li = $('<li>').attr('id', 'rcmli'+key.replace(this.identifier_expr, '_'))
-      .addClass('contactgroup')
-      .append(link)
-      .insertAfter(this.get_folder_li(prop.source));
+    this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
+    this.add_contact_group_row(prop, li);
 
     this.triggerEvent('group_insert', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
   };
@@ -4090,19 +4089,23 @@ function rcube_webmail()
 
     // group ID has changed, replace link node and identifiers
     if (li && prop.newid) {
-      var newkey = 'G'+prop.source+prop.newid;
+      var newkey = 'G'+prop.source+prop.newid,
+        newprop = $.extend({}, prop);;
+
       li.id = String('rcmli'+newkey).replace(this.identifier_expr, '_');
       this.env.contactfolders[newkey] = this.env.contactfolders[key];
       this.env.contactfolders[newkey].id = prop.newid;
       this.env.group = prop.newid;
 
-      var newprop = $.extend({}, prop);
+      delete this.env.contactfolders[key];
+      delete this.env.contactgroups[key];
+
       newprop.id = prop.newid;
       newprop.type = 'group';
 
       link = $('<a>').attr('href', '#')
         .attr('rel', prop.source+':'+prop.newid)
-        .bind('click', function() { return rcmail.command('listgroup', newprop, this);})
+        .click(function() { return rcmail.command('listgroup', newprop, this); })
         .html(prop.name);
       $(li).children().replaceWith(link);
     }
@@ -4111,7 +4114,34 @@ function rcube_webmail()
       link.innerHTML = prop.name;
 
     this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
+    this.add_contact_group_row(prop, $(li), true);
+
     this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0], newid:prop.newid });
+  };
+
+  // add contact group row to the list, with sorting
+  this.add_contact_group_row = function(prop, li, reloc)
+  {
+    var row, name = prop.name.toUpperCase(),
+      sibling = this.get_folder_li(prop.source),
+      prefix = 'rcmliG'+(prop.source).replace(this.identifier_expr, '_');
+
+    // When renaming groups, we need to remove it from DOM and insert it in the proper place
+    if (reloc) {
+      row = li.clone(true);
+      li.remove();
+    }
+    else
+      row = li;
+
+    $('li[id^="'+prefix+'"]', this.gui_objects.folderlist).each(function(i, elem) {
+      if (name >= $(this).text().toUpperCase())
+        sibling = elem;
+      else
+        return false;
+    });
+
+    row.insertAfter(sibling);
   };
 
   this.update_group_commands = function()
