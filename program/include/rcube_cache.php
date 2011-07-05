@@ -434,7 +434,7 @@ class rcube_cache
     /**
      * Deletes entry from memcache/apc DB.
      */
-    private function delete_record($index=true)
+    private function delete_record($key, $index=true)
     {
         if ($this->type == 'memcache')
             $this->db->delete($this->ckey($key));
