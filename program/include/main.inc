@@ -2105,7 +2105,7 @@ function rcube_upload_progress()
             'current' => show_bytes($params['current']),
             'total'   => show_bytes($params['total'])
         )));
-console($params);
+
     $RCMAIL->output->command('upload_progress_update', $params);
     $RCMAIL->output->send();
 }
