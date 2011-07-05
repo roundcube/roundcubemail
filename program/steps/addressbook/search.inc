@@ -161,6 +161,7 @@ function rcmail_contact_search()
 
     // unselect currently selected directory/group
     $OUTPUT->command('unselect_directory');
+    $OUTPUT->command('update_group_commands');
 
     // send response
     $OUTPUT->send($adv ? 'iframe' : null);

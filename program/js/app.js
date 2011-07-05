@@ -305,7 +305,7 @@ function rcube_webmail()
             $(this.gui_objects.qsearchbox).focusin(function() { rcmail.contact_list.blur(); });
           }
 
-          this.enable_command('group-create', this.env.address_sources[this.env.source].groups);
+          this.update_group_commands();
         }
 
         this.set_page_buttons();
@@ -3957,7 +3957,7 @@ function rcube_webmail()
 
   this.group_create = function()
   {
-    if (!this.gui_objects.folderlist || !this.env.address_sources[this.env.source].groups)
+    if (!this.gui_objects.folderlist)
       return;
 
     if (!this.name_input) {
@@ -4112,6 +4112,13 @@ function rcube_webmail()
 
     this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
     this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0], newid:prop.newid });
+  };
+
+  this.update_group_commands = function()
+  {
+    var source = this.env.source != '' ? this.env.address_sources[this.env.source] : null;
+    this.enable_command('group-create', (source && source.groups && !source.readonly));
+    this.enable_command('group-rename', 'group-delete', (source && source.groups && this.env.group && !source.readonly));
   };
 
   this.init_edit_field = function(col, elem)
@@ -5592,9 +5599,7 @@ function rcube_webmail()
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
 
           if (response.action == 'list' || response.action == 'search') {
-            var source = this.env.source != '' ? this.env.address_sources[this.env.source] : null;
-            this.enable_command('group-create', (source && source.groups && !source.readonly));
-            this.enable_command('group-rename', 'group-delete', (source && source.groups && this.env.group && !source.readonly));
+            this.update_group_commands();
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }
         }
