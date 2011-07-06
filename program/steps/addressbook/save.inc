@@ -216,6 +216,8 @@ if (!empty($cid))
 
 // insert a new contact
 else {
+  $source = get_input_value('_source', RCUBE_INPUT_GPC);
+
   // show notice if existing contacts with same e-mail are found
   $existing = false;
   foreach ($CONTACTS->get_col_values('email', $a_record, true) as $email) {
@@ -226,7 +228,7 @@ else {
   }
 
   $plugin = $RCMAIL->plugins->exec_hook('contact_create', array(
-    'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+    'record' => $a_record, 'source' => $source));
   $a_record = $plugin['record'];
 
   // insert record and send response
@@ -235,11 +237,11 @@ else {
   else
     $insert_id = $plugin['result'];
 
-
   if ($insert_id) {
     // add new contact to the specified group
     if ($CONTACTS->groups && $CONTACTS->group_id) {
-      $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array('group_id' => $CONTACTS->group_id, 'ids' => $insert_id, 'source' => $source));
+      $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array(
+        'group_id' => $CONTACTS->group_id, 'ids' => $insert_id, 'source' => $source));
 
       if (!$plugin['abort']) {
         if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + 1 > $maxnum))
@@ -249,16 +251,25 @@ else {
       }
     }
 
-    // add contact row or jump to the page where it should appear
-    $CONTACTS->reset();
-    $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
+    // Name of the addressbook already selected on the list
+    $orig_source = get_input_value('_orig_source', RCUBE_INPUT_GPC);
 
-    rcmail_js_contacts_list($result, 'parent.');
-    $OUTPUT->command('parent.contact_list.select', html_identifier($insert_id));
+    if ((string)$source === (string)$orig_source) {
+      // add contact row or jump to the page where it should appear
+      $CONTACTS->reset();
+      $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
 
-    // update record count display
-    $CONTACTS->reset();
-    $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text());
+      rcmail_js_contacts_list($result, 'parent.');
+      $OUTPUT->command('parent.contact_list.select', html_identifier($insert_id));
+
+      // update record count display
+      $CONTACTS->reset();
+      $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text());
+    }
+    else {
+      // re-set iframe
+      $OUTPUT->command('parent.show_contentframe');
+    }
 
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);

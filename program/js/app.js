@@ -637,7 +637,7 @@ function rcube_webmail()
           }
           // contacts/identities
           else {
-            //
+            // reload form
             if (props == 'reload') {
               form.action += '?_reload=1';
             }
@@ -647,7 +647,7 @@ function rcube_webmail()
               break;
             }
             else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
-              (input = $("input[name='_email']", form)) && input.length&& !rcube_check_email(input.val())
+              (input = $("input[name='_email']", form)) && input.length && !rcube_check_email(input.val())
             ) {
               alert(this.get_label('noemailwarning'));
               input.focus();
@@ -657,6 +657,10 @@ function rcube_webmail()
             // clear empty input fields
             $('input.placeholder').each(function(){ if (this.value == this._placeholder) this.value = ''; });
           }
+
+          // add selected source (on the list)
+          if (parent.rcmail && parent.rcmail.env.source)
+            form.action = this.add_url(form.action, '_orig_source', parent.rcmail.env.source);
 
           form.submit();
         }
@@ -3803,6 +3807,13 @@ function rcube_webmail()
       add_url = '&_framed=1';
       target = window.frames[this.env.contentframe];
       this.show_contentframe(true);
+
+      // load dummy content
+      if (!cid) {
+        // unselect selected row(s)
+        this.contact_list.clear_selection();
+        this.enable_command('delete', 'compose', false);
+      }
     }
     else if (framed)
       return false;
