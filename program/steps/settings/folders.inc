@@ -280,8 +280,21 @@ function rcube_subscription_form($attrib)
                 foreach ($ns as $item) {
                     if ($item[0] === $fname) {
                         $disabled = true;
-                        break;
+                        break 2;
                     }
+                }
+            }
+        }
+        // check if the folder is an other users virtual-root folder, then disable subscription option on it
+        if (!$disabled && $folder['virtual'] && $folder['level'] == 1
+            && !empty($namespace) && !empty($namespace['other'])
+        ) {
+            $parts = explode($delimiter, $folder['id']);
+            $fname = $parts[0] . $delimiter;
+            foreach ($namespace['other'] as $item) {
+                if ($item[0] === $fname) {
+                    $disabled = true;
+                    break;
                 }
             }
         }

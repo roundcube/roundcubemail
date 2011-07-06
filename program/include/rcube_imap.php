@@ -3508,8 +3508,21 @@ class rcube_imap
                     foreach ($ns as $item) {
                         if ($item[0] === $mbox) {
                             $options['is_root'] = true;
-                            break;
+                            break 2;
                         }
+                    }
+                }
+            }
+        }
+        // check if the folder is other user virtual-root
+        if (!$options['is_root'] && !empty($namespace) && !empty($namespace['other'])) {
+            $parts = explode($this->delimiter, $mailbox);
+            if (count($parts) == 2) {
+                $mbox = $parts[0] . $this->delimiter;
+                foreach ($namespace['other'] as $item) {
+                    if ($item[0] === $mbox) {
+                        $options['is_root'] = true;
+                        break;
                     }
                 }
             }
