@@ -3237,8 +3237,8 @@ class rcube_imap_generic
                     break;
                 }
 
-                // excluded chars: SP, CTL, (, ), {, ", ], %
-                if (preg_match('/^([\x21\x23\x24\x26\x27\x2A-\x5C\x5E-\x7A\x7C-\x7E]+)/', $str, $m)) {
+                // excluded chars: SP, CTL, )
+                if (preg_match('/^([^\x00-\x20\x29\x7F]+)/', $str, $m)) {
                     $result[] = $m[1] == 'NIL' ? NULL : $m[1];
                     $str = substr($str, strlen($m[1]));
                 }
