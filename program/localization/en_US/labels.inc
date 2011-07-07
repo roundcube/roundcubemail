@@ -448,6 +448,7 @@ $labels['sharedfolder']  = 'Public Folder';
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';
 $labels['sortdesc'] = 'Sort descending';
+$labels['undo'] = 'Undo';
 
 // units
 $labels['B'] = 'B';

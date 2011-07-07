@@ -146,5 +146,8 @@ $messages['errornoperm'] = 'Nie można wykonać operacji. Brak uprawnień';
 $messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów</b>';
 $messages['invalidimageformat'] = 'Niepoprawny format obrazka';
 $messages['mispellingsfound'] = 'Wykryto błędy pisowni w tej wiadomości';
+$messages['itemsdeleted'] = '$num elemenów zostało usuniętych.';
+$messages['contactrestoreerror'] = 'Przywracanie kontaktów nie powiodło się';
+$messages['contactrestored'] = 'Kontakt(y) zostały przywrócone';
 
 ?>

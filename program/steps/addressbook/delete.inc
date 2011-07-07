@@ -26,6 +26,9 @@ if (!$OUTPUT->ajax_call)
 $cids   = rcmail_get_cids();
 $delcnt = 0;
 
+// remove previous deletes
+$RCMAIL->session->remove('contact_undo');
+
 foreach ($cids as $source => $cid)
 {
     $CONTACTS = rcmail_contact_source($source);
@@ -36,6 +39,7 @@ foreach ($cids as $source => $cid)
         if (count($cids) == 1) {
             $OUTPUT->show_message('contactdelerror', 'error');
             $OUTPUT->command('list_contacts');
+            $OUTPUT->send();
         }
         continue;
     }
@@ -52,10 +56,13 @@ foreach ($cids as $source => $cid)
     }
     else {
         $delcnt += $deleted;
+
+        // store deleted contacts IDs in session for undelete
+        if ($CONTACTS->undelete) {
+            $_SESSION['contact_undo']['data'][$source] = $cid;
+        }
     }
 }
-
-$OUTPUT->show_message('contactdeleted', 'confirmation');
 
 $page = isset($_SESSION['page']) ? $_SESSION['page'] : 1;
 
@@ -134,6 +141,17 @@ else {
 // update message count display
 $OUTPUT->set_env('pagecount', ceil($result->count / $CONFIG['pagesize']));
 $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
+
+if (!empty($_SESSION['contact_undo'])) {
+    $_SESSION['contact_undo']['ts'] = time();
+    $msg = html::span(null, rcube_label(array('name' => 'itemsdeleted', 'vars' => array('num' => $deleted))))
+        . ' ' . html::a(array('onclick' => JS_OBJECT_NAME.".command('undo', '', this)"), rcube_label('undo'));
+
+    $OUTPUT->show_message($msg, 'confirmation', null, true, $RCMAIL->config->get('undo_timeout', 15));
+}
+else {
+    $OUTPUT->show_message('contactdeleted', 'confirmation');
+}
 
 // add new rows from next page (if any)
 if (!empty($records)) {

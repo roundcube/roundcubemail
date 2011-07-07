@@ -88,6 +88,12 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $CONTACTS = rcmail_contact_source($source, true);
 }
 
+// remove undo information...
+if ($undo = $_SESSION['contact_undo']) {
+    // ...after 30 seconds
+    if ($undo['ts'] < time() - 30)
+        $RCMAIL->session->remove('contact_undo');
+}
 
 // instantiate a contacts object according to the given source
 function rcmail_contact_source($source=null, $init_env=false)

@@ -507,7 +507,7 @@ class rcmail
     $this->output->set_env('comm_path', $this->comm_path);
     $this->output->set_charset(RCMAIL_CHARSET);
 
-    // add some basic label to client
+    // add some basic labels to client
     $this->output->add_label('loading', 'servererror');
 
     return $this->output;

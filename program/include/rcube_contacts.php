@@ -52,6 +52,7 @@ class rcube_contacts extends rcube_addressbook
     public $primary_key = 'contact_id';
     public $readonly = false;
     public $groups = true;
+    public $undelete = true;
     public $list_page = 1;
     public $page_size = 10;
     public $group_id = 0;
@@ -692,12 +693,43 @@ class rcube_contacts extends rcube_addressbook
 
 
     /**
+     * Undelete one or more contact records
+     *
+     * @param array  Record identifiers
+     */
+    function undelete($ids)
+    {
+        if (!is_array($ids))
+            $ids = explode(',', $ids);
+
+        $ids = $this->db->array2list($ids, 'integer');
+
+        // flag record as deleted
+        $this->db->query(
+            "UPDATE ".get_table_name($this->db_name).
+            " SET del=0, changed=".$this->db->now().
+            " WHERE user_id=?".
+                " AND contact_id IN ($ids)",
+            $this->user_id
+        );
+
+        $this->cache = null;
+
+        return $this->db->affected_rows();
+    }
+
+
+    /**
      * Remove all records from the database
      */
     function delete_all()
     {
-        $this->db->query("DELETE FROM ".get_table_name($this->db_name)." WHERE user_id = ?", $this->user_id);
         $this->cache = null;
+
+        $this->db->query("UPDATE ".get_table_name($this->db_name).
+            " SET del=1, changed=".$this->db->now().
+            " WHERE user_id = ?", $this->user_id);
+
         return $this->db->affected_rows();
     }
 

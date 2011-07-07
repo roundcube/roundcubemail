@@ -238,18 +238,19 @@ class rcube_template extends rcube_html_page
     /**
      * Invoke display_message command
      *
-     * @param string Message to display
-     * @param string Message type [notice|confirm|error]
-     * @param array Key-value pairs to be replaced in localized text
-     * @param boolean Override last set message
+     * @param string  $message  Message to display
+     * @param string  $type     Message type [notice|confirm|error]
+     * @param array   $vars     Key-value pairs to be replaced in localized text
+     * @param boolean $override Override last set message
+     * @param int     $timeout  Message display time in seconds
      * @uses self::command()
      */
-    public function show_message($message, $type='notice', $vars=null, $override=true)
+    public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
     {
         if ($override || !$this->message) {
             $this->message = $message;
             $msgtext = rcube_label_exists($message) ? rcube_label(array('name' => $message, 'vars' => $vars)) : $message;
-            $this->command('display_message', $msgtext, $type);
+            $this->command('display_message', $msgtext, $type, $timeout * 1000);
         }
     }
 

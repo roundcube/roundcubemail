@@ -128,6 +128,8 @@ $messages['maxgroupmembersreached'] = 'The number of group members exceeds the m
 $messages['internalerror'] = 'An internal error occured. Please try again';
 $messages['contactdelerror'] = 'Could not delete contact(s)';
 $messages['contactdeleted'] = 'Contact(s) deleted successfully';
+$messages['contactrestoreerror'] = 'Could not restore deleted contact(s)';
+$messages['contactrestored'] = 'Contact(s) restored successfully';
 $messages['groupdeleted'] = 'Group deleted successfully';
 $messages['grouprenamed'] = 'Group renamed successfully';
 $messages['groupcreated'] = 'Group created successfully';
@@ -142,5 +144,6 @@ $messages['folderupdated'] = 'Folder updated successfully';
 $messages['foldercreated'] = 'Folder created successfully';
 $messages['invalidimageformat'] = 'Not a valid image format';
 $messages['mispellingsfound'] = 'Spelling errors detected in the message';
+$messages['itemsdeleted'] = '$num item(s) has been deleted.';
 
 ?>

@@ -252,6 +252,12 @@ img
   border: 1px solid #CCCCCC;
 }
 
+#message a
+{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .box
 {
   border: 1px solid #999;

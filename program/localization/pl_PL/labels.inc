@@ -416,5 +416,6 @@ $labels['other'] = 'Inne';
 $labels['importtarget'] = 'Dodaj nowe kontakty do książki adresowej:';
 $labels['grouprename'] = 'Zmień nazwę grupy';
 $labels['groupdelete'] = 'Usuń grupę';
+$labels['undo'] = 'Cofnij';
 
 ?>

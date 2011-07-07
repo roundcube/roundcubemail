@@ -38,6 +38,7 @@ abstract class rcube_addressbook
     public $primary_key;
     public $groups = false;
     public $readonly = true;
+    public $undelete = false;
     public $ready = false;
     public $group_id = null;
     public $list_page = 1;
@@ -256,7 +257,17 @@ abstract class rcube_addressbook
     }
 
     /**
-     * Remove all records from the database
+     * Unmark delete flag on contact record(s)
+     *
+     * @param array  Record identifiers
+     */
+    function undelete($ids)
+    {
+        /* empty for read-only address books */
+    }
+
+    /**
+     * Mark all records in database as deleted
      */
     function delete_all()
     {

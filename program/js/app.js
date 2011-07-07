@@ -164,7 +164,7 @@ function rcube_webmail()
     }
 
     // enable general commands
-    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', true);
+    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'undo', true);
 
     if (this.env.permaurl)
       this.enable_command('permaurl', true);
@@ -411,7 +411,7 @@ function rcube_webmail()
 
     // show message
     if (this.pending_message)
-      this.display_message(this.pending_message[0], this.pending_message[1]);
+      this.display_message(this.pending_message[0], this.pending_message[1], this.pending_message[2]);
 
     // map implicit containers
     if (this.gui_objects.folderlist)
@@ -1046,6 +1046,10 @@ function rcube_webmail()
         this.goto_url('settings/' + command);
         break;
 
+      case 'undo':
+        this.http_request('undo', '', this.display_message('', 'loading'));
+        break;
+
       // unified command call (command name == function name)
       default:
         var func = command.replace(/-/g, '_');
@@ -1296,7 +1300,7 @@ function rcube_webmail()
       var toffset = -moffset-boffset;
       var li, div, pos, mouse, check, oldclass,
         layerclass = 'draglayernormal';
-      
+
       if (this.contact_list && this.contact_list.draglayer)
         oldclass = this.contact_list.draglayer.attr('class');
 
@@ -4980,7 +4984,7 @@ function rcube_webmail()
     if (elem._placeholder && (!$elem.val() || $elem.val() == elem._placeholder))
       $elem.addClass('placeholder').attr('spellcheck', false).val(elem._placeholder);
   };
-  
+
   // write to the document/window title
   this.set_pagetitle = function(title)
   {
@@ -4989,27 +4993,29 @@ function rcube_webmail()
   };
 
   // display a system message, list of types in common.css (below #message definition)
-  this.display_message = function(msg, type)
+  this.display_message = function(msg, type, timeout)
   {
     // pass command to parent window
     if (this.is_framed())
-      return parent.rcmail.display_message(msg, type);
+      return parent.rcmail.display_message(msg, type, timeout);
 
     if (!this.gui_objects.message) {
       // save message in order to display after page loaded
       if (type != 'loading')
-        this.pending_message = new Array(msg, type);
+        this.pending_message = new Array(msg, type, timeout);
       return false;
     }
 
     type = type ? type : 'notice';
 
     var ref = this,
-      key = msg,
+      key = String(msg).replace(this.identifier_expr, '_'),
       date = new Date(),
-      id = type + date.getTime(),
+      id = type + date.getTime();
+
+    if (!timeout)
       timeout = this.message_time * (type == 'error' || type == 'warning' ? 2 : 1);
-      
+
     if (type == 'loading') {
       key = 'loading';
       timeout = this.env.request_timeout * 1000;
