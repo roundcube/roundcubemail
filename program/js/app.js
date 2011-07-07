@@ -5685,7 +5685,7 @@ function rcube_webmail()
 
       if (!field.length) {
         field = $('<input>').attr({type: 'hidden', name: fname});
-        field.appendTo(form);
+        field.prependTo(form);
       }
 
       field.val(ts);
