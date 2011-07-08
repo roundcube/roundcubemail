@@ -643,8 +643,8 @@ $rcmail_config['skip_deleted'] = false;
 // False means that a message's read status is not affected by marking it as deleted
 $rcmail_config['read_when_deleted'] = true;
 
-// Set to true to newer delete messages immediately
-// Use 'Purge' to remove messages marked as deleted 
+// Set to true to never delete messages immediately
+// Use 'Purge' to remove messages marked as deleted
 $rcmail_config['flag_for_deletion'] = false;
 
 // Default interval for keep-alive/check-recent requests (in seconds)
