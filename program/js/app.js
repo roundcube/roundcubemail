@@ -3516,6 +3516,7 @@ function rcube_webmail()
     var inp_value = this.ksearch_input.value,
       cpos = this.get_caret_pos(this.ksearch_input),
       p = inp_value.lastIndexOf(this.ksearch_value, cpos),
+      trigger = false,
       insert = '',
 
       // replace search string with full address
@@ -3527,10 +3528,12 @@ function rcube_webmail()
       insert += this.env.contacts[id].name + ', ';
       this.group2expand = $.extend({}, this.env.contacts[id]);
       this.group2expand.input = this.ksearch_input;
-      this.http_request('group-expand', '_source='+urlencode(this.env.contacts[id].source)+'&_gid='+urlencode(this.env.contacts[id].id), false);
+      this.http_request('mail/group-expand', '_source='+urlencode(this.env.contacts[id].source)+'&_gid='+urlencode(this.env.contacts[id].id), false);
     }
-    else if (typeof this.env.contacts[id] === 'string')
+    else if (typeof this.env.contacts[id] === 'string') {
       insert = this.env.contacts[id] + ', ';
+      trigger = true;
+    }
 
     this.ksearch_input.value = pre + insert + end;
 
@@ -3538,12 +3541,16 @@ function rcube_webmail()
     cpos = p+insert.length;
     if (this.ksearch_input.setSelectionRange)
       this.ksearch_input.setSelectionRange(cpos, cpos);
+
+    if (trigger)
+      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert });
   };
 
   this.replace_group_recipients = function(id, recipients)
   {
     if (this.group2expand && this.group2expand.id == id) {
       this.group2expand.input.value = this.group2expand.input.value.replace(this.group2expand.name, recipients);
+      this.triggerEvent('autocomplete_insert', { field:this.group2expand.input, insert:recipients });
       this.group2expand = null;
     }
   };
@@ -3595,7 +3602,7 @@ function rcube_webmail()
       return;
 
     var lock = this.display_message(this.get_label('searching'), 'loading');
-    this.http_post('autocomplete', '_search='+urlencode(q), lock);
+    this.http_post('mail/autocomplete', '_search='+urlencode(q), lock);
   };
 
   this.ksearch_query_results = function(results, search)
