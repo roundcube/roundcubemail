@@ -250,8 +250,9 @@ abstract class rcube_addressbook
      * Mark one or more contact records as deleted
      *
      * @param array  Record identifiers
+     * @param bool   Remove records irreversible (see self::undelete)
      */
-    function delete($ids)
+    function delete($ids, $force=true)
     {
         /* empty for read-only address books */
     }

@@ -604,13 +604,13 @@ class rcube_contacts extends rcube_addressbook
 
         return $updated;
     }
-    
-    
+
+
     private function convert_db_data($sql_arr)
     {
         $record = array();
         $record['ID'] = $sql_arr[$this->primary_key];
-        
+
         if ($sql_arr['vcard']) {
             unset($sql_arr['email']);
             $vcard = new rcube_vcard($sql_arr['vcard']);
@@ -620,7 +620,7 @@ class rcube_contacts extends rcube_addressbook
             $record += $sql_arr;
             $record['email'] = preg_split('/,\s*/', $record['email']);
         }
-        
+
         return $record;
     }
 
@@ -668,16 +668,17 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Mark one or more contact records as deleted
      *
-     * @param array  Record identifiers
+     * @param array   Record identifiers
+     * @param boolean Remove record(s) irreversible (unsupported)
      */
-    function delete($ids)
+    function delete($ids, $force=true)
     {
         if (!is_array($ids))
             $ids = explode(',', $ids);
 
         $ids = $this->db->array2list($ids, 'integer');
 
-        // flag record as deleted
+        // flag record as deleted (always)
         $this->db->query(
             "UPDATE ".get_table_name($this->db_name).
             " SET del=1, changed=".$this->db->now().
@@ -704,7 +705,7 @@ class rcube_contacts extends rcube_addressbook
 
         $ids = $this->db->array2list($ids, 'integer');
 
-        // flag record as deleted
+        // clear deleted flag
         $this->db->query(
             "UPDATE ".get_table_name($this->db_name).
             " SET del=0, changed=".$this->db->now().

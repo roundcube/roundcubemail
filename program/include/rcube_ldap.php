@@ -834,11 +834,12 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Mark one or more contact records as deleted
      *
-     * @param array  Record identifiers
+     * @param array   Record identifiers
+     * @param boolean Remove record(s) irreversible (unsupported)
      *
      * @return boolean True on success, False on error
      */
-    function delete($ids)
+    function delete($ids, $force=true)
     {
         if (!is_array($ids)) {
             // Not an array, break apart the encoded DNs.

@@ -90,8 +90,9 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
 
 // remove undo information...
 if ($undo = $_SESSION['contact_undo']) {
-    // ...after 30 seconds
-    if ($undo['ts'] < time() - 30)
+    // ...after timeout
+    $undo_time = $RCMAIL->config->get('undo_timeout', 0);
+    if ($undo['ts'] < time() - $undo_time)
         $RCMAIL->session->remove('contact_undo');
 }
 

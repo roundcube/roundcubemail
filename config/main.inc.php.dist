@@ -442,6 +442,11 @@ $rcmail_config['min_keep_alive'] = 60;
 // or any integer value indicating number of seconds.
 $rcmail_config['upload_progress'] = false;
 
+// Specifies for how many seconds the Undo button will be available
+// after object delete action. Currently used with supporting address book sources.
+// Setting it to 0, disables the feature.
+$rcmail_config['undo_timeout'] = 0;
+
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------
