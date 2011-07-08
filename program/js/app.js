@@ -209,7 +209,7 @@ function rcube_webmail()
           $(this.gui_objects.qsearchbox).focusin(function() { rcmail.message_list.blur(); });
         }
 
-        if (this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox)
+        if (!this.env.flag_for_deletion && this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox)
           this.set_alttext('delete', 'movemessagetotrash');
 
         this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list', 'forward',
@@ -526,7 +526,7 @@ function rcube_webmail()
 
           this.list_mailbox(props);
 
-          if (this.env.trash_mailbox)
+          if (this.env.trash_mailbox && !this.env.flag_for_deletion)
             this.set_alttext('delete', this.env.mailbox != this.env.trash_mailbox ? 'movemessagetotrash' : 'deletemessage');
         }
         else if (this.task == 'addressbook') {
