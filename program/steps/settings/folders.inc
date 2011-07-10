@@ -76,8 +76,16 @@ else if ($RCMAIL->action == 'delete-folder')
     $mbox_utf8 = get_input_value('_mbox', RCUBE_INPUT_POST, true);
     $mbox      = rcube_charset_convert($mbox_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
 
-    if (strlen($mbox))
-        $deleted = $IMAP->delete_mailbox($mbox);
+    if (strlen($mbox)) {
+        $plugin = $RCMAIL->plugins->exec_hook('folder_delete', array('name' => $mbox));
+
+        if (!$plugin['abort']) {
+            $deleted = $IMAP->delete_mailbox($plugin['name']);
+        }
+        else {
+            $deleted = $plugin['result'];
+        }
+    }
 
     if ($OUTPUT->ajax_call && $deleted) {
         // Remove folder and subfolders rows
@@ -340,10 +348,19 @@ function rcmail_rename_folder($oldname, $newname)
     global $RCMAIL;
 
     $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
-    $rename    = $RCMAIL->imap->rename_mailbox($oldname, $newname);
+
+    $plugin = $RCMAIL->plugins->exec_hook('folder_rename', array(
+        'oldname' => $oldname, 'newname' => $newname));
+
+    if (!$plugin['abort']) {
+        $renamed =  $RCMAIL->imap->rename_mailbox($oldname, $newname);
+    }
+    else {
+        $renamed = $plugin['result'];
+    }
 
     // update per-folder options for modified folder and its subfolders
-    if ($rename !== false) {
+    if ($renamed) {
         $a_threaded = (array) $RCMAIL->config->get('message_threading', array());
         $oldprefix  = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
 

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Plugin API: added folder_delete and folder_rename hooks
 - Added possibility to undo last contact delete operation
 - Fix sorting of contact groups after group create (#1487747)
 - Add optional textual upload progress indicator (#1486039)
