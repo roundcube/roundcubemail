@@ -124,6 +124,7 @@ class rcmail
   private $address_books = array();
   private $caches = array();
   private $action_map = array();
+  private $shutdown_functions = array();
 
 
   /**
@@ -1142,6 +1143,9 @@ class rcmail
    */
   public function shutdown()
   {
+    foreach ($this->shutdown_functions as $function)
+      call_user_func($function);
+
     if (is_object($this->smtp))
       $this->smtp->disconnect();
 
@@ -1179,6 +1183,19 @@ class rcmail
       else
         console($log);
     }
+  }
+
+
+  /**
+   * Registers shutdown function to be executed on shutdown.
+   * The functions will be executed before destroying any
+   * objects like smtp, imap, session, etc.
+   *
+   * @param callback Function callback
+   */
+  public function add_shutdown_function($function)
+  {
+    $this->shutdown_functions[] = $function;
   }
 
 
