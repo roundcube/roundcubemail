@@ -105,6 +105,11 @@ ul.toolbarmenu li.separator_below
   width: auto;
 }
 
+#directorylist li
+{
+  background-image: url(images/icons/folders.gif);
+}
+
 .boxlistcontent
 {
   top: 21px;
@@ -141,6 +146,11 @@ ul.toolbarmenu li.separator_below
 #messagelist tr td.subject span.unreadchildren
 {
   background-image: url(images/messageicons.gif);
+}
+
+#messagelist tr td div.collapsed,
+#messagelist tr td div.expanded {
+	background-color: #fff;
 }
 
 body.iframe .boxtitle
