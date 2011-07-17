@@ -1101,11 +1101,14 @@ class rcube_ldap extends rcube_addressbook
         for ($i=0; $i<$ldap_data["count"]; $i++)
         {
             $group_name = $ldap_data[$i]['cn'][0];
-            $group_id = base64_encode($group_name);
-            $groups[$group_id]['ID'] = $group_id;
-            $groups[$group_id]['name'] = $group_name;
-            $groups[$group_id]['members'] = $ldap_data[$i]['member'];
-            $group_sortnames[] = strtolower($group_name);
+            if (!$search || strstr(strtolower($group_name), strtolower($search)))
+            {
+                $group_id = base64_encode($group_name);
+                $groups[$group_id]['ID'] = $group_id;
+                $groups[$group_id]['name'] = $group_name;
+                $groups[$group_id]['members'] = $ldap_data[$i]['member'];
+                $group_sortnames[] = strtolower($group_name);
+            }
         }
         array_multisort($group_sortnames, SORT_ASC, SORT_STRING, $groups);
         $this->group_cache = $groups;
