@@ -1045,9 +1045,10 @@ class rcube_ldap extends rcube_addressbook
             $cache_members = $this->group_cache[$group_id]['members'];
 
             $members = array();
-            for ($i=1; $i<$cache_members["count"]; $i++)
+            for ($i=0; $i<$cache_members["count"]; $i++)
             {
-                $members[base64_encode($cache_members[$i])] = 1;
+                if (!empty($cache_members[$i]))
+                    $members[base64_encode($cache_members[$i])] = 1;
             }
             $this->group_members = $members;
             $this->group_id = $group_id;
