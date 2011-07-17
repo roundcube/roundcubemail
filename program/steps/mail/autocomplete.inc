@@ -37,7 +37,7 @@ if ($RCMAIL->action == 'group-expand') {
     $OUTPUT->command('replace_group_recipients', $gid, join(', ', $members));
   }
 }
-else if ($book_types && $search = get_input_value('_search', RCUBE_INPUT_GPC, true)) {
+else if ($book_types && ($search = get_input_value('_search', RCUBE_INPUT_GPC, true))) {
   $contacts = array();
   $books_num = count($book_types);
 

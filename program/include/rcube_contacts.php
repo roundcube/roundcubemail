@@ -300,7 +300,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        foreach ($required as $col) {
+        foreach (array_intersect($required, $this->table_cols) as $col) {
             $and_where[] = $this->db->quoteIdentifier($col).' <> '.$this->db->quote('');
         }
 
