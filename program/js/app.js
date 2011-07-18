@@ -338,6 +338,9 @@ function rcube_webmail()
 
         this.enable_command('add', 'import', this.env.writable_source);
         this.enable_command('list', 'listgroup', 'advanced-search', true);
+        
+        // load contacts of selected source
+        this.command('list', this.env.source);
         break;
 
 
