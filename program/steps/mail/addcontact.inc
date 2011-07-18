@@ -30,8 +30,9 @@ $CONTACTS = $RCMAIL->get_address_book($abook, true);
 
 // Get first writeable addressbook if the configured doesn't exist
 // This can happen when user deleted the addressbook (e.g. Kolab folder)
-if ($abook !== null && !is_object($CONTACTS)) {
-  $CONTACTS = $RCMAIL->get_address_book(null, true);
+if ($abook == null || !is_object($CONTACTS)) {
+  $source = reset($RCMAIL->get_address_sources(true));
+  $CONTACTS = $RCMAIL->get_address_book($source['id'], true);
 }
 
 if (!empty($_POST['_address']) && is_object($CONTACTS))
