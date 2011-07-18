@@ -340,7 +340,8 @@ function rcube_webmail()
         this.enable_command('list', 'listgroup', 'advanced-search', true);
         
         // load contacts of selected source
-        this.command('list', this.env.source);
+        if (!this.env.action)
+          this.command('list', this.env.source);
         break;
 
 
