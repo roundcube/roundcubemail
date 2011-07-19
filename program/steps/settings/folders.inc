@@ -251,6 +251,13 @@ function rcube_subscription_form($attrib)
 
     unset($seen);
 
+    // add drop-target representing 'root'
+    $table->add_row(array('id' => 'mailboxroot', 'class' => 'virtual root'));
+    $table->add('name', '&nbsp;');
+    $table->add(null, '&nbsp;');
+
+    $a_js_folders['mailboxroot'] = array('.', '', true);
+
     $checkbox_subscribe = new html_checkbox(array(
         'name'    => '_subscribed[]',
         'title'   => rcube_label('changesubscription'),

@@ -4460,6 +4460,10 @@ function rcube_webmail()
       row.obj.onmouseout = function() { p.unfocus_subscription(row.id); };
     };
     this.subscription_list.init();
+    $('#mailboxroot')
+      .mouseover(function(){ p.focus_subscription(this.id); })
+      .mouseout(function(){ p.unfocus_subscription(this.id); })
+      .mouseup(function(){ if (p.drag_active) p.subscription_move_folder(); });
   };
 
   this.focus_subscription = function(id)
@@ -4478,6 +4482,10 @@ function rcube_webmail()
           this.set_env('dstfolder', folder);
           $(row).addClass('droptarget');
         }
+      }
+      else if (id == 'mailboxroot') {
+        this.set_env('dstfolder', '');
+        $(row).addClass('droptarget');
       }
       else if (this.env.mailbox.match(new RegExp(delim))) {
         this.set_env('dstfolder', this.env.delimiter);
@@ -4523,11 +4531,13 @@ function rcube_webmail()
         (this.env.dstfolder != this.env.mailbox.replace(reg, ''))
     ) {
       reg = new RegExp('[^'+delim+']*['+delim+']', 'g');
-      var lock = this.set_busy(true, 'foldermoving'),
-        basename = this.env.mailbox.replace(reg, ''),
+      var basename = this.env.mailbox.replace(reg, ''),
         newname = this.env.dstfolder==this.env.delimiter ? basename : this.env.dstfolder+this.env.delimiter+basename;
-
-      this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.mailbox)+'&_folder_newname='+urlencode(newname), lock);
+        
+      if (newname != this.env.mailbox) {
+        this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.mailbox)+'&_folder_newname='+urlencode(newname), this.set_busy(true, 'foldermoving'));
+        this.subscription_list.draglayer.hide();
+      }
     }
     this.drag_active = false;
     this.unfocus_subscription(this.get_folder_row_id(this.env.dstfolder));
@@ -4557,9 +4567,9 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
-    var row, n, i, tmp, folders, len, list = [], slist = [],
+    var row, n, i, tmp, folders, rowid, list = [], slist = [],
       tbody = this.gui_objects.subscriptionlist.tBodies[0],
-      refrow = $('tr', tbody).get(0),
+      refrow = $('tr', tbody).get(1),
       id = 'rcmrow'+((new Date).getTime());
 
     if (!refrow) {
@@ -4586,7 +4596,10 @@ function rcube_webmail()
     this.env.subscriptionrows[id] = [name, display_name, 0];
 
     // sort folders, to find a place where to insert the row
-    folders = this.env.subscriptionrows;
+    folders = [];
+    $.each(this.env.subscriptionrows, function(k,v){ folders.push(v) });
+    folders.sort(function(a,b){ return a[0] < b[0] ? -1 : (a[0] > b[0] ? 1 : 0) });
+
     for (n in folders) {
       // protected folder
       if (folders[n][2]) {
@@ -4602,19 +4615,22 @@ function rcube_webmail()
         tmp = null;
       }
     }
-    list.sort();
-    // make sure protected folders (and their subs) are on top
-    list = slist.concat(list);
+
+    // check if subfolder of a protected folder
+    for (n=0; n<slist.length; n++) {
+      if (name.indexOf(slist[n]+this.env.delimiter) == 0)
+        rowid = this.get_folder_row_id(slist[n]);
+    }
 
     // find folder position after sorting
-    for (n=0, len=list.length; n<len; n++) {
-      if (list[n] == name)
-        break;
+    for (n=0; !rowid && n<list.length; n++) {
+      if (n && list[n] == name)
+        rowid = this.get_folder_row_id(list[n-1]);
     }
 
     // add row to the table
-    if (n && n < len)
-      $('#'+this.get_folder_row_id(list[n-1])).after(row);
+    if (rowid)
+      $('#'+rowid).after(row);
     else
       row.appendTo(tbody);
 
