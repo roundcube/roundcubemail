@@ -28,7 +28,7 @@ $labels['login']     = 'Login';
 
 // taskbar
 $labels['logout']   = 'Logout';
-$labels['mail']     = 'E-Mail';
+$labels['mail']     = 'Email';
 $labels['settings'] = 'Settings';
 $labels['addressbook'] = 'Address Book';
 
@@ -254,7 +254,7 @@ $labels['organization'] = 'Company';
 $labels['department']   = 'Department';
 $labels['gender']       = 'Gender';
 $labels['maidenname']   = 'Maiden Name';
-$labels['email']        = 'E-Mail';
+$labels['email']        = 'Email';
 $labels['phone']        = 'Phone';
 $labels['address']      = 'Address';
 $labels['street']       = 'Street';
