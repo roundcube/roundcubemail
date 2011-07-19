@@ -2904,9 +2904,9 @@ function rcube_webmail()
     this.auto_save_start();
   };
 
-  this.init_address_input_events = function(obj)
+  this.init_address_input_events = function(obj, action)
   {
-    obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e){ return ref.ksearch_keydown(e, this); })
+    obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, action); })
       .attr('autocomplete', 'off');
   };
 
@@ -3441,14 +3441,14 @@ function rcube_webmail()
   /*********************************************************/
 
   // handler for keyboard events on address-fields
-  this.ksearch_keydown = function(e, obj)
+  this.ksearch_keydown = function(e, obj, action)
   {
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
-    var highlight;
-    var key = rcube_event.get_keycode(e);
-    var mod = rcube_event.get_modifier(e);
+    var highlight,
+      key = rcube_event.get_keycode(e),
+      mod = rcube_event.get_modifier(e);
 
     switch (key) {
       case 38:  // key up
@@ -3472,7 +3472,7 @@ function rcube_webmail()
           break;
 
      case 13:  // enter
-        if (this.ksearch_selected===null || !this.ksearch_input || !this.ksearch_value)
+        if (this.ksearch_selected === null || !this.ksearch_input || !this.ksearch_value)
           break;
 
         // insert selected address and hide ksearch pane
@@ -3492,7 +3492,7 @@ function rcube_webmail()
     }
 
     // start timer
-    this.ksearch_timer = window.setTimeout(function(){ ref.ksearch_get_results(); }, 200);
+    this.ksearch_timer = window.setTimeout(function(){ ref.ksearch_get_results(action); }, 200);
     this.ksearch_input = obj;
 
     return true;
@@ -3560,7 +3560,7 @@ function rcube_webmail()
   };
 
   // address search processor
-  this.ksearch_get_results = function()
+  this.ksearch_get_results = function(action)
   {
     var inp_value = this.ksearch_input ? this.ksearch_input.value : null;
 
@@ -3606,7 +3606,7 @@ function rcube_webmail()
       return;
 
     var lock = this.display_message(this.get_label('searching'), 'loading');
-    this.http_post('mail/autocomplete', '_search='+urlencode(q), lock);
+    this.http_post(action ? action : 'mail/autocomplete', '_search='+urlencode(q), lock);
   };
 
   this.ksearch_query_results = function(results, search)
