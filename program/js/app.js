@@ -5863,11 +5863,10 @@ function rcube_webmail()
 
       if (elm.type == 'hidden')
         continue;
-
       // remember which elem was disabled before lock
       if (lock && elm.disabled)
         this.disabled_form_elements.push(elm);
-      else if (lock || $.inArray(elm, this.disabled_form_elements)<0)
+      else if (lock || (this.disabled_form_elements && $.inArray(elm, this.disabled_form_elements)<0))
         elm.disabled = lock;
     }
   };
