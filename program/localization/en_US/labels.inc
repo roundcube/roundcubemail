@@ -28,7 +28,7 @@ $labels['login']     = 'Login';
 
 // taskbar
 $labels['logout']   = 'Logout';
-$labels['mail']     = 'Email';
+$labels['mail']     = 'Mail';
 $labels['settings'] = 'Settings';
 $labels['addressbook'] = 'Address Book';
 
