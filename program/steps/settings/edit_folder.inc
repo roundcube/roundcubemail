@@ -106,25 +106,24 @@ function rcmail_folder_form($attrib)
         ),
     );
 
-    if (strlen($path)) {
+    if (strlen($path) || !strlen($mbox)) {
         if (!empty($options) && ($options['norename'] || $options['namespace'] != 'personal')) {
             // prevent user from moving folder
             $hidden_path = new html_hiddenfield(array('name' => '_parent', 'value' => $path));
             $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
         }
         else {
-            $radio1 = new html_radiobutton(array('name' => '_parent', 'value' => ''));
-            $radio2 = new html_radiobutton(array('name' => '_parent', 'value' => $path_id));
-            $selected  = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
-
-            $html_path = str_replace($delimiter, ' &raquo; ', rcmail_localize_folderpath($path));
-
-            $folderpath = $radio1->show($selected) . Q(rcube_label('none')) . '&nbsp;'
-                .$radio2->show($selected) . Q($html_path);
+            $selected = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
+            $select = rcmail_mailbox_select(array(
+                'name'        => '_parent',
+                'noselection' => '---',
+                'realnames'   => false,
+                'maxlength'   => 150
+            ));
 
             $form['props']['fieldsets']['location']['content']['path'] = array(
                 'label' => rcube_label('parentfolder'),
-                'value' => $folderpath,
+                'value' => $select->show($selected),
             );
         }
     }
