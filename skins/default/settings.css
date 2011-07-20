@@ -39,6 +39,12 @@
   color: #666;
 }
 
+#subscription-table tr.root td
+{
+  font-size: 10%;
+  height: 5px;
+}
+
 #subscription-table tr.selected td
 {
   color: #FFFFFF;
