@@ -2094,7 +2094,7 @@ function rcube_upload_progress()
         $status = apc_fetch($prefix . $params['name']);
 
         if (!empty($status)) {
-            $status['percent'] = $status['current']/$status['total']*100;
+            $status['percent'] = round($status['current']/$status['total']*100);
             $params = array_merge($status, $params);
         }
     }
