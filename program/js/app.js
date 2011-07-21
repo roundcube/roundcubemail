@@ -5866,6 +5866,8 @@ function rcube_webmail()
       // remember which elem was disabled before lock
       if (lock && elm.disabled)
         this.disabled_form_elements.push(elm);
+      // check this.disabled_form_elements before inArray() as a workaround for FF5 bug
+      // http://bugs.jquery.com/ticket/9873
       else if (lock || (this.disabled_form_elements && $.inArray(elm, this.disabled_form_elements)<0))
         elm.disabled = lock;
     }
