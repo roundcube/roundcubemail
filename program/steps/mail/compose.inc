@@ -636,26 +636,26 @@ function rcmail_prepare_message_body()
         $body);
     }
   }
-  
+
   $HTML_MODE = $isHtml;
-  
+
   return $body;
 }
 
 function rcmail_compose_body($attrib)
 {
   global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode, $LINE_LENGTH, $HTML_MODE, $MESSAGE_BODY;
-  
+
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
-  
+
   if (empty($attrib['id']))
     $attrib['id'] = 'rcmComposeBody';
 
   $attrib['name'] = '_message';
 
   $isHtml = $HTML_MODE;
-  
+
   $out = $form_start ? "$form_start\n" : '';
 
   $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE->headers->messageID) : ''));
@@ -688,7 +688,7 @@ function rcmail_compose_body($attrib)
 
   // include HTML editor
   rcube_html_editor();
-  
+
   // include GoogieSpell
   if (!empty($CONFIG['enable_spellcheck'])) {
 
@@ -749,7 +749,7 @@ function rcmail_compose_body($attrib)
     $OUTPUT->add_label('checking');
     $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
   }
- 
+
   $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
 
   return $out;
@@ -858,7 +858,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
     $prefix .= "</tbody></table><br>";
   }
-    
+
   return $prefix.$body;
 }
 
@@ -866,7 +866,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 function rcmail_create_draft_body($body, $bodyIsHtml)
 {
   global $MESSAGE, $OUTPUT;
-  
+
   /**
    * add attachments
    * sizeof($MESSAGE->mime_parts can be 1 - e.g. attachment, but no text!
@@ -881,7 +881,7 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
     if ($cid_map)
       $body = str_replace(array_keys($cid_map), array_values($cid_map), $body);
   }
-  
+
   return $body;
 }
 
@@ -1061,7 +1061,7 @@ function rcmail_save_attachment(&$message, $pid)
   } else if ($path) {
     @unlink($path);
   }
-  
+
   return false;
 }
 
@@ -1084,7 +1084,7 @@ function rcmail_save_image($path, $mimetype='')
     unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
     return $attachment;
   }
-  
+
   return false;
 }
 

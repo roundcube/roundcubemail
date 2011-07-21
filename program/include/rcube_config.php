@@ -54,7 +54,7 @@ class rcube_config
         // load database config
         if (!$this->load_from_file(RCMAIL_CONFIG_DIR . '/db.inc.php'))
             $this->errors[] = 'db.inc.php was not found.';
-    
+
         // load host-specific configuration
         $this->load_host_config();
 
@@ -67,7 +67,7 @@ class rcube_config
         // fix paths
         $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : INSTALL_PATH . 'logs';
         $this->prop['temp_dir'] = $this->prop['temp_dir'] ? realpath(unslashify($this->prop['temp_dir'])) : INSTALL_PATH . 'temp';
-    
+
         // fix default imap folders encoding
         foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
             $this->prop[$folder] = rcube_charset_convert($this->prop[$folder], RCMAIL_CHARSET, 'UTF7-IMAP');

@@ -145,7 +145,7 @@ $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
 
 if (!empty($_SESSION['contact_undo'])) {
     $_SESSION['contact_undo']['ts'] = time();
-    $msg = html::span(null, rcube_label(array('name' => 'itemsdeleted', 'vars' => array('num' => $deleted))))
+    $msg = html::span(null, rcube_label('contactdeleted'))
         . ' ' . html::a(array('onclick' => JS_OBJECT_NAME.".command('undo', '', this)"), rcube_label('undo'));
 
     $OUTPUT->show_message($msg, 'confirmation', null, true, $undo_time);
