@@ -214,6 +214,7 @@ body.iframe,
 {
   background-color: #F2F2F2;
   border: none;
+  min-height: 100%; /* Chrome 14 bug */
 }
 
 #contacttabs
