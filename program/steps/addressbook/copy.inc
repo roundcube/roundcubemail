@@ -28,8 +28,9 @@ $cids         = rcmail_get_cids();
 $target       = get_input_value('_to', RCUBE_INPUT_POST);
 $target_group = get_input_value('_togid', RCUBE_INPUT_POST);
 
-$success = 0;
-$maxnum  = $RCMAIL->config->get('max_group_members', 0);
+$success  = 0;
+$errormsg = 'copyerror';
+$maxnum   = $RCMAIL->config->get('max_group_members', 0);
 
 foreach ($cids as $source => $cid)
 {
@@ -78,6 +79,7 @@ foreach ($cids as $source => $cid)
         else {
             $record = $result->first();
             $ids[] = $record['ID'];
+            $errormsg = 'contactexists';
         }
     }
 
@@ -101,11 +103,13 @@ foreach ($cids as $source => $cid)
         else if ($plugin['result']) {
             $success = $plugin['result'];
         }
+        
+        $errormsg = $plugin['message'] ? $plugin['message'] : 'copyerror';
     }
 }
 
 if ($success == 0)
-    $OUTPUT->show_message('copyerror', 'error');
+    $OUTPUT->show_message($errormsg, 'error');
 else
     $OUTPUT->show_message('copysuccess', 'notice', array('nr' => $success));
 
