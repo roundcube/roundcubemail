@@ -414,7 +414,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
         if ($section == 'head') {
             $content = '';
 
-            // unset display name if it is composed from name parts (same composition function as in save.inc)
+            // unset display name if it is composed from name parts
             if ($record['name'] == rcube_addressbook::compose_display_name(array('name' => '') + (array)$record))
               unset($record['name']);
 

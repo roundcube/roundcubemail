@@ -136,11 +136,6 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
 }
 
-// let a dedicated function or a plugin compose the full name if empty
-if (empty($a_record['name'])) {
-    $a_record['name'] = rcube_addressbook::compose_display_name($a_record);
-}
-
 
 // do input checks (delegated to $CONTACTS instance)
 if (!$CONTACTS->validate($a_record)) {
@@ -221,7 +216,7 @@ else {
   // show notice if existing contacts with same e-mail are found
   $existing = false;
   foreach ($CONTACTS->get_col_values('email', $a_record, true) as $email) {
-      if (($res = $CONTACTS->search('email', $email, false, false)) && $res->count) {
+      if (($res = $CONTACTS->search('email', $email, false, false, true)) && $res->count) {
           $OUTPUT->show_message('contactexists', 'notice', null, false);
           break;
       }
