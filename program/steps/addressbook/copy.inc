@@ -57,8 +57,14 @@ foreach ($cids as $source => $cid)
     foreach ($cid as $cid) {
         $a_record = $CONTACTS->get_record($cid, true);
 
-        // check if contact exists, if so, we'll need it's ID
-        $result = $TARGET->search('email', $a_record['email'], true, true);
+        // Check if contact exists, if so, we'll need it's ID
+        // Note: Some addressbooks allows empty email address field
+        if (!empty($a_record['email']))
+            $result = $TARGET->search('email', $a_record['email'], true, true, true);
+        else if (!empty($a_record['name']))
+            $result = $TARGET->search('name', $a_record['name'], true, true, true);
+        else
+            $result = new rcube_result_set();
 
         // insert contact record
         if (!$result->count) {
@@ -79,7 +85,7 @@ foreach ($cids as $source => $cid)
         else {
             $record = $result->first();
             $ids[] = $record['ID'];
-            $errormsg = 'contactexists';
+            $errormsg = empty($a_record['email']) ? 'contactnameexists' : 'contactexists';
         }
     }
 
@@ -103,7 +109,7 @@ foreach ($cids as $source => $cid)
         else if ($plugin['result']) {
             $success = $plugin['result'];
         }
-        
+
         $errormsg = $plugin['message'] ? $plugin['message'] : 'copyerror';
     }
 }
