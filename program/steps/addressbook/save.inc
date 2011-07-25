@@ -188,8 +188,8 @@ if (!empty($cid))
     $a_js_cols = array();
     $record = $CONTACTS->get_record($newcid ? $newcid : $cid, true);
     $record['email'] = reset($CONTACTS->get_col_values('email', $record, true));
-    if (!$record['name'])
-      $record['name'] = $record['email'];
+    if (empty($record['name']))
+      $record['name']  = rcube_addressbook::compose_display_name($record, true);
 
     foreach (array('name', 'email') as $col)
       $a_js_cols[] = Q((string)$record[$col]);

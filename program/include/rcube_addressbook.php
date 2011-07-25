@@ -434,9 +434,11 @@ abstract class rcube_addressbook
      * Compose a valid display name from the given structured contact data
      *
      * @param array  Hash array with contact data as key-value pairs
+     * @param bool   The name will be used on the list
+     *
      * @return string Display name
      */
-    public static function compose_display_name($contact)
+    public static function compose_display_name($contact, $list_mode = false)
     {
         $contact = rcmail::get_instance()->plugins->exec_hook('contact_displayname', $contact);
         $fn = $contact['name'];
@@ -446,7 +448,12 @@ abstract class rcube_addressbook
 
         // use email address part for name
         $email = is_array($contact['email']) ? $contact['email'][0] : $contact['email'];
+
         if ($email && (empty($fn) || $fn == $email)) {
+            // Use full email address on contacts list
+            if ($list_mode)
+                return $email;
+
             list($emailname) = explode('@', $email);
             if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match))
                 $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));
