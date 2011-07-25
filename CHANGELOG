@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Plugin API: Added 'config_get' hook
 - Fixed new_user_identity plugin to work with updated rcube_ldap class (#1487994)
 - Plugin API: added folder_delete and folder_rename hooks
 - Added possibility to undo last contact delete operation

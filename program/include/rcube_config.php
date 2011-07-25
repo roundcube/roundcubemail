@@ -150,7 +150,17 @@ class rcube_config
      */
     public function get($name, $def = null)
     {
-        return isset($this->prop[$name]) ? $this->prop[$name] : $def;
+        $result = isset($this->prop[$name]) ? $this->prop[$name] : $def;
+        $rcmail = rcmail::get_instance();
+
+        if (is_object($rcmail->plugins)) {
+            $plugin = $rcmail->plugins->exec_hook('config_get', array(
+                'name' => $name, 'default' => $def, 'result' => $result));
+
+            return $plugin['result'];
+        }
+
+        return $result;
     }
 
 
