@@ -2122,3 +2122,29 @@ function rcube_upload_progress_init()
         }
     }
 }
+
+/**
+ * Initializes client-side autocompletion
+ */
+function rcube_autocomplete_init()
+{
+    global $RCMAIL;
+    static $init;
+
+    if ($init)
+        return;
+
+    $init = 1;
+
+    if (($threads = (int)$RCMAIL->config->get('autocomplete_threads')) > 0) {
+      $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
+      if (count($book_types) > 1) {
+        $RCMAIL->output->set_env('autocomplete_threads', $threads);
+        $RCMAIL->output->set_env('autocomplete_sources', $book_types);
+      }
+    }
+
+    $RCMAIL->output->set_env('autocomplete_max', (int)$RCMAIL->config->get('autocomplete_max', 15));
+    $RCMAIL->output->set_env('autocomplete_min_length', $RCMAIL->config->get('autocomplete_min_length'));
+    $RCMAIL->output->add_label('autocompletechars');
+}

@@ -111,7 +111,7 @@ if (!is_array($_SESSION['compose']))
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
-    'fileuploaderror', 'autocompletechars');
+    'fileuploaderror');
 
 $OUTPUT->set_env('compose_id', $COMPOSE_ID);
 
@@ -124,7 +124,6 @@ if (!empty($CONFIG['drafts_mbox'])) {
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
 $OUTPUT->set_env('sig_above', $CONFIG['sig_above']);
 $OUTPUT->set_env('top_posting', $CONFIG['top_posting']);
-$OUTPUT->set_env('autocomplete_min_length', $CONFIG['autocomplete_min_length']);
 
 // get reference message and set compose mode
 if ($msg_uid = $_SESSION['compose']['param']['draft_uid']) {
@@ -466,9 +465,12 @@ function rcmail_compose_headers($attrib)
     $input = new $field_type($field_attrib);
     $out = $input->show($MESSAGE->compose[$param]);
   }
-  
+
   if ($form_start)
     $out = $form_start.$out;
+
+  // configure autocompletion
+  rcube_autocomplete_init();
 
   return $out;
 }

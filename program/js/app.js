@@ -2871,12 +2871,21 @@ function rcube_webmail()
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
       html_mode = $("input[name='_is_html']").val() == '1',
-      ac_fields = ['cc', 'bcc', 'replyto', 'followupto'];
+      ac_fields = ['cc', 'bcc', 'replyto', 'followupto'],
+      ac_props;
+
+    // configure parallel autocompletion
+    if (this.env.autocomplete_threads > 0) {
+      ac_props = {
+        threads: this.env.autocomplete_threads,
+        sources: this.env.autocomplete_sources,
+      };
+    }
 
     // init live search events
-    this.init_address_input_events(input_to);
+    this.init_address_input_events(input_to, ac_props);
     for (var i in ac_fields) {
-      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"));
+      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
     }
 
     if (!html_mode) {
@@ -2904,9 +2913,9 @@ function rcube_webmail()
     this.auto_save_start();
   };
 
-  this.init_address_input_events = function(obj, action)
+  this.init_address_input_events = function(obj, props)
   {
-    obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, action); })
+    obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr('autocomplete', 'off');
   };
 
@@ -3441,7 +3450,7 @@ function rcube_webmail()
   /*********************************************************/
 
   // handler for keyboard events on address-fields
-  this.ksearch_keydown = function(e, obj, action)
+  this.ksearch_keydown = function(e, obj, props)
   {
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
@@ -3471,8 +3480,8 @@ function rcube_webmail()
         if (mod == SHIFT_KEY)
           break;
 
-     case 13:  // enter
-        if (this.ksearch_selected === null || !this.ksearch_input || !this.ksearch_value)
+      case 13:  // enter
+        if (this.ksearch_selected === null || !this.ksearch_value)
           break;
 
         // insert selected address and hide ksearch pane
@@ -3492,7 +3501,7 @@ function rcube_webmail()
     }
 
     // start timer
-    this.ksearch_timer = window.setTimeout(function(){ ref.ksearch_get_results(action); }, 200);
+    this.ksearch_timer = window.setTimeout(function(){ ref.ksearch_get_results(props); }, 200);
     this.ksearch_input = obj;
 
     return true;
@@ -3522,10 +3531,11 @@ function rcube_webmail()
       p = inp_value.lastIndexOf(this.ksearch_value, cpos),
       trigger = false,
       insert = '',
-
       // replace search string with full address
       pre = inp_value.substring(0, p),
       end = inp_value.substring(p+this.ksearch_value.length, inp_value.length);
+
+    this.ksearch_destroy();
 
     // insert all members of a group
     if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].id) {
@@ -3560,7 +3570,7 @@ function rcube_webmail()
   };
 
   // address search processor
-  this.ksearch_get_results = function(action)
+  this.ksearch_get_results = function(props)
   {
     var inp_value = this.ksearch_input ? this.ksearch_input.value : null;
 
@@ -3605,59 +3615,102 @@ function rcube_webmail()
     if (old_value && old_value.length && this.env.contacts && !this.env.contacts.length && q.indexOf(old_value) == 0)
       return;
 
-    var lock = this.display_message(this.get_label('searching'), 'loading');
-    this.http_post(action ? action : 'mail/autocomplete', '_search='+urlencode(q), lock);
+    this.ksearch_destroy();
+
+    var i, lock, source, xhr, reqid = new Date().getTime(),
+      threads = props && props.threads ? props.threads : 1,
+      sources = props && props.sources ? props.sources : [],
+      action = props && props.action ? props.action : 'mail/autocomplete';
+
+    this.ksearch_data = {id: reqid, sources: sources.slice(), action: action, locks: [], requests: []};
+
+    for (i=0; i<threads; i++) {
+      source = this.ksearch_data.sources.shift();
+      if (threads > 1 && source === null)
+        break;
+
+      lock = this.display_message(this.get_label('searching'), 'loading');
+      xhr = this.http_post(action, '_search='+urlencode(q)+'&_id='+reqid
+        + (source ? '&_source='+urlencode(source) : ''), lock);
+
+      this.ksearch_data.locks.push(lock);
+      this.ksearch_data.requests.push(xhr);
+    }
   };
 
-  this.ksearch_query_results = function(results, search)
+  this.ksearch_query_results = function(results, search, reqid)
   {
     // ignore this outdated search response
-    if (this.ksearch_value && search != this.ksearch_value)
+    if (this.ksearch_input && this.ksearch_value && search != this.ksearch_value)
       return;
 
-    this.env.contacts = results ? results : [];
-    this.ksearch_display_results(this.env.contacts);
-  };
-
-  this.ksearch_display_results = function (a_results)
-  {
     // display search results
-    if (a_results.length && this.ksearch_input && this.ksearch_value) {
-      var p, ul, li, text, s_val = this.ksearch_value;
+    var p, ul, li, text, init, s_val = this.ksearch_value,
+      maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
 
-      // create results pane if not present
-      if (!this.ksearch_pane) {
-        ul = $('<ul>');
-        this.ksearch_pane = $('<div>').attr('id', 'rcmKSearchpane').css({ position:'absolute', 'z-index':30000 }).append(ul).appendTo(document.body);
-        this.ksearch_pane.__ul = ul[0];
-      }
+    // create results pane if not present
+    if (!this.ksearch_pane) {
+      ul = $('<ul>');
+      this.ksearch_pane = $('<div>').attr('id', 'rcmKSearchpane')
+        .css({ position:'absolute', 'z-index':30000 }).append(ul).appendTo(document.body);
+      this.ksearch_pane.__ul = ul[0];
+    }
 
-      // remove all search results
-      ul = this.ksearch_pane.__ul;
+    ul = this.ksearch_pane.__ul;
+
+    // remove all search results or add to existing list if parallel search
+    if (reqid && this.ksearch_pane.data('reqid') == reqid) {
+      maxlen -= ul.childNodes.length;
+    }
+    else {
+      this.ksearch_pane.data('reqid', reqid);
+      init = 1;
+      // reset content
       ul.innerHTML = '';
+      this.env.contacts = [];
+      // move the results pane right under the input box
+      var pos = $(this.ksearch_input).offset();
+      this.ksearch_pane.css({ left:pos.left+'px', top:(pos.top + this.ksearch_input.offsetHeight)+'px', display: 'none'});
+    }
 
-      // add each result line to list
-      for (i=0; i < a_results.length; i++) {
-        text = typeof a_results[i] === 'object' ? a_results[i].name : a_results[i];
+    // add each result line to list
+    if (results && results.length) {
+      for (i=0; i < results.length && maxlen > 0; i++) {
+        text = typeof results[i] === 'object' ? results[i].name : results[i];
         li = document.createElement('LI');
         li.innerHTML = text.replace(new RegExp('('+RegExp.escape(s_val)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
         li._rcm_id = i;
         ul.appendChild(li);
+        maxlen -= 1;
       }
-
-      // select the first
-      $(ul.firstChild).attr('id', 'rcmksearchSelected').addClass('selected');
-      this.ksearch_selected = 0;
-
-      // move the results pane right under the input box and make it visible
-      var pos = $(this.ksearch_input).offset();
-      this.ksearch_pane.css({ left:pos.left+'px', top:(pos.top + this.ksearch_input.offsetHeight)+'px' }).show();
     }
-    // hide results pane
-    else
-      this.ksearch_hide();
+
+    if (ul.childNodes.length) {
+      this.ksearch_pane.show();
+      // select the first
+      if (!this.env.contacts.length) {
+        $('li:first', ul).attr('id', 'rcmksearchSelected').addClass('selected');
+        this.ksearch_selected = 0;
+      }
+    }
+
+    if (results && results.length)
+      this.env.contacts = this.env.contacts.concat(results);
+
+    // run next parallel search
+    if (maxlen > 0 && this.ksearch_data.id == reqid && this.ksearch_data.sources.length) {
+      var lock, xhr, props = this.ksearch_data, source = props.sources.shift();
+      if (source) {
+        lock = this.display_message(this.get_label('searching'), 'loading');
+        xhr = this.http_post(props.action, '_search='+urlencode(s_val)+'&_id='+reqid
+          +'&_source='+urlencode(source), lock);
+
+        this.ksearch_data.locks.push(lock);
+        this.ksearch_data.requests.push(xhr);
+      }
+    }
   };
 
   this.ksearch_click = function(node)
@@ -3674,20 +3727,34 @@ function rcube_webmail()
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
-    this.ksearch_value = '';
     this.ksearch_input = null;
     this.ksearch_hide();
   };
 
-
   this.ksearch_hide = function()
   {
     this.ksearch_selected = null;
+    this.ksearch_value = '';
 
     if (this.ksearch_pane)
       this.ksearch_pane.hide();
    };
 
+  // Aborts pending autocomplete requests
+  this.ksearch_destroy = function()
+  {
+    var i, len, ac = this.ksearch_data;
+
+    if (!ac)
+      return;
+
+    for (i=0, len=ac.locks.length; i<len; i++) {
+      this.hide_message(ac.locks[i]); // hide loading message
+      ac.requests[i].abort(); // abort ajax request
+    }
+
+    this.ksearch_data = null;
+  }
 
   /*********************************************************/
   /*********         address book methods          *********/
@@ -4533,7 +4600,7 @@ function rcube_webmail()
       reg = new RegExp('[^'+delim+']*['+delim+']', 'g');
       var basename = this.env.mailbox.replace(reg, ''),
         newname = this.env.dstfolder==this.env.delimiter ? basename : this.env.dstfolder+this.env.delimiter+basename;
-        
+
       if (newname != this.env.mailbox) {
         this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.mailbox)+'&_folder_newname='+urlencode(newname), this.set_busy(true, 'foldermoving'));
         this.subscription_list.draglayer.hide();
@@ -5455,7 +5522,7 @@ function rcube_webmail()
   /********************************************************/
   /*********        remote request methods        *********/
   /********************************************************/
-  
+
   // compose a valid url with the given parameters
   this.url = function(action, query)
   {
@@ -5534,7 +5601,8 @@ function rcube_webmail()
 
     // send request
     console.log('HTTP GET: ' + url);
-    $.ajax({
+
+    return $.ajax({
       type: 'GET', url: url, data: { _unlock:(lock?lock:0) }, dataType: 'json',
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { rcmail.http_error(o, status, err, lock); }
@@ -5565,7 +5633,8 @@ function rcube_webmail()
 
     // send request
     console.log('HTTP POST: ' + url);
-    $.ajax({
+
+    return $.ajax({
       type: 'POST', url: url, data: postdata, dataType: 'json',
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { rcmail.http_error(o, status, err, lock); }

@@ -571,6 +571,15 @@ $rcmail_config['autocomplete_addressbooks'] = array('sql');
 // may need to do lengthy results building given overly-broad searches
 $rcmail_config['autocomplete_min_length'] = 1;
 
+// Number of parallel autocomplete requests.
+// If there's more than one address book, n parallel (async) requests will be created,
+// where each request will search in one address book. By default (0), all address
+// books are searched in one request.
+$rcmail_config['autocomplete_threads'] = 0;
+
+// Max. numer of entries in autocomplete popup. Default: 15.
+$rcmail_config['autocomplete_max'] = 15;
+
 // show address fields in this order
 // available placeholders: {street}, {locality}, {zipcode}, {country}, {region}
 $rcmail_config['address_template'] = '{street}<br/>{locality} {zipcode}<br/>{country} {region}';

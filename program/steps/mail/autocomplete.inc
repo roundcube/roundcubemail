@@ -19,9 +19,6 @@
 
 */
 
-$MAXNUM = 15;
-$book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
-
 if ($RCMAIL->action == 'group-expand') {
   $abook = $RCMAIL->get_address_book(get_input_value('_source', RCUBE_INPUT_GPC));
   if ($gid = get_input_value('_gid', RCUBE_INPUT_GPC)) {
@@ -36,8 +33,22 @@ if ($RCMAIL->action == 'group-expand') {
 
     $OUTPUT->command('replace_group_recipients', $gid, join(', ', $members));
   }
+
+  $OUTPUT->send();
 }
-else if ($book_types && ($search = get_input_value('_search', RCUBE_INPUT_GPC, true))) {
+
+
+$MAXNUM = (int)$RCMAIL->config->get('autocomplete_max', 15);
+$search = get_input_value('_search', RCUBE_INPUT_GPC, true);
+$source = get_input_value('_source', RCUBE_INPUT_GPC);
+$sid    = get_input_value('_id', RCUBE_INPUT_GPC);
+
+if (strlen($source))
+  $book_types = array($source);
+else
+  $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
+
+if (!empty($book_types) && strlen($search)) {
   $contacts = array();
   $books_num = count($book_types);
 
@@ -87,7 +98,7 @@ else if ($book_types && ($search = get_input_value('_search', RCUBE_INPUT_GPC, t
   usort($contacts, 'contact_results_sort');
 }
 
-$OUTPUT->command('ksearch_query_results', $contacts, $search);
+$OUTPUT->command('ksearch_query_results', $contacts, $search, $sid);
 $OUTPUT->send();
 
 
