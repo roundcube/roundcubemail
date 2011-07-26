@@ -428,10 +428,15 @@ class rcube_template extends rcube_html_page
         if ($write) {
             // add debug console
             if ($this->config['debug_level'] & 8) {
-                $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;">
+                $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;display:none">
                     <a href="#toggle" onclick="con=$(\'#dbgconsole\');con[con.is(\':visible\')?\'hide\':\'show\']();return false">console</a>
                     <textarea name="console" id="dbgconsole" rows="20" cols="40" wrap="off" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></div>'
                 );
+                $this->add_script(
+                    "if (!window.console || !window.console.log) {\n".
+                    "  window.console = new rcube_console();\n".
+                    "  $('#console').show();\n".
+                    "}", 'foot');
             }
             $this->write(trim($output));
         }

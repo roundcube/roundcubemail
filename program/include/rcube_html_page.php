@@ -219,12 +219,12 @@ class rcube_html_page
             }
         }
 
-        if (!empty($this->scripts['foot'])) {
-            $page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
+        if (!empty($this->footer)) {
+            $page_footer .= $this->footer . "\n";
         }
 
-        if (!empty($this->footer)) {
-            $page_footer .= $this->footer;
+        if (!empty($this->scripts['foot'])) {
+            $page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
         }
 
         // find page header
