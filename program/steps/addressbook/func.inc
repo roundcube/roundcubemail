@@ -160,6 +160,20 @@ function rcmail_default_source($writable=false)
     return $list[key($list)]['id'];
 }
 
+function rcmail_set_sourcename($abook)
+{
+    global $OUTPUT;
+    
+    // get address book name (for display)
+    if ($abook && $_SESSION['addressbooks_count'] > 1) {
+        $name = $abook->get_name();
+        if (!$name && $source == 0) {
+            $name = rcube_label('personaladrbook');
+        }
+        $OUTPUT->set_env('sourcename', $name);
+    }
+}
+
 
 function rcmail_directory_list($attrib)
 {

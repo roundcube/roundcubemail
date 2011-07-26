@@ -34,13 +34,7 @@ if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
 }
 
 // get address book name (for display)
-if ($_SESSION['addressbooks_count'] > 1) {
-    $name = $CONTACTS->get_name();
-    if (!$name && $source == 0) {
-        $name = rcube_label('personaladrbook');
-    }
-    $OUTPUT->set_env('sourcename', $name);
-}
+rcmail_set_sourcename($CONTACTS);
 
 // return raw photo of the given contact
 if ($RCMAIL->action == 'photo') {
