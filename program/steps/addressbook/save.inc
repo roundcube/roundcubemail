@@ -164,6 +164,15 @@ if (isset($a_record['photo'])) {
     $RCMAIL->session->remove('contacts');
 }
 
+// Generate contact's display name
+if (empty($a_record['name'])) {
+    $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
+    // Reset it if equals to email address (from compose_display_name())
+    if ($a_record['name'] == $a_record['email'][0])
+        $a_record['name'] = '';
+}
+
+
 // update an existing contact
 if (!empty($cid))
 {
