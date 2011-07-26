@@ -267,7 +267,8 @@ function rcube_subscription_form($attrib)
     // create list of available folders
     foreach ($list_folders as $i => $folder) {
         $idx        = $i + 1;
-        $subscribed = in_array($folder['id'], $a_subscribed);
+        $sub_key    = array_search($folder['id'], $a_subscribed);
+        $subscribed = $sub_key !== false;
         $protected  = ($CONFIG['protect_default_folders'] == true && in_array($folder['id'], $CONFIG['default_imap_folders']));
         $noselect   = false;
         $classes    = array($i%2 ? 'even' : 'odd');
@@ -276,6 +277,9 @@ function rcube_subscription_form($attrib)
         $folder_utf8    = rcube_charset_convert($folder['id'], 'UTF7-IMAP');
         $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level'])
             . Q($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
+
+        if ($sub_key !== false)
+            unset($a_subscribed[$sub_key]);
 
         if ($folder['virtual']) {
             $classes[] = 'virtual';
@@ -323,6 +327,11 @@ function rcube_subscription_form($attrib)
 
         $a_js_folders['rcmrow'.$idx] = array($folder_utf8,
             Q($display_folder), $protected || $folder['virtual']);
+    }
+
+    // Unsubscribe from non-existing folders
+    foreach ($a_subscribed as $folder) {
+        $IMAP->unsubscribe($folder);
     }
 
     $RCMAIL->plugins->exec_hook('folders_list', array('table' => $table));
