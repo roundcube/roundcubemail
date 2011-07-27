@@ -1160,8 +1160,6 @@ class rcmail
       $this->smtp->disconnect();
 
     foreach ($this->address_books as $book) {
-      if (!is_object($book))  // maybe an address book instance wasn't fetched using get_address_book() yet
-        $book = $this->get_address_book($book['id']);
       if (is_a($book, 'rcube_addressbook'))
         $book->close();
     }
