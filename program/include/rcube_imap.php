@@ -2163,7 +2163,7 @@ class rcube_imap
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
                         $mime_part_headers[] = $tmp_part_id;
                     }
-                    else if (in_array('name', (array)$part[$i][2]) && (empty($part[$i][3]) || $part[$i][3]=='NIL')) {
+                    else if (in_array('name', (array)$part[$i][2]) && empty($part[$i][3])) {
                         $mime_part_headers[] = $tmp_part_id;
                     }
                 }
@@ -2231,13 +2231,13 @@ class rcube_imap
         }
 
         // read content encoding
-        if (!empty($part[5]) && $part[5]!='NIL') {
+        if (!empty($part[5])) {
             $struct->encoding = strtolower($part[5]);
             $struct->headers['content-transfer-encoding'] = $struct->encoding;
         }
 
         // get part size
-        if (!empty($part[6]) && $part[6]!='NIL')
+        if (!empty($part[6]))
             $struct->size = intval($part[6]);
 
         // read part disposition
@@ -2264,7 +2264,7 @@ class rcube_imap
         }
 
         // get part ID
-        if (!empty($part[3]) && $part[3]!='NIL') {
+        if (!empty($part[3])) {
             $struct->content_id = $part[3];
             $struct->headers['content-id'] = $part[3];
 

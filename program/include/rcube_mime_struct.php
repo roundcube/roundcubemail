@@ -6,7 +6,7 @@
  | program/include/rcube_mime_struct.php                                 |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -48,7 +48,7 @@ class rcube_mime_struct
         $line = substr($str, 1, strlen($str) - 2);
         $line = str_replace(')(', ') (', $line);
 
-	    $struct = self::parseBSString($line);
+	    $struct = rcube_imap_generic::tokenizeResponse($line);
     	if (!is_array($struct[0]) && (strcasecmp($struct[0], 'message') == 0)
 		    && (strcasecmp($struct[1], 'rfc822') == 0)) {
 		    $struct = array($struct);
@@ -78,7 +78,7 @@ class rcube_mime_struct
 		    else if ($part_a[0])
                 return $part_a[0];
 	    }
-        
+
         return 'other';
     }
 
@@ -89,7 +89,7 @@ class rcube_mime_struct
 		    if (!is_array($part_a[0]))
                 return $part_a[5];
 	    }
-        
+
         return '';
     }
 
@@ -108,7 +108,7 @@ class rcube_mime_struct
 			    }
 		    }
 	    }
-        
+
         return '';
     }
 
@@ -141,74 +141,5 @@ class rcube_mime_struct
 		    return $a;
 	    }
     }
-
-    private function closingParenPos($str, $start)
-    {
-        $level = 0;
-        $len = strlen($str);
-        $in_quote = 0;
-
-        for ($i=$start; $i<$len; $i++) {
-    	    if ($str[$i] == '"' && $str[$i-1] != "\\") {
-		        $in_quote = ($in_quote + 1) % 2;
-    	    }
-            if (!$in_quote) {
-        	    if ($str[$i] == '(')
-                    $level++;
-        	    else if (($level > 0) && ($str[$i] == ')'))
-                    $level--;
-        	    else if (($level == 0) && ($str[$i] == ')'))
-                    return $i;
-    	    }
-        }
-    }
-
-    /*
-     * Parses IMAP's BODYSTRUCTURE string into array
-    */
-    private function parseBSString($str)
-    {	
-        $id = 0;
-        $a = array();
-        $len = strlen($str);
-        $in_quote = 0;
-
-        for ($i=0; $i<$len; $i++) {
-            if ($str[$i] == '"') {
-	            $in_quote = ($in_quote + 1) % 2;
-            } else if (!$in_quote) {
-                // space means new element
-                if ($str[$i] == ' ') {
-                    $id++;
-                    // skip additional spaces
-                    while ($str[$i+1] == ' ')
-                        $i++;
-                // new part
-                } else if ($str[$i] == '(') {
-                    $i++;
-                    $endPos = self::closingParenPos($str, $i);
-                    $partLen = $endPos - $i;
-                    if ($partLen < 0)
-                        break;
-                    $part = substr($str, $i, $partLen);
-                    $a[$id] = self::parseBSString($part); // send part string
-                    $i = $endPos;
-                } else
-		            $a[$id] .= $str[$i]; //add to current element in array
-            } else if ($in_quote) {
-                if ($str[$i] == "\\") {
-		            $i++; // escape backslashes
-		            if ($str[$i] == '"' || $str[$i] == "\\")
-		                $a[$id] .= $str[$i];
-                }
-                else
-		            $a[$id] .= $str[$i]; //add to current element in array
-            }
-        }
-        
-        reset($a);
-        return $a;
-    }
-
 
 }
