@@ -199,7 +199,7 @@ function rcmail_directory_list($attrib)
     $current = get_input_value('_source', RCUBE_INPUT_GPC);
 
     foreach ($sources as $j => $source) {
-        $id = strval($source['id'] ? $source['id'] : $j);
+        $id = strval(strlen($source['id']) ? $source['id'] : $j);
         $js_id = JQ($id);
 
         // set class name(s)
