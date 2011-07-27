@@ -3730,7 +3730,9 @@ function rcube_webmail()
 
     if (this.ksearch_pane)
       this.ksearch_pane.hide();
-   };
+
+    this.ksearch_destroy();
+  };
 
   // Aborts pending autocomplete requests
   this.ksearch_destroy = function()
