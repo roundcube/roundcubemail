@@ -1623,6 +1623,198 @@ function rcmail_replace_emoticons($html)
 
 
 /**
+ * Send the given message using the configured method
+ *
+ * @param object $message    Reference to Mail_MIME object
+ * @param string $from       Sender address string
+ * @param array  $mailto     Array of recipient address strings
+ * @param array  $smtp_error SMTP error array (reference)
+ * @param string $body_file  Location of file with saved message body (reference)
+ * @param array  $smtp_opts  SMTP options (e.g. DSN request)
+ *
+ * @return boolean Send status.
+ */
+function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file, $smtp_opts=null)
+{
+  global $CONFIG, $RCMAIL;
+
+  $headers = $message->headers();
+
+  // send thru SMTP server using custom SMTP library
+  if ($CONFIG['smtp_server']) {
+    // generate list of recipients
+    $a_recipients = array($mailto);
+
+    if (strlen($headers['Cc']))
+      $a_recipients[] = $headers['Cc'];
+    if (strlen($headers['Bcc']))
+      $a_recipients[] = $headers['Bcc'];
+
+    // clean Bcc from header for recipients
+    $send_headers = $headers;
+    unset($send_headers['Bcc']);
+    // here too, it because txtHeaders() below use $message->_headers not only $send_headers
+    unset($message->_headers['Bcc']);
+
+    $smtp_headers = $message->txtHeaders($send_headers, true);
+
+    if ($message->getParam('delay_file_io')) {
+      // use common temp dir
+      $temp_dir = $RCMAIL->config->get('temp_dir');
+      $body_file = tempnam($temp_dir, 'rcmMsg');
+      if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
+        raise_error(array('code' => 600, 'type' => 'php',
+            'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Could not create message: ".$mime_result->getMessage()),
+            TRUE, FALSE);
+        return false;
+      }
+      $msg_body = fopen($body_file, 'r');
+    } else {
+      $msg_body = $message->get();
+    }
+
+    // send message
+    if (!is_object($RCMAIL->smtp))
+      $RCMAIL->smtp_init(true);
+
+    $sent = $RCMAIL->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $smtp_opts);
+    $smtp_response = $RCMAIL->smtp->get_response();
+    $smtp_error = $RCMAIL->smtp->get_error();
+
+    // log error
+    if (!$sent)
+      raise_error(array('code' => 800, 'type' => 'smtp', 'line' => __LINE__, 'file' => __FILE__,
+                        'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
+  }
+  // send mail using PHP's mail() function
+  else {
+    // unset some headers because they will be added by the mail() function
+    $headers_enc = $message->headers($headers);
+    $headers_php = $message->_headers;
+    unset($headers_php['To'], $headers_php['Subject']);
+
+    // reset stored headers and overwrite
+    $message->_headers = array();
+    $header_str = $message->txtHeaders($headers_php);
+
+    // #1485779
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+      if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
+        $headers_enc['To'] = implode(', ', $m[1]);
+      }
+    }
+
+    $msg_body = $message->get();
+
+    if (PEAR::isError($msg_body))
+      raise_error(array('code' => 600, 'type' => 'php',
+            'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Could not create message: ".$msg_body->getMessage()),
+            TRUE, FALSE);
+    else {
+      $delim   = $RCMAIL->config->header_delimiter();
+      $to      = $headers_enc['To'];
+      $subject = $headers_enc['Subject'];
+      $header_str = rtrim($header_str);
+
+      if ($delim != "\r\n") {
+        $header_str = str_replace("\r\n", $delim, $header_str);
+        $msg_body   = str_replace("\r\n", $delim, $msg_body);
+        $to         = str_replace("\r\n", $delim, $to);
+        $subject    = str_replace("\r\n", $delim, $subject);
+      }
+
+      if (ini_get('safe_mode'))
+        $sent = mail($to, $subject, $msg_body, $header_str);
+      else
+        $sent = mail($to, $subject, $msg_body, $header_str, "-f$from");
+    }
+  }
+
+  if ($sent) {
+    $RCMAIL->plugins->exec_hook('message_sent', array('headers' => $headers, 'body' => $msg_body));
+
+    // remove MDN headers after sending
+    unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
+
+    // get all recipients
+    if ($headers['Cc'])
+      $mailto .= $headers['Cc'];
+    if ($headers['Bcc'])
+      $mailto .= $headers['Bcc'];
+    if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m))
+      $mailto = implode(', ', array_unique($m[1]));
+
+    if ($CONFIG['smtp_log']) {
+      write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
+        $RCMAIL->user->get_username(),
+        $_SERVER['REMOTE_ADDR'],
+        $mailto,
+        !empty($smtp_response) ? join('; ', $smtp_response) : ''));
+    }
+  }
+
+  if (is_resource($msg_body)) {
+    fclose($msg_body);
+  }
+
+  $message->_headers = array();
+  $message->headers($headers);
+
+  return $sent;
+}
+
+
+// Returns unique Message-ID
+function rcmail_gen_message_id()
+{
+  global $RCMAIL;
+
+  $local_part  = md5(uniqid('rcmail'.mt_rand(),true));
+  $domain_part = $RCMAIL->user->get_username('domain');
+
+  // Try to find FQDN, some spamfilters doesn't like 'localhost' (#1486924)
+  if (!preg_match('/\.[a-z]+$/i', $domain_part)) {
+    if (($host = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']))
+      && preg_match('/\.[a-z]+$/i', $host)) {
+        $domain_part = $host;
+    }
+    else if (($host = preg_replace('/:[0-9]+$/', '', $_SERVER['SERVER_NAME']))
+      && preg_match('/\.[a-z]+$/i', $host)) {
+        $domain_part = $host;
+    }
+  }
+
+  return sprintf('<%s@%s>', $local_part, $domain_part);
+}
+
+
+// Returns RFC2822 formatted current date in user's timezone
+function rcmail_user_date()
+{
+  global $CONFIG;
+
+  // get user's timezone
+  if ($CONFIG['timezone'] === 'auto') {
+    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
+  }
+  else {
+    $tz = $CONFIG['timezone'];
+    if ($CONFIG['dst_active'])
+      $tz++;
+  }
+
+  $date = time() + $tz * 60 * 60;
+  $date = gmdate('r', $date);
+  $tz   = sprintf('%+05d', intval($tz) * 100 + ($tz - intval($tz)) * 60);
+  $date = preg_replace('/[+-][0-9]{4}$/', $tz, $date);
+
+  return $date;
+}
+
+
+/**
  * Check if working in SSL mode
  *
  * @param integer HTTPS port number
