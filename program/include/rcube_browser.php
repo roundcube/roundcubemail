@@ -39,9 +39,9 @@ class rcube_browser
         $this->unix  = strstr($HTTP_USER_AGENT, 'unix');
 
         $this->opera = strstr($HTTP_USER_AGENT, 'opera');
-        $this->ns4 = strstr($HTTP_USER_AGENT, 'mozilla/4') && !strstr($HTTP_USER_AGENT, 'msie');
+        $this->ns4 = strstr($HTTP_USER_AGENT, 'mozilla/4') && !stristr($HTTP_USER_AGENT, 'msie');
         $this->ns  = ($this->ns4 || strstr($HTTP_USER_AGENT, 'netscape'));
-        $this->ie  = !$this->opera && strstr($HTTP_USER_AGENT, 'compatible; msie');
+        $this->ie  = !$this->opera && stristr($HTTP_USER_AGENT, 'compatible; msie');
         $this->mz  = !$this->ie && strstr($HTTP_USER_AGENT, 'mozilla/5');
         $this->chrome = strstr($HTTP_USER_AGENT, 'chrome');
         $this->khtml = strstr($HTTP_USER_AGENT, 'khtml');
