@@ -136,6 +136,13 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
 }
 
+// Generate contact's display name (must be before validation)
+if (empty($a_record['name'])) {
+    $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
+    // Reset it if equals to email address (from compose_display_name())
+    if ($a_record['name'] == $a_record['email'][0])
+        $a_record['name'] = '';
+}
 
 // do input checks (delegated to $CONTACTS instance)
 if (!$CONTACTS->validate($a_record)) {
@@ -162,14 +169,6 @@ if (isset($a_record['photo'])) {
     // cleanup session data
     $RCMAIL->plugins->exec_hook('attachments_cleanup', array('group' => 'contact'));
     $RCMAIL->session->remove('contacts');
-}
-
-// Generate contact's display name
-if (empty($a_record['name'])) {
-    $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
-    // Reset it if equals to email address (from compose_display_name())
-    if ($a_record['name'] == $a_record['email'][0])
-        $a_record['name'] = '';
 }
 
 
