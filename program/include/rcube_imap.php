@@ -80,6 +80,7 @@ class rcube_imap
     private $db_header_fields = array('idx', 'uid', 'subject', 'from', 'to', 'cc', 'date', 'size');
     private $options = array('auth_method' => 'check');
     private $host, $user, $pass, $port, $ssl;
+    private $caching = false;
 
     /**
      * All (additional) headers used (in any way) by Roundcube
@@ -3814,16 +3815,28 @@ class rcube_imap
     function set_caching($type)
     {
         if ($type) {
-            $rcmail = rcmail::get_instance();
-            $this->cache = $rcmail->get_cache('IMAP', $type);
+            $this->caching = true;
         }
         else {
             if ($this->cache)
                 $this->cache->close();
             $this->cache = null;
+            $this->caching = false;
         }
     }
 
+    /**
+     * Getter for IMAP cache object
+     */
+    private function get_cache_engine()
+    {
+        if ($this->caching && !$this->cache) {
+            $rcmail = rcmail::get_instance();
+            $this->cache = $rcmail->get_cache('IMAP', $type);
+        }
+
+        return $this->cache;
+    }
 
     /**
      * Returns cached value
@@ -3834,8 +3847,8 @@ class rcube_imap
      */
     function get_cache($key)
     {
-        if ($this->cache) {
-            return $this->cache->get($key);
+        if ($cache = $this->get_cache_engine()) {
+            return $cache->get($key);
         }
     }
 
@@ -3848,8 +3861,8 @@ class rcube_imap
      */
     function update_cache($key, $data)
     {
-        if ($this->cache) {
-            $this->cache->set($key, $data);
+        if ($cache = $this->get_cache_engine()) {
+            $cache->set($key, $data);
         }
     }
 
@@ -3863,8 +3876,8 @@ class rcube_imap
      */
     function clear_cache($key=null, $prefix_mode=false)
     {
-        if ($this->cache) {
-            $this->cache->remove($key, $prefix_mode);
+        if ($cache = $this->get_cache_engine()) {
+            $cache->remove($key, $prefix_mode);
         }
     }
 
