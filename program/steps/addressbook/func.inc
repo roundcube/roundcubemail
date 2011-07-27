@@ -100,7 +100,7 @@ if ($undo = $_SESSION['contact_undo']) {
 }
 
 // instantiate a contacts object according to the given source
-function rcmail_contact_source($source=null, $init_env=false)
+function rcmail_contact_source($source=null, $init_env=false, $writable=false)
 {
     global $RCMAIL, $OUTPUT, $CONFIG, $CONTACT_COLTYPES;
 
@@ -108,12 +108,8 @@ function rcmail_contact_source($source=null, $init_env=false)
         $source = get_input_value('_source', RCUBE_INPUT_GPC);
     }
 
-    if (!strlen($source)) {
-        return null;
-    }
-
     // Get object
-    $CONTACTS = $RCMAIL->get_address_book($source);
+    $CONTACTS = $RCMAIL->get_address_book($source, $writable);
     $CONTACTS->set_pagesize($CONFIG['pagesize']);
 
     // set list properties and session vars
@@ -163,7 +159,7 @@ function rcmail_default_source($writable=false)
 function rcmail_set_sourcename($abook)
 {
     global $OUTPUT;
-    
+
     // get address book name (for display)
     if ($abook && $_SESSION['addressbooks_count'] > 1) {
         $name = $abook->get_name();

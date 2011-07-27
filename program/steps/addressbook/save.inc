@@ -19,10 +19,9 @@
 
 */
 
-$CONTACTS = rcmail_contact_source(null, true);
+$CONTACTS = rcmail_contact_source(null, true, true);
 $cid      = get_input_value('_cid', RCUBE_INPUT_POST);
 $return_action = empty($cid) ? 'add' : 'edit';
-
 
 // Source changed, display the form again
 if (!empty($_GET['_reload'])) {
@@ -220,6 +219,11 @@ if (!empty($cid))
 // insert a new contact
 else {
   $source = get_input_value('_source', RCUBE_INPUT_GPC);
+  // Name of the addressbook already selected on the list
+  $orig_source = get_input_value('_orig_source', RCUBE_INPUT_GPC);
+
+  if (!strlen($source))
+    $source = $orig_source;
 
   // show notice if existing contacts with same e-mail are found
   $existing = false;
@@ -253,9 +257,6 @@ else {
         $CONTACTS->add_to_group($gid, $plugin['ids']);
       }
     }
-
-    // Name of the addressbook already selected on the list
-    $orig_source = get_input_value('_orig_source', RCUBE_INPUT_GPC);
 
     if ((string)$source === (string)$orig_source) {
       // add contact row or jump to the page where it should appear
