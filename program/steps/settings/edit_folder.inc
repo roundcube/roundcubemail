@@ -118,7 +118,8 @@ function rcmail_folder_form($attrib)
                 'name'        => '_parent',
                 'noselection' => '---',
                 'realnames'   => false,
-                'maxlength'   => 150
+                'maxlength'   => 150,
+                'unsubscribed' => true,
             ));
 
             $form['props']['fieldsets']['location']['content']['path'] = array(
