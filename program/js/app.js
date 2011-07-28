@@ -429,6 +429,11 @@ function rcube_webmail()
     this.start_keepalive();
   };
 
+  this.log = function(msg)
+  {
+    if (window.console && console.log)
+      console.log(msg);
+  };
 
   /*********************************************************/
   /*********       client command interface        *********/
@@ -5497,11 +5502,11 @@ function rcube_webmail()
       url = '?_task=utils&_action=html2text',
       lock = this.set_busy(true, 'converting');
 
-    console.log('HTTP POST: ' + url);
+    this.log('HTTP POST: ' + url);
 
     $.ajax({ type: 'POST', url: url, data: htmlText, contentType: 'application/octet-stream',
       error: function(o, status, err) { rcmail.http_error(o, status, err, lock); },
-      success: function(data) { rcmail.set_busy(false, null, lock); $(document.getElementById(id)).val(data); console.log(data); }
+      success: function(data) { rcmail.set_busy(false, null, lock); $(document.getElementById(id)).val(data); rcmail.log(data); }
     });
   };
 
@@ -5594,7 +5599,7 @@ function rcube_webmail()
     url += '&_remote=1';
 
     // send request
-    console.log('HTTP GET: ' + url);
+    this.log('HTTP GET: ' + url);
 
     return $.ajax({
       type: 'GET', url: url, data: { _unlock:(lock?lock:0) }, dataType: 'json',
@@ -5626,7 +5631,7 @@ function rcube_webmail()
     }
 
     // send request
-    console.log('HTTP POST: ' + url);
+    this.log('HTTP POST: ' + url);
 
     return $.ajax({
       type: 'POST', url: url, data: postdata, dataType: 'json',
@@ -5660,7 +5665,7 @@ function rcube_webmail()
 
     // if we get javascript code from server -> execute it
     if (response.exec) {
-      console.log(response.exec);
+      this.log(response.exec);
       eval(response.exec);
     }
 
