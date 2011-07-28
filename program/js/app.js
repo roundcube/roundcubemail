@@ -252,7 +252,10 @@ function rcube_webmail()
         }
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid)
-          window.print();
+          if (bw.safari)
+            window.setTimeout('window.print()', 10);
+          else
+            window.print();
 
         // get unread count for each mailbox
         if (this.gui_objects.mailboxlist) {
