@@ -386,6 +386,10 @@ class rcmail
     $ldap_config = (array)$this->config->get('ldap_public');
     $abook_type  = strtolower($this->config->get('address_book_type'));
 
+    // 'sql' is the alias for '0' used by autocomplete
+    if ($id == 'sql')
+        $id = '0';
+
     // use existing instance
     if (isset($this->address_books[$id]) && is_a($this->address_books[$id], 'rcube_addressbook') && (!$writeable || !$this->address_books[$id]->readonly)) {
       $contacts = $this->address_books[$id];
