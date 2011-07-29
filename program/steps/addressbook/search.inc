@@ -56,7 +56,10 @@ function rcmail_contact_search()
         $fields = explode(',', get_input_value('_headers', RCUBE_INPUT_GET));
 
         if (empty($fields)) {
-            $fields = $SEARCH_MODS_DEFAULT;
+            $fields = array_keys($SEARCH_MODS_DEFAULT);
+        }
+        else {
+            $fields = array_filter($fields);
         }
 
         // update search_mods setting
@@ -66,7 +69,7 @@ function rcmail_contact_search()
             $RCMAIL->user->save_prefs(array('addressbook_search_mods' => $search_mods));
         }
 
-        if ($fields['*'] || count($fields) == count($SEARCH_MODS_DEFAULT)) {
+        if (in_array('*', $fields)) {
             $fields = '*';
         }
     }
@@ -79,7 +82,7 @@ function rcmail_contact_search()
     foreach ($sources as $s) {
         $source = $RCMAIL->get_address_book($s['id']);
 
-        // check if all search fields are supported....
+        // check if search fields are supported....
         if (is_array($fields)) {
             $cols = $source->coltypes[0] ? array_flip($source->coltypes) : $source->coltypes;
             $supported = 0;
@@ -90,8 +93,9 @@ function rcmail_contact_search()
                 }
             }
 
-            // ...if not, we can skip this source
-            if ($supported < count($fields)) {
+            // in advanced search we require all fields (AND operator)
+            // in quick search we require at least one field (OR operator)
+            if (($adv && $supported < count($fields)) || (!$adv && !$supported)) {
                 continue;
             }
         }
