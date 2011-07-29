@@ -1880,9 +1880,7 @@ function rcube_webmail()
     if (action == 'preview' && String(target.location.href).indexOf(url) >= 0)
       this.show_contentframe(true);
     else {
-      if (!this.env.frame_lock) {
-        (this.is_framed() ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
-      }
+      this.lock_frame();
       this.location_href(this.env.comm_path+url, target);
 
       // mark as read and change mbox unread counter
@@ -1915,6 +1913,12 @@ function rcube_webmail()
 
     if (!show && this.busy)
       this.set_busy(false, null, this.env.frame_lock);
+  };
+
+  this.lock_frame = function()
+  {
+    if (!this.env.frame_lock)
+      (this.is_framed() ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
   };
 
   // list a specific page
@@ -3906,8 +3910,10 @@ function rcube_webmail()
       if (this.env.group)
         add_url += '&_gid='+urlencode(this.env.group);
 
-      this.set_busy(true);
-      this.location_href(this.env.comm_path+'&_action='+action+'&_source='+urlencode(this.env.source)+'&_cid='+urlencode(cid) + add_url, target);
+      this.lock_frame();
+      this.location_href(this.env.comm_path+'&_action='+action
+        +'&_source='+urlencode(this.env.source)
+        +'&_cid='+urlencode(cid) + add_url, target);
     }
     return true;
   };
@@ -4427,6 +4433,7 @@ function rcube_webmail()
       this.contact_list.clear_selection();
     }
 
+    this.lock_frame();
     this.location_href(this.env.comm_path+'&_action=search'+add_url, target);
 
     return true;
@@ -4460,6 +4467,7 @@ function rcube_webmail()
         add_url = '&_framed=1';
         target = window.frames[this.env.contentframe];
       }
+      this.lock_frame();
       this.location_href(this.env.comm_path+'&_action=edit-prefs&_section='+id+add_url, target);
     }
 
@@ -4861,9 +4869,7 @@ function rcube_webmail()
       this.show_contentframe(true);
     }
     else {
-      if (!this.env.frame_lock) {
-        (parent.rcmail ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
-      }
+      this.lock_frame();
       this.location_href(this.env.comm_path+url, target);
     }
   };
