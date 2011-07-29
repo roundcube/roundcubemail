@@ -1229,7 +1229,7 @@ function rcmail_mailbox_select($p = array())
   if ($p['noselection'])
     $select->add($p['noselection'], '');
 
-  rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames']);
+  rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames'], 0, $p['exceptions']);
 
   return $select;
 }
@@ -1402,11 +1402,15 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
  * @access private
  * @return string
  */
-function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames=false, $nestLevel=0)
+function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames=false, $nestLevel=0, $exceptions=array())
 {
   $out = '';
 
-  foreach ($arrFolders as $key=>$folder) {
+  foreach ($arrFolders as $key => $folder) {
+    if (!empty($exceptions) && in_array($folder['id'], $exceptions)) {
+      continue;
+    }
+
     if (!$realnames && ($folder_class = rcmail_folder_classname($folder['id'])))
       $foldername = rcube_label($folder_class);
     else {
@@ -1420,7 +1424,8 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
     $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
 
     if (!empty($folder['folders']))
-      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength, $select, $realnames, $nestLevel+1);
+      $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
+        $select, $realnames, $nestLevel+1, $exceptions);
   }
 
   return $out;
