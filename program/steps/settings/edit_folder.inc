@@ -120,6 +120,7 @@ function rcmail_folder_form($attrib)
                 'realnames'   => false,
                 'maxlength'   => 150,
                 'unsubscribed' => true,
+                'exceptions' => array($mbox_imap),
             ));
 
             $form['props']['fieldsets']['location']['content']['path'] = array(
