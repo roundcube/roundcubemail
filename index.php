@@ -120,7 +120,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
     // allow plugins to control the redirect url after login success
     $redir = $RCMAIL->plugins->exec_hook('login_after', $query + array('_task' => 'mail'));
-    unset($redir['abort']);
+    unset($redir['abort'], $redir['_err']);
 
     // send redirect
     $OUTPUT->redirect($redir);
@@ -147,18 +147,24 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->
 // check session and auth cookie
 else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 'send') {
   if (!$RCMAIL->session->check_auth()) {
-    $OUTPUT->show_message('sessionerror', 'error');
     $RCMAIL->kill_session();
+    $session_error = true;
   }
 }
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
+  // log session failures
+  if ($RCMAIL->task != 'login' && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])) {
+    $RCMAIL->session->log("Aborted session " . $sess_id . "; no valid session data found");
+    $session_error = true;
+  }
+
   if ($OUTPUT->ajax_call)
-    $OUTPUT->redirect(array(), 2000);
+    $OUTPUT->redirect(array('_err' => 'session'), 2000);
 
   if (!empty($_REQUEST['_framed']))
-    $OUTPUT->command('redirect', '?');
+    $OUTPUT->command('redirect', $RCMAIL->url(array('_err' => 'session')));
 
   // check if installer is still active
   if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
@@ -171,6 +177,9 @@ if (empty($RCMAIL->user->ID)) {
       )
     );
   }
+  
+  if ($session_error || $_REQUEST['_err'] == 'session')
+    $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
 
   $RCMAIL->set_task('login');
   $OUTPUT->send('login');

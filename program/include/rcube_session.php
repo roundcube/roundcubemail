@@ -42,6 +42,7 @@ class rcube_session
   private $prev;
   private $secret = '';
   private $ip_check = false;
+  private $logging = false;
   private $keep_alive = 0;
   private $memcache;
 
@@ -53,6 +54,7 @@ class rcube_session
     $this->db = $db;
     $this->start = microtime(true);
     $this->ip = $_SERVER['REMOTE_ADDR'];
+    $this->logging = $config->get('log_session', false);
 
     $lifetime = $config->get('session_lifetime', 1) * 60;
     $this->set_lifetime($lifetime);
@@ -565,12 +567,18 @@ class rcube_session
     $this->cookie = $_COOKIE[$this->cookiename];
     $result = $this->ip_check ? $_SERVER['REMOTE_ADDR'] == $this->ip : true;
 
+    if (!$result)
+      $this->log("IP check failed for " . $this->key . "; expected " . $this->ip . "; got " . $_SERVER['REMOTE_ADDR']);
+
     if ($result && $this->_mkcookie($this->now) != $this->cookie) {
       // Check if using id from previous time slot
-      if ($this->_mkcookie($this->prev) == $this->cookie)
+      if ($this->_mkcookie($this->prev) == $this->cookie) {
         $this->set_auth_cookie();
-      else
+      }
+      else {
         $result = false;
+        $this->log("Session authentication failed for " . $this->key . "; invalid auth cookie sent");
+      }
     }
 
     return $result;
@@ -597,6 +605,15 @@ class rcube_session
   {
     $auth_string = "$this->key,$this->secret,$timeslot";
     return "S" . (function_exists('sha1') ? sha1($auth_string) : md5($auth_string));
+  }
+  
+  /**
+   * 
+   */
+  function log($line)
+  {
+    if ($this->logging)
+      write_log('session', $line);
   }
 
 }

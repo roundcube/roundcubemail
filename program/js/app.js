@@ -5153,7 +5153,8 @@ function rcube_webmail()
       obj.click(function() { return ref.hide_message(obj); });
     }
 
-    window.setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
+    if (timeout > 0)
+      window.setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
     return id;
   };
 
