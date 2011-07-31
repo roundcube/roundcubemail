@@ -2882,7 +2882,7 @@ function rcube_webmail()
     if (this.env.autocomplete_threads > 0) {
       ac_props = {
         threads: this.env.autocomplete_threads,
-        sources: this.env.autocomplete_sources,
+        sources: this.env.autocomplete_sources
       };
     }
 
