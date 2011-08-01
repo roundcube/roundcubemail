@@ -289,30 +289,6 @@ function rcmail_get_form_part($form)
     return $content;
 }
 
-function rcmail_localize_folderpath($path)
-{
-    global $RCMAIL;
-
-    $protect_folders = $RCMAIL->config->get('protect_default_folders');
-    $default_folders = (array) $RCMAIL->config->get('default_imap_folders');
-    $delimiter       = $RCMAIL->imap->get_hierarchy_delimiter();
-    $path            = explode($delimiter, $path);
-    $result          = array();
-
-    foreach ($path as $idx => $dir) {
-        $directory = implode($delimiter, array_slice($path, 0, $idx+1));
-        if ($protect_folders && in_array($directory, $default_folders)) {
-            unset($result);
-            $result[] = rcmail_localize_foldername($directory);
-        }
-        else {
-            $result[] = rcube_charset_convert($dir, 'UTF7-IMAP');
-        }
-    }
-
-    return implode($delimiter, $result);
-}
-
 
 //$OUTPUT->set_pagetitle(rcube_label('folders'));
 
