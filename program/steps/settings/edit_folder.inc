@@ -106,28 +106,26 @@ function rcmail_folder_form($attrib)
         ),
     );
 
-    if (strlen($path) || !strlen($mbox)) {
-        if (!empty($options) && ($options['norename'] || $options['namespace'] != 'personal')) {
-            // prevent user from moving folder
-            $hidden_path = new html_hiddenfield(array('name' => '_parent', 'value' => $path));
-            $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
-        }
-        else {
-            $selected = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
-            $select = rcmail_mailbox_select(array(
-                'name'        => '_parent',
-                'noselection' => '---',
-                'realnames'   => false,
-                'maxlength'   => 150,
-                'unsubscribed' => true,
-                'exceptions' => array($mbox_imap),
-            ));
+    if (!empty($options) && ($options['norename'] || $options['protected'])) {
+        // prevent user from moving folder
+        $hidden_path = new html_hiddenfield(array('name' => '_parent', 'value' => $path));
+        $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
+    }
+    else {
+        $selected = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
+        $select = rcmail_mailbox_select(array(
+            'name'        => '_parent',
+            'noselection' => '---',
+            'realnames'   => false,
+            'maxlength'   => 150,
+            'unsubscribed' => true,
+            'exceptions' => array($mbox_imap),
+        ));
 
-            $form['props']['fieldsets']['location']['content']['path'] = array(
-                'label' => rcube_label('parentfolder'),
-                'value' => $select->show($selected),
-            );
-        }
+        $form['props']['fieldsets']['location']['content']['path'] = array(
+            'label' => rcube_label('parentfolder'),
+            'value' => $select->show($selected),
+        );
     }
 
     // Settings

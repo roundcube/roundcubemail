@@ -3535,6 +3535,7 @@ class rcube_imap
         $options['rights']    = $acl && !$options['is_root'] ? (array)$this->my_rights($mailbox) : array();
         $options['special']   = in_array($mailbox, $this->default_folders);
 
+        // Set 'noselect' and 'norename' flags
         if (is_array($options['options'])) {
             foreach ($options['options'] as $opt) {
                 $opt = strtolower($opt);
@@ -3548,11 +3549,13 @@ class rcube_imap
         }
 
         if (!empty($options['rights'])) {
-            $options['norename'] = !in_array('x', $options['rights']) &&
-                (!in_array('c', $options['rights']) || !in_array('d', $options['rights']));
+            $options['norename'] = !in_array('x', $options['rights']);
             if (!$options['noselect']) {
                 $options['noselect'] = !in_array('r', $options['rights']);
             }
+        }
+        else {
+            $options['norename'] = $options['is_root'] || $options['namespace'] != 'personal';
         }
 
         return $options;
