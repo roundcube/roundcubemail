@@ -1880,8 +1880,7 @@ function rcube_webmail()
     if (action == 'preview' && String(target.location.href).indexOf(url) >= 0)
       this.show_contentframe(true);
     else {
-      this.lock_frame();
-      this.location_href(this.env.comm_path+url, target);
+      this.location_href(this.env.comm_path+url, target, true);
 
       // mark as read and change mbox unread counter
       if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
@@ -3910,10 +3909,9 @@ function rcube_webmail()
       if (this.env.group)
         add_url += '&_gid='+urlencode(this.env.group);
 
-      this.lock_frame();
       this.location_href(this.env.comm_path+'&_action='+action
         +'&_source='+urlencode(this.env.source)
-        +'&_cid='+urlencode(cid) + add_url, target);
+        +'&_cid='+urlencode(cid) + add_url, target, true);
     }
     return true;
   };
@@ -4433,8 +4431,7 @@ function rcube_webmail()
       this.contact_list.clear_selection();
     }
 
-    this.lock_frame();
-    this.location_href(this.env.comm_path+'&_action=search'+add_url, target);
+    this.location_href(this.env.comm_path+'&_action=search'+add_url, target, true);
 
     return true;
   };
@@ -4457,18 +4454,14 @@ function rcube_webmail()
   // preferences section select and load options frame
   this.section_select = function(list)
   {
-    var id = list.get_single_selection();
+    var id = list.get_single_selection(), add_url = '', target = window;
 
     if (id) {
-      var add_url = '', target = window;
-      this.set_busy(true);
-
       if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
         add_url = '&_framed=1';
         target = window.frames[this.env.contentframe];
       }
-      this.lock_frame();
-      this.location_href(this.env.comm_path+'&_action=edit-prefs&_section='+id+add_url, target);
+      this.location_href(this.env.comm_path+'&_action=edit-prefs&_section='+id+add_url, target, true);
     }
 
     return true;
@@ -4869,8 +4862,7 @@ function rcube_webmail()
       this.show_contentframe(true);
     }
     else {
-      this.lock_frame();
-      this.location_href(this.env.comm_path+url, target);
+      this.location_href(this.env.comm_path+url, target, true);
     }
   };
 
@@ -5581,8 +5573,11 @@ function rcube_webmail()
     this.redirect(this.url(action, query));
   };
 
-  this.location_href = function(url, target)
+  this.location_href = function(url, target, frame)
   {
+    if (frame)
+      this.lock_frame();
+
     // simulate real link click to force IE to send referer header
     if (bw.ie && target == window)
       $('<a>').attr('href', url).appendTo(document.body).get(0).click();
