@@ -309,8 +309,9 @@ function rcmail_js_contacts_list($result, $prefix='')
             if ($val == '' && $col == 'name') {
                 $val = rcube_addressbook::compose_display_name($row, true);
             }
+
             $a_row_cols[$col] = Q($val);
-        }
+	}
 
         $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols);
     }
@@ -729,7 +730,6 @@ $OUTPUT->add_handlers(array(
 $RCMAIL->register_action_map(array(
     'add' => 'edit.inc',
     'photo' => 'show.inc',
-    'upload-photo' => 'save.inc',
     'group-create' => 'groups.inc',
     'group-rename' => 'groups.inc',
     'group-delete' => 'groups.inc',
