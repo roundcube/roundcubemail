@@ -347,13 +347,25 @@ triggerEvent: function(evt, e)
           break;
       }
     }
-
-    if (ret)
-      delete ret.event;
+    if (ret && ret.event) {
+      try {
+        delete ret.event;
+      } catch (err) {
+        // IE6-7 doesn't support deleting HTMLFormElement attributes (#1488017)
+        $(ret).removeAttr('event');
+      }
+    }
   }
 
   this._event_exec = false;
-  delete e.event;
+  if (e.event) {
+    try {
+      delete e.event;
+    } catch (err) {
+      // IE6-7 doesn't support deleting HTMLFormElement attributes (#1488017)
+      $(e).removeAttr('event');
+    }
+  }
 
   return ret;
 }
