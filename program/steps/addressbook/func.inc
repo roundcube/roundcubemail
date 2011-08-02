@@ -223,6 +223,8 @@ function rcmail_directory_list($attrib)
 
     $OUTPUT->set_env('contactgroups', $jsdata); 
     $OUTPUT->add_gui_object('folderlist', $attrib['id']);
+    // add some labels to client
+    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting');
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }

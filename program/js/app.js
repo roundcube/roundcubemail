@@ -333,7 +333,7 @@ function rcube_webmail()
 
         this.enable_command('add', 'import', this.env.writable_source);
         this.enable_command('list', 'listgroup', 'advanced-search', true);
-        
+
         // load contacts of selected source
         if (!this.env.action)
           this.command('list', this.env.source);
@@ -4093,8 +4093,10 @@ function rcube_webmail()
 
   this.group_delete = function()
   {
-    if (this.env.group)
-      this.http_post('group-delete', '_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group), true);
+    if (this.env.group && confirm(this.get_label('deletegroupconfirm'))) {
+      var lock = this.set_busy(true, 'groupdeleting');
+      this.http_post('group-delete', '_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group), lock);
+    }
   };
 
   // callback from server upon group-delete command
