@@ -378,6 +378,7 @@ class rcmail
    *
    * @param string  Address book identifier
    * @param boolean True if the address book needs to be writeable
+   *
    * @return rcube_contacts Address book object
    */
   public function get_address_book($id, $writeable = false)
@@ -407,18 +408,13 @@ class rcmail
       if ($plugin['instance'] instanceof rcube_addressbook) {
         $contacts = $plugin['instance'];
       }
+      // get first source from the list
       else if (!$id) {
-        if ($abook_type == 'ldap') {
-          // Use the first writable LDAP address book.
-          foreach ($ldap_config as $id => $prop) {
-            if (!$writeable || $prop['writable']) {
-              $contacts = new rcube_ldap($prop, $this->config->get('ldap_debug'), $this->config->mail_domain($_SESSION['imap_host']));
-              break;
-            }
-          }
-        }
-        else { // $id == 'sql'
-          $contacts = new rcube_contacts($this->db, $this->user->ID);
+        $source = reset($this->get_address_sources($writeable));
+        if (!empty($source)) {
+          $contacts = $this->get_address_book($source['id']);
+          if ($contacts)
+            $id = $source['id'];
         }
       }
     }
