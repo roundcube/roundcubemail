@@ -41,6 +41,7 @@ class rcube_vcard
     'email'    => 'EMAIL',
     'address'  => 'ADR',
     'jobtitle' => 'TITLE',
+    'department'  => 'X-DEPARTMENT',
     'gender'      => 'X-GENDER',
     'maidenname'  => 'X-MAIDENNAME',
     'anniversary' => 'X-ANNIVERSARY',
