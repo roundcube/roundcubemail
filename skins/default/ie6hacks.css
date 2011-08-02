@@ -162,3 +162,8 @@ body.iframe .boxtitle
 {
   width: auto;
 }
+
+#sourcename
+{
+  zoom: 1;
+}
