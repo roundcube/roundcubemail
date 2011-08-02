@@ -150,10 +150,10 @@ function rcmail_default_source($writable=false)
     global $RCMAIL;
 
     // get list of address sources
-    $list = $RCMAIL->get_address_sources($writable);
+    $first = reset($RCMAIL->get_address_sources($writable));
 
     // use first directory by default
-    return $list[key($list)]['id'];
+    return $first['id'];
 }
 
 function rcmail_set_sourcename($abook)
