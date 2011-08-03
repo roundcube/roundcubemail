@@ -33,7 +33,7 @@ class rcube_vcard
     'FN' => array(),
     'N' => array(array('','','','','')),
   );
-  static private $fieldmap = array(
+  private static $fieldmap = array(
     'phone'    => 'TEL',
     'birthday' => 'BDAY',
     'website'  => 'URL',
@@ -65,6 +65,7 @@ class rcube_vcard
   public $notes;
   public $email = array();
 
+  public static $eol = "\r\n";
 
   /**
    * Constructor
@@ -640,11 +641,11 @@ class rcube_vcard
         if (self::is_empty($value))
           continue;
 
-        $vcard .= self::vcard_quote($type) . $attr . ':' . self::vcard_quote($value) . "\n";
+        $vcard .= self::vcard_quote($type) . $attr . ':' . self::vcard_quote($value) . self::$eol;
       }
     }
 
-    return "BEGIN:VCARD\nVERSION:3.0\n{$vcard}END:VCARD";
+    return 'BEGIN:VCARD' . self::$eol . 'VERSION:3.0' . self::$eol . $vcard . 'END:VCARD';
   }
 
 

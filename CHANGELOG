@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix EOL character in vCard exports (#1487873)
 - Added optional "multithreading" autocomplete feature
 - Plugin API: Added 'config_get' hook
 - Fixed new_user_identity plugin to work with updated rcube_ldap class (#1487994)
