@@ -3640,8 +3640,12 @@ function rcube_webmail()
 
   this.ksearch_query_results = function(results, search, reqid)
   {
+    // search stopped in meantime?
+    if (!this.ksearch_value)
+      return;
+
     // ignore this outdated search response
-    if (this.ksearch_input && this.ksearch_value && search != this.ksearch_value)
+    if (this.ksearch_input && search != this.ksearch_value)
       return;
 
     // display search results
