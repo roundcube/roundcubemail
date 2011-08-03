@@ -581,8 +581,9 @@ class rcube_contacts extends rcube_addressbook
         $updated = false;
         $write_sql = array();
         $record = $this->get_record($id, true);
+console($save_cols);
         $save_cols = $this->convert_save_data($save_cols, $record);
-
+console($save_cols);
         foreach ($save_cols as $col => $value) {
             $write_sql[] = sprintf("%s=%s", $this->db->quoteIdentifier($col), $this->db->quote($value));
         }

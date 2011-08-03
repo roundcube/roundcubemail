@@ -77,7 +77,9 @@ while ($result && ($row = $result->next())) {
     }
     // copy values into vcard object
     else {
-        $vcard = new rcube_vcard($row['vcard']);
+        $vcard = new rcube_vcard();
+        $vcard->extend_fieldmap($CONTACTS->vcard_map);
+        $vcard->load($row['vcard']);
         $vcard->reset();
 
         foreach ($row as $key => $values) {

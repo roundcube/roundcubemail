@@ -138,7 +138,10 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
   $CONTACTS = $RCMAIL->get_address_book($target, true);
 
   // let rcube_vcard do the hard work :-)
-  $vcards = rcube_vcard::import(file_get_contents($_FILES['_file']['tmp_name']));
+  $vcard_o = new rcube_vcard();
+  $vcard_o->extend_fieldmap($CONTACTS->vcard_map);
+
+  $vcards = $vcard_o->import(file_get_contents($_FILES['_file']['tmp_name']));
 
   // no vcards detected
   if (!count($vcards)) {

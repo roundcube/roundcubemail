@@ -33,7 +33,7 @@ class rcube_vcard
     'FN' => array(),
     'N' => array(array('','','','','')),
   );
-  private $fieldmap = array(
+  static private $fieldmap = array(
     'phone'    => 'TEL',
     'birthday' => 'BDAY',
     'website'  => 'URL',
@@ -69,8 +69,11 @@ class rcube_vcard
   /**
    * Constructor
    */
-  public function __construct($vcard = null, $charset = RCMAIL_CHARSET, $detect = false)
+  public function __construct($vcard = null, $charset = RCMAIL_CHARSET, $detect = false, $fieldmap = array())
   {
+    if (!empty($fielmap))
+      $this->extend_fieldmap($fieldmap);
+
     if (!empty($vcard))
       $this->load($vcard, $charset, $detect);
   }
@@ -146,15 +149,18 @@ class rcube_vcard
       $out['suffix'] = $this->raw['N'][0][4];
 
     // convert from raw vcard data into associative data for Roundcube
-    foreach (array_flip($this->fieldmap) as $tag => $col) {
+    foreach (array_flip(self::$fieldmap) as $tag => $col) {
       foreach ((array)$this->raw[$tag] as $i => $raw) {
         if (is_array($raw)) {
           $k = -1;
           $key = $col;
+          $subtype = '';
 
-          $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
-          while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref'))
+          if (!empty($raw['type'])) {
             $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
+            while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref'))
+              $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
+          }
 
           // read vcard 2.1 subtype
           if (!$subtype) {
@@ -167,7 +173,7 @@ class rcube_vcard
           }
 
           // force subtype if none set
-          if (preg_match('/^(email|phone|address|website)/', $key) && !$subtype)
+          if (!$subtype && preg_match('/^(email|phone|address|website)/', $key))
             $subtype = 'other';
 
           if ($subtype)
@@ -220,7 +226,7 @@ class rcube_vcard
   public function reset($fields = null)
   {
     if (!$fields)
-      $fields = array_merge(array_values($this->fieldmap), array_keys($this->immap), array('FN','N','ORG','NICKNAME','EMAIL','ADR','BDAY'));
+      $fields = array_merge(array_values(self::$fieldmap), array_keys($this->immap), array('FN','N','ORG','NICKNAME','EMAIL','ADR','BDAY'));
 
     foreach ($fields as $f)
       unset($this->raw[$f]);
@@ -323,7 +329,7 @@ class rcube_vcard
         if ($field == 'phone' && $this->phonetypemap[$type])
           $type = $this->phonetypemap[$type];
 
-        if (($tag = $this->fieldmap[$field]) && (is_array($value) || strlen($value))) {
+        if (($tag = self::$fieldmap[$field]) && (is_array($value) || strlen($value))) {
           $index = count($this->raw[$tag]);
           $this->raw[$tag][$index] = (array)$value;
           if ($type)
@@ -390,6 +396,16 @@ class rcube_vcard
 
 
   /**
+   * Extends fieldmap definition
+   */
+  public function extend_fieldmap($map)
+  {
+    if (is_array($map))
+      self::$fieldmap = array_merge($map, self::$fieldmap);
+  }
+
+
+  /**
    * Factory method to import a vcard file
    *
    * @param string vCard file content
@@ -420,7 +436,7 @@ class rcube_vcard
 
       if (preg_match('/^END:VCARD$/i', $line)) {
         // parse vcard
-        $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true);
+        $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true, self::$fieldmap);
         if (!empty($obj->displayname) || !empty($obj->email))
           $out[] = $obj;
 
@@ -620,6 +636,10 @@ class rcube_vcard
           $value = $entry;
         }
 
+        // skip empty entries
+        if (self::is_empty($value))
+          continue;
+
         $vcard .= self::vcard_quote($type) . $attr . ':' . self::vcard_quote($value) . "\n";
       }
     }
@@ -668,6 +688,26 @@ class rcube_vcard
     else {
       return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';', '\:' => ':'));
     }
+  }
+
+
+  /**
+   * Check if vCard entry is empty: empty string or an array with
+   * all entries empty.
+   *
+   * @param mixed $value Attribute value (string or array)
+   *
+   * @return bool True if the value is empty, False otherwise
+   */
+  private static function is_empty($value)
+  {
+    foreach ((array)$value as $v) {
+      if (((string)$v) !== '') {
+        return false;
+      }
+    }
+
+    return true;
   }
 
 
