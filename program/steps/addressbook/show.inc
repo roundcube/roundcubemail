@@ -201,6 +201,7 @@ function rcmail_contact_record_groups($contact_id)
     $form_end = '</form>';
 
     $RCMAIL->output->add_gui_object('editform', 'form');
+    $RCMAIL->output->add_label('addingmember', 'removingmember');
 
     return $form_start . $table->show() . $form_end;
 }

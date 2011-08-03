@@ -224,7 +224,7 @@ function rcmail_directory_list($attrib)
     $OUTPUT->set_env('contactgroups', $jsdata); 
     $OUTPUT->add_gui_object('folderlist', $attrib['id']);
     // add some labels to client
-    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting');
+    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }
@@ -281,7 +281,7 @@ function rcmail_contacts_list($attrib)
     $OUTPUT->include_script('list.js');
 
     // add some labels to client
-    $OUTPUT->add_label('deletecontactconfirm');
+    $OUTPUT->add_label('deletecontactconfirm', 'copyingcontact');
 
     return $out;
 }

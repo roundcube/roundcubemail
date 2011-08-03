@@ -309,11 +309,8 @@ function rcube_webmail()
           this.enable_command('show', 'edit', true);
           // register handlers for group assignment via checkboxes
           if (this.gui_objects.editform) {
-            $('input.groupmember').change(function(){
-              var cmd = this.checked ? 'group-addmembers' : 'group-delmembers';
-              ref.http_post(cmd, '_cid='+urlencode(ref.env.cid)
-                + '&_source='+urlencode(ref.env.source)
-                + '&_gid='+urlencode(this.value));
+            $('input.groupmember').change(function() {
+              ref.group_member_change(this.checked ? 'add' : 'del', ref.env.cid, ref.env.source, this.value);
             });
           }
         }
@@ -3916,29 +3913,39 @@ function rcube_webmail()
     return true;
   };
 
+  // add/delete member to/from the group
+  this.group_member_change = function(what, cid, source, gid)
+  {
+    what = what == 'add' ? 'add' : 'del';
+    var lock = this.display_message(this.get_label(what == 'add' ? 'addingmember' : 'removingmember'), 'loading');
+
+    this.http_post('group-'+what+'members', '_cid='+urlencode(cid)
+      + '&_source='+urlencode(source)
+      + '&_gid='+urlencode(gid), lock);
+  };
+
   // copy a contact to the specified target (group or directory)
   this.copy_contact = function(cid, to)
   {
     if (!cid)
       cid = this.contact_list.get_selection().join(',');
 
-    if (to.type == 'group' && to.source == this.env.source) {
-      this.http_post('group-addmembers', '_cid='+urlencode(cid)
-        + '&_source='+urlencode(this.env.source)
-        + '&_gid='+urlencode(to.id));
-    }
+    if (to.type == 'group' && to.source == this.env.source)
+      this.group_member_change('add', cid, to.source, to.id);
     else if (to.type == 'group' && !this.env.address_sources[to.source].readonly) {
+      var lock = this.display_message(this.get_label('copyingcontact'), 'loading');
       this.http_post('copy', '_cid='+urlencode(cid)
         + '&_source='+urlencode(this.env.source)
         + '&_to='+urlencode(to.source)
         + '&_togid='+urlencode(to.id)
-        + (this.env.group ? '&_gid='+urlencode(this.env.group) : ''));
+        + (this.env.group ? '&_gid='+urlencode(this.env.group) : ''), lock);
     }
     else if (to.id != this.env.source && cid && this.env.address_sources[to.id] && !this.env.address_sources[to.id].readonly) {
+      var lock = this.display_message(this.get_label('copyingcontact'), 'loading');
       this.http_post('copy', '_cid='+urlencode(cid)
         + '&_source='+urlencode(this.env.source)
         + '&_to='+urlencode(to.id)
-        + (this.env.group ? '&_gid='+urlencode(this.env.group) : ''));
+        + (this.env.group ? '&_gid='+urlencode(this.env.group) : ''), lock);
     }
   };
 
