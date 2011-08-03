@@ -748,7 +748,12 @@ class rcube_template extends rcube_html_page
                   $content = Q($this->get_pagetitle());
                 }
                 else if ($object == 'pagetitle') {
-                    $title = !empty($this->config['product_name']) ? $this->config['product_name'].' :: ' : '';
+                    if (!empty($this->config['devel_mode']) && !empty($_SESSION['username']))
+                      $title = $_SESSION['username'].' :: ';
+                    else if (!empty($this->config['product_name']))
+                      $title = $this->config['product_name'].' :: ';
+                    else
+                      $title = '';
                     $title .= $this->get_pagetitle();
                     $content = Q($title);
                 }
