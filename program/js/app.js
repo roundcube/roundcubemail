@@ -4548,7 +4548,6 @@ function rcube_webmail()
     $('#mailboxroot')
       .mouseover(function(){ p.focus_subscription(this.id); })
       .mouseout(function(){ p.unfocus_subscription(this.id); })
-      .mouseup(function(){ if (p.drag_active) p.subscription_move_folder(); });
   };
 
   this.focus_subscription = function(id)
@@ -4559,22 +4558,16 @@ function rcube_webmail()
 
     if (this.drag_active && this.env.mailbox && (row = document.getElementById(id)))
       if (this.env.subscriptionrows[id] &&
-          (folder = this.env.subscriptionrows[id][0])) {
+          (folder = this.env.subscriptionrows[id][0]) !== null
+      ) {
         if (this.check_droptarget(folder) &&
             !this.env.subscriptionrows[this.get_folder_row_id(this.env.mailbox)][2] &&
             (folder != this.env.mailbox.replace(reg, '')) &&
-            (!folder.match(new RegExp('^'+RegExp.escape(this.env.mailbox+this.env.delimiter))))) {
+            (!folder.match(new RegExp('^'+RegExp.escape(this.env.mailbox+this.env.delimiter))))
+        ) {
           this.set_env('dstfolder', folder);
           $(row).addClass('droptarget');
         }
-      }
-      else if (id == 'mailboxroot') {
-        this.set_env('dstfolder', '');
-        $(row).addClass('droptarget');
-      }
-      else if (this.env.mailbox.match(new RegExp(delim))) {
-        this.set_env('dstfolder', this.env.delimiter);
-        $(this.subscription_list.frame).addClass('droptarget');
       }
   };
 
@@ -4612,12 +4605,12 @@ function rcube_webmail()
     var delim = RegExp.escape(this.env.delimiter),
       reg = RegExp('['+delim+']?[^'+delim+']+$');
 
-    if (this.env.mailbox && this.env.dstfolder && (this.env.dstfolder != this.env.mailbox) &&
+    if (this.env.mailbox && this.env.dstfolder !== null && (this.env.dstfolder != this.env.mailbox) &&
         (this.env.dstfolder != this.env.mailbox.replace(reg, ''))
     ) {
       reg = new RegExp('[^'+delim+']*['+delim+']', 'g');
       var basename = this.env.mailbox.replace(reg, ''),
-        newname = this.env.dstfolder==this.env.delimiter ? basename : this.env.dstfolder+this.env.delimiter+basename;
+        newname = this.env.dstfolder === '' ? basename : this.env.dstfolder+this.env.delimiter+basename;
 
       if (newname != this.env.mailbox) {
         this.http_post('rename-folder', '_folder_oldname='+urlencode(this.env.mailbox)+'&_folder_newname='+urlencode(newname), this.set_busy(true, 'foldermoving'));
