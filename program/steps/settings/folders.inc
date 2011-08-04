@@ -256,7 +256,7 @@ function rcube_subscription_form($attrib)
     $table->add('name', '&nbsp;');
     $table->add(null, '&nbsp;');
 
-    $a_js_folders['mailboxroot'] = array('.', '', true);
+    $a_js_folders['mailboxroot'] = array('', '', true);
 
     $checkbox_subscribe = new html_checkbox(array(
         'name'    => '_subscribed[]',
