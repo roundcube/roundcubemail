@@ -992,14 +992,14 @@ function rcube_webmail()
 
       // reset quicksearch
       case 'reset-search':
-        var s = this.env.search_request;
+        var n, s = this.env.search_request || this.env.qsearch;
         this.reset_qsearch();
 
         if (s && this.env.mailbox)
           this.list_mailbox(this.env.mailbox);
         else if (s && this.task == 'addressbook') {
           if (this.env.source == '') {
-            for (var n in this.env.address_sources) break;
+            for (n in this.env.address_sources) break;
             this.env.source = n;
             this.env.group = '';
           }
@@ -3394,7 +3394,7 @@ function rcube_webmail()
   this.qsearch = function(value)
   {
     if (value != '') {
-      var n, addurl = '', mods_arr = [],
+      var n, r, addurl = '', mods_arr = [],
         mods = this.env.search_mods,
         mbox = this.env.mailbox,
         lock = this.set_busy(true, 'searching');
@@ -3418,13 +3418,14 @@ function rcube_webmail()
 
       // reset vars
       this.env.current_page = 1;
-      this.http_request('search', '_q='+urlencode(value)
+      r = this.http_request('search', '_q='+urlencode(value)
         + (mbox ? '&_mbox='+urlencode(mbox) : '')
         + (this.env.source ? '&_source='+urlencode(this.env.source) : '')
         + (this.env.group ? '&_gid='+urlencode(this.env.group) : '')
         + (addurl ? addurl : ''), lock);
+
+      this.env.qsearch = {lock: lock, request: r};
     }
-    return true;
   };
 
   // reset quick-search form
@@ -3433,8 +3434,13 @@ function rcube_webmail()
     if (this.gui_objects.qsearchbox)
       this.gui_objects.qsearchbox.value = '';
 
+    if (this.env.qsearch) {
+      this.set_busy(this.env.qsearch.lock, false);
+      this.env.qsearch.request.abort();
+    }
+
+    this.env.qsearch = null;
     this.env.search_request = null;
-    return true;
   };
 
   this.sent_successfully = function(type, msg)
@@ -5744,6 +5750,7 @@ function rcube_webmail()
       case 'check-recent':
       case 'getunread':
       case 'search':
+        this.env.qsearch = null;
       case 'list':
         if (this.task == 'mail') {
           this.enable_command('show', 'expunge', 'select-all', 'select-none', 'sort', (this.env.messagecount > 0));
