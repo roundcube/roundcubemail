@@ -1378,12 +1378,12 @@ function rcube_webmail()
       ul.show();
       div.removeClass('collapsed').addClass('expanded');
       var reg = new RegExp('&'+urlencode(id)+'&');
-      this.set_env('collapsed_folders', this.env.collapsed_folders.replace(reg, ''));
+      this.env.collapsed_folders = this.env.collapsed_folders.replace(reg, '');
     }
     else {
       ul.hide();
       div.removeClass('expanded').addClass('collapsed');
-      this.set_env('collapsed_folders', this.env.collapsed_folders+'&'+urlencode(id)+'&');
+      this.env.collapsed_folders = this.env.collapsed_folders+'&'+urlencode(id)+'&';
 
       // select parent folder if one of its childs is currently selected
       if (this.env.mailbox.indexOf(id + this.env.delimiter) == 0)
@@ -1568,10 +1568,10 @@ function rcube_webmail()
       }
 
     if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
-      this.set_env('flagged_col', found);
+      this.env.flagged_col = found;
 
     if ((found = $.inArray('subject', this.env.coltypes)) >= 0)
-      this.set_env('subject_col', found);
+      this.env.subject_col = found;
 
     this.command('save-pref', { name: 'list_cols', value: this.env.coltypes, session: 'list_attrib/columns' });
   };
@@ -4565,7 +4565,7 @@ function rcube_webmail()
             (folder != this.env.mailbox.replace(reg, '')) &&
             (!folder.match(new RegExp('^'+RegExp.escape(this.env.mailbox+this.env.delimiter))))
         ) {
-          this.set_env('dstfolder', folder);
+          this.env.dstfolder = folder;
           $(row).addClass('droptarget');
         }
       }
@@ -4575,7 +4575,7 @@ function rcube_webmail()
   {
     var row = $('#'+id);
 
-    this.set_env('dstfolder', null);
+    this.env.dstfolder = null;
     if (this.env.subscriptionrows[id] && row[0])
       row.removeClass('droptarget');
     else
@@ -4589,7 +4589,7 @@ function rcube_webmail()
     if (list && (id = list.get_single_selection()) &&
         (folder = this.env.subscriptionrows['rcmrow'+id])
     ) {
-      this.set_env('mailbox', folder[0]);
+      this.env.mailbox = folder[0];
       this.show_folder(folder[0]);
       this.enable_command('delete-folder', !folder[2]);
     }
@@ -5283,14 +5283,14 @@ function rcube_webmail()
     this.env.status_col = null;
 
     if ((n = $.inArray('subject', this.env.coltypes)) >= 0) {
-      this.set_env('subject_col', n);
+      this.env.subject_col = n;
       if (list)
         list.subject_col = n;
     }
     if ((n = $.inArray('flag', this.env.coltypes)) >= 0)
-      this.set_env('flagged_col', n);
+      this.env.flagged_col = n;
     if ((n = $.inArray('status', this.env.coltypes)) >= 0)
-      this.set_env('status_col', n);
+      this.env.status_col = n;
 
     if (list)
       list.init_header();
