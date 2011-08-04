@@ -3434,10 +3434,8 @@ function rcube_webmail()
     if (this.gui_objects.qsearchbox)
       this.gui_objects.qsearchbox.value = '';
 
-    if (this.env.qsearch) {
-      this.set_busy(this.env.qsearch.lock, false);
-      this.env.qsearch.request.abort();
-    }
+    if (this.env.qsearch)
+      this.abort_request(this.env.qsearch);
 
     this.env.qsearch = null;
     this.env.search_request = null;
@@ -3760,10 +3758,8 @@ function rcube_webmail()
     if (!ac)
       return;
 
-    for (i=0, len=ac.locks.length; i<len; i++) {
-      this.hide_message(ac.locks[i]); // hide loading message
-      ac.requests[i].abort(); // abort ajax request
-    }
+    for (i=0, len=ac.locks.length; i<len; i++)
+      this.abort_request({request: ac.requests[i], lock: ac.locks[i]});
 
     this.ksearch_data = null;
   }
@@ -5662,6 +5658,15 @@ function rcube_webmail()
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { rcmail.http_error(o, status, err, lock); }
     });
+  };
+
+  // aborts ajax request
+  this.abort_request = function(r)
+  {
+    if (r.request)
+      r.request.abort();
+    if (r.lock)
+      this.set_busy(r.lock, false);
   };
 
   // handle HTTP response
