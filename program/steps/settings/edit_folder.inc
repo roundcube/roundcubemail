@@ -255,7 +255,7 @@ function rcmail_folder_form($attrib)
             $content = rcmail_get_form_part($tab);
         }
 
-        if ($content) {        
+        if ($content) {
             $out .= html::tag('fieldset', null, html::tag('legend', null, Q($tab['name'])) . $content) ."\n";
         }
     }

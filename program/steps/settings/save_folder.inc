@@ -55,6 +55,16 @@ else {
     }
 }
 
+// Check access rights to the parent folder
+if (!$error && strlen($path)) {
+    $parent_opts = $RCMAIL->imap->mailbox_info($path);
+    if ($parent_opts['namespace'] != 'personal'
+        && (empty($parent_opts['rights']) || !preg_match('/[ck]/', implode($parent_opts)))
+    ) {
+        $error = rcube_label('parentnotwritable');
+    }
+}
+
 if ($error) {
     $OUTPUT->command('display_message', $error, 'error');
 }
