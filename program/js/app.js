@@ -3611,6 +3611,8 @@ function rcube_webmail()
     var old_value = this.ksearch_value;
     this.ksearch_value = q;
 
+    this.ksearch_destroy();
+
     // ...string is empty
     if (!q.length)
       return;
@@ -3618,8 +3620,6 @@ function rcube_webmail()
     // ...new search value contains old one and previous search result was empty
     if (old_value && old_value.length && this.env.contacts && !this.env.contacts.length && q.indexOf(old_value) == 0)
       return;
-
-    this.ksearch_destroy();
 
     var i, lock, source, xhr, reqid = new Date().getTime(),
       threads = props && props.threads ? props.threads : 1,
@@ -5659,7 +5659,7 @@ function rcube_webmail()
     if (r.request)
       r.request.abort();
     if (r.lock)
-      this.set_busy(r.lock, false);
+      this.set_busy(false, null, r.lock);
   };
 
   // handle HTTP response
