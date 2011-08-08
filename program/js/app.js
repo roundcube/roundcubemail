@@ -3689,7 +3689,7 @@ function rcube_webmail()
         li.innerHTML = text.replace(new RegExp('('+RegExp.escape(s_val)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
-        li._rcm_id = i;
+        li._rcm_id = this.env.contacts.length + i;
         ul.appendChild(li);
         maxlen -= 1;
       }
