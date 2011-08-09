@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of email addresses with quoted local part (#1487939)
 - Fix EOL character in vCard exports (#1487873)
 - Added optional "multithreading" autocomplete feature
 - Plugin API: Added 'config_get' hook

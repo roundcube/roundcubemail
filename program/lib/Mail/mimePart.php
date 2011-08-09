@@ -131,6 +131,7 @@ class Mail_mimePart
     */
     var $_eol = "\r\n";
 
+
     /**
     * Constructor.
     *
@@ -800,6 +801,9 @@ class Mail_mimePart
 
         // Structured header (make sure addr-spec inside is not encoded)
         if (!empty($separator)) {
+            // Simple e-mail address regexp
+            $email_regexp = '(\S+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
+
             $parts = Mail_mimePart::_explodeQuotedString($separator, $value);
             $value = '';
 
@@ -817,12 +821,12 @@ class Mail_mimePart
                 }
 
                 // let's find phrase (name) and/or addr-spec
-                if (preg_match('/^<\S+@\S+>$/', $part)) {
+                if (preg_match('/^<' . $email_regexp . '>$/', $part)) {
                     $value .= $part;
-                } else if (preg_match('/^\S+@\S+$/', $part)) {
+                } else if (preg_match('/^' . $email_regexp . '$/', $part)) {
                     // address without brackets and without name
                     $value .= $part;
-                } else if (preg_match('/<*\S+@\S+>*$/', $part, $matches)) {
+                } else if (preg_match('/<*' . $email_regexp . '>*$/', $part, $matches)) {
                     // address with name (handle name)
                     $address = $matches[0];
                     $word = str_replace($address, '', $part);

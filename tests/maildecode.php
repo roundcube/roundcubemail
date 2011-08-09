@@ -44,6 +44,8 @@ class rcube_test_maildecode extends UnitTestCase
         16 => 'Test Test ((comment)) <test@domain.tld>',
         17 => 'test@domain.tld (comment)',
         18 => '"Test,Test" <test@domain.tld>',
+        // 1487939
+        19 => 'Test <"test test"@domain.tld>',
     );
 
     $results = array(
@@ -66,6 +68,7 @@ class rcube_test_maildecode extends UnitTestCase
         16 => array(1, 'Test Test', 'test@domain.tld'),
         17 => array(1, '', 'test@domain.tld'),
         18 => array(1, 'Test,Test', 'test@domain.tld'),
+        19 => array(1, 'Test', '"test test"@domain.tld'),
     );
 
     foreach ($headers as $idx => $header) {
@@ -73,7 +76,7 @@ class rcube_test_maildecode extends UnitTestCase
 
       $this->assertEqual($results[$idx][0], count($res), "Rows number in result for header: " . $header);
       $this->assertEqual($results[$idx][1], $res[1]['name'], "Name part decoding for header: " . $header);
-      $this->assertEqual($results[$idx][2], $res[1]['mailto'], "Name part decoding for header: " . $header);
+      $this->assertEqual($results[$idx][2], $res[1]['mailto'], "Email part decoding for header: " . $header);
     }
   }
 

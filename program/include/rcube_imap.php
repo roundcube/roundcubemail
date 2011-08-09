@@ -4760,12 +4760,15 @@ class rcube_imap
         $str = self::explode_header_string(',;', $str, true);
         $result = array();
 
+        // simplified regexp, supporting quoted local part
+        $email_rx = '(\S+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
+
         foreach ($str as $key => $val) {
             $name    = '';
             $address = '';
             $val     = trim($val);
 
-            if (preg_match('/(.*)<(\S+@\S+)>$/', $val, $m)) {
+            if (preg_match('/(.*)<('.$email_rx.')>$/', $val, $m)) {
                 $address = $m[2];
                 $name    = trim($m[1]);
             }
@@ -4779,7 +4782,7 @@ class rcube_imap
 
             // dequote and/or decode name
             if ($name) {
-                if ($name[0] == '"') {
+                if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
                     $name = substr($name, 1, -1);
                     $name = stripslashes($name);
                 }
