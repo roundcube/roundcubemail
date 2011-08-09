@@ -4772,7 +4772,7 @@ class rcube_imap
                 $address = $m[2];
                 $name    = trim($m[1]);
             }
-            else if (preg_match('/^(\S+@\S+)$/', $val, $m)) {
+            else if (preg_match('/^('.$email_rx.')$/', $val, $m)) {
                 $address = $m[1];
                 $name    = '';
             }

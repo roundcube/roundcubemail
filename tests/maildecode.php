@@ -46,6 +46,8 @@ class rcube_test_maildecode extends UnitTestCase
         18 => '"Test,Test" <test@domain.tld>',
         // 1487939
         19 => 'Test <"test test"@domain.tld>',
+        20 => '<"test test"@domain.tld>',
+        21 => '"test test"@domain.tld',
     );
 
     $results = array(
@@ -69,6 +71,8 @@ class rcube_test_maildecode extends UnitTestCase
         17 => array(1, '', 'test@domain.tld'),
         18 => array(1, 'Test,Test', 'test@domain.tld'),
         19 => array(1, 'Test', '"test test"@domain.tld'),
+        20 => array(1, '', '"test test"@domain.tld'),
+        21 => array(1, '', '"test test"@domain.tld'),
     );
 
     foreach ($headers as $idx => $header) {
