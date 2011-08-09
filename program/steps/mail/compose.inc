@@ -274,17 +274,11 @@ else if (count($MESSAGE->identities)) {
     $ident = format_email_recipient($email, $sql_arr['name']);
 
     // select identity
-    if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
+    if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT, RCUBE_COMPOSE_REPLY))) {
       if ($MESSAGE->headers->from == $ident) {
         $from_idx = $idx;
         break;
       }
-    }
-    // reply to self, force To header value
-    else if ($compose_mode == RCUBE_COMPOSE_REPLY && $MESSAGE->headers->from == $ident) {
-      $from_idx = $idx;
-      $MESSAGE->compose['to'] = $MESSAGE->headers->to;
-      break;
     }
     // set identity if it's one of the reply-message recipients
     else if (in_array($email, $a_recipients) && ($from_idx === null || $sql_arr['standard'])) {
@@ -335,13 +329,13 @@ foreach ($parts as $header) {
       $mailfollowup = $MESSAGE->headers->others['mail-followup-to'];
       $mailreplyto  = $MESSAGE->headers->others['mail-reply-to'];
 
-      if ($MESSAGE->compose['to'])
-        $fvalue = $MESSAGE->compose['to'];
-      else if ($MESSAGE->reply_all == 'list' && $mailfollowup)
+      if ($MESSAGE->reply_all == 'list' && $mailfollowup)
         $fvalue = $mailfollowup;
       else if ($MESSAGE->reply_all == 'list'
         && preg_match('/<mailto:([^>]+)>/i', $MESSAGE->headers->others['list-post'], $m))
         $fvalue = $m[1];
+      else if ($MESSAGE->reply_all && $mailfollowup)
+        $fvalue = $mailfollowup;
       else if ($mailreplyto)
         $fvalue = $mailreplyto;
       else if (!empty($MESSAGE->headers->replyto))
@@ -385,7 +379,7 @@ foreach ($parts as $header) {
       $mailto = mb_strtolower(rcube_idn_to_utf8($addr_part['mailto']));
 
       if (!in_array($mailto, $a_recipients)
-        && (empty($MESSAGE->compose['from_email']) || $mailto != $MESSAGE->compose['from_email'])
+        && ($header == 'to' || empty($MESSAGE->compose['from_email']) || $mailto != $MESSAGE->compose['from_email'])
       ) {
         if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
           $string = format_email_recipient($mailto, $addr_part['name']);
@@ -396,7 +390,7 @@ foreach ($parts as $header) {
         $a_recipients[] = $addr_part['mailto'];
       }
     }
-    
+
     $fvalue = implode(', ', $fvalue);
   }
 
