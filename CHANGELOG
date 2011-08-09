@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix XSS vulnerability in UI messages (#1488030)
 - Fix handling of email addresses with quoted local part (#1487939)
 - Fix EOL character in vCard exports (#1487873)
 - Added optional "multithreading" autocomplete feature
