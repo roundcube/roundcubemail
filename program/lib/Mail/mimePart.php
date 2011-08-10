@@ -145,7 +145,7 @@ class Mail_mimePart
     *     charset           - Content character set
     *     cid               - Content ID to apply
     *     disposition       - Content disposition, inline or attachment
-    *     dfilename         - Filename parameter for content disposition
+    *     filename          - Filename parameter for content disposition
     *     description       - Content description
     *     name_encoding     - Encoding of the attachment name (Content-Type)
     *                         By default filenames are encoded using RFC2231
@@ -185,6 +185,11 @@ class Mail_mimePart
 
             case 'body_file':
                 $this->_body_file = $value;
+                break;
+
+            // for backward compatibility
+            case 'dfilename':
+                $params['filename'] = $value;
                 break;
             }
         }
@@ -802,7 +807,7 @@ class Mail_mimePart
         // Structured header (make sure addr-spec inside is not encoded)
         if (!empty($separator)) {
             // Simple e-mail address regexp
-            $email_regexp = '(\S+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
+            $email_regexp = '(\S+|("[^\r\n"]+"))@\S+';
 
             $parts = Mail_mimePart::_explodeQuotedString($separator, $value);
             $value = '';
