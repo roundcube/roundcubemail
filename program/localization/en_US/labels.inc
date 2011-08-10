@@ -202,6 +202,7 @@ $labels['charset']        = 'Charset';
 $labels['editortype']     = 'Editor type';
 $labels['returnreceipt']  = 'Return receipt';
 $labels['dsn']            = 'Delivery status notification';
+$labels['mailreplyintro'] = 'On $date, $sender wrote:';
 
 $labels['editidents']    = 'Edit identities';
 $labels['checkspelling'] = 'Check spelling';

@@ -172,6 +172,7 @@ $labels['charset'] = 'Zeichensatz';
 $labels['editortype'] = 'Editor-Typ';
 $labels['returnreceipt'] = 'Empfangsbestätigung (MDN)';
 $labels['dsn'] = 'Übermittlungsbestätigung (DSN)';
+$labels['mailreplyintro'] = 'Am $date, schrieb $sender:';
 $labels['editidents'] = 'Absender bearbeiten';
 $labels['checkspelling'] = 'Rechtschreibung prüfen';
 $labels['resumeediting'] = 'Bearbeitung fortsetzen';

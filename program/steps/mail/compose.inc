@@ -758,8 +758,13 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 
   // build reply prefix
   $from = array_pop($RCMAIL->imap->decode_address_list($MESSAGE->get_header('from'), 1, false));
-  $prefix = sprintf("On %s, %s wrote:",
-    $MESSAGE->headers->date, $from['name'] ? $from['name'] : rcube_idn_to_utf8($from['mailto']));
+  $prefix = rcube_label(array(
+    'name' => 'mailreplyintro',
+    'vars' => array(
+      'date' => format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long')),
+      'sender' => $from['name'] ? $from['name'] : rcube_idn_to_utf8($from['mailto']),
+    )
+  ));
 
   if (!$bodyIsHtml) {
     $body = preg_replace('/\r?\n/', "\n", $body);
