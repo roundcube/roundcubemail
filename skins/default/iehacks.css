@@ -7,6 +7,11 @@ input, textarea
   background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
 }
 
+body.iframe
+{
+  margin-top: 6px;
+}
+
 #login-form form
 {
   margin-top: 0;
@@ -54,6 +59,11 @@ input, textarea
 {
   margin: 0 8px;
   top: 8px;
+}
+
+div.messageheaderbox
+{
+  margin-top: 0px;
 }
 
 #abooktoolbar a.buttonPas
@@ -214,6 +224,13 @@ ul.toolbarmenu li a
   min-height: auto;
 }
 
+.popupmenu li.block a
+{
+  clear: none;
+  display: inline-block;
+  padding-left: 2px;
+}
+
 #console
 {
   filter: alpha(opacity=80);
@@ -233,6 +250,15 @@ table.records-table thead tr td
 #listcontrols input
 {
   margin-top: 2px;
+}
+
+#contact-details
+{
+  margin-top: 12px;
+}
+
+#contact-details form {
+  margin-top: -1px;
 }
 
 .contactfieldgroup legend

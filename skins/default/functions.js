@@ -82,14 +82,14 @@ function rcube_mail_ui()
   this.popups = {
     markmenu:       {id:'markmessagemenu'},
     replyallmenu:   {id:'replyallmenu'},
-    forwardmenu:    {id:'forwardmenu'},
+    forwardmenu:    {id:'forwardmenu', editable:1},
     searchmenu:     {id:'searchmenu', editable:1},
     messagemenu:    {id:'messagemenu'},
     listmenu:       {id:'listmenu', editable:1},
     dragmessagemenu:{id:'dragmessagemenu', sticky:1},
     groupmenu:      {id:'groupoptionsmenu', above:1},
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
-    composemenu:    {id:'composeoptionsmenu', editable:1},
+    composemenu:    {id:'composeoptionsmenu', editable:1, overlap:1},
     // toggle: #1486823, #1486930
     uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:!bw.ie&&!bw.linux },
     uploadform:     {id:'upload-form', editable:1, toggle:!bw.ie&&!bw.linux }
@@ -141,6 +141,11 @@ show_popupmenu: function(popup, show)
   }
 
   obj[show?'show':'hide']();
+  
+  if (bw.ie6 && this.popups[popup].overlap) {
+    $('select').css('visibility', show?'hidden':'inherit');
+    $('select', obj).css('visibility', 'inherit');
+  }
 },
 
 dragmessagemenu: function(show)
@@ -335,7 +340,7 @@ body_mouseup: function(evt, p)
       && (!this.popups[i].editable || !this.target_overlaps(target, this.popups[i].id))
       && (!this.popups[i].sticky || !rcube_mouse_is_over(evt, rcube_find_object(this.popups[i].id)))
     ) {
-      window.setTimeout('$("#'+this.popups[i].id+'").hide()', 50);
+      window.setTimeout('rcmail_ui.show_popup("'+i+'",false);', 50);
     }
   }
 },
