@@ -32,8 +32,8 @@ $CONTACT_COLTYPES = array(
   'suffix'       => array('type' => 'text', 'size' => 8,  'limit' => 1, 'label' => rcube_label('namesuffix'), 'category' => 'main'),
   'nickname'     => array('type' => 'text', 'size' => 40, 'limit' => 1, 'label' => rcube_label('nickname'), 'category' => 'main'),
   'jobtitle'     => array('type' => 'text', 'size' => 40, 'limit' => 1, 'label' => rcube_label('jobtitle'), 'category' => 'main'),
-  'organization' => array('type' => 'text', 'size' => 19, 'limit' => 1, 'label' => rcube_label('organization'), 'category' => 'main'),
-  'department'   => array('type' => 'text', 'size' => 19, 'limit' => 1, 'label' => rcube_label('department'), 'category' => 'main'),
+  'organization' => array('type' => 'text', 'size' => 40, 'limit' => 1, 'label' => rcube_label('organization'), 'category' => 'main'),
+  'department'   => array('type' => 'text', 'size' => 40, 'limit' => 1, 'label' => rcube_label('department'), 'category' => 'main'),
   'gender'       => array('type' => 'select', 'limit' => 1, 'label' => rcube_label('gender'), 'options' => array('male' => rcube_label('male'), 'female' => rcube_label('female')), 'category' => 'personal'),
   'maidenname'   => array('type' => 'text', 'size' => 40, 'limit' => 1, 'label' => rcube_label('maidenname'), 'category' => 'personal'),
   'phone'        => array('type' => 'text', 'size' => 40, 'label' => rcube_label('phone'), 'subtypes' => array('home','home2','work','work2','mobile','main','homefax','workfax','car','pager','video','assistant','other'), 'category' => 'main'),
@@ -441,7 +441,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 'names'    => array('prefix','firstname','middlename','surname','suffix'),
                 'displayname' => array('name'),
                 'nickname' => array('nickname'),
-                'jobnames' => array('organization','department','jobtitle'),
+                'organization' => array('organization'),
+                'department' => array('department'),
+                'jobtitle' => array('jobtitle'),
             );
             foreach ($field_blocks as $blockname => $colnames) {
                 $fields = '';

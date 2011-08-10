@@ -95,9 +95,9 @@ function rcmail_contact_edithead($attrib)
                 'suffix' => array('size' => $i_size),
                 'name' => array('size' => 2*$i_size),
                 'nickname' => array('size' => 2*$i_size),
-                'company' => array('size' => $i_size),
-                'department' => array('size' => $i_size),
-                'jobtitle' => array('size' => $i_size),
+                'organization' => array('size' => 2*$i_size),
+                'department' => array('size' => 2*$i_size),
+                'jobtitle' => array('size' => 2*$i_size),
             )
         )
     );

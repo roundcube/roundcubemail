@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add newlines between organization, department, jobtitle (#1488028)
 - Recalculate date when replying to a message and localize the cite header (#1487675)
 - Fix XSS vulnerability in UI messages (#1488030)
 - Fix handling of email addresses with quoted local part (#1487939)

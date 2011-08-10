@@ -267,8 +267,7 @@ body.iframe,
 }
 
 #contacthead .names input,
-#contacthead .addnames input,
-#contacthead .jobnames input
+#contacthead .addnames input
 {
 	width: 180px;
 }
