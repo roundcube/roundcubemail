@@ -97,7 +97,7 @@ GO
 ALTER TABLE [dbo].[contacts] ALTER COLUMN [email] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL
 GO
 
--- Updates from version 0.5.2
+-- Updates from version 0.5.X
 
 ALTER TABLE [dbo].[contacts] ADD [words] [text] COLLATE Latin1_General_CI_AI NULL 
 GO
