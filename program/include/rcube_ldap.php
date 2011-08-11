@@ -728,6 +728,15 @@ class rcube_ldap extends rcube_addressbook
         $newdata = array();
         $replacedata = array();
         $deletedata = array();
+        
+        // flatten composite fields in $record
+        if (is_array($record['address'])) {
+          foreach ($record['address'] as $i => $struct) {
+            foreach ($struct as $col => $val) {
+              $record[$col][$i] = $val;
+            }
+          }
+        }
 
         foreach ($this->fieldmap as $col => $fld) {
             $val = $save_cols[$col];
@@ -843,10 +852,10 @@ class rcube_ldap extends rcube_addressbook
     {
         if (!is_array($ids)) {
             // Not an array, break apart the encoded DNs.
-            $dns = explode(',', $ids);
+            $ids = explode(',', $ids);
         } // end if
 
-        foreach ($dns as $id) {
+        foreach ($ids as $id) {
             $dn = base64_decode($id);
             $this->_debug("C: Delete [dn: $dn]");
             // Delete the record.
@@ -869,7 +878,7 @@ class rcube_ldap extends rcube_addressbook
             }
         } // end foreach
 
-        return count($dns);
+        return count($ids);
     }
 
 

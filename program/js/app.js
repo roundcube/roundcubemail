@@ -642,11 +642,6 @@ function rcube_webmail()
             if (props == 'reload') {
               form.action += '?_reload=1';
             }
-            else if ((input = $("input[name='_name']", form)) &&input.length && input.val() == '') {
-              alert(this.get_label('nonamewarning'));
-              input.focus();
-              break;
-            }
             else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
               (input = $("input[name='_email']", form)) && input.length && !rcube_check_email(input.val())
             ) {
@@ -4427,7 +4422,7 @@ function rcube_webmail()
   this.set_photo_actions = function(id)
   {
     var n, buttons = this.buttons['upload-photo'];
-    for (n=0; n < buttons.length; n++)
+    for (n=0; n < buttons && buttons.length; n++)
       $('#'+buttons[n].id).html(this.get_label(id == '-del-' ? 'addphoto' : 'replacephoto'));
 
     $('#ff_photo').val(id);
