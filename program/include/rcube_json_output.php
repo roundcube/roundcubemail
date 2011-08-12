@@ -169,12 +169,16 @@ class rcube_json_output
     public function show_message($message, $type='notice', $vars=null, $override=true)
     {
         if ($override || !$this->message) {
+            if (rcube_label_exists($message)) {
+                if (!empty($vars))
+                    $vars = array_map('Q', $vars);
+                $msgtext = rcube_label(array('name' => $message, 'vars' => $vars));
+            }
+            else
+                $msgtext = $message;
+
             $this->message = $message;
-            $this->command(
-                'display_message',
-                rcube_label(array('name' => $message, 'vars' => $vars)),
-                $type
-            );
+            $this->command('display_message', $msgtext, $type, $timeout * 1000);
         }
     }
 

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix XSS vulnerability in UI messages (#1488030)
 - Fix identities "reply-to" and "bcc" fields have a bogus value when left empty (#1487943)
 - Fix issue which cases IMAP disconnection when encrypt() method was used (#1487900)
 - Fix some CSS issues in Settings for Internet Explorer
