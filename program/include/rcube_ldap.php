@@ -1090,7 +1090,7 @@ class rcube_ldap extends rcube_addressbook
             $dc = 'dc='.strtr($d, array('.' => ',dc='));
             $replaces = array('%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
 
-            $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);;
+            $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
         }
 
         $base_dn = $this->groups_base_dn;
