@@ -681,7 +681,9 @@ class rcube_template extends rcube_html_page
             // show a label
             case 'label':
                 if ($attrib['name'] || $attrib['command']) {
-                    $label = rcube_label($attrib + array('vars' => array('product' => $this->config['product_name'])));
+                    $vars = $attrib + array('product' => $this->config['product_name']);
+                    unset($vars['name'], $vars['command']);
+                    $label = rcube_label($attrib + array('vars' => $vars));
                     return !$attrbi['noshow'] ? Q($label) : '';
                 }
                 break;
