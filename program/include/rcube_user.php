@@ -122,7 +122,10 @@ class rcube_user
             if (!empty($_SESSION['preferences'])) {
                 // Check last write attempt time, try to write again (every 5 minutes)
                 if ($_SESSION['preferences_time'] < time() - 5 * 60) {
-                    $this->save_prefs(unserialize($_SESSION['preferences']));
+		    $saved_prefs = unserialize($_SESSION['preferences']);
+                    $this->rc->session->remove('preferences');
+	            $this->rc->session->remove('preferences_time');
+                    $this->save_prefs($saved_prefs);
                 }
                 else {
                     $this->data['preferences'] = $_SESSION['preferences'];
