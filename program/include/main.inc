@@ -92,6 +92,16 @@ function rcube_label($p, $domain=null)
   return rcmail::get_instance()->gettext($p, $domain);
 }
 
+/**
+ * Global wrapper of rcmail::text_exists()
+ * to check whether a text label is defined
+ *
+ * @see rcmail::text_exists()
+ */
+function rcube_label_exists($name, $domain=null)
+{
+  return rcmail::get_instance()->text_exists($name, $domain);
+}
 
 /**
  * Overwrite action variable
