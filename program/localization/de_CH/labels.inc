@@ -6,7 +6,7 @@
 | language/de_CH/labels.inc                                             |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -100,18 +100,16 @@ $labels['replytomessage'] = 'Antwort verfassen';
 $labels['replytoallmessage'] = 'Antwort an Absender und alle Empfänger verfassen';
 $labels['replyall'] = 'Allen antworten';
 $labels['replylist'] = 'Liste antworten';
+$labels['forwardinline'] = 'Eingebunden weiterleiten';
+$labels['forwardattachment'] = 'Als Anhang weiterleiten';
 $labels['forwardmessage'] = 'Nachricht weiterleiten';
 $labels['deletemessage'] = 'Nachricht löschen';
 $labels['movemessagetotrash'] = 'Nachricht in den Papierkorb verschieben';
 $labels['printmessage'] = 'Nachricht drucken';
 $labels['previousmessage'] = 'Vorherige Nachricht anzeigen';
-$labels['previousmessages'] = 'Vorherige Nachrichten anzeigen';
 $labels['firstmessage'] = 'Die erste Nachricht anzeigen';
-$labels['firstmessages'] = 'Die ersten Nachrichten anzeigen';
 $labels['nextmessage'] = 'Nächste Nachricht anzeigen';
-$labels['nextmessages'] = 'Weitere Nachrichten anzeigen';
 $labels['lastmessage'] = 'Die letzte Nachricht anzeigen';
-$labels['lastmessages'] = 'Die letzten Nachrichten anzeigen';
 $labels['backtolist'] = 'Zurück zur Liste';
 $labels['viewsource'] = 'Quelltext anzeigen';
 $labels['markmessages'] = 'Nachrichten markieren';
@@ -179,6 +177,7 @@ $labels['resumeediting'] = 'Bearbeitung fortsetzen';
 $labels['revertto'] = 'Zurück zu';
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
+$labels['uploadprogress'] = '$percent ($current von $total)';
 $labels['close'] = 'Schliessen';
 $labels['messageoptions'] = 'Optionen...';
 $labels['low'] = 'Niedrig';
@@ -231,6 +230,10 @@ $labels['female'] = 'weiblich';
 $labels['manager'] = 'Vorgesetzte/r';
 $labels['assistant'] = 'Assistent/in';
 $labels['spouse'] = 'Partner/in';
+$labels['allfields'] = 'Alle Felder';
+$labels['search'] = 'Suche';
+$labels['advsearch'] = 'Erweiterte Suche';
+$labels['other'] = 'Andere';
 $labels['typehome'] = 'Zuhause';
 $labels['typework'] = 'Arbeit';
 $labels['typeother'] = 'Andere';
@@ -242,6 +245,7 @@ $labels['typecar'] = 'Auto';
 $labels['typepager'] = 'Pager';
 $labels['typevideo'] = 'Video';
 $labels['typeassistant'] = 'Assistent';
+$labels['typehomepage'] = 'Homepage';
 $labels['addfield'] = 'Feld hinzufügen...';
 $labels['addcontact'] = 'Kontakt hinzufügen';
 $labels['editcontact'] = 'Kontakt bearbeiten';
@@ -264,6 +268,8 @@ $labels['export'] = 'Exportieren';
 $labels['exportvcards'] = 'Kontakte im vCard-Format exportieren';
 $labels['newcontactgroup'] = 'Neue Adressgruppe erstellen';
 $labels['groupactions'] = 'Aktionen für Kontaktgruppen...';
+$labels['grouprename'] = 'Gruppe umbenennen';
+$labels['groupdelete'] = 'Gruppe löschen';
 $labels['previouspage'] = 'Eine Seite zurück';
 $labels['firstpage'] = 'Erste Seite';
 $labels['nextpage'] = 'Nächste Seite';
@@ -274,6 +280,7 @@ $labels['personaladrbook'] = 'Persönliches Adressbuch';
 $labels['import'] = 'Importieren';
 $labels['importcontacts'] = 'Adressen importieren';
 $labels['importfromfile'] = 'Import aus Datei:';
+$labels['importtarget'] = 'Neue Kontakte speichern in:';
 $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
 $labels['importtext'] = 'Sie können Kontakte aus einem bestehenden Adressbuch hochladen.<br/>Es können Adressbücher im <a href="http://de.wikipedia.org/wiki/VCard">vCard-Format</a> importiert werden.';
 $labels['done'] = 'Fertig';
@@ -359,6 +366,8 @@ $labels['afternseconds'] = 'nach $n Sekunden';
 $labels['reqmdn'] = 'Empfangsbestätigung (MSN) immer anfordern';
 $labels['reqdsn'] = 'Übermittlungsbestätigung (DSN) immer anfordern';
 $labels['replysamefolder'] = 'Antworten im selben Ordner wie Original speichern';
+$labels['defaultaddressbook'] = 'Neue Kontakte speichern in';
+$labels['spellcheckbeforesend'] = 'Rechtscheibung vor dem Senden prüfen';
 $labels['folder'] = 'Ordner';
 $labels['folders'] = 'Ordner';
 $labels['foldername'] = 'Ordnername';
@@ -375,9 +384,14 @@ $labels['location'] = 'Speicherort';
 $labels['info'] = 'Informationen';
 $labels['getfoldersize'] = 'Ordnergrösse anzeigen';
 $labels['changesubscription'] = 'Abonnieren';
+$labels['foldertype'] = 'Ordnertyp';
+$labels['personalfolder'] = 'Privater Ordner';
+$labels['otherfolder'] = 'Order eines anderen Benutzers';
+$labels['sharedfolder'] = 'Öffentlicher Ordner';
 $labels['sortby'] = 'Sortieren nach';
 $labels['sortasc'] = 'aufsteigend sortieren';
 $labels['sortdesc'] = 'absteigend sortieren';
+$labels['undo'] = 'Rückgängig';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';

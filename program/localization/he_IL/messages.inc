@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  03052011                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  08082011                |
 +-----------------------------------------------------------------------+
 
 */
@@ -42,6 +42,7 @@ $messages['messagesaved'] = 'ההודעה נשמרה כטיוטה';
 $messages['successfullysaved'] = 'נשמרה בהצלחה';
 $messages['addedsuccessfully'] = 'איש הקשר נוסף לפנקס בהצלחה';
 $messages['contactexists'] = 'קיים כבר איש קשר עם כתובת דוא\"ל זו';
+$messages['contactnameexists'] = 'קיים כבר איש קשר בעל אותו שם';
 $messages['blockedimages'] = 'תמונות משרת אחר נחסמו כדי לשמור על הפרטיות';
 $messages['encryptedmessage'] = 'זו הודעת מוצפנת ולא ניתן להציגה';
 $messages['nocontactsfound'] = 'לא נמצאו אנשי קשר';
@@ -55,9 +56,11 @@ $messages['errorcopying'] = 'העתקת ההודעות נכשלה';
 $messages['errordeleting'] = 'לא ניתן למחוק את ההודעה';
 $messages['errormarking'] = 'לא ניתן לסמן ההודעה';
 $messages['deletecontactconfirm'] = 'האם למחוק את איש הקשר?';
+$messages['deletegroupconfirm'] = 'האם אכן ברצונך למחוק את הקבוצה שנבחרה?';
 $messages['deletemessagesconfirm'] = 'האם למחוק את ההודעות המסומנות?';
 $messages['deletefolderconfirm'] = 'האם למחוק תיק זה?';
 $messages['purgefolderconfirm'] = 'האם למחוק את כל ההודעות בתיק זה?';
+$messages['groupdeleting'] = 'מחיקת קבוצה...';
 $messages['folderdeleting'] = 'התיקיה נמחקת...';
 $messages['foldermoving'] = 'העברת תיקיה...';
 $messages['foldersubscribing'] = 'התיק נרשם...';
@@ -96,8 +99,11 @@ $messages['sourceisreadonly'] = 'המקור לכתובת הוא לקריאה ב�
 $messages['errorsavingcontact'] = 'לא ניתן לשמור את כתובת איש הקשר';
 $messages['movingmessage'] = 'תיוק ההודעה...';
 $messages['copyingmessage'] = 'הודעת מועתקת...';
+$messages['copyingcontact'] = 'העתקת אנשי קשר...';
 $messages['deletingmessage'] = 'המחיקה בתהליך...';
 $messages['markingmessage'] = 'סימון ההודעה בתהליך...';
+$messages['addingmember'] = 'הוספת אנשי קשר לקבוצה...';
+$messages['removingmember'] = 'הסרת אנשי קשר מהקבוצה...';
 $messages['receiptsent'] = 'אישור הקבלה נשלח בהצלחה';
 $messages['errorsendingreceipt'] = 'לא ניתן לשלוח אישור קבלה';
 $messages['nodeletelastidentity'] = 'זו הזהות האחרונה ולכן לא ניתן לבטלה';
@@ -127,6 +133,8 @@ $messages['maxgroupmembersreached'] = 'מספרם של חברי הקבוצה א�
 $messages['internalerror'] = 'שגיאת מערכת. נא לנסות שנית';
 $messages['contactdelerror'] = 'לא ניתן למחוק איש קשר';
 $messages['contactdeleted'] = 'איש הקשר נמחק';
+$messages['contactrestoreerror'] = 'לא ניתן לשחזר איש קשר שנמחק';
+$messages['contactrestored'] = 'איש הקשר שוחזר בהצלחה';
 $messages['groupdeleted'] = 'הקבוצה נמחקה בהצלחה';
 $messages['grouprenamed'] = 'שם הקבוצה שונה בהצלחה';
 $messages['groupcreated'] = 'הקבוצה נוצרה בהצלחה';
@@ -140,5 +148,7 @@ $messages['nametoolong'] = 'השם ארוך מדי';
 $messages['folderupdated'] = 'התיק עודכן בהצלחה';
 $messages['foldercreated'] = 'התיק נוצר בהצלחה';
 $messages['invalidimageformat'] = 'פורמט תמונה לא חוקי';
+$messages['mispellingsfound'] = 'התגלו שגיאות כתיב בהודעה';
+$messages['parentnotwritable'] = 'לא ניתן ליצור/להעביר תיקיה לתוך תיקית האב שנבחרה. אין הרשאה לגישה.';
 
 ?>

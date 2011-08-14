@@ -138,5 +138,6 @@ $messages['nametoolong'] = 'Ime je predolgo';
 $messages['folderupdated'] = 'Mapa je bila uspešno posodobljena';
 $messages['foldercreated'] = 'Mapa je bila uspešno ustvarjena';
 $messages['invalidimageformat'] = 'Neveljaven format slike';
+$messages['mispellingsfound'] = 'V sporočilu so bile najdene napake v črkovanju';
 
 ?>

@@ -143,5 +143,6 @@ $messages['nametoolong'] = 'Nimi liiga pikk';
 $messages['folderupdated'] = 'Kaust uuendatud edukalt';
 $messages['foldercreated'] = 'Kaust loodud edukalt';
 $messages['invalidimageformat'] = 'Pole õige pildi formaat';
+$messages['mispellingsfound'] = 'Kiri sisaldab õigekirjavigu';
 
 ?>

@@ -131,8 +131,10 @@ $messages['emailformaterror'] = 'Endereço de e-mail inválido: $email';
 $messages['toomanyrecipients'] = 'Muitos destinatários. Reduza o número de destinatários para $max.';
 $messages['maxgroupmembersreached'] = 'O número de membros do grupo excede o máximo de $max';
 $messages['internalerror'] = 'Ocorreu um erro interno. Por favor tente novamente.';
-$messages['contactdelerror'] = 'Não foi possível excluir o(s) contato(s)';
-$messages['contactdeleted'] = 'Contato(s) excluído(s) com sucesso';
+$messages['contactdelerror'] = 'Não foi possível excluir o(s) contato(s).';
+$messages['contactdeleted'] = 'Contato(s) excluído(s) com sucesso.';
+$messages['contactrestoreerror'] = 'Não foi possivel recuperar o(s) contato(s) excluído(s).';
+$messages['contactrestored'] = 'Contato(s) recuperado(s) com sucesso.';
 $messages['groupdeleted'] = 'Grupo excluído com sucesso';
 $messages['grouprenamed'] = 'Grupo renomeado com sucesso';
 $messages['groupcreated'] = 'Grupo criado com sucesso';
@@ -145,6 +147,7 @@ $messages['namecannotbeempty'] = 'Nome não pode ser vazio';
 $messages['nametoolong'] = 'Nome é muito longo';
 $messages['folderupdated'] = 'Pasta atualizada com sucesso';
 $messages['foldercreated'] = 'Pasta criada com sucesso';
-$messages['invalidimageformat'] = 'Formato inválido de imagem';
+$messages['invalidimageformat'] = 'Formato de imagem inválido.';
+$messages['mispellingsfound'] = 'Foram detectados erros de ortografia.';
 
 ?>

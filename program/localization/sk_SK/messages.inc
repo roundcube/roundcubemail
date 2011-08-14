@@ -37,6 +37,7 @@ $messages['loggedout'] = 'Odhlásenie prebehlo úspešne. Dovidenia.';
 $messages['mailboxempty'] = 'Schránka je prázdna';
 $messages['loading'] = 'Načítava sa...';
 $messages['uploading'] = 'Nahrávám súbor...';
+$messages['uploadingmany'] = 'Nahrávam súbory...';
 $messages['loadingdata'] = 'Načítavajú sa údaje...';
 $messages['checkingmail'] = 'Kontrolujú sa nové správy...';
 $messages['sendingmessage'] = 'Správa sa odosiela...';
@@ -131,6 +132,8 @@ $messages['maxgroupmembersreached'] = 'Počet členov skupiny dosiahol maxima z 
 $messages['internalerror'] = 'Došlo k internej chybe. Skúste to znova';
 $messages['contactdelerror'] = 'Nemôžem vymazať kontakt(y)';
 $messages['contactdeleted'] = 'Kontakt(y) bol vymazaný';
+$messages['contactrestoreerror'] = 'Nemôžem obnoviť zmazané kontakty';
+$messages['contactrestored'] = 'Kontakty boli úspešne obnovené';
 $messages['groupdeleted'] = 'Skupina bola vymazaná';
 $messages['grouprenamed'] = 'Skupina bola premenovaná';
 $messages['groupcreated'] = 'Skupina bola vytvorená';
@@ -144,5 +147,7 @@ $messages['nametoolong'] = 'Meno je príliš dlhé';
 $messages['folderupdated'] = 'Adresár bol aktualizovaný';
 $messages['foldercreated'] = 'Adresár bol vytvorený';
 $messages['invalidimageformat'] = 'Zlý formát obrázku';
+$messages['mispellingsfound'] = 'V správe boli nájdené pravopisné chyby';
+$messages['itemsdeleted'] = 'Bolo vymazaných $num položiek.';
 
 ?>

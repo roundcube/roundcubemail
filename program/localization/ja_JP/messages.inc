@@ -3,145 +3,141 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/ja_JP/messages.inc                                           |
+| language/ar_SA/messages.inc                                           |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
+| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
-| Author: Tadashi Jokagi <elf2000@users.sourceforge.net>                |
-|         Takashi Takamatsu <taka717@gmail.com>                         |
+| Author: Ossama Khayat <okhayat@yahoo.com>                             |
 +-----------------------------------------------------------------------+
 
 @version $Id$
 
-//  EN-Revision: 4576
-
 */
 
 $messages = array();
-$messages['loginfailed'] = 'ログインに失敗しました。';
-$messages['cookiesdisabled'] = 'ブラウザで Cookie が無効に設定されています。';
-$messages['sessionerror'] = 'セッションが正しくないか期限切れです。';
-$messages['imaperror'] = 'IMAP サーバーへの接続に失敗しました。';
-$messages['servererror'] = 'サーバーでエラーが発生しました。';
-$messages['servererrormsg'] = 'サーバー エラー: $msg';
-$messages['errorreadonly'] = '操作の実行に失敗しました。フォルダーは読み込み専用です。';
-$messages['errornoperm'] = 'フォルダーの操作に失敗しました。権限がありません。';
-$messages['invalidrequest'] = '不正なリクエストです。データは保存されませんでした。';
-$messages['nomessagesfound'] = 'メールはありません。';
-$messages['loggedout'] = 'ログアウトしました。';
-$messages['mailboxempty'] = 'メール ボックスは空です。';
-$messages['loading'] = '読み込んでいます...';
-$messages['uploading'] = 'アップロードしています...';
-$messages['loadingdata'] = 'データを読み込んでいます...';
-$messages['checkingmail'] = 'メールを確認しています...';
-$messages['sendingmessage'] = 'メールを送信しています...';
-$messages['messagesent'] = 'メールを送信しました。';
-$messages['savingmessage'] = 'メールを保存しています...';
-$messages['messagesaved'] = 'メールを下書きに保存しました。';
-$messages['successfullysaved'] = '保存しました。';
-$messages['addedsuccessfully'] = 'アドレス帳への連絡先の追加しました。';
-$messages['contactexists'] = 'このメールアドレスを含む連絡先が既に存在します。';
-$messages['blockedimages'] = 'プライバシー保護のため、このメールに含まれるリモート画像をブロックしました。';
-$messages['encryptedmessage'] = 'このメールは暗号化されているため表示できません。';
-$messages['nocontactsfound'] = '連絡先がありません。';
-$messages['contactnotfound'] = '要求された連絡先が見つかりません。';
-$messages['sendingfailed'] = 'メールの送信に失敗しました。';
-$messages['senttooquickly'] = 'このメールを送信するまで $sec 秒 お待ちください。';
-$messages['errorsavingsent'] = '送信メールの保存中にエラーが発生しました。';
-$messages['errorsaving'] = '保存中にエラーが発生しました。';
-$messages['errormoving'] = 'メールを移動できません。';
-$messages['errorcopying'] = 'メールをコピーできません。';
-$messages['errordeleting'] = 'メールを削除できません。';
-$messages['errormarking'] = 'メールのマークを設定できません。';
-$messages['deletecontactconfirm'] = '選択した連絡先を本当に削除しますか?';
-$messages['deletemessagesconfirm'] = '選択したメールを本当に削除しますか?';
-$messages['deletefolderconfirm'] = 'このフォルダーを本当に削除しますか?';
-$messages['purgefolderconfirm'] = 'このフォルダーの全メールを本当に削除しますか?';
-$messages['folderdeleting'] = 'フォルダーを削除しています...';
-$messages['foldermoving'] = 'フォルダーを移動しています...';
-$messages['foldersubscribing'] = 'フォルダーを購読しています...';
-$messages['folderunsubscribing'] = 'フォルダーの購読をやめています...';
-$messages['formincomplete'] = 'すべてのフォームの項目を入力していません。';
-$messages['noemailwarning'] = '有効なメールアドレスを入力してください。';
-$messages['nonamewarning'] = '名前を入力してください。';
-$messages['nopagesizewarning'] = 'ページのサイズを入力してください。';
-$messages['nosenderwarning'] = '差出人のメールアドレスを入力してください。';
-$messages['norecipientwarning'] = '宛先を最低 1 人は入力してください。';
-$messages['nosubjectwarning'] = '件名が空です。今すぐ入力しますか?';
-$messages['nobodywarning'] = '本文が無いメールを送信しますか?';
-$messages['notsentwarning'] = 'メールは送信されませんでした。破棄しますか?';
-$messages['noldapserver'] = '検索する LDAP サーバーを選択してください。';
-$messages['nocontactsreturned'] = '連絡先がありません。';
-$messages['nosearchname'] = '連絡先の名前かメールアドレスを入力してください。';
-$messages['notuploadedwarning'] = 'アップロードが完了していません。アップロードが完了するまで待つか、キャンセルしてください。';
-$messages['searchsuccessful'] = '$nr 件のメールが見つかりました。';
-$messages['searchnomatch'] = '一致するメールがありません。';
-$messages['searching'] = '検索しています...';
-$messages['checking'] = '確認しています...';
-$messages['nospellerrors'] = 'スペル ミスは見つかりませんでした。';
-$messages['folderdeleted'] = 'フォルダーを削除しました。';
-$messages['foldersubscribed'] = 'フォルダーの購読に成功しました。';
-$messages['folderunsubscribed'] = 'フォルダーの購読をやめました。';
-$messages['folderpurged'] = 'フォルダーの整理に成功しました。';
-$messages['folderexpunged'] = 'フォルダーを空にしました。';
-$messages['deletedsuccessfully'] = '削除しました。';
-$messages['converting'] = 'メールから書式を削除しています...';
-$messages['messageopenerror'] = 'サーバーからメールを取得できません。';
-$messages['fileuploaderror'] = 'ファイルのアップロードに失敗しました。';
-$messages['filesizeerror'] = 'アップロードするファイルのサイズが上限 ($size) を超えました。';
-$messages['copysuccess'] = ' $nr 個のアドレスのコピーに成功しました。';
-$messages['copyerror'] = 'アドレスをコピーできません。';
-$messages['sourceisreadonly'] = 'このアドレス情報は読み取り専用です。';
-$messages['errorsavingcontact'] = '連絡先のアドレスを保存できません。';
-$messages['movingmessage'] = 'メールを移動しています...';
-$messages['copyingmessage'] = 'メールをコピーしています...';
-$messages['deletingmessage'] = 'メールを削除しています...';
-$messages['markingmessage'] = 'メールのマークを設定しています...';
-$messages['receiptsent'] = '開封確認を送信しました。';
-$messages['errorsendingreceipt'] = '開封確認を送信できません。';
-$messages['nodeletelastidentity'] = '削除できません。少なくとも 1 つの個人情報が必要です。';
-$messages['forbiddencharacter'] = 'フォルダー名に利用できない文字が含まれています。';
-$messages['selectimportfile'] = 'アップロードするファイルを選択してください。';
-$messages['addresswriterror'] = '選択したアドレス帳に書き込めません。';
-$messages['contactaddedtogroup'] = 'グループに連絡先を追加しました。';
-$messages['contactremovedfromgroup'] = 'グループから連絡先を削除しました。';
-$messages['importwait'] = 'インポート中です。しばらくお待ちください...';
-$messages['importerror'] = 'インポートに失敗しました。アップロードしたファイルは不正な vCard ファイルです。';
-$messages['importconfirm'] = '<b>$inserted 件の連絡先をインポートしました。</b>';
-$messages['importconfirmskipped'] = '<b>$skipped 拳の既存エントリーをスキップしました</b>';
-
-$messages['opnotpermitted'] = '許可されていない操作です。';
-$messages['nofromaddress'] = '選択中の個人情報にメールアドレスが含まれていません。';
-$messages['editorwarning'] = 'テキスト エディターに切り替えるとすべての書式が失われます。よろしいですか?';
-$messages['httpreceivedencrypterror'] = '致命的な設定エラーが発生しました。<b>メッセージは送信されませんでした。</b>システム管理者に至急連絡してください。';
-$messages['smtpconnerror'] = 'SMTP Error ($code): サーバーへの接続に失敗しました。';
-$messages['smtpautherror'] = 'SMTP Error ($code): 認証に失敗しました。';
-$messages['smtpfromerror'] = 'SMTP Error ($code): 差出人 "$from" を設定できません ($msg)';
-$messages['smtptoerror'] = 'SMTP Error ($code): 宛先 "$to" を追加できません ($msg)';
-$messages['smtprecipientserror'] = 'SMTP Error: 宛先の一覧を解析できません。';
-$messages['smtpdsnerror'] = 'SMTP エラー: 配送状況通知をサポートしていません。';
-$messages['smtperror'] = 'SMTP エラー: $msg';
-$messages['emailformaterror'] = 'メールアドレスが正しくありません: $email';
-$messages['toomanyrecipients'] = '宛先が多すぎます。$max 件以内にしてください。';
-$messages['maxgroupmembersreached'] = 'グループのメンバーが多すぎます。$max 件以内にしてください。';
-$messages['internalerror'] = '内部エラーが発生しました。もう一度やり直してください。';
-$messages['contactdelerror'] = '連絡先を削除できませんでした。';
-$messages['contactdeleted'] = '連絡先を削除しました。';
-$messages['groupdeleted'] = 'グループを削除しました。';
-$messages['grouprenamed'] = 'グループ名を変更しました．';
-$messages['groupcreated'] = 'グループを作成しました。';
-$messages['messagedeleted'] = 'メールを削除しました。';
-$messages['messagemoved'] = 'メールを移動しました。';
-$messages['messagecopied'] = 'メールをコピーしました。';
-$messages['messagemarked'] = 'メールのマークを設定しました。';
-$messages['autocompletechars'] = '自動補完には少なくとも $min 文字入力してください。';
-$messages['namecannotbeempty'] = '名前は空にできません。';
-$messages['nametoolong'] = '名前が長すぎます。';
-$messages['folderupdated'] = 'フォルダーの更新に成功しました。';
-$messages['foldercreated'] = 'フォルダーの作成に成功しました。';
-$messages['invalidimageformat'] = '画像の形式が正しくありません。';
+$messages['loginfailed'] = 'فشل تسجيل الدخول';
+$messages['cookiesdisabled'] = 'المتصفح الخاص بك لا يقبل الكوكيز';
+$messages['sessionerror'] = 'انتهت صلاحية الجلسة الحالية أو أنها غير صالحة';
+$messages['imaperror'] = 'فشل الاتصال بخادم IMAP';
+$messages['servererror'] = 'خطأ في الخادم!';
+$messages['servererrormsg'] = 'خطأ خادم: $msg';
+$messages['errorreadonly'] = 'تعذر تنفيذ العملية. المجلد للقراءة فقط.';
+$messages['errornoperm'] = 'تعذر تنفيذ العملية. ليست لديك الصلاحية.';
+$messages['invalidrequest'] = 'طلب غير صالح! لم تحفظ أية بيانات.';
+$messages['nomessagesfound'] = 'لم يعثر على أية رسائل في صندوق البريد هذا';
+$messages['loggedout'] = 'قمت بإنهاء هذه الجلسة بنجاح. إلى اللقاء!';
+$messages['mailboxempty'] = 'صندوق البريد فارغ';
+$messages['loading'] = 'جاري العمل...';
+$messages['uploading'] = 'جاري رفع الملف...';
+$messages['loadingdata'] = 'تحميل البيانات...';
+$messages['checkingmail'] = 'التحقق من وجود رسائل جديدة...';
+$messages['sendingmessage'] = 'إرسال الرسالة...';
+$messages['messagesent'] = 'تم إرسال الرسالة بنجاح';
+$messages['savingmessage'] = 'حفظ الرسالة...';
+$messages['messagesaved'] = 'تم حفظ الرسالة في المسودات';
+$messages['successfullysaved'] = 'تم الحفظ بنجاح';
+$messages['addedsuccessfully'] = 'تمت إضافة المراسل إلى دفتر العناوين بنجاح';
+$messages['contactexists'] = 'هناك مراسل له نفس هذا البريد الالكتروني موجود مسبقاً';
+$messages['blockedimages'] = 'لحماية خصوصيتك، تم حجب الصور الغير مضمنة (البعيدة) في هذه الرسالة.';
+$messages['encryptedmessage'] = 'هذه الرسالة مشفرة ولا يمكن عرضها. عذراً!';
+$messages['nocontactsfound'] = 'لم يعثر على أي مراسل';
+$messages['contactnotfound'] = 'تعذر العثور على المراسل المطلوب';
+$messages['sendingfailed'] = 'فشل إرسال الرسالة';
+$messages['senttooquickly'] = 'رجاء انتظر $sec ثوان قبل إرسال هذه الرسالة';
+$messages['errorsavingsent'] = 'حدث خطأ أثناء حفظ الرسالة المُرسلة';
+$messages['errorsaving'] = 'حدث خطأ أثناء الحفظ';
+$messages['errormoving'] = 'تعذر نقل هذه الرسالة';
+$messages['errorcopying'] = 'تعذر نسخ الرسائل';
+$messages['errordeleting'] = 'تعذر حذف هذه الرسالة';
+$messages['errormarking'] = 'تعذر تحديد الرسائل';
+$messages['deletecontactconfirm'] = 'هل تريد حقاً حذف المراسلـ(ين) المحدد(ين)؟';
+$messages['deletemessagesconfirm'] = 'هل تريد حذف الرسائل المحددة؟';
+$messages['deletefolderconfirm'] = 'هل تريد حقاً حذف هذا المجلد؟';
+$messages['purgefolderconfirm'] = 'هل تريد حقاً حذف جميع الرسائل في هذا المجلد؟';
+$messages['folderdeleting'] = 'جاري حذف المجلد...';
+$messages['foldermoving'] = 'جاري نقل المجلد...';
+$messages['foldersubscribing'] = 'الإشتراك في المجلد...';
+$messages['folderunsubscribing'] = 'إلغاء الإشتراك في المجد...';
+$messages['formincomplete'] = 'لم يتم تعبئة بيانات الاستمارة بالكامل';
+$messages['noemailwarning'] = 'الرجاء إدخال عنوان بريد إلكتروني صالح';
+$messages['nonamewarning'] = 'الرجاء إدخال اسم';
+$messages['nopagesizewarning'] = 'الرجاء إدخال حجم الصفحة';
+$messages['nosenderwarning'] = 'رجاء اكتب عنوان البريد الالكتروني للمُرسل';
+$messages['norecipientwarning'] = 'الرجاء إدخال اسم مستقبل واحد على الأقل';
+$messages['nosubjectwarning'] = 'حقل \"الموضوع\" فارغ. هل تريد كتابة موضوع للرسالة؟';
+$messages['nobodywarning'] = 'إرسال هذه الرسالة دون نص؟';
+$messages['notsentwarning'] = 'لم يتم إرسال الرسالة. هل تريد تجاهل الرسالة؟';
+$messages['noldapserver'] = 'الرجاء اختيار خادم ldap للبحث فيه';
+$messages['nocontactsreturned'] = 'لم يعثر على أي مراسلين';
+$messages['nosearchname'] = 'الرجاء إدخال اسم مراسل أو عنوان بريد إلكتروني';
+$messages['notuploadedwarning'] = 'لم يتم رفع جميع المرفقات بعد. رجاءً الانتظار أو إلغاء عملية الرفع.';
+$messages['searchsuccessful'] = 'عثر على $nr رسائل';
+$messages['searchnomatch'] = 'لم يعثر على شيء';
+$messages['searching'] = 'جاري البحث...';
+$messages['checking'] = 'جاري التحقق...';
+$messages['nospellerrors'] = 'لم يعثر على أية أخطاء إملائية';
+$messages['folderdeleted'] = 'تم حذف المجلد بنجاح';
+$messages['foldersubscribed'] = 'تم الإشتراك في المجلد بنجاح';
+$messages['folderunsubscribed'] = 'تم إلغاء الإشتراك في المجلد بنجاح';
+$messages['folderpurged'] = 'تم تفريغ المجلد بنجاح';
+$messages['folderexpunged'] = 'تم إفراغ المجلد بنجاح.';
+$messages['deletedsuccessfully'] = 'تم الحذف بنجاح';
+$messages['converting'] = 'إزالة التنسيق من الرسالة...';
+$messages['messageopenerror'] = 'تعذرت قراءة الرسالة من الخادم';
+$messages['fileuploaderror'] = 'فشل رفع الملف';
+$messages['filesizeerror'] = 'حجم الملف الذي تحاول رفعه أكبر من الحجم الأقصى $size';
+$messages['copysuccess'] = 'تم نسخ $nr رسائل بنجاح';
+$messages['copyerror'] = 'لم يمكن نسخ أية عناوين';
+$messages['sourceisreadonly'] = 'لا يمكن تعديل مصدر العنوان هذا';
+$messages['errorsavingcontact'] = 'تعذر حفظ عنوان المراسل';
+$messages['movingmessage'] = 'جاري نقل الرسالة...';
+$messages['copyingmessage'] = 'جاري نسخ الرسالة...';
+$messages['deletingmessage'] = 'جاري حذف الرسائل...';
+$messages['markingmessage'] = 'جاري تحديد الرسائل...';
+$messages['receiptsent'] = 'أرسل إيصال الاستلام بنجاح';
+$messages['errorsendingreceipt'] = 'تعذر إرسال إيصال الاستلام';
+$messages['nodeletelastidentity'] = 'لا يمكن حذف هذا السجل حيث أنه الوحيد المتبقي.';
+$messages['forbiddencharacter'] = 'اسم المجلّد يحتوي حروفاً ممنوعة';
+$messages['selectimportfile'] = 'رجاء اختر ملفاً لرفعه';
+$messages['addresswriterror'] = 'دفتر العناوين المحدد غير قابل للكتابة';
+$messages['contactaddedtogroup'] = 'تمت إضافة المراسلين إلى هذه المجموعة بنجاح';
+$messages['contactremovedfromgroup'] = 'تمت إزالة المراسلين من هذه المجموعة بنجاح';
+$messages['importwait'] = 'جاري الاستيراد، رجاء انتظر...';
+$messages['importerror'] = 'فشل الاستيراد! الملف المرفوع ليس ملف vCard صالح.';
+$messages['importconfirm'] = '<b>تم استيراد $inserted مراسلين بنجاح، وتجاهل $skipped موجودين مسبقاً</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>تم تجاهل $skipped عناصر موجودة</b>';
+$messages['opnotpermitted'] = 'العملية ممنوعة!';
+$messages['nofromaddress'] = 'عنوان البريد الالكتروني غير محدد في الهويّة المنتقاة';
+$messages['editorwarning'] = 'يتسبب الانتقال إلى محرر النص البسيط بضياع جميع التنسيق. هل تريد الاستمرار؟';
+$messages['httpreceivedencrypterror'] = 'حدث خطأ جسيم في التهيئة. رجاءً اتصال بمدير الخادم حالاً. <b>لا يمكن إرسال بريدك.</b>';
+$messages['smtpconnerror'] = 'خطأ SMTP ($code): تعذر الاتصال بالخادم';
+$messages['smtpautherror'] = 'خطأ SMTP ($code): تعذر التحقق من هويتك';
+$messages['smtpfromerror'] = 'خطأ SMTP ($code): تعذر تحديد المرسل "$from" ($msg)';
+$messages['smtptoerror'] = 'خطأ SMTP ($code): تعذرت إضافة المستلم "$to" ($msg)';
+$messages['smtprecipientserror'] = 'خطأ SMTP: تعذرت قراءة قائمة المرسل إليهم';
+$messages['smtpdsnerror'] = 'خطأ SMTP: لا يوجد دعم لتنويهات حالة التوصيل';
+$messages['smtperror'] = 'خطأ SMTP: $msg';
+$messages['emailformaterror'] = 'عنوان بريد إلكتروني غير صالح: $email';
+$messages['toomanyrecipients'] = 'عدد المرسل إليهم كبير. قلص العدد إلى $max.';
+$messages['maxgroupmembersreached'] = 'عدد أعضاء المجموعة أكثر من $max';
+$messages['internalerror'] = 'حدث خطأ داخلي. الرجاء المحاولة مرة أخرى';
+$messages['contactdelerror'] = 'تعذر حذف أسماء جهات الإتصال';
+$messages['contactdeleted'] = 'تم حذف أسماء جهات الإتصال بنجاح';
+$messages['groupdeleted'] = 'تم حذف المجموعة بنجاح';
+$messages['grouprenamed'] = 'تم تغيير إسم المجموعة بنجاح';
+$messages['groupcreated'] = 'تم إنشاء المجموعة بنجاح';
+$messages['messagedeleted'] = 'تم حذف الرسائل بنجاح';
+$messages['messagemoved'] = 'تم نقل الرسائل بنجاح';
+$messages['messagecopied'] = 'تم نسخ الرسائل بنجاح';
+$messages['messagemarked'] = 'تم تحديد الرسائل بنجاح';
+$messages['autocompletechars'] = 'إكتب $min أحرف على الأقل للحصول على التكملة التلقائية';
+$messages['namecannotbeempty'] = 'لا يمكن ترك الإسم فارغاً';
+$messages['nametoolong'] = 'الإسم طويل جداً';
+$messages['folderupdated'] = 'تم تحديث المجلد بنجاح';
+$messages['foldercreated'] = 'تم إنشاء المجلد بنجاح';
+$messages['invalidimageformat'] = 'ليست صيغة صورة صحيحة';
 
 ?>

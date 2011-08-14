@@ -144,5 +144,6 @@ $messages['nametoolong'] = 'O nome é demasiado longo';
 $messages['folderupdated'] = 'Actualização da pasta concluída com sucesso';
 $messages['foldercreated'] = 'Pasta criada com sucesso';
 $messages['invalidimageformat'] = 'Formato de imagem não suportado';
+$messages['mispellingsfound'] = 'Foram detectados erros de ortografia nesta mensagem';
 
 ?>
