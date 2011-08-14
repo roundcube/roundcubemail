@@ -421,7 +421,7 @@ class rcmail
 
     if (!$contacts) {
       raise_error(array(
-        'code' => 600, 'type' => 'php',
+        'code' => 700, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
         'message' => "Addressbook source ($id) not found!"),
         true, true);
@@ -835,7 +835,7 @@ class rcmail
       }
       else {
         raise_error(array(
-          'code' => 600, 'type' => 'php',
+          'code' => 620, 'type' => 'php',
           'file' => __FILE__, 'line' => __LINE__,
           'message' => "Failed to create a user record. Maybe aborted by a plugin?"
           ), true, false);
@@ -843,9 +843,9 @@ class rcmail
     }
     else {
       raise_error(array(
-        'code' => 600, 'type' => 'php',
+        'code' => 621, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
-        'message' => "Acces denied for new user $username. 'auto_create_user' is disabled"
+        'message' => "Access denied for new user $username. 'auto_create_user' is disabled"
         ), true, false);
     }
 

@@ -586,7 +586,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
     if ($preg_error == PREG_RECURSION_LIMIT_ERROR)
       $errstr .= " Consider raising pcre.recursion_limit!";
 
-    raise_error(array('code' => 600, 'type' => 'php',
+    raise_error(array('code' => 620, 'type' => 'php',
         'line' => __LINE__, 'file' => __FILE__,
         'message' => $errstr), true, false);
     return '';

@@ -674,7 +674,7 @@ if ($store_target)
       }
 
     if (PEAR::isError($msg))
-      raise_error(array('code' => 600, 'type' => 'php',
+      raise_error(array('code' => 650, 'type' => 'php',
 	    'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not create message: ".$msg->getMessage()),
             TRUE, FALSE);

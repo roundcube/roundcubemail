@@ -1693,7 +1693,7 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
       $temp_dir = $RCMAIL->config->get('temp_dir');
       $body_file = tempnam($temp_dir, 'rcmMsg');
       if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
-        raise_error(array('code' => 600, 'type' => 'php',
+        raise_error(array('code' => 650, 'type' => 'php',
             'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not create message: ".$mime_result->getMessage()),
             TRUE, FALSE);
@@ -1738,7 +1738,7 @@ function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_
     $msg_body = $message->get();
 
     if (PEAR::isError($msg_body))
-      raise_error(array('code' => 600, 'type' => 'php',
+      raise_error(array('code' => 650, 'type' => 'php',
             'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not create message: ".$msg_body->getMessage()),
             TRUE, FALSE);
