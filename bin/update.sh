@@ -162,6 +162,10 @@ if ($RCI->configured) {
     }
   }
   
+  // index contacts for fulltext searching
+  if (version_compare($opts['version'], '0.6', '<')) {
+    system(INSTALL_PATH . 'bin/indexcontacts.sh');
+  }
   
   if ($success) {
     echo "This instance of Roundcube is up-to-date.\n";

@@ -19,7 +19,8 @@ which should be updated. The update script will then copy all new files to the
 target location and check and update the configuration and database schema.
 After all is done, the temporary folder with the new Roundcube files can be 
 removed again.
-See Post-Upgrade Activities section.
+
+Please also see Post-Upgrade Activities section.
 
 
 Updating manually

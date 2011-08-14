@@ -133,7 +133,10 @@ ALTER TABLE `contacts` MODIFY `email` varchar(255) NOT NULL;
 
 TRUNCATE TABLE `messages`;
 
--- Updates from version 0.5.X
+-- Updates from version 0.5.1
+-- Updates from version 0.5.2
+-- Updates from version 0.5.3
+-- Updates from version 0.5.4
 
 ALTER TABLE `contacts` ADD `words` TEXT NULL AFTER `vcard`;
 ALTER TABLE `contacts` CHANGE `vcard` `vcard` LONGTEXT /*!40101 CHARACTER SET utf8 */ NULL DEFAULT NULL;
