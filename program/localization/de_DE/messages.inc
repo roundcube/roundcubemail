@@ -3,7 +3,7 @@
 /*
 
 +-----------------------------------------------------------------------+
-| language/de_CH/messages.inc                                           |
+| language/de_DE/messages.inc                                           |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
 | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
@@ -11,6 +11,7 @@
 |                                                                       |
 +-----------------------------------------------------------------------+
 | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+| Author: Marcel Schlesinger <info@marcel-schlesinger.de>               |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -18,7 +19,7 @@
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Login fehlgeschlagen';
+$messages['loginfailed'] = 'Anmeldung fehlgeschlagen';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies';
 $messages['sessionerror'] = 'Ihre Session ist ungültig oder abgelaufen';
 $messages['imaperror'] = 'Keine Verbindung zum IMAP Server';
@@ -47,8 +48,8 @@ $messages['contactnameexists'] = 'Ein Kontakt mit demselben Namen existiert bere
 $messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
 $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
-$messages['contactnotfound'] = 'Die gewählte Adresse wurde nicht gefunden';
-$messages['sendingfailed'] = 'Versand der Nachricht fehlgeschlagen';
+$messages['contactnotfound'] = 'Der angeforderte Kontakt wurde nicht gefunden';
+$messages['sendingfailed'] = 'Versenden der Nachricht fehlgeschlagen';
 $messages['senttooquickly'] = 'Bitte warten Sie $sec Sekunde(n) vor dem Senden dieser Nachricht';
 $messages['errorsavingsent'] = 'Ein Fehler ist beim Speichern der gesendeten Nachricht aufgetreten';
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
@@ -92,8 +93,8 @@ $messages['folderexpunged'] = 'Der Ordner wurde erfolgreich gepackt';
 $messages['deletedsuccessfully'] = 'Erfolgreich gelöscht';
 $messages['converting'] = 'Entferne Formatierungen...';
 $messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen werden';
-$messages['fileuploaderror'] = 'Der Dateiupload ist fehlgeschlagen';
-$messages['filesizeerror'] = 'Die Datei überschreitet die maximale Grösse von $size';
+$messages['fileuploaderror'] = 'Hochladen der Datei fehlgeschlagen';
+$messages['filesizeerror'] = 'Die hochzuladende Datei überschreitet die Maximalgröße von $size';
 $messages['copysuccess'] = '$nr Adressen erfolgreich kopiert';
 $messages['copyerror'] = 'Die Adressen konnten nicht kopiert werden';
 $messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert werden';
@@ -120,7 +121,7 @@ $messages['importconfirmskipped'] = '<b>$skipped bestehende Einträge wurden üb
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';
 $messages['nofromaddress'] = 'Fehlende E-Mail-Adresse in ausgewählter Identität';
 $messages['editorwarning'] = 'Beim Wechseln in den Texteditor gehen alle Textformatierungen verloren. Möchten Sie fortfahren?';
-$messages['httpreceivedencrypterror'] = 'Ein gravierender Konfigurationsfehler ist aufgetreten. Kontaktieren Sie den Server-Administrator. <b>Die Nachricht wurde nicht gesendet!</b>';
+$messages['httpreceivedencrypterror'] = 'Ein fataler Konfigurationsfehler ist aufgetreten. Kontaktieren Sie bitte sofort Ihren Administrator. <b>Ihre Nachricht konnte nicht versendet werden.</b>';
 $messages['smtpconnerror'] = 'SMTP Fehler ($code): Die Verbindung ist fehlgeschlagen';
 $messages['smtpautherror'] = 'SMTP Fehler ($code): Die Authentisierung ist fehlgeschlagen';
 $messages['smtpfromerror'] = 'SMTP Fehler ($code): Der Absender "$from" konnte nicht gesetzt werden ($msg)';
@@ -129,7 +130,7 @@ $messages['smtprecipientserror'] = 'SMTP Fehler: Die Empfängerliste konnte nich
 $messages['smtpdsnerror'] = 'SMTP-Fehler: Übermittlungsbestätigungen werden nicht unterstützt';
 $messages['smtperror'] = 'SMTP Fehler: $msg';
 $messages['emailformaterror'] = 'Ungültige E-Mail-Adresse: $email';
-$messages['toomanyrecipients'] = 'Zuviele Empfänger angegeben. Reduzieren Sie die Empfängeradressen auf $max.';
+$messages['toomanyrecipients'] = 'Zuviele Empfänger. Reduzieren Sie die Anzahl Empfängeradressen auf $max.';
 $messages['maxgroupmembersreached'] = 'Die Anzahl Adressen in dieser Gruppe überschreitet das Maximum von $max';
 $messages['internalerror'] = 'Ein interner Fehler ist aufgetreten. Bitte versuchen Sie den Vorgang erneut.';
 $messages['contactdelerror'] = 'Fehler beim Löschen';
@@ -148,7 +149,7 @@ $messages['namecannotbeempty'] = 'Der Name darf nicht leer sein';
 $messages['nametoolong'] = 'Der Name ist zu lang';
 $messages['folderupdated'] = 'Der Ordner wurde erfolgreich aktualisiert';
 $messages['foldercreated'] = 'Der Ordner wurde erfolgreich erstellt';
-$messages['invalidimageformat'] = 'Ungültiges Bildformat';
+$messages['invalidimageformat'] = 'Kein gültiges Bildformat';
 $messages['mispellingsfound'] = 'Es wurden noch Rechtschreibfehler in der Nachricht gefunden.';
 $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben. Keine Berechtigung.';
 
