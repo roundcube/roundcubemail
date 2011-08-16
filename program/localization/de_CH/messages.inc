@@ -6,7 +6,7 @@
 | language/de_CH/messages.inc                                           |
 |                                                                       |
 | Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
 | Licensed under the GNU GPL                                            |
 |                                                                       |
 +-----------------------------------------------------------------------+
@@ -24,6 +24,7 @@ $messages['sessionerror'] = 'Ihre Session ist ungültig oder abgelaufen';
 $messages['imaperror'] = 'Keine Verbindung zum IMAP Server';
 $messages['servererror'] = 'Serverfehler!';
 $messages['servererrormsg'] = 'Serverfehler: $msg';
+$messages['databaserror'] = 'Datenbankfehler!';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
 $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';
@@ -32,6 +33,7 @@ $messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wieder
 $messages['mailboxempty'] = 'Ordner ist leer';
 $messages['loading'] = 'Daten werden geladen...';
 $messages['uploading'] = 'Datei wird hochgeladen...';
+$messages['uploadingmany'] = 'Dateien werden hochgeladen...';
 $messages['loadingdata'] = 'Daten werden geladen...';
 $messages['checkingmail'] = 'Überprüfung auf neue Nachrichten...';
 $messages['sendingmessage'] = 'Nachricht wird gesendet...';
@@ -41,6 +43,7 @@ $messages['messagesaved'] = 'Nachricht als Entwurf gespeichert';
 $messages['successfullysaved'] = 'Erfolgreich gespeichert';
 $messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefügt';
 $messages['contactexists'] = 'Es existiert bereits ein Eintrag mit dieser E-Mail-Adresse';
+$messages['contactnameexists'] = 'Ein Kontakt mit demselben Namen existiert bereits.';
 $messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
 $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
@@ -54,9 +57,11 @@ $messages['errorcopying'] = 'Konnte Nachrichten nicht kopieren';
 $messages['errordeleting'] = 'Nachricht konnte nicht gelöscht werden';
 $messages['errormarking'] = 'Nachricht konnte nicht markiert werden';
 $messages['deletecontactconfirm'] = 'Wollen Sie die ausgewählten Kontakte wirklich löschen?';
+$messages['deletegroupconfirm'] = 'Wollen Sie die gewählte Gruppe wirklich löschen?';
 $messages['deletemessagesconfirm'] = 'Wollen Sie die ausgewählten Nachrichten wirklich löschen?';
 $messages['deletefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich löschen?';
 $messages['purgefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich leeren?';
+$messages['groupdeleting'] = 'Gruppe wird gelöscht...';
 $messages['folderdeleting'] = 'Lösche Ordner...';
 $messages['foldermoving'] = 'Verschiebe Ordner...';
 $messages['foldersubscribing'] = 'Abonniere Ordner...';
@@ -95,8 +100,11 @@ $messages['sourceisreadonly'] = 'Das Adressverzeichnis kann nicht verändert wer
 $messages['errorsavingcontact'] = 'Die Änderungen konnten nicht gespeichert werden';
 $messages['movingmessage'] = 'Die E-Mail wird verschoben...';
 $messages['copyingmessage'] = 'Kopiere Nachrichten...';
+$messages['copyingcontact'] = 'Kontakte werden kopiert...';
 $messages['deletingmessage'] = 'Lösche Nachricht(en)...';
 $messages['markingmessage'] = 'Markiere Nachricht(en)...';
+$messages['addingmember'] = 'Füge Kontakte der Gruppe hinzu...';
+$messages['removingmember'] = 'Entferne Kontakte von der Gruppe...';
 $messages['receiptsent'] = 'Lesebestätigung erfolgreich gesendet';
 $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden';
 $messages['nodeletelastidentity'] = 'Diese Identität kann nicht gelöscht werden, da dies die letzte ist.';
@@ -126,6 +134,8 @@ $messages['maxgroupmembersreached'] = 'Die Anzahl Adressen in dieser Gruppe übe
 $messages['internalerror'] = 'Ein interner Fehler ist aufgetreten. Bitte versuchen Sie den Vorgang erneut.';
 $messages['contactdelerror'] = 'Fehler beim Löschen';
 $messages['contactdeleted'] = 'Kontakt(e) erfolgreich gelöscht';
+$messages['contactrestoreerror'] = 'Konnte die gelöschten Kontakte nicht wiederherstellen';
+$messages['contactrestored'] = 'Kontakte erfolgreich wiederhergestellt.';
 $messages['groupdeleted'] = 'Gruppe erfolgreich gelöscht';
 $messages['grouprenamed'] = 'Gruppe erlogreich umbenannt';
 $messages['groupcreated'] = 'Gruppe erlogreich erstellt';
@@ -139,5 +149,7 @@ $messages['nametoolong'] = 'Der Name ist zu lang';
 $messages['folderupdated'] = 'Der Ordner wurde erfolgreich aktualisiert';
 $messages['foldercreated'] = 'Der Ordner wurde erfolgreich erstellt';
 $messages['invalidimageformat'] = 'Ungültiges Bildformat';
+$messages['mispellingsfound'] = 'Es wurden noch Rechtschreibfehler in der Nachricht gefunden.';
+$messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben. Keine Berechtigung.';
 
 ?>
