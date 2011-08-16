@@ -3253,11 +3253,21 @@ function rcube_webmail()
       return false;
 
     // get file input field, count files on capable browser
-    var field = $('input[type=file]', form).get(0),
+    var i, size = 0, field = $('input[type=file]', form).get(0),
       files = field.files ? field.files.length : field.value ? 1 : 0;
 
     // create hidden iframe and post upload form
     if (files) {
+      // check file size
+      if (field.files && this.env.max_filesize && this.env.filesizeerror) {
+        for (i=0; i<files; i++)
+          size += field.files[i].size;
+        if (size && size > this.env.max_filesize) {
+          this.display_message(this.env.filesizeerror, 'error');
+          return;
+        }
+      }
+
       var frame_name = this.async_upload_form(form, 'upload', function(e) {
         var d, content = '';
         try {

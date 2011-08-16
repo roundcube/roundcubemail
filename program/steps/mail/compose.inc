@@ -1206,20 +1206,11 @@ function rcmail_compose_attachment_form($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmUploadbox';
 
-  // Enable upload progress bar
-  rcube_upload_progress_init();
+  // Get filesize, enable upload progress bar
+  $max_filesize = rcube_upload_init();
 
-  // find max filesize value
-  $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
-  $max_postsize = parse_bytes(ini_get('post_max_size'));
-  if ($max_postsize && $max_postsize < $max_filesize)
-    $max_filesize = $max_postsize;
-
-  $OUTPUT->set_env('max_filesize', $max_filesize);
-  $max_filesize = show_bytes($max_filesize);
-  
   $button = new html_inputfield(array('type' => 'button'));
-  
+
   $out = html::div($attrib,
     $OUTPUT->form_tag(array('name' => 'uploadform', 'method' => 'post', 'enctype' => 'multipart/form-data'),
       html::div(null, rcmail_compose_attachment_field(array('size' => $attrib['attachmentfieldsize']))) .
@@ -1230,7 +1221,7 @@ function rcmail_compose_attachment_form($attrib)
       )
     )
   );
-  
+
   $OUTPUT->add_gui_object('uploadbox', $attrib['id']);
   return $out;
 }
