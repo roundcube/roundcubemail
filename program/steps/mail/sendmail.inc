@@ -144,7 +144,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
   global $EMAIL_FORMAT_ERROR, $RECIPIENT_COUNT;
 
   // simplified email regexp, supporting quoted local part
-  $email_regexp = '(\S+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
+  $email_regexp = '(\S+|("[^"]+"))@\S+';
 
   $regexp  = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m', '/;/', '/(\S{1})(<'.$email_regexp.'>)/U');
   $replace = array(', ', ', ', '', ',', '\\1 \\2');
