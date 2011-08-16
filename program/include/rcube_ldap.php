@@ -1314,7 +1314,7 @@ class rcube_ldap extends rcube_addressbook
 
         $base_dn = $this->groups_base_dn;
         $contact_dn = base64_decode($contact_id);
-        $filter = "(member=$contact_dn)";
+        $filter = strtr("(member=$contact_dn)", array('\\' => '\\\\'));
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
