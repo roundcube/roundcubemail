@@ -1,0 +1,196 @@
+* version 4.3 [2011-07-28]
+-----------------------------------------------------------
+- Fixed handling of error in Net_Sieve::listScripts()
+- Fixed handling of REFERRAL responses (http://pear.php.net/bugs/bug.php?id=17107)
+- Fixed bug where wrong folders hierarchy was displayed on folders listing
+
+* version 4.2 [2011-05-24]
+-----------------------------------------------------------
+- Moved elsif replacement code to handle only imports from other formats
+- Fixed mod_mailbox() usage for newer Roundcube versions
+- Fixed regex extension (error: regex require missing)
+
+* version 4.1 [2011-03-07]
+-----------------------------------------------------------
+- Fix fileinto target is always INBOX (#1487776)
+- Fix escaping of backslash character in quoted strings (#1487780)
+- Fix handling of non-safe characters (double-quote, backslash)
+  or UTF-8 characters (dovecot's implementation bug workaround)
+  in script names
+- Fix saving of a script using flags extension on servers with imap4flags support (#1487825)
+
+* version 4.0 [2011-02-10]
+-----------------------------------------------------------
+- Fix STARTTLS for timsieved < 2.3.10
+- Added :regex and :matches support (#1487746)
+- Added setflag/addflag/removeflag support (#1487449)
+- Added support for vacation :subject field (#1487120)
+- rcube_sieve_script class moved to separate file
+- Moved javascript code from skin templates into managesieve.js file
+
+* version 3.0 [2011-02-01]
+-----------------------------------------------------------
+- Added support for SASL proxy authentication (#1486691)
+- Fixed parsing of scripts with \r\n line separator
+- Apply forgotten changes for form errors handling
+- Fix multi-line strings parsing (#1487685)
+- Added tests for script parser
+- Rewritten script parser
+- Fix double request when clicking on Filters tab using Firefox
+
+* version 2.10 [2010-10-10]
+-----------------------------------------------------------
+- Fixed import from Avelsieve
+- Use localized size units (#1486976)
+- Added support for relational operators and i;ascii-numeric comparator
+- Added popups with form errors
+
+* version 2.9 [2010-08-02]
+-----------------------------------------------------------
+- Fixed vacation parameters parsing (#1486883)
+
+* version 2.8 [2010-07-08]
+-----------------------------------------------------------
+- Added managesieve_auth_type option (#1486731)
+
+* version 2.7 [2010-07-06]
+-----------------------------------------------------------
+- Update Net_Sieve to version 1.3.0 (fixes LOGIN athentication)
+- Added support for copying and copy sending of messages (COPY extension)
+
+* version 2.6 [2010-06-03]
+-----------------------------------------------------------
+- Support %n and %d variables in managesieve_host option
+
+* version 2.5 [2010-05-04]
+-----------------------------------------------------------
+- Fix filters set label after activation
+- Fix filters set activation, add possibility to deactivate sets (#1486699)
+- Fix download button state when sets list is empty
+- Fix errors when sets list is empty
+
+* version 2.4 [2010-04-01]
+-----------------------------------------------------------
+- Fixed bug in DIGEST-MD5 authentication (http://pear.php.net/bugs/bug.php?id=17285)
+- Fixed disabling rules with many tests
+- Small css unification with core
+- Scripts import/export
+
+* version 2.3 [2010-03-18]
+-----------------------------------------------------------
+- Added import from Horde-INGO
+- Support for more than one match using if+stop instead of if+elsif structures (#1486078)
+- Support for selectively disabling rules within a single sieve script (#1485882)
+- Added vertical splitter
+
+* version 2.2 [2010-02-06]
+-----------------------------------------------------------
+- Fix handling of "<>" characters in filter names (#1486477)
+
+* version 2.1 [2010-01-12]
+-----------------------------------------------------------
+- Fix "require" structure generation when many modules are used
+- Fix problem with '<' and '>' characters in header tests
+
+* version 2.0 [2009-11-02]
+-----------------------------------------------------------
+- Added 'managesieve_debug' option
+- Added multi-script support
+- Small css improvements + sprite image buttons
+- PEAR::NetSieve 1.2.0b1
+
+* version 1.7 [2009-09-20]
+-----------------------------------------------------------
+- Support multiple managesieve hosts using %h variable
+  in managesieve_host option
+- Fix first rule deleting (#1486140) 
+
+* version 1.6 [2009-09-08]
+-----------------------------------------------------------
+- Fix warning when importing squirrelmail rules
+- Fix handling of "true" as "anyof (true)" test
+
+* version 1.5 [2009-09-04]
+-----------------------------------------------------------
+- Added es_ES, ua_UA localizations
+- Added 'managesieve_mbox_encoding' option
+
+* version 1.4 [2009-07-29]
+-----------------------------------------------------------
+- Updated PEAR::Net_Sieve to 1.1.7
+
+* version 1.3 [2009-07-24]
+-----------------------------------------------------------
+- support more languages
+- support config.inc.php file
+
+* version 1.2 [2009-06-28]
+-----------------------------------------------------------
+- Support IMAP namespaces in fileinto (#1485943)
+- Added it_IT localization
+
+* version 1.1 [2009-05-27]
+-----------------------------------------------------------    
+- Added new icons
+- Added support for headers lists (coma-separated) in rules
+- Added de_CH localization
+
+* version 1.0 [2009-05-21]
+-----------------------------------------------------------    
+- Rewritten using plugin API
+- Added hu_HU localization (Tamas Tevesz)
+
+* version beta7 (svn-r2300) [2009-03-01]
+-----------------------------------------------------------    
+- Added SquirrelMail script auto-import (Jonathan Ernst)
+- Added 'vacation' support (Jonathan Ernst & alec)
+- Added 'stop' support (Jonathan Ernst)
+- Added option for extensions disabling (Jonathan Ernst & alec)
+- Added fi_FI, nl_NL, bg_BG localization
+- Small style fixes
+
+* version 0.2-stable1 (svn-r2205) [2009-01-03]
+-----------------------------------------------------------    
+- Fix moving down filter row
+- Fixes for compressed js files in stable release package
+- Created patch for svn version r2205
+
+* version 0.2-stable [2008-12-31]
+-----------------------------------------------------------    
+- Added ru_RU, fr_FR, zh_CN translation
+- Fixes for Roundcube 0.2-stable
+
+* version rc0.2beta [2008-09-21]
+-----------------------------------------------------------    
+- Small css fixes for IE
+- Fixes for Roundcube 0.2-beta
+
+* version beta6 [2008-08-08]
+-----------------------------------------------------------    
+- Added de_DE translation
+- Fix for Roundcube r1634
+
+* version beta5 [2008-06-10]
+-----------------------------------------------------------    
+- Fixed 'exists' operators
+- Fixed 'not*' operators for custom headers
+- Fixed filters deleting
+
+* version beta4 [2008-06-09]
+-----------------------------------------------------------    
+- Fix for Roundcube r1490
+
+* version beta3 [2008-05-22]
+-----------------------------------------------------------    
+- Fixed textarea error class setting
+- Added pagetitle setting
+- Added option 'managesieve_replace_delimiter'
+- Fixed errors on IE (still need some css fixes)
+    
+* version beta2 [2008-05-20]
+-----------------------------------------------------------    
+- Use 'if' only for first filter and 'elsif' for the rest
+
+* version beta1 [2008-05-15]
+-----------------------------------------------------------    
+- Initial version for Roundcube r1388.
