@@ -68,11 +68,17 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     if (!strlen($source) || !isset($js_list[$source]))
         $source = $js_list[key($js_list)]['id'];
 
-    // count writeable sources
+    // count all/writeable sources
     $writeable = 0;
-    foreach ($js_list as $s) {
+    $count = 0;
+    foreach ($js_list as $sid => $s) {
+        $count++;
         if (!$s['readonly']) {
             $writeable++;
+        }
+        // unset hidden sources
+        if ($s['hidden']) {
+            unset($js_list[$sid]);
         }
     }
 
@@ -82,9 +88,9 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $OUTPUT->set_env('writable_source', $writeable);
 
     $OUTPUT->set_pagetitle(rcube_label('addressbook'));
-    $_SESSION['addressbooks_count'] = count($js_list);
+    $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
-    
+
     if (!strlen($source))
       $source = strval(key($js_list));
 

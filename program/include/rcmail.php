@@ -439,6 +439,7 @@ class rcmail
    * Return address books list
    *
    * @param boolean True if the address book needs to be writeable
+   *
    * @return array  Address books array
    */
   public function get_address_sources($writeable = false)
@@ -453,9 +454,9 @@ class rcmail
       if (!isset($this->address_books['0']))
         $this->address_books['0'] = new rcube_contacts($this->db, $this->user->ID);
       $list['0'] = array(
-        'id' => '0',
-        'name' => rcube_label('personaladrbook'),
-        'groups' => $this->address_books['0']->groups,
+        'id'       => '0',
+        'name'     => rcube_label('personaladrbook'),
+        'groups'   => $this->address_books['0']->groups,
         'readonly' => $this->address_books['0']->readonly,
         'autocomplete' => in_array('sql', $autocomplete)
       );
@@ -465,11 +466,12 @@ class rcmail
       $ldap_config = (array) $ldap_config;
       foreach ($ldap_config as $id => $prop)
         $list[$id] = array(
-          'id' => $id,
-          'name' => $prop['name'],
-          'groups' => is_array($prop['groups']),
+          'id'       => $id,
+          'name'     => $prop['name'],
+          'groups'   => is_array($prop['groups']),
           'readonly' => !$prop['writable'],
-          'autocomplete' => in_array('sql', $autocomplete)
+          'hidden'   => $prop['hidden'],
+          'autocomplete' => in_array($id, $autocomplete)
         );
     }
 
