@@ -314,6 +314,16 @@ function rcube_subscription_form($attrib)
                 }
             }
         }
+        // check if the folder is shared, then disable subscription option on it
+        if (!$disabled && $folder['virtual'] && !empty($namespace)) {
+            $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
+            foreach ($tmp_ns as $item) {
+                if (strpos($folder['id'], $item[0]) === 0) {
+                    $disabled = true;
+                    break;
+                }
+            }
+        }
 
         $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes),
             'foldername' => $folder['id']));
