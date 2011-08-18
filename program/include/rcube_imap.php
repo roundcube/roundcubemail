@@ -3083,20 +3083,36 @@ class rcube_imap
                 $a_folders = $this->conn->listMailboxes($root, $name,
                     NULL, array('SUBSCRIBED'));
 
-                // remove non-existent folders
-                if (is_array($a_folders)) {
+                // unsubscribe non-existent folders, remove from the list
+                if (is_array($a_folders) && $name == '*') {
                     foreach ($a_folders as $idx => $folder) {
                         if ($this->conn->data['LIST'] && ($opts = $this->conn->data['LIST'][$folder])
                             && in_array('\\NonExistent', $opts)
                         ) {
+                            $this->conn->unsubscribe($folder);
                             unset($a_folders[$idx]);
-                        } 
+                        }
                     }
                 }
             }
             // retrieve list of folders from IMAP server using LSUB
             else {
                 $a_folders = $this->conn->listSubscribed($root, $name);
+
+                // unsubscribe non-existent folders, remove from the list
+                if (is_array($a_folders) && $name == '*') {
+                    foreach ($a_folders as $idx => $folder) {
+                        if ($this->conn->data['LIST'] && ($opts = $this->conn->data['LIST'][$folder])
+                            && in_array('\\Noselect', $opts)
+                        ) {
+                            // Some servers returns \Noselect for existing folders
+                            if (!$this->mailbox_exists($folder)) {
+                                $this->conn->unsubscribe($folder);
+                                unset($a_folders[$idx]);
+                            }
+                        }
+                    }
+                }
             }
         }
 

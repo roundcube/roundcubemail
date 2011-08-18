@@ -278,9 +278,6 @@ function rcube_subscription_form($attrib)
         $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level'])
             . Q($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
 
-        if ($sub_key !== false)
-            unset($a_subscribed[$sub_key]);
-
         if ($folder['virtual']) {
             $classes[] = 'virtual';
         }
@@ -327,11 +324,6 @@ function rcube_subscription_form($attrib)
 
         $a_js_folders['rcmrow'.$idx] = array($folder_utf8,
             Q($display_folder), $protected || $folder['virtual']);
-    }
-
-    // Unsubscribe from non-existing folders
-    foreach ($a_subscribed as $folder) {
-        $IMAP->unsubscribe($folder);
     }
 
     $RCMAIL->plugins->exec_hook('folders_list', array('table' => $table));
