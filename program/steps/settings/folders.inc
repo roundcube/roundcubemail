@@ -278,9 +278,6 @@ function rcube_subscription_form($attrib)
         $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level'])
             . Q($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
 
-        if ($sub_key !== false)
-            unset($a_subscribed[$sub_key]);
-
         if ($folder['virtual']) {
             $classes[] = 'virtual';
         }
@@ -317,6 +314,16 @@ function rcube_subscription_form($attrib)
                 }
             }
         }
+        // check if the folder is shared, then disable subscription option on it
+        if (!$disabled && $folder['virtual'] && !empty($namespace)) {
+            $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
+            foreach ($tmp_ns as $item) {
+                if (strpos($folder['id'], $item[0]) === 0) {
+                    $disabled = true;
+                    break;
+                }
+            }
+        }
 
         $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes),
             'foldername' => $folder['id']));
@@ -327,11 +334,6 @@ function rcube_subscription_form($attrib)
 
         $a_js_folders['rcmrow'.$idx] = array($folder_utf8,
             Q($display_folder), $protected || $folder['virtual']);
-    }
-
-    // Unsubscribe from non-existing folders
-    foreach ($a_subscribed as $folder) {
-        $IMAP->unsubscribe($folder);
     }
 
     $RCMAIL->plugins->exec_hook('folders_list', array('table' => $table));

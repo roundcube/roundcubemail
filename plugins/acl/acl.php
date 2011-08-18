@@ -3,7 +3,7 @@
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *
- * @version 0.5
+ * @version 0.6
  * @author Aleksander Machniak <alec@alec.pl>
  *
  *
@@ -427,7 +427,7 @@ class acl extends rcube_plugin
      */
     private function action_save()
     {
-        $mbox  = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true, 'UTF7-IMAP'));
+        $mbox  = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true)); // UTF7-IMAP
         $user  = trim(get_input_value('_user', RCUBE_INPUT_GPC));
         $acl   = trim(get_input_value('_acl', RCUBE_INPUT_GPC));
         $oldid = trim(get_input_value('_old', RCUBE_INPUT_GPC));
@@ -464,7 +464,7 @@ class acl extends rcube_plugin
      */
     private function action_delete()
     {
-        $mbox = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true, 'UTF7-IMAP'));
+        $mbox = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true)); //UTF7-IMAP
         $user = trim(get_input_value('_user', RCUBE_INPUT_GPC));
 
         $user = explode(',', $user);
@@ -495,7 +495,7 @@ class acl extends rcube_plugin
             return;
         }
 
-        $this->mbox = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true, 'UTF7-IMAP'));
+        $this->mbox = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true)); // UTF7-IMAP
         $advanced   = trim(get_input_value('_mode', RCUBE_INPUT_GPC));
         $advanced   = $advanced == 'advanced' ? true : false;
 

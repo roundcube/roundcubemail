@@ -4432,7 +4432,7 @@ function rcube_webmail()
   this.set_photo_actions = function(id)
   {
     var n, buttons = this.buttons['upload-photo'];
-    for (n=0; n < buttons && buttons.length; n++)
+    for (n=0; buttons && n < buttons.length; n++)
       $('#'+buttons[n].id).html(this.get_label(id == '-del-' ? 'addphoto' : 'replacephoto'));
 
     $('#ff_photo').val(id);
