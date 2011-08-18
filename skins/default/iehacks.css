@@ -9,7 +9,23 @@ input, textarea
 
 body.iframe
 {
-  margin-top: 6px;
+  margin-top: 0px;
+}
+
+body.iframe div.boxcontent
+{
+  margin-top: 20px;
+  z-index: 2;
+}
+
+body.iframe div.boxtitle
+{
+  z-index: 100;
+}
+
+body.iframe #prefs-details
+{
+  padding-top: 1px;
 }
 
 #login-form form
@@ -64,6 +80,11 @@ body.iframe
 div.messageheaderbox
 {
   margin-top: 0px;
+}
+
+body.iframe div.messageheaderbox
+{
+  margin-top: 6px;
 }
 
 #abooktoolbar a.buttonPas
@@ -254,7 +275,7 @@ table.records-table thead tr td
 
 #contact-details
 {
-  margin-top: 12px;
+  margin-top: 20px;
 }
 
 #contact-details form {
