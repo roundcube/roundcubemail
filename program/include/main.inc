@@ -1407,21 +1407,21 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
   $out = '';
 
   foreach ($arrFolders as $key => $folder) {
-    if (!empty($exceptions) && in_array($folder['id'], $exceptions)) {
+    if (empty($exceptions) || !in_array($folder['id'], $exceptions)) {
+      if (!$realnames && ($folder_class = rcmail_folder_classname($folder['id'])))
+        $foldername = rcube_label($folder_class);
+      else {
+        $foldername = $folder['name'];
+
+        // shorten the folder name to a given length
+        if ($maxlength && $maxlength>1)
+          $foldername = abbreviate_string($foldername, $maxlength);
+      }
+
+      $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
+    }
+    else if ($nestLevel)
       continue;
-    }
-
-    if (!$realnames && ($folder_class = rcmail_folder_classname($folder['id'])))
-      $foldername = rcube_label($folder_class);
-    else {
-      $foldername = $folder['name'];
-
-      // shorten the folder name to a given length
-      if ($maxlength && $maxlength>1)
-        $foldername = abbreviate_string($foldername, $maxlength);
-    }
-
-    $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
 
     if (!empty($folder['folders']))
       $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
