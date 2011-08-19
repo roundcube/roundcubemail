@@ -3513,6 +3513,10 @@ class rcube_imap
      */
     function mailbox_info($mailbox)
     {
+        if ($this->icache['options'] && $this->icache['options']['name'] == $mailbox) {
+            return $this->icache['options'];
+        }
+
         $acl       = $this->get_capability('ACL');
         $namespace = $this->get_namespace();
         $options   = array();
@@ -3573,6 +3577,8 @@ class rcube_imap
         else {
             $options['norename'] = $options['is_root'] || $options['namespace'] != 'personal';
         }
+
+        $this->icache['options'] = $options;
 
         return $options;
     }
