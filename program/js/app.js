@@ -5833,11 +5833,12 @@ function rcube_webmail()
     // handle upload errors, parsing iframe content in onload
     $(frame_name).bind('load', {ts:ts}, onload);
 
-    form.target = frame_name;
-    form.action = this.url(action, { _id:this.env.compose_id||'', _uploadid:ts });
-    form.setAttribute('method', 'POST');
-    form.setAttribute('enctype', 'multipart/form-data');
-    form.submit();
+    $(form).attr({
+        target: frame_name,
+        action: this.url(action, { _id:this.env.compose_id||'', _uploadid:ts }),
+        method: 'POST'})
+      .attr(form.encoding ? 'encoding' : 'enctype', 'multipart/form-data')
+      .submit();
 
     return frame_name;
   };
