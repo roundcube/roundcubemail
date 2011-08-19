@@ -274,16 +274,17 @@ else if (count($MESSAGE->identities)) {
 
     // use From header
     if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
-      if ($MESSAGE->headers->from == $ident['email_ascii']) {
+      if ($MESSAGE->headers->from == $ident['ident']) {
         $from_idx = $idx;
         break;
       }
     }
-    else if ($compose_mode == RCUBE_COMPOSE_REPLY && $MESSAGE->headers->from == $ident['email_ascii']) {
+    // reply to yourself
+    else if ($compose_mode == RCUBE_COMPOSE_REPLY && $MESSAGE->headers->from == $ident['ident']) {
       $from_idx = $idx;
       break;
     }
-    // use reply-message recipients
+    // use replied message recipients
     else if (in_array($ident['email_ascii'], $a_recipients)) {
       $from_idx = $idx;
     }
