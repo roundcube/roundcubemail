@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed selecting identity on reply/forward (#1487981)
 - Add option to hide selected LDAP addressbook on the list
 - Add client-side checking of uploaded files size
 - Add newlines between organization, department, jobtitle (#1488028)
