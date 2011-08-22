@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix image type check for contact photo uploads
+
 RELEASE 0.6-beta
 ----------------
 - Fixed selecting identity on reply/forward (#1487981)

@@ -19,14 +19,20 @@
 
 */
 
+// Supported image format types
+// ImageMagick works with other non-image types (e.g.pdf) we don't want here
+$IMAGE_TYPES = explode(',', 'jpeg,jpg,jp2,tiff,tif,bmp,eps,gif,png,png8,png24,png32,svg,ico'); 
+
 // clear all stored output properties (like scripts and env vars)
 $OUTPUT->reset();
-console($_FILES);
+
 if ($filepath = $_FILES['_photo']['tmp_name']) {
     // check file type and resize image
     $imageprop = rcmail::imageprops($_FILES['_photo']['tmp_name']);
 
-    if ($imageprop['width'] && $imageprop['height']) {
+    if (in_array(strtolower($imageprop['type']), $IMAGE_TYPES)
+	&& $imageprop['width'] && $imageprop['height']
+    ) {
         $maxsize = intval($RCMAIL->config->get('contact_photo_size', 160));
         $tmpfname = tempnam($RCMAIL->config->get('temp_dir'), 'rcmImgConvert');
         $save_hook = 'attachment_upload';
