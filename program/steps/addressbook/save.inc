@@ -104,12 +104,13 @@ if (isset($a_record['photo'])) {
     $RCMAIL->session->remove('contacts');
 }
 
+$source = get_input_value('_source', RCUBE_INPUT_GPC);
 
 // update an existing contact
 if (!empty($cid))
 {
   $plugin = $RCMAIL->plugins->exec_hook('contact_update',
-    array('id' => $cid, 'record' => $a_record, 'source' => get_input_value('_source', RCUBE_INPUT_GPC)));
+    array('id' => $cid, 'record' => $a_record, 'source' => $source));
   $a_record = $plugin['record'];
 
   if (!$plugin['abort'])
@@ -136,7 +137,7 @@ if (!empty($cid))
       $a_js_cols[] = Q((string)$record[$col]);
 
     // update the changed col in list
-    $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid);
+    $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source);
 
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
@@ -152,7 +153,6 @@ if (!empty($cid))
 
 // insert a new contact
 else {
-  $source = get_input_value('_source', RCUBE_INPUT_GPC);
   // Name of the addressbook already selected on the list
   $orig_source = get_input_value('_orig_source', RCUBE_INPUT_GPC);
 

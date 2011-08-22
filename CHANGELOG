@@ -1,12 +1,13 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.6-beta
+----------------
 - Fixed selecting identity on reply/forward (#1487981)
 - Add option to hide selected LDAP addressbook on the list
 - Add client-side checking of uploaded files size
 - Add newlines between organization, department, jobtitle (#1488028)
 - Recalculate date when replying to a message and localize the cite header (#1487675)
-- Fix XSS vulnerability in UI messages (#1488030)
 - Fix handling of email addresses with quoted local part (#1487939)
 - Fix EOL character in vCard exports (#1487873)
 - Added optional "multithreading" autocomplete feature
@@ -69,6 +70,10 @@ CHANGELOG Roundcube Webmail
 - Replying to a sent message puts the old recipient as the new recipient (#1487074)
 - Fulltext search over (almost) all data for contacts
 - Extend address book with rich contact information
+
+RELEASE 0.5.4
+-------------
+- Fix XSS vulnerability in UI messages (#1488030)
 
 RELEASE 0.5.3
 -------------

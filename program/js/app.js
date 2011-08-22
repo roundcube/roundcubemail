@@ -3997,11 +3997,18 @@ function rcube_webmail()
   };
 
   // update a contact record in the list
-  this.update_contact_row = function(cid, cols_arr, newcid)
+  this.update_contact_row = function(cid, cols_arr, newcid, source)
   {
     var c, row, list = this.contact_list;
 
     cid = String(cid).replace(this.identifier_expr, '_');
+
+    // when in searching mode, concat cid with the source name
+    if (!list.rows[cid]) {
+      cid = cid+'-'+source;
+      if (newcid)
+        newcid = newcid+'-'+source;
+    }
 
     if (list.rows[cid] && (row = list.rows[cid].obj)) {
       for (c=0; c<cols_arr.length; c++)
