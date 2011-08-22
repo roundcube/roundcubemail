@@ -702,7 +702,8 @@ body.messagelist
 
 #messagelist tr td.flag span,
 #messagelist tr td.status span,
-#messagelist tr td.attachment span
+#messagelist tr td.attachment span,
+#messagelist tr td.priority span
 {
   width: 15px;
 }
@@ -712,6 +713,12 @@ body.messagelist
 #messagelist tr td.threads div.listmenu,
 #messagelist tr td.attachment span.attachment,
 #messagelist tr td.attachment span.report,
+#messagelist tr td.priority span.priority,
+#messagelist tr td.priority span.prio1,
+#messagelist tr td.priority span.prio2,
+#messagelist tr td.priority span.prio3,
+#messagelist tr td.priority span.prio4,
+#messagelist tr td.priority span.prio5,
 #messagelist tr td.flag span.flagged,
 #messagelist tr td.flag span.unflagged:hover,
 #messagelist tr td.status span.status,
@@ -740,6 +747,36 @@ body.messagelist
 #messagelist tr td.attachment span.report
 {
   background-position: 0 -255px;
+}
+
+#messagelist tr td.priority span.priority
+{
+  background-position: 0 -309px;
+}
+
+#messagelist tr td.priority span.prio5
+{
+  background-position: 0 -358px;
+}
+
+#messagelist tr td.priority span.prio4
+{
+  background-position: 0 -340px;
+}
+
+#messagelist tr td.priority span.prio3
+{
+  background-position: 0 -324px;
+}
+
+#messagelist tr td.priority span.prio2
+{
+  background-position: 0 -309px;
+}
+
+#messagelist tr td.priority span.prio1
+{
+  background-position: 0 -290px;
 }
 
 #messagelist tr td.flag span.flagged
@@ -837,7 +874,8 @@ body.messagelist
 #messagelist tr td.attachment,
 #messagelist tr td.threads,
 #messagelist tr td.status,
-#messagelist tr td.flag
+#messagelist tr td.flag,
+#messagelist tr td.priority
 {
   width: 17px;
   padding: 0 0 0 2px;

@@ -96,7 +96,6 @@ class rcube_imap
         'MESSAGE-ID',
         'CONTENT-TRANSFER-ENCODING',
         'REFERENCES',
-        'X-PRIORITY',
         'X-DRAFT-INFO',
         'MAIL-FOLLOWUP-TO',
         'MAIL-REPLY-TO',

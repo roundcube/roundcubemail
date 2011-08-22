@@ -1537,7 +1537,7 @@ class rcube_imap_generic
         if ($bodystr)
             $request .= "BODYSTRUCTURE ";
         $request .= "BODY.PEEK[HEADER.FIELDS (DATE FROM TO SUBJECT CONTENT-TYPE ";
-        $request .= "CC REPLY-TO LIST-POST DISPOSITION-NOTIFICATION-TO".$add.")])";
+        $request .= "CC REPLY-TO LIST-POST DISPOSITION-NOTIFICATION-TO X-PRIORITY".$add.")])";
 
         if (!$this->putLine($request)) {
             $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");

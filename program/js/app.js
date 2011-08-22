@@ -1778,6 +1778,12 @@ function rcube_webmail()
         html = expando;
       else if (c == 'subject')
         html = tree + cols[c];
+      else if (c == 'priority') {
+        if (flags.prio > 0 && flags.prio < 6)
+          html = '<span class="prio'+flags.prio+'">&nbsp;</span>';
+        else
+          html = '&nbsp;';
+      }
       else
         html = cols[c];
 

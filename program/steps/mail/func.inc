@@ -253,7 +253,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     return;
 
   // remove 'threads', 'attachment', 'flag', 'status' columns, we don't need them here
-  foreach (array('threads', 'attachment', 'flag', 'status') as $col) {
+  foreach (array('threads', 'attachment', 'flag', 'status', 'priority') as $col) {
     if (($key = array_search($col, $a_show_cols)) !== FALSE)
       unset($a_show_cols[$key]);
   }
@@ -309,6 +309,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $a_msg_flags['flagged'] = 1;
     if ($header->others['list-post'])
       $a_msg_flags['ml'] = 1;
+    if ($header->priority)
+      $a_msg_flags['prio'] = (int) $header->priority;
 
     $a_msg_flags['ctype'] = Q($header->ctype);
     $a_msg_flags['mbox'] = $mbox;
@@ -372,6 +374,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $col_name = '<span class="flagged">&nbsp;</span>';
         break;
       case 'attachment':
+      case 'priority':
       case 'status':
         $col_name = '<span class="' . $col .'">&nbsp;</span>';
         break;
