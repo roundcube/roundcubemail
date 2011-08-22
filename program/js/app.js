@@ -402,6 +402,10 @@ function rcube_webmail()
         break;
       }
 
+    // prevent from form submit with Enter key in file input fields
+    if (bw.ie)
+      $('input[type=file]').keydown(function(e) { if (e.keyCode == '13') e.preventDefault(); });
+
     // flag object as complete
     this.loaded = true;
 
