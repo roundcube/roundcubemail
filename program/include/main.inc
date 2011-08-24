@@ -2143,8 +2143,8 @@ function rcmail_log_login()
   if (!$RCMAIL->config->get('log_logins') || !$RCMAIL->user)
     return;
 
-  write_log('userlogins', sprintf('Successful login for %s (ID: %d) from %s',
-    $RCMAIL->user->get_username(), $RCMAIL->user->ID, rcmail_remote_ip()));
+  write_log('userlogins', sprintf('Successful login for %s (ID: %d) from %s in session %s',
+    $RCMAIL->user->get_username(), $RCMAIL->user->ID, rcmail_remote_ip(), session_id()));
 }
 
 
