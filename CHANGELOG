@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added unique connection identifier to IMAP debug messages
 - Added 'priority' column on messages list (#1486782)
 - Fix image type check for contact photo uploads
 

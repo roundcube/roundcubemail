@@ -105,6 +105,7 @@ class rcube_imap_generic
     private $prefs;
     private $cmd_tag;
     private $cmd_num = 0;
+    private $resourceid;
     private $_debug = false;
     private $_debug_handler = false;
 
@@ -734,8 +735,13 @@ class rcube_imap_generic
 
         $line = trim(fgets($this->fp, 8192));
 
-        if ($this->_debug && $line) {
-            $this->debug('S: '. $line);
+        if ($this->_debug) {
+            // set connection identifier for debug output
+            preg_match('/#([0-9]+)/', (string)$this->fp, $m);
+            $this->resourceid = strtoupper(substr(md5($m[1].$this->user.microtime()), 0, 4));
+
+            if ($line)
+                $this->debug('S: '. $line);
         }
 
         // Connected to wrong port or connection error?
@@ -3361,6 +3367,10 @@ class rcube_imap_generic
      */
     private function debug($message)
     {
+        if ($this->resourceid) {
+            $message = sprintf('[%s] %s', $this->resourceid, $message);
+        }
+
         if ($this->_debug_handler) {
             call_user_func_array($this->_debug_handler, array(&$this, $message));
         } else {
