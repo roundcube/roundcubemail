@@ -5,7 +5,8 @@
  | program/steps/mail/autocomplete.inc                                   |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2010, Roundcube Dev Team                           |
+ | Copyright (C) 2008-2011, Roundcube Dev Team                           |
+ | Copyright (C) 2011, Kolab Systems AG                                  |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
