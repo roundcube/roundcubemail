@@ -155,7 +155,7 @@ else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
   // log session failures
-  if ($RCMAIL->task != 'login' && $RCMAIL->task != 'logout' && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])) {
+  if (!in_array(get_input_value('_task', RCUBE_INPUT_GPC), array('login','logout')) && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])) {
     $RCMAIL->session->log("Aborted session " . $sess_id . "; no valid session data found");
     $session_error = true;
   }
