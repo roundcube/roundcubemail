@@ -5,17 +5,25 @@
  *
  * Make use of an existing HTTP authentication and perform login with the existing user credentials
  *
- * @version 1.3
+ * Configuration:
+ * // redirect the client to this URL after logout. This page is then responsible to clear HTTP auth
+ * $rcmail_config['logout_url'] = 'http://server.tld/logout.html';
+ *
+ * see http://stackoverflow.com/questions/31326/is-there-a-browser-equivalent-to-ies-clearauthenticationcache
+ * about how HTTP auth can be cleared
+ *
+ * @version 1.4
  * @author Thomas Bruederli
  */
 class http_authentication extends rcube_plugin
 {
-  public $task = 'login';
+  public $task = 'login|logout';
 
   function init()
   {
     $this->add_hook('startup', array($this, 'startup'));
     $this->add_hook('authenticate', array($this, 'authenticate'));
+    $this->add_hook('logout_after', array($this, 'logout'));
   }
 
   function startup($args)
@@ -45,6 +53,14 @@ class http_authentication extends rcube_plugin
     $args['valid'] = true;
 
     return $args;
+  }
+  
+  function logout($args)
+  {
+    // redirect to configured URL in order to clear HTTP auth credentials
+    if (!empty($_SERVER['PHP_AUTH_USER']) && $args['user'] == $_SERVER['PHP_AUTH_USER'] && ($url = rcmail::get_instance()->config->get('logout_url'))) {
+      header("Location: $url", true, 307);
+    }
   }
 
 }
