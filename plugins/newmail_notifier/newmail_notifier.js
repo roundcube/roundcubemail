@@ -1,7 +1,7 @@
 /**
  * New Mail Notifier plugin script
  *
- * @version 0.1
+ * @version 0.2
  * @author Aleksander Machniak <alec@alec.pl>
  */
 
@@ -50,14 +50,16 @@ function newmail_notifier_basic()
 // Sound notification
 function newmail_notifier_sound()
 {
+    var elem, src = 'plugins/newmail_notifier/sound.wav';
+
     // HTML5
     try {
-        var elem = $('<audio src="success.wav" />');
+        elem = $('<audio src="' + src + '" />');
         elem.get(0).play();
     }
     // old method
     catch (e) {
-        var elem = $('<embed id="sound" src="success.wav" hidden=true autostart=true loop=false />');
+        elem = $('<embed id="sound" src="' + src + '" hidden=true autostart=true loop=false />');
         elem.appendTo($('body'));
         window.setTimeout("$('#sound').remove()", 5000);
     }

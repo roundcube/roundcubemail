@@ -402,6 +402,10 @@ function rcube_webmail()
         break;
       }
 
+    // prevent from form submit with Enter key in file input fields
+    if (bw.ie)
+      $('input[type=file]').keydown(function(e) { if (e.keyCode == '13') e.preventDefault(); });
+
     // flag object as complete
     this.loaded = true;
 
@@ -3997,11 +4001,18 @@ function rcube_webmail()
   };
 
   // update a contact record in the list
-  this.update_contact_row = function(cid, cols_arr, newcid)
+  this.update_contact_row = function(cid, cols_arr, newcid, source)
   {
     var c, row, list = this.contact_list;
 
     cid = String(cid).replace(this.identifier_expr, '_');
+
+    // when in searching mode, concat cid with the source name
+    if (!list.rows[cid]) {
+      cid = cid+'-'+source;
+      if (newcid)
+        newcid = newcid+'-'+source;
+    }
 
     if (list.rows[cid] && (row = list.rows[cid].obj)) {
       for (c=0; c<cols_arr.length; c++)
@@ -5833,11 +5844,12 @@ function rcube_webmail()
     // handle upload errors, parsing iframe content in onload
     $(frame_name).bind('load', {ts:ts}, onload);
 
-    form.target = frame_name;
-    form.action = this.url(action, { _id:this.env.compose_id||'', _uploadid:ts });
-    form.setAttribute('method', 'POST');
-    form.setAttribute('enctype', 'multipart/form-data');
-    form.submit();
+    $(form).attr({
+        target: frame_name,
+        action: this.url(action, { _id:this.env.compose_id||'', _uploadid:ts }),
+        method: 'POST'})
+      .attr(form.encoding ? 'encoding' : 'enctype', 'multipart/form-data')
+      .submit();
 
     return frame_name;
   };

@@ -7,7 +7,7 @@
  * 1. Basic - focus browser window and change favicon
  * 2. Sound - play wav file
  *
- * @version 0.1
+ * @version 0.2
  * @author Aleksander Machniak <alec@alec.pl>
  *
  *

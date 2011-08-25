@@ -225,9 +225,11 @@ $MESSAGE->compose = array();
 $MESSAGE->identities = $USER->list_identities();
 if (count($MESSAGE->identities))
 {
-  foreach ($MESSAGE->identities as $idx => $sql_arr) {
-    $email = mb_strtolower(rcube_idn_to_utf8($sql_arr['email']));
-    $MESSAGE->identities[$idx]['email_ascii'] = $sql_arr['email'];
+  foreach ($MESSAGE->identities as $idx => $ident) {
+    $email = mb_strtolower(rcube_idn_to_utf8($ident['email']));
+
+    $MESSAGE->identities[$idx]['email_ascii'] = $ident['email'];
+    $MESSAGE->identities[$idx]['ident']       = format_email_recipient($ident['email'], $ident['name']);
     $MESSAGE->identities[$idx]['email']       = $email;
   }
 }
@@ -242,7 +244,7 @@ else if (!empty($_SESSION['compose']['param']['from'])) {
 else if (count($MESSAGE->identities)) {
   // extract all recipients of the reply-message
   $a_recipients = array();
-  if ($compose_mode == RCUBE_COMPOSE_REPLY && is_object($MESSAGE->headers))
+  if (is_object($MESSAGE->headers) && in_array($compose_mode, array(RCUBE_COMPOSE_REPLY, RCUBE_COMPOSE_FORWARD)))
   {
     $a_to = $IMAP->decode_address_list($MESSAGE->headers->to);
     foreach ($a_to as $addr) {
@@ -260,39 +262,47 @@ else if (count($MESSAGE->identities)) {
   }
 
   $from_idx         = null;
-  $default_identity = 0;
+  $default_identity = null;
   $return_path      = $MESSAGE->headers->others['return-path'];
 
   // Select identity
-  foreach ($MESSAGE->identities as $idx => $sql_arr) {
+  foreach ($MESSAGE->identities as $idx => $ident) {
     // save default identity ID
-    if ($sql_arr['standard']) {
+    if ($ident['standard']) {
       $default_identity = $idx;
     }
-    // we need ascii here
-    $email = $sql_arr['email_ascii'];
-    $ident = format_email_recipient($email, $sql_arr['name']);
 
-    // select identity
-    if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT, RCUBE_COMPOSE_REPLY))) {
-      if ($MESSAGE->headers->from == $ident) {
+    // use From header
+    if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
+      if ($MESSAGE->headers->from == $ident['ident']) {
         $from_idx = $idx;
         break;
       }
     }
-    // set identity if it's one of the reply-message recipients
-    else if (in_array($email, $a_recipients) && ($from_idx === null || $sql_arr['standard'])) {
+    // reply to yourself
+    else if ($compose_mode == RCUBE_COMPOSE_REPLY && $MESSAGE->headers->from == $ident['ident']) {
       $from_idx = $idx;
+      break;
     }
-    // set identity when replying to mailing list
-    else if (strpos($return_path, str_replace('@', '=', $email).'@') !== false) {
+    // use replied message recipients
+    else if (in_array($ident['email_ascii'], $a_recipients)) {
       $from_idx = $idx;
     }
   }
 
-  // Still no ID, use first identity
+  // Fallback using Return-Path
+  if ($from_idx === null && $return_path) {
+    foreach ($MESSAGE->identities as $idx => $ident) {
+      if (strpos($return_path, str_replace('@', '=', $ident['email_ascii']).'@') !== false) {
+        $from_idx = $idx;
+        break;
+      }
+    }
+  }
+
+  // Still no ID, use default/first identity
   if ($from_idx === null) {
-    $from_idx = $default_identity;
+    $from_idx = $default_identity !== null ? $default_identity : key(reset($MESSAGE->identities));
   }
 
   $ident   = $MESSAGE->identities[$from_idx];

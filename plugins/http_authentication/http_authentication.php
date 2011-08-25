@@ -9,8 +9,7 @@
  * // redirect the client to this URL after logout. This page is then responsible to clear HTTP auth
  * $rcmail_config['logout_url'] = 'http://server.tld/logout.html';
  *
- * see http://stackoverflow.com/questions/31326/is-there-a-browser-equivalent-to-ies-clearauthenticationcache
- * about how HTTP auth can be cleared
+ * See logout.html (in this directory) for an example how HTTP auth can be cleared.
  *
  * @version 1.4
  * @author Thomas Bruederli
@@ -54,7 +53,7 @@ class http_authentication extends rcube_plugin
 
     return $args;
   }
-  
+
   function logout($args)
   {
     // redirect to configured URL in order to clear HTTP auth credentials

@@ -1,11 +1,16 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed selecting identity on reply/forward (#1487981)
+- Fix image type check for contact photo uploads
+
+RELEASE 0.6-beta
+----------------
+- Added unique connection identifier to IMAP debug messages
 - Add option to hide selected LDAP addressbook on the list
 - Add client-side checking of uploaded files size
 - Add newlines between organization, department, jobtitle (#1488028)
 - Recalculate date when replying to a message and localize the cite header (#1487675)
-- Fix XSS vulnerability in UI messages (#1488030)
 - Fix handling of email addresses with quoted local part (#1487939)
 - Fix EOL character in vCard exports (#1487873)
 - Added optional "multithreading" autocomplete feature

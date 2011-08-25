@@ -431,34 +431,41 @@ class rcube_ldap extends rcube_addressbook
         // we have a search result resource
         if ($this->ldap_result && $this->result->count > 0)
         {
+            // sorting still on the ldap server
             if ($this->sort_col && $this->prop['scope'] !== 'base' && !$this->vlv_active)
                 ldap_sort($this->conn, $this->ldap_result, $this->sort_col);
 
+            // start and end of the page
             $start_row = $this->vlv_active ? 0 : $this->result->first;
             $start_row = $subset < 0 ? $start_row + $this->page_size + $subset : $start_row;
             $last_row = $this->result->first + $this->page_size;
             $last_row = $subset != 0 ? $start_row + abs($subset) : $last_row;
 
+            // get all entries from the ldap server
             $entries = ldap_get_entries($this->conn, $this->ldap_result);
+
+            // filtering for group members
+            if ($this->groups and $this->group_id)
+            {
+                $count = 0;
+                $members = array();
+                foreach ($entries as $entry)
+                {
+                    if ($this->group_members[base64_encode($entry['dn'])])
+                    {
+                        $members[] = $entry;
+                        $count++;
+                    }
+                }
+                $entries = $members;
+                $entries['count'] = $count;
+                $this->result->count = $count;
+            }
+
+            // filter entries for this page
             for ($i = $start_row; $i < min($entries['count'], $last_row); $i++)
                 $this->result->add($this->_ldap2result($entries[$i]));
         }
-
-        // temp hack for filtering group members
-        if ($this->groups and $this->group_id)
-        {
-            $result = new rcube_result_set();
-            while ($record = $this->result->iterate())
-            {
-                if ($this->group_members[$record['ID']])
-                {
-                    $result->add($record);
-                    $result->count++;
-                }
-            }
-            $this->result = $result;
-        }
-
         return $this->result;
     }
 
