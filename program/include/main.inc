@@ -1021,7 +1021,7 @@ function rcube_strtotime($date)
  */
 function format_date($date, $format=NULL)
 {
-  global $CONFIG;
+  global $RCMAIL, $CONFIG;
   
   $ts = NULL;
 
@@ -1032,13 +1032,7 @@ function format_date($date, $format=NULL)
     return '';
 
   // get user's timezone
-  if ($CONFIG['timezone'] === 'auto')
-    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
-  else {
-    $tz = $CONFIG['timezone'];
-    if ($CONFIG['dst_active'])
-      $tz++;
-  }
+  $tz = $RCMAIL->config->get_timezone();
 
   // convert time to user's timezone
   $timestamp = $ts - date('Z', $ts) + ($tz * 3600);
@@ -1823,17 +1817,10 @@ function rcmail_gen_message_id()
 // Returns RFC2822 formatted current date in user's timezone
 function rcmail_user_date()
 {
-  global $CONFIG;
+  global $RCMAIL, $CONFIG;
 
   // get user's timezone
-  if ($CONFIG['timezone'] === 'auto') {
-    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
-  }
-  else {
-    $tz = $CONFIG['timezone'];
-    if ($CONFIG['dst_active'])
-      $tz++;
-  }
+  $tz = $RCMAIL->config->get_timezone();
 
   $date = time() + $tz * 60 * 60;
   $date = gmdate('r', $date);

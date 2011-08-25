@@ -220,6 +220,19 @@ class rcube_config
         return $this->prop;
     }
 
+    /**
+     * Special getter for user's timezone
+     */
+    public function get_timezone()
+    {
+      $tz = $this->get('timezone');
+      if ($tz == 'auto')
+        $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z') / 3600;
+      else
+        $tz = intval($tz) + intval($this->get('dst_active'));
+
+      return $tz;
+    }
 
     /**
      * Return requested DES crypto key.
