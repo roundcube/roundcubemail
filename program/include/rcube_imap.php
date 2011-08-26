@@ -3074,6 +3074,9 @@ class rcube_imap
         if (isset($data['folders'])) {
             $a_folders = $data['folders'];
         }
+        else if (!$this->conn->connected()) {
+           return array();
+        }
         else {
             // Server supports LIST-EXTENDED, we can use selection options
             $config = rcmail::get_instance()->config;
