@@ -212,7 +212,7 @@ class rcube_html_page
         if (!empty($this->scripts['docready'])) {
             $this->add_script('$(document).ready(function(){ ' . $this->scripts['docready'] . "\n});", 'foot');
         }
-        
+
         if (is_array($this->script_files['foot'])) {
             foreach ($this->script_files['foot'] as $file) {
                 $page_footer .= sprintf($this->script_tag_file, $file);
@@ -246,7 +246,7 @@ class rcube_html_page
 
         // add page hader
         if ($hpos) {
-            $output = substr($output,0,$hpos) . $page_header . substr($output,$hpos,strlen($output));
+            $output = substr_replace($output, $page_header, $hpos, 0);
         }
         else {
             $output = $page_header . $output;
@@ -254,7 +254,7 @@ class rcube_html_page
 
         // add page footer
         if (($fpos = strripos($output, '</body>')) || ($fpos = strripos($output, '</html>'))) {
-            $output = substr($output, 0, $fpos) . "$page_footer\n" . substr($output, $fpos);
+            $output = substr_replace($output, $page_footer."\n", $fpos, 0);
         }
         else {
             $output .= "\n".$page_footer;
@@ -268,7 +268,7 @@ class rcube_html_page
             foreach ($this->css_files as $file) {
                 $css .= sprintf($this->link_css_file, $file);
             }
-            $output = substr($output, 0, $pos) . $css . substr($output, $pos);
+            $output = substr_replace($output, $css, $pos, 0);
         }
 
         $this->base_path = $base_path;
@@ -289,7 +289,7 @@ class rcube_html_page
                 echo $hook['content'];
         }
     }
-    
+
     /**
      * Callback function for preg_replace_callback in write()
      *
