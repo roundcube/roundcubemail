@@ -1451,7 +1451,7 @@ function rcmail_send_mdn($message, &$smtp_error)
 {
   global $RCMAIL, $IMAP;
 
-  if (!is_a($message, rcube_message))
+  if (!is_object($message) || !is_a($message, rcube_message))
     $message = new rcube_message($message);
 
   if ($message->headers->mdn_to && !$message->headers->mdn_sent &&

@@ -176,7 +176,7 @@ class rcube_plugin_api
         if (is_subclass_of($plugin, 'rcube_plugin')) {
           // ... task, request type and framed mode
           if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $rcmail->task))
-              && (!$plugin->noajax || is_a($rcmail->output, 'rcube_template'))
+              && (!$plugin->noajax || (is_object($rcmail->output) && is_a($rcmail->output, 'rcube_template')))
               && (!$plugin->noframe || empty($_REQUEST['_framed']))
           ) {
             $plugin->init();
