@@ -827,7 +827,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
   if (!$bodyIsHtml)
   {
-    $prefix = "\n\n\n-------- Original Message --------\n";
+    $prefix = "\n\n\n-------- " . rcube_label('originalmessage') . " --------\n";
     $prefix .= 'Subject: ' . $MESSAGE->subject . "\n";
     $prefix .= 'Date: ' . $MESSAGE->headers->date . "\n";
     $prefix .= 'From: ' . $MESSAGE->get_header('from') . "\n";
@@ -848,7 +848,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
     $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
 
     $prefix = sprintf(
-      "<br /><p>-------- Original Message --------</p>" .
+      "<br /><p>-------- " . rcube_label('originalmessage') . " --------</p>" .
         "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Subject: </th><td>%s</td></tr>" .
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Date: </th><td>%s</td></tr>" .

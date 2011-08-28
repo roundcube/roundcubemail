@@ -150,5 +150,11 @@ $messages['invalidimageformat'] = 'Niepoprawny format obrazka.';
 $messages['mispellingsfound'] = 'Wykryto błędy pisowni w tej wiadomości.';
 $messages['contactrestoreerror'] = 'Przywracanie kontaktów nie powiodło się.';
 $messages['contactrestored'] = 'Kontakt(y) zostały przywrócone.';
+$messages['dberror'] = 'Błąd bazy danych!';
+$messages['contactnameexists'] = 'Kontakt z podaną nazwą już istnieje!';
+$messages['copyingcontact'] = 'Kopiowanie kontaktów...';
+$messages['addingmember'] = 'Dodawanie kontaktów do grupy...';
+$messages['removingmember'] = 'Usuwanie kontaktów z grupy...';
+$messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wybrane miejsce. Brak upranień.';
 
 ?>

@@ -417,5 +417,8 @@ $labels['importtarget'] = 'Dodaj nowe kontakty do książki adresowej:';
 $labels['grouprename'] = 'Zmień nazwę grupy';
 $labels['groupdelete'] = 'Usuń grupę';
 $labels['undo'] = 'Cofnij';
+$labels['mailreplyintro'] = 'W dniu $date, $sender napisał(a):';
+$labels['uploadprogress'] = '$percent ($current z $total)';
+$labels['originalmessage'] = 'Wiadomość oryginalna';
 
 ?>

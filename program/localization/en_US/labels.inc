@@ -203,6 +203,7 @@ $labels['editortype']     = 'Editor type';
 $labels['returnreceipt']  = 'Return receipt';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
+$labels['originalmessage'] = 'Original Message';
 
 $labels['editidents']    = 'Edit identities';
 $labels['checkspelling'] = 'Check spelling';
