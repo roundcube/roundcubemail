@@ -41,11 +41,6 @@ function rcube_webmail()
 
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
-  // mimetypes supported by the browser (default settings)
-  this.mimetypes = new Array('text/plain', 'text/html', 'text/xml',
-    'image/jpeg', 'image/gif', 'image/png',
-    'application/x-javascript', 'application/pdf', 'application/x-shockwave-flash');
-
   // default environment vars
   this.env.keep_alive = 60;        // seconds
   this.env.request_timeout = 180;  // seconds
@@ -749,7 +744,7 @@ function rcube_webmail()
         var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props.part;
 
         // open attachment in frame if it's of a supported mimetype
-        if (this.env.uid && props.mimetype && $.inArray(props.mimetype, this.mimetypes)>=0) {
+        if (this.env.uid && props.mimetype && this.env.mimetypes && $.inArray(props.mimetype, this.env.mimetypes)>=0) {
           if (props.mimetype == 'text/html')
             qstring += '&_safe=1';
           this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');

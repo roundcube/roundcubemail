@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make list of mimetypes that open in preview window configurable (#1487625)
+- Added plugin hook 'message_part_get' for attachment downloads
 - Localize forwarded message header (#1488058)
 - Added unique connection identifier to IMAP debug messages
 - Added 'priority' column on messages list (#1486782)
