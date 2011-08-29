@@ -3507,7 +3507,7 @@ function rcube_webmail()
 
       case 27:  // escape
         this.ksearch_hide();
-        break;
+        return;
 
       case 37:  // left
       case 39:  // right
