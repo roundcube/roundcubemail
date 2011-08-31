@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix imap_cache setting to values other than 'db' (#1488060)
+- Fix handling of attachments inside message/rfc822 parts (#1488026)
+- Make list of mimetypes that open in preview window configurable (#1487625)
+- Added plugin hook 'message_part_get' for attachment downloads
 - Fixed selecting identity on reply/forward (#1487981)
 - Fix image type check for contact photo uploads
 

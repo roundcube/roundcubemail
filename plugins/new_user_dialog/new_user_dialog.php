@@ -66,6 +66,20 @@ class new_user_dialog extends rcube_plugin
         'disabled' => ($identities_level == 1 || $identities_level == 3)
       )));
 
+      $table->add('title', $this->gettext('organization'));
+      $table->add(null, html::tag('input', array(
+        'type' => 'text',
+        'name' => '_organization',
+        'value' => $identity['organization']
+      )));
+
+      $table->add('title', $this->gettext('signature'));
+      $table->add(null, html::tag('textarea', array(
+        'name' => '_signature',
+        'rows' => '3',
+      ),$identity['signature']
+      ));
+
       // add overlay input box to html page
       $rcmail->output->add_footer(html::div(array('id' => 'newuseroverlay'),
         html::tag('form', array(
@@ -106,6 +120,8 @@ class new_user_dialog extends rcube_plugin
     $save_data = array(
       'name' => get_input_value('_name', RCUBE_INPUT_POST),
       'email' => get_input_value('_email', RCUBE_INPUT_POST),
+      'organization' => get_input_value('_organization', RCUBE_INPUT_POST),
+      'signature' => get_input_value('_signature', RCUBE_INPUT_POST),
     );
 
     // don't let the user alter the e-mail address if disabled by config

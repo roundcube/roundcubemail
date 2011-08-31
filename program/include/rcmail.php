@@ -413,7 +413,10 @@ class rcmail
         $id = '0';
 
     // use existing instance
-    if (isset($this->address_books[$id]) && is_a($this->address_books[$id], 'rcube_addressbook') && (!$writeable || !$this->address_books[$id]->readonly)) {
+    if (isset($this->address_books[$id]) && is_object($this->address_books[$id])
+      && is_a($this->address_books[$id], 'rcube_addressbook')
+      && (!$writeable || !$this->address_books[$id]->readonly)
+    ) {
       $contacts = $this->address_books[$id];
     }
     else if ($id && $ldap_config[$id]) {
@@ -1183,7 +1186,7 @@ class rcmail
       $this->smtp->disconnect();
 
     foreach ($this->address_books as $book) {
-      if (is_a($book, 'rcube_addressbook'))
+      if (is_object($book) && is_a($book, 'rcube_addressbook'))
         $book->close();
     }
 

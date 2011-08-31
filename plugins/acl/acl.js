@@ -1,7 +1,7 @@
 /**
  * ACL plugin script
  *
- * @version 0.6
+ * @version 0.6.1
  * @author Aleksander Machniak <alec@alec.pl>
  */
 
@@ -11,7 +11,7 @@ if (window.rcmail) {
             rcmail.acl_list_init();
             // enable autocomplete on user input
             if (rcmail.env.acl_users_source) {
-                rcmail.init_address_input_events($('#acluser'), {action:'plugin.acl-autocomplete'});
+                rcmail.init_address_input_events($('#acluser'), {action:'settings/plugin.acl-autocomplete'});
                 // fix inserted value
                 rcmail.addEventListener('autocomplete_insert', function(e) {
                     if (e.field.id != 'acluser')
@@ -52,7 +52,7 @@ rcube_webmail.prototype.acl_delete = function()
     var users = this.acl_get_usernames();
 
     if (users && users.length && confirm(this.get_label('acl.deleteconfirm'))) {
-        this.http_request('plugin.acl', '_act=delete&_user='+urlencode(users.join(','))
+        this.http_request('settings/plugin.acl', '_act=delete&_user='+urlencode(users.join(','))
             + '&_mbox='+urlencode(this.env.mailbox),
             this.set_busy(true, 'acl.deleting'));
     }
@@ -82,7 +82,7 @@ rcube_webmail.prototype.acl_save = function()
         return;
     }
 
-    this.http_request('plugin.acl', '_act=save'
+    this.http_request('settings/plugin.acl', '_act=save'
         + '&_user='+urlencode(user)
         + '&_acl=' +rights
         + '&_mbox='+urlencode(this.env.mailbox)
@@ -120,7 +120,7 @@ rcube_webmail.prototype.acl_mode_switch = function(elem)
 {
     this.env.acl_advanced = !this.env.acl_advanced;
     this.enable_command('acl-delete', 'acl-edit', false);
-    this.http_request('plugin.acl', '_act=list'
+    this.http_request('settings/plugin.acl', '_act=list'
         + '&_mode='+(this.env.acl_advanced ? 'advanced' : 'simple')
         + '&_mbox='+urlencode(this.env.mailbox),
         this.set_busy(true, 'loading'));

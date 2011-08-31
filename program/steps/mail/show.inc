@@ -52,6 +52,10 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
   $OUTPUT->set_env('mailbox', $mbox_name);
 
+  // mimetypes supported by the browser (default settings)
+  $mimetypes = $RCMAIL->config->get('client_mimetypes', 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/x-javascript,application/pdf,application/x-shockwave-flash');
+  $OUTPUT->set_env('mimetypes', is_string($mimetypes) ? explode(',', $mimetypes) : (array)$mimetypes);
+
   if ($CONFIG['trash_mbox'])
     $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
   if ($CONFIG['flag_for_deletion'])

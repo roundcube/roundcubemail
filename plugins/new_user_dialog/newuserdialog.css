@@ -48,7 +48,8 @@
   white-space: nowrap;
 }
 
-#newuseroverlay table td input
+#newuseroverlay table td input,
+#newuseroverlay table td textarea
 {
   width: 20em;
 }

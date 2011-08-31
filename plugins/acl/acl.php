@@ -3,7 +3,7 @@
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *
- * @version 0.6
+ * @version 0.6.1
  * @author Aleksander Machniak <alec@alec.pl>
  *
  *
@@ -25,7 +25,7 @@
 
 class acl extends rcube_plugin
 {
-    public $task = 'settings|addressbook';
+    public $task = 'settings|addressbook|calendar';
 
     private $rc;
     private $supported = null;
@@ -44,6 +44,7 @@ class acl extends rcube_plugin
         $this->add_hook('folder_form', array($this, 'folder_form'));
         // kolab_addressbook plugin
         $this->add_hook('addressbook_form', array($this, 'folder_form'));
+        $this->add_hook('calendar_form_kolab', array($this, 'folder_form'));
         // Plugin actions
         $this->register_action('plugin.acl', array($this, 'acl_actions'));
         $this->register_action('plugin.acl-autocomplete', array($this, 'acl_autocomplete'));
@@ -526,7 +527,7 @@ class acl extends rcube_plugin
         $list      = array();
         $attrib    = array(
             'name' => 'rcmyrights',
-            'style' => 'padding: 0 15px;',
+            'style' => 'margin:0; padding:0 15px;',
         );
 
         foreach ($supported as $right) {

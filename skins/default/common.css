@@ -98,6 +98,13 @@ input.button:hover
   color: black;
 }
 
+input.button[disabled],
+input.button[disabled]:hover
+{
+  color: #aaa;
+  border-color: #ccc;
+}
+
 input.mainaction
 {
   font-weight: bold;

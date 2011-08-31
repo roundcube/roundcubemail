@@ -40,11 +40,6 @@ function rcube_webmail()
 
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
-  // mimetypes supported by the browser (default settings)
-  this.mimetypes = new Array('text/plain', 'text/html', 'text/xml',
-    'image/jpeg', 'image/gif', 'image/png',
-    'application/x-javascript', 'application/pdf', 'application/x-shockwave-flash');
-
   // default environment vars
   this.env.keep_alive = 60;        // seconds
   this.env.request_timeout = 180;  // seconds
@@ -90,12 +85,15 @@ function rcube_webmail()
     if (over) button_prop.over = over;
 
     this.buttons[command].push(button_prop);
+    
+    if (this.loaded)
+      init_button(command, button_prop);
   };
 
   // register a specific gui object
   this.gui_object = function(name, id)
   {
-    this.gui_objects[name] = id;
+    this.gui_objects[name] = this.loaded ? rcube_find_object(id) : id;
   };
 
   // register a container object
@@ -748,7 +746,7 @@ function rcube_webmail()
         var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props.part;
 
         // open attachment in frame if it's of a supported mimetype
-        if (this.env.uid && props.mimetype && $.inArray(props.mimetype, this.mimetypes)>=0) {
+        if (this.env.uid && props.mimetype && this.env.mimetypes && $.inArray(props.mimetype, this.env.mimetypes)>=0) {
           if (props.mimetype == 'text/html')
             qstring += '&_safe=1';
           this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');
@@ -3505,7 +3503,7 @@ function rcube_webmail()
 
       case 27:  // escape
         this.ksearch_hide();
-        break;
+        return;
 
       case 37:  // left
       case 39:  // right
@@ -4914,6 +4912,34 @@ function rcube_webmail()
   /*********           GUI functionality           *********/
   /*********************************************************/
 
+  var init_button = function(cmd, prop)
+  {
+    var elm = document.getElementById(prop.id);
+    if (!elm)
+      return;
+
+    var preload = false;
+    if (prop.type == 'image') {
+      elm = elm.parentNode;
+      preload = true;
+    }
+
+    elm._command = cmd;
+    elm._id = prop.id;
+    if (prop.sel) {
+      elm.onmousedown = function(e){ return rcmail.button_sel(this._command, this._id); };
+      elm.onmouseup = function(e){ return rcmail.button_out(this._command, this._id); };
+      if (preload)
+        new Image().src = prop.sel;
+    }
+    if (prop.over) {
+      elm.onmouseover = function(e){ return rcmail.button_over(this._command, this._id); };
+      elm.onmouseout = function(e){ return rcmail.button_out(this._command, this._id); };
+      if (preload)
+        new Image().src = prop.over;
+    }
+  };
+
   // enable/disable buttons for page shifting
   this.set_page_buttons = function()
   {
@@ -4929,31 +4955,7 @@ function rcube_webmail()
         continue;
 
       for (var i=0; i< this.buttons[cmd].length; i++) {
-        var prop = this.buttons[cmd][i];
-        var elm = document.getElementById(prop.id);
-        if (!elm)
-          continue;
-
-        var preload = false;
-        if (prop.type == 'image') {
-          elm = elm.parentNode;
-          preload = true;
-        }
-
-        elm._command = cmd;
-        elm._id = prop.id;
-        if (prop.sel) {
-          elm.onmousedown = function(e){ return rcmail.button_sel(this._command, this._id); };
-          elm.onmouseup = function(e){ return rcmail.button_out(this._command, this._id); };
-          if (preload)
-            new Image().src = prop.sel;
-        }
-        if (prop.over) {
-          elm.onmouseover = function(e){ return rcmail.button_over(this._command, this._id); };
-          elm.onmouseout = function(e){ return rcmail.button_out(this._command, this._id); };
-          if (preload)
-            new Image().src = prop.over;
-        }
+        init_button(cmd, this.buttons[cmd][i]);
       }
     }
   };
@@ -5566,7 +5568,7 @@ function rcube_webmail()
     var base = this.env.comm_path;
 
     // overwrite task name
-    if (query._action.match(/([a-z]+)\/([a-z-_]+)/)) {
+    if (query._action.match(/([a-z]+)\/([a-z-_.]+)/)) {
       query._action = RegExp.$2;
       base = base.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
     }

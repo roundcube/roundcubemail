@@ -286,7 +286,7 @@ class rcube_message
         if ($message_ctype_primary == 'text' && !$recursive) {
             $structure->type = 'content';
             $this->parts[] = &$structure;
-            
+
             // Parse simple (plain text) message body
             if ($message_ctype_secondary == 'plain')
                 foreach ((array)$this->uu_decode($structure) as $uupart) {
@@ -306,7 +306,7 @@ class rcube_message
 
             foreach ($structure->parts as $p => $sub_part) {
                 $sub_mimetype = $sub_part->mimetype;
-        
+
                 // check if sub part is
                 if ($sub_mimetype == 'text/plain')
                     $plain_part = $p;
@@ -323,7 +323,7 @@ class rcube_message
                 $this->parse_alternative = true;
                 $this->parse_structure($structure->parts[$related_part], true);
                 $this->parse_alternative = false;
-        
+
                 // if plain part was found, we should unset it if html is preferred
                 if ($this->opt['prefer_html'] && count($this->parts))
                     $plain_part = null;
@@ -432,7 +432,7 @@ class rcube_message
                         $this->attachments[] = $mail_part;
                 }
                 // part message/*
-                else if ($primary_type=='message') {
+                else if ($primary_type == 'message') {
                     $this->parse_structure($mail_part, true);
 
                     // list as attachment as well (mostly .eml)
@@ -495,6 +495,10 @@ class rcube_message
 
                         $this->attachments[] = $mail_part;
                     }
+                }
+                // attachment part as message/rfc822 (#1488026)
+                else if ($mail_part->mimetype == 'message/rfc822') {
+                    $this->parse_structure($mail_part);
                 }
             }
 

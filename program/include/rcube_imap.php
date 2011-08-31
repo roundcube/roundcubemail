@@ -3074,6 +3074,9 @@ class rcube_imap
         if (isset($data['folders'])) {
             $a_folders = $data['folders'];
         }
+        else if (!$this->conn->connected()) {
+           return array();
+        }
         else {
             // Server supports LIST-EXTENDED, we can use selection options
             $config = rcmail::get_instance()->config;
@@ -3834,13 +3837,13 @@ class rcube_imap
     /**
      * Enable or disable indexes caching
      *
-     * @param boolean $type Cache type (@see rcmail::get_cache)
+     * @param string $type Cache type (@see rcmail::get_cache)
      * @access public
      */
     function set_caching($type)
     {
         if ($type) {
-            $this->caching = true;
+            $this->caching = $type;
         }
         else {
             if ($this->cache)
@@ -3857,7 +3860,7 @@ class rcube_imap
     {
         if ($this->caching && !$this->cache) {
             $rcmail = rcmail::get_instance();
-            $this->cache = $rcmail->get_cache('IMAP', $type);
+            $this->cache = $rcmail->get_cache('IMAP', $this->caching);
         }
 
         return $this->cache;

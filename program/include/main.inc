@@ -1021,7 +1021,7 @@ function rcube_strtotime($date)
  */
 function format_date($date, $format=NULL)
 {
-  global $CONFIG;
+  global $RCMAIL, $CONFIG;
   
   $ts = NULL;
 
@@ -1032,13 +1032,7 @@ function format_date($date, $format=NULL)
     return '';
 
   // get user's timezone
-  if ($CONFIG['timezone'] === 'auto')
-    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
-  else {
-    $tz = $CONFIG['timezone'];
-    if ($CONFIG['dst_active'])
-      $tz++;
-  }
+  $tz = $RCMAIL->config->get_timezone();
 
   // convert time to user's timezone
   $timestamp = $ts - date('Z', $ts) + ($tz * 3600);
@@ -1659,12 +1653,13 @@ function rcmail_replace_emoticons($html)
  * @param string $from       Sender address string
  * @param array  $mailto     Array of recipient address strings
  * @param array  $smtp_error SMTP error array (reference)
- * @param string $body_file  Location of file with saved message body (reference)
+ * @param string $body_file  Location of file with saved message body (reference),
+ *                           used when delay_file_io is enabled
  * @param array  $smtp_opts  SMTP options (e.g. DSN request)
  *
  * @return boolean Send status.
  */
-function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file, $smtp_opts=null)
+function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file=null, $smtp_opts=null)
 {
   global $CONFIG, $RCMAIL;
 
@@ -1823,17 +1818,10 @@ function rcmail_gen_message_id()
 // Returns RFC2822 formatted current date in user's timezone
 function rcmail_user_date()
 {
-  global $CONFIG;
+  global $RCMAIL, $CONFIG;
 
   // get user's timezone
-  if ($CONFIG['timezone'] === 'auto') {
-    $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
-  }
-  else {
-    $tz = $CONFIG['timezone'];
-    if ($CONFIG['dst_active'])
-      $tz++;
-  }
+  $tz = $RCMAIL->config->get_timezone();
 
   $date = time() + $tz * 60 * 60;
   $date = gmdate('r', $date);

@@ -79,10 +79,23 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     $ctype_secondary = strtolower($part->ctype_secondary);
     $mimetype = sprintf('%s/%s', $ctype_primary, $ctype_secondary);
 
+    // allow post-processing of the message body
+    $plugin = $RCMAIL->plugins->exec_hook('message_part_get',
+      array('id' => $part->mime_id, 'mimetype' => $mimetype, 'part' => $part, 'download' => !empty($_GET['_download'])));
+
+    if ($plugin['abort'])
+      exit;
+
+    // overwrite modified vars from plugin
+    $mimetype = $plugin['mimetype'];
+    list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
+    if ($plugin['body'])
+      $part->body = $plugin['body'];
+
     $browser = $RCMAIL->output->browser;
 
     // send download headers
-    if ($_GET['_download']) {
+    if ($plugin['download']) {
       header("Content-Type: application/octet-stream");
       if ($browser->ie)
         header("Content-Type: application/force-download");
@@ -97,7 +110,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
     }
 
     // deliver part content
-    if ($ctype_primary == 'text' && $ctype_secondary == 'html' && empty($_GET['_download'])) {
+    if ($ctype_primary == 'text' && $ctype_secondary == 'html' && empty($plugin['download'])) {
       // get part body if not available
       if (!$part->body)
         $part->body = $MESSAGE->get_part_content($part->mime_id);
@@ -119,7 +132,7 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
       else
         $filename = addcslashes($filename, '"');
 
-      $disposition = !empty($_GET['_download']) ? 'attachment' : 'inline';
+      $disposition = !empty($plugin['download']) ? 'attachment' : 'inline';
 
       header("Content-Disposition: $disposition; filename=\"$filename\"");
 
