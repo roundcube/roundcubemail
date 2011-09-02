@@ -1213,12 +1213,12 @@ function rcube_webmail()
   this.drag_menu = function(e, target)
   {
     var modkey = rcube_event.get_modifier(e),
-      menu = $('#'+this.gui_objects.message_dragmenu);
+      menu = this.gui_objects.message_dragmenu;
 
     if (menu && modkey == SHIFT_KEY && this.commands['copy']) {
       var pos = rcube_event.get_mouse_pos(e);
       this.env.drag_target = target;
-      menu.css({top: (pos.y-10)+'px', left: (pos.x-10)+'px'}).show();
+      $(menu).css({top: (pos.y-10)+'px', left: (pos.x-10)+'px'}).show();
       return true;
     }
 
@@ -1227,9 +1227,9 @@ function rcube_webmail()
 
   this.drag_menu_action = function(action)
   {
-    var menu = $('#'+this.gui_objects.message_dragmenu);
+    var menu = this.gui_objects.message_dragmenu;
     if (menu) {
-      menu.hide();
+      $(menu).hide();
     }
     this.command(action, this.env.drag_target);
     this.env.drag_target = null;
