@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- jQuery 1.6.3
 - Fix imap_cache setting to values other than 'db' (#1488060)
 - Fix handling of attachments inside message/rfc822 parts (#1488026)
 - Make list of mimetypes that open in preview window configurable (#1487625)
