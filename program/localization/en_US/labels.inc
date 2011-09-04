@@ -291,6 +291,8 @@ $labels['typepager']  = 'Pager';
 $labels['typevideo']  = 'Video';
 $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
+$labels['typeblog'] = 'Blog';
+$labels['typeprofile'] = 'Profile';
 
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Add new contact';

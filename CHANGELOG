@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add vCard's Profile URL support (#1488062)
 - jQuery 1.6.3
 - Fix imap_cache setting to values other than 'db' (#1488060)
 - Fix handling of attachments inside message/rfc822 parts (#1488026)
