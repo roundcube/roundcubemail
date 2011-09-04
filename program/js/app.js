@@ -991,7 +991,9 @@ function rcube_webmail()
       // reset quicksearch
       case 'reset-search':
         var n, s = this.env.search_request || this.env.qsearch;
+
         this.reset_qsearch();
+        this.select_all_mode = false;
 
         if (s && this.env.mailbox)
           this.list_mailbox(this.env.mailbox);
