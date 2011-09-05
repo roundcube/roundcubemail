@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed wrong vCard type parameter mobile (#1488067)
 - Fixed vCard WORKFAX issue (#1488046)
 - Add vCard's Profile URL support (#1488062)
 - jQuery 1.6.3
