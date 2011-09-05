@@ -1,7 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fallback to mail_domain in LDAP variable replacements; add 'host' to 'user_create' hook arguments (#1488024)
+- jQuery 1.6.3
+- Fallback to mail_domain in LDAP variable replacements; added 'host' to 'user_create' hook arguments (#1488024)
 - Fixed wrong vCard type parameter mobile (#1488067)
 - Fixed vCard WORKFAX issue (#1488046)
 - Add vCard's Profile URL support (#1488062)
