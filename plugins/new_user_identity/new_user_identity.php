@@ -6,7 +6,7 @@
  *
  * This plugin requires that a working public_ldap directory be configured.
  *
- * @version 1.02
+ * @version 1.05
  * @author Kris Steinhoff
  *
  * Example configuration:
@@ -39,7 +39,7 @@ class new_user_identity extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
         
-        if ($this->init_ldap()) {
+        if ($this->init_ldap($args['host'])) {
             $results = $this->ldap->search('*', $args['user'], TRUE);
             if (count($results->records) == 1) {
                 $args['user_name'] = $results->records[0]['name'];
@@ -54,7 +54,7 @@ class new_user_identity extends rcube_plugin
         return $args;
     }
 
-    private function init_ldap()
+    private function init_ldap($host)
     {
         if ($this->ldap)
             return $this->ldap->ready;
@@ -72,7 +72,7 @@ class new_user_identity extends rcube_plugin
         $this->ldap = new new_user_identity_ldap_backend(
             $ldap_config[$addressbook],
             $rcmail->config->get('ldap_debug'),
-            $rcmail->config->mail_domain($_SESSION['imap_host']),
+            $rcmail->config->mail_domain($host),
             $match);
 
         return $this->ldap->ready;
@@ -81,7 +81,7 @@ class new_user_identity extends rcube_plugin
 
 class new_user_identity_ldap_backend extends rcube_ldap
 {
-    function __construct($p, $debug=false, $mail_domain=NULL, $search=null)
+    function __construct($p, $debug, $mail_domain, $search)
     {
         parent::__construct($p, $debug, $mail_domain);
         $this->prop['search_fields'] = (array)$search;

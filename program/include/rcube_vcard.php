@@ -50,8 +50,8 @@ class rcube_vcard
     'spouse'      => 'X-SPOUSE',
     'edit'        => 'X-AB-EDIT',
   );
-  private $typemap = array('iPhone' => 'mobile', 'CELL' => 'mobile');
-  private $phonetypemap = array('HOME1' => 'HOME', 'BUSINESS1' => 'WORK', 'BUSINESS2' => 'WORK2', 'BUSINESSFAX' => 'WORKFAX');
+  private $typemap = array('iPhone' => 'mobile', 'CELL' => 'mobile', 'WORK,FAX' => 'workfax');
+  private $phonetypemap = array('HOME1' => 'HOME', 'BUSINESS1' => 'WORK', 'BUSINESS2' => 'WORK2', 'BUSINESSFAX' => 'WORK,FAX');
   private $addresstypemap = array('BUSINESS' => 'WORK');
   private $immap = array('X-JABBER' => 'jabber', 'X-ICQ' => 'icq', 'X-MSN' => 'msn', 'X-AIM' => 'aim', 'X-YAHOO' => 'yahoo', 'X-SKYPE' => 'skype', 'X-SKYPE-USERNAME' => 'skype');
 
@@ -158,7 +158,8 @@ class rcube_vcard
           $subtype = '';
 
           if (!empty($raw['type'])) {
-            $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
+            $combined = join(',', self::array_filter((array)$raw['type'], 'internet,pref', true));
+            $subtype = $typemap[$combined] ? $typemap[$combined] : ($typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]));
             while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref'))
               $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
           }
@@ -251,7 +252,7 @@ class rcube_vcard
   public function set($field, $value, $type = 'HOME')
   {
     $field = strtolower($field);
-    $type = strtoupper($type);
+    $type_uc = strtoupper($type);
     $typemap = array_flip($this->typemap);
 
     switch ($field) {
@@ -300,7 +301,7 @@ class rcube_vcard
         break;
 
       case 'email':
-        $this->raw['EMAIL'][] = array(0 => $value, 'type' => array_filter(array('INTERNET', $type)));
+        $this->raw['EMAIL'][] = array(0 => $value, 'type' => array_filter(array('INTERNET', $type_uc)));
         $this->email[] = $value;
         break;
 
@@ -317,8 +318,8 @@ class rcube_vcard
         break;
 
       case 'address':
-        if ($this->addresstypemap[$type])
-          $type = $this->addresstypemap[$type];
+        if ($this->addresstypemap[$type_uc])
+          $type = $this->addresstypemap[$type_uc];
 
         $value = $value[0] ? $value : array('', '', $value['street'], $value['locality'], $value['region'], $value['zipcode'], $value['country']);
 
@@ -327,14 +328,14 @@ class rcube_vcard
           break;
 
       default:
-        if ($field == 'phone' && $this->phonetypemap[$type])
-          $type = $this->phonetypemap[$type];
+        if ($field == 'phone' && $this->phonetypemap[$type_uc])
+          $type = $this->phonetypemap[$type_uc];
 
         if (($tag = self::$fieldmap[$field]) && (is_array($value) || strlen($value))) {
           $index = count($this->raw[$tag]);
           $this->raw[$tag][$index] = (array)$value;
           if ($type)
-            $this->raw[$tag][$index]['type'] = array(($typemap[$type] ? $typemap[$type] : $type));
+            $this->raw[$tag][$index]['type'] = explode(',', ($typemap[$type] ? $typemap[$type] : $type));
         }
         break;
     }
@@ -711,6 +712,27 @@ class rcube_vcard
     return true;
   }
 
+  /**
+   * Extract array values by a filter
+   *
+   * @param array Array to filter
+   * @param keys Array or comma separated list of values to keep
+   * @param boolean Invert key selection: remove the listed values
+   * @return array The filtered array
+   */
+  private static function array_filter($arr, $values, $inverse = false)
+  {
+    if (!is_array($values))
+      $values = explode(',', $values);
+
+    $result = array();
+    $keep = array_flip((array)$values);
+    foreach ($arr as $key => $val)
+      if ($inverse != isset($keep[strtolower($val)]))
+        $result[$key] = $val;
+
+    return $result;
+  }
 
   /**
    * Returns UNICODE type based on BOM (Byte Order Mark)

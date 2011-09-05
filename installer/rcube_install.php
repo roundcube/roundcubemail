@@ -5,7 +5,7 @@
  | rcube_install.php                                                     |
  |                                                                       |
  | This file is part of the Roundcube Webmail package                    |
- | Copyright (C) 2008-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU Public License                                 |
  +-----------------------------------------------------------------------+
 
@@ -95,14 +95,15 @@ class rcube_install
    */
   function _load_config($suffix)
   {
-    @include RCMAIL_CONFIG_DIR . '/main.inc' . $suffix;
-    if (is_array($rcmail_config)) {
-      $this->config += $rcmail_config;
+    if (is_readable($main_inc = RCMAIL_CONFIG_DIR . '/main.inc' . $suffix)) {
+      include($main_inc);
+      if (is_array($rcmail_config))
+        $this->config += $rcmail_config;
     }
-      
-    @include RCMAIL_CONFIG_DIR . '/db.inc'. $suffix;
-    if (is_array($rcmail_config)) {
-      $this->config += $rcmail_config;
+    if (is_readable($db_inc = RCMAIL_CONFIG_DIR . '/db.inc'. $suffix)) {
+      include($db_inc);
+      if (is_array($rcmail_config))
+        $this->config += $rcmail_config;
     }
   }
   
