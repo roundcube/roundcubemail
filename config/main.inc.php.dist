@@ -237,6 +237,10 @@ $rcmail_config['ip_check'] = false;
 // check referer of incoming requests
 $rcmail_config['referer_check'] = false;
 
+// X-Frame-Options HTTP header value sent to prevent from Clickjacking.
+// Possible values: sameorigin|deny. Set to false in order to disable sending them
+$rcmail_confoig['x_frame_options'] = 'sameorigin';
+
 // this key is used to encrypt the users imap password which is stored
 // in the session record (and the client cookie if remember password is enabled).
 // please provide a string of exactly 24 chars.
