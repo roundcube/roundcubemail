@@ -314,7 +314,7 @@ class rcube_session
   public function gc()
   {
     foreach ($this->gc_handlers as $fct)
-      $fct();
+      call_user_func($fct);
   }
 
 

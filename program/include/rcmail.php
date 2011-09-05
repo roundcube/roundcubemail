@@ -337,20 +337,41 @@ class rcmail
       }
 
       $this->memcache = new Memcache;
-      $mc_available = 0;
+      $this->mc_available = 0;
+      
+      // add alll configured hosts to pool
+      $pconnect = $this->config->get('memcache_pconnect', true);
       foreach ($this->config->get('memcache_hosts', array()) as $host) {
         list($host, $port) = explode(':', $host);
         if (!$port) $port = 11211;
-        // add server and attempt to connect if not already done yet
-        if ($this->memcache->addServer($host, $port) && !$mc_available)
-          $mc_available += intval($this->memcache->connect($host, $port));
+        $this->mc_available += intval($this->memcache->addServer($host, $port, $pconnect, 1, 1, 15, false, array($this, 'memcache_failure')));
       }
+      
+      // test connection and failover (will result in $this->mc_available == 0 on complete failure)
+      $this->memcache->increment('__CONNECTIONTEST__', 1);  // NOP if key doesn't exist
 
-      if (!$mc_available)
+      if (!$this->mc_available)
         $this->memcache = false;
     }
 
     return $this->memcache;
+  }
+  
+  /**
+   * Callback for memcache failure
+   */
+  public function memcache_failure($host, $port)
+  {
+    static $seen = array();
+    
+    // only report once
+    if (!$seen["$host:$port"]++) {
+      $this->mc_available--;
+      raise_error(array('code' => 604, 'type' => 'db',
+        'line' => __LINE__, 'file' => __FILE__,
+        'message' => "Memcache failure on host $host:$port"),
+        true, false);
+    }
   }
 
 
