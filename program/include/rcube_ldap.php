@@ -181,8 +181,11 @@ class rcube_ldap extends rcube_addressbook
                 }
 
                 // Get the pieces needed for variable replacement.
-                $fu = $RCMAIL->user->get_username();
-                list($u, $d) = explode('@', $fu);
+                if ($fu = $RCMAIL->user->get_username())
+                  list($u, $d) = explode('@', $fu);
+                else
+                  $d = $this->mail_domain;
+                
                 $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
 
                 $replaces = array('%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
