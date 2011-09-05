@@ -1568,7 +1568,11 @@ function rcmail_display_server_error($fallback=null, $fallback_args=null)
         $RCMAIL->output->show_message('errorreadonly', 'error');
     }
     else if ($err_code && ($err_str = $RCMAIL->imap->get_error_str())) {
-        $RCMAIL->output->show_message('servererrormsg', 'error', array('msg' => $err_str));
+        // try to detect access rights problem and display appropriate message
+        if (stripos($err_str, 'Permission denied') !== false)
+            $RCMAIL->output->show_message('errornoperm', 'error');
+        else
+            $RCMAIL->output->show_message('servererrormsg', 'error', array('msg' => $err_str));
     }
     else if ($fallback) {
         $RCMAIL->output->show_message($fallback, 'error', $fallback_args);
