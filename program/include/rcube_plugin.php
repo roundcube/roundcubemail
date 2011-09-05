@@ -147,8 +147,11 @@ abstract class rcube_plugin
     ob_start();
 
     foreach (array('en_US', $lang) as $lng) {
-      @include($locdir . $lng . '.inc');
-      $texts = (array)$labels + (array)$messages + (array)$texts;
+      $fpath = $locdir . $lng . '.inc';
+      if (is_file($fpath) && is_readable($fpath)) {
+        include($fpath);
+        $texts = (array)$labels + (array)$messages + (array)$texts;
+      }
     }
 
     ob_end_clean();
