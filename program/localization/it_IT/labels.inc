@@ -171,6 +171,7 @@ $labels['charset'] = 'Set di caratteri';
 $labels['editortype'] = 'Tipo editor';
 $labels['returnreceipt'] = 'Ricevuta di ritorno';
 $labels['dsn'] = 'Notifica di consegna';
+$labels['mailreplyintro'] = 'Il $date $sender ha scritto:';
 $labels['editidents'] = 'Modifica indentità';
 $labels['checkspelling'] = 'Controlla ortografia';
 $labels['resumeediting'] = 'Torna al messaggio';
