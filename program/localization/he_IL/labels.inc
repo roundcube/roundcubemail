@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  07082011                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  05092011                |
 +-----------------------------------------------------------------------+
 */
 
@@ -168,6 +168,8 @@ $labels['charset'] = 'קידוד';
 $labels['editortype'] = 'סוג עורך';
 $labels['returnreceipt'] = 'אישור קבלה';
 $labels['dsn'] = 'הודעה על מצב המסירה';
+$labels['mailreplyintro'] = ':כתב $sender, $date בתאריך';
+$labels['originalmessage'] = 'הודעה מקורית';
 $labels['editidents'] = 'עריכת זהויות';
 $labels['checkspelling'] = 'בדיקת איות';
 $labels['resumeediting'] = 'המשך עריכה';
@@ -243,6 +245,8 @@ $labels['typepager'] = 'זימונית';
 $labels['typevideo'] = 'וידאו';
 $labels['typeassistant'] = 'עוזר/ת';
 $labels['typehomepage'] = 'דף הבית';
+$labels['typeblog'] = 'יומן רשת';
+$labels['typeprofile'] = 'פרופיל';
 $labels['addfield'] = 'הוסף שדה';
 $labels['addcontact'] = 'הוספת איש קשר';
 $labels['editcontact'] = 'עריכת איש קשר';
