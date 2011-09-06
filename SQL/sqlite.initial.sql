@@ -146,3 +146,18 @@ CREATE TABLE messages (
 CREATE UNIQUE INDEX ix_messages_user_cache_uid ON messages (user_id,cache_key,uid);
 CREATE INDEX ix_messages_index ON messages (user_id,cache_key,idx);
 CREATE INDEX ix_messages_created ON messages (created);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table dictionary
+--
+
+CREATE TABLE dictionary (
+    user_id integer DEFAULT NULL,
+   "language" varchar(5) NOT NULL,
+    data text NOT NULL
+);
+
+CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, "language");
+

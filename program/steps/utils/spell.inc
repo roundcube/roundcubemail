@@ -23,6 +23,8 @@
 $lang = get_input_value('lang', RCUBE_INPUT_GET);
 $data = file_get_contents('php://input');
 
+$learn_word = strpos($data, '<learnword>');
+
 // Get data string
 $left = strpos($data, '<text>');
 $right = strrpos($data, '</text>');
@@ -30,8 +32,15 @@ $data = substr($data, $left+6, $right-($left+6));
 $data = html_entity_decode($data, ENT_QUOTES, RCMAIL_CHARSET);
 
 $spellchecker = new rcube_spellchecker($lang);
-$spellchecker->check($data);
-$result = $spellchecker->get_xml();
+
+if ($learn_word) {
+    $spellchecker->add_word($data);
+    $result = '<?xml version="1.0" encoding="'.RCMAIL_CHARSET.'"?><learnwordresult></learnwordresult>';
+}
+else {
+    $spellchecker->check($data);
+    $result = $spellchecker->get_xml();
+}
 
 // set response length
 header("Content-Length: " . strlen($result));

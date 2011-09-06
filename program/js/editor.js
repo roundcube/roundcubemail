@@ -14,15 +14,15 @@
 */
 
 // Initialize HTML editor
-function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
+function rcmail_editor_init(config)
 {
   var ret, conf = {
       mode: 'textareas',
       editor_selector: 'mce_editor',
       apply_source_formatting: true,
       theme: 'advanced',
-      language: editor_lang,
-      content_css: skin_path + '/editor_content.css',
+      language: config.lang,
+      content_css: config.skin_path + '/editor_content.css',
       theme_advanced_toolbar_location: 'top',
       theme_advanced_toolbar_align: 'left',
       theme_advanced_buttons3: '',
@@ -35,7 +35,7 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
       rc_client: rcmail
     };
 
-  if (mode == 'identity')
+  if (config.mode == 'identity')
     $.extend(conf, {
       plugins: 'paste,tabfocus',
       theme_advanced_buttons1: 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr,link,unlink,code,forecolor',
@@ -43,11 +43,12 @@ function rcmail_editor_init(skin_path, editor_lang, spellcheck, mode)
     });
   else // mail compose
     $.extend(conf, {
-      plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,tabfocus' + (spellcheck ? ',spellchecker' : ''),
+      plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,tabfocus' + (config.spellcheck ? ',spellchecker' : ''),
       theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,ltr,rtl,blockquote,|,forecolor,backcolor,fontselect,fontsizeselect',
-      theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search' + (spellcheck ? ',spellchecker' : '') + ',undo,redo',
+      theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search' + (config.spellcheck ? ',spellchecker' : '') + ',undo,redo',
       spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
       spellchecker_rpc_url: '?_task=utils&_action=spell_html',
+      spellchecker_enable_learn_rpc: config.spelldict,
       accessibility_focus: false,
       oninit: 'rcmail_editor_callback'
     });

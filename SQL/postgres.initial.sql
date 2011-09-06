@@ -225,3 +225,16 @@ CREATE TABLE messages (
 
 CREATE INDEX messages_index_idx ON messages (user_id, cache_key, idx);
 CREATE INDEX messages_created_idx ON messages (created);
+
+--
+-- Table "dictionary"
+-- Name: dictionary; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE dictionary (
+    user_id integer DEFAULT NULL
+    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+   "language" varchar(5) NOT NULL,
+    data text NOT NULL,
+    CONSTRAINT dictionary_user_id_language_key UNIQUE (user_id, "language")
+);

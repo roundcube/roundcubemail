@@ -697,8 +697,8 @@ function rcmail_compose_body($attrib)
 
   // include GoogieSpell
   if (!empty($CONFIG['enable_spellcheck'])) {
-
-    $engine = $RCMAIL->config->get('spellcheck_engine','googie');
+    $engine           = $RCMAIL->config->get('spellcheck_engine','googie');
+    $dictionary       = (bool) $RCMAIL->config->get('spellcheck_dictionary');
     $spellcheck_langs = (array) $RCMAIL->config->get('spellcheck_languages',
       array('da'=>'Dansk', 'de'=>'Deutsch', 'en' => 'English', 'es'=>'Español',
             'fr'=>'Français', 'it'=>'Italiano', 'nl'=>'Nederlands', 'pl'=>'Polski',
@@ -728,25 +728,28 @@ function rcmail_compose_body($attrib)
     foreach ($spellcheck_langs as $key => $name) {
       $editor_lang_set[] = ($key == $lang ? '+' : '') . JQ($name).'='.JQ($key);
     }
-    
+
     $OUTPUT->include_script('googiespell.js');
     $OUTPUT->add_script(sprintf(
-      "var googie = new GoogieSpell('\$__skin_path/images/googiespell/','?_task=utils&_action=spell&lang=');\n".
+      "var googie = new GoogieSpell('\$__skin_path/images/googiespell/','?_task=utils&_action=spell&lang=', %s);\n".
       "googie.lang_chck_spell = \"%s\";\n".
       "googie.lang_rsm_edt = \"%s\";\n".
       "googie.lang_close = \"%s\";\n".
       "googie.lang_revert = \"%s\";\n".
       "googie.lang_no_error_found = \"%s\";\n".
+      "googie.lang_learn_word = \"%s\";\n".
       "googie.setLanguages(%s);\n".
       "googie.setCurrentLanguage('%s');\n".
       "googie.setSpellContainer('spellcheck-control');\n".
       "googie.decorateTextarea('%s');\n".
       "%s.set_env('spellcheck', googie);",
+      !empty($dictionary) ? 'true' : 'false',
       JQ(Q(rcube_label('checkspelling'))),
       JQ(Q(rcube_label('resumeediting'))),
       JQ(Q(rcube_label('close'))),
       JQ(Q(rcube_label('revertto'))),
       JQ(Q(rcube_label('nospellerrors'))),
+      JQ(Q(rcube_label('addtodict'))),
       json_serialize($spellcheck_langs),
       $lang,
       $attrib['id'],

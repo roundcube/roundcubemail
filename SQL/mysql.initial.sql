@@ -144,4 +144,15 @@ CREATE TABLE `identities` (
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
+-- Table structure for table `dictionary`
+
+CREATE TABLE `dictionary` (
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `language` varchar(5) NOT NULL,
+  `data` longtext NOT NULL,
+  CONSTRAINT `user_id_fk_dictionary` FOREIGN KEY (`user_id`)
+    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  UNIQUE `uniqueness` (`user_id`, `language`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;

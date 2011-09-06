@@ -427,6 +427,10 @@ $rcmail_config['quota_zero_as_unlimited'] = false;
 // requires to be compiled with Open SSL support
 $rcmail_config['enable_spellcheck'] = true;
 
+// Enables spellchecker exceptions dictionary.
+// Setting it to 'shared' will make the dictionary shared by all users.
+$rcmail_config['spellcheck_dictionary'] = false;
+
 // Set the spell checking engine. 'googie' is the default. 'pspell' is also available,
 // but requires the Pspell extensions. When using Nox Spell Server, also set 'googie' here.
 $rcmail_config['spellcheck_engine'] = 'googie';
@@ -441,6 +445,15 @@ $rcmail_config['spellcheck_uri'] = '';
 // Configure as a PHP style hash array: array('en'=>'English', 'de'=>'Deutsch');
 // Leave empty for default set of available language.
 $rcmail_config['spellcheck_languages'] = NULL;
+
+// Makes that words with all letters capitalized will be ignored (e.g. GOOGLE)
+$rcmail_config['spellcheck_ignore_caps'] = false;
+
+// Makes that words with numbers will be ignored (e.g. g00gle)
+$rcmail_config['spellcheck_ignore_nums'] = false;
+
+// Makes that words with symbols will be ignored (e.g. g@@gle)
+$rcmail_config['spellcheck_ignore_syms'] = false;
 
 // don't let users set pagesize to more than this value if set
 $rcmail_config['max_pagesize'] = 200;

@@ -71,6 +71,9 @@ switch ($CURR_SECTION)
       'dsn_default'        => isset($_POST['_dsn_default']) ? TRUE : FALSE,
       'reply_same_folder'  => isset($_POST['_reply_same_folder']) ? TRUE : FALSE,
       'spellcheck_before_send' => isset($_POST['_spellcheck_before_send']) ? TRUE : FALSE,
+      'spellcheck_ignore_syms' => isset($_POST['_spellcheck_ignore_syms']) ? TRUE : FALSE,
+      'spellcheck_ignore_nums' => isset($_POST['_spellcheck_ignore_nums']) ? TRUE : FALSE,
+      'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']) ? TRUE : FALSE,
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
       'top_posting'        => !empty($_POST['_top_posting']),
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
@@ -167,7 +170,7 @@ switch ($CURR_SECTION)
           $a_user_prefs['default_imap_folders'][] = $a_user_prefs[$p];
       }
     }
-  
+
   break;
 }
 

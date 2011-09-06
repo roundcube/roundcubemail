@@ -1595,7 +1595,7 @@ function rcube_html_editor($mode='')
   $hook = $RCMAIL->plugins->exec_hook('html_editor', array('mode' => $mode));
 
   if ($hook['abort'])
-    return;  
+    return;
 
   $lang = strtolower($_SESSION['language']);
 
@@ -1607,9 +1607,14 @@ function rcube_html_editor($mode='')
 
   $RCMAIL->output->include_script('tiny_mce/tiny_mce.js');
   $RCMAIL->output->include_script('editor.js');
-  $RCMAIL->output->add_script(sprintf("rcmail_editor_init('\$__skin_path', '%s', %d, '%s');",
-    JQ($lang), intval($CONFIG['enable_spellcheck']), $mode),
-    'foot');
+  $RCMAIL->output->add_script(sprintf("rcmail_editor_init(%s)",
+    json_encode(array(
+        'mode'       => $mode,
+        'skin_path'  => '$__skin_path',
+        'lang'       => $lang,
+        'spellcheck' => intval($CONFIG['enable_spellcheck']),
+        'spelldict'  => intval($CONFIG['spellcheck_dictionary']),
+    ))), 'foot');
 }
 
 

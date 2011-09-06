@@ -448,8 +448,9 @@ function rcmail_user_prefs($current=null)
     case 'compose':
 
     $blocks = array(
-      'main' => array('name' => Q(rcube_label('mainoptions'))),
-      'sig' => array('name' => Q(rcube_label('signatureoptions'))),
+      'main'       => array('name' => Q(rcube_label('mainoptions'))),
+      'spellcheck' => array('name' => Q(rcube_label('spellcheckoptions'))),
+      'sig'        => array('name' => Q(rcube_label('signatureoptions'))),
     );
 
     // Show checkbox for HTML Editor
@@ -549,10 +550,24 @@ function rcmail_user_prefs($current=null)
       $field_id = 'rcmfd_spellcheck_before_send';
       $input_spellcheck = new html_checkbox(array('name' => '_spellcheck_before_send', 'id' => $field_id, 'value' => 1));
 
-      $blocks['main']['options']['spellcheck_before_send'] = array(
+      $blocks['spellcheck']['options']['spellcheck_before_send'] = array(
         'title' => html::label($field_id, Q(rcube_label('spellcheckbeforesend'))),
         'content' => $input_spellcheck->show($config['spellcheck_before_send']?1:0),
       );
+    }
+
+    if ($config['enable_spellcheck']) {
+      foreach (array('syms', 'nums', 'caps') as $key) {
+        $key = 'spellcheck_ignore_'.$key;
+        if (!isset($no_override[$key])) {
+          $input_spellcheck = new html_checkbox(array('name' => '_'.$key, 'id' => 'rcmfd_'.$key, 'value' => 1));
+
+          $blocks['spellcheck']['options'][$key] = array(
+            'title' => html::label($field_id, Q(rcube_label(str_replace('_', '', $key)))),
+            'content' => $input_spellcheck->show($config[$key]?1:0),
+          );
+        }
+      }
     }
 
     if (!isset($no_override['show_sig'])) {

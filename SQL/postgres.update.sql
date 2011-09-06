@@ -100,3 +100,13 @@ CREATE INDEX contactgroupmembers_contact_id_idx ON contactgroupmembers (contact_
 
 TRUNCATE messages;
 TRUNCATE cache;
+
+-- Updates from version 0.6-stable
+
+CREATE TABLE dictionary (
+    user_id integer DEFAULT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+   "language" varchar(5) NOT NULL,
+    data text NOT NULL,
+    CONSTRAINT dictionary_user_id_language_key UNIQUE (user_id, "language")
+);

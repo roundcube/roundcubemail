@@ -110,3 +110,14 @@ DELETE FROM [dbo].[messages]
 GO
 DELETE FROM [dbo].[cache]
 GO
+
+-- Updates from version 0.6-stable
+
+CREATE TABLE [dbo].[dictionary] (
+    [user_id] [int] ,
+    [language] [varchar] (5) COLLATE Latin1_General_CI_AI NOT NULL ,
+    [data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+CREATE  UNIQUE INDEX [IX_dictionary_user_language] ON [dbo].[dictionary]([user_id],[language]) ON [PRIMARY]
+GO

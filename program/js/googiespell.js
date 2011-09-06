@@ -1,8 +1,9 @@
 /*
  SpellCheck
     jQuery'fied spell checker based on GoogieSpell 4.0
- Copyright Amir Salihefendic 2006
- Copyright Aleksander Machniak 2009
+ Copyright (C) 2006 Amir Salihefendic
+ Copyright (C) 2009 Aleksander Machniak
+ Copyright (C) 2011 Kolab Systems AG
      LICENSE
          GPL
      AUTHORS
@@ -13,7 +14,8 @@
 var GOOGIE_CUR_LANG,
     GOOGIE_DEFAULT_LANG = 'en';
 
-function GoogieSpell(img_dir, server_url) {
+function GoogieSpell(img_dir, server_url, has_dict)
+{
     var ref = this,
         cookie_value = getCookie('language');
 
@@ -49,6 +51,7 @@ function GoogieSpell(img_dir, server_url) {
     this.lang_rsm_edt = "Resume editing";
     this.lang_no_error_found = "No spelling errors found";
     this.lang_no_suggestions = "No suggestions";
+    this.lang_learn_word = "Add to dictionary";
 
     this.show_spell_img = false; // roundcube mod.
     this.decoration = true;
@@ -64,6 +67,7 @@ function GoogieSpell(img_dir, server_url) {
     this.extra_menu_items = [];
     this.custom_spellcheck_starter = null;
     this.main_controller = true;
+    this.has_dictionary = has_dict;
 
     // Observers
     this.lang_state_observer = null;
@@ -90,7 +94,8 @@ function GoogieSpell(img_dir, server_url) {
     });
 
 
-this.decorateTextarea = function(id) {
+this.decorateTextarea = function(id)
+{
     this.text_area = typeof id === 'string' ? document.getElementById(id) : id;
 
     if (this.text_area) {
@@ -119,16 +124,19 @@ this.decorateTextarea = function(id) {
 //////
 // API Functions (the ones that you can call)
 /////
-this.setSpellContainer = function(id) {
+this.setSpellContainer = function(id)
+{
     this.spell_container = typeof id === 'string' ? document.getElementById(id) : id;
 };
 
-this.setLanguages = function(lang_dict) {
+this.setLanguages = function(lang_dict)
+{
     this.lang_to_word = lang_dict;
     this.langlist_codes = this.array_keys(lang_dict);
 };
 
-this.setCurrentLanguage = function(lan_code) {
+this.setCurrentLanguage = function(lan_code)
+{
     GOOGIE_CUR_LANG = lan_code;
 
     //Set cookie
@@ -137,29 +145,35 @@ this.setCurrentLanguage = function(lan_code) {
     setCookie('language', lan_code, now);
 };
 
-this.setForceWidthHeight = function(width, height) {
+this.setForceWidthHeight = function(width, height)
+{
     // Set to null if you want to use one of them
     this.force_width = width;
     this.force_height = height;
 };
 
-this.setDecoration = function(bool) {
+this.setDecoration = function(bool)
+{
     this.decoration = bool;
 };
 
-this.dontUseCloseButtons = function() {
+this.dontUseCloseButtons = function()
+{
     this.use_close_btn = false;
 };
 
-this.appendNewMenuItem = function(name, call_back_fn, checker) {
+this.appendNewMenuItem = function(name, call_back_fn, checker)
+{
     this.extra_menu_items.push([name, call_back_fn, checker]);
 };
 
-this.appendCustomMenuBuilder = function(eval, builder) {
+this.appendCustomMenuBuilder = function(eval, builder)
+{
     this.custom_menu_builder.push([eval, builder]);
 };
 
-this.setFocus = function() {
+this.setFocus = function()
+{
     try {
         this.focus_link_b.focus();
         this.focus_link_t.focus();
@@ -174,13 +188,15 @@ this.setFocus = function() {
 //////
 // Set functions (internal)
 /////
-this.setStateChanged = function(current_state) {
+this.setStateChanged = function(current_state)
+{
     this.state = current_state;
     if (this.spelling_state_observer != null && this.report_state_change)
         this.spelling_state_observer(current_state, this);
 };
 
-this.setReportStateChange = function(bool) {
+this.setReportStateChange = function(bool)
+{
     this.report_state_change = bool;
 };
 
@@ -188,28 +204,31 @@ this.setReportStateChange = function(bool) {
 //////
 // Request functions
 /////
-this.getUrl = function() {
+this.getUrl = function()
+{
     return this.server_url + GOOGIE_CUR_LANG;
 };
 
-this.escapeSpecial = function(val) {
+this.escapeSpecial = function(val)
+{
     return val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 };
 
-this.createXMLReq = function (text) {
+this.createXMLReq = function (text)
+{
     return '<?xml version="1.0" encoding="utf-8" ?>'
 	+ '<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
 	+ '<text>' + text + '</text></spellrequest>';
 };
 
-this.spellCheck = function(ignore) {
+this.spellCheck = function(ignore)
+{
     this.prepare(ignore);
 
     var req_text = this.escapeSpecial(this.orginal_text),
         ref = this;
 
-    $.ajax({ type: 'POST', url: this.getUrl(),
-	data: this.createXMLReq(req_text), dataType: 'text',
+    $.ajax({ type: 'POST', url: this.getUrl(), data: this.createXMLReq(req_text), dataType: 'text',
 	    error: function(o) {
             if (ref.custom_ajax_error)
         	    ref.custom_ajax_error(ref);
@@ -230,6 +249,25 @@ this.spellCheck = function(ignore) {
                 	ref.custom_no_spelling_error(ref);
     	    }
     	    ref.removeIndicator();
+	    }
+    });
+};
+
+this.learnWord = function(word, id)
+{
+    word = this.escapeSpecial(word.innerHTML);
+
+    var ref = this,
+        req_text = '<?xml version="1.0" encoding="utf-8" ?><learnword><text>' + word + '</text></learnword>';
+
+    $.ajax({ type: 'POST', url: this.getUrl(), data: req_text, dataType: 'text',
+	    error: function(o) {
+            if (ref.custom_ajax_error)
+        	    ref.custom_ajax_error(ref);
+            else
+        	    alert('An error was encountered on the server. Please try again later.');
+	    },
+        success: function(data) {
 	    }
     });
 };
@@ -274,7 +312,8 @@ this.prepare = function(ignore, no_indicator)
     this.orginal_text = $(this.text_area).val();
 };
 
-this.parseResult = function(r_text) {
+this.parseResult = function(r_text)
+{
     // Returns an array: result[item] -> ['attrs'], ['suggestions']
     var re_split_attr_c = /\w+="(\d+|true)"/g,
         re_split_text = /\t/g,
@@ -324,21 +363,25 @@ this.processData = function(data)
 //////
 // Error menu functions
 /////
-this.createErrorWindow = function() {
+this.createErrorWindow = function()
+{
     this.error_window = document.createElement('div');
     $(this.error_window).addClass('googie_window popupmenu').attr('googie_action_btn', '1');
 };
 
-this.isErrorWindowShown = function() {
+this.isErrorWindowShown = function()
+{
     return $(this.error_window).is(':visible');
 };
 
-this.hideErrorWindow = function() {
+this.hideErrorWindow = function()
+{
     $(this.error_window).hide();
     $(this.error_window_iframe).hide();
 };
 
-this.updateOrginalText = function(offset, old_value, new_value, id) {
+this.updateOrginalText = function(offset, old_value, new_value, id)
+{
     var part_1 = this.orginal_text.substring(0, offset),
         part_2 = this.orginal_text.substring(offset+old_value.length),
         add_2_offset = new_value.length - old_value.length;
@@ -357,18 +400,20 @@ this.saveOldValue = function(elm, old_value) {
     elm.old_value = old_value;
 };
 
-this.createListSeparator = function() {
+this.createListSeparator = function()
+{
     var td = document.createElement('td'),
         tr = document.createElement('tr');
 
     $(td).html(' ').attr('googie_action_btn', '1')
-	.css({'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px'});
+	    .css({'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px'});
     tr.appendChild(td);
 
     return tr;
 };
 
-this.correctError = function(id, elm, l_elm, rm_pre_space) {
+this.correctError = function(id, elm, l_elm, rm_pre_space)
+{
     var old_value = elm.innerHTML,
         new_value = l_elm.nodeType == 3 ? l_elm.nodeValue : l_elm.innerHTML,
         offset = this.results[id]['attrs']['o'];
@@ -393,7 +438,15 @@ this.correctError = function(id, elm, l_elm, rm_pre_space) {
     this.errorFixed();
 };
 
-this.showErrorWindow = function(elm, id) {
+this.ignoreError = function(elm, id)
+{
+    // @TODO: ignore all same words
+    $(elm).removeAttr('class').css('color', '').unbind();
+    this.hideErrorWindow();
+};
+
+this.showErrorWindow = function(elm, id)
+{
     if (this.show_menu_observer)
         this.show_menu_observer(this);
 
@@ -414,6 +467,7 @@ this.showErrorWindow = function(elm, id) {
             break;
         }
     }
+
     if (!changed) {
         // Build up the result list
         var suggestions = this.results[id]['suggestions'],
@@ -421,6 +475,26 @@ this.showErrorWindow = function(elm, id) {
             len = this.results[id]['attrs']['l'],
             row, item, dummy;
 
+        // [Add to dictionary] button
+        if (this.has_dictionary && !$(elm).attr('is_corrected')) {
+            row = document.createElement('tr'),
+            item = document.createElement('td'),
+            dummy = document.createElement('span');
+
+            $(dummy).text(this.lang_learn_word);
+            $(item).attr('googie_action_btn', '1').css('cursor', 'default')
+                .mouseover(ref.item_onmouseover)
+                .mouseout(ref.item_onmouseout)
+			    .click(function(e) {
+			        ref.learnWord(elm, id);
+			        ref.ignoreError(elm, id);
+			    });
+
+            item.appendChild(dummy);
+            row.appendChild(item);
+            list.appendChild(row);
+        }
+/*
         if (suggestions.length == 0) {
             row = document.createElement('tr'),
             item = document.createElement('td'),
@@ -433,7 +507,7 @@ this.showErrorWindow = function(elm, id) {
             row.appendChild(item);
             list.appendChild(row);
         }
-
+*/
         for (var i=0, len=suggestions.length; i < len; i++) {
             row = document.createElement('tr'),
             item = document.createElement('td'),
@@ -441,16 +515,15 @@ this.showErrorWindow = function(elm, id) {
 
             $(dummy).html(suggestions[i]);
 
-            $(item).bind('mouseover', this.item_onmouseover)
-        	    .bind('mouseout', this.item_onmouseout)
-        	    .bind('click', function(e) { ref.correctError(id, elm, e.target.firstChild) });
+            $(item).mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
+        	    .click(function(e) { ref.correctError(id, elm, e.target.firstChild) });
 
             item.appendChild(dummy);
             row.appendChild(item);
             list.appendChild(row);
         }
 
-        //The element is changed, append the revert
+        // The element is changed, append the revert
         if (elm.is_changed && elm.innerHTML != elm.old_value) {
             var old_value = elm.old_value,
                 revert_row = document.createElement('tr'),
@@ -459,11 +532,10 @@ this.showErrorWindow = function(elm, id) {
 
 	        $(rev_span).addClass('googie_list_revert').html(this.lang_revert + ' ' + old_value);
 
-            $(revert).bind('mouseover', this.item_onmouseover)
-        	    .bind('mouseout', this.item_onmouseout)
-        	    .bind('click', function(e) {
+            $(revert).mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
+        	    .click(function(e) {
             	    ref.updateOrginalText(offset, elm.innerHTML, old_value, id);
-            	    $(elm).attr('is_corrected', true).css('color', '#b91414').html(old_value);
+            	    $(elm).removeAttr('is_corrected').css('color', '#b91414').html(old_value);
             	    ref.hideErrorWindow();
         	    });
 
@@ -498,11 +570,11 @@ this.showErrorWindow = function(elm, id) {
 	    $(ok_pic).attr('src', this.img_dir + 'ok.gif')
 	        .width(32).height(16)
     	    .css({'cursor': 'pointer', 'margin-left': '2px', 'margin-right': '2px'})
-	        .bind('click', onsub);
+	        .click(onsub);
 
         $(edit_form).attr('googie_action_btn', '1')
 	        .css({'margin': 0, 'padding': 0, 'cursor': 'default', 'white-space': 'nowrap'})
-	        .bind('submit', onsub);
+	        .submit(onsub);
 
 	    edit_form.appendChild(edit_input);
 	    edit_form.appendChild(ok_pic);
@@ -523,9 +595,9 @@ this.showErrorWindow = function(elm, id) {
                       e_col = document.createElement('td');
 
 			        $(e_col).html(e_elm[0])
-                        .bind('mouseover', ref.item_onmouseover)
-                    	.bind('mouseout', ref.item_onmouseout)
-			            .bind('click', function() { return e_elm[1](elm, ref) });
+                        .mouseover(ref.item_onmouseover)
+                    	.mouseout(ref.item_onmouseout)
+			            .click(function() { return e_elm[1](elm, ref) });
 
 			        e_row.appendChild(e_col);
                     list.appendChild(e_row);
@@ -575,7 +647,8 @@ this.showErrorWindow = function(elm, id) {
 //////
 // Edit layer (the layer where the suggestions are stored)
 //////
-this.createEditLayer = function(width, height) {
+this.createEditLayer = function(width, height)
+{
     this.edit_layer = document.createElement('div');
     $(this.edit_layer).addClass('googie_edit_layer').attr('id', 'googie_edit_layer')
         .width('auto').height(height);
@@ -603,7 +676,8 @@ this.createEditLayer = function(width, height) {
     }
 };
 
-this.resumeEditing = function() {
+this.resumeEditing = function()
+{
     this.setStateChanged('ready');
 
     if (this.edit_layer)
@@ -629,7 +703,8 @@ this.resumeEditing = function() {
     this.checkSpellingState(false);
 };
 
-this.createErrorLink = function(text, id) {
+this.createErrorLink = function(text, id)
+{
     var elm = document.createElement('span'),
         ref = this,
         d = function (e) {
@@ -638,13 +713,14 @@ this.createErrorLink = function(text, id) {
     	    return false;
         };
 
-    $(elm).html(text).addClass('googie_link').bind('click', d)
-	    .attr({'googie_action_btn' : '1', 'g_id' : id, 'is_corrected' : false});
+    $(elm).html(text).addClass('googie_link').click(d).removeAttr('is_corrected')
+	    .attr({'googie_action_btn' : '1', 'g_id' : id});
 
     return elm;
 };
 
-this.createPart = function(txt_part) {
+this.createPart = function(txt_part)
+{
     if (txt_part == " ")
         return document.createTextNode(" ");
 
@@ -659,7 +735,8 @@ this.createPart = function(txt_part) {
     return span;
 };
 
-this.showErrorsInIframe = function() {
+this.showErrorsInIframe = function()
+{
     var output = document.createElement('div'),
         pointer = 0,
         results = this.results;
@@ -717,7 +794,8 @@ this.showErrorsInIframe = function() {
 //////
 // Choose language menu
 //////
-this.createLangWindow = function() {
+this.createLangWindow = function()
+{
     this.language_window = document.createElement('div');
     $(this.language_window).addClass('googie_window popupmenu')
 	    .width(100).attr('googie_action_btn', '1');
@@ -776,16 +854,19 @@ this.createLangWindow = function() {
     this.language_window.appendChild(table);
 };
 
-this.isLangWindowShown = function() {
+this.isLangWindowShown = function()
+{
     return $(this.language_window).is(':visible');
 };
 
-this.hideLangWindow = function() {
+this.hideLangWindow = function()
+{
     $(this.language_window).hide();
     $(this.switch_lan_pic).removeClass().addClass('googie_lang_3d_on');
 };
 
-this.showLangWindow = function(elm) {
+this.showLangWindow = function(elm)
+{
     if (this.show_menu_observer)
         this.show_menu_observer(this);
 
@@ -806,11 +887,13 @@ this.showLangWindow = function(elm) {
     this.highlightCurSel();
 };
 
-this.deHighlightCurSel = function() {
+this.deHighlightCurSel = function()
+{
     $(this.lang_cur_elm).removeClass().addClass('googie_list_onout');
 };
 
-this.highlightCurSel = function() {
+this.highlightCurSel = function()
+{
     if (GOOGIE_CUR_LANG == null)
         GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG;
     for (var i=0; i < this.lang_elms.length; i++) {
@@ -824,7 +907,8 @@ this.highlightCurSel = function() {
     }
 };
 
-this.createChangeLangPic = function() {
+this.createChangeLangPic = function()
+{
     var img = $('<img>')
 	    .attr({src: this.img_dir + 'change_lang.gif', 'alt': 'Change language', 'googie_action_btn': '1'}),
         switch_lan = document.createElement('span');
@@ -847,7 +931,8 @@ this.createChangeLangPic = function() {
     return switch_lan;
 };
 
-this.createSpellDiv = function() {
+this.createSpellDiv = function()
+{
     var span = document.createElement('span');
 
     $(span).addClass('googie_check_spelling_link').text(this.lang_chck_spell);
@@ -862,7 +947,8 @@ this.createSpellDiv = function() {
 //////
 // State functions
 /////
-this.flashNoSpellingErrorState = function(on_finish) {
+this.flashNoSpellingErrorState = function(on_finish)
+{
     this.setStateChanged('no_error_found');
 
     var ref = this;
@@ -888,7 +974,8 @@ this.flashNoSpellingErrorState = function(on_finish) {
     }
 };
 
-this.resumeEditingState = function() {
+this.resumeEditingState = function()
+{
     this.setStateChanged('resume_editing');
 
     //Change link text to resume
@@ -906,7 +993,8 @@ this.resumeEditingState = function() {
     catch (e) {};
 };
 
-this.checkSpellingState = function(fire) {
+this.checkSpellingState = function(fire)
+{
     if (fire)
         this.setStateChanged('ready');
 
@@ -939,12 +1027,14 @@ this.checkSpellingState = function(fire) {
 //////
 // Misc. functions
 /////
-this.isDefined = function(o) {
+this.isDefined = function(o)
+{
     return (o !== undefined && o !== null)
 };
 
-this.errorFixed = function() { 
-    this.cnt_errors_fixed++; 
+this.errorFixed = function()
+{
+    this.cnt_errors_fixed++;
     if (this.all_errors_fixed_observer)
         if (this.cnt_errors_fixed == this.cnt_errors) {
             this.hideErrorWindow();
@@ -952,15 +1042,18 @@ this.errorFixed = function() {
         }
 };
 
-this.errorFound = function() {
+this.errorFound = function()
+{
     this.cnt_errors++;
 };
 
-this.createCloseButton = function(c_fn) {
+this.createCloseButton = function(c_fn)
+{
     return this.createButton(this.lang_close, 'googie_list_close', c_fn);
 };
 
-this.createButton = function(name, css_class, c_fn) {
+this.createButton = function(name, css_class, c_fn)
+{
     var btn_row = document.createElement('tr'),
         btn = document.createElement('td'),
         spn_btn;
@@ -982,14 +1075,16 @@ this.createButton = function(name, css_class, c_fn) {
     return btn_row;
 };
 
-this.removeIndicator = function(elm) {
+this.removeIndicator = function(elm)
+{
     //$(this.indicator).remove();
     // roundcube mod.
     if (window.rcmail)
         rcmail.set_busy(false, null, this.rc_msg_id);
 };
 
-this.appendIndicator = function(elm) {
+this.appendIndicator = function(elm)
+{
     // modified by roundcube
     if (window.rcmail)
 	    this.rc_msg_id = rcmail.set_busy(true, 'checking');
@@ -1005,19 +1100,23 @@ this.appendIndicator = function(elm) {
 */
 }
 
-this.createFocusLink = function(name) {
+this.createFocusLink = function(name)
+{
     var link = document.createElement('a');
     $(link).attr({'href': 'javascript:;', 'name': name});
     return link;
 };
 
-this.item_onmouseover = function(e) {
+this.item_onmouseover = function(e)
+{
     if (this.className != 'googie_list_revert' && this.className != 'googie_list_close')
         this.className = 'googie_list_onhover';
     else
         this.parentNode.className = 'googie_list_onhover';
 };
-this.item_onmouseout = function(e) {
+
+this.item_onmouseout = function(e)
+{
     if (this.className != 'googie_list_revert' && this.className != 'googie_list_close')
         this.className = 'googie_list_onout';
     else

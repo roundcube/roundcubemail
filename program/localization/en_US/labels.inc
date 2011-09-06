@@ -427,6 +427,11 @@ $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultaddressbook'] = 'Add new contacts to the selected addressbook';
 $labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
+$labels['spellcheckoptions'] = 'Spellcheck Options';
+$labels['spellcheckignoresyms'] = 'Ignore words with symbols';
+$labels['spellcheckignorenums'] = 'Ignore words with numbers';
+$labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
+$labels['addtodict'] = 'Add to dictionary';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
