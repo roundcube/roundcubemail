@@ -140,7 +140,7 @@ $labels['markread']         = 'As read';
 $labels['markunread']       = 'As unread';
 $labels['markflagged']      = 'As flagged';
 $labels['markunflagged']    = 'As unflagged';
-$labels['messageactions']   = 'More actions...';
+$labels['moreactions']      = 'More actions...';
 
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
@@ -317,7 +317,6 @@ $labels['print']          = 'Print';
 $labels['export']         = 'Export';
 $labels['exportvcards']   = 'Export contacts in vCard format';
 $labels['newcontactgroup'] = 'Create new contact group';
-$labels['groupactions']   = 'Actions for contact groups...';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 
@@ -329,6 +328,9 @@ $labels['lastpage']       = 'Show last page';
 $labels['group'] = 'Group';
 $labels['groups'] = 'Groups';
 $labels['personaladrbook'] = 'Personal Addresses';
+
+$labels['searchsave'] = 'Save search';
+$labels['searchdelete'] = 'Delete search';
 
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';

@@ -21,6 +21,60 @@
 
 */
 
+if ($RCMAIL->action == 'search-create') {
+    $id   = get_input_value('_search', RCUBE_INPUT_POST);
+    $name = get_input_value('_name', RCUBE_INPUT_POST, true);
+
+    if (($params = $_SESSION['search_params']) && $params['id'] == $id) {
+
+        $data = array(
+            'type' => rcube_user::SEARCH_ADDRESSBOOK,
+            'name' => $name,
+            'data' => array(
+                'fields' => $params['data'][0],
+                'search' => $params['data'][1],
+            ),
+        );
+
+        $plugin = $RCMAIL->plugins->exec_hook('saved_search_create', array('data' => $data));
+
+        if (!$plugin['abort'])
+            $result = $RCMAIL->user->insert_search($plugin['data']);
+        else
+            $result = $plugin['result'];
+    }
+
+    if ($result) {
+        $OUTPUT->show_message('savedsearchcreated', 'confirmation');
+        $OUTPUT->command('insert_saved_search', Q($name), Q($result));
+    }
+    else
+        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'savedsearchcreateerror', 'error');
+
+    $OUTPUT->send();
+}
+
+if ($RCMAIL->action == 'search-delete') {
+    $id = get_input_value('_sid', RCUBE_INPUT_POST);
+
+    $plugin = $RCMAIL->plugins->exec_hook('saved_search_delete', array('id' => $id));
+
+    if (!$plugin['abort'])
+        $result = $RCMAIL->user->delete_search($id);
+    else
+        $result = $plugin['result'];
+
+    if ($result) {
+        $OUTPUT->show_message('savedsearchdeleted', 'confirmation');
+        $OUTPUT->command('remove_search_item', Q($id));
+    }
+    else
+        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'savedsearchdeleteerror', 'error');
+
+    $OUTPUT->send();
+}
+
+
 if (!isset($_GET['_form'])) {
     rcmail_contact_search();
 }
@@ -34,9 +88,15 @@ function rcmail_contact_search()
     global $RCMAIL, $OUTPUT, $CONFIG, $SEARCH_MODS_DEFAULT;
 
     $adv = isset($_POST['_adv']);
+    $sid = get_input_value('_sid', RCUBE_INPUT_GET);
 
+    // get search criteria from saved search
+    if ($sid && ($search = $RCMAIL->user->get_search($sid))) {
+        $fields = $search['data']['fields'];
+        $search = $search['data']['search'];
+    }
     // get fields/values from advanced search form
-    if ($adv) {
+    else if ($adv) {
         foreach (array_keys($_POST) as $key) {
             $s = trim(get_input_value($key, RCUBE_INPUT_POST, true));
             if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
@@ -145,6 +205,7 @@ function rcmail_contact_search()
 
     // save search settings in session
     $_SESSION['search'][$search_request] = $search_set;
+    $_SESSION['search_params'] = array('id' => $search_request, 'data' => array($fields, $search));
     $_SESSION['page'] = 1;
 
     if ($adv)
@@ -153,6 +214,7 @@ function rcmail_contact_search()
     if ($result->count > 0) {
         // create javascript list
         rcmail_js_contacts_list($result);
+        $OUTPUT->show_message('contactsearchsuccessful', 'confirmation', array('nr' => $result->count));
     }
     else {
         $OUTPUT->show_message('nocontactsfound', 'notice');
@@ -162,9 +224,14 @@ function rcmail_contact_search()
     $OUTPUT->command('set_env', 'search_request', $search_request);
     $OUTPUT->command('set_env', 'pagecount', ceil($result->count / $CONFIG['pagesize']));
     $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
+    // Re-set current source
+    $OUTPUT->command('set_env', 'search_id', $sid);
+    $OUTPUT->command('set_env', 'source', '');
+    $OUTPUT->command('set_env', 'group', '');
 
     // unselect currently selected directory/group
-    $OUTPUT->command('unselect_directory');
+    if (!$sid)
+        $OUTPUT->command('unselect_directory');
     $OUTPUT->command('update_group_commands');
 
     // send response

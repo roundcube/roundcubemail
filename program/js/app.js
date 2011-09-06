@@ -328,7 +328,7 @@ function rcube_webmail()
           this.enable_command('export', true);
 
         this.enable_command('add', 'import', this.env.writable_source);
-        this.enable_command('list', 'listgroup', 'advanced-search', true);
+        this.enable_command('list', 'listgroup', 'listsearch', 'advanced-search', true);
 
         // load contacts of selected source
         if (!this.env.action)
@@ -524,21 +524,15 @@ function rcube_webmail()
         break;
 
       case 'list':
-        if (this.task=='mail') {
-          if (!this.env.search_request || (props && props != this.env.mailbox))
-            this.reset_qsearch();
-
+        this.reset_qsearch();
+        if (this.task == 'mail') {
           this.list_mailbox(props);
 
           if (this.env.trash_mailbox && !this.env.flag_for_deletion)
             this.set_alttext('delete', this.env.mailbox != this.env.trash_mailbox ? 'movemessagetotrash' : 'deletemessage');
         }
         else if (this.task == 'addressbook') {
-          if (!this.env.search_request || (props != this.env.source))
-            this.reset_qsearch();
-
           this.list_contacts(props);
-          this.enable_command('add', 'import', this.env.writable_source);
         }
         break;
 
@@ -1008,6 +1002,7 @@ function rcube_webmail()
         break;
 
       case 'listgroup':
+        this.reset_qsearch();
         this.list_contacts(props.source, props.id);
         break;
 
@@ -1994,7 +1989,7 @@ function rcube_webmail()
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
       url += '&_refresh=1';
 
-    this.select_folder(mbox, this.env.mailbox);
+    this.select_folder(mbox);
     this.env.mailbox = mbox;
 
     // load message list remotely
@@ -3455,6 +3450,7 @@ function rcube_webmail()
 
     this.env.qsearch = null;
     this.env.search_request = null;
+    this.env.search_id = null;
   };
 
   this.sent_successfully = function(type, msg)
@@ -3829,7 +3825,7 @@ function rcube_webmail()
 
   this.list_contacts = function(src, group, page)
   {
-    var add_url = '',
+    var folder, add_url = '',
       target = window;
 
     if (!src)
@@ -3845,7 +3841,12 @@ function rcube_webmail()
     else if (group != this.env.group)
       page = this.env.current_page = 1;
 
-    this.select_folder((group ? 'G'+src+group : src), (this.env.group ? 'G'+this.env.source+this.env.group : this.env.source));
+    if (this.env.search_id)
+      folder = 'S'+this.env.search_id;
+    else
+      folder = group ? 'G'+src+group : src;
+
+    this.select_folder(folder);
 
     this.env.source = src;
     this.env.group = group;
@@ -3890,8 +3891,8 @@ function rcube_webmail()
     if (group)
       url += '&_gid='+group;
 
-    // also send search request to get the right messages 
-    if (this.env.search_request) 
+    // also send search request to get the right messages
+    if (this.env.search_request)
       url += '&_search='+this.env.search_request;
 
     this.http_request('list', url, lock);
@@ -4092,19 +4093,7 @@ function rcube_webmail()
 
   this.group_create = function()
   {
-    if (!this.gui_objects.folderlist)
-      return;
-
-    if (!this.name_input) {
-      this.name_input = $('<input>').attr('type', 'text');
-      this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
-      this.name_input_li = $('<li>').addClass('contactgroup').append(this.name_input);
-
-      var li = this.get_folder_li(this.env.source)
-      this.name_input_li.insertAfter(li);
-    }
-
-    this.name_input.select().focus();
+    this.add_input_row('contactgroup');
   };
 
   this.group_rename = function()
@@ -4150,18 +4139,40 @@ function rcube_webmail()
     this.list_contacts(prop.source, 0);
   };
 
+  // @TODO: maybe it would be better to use popup instead of inserting input to the list?
+  this.add_input_row = function(type)
+  {
+    if (!this.gui_objects.folderlist)
+      return;
+
+    if (!this.name_input) {
+      this.name_input = $('<input>').attr('type', 'text').data('tt', type);
+      this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
+      this.name_input_li = $('<li>').addClass(type).append(this.name_input);
+
+      var li = type == 'contactsearch' ? $('li:last', this.gui_objects.folderlist) : this.get_folder_li(this.env.source);
+      this.name_input_li.insertAfter(li);
+    }
+
+    this.name_input.select().focus();
+  };
+
   // handler for keyboard events on the input field
   this.add_input_keydown = function(e)
   {
-    var key = rcube_event.get_keycode(e);
+    var key = rcube_event.get_keycode(e),
+      input = $(e.target), itype = input.data('tt');
 
     // enter
     if (key == 13) {
-      var newname = this.name_input.val();
+      var newname = input.val();
 
       if (newname) {
         var lock = this.set_busy(true, 'loading');
-        if (this.env.group_renaming)
+
+        if (itype == 'contactsearch')
+          this.http_post('search-create', '_search='+urlencode(this.env.search_request)+'&_name='+urlencode(newname), lock);
+        else if (this.env.group_renaming)
           this.http_post('group-rename', '_source='+urlencode(this.env.source)+'&_gid='+urlencode(this.env.group)+'&_name='+urlencode(newname), lock);
         else
           this.http_post('group-create', '_source='+urlencode(this.env.source)+'&_name='+urlencode(newname), lock);
@@ -4477,11 +4488,106 @@ function rcube_webmail()
   // unselect directory/group
   this.unselect_directory = function()
   {
-    if (this.env.address_sources.length > 1 || this.env.group != '') {
-      this.select_folder('', (this.env.group ? 'G'+this.env.source+this.env.group : this.env.source));
-      this.env.group = '';
-      this.env.source = '';
+    this.select_folder('');
+    this.enable_command('search-delete', false);
+  };
+
+  // callback for creating a new saved search record
+  this.insert_saved_search = function(name, id)
+  {
+    this.reset_add_input();
+
+    var key = 'S'+id,
+      link = $('<a>').attr('href', '#')
+        .attr('rel', id)
+        .click(function() { return rcmail.command('listsearch', id, this); })
+        .html(name),
+      li = $('<li>').attr({id: 'rcmli'+key.replace(this.identifier_expr, '_'), 'class': 'contactsearch'})
+        .append(link),
+      prop = {name:name, id:id, li:li[0]};
+
+    this.add_saved_search_row(prop, li);
+    this.select_folder('S'+id);
+    this.enable_command('search-delete', true);
+    this.env.search_id = id;
+
+    this.triggerEvent('abook_search_insert', prop);
+  };
+
+  // add saved search row to the list, with sorting
+  this.add_saved_search_row = function(prop, li, reloc)
+  {
+    var row, sibling, name = prop.name.toUpperCase();
+
+    // When renaming groups, we need to remove it from DOM and insert it in the proper place
+    if (reloc) {
+      row = li.clone(true);
+      li.remove();
     }
+    else
+      row = li;
+
+    $('li[class~="contactsearch"]', this.gui_objects.folderlist).each(function(i, elem) {
+      if (!sibling)
+        sibling = this.previousSibling;
+
+      if (name >= $(this).text().toUpperCase())
+        sibling = elem;
+      else
+        return false;
+    });
+
+    if (sibling)
+      row.insertAfter(sibling);
+    else
+      row.appendTo(this.gui_objects.folderlist);
+  };
+
+  // creates an input for saved search name
+  this.search_create = function()
+  {
+    this.add_input_row('contactsearch');
+  };
+
+  this.search_delete = function()
+  {
+    if (this.env.search_request) {
+      var lock = this.set_busy(true, 'savedsearchdeleting');
+      this.http_post('search-delete', '_sid='+urlencode(this.env.search_id), lock);
+    }
+  };
+
+  // callback from server upon search-delete command
+  this.remove_search_item = function(id)
+  {
+    var li, key = 'S'+id;
+    if ((li = this.get_folder_li(key))) {
+      this.triggerEvent('search_delete', { id:id, li:li });
+
+      li.parentNode.removeChild(li);
+    }
+
+    this.env.search_id = null;
+    this.env.search_request = null;
+    this.list_contacts_clear();
+    this.reset_qsearch();
+    this.enable_command('search-delete', 'search-create', false);
+  };
+
+  this.listsearch = function(id)
+  {
+    var folder, lock = this.set_busy(true, 'searching');
+
+    if (this.contact_list) {
+      this.list_contacts_clear();
+    }
+
+    this.reset_qsearch();
+    this.select_folder('S'+id);
+
+    // reset vars
+    this.env.current_page = 1;
+    this.http_request('search', '_sid='+urlencode(id), lock);
   };
 
 
@@ -5231,20 +5337,20 @@ function rcube_webmail()
   };
 
   // mark a mailbox as selected and set environment variable
-  this.select_folder = function(name, old, prefix)
+  this.select_folder = function(name, prefix)
   {
     if (this.gui_objects.folderlist) {
       var current_li, target_li;
 
-      if ((current_li = this.get_folder_li(old, prefix))) {
-        $(current_li).removeClass('selected').addClass('unfocused');
+      if ((current_li = $('li.selected', this.gui_objects.folderlist))) {
+        current_li.removeClass('selected').addClass('unfocused');
       }
       if ((target_li = this.get_folder_li(name, prefix))) {
         $(target_li).removeClass('unfocused').addClass('selected');
       }
 
       // trigger event hook
-      this.triggerEvent('selectfolder', { folder:name, old:old, prefix:prefix });
+      this.triggerEvent('selectfolder', { folder:name, prefix:prefix });
     }
   };
 
@@ -5791,6 +5897,8 @@ function rcube_webmail()
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
 
           if (response.action == 'list' || response.action == 'search') {
+            this.enable_command('search-create', this.env.source == '');
+            this.enable_command('search-delete', this.env.search_id);
             this.update_group_commands();
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }

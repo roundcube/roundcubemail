@@ -109,7 +109,8 @@
 
 #directorylistbox input
 {
-  margin: 2px;
+  margin: 0px;
+  font-size: 11px;
   width: 90%;
 }
 
@@ -165,7 +166,12 @@
 #directorylist li.contactgroup
 {
   padding-left: 15px;
-  background-position: 20px -144px;
+  background-position: 20px -143px;
+}
+
+#directorylist li.contactsearch
+{
+  background-position: 6px -162px;
 }
 
 #directorylist li.selected

@@ -155,3 +155,15 @@ CREATE TABLE `dictionary` (
     REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE `uniqueness` (`user_id`, `language`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
+CREATE TABLE `searches` (
+  `search_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `type` int(3) NOT NULL DEFAULT '0',
+  `name` varchar(128) NOT NULL,
+  `data` text,
+  PRIMARY KEY(`search_id`),
+  CONSTRAINT `user_id_fk_searches` FOREIGN KEY (`user_id`)
+    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  UNIQUE `uniqueness` (`user_id`, `type`, `name`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;

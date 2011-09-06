@@ -121,3 +121,33 @@ CREATE TABLE [dbo].[dictionary] (
 GO
 CREATE  UNIQUE INDEX [IX_dictionary_user_language] ON [dbo].[dictionary]([user_id],[language]) ON [PRIMARY]
 GO
+
+CREATE TABLE [dbo].[searches] (
+	[search_id] [int] IDENTITY (1, 1) NOT NULL ,
+	[user_id] [int] NOT NULL ,
+	[type] [tinyint] NOT NULL ,
+	[name] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[searches] WITH NOCHECK ADD 
+	CONSTRAINT [PK_searches_search_id] PRIMARY KEY CLUSTERED 
+	(
+		[search_id]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[searches] ADD 
+	CONSTRAINT [DF_searches_user] DEFAULT (0) FOR [user_id],
+	CONSTRAINT [DF_searches_type] DEFAULT (0) FOR [type],
+GO
+
+CREATE UNIQUE INDEX [IX_searches_user_type_name] ON [dbo].[searches]([user_id],[type],[name]) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[searches] ADD CONSTRAINT [FK_searches_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+

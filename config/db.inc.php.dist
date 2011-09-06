@@ -68,6 +68,8 @@ $rcmail_config['db_sequence_cache'] = 'cache_ids';
 
 $rcmail_config['db_sequence_messages'] = 'message_ids';
 
+$rcmail_config['db_sequence_searches'] = 'search_ids';
+
 
 // end db config file
 

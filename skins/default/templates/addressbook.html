@@ -58,7 +58,7 @@
 </div>
 <div class="boxfooter">
   <roundcube:button command="group-create" type="link" title="newcontactgroup" class="buttonPas addgroup" classAct="button addgroup" content=" " />
-  <roundcube:button name="groupmenulink" id="groupmenulink" type="link" title="groupactions" class="button groupactions" onclick="rcmail_ui.show_popup('groupmenu');return false" content=" " />
+  <roundcube:button name="groupmenulink" id="groupmenulink" type="link" title="moreactions" class="button groupactions" onclick="rcmail_ui.show_popup('groupmenu');return false" content=" " />
 </div>
 </div>
 
@@ -99,6 +99,8 @@
   <ul>
     <li><roundcube:button command="group-rename" label="grouprename" classAct="active" /></li>
     <li><roundcube:button command="group-delete" label="groupdelete" classAct="active" /></li>
+    <li class="separator_above"><roundcube:button command="search-create" label="searchsave" classAct="active" /></li>
+    <li><roundcube:button command="search-delete" label="searchdelete" classAct="active" /></li>
     <roundcube:container name="groupoptions" id="groupoptionsmenu" />
   </ul>
 </div>

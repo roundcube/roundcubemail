@@ -227,7 +227,32 @@ function rcmail_directory_list($attrib)
         $out = $groupdata['out'];
     }
 
-    $OUTPUT->set_env('contactgroups', $jsdata); 
+    $line_templ = html::tag('li', array(
+        'id' => 'rcmliS%s', 'class' => '%s'),
+        html::a(array('href' => '#', 'rel' => 'S%s',
+            'onclick' => "return ".JS_OBJECT_NAME.".command('listsearch', '%s', this)"), '%s'));
+
+    // Saved searches
+    $sources = $RCMAIL->user->list_searches(rcube_user::SEARCH_ADDRESSBOOK);
+    foreach ($sources as $j => $source) {
+        $id = $source['id'];
+        $js_id = JQ($id);
+
+        // set class name(s)
+        $class_name = 'contactsearch';
+        if ($current === $id)
+            $class_name .= ' selected';
+        if ($source['class_name'])
+            $class_name .= ' ' . $source['class_name'];
+
+        $out .= sprintf($line_templ,
+            html_identifier($id),
+            $class_name,
+            $id,
+            $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
+    }
+
+    $OUTPUT->set_env('contactgroups', $jsdata);
     $OUTPUT->add_gui_object('folderlist', $attrib['id']);
     // add some labels to client
     $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
@@ -745,4 +770,6 @@ $RCMAIL->register_action_map(array(
     'group-delete' => 'groups.inc',
     'group-addmembers' => 'groups.inc',
     'group-delmembers' => 'groups.inc',
+    'search-create' => 'search.inc',
+    'search-delete' => 'search.inc',
 ));

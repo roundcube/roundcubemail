@@ -161,3 +161,18 @@ CREATE TABLE dictionary (
 
 CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, "language");
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table searches
+--
+
+CREATE TABLE searches (
+  search_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL DEFAULT '0',
+  "type" smallint NOT NULL DEFAULT '0',
+  name varchar(128) NOT NULL,
+  data text NOT NULL
+);
+
+CREATE UNIQUE INDEX ix_searches_user_type_name (user_id, type, name);

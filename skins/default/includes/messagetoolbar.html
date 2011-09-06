@@ -19,7 +19,7 @@
 <roundcube:if condition="template:name == 'mail'" />
 <roundcube:button name="markmenulink" id="markmenulink" type="link" class="button markmessage" title="markmessages" onclick="rcmail_ui.show_popup('markmenu');return false" content=" " />                                                                   
 <roundcube:endif />
-<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="messageactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
+<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="moreactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
 <roundcube:if condition="template:name == 'message'" />
 <roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" folder_filter="mail" />
 <roundcube:endif />

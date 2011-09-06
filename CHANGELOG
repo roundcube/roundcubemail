@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Addressbook Saved Searches
 - Added spellchecker exceptions dictionary (shared or per-user)
 - Added possibility to ignore words containing caps, numbers, symbols (spellcheck_ignore_* options)
 
