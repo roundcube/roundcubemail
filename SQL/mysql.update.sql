@@ -147,6 +147,9 @@ TRUNCATE TABLE `cache`;
 
 -- Updates from version 0.6-stable
 
+ALTER TABLE `users` CHANGE `alias` `alias` varchar(128) BINARY NOT NULL;
+ALTER TABLE `users` CHANGE `username` `username` varchar(128) BINARY NOT NULL;
+
 CREATE TABLE `dictionary` (
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `language` varchar(5) NOT NULL,

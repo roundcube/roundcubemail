@@ -399,11 +399,8 @@ class rcube_user
     {
         $dbh = rcmail::get_instance()->get_dbh();
 
-        // use BINARY (case-sensitive) comparison on MySQL, other engines are case-sensitive
-        $mod = preg_match('/^mysql/', $dbh->db_provider) ? 'BINARY' : '';
-
         // query for matching user name
-        $query = "SELECT * FROM ".get_table_name('users')." WHERE mail_host = ? AND %s = $mod ?";
+        $query = "SELECT * FROM ".get_table_name('users')." WHERE mail_host = ? AND %s = ?";
         $sql_result = $dbh->query(sprintf($query, 'username'), $host, $user);
 
         // query for matching alias
