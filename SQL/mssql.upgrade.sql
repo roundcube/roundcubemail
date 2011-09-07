@@ -151,3 +151,99 @@ ALTER TABLE [dbo].[searches] ADD CONSTRAINT [FK_searches_user_id]
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
+DROP TABLE [dbo].[messages]
+GO
+CREATE TABLE [dbo].[cache_index] (
+	[user_id] [int] NOT NULL ,
+	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[changed] [datetime] NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[cache_thread] (
+	[user_id] [int] NOT NULL ,
+	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[changed] [datetime] NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[cache_messages] (
+	[user_id] [int] NOT NULL ,
+	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[uid] [int] NOT NULL ,
+	[changed] [datetime] NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+	[seen] [char](1) NOT NULL ,
+	[deleted] [char](1) NOT NULL ,
+	[answered] [char](1) NOT NULL ,
+	[forwarded] [char](1) NOT NULL ,
+	[flagged] [char](1) NOT NULL ,
+	[mdnsent] [char](1) NOT NULL ,
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[cache_index] WITH NOCHECK ADD 
+	 PRIMARY KEY CLUSTERED 
+	(
+		[user_id],[mailbox]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[cache_thread] WITH NOCHECK ADD 
+	 PRIMARY KEY CLUSTERED 
+	(
+		[user_id],[mailbox]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[cache_messages] WITH NOCHECK ADD 
+	 PRIMARY KEY CLUSTERED 
+	(
+		[user_id],[mailbox],[uid]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[cache_index] ADD 
+	CONSTRAINT [DF_cache_index_changed] DEFAULT (getdate()) FOR [changed]
+GO
+
+CREATE  INDEX [IX_cache_index_user_id] ON [dbo].[cache_index]([user_id]) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[cache_thread] ADD 
+	CONSTRAINT [DF_cache_thread_changed] DEFAULT (getdate()) FOR [changed]
+GO
+
+CREATE  INDEX [IX_cache_thread_user_id] ON [dbo].[cache_thread]([user_id]) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[cache_messages] ADD 
+	CONSTRAINT [DF_cache_messages_changed] DEFAULT (getdate()) FOR [changed]
+	CONSTRAINT [DF_cache_messages_seen] DEFAULT (0) FOR [seen],
+	CONSTRAINT [DF_cache_messages_deleted] DEFAULT (0) FOR [deleted],
+	CONSTRAINT [DF_cache_messages_answered] DEFAULT (0) FOR [answered],
+	CONSTRAINT [DF_cache_messages_forwarded] DEFAULT (0) FOR [forwarded],
+	CONSTRAINT [DF_cache_messages_flagged] DEFAULT (0) FOR [flagged],
+	CONSTRAINT [DF_cache_messages_mdnsent] DEFAULT (0) FOR [mdnsent],
+GO
+
+CREATE  INDEX [IX_cache_messages_user_id] ON [dbo].[cache_messages]([user_id]) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[cache_index] ADD CONSTRAINT [FK_cache_index_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[cache_thread] ADD CONSTRAINT [FK_cache_thread_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[cache_messages] ADD CONSTRAINT [FK_cache_messages_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+

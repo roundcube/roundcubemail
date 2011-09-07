@@ -77,7 +77,7 @@ class rcube_message
         $this->imap->get_all_headers = true;
 
         $this->uid = $uid;
-        $this->headers = $this->imap->get_headers($uid, NULL, true, true);
+        $this->headers = $this->imap->get_message($uid);
 
         if (!$this->headers)
             return;
@@ -94,9 +94,9 @@ class rcube_message
                 '_mbox' => $this->imap->get_mailbox_name(), '_uid' => $uid))
         );
 
-        if ($this->structure = $this->imap->get_structure($uid, $this->headers->body_structure)) {
-            $this->get_mime_numbers($this->structure);
-            $this->parse_structure($this->structure);
+        if (!empty($this->headers->structure)) {
+            $this->get_mime_numbers($this->headers->structure);
+            $this->parse_structure($this->headers->structure);
         }
         else {
             $this->body = $this->imap->get_body($uid);

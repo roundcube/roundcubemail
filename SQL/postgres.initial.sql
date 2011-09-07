@@ -67,7 +67,7 @@ CREATE SEQUENCE identity_ids
 CREATE TABLE identities (
     identity_id integer DEFAULT nextval('identity_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL
-	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     changed timestamp with time zone DEFAULT now() NOT NULL,
     del smallint DEFAULT 0 NOT NULL,
     standard smallint DEFAULT 0 NOT NULL,
@@ -178,7 +178,7 @@ CREATE SEQUENCE cache_ids
 CREATE TABLE "cache" (
     cache_id integer DEFAULT nextval('cache_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL
-	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     cache_key varchar(128) DEFAULT '' NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     data text NOT NULL
@@ -188,43 +188,59 @@ CREATE INDEX cache_user_id_idx ON "cache" (user_id, cache_key);
 CREATE INDEX cache_created_idx ON "cache" (created);
 
 --
--- Sequence "message_ids"
--- Name: message_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Table "cache_index"
+-- Name: cache_index; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE message_ids
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
---
--- Table "messages"
--- Name: messages; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE messages (
-    message_id integer DEFAULT nextval('message_ids'::text) PRIMARY KEY,
+CREATE TABLE cache_index (
     user_id integer NOT NULL
-	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    del smallint DEFAULT 0 NOT NULL,
-    cache_key varchar(128) DEFAULT '' NOT NULL,
-    created timestamp with time zone DEFAULT now() NOT NULL,
-    idx integer DEFAULT 0 NOT NULL,
-    uid integer DEFAULT 0 NOT NULL,
-    subject varchar(128) DEFAULT '' NOT NULL,
-    "from" varchar(128) DEFAULT '' NOT NULL,
-    "to" varchar(128) DEFAULT '' NOT NULL,
-    cc varchar(128) DEFAULT '' NOT NULL,
-    date timestamp with time zone NOT NULL,
-    size integer DEFAULT 0 NOT NULL,
-    headers text NOT NULL,
-    structure text,
-    CONSTRAINT messages_user_id_key UNIQUE (user_id, cache_key, uid)
+    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    mailbox varchar(255) NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    data text NOT NULL,
+    PRIMARY KEY (user_id, mailbox)
 );
 
-CREATE INDEX messages_index_idx ON messages (user_id, cache_key, idx);
-CREATE INDEX messages_created_idx ON messages (created);
+CREATE INDEX cache_index_changed_idx ON cache_index (changed);
+
+--
+-- Table "cache_thread"
+-- Name: cache_thread; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE cache_thread (
+    user_id integer NOT NULL
+    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    mailbox varchar(255) NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    data text NOT NULL,
+    PRIMARY KEY (user_id, mailbox)
+);
+
+CREATE INDEX cache_thread_changed_idx ON cache_thread (changed);
+
+--
+-- Table "cache_messages"
+-- Name: cache_messages; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE cache_messages (
+    user_id integer NOT NULL
+    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    mailbox varchar(255) NOT NULL,
+    uid integer NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    data text NOT NULL,
+    seen smallint NOT NULL DEFAULT 0,
+    deleted smallint NOT NULL DEFAULT 0,
+    answered smallint NOT NULL DEFAULT 0,
+    forwarded smallint NOT NULL DEFAULT 0,
+    flagged smallint NOT NULL DEFAULT 0,
+    mdnsent smallint NOT NULL DEFAULT 0,
+    PRIMARY KEY (user_id, mailbox, uid)
+);
+
+CREATE INDEX cache_messages_changed_idx ON cache_messages (changed);
 
 --
 -- Table "dictionary"

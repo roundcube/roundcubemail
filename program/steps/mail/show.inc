@@ -77,7 +77,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
 
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to &&
-      !$MESSAGE->headers->mdn_sent && !$MESSAGE->headers->seen &&
+      !$MESSAGE->headers->mdnsent && !$MESSAGE->headers->seen &&
       ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*')) &&
       $mbox_name != $CONFIG['drafts_mbox'] &&
       $mbox_name != $CONFIG['sent_mbox'])

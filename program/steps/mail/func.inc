@@ -1454,7 +1454,7 @@ function rcmail_send_mdn($message, &$smtp_error)
   if (!is_object($message) || !is_a($message, rcube_message))
     $message = new rcube_message($message);
 
-  if ($message->headers->mdn_to && !$message->headers->mdn_sent &&
+  if ($message->headers->mdn_to && !$message->headers->mdnsent &&
     ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*')))
   {
     $identity = $RCMAIL->user->get_identity();

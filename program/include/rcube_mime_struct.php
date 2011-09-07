@@ -1,77 +1,7 @@
-<?php
 
-
-/*
- +-----------------------------------------------------------------------+
- | program/include/rcube_mime_struct.php                                 |
- |                                                                       |
- | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
- |                                                                       |
- | PURPOSE:                                                              |
- |   Provide functions for handling mime messages structure              |
- |                                                                       |
- |   Based on Iloha MIME Library. See http://ilohamail.org/ for details  |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Aleksander Machniak <alec@alec.pl>                            |
- | Author: Ryo Chijiiwa <Ryo@IlohaMail.org>                              |
- +-----------------------------------------------------------------------+
-
- $Id$
-
-*/
-
-/**
- * Helper class to process IMAP's BODYSTRUCTURE string
- *
- * @package    Mail
- * @author     Aleksander Machniak <alec@alec.pl>
- */
-class rcube_mime_struct
-{
-    private $structure;
-
-
-    function __construct($str=null)
+    function getStructurePartType($structure, $part)
     {
-        if ($str)
-            $this->structure = $this->parseStructure($str);
-    }
-
-    /*
-     * Parses IMAP's BODYSTRUCTURE string into array
-    */
-    function parseStructure($str)
-    {
-        $line = substr($str, 1, strlen($str) - 2);
-        $line = str_replace(')(', ') (', $line);
-
-	    $struct = rcube_imap_generic::tokenizeResponse($line);
-    	if (!is_array($struct[0]) && (strcasecmp($struct[0], 'message') == 0)
-		    && (strcasecmp($struct[1], 'rfc822') == 0)) {
-		    $struct = array($struct);
-	    }
-
-        return $struct;
-    }
-
-    /*
-     * Parses IMAP's BODYSTRUCTURE string into array and loads it into class internal variable
-    */
-    function loadStructure($str)
-    {
-        if (empty($str))
-            return true;
-
-        $this->structure = $this->parseStructure($str);
-        return (!empty($this->structure));
-    }
-
-    function getPartType($part)
-    {
-	    $part_a = $this->getPartArray($this->structure, $part);
+	    $part_a = self::getPartArray($structure, $part);
 	    if (!empty($part_a)) {
 		    if (is_array($part_a[0]))
                 return 'multipart';
@@ -82,9 +12,9 @@ class rcube_mime_struct
         return 'other';
     }
 
-    function getPartEncoding($part)
+    function getStructurePartEncoding($structure, $part)
     {
-	    $part_a = $this->getPartArray($this->structure, $part);
+	    $part_a = self::getPartArray($structure, $part);
 	    if ($part_a) {
 		    if (!is_array($part_a[0]))
                 return $part_a[5];
@@ -93,9 +23,9 @@ class rcube_mime_struct
         return '';
     }
 
-    function getPartCharset($part)
+    function getStructurePartCharset($structure, $part)
     {
-	    $part_a = $this->getPartArray($this->structure, $part);
+	    $part_a = self::getPartArray($structure, $part);
 	    if ($part_a) {
 		    if (is_array($part_a[0]))
                 return '';
@@ -112,7 +42,7 @@ class rcube_mime_struct
         return '';
     }
 
-    function getPartArray($a, $part)
+    function getStructurePartArray($a, $part)
     {
 	    if (!is_array($a)) {
             return false;
@@ -137,9 +67,7 @@ class rcube_mime_struct
 		    else
                 return $a;
 	    }
-        else if (($part==0) || (empty($part))) {
+        else if (($part == 0) || (empty($part))) {
 		    return $a;
 	    }
     }
-
-}

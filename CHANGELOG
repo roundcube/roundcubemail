@@ -1,6 +1,13 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Rewritten messages caching:
+  Indexes are stored in a separate table, so there's no need to store all messages in a folder
+  Added threads data caching
+  Flags are stored separately, so flag change doesn't cause DELETE+INSERT, just UPDATE
+- Partial QRESYNC support
+- Improved FETCH response handling
+- Improvements in response tokenization method
 - Use 'From' and 'To' labels instead of 'Sender' and 'Recipient'
 - Fix username case-insensitivity issue in MySQL (#1488021)
 - Addressbook Saved Searches

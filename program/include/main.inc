@@ -169,11 +169,17 @@ function rcmail_cache_gc()
   // get target timestamp
   $ts = get_offset_time($rcmail->config->get('message_cache_lifetime', '30d'), -1);
 
-  $db->query("DELETE FROM ".get_table_name('messages')."
-             WHERE  created < " . $db->fromunixtime($ts));
+  $db->query("DELETE FROM ".get_table_name('cache_messages')
+        ." WHERE changed < " . $db->fromunixtime($ts));
 
-  $db->query("DELETE FROM ".get_table_name('cache')."
-              WHERE  created < " . $db->fromunixtime($ts));
+  $db->query("DELETE FROM ".get_table_name('cache_index')
+        ." WHERE changed < " . $db->fromunixtime($ts));
+
+  $db->query("DELETE FROM ".get_table_name('cache_thread')
+        ." WHERE changed < " . $db->fromunixtime($ts));
+
+  $db->query("DELETE FROM ".get_table_name('cache')
+        ." WHERE created < " . $db->fromunixtime($ts));
 }
 
 
