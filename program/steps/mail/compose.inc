@@ -822,24 +822,27 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 
 function rcmail_create_forward_body($body, $bodyIsHtml)
 {
-  global $IMAP, $MESSAGE, $OUTPUT;
+  global $RCMAIL, $MESSAGE;
 
   // add attachments
   if (!isset($_SESSION['compose']['forward_attachments']) && is_array($MESSAGE->mime_parts))
     $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
 
+  $date    = format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
+  $charset = $RCMAIL->output->get_charset();
+
   if (!$bodyIsHtml)
   {
     $prefix = "\n\n\n-------- " . rcube_label('originalmessage') . " --------\n";
-    $prefix .= 'Subject: ' . $MESSAGE->subject . "\n";
-    $prefix .= 'Date: ' . $MESSAGE->headers->date . "\n";
-    $prefix .= 'From: ' . $MESSAGE->get_header('from') . "\n";
-    $prefix .= 'To: ' . $MESSAGE->get_header('to') . "\n";
+    $prefix .= rcube_label('subject') . ': ' . $MESSAGE->subject . "\n";
+    $prefix .= rcube_label('date')    . ': ' . $date . "\n";
+    $prefix .= rcube_label('from')    . ': ' . $MESSAGE->get_header('from') . "\n";
+    $prefix .= rcube_label('to')      . ': ' . $MESSAGE->get_header('to') . "\n";
 
     if ($MESSAGE->headers->cc)
-      $prefix .= 'Cc: ' . $MESSAGE->get_header('cc') . "\n";
+      $prefix .= rcube_label('cc') . ': ' . $MESSAGE->get_header('cc') . "\n";
     if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
-      $prefix .= 'Reply-To: ' . $MESSAGE->get_header('replyto') . "\n";
+      $prefix .= rcube_label('replyto') . ': ' . $MESSAGE->get_header('replyto') . "\n";
 
     $prefix .= "\n";
   }
@@ -853,22 +856,24 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
     $prefix = sprintf(
       "<br /><p>-------- " . rcube_label('originalmessage') . " --------</p>" .
         "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
-        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Subject: </th><td>%s</td></tr>" .
-        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Date: </th><td>%s</td></tr>" .
-        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">From: </th><td>%s</td></tr>" .
-        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">To: </th><td>%s</td></tr>",
-      Q($MESSAGE->subject),
-      Q($MESSAGE->headers->date),
-      htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()),
-      htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
+        "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+      rcube_label('subject'), Q($MESSAGE->subject),
+      rcube_label('date'), Q($date),
+      rcube_label('from'), htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $charset),
+      rcube_label('to'), htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $charset));
 
     if ($MESSAGE->headers->cc)
-      $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Cc: </th><td>%s</td></tr>",
-        htmlspecialchars(Q($MESSAGE->get_header('cc'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
+      $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+        rcube_label('cc'),
+        htmlspecialchars(Q($MESSAGE->get_header('cc'), 'replace'), ENT_COMPAT, $charset));
 
     if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
-      $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">Reply-To: </th><td>%s</td></tr>",
-        htmlspecialchars(Q($MESSAGE->get_header('replyto'), 'replace'), ENT_COMPAT, $OUTPUT->get_charset()));
+      $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+        rcube_label('replyto'),
+        htmlspecialchars(Q($MESSAGE->get_header('replyto'), 'replace'), ENT_COMPAT, $charset));
 
     $prefix .= "</tbody></table><br>";
   }
