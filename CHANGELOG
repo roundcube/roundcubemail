@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use 'From' and 'To' labels instead of 'Sender' and 'Recipient'
 - Fix username case-insensitivity issue in MySQL (#1488021)
 - Addressbook Saved Searches
 - Added spellchecker exceptions dictionary (shared or per-user)

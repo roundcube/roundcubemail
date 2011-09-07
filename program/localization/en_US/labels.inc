@@ -41,8 +41,8 @@ $labels['junk']   = 'Junk';
 
 // message listing
 $labels['subject'] = 'Subject';
-$labels['from']    = 'Sender';
-$labels['to']      = 'Recipient';
+$labels['from']    = 'From';
+$labels['to']      = 'To';
 $labels['cc']      = 'Copy';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Reply-To';
@@ -163,7 +163,7 @@ $labels['threaded'] = 'Threaded';
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
-$labels['fromto'] = 'Sender/Recipient';
+$labels['fromto'] = 'From/To';
 $labels['flag'] = 'Flag';
 $labels['attachment'] = 'Attachment';
 $labels['nonesort'] = 'None';
