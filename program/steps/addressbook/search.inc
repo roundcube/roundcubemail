@@ -67,6 +67,9 @@ if ($RCMAIL->action == 'search-delete') {
     if ($result) {
         $OUTPUT->show_message('savedsearchdeleted', 'confirmation');
         $OUTPUT->command('remove_search_item', Q($id));
+        // contact list will be cleared, clear also page counter
+        $OUTPUT->command('set_rowcount', rcube_label('nocontactsfound'));
+        $OUTPUT->set_env('pagecount', 0);
     }
     else
         $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'savedsearchdeleteerror', 'error');
