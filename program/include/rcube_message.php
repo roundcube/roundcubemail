@@ -299,8 +299,10 @@ class rcube_message
             $structure->type = 'content';
             $this->parts[] = &$structure;
         }
-        // message contains alternative parts
-        else if ($mimetype == 'multipart/alternative' && is_array($structure->parts)) {
+        // message contains (more than one!) alternative parts
+        else if ($mimetype == 'multipart/alternative'
+            && is_array($structure->parts) && count($structure->parts) > 1
+        ) {
             // get html/plaintext parts
             $plain_part = $html_part = $print_part = $related_part = null;
 

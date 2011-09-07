@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix displaying multipart/alternative messages with only one part (#1487938)
 - Rewritten messages caching:
   Indexes are stored in a separate table, so there's no need to store all messages in a folder
   Added threads data caching
