@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where message list filter was reset on folder compacting (#1488076)
+
+RELEASE 0.6-RC
+--------------
 - jQuery 1.6.3
 - Fallback to mail_domain in LDAP variable replacements; added 'host' to 'user_create' hook arguments (#1488024)
 - Fixed wrong vCard type parameter mobile (#1488067)

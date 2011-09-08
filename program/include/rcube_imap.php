@@ -418,7 +418,7 @@ class rcube_imap
     function set_search_set($str=null, $msgs=null, $charset=null, $sort_field=null, $threads=false, $sorted=false)
     {
         if (is_array($str) && $msgs == null)
-            list($str, $msgs, $charset, $sort_field, $threads) = $str;
+            list($str, $msgs, $charset, $sort_field, $threads, $sorted) = $str;
         if ($msgs === false)
             $msgs = array();
         else if ($msgs != null && !is_array($msgs))
