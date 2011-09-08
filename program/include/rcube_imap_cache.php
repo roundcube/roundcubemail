@@ -888,10 +888,8 @@ class rcube_imap_cache
     {
         // Save current message from internal cache
         if ($message = $this->icache['message']) {
-            $object = $message['object'];
-            // remove body too big (>500kB)
-            if ($object->body && strlen($object->body) > 500 * 1024)
-                $object->body = null;
+            // clean up some object's data
+            $object = $this->message_object_prepare($message['object']);
 
             // calculate current md5 sum
             $md5sum = md5(serialize($object));
@@ -904,4 +902,30 @@ class rcube_imap_cache
         }
     }
 
+
+    /**
+     * Prepares message object to be stored in database.
+     */
+    private function message_object_prepare($msg, $recursive = false)
+    {
+        // Remove body too big (>500kB)
+        if ($recursive || ($msg->body && strlen($msg->body) > 500 * 1024)) {
+            unset($msg->body);
+        }
+
+        // Fix mimetype which might be broken by some code when message is displayed
+        // Another solution would be to use object's copy in rcube_message class
+        // to prevent related issues, however I'm not sure which is better
+        if ($msg->mimetype) {
+            list($msg->ctype_primary, $msg->ctype_secondary) = explode('/', $msg->mimetype);
+        }
+
+        if (is_array($msg->structure->parts)) {
+            foreach ($msg->structure->parts as $idx => $part) {
+                $msg->structure->parts[$idx] = $this->message_object_prepare($part, true);
+            }
+        }
+
+        return $msg;
+    }
 }

@@ -1999,12 +1999,11 @@ class rcube_imap
         }
 
         $struct = &$this->_structure_part($structure, 0, '', $headers);
-        $struct->headers = get_object_vars($headers);
 
         // don't trust given content-type
-        if (empty($struct->parts) && !empty($struct->headers['ctype'])) {
+        if (empty($struct->parts) && !empty($headers->ctype)) {
             $struct->mime_id = '1';
-            $struct->mimetype = strtolower($struct->headers['ctype']);
+            $struct->mimetype = strtolower($headers->ctype);
             list($struct->ctype_primary, $struct->ctype_secondary) = explode('/', $struct->mimetype);
         }
 
