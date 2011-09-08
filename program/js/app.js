@@ -990,14 +990,14 @@ function rcube_webmail()
         this.select_all_mode = false;
 
         if (s && this.env.mailbox)
-          this.list_mailbox(this.env.mailbox);
+          this.list_mailbox(this.env.mailbox, 1);
         else if (s && this.task == 'addressbook') {
           if (this.env.source == '') {
             for (n in this.env.address_sources) break;
             this.env.source = n;
             this.env.group = '';
           }
-          this.list_contacts(this.env.source, this.env.group);
+          this.list_contacts(this.env.source, this.env.group, 1);
         }
         break;
 
@@ -2797,14 +2797,15 @@ function rcube_webmail()
 
   this.expunge_mailbox = function(mbox)
   {
-    var lock = false,
-      url = '_mbox='+urlencode(mbox);
+    var lock, url = '_mbox='+urlencode(mbox);
 
     // lock interface if it's the active mailbox
     if (mbox == this.env.mailbox) {
-       lock = this.set_busy(true, 'loading');
-       url += '&_reload=1';
-     }
+      lock = this.set_busy(true, 'loading');
+      url += '&_reload=1';
+      if (this.env.search_request)
+        url += '&_search='+this.env.search_request;
+    }
 
     // send request to server
     this.http_post('expunge', url, lock);
