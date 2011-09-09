@@ -321,7 +321,6 @@ function rcube_webmail()
         }
         if (this.gui_objects.qsearchbox) {
           this.enable_command('search', 'reset-search', 'moveto', true);
-          $(this.gui_objects.qsearchbox).select();
         }
 
         if (this.contact_list && this.contact_list.rowcount > 0)
