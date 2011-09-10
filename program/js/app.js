@@ -1771,8 +1771,11 @@ function rcube_webmail()
       }
       else if (c == 'threads')
         html = expando;
-      else if (c == 'subject')
+      else if (c == 'subject') {
+        if (bw.ie)
+          col.onmouseover = function() { rcube_webmail.long_subject_title_ie(this, message.depth+1); };
         html = tree + cols[c];
+      }
       else if (c == 'priority') {
         if (flags.prio > 0 && flags.prio < 6)
           html = '<span class="prio'+flags.prio+'">&nbsp;</span>';
@@ -6110,6 +6113,23 @@ rcube_webmail.long_subject_title = function(elem, indent)
     var $elem = $(elem);
     if ($elem.width() + indent * 15 > $elem.parent().width())
       elem.title = $elem.html();
+  }
+};
+
+rcube_webmail.long_subject_title_ie = function(elem, indent)
+{
+  if (!elem.title) {
+    var $elem = $(elem),
+      txt = $elem.text(),
+      tmp = $('<span>').text(txt)
+        .css({'position': 'absolute', 'float': 'left', 'visibility': 'hidden',
+          'font-size': $elem.css('font-size'), 'font-weight': $elem.css('font-weight')})
+        .appendTo($('body')),
+      w = tmp.width();
+
+    tmp.remove();
+    if (w + indent * 15 > $elem.width())
+      elem.title = txt;
   }
 };
 
