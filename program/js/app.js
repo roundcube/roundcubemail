@@ -6120,7 +6120,7 @@ rcube_webmail.long_subject_title_ie = function(elem, indent)
 {
   if (!elem.title) {
     var $elem = $(elem),
-      txt = $elem.text(),
+      txt = $.trim($elem.text()),
       tmp = $('<span>').text(txt)
         .css({'position': 'absolute', 'float': 'left', 'visibility': 'hidden',
           'font-size': $elem.css('font-size'), 'font-weight': $elem.css('font-weight')})
