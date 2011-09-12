@@ -685,8 +685,8 @@ class rcube_ldap extends rcube_addressbook
         } // end foreach
 
         // Verify that the required fields are set.
+        $missing = null;
         foreach ($this->prop['required_fields'] as $fld) {
-            $missing = null;
             if (!isset($newentry[$fld])) {
                 $missing[] = $fld;
             }
