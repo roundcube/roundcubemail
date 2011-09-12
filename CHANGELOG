@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix text-overflow:ellipsis issues on messages list in FF7 and Webkit (#1488061)
 - Fix setting title for truncated subject in IE (#1487128)
 - Fix handling of links with IP address
 - Fix compacting folder resets message list filter (#1488076)

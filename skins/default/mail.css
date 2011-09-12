@@ -861,7 +861,6 @@ body.messagelist
 #messagelist tbody tr td.subject a
 {
   cursor: default;
-  display: inline-block;
   vertical-align: middle;
 }
 
