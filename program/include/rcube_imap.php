@@ -2386,6 +2386,9 @@ class rcube_imap
             return true;
         }
 
+        // Remove NULL characters (#1486189)                                                                                      
+        $body = str_replace("\x00", '', $body);
+
         // convert charset (if text or message part)
         if ($body && !$skip_charset_conv &&
             preg_match('/^(text|message)$/', $o_part->ctype_primary)
