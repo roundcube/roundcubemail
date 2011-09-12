@@ -1055,13 +1055,13 @@ function format_date($date, $format=NULL)
   // define date format depending on current time
   if (!$format) {
     if ($CONFIG['prettydate'] && $timestamp > $today_limit && $timestamp < $now) {
-      $format = $CONFIG['date_today'] ? $CONFIG['date_today'] : 'H:i';
+      $format = $RCMAIL->config->get('date_today', $RCMAIL->config->get('time_format', 'H:i'));
       $today  = true;
     }
     else if ($CONFIG['prettydate'] && $timestamp > $week_limit && $timestamp < $now)
-      $format = $CONFIG['date_short'] ? $CONFIG['date_short'] : 'D H:i';
+      $format = $RCMAIL->config->get('date_short', 'D H:i');
     else
-      $format = $CONFIG['date_long'] ? $CONFIG['date_long'] : 'd.m.Y H:i';
+      $format = $RCMAIL->config->get('date_long', 'Y-m-d H:i');
   }
 
   // strftime() format

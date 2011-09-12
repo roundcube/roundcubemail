@@ -237,6 +237,33 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    // date/time formatting
+    if (!isset($no_override['time_format'])) {
+      $reftime = mktime(7,30,0);
+      $field_id = 'rcmfd_time_format';
+      $select_time = new html_select(array('name' => '_time_format', 'id' => $field_id));
+      foreach ((array)$RCMAIL->config->get('time_formats', array('G:i', 'H:i', 'g:i a', 'h:i A')) as $choice)
+        $select_time->add(date($choice, $reftime), $choice);
+
+      $blocks['main']['options']['time_format'] = array(
+        'title' => html::label($field_id, Q(rcube_label('timeformat'))),
+        'content' => $select_time->show($RCMAIL->config->get('time_format')),
+      );
+    }
+
+    if (!isset($no_override['date_format'])) {
+      $refdate = mktime(12,30,0,7,24);
+      $field_id = 'rcmfd_date_format';
+      $select_date = new html_select(array('name' => '_date_format', 'id' => $field_id));
+      foreach ((array)$RCMAIL->config->get('date_formats', array('Y-m-d','d-m-Y','Y/m/d','m/d/Y','d/m/Y','d.m.Y','j.n.Y')) as $choice)
+        $select_date->add(date($choice, $refdate), $choice);
+
+      $blocks['main']['options']['date_format'] = array(
+        'title' => html::label($field_id, Q(rcube_label('dateformat'))),
+        'content' => $select_date->show($config['date_format']),
+      );
+    }
+
     // MM: Show checkbox for toggling 'pretty dates' 
     if (!isset($no_override['prettydate'])) {
       $field_id = 'rcmfd_prettydate';

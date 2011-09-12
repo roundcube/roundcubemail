@@ -376,18 +376,23 @@ $rcmail_config['list_cols'] = array('subject', 'status', 'from', 'date', 'size',
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
 $rcmail_config['language'] = null;
 
-// use this format for short date display (date or strftime format)
+// use this format for date display (date or strftime format)
+$rcmail_config['date_format'] = 'Y-m-d';
+
+// give this choice of date formats to the user to select from
+$rcmail_config['date_formats'] = array('Y-m-d', 'd-m-Y', 'Y/m/d', 'm/d/Y', 'd/m/Y', 'd.m.Y', 'j.n.Y');
+
+// use this format for time display (date or strftime format)
+$rcmail_config['time_format'] = 'H:i';
+
+// give this choice of time formats to the user to select from
+$rcmail_config['time_formats'] = array('G:i', 'H:i', 'g:i a', 'h:i A');
+
+// use this format for short date display (derived from date_format and time_format)
 $rcmail_config['date_short'] = 'D H:i';
 
-// use this format for detailed date/time formatting (date or strftime format)
-$rcmail_config['date_long'] = 'd.m.Y H:i';
-
-// use this format for today's date display (date or strftime format)
-// Note: $ character will be replaced with 'Today' label
-$rcmail_config['date_today'] = 'H:i';
-
-// use this format for date display without time (date or strftime format)
-$rcmail_config['date_format'] = 'Y-m-d';
+// use this format for detailed date/time formatting (derived from date_format and time_format)
+$rcmail_config['date_long'] = 'Y-m-d H:i';
 
 // store draft message is this mailbox
 // leave blank if draft messages should not be stored

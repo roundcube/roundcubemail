@@ -32,9 +32,17 @@ switch ($CURR_SECTION)
       'timezone'     => isset($_POST['_timezone']) ? (is_numeric($_POST['_timezone']) ? floatval($_POST['_timezone']) : get_input_value('_timezone', RCUBE_INPUT_POST)) : $CONFIG['timezone'],
       'dst_active'   => isset($_POST['_dst_active']) ? TRUE : FALSE,
       'pagesize'     => is_numeric($_POST['_pagesize']) ? max(2, intval($_POST['_pagesize'])) : $CONFIG['pagesize'],
+      'date_format'  => isset($_POST['_date_format']) ? get_input_value('_date_format', RCUBE_INPUT_POST) : $CONFIG['date_format'],
+      'time_format'  => isset($_POST['_time_format']) ? get_input_value('_time_format', RCUBE_INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
       'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
       'skin' 	     => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
     );
+    
+    // compose derived date/time format strings
+    if ((isset($_POST['_date_format']) || isset($_POST['_time_format'])) && $a_user_prefs['date_format'] && $a_user_prefs['time_format']) {
+      $a_user_prefs['date_short'] = 'D ' . $a_user_prefs['time_format'];
+      $a_user_prefs['date_long'] = $a_user_prefs['date_format'] . ' ' . $a_user_prefs['time_format'];
+    }
 
   break;
 

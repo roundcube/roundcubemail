@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make date/time format user configurable; drop 'date_today' config option
 - Fix handling of binary attachments encoded with quoted-printable (#1488065)
 - Fix text-overflow:ellipsis issues on messages list in FF7 and Webkit (#1488061)
 - Fix setting title for truncated subject in IE (#1487128)
