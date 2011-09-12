@@ -686,7 +686,6 @@ body.messagelist
   cursor: inherit;
 }
 
-#messagelist td span,
 #messagelist td img
 {
   vertical-align: middle;
@@ -705,6 +704,7 @@ body.messagelist
 #messagelist tr td.attachment span,
 #messagelist tr td.priority span
 {
+  display: block;
   width: 15px;
 }
 
@@ -720,6 +720,7 @@ body.messagelist
 #messagelist tr td.priority span.prio4,
 #messagelist tr td.priority span.prio5,
 #messagelist tr td.flag span.flagged,
+#messagelist tr td.flag span.unflagged,
 #messagelist tr td.flag span.unflagged:hover,
 #messagelist tr td.status span.status,
 #messagelist tr td.status span.msgicon,
@@ -733,6 +734,7 @@ body.messagelist
 #messagelist tr td.subject span.forwarded,
 #messagelist tr td.subject span.unreadchildren
 {
+  display: inline-block;
   vertical-align: middle;
   height: 17px;
   width: 15px;
@@ -812,6 +814,7 @@ body.messagelist
 }
 
 #messagelist tr td.status span.msgicon,
+#messagelist tr td.flag span.unflagged,
 #messagelist tr td.status span.unreadchildren
 {
   background-position: 0 17px; /* no icon */
@@ -861,7 +864,7 @@ body.messagelist
 #messagelist tbody tr td.subject a
 {
   cursor: default;
-  vertical-align: middle;
+  vertical-align: middle; /* #1487091 */
 }
 
 /* thread parent message with unread children */
