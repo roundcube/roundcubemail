@@ -156,5 +156,10 @@ $messages['copyingcontact'] = 'Kopiowanie kontaktów...';
 $messages['addingmember'] = 'Dodawanie kontaktów do grupy...';
 $messages['removingmember'] = 'Usuwanie kontaktów z grupy...';
 $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wybrane miejsce. Brak upranień.';
+$messages['contactsearchsuccessful'] = 'Znaleziono $nr kontaktów.';
+$messages['savedsearchdeleted'] = 'Wyszukiwanie usunięto pomyślnie.';
+$messages['savedsearchdeleteerror'] = 'Nie można usunąć wyszukiwania.';
+$messages['savedsearchcreated'] = 'Wyszukiwanie zapisano pomyślnie.';
+$messages['savedsearchcreateerror'] = 'Nie można zapisać wyszukiwania.';
 
 ?>

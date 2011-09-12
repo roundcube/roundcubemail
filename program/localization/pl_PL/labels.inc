@@ -422,5 +422,13 @@ $labels['undo'] = 'Cofnij';
 $labels['mailreplyintro'] = 'W dniu $date, $sender napisał(a):';
 $labels['uploadprogress'] = '$percent ($current z $total)';
 $labels['originalmessage'] = 'Wiadomość oryginalna';
+$labels['moreactions'] = 'Więcej akcji...';
+$labels['searchsave'] = 'Zapisz wyszukiwanie';
+$labels['searchdelete'] = 'Usuń wyszukiwanie';
+$labels['spellcheckoptions'] = 'Opcje sprawdzania pisowni';
+$labels['spellcheckignoresyms'] = 'Ignoruj słowa zawierające symbole';
+$labels['spellcheckignorenums'] = 'Ignoruj słowa zawierające cyfry';
+$labels['spellcheckignorecaps'] = 'Ignoruj słowa pisane wielkimi literami';
+$labels['addtodict'] = 'Dodaj do słownika';
 
 ?>
