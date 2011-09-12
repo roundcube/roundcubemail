@@ -349,8 +349,9 @@ class rcube_sieve
         $name = array();
 
         // Squirrelmail (Avelsieve)
-        if ($tokens = preg_split('/(#START_SIEVE_RULE.*END_SIEVE_RULE)\r?\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE)) {
-            foreach($tokens as $token) {
+        if (preg_match('/(#START_SIEVE_RULE.*END_SIEVE_RULE)\r?\n/', $script)) {
+            $tokens = preg_split('/(#START_SIEVE_RULE.*END_SIEVE_RULE)\r?\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE);
+            foreach ($tokens as $token) {
                 if (preg_match('/^#START_SIEVE_RULE.*/', $token, $matches)) {
                     $name[$i] = "unnamed rule ".($i+1);
                     $content .= "# rule:[".$name[$i]."]\n";
@@ -366,9 +367,10 @@ class rcube_sieve
             }
         }
         // Horde (INGO)
-        else if ($tokens = preg_split('/(# .+)\r?\n/i', $script, -1, PREG_SPLIT_DELIM_CAPTURE)) {
+        else if (preg_match('/(# .+)\r?\n/', $script)) {
+            $tokens = preg_split('/(# .+)\r?\n/', $script, -1, PREG_SPLIT_DELIM_CAPTURE);
             foreach($tokens as $token) {
-                if (preg_match('/^# (.+)/i', $token, $matches)) {
+                if (preg_match('/^# (.+)/', $token, $matches)) {
                     $name[$i] = $matches[1];
                     $content .= "# rule:[" . $name[$i] . "]\n";
                 }

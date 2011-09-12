@@ -1,3 +1,5 @@
+- Fixed import from Horde-INGO (#1488064)
+
 * version 4.3 [2011-07-28]
 -----------------------------------------------------------
 - Fixed handling of error in Net_Sieve::listScripts()

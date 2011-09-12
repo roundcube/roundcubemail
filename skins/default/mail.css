@@ -632,7 +632,7 @@ body.messagelist
 #messagelist thead tr td.sortedASC,
 #messagelist thead tr td.sortedDESC
 {
-  background-position: 0 -22px;
+  background-position: 0 -26px;
 }
 
 #messagelist thead tr td.sortedASC a
@@ -824,7 +824,6 @@ body.messagelist
 #messagelist tbody tr td.subject a
 {
   cursor: default;
-  display: inline-block;
   vertical-align: middle;
 }
 

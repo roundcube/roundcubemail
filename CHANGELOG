@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix text-overflow:ellipsis issues on messages list in FF7 and Webkit (#1488061)
+- Fix handling of links with IP address
 - Fix bug where message list filter was reset on folder compacting (#1488076)
 
 RELEASE 0.6-RC
