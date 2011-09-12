@@ -408,12 +408,12 @@ function rcmail_get_rowcount_text($result=null)
 function rcmail_get_type_label($type)
 {
     $label = 'type'.$type;
-    if (rcube_label_exists($label))
-        return rcube_label($label);
+    if (rcube_label_exists($label, '*', $domain))
+        return rcube_label($label, $domain);
     else if (preg_match('/\w+(\d+)$/', $label, $m)
             && ($label = preg_replace('/(\d+)$/', '', $label))
-            && rcube_label_exists($label))
-        return rcube_label($label) . ' ' . $m[1];
+            && rcube_label_exists($label, '*', $domain))
+        return rcube_label($label, $domain) . ' ' . $m[1];
 
     return ucfirst($type);
 }

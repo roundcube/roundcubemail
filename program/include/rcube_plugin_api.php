@@ -422,6 +422,17 @@ class rcube_plugin_api
 
 
   /**
+   * Returns list of loaded plugins names
+   *
+   * @return array List of plugin names
+   */
+  public function loaded_plugins()
+  {
+    return array_keys($this->plugins);
+  }
+
+
+  /**
    * Callback for template_container hooks
    *
    * @param array $attrib

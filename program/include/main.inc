@@ -97,9 +97,9 @@ function rcube_label($p, $domain=null)
  *
  * @see rcmail::text_exists()
  */
-function rcube_label_exists($name, $domain=null)
+function rcube_label_exists($name, $domain=null, &$ref_domain = null)
 {
-  return rcmail::get_instance()->text_exists($name, $domain);
+  return rcmail::get_instance()->text_exists($name, $domain, $ref_domain);
 }
 
 

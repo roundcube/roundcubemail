@@ -970,7 +970,9 @@ class rcmail
   /**
    * Get localized text in the desired language
    *
-   * @param mixed Named parameters array or label name
+   * @param mixed   $attrib  Named parameters array or label name
+   * @param string  $domain  Label domain (plugin) name
+   *
    * @return string Localized text
    */
   public function gettext($attrib, $domain=null)
@@ -985,7 +987,7 @@ class rcmail
 
     $nr = is_numeric($attrib['nr']) ? $attrib['nr'] : 1;
     $name = $attrib['name'] ? $attrib['name'] : '';
-    
+
     // attrib contain text values: use them from now
     if (($setval = $attrib[strtolower($_SESSION['language'])]) || ($setval = $attrib['en_us']))
         $this->texts[$name] = $setval;
@@ -1041,19 +1043,40 @@ class rcmail
 
 
   /**
-   * Check if the given text lable exists
+   * Check if the given text label exists
    *
-   * @param string Label name
+   * @param string  $name       Label name
+   * @param string  $domain     Label domain (plugin) name or '*' for all domains
+   * @param string  $ref_domain Sets domain name if label is found
+   *
    * @return boolean True if text exists (either in the current language or in en_US)
    */
-  public function text_exists($name, $domain=null)
+  public function text_exists($name, $domain = null, &$ref_domain = null)
   {
     // load localization files if not done yet
     if (empty($this->texts))
       $this->load_language();
 
-    // check for text with domain first
-    return ($domain && isset($this->texts[$domain.'.'.$name])) || isset($this->texts[$name]);
+    if (isset($this->texts[$name])) {
+        $ref_domain = '';
+        return true;
+    }
+
+    // any of loaded domains (plugins)
+    if ($domain == '*') {
+      foreach ($this->plugins->loaded_plugins() as $domain)
+        if (isset($this->texts[$domain.'.'.$name])) {
+          $ref_domain = $domain;
+          return true;
+        }
+    }
+    // specified domain
+    else if ($domain) {
+      $ref_domain = $domain;
+      return isset($this->texts[$domain.'.'.$name]);
+    }
+
+    return false;
   }
 
   /**
