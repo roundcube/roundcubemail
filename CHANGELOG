@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix encoding of LDAP contacts identifiers (#1488079)
 - jQuery 1.6.4
 - Make date/time format user configurable; drop 'date_today' config option
 - Fix handling of binary attachments encoded with quoted-printable (#1488065)
