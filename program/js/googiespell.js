@@ -193,7 +193,7 @@ this.getUrl = function() {
 };
 
 this.escapeSpecial = function(val) {
-    return val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return val ? val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
 };
 
 this.createXMLReq = function (text) {

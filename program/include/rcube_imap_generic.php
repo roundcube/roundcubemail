@@ -2387,8 +2387,6 @@ class rcube_imap_generic
                 } else if ($mode == 2) {
                     $line = rtrim($line, "\t\r\0\x0B");
                     $line = quoted_printable_decode($line);
-                    // Remove NULL characters (#1486189)
-                    $line = str_replace("\x00", '', $line);
                 // UUENCODE
                 } else if ($mode == 3) {
                     $line = rtrim($line, "\t\r\n\0\x0B");
