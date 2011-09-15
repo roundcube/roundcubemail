@@ -171,14 +171,12 @@ get_modifier: function(e)
   var opcode = 0;
   e = e || window.event;
 
-  if (bw.mac && e) {
+  if (bw.mac && e)
     opcode += (e.metaKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
-    return opcode;
-  }
-  if (e) {
+  else if (e)
     opcode += (e.ctrlKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
-    return opcode;
-  }
+
+  return opcode;
 },
 
 /**

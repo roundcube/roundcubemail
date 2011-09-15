@@ -86,7 +86,7 @@ function rcube_webmail()
     if (over) button_prop.over = over;
 
     this.buttons[command].push(button_prop);
-    
+
     if (this.loaded)
       init_button(command, button_prop);
   };
@@ -1522,11 +1522,12 @@ function rcube_webmail()
 
   this.msglist_keypress = function(list)
   {
+    if (list.modkey == CONTROL_KEY)
+      return;
+
     if (list.key_pressed == list.ENTER_KEY)
       this.command('show');
-    else if (list.key_pressed == list.DELETE_KEY)
-      this.command('delete');
-    else if (list.key_pressed == list.BACKSPACE_KEY)
+    else if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
       this.command('delete');
     else if (list.key_pressed == 33)
       this.command('previouspage');
@@ -2496,7 +2497,7 @@ function rcube_webmail()
     // if there is a trash mailbox defined and we're not currently in it
     else {
       // if shift was pressed delete it immediately
-      if (list && list.shiftkey) {
+      if (list && list.modkey == SHIFT_KEY) {
         if (confirm(this.get_label('deletemessagesconfirm')))
           this.permanently_remove_messages();
       }

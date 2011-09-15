@@ -36,7 +36,7 @@ function rcube_list_widget(list, p)
   this.colcount = 0;
 
   this.subject_col = -1;
-  this.shiftkey = false;
+  this.modkey = 0;
   this.multiselect = false;
   this.multiexpand = false;
   this.multi_selecting = false;
@@ -648,7 +648,7 @@ select_row: function(id, mod_key, with_mouse)
       case CONTROL_KEY:
         if (!with_mouse)
           this.highlight_row(id, true);
-        break; 
+        break;
 
       case CONTROL_SHIFT_KEY:
         this.shift_select(id, true);
@@ -962,7 +962,7 @@ key_press: function(e)
 
   switch (keyCode) {
     case 40:
-    case 38: 
+    case 38:
     case 63233: // "down", in safari keypress
     case 63232: // "up", in safari keypress
       // Stop propagation so that the browser doesn't scroll
@@ -976,7 +976,9 @@ key_press: function(e)
       rcube_event.cancel(e);
       var ret = this.use_plusminus_key(keyCode, mod_key);
       this.key_pressed = keyCode;
+      this.modkey = mod_key;
       this.triggerEvent('keypress');
+      this.modkey = 0;
       return ret;
     case 36: // Home
       this.select_first(mod_key);
@@ -985,11 +987,10 @@ key_press: function(e)
       this.select_last(mod_key);
       return rcube_event.cancel(e);
     default:
-      this.shiftkey = e.shiftKey;
       this.key_pressed = keyCode;
+      this.modkey = mod_key;
       this.triggerEvent('keypress');
-      // reset shiftkey flag, we need it only for registered events
-      this.shiftkey = false;
+      this.modkey = 0;
 
       if (this.key_pressed == this.BACKSPACE_KEY)
         return rcube_event.cancel(e);
@@ -1044,7 +1045,7 @@ use_arrow_key: function(keyCode, mod_key)
     new_row = this.get_prev_row();
 
   if (new_row) {
-    this.select_row(new_row.uid, mod_key, true);
+    this.select_row(new_row.uid, mod_key, false);
     this.scrollto(new_row.uid);
   }
 
