@@ -28,6 +28,7 @@ $crit_opts = array(
     'suhosin.session.encrypt' => 0,
     'session.auto_start' => 0,
     'file_uploads' => 1,
+    'magic_quotes_runtime' => 0,
 );
 foreach ($crit_opts as $optname => $optval) {
     if ($optval != ini_get($optname)) {
