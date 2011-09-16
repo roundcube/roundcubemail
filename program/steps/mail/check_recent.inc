@@ -34,10 +34,16 @@ else {
 
 // check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
-    if ($mbox_name == $current && ($status = $IMAP->mailbox_status($mbox_name))) {
+    $status = $IMAP->mailbox_status($mbox_name);
 
-        rcmail_send_unread_count($mbox_name, true);
+    if ($status & 1) {
+        // trigger plugin hook
+        $RCMAIL->plugins->exec_hook('new_messages', array('mailbox' => $mbox_name));
+    }
 
+    rcmail_send_unread_count($mbox_name, true);
+
+    if ($status && $mbox_name == $current) {
         // refresh saved search set
         $search_request = get_input_value('_search', RCUBE_INPUT_GPC);
         if ($search_request && isset($_SESSION['search'])
@@ -70,11 +76,6 @@ foreach ($a_mailboxes as $mbox_name) {
         $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($all_count));
         $OUTPUT->set_env('current_page', $all_count ? $IMAP->list_page : 1);
 
-        if ($status & 1) {
-            // trigger plugin hook
-            $RCMAIL->plugins->exec_hook('new_messages', array('mailbox' => $mbox_name));
-        }
-
         // remove old rows (and clear selection if new list is empty)
         $OUTPUT->command('message_list.clear', $all_count ? false : true);
 
@@ -85,9 +86,6 @@ foreach ($a_mailboxes as $mbox_name) {
             // remove messages that don't exists from list selection array
             $OUTPUT->command('update_selection');
         }
-    }
-    else {
-        rcmail_send_unread_count($mbox_name, true);
     }
 }
 

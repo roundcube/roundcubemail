@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Trigger 'new_messages' hook for all checked folders (#1488083)
 - Fix session race conditions when composing new messages
 - Fix encoding of LDAP contacts identifiers (#1488079)
 - jQuery 1.6.4
