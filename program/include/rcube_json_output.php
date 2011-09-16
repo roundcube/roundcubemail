@@ -219,7 +219,6 @@ class rcube_json_output
      */
     public function send()
     {
-      sleep(6);
         $this->remote_response();
         exit;
     }
