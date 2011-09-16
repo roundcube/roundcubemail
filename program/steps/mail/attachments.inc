@@ -25,7 +25,7 @@ if (!empty($_GET['_progress'])) {
 }
 
 $COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
-$_SESSION['compose'] = $_SESSION['compose_data'][$COMPOSE_ID];
+$_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
 
 if (!$_SESSION['compose']) {
   die("Invalid session var!");
