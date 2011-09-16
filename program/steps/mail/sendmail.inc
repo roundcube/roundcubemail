@@ -27,7 +27,7 @@ $OUTPUT->framed = TRUE;
 $savedraft = !empty($_POST['_draft']) ? true : false;
 
 $COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
-$_SESSION['compose'] = $_SESSION['compose_data'][$COMPOSE_ID];
+$_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
 
 /****** checks ********/
 

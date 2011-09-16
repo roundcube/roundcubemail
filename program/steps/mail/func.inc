@@ -1427,12 +1427,12 @@ function rcmail_message_part_frame($attrib)
  */
 function rcmail_compose_cleanup($id)
 {
-  if (!isset($_SESSION['compose_data'][$id]))
+  if (!isset($_SESSION['compose_data_'.$id]))
     return;
 
   $rcmail = rcmail::get_instance();
   $rcmail->plugins->exec_hook('attachments_cleanup', array('group' => $id));
-  unset($_SESSION['compose_data'][$id]);
+  $rcmail->session->remove('compose_data_'.$id);
 }
 
 

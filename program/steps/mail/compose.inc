@@ -29,7 +29,7 @@ $MESSAGE_FORM = NULL;
 $MESSAGE = NULL;
 
 $COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GET);
-$_SESSION['compose'] = $_SESSION['compose_data'][$COMPOSE_ID];
+$_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
 
 // Nothing below is called during message composition, only at "new/forward/reply/draft" initialization or
 // if a compose-ID is given (i.e. when the compose step is opened in a new window/tab).
@@ -39,7 +39,7 @@ if (!is_array($_SESSION['compose']))
   if ($COMPOSE_ID)
     raise_error(array('code' => 500, 'type' => 'php',
       'file' => __FILE__, 'line' => __LINE__,
-      'message' => "Invalid session"), true, true);
+      'message' => "Invalid compose ID"), true, true);
 
   $_SESSION['compose'] = array(
     'id' => uniqid(mt_rand()),
