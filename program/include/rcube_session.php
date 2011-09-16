@@ -193,8 +193,6 @@ class rcube_session
    */
   private function _fixvars($vars, $oldvars)
   {
-    $ts = microtime(true);
-
     if ($oldvars !== false) {
       $a_oldvars = $this->unserialize($oldvars);
       if (is_array($a_oldvars)) {
