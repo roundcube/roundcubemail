@@ -856,6 +856,10 @@ class rcmail
     else if ($config['auto_create_user']) {
       if ($created = rcube_user::create($username, $host)) {
         $user = $created;
+
+        // fix default settings according to namespace prefix
+        $this->fix_namespace_settings($user);
+
         // create default folders on first login
         if ($config['create_default_folders'])
           $this->imap->create_default_folders();
