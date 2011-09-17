@@ -3500,7 +3500,8 @@ class rcube_imap
         }
 
         if (!empty($options['rights'])) {
-            $options['norename'] = !in_array('x', $options['rights']);
+            $options['norename'] = !in_array('x', $options['rights']) && !in_array('d', $options['rights']);
+
             if (!$options['noselect']) {
                 $options['noselect'] = !in_array('r', $options['rights']);
             }
