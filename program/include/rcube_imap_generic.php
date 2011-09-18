@@ -6,6 +6,7 @@
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2011, Kolab Systems AG                                  |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -54,15 +55,8 @@ class rcube_mail_header
     public $references;
     public $priority;
     public $mdn_to;
-
-    public $flags;
-    public $mdnsent = false;
-    public $seen = false;
-    public $deleted = false;
-    public $answered = false;
-    public $forwarded = false;
-    public $flagged = false;
     public $others = array();
+    public $flags = array();
 }
 
 // For backward compatibility with cached messages (#1486602)
@@ -689,7 +683,7 @@ class rcube_imap_generic
         // initialize connection
         $this->error    = '';
         $this->errornum = self::ERROR_OK;
-        $this->selected = '';
+        $this->selected = null;
         $this->user     = $user;
         $this->host     = $host;
         $this->logged   = false;
@@ -886,7 +880,7 @@ class rcube_imap_generic
             return false;
         }
 
-        if ($this->selected == $mailbox) {
+        if ($this->selected === $mailbox) {
             return true;
         }
 /*
@@ -1049,7 +1043,7 @@ class rcube_imap_generic
             $result = $this->execute('EXPUNGE', null, self::COMMAND_NORESPONSE);
 
         if ($result == self::ERROR_OK) {
-            $this->selected = ''; // state has changed, need to reselect
+            $this->selected = null; // state has changed, need to reselect
             return true;
         }
 
@@ -1067,7 +1061,7 @@ class rcube_imap_generic
         $result = $this->execute('CLOSE', NULL, self::COMMAND_NORESPONSE);
 
         if ($result == self::ERROR_OK) {
-            $this->selected = '';
+            $this->selected = null;
             return true;
         }
 
@@ -1134,7 +1128,7 @@ class rcube_imap_generic
         }
 
         if ($res) {
-            if ($this->selected == $mailbox)
+            if ($this->selected === $mailbox)
                 $res = $this->close();
             else
                 $res = $this->expunge($mailbox);
@@ -1153,10 +1147,10 @@ class rcube_imap_generic
     function countMessages($mailbox, $refresh = false)
     {
         if ($refresh) {
-            $this->selected = '';
+            $this->selected = null;
         }
 
-        if ($this->selected == $mailbox) {
+        if ($this->selected === $mailbox) {
             return $this->data['EXISTS'];
         }
 
@@ -1190,7 +1184,7 @@ class rcube_imap_generic
 
         $this->select($mailbox);
 
-        if ($this->selected == $mailbox) {
+        if ($this->selected === $mailbox) {
             return $this->data['RECENT'];
         }
 
@@ -1676,31 +1670,10 @@ class rcube_imap_generic
                     else if ($name == 'FLAGS') {
                         if (!empty($value)) {
                             foreach ((array)$value as $flag) {
-                                $flag = str_replace('\\', '', $flag);
+                                $flag = str_replace(array('$', '\\'), '', $flag);
+                                $flag = strtoupper($flag);
 
-                                switch (strtoupper($flag)) {
-                                case 'SEEN':
-                                    $result[$id]->seen = true;
-                                    break;
-                                case 'DELETED':
-                                    $result[$id]->deleted = true;
-                                    break;
-                                case 'ANSWERED':
-                                    $result[$id]->answered = true;
-                                    break;
-                                case '$FORWARDED':
-                                    $result[$id]->forwarded = true;
-                                    break;
-                                case '$MDNSENT':
-                                    $result[$id]->mdnsent = true;
-                                    break;
-                                case 'FLAGGED':
-                                    $result[$id]->flagged = true;
-                                    break;
-                                default:
-                                    $result[$id]->flags[] = $flag;
-                                    break;
-                                }
+                                $result[$id]->flags[$flag] = true;
                             }
                         }
                     }
@@ -1812,7 +1785,7 @@ class rcube_imap_generic
             // VANISHED response (QRESYNC RFC5162)
             // Sample: * VANISHED (EARLIER) 300:310,405,411
 
-            else if (preg_match('/^\* VANISHED [EARLIER]*/i', $line, $match)) {
+            else if (preg_match('/^\* VANISHED [()EARLIER]*/i', $line, $match)) {
                 $line   = substr($line, strlen($match[0]));
                 $v_data = $this->tokenizeResponse($line, 1);
 

@@ -1647,8 +1647,8 @@ function rcube_webmail()
     // merge flags over local message object
     $.extend(this.env.messages[uid], {
       deleted: flags.deleted?1:0,
-      replied: flags.replied?1:0,
-      unread: flags.unread?1:0,
+      replied: flags.answered?1:0,
+      unread: !flags.seen?1:0,
       forwarded: flags.forwarded?1:0,
       flagged: flags.flagged?1:0,
       has_children: flags.has_children?1:0,
@@ -1671,10 +1671,10 @@ function rcube_webmail()
       message = this.env.messages[uid],
       css_class = 'message'
         + (even ? ' even' : ' odd')
-        + (flags.unread ? ' unread' : '')
+        + (!flags.seen ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
-        + (flags.unread_children && !flags.unread && !this.env.autoexpand_threads ? ' unroot' : '')
+        + (flags.unread_children && flags.seen && !this.env.autoexpand_threads ? ' unroot' : '')
         + (message.selected ? ' selected' : ''),
       // for performance use DOM instead of jQuery here
       row = document.createElement('tr'),
@@ -1689,12 +1689,12 @@ function rcube_webmail()
       css_class += ' status';
       if (flags.deleted)
         css_class += ' deleted';
-      else if (flags.unread)
+      else if (!flags.seen)
         css_class += ' unread';
       else if (flags.unread_children > 0)
         css_class += ' unreadchildren';
     }
-    if (flags.replied)
+    if (flags.answered)
       css_class += ' replied';
     if (flags.forwarded)
       css_class += ' forwarded';
@@ -1762,7 +1762,7 @@ function rcube_webmail()
       else if (c == 'status') {
         if (flags.deleted)
           css_class = 'deleted';
-        else if (flags.unread)
+        else if (!flags.seen)
           css_class = 'unread';
         else if (flags.unread_children > 0)
           css_class = 'unreadchildren';
@@ -2056,8 +2056,7 @@ function rcube_webmail()
       new_row = tbody.firstChild;
 
     while (new_row) {
-      if (new_row.nodeType == 1 && (r = this.message_list.rows[new_row.uid])
-	    && r.unread_children) {
+      if (new_row.nodeType == 1 && (r = this.message_list.rows[new_row.uid]) && r.unread_children) {
 	    this.message_list.expand_all(r);
 	    this.set_unread_children(r.uid);
       }
@@ -3542,7 +3541,7 @@ function rcube_webmail()
 
   this.insert_recipient = function(id)
   {
-    if (!this.env.contacts[id] || !this.ksearch_input)
+    if (id === null || !this.env.contacts[id] || !this.ksearch_input)
       return;
 
     // get cursor pos

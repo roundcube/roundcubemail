@@ -76,12 +76,13 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
       'movingmessage', 'deletingmessage');
 
   // check for unset disposition notification
-  if ($MESSAGE->headers->mdn_to &&
-      !$MESSAGE->headers->mdnsent && !$MESSAGE->headers->seen &&
-      ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*')) &&
-      $mbox_name != $CONFIG['drafts_mbox'] &&
-      $mbox_name != $CONFIG['sent_mbox'])
-  {
+  if ($MESSAGE->headers->mdn_to
+      && empty($MESSAGE->headers->flags['MDNSENT'])
+      && empty($MESSAGE->headers->flags['SEEN'])
+      && ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*'))
+      && $mbox_name != $CONFIG['drafts_mbox']
+      && $mbox_name != $CONFIG['sent_mbox']
+  ) {
     $mdn_cfg = intval($CONFIG['mdn_requests']);
 
     if ($mdn_cfg == 1 || (($mdn_cfg == 3 || $mdn_cfg ==  4) && rcmail_contact_exists($MESSAGE->sender['mailto']))) {
@@ -100,9 +101,12 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     }
   }
 
-  if (!$MESSAGE->headers->seen && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
+  if (empty($MESSAGE->headers->flags['SEEN'])
+    && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0))
+  ) {
     $RCMAIL->plugins->exec_hook('message_read', array('uid' => $MESSAGE->uid,
       'mailbox' => $mbox_name, 'message' => $MESSAGE));
+  }
 }
 
 
@@ -199,7 +203,7 @@ else
 
 
 // mark message as read
-if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen &&
+if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']) &&
   ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
 {
   if ($IMAP->set_flag($MESSAGE->uid, 'SEEN')) {

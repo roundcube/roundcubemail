@@ -813,7 +813,7 @@ class rcube_imap
             $mailbox = $this->mailbox;
         }
 
-        return $this->_list_headers($mailbox, $page, $sort_field, $sort_order, false, $slice);
+        return $this->_list_headers($mailbox, $page, $sort_field, $sort_order, $slice);
     }
 
 
@@ -1086,7 +1086,7 @@ class rcube_imap
 
             if (!empty($parents)) {
                 $headers[$idx]->parent_uid = end($parents);
-                if (!$header->seen)
+                if (empty($header->flags['SEEN']))
                     $headers[$parents[0]]->unread_children++;
             }
             array_push($parents, $header->uid);
@@ -3421,6 +3421,8 @@ class rcube_imap
         if ($this->conn->selected != $mailbox) {
             if ($this->conn->select($mailbox))
                 $this->mailbox = $mailbox;
+            else
+                return null;
         }
 
         $data = $this->conn->data;
@@ -3513,6 +3515,19 @@ class rcube_imap
         $this->icache['options'] = $options;
 
         return $options;
+    }
+
+
+    /**
+     * Synchronizes messages cache.
+     *
+     * @param string $mailbox Folder name
+     */
+    public function mailbox_sync($mailbox)
+    {
+        if ($mcache = $this->get_mcache_engine()) {
+            $mcache->synchronize($mailbox);
+        }
     }
 
 

@@ -156,14 +156,14 @@ if (!empty($msg_uid))
   // re-set 'prefer_html' to have possibility to use html part for compose
   $CONFIG['prefer_html'] = $CONFIG['prefer_html'] || $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
   $MESSAGE = new rcube_message($msg_uid);
-  
+
   // make sure message is marked as read
-  if ($MESSAGE && $MESSAGE->headers && !$MESSAGE->headers->seen)
+  if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']))
     $IMAP->set_flag($msg_uid, 'SEEN');
 
   if (!empty($MESSAGE->headers->charset))
     $IMAP->set_charset($MESSAGE->headers->charset);
-    
+
   if ($compose_mode == RCUBE_COMPOSE_REPLY)
   {
     $_SESSION['compose']['reply_uid'] = $msg_uid;

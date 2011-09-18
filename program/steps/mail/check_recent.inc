@@ -34,16 +34,24 @@ else {
 
 // check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
+    $is_current = $mbox_name == $current;
+    if ($is_current) {
+        // Synchronize mailbox cache, handle flag changes
+        $IMAP->mailbox_sync($mbox_name);
+    }
+
+    // Get mailbox status
     $status = $IMAP->mailbox_status($mbox_name);
 
     if ($status & 1) {
         // trigger plugin hook
-        $RCMAIL->plugins->exec_hook('new_messages', array('mailbox' => $mbox_name));
+        $RCMAIL->plugins->exec_hook('new_messages',
+            array('mailbox' => $mbox_name, 'is_current' => $is_current));
     }
 
     rcmail_send_unread_count($mbox_name, true);
 
-    if ($status && $mbox_name == $current) {
+    if ($status && $is_current) {
         // refresh saved search set
         $search_request = get_input_value('_search', RCUBE_INPUT_GPC);
         if ($search_request && isset($_SESSION['search'])

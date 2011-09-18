@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Cache synchronization using QRESYNC/CONDSTORE
 - Fix locked folder rename option on servers supporting RFC2086 only (#1488089)
 - Trigger 'new_messages' hook for all checked folders (#1488083)
 - Fix session race conditions when composing new messages
@@ -17,7 +18,6 @@ CHANGELOG Roundcube Webmail
   Indexes are stored in a separate table, so there's no need to store all messages in a folder
   Added threads data caching
   Flags are stored separately, so flag change doesn't cause DELETE+INSERT, just UPDATE
-- Partial QRESYNC support
 - Improved FETCH response handling
 - Improvements in response tokenization method
 - Use 'From' and 'To' labels instead of 'Sender' and 'Recipient'

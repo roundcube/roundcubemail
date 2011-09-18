@@ -276,12 +276,7 @@ CREATE TABLE cache_messages (
     uid integer NOT NULL,
     changed datetime NOT NULL default '0000-00-00 00:00:00',
     data text NOT NULL,
-    seen smallint NOT NULL DEFAULT '0',
-    deleted smallint NOT NULL DEFAULT '0',
-    answered smallint NOT NULL DEFAULT '0',
-    forwarded smallint NOT NULL DEFAULT '0',
-    flagged smallint NOT NULL DEFAULT '0',
-    mdnsent smallint NOT NULL DEFAULT '0',
+    flags integer NOT NULL DEFAULT '0',
     PRIMARY KEY (user_id, mailbox, uid)
 );
 

@@ -287,6 +287,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $a_msg_cols[$col] = $cont;
     }
 
+    $a_msg_flags = array_change_key_case(array_map('intval', (array) $header->flags));
     if ($header->depth)
       $a_msg_flags['depth'] = $header->depth;
     else if ($header->has_children)
@@ -297,16 +298,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $a_msg_flags['has_children'] = $header->has_children;
     if ($header->unread_children)
       $a_msg_flags['unread_children'] = $header->unread_children;
-    if ($header->deleted)
-      $a_msg_flags['deleted'] = 1;
-    if (!$header->seen)
-      $a_msg_flags['unread'] = 1;
-    if ($header->answered)
-      $a_msg_flags['replied'] = 1;
-    if ($header->forwarded)
-      $a_msg_flags['forwarded'] = 1;
-    if ($header->flagged)
-      $a_msg_flags['flagged'] = 1;
     if ($header->others['list-post'])
       $a_msg_flags['ml'] = 1;
     if ($header->priority)
@@ -315,7 +306,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     $a_msg_flags['ctype'] = Q($header->ctype);
     $a_msg_flags['mbox'] = $mbox;
 
-    // merge with plugin result
+    // merge with plugin result (Deprecated, use $header->flags)
     if (!empty($header->list_flags) && is_array($header->list_flags))
       $a_msg_flags = array_merge($a_msg_flags, $header->list_flags);
     if (!empty($header->list_cols) && is_array($header->list_cols))
@@ -1454,7 +1445,7 @@ function rcmail_send_mdn($message, &$smtp_error)
   if (!is_object($message) || !is_a($message, 'rcube_message'))
     $message = new rcube_message($message);
 
-  if ($message->headers->mdn_to && !$message->headers->mdnsent &&
+  if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT']) &&
     ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*')))
   {
     $identity = $RCMAIL->user->get_identity();

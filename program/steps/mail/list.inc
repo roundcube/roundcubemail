@@ -53,6 +53,9 @@ if ($save_arr)
 
 $mbox_name = $IMAP->get_mailbox_name();
 
+// Synchronize mailbox cache, handle flag changes
+$IMAP->mailbox_sync($mbox_name);
+
 // initialize searching result if search_filter is used
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 {
@@ -116,5 +119,3 @@ else {
 
 // send response
 $OUTPUT->send();
-
-

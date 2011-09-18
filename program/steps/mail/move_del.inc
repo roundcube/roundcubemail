@@ -116,7 +116,7 @@ else
     rcmail_set_unseen_count($mbox, $unseen_count);
   }
 
-  if ($RCMAIL->action=='moveto' && strlen($target)) {
+  if ($RCMAIL->action == 'moveto' && strlen($target)) {
     rcmail_send_unread_count($target, true);
   }
 
