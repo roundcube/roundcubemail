@@ -222,13 +222,13 @@ class rcube_ldap extends rcube_addressbook
 
             if (!empty($bind_pass)) {
                 if (!empty($bind_dn)) {
-                    $this->ready = $this->_bind($bind_dn, $bind_pass);
+                    $this->ready = $this->bind($bind_dn, $bind_pass);
                 }
                 else if (!empty($this->prop['auth_cid'])) {
-                    $this->ready = $this->_sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
+                    $this->ready = $this->sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
                 }
                 else {
-                    $this->ready = $this->_sasl_bind($bind_user, $bind_pass);
+                    $this->ready = $this->sasl_bind($bind_user, $bind_pass);
                 }
             }
         }
@@ -253,7 +253,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @return boolean True on success, False on error
      */
-    private function _sasl_bind($authc, $pass, $authz=null)
+    public function sasl_bind($authc, $pass, $authz=null)
     {
         if (!$this->conn) {
             return false;
@@ -304,7 +304,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @return boolean True on success, False on error
      */
-    private function _bind($dn, $pass)
+    public function bind($dn, $pass)
     {
         if (!$this->conn) {
             return false;
