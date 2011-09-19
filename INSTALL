@@ -9,7 +9,7 @@ wiki page at http://trac.roundcube.net/wiki
 REQUIREMENTS
 ============
 
-* The Apache or Lighttpd Webserver
+* The Apache, Lighttpd, Cherokee or Hiawatha web server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.2.1 or greater including
    - PCRE, DOM, JSON, XML, Session, Sockets (required)
