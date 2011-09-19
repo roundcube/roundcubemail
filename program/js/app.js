@@ -5686,7 +5686,7 @@ function rcube_webmail()
     var base = this.env.comm_path;
 
     // overwrite task name
-    if (query._action.match(/([a-z]+)\/([a-z-_.]+)/)) {
+    if (query._action.match(/([a-z]+)\/([a-z0-9-_.]+)/)) {
       query._action = RegExp.$2;
       base = base.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
     }
