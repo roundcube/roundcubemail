@@ -1335,7 +1335,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
-        $res = ldap_search($this->conn, $base_dn, $filter, array('cn'));
+        $res = @ldap_search($this->conn, $base_dn, $filter, array('cn'));
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
