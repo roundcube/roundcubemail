@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix locked folder rename option on servers supporting RFC2086 only (#1488089)
+- Fix encoding of LDAP contacts identifiers (#1488079)
 - Fix session race conditions when composing new messages
 - jQuery 1.6.4
 - Fix handling of binary attachments encoded with quoted-printable (#1488065)

@@ -5,6 +5,7 @@
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2011, Kolab Systems AG                                  |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -13,6 +14,7 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  |         Andreas Dick <andudi (at) gmx (dot) ch>                       |
+ |         Aleksander Machniak <machniak@kolabsys.com>                   |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -185,7 +187,7 @@ class rcube_ldap extends rcube_addressbook
                   list($u, $d) = explode('@', $fu);
                 else
                   $d = $this->mail_domain;
-                
+
                 $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
 
                 $replaces = array('%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
@@ -454,7 +456,7 @@ class rcube_ldap extends rcube_addressbook
                 $members = array();
                 foreach ($entries as $entry)
                 {
-                    if ($this->group_members[base64_encode($entry['dn'])])
+                    if ($this->group_members[self::dn_encode($entry['dn'])])
                     {
                         $members[] = $entry;
                         $count++;
@@ -614,7 +616,7 @@ class rcube_ldap extends rcube_addressbook
         $res = null;
         if ($this->conn && $dn)
         {
-            $dn = base64_decode($dn);
+            $dn = self::dn_decode($dn);
 
             $this->_debug("C: Read [dn: $dn] [(objectclass=*)]");
 
@@ -713,11 +715,13 @@ class rcube_ldap extends rcube_addressbook
 
         $this->_debug("S: OK");
 
+        $dn = self::dn_encode($dn);
+
         // add new contact to the selected group
         if ($this->groups)
-            $this->add_to_group($this->group_id, base64_encode($dn));
+            $this->add_to_group($this->group_id, $dn);
 
-        return base64_encode($dn);
+        return $dn;
     }
 
 
@@ -738,7 +742,7 @@ class rcube_ldap extends rcube_addressbook
         $newdata = array();
         $replacedata = array();
         $deletedata = array();
-        
+
         // flatten composite fields in $record
         if (is_array($record['address'])) {
           foreach ($record['address'] as $i => $struct) {
@@ -776,7 +780,7 @@ class rcube_ldap extends rcube_addressbook
             } // end if
         } // end foreach
 
-        $dn = base64_decode($id);
+        $dn = self::dn_decode($id);
 
         // Update the entry as required.
         if (!empty($deletedata)) {
@@ -833,17 +837,21 @@ class rcube_ldap extends rcube_addressbook
             }
             $this->_debug("S: OK");
 
+            $dn    = self::dn_encode($dn);
+            $newdn = self::dn_encode($newdn);
+
             // change the group membership of the contact
             if ($this->groups)
             {
-                $group_ids = $this->get_record_groups(base64_encode($dn));
+                $group_ids = $this->get_record_groups($dn);
                 foreach ($group_ids as $group_id)
                 {
-                    $this->remove_from_group($group_id, base64_encode($dn));
-                    $this->add_to_group($group_id, base64_encode($newdn));
+                    $this->remove_from_group($group_id, $dn);
+                    $this->add_to_group($group_id, $newdn);
                 }
             }
-            return base64_encode($newdn);
+
+            return $newdn;
         }
 
         return true;
@@ -866,7 +874,7 @@ class rcube_ldap extends rcube_addressbook
         } // end if
 
         foreach ($ids as $id) {
-            $dn = base64_decode($id);
+            $dn = self::dn_decode($id);
             $this->_debug("C: Delete [dn: $dn]");
             // Delete the record.
             $res = ldap_delete($this->conn, $dn);
@@ -878,12 +886,11 @@ class rcube_ldap extends rcube_addressbook
             $this->_debug("S: OK");
 
             // remove contact from all groups where he was member
-            if ($this->groups)
-            {
-                $group_ids = $this->get_record_groups(base64_encode($dn));
-                foreach ($group_ids as $group_id)
-                {
-                    $this->remove_from_group($group_id, base64_encode($dn));
+            if ($this->groups) {
+                $dn = self::dn_encode($dn);
+                $group_ids = $this->get_record_groups($dn);
+                foreach ($group_ids as $group_id) {
+                    $this->remove_from_group($group_id, $dn);
                 }
             }
         } // end foreach
@@ -967,7 +974,7 @@ class rcube_ldap extends rcube_addressbook
         $out = array();
 
         if ($rec['dn'])
-            $out[$this->primary_key] = base64_encode($rec['dn']);
+            $out[$this->primary_key] = self::dn_encode($rec['dn']);
 
         foreach ($this->fieldmap as $rf => $lf)
         {
@@ -1067,7 +1074,7 @@ class rcube_ldap extends rcube_addressbook
             for ($i=0; $i<$cache_members["count"]; $i++)
             {
                 if (!empty($cache_members[$i]))
-                    $members[base64_encode($cache_members[$i])] = 1;
+                    $members[self::dn_encode($cache_members[$i])] = 1;
             }
             $this->group_members = $members;
             $this->group_id = $group_id;
@@ -1126,7 +1133,7 @@ class rcube_ldap extends rcube_addressbook
             $group_name = $ldap_data[$i]['cn'][0];
             if (!$search || strstr(strtolower($group_name), strtolower($search)))
             {
-                $group_id = base64_encode($group_name);
+                $group_id = self::dn_encode($group_name);
                 $groups[$group_id]['ID'] = $group_id;
                 $groups[$group_id]['name'] = $group_name;
                 $groups[$group_id]['members'] = $ldap_data[$i]['member'];
@@ -1152,7 +1159,7 @@ class rcube_ldap extends rcube_addressbook
 
         $base_dn = $this->groups_base_dn;
         $new_dn = "cn=$group_name,$base_dn";
-        $new_gid = base64_encode($group_name);
+        $new_gid = self::dn_encode($group_name);
 
         $new_entry = array(
             'objectClass' => $this->prop['groups']['object_classes'],
@@ -1222,7 +1229,7 @@ class rcube_ldap extends rcube_addressbook
         $group_name = $this->group_cache[$group_id]['name'];
         $old_dn = "cn=$group_name,$base_dn";
         $new_rdn = "cn=$new_name";
-        $new_gid = base64_encode($new_name);
+        $new_gid = self::dn_encode($new_name);
 
         $this->_debug("C: Rename [dn: $old_dn] [dn: $new_rdn]");
 
@@ -1257,7 +1264,7 @@ class rcube_ldap extends rcube_addressbook
 
         $new_attrs = array();
         foreach (explode(",", $contact_ids) as $id)
-            $new_attrs['member'][] = base64_decode($id);
+            $new_attrs['member'][] = self::dn_decode($id);
 
         $this->_debug("C: Add [dn: $group_dn]: ".print_r($new_attrs, true));
 
@@ -1292,7 +1299,7 @@ class rcube_ldap extends rcube_addressbook
 
         $del_attrs = array();
         foreach (explode(",", $contact_ids) as $id)
-            $del_attrs['member'][] = base64_decode($id);
+            $del_attrs['member'][] = self::dn_decode($id);
 
         $this->_debug("C: Delete [dn: $group_dn]: ".print_r($del_attrs, true));
 
@@ -1323,7 +1330,7 @@ class rcube_ldap extends rcube_addressbook
             return array();
 
         $base_dn = $this->groups_base_dn;
-        $contact_dn = base64_decode($contact_id);
+        $contact_dn = self::dn_decode($contact_id);
         $filter = strtr("(member=$contact_dn)", array('\\' => '\\\\'));
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
@@ -1342,7 +1349,7 @@ class rcube_ldap extends rcube_addressbook
         for ($i=0; $i<$ldap_data["count"]; $i++)
         {
             $group_name = $ldap_data[$i]['cn'][0];
-            $group_id = base64_encode($group_name);
+            $group_id = self::dn_encode($group_name);
             $groups[$group_id] = $group_id;
         }
         return $groups;
@@ -1401,7 +1408,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * create ber encoding for sort control
      *
-     * @pararm array List of cols to sort by
+     * @param array List of cols to sort by
      * @return string BER encoded option value
      */
     private function _sort_ber_encode($sortcols)
@@ -1455,11 +1462,38 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Returns ascii string encoded in hex
      */
-    private static function _string2hex($str) {
+    private static function _string2hex($str)
+    {
         $hex = '';
         for ($i=0; $i < strlen($str); $i++)
             $hex .= dechex(ord($str[$i]));
         return $hex;
     }
 
+    /**
+     * HTML-safe DN string encoding
+     *
+     * @param string $str DN string
+     *
+     * @return string Encoded HTML identifier string
+     */
+    static function dn_encode($str)
+    {
+        // @TODO: to make output string shorter we could probably
+        //        remove dc=* items from it
+        return rtrim(strtr(base64_encode($str), '+/', '-_'), '=');
+    }
+
+    /**
+     * Decodes DN string encoded with _dn_encode()
+     *
+     * @param string $str Encoded HTML identifier string
+     *
+     * @return string DN string
+     */
+    static function dn_decode($str)
+    {
+        $str = str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT);
+        return base64_decode($str);
+    }
 }

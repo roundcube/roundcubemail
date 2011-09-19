@@ -155,8 +155,8 @@ this.appendNewMenuItem = function(name, call_back_fn, checker) {
     this.extra_menu_items.push([name, call_back_fn, checker]);
 };
 
-this.appendCustomMenuBuilder = function(eval, builder) {
-    this.custom_menu_builder.push([eval, builder]);
+this.appendCustomMenuBuilder = function(eval_fn, builder) {
+    this.custom_menu_builder.push([eval_fn, builder]);
 };
 
 this.setFocus = function() {
@@ -409,7 +409,7 @@ this.showErrorWindow = function(elm, id) {
     var changed = false;
     for (var k=0; k<this.custom_menu_builder.length; k++) {
         var eb = this.custom_menu_builder[k];
-        if(eb[0]((this.results[id]))){
+        if (eb[0](this.results[id])) {
             changed = eb[1](this, list, elm);
             break;
         }
