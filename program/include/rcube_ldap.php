@@ -173,7 +173,10 @@ class rcube_ldap extends rcube_addressbook
             $bind_pass = $this->prop['bind_pass'];
             $bind_user = $this->prop['bind_user'];
             $bind_dn   = $this->prop['bind_dn'];
-            $this->base_dn   = $this->prop['base_dn'];
+
+            $this->base_dn        = $this->prop['base_dn'];
+            $this->groups_base_dn = ($this->prop['groups']['base_dn']) ?
+                $this->prop['groups']['base_dn'] : $this->base_dn;
 
             // User specific access, generate the proper values to use.
             if ($this->prop['user_specific']) {
@@ -199,7 +202,7 @@ class rcube_ldap extends rcube_addressbook
 
                     $this->_debug("S: searching with base {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
 
-                    $res = ldap_search($this->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
+                    $res = @ldap_search($this->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
                     if ($res && ($entry = ldap_first_entry($this->conn, $res))) {
                         $bind_dn = ldap_get_dn($this->conn, $entry);
 
@@ -212,8 +215,9 @@ class rcube_ldap extends rcube_addressbook
                     }
                 }
                 // Replace the bind_dn and base_dn variables.
-                $bind_dn   = strtr($bind_dn, $replaces);
-                $this->base_dn   = strtr($this->base_dn, $replaces);
+                $bind_dn              = strtr($bind_dn, $replaces);
+                $this->base_dn        = strtr($this->base_dn, $replaces);
+                $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
 
                 if (empty($bind_user)) {
                     $bind_user = $u;
@@ -1096,26 +1100,12 @@ class rcube_ldap extends rcube_addressbook
         if (!$this->groups)
             return array();
 
-        $this->groups_base_dn = ($this->prop['groups']['base_dn']) ?
-                $this->prop['groups']['base_dn'] : $this->base_dn;
-
-        // replace user specific dn
-        if ($this->prop['user_specific'])
-        {
-            $fu = $RCMAIL->user->get_username();
-            list($u, $d) = explode('@', $fu);
-            $dc = 'dc='.strtr($d, array('.' => ',dc='));
-            $replaces = array('%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
-
-            $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
-        }
-
         $base_dn = $this->groups_base_dn;
         $filter = $this->prop['groups']['filter'];
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
-        $res = ldap_search($this->conn, $base_dn, $filter, array('cn','member'));
+        $res = @ldap_search($this->conn, $base_dn, $filter, array('cn','member'));
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
