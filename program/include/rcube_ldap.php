@@ -1109,7 +1109,6 @@ class rcube_ldap extends rcube_addressbook
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
-            $this->set_error(self::ERROR_SAVING, 'errorsaving');
             return array();
         }
 
@@ -1329,7 +1328,6 @@ class rcube_ldap extends rcube_addressbook
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
-            $this->set_error(self::ERROR_SAVING, 'errorsaving');
             return array();
         }
         $ldap_data = ldap_get_entries($this->conn, $res);
