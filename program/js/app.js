@@ -155,7 +155,7 @@ function rcube_webmail()
     }
 
     // enable general commands
-    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'undo', true);
+    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', true);
 
     if (this.env.permaurl)
       this.enable_command('permaurl', true);
@@ -164,7 +164,7 @@ function rcube_webmail()
 
       case 'mail':
         // enable mail commands
-        this.enable_command('list', 'checkmail', 'compose', 'add-contact', 'search', 'reset-search', 'collapse-folder', true);
+        this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', true);
 
         if (this.gui_objects.messagelist) {
 
@@ -809,7 +809,7 @@ function rcube_webmail()
         break;
 
       case 'compose':
-        var url = this.env.comm_path+'&_action=compose';
+        var url = this.url('mail/compose');
 
         if (this.task == 'mail') {
           url += '&_mbox='+urlencode(this.env.mailbox);
