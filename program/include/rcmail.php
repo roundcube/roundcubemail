@@ -615,7 +615,7 @@ class rcmail
     // Setting root and delimiter before establishing the connection
     // can save time detecting them using NAMESPACE and LIST
     $options = array(
-      'auth_method' => $this->config->get('imap_auth_type', 'check'),
+      'auth_type'   => $this->config->get('imap_auth_type', 'check'),
       'auth_cid'    => $this->config->get('imap_auth_cid'),
       'auth_pw'     => $this->config->get('imap_auth_pw'),
       'debug'       => (bool) $this->config->get('imap_debug', 0),

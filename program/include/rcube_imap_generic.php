@@ -672,8 +672,8 @@ class rcube_imap_generic
             $this->prefs = $options;
         }
         // set auth method
-        if (!empty($this->prefs['auth_method'])) {
-            $auth_method = strtoupper($this->prefs['auth_method']);
+        if (!empty($this->prefs['auth_type'])) {
+            $auth_method = strtoupper($this->prefs['auth_type']);
         } else {
             $auth_method = 'CHECK';
         }

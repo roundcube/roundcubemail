@@ -176,12 +176,13 @@ class rcube_imap
         $attempt = 0;
         do {
             $data = rcmail::get_instance()->plugins->exec_hook('imap_connect',
-                array('host' => $host, 'user' => $user, 'attempt' => ++$attempt));
+                array_merge($this->options, array('host' => $host, 'user' => $user,
+                    'attempt' => ++$attempt)));
 
             if (!empty($data['pass']))
                 $pass = $data['pass'];
 
-            $this->conn->connect($data['host'], $data['user'], $pass, $this->options);
+            $this->conn->connect($data['host'], $data['user'], $pass, $data);
         } while(!$this->conn->connected() && $data['retry']);
 
         $this->host = $data['host'];
