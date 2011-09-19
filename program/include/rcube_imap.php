@@ -1505,7 +1505,10 @@ class rcube_imap
         // use message index sort as default sorting
         if (!$sort_field) {
             if ($this->skip_deleted) {
-                $a_index = $this->_search_index($mailbox, 'ALL');
+                $a_index = $this->conn->search($mailbox, 'ALL UNDELETED');
+                // I didn't found that SEARCH should return sorted IDs
+                if (is_array($a_index))
+                    sort($a_index);
             } else if ($max = $this->_messagecount($mailbox)) {
                 $a_index = range(1, $max);
             }
