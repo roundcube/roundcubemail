@@ -157,6 +157,7 @@ CREATE TABLE [dbo].[cache_index] (
 	[user_id] [int] NOT NULL ,
 	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[changed] [datetime] NOT NULL ,
+	[valid] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
@@ -201,7 +202,8 @@ ALTER TABLE [dbo].[cache_messages] WITH NOCHECK ADD
 GO
 
 ALTER TABLE [dbo].[cache_index] ADD 
-	CONSTRAINT [DF_cache_index_changed] DEFAULT (getdate()) FOR [changed]
+	CONSTRAINT [DF_cache_index_changed] DEFAULT (getdate()) FOR [changed],
+	CONSTRAINT [DF_cache_index_valid] DEFAULT ('0') FOR [valid]
 GO
 
 CREATE  INDEX [IX_cache_index_user_id] ON [dbo].[cache_index]([user_id]) ON [PRIMARY]

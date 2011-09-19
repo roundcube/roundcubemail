@@ -177,6 +177,7 @@ CREATE TABLE `cache_index` (
  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
  `mailbox` varchar(255) BINARY NOT NULL,
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `valid` tinyint(1) NOT NULL DEFAULT '0',
  `data` longtext NOT NULL,
  CONSTRAINT `user_id_fk_cache_index` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,

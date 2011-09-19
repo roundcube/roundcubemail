@@ -254,6 +254,7 @@ CREATE TABLE cache_index (
     user_id integer NOT NULL,
     mailbox varchar(255) NOT NULL,
     changed datetime NOT NULL default '0000-00-00 00:00:00',
+    valid smallint NOT NULL DEFAULT '0',
     data text NOT NULL,
     PRIMARY KEY (user_id, mailbox)
 );

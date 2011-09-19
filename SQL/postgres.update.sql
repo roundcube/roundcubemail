@@ -135,6 +135,7 @@ CREATE TABLE cache_index (
     	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
     changed timestamp with time zone DEFAULT now() NOT NULL,
+    valid smallint NOT NULL DEFAULT 0,
     data text NOT NULL,
     PRIMARY KEY (user_id, mailbox)
 );

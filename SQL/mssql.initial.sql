@@ -210,7 +210,8 @@ CREATE  INDEX [IX_cache_created] ON [dbo].[cache]([created]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[cache_index] ADD 
-	CONSTRAINT [DF_cache_index_changed] DEFAULT (getdate()) FOR [changed]
+	CONSTRAINT [DF_cache_index_changed] DEFAULT (getdate()) FOR [changed],
+	CONSTRAINT [DF_cache_index_valid] DEFAULT ('0') FOR [valid]
 GO
 
 CREATE  INDEX [IX_cache_index_user_id] ON [dbo].[cache_index]([user_id]) ON [PRIMARY]
@@ -224,7 +225,7 @@ CREATE  INDEX [IX_cache_thread_user_id] ON [dbo].[cache_thread]([user_id]) ON [P
 GO
 
 ALTER TABLE [dbo].[cache_messages] ADD 
-	CONSTRAINT [DF_cache_messages_changed] DEFAULT (getdate()) FOR [changed]
+	CONSTRAINT [DF_cache_messages_changed] DEFAULT (getdate()) FOR [changed],
 	CONSTRAINT [DF_cache_messages_flags] DEFAULT (0) FOR [flags],
 GO
 
