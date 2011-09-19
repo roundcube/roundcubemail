@@ -1142,15 +1142,15 @@ class rcube_template extends rcube_html_page
         $table = new html_table(array('cols' => 2));
 
         $table->add('title', html::label('rcmloginuser', Q(rcube_label('username'))));
-        $table->add(null, $input_user->show(get_input_value('_user', RCUBE_INPUT_GPC)));
+        $table->add('input', $input_user->show(get_input_value('_user', RCUBE_INPUT_GPC)));
 
         $table->add('title', html::label('rcmloginpwd', Q(rcube_label('password'))));
-        $table->add(null, $input_pass->show());
+        $table->add('input', $input_pass->show());
 
         // add host selection row
         if (is_object($input_host) && !$hide_host) {
             $table->add('title', html::label('rcmloginhost', Q(rcube_label('server'))));
-            $table->add(null, $input_host->show(get_input_value('_host', RCUBE_INPUT_GPC)));
+            $table->add('input', $input_host->show(get_input_value('_host', RCUBE_INPUT_GPC)));
         }
 
         $out  = $input_task->show();

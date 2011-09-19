@@ -738,7 +738,7 @@ a.rcmContactAddress:hover
   margin: auto;
 }
 
-#rcmloginuser, #rcmloginpwd, #rcmloginhost
+#login-form table td.input input
 {
   width: 200px;
 }
