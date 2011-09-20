@@ -3156,7 +3156,7 @@ function rcube_webmail()
         sig = this.env.signatures[sig].is_html ? this.env.signatures[sig].plain_text : this.env.signatures[sig].text;
         sig = sig.replace(/\r\n/g, '\n');
 
-        if (!sig.match(/^--[ -]\n/))
+        if (!sig.match(/^--[ -]\n/m))
           sig = sig_separator + '\n' + sig;
 
         p = this.env.sig_above ? message.indexOf(sig) : message.lastIndexOf(sig);
@@ -3168,7 +3168,7 @@ function rcube_webmail()
         sig = this.env.signatures[id]['is_html'] ? this.env.signatures[id]['plain_text'] : this.env.signatures[id]['text'];
         sig = sig.replace(/\r\n/g, '\n');
 
-        if (!sig.match(/^--[ -]\n/))
+        if (!sig.match(/^--[ -]\n/m))
           sig = sig_separator + '\n' + sig;
 
         if (this.env.sig_above) {
@@ -3237,12 +3237,12 @@ function rcube_webmail()
       if (this.env.signatures[id]) {
         if (this.env.signatures[id].is_html) {
           sig = this.env.signatures[id].text;
-          if (!this.env.signatures[id].plain_text.match(/^--[ -]\r?\n/))
+          if (!this.env.signatures[id].plain_text.match(/^--[ -]\r?\n/m))
             sig = sig_separator + '<br />' + sig;
         }
         else {
           sig = this.env.signatures[id].text;
-          if (!sig.match(/^--[ -]\r?\n/))
+          if (!sig.match(/^--[ -]\r?\n/m))
             sig = sig_separator + '\n' + sig;
           sig = '<pre>' + sig + '</pre>';
         }
