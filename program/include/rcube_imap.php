@@ -911,7 +911,7 @@ class rcube_imap
         }
         // fetch specified header for all messages and sort
         else if ($msg_index = $this->conn->fetchHeaderIndex($mailbox, "1:*",
-            $this->sort_field, $this->skip_deleted, true)
+            $this->sort_field, $this->skip_deleted)
         ) {
             asort($msg_index); // ASC
             $msg_index = array_keys($msg_index);
@@ -923,7 +923,7 @@ class rcube_imap
                 $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
 
             // fetch reqested headers from server
-            $a_msg_headers = $this->fetch_headers($mailbox, $msg_index, true);
+            $a_msg_headers = $this->fetch_headers($mailbox, $msg_index);
         }
 
         // return empty array if no messages found
