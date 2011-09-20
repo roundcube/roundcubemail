@@ -917,7 +917,6 @@ class rcube_imap
             $msg_index = array_keys($msg_index);
             list($begin, $end) = $this->_get_message_range(count($msg_index), $page);
             $msg_index = array_slice($msg_index, $begin, $end-$begin);
-            $is_uid    = true;
 
             if ($slice)
                 $msg_index = array_slice($msg_index, ($this->sort_order == 'DESC' ? 0 : -$slice), $slice);
