@@ -52,9 +52,9 @@ class rcube_session
    */
   public function __construct($db, $config)
   {
-    $this->db = $db;
-    $this->start = microtime(true);
-    $this->ip = $_SERVER['REMOTE_ADDR'];
+    $this->db      = $db;
+    $this->start   = microtime(true);
+    $this->ip      = $_SERVER['REMOTE_ADDR'];
     $this->logging = $config->get('log_session', false);
 
     $lifetime = $config->get('session_lifetime', 1) * 60;
@@ -126,10 +126,10 @@ class rcube_session
   public function db_read($key)
   {
     $sql_result = $this->db->query(
-      "SELECT vars, ip, changed FROM ".get_table_name('session')." WHERE sess_id = ?",
-      $key);
+      "SELECT vars, ip, changed FROM ".get_table_name('session')
+      ." WHERE sess_id = ?", $key);
 
-    if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+    if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
       $this->changed = strtotime($sql_arr['changed']);
       $this->ip      = $sql_arr['ip'];
       $this->vars    = base64_decode($sql_arr['vars']);
@@ -156,10 +156,15 @@ class rcube_session
     $ts = microtime(true);
     $now = $this->db->fromunixtime((int)$ts);
 
+    // no session row in DB (db_read() returns false)
+    if (!$this->key) {
+      $oldvars = false;
+    }
     // use internal data from read() for fast requests (up to 0.5 sec.)
-    if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5)) {
+    else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5)) {
       $oldvars = $this->vars;
-    } else { // else read data again from DB
+    }
+    else { // else read data again from DB
       $oldvars = $this->db_read($key);
     }
 
@@ -280,8 +285,11 @@ class rcube_session
   {
     $ts = microtime(true);
 
+    // no session data in cache (mc_read() returns false)
+    if (!$this->key)
+      $oldvars = false;
     // use internal data for fast requests (up to 0.5 sec.)
-    if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5))
+    else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5))
       $oldvars = $this->vars;
     else // else read data again
       $oldvars = $this->mc_read($key);
