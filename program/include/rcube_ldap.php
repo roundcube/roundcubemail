@@ -73,8 +73,14 @@ class rcube_ldap extends rcube_addressbook
         $this->prop = $p;
 
         // check if groups are configured
-        if (is_array($p['groups']) and count($p['groups']))
+        if (is_array($p['groups']) && count($p['groups'])) {
             $this->groups = true;
+            // set member field
+            if (!empty($p['groups']['member_attr']))
+                $this->prop['member_attr'] = $p['groups']['member_attr'];
+            else if (empty($p['member_attr']))
+                $this->prop['member_attr'] = 'member';
+        }
 
         // fieldmap property is given
         if (is_array($p['fieldmap'])) {
@@ -115,8 +121,8 @@ class rcube_ldap extends rcube_addressbook
         foreach ($this->prop['required_fields'] as $key => $val)
             $this->prop['required_fields'][$key] = $this->_attr_name(strtolower($val));
 
-        $this->sort_col = is_array($p['sort']) ? $p['sort'][0] : $p['sort'];
-        $this->debug = $debug;
+        $this->sort_col    = is_array($p['sort']) ? $p['sort'][0] : $p['sort'];
+        $this->debug       = $debug;
         $this->mail_domain = $mail_domain;
 
         $this->_connect();
@@ -1105,7 +1111,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
-        $res = @ldap_search($this->conn, $base_dn, $filter, array('cn','member'));
+        $res = @ldap_search($this->conn, $base_dn, $filter, array('cn', $this->prop['member_attr']));
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -1125,7 +1131,7 @@ class rcube_ldap extends rcube_addressbook
                 $group_id = self::dn_encode($group_name);
                 $groups[$group_id]['ID'] = $group_id;
                 $groups[$group_id]['name'] = $group_name;
-                $groups[$group_id]['members'] = $ldap_data[$i]['member'];
+                $groups[$group_id]['members'] = $ldap_data[$i][$this->prop['member_attr']];
                 $group_sortnames[] = strtolower($group_name);
             }
         }
@@ -1153,7 +1159,7 @@ class rcube_ldap extends rcube_addressbook
         $new_entry = array(
             'objectClass' => $this->prop['groups']['object_classes'],
             'cn' => $group_name,
-            'member' => '',
+            $this->prop['member_attr'] => '',
         );
 
         $this->_debug("C: Add [dn: $new_dn]: ".print_r($new_entry, true));
@@ -1247,13 +1253,14 @@ class rcube_ldap extends rcube_addressbook
         if (!$this->group_cache)
             $this->list_groups();
 
-        $base_dn = $this->groups_base_dn;
-        $group_name = $this->group_cache[$group_id]['name'];
-        $group_dn = "cn=$group_name,$base_dn";
+        $base_dn     = $this->groups_base_dn;
+        $group_name  = $this->group_cache[$group_id]['name'];
+        $member_attr = $this->prop['member_attr'];
+        $group_dn    = "cn=$group_name,$base_dn";
 
         $new_attrs = array();
         foreach (explode(",", $contact_ids) as $id)
-            $new_attrs['member'][] = self::dn_decode($id);
+            $new_attrs[$member_attr][] = self::dn_decode($id);
 
         $this->_debug("C: Add [dn: $group_dn]: ".print_r($new_attrs, true));
 
@@ -1282,13 +1289,14 @@ class rcube_ldap extends rcube_addressbook
         if (!$this->group_cache)
             $this->list_groups();
 
-        $base_dn = $this->groups_base_dn;
-        $group_name = $this->group_cache[$group_id]['name'];
-        $group_dn = "cn=$group_name,$base_dn";
+        $base_dn     = $this->groups_base_dn;
+        $group_name  = $this->group_cache[$group_id]['name'];
+        $member_attr = $this->prop['member_attr'];
+        $group_dn    = "cn=$group_name,$base_dn";
 
         $del_attrs = array();
         foreach (explode(",", $contact_ids) as $id)
-            $del_attrs['member'][] = self::dn_decode($id);
+            $del_attrs[$member_attr][] = self::dn_decode($id);
 
         $this->_debug("C: Delete [dn: $group_dn]: ".print_r($del_attrs, true));
 
@@ -1318,9 +1326,10 @@ class rcube_ldap extends rcube_addressbook
         if (!$this->groups)
             return array();
 
-        $base_dn = $this->groups_base_dn;
-        $contact_dn = self::dn_decode($contact_id);
-        $filter = strtr("(member=$contact_dn)", array('\\' => '\\\\'));
+        $base_dn     = $this->groups_base_dn;
+        $contact_dn  = self::dn_decode($contact_id);
+        $member_attr = $this->prop['member_attr'];
+        $filter      = strtr("($member_attr=$contact_dn)", array('\\' => '\\\\'));
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
