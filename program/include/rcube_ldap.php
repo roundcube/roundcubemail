@@ -77,7 +77,7 @@ class rcube_ldap extends rcube_addressbook
             $this->groups = true;
             // set member field
             if (!empty($p['groups']['member_attr']))
-                $this->prop['member_attr'] = $p['groups']['member_attr'];
+                $this->prop['member_attr'] = strtolower($p['groups']['member_attr']);
             else if (empty($p['member_attr']))
                 $this->prop['member_attr'] = 'member';
         }
@@ -1101,8 +1101,6 @@ class rcube_ldap extends rcube_addressbook
      */
     function list_groups($search = null)
     {
-        global $RCMAIL;
-
         if (!$this->groups)
             return array();
 
