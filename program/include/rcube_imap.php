@@ -2390,17 +2390,17 @@ class rcube_imap
             return true;
         }
 
-        // Remove NULL characters (#1486189)
-        $body = str_replace("\x00", '', $body);
-
         // convert charset (if text or message part)
-        if ($body && !$skip_charset_conv &&
-            preg_match('/^(text|message)$/', $o_part->ctype_primary)
-        ) {
-            if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
-                $o_part->charset = $this->default_charset;
+        if ($body && preg_match('/^(text|message)$/', $o_part->ctype_primary)) {
+            // Remove NULL characters (#1486189)
+            $body = str_replace("\x00", '', $body);
+
+           if (!$skip_charset_conv) {
+                if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
+                    $o_part->charset = $this->default_charset;
+                }
+                $body = rcube_charset_convert($body, $o_part->charset);
             }
-            $body = rcube_charset_convert($body, $o_part->charset);
         }
 
         return $body;
