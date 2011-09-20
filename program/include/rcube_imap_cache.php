@@ -813,9 +813,16 @@ class rcube_imap_cache
         }
 
         // Folder is empty but cache isn't
-        if (empty($mbox_data['EXISTS']) && (!empty($index['seq']) || !empty($index['tree']))) {
-            $this->clear($mailbox);
-            $exists = false;
+        if (empty($mbox_data['EXISTS'])) {
+            if (!empty($index['seq']) || !empty($index['tree'])) {
+                $this->clear($mailbox);
+                $exists = false;
+                return false;
+            }
+        }
+        // Folder is not empty but cache is
+        else if (empty($index['seq']) && empty($index['tree'])) {
+            unset($this->icache[$mailbox][$is_thread ? 'thread' : 'index']);
             return false;
         }
 
@@ -880,7 +887,7 @@ class rcube_imap_cache
                     rcube_imap_generic::compressMessageSet($index['uid']));
 
                 if (!empty($ids)) {
-                    $index = null; // cache invalid
+                    return false;
                 }
             }
         }
@@ -996,12 +1003,22 @@ class rcube_imap_cache
             !empty($uids) ? $uids : '1:*', true, array('FLAGS'),
             $index['modseq'], $qresync);
 
+        $invalidated = false;
+
         if (!empty($result)) {
             foreach ($result as $id => $msg) {
                 $uid = $msg->uid;
                 // Remove deleted message
                 if ($this->skip_deleted && !empty($msg->flags['DELETED'])) {
                     $this->remove_message($mailbox, $uid);
+
+                    if (!$invalidated) {
+                        $invalidated = true;
+                        // Invalidate thread indexes (?)
+                        $this->remove_thread($mailbox);
+                        // Invalidate index
+                        $index['valid'] = false;
+                    }
                     continue;
                 }
 
@@ -1036,6 +1053,8 @@ class rcube_imap_cache
 
                     // Invalidate thread indexes (?)
                     $this->remove_thread($mailbox);
+                    // Invalidate index
+                    $index['valid'] = false;
                 }
             }
         }
