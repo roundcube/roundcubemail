@@ -71,6 +71,9 @@ class rcube_ldap extends rcube_addressbook
     function __construct($p, $debug=false, $mail_domain=NULL)
     {
         $this->prop = $p;
+        
+        if (isset($p['searchonly']))
+            $this->searchonly = $p['searchonly'];
 
         // check if groups are configured
         if (is_array($p['groups']) && count($p['groups'])) {
@@ -429,6 +432,12 @@ class rcube_ldap extends rcube_addressbook
      */
     function list_records($cols=null, $subset=0)
     {
+        if ($this->prop['searchonly'] && empty($this->filter) && !$this->group_id) {
+            $this->result = new rcube_result_set(0);
+            $this->result->searchonly = true;
+            return $this->result;
+        }
+        
         // add general filter to query
         if (!empty($this->prop['filter']) && empty($this->filter))
         {

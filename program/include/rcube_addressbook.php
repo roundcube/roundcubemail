@@ -38,6 +38,7 @@ abstract class rcube_addressbook
     public $primary_key;
     public $groups = false;
     public $readonly = true;
+    public $searchonly = false;
     public $undelete = false;
     public $ready = false;
     public $group_id = null;

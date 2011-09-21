@@ -73,6 +73,9 @@ else {
 
     // get contacts for this user
     $result = $CONTACTS->list_records(array('name'));
+    
+    if (!$result->count && $result->searchonly)
+        $OUTPUT->show_message('contactsearchonly', 'notice');
 }
 
 // update message count display

@@ -5,7 +5,7 @@
  | program/include/rcube_result_set.php                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -31,6 +31,7 @@ class rcube_result_set
     var $count = 0;
     var $first = 0;
     var $current = 0;
+    var $searchonly = false;
     var $records = array();
 
 

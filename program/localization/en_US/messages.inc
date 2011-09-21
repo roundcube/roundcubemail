@@ -48,6 +48,7 @@ $messages['blockedimages'] = 'To protect your privacy, remote images are blocked
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
+$messages['contactsearchonly'] = 'Enter some search terms to find contacts';
 $messages['sendingfailed'] = 'Failed to send message.';
 $messages['senttooquickly'] = 'Please wait $sec sec(s). before sending this message.';
 $messages['errorsavingsent'] = 'An error occured while saving sent message.';

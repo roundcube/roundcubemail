@@ -49,6 +49,7 @@ $messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden extern
 $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
 $messages['contactnotfound'] = 'Der angeforderte Kontakt wurde nicht gefunden';
+$messages['contactsearchonly'] = 'Geben Sie einen Suchbegriff ein, um Kontakte zu finden';
 $messages['sendingfailed'] = 'Versenden der Nachricht fehlgeschlagen';
 $messages['senttooquickly'] = 'Bitte warten Sie $sec Sekunde(n) vor dem Senden dieser Nachricht';
 $messages['errorsavingsent'] = 'Ein Fehler ist beim Speichern der gesendeten Nachricht aufgetreten';

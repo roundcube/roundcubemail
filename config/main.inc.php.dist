@@ -540,9 +540,11 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   'auth_cid'       => '',
   // SASL authentication method (for proxy auth), e.g. DIGEST-MD5
   'auth_method'    => '',
-  // Indicates if the addressbook shall be displayed on the list.
+  // Indicates if the addressbook shall be hidden from the list.
   // With this option enabled you can still search/view contacts.
   'hidden'        => false,
+  // Indicates if the addressbook shall not list contacts but only allows searching.
+  'searchonly'    => false,
   // Indicates if we can write to the LDAP directory or not.
   // If writable is true then these fields need to be populated:
   // LDAP_Object_Classes, required_fields, LDAP_rdn
