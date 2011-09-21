@@ -483,7 +483,8 @@ class rcmail
         'name'     => rcube_label('personaladrbook'),
         'groups'   => $this->address_books['0']->groups,
         'readonly' => $this->address_books['0']->readonly,
-        'autocomplete' => in_array('sql', $autocomplete)
+        'autocomplete' => in_array('sql', $autocomplete),
+        'undelete' => $this->address_books['0']->undelete && $this->config->get('undo_timeout'),
       );
     }
 

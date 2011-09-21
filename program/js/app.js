@@ -3994,7 +3994,8 @@ function rcube_webmail()
   {
     // exit if no mailbox specified or if selection is empty
     var selection = this.contact_list.get_selection();
-    if (!(selection.length || this.env.cid) || !confirm(this.get_label('deletecontactconfirm')))
+    var undelete = this.env.address_sources[this.env.source].undelete;
+    if (!(selection.length || this.env.cid) || (!undelete && !confirm(this.get_label('deletecontactconfirm'))))
       return;
 
     var id, n, a_cids = [], qs = '';
