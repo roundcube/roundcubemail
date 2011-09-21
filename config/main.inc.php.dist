@@ -570,9 +570,11 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
   // -> in this case, assure that groups and contacts are separated due to the concernig filters! 
   'groups'        => array(
-    'base_dn'     => '',   
+    'base_dn'     => '',
     'filter'      => '(objectClass=groupOfNames)',
     'object_classes' => array("top", "groupOfNames"),
+    // name of the member attribute, e.g. uniqueMember
+    'member_attr'    => 'member',
   ),
 );
 */

@@ -373,6 +373,8 @@ class rcube_message
             $p->ctype_secondary = 'plain';
             $p->body            = rcube_label('encryptedmessage');
             $p->size            = strlen($p->body);
+
+            $this->parts[] = $p;
         }
         // message contains multiple parts
         else if (is_array($structure->parts) && !empty($structure->parts)) {

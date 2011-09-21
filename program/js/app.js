@@ -3489,13 +3489,15 @@ function rcube_webmail()
 
         return rcube_event.cancel(e);
 
-      case 9:  // tab
-        if (mod == SHIFT_KEY)
-          break;
+      case 9:   // tab
+        if (mod == SHIFT_KEY || !this.ksearch_visible()) {
+          this.ksearch_hide();
+          return;
+        }
 
       case 13:  // enter
-        if (this.ksearch_selected === null || !this.ksearch_value)
-          break;
+        if (!this.ksearch_visible())
+          return false;
 
         // insert selected address and hide ksearch pane
         this.insert_recipient(this.ksearch_selected);
@@ -3518,6 +3520,11 @@ function rcube_webmail()
     this.ksearch_input = obj;
 
     return true;
+  };
+
+  this.ksearch_visible = function()
+  {
+    return (this.ksearch_selected !== null && this.ksearch_selected !== undefined && this.ksearch_value);
   };
 
   this.ksearch_select = function(node)

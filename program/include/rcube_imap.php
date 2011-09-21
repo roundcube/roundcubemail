@@ -1505,7 +1505,10 @@ class rcube_imap
         // use message index sort as default sorting
         if (!$this->sort_field) {
             if ($this->skip_deleted) {
-                $a_index = $this->_search_index($mailbox, 'ALL');
+                $a_index = $this->conn->search($mailbox, 'ALL UNDELETED');
+                // I didn't found that SEARCH should return sorted IDs
+                if (is_array($a_index))
+                    sort($a_index);
             } else if ($max = $this->_messagecount($mailbox)) {
                 $a_index = range(1, $max);
             }
@@ -2491,17 +2494,17 @@ class rcube_imap
             return true;
         }
 
-        // Remove NULL characters (#1486189)
-        $body = str_replace("\x00", '', $body);
-
         // convert charset (if text or message part)
-        if ($body && !$skip_charset_conv &&
-            preg_match('/^(text|message)$/', $o_part->ctype_primary)
-        ) {
-            if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
-                $o_part->charset = $this->default_charset;
+        if ($body && preg_match('/^(text|message)$/', $o_part->ctype_primary)) {
+            // Remove NULL characters (#1486189)
+            $body = str_replace("\x00", '', $body);
+
+           if (!$skip_charset_conv) {
+                if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
+                    $o_part->charset = $this->default_charset;
+                }
+                $body = rcube_charset_convert($body, $o_part->charset);
             }
-            $body = rcube_charset_convert($body, $o_part->charset);
         }
 
         return $body;
