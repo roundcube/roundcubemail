@@ -353,10 +353,6 @@ class rcube_template extends rcube_html_page
         $js .= $this->get_js_commands() . ($this->framed ? ' }' : '');
         $this->add_script($js, 'head_top');
 
-        // make sure all <form> tags have a valid request token
-        $template = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $template);
-        $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
-        
         // send clickjacking protection headers
         $iframe = $this->framed || !empty($_REQUEST['_framed']);
         if (!headers_sent() && ($xframe = $this->app->config->get('x_frame_options', 'sameorigin')))
@@ -436,6 +432,10 @@ class rcube_template extends rcube_html_page
         $hook = $this->app->plugins->exec_hook("render_page", array('template' => $realname, 'content' => $output));
 
         $output = $this->parse_with_globals($hook['content']);
+
+        // make sure all <form> tags have a valid request token
+        $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
+        $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
 
         if ($write) {
             // add debug console
