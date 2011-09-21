@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add notice on autocompletion that not all records were displayed
 - Add option 'searchonly' for LDAP address books
 - Add Priority filter to the messages list
 - Cache synchronization using QRESYNC/CONDSTORE

@@ -149,6 +149,7 @@ $messages['messagemoved'] = 'Message(s) moved successfully.';
 $messages['messagecopied'] = 'Message(s) copied successfully.';
 $messages['messagemarked'] = 'Message(s) marked successfully.';
 $messages['autocompletechars'] = 'Enter at least $min characters for autocompletion.';
+$messages['autocompletemore'] = 'More matching entries found. Please type more characters.';
 $messages['namecannotbeempty'] = 'Name cannot be empty.';
 $messages['nametoolong'] = 'Name is too long.';
 $messages['folderupdated'] = 'Folder updated successfully.';

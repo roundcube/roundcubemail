@@ -2384,5 +2384,5 @@ function rcube_autocomplete_init()
 
     $RCMAIL->output->set_env('autocomplete_max', (int)$RCMAIL->config->get('autocomplete_max', 15));
     $RCMAIL->output->set_env('autocomplete_min_length', $RCMAIL->config->get('autocomplete_min_length'));
-    $RCMAIL->output->add_label('autocompletechars');
+    $RCMAIL->output->add_label('autocompletechars', 'autocompletemore');
 }

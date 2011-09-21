@@ -3620,19 +3620,15 @@ function rcube_webmail()
       return;
 
     if (q.length && q.length < min) {
-      if (!this.env.acinfo) {
-        this.env.acinfo = this.display_message(
+      if (!this.ksearch_info) {
+        this.ksearch_info = this.display_message(
           this.get_label('autocompletechars').replace('$min', min));
       }
       return;
     }
-    else if (this.env.acinfo) {
-      this.hide_message(this.env.acinfo);
-    }
 
     var old_value = this.ksearch_value;
     this.ksearch_value = q;
-
     this.ksearch_destroy();
 
     // ...string is empty
@@ -3730,16 +3726,20 @@ function rcube_webmail()
       this.env.contacts = this.env.contacts.concat(results);
 
     // run next parallel search
-    if (maxlen > 0 && this.ksearch_data.id == reqid && this.ksearch_data.sources.length) {
-      var lock, xhr, props = this.ksearch_data, source = props.sources.shift();
-      if (source) {
-        lock = this.display_message(this.get_label('searching'), 'loading');
-        xhr = this.http_post(props.action, '_search='+urlencode(s_val)+'&_id='+reqid
-          +'&_source='+urlencode(source), lock);
+    if (this.ksearch_data.id == reqid) {
+      if (maxlen > 0 && this.ksearch_data.sources.length) {
+        var lock, xhr, props = this.ksearch_data, source = props.sources.shift();
+        if (source) {
+          lock = this.display_message(this.get_label('searching'), 'loading');
+          xhr = this.http_post(props.action, '_search='+urlencode(s_val)+'&_id='+reqid
+            +'&_source='+urlencode(source), lock);
 
-        this.ksearch_data.locks.push(lock);
-        this.ksearch_data.requests.push(xhr);
+          this.ksearch_data.locks.push(lock);
+          this.ksearch_data.requests.push(xhr);
+        }
       }
+      else if (!maxlen && !this.ksearch_msg)
+        this.ksearch_msg = this.display_message(this.get_label('autocompletemore'));
     }
   };
 
@@ -3783,7 +3783,15 @@ function rcube_webmail()
     for (i=0, len=ac.locks.length; i<len; i++)
       this.abort_request({request: ac.requests[i], lock: ac.locks[i]});
 
+    if (this.ksearch_info)
+      this.hide_message(this.ksearch_info);
+
+    if (this.ksearch_msg)
+      this.hide_message(this.ksearch_msg);
+
     this.ksearch_data = null;
+    this.ksearch_info = null;
+    this.ksearch_msg = null;
   }
 
   /*********************************************************/
