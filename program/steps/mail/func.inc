@@ -1545,6 +1545,11 @@ function rcmail_search_filter($attrib)
   $select_filter->add(rcube_label('unanswered'), 'UNANSWERED');
   if (!$CONFIG['skip_deleted'])
     $select_filter->add(rcube_label('deleted'), 'DELETED');
+  $select_filter->add(rcube_label('priority').': '.rcube_label('highest'), 'HEADER X-PRIORITY 1');
+  $select_filter->add(rcube_label('priority').': '.rcube_label('high'), 'HEADER X-PRIORITY 2');
+  $select_filter->add(rcube_label('priority').': '.rcube_label('normal'), 'NOT HEADER X-PRIORITY 1 NOT HEADER X-PRIORITY 2 NOT HEADER X-PRIORITY 4 NOT HEADER X-PRIORITY 5');
+  $select_filter->add(rcube_label('priority').': '.rcube_label('low'), 'HEADER X-PRIORITY 4');
+  $select_filter->add(rcube_label('priority').': '.rcube_label('lowest'), 'HEADER X-PRIORITY 5');
 
   $out = $select_filter->show($_SESSION['search_filter']);
 
