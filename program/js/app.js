@@ -278,6 +278,9 @@ function rcube_webmail()
         if (this.gui_objects.folderlist)
           this.env.contactfolders = $.extend($.extend({}, this.env.address_sources), this.env.contactgroups);
 
+        this.enable_command('add', 'import', this.env.writable_source);
+        this.enable_command('list', 'listgroup', 'listsearch', 'advanced-search', true);
+
         if (this.gui_objects.contactslist) {
 
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
@@ -300,6 +303,7 @@ function rcube_webmail()
           }
 
           this.update_group_commands();
+          this.command('list');
         }
 
         this.set_page_buttons();
@@ -319,21 +323,12 @@ function rcube_webmail()
           if (this.env.action == 'add' || this.env.action == 'edit')
               this.init_contact_form();
         }
+
         if (this.gui_objects.qsearchbox) {
           this.enable_command('search', 'reset-search', 'moveto', true);
         }
 
-        if (this.contact_list && this.contact_list.rowcount > 0)
-          this.enable_command('export', true);
-
-        this.enable_command('add', 'import', this.env.writable_source);
-        this.enable_command('list', 'listgroup', 'listsearch', 'advanced-search', true);
-
-        // load contacts of selected source
-        if (!this.env.action)
-          this.command('list', this.env.source);
         break;
-
 
       case 'settings':
         this.enable_command('preferences', 'identities', 'save', 'folders', true);
