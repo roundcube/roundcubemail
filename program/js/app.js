@@ -3619,6 +3619,8 @@ function rcube_webmail()
     if (q == this.ksearch_value)
       return;
 
+    this.ksearch_destroy();
+
     if (q.length && q.length < min) {
       if (!this.ksearch_info) {
         this.ksearch_info = this.display_message(
@@ -3629,7 +3631,6 @@ function rcube_webmail()
 
     var old_value = this.ksearch_value;
     this.ksearch_value = q;
-    this.ksearch_destroy();
 
     // ...string is empty
     if (!q.length)
@@ -3671,7 +3672,9 @@ function rcube_webmail()
       return;
 
     // display search results
-    var p, ul, li, text, init, s_val = this.ksearch_value,
+    var ul, li, text, init,
+      value = this.ksearch_value,
+      data = this.ksearch_data,
       maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
 
     // create results pane if not present
@@ -3704,7 +3707,7 @@ function rcube_webmail()
       for (i=0; i < results.length && maxlen > 0; i++) {
         text = typeof results[i] === 'object' ? results[i].name : results[i];
         li = document.createElement('LI');
-        li.innerHTML = text.replace(new RegExp('('+RegExp.escape(s_val)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
+        li.innerHTML = text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
         li._rcm_id = this.env.contacts.length + i;
@@ -3726,20 +3729,24 @@ function rcube_webmail()
       this.env.contacts = this.env.contacts.concat(results);
 
     // run next parallel search
-    if (this.ksearch_data.id == reqid) {
-      if (maxlen > 0 && this.ksearch_data.sources.length) {
-        var lock, xhr, props = this.ksearch_data, source = props.sources.shift();
+    if (data.id == reqid) {
+      if (maxlen > 0 && data.sources.length) {
+        var lock, xhr, source = data.sources.shift();
         if (source) {
           lock = this.display_message(this.get_label('searching'), 'loading');
-          xhr = this.http_post(props.action, '_search='+urlencode(s_val)+'&_id='+reqid
+          xhr = this.http_post(data.action, '_search='+urlencode(value)+'&_id='+reqid
             +'&_source='+urlencode(source), lock);
 
           this.ksearch_data.locks.push(lock);
           this.ksearch_data.requests.push(xhr);
         }
       }
-      else if (!maxlen && !this.ksearch_msg)
-        this.ksearch_msg = this.display_message(this.get_label('autocompletemore'));
+      else if (!maxlen) {
+        if (!this.ksearch_msg)
+          this.ksearch_msg = this.display_message(this.get_label('autocompletemore'));
+        // abort pending searches
+        this.ksearch_abort();
+      }
     }
   };
 
@@ -3772,16 +3779,10 @@ function rcube_webmail()
     this.ksearch_destroy();
   };
 
-  // Aborts pending autocomplete requests
+  // Clears autocomplete data/requests
   this.ksearch_destroy = function()
   {
-    var i, len, ac = this.ksearch_data;
-
-    if (!ac)
-      return;
-
-    for (i=0, len=ac.locks.length; i<len; i++)
-      this.abort_request({request: ac.requests[i], lock: ac.locks[i]});
+    this.ksearch_abort();
 
     if (this.ksearch_info)
       this.hide_message(this.ksearch_info);
@@ -3793,6 +3794,19 @@ function rcube_webmail()
     this.ksearch_info = null;
     this.ksearch_msg = null;
   }
+
+  // Aborts pending autocomplete requests
+  this.ksearch_abort = function()
+  {
+    var i, len, ac = this.ksearch_data;
+
+    if (!ac)
+      return;
+
+    for (i=0, len=ac.locks.length; i<len; i++)
+      this.abort_request({request: ac.requests[i], lock: ac.locks[i]});
+  };
+
 
   /*********************************************************/
   /*********         address book methods          *********/
