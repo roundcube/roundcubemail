@@ -320,7 +320,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   }
 
   if ($IMAP->threading) {
-    $OUTPUT->command('init_threads', (array) $roots);
+    $OUTPUT->command('init_threads', (array) $roots, $mbox);
   }
 }
 

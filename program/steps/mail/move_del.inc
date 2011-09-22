@@ -121,7 +121,7 @@ else
   }
 
   $OUTPUT->command('set_quota', rcmail_quota_content());
-  $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count));
+  $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
   if ($IMAP->threading)
     $count = get_input_value('_count', RCUBE_INPUT_POST);

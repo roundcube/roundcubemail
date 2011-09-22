@@ -96,7 +96,7 @@ $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->set_env('threading', (bool) $IMAP->threading);
 $OUTPUT->set_env('current_page', $count ? $IMAP->list_page : 1);
-$OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count));
+$OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
 // add message rows

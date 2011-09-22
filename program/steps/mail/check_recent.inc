@@ -81,7 +81,7 @@ foreach ($a_mailboxes as $mbox_name) {
 
         $OUTPUT->set_env('messagecount', $all_count);
         $OUTPUT->set_env('pagecount', ceil($all_count/$IMAP->page_size));
-        $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($all_count));
+        $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($all_count), $mbox_name);
         $OUTPUT->set_env('current_page', $all_count ? $IMAP->list_page : 1);
 
         // remove old rows (and clear selection if new list is empty)

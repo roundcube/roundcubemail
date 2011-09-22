@@ -1641,6 +1641,10 @@ function rcube_webmail()
     if (!this.gui_objects.messagelist || !this.message_list)
       return false;
 
+    // Prevent from adding messages from different folder (#1487752)
+    if (flags.mbox != this.env.mailbox && !flags.skip_mbox_check)
+      return false;
+
     if (!this.env.messages[uid])
       this.env.messages[uid] = {};
 
@@ -2091,8 +2095,12 @@ function rcube_webmail()
   };
 
   // Initializes threads indicators/expanders after list update
-  this.init_threads = function(roots)
+  this.init_threads = function(roots, mbox)
   {
+    // #1487752
+    if (mbox && mbox != this.env.mailbox)
+      return false;
+
     for (var n=0, len=roots.length; n<len; n++)
       this.add_tree_icons(roots[n]);
     this.expand_threads();
@@ -5463,8 +5471,12 @@ function rcube_webmail()
   };
 
   // replace content of row count display
-  this.set_rowcount = function(text)
+  this.set_rowcount = function(text, mbox)
   {
+    // #1487752
+    if (mbox && mbox != this.env.mailbox)
+      return false;
+
     $(this.gui_objects.countdisplay).html(text);
 
     // update page navigation buttons
