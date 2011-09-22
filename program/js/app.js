@@ -847,6 +847,8 @@ function rcube_webmail()
 
           break;
         }
+        else if (props)
+          url += '&_to='+urlencode(props);
 
         this.redirect(url);
         break;

@@ -705,13 +705,14 @@ function parse_input_value($value, $allow_html=FALSE, $charset=NULL)
  * @param  int   Source to get value from (GPC)
  * @return array Hash array with all request parameters
  */
-function request2param($mode = RCUBE_INPUT_GPC)
+function request2param($mode = RCUBE_INPUT_GPC, $ignore = 'task|action')
 {
   $out = array();
   $src = $mode == RCUBE_INPUT_GET ? $_GET : ($mode == RCUBE_INPUT_POST ? $_POST : $_REQUEST);
   foreach ($src as $key => $value) {
     $fname = $key[0] == '_' ? substr($key, 1) : $key;
-    $out[$fname] = get_input_value($key, $mode);
+    if ($ignore && !preg_match("/($ignore)/", $fname))
+      $out[$fname] = get_input_value($key, $mode);
   }
   
   return $out;
