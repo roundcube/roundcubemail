@@ -954,7 +954,8 @@ highlight_row: function(id, multiple)
  */
 key_press: function(e)
 {
-  if (this.focused != true)
+  var target = e.target || {};
+  if (this.focused != true || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
     return true;
 
   var keyCode = rcube_event.get_keycode(e),
@@ -1004,13 +1005,17 @@ key_press: function(e)
  */
 key_down: function(e)
 {
+  var target = e.target || {};
+  if (this.focused != true || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+    return true;
+  
   switch (rcube_event.get_keycode(e)) {
     case 27:
       if (this.drag_active)
-	    return this.drag_mouse_up(e);
+      return this.drag_mouse_up(e);
       if (this.col_drag_active) {
         this.selected_column = null;
-	    return this.column_drag_mouse_up(e);
+        return this.column_drag_mouse_up(e);
       }
 
     case 40:
