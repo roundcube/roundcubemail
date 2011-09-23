@@ -62,6 +62,7 @@ $messages['deletegroupconfirm']  = 'Do you really want to delete selected group?
 $messages['deletemessagesconfirm'] = 'Do you really want to delete selected message(s)?';
 $messages['deletefolderconfirm']  = 'Do you really want to delete this folder?';
 $messages['purgefolderconfirm']  = 'Do you really want to delete all messages in this folder?';
+$messages['contactdeleting'] = 'Deleting contact(s)...';
 $messages['groupdeleting'] = 'Deleting group...';
 $messages['folderdeleting'] = 'Deleting folder...';
 $messages['foldermoving'] = 'Moving folder...';

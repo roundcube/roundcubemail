@@ -4019,8 +4019,9 @@ function rcube_webmail()
   this.delete_contacts = function()
   {
     // exit if no mailbox specified or if selection is empty
-    var selection = this.contact_list.get_selection();
-    var undelete = this.env.address_sources[this.env.source].undelete;
+    var selection = this.contact_list.get_selection(),
+      undelete = this.env.address_sources[this.env.source].undelete;
+
     if (!(selection.length || this.env.cid) || (!undelete && !confirm(this.get_label('deletecontactconfirm'))))
       return;
 
@@ -4048,7 +4049,10 @@ function rcube_webmail()
       qs += '&_search='+this.env.search_request;
 
     // send request to server
-    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))+'&_source='+urlencode(this.env.source)+'&_from='+(this.env.action ? this.env.action : '')+qs);
+    this.http_post('delete', '_cid='+urlencode(a_cids.join(','))
+      +'&_source='+urlencode(this.env.source)
+      +'&_from='+(this.env.action ? this.env.action : '')+qs,
+      this.display_message(this.get_label('contactdeleting'), 'loading'));
 
     return true;
   };

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add loading indicator on contact delete
 - Fix bug where after delete message rows can be added to the list of another folder (#1487752)
 - Add notice on autocompletion that not all records were displayed
 - Add option 'searchonly' for LDAP address books

@@ -312,7 +312,7 @@ function rcmail_contacts_list($attrib)
     $OUTPUT->include_script('list.js');
 
     // add some labels to client
-    $OUTPUT->add_label('deletecontactconfirm', 'copyingcontact');
+    $OUTPUT->add_label('deletecontactconfirm', 'copyingcontact', 'contactdeleting');
 
     return $out;
 }
