@@ -30,8 +30,6 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     rcmail_message_error($uid);
   }
 
-  send_nocacheing_headers();
-
   $mbox_name = $IMAP->get_mailbox_name();
 
   // show images?

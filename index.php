@@ -33,6 +33,9 @@ require_once 'program/include/iniset.php';
 // init application, start session, init output class, etc.
 $RCMAIL = rcmail::get_instance();
 
+// Make the whole PHP output non-cacheable (#1487797)
+send_nocacheing_headers();
+
 // turn on output buffering
 ob_start();
 
@@ -177,7 +180,7 @@ if (empty($RCMAIL->user->ID)) {
       )
     );
   }
-  
+
   if ($session_error || $_REQUEST['_err'] == 'session')
     $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
 

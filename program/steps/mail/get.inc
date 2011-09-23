@@ -64,8 +64,6 @@ if (!empty($_GET['_uid'])) {
   $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
 }
 
-send_nocacheing_headers();
-
 // show part page
 if (!empty($_GET['_frame'])) {
   $OUTPUT->send('messagepart');

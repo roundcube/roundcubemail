@@ -22,7 +22,7 @@
 
 /**
  * Roundcube shared functions
- * 
+ *
  * @package Core
  */
 
@@ -70,50 +70,6 @@ function send_future_expire_header($offset=2600000)
 
 
 /**
- * Check request for If-Modified-Since and send an according response.
- * This will terminate the current script if headers match the given values
- *
- * @param int Modified date as unix timestamp
- * @param string Etag value for caching
- */
-function send_modified_header($mdate, $etag=null, $skip_check=false)
-{
-  if (headers_sent())
-    return;
-    
-  $iscached = false;
-  $etag = $etag ? "\"$etag\"" : null;
-
-  if (!$skip_check)
-  {
-    if ($_SERVER['HTTP_IF_MODIFIED_SINCE'] && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $mdate)
-      $iscached = true;
-  
-    if ($etag)
-      $iscached = ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag);
-  }
-  
-  if ($iscached)
-    header("HTTP/1.x 304 Not Modified");
-  else
-    header("Last-Modified: ".gmdate("D, d M Y H:i:s", $mdate)." GMT");
-  
-  header("Cache-Control: private, must-revalidate, max-age=0");
-  header("Expires: ");
-  header("Pragma: ");
-  
-  if ($etag)
-    header("Etag: $etag");
-  
-  if ($iscached)
-    {
-    ob_end_clean();
-    exit;
-    }
-}
-
-
-/**
  * Similar function as in_array() but case-insensitive
  *
  * @param mixed Needle value
@@ -126,7 +82,7 @@ function in_array_nocase($needle, $haystack)
   foreach ($haystack as $value)
     if ($needle===mb_strtolower($value))
       return true;
-  
+
   return false;
 }
 
@@ -218,7 +174,7 @@ function make_absolute_url($path, $base_url)
 {
   $host_url = $base_url;
   $abs_path = $path;
-  
+
   // check if path is an absolute URL
   if (preg_match('/^[fhtps]+:\/\//', $path))
     return $path;
@@ -325,7 +281,7 @@ function rc_request_header($name)
   }
 
   return $hdrs[$key];
-  }
+}
 
 
 /**
@@ -344,7 +300,7 @@ function unslashify($str)
 {
   return preg_replace('/\/$/', '', $str);
 }
-  
+
 
 /**
  * Delete all files within a folder
@@ -374,7 +330,7 @@ function clear_directory($dir_path)
  * @return int Unix timestamp
  */
 function get_offset_time($offset_str, $factor=1)
-  {
+{
   if (preg_match('/^([0-9]+)\s*([smhdw])/i', $offset_str, $regs))
   {
     $amount = (int)$regs[1];
@@ -385,7 +341,7 @@ function get_offset_time($offset_str, $factor=1)
     $amount = (int)$offset_str;
     $unit = 's';
   }
-    
+
   $ts = mktime();
   switch ($unit)
   {
@@ -418,7 +374,7 @@ function get_offset_time($offset_str, $factor=1)
 function abbreviate_string($str, $maxlength, $place_holder='...', $ending=false)
 {
   $length = mb_strlen($str);
-  
+
   if ($length > $maxlength)
   {
     if ($ending)
@@ -432,6 +388,7 @@ function abbreviate_string($str, $maxlength, $place_holder='...', $ending=false)
 
   return $str;
 }
+
 
 /**
  * A method to guess the mime_type of an attachment.
@@ -547,7 +504,7 @@ function rc_utf8_clean($input)
       $input[$idx] = rc_utf8_clean($val);
     return $input;
   }
-  
+
   if (!is_string($input) || $input == '')
     return $input;
 
@@ -569,7 +526,7 @@ function rc_utf8_clean($input)
     '|[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]'.// UTF8-4
     '|\xF4[\x80-\x8F][\x80-\xBF][\x80-\xBF]'.       // UTF8-4
     ')$/';
-  
+
   $seq = '';
   $out = '';
 
@@ -640,7 +597,7 @@ function rcube_explode_quoted_string($delimiter, $string)
       $p = $i + 1;
     }
   }
-  
+
   $result[] = substr($string, $p);
   return $result;
 }
@@ -655,7 +612,7 @@ function rcube_explode_quoted_string($delimiter, $string)
 function array_keys_recursive($array)
 {
   $keys = array();
-  
+
   if (!empty($array))
     foreach ($array as $key => $child) {
       $keys[] = $key;
