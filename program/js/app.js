@@ -1398,6 +1398,10 @@ function rcube_webmail()
   {
     var model, list, li, id;
 
+    // ignore event if jquery UI dialog is open
+    if ($(rcube_event.get_target(e)).closest('.ui-dialog, .ui-widget-overlay').length)
+      return;
+
     if (list = this.message_list) {
       if (!rcube_mouse_is_over(e, list.list.parentNode))
         list.blur();
