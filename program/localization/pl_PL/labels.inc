@@ -430,5 +430,7 @@ $labels['spellcheckignoresyms'] = 'Ignoruj słowa zawierające symbole';
 $labels['spellcheckignorenums'] = 'Ignoruj słowa zawierające cyfry';
 $labels['spellcheckignorecaps'] = 'Ignoruj słowa pisane wielkimi literami';
 $labels['addtodict'] = 'Dodaj do słownika';
+$labels['dateformat'] = 'Format daty';
+$labels['timeformat'] = 'Format czasu';
 
 ?>

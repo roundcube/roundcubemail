@@ -161,5 +161,8 @@ $messages['savedsearchdeleted'] = 'Wyszukiwanie usunięto pomyślnie.';
 $messages['savedsearchdeleteerror'] = 'Nie można usunąć wyszukiwania.';
 $messages['savedsearchcreated'] = 'Wyszukiwanie zapisano pomyślnie.';
 $messages['savedsearchcreateerror'] = 'Nie można zapisać wyszukiwania.';
+$messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
+$messages['contactdeleting'] = 'Usuwanie kontaktów...';
+$messages['autocompletemore'] = 'Znaleziono więcej pasujących wpisów. Wprowadź więcej znaków.';
 
 ?>
