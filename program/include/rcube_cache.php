@@ -28,7 +28,7 @@
  * @package    Cache
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
- * @version    1.0
+ * @version    1.1
  */
 class rcube_cache
 {
@@ -184,6 +184,24 @@ class rcube_cache
 
         // Remove record(s) from the backend
         $this->remove_record($key, $prefix_mode);
+    }
+
+
+    /**
+     * Remove cache records older than ttl
+     */
+    function expunge()
+    {
+        if ($this->type == 'db' && $this->db) {
+            $this->db->query(
+                "DELETE FROM ".get_table_name('cache').
+                " WHERE user_id = ?".
+                " AND cache_key LIKE ?".
+                " AND " . $this->db->unixtimestamp('created')." < ?",
+                $this->userid,
+                $this->prefix.'.%',
+                time() - $this->ttl);
+        }
     }
 
 
