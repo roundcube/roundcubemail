@@ -3746,7 +3746,7 @@ class rcube_imap
             // @TODO: Honor MAXSIZE and DEPTH options
             foreach ($queries as $attrib => $entry)
                 if ($result = $this->conn->getAnnotation($mailbox, $entry, $attrib))
-                    $res = array_merge($res, $result);
+                    $res = array_merge_recursive($res, $result);
 
             return $res;
         }
