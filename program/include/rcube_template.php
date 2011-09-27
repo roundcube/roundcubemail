@@ -689,7 +689,7 @@ class rcube_template extends rcube_html_page
                     $vars = $attrib + array('product' => $this->config['product_name']);
                     unset($vars['name'], $vars['command']);
                     $label = rcube_label($attrib + array('vars' => $vars));
-                    return !$attrbi['noshow'] ? Q($label) : '';
+                    return !$attrib['noshow'] ? (get_boolean((string)$attrib['html']) ? $label : Q($label)) : '';
                 }
                 break;
 
