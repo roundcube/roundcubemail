@@ -46,7 +46,7 @@ if (!is_array($_SESSION['compose']))
     'param' => request2param(RCUBE_INPUT_GET),
     'mailbox' => $IMAP->get_mailbox_name(),
   );
-  
+
   // process values like "mailto:foo@bar.com?subject=new+message&cc=another"
   if ($_SESSION['compose']['param']['to']) {
     // #1486037: remove "mailto:" prefix
@@ -59,10 +59,10 @@ if (!is_array($_SESSION['compose']))
         $_SESSION['compose']['param'][$f] = $val;
     }
   }
-  
+
   // select folder where to save the sent message
   $_SESSION['compose']['param']['sent_mbox'] = $RCMAIL->config->get('sent_mbox');
-  
+
   // pipe compose parameters thru plugins
   $plugin = $RCMAIL->plugins->exec_hook('message_compose', $_SESSION['compose']);
   $_SESSION['compose']['param'] = array_merge($_SESSION['compose']['param'], $plugin['param']);
@@ -84,12 +84,12 @@ if (!is_array($_SESSION['compose']))
           'path' => $attach,
         );
       }
-      
+
       // save attachment if valid
       if (($attachment['data'] && $attachment['name']) || ($attachment['path'] && file_exists($attachment['path']))) {
         $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
       }
-      
+
       if ($attachment['status'] && !$attachment['abort']) {
         unset($attachment['data'], $attachment['status'], $attachment['abort']);
         $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
@@ -242,21 +242,27 @@ else if (!empty($_SESSION['compose']['param']['from'])) {
   $MESSAGE->compose['from'] = $_SESSION['compose']['param']['from'];
 }
 else if (count($MESSAGE->identities)) {
-  // extract all recipients of the reply-message
   $a_recipients = array();
+  $a_names      = array();
+
+  // extract all recipients of the reply-message
   if (is_object($MESSAGE->headers) && in_array($compose_mode, array(RCUBE_COMPOSE_REPLY, RCUBE_COMPOSE_FORWARD)))
   {
     $a_to = $IMAP->decode_address_list($MESSAGE->headers->to);
     foreach ($a_to as $addr) {
-      if (!empty($addr['mailto']))
+      if (!empty($addr['mailto'])) {
         $a_recipients[] = strtolower($addr['mailto']);
+        $a_names[]      = $addr['name'];
+      }
     }
 
     if (!empty($MESSAGE->headers->cc)) {
       $a_cc = $IMAP->decode_address_list($MESSAGE->headers->cc);
       foreach ($a_cc as $addr) {
-        if (!empty($addr['mailto']))
+        if (!empty($addr['mailto'])) {
           $a_recipients[] = strtolower($addr['mailto']);
+          $a_names[]      = $addr['name'];
+        }
       }
     }
   }
@@ -285,8 +291,11 @@ else if (count($MESSAGE->identities)) {
       break;
     }
     // use replied message recipients
-    else if (in_array($ident['email_ascii'], $a_recipients)) {
-      $from_idx = $idx;
+    else if (($found = array_search($ident['email_ascii'], $a_recipients)) !== false) {
+      // match identity name, prefer default identity
+      if ($from_idx === null || ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name'])) {
+        $from_idx = $idx;
+      }
     }
   }
 

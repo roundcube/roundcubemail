@@ -3604,7 +3604,8 @@ function rcube_webmail()
     var cpos = this.get_caret_pos(this.ksearch_input),
       p = inp_value.lastIndexOf(',', cpos-1),
       q = inp_value.substring(p+1, cpos),
-      min = this.env.autocomplete_min_length;
+      min = this.env.autocomplete_min_length,
+      ac = this.ksearch_data;
 
     // trim query string
     q = $.trim(q);
@@ -3633,8 +3634,8 @@ function rcube_webmail()
     if (!q.length)
       return;
 
-    // ...new search value contains old one and previous search result was empty
-    if (old_value && old_value.length && this.env.contacts && !this.env.contacts.length && q.indexOf(old_value) == 0)
+    // ...new search value contains old one and previous search was not finished or its result was empty
+    if (old_value && old_value.length && q.indexOf(old_value) == 0 && (!ac || !ac.num) && this.env.contacts && !this.env.contacts.length)
       return;
 
     var i, lock, source, xhr, reqid = new Date().getTime(),
@@ -3642,7 +3643,8 @@ function rcube_webmail()
       sources = props && props.sources ? props.sources : [],
       action = props && props.action ? props.action : 'mail/autocomplete';
 
-    this.ksearch_data = {id: reqid, sources: sources.slice(), action: action, locks: [], requests: []};
+    this.ksearch_data = {id: reqid, sources: sources.slice(), action: action,
+      locks: [], requests: [], num: sources.length};
 
     for (i=0; i<threads; i++) {
       source = this.ksearch_data.sources.shift();
@@ -3727,6 +3729,7 @@ function rcube_webmail()
     if (maxlen > 0 && this.ksearch_data.id == reqid && this.ksearch_data.sources.length) {
       var lock, xhr, props = this.ksearch_data, source = props.sources.shift();
       if (source) {
+      data.num--;
         lock = this.display_message(this.get_label('searching'), 'loading');
         xhr = this.http_post(props.action, '_search='+urlencode(s_val)+'&_id='+reqid
           +'&_source='+urlencode(source), lock);
