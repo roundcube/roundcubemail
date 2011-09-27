@@ -617,10 +617,10 @@ function getCookie(name)
       return null;
   }
   else {
-    begin += 2;  
+    begin += 2;
   }
 
-  var end = document.cookie.indexOf(";", begin);
+  var end = dc.indexOf(";", begin);
   if (end == -1)
     end = dc.length;
 
