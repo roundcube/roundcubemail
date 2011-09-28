@@ -25,7 +25,7 @@ $messages['sessionerror'] = 'Sessione non valida o scaduta';
 $messages['imaperror'] = 'Impossibile connettersi al server IMAP';
 $messages['servererror'] = 'Errore del server!';
 $messages['servererrormsg'] = 'Errore del server: $msg';
-$messages['databaserror'] = 'Errore del database!';
+$messages['dberror'] = 'Errore del database!';
 $messages['errorreadonly'] = 'Impossibile eseguire l\'operazione. Cartella in sola lettura';
 $messages['errornoperm'] = 'Impossibile eseguire l\'operazione. Permesso negato';
 $messages['invalidrequest'] = 'Richiesta non valida! Nessun dato salvato.';
@@ -77,10 +77,10 @@ $messages['nosubjectwarning'] = 'L\'oggetto è vuoto. Vuoi inserirlo adesso?';
 $messages['nobodywarning'] = 'Inviare il messaggio senza testo?';
 $messages['notsentwarning'] = 'Il messaggio non è stato inviato. Vuoi annullare questo messaggio?';
 $messages['noldapserver'] = 'Per favore, scegli un server LDAP in cui ricercare';
-$messages['nocontactsreturned'] = 'Nessun contatto trovato';
 $messages['nosearchname'] = 'Per favore, immetti un nome o un indirizzo e-mail';
 $messages['notuploadedwarning'] = 'Non tutti gli allegati sono stati ancora caricati. Prego attendere, oppure cancellare il caricamento.';
 $messages['searchsuccessful'] = '$nr messaggi trovati';
+$messages['contactsearchsuccessful'] = '$nr contatti trovati';
 $messages['searchnomatch'] = 'La ricerca non ha dato nessun risultato';
 $messages['searching'] = 'Ricerca...';
 $messages['checking'] = 'Controllo...';
@@ -140,6 +140,10 @@ $messages['contactrestored'] = 'Contatto/i ripristinato/i';
 $messages['groupdeleted'] = 'Gruppo correttamente eliminato';
 $messages['grouprenamed'] = 'Gruppo correttamente rinominato';
 $messages['groupcreated'] = 'Gruppo creato correttamente';
+$messages['savedsearchdeleted'] = 'Le ricerca salvata è stata eliminata con successo.';
+$messages['savedsearchdeleteerror'] = 'Impossibile eliminare la ricerca salvata.';
+$messages['savedsearchcreated'] = 'Ricerca salvata creata con successo.';
+$messages['savedsearchcreateerror'] = 'Impossibile creare la ricerca salvata.';
 $messages['messagedeleted'] = 'Messaggi/o cancellato correttamente';
 $messages['messagemoved'] = 'Messaggi/o spostato correttamente';
 $messages['messagecopied'] = 'Messaggi/o copiato correttamente';
@@ -154,3 +158,4 @@ $messages['mispellingsfound'] = 'Sono stati riscontrati errori ortografici nel m
 $messages['parentnotwritable'] = 'Impossibile creare o muovere la cartella: accesso negato';
 
 ?>
+

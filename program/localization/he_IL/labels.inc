@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch  <moish@mln.co.il>                           |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  05092011                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  13092011                |
 +-----------------------------------------------------------------------+
 */
 
@@ -115,7 +115,7 @@ $labels['markread'] = 'כנקראו';
 $labels['markunread'] = 'כלא נקראו';
 $labels['markflagged'] = 'כמסומן';
 $labels['markunflagged'] = 'כלא מסומן';
-$labels['messageactions'] = 'פעולות נוספות';
+$labels['moreactions'] = 'פעולות נוספות...';
 $labels['select'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
@@ -268,7 +268,6 @@ $labels['print'] = 'הדפסה';
 $labels['export'] = 'ייצוא';
 $labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard ';
 $labels['newcontactgroup'] = 'יצירת קבוצה חדשה של אנשי קשר';
-$labels['groupactions'] = 'פעולות על קבוצת אנשי הקשר...';
 $labels['grouprename'] = 'שינוי שם קבוצה';
 $labels['groupdelete'] = 'מחיקת קבוצה';
 $labels['previouspage'] = 'הצגת הקבוצה הקודמת';
@@ -278,6 +277,8 @@ $labels['lastpage'] = 'הצגת הקבוצה האחרונה';
 $labels['group'] = 'קבוצה';
 $labels['groups'] = 'קבוצות';
 $labels['personaladrbook'] = 'כתובות פרטיות';
+$labels['searchsave'] = 'שמירת החיפוש';
+$labels['searchdelete'] = 'מחיקת החיפוש';
 $labels['import'] = 'ייבוא';
 $labels['importcontacts'] = 'ייבוא אנשי קשר';
 $labels['importfromfile'] = 'ייבוא מקובץ';
@@ -297,6 +298,8 @@ $labels['edititem'] = 'עריכת רשומה';
 $labels['preferhtml'] = 'הצגת HTML';
 $labels['defaultcharset'] = 'ברירת מחדל של תווים';
 $labels['htmlmessage'] = 'תוכן HTML';
+$labels['dateformat'] = 'פורמט התאריך';
+$labels['timeformat'] = 'פורמט השעה';
 $labels['prettydate'] = 'תאריכים מעוצבים';
 $labels['setdefault'] = 'קביעה כברירת מחדל';
 $labels['autodetect'] = 'אוטומטי';
@@ -369,6 +372,11 @@ $labels['reqdsn'] = 'תמיד לבקש הודעה על מצב המסירה';
 $labels['replysamefolder'] = 'המענה ישמר בתיקיה של ההודעה המקורית';
 $labels['defaultaddressbook'] = 'הוספת אנשי קשר לספר הכתובות שנבחר';
 $labels['spellcheckbeforesend'] = 'בדיקת איות לפני המשלוח';
+$labels['spellcheckoptions'] = 'אפשריות בדיקת איות';
+$labels['spellcheckignoresyms'] = 'התעלמות ממילים המכילות סמלים';
+$labels['spellcheckignorenums'] = 'התעלמות ממילים המכילות מספרים';
+$labels['spellcheckignorecaps'] = 'התעלמות ממילים עם אותציות ראשיות';
+$labels['addtodict'] = 'הוספה למילון';
 $labels['folder'] = 'תיק';
 $labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';

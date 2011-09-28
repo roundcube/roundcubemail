@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  08082011                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  13092011                |
 +-----------------------------------------------------------------------+
 
 */
@@ -75,10 +75,10 @@ $messages['nosubjectwarning'] = 'שורת הנושא ריקה. האם ברצונ
 $messages['nobodywarning'] = 'האם לשלוח הודעה ללא תוכן?';
 $messages['notsentwarning'] = 'ההודעה לא נשלחה. האם לבטל?';
 $messages['noldapserver'] = 'נא לבחור שרת כתובות לחיפוש';
-$messages['nocontactsreturned'] = 'לא נמצאו אנשי קשר';
 $messages['nosearchname'] = 'נא להוסיף איש קשר או כתובת דוא\"ל';
 $messages['notuploadedwarning'] = 'עדיין לא הועלו כל הקבצים. נא לחכות או לבטל הפעולה.';
 $messages['searchsuccessful'] = 'נמצאו $nr הודעות';
+$messages['contactsearchsuccessful'] = 'נמצאו $nr אנשי קשר';
 $messages['searchnomatch'] = 'תוצאת החיפוש ריקה';
 $messages['searching'] = 'חיפוש...';
 $messages['checking'] = 'בדיקה...';
@@ -138,6 +138,10 @@ $messages['contactrestored'] = 'איש הקשר שוחזר בהצלחה';
 $messages['groupdeleted'] = 'הקבוצה נמחקה בהצלחה';
 $messages['grouprenamed'] = 'שם הקבוצה שונה בהצלחה';
 $messages['groupcreated'] = 'הקבוצה נוצרה בהצלחה';
+$messages['savedsearchdeleted'] = 'נמחק החיפוש שנשמר';
+$messages['savedsearchdeleteerror'] = 'לא ניתן למחוק החיפוש שנשמר';
+$messages['savedsearchcreated'] = 'החיפוש נשמר בהצלחה';
+$messages['savedsearchcreateerror'] = 'לא ניתן לשמור את החיפוש';
 $messages['messagedeleted'] = 'ההודעה נמחקה בהצלחה';
 $messages['messagemoved'] = 'ההודעה הועברה בהצלחה';
 $messages['messagecopied'] = 'ההודעה הועתקה בהצלחה';
