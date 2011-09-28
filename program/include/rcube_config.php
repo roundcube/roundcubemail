@@ -93,9 +93,8 @@ class rcube_config
         
         // set timezone auto settings values
         if ($this->prop['timezone'] == 'auto') {
-          $this->prop['_timezone_auto'] = true;
           $this->prop['dst_active'] = intval(date('I'));
-          $this->prop['timezone']   = date('Z') / 3600 - $this->prop['dst_active'];
+          $this->prop['_timezone_value']   = date('Z') / 3600 - $this->prop['dst_active'];
         }
 
         // export config data
@@ -159,6 +158,9 @@ class rcube_config
     {
         $result = isset($this->prop[$name]) ? $this->prop[$name] : $def;
         $rcmail = rcmail::get_instance();
+        
+        if ($name == 'timezone' && isset($this->prop['_timezone_value']))
+            $result = $this->prop['_timezone_value'];
 
         if (is_object($rcmail->plugins)) {
             $plugin = $rcmail->plugins->exec_hook('config_get', array(
@@ -216,8 +218,8 @@ class rcube_config
         $this->prop      = array_merge($this->prop, $prefs);
 
         // override timezone settings with client values
-        if ($this->prop['_timezone_auto']) {
-            $this->prop['timezone']   = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : $this->prop['timezone'];
+        if ($this->prop['timezone'] == 'auto') {
+            $this->prop['_timezone_value'] = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : $this->prop['_timezone_value'];
             $this->prop['dst_active'] = isset($_SESSION['dst_active']) ? $_SESSION['dst_active'] : $this->prop['dst_active'];
         }
     }
