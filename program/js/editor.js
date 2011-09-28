@@ -115,13 +115,17 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '1';
   }
-  else {
-    if (!res && select.tagName == 'SELECT')
-      select.value = 'html';
+  else if (res) {
     if (flagElement && (flag = rcube_find_object(flagElement)))
       flag.value = '0';
 
     if (rcmail.env.composebody)
       rcube_find_object(rcmail.env.composebody).focus();
+  }
+  else { // !res
+    if (select.tagName == 'SELECT')
+      select.value = 'html';
+    else if (select.tagName == 'INPUT')
+      select.checked = true;
   }
 }

@@ -439,6 +439,8 @@ function rcube_webmail()
   // execute a specific command on the web client
   this.command = function(command, props, obj)
   {
+    var ret;
+
     if (obj && obj.blur)
       obj.blur();
 
@@ -462,24 +464,26 @@ function rcube_webmail()
 
     // process external commands
     if (typeof this.command_handlers[command] === 'function') {
-      var ret = this.command_handlers[command](props, obj);
+      ret = this.command_handlers[command](props, obj);
       return ret !== undefined ? ret : (obj ? false : true);
     }
     else if (typeof this.command_handlers[command] === 'string') {
-      var ret = window[this.command_handlers[command]](props, obj);
+      ret = window[this.command_handlers[command]](props, obj);
       return ret !== undefined ? ret : (obj ? false : true);
     }
 
     // trigger plugin hooks
     this.triggerEvent('actionbefore', {props:props, action:command});
-    var ret = this.triggerEvent('before'+command, props);
+    ret = this.triggerEvent('before'+command, props);
     if (ret !== undefined) {
-      // abort if one the handlers returned false
+      // abort if one of the handlers returned false
       if (ret === false)
         return false;
       else
         props = ret;
     }
+
+    ret = undefined;
 
     // process internal command
     switch (command) {
@@ -1045,15 +1049,17 @@ function rcube_webmail()
       // unified command call (command name == function name)
       default:
         var func = command.replace(/-/g, '_');
-        if (this[func] && typeof this[func] === 'function')
-          this[func](props);
+        if (this[func] && typeof this[func] === 'function') {
+          ret = this[func](props);
+        }
         break;
     }
 
-    this.triggerEvent('after'+command, props);
+    if (this.triggerEvent('after'+command, props) === false)
+      ret = false;
     this.triggerEvent('actionafter', {props:props, action:command});
 
-    return obj ? false : true;
+    return ret === false ? false : obj ? false : true;
   };
 
   // set command(s) enabled or disabled
