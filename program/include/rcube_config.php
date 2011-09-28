@@ -220,7 +220,7 @@ class rcube_config
         // override timezone settings with client values
         if ($this->prop['timezone'] == 'auto') {
             $this->prop['_timezone_value'] = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : $this->prop['_timezone_value'];
-            $this->prop['dst_active'] = isset($_SESSION['dst_active']) ? $_SESSION['dst_active'] : $this->prop['dst_active'];
+            $this->prop['dst_active'] = $this->userprefs['dst_active'] = isset($_SESSION['dst_active']) ? $_SESSION['dst_active'] : $this->prop['dst_active'];
         }
         else if (isset($this->prop['_timezone_value']))
            unset($this->prop['_timezone_value']);
