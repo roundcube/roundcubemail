@@ -380,7 +380,10 @@ function rcube_webmail()
           $('#rcmloginpwd').focus();
 
         // detect client timezone
-        $('#rcmlogintz').val(new Date().getTimezoneOffset() / -60);
+        var tz = new Date().getTimezoneOffset() / -60;
+        var stdtz = new Date().getStdTimezoneOffset() / -60;
+        $('#rcmlogintz').val(stdtz);
+        $('#rcmlogindst').val(tz > stdtz ? 0 : 0);
 
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {

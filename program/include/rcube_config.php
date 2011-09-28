@@ -90,6 +90,13 @@ class rcube_config
 
         // enable display_errors in 'show' level, but not for ajax requests
         ini_set('display_errors', intval(empty($_REQUEST['_remote']) && ($this->prop['debug_level'] & 4)));
+        
+        // set timezone auto settings values
+        if ($this->prop['timezone'] == 'auto') {
+          $this->prop['_timezone_auto'] = true;
+          $this->prop['dst_active'] = intval(date('I'));
+          $this->prop['timezone']   = date('Z') / 3600 - $this->prop['dst_active'];
+        }
 
         // export config data
         $GLOBALS['CONFIG'] = &$this->prop;
@@ -207,6 +214,12 @@ class rcube_config
 
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);
+
+        // override timezone settings with client values
+        if ($this->prop['_timezone_auto']) {
+            $this->prop['timezone']   = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : $this->prop['timezone'];
+            $this->prop['dst_active'] = isset($_SESSION['dst_active']) ? $_SESSION['dst_active'] : $this->prop['dst_active'];
+        }
     }
 
 
@@ -221,17 +234,13 @@ class rcube_config
     }
 
     /**
-     * Special getter for user's timezone
+     * Special getter for user's timezone offset including DST
+     *
+     * @return float  Timezone offset (in hours)
      */
     public function get_timezone()
     {
-      $tz = $this->get('timezone');
-      if ($tz == 'auto')
-        $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z') / 3600;
-      else
-        $tz = intval($tz) + intval($this->get('dst_active'));
-
-      return $tz;
+      return floatval($this->get('timezone')) + intval($this->get('dst_active'));
     }
 
     /**

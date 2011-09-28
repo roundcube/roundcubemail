@@ -1105,6 +1105,7 @@ class rcube_template extends rcube_html_page
         $input_task   = new html_hiddenfield(array('name' => '_task', 'value' => 'login'));
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
         $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
+        $input_dst    = new html_hiddenfield(array('name' => '_dstactive', 'id' => 'rcmlogindst', 'value' => '_default_'));
         $input_url    = new html_hiddenfield(array('name' => '_url', 'id' => 'rcmloginurl', 'value' => $url));
         $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser')
             + $attrib + $user_attrib);
@@ -1156,6 +1157,7 @@ class rcube_template extends rcube_html_page
         $out  = $input_task->show();
         $out .= $input_action->show();
         $out .= $input_tzone->show();
+        $out .= $input_dst->show();
         $out .= $input_url->show();
         $out .= $table->show();
 

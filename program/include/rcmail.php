@@ -897,6 +897,8 @@ class rcmail
       
       if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_')
         $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
+      if (isset($_REQUEST['_dstactive']) && $_REQUEST['_dstactive'] != '_default_')
+        $_SESSION['dst_active'] = intval($_REQUEST['_dstactive']);
 
       // force reloading complete list of subscribed mailboxes
       $this->imap->clear_cache('mailboxes', true);

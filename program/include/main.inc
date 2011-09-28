@@ -1038,7 +1038,7 @@ function format_date($date, $format=NULL)
   if (empty($ts))
     return '';
 
-  // get user's timezone
+  // get user's timezone offset
   $tz = $RCMAIL->config->get_timezone();
 
   // convert time to user's timezone

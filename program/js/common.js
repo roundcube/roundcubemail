@@ -671,6 +671,23 @@ RegExp.escape = function(str)
   return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
 };
 
+// Extend Date prototype to detect Standard timezone without DST
+// from http://www.michaelapproved.com/articles/timezone-detect-and-ignore-daylight-saving-time-dst/
+Date.prototype.getStdTimezoneOffset = function()
+{
+  var m = 12,
+    d = new Date(null, m, 1),
+    tzo = d.getTimezoneOffset();
+
+    while (--m) {
+      d.setUTCMonth(m);
+      if (tzo != d.getTimezoneOffset()) {
+        return Math.max(tzo, d.getTimezoneOffset());
+    }
+  }
+
+  return tzo;
+}
 
 // Make getElementById() case-sensitive on IE
 if (bw.ie)
