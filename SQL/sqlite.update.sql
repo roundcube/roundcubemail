@@ -228,7 +228,7 @@ DELETE FROM messages;
 DELETE FROM cache;
 CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);
 
--- Updates from version 0.6-stable
+-- Updates from version 0.6
 
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL,

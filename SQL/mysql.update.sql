@@ -145,7 +145,7 @@ ALTER TABLE `contactgroupmembers` ADD INDEX `contactgroupmembers_contact_index` 
 TRUNCATE TABLE `messages`;
 TRUNCATE TABLE `cache`;
 
--- Updates from version 0.6-stable
+-- Updates from version 0.6
 
 ALTER TABLE `users` CHANGE `alias` `alias` varchar(128) BINARY NOT NULL;
 ALTER TABLE `users` CHANGE `username` `username` varchar(128) BINARY NOT NULL;

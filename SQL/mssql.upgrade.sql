@@ -111,7 +111,7 @@ GO
 DELETE FROM [dbo].[cache]
 GO
 
--- Updates from version 0.6-stable
+-- Updates from version 0.6
 
 CREATE TABLE [dbo].[dictionary] (
     [user_id] [int] ,
@@ -238,4 +238,4 @@ ALTER TABLE [dbo].[cache_messages] ADD CONSTRAINT [FK_cache_messages_user_id]
     FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
-
+

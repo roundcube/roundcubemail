@@ -101,7 +101,7 @@ CREATE INDEX contactgroupmembers_contact_id_idx ON contactgroupmembers (contact_
 TRUNCATE messages;
 TRUNCATE cache;
 
--- Updates from version 0.6-stable
+-- Updates from version 0.6
 
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL
