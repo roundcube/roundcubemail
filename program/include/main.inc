@@ -1214,9 +1214,9 @@ function rcmail_mailbox_select($p = array())
     $p['folder_name'] = '*';
 
   if ($p['unsubscribed'])
-    $list = $RCMAIL->imap->list_unsubscribed('', $p['folder_name'], $p['folder_filter']);
+    $list = $RCMAIL->imap->list_unsubscribed('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
   else
-    $list = $RCMAIL->imap->list_mailboxes('', $p['folder_name'], $p['folder_filter']);
+    $list = $RCMAIL->imap->list_mailboxes('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
 
   $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
 

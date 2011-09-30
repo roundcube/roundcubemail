@@ -2917,13 +2917,14 @@ class rcube_imap
      * @param   string  $root   Optional root folder
      * @param   string  $name   Optional name pattern
      * @param   string  $filter Optional filter
+     * @param   string  $rights Optional ACL requirements
      *
      * @return  array   List of mailboxes/folders
      * @access  public
      */
-    function list_mailboxes($root='', $name='*', $filter=null)
+    function list_mailboxes($root='', $name='*', $filter=null, $rights=null)
     {
-        $a_mboxes = $this->_list_mailboxes($root, $name, $filter);
+        $a_mboxes = $this->_list_mailboxes($root, $name, $filter, $rights);
 
         // INBOX should always be available
         if ((!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
@@ -2943,17 +2944,19 @@ class rcube_imap
      * @param   string  $root   Optional root folder
      * @param   string  $name   Optional name pattern
      * @param   mixed   $filter Optional filter
+     * @param   string  $rights Optional ACL requirements
      *
      * @return  array   List of mailboxes/folders
      * @see     rcube_imap::list_mailboxes()
      * @access  private
      */
-    private function _list_mailboxes($root='', $name='*', $filter=null)
+    private function _list_mailboxes($root='', $name='*', $filter=null, $rights=null)
     {
         $cache_key = $root.':'.$name;
         if (!empty($filter)) {
             $cache_key .= ':'.(is_string($filter) ? $filter : serialize($filter));
         }
+        $cache_key .= ':'.$rights;
 
         $cache_key = 'mailboxes.'.md5($cache_key);
 
@@ -3021,6 +3024,11 @@ class rcube_imap
             $a_folders = array();
         }
 
+        // filter folders list according to rights requirements
+        if ($rights && $this->get_capability('ACL')) {
+            $a_folders = $this->filter_rights($a_folders, $rights);
+        }
+
         // write mailboxlist to cache
         $this->update_cache($cache_key, $a_folders);
 
@@ -3034,10 +3042,11 @@ class rcube_imap
      * @param string $root   IMAP root dir
      * @param string  $name   Optional name pattern
      * @param mixed   $filter Optional filter
+     * @param string  $rights Optional ACL requirements
      *
      * @return array Indexed array with folder names
      */
-    function list_unsubscribed($root='', $name='*', $filter=null)
+    function list_unsubscribed($root='', $name='*', $filter=null, $rights=null)
     {
         // @TODO: caching
         // Give plugins a chance to provide a list of mailboxes
@@ -3061,10 +3070,31 @@ class rcube_imap
             array_unshift($a_mboxes, 'INBOX');
         }
 
+        // filter folders list according to rights requirements
+        if ($rights && $this->get_capability('ACL')) {
+            $a_folders = $this->filter_rights($a_folders, $rights);
+        }
+
         // filter folders and sort them
         $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
 
         return $a_mboxes;
+    }
+
+
+    /**
+     * Filter the given list of folders according to access rights
+     */
+    private function filter_rights($a_folders, $rights)
+    {
+        $regex = '/('.$rights.')/';
+        foreach ($a_folders as $idx => $folder) {
+            $myrights = join('', (array)$this->my_rights($folder));
+            if ($myrights !== null && !preg_match($regex, $myrights))
+                unset($a_folders[$idx]);
+        }
+
+        return $a_folders;
     }
 
 

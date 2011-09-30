@@ -676,7 +676,7 @@ function rcmail_user_prefs($current=null)
       // load folders list only when needed
       if ($current) {
         $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
-          'maxlength' => 30, 'exceptions' => array('INBOX')));
+          'maxlength' => 30, 'exceptions' => array('INBOX'), 'folder_filter' => 'mail', 'folder_rights' => 'w'));
       }
       else // dummy select
         $select = new html_select();

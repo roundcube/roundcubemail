@@ -1383,7 +1383,8 @@ function rcmail_store_target_selection($attrib)
   $attrib['name'] = '_store_target';
   $select = rcmail_mailbox_select(array_merge($attrib, array(
     'noselection' => '- '.rcube_label('dontsave').' -',
-    'folder_filter' => 'mail'
+    'folder_filter' => 'mail',
+    'folder_rights' => 'w',
   )));
   return $select->show($_SESSION['compose']['param']['sent_mbox'], $attrib);
 }
