@@ -310,6 +310,10 @@ class rcube_imap_generic
                 }
                 else {
                     $this->resultcode = null;
+                    // parse response for [APPENDUID 1204196876 3456]
+                    if (preg_match("/^\[APPENDUID [0-9]+ ([0-9,:*]+)\]/i", $str, $m)) {
+                        $this->data['APPENDUID'] = $m[1];
+                    }
                 }
                 $this->result = $str;
 
@@ -2498,8 +2502,18 @@ class rcube_imap_generic
         return ($result == self::ERROR_OK);
     }
 
+    /**
+     * Handler for IMAP APPEND command
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $message Message content
+     *
+     * @return string|bool On success APPENDUID response (if available) or True, False on failure
+     */
     function append($mailbox, &$message)
     {
+        unset($this->data['APPENDUID']);
+
         if (!$mailbox) {
             return false;
         }
@@ -2538,7 +2552,12 @@ class rcube_imap_generic
             // Clear internal status cache
             unset($this->data['STATUS:'.$mailbox]);
 
-            return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
+            if ($this->parseResult($line, 'APPEND: ') != self::ERROR_OK)
+                return false;
+            else if (!empty($this->data['APPENDUID']))
+                return $this->data['APPENDUID'];
+            else
+                return true;
         }
         else {
             $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
@@ -2547,8 +2566,19 @@ class rcube_imap_generic
         return false;
     }
 
+    /**
+     * Handler for IMAP APPEND command.
+     *
+     * @param string $mailbox Mailbox name
+     * @param string $path    Path to the file with message body
+     * @param string $headers Message headers
+     *
+     * @return string|bool On success APPENDUID response (if available) or True, False on failure
+     */
     function appendFromFile($mailbox, $path, $headers=null)
     {
+        unset($this->data['APPENDUID']);
+
         if (!$mailbox) {
             return false;
         }
@@ -2615,7 +2645,12 @@ class rcube_imap_generic
             // Clear internal status cache
             unset($this->data['STATUS:'.$mailbox]);
 
-            return ($this->parseResult($line, 'APPEND: ') == self::ERROR_OK);
+            if ($this->parseResult($line, 'APPEND: ') != self::ERROR_OK)
+                return false;
+            else if (!empty($this->data['APPENDUID']))
+                return $this->data['APPENDUID'];
+            else
+                return true;
         }
         else {
             $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");

@@ -624,7 +624,7 @@ if (!$savedraft)
   // save message sent time
   if (!empty($CONFIG['sendmail_delay']))
     $RCMAIL->user->save_prefs(array('last_message_time' => time()));
-  
+
   // set replied/forwarded flag
   if ($_SESSION['compose']['reply_uid'])
     $IMAP->set_flag($_SESSION['compose']['reply_uid'], 'ANSWERED', $_SESSION['compose']['mailbox']);
@@ -700,6 +700,7 @@ if ($store_target) {
 
   if ($olddraftmessageid) {
     // delete previous saved draft
+    // @TODO: use message UID (remember to check UIDVALIDITY) to skip this SEARCH
     $a_deleteid = $IMAP->search_once($CONFIG['drafts_mbox'],
         'HEADER Message-ID '.$olddraftmessageid, true);
 
@@ -723,9 +724,12 @@ else if ($mailbody_file) {
 if ($savedraft) {
   $msgid = strtr($message_id, array('>' => '', '<' => ''));
 
-  // remember new draft-uid
-  $draftuids = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid, true);
-  $_SESSION['compose']['param']['draft_uid'] = $draftuids[0];
+  // remember new draft-uid ($saved could be an UID or TRUE here)
+  if (is_bool($saved)) {
+    $draftuids = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid, true);
+    $saved     = $draftuids[0];
+  }
+  $_SESSION['compose']['param']['draft_uid'] = $saved;
 
   // display success
   $OUTPUT->show_message('messagesaved', 'confirmation');

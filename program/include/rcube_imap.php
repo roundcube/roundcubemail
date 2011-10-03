@@ -2531,7 +2531,7 @@ class rcube_imap
      * @param string  $headers Headers string if $message contains only the body
      * @param boolean $is_file True if $message is a filename
      *
-     * @return boolean True on success, False on error
+     * @return int|bool Appended message UID or True on success, False on error
      */
     function save_message($mailbox, &$message, $headers='', $is_file=false)
     {
