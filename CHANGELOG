@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix namespace handling in special folders settings (#1488112)
 - Disable time limit for CLI scripts (#1488109)
 - Fix misleading display when chaning editor type (#1488104)
 - Add loading indicator on contact delete

@@ -730,7 +730,7 @@ class rcmail
       $keep_alive = max(60, $keep_alive);
       $this->session->set_keep_alive($keep_alive);
     }
-    
+
     $this->session->set_secret($this->config->get('des_key') . $_SERVER['HTTP_USER_AGENT']);
     $this->session->set_ip_check($this->config->get('ip_check'));
   }
@@ -840,16 +840,8 @@ class rcmail
     if (!$imap_login)
       return false;
 
-    $this->set_imap_prop();
-
     // user already registered -> update user's record
     if (is_object($user)) {
-      // fix some old settings according to namespace prefix
-      $this->fix_namespace_settings($user);
-
-      // create default folders on first login
-      if (!$user->data['last_login'] && $config['create_default_folders'])
-        $this->imap->create_default_folders();
       // update last login timestamp
       $user->touch();
     }
@@ -857,13 +849,6 @@ class rcmail
     else if ($config['auto_create_user']) {
       if ($created = rcube_user::create($username, $host)) {
         $user = $created;
-
-        // fix default settings according to namespace prefix
-        $this->fix_namespace_settings($user);
-
-        // create default folders on first login
-        if ($config['create_default_folders'])
-          $this->imap->create_default_folders();
       }
       else {
         raise_error(array(
@@ -883,8 +868,18 @@ class rcmail
 
     // login succeeded
     if (is_object($user) && $user->ID) {
+      // Configure environment
       $this->set_user($user);
+      $this->set_imap_prop();
       $this->session_configure();
+
+      // fix some old settings according to namespace prefix
+      $this->fix_namespace_settings($user);
+
+      // create default folders on first login
+      if ($config['create_default_folders'] && (!empty($created) || empty($user->data['last_login']))) {
+        $this->imap->create_default_folders();
+      }
 
       // set session vars
       $_SESSION['user_id']   = $user->ID;
@@ -894,7 +889,7 @@ class rcmail
       $_SESSION['imap_ssl']  = $imap_ssl;
       $_SESSION['password']  = $this->encrypt($pass);
       $_SESSION['login_time'] = mktime();
-      
+
       if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_')
         $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
       if (isset($_REQUEST['_dstactive']) && $_REQUEST['_dstactive'] != '_default_')
@@ -1567,7 +1562,7 @@ class rcmail
 
     // use strtr behaviour of going through source string once
     $cmd = strtr($cmd, $replacements);
-    
+
     return (string)shell_exec($cmd);
   }
 
@@ -1603,7 +1598,7 @@ class rcmail
       }
     }
   }
-  
+
   /**
    * Returns current action filename
    *
@@ -1633,8 +1628,8 @@ class rcmail
     if (!$prefix_len)
       return;
 
-    $prefs = $user->get_prefs();
-    if (empty($prefs) || $prefs['namespace_fixed'])
+    $prefs = $this->config->all();
+    if (!empty($prefs['namespace_fixed']))
       return;
 
     // Build namespace prefix regexp
