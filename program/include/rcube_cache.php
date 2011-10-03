@@ -264,7 +264,7 @@ class rcube_cache
                 $this->cache_sums[$key] = $md5sum;
                 $this->cache[$key]      = $data;
             }
-            else if (!$nostore) {
+            else {
                 $this->cache[$key] = null;
             }
         }
@@ -294,7 +294,7 @@ class rcube_cache
 	            $this->cache_sums[$key] = $md5sum;
                 $this->cache_keys[$key] = $sql_arr['cache_id'];
             }
-            else if (!$nostore) {
+            else {
                 $this->cache[$key] = null;
             }
         }
