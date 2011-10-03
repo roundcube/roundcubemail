@@ -245,26 +245,30 @@ class rcube_cache
             return null;
         }
 
-        if ($this->type == 'memcache') {
-            $data = $this->db->get($this->ckey($key));
-        }
-        else if ($this->type == 'apc') {
-            $data = apc_fetch($this->ckey($key));
-	    }
-
-        if ($data) {
-            $md5sum = md5($data);
-            $data   = $this->packed ? unserialize($data) : $data;
-
-            if ($nostore) {
-                return $data;
+        if ($this->type != 'db') {
+            if ($this->type == 'memcache') {
+                $data = $this->db->get($this->ckey($key));
             }
+            else if ($this->type == 'apc') {
+                $data = apc_fetch($this->ckey($key));
+	        }
 
-            $this->cache_sums[$key] = $md5sum;
-            $this->cache[$key]      = $data;
+            if ($data) {
+                $md5sum = md5($data);
+                $data   = $this->packed ? unserialize($data) : $data;
+
+                if ($nostore) {
+                    return $data;
+                }
+
+                $this->cache_sums[$key] = $md5sum;
+                $this->cache[$key]      = $data;
+            }
+            else if (!$nostore) {
+                $this->cache[$key] = null;
+            }
         }
-
-        if ($this->type == 'db') {
+        else {
             $sql_result = $this->db->limitquery(
                 "SELECT cache_id, data, cache_key".
                 " FROM ".get_table_name('cache').
@@ -289,6 +293,9 @@ class rcube_cache
                 $this->cache[$key]      = $data;
 	            $this->cache_sums[$key] = $md5sum;
                 $this->cache_keys[$key] = $sql_arr['cache_id'];
+            }
+            else if (!$nostore) {
+                $this->cache[$key] = null;
             }
         }
 
