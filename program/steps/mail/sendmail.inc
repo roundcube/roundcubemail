@@ -637,11 +637,10 @@ if (!$savedraft)
 // Determine which folder to save message
 if ($savedraft)
   $store_target = $CONFIG['drafts_mbox'];
-else	
+else
   $store_target = isset($_POST['_store_target']) ? get_input_value('_store_target', RCUBE_INPUT_POST) : $CONFIG['sent_mbox'];
 
-if ($store_target)
-  {
+if ($store_target) {
   // check if folder is subscribed
   if ($IMAP->mailbox_exists($store_target, true))
     $store_folder = true;
@@ -653,11 +652,10 @@ if ($store_target)
 
   // append message to sent box
   if ($store_folder) {
-
     // message body in file
     if ($mailbody_file || $MAIL_MIME->getParam('delay_file_io')) {
       $headers = $MAIL_MIME->txtHeaders();
-      
+
       // file already created
       if ($mailbody_file)
         $msg = $mailbody_file;
@@ -666,12 +664,12 @@ if ($store_target)
         $mailbody_file = tempnam($temp_dir, 'rcmMsg');
         if (!PEAR::isError($msg = $MAIL_MIME->saveMessageBody($mailbody_file)))
           $msg = $mailbody_file;
-        }
       }
+    }
     else {
       $msg = $MAIL_MIME->getMessage();
       $headers = '';
-      }
+    }
 
     if (PEAR::isError($msg))
       raise_error(array('code' => 650, 'type' => 'php',
@@ -680,50 +678,51 @@ if ($store_target)
             TRUE, FALSE);
     else {
       $saved = $IMAP->save_message($store_target, $msg, $headers, $mailbody_file ? true : false);
-      }
+    }
 
     if ($mailbody_file) {
       unlink($mailbody_file);
       $mailbody_file = null;
-      }
+    }
 
     // raise error if saving failed
     if (!$saved) {
       raise_error(array('code' => 800, 'type' => 'imap',
 	    'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not save message in $store_target"), TRUE, FALSE);
-    
+
       if ($savedraft) {
         $OUTPUT->show_message('errorsaving', 'error');
         $OUTPUT->send('iframe');
-        }
       }
     }
+  }
 
-  if ($olddraftmessageid)
-    {
+  if ($olddraftmessageid) {
     // delete previous saved draft
     $a_deleteid = $IMAP->search_once($CONFIG['drafts_mbox'],
         'HEADER Message-ID '.$olddraftmessageid, true);
-    $deleted = $IMAP->delete_message($a_deleteid, $CONFIG['drafts_mbox']);
 
-    // raise error if deletion of old draft failed
-    if (!$deleted)
-      raise_error(array('code' => 800, 'type' => 'imap',
-    		'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
+    if (!empty($a_deleteid)) {
+      $deleted = $IMAP->delete_message($a_deleteid, $CONFIG['drafts_mbox']);
+
+      // raise error if deletion of old draft failed
+      if (!$deleted)
+        raise_error(array('code' => 800, 'type' => 'imap',
+          'file' => __FILE__, 'line' => __LINE__,
+          'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
     }
   }
+}
 // remove temp file
 else if ($mailbody_file) {
   unlink($mailbody_file);
-  }
+}
 
 
-if ($savedraft)
-  {
+if ($savedraft) {
   $msgid = strtr($message_id, array('>' => '', '<' => ''));
-  
+
   // remember new draft-uid
   $draftuids = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid, true);
   $_SESSION['compose']['param']['draft_uid'] = $draftuids[0];
@@ -739,9 +738,8 @@ if ($savedraft)
   $OUTPUT->command('auto_save_start');
 
   $OUTPUT->send('iframe');
-  }
-else
-  {
+}
+else {
   rcmail_compose_cleanup($COMPOSE_ID);
 
   if ($store_folder && !$saved)
@@ -749,6 +747,4 @@ else
   else
     $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'));
   $OUTPUT->send('iframe');
-  }
-
-
+}
