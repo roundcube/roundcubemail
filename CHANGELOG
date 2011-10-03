@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Disable time limit for CLI scripts (#1488109)
 - Fix misleading display when chaning editor type (#1488104)
 - Add loading indicator on contact delete
 - Fix bug where after delete message rows can be added to the list of another folder (#1487752)

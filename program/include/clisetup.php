@@ -25,6 +25,8 @@ if (php_sapi_name() != 'cli') {
 
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
+// Unset max. execution time limit, set to 120 seconds in iniset.php
+@set_time_limit(0);
 
 /**
  * Parse commandline arguments into a hash array
