@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where it wasn't possible to change list view mode in folder manager for INBOX (#1488107)
 - Fix namespace handling in special folders settings (#1488112)
 - Disable time limit for CLI scripts (#1488109)
 - Fix misleading display when chaning editor type (#1488104)
