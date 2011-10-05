@@ -2914,15 +2914,16 @@ class rcube_imap
     /**
      * Public method for listing subscribed folders
      *
-     * @param   string  $root   Optional root folder
-     * @param   string  $name   Optional name pattern
-     * @param   string  $filter Optional filter
-     * @param   string  $rights Optional ACL requirements
+     * @param   string  $root      Optional root folder
+     * @param   string  $name      Optional name pattern
+     * @param   string  $filter    Optional filter
+     * @param   string  $rights    Optional ACL requirements
+     * @param   bool    $skip_sort Enable to return unsorted list (for better performance)
      *
      * @return  array   List of mailboxes/folders
      * @access  public
      */
-    function list_mailboxes($root='', $name='*', $filter=null, $rights=null)
+    function list_mailboxes($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
     {
         $a_mboxes = $this->_list_mailboxes($root, $name, $filter, $rights);
 
@@ -2932,7 +2933,9 @@ class rcube_imap
         }
 
         // sort mailboxes
-        $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
+        if (!$skip_sort) {
+            $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
+        }
 
         return $a_mboxes;
     }
@@ -3039,14 +3042,15 @@ class rcube_imap
     /**
      * Get a list of all folders available on the IMAP server
      *
-     * @param string $root   IMAP root dir
-     * @param string  $name   Optional name pattern
-     * @param mixed   $filter Optional filter
-     * @param string  $rights Optional ACL requirements
+     * @param string  $root      IMAP root dir
+     * @param string  $name      Optional name pattern
+     * @param mixed   $filter    Optional filter
+     * @param string  $rights    Optional ACL requirements
+     * @param bool    $skip_sort Enable to return unsorted list (for better performance)
      *
      * @return array Indexed array with folder names
      */
-    function list_unsubscribed($root='', $name='*', $filter=null, $rights=null)
+    function list_unsubscribed($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
     {
         // @TODO: caching
         // Give plugins a chance to provide a list of mailboxes
@@ -3076,7 +3080,9 @@ class rcube_imap
         }
 
         // filter folders and sort them
-        $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
+        if (!$skip_sort) {
+            $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
+        }
 
         return $a_mboxes;
     }

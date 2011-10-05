@@ -203,7 +203,7 @@ function rcube_subscription_form($attrib)
     $IMAP->clear_cache('mailboxes', true);
 
     $a_unsubscribed = $IMAP->list_unsubscribed();
-    $a_subscribed   = $IMAP->list_mailboxes();
+    $a_subscribed   = $IMAP->list_mailboxes('', '*', null, null, true); // unsorted
     $delimiter      = $IMAP->get_hierarchy_delimiter();
     $namespace      = $IMAP->get_namespace();
     $a_js_folders   = array();
