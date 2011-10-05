@@ -1960,18 +1960,13 @@ function rcube_webmail()
   // list messages of a specific mailbox using filter
   this.filter_mailbox = function(filter)
   {
-    var search, lock = this.set_busy(true, 'searching');
-
-    if (this.gui_objects.qsearchbox)
-      search = this.gui_objects.qsearchbox.value;
+    var lock = this.set_busy(true, 'searching');
 
     this.clear_message_list();
 
     // reset vars
     this.env.current_page = 1;
-    this.http_request('search', '_filter='+filter
-        + (search ? '&_q='+urlencode(search) : '')
-        + (this.env.mailbox ? '&_mbox='+urlencode(this.env.mailbox) : ''), lock);
+    this.http_request('search', this.search_params(false, filter), lock);
   };
 
   // list messages of a specific mailbox
@@ -3426,38 +3421,56 @@ function rcube_webmail()
   this.qsearch = function(value)
   {
     if (value != '') {
-      var n, r, addurl = '', mods_arr = [],
-        mods = this.env.search_mods,
-        mbox = this.env.mailbox,
-        lock = this.set_busy(true, 'searching');
+      var n, lock = this.set_busy(true, 'searching');
 
-      if (this.message_list) {
+      if (this.message_list)
         this.clear_message_list();
-        if (mods)
-          mods = mods[mbox] ? mods[mbox] : mods['*'];
-      } else if (this.contact_list) {
+      else if (this.contact_list)
         this.list_contacts_clear();
-      }
+
+      // reset vars
+      this.env.current_page = 1;
+      r = this.http_request('search', this.search_params(value)
+        + (this.env.source ? '&_source='+urlencode(this.env.source) : '')
+        + (this.env.group ? '&_gid='+urlencode(this.env.group) : ''), lock);
+
+      this.env.qsearch = {lock: lock, request: r};
+    }
+  };
+
+  // build URL params for search
+  this.search_params = function(search, filter)
+  {
+    var n, url = [], mods_arr = [],
+      mods = this.env.search_mods,
+      mbox = this.env.mailbox;
+
+    if (!filter && this.gui_objects.search_filter)
+      filter = this.gui_objects.search_filter.value;
+
+    if (!search && this.gui_objects.qsearchbox)
+      search = this.gui_objects.qsearchbox.value;
+
+    if (filter)
+      url.push('_filter=' + urlencode(filter));
+
+    if (search) {
+      url.push('_q='+urlencode(search));
+
+      if (mods && this.message_list)
+        mods = mods[mbox] ? mods[mbox] : mods['*'];
 
       if (mods) {
         for (n in mods)
           mods_arr.push(n);
-        addurl += '&_headers='+mods_arr.join(',');
+        url.push('_headers='+mods_arr.join(','));
       }
-
-      if (this.gui_objects.search_filter)
-        addurl += '&_filter=' + this.gui_objects.search_filter.value;
-
-      // reset vars
-      this.env.current_page = 1;
-      r = this.http_request('search', '_q='+urlencode(value)
-        + (mbox ? '&_mbox='+urlencode(mbox) : '')
-        + (this.env.source ? '&_source='+urlencode(this.env.source) : '')
-        + (this.env.group ? '&_gid='+urlencode(this.env.group) : '')
-        + (addurl ? addurl : ''), lock);
-
-      this.env.qsearch = {lock: lock, request: r};
     }
+
+    if (mbox)
+      url.push('_mbox='+urlencode(mbox));
+
+    return url.join('&');
   };
 
   // reset quick-search form
