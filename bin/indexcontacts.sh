@@ -23,7 +23,7 @@
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 
 require_once INSTALL_PATH.'program/include/clisetup.php';
-
+ini_set('memory_limit', -1);
 
 // connect to DB
 $RCMAIL = rcmail::get_instance();
@@ -47,7 +47,7 @@ while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
         unset($row['words']);
         $contacts->update($row['ID'], $row);
     }
-    
+
     echo "done.\n";
 }
 
