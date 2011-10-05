@@ -4146,6 +4146,21 @@ function rcube_webmail()
       this.selectedIndex = 0;
     });
 
+    // enable date pickers on date fields
+    if ($.datepicker && this.env.date_format) {
+      $.datepicker.setDefaults({
+        dateFormat: this.env.date_format,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '-100:+10',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        monthNamesShort: this.env.month_names,
+        onSelect: function(dateText) { $(this).focus().val(dateText) }
+      });
+      $('input.datepicker').datepicker();
+    }
+
     $("input[type='text']:visible").first().focus();
   };
 
@@ -4401,6 +4416,9 @@ function rcube_webmail()
             .appendTo(cell);
 
           this.init_edit_field(col, input);
+          
+          if (colprop.type == 'date' && $.datepicker)
+            input.datepicker();
         }
         else if (colprop.type == 'composite') {
           var childcol, cp, first, templ, cols = [], suffices = [];
