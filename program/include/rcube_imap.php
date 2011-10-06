@@ -2920,22 +2920,47 @@ class rcube_imap
      * @param   string  $rights    Optional ACL requirements
      * @param   bool    $skip_sort Enable to return unsorted list (for better performance)
      *
-     * @return  array   List of mailboxes/folders
+     * @return  array   List of folders
      * @access  public
      */
     function list_mailboxes($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
     {
+        $cache_key = $root.':'.$name;
+        if (!empty($filter)) {
+            $cache_key .= ':'.(is_string($filter) ? $filter : serialize($filter));
+        }
+        $cache_key .= ':'.$rights;
+        $cache_key = 'mailboxes.'.md5($cache_key);
+
+        // get cached folder list
+        $a_mboxes = $this->get_cache($cache_key);
+        if (is_array($a_mboxes)) {
+            return $a_mboxes;
+        }
+
         $a_mboxes = $this->_list_mailboxes($root, $name, $filter, $rights);
+
+        if (!is_array($a_mboxes)) {
+            return array();
+        }
+
+        // filter folders list according to rights requirements
+        if ($rights && $this->get_capability('ACL')) {
+            $a_mboxes = $this->filter_rights($a_mboxes, $rights);
+        }
 
         // INBOX should always be available
         if ((!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
             array_unshift($a_mboxes, 'INBOX');
         }
 
-        // sort mailboxes
-        if (!$skip_sort) {
+        // sort mailboxes (always sort for cache)
+        if (!$skip_sort || $this->cache) {
             $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
         }
+
+        // write mailboxlist to cache
+        $this->update_cache($cache_key, $a_mboxes);
 
         return $a_mboxes;
     }
@@ -2955,20 +2980,6 @@ class rcube_imap
      */
     private function _list_mailboxes($root='', $name='*', $filter=null, $rights=null)
     {
-        $cache_key = $root.':'.$name;
-        if (!empty($filter)) {
-            $cache_key .= ':'.(is_string($filter) ? $filter : serialize($filter));
-        }
-        $cache_key .= ':'.$rights;
-
-        $cache_key = 'mailboxes.'.md5($cache_key);
-
-        // get cached folder list
-        $a_mboxes = $this->get_cache($cache_key);
-        if (is_array($a_mboxes)) {
-            return $a_mboxes;
-        }
-
         $a_defaults = $a_out = array();
 
         // Give plugins a chance to provide a list of mailboxes
@@ -2979,7 +2990,7 @@ class rcube_imap
             $a_folders = $data['folders'];
         }
         else if (!$this->conn->connected()) {
-           return array();
+           return null;
         }
         else {
             // Server supports LIST-EXTENDED, we can use selection options
@@ -3026,14 +3037,6 @@ class rcube_imap
         if (!is_array($a_folders) || !sizeof($a_folders)) {
             $a_folders = array();
         }
-
-        // filter folders list according to rights requirements
-        if ($rights && $this->get_capability('ACL')) {
-            $a_folders = $this->filter_rights($a_folders, $rights);
-        }
-
-        // write mailboxlist to cache
-        $this->update_cache($cache_key, $a_folders);
 
         return $a_folders;
     }
