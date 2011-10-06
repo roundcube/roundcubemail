@@ -1,10 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed imap test to non-default port when using ssl (#1488118)
 - Force all files to be overwritten when updating (#1488117)
-
-RELEASE 0.6
------------
 - Fix issue where it wasn't possible to change list view mode in folder manager for INBOX (#1488107)
 - Fix namespace handling in special folders settings (#1488112)
 - Disable time limit for CLI scripts (#1488109)
@@ -15,17 +13,9 @@ RELEASE 0.6
 - Add option 'searchonly' for LDAP address books
 - Add Priority filter to the messages list
 - Cache synchronization using QRESYNC/CONDSTORE
-- Fix locked folder rename option on servers supporting RFC2086 only (#1488089)
 - Trigger 'new_messages' hook for all checked folders (#1488083)
-- Fix session race conditions when composing new messages
-- Fix encoding of LDAP contacts identifiers (#1488079)
-- jQuery 1.6.4
 - Make date/time format user configurable; drop 'date_today' config option
-- Fix handling of binary attachments encoded with quoted-printable (#1488065)
-- Fix text-overflow:ellipsis issues on messages list in FF7 and Webkit (#1488061)
 - Fix setting title for truncated subject in IE (#1487128)
-- Fix handling of links with IP address
-- Fix compacting folder resets message list filter (#1488076)
 - Fix displaying multipart/alternative messages with only one part (#1487938)
 - Rewritten messages caching:
   Indexes are stored in a separate table, so there's no need to store all messages in a folder
@@ -40,6 +30,18 @@ RELEASE 0.6
 - Added possibility to ignore words containing caps, numbers, symbols (spellcheck_ignore_* options)
 - Added 'priority' column on messages list (#1486782)
 - Localize forwarded message header (#1488058)
+
+RELEASE 0.6
+-----------
+- Fix bug where the last identity is used on reply (#1488101)
+- Fix locked folder rename option on servers supporting RFC2086 only (#1488089)
+- Fix session race conditions when composing new messages
+- Fix encoding of LDAP contacts identifiers (#1488079)
+- jQuery 1.6.4
+- Fix handling of binary attachments encoded with quoted-printable (#1488065)
+- Fix text-overflow:ellipsis issues on messages list in FF7 and Webkit (#1488061)
+- Fix handling of links with IP address
+- Fix compacting folder resets message list filter (#1488076)
 
 RELEASE 0.6-rc
 ----------------
