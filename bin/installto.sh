@@ -45,13 +45,13 @@ if (strtolower($input) == 'y') {
   $err = false;
   echo "Copying files to target location...";
   foreach (array('program','installer','bin','SQL','plugins','skins/default') as $dir) {
-    if (!system("rsync -avuC " . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
+    if (!system("rsync -avC " . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
       $err = true;
       break;
     }
   }
   foreach (array('index.php','.htaccess','config/main.inc.php.dist','config/db.inc.php.dist','CHANGELOG','README','UPGRADING') as $file) {
-    if (!system("rsync -avu " . INSTALL_PATH . "$file $target_dir/$file")) {
+    if (!system("rsync -av " . INSTALL_PATH . "$file $target_dir/$file")) {
       $err = true;
       break;
     }
