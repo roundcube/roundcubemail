@@ -934,7 +934,7 @@ class rcube_ldap extends rcube_addressbook
             $this->_debug("C: Search [$filter]");
 
             // when using VLV, we get the total count by...
-            if (!$count && $function != 'ldap_read' && $this->prop['vlv']) {
+            if (!$count && $function != 'ldap_read' && $this->prop['vlv'] && !$this->group_id) {
                 // ...either reading numSubOrdinates attribute
                 if ($this->prop['numsub_filter'] && ($result_count = @$function($this->conn, $this->base_dn, $this->prop['numsub_filter'], array('numSubOrdinates'), 0, 0, 0))) {
                     $counts = ldap_get_entries($this->conn, $result_count);
