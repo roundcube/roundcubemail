@@ -382,18 +382,20 @@ $pass_field = new html_passwordfield(array('name' => '_pass', 'id' => 'imappass'
 <?php
 
 if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user'])) {
-  
+
   echo '<p>Connecting to ' . Q($_POST['_host']) . '...<br />';
-  
-  $a_host = parse_url($_POST['_host']);
+
+  $imap_host = trim($_POST['_host']);
+  $imap_port = $RCI->getprop('default_port');
+  $a_host    = parse_url($imap_host);
+
   if ($a_host['host']) {
     $imap_host = $a_host['host'];
-    $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
-    $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : $CONFIG['default_port']);
-  }
-  else {
-    $imap_host = trim($_POST['_host']);
-    $imap_port = $RCI->getprop('default_port');
+    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
+    if (isset($a_host['port']))
+      $imap_port = $a_host['port'];
+    else if ($imap_ssl && $imap_ssl != 'tls' && (!$imap_port || $imap_port == 143))
+      $imap_port = 993;
   }
 
   $imap_host = idn_to_ascii($imap_host);
