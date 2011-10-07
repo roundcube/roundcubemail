@@ -60,6 +60,16 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
     $contact['email'] = rcube_idn_to_utf8($contact['email']);
     $contact['name'] = rcube_addressbook::compose_display_name($contact);
 
+    // validate contact record
+    if (!$CONTACTS->validate($contact, true)) {
+      $error = $CONTACTS->get_error();
+      // TODO: show dialog to complete record
+      // if ($error['type'] == rcube_addressbook::ERROR_VALIDATE) { }
+      
+      $OUTPUT->show_message($error['message'] ? $error['message'] : 'errorsavingcontact', 'error');
+      $OUTPUT->send();
+    }
+
     // check for existing contacts
     $existing = $CONTACTS->search('email', $contact['email'], true, false);
 

@@ -30,7 +30,7 @@ abstract class rcube_addressbook
     /** constants for error reporting **/
     const ERROR_READ_ONLY = 1;
     const ERROR_NO_CONNECTION = 2;
-    const ERROR_INCOMPLETE = 3;
+    const ERROR_VALIDATE = 3;
     const ERROR_SAVING = 4;
     const ERROR_SEARCH = 5;
 
@@ -182,15 +182,16 @@ abstract class rcube_addressbook
      * If input isn't valid, the message to display can be fetched using get_error()
      *
      * @param array Assoziative array with data to save
+     * @param boolean Attempt to fix/complete record automatically
      * @return boolean True if input is valid, False if not.
      */
-    public function validate($save_data)
+    public function validate(&$save_data, $autofix = false)
     {
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
                 if (!check_email(rcube_idn_to_ascii($email))) {
-                    $this->set_error('warning', rcube_label(array('name' => 'emailformaterror', 'vars' => array('email' => $email))));
+                    $this->set_error(self::ERROR_VALIDATE, rcube_label(array('name' => 'emailformaterror', 'vars' => array('email' => $email))));
                     return false;
                 }
             }

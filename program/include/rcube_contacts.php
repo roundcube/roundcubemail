@@ -500,16 +500,17 @@ class rcube_contacts extends rcube_addressbook
      * If input not valid, the message to display can be fetched using get_error()
      *
      * @param array Assoziative array with data to save
+     * @param boolean Try to fix/complete record automatically
      * @return boolean True if input is valid, False if not.
      */
-    public function validate($save_data)
+    public function validate(&$save_data, $autofix = false)
     {
         // validate e-mail addresses
-        $valid = parent::validate($save_data);
+        $valid = parent::validate($save_data, $autofix);
 
         // require at least one e-mail address (syntax check is already done)
         if ($valid && !array_filter($this->get_col_values('email', $save_data, true))) {
-            $this->set_error('warning', 'noemailwarning');
+            $this->set_error(self::ERROR_VALIDATE, 'noemailwarning');
             $valid = false;
         }
 

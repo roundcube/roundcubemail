@@ -448,13 +448,6 @@ class rcube_ldap extends rcube_addressbook
             return $this->result;
         }
 
-        // add general filter to query
-        if (!empty($this->prop['filter']) && empty($this->filter))
-        {
-            $filter = $this->prop['filter'];
-            $this->set_search_set($filter);
-        }
-
         // query URL is given by the selected group
         if ($this->group_id && $this->group_url)
         {
@@ -463,9 +456,13 @@ class rcube_ldap extends rcube_addressbook
             {
                 $this->base_dn = $m[1];
                 $this->prop['scope'] = $m[2];
-                $this->filter = $m[3];
+                $this->filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
             }
         }
+
+        // add general filter to query
+        if (!empty($this->prop['filter']) && empty($this->filter))
+            $this->set_search_set($this->prop['filter']);
 
         // exec LDAP search if no result resource is stored
         if ($this->conn && !$this->ldap_result)
@@ -689,19 +686,49 @@ class rcube_ldap extends rcube_addressbook
      * If input not valid, the message to display can be fetched using get_error()
      *
      * @param array Assoziative array with data to save
-     *
+     * @param boolean Try to fix/complete record automatically
      * @return boolean True if input is valid, False if not.
      */
-    public function validate($save_data)
+    public function validate(&$save_data, $autofix = false)
     {
         // check for name input
         if (empty($save_data['name'])) {
-            $this->set_error('warning', 'nonamewarning');
+            $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');
+            return false;
+        }
+
+        // Verify that the required fields are set.
+        $missing = null;
+        $ldap_data = $this->_map_data($save_data);
+        foreach ($this->prop['required_fields'] as $fld) {
+            if (!isset($ldap_data[$fld])) {
+                $missing[$fld] = 1;
+            }
+        }
+
+        if ($missing) {
+            // try to complete record automatically
+            if ($autofix) {
+                $reverse_map = array_flip($this->fieldmap);
+                $name_parts = preg_split('/[\s,.]+/', $save_data['name']);
+                if ($missing['sn']) {
+                    $sn_field = $reverse_map['sn'];
+                    $save_data[$sn_field] = array_pop ($name_parts);
+                }
+                if ($missing[($fn_field = $this->fieldmap['firstname'])]) {
+                    $save_data['firstname'] = array_shift($name_parts);
+                }
+
+                return $this->validate($save_data, false);
+            }
+
+            // TODO: generate message saying which fields are missing
+            $this->set_error(self::ERROR_VALIDATE, 'formincomplete');
             return false;
         }
 
         // validate e-mail addresses
-        return parent::validate($save_data);
+        return parent::validate($save_data, $autofix);
     }
 
 
@@ -715,17 +742,8 @@ class rcube_ldap extends rcube_addressbook
     function insert($save_cols)
     {
         // Map out the column names to their LDAP ones to build the new entry.
-        $newentry = array();
+        $newentry = $this->_map_data($save_cols);
         $newentry['objectClass'] = $this->prop['LDAP_Object_Classes'];
-        foreach ($this->fieldmap as $col => $fld) {
-            $val = $save_cols[$col];
-            if (is_array($val))
-                $val = array_filter($val);  // remove empty entries
-            if ($fld && $val) {
-                // The field does exist, add it to the entry.
-                $newentry[$fld] = $val;
-            } // end if
-        } // end foreach
 
         // Verify that the required fields are set.
         $missing = null;
@@ -738,7 +756,7 @@ class rcube_ldap extends rcube_addressbook
         // abort process if requiered fields are missing
         // TODO: generate message saying which fields are missing
         if ($missing) {
-            $this->set_error(self::ERROR_INCOMPLETE, 'formincomplete');
+            $this->set_error(self::ERROR_VALIDATE, 'formincomplete');
             return false;
         }
 
@@ -1048,6 +1066,26 @@ class rcube_ldap extends rcube_addressbook
     private function _map_field($field)
     {
         return $this->fieldmap[$field];
+    }
+
+
+    /**
+     * Convert a record data set into LDAP field attributes
+     */
+    private function _map_data($save_cols)
+    {
+        $ldap_data = array();
+        foreach ($this->fieldmap as $col => $fld) {
+            $val = $save_cols[$col];
+            if (is_array($val))
+                $val = array_filter($val);  // remove empty entries
+            if ($fld && $val) {
+                // The field does exist, add it to the entry.
+                $ldap_data[$fld] = $val;
+            }
+        }
+        
+        return $ldap_data;
     }
 
 
