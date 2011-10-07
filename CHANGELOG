@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Ignore DSN request when it isn't supported by SMTP server (#1487800)
 - Make sure LDAP name fields aren't arrays (#1488108)
 - Fixed imap test to non-default port when using ssl (#1488118)
 - Force all files to be overwritten when updating (#1488117)

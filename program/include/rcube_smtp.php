@@ -214,14 +214,10 @@ class rcube_smtp
     if ($opts['dsn']) {
       $exts = $this->conn->getServiceExtensions();
 
-      if (!isset($exts['DSN'])) {
-        $this->error = array('label' => 'smtpdsnerror');
-        $this->response[] = "DSN not supported";
-        return false;
+      if (isset($exts['DSN'])) {
+        $from_params      = 'RET=HDRS';
+        $recipient_params = 'NOTIFY=SUCCESS,FAILURE';
       }
-
-      $from_params      = 'RET=HDRS';
-      $recipient_params = 'NOTIFY=SUCCESS,FAILURE';
     }
 
     // RFC2298.3: remove envelope sender address

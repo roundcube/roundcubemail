@@ -117,7 +117,6 @@ $messages['smtpautherror'] = 'Błąd SMTP ($code): Uwierzytelnianie nie powiodł
 $messages['smtpfromerror'] = 'Błąd SMTP ($code): Nie można ustawić nadawcy "$from" ($msg).';
 $messages['smtptoerror'] = 'Błąd SMTP ($code): Nie można dodać odbiorcy "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Błąd SMTP: Parsowanie listy odbiorców nie powiodło się.';
-$messages['smtpdsnerror'] = 'Błąd SMTP: Statusy dostarczenia (DSN) nie są obsługiwane przez serwer.';
 $messages['smtperror'] = 'Błąd SMTP: $msg';
 $messages['emailformaterror'] = 'Błędny adres e-mail: $email';
 $messages['toomanyrecipients'] = 'Zbyt wielu odbiorców. Zmniejsz ich liczbę do $max.';
