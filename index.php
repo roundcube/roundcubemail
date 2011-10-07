@@ -214,6 +214,12 @@ else {
   }
 }
 
+// we're ready, user is authenticated and the request is safe
+$plugin = $RCMAIL->plugins->exec_hook('ready', array('task' => $RCMAIL->task, 'action' => $RCMAIL->action));
+$RCMAIL->set_task($plugin['task']);
+$RCMAIL->action = $plugin['action'];
+
+
 // handle special actions
 if ($RCMAIL->action == 'keep-alive') {
   $OUTPUT->reset();
