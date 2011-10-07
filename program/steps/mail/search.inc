@@ -78,7 +78,7 @@ else if(trim($str))
         case 'text': $subject['text'] = 'TEXT'; break;
         default:     $subject[$header] = 'HEADER '.strtoupper($header);
       }
-    
+
     // save search modifiers for the current folder to user prefs
     $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
     $search_mods[$mbox] = array_fill_keys(array_keys($subject), 1);

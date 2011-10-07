@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make sure LDAP name fields aren't arrays (#1488108)
 - Fixed imap test to non-default port when using ssl (#1488118)
 - Force all files to be overwritten when updating (#1488117)
 - Fix issue where it wasn't possible to change list view mode in folder manager for INBOX (#1488107)

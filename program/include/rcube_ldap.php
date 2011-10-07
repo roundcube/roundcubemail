@@ -72,7 +72,7 @@ class rcube_ldap extends rcube_addressbook
     function __construct($p, $debug=false, $mail_domain=NULL)
     {
         $this->prop = $p;
-        
+
         if (isset($p['searchonly']))
             $this->searchonly = $p['searchonly'];
 
@@ -447,7 +447,7 @@ class rcube_ldap extends rcube_addressbook
             $this->result->searchonly = true;
             return $this->result;
         }
-        
+
         // add general filter to query
         if (!empty($this->prop['filter']) && empty($this->filter))
         {
@@ -1030,6 +1030,11 @@ class rcube_ldap extends rcube_addressbook
                     $out[$rf][] = $value;
                 else
                     $out[$rf] = $value;
+            }
+
+            // Make sure name fields aren't arrays (#1488108)
+            if (is_array($out[$rf]) && in_array($rf, array('name', 'surname', 'firstname', 'middlename', 'nickname'))) {
+                $out[$rf] = $out[$rf][0];
             }
         }
 
