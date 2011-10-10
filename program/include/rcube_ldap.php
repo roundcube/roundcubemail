@@ -54,7 +54,6 @@ class rcube_ldap extends rcube_addressbook
     private $base_dn = '';
     private $groups_base_dn = '';
     private $group_url = null;
-    private $group_members = array();
     private $cache;
 
     private $vlv_active = false;
@@ -135,7 +134,6 @@ class rcube_ldap extends rcube_addressbook
         // initialize cache
         $rcmail = rcmail::get_instance();
         $this->cache = $rcmail->get_cache('LDAP.' . asciiwords($this->prop['name']), 'db', 600);
-        $this->cache->expunge();
 
         $this->_connect();
     }
@@ -448,68 +446,203 @@ class rcube_ldap extends rcube_addressbook
             return $this->result;
         }
 
-        // query URL is given by the selected group
-        if ($this->group_id && $this->group_url)
+        // fetch group members recursively
+        if ($this->group_id && $this->group_data['dn'])
+        {
+            $entries = $this->list_group_members($this->group_data['dn']);
+
+            // make list of entries unique and sort it
+            $seen = array();
+            foreach ($entries as $i => $rec) {
+                if ($seen[$rec['dn']]++)
+                    unset($entries[$i]);
+            }
+            usort($entries, array($this, '_entry_sort_cmp'));
+
+            $entries['count'] = count($entries);
+            $this->result = new rcube_result_set($entries['count'], ($this->list_page-1) * $this->page_size);
+        }
+        else
+        {
+            // add general filter to query
+            if (!empty($this->prop['filter']) && empty($this->filter))
+                $this->set_search_set($this->prop['filter']);
+
+            // exec LDAP search if no result resource is stored
+            if ($this->conn && !$this->ldap_result)
+                $this->_exec_search();
+
+            // count contacts for this user
+            $this->result = $this->count();
+
+            // we have a search result resource
+            if ($this->ldap_result && $this->result->count > 0)
+            {
+                // sorting still on the ldap server
+                if ($this->sort_col && $this->prop['scope'] !== 'base' && !$this->vlv_active)
+                    ldap_sort($this->conn, $this->ldap_result, $this->sort_col);
+
+                // get all entries from the ldap server
+                $entries = ldap_get_entries($this->conn, $this->ldap_result);
+            }
+
+        }  // end else
+
+        // start and end of the page
+        $start_row = $this->vlv_active ? 0 : $this->result->first;
+        $start_row = $subset < 0 ? $start_row + $this->page_size + $subset : $start_row;
+        $last_row = $this->result->first + $this->page_size;
+        $last_row = $subset != 0 ? $start_row + abs($subset) : $last_row;
+
+        // filter entries for this page
+        for ($i = $start_row; $i < min($entries['count'], $last_row); $i++)
+            $this->result->add($this->_ldap2result($entries[$i]));
+
+        return $this->result;
+    }
+
+    /**
+    * Get all members of the given group
+    *
+    * @param string Group DN
+    * @param array  Group entry (if called recursively)
+    * @return array Accumulated group members
+     */
+    function list_group_members($dn, $entries = null)
+    {
+        $group_members = array();
+
+        // fetch group object
+        if (empty($entries)) {
+            $result = @ldap_read($this->conn, $dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL'));
+            if ($result === false)
+            {
+                $this->_debug("S: ".ldap_error($this->conn));
+                return $group_members;
+            }
+
+            $entries = @ldap_get_entries($this->conn, $result);
+        }
+
+        for ($i=0; $i < $entries["count"]; $i++)
+        {
+            $entry = $entries[$i];
+
+            if (empty($entry['objectclass']))
+                continue;
+
+            foreach ((array)$entry['objectclass'] as $num => $objectclass)
+            {
+                switch (strtolower($objectclass)) {
+                    case "groupofnames":
+                    case "kolabgroupofnames":
+                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'member'));
+                        break;
+                    case "groupofuniquenames":
+                    case "kolabgroupofuniquenames":
+                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'uniquemember'));
+                        break;
+                    case "groupofurls":
+                        $group_members = array_merge($group_members, $this->_list_group_memberurl($dn, $entry));
+                        break;
+                }
+            }
+        }
+
+        return array_filter($group_members);
+    }
+
+    /**
+     * Fetch members of the given group entry from server
+     *
+     * @param string Group DN
+     * @param array  Group entry
+     * @param string Member attribute to use
+     * @return array Accumulated group members
+     */
+    private function _list_group_members($dn, $entry, $attr)
+    {
+        // Use the member attributes to return an array of member ldap objects
+        // NOTE that the member attribute is supposed to contain a DN
+        $group_members = array();
+        if (empty($entry[$attr]))
+            return $group_members;
+
+        for ($i=0; $i < $entry[$attr]['count']; $i++)
+        {
+            $result = @ldap_read($this->conn, $entry[$attr][$i], '(objectclass=*)',
+                array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
+
+            $members = @ldap_get_entries($this->conn, $result);
+            if ($members == false)
+            {
+                $this->_debug("S: ".ldap_error($this->conn));
+                $members = array();
+            }
+
+            // for nested groups, call recursively
+            $nested_group_members = $this->list_group_members($entry[$attr][$i], $members);
+
+            unset($members['count']);
+            $group_members = array_merge($group_members, array_filter($members), $nested_group_members);
+        }
+
+        return $group_members;
+    }
+
+    /**
+     * List members of group class groupOfUrls
+     *
+     * @param string Group DN
+     * @param array  Group entry
+     * @return array Accumulated group members
+     */
+    private function _list_group_memberurl($dn, $entry)
+    {
+        $group_members = array();
+
+        for ($i=0; $i < $entry['memberurl']['count']; $i++)
         {
             // extract components from url
-            if (preg_match('!ldap:///([^\?]+)\?\?(\w+)\?(.*)$!', $this->group_url, $m))
+            if (!preg_match('!ldap:///([^\?]+)\?\?(\w+)\?(.*)$!', $entry['memberurl'][$i], $m))
+                continue;
+
+            // add search filter if any
+            $filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
+            $func = $m[2] == 'sub' ? 'ldap_search' : ($m[2] == 'base' ? 'ldap_read' : 'ldap_list');
+
+            if ($result = @$func($this->conn, $m[1], $filter,
+                array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
             {
-                $this->base_dn = $m[1];
-                $this->prop['scope'] = $m[2];
-                $this->filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
+                $this->_debug("S: ".ldap_count_entries($this->conn, $result)." record(s) for ".$m[1]);
+                if ($err = ldap_errno($this->conn))
+                    $this->_debug("S: Error: " .ldap_err2str($err));
+            }
+            else
+            {
+                $this->_debug("S: ".ldap_error($this->conn));
+                return $group_members;
+            }
+
+            $entries = @ldap_get_entries($this->conn, $result);
+            for ($j = 0; $j < $entries['count']; $j++)
+            {
+                if ($nested_group_members = $this->list_group_members($entries[$j]['dn']))
+                    $group_members = array_merge($group_members, $nested_group_members);
+                else
+                    $group_members[] = $entries[$j];
             }
         }
 
-        // add general filter to query
-        if (!empty($this->prop['filter']) && empty($this->filter))
-            $this->set_search_set($this->prop['filter']);
+        return $group_members;
+    }
 
-        // exec LDAP search if no result resource is stored
-        if ($this->conn && !$this->ldap_result)
-            $this->_exec_search();
-
-        // count contacts for this user
-        $this->result = $this->count();
-
-        // we have a search result resource
-        if ($this->ldap_result && $this->result->count > 0)
-        {
-            // sorting still on the ldap server
-            if ($this->sort_col && $this->prop['scope'] !== 'base' && !$this->vlv_active)
-                ldap_sort($this->conn, $this->ldap_result, $this->sort_col);
-
-            // start and end of the page
-            $start_row = $this->vlv_active ? 0 : $this->result->first;
-            $start_row = $subset < 0 ? $start_row + $this->page_size + $subset : $start_row;
-            $last_row = $this->result->first + $this->page_size;
-            $last_row = $subset != 0 ? $start_row + abs($subset) : $last_row;
-
-            // get all entries from the ldap server
-            $entries = ldap_get_entries($this->conn, $this->ldap_result);
-
-            // filtering for group members
-            if ($this->groups && $this->group_id && !$this->group_url)
-            {
-                $count = 0;
-                $members = array();
-                foreach ($entries as $entry)
-                {
-                    if ($this->group_members[self::dn_encode($entry['dn'])])
-                    {
-                        $members[] = $entry;
-                        $count++;
-                    }
-                }
-                $entries = $members;
-                $entries['count'] = $count;
-                $this->result->count = $count;
-            }
-
-            // filter entries for this page
-            for ($i = $start_row; $i < min($entries['count'], $last_row); $i++)
-                $this->result->add($this->_ldap2result($entries[$i]));
-        }
-        return $this->result;
+    /**
+     * Callback for sorting entries
+     */
+    function _entry_sort_cmp($a, $b)
+    {
+        return strcmp($a[$this->sort_col][0], $b[$this->sort_col][0]);
     }
 
 
@@ -613,18 +746,21 @@ class rcube_ldap extends rcube_addressbook
         $count = 0;
         if ($this->conn && $this->ldap_result) {
             $count = $this->vlv_active ? $this->vlv_count : ldap_count_entries($this->conn, $this->ldap_result);
-        } // end if
-        elseif ($this->conn) {
+        }
+        else if ($this->group_id && $this->group_data['dn']) {
+            $count = count($this->list_group_members($this->group_data['dn']));
+        }
+        else if ($this->conn) {
             // We have a connection but no result set, attempt to get one.
             if (empty($this->filter)) {
                 // The filter is not set, set it.
                 $this->filter = $this->prop['filter'];
-            } // end if
+            }
             $this->_exec_search(true);
             if ($this->ldap_result) {
                 $count = ldap_count_entries($this->conn, $this->ldap_result);
-            } // end if
-        } // end else
+            }
+        }
 
         return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
     }
@@ -966,14 +1102,26 @@ class rcube_ldap extends rcube_addressbook
         if ($this->ready)
         {
             $filter = $this->filter ? $this->filter : '(objectclass=*)';
-            $function = $this->prop['scope'] == 'sub' ? 'ldap_search' : ($this->prop['scope'] == 'base' ? 'ldap_read' : 'ldap_list');
+
+            switch ($this->prop['scope']) {
+              case 'sub':
+                $function = $ns_function  = 'ldap_search';
+                break;
+              case 'base':
+                $function = $ns_function = 'ldap_read';
+                break;
+              default:
+                $function = 'ldap_list';
+                $ns_function = 'ldap_read';
+                break;
+            }
 
             $this->_debug("C: Search [$filter]");
 
             // when using VLV, we get the total count by...
             if (!$count && $function != 'ldap_read' && $this->prop['vlv'] && !$this->group_id) {
                 // ...either reading numSubOrdinates attribute
-                if ($this->prop['numsub_filter'] && ($result_count = @$function($this->conn, $this->base_dn, $this->prop['numsub_filter'], array('numSubOrdinates'), 0, 0, 0))) {
+                if ($this->prop['numsub_filter'] && ($result_count = @$ns_function($this->conn, $this->base_dn, $this->prop['numsub_filter'], array('numSubOrdinates'), 0, 0, 0))) {
                     $counts = ldap_get_entries($this->conn, $result_count);
                     for ($this->vlv_count = $j = 0; $j < $counts['count']; $j++)
                         $this->vlv_count += $counts[$j]['numsubordinates'][0];
@@ -1149,26 +1297,16 @@ class rcube_ldap extends rcube_addressbook
     {
         if ($group_id)
         {
-            if (!($group_cache = $this->cache->get('groups')))
-                $group_cache = $this->list_groups();
+            if (($group_cache = $this->cache->get('groups')) === null)
+                $group_cache = $this->_fetch_groups();
 
-            $cache_members = $group_cache[$group_id]['members'];
-
-            $members = array();
-            for ($i=0; $i<$cache_members["count"]; $i++)
-            {
-                if (!empty($cache_members[$i]))
-                    $members[self::dn_encode($cache_members[$i])] = 1;
-            }
-            $this->group_members = $members;
-            $this->group_url = $group_cache[$group_id]['member_url'];
             $this->group_id = $group_id;
+            $this->group_data = $group_cache[$group_id];
         }
         else
         {
             $this->group_id = 0;
-            $this->group_url = null;
-            $this->group_members = array();
+            $this->group_data = null;
         }
     }
 
@@ -1183,13 +1321,38 @@ class rcube_ldap extends rcube_addressbook
         if (!$this->groups)
             return array();
 
+        // use cached list for searching
+        $this->cache->expunge();
+        if (!$search || ($group_cache = $this->cache->get('groups')) === null)
+            $group_cache = $this->_fetch_groups();
+
+        $groups = array();
+        if ($search) {
+            $search = strtolower($search);
+            foreach ($group_cache as $group) {
+                if (strstr(strtolower($group['name']), $search))
+                    $groups[] = $group;
+            }
+        }
+        else
+            $groups = $group_cache;
+
+        return array_values($groups);
+    }
+
+    /**
+     * Fetch groups from server
+     */
+    private function _fetch_groups()
+    {
         $base_dn = $this->groups_base_dn;
         $filter = $this->prop['groups']['filter'];
         $name_attr = $this->prop['groups']['name_attr'];
+        $email_attr = $this->prop['groups']['email_attr'] ? $this->prop['groups']['email_attr'] : 'mail';
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
-        $res = @ldap_search($this->conn, $base_dn, $filter);
+        $res = @ldap_search($this->conn, $base_dn, $filter, array('dn', $name_attr, 'objectClass', $email_attr));
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -1204,39 +1367,34 @@ class rcube_ldap extends rcube_addressbook
         for ($i=0; $i<$ldap_data["count"]; $i++)
         {
             $group_name = $ldap_data[$i][$name_attr][0];
-            if (!$search || strstr(strtolower($group_name), strtolower($search)))
-            {
-                $group_id = self::dn_encode($group_name);
-                $groups[$group_id]['ID'] = $group_id;
-                $groups[$group_id]['name'] = $group_name;
+            $group_id = self::dn_encode($group_name);
+            $groups[$group_id]['ID'] = $group_id;
+            $groups[$group_id]['dn'] = $ldap_data[$i]['dn'];
+            $groups[$group_id]['name'] = $group_name;
+            $groups[$group_id]['member_attr'] = $this->prop['member_attr'];
 
-                // default behavior: check members attribute
-                if ($this->prop['member_attr']) {
-                    $groups[$group_id]['members'] = $ldap_data[$i][$this->prop['member_attr']];
-                    $groups[$group_id]['member_attr'] = $this->prop['member_attr'];
+            // check objectClass attributes of group and act accordingly
+            for ($j=0; $j < $ldap_data[$i]['objectclass']['count']; $j++) {
+                switch (strtolower($ldap_data[$i]['objectclass'][$j])) {
+                    case 'groupofnames':
+                    case 'kolabgroupofnames':
+                        $groups[$group_id]['member_attr'] = 'member';
+                        break;
+
+                    case 'groupofuniquenames':
+                    case 'kolabgroupofuniquenames':
+                        $groups[$group_id]['member_attr'] = 'uniqueMember';
+                        break;
                 }
-
-                // check objectClass attributes of group and act accordingly
-                for ($j=0; $j < $ldap_data[$i]['objectclass']['count']; $j++) {
-                    switch (strtolower($ldap_data[$i]['objectclass'][$j])) {
-                        case 'groupofnames':
-                            $groups[$group_id]['members'] = $ldap_data[$i]['members'];
-                            $groups[$group_id]['member_attr'] = 'member';
-                            break;
-
-                        case 'groupofuniquenames':
-                            $groups[$group_id]['members'] = $ldap_data[$i]['uniqueMember'];
-                            $groups[$group_id]['member_attr'] = 'uniqueMember';
-                            break;
-
-                        case 'groupofurls':
-                            $groups[$group_id]['member_url'] = $ldap_data[$i]['memberurl'][0];
-                            break;
-                    }
-                }
-
-                $group_sortnames[] = strtolower($group_name);
             }
+
+            // list email attributes of a group
+            for ($j=0; $ldap_data[$i][$email_attr] && $j < $ldap_data[$i][$email_attr]['count']; $j++) {
+                if (strpos($ldap_data[$i][$email_attr][$j], '@') > 0)
+                    $groups[$group_id]['email'][] = $ldap_data[$i][$email_attr][$j];
+            }
+
+            $group_sortnames[] = strtolower($group_name);
         }
         array_multisort($group_sortnames, SORT_ASC, SORT_STRING, $groups);
 
@@ -1244,6 +1402,23 @@ class rcube_ldap extends rcube_addressbook
         $this->cache->set('groups', $groups);
 
         return $groups;
+    }
+
+    /**
+     * Get group properties such as name and email address(es)
+     *
+     * @param string Group identifier
+     * @return array Group properties as hash array
+     */
+    function get_group($group_id)
+    {
+        if (($group_cache = $this->cache->get('groups')) === null)
+            $group_cache = $this->_fetch_groups();
+
+        $group_data = $group_cache[$group_id];
+        unset($group_data['dn'], $group_data['member_attr']);
+
+        return $group_data;
     }
 
     /**
@@ -1288,8 +1463,8 @@ class rcube_ldap extends rcube_addressbook
      */
     function delete_group($group_id)
     {
-        if (!($group_cache = $this->cache->get('groups')))
-            $group_cache = $this->list_groups();
+        if (($group_cache = $this->cache->get('groups')) === null)
+            $group_cache = $this->_fetch_groups();
 
         $base_dn = $this->groups_base_dn;
         $group_name = $group_cache[$group_id]['name'];
@@ -1321,8 +1496,8 @@ class rcube_ldap extends rcube_addressbook
      */
     function rename_group($group_id, $new_name, &$new_gid)
     {
-        if (!($group_cache = $this->cache->get('groups')))
-            $group_cache = $this->list_groups();
+        if (($group_cache = $this->cache->get('groups')) === null)
+            $group_cache = $this->_fetch_groups();
 
         $base_dn = $this->groups_base_dn;
         $group_name = $group_cache[$group_id]['name'];
@@ -1355,8 +1530,8 @@ class rcube_ldap extends rcube_addressbook
      */
     function add_to_group($group_id, $contact_ids)
     {
-        if (!($group_cache = $this->cache->get('groups')))
-            $group_cache = $this->list_groups();
+        if (($group_cache = $this->cache->get('groups')) === null)
+            $group_cache = $this->_fetch_groups();
 
         $base_dn     = $this->groups_base_dn;
         $group_name  = $group_cache[$group_id]['name'];
@@ -1392,8 +1567,8 @@ class rcube_ldap extends rcube_addressbook
      */
     function remove_from_group($group_id, $contact_ids)
     {
-        if (!($group_cache = $this->cache->get('groups')))
-            $group_cache = $this->list_groups();
+        if (($group_cache = $this->cache->get('groups')) === null)
+            $group_cache = $this->_fetch_groups();
 
         $base_dn     = $this->groups_base_dn;
         $group_name  = $group_cache[$group_id]['name'];
