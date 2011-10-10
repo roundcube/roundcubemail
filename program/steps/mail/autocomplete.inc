@@ -85,9 +85,18 @@ if (!empty($book_types) && strlen($search)) {
       foreach ($abook->list_groups($search) as $group) {
         $abook->reset();
         $abook->set_group($group['ID']);
-        $result = $abook->count();
+        $group_prop = $abook->get_group($group['ID']);
 
-        if ($result->count) {
+        // group (distribution list) with email address(es)
+        if ($group_prop['email']) {
+            foreach ((array)$group_prop['email'] as $email) {
+                $contacts[] = format_email_recipient($email, $group['name']);
+                if (count($contacts) >= $MAXNUM)
+                  break 2;
+            }
+        }
+        // show group with count
+        else if (($result = $abook->count()) && $result->count) {
           $contacts[] = array('name' => $group['name'] . ' (' . intval($result->count) . ')', 'id' => $group['ID'], 'source' => $id);
           if (count($contacts) >= $MAXNUM)
             break;

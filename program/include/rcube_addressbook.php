@@ -296,6 +296,18 @@ abstract class rcube_addressbook
     }
 
     /**
+     * Get group properties such as name and email address(es)
+     *
+     * @param string Group identifier
+     * @return array Group properties as hash array
+     */
+    function get_group($group_id)
+    {
+        /* empty for address books don't supporting groups */
+        return null;
+    }
+
+    /**
      * Create a contact group with the given name
      *
      * @param string The group name

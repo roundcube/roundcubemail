@@ -164,6 +164,29 @@ class rcube_contacts extends rcube_addressbook
 
 
     /**
+     * Get group properties such as name and email address(es)
+     *
+     * @param string Group identifier
+     * @return array Group properties as hash array
+     */
+    function get_group($group_id)
+    {
+        $sql_result = $this->db->query(
+            "SELECT * FROM ".get_table_name($this->db_groups).
+            " WHERE del<>1".
+            " AND contactgroup_id=?".
+            " AND user_id=?",
+            $group_id, $this->user_id);
+            
+        if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
+            $sql_arr['ID'] = $sql_arr['contactgroup_id'];
+            return $sql_arr;
+        }
+        
+        return null;
+    }
+
+    /**
      * List the current set of contact records
      *
      * @param  array   List of cols to show, Null means all
@@ -774,8 +797,9 @@ class rcube_contacts extends rcube_addressbook
         $sql_result = $this->db->query(
             "UPDATE ".get_table_name($this->db_groups).
             " SET del=1, changed=".$this->db->now().
-            " WHERE contactgroup_id=?",
-            $gid
+            " WHERE contactgroup_id=?".
+            " AND user_id=?",
+            $gid, $this->user_id
         );
 
         $this->cache = null;
@@ -799,8 +823,9 @@ class rcube_contacts extends rcube_addressbook
         $sql_result = $this->db->query(
             "UPDATE ".get_table_name($this->db_groups).
             " SET name=?, changed=".$this->db->now().
-            " WHERE contactgroup_id=?",
-            $name, $gid
+            " WHERE contactgroup_id=?".
+            " AND user_id=?",
+            $name, $gid, $this->user_id
         );
 
         return $this->db->affected_rows() ? $name : false;

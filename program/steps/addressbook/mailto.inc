@@ -21,6 +21,7 @@
 
 $cids   = rcmail_get_cids();
 $mailto = array();
+$recipients = null;
 
 foreach ($cids as $source => $cid)
 {
@@ -31,11 +32,34 @@ foreach ($cids as $source => $cid)
         $CONTACTS->set_page(1);
         $CONTACTS->set_pagesize(count($cid) + 2); // +2 to skip counting query
         $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid, false, true, true, 'email');
+    }
+}
 
-        while (is_object($recipients) && ($rec = $recipients->iterate())) {
-            $emails = $CONTACTS->get_col_values('email', $rec, true);
-            $mailto[] = format_email_recipient($emails[0], $rec['name']);
-        }
+if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source']))
+{
+    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+    $CONTACTS = $RCMAIL->get_address_book($source);
+    
+    $group_id = get_input_value('_gid', RCUBE_INPUT_GPC);
+    $group_data = $CONTACTS->get_group($group_id);
+    
+    // group has an email address assigned: use that
+    if ($group_data['email']) {
+        $mailto[] = format_email_recipient($group_data['email'][0], $group_data['name']);
+    }
+    else if ($CONTACTS->ready) {
+        $CONTACTS->set_group($group_id);
+        $CONTACTS->set_page(1);
+        $CONTACTS->set_pagesize(200); // limit somehow
+        $recipients = $CONTACTS->list_records();
+    }
+}
+
+if ($recipients)
+{
+    while (is_object($recipients) && ($rec = $recipients->iterate())) {
+        $emails = $CONTACTS->get_col_values('email', $rec, true);
+        $mailto[] = format_email_recipient($emails[0], $rec['name']);
     }
 }
 

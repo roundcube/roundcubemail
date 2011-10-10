@@ -845,7 +845,9 @@ function rcube_webmail()
           }
 
           if (a_cids.length)
-            this.http_post('mailto', {_cid: a_cids.join(','), _source: this.env.source}, true);
+            this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source}, true);
+          else if (this.env.group)
+            this.http_post('mailto', { _gid: this.env.group, _source: this.env.source}, true);
 
           break;
         }
@@ -3882,7 +3884,7 @@ function rcube_webmail()
       }
     }
 
-    this.enable_command('compose', list.selection.length > 0);
+    this.enable_command('compose', this.env.group || list.selection.length > 0);
     this.enable_command('edit', id && writable);
     this.enable_command('delete', list.selection.length && writable);
 
@@ -3968,7 +3970,8 @@ function rcube_webmail()
   {
     this.contact_list.clear(true);
     this.show_contentframe(false);
-    this.enable_command('delete', 'compose', false);
+    this.enable_command('delete', false);
+    this.enable_command('compose', this.env.group ? true : false);
   };
 
   // load contact record
