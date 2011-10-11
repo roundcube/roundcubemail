@@ -505,10 +505,10 @@ class rcube_ldap extends rcube_addressbook
     * Get all members of the given group
     *
     * @param string Group DN
-    * @param array  Group entry (if called recursively)
+    * @param array  Group entries (if called recursively)
     * @return array Accumulated group members
      */
-    function list_group_members($dn, $entries = null)
+    function list_group_members($dn, $count = false, $entries = null)
     {
         $group_members = array();
 
@@ -531,19 +531,19 @@ class rcube_ldap extends rcube_addressbook
             if (empty($entry['objectclass']))
                 continue;
 
-            foreach ((array)$entry['objectclass'] as $num => $objectclass)
+            foreach ((array)$entry['objectclass'] as $objectclass)
             {
                 switch (strtolower($objectclass)) {
                     case "groupofnames":
                     case "kolabgroupofnames":
-                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'member'));
+                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'member', $count));
                         break;
                     case "groupofuniquenames":
                     case "kolabgroupofuniquenames":
-                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'uniquemember'));
+                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'uniquemember', $count));
                         break;
                     case "groupofurls":
-                        $group_members = array_merge($group_members, $this->_list_group_memberurl($dn, $entry));
+                        $group_members = array_merge($group_members, $this->_list_group_memberurl($dn, $entry, $count));
                         break;
                 }
             }
@@ -560,7 +560,7 @@ class rcube_ldap extends rcube_addressbook
      * @param string Member attribute to use
      * @return array Accumulated group members
      */
-    private function _list_group_members($dn, $entry, $attr)
+    private function _list_group_members($dn, $entry, $attr, $count)
     {
         // Use the member attributes to return an array of member ldap objects
         // NOTE that the member attribute is supposed to contain a DN
@@ -568,10 +568,17 @@ class rcube_ldap extends rcube_addressbook
         if (empty($entry[$attr]))
             return $group_members;
 
+        // read these attributes for all members
+        $attrib = $count ? array('dn') : array_values($this->fieldmap);
+        $attrib[] = 'objectClass';
+        $attrib[] = 'member';
+        $attrib[] = 'uniqueMember';
+        $attrib[] = 'memberURL';
+
         for ($i=0; $i < $entry[$attr]['count']; $i++)
         {
             $result = @ldap_read($this->conn, $entry[$attr][$i], '(objectclass=*)',
-                array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
+                $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
 
             $members = @ldap_get_entries($this->conn, $result);
             if ($members == false)
@@ -581,7 +588,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // for nested groups, call recursively
-            $nested_group_members = $this->list_group_members($entry[$attr][$i], $members);
+            $nested_group_members = $this->list_group_members($entry[$attr][$i], $count, $members);
 
             unset($members['count']);
             $group_members = array_merge($group_members, array_filter($members), $nested_group_members);
@@ -595,9 +602,10 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param string Group DN
      * @param array  Group entry
+     * @param boolean True if only used for counting
      * @return array Accumulated group members
      */
-    private function _list_group_memberurl($dn, $entry)
+    private function _list_group_memberurl($dn, $entry, $count)
     {
         $group_members = array();
 
@@ -611,8 +619,9 @@ class rcube_ldap extends rcube_addressbook
             $filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
             $func = $m[2] == 'sub' ? 'ldap_search' : ($m[2] == 'base' ? 'ldap_read' : 'ldap_list');
 
+            $attrib = $count ? array('dn') : array_values($this->fieldmap);
             if ($result = @$func($this->conn, $m[1], $filter,
-                array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
+                $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
             {
                 $this->_debug("S: ".ldap_count_entries($this->conn, $result)." record(s) for ".$m[1]);
                 if ($err = ldap_errno($this->conn))
@@ -627,7 +636,7 @@ class rcube_ldap extends rcube_addressbook
             $entries = @ldap_get_entries($this->conn, $result);
             for ($j = 0; $j < $entries['count']; $j++)
             {
-                if ($nested_group_members = $this->list_group_members($entries[$j]['dn']))
+                if ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count))
                     $group_members = array_merge($group_members, $nested_group_members);
                 else
                     $group_members[] = $entries[$j];
@@ -748,7 +757,7 @@ class rcube_ldap extends rcube_addressbook
             $count = $this->vlv_active ? $this->vlv_count : ldap_count_entries($this->conn, $this->ldap_result);
         }
         else if ($this->group_id && $this->group_data['dn']) {
-            $count = count($this->list_group_members($this->group_data['dn']));
+            $count = count($this->list_group_members($this->group_data['dn'], true));
         }
         else if ($this->conn) {
             // We have a connection but no result set, attempt to get one.
