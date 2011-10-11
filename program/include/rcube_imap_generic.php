@@ -2300,12 +2300,11 @@ class rcube_imap_generic
         $result = false;
         $parts  = (array) $parts;
         $key    = $this->nextTag();
-        $peeks  = '';
-        $idx    = 0;
+        $peeks  = array();
         $type   = $mime ? 'MIME' : 'HEADER';
 
         // format request
-        foreach($parts as $part) {
+        foreach ($parts as $part) {
             $peeks[] = "BODY.PEEK[$part.$type]";
         }
 
@@ -2319,13 +2318,25 @@ class rcube_imap_generic
 
         do {
             $line = $this->readLine(1024);
-            $line = $this->multLine($line);
 
-            if (preg_match('/BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
-                $idx = $matches[1];
-                $result[$idx] = preg_replace('/^(\* [0-9]+ FETCH \()?\s*BODY\['.$idx.'\.'.$type.'\]\s+/', '', $line);
-                $result[$idx] = trim($result[$idx], '"');
-                $result[$idx] = rtrim($result[$idx], "\t\r\n\0\x0B");
+            if (preg_match('/^\* [0-9]+ FETCH [0-9UID( ]+BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
+                $idx     = $matches[1];
+                $headers = '';
+
+                // get complete entry
+                if (preg_match('/\{([0-9]+)\}\r\n$/', $line, $m)) {
+                    $bytes = $m[1];
+                    $out   = '';
+
+                    while (strlen($out) < $bytes) {
+                        $out = $this->readBytes($bytes);
+                        if ($out === null)
+                            break;
+                        $headers .= $out;
+                    }
+                }
+
+                $result[$idx] = trim($headers);
             }
         } while (!$this->startsWith($line, $key, true));
 
