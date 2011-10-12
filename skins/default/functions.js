@@ -108,8 +108,13 @@ function rcube_mail_ui()
 
 rcube_mail_ui.prototype = {
 
-show_popup: function(popup, show)
+show_popup: function(popup, show, config)
 {
+  var obj;
+  // auto-register menu object
+  if (!this.popups[popup] && (obj = $('#'+popup)) && obj.length)
+    this.popups[popup] = $.extend(config, {id: popup, obj: obj});
+
   if (typeof this[popup] == 'function')
     return this[popup](show);
   else
@@ -141,7 +146,7 @@ show_popupmenu: function(popup, show)
   }
 
   obj[show?'show':'hide']();
-  
+
   if (bw.ie6 && this.popups[popup].overlap) {
     $('select').css('visibility', show?'hidden':'inherit');
     $('select', obj).css('visibility', 'inherit');
