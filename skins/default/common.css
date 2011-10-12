@@ -279,6 +279,9 @@ img
   font-size: 11px;
   font-weight: bold;
   overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
   background: url(images/listheader.gif) top left repeat-x #CCC;
 }
 
