@@ -1170,7 +1170,7 @@ class rcube_ldap extends rcube_addressbook
         $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($this->list_page-1) * $this->page_size + 1), $this->page_size), 'iscritical' => true);
 
         $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ({$this->sort_col});"
-            . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset)");
+            . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset/$this->page_size)");
 
         if (!ldap_set_option($this->conn, LDAP_OPT_SERVER_CONTROLS, array($sort_ctrl, $vlv_ctrl))) {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -1661,11 +1661,11 @@ class rcube_ldap extends rcube_addressbook
         # 04 (octet string) and 10 (length of 16 bytes)
         # the code behind this string is broken down as follows:
         # 30 = ber sequence with a length of 0e (14) bytes following
-        # 20 = type integer (in two's complement form) with 2 bytes following (beforeCount): 01 00 (ie 0)
-        # 20 = type integer (in two's complement form) with 2 bytes following (afterCount):  01 18 (ie 25-1=24)
+        # 02 = type integer (in two's complement form) with 2 bytes following (beforeCount): 01 00 (ie 0)
+        # 02 = type integer (in two's complement form) with 2 bytes following (afterCount):  01 18 (ie 25-1=24)
         # a0 = type context-specific/constructed with a length of 06 (6) bytes following
-        # 20 = type integer with 2 bytes following (offset): 01 01 (ie 1)
-        # 20 = type integer with 2 bytes following (contentCount):  01 00
+        # 02 = type integer with 2 bytes following (offset): 01 01 (ie 1)
+        # 02 = type integer with 2 bytes following (contentCount):  01 00
         # the following info was taken from the ISO/IEC 8825-1:2003 x.690 standard re: the
         # encoding of integer values (note: these values are in
         # two-complement form so since offset will never be negative bit 8 of the
@@ -1688,7 +1688,7 @@ class rcube_ldap extends rcube_addressbook
         $str = self::_ber_addseq($str, 'a0');
 
         // now tack on records per page
-        $str = sprintf("0201000201%02x", min(255, $rpp)-1) . $str;
+        $str = "020100" . self::_ber_addseq(self::_ber_encode_int($rpp-1), '02') . $str;
 
         // now tack on sequence identifier and length
         $str = self::_ber_addseq($str, '30');
