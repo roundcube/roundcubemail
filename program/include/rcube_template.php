@@ -217,7 +217,9 @@ class rcube_template extends rcube_html_page
     public function command()
     {
         $cmd = func_get_args();
-        if (strpos($cmd[0], 'plugin.') === false)
+        if (strpos($cmd[0], 'plugin.') !== false)
+          $this->js_commands[] = array('triggerEvent', $cmd[0], $cmd[1]);
+        else
           $this->js_commands[] = $cmd;
     }
 
