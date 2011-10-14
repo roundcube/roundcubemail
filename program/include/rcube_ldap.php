@@ -228,7 +228,7 @@ class rcube_ldap extends rcube_addressbook
 
                         if ($bind_dn) {
                             $dn = ldap_explode_dn($bind_dn, 1);
-                            $replaces['%dn'] = $dn[0];
+                            $replaces = array('%dn' => $dn[0]) + $replaces;
                         }
                     }
                 }
