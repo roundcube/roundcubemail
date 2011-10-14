@@ -86,6 +86,8 @@ class rcube_ldap extends rcube_addressbook
             // set default name attribute to cn
             if (empty($this->prop['groups']['name_attr']))
                 $this->prop['groups']['name_attr'] = 'cn';
+            if (empty($this->prop['groups']['scope']))
+                $this->prop['groups']['scope'] = 'sub';
         }
 
         // fieldmap property is given
@@ -547,6 +549,9 @@ class rcube_ldap extends rcube_addressbook
                         break;
                 }
             }
+            
+            if ($this->prop['sizelimit'] && count($group_members) > $this->prop['sizelimit'])
+              break;
         }
 
         return array_filter($group_members);
@@ -1111,21 +1116,9 @@ class rcube_ldap extends rcube_addressbook
         if ($this->ready)
         {
             $filter = $this->filter ? $this->filter : '(objectclass=*)';
+            $function = $this->_scope2func($this->prop['scope'], $ns_function);
 
-            switch ($this->prop['scope']) {
-              case 'sub':
-                $function = $ns_function  = 'ldap_search';
-                break;
-              case 'base':
-                $function = $ns_function = 'ldap_read';
-                break;
-              default:
-                $function = 'ldap_list';
-                $ns_function = 'ldap_read';
-                break;
-            }
-
-            $this->_debug("C: Search [$filter]");
+            $this->_debug("C: Search [$filter][dn: $this->base_dn]");
 
             // when using VLV, we get the total count by...
             if (!$count && $function != 'ldap_read' && $this->prop['vlv'] && !$this->group_id) {
@@ -1139,7 +1132,7 @@ class rcube_ldap extends rcube_addressbook
                 else  // ...or by fetching all records dn and count them
                     $this->vlv_count = $this->_exec_search(true);
 
-                $this->vlv_active = $this->_vlv_set_controls();
+                $this->vlv_active = $this->_vlv_set_controls($this->prop, $this->list_page, $this->page_size);
             }
 
             // only fetch dn for count (should keep the payload low)
@@ -1150,7 +1143,7 @@ class rcube_ldap extends rcube_addressbook
                 $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
                 if ($err = ldap_errno($this->conn))
                     $this->_debug("S: Error: " .ldap_err2str($err));
-                return true;
+                return $count ? ldap_count_entries($this->conn, $this->ldap_result) : true;
             }
             else
             {
@@ -1162,15 +1155,37 @@ class rcube_ldap extends rcube_addressbook
     }
 
     /**
+     * Choose the right PHP function according to scope property
+     */
+    private function _scope2func($scope, &$ns_function = null)
+    {
+        switch ($scope) {
+          case 'sub':
+            $function = $ns_function  = 'ldap_search';
+            break;
+          case 'base':
+            $function = $ns_function = 'ldap_read';
+            break;
+          default:
+            $function = 'ldap_list';
+            $ns_function = 'ldap_read';
+            break;
+        }
+        
+        return $function;
+    }
+
+    /**
      * Set server controls for Virtual List View (paginated listing)
      */
-    private function _vlv_set_controls()
+    private function _vlv_set_controls($prop, $list_page, $page_size)
     {
-        $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => $this->_sort_ber_encode((array)$this->prop['sort']));
-        $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($this->list_page-1) * $this->page_size + 1), $this->page_size), 'iscritical' => true);
+        $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => $this->_sort_ber_encode((array)$prop['sort']));
+        $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($list_page-1) * $page_size + 1), $page_size), 'iscritical' => true);
 
-        $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ({$this->sort_col});"
-            . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset/$this->page_size)");
+        $sort = (array)$prop['sort'];
+        $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ($sort[0]);"
+            . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset/$page_size)");
 
         if (!ldap_set_option($this->conn, LDAP_OPT_SERVER_CONTROLS, array($sort_ctrl, $vlv_ctrl))) {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -1352,16 +1367,27 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Fetch groups from server
      */
-    private function _fetch_groups()
+    private function _fetch_groups($vlv_page = 0)
     {
         $base_dn = $this->groups_base_dn;
         $filter = $this->prop['groups']['filter'];
         $name_attr = $this->prop['groups']['name_attr'];
         $email_attr = $this->prop['groups']['email_attr'] ? $this->prop['groups']['email_attr'] : 'mail';
+        $sort_attrs = $this->prop['groups']['sort'] ? (array)$this->prop['groups']['sort'] : array($name_attr);
+        $sort_attr = $sort_attrs[0];
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
-        $res = @ldap_search($this->conn, $base_dn, $filter, array('dn', $name_attr, 'objectClass', $email_attr));
+        // use vlv to list groups
+        if ($this->prop['groups']['vlv']) {
+            $page_size = 200;
+            if (!$this->prop['groups']['sort'])
+                $this->prop['groups']['sort'] = $sort_attrs;
+            $vlv_active = $this->_vlv_set_controls($this->prop['groups'], $vlv_page+1, $page_size);
+        }
+
+        $function = $this->_scope2func($this->prop['groups']['scope'], $ns_function);
+        $res = @$function($this->conn, $base_dn, $filter, array_unique(array('dn', 'objectClass', $name_attr, $email_attr, $sort_attr)));
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -1373,9 +1399,10 @@ class rcube_ldap extends rcube_addressbook
 
         $groups = array();
         $group_sortnames = array();
-        for ($i=0; $i<$ldap_data["count"]; $i++)
+        $group_count = $ldap_data["count"];
+        for ($i=0; $i < $group_count; $i++)
         {
-            $group_name = $ldap_data[$i][$name_attr][0];
+            $group_name = is_array($ldap_data[$i][$name_attr]) ? $ldap_data[$i][$name_attr][0] : $ldap_data[$i][$name_attr];
             $group_id = self::dn_encode($group_name);
             $groups[$group_id]['ID'] = $group_id;
             $groups[$group_id]['dn'] = $ldap_data[$i]['dn'];
@@ -1403,9 +1430,24 @@ class rcube_ldap extends rcube_addressbook
                     $groups[$group_id]['email'][] = $ldap_data[$i][$email_attr][$j];
             }
 
-            $group_sortnames[] = strtolower($group_name);
+            $group_sortnames[] = strtolower($ldap_data[$i][$sort_attr][0]);
         }
-        array_multisort($group_sortnames, SORT_ASC, SORT_STRING, $groups);
+
+        // recursive call can exit here
+        if ($vlv_page > 0)
+            return $groups;
+
+        // call recursively until we have fetched all groups
+        while ($vlv_active && $group_count == $page_size)
+        {
+            $next_page = $this->_fetch_groups(++$vlv_page);
+            $groups = array_merge($groups, $next_page);
+            $group_count = count($next_page);
+        }
+
+        // when using VLV the list of groups is already sorted
+        if (!$this->prop['groups']['vlv'])
+            array_multisort($group_sortnames, SORT_ASC, SORT_STRING, $groups);
 
         // cache this
         $this->cache->set('groups', $groups);
