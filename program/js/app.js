@@ -1686,7 +1686,6 @@ function rcube_webmail()
       even = rowcount%2,
       message = this.env.messages[uid],
       css_class = 'message'
-        + (even ? ' even' : ' odd')
         + (!flags.seen ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
@@ -4119,19 +4118,17 @@ function rcube_webmail()
     if (!this.gui_objects.contactslist || !this.gui_objects.contactslist.tBodies[0])
       return false;
 
-    var tbody = this.gui_objects.contactslist.tBodies[0],
-      rowcount = tbody.rows.length,
-      even = rowcount%2,
+    var c, tbody = this.gui_objects.contactslist.tBodies[0],
       row = document.createElement('tr');
 
     row.id = 'rcmrow'+String(cid).replace(this.identifier_expr, '_');
-    row.className = 'contact '+(even ? 'even' : 'odd');
+    row.className = 'contact';
 
     if (this.contact_list.in_selection(cid))
       row.className += ' selected';
 
     // add each submitted col
-    for (var c in cols) {
+    for (c in cols) {
       col = document.createElement('td');
       col.className = String(c).toLowerCase();
       col.innerHTML = cols[c];

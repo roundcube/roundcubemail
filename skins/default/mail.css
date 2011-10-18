@@ -910,13 +910,6 @@ body.messagelist
   background-color: #FFF;
 }
 
-/*
-#messagelist tr.odd
-{
-  background-color: #F9F9F9;
-}
-*/
-
 #messagelist tr.unread
 {
   font-weight: bold;

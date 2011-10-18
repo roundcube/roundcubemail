@@ -772,52 +772,48 @@ function strip_newlines($str)
  * @return string HTML table code
  */
 function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
-  {
+{
   global $RCMAIL;
-  
+
   $table = new html_table(/*array('cols' => count($a_show_cols))*/);
-    
+
   // add table header
   if (!$attrib['noheader'])
     foreach ($a_show_cols as $col)
       $table->add_header($col, Q(rcube_label($col)));
-  
+
   $c = 0;
-  if (!is_array($table_data)) 
+  if (!is_array($table_data))
   {
     $db = $RCMAIL->get_dbh();
     while ($table_data && ($sql_arr = $db->fetch_assoc($table_data)))
     {
-      $zebra_class = $c % 2 ? 'even' : 'odd';
-      $table->add_row(array('id' => 'rcmrow' . html_identifier($sql_arr[$id_col]), 'class' => $zebra_class));
+      $table->add_row(array('id' => 'rcmrow' . html_identifier($sql_arr[$id_col])));
 
       // format each col
       foreach ($a_show_cols as $col)
         $table->add($col, Q($sql_arr[$col]));
-      
+
       $c++;
     }
   }
-  else 
-  {
+  else {
     foreach ($table_data as $row_data)
     {
-      $zebra_class = $c % 2 ? 'even' : 'odd';
-      if (!empty($row_data['class']))
-        $zebra_class .= ' '.$row_data['class'];
+      $class = !empty($row_data['class']) ? $row_data['class'] : '';
 
-      $table->add_row(array('id' => 'rcmrow' . html_identifier($row_data[$id_col]), 'class' => $zebra_class));
+      $table->add_row(array('id' => 'rcmrow' . html_identifier($row_data[$id_col]), 'class' => $class));
 
       // format each col
       foreach ($a_show_cols as $col)
         $table->add($col, Q(is_array($row_data[$col]) ? $row_data[$col][0] : $row_data[$col]));
-        
+
       $c++;
     }
   }
 
   return $table->show($attrib);
-  }
+}
 
 
 /**
@@ -1314,7 +1310,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
   $idx = 0;
   $out = '';
   foreach ($arrFolders as $key => $folder) {
-    $zebra_class = (($nestLevel+1)*$idx) % 2 == 0 ? 'even' : 'odd';
     $title = null;
 
     if (($folder_class = rcmail_folder_classname($folder['id'])) && !$realnames) {
@@ -1349,8 +1344,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
       $classes[] = 'inbox';
     else
       $classes[] = '_'.asciiwords($folder_class ? $folder_class : strtolower($folder['id']), true);
-
-    $classes[] = $zebra_class;
 
     if ($folder['id'] == $mbox_name)
       $classes[] = 'selected';
