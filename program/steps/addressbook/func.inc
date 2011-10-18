@@ -675,8 +675,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
             $content = $fieldset['content'];
         }
 
-        if ($content)
-            $out .= html::tag('fieldset', null, html::tag('legend', null, Q($fieldset['name'])) . $content) ."\n";
+        $out .= html::tag('fieldset', null, html::tag('legend', null, Q($fieldset['name'])) . $content) ."\n";
     }
 
     if ($edit_mode) {
