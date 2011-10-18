@@ -1678,12 +1678,9 @@ function rcube_webmail()
       flags: flags.extra_flags
     });
 
-    var c, html, tree = expando = '',
+    var c, n, col, html, tree = '', expando = '',
       list = this.message_list,
       rows = list.rows,
-      tbody = this.gui_objects.messagelist.tBodies[0],
-      rowcount = tbody.rows.length,
-      even = rowcount%2,
       message = this.env.messages[uid],
       css_class = 'message'
         + (!flags.seen ? ' unread' : '')
@@ -1692,8 +1689,7 @@ function rcube_webmail()
         + (flags.unread_children && flags.seen && !this.env.autoexpand_threads ? ' unroot' : '')
         + (message.selected ? ' selected' : ''),
       // for performance use DOM instead of jQuery here
-      row = document.createElement('tr'),
-      col = document.createElement('td');
+      row = document.createElement('tr');
 
     row.id = 'rcmrow'+uid;
     row.className = css_class;
@@ -1720,9 +1716,10 @@ function rcube_webmail()
 
     // threads
     if (this.env.threading) {
-      // This assumes that div width is hardcoded to 15px,
-      var width = message.depth * 15;
       if (message.depth) {
+        // This assumes that div width is hardcoded to 15px,
+        tree += '<span id="rcmtab' + uid + '" class="branch" style="width:' + (message.depth * 15) + 'px;">&nbsp;&nbsp;</span>';
+
         if ((rows[message.parent_uid] && rows[message.parent_uid].expanded === false)
           || ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2) &&
             (!rows[message.parent_uid] || !rows[message.parent_uid].expanded))
@@ -1737,13 +1734,9 @@ function rcube_webmail()
         if (message.expanded === undefined && (this.env.autoexpand_threads == 1 || (this.env.autoexpand_threads == 2 && message.unread_children))) {
           message.expanded = true;
         }
-      }
 
-      if (width)
-        tree += '<span id="rcmtab' + uid + '" class="branch" style="width:' + width + 'px;">&nbsp;&nbsp;</span>';
-
-      if (message.has_children && !message.depth)
         expando = '<div id="rcmexpando' + uid + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
+      }
     }
 
     tree += '<span id="msgicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
@@ -1757,7 +1750,7 @@ function rcube_webmail()
     }
 
     // add each submitted col
-    for (var n in this.env.coltypes) {
+    for (n in this.env.coltypes) {
       c = this.env.coltypes[n];
       col = document.createElement('td');
       col.className = String(c).toLowerCase();
@@ -4115,16 +4108,16 @@ function rcube_webmail()
   // add row to contacts list
   this.add_contact_row = function(cid, cols, select)
   {
-    if (!this.gui_objects.contactslist || !this.gui_objects.contactslist.tBodies[0])
+    if (!this.gui_objects.contactslist)
       return false;
 
-    var c, tbody = this.gui_objects.contactslist.tBodies[0],
+    var c, list = this.contact_list,
       row = document.createElement('tr');
 
     row.id = 'rcmrow'+String(cid).replace(this.identifier_expr, '_');
     row.className = 'contact';
 
-    if (this.contact_list.in_selection(cid))
+    if (list.in_selection(cid))
       row.className += ' selected';
 
     // add each submitted col
@@ -4135,9 +4128,9 @@ function rcube_webmail()
       row.appendChild(col);
     }
 
-    this.contact_list.insert_row(row);
+    list.insert_row(row);
 
-    this.enable_command('export', (this.contact_list.rowcount > 0));
+    this.enable_command('export', list.rowcount > 0);
   };
 
   this.init_contact_form = function()
