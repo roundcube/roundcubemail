@@ -662,7 +662,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                   $rows);
             }
 
-            if (empty($content))
+            if (!$content)
                 continue;
 
             // also render add-field selector
@@ -675,7 +675,8 @@ function rcmail_contact_form($form, $record, $attrib = null)
             $content = $fieldset['content'];
         }
 
-        $out .= html::tag('fieldset', null, html::tag('legend', null, Q($fieldset['name'])) . $content) ."\n";
+        if ($content)
+            $out .= html::tag('fieldset', null, html::tag('legend', null, Q($fieldset['name'])) . $content) ."\n";
     }
 
     if ($edit_mode) {
