@@ -165,12 +165,14 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ($this->prop['hosts'] as $host)
         {
-            $host = idn_to_ascii(rcube_parse_host($host));
-            $this->_debug("C: Connect [$host".($this->prop['port'] ? ':'.$this->prop['port'] : '')."]");
+            $host     = idn_to_ascii(rcube_parse_host($host));
+            $hostname = $host.($this->prop['port'] ? ':'.$this->prop['port'] : '');
+
+            $this->_debug("C: Connect [$hostname]");
 
             if ($lc = @ldap_connect($host, $this->prop['port']))
             {
-                if ($this->prop['use_tls']===true)
+                if ($this->prop['use_tls'] === true)
                     if (!ldap_start_tls($lc))
                         continue;
 
@@ -184,85 +186,105 @@ class rcube_ldap extends rcube_addressbook
             $this->_debug("S: NOT OK");
         }
 
-        if (is_resource($this->conn))
-        {
-            $this->ready = true;
-
-            $bind_pass = $this->prop['bind_pass'];
-            $bind_user = $this->prop['bind_user'];
-            $bind_dn   = $this->prop['bind_dn'];
-
-            $this->base_dn        = $this->prop['base_dn'];
-            $this->groups_base_dn = ($this->prop['groups']['base_dn']) ?
-                $this->prop['groups']['base_dn'] : $this->base_dn;
-
-            // User specific access, generate the proper values to use.
-            if ($this->prop['user_specific']) {
-                // No password set, use the session password
-                if (empty($bind_pass)) {
-                    $bind_pass = $RCMAIL->decrypt($_SESSION['password']);
-                }
-
-                // Get the pieces needed for variable replacement.
-                if ($fu = $RCMAIL->user->get_username())
-                  list($u, $d) = explode('@', $fu);
-                else
-                  $d = $this->mail_domain;
-
-                $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
-
-                $replaces = array('%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
-
-                if ($this->prop['search_base_dn'] && $this->prop['search_filter']) {
-                    // Search for the dn to use to authenticate
-                    $this->prop['search_base_dn'] = strtr($this->prop['search_base_dn'], $replaces);
-                    $this->prop['search_filter'] = strtr($this->prop['search_filter'], $replaces);
-
-                    $this->_debug("S: searching with base {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
-
-                    $res = @ldap_search($this->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
-                    if ($res && ($entry = ldap_first_entry($this->conn, $res))) {
-                        $bind_dn = ldap_get_dn($this->conn, $entry);
-
-                        $this->_debug("S: search returned dn: $bind_dn");
-
-                        if ($bind_dn) {
-                            $dn = ldap_explode_dn($bind_dn, 1);
-                            $replaces = array('%dn' => $dn[0]) + $replaces;
-                        }
-                    }
-                }
-                // Replace the bind_dn and base_dn variables.
-                $bind_dn              = strtr($bind_dn, $replaces);
-                $this->base_dn        = strtr($this->base_dn, $replaces);
-                $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
-
-                if (empty($bind_user)) {
-                    $bind_user = $u;
-                }
-            }
-
-            if (!empty($bind_pass)) {
-                if (!empty($bind_dn)) {
-                    $this->ready = $this->bind($bind_dn, $bind_pass);
-                }
-                else if (!empty($this->prop['auth_cid'])) {
-                    $this->ready = $this->sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
-                }
-                else {
-                    $this->ready = $this->sasl_bind($bind_user, $bind_pass);
-                }
-            }
-        }
-        else
-            raise_error(array('code' => 100, 'type' => 'ldap',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Could not connect to any LDAP server, last tried $host:{$this->prop[port]}"), true);
-
         // See if the directory is writeable.
         if ($this->prop['writable']) {
             $this->readonly = false;
-        } // end if
+        }
+
+        if (!is_resource($this->conn)) {
+            raise_error(array('code' => 100, 'type' => 'ldap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Could not connect to any LDAP server, last tried $hostname"), true);
+
+            return false;
+        }
+
+        $bind_pass = $this->prop['bind_pass'];
+        $bind_user = $this->prop['bind_user'];
+        $bind_dn   = $this->prop['bind_dn'];
+
+        $this->base_dn        = $this->prop['base_dn'];
+        $this->groups_base_dn = ($this->prop['groups']['base_dn']) ?
+        $this->prop['groups']['base_dn'] : $this->base_dn;
+
+        // User specific access, generate the proper values to use.
+        if ($this->prop['user_specific']) {
+            // No password set, use the session password
+            if (empty($bind_pass)) {
+                $bind_pass = $RCMAIL->decrypt($_SESSION['password']);
+            }
+
+            // Get the pieces needed for variable replacement.
+            if ($fu = $RCMAIL->user->get_username())
+                list($u, $d) = explode('@', $fu);
+            else
+                $d = $this->mail_domain;
+
+            $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
+
+            $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
+
+            if ($this->prop['search_base_dn'] && $this->prop['search_filter']) {
+                // Search for the dn to use to authenticate
+                $this->prop['search_base_dn'] = strtr($this->prop['search_base_dn'], $replaces);
+                $this->prop['search_filter'] = strtr($this->prop['search_filter'], $replaces);
+
+                $this->_debug("S: searching with base {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
+
+                $res = @ldap_search($this->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
+                if ($res) {
+                    if (($entry = ldap_first_entry($this->conn, $res))
+                        && ($bind_dn = ldap_get_dn($this->conn, $entry))
+                    ) {
+                        $this->_debug("S: search returned dn: $bind_dn");
+                        $dn = ldap_explode_dn($bind_dn, 1);
+                        $replaces['%dn'] = $dn[0];
+                    }
+                }
+                else {
+                    $this->_debug("S: ".ldap_error($this->conn));
+                }
+
+                // DN not found
+                if (empty($replaces['%dn'])) {
+                    if (!empty($this->prop['search_dn_default']))
+                        $replaces['%dn'] = $this->prop['search_dn_default'];
+                    else {
+                        raise_error(array(
+                            'code' => 100, 'type' => 'ldap',
+                            'file' => __FILE__, 'line' => __LINE__,
+                            'message' => "DN not found using LDAP search."), true);
+                        return false;
+                    }
+                }
+            }
+
+            // Replace the bind_dn and base_dn variables.
+            $bind_dn              = strtr($bind_dn, $replaces);
+            $this->base_dn        = strtr($this->base_dn, $replaces);
+            $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
+
+            if (empty($bind_user)) {
+                $bind_user = $u;
+            }
+        }
+
+        if (empty($bind_pass)) {
+            $this->ready = true;
+        }
+        else {
+            if (!empty($bind_dn)) {
+                $this->ready = $this->bind($bind_dn, $bind_pass);
+            }
+            else if (!empty($this->prop['auth_cid'])) {
+                $this->ready = $this->sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
+            }
+            else {
+                $this->ready = $this->sasl_bind($bind_user, $bind_pass);
+            }
+        }
+
+        return $this->ready;
     }
 
 

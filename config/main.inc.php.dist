@@ -535,6 +535,8 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // The login name is used to search for the DN to bind with
   'search_base_dn' => '',
   'search_filter'  => '',   // e.g. '(&(objectClass=posixAccount)(uid=%u))'
+  // Default for %dn variable if search doesn't return DN value
+  'search_dn_default' => '',
   // Optional authentication identifier to be used as SASL authorization proxy
   // bind_dn need to be empty
   'auth_cid'       => '',
