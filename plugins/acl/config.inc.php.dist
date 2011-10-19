@@ -1,0 +1,19 @@
+<?php
+
+// Default look of access rights table
+// In advanced mode all access rights are displayed separately
+// In simple mode access rights are grouped into four groups: read, write, delete, full 
+$rcmail_config['acl_advanced_mode'] = false;
+
+// LDAP addressbook that would be searched for user names autocomplete.
+// That should be an array refering to the $rcmail_config['ldap_public'] array key
+// or complete addressbook configuration array.
+$rcmail_config['acl_users_source'] = '';
+
+// The LDAP attribute which will be used as ACL user identifier
+$rcmail_config['acl_users_field'] = 'mail';
+
+// The LDAP search filter will be &'d with search queries
+$rcmail_config['acl_users_filter'] = '';
+
+?>

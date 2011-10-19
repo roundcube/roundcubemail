@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+	<name>new_user_dialog</name>
+	<channel>pear.roundcube.net</channel>
+	<summary>Present identities settings dialog to new users</summary>
+	<description>When a new user is created, this plugin checks the default identity and sets a session flag in case it is incomplete. An overlay box will appear on the screen until the user has reviewed/completed his identity.</description>
+	<lead>
+		<name>Thomas Bruederli</name>
+		<user>thomasb</user>
+		<email>roundcube@gmail.com</email>
+		<active>yes</active>
+	</lead>
+	<date>2011-05-12</date>
+	<time>10:00</time>
+	<version>
+		<release>1.4</release>
+		<api>1.0</api>
+	</version>
+	<stability>
+		<release>stable</release>
+		<api>stable</api>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	<notes>
+- Fixed IDNA encoding/decoding of e-mail addresses (#1487909)
+    </notes>
+	<contents>
+		<dir baseinstalldir="/" name="/">
+			<file name="new_user_dialog.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="newuserdialog.css" role="data">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<dir name="localization">
+				<file name="en_US.inc" role="data" />
+				<file name="cs_CZ.inc" role="data" />
+				<file name="de_CH.inc" role="data" />
+				<file name="de_DE.inc" role="data" />
+				<file name="es_ES.inc" role="data" />
+				<file name="et_EE.inc" role="data" />
+				<file name="gl_ES.inc" role="data" />
+				<file name="it_IT.inc" role="data" />
+				<file name="ja_JP.inc" role="data" />
+				<file name="nl_NL.inc" role="data" />
+				<file name="pl_PL.inc" role="data" />
+				<file name="pt_BR.inc" role="data" />
+				<file name="pt_PT.inc" role="data" />
+				<file name="ru_RU.inc" role="data" />
+				<file name="sl_SI.inc" role="data" />
+				<file name="sv_DE.inc" role="data" />
+				<file name="zh_TW.inc" role="data" />
+			</dir>
+		</dir>
+		<!-- / -->
+	</contents>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.2.1</min>
+			</php>
+			<pearinstaller>
+				<min>1.7.0</min>
+			</pearinstaller>
+		</required>
+	</dependencies>
+	<phprelease/>
+    <changelog>
+        <release>
+	        <date>2010-03-29</date>
+	        <time>13:20:00</time>
+	        <version>
+		        <release>1.0</release>
+		        <api>1.0</api>
+	        </version>
+	        <stability>
+		        <release>stable</release>
+		        <api>stable</api>
+	        </stability>
+        	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+        	<notes></notes>
+        </release>
+        <release>
+	        <date>2010-05-13</date>
+	        <time>19:35:00</time>
+	        <version>
+		        <release>1.1</release>
+		        <api>1.0</api>
+	        </version>
+	        <stability>
+		        <release>stable</release>
+		        <api>stable</api>
+	        </stability>
+        	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	        <notes>
+- Fix space bar and backspace buttons not working (#1486726)
+            </notes>
+        </release>
+        <release>
+	        <date>2010-05-27</date>
+	        <time>12:00:00</time>
+	        <version>
+		        <release>1.2</release>
+		        <api>1.0</api>
+	        </version>
+	        <stability>
+		        <release>stable</release>
+		        <api>stable</api>
+	        </stability>
+	        <license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	        <notes>
+- Add overlay box only to mail task main template
+- Fix possible error on form submission (#1486103)
+            </notes>
+        </release>
+        <release>
+	        <date>2010-12-02</date>
+	        <time>12:00:00</time>
+	        <version>
+		        <release>1.3</release>
+		        <api>1.0</api>
+	        </version>
+	        <stability>
+		        <release>stable</release>
+		        <api>stable</api>
+	        </stability>
+	        <license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	        <notes>
+- Added setting of focus on name input
+- Added gl_ES translation
+            </notes>
+        </release>
+    </changelog>
+</package>

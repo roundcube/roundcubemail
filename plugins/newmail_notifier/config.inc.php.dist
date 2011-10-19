@@ -1,0 +1,12 @@
+<?php
+
+// Enables basic notification
+$rcmail_config['newmail_notifier_basic'] = false;
+
+// Enables sound notification
+$rcmail_config['newmail_notifier_sound'] = false;
+
+// Enables desktop notification
+$rcmail_config['newmail_notifier_desktop'] = false;
+
+?>

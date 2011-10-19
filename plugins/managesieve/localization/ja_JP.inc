@@ -1,0 +1,82 @@
+<?php
+
+//  EN-Revision: 3891
+
+$labels['filters'] = 'フィルター';
+$labels['managefilters'] = '受信メールのフィルターの管理';
+$labels['filtername'] = 'フィルターの名前';
+$labels['newfilter'] = '新規フィルター';
+$labels['filteradd'] = 'フィルターの追加';
+$labels['filterdel'] = 'フィルターの削除';
+$labels['moveup'] = '上に移動';
+$labels['movedown'] = '下に移動';
+$labels['filterallof'] = '次のルールすべてに一致';
+$labels['filteranyof'] = '次のルールのどれかに一致';
+$labels['filterany'] = '全メッセージ';
+$labels['filtercontains'] = '含む';
+$labels['filternotcontains'] = '含まない';
+$labels['filteris'] = '次と一致する';
+$labels['filterisnot'] = '次と一致しない';
+$labels['filterexists'] = '存在する';
+$labels['filternotexists'] = '存在しない';
+$labels['filterunder'] = 'より上';
+$labels['filterover'] = 'より下';
+$labels['addrule'] = 'ルールの追加';
+$labels['delrule'] = 'ルールの削除';
+$labels['messagemoveto'] = '次にメッセージを移動する';
+$labels['messageredirect'] = '次のメールアドレスに転送 (リダイレクト)';
+$labels['messagecopyto'] = '次にメッセージをコピーする';
+$labels['messagesendcopy'] = '次にメッセージのコピーを送信する';
+$labels['messagereply'] = 'メッセージに返信する';
+$labels['messagedelete'] = 'メッセージを削除する';
+$labels['messagediscard'] = 'メッセージを破棄する';
+$labels['messagesrules'] = '受信メールへの処理:';
+$labels['messagesactions'] = '…次の操作の実行:';
+$labels['add'] = '追加';
+$labels['del'] = '削除';
+$labels['sender'] = '送信者';
+$labels['recipient'] = '受信者';
+$labels['vacationaddresses'] = '電子メール受信者の一覧を追加する (カンマ区切り):';
+$labels['vacationdays'] = 'どれ位頻繁にメッセージの送信をするか (1 日あたり):';
+$labels['vacationreason'] = 'メッセージ本文 (vacation reason):';
+$labels['rulestop'] = 'ルール評価の停止';
+$labels['filterset'] = 'フィルター セット';
+$labels['filtersetadd'] = 'フィルター セットの追加';
+$labels['filtersetdel'] = '現在のルールセット の削除';
+$labels['filtersetact'] = '現在のフィルター セットを有効にする';
+$labels['filtersetdeact'] = '現在のフィルター セットを無効にする';
+$labels['filtersetget'] = 'テキスト形式でフィルター セットをダウンロードする';
+$labels['filterdef'] = 'フィルターの定義';
+$labels['filtersetname'] = 'フィルター セットの名前';
+$labels['newfilterset'] = '新規フィルター セット';
+$labels['active'] = '有効';
+$labels['none'] = 'なし';
+$labels['fromset'] = 'セットから';
+$labels['fromfile'] = 'ファイルから';
+$labels['filterdisabled'] = 'フィルターを無効にしました。';
+
+$messages = array();
+$messages['filterunknownerror'] = '不明なサーバーのエラーです';
+$messages['filterconnerror'] = 'managesieve サーバーに接続できません。';
+$messages['filterdeleteerror'] = 'フィルターを削除できませんでした。サーバーでエラーが発生しました。';
+$messages['filterdeleted'] = 'フィルターの削除に成功しました。';
+$messages['filtersaved'] = 'フィルターの保存に成功しました。';
+$messages['filtersaveerror'] = 'フィルターの保存に失敗しました。サーバーでエラーが発生しました。';
+$messages['filterdeleteconfirm'] = '本当に選択したフィルターを削除しますか?';
+$messages['ruledeleteconfirm'] = '本当に選択したルールを削除しますか?';
+$messages['actiondeleteconfirm'] = '本当に選択した操作を削除しますか?';
+$messages['forbiddenchars'] = '項目に禁止文字があります。';
+$messages['cannotbeempty'] = '空にできませんでした';
+$messages['setactivateerror'] = '選択したフィルター セットの有効化に失敗しました。サーバーでエラーが発生しました。';
+$messages['setdeactivateerror'] = '選択したフィルター セットの無効化に失敗しました。サーバーでエラーが発生しました。';
+$messages['setdeleteerror'] = '選択したフィルター セットの削除に失敗しました。サーバーでエラーが発生しました。';
+$messages['setactivated'] = 'フィルターセットの有効化に成功しました。';
+$messages['setdeactivated'] = 'フィルターセットの無効化に成功しました。';
+$messages['setdeleted'] = 'フィルターセットの削除に成功しました。';
+$messages['setdeleteconfirm'] = '本当に選択したフィルター セットを削除しますか?';
+$messages['setcreateerror'] = 'フィルター セットの作成に失敗しました。サーバーでエラーが発生しました。';
+$messages['setcreated'] = 'フィルター セットの作成に成功しました。';
+$messages['emptyname'] = 'フィルター セットの作成に失敗しました。名前が空です。';
+$messages['nametoolong'] = 'フィルター セットの作成に失敗しました。名前が長すぎます。';
+
+?>
