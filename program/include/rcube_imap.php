@@ -2586,10 +2586,14 @@ class rcube_imap
 
         // make sure mailbox exists
         if ($to_mbox != 'INBOX' && !$this->mailbox_exists($to_mbox)) {
-            if (in_array($to_mbox, $this->default_folders))
-                $this->create_mailbox($to_mbox, true);
-            else
+            if (in_array($to_mbox, $this->default_folders)) {
+                if (!$this->create_mailbox($to_mbox, true)) {
+                    return false;
+                }
+            }
+            else {
                 return false;
+            }
         }
 
         $config = rcmail::get_instance()->config;
@@ -2667,10 +2671,14 @@ class rcube_imap
 
         // make sure mailbox exists
         if ($to_mbox != 'INBOX' && !$this->mailbox_exists($to_mbox)) {
-            if (in_array($to_mbox, $this->default_folders))
-                $this->create_mailbox($to_mbox, true);
-            else
+            if (in_array($to_mbox, $this->default_folders)) {
+                if (!$this->create_mailbox($to_mbox, true)) {
+                    return false;
+                }
+            }
+            else {
                 return false;
+            }
         }
 
         // copy messages
