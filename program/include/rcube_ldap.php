@@ -1151,7 +1151,7 @@ class rcube_ldap extends rcube_addressbook
                         $this->vlv_count += $counts[$j]['numsubordinates'][0];
                     $this->_debug("D: total numsubordinates = " . $this->vlv_count);
                 }
-                else  // ...or by fetching all records dn and count them
+                else if (!function_exists('ldap_parse_virtuallist_control'))  // ...or by fetching all records dn and count them
                     $this->vlv_count = $this->_exec_search(true);
 
                 $this->vlv_active = $this->_vlv_set_controls($this->prop, $this->list_page, $this->page_size);
@@ -1162,9 +1162,17 @@ class rcube_ldap extends rcube_addressbook
             if ($this->ldap_result = @$function($this->conn, $this->base_dn, $filter,
                 $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
             {
+                // when running on a patched PHP we can use the extended functions to retrieve the total count from the LDAP search result
+                if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control') &&
+                    ldap_parse_result($this->conn, $this->ldap_result, $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)) {
+                    ldap_parse_virtuallist_control($this->conn, $serverctrls, $last_offset, $this->vlv_count, $vresult);
+                    $this->_debug("S: VLV result: last_offset=$last_offset; content_count=$this->vlv_count");
+                }
+
                 $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
                 if ($err = ldap_errno($this->conn))
                     $this->_debug("S: Error: " .ldap_err2str($err));
+
                 return $count ? ldap_count_entries($this->conn, $this->ldap_result) : true;
             }
             else
