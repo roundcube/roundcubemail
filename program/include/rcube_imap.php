@@ -2320,9 +2320,14 @@ class rcube_imap
 
         // decode filename
         if (!empty($filename_mime)) {
-            $part->filename = rcube_imap::decode_mime_string($filename_mime,
-                $part->charset ? $part->charset : ($this->struct_charset ? $this->struct_charset :
-                rc_detect_encoding($filename_mime, $this->default_charset)));
+            if (!empty($part->charset))
+                $charset = $part->charset;
+            else if (!empty($this->struct_charset))
+                $charset = $this->struct_charset;
+            else
+                $charset = rc_detect_encoding($filename_mime, $this->default_charset);
+
+            $part->filename = rcube_imap::decode_mime_string($filename_mime, $charset);
         }
         else if (!empty($filename_encoded)) {
             // decode filename according to RFC 2231, Section 4
@@ -2330,6 +2335,7 @@ class rcube_imap
                 $filename_charset = $fmatches[1];
                 $filename_encoded = $fmatches[2];
             }
+
             $part->filename = rcube_charset_convert(urldecode($filename_encoded), $filename_charset);
         }
     }
