@@ -2403,7 +2403,7 @@ class rcube_imap
            if (!$skip_charset_conv) {
                 if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
                     // try to extract charset information from HTML meta tag (#1488125)
-                    if ($o_part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-]+)/i', $body, $m))
+                    if ($o_part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-_]+)/i', $body, $m))
                         $o_part->charset = strtoupper($m[1]);
                     else
                         $o_part->charset = $this->default_charset;
