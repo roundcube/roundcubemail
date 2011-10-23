@@ -178,7 +178,7 @@ function rcmail_user_prefs($current=null)
     // show page size selection
     if (!isset($no_override['timezone'])) {
       $field_id = 'rcmfd_timezone';
-      $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id, 'onchange' => "document.getElementById('rcmfd_dst').disabled=this.selectedIndex==0"));
+      $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id, 'onchange' => "$('#rcmfd_dst').attr('disabled', this.selectedIndex==0)"));
       $select_timezone->add(rcube_label('autodetect'), 'auto');
       $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
       $select_timezone->add('(GMT -10:00) Hawaii', '-10');
