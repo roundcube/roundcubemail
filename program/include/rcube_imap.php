@@ -1962,6 +1962,10 @@ class rcube_imap
 
         $headers = $this->get_headers($uid, $mailbox);
 
+        // message doesn't exist?
+        if (empty($headers))
+            return null; 
+
         // structure might be cached
         if (!empty($headers->structure))
             return $headers;
@@ -2382,14 +2386,10 @@ class rcube_imap
             $o_part->charset       = rcube_imap_generic::getStructurePartCharset($structure, $part);
         }
 
-        // TODO: Add caching for message parts
-
-        if (!$part) {
-            $part = 'TEXT';
+        if ($o_part && $o_part->size) {
+            $body = $this->conn->handlePartBody($this->mailbox, $uid, true,
+                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp);
         }
-
-        $body = $this->conn->handlePartBody($this->mailbox, $uid, true, $part,
-            $o_part->encoding, $print, $fp);
 
         if ($fp || $print) {
             return true;
