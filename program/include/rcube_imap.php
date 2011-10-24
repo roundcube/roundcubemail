@@ -1508,7 +1508,7 @@ class rcube_imap
                 // I didn't found that SEARCH should return sorted IDs
                 if (is_array($a_index))
                     sort($a_index);
-            } else if ($max = $this->_messagecount($mailbox)) {
+            } else if ($max = $this->_messagecount($mailbox, 'ALL', true, false)) {
                 $a_index = range(1, $max);
             }
 
@@ -1694,7 +1694,7 @@ class rcube_imap
         }
 
         if ($orig_criteria == 'ALL') {
-            $max = $this->_messagecount($mailbox);
+            $max = $this->_messagecount($mailbox, 'ALL', true, false);
             $a_messages = $max ? range(1, $max) : array();
         }
         else {
