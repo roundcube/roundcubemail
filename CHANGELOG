@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix IDN address validation issue (#1488137)
+- Fix JS error when dst_active checkbox doesn't exist (#1488133)
 - Autocomplete LDAP records when adding contacts from mail (#1488073)
 - Plugin API: added 'ready' hook (#1488063)
 - Ignore DSN request when it isn't supported by SMTP server (#1487800)
