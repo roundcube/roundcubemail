@@ -1427,6 +1427,7 @@ function rcmail_compose_cleanup($id)
   $rcmail = rcmail::get_instance();
   $rcmail->plugins->exec_hook('attachments_cleanup', array('group' => $id));
   $rcmail->session->remove('compose_data_'.$id);
+  $rcmail->session->remove('compose');
 }
 
 
