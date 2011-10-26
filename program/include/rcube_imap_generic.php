@@ -3176,47 +3176,48 @@ class rcube_imap_generic
         return false;
     }
 
-    static function getStructurePartType($structure, $part)
+    /**
+     * Returns data of a message part according to specified structure.
+     *
+     * @param array  $structure Message structure (getStructure() result)
+     * @param string $part      Message part identifier
+     *
+     * @return array Part data as hash array (type, encoding, charset, size)
+     */
+    static function getStructurePartData($structure, $part)
     {
 	    $part_a = self::getStructurePartArray($structure, $part);
-	    if (!empty($part_a)) {
-		    if (is_array($part_a[0]))
-                return 'multipart';
-		    else if ($part_a[0])
-                return $part_a[0];
-	    }
+	    $data   = array();
 
-        return 'other';
-    }
+	    if (empty($part_a)) {
+            return $data;
+        }
 
-    static function getStructurePartEncoding($structure, $part)
-    {
-	    $part_a = self::getStructurePartArray($structure, $part);
-	    if ($part_a) {
-		    if (!is_array($part_a[0]))
-                return $part_a[5];
-	    }
+        // content-type
+        if (is_array($part_a[0])) {
+            $data['type'] = 'multipart';
+        }
+        else {
+            $data['type'] = strtolower($part_a[0]);
 
-        return '';
-    }
+            // encoding
+            $data['encoding'] = strtolower($part_a[5]);
 
-    static function getStructurePartCharset($structure, $part)
-    {
-	    $part_a = self::getStructurePartArray($structure, $part);
-	    if ($part_a) {
-		    if (is_array($part_a[0]))
-                return '';
-		    else {
-			    if (is_array($part_a[2])) {
-				    $name = '';
-				    while (list($key, $val) = each($part_a[2]))
-                        if (strcasecmp($val, 'charset') == 0)
-                            return $part_a[2][$key+1];
-			    }
-		    }
-	    }
+            // charset
+            if (is_array($part_a[2])) {
+               while (list($key, $val) = each($part_a[2])) {
+                    if (strcasecmp($val, 'charset') == 0) {
+                        $data['charset'] = $part_a[2][$key+1];
+                        break;
+                    }
+                }
+            }
+        }
 
-        return '';
+        // size
+        $data['size'] = intval($part_a[6]);
+
+        return $data;
     }
 
     static function getStructurePartArray($a, $part)
@@ -3248,7 +3249,6 @@ class rcube_imap_generic
 		    return $a;
 	    }
     }
-
 
     /**
      * Creates next command identifier (tag)

@@ -2376,14 +2376,16 @@ class rcube_imap
      */
     function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL, $skip_charset_conv=false)
     {
-        // get part encoding if not provided
+        // get part data if not provided
         if (!is_object($o_part)) {
             $structure = $this->conn->getStructure($this->mailbox, $uid, true);
+            $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
             $o_part = new rcube_message_part;
-            $o_part->ctype_primary = strtolower(rcube_imap_generic::getStructurePartType($structure, $part));
-            $o_part->encoding      = strtolower(rcube_imap_generic::getStructurePartEncoding($structure, $part));
-            $o_part->charset       = rcube_imap_generic::getStructurePartCharset($structure, $part);
+            $o_part->ctype_primary = $part_data['type'];
+            $o_part->encoding      = $part_data['encoding'];
+            $o_part->charset       = $part_data['charset'];
+            $o_part->size          = $part_data['size'];
         }
 
         if ($o_part && $o_part->size) {
