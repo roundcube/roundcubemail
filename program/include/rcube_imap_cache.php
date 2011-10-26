@@ -853,7 +853,7 @@ class rcube_imap_cache
         // @TODO: find better validity check for threaded index
         if ($is_thread) {
             // check messages number...
-            if ($mbox_data['EXISTS'] != @max(array_keys($index['depth']))) {
+            if (!$this->skip_deleted && $mbox_data['EXISTS'] != @max(array_keys($index['depth']))) {
                 return false;
             }
             return true;

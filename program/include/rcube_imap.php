@@ -1508,7 +1508,7 @@ class rcube_imap
                 // I didn't found that SEARCH should return sorted IDs
                 if (is_array($a_index))
                     sort($a_index);
-            } else if ($max = $this->_messagecount($mailbox)) {
+            } else if ($max = $this->_messagecount($mailbox, 'ALL', true, false)) {
                 $a_index = range(1, $max);
             }
 
@@ -1694,7 +1694,7 @@ class rcube_imap
         }
 
         if ($orig_criteria == 'ALL') {
-            $max = $this->_messagecount($mailbox);
+            $max = $this->_messagecount($mailbox, 'ALL', true, false);
             $a_messages = $max ? range(1, $max) : array();
         }
         else {
@@ -1961,6 +1961,10 @@ class rcube_imap
         }
 
         $headers = $this->get_headers($uid, $mailbox);
+
+        // message doesn't exist?
+        if (empty($headers))
+            return null; 
 
         // structure might be cached
         if (!empty($headers->structure))
@@ -2320,9 +2324,14 @@ class rcube_imap
 
         // decode filename
         if (!empty($filename_mime)) {
-            $part->filename = rcube_imap::decode_mime_string($filename_mime,
-                $part->charset ? $part->charset : ($this->struct_charset ? $this->struct_charset :
-                rc_detect_encoding($filename_mime, $this->default_charset)));
+            if (!empty($part->charset))
+                $charset = $part->charset;
+            else if (!empty($this->struct_charset))
+                $charset = $this->struct_charset;
+            else
+                $charset = rc_detect_encoding($filename_mime, $this->default_charset);
+
+            $part->filename = rcube_imap::decode_mime_string($filename_mime, $charset);
         }
         else if (!empty($filename_encoded)) {
             // decode filename according to RFC 2231, Section 4
@@ -2330,6 +2339,7 @@ class rcube_imap
                 $filename_charset = $fmatches[1];
                 $filename_encoded = $fmatches[2];
             }
+
             $part->filename = rcube_charset_convert(urldecode($filename_encoded), $filename_charset);
         }
     }
@@ -2366,24 +2376,22 @@ class rcube_imap
      */
     function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL, $skip_charset_conv=false)
     {
-        // get part encoding if not provided
+        // get part data if not provided
         if (!is_object($o_part)) {
             $structure = $this->conn->getStructure($this->mailbox, $uid, true);
+            $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
             $o_part = new rcube_message_part;
-            $o_part->ctype_primary = strtolower(rcube_imap_generic::getStructurePartType($structure, $part));
-            $o_part->encoding      = strtolower(rcube_imap_generic::getStructurePartEncoding($structure, $part));
-            $o_part->charset       = rcube_imap_generic::getStructurePartCharset($structure, $part);
+            $o_part->ctype_primary = $part_data['type'];
+            $o_part->encoding      = $part_data['encoding'];
+            $o_part->charset       = $part_data['charset'];
+            $o_part->size          = $part_data['size'];
         }
 
-        // TODO: Add caching for message parts
-
-        if (!$part) {
-            $part = 'TEXT';
+        if ($o_part && $o_part->size) {
+            $body = $this->conn->handlePartBody($this->mailbox, $uid, true,
+                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp);
         }
-
-        $body = $this->conn->handlePartBody($this->mailbox, $uid, true, $part,
-            $o_part->encoding, $print, $fp);
 
         if ($fp || $print) {
             return true;
@@ -2397,7 +2405,7 @@ class rcube_imap
            if (!$skip_charset_conv) {
                 if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
                     // try to extract charset information from HTML meta tag (#1488125)
-                    if ($o_part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-]+)/i', $body, $m))
+                    if ($o_part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-_]+)/i', $body, $m))
                         $o_part->charset = strtoupper($m[1]);
                     else
                         $o_part->charset = $this->default_charset;

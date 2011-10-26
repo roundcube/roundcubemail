@@ -559,7 +559,7 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   // special replacements (not properly handled by washtml class)
   $html_search = array(
     '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-    '/<title[^>]*>.*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
+    '/<title[^>]*>[^<]*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
     '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
     '/<html\s[^>]+>/i',			// washtml/DOMDocument cannot handle xml namespaces
   );
@@ -590,16 +590,16 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   $html = preg_replace_callback('/(<[\/]*)([^\s>]+)/', 'rcmail_html_tag_callback', $html);
 
   // charset was converted to UTF-8 in rcube_imap::get_message_part(),
-  // -> change charset specification in HTML accordingly
-  $charset_pattern = '(<meta\s+[^>]*content=)[\'"]?(\w+\/\w+;\s*charset=)([a-z0-9-_]+[\'"]?)';
-  if (preg_match("/$charset_pattern/Ui", $html)) {
-    $html = preg_replace("/$charset_pattern/i", '\\1"\\2'.RCMAIL_CHARSET.'"', $html);
-  }
-  else {
-    // add meta content-type to malformed messages, washtml cannot work without that
-    if (!preg_match('/<head[^>]*>(.*)<\/head>/Uims', $html))
-      $html = '<head></head>'. $html;
-    $html = substr_replace($html, '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />', intval(stripos($html, '<head>')+6), 0);
+  // change/add charset specification in HTML accordingly,
+  // washtml cannot work without that
+  $meta = '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />';
+
+  // remove old meta tag and add the new one, making sure
+  // that it is placed in the head (#1488093)
+  $html = preg_replace('/<meta[^>]+charset=[a-z0-9-_]+[^>]*>/Ui', '', $html);
+  $html = preg_replace('/(<head[^>]*>)/Ui', '\\1'.$meta, $html, -1, $rcount);
+  if (!$rcount) {
+    $html = '<head>' . $meta . '</head>' . $html;
   }
 
   // turn relative into absolute urls
