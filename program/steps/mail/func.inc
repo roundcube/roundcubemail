@@ -1037,14 +1037,8 @@ function rcmail_message_body($attrib)
       rcmail_plain_body(Q($MESSAGE->body, 'strict', false))));
     }
 
-  $ctype_primary = strtolower($MESSAGE->structure->ctype_primary);
-  $ctype_secondary = strtolower($MESSAGE->structure->ctype_secondary);
-
   // list images after mail body
-  if ($CONFIG['inline_images']
-      && $ctype_primary == 'multipart'
-      && !empty($MESSAGE->attachments))
-    {
+  if ($CONFIG['inline_images'] && !empty($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
       // Content-Type: image/*...
       if (preg_match('/^image\//i', $attach_prop->mimetype) ||
