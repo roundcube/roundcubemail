@@ -48,7 +48,6 @@ class rcube_message
 
     public $uid = null;
     public $headers;
-    public $structure;
     public $parts = array();
     public $mime_parts = array();
     public $attachments = array();
