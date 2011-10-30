@@ -4385,7 +4385,7 @@ function rcube_webmail()
 
     elem.focus(function(){ ref.focus_textfield(this); })
       .blur(function(){ ref.blur_textfield(this); })
-      .each(function(){ this._placeholder = this.title = ref.env.coltypes[col].label; ref.blur_textfield(this); });
+      .each(function(){ this._placeholder = this.title = (ref.env.coltypes[col].label || ''); ref.blur_textfield(this); });
   };
 
   this.insert_edit_field = function(col, section, menu)
