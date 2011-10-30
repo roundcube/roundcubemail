@@ -119,9 +119,13 @@ class rcube_ldap extends rcube_addressbook
 
         // support for composite address
         if ($this->fieldmap['street'] && $this->fieldmap['locality']) {
-            $this->coltypes['address'] = array('limit' => max(1, $this->coltypes['locality']['limit']), 'subtypes' => $this->coltypes['locality']['subtypes']);
-            foreach (array('street','locality','zipcode','region','country') as $childcol)
-                unset($this->coltypes[$childcol]);  // remove address child col from global coltypes list
+            $this->coltypes['address'] = array('limit' => max(1, $this->coltypes['locality']['limit']), 'subtypes' => $this->coltypes['locality']['subtypes'], 'childs' => array());
+            foreach (array('street','locality','zipcode','region','country') as $childcol) {
+                if ($this->fieldmap[$childcol]) {
+                    $this->coltypes['address']['childs'][$childcol] = array('type' => 'text');
+                    unset($this->coltypes[$childcol]);  // remove address child col from global coltypes list
+                }
+            }
         }
         else if ($this->coltypes['address'])
             $this->coltypes['address'] = array('type' => 'textarea', 'childs' => null, 'limit' => 1, 'size' => 40);

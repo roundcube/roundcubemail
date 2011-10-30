@@ -140,8 +140,13 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
         $CONTACT_COLTYPES = array_intersect_key($CONTACT_COLTYPES, $contact_cols);
         // add associative coltypes definition
         if (!$CONTACTS->coltypes[0]) {
-            foreach ($CONTACTS->coltypes as $col => $colprop)
+            foreach ($CONTACTS->coltypes as $col => $colprop) {
+                if (is_array($colprop['childs'])) {
+                    foreach ($colprop['childs'] as $childcol => $childprop)
+                        $colprop['childs'][$childcol] = array_merge((array)$CONTACT_COLTYPES[$col]['childs'][$childcol], $childprop);
+                }
                 $CONTACT_COLTYPES[$col] = $CONTACT_COLTYPES[$col] ? array_merge($CONTACT_COLTYPES[$col], $colprop) : $colprop;
+            }
         }
     }
 
@@ -597,7 +602,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
                         $coltypes[$field] += (array)$colprop;
                         $coltypes[$field]['count']++;
-                        $val = strtr($template, $composite);
+                        $val = preg_replace('/\{\w+\}/', '', strtr($template, $composite));
                     }
                     else if ($edit_mode) {
                         // call callback to render/format value
