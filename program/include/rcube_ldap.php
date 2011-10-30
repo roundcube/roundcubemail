@@ -712,6 +712,34 @@ class rcube_ldap extends rcube_addressbook
             return $result;
         }
 
+        // use VLV pseudo-search for autocompletion
+        if ($this->prop['vlv_search'] && $this->conn && join(',', (array)$fields) == 'email,name')
+        {
+            // add general filter to query
+            if (!empty($this->prop['filter']) && empty($this->filter))
+                $this->set_search_set($this->prop['filter']);
+
+            // set VLV controls with encoded search string
+            $this->_vlv_set_controls($this->prop, $this->list_page, $this->page_size, $value);
+
+            $function = $this->_scope2func($this->prop['scope']);
+            $this->ldap_result = @$function($this->conn, $this->base_dn, $this->filter ? $this->filter : '(objectclass=*)',
+                array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
+
+            // get all entries of this page and post-filter those that really match the query
+            $this->result = new rcube_result_set(0);
+            $entries = ldap_get_entries($this->conn, $this->ldap_result);
+            for ($i = 0; $i < $entries['count']; $i++) {
+                $rec = $this->_ldap2result($entries[$i]);
+                if (stripos($rec['name'] . $rec['email'], $value) !== false) {
+                    $this->result->add($rec);
+                    $this->result->count++;
+                }
+            }
+
+            return $this->result;
+        }
+
         // use AND operator for advanced searches
         $filter = is_array($value) ? '(&' : '(|';
         $wc     = !$strict && $this->prop['fuzzy_search'] ? '*' : '';
@@ -1200,10 +1228,10 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Set server controls for Virtual List View (paginated listing)
      */
-    private function _vlv_set_controls($prop, $list_page, $page_size)
+    private function _vlv_set_controls($prop, $list_page, $page_size, $search = null)
     {
         $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => $this->_sort_ber_encode((array)$prop['sort']));
-        $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($list_page-1) * $page_size + 1), $page_size), 'iscritical' => true);
+        $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => $this->_vlv_ber_encode(($offset = ($list_page-1) * $page_size + 1), $page_size, $search), 'iscritical' => true);
 
         $sort = (array)$prop['sort'];
         $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ($sort[0]);"
@@ -1719,7 +1747,7 @@ class rcube_ldap extends rcube_addressbook
      * @param integer Records per page
      * @return string BER encoded option value
      */
-    private function _vlv_ber_encode($offset, $rpp)
+    private function _vlv_ber_encode($offset, $rpp, $search = '')
     {
         # this string is ber-encoded, php will prefix this value with:
         # 04 (octet string) and 10 (length of 16 bytes)
@@ -1730,6 +1758,12 @@ class rcube_ldap extends rcube_addressbook
         # a0 = type context-specific/constructed with a length of 06 (6) bytes following
         # 02 = type integer with 2 bytes following (offset): 01 01 (ie 1)
         # 02 = type integer with 2 bytes following (contentCount):  01 00
+        
+        # whith a search string present:
+        # 81 = type context-specific/constructed with a length of 04 (4) bytes following (the length will change here)
+        # 81 indicates a user string is present where as a a0 indicates just a offset search
+        # 81 = type context-specific/constructed with a length of 06 (6) bytes following
+        
         # the following info was taken from the ISO/IEC 8825-1:2003 x.690 standard re: the
         # encoding of integer values (note: these values are in
         # two-complement form so since offset will never be negative bit 8 of the
@@ -1739,18 +1773,27 @@ class rcube_ldap extends rcube_addressbook
         # of the second (to the left of first octet) octet:
         # a) shall not all be ones; and
         # b) shall not all be zero
+        
+        if ($search)
+        {
+            $search = preg_replace('/[^-[:alpha:] ,.()0-9]+/', '', $search);
+            $ber_val = self::_string2hex($search);
+            $str = self::_ber_addseq($ber_val, '81');
+        }
+        else
+        {
+            # construct the string from right to left
+            $str = "020100"; # contentCount
 
-        # construct the string from right to left
-        $str = "020100"; # contentCount
+            $ber_val = self::_ber_encode_int($offset);  // returns encoded integer value in hex format
 
-        $ber_val = self::_ber_encode_int($offset);  // returns encoded integer value in hex format
+            // calculate octet length of $ber_val
+            $str = self::_ber_addseq($ber_val, '02') . $str;
 
-        // calculate octet length of $ber_val
-        $str = self::_ber_addseq($ber_val, '02') . $str;
-
-        // now compute length over $str
-        $str = self::_ber_addseq($str, 'a0');
-
+            // now compute length over $str
+            $str = self::_ber_addseq($str, 'a0');
+        }
+        
         // now tack on records per page
         $str = "020100" . self::_ber_addseq(self::_ber_encode_int($rpp-1), '02') . $str;
 
