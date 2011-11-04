@@ -31,7 +31,7 @@ function rcmail_editor_init(config)
       remove_script_host: false,
       gecko_spellcheck: true,
       convert_urls: false, // #1486944
-      external_image_list_url: 'program/js/editor_images.js',
+      external_image_list: window.rcmail_editor_images,
       rc_client: rcmail
     };
 
@@ -129,3 +129,18 @@ function rcmail_toggle_editor(select, textAreaId, flagElement)
       select.checked = true;
   }
 }
+
+// editor callbeck for images listing
+function rcmail_editor_images()
+{
+  var i, files = rcmail.env.attachments, list = [];
+
+  for (i in files) {
+    att = files[i];
+    if (att.complete && att.mimetype.indexOf('image/') == 0) {
+      list.push([att.name, rcmail.env.comm_path+'&_action=display-attachment&_file='+i+'&_id='+rcmail.env.compose_id]);
+    }
+  }
+
+  return list;
+};
