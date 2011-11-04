@@ -763,9 +763,12 @@ function rcmail_get_cids()
     foreach ($cid as $id) {
         // if _source is not specified we'll find it from decoded ID
         if (!$got_source) {
-            list ($c, $s) = explode('-', $id, 2);
-            if (strlen($s)) {
-                $result[(string)$s][] = $c;
+            if ($sep = strrpos($id, '-')) {
+                $contact_id = substr($id, 0, $sep);
+                $source_id  = substr($id, $sep+1);
+                if (strlen($source_id)) {
+                    $result[(string)$source_id][] = $contact_id;
+                }
             }
         }
         else {
