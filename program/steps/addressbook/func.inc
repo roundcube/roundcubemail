@@ -624,7 +624,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                                 $RCMAIL->output->set_env('month_names', $month_names);
                             }
                             $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
-                            $val = format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'));
+                            $val = format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'), false);
                         }
 
                         $val = rcmail_get_edit_field($col, $val, $colprop, $colprop['type']);
@@ -733,7 +733,7 @@ function rcmail_contact_photo($attrib)
 function rcmail_format_date_col($val)
 {
     global $RCMAIL;
-    return format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'));
+    return format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'), false);
 }
 
 

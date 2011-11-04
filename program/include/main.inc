@@ -1018,15 +1018,15 @@ function rcube_strtotime($date)
  * Convert the given date to a human readable form
  * This uses the date formatting properties from config
  *
- * @param mixed Date representation (string or timestamp)
+ * @param mixed  Date representation (string or timestamp)
  * @param string Date format to use
+ * @param bool   Enables date convertion according to user timezone
+ *
  * @return string Formatted date string
  */
-function format_date($date, $format=NULL)
+function format_date($date, $format=NULL, $convert=true)
 {
   global $RCMAIL, $CONFIG;
-  
-  $ts = NULL;
 
   if (!empty($date))
     $ts = rcube_strtotime($date);
@@ -1034,23 +1034,29 @@ function format_date($date, $format=NULL)
   if (empty($ts))
     return '';
 
-  // get user's timezone offset
-  $tz = $RCMAIL->config->get_timezone();
+  if ($convert) {
+    // get user's timezone offset
+    $tz = $RCMAIL->config->get_timezone();
 
-  // convert time to user's timezone
-  $timestamp = $ts - date('Z', $ts) + ($tz * 3600);
+    // convert time to user's timezone
+    $timestamp = $ts - date('Z', $ts) + ($tz * 3600);
 
-  // get current timestamp in user's timezone
-  $now = time();  // local time
-  $now -= (int)date('Z'); // make GMT time
-  $now += ($tz * 3600); // user's time
-  $now_date = getdate($now);
-
-  $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
-  $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
+    // get current timestamp in user's timezone
+    $now = time();  // local time
+    $now -= (int)date('Z'); // make GMT time
+    $now += ($tz * 3600); // user's time
+  }
+  else {
+    $now       = time();
+    $timestamp = $ts;
+  }
 
   // define date format depending on current time
   if (!$format) {
+    $now_date    = getdate($now);
+    $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
+    $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
+
     if ($CONFIG['prettydate'] && $timestamp > $today_limit && $timestamp < $now) {
       $format = $RCMAIL->config->get('date_today', $RCMAIL->config->get('time_format', 'H:i'));
       $today  = true;
