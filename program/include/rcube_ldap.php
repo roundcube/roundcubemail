@@ -189,6 +189,9 @@ class rcube_ldap extends rcube_addressbook
                 ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, $this->prop['ldap_version']);
                 $this->prop['host'] = $host;
                 $this->conn = $lc;
+
+                if (isset($this->prop['referrals']))
+                    ldap_set_option($lc, LDAP_OPT_REFERRALS, $this->prop['referrals']);
                 break;
             }
             $this->_debug("S: NOT OK");
