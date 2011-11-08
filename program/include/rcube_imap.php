@@ -317,6 +317,19 @@ class rcube_imap
 
 
     /**
+     * Activate/deactivate debug mode
+     *
+     * @param boolean $dbg True if IMAP conversation should be logged
+     * @access public
+     */
+    function set_debug($dbg = true)
+    {
+        $this->options['debug'] = $dbg;
+        $this->conn->setDebug($dbg, array($this, 'debug_handler'));
+    }
+
+
+    /**
      * Set default message charset
      *
      * This will be used for message decoding if a charset specification is not available
