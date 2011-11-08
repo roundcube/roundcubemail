@@ -41,7 +41,6 @@ class rcube_contacts extends rcube_addressbook
     private $user_id = 0;
     private $filter = null;
     private $result = null;
-    private $name;
     private $cache;
     private $table_cols = array('name', 'email', 'firstname', 'surname');
     private $fulltext_cols = array('name', 'firstname', 'surname', 'middlename', 'nickname',
@@ -50,6 +49,7 @@ class rcube_contacts extends rcube_addressbook
 
     // public properties
     public $primary_key = 'contact_id';
+    public $name;
     public $readonly = false;
     public $groups = true;
     public $undelete = true;
