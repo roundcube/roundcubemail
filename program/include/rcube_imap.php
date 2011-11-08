@@ -32,7 +32,6 @@
  */
 class rcube_imap
 {
-    public $debug_level = 1;
     public $skip_deleted = false;
     public $page_size = 10;
     public $list_page = 1;
