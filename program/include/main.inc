@@ -1232,7 +1232,7 @@ function rcmail_mailbox_select($p = array())
   if ($p['noselection'])
     $select->add($p['noselection'], '');
 
-  rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames'], 0, $p['exceptions']);
+  rcmail_render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames'], 0, $p);
 
   return $select;
 }
@@ -1281,9 +1281,9 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   $path .= $prefix.$currentFolder;
 
   if (!isset($arrFolders[$currentFolder])) {
-    // Check \Noselect option (if options are in cache)
-    if (!$virtual && ($opts = $RCMAIL->imap->mailbox_options($path))) {
-      $virtual = in_array('\\Noselect', $opts);
+    // Check \Noselect attribute (if attributes are in cache)
+    if (!$virtual && ($attrs = $RCMAIL->imap->mailbox_attributes($path))) {
+      $virtual = in_array('\\Noselect', $attrs);
     }
 
     $arrFolders[$currentFolder] = array(
@@ -1402,30 +1402,40 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
  * @access private
  * @return string
  */
-function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames=false, $nestLevel=0, $exceptions=array())
+function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames=false, $nestLevel=0, $opts=array())
 {
+  global $RCMAIL;
+
   $out = '';
 
   foreach ($arrFolders as $key => $folder) {
-    if (empty($exceptions) || !in_array($folder['id'], $exceptions)) {
-      if (!$realnames && ($folder_class = rcmail_folder_classname($folder['id'])))
-        $foldername = rcube_label($folder_class);
-      else {
-        $foldername = $folder['name'];
-
-        // shorten the folder name to a given length
-        if ($maxlength && $maxlength>1)
-          $foldername = abbreviate_string($foldername, $maxlength);
-      }
-
-      $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
-    }
-    else if ($nestLevel)
+    // skip exceptions (and its subfolders)
+    if (!empty($opts['exceptions']) && in_array($folder['id'], $opts['exceptions'])) {
       continue;
+    }
+
+    // skip folders in which it isn't possible to create subfolders
+    if (!empty($opts['skip_noinferiors']) && ($attrs = $RCMAIL->imap->mailbox_attributes($folder['id']))
+        && in_array('\\Noinferiors', $attrs)
+    ) {
+      continue;
+    }
+
+    if (!$realnames && ($folder_class = rcmail_folder_classname($folder['id'])))
+      $foldername = rcube_label($folder_class);
+    else {
+      $foldername = $folder['name'];
+
+      // shorten the folder name to a given length
+      if ($maxlength && $maxlength>1)
+        $foldername = abbreviate_string($foldername, $maxlength);
+    }
+
+    $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
 
     if (!empty($folder['folders']))
       $out .= rcmail_render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
-        $select, $realnames, $nestLevel+1, $exceptions);
+        $select, $realnames, $nestLevel+1, $opts);
   }
 
   return $out;

@@ -3087,7 +3087,19 @@ class rcube_imap
      */
     function list_unsubscribed($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
     {
-        // @TODO: caching
+        $cache_key = $root.':'.$name;
+        if (!empty($filter)) {
+            $cache_key .= ':'.(is_string($filter) ? $filter : serialize($filter));
+        }
+        $cache_key .= ':'.$rights;
+        $cache_key = 'mailboxes.list.'.md5($cache_key);
+
+        // get cached folder list
+        $a_mboxes = $this->get_cache($cache_key);
+        if (is_array($a_mboxes)) {
+            return $a_mboxes;
+        }
+
         // Give plugins a chance to provide a list of mailboxes
         $data = rcmail::get_instance()->plugins->exec_hook('mailboxes_list',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LIST'));
@@ -3109,6 +3121,11 @@ class rcube_imap
             array_unshift($a_mboxes, 'INBOX');
         }
 
+        // cache folder attributes
+        if ($root == '' && $name == '*' && empty($filter)) {
+            $this->update_cache('mailboxes.attributes', $this->conn->data['LIST']);
+        }
+
         // filter folders list according to rights requirements
         if ($rights && $this->get_capability('ACL')) {
             $a_folders = $this->filter_rights($a_folders, $rights);
@@ -3118,6 +3135,9 @@ class rcube_imap
         if (!$skip_sort) {
             $a_mboxes = $this->_sort_mailbox_list($a_mboxes);
         }
+
+        // write mailboxlist to cache
+        $this->update_cache($cache_key, $a_mboxes);
 
         return $a_mboxes;
     }
@@ -3450,30 +3470,29 @@ class rcube_imap
 
 
     /**
-     * Gets folder options from LIST response, e.g. \Noselect, \Noinferiors
+     * Gets folder attributes from LIST response, e.g. \Noselect, \Noinferiors
      *
      * @param string $mailbox Folder name
-     * @param bool   $force   Set to True if options should be refreshed
-     *                        Options are available after LIST command only
+     * @param bool   $force   Set to True if attributes should be refreshed
      *
      * @return array Options list
      */
-    function mailbox_options($mailbox, $force=false)
+    function mailbox_attributes($mailbox, $force=false)
     {
-        if ($mailbox == 'INBOX') {
-            return array();
+        // get attributes directly from LIST command
+        if (!empty($this->conn->data['LIST']) && is_array($this->conn->data['LIST'][$mailbox])) {
+            $opts = $this->conn->data['LIST'][$mailbox];
+        }
+        // get cached folder attributes
+        else if (!$force) {
+            $opts = $this->get_cache('mailboxes.attributes');
+            $opts = $opts[$mailbox];
         }
 
-        if (!is_array($this->conn->data['LIST']) || !is_array($this->conn->data['LIST'][$mailbox])) {
-            if ($force) {
-                $this->conn->listMailboxes('', $mailbox);
-            }
-            else {
-                return array();
-            }
+        if (!is_array($opts)) {
+            $this->conn->listMailboxes('', $mailbox);
+            $opts = $this->conn->data['LIST'][$mailbox];
         }
-
-        $opts = $this->conn->data['LIST'][$mailbox];
 
         return is_array($opts) ? $opts : array();
     }
@@ -3556,17 +3575,17 @@ class rcube_imap
             }
         }
 
-        $options['name']      = $mailbox;
-        $options['options']   = $this->mailbox_options($mailbox, true);
-        $options['namespace'] = $this->mailbox_namespace($mailbox);
-        $options['rights']    = $acl && !$options['is_root'] ? (array)$this->my_rights($mailbox) : array();
-        $options['special']   = in_array($mailbox, $this->default_folders);
+        $options['name']       = $mailbox;
+        $options['attributes'] = $this->mailbox_attributes($mailbox, true);
+        $options['namespace']  = $this->mailbox_namespace($mailbox);
+        $options['rights']     = $acl && !$options['is_root'] ? (array)$this->my_rights($mailbox) : array();
+        $options['special']    = in_array($mailbox, $this->default_folders);
 
         // Set 'noselect' and 'norename' flags
-        if (is_array($options['options'])) {
-            foreach ($options['options'] as $opt) {
-                $opt = strtolower($opt);
-                if ($opt == '\noselect' || $opt == '\nonexistent') {
+        if (is_array($options['attributes'])) {
+            foreach ($options['attributes'] as $attrib) {
+                $attrib = strtolower($attrib);
+                if ($attrib == '\noselect' || $attrib == '\nonexistent') {
                     $options['noselect'] = true;
                 }
             }

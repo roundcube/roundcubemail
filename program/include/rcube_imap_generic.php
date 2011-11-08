@@ -2258,13 +2258,11 @@ class rcube_imap_generic
                     }
 
                     // Add to options array
-                    if (!empty($opts)) {
-                        if (empty($this->data['LIST'][$mailbox]))
-                            $this->data['LIST'][$mailbox] = $opts;
-                        else
-                            $this->data['LIST'][$mailbox] = array_unique(array_merge(
-                                $this->data['LIST'][$mailbox], $opts));
-                    }
+                    if (empty($this->data['LIST'][$mailbox]))
+                        $this->data['LIST'][$mailbox] = $opts;
+                    else if (!empty($opts))
+                        $this->data['LIST'][$mailbox] = array_unique(array_merge(
+                            $this->data['LIST'][$mailbox], $opts));
                 }
                 // * STATUS <mailbox> (<result>)
                 else if ($cmd == 'STATUS') {
