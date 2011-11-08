@@ -5,7 +5,7 @@
  | program/steps/mail/compose.inc                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -122,8 +122,9 @@ if (!empty($CONFIG['drafts_mbox'])) {
 }
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
-$OUTPUT->set_env('sig_above', $CONFIG['sig_above']);
-$OUTPUT->set_env('top_posting', $CONFIG['top_posting']);
+$OUTPUT->set_env('sig_above', $RCMAIL->config->get('sig_above', false));
+$OUTPUT->set_env('top_posting', $RCMAIL->config->get('top_posting', false));
+$OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 
 // get reference message and set compose mode
 if ($msg_uid = $_SESSION['compose']['param']['draft_uid']) {
@@ -324,6 +325,7 @@ else if (count($MESSAGE->identities)) {
 // Set other headers
 $a_recipients = array();
 $parts        = array('to', 'cc', 'bcc', 'replyto', 'followupto');
+$separator    = trim($RCMAIL->config->get('recipients_separator', ',')) . ' ';
 
 foreach ($parts as $header) {
   $fvalue = '';
@@ -367,7 +369,7 @@ foreach ($parts as $header) {
       if ($v = $MESSAGE->headers->to)
         $fvalue .= $v;
       if ($v = $MESSAGE->headers->cc)
-        $fvalue .= (!empty($fvalue) ? ', ' : '') . $v;
+        $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
     }
   }
   else if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
@@ -410,7 +412,7 @@ foreach ($parts as $header) {
       }
     }
 
-    $fvalue = implode(', ', $fvalue);
+    $fvalue = implode($separator, $fvalue);
   }
 
   $MESSAGE->compose[$header] = $fvalue;

@@ -32,7 +32,8 @@ if ($RCMAIL->action == 'group-expand') {
         $members[] = format_email_recipient($email, $sql_arr['name']);
     }
 
-    $OUTPUT->command('replace_group_recipients', $gid, join(', ', $members));
+    $separator = trim($RCMAIL->config->get('recipients_separator', ',')) . ' ';
+    $OUTPUT->command('replace_group_recipients', $gid, join($separator, array_unique($members)));
   }
 
   $OUTPUT->send();
@@ -70,8 +71,8 @@ if (!empty($book_types) && strlen($search)) {
           if ($email_cnt > 1 && stripos($contact, $search) === false) {
             continue;
           }
-          // when we've got more than one book, we need to skip duplicates
-          if ($books_num == 1 || !in_array($contact, $contacts)) {
+          // skip duplicates
+          if (!in_array($contact, $contacts)) {
             $contacts[] = $contact;
             if (count($contacts) >= $MAXNUM)
               break 2;

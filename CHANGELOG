@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make email recipients separator configurable
 - Fix so folders with \Noinferiors attribute aren't listed in parent selector
 - Fix handling of curly brackets in URLs (#1488168)
 - Fix handling of dates (birthday/anniversary) in contact data (#1488147)
