@@ -56,6 +56,7 @@ class rcube_session
     $this->start   = microtime(true);
     $this->ip      = $_SERVER['REMOTE_ADDR'];
     $this->logging = $config->get('log_session', false);
+    $this->mc_debug = $config->get('memcache_debug', false);
 
     $lifetime = $config->get('session_lifetime', 1) * 60;
     $this->set_lifetime($lifetime);
@@ -259,8 +260,9 @@ class rcube_session
    */
   public function mc_read($key)
   {
-    if ($value = $this->memcache->get($key)) {
-      $arr = unserialize($value);
+    $value = $this->memcache->get($key);
+    if ($this->mc_debug) write_log('memcache', "get($key): " . strlen($value));
+    if ($value && ($arr = unserialize($value))) {
       $this->changed = $arr['changed'];
       $this->ip      = $arr['ip'];
       $this->vars    = $arr['vars'];
@@ -296,8 +298,15 @@ class rcube_session
 
     $newvars = $oldvars !== false ? $this->_fixvars($vars, $oldvars) : $vars;
     
-    if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 2)
-      return $this->memcache->set($key, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars)), MEMCACHE_COMPRESSED, $this->lifetime);
+    if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 2) {
+      $value = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
+      $ret = $this->memcache->set($key, $value, MEMCACHE_COMPRESSED, $this->lifetime);
+      if ($this->mc_debug) {
+        write_log('memcache', "set($key): " . strlen($value) . ": " . ($ret ? 'OK' : 'ERR'));
+        write_log('memcache', "... get($key): " . strlen($this->memcache->get($key)));
+      }
+      return $ret;
+    }
     
     return true;
   }
@@ -310,7 +319,9 @@ class rcube_session
    */
   public function mc_destroy($key)
   {
-    return $this->memcache->delete($key);
+    $ret = $this->memcache->delete($key);
+    if ($this->mc_debug) write_log('memcache', "delete($key): " . ($ret ? 'OK' : 'ERR'));
+    return $ret;
   }
 
 
