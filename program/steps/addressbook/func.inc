@@ -619,7 +619,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                                 $RCMAIL->output->set_env('month_names', $month_names);
                             }
                             $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
-                            $val = format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'));
+                            $val = format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'), false);
                         }
 
                         $val = rcmail_get_edit_field($col, $val, $colprop, $colprop['type']);
@@ -728,7 +728,7 @@ function rcmail_contact_photo($attrib)
 function rcmail_format_date_col($val)
 {
     global $RCMAIL;
-    return format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'));
+    return format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'), false);
 }
 
 
@@ -758,9 +758,12 @@ function rcmail_get_cids()
     foreach ($cid as $id) {
         // if _source is not specified we'll find it from decoded ID
         if (!$got_source) {
-            list ($c, $s) = explode('-', $id, 2);
-            if (strlen($s)) {
-                $result[(string)$s][] = $c;
+            if ($sep = strrpos($id, '-')) {
+                $contact_id = substr($id, 0, $sep);
+                $source_id  = substr($id, $sep+1);
+                if (strlen($source_id)) {
+                    $result[(string)$source_id][] = $contact_id;
+                }
             }
         }
         else {

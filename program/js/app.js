@@ -20,7 +20,7 @@
 
 function rcube_webmail()
 {
-  this.env = {};
+  this.env = { recipients_separator:',', recipients_delimiter:', ' };
   this.labels = {};
   this.buttons = {};
   this.buttons_sel = {};
@@ -2926,6 +2926,8 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj, props)
   {
+    this.env.recipients_delimiter = this.env.recipients_separator + ' ';
+
     obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr('autocomplete', 'off');
   };
@@ -3590,13 +3592,13 @@ function rcube_webmail()
 
     // insert all members of a group
     if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].id) {
-      insert += this.env.contacts[id].name + ', ';
+      insert += this.env.contacts[id].name + this.env.recipients_delimiter;
       this.group2expand = $.extend({}, this.env.contacts[id]);
       this.group2expand.input = this.ksearch_input;
       this.http_request('mail/group-expand', '_source='+urlencode(this.env.contacts[id].source)+'&_gid='+urlencode(this.env.contacts[id].id), false);
     }
     else if (typeof this.env.contacts[id] === 'string') {
-      insert = this.env.contacts[id] + ', ';
+      insert = this.env.contacts[id] + this.env.recipients_delimiter;
       trigger = true;
     }
 
@@ -3633,7 +3635,7 @@ function rcube_webmail()
 
     // get string from current cursor pos to last comma
     var cpos = this.get_caret_pos(this.ksearch_input),
-      p = inp_value.lastIndexOf(',', cpos-1),
+      p = inp_value.lastIndexOf(this.env.recipients_separator, cpos-1),
       q = inp_value.substring(p+1, cpos),
       min = this.env.autocomplete_min_length,
       ac = this.ksearch_data;

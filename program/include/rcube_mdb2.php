@@ -35,16 +35,16 @@
  */
 class rcube_mdb2
 {
-    var $db_dsnw;               // DSN for write operations
-    var $db_dsnr;               // DSN for read operations
-    var $db_connected = false;  // Already connected ?
-    var $db_mode = '';          // Connection mode
-    var $db_handle = 0;         // Connection handle
-    var $db_error = false;
-    var $db_error_msg = '';
+    public $db_dsnw;               // DSN for write operations
+    public $db_dsnr;               // DSN for read operations
+    public $db_connected = false;  // Already connected ?
+    public $db_mode = '';          // Connection mode
+    public $db_handle = 0;         // Connection handle
+    public $db_error = false;
+    public $db_error_msg = '';
 
     private $debug_mode = false;
-    private $write_failure = false;
+    private $conn_failure = false;
     private $a_query_results = array('dummy');
     private $last_res_id = 0;
     private $tables;
@@ -58,7 +58,7 @@ class rcube_mdb2
      */
     function __construct($db_dsnw, $db_dsnr='', $pconn=false)
     {
-        if ($db_dsnr == '')
+        if (empty($db_dsnr))
             $db_dsnr = $db_dsnw;
 
         $this->db_dsnw = $db_dsnw;
@@ -122,30 +122,33 @@ class rcube_mdb2
      */
     function db_connect($mode)
     {
+        // previous connection failed, don't attempt to connect again
+        if ($this->conn_failure) {
+            return;
+        }
+
+        // no replication
+        if ($this->db_dsnw == $this->db_dsnr) {
+            $mode = 'w';
+        }
+
         // Already connected
         if ($this->db_connected) {
-            // connected to read-write db, current connection is ok
-            if ($this->db_mode == 'w' && !$this->write_failure)
-                return;
-
-            // no replication, current connection is ok for read and write
-            if (empty($this->db_dsnr) || $this->db_dsnw == $this->db_dsnr) {
-                $this->db_mode = 'w';
+            // connected to db with the same or "higher" mode
+            if ($this->db_mode == 'w' || $this->db_mode == $mode) {
                 return;
             }
-
-            // Same mode, current connection is ok
-            if ($this->db_mode == $mode)
-                return;
         }
 
         $dsn = ($mode == 'r') ? $this->db_dsnr : $this->db_dsnw;
 
-        $this->db_handle = $this->dsn_connect($dsn);
+        $this->db_handle    = $this->dsn_connect($dsn);
         $this->db_connected = !PEAR::isError($this->db_handle);
 
         if ($this->db_connected)
-          $this->db_mode = $mode;
+            $this->db_mode = $mode;
+        else
+            $this->conn_failure = true;
     }
 
 
@@ -256,10 +259,6 @@ class rcube_mdb2
         // Read or write ?
         $mode = (strtolower(substr(trim($query),0,6)) == 'select') ? 'r' : 'w';
 
-        // don't event attempt to connect if previous write-operation failed
-        if ($this->write_failure && $mode == 'w')
-            return false;
-
         $this->db_connect($mode);
 
         // check connection before proceeding
@@ -284,7 +283,7 @@ class rcube_mdb2
                 raise_error(array('code' => 500, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
                     'message' => $this->db_error_msg), true, false);
-                
+
                 $result = false;
             }
             else {
@@ -292,10 +291,6 @@ class rcube_mdb2
                 $q->free();
             }
         }
-
-        // remember that write-operation failed
-        if ($mode == 'w' && ($result === false || PEAR::isError($result)))
-            $this->write_failure = true;
 
         // add result, even if it's an error
         return $this->_add_result($result);
@@ -447,7 +442,7 @@ class rcube_mdb2
         if (!PEAR::isError($result = $this->db_handle->listTableFields($table))) {
             return $result;
         }
-        
+
         return null;
     }
 
@@ -530,7 +525,7 @@ class rcube_mdb2
      */
     function now()
     {
-        switch($this->db_provider) {
+        switch ($this->db_provider) {
             case 'mssql':
             case 'sqlsrv':
                 return "getdate()";

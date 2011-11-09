@@ -2242,12 +2242,29 @@ class rcube_imap_generic
         list($code, $response) = $this->execute($subscribed ? 'LSUB' : 'LIST', $args);
 
         if ($code == self::ERROR_OK) {
-            $folders = array();
-            while ($this->tokenizeResponse($response, 1) == '*') {
-                $cmd = strtoupper($this->tokenizeResponse($response, 1));
+            $folders  = array();
+            $last     = 0;
+            $pos      = 0;
+            $response .= "\r\n";
+
+            while ($pos = strpos($response, "\r\n", $pos+1)) {
+                // literal string, not real end-of-command-line
+                if ($response[$pos-1] == '}') {
+                    continue;
+                }
+
+                $line = substr($response, $last, $pos - $last);
+                $last = $pos + 2;
+
+                if (!preg_match('/^\* (LIST|LSUB|STATUS) /i', $line, $m)) {
+                    continue;
+                }
+                $cmd  = strtoupper($m[1]);
+                $line = substr($line, strlen($m[0]));
+
                 // * LIST (<options>) <delimiter> <mailbox>
                 if ($cmd == 'LIST' || $cmd == 'LSUB') {
-                    list($opts, $delim, $mailbox) = $this->tokenizeResponse($response, 3);
+                    list($opts, $delim, $mailbox) = $this->tokenizeResponse($line, 3);
 
                     // Add to result array
                     if (!$lstatus) {
@@ -2258,30 +2275,20 @@ class rcube_imap_generic
                     }
 
                     // Add to options array
-                    if (!empty($opts)) {
-                        if (empty($this->data['LIST'][$mailbox]))
-                            $this->data['LIST'][$mailbox] = $opts;
-                        else
-                            $this->data['LIST'][$mailbox] = array_unique(array_merge(
-                                $this->data['LIST'][$mailbox], $opts));
-                    }
+                    if (empty($this->data['LIST'][$mailbox]))
+                        $this->data['LIST'][$mailbox] = $opts;
+                    else if (!empty($opts))
+                        $this->data['LIST'][$mailbox] = array_unique(array_merge(
+                            $this->data['LIST'][$mailbox], $opts));
                 }
                 // * STATUS <mailbox> (<result>)
                 else if ($cmd == 'STATUS') {
-                    list($mailbox, $status) = $this->tokenizeResponse($response, 2);
+                    list($mailbox, $status) = $this->tokenizeResponse($line, 2);
 
                     for ($i=0, $len=count($status); $i<$len; $i += 2) {
                         list($name, $value) = $this->tokenizeResponse($status, 2);
                         $folders[$mailbox][$name] = $value;
                     }
-                }
-                // other untagged response line, skip it
-                else {
-                    $response = ltrim($response);
-                    if (($position = strpos($response, "\n")) !== false)
-                        $response = substr($response, $position+1);
-                    else
-                        $response = '';
                 }
             }
 
@@ -3392,14 +3399,9 @@ class rcube_imap_generic
 
             // String atom, number, NIL, *, %
             default:
-                // empty or one character
-                if ($str === '') {
+                // empty string
+                if ($str === '' || $str === null) {
                     break 2;
-                }
-                if (strlen($str) < 2) {
-                    $result[] = $str;
-                    $str = '';
-                    break;
                 }
 
                 // excluded chars: SP, CTL, ), [, ]

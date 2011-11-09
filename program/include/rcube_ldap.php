@@ -1342,6 +1342,18 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
+     * Activate/deactivate debug mode
+     *
+     * @param boolean $dbg True if LDAP commands should be logged
+     * @access public
+     */
+    function set_debug($dbg = true)
+    {
+        $this->debug = $dbg;
+    }
+
+
+    /**
      * Quotes attribute value string
      *
      * @param string $str Attribute value

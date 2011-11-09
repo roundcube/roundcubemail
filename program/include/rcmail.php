@@ -594,7 +594,6 @@ class rcmail
       return;
 
     $this->imap = new rcube_imap();
-    $this->imap->debug_level = $this->config->get('debug_level');
     $this->imap->skip_deleted = $this->config->get('skip_deleted');
 
     // enable caching of imap data

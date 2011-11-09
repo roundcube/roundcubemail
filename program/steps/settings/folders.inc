@@ -283,8 +283,8 @@ function rcube_subscription_form($attrib)
         }
 
         if (!$protected) {
-            $opts = $IMAP->mailbox_options($folder['id']);
-            $noselect = in_array('\\Noselect', $opts);
+            $attrs = $IMAP->mailbox_attributes($folder['id']);
+            $noselect = in_array('\\Noselect', $attrs);
         }
 
         $disabled = (($protected && $subscribed) || $noselect);

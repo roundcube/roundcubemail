@@ -766,7 +766,7 @@ function rcmail_plain_body($body, $flowed=false)
 
           // previous line is flowed?
           if (isset($body[$last]) && $body[$n]
-            && $last != $last_sig
+            && $last !== $last_sig
             && $body[$last][strlen($body[$last])-1] == ' '
           ) {
             $body[$last] .= $body[$n];

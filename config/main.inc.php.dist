@@ -5,7 +5,7 @@
  | Main configuration file                                               |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -459,6 +459,9 @@ $rcmail_config['spellcheck_ignore_nums'] = false;
 
 // Makes that words with symbols will be ignored (e.g. g@@gle)
 $rcmail_config['spellcheck_ignore_syms'] = false;
+
+// Use this char/string to separate recipients when composing a new message
+$rcmail_config['recipients_separator'] = ',';
 
 // don't let users set pagesize to more than this value if set
 $rcmail_config['max_pagesize'] = 200;

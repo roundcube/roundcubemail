@@ -1,6 +1,12 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make email recipients separator configurable
+- Fix so folders with \Noinferiors attribute aren't listed in parent selector
+- Fix handling of curly brackets in URLs (#1488168)
+- Fix handling of dates (birthday/anniversary) in contact data (#1488147)
+- Fix error on opening searched LDAP contact (#1488144)
+- Fix redundant line break in flowed format (#1488146)
 - Fix IDN address validation issue (#1488137)
 - Fix JS error when dst_active checkbox doesn't exist (#1488133)
 - Autocomplete LDAP records when adding contacts from mail (#1488073)

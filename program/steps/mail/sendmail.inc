@@ -5,7 +5,7 @@
  | program/steps/mail/sendmail.inc                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -138,22 +138,30 @@ function rcmail_fix_emoticon_paths(&$mime_message)
   return $body;
 }
 
-// parse email address input (and count addresses)
+/**
+ * Parse and cleanup email address input (and count addresses)
+ *
+ * @param string  Address input
+ * @param boolean Do count recipients (saved in global $RECIPIENT_COUNT)
+ * @param boolean Validate addresses (errors saved in global $EMAIL_FORMAT_ERROR)
+ * @return string Canonical recipients string separated by comma
+ */
 function rcmail_email_input_format($mailto, $count=false, $check=true)
 {
-  global $EMAIL_FORMAT_ERROR, $RECIPIENT_COUNT;
+  global $RCMAIL, $EMAIL_FORMAT_ERROR, $RECIPIENT_COUNT;
 
   // simplified email regexp, supporting quoted local part
   $email_regexp = '(\S+|("[^"]+"))@\S+';
 
-  $regexp  = array('/[,;]\s*[\r\n]+/', '/[\r\n]+/', '/[,;]\s*$/m', '/;/', '/(\S{1})(<'.$email_regexp.'>)/U');
-  $replace = array(', ', ', ', '', ',', '\\1 \\2');
+  $delim = trim($RCMAIL->config->get('recipients_separator', ','));
+  $regexp  = array("/[,;$delim]\s*[\r\n]+/", '/[\r\n]+/', "/[,;$delim]\s*\$/m", '/;/', '/(\S{1})(<'.$email_regexp.'>)/U');
+  $replace = array($delim.' ', ', ', '', $delim, '\\1 \\2');
 
   // replace new lines and strip ending ', ', make address input more valid
   $mailto = trim(preg_replace($regexp, $replace, $mailto));
 
   $result = array();
-  $items = rcube_explode_quoted_string(',', $mailto);
+  $items = rcube_explode_quoted_string($delim, $mailto);
 
   foreach($items as $item) {
     $item = trim($item);
@@ -168,16 +176,9 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
     // address with name (handle name)
     } else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
       $address = $matches[0];
-      $name = str_replace($address, '', $item);
-      $name = trim($name);
-      if ($name && ($name[0] != '"' || $name[strlen($name)-1] != '"')
-          && preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
-            $name = '"'.addcslashes($name, '"').'"';
-      }
+      $name = trim(str_replace($address, '', $item), '" ');
       $address = rcube_idn_to_ascii(trim($address, '<>'));
-      $address = '<' . $address . '>';
-
-      $result[] = $name.' '.$address;
+      $result[] = format_email_recipient($address, $name);
       $item = $address;
     } else if (trim($item)) {
       continue;
