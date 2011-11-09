@@ -31,6 +31,14 @@ $MESSAGE = NULL;
 $COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GET);
 $_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
 
+// give replicated session storage some time to synchronize
+$retries = 0;
+while ($COMPOSE_ID && !is_array($_SESSION['compose']) && $RCMAIL->db->is_replicated() && $retries++ < 5) {
+  usleep(500000);
+  $RCMAIL->session->reload();
+  $_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
+}
+
 // Nothing below is called during message composition, only at "new/forward/reply/draft" initialization or
 // if a compose-ID is given (i.e. when the compose step is opened in a new window/tab).
 if (!is_array($_SESSION['compose']))

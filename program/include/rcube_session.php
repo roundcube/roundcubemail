@@ -394,6 +394,18 @@ class rcube_session
 
 
   /**
+   * Re-read session data from storage backend
+   */
+  public function reload()
+  {
+    if ($this->key && $this->memcache)
+      $this->mc_read($this->key);
+    else if ($this->key)
+      $this->db_read($this->key);
+  }
+
+
+  /**
    * Serialize session data
    */
   private function serialize($vars)
