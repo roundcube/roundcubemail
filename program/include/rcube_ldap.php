@@ -698,15 +698,20 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param mixed   $fields   The field name of array of field names to search in
      * @param mixed   $value    Search value (or array of values when $fields is array)
-     * @param boolean $strict   True for strict, False for partial (fuzzy) matching
+     * @param int     $mode     Matching mode:
+     *                          0 - partial (*abc*),
+     *                          1 - strict (=),
+     *                          2 - prefix (abc*)
      * @param boolean $select   True if results are requested, False if count only
      * @param boolean $nocount  (Not used)
      * @param array   $required List of fields that cannot be empty
      *
      * @return array  Indexed list of contact records and 'count' value
      */
-    function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
+    function search($fields, $value, $mode=0, $select=true, $nocount=false, $required=array())
     {
+        $mode = intval($mode);
+
         // special treatment for ID-based search
         if ($fields == 'ID' || $fields == $this->primary_key)
         {
@@ -738,13 +743,31 @@ class rcube_ldap extends rcube_addressbook
                 array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
 
             // get all entries of this page and post-filter those that really match the query
+            $search = mb_strtolower($value);
             $this->result = new rcube_result_set(0);
             $entries = ldap_get_entries($this->conn, $this->ldap_result);
+
             for ($i = 0; $i < $entries['count']; $i++) {
                 $rec = $this->_ldap2result($entries[$i]);
-                if (stripos($rec['name'] . $rec['email'], $value) !== false) {
-                    $this->result->add($rec);
-                    $this->result->count++;
+                foreach (array('email', 'name') as $f) {
+                    $val = mb_strtolower($rec[$f]);
+                    switch ($mode) {
+                    case 1:
+                        $got = ($val == $search);
+                        break;
+                    case 2:
+                        $got = ($search == substr($val, 0, strlen($search)));
+                        break;
+                    default:
+                        $got = (strpos($val, $search) !== false);
+                        break;
+                    }
+
+                    if ($got) {
+                        $this->result->add($rec);
+                        $this->result->count++;
+                        break;
+                    }
                 }
             }
 
@@ -753,7 +776,14 @@ class rcube_ldap extends rcube_addressbook
 
         // use AND operator for advanced searches
         $filter = is_array($value) ? '(&' : '(|';
-        $wc     = !$strict && $this->prop['fuzzy_search'] ? '*' : '';
+        // set wildcards
+        $wp = $ws = '';
+        if (!empty($this->prop['fuzzy_search']) && $mode != 1) {
+            $ws = '*';
+            if (!$mode) {
+                $wp = '*';
+            }
+        }
 
         if ($fields == '*')
         {
@@ -767,7 +797,7 @@ class rcube_ldap extends rcube_addressbook
             if (is_array($this->prop['search_fields']))
             {
                 foreach ($this->prop['search_fields'] as $field) {
-                    $filter .= "($field=$wc" . $this->_quote_string($value) . "$wc)";
+                    $filter .= "($field=$wp" . $this->_quote_string($value) . "$ws)";
                 }
             }
         }
@@ -776,7 +806,7 @@ class rcube_ldap extends rcube_addressbook
             foreach ((array)$fields as $idx => $field) {
                 $val = is_array($value) ? $value[$idx] : $value;
                 if ($f = $this->_map_field($field)) {
-                    $filter .= "($f=$wc" . $this->_quote_string($val) . "$wc)";
+                    $filter .= "($f=$wp" . $this->_quote_string($val) . "$ws)";
                 }
             }
         }
@@ -1433,9 +1463,9 @@ class rcube_ldap extends rcube_addressbook
 
         $groups = array();
         if ($search) {
-            $search = strtolower($search);
+            $search = mb_strtolower($search);
             foreach ($group_cache as $group) {
-                if (strstr(strtolower($group['name']), $search))
+                if (strpos(mb_strtolower($group['name']), $search) !== false)
                     $groups[] = $group;
             }
         }
@@ -1511,7 +1541,7 @@ class rcube_ldap extends rcube_addressbook
                     $groups[$group_id]['email'][] = $ldap_data[$i][$email_attr][$j];
             }
 
-            $group_sortnames[] = strtolower($ldap_data[$i][$sort_attr][0]);
+            $group_sortnames[] = mb_strtolower($ldap_data[$i][$sort_attr][0]);
         }
 
         // recursive call can exit here

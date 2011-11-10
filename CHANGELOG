@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to define matching method for addressbook search (#1486564, #1487907)
 - Make email recipients separator configurable
 - Fix so folders with \Noinferiors attribute aren't listed in parent selector
 - Fix handling of curly brackets in URLs (#1488168)

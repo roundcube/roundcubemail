@@ -41,6 +41,7 @@ if ($RCMAIL->action == 'group-expand') {
 
 
 $MAXNUM = (int)$RCMAIL->config->get('autocomplete_max', 15);
+$mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
 $search = get_input_value('_search', RCUBE_INPUT_GPC, true);
 $source = get_input_value('_source', RCUBE_INPUT_GPC);
 $sid    = get_input_value('_id', RCUBE_INPUT_GPC);
@@ -58,7 +59,7 @@ if (!empty($book_types) && strlen($search)) {
     $abook = $RCMAIL->get_address_book($id);
     $abook->set_pagesize($MAXNUM);
 
-    if ($result = $abook->search(array('email','name'), $search, false, true, true, 'email')) {
+    if ($result = $abook->search(array('email','name'), $search, $mode, true, true, 'email')) {
       while ($sql_arr = $result->iterate()) {
         // Contact can have more than one e-mail address
         $email_arr = (array)$abook->get_col_values('email', $sql_arr, true);
@@ -82,7 +83,7 @@ if (!empty($book_types) && strlen($search)) {
     }
 
     // also list matching contact groups
-    if ($abook->groups) {
+    if ($abook->groups && count($contacts) < $MAXNUM) {
       foreach ($abook->list_groups($search) as $group) {
         $abook->reset();
         $abook->set_group($group['ID']);

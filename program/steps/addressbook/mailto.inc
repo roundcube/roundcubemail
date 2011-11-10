@@ -31,7 +31,7 @@ foreach ($cids as $source => $cid)
     {
         $CONTACTS->set_page(1);
         $CONTACTS->set_pagesize(count($cid) + 2); // +2 to skip counting query
-        $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid, false, true, true, 'email');
+        $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid, 0, true, true, 'email');
     }
 }
 
