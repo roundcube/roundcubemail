@@ -433,5 +433,6 @@ $labels['addtodict'] = 'Dodaj do słownika';
 $labels['dateformat'] = 'Format daty';
 $labels['timeformat'] = 'Format czasu';
 $labels['isdraft'] = 'To jest kopia robocza wiadomości.';
+$labels['autocompletesingle'] = 'Nie pokazuj alternatywnych adresów przy autouzupełnianiu';
 
 ?>

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to skip alternative email addresses in autocompletion
 - Fix inconsistent behaviour of Compose button in Drafts folder, add Edit button for drafts
 - Fix problem with parsing HTML message body with non-unicode characters (#1487813)
 - Add option to define matching method for addressbook search (#1486564, #1487907)

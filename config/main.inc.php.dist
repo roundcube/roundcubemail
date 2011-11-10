@@ -781,4 +781,7 @@ $rcmail_config['default_addressbook'] = null;
 // Enables spell checking before sending a message.
 $rcmail_config['spellcheck_before_send'] = false;
 
+// Skip alternative email addresses in autocompletion (show one address per contact)
+$rcmail_config['autocomplete_single'] = false;
+
 // end of config file

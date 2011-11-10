@@ -40,8 +40,9 @@ if ($RCMAIL->action == 'group-expand') {
 }
 
 
-$MAXNUM = (int)$RCMAIL->config->get('autocomplete_max', 15);
+$MAXNUM = (int) $RCMAIL->config->get('autocomplete_max', 15);
 $mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
+$single = (bool) $RCMAIL->config->get('autocomplete_single');
 $search = get_input_value('_search', RCUBE_INPUT_GPC, true);
 $source = get_input_value('_source', RCUBE_INPUT_GPC);
 $sid    = get_input_value('_id', RCUBE_INPUT_GPC);
@@ -66,18 +67,27 @@ if (!empty($book_types) && strlen($search)) {
         $email_arr = (array)$abook->get_col_values('email', $sql_arr, true);
         $email_cnt = count($email_arr);
         foreach ($email_arr as $email) {
-          if (empty($email))
+          if (empty($email)) {
             continue;
+          }
+
           $contact = format_email_recipient($email, $sql_arr['name']);
+
           // skip entries that don't match
           if ($email_cnt > 1 && strpos(mb_strtolower($contact), $search_lc) === false) {
             continue;
           }
+
           // skip duplicates
           if (!in_array($contact, $contacts)) {
             $contacts[] = $contact;
             if (count($contacts) >= $MAXNUM)
               break 2;
+          }
+
+          // skip redundant entries (show only first email address)
+          if ($single) {
+            break;
           }
         }
       }
