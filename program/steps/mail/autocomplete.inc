@@ -52,8 +52,9 @@ else
   $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
 
 if (!empty($book_types) && strlen($search)) {
-  $contacts = array();
+  $contacts  = array();
   $books_num = count($book_types);
+  $search_lc = mb_strtolower($search);
 
   foreach ($book_types as $id) {
     $abook = $RCMAIL->get_address_book($id);
@@ -69,7 +70,7 @@ if (!empty($book_types) && strlen($search)) {
             continue;
           $contact = format_email_recipient($email, $sql_arr['name']);
           // skip entries that don't match
-          if ($email_cnt > 1 && stripos($contact, $search) === false) {
+          if ($email_cnt > 1 && strpos(mb_strtolower($contact), $search_lc) === false) {
             continue;
           }
           // skip duplicates
