@@ -432,5 +432,6 @@ $labels['spellcheckignorecaps'] = 'Ignoruj słowa pisane wielkimi literami';
 $labels['addtodict'] = 'Dodaj do słownika';
 $labels['dateformat'] = 'Format daty';
 $labels['timeformat'] = 'Format czasu';
+$labels['isdraft'] = 'To jest kopia robocza wiadomości.';
 
 ?>

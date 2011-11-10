@@ -230,7 +230,7 @@ img
 }
 
 #message div.notice,
-#remote-objects-message
+#message-objects div.notice
 {
   background: url(images/display/icons.png) 6px 3px no-repeat;
   background-color: #F7FDCB;
@@ -238,21 +238,25 @@ img
 }
 
 #message div.error,
-#message div.warning
+#message div.warning,
+#message-objects div.warning,
+#message-objects div.error
 {
   background: url(images/display/icons.png) 6px -97px no-repeat;
   background-color: #EF9398;
   border: 1px solid #DC5757;
 }
 
-#message div.confirmation
+#message div.confirmation,
+#message-objects div.confirmation
 {
   background: url(images/display/icons.png) 6px -47px no-repeat;
   background-color: #A6EF7B;
   border: 1px solid #76C83F;
 }
 
-#message div.loading
+#message div.loading,
+#message-objects div.loading
 {
   background: url(images/display/loading.gif) 6px 3px no-repeat;
   background-color: #EBEBEB;

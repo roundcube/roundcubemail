@@ -150,12 +150,13 @@ function rcmail_message_attachments($attrib)
   return $out;
 }
 
-function rcmail_remote_objects_msg($attrib)
+function rcmail_remote_objects_msg()
 {
   global $MESSAGE, $RCMAIL;
 
-  if (!$attrib['id'])
-    $attrib['id'] = 'rcmremoteobjmsg';
+  $attrib['id']    = 'remote-objects-message';
+  $attrib['class'] = 'notice';
+  $attrib['style'] = 'display: none';
 
   $msg = Q(rcube_label('blockedimages')) . '&nbsp;';
   $msg .= html::a(array('href' => "#loadimages", 'onclick' => JS_OBJECT_NAME.".command('load-images')"), Q(rcube_label('showimages')));
@@ -168,6 +169,48 @@ function rcmail_remote_objects_msg($attrib)
 
   $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
   return html::div($attrib, $msg);
+}
+
+function rcmail_message_buttons()
+{
+  global $MESSAGE, $RCMAIL, $CONFIG;
+
+  $mbox  = $RCMAIL->imap->get_mailbox_name();
+  $delim = $RCMAIL->imap->get_hierarchy_delimiter();
+  $dbox  = $CONFIG['drafts_mbox'];
+
+  // the message is not a draft
+  if ($mbox != $dbox && strpos($mbox, $dbox.$delim) !== 0) {
+    return '';
+  }
+
+  $attrib['id']    = 'message-buttons';
+  $attrib['class'] = 'notice';
+
+  $msg = Q(rcube_label('isdraft')) . '&nbsp;';
+  $msg .= html::a(array('href' => "#edit", 'onclick' => JS_OBJECT_NAME.".command('edit')"), Q(rcube_label('edit')));
+
+  return html::div($attrib, $msg);
+}
+
+function rcmail_message_objects($attrib)
+{
+  global $RCMAIL, $MESSAGE;
+
+  if (!$attrib['id'])
+    $attrib['id'] = 'message-objects';
+
+  $content = array(
+    rcmail_message_buttons(),
+    rcmail_remote_objects_msg(),
+  );
+
+  $plugin = $RCMAIL->plugins->exec_hook('message_objects',
+    array('content' => $content, 'message' => $MESSAGE));
+
+  $content = implode("\n", $plugin['content']);
+
+  return html::div($attrib, $content);
 }
 
 function rcmail_contact_exists($email)
@@ -189,7 +232,8 @@ function rcmail_contact_exists($email)
 $OUTPUT->add_handlers(array(
   'messageattachments' => 'rcmail_message_attachments',
   'mailboxname' => 'rcmail_mailbox_name_display',
-  'blockedobjects' => 'rcmail_remote_objects_msg'));
+  'messageobjects' => 'rcmail_message_objects',
+));
 
 
 if ($RCMAIL->action=='print' && $OUTPUT->template_exists('messageprint'))

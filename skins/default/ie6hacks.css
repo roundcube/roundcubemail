@@ -20,7 +20,10 @@ img
 #message div.error,
 #message div.warning,
 #message div.confirmation,
-#remote-objects-message
+#message-objects div.notice,
+#message-objects div.error,
+#message-objects div.warning,
+#message-objects div.confirmation
 {
   background-image: url(images/display/icons.gif);
 }
