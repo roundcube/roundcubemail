@@ -100,6 +100,17 @@ class rcube_test_mailfunc extends UnitTestCase
   }
 
   /**
+   * Test washtml class on non-unicode characters (#1487813)
+   */
+  function test_washtml_utf8()
+  {
+    $part = $this->get_html_part('src/invalidchars.html');
+    $washed = rcmail_print_body($part);
+
+    $this->assertPattern('/<p>ÑÐžÐŒÐ²ÐŸÐ»<\/p>/', $washed, "Remove non-unicode characters from HTML message body");
+  }
+
+  /**
    * Test links pattern replacements in plaintext messages
    */
   function test_plaintext()

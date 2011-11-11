@@ -207,7 +207,7 @@ function rcube_webmail()
           'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'download',
           'print', 'load-attachment', 'load-headers', 'forward-attachment'];
 
-        if (this.env.action=='show' || this.env.action=='preview') {
+        if (this.env.action == 'show' || this.env.action == 'preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
           this.enable_command('reply-list', this.env.list_post);
 
@@ -460,7 +460,7 @@ function rcube_webmail()
     }
 
     // check input before leaving compose step
-    if (this.task=='mail' && this.env.action=='compose' && $.inArray(command, this.env.compose_commands)<0) {
+    if (this.task == 'mail' && this.env.action == 'compose' && $.inArray(command, this.env.compose_commands)<0) {
       if (this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
         return false;
     }
@@ -815,13 +815,7 @@ function rcube_webmail()
 
         if (this.task == 'mail') {
           url += '&_mbox='+urlencode(this.env.mailbox);
-
-          if (this.env.mailbox == this.env.drafts_mailbox) {
-            var uid;
-            if (uid = this.get_single_uid())
-              url += '&_draft_uid='+uid;
-          }
-          else if (props)
+          if (props)
              url += '&_to='+urlencode(props);
         }
         // modify url if we're in addressbook

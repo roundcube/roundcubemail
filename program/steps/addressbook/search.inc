@@ -137,6 +137,9 @@ function rcmail_contact_search()
         }
     }
 
+    // Values matching mode
+    $mode = (int) $RCMAIL->config->get('addressbook_search_mode');
+
     // get sources list
     $sources    = $RCMAIL->get_address_sources();
     $search_set = array();
@@ -168,7 +171,7 @@ function rcmail_contact_search()
         $source->set_pagesize(9999);
 
         // get contacts count
-        $result = $source->search($fields, $search, false, false);
+        $result = $source->search($fields, $search, $mode, false);
 
         if (!$result->count) {
             continue;

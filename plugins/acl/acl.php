@@ -3,7 +3,7 @@
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author Aleksander Machniak <alec@alec.pl>
  *
  *
@@ -91,8 +91,11 @@ class acl extends rcube_plugin
         $users  = array();
 
         if ($this->init_ldap()) {
-            $this->ldap->set_pagesize((int)$this->rc->config->get('autocomplete_max', 15));
-            $result = $this->ldap->search('*', $search);
+            $max  = (int) $this->rc->config->get('autocomplete_max', 15);
+            $mode = (int) $this->rc->config->get('addressbook_search_mode');
+
+            $this->ldap->set_pagesize($max);
+            $result = $this->ldap->search('*', $search, $mode);
 
             foreach ($result->records as $record) {
                 $user = $record['uid'];

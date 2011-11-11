@@ -478,7 +478,7 @@ class rcube_imap
      */
     function get_mailbox_name()
     {
-        return $this->conn->connected() ? $this->mailbox : '';
+        return $this->mailbox;
     }
 
 

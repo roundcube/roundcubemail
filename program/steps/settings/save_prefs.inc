@@ -93,6 +93,7 @@ switch ($CURR_SECTION)
   case 'addressbook':
     $a_user_prefs = array(
       'default_addressbook' => get_input_value('_default_addressbook', RCUBE_INPUT_POST, true),
+      'autocomplete_single' => isset($_POST['_autocomplete_single']) ? TRUE : FALSE,
     );
 
   break;

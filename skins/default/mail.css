@@ -1197,21 +1197,20 @@ div.message-htmlpart div.rcmBody
   margin: 8px;
 }
 
-#remote-objects-message
+#message-objects div
 {
-  display: none;
   margin: 8px;
   min-height: 20px;
   padding: 10px 10px 6px 46px;
 }
 
-#remote-objects-message a
+#message-objects div a
 {
   color: #666666;
   padding-left: 10px;
 }
 
-#remote-objects-message a:hover
+#message-objects div a:hover
 {
   color: #333333;
 }

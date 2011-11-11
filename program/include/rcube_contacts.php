@@ -177,12 +177,12 @@ class rcube_contacts extends rcube_addressbook
             " AND contactgroup_id=?".
             " AND user_id=?",
             $group_id, $this->user_id);
-            
+
         if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
             $sql_arr['ID'] = $sql_arr['contactgroup_id'];
             return $sql_arr;
         }
-        
+
         return null;
     }
 
@@ -268,14 +268,17 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param mixed   $fields   The field name of array of field names to search in
      * @param mixed   $value    Search value (or array of values when $fields is array)
-     * @param boolean $strict   True for strict (=), False for partial (LIKE) matching
+     * @param int     $mode     Matching mode:
+     *                          0 - partial (*abc*),
+     *                          1 - strict (=),
+     *                          2 - prefix (abc*)
      * @param boolean $select   True if results are requested, False if count only
      * @param boolean $nocount  True to skip the count query (select only)
      * @param array   $required List of fields that cannot be empty
      *
      * @return object rcube_result_set Contact records and 'count' value
      */
-    function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
+    function search($fields, $value, $mode=0, $select=true, $nocount=false, $required=array())
     {
         if (!is_array($fields))
             $fields = array($fields);
@@ -283,6 +286,7 @@ class rcube_contacts extends rcube_addressbook
             $required = array($required);
 
         $where = $and_where = array();
+        $mode = intval($mode);
 
         foreach ($fields as $idx => $col) {
             // direct ID search
@@ -295,26 +299,56 @@ class rcube_contacts extends rcube_addressbook
             // fulltext search in all fields
             else if ($col == '*') {
                 $words = array();
-                foreach (explode(" ", self::normalize_string($value)) as $word)
-                    $words[] = $this->db->ilike('words', '%'.$word.'%');
+                foreach (explode(" ", self::normalize_string($value)) as $word) {
+                    switch ($mode) {
+                    case 1: // strict
+                        $words[] = '(' . $this->db->ilike('words', $word.' %')
+                            . ' OR ' . $this->db->ilike('words', '% '.$word.' %')
+                            . ' OR ' . $this->db->ilike('words', '% '.$word) . ')';
+                        break;
+                    case 2: // prefix
+                        $words[] = '(' . $this->db->ilike('words', $word.'%')
+                            . ' OR ' . $this->db->ilike('words', '% '.$word.'%') . ')';
+                        break;
+                    default: // partial
+                        $words[] = $this->db->ilike('words', '%'.$word.'%');
+                    }
+                }
                 $where[] = '(' . join(' AND ', $words) . ')';
             }
             else {
                 $val = is_array($value) ? $value[$idx] : $value;
                 // table column
                 if (in_array($col, $this->table_cols)) {
-                    if ($strict) {
+                    switch ($mode) {
+                    case 1: // strict
                         $where[] = $this->db->quoteIdentifier($col).' = '.$this->db->quote($val);
-                    }
-                    else {
+                        break;
+                    case 2: // prefix
+                        $where[] = $this->db->ilike($col, $val.'%');
+                        break;
+                    default: // partial
                         $where[] = $this->db->ilike($col, '%'.$val.'%');
                     }
                 }
                 // vCard field
                 else {
                     if (in_array($col, $this->fulltext_cols)) {
-                        foreach (explode(" ", self::normalize_string($val)) as $word)
-                            $words[] = $this->db->ilike('words', '%'.$word.'%');
+                        foreach (explode(" ", self::normalize_string($val)) as $word) {
+                            switch ($mode) {
+                            case 1: // strict
+                                $words[] = '(' . $this->db->ilike('words', $word.' %')
+                                    . ' OR ' . $this->db->ilike('words', '% '.$word.' %')
+                                    . ' OR ' . $this->db->ilike('words', '% '.$word) . ')';
+                                break;
+                            case 2: // prefix
+                                $words[] = '(' . $this->db->ilike('words', $word.'%')
+                                    . ' OR ' . $this->db->ilike('words', ' '.$word.'%') . ')';
+                                break;
+                            default: // partial
+                                $words[] = $this->db->ilike('words', '%'.$word.'%');
+                            }
+                        }
                         $where[] = '(' . join(' AND ', $words) . ')';
                     }
                     if (is_array($value))
@@ -362,13 +396,24 @@ class rcube_contacts extends rcube_addressbook
                         $search  = $post_search[$colname];
                         foreach ((array)$row[$col] as $value) {
                             // composite field, e.g. address
-                            if (is_array($value)) {
-                                $value = implode($value);
-                            }
-                            $value = mb_strtolower($value);
-                            if (($strict && $value == $search) || (!$strict && strpos($value, $search) !== false)) {
-                                $found[$colname] = true;
-                                break;
+                            foreach ((array)$value as $val) {
+                                $val = mb_strtolower($val);
+                                switch ($mode) {
+                                case 1:
+                                    $got = ($val == $search);
+                                    break;
+                                case 2:
+                                    $got = ($search == substr($val, 0, strlen($search)));
+                                    break;
+                                default:
+                                    $got = (strpos($val, $search) !== false);
+                                    break;
+                                }
+
+                                if ($got) {
+                                    $found[$colname] = true;
+                                    break 2;
+                                }
                             }
                         }
                     }

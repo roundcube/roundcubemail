@@ -1,7 +1,7 @@
 /**
  * ACL plugin script
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author Aleksander Machniak <alec@alec.pl>
  */
 

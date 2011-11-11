@@ -627,6 +627,13 @@ $rcmail_config['autocomplete_max'] = 15;
 // available placeholders: {street}, {locality}, {zipcode}, {country}, {region}
 $rcmail_config['address_template'] = '{street}<br/>{locality} {zipcode}<br/>{country} {region}';
 
+// Matching mode for addressbook search (including autocompletion)
+// 0 - partial (*abc*), default
+// 1 - strict (abc)
+// 2 - prefix (abc*)
+// Note: For LDAP sources fuzzy_search must be enabled to use 'partial' or 'prefix' mode
+$rcmail_config['addressbook_search_mode'] = 0;
+
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------
@@ -773,5 +780,8 @@ $rcmail_config['default_addressbook'] = null;
 
 // Enables spell checking before sending a message.
 $rcmail_config['spellcheck_before_send'] = false;
+
+// Skip alternative email addresses in autocompletion (show one address per contact)
+$rcmail_config['autocomplete_single'] = false;
 
 // end of config file

@@ -659,6 +659,16 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['autocomplete_single'])) {
+      $field_id = 'rcmfd_autocomplete_single';
+      $checkbox = new html_checkbox(array('name' => '_autocomplete_single', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['autocomplete_single'] = array(
+        'title' => html::label($field_id, Q(rcube_label('autocompletesingle'))),
+        'content' => $checkbox->show($config['autocomplete_single']?1:0),
+      );
+    }
+
     break;
 
     // Special IMAP folders

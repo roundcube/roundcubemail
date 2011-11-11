@@ -174,9 +174,9 @@ if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'
 
       if (!$replace && $email) {
         // compare e-mail address
-        $existing = $CONTACTS->search('email', $email, false, false);
+        $existing = $CONTACTS->search('email', $email, 1, false);
         if (!$existing->count && $vcard->displayname) {  // compare display name
-          $existing = $CONTACTS->search('name', $vcard->displayname, false, false);
+          $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
         }
         if ($existing->count) {
           $IMPORT_STATS->skipped++;

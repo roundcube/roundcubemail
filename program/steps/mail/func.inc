@@ -639,6 +639,9 @@ function rcmail_wash_html($html, $p = array(), $cid_replaces)
   if (!$p['skip_washer_style_callback'])
     $washer->add_callback('style', 'rcmail_washtml_callback');
 
+  // Remove non-UTF8 characters (#1487813)
+  $html = rc_utf8_clean($html);
+
   $html = $washer->wash($html);
   $REMOTE_OBJECTS = $washer->extlinks;
 

@@ -225,6 +225,7 @@ $labels['highest'] = 'Highest';
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Display images';
 $labels['alwaysshow'] = 'Always show images from $sender';
+$labels['isdraft']    = 'This is a draft message.';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';
@@ -430,6 +431,7 @@ $labels['reqmdn'] = 'Always request a return receipt';
 $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultaddressbook'] = 'Add new contacts to the selected addressbook';
+$labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
 $labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
 $labels['spellcheckoptions'] = 'Spellcheck Options';
 $labels['spellcheckignoresyms'] = 'Ignore words with symbols';
