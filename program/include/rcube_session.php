@@ -399,9 +399,12 @@ class rcube_session
   public function reload()
   {
     if ($this->key && $this->memcache)
-      $this->mc_read($this->key);
+      $data = $this->mc_read($this->key);
     else if ($this->key)
-      $this->db_read($this->key);
+      $data = $this->db_read($this->key);
+
+    if ($data)
+     session_decode($data);
   }
 
 
