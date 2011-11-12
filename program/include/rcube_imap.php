@@ -1373,6 +1373,11 @@ class rcube_imap
         $this->_messagecount($mailbox, 'ALL', true);
 
         $result = 0;
+
+        if (empty($old)) {
+            return $result;
+        }
+
         $new = $this->get_folder_stats($mailbox);
 
         // got new messages
