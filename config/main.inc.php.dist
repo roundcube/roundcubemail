@@ -418,7 +418,7 @@ $rcmail_config['trash_mbox'] = 'Trash';
 // NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $rcmail_config['default_imap_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
-// automatically create the above listed default folders on login
+// automatically create the above listed default folders on first login
 $rcmail_config['create_default_folders'] = false;
 
 // protect the default folders from renames, deletes, and subscription changes
