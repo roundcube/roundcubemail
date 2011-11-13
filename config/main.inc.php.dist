@@ -222,6 +222,9 @@ $rcmail_config['session_lifetime'] = 10;
 // session domain: .example.org
 $rcmail_config['session_domain'] = '';
 
+// session name. Default: 'roundcube_sessid'
+$rcmail_config['session_name'] = null;
+
 // Backend to use for session storage. Can either be 'db' (default) or 'memcache'
 // If set to memcache, a list of servers need to be specified in 'memcache_hosts'
 // Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed

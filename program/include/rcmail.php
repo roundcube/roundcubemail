@@ -678,18 +678,21 @@ class rcmail
     if (session_id())
       return;
 
+    $sess_name   = $this->config->get('session_name');
+    $sess_domain = $this->config->get('session_domain');
+    $lifetime    = $this->config->get('session_lifetime', 0) * 60;
+
     // set session domain
-    if ($domain = $this->config->get('session_domain')) {
-      ini_set('session.cookie_domain', $domain);
+    if ($sess_domain) {
+      ini_set('session.cookie_domain', $sess_domain);
     }
     // set session garbage collecting time according to session_lifetime
-    $lifetime = $this->config->get('session_lifetime', 0) * 60;
     if ($lifetime) {
       ini_set('session.gc_maxlifetime', $lifetime * 2);
     }
 
     ini_set('session.cookie_secure', rcube_https_check());
-    ini_set('session.name', 'roundcube_sessid');
+    ini_set('session.name', $sess_name ? $sess_name : 'roundcube_sessid');
     ini_set('session.use_cookies', 1);
     ini_set('session.use_only_cookies', 1);
     ini_set('session.serialize_handler', 'php');
