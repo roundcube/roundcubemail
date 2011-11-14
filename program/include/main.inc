@@ -1313,12 +1313,14 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
   $realnames = (bool)$attrib['realnames'];
   $msgcounts = $RCMAIL->imap->get_cache('messagecount');
 
-  $idx = 0;
   $out = '';
   foreach ($arrFolders as $key => $folder) {
-    $title = null;
+    $title        = null;
+    $folder_class = rcmail_folder_classname($folder['id']);
+    $collapsed    = strpos($CONFIG['collapsed_folders'], '&'.rawurlencode($folder['id']).'&') !== false;
+    $unread       = $msgcounts ? intval($msgcounts[$folder['id']]['UNSEEN']) : 0;
 
-    if (($folder_class = rcmail_folder_classname($folder['id'])) && !$realnames) {
+    if ($folder_class && !$realnames) {
       $foldername = rcube_label($folder_class);
     }
     else {
@@ -1338,24 +1340,11 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
     $classes = array('mailbox');
 
     // set special class for Sent, Drafts, Trash and Junk
-    if ($folder['id'] == $CONFIG['sent_mbox'])
-      $classes[] = 'sent';
-    else if ($folder['id'] == $CONFIG['drafts_mbox'])
-      $classes[] = 'drafts';
-    else if ($folder['id'] == $CONFIG['trash_mbox'])
-      $classes[] = 'trash';
-    else if ($folder['id'] == $CONFIG['junk_mbox'])
-      $classes[] = 'junk';
-    else if ($folder['id'] == 'INBOX')
-      $classes[] = 'inbox';
-    else
-      $classes[] = '_'.asciiwords($folder_class ? $folder_class : strtolower($folder['id']), true);
+    if ($folder_class)
+      $classes[] = $folder_class;
 
     if ($folder['id'] == $mbox_name)
       $classes[] = 'selected';
-
-    $collapsed = strpos($CONFIG['collapsed_folders'], '&'.rawurlencode($folder['id']).'&') !== false;
-    $unread = $msgcounts ? intval($msgcounts[$folder['id']]['UNSEEN']) : 0;
 
     if ($folder['virtual'])
       $classes[] = 'virtual';
@@ -1390,7 +1379,6 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
     }
 
     $out .= "</li>\n";
-    $idx++;
   }
 
   return $out;
