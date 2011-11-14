@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix sorting autocomplete results (#1488084)
 - Add option to set session name (#1486433)
 - Add option to skip alternative email addresses in autocompletion
 - Fix inconsistent behaviour of Compose button in Drafts folder, add Edit button for drafts

@@ -54,6 +54,7 @@ else
 
 if (!empty($book_types) && strlen($search)) {
   $contacts  = array();
+  $sort_keys = array();
   $books_num = count($book_types);
   $search_lc = mb_strtolower($search);
 
@@ -66,6 +67,7 @@ if (!empty($book_types) && strlen($search)) {
         // Contact can have more than one e-mail address
         $email_arr = (array)$abook->get_col_values('email', $sql_arr, true);
         $email_cnt = count($email_arr);
+        $idx = 0;
         foreach ($email_arr as $email) {
           if (empty($email)) {
             continue;
@@ -80,7 +82,9 @@ if (!empty($book_types) && strlen($search)) {
 
           // skip duplicates
           if (!in_array($contact, $contacts)) {
-            $contacts[] = $contact;
+            $contacts[]  = $contact;
+            $sort_keys[] = sprintf('%s %03d', $sql_arr['name'] , $idx++);
+
             if (count($contacts) >= $MAXNUM)
               break 2;
           }
@@ -102,15 +106,20 @@ if (!empty($book_types) && strlen($search)) {
 
         // group (distribution list) with email address(es)
         if ($group_prop['email']) {
+            $idx = 0;
             foreach ((array)$group_prop['email'] as $email) {
-                $contacts[] = format_email_recipient($email, $group['name']);
+                $contacts[]  = format_email_recipient($email, $group['name']);
+                $sort_keys[] = sprintf('%s %03d', $group['name'] , $idx++);
+
                 if (count($contacts) >= $MAXNUM)
                   break 2;
             }
         }
         // show group with count
         else if (($result = $abook->count()) && $result->count) {
-          $contacts[] = array('name' => $group['name'] . ' (' . intval($result->count) . ')', 'id' => $group['ID'], 'source' => $id);
+          $contacts[]  = array('name' => $group['name'] . ' (' . intval($result->count) . ')', 'id' => $group['ID'], 'source' => $id);
+          $sort_keys[] = $group['name'];
+
           if (count($contacts) >= $MAXNUM)
             break;
         }
@@ -118,17 +127,16 @@ if (!empty($book_types) && strlen($search)) {
     }
   }
 
-  usort($contacts, 'contact_results_sort');
+  if (count($contacts)) {
+    // sort contacts index
+    asort($sort_keys, SORT_LOCALE_STRING);
+    // re-sort contacts according to index
+    foreach ($sort_keys as $idx => $val) {
+      $sort_keys[$idx] = $contacts[$idx];
+    }
+    $contacts = array_values($sort_keys);
+  }
 }
 
 $OUTPUT->command('ksearch_query_results', $contacts, $search, $sid);
 $OUTPUT->send();
-
-
-function contact_results_sort($a, $b)
-{
-  $name_a = is_array($a) ? $a['name'] : $a;
-  $name_b = is_array($b) ? $b['name'] : $b;
-  return strcoll(trim($name_a, '" '), trim($name_b, '" '));
-}
-
