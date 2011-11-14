@@ -1281,11 +1281,6 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   $path .= $prefix.$currentFolder;
 
   if (!isset($arrFolders[$currentFolder])) {
-    // Check \Noselect attribute (if attributes are in cache)
-    if (!$virtual && ($attrs = $RCMAIL->imap->mailbox_attributes($path))) {
-      $virtual = in_array('\\Noselect', $attrs);
-    }
-
     $arrFolders[$currentFolder] = array(
       'id' => $path,
       'name' => rcube_charset_convert($currentFolder, 'UTF7-IMAP'),
