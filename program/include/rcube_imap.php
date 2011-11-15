@@ -3177,8 +3177,8 @@ class rcube_imap
             foreach ((array)$namespace as $ns) {
                 if (is_array($ns)) {
                     foreach ($ns as $ns_data) {
-                        if ($len = strlen($ns_data[0])) {
-                            $search = array('len' => $len, 'prefix' => $ns_data[0]);
+                        if (strlen($ns_data[0])) {
+                            $search = $ns_data[0];
                         }
                     }
                 }
@@ -3186,9 +3186,9 @@ class rcube_imap
 
             if (!empty($search)) {
                 // go through all folders detecting namespace usage
-                foreach ($list as $folder) {
-                    foreach ($search as $idx => $s) {
-                        if ($s['prefix'] == substr($folder, 0, $s['len'])) {
+                foreach ($result as $folder) {
+                    foreach ($search as $idx => $prefix) {
+                        if (strpos($folder, $prefix) === 0) {
                             unset($search[$idx]);
                         }
                     }
@@ -3198,8 +3198,8 @@ class rcube_imap
                 }
 
                 // get folders in hidden namespaces and add to the result
-                foreach ($search as $s) {
-                    $list = $this->conn->listMailboxes($s['prefix'], $name);
+                foreach ($search as $prefix) {
+                    $list = $this->conn->listMailboxes($prefix, $name);
 
                     if (!empty($list)) {
                         $result = array_merge($result, $list);
@@ -3484,8 +3484,8 @@ class rcube_imap
         foreach ($this->namespace as $type => $namespace) {
             if (is_array($namespace)) {
                 foreach ($namespace as $ns) {
-                    if (strlen($ns[0])) {
-                        if ((strlen($ns[0])>1 && $mailbox == substr($ns[0], 0, -1))
+                    if ($len = strlen($ns[0])) {
+                        if (($len > 1 && $mailbox == substr($ns[0], 0, -1))
                             || strpos($mailbox, $ns[0]) === 0
                         ) {
                             return $type;
