@@ -358,11 +358,13 @@ foreach ($parts as $header) {
       $mailfollowup = $MESSAGE->headers->others['mail-followup-to'];
       $mailreplyto  = $MESSAGE->headers->others['mail-reply-to'];
 
+      // Reply to mailing list...
       if ($MESSAGE->reply_all == 'list' && $mailfollowup)
         $fvalue = $mailfollowup;
       else if ($MESSAGE->reply_all == 'list'
         && preg_match('/<mailto:([^>]+)>/i', $MESSAGE->headers->others['list-post'], $m))
         $fvalue = $m[1];
+      // Reply to...
       else if ($MESSAGE->reply_all && $mailfollowup)
         $fvalue = $mailfollowup;
       else if ($mailreplyto)
@@ -371,6 +373,11 @@ foreach ($parts as $header) {
         $fvalue = $MESSAGE->headers->replyto;
       else if (!empty($MESSAGE->headers->from))
         $fvalue = $MESSAGE->headers->from;
+
+      // Reply to message sent by yourself (#1487074)
+      if (!empty($ident) && $fvalue == $ident['ident']) {
+        $fvalue = $MESSAGE->headers->to;
+      }
     }
     // add recipient of original message if reply to all
     else if ($header == 'cc' && !empty($MESSAGE->reply_all) && $MESSAGE->reply_all != 'list') {

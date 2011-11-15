@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix regression in setting recipient to self when replying to a Sent message (#1487074)
 - Fix listing of folders in hidden namespaces (#1486796)
 - Don't consider \Noselect flag when building folders tree (#1488004)
 - Fix sorting autocomplete results (#1488084)
