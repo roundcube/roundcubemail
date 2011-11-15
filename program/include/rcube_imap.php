@@ -1373,6 +1373,11 @@ class rcube_imap
         $this->_messagecount($mailbox, 'ALL', true);
 
         $result = 0;
+
+        if (empty($old)) {
+            return $result;
+        }
+
         $new = $this->get_folder_stats($mailbox);
 
         // got new messages
@@ -2999,14 +3004,14 @@ class rcube_imap
 
 
     /**
-     * Private method for mailbox listing
+     * Private method for mailbox listing (LSUB)
      *
      * @param   string  $root   Optional root folder
      * @param   string  $name   Optional name pattern
      * @param   mixed   $filter Optional filter
      * @param   string  $rights Optional ACL requirements
      *
-     * @return  array   List of mailboxes/folders
+     * @return  array   List of subscribed folders
      * @see     rcube_imap::list_mailboxes()
      * @access  private
      */
@@ -3109,7 +3114,7 @@ class rcube_imap
         }
         else {
             // retrieve list of folders from IMAP server
-            $a_mboxes = $this->conn->listMailboxes($root, $name);
+            $a_mboxes = $this->_list_unsubscribed($root, $name);
         }
 
         if (!is_array($a_mboxes)) {
@@ -3140,6 +3145,70 @@ class rcube_imap
         $this->update_cache($cache_key, $a_mboxes);
 
         return $a_mboxes;
+    }
+
+
+    /**
+     * Private method for mailbox listing (LIST)
+     *
+     * @param   string  $root   Optional root folder
+     * @param   string  $name   Optional name pattern
+     *
+     * @return  array   List of folders
+     * @see     rcube_imap::list_unsubscribed()
+     */
+    private function _list_unsubscribed($root='', $name='*')
+    {
+        $result = $this->conn->listMailboxes($root, $name);
+
+        if (!is_array($result)) {
+            return array();
+        }
+
+        // #1486796: some server configurations doesn't
+        // return folders in all namespaces, we'll try to detect that situation
+        // and ask for these namespaces separately
+        if ($root == '' && $name = '*') {
+            $delim     = $this->get_hierarchy_delimiter();
+            $namespace = $this->get_namespace();
+            $search    = array();
+
+            // build list of namespace prefixes
+            foreach ((array)$namespace as $ns) {
+                if (is_array($ns)) {
+                    foreach ($ns as $ns_data) {
+                        if (strlen($ns_data[0])) {
+                            $search = $ns_data[0];
+                        }
+                    }
+                }
+            }
+
+            if (!empty($search)) {
+                // go through all folders detecting namespace usage
+                foreach ($result as $folder) {
+                    foreach ($search as $idx => $prefix) {
+                        if (strpos($folder, $prefix) === 0) {
+                            unset($search[$idx]);
+                        }
+                    }
+                    if (empty($search)) {
+                        break;
+                    }
+                }
+
+                // get folders in hidden namespaces and add to the result
+                foreach ($search as $prefix) {
+                    $list = $this->conn->listMailboxes($prefix, $name);
+
+                    if (!empty($list)) {
+                        $result = array_merge($result, $list);
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 
 
@@ -3415,8 +3484,8 @@ class rcube_imap
         foreach ($this->namespace as $type => $namespace) {
             if (is_array($namespace)) {
                 foreach ($namespace as $ns) {
-                    if (strlen($ns[0])) {
-                        if ((strlen($ns[0])>1 && $mailbox == substr($ns[0], 0, -1))
+                    if ($len = strlen($ns[0])) {
+                        if (($len > 1 && $mailbox == substr($ns[0], 0, -1))
                             || strpos($mailbox, $ns[0]) === 0
                         ) {
                             return $type;

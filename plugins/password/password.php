@@ -223,7 +223,7 @@ class password extends rcube_plugin
     {
         $config = rcmail::get_instance()->config;
         $driver = $this->home.'/drivers/'.$config->get('password_driver', 'sql').'.php';
-    
+
         if (!is_readable($driver)) {
             raise_error(array(
                 'code' => 600,
@@ -233,7 +233,7 @@ class password extends rcube_plugin
             ), true, false);
             return $this->gettext('internalerror');
         }
-    
+
         include($driver);
 
         if (!function_exists('password_save')) {
@@ -270,5 +270,5 @@ class password extends rcube_plugin
         }
 
         return $reason;
-    }                                     
+    }
 }

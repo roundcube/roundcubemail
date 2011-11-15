@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix listing of folders in hidden namespaces (#1486796)
+- Don't consider \Noselect flag when building folders tree (#1488004)
+- Fix sorting autocomplete results (#1488084)
+- Add option to set session name (#1486433)
 - Add option to skip alternative email addresses in autocompletion
 - Fix inconsistent behaviour of Compose button in Drafts folder, add Edit button for drafts
 - Fix problem with parsing HTML message body with non-unicode characters (#1487813)

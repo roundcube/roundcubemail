@@ -27,10 +27,7 @@
 	</stability>
 	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
 	<notes>
-- When old and new passwords are the same, do nothing, return success (#1487823)
-- Fixed Samba password hashing in 'ldap' driver
-- Added 'password_change' hook for plugin actions after successful password change
-- Fixed bug where 'doveadm pw' command was used as dovecotpw utility
+- Added option to use punycode or unicode for domain names (#1488103)
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -262,6 +259,26 @@
 - Fix deprecated split() usage in xmail and directadmin drivers (#1487769)
 - Added option (password_log) for logging password changes
 - Virtualmin driver: Add option for setting username format (#1487781)
+            </notes>
+        </release>
+        <release>
+        	<date>2011-10-26</date>
+	        <time>12:00</time>
+        	<version>
+		        <release>2.3</release>
+        		<api>1.6</api>
+        	</version>
+	        <stability>
+        		<release>stable</release>
+		        <api>stable</api>
+        	</stability>
+        	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	        <notes>
+- When old and new passwords are the same, do nothing, return success (#1487823)
+- Fixed Samba password hashing in 'ldap' driver
+- Added 'password_change' hook for plugin actions after successful password change
+- Fixed bug where 'doveadm pw' command was used as dovecotpw utility
+- Improve generated crypt() passwords (#1488136)
             </notes>
         </release>
     </changelog>

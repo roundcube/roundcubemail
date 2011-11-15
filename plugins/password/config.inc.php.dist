@@ -47,6 +47,10 @@ $rcmail_config['password_db_dsn'] = '';
 // Default: "SELECT update_passwd(%c, %u)"
 $rcmail_config['password_query'] = 'SELECT update_passwd(%c, %u)';
 
+// By default domains in variables are using unicode.
+// Enable this option to use punycoded names
+$rcmail_config['password_idn_ascii'] = false;
+
 // Path for dovecotpw (if not in $PATH)
 // $rcmail_config['password_dovecotpw'] = '/usr/local/sbin/dovecotpw';
 

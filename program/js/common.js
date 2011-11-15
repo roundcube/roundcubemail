@@ -542,10 +542,17 @@ function rcube_clone_object(obj)
   return out;
 };
 
-// make a string URL safe
+// make a string URL safe (and compatible with PHP's rawurlencode())
 function urlencode(str)
 {
-  return window.encodeURIComponent ? encodeURIComponent(str) : escape(str);
+  if (window.encodeURIComponent)
+    return encodeURIComponent(str).replace('*', '%2A');
+
+  return escape(str)
+    .replace('+', '%2B')
+    .replace('*', '%2A')
+    .replace('/', '%2F')
+    .replace('@', '%40');
 };
 
 
