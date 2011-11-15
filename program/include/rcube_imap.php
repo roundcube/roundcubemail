@@ -3004,14 +3004,14 @@ class rcube_imap
 
 
     /**
-     * Private method for mailbox listing
+     * Private method for mailbox listing (LSUB)
      *
      * @param   string  $root   Optional root folder
      * @param   string  $name   Optional name pattern
      * @param   mixed   $filter Optional filter
      * @param   string  $rights Optional ACL requirements
      *
-     * @return  array   List of mailboxes/folders
+     * @return  array   List of subscribed folders
      * @see     rcube_imap::list_mailboxes()
      * @access  private
      */
@@ -3114,7 +3114,7 @@ class rcube_imap
         }
         else {
             // retrieve list of folders from IMAP server
-            $a_mboxes = $this->conn->listMailboxes($root, $name);
+            $a_mboxes = $this->_list_unsubscribed($root, $name);
         }
 
         if (!is_array($a_mboxes)) {
@@ -3145,6 +3145,70 @@ class rcube_imap
         $this->update_cache($cache_key, $a_mboxes);
 
         return $a_mboxes;
+    }
+
+
+    /**
+     * Private method for mailbox listing (LIST)
+     *
+     * @param   string  $root   Optional root folder
+     * @param   string  $name   Optional name pattern
+     *
+     * @return  array   List of folders
+     * @see     rcube_imap::list_unsubscribed()
+     */
+    private function _list_unsubscribed($root='', $name='*')
+    {
+        $result = $this->conn->listMailboxes($root, $name);
+
+        if (!is_array($result)) {
+            return array();
+        }
+
+        // #1486796: some server configurations doesn't
+        // return folders in all namespaces, we'll try to detect that situation
+        // and ask for these namespaces separately
+        if ($root == '' && $name = '*') {
+            $delim     = $this->get_hierarchy_delimiter();
+            $namespace = $this->get_namespace();
+            $search    = array();
+
+            // build list of namespace prefixes
+            foreach ((array)$namespace as $ns) {
+                if (is_array($ns)) {
+                    foreach ($ns as $ns_data) {
+                        if ($len = strlen($ns_data[0])) {
+                            $search = array('len' => $len, 'prefix' => $ns_data[0]);
+                        }
+                    }
+                }
+            }
+
+            if (!empty($search)) {
+                // go through all folders detecting namespace usage
+                foreach ($list as $folder) {
+                    foreach ($search as $idx => $s) {
+                        if ($s['prefix'] == substr($folder, 0, $s['len'])) {
+                            unset($search[$idx]);
+                        }
+                    }
+                    if (empty($search)) {
+                        break;
+                    }
+                }
+
+                // get folders in hidden namespaces and add to the result
+                foreach ($search as $s) {
+                    $list = $this->conn->listMailboxes($s['prefix'], $name);
+
+                    if (!empty($list)) {
+                        $result = array_merge($result, $list);
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 
 
