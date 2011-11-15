@@ -141,13 +141,13 @@ class washtml
     unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['block_elements']);
     $this->config = $p + array('show_washed'=>true, 'allow_remote'=>false, 'cid_map'=>array());
   }
-  
+
   /* Register a callback function for a certain tag */
   public function add_callback($tagName, $callback)
   {
     $this->handlers[$tagName] = $callback;
   }
-  
+
   /* Check CSS style */
   private function wash_style($style) {
     $s = '';
@@ -161,7 +161,7 @@ class washtml
           preg_match('/^(url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)'./*1,2*/
                  '|rgb\(\s*[0-9]+\s*,\s*[0-9]+\s*,\s*[0-9]+\s*\)'.
                  '|-?[0-9.]+\s*(em|ex|px|cm|mm|in|pt|pc|deg|rad|grad|ms|s|hz|khz|%)?'.
-                 '|#[0-9a-f]{3,6}|[a-z0-9\-]+'.
+                 '|#[0-9a-f]{3,6}|[a-z0-9", -]+'.
                  ')\s*/i', $str, $match)) {
           if ($match[2]) {
             if (($src = $this->config['cid_map'][$match[2]])
@@ -178,8 +178,9 @@ class washtml
               $value .= ' url('.htmlspecialchars($match[2], ENT_QUOTES).')';
             }
           }
-          else if ($match[0] != 'url' && $match[0] != 'rbg') //whitelist ?
+          else if ($match[0] != 'url' && $match[0] != 'rgb') //whitelist ?
             $value .= ' ' . $match[0];
+
           $str = substr($str, strlen($match[0]));
         }
         if ($value)
@@ -200,8 +201,10 @@ class washtml
       if (isset($this->_html_attribs[$key]) ||
          ($key == 'href' && preg_match('/^(http:|https:|ftp:|mailto:|#).+/i', $value)))
         $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
-      else if ($key == 'style' && ($style = $this->wash_style($value)))
-        $t .= ' style="' . $style . '"';
+      else if ($key == 'style' && ($style = $this->wash_style($value))) {
+        $quot = strpos($style, '"') !== false ? "'" : '"';
+        $t .= ' style=' . $quot . $style . $quot;
+      }
       else if ($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
         if (($src = $this->config['cid_map'][$value])
             || ($src = $this->config['cid_map'][$this->config['base_url'].$value])) {
