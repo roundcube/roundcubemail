@@ -81,17 +81,35 @@
 class washtml
 {
   /* Allowed HTML elements (default) */
-  static $html_elements = array('a', 'abbr', 'acronym', 'address', 'area', 'b', 'basefont', 'bdo', 'big', 'blockquote', 'br', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'fieldset', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'ins', 'label', 'legend', 'li', 'map', 'menu', 'nobr', 'ol', 'p', 'pre', 'q', 's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'wbr', 'img');
-  
+  static $html_elements = array('a', 'abbr', 'acronym', 'address', 'area', 'b',
+    'basefont', 'bdo', 'big', 'blockquote', 'br', 'caption', 'center',
+    'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl',
+    'dt', 'em', 'fieldset', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i',
+    'ins', 'label', 'legend', 'li', 'map', 'menu', 'nobr', 'ol', 'p', 'pre', 'q',
+    's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table',
+    'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'wbr', 'img',
+    // form elements
+    'button', 'input', 'textarea', 'select', 'option', 'optgroup'
+  );
+
   /* Ignore these HTML tags and their content */
   static $ignore_elements = array('script', 'applet', 'embed', 'object', 'style');
-  
+
   /* Allowed HTML attributes */
-  static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height', 'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing', 'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight', 'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border', 'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace', 'cellborder', 'size', 'lang', 'dir');  
+  static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height',
+    'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing',
+    'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight',
+    'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
+    'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace',
+    'cellborder', 'size', 'lang', 'dir',
+    // attributes of form elements
+    'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value'
+  );
 
   /* Block elements which could be empty but cannot be returned in short form (<tag />) */
-  static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a', 'font', 'center', 'table', 'ul', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'dl', 'strong', 'i', 'b');
-  
+  static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a', 'font', 'center',
+    'table', 'ul', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'dl', 'strong', 'i', 'b');
+
   /* State for linked objects in HTML */
   public $extlinks = false;
 
@@ -100,7 +118,7 @@ class washtml
 
   /* Registered callback functions for tags */
   private $handlers = array();
-  
+
   /* Allowed HTML elements */
   private $_html_elements = array();
 
@@ -112,7 +130,7 @@ class washtml
 
   /* Allowed HTML attributes */
   private $_html_attribs = array();
-  
+
 
   /* Constructor */
   public function __construct($p = array()) {
