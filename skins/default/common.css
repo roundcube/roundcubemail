@@ -2,6 +2,7 @@
 
 body
 {
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   margin: 8px;
   background-color: #F6F6F6;
   color: #000000;
@@ -18,9 +19,8 @@ body.extwin
   margin: 10px;
 }
 
-body, td, th, div, p, h3, select, input, textarea
+body, td, th, div, p, select, input, textarea
 {
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
 

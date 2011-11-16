@@ -1,5 +1,4 @@
 /* This file contains the CSS data for the editable area(iframe) of TinyMCE */
-/* You can extend this CSS by adding your own CSS file with the the content_css option */
 
 body, td, pre {
 	font-family: "Lucida Grande", Verdana,  Arial, Helvetica, sans-serif;
@@ -25,8 +24,8 @@ pre
 
 blockquote
 {
-	padding-left:5px;
-	border-left:#1010ff 2px solid;
-	margin-left:5px;
-	width:100%;
+	padding-left: 5px;
+	border-left: #1010ff 2px solid;
+	margin-left: 5px;
+	width: 100%;
 }

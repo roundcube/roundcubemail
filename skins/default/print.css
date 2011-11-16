@@ -2,14 +2,14 @@
 
 body
 {
+  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   background-color: #ffffff;
   color: #000000;
   margin: 2mm;
 }
 
-body, td, th, span, div, p, h3
+body, td, th, span, div, p
 {
-  font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   font-size: 9pt;
   color: #000000;
 }
