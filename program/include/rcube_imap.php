@@ -3168,7 +3168,7 @@ class rcube_imap
         // #1486796: some server configurations doesn't
         // return folders in all namespaces, we'll try to detect that situation
         // and ask for these namespaces separately
-        if ($root == '' && $name = '*') {
+        if ($root == '' && $name == '*') {
             $delim     = $this->get_hierarchy_delimiter();
             $namespace = $this->get_namespace();
             $search    = array();
