@@ -435,6 +435,7 @@
   padding-top: 2px;
   padding-bottom: 2px;
   text-decoration: none;
+  height: 15px;
 }
 
 #mailboxlist li.unread
