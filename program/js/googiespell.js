@@ -1,6 +1,8 @@
 /*
  SpellCheck
     jQuery'fied spell checker based on GoogieSpell 4.0
+      (which was published under GPL "version 2 or any later version")
+
  Copyright (C) 2006 Amir Salihefendic
  Copyright (C) 2009 Aleksander Machniak
  Copyright (C) 2011 Kolab Systems AG
