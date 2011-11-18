@@ -44,7 +44,6 @@ class rcube_sieve
 
     public $script;                 // rcube_sieve_script object
     public $current;                // name of currently loaded script
-    private $disabled;              // array of disabled extensions
     private $exts;                  // array of supported extensions
 
 
@@ -89,7 +88,17 @@ class rcube_sieve
         }
 
         $this->exts     = $this->get_extensions();
-        $this->disabled = $disabled;
+
+        // disable features by config
+        if (!empty($disabled)) {
+            // we're working on lower-cased names
+            $disabled = array_map('strtolower', (array) $disabled);
+            foreach ($disabled as $ext) {
+                if (($idx = array_search($ext, $this->exts)) !== false) {
+                    unset($this->exts[$idx]);
+                }
+            }
+        }
     }
 
     public function __destruct() {
@@ -301,7 +310,7 @@ class rcube_sieve
     private function _parse($txt)
     {
         // parse
-        $script = new rcube_sieve_script($txt, $this->disabled, $this->exts);
+        $script = new rcube_sieve_script($txt, $this->exts);
 
         // fix/convert to Roundcube format
         if (!empty($script->content)) {

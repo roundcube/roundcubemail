@@ -149,6 +149,35 @@ div.rulerow table, div.actionrow table
   min-width: 620px;
 }
 
+td
+{
+  vertical-align: top;
+}
+
+td.advbutton
+{
+  width: 1%;
+}
+
+td.advbutton a
+{
+  display: block;
+  padding-top: 14px;
+  height: 6px;
+  width: 12px;
+  text-decoration: none;
+}
+
+td.advbutton a.show
+{
+  background: url(images/down_small.gif) center no-repeat;
+}
+
+td.advbutton a.hide
+{
+  background: url(images/up_small.gif) center no-repeat;
+}
+
 td.rowbuttons
 {
   text-align: right;
@@ -169,6 +198,11 @@ td.rowtargets
   padding-left: 3px;
 }
 
+td.rowtargets div.adv
+{
+  padding-top: 3px;
+}
+
 input.disabled, input.disabled:hover
 {
   color: #999999;
@@ -183,6 +217,7 @@ input.box,
 input.radio
 {
   border: 0;
+  margin-top: 0;
 }
 
 select.operator_selector
@@ -190,6 +225,7 @@ select.operator_selector
   width: 200px;
 }
 
+td.rowtargets span,
 span.label
 {
   color: #666666;
@@ -243,7 +279,7 @@ a.button.add
   background: url(images/add.png) no-repeat;
   width: 30px;
   height: 20px;
-  margin-right: 4px; 
+  margin-right: 4px;
   display: inline-block;
 }
 

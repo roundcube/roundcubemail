@@ -3178,7 +3178,7 @@ class rcube_imap
                 if (is_array($ns)) {
                     foreach ($ns as $ns_data) {
                         if (strlen($ns_data[0])) {
-                            $search = $ns_data[0];
+                            $search[] = $ns_data[0];
                         }
                     }
                 }

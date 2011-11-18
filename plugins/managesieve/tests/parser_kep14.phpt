@@ -10,7 +10,7 @@ $txt = '
 # EDITOR_VERSION 123
 ';
 
-$s = new rcube_sieve_script($txt, array());
+$s = new rcube_sieve_script($txt, array('body'));
 echo $s->as_text();
 
 ?>

@@ -132,7 +132,7 @@ class newmail_notifier extends rcube_plugin
      */
     function notify($args)
     {
-        if ($this->notified) {
+        if ($this->notified || !empty($_GET['_refresh'])) {
             return $args;
         }
 

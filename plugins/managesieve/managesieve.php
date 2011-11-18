@@ -45,9 +45,23 @@ class managesieve extends rcube_plugin
     private $list;
     private $active = array();
     private $headers = array(
-        'subject'   => 'Subject',
-        'sender'    => 'From',
-        'recipient' => 'To',
+        'subject' => 'Subject',
+        'from'    => 'From',
+        'to'      => 'To',
+    );
+    private $addr_headers = array(
+        // Required
+        "from", "to", "cc", "bcc", "sender", "resent-from", "resent-to",
+        // Additional (RFC 822 / RFC 2822)
+        "reply-to", "resent-reply-to", "resent-sender", "resent-cc", "resent-bcc",
+        // Non-standard (RFC 2076, draft-palme-mailext-headers-08.txt)
+        "for-approval", "for-handling", "for-comment", "apparently-to", "errors-to",
+        "delivered-to", "return-receipt-to", "x-admin", "read-receipt-to",
+        "x-confirm-reading-to", "return-receipt-requested",
+        "registered-mail-reply-requested-by", "mail-followup-to", "mail-reply-to",
+        "abuse-reports-to", "x-complaints-to", "x-report-abuse-to",
+        // Undocumented
+        "x-beenthere",
     );
 
     const VERSION = '5.0';
@@ -588,6 +602,11 @@ class managesieve extends rcube_plugin
             $sizeitems      = get_input_value('_rule_size_item', RCUBE_INPUT_POST);
             $sizetargets    = get_input_value('_rule_size_target', RCUBE_INPUT_POST);
             $targets        = get_input_value('_rule_target', RCUBE_INPUT_POST, true);
+            $mods           = get_input_value('_rule_mod', RCUBE_INPUT_POST);
+            $mod_types      = get_input_value('_rule_mod_type', RCUBE_INPUT_POST);
+            $body_trans     = get_input_value('_rule_trans', RCUBE_INPUT_POST);
+            $body_types     = get_input_value('_rule_trans_type', RCUBE_INPUT_POST, true);
+            $comparators    = get_input_value('_rule_comp', RCUBE_INPUT_POST);
             $act_types      = get_input_value('_action_type', RCUBE_INPUT_POST, true);
             $mailboxes      = get_input_value('_action_mailbox', RCUBE_INPUT_POST, true);
             $act_targets    = get_input_value('_action_target', RCUBE_INPUT_POST, true);
@@ -625,23 +644,101 @@ class managesieve extends rcube_plugin
             }
             else {
                 foreach ($headers as $idx => $header) {
-                    $header = $this->strip_value($header);
-                    $target = $this->strip_value($targets[$idx], true);
-                    $op     = $this->strip_value($ops[$idx]);
+                    $header     = $this->strip_value($header);
+                    $target     = $this->strip_value($targets[$idx], true);
+                    $operator   = $this->strip_value($ops[$idx]);
+                    $comparator = $this->strip_value($comparators[$idx]);
 
-                    // normal header
-                    if (in_array($header, $this->headers)) {
-                        if (preg_match('/^not/', $op))
+                    if ($header == 'size') {
+                        $sizeop     = $this->strip_value($sizeops[$idx]);
+                        $sizeitem   = $this->strip_value($items[$idx]);
+                        $sizetarget = $this->strip_value($sizetargets[$idx]);
+
+                        $this->form['tests'][$i]['test'] = 'size';
+                        $this->form['tests'][$i]['type'] = $sizeop;
+                        $this->form['tests'][$i]['arg']  = $sizetarget;
+
+                        if ($sizetarget == '')
+                            $this->errors['tests'][$i]['sizetarget'] = $this->gettext('cannotbeempty');
+                        else if (!preg_match('/^[0-9]+(K|M|G)?$/i', $sizetarget.$sizeitem, $m)) {
+                            $this->errors['tests'][$i]['sizetarget'] = $this->gettext('forbiddenchars');
+                            $this->form['tests'][$i]['item'] = $sizeitem;
+                        }
+                        else
+                            $this->form['tests'][$i]['arg'] .= $m[1];
+                    }
+                    else if ($header == 'body') {
+                        $trans      = $this->strip_value($body_trans[$idx]);
+                        $trans_type = $this->strip_value($body_types[$idx], true);
+
+                        if (preg_match('/^not/', $operator))
                             $this->form['tests'][$i]['not'] = true;
-                        $type = preg_replace('/^not/', '', $op);
+                        $type = preg_replace('/^not/', '', $operator);
+
+                        if ($type == 'exists') {
+                            $this->errors['tests'][$i]['op'] = true;
+                        }
+
+                        $this->form['tests'][$i]['test'] = 'body';
+                        $this->form['tests'][$i]['type'] = $type;
+                        $this->form['tests'][$i]['arg']  = $target;
+
+                        if ($target == '' && $type != 'exists')
+                            $this->errors['tests'][$i]['target'] = $this->gettext('cannotbeempty');
+                        else if (preg_match('/^(value|count)-/', $type) && !preg_match('/[0-9]+/', $target))
+                            $this->errors['tests'][$i]['target'] = $this->gettext('forbiddenchars');
+
+                        $this->form['tests'][$i]['part'] = $trans;
+                        if ($trans == 'content') {
+                            $this->form['tests'][$i]['content'] = $trans_type;
+                        }
+                    }
+                    else {
+                        $cust_header = $headers = $this->strip_value($cust_headers[$idx]);
+                        $mod      = $this->strip_value($mods[$idx]);
+                        $mod_type = $this->strip_value($mod_types[$idx]);
+
+                        if (preg_match('/^not/', $operator))
+                            $this->form['tests'][$i]['not'] = true;
+                        $type = preg_replace('/^not/', '', $operator);
+
+                        if ($header == '...') {
+                            $headers = preg_split('/[\s,]+/', $cust_header, -1, PREG_SPLIT_NO_EMPTY);
+
+                            if (!count($headers))
+                                $this->errors['tests'][$i]['header'] = $this->gettext('cannotbeempty');
+                            else {
+                                foreach ($headers as $hr)
+                                    if (!preg_match('/^[a-z0-9-]+$/i', $hr))
+                                        $this->errors['tests'][$i]['header'] = $this->gettext('forbiddenchars');
+                            }
+
+                            if (empty($this->errors['tests'][$i]['header']))
+                                $cust_header = (is_array($headers) && count($headers) == 1) ? $headers[0] : $headers;
+                        }
 
                         if ($type == 'exists') {
                             $this->form['tests'][$i]['test'] = 'exists';
-                            $this->form['tests'][$i]['arg'] = $header;
+                            $this->form['tests'][$i]['arg'] = $header == '...' ? $cust_header : $header;
                         }
                         else {
+                            $test   = 'header';
+                            $header = $header == '...' ? $cust_header : $header;
+
+                            if ($mod == 'address' || $mod == 'envelope') {
+                                $found = false;
+                                if (empty($this->errors['tests'][$i]['header'])) {
+                                    foreach ((array)$header as $hdr) {
+                                        if (!in_array(strtolower(trim($hdr)), $this->addr_headers))
+                                            $found = true;
+                                    }
+                                }
+                                if (!$found)
+                                    $test = $mod;
+                            }
+
                             $this->form['tests'][$i]['type'] = $type;
-                            $this->form['tests'][$i]['test'] = 'header';
+                            $this->form['tests'][$i]['test'] = $test;
                             $this->form['tests'][$i]['arg1'] = $header;
                             $this->form['tests'][$i]['arg2'] = $target;
 
@@ -649,65 +746,20 @@ class managesieve extends rcube_plugin
                                 $this->errors['tests'][$i]['target'] = $this->gettext('cannotbeempty');
                             else if (preg_match('/^(value|count)-/', $type) && !preg_match('/[0-9]+/', $target))
                                 $this->errors['tests'][$i]['target'] = $this->gettext('forbiddenchars');
+
+                            if ($mod) {
+                                $this->form['tests'][$i]['part'] = $mod_type;
+                            }
                         }
                     }
-                    else
-                        switch ($header) {
-                        case 'size':
-                            $sizeop     = $this->strip_value($sizeops[$idx]);
-                            $sizeitem   = $this->strip_value($items[$idx]);
-                            $sizetarget = $this->strip_value($sizetargets[$idx]);
 
-                            $this->form['tests'][$i]['test'] = 'size';
-                            $this->form['tests'][$i]['type'] = $sizeop;
-                            $this->form['tests'][$i]['arg']  = $sizetarget.$sizeitem;
+                    if ($header != 'size' && $comparator) {
+                        if (preg_match('/^(value|count)/', $this->form['tests'][$i]['type']))
+                            $comparator = 'i;ascii-numeric';
 
-                            if ($sizetarget == '')
-                                $this->errors['tests'][$i]['sizetarget'] = $this->gettext('cannotbeempty');
-                            else if (!preg_match('/^[0-9]+(K|M|G)*$/i', $sizetarget))
-                                $this->errors['tests'][$i]['sizetarget'] = $this->gettext('forbiddenchars');
-                            break;
-                        case '...':
-                            $cust_header = $headers = $this->strip_value($cust_headers[$idx]);
+                        $this->form['tests'][$i]['comparator'] = $comparator;
+                    }
 
-                            if (preg_match('/^not/', $op))
-                                $this->form['tests'][$i]['not'] = true;
-                            $type = preg_replace('/^not/', '', $op);
-
-                            if ($cust_header == '')
-                                $this->errors['tests'][$i]['header'] = $this->gettext('cannotbeempty');
-                            else {
-                                $headers = preg_split('/[\s,]+/', $cust_header, -1, PREG_SPLIT_NO_EMPTY);
-
-                                if (!count($headers))
-                                    $this->errors['tests'][$i]['header'] = $this->gettext('cannotbeempty');
-                                else {
-                                    foreach ($headers as $hr)
-                                        if (!preg_match('/^[a-z0-9-]+$/i', $hr))
-                                            $this->errors['tests'][$i]['header'] = $this->gettext('forbiddenchars');
-                                }
-                            }
-
-                            if (empty($this->errors['tests'][$i]['header']))
-                                $cust_header = (is_array($headers) && count($headers) == 1) ? $headers[0] : $headers;
-
-                            if ($type == 'exists') {
-                                $this->form['tests'][$i]['test'] = 'exists';
-                                $this->form['tests'][$i]['arg']  = $cust_header;
-                            }
-                            else {
-                                $this->form['tests'][$i]['test'] = 'header';
-                                $this->form['tests'][$i]['type'] = $type;
-                                $this->form['tests'][$i]['arg1'] = $cust_header;
-                                $this->form['tests'][$i]['arg2'] = $target;
-
-                                if ($target == '')
-                                    $this->errors['tests'][$i]['target'] = $this->gettext('cannotbeempty');
-                                else if (preg_match('/^(value|count)-/', $type) && !preg_match('/[0-9]+/', $target))
-                                    $this->errors['tests'][$i]['target'] = $this->gettext('forbiddenchars');
-                            }
-                            break;
-                        }
                     $i++;
                 }
             }
@@ -1140,43 +1192,52 @@ class managesieve extends rcube_plugin
         $rule     = isset($this->form) ? $this->form['tests'][$id] : $this->script[$fid]['tests'][$id];
         $rows_num = isset($this->form) ? sizeof($this->form['tests']) : sizeof($this->script[$fid]['tests']);
 
-        $out = $div ? '<div class="rulerow" id="rulerow' .$id .'">'."\n" : '';
-
-        $out .= '<table><tr><td class="rowactions">';
-
         // headers select
         $select_header = new html_select(array('name' => "_header[]", 'id' => 'header'.$id,
             'onchange' => 'rule_header_select(' .$id .')'));
         foreach($this->headers as $name => $val)
             $select_header->add(Q($this->gettext($name)), Q($val));
+        if (in_array('body', $this->exts))
+            $select_header->add(Q($this->gettext('body')), 'body');
         $select_header->add(Q($this->gettext('size')), 'size');
         $select_header->add(Q($this->gettext('...')), '...');
 
         // TODO: list arguments
+        $aout = '';
 
-        if ((isset($rule['test']) && $rule['test'] == 'header')
-            && !is_array($rule['arg1']) && in_array($rule['arg1'], $this->headers))
-            $out .= $select_header->show($rule['arg1']);
+        if ((isset($rule['test']) && in_array($rule['test'], array('header', 'address', 'envelope')))
+            && !is_array($rule['arg1']) && in_array($rule['arg1'], $this->headers)
+        ) {
+            $aout .= $select_header->show($rule['arg1']);
+        }
         else if ((isset($rule['test']) && $rule['test'] == 'exists')
-            && !is_array($rule['arg']) && in_array($rule['arg'], $this->headers))
-            $out .= $select_header->show($rule['arg']);
+            && !is_array($rule['arg']) && in_array($rule['arg'], $this->headers)
+        ) {
+            $aout .= $select_header->show($rule['arg']);
+        }
         else if (isset($rule['test']) && $rule['test'] == 'size')
-            $out .= $select_header->show('size');
+            $aout .= $select_header->show('size');
+        else if (isset($rule['test']) && $rule['test'] == 'body')
+            $aout .= $select_header->show('body');
         else if (isset($rule['test']) && $rule['test'] != 'true')
-            $out .= $select_header->show('...');
+            $aout .= $select_header->show('...');
         else
-            $out .= $select_header->show();
+            $aout .= $select_header->show();
 
-        $out .= '</td><td class="rowtargets">';
+        if (isset($rule['test']) && in_array($rule['test'], array('header', 'address', 'envelope'))) {
+            if (is_array($rule['arg1']))
+                $custom = implode(', ', $rule['arg1']);
+            else if (!in_array($rule['arg1'], $this->headers))
+                $custom = $rule['arg1'];
+        }
+        else if (isset($rule['test']) && $rule['test'] == 'exists') {
+            if (is_array($rule['arg']))
+                $custom = implode(', ', $rule['arg']);
+            else if (!in_array($rule['arg'], $this->headers))
+                $custom = $rule['arg'];
+        }
 
-        if ((isset($rule['test']) && $rule['test'] == 'header')
-            && (is_array($rule['arg1']) || !in_array($rule['arg1'], $this->headers)))
-            $custom = is_array($rule['arg1']) ? implode(', ', $rule['arg1']) : $rule['arg1'];
-        else if ((isset($rule['test']) && $rule['test'] == 'exists')
-            && (is_array($rule['arg']) || !in_array($rule['arg'], $this->headers)))
-            $custom = is_array($rule['arg']) ? implode(', ', $rule['arg']) : $rule['arg'];
-
-        $out .= '<div id="custom_header' .$id. '" style="display:' .(isset($custom) ? 'inline' : 'none'). '">
+        $tout = '<div id="custom_header' .$id. '" style="display:' .(isset($custom) ? 'inline' : 'none'). '">
             <input type="text" name="_custom_header[]" id="custom_header_i'.$id.'" '
             . $this->error_class($id, 'test', 'header', 'custom_header_i')
             .' value="' .Q($custom). '" size="15" />&nbsp;</div>' . "\n";
@@ -1215,33 +1276,43 @@ class managesieve extends rcube_plugin
 
         // target input (TODO: lists)
 
-        if ($rule['test'] == 'header') {
-            $out .= $select_op->show(($rule['not'] ? 'not' : '').$rule['type']);
+        if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
+            $test   = ($rule['not'] ? 'not' : '').($rule['type'] ? $rule['type'] : 'is');
             $target = $rule['arg2'];
         }
+        else if ($rule['test'] == 'body') {
+            $test   = ($rule['not'] ? 'not' : '').($rule['type'] ? $rule['type'] : 'is');
+            $target = $rule['arg'];
+        }
         else if ($rule['test'] == 'size') {
-            $out .= $select_op->show();
-            if (preg_match('/^([0-9]+)(K|M|G)*$/', $rule['arg'], $matches)) {
+            $test   = '';
+            $target = '';
+            if (preg_match('/^([0-9]+)(K|M|G)?$/', $rule['arg'], $matches)) {
                 $sizetarget = $matches[1];
                 $sizeitem = $matches[2];
             }
+            else {
+                $sizetarget = $rule['arg'];
+                $sizeitem = $rule['item'];
+            }
         }
         else {
-            $out .= $select_op->show(($rule['not'] ? 'not' : '').$rule['test']);
-            $target = '';
+            $test   = ($rule['not'] ? 'not' : '').$rule['test'];
+            $target =  '';
         }
 
-        $out .= '<input type="text" name="_rule_target[]" id="rule_target' .$id. '"
+        $tout .= $select_op->show($test);
+        $tout .= '<input type="text" name="_rule_target[]" id="rule_target' .$id. '"
             value="' .Q($target). '" size="20" ' . $this->error_class($id, 'test', 'target', 'rule_target')
             . ' style="display:' . ($rule['test']!='size' && $rule['test'] != 'exists' ? 'inline' : 'none') . '" />'."\n";
 
         $select_size_op = new html_select(array('name' => "_rule_size_op[]", 'id' => 'rule_size_op'.$id));
-        $select_size_op->add(Q($this->gettext('filterunder')), 'under');
         $select_size_op->add(Q($this->gettext('filterover')), 'over');
+        $select_size_op->add(Q($this->gettext('filterunder')), 'under');
 
-        $out .= '<div id="rule_size' .$id. '" style="display:' . ($rule['test']=='size' ? 'inline' : 'none') .'">';
-        $out .= $select_size_op->show($rule['test']=='size' ? $rule['type'] : '');
-        $out .= '<input type="text" name="_rule_size_target[]" id="rule_size_i'.$id.'" value="'.$sizetarget.'" size="10" ' 
+        $tout .= '<div id="rule_size' .$id. '" style="display:' . ($rule['test']=='size' ? 'inline' : 'none') .'">';
+        $tout .= $select_size_op->show($rule['test']=='size' ? $rule['type'] : '');
+        $tout .= '<input type="text" name="_rule_size_target[]" id="rule_size_i'.$id.'" value="'.$sizetarget.'" size="10" ' 
             . $this->error_class($id, 'test', 'sizetarget', 'rule_size_i') .' />
             <input type="radio" name="_rule_size_item['.$id.']" value=""'
                 . (!$sizeitem ? ' checked="checked"' : '') .' class="radio" />'.rcube_label('B').'
@@ -1251,7 +1322,82 @@ class managesieve extends rcube_plugin
                 . ($sizeitem=='M' ? ' checked="checked"' : '') .' class="radio" />'.rcube_label('MB').'
             <input type="radio" name="_rule_size_item['.$id.']" value="G"'
                 . ($sizeitem=='G' ? ' checked="checked"' : '') .' class="radio" />'.rcube_label('GB');
-        $out .= '</div>';
+        $tout .= '</div>';
+
+        // Advanced modifiers (address, envelope)
+        $select_mod = new html_select(array('name' => "_rule_mod[]", 'id' => 'rule_mod_op'.$id,
+            'onchange' => 'rule_mod_select(' .$id .')'));
+        $select_mod->add(Q($this->gettext('none')), '');
+        $select_mod->add(Q($this->gettext('address')), 'address');
+        if (in_array('envelope', $this->exts))
+            $select_mod->add(Q($this->gettext('envelope')), 'envelope');
+
+        $select_type = new html_select(array('name' => "_rule_mod_type[]", 'id' => 'rule_mod_type'.$id));
+        $select_type->add(Q($this->gettext('allparts')), 'all');
+        $select_type->add(Q($this->gettext('domain')), 'domain');
+        $select_type->add(Q($this->gettext('localpart')), 'localpart');
+        if (in_array('subaddress', $this->exts)) {
+            $select_type->add(Q($this->gettext('user')), 'user');
+            $select_type->add(Q($this->gettext('detail')), 'detail');
+        }
+
+        $need_mod = $rule['test'] != 'size' && $rule['test'] != 'body';
+        $mout = '<div id="rule_mod' .$id. '" class="adv" style="display:' . ($need_mod ? 'block' : 'none') .'">';
+        $mout .= ' <span>';
+        $mout .= Q($this->gettext('modifier')) . ' ';
+        $mout .= $select_mod->show($rule['test']);
+        $mout .= '</span>';
+        $mout .= ' <span id="rule_mod_type' . $id . '"';
+        $mout .= ' style="display:' . (in_array($rule['test'], array('address', 'envelope')) ? 'inline' : 'none') .'">';
+        $mout .= Q($this->gettext('modtype')) . ' ';
+        $mout .= $select_type->show($rule['part']);
+        $mout .= '</span>';
+        $mout .= '</div>';
+
+        // Advanced modifiers (body transformations)
+        $select_mod = new html_select(array('name' => "_rule_trans[]", 'id' => 'rule_trans_op'.$id,
+            'onchange' => 'rule_trans_select(' .$id .')'));
+        $select_mod->add(Q($this->gettext('text')), 'text');
+        $select_mod->add(Q($this->gettext('undecoded')), 'raw');
+        $select_mod->add(Q($this->gettext('contenttype')), 'content');
+
+        $mout .= '<div id="rule_trans' .$id. '" class="adv" style="display:' . ($rule['test'] == 'body' ? 'block' : 'none') .'">';
+        $mout .= ' <span>';
+        $mout .= Q($this->gettext('modifier')) . ' ';
+        $mout .= $select_mod->show($rule['part']);
+        $mout .= '<input type="text" name="_rule_trans_type[]" id="rule_trans_type'.$id
+            . '" value="'.(is_array($rule['content']) ? implode(',', $rule['content']) : $rule['content'])
+            .'" size="20" style="display:' . ($rule['part'] == 'content' ? 'inline' : 'none') .'"'
+            . $this->error_class($id, 'test', 'part', 'rule_trans_type') .' />';
+        $mout .= '</span>';
+        $mout .= '</div>';
+
+        // Advanced modifiers (body transformations)
+        $select_comp = new html_select(array('name' => "_rule_comp[]", 'id' => 'rule_comp_op'.$id));
+        $select_comp->add(Q($this->gettext('default')), '');
+        $select_comp->add(Q($this->gettext('octet')), 'i;octet');
+        $select_comp->add(Q($this->gettext('asciicasemap')), 'i;ascii-casemap');
+        if (in_array('comparator-i;ascii-numeric', $this->exts)) {
+            $select_comp->add(Q($this->gettext('asciinumeric')), 'i;ascii-numeric');
+        }
+
+        $mout .= '<div id="rule_comp' .$id. '" class="adv" style="display:' . ($rule['test'] != 'size' ? 'block' : 'none') .'">';
+        $mout .= ' <span>';
+        $mout .= Q($this->gettext('comparator')) . ' ';
+        $mout .= $select_comp->show($rule['comparator']);
+        $mout .= '</span>';
+        $mout .= '</div>';
+
+        // Build output table
+        $out = $div ? '<div class="rulerow" id="rulerow' .$id .'">'."\n" : '';
+        $out .= '<table><tr>';
+        $out .= '<td class="advbutton">';
+        $out .= '<a href="#" id="ruleadv' . $id .'" title="'. Q($this->gettext('advancedopts')). '"
+            onclick="rule_adv_switch(' . $id .', this)" class="show">&nbsp;&nbsp;</a>';
+        $out .= '</td>';
+        $out .= '<td class="rowactions">' . $aout . '</td>';
+        $out .= '<td class="rowtargets">' . $tout . "\n";
+        $out .= '<div id="rule_advanced' .$id. '" style="display:none">' . $mout . '</div>';
         $out .= '</td>';
 
         // add/del buttons
@@ -1260,7 +1406,8 @@ class managesieve extends rcube_plugin
             onclick="rcmail.managesieve_ruleadd(' . $id .')" class="button add"></a>';
         $out .= '<a href="#" id="ruledel' . $id .'" title="'. Q($this->gettext('del')). '"
             onclick="rcmail.managesieve_ruledel(' . $id .')" class="button del' . ($rows_num<2 ? ' disabled' : '') .'"></a>';
-        $out .= '</td></tr></table>';
+        $out .= '</td>';
+        $out .= '</tr></table>';
 
         $out .= $div ? "</div>\n" : '';
 

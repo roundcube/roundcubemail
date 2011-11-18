@@ -29,9 +29,9 @@ class rcube_sieve_script
 
     private $vars = array();        // "global" variables
     private $prefix = '';           // script header (comments)
-    private $capabilities = array(); // Sieve extensions supported by server
     private $supported = array(     // Sieve extensions supported by class
-        'fileinto',                 // RFC3028
+        'fileinto',                 // RFC5228
+        'envelope',                 // RFC5228
         'reject',                   // RFC5429
         'ereject',                  // RFC5429
         'copy',                     // RFC3894
@@ -42,29 +42,29 @@ class rcube_sieve_script
         'imap4flags',               // RFC5232
         'include',                  // draft-ietf-sieve-include-12
         'variables',                // RFC5229
-        // TODO: body, notify
+        'body',                     // RFC5173
+        'subaddress',               // RFC5233
+        // @TODO: enotify/notify, spamtest+virustest, mailbox, date
     );
 
     /**
      * Object constructor
      *
      * @param  string  Script's text content
-     * @param  array   List of disabled extensions
      * @param  array   List of capabilities supported by server
      */
-    public function __construct($script, $disabled=array(), $capabilities=array())
+    public function __construct($script, $capabilities=array())
     {
-        if (!empty($disabled)) {
-            // we're working on lower-cased names
-            $disabled = array_map('strtolower', (array) $disabled);
-            foreach ($disabled as $ext) {
-                if (($idx = array_search($ext, $this->supported)) !== false) {
+        $capabilities = array_map('strtolower', (array) $capabilities);
+
+        // disable features by server capabilities
+        if (!empty($capabilities)) {
+            foreach ($this->supported as $idx => $ext) {
+                if (!in_array($ext, $capabilities)) {
                     unset($this->supported[$idx]);
                 }
             }
         }
-
-        $this->capabilities = array_map('strtolower', (array) $capabilities);
 
         // Parse text content of the script
         $this->_parse_text($script);
@@ -182,7 +182,7 @@ class rcube_sieve_script
         $idx    = 0;
 
         if (!empty($this->vars)) {
-            if (in_array('variables', (array)$this->capabilities)) {
+            if (in_array('variables', (array)$this->supported)) {
                 $has_vars = true;
                 array_push($exts, 'variables');
             }
@@ -222,33 +222,95 @@ class rcube_sieve_script
                         $tests[$i] .= ($test['not'] ? 'not ' : '');
                         $tests[$i] .= 'size :' . ($test['type']=='under' ? 'under ' : 'over ') . $test['arg'];
                         break;
+
                     case 'true':
                         $tests[$i] .= ($test['not'] ? 'false' : 'true');
                         break;
+
                     case 'exists':
                         $tests[$i] .= ($test['not'] ? 'not ' : '');
                         $tests[$i] .= 'exists ' . self::escape_string($test['arg']);
                         break;
+
                     case 'header':
                         $tests[$i] .= ($test['not'] ? 'not ' : '');
+                        $tests[$i] .= 'header';
 
-                        // relational operator + comparator
-                        if (preg_match('/^(value|count)-([gteqnl]{2})/', $test['type'], $m)) {
-                            array_push($exts, 'relational');
-                            array_push($exts, 'comparator-i;ascii-numeric');
+                        if (!empty($test['type'])) {
+                            // relational operator + comparator
+                            if (preg_match('/^(value|count)-([gteqnl]{2})/', $test['type'], $m)) {
+                                array_push($exts, 'relational');
+                                array_push($exts, 'comparator-i;ascii-numeric');
 
-                            $tests[$i] .= 'header :' . $m[1] . ' "' . $m[2] . '" :comparator "i;ascii-numeric"';
-                        }
-                        else {
-                            if ($test['type'] == 'regex') {
-                                array_push($exts, 'regex');
+                                $tests[$i] .= ' :' . $m[1] . ' "' . $m[2] . '" :comparator "i;ascii-numeric"';
                             }
+                            else {
+                                $this->add_comparator($test, $tests[$i], $exts);
 
-                            $tests[$i] .= 'header :' . $test['type'];
+                                if ($test['type'] == 'regex') {
+                                    array_push($exts, 'regex');
+                                }
+
+                                $tests[$i] .= ' :' . $test['type'];
+                            }
                         }
 
                         $tests[$i] .= ' ' . self::escape_string($test['arg1']);
                         $tests[$i] .= ' ' . self::escape_string($test['arg2']);
+                        break;
+
+                    case 'address':
+                    case 'envelope':
+                        if ($test['test'] == 'envelope') {
+                            array_push($exts, 'envelope');
+                        }
+
+                        $tests[$i] .= ($test['not'] ? 'not ' : '');
+                        $tests[$i] .= $test['test'];
+
+                        if (!empty($test['part'])) {
+                            $tests[$i] .= ' :' . $test['part'];
+                            if ($test['part'] == 'user' || $test['part'] == 'detail') {
+                                array_push($exts, 'subaddress');
+                            }
+                        }
+
+                        $this->add_comparator($test, $tests[$i], $exts);
+
+                        if (!empty($test['type'])) {
+                            if ($test['type'] == 'regex') {
+                                array_push($exts, 'regex');
+                            }
+                            $tests[$i] .= ' :' . $test['type'];
+                        }
+
+                        $tests[$i] .= ' ' . self::escape_string($test['arg1']);
+                        $tests[$i] .= ' ' . self::escape_string($test['arg2']);
+                        break;
+
+                    case 'body':
+                        array_push($exts, 'body');
+
+                        $tests[$i] .= ($test['not'] ? 'not ' : '') . 'body';
+
+                        $this->add_comparator($test, $tests[$i], $exts);
+
+                        if (!empty($test['part'])) {
+                            $tests[$i] .= ' :' . $test['part'];
+
+                            if (!empty($test['content']) && $test['part'] == 'content') {
+                                $tests[$i] .= ' ' . self::escape_string($test['content']);
+                            }
+                        }
+
+                        if (!empty($test['type'])) {
+                            if ($test['type'] == 'regex') {
+                                array_push($exts, 'regex');
+                            }
+                            $tests[$i] .= ' :' . $test['type'];
+                        }
+
+                        $tests[$i] .= ' ' . self::escape_string($test['arg']);
                         break;
                     }
                     $i++;
@@ -311,7 +373,7 @@ class rcube_sieve_script
                     case 'addflag':
                     case 'setflag':
                     case 'removeflag':
-                        if (is_array($this->capabilities) && in_array('imap4flags', $this->capabilities))
+                        if (in_array('imap4flags', $this->supported))
                             array_push($exts, 'imap4flags');
                         else
                             array_push($exts, 'imapflags');
@@ -448,7 +510,7 @@ class rcube_sieve_script
             // handle script header
             if (empty($options['prefix'])) {
                 $options['prefix'] = true;
-                if ($prefix && strpos($prefix, 'Generated by Ingo')) {
+                if ($prefix && strpos($prefix, 'horde.org/ingo')) {
                     $options['format'] = 'INGO';
                 }
             }
@@ -559,7 +621,7 @@ class rcube_sieve_script
                 $header = array('test' => 'header', 'not' => $not, 'arg1' => '', 'arg2' => '');
                 for ($i=0, $len=count($tokens); $i<$len; $i++) {
                     if (!is_array($tokens[$i]) && preg_match('/^:comparator$/i', $tokens[$i])) {
-                        $i++;
+                        $header['comparator'] = $tokens[++$i];
                     }
                     else if (!is_array($tokens[$i]) && preg_match('/^:(count|value)$/i', $tokens[$i])) {
                         $header['type'] = strtolower(substr($tokens[$i], 1)) . '-' . $tokens[++$i];
@@ -570,6 +632,52 @@ class rcube_sieve_script
                     else {
                         $header['arg1'] = $header['arg2'];
                         $header['arg2'] = $tokens[$i];
+                    }
+                }
+
+                $tests[] = $header;
+                break;
+
+            case 'address':
+            case 'envelope':
+                $header = array('test' => $token, 'not' => $not, 'arg1' => '', 'arg2' => '');
+                for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    if (!is_array($tokens[$i]) && preg_match('/^:comparator$/i', $tokens[$i])) {
+                        $header['comparator'] = $tokens[++$i];
+                    }
+                    else if (!is_array($tokens[$i]) && preg_match('/^:(is|contains|matches|regex)$/i', $tokens[$i])) {
+                        $header['type'] = strtolower(substr($tokens[$i], 1));
+                    }
+                    else if (!is_array($tokens[$i]) && preg_match('/^:(localpart|domain|all|user|detail)$/i', $tokens[$i])) {
+                        $header['part'] = strtolower(substr($tokens[$i], 1));
+                    }
+                    else {
+                        $header['arg1'] = $header['arg2'];
+                        $header['arg2'] = $tokens[$i];
+                    }
+                }
+
+                $tests[] = $header;
+                break;
+
+            case 'body':
+                $header = array('test' => 'body', 'not' => $not, 'arg' => '');
+                for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    if (!is_array($tokens[$i]) && preg_match('/^:comparator$/i', $tokens[$i])) {
+                        $header['comparator'] = $tokens[++$i];
+                    }
+                    else if (!is_array($tokens[$i]) && preg_match('/^:(is|contains|matches|regex)$/i', $tokens[$i])) {
+                        $header['type'] = strtolower(substr($tokens[$i], 1));
+                    }
+                    else if (!is_array($tokens[$i]) && preg_match('/^:(raw|content|text)$/i', $tokens[$i])) {
+                        $header['part'] = strtolower(substr($tokens[$i], 1));
+
+                        if ($header['part'] == 'content') {
+                            $header['content'] = $tokens[++$i];
+                        }
+                    }
+                    else {
+                        $header['arg'] = $tokens[$i];
                     }
                 }
 
@@ -597,9 +705,7 @@ class rcube_sieve_script
         }
 
         // ...and actions block
-        if ($tests) {
-            $actions = $this->_parse_actions($content);
-        }
+        $actions = $this->_parse_actions($content);
 
         if ($tests && $actions) {
             $result = array(
@@ -744,6 +850,29 @@ class rcube_sieve_script
         }
 
         return $result;
+    }
+
+    /**
+     *
+     */
+    private function add_comparator($test, &$out, &$exts)
+    {
+        if (empty($test['comparator'])) {
+            return;
+        }
+
+        if ($test['comparator'] == 'i;ascii-numeric') {
+            array_push($exts, 'relational');
+            array_push($exts, 'comparator-i;ascii-numeric');
+        }
+        else if (!in_array($test['comparator'], array('i;octet', 'i;ascii-casemap'))) {
+            array_push($exts, 'comparator-' . $test['comparator']);
+        }
+
+        // skip default comparator
+        if ($test['comparator'] != 'i;ascii-casemap') {
+            $out .= ' :comparator ' . self::escape_string($test['comparator']);
+        }
     }
 
     /**

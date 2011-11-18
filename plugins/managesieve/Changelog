@@ -1,4 +1,16 @@
+- Fixed setting test type to :is when none is specified
+
+* version 5.0-rc1 [2011-11-17]
+-----------------------------------------------------------
 - Fixed sorting of scripts, scripts including aware of the sort order
+- Fixed import of rules with unsupported tests
+- Added 'address' and 'envelope' tests support
+- Added 'body' extension support (RFC5173)
+- Added 'subaddress' extension support (RFC5233)
+- Added comparators support
+- Changed Sender/Recipient labels to From/To
+- Fixed importing rule names from Ingo
+- Fixed handling of extensions disabled in config
 
 * version 5.0-beta [2011-10-17]
 -----------------------------------------------------------

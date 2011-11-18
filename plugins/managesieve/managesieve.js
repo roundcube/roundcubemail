@@ -542,19 +542,28 @@ function rule_header_select(id)
     size = document.getElementById('rule_size' + id),
     op = document.getElementById('rule_op' + id),
     target = document.getElementById('rule_target' + id),
-    header = document.getElementById('custom_header' + id);
+    header = document.getElementById('custom_header' + id),
+    mod = document.getElementById('rule_mod' + id),
+    trans = document.getElementById('rule_trans' + id),
+    comp = document.getElementById('rule_comp' + id);
 
   if (obj.value == 'size') {
     size.style.display = 'inline';
     op.style.display = 'none';
     target.style.display = 'none';
     header.style.display = 'none';
+    mod.style.display = 'none';
+    trans.style.display = 'none';
+    comp.style.display = 'none';
   }
   else {
     header.style.display = obj.value != '...' ? 'none' : 'inline';
     size.style.display = 'none';
     op.style.display = 'inline';
+    comp.style.display = '';
     rule_op_select(id);
+    mod.style.display = obj.value == 'body' ? 'none' : 'block';
+    trans.style.display = obj.value == 'body' ? 'block' : 'none';
   }
 
   obj.style.width = obj.value == '...' ? '40px' : '';
@@ -568,10 +577,40 @@ function rule_op_select(id)
   target.style.display = obj.value == 'exists' || obj.value == 'notexists' ? 'none' : 'inline';
 };
 
+function rule_trans_select(id)
+{
+  var obj = document.getElementById('rule_trans_op' + id),
+    target = document.getElementById('rule_trans_type' + id);
+
+  target.style.display = obj.value != 'content' ? 'none' : 'inline';
+};
+
+function rule_mod_select(id)
+{
+  var obj = document.getElementById('rule_mod_op' + id),
+    target = document.getElementById('rule_mod_type' + id);
+
+  target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : 'inline';
+};
+
 function rule_join_radio(value)
 {
   $('#rules').css('display', value == 'any' ? 'none' : 'block');
 };
+
+function rule_adv_switch(id, elem)
+{
+  var elem = $(elem), enabled = elem.hasClass('hide'), adv = $('#rule_advanced'+id);
+
+  if (enabled) {
+    adv.hide();
+    elem.removeClass('hide').addClass('show');
+  }
+  else {
+    adv.show();
+    elem.removeClass('show').addClass('hide');
+  }
+}
 
 function action_type_select(id)
 {
