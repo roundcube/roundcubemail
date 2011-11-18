@@ -343,7 +343,7 @@ $labels['done'] = 'Done';
 
 // settings
 $labels['settingsfor']  = 'Settings for';
-
+$labels['about'] = 'About';
 $labels['preferences']  = 'Preferences';
 $labels['userpreferences']  = 'User preferences';
 $labels['editpreferences']  = 'Edit user preferences';
@@ -464,6 +464,12 @@ $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';
 $labels['sortdesc'] = 'Sort descending';
 $labels['undo'] = 'Undo';
+
+$labels['plugin'] = 'Plugin';
+$labels['version'] = 'Version';
+$labels['source'] = 'Source';
+$labels['license'] = 'License';
+$labels['webpage'] = 'Webpage';
 
 // units
 $labels['B'] = 'B';

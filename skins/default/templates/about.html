@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<script type="text/javascript" src="/functions.js"></script>
+</head>
+<body>
+
+<roundcube:include file="/includes/taskbar.html" />
+<roundcube:include file="/includes/header.html" />
+<roundcube:include file="/includes/settingstabs.html" />
+
+<div id="mainscreen" class="box darkbg crop">
+
+<div id="license">
+<p class="sysname">Roundcube Webmail <roundcube:object name="version" /></p>
+<p class="copyright">Copyright &copy; 2005-2011, The Roundcube Dev Team</p>
+<p class="license">This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2
+as published by the Free Software Foundation.
+</p>
+<p class="links">
+  <roundcube:label name="license" />: <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU GPLv2</a>
+  <br />
+  <roundcube:label name="webpage" />: <a href="http://roundcube.net" target="_blank">www.roundcube.net</a>
+</p>
+</div>
+
+<roundcube:object name="pluginlist" id="pluginlist" class="records-table" cellspacing="0" />
+
+</div>
+
+</body>
+</html>

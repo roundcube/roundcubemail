@@ -155,7 +155,7 @@ function rcube_webmail()
     }
 
     // enable general commands
-    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', true);
+    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', 'about', true);
 
     if (this.env.permaurl)
       this.enable_command('permaurl', true);
@@ -502,6 +502,10 @@ function rcube_webmail()
       case 'settings':
       case 'logout':
         this.switch_task(command);
+        break;
+
+      case 'about':
+        location.href = '?_task=settings&_action=about';
         break;
 
       case 'permaurl':

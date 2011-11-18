@@ -434,5 +434,11 @@ $labels['dateformat'] = 'Format daty';
 $labels['timeformat'] = 'Format czasu';
 $labels['isdraft'] = 'To jest kopia robocza wiadomości.';
 $labels['autocompletesingle'] = 'Nie pokazuj alternatywnych adresów przy autouzupełnianiu';
+$labels['plugin'] = 'Wtyczka';
+$labels['version'] = 'Wersja';
+$labels['source'] = 'Źródła';
+$labels['license'] = 'Licencja';
+$labels['webpage'] = 'Strona internetowa';
+$labels['about'] = 'O programie';
 
 ?>
