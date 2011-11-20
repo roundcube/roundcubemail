@@ -5,7 +5,8 @@ body
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
   margin: 8px;
   background-color: #F6F6F6;
-  color: #000000;
+  color: #000;
+  font-size: 12px;
 }
 
 body.iframe
@@ -19,9 +20,10 @@ body.extwin
   margin: 10px;
 }
 
-body, td, th, div, p, select, input, textarea
+td, th, div, p, select, input, textarea
 {
   font-size: 12px;
+  font-family: inherit;
 }
 
 th
@@ -36,13 +38,13 @@ h3
 
 a, a:active, a:visited
 {
-  color: #000000;
+  color: #000;
   outline: none;
 }
 
 a.button, a.button:visited, a.tab, a.tab:visited, a.axislist
 {
-  color: #000000;
+  color: #000;
   text-decoration: none;
 }
 
@@ -56,7 +58,7 @@ a.tab
 hr
 {
   height: 1px;
-  background-color: #666666;
+  background-color: #666;
   border-style: none;
 }
 
@@ -65,9 +67,9 @@ input[type="button"],
 input[type="password"],
 textarea
 {
-  border: 1px solid #666666;
-  color: #333333;
-  background-color: #ffffff;
+  border: 1px solid #666;
+  color: #333;
+  background-color: #FFF;
 }
 
 input, textarea
