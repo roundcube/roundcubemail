@@ -1589,7 +1589,7 @@ function rcmail_display_server_error($fallback=null, $fallback_args=null)
  */
 function rcube_html_editor($mode='')
 {
-  global $RCMAIL, $CONFIG;
+  global $RCMAIL;
 
   $hook = $RCMAIL->plugins->exec_hook('html_editor', array('mode' => $mode));
 
@@ -1598,8 +1598,11 @@ function rcube_html_editor($mode='')
 
   $lang = strtolower($_SESSION['language']);
 
-  // TinyMCE uses 'tw' for zh_TW (which is wrong, because tw is a code of Twi language)
-  $lang = ($lang == 'zh_tw') ? 'tw' : substr($lang, 0, 2);
+  // TinyMCE uses two-letter lang codes, with exception of Chinese
+  if (strpos($lang, 'zh_') === 0)
+    $lang = str_replace('_', '-', $lang);
+  else
+    $lang = substr($lang, 0, 2);
 
   if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$lang.'.js'))
     $lang = 'en';
@@ -1611,8 +1614,8 @@ function rcube_html_editor($mode='')
         'mode'       => $mode,
         'skin_path'  => '$__skin_path',
         'lang'       => $lang,
-        'spellcheck' => intval($CONFIG['enable_spellcheck']),
-        'spelldict'  => intval($CONFIG['spellcheck_dictionary']),
+        'spellcheck' => intval($RCMAIL->config->get('enable_spellcheck')),
+        'spelldict'  => intval($RCMAIL->config->get('spellcheck_dictionary')),
     ))), 'foot');
 }
 
