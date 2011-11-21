@@ -20,6 +20,18 @@
 
 */
 
+
+function rcmail_supportlink($attrib)
+{
+  global $RCMAIL;
+  
+  if ($url = $RCMAIL->config->get('support_url')) {
+    $label = $attrub['label'] ? $attrub['label'] : 'support';
+    $attrib['href'] = $url;
+    return html::a($attrib, rcube_label($label));
+  }
+}
+
 function rcmail_plugins_list($attrib)
 {
   global $RCMAIL;
@@ -49,18 +61,18 @@ function rcmail_plugins_list($attrib)
   $table->add_header('source', rcube_label('source'));
 
   foreach ($plugins as $name => $data) {
-    $uri = $data['uri'] ? $data['uri'] : $data['channel'];
+    $uri = $data['srcuri'];
     if ($uri && stripos($uri, 'http') !== 0) {
       $uri = 'http://' . $uri;
     }
-
+    
     $table->add_row();
     $table->add('name', Q($data['name'] ? $data['name'] : $name));
     $table->add('version', Q($data['version']));
     $table->add('license', $data['license_uri'] ? html::a(array('target' => '_blank', href=> Q($data['license_uri'])),
         Q($data['license'])) : $data['license']);
     $table->add('source', $uri ? html::a(array('target' => '_blank', href=> Q($uri)),
-        Q(rcube_label('source'))) : '');
+        Q(rcube_label('download'))) : '');
   }
 
   return $table->show();
@@ -74,8 +86,7 @@ function rcube_plugin_data($name, &$plugins = array())
     'version' => 'string(//rc:package/rc:version/rc:release)',
     'license' => 'string(//rc:package/rc:license)',
     'license_uri' => 'string(//rc:package/rc:license/@uri)',
-    'uri' => 'string(//rc:package/rc:uri)',
-    'channel' => 'string(//rc:package/rc:channel)',
+    'srcuri' => 'string(//rc:package/rc:srcuri)',
   );
 
   $package = INSTALL_PATH . "/plugins/$name/package.xml";
@@ -111,6 +122,7 @@ function rcube_plugin_data($name, &$plugins = array())
 
 $OUTPUT->set_pagetitle(rcube_label('about'));
 
+$OUTPUT->add_handler('supportlink', 'rcmail_supportlink');
 $OUTPUT->add_handler('pluginlist', 'rcmail_plugins_list');
 
 $OUTPUT->send('about');

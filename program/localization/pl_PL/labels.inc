@@ -438,7 +438,6 @@ $labels['plugin'] = 'Wtyczka';
 $labels['version'] = 'Wersja';
 $labels['source'] = 'Źródła';
 $labels['license'] = 'Licencja';
-$labels['webpage'] = 'Strona internetowa';
 $labels['about'] = 'O programie';
 
 ?>

@@ -171,12 +171,16 @@ body.iframe,
   font-family: monospace;
 }
 
+div.readtext
+{
+  width: 42em;
+  padding: 20px;
+}
+
 #license
 {
-  margin-left: 20px;
-  left: 20px;
   width: 500px;
-  height: 250px;
+  padding-bottom: 2em;
   background: url(images/watermark.gif) no-repeat center;
 }
 
@@ -194,20 +198,15 @@ body.iframe,
 #license .license,
 #license .links
 {
-  margin-top: 30px;
+  margin-top: 1.5em;
 }
 
 #pluginlist
 {
   border: 1px solid #999;
-  margin-left: 20px;
-  top: 300px;
-  left: 20px;
   width: 500px;
 }
 
-#pluginlist td.source,
-#pluginlist td.license,
 #pluginlist td.version
 {
   text-align: center;

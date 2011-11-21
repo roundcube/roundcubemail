@@ -469,7 +469,7 @@ $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
-$labels['webpage'] = 'Webpage';
+$labels['support'] = 'Get support';
 
 // units
 $labels['B'] = 'B';

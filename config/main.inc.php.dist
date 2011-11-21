@@ -208,6 +208,10 @@ $rcmail_config['login_lc'] = false;
 // set to false if only registered users can use this service
 $rcmail_config['auto_create_user'] = true;
 
+// provide an URL where a user can get support for this Roundcube installation
+// PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
+$rcmail_config['support_url'] = '';
+
 // replace Roundcube logo with this image
 // specify an URL relative to the document root of this Roundcube installation
 $rcmail_config['skin_logo'] = null;
