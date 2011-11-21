@@ -179,7 +179,7 @@ div.readtext
 
 #license
 {
-  width: 500px;
+  min-height: 200px;
   padding-bottom: 2em;
   background: url(images/watermark.gif) no-repeat center;
 }
@@ -204,7 +204,7 @@ div.readtext
 #pluginlist
 {
   border: 1px solid #999;
-  width: 500px;
+  width: 100%;
 }
 
 #pluginlist td.version
