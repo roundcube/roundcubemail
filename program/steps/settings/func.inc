@@ -437,14 +437,15 @@ function rcmail_user_prefs($current=null)
 
     if (!isset($no_override['show_images'])) {
       $field_id = 'rcmfd_show_images';
-      $input_show_images = new html_select(array('name' => '_show_images', 'id' => $field_id));
+      $input_show_images = new html_select(array('name' => '_show_images', 'id' => $field_id,
+        'disabled' => !$config['prefer_html']));
       $input_show_images->add(rcube_label('never'), 0);
       $input_show_images->add(rcube_label('fromknownsenders'), 1);
       $input_show_images->add(rcube_label('always'), 2);
 
       $blocks['main']['options']['show_images'] = array(
         'title' => html::label($field_id, Q(rcube_label('showremoteimages'))),
-        'content' => $input_show_images->show($config['show_images']),
+        'content' => $input_show_images->show($config['prefer_html'] ? $config['show_images'] : 0),
       );
     }
 

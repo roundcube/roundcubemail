@@ -5587,7 +5587,7 @@ function rcube_webmail()
 
   this.toggle_prefer_html = function(checkbox)
   {
-    $('#rcmfd_addrbook_show_images').prop('disabled', !checkbox.checked);
+    $('#rcmfd_show_images').prop('disabled', !checkbox.checked).val(0);
   };
 
   this.toggle_preview_pane = function(checkbox)
