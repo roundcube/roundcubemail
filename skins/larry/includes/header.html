@@ -1,0 +1,27 @@
+<div id="header">
+<div id="topline">
+	<div class="topleft">
+		<roundcube:if condition="config:support_url" />
+		<a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
+		<roundcube:endif />
+	</div>
+	<div class="topright">
+	<span class="username"><roundcube:object name="username" /></span>
+	<roundcube:button command="logout" label="logout" class="button-logout" />
+	</div>
+</div>
+
+<div id="topnav">
+	<div id="taskbar" class="topright">
+	<roundcube:button command="mail" label="mail" class="button-mail" classSel="button-mail button-selected" />
+	<roundcube:button command="addressbook" label="addressbook" class="button-addressbook" classSel="button-addressbook button-selected" />
+	<roundcube:container name="taskbar" id="taskbar" />
+	<roundcube:button command="settings" label="settings" class="button-settings" classSel="button-settings button-selected" />
+	</div>
+	<roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" border="0" alt="Logo" />
+</div>
+
+<br style="clear:both" />
+</div>
+
+

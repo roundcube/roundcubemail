@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<meta name="Robots" content="noindex,nofollow" />
+<roundcube:include file="/includes/links.html" />
+</head>
+<body>
+
+<div id="login-form">
+<div class="box-inner">
+<roundcube:object name="logo" src="/images/roundcube_logo.png" id="logo" border="0" />
+
+<form name="form" action="./" method="post">
+<roundcube:object name="loginform" form="form" size="40" />
+
+<p class="buttons"><input type="submit" class="button mainaction" value="<roundcube:label name='login' />" /></p>
+
+</form>
+</div>
+
+<div class="box-bottom">
+	<roundcube:object name="message" id="message" />
+</div>
+
+<div id="bottomline">
+	Roundcube Webmail <roundcube:object name="version" />
+	<roundcube:if condition="config:support_url" />
+		&nbsp;&#9679;&nbsp; <a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
+	<roundcube:endif />
+	<roundcube:container name="loginfooter" id="bottomline" />
+</div>
+</div>
+
+</body>
+</html>

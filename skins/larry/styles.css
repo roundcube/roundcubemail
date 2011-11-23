@@ -1,0 +1,369 @@
+/**
+ * Roundcube webmail styles for skin "Larry"
+ *
+ * Copyright (c) 2011, The Roundcube Dev Team
+ * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ *
+ * $Id$
+ */
+
+body {
+	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333;
+	background: url(images/linen.jpg) repeat #d1d5d8;
+	margin: 0;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+	padding: 4px;
+	border: 1px solid #666;
+	border-radius: 4px;
+	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+	-moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+	-o-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input.button:focus,
+textarea {
+	border-color: #4787b1;
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+}
+
+input.placeholder,
+textarea.placeholder {
+	color: #aaa;
+}
+
+input.button {
+	color: #dddddd;
+	font-size: 110%;
+	text-shadow: 1px 1px 1px #333;
+	padding: 4px 12px;
+	border: 1px solid #465864;
+	border-radius: 5px;
+	background: #7a7b7d;
+	background: -moz-linear-gradient(top, rgba(123,123,123,1) 0%, rgba(96,96,96,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(123,123,123,1)), color-stop(100%,rgba(96,96,96,1))); /* Chrome,Safari4+ */
+	background: -o-linear-gradient(top, rgba(123,123,123,1) 0%,rgba(96,96,96,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(123,123,123,1) 0%,rgba(96,96,96,1) 100%); /* IE10+ */
+	background: linear-gradient(top, rgba(123,123,123,1) 0%,rgba(96,96,96,1) 100%); /* W3C */
+}
+
+input.button:hover {
+	color: #ededed;
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
+}
+
+input.button:active {
+	color: #fff;
+	background: -moz-linear-gradient(top, rgba(92,92,92,1) 0%, rgba(123,123,123,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(92,92,92,1)), color-stop(100%,rgba(123,123,123,1)));
+	background: -o-linear-gradient(top, rgba(92,92,92,1) 0%,rgba(123,123,123,1) 100%);
+	background: -ms-linear-gradient(top, rgba(92,92,92,1) 0%,rgba(123,123,123,1) 100%);
+	background: linear-gradient(top, rgba(92,92,92,1) 0%,rgba(123,123,123,1) 100%);
+}
+
+input.button.mainaction {
+	color: #ededed;
+	border-color: #1f262c;
+	background: #505050;
+	background: -moz-linear-gradient(top, rgba(80,80,80,1) 0%, rgba(42,46,49,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(80,80,82,1)), color-stop(100%,rgba(42,46,49,1)));
+	background: -o-linear-gradient(top, rgba(80,80,80,1) 0%,rgba(42,46,49,1) 100%);
+	background: -ms-linear-gradient(top, rgba(80,80,80,1) 0%,rgba(42,46,49,1) 100%);
+	background: linear-gradient(top, rgba(80,80,80,1) 0%,rgba(42,46,49,1) 100%);
+}
+
+input.button[disabled],
+input.button[disabled]:hover,
+input.button.mainaction[disabled] {
+	color: #aaa !important;
+}
+
+input.mainaction {
+	font-weight: bold;
+}
+
+a {
+	color: #0069a6;
+}
+
+a:visited {
+	color: #0186ba;
+}
+
+img {
+  border: 0;
+}
+
+#message div.loading,
+#message div.warning,
+#message div.error,
+#message div.notice,
+#message div.confirmation {
+	color: #555;
+	font-weight: bold;
+	padding: 6px 40px 6px 25px;
+	display: inline-block;
+	white-space: nowrap;
+	background: url(images/messages.png) 0 5px no-repeat;
+}
+
+#message div.warning {
+	color: #960;
+	background-position: 0 -25px;
+}
+
+#message div.error {
+	color: #cf2734;
+	background-position: 0 -55px;
+}
+
+#message div.confirmation {
+	color: #093;
+	background-position: 0 -86px;
+}
+
+#message div.loading {
+	background: url(images/ajaxloader.gif) 2px 6px no-repeat;
+}
+
+
+/*** basic page layout ***/
+
+#topline {
+	height: 18px;
+	background: url(images/linen_header.jpg) repeat #666;
+	border-bottom: 1px solid #4f4f4f;
+	padding: 2px 0 2px 10px;
+	font-size: 11px;
+	color: #aaa;
+}
+
+#topnav {
+	height: 46px;
+	margin-bottom: 10px;
+	padding: 0 0 0 10px;
+	background: #3a3a3a;
+	background: -moz-linear-gradient(top, rgba(64,64,64,1) 0%, rgba(6,6,6,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(64,64,64,1)), color-stop(100%,rgba(6,6,6,1)));
+	background: -o-linear-gradient(top, rgba(64,64,64,1) 0%,rgba(6,6,6,1) 100%);
+	background: -ms-linear-gradient(top, rgba(64,64,64,1) 0%,rgba(6,6,6,1) 100%);
+	background: linear-gradient(top, rgba(64,64,64,1) 0%,rgba(6,6,6,1) 100%);
+}
+
+#topline a,
+#topnav a {
+	color: #eee;
+	text-decoration: none;
+}
+
+#toplogo {
+	padding-top: 2px;
+}
+
+.topleft {
+	float: left;
+}
+
+.topright {
+	float: right;
+}
+
+#topline span.username {
+	padding-right: 1em;
+}
+
+#topline a.support-link {
+	display: inline-block;
+	padding: 2px 0;
+}
+
+#topline a.button-logout {
+	display: inline-block;
+	padding: 2px 10px 2px 20px;
+	background: url(images/taskbar.png) -6px -367px no-repeat;
+	color: #fff;
+}
+
+#taskbar a {
+	display: inline-block;
+	font-size: 110%;
+	font-weight: normal;
+	text-shadow: 1px 1px 1px black;
+	height: 30px;
+	padding: 16px 10px 0 40px;
+	background: url(images/taskbar.png) -1000px 0 no-repeat;
+}
+
+#taskbar a.button-selected {
+	color: #3cf;
+	background-color: #2c2c2c;
+}
+
+#taskbar a.button-mail {
+	background-position: 6px 13px;
+}
+
+#taskbar a.button-mail:hover,
+#taskbar a.button-mail.button-selected {
+	background-position: 6px -33px;
+}
+
+#taskbar a.button-addressbook {
+	background-position: 6px -80px;
+}
+
+#taskbar a.button-addressbook:hover,
+#taskbar a.button-addressbook.button-selected {
+	background-position: 6px -126px;
+}
+
+#taskbar a.button-settings {
+	background-position: 6px -172px;
+}
+
+#taskbar a.button-settings:hover,
+#taskbar a.button-settings.button-selected {
+	background-position: 6px -218px;
+}
+
+#taskbar a.button-calendar {
+	background-position: 6px -264px;
+}
+
+#taskbar a.button-calendar:hover,
+#taskbar a.button-calendar.button-selected {
+	background-position: 6px -310px;
+}
+
+#mainscreen {
+	position: absolute;
+	top: 88px;
+	left: 10px;
+	right: 10px;
+	bottom: 20px;
+}
+
+.uibox {
+	border: 1px solid #a3a3a3;
+	border-radius: 4px;
+	box-shadow: 0 0 2px #999;
+	-o-box-shadow: 0 0 2px #999;
+	-webkit-box-shadow: 0 0 2px #999;
+	-moz-box-shadow: 0 0 2px #999;
+	background: #fff;
+}
+
+.listbox {
+	background: #d9ecf4;
+}
+
+
+/*** Login form ***/
+
+#login-form {
+	position: relative;
+	width: 580px;
+	margin: 20ex auto 2ex auto;
+}
+
+#login-form .box-inner {
+	width: 430px;
+	background: url(images/linen_login.jpg) top left no-repeat #5c5c5c;
+	margin: 0 50px;
+	padding: 10px 24px 24px 24px;
+	border: 1px solid #333;
+	border-radius: 5px;
+	box-shadow: inset 0 0 1px #ccc;
+	-o-box-shadow: inset 0 0 1px #ccc;
+	-webkit-box-shadow: inset 0 0 1px #ccc;
+	-moz-box-shadow: inset 0 0 1px #ccc;
+}
+
+#login-form .box-bottom {
+	background: url(images/login_shadow.png) top center no-repeat;
+	margin-top: -3px;
+	padding-top: 10px;
+}
+
+#login-form td.input {
+	padding: 8px;
+}
+
+#login-form input[type="text"],
+#login-form input[type="password"] {
+	width: 24em;
+}
+
+#login-form input.button {
+	color: #444;
+	text-shadow: 1px 1px 1px #fff;
+	border-color: #f9f9f9;
+	background: #f9f9f9;
+	background: -moz-linear-gradient(top, rgba(249,249,249,1) 0%, rgba(226,226,226,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,249,249,1)), color-stop(100%,rgba(226,226,226,1)));
+	background: -o-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
+	background: -ms-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
+	background: linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
+}
+
+#login-form input.button:active {
+	color: #333;
+	background: -moz-linear-gradient(top, rgba(220,220,220,1) 0%, rgba(249,249,249,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(220,220,220,1)), color-stop(100%,rgba(249,249,249,1)));
+	background: -o-linear-gradient(top, rgba(220,220,220,1) 0%,rgba(249,249,249,1) 100%);
+	background: -ms-linear-gradient(top, rgba(220,220,220,1) 0%,rgba(249,249,249,1) 100%);
+	background: linear-gradient(top, rgba(220,220,220,1) 0%,rgba(249,249,249,1) 100%);
+}
+
+#login-form td.title {
+	color: #cecece;
+	text-shadow: 1px 1px 1px black;
+	text-align: right;
+	padding-right: 1em;
+}
+
+#login-form p.buttons {
+	margin-top: 2em;
+	text-align: center;
+}
+
+#login-form #logo {
+	margin-bottom: 20px;
+}
+
+#login-form #message {
+	min-height: 40px;
+	padding: 5px 25px;
+}
+
+#login-form #message div {
+	display: block;
+	width: 200px;
+	margin: 0 auto;
+}
+
+#bottomline {
+	font-size: 90%;
+	text-align: center;
+	margin-top: 2em;
+}
+
