@@ -209,4 +209,6 @@ CREATE TABLE `cache_messages` (
  PRIMARY KEY (`user_id`, `mailbox`, `uid`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
+-- Updates from version 0.7-beta
+
 ALTER TABLE `session` CHANGE `sess_id` `sess_id` varchar(128) NOT NULL;

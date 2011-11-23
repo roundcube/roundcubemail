@@ -283,6 +283,8 @@ CREATE TABLE cache_messages (
 
 CREATE INDEX ix_cache_messages_changed ON cache_messages (changed);
 
+-- Updates from version 0.7-beta
+
 DROP TABLE session;
 CREATE TABLE session (
   sess_id varchar(128) NOT NULL PRIMARY KEY,
