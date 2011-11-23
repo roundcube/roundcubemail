@@ -37,7 +37,7 @@ function rcube_webmail()
 
   // webmail client settings
   this.dblclick_time = 500;
-  this.message_time = 2000;
+  this.message_time = 4000;
 
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
@@ -5142,6 +5142,9 @@ function rcube_webmail()
         init_button(cmd, this.buttons[cmd][i]);
       }
     }
+
+    // set active task button
+    this.set_button(this.task, 'sel');
   };
 
   // set button to a specific state
