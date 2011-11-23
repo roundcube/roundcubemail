@@ -1380,12 +1380,8 @@ function rcube_webmail()
   this.collapse_folder = function(name)
   {
     var li = this.get_folder_li(name, '', true),
-      div = $(li.getElementsByTagName('div')[0]);
-
-    if (!div || (!div.hasClass('collapsed') && !div.hasClass('expanded')))
-      return;
-
-    var ul = $(li.getElementsByTagName('ul')[0]);
+      div = $('div:first', li),
+      ul = $('ul:first', li);
 
     if (div.hasClass('collapsed')) {
       ul.show();
@@ -1393,7 +1389,7 @@ function rcube_webmail()
       var reg = new RegExp('&'+urlencode(name)+'&');
       this.env.collapsed_folders = this.env.collapsed_folders.replace(reg, '');
     }
-    else {
+    else if (div.hasClass('expanded')) {
       ul.hide();
       div.removeClass('expanded').addClass('collapsed');
       this.env.collapsed_folders = this.env.collapsed_folders+'&'+urlencode(name)+'&';
@@ -1402,6 +1398,8 @@ function rcube_webmail()
       if (this.env.mailbox.indexOf(name + this.env.delimiter) == 0)
         this.command('list', name);
     }
+    else
+      return;
 
     // Work around a bug in IE6 and IE7, see #1485309
     if (bw.ie6 || bw.ie7) {
