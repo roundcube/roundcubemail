@@ -730,12 +730,14 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 
 /**
  * Convert the given string into a valid HTML identifier
- * Same functionality as done in app.js with this.identifier_expr
- *
+ * Same functionality as done in app.js with rcube_webmail.html_identifier()
  */
-function html_identifier($str)
+function html_identifier($str, $encode=false)
 {
-  return asciiwords($str, true, '_');
+  if ($encode)
+    return rtrim(strtr(base64_encode($str), '+/', '-_'), '=');
+  else
+    return asciiwords($str, true, '_');
 }
 
 /**
@@ -1331,7 +1333,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
     }
 
     // make folder name safe for ids and class names
-    $folder_id = html_identifier($folder['id']);
+    $folder_id = html_identifier($folder['id'], true);
     $classes = array('mailbox');
 
     // set special class for Sent, Drafts, Trash and Junk

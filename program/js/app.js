@@ -1202,6 +1202,24 @@ function rcube_webmail()
     this.http_post('save-pref', request);
   };
 
+  this.html_identifier = function(str, encode)
+  {
+    str = String(str);
+    if (encode)
+      return Base64.encode(str).replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
+    else
+      return str.replace(this.identifier_expr, '_');
+  };
+
+  this.html_identifier_decode = function(str)
+  {
+    str = String(str).replace(/-/g, '+').replace(/_/g, '/');
+
+    while (str.length % 4) str += '=';
+
+    return Base64.decode(str);
+  };
+
 
   /*********************************************************/
   /*********        event handling methods         *********/
@@ -1359,9 +1377,9 @@ function rcube_webmail()
     }
   };
 
-  this.collapse_folder = function(id)
+  this.collapse_folder = function(name)
   {
-    var li = this.get_folder_li(id),
+    var li = this.get_folder_li(name, '', true),
       div = $(li.getElementsByTagName('div')[0]);
 
     if (!div || (!div.hasClass('collapsed') && !div.hasClass('expanded')))
@@ -1372,17 +1390,17 @@ function rcube_webmail()
     if (div.hasClass('collapsed')) {
       ul.show();
       div.removeClass('collapsed').addClass('expanded');
-      var reg = new RegExp('&'+urlencode(id)+'&');
+      var reg = new RegExp('&'+urlencode(name)+'&');
       this.env.collapsed_folders = this.env.collapsed_folders.replace(reg, '');
     }
     else {
       ul.hide();
       div.removeClass('expanded').addClass('collapsed');
-      this.env.collapsed_folders = this.env.collapsed_folders+'&'+urlencode(id)+'&';
+      this.env.collapsed_folders = this.env.collapsed_folders+'&'+urlencode(name)+'&';
 
       // select parent folder if one of its childs is currently selected
-      if (this.env.mailbox.indexOf(id + this.env.delimiter) == 0)
-        this.command('list', id);
+      if (this.env.mailbox.indexOf(name + this.env.delimiter) == 0)
+        this.command('list', name);
     }
 
     // Work around a bug in IE6 and IE7, see #1485309
@@ -1395,7 +1413,7 @@ function rcube_webmail()
     }
 
     this.command('save-pref', { name: 'collapsed_folders', value: this.env.collapsed_folders });
-    this.set_unread_count_display(id, false);
+    this.set_unread_count_display(name, false);
   };
 
   this.doc_mouse_up = function(e)
@@ -1988,7 +2006,7 @@ function rcube_webmail()
     if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
       url += '&_refresh=1';
 
-    this.select_folder(mbox);
+    this.select_folder(mbox, '', true);
     this.env.mailbox = mbox;
 
     // load message list remotely
@@ -4066,7 +4084,7 @@ function rcube_webmail()
   {
     var c, row, list = this.contact_list;
 
-    cid = String(cid).replace(this.identifier_expr, '_');
+    cid = this.html_identifier(cid);
 
     // when in searching mode, concat cid with the source name
     if (!list.rows[cid]) {
@@ -4082,7 +4100,7 @@ function rcube_webmail()
 
       // cid change
       if (newcid) {
-        newcid = String(newcid).replace(this.identifier_expr, '_');
+        newcid = this.html_identifier(newcid);
         row.id = 'rcmrow' + newcid;
         list.remove_row(cid);
         list.init_row(row);
@@ -4101,7 +4119,7 @@ function rcube_webmail()
     var c, list = this.contact_list,
       row = document.createElement('tr');
 
-    row.id = 'rcmrow'+String(cid).replace(this.identifier_expr, '_');
+    row.id = 'rcmrow'+this.html_identifier(cid);
     row.className = 'contact';
 
     if (list.in_selection(cid))
@@ -4283,7 +4301,7 @@ function rcube_webmail()
         .attr('rel', prop.source+':'+prop.id)
         .click(function() { return rcmail.command('listgroup', prop, this); })
         .html(prop.name),
-      li = $('<li>').attr({id: 'rcmli'+key.replace(this.identifier_expr, '_'), 'class': 'contactgroup'})
+      li = $('<li>').attr({id: 'rcmli'+this.html_identifier(key), 'class': 'contactgroup'})
         .append(link);
 
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
@@ -4306,7 +4324,7 @@ function rcube_webmail()
       var newkey = 'G'+prop.source+prop.newid,
         newprop = $.extend({}, prop);;
 
-      li.id = String('rcmli'+newkey).replace(this.identifier_expr, '_');
+      li.id = 'rcmli' + this.html_identifier(newkey);
       this.env.contactfolders[newkey] = this.env.contactfolders[key];
       this.env.contactfolders[newkey].id = prop.newid;
       this.env.group = prop.newid;
@@ -4338,7 +4356,7 @@ function rcube_webmail()
   {
     var row, name = prop.name.toUpperCase(),
       sibling = this.get_folder_li(prop.source),
-      prefix = 'rcmliG'+(prop.source).replace(this.identifier_expr, '_');
+      prefix = 'rcmliG' + this.html_identifier(prop.source);
 
     // When renaming groups, we need to remove it from DOM and insert it in the proper place
     if (reloc) {
@@ -4571,7 +4589,7 @@ function rcube_webmail()
         .attr('rel', id)
         .click(function() { return rcmail.command('listsearch', id, this); })
         .html(name),
-      li = $('<li>').attr({id: 'rcmli'+key.replace(this.identifier_expr, '_'), 'class': 'contactsearch'})
+      li = $('<li>').attr({id: 'rcmli' + this.html_identifier(key), 'class': 'contactsearch'})
         .append(link),
       prop = {name:name, id:id, li:li[0]};
 
@@ -5299,14 +5317,14 @@ function rcube_webmail()
     if (!this.gui_objects.message) {
       // save message in order to display after page loaded
       if (type != 'loading')
-        this.pending_message = new Array(msg, type, timeout);
+        this.pending_message = [msg, type, timeout];
       return false;
     }
 
     type = type ? type : 'notice';
 
     var ref = this,
-      key = String(msg).replace(this.identifier_expr, '_'),
+      key = this.html_identifier(msg),
       date = new Date(),
       id = type + date.getTime();
 
@@ -5399,7 +5417,7 @@ function rcube_webmail()
   };
 
   // mark a mailbox as selected and set environment variable
-  this.select_folder = function(name, prefix)
+  this.select_folder = function(name, prefix, encode)
   {
     if (this.gui_objects.folderlist) {
       var current_li, target_li;
@@ -5407,7 +5425,7 @@ function rcube_webmail()
       if ((current_li = $('li.selected', this.gui_objects.folderlist))) {
         current_li.removeClass('selected').addClass('unfocused');
       }
-      if ((target_li = this.get_folder_li(name, prefix))) {
+      if ((target_li = this.get_folder_li(name, prefix, encode))) {
         $(target_li).removeClass('unfocused').addClass('selected');
       }
 
@@ -5417,13 +5435,13 @@ function rcube_webmail()
   };
 
   // helper method to find a folder list item
-  this.get_folder_li = function(name, prefix)
+  this.get_folder_li = function(name, prefix, encode)
   {
     if (!prefix)
       prefix = 'rcmli';
 
     if (this.gui_objects.folderlist) {
-      name = String(name).replace(this.identifier_expr, '_');
+      name = this.html_identifier(name, encode);
       return document.getElementById(prefix+name);
     }
 
@@ -5537,7 +5555,7 @@ function rcube_webmail()
   {
     var reg, link, text_obj, item, mycount, childcount, div;
 
-    if (item = this.get_folder_li(mbox)) {
+    if (item = this.get_folder_li(mbox, '', true)) {
       mycount = this.env.unread_counts[mbox] ? this.env.unread_counts[mbox] : 0;
       link = $(item).children('a').eq(0);
       text_obj = link.children('span.unreadcount');
@@ -5549,7 +5567,7 @@ function rcube_webmail()
       if ((div = item.getElementsByTagName('div')[0]) &&
           div.className.match(/collapsed/)) {
         // add children's counters
-        for (var k in this.env.unread_counts) 
+        for (var k in this.env.unread_counts)
           if (k.indexOf(mbox + this.env.delimiter) == 0)
             childcount += this.env.unread_counts[k];
       }
