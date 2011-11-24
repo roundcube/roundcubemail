@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add possibility to add SASL mechanisms for SMTP in smtp_connect hook (#1487937)
 - Mark (with different color) folders with recent messages (#1486234)
 - Fix possible infinite redirect on attachment preview (#1488199)
 - Improved clickjacking protection for browsers which don't support X-Frame-Options headers
