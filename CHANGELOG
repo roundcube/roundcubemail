@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Mark (with different color) folders with recent messages (#1486234)
 - Fix possible infinite redirect on attachment preview (#1488199)
 - Improved clickjacking protection for browsers which don't support X-Frame-Options headers
 - Fixed bug where similiar folder names were highlighted wrong (#1487860)

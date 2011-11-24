@@ -472,7 +472,7 @@ function rcmail_get_mailbox_name_text()
 }
 
 
-function rcmail_send_unread_count($mbox_name, $force=false, $count=null)
+function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='')
 {
   global $RCMAIL;
 
@@ -484,7 +484,7 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null)
     $unseen = $count;
 
   if ($unseen != $old_unseen || ($mbox_name == 'INBOX'))
-    $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'));
+    $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'), $mark);
 
   rcmail_set_unseen_count($mbox_name, $unseen);
 

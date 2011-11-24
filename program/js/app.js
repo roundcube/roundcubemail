@@ -2021,6 +2021,7 @@ function rcube_webmail()
       url += '&_refresh=1';
 
     this.select_folder(mbox, '', true);
+    this.unmark_folder(mbox, 'recent', '', true);
     this.env.mailbox = mbox;
 
     // load message list remotely
@@ -5448,6 +5449,18 @@ function rcube_webmail()
     }
   };
 
+  // adds a class to selected folder
+  this.mark_folder = function(name, class_name, prefix, encode)
+  {
+    $(this.get_folder_li(name, prefix, encode)).addClass(class_name);
+  };
+
+  // adds a class to selected folder
+  this.unmark_folder = function(name, class_name, prefix, encode)
+  {
+    $(this.get_folder_li(name, prefix, encode)).removeClass(class_name);
+  };
+
   // helper method to find a folder list item
   this.get_folder_li = function(name, prefix, encode)
   {
@@ -5555,13 +5568,16 @@ function rcube_webmail()
   };
 
   // update the mailboxlist
-  this.set_unread_count = function(mbox, count, set_title)
+  this.set_unread_count = function(mbox, count, set_title, mark)
   {
     if (!this.gui_objects.mailboxlist)
       return false;
 
     this.env.unread_counts[mbox] = count;
     this.set_unread_count_display(mbox, set_title);
+
+    if (mark)
+      this.mark_folder(mbox, mark, '', true);
   };
 
   // update the mailbox count display

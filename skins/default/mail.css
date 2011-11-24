@@ -448,6 +448,11 @@
   color: #666;
 }
 
+#mailboxlist li.recent > a
+{
+  color: #0066FF;
+}
+
 #mailboxlist li.selected,
 #mailboxlist li.droptarget li.selected
 {

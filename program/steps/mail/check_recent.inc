@@ -49,7 +49,8 @@ foreach ($a_mailboxes as $mbox_name) {
             array('mailbox' => $mbox_name, 'is_current' => $is_current));
     }
 
-    rcmail_send_unread_count($mbox_name, true);
+    rcmail_send_unread_count($mbox_name, true, null,
+      (!$is_current && ($status & 1)) ? 'recent' : '');
 
     if ($status && $is_current) {
         // refresh saved search set
