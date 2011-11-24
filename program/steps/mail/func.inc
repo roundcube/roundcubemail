@@ -1092,20 +1092,18 @@ function rcmail_resolve_base($body)
 function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null)
 {
   $last_style_pos = 0;
-  $body_lc = strtolower($body);
   $cont_id = $container_id.($body_id ? ' div.'.$body_id : '');
 
   // find STYLE tags
-  while (($pos = strpos($body_lc, '<style', $last_style_pos)) && ($pos2 = strpos($body_lc, '</style>', $pos)))
+  while (($pos = stripos($body, '<style', $last_style_pos)) && ($pos2 = stripos($body, '</style>', $pos)))
   {
-    $pos = strpos($body_lc, '>', $pos)+1;
+    $pos = strpos($body, '>', $pos)+1;
 
     // replace all css definitions with #container [def]
     $styles = rcmail_mod_css_styles(
       substr($body, $pos, $pos2-$pos), $cont_id);
 
-    $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
-    $body_lc = strtolower($body);
+    $body = substr_replace($body, $styles, $pos, $pos2-$pos);
     $last_style_pos = $pos2;
   }
 

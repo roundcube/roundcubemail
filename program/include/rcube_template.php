@@ -434,7 +434,11 @@ class rcube_template extends rcube_html_page
         // trigger generic hook where plugins can put additional content to the page
         $hook = $this->app->plugins->exec_hook("render_page", array('template' => $realname, 'content' => $output));
 
-        $output = $this->parse_with_globals($hook['content']);
+        // save some memory
+        $output = $hook['content'];
+        unset($hook['content']);
+
+        $output = $this->parse_with_globals($output);
 
         // make sure all <form> tags have a valid request token
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);

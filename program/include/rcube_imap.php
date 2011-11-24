@@ -2416,10 +2416,12 @@ class rcube_imap
 
         // convert charset (if text or message part)
         if ($body && preg_match('/^(text|message)$/', $o_part->ctype_primary)) {
-            // Remove NULL characters (#1486189)
-            $body = str_replace("\x00", '', $body);
+            // Remove NULL characters if any (#1486189)
+            if (strpos($body, "\x00") !== false) {
+                $body = str_replace("\x00", '', $body);
+            }
 
-           if (!$skip_charset_conv) {
+            if (!$skip_charset_conv) {
                 if (!$o_part->charset || strtoupper($o_part->charset) == 'US-ASCII') {
                     // try to extract charset information from HTML meta tag (#1488125)
                     if ($o_part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-_]+)/i', $body, $m))
