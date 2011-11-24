@@ -484,7 +484,8 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='
     $unseen = $count;
 
   if ($unseen != $old_unseen || ($mbox_name == 'INBOX'))
-    $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen, ($mbox_name == 'INBOX'), $mark);
+    $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen,
+      ($mbox_name == 'INBOX'), $unseen && $mark ? $mark : '');
 
   rcmail_set_unseen_count($mbox_name, $unseen);
 
