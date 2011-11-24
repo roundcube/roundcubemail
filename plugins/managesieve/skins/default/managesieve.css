@@ -110,6 +110,7 @@ body.iframe
 #filter-form
 {
   min-width: 550px;
+  width: expression(Math.max(550, document.documentElement.clientWidth)+'px');
   white-space: nowrap;
   padding: 20px 10px 10px 10px;
 }
@@ -145,8 +146,8 @@ div.rulerow:hover, div.actionrow:hover
 div.rulerow table, div.actionrow table
 {
   padding: 0px;
-  width: 100%;
-  min-width: 620px;
+  min-width: 600px;
+  width: expression(Math.max(600, document.documentElement.clientWidth)+'px');
 }
 
 td
@@ -189,6 +190,7 @@ td.rowactions
 {
   white-space: nowrap;
   width: 1%;
+  padding-top: 2px;
 }
 
 td.rowtargets
@@ -196,6 +198,7 @@ td.rowtargets
   white-space: nowrap;
   width: 98%;
   padding-left: 3px;
+  padding-top: 2px;
 }
 
 td.rowtargets div.adv

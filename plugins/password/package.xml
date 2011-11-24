@@ -15,10 +15,9 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date></date>
-	<time></time>
+	<date>2011-11-23</date>
 	<version>
-		<release></release>
+		<release>2.4</release>
 		<api>1.6</api>
 	</version>
 	<stability>
@@ -28,6 +27,7 @@
 	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
 	<notes>
 - Added option to use punycode or unicode for domain names (#1488103)
+- Save Samba password hashes in capital letters (#1488197)
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -51,21 +51,27 @@
 			<file name="localization/de_CH.inc" role="data"></file>
 			<file name="localization/de_DE.inc" role="data"></file>
 			<file name="localization/en_US.inc" role="data"></file>
+			<file name="localization/es_AR.inc" role="data"></file>
 			<file name="localization/es_ES.inc" role="data"></file>
 			<file name="localization/et_EE.inc" role="data"></file>
 			<file name="localization/fi_FI.inc" role="data"></file>
 			<file name="localization/fr_FR.inc" role="data"></file>
 			<file name="localization/gl_ES.inc" role="data"></file>
+			<file name="localization/hr_HR.inc" role="data"></file>
 			<file name="localization/hu_HU.inc" role="data"></file>
 			<file name="localization/it_IT.inc" role="data"></file>
+			<file name="localization/ja_JA.inc" role="data"></file>
 			<file name="localization/lt_LT.inc" role="data"></file>
 			<file name="localization/lv_LV.inc" role="data"></file>
 			<file name="localization/nl_NL.inc" role="data"></file>
 			<file name="localization/pl_PL.inc" role="data"></file>
 			<file name="localization/pt_BR.inc" role="data"></file>
 			<file name="localization/pt_PT.inc" role="data"></file>
+			<file name="localization/ru_RU.inc" role="data"></file>
+			<file name="localization/sk_SK.inc" role="data"></file>
 			<file name="localization/sl_SI.inc" role="data"></file>
 			<file name="localization/sv_SE.inc" role="data"></file>
+			<file name="localization/tr_TR.inc" role="data"></file>
 			<file name="localization/zh_TW.inc" role="data"></file>
 
 			<file name="drivers/chgsaslpasswd.c" role="data"></file>

@@ -37,7 +37,7 @@ CREATE INDEX users_alias_id_idx ON users (alias);
 --
 
 CREATE TABLE "session" (
-    sess_id varchar(40) DEFAULT '' PRIMARY KEY,
+    sess_id varchar(128) DEFAULT '' PRIMARY KEY,
     created timestamp with time zone DEFAULT now() NOT NULL,
     changed timestamp with time zone DEFAULT now() NOT NULL,
     ip varchar(41) NOT NULL,

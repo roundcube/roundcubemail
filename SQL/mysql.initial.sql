@@ -6,7 +6,7 @@
 -- Table structure for table `session`
 
 CREATE TABLE `session` (
- `sess_id` varchar(40) NOT NULL,
+ `sess_id` varchar(128) NOT NULL,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `ip` varchar(40) NOT NULL,

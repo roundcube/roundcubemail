@@ -71,6 +71,7 @@ class rcube_template extends rcube_html_page
 
         //$this->framed = $framed;
         $this->set_env('task', $task);
+        $this->set_env('x_frame_options', $this->app->config->get('x_frame_options', 'sameorigin'));
 
         // load the correct skin (in case user-defined)
         $this->set_skin($this->config['skin']);
@@ -915,6 +916,7 @@ class rcube_template extends rcube_html_page
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href'] = rcmail_url(null, null, $attrib['command']);
+                $attrib['onclick'] = sprintf("%s.switch_task('%s');return false", JS_OBJECT_NAME, $attrib['command']);
             }
             else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = rcmail_url($attrib['command'], null, $attrib['task']);

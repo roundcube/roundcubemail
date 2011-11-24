@@ -55,7 +55,6 @@ class rcube_test_mailfunc extends UnitTestCase
     //$this->assertNoPattern('/<style [^>]+>/', $html, "No style tags allowed");
     $this->assertNoPattern('/<form [^>]+>/', $html, "No form tags allowed");
     $this->assertPattern('/Subscription form/', $html, "Include <form> contents");
-    $this->assertPattern('/<!-- input ignored -->/', $html, "No input elements allowed");
     $this->assertPattern('/<!-- link ignored -->/', $html, "No external links allowed");
     $this->assertPattern('/<a[^>]+ target="_blank">/', $html, "Set target to _blank");
     $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");

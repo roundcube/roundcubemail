@@ -22,7 +22,7 @@
 
 // show loading page
 if (!empty($_GET['_preload'])) {
-  $url = str_replace('&_preload=1', '', $_SERVER['REQUEST_URI']);
+  $url = preg_replace('/[&?]+_preload=1/', '', $_SERVER['REQUEST_URI']);
   $message = rcube_label('loadingdata');
 
   header('Content-Type: text/html; charset=' . RCMAIL_CHARSET);

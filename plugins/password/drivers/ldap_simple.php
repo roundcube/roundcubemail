@@ -238,6 +238,7 @@ function ldap_simple_hash_password($password_clear, $encodage_type)
         case 'samba':
             if (function_exists('hash')) {
                 $crypted_password = hash('md4', rcube_charset_convert($password_clear, RCMAIL_CHARSET, 'UTF-16LE'));
+                $crypted_password = strtoupper($crypted_password);
             } else {
 				/* Your PHP install does not have the hash() function */
 				return false;

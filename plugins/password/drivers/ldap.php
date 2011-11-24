@@ -272,6 +272,7 @@ function hashPassword( $passwordClear, $encodageType )
         case 'samba':
             if (function_exists('hash')) {
                 $cryptedPassword = hash('md4', rcube_charset_convert($passwordClear, RCMAIL_CHARSET, 'UTF-16LE'));
+                $cryptedPassword = strtoupper($cryptedPassword);
             } else {
 				/* Your PHP install does not have the hash() function */
 				return false;

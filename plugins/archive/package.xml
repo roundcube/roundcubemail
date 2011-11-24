@@ -13,10 +13,9 @@
 		<email>roundcube@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2010-02-06</date>
-	<time>12:12:00</time>
+	<date>2011-11-23</date>
 	<version>
-		<release>1.4</release>
+		<release>1.5</release>
 		<api>1.4</api>
 	</version>
 	<stability>
@@ -35,14 +34,21 @@
 				<tasks:replace from="@name@" to="name" type="package-info"/>
 				<tasks:replace from="@package_version@" to="version" type="package-info"/>
 			</file>
-			<file name="localization/en_US.inc" role="data"></file>
 			<file name="localization/cs_CZ.inc" role="data"></file>
 			<file name="localization/de_CH.inc" role="data"></file>
 			<file name="localization/de_DE.inc" role="data"></file>
+			<file name="localization/en_US.inc" role="data"></file>
+			<file name="localization/es_AR.inc" role="data"></file>
+			<file name="localization/es_ES.inc" role="data"></file>
 			<file name="localization/et_EE.inc" role="data"></file>
 			<file name="localization/fr_FR.inc" role="data"></file>
+			<file name="localization/gl_ES.inc" role="data"></file>
+			<file name="localization/ja_JP.inc" role="data"></file>
+			<file name="localization/nl_NL.inc" role="data"></file>
 			<file name="localization/pl_PL.inc" role="data"></file>
+			<file name="localization/pt_BR.inc" role="data"></file>
 			<file name="localization/ru_RU.inc" role="data"></file>
+			<file name="localization/sv_SE.inc" role="data"></file>
 			<file name="localization/zh_TW.inc" role="data"></file>
 			<file name="skins/default/archive_act.png" role="data"></file>
 			<file name="skins/default/archive_pas.png" role="data"></file>

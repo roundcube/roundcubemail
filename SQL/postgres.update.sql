@@ -165,3 +165,7 @@ CREATE TABLE cache_messages (
 );
 
 CREATE INDEX cache_messages_changed_idx ON cache_messages (changed);
+
+-- Updates from version 0.7-beta
+
+ALTER TABLE "session" ALTER sess_id TYPE varchar(128);

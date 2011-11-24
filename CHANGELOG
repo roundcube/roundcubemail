@@ -1,7 +1,14 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix possible infinite redirect on attachment preview (#1488199)
+- Improved clickjacking protection for browsers which don't support X-Frame-Options headers
+- Fixed bug where similiar folder names were highlighted wrong (#1487860)
+- Fixed bug in handling link with '!' character in it (#1488195)
+- Fixed bug where session ID's length was limited to 40 characters (#1488196)
 
+RELEASE 0.7-beta
+----------------
 - Fix handling of HTML form elements in messages (#1485137)
 - Fix regression in setting recipient to self when replying to a Sent message (#1487074)
 - Fix listing of folders in hidden namespaces (#1486796)

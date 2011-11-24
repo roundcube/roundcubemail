@@ -290,8 +290,8 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
         td.innerHTML = el.name;
         td.className = 'name';
         tr.id = 'rcmrow' + el.id;
-        if (el.class)
-            tr.className = el.class
+        if (el['class'])
+            tr.className = el['class'];
         tr.appendChild(td);
 
         list.insert_row(tr);
@@ -721,13 +721,11 @@ rcube_webmail.prototype.managesieve_create = function()
 
     // load form in the iframe
     var frame = $('<iframe>').attr({src: url, frameborder: 0})
-    frame.height(dialog.height()); // temp. 
-    dialog.empty().append(frame);
-    dialog.dialog('dialog').resize();
+    dialog.empty().append(frame).dialog('dialog').resize();
 
     // Change [Next Step] button with [Save] button
     buttons = {};
-    buttons[rcmail.gettext('save')] = function() {  
+    buttons[rcmail.gettext('save')] = function() {
       var win = $('iframe', dialog).get(0).contentWindow;
       win.rcmail.managesieve_save();
     };
@@ -743,7 +741,8 @@ rcube_webmail.prototype.managesieve_create = function()
     close: function() { rcmail.managesieve_dialog_close(); },
     buttons: buttons,
     minWidth: 600,
-    minHeight: 300
+    minHeight: 300,
+    height: 250
   }).show();
 
   this.env.managesieve_dialog = dialog;
