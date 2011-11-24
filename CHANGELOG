@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix possible infinite redirect on attachment preview (#1488199)
 - Improved clickjacking protection for browsers which don't support X-Frame-Options headers
 - Fixed bug where similiar folder names were highlighted wrong (#1487860)
 - Fixed bug in handling link with '!' character in it (#1488195)
