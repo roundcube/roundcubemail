@@ -529,11 +529,11 @@ class rcube_ldap extends rcube_addressbook
     }
 
     /**
-    * Get all members of the given group
-    *
-    * @param string Group DN
-    * @param array  Group entries (if called recursively)
-    * @return array Accumulated group members
+     * Get all members of the given group
+     *
+     * @param string Group DN
+     * @param array  Group entries (if called recursively)
+     * @return array Accumulated group members
      */
     function list_group_members($dn, $count = false, $entries = null)
     {
@@ -734,9 +734,17 @@ class rcube_ldap extends rcube_addressbook
             $this->ldap_result = @$function($this->conn, $this->base_dn, $this->filter ? $this->filter : '(objectclass=*)',
                 array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
 
+            $this->result = new rcube_result_set(0);
+
+	    if (!$this->ldap_result) {
+                $this->_debug("S: ".ldap_error($this->conn));
+		return $this->result;
+	    }
+
+    	    $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
+
             // get all entries of this page and post-filter those that really match the query
             $search = mb_strtolower($value);
-            $this->result = new rcube_result_set(0);
             $entries = ldap_get_entries($this->conn, $this->ldap_result);
 
             for ($i = 0; $i < $entries['count']; $i++) {
