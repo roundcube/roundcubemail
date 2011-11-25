@@ -5578,6 +5578,8 @@ function rcube_webmail()
 
     if (mark)
       this.mark_folder(mbox, mark, '', true);
+    else if (!count)
+      this.unmark_folder(mbox, 'recent', '', true);
   };
 
   // update the mailbox count display
