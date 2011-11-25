@@ -710,7 +710,7 @@ function rcmail_contact_photo($attrib)
     $RCMAIL->output->set_env('photo_placeholder', $photo_img);
     unset($attrib['placeholder']);
 
-    if (strpos($record['photo'], 'http:') === 0)
+    if (preg_match('!^https?://!i', $record['photo']))
         $photo_img = $record['photo'];
     else if ($record['photo'])
         $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID));

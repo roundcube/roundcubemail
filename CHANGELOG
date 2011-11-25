@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling contact photo url with https:// prefix (#1488202)
 - Prevent from memory_limit exceeding when trying to parse big messages bodies (#1487424)
 - Add possibility to add SASL mechanisms for SMTP in smtp_connect hook (#1487937)
 - Mark (with different color) folders with recent messages (#1486234)
