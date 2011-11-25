@@ -972,7 +972,7 @@ function rcmail_message_full_headers($attrib, $headers=NULL)
  * @return string HTML content showing the message body
  */
 function rcmail_message_body($attrib)
-  {
+{
   global $CONFIG, $OUTPUT, $MESSAGE, $IMAP, $RCMAIL, $REMOTE_OBJECTS;
 
   if (!is_array($MESSAGE->parts) && empty($MESSAGE->body))
@@ -989,14 +989,20 @@ function rcmail_message_body($attrib)
     if (preg_match('/^headertable([a-z]+)$/i', $attr, $regs))
       $header_attrib[$regs[1]] = $value;
 
-  if (!empty($MESSAGE->parts))
-    {
-    foreach ($MESSAGE->parts as $i => $part)
-      {
+  if (!empty($MESSAGE->parts)) {
+    foreach ($MESSAGE->parts as $i => $part) {
       if ($part->type == 'headers')
         $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part->headers);
-      else if ($part->type == 'content' && $part->size)
-        {
+      else if ($part->type == 'content' && $part->size) {
+        // Check if we have enough memory to handle the message in it
+        // #1487424: we need up to 10x more memory than the body
+        if (!rcmail_mem_check($part->size * 10)) {
+          $out .= html::span('part-notice', rcube_label('messagetoobig'). ' '
+            . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
+              .'&_mbox='. urlencode($IMAP->get_mailbox_name()), rcube_label('download')));
+          continue;
+        }
+
         if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset']))
           $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
 
@@ -1030,16 +1036,25 @@ function rcmail_message_body($attrib)
         }
         else
           $out .= html::div('message-part', $plugin['prefix'] . $body);
-        }
       }
     }
+  }
   else {
-    $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix', array(
-      'part' => $MESSAGE, 'prefix' => ''));
-
-    $out .= html::div('message-part', $plugin['prefix'] . html::tag('pre', array(),
-      rcmail_plain_body(Q($MESSAGE->body, 'strict', false))));
+    // Check if we have enough memory to handle the message in it
+    // #1487424: we need up to 10x more memory than the body
+    if (!rcmail_mem_check(strlen($MESSAGE->body) * 10)) {
+      $out .= html::span('part-notice', rcube_label('messagetoobig'). ' '
+        . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part=0'
+          .'&_mbox='. urlencode($IMAP->get_mailbox_name()), rcube_label('download')));
     }
+    else {
+      $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix', array(
+        'part' => $MESSAGE, 'prefix' => ''));
+
+      $out .= html::div('message-part', $plugin['prefix'] . html::tag('pre', array(),
+        rcmail_plain_body(Q($MESSAGE->body, 'strict', false))));
+    }
+  }
 
   // list images after mail body
   if ($CONFIG['inline_images'] && !empty($MESSAGE->attachments)) {
@@ -1057,7 +1072,7 @@ function rcmail_message_body($attrib)
             'title' => $attach_prop->filename,
             'alt' => $attach_prop->filename,
           )));
-        }
+      }
     }
   }
 
@@ -1066,7 +1081,7 @@ function rcmail_message_body($attrib)
     $OUTPUT->set_env('blockedobjects', true);
 
   return html::div($attrib, $out);
-  }
+}
 
 
 /**

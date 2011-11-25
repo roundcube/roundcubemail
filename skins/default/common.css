@@ -232,6 +232,7 @@ img
 }
 
 #message div.notice,
+#messagebody .part-notice,
 #message-objects div.notice
 {
   background: url(images/display/icons.png) 6px 3px no-repeat;

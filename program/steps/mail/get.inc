@@ -70,7 +70,7 @@ if (!empty($_GET['_frame'])) {
   exit;
 }
 
-else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
+else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
   if ($part = $MESSAGE->mime_parts[$pid]) {
     $ctype_primary = strtolower($part->ctype_primary);
@@ -109,18 +109,30 @@ else if ($pid = get_input_value('_part', RCUBE_INPUT_GET)) {
 
     // deliver part content
     if ($ctype_primary == 'text' && $ctype_secondary == 'html' && empty($plugin['download'])) {
-      // get part body if not available
-      if (!$part->body)
-        $part->body = $MESSAGE->get_part_content($part->mime_id);
+      // Check if we have enough memory to handle the message in it
+      // #1487424: we need up to 10x more memory than the body
+      if (!rcmail_mem_check($part->size * 10)) {
+        $out = '<body>' . rcube_label('messagetoobig'). ' '
+          . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
+            .'&_mbox='. urlencode($IMAP->get_mailbox_name()), rcube_label('download')) . '</body></html>';
+      }
+      else {
+        // get part body if not available
+        if (!$part->body)
+          $part->body = $MESSAGE->get_part_content($part->mime_id);
+
+        $out = rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false));
+      }
 
       $OUTPUT = new rcube_html_page();
-      $OUTPUT->write(rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false)));
+      $OUTPUT->write($out);
     }
     else {
       // don't kill the connection if download takes more than 30 sec.
       @set_time_limit(0);
 
-      $filename = $part->filename ? $part->filename : ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . '.'.$ctype_secondary;
+      $ext      = '.' . ($mimetype == 'text/plain' ? 'txt' : $ctype_secondary);
+      $filename = $part->filename ? $part->filename : ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . $ext;
       $filename = preg_replace('[\r\n]', '', $filename);
 
       if ($browser->ie && $browser->ver < 7)

@@ -1203,20 +1203,28 @@ div.message-htmlpart div.rcmBody
   margin: 8px;
 }
 
-#message-objects div
+#messagebody span.part-notice
+{
+  display: block;
+}
+
+#message-objects div,
+#messagebody span.part-notice
 {
   margin: 8px;
   min-height: 20px;
   padding: 10px 10px 6px 46px;
 }
 
-#message-objects div a
+#message-objects div a,
+#messagebody span.part-notice a
 {
   color: #666666;
   padding-left: 10px;
 }
 
-#message-objects div a:hover
+#message-objects div a:hover,
+#messagebody span.part-notice a:hover
 {
   color: #333333;
 }

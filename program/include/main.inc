@@ -1846,6 +1846,21 @@ function rcmail_user_date()
 
 
 /**
+ * Check if we can process not exceeding memory_limit
+ *
+ * @param integer Required amount of memory
+ * @return boolean
+ */
+function rcmail_mem_check($need)
+{
+  $mem_limit = parse_bytes(ini_get('memory_limit'));
+  $memory    = function_exists('memory_get_usage') ? memory_get_usage() : 16*1024*1024; // safe value: 16MB
+
+  return $mem_limit && $memory + $need > $mem_limit ? false : true;
+}
+
+
+/**
  * Check if working in SSL mode
  *
  * @param integer HTTPS port number

@@ -152,7 +152,6 @@ $labels['unanswered'] = 'Unanswered';
 $labels['deleted'] = 'Deleted';
 $labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
-
 $labels['list'] = 'List';
 $labels['threads'] = 'Threads';
 $labels['expand-all'] = 'Expand All';
