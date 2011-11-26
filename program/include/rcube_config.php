@@ -90,11 +90,14 @@ class rcube_config
 
         // enable display_errors in 'show' level, but not for ajax requests
         ini_set('display_errors', intval(empty($_REQUEST['_remote']) && ($this->prop['debug_level'] & 4)));
-        
+
         // set timezone auto settings values
         if ($this->prop['timezone'] == 'auto') {
           $this->prop['dst_active'] = intval(date('I'));
-          $this->prop['_timezone_value']   = date('Z') / 3600 - $this->prop['dst_active'];
+          $this->prop['_timezone_value'] = date('Z') / 3600 - $this->prop['dst_active'];
+        }
+        else if ($this->prop['dst_active'] === null) {
+          $this->prop['dst_active'] = intval(date('I'));
         }
 
         // export config data

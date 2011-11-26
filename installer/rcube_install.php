@@ -142,20 +142,22 @@ class rcube_install
 
     foreach ($this->config as $prop => $default) {
 
-      $value = (isset($_POST["_$prop"]) || $this->bool_config_props[$prop]) ? $_POST["_$prop"] : $default;
+      $is_default = !isset($_POST["_$prop"]);
+      $value      = !$is_default || $this->bool_config_props[$prop] ? $_POST["_$prop"] : $default;
 
       // convert some form data
-      if ($prop == 'debug_level') {
-        $val = 0;
-        if (is_array($value))
+      if ($prop == 'debug_level' && !$is_default) {
+        if (is_array($value)) {
+          $val = 0;
           foreach ($value as $dbgval)
             $val += intval($dbgval);
-        $value = $val;
+          $value = $val;
+        }
       }
       else if ($which == 'db' && $prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
         if ($_POST['_dbtype'] == 'sqlite')
           $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'], $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
-        else
+        else if ($_POST['_dbtype'])
           $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'], 
             rawurlencode($_POST['_dbuser']), rawurlencode($_POST['_dbpass']), $_POST['_dbhost'], $_POST['_dbname']);
       }
@@ -177,9 +179,9 @@ class rcube_install
         $value = '%p';
       }
       else if ($prop == 'default_imap_folders') {
-	    $value = Array();
+	    $value = array();
 	    foreach ($this->config['default_imap_folders'] as $_folder) {
-	      switch($_folder) {
+	      switch ($_folder) {
 	      case 'Drafts': $_folder = $this->config['drafts_mbox']; break;
 	      case 'Sent':   $_folder = $this->config['sent_mbox']; break;
 	      case 'Junk':   $_folder = $this->config['junk_mbox']; break;
@@ -206,7 +208,7 @@ class rcube_install
       // replace the matching line in config file
       $out = preg_replace(
         '/(\$rcmail_config\[\''.preg_quote($prop).'\'\])\s+=\s+(.+);/Uie',
-        "'\\1 = ' . rcube_install::_dump_var(\$value) . ';'",
+        "'\\1 = ' . rcube_install::_dump_var(\$value, \$prop) . ';'",
         $out);
     }
 
@@ -299,7 +301,7 @@ class rcube_install
     $current = $this->config;
     $this->config = array();
     $this->load_defaults();
-    
+
     foreach ($this->replaced_config as $prop => $replacement) {
       if (isset($current[$prop])) {
         if ($prop == 'skin_path')
@@ -328,9 +330,9 @@ class rcube_install
     
     if ($current['keep_alive'] && $current['session_lifetime'] < $current['keep_alive'])
       $current['session_lifetime'] = max(10, ceil($current['keep_alive'] / 60) * 2);
-    
+
     $this->config  = array_merge($this->config, $current);
-    
+
     foreach ((array)$current['ldap_public'] as $key => $values) {
       $this->config['ldap_public'][$key] = $current['ldap_public'][$key];
     }
@@ -614,7 +616,22 @@ class rcube_install
   }
   
   
-  static function _dump_var($var) {
+  static function _dump_var($var, $name=null) {
+    // special values
+    switch ($name) {
+    case 'syslog_facility':
+      $list = array(32 => 'LOG_AUTH', 80 => 'LOG_AUTHPRIV', 72 => ' LOG_CRON',
+                    24 => 'LOG_DAEMON', 0 => 'LOG_KERN', 128 => 'LOG_LOCAL0',
+                    136 => 'LOG_LOCAL1', 144 => 'LOG_LOCAL2', 152 => 'LOG_LOCAL3',
+                    160 => 'LOG_LOCAL4', 168 => 'LOG_LOCAL5', 176 => 'LOG_LOCAL6',
+                    184 => 'LOG_LOCAL7', 48 => 'LOG_LPR', 16 => 'LOG_MAIL',
+                    56 => 'LOG_NEWS', 40 => 'LOG_SYSLOG', 8 => 'LOG_USER', 64 => 'LOG_UUCP');
+      if ($val = $list[$var])
+        return $val;
+      break;
+    }
+
+
     if (is_array($var)) {
       if (empty($var)) {
         return 'array()';
