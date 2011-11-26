@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so TEXT key will remove all HEADER keys in IMAP SEARCH (#1488208)
 - Fix handling contact photo url with https:// prefix (#1488202)
 - Prevent from memory_limit exceeding when trying to parse big messages bodies (#1487424)
 - Add possibility to add SASL mechanisms for SMTP in smtp_connect hook (#1487937)

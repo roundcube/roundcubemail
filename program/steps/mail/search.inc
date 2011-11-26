@@ -31,6 +31,7 @@ $str     = get_input_value('_q', RCUBE_INPUT_GET, true);
 $mbox    = get_input_value('_mbox', RCUBE_INPUT_GET, true);
 $filter  = get_input_value('_filter', RCUBE_INPUT_GET);
 $headers = get_input_value('_headers', RCUBE_INPUT_GET);
+$subject = array();
 
 $search_request = md5($mbox.$filter.$str);
 
@@ -70,14 +71,19 @@ else if (preg_match("/^body:.*/i", $str))
   list(,$srch) = explode(":", $str);
   $subject['text'] = "TEXT";
 }
-else if(trim($str))
+else if (strlen(trim($str)))
 {
   if ($headers) {
-    foreach(explode(',', $headers) as $header)
-      switch ($header) {
-        case 'text': $subject['text'] = 'TEXT'; break;
-        default:     $subject[$header] = 'HEADER '.strtoupper($header);
+    foreach (explode(',', $headers) as $header) {
+      if ($header == 'text') {
+        // #1488208: get rid of other headers when searching by "TEXT"
+        $subject = array('text' => 'TEXT');
+        break;
       }
+      else {
+        $subject[$header] = 'HEADER '.strtoupper($header);
+      }
+    }
 
     // save search modifiers for the current folder to user prefs
     $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
@@ -89,9 +95,9 @@ else if(trim($str))
   }
 }
 
-$search = $srch ? trim($srch) : trim($str);
+$search = isset($srch) ? trim($srch) : trim($str);
 
-if ($subject) {
+if (!empty($subject)) {
   $search_str .= str_repeat(' OR', count($subject)-1);
   foreach ($subject as $sub)
     $search_str .= sprintf(" %s {%d}\r\n%s", $sub, strlen($search), $search);
