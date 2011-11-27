@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of invalid characters in request (#1488124)
 - Fix merging some configuration options in update.sh script (#1485864)
 - Fix so TEXT key will remove all HEADER keys in IMAP SEARCH (#1488208)
 - Fix handling contact photo url with https:// prefix (#1488202)
