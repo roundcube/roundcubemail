@@ -1051,17 +1051,9 @@ class rcube_ldap extends rcube_addressbook
         $replacedata = array();
         $deletedata = array();
 
-        // flatten composite fields in $record
-        if (is_array($record['address'])) {
-          foreach ($record['address'] as $i => $struct) {
-            foreach ($struct as $col => $val) {
-              $record[$col][$i] = $val;
-            }
-          }
-        }
-
+        $ldap_data = $this->_map_data($save_cols);
         foreach ($this->fieldmap as $col => $fld) {
-            $val = $save_cols[$col];
+            $val = $ldap_data[$fld];
             if ($fld) {
                 // remove empty array values
                 if (is_array($val))
@@ -1353,6 +1345,20 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _map_data($save_cols)
     {
+        // flatten composite fields first
+        foreach ($this->coltypes as $col => $colprop) {
+            if (is_array($colprop['childs']) && ($values = $this->get_col_values($col, $save_cols, false))) {
+                foreach ($values as $subtype => $childs) {
+                    $subtype = $subtype ? ':'.$subtype : '';
+                    foreach ($childs as $i => $child_values) {
+                        foreach ((array)$child_values as $childcol => $value) {
+                            $save_cols[$childcol.$subtype][$i] = $value;
+                        }
+                    }
+                }
+            }
+        }
+
         $ldap_data = array();
         foreach ($this->fieldmap as $col => $fld) {
             $val = $save_cols[$col];
