@@ -1602,11 +1602,13 @@ class rcube_ldap extends rcube_addressbook
         $base_dn = $this->groups_base_dn;
         $new_dn = "cn=$group_name,$base_dn";
         $new_gid = self::dn_encode($group_name);
+        $member_attr = $this->prop['groups']['member_attr'];
         $name_attr = $this->prop['groups']['name_attr'];
 
         $new_entry = array(
             'objectClass' => $this->prop['groups']['object_classes'],
             $name_attr => $group_name,
+            $member_attr => '',
         );
 
         $this->_debug("C: Add [dn: $new_dn]: ".print_r($new_entry, true));
