@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use strpos() instead of strstr() when possible (#1488211)
 - Fix handling HTML entities when converting HTML to text (#1488212)
 - Fix fit_string_to_size() renders browser and ui unresponsive (#1488207)
 - Fix handling of invalid characters in request (#1488124)
