@@ -1052,6 +1052,8 @@ class rcube_ldap extends rcube_addressbook
         $deletedata = array();
 
         $ldap_data = $this->_map_data($save_cols);
+        $old_data = $record['_raw_attrib'];
+
         foreach ($this->fieldmap as $col => $fld) {
             $val = $ldap_data[$fld];
             if ($fld) {
@@ -1059,23 +1061,23 @@ class rcube_ldap extends rcube_addressbook
                 if (is_array($val))
                     $val = array_filter($val);
                 // The field does exist compare it to the ldap record.
-                if ($record[$col] != $val) {
+                if ($old_data[$fld] != $val) {
                     // Changed, but find out how.
-                    if (!isset($record[$col])) {
+                    if (!isset($old_data[$fld])) {
                         // Field was not set prior, need to add it.
                         $newdata[$fld] = $val;
-                    } // end if
-                    elseif ($val == '') {
+                    }
+                    else if ($val == '') {
                         // Field supplied is empty, verify that it is not required.
                         if (!in_array($fld, $this->prop['required_fields'])) {
                             // It is not, safe to clear.
-                            $deletedata[$fld] = $record[$col];
-                        } // end if
+                            $deletedata[$fld] = $old_data[$fld];
+                        }
                     } // end elseif
                     else {
                         // The data was modified, save it out.
                         $replacedata[$fld] = $val;
-                    } // end else
+                    }
                 } // end if
             } // end if
         } // end foreach
@@ -1311,6 +1313,9 @@ class rcube_ldap extends rcube_addressbook
             for ($i=0; $i < $rec[$lf]['count']; $i++) {
                 if (!($value = $rec[$lf][$i]))
                     continue;
+
+                $out['_raw_attrib'][$lf][$i] = $value;
+
                 if ($rf == 'email' && $this->mail_domain && !strpos($value, '@'))
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
                 else if (in_array($rf, array('street','zipcode','locality','country','region')))
@@ -1323,7 +1328,7 @@ class rcube_ldap extends rcube_addressbook
 
             // Make sure name fields aren't arrays (#1488108)
             if (is_array($out[$rf]) && in_array($rf, array('name', 'surname', 'firstname', 'middlename', 'nickname'))) {
-                $out[$rf] = $out[$rf][0];
+                $out[$rf] = $out['_raw_attrib'][$lf] = $out[$rf][0];
             }
         }
 
