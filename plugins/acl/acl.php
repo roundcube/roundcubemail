@@ -3,7 +3,7 @@
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *
- * @version 0.6.3
+ * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  *
@@ -627,7 +627,6 @@ class acl extends rcube_plugin
             $acl = $this->rc->imap->get_acl('INBOX');
             if (is_array($acl)) {
                 $regexp = '/^' . preg_quote($_SESSION['username'], '/') . '@(.*)$/';
-                $regexp = '/^' . preg_quote('aleksander.machniak', '/') . '@(.*)$/';
                 foreach (array_keys($acl) as $name) {
                     if (preg_match($regexp, $name, $matches)) {
                         $domain = $matches[1];
