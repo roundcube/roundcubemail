@@ -640,20 +640,23 @@ function JQ($str)
 function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
 {
   $value = NULL;
-  
-  if ($source==RCUBE_INPUT_GET && isset($_GET[$fname]))
-    $value = $_GET[$fname];
-  else if ($source==RCUBE_INPUT_POST && isset($_POST[$fname]))
-    $value = $_POST[$fname];
-  else if ($source==RCUBE_INPUT_GPC)
-    {
+
+  if ($source == RCUBE_INPUT_GET) {
+    if (isset($_GET[$fname]))
+      $value = $_GET[$fname];
+  }
+  else if ($source == RCUBE_INPUT_POST) {
+    if (isset($_POST[$fname]))
+      $value = $_POST[$fname];
+  }
+  else if ($source == RCUBE_INPUT_GPC) {
     if (isset($_POST[$fname]))
       $value = $_POST[$fname];
     else if (isset($_GET[$fname]))
       $value = $_GET[$fname];
     else if (isset($_COOKIE[$fname]))
       $value = $_COOKIE[$fname];
-    }
+  }
 
   return parse_input_value($value, $allow_html, $charset);
 }
@@ -661,7 +664,7 @@ function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
 /**
  * Parse/validate input value. See get_input_value()
  * Performs stripslashes() and charset conversion if necessary
- * 
+ *
  * @param  string   Input value
  * @param  boolean  Allow HTML tags in field value
  * @param  string   Charset to convert into
@@ -687,15 +690,21 @@ function parse_input_value($value, $allow_html=FALSE, $charset=NULL)
   else if (get_magic_quotes_gpc() || get_magic_quotes_runtime())
     $value = stripslashes($value);
 
-  // remove HTML tags if not allowed    
+  // remove HTML tags if not allowed
   if (!$allow_html)
     $value = strip_tags($value);
-  
+
+  $output_charset = is_object($OUTPUT) ? $OUTPUT->get_charset() : null;
+
+  // remove invalid characters (#1488124)
+  if ($output_charset == 'UTF-8')
+    $value = rc_utf8_clean($value);
+
   // convert to internal charset
-  if (is_object($OUTPUT) && $charset)
-    return rcube_charset_convert($value, $OUTPUT->get_charset(), $charset);
-  else
-    return $value;
+  if ($charset && $output_charset)
+    $value = rcube_charset_convert($value, $output_charset, $charset);
+
+  return $value;
 }
 
 /**
@@ -711,10 +720,10 @@ function request2param($mode = RCUBE_INPUT_GPC, $ignore = 'task|action')
   $src = $mode == RCUBE_INPUT_GET ? $_GET : ($mode == RCUBE_INPUT_POST ? $_POST : $_REQUEST);
   foreach ($src as $key => $value) {
     $fname = $key[0] == '_' ? substr($key, 1) : $key;
-    if ($ignore && !preg_match("/($ignore)/", $fname))
+    if ($ignore && !preg_match('/^(' . $ignore . ')$/', $fname))
       $out[$fname] = get_input_value($key, $mode);
   }
-  
+
   return $out;
 }
 

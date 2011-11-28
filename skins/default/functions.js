@@ -192,28 +192,31 @@ searchmenu: function(show)
 
   if (show && ref) {
     var pos = $(ref).offset();
-    obj.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)})
-        .find(':checked').prop('checked', false);
+    obj.css({left:pos.left, top:(pos.top + ref.offsetHeight + 2)});
 
     if (rcmail.env.search_mods) {
-      var n, mbox = rcmail.env.mailbox, mods = rcmail.env.search_mods;
+      var n, all,
+        list = $('input:checkbox[name="s_mods[]"]', obj),
+        mbox = rcmail.env.mailbox,
+        mods = rcmail.env.search_mods;
 
-      if (rcmail.env.task != 'addressbook') {
+      if (rcmail.env.task == 'mail') {
         mods = mods[mbox] ? mods[mbox] : mods['*'];
-
-        for (n in mods)
-          $('#s_mod_' + n).prop('checked', true);
+        all = 'text';
       }
       else {
-        if (mods['*'])
-          $('input:checkbox[name="s_mods[]"]').map(function() {
-            this.checked = true;
-            this.disabled = this.value != '*';
-          });
-        else {
-          for (n in mods)
-            $('#s_mod_' + n).prop('checked', true);
-        }
+        all = '*';
+      }
+
+      if (mods[all])
+        list.map(function() {
+          this.checked = true;
+          this.disabled = this.value != all;
+        });
+      else {
+        list.prop('disabled', false).prop('checked', false);
+        for (n in mods)
+          $('#s_mod_' + n).prop('checked', true);
       }
     }
   }
@@ -222,7 +225,7 @@ searchmenu: function(show)
 
 set_searchmod: function(elem)
 {
-  var task = rcmail.env.task,
+  var all, m, task = rcmail.env.task,
     mods = rcmail.env.search_mods,
     mbox = rcmail.env.mailbox;
 
@@ -232,36 +235,37 @@ set_searchmod: function(elem)
   if (task == 'mail') {
     if (!mods[mbox])
       mods[mbox] = rcube_clone_object(mods['*']);
-    if (!elem.checked)
-      delete(mods[mbox][elem.value]);
-    else
-      mods[mbox][elem.value] = 1;
+    m = mods[mbox];
+    all = 'text';
   }
   else { //addressbook
-    if (!elem.checked)
-      delete(mods[elem.value]);
-    else
-      mods[elem.value] = 1;
-
-    // mark all fields
-    if (elem.value == '*') {
-      $('input:checkbox[name="s_mods[]"]').map(function() {
-        if (this == elem)
-          return;
-
-        if (elem.checked) {
-          mods[this.value] = 1;
-          this.checked = true;
-          this.disabled = true;
-        }
-        else {
-          this.disabled = false;
-        }
-      });
-    }
+    m = mods;
+    all = '*';
   }
 
-  rcmail.env.search_mods = mods;
+  if (!elem.checked)
+    delete(m[elem.value]);
+  else
+    m[elem.value] = 1;
+
+  // mark all fields
+  if (elem.value != all)
+    return;
+
+  $('input:checkbox[name="s_mods[]"]').map(function() {
+    if (this == elem)
+      return;
+
+    this.checked = true;
+    if (elem.checked) {
+      this.disabled = true;
+      delete m[this.value];
+    }
+    else {
+      this.disabled = false;
+      m[this.value] = 1;
+    }
+  });
 },
 
 listmenu: function(show)
@@ -566,7 +570,6 @@ function rcube_init_mail_ui()
       rcmail.addEventListener('responseaftergetunread', rcube_render_mailboxlist);
       rcmail.addEventListener('responseaftercheck-recent', rcube_render_mailboxlist);
       rcmail.addEventListener('aftercollapse-folder', rcube_render_mailboxlist);
-      rcube_render_mailboxlist();
     }
 
     if (rcmail.env.action == 'compose')
@@ -588,12 +591,16 @@ function iframe_events()
 // Abbreviate mailbox names to fit width of the container
 function rcube_render_mailboxlist()
 {
-  if (bw.ie6)  // doesn't work well on IE6
+  var list = $('#mailboxlist > li a, #mailboxlist ul:visible > li a');
+
+  // it's too slow with really big number of folders, especially on IE
+  if (list.length > 500 * (bw.ie ? 0.2 : 1))
     return;
 
-  $('#mailboxlist > li a, #mailboxlist ul:visible > li a').each(function(){
-    var elem = $(this);
-    var text = elem.data('text');
+  list.each(function(){
+    var elem = $(this),
+      text = elem.data('text');
+
     if (!text) {
       text = elem.text().replace(/\s+\(.+$/, '');
       elem.data('text', text);
@@ -611,34 +618,45 @@ function rcube_render_mailboxlist()
 // inspired by https://gist.github.com/24261/7fdb113f1e26111bd78c0c6fe515f6c0bf418af5
 function fit_string_to_size(str, elem, len)
 {
-    var result = str;
-    var ellip = '...';
-    var span = $('<b>').css({ visibility:'hidden', padding:'0px' }).appendTo(elem).get(0);
+  var w, span, result = str, ellip = '...';
 
-    // on first run, check if string fits into the length already.
-    span.innerHTML = result;
-    if (span.offsetWidth > len) {
-        var cut = Math.max(1, Math.floor(str.length * ((span.offsetWidth - len) / span.offsetWidth) / 2)),
-          mid = Math.floor(str.length / 2);
-        var offLeft = mid, offRight = mid;
-        while (true) {
-            offLeft = mid - cut;
-            offRight = mid + cut;
-            span.innerHTML = str.substring(0,offLeft) + ellip + str.substring(offRight);
+  if (!rcmail.env.tmp_span) {
+    // it should be appended to elem to use the same css style
+    // but for performance reasons we'll append it to body (once)
+    span = $('<b>').css({visibility: 'hidden', padding: '0px'})
+      .appendTo($('body', document)).get(0);
+    rcmail.env.tmp_span = span;
+  }
+  else {
+    span = rcmail.env.tmp_span;
+  }
+  span.innerHTML = result;
 
-            // break loop if string fits size
-            if (span.offsetWidth <= len || offLeft < 3)
-              break;
+  // on first run, check if string fits into the length already.
+  w = span.offsetWidth;
+  if (w > len) {
+    var cut = Math.max(1, Math.floor(str.length * ((w - len) / w) / 2)),
+      mid = Math.floor(str.length / 2),
+      offLeft = mid,
+      offRight = mid;
 
-            cut++;
-        }
+    while (true) {
+      offLeft = mid - cut;
+      offRight = mid + cut;
+      span.innerHTML = str.substring(0,offLeft) + ellip + str.substring(offRight);
 
-        // build resulting string
-        result = str.substring(0,offLeft) + ellip + str.substring(offRight);
+      // break loop if string fits size
+      if (offLeft < 3 || span.offsetWidth)
+        break;
+
+      cut++;
     }
-    
-    span.parentNode.removeChild(span);
-    return result;
+
+    // build resulting string
+    result = str.substring(0,offLeft) + ellip + str.substring(offRight);
+  }
+
+  return result;
 }
 
 // Optional parameters used by TinyMCE

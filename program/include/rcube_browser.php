@@ -33,19 +33,19 @@ class rcube_browser
         $HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
 
         $this->ver = 0;
-        $this->win = strstr($HTTP_USER_AGENT, 'win');
-        $this->mac = strstr($HTTP_USER_AGENT, 'mac');
-        $this->linux = strstr($HTTP_USER_AGENT, 'linux');
-        $this->unix  = strstr($HTTP_USER_AGENT, 'unix');
+        $this->win = strpos($HTTP_USER_AGENT, 'win') != false;
+        $this->mac = strpos($HTTP_USER_AGENT, 'mac') != false;
+        $this->linux = strpos($HTTP_USER_AGENT, 'linux') != false;
+        $this->unix  = strpos($HTTP_USER_AGENT, 'unix') != false;
 
-        $this->opera = strstr($HTTP_USER_AGENT, 'opera');
-        $this->ns4 = strstr($HTTP_USER_AGENT, 'mozilla/4') && !stristr($HTTP_USER_AGENT, 'msie');
-        $this->ns  = ($this->ns4 || strstr($HTTP_USER_AGENT, 'netscape'));
-        $this->ie  = !$this->opera && stristr($HTTP_USER_AGENT, 'compatible; msie');
-        $this->mz  = !$this->ie && strstr($HTTP_USER_AGENT, 'mozilla/5');
-        $this->chrome = strstr($HTTP_USER_AGENT, 'chrome');
-        $this->khtml = strstr($HTTP_USER_AGENT, 'khtml');
-        $this->safari = !$this->chrome && ($this->khtml || strstr($HTTP_USER_AGENT, 'safari'));
+        $this->opera = strpos($HTTP_USER_AGENT, 'opera') !== false;
+        $this->ns4 = strpos($HTTP_USER_AGENT, 'mozilla/4') !== false && strpos($HTTP_USER_AGENT, 'msie') === false;
+        $this->ns  = ($this->ns4 || strpos($HTTP_USER_AGENT, 'netscape') !== false);
+        $this->ie  = !$this->opera && strpos($HTTP_USER_AGENT, 'compatible; msie') !== false;
+        $this->mz  = !$this->ie && strpos($HTTP_USER_AGENT, 'mozilla/5') !== false;
+        $this->chrome = strpos($HTTP_USER_AGENT, 'chrome') !== false;
+        $this->khtml = strpos($HTTP_USER_AGENT, 'khtml') !== false;
+        $this->safari = !$this->chrome && ($this->khtml || strpos($HTTP_USER_AGENT, 'safari') !== false);
 
         if ($this->ns || $this->chrome) {
             $test = preg_match('/(mozilla|chrome)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs);

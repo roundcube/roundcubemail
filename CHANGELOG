@@ -1,6 +1,13 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use strpos() instead of strstr() when possible (#1488211)
+- Fix handling HTML entities when converting HTML to text (#1488212)
+- Fix fit_string_to_size() renders browser and ui unresponsive (#1488207)
+- Fix handling of invalid characters in request (#1488124)
+- Fix merging some configuration options in update.sh script (#1485864)
+- Fix so TEXT key will remove all HEADER keys in IMAP SEARCH (#1488208)
+- Fix handling contact photo url with https:// prefix (#1488202)
 - Fix possible infinite redirect on attachment preview (#1488199)
 - Improved clickjacking protection for browsers which don't support X-Frame-Options headers
 - Fixed bug where similiar folder names were highlighted wrong (#1487860)
