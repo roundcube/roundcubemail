@@ -145,7 +145,6 @@ class html2text
     var $search = array(
         "/\r/",                                  // Non-legal carriage return
         "/[\n\t]+/",                             // Newlines and tabs
-        '/[ ]{2,}/',                             // Runs of spaces, pre-handling
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
         '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
         '/<p[^>]*>/i',                           // <P>
@@ -161,22 +160,6 @@ class html2text
         '/(<table[^>]*>|<\/table>)/i',           // <table> and </table>
         '/(<tr[^>]*>|<\/tr>)/i',                 // <tr> and </tr>
         '/<td[^>]*>(.*?)<\/td>/i',               // <td> and </td>
-        '/&(nbsp|#160);/i',                      // Non-breaking space
-        '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i',
-		                                         // Double quotes
-        '/&(apos|rsquo|lsquo|#8216|#8217);/i',   // Single quotes
-        '/&gt;/i',                               // Greater-than
-        '/&lt;/i',                               // Less-than
-        '/&(copy|#169);/i',                      // Copyright
-        '/&(trade|#8482|#153);/i',               // Trademark
-        '/&(reg|#174);/i',                       // Registered
-        '/&(mdash|#151|#8212);/i',               // mdash
-        '/&(ndash|minus|#8211|#8722);/i',        // ndash
-        '/&(bull|#149|#8226);/i',                // Bullet
-        '/&(pound|#163);/i',                     // Pound sign
-        '/&(euro|#8364);/i',                     // Euro sign
-        '/&(amp|#38);/i',                        // Ampersand: see _converter()
-        '/[ ]{2,}/'                              // Runs of spaces, post-handling
     );
 
     /**
@@ -189,7 +172,6 @@ class html2text
     var $replace = array(
         '',                                     // Non-legal carriage return
         ' ',                                    // Newlines and tabs
-        ' ',                                    // Runs of spaces, pre-handling
         '',                                     // <script>s -- which strip_tags supposedly has problems with
         '',                                     // <style>s -- which strip_tags supposedly has problems with
         "\n\n",                                 // <P>
@@ -205,6 +187,43 @@ class html2text
         "\n\n",                                 // <table> and </table>
         "\n",                                   // <tr> and </tr>
         "\t\t\\1\n",                            // <td> and </td>
+    );
+
+    /**
+     *  List of preg* regular expression patterns to search for,
+     *  used in conjunction with $ent_replace.
+     *
+     *  @var array $ent_search
+     *  @access public
+     *  @see $ent_replace
+     */
+    var $ent_search = array(
+        '/&(nbsp|#160);/i',                      // Non-breaking space
+        '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i',
+		                                         // Double quotes
+        '/&(apos|rsquo|lsquo|#8216|#8217);/i',   // Single quotes
+        '/&gt;/i',                               // Greater-than
+        '/&lt;/i',                               // Less-than
+        '/&(copy|#169);/i',                      // Copyright
+        '/&(trade|#8482|#153);/i',               // Trademark
+        '/&(reg|#174);/i',                       // Registered
+        '/&(mdash|#151|#8212);/i',               // mdash
+        '/&(ndash|minus|#8211|#8722);/i',        // ndash
+        '/&(bull|#149|#8226);/i',                // Bullet
+        '/&(pound|#163);/i',                     // Pound sign
+        '/&(euro|#8364);/i',                     // Euro sign
+        '/&(amp|#38);/i',                        // Ampersand: see _converter()
+        '/[ ]{2,}/',                             // Runs of spaces, post-handling
+    );
+
+    /**
+     *  List of pattern replacements corresponding to patterns searched.
+     *
+     *  @var array $ent_replace
+     *  @access public
+     *  @see $ent_search
+     */
+    var $ent_replace = array(
         ' ',                                    // Non-breaking space
         '"',                                    // Double quotes
         "'",                                    // Single quotes
@@ -219,7 +238,7 @@ class html2text
         'Â£',
         'EUR',                                  // Euro sign. € ?
         '|+|amp|+|',                            // Ampersand: see _converter()
-        ' '                                     // Runs of spaces, post-handling
+        ' ',                                    // Runs of spaces, post-handling
     );
 
     /**
@@ -303,7 +322,7 @@ class html2text
      *  @see _build_link_list()
      */
     var $_link_list = '';
-    
+
     /**
      *  Number of valid links detected in the text, used for plain text
      *  display (rendered similar to footnotes).
@@ -314,15 +333,15 @@ class html2text
      */
     var $_link_count = 0;
 
-    /** 
-     * Boolean flag, true if a table of link URLs should be listed after the text. 
-     *  
-     * @var boolean $_do_links 
-     * @access private 
-     * @see html2text() 
+    /**
+     * Boolean flag, true if a table of link URLs should be listed after the text.
+     *
+     * @var boolean $_do_links
+     * @access private
+     * @see html2text()
      */
     var $_do_links = true;
- 
+
     /**
      *  Constructor.
      *
@@ -492,14 +511,20 @@ class html2text
         // Convert <PRE>
         $this->_convert_pre($text);
 
-        // Run our defined search-and-replace
+        // Run our defined tags search-and-replace
         $text = preg_replace($this->search, $this->replace, $text);
+
+        // Run our defined tags search-and-replace with callback
+        $text = preg_replace_callback($this->callback_search, array('html2text', '_preg_callback'), $text);
+
+        // Strip any other HTML tags
+        $text = strip_tags($text, $this->allowed_tags);
+
+        // Run our defined entities/characters search-and-replace
+        $text = preg_replace($this->ent_search, $this->ent_replace, $text);
 
         // Replace known html entities
         $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
-
-        // Run our defined search-and-replace with callback
-        $text = preg_replace_callback($this->callback_search, array('html2text', '_preg_callback'), $text);
 
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
         $text = preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
@@ -508,15 +533,12 @@ class html2text
         // This properly handles situation of "&amp;quot;" in input string
         $text = str_replace('|+|amp|+|', '&', $text);
 
-        // Strip any other HTML tags
-        $text = strip_tags($text, $this->allowed_tags);
-
         // Bring down number of empty lines to 2 max
         $text = preg_replace("/\n\s+\n/", "\n\n", $text);
         $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
 
         // remove leading empty lines (can be produced by eg. P tag on the beginning)
-        $text = preg_replace('/^\n+/', '', $text);
+        $text = ltrim($text, "\n");
 
         // Wrap the text to a readable format
         // for PHP versions >= 4.0.2. Default width is 75
@@ -544,9 +566,7 @@ class html2text
 	    if ( !$this->_do_links )
 	        return $display;
 
-	    if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
-            substr($link, 0, 7) == 'mailto:'
-        ) {
+	    if ( preg_match('!^(https?://|mailto:)!', $link) ) {
             $this->_link_count++;
             $this->_link_list .= '[' . $this->_link_count . "] $link\n";
             $additional = ' [' . $this->_link_count . ']';

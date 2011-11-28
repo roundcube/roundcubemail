@@ -5765,10 +5765,13 @@ function rcube_webmail()
     });
   };
 
-  this.plain2html = function(plainText, id)
+  this.plain2html = function(plain, id)
   {
     var lock = this.set_busy(true, 'converting');
-    $('#'+id).val(plainText ? '<pre>'+plainText+'</pre>' : '');
+
+    plain = plain.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    $('#'+id).val(plain ? '<pre>'+plain+'</pre>' : '');
+
     this.set_busy(false, null, lock);
   };
 
