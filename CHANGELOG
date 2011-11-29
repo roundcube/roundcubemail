@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add content filter for embedded attachments to protect from XSS on IE (#1487895)
 - Use strpos() instead of strstr() when possible (#1488211)
 - Fix handling HTML entities when converting HTML to text (#1488212)
 - Fix fit_string_to_size() renders browser and ui unresponsive (#1488207)

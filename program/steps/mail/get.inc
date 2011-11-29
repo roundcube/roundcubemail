@@ -146,11 +146,24 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
       header("Content-Disposition: $disposition; filename=\"$filename\"");
 
-      // turn off output buffering and print part content
-      if ($part->body)
-        echo $part->body;
-      else if ($part->size)
-        $IMAP->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
+      // do content filtering to avoid XSS through fake images
+      if (!empty($_REQUEST['_embed']) && $browser->ie && $browser->ver <= 8) {
+        if ($part->body)
+          echo preg_match('/<(script|iframe|object)/i', $part->body) ? '' : $part->body;
+        else if ($part->size) {
+          $stdout = fopen('php://output', 'w');
+          stream_filter_register('rcube_content', 'rcube_content_filter') or die('Failed to register content filter');
+          stream_filter_append($stdout, 'rcube_content');
+          $IMAP->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
+        }
+      }
+      else {
+        // turn off output buffering and print part content
+        if ($part->body)
+          echo $part->body;
+        else if ($part->size)
+          $IMAP->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
+      }
     }
 
     exit;
@@ -177,4 +190,40 @@ else {
 header('HTTP/1.1 404 Not Found');
 exit;
 
+
+
+/**
+ * PHP stream filter to detect html/javascript code in attachments
+ */
+class rcube_content_filter extends php_user_filter
+{
+  private $buffer = '';
+  private $cutoff = 2048;
+
+  function onCreate()
+  {
+    $this->cutoff = rand(2048, 3027);
+    return true;
+  }
+
+  function filter($in, $out, &$consumed, $closing)
+  {
+    while ($bucket = stream_bucket_make_writeable($in)) {
+      $this->buffer .= $bucket->data;
+
+      // check for evil content and abort
+      if (preg_match('/<(script|iframe|object)/i', $this->buffer))
+        return PSFS_ERR_FATAL;
+
+      // keep buffer small enough
+      if (strlen($this->buffer) > 4096)
+        $this->buffer = substr($this->buffer, $this->cutoff);
+
+      $consumed += $bucket->datalen;
+      stream_bucket_append($out, $bucket);
+    }
+
+    return PSFS_PASS_ON;
+  }
+}
 

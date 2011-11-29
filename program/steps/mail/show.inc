@@ -132,7 +132,7 @@ function rcmail_message_attachments($attrib)
 
         $ol .= html::tag('li', null,
           html::a(array(
-            'href' => $MESSAGE->get_part_url($attach_prop->mime_id),
+            'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
             'onclick' => sprintf(
               'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
               JS_OBJECT_NAME,

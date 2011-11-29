@@ -142,10 +142,10 @@ class rcube_message
      * @param string $mime_id Part MIME-ID
      * @return string URL or false if part does not exist
      */
-    public function get_part_url($mime_id)
+    public function get_part_url($mime_id, $embed = false)
     {
         if ($this->mime_parts[$mime_id])
-            return $this->opt['get_url'] . '&_part=' . $mime_id;
+            return $this->opt['get_url'] . '&_part=' . $mime_id . ($embed ? '&_embed=1' : '');
         else
             return false;
     }
@@ -511,7 +511,7 @@ class rcube_message
                 $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
                 foreach ($this->inline_parts as $inline_object) {
-                    $part_url = $this->get_part_url($inline_object->mime_id);
+                    $part_url = $this->get_part_url($inline_object->mime_id, true);
                     if ($inline_object->content_id)
                         $a_replaces['cid:'.$inline_object->content_id] = $part_url;
                     if ($inline_object->content_location) {
