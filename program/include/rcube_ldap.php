@@ -744,12 +744,12 @@ class rcube_ldap extends rcube_addressbook
 
             $this->result = new rcube_result_set(0);
 
-	    if (!$this->ldap_result) {
+            if (!$this->ldap_result) {
                 $this->_debug("S: ".ldap_error($this->conn));
-		return $this->result;
-	    }
+                return $this->result;
+            }
 
-    	    $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
+            $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
 
             // get all entries of this page and post-filter those that really match the query
             $search = mb_strtolower($value);
