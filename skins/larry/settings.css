@@ -11,3 +11,32 @@
  *
  * $Id$
  */
+
+#settings-sections {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 240px;
+	bottom: 0;
+}
+
+#sectionslist {
+	position: absolute;
+	top: 0;
+	left: 250px;
+	width: 240px;
+	bottom: 0;
+}
+
+#preferences-box {
+	position: absolute;
+	top: 0;
+	left: 500px;
+	right: 0;
+	bottom: 0;
+}
+
+#preferences-frame {
+	border-radius: 4px 4px 0 0;
+}
+
