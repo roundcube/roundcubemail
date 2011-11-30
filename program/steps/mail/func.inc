@@ -550,7 +550,7 @@ function rcmail_check_safe(&$message)
  * @param array  CID map replaces (inline images)
  * @return string Clean HTML
  */
-function rcmail_wash_html($html, $p = array(), $cid_replaces)
+function rcmail_wash_html($html, $p, $cid_replaces)
 {
   global $REMOTE_OBJECTS;
 
@@ -1052,7 +1052,7 @@ function rcmail_message_body($attrib)
       ) {
         $out .= html::tag('hr') . html::p(array('align' => "center"),
           html::img(array(
-            'src' => $MESSAGE->get_part_url($attach_prop->mime_id),
+            'src' => $MESSAGE->get_part_url($attach_prop->mime_id, true),
             'title' => $attach_prop->filename,
             'alt' => $attach_prop->filename,
           )));

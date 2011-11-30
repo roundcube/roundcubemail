@@ -2,7 +2,7 @@
 
 $labels = array();
 $labels['buttontitle'] = 'Archiver ce message';
-$labels['archived'] = 'Message archivé avec success';
+$labels['archived'] = 'Message archivÃ© avec success';
 $labels['archivefolder'] = 'Archive';
 
 ?>

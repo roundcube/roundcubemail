@@ -108,7 +108,7 @@ class washtml
 
   /* Block elements which could be empty but cannot be returned in short form (<tag />) */
   static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a', 'font', 'center',
-    'table', 'ul', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'dl', 'strong', 'i', 'b');
+    'table', 'ul', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'dl', 'strong', 'i', 'b', 'u');
 
   /* State for linked objects in HTML */
   public $extlinks = false;

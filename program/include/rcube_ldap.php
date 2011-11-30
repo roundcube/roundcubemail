@@ -732,16 +732,16 @@ class rcube_ldap extends rcube_addressbook
 
             $function = $this->_scope2func($this->prop['scope']);
             $this->ldap_result = @$function($this->conn, $this->base_dn, $this->filter ? $this->filter : '(objectclass=*)',
-                array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
+                array_values($this->fieldmap), 0, $this->page_size, (int)$this->prop['timelimit']);
 
             $this->result = new rcube_result_set(0);
 
-	    if (!$this->ldap_result) {
+            if (!$this->ldap_result) {
                 $this->_debug("S: ".ldap_error($this->conn));
-		return $this->result;
-	    }
+                return $this->result;
+            }
 
-    	    $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
+            $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
 
             // get all entries of this page and post-filter those that really match the query
             $search = mb_strtolower($value);
@@ -1043,39 +1043,33 @@ class rcube_ldap extends rcube_addressbook
         $replacedata = array();
         $deletedata = array();
 
-        // flatten composite fields in $record
-        if (is_array($record['address'])) {
-          foreach ($record['address'] as $i => $struct) {
-            foreach ($struct as $col => $val) {
-              $record[$col][$i] = $val;
-            }
-          }
-        }
+        $ldap_data = $this->_map_data($save_cols);
+        $old_data = $record['_raw_attrib'];
 
         foreach ($this->fieldmap as $col => $fld) {
-            $val = $save_cols[$col];
+            $val = $ldap_data[$fld];
             if ($fld) {
                 // remove empty array values
                 if (is_array($val))
                     $val = array_filter($val);
                 // The field does exist compare it to the ldap record.
-                if ($record[$col] != $val) {
+                if ($old_data[$fld] != $val) {
                     // Changed, but find out how.
-                    if (!isset($record[$col])) {
+                    if (!isset($old_data[$fld])) {
                         // Field was not set prior, need to add it.
                         $newdata[$fld] = $val;
-                    } // end if
-                    elseif ($val == '') {
+                    }
+                    else if ($val == '') {
                         // Field supplied is empty, verify that it is not required.
                         if (!in_array($fld, $this->prop['required_fields'])) {
                             // It is not, safe to clear.
-                            $deletedata[$fld] = $record[$col];
-                        } // end if
+                            $deletedata[$fld] = $old_data[$fld];
+                        }
                     } // end elseif
                     else {
                         // The data was modified, save it out.
                         $replacedata[$fld] = $val;
-                    } // end else
+                    }
                 } // end if
             } // end if
         } // end foreach
@@ -1303,6 +1297,9 @@ class rcube_ldap extends rcube_addressbook
             for ($i=0; $i < $rec[$lf]['count']; $i++) {
                 if (!($value = $rec[$lf][$i]))
                     continue;
+
+                $out['_raw_attrib'][$lf][$i] = $value;
+
                 if ($rf == 'email' && $this->mail_domain && !strpos($value, '@'))
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
                 else if (in_array($rf, array('street','zipcode','locality','country','region')))
@@ -1315,7 +1312,7 @@ class rcube_ldap extends rcube_addressbook
 
             // Make sure name fields aren't arrays (#1488108)
             if (is_array($out[$rf]) && in_array($rf, array('name', 'surname', 'firstname', 'middlename', 'nickname'))) {
-                $out[$rf] = $out[$rf][0];
+                $out[$rf] = $out['_raw_attrib'][$lf] = $out[$rf][0];
             }
         }
 
@@ -1337,6 +1334,20 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _map_data($save_cols)
     {
+        // flatten composite fields first
+        foreach ($this->coltypes as $col => $colprop) {
+            if (is_array($colprop['childs']) && ($values = $this->get_col_values($col, $save_cols, false))) {
+                foreach ($values as $subtype => $childs) {
+                    $subtype = $subtype ? ':'.$subtype : '';
+                    foreach ($childs as $i => $child_values) {
+                        foreach ((array)$child_values as $childcol => $value) {
+                            $save_cols[$childcol.$subtype][$i] = $value;
+                        }
+                    }
+                }
+            }
+        }
+
         $ldap_data = array();
         foreach ($this->fieldmap as $col => $fld) {
             $val = $save_cols[$col];
@@ -1586,11 +1597,13 @@ class rcube_ldap extends rcube_addressbook
         $base_dn = $this->groups_base_dn;
         $new_dn = "cn=$group_name,$base_dn";
         $new_gid = self::dn_encode($group_name);
+        $member_attr = $this->prop['groups']['member_attr'];
         $name_attr = $this->prop['groups']['name_attr'];
 
         $new_entry = array(
             'objectClass' => $this->prop['groups']['object_classes'],
             $name_attr => $group_name,
+            $member_attr => '',
         );
 
         $this->_debug("C: Add [dn: $new_dn]: ".print_r($new_entry, true));
