@@ -740,7 +740,7 @@ class rcube_ldap extends rcube_addressbook
 
             $function = $this->_scope2func($this->prop['scope']);
             $this->ldap_result = @$function($this->conn, $this->base_dn, $this->filter ? $this->filter : '(objectclass=*)',
-                array_values($this->fieldmap), 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
+                array_values($this->fieldmap), 0, $this->page_size, (int)$this->prop['timelimit']);
 
             $this->result = new rcube_result_set(0);
 
