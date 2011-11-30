@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of empty <U> tags in HTML messages (#1488225)
 - Add content filter for embedded attachments to protect from XSS on IE (#1487895)
 - Use strpos() instead of strstr() when possible (#1488211)
 - Fix handling HTML entities when converting HTML to text (#1488212)
