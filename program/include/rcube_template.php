@@ -970,6 +970,8 @@ class rcube_template extends rcube_html_page
         else if ($attrib['type']=='link') {
             $btn_content = isset($attrib['content']) ? $attrib['content'] : ($attrib['label'] ? $attrib['label'] : $attrib['command']);
             $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style', 'tabindex', 'target');
+            if ($attrib['innerclass'])
+                $btn_content = html::span($attrib['innerclass'], $btn_content);
         }
         else if ($attrib['type']=='input') {
             $attrib['type'] = 'button';
