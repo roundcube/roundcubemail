@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add possibility to do LDAP bind before searching for bind DN
 - Fix handling of empty <U> tags in HTML messages (#1488225)
 - Add content filter for embedded attachments to protect from XSS on IE (#1487895)
 - Use strpos() instead of strstr() when possible (#1488211)

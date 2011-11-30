@@ -228,6 +228,10 @@ class rcube_ldap extends rcube_addressbook
             $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
 
             if ($this->prop['search_base_dn'] && $this->prop['search_filter']) {
+                if (!empty$this->prop['search_bind_dn']) && !empty($this->prop['search_bind_pw'])) {
+                    $this->bind($this->prop['search_bind_dn'], $this->prop['search_bind_pw']);
+                }
+
                 // Search for the dn to use to authenticate
                 $this->prop['search_base_dn'] = strtr($this->prop['search_base_dn'], $replaces);
                 $this->prop['search_filter'] = strtr($this->prop['search_filter'], $replaces);
