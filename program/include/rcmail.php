@@ -1213,7 +1213,6 @@ class rcmail
       $this->smtp->disconnect();
 
     foreach ($this->address_books as $book) {
-console('---------------');
       if (is_object($book) && is_a($book, 'rcube_addressbook'))
         $book->close();
     }
