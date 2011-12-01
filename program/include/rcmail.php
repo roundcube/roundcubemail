@@ -453,8 +453,7 @@ class rcmail
     }
 
     // add to the 'books' array for shutdown function
-    if (!isset($this->address_books[$id]))
-      $this->address_books[$id] = $contacts;
+    $this->address_books[$id] = $contacts;
 
     return $contacts;
   }
@@ -1214,6 +1213,7 @@ class rcmail
       $this->smtp->disconnect();
 
     foreach ($this->address_books as $book) {
+console('---------------');
       if (is_object($book) && is_a($book, 'rcube_addressbook'))
         $book->close();
     }
