@@ -107,7 +107,7 @@ $search_str = trim($search_str);
 
 // execute IMAP search
 if ($search_str)
-  $result = $IMAP->search($mbox, $search_str, $imap_charset, $_SESSION['sort_col']);
+  $IMAP->search($mbox, $search_str, $imap_charset, $_SESSION['sort_col']);
 
 // Get the headers
 $result_h = $IMAP->list_headers($mbox, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
