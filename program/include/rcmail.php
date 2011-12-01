@@ -1228,7 +1228,6 @@ class rcmail
 
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'] && is_object($this->session)) {
-      $this->session->cleanup();
       session_write_close();
     }
 
