@@ -663,14 +663,11 @@ class rcube_ldap extends rcube_addressbook
 
             $attrib = $count ? array('dn') : array_values($this->fieldmap);
             if ($result = @$func($this->conn, $m[1], $filter,
-                $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
-            {
+                $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
+            ) {
                 $this->_debug("S: ".ldap_count_entries($this->conn, $result)." record(s) for ".$m[1]);
-                if ($err = ldap_errno($this->conn))
-                    $this->_debug("S: Error: " .ldap_err2str($err));
             }
-            else
-            {
+            else {
                 $this->_debug("S: ".ldap_error($this->conn));
                 return $group_members;
             }
@@ -1235,23 +1232,28 @@ class rcube_ldap extends rcube_addressbook
             // only fetch dn for count (should keep the payload low)
             $attrs = $count ? array('dn') : array_values($this->fieldmap);
             if ($this->ldap_result = @$function($this->conn, $this->base_dn, $filter,
-                $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
-            {
+                $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
+            ) {
                 // when running on a patched PHP we can use the extended functions to retrieve the total count from the LDAP search result
-                if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control') &&
-                    ldap_parse_result($this->conn, $this->ldap_result, $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)) {
-                    ldap_parse_virtuallist_control($this->conn, $serverctrls, $last_offset, $this->vlv_count, $vresult);
-                    $this->_debug("S: VLV result: last_offset=$last_offset; content_count=$this->vlv_count");
+                if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control')) {
+                    if (ldap_parse_result($this->conn, $this->ldap_result,
+                        $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)
+                    ) {
+                        ldap_parse_virtuallist_control($this->conn, $serverctrls,
+                            $last_offset, $this->vlv_count, $vresult);
+                        $this->_debug("S: VLV result: last_offset=$last_offset; content_count=$this->vlv_count");
+                    }
+                    else {
+                        $this->_debug("S: ".($errmsg ? $errmsg : ldap_error($this->conn)));
+                    }
                 }
 
-                $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
-                if ($err = ldap_errno($this->conn))
-                    $this->_debug("S: Error: " .ldap_err2str($err));
+                $entries_count = ldap_count_entries($this->conn, $this->ldap_result);
+                $this->_debug("S: $entries_count record(s)");
 
-                return $count ? ldap_count_entries($this->conn, $this->ldap_result) : true;
+                return $count ? $entries_count : true;
             }
-            else
-            {
+            else {
                 $this->_debug("S: ".ldap_error($this->conn));
             }
         }
