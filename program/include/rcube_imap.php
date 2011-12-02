@@ -4164,7 +4164,7 @@ class rcube_imap
         $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
 
         // encoded-word regexp
-        $re = '/=\?([^?]+)\?([BbQq])\?([^?\n]*)\?=/';
+        $re = '/=\?([^?]+)\?([BbQq])\?([^\n]*?)\?=/';
 
         // Find all RFC2047's encoded words
         if (preg_match_all($re, $input, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
