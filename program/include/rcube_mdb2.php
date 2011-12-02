@@ -91,6 +91,8 @@ class rcube_mdb2
             $db_options['disable_smart_seqname'] = true;
             $db_options['seqname_format'] = '%s';
         }
+        $this->db_error     = false;
+        $this->db_error_msg = null;
 
         $dbh = MDB2::connect($dsn, $db_options);
 
