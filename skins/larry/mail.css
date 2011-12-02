@@ -149,6 +149,8 @@
 	border-left: 1px dotted #bbd3da;
 	white-space: nowrap;
 	cursor: default;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .boxlistcontent thead tr td:first-child,
@@ -198,12 +200,24 @@
 #messagelist tr td.status,
 #messagelist tr td.flag,
 #messagelist tr td.priority {
-	width: 17px;
+	width: 18px;
 	padding: 4px 3px;
+}
+
+html.chrome #messagelist tr td.attachment,
+html.chrome #messagelist tr td.threads,
+html.chrome #messagelist tr td.status,
+html.chrome #messagelist tr td.flag,
+html.chrome #messagelist tr td.priority {
+	width: 26px;
 }
 
 #messagelist tr td.threads {
 	width: 26px;
+}
+
+html.chrome #messagelist tr td.threads {
+	width: 30px;
 }
 
 #messagelist tr td.flag,
@@ -270,7 +284,7 @@
 #messagelist tr td.attachment span,
 #messagelist tr td.priority span {
 	display: block;
-	width: 15px;
+	width: 20px;
 }
 
 #messagelist tr td div.collapsed,
