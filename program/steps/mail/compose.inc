@@ -350,6 +350,10 @@ foreach ($parts as $header) {
   ) {
     $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
     $decode_header = false;
+
+    // make session to not grow up too much
+    unset($_SESSION['mailto'][$mailto_id]);
+    $COMPOSE['param']['to'] = $fvalue;
   }
   else if (!empty($_POST['_'.$header])) {
     $fvalue = get_input_value('_'.$header, RCUBE_INPUT_POST, TRUE);
