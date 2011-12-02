@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<roundcube:object name="doctype" value="html5" />
+<html>
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
@@ -14,8 +14,8 @@
 
 <!-- search box -->
 <div id="quicksearchbar">
-<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" _onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" content=" " />
 <roundcube:object name="searchform" id="quicksearchbox" />
+<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" _onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" content=" " />
 <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
 </div>
 
@@ -49,9 +49,7 @@
 <div id="messagelistcontainer" class="uibox boxlistcontent">
 <roundcube:object name="messages"
   id="messagelist"
-  cellspacing="0"
   columns=""
-  summary="Message list"
   optionsmenuIcon="true" />
 </div>
 

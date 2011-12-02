@@ -191,19 +191,19 @@ a.button.pressed {
 	width: 12px;
 	height: 12px;
 	text-indent: -1000px;
-	background: url(images/buttons.png) -8px -212px no-repeat;
+	background: url(images/buttons.png) -8px -211px no-repeat;
 }
 
 .pagenav a.prevpage span.inner {
-	background-position: -8px -227px;
+	background-position: -8px -226px;
 }
 
 .pagenav a.nextpage span.inner {
-	background-position: -8px -242px;
+	background-position: -8px -241px;
 }
 
 .pagenav a.lastpage span.inner {
-	background-position: -8px -257px;
+	background-position: -8px -256px;
 }
 
 .pagenav .countdisplay {
@@ -461,6 +461,7 @@ a.iconbutton.reset {
 .listbox .listitem,
 .listing tbody td,
 .listing li {
+	font-size: 11px;
 	display: block;
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #bbd3da;
@@ -495,6 +496,7 @@ ul.listing {
 
 table.listing {
 	width: 100%;
+	border-spacing: 0;
 }
 
 
@@ -663,10 +665,11 @@ table.propform td.title {
 
 #quicksearchbar input {
 	width: 176px;
-	font-weight: bold;
+	margin: 0;
 	padding: 5px 26px 5px 38px;
 	background: #f1f1f1;
 	border-color: #a3a3a3;
+	font-weight: bold;
 }
 
 #quicksearchbar #searchmenulink {

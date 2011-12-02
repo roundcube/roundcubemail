@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<roundcube:object name="doctype" value="html5" />
+<html>
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
@@ -14,12 +14,12 @@
 
 <div id="sectionslist" class="uibox listbox">
 <div class="scroller">
-	<roundcube:object name="sectionslist" id="sections-table" class="listing" cellspacing="0" />
+	<roundcube:object name="sectionslist" id="sections-table" class="listing" />
 </div>
 </div>
 
 <div id="preferences-box" class="uibox contentbox">
-<roundcube:object name="prefsframe" id="preferences-frame" width="100%" height="97%" frameborder="0" src="about:blank" />
+<roundcube:object name="prefsframe" id="preferences-frame" style="width:100%; height:96%" src="/watermark.html" />
 <roundcube:object name="message" id="message" class="statusbar" />
 </div>
 
