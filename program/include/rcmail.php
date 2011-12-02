@@ -453,8 +453,7 @@ class rcmail
     }
 
     // add to the 'books' array for shutdown function
-    if (!isset($this->address_books[$id]))
-      $this->address_books[$id] = $contacts;
+    $this->address_books[$id] = $contacts;
 
     return $contacts;
   }
@@ -1228,7 +1227,6 @@ class rcmail
 
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'] && is_object($this->session)) {
-      $this->session->cleanup();
       session_write_close();
     }
 

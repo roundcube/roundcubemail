@@ -27,11 +27,11 @@ $OUTPUT->framed = TRUE;
 $savedraft = !empty($_POST['_draft']) ? true : false;
 
 $COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
-$_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
+$COMPOSE    =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
 /****** checks ********/
 
-if (!isset($_SESSION['compose']['id'])) {
+if (!isset($COMPOSE['id'])) {
   raise_error(array('code' => 500, 'type' => 'php',
     'file' => __FILE__, 'line' => __LINE__,
     'message' => "Invalid compose ID"), true, false);
@@ -340,20 +340,20 @@ if (!empty($headers['Reply-To'])) {
 if (!empty($_POST['_followupto'])) {
   $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_followupto', RCUBE_INPUT_POST, TRUE, $message_charset));
 }
-if (!empty($_SESSION['compose']['reply_msgid'])) {
-  $headers['In-Reply-To'] = $_SESSION['compose']['reply_msgid'];
+if (!empty($COMPOSE['reply_msgid'])) {
+  $headers['In-Reply-To'] = $COMPOSE['reply_msgid'];
 }
 
 // remember reply/forward UIDs in special headers
-if (!empty($_SESSION['compose']['reply_uid']) && $savedraft) {
-  $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $_SESSION['compose']['reply_uid']);
+if (!empty($COMPOSE['reply_uid']) && $savedraft) {
+  $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $COMPOSE['reply_uid']);
 }
-else if (!empty($_SESSION['compose']['forward_uid']) && $savedraft) {
-  $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $_SESSION['compose']['forward_uid']);
+else if (!empty($COMPOSE['forward_uid']) && $savedraft) {
+  $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $COMPOSE['forward_uid']);
 }
 
-if (!empty($_SESSION['compose']['references'])) {
-  $headers['References'] = $_SESSION['compose']['references'];
+if (!empty($COMPOSE['references'])) {
+  $headers['References'] = $COMPOSE['references'];
 }
 
 if (!empty($_POST['_priority'])) {
@@ -374,7 +374,7 @@ $headers['Message-ID'] = $message_id;
 $headers['X-Sender'] = $from;
 
 if (is_array($headers['X-Draft-Info'])) {
-  $headers['X-Draft-Info'] = rcmail_draftinfo_encode($headers['X-Draft-Info'] + array('folder' => $_SESSION['compose']['mailbox']));
+  $headers['X-Draft-Info'] = rcmail_draftinfo_encode($headers['X-Draft-Info'] + array('folder' => $COMPOSE['mailbox']));
 }
 if (!empty($CONFIG['useragent'])) {
   $headers['User-Agent'] = $CONFIG['useragent'];
@@ -414,12 +414,12 @@ if (!$savedraft) {
 
   // Check spelling before send
   if ($CONFIG['spellcheck_before_send'] && $CONFIG['enable_spellcheck']
-    && empty($_SESSION['compose']['spell_checked']) && !empty($message_body)
+    && empty($COMPOSE['spell_checked']) && !empty($message_body)
   ) {
     $spellchecker = new rcube_spellchecker(get_input_value('_lang', RCUBE_INPUT_GPC));
     $spell_result = $spellchecker->check($message_body, $isHtml);
 
-    $_SESSION['compose']['spell_checked'] = true;
+    $COMPOSE['spell_checked'] = true;
 
     if (!$spell_result) {
       $result = $isHtml ? $spellchecker->get_words() : $spellchecker->get_xml();
@@ -458,12 +458,12 @@ $MAIL_MIME = new Mail_mime("\r\n");
 
 // Check if we have enough memory to handle the message in it
 // It's faster than using files, so we'll do this if we only can
-if (is_array($_SESSION['compose']['attachments']) && $CONFIG['smtp_server']
+if (is_array($COMPOSE['attachments']) && $CONFIG['smtp_server']
   && ($mem_limit = parse_bytes(ini_get('memory_limit'))))
 {
   $memory = function_exists('memory_get_usage') ? memory_get_usage() : 16*1024*1024; // safe value: 16MB
 
-  foreach ($_SESSION['compose']['attachments'] as $id => $attachment)
+  foreach ($COMPOSE['attachments'] as $id => $attachment)
     $memory += $attachment['size'];
 
   // Yeah, Net_SMTP needs up to 12x more memory, 1.33 is for base64
@@ -527,9 +527,9 @@ else {
 }
 
 // add stored attachments, if any
-if (is_array($_SESSION['compose']['attachments']))
+if (is_array($COMPOSE['attachments']))
 {
-  foreach ($_SESSION['compose']['attachments'] as $id => $attachment) {
+  foreach ($COMPOSE['attachments'] as $id => $attachment) {
     // This hook retrieves the attachment contents from the file storage backend
     $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
@@ -626,10 +626,10 @@ if (!$savedraft)
     $RCMAIL->user->save_prefs(array('last_message_time' => time()));
 
   // set replied/forwarded flag
-  if ($_SESSION['compose']['reply_uid'])
-    $IMAP->set_flag($_SESSION['compose']['reply_uid'], 'ANSWERED', $_SESSION['compose']['mailbox']);
-  else if ($_SESSION['compose']['forward_uid'])
-    $IMAP->set_flag($_SESSION['compose']['forward_uid'], 'FORWARDED', $_SESSION['compose']['mailbox']);
+  if ($COMPOSE['reply_uid'])
+    $IMAP->set_flag($COMPOSE['reply_uid'], 'ANSWERED', $COMPOSE['mailbox']);
+  else if ($COMPOSE['forward_uid'])
+    $IMAP->set_flag($COMPOSE['forward_uid'], 'FORWARDED', $COMPOSE['mailbox']);
 
 } // End of SMTP Delivery Block
 
@@ -729,7 +729,7 @@ if ($savedraft) {
     $draftuids = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid, true);
     $saved     = $draftuids[0];
   }
-  $_SESSION['compose']['param']['draft_uid'] = $saved;
+  $COMPOSE['param']['draft_uid'] = $saved;
 
   // display success
   $OUTPUT->show_message('messagesaved', 'confirmation');

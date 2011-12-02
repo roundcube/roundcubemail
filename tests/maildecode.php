@@ -84,4 +84,50 @@ class rcube_test_maildecode extends UnitTestCase
     }
   }
 
+  /**
+   * Test decoding of header values
+   * Uses rcube_imap::decode_mime_string()
+   */
+  function test_header_decode_qp()
+  {
+    $test = array(
+      // #1488232: invalid character "?"
+      'quoted-printable (1)' => array(
+        'in'  => '=?utf-8?Q?Certifica=C3=A7=C3=A3??=',
+        'out' => 'Certifica=C3=A7=C3=A3?',
+      ),
+      'quoted-printable (2)' => array(
+        'in'  => '=?utf-8?Q?Certifica=?= =?utf-8?Q?C3=A7=C3=A3?=',
+        'out' => 'Certifica=C3=A7=C3=A3',
+      ),
+      'quoted-printable (3)' => array(
+        'in'  => '=?utf-8?Q??= =?utf-8?Q??=',
+        'out' => '',
+      ),
+      'quoted-printable (4)' => array(
+        'in'  => '=?utf-8?Q??= a =?utf-8?Q??=',
+        'out' => ' a ',
+      ),
+      'quoted-printable (5)' => array(
+        'in'  => '=?utf-8?Q?a?= =?utf-8?Q?b?=',
+        'out' => 'ab',
+      ),
+      'quoted-printable (6)' => array(
+        'in'  => '=?utf-8?Q?   ?= =?utf-8?Q?a?=',
+        'out' => '   a',
+      ),
+      'quoted-printable (7)' => array(
+        'in'  => '=?utf-8?Q?___?= =?utf-8?Q?a?=',
+        'out' => '   a',
+      ),
+    );
+
+    foreach ($test as $idx => $item) {
+      $res = $this->app->imap->decode_mime_string($item['in'], 'UTF-8');
+      $res = quoted_printable_encode($res);
+
+      $this->assertEqual($item['out'], $res, "Header decoding for: " . $idx);
+    }
+
+  }
 }

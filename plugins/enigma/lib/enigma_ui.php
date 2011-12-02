@@ -412,9 +412,6 @@ class enigma_ui
 
     private function compose_ui()
     {
-        if (!is_array($_SESSION['compose']) || $_SESSION['compose']['id'] != get_input_value('_id', RCUBE_INPUT_GET))
-            return;
-
         // Options menu button
         // @TODO: make this work with non-default skins
         $this->enigma->add_button(array(

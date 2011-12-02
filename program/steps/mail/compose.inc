@@ -25,23 +25,26 @@ define('RCUBE_COMPOSE_FORWARD', 0x0107);
 define('RCUBE_COMPOSE_DRAFT', 0x0108);
 define('RCUBE_COMPOSE_EDIT', 0x0109);
 
-$MESSAGE_FORM = NULL;
-$MESSAGE = NULL;
+$MESSAGE_FORM = null;
+$MESSAGE      = null;
+$COMPOSE_ID   = get_input_value('_id', RCUBE_INPUT_GET);
+$COMPOSE      = null;
 
-$COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GET);
-$_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
+if ($COMPOSE_ID && $_SESSION['compose_data_'.$COMPOSE_ID])
+  $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
 // give replicated session storage some time to synchronize
 $retries = 0;
-while ($COMPOSE_ID && !is_array($_SESSION['compose']) && $RCMAIL->db->is_replicated() && $retries++ < 5) {
+while ($COMPOSE_ID && !is_array($COMPOSE) && $RCMAIL->db->is_replicated() && $retries++ < 5) {
   usleep(500000);
   $RCMAIL->session->reload();
-  $_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
+  if ($_SESSION['compose_data_'.$COMPOSE_ID])
+    $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
 }
 
 // Nothing below is called during message composition, only at "new/forward/reply/draft" initialization or
 // if a compose-ID is given (i.e. when the compose step is opened in a new window/tab).
-if (!is_array($_SESSION['compose']))
+if (!is_array($COMPOSE))
 {
   // Infinite redirect prevention in case of broken session (#1487028)
   if ($COMPOSE_ID)
@@ -49,31 +52,33 @@ if (!is_array($_SESSION['compose']))
       'file' => __FILE__, 'line' => __LINE__,
       'message' => "Invalid compose ID"), true, true);
 
-  $_SESSION['compose'] = array(
-    'id' => uniqid(mt_rand()),
-    'param' => request2param(RCUBE_INPUT_GET),
+  $COMPOSE_ID = uniqid(mt_rand());
+  $_SESSION['compose_data_'.$COMPOSE_ID] = array(
+    'id'      => $COMPOSE_ID,
+    'param'   => request2param(RCUBE_INPUT_GET),
     'mailbox' => $IMAP->get_mailbox_name(),
   );
+  $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
   // process values like "mailto:foo@bar.com?subject=new+message&cc=another"
-  if ($_SESSION['compose']['param']['to']) {
+  if ($COMPOSE['param']['to']) {
     // #1486037: remove "mailto:" prefix
-    $_SESSION['compose']['param']['to'] = preg_replace('/^mailto:/i', '', $_SESSION['compose']['param']['to']);
-    $mailto = explode('?', $_SESSION['compose']['param']['to']);
+    $COMPOSE['param']['to'] = preg_replace('/^mailto:/i', '', $COMPOSE['param']['to']);
+    $mailto = explode('?', $COMPOSE['param']['to']);
     if (count($mailto) > 1) {
-      $_SESSION['compose']['param']['to'] = $mailto[0];
+      $COMPOSE['param']['to'] = $mailto[0];
       parse_str($mailto[1], $query);
       foreach ($query as $f => $val)
-        $_SESSION['compose']['param'][$f] = $val;
+        $COMPOSE['param'][$f] = $val;
     }
   }
 
   // select folder where to save the sent message
-  $_SESSION['compose']['param']['sent_mbox'] = $RCMAIL->config->get('sent_mbox');
+  $COMPOSE['param']['sent_mbox'] = $RCMAIL->config->get('sent_mbox');
 
   // pipe compose parameters thru plugins
-  $plugin = $RCMAIL->plugins->exec_hook('message_compose', $_SESSION['compose']);
-  $_SESSION['compose']['param'] = array_merge($_SESSION['compose']['param'], $plugin['param']);
+  $plugin = $RCMAIL->plugins->exec_hook('message_compose', $COMPOSE);
+  $COMPOSE['param'] = array_merge($COMPOSE['param'], $plugin['param']);
 
   // add attachments listed by message_compose hook
   if (is_array($plugin['attachments'])) {
@@ -100,18 +105,18 @@ if (!is_array($_SESSION['compose']))
 
       if ($attachment['status'] && !$attachment['abort']) {
         unset($attachment['data'], $attachment['status'], $attachment['abort']);
-        $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+        $COMPOSE['attachments'][$attachment['id']] = $attachment;
       }
     }
   }
 
   // check if folder for saving sent messages exists and is subscribed (#1486802)
-  if ($sent_folder = $_SESSION['compose']['param']['sent_mbox']) {
+  if ($sent_folder = $COMPOSE['param']['sent_mbox']) {
     rcmail_check_sent_folder($sent_folder, true);
   }
 
   // redirect to a unique URL with all parameters stored in session
-  $OUTPUT->redirect(array('_action' => 'compose', '_id' => $_SESSION['compose']['id']));
+  $OUTPUT->redirect(array('_action' => 'compose', '_id' => $COMPOSE['id']));
 }
 
 
@@ -121,7 +126,7 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
     'fileuploaderror');
 
-$OUTPUT->set_env('compose_id', $COMPOSE_ID);
+$OUTPUT->set_env('compose_id', $COMPOSE['id']);
 
 // add config parameters to client script
 if (!empty($CONFIG['drafts_mbox'])) {
@@ -135,15 +140,15 @@ $OUTPUT->set_env('top_posting', $RCMAIL->config->get('top_posting', false));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 
 // get reference message and set compose mode
-if ($msg_uid = $_SESSION['compose']['param']['draft_uid']) {
+if ($msg_uid = $COMPOSE['param']['draft_uid']) {
   $RCMAIL->imap->set_mailbox($CONFIG['drafts_mbox']);
   $compose_mode = RCUBE_COMPOSE_DRAFT;
 }
-else if ($msg_uid = $_SESSION['compose']['param']['reply_uid'])
+else if ($msg_uid = $COMPOSE['param']['reply_uid'])
   $compose_mode = RCUBE_COMPOSE_REPLY;
-else if ($msg_uid = $_SESSION['compose']['param']['forward_uid'])
+else if ($msg_uid = $COMPOSE['param']['forward_uid'])
   $compose_mode = RCUBE_COMPOSE_FORWARD;
-else if ($msg_uid = $_SESSION['compose']['param']['uid'])
+else if ($msg_uid = $COMPOSE['param']['uid'])
   $compose_mode = RCUBE_COMPOSE_EDIT;
 
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
@@ -175,20 +180,20 @@ if (!empty($msg_uid))
 
   if ($compose_mode == RCUBE_COMPOSE_REPLY)
   {
-    $_SESSION['compose']['reply_uid'] = $msg_uid;
-    $_SESSION['compose']['reply_msgid'] = $MESSAGE->headers->messageID;
-    $_SESSION['compose']['references']  = trim($MESSAGE->headers->references . " " . $MESSAGE->headers->messageID);
+    $COMPOSE['reply_uid'] = $msg_uid;
+    $COMPOSE['reply_msgid'] = $MESSAGE->headers->messageID;
+    $COMPOSE['references']  = trim($MESSAGE->headers->references . " " . $MESSAGE->headers->messageID);
 
-    if (!empty($_SESSION['compose']['param']['all']))
-      $MESSAGE->reply_all = $_SESSION['compose']['param']['all'];
+    if (!empty($COMPOSE['param']['all']))
+      $MESSAGE->reply_all = $COMPOSE['param']['all'];
 
     $OUTPUT->set_env('compose_mode', 'reply');
 
     // Save the sent message in the same folder of the message being replied to
-    if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $_SESSION['compose']['mailbox'])
+    if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $COMPOSE['mailbox'])
       && rcmail_check_sent_folder($sent_folder, false)
     ) {
-      $_SESSION['compose']['param']['sent_mbox'] = $sent_folder;
+      $COMPOSE['param']['sent_mbox'] = $sent_folder;
     }
   }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT)
@@ -199,31 +204,31 @@ if (!empty($msg_uid))
       $info = rcmail_draftinfo_decode($MESSAGE->headers->others['x-draft-info']);
 
       if ($info['type'] == 'reply')
-        $_SESSION['compose']['reply_uid'] = $info['uid'];
+        $COMPOSE['reply_uid'] = $info['uid'];
       else if ($info['type'] == 'forward')
-        $_SESSION['compose']['forward_uid'] = $info['uid'];
+        $COMPOSE['forward_uid'] = $info['uid'];
 
-      $_SESSION['compose']['mailbox'] = $info['folder'];
+      $COMPOSE['mailbox'] = $info['folder'];
 
       // Save the sent message in the same folder of the message being replied to
       if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $info['folder'])
         && rcmail_check_sent_folder($sent_folder, false)
       ) {
-        $_SESSION['compose']['param']['sent_mbox'] = $sent_folder;
+        $COMPOSE['param']['sent_mbox'] = $sent_folder;
       }
     }
 
     if ($MESSAGE->headers->in_reply_to)
-      $_SESSION['compose']['reply_msgid'] = '<'.$MESSAGE->headers->in_reply_to.'>';
+      $COMPOSE['reply_msgid'] = '<'.$MESSAGE->headers->in_reply_to.'>';
 
-    $_SESSION['compose']['references']  = $MESSAGE->headers->references;
+    $COMPOSE['references']  = $MESSAGE->headers->references;
   }
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
   {
-    $_SESSION['compose']['forward_uid'] = $msg_uid;
+    $COMPOSE['forward_uid'] = $msg_uid;
     $OUTPUT->set_env('compose_mode', 'forward');
 
-    if (!empty($_SESSION['compose']['param']['attachment']))
+    if (!empty($COMPOSE['param']['attachment']))
       $MESSAGE->forward_attachment = true;
   }
 }
@@ -247,8 +252,8 @@ if (count($MESSAGE->identities))
 if (!empty($_POST['_from'])) {
   $MESSAGE->compose['from'] = get_input_value('_from', RCUBE_INPUT_POST);
 }
-else if (!empty($_SESSION['compose']['param']['from'])) {
-  $MESSAGE->compose['from'] = $_SESSION['compose']['param']['from'];
+else if (!empty($COMPOSE['param']['from'])) {
+  $MESSAGE->compose['from'] = $COMPOSE['param']['from'];
 }
 else if (count($MESSAGE->identities)) {
   $a_recipients = array();
@@ -340,17 +345,17 @@ foreach ($parts as $header) {
   $decode_header = true;
 
   // we have a set of recipients stored is session
-  if ($header == 'to' && ($mailto_id = $_SESSION['compose']['param']['mailto'])
-      && $_SESSION['mailto'][$mailto_id]
+  if ($header == 'to' && ($mailto_id = $COMPOSE['param']['mailto'])
+      && $COMPOSE[$mailto_id]
   ) {
-    $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
+    $fvalue = urldecode($COMPOSE[$mailto_id]);
     $decode_header = false;
   }
   else if (!empty($_POST['_'.$header])) {
     $fvalue = get_input_value('_'.$header, RCUBE_INPUT_POST, TRUE);
   }
-  else if (!empty($_SESSION['compose']['param'][$header])) {
-    $fvalue = $_SESSION['compose']['param'][$header];
+  else if (!empty($COMPOSE['param'][$header])) {
+    $fvalue = $COMPOSE['param'][$header];
   }
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
     // get recipent address(es) out of the message headers
@@ -530,7 +535,7 @@ function rcmail_compose_header_from($attrib)
       $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $identity_id);
 
       // add signature to array
-      if (!empty($sql_arr['signature']) && empty($_SESSION['compose']['param']['nosig']))
+      if (!empty($sql_arr['signature']) && empty($COMPOSE['param']['nosig']))
       {
         $a_signatures[$identity_id]['text'] = $sql_arr['signature'];
         $a_signatures[$identity_id]['is_html'] = ($sql_arr['html_signature'] == 1) ? true : false;
@@ -584,22 +589,22 @@ function rcmail_compose_editor_mode()
 
 function rcmail_prepare_message_body()
 {
-  global $RCMAIL, $MESSAGE, $compose_mode, $LINE_LENGTH, $HTML_MODE;
+  global $RCMAIL, $MESSAGE, $COMPOSE, $compose_mode, $LINE_LENGTH, $HTML_MODE;
 
   // use posted message body
   if (!empty($_POST['_message'])) {
     $body = get_input_value('_message', RCUBE_INPUT_POST, true);
     $isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
   }
-  else if ($_SESSION['compose']['param']['body']) {
-    $body = $_SESSION['compose']['param']['body'];
+  else if ($COMPOSE['param']['body']) {
+    $body = $COMPOSE['param']['body'];
     $isHtml = false;
   }
   // forward as attachment
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD && $MESSAGE->forward_attachment) {
     $isHtml = rcmail_compose_editor_mode();
     $body = '';
-    if (empty($_SESSION['compose']['attachments']))
+    if (empty($COMPOSE['attachments']))
       rcmail_write_forward_attachment($MESSAGE);
   }
   // reply/edit/draft/forward
@@ -662,9 +667,9 @@ function rcmail_prepare_message_body()
   // add blocked.gif attachment (#1486516)
   if ($isHtml && preg_match('#<img src="\./program/blocked\.gif"#', $body)) {
     if ($attachment = rcmail_save_image('program/blocked.gif', 'image/gif')) {
-      $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+      $COMPOSE['attachments'][$attachment['id']] = $attachment;
       $body = preg_replace('#\./program/blocked\.gif#',
-        $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$_SESSION['compose']['id'],
+        $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'],
         $body);
     }
   }
@@ -848,10 +853,10 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 
 function rcmail_create_forward_body($body, $bodyIsHtml)
 {
-  global $RCMAIL, $MESSAGE;
+  global $RCMAIL, $MESSAGE, $COMPOSE;
 
   // add attachments
-  if (!isset($_SESSION['compose']['forward_attachments']) && is_array($MESSAGE->mime_parts))
+  if (!isset($COMPOSE['forward_attachments']) && is_array($MESSAGE->mime_parts))
     $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
 
   $date    = format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
@@ -910,13 +915,13 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
 function rcmail_create_draft_body($body, $bodyIsHtml)
 {
-  global $MESSAGE, $OUTPUT;
+  global $MESSAGE, $OUTPUT, $COMPOSE;
 
   /**
    * add attachments
    * sizeof($MESSAGE->mime_parts can be 1 - e.g. attachment, but no text!
    */
-  if (empty($_SESSION['compose']['forward_attachments'])
+  if (empty($COMPOSE['forward_attachments'])
       && is_array($MESSAGE->mime_parts)
       && count($MESSAGE->mime_parts) > 0)
   {
@@ -954,7 +959,7 @@ function rcmail_remove_signature($body)
 
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
-  global $RCMAIL;
+  global $RCMAIL, $COMPOSE;
 
   $cid_map = $messages = array();
   foreach ((array)$message->mime_parts as $pid => $part)
@@ -976,9 +981,9 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
       }
 
       if (!$skip && ($attachment = rcmail_save_attachment($message, $pid))) {
-        $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+        $COMPOSE['attachments'][$attachment['id']] = $attachment;
         if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
-          $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$_SESSION['compose']['id'];
+          $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'];
           if ($part->content_id)
             $cid_map['cid:'.$part->content_id] = $url;
           else
@@ -988,7 +993,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
     }
   }
 
-  $_SESSION['compose']['forward_attachments'] = true;
+  $COMPOSE['forward_attachments'] = true;
 
   return $cid_map;
 }
@@ -996,14 +1001,14 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 
 function rcmail_write_inline_attachments(&$message)
 {
-  global $RCMAIL;
+  global $RCMAIL, $COMPOSE;
 
   $cid_map = array();
   foreach ((array)$message->mime_parts as $pid => $part) {
     if (($part->content_id || $part->content_location) && $part->filename) {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
-        $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
-        $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$_SESSION['compose']['id'];
+        $COMPOSE['attachments'][$attachment['id']] = $attachment;
+        $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'];
         if ($part->content_id)
           $cid_map['cid:'.$part->content_id] = $url;
         else
@@ -1018,7 +1023,7 @@ function rcmail_write_inline_attachments(&$message)
 // Creates an attachment from the forwarded message
 function rcmail_write_forward_attachment(&$message)
 {
-  global $RCMAIL;
+  global $RCMAIL, $COMPOSE;
 
   if (strlen($message->subject)) {
     $name = mb_substr($message->subject, 0, 64) . '.eml';
@@ -1045,7 +1050,7 @@ function rcmail_write_forward_attachment(&$message)
   }
 
   $attachment = array(
-    'group' => $_SESSION['compose']['id'],
+    'group' => $COMPOSE['id'],
     'name' => $name,
     'mimetype' => 'message/rfc822',
     'data' => $data,
@@ -1057,7 +1062,7 @@ function rcmail_write_forward_attachment(&$message)
 
   if ($attachment['status']) {
     unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
-    $_SESSION['compose']['attachments'][$attachment['id']] = $attachment;
+    $COMPOSE['attachments'][$attachment['id']] = $attachment;
     return true;
   } else if ($path) {
     @unlink($path);
@@ -1069,6 +1074,8 @@ function rcmail_write_forward_attachment(&$message)
 
 function rcmail_save_attachment(&$message, $pid)
 {
+  global $COMPOSE;
+
   $rcmail = rcmail::get_instance();
   $part = $message->mime_parts[$pid];
   $mem_limit = parse_bytes(ini_get('memory_limit'));
@@ -1089,7 +1096,7 @@ function rcmail_save_attachment(&$message, $pid)
   }
 
   $attachment = array(
-    'group' => $_SESSION['compose']['id'],
+    'group' => $COMPOSE['id'],
     'name' => $part->filename ? $part->filename : 'Part_'.$pid.'.'.$part->ctype_secondary,
     'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
     'content_id' => $part->content_id,
@@ -1112,11 +1119,13 @@ function rcmail_save_attachment(&$message, $pid)
 
 function rcmail_save_image($path, $mimetype='')
 {
+  global $COMPOSE;
+
   // handle attachments in memory
   $data = file_get_contents($path);
 
   $attachment = array(
-    'group' => $_SESSION['compose']['id'],
+    'group' => $COMPOSE['id'],
     'name' => rcmail_basename($path),
     'mimetype' => $mimetype ? $mimetype : rc_mime_content_type($path, $name),
     'data' => $data,
@@ -1145,11 +1154,11 @@ function rcmail_basename($filename)
 
 function rcmail_compose_subject($attrib)
 {
-  global $MESSAGE, $compose_mode;
-  
+  global $MESSAGE, $COMPOSE, $compose_mode;
+
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
-  
+
   $attrib['name'] = '_subject';
   $attrib['spellcheck'] = 'true';
   $textfield = new html_inputfield($attrib);
@@ -1178,10 +1187,10 @@ function rcmail_compose_subject($attrib)
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
     $subject = $MESSAGE->subject;
   }
-  else if (!empty($_SESSION['compose']['param']['subject'])) {
-    $subject = $_SESSION['compose']['param']['subject'];
+  else if (!empty($COMPOSE['param']['subject'])) {
+    $subject = $COMPOSE['param']['subject'];
   }
-  
+
   $out = $form_start ? "$form_start\n" : '';
   $out .= $textfield->show($subject);
   $out .= $form_end ? "\n$form_end" : '';
@@ -1192,17 +1201,16 @@ function rcmail_compose_subject($attrib)
 
 function rcmail_compose_attachment_list($attrib)
 {
-  global $OUTPUT, $CONFIG;
-  
+  global $OUTPUT, $CONFIG, $COMPOSE;
+
   // add ID if not given
   if (!$attrib['id'])
     $attrib['id'] = 'rcmAttachmentList';
-  
+
   $out = "\n";
   $jslist = array();
 
-  if (is_array($_SESSION['compose']['attachments']))
-  {
+  if (is_array($COMPOSE['attachments'])) {
     if ($attrib['deleteicon']) {
       $button = html::img(array(
         'src' => $CONFIG['skin_path'] . $attrib['deleteicon'],
@@ -1212,11 +1220,11 @@ function rcmail_compose_attachment_list($attrib)
     else
       $button = Q(rcube_label('delete'));
 
-    foreach ($_SESSION['compose']['attachments'] as $id => $a_prop)
+    foreach ($COMPOSE['attachments'] as $id => $a_prop)
     {
       if (empty($a_prop))
         continue;
-      
+
       $out .= html::tag('li', array('id' => 'rcmfile'.$id),
         html::a(array(
             'href' => "#delete",
@@ -1229,7 +1237,7 @@ function rcmail_compose_attachment_list($attrib)
   }
 
   if ($attrib['deleteicon'])
-    $_SESSION['compose']['deleteicon'] = $CONFIG['skin_path'] . $attrib['deleteicon'];
+    $COMPOSE['deleteicon'] = $CONFIG['skin_path'] . $attrib['deleteicon'];
   if ($attrib['cancelicon'])
     $OUTPUT->set_env('cancelicon', $CONFIG['skin_path'] . $attrib['cancelicon']);
   if ($attrib['loadingicon'])
@@ -1397,13 +1405,15 @@ function rcmail_editor_selector($attrib)
 
 function rcmail_store_target_selection($attrib)
 {
+  global $COMPOSE;
+
   $attrib['name'] = '_store_target';
   $select = rcmail_mailbox_select(array_merge($attrib, array(
     'noselection' => '- '.rcube_label('dontsave').' -',
     'folder_filter' => 'mail',
     'folder_rights' => 'w',
   )));
-  return $select->show($_SESSION['compose']['param']['sent_mbox'], $attrib);
+  return $select->show($COMPOSE['param']['sent_mbox'], $attrib);
 }
 
 
@@ -1429,14 +1439,14 @@ function rcmail_check_sent_folder($folder, $create=false)
 
 function get_form_tags($attrib)
 {
-  global $RCMAIL, $MESSAGE_FORM;
+  global $RCMAIL, $MESSAGE_FORM, $COMPOSE;
 
   $form_start = '';
   if (!$MESSAGE_FORM)
   {
     $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
-    $hiddenfields->add(array('name' => '_id', 'value' => $_SESSION['compose']['id']));
+    $hiddenfields->add(array('name' => '_id', 'value' => $COMPOSE['id']));
 
     $form_start = empty($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();

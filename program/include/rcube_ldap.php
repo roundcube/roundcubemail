@@ -655,14 +655,11 @@ class rcube_ldap extends rcube_addressbook
 
             $attrib = $count ? array('dn') : array_values($this->fieldmap);
             if ($result = @$func($this->conn, $m[1], $filter,
-                $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
-            {
+                $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
+            ) {
                 $this->_debug("S: ".ldap_count_entries($this->conn, $result)." record(s) for ".$m[1]);
-                if ($err = ldap_errno($this->conn))
-                    $this->_debug("S: Error: " .ldap_err2str($err));
             }
-            else
-            {
+            else {
                 $this->_debug("S: ".ldap_error($this->conn));
                 return $group_members;
             }
@@ -1227,15 +1224,14 @@ class rcube_ldap extends rcube_addressbook
             // only fetch dn for count (should keep the payload low)
             $attrs = $count ? array('dn') : array_values($this->fieldmap);
             if ($this->ldap_result = @$function($this->conn, $this->base_dn, $filter,
-                $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']))
-            {
-                $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
-                if ($err = ldap_errno($this->conn))
-                    $this->_debug("S: Error: " .ldap_err2str($err));
-                return $count ? ldap_count_entries($this->conn, $this->ldap_result) : true;
+                $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
+            ) {
+                $entries_count = ldap_count_entries($this->conn, $this->ldap_result);
+                $this->_debug("S: $count_entries record(s)");
+
+                return $count ? $count_entries : true;
             }
-            else
-            {
+            else {
                 $this->_debug("S: ".ldap_error($this->conn));
             }
         }
