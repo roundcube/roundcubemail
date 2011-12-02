@@ -32,6 +32,7 @@ class html
     protected $allowed = array();
     protected $content;
 
+    public static $doctype = 'xhtml';
     public static $lc_tags = true;
     public static $common_attrib = array('id','class','style','title','align');
     public static $containers = array('iframe','div','span','p','h1','h2','h3','form','textarea','table','thead','tbody','tr','th','td','style','script');
@@ -86,6 +87,26 @@ class html
         else {
             return sprintf("<%s%s />%s", $tagname, self::attrib_string($attrib, $allowed_attrib), $suffix);
         }
+    }
+
+    /**
+     *
+     */
+    public static function doctype($type)
+    {
+        $doctypes = array(
+            'html5'        => '<!DOCTYPE html>',
+            'xhtml'        => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+            'xhtml-trans'  => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+            'xhtml-strict' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
+        );
+
+        if ($doctypes[$type]) {
+            self::$doctype = preg_replace('/-\w+$/', '', $type);
+            return $doctypes[$type];
+        }
+
+        return '';
     }
 
     /**
@@ -576,7 +597,8 @@ class html_table extends html
      */
     public function __construct($attrib = array())
     {
-        $this->attrib = array_merge($attrib, array('summary' => '', 'border' => 0));
+        $default_attrib = self::$doctype == 'xhtml' ? array('summary' => '', 'border' => 0) : array();
+        $this->attrib = array_merge($attrib, $default_attrib);
     }
 
     /**

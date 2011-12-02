@@ -449,7 +449,7 @@ class rcube_template extends rcube_html_page
             if ($realname != 'error' && ($this->config['debug_level'] & 8)) {
                 $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;display:none">
                     <a href="#toggle" onclick="con=$(\'#dbgconsole\');con[con.is(\':visible\')?\'hide\':\'show\']();return false">console</a>
-                    <textarea name="console" id="dbgconsole" rows="20" cols="40" wrap="off" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></div>'
+                    <textarea name="console" id="dbgconsole" rows="20" cols="40" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></div>'
                 );
                 $this->add_script(
                     "if (!window.console || !window.console.log) {\n".
@@ -746,6 +746,9 @@ class rcube_template extends rcube_html_page
                 // execute object handler function
                 else if (function_exists($handler)) {
                     $content = call_user_func($handler, $attrib);
+                }
+                else if ($object == 'doctype') {
+                    $content = html::doctype($attrib['value']);
                 }
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
