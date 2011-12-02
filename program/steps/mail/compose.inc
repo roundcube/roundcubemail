@@ -346,9 +346,9 @@ foreach ($parts as $header) {
 
   // we have a set of recipients stored is session
   if ($header == 'to' && ($mailto_id = $COMPOSE['param']['mailto'])
-      && $COMPOSE[$mailto_id]
+      && $_SESSION['mailto'][$mailto_id]
   ) {
-    $fvalue = urldecode($COMPOSE[$mailto_id]);
+    $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
     $decode_header = false;
   }
   else if (!empty($_POST['_'.$header])) {
