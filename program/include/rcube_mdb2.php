@@ -145,6 +145,13 @@ class rcube_mdb2
         $this->db_handle    = $this->dsn_connect($dsn);
         $this->db_connected = !PEAR::isError($this->db_handle);
 
+        // use write-master when read-only fails
+        if (!$this->db_connected && $mode == 'r') {
+            $mode = 'w';
+            $this->db_handle    = $this->dsn_connect($this->db_dsnw);
+            $this->db_connected = !PEAR::isError($this->db_handle);
+        }
+
         if ($this->db_connected)
             $this->db_mode = $mode;
         else
