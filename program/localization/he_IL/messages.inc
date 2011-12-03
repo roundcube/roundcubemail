@@ -11,7 +11,7 @@
 +-----------------------------------------------------------------------+
 | Author: Moshe Leibovitch    <moish@mln.co.il>                         |
 | Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  13092011                |
+| Updates: Moshe Leibovitch  <moish@mln.co.il>  28112011                |
 +-----------------------------------------------------------------------+
 
 */
@@ -47,6 +47,7 @@ $messages['blockedimages'] = 'תמונות משרת אחר נחסמו כדי ל�
 $messages['encryptedmessage'] = 'זו הודעת מוצפנת ולא ניתן להציגה';
 $messages['nocontactsfound'] = 'לא נמצאו אנשי קשר';
 $messages['contactnotfound'] = 'איש הקשר המבוקש לא נמצא';
+$messages['contactsearchonly'] = 'יש להקיש מפתחות חיפוש כדי למצוא אנשי קשר';
 $messages['sendingfailed'] = 'שליחת ההודעה נכשלה';
 $messages['senttooquickly'] = 'נא להמתין $sec שניות לפני מסירת הודעה זו';
 $messages['errorsavingsent'] = 'נגרמה שגיאה במהלך שמירת ההודעה בתיק הודעות יוצאות';
@@ -60,6 +61,7 @@ $messages['deletegroupconfirm'] = 'האם אכן ברצונך למחוק את ה
 $messages['deletemessagesconfirm'] = 'האם למחוק את ההודעות המסומנות?';
 $messages['deletefolderconfirm'] = 'האם למחוק תיק זה?';
 $messages['purgefolderconfirm'] = 'האם למחוק את כל ההודעות בתיק זה?';
+$messages['contactdeleting'] = 'אנשי קשר נמחקים...';
 $messages['groupdeleting'] = 'מחיקת קבוצה...';
 $messages['folderdeleting'] = 'התיקיה נמחקת...';
 $messages['foldermoving'] = 'העברת תיקיה...';
@@ -125,7 +127,6 @@ $messages['smtpautherror'] = 'SMTP ($code): ההזדהות נכשלה';
 $messages['smtpfromerror'] = ' ($msg) SMTP ($code): "$from" לא נרשמה כתובת השולח';
 $messages['smtptoerror'] = ' ($msg) SMTP ($code): "$to" לא נרשמה כתובת המקבל';
 $messages['smtprecipientserror'] = 'SMTP : לא ניתן לפענח רשימת נמענים';
-$messages['smtpdsnerror'] = 'שגיאת SMTP: אין תמיכה בהודעה על מצב מסירה';
 $messages['smtperror'] = 'SMTP: $msg';
 $messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
 $messages['toomanyrecipients'] = 'יותר מדי נמענים. יש להקטין מספרם ל - $max';
@@ -147,6 +148,7 @@ $messages['messagemoved'] = 'ההודעה הועברה בהצלחה';
 $messages['messagecopied'] = 'ההודעה הועתקה בהצלחה';
 $messages['messagemarked'] = 'ההודעה סומנה בהצלחה';
 $messages['autocompletechars'] = 'יש להקיש לפחות $min תווים להשלמה אוטומטית של המחרוזת';
+$messages['autocompletemore'] = 'נמצאו רשומות נוספות. נא להקיש תווים נוספים.';
 $messages['namecannotbeempty'] = 'השם אינו יכול להיות ריק';
 $messages['nametoolong'] = 'השם ארוך מדי';
 $messages['folderupdated'] = 'התיק עודכן בהצלחה';
@@ -154,5 +156,6 @@ $messages['foldercreated'] = 'התיק נוצר בהצלחה';
 $messages['invalidimageformat'] = 'פורמט תמונה לא חוקי';
 $messages['mispellingsfound'] = 'התגלו שגיאות כתיב בהודעה';
 $messages['parentnotwritable'] = 'לא ניתן ליצור/להעביר תיקיה לתוך תיקית האב שנבחרה. אין הרשאה לגישה.';
+$messages['messagetoobig'] = 'ההודעה גדולה מעבר ליכולת העיבוד של התוכנה';
 
 ?>

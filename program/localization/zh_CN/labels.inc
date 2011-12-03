@@ -12,6 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Xue zhong sheng <xue.zhongsheng@gmail.com>                    |
 |         Zhang Huang bin <michaelbibby@gmail.com>                      |
+|         Kelphon Tang <kelphon@kingstor.com>	                        |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -19,6 +20,8 @@
 */
 
 $labels = array();
+
+// login page
 $labels['welcome'] = '欢迎使用 $product';
 $labels['username'] = '用户名';
 $labels['password'] = '密码';
@@ -27,8 +30,8 @@ $labels['login'] = '登录';
 
 // taskbar
 $labels['logout'] = '注销';
-$labels['mail'] = '电子邮件';
-$labels['settings'] = '邮箱设置';
+$labels['mail'] = '邮件';
+$labels['settings'] = '设置';
 $labels['addressbook'] = '通讯录';
 
 // mailbox names
@@ -122,18 +125,16 @@ $labels['replytomessage'] = '回复发件人';
 $labels['replytoallmessage'] = '回复所有';
 $labels['replyall']         = '回复全部';
 $labels['replylist']        = '回复列表';
+$labels['forwardinline']    = '直接转发';
+$labels['forwardattachment'] = '以附件转发';
 $labels['forwardmessage'] = '转发邮件';
 $labels['deletemessage'] = '删除邮件';
 $labels['movemessagetotrash'] = '移动邮件到回收站';
 $labels['printmessage'] = '打印邮件';
 $labels['previousmessage'] = '显示上一封邮件';
-$labels['previousmessages'] = '上一页';
 $labels['firstmessage'] = '显示第一封邮件';
-$labels['firstmessages'] = '第一页';
 $labels['nextmessage'] = '下一封';
-$labels['nextmessages'] = '下一页';
 $labels['lastmessage'] = '最后一封';
-$labels['lastmessages'] = '最后一页';
 $labels['backtolist'] = '返回邮件列表';
 $labels['viewsource'] = '显示邮件源文件';
 $labels['markmessages'] = '标记邮件';
@@ -160,6 +161,7 @@ $labels['expand-all'] = '展开全部';
 $labels['expand-unread'] = '展开未读';
 $labels['collapse-all'] = '收合全部';
 $labels['threaded'] = '线索';
+
 $labels['autoexpand_threads'] = '展开消息主题';
 $labels['do_expand'] = '所有主题';
 $labels['expand_only_unread'] = '仅未读消息';
@@ -179,16 +181,19 @@ $labels['listmode'] = '列表视图样式';
 $labels['folderactions'] = '目录操作...';
 $labels['compact'] = '压缩';
 $labels['empty'] = '清空';
-$labels['purge'] = '清除';
+
 $labels['quota'] = '邮箱容量';
 $labels['unknown'] = '未知';
 $labels['unlimited'] = '无限制';
+
 $labels['quicksearch'] = '快速查找';
 $labels['resetsearch'] = '清空查找内容';
 $labels['searchmod'] = '搜寻模式';
 $labels['msgtext'] = '整个邮件';
+
 $labels['openinextwin'] = '在新窗口中打开';
 $labels['emlsave'] = '下载（.eml）';
+
 // message compose
 $labels['compose']        = '写新邮件';
 $labels['editasnew'] = '编辑为新邮件';
@@ -199,6 +204,7 @@ $labels['charset'] = '字符集';
 $labels['editortype'] = '编辑器类型';
 $labels['returnreceipt'] = '邮件回执';
 $labels['dsn']            = '投递状态提示';
+$labels['mailreplyintro'] = '于 $date, $sender 回复:';
 
 $labels['editidents']    = '编辑身份';
 $labels['checkspelling'] = '拼写检查';
@@ -207,6 +213,7 @@ $labels['revertto'] = '恢复至';
 
 $labels['attachments'] = '附件';
 $labels['upload'] = '上传';
+$labels['uploadprogress'] = '$percent ($current / $total)';
 $labels['close'] = '关闭';
 $labels['messageoptions']  = '邮件选项...';
 
@@ -241,18 +248,67 @@ $labels['receiptnote'] = '注意：回执只表示邮件在收件人的电脑上
 $labels['name'] = '显示名称';
 $labels['firstname'] = '名字';
 $labels['surname'] = '姓氏';
-$labels['email'] = '邮件地址';
+$labels['middlename']   = '中名';
+$labels['nameprefix']   = '前缀';
+$labels['namesuffix']   = '后缀';
+$labels['nickname']     = '昵称';
+$labels['jobtitle']     = '职位';
+$labels['organization'] = '公司';
+$labels['department']   = '部门';
+$labels['gender']       = 'Gender';
+$labels['maidenname']   = '娘家姓';
+$labels['email']        = 'Email';
+$labels['phone']        = '电话';
+$labels['address']      = '地址';
+$labels['street']       = '街道';
+$labels['locality']     = '城市';
+$labels['zipcode']      = '邮编';
+$labels['region']       = '省份';
+$labels['country']      = '国家';
+$labels['birthday']     = '生日';
+$labels['anniversary']  = '纪念日';
+$labels['website']      = '主页';
+$labels['instantmessenger'] = 'QQ';
+$labels['notes'] = '备注';
+$labels['male']   = '男';
+$labels['female'] = '女';
+$labels['manager'] = '经理';
+$labels['assistant'] = '助理';
+$labels['spouse'] = '配偶';
+$labels['allfields'] = '所有项目';
+$labels['search'] = '查询';
+$labels['advsearch'] = '高级查询';
+$labels['other'] = '其他';
 
+$labels['typehome']   = '家庭';
+$labels['typework']   = '工作';
+$labels['typeother']  = '其他';
+$labels['typemobile']  = '手机';
+$labels['typemain']  = '主';
+$labels['typehomefax']  = '家庭传真';
+$labels['typeworkfax']  = '工作传真';
+$labels['typecar']  = '车牌';
+$labels['typepager']  = '呼机';
+$labels['typevideo']  = '视频';
+$labels['typeassistant']  = '助理';
+$labels['typehomepage']  = '主页';
+$labels['typeblog'] = '博客';
+$labels['typeprofile'] = '资历';
+
+$labels['addfield'] = '增加项..';
 $labels['addcontact'] = '添加联系人';
 $labels['editcontact'] = '编辑联系人';
 $labels['contacts'] = '联系人';
 $labels['contactproperties'] = '联系人信息';
+$labels['personalinfo'] = '个人信息';
 
 $labels['edit'] = '编辑';
 $labels['cancel'] = '取消';
 $labels['save'] = '保存';
 $labels['delete'] = '删除';
 $labels['rename'] = '更名';
+$labels['addphoto'] = '上传';
+$labels['replacephoto'] = '覆盖';
 
 $labels['newcontact'] = '新建联系人';
 $labels['deletecontact'] = '删除选中的联系人';
@@ -261,8 +317,10 @@ $labels['contactsfromto'] = '第 $from 到 $to 个联系人，共 $count 个';
 $labels['print'] = '打印';
 $labels['export'] = '导出';
 $labels['exportvcards'] = '以 vCard 格式导出联系人';
-$labels['newcontactgroup'] = '创建新的联系人组';
-$labels['groupactions'] = '联系人组操作...';
+$labels['newcontactgroup'] = '创建新的组';
+$labels['groupactions'] = '组操作...';
+$labels['grouprename']    = '重命名组';
+$labels['groupdelete']    = '删除组';
 
 $labels['previouspage'] = '上一页';
 $labels['firstpage'] = '第一页';
@@ -271,11 +329,12 @@ $labels['lastpage'] = '最后一页';
 
 $labels['group'] = '分组';
 $labels['groups'] = '分组';
-$labels['personaladrbook'] = '个人地址';
+$labels['personaladrbook'] = '个人通讯录';
 
 $labels['import'] = '导入';
 $labels['importcontacts'] = '导入联系人';
 $labels['importfromfile'] = '从文件导入';
+$labels['importtarget'] = '增加新联系人到通讯录:';
 $labels['importreplace'] = '替换整个地址簿';
 $labels['importtext'] = '你可以从已有的地址簿导入联系人。目前支持从 vCard 数据格式导入地址簿。';
 $labels['done'] = '完成';
@@ -287,7 +346,7 @@ $labels['preferences'] = '偏好设置';
 $labels['userpreferences'] = '个人偏好';
 $labels['editpreferences'] = '修改个人偏好';
 
-$labels['identities'] = '发邮件的身份';
+$labels['identities'] = '发件身份';
 $labels['manageidentities'] = '管理此账号的身份';
 $labels['newidentity'] = '添加身份';
 
@@ -314,7 +373,7 @@ $labels['logoutclear'] = '退出时清空回收站';
 $labels['logoutcompact'] = '退出时压缩收件箱';
 $labels['uisettings'] = '用户界面';
 $labels['serversettings'] = '服务器设置';
-$labels['mailboxview'] = '邮箱查看方式';
+$labels['mailboxview'] = '显示邮件';
 $labels['mdnrequests'] = '发件人请求回执';
 $labels['askuser'] = '询问用户';
 $labels['autosend'] = '自动发送';
@@ -334,8 +393,8 @@ $labels['everynminutes'] = '每隔 $n 分钟';
 $labels['keepalive'] = '检查新邮件';
 $labels['never'] = '从不';
 $labels['immediately'] = '立即';
-$labels['messagesdisplaying'] = '邮件显示设置';
-$labels['messagescomposition'] = '写邮件';
+$labels['messagesdisplaying'] = '显示参数';
+$labels['messagescomposition'] = '撰写邮件';
 $labels['mimeparamfolding'] = '附件名';
 $labels['2231folding'] = '完整的 RFC 2231（Thunderbird）';
 $labels['miscfolding'] = 'RFC 2047/2232（MS Outlook）';
@@ -367,16 +426,18 @@ $labels['afternseconds'] = '$n 秒之后';
 $labels['reqmdn'] = '总是要求回执';
 $labels['reqdsn'] = '总是要求投递状态通知';
 $labels['replysamefolder'] = '保存回复邮件到邮件相同的目录';
+$labels['defaultaddressbook'] = '增加联系人到所选通讯录';
+$labels['spellcheckbeforesend'] = '发邮件前进行拼写检查';
 
-$labels['folder'] = '邮件夹';
-$labels['folders'] = '邮件夹';
+$labels['folder'] = '目录管理';
+$labels['folders'] = '目录管理';
 $labels['foldername'] = '邮件夹名称';
 $labels['subscribed'] = '已订阅';
 $labels['messagecount'] = '邮件数量';
 $labels['create'] = '建立';
 $labels['createfolder'] = '建立新邮件夹';
 $labels['managefolders'] = '管理邮件夹';
-$labels['specialfolders'] = '指定邮件夹';
+$labels['specialfolders'] = '定义邮件夹';
 $labels['properties'] = '属性';
 $labels['folderproperties'] = '文件夹属性';
 $labels['parentfolder'] = '父文件夹';
@@ -384,10 +445,15 @@ $labels['location'] = '位置';
 $labels['info'] = '信息';
 $labels['getfoldersize'] = '获得文件夹容量';
 $labels['changesubscription'] = '更改订阅';
+$labels['foldertype'] = '目录类型';
+$labels['personalfolder']  = '私有目录';
+$labels['otherfolder']  = '他人目录';
+$labels['sharedfolder']  = '共享目录';
 
 $labels['sortby'] = '排序';
 $labels['sortasc'] = '递增排序';
 $labels['sortdesc'] = '递减排序';
+$labels['undo'] = '撤销';
 
 // units
 $labels['B'] = 'B';

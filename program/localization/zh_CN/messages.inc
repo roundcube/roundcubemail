@@ -12,6 +12,7 @@
 +-----------------------------------------------------------------------+
 | Author: Xue zhong sheng <xue.zhongsheng@gmail.com>                    |
 |         Zhang Huang bin <michaelbibby@gmail.com>                      |
+|         Kelphon Tang <kelphon@kingstor.com>	                        |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -25,6 +26,7 @@ $messages['sessionerror'] = '会话已过期';
 $messages['imaperror'] = '连接到邮件服务器失败';
 $messages['servererror'] = '服务器错误！';
 $messages['servererrormsg'] = '服务器错误: $msg';
+$messages['databaserror'] = '数据库错误!';
 $messages['errorreadonly'] = '不可对只读文件夹进行操作';
 $messages['errornoperm'] = '无权限操作';
 $messages['invalidrequest'] = '无效的请求！数据保存失败。';
@@ -33,6 +35,7 @@ $messages['loggedout'] = '您已成功注销';
 $messages['mailboxempty'] = '邮件夹为空';
 $messages['loading'] = '正在加载...';
 $messages['uploading'] = '正在上传文件...';
+$messages['uploadingmany'] = '正在上传多个文件...';
 $messages['loadingdata'] = '正在加载数据...';
 $messages['checkingmail'] = '检查新邮件...';
 $messages['sendingmessage'] = '正在发送邮件...';
@@ -42,6 +45,7 @@ $messages['messagesaved'] = '邮件已暂存到草稿箱';
 $messages['successfullysaved'] = '保存成功';
 $messages['addedsuccessfully'] = '成功添加联系人';
 $messages['contactexists'] = '当前联系人的电子邮件地址已存在';
+$messages['contactnameexists'] = '已存在同名的联系人.';
 $messages['blockedimages'] = '为保护隐私，此邮件中的远程图片未显示';
 $messages['encryptedmessage'] = '因此邮件已加密，无法正常显示';
 $messages['nocontactsfound'] = '未找到联系人';
@@ -55,9 +59,11 @@ $messages['errorcopying'] = '无法复制邮件';
 $messages['errordeleting'] = '无法删除邮件';
 $messages['errormarking'] = '无法标记邮件';
 $messages['deletecontactconfirm'] = '确定要删除已选中的联系人？';
+$messages['deletegroupconfirm']  = '确定要删除以选中的组?';
 $messages['deletemessagesconfirm'] = '确定要删除已选中的邮件？';
 $messages['deletefolderconfirm'] = '确定要删除已选中的邮件夹？';
 $messages['purgefolderconfirm'] = '是否确认要删除当前邮件夹中的所有邮件？';
+$messages['groupdeleting'] = '正在删除组...';
 $messages['folderdeleting'] = '正在删除邮件夹';
 $messages['foldermoving'] = '正在移动目录...';
 $messages['foldersubscribing'] = '注册文件夹中...';
@@ -96,8 +102,11 @@ $messages['sourceisreadonly'] = '源地址为只读';
 $messages['errorsavingcontact'] = '无法保存联系人的地址';
 $messages['movingmessage'] = '移动邮件到...';
 $messages['copyingmessage'] = '复制邮件到...';
+$messages['copyingcontact'] = '复制联系人...';
 $messages['deletingmessage'] = '正在删除邮件...';
 $messages['markingmessage'] = '正在标记邮件...';
+$messages['addingmember'] = '正在添加联系人到组...';
+$messages['removingmember'] = '正在从组中删除联系人...';
 $messages['receiptsent'] = '成功发送了一个已读回执';
 $messages['errorsendingreceipt'] = '无法发送回执';
 $messages['nodeletelastidentity'] = '无法删除这个身份，这是最后一个。';
@@ -109,6 +118,7 @@ $messages['contactremovedfromgroup'] = '成功从这个分组移除联系人';
 $messages['importwait'] = '正在导入，请稍后...';
 $messages['importerror'] = '导入失败！所上传的文件不是有效的 vCard 文件。';
 $messages['importconfirm'] = '<b>成功导入 $inserted 联系人，$skipped 乎略已存在的联系人</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>跳过已存在 $skipped 项目</b>';
 $messages['opnotpermitted'] = '不允许的操作';
 $messages['nofromaddress'] = '选种的身份中没有邮件地址';
 $messages['editorwarning'] = '切换到纯文本编辑器将导致邮件正文中的所有文本格式失效，您确定要这样做吗？';
@@ -126,9 +136,11 @@ $messages['maxgroupmembersreached'] = '组员数量超过最大值 $max';
 $messages['internalerror'] = '遇到一个内部错误，请重试';
 $messages['contactdelerror'] = '无法删除联系人';
 $messages['contactdeleted'] = '删除联系人成功';
-$messages['groupdeleted'] = '成功删除联系人组';
-$messages['grouprenamed'] = '联系人组改名成功';
-$messages['groupcreated'] = '成功创建联系人组';
+$messages['contactrestoreerror'] = '无法恢复已删除的联系人.';
+$messages['contactrestored'] = '联系人恢复成功.';
+$messages['groupdeleted'] = '成功删除组';
+$messages['grouprenamed'] = '组改名成功';
+$messages['groupcreated'] = '成功创建组';
 $messages['messagedeleted'] = '删除邮件成功';
 $messages['messagemoved'] = '转移邮件成功';
 $messages['messagecopied'] = '复制邮件成功';
@@ -138,4 +150,7 @@ $messages['namecannotbeempty'] = '必须输入名字';
 $messages['nametoolong'] = '名字太长';
 $messages['folderupdated'] = '成功更新文件夹';
 $messages['foldercreated'] = '成功创建文件夹';
+$messages['invalidimageformat'] = '非法的图像类型.';
+$messages['mispellingsfound'] = '检查到拼写错误.';
+$messages['parentnotwritable'] = '无法创建和转移到所选的目录,权限不足.';
 ?>
