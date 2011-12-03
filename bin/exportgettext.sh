@@ -27,8 +27,8 @@ if ($argc < 2) {
 }
 
 $srcdir = unslashify(realpath($argv[1]));
-$destdir = slashify($argv[2]);
-$layout = 'launchpad'  # or 'narro';
+$destdir = unslashify($argv[2]);
+$layout = 'launchpad';  # or 'narro';
 
 
 // converting roundcube localization dir
@@ -83,7 +83,6 @@ function convert_dir($indir, $outdir)
 {
 	global $layout;
 	
-	$outdir = unslashify($outdir);
 	if (!is_dir($outdir))  // attempt to create destination dir
 		mkdir($outdir, 0777, true);
 
@@ -115,6 +114,7 @@ function convert_file($fn, $outfn)
 
 	$basename =  basename($fn);
 	$srcname = str_replace(INSTALL_PATH, '', $fn);
+	$product = preg_match('!plugins/(\w+)!', $srcname, $m) ? 'roundcube-plugin-' . $m[1] : 'roundcubemail';
 	$lang = preg_match('!/([a-z]{2}(_[A-Z]{2})?)[./]!', $outfn, $m) ? $m[1] : '';
 	$labels = $messages = $seen = array();
 
@@ -147,7 +147,7 @@ function convert_file($fn, $outfn)
 #: %s
 msgid ""
 msgstr ""
-"Project-Id-Version: roundcubemail\\n"
+"Project-Id-Version: %s\\n"
 "Report-Msgid-Bugs-To: \\n"
 "POT-Creation-Date: %s\\n"
 "PO-Revision-Date: %s\\n"
@@ -158,7 +158,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\\n"
 EOF;
 	
-	$out = sprintf($header, $srcname, date('c'), date('c'), $lang);
+	$out = sprintf($header, $srcname, $product, date('c'), date('c'), $lang);
 	$out .= "\n";
 	
 	$messages = array();
@@ -187,7 +187,7 @@ EOF;
 function gettext_quote($str)
 {
 	$out = "";
-	$lines = explode("\n", $str);
+	$lines = explode("\n", stripslashes($str));
 	$suffix = count($lines) > 1 ? '\n' : '';
 	foreach ($lines as $line)
 		$out .= '"' . addcslashes($line, '"') . $suffix . "\"\n";
