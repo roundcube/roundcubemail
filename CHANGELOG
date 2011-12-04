@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix navigation in messages search results
 - Improved handling of some malformed values encoded with quoted-printable (#1488232)
 - Add possibility to do LDAP bind before searching for bind DN
 - Fix handling of empty <U> tags in HTML messages (#1488225)
