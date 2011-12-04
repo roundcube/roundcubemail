@@ -50,10 +50,12 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
       foreach ((array)$vals as $i => $val)
         $values[$i][$childcol] = $val;
     }
-    $subtypes = get_input_value('_subtype_' . $col, RCUBE_INPUT_POST);
-    foreach ($subtypes as $i => $subtype)
+    $subtypes = isset($_REQUEST['_subtype_' . $col]) ? (array)get_input_value('_subtype_' . $col, RCUBE_INPUT_POST) : array('');
+    foreach ($subtypes as $i => $subtype) {
+      $suffix = $subtype ? ':'.$subtype : '';
       if ($values[$i])
-        $a_record[$col.':'.$subtype][] = $values[$i];
+        $a_record[$col.$suffix][] = $values[$i];
+     }
   }
   // assign values and subtypes
   else if (is_array($_POST[$fname])) {
