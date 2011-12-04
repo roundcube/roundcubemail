@@ -1027,7 +1027,7 @@ class rcube_ldap extends rcube_addressbook
         $dn = self::dn_encode($dn);
 
         // add new contact to the selected group
-        if ($this->groups)
+        if ($this->group_id)
             $this->add_to_group($this->group_id, $dn);
 
         return $dn;
@@ -1722,13 +1722,16 @@ class rcube_ldap extends rcube_addressbook
         if (($group_cache = $this->cache->get('groups')) === null)
             $group_cache = $this->_fetch_groups();
 
+        if (!is_array($contact_ids))
+            $contact_ids = explode(',', $contact_ids);
+
         $base_dn     = $this->groups_base_dn;
         $group_name  = $group_cache[$group_id]['name'];
         $member_attr = $group_cache[$group_id]['member_attr'];
         $group_dn    = "cn=$group_name,$base_dn";
 
         $new_attrs = array();
-        foreach (explode(",", $contact_ids) as $id)
+        foreach ($contact_ids as $id)
             $new_attrs[$member_attr][] = self::dn_decode($id);
 
         $this->_debug("C: Add [dn: $group_dn]: ".print_r($new_attrs, true));
