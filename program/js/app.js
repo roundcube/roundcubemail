@@ -903,7 +903,7 @@ function rcube_webmail()
         if (!this.gui_objects.messageform)
           break;
 
-        if (!this.check_compose_input())
+        if (!props.nocheck && !this.check_compose_input(command))
           break;
 
         // Reset the auto-save timer
@@ -2955,7 +2955,7 @@ function rcube_webmail()
   };
 
   // checks the input fields before sending a message
-  this.check_compose_input = function()
+  this.check_compose_input = function(cmd)
   {
     // check input fields
     var ed, input_to = $("[name='_to']"),
@@ -2990,15 +2990,28 @@ function rcube_webmail()
 
     // display localized warning for missing subject
     if (input_subject.val() == '') {
-      var subject = prompt(this.get_label('nosubjectwarning'), this.get_label('nosubject'));
+      var myprompt = $('<div class="prompt">').html('<div class="message">' + this.get_label('nosubjectwarning') + '</div>').appendTo(document.body);
+      var prompt_value = $('<input>').attr('type', 'text').attr('size', 30).appendTo(myprompt).val(this.get_label('nosubject'));
 
-      // user hit cancel, so don't send
-      if (!subject && subject !== '') {
+      var buttons = {};
+      buttons[this.get_label('cancel')] = function(){
         input_subject.focus();
-        return false;
-      }
-      else
-        input_subject.val((subject ? subject : this.get_label('nosubject')));
+        $(this).dialog('close');
+      };
+      buttons[this.get_label('sendmessage')] = function(){
+        input_subject.val(prompt_value.val());
+        $(this).dialog('close');
+        ref.command(cmd, { nocheck:true });  // repeat command which triggered this
+      };
+
+      myprompt.dialog({
+        modal: true,
+        resizable: false,
+        buttons: buttons,
+        close: function(event, ui) { $(this).remove() }
+      });
+      prompt_value.select();
+      return false;
     }
 
     // Apply spellcheck changes if spell checker is active
