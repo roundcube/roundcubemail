@@ -91,6 +91,8 @@ class rcube_mdb2
             $db_options['disable_smart_seqname'] = true;
             $db_options['seqname_format'] = '%s';
         }
+        $this->db_error     = false;
+        $this->db_error_msg = null;
 
         $dbh = MDB2::connect($dsn, $db_options);
 
@@ -144,6 +146,13 @@ class rcube_mdb2
 
         $this->db_handle    = $this->dsn_connect($dsn);
         $this->db_connected = !PEAR::isError($this->db_handle);
+
+        // use write-master when read-only fails
+        if (!$this->db_connected && $mode == 'r') {
+            $mode = 'w';
+            $this->db_handle    = $this->dsn_connect($this->db_dsnw);
+            $this->db_connected = !PEAR::isError($this->db_handle);
+        }
 
         if ($this->db_connected)
             $this->db_mode = $mode;

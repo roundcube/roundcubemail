@@ -228,7 +228,8 @@ function rcube_webmail()
           this.enable_command('reply-list', this.env.list_post);
 
           if (this.env.action == 'show') {
-            this.http_request('pagenav', '_uid='+this.env.uid+'&_mbox='+urlencode(this.env.mailbox),
+            this.http_request('pagenav', '_uid='+this.env.uid+'&_mbox='+urlencode(this.env.mailbox)
+              + (this.env.search_request ? '&_search='+this.env.search_request : ''),
               this.display_message('', 'loading'));
           }
 

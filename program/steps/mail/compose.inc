@@ -346,10 +346,14 @@ foreach ($parts as $header) {
 
   // we have a set of recipients stored is session
   if ($header == 'to' && ($mailto_id = $COMPOSE['param']['mailto'])
-      && $COMPOSE[$mailto_id]
+      && $_SESSION['mailto'][$mailto_id]
   ) {
-    $fvalue = urldecode($COMPOSE[$mailto_id]);
+    $fvalue = urldecode($_SESSION['mailto'][$mailto_id]);
     $decode_header = false;
+
+    // make session to not grow up too much
+    unset($_SESSION['mailto'][$mailto_id]);
+    $COMPOSE['param']['to'] = $fvalue;
   }
   else if (!empty($_POST['_'.$header])) {
     $fvalue = get_input_value('_'.$header, RCUBE_INPUT_POST, TRUE);
