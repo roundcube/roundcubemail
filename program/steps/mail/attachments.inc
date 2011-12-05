@@ -25,9 +25,12 @@ if (!empty($_GET['_progress'])) {
 }
 
 $COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
-$_SESSION['compose'] = $_SESSION['compose_data_'.$COMPOSE_ID];
+$COMPOSE    = null;
 
-if (!$_SESSION['compose']) {
+if ($COMPOSE_ID && $_SESSION['compose_data_'.$COMPOSE_ID])
+  $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
+
+if (!$COMPOSE) {
   die("Invalid session var!");
 }
 
@@ -38,15 +41,15 @@ if ($RCMAIL->action=='remove-attachment')
   $id = 'undefined';
   if (preg_match('/^rcmfile(\w+)$/', $_POST['_file'], $regs))
     $id = $regs[1];
-  if ($attachment = $_SESSION['compose']['attachments'][$id])
+  if ($attachment = $COMPOSE['attachments'][$id])
     $attachment = $RCMAIL->plugins->exec_hook('attachment_delete', $attachment);
   if ($attachment['status']) {
-    if (is_array($_SESSION['compose']['attachments'][$id])) {
-      unset($_SESSION['compose']['attachments'][$id]);
+    if (is_array($COMPOSE['attachments'][$id])) {
+      unset($COMPOSE['attachments'][$id]);
       $OUTPUT->command('remove_from_attachment_list', "rcmfile$id");
     }
   }
-  
+
   $OUTPUT->send();
   exit;
 }
@@ -56,16 +59,16 @@ if ($RCMAIL->action=='display-attachment')
   $id = 'undefined';
   if (preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs))
     $id = $regs[1];
-  if ($attachment = $_SESSION['compose']['attachments'][$id])
+  if ($attachment = $COMPOSE['attachments'][$id])
     $attachment = $RCMAIL->plugins->exec_hook('attachment_display', $attachment);
-    
+
   if ($attachment['status']) {
     if (empty($attachment['size']))
       $attachment['size'] = $attachment['data'] ? strlen($attachment['data']) : @filesize($attachment['path']);
 
     header('Content-Type: ' . $attachment['mimetype']);
     header('Content-Length: ' . $attachment['size']);
-    
+
     if ($attachment['data'])
       echo $attachment['data'];
     else if ($attachment['path'])
@@ -76,8 +79,8 @@ if ($RCMAIL->action=='display-attachment')
 
 // attachment upload action
 
-if (!is_array($_SESSION['compose']['attachments'])) {
-  $_SESSION['compose']['attachments'] = array();
+if (!is_array($COMPOSE['attachments'])) {
+  $COMPOSE['attachments'] = array();
 }
 
 // clear all stored output properties (like scripts and env vars)
@@ -107,9 +110,9 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
 
       // store new attachment in session
       unset($attachment['status'], $attachment['abort']);
-      $_SESSION['compose']['attachments'][$id] = $attachment;
+      $COMPOSE['attachments'][$id] = $attachment;
 
-      if (($icon = $_SESSION['compose']['deleteicon']) && is_file($icon)) {
+      if (($icon = $COMPOSE['deleteicon']) && is_file($icon)) {
         $button = html::img(array(
           'src' => $icon,
           'alt' => rcube_label('delete')
