@@ -24,9 +24,9 @@
 function rcmail_supportlink($attrib)
 {
   global $RCMAIL;
-  
+
   if ($url = $RCMAIL->config->get('support_url')) {
-    $label = $attrub['label'] ? $attrub['label'] : 'support';
+    $label = $attrib['label'] ? $attrib['label'] : 'support';
     $attrib['href'] = $url;
     return html::a($attrib, rcube_label($label));
   }
