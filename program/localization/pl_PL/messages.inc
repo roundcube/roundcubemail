@@ -163,5 +163,6 @@ $messages['savedsearchcreateerror'] = 'Nie można zapisać wyszukiwania.';
 $messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
 $messages['contactdeleting'] = 'Usuwanie kontaktów...';
 $messages['autocompletemore'] = 'Znaleziono więcej pasujących wpisów. Wprowadź więcej znaków.';
+$messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
 
 ?>
