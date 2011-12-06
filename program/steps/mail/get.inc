@@ -66,6 +66,9 @@ if (!empty($_GET['_uid'])) {
 
 // show part page
 if (!empty($_GET['_frame'])) {
+  if (($part_id = get_input_value('_part', RCUBE_INPUT_GPC)) && ($part = $MESSAGE->mime_parts[$part_id]) && $part->filename)
+    $OUTPUT->set_pagetitle($part->filename);
+  
   $OUTPUT->send('messagepart');
   exit;
 }
