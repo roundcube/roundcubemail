@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issues with big memory allocation of IMAP results
 - Replace prompt() with jQuery UI dialog (#1485135)
 - Fix navigation in messages search results
 - Improved handling of some malformed values encoded with quoted-printable (#1488232)

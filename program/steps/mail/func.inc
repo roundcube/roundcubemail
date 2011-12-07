@@ -93,7 +93,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
       $_SESSION['search'] = $IMAP->get_search_set();
       $_SESSION['search_request'] = $search_request;
       $OUTPUT->set_env('search_request', $search_request);
-      }
+    }
 
       $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
       $OUTPUT->set_env('search_mods', $search_mods);

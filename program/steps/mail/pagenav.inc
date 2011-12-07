@@ -19,52 +19,29 @@
 
 */
 
-$uid = get_input_value('_uid', RCUBE_INPUT_GET);
+$uid   = get_input_value('_uid', RCUBE_INPUT_GET);
+$index = $IMAP->message_index(null, $_SESSION['sort_col'], $_SESSION['sort_order']);
+$cnt   = $index->countMessages();
 
-// Select mailbox first, for better performance
-$mbox_name = $IMAP->get_mailbox_name();
-$IMAP->select_mailbox($mbox_name);
-
-// Get messages count (only messages, no threads here)
-$cnt  = $IMAP->messagecount(NULL, 'ALL');
-
-if ($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC'
-    && empty($_REQUEST['_search']) && !$CONFIG['skip_deleted'] && !$IMAP->threading
-) {
-    // this assumes that we are sorted by date_DESC
-    $seq   = $IMAP->get_id($uid);
-    $index = $cnt - $seq;
-
-    $prev  = $IMAP->get_uid($seq + 1);
-    $first = $IMAP->get_uid($cnt);
-    $next  = $IMAP->get_uid($seq - 1);
-    $last  = $IMAP->get_uid(1);
-}
-else {
-    // Only if we use custom sorting
-    $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
-
-    $index = array_search($IMAP->get_id($uid), $a_msg_index);
-
-    $count = count($a_msg_index);
-    $prev  = isset($a_msg_index[$index-1]) ? $IMAP->get_uid($a_msg_index[$index-1]) : -1;
-    $first = $count > 1 ? $IMAP->get_uid($a_msg_index[0]) : -1;
-    $next  = isset($a_msg_index[$index+1]) ? $IMAP->get_uid($a_msg_index[$index+1]) : -1;
-    $last  = $count > 1 ? $IMAP->get_uid($a_msg_index[$count-1]) : -1;
+if ($cnt && ($pos = $index->exists($uid, true)) !== false) {
+    $prev  = $pos ? $index->getElement($pos-1) : 0;
+    $first = $pos ? $index->getElement('FIRST') : 0;
+    $next  = $pos < $cnt-1 ? $index->getElement($pos+1) : 0;
+    $last  = $pos < $cnt-1 ? $index->getElement('LAST') : 0;
 }
 
 // Set UIDs and activate navigation buttons
-if ($prev > 0) {
+if ($prev) {
     $OUTPUT->set_env('prev_uid', $prev);
     $OUTPUT->command('enable_command', 'previousmessage', 'firstmessage', true);
 }
-if ($next > 0) {
+if ($next) {
     $OUTPUT->set_env('next_uid', $next);
     $OUTPUT->command('enable_command', 'nextmessage', 'lastmessage', true);
 }
-if ($first > 0)
+if ($first)
     $OUTPUT->set_env('first_uid', $first);
-if ($last > 0)
+if ($last)
     $OUTPUT->set_env('last_uid', $last);
 
 // Don't need a real messages count value
@@ -73,7 +50,7 @@ $OUTPUT->set_env('messagecount', 1);
 // Set rowcount text
 $OUTPUT->command('set_rowcount', rcube_label(array(
     'name' => 'messagenrof',
-    'vars' => array('nr'  => $index+1, 'count' => $cnt)
+    'vars' => array('nr'  => $pos+1, 'count' => $cnt)
 )));
 
 $OUTPUT->send();

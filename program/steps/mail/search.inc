@@ -109,10 +109,6 @@ $search_str = trim($search_str);
 if ($search_str)
   $IMAP->search($mbox, $search_str, $imap_charset, $_SESSION['sort_col']);
 
-// Get the headers
-$result_h = $IMAP->list_headers($mbox, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
-$count = $IMAP->messagecount(NULL, $IMAP->threading ? 'THREADS' : 'ALL');
-
 // save search results in session
 if (!is_array($_SESSION['search']))
   $_SESSION['search'] = array();
@@ -122,6 +118,12 @@ if ($search_str) {
   $_SESSION['last_text_search'] = $str;
 }
 $_SESSION['search_request'] = $search_request;
+
+
+// Get the headers
+$result_h = $IMAP->list_headers($mbox, 1, $_SESSION['sort_col'], $_SESSION['sort_order']);
+$count = $IMAP->messagecount($mbox, $IMAP->threading ? 'THREADS' : 'ALL');
+
 
 // Make sure we got the headers
 if (!empty($result_h)) {

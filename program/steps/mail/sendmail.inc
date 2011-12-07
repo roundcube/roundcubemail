@@ -701,11 +701,11 @@ if ($store_target) {
   if ($olddraftmessageid) {
     // delete previous saved draft
     // @TODO: use message UID (remember to check UIDVALIDITY) to skip this SEARCH
-    $a_deleteid = $IMAP->search_once($CONFIG['drafts_mbox'],
-        'HEADER Message-ID '.$olddraftmessageid, true);
+    $delete_idx = $IMAP->search_once($CONFIG['drafts_mbox'],
+        'HEADER Message-ID '.$olddraftmessageid);
 
-    if (!empty($a_deleteid)) {
-      $deleted = $IMAP->delete_message($a_deleteid, $CONFIG['drafts_mbox']);
+    if ($del_uid = $delete_idx->getElement('FIRST')) {
+      $deleted = $IMAP->delete_message($del_uid, $CONFIG['drafts_mbox']);
 
       // raise error if deletion of old draft failed
       if (!$deleted)
@@ -726,8 +726,8 @@ if ($savedraft) {
 
   // remember new draft-uid ($saved could be an UID or TRUE here)
   if (is_bool($saved)) {
-    $draftuids = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid, true);
-    $saved     = $draftuids[0];
+    $draft_idx = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid);
+    $saved     = $draft_idx->getElement('FIRST');
   }
   $COMPOSE['param']['draft_uid'] = $saved;
 
