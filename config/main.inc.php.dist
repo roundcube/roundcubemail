@@ -794,4 +794,9 @@ $rcmail_config['spellcheck_before_send'] = false;
 // Skip alternative email addresses in autocompletion (show one address per contact)
 $rcmail_config['autocomplete_single'] = false;
 
+// Default font for composed HTML message.
+// Supported values: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
+// Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
+$rcmail_config['default_font'] = '';
+
 // end of config file

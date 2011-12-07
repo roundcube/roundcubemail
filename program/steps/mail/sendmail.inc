@@ -397,6 +397,15 @@ $isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
 // fetch message body
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
+if ($isHtml) {
+  $font   = rcube_fontdefs($RCMAIL->config->get('default_font', 'Verdana'));
+  $bstyle = $font && is_string($font) ? " style='font-family: $font'" : '';
+
+  // append doctype and html/body wrappers
+  $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">' .
+    "\r\n<html><body$bstyle>\r\n" . $message_body;
+}
+
 if (!$savedraft) {
   if ($isHtml) {
     // remove signature's div ID
@@ -406,10 +415,6 @@ if (!$savedraft) {
     $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%';
     $message_body = preg_replace('/<blockquote>/',
       '<blockquote type="cite" style="'.$bstyle.'">', $message_body);
-
-    // append doctype and html/body wrappers
-    $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">' .
-      "\r\n<html><body>\r\n" . $message_body;
   }
 
   // Check spelling before send
@@ -443,8 +448,10 @@ if (!$savedraft) {
 
   if ($footer)
     $message_body .= "\r\n" . $footer;
-  if ($isHtml)
-    $message_body .= "\r\n</body></html>\r\n";
+}
+
+if ($isHtml) {
+  $message_body .= "\r\n</body></html>\r\n";
 }
 
 // set line length for body wrapping

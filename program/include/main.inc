@@ -2408,3 +2408,27 @@ function rcube_autocomplete_init()
     $RCMAIL->output->set_env('autocomplete_min_length', $RCMAIL->config->get('autocomplete_min_length'));
     $RCMAIL->output->add_label('autocompletechars', 'autocompletemore');
 }
+
+function rcube_fontdefs($font = null)
+{
+  $fonts = array(
+    'Andale Mono'   => '"Andale Mono",Times,monospace',
+    'Arial'         => 'Arial,Helvetica,sans-serif',
+    'Arial Black'   => '"Arial Black","Avant Garde",sans-serif',
+    'Book Antiqua'  => '"Book Antiqua",Palatino,serif',
+    'Courier New'   => '"Courier New",Courier,monospace',
+    'Georgia'       => 'Georgia,Palatino,serif',
+    'Helvetica'     => 'Helvetica,Arial,sans-serif',
+    'Impact'        => 'Impact,Chicago,sans-serif',
+    'Tahoma'        => 'Tahoma,Arial,Helvetica,sans-serif',
+    'Terminal'      => 'Terminal,Monaco,monospace',
+    'Times New Roman' => '"Times New Roman",Times,serif',
+    'Trebuchet MS'  => '"Trebuchet MS",Geneva,sans-serif',
+    'Verdana'       => 'Verdana,Geneva,sans-serif',
+  );
+
+  if ($font)
+    return $fonts[$font];
+
+  return $fonts;
+}

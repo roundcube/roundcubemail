@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to set default font for HTML message (#1484137)
 - Fix issues with big memory allocation of IMAP results
 - Replace prompt() with jQuery UI dialog (#1485135)
 - Fix navigation in messages search results

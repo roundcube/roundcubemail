@@ -86,6 +86,7 @@ switch ($CURR_SECTION)
       'top_posting'        => !empty($_POST['_top_posting']),
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
       'sig_above'          => !empty($_POST['_sig_above']) && !empty($_POST['_top_posting']),
+      'default_font'       => get_input_value('_default_font', RCUBE_INPUT_POST),
     );
 
   break;

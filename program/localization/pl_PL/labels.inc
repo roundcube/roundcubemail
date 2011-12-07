@@ -440,5 +440,6 @@ $labels['source'] = 'Źródła';
 $labels['license'] = 'Licencja';
 $labels['about'] = 'O programie';
 $labels['support'] = 'Wsparcie techniczne';
+$labels['defaultfont'] = 'Czcionka wiadomości HTML';
 
 ?>

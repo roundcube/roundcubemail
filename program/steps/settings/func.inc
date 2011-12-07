@@ -481,7 +481,6 @@ function rcmail_user_prefs($current=null)
       'sig'        => array('name' => Q(rcube_label('signatureoptions'))),
     );
 
-    // Show checkbox for HTML Editor
     if (!isset($no_override['htmleditor'])) {
       $field_id = 'rcmfd_htmleditor';
       $select_htmleditor = new html_select(array('name' => '_htmleditor', 'id' => $field_id));
@@ -631,6 +630,25 @@ function rcmail_user_prefs($current=null)
       $blocks['sig']['options']['strip_existing_sig'] = array(
         'title' => html::label($field_id, Q(rcube_label('replyremovesignature'))),
         'content' => $input_stripexistingsig->show($config['strip_existing_sig']?1:0),
+      );
+    }
+
+    if (!isset($no_override['default_font'])) {
+      $field_id     = 'rcmfd_default_font';
+      $fonts        = rcube_fontdefs();
+      $default_font = $config['default_font'] ? $config['default_font'] : 'Verdana';
+
+      $select = '<select name="_default_font" id="'.$field_id.'">';
+      foreach ($fonts as $fname => $font)
+        $select .= '<option value="'.$fname.'"'
+          . ($fname == $default_font ? ' selected="selected"' : '')
+          . ' style=\'font-family: ' . $font . '\'>'
+          . Q($fname) . '</option>';
+      $select .= '</select>';
+
+      $blocks['main']['options']['default_font'] = array(
+        'title' => html::label($field_id, Q(rcube_label('defaultfont'))),
+        'content' => $select
       );
     }
 

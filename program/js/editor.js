@@ -66,6 +66,9 @@ function rcmail_editor_callback()
   var elem = rcube_find_object('_from'),
     fe = rcmail.env.compose_focus_elem;
 
+  if (rcmail.env.default_font)
+    $(tinyMCE.get(rcmail.env.composebody).getBody()).css('font-family', rcmail.env.default_font);
+
   if (elem && elem.type == 'select-one') {
     rcmail.change_identity(elem);
     // Focus previously focused element

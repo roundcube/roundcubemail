@@ -142,6 +142,12 @@ $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_s
 // use jquery UI for showing prompt() dialogs
 $RCMAIL->plugins->load_plugin('jqueryui');
 
+// default font for HTML editor
+$font = rcube_fontdefs($RCMAIL->config->get('default_font', 'Verdana'));
+if ($font && !is_array($font)) {
+  $OUTPUT->set_env('default_font', $font);
+}
+
 // get reference message and set compose mode
 if ($msg_uid = $COMPOSE['param']['draft_uid']) {
   $RCMAIL->imap->set_mailbox($CONFIG['drafts_mbox']);

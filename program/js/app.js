@@ -3048,6 +3048,11 @@ function rcube_webmail()
       this.display_spellcheck_controls(false);
       this.plain2html($('#'+props.id).val(), props.id);
       tinyMCE.execCommand('mceAddControl', false, props.id);
+
+      if (this.env.default_font)
+        window.setTimeout(function() {
+          $(tinyMCE.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
+        }, 500);
     }
     else {
       var thisMCE = tinyMCE.get(props.id), existingHtml;
