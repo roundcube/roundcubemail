@@ -16,7 +16,7 @@
 
 @version $Id$
 
-EN-Revision: 5210
+EN-Revision: 5490
 
 */
 
@@ -154,7 +154,6 @@ $labels['unanswered'] = '未返信';
 $labels['deleted'] = '削除済み';
 $labels['invert'] = '反転';
 $labels['filter'] = 'フィルター';
-
 $labels['list'] = '一覧';
 $labels['threads'] = 'スレッド';
 $labels['expand-all'] = 'すべて展開';
@@ -227,6 +226,7 @@ $labels['highest'] = '最高';
 $labels['nosubject'] = '(件名なし)';
 $labels['showimages'] = '画像の表示';
 $labels['alwaysshow'] = '$sender から届いた画像は常に表示';
+$labels['isdraft']    = 'これは下書きのメッセージです。';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'テキスト';
@@ -344,7 +344,7 @@ $labels['done'] = '完了';
 
 // settings
 $labels['settingsfor']  = '次の設定:';
-
+$labels['about'] = 'Roundcube Webmail について';
 $labels['preferences']  = '設定';
 $labels['userpreferences']  = 'ユーザー設定';
 $labels['editpreferences']  = 'ユーザー設定の変更';
@@ -432,6 +432,7 @@ $labels['reqmdn'] = '常に開封確認通知を要求する';
 $labels['reqdsn'] = '常に配送状況の通知を要求する';
 $labels['replysamefolder'] = '返信されたメールを返信元メールと同じフォルダに保存';
 $labels['defaultaddressbook'] = '次のアドレス帳に新規連絡先を追加する';
+$labels['autocompletesingle'] = '自動補完で代替メールアドレスを飛ばす';
 $labels['spellcheckbeforesend'] = 'メールの送信前にスペル チェック';
 $labels['spellcheckoptions'] = 'スペルチェックのオプション';
 $labels['spellcheckignoresyms'] = '記号の単語を無視する';
@@ -464,6 +465,12 @@ $labels['sortby'] = '並び替えの基準';
 $labels['sortasc']  = '昇順で並び替え';
 $labels['sortdesc'] = '降順で並び替え';
 $labels['undo'] = '取り消し';
+
+$labels['plugin'] = 'プラグイン';
+$labels['version'] = 'バージョン';
+$labels['source'] = 'ソース';
+$labels['license'] = 'ライセンス';
+$labels['support'] = 'ヘルプを受ける';
 
 // units
 $labels['B'] = 'バイト';

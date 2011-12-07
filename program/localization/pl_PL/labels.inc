@@ -432,7 +432,14 @@ $labels['spellcheckignorecaps'] = 'Ignoruj słowa pisane wielkimi literami';
 $labels['addtodict'] = 'Dodaj do słownika';
 $labels['dateformat'] = 'Format daty';
 $labels['timeformat'] = 'Format czasu';
-$labels['isdraft'] = 'To jest kopia robocza wiadomoÅci.';
-$labels['autocompletesingle'] = 'Nie pokazuj alternatywnych adresÃ³w przy autouzupeÅnianiu';
+$labels['isdraft'] = 'To jest kopia robocza wiadomości.';
+$labels['autocompletesingle'] = 'Nie pokazuj alternatywnych adresów przy autouzupełnianiu';
+$labels['plugin'] = 'Wtyczka';
+$labels['version'] = 'Wersja';
+$labels['source'] = 'Źródła';
+$labels['license'] = 'Licencja';
+$labels['about'] = 'O programie';
+$labels['support'] = 'Wsparcie techniczne';
+$labels['defaultfont'] = 'Czcionka wiadomości HTML';
 
 ?>

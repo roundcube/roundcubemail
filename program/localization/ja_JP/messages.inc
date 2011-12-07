@@ -16,7 +16,7 @@
 
 @version $Id$
 
-//  EN-Revision: 5276
+//  EN-Revision: 5490
 
 */
 
@@ -136,7 +136,6 @@ $messages['smtpautherror'] = 'SMTP Error ($code): 認証に失敗しました。
 $messages['smtpfromerror'] = 'SMTP Error ($code): 差出人 "$from" を設定できません ($msg)';
 $messages['smtptoerror'] = 'SMTP Error ($code): 宛先 "$to" を追加できません ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Error: 宛先の一覧を解析できません。';
-$messages['smtpdsnerror'] = 'SMTP エラー: 配送状況通知をサポートしていません。';
 $messages['smtperror'] = 'SMTP エラー: $msg';
 $messages['emailformaterror'] = 'メールアドレスが正しくありません: $email';
 $messages['toomanyrecipients'] = '宛先が多すぎます。$max 件以内にしてください。';
@@ -166,5 +165,6 @@ $messages['foldercreated'] = 'フォルダーを作成しました。';
 $messages['invalidimageformat'] = '画像の形式が正しくありません。';
 $messages['mispellingsfound'] = 'メッセージにスペル エラーを見つけました。';
 $messages['parentnotwritable'] = '選択した親フォルダーへの作成、移動に失敗しました。アクセス権限がありません。';
+$messages['messagetoobig'] = 'その処理をするにはメッセージ部分が大きすぎます。';
 
 ?>

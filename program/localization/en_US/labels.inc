@@ -43,7 +43,7 @@ $labels['junk']   = 'Junk';
 $labels['subject'] = 'Subject';
 $labels['from']    = 'From';
 $labels['to']      = 'To';
-$labels['cc']      = 'Copy';
+$labels['cc']      = 'Cc';
 $labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Reply-To';
 $labels['followupto'] = 'Followup-To';
@@ -152,7 +152,6 @@ $labels['unanswered'] = 'Unanswered';
 $labels['deleted'] = 'Deleted';
 $labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
-
 $labels['list'] = 'List';
 $labels['threads'] = 'Threads';
 $labels['expand-all'] = 'Expand All';
@@ -343,7 +342,7 @@ $labels['done'] = 'Done';
 
 // settings
 $labels['settingsfor']  = 'Settings for';
-
+$labels['about'] = 'About';
 $labels['preferences']  = 'Preferences';
 $labels['userpreferences']  = 'User preferences';
 $labels['editpreferences']  = 'Edit user preferences';
@@ -408,6 +407,7 @@ $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['displaynext'] = 'After message delete/move display the next message';
+$labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
@@ -464,6 +464,12 @@ $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';
 $labels['sortdesc'] = 'Sort descending';
 $labels['undo'] = 'Undo';
+
+$labels['plugin'] = 'Plugin';
+$labels['version'] = 'Version';
+$labels['source'] = 'Source';
+$labels['license'] = 'License';
+$labels['support'] = 'Get support';
 
 // units
 $labels['B'] = 'B';

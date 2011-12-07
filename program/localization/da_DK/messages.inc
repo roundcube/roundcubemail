@@ -12,10 +12,10 @@
 | Author : Martin Moeller <martin@liga.dk>                              |
 |         Jesper R. Meyer <jesper@upthere.dk>                           |
 |         Søren Aggeboe <soren@aggeboe.dk>                              |
+|         John Loft Christiansen <john@nansensvej.dk>                   |
 +-----------------------------------------------------------------------+
 
 @version $Id$
-
 */
 
 $messages = array();
@@ -25,6 +25,7 @@ $messages['sessionerror'] = 'Din session er ugyldig eller udløbet';
 $messages['imaperror'] = 'Forbindelse til IMAP serveren fejlede';
 $messages['servererror'] = 'Server fejl!';
 $messages['servererrormsg'] = 'Server fejl: $msg';
+$messages['dberror'] = 'Database fejl!';
 $messages['errorreadonly'] = 'Kunne ikke udføre den ønskede handling. Mappen er skrivebeskyttet';
 $messages['errornoperm'] = 'Kunne ikke udføre den ønskede handling. Adgang nægtet';
 $messages['invalidrequest'] = 'Ugyldig forespørgsel! Ingen data blev gemt.';
@@ -33,6 +34,7 @@ $messages['loggedout'] = 'Du er nu logget af webmail. Farvel så længe!';
 $messages['mailboxempty'] = 'Postkassen er tom!';
 $messages['loading'] = 'Indlæser...';
 $messages['uploading'] = 'Uploader fil...';
+$messages['uploadingmany'] = 'Uploader filer...';
 $messages['loadingdata'] = 'Indlæser data...';
 $messages['checkingmail'] = 'Tjekker for nye beskeder...';
 $messages['sendingmessage'] = 'Sender besked...';
@@ -42,10 +44,12 @@ $messages['messagesaved'] = 'Beskeden er gemt i kladdemappen';
 $messages['successfullysaved'] = 'Det lykkedes at gemme';
 $messages['addedsuccessfully'] = 'Kontakten blev tilføjet adressebogen';
 $messages['contactexists'] = 'Der er allerede en kontakt med denne e-mail adresse';
+$messages['contactnameexists'] = 'En kontakt med samme navn eksisterer allerede.';
 $messages['blockedimages'] = 'For at beskytte dit privatliv er billeder fra internetservere blokeret i denne besked.';
 $messages['encryptedmessage'] = 'Beskeden er krypteret og kan ikke vises. Beklager!';
 $messages['nocontactsfound'] = 'Ingen kontakter blev fundet';
 $messages['contactnotfound'] = 'Den søgte kontakt blev ikke fundet';
+$messages['contactsearchonly'] = 'Indtast ord for at finde kontakten';
 $messages['sendingfailed'] = 'Beskeden kunne ikke sendes';
 $messages['senttooquickly'] = 'Vent venligst $sec sekunder før du sender denne besked';
 $messages['errorsavingsent'] = 'Der opstod en fejl da den sendte besked blev gemt';
@@ -55,9 +59,12 @@ $messages['errorcopying'] = 'Beskeden kunne ikke kopieres';
 $messages['errordeleting'] = 'Beskeden kunne ikke slettes';
 $messages['errormarking'] = 'Beskeden kunne ikke markeres';
 $messages['deletecontactconfirm'] = 'Vil du virkelig slette den/de valgte kontakt(er)?';
+$messages['deletegroupconfirm']  = 'Vil du virkelig slette den/de valgte gruppe(r)?';
 $messages['deletemessagesconfirm'] = 'Vil du virkelig slette den/de valgte besked(er)?';
 $messages['deletefolderconfirm'] = 'Vil du virkelig slette den valgte mappe';
 $messages['purgefolderconfirm'] = 'Vil du virkelig slette alle beskeder i denne mappe?';
+$messages['contactdeleting'] = 'Sletter kontakt(er)...';
+$messages['groupdeleting'] = 'Sletter gruppe...';
 $messages['folderdeleting'] = 'Sletter mappen...';
 $messages['foldermoving'] = 'Flytter mappen...';
 $messages['foldersubscribing'] = 'Abonnere på mappen...';
@@ -96,8 +103,11 @@ $messages['sourceisreadonly'] = 'Denne adressekilde er kun til læsning';
 $messages['errorsavingcontact'] = 'Kunne ikke gemme kontakt adressen';
 $messages['movingmessage'] = 'Flytter besked...';
 $messages['copyingmessage'] = 'Kopierer besked...';
+$messages['copyingcontact'] = 'Kopierer kontakt(er)...';
 $messages['deletingmessage'] = 'Sletter besked(er)...';
 $messages['markingmessage'] = 'Markerer besked(er)...';
+$messages['addingmember'] = 'Tilføjer kontakt(er) til gruppen...';
+$messages['removingmember'] = 'Fjerner kontakt(er) fra gruppen...';
 $messages['receiptsent'] = 'Kvittering for læsning er sendt';
 $messages['errorsendingreceipt'] = 'Kvitteringen kunne ikke sendes';
 $messages['nodeletelastidentity'] = 'Du kan ikke slette denne identitet, da det er den eneste der er tilbage.';
@@ -109,6 +119,7 @@ $messages['contactremovedfromgroup'] = 'Succesfuldt fjernet kontakten fra denne 
 $messages['importwait'] = 'Importerer, vent venligst...';
 $messages['importerror'] = 'Fejl i importen! Den uploadede fil er ikke en gyldig vCard fil.';
 $messages['importconfirm'] = '<b>Importerede $inserted kontakter, sprang over $skipped allerede eksisterende kontakter</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>Skipped $skipped existing entries</b>';
 $messages['opnotpermitted'] = 'Handlingen er ikke tilladt!';
 $messages['nofromaddress'] = 'Der mangler en email-adresse i den valgte identitet';
 $messages['editorwarning'] = 'Al formatering af teksten forsvinder, hvis der skiftes til ren tekst. Vil du fortsætte?';
@@ -118,7 +129,6 @@ $messages['smtpautherror'] = 'SMTP fejl ($code): Autenticering fejlede';
 $messages['smtpfromerror'] = 'SMTP fejl ($code): Kunne ikke afsende som "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP fejl ($code): Kunne ikke tilføje modtageren "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP fejl: kan ikke fortolke listen af modtagere';
-$messages['smtpdsnerror'] = 'SMTP fejl: Ingen understøttelse af leveringsnotifikation';
 $messages['smtperror'] = 'SMTP fejl: $msg';
 $messages['emailformaterror'] = 'Ugyldig email-adresse: $email';
 $messages['toomanyrecipients'] = 'For mange modtagere. Reducer antallet af modtagere til $max';
@@ -126,18 +136,28 @@ $messages['maxgroupmembersreached'] = 'Antallet af gruppemedlemmer overstiger ma
 $messages['internalerror'] = 'Der opstod en intern fejl - prøv venligst igen';
 $messages['contactdelerror'] = 'Kunne ikke slette kontakt(er)';
 $messages['contactdeleted'] = 'Kontakt(er) slettet';
+$messages['contactrestoreerror'] = 'Kunne ikke gendanne slettede kontakt(er).';
+$messages['contactrestored'] = 'Kontakt(er) gendannet.';
 $messages['groupdeleted'] = 'Gruppen er slettet';
 $messages['grouprenamed'] = 'Gruppen er omdøbt';
 $messages['groupcreated'] = 'Gruppen er oprettet';
+$messages['savedsearchdeleted'] = 'Gemt søgning slettet.';
+$messages['savedsearchdeleteerror'] = 'Kunne ikke slette Gemt søgning.';
+$messages['savedsearchcreated'] = 'Gemt søgning oprettet.';
+$messages['savedsearchcreateerror'] = 'Kunne ikke oprette Gemt søgning.';
 $messages['messagedeleted'] = 'Besked(er) slettet';
 $messages['messagemoved'] = 'Besked(er) flyttet';
 $messages['messagecopied'] = 'Besked(er) kopieret';
 $messages['messagemarked'] = 'Besked(er) markeret';
 $messages['autocompletechars'] = 'Du skal min. indtaste $min for at benytte autoopslag';
+$messages['autocompletemore'] = 'Flere emner fundet. Task flere bogstaver.';
 $messages['namecannotbeempty'] = 'Navnet kan ikke været tomt';
 $messages['nametoolong'] = 'Navnet er for langt';
 $messages['folderupdated'] = 'Mappen er opdateret';
 $messages['foldercreated'] = 'Mappen er oprettet';
 $messages['invalidimageformat'] = 'Ikke et gyldigt billedformat';
+$messages['mispellingsfound'] = 'Der er fundet stavefejl i beskeden.';
+$messages['parentnotwritable'] = 'Kan ikke oprette/flytte mappe ind i valgt mappe. Ingen adgangsrettigheder.';
+$messages['messagetoobig'] = 'Besked delen er for stor til at behandle.';
 
 ?>

@@ -12,8 +12,8 @@
 +-----------------------------------------------------------------------+
 | Authors: Sergio Rocha <sergio.rocha@makeitsimple.pt>                  |
 |          João Vale <jpvale@gmail.com>                                |
-|         Nuno Costa <nuno@criacaoweb.net>                              |
-|         Teotónio Ricardo <teotonio.ricardo@webtuga.pt>               |
+|          Nuno Costa <nuno@criacaoweb.net>                              |
+|          Teotónio Ricardo <teotonio.ricardo@webtuga.pt>               |
 +-----------------------------------------------------------------------+
 
 @version $Id$
@@ -51,6 +51,7 @@ $messages['blockedimages'] = 'Para proteger a sua privacidade, as imagens desta 
 $messages['encryptedmessage'] = 'Esta mensagem está encriptada e não pode ser exibida. Desculpe.';
 $messages['nocontactsfound'] = 'Nenhum contacto encontrado';
 $messages['contactnotfound'] = 'O contacto especificado não foi encontrado';
+$messages['contactsearchonly'] = 'Insira os termos de pesquisa para localizar os contactos';
 $messages['sendingfailed'] = 'Falha no envio da mensagem';
 $messages['senttooquickly'] = 'Por favor espere $sec seg(s). antes de enviar esta mensagem';
 $messages['errorsavingsent'] = 'Ocorreu um erro ao guardar a mensagem enviada';
@@ -64,6 +65,7 @@ $messages['deletegroupconfirm'] = 'Tem a certeza que pretende eliminar o grupo s
 $messages['deletemessagesconfirm'] = 'Deseja realmente eliminar a(s) mensagem(ns) selecionada(s)?';
 $messages['deletefolderconfirm'] = 'Deseja realmente eliminar esta pasta?';
 $messages['purgefolderconfirm'] = 'Deseja realmente eliminar todas mensagens desta pasta?';
+$messages['contactdeleting'] = 'A eliminar contacto(s)...';
 $messages['groupdeleting'] = 'A eliminar grupo...';
 $messages['folderdeleting'] = 'A eliminar pasta...';
 $messages['foldermoving'] = 'A mover pasta...';
@@ -129,7 +131,6 @@ $messages['smtpautherror'] = 'Erro SMTP ($code): A autenticação falhou';
 $messages['smtpfromerror'] = 'Erro SMTP ($code): Falha ao definir o remetente "$from" ($msg)';
 $messages['smtptoerror'] = 'Erro SMTP ($code): Falha ao adicionar o destinatário: "$to" ($msg)';
 $messages['smtprecipientserror'] = 'Erro SMTP: Impossível analisar a lista de destinatários';
-$messages['smtpdsnerror'] = 'Erro SMTP: Não há suporte para recibo de entrega';
 $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'Endereço de e-mail incorrecto: $email';
 $messages['toomanyrecipients'] = 'Demasiados destinatários. Reduza o numero de destinatários para o máximo de $max.';
@@ -151,6 +152,7 @@ $messages['messagemoved'] = 'Mensagens movidas com sucesso';
 $messages['messagecopied'] = 'Mensagens copiadas com sucesso';
 $messages['messagemarked'] = 'Mensagens marcadas com sucesso';
 $messages['autocompletechars'] = 'Indique pelo menos $min caracteres para auto completar';
+$messages['autocompletemore'] = 'Muitos registros encontrados. Por favor, insira mais caracteres.';
 $messages['namecannotbeempty'] = 'O nome não pode estar em branco';
 $messages['nametoolong'] = 'O nome é demasiado longo';
 $messages['folderupdated'] = 'Actualização da pasta concluída com sucesso';
@@ -158,5 +160,6 @@ $messages['foldercreated'] = 'Pasta criada com sucesso';
 $messages['invalidimageformat'] = 'Formato de imagem não suportado';
 $messages['mispellingsfound'] = 'Foram detectados erros de ortografia nesta mensagem';
 $messages['parentnotwritable'] = 'Não é possível criar/mover esta pasta para a pasta seleccionada. Acesso negado.';
+$messages['messagetoobig'] = 'A mensagem é demasiado grande para ser processada.';
 
 ?>
