@@ -157,9 +157,9 @@ class rcube_result_index
             $this->meta['count']  = 0;
             $this->meta['length'] = 0;
         }
-        else
-            // @TODO: check performance substr_count() vs. explode()
+        else {
             $this->meta['count'] = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT);
+        }
 
         return $this->meta['count'];
     }
@@ -185,7 +185,6 @@ class rcube_result_index
     public function max()
     {
         if (!isset($this->meta['max'])) {
-            // @TODO: do it by parsing raw_data?
             $this->meta['max'] = (int) @max($this->get());
         }
 
@@ -201,7 +200,6 @@ class rcube_result_index
     public function min()
     {
         if (!isset($this->meta['min'])) {
-            // @TODO: do it by parsing raw_data?
             $this->meta['min'] = (int) @min($this->get());
         }
 

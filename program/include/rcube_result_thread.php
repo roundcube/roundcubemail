@@ -116,8 +116,9 @@ class rcube_result_thread
         if (empty($this->raw_data)) {
             $this->meta['count'] = 0;
         }
-        else
+        else {
             $this->meta['count'] = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT);
+        }
 
         if (!$this->meta['count'])
             $this->meta['messages'] = 0;
@@ -140,11 +141,9 @@ class rcube_result_thread
             $this->meta['messages'] = 0;
         }
         else {
-            $regexp = '/((^|' . preg_quote(self::SEPARATOR_ELEMENT, '/')
-                . '|' . preg_quote(self::SEPARATOR_ITEM, '/') . ')[0-9]+)/';
-
-            // @TODO: can we do this in a better way?
-            $this->meta['messages'] = preg_match_all($regexp, $this->raw_data, $m);
+            $this->meta['messages'] = 1
+                + substr_count($this->raw_data, self::SEPARATOR_ELEMENT)
+                + substr_count($this->raw_data, self::SEPARATOR_ITEM);
         }
 
         if ($this->meta['messages'] == 0 || $this->meta['messages'] == 1)
@@ -162,7 +161,6 @@ class rcube_result_thread
     public function max()
     {
         if (!isset($this->meta['max'])) {
-            // @TODO: do it by parsing raw_data?
             $this->meta['max'] = (int) @max($this->get());
         }
         return $this->meta['max'];
@@ -177,7 +175,6 @@ class rcube_result_thread
     public function min()
     {
         if (!isset($this->meta['min'])) {
-            // @TODO: do it by parsing raw_data?
             $this->meta['min'] = (int) @min($this->get());
         }
         return $this->meta['min'];
