@@ -4065,7 +4065,7 @@ function rcube_webmail()
   this.delete_contacts = function()
   {
     var selection = this.contact_list.get_selection(),
-      undelete = this.env.address_sources[this.env.source].undelete;
+      undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
     // exit if no mailbox specified or if selection is empty
     if (!(selection.length || this.env.cid) || (!undelete && !confirm(this.get_label('deletecontactconfirm'))))
