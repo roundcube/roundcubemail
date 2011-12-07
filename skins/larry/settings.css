@@ -41,3 +41,103 @@
 	border-radius: 4px 4px 0 0;
 }
 
+#sections-table tbody td.section,
+#settings-sections span.listitem a {
+	padding-left: 36px;
+	background: url(images/listicons.png) -100px 0 no-repeat;
+}
+
+#settings-sections span.listitem a {
+	background-position: 6px -862px;
+}
+
+#settings-sections span.selected a {
+	background-position: 6px -887px;
+}
+
+#settings-sections span.preferences a {
+	background-position: 6px -431px;
+}
+
+#settings-sections span.preferences.selected a {
+	background-position: 6px -455px;
+}
+
+#settings-sections span.folders a,
+#sections-table #rcmrowfolders td.section {
+	background-position: 6px 2px;
+}
+
+#settings-sections span.folders.selected a,
+#sections-table #rcmrowfolders.selected td.section {
+	background-position: 6px -22px;
+}
+
+#settings-sections span.identities a {
+	background-position: 6px -478px;
+}
+
+#settings-sections span.identities.selected a {
+	background-position: 6px -502px;
+}
+
+#settings-sections span.about a {
+	background-position: -100px 0;
+}
+
+#sections-table #rcmrowgeneral td.section {
+	background-position: 6px -573px;
+}
+
+#sections-table #rcmrowgeneral.selected td.section {
+	background-position: 6px -598px;
+}
+
+#sections-table #rcmrowmailbox td.section {
+	background-position: 6px -621px;
+}
+
+#sections-table #rcmrowmailbox.selected td.section {
+	background-position: 6px -646px;
+}
+
+#sections-table #rcmrowcompose td.section {
+	background-position: 6px -670px;
+}
+
+#sections-table #rcmrowcompose.selected td.section {
+	background-position: 6px -695px;
+}
+
+#sections-table #rcmrowmailview td.section {
+	background-position: 6px -718px;
+}
+
+#sections-table #rcmrowmailview.selected td.section {
+	background-position: 6px -742px;
+}
+
+#sections-table #rcmrowaddressbook td.section {
+	background-position: 6px -766px;
+}
+
+#sections-table #rcmrowaddressbook.selected td.section {
+	background-position: 6px -791px;
+}
+
+#sections-table #rcmrowserver td.section {
+	background-position: 6px -814px;
+}
+
+#sections-table #rcmrowserver.selected td.section {
+	background-position: 6px -838px;
+}
+
+#sections-table #rcmrowcalendar td.section {
+	background-position: 6px -526px;
+}
+
+#sections-table #rcmrowcalendar.selected td.section {
+	background-position: 6px -550px;
+}
+

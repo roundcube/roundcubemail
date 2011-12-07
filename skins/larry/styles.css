@@ -199,11 +199,11 @@ a.button.pressed {
 }
 
 .pagenav a.nextpage span.inner {
-	background-position: -8px -241px;
+	background-position: -30px -226px;
 }
 
 .pagenav a.lastpage span.inner {
-	background-position: -8px -256px;
+	background-position: -30px -211px;
 }
 
 .pagenav .countdisplay {
@@ -222,11 +222,11 @@ a.iconbutton {
 }
 
 a.iconbutton.searchoptions {
-	background-position: -4px -363px;
+	background-position: -2px -304px;
 }
 
 a.iconbutton.reset {
-	background-position: -2px -384px;
+	background-position: -25px -303px;
 }
 
 
@@ -685,5 +685,69 @@ table.propform td.title {
 #quicksearchbar #searchreset {
 	position: absolute;
 	top: 4px;
-	right: 4px;
+	right: 3px;
 }
+
+
+/*** toolbar ***/
+
+.toolbar a.button {
+	text-align: center;
+	font-size: 10px;
+	color: #555;
+	min-width: 55px;
+	max-width: 75px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 28px 2px 2px 2px;
+	text-shadow: 1px 1px 1px #eee;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	-o-box-shadow: none;
+	background: url(images/buttons.png) -100px 0 no-repeat transparent;
+	border: 0;
+}
+
+.toolbar a.button.disabled {
+	opacity: 0.5;
+}
+
+.toolbar a.button.checkmail {
+	background-position: center -370px;
+}
+
+.toolbar a.button.compose {
+	background-position: center -410px;
+}
+
+.toolbar a.button.reply {
+	background-position: center -450px;
+}
+
+.toolbar a.button.reply-all {
+	background-position: center -490px;
+}
+
+.toolbar a.button.forward {
+	background-position: center -530px;
+}
+
+.toolbar a.button.delete {
+	background-position: center -570px;
+}
+
+.toolbar a.button.markmessage,
+.toolbar a.button.more {
+	background-position: center -730px;
+}
+
+/*** popup menus ***/
+
+.popupmenu {
+	display: none;
+}
+
+
+

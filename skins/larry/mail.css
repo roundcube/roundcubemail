@@ -30,7 +30,7 @@
 
 #mailview-top {
 	position: absolute;
-	top: 0;
+	top: 42px;
 	left: 0;
 	width: 100%;
 	bottom: 28px;
@@ -54,6 +54,7 @@
 }
 
 #messagelistcontainer {
+	top: 0;
 	bottom: 32px;
 	overflow: auto;
 }
@@ -72,12 +73,9 @@
 }
 
 #mailboxlist li.mailbox {
-	background-position: 8px 2px;
+	position: relative;
 	background-repeat: no-repeat;
-}
-
-#mailboxlist li.virtual > a {
-	color: #aaa;
+	background-position: 6px 2px;
 }
 
 #mailboxlist li.mailbox a {
@@ -85,6 +83,57 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	background-image: url(images/listicons.png);
+	background-repeat: no-repeat;
+	background-position: 6px 3px;
+}
+
+#mailboxlist li.mailbox.selected > a {
+	background-position: 6px -21px;
+}
+
+#mailboxlist li.inbox > a {
+	background-position: 6px -189px;
+}
+
+#mailboxlist li.inbox.selected > a {
+	background-position: 6px -213px;
+}
+
+#mailboxlist li.drafts > a {
+	background-position: 6px -238px;
+}
+
+#mailboxlist li.drafts.selected > a {
+	background-position: 6px -262px;
+}
+
+#mailboxlist li.sent > a {
+	background-position: 6px -286px;
+}
+
+#mailboxlist li.sent.selected > a {
+	background-position: 6px -310px;
+}
+
+#mailboxlist li.junk > a {
+	background-position: 6px -334px;
+}
+
+#mailboxlist li.junk.selected > a {
+	background-position: 6px -358px;
+}
+
+#mailboxlist li.trash > a {
+	background-position: 6px -382px;
+}
+
+#mailboxlist li.trash.selected > a {
+	background-position: 6px -406px;
+}
+
+#mailboxlist li.virtual > a {
+	color: #aaa;
 }
 
 #mailboxlist li.mailbox ul {
@@ -93,11 +142,76 @@
 }
 
 #mailboxlist li.mailbox ul li {
-	padding-left: 30px;
+	padding-left: 26px;
+}
+
+#mailboxlist li.mailbox ul li a {
+	background-position: 6px -93px;
+}
+
+#mailboxlist li.mailbox ul li.selected a {
+	background-position: 6px -117px;
 }
 
 #mailboxlist li.mailbox ul li:last-child {
 	border-bottom: 0;
+}
+
+#mailboxlist li.mailbox div.collapsed,
+#mailboxlist li.mailbox div.expanded {
+	position: absolute;
+	top: 15px;
+	left: 21px;
+	width: 10px;
+	height: 10px;
+	background: url(images/listicons.png) -5px -146px no-repeat;
+	cursor: pointer;
+}
+
+#mailboxlist li.mailbox div.expanded {
+	background-position: -5px -170px;
+}
+
+#mailboxlist li.mailbox ul li div.collapsed,
+#mailboxlist li.mailbox ul li div.expanded {
+	left: 46px;
+	top: 16px;
+}
+
+#mailboxlist li.mailbox .unreadcount {
+	position: absolute;
+	top: 4px;
+	right: 6px;
+	width: 2.8em;
+	padding: 2px;
+	background: #82acb5;
+	background: -moz-linear-gradient(left, #82acb5 0%, #6a939f 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#82acb5), color-stop(100%,#6a939f));
+	background: -o-linear-gradient(left, #82acb5 0%, #6a939f 100%);
+	background: -ms-linear-gradient(left, #82acb5 0%, #6a939f 100%);
+	background: linear-gradient(left, #82acb5 0%, #6a939f 100%);
+	box-shadow: inset 0 1px 1px 0 #536d72;
+	-o-box-shadow: inset 0 1px 1px 0 #536d72;
+	-webkit-box-shadow: inset 0 1px 1px 0 #536d72;
+	-moz-box-shadow: inset 0 1px 1px 0 #536d72;
+	border-radius: 9px;
+	color: #fff;
+	text-align: center;
+	font-weight: bold;
+	text-shadow: none;
+}
+
+#mailboxlist li.mailbox.selected .unreadcount {
+	background: #005d76;
+	background: -moz-linear-gradient(left, #005d76 0%, #004558 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#005d76), color-stop(100%,#004558));
+	background: -o-linear-gradient(left, #005d76 0%, #004558 100%);
+	background: -ms-linear-gradient(left, #005d76 0%, #004558 100%);
+	background: linear-gradient(left, #005d76 0%, #004558 100%);
+	box-shadow: inset 0 1px 1px 0 #003645;
+	-o-box-shadow: inset 0 1px 1px 0 #003645;
+	-webkit-box-shadow: inset 0 1px 1px 0 #003645;
+	-moz-box-shadow: inset 0 1px 1px 0 #003645;
 }
 
 #searchfilter {
@@ -106,10 +220,11 @@
 
 #messagetoolbar {
 	position: absolute;
-	top: 0;
+	top: -6px;
 	right: 0;
-	width: auto;
+	left: 15em;
 	height: 40px;
+	text-align: right;
 }
 
 
@@ -200,7 +315,7 @@
 #messagelist tr td.status,
 #messagelist tr td.flag,
 #messagelist tr td.priority {
-	width: 18px;
+	width: 20px;
 	padding: 4px 3px;
 }
 
@@ -370,7 +485,7 @@ html.chrome #messagelist tr td.threads {
 #messagelist tr td.subject span.msgicon,
 #messagelist tr td.subject span.unreadchildren {
 	background-position: 0 -1056px;
-	margin: 0 2px;
+	margin: 0 4px 0 0;
 }
 
 #messagelist tr td.subject span.replied {
