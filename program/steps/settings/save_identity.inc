@@ -84,7 +84,7 @@ if ($_POST['_iid'])
     $save_data['reply-to'] = rcube_idn_to_ascii($save_data['reply-to']);
 
   if (!$plugin['abort'])
-    $updated = $USER->update_identity($iid, $save_data);
+    $updated = $RCMAIL->user->update_identity($iid, $save_data);
   else
     $updated = $plugin['result'];
 
@@ -124,7 +124,7 @@ else if (IDENTITIES_LEVEL < 2)
     $save_data['reply-to'] = rcube_idn_to_ascii($save_data['reply-to']);
 
   if (!$plugin['abort'])
-    $insert_id = $save_data['email'] ? $USER->insert_identity($save_data) : null;
+    $insert_id = $save_data['email'] ? $RCMAIL->user->insert_identity($save_data) : null;
   else
     $insert_id = $plugin['result'];
 
@@ -149,7 +149,7 @@ else
 
 // mark all other identities as 'not-default'
 if ($default_id)
-  $USER->set_default($default_id);
+  $RCMAIL->user->set_default($default_id);
 
 // go to next step
 rcmail_overwrite_action('identities');

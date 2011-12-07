@@ -188,7 +188,7 @@ switch ($CURR_SECTION)
 
 // Save preferences
 if (!$plugin['abort'])
-  $saved = $USER->save_prefs($a_user_prefs);
+  $saved = $RCMAIL->user->save_prefs($a_user_prefs);
 else
   $saved = $plugin['result'];
 

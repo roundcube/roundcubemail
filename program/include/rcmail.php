@@ -159,8 +159,6 @@ class rcmail
   /**
    * Initial startup function
    * to register session, create database and imap connections
-   *
-   * @todo Remove global vars $DB, $USER
    */
   private function startup()
   {
@@ -172,7 +170,10 @@ class rcmail
     }
 
     // connect to database
-    $GLOBALS['DB'] = $this->get_dbh();
+    $this->get_dbh();
+
+    // set global object for backward compatibility
+    $GLOBALS['DB'] = $this->db;
 
     // start session
     $this->session_init();
@@ -240,6 +241,8 @@ class rcmail
   {
     if (is_object($user)) {
       $this->user = $user;
+
+      // set global object for backward compatibility
       $GLOBALS['USER'] = $this->user;
 
       // overwrite config with user preferences
@@ -320,8 +323,8 @@ class rcmail
 
     return $this->db;
   }
-  
-  
+
+
   /**
    * Get global handle for memcache access
    *

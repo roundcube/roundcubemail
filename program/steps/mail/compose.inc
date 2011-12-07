@@ -245,7 +245,7 @@ if (!empty($msg_uid))
 $MESSAGE->compose = array();
 
 // get user's identities
-$MESSAGE->identities = $USER->list_identities();
+$MESSAGE->identities = $RCMAIL->user->list_identities();
 if (count($MESSAGE->identities))
 {
   foreach ($MESSAGE->identities as $idx => $ident) {

@@ -32,7 +32,7 @@ if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid))
 {
   $plugin = $RCMAIL->plugins->exec_hook('identity_delete', array('id' => $iid));
   
-  $deleted = !$plugin['abort'] ? $USER->delete_identity($iid) : $plugin['result'];
+  $deleted = !$plugin['abort'] ? $RCMAIL->user->delete_identity($iid) : $plugin['result'];
 
   if ($deleted > 0 && $deleted !== false)
     $OUTPUT->show_message('deletedsuccessfully', 'confirmation', null, false);

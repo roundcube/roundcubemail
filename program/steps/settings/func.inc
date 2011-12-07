@@ -63,14 +63,14 @@ function rcmail_sections_list($attrib)
 
 function rcmail_identities_list($attrib)
 {
-  global $OUTPUT, $USER, $RCMAIL;
+  global $OUTPUT, $RCMAIL;
 
   // add id to message list table if not specified
   if (!strlen($attrib['id']))
     $attrib['id'] = 'rcmIdentitiesList';
 
   // get identities list and define 'mail' column
-  $list = $USER->list_identities();
+  $list = $RCMAIL->user->list_identities();
   foreach ($list as $idx => $row)
     $list[$idx]['mail'] = trim($row['name'] . ' <' . rcube_idn_to_utf8($row['email']) .'>');
 

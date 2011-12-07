@@ -30,12 +30,12 @@ function progress_update($pos, $max)
 function export_mailbox($mbox, $filename)
 {
 	global $IMAP;
-	
+
 	$IMAP->set_mailbox($mbox);
-	
+
 	vputs("Getting message list of {$mbox}...");
 	vputs($IMAP->messagecount()." messages\n");
-	
+
 	if ($filename)
 	{
 		if (!($out = fopen($filename, 'w')))
@@ -47,7 +47,7 @@ function export_mailbox($mbox, $filename)
 	}
 	else
 		$out = STDOUT;
-	
+
 	for ($count = $IMAP->messagecount(), $i=1; $i <= $count; $i++)
 	{
 		$headers = $IMAP->get_headers($i, null, false);

@@ -23,7 +23,7 @@ define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 
 // edit-identity
 if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity') {
-  $IDENTITY_RECORD = $USER->get_identity(get_input_value('_iid', RCUBE_INPUT_GPC));
+  $IDENTITY_RECORD = $RCMAIL->user->get_identity(get_input_value('_iid', RCUBE_INPUT_GPC));
 
   if (is_array($IDENTITY_RECORD))
     $OUTPUT->set_env('iid', $IDENTITY_RECORD['identity_id']);
