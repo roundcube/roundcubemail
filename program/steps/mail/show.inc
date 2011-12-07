@@ -30,14 +30,14 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     rcmail_message_error($uid);
   }
 
-  $mbox_name = $IMAP->get_mailbox_name();
+  $mbox_name = $RCMAIL->imap->get_mailbox_name();
 
   // show images?
   rcmail_check_safe($MESSAGE);
 
   // set message charset as default
   if (!empty($MESSAGE->headers->charset))
-    $IMAP->set_charset($MESSAGE->headers->charset);
+    $RCMAIL->imap->set_charset($MESSAGE->headers->charset);
 
   $OUTPUT->set_pagetitle(abbreviate_string($MESSAGE->subject, 128, '...', true));
 
@@ -47,7 +47,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
   $OUTPUT->set_env('permaurl', rcmail_url('show', array('_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
-  $OUTPUT->set_env('delimiter', $IMAP->get_hierarchy_delimiter());
+  $OUTPUT->set_env('delimiter', $RCMAIL->imap->get_hierarchy_delimiter());
   $OUTPUT->set_env('mailbox', $mbox_name);
 
   // mimetypes supported by the browser (default settings)
@@ -77,7 +77,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if ($MESSAGE->headers->mdn_to
       && empty($MESSAGE->headers->flags['MDNSENT'])
       && empty($MESSAGE->headers->flags['SEEN'])
-      && ($IMAP->check_permflag('MDNSENT') || $IMAP->check_permflag('*'))
+      && ($RCMAIL->imap->check_permflag('MDNSENT') || $RCMAIL->imap->check_permflag('*'))
       && $mbox_name != $CONFIG['drafts_mbox']
       && $mbox_name != $CONFIG['sent_mbox']
   ) {
@@ -248,7 +248,7 @@ else
 if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']) &&
   ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
 {
-  if ($IMAP->set_flag($MESSAGE->uid, 'SEEN')) {
+  if ($RCMAIL->imap->set_flag($MESSAGE->uid, 'SEEN')) {
     if ($count = rcmail_get_unseen_count($mbox_name)) {
       rcmail_set_unseen_count($mbox_name, $count - 1);
     }

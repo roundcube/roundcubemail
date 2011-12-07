@@ -29,7 +29,7 @@ if (!empty($_POST['_uid']) && !empty($_POST['_target_mbox'])) {
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
 
-    $copied = $IMAP->copy_message($uids, $target, $mbox);
+    $copied = $RCMAIL->imap->copy_message($uids, $target, $mbox);
 
     if (!$copied) {
         // send error message

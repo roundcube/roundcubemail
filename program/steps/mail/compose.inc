@@ -56,7 +56,7 @@ if (!is_array($COMPOSE))
   $_SESSION['compose_data_'.$COMPOSE_ID] = array(
     'id'      => $COMPOSE_ID,
     'param'   => request2param(RCUBE_INPUT_GET),
-    'mailbox' => $IMAP->get_mailbox_name(),
+    'mailbox' => $RCMAIL->imap->get_mailbox_name(),
   );
   $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
@@ -134,7 +134,7 @@ if (!empty($CONFIG['drafts_mbox'])) {
   $OUTPUT->set_env('draft_autosave', $CONFIG['draft_autosave']);
 }
 // set current mailbox in client environment
-$OUTPUT->set_env('mailbox', $IMAP->get_mailbox_name());
+$OUTPUT->set_env('mailbox', $RCMAIL->imap->get_mailbox_name());
 $OUTPUT->set_env('sig_above', $RCMAIL->config->get('sig_above', false));
 $OUTPUT->set_env('top_posting', $RCMAIL->config->get('top_posting', false));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
@@ -182,10 +182,10 @@ if (!empty($msg_uid))
 
   // make sure message is marked as read
   if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']))
-    $IMAP->set_flag($msg_uid, 'SEEN');
+    $RCMAIL->imap->set_flag($msg_uid, 'SEEN');
 
   if (!empty($MESSAGE->headers->charset))
-    $IMAP->set_charset($MESSAGE->headers->charset);
+    $RCMAIL->imap->set_charset($MESSAGE->headers->charset);
 
   if ($compose_mode == RCUBE_COMPOSE_REPLY)
   {
@@ -271,7 +271,7 @@ else if (count($MESSAGE->identities)) {
   // extract all recipients of the reply-message
   if (is_object($MESSAGE->headers) && in_array($compose_mode, array(RCUBE_COMPOSE_REPLY, RCUBE_COMPOSE_FORWARD)))
   {
-    $a_to = $IMAP->decode_address_list($MESSAGE->headers->to);
+    $a_to = $RCMAIL->imap->decode_address_list($MESSAGE->headers->to);
     foreach ($a_to as $addr) {
       if (!empty($addr['mailto'])) {
         $a_recipients[] = strtolower($addr['mailto']);
@@ -280,7 +280,7 @@ else if (count($MESSAGE->identities)) {
     }
 
     if (!empty($MESSAGE->headers->cc)) {
-      $a_cc = $IMAP->decode_address_list($MESSAGE->headers->cc);
+      $a_cc = $RCMAIL->imap->decode_address_list($MESSAGE->headers->cc);
       foreach ($a_cc as $addr) {
         if (!empty($addr['mailto'])) {
           $a_recipients[] = strtolower($addr['mailto']);
@@ -423,7 +423,7 @@ foreach ($parts as $header) {
 
   // split recipients and put them back together in a unique way
   if (!empty($fvalue) && in_array($header, array('to', 'cc', 'bcc'))) {
-    $to_addresses = $IMAP->decode_address_list($fvalue, null, $decode_header);
+    $to_addresses = $RCMAIL->imap->decode_address_list($fvalue, null, $decode_header);
     $fvalue = array();
 
     foreach ($to_addresses as $addr_part) {
@@ -1432,18 +1432,18 @@ function rcmail_store_target_selection($attrib)
 
 function rcmail_check_sent_folder($folder, $create=false)
 {
-  global $IMAP;
+  global $RCMAIL;
 
-  if ($IMAP->mailbox_exists($folder, true)) {
+  if ($RCMAIL->imap->mailbox_exists($folder, true)) {
     return true;
   }
 
   // folder may exist but isn't subscribed (#1485241)
   if ($create) {
-    if (!$IMAP->mailbox_exists($folder))
-      return $IMAP->create_mailbox($folder, true);
+    if (!$RCMAIL->imap->mailbox_exists($folder))
+      return $RCMAIL->imap->create_mailbox($folder, true);
     else
-      return $IMAP->subscribe($folder);
+      return $RCMAIL->imap->subscribe($folder);
   }
 
   return false;

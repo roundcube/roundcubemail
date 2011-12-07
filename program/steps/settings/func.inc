@@ -875,13 +875,13 @@ function rcmail_folder_options($mailbox)
  */
 function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class_name=null)
 {
-    global $IMAP, $CONFIG, $OUTPUT;
+    global $RCMAIL, $CONFIG, $OUTPUT;
 
-    $delimiter    = $IMAP->get_hierarchy_delimiter();
+    $delimiter    = $RCMAIL->imap->get_hierarchy_delimiter();
     $name_utf8    = rcube_charset_convert($name, 'UTF7-IMAP');
     $protected    = ($CONFIG['protect_default_folders'] == true && in_array($name, $CONFIG['default_imap_folders']));
 
-    $foldersplit  = explode($delimiter, $IMAP->mod_mailbox($name));
+    $foldersplit  = explode($delimiter, $RCMAIL->imap->mod_mailbox($name));
     $level        = count($foldersplit) - 1;
     $display_name = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level)
         . Q($protected ? rcmail_localize_foldername($name) : rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP'));

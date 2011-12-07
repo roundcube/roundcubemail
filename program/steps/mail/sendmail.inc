@@ -634,9 +634,9 @@ if (!$savedraft)
 
   // set replied/forwarded flag
   if ($COMPOSE['reply_uid'])
-    $IMAP->set_flag($COMPOSE['reply_uid'], 'ANSWERED', $COMPOSE['mailbox']);
+    $RCMAIL->imap->set_flag($COMPOSE['reply_uid'], 'ANSWERED', $COMPOSE['mailbox']);
   else if ($COMPOSE['forward_uid'])
-    $IMAP->set_flag($COMPOSE['forward_uid'], 'FORWARDED', $COMPOSE['mailbox']);
+    $RCMAIL->imap->set_flag($COMPOSE['forward_uid'], 'FORWARDED', $COMPOSE['mailbox']);
 
 } // End of SMTP Delivery Block
 
@@ -649,12 +649,12 @@ else
 
 if ($store_target) {
   // check if folder is subscribed
-  if ($IMAP->mailbox_exists($store_target, true))
+  if ($RCMAIL->imap->mailbox_exists($store_target, true))
     $store_folder = true;
   // folder may be existing but not subscribed (#1485241)
-  else if (!$IMAP->mailbox_exists($store_target))
-    $store_folder = $IMAP->create_mailbox($store_target, true);
-  else if ($IMAP->subscribe($store_target))
+  else if (!$RCMAIL->imap->mailbox_exists($store_target))
+    $store_folder = $RCMAIL->imap->create_mailbox($store_target, true);
+  else if ($RCMAIL->imap->subscribe($store_target))
     $store_folder = true;
 
   // append message to sent box
@@ -684,7 +684,7 @@ if ($store_target) {
             'message' => "Could not create message: ".$msg->getMessage()),
             TRUE, FALSE);
     else {
-      $saved = $IMAP->save_message($store_target, $msg, $headers, $mailbody_file ? true : false);
+      $saved = $RCMAIL->imap->save_message($store_target, $msg, $headers, $mailbody_file ? true : false);
     }
 
     if ($mailbody_file) {
@@ -708,11 +708,11 @@ if ($store_target) {
   if ($olddraftmessageid) {
     // delete previous saved draft
     // @TODO: use message UID (remember to check UIDVALIDITY) to skip this SEARCH
-    $delete_idx = $IMAP->search_once($CONFIG['drafts_mbox'],
+    $delete_idx = $RCMAIL->imap->search_once($CONFIG['drafts_mbox'],
         'HEADER Message-ID '.$olddraftmessageid);
 
     if ($del_uid = $delete_idx->getElement('FIRST')) {
-      $deleted = $IMAP->delete_message($del_uid, $CONFIG['drafts_mbox']);
+      $deleted = $RCMAIL->imap->delete_message($del_uid, $CONFIG['drafts_mbox']);
 
       // raise error if deletion of old draft failed
       if (!$deleted)
@@ -733,7 +733,7 @@ if ($savedraft) {
 
   // remember new draft-uid ($saved could be an UID or TRUE here)
   if (is_bool($saved)) {
-    $draft_idx = $IMAP->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid);
+    $draft_idx = $RCMAIL->imap->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid);
     $saved     = $draft_idx->getElement('FIRST');
   }
   $COMPOSE['param']['draft_uid'] = $saved;

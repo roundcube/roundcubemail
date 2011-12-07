@@ -27,7 +27,7 @@ $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
 // send EXPUNGE command
 if ($RCMAIL->action == 'expunge') {
 
-    $success = $IMAP->expunge($mbox);
+    $success = $RCMAIL->imap->expunge($mbox);
 
     // reload message list if current mailbox
     if ($success) {
@@ -48,7 +48,7 @@ if ($RCMAIL->action == 'expunge') {
 // clear mailbox
 else if ($RCMAIL->action == 'purge')
 {
-    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
     $trash_regexp = '/^' . preg_quote($CONFIG['trash_mbox'] . $delimiter, '/') . '/';
     $junk_regexp  = '/^' . preg_quote($CONFIG['junk_mbox'] . $delimiter, '/') . '/';
 
@@ -56,7 +56,7 @@ else if ($RCMAIL->action == 'purge')
     if ($mbox == $CONFIG['trash_mbox'] || $mbox == $CONFIG['junk_mbox']
         || preg_match($trash_regexp, $mbox) || preg_match($junk_regexp, $mbox)
     ) {
-        $success = $IMAP->clear_mailbox($mbox);
+        $success = $RCMAIL->imap->clear_mailbox($mbox);
 
         if ($success) {
             $OUTPUT->show_message('folderpurged', 'confirmation');

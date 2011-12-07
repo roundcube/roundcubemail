@@ -68,7 +68,7 @@ if (!empty($_GET['_uid'])) {
 if (!empty($_GET['_frame'])) {
   if (($part_id = get_input_value('_part', RCUBE_INPUT_GPC)) && ($part = $MESSAGE->mime_parts[$part_id]) && $part->filename)
     $OUTPUT->set_pagetitle($part->filename);
-  
+
   $OUTPUT->send('messagepart');
   exit;
 }
@@ -117,7 +117,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       if (!rcmail_mem_check($part->size * 10)) {
         $out = '<body>' . rcube_label('messagetoobig'). ' '
           . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-            .'&_mbox='. urlencode($IMAP->get_mailbox_name()), rcube_label('download')) . '</body></html>';
+            .'&_mbox='. urlencode($RCMAIL->imap->get_mailbox_name()), rcube_label('download')) . '</body></html>';
       }
       else {
         // get part body if not available
@@ -157,7 +157,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
           $stdout = fopen('php://output', 'w');
           stream_filter_register('rcube_content', 'rcube_content_filter') or die('Failed to register content filter');
           stream_filter_append($stdout, 'rcube_content');
-          $IMAP->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
+          $RCMAIL->imap->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
         }
       }
       else {
@@ -165,7 +165,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         if ($part->body)
           echo $part->body;
         else if ($part->size)
-          $IMAP->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
+          $RCMAIL->imap->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
       }
     }
 

@@ -584,7 +584,6 @@ class rcmail
    * Create global IMAP object and connect to server
    *
    * @param boolean True if connection should be established
-   * @todo Remove global $IMAP
    */
   public function imap_init($connect = false)
   {

@@ -19,11 +19,11 @@
 
 */
 
-$a_folders = $IMAP->list_mailboxes('', '*', 'mail');
+$a_folders = $RCMAIL->imap->list_mailboxes('', '*', 'mail');
 
 if (!empty($a_folders))
 {
-  $current = $IMAP->get_mailbox_name();
+  $current = $RCMAIL->imap->get_mailbox_name();
   $inbox = ($current == 'INBOX');
   $check_all = (bool)$RCMAIL->config->get('check_all_folders');
 
@@ -33,7 +33,7 @@ if (!empty($a_folders))
     if (!$check_all && $unseen_old !== null && $mbox_row != $current)
       $unseen = $unseen_old;
     else
-      $unseen = $IMAP->messagecount($mbox_row, 'UNSEEN', $unseen_old === null);
+      $unseen = $RCMAIL->imap->messagecount($mbox_row, 'UNSEEN', $unseen_old === null);
 
     if ($unseen || $unseen_old === null) {
       $OUTPUT->command('set_unread_count', $mbox_row, $unseen, $inbox && $mbox_row == 'INBOX');

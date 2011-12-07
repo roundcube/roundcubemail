@@ -24,12 +24,12 @@ ob_end_clean();
 // similar code as in program/steps/mail/get.inc
 if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
 {
-  $headers = $IMAP->get_headers($uid);
+  $headers = $RCMAIL->imap->get_headers($uid);
   $charset = $headers->charset ? $headers->charset : $CONFIG['default_charset'];
   header("Content-Type: text/plain; charset={$charset}");
 
   if (!empty($_GET['_save'])) {
-    $filename = ($headers->subject ? $IMAP->decode_header($headers->subject) : 'roundcube') . '.eml';
+    $filename = ($headers->subject ? $RCMAIL->imap->decode_header($headers->subject) : 'roundcube') . '.eml';
     $browser = $RCMAIL->output->browser;
 
     if ($browser->ie && $browser->ver < 7)
@@ -43,7 +43,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
     header("Content-Disposition: attachment; filename=\"$filename\"");
   }
 
-  $IMAP->print_raw_body($uid);
+  $RCMAIL->imap->print_raw_body($uid);
 }
 else
 {

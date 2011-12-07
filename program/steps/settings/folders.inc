@@ -30,13 +30,13 @@ if ($RCMAIL->action == 'subscribe')
 {
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true, 'UTF7-IMAP');
     if (strlen($mbox)) {
-        $result = $IMAP->subscribe(array($mbox));
+        $result = $RCMAIL->imap->subscribe(array($mbox));
 
         // Handle virtual (non-existing) folders
-        if (!$result && $IMAP->get_error_code() == -1 &&
-            $IMAP->get_response_code() == rcube_imap::TRYCREATE
+        if (!$result && $RCMAIL->imap->get_error_code() == -1 &&
+            $RCMAIL->imap->get_response_code() == rcube_imap::TRYCREATE
         ) {
-            $result = $IMAP->create_mailbox($mbox, true);
+            $result = $RCMAIL->imap->create_mailbox($mbox, true);
             if ($result) {
                 // @TODO: remove 'virtual' class of folder's row
             }
@@ -62,7 +62,7 @@ else if ($RCMAIL->action == 'unsubscribe')
 {
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true, 'UTF7-IMAP');
     if (strlen($mbox)) {
-        $result = $IMAP->unsubscribe(array($mbox));
+        $result = $RCMAIL->imap->unsubscribe(array($mbox));
         if ($result)
             $OUTPUT->show_message('folderunsubscribed', 'confirmation');
         else
@@ -80,7 +80,7 @@ else if ($RCMAIL->action == 'delete-folder')
         $plugin = $RCMAIL->plugins->exec_hook('folder_delete', array('name' => $mbox));
 
         if (!$plugin['abort']) {
-            $deleted = $IMAP->delete_mailbox($plugin['name']);
+            $deleted = $RCMAIL->imap->delete_mailbox($plugin['name']);
         }
         else {
             $deleted = $plugin['result'];
@@ -126,19 +126,19 @@ else if ($RCMAIL->action == 'purge')
 {
     $mbox_utf8 = get_input_value('_mbox', RCUBE_INPUT_POST, true);
     $mbox      = rcube_charset_convert($mbox_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
-    $delimiter = $IMAP->get_hierarchy_delimiter();
+    $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
     $trash_regexp = '/^' . preg_quote($CONFIG['trash_mbox'] . $delimiter, '/') . '/';
 
     // we should only be purging trash (or their subfolders)
     if (!strlen($CONFIG['trash_mbox']) || $mbox == $CONFIG['trash_mbox']
         || preg_match($trash_regexp, $mbox)
     ) {
-        $success = $IMAP->clear_mailbox($mbox);
+        $success = $RCMAIL->imap->clear_mailbox($mbox);
         $delete = true;
     }
     // copy to Trash
     else {
-        $success = $IMAP->move_message('1:*', $CONFIG['trash_mbox'], $mbox);
+        $success = $RCMAIL->imap->move_message('1:*', $CONFIG['trash_mbox'], $mbox);
         $delete = false;
     }
 
@@ -164,7 +164,7 @@ else if ($RCMAIL->action == 'folder-size')
 {
     $name = trim(get_input_value('_mbox', RCUBE_INPUT_POST, true));
 
-    $size = $IMAP->get_mailbox_size($name);
+    $size = $RCMAIL->imap->get_mailbox_size($name);
 
     // @TODO: check quota and show percentage usage of specified mailbox?
 
@@ -183,7 +183,7 @@ if ($OUTPUT->ajax_call)
 // build table with all folders listed by server
 function rcube_subscription_form($attrib)
 {
-    global $RCMAIL, $IMAP, $CONFIG, $OUTPUT;
+    global $RCMAIL, $CONFIG, $OUTPUT;
 
     list($form_start, $form_end) = get_form_tags($attrib, 'folders');
     unset($attrib['form']);
@@ -200,12 +200,12 @@ function rcube_subscription_form($attrib)
     }
 
     // get folders from server
-    $IMAP->clear_cache('mailboxes', true);
+    $RCMAIL->imap->clear_cache('mailboxes', true);
 
-    $a_unsubscribed = $IMAP->list_unsubscribed();
-    $a_subscribed   = $IMAP->list_mailboxes('', '*', null, null, true); // unsorted
-    $delimiter      = $IMAP->get_hierarchy_delimiter();
-    $namespace      = $IMAP->get_namespace();
+    $a_unsubscribed = $RCMAIL->imap->list_unsubscribed();
+    $a_subscribed   = $RCMAIL->imap->list_mailboxes('', '*', null, null, true); // unsorted
+    $delimiter      = $RCMAIL->imap->get_hierarchy_delimiter();
+    $namespace      = $RCMAIL->imap->get_namespace();
     $a_js_folders   = array();
     $seen           = array();
     $list_folders   = array();
@@ -213,7 +213,7 @@ function rcube_subscription_form($attrib)
     // pre-process folders list
     foreach ($a_unsubscribed as $i => $folder) {
         $folder_id     = $folder;
-        $folder        = $IMAP->mod_mailbox($folder);
+        $folder        = $RCMAIL->imap->mod_mailbox($folder);
         $foldersplit   = explode($delimiter, $folder);
         $name          = rcube_charset_convert(array_pop($foldersplit), 'UTF7-IMAP');
         $parent_folder = join($delimiter, $foldersplit);
@@ -283,7 +283,7 @@ function rcube_subscription_form($attrib)
         }
 
         if (!$protected) {
-            $attrs = $IMAP->mailbox_attributes($folder['id']);
+            $attrs = $RCMAIL->imap->mailbox_attributes($folder['id']);
             $noselect = in_array('\\Noselect', $attrs);
         }
 
@@ -403,7 +403,7 @@ function rcmail_rename_folder($oldname, $newname)
 
 $OUTPUT->set_pagetitle(rcube_label('folders'));
 $OUTPUT->include_script('list.js');
-$OUTPUT->set_env('quota', $IMAP->get_capability('QUOTA'));
+$OUTPUT->set_env('quota', $RCMAIL->imap->get_capability('QUOTA'));
 
 // add some labels to client
 $OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'folderdeleting',

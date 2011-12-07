@@ -129,7 +129,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $OUTPUT->redirect($redir);
   }
   else {
-    $error_code = is_object($IMAP) ? $IMAP->get_error_code() : -1;
+    $error_code = (isset($RCMAIL->imap) && is_object($RCMAIL->imap)) ? $RCMAIL->imap->get_error_code() : 1;
 
     $OUTPUT->show_message($error_code < -1 ? 'imaperror' : (!$auth['valid'] ? 'invalidrequest' : 'loginfailed'), 'warning');
     $RCMAIL->plugins->exec_hook('login_failed', array(

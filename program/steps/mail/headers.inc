@@ -20,7 +20,7 @@
 
 if ($uid = get_input_value('_uid', RCUBE_INPUT_POST))
 {
-    $source = $IMAP->get_raw_headers($uid);
+    $source = $RCMAIL->imap->get_raw_headers($uid);
 
     if ($source !== false) {
         $source = htmlspecialchars(trim($source));

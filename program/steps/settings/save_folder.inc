@@ -33,7 +33,7 @@ $name_imap = rcube_charset_convert($name, RCMAIL_CHARSET, 'UTF7-IMAP');
 $old_imap  = rcube_charset_convert($old, RCMAIL_CHARSET, 'UTF7-IMAP');
 // $path is in UTF7-IMAP already
 
-$delimiter = $IMAP->get_hierarchy_delimiter();
+$delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
 $options = strlen($old_imap) ? rcmail_folder_options($old_imap) : array();
 
 // Folder name checks
@@ -103,7 +103,7 @@ if (!$error && !strlen($old)) {
     $folder = $plugin['record'];
 
     if (!$plugin['abort']) {
-        $created = $IMAP->create_mailbox($folder['name'], $folder['subscribe']);
+        $created = $RCMAIL->imap->create_mailbox($folder['name'], $folder['subscribe']);
     }
     else {
         $created = $plugin['result'];
