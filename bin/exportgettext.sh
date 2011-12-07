@@ -43,9 +43,12 @@ if (is_dir($srcdir.'/en_US')) {
 		}
 	}
 }
-// converting plugin localization
+// converting single localization directory
 else if (is_dir($srcdir)) {
-	load_en_US($srcdir.'/en_US.inc');
+	if (is_file($srcdir.'/en_US.inc'))  // plugin localization
+		load_en_US($srcdir.'/en_US.inc');
+	else
+		load_en_US(realpath($srcdir.'/../en_US'));  // single language
 	convert_dir($srcdir, $destdir);
 }
 // converting a single file
@@ -149,8 +152,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: %s\\n"
 "Report-Msgid-Bugs-To: \\n"
-"POT-Creation-Date: %s\\n"
-"PO-Revision-Date: %s\\n"
+"%s: %s\\n"
 "Last-Translator: \\n"
 "Language-Team: Translations <hello@roundcube.net>\\n"
 "Language: %s\\n"
@@ -158,12 +160,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\\n"
 EOF;
 	
-	$out = sprintf($header, $srcname, $product, date('c'), date('c'), $lang);
+	$out = sprintf($header, $srcname, $product, $is_pot ? "POT-Creation-Date" : "PO-Revision-Date", date('c'), $lang);
 	$out .= "\n";
 	
 	$messages = array();
 	foreach ((array)$texts as $label => $msgstr) {
-		$msgid = $GLOBALS['en_US'][$label] ?: $label;
+		$msgid = $is_pot ? $msgstr : ($GLOBALS['en_US'][$label] ?: $label);
 		$messages[$msgid][] = $label;
 	}
 	
