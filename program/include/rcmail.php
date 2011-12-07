@@ -988,7 +988,6 @@ class rcmail
     if (is_string($attrib))
       $attrib = array('name' => $attrib);
 
-    $nr = is_numeric($attrib['nr']) ? $attrib['nr'] : 1;
     $name = $attrib['name'] ? $attrib['name'] : '';
 
     // attrib contain text values: use them from now
@@ -996,35 +995,11 @@ class rcmail
         $this->texts[$name] = $setval;
 
     // check for text with domain
-    if ($domain && ($text_item = $this->texts[$domain.'.'.$name]))
+    if ($domain && ($text = $this->texts[$domain.'.'.$name]))
       ;
     // text does not exist
-    else if (!($text_item = $this->texts[$name])) {
+    else if (!($text = $this->texts[$name])) {
       return "[$name]";
-    }
-
-    // make text item array
-    $a_text_item = is_array($text_item) ? $text_item : array('single' => $text_item);
-
-    // decide which text to use
-    if ($nr == 1) {
-      $text = $a_text_item['single'];
-    }
-    else if ($nr > 0) {
-      $text = $a_text_item['multiple'];
-    }
-    else if ($nr == 0) {
-      if ($a_text_item['none'])
-        $text = $a_text_item['none'];
-      else if ($a_text_item['single'])
-        $text = $a_text_item['single'];
-      else if ($a_text_item['multiple'])
-        $text = $a_text_item['multiple'];
-    }
-
-    // default text is single
-    if ($text == '') {
-      $text = $a_text_item['single'];
     }
 
     // replace vars in text
@@ -1041,7 +1016,7 @@ class rcmail
     else if ($attrib['lowercase'])
       return mb_strtolower($text);
 
-    return $text;
+    return strtr($text, array('\n' => "\n"));
   }
 
 
