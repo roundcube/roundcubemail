@@ -7,7 +7,7 @@
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011, The Roundcube Dev Team                            |
- | Licensed under the GNU GPLv3                                          |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Export PHP-based localization files to PO files for gettext         |
@@ -187,10 +187,9 @@ EOF;
 function gettext_quote($str)
 {
 	$out = "";
-	$lines = explode("\n", stripslashes($str));
-	$suffix = count($lines) > 1 ? '\n' : '';
+	$lines = explode("\n", wordwrap(stripslashes($str)));
 	foreach ($lines as $line)
-		$out .= '"' . addcslashes($line, '"') . $suffix . "\"\n";
+		$out .= '"' . addcslashes($line, '"') . "\"\n";
 	return rtrim($out);
 }
 
