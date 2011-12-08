@@ -101,7 +101,7 @@ $messages['setdeleteconfirm'] = '¿Está seguro de que desea borrar el conjunto 
 $messages['setcreateerror'] = 'Imposible crear el conjunto de filtros. Ha ocurrido un error en el servidor';
 $messages['setcreated'] = 'Conjunto de filtros creado satisfactoriamente';
 $messages['emptyname'] = 'Imposible crear el conjunto de filtros. Sin nombre';
-$messages['nametoolong'] = 'Imposible crear el conjunto de filtros. Nombre demasiado largo'
+$messages['nametoolong'] = 'Imposible crear el conjunto de filtros. Nombre demasiado largo';
 $messages['setdeactivateerror'] = 'Imposible desactivar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor';
 
 ?>
