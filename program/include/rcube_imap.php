@@ -2937,7 +2937,7 @@ class rcube_imap
 
             // check if mailbox children are subscribed
             foreach ($a_subscribed as $c_subscribed) {
-                if (preg_match('/^'.preg_quote($mailbox.$delm, '/').'/', $c_subscribed)) {
+                if (strpos($c_subscribed, $mailbox.$delm) === 0) {
                     $this->conn->unsubscribe($c_subscribed);
                     $this->conn->subscribe(preg_replace('/^'.preg_quote($mailbox, '/').'/',
                         $new_name, $c_subscribed));
@@ -2981,7 +2981,7 @@ class rcube_imap
             $this->conn->unsubscribe($mailbox);
 
             foreach ($sub_mboxes as $c_mbox) {
-                if (preg_match('/^'.preg_quote($mailbox.$delm, '/').'/', $c_mbox)) {
+                if (strpos($c_mbox, $mailbox.$delm) === 0) {
                     $this->conn->unsubscribe($c_mbox);
                     if ($this->conn->deleteFolder($c_mbox)) {
 	                    $this->clear_message_cache($c_mbox);
