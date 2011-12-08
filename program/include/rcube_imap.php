@@ -2372,7 +2372,7 @@ class rcube_imap
         if (empty($uids))
             return false;
 
-        $deleted = $this->conn->delete($mailbox, $uids);
+        $deleted = $this->conn->flag($mailbox, $uids, 'DELETED');
 
         if ($deleted) {
             // send expunge command in order to have the deleted message
