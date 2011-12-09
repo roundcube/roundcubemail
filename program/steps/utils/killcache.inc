@@ -9,7 +9,7 @@
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Delete rows from cache and messages tables                          |
+ |   Delete rows from cache tables                                       |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Dennis P. Nikolaenko <dennis@nikolaenko.ru>                   |
@@ -41,12 +41,20 @@ if (PEAR::isError($res)) {
     exit($res->getMessage());
 }
 
-$res = $RCMAIL->db->query("DELETE FROM messages");
+$res = $RCMAIL->db->query("DELETE FROM cache_messages");
+if (PEAR::isError($res)) {
+    exit($res->getMessage());
+}
+
+$res = $RCMAIL->db->query("DELETE FROM cache_index");
+if (PEAR::isError($res)) {
+    exit($res->getMessage());
+}
+
+$res = $RCMAIL->db->query("DELETE FROM cache_thread");
 if (PEAR::isError($res)) {
     exit($res->getMessage());
 }
 
 echo "Cache cleared\n";
 exit;
-
-
