@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.7
+-----------
 - Replace prompt() with jQuery UI dialog (#1485135)
 - Fix navigation in messages search results
 - Improved handling of some malformed values encoded with quoted-printable (#1488232)
@@ -19,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fixed bug where similiar folder names were highlighted wrong (#1487860)
 - Fixed bug in handling link with '!' character in it (#1488195)
 - Fixed bug where session ID's length was limited to 40 characters (#1488196)
+- TinyMCE security issue: removed moxieplayer (embedding flv and mp4 is not supported anymore)
 
 RELEASE 0.7-beta
 ----------------
