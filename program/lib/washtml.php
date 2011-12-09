@@ -243,7 +243,7 @@ class washtml
       case XML_ELEMENT_NODE: //Check element
         $tagName = strtolower($node->tagName);
         if ($callback = $this->handlers[$tagName]) {
-          $dump .= call_user_func($callback, $tagName, $this->wash_attribs($node), $this->dumpHtml($node));
+          $dump .= call_user_func($callback, $tagName, $this->wash_attribs($node), $this->dumpHtml($node), $this);
         }
         else if (isset($this->_html_elements[$tagName])) {
           $content = $this->dumpHtml($node);
@@ -299,6 +299,14 @@ class washtml
 
     @$node->loadHTML($html);
     return $this->dumpHtml($node);
+  }
+
+  /**
+   * Getter for config parameters
+   */
+  public function get_config($prop)
+  {
+      return $this->config[$prop];
   }
 
 }

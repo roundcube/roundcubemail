@@ -822,7 +822,7 @@ function rcmail_plain_body($body, $flowed=false)
 /**
  * Callback function for washtml cleaning class
  */
-function rcmail_washtml_callback($tagname, $attrib, $content)
+function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
 {
   switch ($tagname) {
     case 'form':
@@ -834,8 +834,11 @@ function rcmail_washtml_callback($tagname, $attrib, $content)
       $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcmail_xss_entity_decode($content));
 
       // now check for evil strings like expression, behavior or url()
-      if (!preg_match('/expression|behavior|url\(|import[^a]/', $stripped)) {
-        $out = html::tag('style', array('type' => 'text/css'), $content);
+      if (!preg_match('/expression|behavior/i', $stripped)) {
+        if (!$washtml->get_config('allow_remote') && preg_match('/url\(|import[^a]/i', $stripped))
+          $washtml->extlinks = true;
+        else
+          $out = html::tag('style', array('type' => 'text/css'), $content);
         break;
       }
 
@@ -1021,7 +1024,7 @@ function rcmail_message_body($attrib)
         $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
         if ($part->ctype_secondary == 'html') {
-          $body = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs);
+          $body = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs, $safe_mode);
           $div_attr = array('class' => 'message-htmlpart');
           $style = array();
 
@@ -1104,7 +1107,7 @@ function rcmail_resolve_base($body)
 /**
  * modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null)
+function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null, $allow_remote=false)
 {
   $last_style_pos = 0;
   $cont_id = $container_id.($body_id ? ' div.'.$body_id : '');
@@ -1116,7 +1119,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
 
     // replace all css definitions with #container [def]
     $styles = rcmail_mod_css_styles(
-      substr($body, $pos, $pos2-$pos), $cont_id);
+      substr($body, $pos, $pos2-$pos), $cont_id, $allow_remote);
 
     $body = substr_replace($body, $styles, $pos, $pos2-$pos);
     $last_style_pos = $pos2;

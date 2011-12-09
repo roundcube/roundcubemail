@@ -883,18 +883,18 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
  * @param string Container ID to use as prefix
  * @return string Modified CSS source
  */
-function rcmail_mod_css_styles($source, $container_id)
+function rcmail_mod_css_styles($source, $container_id, $allow_remote=false)
   {
   $last_pos = 0;
   $replacements = new rcube_string_replacer;
 
   // ignore the whole block if evil styles are detected
-  $stripped = preg_replace('/[^a-z\(:;]/', '', rcmail_xss_entity_decode($source));
-  if (preg_match('/expression|behavior|url\(|import[^a]/', $stripped))
+  $source = rcmail_xss_entity_decode($source);
+  $stripped = preg_replace('/[^a-z\(:;]/i', '', $source);
+  $evilexpr = 'expression|behavior' . (!$allow_remote ? '|url\(|import[^a]' : '');
+  if (preg_match("/$evilexpr/i", $stripped) // don't accept No-Gos
+      || (strpos($stripped, 'url(') && !preg_match('!url\s*\([ "\'](https?:)//[a-z0-9/._+-]+["\' ]\)!Ui', $source))) // only allow clean urls
     return '/* evil! */';
-
-  // remove css comments (sometimes used for some ugly hacks)
-  $source = preg_replace('!/\*(.+)\*/!Ums', '', $source);
 
   // cut out all contents between { and }
   while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
@@ -937,7 +937,7 @@ function rcmail_xss_entity_decode($content)
 {
   $out = html_entity_decode(html_entity_decode($content));
   $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', 'rcmail_xss_entity_decode_callback', $out);
-  $out = preg_replace('#/\*.*\*/#Um', '', $out);
+  $out = preg_replace('#/\*.*\*/#Ums', '', $out);
   return $out;
 }
 
