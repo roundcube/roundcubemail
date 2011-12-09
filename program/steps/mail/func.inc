@@ -1296,6 +1296,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
             'href' => "#add",
             'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($string)),
             'title' => rcube_label('addtoaddressbook'),
+            'class' => 'rcmaddcontact',
           ),
           html::img(array(
             'src' => $CONFIG['skin_path'] . $addicon,
