@@ -94,6 +94,7 @@ class rcube_template extends rcube_html_page
             'username'        => array($this, 'current_username'),
             'message'         => array($this, 'message_container'),
             'charsetselector' => array($this, 'charset_selector'),
+            'aboutcontent'    => array($this, 'about_content'),
         ));
     }
 
@@ -1333,6 +1334,30 @@ class rcube_template extends rcube_html_page
         $select->add(array_values($charsets), array_keys($charsets));
 
         return $select->show($set);
+    }
+
+    /**
+     * Include content from config/about.<LANG>.html if available
+     */
+    private function about_content($attrib)
+    {
+        $content = '';
+        $filenames = array(
+            'about.' . $_SESSION['language'] . '.html',
+            'about.' . substr($_SESSION['language'], 0, 2) . '.html',
+            'about.html',
+        );
+        foreach ($filenames as $file) {
+            $fn = RCMAIL_CONFIG_DIR . '/' . $file;
+            if (is_readable($fn)) {
+                $content = file_get_contents($fn);
+                $content = $this->parse_conditions($content);
+                $content = $this->parse_xml($content);
+                break;
+            }
+        }
+
+        return $content;
     }
 
 }  // end class rcube_template
