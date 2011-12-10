@@ -168,7 +168,7 @@ class washtml
                 || ($src = $this->config['cid_map'][$this->config['base_url'].$match[2]])) {
               $value .= ' url('.htmlspecialchars($src, ENT_QUOTES) . ')';
             }
-            else if (preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
+            else if (preg_match('!^(https?:)?//[a-z0-9/._+-]+$!i', $match[2], $url)) {
               if ($this->config['allow_remote'])
                 $value .= ' url('.htmlspecialchars($url[0], ENT_QUOTES).')';
               else

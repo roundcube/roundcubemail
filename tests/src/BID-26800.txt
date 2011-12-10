@@ -10,13 +10,14 @@
 <h1>2 test</h1>
 <p>&lt;div&gt; block</p>
 <div style="font-style:italic">valid css</div>
+<div style="color:red; background:url('//somedomain.com/somepath/somefile.png')">
 <div style="{ left:expression( alert(&#039;expression!&#039;) ) }">
 <div style="{ background:url( alert(&#039;URL!&#039;) ) }">
 
 <h1>3 test</h1>
 <p>Inject comment text</p>
 <div style="{ left:exp/*  */ression( alert(&#039;xss3&#039;) ) }">
-<div style="{ background:u/* */rl( alert(&#039;xssurl3&#039;) ) }">
+<div style=" background:u/* */rl( alert(&#039;xssurl3&#039;) ) ">
 
 <h1>4 test</h1>
 <p>Using reverse solid to directe the codepoint</p>
