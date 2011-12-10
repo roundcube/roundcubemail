@@ -834,8 +834,8 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
       $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcmail_xss_entity_decode($content));
 
       // now check for evil strings like expression, behavior or url()
-      if (!preg_match('/expression|behavior/i', $stripped)) {
-        if (!$washtml->get_config('allow_remote') && preg_match('/url\(|import[^a]/i', $stripped))
+      if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
+        if (!$washtml->get_config('allow_remote') && stripos($stripped, 'url('))
           $washtml->extlinks = true;
         else
           $out = html::tag('style', array('type' => 'text/css'), $content);
