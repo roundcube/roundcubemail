@@ -821,7 +821,7 @@ function rcmail_plain_body($body, $flowed=false)
 /**
  * Callback function for washtml cleaning class
  */
-function rcmail_washtml_callback($tagname, $attrib, $content)
+function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
 {
   switch ($tagname) {
     case 'form':
@@ -833,8 +833,11 @@ function rcmail_washtml_callback($tagname, $attrib, $content)
       $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcmail_xss_entity_decode($content));
 
       // now check for evil strings like expression, behavior or url()
-      if (!preg_match('/expression|behavior|url\(|import[^a]/', $stripped)) {
-        $out = html::tag('style', array('type' => 'text/css'), $content);
+      if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
+        if (!$washtml->get_config('allow_remote') && stripos($stripped, 'url('))
+          $washtml->extlinks = true;
+        else
+          $out = html::tag('style', array('type' => 'text/css'), $content);
         break;
       }
 
@@ -1014,7 +1017,7 @@ function rcmail_message_body($attrib)
         $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$CONFIG['prefer_html']));
 
         if ($part->ctype_secondary == 'html') {
-          $body = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs);
+          $body = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs, $safe_mode);
           $div_attr = array('class' => 'message-htmlpart');
           $style = array();
 
@@ -1088,7 +1091,7 @@ function rcmail_resolve_base($body)
 /**
  * modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null)
+function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null, $allow_remote=false)
 {
   $last_style_pos = 0;
   $body_lc = strtolower($body);
@@ -1101,7 +1104,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
 
     // replace all css definitions with #container [def]
     $styles = rcmail_mod_css_styles(
-      substr($body, $pos, $pos2-$pos), $cont_id);
+      substr($body, $pos, $pos2-$pos), $cont_id, $allow_remote);
 
     $body = substr($body, 0, $pos) . $styles . substr($body, $pos2);
     $body_lc = strtolower($body);
@@ -1279,6 +1282,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
             'href' => "#add",
             'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, urlencode($string)),
             'title' => rcube_label('addtoaddressbook'),
+            'class' => 'rcmaddcontact',
           ),
           html::img(array(
             'src' => $CONFIG['skin_path'] . $addicon,

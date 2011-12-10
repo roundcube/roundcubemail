@@ -883,23 +883,37 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
  * @param string Container ID to use as prefix
  * @return string Modified CSS source
  */
-function rcmail_mod_css_styles($source, $container_id)
+function rcmail_mod_css_styles($source, $container_id, $allow_remote=false)
   {
   $last_pos = 0;
   $replacements = new rcube_string_replacer;
 
   // ignore the whole block if evil styles are detected
-  $stripped = preg_replace('/[^a-z\(:;]/', '', rcmail_xss_entity_decode($source));
-  if (preg_match('/expression|behavior|url\(|import[^a]/', $stripped))
+  $source = rcmail_xss_entity_decode($source);
+  $stripped = preg_replace('/[^a-z\(:;]/i', '', $source);
+  $evilexpr = 'expression|behavior|javascript:|import[^a]' . (!$allow_remote ? '|url\(' : '');
+  if (preg_match("/$evilexpr/i", $stripped))
     return '/* evil! */';
 
-  // remove css comments (sometimes used for some ugly hacks)
-  $source = preg_replace('!/\*(.+)\*/!Ums', '', $source);
-
   // cut out all contents between { and }
-  while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos)))
-  {
-    $key = $replacements->add(substr($source, $pos+1, $pos2-($pos+1)));
+  while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
+    $styles = substr($source, $pos+1, $pos2-($pos+1));
+
+    // check every line of a style block...
+    if ($allow_remote) {
+      $a_styles = preg_split('/;[\r\n]*/', $styles, -1, PREG_SPLIT_NO_EMPTY);
+      foreach ($a_styles as $line) {
+        $stripped = preg_replace('/[^a-z\(:;]/i', '', $line);
+        // ... and only allow strict url() values
+        if (stripos($stripped, 'url(') && !preg_match('!url\s*\([ "\'](https?:)//[a-z0-9/._+-]+["\' ]\)!Uims', $line)) {
+          $a_styles = array('/* evil! */');
+          break;
+        }
+      }
+      $styles = join(";\n", $a_styles);
+    }
+
+    $key = $replacements->add($styles);
     $source = substr($source, 0, $pos+1) . $replacements->get_replacement($key) . substr($source, $pos2, strlen($source)-$pos2);
     $last_pos = $pos+2;
   }
@@ -937,7 +951,7 @@ function rcmail_xss_entity_decode($content)
 {
   $out = html_entity_decode(html_entity_decode($content));
   $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', 'rcmail_xss_entity_decode_callback', $out);
-  $out = preg_replace('#/\*.*\*/#Um', '', $out);
+  $out = preg_replace('#/\*.*\*/#Ums', '', $out);
   return $out;
 }
 

@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 RELEASE 0.7
 -----------
+- Make Roundcube render the Email Standards Project Acid Test correctly
 - Replace prompt() with jQuery UI dialog (#1485135)
 - Fix navigation in messages search results
 - Improved handling of some malformed values encoded with quoted-printable (#1488232)

@@ -168,7 +168,7 @@ class washtml
                 || ($src = $this->config['cid_map'][$this->config['base_url'].$match[2]])) {
               $value .= ' url('.htmlspecialchars($src, ENT_QUOTES) . ')';
             }
-            else if (preg_match('/^(http|https|ftp):.*$/i', $match[2], $url)) {
+            else if (preg_match('!^(https?:)?//[a-z0-9/._+-]+$!i', $match[2], $url)) {
               if ($this->config['allow_remote'])
                 $value .= ' url('.htmlspecialchars($url[0], ENT_QUOTES).')';
               else
@@ -243,7 +243,7 @@ class washtml
       case XML_ELEMENT_NODE: //Check element
         $tagName = strtolower($node->tagName);
         if ($callback = $this->handlers[$tagName]) {
-          $dump .= call_user_func($callback, $tagName, $this->wash_attribs($node), $this->dumpHtml($node));
+          $dump .= call_user_func($callback, $tagName, $this->wash_attribs($node), $this->dumpHtml($node), $this);
         }
         else if (isset($this->_html_elements[$tagName])) {
           $content = $this->dumpHtml($node);
@@ -299,6 +299,14 @@ class washtml
 
     @$node->loadHTML($html);
     return $this->dumpHtml($node);
+  }
+
+  /**
+   * Getter for config parameters
+   */
+  public function get_config($prop)
+  {
+      return $this->config[$prop];
   }
 
 }
