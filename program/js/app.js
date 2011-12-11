@@ -5624,7 +5624,7 @@ function rcube_webmail()
       }
 
       if (mycount && text_obj.length)
-        text_obj.html(' ('+mycount+')');
+        text_obj.html(this.env.unreadwrap.replace(/%[sd]/, mycount));
       else if (text_obj.length)
         text_obj.remove();
 

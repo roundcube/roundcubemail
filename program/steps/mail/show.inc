@@ -130,7 +130,13 @@ function rcmail_message_attachments($attrib)
         $title = '';
       }
 
-        $ol .= html::tag('li', null,
+        $classes = array($attach_prop->ctype_primary ? $attach_prop->ctype_primary : 'unknown');
+        if ($attach_prop->ctype_secondary)
+          $classes[] = $attach_prop->ctype_secondary;
+        if (preg_match('/\.([a-z0-9]+)$/', $attach_prop->filename, $m))
+          $classes[] = $m[1];
+        
+        $ol .= html::tag('li', join(' ', $classes),
           html::a(array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
             'onclick' => sprintf(

@@ -1170,7 +1170,7 @@ function rcmail_mailbox_list($attrib)
   global $RCMAIL;
   static $a_mailboxes;
 
-  $attrib += array('maxlength' => 100, 'realnames' => false);
+  $attrib += array('maxlength' => 100, 'realnames' => false, 'unreadwrap' => ' (%s)');
 
   // add some labels to client
   $RCMAIL->output->add_label('purgefolderconfirm', 'deletemessagesconfirm');
@@ -1217,6 +1217,7 @@ function rcmail_mailbox_list($attrib)
 
     $RCMAIL->output->add_gui_object('mailboxlist', $attrib['id']);
     $RCMAIL->output->set_env('mailboxes', $js_mailboxlist);
+    $RCMAIL->output->set_env('unreadwrap', $attrib['unreadwrap']);
     $RCMAIL->output->set_env('collapsed_folders', (string)$RCMAIL->config->get('collapsed_folders'));
   }
 
@@ -1372,7 +1373,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
       $classes[] = 'unread';
 
     $js_name = JQ($folder['id']);
-    $html_name = Q($foldername) . ($unread ? html::span('unreadcount', " ($unread)") : '');
+    $html_name = Q($foldername) . ($unread ? html::span('unreadcount', sprintf($attrib['unreadwrap'], $unread)) : '');
     $link_attrib = $folder['virtual'] ? array() : array(
       'href' => rcmail_url('', array('_mbox' => $folder['id'])),
       'onclick' => sprintf("return %s.command('list','%s',this)", JS_OBJECT_NAME, $js_name),
