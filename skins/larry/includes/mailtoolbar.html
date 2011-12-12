@@ -14,7 +14,10 @@
 <roundcube:button command="forward" type="link" class="button forward disabled" classAct="button forward" classSel="button forward pressed" label="forwardmessage" />
 <span class="dropbuttontip" id="forwardmenulink" onclick="UI.show_popup('forwardmenu');return false"></span>
 </span>
-<roundcube:button command="delete" type="link" class="button delete disabled" classAct="button delete" classSel="button delete pressed" label="deletemessage" />
+<roundcube:button command="delete" type="link" class="button delete disabled" classAct="button delete" classSel="button delete pressed" label="delete" title="deletemessage" />
+<roundcube:if condition="template:name == 'message'" />
+<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" />
+<roundcube:endif />
 <roundcube:container name="toolbar" id="mailtoolbar" />
 <roundcube:if condition="template:name == 'mail'" />
 <roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="button markmessage" label="markmessages" onclick="UI.show_popup('markmessagemenu');return false" />

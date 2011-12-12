@@ -130,11 +130,11 @@ input.mainaction {
 
 a.button {
 	display: inline-block;
-	margin: 0 3px;
+	margin: 0 2px;
 	padding: 2px 5px;
 	color: #525252;
 	text-shadow: 1px 1px 1px #fff;
-	border: 1px solid #ddd;
+	border: 1px solid #c6c6c6;
 	border-radius: 4px;
 	background: #f7f7f7;
 	background: -moz-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
@@ -142,10 +142,10 @@ a.button {
 	background: -o-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	background: -ms-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
-	box-shadow: 0 2px 2px 0 #999;
-	-o-box-shadow: 0 2px 2px 0 #999;
-	-webkit-box-shadow: 0 2px 2px 0 #999;
-	-moz-box-shadow: 0 2px 2px 0 #999;
+	box-shadow: 0 1px 1px 0 #ccc;
+	-o-box-shadow: 0 1px 1px 0 #ccc;
+	-webkit-box-shadow: 0 1px 1px 0 #ccc;
+	-moz-box-shadow: 0 1px 1px 0 #ccc;
 	text-decoration: none;
 }
 
@@ -167,7 +167,7 @@ a.button:active {
 	background: linear-gradient(top, #e6e6e6 0%, #f9f9f9 100%);
 }
 
-.pagenav a.button {
+.pagenav.dark a.button {
 	font-weight: bold;
 	border-color: #e6e6e6;
 	background: #f7f7f7;
@@ -176,9 +176,13 @@ a.button:active {
 	background: -o-linear-gradient(top, #d8d8d8 0%, #bababa 100%);
 	background: -ms-linear-gradient(top, #d8d8d8 0%, #bababa 100%);
 	background: linear-gradient(top, #d8d8d8 0%, #bababa 100%);
+	box-shadow: 0 1px 1px 0 #999;
+	-o-box-shadow: 0 1px 1px 0 #999;
+	-webkit-box-shadow: 0 1px 1px 0 #999;
+	-moz-box-shadow: 0 1px 1px 0 #999;
 }
 
-.pagenav a.button.pressed {
+.pagenav.dark a.button.pressed {
 	background: #bababa;
 	background: -moz-linear-gradient(top, #bababa 0%, #d8d8d8 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bababa), color-stop(100%,#d8d8d8));
@@ -221,6 +225,7 @@ a.iconbutton {
 	width: 24px;
 	height: 18px;
 	text-decoration: none;
+	text-indent: -1000px;
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
 
@@ -550,7 +555,7 @@ table.listing {
 }
 
 .boxfooter .listbutton.groupactions .inner {
-	background-position: 4px -1212px;
+	background-position: 4px -1292px;
 }
 
 .errobox h3 {
@@ -780,45 +785,57 @@ table.propform td.title {
 	top: 0;
 	height: 42px;
 	width: 18px;
-	background: url(images/buttons.png) -24px -1049px no-repeat;
+	background: url(images/buttons.png) -24px -1129px no-repeat;
 	cursor: pointer;
 }
 
 .dropbutton .dropbuttontip:hover {
-	background-position: 0 -1049px;
+	background-position: 0 -1129px;
 }
 
 .toolbar a.button.back {
-	background-position: 0 -370px;
+	background-position: 0 -1170px;
 }
 
 .toolbar a.button.checkmail {
-	background-position: center -410px;
-}
-
-.toolbar a.button.compose {
-	background-position: center -450px;
-}
-
-.toolbar a.button.reply {
 	background-position: center -490px;
 }
 
-.toolbar a.button.reply-all {
+.toolbar a.button.compose {
 	background-position: center -530px;
 }
 
-.toolbar a.button.forward {
+.toolbar a.button.reply {
 	background-position: center -570px;
 }
 
-.toolbar a.button.delete {
+.toolbar a.button.reply-all {
 	background-position: center -610px;
+}
+
+.toolbar a.button.forward {
+	background-position: center -650px;
+}
+
+.toolbar a.button.delete {
+	background-position: center -690px;
+}
+
+.toolbar a.button.archive {
+	background-position: center -730px;
+}
+
+.toolbar a.button.junk {
+	background-position: center -770px;
+}
+
+.toolbar a.button.print {
+	background-position: center -810px;
 }
 
 .toolbar a.button.markmessage,
 .toolbar a.button.more {
-	background-position: center -770px;
+	background-position: center -850px;
 }
 
 /*** popup menus ***/

@@ -31,8 +31,17 @@
 
 <div id="mailview-top">
 <div id="messageheader" class="uibox">
-<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" />
+<h2 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h2>
+<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject" />
 <roundcube:object name="messageFullHeaders" id="full-headers" />
+
+<!-- record navigation -->
+<div id="countcontrols" class="pagenav">
+	<roundcube:object name="messageCountDisplay" class="countdisplay" />
+	<roundcube:button command="previousmessage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previousmessage" content="&amp;lt;" />
+	<roundcube:button command="nextmessage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextmessage" content="&amp;gt;" />
+</div>
+
 </div>
 
 <div id="messagecontent" class="uibox">
@@ -43,17 +52,6 @@
 <roundcube:object name="messageObjects" id="message-objects" />
 <roundcube:object name="messageBody" id="messagebody" />
 </div>
-</div>
-
-<!-- list footer -->
-<div id="messagelistfooter" class="rightalign">
-	<div id="countcontrols" class="pagenav">
-		<roundcube:object name="messageCountDisplay" class="countdisplay" />
-		<roundcube:button command="firstmessage" type="link" class="button firstpage disabled" classAct="button firstpage" classSel="button firstpage pressed" innerClass="inner" title="firstmessage" content="|&amp;lt;" />
-		<roundcube:button command="previousmessage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previousmessage" content="&amp;lt;" />
-		<roundcube:button command="nextmessage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextmessage" content="&amp;gt;" />
-		<roundcube:button command="lastmessage" type="link" class="button lastpage disabled" classAct="button lastpage" classSel="button lastpage pressed" innerClass="inner" title="lastmessage" content="&amp;gt;|" />
-	</div>
 </div>
 
 </div><!-- end mailview-top -->

@@ -38,6 +38,8 @@ function rcube_mail_ui()
 //      rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
       rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
       $('#mailpreviewtoggle').click(function(e){ toggle_preview_pane(e); return false });
+      $('#maillistmode').addClass(rcmail.env.threading ? 'unselected' : 'selected').click(function(e){ switch_view_mode('list'); return false });
+      $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : 'unselected').click(function(e){ switch_view_mode('thread'); return false });
       
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         init_messageview();
@@ -173,6 +175,16 @@ function rcube_mail_ui()
     button.removeClass().addClass(visible ? 'enabled' : 'closed');
 
 //    rcmail.command('save-pref', { name:'preview_pane', value:(visible?1:0) });
+  }
+
+
+  function switch_view_mode(mode)
+  {
+    if (rcmail.env.threading != (mode == 'thread'))
+      rcmail.set_list_options(null, undefined, undefined, mode == 'thread' ? 1 : 0);
+
+    $('#maillistmode, #mailthreadmode').removeClass('selected');
+    $('#mail'+mode+'mode').addClass('selected');
   }
 
 

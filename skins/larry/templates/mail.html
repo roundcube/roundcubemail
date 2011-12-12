@@ -56,10 +56,11 @@
 <!-- list footer -->
 <div id="messagelistfooter">
 	<div id="listcontrols">
-		
+		<a href="#list" class="iconbutton listmode" id="maillistmode" title="<roundcube:label name='list' />">List</a>
+		<a href="#threads" class="iconbutton threadmode" id="mailthreadmode" title="<roundcube:label name='threads' />">Threads</a>
 	</div>
 
-	<div id="countcontrols" class="pagenav">
+	<div id="countcontrols" class="pagenav dark">
 		<roundcube:object name="messageCountDisplay" class="countdisplay" />
 		<roundcube:button command="firstpage" type="link" class="button firstpage disabled" classAct="button firstpage" classSel="button firstpage pressed" innerClass="inner" title="firstpage" content="|&amp;lt;" />
 		<roundcube:button command="previouspage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previouspage" content="&amp;lt;" />

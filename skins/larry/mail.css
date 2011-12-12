@@ -76,6 +76,31 @@
 	display: inline-block;
 }
 
+#messagelistfooter #listcontrols {
+	display: inline-block;
+	margin-right: 2em;
+}
+
+a.iconbutton.listmode {
+	width: 26px;
+	height: 20px;
+	background-position: 0 -437px;
+}
+
+a.iconbutton.threadmode {
+	width: 26px;
+	height: 20px;
+	background-position: 0 -457px;
+}
+
+a.iconbutton.listmode.selected {
+	background-position: -26px -437px;
+}
+
+a.iconbutton.threadmode.selected {
+	background-position: -26px -457px;
+}
+
 #mailboxlist li.mailbox {
 	position: relative;
 	background-repeat: no-repeat;
@@ -234,6 +259,7 @@
 	right: 0;
 	left: 15em;
 	height: 40px;
+	white-space: nowrap;
 }
 
 #messagetoolbar.fullwidth {
@@ -251,11 +277,11 @@
 	right: 2px;
 	width: 20px;
 	height: 18px;
-	background: url(images/buttons.png) -5px -318px no-repeat;
+	background: url(images/buttons.png) -3px -418px no-repeat;
 }
 
 #mailpreviewtoggle.enabled {
-	background-position: -28px -318px;
+	background-position: -28px -418px;
 }
 
 
@@ -603,19 +629,29 @@ html.chrome #messagelist tr td.threads {
 	top: 140px;
 	left: 0;
 	width: 100%;
-	bottom: 32px;
+	bottom: 0;
 	overflow: auto;
+	border-radius: 4px 4px 0 0;
 }
 
 #messageheader,
 #partheader {
 	padding: 3px 0;
 	background: #fff;
-	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
-	background: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -moz-linear-gradient(top, #fff 0%, #e9e9e9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#e9e9e9));
+	background: -o-linear-gradient(top, #fff 0%, #e9e9e9 100%);
+	background: -ms-linear-gradient(top, #fff 0%, #e9e9e9 100%);
+	background: linear-gradient(top, #fff 0%, #e9e9e9 100%);
+}
+
+h2.subject {
+	font-size: 15px;
+	margin: 0 15em 0 0;
+	padding: 4px 8px 2px 8px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .headers-table td {
@@ -647,6 +683,21 @@ html.chrome #messagelist tr td.threads {
 	position: relative;
 	top: 1px;
 	margin-left: 0.5em;
+}
+
+#messageheader #countcontrols {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 18em;
+	text-align: right;
+	white-space: nowrap;
+}
+
+#messageheader .pagenav .countdisplay {
+	min-width: 0;
+	padding-right: 0.5em;
+	white-space: nowrap;
 }
 
 #messagecontent .leftcol {
