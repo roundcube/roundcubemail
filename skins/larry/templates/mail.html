@@ -15,17 +15,17 @@
 <!-- search box -->
 <div id="quicksearchbar">
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" _onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" content=" " />
+<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
 <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
 </div>
 
 <!-- folders list -->
 <div id="mailboxcontainer" class="uibox listbox">
-<div class="scroller">
-<roundcube:object name="mailboxlist" id="mailboxlist"class="listing" folder_filter="mail" />
+<div class="scroller wfooter">
+<roundcube:object name="mailboxlist" id="mailboxlist"class="listing" folder_filter="mail" unreadwrap="%s" />
 </div>
 <div class="boxfooter">
-	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" _onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
+	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.show_popup('mailboxmenu');return false" innerClass="inner" content="&#9881;" />
 </div>
 </div>
 
@@ -66,12 +66,15 @@
 		<roundcube:button command="nextpage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextpage" content="&amp;gt;" />
 		<roundcube:button command="lastpage" type="link" class="button lastpage disabled" classAct="button lastpage" classSel="button lastpage pressed" innerClass="inner" title="lastpage" content="&amp;gt;|" />
 	</div>
+
+	<a href="#preview" id="mailpreviewtoggle" title="<roundcube:label name='previewpane' />"></a>
 </div>
 
 </div><!-- end mailview-top -->
 
 <div id="mailview-bottom" class="uibox">
 <div id="mailpreviewframe">
+
 </div>
 
 <roundcube:object name="message" id="message" class="statusbar" />
@@ -82,6 +85,39 @@
 
 </div><!-- end mainscreen -->
 
+<div id="searchmenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><label><input type="checkbox" name="s_mods[]" value="subject" id="s_mod_subject" onclick="UI.set_searchmod(this)" /> <roundcube:label name="subject" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="from" id="s_mod_from" onclick="UI.set_searchmod(this)" /> <roundcube:label name="from" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="to" id="s_mod_to" onclick="UI.set_searchmod(this)" /> <roundcube:label name="to" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="cc" id="s_mod_cc" onclick="UI.set_searchmod(this)" /> <roundcube:label name="cc" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="UI.set_searchmod(this)" /> <roundcube:label name="bcc" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="UI.set_searchmod(this)" /> <roundcube:label name="msgtext" /></label></li>
+	</ul>
+</div>
+
+<div id="dragmessagemenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="moveto" onclick="return rcmail.drag_menu_action('moveto')" label="move" classAct="active" /></li>
+		<li><roundcube:button command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" /></li>
+	</ul>
+</div>
+
+<div id="mailboxmenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
+		<li class="separator_below"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+		<li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
+		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
+	</ul>
+</div>
+
+
+<div id="listoptions" class="popupdialog">
+	
+</div>
+
+<roundcube:include file="/includes/footer.html" />
 
 </body>
 </html>

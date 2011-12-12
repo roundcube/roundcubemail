@@ -157,7 +157,8 @@ a.button.disabled span.inner {
 	opacity: 0.4;
 }
 
-a.button.pressed {
+a.button.pressed,
+a.button:active {
 	background: #e6e6e6;
 	background: -moz-linear-gradient(top, #e6e6e6 0%, #f9f9f9 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e6e6e6), color-stop(100%,#f9f9f9));
@@ -190,7 +191,8 @@ a.button.pressed {
 	display: inline-block;
 	width: 12px;
 	height: 12px;
-	text-indent: -1000px;
+	text-indent: 1000px;
+	overflow: hidden;
 	background: url(images/buttons.png) -8px -211px no-repeat;
 }
 
@@ -209,6 +211,7 @@ a.button.pressed {
 .pagenav .countdisplay {
 	display: inline-block;
 	padding:0 0.5em;
+	font-size: 11px;
 	text-shadow: 1px 1px 1px #fff;
 	min-width: 20em;
 }
@@ -222,11 +225,11 @@ a.iconbutton {
 }
 
 a.iconbutton.searchoptions {
-	background-position: -2px -304px;
+	background-position: -2px -337px;
 }
 
 a.iconbutton.reset {
-	background-position: -25px -303px;
+	background-position: -25px -337px;
 }
 
 
@@ -236,7 +239,8 @@ a.iconbutton.reset {
 #message div.warning,
 #message div.error,
 #message div.notice,
-#message div.confirmation {
+#message div.confirmation,
+#message-objects div.notice {
 	color: #555;
 	font-weight: bold;
 	padding: 6px 40px 6px 25px;
@@ -312,6 +316,11 @@ a.iconbutton.reset {
 	text-decoration: none;
 }
 
+#topline a:hover,
+#topnav a:hover {
+	text-decoration: underline;
+}
+
 #toplogo {
 	padding-top: 2px;
 }
@@ -322,6 +331,11 @@ a.iconbutton.reset {
 
 .topright {
 	float: right;
+}
+
+.closelink {
+	display: inline-block;
+	padding: 2px 10px 2px 20px;
 }
 
 #topline span.username {
@@ -339,6 +353,7 @@ a.iconbutton.reset {
 	background: url(images/buttons.png) -6px -193px no-repeat;
 	color: #fff;
 }
+
 
 /*** taskbar ***/
 
@@ -437,6 +452,10 @@ a.iconbutton.reset {
 	overflow: auto;
 }
 
+.listbox .scroller.wfooter {
+	bottom: 42px;
+}
+
 .listbox .boxtitle + .scroller {
 	top: 34px;
 }
@@ -497,6 +516,41 @@ ul.listing {
 table.listing {
 	width: 100%;
 	border-spacing: 0;
+}
+
+.listbox .boxfooter {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 42px;
+	border-top: 1px solid #ccdde4;
+	background: #d9ecf4;
+	-webkit-box-shadow: inset 0 1px 0 0 #fff;
+	-moz-box-shadow: inset 0 1px 0 0 #fff;
+	box-shadow: inset 0 1px 0 0 #fff;
+}
+
+.boxfooter .listbutton {
+	display: inline-block;
+	text-decoration: none;
+	width: 48px;
+	border-right: 1px solid #fff;
+	background: #c7e3ef;
+	padding: 3px 0;
+	margin-top: 1px;
+}
+
+.boxfooter .listbutton .inner {
+	display: inline-block;
+	width: 48px;
+	height: 35px;
+	text-indent: -1000px;
+	background: url(images/buttons.png) -1000px 0 no-repeat;
+}
+
+.boxfooter .listbutton.groupactions .inner {
+	background-position: 4px -1212px;
 }
 
 .errobox h3 {
@@ -714,40 +768,130 @@ table.propform td.title {
 	opacity: 0.5;
 }
 
-.toolbar a.button.checkmail {
-	background-position: center -370px;
+.dropbutton {
+	display: inline-block;
+	position: relative;
 }
 
-.toolbar a.button.compose {
+.dropbutton .dropbuttontip {
+	display: block;
+	position: absolute;
+	right: 2px;
+	top: 0;
+	height: 42px;
+	width: 18px;
+	background: url(images/buttons.png) -24px -1049px no-repeat;
+	cursor: pointer;
+}
+
+.dropbutton .dropbuttontip:hover {
+	background-position: 0 -1049px;
+}
+
+.toolbar a.button.back {
+	background-position: 0 -370px;
+}
+
+.toolbar a.button.checkmail {
 	background-position: center -410px;
 }
 
-.toolbar a.button.reply {
+.toolbar a.button.compose {
 	background-position: center -450px;
 }
 
-.toolbar a.button.reply-all {
+.toolbar a.button.reply {
 	background-position: center -490px;
 }
 
-.toolbar a.button.forward {
+.toolbar a.button.reply-all {
 	background-position: center -530px;
 }
 
-.toolbar a.button.delete {
+.toolbar a.button.forward {
 	background-position: center -570px;
+}
+
+.toolbar a.button.delete {
+	background-position: center -610px;
 }
 
 .toolbar a.button.markmessage,
 .toolbar a.button.more {
-	background-position: center -730px;
+	background-position: center -770px;
 }
 
 /*** popup menus ***/
 
 .popupmenu {
 	display: none;
+	position: absolute;
+	top: 32px;
+	left: 90px;
+	width: auto;
+	background: #444;
+	border: 1px solid #999;
+	z-index: 240;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px 0 #333;
+	-moz-box-shadow: 0 2px 6px 0 #333;
+	-webkit-box-shadow: 0 2px 6px 0 #333;
+	-o-box-shadow: 0 2px 6px 0 #333;
 }
 
+ul.toolbarmenu {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
 
+ul.toolbarmenu li {
+	color: #fff;
+	font-size: 11px;
+	white-space: nowrap;
+	min-width: 130px;
+	margin: 0;
+	border-top: 1px solid #5a5a5a;
+	border-bottom: 1px solid #333;
+}
 
+ul.toolbarmenu li:first-child {
+	border-top: 0;
+}
+
+ul.toolbarmenu li:last-child {
+	border-bottom: 0;
+}
+
+ul.toolbarmenu li a {
+	display: block;
+	color: #666;
+	text-shadow: 1px 1px 1px #333;
+	text-decoration: none;
+	min-height: 14px;
+	padding: 6px 10px 6px 10px;
+}
+
+ul.toolbarmenu li a.active {
+	color: #fff;
+}
+
+ul.toolbarmenu li a.active:hover {
+	background-color: #00aad6;
+	background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00aad6), color-stop(100%,#008fc9));
+	background: -o-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+	background: -ms-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+	background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
+}
+
+ul.toolbarmenu.iconized li a {
+	padding-left: 28px;
+}
+
+ul.toolbarmenu li label {
+	display: block;
+	color: #fff;
+	padding: 4px 8px;
+	text-shadow: 1px 1px 1px #333;
+}

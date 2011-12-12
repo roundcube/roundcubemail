@@ -68,6 +68,10 @@
 	padding: 2px;
 }
 
+#messagelistfooter.rightalign {
+	text-align: right;
+}
+
 #messagelistfooter #countcontrols {
 	display: inline-block;
 }
@@ -160,22 +164,22 @@
 #mailboxlist li.mailbox div.collapsed,
 #mailboxlist li.mailbox div.expanded {
 	position: absolute;
-	top: 15px;
-	left: 21px;
-	width: 10px;
-	height: 10px;
-	background: url(images/listicons.png) -5px -146px no-repeat;
+	top: 14px;
+	left: 20px;
+	width: 14px;
+	height: 14px;
+	background: url(images/listicons.png) -3px -144px no-repeat;
 	cursor: pointer;
 }
 
 #mailboxlist li.mailbox div.expanded {
-	background-position: -5px -170px;
+	background-position: -3px -168px;
 }
 
 #mailboxlist li.mailbox ul li div.collapsed,
 #mailboxlist li.mailbox ul li div.expanded {
-	left: 46px;
-	top: 16px;
+	left: 45px;
+	top: 15px;
 }
 
 #mailboxlist li.mailbox .unreadcount {
@@ -185,11 +189,11 @@
 	width: 2.8em;
 	padding: 2px;
 	background: #82acb5;
-	background: -moz-linear-gradient(left, #82acb5 0%, #6a939f 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#82acb5), color-stop(100%,#6a939f));
-	background: -o-linear-gradient(left, #82acb5 0%, #6a939f 100%);
-	background: -ms-linear-gradient(left, #82acb5 0%, #6a939f 100%);
-	background: linear-gradient(left, #82acb5 0%, #6a939f 100%);
+	background: -moz-linear-gradient(top, #82acb5 0%, #6a939f 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#82acb5), color-stop(100%,#6a939f));
+	background: -o-linear-gradient(top, #82acb5 0%, #6a939f 100%);
+	background: -ms-linear-gradient(top, #82acb5 0%, #6a939f 100%);
+	background: linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	box-shadow: inset 0 1px 1px 0 #536d72;
 	-o-box-shadow: inset 0 1px 1px 0 #536d72;
 	-webkit-box-shadow: inset 0 1px 1px 0 #536d72;
@@ -203,11 +207,11 @@
 
 #mailboxlist li.mailbox.selected .unreadcount {
 	background: #005d76;
-	background: -moz-linear-gradient(left, #005d76 0%, #004558 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#005d76), color-stop(100%,#004558));
-	background: -o-linear-gradient(left, #005d76 0%, #004558 100%);
-	background: -ms-linear-gradient(left, #005d76 0%, #004558 100%);
-	background: linear-gradient(left, #005d76 0%, #004558 100%);
+	background: -moz-linear-gradient(top, #005d76 0%, #004558 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#005d76), color-stop(100%,#004558));
+	background: -o-linear-gradient(top, #005d76 0%, #004558 100%);
+	background: -ms-linear-gradient(top, #005d76 0%, #004558 100%);
+	background: linear-gradient(top, #005d76 0%, #004558 100%);
 	box-shadow: inset 0 1px 1px 0 #003645;
 	-o-box-shadow: inset 0 1px 1px 0 #003645;
 	-webkit-box-shadow: inset 0 1px 1px 0 #003645;
@@ -218,13 +222,40 @@
 	width: 16em;
 }
 
+#mailview-left select.mailboxlist {
+	position: relative;
+	top: 10px;
+	width: 100%;
+}
+
 #messagetoolbar {
 	position: absolute;
 	top: -6px;
 	right: 0;
 	left: 15em;
 	height: 40px;
+}
+
+#messagetoolbar.fullwidth {
+	left: 0;
+}
+
+#mailtoolbar {
 	text-align: right;
+}
+
+#mailpreviewtoggle {
+	display: block;
+	position: absolute;
+	top: 4px;
+	right: 2px;
+	width: 20px;
+	height: 18px;
+	background: url(images/buttons.png) -5px -318px no-repeat;
+}
+
+#mailpreviewtoggle.enabled {
+	background-position: -28px -318px;
 }
 
 
@@ -562,4 +593,242 @@ html.chrome #messagelist tr td.threads {
 	height: 18px;
 	width: 15px;
 /*	background: url(images/tree.gif) 0px 0px no-repeat; */
+}
+
+
+/**** message view ****/
+
+#messagecontent {
+	position: absolute;
+	top: 140px;
+	left: 0;
+	width: 100%;
+	bottom: 32px;
+	overflow: auto;
+}
+
+#messageheader,
+#partheader {
+	padding: 3px 0;
+	background: #fff;
+	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
+	background: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: linear-gradient(top, #fff 0%, #f0f0f0 100%);
+}
+
+.headers-table td {
+	color: #666;
+	padding: 2px 8px;
+	font-size: 11px;
+}
+
+.headers-table td.header {
+	font-weight: bold;
+}
+
+.headers-table td.header a {
+	color: #666;
+	text-decoration: none;
+}
+
+.headers-table td.header a:hover {
+	text-decoration: underline;
+}
+
+.headers-table td.subject {
+	color: #333;
+	font-size: 110%;
+	font-weight: bold;
+}
+
+.rcmaddcontact {
+	position: relative;
+	top: 1px;
+	margin-left: 0.5em;
+}
+
+#messagecontent .leftcol {
+	margin-right: 250px;
+}
+
+#messagecontent .rightcol {
+	float: right;
+/*
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	height: 90%;
+*/
+	width: 230px;
+	margin: 8px;
+	min-height: 200px;
+	background: #f0f0f0;
+	padding: 8px;
+}
+
+
+#messagebody {
+	margin: 8px;
+}
+
+#message-objects div,
+#messagebody span.part-notice {
+	margin: 8px;
+}
+
+#message-objects div.notice {
+	color: #960;
+	border: 1px solid #ffdf0e;
+	background-color: #fef893;
+	background-position: 5px -24px;
+	padding: 6px 12px 4px 30px;
+}
+
+#message-objects div a.button,
+#messagebody span.part-notice a.button {
+	font-size: 11px;
+	margin-left: 10px;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px 0 #e8e386;
+	-o-box-shadow: 0 1px 1px 0 #e8e386;
+	-webkit-box-shadow: 0 1px 1px 0 #e8e386;
+	-moz-box-shadow: 0 1px 1px 0 #e8e386;
+}
+
+div.message-part,
+div.message-htmlpart {
+	padding: 10px 8px;
+	border-top: 1px solid #ccc;
+}
+
+#messagebody div:first-child {
+	border-top: 0;
+}
+
+div.message-part a,
+div.message-htmlpart a {
+	color: #0000CC;
+}
+
+div.message-part pre,
+div.message-htmlpart pre,
+div.message-part div.pre {
+	margin: 0px;
+	padding: 0px;
+	font-family: monospace;
+	white-space: -moz-pre-wrap !important;
+	white-space: pre-wrap !important;
+	white-space: pre;
+}
+
+div.message-part span.sig {
+	color: #666666;
+}
+
+div.message-part blockquote {
+	color: blue;
+	border-left: 2px solid blue;
+	border-right: 2px solid blue;
+	background-color: #F6F6F6;
+	margin: 2px 0px 2px 0px;
+	padding: 1px 8px 1px 10px;
+}
+
+div.message-part blockquote blockquote {
+	color: green;
+	border-left: 2px solid green;
+	border-right: 2px solid green;
+}
+
+div.message-part blockquote blockquote blockquote {
+	color: #990000;
+	border-left: 2px solid #bb0000;
+	border-right: 2px solid #bb0000;
+}
+
+#messagebody > hr {
+	color: #fff;
+	background: #fff;
+	border: 0;
+	border-bottom: 2px dotted #ccc;
+}
+
+#messagebody > p > img {
+	max-width: 80%;
+}
+
+#attachment-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#attachment-list li {
+	display: block;
+	background: url(images/filetypes.png) 0 0 no-repeat;
+	margin-bottom: 1px;
+}
+
+#attachment-list li.pdf {
+	background-position: 0 -26px;
+}
+
+#attachment-list li.doc,
+#attachment-list li.msword {
+	background-position: 0 -52px;
+}
+
+#attachment-list li.xls,
+#attachment-list li.msexcel {
+	background-position: 0 -78px;
+}
+
+#attachment-list li.zip,
+#attachment-list li.gz {
+	background-position: 0 -104px;
+}
+
+#attachment-list li.image {
+	background-position: 0 -130px;
+}
+
+#attachment-list li.audio {
+	background-position: 0 -156px;
+}
+
+#attachment-list li.video {
+	background-position: 0 -182px;
+}
+
+
+#attachment-list li a {
+	display: block;
+	color: #333;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 8px 4px 3px 30px;
+	text-shadow: 1px 1px 1px #fff;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+#attachment-list li a:hover {
+	text-decoration: underline;
+}
+
+#messagepartcontainer {
+	position: absolute;
+	top: 60px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+
+#messagepartframe {
+	border: 0;
 }

@@ -1,66 +1,57 @@
 <div id="mailtoolbar" class="toolbar">
 <roundcube:if condition="template:name == 'message'" />
-<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="backtolist" />
+<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
 <roundcube:else />
 <roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="checkmail" />
-<roundcube:endif />
 <roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="writenewmessage" />
+<roundcube:endif />
 <roundcube:button command="reply" type="link" class="button reply disabled" classAct="button reply" classSel="button reply pressed" label="replytomessage" />
 <span class="dropbutton">
 <roundcube:button command="reply-all" type="link" class="button reply-all disabled" classAct="button reply-all" classSel="button reply-all pressed" label="replytoallmessage" />
-<span id="replyallmenulink" onclick="rcmail_ui.show_popup('replyallmenu');return false"></span>
+<span class="dropbuttontip" id="replyallmenulink" onclick="UI.show_popup('replyallmenu');return false"></span>
 </span>
 <span class="dropbutton">
 <roundcube:button command="forward" type="link" class="button forward disabled" classAct="button forward" classSel="button forward pressed" label="forwardmessage" />
-<span id="forwardmenulink" onclick="rcmail_ui.show_popup('forwardmenu');return false"></span>
+<span class="dropbuttontip" id="forwardmenulink" onclick="UI.show_popup('forwardmenu');return false"></span>
 </span>
 <roundcube:button command="delete" type="link" class="button delete disabled" classAct="button delete" classSel="button delete pressed" label="deletemessage" />
 <roundcube:container name="toolbar" id="mailtoolbar" />
 <roundcube:if condition="template:name == 'mail'" />
-<roundcube:button name="markmenulink" id="markmenulink" type="link" class="button markmessage" label="markmessages" onclick="rcmail_ui.show_popup('markmenu');return false" />
+<roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="button markmessage" label="markmessages" onclick="UI.show_popup('markmessagemenu');return false" />
 <roundcube:endif />
-<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button more" label="moreactions" onclick="rcmail_ui.show_popup('messagemenu');return false" />
-<roundcube:if condition="template:name == 'message'" />
-<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mboxlist" folder_filter="mail" />
-<roundcube:endif />
+<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button more" label="moreactions" onclick="UI.show_popup('messagemenu');return false" />
 </div>
 
 <div id="forwardmenu" class="popupmenu">
 	<ul class="toolbarmenu">
-		<li class="block">
-			<input type="radio" name="forwardtype" value="0" onchange="rcmail.command('save-pref', {name: 'forward_attachment', value: 0, env: 'forward_attachment'});" />
-			<roundcube:button command="forward" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" />
-		</li>
-		<li class="block">
-			<input type="radio" name="forwardtype" value="1" onchange="rcmail.command('save-pref', {name: 'forward_attachment', value: 1, env: 'forward_attachment'})" />
-			<roundcube:button command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" />
-		</li>
+		<li><roundcube:button command="forward" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" /></li>
+		<li><roundcube:button command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" /></li>
 		<roundcube:container name="forwardmenu" id="forwardmenu" />
 	</ul>
 </div>
 
 <div id="replyallmenu" class="popupmenu">
-	<ul>
-		<li><roundcube:button command="reply-all" label="replyall" prop="sub" classAct="replyalllink active" class="replyalllink" /></li>
-		<li><roundcube:button command="reply-list" label="replylist" prop="sub" classAct="replylistlink active" class="replylistlink" /></li>
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="reply-all" label="replyall" prop="sub" class="replyalllink" classAct="replyalllink active" /></li>
+		<li><roundcube:button command="reply-list" label="replylist" prop="sub" class="replylistlink" classAct="replylistlink active" /></li>
 		<roundcube:container name="replyallmenu" id="replyallmenu" />
 	</ul>
 </div>
 
 <div id="messagemenu" class="popupmenu">
-  <ul class="toolbarmenu">
-	<li><roundcube:button class="printlink" command="print" label="printmessage" classAct="printlink active" /></li>
-	<li><roundcube:button class="downloadlink" command="download" label="emlsave" classAct="downloadlink active" /></li>
-	<li><roundcube:button class="editlink" command="edit" label="editasnew" classAct="editlink active" /></li>
-	<li class="separator_below"><roundcube:button class="sourcelink" command="viewsource" label="viewsource" classAct="sourcelink active" /></li>
-	<li><roundcube:button class="openlink" command="open" label="openinextwin" target="_blank" classAct="openlink active" /></li>
+  <ul class="toolbarmenu iconized">
+	<li><roundcube:button command="print" label="printmessage" class="printlink" classAct="printlink active" /></li>
+	<li><roundcube:button command="download" label="emlsave" class="downloadlink" classAct="downloadlink active" /></li>
+	<li><roundcube:button command="edit" label="editasnew" class="editlink" classAct="editlink active" /></li>
+	<li><roundcube:button command="viewsource" label="viewsource" class="sourcelink" classAct="sourcelink active" /></li>
+	<li><roundcube:button command="open" label="openinextwin" target="_blank" class="openlink" classAct="openlink active" /></li>
 	<roundcube:container name="messagemenu" id="messagemenu" />
   </ul>
 </div>
 
 <roundcube:if condition="template:name == 'mail'" />
 <div id="markmessagemenu" class="popupmenu">
-  <ul class="toolbarmenu">
+  <ul class="toolbarmenu iconized">
 	<li><roundcube:button command="mark" prop="read" label="markread" classAct="readlink active" class="readlink" /></li>
 	<li><roundcube:button command="mark" prop="unread" label="markunread" classAct="unreadlink active" class="unreadlink" /></li>
 	<li><roundcube:button command="mark" prop="flagged" label="markflagged" classAct="flaggedlink active" class="flaggedlink" /></li>

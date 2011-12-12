@@ -29,6 +29,39 @@ if ($argc < 2) {
 $srcdir = unslashify(realpath($argv[1]));
 $destdir = unslashify($argv[2]);
 $layout = 'launchpad';  # or 'narro';
+$langcode_map = array(
+	'hy_AM' => 'am',
+	'ar_SA' => 'ar',
+	'az_AZ' => 'az',
+	'bg_BG' => 'bg',
+	'bs_BA' => 'bs',
+	'ca_ES' => 'ca',
+	'cs_CZ' => 'cz',
+	'cy_GB' => 'cy',
+	'da_DK' => 'da',
+	'et_EE' => 'et',
+	'el_GR' => 'el',
+	'eu_ES' => 'eu',
+	'ga_IE' => 'ga',
+	'ka_GE' => 'ge',
+	'gl_ES' => 'gl',
+	'he_IL' => 'he',
+	'hi_IN' => 'hi',
+	'hr_HR' => 'hr',
+	'ja_JP' => 'ja',
+	'ko_KR' => 'ko',
+	'km_KH' => 'km',
+	'ms_MY' => 'ms',
+	'mr_IN' => 'mr',
+	'pl_PL' => 'pl',
+	'si_LK' => 'si',
+	'sl_SI' => 'sl',
+	'sq_AL' => 'sq',
+	'sr_CS' => 'sr',
+	'sv_SE' => 'sv',
+	'uk_UA' => 'uk',
+	'vi_VN' => 'vi',
+);
 
 
 // converting roundcube localization dir
@@ -113,7 +146,7 @@ function convert_dir($indir, $outdir)
  */
 function convert_file($fn, $outfn)
 {
-	global $layout;
+	global $layout, $langcode_map;
 
 	$basename =  basename($fn);
 	$srcname = str_replace(INSTALL_PATH, '', $fn);
@@ -134,8 +167,11 @@ function convert_file($fn, $outfn)
 		$is_pot = true;
 	}
 	// launchpad is very picky about file names
-	else if ($layout == 'launchpad' && preg_match($regex = '!/([a-z]{2})_([A-Z]{2})!', $outfn, $m) && $m[1] == strtolower($m[2])) {
-		$outfn = preg_replace($regex, '/\1', $outfn);
+	else if ($layout == 'launchpad' && preg_match($regex = '!/([a-z]{2})_([A-Z]{2})!', $outfn, $m)) {
+		if ($shortlang = $langcode_map[$lang])
+			$outfn = preg_replace($regex, '/'.$shortlang, $outfn);
+		else if ($m[1] == strtolower($m[2]))
+			$outfn = preg_replace($regex, '/\1', $outfn);
 	}
 
 	include($fn);
