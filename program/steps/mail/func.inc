@@ -890,6 +890,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
   // show these headers
   $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto',
     'mail-reply-to', 'mail-followup-to', 'date');
+  $exclude_headers = $attrib['exclude'] ? explode(',', $attrib['exclude']) : array();
   $output_headers = array();
 
   foreach ($standard_headers as $hkey) {
@@ -898,6 +899,9 @@ function rcmail_message_headers($attrib, $headers=NULL)
     else if ($headers['others'][$hkey])
       $value = $headers['others'][$hkey];
     else
+      continue;
+
+    if (in_array($hkey, $exclude_headers))
       continue;
 
     if ($hkey == 'date') {
@@ -937,7 +941,11 @@ function rcmail_message_headers($attrib, $headers=NULL)
   }
 
   $plugin = $RCMAIL->plugins->exec_hook('message_headers_output',
-    array('output' => $output_headers, 'headers' => $MESSAGE->headers));
+    array('output' => $output_headers, 'headers' => $MESSAGE->headers, 'exclude' => $exclude_headers));
+
+  // single header value is requested
+  if (!empty($attrib['valueof']))
+    return Q($plugin['output'][$attrib['valueof']]['value'], ($hkey == 'subject' ? 'strict' : 'show'));
 
   // compose html table
   $table = new html_table(array('cols' => 2));
