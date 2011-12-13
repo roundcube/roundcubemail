@@ -1400,6 +1400,7 @@ class rcube_imap
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
      * @access public
+     * @todo: Search criteria should be provided in non-IMAP format, eg. array
      */
     function search($mailbox='', $str='ALL', $charset=NULL, $sort_field=NULL)
     {
@@ -1520,9 +1521,9 @@ class rcube_imap
                 $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
                 $string = substr($str, $string_offset - 1, $m[0]);
                 $string = rcube_charset_convert($string, $charset, $dest_charset);
-                if (!$string)
+                if ($string === false)
                     continue;
-                $res .= sprintf("%s{%d}\r\n%s", substr($str, $last, $m[1] - $last - 1), strlen($string), $string);
+                $res .= substr($str, $last, $m[1] - $last - 1) . rcube_imap_generic::escape($string);
                 $last = $m[0] + $string_offset - 1;
             }
             if ($last < strlen($str))
