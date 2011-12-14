@@ -236,7 +236,7 @@ function rcmail_folder_form($attrib)
     // Set form tags and hidden fields
     list($form_start, $form_end) = get_form_tags($attrib, 'save-folder', null, $hidden_fields);
 
-    unset($attrib['form']);
+    unset($attrib['form'], $attrib['id']);
 
     // return the complete edit form as table
     $out = "$form_start\n";
@@ -246,14 +246,14 @@ function rcmail_folder_form($attrib)
         if (!empty($tab['fieldsets']) && is_array($tab['fieldsets'])) {
             $content = '';
             foreach ($tab['fieldsets'] as $fieldset) {
-                $subcontent = rcmail_get_form_part($fieldset);
+                $subcontent = rcmail_get_form_part($fieldset, $attrib);
                 if ($subcontent) {
                     $content .= html::tag('fieldset', null, html::tag('legend', null, Q($fieldset['name'])) . $subcontent) ."\n";
                 }
             }
         }
         else {
-            $content = rcmail_get_form_part($tab);
+            $content = rcmail_get_form_part($tab, $attrib);
         }
 
         if ($content) {
@@ -268,7 +268,7 @@ function rcmail_folder_form($attrib)
     return $out;
 }
 
-function rcmail_get_form_part($form)
+function rcmail_get_form_part($form, $attrib = array())
 {
     $content = '';
 
@@ -278,10 +278,10 @@ function rcmail_get_form_part($form)
             $colprop['id'] = '_'.$col;
             $label = !empty($colprop['label']) ? $colprop['label'] : rcube_label($col);
 
-            $table->add('title', sprintf('<label for="%s">%s</label>', $colprop['id'], Q($label)));
+            $table->add('title', html::label($colprop['id'], Q($label)));
             $table->add(null, $colprop['value']);
         }
-        $content = $table->show();
+        $content = $table->show($attrib);
     }
     else {
         $content = $form['content'];
