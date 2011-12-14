@@ -213,25 +213,45 @@ input.button:active {
 	background: linear-gradient(top, #bababa 0%, #d8d8d8 100%);
 }
 
+.pagenav a.button {
+	padding: 1px 3px;
+}
+
 .pagenav a.button span.inner {
 	display: inline-block;
-	width: 12px;
-	height: 12px;
+	width: 16px;
+	height: 13px;
 	text-indent: 1000px;
 	overflow: hidden;
-	background: url(images/buttons.png) -8px -211px no-repeat;
+	background: url(images/buttons.png) -6px -211px no-repeat;
 }
 
 .pagenav a.prevpage span.inner {
-	background-position: -8px -226px;
+	background-position: -7px -226px;
 }
 
 .pagenav a.nextpage span.inner {
-	background-position: -30px -226px;
+	background-position: -28px -226px;
 }
 
 .pagenav a.lastpage span.inner {
-	background-position: -30px -211px;
+	background-position: -28px -211px;
+}
+
+.pagenav a.pageup span.inner {
+	background-position: -7px -256px;
+}
+
+.pagenav a.pagedown span.inner {
+	background-position: -29px -256px;
+}
+
+.pagenav a.viewsource span.inner {
+	background-position: -7px -271px;
+}
+
+.pagenav a.extwin span.inner {
+	background-position: -29px -271px;
 }
 
 .pagenav .countdisplay {
@@ -270,7 +290,7 @@ a.iconbutton.reset {
 #message-objects div.notice {
 	color: #555;
 	font-weight: bold;
-	padding: 6px 40px 6px 25px;
+	padding: 6px 30px 6px 25px;
 	display: inline-block;
 	white-space: nowrap;
 	background: url(images/messages.png) 0 5px no-repeat;
@@ -311,6 +331,9 @@ a.iconbutton.reset {
 	background: -o-linear-gradient(top, #eaeaea 0%, #c8c8c8 100%);
 	background: -ms-linear-gradient(top, #eaeaea 0%, #c8c8c8 100%);
 	background: linear-gradient(top, #eaeaea 0%, #c8c8c8 100%);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 
@@ -530,8 +553,8 @@ a.iconbutton.reset {
 .listbox .tablink,
 .listing tbody td,
 .listing li {
-	font-size: 11px;
 	display: block;
+	font-size: 11px;
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #bbd3da;
 	cursor: default;
@@ -549,6 +572,10 @@ a.iconbutton.reset {
 	cursor: default;
 	padding: 7px 8px 5px 8px;
 	white-space: nowrap;
+}
+
+.listing tbody td {
+	display: table-cell;
 }
 
 .listbox .listitem.selected,
@@ -570,7 +597,8 @@ ul.listing li {
 	background-color: #d9ecf4;
 }
 
-ul.listing li.droptarget {
+ul.listing li.droptarget,
+table.listing tr.droptarget td {
 	background-color: #c7e3ef;
 }
 
@@ -611,11 +639,11 @@ table.listing {
 }
 
 .boxfooter .listbutton.add .inner {
-	background-position: 8px -1210px;
+	background-position: 10px -1210px;
 }
 
 .boxfooter .listbutton.groupactions .inner {
-	background-position: 4px -1292px;
+	background-position: 5px -1292px;
 }
 
 .centerbox {
@@ -639,6 +667,10 @@ table.listing {
 body.iframe {
 	background: #fff;
 	margin: 38px 0 20px 0;
+}
+
+body.iframe.fullheight {
+	margin: 0;
 }
 
 .contentbox .boxtitle,
@@ -687,7 +719,13 @@ body.iframe .boxtitle {
 	display: block;
 	font-size: 14px;
 	font-weight: bold;
-	margin-bottom: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 0;
+}
+
+.propform fieldset fieldset legend {
+	color: #666;
+	font-size: 12px;
 }
 
 table.propform {
@@ -1004,9 +1042,9 @@ ul.toolbarmenu li label {
 
 
 #rcmdraglayer {
-	min-width: 300px;
+	min-width: 260px;
 	width: auto !important;
-	width: 300px;
+	width: 260px;
 	padding: 6px 8px;
 	background: #444;
 	border: 1px solid #555;

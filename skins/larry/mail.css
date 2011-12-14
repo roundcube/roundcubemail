@@ -624,6 +624,20 @@ html.chrome #messagelist tr td.threads {
 
 /**** message view ****/
 
+#mailpreviewframe {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	bottom: 28px;
+}
+
+#messagecontframe {
+	border: 0;
+	border-radius: 4px 4px 0 0;
+}
+
 #messagecontent {
 	position: absolute;
 	top: 140px;
@@ -636,6 +650,7 @@ html.chrome #messagelist tr td.threads {
 
 #messageheader,
 #partheader {
+	position: relative;
 	padding: 3px 0;
 	background: #fff;
 	background: -moz-linear-gradient(top, #fff 0%, #e9e9e9 100%);
@@ -649,6 +664,15 @@ h2.subject {
 	font-size: 15px;
 	margin: 0 15em 0 0;
 	padding: 4px 8px 2px 8px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+h3.subject {
+	font-size: 14px;
+	margin: 0 8em 0 0;
+	padding: 8px 8px 4px 8px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -694,6 +718,21 @@ h2.subject {
 	height: 13px;
 }
 
+#messagepreviewheader {
+	margin: 0 8px;
+	padding-bottom: 8px;
+	border-bottom: 2px solid #f0f0f0;
+}
+
+#messagepreviewheader .headers-table {
+	margin: 0 -8px;
+}
+
+#messagepreviewheader h3.subject {
+	padding-left: 0;
+}
+
+#messagepreviewheader #countcontrols,
 #messageheader #countcontrols {
 	position: absolute;
 	top: 8px;
@@ -709,11 +748,13 @@ h2.subject {
 	white-space: nowrap;
 }
 
-#messagecontent .leftcol {
+#messagecontent .leftcol,
+#messagepreview .leftcol {
 	margin-right: 250px;
 }
 
-#messagecontent .rightcol {
+#messagecontent .rightcol,
+#messagepreview .rightcol {
 	float: right;
 /*
 	position: absolute;
@@ -728,7 +769,6 @@ h2.subject {
 	padding: 8px;
 }
 
-
 #messagebody {
 	margin: 8px;
 }
@@ -738,7 +778,9 @@ h2.subject {
 	margin: 8px;
 }
 
-#message-objects div.notice {
+#message-objects div.notice,
+#message-buttons div.notice {
+	display: block;
 	color: #960;
 	border: 1px solid #ffdf0e;
 	background-color: #fef893;
@@ -760,16 +802,11 @@ h2.subject {
 div.message-part,
 div.message-htmlpart {
 	padding: 10px 2px;
-	border-top: 1px solid #ccc;
+	border-top: 2px solid #f0f0f0;
 }
 
 #messagebody div:first-child {
 	border-top: 0;
-}
-
-div.message-part a,
-div.message-htmlpart a {
-	color: #0000CC;
 }
 
 div.message-part pre,
@@ -812,7 +849,7 @@ div.message-part blockquote blockquote blockquote {
 	color: #fff;
 	background: #fff;
 	border: 0;
-	border-bottom: 2px dotted #ccc;
+	border-bottom: 2px solid #f0f0f0;
 }
 
 #messagebody > p > img {

@@ -145,6 +145,7 @@
 	background-position: 6px -550px;
 }
 
+#folderslist,
 #identitieslist {
 	position: absolute;
 	top: 0;
@@ -153,11 +154,23 @@
 	bottom: 0;
 }
 
+#folder-details,
 #identity-details {
 	position: absolute;
 	top: 0;
 	left: 540px;
 	right: 0;
 	bottom: 0;
+}
+
+#subscription-table tr.root td {
+	font-size: 5%;
+	height: 5px;
+	padding: 2px;
+}
+
+#subscription-table td.subscribed {
+	padding: 3px 12px 3px 3px;
+	text-align: right;
 }
 

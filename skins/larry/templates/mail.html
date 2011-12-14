@@ -3,6 +3,14 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
+<style type="text/css">
+<roundcube:if condition="config:preview_pane == true" />
+	#mailview-top { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-38 : 300" />px; }
+	#mailview-bottom { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 320" />px; height: auto; }
+	#mailpreviewframe { display: block; }
+<roundcube:endif />
+</style>
+
 </head>
 <body>
 
@@ -74,8 +82,9 @@
 </div><!-- end mailview-top -->
 
 <div id="mailview-bottom" class="uibox">
-<div id="mailpreviewframe">
 
+<div id="mailpreviewframe">
+<roundcube:object name="messagecontentframe" id="messagecontframe" style="width:100%; height:100%" src="/watermark.html" />
 </div>
 
 <roundcube:object name="message" id="message" class="statusbar" />
@@ -105,7 +114,7 @@
 </div>
 
 <div id="mailboxmenu" class="popupmenu">
-	<ul class="toolbarmenu">
+	<ul class="toolbarmenu" id="mailboxoptionsmenu">
 		<li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
 		<li class="separator_below"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
 		<li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>

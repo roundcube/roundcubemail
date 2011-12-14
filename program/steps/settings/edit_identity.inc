@@ -111,7 +111,7 @@ function rcube_identity_form($attrib)
     array('name' => '_iid', 'value' => $IDENTITY_RECORD['identity_id']));
 
   unset($plugin);
-  unset($attrib['form']);
+  unset($attrib['form'], $attrib['id']);
 
   // return the complete edit form as table
   $out = "$form_start\n";

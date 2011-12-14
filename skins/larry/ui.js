@@ -37,7 +37,7 @@ function rcube_mail_ui()
 //      rcmail.addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui);
 //      rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
       rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
-      $('#mailpreviewtoggle').click(function(e){ toggle_preview_pane(e); return false });
+      $('#mailpreviewtoggle').addClass($('#mailpreviewframe').is(':visible') ? 'enabled' : 'closed').click(function(e){ toggle_preview_pane(e); return false });
       $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
       $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
       
@@ -101,8 +101,8 @@ function rcube_mail_ui()
     $('#message-objects div a').addClass('button');
     
     if (!$('#attachment-list li').length) {
-      $('#messagecontent div.rightcol').hide();
-      $('#messagecontent .leftcol').css('margin-right', '0');
+      $('div.rightcol').hide();
+      $('div.leftcol').css('margin-right', '0');
     }
   }
 
@@ -189,12 +189,36 @@ function rcube_mail_ui()
 
   function toggle_preview_pane(e)
   {
-    var button = $(e.target);
-    var visible = !button.hasClass('enabled');
-    
+    var button = $(e.target),
+      frame = $('#mailpreviewframe'),
+      visible = !frame.is(':visible'),
+      splitter = parseInt(bw.get_cookie('mailviewsplitter') || 320),
+      topstyles, bottomstyles, uid;
+
+    frame.toggle();
     button.removeClass().addClass(visible ? 'enabled' : 'closed');
 
-//    rcmail.command('save-pref', { name:'preview_pane', value:(visible?1:0) });
+    if (visible) {
+      topstyles = { height:(splitter-38)+'px', bottom:'auto' };
+      bottomstyles = { top:(splitter+5)+'px', height:'auto' };
+      rcmail.env.contentframe = 'messagecontframe';
+      if (uid = rcmail.message_list.get_single_selection())
+        rcmail.show_message(uid, false, true);
+    }
+    else {
+      topstyles = { height:'auto', bottom:'28px' };
+      bottomstyles = { top:'auto', height:'26px' };
+      rcmail.env.contentframe = null;
+      rcmail.show_contentframe(false);
+    }
+
+    $('#mailview-top').css(topstyles);
+    $('#mailview-bottom').css(bottomstyles);
+
+    if (visible && uid && rcmail.message_list)
+      rcmail.message_list.scrollto(uid);
+
+    rcmail.command('save-pref', { name:'preview_pane', value:(visible?1:0) });
   }
 
 

@@ -1,0 +1,40 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="iframe fullheight">
+
+<div id="messagepreviewheader">
+<h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
+<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject,replyto" />
+<roundcube:object name="messageFullHeaders" id="full-headers" />
+
+<!-- record navigation -->
+<div id="countcontrols" class="pagenav">
+	<roundcube:button command="permaurl" type="link" class="button extwin" classSel="button extwin pressed" innerClass="inner" title="openinextwin" content="[]" target="_blank" />
+	<roundcube:button command="viewsource" type="link" class="button viewsource" classSel="button extwin pressed" innerClass="inner" title="viewsource" content="&lt;&gt;" />
+<!--
+	&nbsp;
+	<roundcube:button command="previousmessage" type="link" class="button pageup disabled" classAct="button pageup" classSel="button pageup pressed" innerClass="inner" title="previousmessage" content="&amp;lt;" />
+	<roundcube:button command="nextmessage" type="link" class="button pagedown disabled" classAct="button pagedown" classSel="button pagedown pressed" innerClass="inner" title="nextmessage" content="&amp;gt;" />
+-->
+</div>
+
+</div>
+
+<div id="messagepreview">
+<div class="rightcol">
+<roundcube:object name="messageAttachments" id="attachment-list" />
+</div>
+<div class="leftcol">
+<roundcube:object name="messageObjects" id="message-objects" />
+<roundcube:object name="messageBody" id="messagebody" />
+</div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>
