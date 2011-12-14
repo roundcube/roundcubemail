@@ -246,7 +246,7 @@ CREATE TABLE searches (
   data text NOT NULL
 );
 
-CREATE UNIQUE INDEX ix_searches_user_type_name (user_id, type, name);
+CREATE UNIQUE INDEX ix_searches_user_type_name ON searches (user_id, type, name);
 
 DROP TABLE messages;
 
