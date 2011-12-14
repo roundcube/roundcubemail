@@ -16,15 +16,15 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 240px;
+	width: 220px;
 	bottom: 0;
 }
 
 #sectionslist {
 	position: absolute;
 	top: 0;
-	left: 250px;
-	width: 240px;
+	left: 230px;
+	width: 260px;
 	bottom: 0;
 }
 
@@ -48,11 +48,14 @@
 	background: url(images/listicons.png) -100px 0 no-repeat;
 }
 
-#settings-sections span.listitem a {
+/* note: support span.tablink because this is used by plugins */
+#settings-sections span.listitem a,
+#settings-sections span.tablink a {
 	background-position: 6px -862px;
 }
 
-#settings-sections span.selected a {
+#settings-sections span.selected a,
+#settings-sections span.tablink.selected a {
 	background-position: 6px -887px;
 }
 
@@ -140,5 +143,21 @@
 
 #sections-table #rcmrowcalendar.selected td.section {
 	background-position: 6px -550px;
+}
+
+#identitieslist {
+	position: absolute;
+	top: 0;
+	left: 230px;
+	width: 300px;
+	bottom: 0;
+}
+
+#identity-details {
+	position: absolute;
+	top: 0;
+	left: 540px;
+	right: 0;
+	bottom: 0;
 }
 

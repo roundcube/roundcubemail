@@ -47,7 +47,7 @@ textarea {
 input[type="text"]:focus,
 input[type="password"]:focus,
 input.button:focus,
-textarea {
+textarea:focus {
 	border-color: #4787b1;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
@@ -85,7 +85,7 @@ input.button {
 }
 
 .formbuttons input.button {
-	color: #dddddd;
+	color: #ddd;
 	font-size: 110%;
 	text-shadow: 1px 1px 1px #333;
 	padding: 4px 12px;
@@ -100,7 +100,7 @@ input.button {
 }
 
 .formbuttons input.button:hover {
-	color: #ededed;
+	color: #f2f2f2;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
 	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
@@ -369,9 +369,10 @@ a.iconbutton.reset {
 	padding-right: 1em;
 }
 
-#topline a.support-link {
+#topline .topleft a {
 	display: inline-block;
-	padding: 2px 0;
+	padding: 2px 0.8em 0 0;
+	color: #aaa;
 }
 
 #topline a.button-logout {
@@ -463,6 +464,27 @@ a.iconbutton.reset {
 	background: #fff;
 }
 
+.scroller {
+	overflow: auto;
+}
+
+.readtext {
+	width: 42em;
+	padding: 12px;
+}
+
+.readtext > h1,
+.readtext > h2,
+.readtext > h3 {
+	margin-top: 0;
+}
+
+.watermark {
+	background-image: url(images/watermark.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
 /*** lists ***/
 
 .listbox {
@@ -479,7 +501,7 @@ a.iconbutton.reset {
 	overflow: auto;
 }
 
-.listbox .scroller.wfooter {
+.listbox .scroller.withfooter {
 	bottom: 42px;
 }
 
@@ -525,7 +547,8 @@ a.iconbutton.reset {
 	text-shadow: 1px 1px 1px #fff;
 	text-decoration: none;
 	cursor: default;
-	padding: 8px 8px 4px 8px;
+	padding: 7px 8px 5px 8px;
+	white-space: nowrap;
 }
 
 .listbox .listitem.selected,
@@ -587,14 +610,29 @@ table.listing {
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
 
+.boxfooter .listbutton.add .inner {
+	background-position: 8px -1210px;
+}
+
 .boxfooter .listbutton.groupactions .inner {
 	background-position: 4px -1292px;
 }
 
-.errobox h3 {
+.centerbox {
+	width: 40em;
+	margin: 36px auto;
+}
+
+.errorbox {
+	width: 40em;
+	padding: 20px;
+}
+
+.errorbox h3 {
 	font-size: 16px;
 	margin-top: 0;
 }
+
 
 /*** iFrames ***/
 
@@ -603,11 +641,8 @@ body.iframe {
 	margin: 38px 0 20px 0;
 }
 
+.contentbox .boxtitle,
 body.iframe .boxtitle {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
 	color: #777;
 	background: #eee;
 	background: -moz-linear-gradient(top, #eee 0%, #dfdfdf 100%);
@@ -618,8 +653,24 @@ body.iframe .boxtitle {
 	border-bottom: 1px solid #ccc;
 }
 
+body.iframe .boxtitle {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
 .boxcontent {
 	padding: 10px;
+}
+
+.contentbox .scroller {
+	position: absolute;
+	top: 34px;
+	left: 0;
+	right: 0;
+	bottom: 28px;
+	overflow: auto;
 }
 
 .footerleft {
@@ -657,6 +708,11 @@ table.propform td.title {
 	color: #333;
 	padding-right: 20px;
 	white-space: nowrap;
+}
+
+table.propform .mceLayout td {
+	padding: 0;
+	border-bottom: 0;
 }
 
 
@@ -787,7 +843,7 @@ table.propform td.title {
 	text-align: center;
 	font-size: 10px;
 	color: #555;
-	min-width: 55px;
+	min-width: 50px;
 	max-width: 75px;
 	overflow: hidden;
 	text-overflow: ellipsis;

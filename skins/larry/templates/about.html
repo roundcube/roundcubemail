@@ -1,0 +1,36 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+
+<div class="offset uibox scroller centerbox" style="width:60em">
+
+<div class="readtext">
+<roundcube:object name="aboutcontent" />
+
+<h2 class="sysname">Roundcube Webmail <roundcube:object name="version" /></h2>
+<p class="copyright">Copyright &copy; 2005-2011, The Roundcube Dev Team</p>
+<p class="license">This program is free software; you can redistribute it and/or modify
+it under the terms of the <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License version 2</a>
+as published by the Free Software Foundation.
+</p>
+<p class="links"><roundcube:object name="supportlink" label="support" target="_blank" /></p>
+
+</div>
+
+<div class="readtext">
+<h3><roundcube:label name="installedplugins" en_US="Installed plugins" /></h3>
+<roundcube:object name="pluginlist" id="pluginlist" class="records-table" cellspacing="0" />
+</div>
+
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

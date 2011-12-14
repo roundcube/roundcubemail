@@ -5,7 +5,7 @@
  | program/steps/settings/edit_identity.inc                              |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -131,10 +131,10 @@ function rcube_identity_form($attrib)
         $value = !empty($colprop['value']) ? $colprop['value'] :
             rcmail_get_edit_field($col, $IDENTITY_RECORD[$col], $colprop, $colprop['type']);
 
-        $table->add('title', sprintf('<label for="%s">%s</label>', $colprop['id'], Q($label)));
+        $table->add('title', html::label($colprop['id'], Q($label)));
         $table->add(null, $value);
       }
-      $content = $table->show();
+      $content = $table->show($attrib);
     }
     else {
       $content = $fieldset['content'];

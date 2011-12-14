@@ -1,6 +1,7 @@
 <div id="header">
 <div id="topline">
 	<div class="topleft">
+		<roundcube:button command="about" type="link" label="about" class="about-link" />
 		<roundcube:if condition="config:support_url" />
 		<a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
 		<roundcube:endif />
