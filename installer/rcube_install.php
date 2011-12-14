@@ -504,17 +504,25 @@ class rcube_install
     
     return $out;
   }
-  
+
   /**
    * Create a HTML dropdown to select a previous version of Roundcube
    */
   function versions_select($attrib = array())
   {
     $select = new html_select($attrib);
-    $select->add(array('0.1-stable', '0.1.1', '0.2-alpha', '0.2-beta', '0.2-stable', '0.3-stable', '0.3.1', '0.4-beta', '0.4.2', '0.5-beta', '0.5', '0.5.1'));
+    $select->add(array(
+        '0.1-stable', '0.1.1',
+        '0.2-alpha', '0.2-beta', '0.2-stable',
+        '0.3-stable', '0.3.1',
+        '0.4-beta', '0.4.2',
+        '0.5-beta', '0.5', '0.5.1',
+        '0.6-beta', '0.6',
+        '0.7-beta', '0.7',
+    ));
     return $select;
   }
-  
+
   /**
    * Return a list with available subfolders of the skin directory
    */

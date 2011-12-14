@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix broken CREATE INDEX queries in SQLite DDL files (#1488255)
+
 RELEASE 0.7
 -----------
 - Make Roundcube render the Email Standards Project Acid Test correctly
