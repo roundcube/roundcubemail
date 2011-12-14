@@ -42,7 +42,8 @@
 }
 
 #sections-table tbody td.section,
-#settings-sections span.listitem a {
+#settings-sections span.listitem a,
+#settings-sections span.tablink a {
 	padding-left: 36px;
 	background: url(images/listicons.png) -100px 0 no-repeat;
 }

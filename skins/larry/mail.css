@@ -679,10 +679,19 @@ h2.subject {
 	font-weight: bold;
 }
 
+.headers-table td.header span {
+	white-space: nowrap;
+}
+
 .rcmaddcontact {
 	position: relative;
 	top: 1px;
 	margin-left: 0.5em;
+}
+
+.rcmaddcontact imp {
+	width: 20px;
+	height: 13px;
 }
 
 #messageheader #countcontrols {
@@ -750,7 +759,7 @@ h2.subject {
 
 div.message-part,
 div.message-htmlpart {
-	padding: 10px 8px;
+	padding: 10px 2px;
 	border-top: 1px solid #ccc;
 }
 

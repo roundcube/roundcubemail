@@ -38,12 +38,20 @@ function rcube_mail_ui()
 //      rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
       rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
       $('#mailpreviewtoggle').click(function(e){ toggle_preview_pane(e); return false });
-      $('#maillistmode').addClass(rcmail.env.threading ? 'unselected' : 'selected').click(function(e){ switch_view_mode('list'); return false });
-      $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : 'unselected').click(function(e){ switch_view_mode('thread'); return false });
+      $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
+      $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
       
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
-        init_messageview();
+        layout_messageview();
       }
+    }
+    else if (rcmail.env.task == 'settings') {
+      var tab = '#settingstabpreferences';
+      if (rcmail.env.action)
+        tab = '#settingstab' + (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action.replace(/\./g, ''));
+
+      $(tab).addClass('selected')
+        .children().first().removeAttr('onclick').click(function() { return false; });
     }
 
     $(document.body).bind('mouseup', function(e){
@@ -70,12 +78,24 @@ function rcube_mail_ui()
         }
       }
     });
+    
+    $(window).resize(resize);
+  }
+
+  /**
+   * Update UI on window resize
+   */
+  function resize()
+  {
+    if (rcmail.env.task == 'mail' && (rcmail.env.action == 'show' || rcmail.env.action == 'preview')) {
+      layout_messageview();
+    }
   }
 
   /**
    * Adjust UI objects of the mail view screen
    */
-  function init_messageview()
+  function layout_messageview()
   {
     $('#messagecontent').css('top', ($('#messageheader').outerHeight() + 10) + 'px');
     $('#message-objects div a').addClass('button');

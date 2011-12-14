@@ -64,11 +64,32 @@ textarea.placeholder {
 /*** buttons ***/
 
 input.button {
+	display: inline-block;
+	margin: 0 2px;
+	padding: 4px 6px;
+	color: #525252;
+	text-shadow: 1px 1px 1px #fff;
+	border: 1px solid #c0c0c0;
+	border-radius: 4px;
+	background: #f7f7f7;
+	background: -moz-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#e6e6e6));
+	background: -o-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	background: -ms-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	box-shadow: 0 1px 1px 0 #ccc;
+	-o-box-shadow: 0 1px 1px 0 #ccc;
+	-webkit-box-shadow: 0 1px 1px 0 #ccc;
+	-moz-box-shadow: 0 1px 1px 0 #ccc;
+	text-decoration: none;
+}
+
+.formbuttons input.button {
 	color: #dddddd;
 	font-size: 110%;
 	text-shadow: 1px 1px 1px #333;
 	padding: 4px 12px;
-	border: 1px solid #465864;
+	border-color: #465864;
 	border-radius: 5px;
 	background: #7a7b7d;
 	background: -moz-linear-gradient(top, rgba(123,123,123,1) 0%, rgba(96,96,96,1) 100%); /* FF3.6+ */
@@ -78,7 +99,7 @@ input.button {
 	background: linear-gradient(top, rgba(123,123,123,1) 0%,rgba(96,96,96,1) 100%); /* W3C */
 }
 
-input.button:hover {
+.formbuttons input.button:hover {
 	color: #ededed;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
 	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
@@ -86,7 +107,7 @@ input.button:hover {
 	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
 }
 
-input.button:active {
+.formbuttons input.button:active {
 	color: #fff;
 	background: -moz-linear-gradient(top, rgba(92,92,92,1) 0%, rgba(123,123,123,1) 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(92,92,92,1)), color-stop(100%,rgba(123,123,123,1)));
@@ -158,7 +179,8 @@ a.button.disabled span.inner {
 }
 
 a.button.pressed,
-a.button:active {
+a.button:active,
+input.button:active {
 	background: #e6e6e6;
 	background: -moz-linear-gradient(top, #e6e6e6 0%, #f9f9f9 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e6e6e6), color-stop(100%,#f9f9f9));
@@ -483,6 +505,7 @@ a.iconbutton.reset {
 }
 
 .listbox .listitem,
+.listbox .tablink,
 .listing tbody td,
 .listing li {
 	font-size: 11px;
@@ -494,6 +517,7 @@ a.iconbutton.reset {
 }
 
 .listbox .listitem a,
+.listbox .tablink a,
 .listing tbody td,
 .listing li a {
 	display: block;
@@ -505,6 +529,7 @@ a.iconbutton.reset {
 }
 
 .listbox .listitem.selected,
+.listbox .tablink.selected,
 .listing tbody tr.selected td,
 .listing li.selected {
 	color: #004458;
@@ -516,6 +541,14 @@ ul.listing {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+ul.listing li {
+	background-color: #d9ecf4;
+}
+
+ul.listing li.droptarget {
+	background-color: #c7e3ef;
 }
 
 table.listing {
@@ -912,3 +945,48 @@ ul.toolbarmenu li label {
 	padding: 4px 8px;
 	text-shadow: 1px 1px 1px #333;
 }
+
+
+#rcmdraglayer {
+	min-width: 300px;
+	width: auto !important;
+	width: 300px;
+	padding: 6px 8px;
+	background: #444;
+	border: 1px solid #555;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px 0 #333;
+	-moz-box-shadow: 0 2px 6px 0 #333;
+	-webkit-box-shadow: 0 2px 6px 0 #333;
+	-o-box-shadow: 0 2px 6px 0 #333;
+	z-index: 250;
+	color: #ccc;
+	font-size: 11px;
+	white-space: nowrap;
+	opacity: 0.92;
+	text-shadow: 1px 1px 1px #333;
+}
+
+#rcmdraglayer:after {
+	content: "";
+	position: absolute;
+	top: 6px;
+	left: -6px;
+	border-style: solid;
+	border-width: 6px 6px 6px 0;
+	border-color: transparent #444;
+	/* reduce the damage in FF3.0 */
+	display: block; 
+	width: 0;
+}
+
+._draglayercopy:before {
+	position: absolute;
+	bottom: -5px;
+	left: -6px;
+	content: " ";
+	width: 15px;
+	height: 15px;
+	background: url(images/buttons.png) -8px -360px no-repeat;
+}
+
