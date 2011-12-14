@@ -1231,7 +1231,7 @@ class rcube_imap_generic
     {
         $num_in_trash = $this->countMessages($mailbox);
         if ($num_in_trash > 0) {
-            $res = $this->delete($mailbox, '1:*');
+            $res = $this->flag($mailbox, '1:*', 'DELETED');
         }
 
         if ($res) {
