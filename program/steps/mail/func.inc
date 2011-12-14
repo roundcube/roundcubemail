@@ -1070,6 +1070,11 @@ function rcmail_message_body($attrib)
   // list images after mail body
   if ($CONFIG['inline_images'] && !empty($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
+      // skip inline images
+      if ($attach_prop->content_id && $attach_prop->disposition == 'inline') {
+        continue;
+      }
+
       // Content-Type: image/*...
       if (preg_match('/^image\//i', $attach_prop->mimetype) ||
         // ...or known file extension: many clients are using application/octet-stream
