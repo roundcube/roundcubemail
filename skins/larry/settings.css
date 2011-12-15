@@ -20,10 +20,18 @@
 	bottom: 0;
 }
 
+#settings-right {
+	position: absolute;
+	top: 0;
+	left: 232px;
+	right: 0;
+	bottom: 0;
+}
+
 #sectionslist {
 	position: absolute;
 	top: 0;
-	left: 230px;
+	left: 0;
 	width: 260px;
 	bottom: 0;
 }
@@ -31,7 +39,7 @@
 #preferences-box {
 	position: absolute;
 	top: 0;
-	left: 500px;
+	left: 270px;
 	right: 0;
 	bottom: 0;
 }
@@ -149,7 +157,7 @@
 #identitieslist {
 	position: absolute;
 	top: 0;
-	left: 230px;
+	left: 0;
 	width: 300px;
 	bottom: 0;
 }
@@ -158,7 +166,7 @@
 #identity-details {
 	position: absolute;
 	top: 0;
-	left: 540px;
+	left: 310px;
 	right: 0;
 	bottom: 0;
 }

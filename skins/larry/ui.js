@@ -20,6 +20,7 @@ function rcube_mail_ui()
   };
 
   var me = this;
+  var mailviewsplit;
 
   // export public methods
   this.init = init;
@@ -32,17 +33,30 @@ function rcube_mail_ui()
   function init()
   {
     if (rcmail.env.task == 'mail') {
+      rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
       rcmail.addEventListener('menu-open', function(){ show_popup('listoptions'); });
       rcmail.addEventListener('menu-save', save_listoptions);
 //      rcmail.addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui);
 //      rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
-      rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
-      $('#mailpreviewtoggle').addClass($('#mailpreviewframe').is(':visible') ? 'enabled' : 'closed').click(function(e){ toggle_preview_pane(e); return false });
+
+      var previewframe = $('#mailpreviewframe').is(':visible');
+      $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').click(function(e){ toggle_preview_pane(e); return false });
       $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
       $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
-      
+
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         layout_messageview();
+      }
+      else if (rcmail.env.action == 'list' || !rcmail.env.action) {
+          mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
+            orientation:'h', relative:true, start:310, min:150, size:0, offset:-22 });
+          if (previewframe)
+            mailviewsplit.init();
+      }
+      
+      if ($('#mailview-left').length) {
+        new rcube_splitter({ id:'mailviewsplitterv', p1:'#mailview-left', p2:'#mailview-right',
+          orientation:'v', relative:true, start:248, min:150, size:12, callback:render_mailboxlist, render:resize_leftcol }).init();
       }
     }
     else if (rcmail.env.task == 'settings') {
@@ -52,6 +66,15 @@ function rcube_mail_ui()
 
       $(tab).addClass('selected')
         .children().first().removeAttr('onclick').click(function() { return false; });
+
+      if (rcmail.env.action == 'folders') {
+        new rcube_splitter({ id:'folderviewsplitter', p1:'#folderslist', p2:'#folder-details',
+          orientation:'v', relative:true, start:305, min:150, size:12 }).init();
+      }
+      else if (rcmail.env.action.indexOf('identit') >= 0) {
+        new rcube_splitter({ id:'identviewsplitter', p1:'#identitieslist', p2:'#identity-details',
+          orientation:'v', relative:true, start:305, min:150, size:12 }).init();
+      }
     }
 
     $(document.body).bind('mouseup', function(e){
@@ -105,6 +128,19 @@ function rcube_mail_ui()
       $('div.leftcol').css('margin-right', '0');
     }
   }
+
+
+  function render_mailboxlist(splitter)
+  {
+  }
+
+
+  function resize_leftcol(splitter)
+  {
+    if (splitter)
+      $('#quicksearchbar input').css('width', (splitter.pos - 70) + 'px');
+  }
+
 
   /**
    * Trigger for popup menus
@@ -187,33 +223,46 @@ function rcube_mail_ui()
   }
 
 
+  /**
+   * Show/hide the preview pane
+   */
   function toggle_preview_pane(e)
   {
     var button = $(e.target),
       frame = $('#mailpreviewframe'),
       visible = !frame.is(':visible'),
-      splitter = parseInt(bw.get_cookie('mailviewsplitter') || 320),
+      splitter = mailviewsplit.pos || parseInt(bw.get_cookie('mailviewsplitter') || 320),
       topstyles, bottomstyles, uid;
 
     frame.toggle();
     button.removeClass().addClass(visible ? 'enabled' : 'closed');
 
     if (visible) {
-      topstyles = { height:(splitter-38)+'px', bottom:'auto' };
-      bottomstyles = { top:(splitter+5)+'px', height:'auto' };
+      $('#mailview-top').css({ bottom:'auto' });
+      $('#mailview-bottom').css({ height:'auto' });
+
       rcmail.env.contentframe = 'messagecontframe';
       if (uid = rcmail.message_list.get_single_selection())
         rcmail.show_message(uid, false, true);
+
+      // let the splitter set the correct size and position
+      if (mailviewsplit.handle) {
+        mailviewsplit.handle.show();
+        mailviewsplit.resize();
+      }
+      else
+        mailviewsplit.init();
     }
     else {
-      topstyles = { height:'auto', bottom:'28px' };
-      bottomstyles = { top:'auto', height:'26px' };
       rcmail.env.contentframe = null;
       rcmail.show_contentframe(false);
-    }
 
-    $('#mailview-top').css(topstyles);
-    $('#mailview-bottom').css(bottomstyles);
+      $('#mailview-top').css({ height:'auto', bottom:'28px' });
+      $('#mailview-bottom').css({ top:'auto', height:'26px' });
+
+      if (mailviewsplit.handle)
+        mailviewsplit.handle.hide();
+    }
 
     if (visible && uid && rcmail.message_list)
       rcmail.message_list.scrollto(uid);
@@ -222,6 +271,9 @@ function rcube_mail_ui()
   }
 
 
+  /**
+   *
+   */
   function switch_view_mode(mode)
   {
     if (rcmail.env.threading != (mode == 'thread'))
@@ -265,6 +317,9 @@ function rcube_mail_ui()
   }
 
 
+  /**
+   *
+   */
   function save_listoptions()
   {
     show_popupmenu('listoptions', false);
@@ -279,6 +334,9 @@ function rcube_mail_ui()
   }
 
 
+  /**
+   *
+   */
   function set_searchmod(elem)
   {
     var all, m, task = rcmail.env.task,
@@ -324,4 +382,215 @@ function rcube_mail_ui()
     });
   }
 }
+
+
+
+/**
+ * Roundcube splitter GUI class
+ *
+ * @constructor
+ */
+function rcube_splitter(p)
+{
+  this.p = p;
+  this.id = p.id;
+  this.horizontal = (p.orientation == 'horizontal' || p.orientation == 'h');
+  this.halfsize = (p.size !== undefined ? p.size : 10) / 2;
+  this.pos = p.start || 0;
+  this.min = p.min || 20;
+  this.offset = p.offset || 0;
+  this.relative = p.relative ? true : false;
+  this.drag_active = false;
+  this.render = p.render;
+  this.callback = p.callback;
+
+  var me = this;
+
+  this.init = function()
+  {
+    this.p1 = $(this.p.p1);
+    this.p2 = $(this.p.p2);
+
+    // create and position the handle for this splitter
+    this.p1pos = this.relative ? this.p1.position() : this.p1.offset();
+    this.p2pos = this.relative ? this.p2.position() : this.p2.offset();
+    this.handle = $('<div>')
+      .attr('id', this.id)
+      .attr('unselectable', 'on')
+      .addClass('splitter ' + (this.horizontal ? 'splitter-h' : 'splitter-v'))
+      .appendTo(this.p1.parent())
+      .bind('mousedown', onDragStart);
+
+    if (this.horizontal) {
+      var top = this.p1pos.top + this.p1.outerHeight();
+      this.handle.css({ left:'0px', top:top+'px' });
+    }
+    else {
+      var left = this.p1pos.left + this.p1.outerWidth();
+      this.handle.css({ left:left+'px', top:'0px' });
+    }
+
+    this.elm = this.handle.get(0);
+
+    // listen to window resize on IE
+    if (bw.ie)
+      $(window).resize(function(e){ onResize(e) });
+
+    // read saved position from cookie
+    var cookie = bw.get_cookie(this.id);
+    if (cookie && !isNaN(cookie)) {
+      this.pos = parseFloat(cookie);
+      this.resize();
+    }
+    else if (this.pos) {
+      this.resize();
+      this.set_cookie();
+    }
+  };
+
+  /**
+   * Set size and position of all DOM objects
+   * according to the saved splitter position
+   */
+  this.resize = function()
+  {
+    if (this.horizontal) {
+      this.p1.css('height', Math.floor(this.pos - this.p1pos.top - this.halfsize) + 'px');
+      this.p2.css('top', Math.ceil(this.pos + this.halfsize + 2) + 'px');
+      this.handle.css('top', Math.round(this.pos - this.halfsize + this.offset)+'px');
+      if (bw.ie) {
+        var new_height = parseInt(this.p2.parent().outerHeight(), 10) - parseInt(this.p2.css('top'), 10) - (bw.ie8 ? 2 : 0);
+        this.p2.css('height') = (new_height > 0 ? new_height : 0) + 'px';
+      }
+    }
+    else {
+      this.p1.css('width', Math.floor(this.pos - this.p1pos.left - this.halfsize) + 'px');
+      this.p2.css('left', Math.ceil(this.pos + this.halfsize) + 'px');
+      this.handle.css('left', Math.round(this.pos - this.halfsize + this.offset + 3)+'px');
+      if (bw.ie) {
+        var new_width = parseInt(this.p2.parent().outerWidth(), 10) - parseInt(this.p2.css('left'), 10) ;
+        this.p2.css('width', (new_width > 0 ? new_width : 0) + 'px');
+      }
+    }
+
+    this.p2.resize();
+    this.p1.resize();
+
+    if (typeof this.render == 'function')
+      this.render(this);
+  };
+
+  /**
+   * Handler for mousedown events
+   */
+  function onDragStart(e)
+  {
+    // disable text selection while dragging the splitter
+    if (bw.konq || bw.chrome || bw.safari)
+      document.body.style.webkitUserSelect = 'none';
+
+    me.p1pos = me.relative ? me.p1.position() : me.p1.offset();
+    me.p2pos = me.relative ? me.p2.position() : me.p2.offset();
+    me.drag_active = true;
+
+    // start listening to mousemove events
+    $(document).bind('mousemove.'+this.id, onDrag).bind('mouseup.'+this.id, onDragStop);
+
+    // enable dragging above iframes
+    $('iframe').each(function() {
+      $('<div class="iframe-splitter-fix"></div>')
+        .css({ background: '#fff',
+          width: this.offsetWidth+'px', height: this.offsetHeight+'px',
+          position: 'absolute', opacity: '0.001', zIndex: 1000
+        })
+        .css($(this).offset())
+        .appendTo('body');
+      });
+  };
+
+  /**
+   * Handler for mousemove events
+   */
+  function onDrag(e)
+  {
+    if (!me.drag_active)
+      return false;
+
+    var pos = rcube_event.get_mouse_pos(e);
+
+    if (me.relative) {
+      var parent = me.p1.parent().offset();
+      pos.x -= parent.left;
+      pos.y -= parent.top;
+    }
+
+    if (me.horizontal) {
+      if (((pos.y - me.halfsize) > me.p1pos.top) && ((pos.y + me.halfsize) < (me.p2pos.top + me.p2.outerHeight()))) {
+        me.pos = Math.max(me.min, pos.y - me.offset);
+        me.resize();
+      }
+    }
+    else {
+      if (((pos.x - me.halfsize) > me.p1pos.left) && ((pos.x + me.halfsize) < (me.p2pos.left + me.p2.outerWidth()))) {
+        me.pos = Math.max(me.min, pos.x - me.offset);
+        me.resize();
+      }
+    }
+
+    me.p1pos = me.relative ? me.p1.position() : me.p1.offset();
+    me.p2pos = me.relative ? me.p2.position() : me.p2.offset();
+    return false;
+  };
+
+  /**
+   * Handler for mouseup events
+   */
+  function onDragStop(e)
+  {
+    // resume the ability to highlight text
+    if (bw.konq || bw.chrome || bw.safari)
+      document.body.style.webkitUserSelect = 'auto';
+
+    // cancel the listening for drag events
+    $(document).unbind('.'+me.id);
+    me.drag_active = false;
+
+    // remove temp divs
+    $('div.iframe-splitter-fix').each(function(){ this.parentNode.removeChild(this); });
+
+    me.set_cookie();
+
+    if (typeof me.callback == 'function')
+      me.callback(me);
+
+    return bw.safari ? true : rcube_event.cancel(e);
+  };
+
+  /**
+   * Handler for window resize events
+   */
+  function onResize(e)
+  {
+    if (me.horizontal) {
+      var new_height = parseInt(me.p2.parent().outerHeight(), 10) - parseInt(me.p2[0].style.top, 10) - (bw.ie8 ? 2 : 0);
+      me.p2.css('height', (new_height > 0 ? new_height : 0) +'px');
+    }
+    else {
+      var new_width = parseInt(me.p2.parent().outerWidth(), 10) - parseInt(me.p2[0].style.left, 10);
+      me.p2.css('width', (new_width > 0 ? new_width : 0) + 'px');
+    }
+  };
+
+  /**
+   * Saves splitter position in cookie
+   */
+  this.set_cookie = function()
+  {
+    var exp = new Date();
+    exp.setYear(exp.getFullYear() + 1);
+    bw.set_cookie(this.id, this.pos, exp);
+  };
+
+} // end class rcube_splitter
+
 

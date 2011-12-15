@@ -271,6 +271,11 @@ a.iconbutton {
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
 
+a.iconbutton.disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
 a.iconbutton.searchoptions {
 	background-position: -2px -337px;
 }
@@ -540,6 +545,7 @@ a.iconbutton.reset {
 	margin: 0;
 	text-shadow: 1px 1px 1px #fff;
 	border-bottom: 1px solid #bbd3da;
+	white-space: nowrap;
 }
 
 .uibox .boxtitle,
@@ -1040,6 +1046,29 @@ ul.toolbarmenu li label {
 	text-shadow: 1px 1px 1px #333;
 }
 
+.splitter {
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	position: absolute;
+	background: url(images/splitter.png) center no-repeat;
+}
+
+.splitter-h {
+	height: 10px;
+	width: 100%;
+	cursor: n-resize;
+	cursor: row-resize;
+	background-position: center 0;
+}
+
+.splitter-v {
+	width: 10px;
+	height: 100%;
+	cursor: e-resize;
+	cursor: col-resize;
+	background-position: 0 center;
+}
 
 #rcmdraglayer {
 	min-width: 260px;

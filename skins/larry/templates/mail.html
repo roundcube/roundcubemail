@@ -64,8 +64,13 @@
 <!-- list footer -->
 <div id="messagelistfooter">
 	<div id="listcontrols">
-		<a href="#list" class="iconbutton listmode" id="maillistmode" title="<roundcube:label name='list' />">List</a>
-		<a href="#threads" class="iconbutton threadmode" id="mailthreadmode" title="<roundcube:label name='threads' />">Threads</a>
+		<roundcube:if condition="env:threads" />
+			<a href="#list" class="iconbutton listmode" id="maillistmode" title="<roundcube:label name='list' />">List</a>
+			<a href="#threads" class="iconbutton threadmode" id="mailthreadmode" title="<roundcube:label name='threads' />">Threads</a>
+		<roundcube:else />
+			<a href="#list" class="iconbutton listmode selected" title="<roundcube:label name='list' />" onclick="return false">List</a>
+			<a href="#threads" class="iconbutton threadmode disabled" title="<roundcube:label name='threads' />" onclick="return false">Threads</a>
+		<roundcube:endif />
 	</div>
 
 	<div id="countcontrols" class="pagenav dark">
