@@ -147,6 +147,8 @@ TRUNCATE TABLE `cache`;
 
 -- Updates from version 0.6
 
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
+
 ALTER TABLE `users` CHANGE `alias` `alias` varchar(128) BINARY NOT NULL;
 ALTER TABLE `users` CHANGE `username` `username` varchar(128) BINARY NOT NULL;
 
@@ -208,6 +210,8 @@ CREATE TABLE `cache_messages` (
  INDEX `changed_index` (`changed`),
  PRIMARY KEY (`user_id`, `mailbox`, `uid`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
+/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
 -- Updates from version 0.7-beta
 
