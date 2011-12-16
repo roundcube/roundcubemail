@@ -14,7 +14,7 @@
 
 body {
 	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 11px;
 	color: #333;
 	background: url(images/linen.jpg) repeat #d1d5d8;
 	margin: 0;
@@ -66,9 +66,9 @@ textarea.placeholder {
 input.button {
 	display: inline-block;
 	margin: 0 2px;
-	padding: 4px 6px;
+	padding: 3px 5px;
 	color: #525252;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 0px 1px 1px #fff;
 	border: 1px solid #c0c0c0;
 	border-radius: 4px;
 	background: #f7f7f7;
@@ -87,7 +87,7 @@ input.button {
 .formbuttons input.button {
 	color: #ddd;
 	font-size: 110%;
-	text-shadow: 1px 1px 1px #333;
+	text-shadow: 0px 1px 1px #333;
 	padding: 4px 12px;
 	border-color: #465864;
 	border-radius: 5px;
@@ -97,14 +97,18 @@ input.button {
 	background: -o-linear-gradient(top, rgba(123,123,123,1) 0%,rgba(96,96,96,1) 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top, rgba(123,123,123,1) 0%,rgba(96,96,96,1) 100%); /* IE10+ */
 	background: linear-gradient(top, rgba(123,123,123,1) 0%,rgba(96,96,96,1) 100%); /* W3C */
+	box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
+	-o-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
+	-webkit-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
+	-moz-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
 }
 
 .formbuttons input.button:hover {
 	color: #f2f2f2;
-	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
-	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 }
 
 .formbuttons input.button:active {
@@ -129,12 +133,12 @@ input.button.mainaction {
 
 input.button.mainaction:active {
 	color: #fff;
-	background: rgba(42,46,49,1);
-	background: -moz-linear-gradient(top, rgba(42,46,49,1) 0%, rgba(80,80,80,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(42,46,49,1)), color-stop(100%,rgba(80,80,80,1)));
-	background: -o-linear-gradient(top, rgba(42,46,49,1) 0%,rgba(80,80,80,1) 100%);
-	background: -ms-linear-gradient(top, rgba(42,46,49,1) 0%,rgba(80,80,80,1) 100%);
-	background: linear-gradient(top, rgba(42,46,49,1) 0%,rgba(80,80,80,1) 100%);
+	background: #515151;
+	background: -moz-linear-gradient(top, #515151 0%, #2c2c2c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#515151), color-stop(100%,#2c2c2c));
+	background: -o-linear-gradient(top, #515151 0%, #2c2c2c 100%);
+	background: -ms-linear-gradient(top, #515151 0%, #2c2c2c 100%);
+	background: linear-gradient(top, #515151 0%, #2c2c2c 100%);
 }
 
 input.button[disabled],
@@ -154,7 +158,7 @@ a.button {
 	margin: 0 2px;
 	padding: 2px 5px;
 	color: #525252;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 0px 1px 1px #fff;
 	border: 1px solid #c6c6c6;
 	border-radius: 4px;
 	background: #f7f7f7;
@@ -170,6 +174,7 @@ a.button {
 	text-decoration: none;
 }
 
+label.disabled,
 a.button.disabled {
 	color: #999;
 }
@@ -257,8 +262,7 @@ input.button:active {
 .pagenav .countdisplay {
 	display: inline-block;
 	padding:0 0.5em;
-	font-size: 11px;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 0px 1px 1px #fff;
 	min-width: 20em;
 }
 
@@ -277,13 +281,36 @@ a.iconbutton.disabled {
 }
 
 a.iconbutton.searchoptions {
-	background-position: -2px -337px;
+	background-position: -2px -317px;
 }
 
 a.iconbutton.reset {
-	background-position: -25px -337px;
+	background-position: -25px -317px;
 }
 
+a.iconbutton.cancel {
+	background-position: -7px -377px;
+}
+
+a.iconlink {
+	display: inline-block;
+	color: #888;
+	text-decoration: none;
+	padding: 2px 8px 2px 20px;
+	background: url(images/buttons.png) -1000px 0 no-repeat;
+}
+
+a.iconlink:hover {
+	text-decoration: underline;
+}
+
+a.iconlink.add {
+	background-position: -7px -357px;
+}
+
+a.iconlink.edit {
+	background-position: -7px -397px;
+}
 
 /*** message bar ***/
 
@@ -349,7 +376,6 @@ a.iconbutton.reset {
 	background: url(images/linen_header.jpg) repeat #666;
 	border-bottom: 1px solid #4f4f4f;
 	padding: 2px 0 2px 10px;
-	font-size: 11px;
 	color: #aaa;
 }
 
@@ -423,7 +449,7 @@ a.iconbutton.reset {
 	display: inline-block;
 	font-size: 110%;
 	font-weight: normal;
-	text-shadow: 1px 1px 1px black;
+	text-shadow: 0px 1px 1px black;
 	padding: 5px 0 0 34px;
 	height: 19px;
 	background: url(images/buttons.png) -1000px 0 no-repeat;
@@ -543,7 +569,7 @@ a.iconbutton.reset {
 	font-weight: bold;
 	padding: 10px 8px 8px 8px;
 	margin: 0;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 0px 1px 1px #fff;
 	border-bottom: 1px solid #bbd3da;
 	white-space: nowrap;
 }
@@ -560,7 +586,6 @@ a.iconbutton.reset {
 .listing tbody td,
 .listing li {
 	display: block;
-	font-size: 11px;
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #bbd3da;
 	cursor: default;
@@ -573,7 +598,7 @@ a.iconbutton.reset {
 .listing li a {
 	display: block;
 	color: #376572;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	cursor: default;
 	padding: 7px 8px 5px 8px;
@@ -608,9 +633,15 @@ table.listing tr.droptarget td {
 	background-color: #c7e3ef;
 }
 
-table.listing {
+table.listing,
+table.layout {
+	border: 0;
 	width: 100%;
 	border-spacing: 0;
+}
+
+table.layout td {
+	vertical-align: top;
 }
 
 .listbox .boxfooter {
@@ -734,12 +765,19 @@ body.iframe .boxtitle {
 	font-size: 12px;
 }
 
+fieldset.floating {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
 table.propform {
 	width: 100%;
 	border-spacing: 0;
 	border-collapse: collapse;
 }
 
+ul.proplist li,
 table.propform td {
 	width: 80%;
 	padding: 4px 10px;
@@ -757,6 +795,16 @@ table.propform td.title {
 table.propform .mceLayout td {
 	padding: 0;
 	border-bottom: 0;
+}
+
+ul.proplist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.proplist li {
+	width: auto;
 }
 
 
@@ -799,7 +847,7 @@ table.propform .mceLayout td {
 
 #login-form input.button {
 	color: #444;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 0px 1px 1px #fff;
 	border-color: #f9f9f9;
 	background: #f9f9f9;
 	background: -moz-linear-gradient(top, rgba(249,249,249,1) 0%, rgba(226,226,226,1) 100%);
@@ -820,7 +868,7 @@ table.propform .mceLayout td {
 
 #login-form td.title {
 	color: #cecece;
-	text-shadow: 1px 1px 1px black;
+	text-shadow: 0px 1px 1px black;
 	text-align: right;
 	padding-right: 1em;
 }
@@ -893,7 +941,7 @@ table.propform .mceLayout td {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	padding: 28px 2px 2px 2px;
-	text-shadow: 1px 1px 1px #eee;
+	text-shadow: 0px 1px 1px #eee;
 	box-shadow: none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
@@ -971,9 +1019,19 @@ table.propform .mceLayout td {
 	background-position: center -850px;
 }
 
+.toolbar a.button.attach {
+	background-position: center -890px;
+}
+
+.toolbar a.button.spellcheck {
+	background-position: center -930px;
+}
+
+
 /*** popup menus ***/
 
-.popupmenu {
+.popupmenu,
+#rcmKSearchpane {
 	display: none;
 	position: absolute;
 	top: 32px;
@@ -989,15 +1047,17 @@ table.propform .mceLayout td {
 	-o-box-shadow: 0 2px 6px 0 #333;
 }
 
-ul.toolbarmenu {
+ul.toolbarmenu,
+#rcmKSearchpane ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-ul.toolbarmenu li {
+.googie_list td,
+ul.toolbarmenu li,
+#rcmKSearchpane ul li {
 	color: #fff;
-	font-size: 11px;
 	white-space: nowrap;
 	min-width: 130px;
 	margin: 0;
@@ -1005,28 +1065,35 @@ ul.toolbarmenu li {
 	border-bottom: 1px solid #333;
 }
 
+.googie_list tr:first-child td,
 ul.toolbarmenu li:first-child {
 	border-top: 0;
 }
 
+.googie_list tr:last-child td,
 ul.toolbarmenu li:last-child {
 	border-bottom: 0;
 }
 
+.googie_list td span,
 ul.toolbarmenu li a {
 	display: block;
 	color: #666;
-	text-shadow: 1px 1px 1px #333;
+	text-shadow: 0px 1px 1px #333;
 	text-decoration: none;
 	min-height: 14px;
 	padding: 6px 10px 6px 10px;
 }
 
+.googie_list td span,
 ul.toolbarmenu li a.active {
 	color: #fff;
+	cursor: default;
 }
 
-ul.toolbarmenu li a.active:hover {
+.googie_list td.googie_list_onhover,
+ul.toolbarmenu li a.active:hover,
+#rcmKSearchpane ul li.selected {
 	background-color: #00aad6;
 	background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00aad6), color-stop(100%,#008fc9));
@@ -1043,7 +1110,35 @@ ul.toolbarmenu li label {
 	display: block;
 	color: #fff;
 	padding: 4px 8px;
-	text-shadow: 1px 1px 1px #333;
+	text-shadow: 0px 1px 1px #333;
+}
+
+#rcmKSearchpane {
+	border-radius: 0 0 4px 4px;
+	border-top: 0;
+}
+
+#rcmKSearchpane ul li {
+	text-shadow: 0px 1px 1px #333;
+	text-decoration: none;
+	min-height: 14px;
+	padding: 6px 10px 6px 10px;
+	border: 0;
+}
+
+.popupdialog {
+	display: none;
+	padding: 10px;
+}
+
+.popupdialog .formbuttons {
+	margin: 20px 0 4px 0;
+}
+
+.hint {
+	margin: 4px 0;
+	color: #999;
+	text-shadow: 0px 1px 1px #fff;
 }
 
 .splitter {
@@ -1084,10 +1179,9 @@ ul.toolbarmenu li label {
 	-o-box-shadow: 0 2px 6px 0 #333;
 	z-index: 250;
 	color: #ccc;
-	font-size: 11px;
 	white-space: nowrap;
 	opacity: 0.92;
-	text-shadow: 1px 1px 1px #333;
+	text-shadow: 0px 1px 1px #333;
 }
 
 #rcmdraglayer:after {

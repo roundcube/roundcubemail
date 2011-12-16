@@ -127,9 +127,53 @@
 	</ul>
 </div>
 
-
-<div id="listoptions" class="popupdialog">
-	
+<div id="listoptions" class="propform popupdialog">
+<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
+	<fieldset class="floating">
+		<legend><roundcube:label name="listcolumns" /></legend>
+		<ul class="proplist">
+			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="threads" checked="checked" disabled="disabled" /> <roundcube:label name="threads" /></label></li>
+			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="subject" checked="checked" disabled="disabled" /> <roundcube:label name="subject" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="from" /> <roundcube:label name="fromto" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="replyto" /> <roundcube:label name="replyto" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="cc" /> <roundcube:label name="cc" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="date" /> <roundcube:label name="date" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="size" /> <roundcube:label name="size" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="status" /> <roundcube:label name="readstatus" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="attachment" /> <roundcube:label name="attachment" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="flag" /> <roundcube:label name="flag" /></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="priority" /> <roundcube:label name="priority" /></label></li>
+		</ul>
+	</fieldset>
+	<roundcube:endif />
+	<roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
+	<fieldset class="floating">
+		<legend><roundcube:label name="listsorting" /></legend>
+		<ul class="proplist">
+			<li><label><input type="radio" name="sort_col" value="" /> <roundcube:label name="nonesort" /></label></li>
+			<li><label><input type="radio" name="sort_col" value="arrival" /> <roundcube:label name="arrival" /></label></li>
+			<li><label><input type="radio" name="sort_col" value="date" /> <roundcube:label name="sentdate" /></label></li>
+			<li><label><input type="radio" name="sort_col" value="subject" /> <roundcube:label name="subject" /></label></li>
+			<li><label><input type="radio" name="sort_col" value="from" /> <roundcube:label name="fromto" /></label></li>
+			<li><label><input type="radio" name="sort_col" value="cc" /> <roundcube:label name="cc" /></label></li>
+			<li><label><input type="radio" name="sort_col" value="size" /> <roundcube:label name="size" /></label></li>
+		</ul>
+	</fieldset>
+	<roundcube:endif />
+	<roundcube:if condition="!in_array('message_sort_order', (array)config:dont_override)" />
+	<fieldset class="floating">
+		<legend><roundcube:label name="listorder" /></legend>
+		<ul class="proplist">
+			<li><label><input type="radio" name="sort_ord" value="ASC" /> <roundcube:label name="asc" /></label></li>
+			<li><label><input type="radio" name="sort_ord" value="DESC" /> <roundcube:label name="desc" /></label></li>
+		</ul>
+	</fieldset>
+	<roundcube:endif />
+	<br style="clear:both" />
+	<div class="formbuttons">
+		<roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
+		<roundcube:button command="menu-open" id="listmenucancel" type="input" class="button" label="cancel" />
+	</div>
 </div>
 
 <roundcube:include file="/includes/footer.html" />

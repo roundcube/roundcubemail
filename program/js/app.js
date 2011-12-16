@@ -3360,7 +3360,7 @@ function rcube_webmail()
         content = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />'+content;
       if (this.env.cancelicon)
         content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload" class="cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
-      this.add2attachment_list(ts, { name:'', html:content, complete:false });
+      this.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false });
 
       // upload progress support
       if (this.env.upload_progress_time) {

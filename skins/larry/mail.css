@@ -302,7 +302,6 @@ a.iconbutton.threadmode.selected {
 }
 
 .boxlistcontent thead tr td {
-	font-size: 11px;
 	font-weight: bold;
 	background: #d6eaf3;
 	background: -moz-linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
@@ -313,7 +312,8 @@ a.iconbutton.threadmode.selected {
 	border-left: 1px solid #bbd3da;
 }
 
-.boxlistcontent thead tr td a {
+.boxlistcontent thead tr td a,
+.boxlistcontent thead tr td span {
 	display: block;
 	padding: 8px 7px;
 	color: #69939e;
@@ -321,7 +321,6 @@ a.iconbutton.threadmode.selected {
 }
 
 .boxlistcontent tbody tr td {
-	font-size: 11px;
 	padding: 4px 7px;
 	border-bottom: 1px solid #ddd;
 	border-left: 1px dotted #bbd3da;
@@ -494,6 +493,7 @@ html.chrome #messagelist tr td.threads {
 	vertical-align: middle;
 	height: 18px;
 	width: 20px;
+	padding: 0;
 	background: url(images/listicons.png) -100px 0 no-repeat;
 }
 
@@ -627,6 +627,9 @@ html.chrome #messagelist tr td.threads {
 /*	background: url(images/tree.gif) 0px 0px no-repeat; */
 }
 
+#listoptions ul.proplist {
+	min-width: 16em;
+}
 
 /**** message view ****/
 
@@ -655,7 +658,8 @@ html.chrome #messagelist tr td.threads {
 }
 
 #messageheader,
-#partheader {
+#partheader,
+#composeheaders {
 	position: relative;
 	padding: 3px 0;
 	background: #fff;
@@ -687,7 +691,6 @@ h3.subject {
 .headers-table td {
 	color: #666;
 	padding: 2px 8px;
-	font-size: 11px;
 }
 
 .headers-table td.header {
@@ -796,7 +799,6 @@ h3.subject {
 
 #message-objects div a.button,
 #messagebody span.part-notice a.button {
-	font-size: 11px;
 	margin-left: 10px;
 	border: 1px solid #ccc;
 	box-shadow: 0 1px 1px 0 #e8e386;
@@ -872,6 +874,7 @@ div.message-part blockquote blockquote blockquote {
 
 #attachment-list li {
 	display: block;
+	position: relative;
 	background: url(images/filetypes.png) 0 0 no-repeat;
 	margin-bottom: 1px;
 }
@@ -907,14 +910,13 @@ div.message-part blockquote blockquote blockquote {
 	background-position: 0 -182px;
 }
 
-
-#attachment-list li a {
+#attachment-list li a,
+#compose-attachments ul li {
 	display: block;
 	color: #333;
-	font-size: 11px;
 	font-weight: bold;
 	padding: 8px 4px 3px 30px;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	white-space: nowrap;
 }
@@ -931,7 +933,217 @@ div.message-part blockquote blockquote blockquote {
 	bottom: 0px;
 }
 
-
 #messagepartframe {
 	border: 0;
 }
+
+
+/*** message composition ***/
+
+#composeview-left {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 250px;
+	bottom: 0;
+}
+
+#composeview-right {
+	position: absolute;
+	top: 0;
+	left: 262px;
+	right: 0;
+	bottom: 0;
+}
+
+#compose-content {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 100%;
+	bottom: 28px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	overflow: hidden;
+}
+
+#composeheaders {
+	border-radius: 4px 4px 0 0;
+	-webkit-box-shadow: 0 2px 3px 0 #999;
+	-moz-box-shadow: 0 2px 3px 0 #999;
+	box-shadow: 0 2px 3px 0 #999;
+}
+
+#composebuttons {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: auto;
+	white-space: nowrap;
+	z-index: 100;
+}
+
+.compose-headers {
+	width: 99%;
+	margin: 4px 0;
+}
+
+.compose-headers td {
+	padding: 4px 4px 4px 8px;
+}
+
+.compose-headers td.title {
+	width: 11%;
+	white-space: nowrap;
+}
+
+.compose-headers td.title label {
+	float: left;
+}
+
+.compose-headers td.title a.iconbutton {
+	float: right;
+	position: relative;
+	top: -2px;
+	width: 15px;
+}
+
+.compose-headers td.editfield {
+	width: 90%;
+	padding-left: 4px;
+}
+
+.compose-headers td.editfield a.iconlink {
+	margin-left: 0.5em;
+}
+
+.compose-headers td.formlinks {
+	padding: 0 4px;
+}
+
+.compose-headers td.top {
+	vertical-align: top;
+	padding-top: 10px;
+}
+
+.compose-headers td textarea,
+.compose-headers td input {
+	width: 100%;
+	resize: none;
+}
+
+#compose-cc, #compose-bcc, #compose-replyto, #compose-followupto {
+	display: none;
+}
+
+#composeoptionsbox {
+	padding: 4px 8px 0 8px;
+	background: #d2d2d2;
+	border-bottom: 1px solid #e8e8e8;
+	-webkit-box-shadow: 0 2px 3px 0 #999;
+	-moz-box-shadow: 0 2px 3px 0 #999;
+	box-shadow: 0 2px 3px 0 #999;
+	white-space: nowrap;
+}
+
+#composeoptions {
+	display: none;
+	padding: 2px 0;
+	white-space: normal;
+}
+
+.composeoption {
+	padding-right: 22px;
+	white-space: nowrap;
+}
+
+#composeoptions .composeoption {
+	display: inline-block;
+	padding: 4px 28px 4px 0;
+}
+
+#composeoptions .composeoption:last-child {
+	padding-right: 4px;
+}
+
+#composeoptionstoggle {
+	display: inline-block;
+	position: relative;
+	top: -1px;
+	left: 6px;
+	width: 20px;
+	height: 18px;
+	background: url(images/buttons.png) -3px -418px no-repeat;
+	text-decoration: none;
+}
+
+#composeoptionstoggle.enabled {
+	background-position: -28px -418px;
+}
+
+#composeview-bottom {
+	position: relative;
+	width: 100%;
+	height: 200px;
+}
+
+#composebodycontainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 260px;
+	bottom: 0;
+}
+
+#composebody {
+	position: absolute;
+	top: 24px;
+	left: 0;
+	bottom: 0;
+	width: 99%;
+	border: 0;
+	padding: 8px 0 8px 8px;
+	box-shadow: none;
+	resize: none;
+	font-family: monospace;
+	font-size: 9pt;
+}
+
+#compose-attachments {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 240px;
+	background: #f0f0f0;
+	padding: 8px;
+	overflow: auto;
+}
+
+#attachment-list li.uploading {
+	background: url(images/ajaxloader.gif) 2px 6px no-repeat;
+}
+
+#attachment-list li a.delete,
+#attachment-list li a.cancelupload {
+	position: absolute;
+	top: 6px;
+	right: 0;
+	width: 24px;
+	height: 18px;
+	padding: 0;
+	text-decoration: none;
+	text-indent: -1000px;
+	background: url(images/buttons.png) -7px -337px no-repeat;
+}
+
+#attachment-list li a.cancelupload {
+	background-position: -7px -377px;
+}
+
+#spellcheck-control {
+	margin: 6px 8px;
+	text-align: right;
+}
+
+
