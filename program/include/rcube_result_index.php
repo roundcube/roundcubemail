@@ -17,7 +17,7 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 
- $Id: rcube_imap.php 5347 2011-10-19 06:35:29Z alec $
+ $Id$
 
 */
 
