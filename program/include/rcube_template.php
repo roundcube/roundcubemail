@@ -983,14 +983,11 @@ class rcube_template extends rcube_html_page
             if ($attrib['label']) {
                 $attrib['value'] = $attrib['label'];
             }
+            if ($attrib['command']) {
+              $attrib['disabled'] = 'disabled';
+            }
 
-            $attrib_str = html::attrib_string(
-                $attrib,
-                array(
-                    'type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex'
-                )
-            );
-            $out = sprintf('<input%s disabled="disabled" />', $attrib_str);
+            $out = html::tag('input', $attrib, '', array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
         }
 
         // generate html code for button

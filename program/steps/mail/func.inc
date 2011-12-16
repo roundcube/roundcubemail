@@ -379,6 +379,8 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     // make sort links
     if (in_array($col, $a_sort_cols))
       $col_name = html::a(array('href'=>"./#sort", 'onclick' => 'return '.JS_OBJECT_NAME.".command('sort','".$col."',this)", 'title' => rcube_label('sortby')), $col_name);
+    else if ($col_name[0] != '<')
+      $col_name = '<span class="' . $col .'">' . $col_name . '</span>';
 
     $sort_class = $col == $sort_col ? " sorted$sort_order" : '';
     $class_name = $col.$sort_class;

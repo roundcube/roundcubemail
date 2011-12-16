@@ -1233,16 +1233,16 @@ function rcmail_compose_attachment_list($attrib)
     else
       $button = Q(rcube_label('delete'));
 
-    foreach ($COMPOSE['attachments'] as $id => $a_prop)
-    {
+    foreach ($COMPOSE['attachments'] as $id => $a_prop) {
       if (empty($a_prop))
         continue;
 
-      $out .= html::tag('li', array('id' => 'rcmfile'.$id),
+      $out .= html::tag('li', array('id' => 'rcmfile'.$id, 'class' => rcmail_filetype2classname($a_prop['mimetype'], $a_prop['name'])),
         html::a(array(
             'href' => "#delete",
             'title' => rcube_label('delete'),
-            'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id)),
+            'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id),
+            'class' => 'delete'),
           $button) . Q($a_prop['name']));
         
         $jslist['rcmfile'.$id] = array('name' => $a_prop['name'], 'complete' => true, 'mimetype' => $a_prop['mimetype']);
@@ -1267,9 +1267,8 @@ function rcmail_compose_attachment_form($attrib)
 {
   global $RCMAIL, $OUTPUT;
 
-  // add ID if not given
-  if (!$attrib['id'])
-    $attrib['id'] = 'rcmUploadbox';
+  // set defaults
+  $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
 
   // Get filesize, enable upload progress bar
   $max_filesize = rcube_upload_init();
@@ -1280,14 +1279,14 @@ function rcmail_compose_attachment_form($attrib)
     $OUTPUT->form_tag(array('name' => 'uploadform', 'method' => 'post', 'enctype' => 'multipart/form-data'),
       html::div(null, rcmail_compose_attachment_field(array('size' => $attrib['attachmentfieldsize']))) .
       html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
-      html::div('buttons',
+      (get_boolean($attrib['buttons']) ? html::div('buttons',
         $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
         $button->show(rcube_label('upload'), array('class' => 'button mainaction', 'onclick' => JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
-      )
+      ) : '')
     )
   );
 
-  $OUTPUT->add_gui_object('uploadbox', $attrib['id']);
+  $OUTPUT->add_gui_object('uploadform', $attrib['id']);
   return $out;
 }
 

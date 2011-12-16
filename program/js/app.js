@@ -931,8 +931,8 @@ function rcube_webmail()
       case 'send-attachment':
         // Reset the auto-save timer
         self.clearTimeout(this.save_timer);
-
-        this.upload_file(props)
+        
+        this.upload_file(props || this.gui_objects.uploadform);
         break;
 
       case 'insert-sig':
@@ -3357,9 +3357,9 @@ function rcube_webmail()
         ts = frame_name.replace(/^rcmupload/, '');
 
       if (this.env.loadingicon)
-        content = '<img src="'+this.env.loadingicon+'" alt="" />'+content;
+        content = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />'+content;
       if (this.env.cancelicon)
-        content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
+        content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload" class="cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
       this.add2attachment_list(ts, { name:'', html:content, complete:false });
 
       // upload progress support
@@ -3380,7 +3380,7 @@ function rcube_webmail()
     if (!this.gui_objects.attachmentlist)
       return false;
 
-    var indicator, li = $('<li>').attr('id', name).html(att.html);
+    var indicator, li = $('<li>').attr('id', name).addClass(att.classname).html(att.html);
 
     // replace indicator's li
     if (upload_id && (indicator = document.getElementById(upload_id))) {

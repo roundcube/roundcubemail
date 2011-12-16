@@ -1608,6 +1608,26 @@ function rcmail_display_server_error($fallback=null, $fallback_args=null)
 
 
 /**
+ * Generate CSS classes from mimetype and filename extension
+ *
+ * @param string Mimetype
+ * @param string The filename
+ * @return string CSS classes separated by space
+ */
+function rcmail_filetype2classname($mimetype, $filename)
+{
+  list($primary, $secondary) = explode('/', $mimetype);
+
+  $classes = array($primary ? $primary : 'unknown');
+  if ($secondary)
+    $classes[] = $secondary;
+  if (preg_match('/\.([a-z0-9]+)$/', $filename, $m))
+    $classes[] = $m[1];
+
+  return join(" ", $classes);
+}
+
+/**
  * Output HTML editor scripts
  *
  * @param string Editor mode
