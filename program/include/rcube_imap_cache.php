@@ -122,7 +122,7 @@ class rcube_imap_cache
     {
         if (empty($this->icache[$mailbox]))
             $this->icache[$mailbox] = array();
-console('cache::get_index');
+
         $sort_order = strtoupper($sort_order) == 'ASC' ? 'ASC' : 'DESC';
 
         // Seek in internal cache
@@ -173,7 +173,7 @@ console('cache::get_index');
             else {
                 $is_valid = $this->validate($mailbox, $index, $exists);
             }
-console("valid:".$is_valid);
+
             if ($is_valid) {
                 $data = $index['object'];
                 // revert the order if needed
@@ -264,7 +264,7 @@ console("valid:".$is_valid);
                 $threads = $this->imap->fetch_threads($mailbox, true);
             }
             else {
-                $threads = new rcube_imap_result($mailbox, '');
+                $threads = new rcube_result_thread($mailbox, '* THREAD');
             }
 
             $index['object'] = $threads;
@@ -590,7 +590,6 @@ console("valid:".$is_valid);
      */
     private function get_index_row($mailbox)
     {
-console('cache::get_index_row');
         // Get index from DB
         $sql_result = $this->db->query(
             "SELECT data, valid"
@@ -642,7 +641,7 @@ console('cache::get_index_row');
             unset($data[0]);
 
             if (empty($thread)) {
-                $thread = new rcube_imap_result($mailbox);
+                $thread = new rcube_result_thread($mailbox);
             }
 
             return array(
