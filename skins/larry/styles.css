@@ -244,14 +244,22 @@ input.button:active {
 }
 
 .pagenav a.pageup span.inner {
-	background-position: -7px -256px;
+	background-position: -7px -241px;
 }
 
 .pagenav a.pagedown span.inner {
+	background-position: -29px -241px;
+}
+
+.pagenav a.reply span.inner {
+	background-position: -7px -256px;
+}
+
+.pagenav a.forward span.inner {
 	background-position: -29px -256px;
 }
 
-.pagenav a.viewsource span.inner {
+.pagenav a.replyall span.inner {
 	background-position: -7px -271px;
 }
 
@@ -855,6 +863,17 @@ ul.proplist li {
 	background: -o-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
 	background: -ms-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
 	background: linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
+	box-shadow: inset 0 1px 0 0 #fff;
+	-moz-box-shadow: inset 0 1px 0 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 0 #fff;
+	-o-box-shadow: inset 0 1px 0 0 #fff;
+}
+
+#login-form input.button:hover {
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
 }
 
 #login-form input.button:active {
@@ -1102,15 +1121,66 @@ ul.toolbarmenu li a.active:hover,
 	background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
 }
 
-ul.toolbarmenu.iconized li a {
-	padding-left: 28px;
-}
-
 ul.toolbarmenu li label {
 	display: block;
 	color: #fff;
 	padding: 4px 8px;
 	text-shadow: 0px 1px 1px #333;
+}
+
+ul.toolbarmenu li a.icon {
+	color: #eee;
+	padding: 2px 6px;
+}
+
+ul.toolbarmenu li span.icon {
+	display: block;
+	min-height: 14px;
+	padding: 4px 4px 4px 24px;
+	background-image: url(images/listicons.png);
+	background-position: -100px 0;
+	background-repeat: no-repeat;
+	opacity: 0.2;
+}
+
+ul.toolbarmenu li a.active span.icon {
+	opacity: 0.99;
+}
+
+ul.toolbarmenu li span.read {
+	background-position: 0 -1220px;
+}
+
+ul.toolbarmenu li span.unread {
+	background-position: 0 -1196px;
+}
+
+ul.toolbarmenu li span.flagged {
+	background-position: 0 -1244px;
+}
+
+ul.toolbarmenu li span.unflagged {
+	background-position: 0 -1268px;
+}
+
+ul.toolbarmenu li span.print {
+	background-position: 0 -1436px;
+}
+
+ul.toolbarmenu li span.download {
+	background-position: 0 -1412px;
+}
+
+ul.toolbarmenu li span.edit {
+	background-position: 0 -1388px;
+}
+
+ul.toolbarmenu li span.viewsource {
+	background-position: 0 -1460px;
+}
+
+ul.toolbarmenu li span.extwin {
+	background-position: 0 -1484px;
 }
 
 #rcmKSearchpane {

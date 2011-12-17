@@ -956,6 +956,14 @@ div.message-part blockquote blockquote blockquote {
 	bottom: 0;
 }
 
+#compose-contacts {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 100%;
+	bottom: 0;
+}
+
 #compose-content {
 	position: absolute;
 	top: 42px;

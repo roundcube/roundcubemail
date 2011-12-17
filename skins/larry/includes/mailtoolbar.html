@@ -42,23 +42,23 @@
 </div>
 
 <div id="messagemenu" class="popupmenu">
-  <ul class="toolbarmenu iconized">
-	<li><roundcube:button command="print" label="printmessage" class="printlink" classAct="printlink active" /></li>
-	<li><roundcube:button command="download" label="emlsave" class="downloadlink" classAct="downloadlink active" /></li>
-	<li><roundcube:button command="edit" label="editasnew" class="editlink" classAct="editlink active" /></li>
-	<li><roundcube:button command="viewsource" label="viewsource" class="sourcelink" classAct="sourcelink active" /></li>
-	<li><roundcube:button command="open" label="openinextwin" target="_blank" class="openlink" classAct="openlink active" /></li>
+  <ul class="toolbarmenu">
+	<li><roundcube:button command="print" label="printmessage" class="icon" classAct="icon active" innerclass="icon print" /></li>
+	<li><roundcube:button command="download" label="emlsave" class="icon" classAct="icon active" innerclass="icon download" /></li>
+	<li><roundcube:button command="edit" label="editasnew" class="icon" classAct="icon active" innerclass="icon edit" /></li>
+	<li><roundcube:button command="viewsource" label="viewsource" class="icon" classAct="icon active" innerclass="icon viewsource" /></li>
+	<li><roundcube:button command="open" label="openinextwin" target="_blank" class="icon" classAct="icon active" innerclass="icon extwin" /></li>
 	<roundcube:container name="messagemenu" id="messagemenu" />
   </ul>
 </div>
 
 <roundcube:if condition="template:name == 'mail'" />
 <div id="markmessagemenu" class="popupmenu">
-  <ul class="toolbarmenu iconized">
-	<li><roundcube:button command="mark" prop="read" label="markread" classAct="readlink active" class="readlink" /></li>
-	<li><roundcube:button command="mark" prop="unread" label="markunread" classAct="unreadlink active" class="unreadlink" /></li>
-	<li><roundcube:button command="mark" prop="flagged" label="markflagged" classAct="flaggedlink active" class="flaggedlink" /></li>
-	<li><roundcube:button command="mark" prop="unflagged" label="markunflagged" classAct="unflaggedlink active" class="unflaggedlink" /></li>
+  <ul class="toolbarmenu">
+	<li><roundcube:button command="mark" prop="read" label="markread" classAct="icon active" class="icon" innerclass="icon read" /></li>
+	<li><roundcube:button command="mark" prop="unread" label="markunread" classAct="icon active" class="icon" innerclass="icon unread" /></li>
+	<li><roundcube:button command="mark" prop="flagged" label="markflagged" classAct="icon active" class="icon" innerclass="icon flagged" /></li>
+	<li><roundcube:button command="mark" prop="unflagged" label="markunflagged" classAct="icon active" class="icon" innerclass="icon unflagged" /></li>
 	<roundcube:container name="markmenu" id="markmessagemenu" />
   </ul>
 </div>
