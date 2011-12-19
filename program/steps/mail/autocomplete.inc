@@ -28,8 +28,10 @@ if ($RCMAIL->action == 'group-expand') {
     $abook->set_pagesize(1000);  // TODO: limit number of group members by config
     $result = $abook->list_records(array('email','name'));
     while ($result && ($sql_arr = $result->iterate())) {
-      foreach ((array)$sql_arr['email'] as $email)
+      foreach ((array)$sql_arr['email'] as $email) {
         $members[] = format_email_recipient($email, $sql_arr['name']);
+        break;  // only expand one email per contact
+      }
     }
 
     $separator = trim($RCMAIL->config->get('recipients_separator', ',')) . ' ';
