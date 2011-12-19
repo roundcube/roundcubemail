@@ -13,16 +13,13 @@
 
 <!-- record navigation -->
 <div id="countcontrols" class="pagenav">
+<roundcube:if condition="env:mailbox != config:drafts_mbox">
 	<roundcube:button command="reply" type="link" class="button reply" classSel="button reply pressed" innerClass="inner" title="replytomessage" content="&lt;-" />
 	<roundcube:button command="replyall" type="link" class="button replyall" classSel="button replyall pressed" innerClass="inner" title="replytoallmessage" content="&lt;&lt;-" />
 	<roundcube:button command="forward" type="link" class="button forward" classSel="button forward pressed" innerClass="inner" title="forwardmessage" content="-&gt;" />
 	&nbsp;
+<roundcube:endif />
 	<roundcube:button command="permaurl" type="link" class="button extwin" classSel="button extwin pressed" innerClass="inner" title="openinextwin" content="[]" target="_blank" />
-<!--
-	&nbsp;
-	<roundcube:button command="previousmessage" type="link" class="button pageup disabled" classAct="button pageup" classSel="button pageup pressed" innerClass="inner" title="previousmessage" content="&amp;lt;" />
-	<roundcube:button command="nextmessage" type="link" class="button pagedown disabled" classAct="button pagedown" classSel="button pagedown pressed" innerClass="inner" title="nextmessage" content="&amp;gt;" />
--->
 </div>
 
 </div>

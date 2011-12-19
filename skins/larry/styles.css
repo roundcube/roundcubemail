@@ -66,7 +66,7 @@ textarea.placeholder {
 input.button {
 	display: inline-block;
 	margin: 0 2px;
-	padding: 3px 5px;
+	padding: 2px 5px;
 	color: #525252;
 	text-shadow: 0px 1px 1px #fff;
 	border: 1px solid #c0c0c0;
@@ -105,6 +105,7 @@ input.button {
 
 .formbuttons input.button:hover {
 	color: #f2f2f2;
+	border-color: #465864;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
@@ -174,9 +175,31 @@ a.button {
 	text-decoration: none;
 }
 
+a.button:hover,
+input.button:hover {
+	border-color: #4fadd5;
+	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
+	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
+	-webkit-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
+	-o-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
+}
+
 label.disabled,
 a.button.disabled {
 	color: #999;
+}
+
+a.button.disabled,
+input.button.disabled,
+input.button[disabled],
+a.button.disabled:hover,
+input.button.disabled:hover,
+input.button[disabled]:hover {
+	border-color: #c6c6c6;
+	box-shadow: 0 1px 1px 0 #ddd;
+	-o-box-shadow: 0 1px 1px 0 #ddd;
+	-webkit-box-shadow: 0 1px 1px 0 #ddd;
+	-moz-box-shadow: 0 1px 1px 0 #ddd;
 }
 
 a.button.disabled span.inner {

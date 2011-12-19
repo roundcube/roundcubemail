@@ -189,8 +189,8 @@ function rcube_mail_ui()
     body.width(w).height(h);
 
     if (window.tinyMCE && tinyMCE.get('composebody')) {
-      $('#composebody_tbl').width((w+6)+'px').height('');
-      $('#composebody_ifr').width((w+6)+'px').height((h-54)+'px');
+      $('#composebody_tbl').width((w+11)+'px').height('').css('margin-top', '1px');
+      $('#composebody_ifr').width((w+11)+'px').height((h-24)+'px');
     }
     else {
       $('#googie_edit_layer').height(h+'px');
