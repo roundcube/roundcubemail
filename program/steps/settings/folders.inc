@@ -293,10 +293,12 @@ function rcube_subscription_form($attrib)
         if (!$disabled && $folder['virtual'] && $folder['level'] == 0 && !empty($namespace)) {
             $fname = $folder['id'] . $delimiter;
             foreach ($namespace as $ns) {
-                foreach ($ns as $item) {
-                    if ($item[0] === $fname) {
-                        $disabled = true;
-                        break 2;
+                if (is_array($ns)) {
+                    foreach ($ns as $item) {
+                        if ($item[0] === $fname) {
+                            $disabled = true;
+                            break 2;
+                        }
                     }
                 }
             }
