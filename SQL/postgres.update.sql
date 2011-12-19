@@ -127,7 +127,7 @@ CREATE TABLE searches (
     CONSTRAINT searches_user_id_key UNIQUE (user_id, "type", name)
 );
 
-DROP SEQUENCE messages_ids;
+DROP SEQUENCE message_ids;
 DROP TABLE messages;
 
 CREATE TABLE cache_index (

@@ -1360,7 +1360,7 @@ function rcube_webmail()
               if (this.folder_auto_timer)
                 window.clearTimeout(this.folder_auto_timer);
 
-              this.folder_auto_expand = k;
+              this.folder_auto_expand = this.env.mailboxes[k].id;
               this.folder_auto_timer = window.setTimeout(function() {
                 rcmail.command('collapse-folder', rcmail.folder_auto_expand);
                 rcmail.drag_start(null);
