@@ -35,6 +35,7 @@ img {
 input[type="text"],
 input[type="password"],
 textarea {
+	margin: 0; /* Safari by default adds a margin */
 	padding: 4px;
 	border: 1px solid #b2b2b2;
 	border-radius: 4px;
@@ -82,6 +83,7 @@ input.button {
 	-webkit-box-shadow: 0 1px 1px 0 #ccc;
 	-moz-box-shadow: 0 1px 1px 0 #ccc;
 	text-decoration: none;
+	outline: none;
 }
 
 .formbuttons input.button {
@@ -103,7 +105,8 @@ input.button {
 	-moz-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
 }
 
-.formbuttons input.button:hover {
+.formbuttons input.button:hover,
+.formbuttons input.button:focus {
 	color: #f2f2f2;
 	border-color: #465864;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
@@ -176,7 +179,8 @@ a.button {
 }
 
 a.button:hover,
-input.button:hover {
+input.button:hover,
+input.button:focus {
 	border-color: #4fadd5;
 	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
@@ -342,6 +346,11 @@ a.iconlink.add {
 a.iconlink.edit {
 	background-position: -7px -397px;
 }
+
+a.iconlink.delete {
+	background-position: -7px -337px;
+}
+
 
 /*** message bar ***/
 
@@ -698,6 +707,10 @@ table.layout td {
 	margin-top: 1px;
 }
 
+.boxfooter .listbutton.disabled {
+	opacity: 0.4;
+}
+
 .boxfooter .listbutton .inner {
 	display: inline-block;
 	width: 48px;
@@ -707,7 +720,11 @@ table.layout td {
 }
 
 .boxfooter .listbutton.add .inner {
-	background-position: 10px -1210px;
+	background-position: 10px -1211px;
+}
+
+.boxfooter .listbutton.delete .inner {
+	background-position: 10px -1252px;
 }
 
 .boxfooter .listbutton.groupactions .inner {
@@ -758,6 +775,7 @@ body.iframe .boxtitle {
 	top: 0;
 	left: 0;
 	width: 100%;
+	z-index: 100;
 }
 
 .boxcontent {
@@ -892,11 +910,12 @@ ul.proplist li {
 	-o-box-shadow: inset 0 1px 0 0 #fff;
 }
 
-#login-form input.button:hover {
-	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
-	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #fff;
+#login-form input.button:hover,
+#login-form input.button:focus {
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
 }
 
 #login-form input.button:active {
@@ -982,7 +1001,7 @@ ul.proplist li {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	padding: 28px 2px 2px 2px;
+	padding: 28px 2px 0 2px;
 	text-shadow: 0px 1px 1px #eee;
 	box-shadow: none;
 	-moz-box-shadow: none;
@@ -1067,6 +1086,18 @@ ul.proplist li {
 
 .toolbar a.button.spellcheck {
 	background-position: center -930px;
+}
+
+.toolbar a.button.search {
+	background-position: center -970px;
+}
+
+.toolbar a.button.import {
+	background-position: center -1010px;
+}
+
+.toolbar a.button.export {
+	background-position: center -1050px;
 }
 
 
@@ -1228,6 +1259,11 @@ ul.toolbarmenu li span.extwin {
 	margin: 20px 0 4px 0;
 }
 
+.ui-dialog .prompt input {
+	display: block;
+	margin: 8px 0;
+}
+
 .hint {
 	margin: 4px 0;
 	color: #999;
@@ -1299,4 +1335,58 @@ ul.toolbarmenu li span.extwin {
 	height: 15px;
 	background: url(images/buttons.png) -8px -360px no-repeat;
 }
+
+
+/*** fieldset tabs ***/
+
+.tabsbar {
+	margin-bottom: 10px;
+	padding-top: 15px;
+	height: 27px;
+}
+
+.tabsbar .tablink {
+	padding: 15px 1px 15px 0;
+	background: #f8f8f8;
+	background: -moz-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(50%,#d3d3d3), color-stop(100%,#f8f8f8));
+	background: -webkit-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
+	background: -o-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
+	background: -ms-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
+	background: linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
+}
+
+.tabsbar .tablink:last-child {
+	background: none;
+}
+
+.tabsbar .tablink:last-child a {
+	border-right: 0;
+}
+
+.tabsbar .tablink a {
+	padding: 15px;
+	color: #999;
+	font-size: 12px;
+	font-weight: bold;
+	text-decoration: none;
+	background: #fff;
+	border-right: 1px solid #fafafa;
+}
+
+.tabsbar .tablink.selected a {
+	color: #004458;
+	background: #fff;
+	background: -moz-linear-gradient(top, #fff 40%, #efefef 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,#fff), color-stop(100%,#efefef));
+	background: -o-linear-gradient(top, #fff 40%, #efefef 100%);
+	background: -ms-linear-gradient(top, #fff 40%, #efefef 100%);
+	background: linear-gradient(top, #fff 40%, #efefef 100%);
+}
+
+fieldset.tab {
+	border: 0;
+	padding: 0;
+}
+
 

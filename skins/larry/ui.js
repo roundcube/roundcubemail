@@ -34,6 +34,7 @@ function rcube_mail_ui()
 
   // export public methods
   this.init = init;
+  this.init_tabs = init_tabs;
   this.show_popup = show_popup;
   this.set_searchmod = set_searchmod;
   this.show_uploadform = show_uploadform;
@@ -68,12 +69,12 @@ function rcube_mail_ui()
       else if (rcmail.env.action == 'compose') {
         layout_composeview();
 
-        $('#composeoptionstoggle').click(function(){
-          $(this).toggleClass('enabled');
+        $('#composeoptionstoggle').parent().click(function(){
+          $('#composeoptionstoggle').toggleClass('enabled');
           $('#composeoptions').toggle();
           layout_composeview();
           return false;
-        });
+        }).css('cursor', 'pointer');
 
         new rcube_splitter({ id:'composesplitterv', p1:'#composeview-left', p2:'#composeview-right',
           orientation:'v', relative:true, start:248, min:150, size:12 }).init();
@@ -107,6 +108,12 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:305, min:150, size:12 }).init();
       }
     }
+    else if (rcmail.env.task == 'addressbook') {
+
+    }
+
+    // turn a group of fieldsets into tabs
+    $('.tabbed').each(function(idx, elem){ init_tabs(elem); })
 
     $(document.body).bind('mouseup', function(e){
       var config, obj, target = e.target;
@@ -189,8 +196,8 @@ function rcube_mail_ui()
     body.width(w).height(h);
 
     if (window.tinyMCE && tinyMCE.get('composebody')) {
-      $('#composebody_tbl').width((w+11)+'px').height('').css('margin-top', '1px');
-      $('#composebody_ifr').width((w+11)+'px').height((h-24)+'px');
+      $('#composebody_tbl').width((w+12)+'px').height('').css('margin-top', '1px');
+      $('#composebody_ifr').width((w+12)+'px').height((h-22)+'px');
     }
     else {
       $('#googie_edit_layer').height(h+'px');
@@ -539,6 +546,65 @@ function rcube_mail_ui()
     $('#compose-' + which).hide();
     $('#' + which + '-link').show();
     this.resize_compose_body();
+  }
+
+
+  /**
+   * Fieldsets-to-tabs converter
+   */
+  function init_tabs(elem, current)
+  {
+    var id = elem.id,
+      content = $(elem),
+      fs = content.children('fieldset');
+
+    if (!fs.length)
+      return;
+
+    if (!id) {
+      id = 'rcmtabcontainer';
+      elem.attr('id', id);
+    }
+
+    // first hide not selected tabs
+    current = current || 0;
+    fs.each(function(idx) { if (idx != current) $(this).hide(); });
+
+    // create tabs container
+    var tabs = $('<div>').addClass('tabsbar').prependTo(content);
+
+    // convert fildsets into tabs
+    fs.each(function(idx) {
+      var tab, a, elm = $(this), legend = elm.children('legend');
+
+      // create a tab
+      a   = $('<a>').text(legend.text()).attr('href', '#');
+      tab = $('<span>').attr({'id': 'tab'+idx, 'class': 'tablink'})
+        .click(function() { show_tab(id, idx); return false })
+
+      // remove legend
+      legend.remove();
+      // style fieldset
+      elm.addClass('tab');
+      // style selected tab
+      if (idx == current)
+        tab.addClass('selected');
+
+      // add the tab to container
+      tab.append(a).appendTo(tabs);
+    });
+  }
+
+  function show_tab(id, index)
+  {
+    var fs = $('#'+id).children('fieldset');
+
+    fs.each(function(idx) {
+      // Show/hide fieldset (tab content)
+      $(this)[index==idx ? 'show' : 'hide']();
+      // Select/unselect tab
+      $('#tab'+idx).toggleClass('selected', idx==index);
+    });
   }
 }
 

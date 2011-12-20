@@ -1,0 +1,92 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen">
+
+<div id="addressview-left">
+
+<!-- search box -->
+<div id="quicksearchbar">
+<roundcube:object name="searchform" id="quicksearchbox" />
+<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
+<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
+</div>
+
+<!-- sources/groups list -->
+<div id="directorylistbox" class="uibox listbox">
+<h2 class="boxtitle"><roundcube:label name="groups" /></h2>
+<div class="scroller withfooter">
+	<roundcube:object name="directorylist" id="directorylist" class="listing" />
+</div>
+<div class="boxfooter">
+	<roundcube:button command="group-create" type="link" title="newcontactgroup" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="groupoptions" id="groupoptionslink" type="link" title="moreactions" class="listbutton groupactions" onclick="UI.show_popup('groupoptions');return false" innerClass="inner" content="&#9881;" />
+</div>
+</div>
+
+</div><!-- end addressview-left -->
+
+<div id="addressview-right">
+
+<!-- toolbar -->
+<div id="addressbooktoolbar" class="toolbar">
+	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advsearch" />
+	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="writenewmessage" />
+	<roundcube:button command="import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="importcontacts" />
+	<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="exportvcards" />
+	<roundcube:container name="toolbar" id="addressbooktoolbar" />
+</div>
+
+<!-- contacts list -->
+<div id="addresslist" class="uibox listbox">
+<h2 class="boxtitle"><roundcube:label name="contacts" /></h2>
+<div class="scroller withfooter">
+<roundcube:object name="addresslist" id="contacts-table" class="listing" noheader="true" />
+</div>
+<div class="boxfooter">
+	<roundcube:button command="add" type="link" title="newcontact" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button command="delete" type="link" title="deletecontact" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" content="x" />
+</div>
+</div>
+
+
+<div id="contacts-box" class="uibox">
+	<roundcube:object name="addressframe" id="contact-frame" style="width:100%; height:96%" src="/watermark.html" />
+	<roundcube:object name="message" id="message" class="statusbar" />
+</div>
+
+
+</div><!-- end addressview-right -->
+
+</div><!-- end mainscreen -->
+
+
+<div id="searchmenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><label><input type="checkbox" name="s_mods[]" value="name" onclick="UI.set_searchmod(this)" /> <roundcube:label name="name" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="firstname" onclick="UI.set_searchmod(this)" /> <roundcube:label name="firstname" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="surname" onclick="UI.set_searchmod(this)" /> <roundcube:label name="surname" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="email" onclick="UI.set_searchmod(this)" /> <roundcube:label name="email" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="*" onclick="UI.set_searchmod(this)" /> <roundcube:label name="allfields" /></label></li>
+	</ul>
+</div>
+
+<div id="groupoptions" class="popupmenu">
+	<ul id="groupoptionsmenu" class="toolbarmenu">
+		<li><roundcube:button command="group-rename" label="grouprename" classAct="active" /></li>
+		<li><roundcube:button command="group-delete" label="groupdelete" classAct="active" /></li>
+		<li><roundcube:button command="search-create" label="searchsave" classAct="active" /></li>
+		<li><roundcube:button command="search-delete" label="searchdelete" classAct="active" /></li>
+		<roundcube:container name="groupoptions" id="groupoptionsmenu" />
+	</ul>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

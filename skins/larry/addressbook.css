@@ -11,3 +11,183 @@
  *
  * $Id$
  */
+
+#addressview-left {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 220px;
+	bottom: 0;
+}
+
+#addressview-right {
+	position: absolute;
+	top: 0;
+	left: 232px;
+	right: 0;
+	bottom: 0;
+}
+
+#addressbooktoolbar {
+	position: absolute;
+	top: -6px;
+	left: 0;
+	right: 0;
+	height: 40px;
+	white-space: nowrap;
+}
+
+#directorylistbox {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 100%;
+	bottom: 0;
+}
+
+#addresslist {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 280px;
+	bottom: 0;
+}
+
+#contacts-box {
+	position: absolute;
+	top: 42px;
+	left: 292px;
+	right: 0;
+	bottom: 0;
+}
+
+#addressview-left #quicksearchbar input {
+	width: 156px;
+}
+
+#directorylist li a,
+#contacts-table .contact td.name {
+	background: url(images/listicons.png) -100px 0 no-repeat;
+	overflow: hidden;
+	padding-left: 36px;
+	text-overflow: ellipsis;
+}
+
+#directorylist li.addressbook a {
+	background-position: 6px -766px;
+}
+
+#directorylist li.addressbook.selected a {
+	background-position: 6px -791px;
+}
+
+#directorylist li.contactgroup a {
+	padding-left: 62px;
+	background-position: 32px -1555px;
+}
+
+#directorylist li.contactgroup.selected a {
+	background-position: 32px -1579px;
+}
+
+#contacts-table .contact td.name {
+	background-position: 6px -1603px;
+}
+
+#contacts-table .contact.selected td.name,
+#contacts-table .contact.unfocused td.name {
+	background-position: 6px -1627px;
+	font-weight: bold;
+}
+
+#contact-frame {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 28px;
+	border: 0;
+}
+
+#headerbuttons {
+	position: absolute;
+	top: 48px;
+	right: 10px;
+	width: auto;
+	z-index: 10;
+}
+
+#sourcename {
+	color: #999;
+	font-size: 10px;
+	margin: -5px 0 8px 2px;
+}
+
+#contactphoto {
+	float: left;
+	margin: 0 18px 20px 0;
+	width: 112px;
+}
+
+#contactpic {
+	width: 112px;
+	min-height: 112px;
+	background: white;
+}
+
+#contactpic img {
+	width: 112px;
+}
+
+#contacthead {
+	border: 0;
+	margin: 0 20em 1em 0;
+	padding: 0;
+	line-height: 1.5em;
+	font-size: 12px;
+}
+
+#contacthead .names span.namefield,
+#contacthead .names input {
+	font-size: 140%;
+	font-weight: bold;
+}
+
+#contacthead .displayname span.namefield {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+#contacthead span.nickname:before,
+#contacthead span.nickname:after,
+#contacthead input.ff_nickname:before,
+#contacthead input.ff_nickname:after {
+	content: '"';
+}
+
+#contacthead input {
+	margin-right: 6px;
+	margin-bottom: 0.2em;
+}
+
+#contacthead .names input,
+#contacthead .addnames input {
+	width: 180px;
+}
+
+#contacthead input.ff_prefix,
+#contacthead input.ff_suffix {
+	width: 90px;
+}
+
+a.deletebutton {
+	position: relative;
+	left: 5px;
+	top: -3px;
+	display: inline-block;
+	width: 24px;
+	height: 18px;
+	text-decoration: none;
+	text-indent: -1000px;
+	background: url(images/buttons.png) -7px -337px no-repeat;
+}

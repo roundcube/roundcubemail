@@ -541,14 +541,16 @@ html.chrome #messagelist tr td.threads {
 	background-position: -24px -1036px;
 }
 
-#messagelist tr td.flag span.unflagged:hover {
+#messagelist tr td.flag span.unflagged:hover,
+#messagelist tr td.status span.msgicon:hover {
 	background-position: 0 -1056px;
 }
 
 #messagelist tr td.subject span.msgicon,
 #messagelist tr td.subject span.unreadchildren {
 	background-position: 0 -1056px;
-	margin: 0 4px 0 0;
+	margin: 0 1px 0 0;
+	width: 24px;
 }
 
 #messagelist tr td.subject span.replied {
@@ -580,8 +582,13 @@ html.chrome #messagelist tr td.threads {
 */
 #messagelist tr td.status span.status,
 #messagelist tr td.status span.unread,
-#messagelist tr td.subject span.unread {
+#messagelist tr td.subject span.unread,
+#messagelist tr td.status span.unread:hover {
 	background-position: 0 -1016px;
+}
+
+#messagelist thead tr td.status span.status {
+	background-position: -24px -1016px;
 }
 
 #messagelist tr td div.collapsed {
@@ -1132,10 +1139,11 @@ div.message-part blockquote blockquote blockquote {
 #compose-attachments {
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: 1px;
 	bottom: 0;
 	width: 240px;
 	background: #f0f0f0;
+	border-left: 1px solid #ddd;
 	padding: 8px;
 	overflow: auto;
 }
@@ -1170,4 +1178,10 @@ div.message-part blockquote blockquote blockquote {
 .defaultSkin table.mceLayout tr.mceLast td {
 	border: 0 !important;
 }
+
+#composebody_toolbargroup {
+	border-bottom: 1px solid #ddd;
+}
+
+
 

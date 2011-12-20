@@ -176,9 +176,8 @@ function rcmail_upload_photo_form($attrib)
 {
   global $OUTPUT;
 
-  // add ID if not given
-  if (!$attrib['id'])
-    $attrib['id'] = 'rcmUploadbox';
+  // set defaults
+  $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
 
   // find max filesize value
   $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
@@ -196,10 +195,10 @@ function rcmail_upload_photo_form($attrib)
       $hidden->show() .
       html::div(null, $input->show()) .
       html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
-      html::div('buttons',
+      (get_boolean($attrib['buttons']) ? html::div('buttons',
         $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
         $button->show(rcube_label('upload'), array('class' => 'button mainaction', 'onclick' => JS_OBJECT_NAME . ".command('upload-photo', this.form)"))
-      )
+      ) : '')
     )
   );
 
