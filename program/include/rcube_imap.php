@@ -1470,7 +1470,7 @@ class rcube_imap
         // Error, try with US-ASCII (some servers may support only US-ASCII)
         if ($messages->isError() && $charset && $charset != 'US-ASCII')
             $messages = $this->conn->search($mailbox,
-                'CHARSET US-ASCII ' . $this->convert_criteria($criteria, $charset), true);
+                $this->convert_criteria($criteria, $charset), true);
 
         $this->search_sorted = false;
 
