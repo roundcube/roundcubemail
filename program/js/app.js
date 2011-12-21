@@ -3082,7 +3082,7 @@ function rcube_webmail()
       if (!vis)
         this.stop_spellchecking();
 
-      $(this.env.spellcheck.spell_container).css('visibility', vis ? 'visible' : 'hidden');
+      $(this.env.spellcheck.spell_container)[vis ? 'show' : 'hide']();
     }
   };
 

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix crash with eAccelerator (#1488256)
 - Fix expanding folders during drag&drop (#1488260)
 - Fix wrong postgres sequence name in upgrade from 0.6
 - Fix broken CREATE INDEX queries in SQLite DDL files (#1488255)
