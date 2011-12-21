@@ -1722,7 +1722,7 @@ class rcube_imap
             // Error, try with US-ASCII (some servers may support only US-ASCII)
             if ($a_messages === false && $charset && $charset != 'US-ASCII')
                 $a_messages = $this->conn->search($mailbox,
-                    'CHARSET US-ASCII ' . $this->convert_criteria($criteria, $charset));
+                    $this->convert_criteria($criteria, $charset));
 
             // I didn't found that SEARCH should return sorted IDs
             if (is_array($a_messages) && !$this->sort_field)
