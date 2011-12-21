@@ -92,7 +92,7 @@ class rcube_test_mailfunc extends UnitTestCase
   function test_html_xss2()
   {
     $part = $this->get_html_part('src/BID-26800.txt');
-    $washed = rcmail_print_body($part, array('safe' => true));
+    $washed = rcmail_html4inline(rcmail_print_body($part, array('safe' => true)), 'dabody', '', $attr, true);
 
     $this->assertNoPattern('/alert|expression|javascript|xss/', $washed, "Remove evil style blocks");
     $this->assertNoPattern('/font-style:italic/', $washed, "Allow valid styles");
