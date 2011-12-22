@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix crashes with eAccelerator (#1488256)
 - Fix searching on IMAP servers without CHARSET specifier support (#1488271)
 - Fix expanding folders during drag&drop (#1488260)
 - Deprecate $DB, $USER, $IMAP global variables, Use $RCMAIL instead
