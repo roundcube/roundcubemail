@@ -203,7 +203,7 @@ function rcmail_contact_record_groups($contact_id)
     $RCMAIL->output->add_gui_object('editform', 'form');
     $RCMAIL->output->add_label('addingmember', 'removingmember');
 
-    return $form_start . $table->show() . $form_end;
+    return $form_start . html::tag('fieldset', 'contactfieldgroup contactgroups', $table->show()) . $form_end;
 }
 
 
