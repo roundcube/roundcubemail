@@ -661,7 +661,7 @@ class rcube_template extends rcube_html_page
      */
     private function parse_xml($input)
     {
-        return preg_replace_callback('/<roundcube:([-_a-z]+)\s+([^>]+)>/Ui', array($this, 'xml_command'), $input);
+        return preg_replace_callback('/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\\>)+)(?<!\\\\)>/Ui', array($this, 'xml_command'), $input);
     }
 
 
