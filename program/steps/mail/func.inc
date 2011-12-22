@@ -1231,7 +1231,8 @@ function rcmail_alter_html_link($matches)
   $end = '>';
 
   // Remove non-printable characters in URL (#1487805)
-  $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
+  if ($attrib['href'])
+    $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
 
   if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
     $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
@@ -1245,6 +1246,10 @@ function rcmail_alter_html_link($matches)
       "return %s.command('compose','%s',this)",
       JS_OBJECT_NAME,
       JQ($mailto[1].$mailto[3]));
+  }
+  else if (empty($attrib['href']) && !$attrib['name']) {
+    $attrib['href'] = './#NOP';
+    $attrib['onclick'] = 'return false';
   }
   else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
     $attrib['target'] = '_blank';
