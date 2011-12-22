@@ -90,21 +90,21 @@
 a.iconbutton.listmode {
 	width: 26px;
 	height: 20px;
-	background-position: 0 -437px;
+	background-position: 0 -477px;
 }
 
 a.iconbutton.threadmode {
 	width: 26px;
 	height: 20px;
-	background-position: 0 -457px;
+	background-position: 0 -497px;
 }
 
 a.iconbutton.listmode.selected {
-	background-position: -26px -437px;
+	background-position: -26px -477px;
 }
 
 a.iconbutton.threadmode.selected {
-	background-position: -26px -457px;
+	background-position: -26px -497px;
 }
 
 #mailboxlist li.mailbox {
@@ -165,6 +165,14 @@ a.iconbutton.threadmode.selected {
 
 #mailboxlist li.trash.selected > a {
 	background-position: 6px -406px;
+}
+
+#mailboxlist li.archive > a {
+	background-position: 6px -1699px;
+}
+
+#mailboxlist li.archive.selected > a {
+	background-position: 6px -1723px;
 }
 
 #mailboxlist li.virtual > a {
@@ -283,94 +291,15 @@ a.iconbutton.threadmode.selected {
 	right: 2px;
 	width: 20px;
 	height: 18px;
-	background: url(images/buttons.png) -3px -418px no-repeat;
+	background: url(images/buttons.png) -3px -458px no-repeat;
 }
 
 #mailpreviewtoggle.enabled {
-	background-position: -28px -418px;
+	background-position: -28px -458px;
 }
 
 
 /*** message list ***/
-
-.boxlistcontent table {
-	display: table;
-	width: 100%;
-	table-layout: fixed;
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-.boxlistcontent thead tr td {
-	font-weight: bold;
-	background: #d6eaf3;
-	background: -moz-linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0,#e3f2f6), color-stop(14px,#d6eaf3), color-stop(100%,#d6eaf3));
-	background: -o-linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
-	background: -ms-linear-gradient(left, #e3f2f6 0, #d6eaf3 14px ,#d6eaf3 100%);
-	background: linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
-	border-left: 1px solid #bbd3da;
-}
-
-.boxlistcontent thead tr td a,
-.boxlistcontent thead tr td span {
-	display: block;
-	padding: 8px 7px;
-	color: #69939e;
-	text-decoration: none;
-}
-
-.boxlistcontent tbody tr td {
-	padding: 3px 7px;
-	border-bottom: 1px solid #ddd;
-	border-left: 1px dotted #bbd3da;
-	white-space: nowrap;
-	cursor: default;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.boxlistcontent thead tr td:first-child,
-.boxlistcontent tbody tr td:first-child {
-	border-left: 0;
-}
-
-.boxlistcontent tbody tr td a {
-	color: #333;
-	text-decoration: none;
-	white-space: nowrap;
-	cursor: default;
-}
-
-.boxlistcontent tr.selected td {
-	color: #fff !important;
-	background: #019bc6;
-	background: -moz-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#019bc6), color-stop(100%,#017cb4));
-	background: -o-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-	background: -ms-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-	background: linear-gradient(top, #019bc6 0%, #017cb4 100%);
-}
-
-.boxlistcontent tr.selected td a,
-.boxlistcontent tr.selected td span {
-	color: #fff !important;
-}
-
-.boxlistcontent tr.unfocused td {
-	color: #fff !important;
-	background: #4db0d2;
-}
-
-.boxlistcontent tr.unfocused td a,
-.boxlistcontent tr.unfocused td span {
-	color: #fff !important;
-}
-
-.boxlistcontent tr.deleted td,
-.boxlistcontent tr.deleted td a {
-	color: #ccc !important;
-}
 
 #messagelist tr td.attachment,
 #messagelist tr td.threads,
@@ -381,11 +310,11 @@ a.iconbutton.threadmode.selected {
 	padding: 4px 3px;
 }
 
-html.chrome #messagelist tr td.attachment,
-html.chrome #messagelist tr td.threads,
-html.chrome #messagelist tr td.status,
-html.chrome #messagelist tr td.flag,
-html.chrome #messagelist tr td.priority {
+.chrome #messagelist tr td.attachment,
+.chrome #messagelist tr td.threads,
+.chrome #messagelist tr td.status,
+.chrome #messagelist tr td.flag,
+.chrome #messagelist tr td.priority {
 	width: 26px;
 }
 
@@ -393,7 +322,7 @@ html.chrome #messagelist tr td.priority {
 	width: 26px;
 }
 
-html.chrome #messagelist tr td.threads {
+.chrome #messagelist tr td.threads {
 	width: 30px;
 }
 
@@ -807,18 +736,6 @@ h3.subject {
 #message-objects div a.button,
 #messagebody span.part-notice a.button {
 	margin-left: 10px;
-	box-shadow: 0 1px 1px 0 #e8e386;
-	-o-box-shadow: 0 1px 1px 0 #e8e386;
-	-webkit-box-shadow: 0 1px 1px 0 #e8e386;
-	-moz-box-shadow: 0 1px 1px 0 #e8e386;
-}
-
-#message-objects div a.button:hover,
-#messagebody span.part-notice a.button:hover {
-	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
-	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
-	-webkit-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
-	-o-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 }
 
 div.message-part,
@@ -1095,12 +1012,12 @@ div.message-part blockquote blockquote blockquote {
 	left: 6px;
 	width: 20px;
 	height: 18px;
-	background: url(images/buttons.png) -3px -418px no-repeat;
+	background: url(images/buttons.png) -3px -458px no-repeat;
 	text-decoration: none;
 }
 
 #composeoptionstoggle.enabled {
-	background-position: -28px -418px;
+	background-position: -28px -458px;
 }
 
 #composeview-bottom {

@@ -14,6 +14,7 @@
 
 function rcube_mail_ui()
 {
+  var env = {};
   var popups = {};
   var popupconfig = {
     forwardmenu:        { editable:1 },
@@ -33,13 +34,24 @@ function rcube_mail_ui()
   var compose_headers = {};
 
   // export public methods
+  this.set = setenv;
   this.init = init;
   this.init_tabs = init_tabs;
+  this.show_about = show_about;
   this.show_popup = show_popup;
   this.set_searchmod = set_searchmod;
   this.show_uploadform = show_uploadform;
   this.show_header_row = show_header_row;
   this.hide_header_row = hide_header_row;
+
+
+  /**
+   *
+   */
+  function setenv(key, val)
+  {
+    env[key] = val;
+  }
 
   /**
    *
@@ -49,7 +61,6 @@ function rcube_mail_ui()
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('menu-open', show_listoptions);
       rcmail.addEventListener('menu-save', save_listoptions);
-      rcmail.addEventListener('aftersend-attachment', show_uploadform);
       rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 100); });
 
       var dragmenu = $('#dragmessagemenu');
@@ -67,6 +78,7 @@ function rcube_mail_ui()
         layout_messageview();
       }
       else if (rcmail.env.action == 'compose') {
+        rcmail.addEventListener('aftersend-attachment', show_uploadform);
         layout_composeview();
 
         $('#composeoptionstoggle').parent().click(function(){
@@ -109,6 +121,14 @@ function rcube_mail_ui()
       }
     }
     else if (rcmail.env.task == 'addressbook') {
+      rcmail.addEventListener('afterupload-photo', show_uploadform);
+
+      if (rcmail.env.action == '') {
+        new rcube_splitter({ id:'addressviewsplitterd', p1:'#addressview-left', p2:'#addressview-right',
+          orientation:'v', relative:true, start:226, min:150, size:12, render:resize_leftcol }).init();
+        new rcube_splitter({ id:'addressviewsplitter', p1:'#addresslist', p2:'#contacts-box',
+          orientation:'v', relative:true, start:296, min:220, size:12 }).init();
+      }
 
     }
 
@@ -529,7 +549,7 @@ function rcube_mail_ui()
       $('#_' + which).val(compose_headers[which]);
     $('#compose-' + which).show();
     $('#' + which + '-link').hide();
-    this.resize_compose_body();
+    layout_composeview();
     return false;
   }
 
@@ -545,7 +565,8 @@ function rcube_mail_ui()
 
     $('#compose-' + which).hide();
     $('#' + which + '-link').show();
-    this.resize_compose_body();
+    layout_composeview();
+    return false;
   }
 
 
@@ -605,6 +626,35 @@ function rcube_mail_ui()
       // Select/unselect tab
       $('#tab'+idx).toggleClass('selected', idx==index);
     });
+  }
+
+  /**
+   * Show about page as jquery UI dialog
+   */
+  function show_about(elem)
+  {
+    var frame = $('<iframe>').attr('id', 'aboutframe')
+      .attr('src', rcmail.url('settings/about'))
+      .appendTo(document.body);
+
+    var h = Math.floor($(window).height() * 0.75);
+    var buttons = {};
+    var supportln = $('#supportlink');
+    if (supportln.length && (env.supporturl = supportln.attr('href')))
+      buttons[supportln.html()] = function(e){ env.supporturl.indexOf('mailto:') < 0 ? window.open(env.supporturl) : location.href = env.supporturl };
+
+    frame.dialog({
+      modal: true,
+      resizable: false,
+      closeOnEscape: true,
+      title: elem ? elem.title || elem.innerHTML : null,
+      close: function() {
+        frame.dialog('destroy').remove();
+      },
+      buttons: buttons,
+      width: 640,
+      height: h
+    }).width(640);
   }
 }
 

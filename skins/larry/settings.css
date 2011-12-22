@@ -182,3 +182,12 @@
 	text-align: right;
 }
 
+#pluginlist td.version {
+	width: 5em;
+}
+
+#pluginlist td.license,
+#pluginlist td.source {
+	width: 8em;
+}
+

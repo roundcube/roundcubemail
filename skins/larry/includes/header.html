@@ -1,9 +1,9 @@
 <div id="header">
 <div id="topline">
 	<div class="topleft">
-		<roundcube:button command="about" type="link" label="about" class="about-link" />
+		<roundcube:button name="about" type="link" label="about" class="about-link" onclick="UI.show_about(this);return false" />
 		<roundcube:if condition="config:support_url" />
-		<a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
+		<a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link" id="supportlink"><roundcube:label name="support" /></a>
 		<roundcube:endif />
 	</div>
 	<div class="topright">

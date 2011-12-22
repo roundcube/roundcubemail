@@ -36,10 +36,10 @@
 
 <!-- toolbar -->
 <div id="addressbooktoolbar" class="toolbar">
-	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advsearch" />
-	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="writenewmessage" />
-	<roundcube:button command="import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="importcontacts" />
-	<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="exportvcards" />
+	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advsearch" title="advsearch" />
+	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="writenewmessage" title="writenewmessage" />
+	<roundcube:button command="import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="importcontacts" title="importcontacts" />
+	<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="exportvcards" title="exportvcards" />
 	<roundcube:container name="toolbar" id="addressbooktoolbar" />
 </div>
 
@@ -51,6 +51,13 @@
 </div>
 <div class="boxfooter">
 	<roundcube:button command="add" type="link" title="newcontact" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button command="delete" type="link" title="deletecontact" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" content="x" />
+	<roundcube:object name="recordsCountDisplay" class="countdisplay" label="fromtoshort" />
+</div>
+<div class="boxpagenav">
+	<roundcube:button command="firstpage" type="link" class="icon firstpage disabled" classAct="icon firstpage" title="firstpage" content="|&amp;lt;" />
+	<roundcube:button command="previouspage" type="link" class="icon prevpage disabled" classAct="icon prevpage" title="previouspage" content="&amp;lt;" />
+	<roundcube:button command="nextpage" type="link" class="icon nextpage disabled" classAct="icon nextpage" title="nextpage" content="&amp;gt;" />
+	<roundcube:button command="lastpage" type="link" class="icon lastpage disabled" classAct="icon lastpage" title="lastpage" content="&amp;gt;|" />
 </div>
 </div>
 
