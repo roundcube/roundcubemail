@@ -382,6 +382,9 @@ function rcmail_rowcount_display($attrib)
 
     $OUTPUT->add_gui_object('countdisplay', $attrib['id']);
 
+    if ($attrib['label'])
+      $_SESSION['contactcountdisplay'] = $attrib['label'];
+
     return html::span($attrib, rcube_label('loading'));
 }
 
@@ -399,7 +402,7 @@ function rcmail_get_rowcount_text($result=null)
         $out = rcube_label('nocontactsfound');
     else
         $out = rcube_label(array(
-            'name'  => 'contactsfromto',
+            'name'  => $_SESSION['contactcountdisplay'] ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
             'vars'  => array(
             'from'  => $result->first + 1,
             'to'    => min($result->count, $result->first + $CONFIG['pagesize']),
@@ -700,9 +703,6 @@ function rcmail_contact_photo($attrib)
 {
     global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL, $CONFIG;
 
-    if (!$CONTACT_COLTYPES['photo'])
-        return '';
-
     if ($result = $CONTACTS->get_result())
         $record = $result->first();
 
@@ -720,7 +720,7 @@ function rcmail_contact_photo($attrib)
     $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => ''));
     $content = html::div($attrib, $img);
 
-    if ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add') {
+    if ($CONTACT_COLTYPES['photo'] && ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add')) {
         $RCMAIL->output->add_gui_object('contactphoto', $attrib['id']);
         $hidden = new html_hiddenfield(array('name' => '_photo', 'id' => 'ff_photo', 'value' => $ff_value));
         $content .= $hidden->show();
