@@ -1043,7 +1043,7 @@ function rcube_webmail()
         break;
 
       case 'upload-photo':
-        this.upload_contact_photo(props);
+        this.upload_contact_photo(props || this.gui_objects.uploadform);
         break;
 
       case 'delete-photo':
