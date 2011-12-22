@@ -199,7 +199,7 @@ class washtml
       $key = strtolower($key);
       $value = $node->getAttribute($key);
       if (isset($this->_html_attribs[$key]) ||
-         ($key == 'href' && preg_match('/^(http:|https:|ftp:|mailto:|#).+/i', $value)))
+         ($key == 'href' && preg_match('!^(http:|https:|ftp:|mailto:|//|#).+!i', $value)))
         $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
       else if ($key == 'style' && ($style = $this->wash_style($value))) {
         $quot = strpos($style, '"') !== false ? "'" : '"';
