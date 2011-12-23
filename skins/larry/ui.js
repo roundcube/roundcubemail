@@ -104,12 +104,14 @@ function rcube_mail_ui()
       }
     }
     else if (rcmail.env.task == 'settings') {
-      var tab = '#settingstabpreferences';
-      if (rcmail.env.action)
-        tab = '#settingstab' + (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action.replace(/\./g, ''));
+      rcmail.addEventListener('init', function(){
+        var tab = '#settingstabpreferences';
+        if (rcmail.env.action)
+          tab = '#settingstab' + (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action.replace(/\./g, ''));
 
-      $(tab).addClass('selected')
-        .children().first().removeAttr('onclick').click(function() { return false; });
+        $(tab).addClass('selected')
+          .children().first().removeAttr('onclick').click(function() { return false; });
+      });
 
       if (rcmail.env.action == 'folders') {
         new rcube_splitter({ id:'folderviewsplitter', p1:'#folderslist', p2:'#folder-details',

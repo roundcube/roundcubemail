@@ -106,7 +106,9 @@ input.button {
 }
 
 .formbuttons input.button:hover,
-.formbuttons input.button:focus {
+.formbuttons input.button:focus,
+input.button.mainaction:hover,
+input.button.mainaction:focus {
 	color: #f2f2f2;
 	border-color: #465864;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
@@ -126,6 +128,7 @@ input.button {
 
 input.button.mainaction {
 	color: #ededed;
+	text-shadow: 0px 1px 1px #333;
 	border-color: #1f262c;
 	background: #505050;
 	background: -moz-linear-gradient(top, #505050 0%, #2a2e31 100%);
@@ -133,6 +136,10 @@ input.button.mainaction {
 	background: -o-linear-gradient(top, #505050 0%, #2a2e31 100%);
 	background: -ms-linear-gradient(top, #505050 0%, #2a2e31 100%);
 	background: linear-gradient(top, #505050 0%, #2a2e31 100%);
+	box-shadow: inset 0 1px 0 0 #777;
+	-moz-box-shadow: inset 0 1px 0 0 #777;
+	-webkit-box-shadow: inset 0 1px 0 0 #777;
+	-o-box-shadow: inset 0 1px 0 0 #777;
 }
 
 input.button.mainaction:active {
@@ -1034,6 +1041,14 @@ ul.proplist {
 
 ul.proplist li {
 	width: auto;
+}
+
+#pluginbody {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 
