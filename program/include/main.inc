@@ -839,11 +839,11 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
 function rcmail_get_edit_field($col, $value, $attrib, $type='text')
 {
   static $colcounts = array();
-  
+
   $fname = '_'.$col;
   $attrib['name'] = $fname . ($attrib['array'] ? '[]' : '');
   $attrib['class'] = trim($attrib['class'] . ' ff_' . $col);
-  
+
   if ($type == 'checkbox') {
     $attrib['value'] = '1';
     $input = new html_checkbox($attrib);
@@ -856,6 +856,9 @@ function rcmail_get_edit_field($col, $value, $attrib, $type='text')
     $input = new html_select($attrib);
     $input->add('---', '');
     $input->add(array_values($attrib['options']), array_keys($attrib['options']));
+  }
+  else if ($attrib['type'] == 'password') {
+    $input = new html_passwordfield($attrib);
   }
   else {
     if ($attrib['type'] != 'text' && $attrib['type'] != 'hidden')
