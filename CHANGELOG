@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add ifModule statement for setting Options -Indexes in .htaccess file (#1488274)
 - Fix searching on IMAP servers without CHARSET specifier support (#1488271)
 - Fix crash with eAccelerator (#1488256)
 - Fix expanding folders during drag&drop (#1488260)
