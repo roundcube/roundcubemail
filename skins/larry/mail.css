@@ -82,7 +82,8 @@
 	display: inline-block;
 }
 
-#messagelistfooter #listcontrols {
+#messagelistfooter #listcontrols,
+#messagelistfooter #listselectors {
 	display: inline-block;
 	margin-right: 2em;
 }
@@ -127,51 +128,51 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px -21px;
 }
 
-#mailboxlist li.inbox > a {
+#mailboxlist li.mailbox.inbox > a {
 	background-position: 6px -189px;
 }
 
-#mailboxlist li.inbox.selected > a {
+#mailboxlist li.mailbox.inbox.selected > a {
 	background-position: 6px -213px;
 }
 
-#mailboxlist li.drafts > a {
+#mailboxlist li.mailbox.drafts > a {
 	background-position: 6px -238px;
 }
 
-#mailboxlist li.drafts.selected > a {
+#mailboxlist li.mailbox.drafts.selected > a {
 	background-position: 6px -262px;
 }
 
-#mailboxlist li.sent > a {
+#mailboxlist li.mailbox.sent > a {
 	background-position: 6px -286px;
 }
 
-#mailboxlist li.sent.selected > a {
+#mailboxlist li.mailbox.sent.selected > a {
 	background-position: 6px -310px;
 }
 
-#mailboxlist li.junk > a {
+#mailboxlist li.mailbox.junk > a {
 	background-position: 6px -334px;
 }
 
-#mailboxlist li.junk.selected > a {
+#mailboxlist li.mailbox.junk.selected > a {
 	background-position: 6px -358px;
 }
 
-#mailboxlist li.trash > a {
+#mailboxlist li.mailbox.trash > a {
 	background-position: 6px -382px;
 }
 
-#mailboxlist li.trash.selected > a {
+#mailboxlist li.mailbox.trash.selected > a {
 	background-position: 6px -406px;
 }
 
-#mailboxlist li.archive > a {
+#mailboxlist li.mailbox.archive > a {
 	background-position: 6px -1699px;
 }
 
-#mailboxlist li.archive.selected > a {
+#mailboxlist li.mailbox.archive.selected > a {
 	background-position: 6px -1723px;
 }
 
@@ -225,8 +226,8 @@ a.iconbutton.threadmode.selected {
 	position: absolute;
 	top: 4px;
 	right: 6px;
-	width: 2.8em;
-	padding: 2px;
+	min-width: 1.8em;
+	padding: 2px 4px;
 	background: #82acb5;
 	background: -moz-linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#82acb5), color-stop(100%,#6a939f));
@@ -868,6 +869,15 @@ div.message-part blockquote blockquote blockquote {
 	border: 0;
 }
 
+#quotadisplay {
+	left: 6px;
+	font-size: 12px;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #fff;
+	padding-left: 30px;
+	height: 18px;
+	background: url(images/quota.png) -100px 0 no-repeat;
+}
 
 /*** message composition ***/
 

@@ -34,6 +34,9 @@
 </div>
 <div class="boxfooter">
 	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.show_popup('mailboxmenu');return false" innerClass="inner" content="&#9881;" />
+	<roundcube:if condition="env:quota" />
+		<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" />
+	<roundcube:endif />
 </div>
 </div>
 
@@ -43,7 +46,7 @@
 
 <!-- search filter -->
 <div id="searchfilter">
-	<roundcube:object name="searchfilter" class="searchfilter" />
+	<roundcube:object name="searchfilter" class="searchfilter selector" />
 </div>
 
 <!-- toolbar -->
@@ -71,6 +74,13 @@
 			<a href="#list" class="iconbutton listmode selected" title="<roundcube:label name='list' />" onclick="return false">List</a>
 			<a href="#threads" class="iconbutton threadmode disabled" title="<roundcube:label name='threads' />" onclick="return false">Threads</a>
 		<roundcube:endif />
+	</div>
+	
+	<div id="listselectors">
+	<a href="#select" id="listselectmenulink" class="menuselector" onclick="UI.show_popup('listselectmenu');return false"><span class="handle"><roundcube:label name="select" /></span></a>
+	<roundcube:if condition="env:threads" />
+		&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" onclick="UI.show_popup('threadselectmenu');return false"><span class="handle"><roundcube:label name="threads" /></span></a>
+	<roundcube:endif />
 	</div>
 
 	<div id="countcontrols" class="pagenav dark">
@@ -124,6 +134,25 @@
 		<li class="separator_below"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
 		<li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
+	</ul>
+</div>
+
+<div id="listselectmenu" class="popupmenu dropdown">
+	<ul class="toolbarmenu iconized">
+		<li><roundcube:button command="select-all" type="link" label="all" class="icon" classAct="icon active" innerclass="icon mail" /></li>
+		<li><roundcube:button command="select-all" type="link" prop="page" label="currpage" class="icon" classAct="icon active" innerclass="icon list" /></li>
+		<li><roundcube:button command="select-all" type="link" prop="unread" label="unread" class="icon" classAct="icon active" innerclass="icon unread" /></li>
+		<li><roundcube:button command="select-all" type="link" prop="flagged" label="flagged" class="icon" classAct="icon active" innerclass="icon flagged" /></li>
+		<li><roundcube:button command="select-all" type="link" prop="invert" label="invert" class="icon" classAct="icon active" innerclass="icon invert" /></li>
+		<li><roundcube:button command="select-none" type="link" label="none" class="icon" classAct="icon active" innerclass="icon cross" /></li>
+	</ul>
+</div>
+
+<div id="threadselectmenu" class="popupmenu dropdown">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="expand-all" type="link" label="expand-all" class="icon" classAct="icon active" innerclass="icon conversation" /></li>
+		<li><roundcube:button command="expand-unread" type="link" label="expand-unread" class="icon" classAct="icon active" innerclass="icon conversation" /></li>
+		<li><roundcube:button command="collapse-all" type="link" label="collapse-all" class="icon" classAct="icon active" innerclass="icon conversation" /></li>
 	</ul>
 </div>
 

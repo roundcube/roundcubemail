@@ -96,8 +96,10 @@ function rcube_mail_ui()
             orientation:'h', relative:true, start:310, min:150, size:0, offset:-22 });
           if (previewframe)
             mailviewsplit.init();
+
+          rcmail.addEventListener('setquota', update_quota);
       }
-      
+
       if ($('#mailview-left').length) {
         new rcube_splitter({ id:'mailviewsplitterv', p1:'#mailview-left', p2:'#mailview-right',
           orientation:'v', relative:true, start:248, min:150, size:12, callback:render_mailboxlist, render:resize_leftcol }).init();
@@ -224,6 +226,13 @@ function rcube_mail_ui()
     else {
       $('#googie_edit_layer').height(h+'px');
     }
+  }
+
+
+  function update_quota(p)
+  {
+    var y = p.total ? Math.ceil(p.percent / 100 * 20) * 24 : 0;
+    $('#quotadisplay').css('background-position', '0 -'+y+'px');
   }
 
 

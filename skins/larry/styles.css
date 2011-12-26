@@ -61,6 +61,10 @@ textarea.placeholder {
 	color: #aaa;
 }
 
+select.selector {
+	padding: 2px 4px;
+}
+
 
 /*** buttons ***/
 
@@ -304,9 +308,9 @@ input.button:active {
 
 .pagenav .countdisplay {
 	display: inline-block;
-	padding:0 0.5em;
+	padding:0 1em;
 	text-shadow: 0px 1px 1px #fff;
-	min-width: 20em;
+	min-width: 16em;
 }
 
 a.iconbutton {
@@ -1295,6 +1299,38 @@ ul.proplist li {
 	background-position: center -1050px;
 }
 
+a.menuselector {
+	display: inline-block;
+	border: 1px solid #ababab;
+	border-radius: 4px;
+	background: #f8f8f8;
+	background: -moz-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
+	background: -o-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
+	background: -ms-linear-gradient(top, #f9f9f9 0%, #dddddd 100%);
+	background: linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
+	text-decoration: none;
+	color: #333;
+}
+
+a.menuselector .handle {
+	display: inline-block;
+	padding: 3px 32px 4px 8px;
+	text-shadow: 0px 1px 1px #fff;
+	background: url(images/selector.png) right center no-repeat;
+	border-radius: 4px;
+}
+
+a.menuselector:active {
+	background: #dddddd;
+	background: -moz-linear-gradient(top, #dddddd 0%, #f8f8f8 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dddddd), color-stop(100%,#f8f8f8));
+	background: -o-linear-gradient(top, #dddddd 0%, #f8f8f8 100%);
+	background: -ms-linear-gradient(top, #dddddd 0%, #f8f8f8 100%);
+	background: linear-gradient(top, #dddddd 0%, #f8f8f8 100%);
+	text-decoration: none;
+}
+
 
 /*** popup menus ***/
 
@@ -1313,6 +1349,11 @@ ul.proplist li {
 	-moz-box-shadow: 0 2px 6px 0 #333;
 	-webkit-box-shadow: 0 2px 6px 0 #333;
 	-o-box-shadow: 0 2px 6px 0 #333;
+}
+
+.popupmenu.dropdown {
+	border-radius: 0 0 4px 4px;
+	border-top: 0;
 }
 
 ul.toolbarmenu,
@@ -1416,6 +1457,22 @@ ul.toolbarmenu li span.unflagged {
 	background-position: 0 -1268px;
 }
 
+ul.toolbarmenu li span.mail {
+	background-position: 0 -1293px;
+}
+
+ul.toolbarmenu li span.list {
+	background-position: 0 -1317px;
+}
+
+ul.toolbarmenu li span.invert {
+	background-position: 0 -1340px;
+}
+
+ul.toolbarmenu li span.cross {
+	background-position: 0 -1365px;
+}
+
 ul.toolbarmenu li span.print {
 	background-position: 0 -1436px;
 }
@@ -1434,6 +1491,10 @@ ul.toolbarmenu li span.viewsource {
 
 ul.toolbarmenu li span.extwin {
 	background-position: 0 -1484px;
+}
+
+ul.toolbarmenu li span.conversation {
+	background-position: 0 -1532px;
 }
 
 #rcmKSearchpane {
