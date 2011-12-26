@@ -31,10 +31,6 @@ class rcube_html_page
     protected $css_files = array();
     protected $scripts = array();
     protected $charset = RCMAIL_CHARSET;
-
-    protected $script_tag_file = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
-    protected $script_tag  =  "<script type=\"text/javascript\">\n/* <![CDATA[ */\n%s\n/* ]]> */\n</script>\n";
-    protected $link_css_file = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
 
     protected $title = '';
@@ -195,13 +191,13 @@ class rcube_html_page
         // definition of the code to be placed in the document header and footer
         if (is_array($this->script_files['head'])) {
             foreach ($this->script_files['head'] as $file) {
-                $page_header .= sprintf($this->script_tag_file, $file);
+                $page_header .= html::script($file);
             }
         }
 
         $head_script = $this->scripts['head_top'] . $this->scripts['head'];
         if (!empty($head_script)) {
-            $page_header .= sprintf($this->script_tag, $head_script);
+            $page_header .= html::script(array(), $head_script);
         }
 
         if (!empty($this->header)) {
@@ -215,7 +211,7 @@ class rcube_html_page
 
         if (is_array($this->script_files['foot'])) {
             foreach ($this->script_files['foot'] as $file) {
-                $page_footer .= sprintf($this->script_tag_file, $file);
+                $page_footer .= html::script($file);
             }
         }
 
@@ -224,7 +220,7 @@ class rcube_html_page
         }
 
         if (!empty($this->scripts['foot'])) {
-            $page_footer .= sprintf($this->script_tag, $this->scripts['foot']);
+            $page_footer .= html::script(array(), $this->scripts['foot']);
         }
 
         // find page header
@@ -266,7 +262,7 @@ class rcube_html_page
         ) {
             $css = '';
             foreach ($this->css_files as $file) {
-                $css .= sprintf($this->link_css_file, $file);
+                $css .= html::tag('link', array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => $file, 'nl' => true));
             }
             $output = substr_replace($output, $css, $pos, 0);
         }

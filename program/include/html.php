@@ -5,7 +5,7 @@
  | program/include/html.php                                              |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -80,12 +80,12 @@ class html
 
         $tagname = self::$lc_tags ? strtolower($tagname) : $tagname;
         if (isset($content) || in_array($tagname, self::$containers)) {
-            $templ = $attrib['noclose'] ? "<%s%s>%s" : "<%s%s>%s</%s>%s";
-            unset($attrib['noclose']);
-            return sprintf($templ, $tagname, self::attrib_string($attrib, $allowed_attrib), $content, $tagname, $suffix);
+            $suffix = $attrib['noclose'] ? $suffix : '</' . $tagname . '>' . $suffix;
+            unset($attrib['noclose'], $attrib['nl']);
+            return '<' . $tagname  . self::attrib_string($attrib, $allowed_attrib) . '>' . $content . $suffix;
         }
         else {
-            return sprintf("<%s%s />%s", $tagname, self::attrib_string($attrib, $allowed_attrib), $suffix);
+            return '<' . $tagname  . self::attrib_string($attrib, $allowed_attrib) . '>' . $suffix;
         }
     }
 
@@ -219,7 +219,30 @@ class html
             $attr = array('src' => $attr);
         }
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib,
-	    array('src','name','width','height','border','frameborder')));
+            array('src','name','width','height','border','frameborder')));
+    }
+
+    /**
+     * Derrived method to create <script> tags
+     *
+     * @param mixed $attr Hash array with tag attributes or string with script source (src)
+     * @return string HTML code
+     * @see html::tag()
+     */
+    public static function script($attr, $cont = null)
+    {
+        if (is_string($attr)) {
+            $attr = array('src' => $attr);
+        }
+        if ($cont) {
+            if (self::$doctype == 'xhtml')
+                $cont = "\n/* <![CDATA[ */\n" . $cont . "\n/* ]]> */\n";
+            else
+                $cont = "\n" . $cont . "\n";
+        }
+
+        return self::tag('script', $attr + array('type' => 'text/javascript', 'nl' => true),
+            $cont, array_merge(self::$common_attrib, array('src','type','charset')));
     }
 
     /**
@@ -267,14 +290,14 @@ class html
             // attributes with no value
             if (in_array($key, array('checked', 'multiple', 'disabled', 'selected'))) {
                 if ($value) {
-                    $attrib_arr[] = sprintf('%s="%s"', $key, $key);
+                    $attrib_arr[] = $key . '="' . $key . '"';
                 }
             }
             else if ($key=='value') {
-                $attrib_arr[] = sprintf('%s="%s"', $key, Q($value, 'strict', false));
+                $attrib_arr[] = $key . '="' . Q($value, 'strict', false) . '"';
             }
             else {
-                $attrib_arr[] = sprintf('%s="%s"', $key, Q($value));
+                $attrib_arr[] = $key . '="' . Q($value) . '"';
             }
         }
         return count($attrib_arr) ? ' '.implode(' ', $attrib_arr) : '';
