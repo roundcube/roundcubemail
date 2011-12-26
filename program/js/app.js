@@ -5582,8 +5582,9 @@ function rcube_webmail()
       if (typeof content === 'object' && content.type == 'image')
         this.percent_indicator(this.gui_objects.quotadisplay, content);
       else
-        $(this.gui_objects.quotadisplay).html(content);
+        $(this.gui_objects.quotadisplay).html(content.percent+'%').attr('title', content.title);
     }
+    this.triggerEvent('setquota', content);
   };
 
   // update the mailboxlist
