@@ -178,7 +178,8 @@ function rcmail_user_prefs($current=null)
     // show page size selection
     if (!isset($no_override['timezone'])) {
       $field_id = 'rcmfd_timezone';
-      $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id, 'onchange' => "$('#rcmfd_dst').attr('disabled', this.selectedIndex==0)"));
+      $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id,
+        'onchange' => "$('#rcmfd_dst').attr('disabled', this.selectedIndex==0)"));
       $select_timezone->add(rcube_label('autodetect'), 'auto');
       $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
       $select_timezone->add('(GMT -10:00) Hawaii', '-10');
@@ -318,7 +319,7 @@ function rcmail_user_prefs($current=null)
     if (!isset($no_override['preview_pane'])) {
       $field_id = 'rcmfd_preview';
       $input_preview = new html_checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1,
-        'onchange' => JS_OBJECT_NAME.'.toggle_preview_pane(this)'));
+        'onchange' => "$('#rcmfd_preview_pane_mark_read').prop('disabled', !this.checked)"));
 
       $blocks['main']['options']['preview_pane'] = array(
         'title' => html::label($field_id, Q(rcube_label('previewpane'))),
@@ -416,7 +417,7 @@ function rcmail_user_prefs($current=null)
     if (!isset($no_override['prefer_html'])) {
       $field_id = 'rcmfd_htmlmsg';
       $input_preferhtml = new html_checkbox(array('name' => '_prefer_html', 'id' => $field_id, 'value' => 1,
-        'onchange' => JS_OBJECT_NAME.'.toggle_prefer_html(this)'));
+        'onchange' => "$('#rcmfd_show_images').prop('disabled', !this.checked).val(0)"));
 
       $blocks['main']['options']['prefer_html'] = array(
         'title' => html::label($field_id, Q(rcube_label('preferhtml'))),
@@ -430,8 +431,8 @@ function rcmail_user_prefs($current=null)
       $blocks['main']['options']['default_charset'] = array(
         'title' => html::label($field_id, Q(rcube_label('defaultcharset'))),
         'content' => $RCMAIL->output->charset_selector(array(
-	  'name' => '_default_charset', 'selected' => $config['default_charset']
-	  ))
+          'name' => '_default_charset', 'selected' => $config['default_charset']
+        ))
       );
     }
 
@@ -563,7 +564,8 @@ function rcmail_user_prefs($current=null)
 
     if (!isset($no_override['top_posting'])) {
       $field_id = 'rcmfd_top_posting';
-      $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id, 'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex==0)"));
+      $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id,
+        'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex==0)"));
       $select_replymode->add(rcube_label('replybottomposting'), 0);
       $select_replymode->add(rcube_label('replytopposting'), 1);
 
