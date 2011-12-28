@@ -686,8 +686,15 @@ function rcmail_user_prefs($current=null)
 
       // load folders list only when needed
       if ($current) {
-        $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
-          'maxlength' => 30, 'exceptions' => array('INBOX'), 'folder_filter' => 'mail', 'folder_rights' => 'w'));
+        $select = rcmail_mailbox_select(array(
+          'noselection'   => '---',
+          'realnames'     => true,
+          'maxlength'     => 30,
+          'folder_filter' => 'mail',
+          'folder_rights' => 'w',
+          // #1486114, #1488279
+          'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
+        ));
       }
       else // dummy select
         $select = new html_select();
