@@ -52,9 +52,13 @@ class rcube_html_page
     public function include_script($file, $position='head')
     {
         static $sa_files = array();
-        
-        if (!preg_match('|^https?://|i', $file) && $file[0] != '/')
-            $file = $this->scripts_path . $file . (($fs = @filemtime($this->scripts_path . $file)) ? '?s='.$fs : '');
+
+        if (!preg_match('|^https?://|i', $file) && $file[0] != '/') {
+            $file = $this->scripts_path . $file;
+            if ($fs = @filemtime($file)) {
+                $file .= '?s=' . $fs;
+            }
+        }
 
         if (in_array($file, $sa_files)) {
             return;
@@ -65,6 +69,7 @@ class rcube_html_page
         if (!is_array($this->script_files[$position])) {
             $this->script_files[$position] = array();
         }
+
         $this->script_files[$position][] = $file;
     }
 
@@ -77,9 +82,10 @@ class rcube_html_page
     public function add_script($script, $position='head')
     {
         if (!isset($this->scripts[$position])) {
-            $this->scripts[$position] = "\n".rtrim($script);
-        } else {
-            $this->scripts[$position] .= "\n".rtrim($script);
+            $this->scripts[$position] = "\n" . rtrim($script);
+        }
+        else {
+            $this->scripts[$position] .= "\n" . rtrim($script);
         }
     }
 
@@ -100,7 +106,7 @@ class rcube_html_page
      */
     public function add_header($str)
     {
-        $this->header .= "\n".$str;
+        $this->header .= "\n" . $str;
     }
 
     /**
@@ -111,7 +117,7 @@ class rcube_html_page
      */
     public function add_footer($str)
     {
-        $this->footer .= "\n".$str;
+        $this->footer .= "\n" . $str;
     }
 
     /**
@@ -262,7 +268,8 @@ class rcube_html_page
         ) {
             $css = '';
             foreach ($this->css_files as $file) {
-                $css .= html::tag('link', array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => $file, 'nl' => true));
+                $css .= html::tag('link', array('rel' => 'stylesheet',
+                    'type' => 'text/css', 'href' => $file, 'nl' => true));
             }
             $output = substr_replace($output, $css, $pos, 0);
         }
@@ -279,10 +286,12 @@ class rcube_html_page
         // trigger hook with final HTML content to be sent
         $hook = rcmail::get_instance()->plugins->exec_hook("send_page", array('content' => $output));
         if (!$hook['abort']) {
-            if ($this->charset != RCMAIL_CHARSET)
+            if ($this->charset != RCMAIL_CHARSET) {
                 echo rcube_charset_convert($hook['content'], RCMAIL_CHARSET, $this->charset);
-            else
+            }
+            else {
                 echo $hook['content'];
+            }
         }
     }
 
@@ -296,14 +305,17 @@ class rcube_html_page
 	    $file = $matches[3];
 
         // correct absolute paths
-	    if ($file[0] == '/')
+	    if ($file[0] == '/') {
 	        $file = $this->base_path . $file;
+        }
 
         // add file modification timestamp
-	    if (preg_match('/\.(js|css)$/', $file))
-    	    $file .= '?s=' . @filemtime($file);
+	    if (preg_match('/\.(js|css)$/', $file)) {
+            if ($fs = @filemtime($file)) {
+                $file .= '?s=' . $fs;
+            }
+        }
 
-	    return sprintf("%s=%s%s%s", $matches[1], $matches[2], $file, $matches[4]);
+	    return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
 }
-
