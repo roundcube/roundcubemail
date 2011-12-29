@@ -56,6 +56,10 @@ $CONTACT_COLTYPES = array(
   // TODO: define fields for vcards like GEO, KEY
 );
 
+$PAGE_SIZE = $RCMAIL->config->get('addressbook_pagesize');
+if (!$PAGE_SIZE) {
+    $PAGE_SIZE = $RCMAIL->config->get('pagesize', 50);
+}
 
 // Addressbook UI
 if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
@@ -108,7 +112,7 @@ if ($undo = $_SESSION['contact_undo']) {
 // instantiate a contacts object according to the given source
 function rcmail_contact_source($source=null, $init_env=false, $writable=false)
 {
-    global $RCMAIL, $OUTPUT, $CONFIG, $CONTACT_COLTYPES;
+    global $RCMAIL, $OUTPUT, $CONTACT_COLTYPES, $PAGE_SIZE;
 
     if (!strlen($source)) {
         $source = get_input_value('_source', RCUBE_INPUT_GPC);
@@ -116,7 +120,7 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
 
     // Get object
     $CONTACTS = $RCMAIL->get_address_book($source, $writable);
-    $CONTACTS->set_pagesize($CONFIG['pagesize']);
+    $CONTACTS->set_pagesize($PAGE_SIZE);
 
     // set list properties and session vars
     if (!empty($_GET['_page']))
@@ -391,7 +395,7 @@ function rcmail_rowcount_display($attrib)
 
 function rcmail_get_rowcount_text($result=null)
 {
-    global $CONTACTS, $CONFIG;
+    global $CONTACTS, $PAGE_SIZE;
 
     // read nr of contacts
     if (!$result) {
@@ -405,7 +409,7 @@ function rcmail_get_rowcount_text($result=null)
             'name'  => $_SESSION['contactcountdisplay'] ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
             'vars'  => array(
             'from'  => $result->first + 1,
-            'to'    => min($result->count, $result->first + $CONFIG['pagesize']),
+            'to'    => min($result->count, $result->first + $PAGE_SIZE),
             'count' => $result->count)
         ));
 

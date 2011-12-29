@@ -598,23 +598,27 @@ class rcmail
     $this->imap->skip_deleted = $this->config->get('skip_deleted');
 
     // enable caching of imap data
-    $imap_cache = $this->config->get('imap_cache');
+    $imap_cache     = $this->config->get('imap_cache');
     $messages_cache = $this->config->get('messages_cache');
     // for backward compatybility
     if ($imap_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
         $imap_cache     = 'db';
         $messages_cache = true;
     }
+
     if ($imap_cache)
         $this->imap->set_caching($imap_cache);
     if ($messages_cache)
         $this->imap->set_messages_caching(true);
 
     // set pagesize from config
-    $this->imap->set_pagesize($this->config->get('pagesize', 50));
+    $pagesize = $this->config->get('mail_pagesize');
+    if (!$pagesize) {
+        $pagesize = $this->config->get('pagesize', 50);
+    }
+    $this->imap->set_pagesize($pagesize);
 
-    // Setting root and delimiter before establishing the connection
-    // can save time detecting them using NAMESPACE and LIST
+    // set connection options
     $options = array(
       'auth_type'   => $this->config->get('imap_auth_type', 'check'),
       'auth_cid'    => $this->config->get('imap_auth_cid'),

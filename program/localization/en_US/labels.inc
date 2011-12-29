@@ -412,7 +412,6 @@ $labels['mainoptions'] = 'Main Options';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'New Message';
-$labels['listoptions'] = 'List Options';
 $labels['signatureoptions'] = 'Signature Options';
 $labels['whenreplying'] = 'When replying';
 $labels['replytopposting'] = 'start new message above original';

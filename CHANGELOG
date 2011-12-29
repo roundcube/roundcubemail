@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add separate pagesize setting for mail messages and contacts (#1488269)
 - Fix handling of INBOX's subfolders in special folders config (#1488279)
 - Add ifModule statement for setting Options -Indexes in .htaccess file (#1488274)
 - Fix crashes with eAccelerator (#1488256)

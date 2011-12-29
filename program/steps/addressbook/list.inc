@@ -56,13 +56,13 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
     ksort($records, SORT_LOCALE_STRING);
 
     // create resultset object
-    $count  = count($records);
-    $first  = ($page-1) * $CONFIG['pagesize'];
+    $count    = count($records);
+    $first  = ($page-1) * $PAGE_SIZE;
     $result = new rcube_result_set($count, $first);
 
     // we need only records for current page
-    if ($CONFIG['pagesize'] < $count) {
-        $records = array_slice($records, $first, $CONFIG['pagesize']);
+    if ($PAGE_SIZE < $count) {
+        $records = array_slice($records, $first, $PAGE_SIZE);
     }
 
     $result->records = array_values($records);
@@ -73,7 +73,7 @@ else {
 
     // get contacts for this user
     $result = $CONTACTS->list_records(array('name'));
-    
+
     if (!$result->count && $result->searchonly) {
         $OUTPUT->show_message('contactsearchonly', 'notice');
         $OUTPUT->command('command', 'advanced-search');
@@ -81,7 +81,7 @@ else {
 }
 
 // update message count display
-$OUTPUT->set_env('pagecount', ceil($result->count / $CONFIG['pagesize']));
+$OUTPUT->set_env('pagecount', ceil($result->count / $PAGE_SIZE));
 $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
 
 // create javascript list

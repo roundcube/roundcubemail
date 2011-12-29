@@ -524,15 +524,34 @@ echo $input_skin->show($RCI->getprop('skin_logo'));
 <p class="hint">Enter a URL relative to the document root of this Roundcube installation.</p>
 </dd>
 
-<dt class="propname">pagesize <span class="userconf">*</span></dt>
+<dt class="propname">mail_pagesize <span class="userconf">*</span></dt>
 <dd>
 <?php
 
-$input_pagesize = new html_inputfield(array('name' => '_pagesize', 'size' => 6, 'id' => "cfgpagesize"));
-echo $input_pagesize->show($RCI->getprop('pagesize'));
+$pagesize = $RCI->getprop('mail_pagesize');
+if (!$pagesize) {
+    $pagesize = $RCI->getprop('pagesize');
+}
+$input_pagesize = new html_inputfield(array('name' => '_mail_pagesize', 'size' => 6, 'id' => "cfgmailpagesize"));
+echo $input_pagesize->show($pagesize);
 
 ?>
-<div>Show up to X items in list view.</div>
+<div>Show up to X items in the mail messages list view.</div>
+</dd>
+
+<dt class="propname">addressbook_pagesize <span class="userconf">*</span></dt>
+<dd>
+<?php
+
+$pagesize = $RCI->getprop('addressbook_pagesize');
+if (!$pagesize) {
+    $pagesize = $RCI->getprop('pagesize');
+}
+$input_pagesize = new html_inputfield(array('name' => '_addressbook_pagesize', 'size' => 6, 'id' => "cfgabookpagesize"));
+echo $input_pagesize->show($pagesize);
+
+?>
+<div>Show up to X items in the contacts list view.</div>
 </dd>
 
 <dt class="propname">prefer_html <span class="userconf">*</span></dt>

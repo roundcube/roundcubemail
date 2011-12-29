@@ -5658,16 +5658,6 @@ function rcube_webmail()
     }
   };
 
-  this.toggle_prefer_html = function(checkbox)
-  {
-    $('#rcmfd_show_images').prop('disabled', !checkbox.checked).val(0);
-  };
-
-  this.toggle_preview_pane = function(checkbox)
-  {
-    $('#rcmfd_preview_pane_mark_read').prop('disabled', !checkbox.checked);
-  };
-
   // display fetched raw headers
   this.set_headers = function(content)
   {

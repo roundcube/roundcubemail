@@ -31,13 +31,12 @@ switch ($CURR_SECTION)
       'language'     => isset($_POST['_language']) ? get_input_value('_language', RCUBE_INPUT_POST) : $CONFIG['language'],
       'timezone'     => isset($_POST['_timezone']) ? (is_numeric($_POST['_timezone']) ? floatval($_POST['_timezone']) : get_input_value('_timezone', RCUBE_INPUT_POST)) : $CONFIG['timezone'],
       'dst_active'   => isset($_POST['_dst_active']) ? TRUE : FALSE,
-      'pagesize'     => is_numeric($_POST['_pagesize']) ? max(2, intval($_POST['_pagesize'])) : $CONFIG['pagesize'],
       'date_format'  => isset($_POST['_date_format']) ? get_input_value('_date_format', RCUBE_INPUT_POST) : $CONFIG['date_format'],
       'time_format'  => isset($_POST['_time_format']) ? get_input_value('_time_format', RCUBE_INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
       'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
       'skin' 	     => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
     );
-    
+
     // compose derived date/time format strings
     if ((isset($_POST['_date_format']) || isset($_POST['_time_format'])) && $a_user_prefs['date_format'] && $a_user_prefs['time_format']) {
       $a_user_prefs['date_short'] = 'D ' . $a_user_prefs['time_format'];
@@ -54,6 +53,7 @@ switch ($CURR_SECTION)
       'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
       'keep_alive'           => isset($_POST['_keep_alive']) ? intval($_POST['_keep_alive'])*60 : $CONFIG['keep_alive'],
       'check_all_folders'    => isset($_POST['_check_all_folders']) ? TRUE : FALSE,
+      'mail_pagesize'        => is_numeric($_POST['_mail_pagesize']) ? max(2, intval($_POST['_mail_pagesize'])) : $CONFIG['mail_pagesize'],
     );
 
   break;
@@ -93,8 +93,9 @@ switch ($CURR_SECTION)
 
   case 'addressbook':
     $a_user_prefs = array(
-      'default_addressbook' => get_input_value('_default_addressbook', RCUBE_INPUT_POST, true),
-      'autocomplete_single' => isset($_POST['_autocomplete_single']) ? TRUE : FALSE,
+      'default_addressbook'  => get_input_value('_default_addressbook', RCUBE_INPUT_POST, true),
+      'autocomplete_single'  => isset($_POST['_autocomplete_single']) ? TRUE : FALSE,
+      'addressbook_pagesize' => is_numeric($_POST['_addressbook_pagesize']) ? max(2, intval($_POST['_addressbook_pagesize'])) : $CONFIG['addressbook_pagesize'],
     );
 
   break;
@@ -150,11 +151,15 @@ switch ($CURR_SECTION)
       $OUTPUT->command('reload', 500);
 
     // force min size
-    if ($a_user_prefs['pagesize'] < 1)
-      $a_user_prefs['pagesize'] = 10;
+    if ($a_user_prefs['mail_pagesize'] < 1)
+      $a_user_prefs['mail_pagesize'] = 10;
+    if ($a_user_prefs['addressbook_pagesize'] < 1)
+      $a_user_prefs['addressbook_pagesize'] = 10;
 
-    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['pagesize'] > $CONFIG['max_pagesize']))
-      $a_user_prefs['pagesize'] = (int) $CONFIG['max_pagesize'];
+    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['mail_pagesize'] > $CONFIG['max_pagesize']))
+      $a_user_prefs['mail_pagesize'] = (int) $CONFIG['max_pagesize'];
+    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['addressbook_pagesize'] > $CONFIG['max_pagesize']))
+      $a_user_prefs['addressbook_pagesize'] = (int) $CONFIG['max_pagesize'];
 
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 

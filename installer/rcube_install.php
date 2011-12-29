@@ -40,14 +40,15 @@ class rcube_install
     'multiple_identities' => 'identities_level',
     'addrbook_show_images' => 'show_images',
     'imap_root' => 'imap_ns_personal',
+    'pagesize' => 'mail_pagesize',
   );
-  
+
   // these config options are required for a working system
   var $required_config = array(
     'db_dsnw', 'db_table_contactgroups', 'db_table_contactgroupmembers',
     'des_key', 'session_lifetime',
   );
-  
+
   /**
    * Constructor
    */
@@ -169,7 +170,7 @@ class rcube_install
         if (count($value) <= 1)
           $value = $value[0];
       }
-      else if ($prop == 'pagesize') {
+      else if ($prop == 'mail_pagesize' || $prop == 'addressbook_pagesize') {
         $value = max(2, intval($value));
       }
       else if ($prop == 'smtp_user' && !empty($_POST['_smtp_user_u'])) {

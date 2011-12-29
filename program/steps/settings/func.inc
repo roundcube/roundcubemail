@@ -157,7 +157,6 @@ function rcmail_user_prefs($current=null)
 
     $blocks = array(
       'main' => array('name' => Q(rcube_label('mainoptions'))),
-      'list' => array('name' => Q(rcube_label('listoptions'))),
     );
 
     // language selection
@@ -175,7 +174,7 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    // show page size selection
+    // timezone selection
     if (!isset($no_override['timezone'])) {
       $field_id = 'rcmfd_timezone';
       $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id,
@@ -276,17 +275,6 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    // show page size selection
-    if (!isset($no_override['pagesize'])) {
-      $field_id = 'rcmfd_pgsize';
-      $input_pagesize = new html_inputfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
-
-      $blocks['list']['options']['pagesize'] = array(
-        'title' => html::label($field_id, Q(rcube_label('pagesize'))),
-        'content' => $input_pagesize->show($config['pagesize']),
-      );
-    }
-
     // show drop-down for available skins
     if (!isset($no_override['skin'])) {
       $skins = rcmail_get_skins();
@@ -375,6 +363,17 @@ function rcmail_user_prefs($current=null)
       $blocks['main']['options']['autoexpand_threads'] = array(
         'title' => html::label($field_id, Q(rcube_label('autoexpand_threads'))),
         'content' => $select_autoexpand_threads->show($config['autoexpand_threads']),
+      );
+    }
+
+    // show page size selection
+    if (!isset($no_override['pagesize'])) {
+      $field_id = 'rcmfd_pagesize';
+      $input_pagesize = new html_inputfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
+
+      $blocks['main']['options']['pagesize'] = array(
+        'title' => html::label($field_id, Q(rcube_label('pagesize'))),
+        'content' => $input_pagesize->show($config['pagesize']),
       );
     }
 
@@ -687,6 +686,19 @@ function rcmail_user_prefs($current=null)
       $blocks['main']['options']['autocomplete_single'] = array(
         'title' => html::label($field_id, Q(rcube_label('autocompletesingle'))),
         'content' => $checkbox->show($config['autocomplete_single']?1:0),
+      );
+    }
+
+    // show addressbook page size selection
+    if (!isset($no_override['addressbook_pagesize'])) {
+      $field_id = 'rcmfd_addressbook_pagesize';
+      $input_pagesize = new html_inputfield(array('name' => '_addressbook_pagesize', 'id' => $field_id, 'size' => 5));
+
+      $size = $config['addressbook_pagesize'] ? $config['addressbook_pagesize'] : $config['pagesize'];
+
+      $blocks['main']['options']['pagesize'] = array(
+        'title' => html::label($field_id, Q(rcube_label('pagesize'))),
+        'content' => $input_pagesize->show((int)$size),
       );
     }
 

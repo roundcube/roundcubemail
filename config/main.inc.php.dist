@@ -654,8 +654,11 @@ $rcmail_config['default_charset'] = 'ISO-8859-1';
 // skin name: folder from skins/
 $rcmail_config['skin'] = 'default';
 
-// show up to X items in list view
-$rcmail_config['pagesize'] = 40;
+// show up to X items in messages list view
+$rcmail_config['mail_pagesize'] = 50;
+
+// show up to X items in contacts list view
+$rcmail_config['addressbook_pagesize'] = 50;
 
 // use this timezone to display date/time
 $rcmail_config['timezone'] = 'auto';
