@@ -367,13 +367,15 @@ function rcmail_user_prefs($current=null)
     }
 
     // show page size selection
-    if (!isset($no_override['pagesize'])) {
-      $field_id = 'rcmfd_pagesize';
-      $input_pagesize = new html_inputfield(array('name' => '_pagesize', 'id' => $field_id, 'size' => 5));
+    if (!isset($no_override['mail_pagesize'])) {
+      $field_id = 'rcmfd_mail_pagesize';
+      $input_pagesize = new html_inputfield(array('name' => '_mail_pagesize', 'id' => $field_id, 'size' => 5));
+
+      $size = intval($config['mail_pagesize'] ? $config['mail_pagesize'] : $config['pagesize']);
 
       $blocks['main']['options']['pagesize'] = array(
         'title' => html::label($field_id, Q(rcube_label('pagesize'))),
-        'content' => $input_pagesize->show($config['pagesize']),
+        'content' => $input_pagesize->show($size ? $size : 50),
       );
     }
 
@@ -694,11 +696,11 @@ function rcmail_user_prefs($current=null)
       $field_id = 'rcmfd_addressbook_pagesize';
       $input_pagesize = new html_inputfield(array('name' => '_addressbook_pagesize', 'id' => $field_id, 'size' => 5));
 
-      $size = $config['addressbook_pagesize'] ? $config['addressbook_pagesize'] : $config['pagesize'];
+      $size = intval($config['addressbook_pagesize'] ? $config['addressbook_pagesize'] : $config['pagesize']);
 
       $blocks['main']['options']['pagesize'] = array(
         'title' => html::label($field_id, Q(rcube_label('pagesize'))),
-        'content' => $input_pagesize->show((int)$size),
+        'content' => $input_pagesize->show($size ? $size : 50),
       );
     }
 
