@@ -6,7 +6,7 @@
  | language/en_US/labels.inc                                             |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  +-----------------------------------------------------------------------+
@@ -57,6 +57,7 @@ $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'Message $nr of $count';
+$labels['fromtoshort'] = '$from – $to of $count';
 
 $labels['copy']     = 'Copy';
 $labels['move']     = 'Move';
@@ -117,12 +118,16 @@ $labels['longdec']	= 'December';
 $labels['today'] = 'Today';
 
 // toolbar buttons
+$labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'Check for new messages';
+$labels['compose']          = 'Compose';
 $labels['writenewmessage']  = 'Create a new message';
+$labels['reply']            = 'Reply';
 $labels['replytomessage']   = 'Reply to sender';
 $labels['replytoallmessage'] = 'Reply to list or to sender and all recipients';
 $labels['replyall']         = 'Reply all';
 $labels['replylist']        = 'Reply list';
+$labels['forward']          = 'Forward';
 $labels['forwardinline']    = 'Forward inline';
 $labels['forwardattachment'] = 'Forward as attachment';
 $labels['forwardmessage']   = 'Forward the message';
@@ -135,12 +140,16 @@ $labels['nextmessage']      = 'Show next message';
 $labels['lastmessage']      = 'Show last message';
 $labels['backtolist']       = 'Back to message list';
 $labels['viewsource']       = 'Show source';
+$labels['mark']             = 'Mark';
 $labels['markmessages']     = 'Mark messages';
 $labels['markread']         = 'As read';
 $labels['markunread']       = 'As unread';
 $labels['markflagged']      = 'As flagged';
 $labels['markunflagged']    = 'As unflagged';
 $labels['moreactions']      = 'More actions...';
+$labels['more']             = 'More';
+$labels['back']             = 'Back';
+$labels['options']          = 'Options';
 
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
@@ -192,10 +201,9 @@ $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 
 // message compose
-$labels['compose']        = 'Compose a message';
 $labels['editasnew']      = 'Edit as new';
-$labels['savemessage']    = 'Save this draft';
-$labels['sendmessage']    = 'Send now';
+$labels['savemessage']    = 'Save as draft';
+$labels['sendmessage']    = 'Send message';
 $labels['addattachment']  = 'Attach a file';
 $labels['charset']        = 'Charset';
 $labels['editortype']     = 'Editor type';
@@ -277,6 +285,7 @@ $labels['spouse'] = 'Spouse';
 $labels['allfields'] = 'All fields';
 $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
+$labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
 
 $labels['typehome']   = 'Home';
