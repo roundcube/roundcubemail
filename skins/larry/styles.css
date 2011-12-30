@@ -461,8 +461,7 @@ a.iconlink.upload {
 	text-decoration: none;
 }
 
-#topline a:hover,
-#topnav a:hover {
+#topline a:hover {
 	text-decoration: underline;
 }
 
@@ -680,11 +679,11 @@ a.iconlink.upload {
 
 .listbox .listitem.selected,
 .listbox .tablink.selected,
-.listbox .listitem.selected a,
-.listbox .tablink.selected a,
+.listbox .listitem.selected > a,
+.listbox .tablink.selected > a,
 .listing tbody tr.selected td,
 .listing li.selected,
-.listing li.selected a {
+.listing li.selected > a {
 	color: #004458;
 	font-weight: bold;
 }
