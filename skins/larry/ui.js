@@ -550,7 +550,7 @@ function rcube_mail_ui()
     }
     
     // add icons to clone file input field
-    if (rcmail.env.action = 'compose' && !$dialog.data('extended')) {
+    if (rcmail.env.action == 'compose' && !$dialog.data('extended')) {
       $('<a>')
         .addClass('iconlink add')
         .attr('href', '#add')
