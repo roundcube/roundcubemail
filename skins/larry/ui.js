@@ -133,7 +133,23 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'addressviewsplitter', p1:'#addresslist', p2:'#contacts-box',
           orientation:'v', relative:true, start:296, min:220, size:12 }).init();
       }
-
+    }
+    else if (rcmail.env.task == 'login') {
+      if (bw.ie && bw.ver < 9) {
+        var popup = $('<div>')
+          .addClass('readtext')
+          .html("Roundcube will not work well with the crappy browser ya' using. Get yourself a new internet browsing software and don't come back without!<p>Sincerly,<br/>the Roundcube Dev Team</p>")
+          .appendTo(document.body)
+          .dialog({
+            dialogClass: 'alert',
+            closeOnEscape: true,
+            title: "No way, are you serious?",
+            close: function() {
+              popup.dialog('destroy').remove();
+            },
+            width: 450
+          });
+      }
     }
 
     // turn a group of fieldsets into tabs
@@ -770,7 +786,7 @@ function rcube_splitter(p)
       this.handle.css('top', Math.round(this.pos - this.halfsize + this.offset)+'px');
       if (bw.ie) {
         var new_height = parseInt(this.p2.parent().outerHeight(), 10) - parseInt(this.p2.css('top'), 10) - (bw.ie8 ? 2 : 0);
-        this.p2.css('height') = (new_height > 0 ? new_height : 0) + 'px';
+        this.p2.css('height', (new_height > 0 ? new_height : 0) + 'px');
       }
     }
     else {
