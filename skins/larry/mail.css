@@ -1110,5 +1110,12 @@ div.message-part blockquote blockquote blockquote {
 	border-bottom: 1px solid #ddd;
 }
 
+#uploadform a.iconlink {
+	margin-left: 1em;
+	text-indent: -1000px;
+}
 
+#uploadform form div {
+	margin: 4px 0;
+}
 

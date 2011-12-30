@@ -532,6 +532,17 @@ function rcube_mail_ui()
       $dialog.dialog('close');
       return;
     }
+    
+    // add icons to clone file input field
+    if (rcmail.env.action = 'compose' && !$dialog.data('extended')) {
+      $('<a>')
+        .addClass('iconlink add')
+        .attr('href', '#add')
+        .html('Add')
+        .appendTo($('input[type="file"]', $dialog).parent())
+        .click(add_uploadfile);
+      $dialog.data('extended', true);
+    }
 
     $dialog.dialog({
       modal: true,
@@ -543,13 +554,26 @@ function rcube_mail_ui()
         catch(e){ }  // ignore errors
 
         $dialog.dialog('destroy').hide();
+        $('div.addline', $dialog).remove();
       },
       width: 480
     }).show();
 
     if (!document.all)
-      $('input[type=file]', $dialog).click();
+      $('input[type=file]', $dialog).first().click();
   }
+
+  function add_uploadfile(e)
+  {
+    var div = $(this).parent();
+    var clone = div.clone().addClass('addline').insertAfter(div);
+    clone.children('.iconlink').click(add_uploadfile);
+    clone.children('input').val('');
+
+    if (!document.all)
+      $('input[type=file]', clone).click();
+  }
+
 
   /**
    *
