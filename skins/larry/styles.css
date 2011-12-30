@@ -1255,6 +1255,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.forward {
+	min-width: 74px;
 	background-position: center -650px;
 }
 

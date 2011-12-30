@@ -308,7 +308,7 @@ a.iconbutton.threadmode.selected {
 #messagelist tr td.flag,
 #messagelist tr td.priority {
 	width: 20px;
-	padding: 4px 3px;
+	padding: 3px;
 }
 
 .chrome #messagelist tr td.attachment,

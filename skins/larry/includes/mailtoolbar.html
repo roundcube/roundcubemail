@@ -2,27 +2,27 @@
 <roundcube:if condition="template:name == 'message'" />
 <roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
 <roundcube:else />
-<roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="checkmail" />
-<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="writenewmessage" />
+<roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="refresh" title="checkmail" />
+<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
 <roundcube:endif />
-<roundcube:button command="reply" type="link" class="button reply disabled" classAct="button reply" classSel="button reply pressed" label="replytomessage" />
+<roundcube:button command="reply" type="link" class="button reply disabled" classAct="button reply" classSel="button reply pressed" label="reply" title="replytomessage" />
 <span class="dropbutton">
-<roundcube:button command="reply-all" type="link" class="button reply-all disabled" classAct="button reply-all" classSel="button reply-all pressed" label="replytoallmessage" />
+<roundcube:button command="reply-all" type="link" class="button reply-all disabled" classAct="button reply-all" classSel="button reply-all pressed" label="replyall" title="replytoallmessage" />
 <span class="dropbuttontip" id="replyallmenulink" onclick="UI.show_popup('replyallmenu');return false"></span>
 </span>
 <span class="dropbutton">
-<roundcube:button command="forward" type="link" class="button forward disabled" classAct="button forward" classSel="button forward pressed" label="forwardmessage" />
+<roundcube:button command="forward" type="link" class="button forward disabled" classAct="button forward" classSel="button forward pressed" label="forward" title="forwardmessage" />
 <span class="dropbuttontip" id="forwardmenulink" onclick="UI.show_popup('forwardmenu');return false"></span>
 </span>
 <roundcube:button command="delete" type="link" class="button delete disabled" classAct="button delete" classSel="button delete pressed" label="delete" title="deletemessage" />
 <roundcube:if condition="template:name == 'message'" />
-<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" />
+<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="printmessage" />
 <roundcube:endif />
 <roundcube:container name="toolbar" id="mailtoolbar" />
 <roundcube:if condition="template:name == 'mail'" />
-<roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="button markmessage" label="markmessages" onclick="UI.show_popup('markmessagemenu');return false" />
+<roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="button markmessage" label="mark" title="markmessages" onclick="UI.show_popup('markmessagemenu');return false" />
 <roundcube:endif />
-<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button more" label="moreactions" onclick="UI.show_popup('messagemenu');return false" />
+<roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button more" label="more" title="moreactions" onclick="UI.show_popup('messagemenu');return false" />
 </div>
 
 <div id="forwardmenu" class="popupmenu">
