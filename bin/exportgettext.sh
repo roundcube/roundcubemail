@@ -226,8 +226,9 @@ function gettext_quote($str)
 {
 	$out = "";
 	$lines = explode("\n", wordwrap(stripslashes($str)));
-	foreach ($lines as $line)
-		$out .= '"' . addcslashes($line, '"') . "\"\n";
+	$last = count($lines) - 1;
+	foreach ($lines as $i => $line)
+		$out .= '"' . addcslashes($line, '"') . ($i < $last ? ' ' : '') . "\"\n";
 	return rtrim($out);
 }
 
