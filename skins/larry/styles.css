@@ -749,15 +749,15 @@ table.layout td {
 }
 
 .boxfooter .listbutton.add .inner {
-	background-position: 10px -1291px;
+	background-position: 10px -1301px;
 }
 
 .boxfooter .listbutton.delete .inner {
-	background-position: 10px -1332px;
+	background-position: 10px -1342px;
 }
 
 .boxfooter .listbutton.groupactions .inner {
-	background-position: 5px -1372px;
+	background-position: 5px -1382px;
 }
 
 .boxfooter .listbutton.disabled .inner {
@@ -1225,20 +1225,20 @@ ul.proplist li {
 	top: 0;
 	height: 42px;
 	width: 18px;
-	background: url(images/buttons.png) -24px -1249px no-repeat;
+	background: url(images/buttons.png) -24px -1255px no-repeat;
 	cursor: pointer;
 }
 
 .dropbutton .dropbuttontip:hover {
-	background-position: 0 -1249px;
+	background-position: 0 -1255px;
 }
 
 .toolbar a.button.back {
-	background-position: 0 -1210px;
+	background-position: 0 -1216px;
 }
 
 .toolbar a.button.checkmail {
-	background-position: center -1170px;
+	background-position: center -1176px;
 }
 
 .toolbar a.button.compose {
@@ -1292,11 +1292,11 @@ ul.proplist li {
 }
 
 .toolbar a.button.import {
-	background-position: center -1010px;
+	background-position: center -1012px;
 }
 
 .toolbar a.button.export {
-	background-position: center -1050px;
+	background-position: center -1054px;
 }
 
 a.menuselector {

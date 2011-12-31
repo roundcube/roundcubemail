@@ -1,0 +1,54 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<roundcube:if condition="env:action != 'show'" />
+<body class="iframe fullheight">
+
+<div id="mainscreen" class="watermark" style="top:0"></div>
+
+<roundcube:else />
+<body>
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen">
+
+<div id="mailview-left">
+
+<!-- folders list -->
+<div id="mailboxcontainer" class="uibox listbox">
+<div class="scroller">
+	<roundcube:object name="mailboxlist" id="mailboxlist" class="listing" folder_filter="mail" unreadwrap="%s" />
+</div>
+</div>
+
+</div>
+
+<div id="mailview-right">
+
+<!-- toolbar -->
+<div id="messagetoolbar" class="fullwidth">
+	<div id="mailtoolbar" class="toolbar">
+		<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
+	</div>
+</div>
+
+<div id="mailview-top" class="uibox watermark"></div>
+
+<div id="mailview-bottom" class="uibox">
+	<roundcube:object name="message" id="message" class="statusbar" />
+</div>
+
+</div><!-- end mailview-right -->
+
+</div><!-- end mainscreen -->
+
+<roundcube:include file="/includes/footer.html" />
+
+<roundcube:endif />
+
+</body>
+</html>
