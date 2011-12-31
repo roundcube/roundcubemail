@@ -802,6 +802,14 @@ function rcube_splitter(p)
     this.p2.resize();
     this.p1.resize();
 
+    // also resize iframe covers
+    if (this.drag_active) {
+      $('iframe').each(function(i, elem) {
+        var pos = $(this).offset();
+        $('#iframe-splitter-fix-'+i).css({ top: pos.top+'px', left: pos.left+'px', width:elem.offsetWidth+'px', height: elem.offsetHeight+'px' });
+      });
+    }
+
     if (typeof this.render == 'function')
       this.render(this);
   };
@@ -823,10 +831,12 @@ function rcube_splitter(p)
     $(document).bind('mousemove.'+this.id, onDrag).bind('mouseup.'+this.id, onDragStop);
 
     // enable dragging above iframes
-    $('iframe').each(function() {
-      $('<div class="iframe-splitter-fix"></div>')
+    $('iframe').each(function(i, elem) {
+      $('<div>')
+        .attr('id', 'iframe-splitter-fix-'+i)
+        .addClass('iframe-splitter-fix')
         .css({ background: '#fff',
-          width: this.offsetWidth+'px', height: this.offsetHeight+'px',
+          width: elem.offsetWidth+'px', height: elem.offsetHeight+'px',
           position: 'absolute', opacity: '0.001', zIndex: 1000
         })
         .css($(this).offset())
@@ -882,7 +892,7 @@ function rcube_splitter(p)
     me.drag_active = false;
 
     // remove temp divs
-    $('div.iframe-splitter-fix').each(function(){ this.parentNode.removeChild(this); });
+    $('div.iframe-splitter-fix').remove();
 
     me.set_cookie();
 
