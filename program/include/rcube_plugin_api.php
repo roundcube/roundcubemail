@@ -5,7 +5,7 @@
  | program/include/rcube_plugin_api.php                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -40,7 +40,7 @@ class rcube_plugin_api
   private $actionmap = array();
   private $objectsmap = array();
   private $template_contents = array();
-  private $required_plugins = array('filesystem_attachments');
+  private $required_plugins = array('filesystem_attachments', 'jqueryui');
   private $active_hook = false;
 
   // Deprecated names of hooks, will be removed after 0.5-stable release

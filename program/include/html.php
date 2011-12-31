@@ -226,6 +226,7 @@ class html
      * Derrived method to create <script> tags
      *
      * @param mixed $attr Hash array with tag attributes or string with script source (src)
+     * @param string $cont Javascript code to be placed as tag content
      * @return string HTML code
      * @see html::tag()
      */
