@@ -109,10 +109,12 @@
 	</span>
 	
 	<div id="composeoptions">
+		<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
 		<span class="composeoption">
 			<label><roundcube:label name="editortype" />
 				<roundcube:object name="editorSelector" editorid="composebody" tabindex="12" /></label>
 		</span>
+		<roundcube:endif />
 		<span class="composeoption">
 			<label><label for="rcmcomposepriority"><roundcube:label name="priority" />
 				<roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" /></label>

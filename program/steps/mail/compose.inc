@@ -1241,7 +1241,7 @@ function rcmail_compose_attachment_list($attrib)
             'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id),
             'class' => 'delete'),
           $button) . Q($a_prop['name']));
-        
+
         $jslist['rcmfile'.$id] = array('name' => $a_prop['name'], 'complete' => true, 'mimetype' => $a_prop['mimetype']);
     }
   }
@@ -1255,14 +1255,14 @@ function rcmail_compose_attachment_list($attrib)
 
   $OUTPUT->set_env('attachments', $jslist);
   $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);
-    
+
   return html::tag('ul', $attrib, $out, html::$common_attrib);
 }
 
 
 function rcmail_compose_attachment_form($attrib)
 {
-  global $RCMAIL, $OUTPUT;
+  global $OUTPUT;
 
   // set defaults
   $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
@@ -1302,7 +1302,7 @@ function rcmail_compose_attachment_field($attrib)
 function rcmail_priority_selector($attrib)
 {
   global $MESSAGE;
-  
+
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
 
@@ -1339,7 +1339,7 @@ function rcmail_receipt_checkbox($attrib)
   unset($attrib['form']);
 
   if (!isset($attrib['id']))
-    $attrib['id'] = 'receipt';  
+    $attrib['id'] = 'receipt';
 
   $attrib['name'] = '_receipt';
   $attrib['value'] = '1';
@@ -1382,8 +1382,6 @@ function rcmail_dsn_checkbox($attrib)
 
 function rcmail_editor_selector($attrib)
 {
-  global $CONFIG, $MESSAGE, $compose_mode;
-
   // determine whether HTML or plain text should be checked
   $useHtml = rcmail_compose_editor_mode();
 
