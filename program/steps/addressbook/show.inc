@@ -102,7 +102,7 @@ function rcmail_contact_details($attrib)
 
     $form = array(
         'contact' => array(
-            'name'    => rcube_label('contactproperties'),
+            'name'    => rcube_label('properties'),
             'content' => array(
               'email' => array('size' => $i_size, 'render_func' => 'rcmail_render_email_value'),
               'phone' => array('size' => $i_size),

@@ -252,7 +252,7 @@ function rcmail_contact_search_form($attrib)
 
     $form = array(
         'main' => array(
-            'name'    => rcube_label('contactproperties'),
+            'name'    => rcube_label('properties'),
             'content' => array(
             ),
         ),
