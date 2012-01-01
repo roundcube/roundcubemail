@@ -112,10 +112,12 @@
             </div>
             <div id="compose-editorfooter">
                 <span id="spellcheck-control" style="margin-right:10px"></span>
+                <roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
                 <span>
                     <label><roundcube:label name="editortype" /></label>
                     <roundcube:object name="editorSelector" editorid="compose-body" tabindex="12" />
                 </span>
+                <roundcube:endif />
             </div>
         </div>
     </div>
