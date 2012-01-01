@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix wrong (long) label usage (#1488283)
 - Fix handling of INBOX's subfolders in special folders config (#1488279)
 - Add ifModule statement for setting Options -Indexes in .htaccess file (#1488274)
 - Fix searching on IMAP servers without CHARSET specifier support (#1488271)

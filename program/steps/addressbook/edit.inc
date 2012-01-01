@@ -130,7 +130,7 @@ function rcmail_contact_editform($attrib)
 
     $form = array(
         'contact' => array(
-            'name'    => rcube_label('contactproperties'),
+            'name'    => rcube_label('properties'),
             'content' => array(
                 'email' => array('size' => $i_size, 'visible' => true),
                 'phone' => array('size' => $i_size, 'visible' => true),
