@@ -446,10 +446,6 @@ function rcmail_contact_form($form, $record, $attrib = null)
     unset($attrib['deleteicon']);
     $out = '';
 
-    $RCMAIL->output->set_env('date_format',
-      strtr($RCMAIL->config->get('date_format', 'Y-m-d'),
-        array('y'=>'y', 'Y'=>'yy', 'm'=>'mm', 'n'=>'m', 'd'=>'dd', 'j'=>'d')));
-
     // get default coltypes
     $coltypes = $GLOBALS['CONTACT_COLTYPES'];
     $coltype_labels = array();
