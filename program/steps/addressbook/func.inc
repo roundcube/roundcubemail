@@ -434,7 +434,6 @@ function rcmail_get_type_label($type)
 function rcmail_contact_form($form, $record, $attrib = null)
 {
     global $RCMAIL, $CONFIG;
-    static $jqueryui_loaded = 0;
 
     // Allow plugins to modify contact form content
     $plugin = $RCMAIL->plugins->exec_hook('contact_form', array(
@@ -446,6 +445,10 @@ function rcmail_contact_form($form, $record, $attrib = null)
     $del_button = $attrib['deleteicon'] ? html::img(array('src' => $CONFIG['skin_path'] . $attrib['deleteicon'], 'alt' => rcube_label('delete'))) : rcube_label('delete');
     unset($attrib['deleteicon']);
     $out = '';
+
+    $RCMAIL->output->set_env('date_format',
+      strtr($RCMAIL->config->get('date_format', 'Y-m-d'),
+        array('y'=>'y', 'Y'=>'yy', 'm'=>'mm', 'n'=>'m', 'd'=>'dd', 'j'=>'d')));
 
     // get default coltypes
     $coltypes = $GLOBALS['CONTACT_COLTYPES'];
@@ -623,15 +626,8 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
                         // load jquery UI datepickert for date fields
                         if ($colprop['type'] == 'date') {
-                            if (!$jqueryui_loaded++) {
-                                $RCMAIL->plugins->load_plugin('jqueryui');
-                                $RCMAIL->output->set_env('date_format', strtr($RCMAIL->config->get('date_format', 'Y-m-d'), array('y'=>'y', 'Y'=>'yy', 'm'=>'mm', 'n'=>'m', 'd'=>'dd', 'j'=>'d')));
-                                foreach (array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec') as $month)
-                                    $month_names[] = rcube_label($month);
-                                $RCMAIL->output->set_env('month_names', $month_names);
-                            }
                             $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
-                            $val = format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'), false);
+                            $val = rcmail_format_date_col($val);
                         }
 
                         $val = rcmail_get_edit_field($col, $val, $colprop, $colprop['type']);

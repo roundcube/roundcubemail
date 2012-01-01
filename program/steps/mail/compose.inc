@@ -139,9 +139,6 @@ $OUTPUT->set_env('sig_above', $RCMAIL->config->get('sig_above', false));
 $OUTPUT->set_env('top_posting', $RCMAIL->config->get('top_posting', false));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 
-// use jquery UI for showing prompt() dialogs
-$RCMAIL->plugins->load_plugin('jqueryui');
-
 // default font for HTML editor
 $font = rcube_fontdefs($RCMAIL->config->get('default_font', 'Verdana'));
 if ($font && !is_array($font)) {

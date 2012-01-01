@@ -4200,7 +4200,6 @@ function rcube_webmail()
         yearRange: '-100:+10',
         showOtherMonths: true,
         selectOtherMonths: true,
-        monthNamesShort: this.env.month_names,
         onSelect: function(dateText) { $(this).focus().val(dateText) }
       });
       $('input.datepicker').datepicker();
