@@ -763,6 +763,23 @@ table.layout td {
 	background-position: 5px -1382px;
 }
 
+.boxfooter .listbutton.addto .inner {
+	background-position: 5px -1422px;
+}
+
+.boxfooter .listbutton.addcc .inner {
+	background-position: 5px -1462px;
+}
+
+.boxfooter .listbutton.addbcc {
+	width: 54px;
+}
+
+.boxfooter .listbutton.addbcc .inner {
+	width: 54px;
+	background-position: 2px -1502px;
+}
+
 .boxfooter .listbutton.disabled .inner {
 	opacity: 0.4;
 }

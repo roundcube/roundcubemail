@@ -90,7 +90,7 @@ function rcube_mail_ui()
         }).css('cursor', 'pointer');
 
         new rcube_splitter({ id:'composesplitterv', p1:'#composeview-left', p2:'#composeview-right',
-          orientation:'v', relative:true, start:248, min:150, size:12 }).init();
+          orientation:'v', relative:true, start:248, min:170, size:12 }).init();
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
           mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
