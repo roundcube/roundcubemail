@@ -213,10 +213,12 @@ $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
 
 $labels['editidents']    = 'Edit identities';
+$labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'Check spelling';
 $labels['resumeediting'] = 'Resume editing';
 $labels['revertto']      = 'Revert to';
 
+$labels['attach'] = 'Attach';
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
 $labels['uploadprogress'] = '$percent ($current from $total)';
