@@ -664,6 +664,61 @@ h3.subject {
 	height: 13px;
 }
 
+#full-headers {
+	position: relative;
+	color: #666;
+	text-align: center;
+	background-color: #EBEBEB;
+}
+
+div.more-headers {
+	cursor: pointer;
+	height: 10px;
+	background: url(images/buttons.png) center -1539px no-repeat;
+}
+
+div.hide-headers {
+	background-position: center -1549px;
+}
+
+#all-headers {
+	position: absolute;
+	top: 11px;
+	left: 10px;
+	right: 10px;
+	height: 180px;
+	z-index: 500;
+	border: 1px solid #bbb;
+	border-top: 0;
+	border-radius: 0 0 4px 4px;
+	-webkit-box-shadow: 0px 3px 4px 0px rgba(80, 80, 80, 0.6);
+	-moz-box-shadow: 0px 3px 4px 0px rgba(80, 80, 80, 0.6);
+	box-shadow: 0px 3px 4px 0px rgba(80, 80, 80, 0.6);
+	background: #fff;
+	background: -moz-linear-gradient(top, #f3f3f3 0%, #fff 8px, #fff 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(8px,#fff), color-stop(100%,#fff));
+	background: -o-linear-gradient(top, #f3f3f3 0%, #fff 8px, #fff 100%);
+	background: -ms-linear-gradient(top, #f3f3f3 0%, #fff 8px, #fff 100%);
+	background: linear-gradient(top,  #f3f3f3 0%, #fff 8px, #fff 100%);
+}
+
+#all-headers .ui-resizable-s {
+	bottom: -2px;
+}
+
+#headers-source {
+	display: none;
+	position: absolute;
+	top: 8px;
+	left: 0;
+	right: 0;
+	bottom: 8px;
+	padding: 0 10px;
+	overflow: auto;
+	text-align: left;
+	color: #333;
+}
+
 #messagepreviewheader {
 	margin: 0 8px;
 	padding-bottom: 8px;
@@ -730,8 +785,9 @@ h3.subject {
 	color: #960;
 	border: 1px solid #ffdf0e;
 	background-color: #fef893;
-	background-position: 5px -24px;
+	background-position: 5px -85px;
 	padding: 6px 12px 4px 30px;
+	white-space: normal;
 }
 
 #message-objects div a.button,

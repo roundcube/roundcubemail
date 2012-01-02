@@ -65,6 +65,9 @@ select.selector {
 	padding: 2px 4px;
 }
 
+.bold {
+	font-weight: bold;
+}
 
 /*** buttons ***/
 
@@ -395,7 +398,7 @@ a.iconlink.upload {
 
 #message div.warning {
 	color: #960;
-	background-position: 0 -25px;
+	background-position: 0 -86px;
 }
 
 #message div.error {
@@ -405,7 +408,7 @@ a.iconlink.upload {
 
 #message div.confirmation {
 	color: #093;
-	background-position: 0 -86px;
+	background-position: 0 -25px;
 }
 
 #message div.loading {
@@ -1225,12 +1228,12 @@ ul.proplist li {
 	top: 0;
 	height: 42px;
 	width: 18px;
-	background: url(images/buttons.png) -24px -1255px no-repeat;
+	background: url(images/buttons.png) 0 -1255px no-repeat;
 	cursor: pointer;
 }
 
 .dropbutton .dropbuttontip:hover {
-	background-position: 0 -1255px;
+	background-position: -26px -1255px;
 }
 
 .toolbar a.button.back {
