@@ -151,6 +151,7 @@ function rcube_identity_form($attrib)
 $OUTPUT->include_script('list.js');
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
+$OUTPUT->add_label('deleteidentityconfirm');
 
 $OUTPUT->set_pagetitle(rcube_label(($RCMAIL->action=='add-identity' ? 'newidentity' : 'edititem')));
 

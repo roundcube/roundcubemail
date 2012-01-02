@@ -109,6 +109,7 @@ $messages['addingmember'] = 'Adding contact(s) to the group...';
 $messages['removingmember'] = 'Removing contact(s) from the group...';
 $messages['receiptsent'] = 'Successfully sent a read receipt.';
 $messages['errorsendingreceipt'] = 'Could not send the receipt.';
+$messages['deleteidentityconfirm'] = 'Do you really want to delete this identity?';
 $messages['nodeletelastidentity'] = 'You cannot delete this identity, it\'s your last one.';
 $messages['forbiddencharacter'] = 'Folder name contains a forbidden character.';
 $messages['selectimportfile'] = 'Please select a file to upload.';

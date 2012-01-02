@@ -351,11 +351,18 @@ function rcube_webmail()
         this.enable_command('preferences', 'identities', 'save', 'folders', true);
 
         if (this.env.action == 'identities') {
-          this.enable_command('add', this.env.identities_level < 2);
+          this.enable_command('add', 'delete', this.env.identities_level < 2);
         }
         else if (this.env.action == 'edit-identity' || this.env.action == 'add-identity') {
           this.enable_command('add', this.env.identities_level < 2);
-          this.enable_command('save', 'delete', 'edit', 'toggle-editor', true);
+          this.enable_command('save', 'edit', 'toggle-editor', true);
+          if (this.is_framed() && this.env.identities_level < 2)
+            this.set_button('delete', 'act');  // activate button but delegate command to parent
+          else
+            this.enable_command('delete', this.env.identities_level < 2);
+
+          if (this.env.action == 'add-identity')
+            $("input[type='text']").first().select();
         }
         else if (this.env.action == 'folders') {
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', true);
@@ -4770,10 +4777,27 @@ function rcube_webmail()
     if (!id)
       id = this.env.iid ? this.env.iid : selection[0];
 
-    // append token to request
-    this.goto_url('delete-identity', '_iid='+id+'&_token='+this.env.request_token, true);
+    // submit request with appended token
+    if (confirm(this.get_label('deleteidentityconfirm')))
+      this.goto_url('delete-identity', '_iid='+id+'&_token='+this.env.request_token, true);
 
     return true;
+  };
+  
+  this.update_identity_row = function(id, name, add)
+  {
+    var row, col, list = this.identity_list,
+      rid = this.html_identifier(id);
+
+    if (list.rows[rid] && (row = list.rows[rid].obj)) {
+      $(row.cells[0]).html(name);
+    }
+    else if (add) {
+      row = $('<tr>').attr('id', 'rcmrow'+rid).get(0);
+      col = $('<td>').addClass('mail').html(name).appendTo(row);
+      list.insert_row(row);
+      list.select(rid);
+    }
   };
 
 

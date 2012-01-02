@@ -22,7 +22,6 @@
 define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 
 $OUTPUT->set_pagetitle(rcube_label('identities'));
-
 $OUTPUT->include_script('list.js');
 
 
@@ -43,5 +42,6 @@ function rcmail_identity_frame($attrib)
 
 $OUTPUT->add_handler('identityframe', 'rcmail_identity_frame');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
+$OUTPUT->add_label('deleteidentityconfirm');
 
 $OUTPUT->send('identities');

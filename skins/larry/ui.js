@@ -120,7 +120,7 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'folderviewsplitter', p1:'#folderslist', p2:'#folder-details',
           orientation:'v', relative:true, start:305, min:150, size:12 }).init();
       }
-      else if (rcmail.env.action.indexOf('identit') >= 0) {
+      else if (rcmail.env.action == 'identities') {
         new rcube_splitter({ id:'identviewsplitter', p1:'#identitieslist', p2:'#identity-details',
           orientation:'v', relative:true, start:305, min:150, size:12 }).init();
       }

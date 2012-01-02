@@ -96,7 +96,7 @@ if ($_POST['_iid'])
 
     if ($_POST['_framed']) {
       // update the changed col in list
-      // ...
+      $OUTPUT->command('parent.update_identity_row', $iid, Q(trim($save_data['name'] . ' <' . rcube_idn_to_utf8($save_data['email']) .'>')));
     }
   }
   else {
@@ -135,6 +135,11 @@ else if (IDENTITIES_LEVEL < 2)
 
     if (!empty($_POST['_standard']))
       $default_id = $insert_id;
+
+    if ($_POST['_framed']) {
+      // add a new row to the list
+      $OUTPUT->command('parent.update_identity_row', $insert_id, Q(trim($save_data['name'] . ' <' . rcube_idn_to_utf8($save_data['email']) .'>')), true);
+    }
   }
   else {
     // show error message
@@ -152,4 +157,8 @@ if ($default_id)
   $RCMAIL->user->set_default($default_id);
 
 // go to next step
-rcmail_overwrite_action('identities');
+if (!empty($_REQUEST['_framed'])) {
+  rcmail_overwrite_action('edit-identity');
+}
+else
+  rcmail_overwrite_action('identities');
