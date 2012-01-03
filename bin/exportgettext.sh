@@ -175,7 +175,7 @@ function convert_file($fn, $outfn)
 	}
 
 	include($fn);
-	$texts = $labels ? $labels : $messages;
+	$texts = array_merge($labels, $messages);
 	
 	// write header
 	$header = <<<EOF
@@ -196,7 +196,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\\n"
 EOF;
 	
-	$out = sprintf($header, $srcname, $product, $is_pot ? "POT-Creation-Date" : "PO-Revision-Date", date('c'), $lang);
+	$out = sprintf($header, $srcname, $product, $is_pot ? "POT-Creation-Date" : "PO-Revision-Date", date('c'), $shortlang ? $shortlang : $lang);
 	$out .= "\n";
 	
 	$messages = array();
