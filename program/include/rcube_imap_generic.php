@@ -3249,28 +3249,30 @@ class rcube_imap_generic
 	    if (!is_array($a)) {
             return false;
         }
+
+        if (empty($part)) {
+		    return $a;
+	    }
+
+        $ctype = is_string($a[0]) && is_string($a[1]) ? $a[0] . '/' . $a[1] : '';
+
+        if (strcasecmp($ctype, 'message/rfc822') == 0) {
+            $a = $a[8];
+        }
+
 	    if (strpos($part, '.') > 0) {
-		    $original_part = $part;
-		    $pos = strpos($part, '.');
-		    $rest = substr($original_part, $pos+1);
-		    $part = substr($original_part, 0, $pos);
-		    if ((strcasecmp($a[0], 'message') == 0) && (strcasecmp($a[1], 'rfc822') == 0)) {
-			    $a = $a[8];
-		    }
+		    $orig_part = $part;
+		    $pos       = strpos($part, '.');
+		    $rest      = substr($orig_part, $pos+1);
+		    $part      = substr($orig_part, 0, $pos);
+
 		    return self::getStructurePartArray($a[$part-1], $rest);
 	    }
-        else if ($part>0) {
-		    if (!is_array($a[0]) && (strcasecmp($a[0], 'message') == 0)
-                && (strcasecmp($a[1], 'rfc822') == 0)) {
-			    $a = $a[8];
-		    }
+        else if ($part > 0) {
 		    if (is_array($a[$part-1]))
                 return $a[$part-1];
 		    else
                 return $a;
-	    }
-        else if (($part == 0) || (empty($part))) {
-		    return $a;
 	    }
     }
 
