@@ -1,27 +1,21 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ja_JP/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Tadashi Jokagi <elf2000@users.sourceforge.net>                |
-|         Takashi Takamatsu <taka717@gmail.com>                         |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
-//  EN-Revision: 5490
-
+ +-----------------------------------------------------------------------+
+ | localization/ja_JP/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
-$messages['loginfailed']  = 'ログインに失敗しました。';
+$messages['loginfailed'] = 'ログインに失敗しました。';
 $messages['cookiesdisabled'] = 'ブラウザーで Cookie が無効に設定されています。';
 $messages['sessionerror'] = 'セッションが正しくないか期限切れです。';
 $messages['imaperror'] = 'IMAP サーバーへの接続に失敗しました。';
@@ -44,10 +38,6 @@ $messages['messagesent'] = 'メールを送信しました。';
 $messages['savingmessage'] = 'メールを保存しています...';
 $messages['messagesaved'] = 'メールを下書きに保存しました。';
 $messages['successfullysaved'] = '保存しました。';
-$messages['addedsuccessfully'] = 'アドレス帳への連絡先の追加しました。';
-$messages['contactexists'] = 'このメールアドレスを含む連絡先が既に存在します。';
-$messages['messagesaved'] = 'メールを下書きに保存しました。';
-$messages['successfullysaved'] = '保存しました。';
 $messages['addedsuccessfully'] = '連絡先をアドレス帳に追加しました。';
 $messages['contactexists'] = '同じメールアドレスの連絡先がすでに存在します。';
 $messages['contactnameexists'] = '同じ名前の連絡先がすでに存在します。';
@@ -64,8 +54,8 @@ $messages['errormoving'] = 'メールを移動できません。';
 $messages['errorcopying'] = 'メールをコピーできません。';
 $messages['errordeleting'] = 'メールを削除できません。';
 $messages['errormarking'] = 'メールのマークを設定できません。';
-$messages['deletecontactconfirm']  = '選択した連絡先を本当に削除しますか?';
-$messages['deletegroupconfirm']  = 'このグループを本当に削除しますか?';
+$messages['deletecontactconfirm'] = '選択した連絡先を本当に削除しますか?';
+$messages['deletegroupconfirm'] = 'このグループを本当に削除しますか?';
 $messages['deletemessagesconfirm'] = '選択したメールを本当に削除しますか?';
 $messages['deletefolderconfirm'] = 'このフォルダーを本当に削除しますか?';
 $messages['purgefolderconfirm'] = 'このフォルダーの全メールを本当に削除しますか?';
@@ -77,7 +67,7 @@ $messages['foldersubscribing'] = 'フォルダーを購読しています...';
 $messages['folderunsubscribing'] = 'フォルダーの購読をやめています...';
 $messages['formincomplete'] = 'フォームの全項目を入力していません。';
 $messages['noemailwarning'] = '正しいメールアドレスを入力してください。';
-$messages['nonamewarning']  = '名前を入力してください。';
+$messages['nonamewarning'] = '名前を入力してください。';
 $messages['nopagesizewarning'] = 'ページのサイズを入力してください。';
 $messages['nosenderwarning'] = '差出人のメールアドレスを入力してください。';
 $messages['norecipientwarning'] = '宛先は少なくともひとり分は入力してください。';
@@ -126,7 +116,6 @@ $messages['importwait'] = 'インポート中です。しばらくお待ちく�
 $messages['importerror'] = 'インポートに失敗しました。アップロードしたファイルは不正な vCard ファイルです。';
 $messages['importconfirm'] = '<b>$inserted 件の連絡先をインポートしました。</b>';
 $messages['importconfirmskipped'] = '<b>$skipped 拳の既存エントリーをスキップしました</b>';
-
 $messages['opnotpermitted'] = '許可されていない操作です。';
 $messages['nofromaddress'] = '選択中の個人情報にメールアドレスが含まれていません。';
 $messages['editorwarning'] = 'テキスト エディターに切り替えるとすべての書式が失われます。よろしいですか?';
@@ -167,4 +156,3 @@ $messages['mispellingsfound'] = 'メッセージにスペル エラーを見つ�
 $messages['parentnotwritable'] = '選択した親フォルダーへの作成、移動に失敗しました。アクセス権限がありません。';
 $messages['messagetoobig'] = 'その処理をするにはメッセージ部分が大きすぎます。';
 
-?>

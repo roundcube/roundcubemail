@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ast/labels.inc                                               |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Mikel González <dangerous_piper@softastur.org>                |
-|         http://blogs.altuxa.com/gyg                                   |
-|         http://softastur.org                                          |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization//labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -44,17 +39,15 @@ $labels['date'] = 'Fecha';
 $labels['size'] = 'Tamañu';
 $labels['priority'] = 'Prioridá';
 $labels['organization'] = 'Organización';
-$labels['reply-to'] = 'Contestar a';
-$labels['mailboxlist'] = 'Carpetes';
+$labels['mailboxlist'] = 'Bandexes';
+$labels['folders'] = 'Bandexes';
 $labels['messagesfromto'] = 'Mensaxes del $from a $to de $count';
 $labels['messagenrof'] = 'Mensaxe $nr de $count';
+$labels['copy'] = 'Copia';
 $labels['moveto'] = 'mover pa...';
 $labels['download'] = 'baxar';
 $labels['filename'] = 'Nome del Ficheru';
 $labels['filesize'] = 'Tamañu del ficheru';
-$labels['preferhtml'] = 'Amosar HTML';
-$labels['htmlmessage'] = 'Mensaxe HTML';
-$labels['prettydate'] = 'Fecha prestosa';
 $labels['addtoaddressbook'] = 'Amestar al llibru de direiciones';
 $labels['sun'] = 'Dom';
 $labels['mon'] = 'Llu';
@@ -74,7 +67,8 @@ $labels['jan'] = 'Xin';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Abr';
-$labels['may'] = 'May';
+$labels['may'] = 'Mayu';
+$labels['longmay'] = 'Mayu';
 $labels['jun'] = 'Xun';
 $labels['jul'] = 'Xnt';
 $labels['aug'] = 'Ago';
@@ -86,7 +80,6 @@ $labels['longjan'] = 'Xineru';
 $labels['longfeb'] = 'Febreru';
 $labels['longmar'] = 'Marzu';
 $labels['longapr'] = 'Abril';
-$labels['longmay'] = 'Mayu';
 $labels['longjun'] = 'Xunu';
 $labels['longjul'] = 'Xunetu';
 $labels['longaug'] = 'Agostu';
@@ -104,13 +97,9 @@ $labels['deletemessage'] = 'Desaniciar mensaxe';
 $labels['movemessagetotrash'] = 'Mover mensaxe a la papelera';
 $labels['printmessage'] = 'Imprentar esti mensaxe';
 $labels['previousmessage'] = 'Amosar el mensaxe anterior';
-$labels['previousmessages'] = 'Amosar grupu de mensaxes anterior';
 $labels['firstmessage'] = 'Amosar primer mensaxe';
-$labels['firstmessages'] = 'Amosar primer grupu de mensaxes';
 $labels['nextmessage'] = 'Amosar el mensaxe siguiente';
-$labels['nextmessages'] = 'Amosar grupu de mensaxes que siguientes';
 $labels['lastmessage'] = 'Amosar l\'últimu mensaxe';
-$labels['lastmessages'] = 'Amosar l\'últimu grupu de mensaxes';
 $labels['backtolist'] = 'Tornar a la llista de mensaxes';
 $labels['viewsource'] = 'Amosar el códigu';
 $labels['markmessages'] = 'Marcar mensaxes';
@@ -118,10 +107,10 @@ $labels['markread'] = 'Como lleíu';
 $labels['markunread'] = 'Como non lleíu';
 $labels['markflagged'] = 'Como marcáu';
 $labels['markunflagged'] = 'Como non marcáu';
-$labels['messageactions'] = 'Más aiciones...';
 $labels['select'] = 'Escueye';
 $labels['all'] = 'Toos';
 $labels['none'] = 'Nengún';
+$labels['nonesort'] = 'Nengún';
 $labels['unread'] = 'Ensin lleer';
 $labels['flagged'] = 'Marcáu';
 $labels['unanswered'] = 'Ensin contestar';
@@ -130,7 +119,6 @@ $labels['invert'] = 'Invertir';
 $labels['filter'] = 'Filtru';
 $labels['compact'] = 'Compautar';
 $labels['empty'] = 'Vaciar';
-$labels['purge'] = 'Desaniciar';
 $labels['quota'] = 'Espaciu en discu';
 $labels['unknown'] = 'desconocíu';
 $labels['unlimited'] = 'ensin llímite';
@@ -212,6 +200,9 @@ $labels['manageidentities'] = 'Remanar identidaes pa esta cuenta';
 $labels['newidentity'] = 'Identidad nueva';
 $labels['newitem'] = 'Nuevu';
 $labels['edititem'] = 'Editar';
+$labels['preferhtml'] = 'Amosar HTML';
+$labels['htmlmessage'] = 'Mensaxe HTML';
+$labels['prettydate'] = 'Fecha prestosa';
 $labels['setdefault'] = 'Escoyer opción preferída';
 $labels['autodetect'] = 'Escoyer automáticamente';
 $labels['language'] = 'Idioma';
@@ -257,9 +248,7 @@ $labels['mainoptions'] = 'Opciones principales';
 $labels['section'] = 'Seición';
 $labels['maintenance'] = 'Mantenimientu';
 $labels['newmessage'] = 'Mensax nuevu';
-$labels['listoptions'] = 'Allistar opciones';
 $labels['folder'] = 'Bandexa';
-$labels['folders'] = 'Bandexes';
 $labels['foldername'] = 'Nome de bandexa';
 $labels['subscribed'] = 'Soscrita';
 $labels['messagecount'] = 'Mensaxes';
@@ -275,4 +264,3 @@ $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 
-?>

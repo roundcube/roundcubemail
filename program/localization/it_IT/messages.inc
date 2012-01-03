@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/it_IT/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Andrej Mocilnik <amocilnik@dotcom.ts.it>                      |
-|         Yusef Maali <contact@yusefmaali.net>                          |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/it_IT/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -160,4 +156,3 @@ $messages['mispellingsfound'] = 'Sono stati riscontrati errori ortografici nel m
 $messages['parentnotwritable'] = 'Impossibile creare o muovere la cartella: accesso negato';
 $messages['messagetoobig'] = 'La parte del messaggio è troppo grande per essere processata.';
 
-?>

@@ -1,19 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/he_IL/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Moshe Leibovitch    <moish@mln.co.il>                         |
-| Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  28112011                |
-+-----------------------------------------------------------------------+
-
+ +-----------------------------------------------------------------------+
+ | localization/he_IL/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -41,7 +39,7 @@ $messages['savingmessage'] = 'שמירת הודעה...';
 $messages['messagesaved'] = 'ההודעה נשמרה כטיוטה';
 $messages['successfullysaved'] = 'נשמרה בהצלחה';
 $messages['addedsuccessfully'] = 'איש הקשר נוסף לפנקס בהצלחה';
-$messages['contactexists'] = 'קיים כבר איש קשר עם כתובת דוא\"ל זו';
+$messages['contactexists'] = 'קיים כבר איש קשר עם כתובת דוא"ל זו';
 $messages['contactnameexists'] = 'קיים כבר איש קשר בעל אותו שם';
 $messages['blockedimages'] = 'תמונות משרת אחר נחסמו כדי לשמור על הפרטיות';
 $messages['encryptedmessage'] = 'זו הודעת מוצפנת ולא ניתן להציגה';
@@ -68,7 +66,7 @@ $messages['foldermoving'] = 'העברת תיקיה...';
 $messages['foldersubscribing'] = 'התיק נרשם...';
 $messages['folderunsubscribing'] = 'רישום התיק בוטל...';
 $messages['formincomplete'] = 'לא הוזנו כל השדות בטופס זה';
-$messages['noemailwarning'] = 'נא להוסיף כתובת דוא\"ל חוקית';
+$messages['noemailwarning'] = 'נא להוסיף כתובת דוא"ל חוקית';
 $messages['nonamewarning'] = 'נא להוסיף שם';
 $messages['nopagesizewarning'] = 'נא להוסיף גודל דף';
 $messages['nosenderwarning'] = 'נא להוסיף כתובת השולח';
@@ -77,7 +75,7 @@ $messages['nosubjectwarning'] = 'שורת הנושא ריקה. האם ברצונ
 $messages['nobodywarning'] = 'האם לשלוח הודעה ללא תוכן?';
 $messages['notsentwarning'] = 'ההודעה לא נשלחה. האם לבטל?';
 $messages['noldapserver'] = 'נא לבחור שרת כתובות לחיפוש';
-$messages['nosearchname'] = 'נא להוסיף איש קשר או כתובת דוא\"ל';
+$messages['nosearchname'] = 'נא להוסיף איש קשר או כתובת דוא"ל';
 $messages['notuploadedwarning'] = 'עדיין לא הועלו כל הקבצים. נא לחכות או לבטל הפעולה.';
 $messages['searchsuccessful'] = 'נמצאו $nr הודעות';
 $messages['contactsearchsuccessful'] = 'נמצאו $nr אנשי קשר';
@@ -121,11 +119,11 @@ $messages['importconfirmskipped'] = '<b>  דילוג של $skipped נתונים 
 $messages['opnotpermitted'] = 'פעולה אסורה!';
 $messages['nofromaddress'] = 'לזהות שנבחרה חסרה כתובת דואר';
 $messages['editorwarning'] = 'המעבר לעורך רגיל יגרום לאיבוד את העריכה הקיימת. האם להמשיך?';
-$messages['httpreceivedencrypterror'] = 'ארעה שגיאת תצורה חמורה. נא להודיע מייד למנהל/ת המערכת. <B> הודעתך לא תשלח <B> ';
+$messages['httpreceivedencrypterror'] = 'ארעה שגיאת תצורה חמורה. נא להודיע מייד למנהל/ת המערכת. <B> הודעתך לא תשלח <B>';
 $messages['smtpconnerror'] = 'SMTP ($code): אבד הקשר לשרת';
 $messages['smtpautherror'] = 'SMTP ($code): ההזדהות נכשלה';
-$messages['smtpfromerror'] = ' ($msg) SMTP ($code): "$from" לא נרשמה כתובת השולח';
-$messages['smtptoerror'] = ' ($msg) SMTP ($code): "$to" לא נרשמה כתובת המקבל';
+$messages['smtpfromerror'] = '($msg) SMTP ($code): "$from" לא נרשמה כתובת השולח';
+$messages['smtptoerror'] = '($msg) SMTP ($code): "$to" לא נרשמה כתובת המקבל';
 $messages['smtprecipientserror'] = 'SMTP : לא ניתן לפענח רשימת נמענים';
 $messages['smtperror'] = 'SMTP: $msg';
 $messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
@@ -158,4 +156,3 @@ $messages['mispellingsfound'] = 'התגלו שגיאות כתיב בהודעה';
 $messages['parentnotwritable'] = 'לא ניתן ליצור/להעביר תיקיה לתוך תיקית האב שנבחרה. אין הרשאה לגישה.';
 $messages['messagetoobig'] = 'ההודעה גדולה מעבר ליכולת העיבוד של התוכנה';
 
-?>

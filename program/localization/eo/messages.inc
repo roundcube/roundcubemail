@@ -1,18 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/eo/messages.inc                                              |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Andreas van Cranenburgh <andreas@unstable.nl                  |
-+-----------------------------------------------------------------------+
-
+ +-----------------------------------------------------------------------+
+ | localization/eo/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -54,7 +53,6 @@ $messages['nosubjectwarning'] = 'La temkampo estas malplena. Ĉu vi volas skribi
 $messages['nobodywarning'] = 'Ĉu sendi ĉi tiun mesaĝon sen teksto?';
 $messages['notsentwarning'] = 'Mesaĝo ne estas sendita. Ĉu vi volas forigi vian mesaĝon?';
 $messages['noldapserver'] = 'Bonvolu elekti ldap-servilon por serĉado';
-$messages['nocontactsreturned'] = 'Trovis neniun kontakton';
 $messages['nosearchname'] = 'Bonvolu enmeti kontakt-nomon aŭ retpoŝt-adreson.';
 $messages['searchsuccessful'] = 'trovis $nr mesaĝojn';
 $messages['searchnomatch'] = 'Serĉo donis nenion';
@@ -77,4 +75,3 @@ $messages['errorsendingreceipt'] = 'Ne povis sendi konfirmon';
 $messages['nodeletelastidentity'] = 'Vi ne povas forigi ĉi tiun identon, ĉar ĝi estas la lasta';
 $messages['forbiddencharacter'] = 'Dosierujo-nomo enhavas malpermesitan karaktron';
 
-?>

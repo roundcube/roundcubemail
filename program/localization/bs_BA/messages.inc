@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/bs_BA/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Begzudin Omerovic <Begzudin.Omerovic@gmail.com>               |
-|	Tanja Dobričić <tanja.dobricic@everymail.info>			|
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/bs_BA/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -72,7 +68,6 @@ $messages['nosubjectwarning'] = 'Polje \'Naslov\' je prazno. Želite li unijeti 
 $messages['nobodywarning'] = 'Želite li poslati poruku bez teksta?';
 $messages['notsentwarning'] = 'Poruka nije poslata. Želite li odbaciti ovu poruku?';
 $messages['noldapserver'] = 'Unesite LDAP poslužitelj za pretragu';
-$messages['nocontactsreturned'] = 'Nije pronađen niti jedan kontakt';
 $messages['nosearchname'] = 'Unesite ime ili email adresu';
 $messages['notuploadedwarning'] = 'Svi prilozi još nisu presnimljeni na poslužitelj. Molim pričekajte ili zaustavite presnimavanje.';
 $messages['searchsuccessful'] = 'Broj pronađenih poruka: $nr';
@@ -87,7 +82,7 @@ $messages['folderpurged'] = 'Fascikla uspješno ispražnjena';
 $messages['folderexpunged'] = 'Fascikla uspješno zbijena';
 $messages['deletedsuccessfully'] = 'Uspješno obrisano';
 $messages['converting'] = 'Formatiranje poruke';
-$messages['messageopenerror'] = 'Nije moguće ';
+$messages['messageopenerror'] = 'Nije moguće';
 $messages['fileuploaderror'] = 'Prijenos datoteke nije uspio';
 $messages['filesizeerror'] = 'Datoteka je prevelika. Maksimalna veličina je $size';
 $messages['copysuccess'] = 'Uspješno kopirano $n adresa';
@@ -119,7 +114,6 @@ $messages['smtpautherror'] = 'SMTP Greška ($code): Autentikacija nije uspjela';
 $messages['smtpfromerror'] = 'SMTP Greška ($code): Nije uspjelo postavljanje pošiljaoca "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP Greška ($code): Nije uspjelo dodavanje primaoca "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Greška: Nije moguće pročitati listu primaoca';
-$messages['smtpdsnerror'] = 'SMTP Greška: Nema podrške za obaviještenje o statusu isporuke';
 $messages['smtperror'] = 'SMTP Greška: $msg';
 $messages['emailformaterror'] = 'Nepravilna email adresa: $email';
 $messages['toomanyrecipients'] = 'Previše primaoca. Smanjite broj primaoca na $max.';
@@ -141,4 +135,3 @@ $messages['folderupdated'] = 'Ažuriranje mape uspješno.';
 $messages['foldercreated'] = 'Kreiranje mape uspješno.';
 $messages['invalidimageformat'] = 'Format slike nije validan.';
 
-?>

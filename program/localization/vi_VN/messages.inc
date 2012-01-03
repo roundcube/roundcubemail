@@ -1,24 +1,21 @@
 <?php
 
 /*
-
  +-----------------------------------------------------------------------+
- | language/vn/messages.inc                                              |
+ | localization/vi_VN/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Vinh Bui <bqvinh@buivinh.info>                                |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
-
  @version $Id$
-
 */
 
 $messages = array();
-$messages['loginfailed']  = 'Không đăng nhập được';
+$messages['loginfailed'] = 'Không đăng nhập được';
 $messages['cookiesdisabled'] = 'Trình duyệt không hỗ trợ cookies';
 $messages['sessionerror'] = 'Phiên làm việc không hợp lệ hoặc đã hết hạn';
 $messages['imaperror'] = 'Không kết nối được với máy chủ IMAP';
@@ -42,19 +39,18 @@ $messages['sendingfailed'] = 'Không gửi được thư';
 $messages['errorsaving'] = 'Lỗi khi lưu';
 $messages['errormoving'] = 'Không thể chuyển được thư';
 $messages['errordeleting'] = 'Không thể xóa được thư';
-$messages['deletecontactconfirm']  = 'Xóa bỏ các địa chỉ được chọn?';
-$messages['deletefolderconfirm']  = 'Xóa bỏ thư mục này?';
-$messages['purgefolderconfirm']  = 'Xóa toàn bộ thư trong thư mục nào?';
+$messages['deletecontactconfirm'] = 'Xóa bỏ các địa chỉ được chọn?';
+$messages['deletefolderconfirm'] = 'Xóa bỏ thư mục này?';
+$messages['purgefolderconfirm'] = 'Xóa toàn bộ thư trong thư mục nào?';
 $messages['formincomplete'] = 'Mẫu chưa được điền xong';
 $messages['noemailwarning'] = 'Nhập địa chỉ email';
-$messages['nonamewarning']  = 'Nhập tên';
+$messages['nonamewarning'] = 'Nhập tên';
 $messages['nopagesizewarning'] = 'Nhập kích cỡ của trang';
 $messages['norecipientwarning'] = 'Thư cần có it nhất 1 người nhận';
-$messages['nosubjectwarning']  = 'Mục "Tiêu đề" chưa có. Điền tiêu đề ?';
+$messages['nosubjectwarning'] = 'Mục "Tiêu đề" chưa có. Điền tiêu đề ?';
 $messages['nobodywarning'] = 'Thư không nội dung, vẫn tiếp tục gửi?';
 $messages['notsentwarning'] = 'Thư chưa được gửi. Bỏ qua thư đang soạn?';
 $messages['noldapserver'] = 'Chọn máy chủ ldap server để tìm';
-$messages['nocontactsreturned'] = 'Không tìm thấy địa chỉ';
 $messages['nosearchname'] = 'Nhập địa chỉ hoặc email';
 $messages['searchsuccessful'] = '$nr messages found';
 $messages['searchnomatch'] = 'Không tìm thấy';
@@ -63,4 +59,3 @@ $messages['checking'] = 'Kiểm tra...';
 $messages['nospellerrors'] = 'Không có lỗi chính tả';
 $messages['folderdeleted'] = 'Thư mục đã được xóa';
 
-?>

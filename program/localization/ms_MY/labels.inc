@@ -1,20 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ms_MY/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Muhammad Zamri MS <myzamri@gmail.com>                        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ms_MY/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: abuyop <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -25,7 +22,7 @@ $labels['server'] = 'Pelayan';
 $labels['login'] = 'Log Masuk';
 $labels['logout'] = 'Log Keluar';
 $labels['mail'] = 'E-Mel';
-$labels['settings'] = 'Tetapan Peribadi';
+$labels['settings'] = 'Tetapan';
 $labels['addressbook'] = 'Buku Alamat';
 $labels['inbox'] = 'Masuk';
 $labels['drafts'] = 'Draf';
@@ -42,17 +39,16 @@ $labels['date'] = 'Tarikh';
 $labels['size'] = 'Saiz';
 $labels['priority'] = 'Keutamaan';
 $labels['organization'] = 'Organisasi';
-$labels['reply-to'] = 'Balas kepada';
 $labels['mailboxlist'] = 'Kabinet Fail';
+$labels['folders'] = 'Kabinet Fail';
 $labels['messagesfromto'] = 'Mesej $from ke $to dari $count';
 $labels['messagenrof'] = 'Mesej $nr dari $count';
-$labels['moveto'] = 'pindah ke...';
-$labels['download'] = 'muat turun';
+$labels['copy'] = 'Salin';
+$labels['move'] = 'Alih';
+$labels['moveto'] = 'Alih ke...';
+$labels['download'] = 'Muat Turun';
 $labels['filename'] = 'Nama Fail';
 $labels['filesize'] = 'Saiz Fail';
-$labels['preferhtml'] = 'Papar HTML';
-$labels['htmlmessage'] = 'Mesej HTML';
-$labels['prettydate'] = 'Tarikh-tarikh cantik';
 $labels['addtoaddressbook'] = 'Tambah ke buku alamat';
 $labels['sun'] = 'Aha';
 $labels['mon'] = 'Isn';
@@ -73,6 +69,7 @@ $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mac';
 $labels['apr'] = 'Apr';
 $labels['may'] = 'Mei';
+$labels['longmay'] = 'Mei';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Ogo';
@@ -84,7 +81,6 @@ $labels['longjan'] = 'Januari';
 $labels['longfeb'] = 'Februari';
 $labels['longmar'] = 'March';
 $labels['longapr'] = 'April';
-$labels['longmay'] = 'Mei';
 $labels['longjun'] = 'Jun';
 $labels['longjul'] = 'Julai';
 $labels['longaug'] = 'Ogos';
@@ -102,13 +98,9 @@ $labels['deletemessage'] = 'Pindah mesej ke sampah';
 $labels['movemessagetotrash'] = 'Pindah mesej ke Tong Sampah';
 $labels['printmessage'] = 'Cetak mesej ini';
 $labels['previousmessage'] = 'Papar mesej sebelumnya';
-$labels['previousmessages'] = 'Papar set mesej sebelumnya';
 $labels['firstmessage'] = 'Papar mesej pertama';
-$labels['firstmessages'] = 'Papar set mesej pertama';
 $labels['nextmessage'] = 'Papat mesej seterusnya';
-$labels['nextmessages'] = 'Papar set mesej seterusnya';
 $labels['lastmessage'] = 'Papat mesej terakhir';
-$labels['lastmessages'] = 'Papar set mesej terakhir';
 $labels['backtolist'] = 'Kembali ke senarai mesej';
 $labels['viewsource'] = 'Papar sumber';
 $labels['markmessages'] = 'Tanda mesej';
@@ -117,12 +109,12 @@ $labels['markunread'] = 'belum/tidak dibaca';
 $labels['select'] = 'Pilih';
 $labels['all'] = 'Semua';
 $labels['none'] = 'Tiada';
+$labels['nonesort'] = 'Tiada';
 $labels['unread'] = 'Tidak dibaca';
 $labels['compact'] = 'Padat';
 $labels['empty'] = 'Kosong';
-$labels['purge'] = 'Singkir';
 $labels['quota'] = 'Penggunaan cakera';
-$labels['unknown'] = 'tidak dikenali';
+$labels['unknown'] = 'tidak diketahui';
 $labels['unlimited'] = 'tidak terhad';
 $labels['quicksearch'] = 'Carian pantas';
 $labels['resetsearch'] = 'Set semula carian';
@@ -161,10 +153,10 @@ $labels['surname'] = 'Nama akhir';
 $labels['email'] = 'E-Mel';
 $labels['addcontact'] = 'Tambah kontek baru';
 $labels['editcontact'] = 'Ubahsuai Kontek';
-$labels['edit'] = 'Ubahsuai';
+$labels['edit'] = 'Sunting';
 $labels['cancel'] = 'Batal';
 $labels['save'] = 'Simpan';
-$labels['delete'] = 'Hapus';
+$labels['delete'] = 'Padam';
 $labels['newcontact'] = 'Cipta kad kontek baru';
 $labels['deletecontact'] = 'Hapus kontek yang dipilih';
 $labels['composeto'] = 'Karang mel kepada';
@@ -178,14 +170,17 @@ $labels['lastpage'] = 'Papar set akhir';
 $labels['groups'] = 'Kumpulan';
 $labels['personaladrbook'] = 'Alamat-alamat Peribadi';
 $labels['settingsfor'] = 'Tetapan bagi';
-$labels['preferences'] = 'Pilihan';
-$labels['userpreferences'] = 'Pilihan pengguna';
-$labels['editpreferences'] = 'Ubahsuai pilihan pengguna';
+$labels['preferences'] = 'Keutamaan';
+$labels['userpreferences'] = 'Keutamaan pengguna';
+$labels['editpreferences'] = 'Sunting keutamaan pengguna';
 $labels['identities'] = 'Identiti';
 $labels['manageidentities'] = 'Urus identiti bagi akaun ini';
 $labels['newidentity'] = 'Identiti baru';
 $labels['newitem'] = 'Butiran baru';
 $labels['edititem'] = 'Ubahsuai butiran';
+$labels['preferhtml'] = 'Papar HTML';
+$labels['htmlmessage'] = 'Mesej HTML';
+$labels['prettydate'] = 'Tarikh-tarikh cantik';
 $labels['setdefault'] = 'Tetap asal';
 $labels['language'] = 'Bahasa';
 $labels['timezone'] = 'Zon Masa';
@@ -209,7 +204,6 @@ $labels['flagfordeletion'] = 'Tanda mesej untuk pembuangan (tidak delete terus)'
 $labels['autosavedraft'] = 'Simpan draf dengan automatik';
 $labels['never'] = 'tidak pernah';
 $labels['folder'] = 'Kabinet Fail';
-$labels['folders'] = 'Kabinet Fail';
 $labels['foldername'] = 'Nama Kabinet Fail';
 $labels['subscribed'] = 'Dilanggan';
 $labels['messagecount'] = 'Mesej-mesej';
@@ -220,4 +214,3 @@ $labels['sortby'] = 'Susun dengan';
 $labels['sortasc'] = 'Susun menaik';
 $labels['sortdesc'] = 'Susun menurun';
 
-?>

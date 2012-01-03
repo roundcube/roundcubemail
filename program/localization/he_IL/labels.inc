@@ -1,18 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/he_IL/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Moshe Leibovitch  <moish@mln.co.il>                           |
-| Updates: Noor Dawod <noor@comrax.com>                                 |
-| Updates: Moshe Leibovitch  <moish@mln.co.il>  28112011                |
-+-----------------------------------------------------------------------+
+ +-----------------------------------------------------------------------+
+ | localization/he_IL/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -43,6 +42,7 @@ $labels['priority'] = 'עדיפות';
 $labels['organization'] = 'ארגון';
 $labels['readstatus'] = 'נקרא';
 $labels['mailboxlist'] = 'תיקים';
+$labels['folders'] = 'תיקים';
 $labels['messagesfromto'] = 'הודעות $from עד $to מתוך $count';
 $labels['threadsfromto'] = 'שרשור $from עד $to מתוך $count';
 $labels['messagenrof'] = 'הודעה $nr מתוך $count';
@@ -72,6 +72,7 @@ $labels['feb'] = 'פבר';
 $labels['mar'] = 'מרץ';
 $labels['apr'] = 'אפר';
 $labels['may'] = 'מאי';
+$labels['longmay'] = 'מאי';
 $labels['jun'] = 'יונ';
 $labels['jul'] = 'יול';
 $labels['aug'] = 'אוג';
@@ -83,7 +84,6 @@ $labels['longjan'] = 'ינואר';
 $labels['longfeb'] = 'פברואר';
 $labels['longmar'] = 'מרץ';
 $labels['longapr'] = 'אפריל';
-$labels['longmay'] = 'מאי';
 $labels['longjun'] = 'יוני';
 $labels['longjul'] = 'יולי';
 $labels['longaug'] = 'אוגוסט';
@@ -119,6 +119,7 @@ $labels['moreactions'] = 'פעולות נוספות...';
 $labels['select'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
+$labels['nonesort'] = 'כלום';
 $labels['currpage'] = 'דף נוכחי';
 $labels['unread'] = 'לא נקראו';
 $labels['flagged'] = 'מסומן';
@@ -138,7 +139,6 @@ $labels['expand_only_unread'] = 'רק עם הודעות שטרם נקראו';
 $labels['fromto'] = 'שולח/נמען';
 $labels['flag'] = 'דגל';
 $labels['attachment'] = 'צרופה';
-$labels['nonesort'] = 'כלום';
 $labels['sentdate'] = 'תאריך משלוח';
 $labels['arrival'] = 'תאריך הגעה';
 $labels['asc'] = 'בסדר עולה';
@@ -186,7 +186,7 @@ $labels['high'] = 'גבוה';
 $labels['highest'] = 'גבוה ביותר';
 $labels['nosubject'] = '(ללא נושא)';
 $labels['showimages'] = 'הצגת תמונות';
-$labels['alwaysshow'] = '$sender תמיד להציג תמונות מאת ';
+$labels['alwaysshow'] = '$sender תמיד להציג תמונות מאת';
 $labels['isdraft'] = 'זו טיוטה של הודעה';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'ללא עיצוב';
@@ -229,14 +229,15 @@ $labels['male'] = 'זכר';
 $labels['female'] = 'נקבה';
 $labels['manager'] = 'מנהל/ת';
 $labels['assistant'] = 'עוזר/ת';
+$labels['typeassistant'] = 'עוזר/ת';
 $labels['spouse'] = 'בן/בת זוג';
 $labels['allfields'] = 'כל השדות';
 $labels['search'] = 'חיפוש';
 $labels['advsearch'] = 'חיםוש מתקדם';
 $labels['other'] = 'אחר';
+$labels['typeother'] = 'אחר';
 $labels['typehome'] = 'בית';
 $labels['typework'] = 'עבודה';
-$labels['typeother'] = 'אחר';
 $labels['typemobile'] = 'נייד';
 $labels['typemain'] = 'עיקרי';
 $labels['typehomefax'] = 'פקס בית';
@@ -244,7 +245,6 @@ $labels['typeworkfax'] = 'פקס עבודה';
 $labels['typecar'] = 'מכונית';
 $labels['typepager'] = 'זימונית';
 $labels['typevideo'] = 'וידאו';
-$labels['typeassistant'] = 'עוזר/ת';
 $labels['typehomepage'] = 'דף הבית';
 $labels['typeblog'] = 'יומן רשת';
 $labels['typeprofile'] = 'פרופיל';
@@ -267,7 +267,7 @@ $labels['composeto'] = 'יצירת הודעה אל';
 $labels['contactsfromto'] = 'אנשי קשר $from עד $to מתוך $count';
 $labels['print'] = 'הדפסה';
 $labels['export'] = 'ייצוא';
-$labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard ';
+$labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard';
 $labels['newcontactgroup'] = 'יצירת קבוצה חדשה של אנשי קשר';
 $labels['grouprename'] = 'שינוי שם קבוצה';
 $labels['groupdelete'] = 'מחיקת קבוצה';
@@ -323,7 +323,7 @@ $labels['mailboxview'] = 'הצגת תיבת ההודעות';
 $labels['mdnrequests'] = 'משלוח אישור מסירה';
 $labels['askuser'] = 'שאל את המשתמש';
 $labels['autosend'] = 'שליחה אוטומטית';
-$labels['autosendknown'] = 'משלוח אישור קבלה רק לאנשי הקשר שלי ';
+$labels['autosendknown'] = 'משלוח אישור קבלה רק לאנשי הקשר שלי';
 $labels['autosendknownignore'] = 'משלוח אישור קבלה לאנשי הקשר שלי בלבד ולהתעלם מאחרים';
 $labels['ignore'] = 'התעלם';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
@@ -350,11 +350,11 @@ $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקים';
 $labels['displaynext'] = 'מעבר להודעה הבאה לאחר מחיקה או תיוק';
+$labels['defaultfont'] = 'גופן ברירת מחדל להודעה בפורמט HTML';
 $labels['mainoptions'] = 'אפשרויות עיקריות';
 $labels['section'] = 'קטע';
 $labels['maintenance'] = 'תחזוקה';
 $labels['newmessage'] = 'הודעה חדשה';
-$labels['listoptions'] = 'אפשרויות רשימה';
 $labels['signatureoptions'] = 'אפשרויות לשיבוץ חתימה';
 $labels['whenreplying'] = 'כאשר עונים';
 $labels['replytopposting'] = 'הודעה חדשה תתחיל מעל ההודעה המקורית';
@@ -381,7 +381,6 @@ $labels['spellcheckignorenums'] = 'התעלמות ממילים המכילות מ
 $labels['spellcheckignorecaps'] = 'התעלמות ממילים עם אותציות ראשיות';
 $labels['addtodict'] = 'הוספה למילון';
 $labels['folder'] = 'תיק';
-$labels['folders'] = 'תיקים';
 $labels['foldername'] = 'שם תיק';
 $labels['subscribed'] = 'מנוי';
 $labels['messagecount'] = 'הודעות';
@@ -432,4 +431,3 @@ $labels['japanese'] = 'יפני';
 $labels['korean'] = 'קוריאני';
 $labels['chinese'] = 'סיני';
 
-?>

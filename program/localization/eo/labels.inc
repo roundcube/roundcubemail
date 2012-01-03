@@ -1,18 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/eo/labels.inc                                                |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Andreas van Cranenburgh <andreas@unstable.nl>                 |
-+-----------------------------------------------------------------------+
-
+ +-----------------------------------------------------------------------+
+ | localization/eo/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -40,17 +39,15 @@ $labels['date'] = 'Dato';
 $labels['size'] = 'Grando';
 $labels['priority'] = 'Prioritato';
 $labels['organization'] = 'Organizo';
-$labels['reply-to'] = 'Respondu-Al';
 $labels['mailboxlist'] = 'Dosierujoj';
+$labels['folders'] = 'Dosierujoj';
 $labels['messagesfromto'] = 'Mesaĝoj ekde $from ĝis $to de $count';
 $labels['messagenrof'] = 'Mesaĝo $nr-a de $count';
+$labels['copy'] = 'Kopio';
 $labels['moveto'] = 'transloku al...';
 $labels['download'] = 'elŝutu';
 $labels['filename'] = 'Dosiernomo';
 $labels['filesize'] = 'Dosiergrando';
-$labels['preferhtml'] = 'Montru HTML';
-$labels['htmlmessage'] = 'HTML Mesaĝo';
-$labels['prettydate'] = 'Agrablaj Datoj';
 $labels['addtoaddressbook'] = 'Aldonu al adresaro';
 $labels['sun'] = 'Dim';
 $labels['mon'] = 'Lun';
@@ -70,7 +67,8 @@ $labels['jan'] = 'Jan';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Apr';
-$labels['may'] = 'Maj';
+$labels['may'] = 'Majo';
+$labels['longmay'] = 'Majo';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Aŭg';
@@ -82,7 +80,6 @@ $labels['longjan'] = 'Januaro';
 $labels['longfeb'] = 'Februaro';
 $labels['longmar'] = 'Marĉo';
 $labels['longapr'] = 'Aprilo';
-$labels['longmay'] = 'Majo';
 $labels['longjun'] = 'Junio';
 $labels['longjul'] = 'Julio';
 $labels['longaug'] = 'Aŭgusto';
@@ -100,13 +97,9 @@ $labels['deletemessage'] = 'Forigu mesaĝon';
 $labels['movemessagetotrash'] = 'Transloku mesaĝon al rubujo';
 $labels['printmessage'] = 'Printu ĉi tiun mesaĝon';
 $labels['previousmessage'] = 'Montru antaŭan mesaĝon';
-$labels['previousmessages'] = 'Montru antaŭan aron de mesaĝoj';
 $labels['firstmessage'] = 'Montru unuan mesaĝon';
-$labels['firstmessages'] = 'Montru unuan aron de mesaĝoj';
 $labels['nextmessage'] = 'Montru sekvan mesaĝon';
-$labels['nextmessages'] = 'Montru sekvan aron de mesaĝoj';
 $labels['lastmessage'] = 'Montru lastan mesaĝon';
-$labels['lastmessages'] = 'Montru lastan aron de mesaĝoj';
 $labels['backtolist'] = 'Reen al mesaĝo-listo';
 $labels['viewsource'] = 'Montru fonton';
 $labels['markmessages'] = 'Marku mesaĝojn';
@@ -117,10 +110,10 @@ $labels['markunflagged'] = 'kiel nemarkita';
 $labels['select'] = 'Elektu';
 $labels['all'] = 'Ĉion';
 $labels['none'] = 'Nenion';
+$labels['nonesort'] = 'Nenion';
 $labels['unread'] = 'Nelegitan';
 $labels['compact'] = 'Kompakta';
 $labels['empty'] = 'Malplena';
-$labels['purge'] = 'Senrubigu';
 $labels['quota'] = 'Diskuzo';
 $labels['unknown'] = 'nekonata';
 $labels['unlimited'] = 'senlima';
@@ -187,6 +180,9 @@ $labels['manageidentities'] = 'Administru identojn de ĉi tiu konto';
 $labels['newidentity'] = 'Nova idento';
 $labels['newitem'] = 'Nova ero';
 $labels['edititem'] = 'Redaktu eron';
+$labels['preferhtml'] = 'Montru HTML';
+$labels['htmlmessage'] = 'HTML Mesaĝo';
+$labels['prettydate'] = 'Agrablaj Datoj';
 $labels['setdefault'] = 'Agordu kiel norma';
 $labels['language'] = 'Lingvo';
 $labels['timezone'] = 'Tempzono';
@@ -214,7 +210,6 @@ $labels['never'] = 'neniam';
 $labels['messagesdisplaying'] = 'Mesaĝoj vidigante';
 $labels['messagescomposition'] = 'Mesaĝo-verkado';
 $labels['folder'] = 'Dosierujo';
-$labels['folders'] = 'Dosierujoj';
 $labels['foldername'] = 'Dosierujo-nomo';
 $labels['subscribed'] = 'Abonata';
 $labels['messagecount'] = 'Mesaĝoj';
@@ -225,4 +220,3 @@ $labels['sortby'] = 'Ordigu per';
 $labels['sortasc'] = 'Ordigu kreskante';
 $labels['sortdesc'] = 'Ordigu malkreskante';
 
-?>

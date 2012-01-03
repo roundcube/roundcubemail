@@ -1,26 +1,21 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ca_ES/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
-|         Simo <sim6@graciasensefils.net>                               |
-|         Jordi Sanfeliu <jordi@fibranet.cat>                           |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ca_ES/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Emi Bcn <Unknown>                                             |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Contrasenya incorrecta';
+$messages['loginfailed'] = 'L\'accés ha fallat.';
 $messages['cookiesdisabled'] = 'El vostre navegador no accepta cookies';
 $messages['sessionerror'] = 'La vostra sessió no existeix o ha expirat';
 $messages['imaperror'] = 'Error de conexió amb el servidor IMAP';
@@ -35,7 +30,7 @@ $messages['loggedout'] = 'Heu tancat la sessió. Fins aviat!';
 $messages['mailboxempty'] = 'La bústia és buida';
 $messages['loading'] = 'Carregant...';
 $messages['uploading'] = 'Pujant fitxer...';
-$messages['uploadingmany'] = 'Pujant fitxer...';
+$messages['uploadingmany'] = 'Pujant fitxers...';
 $messages['loadingdata'] = 'Carregant dades...';
 $messages['checkingmail'] = 'Cercant nous missatges...';
 $messages['sendingmessage'] = 'Enviant missatge...';
@@ -50,6 +45,7 @@ $messages['blockedimages'] = 'Per a protegir la vostra privacitat, les imatges r
 $messages['encryptedmessage'] = 'Aquest és un missatge xifrat i no pot ser mostrat. Ho sento!';
 $messages['nocontactsfound'] = 'No hi ha contactes';
 $messages['contactnotfound'] = 'No s\'ha trobat el contacte sol·licitat';
+$messages['contactsearchonly'] = 'Introdueix termes de cerca per a trobar contactes';
 $messages['sendingfailed'] = 'Error enviant missatge';
 $messages['senttooquickly'] = 'Si us plau, espereu $sec segon(s) abans d\'enviar aquest missatge';
 $messages['errorsavingsent'] = 'Hi ha hagut un error mentre es desava el missatge enviat';
@@ -63,6 +59,7 @@ $messages['deletegroupconfirm'] = 'De veres voleu eliminar el grup seleccionat?'
 $messages['deletemessagesconfirm'] = 'Esteu segurs de voler suprimir el(s) missatge(s) selecionat(s)?';
 $messages['deletefolderconfirm'] = 'Esteu segurs de voler suprimir aquesta carpeta?';
 $messages['purgefolderconfirm'] = 'Esteu segurs de voler suprimir tots els missatges d\'aquesta carpeta?';
+$messages['contactdeleting'] = 'Esborrant contacte(s)...';
 $messages['groupdeleting'] = 'Eliminant el grup...';
 $messages['folderdeleting'] = 'Suprimint la carpeta...';
 $messages['foldermoving'] = 'Movent la carpeta...';
@@ -74,7 +71,7 @@ $messages['nonamewarning'] = 'Introduïu un nom';
 $messages['nopagesizewarning'] = 'Introduïu una mida de pàgina';
 $messages['nosenderwarning'] = 'Si us plau, entreu l\'adreça d\'e-mail del remitent';
 $messages['norecipientwarning'] = 'Introduïu com a mínim un destinatari';
-$messages['nosubjectwarning'] = 'El camp \"Assumpte\" és buit. Voleu introduir-ne un ara?';
+$messages['nosubjectwarning'] = 'El camp "Assumpte" és buit. Voleu introduir-ne un ara?';
 $messages['nobodywarning'] = 'Voleu enviar aquest missatge sense text?';
 $messages['notsentwarning'] = 'El missatge no s\'ha enviat. Voleu descartar el vostre missatge?';
 $messages['noldapserver'] = 'Seleccioneu un servidor LDAP per a cercar';
@@ -128,7 +125,6 @@ $messages['smtpautherror'] = 'Error SMTP ($code): La identificació ha fallat.';
 $messages['smtpfromerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$from" com a remitent ($msg)';
 $messages['smtptoerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$to" com a destinatari ($msg)';
 $messages['smtprecipientserror'] = 'Error SMTP: No s\'ha pogut analitzar la lista de destinataris';
-$messages['smtpdsnerror'] = 'Error SMTP: No es suporten les notificacions d\'estat de lliuraments';
 $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Adreça d\'e-mail incorrecta: $email';
 $messages['toomanyrecipients'] = 'Massa destinataris. Reduïu el nombre de destinataris a $max.';
@@ -150,6 +146,7 @@ $messages['messagemoved'] = 'Missatge(s) mogut(s) satisfactòriament';
 $messages['messagecopied'] = 'Missatge(s) copiat(s) satisfactòriament';
 $messages['messagemarked'] = 'Missatge(s) marcat(s) satisfactòriament';
 $messages['autocompletechars'] = 'Introdueix al menys $min caracters per a l\'autocompleció';
+$messages['autocompletemore'] = 'S¡han trobat més entrades coincidents. Si us plau, introdueix més caràcters.';
 $messages['namecannotbeempty'] = 'El nom no pot estar buit';
 $messages['nametoolong'] = 'El nom és massa llarg';
 $messages['folderupdated'] = 'La carpeta ha estat actualitzada satisfactòriament';
@@ -157,5 +154,5 @@ $messages['foldercreated'] = 'La carpeta ha estat creada satisfactòriament';
 $messages['invalidimageformat'] = 'No és un format d\'imatge vàlid.';
 $messages['mispellingsfound'] = 'S\'han detectat errors d\'ortografia al misstage.';
 $messages['parentnotwritable'] = 'No ha etsat possible crear/moure la carpeta dins de la carpeta ascendent seleccionada. No hi ha permisos d\'escriptura.';
+$messages['messagetoobig'] = 'La part del missatge és massa gran per a processar-la.';
 
-?>

@@ -1,23 +1,17 @@
 <?php
 
 /*
-
-+------------------------------------------------------------------------+
-| language/es_ES/messages.inc                                            |
-|                                                                        |
-| Language file of the Roundcube Webmail client                          |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                        |
-| Licensed under the GNU GPL                                             |
-|                                                                        |
-+------------------------------------------------------------------------+
-| Authors: Javier Smaldone <javier@smaldone.com.ar>                      |
-|          David Grajal Blanco <dgrabla@gmail.com>                       |
-|          Lito Jornero <jornero@gmail.com>                              |
-|          Ángel Bueno Prieto <info@mediaiberia.com>                     |
-|          José M. Ciordia <ciordia@gmail.com>                           |
-+------------------------------------------------------------------------+
-
-@version $Id$
+ +-----------------------------------------------------------------------+
+ | localization/es_ES/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Pablo Rosciani <Unknown>                                      |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -29,28 +23,29 @@ $messages['servererror'] = '¡Error del servidor!';
 $messages['servererrormsg'] = 'Error de servidor: $msg';
 $messages['dberror'] = '¡Error de base de datos!';
 $messages['errorreadonly'] = 'No se ha podido hacer. La bandeja es sólo de lectura';
-$messages['errornoperm'] = 'No se ha podido hacer. Permiso denegado';
+$messages['errornoperm'] = 'Imposible realizar la operación. Permiso denegado';
 $messages['invalidrequest'] = '¡Petición no válida! No se han guardado los datos.';
 $messages['nomessagesfound'] = 'No se han encontrado mensajes en esta casilla';
 $messages['loggedout'] = 'Ha cerrado bien la sesión. ¡Hasta pronto!';
 $messages['mailboxempty'] = 'La casilla está vacía';
 $messages['loading'] = 'Cargando...';
-$messages['uploading'] = 'Subiendo fichero...';
+$messages['uploading'] = 'Subiendo archivo...';
 $messages['uploadingmany'] = 'Subiendo archivos…';
 $messages['loadingdata'] = 'Cargando datos...';
 $messages['checkingmail'] = 'Verificando si hay nuevos mensajes...';
 $messages['sendingmessage'] = 'Enviando mensaje...';
 $messages['messagesent'] = 'Mensaje enviado correctamente';
-$messages['savingmessage'] = 'Guardar mensaje...';
+$messages['savingmessage'] = 'Guardando mensaje...';
 $messages['messagesaved'] = 'Mensaje guardado en borradores';
 $messages['successfullysaved'] = 'Guardado correctamente';
 $messages['addedsuccessfully'] = 'Contacto añadido correctamente a la libreta de direcciones';
 $messages['contactexists'] = 'Ya existe un contacto con esta dirección de correo';
 $messages['contactnameexists'] = 'Ya existe un contacto con el mismo nombre.';
-$messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externas han sido bloqueadas en este mensaje';
+$messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externas de este mensaje han sido bloqueadas.';
 $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo siento!';
-$messages['nocontactsfound'] = 'No hay contactos';
+$messages['nocontactsfound'] = 'No se encontraron contactos.';
 $messages['contactnotfound'] = 'El contacto solicitado no existe';
+$messages['contactsearchonly'] = 'Ingrese algún criterio para buscar contactos';
 $messages['sendingfailed'] = 'Error al enviar mensaje';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de mandar este mensaje';
 $messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje enviado';
@@ -64,6 +59,7 @@ $messages['deletegroupconfirm'] = '¿De verdad quiere borrar el grupo selecciona
 $messages['deletemessagesconfirm'] = '¿Realmente quiere eliminar los mensajes seleccionados?';
 $messages['deletefolderconfirm'] = '¿Realmente quiere eliminar esta bandeja?';
 $messages['purgefolderconfirm'] = '¿Realmente quiere eliminar todos los mensajes de esta bandeja?';
+$messages['contactdeleting'] = 'Eliminando contacto(s)';
 $messages['groupdeleting'] = 'Borrando grupo…';
 $messages['folderdeleting'] = 'Borrando bandeja...';
 $messages['foldermoving'] = 'Moviendo bandeja...';
@@ -88,8 +84,8 @@ $messages['searching'] = 'Buscando...';
 $messages['checking'] = 'Revisando...';
 $messages['nospellerrors'] = 'No se encontraron errores ortográficos';
 $messages['folderdeleted'] = 'Bandeja eliminada correctamente';
-$messages['foldersubscribed'] = 'Suscripción a bandeja anulada correctamente';
-$messages['folderunsubscribed'] = 'Suscrito a bandeja correctamente';
+$messages['foldersubscribed'] = 'Suscrito a bandeja correctamente';
+$messages['folderunsubscribed'] = 'Suscripción a bandeja anulada correctamente';
 $messages['folderpurged'] = 'Bandeja purgada correctamente';
 $messages['folderexpunged'] = 'Bandeja vaciada correctamente';
 $messages['deletedsuccessfully'] = 'Eliminado correctamente';
@@ -129,7 +125,6 @@ $messages['smtpautherror'] = 'Error SMTP ($code): Error de autenticación';
 $messages['smtpfromerror'] = 'Error SMTP ($code): No se ha podido asignar el emisor "$from" ($msg)';
 $messages['smtptoerror'] = 'Error SMTP ($code): No se ha podido establecer remitente "$to" ($msg)';
 $messages['smtprecipientserror'] = 'Error SMTP: No es posible analizar la lista de destinatarios';
-$messages['smtpdsnerror'] = 'Error SMTP: No hay soporte para los acuses de recibo';
 $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Dirección e-mail incorrecta: $email';
 $messages['toomanyrecipients'] = 'Hay demasiados destinatarios. Reduzca el número de destinatarios a $max.';
@@ -151,6 +146,7 @@ $messages['messagemoved'] = 'Mensaje(s) movido(s) correctamente';
 $messages['messagecopied'] = 'Mensaje(s) copiado(s) correctamente';
 $messages['messagemarked'] = 'Mensaje(s) marcado(s) correctamente';
 $messages['autocompletechars'] = 'Introduce al menos $min caracteres para autocompletar';
+$messages['autocompletemore'] = 'Se encontraron mas coincidencias. Favor de ingresar mas caracteres';
 $messages['namecannotbeempty'] = 'Hay que poner el nombre';
 $messages['nametoolong'] = 'El nombre es demasiado largo';
 $messages['folderupdated'] = 'Bandeja actualizada correctamente';
@@ -158,5 +154,5 @@ $messages['foldercreated'] = 'Bandeja creada correctamente';
 $messages['invalidimageformat'] = 'No es un formato de imagen válido';
 $messages['mispellingsfound'] = 'Se han detectado errores ortográficos en el mensaje.';
 $messages['parentnotwritable'] = 'No se puede crear/mover la carpeta a la carpeta superior elegida. No tiene permisos de acceso.';
+$messages['messagetoobig'] = 'Esta parte del mensaje es demasiada grande para procesarla';
 
-?>

@@ -1,18 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/az_AZ/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Orkhan Guliyev, OUR Technology, LLC.<office@ourtechnology.net>|
-+-----------------------------------------------------------------------+
-
+ +-----------------------------------------------------------------------+
+ | localization/az_AZ/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -69,7 +68,6 @@ $messages['nosubjectwarning'] = '"Mövzu" sahəsi boşdur. Mövzu daxil etmək i
 $messages['nobodywarning'] = 'Məktub boş göndərilsin?';
 $messages['notsentwarning'] = 'Məktub göndərilmədi. Göndərilmədən imtina etmək istəyirsiniz?';
 $messages['noldapserver'] = 'Lütfən, axtarış üçün LDAP server seçin';
-$messages['nocontactsreturned'] = 'Ünvanlar tapılmadı';
 $messages['nosearchname'] = 'Lütfən, ad və ya e-poçt əlavə edin';
 $messages['notuploadedwarning'] = 'Əlavələr tam yüklənilməyib. Gözləyin və ya yükləməni ləğv edin.';
 $messages['searchsuccessful'] = 'Tapılan məktublar: $nr';
@@ -97,7 +95,7 @@ $messages['deletingmessage'] = 'Məktub(lar) silinir...';
 $messages['markingmessage'] = 'Məktub(lar) işarələnir...';
 $messages['receiptsent'] = 'Oxunulma haqda bildiriş göndərildi';
 $messages['errorsendingreceipt'] = 'Oxunulma haqda bildiriş göndərilmədi';
-$messages['nodeletelastidentity'] = 'Siz bu kimliyi silə bilməzsiniz. Bu axırıncıdır. ';
+$messages['nodeletelastidentity'] = 'Siz bu kimliyi silə bilməzsiniz. Bu axırıncıdır.';
 $messages['forbiddencharacter'] = 'Qovlu adı qadağan olunmuş simvollar təşkil edir';
 $messages['selectimportfile'] = 'Yüklənilən faylı seçin';
 $messages['addresswriterror'] = 'Seçilmiş ünvan kitabçası yaddaşa yazıla bilməz';
@@ -106,7 +104,7 @@ $messages['contactremovedfromgroup'] = 'Ünvanlar qrupdan silindi';
 $messages['importwait'] = 'İdxal gedir, lütfən gözləyin...';
 $messages['importerror'] = 'İdxal alınmadı! Yüklənilən fayl düzgün vCard fayl deyil.';
 $messages['importconfirm'] = '<b>$inserted ünvanlar müvəffəqiyyətlə idxal edildi, mövcud $skipped buraxılıb</b>:<p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>Buraxılmış $skipped mövcud daxillər</b>	';
+$messages['importconfirmskipped'] = '<b>Buraxılmış $skipped mövcud daxillər</b>';
 $messages['opnotpermitted'] = 'Əməliyyat qadağandır!';
 $messages['nofromaddress'] = 'Seçilmiş kimlikdə e-poçt ünvanları yoxdur';
 $messages['editorwarning'] = 'Adi mətn redaktoruna keçid, bütün mətn formatlarının itkisinə gətirəcək. Davam edilsin?';
@@ -116,7 +114,6 @@ $messages['smtpautherror'] = 'SMTP Error ($code): İdentifikasiya xətası';
 $messages['smtpfromerror'] = 'SMTP Error ($code): Göndərəni səlavə etmək mümkün deyil - "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP Error ($code): Qəbul edəni əlavə etmək mümkün deyil - "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Error ($code): Qəbul edənlərin siyahısını emal etmək mümkün deyil';
-$messages['smtpdsnerror'] = 'SMTP xəta: çatdırılma haqda bildiriş dəstəyi yoxdur';
 $messages['smtperror'] = 'SMTP Error ($code): $msg';
 $messages['emailformaterror'] = 'Səhv ünvan: $email';
 $messages['toomanyrecipients'] = 'Qəbul edənlər həddindən artıq çoxdur. Lütfən, $max qədər azaldın.';
@@ -138,4 +135,3 @@ $messages['folderupdated'] = 'Qovluq yeniləndi';
 $messages['foldercreated'] = 'Qovluq yaradıldı';
 $messages['invalidimageformat'] = 'Şəkil formatı düzgün deyil';
 
-?>

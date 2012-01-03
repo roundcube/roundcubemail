@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/bs_BA/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Begzudin Omerovic <Begzudin.Omerovic@gmail.com>               |
-|       Tanja Dobričić <tanja.dobricic@everymail.info>                  |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/bs_BA/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -46,6 +42,7 @@ $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organizacija';
 $labels['readstatus'] = 'Status poruke';
 $labels['mailboxlist'] = 'Fascikle';
+$labels['folders'] = 'Fascikle';
 $labels['messagesfromto'] = 'Poruke od $from do $to od ukupno $count';
 $labels['threadsfromto'] = 'Teme $from do $to od $count';
 $labels['messagenrof'] = 'Poruka broj $nr od $count';
@@ -75,6 +72,7 @@ $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Apr';
 $labels['may'] = 'Maj';
+$labels['longmay'] = 'Maj';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Avg';
@@ -86,7 +84,6 @@ $labels['longjan'] = 'Januar';
 $labels['longfeb'] = 'Februar';
 $labels['longmar'] = 'Mart';
 $labels['longapr'] = 'April';
-$labels['longmay'] = 'Maj';
 $labels['longjun'] = 'Juni';
 $labels['longjul'] = 'Juli';
 $labels['longaug'] = 'Avgust';
@@ -116,10 +113,10 @@ $labels['markread'] = 'Kao pročitane';
 $labels['markunread'] = 'Kao nepročitane';
 $labels['markflagged'] = 'Kao markirane';
 $labels['markunflagged'] = 'Kao nemarkirane';
-$labels['messageactions'] = 'Više akcija';
 $labels['select'] = 'Obilježi';
 $labels['all'] = 'Sve';
-$labels['none'] = 'Nijednu';
+$labels['none'] = 'Ništa';
+$labels['nonesort'] = 'Ništa';
 $labels['currpage'] = 'Trenutna stranica';
 $labels['unread'] = 'Nepročitane';
 $labels['flagged'] = 'Obilježeno';
@@ -138,7 +135,6 @@ $labels['expand_only_unread'] = 'samo sa nepročitanim porukama';
 $labels['fromto'] = 'Pošiljaoc/Primatelj';
 $labels['flag'] = 'Oznaka';
 $labels['attachment'] = 'Privitak';
-$labels['nonesort'] = 'Ništa';
 $labels['sentdate'] = 'Datum slanja';
 $labels['arrival'] = 'Datum primanja';
 $labels['asc'] = 'rastući';
@@ -225,10 +221,12 @@ $labels['male'] = 'Muško';
 $labels['female'] = 'Žensko';
 $labels['manager'] = 'Menadžer';
 $labels['assistant'] = 'Pomoćnik';
+$labels['typeassistant'] = 'Pomoćnik';
 $labels['spouse'] = 'Muž/Žena';
+$labels['other'] = 'Ostalo';
+$labels['typeother'] = 'Ostalo';
 $labels['typehome'] = 'Kućni broj';
 $labels['typework'] = 'Poslovni broj';
-$labels['typeother'] = 'Ostalo';
 $labels['typemobile'] = 'Mobilni broj';
 $labels['typemain'] = 'Glavni broj';
 $labels['typehomefax'] = 'Fax kuća';
@@ -236,7 +234,6 @@ $labels['typeworkfax'] = 'Fax posao';
 $labels['typecar'] = 'Auto';
 $labels['typepager'] = 'Pejdžer';
 $labels['typevideo'] = 'Video';
-$labels['typeassistant'] = 'Pomoćnik';
 $labels['addfield'] = 'Dodati polje...';
 $labels['addcontact'] = 'Dodaj novi kontakt';
 $labels['editcontact'] = 'Izmijeni kontakt';
@@ -258,7 +255,6 @@ $labels['print'] = 'Štampaj';
 $labels['export'] = 'Izvezi';
 $labels['exportvcards'] = 'Izvezi kontakte u vCard formatu';
 $labels['newcontactgroup'] = 'Kreiraj novu kontakt-grupu';
-$labels['groupactions'] = 'Podešavanja za kontakt-grupu';
 $labels['previouspage'] = 'Prikaži predhodnu stranicu';
 $labels['firstpage'] = 'Prikaži prvi skup';
 $labels['nextpage'] = 'Prikaži sljedeću stranicu';
@@ -332,7 +328,6 @@ $labels['mainoptions'] = 'glavne opcije';
 $labels['section'] = 'sekcija';
 $labels['maintenance'] = 'održavanje';
 $labels['newmessage'] = 'nova poruka';
-$labels['listoptions'] = 'opcije liste';
 $labels['signatureoptions'] = 'opcije potpisa';
 $labels['whenreplying'] = 'prilikom odgovora';
 $labels['replytopposting'] = 'započni novu poruku iznad originala';
@@ -351,7 +346,6 @@ $labels['reqmdn'] = 'uvijek zatraži potvrdu o primitku poruke';
 $labels['reqdsn'] = 'uvijek zatraži potvrdu o slanju poruke';
 $labels['replysamefolder'] = 'spremi odgovore u mapu gdje se nalazi poruka';
 $labels['folder'] = 'Fascikla';
-$labels['folders'] = 'Fascikle';
 $labels['foldername'] = 'Ime fascikle';
 $labels['subscribed'] = 'Pretplaćen';
 $labels['messagecount'] = 'poruke';
@@ -396,4 +390,3 @@ $labels['japanese'] = 'japanski';
 $labels['korean'] = 'korejski';
 $labels['chinese'] = 'kineski';
 
-?>

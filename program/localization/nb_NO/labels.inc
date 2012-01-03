@@ -1,23 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/nb_NO/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Kjetil Waage - Nextline AS <kjetil@nextline.no>               |
-| Author: Tor Erik Linnerud - JKLM <tel@jklm.no>                        |
-| Author: Axel Sjøstedt <roundcube@sjostedt.no>                         |
-| Author: Odd Henriksen <odd@digicon.no>                                |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/nb_NO/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -45,8 +39,8 @@ $labels['date'] = 'Dato';
 $labels['size'] = 'Størrelse';
 $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organisasjon';
-$labels['reply-to'] = 'Svar til';
 $labels['mailboxlist'] = 'Mapper';
+$labels['folders'] = 'Mapper';
 $labels['messagesfromto'] = 'Meldinger $from til $to av $count';
 $labels['threadsfromto'] = 'Tråder $from til $to av $count';
 $labels['messagenrof'] = 'Melding $nr av $count';
@@ -76,6 +70,7 @@ $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Apr';
 $labels['may'] = 'Mai';
+$labels['longmay'] = 'Mai';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Aug';
@@ -87,7 +82,6 @@ $labels['longjan'] = 'Januar';
 $labels['longfeb'] = 'Februar';
 $labels['longmar'] = 'Mars';
 $labels['longapr'] = 'April';
-$labels['longmay'] = 'Mai';
 $labels['longjun'] = 'Juni';
 $labels['longjul'] = 'Juli';
 $labels['longaug'] = 'August';
@@ -105,13 +99,9 @@ $labels['deletemessage'] = 'Slett e-posten';
 $labels['movemessagetotrash'] = 'Flytt e-posten til søppel';
 $labels['printmessage'] = 'Skriv ut denne e-posten';
 $labels['previousmessage'] = 'Vis forrige melding';
-$labels['previousmessages'] = 'Vis forrige side';
 $labels['firstmessage'] = 'Vis første melding';
-$labels['firstmessages'] = 'Vis første side med meldinger';
 $labels['nextmessage'] = 'Vis neste melding';
-$labels['nextmessages'] = 'Vis neste side';
 $labels['lastmessage'] = 'Vis siste melding';
-$labels['lastmessages'] = 'Vis siste side med meldinger';
 $labels['backtolist'] = 'Tilbake til e-postlisten';
 $labels['viewsource'] = 'Vis kilde';
 $labels['markmessages'] = 'Merk meldinger';
@@ -119,10 +109,10 @@ $labels['markread'] = 'som lest';
 $labels['markunread'] = 'som ulest';
 $labels['markflagged'] = 'som flagget';
 $labels['markunflagged'] = 'som uflagget';
-$labels['messageactions'] = 'Flere valg...';
 $labels['select'] = 'Velg';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Ingen';
+$labels['nonesort'] = 'Ingen';
 $labels['currpage'] = 'Gjeldende side';
 $labels['unread'] = 'Uleste';
 $labels['flagged'] = 'Flagget';
@@ -142,7 +132,6 @@ $labels['expand_only_unread'] = 'kun med uleste meldinger';
 $labels['fromto'] = 'Avsender/Mottaker';
 $labels['flag'] = 'Flagg';
 $labels['attachment'] = 'Vedlegg';
-$labels['nonesort'] = 'Ingen';
 $labels['sentdate'] = 'Dato sendt';
 $labels['arrival'] = 'Dato mottatt';
 $labels['asc'] = 'stigende';
@@ -153,7 +142,6 @@ $labels['listorder'] = 'Sorteringsrekkefølge';
 $labels['listmode'] = 'Listevisningsmodus';
 $labels['compact'] = 'Rydd opp';
 $labels['empty'] = 'Tøm';
-$labels['purge'] = 'Tøm';
 $labels['quota'] = 'Plassforbruk';
 $labels['unknown'] = 'ukjent';
 $labels['unlimited'] = 'ubegrenset';
@@ -215,7 +203,6 @@ $labels['print'] = 'Skriv ut';
 $labels['export'] = 'Eksporter';
 $labels['exportvcards'] = 'Eksporter kontakter i vCard-format';
 $labels['newcontactgroup'] = 'Opprett ny kontaktgruppe';
-$labels['groupactions'] = 'Handlinger for kontaktgrupper...';
 $labels['previouspage'] = 'Vis forrige sett';
 $labels['firstpage'] = 'Vis første sett';
 $labels['nextpage'] = 'Vis neste sett';
@@ -290,7 +277,6 @@ $labels['mainoptions'] = 'Hovedinnstillinger';
 $labels['section'] = 'Kategori';
 $labels['maintenance'] = 'Vedlikehold';
 $labels['newmessage'] = 'Ny melding';
-$labels['listoptions'] = 'Meldingsoversikt';
 $labels['signatureoptions'] = 'Innstillinger for signatur';
 $labels['whenreplying'] = 'Ved svar på e-post';
 $labels['replytopposting'] = 'start den nye meldingen over orginalmeldingen';
@@ -306,7 +292,6 @@ $labels['insertsignature'] = 'Sett inn signatur';
 $labels['previewpanemarkread'] = 'Merk forhåndsviste meldinger som lest';
 $labels['afternseconds'] = 'etter $n sekunder';
 $labels['folder'] = 'Mappe';
-$labels['folders'] = 'Mapper';
 $labels['foldername'] = 'Mappenavn';
 $labels['subscribed'] = 'Abonnere';
 $labels['messagecount'] = 'Meldinger';
@@ -340,4 +325,3 @@ $labels['japanese'] = 'Japansk';
 $labels['korean'] = 'Koreansk';
 $labels['chinese'] = 'Kinesisk';
 
-?>

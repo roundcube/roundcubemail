@@ -1,23 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/lv/messages.inc                                              |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Rūdolfs Ošiņš <dev.random@gmail.com>                          |
-|         Miķelis Zaļais <mik@prog.lv>                                  |
-|         Lauris Bukšis-Haberkorns <lauris@nix.lv>                      |
-|         Kaspars Tenters <kaspars.tenters@va.lv>                       |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/lv_LV/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -27,7 +21,7 @@ $messages['sessionerror'] = 'Jūsu sessija ir beigusies';
 $messages['imaperror'] = 'Neizdevās pieslēgties IMAP serverim';
 $messages['servererror'] = 'Servera kļūme.';
 $messages['servererrormsg'] = 'Servera kļūda: $msg';
-$messages['databaserror'] = 'Datubāzes kļūda!';
+$messages['dberror'] = 'Datubāzes kļūda!';
 $messages['errorreadonly'] = 'Neizdevās veikt darbību: Mape ir tikai lasāma (read only).';
 $messages['errornoperm'] = 'Neizdevās veikt darbību: Piekļuve liegta.';
 $messages['invalidrequest'] = 'Nederīgs pieprasījums. Dati netika saglabāti.';
@@ -51,6 +45,7 @@ $messages['blockedimages'] = 'Drošības nolūkos attēli, kas tiek ielādēti n
 $messages['encryptedmessage'] = 'Šī ir šifrēta vēstule un diemžēl nevar tikt parādīta';
 $messages['nocontactsfound'] = 'Ieraksti netika atrasti';
 $messages['contactnotfound'] = 'Prasītais kontakts nav atrasts';
+$messages['contactsearchonly'] = 'Ievadiet meklēšanas kritērijus, lai atrastu kontaktus';
 $messages['sendingfailed'] = 'Vēstule netika nosūtīta';
 $messages['senttooquickly'] = 'Lūdzu uzgaidiet $sec sekundi(-es) pirms sūtiet šo vēstuli';
 $messages['errorsavingsent'] = 'Notika kļūda saglabājot nosūtīto vēstuli';
@@ -64,6 +59,7 @@ $messages['deletegroupconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto grup
 $messages['deletemessagesconfirm'] = 'Vai tiešām vēlaties dzēst iezīmēto(ās) vēstules?';
 $messages['deletefolderconfirm'] = 'Vai tiešām vēlaties dzēst šo mapi?';
 $messages['purgefolderconfirm'] = 'Vai tiešām vēlaties dzēst visas vēstules, kas atrodas šajā mapē?';
+$messages['contactdeleting'] = 'Kontakts(-i) tiek dzēsti...';
 $messages['groupdeleting'] = 'Dzēš grupu...';
 $messages['folderdeleting'] = 'Dzēš mapi...';
 $messages['foldermoving'] = 'Pārvietoju mapi...';
@@ -79,10 +75,10 @@ $messages['nosubjectwarning'] = 'Lauks "temats" ir tukšs. Vai vēlaties to aizp
 $messages['nobodywarning'] = 'Sūtīt vēstuli bez satura teksta?';
 $messages['notsentwarning'] = 'Vēstule netika nosūtīta. Vai tiešām vēlaties atcelt vēstules rakstīsanu?';
 $messages['noldapserver'] = 'Lūdzu izvēlaties LDAP serveri';
-$messages['nocontactsreturned'] = 'Neviena kontaktpersona netika atrasta';
 $messages['nosearchname'] = 'Lūdzu ievadiet kontaktpersonas vārdu vai e-pasta adresi';
 $messages['notuploadedwarning'] = 'Visi pielikumi vēl nav augšupielādēti. Lūdzu uzgaidiet vai atceļiet augšupielādi!';
 $messages['searchsuccessful'] = 'Atrastas $nr vēstules';
+$messages['contactsearchsuccessful'] = 'Atrasti $nr kontakti.';
 $messages['searchnomatch'] = 'Meklēšanā nekas netika atrasts';
 $messages['searching'] = 'Notiek meklēšana...';
 $messages['checking'] = 'Notiek pārbaude...';
@@ -129,7 +125,6 @@ $messages['smtpautherror'] = 'SMTP kļūme ($code): Neizdevās autentificēties'
 $messages['smtpfromerror'] = 'SMTP kļūme ($code): Neizdevās iestatīt sūtītāju "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP kļūme ($code): Neizdevās pievienot saņēmēju "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP kļūme: Nav iespējams parsēt saņēmēju sarakstu';
-$messages['smtpdsnerror'] = 'SMTP kļūme: Piegādes statusa paziņojumi netiek uzturēti.';
 $messages['smtperror'] = 'SMTP kļūme: $msg';
 $messages['emailformaterror'] = 'Nepareiza e-pasta adrese: $email';
 $messages['toomanyrecipients'] = 'Pārāk daudz saņēmēju. Samaziniet skaitu līdz $max.';
@@ -142,11 +137,16 @@ $messages['contactrestored'] = 'Kontakti veiksmīgi atjaunoti.';
 $messages['groupdeleted'] = 'Grupa veiksmīgi izdzēsta.';
 $messages['grouprenamed'] = 'Grupa veiksmīgi pārdēvēta.';
 $messages['groupcreated'] = 'Grupa veiksmīgi izveidota.';
+$messages['savedsearchdeleted'] = 'Saglabātais meklēšanas pieprasījums veiksmīgi dzēsts.';
+$messages['savedsearchdeleteerror'] = 'Neizdevās nodzēst saglabāto meklēšanas pieprasījumu.';
+$messages['savedsearchcreated'] = 'Saglabātais meklēšanas pieprasījums veiksmīgi saglabāts.';
+$messages['savedsearchcreateerror'] = 'Neizdevās saglabāt meklēšanas pieprasījumu.';
 $messages['messagedeleted'] = 'Vēstule(s) veiksmīgi izdzēsta(s).';
 $messages['messagemoved'] = 'Vēstule(s) veiksmīgi pārvietota(s).';
 $messages['messagecopied'] = 'Vēstule(s) veiksmīgi pārkopēta(s).';
 $messages['messagemarked'] = 'Vēstule(s) veiksmīgi iezīmēta(s).';
 $messages['autocompletechars'] = 'Ievadiet vismaz $min burtus, lai meklētu automātiski.';
+$messages['autocompletemore'] = 'Atrasti vairāki ieraksti. Papildiniet meklēšanas kritēriju.';
 $messages['namecannotbeempty'] = 'Lūdzu ievadiet vārdu.';
 $messages['nametoolong'] = 'Vārds ir par garu.';
 $messages['folderupdated'] = 'Mape vieksmīgi atjaunota.';
@@ -154,5 +154,5 @@ $messages['foldercreated'] = 'Mape veiksmīgi izveidota.';
 $messages['invalidimageformat'] = 'Nederīgs attēla formāts.';
 $messages['mispellingsfound'] = 'Vēstulē atrastas pareizrakstības kļūdas.';
 $messages['parentnotwritable'] = 'Neizdevās izveidot/pārvietot mapi uz atzīmēto virsmapi. Nav piekļuves tiesību.';
+$messages['messagetoobig'] = 'Vēstule ir pārāk liela, lai to varētu apstrādāt.';
 
-?>

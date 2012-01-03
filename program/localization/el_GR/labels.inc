@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/el/labels.inc                                                |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Jim Deves <jim@cobaltblue.gr>                                 |
-|         John Economou <hsoc@irc.gr>                                   |
-|         Panagiotis Christias <p.christias@noc.ntua.gr>                |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/el_GR/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -44,17 +39,15 @@ $labels['date'] = 'Ημ/νία';
 $labels['size'] = 'Μέγεθος';
 $labels['priority'] = 'Πρoτεραιότητα';
 $labels['organization'] = 'Οργανισμός';
-$labels['reply-to'] = 'Απάντηση σε';
 $labels['mailboxlist'] = 'Φάκελοι';
+$labels['folders'] = 'Φάκελοι';
 $labels['messagesfromto'] = 'Μηνύματα $from από $to έως $count';
 $labels['messagenrof'] = 'Μήνυμα $nr από $count';
+$labels['copy'] = 'Αντίγραφο';
 $labels['moveto'] = 'μετακίνηση σε...';
 $labels['download'] = 'λήψη';
 $labels['filename'] = 'Όνομα αρχείου';
 $labels['filesize'] = 'Μέγεθος αρχείου';
-$labels['preferhtml'] = 'Προτίμηση HTML';
-$labels['htmlmessage'] = 'Μήνυμα HTML';
-$labels['prettydate'] = 'Όμορφη ημ/νία';
 $labels['addtoaddressbook'] = 'Προσθήκη στις Επαφές';
 $labels['sun'] = 'Κυρ';
 $labels['mon'] = 'Δευτ';
@@ -74,7 +67,8 @@ $labels['jan'] = 'Ιαν';
 $labels['feb'] = 'Φεβ';
 $labels['mar'] = 'Μαρ';
 $labels['apr'] = 'Απρ';
-$labels['may'] = 'Μαι';
+$labels['may'] = 'Μάιος';
+$labels['longmay'] = 'Μάιος';
 $labels['jun'] = 'Ιον';
 $labels['jul'] = 'Ιολ';
 $labels['aug'] = 'Αυγ';
@@ -86,7 +80,6 @@ $labels['longjan'] = 'Ιανουάριος';
 $labels['longfeb'] = 'Φεβρουάριος';
 $labels['longmar'] = 'Μάρτιος';
 $labels['longapr'] = 'Απρίλιος';
-$labels['longmay'] = 'Μάιος';
 $labels['longjun'] = 'Ιούνιος';
 $labels['longjul'] = 'Ιούλιος';
 $labels['longaug'] = 'Αύγουστος';
@@ -104,13 +97,9 @@ $labels['deletemessage'] = 'Διαγραφή μηνύματος';
 $labels['movemessagetotrash'] = 'Μετακίνηση μηνύματος στον Κάδο';
 $labels['printmessage'] = 'Εκτύπωση';
 $labels['previousmessage'] = 'Εμφάνιση προηγούμενου μηνύματος';
-$labels['previousmessages'] = 'Εμφάνιση προηγούμενης ομάδας μηνυμάτων';
 $labels['firstmessage'] = 'Εμφάνιση πρώτου μηνύματος';
-$labels['firstmessages'] = 'Εμφάνιση πρώτης ομάδας μηνυμάτων';
 $labels['nextmessage'] = 'Εμφάνιση επόμενου μηνύματος';
-$labels['nextmessages'] = 'Εμφάνιση επόμενης ομάδας μηνυμάτων';
 $labels['lastmessage'] = 'Εμφάνιση τελευταίου μηνύματος';
-$labels['lastmessages'] = 'Εμφάνιση τελευταίας ομάδας μηνυμάτων';
 $labels['backtolist'] = 'Επιστροφή στη λίστα μηνυμάτων';
 $labels['viewsource'] = 'Προβολή πηγαίου κώδικα';
 $labels['markmessages'] = 'Σήμανση μηνυμάτων';
@@ -118,10 +107,10 @@ $labels['markread'] = 'ως αναγνωσμένα';
 $labels['markunread'] = 'ως μη-αναγνωσμένα';
 $labels['markflagged'] = 'Με σήμανση';
 $labels['markunflagged'] = 'Χωρίς σήμανση';
-$labels['messageactions'] = 'Περισσότερες ενέργειες...';
 $labels['select'] = 'Επιλογή';
 $labels['all'] = 'Όλα';
 $labels['none'] = 'Κανένα';
+$labels['nonesort'] = 'Κανένα';
 $labels['unread'] = 'Μη αναγνωσμένα';
 $labels['unanswered'] = 'Αναπάντητο';
 $labels['deleted'] = 'Διεγραμμένο';
@@ -129,7 +118,6 @@ $labels['invert'] = 'Αναστροφή';
 $labels['filter'] = 'Φίλτρο';
 $labels['compact'] = 'Συμπίεση';
 $labels['empty'] = 'Άδειασμα';
-$labels['purge'] = 'Καθάρισμα';
 $labels['quota'] = 'Χρήση δίσκου';
 $labels['unknown'] = 'άγνωστο';
 $labels['unlimited'] = 'απεριόριστο';
@@ -204,6 +192,9 @@ $labels['manageidentities'] = 'Διαχείριση ταυτοτήτων για 
 $labels['newidentity'] = 'Νέα ταυτότητα';
 $labels['newitem'] = 'Νέο αντικείμενο';
 $labels['edititem'] = 'Επεξεργασία αντικειμένου';
+$labels['preferhtml'] = 'Προτίμηση HTML';
+$labels['htmlmessage'] = 'Μήνυμα HTML';
+$labels['prettydate'] = 'Όμορφη ημ/νία';
 $labels['setdefault'] = 'Ορισμός ως προεπιλογή';
 $labels['language'] = 'Γλώσσα';
 $labels['timezone'] = 'Περιοχή ώρας';
@@ -233,7 +224,6 @@ $labels['advancedoptions'] = 'Προχωρημένες επιλογές';
 $labels['mainoptions'] = 'Βασικές επιλογές';
 $labels['newmessage'] = 'Νέο Μήνυμα';
 $labels['folder'] = 'Φάκελος';
-$labels['folders'] = 'Φάκελοι';
 $labels['foldername'] = 'Όνομα φακέλου';
 $labels['subscribed'] = 'Εγγραφή';
 $labels['messagecount'] = 'Μηνύματα';
@@ -245,4 +235,3 @@ $labels['sortby'] = 'Ταξινόμηση κατά';
 $labels['sortasc'] = 'Αύξουσα ταξινόμηση';
 $labels['sortdesc'] = 'Φθίνουσα ταξινόμηση';
 
-?>

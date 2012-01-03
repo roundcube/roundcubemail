@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/en_GB/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Weiran Zhang (weiran@weiran.co.uk)                            |
-|         Phil Weir                                                     |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/en_GB/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -43,9 +39,10 @@ $labels['followupto'] = 'Followup-To';
 $labels['date'] = 'Date';
 $labels['size'] = 'Size';
 $labels['priority'] = 'Priority';
-$labels['organization'] = 'Organisation';
+$labels['organization'] = 'Company';
 $labels['readstatus'] = 'Read status';
 $labels['mailboxlist'] = 'Folders';
+$labels['folders'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'Message $nr of $count';
@@ -75,6 +72,7 @@ $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Apr';
 $labels['may'] = 'May';
+$labels['longmay'] = 'May';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Aug';
@@ -86,7 +84,6 @@ $labels['longjan'] = 'January';
 $labels['longfeb'] = 'February';
 $labels['longmar'] = 'March';
 $labels['longapr'] = 'April';
-$labels['longmay'] = 'May';
 $labels['longjun'] = 'June';
 $labels['longjul'] = 'July';
 $labels['longaug'] = 'August';
@@ -105,7 +102,7 @@ $labels['forwardinline'] = 'Forward inline';
 $labels['forwardattachment'] = 'Forward as attachment';
 $labels['forwardmessage'] = 'Forward the message';
 $labels['deletemessage'] = 'Delete message';
-$labels['movemessagetotrash'] = 'Move message to "Deleted Items"';
+$labels['movemessagetotrash'] = 'Move message to "Deleted Items';
 $labels['printmessage'] = 'Print this message';
 $labels['previousmessage'] = 'Show the previous message';
 $labels['firstmessage'] = 'Show the first message';
@@ -118,10 +115,11 @@ $labels['markread'] = 'As read';
 $labels['markunread'] = 'As unread';
 $labels['markflagged'] = 'As flagged';
 $labels['markunflagged'] = 'As unflagged';
-$labels['messageactions'] = 'More actions...';
+$labels['moreactions'] = 'More actions...';
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
 $labels['none'] = 'None';
+$labels['nonesort'] = 'None';
 $labels['currpage'] = 'Current page';
 $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
@@ -141,7 +139,6 @@ $labels['expand_only_unread'] = 'only with unread messages';
 $labels['fromto'] = 'From/To';
 $labels['flag'] = 'Flag';
 $labels['attachment'] = 'Attachment';
-$labels['nonesort'] = 'None';
 $labels['sentdate'] = 'Sent date';
 $labels['arrival'] = 'Arrival date';
 $labels['asc'] = 'ascending';
@@ -190,6 +187,7 @@ $labels['highest'] = 'Highest';
 $labels['nosubject'] = '(no subject)';
 $labels['showimages'] = 'Display images';
 $labels['alwaysshow'] = 'Always show images from $sender';
+$labels['isdraft'] = 'This is a draft message.';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';
 $labels['savesentmessagein'] = 'Save sent message in';
@@ -211,7 +209,6 @@ $labels['nameprefix'] = 'Title';
 $labels['namesuffix'] = 'Suffix';
 $labels['nickname'] = 'Nickname';
 $labels['jobtitle'] = 'Job Title';
-$labels['organization'] = 'Company';
 $labels['department'] = 'Department';
 $labels['gender'] = 'Gender';
 $labels['maidenname'] = 'Maiden Name';
@@ -232,14 +229,15 @@ $labels['male'] = 'male';
 $labels['female'] = 'female';
 $labels['manager'] = 'Manager';
 $labels['assistant'] = 'Assistant';
+$labels['typeassistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
 $labels['allfields'] = 'All fields';
 $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['other'] = 'Other';
+$labels['typeother'] = 'Other';
 $labels['typehome'] = 'Home';
 $labels['typework'] = 'Work';
-$labels['typeother'] = 'Other';
 $labels['typemobile'] = 'Mobile';
 $labels['typemain'] = 'Main';
 $labels['typehomefax'] = 'Home Fax';
@@ -247,8 +245,9 @@ $labels['typeworkfax'] = 'Work Fax';
 $labels['typecar'] = 'Car';
 $labels['typepager'] = 'Pager';
 $labels['typevideo'] = 'Video';
-$labels['typeassistant'] = 'Assistant';
 $labels['typehomepage'] = 'Home Page';
+$labels['typeblog'] = 'Blog';
+$labels['typeprofile'] = 'Profile';
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Add new contact';
 $labels['editcontact'] = 'Edit contact';
@@ -270,7 +269,6 @@ $labels['print'] = 'Print';
 $labels['export'] = 'Export';
 $labels['exportvcards'] = 'Export contacts in vCard format';
 $labels['newcontactgroup'] = 'Create new contact group';
-$labels['groupactions'] = 'Actions for contact groups...';
 $labels['grouprename'] = 'Rename group';
 $labels['groupdelete'] = 'Delete group';
 $labels['previouspage'] = 'Show previous set';
@@ -280,6 +278,8 @@ $labels['lastpage'] = 'Show last set';
 $labels['group'] = 'Group';
 $labels['groups'] = 'Groups';
 $labels['personaladrbook'] = 'Personal Addresses';
+$labels['searchsave'] = 'Save search';
+$labels['searchdelete'] = 'Delete search';
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -288,6 +288,7 @@ $labels['importreplace'] = 'Replace the entire address book';
 $labels['importtext'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> data format.';
 $labels['done'] = 'Done';
 $labels['settingsfor'] = 'Settings for';
+$labels['about'] = 'About';
 $labels['preferences'] = 'Preferences';
 $labels['userpreferences'] = 'User preferences';
 $labels['editpreferences'] = 'Edit user preferences';
@@ -299,6 +300,8 @@ $labels['edititem'] = 'Edit item';
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Message';
+$labels['dateformat'] = 'Date format';
+$labels['timeformat'] = 'Time format';
 $labels['prettydate'] = 'Pretty dates';
 $labels['setdefault'] = 'Set default';
 $labels['autodetect'] = 'Auto';
@@ -347,11 +350,11 @@ $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['displaynext'] = 'After message delete/move display the next message';
+$labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'New Message';
-$labels['listoptions'] = 'List Options';
 $labels['signatureoptions'] = 'Signature Options';
 $labels['whenreplying'] = 'When replying';
 $labels['replytopposting'] = 'start new message above original';
@@ -370,9 +373,14 @@ $labels['reqmdn'] = 'Always request a return receipt';
 $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultaddressbook'] = 'Add new contacts to the selected addressbook';
+$labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
 $labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
+$labels['spellcheckoptions'] = 'Spellcheck Options';
+$labels['spellcheckignoresyms'] = 'Ignore words with symbols';
+$labels['spellcheckignorenums'] = 'Ignore words with numbers';
+$labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalised';
+$labels['addtodict'] = 'Add to dictionary';
 $labels['folder'] = 'Folder';
-$labels['folders'] = 'Folders';
 $labels['foldername'] = 'Folder name';
 $labels['subscribed'] = 'Subscribed';
 $labels['messagecount'] = 'Messages';
@@ -395,6 +403,11 @@ $labels['sortby'] = 'Sort by';
 $labels['sortasc'] = 'Sort ascending';
 $labels['sortdesc'] = 'Sort descending';
 $labels['undo'] = 'Undo';
+$labels['plugin'] = 'Plugin';
+$labels['version'] = 'Version';
+$labels['source'] = 'Source';
+$labels['license'] = 'Licence';
+$labels['support'] = 'Get support';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
@@ -418,4 +431,3 @@ $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
 
-?>

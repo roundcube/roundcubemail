@@ -2,16 +2,16 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/ku/messages.inc                                              |
+ | localization/ku/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2006, The Roundcube Dev Team                            |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Amed çeko Jiyan <amedcj@kurdistan.name>                       |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
-
+ @version $Id$
 */
 
 $messages = array();
@@ -53,7 +53,6 @@ $messages['nosubjectwarning'] = 'Qada "Mijar"ê vala ye. Dixwazî niha tiştekî
 $messages['nobodywarning'] = 'Peyamê bê nivîs bişeyînî?';
 $messages['notsentwarning'] = 'Peyam nehat şandin. Dixwazî peyamê pişTgo bikî?';
 $messages['noldapserver'] = 'Tika ye, ji bo lêgerînê pêşkêşkareke Idap têkevê';
-$messages['nocontactsreturned'] = 'Tu têkilî nehat dîtin';
 $messages['nosearchname'] = 'Tika ye, nav an jî navnîşaneke têkiliyê têkevê';
 $messages['searchsuccessful'] = '$nr peyam hat(in) dîtin';
 $messages['searchnomatch'] = 'Di lêgerînê de tu tişt nehat dîtin';
@@ -75,4 +74,3 @@ $messages['receiptsent'] = 'Rapora şandina serkeftî';
 $messages['errorsendingreceipt'] = 'Rapor nehat şandin';
 $messages['nodeletelastidentity'] = 'Nikarî vê nasnameyê jê bibî. Ew ya dawî ye.';
 
-?>

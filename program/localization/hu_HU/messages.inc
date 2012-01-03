@@ -1,23 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/hu_HU/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Zark Bonfire <ikkhares at gmail dot com>                      |
-|         Peter Szabo <pete at teamlupus dot hu>                        |
-|         Barnabas Bona <bsi at hosember dot hu>                        |
-|         Gabor Veliczky <hosting at jugiter dot net>                   |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/hu_HU/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -160,5 +154,5 @@ $messages['foldercreated'] = 'Mappa sikeresen létrehozva';
 $messages['invalidimageformat'] = 'Érvénytelen képformátum';
 $messages['mispellingsfound'] = 'Az üzenetben helyesírási hibák találhatók';
 $messages['parentnotwritable'] = 'Nem sikerült a mappa létrehozása/mozgatása a kijelölt mappába. Nincs jogosultsága a művelethez!';
+$messages['messagetoobig'] = 'Az üzenetrész túl nagy a feldolgozáshoz.';
 
-?>

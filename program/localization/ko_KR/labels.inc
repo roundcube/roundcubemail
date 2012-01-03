@@ -1,23 +1,20 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| localization/kr/labels.inc                                            |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: lordmiss <lordmiss@lordmiss.com>                              |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ko_KR/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
-$labels['welcome'] = '$product에 오신 것을 환영합니다';
+$labels = array();
 $labels['welcome'] = '$product에 오신 것을 환영합니다';
 $labels['username'] = '사용자명';
 $labels['password'] = '비밀번호';
@@ -42,17 +39,15 @@ $labels['date'] = '날짜';
 $labels['size'] = '크기';
 $labels['priority'] = '우선순위';
 $labels['organization'] = '기관';
-$labels['reply-to'] = '회신 주소';
 $labels['mailboxlist'] = '폴더';
+$labels['folders'] = '폴더';
 $labels['messagesfromto'] = '$count 개 중 $from 에서 $to 번 메시지';
 $labels['messagenrof'] = '$count 개 중 $nr 번 메시지';
+$labels['copy'] = '참조';
 $labels['moveto'] = '이동...';
 $labels['download'] = '다운로드';
 $labels['filename'] = '파일 이름';
 $labels['filesize'] = '파일 크기';
-$labels['preferhtml'] = 'HTML 보이기';
-$labels['htmlmessage'] = 'HTML 메시지';
-$labels['prettydate'] = '날짜 형식';
 $labels['addtoaddressbook'] = '주소록에 추가';
 $labels['sun'] = '일';
 $labels['mon'] = '월';
@@ -73,6 +68,7 @@ $labels['feb'] = '2월';
 $labels['mar'] = '3월';
 $labels['apr'] = '4월';
 $labels['may'] = '5월';
+$labels['longmay'] = '5월';
 $labels['jun'] = '6월';
 $labels['jul'] = '7월';
 $labels['aug'] = '8월';
@@ -84,7 +80,6 @@ $labels['longjan'] = '1월';
 $labels['longfeb'] = '2월';
 $labels['longmar'] = '3월';
 $labels['longapr'] = '4월';
-$labels['longmay'] = '5월';
 $labels['longjun'] = '6월';
 $labels['longjul'] = '7월';
 $labels['longaug'] = '8월';
@@ -102,13 +97,9 @@ $labels['deletemessage'] = '메일 삭제';
 $labels['movemessagetotrash'] = '메일 휴지통으로 이동';
 $labels['printmessage'] = '메일 인쇄';
 $labels['previousmessage'] = '이전 메일 보기';
-$labels['previousmessages'] = '이전 메일 세트 보기';
 $labels['firstmessage'] = '처음 메일 보기';
-$labels['firstmessages'] = '처음 메일 세트 보기';
 $labels['nextmessage'] = '다음 메일 보기';
-$labels['nextmessages'] = '다음 메일 세트 보기';
 $labels['lastmessage'] = '마지막 메일 보기';
-$labels['lastmessages'] = '마지막 메일 세트 보기';
 $labels['backtolist'] = '메일 목록으로';
 $labels['viewsource'] = '소스 보기';
 $labels['markmessages'] = '메시지 표시';
@@ -119,13 +110,13 @@ $labels['markunflagged'] = '깃발 내리기';
 $labels['select'] = '선택';
 $labels['all'] = '모두';
 $labels['none'] = '없음';
+$labels['nonesort'] = '없음';
 $labels['unread'] = '읽지 않음';
 $labels['flagged'] = '깃발';
 $labels['unanswered'] = '답장하지 않음';
 $labels['filter'] = '필터';
 $labels['compact'] = '간단하게';
 $labels['empty'] = '비우기';
-$labels['purge'] = '삭제';
 $labels['quota'] = '디스크 사용';
 $labels['unknown'] = '알수 없음';
 $labels['unlimited'] = '제한 없음';
@@ -203,6 +194,9 @@ $labels['manageidentities'] = '이 계정의 신원 관리';
 $labels['newidentity'] = '새 신원';
 $labels['newitem'] = '새 아이템';
 $labels['edititem'] = '아이템 편집';
+$labels['preferhtml'] = 'HTML 보이기';
+$labels['htmlmessage'] = 'HTML 메시지';
+$labels['prettydate'] = '날짜 형식';
 $labels['setdefault'] = '기본으로 설정';
 $labels['autodetect'] = '자동';
 $labels['language'] = '언어';
@@ -244,7 +238,6 @@ $labels['advancedoptions'] = '상세 설정';
 $labels['focusonnewmessage'] = '새 메시지가 있으면 브라우저 윈도우로 포커스 이동';
 $labels['checkallfolders'] = '새 메시지를 위해 모든 폴더 체크';
 $labels['folder'] = '폴더';
-$labels['folders'] = '폴더';
 $labels['foldername'] = '폴더 이름';
 $labels['subscribed'] = '가입됨';
 $labels['messagecount'] = '메시지';
@@ -260,4 +253,3 @@ $labels['KB'] = '킬로바이트';
 $labels['MB'] = '메가바이트';
 $labels['GB'] = '기가바이트';
 
-?>

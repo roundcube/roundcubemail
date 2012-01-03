@@ -1,20 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ms_MY/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Muhammad Zamri MS <myzamri@gmail.com>                        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ms_MY/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -52,11 +49,10 @@ $messages['noemailwarning'] = 'Sila masukkan alamat emel yang sah';
 $messages['nonamewarning'] = 'Sila masukkan nama';
 $messages['nopagesizewarning'] = 'Sila masukkan saiz halaman';
 $messages['norecipientwarning'] = 'Sila masukkan sekurang-kurangnya satu penerima';
-$messages['nosubjectwarning'] = 'Ruang \"Subjek\" kosong. Adakah anda ingin masukkannya sekarang?';
+$messages['nosubjectwarning'] = 'Ruang "Subjek" kosong. Adakah anda ingin masukkannya sekarang?';
 $messages['nobodywarning'] = 'Hantar mesej ini tanpa teks?';
 $messages['notsentwarning'] = 'Mesej tidak dihantar. Adakah anda ingin menyingkir mesej anda?';
 $messages['noldapserver'] = 'Sila pilih satu pelayan ldap untuk carian';
-$messages['nocontactsreturned'] = 'Tiada kontek dijumpai';
 $messages['nosearchname'] = 'Sila masukkan nama kontek atau alamat emel';
 $messages['searchsuccessful'] = '$nr mesej dijumpai';
 $messages['searchnomatch'] = 'Carian tiada padanan';
@@ -78,4 +74,3 @@ $messages['receiptsent'] = 'Berjaya menghantar resip bacaan';
 $messages['errorsendingreceipt'] = 'Tidak dapat menghantar resip';
 $messages['nodeletelastidentity'] = 'Anda tidak boleh membuang identiti ini, ia milik anda yang terakhir.';
 
-?>

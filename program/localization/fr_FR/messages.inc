@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/fr_FR/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Joel S. <joel.s@spijoprod.com>                                |
-|         Jerome Lipowicz <jerome@yayel.com>                            |
-|         Maximilien Cuony <theglu@theglu.org>                          |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/fr_FR/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -161,4 +156,3 @@ $messages['mispellingsfound'] = 'Des fautes d\'orthographe ont été détectées
 $messages['parentnotwritable'] = 'Impossible de créer/déplacer le dossier dans le dossier parent sélectionné. Aucun droit d\'accès.';
 $messages['messagetoobig'] = 'Le message est trop gros pour être traité.';
 
-?>

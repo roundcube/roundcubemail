@@ -1,23 +1,20 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| localization/kr/messages.inc                                            |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: lordmiss <lordmiss@lordmiss.com>                              |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ko_KR/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
-$messages['loginfailed'] = '로그인 실패';
+$messages = array();
 $messages['loginfailed'] = '로그인 실패';
 $messages['cookiesdisabled'] = '브라우저가 쿠키를 지원하지 않습니다';
 $messages['sessionerror'] = '세션이 유효하지 않거나 종료되었습니다';
@@ -61,7 +58,6 @@ $messages['nosubjectwarning'] = '"제목"이 없습니다. 제목을 넣으시�
 $messages['nobodywarning'] = '텍스트 없이 메일을 보낼까요?';
 $messages['notsentwarning'] = '메일을 보내지 않았습니다. 메일을 버리시겠습니까?';
 $messages['noldapserver'] = '검색할 LDAP 서버를 선택하세요';
-$messages['nocontactsreturned'] = '연락처가 없습니다';
 $messages['nosearchname'] = '연락처 이름이나 메일 주소를 넣으세요';
 $messages['searchsuccessful'] = '$nr개의 메일 발견';
 $messages['searchnomatch'] = '검색 결과가 없습니다';
@@ -92,4 +88,3 @@ $messages['opnotpermitted'] = '작업이 허가되지 않았습니다!';
 $messages['nofromaddress'] = '선택한 신원에 이메일 주소가 없음';
 $messages['editorwarning'] = '일반 텍스트 편집기로 바꾸면 모든 서식이 사라집니다. 계속할까요?';
 
-?>

@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/lt_LT/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Authors: Martynas Bendorius <martynas@evanet.lt>                      |
-|          Rimas Kudelis <rq@akl.lt>                                    |
-+-----------------------------------------------------------------------+'
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/lt_LT/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -46,6 +42,7 @@ $labels['priority'] = 'Prioritetas';
 $labels['organization'] = 'Organizacija';
 $labels['readstatus'] = 'Neskaitytas';
 $labels['mailboxlist'] = 'Aplankai';
+$labels['folders'] = 'Aplankai';
 $labels['messagesfromto'] = 'Laiškai nuo $from iki $to iš $count';
 $labels['threadsfromto'] = 'Gijos nuo $from iki $to iš $count';
 $labels['messagenrof'] = 'Laiškas $nr iš $count';
@@ -74,7 +71,8 @@ $labels['jan'] = 'Sau';
 $labels['feb'] = 'Vas';
 $labels['mar'] = 'Kov';
 $labels['apr'] = 'Bal';
-$labels['may'] = 'Geg';
+$labels['may'] = 'Gegužė';
+$labels['longmay'] = 'Gegužė';
 $labels['jun'] = 'Bir';
 $labels['jul'] = 'Lie';
 $labels['aug'] = 'Rgp';
@@ -86,7 +84,6 @@ $labels['longjan'] = 'Sausis';
 $labels['longfeb'] = 'Vasaris';
 $labels['longmar'] = 'Kovas';
 $labels['longapr'] = 'Balandis';
-$labels['longmay'] = 'Gegužė';
 $labels['longjun'] = 'Biržėlis';
 $labels['longjul'] = 'Liepa';
 $labels['longaug'] = 'Rugpjūtis';
@@ -121,7 +118,8 @@ $labels['markunflagged'] = 'Pašalinti gairelę';
 $labels['moreactions'] = 'Kiti veiksmai…';
 $labels['select'] = 'Pažymėti';
 $labels['all'] = 'visus';
-$labels['none'] = 'nieko';
+$labels['none'] = 'Nerūšiuoti';
+$labels['nonesort'] = 'Nerūšiuoti';
 $labels['currpage'] = 'matomus šiame puslapyje';
 $labels['unread'] = 'neskaitytus';
 $labels['flagged'] = 'su gairele';
@@ -141,7 +139,6 @@ $labels['expand_only_unread'] = 'tik turinčias neskaitytų laiškų';
 $labels['fromto'] = 'Siuntėjas/Gavėjas';
 $labels['flag'] = 'Gairelė';
 $labels['attachment'] = 'Priedas';
-$labels['nonesort'] = 'Nerūšiuoti';
 $labels['sentdate'] = 'Išsiuntimo laikas';
 $labels['arrival'] = 'Gavimo laikas';
 $labels['asc'] = 'didėjančiai';
@@ -231,15 +228,16 @@ $labels['notes'] = 'Pastabos';
 $labels['male'] = 'vyras';
 $labels['female'] = 'moteris';
 $labels['manager'] = 'Vadybininkas(-ė)';
-$labels['assistant'] = 'Padėjėjas(-a)';
+$labels['assistant'] = 'Padėjėjo(-os)';
+$labels['typeassistant'] = 'Padėjėjo(-os)';
 $labels['spouse'] = 'Sutuoktinis';
 $labels['allfields'] = 'Visi laukai';
 $labels['search'] = 'Paieška';
 $labels['advsearch'] = 'Išplėstinė paieška';
-$labels['other'] = 'Kita';
+$labels['other'] = 'Kitas';
+$labels['typeother'] = 'Kitas';
 $labels['typehome'] = 'Namų';
 $labels['typework'] = 'Darbo';
-$labels['typeother'] = 'Kitas';
 $labels['typemobile'] = 'Mobilusis';
 $labels['typemain'] = 'Pagrindinis';
 $labels['typehomefax'] = 'Namų faksas';
@@ -247,7 +245,6 @@ $labels['typeworkfax'] = 'Darbo faksas';
 $labels['typecar'] = 'Automobilyje';
 $labels['typepager'] = 'Pranešimų gaviklis';
 $labels['typevideo'] = 'Vaizdo';
-$labels['typeassistant'] = 'Padėjėjo(-os)';
 $labels['typehomepage'] = 'Tinklalapis';
 $labels['typeblog'] = 'Tinklaraštis';
 $labels['typeprofile'] = 'Profilis';
@@ -353,11 +350,11 @@ $labels['advancedoptions'] = 'Papildomi nustatymai';
 $labels['focusonnewmessage'] = 'Fokusuoti naršyklės langą gavus naują laišką';
 $labels['checkallfolders'] = 'Naujų laiškų ieškoti visuose aplankuose';
 $labels['displaynext'] = 'Rodyti pranešimą pašalinus/perkėlus laišką';
+$labels['defaultfont'] = 'Numatytasis HTML laiškų šriftas';
 $labels['mainoptions'] = 'Pagrindiniai nustatymai';
 $labels['section'] = 'Sekcija';
 $labels['maintenance'] = 'Priežiūra';
 $labels['newmessage'] = 'Naujas laiškas';
-$labels['listoptions'] = 'Rodyti nustatymus';
 $labels['signatureoptions'] = 'Parašo nustatymai';
 $labels['whenreplying'] = 'Kuriant atsakymą';
 $labels['replytopposting'] = 'rašyti atsakymą virš cituojamo laiško';
@@ -384,7 +381,6 @@ $labels['spellcheckignorenums'] = 'Nepaisyti žodžių su skaitmenimis';
 $labels['spellcheckignorecaps'] = 'Nepaisyti žodžių vien iš didžiųjų raidžių';
 $labels['addtodict'] = 'Įtraukti į žodyną';
 $labels['folder'] = 'Aplankas';
-$labels['folders'] = 'Aplankai';
 $labels['foldername'] = 'Aplanko vardas';
 $labels['subscribed'] = 'Užsakytas';
 $labels['messagecount'] = 'Laiškai';
@@ -435,4 +431,3 @@ $labels['japanese'] = 'Japonų';
 $labels['korean'] = 'Korėjiečių';
 $labels['chinese'] = 'Kinų';
 
-?>

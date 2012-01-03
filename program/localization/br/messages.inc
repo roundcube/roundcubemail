@@ -1,22 +1,17 @@
 <?php
 
 /*
-
  +-----------------------------------------------------------------------+
- | language/bzg/messages.inc                                              |
+ | localization/br/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: aldweb <info@aldweb.com>                                      |
- |         Pierre HAEGELI <pierre@haegeli.net>                           |
- |         Mickaël Wolff <rcw@lupusmic.org>                              |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
-
  @version $Id$
-
 */
 
 $messages = array();
@@ -58,7 +53,6 @@ $messages['nosubjectwarning'] = 'Dileun eo ar maezienn « Sujed » . C\'hoant ho
 $messages['nobodywarning'] = 'Kas ar c\'hemennad hep testenn ?';
 $messages['notsentwarning'] = 'N\'eo ket bet kaset ar c\'hemennad. C\'hoant hoc\'h eus dilezel ar c\'hemennad-se ?';
 $messages['noldapserver'] = 'Dizuit ur servijer LDAP evit ar glask';
-$messages['nocontactsreturned'] = 'Darempred ebet kavet';
 $messages['nosearchname'] = 'Skrivit un anv darempred pe ur postel elektronek';
 $messages['searchsuccessful'] = '$nr kemennad kavet';
 $messages['searchnomatch'] = 'Disoc\'h ebet gant ar glask';
@@ -76,4 +70,3 @@ $messages['copyerror'] = 'Ne c\'hall ket kopiañ chomlec\'hioù';
 $messages['sourceisreadonly'] = 'Lenn hepken eo an tarzh chomlec\'h se';
 $messages['errorsavingcontact'] = 'Ne c\'haller ket gwarediñ chomlec\'h darempred';
 
-?>

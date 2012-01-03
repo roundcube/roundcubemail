@@ -1,20 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/uk_UA/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Volodymyr M. Kononenko aka kvm <vmkononenko@gmail.com>        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/uk_UA/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -45,6 +42,7 @@ $labels['priority'] = 'Пріоритет';
 $labels['organization'] = 'Організація';
 $labels['readstatus'] = 'Статус прочитання';
 $labels['mailboxlist'] = 'Папки';
+$labels['folders'] = 'Папки';
 $labels['messagesfromto'] = 'Повідомлення з $from по $to із $count';
 $labels['threadsfromto'] = 'Обговорення з $from по $to із $count';
 $labels['messagenrof'] = 'Лист $nr із $count';
@@ -73,7 +71,8 @@ $labels['jan'] = 'січ';
 $labels['feb'] = 'лют';
 $labels['mar'] = 'бер';
 $labels['apr'] = 'квіт';
-$labels['may'] = 'тр';
+$labels['may'] = 'Травень';
+$labels['longmay'] = 'Травень';
 $labels['jun'] = 'чер';
 $labels['jul'] = 'лип';
 $labels['aug'] = 'сер';
@@ -85,7 +84,6 @@ $labels['longjan'] = 'Січень';
 $labels['longfeb'] = 'Лютий';
 $labels['longmar'] = 'Березень';
 $labels['longapr'] = 'Квітень';
-$labels['longmay'] = 'Травень';
 $labels['longjun'] = 'Червень';
 $labels['longjul'] = 'Липень';
 $labels['longaug'] = 'Серпень';
@@ -120,7 +118,8 @@ $labels['markunflagged'] = 'Зняти зірочку';
 $labels['moreactions'] = 'Інші дії...';
 $labels['select'] = 'Вибрати';
 $labels['all'] = 'Всі';
-$labels['none'] = 'Жодного';
+$labels['none'] = 'Не сортувати';
+$labels['nonesort'] = 'Не сортувати';
 $labels['currpage'] = 'Поточна сторінка';
 $labels['unread'] = 'Непрочитані';
 $labels['flagged'] = 'Із зірочкою';
@@ -134,13 +133,12 @@ $labels['expand-all'] = 'Розкрити всі';
 $labels['expand-unread'] = 'Розкрити непрочитані';
 $labels['collapse-all'] = 'Згорнути всі';
 $labels['threaded'] = 'Гілками';
-$labels['autoexpand_threads'] = 'Розкривати гілки ';
+$labels['autoexpand_threads'] = 'Розкривати гілки';
 $labels['do_expand'] = 'усі гілки';
 $labels['expand_only_unread'] = 'тільки з непрочитаними листами';
 $labels['fromto'] = 'Відправник/Одержувач';
 $labels['flag'] = 'Позначка';
 $labels['attachment'] = 'Вкладення';
-$labels['nonesort'] = 'Не сортувати';
 $labels['sentdate'] = 'Дата відправлення';
 $labels['arrival'] = 'Дата оримання';
 $labels['asc'] = 'за зростанням';
@@ -189,6 +187,7 @@ $labels['highest'] = 'Найвищий';
 $labels['nosubject'] = '(без теми)';
 $labels['showimages'] = 'Показувати зображення';
 $labels['alwaysshow'] = 'Завжди показувати зображення від $sender';
+$labels['isdraft'] = 'Це чернетка.';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Звичайний текст';
 $labels['savesentmessagein'] = 'зберегти надісланого листа в';
@@ -230,14 +229,15 @@ $labels['male'] = 'чоловічий';
 $labels['female'] = 'жіночий';
 $labels['manager'] = 'Менеждер';
 $labels['assistant'] = 'Помічник';
+$labels['typeassistant'] = 'Помічник';
 $labels['spouse'] = 'Шлюбний партнер';
 $labels['allfields'] = 'Усі поля';
 $labels['search'] = 'Пошук';
 $labels['advsearch'] = 'Розширений пошук';
 $labels['other'] = 'Інше';
+$labels['typeother'] = 'Інше';
 $labels['typehome'] = 'Дім';
 $labels['typework'] = 'Робота';
-$labels['typeother'] = 'Інше';
 $labels['typemobile'] = 'Мобільний';
 $labels['typemain'] = 'Основний';
 $labels['typehomefax'] = 'Домашній факс';
@@ -245,7 +245,6 @@ $labels['typeworkfax'] = 'Робочий факс';
 $labels['typecar'] = 'Автомобіль';
 $labels['typepager'] = 'Пейджер';
 $labels['typevideo'] = 'Відео';
-$labels['typeassistant'] = 'Помічник';
 $labels['typehomepage'] = 'Домашня сторінка';
 $labels['typeblog'] = 'Блог';
 $labels['typeprofile'] = 'Профіль';
@@ -289,6 +288,7 @@ $labels['importreplace'] = 'Замінити всю адресну книгу';
 $labels['importtext'] = 'Ви можете завантажити контакти з існуючої адресної книги. На даний момент підтримується імпортування контактів з формату vCard';
 $labels['done'] = 'Готово';
 $labels['settingsfor'] = 'Налаштування для';
+$labels['about'] = 'Про програму';
 $labels['preferences'] = 'Параметри';
 $labels['userpreferences'] = 'Налаштування користувача';
 $labels['editpreferences'] = 'Редагувати налаштування користувача';
@@ -350,11 +350,11 @@ $labels['advancedoptions'] = 'Додаткові параметри';
 $labels['focusonnewmessage'] = 'Фокусувати вікно браузера при новому листі';
 $labels['checkallfolders'] = 'Перевіряти нові листи у всіх папках';
 $labels['displaynext'] = 'Після видалення/переміщення листа відображати наступний';
+$labels['defaultfont'] = 'Шрифт за замовчуванням HTML повідомлення';
 $labels['mainoptions'] = 'Основні налаштування';
 $labels['section'] = 'Розділ';
 $labels['maintenance'] = 'Додатково';
 $labels['newmessage'] = 'Новий лист';
-$labels['listoptions'] = 'Список налаштувань';
 $labels['signatureoptions'] = 'Налаштування підпису';
 $labels['whenreplying'] = 'При відповіді';
 $labels['replytopposting'] = 'починати новий лист перед цитованим';
@@ -373,6 +373,7 @@ $labels['reqmdn'] = 'Завжди вимагати повідомлення пр
 $labels['reqdsn'] = 'Завжди вимагати повідомлення про статус доставки';
 $labels['replysamefolder'] = 'Розмістити відповіді у тій же папці, де знаходиться оригінал';
 $labels['defaultaddressbook'] = 'Додати нові контакти до обраної адресної книги';
+$labels['autocompletesingle'] = 'Пропускати додаткові адреси в автозавершенні';
 $labels['spellcheckbeforesend'] = 'Перевірити орфографію перед відправкою повідомлення';
 $labels['spellcheckoptions'] = 'Налаштування перевірки орфографії';
 $labels['spellcheckignoresyms'] = 'Ігнорувати слова із символами';
@@ -380,7 +381,6 @@ $labels['spellcheckignorenums'] = 'Ігнорувати слова із числ
 $labels['spellcheckignorecaps'] = 'Ігнорувати слова із великими буквами';
 $labels['addtodict'] = 'Додати до словника';
 $labels['folder'] = 'Папка';
-$labels['folders'] = 'Папки';
 $labels['foldername'] = 'Назва папки';
 $labels['subscribed'] = 'Підписані';
 $labels['messagecount'] = 'Листи';
@@ -403,6 +403,11 @@ $labels['sortby'] = 'Відсортувати за';
 $labels['sortasc'] = 'Сортувати за зростанням';
 $labels['sortdesc'] = 'Сортувати за спаданням';
 $labels['undo'] = 'Відмінити';
+$labels['plugin'] = 'Доповнення';
+$labels['version'] = 'Версія';
+$labels['source'] = 'Джерело';
+$labels['license'] = 'Ліцензія';
+$labels['support'] = 'Отримати підтримку';
 $labels['B'] = 'б';
 $labels['KB'] = 'Кб';
 $labels['MB'] = 'Мб';
@@ -426,4 +431,3 @@ $labels['japanese'] = 'Японське';
 $labels['korean'] = 'Корейське';
 $labels['chinese'] = 'Китайське';
 
-?>

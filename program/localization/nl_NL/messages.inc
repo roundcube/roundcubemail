@@ -1,33 +1,27 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/nl_NL/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Mark Moses <mark@katmoda.com>                                 |
-|         Lazlo Westerhof <roundcube@lazlo.me>                          |
-|         Frits Letteboer <f.letteboer@radiotwenterand.nl>              |
-|         Justin van Beusekom <j.v.beusekom@beus-it.nl>                 |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/nl_NL/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Justin van Beusekom <Unknown>                                 |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
 $messages['loginfailed'] = 'Inloggen mislukt.';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies.';
 $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig.';
-$messages['imaperror'] = 'Connectie met IMAP server mislukt.';
-$messages['servererror'] = 'Server Fout!';
-$messages['servererrormsg'] = 'Server Fout: $msg';
-$messages['dberror'] = 'Database Fout!';
+$messages['imaperror'] = 'Verbinding met IMAP-server mislukt.';
+$messages['servererror'] = 'Serverfout!';
+$messages['servererrormsg'] = 'Serverfout: $msg';
+$messages['dberror'] = 'Databasefout!';
 $messages['errorreadonly'] = 'Niet in staat om de bewerking uit te voeren. Map is alleen-lezen.';
 $messages['errornoperm'] = 'Niet in staat om de bewerking uit te voeren. Toestemming geweigerd.';
 $messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgeslagen.';
@@ -37,35 +31,35 @@ $messages['mailboxempty'] = 'Mailbox is leeg.';
 $messages['loading'] = 'Laden...';
 $messages['uploading'] = 'Bestand wordt geüpload...';
 $messages['uploadingmany'] = 'Bestanden worden geüpload...';
-$messages['loadingdata'] = 'Laden van data...';
+$messages['loadingdata'] = 'Gegevens worden geladen...';
 $messages['checkingmail'] = 'Controleren op nieuwe berichten...';
-$messages['sendingmessage'] = 'Bezig met bericht versturen...';
+$messages['sendingmessage'] = 'Bericht versturen...';
 $messages['messagesent'] = 'Bericht succesvol verstuurd.';
-$messages['savingmessage'] = 'Bezig met bericht opslaan...';
-$messages['messagesaved'] = 'Bericht bewaard als concept.';
+$messages['savingmessage'] = 'Bericht wordt opgeslagen...';
+$messages['messagesaved'] = 'Bericht opgeslagen in Concepten.';
 $messages['successfullysaved'] = 'Succesvol opgeslagen.';
 $messages['addedsuccessfully'] = 'Contact is succesvol toegevoegd aan het adresboek.';
 $messages['contactexists'] = 'Er bestaat al een contactpersoon met dit e-mailadres.';
 $messages['contactnameexists'] = 'Er bestaat al een contactpersoon met deze naam.';
-$messages['blockedimages'] = 'Uit privacyoverwegingen zijn niet bijgevoegde afbeeldingen geblokkeerd in dit bericht.';
+$messages['blockedimages'] = 'Om uw privacy te beschermen zijn externe afbeeldingen geblokkeerd in dit bericht.';
 $messages['encryptedmessage'] = 'Dit is een gecodeerd bericht en kan niet weergegeven worden. Excuses!';
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden.';
 $messages['contactnotfound'] = 'Contactpersoon niet gevonden.';
-$messages['contactsearchonly'] = 'Voer enkele zoektermen in om contactpersonen te zoeken.';
+$messages['contactsearchonly'] = 'Voer enkele zoektermen in om contactpersonen te zoeken';
 $messages['sendingfailed'] = 'Verzenden van bericht is mislukt.';
-$messages['senttooquickly'] = 'Je moet $sec seconden wachten om het bericht te versturen.';
+$messages['senttooquickly'] = 'U moet $sec seconde(n) wachten om het bericht te versturen.';
 $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan van het verzonden bericht.';
 $messages['errorsaving'] = 'Er is een fout opgetreden tijdens het opslaan.';
-$messages['errormoving'] = 'Kan het bericht niet verplaatsen.';
-$messages['errorcopying'] = 'Kan de bericht(en) niet kopiëren.';
-$messages['errordeleting'] = 'Kan het bericht niet verwijderen.';
-$messages['errormarking'] = 'Kon bericht niet markeren.';
-$messages['deletecontactconfirm'] = 'Weet u zeker dat u de geselecteerde contactperso(o)n/en wilt verwijderen?';
+$messages['errormoving'] = 'Kan bericht(en) niet verplaatsen.';
+$messages['errorcopying'] = 'Kan bericht(en) niet kopiëren.';
+$messages['errordeleting'] = 'Kan bericht(en) niet verwijderen.';
+$messages['errormarking'] = 'Kan bericht(en) niet markeren.';
+$messages['deletecontactconfirm'] = 'Weet u zeker dat u de geselecteerde contact(en) wilt verwijderen?';
 $messages['deletegroupconfirm'] = 'Weet u zeker dat u de geselecteerde groep wilt verwijderen?';
 $messages['deletemessagesconfirm'] = 'Weet u zeker dat u de geselecteerde bericht(en) wilt verwijderen?';
 $messages['deletefolderconfirm'] = 'Weet u zeker dat u deze map wilt verwijderen?';
 $messages['purgefolderconfirm'] = 'Weet u zeker dat u alle berichten in deze map wilt verwijderen?';
-$messages['contactdeleting'] = 'Bezig met verwijderen één of meer contactpersonen...';
+$messages['contactdeleting'] = 'Bezig met verwijderen van contact(en)...';
 $messages['groupdeleting'] = 'Groep wordt verwijderd...';
 $messages['folderdeleting'] = 'Map wordt verwijderd...';
 $messages['foldermoving'] = 'Map wordt verplaatst...';
@@ -80,8 +74,8 @@ $messages['norecipientwarning'] = 'Geef tenminste één ontvanger op.';
 $messages['nosubjectwarning'] = 'Het \'Onderwerp\' veld is leeg. Wilt u nu alsnog een onderwerp opgeven?';
 $messages['nobodywarning'] = 'Dit bericht zonder inhoud versturen?';
 $messages['notsentwarning'] = 'Bericht is niet verstuurd. Weet u zeker dat u het niet wilt bewaren?';
-$messages['noldapserver'] = 'Geef een LDAP adresboek server op om te doorzoeken.';
-$messages['nosearchname'] = 'Geef de naam of e-mail op van de contactpersoon.';
+$messages['noldapserver'] = 'Selecteer een LDAP-server om te zoeken.';
+$messages['nosearchname'] = 'Vul de naam of e-mailadres in van een contactpersoon.';
 $messages['notuploadedwarning'] = 'Nog niet alle bijlagen zijn geüpload. Wacht even of annuleer de upload.';
 $messages['searchsuccessful'] = '$nr berichten gevonden.';
 $messages['contactsearchsuccessful'] = '$nr contactpersonen gevonden.';
@@ -94,7 +88,7 @@ $messages['foldersubscribed'] = 'Folder succesvol geabonneerd.';
 $messages['folderunsubscribed'] = 'Folder succesvol uitgeschreven.';
 $messages['folderpurged'] = 'Folder met succes geleegd.';
 $messages['folderexpunged'] = 'Folder succesvol geleegd.';
-$messages['deletedsuccessfully'] = 'Successvol verwijderd.';
+$messages['deletedsuccessfully'] = 'Met succes verwijderd.';
 $messages['converting'] = 'Opmaak van bericht verwijderen...';
 $messages['messageopenerror'] = 'Kan het bericht niet van de server laden.';
 $messages['fileuploaderror'] = 'Bestand uploaden mislukt.';
@@ -103,11 +97,11 @@ $messages['copysuccess'] = '$nr adressen succesvol gekopieerd.';
 $messages['copyerror'] = 'Kan geen adressen kopiëren.';
 $messages['sourceisreadonly'] = 'Het adres is alleen-lezen.';
 $messages['errorsavingcontact'] = 'Kan het ontvanger-adres niet opslaan.';
-$messages['movingmessage'] = 'Bericht verplaatsen...';
-$messages['copyingmessage'] = 'Kopiëren bericht...';
-$messages['copyingcontact'] = 'Kopiëren contactpersonen...';
-$messages['deletingmessage'] = 'Verwijderen bericht(en)...';
-$messages['markingmessage'] = 'Markeren bericht(en)...';
+$messages['movingmessage'] = 'Bericht(en) verplaatsen...';
+$messages['copyingmessage'] = 'Bericht(en) kopiëren...';
+$messages['copyingcontact'] = 'Contact(en) kopiëren...';
+$messages['deletingmessage'] = 'Bericht(en) verwijderen...';
+$messages['markingmessage'] = 'Bericht(en) markeren...';
 $messages['addingmember'] = 'Contactpersonen worden toegevoegd aan de groep...';
 $messages['removingmember'] = 'Contactpersonen worden verwijderd uit de groep...';
 $messages['receiptsent'] = 'Ontvangstbevestiging is verstuurd.';
@@ -160,5 +154,5 @@ $messages['foldercreated'] = 'Map succesvol aangemaakt';
 $messages['invalidimageformat'] = 'Geen geldig afbeeldings formaat';
 $messages['mispellingsfound'] = 'Spelfouten gedetecteerd in bericht';
 $messages['parentnotwritable'] = 'U heeft niet voldoende rechten een map te maken / verplaatsen in deze map.';
+$messages['messagetoobig'] = 'Het bericht is te groot om te verwerken.';
 
-?>

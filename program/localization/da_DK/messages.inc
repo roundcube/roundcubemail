@@ -1,21 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/da_DK/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author : Martin Moeller <martin@liga.dk>                              |
-|         Jesper R. Meyer <jesper@upthere.dk>                           |
-|         Søren Aggeboe <soren@aggeboe.dk>                              |
-|         John Loft Christiansen <john@nansensvej.dk>                   |
-+-----------------------------------------------------------------------+
-
-@version $Id$
+ +-----------------------------------------------------------------------+
+ | localization/da_DK/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: John Loft Christiansen <Unknown>                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -59,7 +55,7 @@ $messages['errorcopying'] = 'Beskeden kunne ikke kopieres';
 $messages['errordeleting'] = 'Beskeden kunne ikke slettes';
 $messages['errormarking'] = 'Beskeden kunne ikke markeres';
 $messages['deletecontactconfirm'] = 'Vil du virkelig slette den/de valgte kontakt(er)?';
-$messages['deletegroupconfirm']  = 'Vil du virkelig slette den/de valgte gruppe(r)?';
+$messages['deletegroupconfirm'] = 'Vil du virkelig slette den/de valgte gruppe(r)?';
 $messages['deletemessagesconfirm'] = 'Vil du virkelig slette den/de valgte besked(er)?';
 $messages['deletefolderconfirm'] = 'Vil du virkelig slette den valgte mappe';
 $messages['purgefolderconfirm'] = 'Vil du virkelig slette alle beskeder i denne mappe?';
@@ -79,10 +75,10 @@ $messages['nosubjectwarning'] = '\'Emne\'-feltet er tomt. Kunne du tænke dig at
 $messages['nobodywarning'] = 'Send denne besked uden tekst?';
 $messages['notsentwarning'] = 'Beskeden er ikke blevet sendt. Vil du kassere din besked?';
 $messages['noldapserver'] = 'Vælg venligst hvilken LDAP-server der skal søges i';
-$messages['nocontactsreturned'] = 'Ingen kontakter blev fundet';
 $messages['nosearchname'] = 'Indtast venligst en kontakts navn eller e-mail adresse';
 $messages['notuploadedwarning'] = 'Ikke alle vedhæftede filer er blevet uploadet endnu. Vent venligst eller afbryd upload.';
 $messages['searchsuccessful'] = 'Fandt $nr beskeder';
+$messages['contactsearchsuccessful'] = '$nr afsendere fundet';
 $messages['searchnomatch'] = 'Søgningen fandt ingen beskeder';
 $messages['searching'] = 'Søger...';
 $messages['checking'] = 'Tjekker...';
@@ -158,6 +154,5 @@ $messages['foldercreated'] = 'Mappen er oprettet';
 $messages['invalidimageformat'] = 'Ikke et gyldigt billedformat';
 $messages['mispellingsfound'] = 'Der er fundet stavefejl i beskeden.';
 $messages['parentnotwritable'] = 'Kan ikke oprette/flytte mappe ind i valgt mappe. Ingen adgangsrettigheder.';
-$messages['messagetoobig'] = 'Besked delen er for stor til at behandle.';
+$messages['messagetoobig'] = 'Denne del af beskeden er for stor til at blive behandlet.';
 
-?>

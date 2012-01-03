@@ -1,20 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/kh_KH/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2008-2009, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-| Language: Khmer (ភាសាខ្មែរ)                                               |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Mr. SENGTHA CHAY - <sengtha@gmail.com>                        |
-| based on some words translated by Mr. KOSAL SOVAN VISAL               |
-|- <sal@sovanvisal.com>                                                 |
-+-----------------------------------------------------------------------+
+ +-----------------------------------------------------------------------+
+ | localization/km_KH/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -44,9 +41,10 @@ $labels['size'] = 'ទំហំ';
 $labels['priority'] = 'អទិភាព';
 $labels['organization'] = 'អង្គភាព';
 $labels['readstatus'] = 'ស្ថានភាពនៃការអាន';
-$labels['mailboxlist'] = 'ថតសំបុត្រ';
-$labels['messagesfromto'] = 'សំបុត្រពី $from ទៅដល់ $to ក្នុងចំណោម $count សំបុត្រ';
-$labels['threadsfromto'] = 'បន្តុំសំបុត្រពី $from ទៅដល់ $to ក្នុងចំណោម $count សំបុត្រ';
+$labels['mailboxlist'] = 'ថតទាំងអស់';
+$labels['folders'] = 'ថតទាំងអស់';
+$labels['messagesfromto'] = 'សំបុត្រពី $from ទៅដល់ $toក្នុងចំណោម $count សំបុត្រ';
+$labels['threadsfromto'] = 'បន្តុំសំបុត្រពី $from ទៅដល់ $toក្នុងចំណោម $count សំបុត្រ';
 $labels['messagenrof'] = 'សំបុត្រ $nr នៃ $count';
 $labels['copy'] = 'ចំលង';
 $labels['move'] = 'ផ្ទេរ';
@@ -74,6 +72,7 @@ $labels['feb'] = 'កុម្ភះ';
 $labels['mar'] = 'មិនា';
 $labels['apr'] = 'មេសា';
 $labels['may'] = 'ឧសភា';
+$labels['longmay'] = 'ឧសភា';
 $labels['jun'] = 'មិថុនា';
 $labels['jul'] = 'កក្កដា';
 $labels['aug'] = 'សីហា';
@@ -85,7 +84,6 @@ $labels['longjan'] = 'មករា';
 $labels['longfeb'] = 'កុម្ភះ';
 $labels['longmar'] = 'មិនា';
 $labels['longapr'] = 'មេសា';
-$labels['longmay'] = 'ឧសភា';
 $labels['longjun'] = 'មិថុនា';
 $labels['longjul'] = 'កក្កដា';
 $labels['longaug'] = 'សីហា';
@@ -97,7 +95,7 @@ $labels['today'] = 'ថ្ងៃនេះ';
 $labels['checkmail'] = 'ពិនិត្យសំបុត្រថ្មី';
 $labels['writenewmessage'] = 'សរសេរសំបុត្រថ្មី';
 $labels['replytomessage'] = 'ឆ្លើយតបទៅអ្នកផ្ញើ';
-$labels['replytoallmessage'] = 'ឆ្លើយតបទៅ អ្នកទទួលទាំងអស់ និង ក្រុម ឬ អ្នកផ្ញើ';
+$labels['replytoallmessage'] = 'ឆ្លើយតបទៅ អ្នកទទួលទាំងអស់និង ក្រុម ឬ អ្នកផ្ញើ';
 $labels['replyall'] = 'ឆ្លើយតបទៅទាំងអស់គ្នា';
 $labels['replylist'] = 'ឆ្លើយតបទៅក្រុម';
 $labels['forwardmessage'] = 'ផ្ញើសំបុត្របន្តរ';
@@ -105,13 +103,9 @@ $labels['deletemessage'] = 'លុបសំបុត្រចោល';
 $labels['movemessagetotrash'] = 'ផ្ទេរសំបុត្រទៅក្នុងធុងសំរាម';
 $labels['printmessage'] = 'បោះពុម្ភសំបុត្រ';
 $labels['previousmessage'] = 'បង្ហាញសំបុត្រចាស់';
-$labels['previousmessages'] = 'បង្ហាញសំបុត្រចាស់';
 $labels['firstmessage'] = 'បង្ហាញសំបុត្រដំបូង';
-$labels['firstmessages'] = 'បង្ហាញសំបុត្រដំបូង';
 $labels['nextmessage'] = 'បង្ហាញសំបុត្របន្ទាប់';
-$labels['nextmessages'] = 'បង្ហាញសំបុត្របន្ទាប់';
 $labels['lastmessage'] = 'បង្ហាញសំបុត្រចុងក្រោយ';
-$labels['lastmessages'] = 'បង្ហាញសំបុត្រចុងក្រោយ';
 $labels['backtolist'] = 'ត្រលប់ទៅកាន់ក្រុមសំបុត្រ';
 $labels['viewsource'] = 'បង្ហាញ Source របស់សំបុត្រ';
 $labels['markmessages'] = 'កំណត់សំគាល់សំបុត្រ';
@@ -119,10 +113,10 @@ $labels['markread'] = 'កំណត់ថាបានអានរួច';
 $labels['markunread'] = 'កំណត់ថាមិនទាន់បានអាន';
 $labels['markflagged'] = 'កំណត់សំគាល់ដោយផ្កាយ';
 $labels['markunflagged'] = 'លុបកំណត់សំគាល់ដោយផ្កាយ';
-$labels['messageactions'] = 'មុខងារផ្សេងទៀត';
 $labels['select'] = 'ជ្រើសរើស';
 $labels['all'] = 'ទាំងអស់';
-$labels['none'] = 'មិនជ្រើសរើស';
+$labels['none'] = 'មិនតំរៀប';
+$labels['nonesort'] = 'មិនតំរៀប';
 $labels['currpage'] = 'ទំព័រនេះ';
 $labels['unread'] = 'មិនទាន់អាន';
 $labels['flagged'] = 'មានកំណត់សំគាល់ដោយផ្កាយ';
@@ -142,7 +136,6 @@ $labels['expand_only_unread'] = 'បង្ហាញតែសំបុត្រ�
 $labels['fromto'] = 'អ្នកផ្ញើ / អ្នកទទួល';
 $labels['flag'] = 'កំណត់សំគាល់ដោយផ្កាយ';
 $labels['attachment'] = 'ឯកសារភ្ជាប់';
-$labels['nonesort'] = 'មិនតំរៀប';
 $labels['sentdate'] = 'កាលបរិច្ឆេតផ្ញើ';
 $labels['arrival'] = 'កាលបរិច្ឆេតទទួល';
 $labels['asc'] = 'តាមលំដាប់ចុះ';
@@ -162,7 +155,7 @@ $labels['resetsearch'] = 'កំណត់លក្ខខ័ណ្ឌស្វែ
 $labels['searchmod'] = 'កែសំរួលលក្ខខ័ណ្ឌស្វែងរក';
 $labels['msgtext'] = 'សំបុត្រទាំងមូល';
 $labels['openinextwin'] = 'បើកក្នុងវីនដូវថ្មី';
-$labels['emlsave'] = 'រក្សាទុកទិន្នន័យជាឯកសារប្រភេទ (.eml)';
+$labels['emlsave'] = 'រក្សាទុកទិន្នន័យជាឯកសារប្រភេទ(.eml)';
 $labels['compose'] = 'សរសេរសំបុត្រថ្មី';
 $labels['editasnew'] = 'កែហើយរក្សាទុកដូចជាសំបុត្រថ្មី';
 $labels['savemessage'] = 'រក្សាទុកសំបុត្រពង្រៀង';
@@ -187,20 +180,18 @@ $labels['high'] = 'ខ្ពស់';
 $labels['highest'] = 'ខ្ពស់បំផុត';
 $labels['nosubject'] = '(គ្មានចំណងជើង)';
 $labels['showimages'] = 'បង្ហាញរូបភាព';
-$labels['alwaysshow'] = 'បង្ហាញជានិច្ចរាល់រូបភាពបញ្ជូនពី $sender';
+$labels['alwaysshow'] = 'បង្ហាញជានិច្ចរាល់រូបភាពបញ្ជូនពី$sender';
 $labels['htmltoggle'] = 'អត្ថបទ HTML';
 $labels['plaintoggle'] = 'អត្ថបទធម្មតា';
 $labels['savesentmessagein'] = 'រក្សាសំបុត្រដែលបានផ្ញើក្នុង';
 $labels['dontsave'] = 'មិនរក្សាទុក';
-$labels['maxuploadsize'] = 'ទំហំឯកសារធំបំផុតដែលអាចភ្ជាប់បានគឺ $size';
+$labels['maxuploadsize'] = 'ទំហំឯកសារធំបំផុតដែលអាចភ្ជាប់បានគឺ$size';
 $labels['addcc'] = 'បន្ថែម Cc';
 $labels['addbcc'] = 'បន្ថែម Bcc';
 $labels['addreplyto'] = 'បន្ថែម Reply-To';
 $labels['addfollowupto'] = 'បន្ថែម Followup-To';
-$labels['mdnrequest'] = 'ម្ចាស់សំបុត្រស្នើសុំអោយប្រាប់នៅពេលសំបុត្រនេះត្រូវបានគេអាន។ តើអ្នកចង់ប្រាប់ដែរឬទេ?';
 $labels['receiptread'] = 'អត្ថបទផ្ញើត្រលប់ (បានអាន)';
 $labels['yourmessage'] = 'នេះគឺជាអត្ថបទផ្ញើត្រលប់សំរាប់សំបុត្ររបស់លោកអ្នក។';
-$labels['receiptnote'] = 'កំណត់សំគាល់: អត្ថបទផ្ញើត្រលប់នេះគ្រាន់តែបញ្ជាក់ថា សំបុត្ររបស់លោកអ្នកត្រូវបានបង្ហាញនៅឯកុំព្យូទ័ររបស់អ្នកទទួល។ គេមិនអាចធានាថាអ្នកទទួលបានមើលឬយល់សំបុត្ររបស់លោកអ្នកឡើយ។';
 $labels['name'] = 'ឈ្មោះសំរាប់បង្ហាញ';
 $labels['firstname'] = 'នាមត្រកូល';
 $labels['surname'] = 'នាមខ្លួន';
@@ -228,11 +219,13 @@ $labels['notes'] = 'កំណត់ហេតុ';
 $labels['male'] = 'ប្រុស';
 $labels['female'] = 'ស្រី';
 $labels['manager'] = 'នាយក';
-$labels['assistant'] = 'ការិនី';
+$labels['assistant'] = 'ជំនួយការ';
+$labels['typeassistant'] = 'ជំនួយការ';
 $labels['spouse'] = 'គ្រួសារ';
+$labels['other'] = 'ផ្សេងពីនេះ';
+$labels['typeother'] = 'ផ្សេងពីនេះ';
 $labels['typehome'] = 'គេហដ្ឋាន';
 $labels['typework'] = 'កន្លែងធ្វើការ';
-$labels['typeother'] = 'ផ្សេងពីនេះ';
 $labels['typemobile'] = 'ទូរស័ព្ទដៃ';
 $labels['typemain'] = 'ចំបង';
 $labels['typehomefax'] = 'ទូរសារនៅគេហដ្ឋាន';
@@ -240,7 +233,6 @@ $labels['typeworkfax'] = 'ទូរសារនៅកន្លែងធ្វើ
 $labels['typecar'] = 'រថយន្ត';
 $labels['typepager'] = 'ឧបករណ៍ផ្តល់សារ';
 $labels['typevideo'] = 'វីដេអូរ';
-$labels['typeassistant'] = 'ជំនួយការ';
 $labels['addfield'] = 'បន្ថែម';
 $labels['addcontact'] = 'បន្ថែមអាសយដ្ឋានទាក់ទង';
 $labels['editcontact'] = 'កែប្រែអាសយដ្ឋានទាក់ទង';
@@ -257,12 +249,11 @@ $labels['replacephoto'] = 'លុបរូបថត';
 $labels['newcontact'] = 'បង្កើតអាសយដ្ឋានទាក់ទងថ្មី';
 $labels['deletecontact'] = 'លុបអាសយដ្ឋានទាក់ទងដែលបានជ្រើសរើស';
 $labels['composeto'] = 'ផ្ញើសំបុត្រទៅ';
-$labels['contactsfromto'] = 'អាសយដ្ឋានទាក់ទង $from ដល់ $to នៃ $count';
+$labels['contactsfromto'] = 'អាសយដ្ឋានទាក់ទង $from ដល់ $to នៃ$count';
 $labels['print'] = 'បោះពុម្ភ';
 $labels['export'] = 'ទាញនិងរក្សាទុក';
-$labels['exportvcards'] = 'ទាញនិងរក្សាទុកអាសយដ្ឋានជាប្រភេទ vCard';
+$labels['exportvcards'] = 'ទាញនិងរក្សាទុកអាសយដ្ឋានជាប្រភេទvCard';
 $labels['newcontactgroup'] = 'បង្កើតក្រុមអាសយដ្ឋានថ្មី';
-$labels['groupactions'] = 'មុខងារក្រុមអាសយដ្ឋាន';
 $labels['previouspage'] = 'ទំព័រមុន';
 $labels['firstpage'] = 'ទំព័រដំបូង';
 $labels['nextpage'] = 'ទំព័របន្ទាប់';
@@ -274,7 +265,6 @@ $labels['import'] = 'បញ្ចូល';
 $labels['importcontacts'] = 'បញ្ចូលអាសយដ្ឋាន';
 $labels['importfromfile'] = 'បញ្ចូលពី ឯកសារ';
 $labels['importreplace'] = 'ផ្លាស់ប្តូរអាសយដ្ឋានទាំងអស់';
-$labels['importtext'] = 'អ្នកអាចបញ្ចូលអាសយដ្ឋានទាក់ទងពីទិន្នន័យដែលមានស្រាប់​ ។<br/>បច្ចុប្បន្នលោកអ្នកអាចបញ្ជូលទិន្នន័យអាសយដ្ឋានពី ឯកសារប្រភេទ <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>។';
 $labels['done'] = 'ចប់រួចរាល់';
 $labels['settingsfor'] = 'កំណត់សំរាប់';
 $labels['preferences'] = 'កំណត់តាមការចូលចិត្ត';
@@ -312,10 +302,10 @@ $labels['autosend'] = 'ផ្ញើស្វ័យប្រវត្តិ';
 $labels['autosendknown'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬក៏សួរខ្ញុំ';
 $labels['autosendknownignore'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬមិនបាច់ធ្វើអ្វីទាំងអស់';
 $labels['ignore'] = 'ទុកចោល';
-$labels['readwhendeleted'] = 'កំណត់សំបុត្រថាបានអាន នៅពេលលុបសំបុត្រនោះ';
-$labels['flagfordeletion'] = 'កំណត់សញ្ញាផ្កាយអោយសំបុត្រថាបានលុប ដោយមិនចាំបាច់លុបជាក់ស្តែង';
+$labels['readwhendeleted'] = 'កំណត់សំបុត្រថាបានអាននៅពេលលុបសំបុត្រនោះ';
+$labels['flagfordeletion'] = 'កំណត់សញ្ញាផ្កាយអោយសំបុត្រថាបានលុបដោយមិនចាំបាច់លុបជាក់ស្តែង';
 $labels['skipdeleted'] = 'មិនបង្ហាញសំបុត្រដែលបានលុប';
-$labels['deletealways'] = 'លុបសំបុត្រចោល ប្រសិនជាមិនអាចផ្ទេសំបុត្រនោះទៅធុងសំរាមបាន';
+$labels['deletealways'] = 'លុបសំបុត្រចោលប្រសិនជាមិនអាចផ្ទេសំបុត្រនោះទៅធុងសំរាមបាន';
 $labels['showremoteimages'] = 'បង្ហាញរូបភាពដែលគេផ្ញើមក';
 $labels['fromknownsenders'] = 'ពីអ្នកផ្ញើដែលស្គាល់';
 $labels['always'] = 'គ្រប់ពេល';
@@ -333,14 +323,13 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 ពេញ(other)';
 $labels['force7bit'] = 'ប្រើ MIME សំរាប់អក្សរទំហំ 8-bit';
 $labels['advancedoptions'] = 'ការកំណត់ពឹស្តារ';
-$labels['focusonnewmessage'] = 'ផ្តោតលើ វីនដូវដែលកំពុងសរសេរសំបុត្រថ្មី';
+$labels['focusonnewmessage'] = 'ផ្តោតលើវីនដូវដែលកំពុងសរសេរសំបុត្រថ្មី';
 $labels['checkallfolders'] = 'ពិនិត្យសំបុត្រថ្មីនៅគ្រប់ថតទាំងអស់';
-$labels['displaynext'] = 'បន្ទាប់ពីសំបុត្រត្រូវបានលុប​ឬផ្ទេរ បង្ហាញសំបុត្របន្ទាប់';
+$labels['displaynext'] = 'បន្ទាប់ពីសំបុត្រត្រូវបានលុប​ឬផ្ទេរបង្ហាញសំបុត្របន្ទាប់';
 $labels['mainoptions'] = 'ជំរើសដែលជាគោល';
 $labels['section'] = 'ផ្នែក';
 $labels['maintenance'] = 'ការថែរក្សា';
 $labels['newmessage'] = 'សំបុត្រថ្មី';
-$labels['listoptions'] = 'កំណត់តារាង';
 $labels['signatureoptions'] = 'កំណត់ហត្ថលេខា';
 $labels['whenreplying'] = 'នៅពេលកំពុងឆ្លើយតប';
 $labels['replytopposting'] = 'ចាប់ផ្តើម​សរសេរ​ពី​លើ​សំបុត្រ​ដើម';
@@ -349,7 +338,7 @@ $labels['replyremovesignature'] = 'នៅ​ពេល​ឆ្លើយ​តប
 $labels['autoaddsignature'] = 'បញ្ចូលហត្តលេខាដោយស្វ័យប្រវត្តិ';
 $labels['newmessageonly'] = 'សំរាប់សំបុត្រថ្មីតែប៉ុណ្ណោះ';
 $labels['replyandforwardonly'] = 'សំរាប់ឆើ្លយតប​និងផ្ញើបន្តតែ​ប៉ុណ្ណោះ';
-$labels['replysignaturepos'] = 'បញ្ចូលហត្តលេខានៅពេលឆើ្លយតប​និងផ្ញើបន្ត​';
+$labels['replysignaturepos'] = 'បញ្ចូលហត្តលេខានៅពេលឆើ្លយតប​និងផ្ញើបន្ត';
 $labels['belowquote'] = 'ពីក្រោមសម្រង់អត្ថបទ';
 $labels['abovequote'] = 'ពីលើសម្រង់អត្ថបទ';
 $labels['insertsignature'] = 'បញ្ចូលហត្តលេខា';
@@ -359,7 +348,6 @@ $labels['reqmdn'] = 'ក្រោយពី $n វិនាទី';
 $labels['reqdsn'] = 'ក្រោយពី $n វិនាទី';
 $labels['replysamefolder'] = 'ក្រោយពី $n វិនាទី';
 $labels['folder'] = 'ថត';
-$labels['folders'] = 'ថតទាំងអស់';
 $labels['foldername'] = 'ឈ្មោះថត';
 $labels['subscribed'] = 'កំណត់យកមកប្រើ';
 $labels['messagecount'] = 'សំបុត្រ';
@@ -400,4 +388,3 @@ $labels['japanese'] = 'ភាសាជប៉ុន';
 $labels['korean'] = 'ភាសាកូរ៉េ';
 $labels['chinese'] = 'ភាសាចិន';
 
-?>

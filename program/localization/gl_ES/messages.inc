@@ -1,17 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/gl_ES/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author:    David Garabana Barro <david garabana com>                  |
-+-----------------------------------------------------------------------+
-
+ +-----------------------------------------------------------------------+
+ | localization/gl_ES/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -36,7 +36,7 @@ $messages['checkingmail'] = 'Á procura de novas mensaxes...';
 $messages['sendingmessage'] = 'Enviando mensaxe...';
 $messages['messagesent'] = 'A mensaxe enviouse correctamente.';
 $messages['savingmessage'] = 'Gardando mensaxe...';
-$messages['messagesaved'] = 'A mensaxe gardouse en "Borradores"';
+$messages['messagesaved'] = 'A mensaxe gardouse en "Borradores';
 $messages['successfullysaved'] = 'Gardado correctamente.';
 $messages['addedsuccessfully'] = 'O contacto engadiuse correctamente ao caderno de enderezos.';
 $messages['contactexists'] = 'Xa existe un contacto con este enderezo de correo electrónico.';
@@ -125,7 +125,6 @@ $messages['smtpautherror'] = 'Erro SMTP ($code): Fallou a autenticación.';
 $messages['smtpfromerror'] = 'Erro SMTP ($code): Non foi posible establecer o remitente "$from" ($msg).';
 $messages['smtptoerror'] = 'Erro SMTP ($code): Non foi posible engadir o destinatario "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Erro SMTP: Non se pode analizar a lista de destinatarios.';
-$messages['smtpdsnerror'] = 'Erro SMTP: Non hai soporte para notificacións do estado de envío (DSN).';
 $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'O enderezo de correo electrónico é incorrecto: $email.';
 $messages['toomanyrecipients'] = 'Especificou destinatarios de máis. Por favor, redúzaos a un máximo de $max.';
@@ -138,7 +137,7 @@ $messages['contactrestored'] = 'Restauráronse correctamente o(s) contacto(s).';
 $messages['groupdeleted'] = 'Borrouse correctamente o grupo.';
 $messages['grouprenamed'] = 'Mudouse correctamente o nome do grupo.';
 $messages['groupcreated'] = 'Creouse correctamente o grupo.';
-$messages['savedsearchdeleted'] = 'Borrouse correctamente a procura gardada. ';
+$messages['savedsearchdeleted'] = 'Borrouse correctamente a procura gardada.';
 $messages['savedsearchdeleteerror'] = 'Non foi posible borrar a procura gardada.';
 $messages['savedsearchcreated'] = 'Creouse correctamente a procura gardada.';
 $messages['savedsearchcreateerror'] = 'Non foi posible crear a procura gardada.';
@@ -156,4 +155,3 @@ $messages['invalidimageformat'] = 'O formato da imaxe non é válido.';
 $messages['mispellingsfound'] = 'Atopáronse erros ortográficos na mensaxe.';
 $messages['parentnotwritable'] = 'Non foi posible crear/mover o cartafol no cartafol padre escollido porque non ten permisos.';
 
-?>

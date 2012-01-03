@@ -1,20 +1,17 @@
 <?php
+
 /*
-+-----------------------------------------------------------------------+
-| language/el/messages.inc                                              |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Jim Deves <jim@cobaltblue.gr>                                 |
-|         John Economou <hsoc@irc.gr>                                   |
-|         Panagiotis Christias <p.christias@noc.ntua.gr>                |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/el_GR/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -65,7 +62,6 @@ $messages['nosubjectwarning'] = 'Το πεδίο "Θέμα" είναι άδει�
 $messages['nobodywarning'] = 'Αποστολή μηνύματος χωρίς κείμενο;';
 $messages['notsentwarning'] = 'Το μήνυμα δεν έχει σταλεί. Θέλετε να το απορρίψετε;';
 $messages['noldapserver'] = 'Παρακαλώ επιλέξτε έναν LDAP διακομιστή για αναζήτηση';
-$messages['nocontactsreturned'] = 'Δε βρέθηκαν επαφές';
 $messages['nosearchname'] = 'Παρακαλώ εισάγεται όνομα επαφής ή διεύθυνση email';
 $messages['notuploadedwarning'] = 'Δεν έχουν φορτωθεί όλα τα συνημμένα. Παρακαλώ περιμένετε ή ακυρώστε το ανέβασμα.';
 $messages['searchsuccessful'] = '$nr μηνύματα βρέθηκαν';
@@ -103,4 +99,3 @@ $messages['smtprecipientserror'] = 'Σφάλμα SMTP: Αδύνατο να πρ�
 $messages['smtperror'] = 'Σφάλμα SMTP: $msg';
 $messages['emailformaterror'] = 'Λανθασμένη διεύθνση email: $email';
 
-?>

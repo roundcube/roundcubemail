@@ -2,18 +2,16 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/ga/messages.inc                                              |
+ | localization/ga_IE/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author:   Noel Bourke  (cros13)                                       |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
-
  @version $Id$
-
 */
 
 $messages = array();
@@ -34,7 +32,7 @@ $messages['messagesaved'] = 'Sábháil mé an teachtaireacht i dréachtaí';
 $messages['successfullysaved'] = 'D\'éirigh mé agus sábháil mé';
 $messages['addedsuccessfully'] = 'D\'éirigh mé agus shábháil mé duine nua go dtí an Leabhair Seoltaí';
 $messages['contactexists'] = 'Tá duine i do Leabhair Seoltaí agus tá an seoladh ríomhphost seo aige';
-$messages['blockedimages'] = 'Chun do príobháide a cosain, choiscinn na híomhánna san teachtaireacht seo ';
+$messages['blockedimages'] = 'Chun do príobháide a cosain, choiscinn na híomhánna san teachtaireacht seo';
 $messages['encryptedmessage'] = 'Tá an teachtaireacht seo i criptiúchán, Níl an cumas agam chun é a tionscail';
 $messages['nocontactsfound'] = 'Ní raibh aon buine san Leabhair Seoltaí seo';
 $messages['contactnotfound'] = 'Ní bhfuair mé an duine seo';
@@ -55,7 +53,6 @@ $messages['nosubjectwarning'] = 'Níl aon ábhair ar an teachtaireacht, ba mhait
 $messages['nobodywarning'] = 'Níl aon teacs san teachtaireacht, ba mhaith tú déarfaidh mé teachtaireacht ar bith?';
 $messages['notsentwarning'] = 'Theip an iarraidh chun an teachtaireacht a seo. ba mhaith tú scrios do teachtaireacht?';
 $messages['noldapserver'] = 'Abair liom eolaire LDAP chun é a cuardaigh';
-$messages['nocontactsreturned'] = 'Ní bhfuair mé aon duine as an ceist seo';
 $messages['nosearchname'] = 'Abair liom ainm duine nó seoladh ríomhphost';
 $messages['searchsuccessful'] = 'Fuair mé $n teachtaireacht';
 $messages['searchnomatch'] = 'Ní bhfuair mé aon rud as an ceist seo';
@@ -73,4 +70,3 @@ $messages['copyerror'] = 'Theip mé agus níor dfhag mé aon seolagh';
 $messages['sourceisreadonly'] = 'Tá an foinse seolaigh seo inléite amháin';
 $messages['errorsavingcontact'] = 'Theip mé, Níl an cumas agam an seolagh seo a sábháil';
 
-?>

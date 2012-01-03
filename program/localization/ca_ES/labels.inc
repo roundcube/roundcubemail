@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ca_ES/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Miguel Canteras i Cañizares <miguel@canteras.org>             |
-|         Simo <sim6@graciasensefils.net>                               |
-|         Jordi Sanfeliu <jordi@fibranet.cat>                           |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ca_ES/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -47,6 +42,7 @@ $labels['priority'] = 'Prioritat';
 $labels['organization'] = 'Organització';
 $labels['readstatus'] = 'Estat de lectura';
 $labels['mailboxlist'] = 'Carpetes';
+$labels['folders'] = 'Carpetes';
 $labels['messagesfromto'] = 'Missatges des de $from a $to de $count';
 $labels['threadsfromto'] = 'Fils $from a $to de $count';
 $labels['messagenrof'] = 'Missatge $nr de $count';
@@ -75,7 +71,8 @@ $labels['jan'] = 'gen';
 $labels['feb'] = 'feb';
 $labels['mar'] = 'mar';
 $labels['apr'] = 'abr';
-$labels['may'] = 'mai';
+$labels['may'] = 'maig';
+$labels['longmay'] = 'maig';
 $labels['jun'] = 'jun';
 $labels['jul'] = 'jul';
 $labels['aug'] = 'ago';
@@ -87,7 +84,6 @@ $labels['longjan'] = 'gener';
 $labels['longfeb'] = 'febrer';
 $labels['longmar'] = 'març';
 $labels['longapr'] = 'abril';
-$labels['longmay'] = 'maig';
 $labels['longjun'] = 'juny';
 $labels['longjul'] = 'juliol';
 $labels['longaug'] = 'agost';
@@ -123,6 +119,7 @@ $labels['moreactions'] = 'Més accions...';
 $labels['select'] = 'Selecciona';
 $labels['all'] = 'Tots';
 $labels['none'] = 'Cap';
+$labels['nonesort'] = 'Cap';
 $labels['currpage'] = 'Pàgina actual';
 $labels['unread'] = 'No llegits';
 $labels['flagged'] = 'Marcat';
@@ -142,7 +139,6 @@ $labels['expand_only_unread'] = 'només amb missatges no llegits';
 $labels['fromto'] = 'Remitent/Destinatari';
 $labels['flag'] = 'Marca';
 $labels['attachment'] = 'Adjunt';
-$labels['nonesort'] = 'Cap';
 $labels['sentdate'] = 'Data d\'enviament';
 $labels['arrival'] = 'Data d\'arribada';
 $labels['asc'] = 'ascendent';
@@ -191,6 +187,7 @@ $labels['highest'] = 'Molt alta';
 $labels['nosubject'] = '(sense assumpte)';
 $labels['showimages'] = 'Mostra imatges';
 $labels['alwaysshow'] = 'Sempre mostra imatges de $sender';
+$labels['isdraft'] = 'Aquest és un missatge esborrany.';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Text pla';
 $labels['savesentmessagein'] = 'Desa el missatge enviat a';
@@ -232,14 +229,15 @@ $labels['male'] = 'masculí';
 $labels['female'] = 'femení';
 $labels['manager'] = 'Gerent';
 $labels['assistant'] = 'Assistent';
+$labels['typeassistant'] = 'Assistent';
 $labels['spouse'] = 'Cònjuge';
 $labels['allfields'] = 'Tots els camps';
 $labels['search'] = 'Cercar';
 $labels['advsearch'] = 'Cerca Avançada';
 $labels['other'] = 'Altre';
+$labels['typeother'] = 'Altre';
 $labels['typehome'] = 'Casa';
 $labels['typework'] = 'Feina';
-$labels['typeother'] = 'Altre';
 $labels['typemobile'] = 'Mòbil';
 $labels['typemain'] = 'Principal';
 $labels['typehomefax'] = 'Fax de Casa';
@@ -247,7 +245,6 @@ $labels['typeworkfax'] = 'Fax de la Feina';
 $labels['typecar'] = 'Cotxe';
 $labels['typepager'] = 'Paginador';
 $labels['typevideo'] = 'Vídeo';
-$labels['typeassistant'] = 'Assistent';
 $labels['typehomepage'] = 'Pàgina Inicial';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Perfil';
@@ -291,6 +288,7 @@ $labels['importreplace'] = 'Reemplaça la llibreta d\'adreçes sencera';
 $labels['importtext'] = 'Podeu importar contactes des d\'una llibreta d\'adreces existent.<br/>Actualment suportem l\'importació d\'adreces amb el format <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Fet';
 $labels['settingsfor'] = 'Configuració per a';
+$labels['about'] = 'Quant a';
 $labels['preferences'] = 'Preferències';
 $labels['userpreferences'] = 'Preferències d\'usuari';
 $labels['editpreferences'] = 'Edita preferències d\'usuari';
@@ -302,6 +300,8 @@ $labels['edititem'] = 'Edita';
 $labels['preferhtml'] = 'Mostra HTML';
 $labels['defaultcharset'] = 'Joc de caracters per defecte';
 $labels['htmlmessage'] = 'Missatge HTML';
+$labels['dateformat'] = 'Format de la data';
+$labels['timeformat'] = 'Format horari';
 $labels['prettydate'] = 'Dates curtes';
 $labels['setdefault'] = 'Selecciona opció per defecte';
 $labels['autodetect'] = 'Auto';
@@ -350,11 +350,11 @@ $labels['advancedoptions'] = 'Opcions avançades';
 $labels['focusonnewmessage'] = 'Envia el focus al navegador quan hi hagi un nou missatge';
 $labels['checkallfolders'] = 'Comprova totes les carpetes per missatges nous';
 $labels['displaynext'] = 'Mostra el següent missatge després de esborrar-ne o moure\'n un';
+$labels['defaultfont'] = 'Font per defecte al missatge HTML';
 $labels['mainoptions'] = 'Opcions principals';
 $labels['section'] = 'Secció';
 $labels['maintenance'] = 'Manteniment';
 $labels['newmessage'] = 'Missatge nou';
-$labels['listoptions'] = 'Opcions de llista';
 $labels['signatureoptions'] = 'Opcions de signatura';
 $labels['whenreplying'] = 'Quan es respon';
 $labels['replytopposting'] = 'comença un nou missatge per sobre de l\'original';
@@ -373,6 +373,7 @@ $labels['reqmdn'] = 'Demana sempre la confirmació de recepció';
 $labels['reqdsn'] = 'Sempre demanar una notificació d\'estat de lliurament';
 $labels['replysamefolder'] = 'Col·locar respostes a la carpeta del missatge que es respon';
 $labels['defaultaddressbook'] = 'Afegeix contactes nous a la llibreta d\'adreces seleccionada';
+$labels['autocompletesingle'] = 'Salta l\'adreça de correu alternativa a l\'autocompleció';
 $labels['spellcheckbeforesend'] = 'Comprova l\'ortografia abans d\'enviar un missatge';
 $labels['spellcheckoptions'] = 'Opcions del corrector ortogràfic';
 $labels['spellcheckignoresyms'] = 'Ignora paraules amb símbols';
@@ -380,7 +381,6 @@ $labels['spellcheckignorenums'] = 'Ignora paraules amb números';
 $labels['spellcheckignorecaps'] = 'Ignora paraules amb lletres capitalitzades';
 $labels['addtodict'] = 'Afegeix al diccionari';
 $labels['folder'] = 'Carpeta';
-$labels['folders'] = 'Carpetes';
 $labels['foldername'] = 'Nom de carpeta';
 $labels['subscribed'] = 'Subscriure\'s';
 $labels['messagecount'] = 'Missatges';
@@ -403,6 +403,11 @@ $labels['sortby'] = 'Ordena per';
 $labels['sortasc'] = 'Ordena ascendentment';
 $labels['sortdesc'] = 'Ordena descendentment';
 $labels['undo'] = 'Desfés';
+$labels['plugin'] = 'Connector';
+$labels['version'] = 'Versió';
+$labels['source'] = 'Font';
+$labels['license'] = 'Llicència';
+$labels['support'] = 'Obtenir ajuda';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
@@ -426,4 +431,3 @@ $labels['japanese'] = 'Japonés';
 $labels['korean'] = 'Koreà';
 $labels['chinese'] = 'Xinés';
 
-?>

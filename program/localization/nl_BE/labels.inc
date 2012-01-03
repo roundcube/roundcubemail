@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/nl_BE/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Dennis Heeren <dennis.heeren@gmail.com>                       |
-|         Laurens Vets <laurens@daemon.be>                              |
-|         Simon De Schoenmaeker <sds@simonds.be>                        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/nl_BE/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -47,6 +42,7 @@ $labels['priority'] = 'Prioriteit';
 $labels['organization'] = 'Organisatie';
 $labels['readstatus'] = 'Gelezen?';
 $labels['mailboxlist'] = 'Mappen';
+$labels['folders'] = 'Mappen';
 $labels['messagesfromto'] = 'Berichten $from - $to van $count';
 $labels['threadsfromto'] = 'Conversatie $from - $to van $count';
 $labels['messagenrof'] = 'Bericht $nr van $count';
@@ -76,6 +72,7 @@ $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mrt';
 $labels['apr'] = 'Apr';
 $labels['may'] = 'Mei';
+$labels['longmay'] = 'Mei';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Aug';
@@ -87,7 +84,6 @@ $labels['longjan'] = 'Januari';
 $labels['longfeb'] = 'Februari';
 $labels['longmar'] = 'Maart';
 $labels['longapr'] = 'April';
-$labels['longmay'] = 'Mei';
 $labels['longjun'] = 'Juni';
 $labels['longjul'] = 'Juli';
 $labels['longaug'] = 'Augustus';
@@ -107,13 +103,9 @@ $labels['deletemessage'] = 'Dit bericht verwijderen';
 $labels['movemessagetotrash'] = 'Verplaats bericht naar verwijderde items';
 $labels['printmessage'] = 'Afdrukken';
 $labels['previousmessage'] = 'Vorig bericht';
-$labels['previousmessages'] = 'Vorige berichten';
 $labels['firstmessage'] = 'Eerste bericht';
-$labels['firstmessages'] = 'Eerste berichten';
 $labels['nextmessage'] = 'Volgende bericht';
-$labels['nextmessages'] = 'Volgende berichten';
 $labels['lastmessage'] = 'Laatste bericht';
-$labels['lastmessages'] = 'Laatste berichten';
 $labels['backtolist'] = 'Terug naar berichtenlijst';
 $labels['viewsource'] = 'Broncode bericht weergeven';
 $labels['markmessages'] = 'Markeer berichten';
@@ -121,10 +113,10 @@ $labels['markread'] = 'Als gelezen';
 $labels['markunread'] = 'Als ongelezen';
 $labels['markflagged'] = 'Selecteren';
 $labels['markunflagged'] = 'Niet Selecteren';
-$labels['messageactions'] = 'Meer acties...';
 $labels['select'] = 'Selecteren';
 $labels['all'] = 'Alles';
 $labels['none'] = 'Geen';
+$labels['nonesort'] = 'Geen';
 $labels['currpage'] = 'Huidige pagina';
 $labels['unread'] = 'Ongelezen';
 $labels['flagged'] = 'Geselecteerd';
@@ -144,7 +136,6 @@ $labels['expand_only_unread'] = 'alleen met ongelezen berichten';
 $labels['fromto'] = 'Afzender/Ontvanger';
 $labels['flag'] = 'Markeer';
 $labels['attachment'] = 'Bijlage';
-$labels['nonesort'] = 'Geen';
 $labels['sentdate'] = 'Verzenddatum';
 $labels['arrival'] = 'Ontvangstdatum';
 $labels['asc'] = 'oplopend';
@@ -156,7 +147,6 @@ $labels['listmode'] = 'Lijstweergave mode';
 $labels['folderactions'] = 'Acties voor map...';
 $labels['compact'] = 'Comprimeren';
 $labels['empty'] = 'Legen';
-$labels['purge'] = 'Opruimen';
 $labels['quota'] = 'Gebruikte schijfruimte';
 $labels['unknown'] = 'onbekend';
 $labels['unlimited'] = 'ongelimiteerd';
@@ -225,7 +215,6 @@ $labels['print'] = 'Afdrukken';
 $labels['export'] = 'Exporteren';
 $labels['exportvcards'] = 'Exporteer contactpersonen in vCard formaat';
 $labels['newcontactgroup'] = 'Maak een nieuwe contactgroep';
-$labels['groupactions'] = 'Acties voor contactgroepen...';
 $labels['previouspage'] = 'Toon vorige';
 $labels['firstpage'] = 'Toon eerste';
 $labels['nextpage'] = 'Toon volgende';
@@ -276,7 +265,7 @@ $labels['autosendknown'] = 'stuur ontvangstbevestiging naar mijn contactpersonen
 $labels['autosendknownignore'] = 'stuur ontvangstbevestiging naar mijn contactpersonen, anders negeer';
 $labels['ignore'] = 'negeer';
 $labels['readwhendeleted'] = 'Bericht na verwijderen als gelezen markeren';
-$labels['flagfordeletion'] = 'Bericht niet verwijderen maar als verwijderd markeren ';
+$labels['flagfordeletion'] = 'Bericht niet verwijderen maar als verwijderd markeren';
 $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';
 $labels['deletealways'] = 'Verwijder bericht wanneer verplaatsen naar Prullenbak mislukt';
 $labels['showremoteimages'] = 'Geef externe toegevoegde berichten weer';
@@ -303,7 +292,6 @@ $labels['mainoptions'] = 'Hoofdopties';
 $labels['section'] = 'Sectie';
 $labels['maintenance'] = 'Onderhoud';
 $labels['newmessage'] = 'Nieuw bericht';
-$labels['listoptions'] = 'Lijstopties';
 $labels['signatureoptions'] = 'Opties voor handtekening';
 $labels['whenreplying'] = 'Bij beantwoorden';
 $labels['replytopposting'] = 'begin bericht boven het origineel';
@@ -322,7 +310,6 @@ $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
 $labels['reqdsn'] = 'Vraag altijd een Delivery Status Notification';
 $labels['replysamefolder'] = 'Plaats antwoorden in de map van het beantwoorde bericht';
 $labels['folder'] = 'Map';
-$labels['folders'] = 'Mappen';
 $labels['foldername'] = 'Naam';
 $labels['subscribed'] = 'Geabonneerd';
 $labels['messagecount'] = 'Berichten';
@@ -363,4 +350,3 @@ $labels['japanese'] = 'Japans';
 $labels['korean'] = 'Koreaans';
 $labels['chinese'] = 'Chinees';
 
-?>

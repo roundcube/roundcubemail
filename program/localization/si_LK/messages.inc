@@ -1,19 +1,17 @@
 <?php
-/*
 
+/*
  +-----------------------------------------------------------------------+
- | language/si/messages.inc                                              |
+ | localization/si_LK/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Melanga Dissanayake <Melanga.Dissanayake@pabcbank.com>        |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
-
  @version $Id$
-
 */
 
 $messages = array();
@@ -55,7 +53,6 @@ $messages['nosubjectwarning'] = '"මාතෘකාව" හිස්. මාත
 $messages['nobodywarning'] = 'මෙම හිස් පනිවුඩය යවන්නද?';
 $messages['notsentwarning'] = 'පනිවුඩය යැවීමට නොහැකි විය. ඔබට එය බැහැර කිරීමට වුවමනාද?';
 $messages['noldapserver'] = 'සෙවුම සඳහා කරුණාකර ldap සම්බන්ධතාවයක් තෝරා ගන්න';
-$messages['nocontactsreturned'] = 'ලිපින/ය සොයා ගත නොහැක';
 $messages['nosearchname'] = 'කරුණාකර ලිපිනයෙහි නම හෝ විද්යුත් තැපැල් ලිපිනය ඇතුලත් කරන්න';
 $messages['searchsuccessful'] = '$nr පනිවුඩය හමු විය';
 $messages['searchnomatch'] = 'සෙවුමට අදාල ගැලපීමක් නොමැත';
@@ -77,4 +74,3 @@ $messages['receiptsent'] = 'කියවීම් භාර ගැනීම ස�
 $messages['errorsendingreceipt'] = 'කියවීම් භාර ගැනීම යැවීමට නොහැක';
 $messages['nodeletelastidentity'] = 'අවසාන අනන්‍යතාවය මකා දැමිය නොහැක';
 
-?>

@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| localization/zh_CN/messages.inc                                       |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, Roundcube Dev. - Switzerland                 |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Xue zhong sheng <xue.zhongsheng@gmail.com>                    |
-|         Zhang Huang bin <michaelbibby@gmail.com>                      |
-|         Kelphon Tang <kelphon@kingstor.com>	                        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/zh_CN/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -26,7 +21,7 @@ $messages['sessionerror'] = '会话已过期';
 $messages['imaperror'] = '连接到邮件服务器失败';
 $messages['servererror'] = '服务器错误！';
 $messages['servererrormsg'] = '服务器错误: $msg';
-$messages['databaserror'] = '数据库错误!';
+$messages['dberror'] = '数据库错误！';
 $messages['errorreadonly'] = '不可对只读文件夹进行操作';
 $messages['errornoperm'] = '无权限操作';
 $messages['invalidrequest'] = '无效的请求！数据保存失败。';
@@ -50,6 +45,7 @@ $messages['blockedimages'] = '为保护隐私，此邮件中的远程图片未�
 $messages['encryptedmessage'] = '因此邮件已加密，无法正常显示';
 $messages['nocontactsfound'] = '未找到联系人';
 $messages['contactnotfound'] = '未找到指定的联系人';
+$messages['contactsearchonly'] = '请输入联系人的搜索条件';
 $messages['sendingfailed'] = '发送失败';
 $messages['senttooquickly'] = '您需要等待 $sec 秒才能发送邮件';
 $messages['errorsavingsent'] = '保存已发送邮件时出现错误';
@@ -59,10 +55,11 @@ $messages['errorcopying'] = '无法复制邮件';
 $messages['errordeleting'] = '无法删除邮件';
 $messages['errormarking'] = '无法标记邮件';
 $messages['deletecontactconfirm'] = '确定要删除已选中的联系人？';
-$messages['deletegroupconfirm']  = '确定要删除以选中的组?';
+$messages['deletegroupconfirm'] = '确定要删除以选中的组?';
 $messages['deletemessagesconfirm'] = '确定要删除已选中的邮件？';
 $messages['deletefolderconfirm'] = '确定要删除已选中的邮件夹？';
 $messages['purgefolderconfirm'] = '是否确认要删除当前邮件夹中的所有邮件？';
+$messages['contactdeleting'] = '正在删除联系人';
 $messages['groupdeleting'] = '正在删除组...';
 $messages['folderdeleting'] = '正在删除邮件夹';
 $messages['foldermoving'] = '正在移动目录...';
@@ -78,10 +75,10 @@ $messages['nosubjectwarning'] = '主题为空。您要输入一个主题吗？';
 $messages['nobodywarning'] = '要发送无正文的邮件吗？';
 $messages['notsentwarning'] = '邮件未发送。您确定要离开并废弃当前邮件吗？';
 $messages['noldapserver'] = '请选择一个LDAP服务器进行查找';
-$messages['nocontactsreturned'] = '未找到联系人';
 $messages['nosearchname'] = '请输入一个联系人姓名或电子邮件地址';
 $messages['notuploadedwarning'] = '附件还没有全部上传，请等待或者取消上传。';
 $messages['searchsuccessful'] = '共找到 $nr 封邮件';
+$messages['contactsearchsuccessful'] = '$nr 找到联系人';
 $messages['searchnomatch'] = '未找到任何符合条件的邮件';
 $messages['searching'] = '正在查找...';
 $messages['checking'] = '正在检查...';
@@ -128,7 +125,6 @@ $messages['smtpautherror'] = 'SMTP 错误 ($code): 认证失败';
 $messages['smtpfromerror'] = 'SMTP 错误 ($code):添加发件人失败 "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP 错误 ($code): 添加收件人失败 "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP 错误: 无法解析收件人列表';
-$messages['smtpdsnerror'] = 'SMTP 错误: 不支持邮件送达通知';
 $messages['smtperror'] = 'SMTP 错误: $msg';
 $messages['emailformaterror'] = '无效的邮件地址：$email';
 $messages['toomanyrecipients'] = '邮件人太多，请减少收件人数量至 $max.';
@@ -141,11 +137,16 @@ $messages['contactrestored'] = '联系人恢复成功.';
 $messages['groupdeleted'] = '成功删除组';
 $messages['grouprenamed'] = '组改名成功';
 $messages['groupcreated'] = '成功创建组';
+$messages['savedsearchdeleted'] = '成功删除保存的搜索';
+$messages['savedsearchdeleteerror'] = '无法删除保存的搜索';
+$messages['savedsearchcreated'] = '成功建立保存的搜索';
+$messages['savedsearchcreateerror'] = '无法创建保存的搜索';
 $messages['messagedeleted'] = '删除邮件成功';
 $messages['messagemoved'] = '转移邮件成功';
 $messages['messagecopied'] = '复制邮件成功';
 $messages['messagemarked'] = '标记邮件成功';
 $messages['autocompletechars'] = '至少需要输入 $min 个字符';
+$messages['autocompletemore'] = '找到太多的结果。请输入更多字符。';
 $messages['namecannotbeempty'] = '必须输入名字';
 $messages['nametoolong'] = '名字太长';
 $messages['folderupdated'] = '成功更新文件夹';
@@ -153,4 +154,5 @@ $messages['foldercreated'] = '成功创建文件夹';
 $messages['invalidimageformat'] = '非法的图像类型.';
 $messages['mispellingsfound'] = '检查到拼写错误.';
 $messages['parentnotwritable'] = '无法创建和转移到所选的目录,权限不足.';
-?>
+$messages['messagetoobig'] = '对邮件信息太大的部份进行处理';
+

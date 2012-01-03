@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/tr_TR/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Hasan Cansız <hasancansiz@yahoo.com>                          |
-| Author: Gökdeniz Karadağ <gokdenizk@gmail.com>                        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/tr_TR/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: ismail yenigul <Unknown>                                      |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -26,7 +22,7 @@ $messages['imaperror'] = 'IMAP sunucusuna bağlanılamadı';
 $messages['servererror'] = 'Sunucu Hatası!';
 $messages['servererrormsg'] = 'Sunucu hatası: $msg';
 $messages['dberror'] = 'Veritabanı Hatası!';
-$messages['errorreadonly'] = 'İşlem gerçekleştirilemedi. Klasör sadece okunabilir';
+$messages['errorreadonly'] = 'İşlem gerçekleştirilemedi. Dizin salt okunabilir';
 $messages['errornoperm'] = 'İşlem gerçekleştirilemedi. İzin verilmedi.';
 $messages['invalidrequest'] = 'Geçersiz İstek! Veri kaydedilmedi';
 $messages['nomessagesfound'] = 'Posta kutusunda ileti bulunamadı';
@@ -49,6 +45,7 @@ $messages['blockedimages'] = 'Kişisel gizliliğinizi korumak amacıyla postadak
 $messages['encryptedmessage'] = 'Bu şifrelenmiş bir posta olduğu için gösterilemiyor. Özür dilerim!';
 $messages['nocontactsfound'] = 'Kişi bulunamadı';
 $messages['contactnotfound'] = 'İstenen kişi bulunamadı';
+$messages['contactsearchonly'] = 'Kişi aramak için arama terimleri giriniz';
 $messages['sendingfailed'] = 'Posta gönderilemedi';
 $messages['senttooquickly'] = 'Lütfen bu postayı göndermeden önce $sec saniye bekleyin';
 $messages['errorsavingsent'] = 'Gönderilen postayı kaydederken hata oluştu';
@@ -62,6 +59,7 @@ $messages['deletegroupconfirm'] = 'Seçili grupları silmek istediğinizden emin
 $messages['deletemessagesconfirm'] = 'Seçili postaları silmek istediğinizden emin misiniz?';
 $messages['deletefolderconfirm'] = 'Bu klasörü silmek istediğinizden emin misiniz?';
 $messages['purgefolderconfirm'] = 'Bu klasördeki tüm postaları silmek istediğinizden emin misiniz?';
+$messages['contactdeleting'] = 'Kişi(er) siliniyor...';
 $messages['groupdeleting'] = 'Grup siliniyor...';
 $messages['folderdeleting'] = 'Klasör siliniyor...';
 $messages['foldermoving'] = 'Klasör taşınıyor...';
@@ -77,10 +75,10 @@ $messages['nosubjectwarning'] = '"Konu" kutusu boş bırakılmış. Şimdi bir k
 $messages['nobodywarning'] = 'Postayı boş olarak gönder?';
 $messages['notsentwarning'] = 'Posta gönderilmedi. Postanızı iptal etmek istiyor musunuz?';
 $messages['noldapserver'] = 'Lütfen arama için bir LDAP sunucu seçin';
-$messages['nocontactsreturned'] = 'Kişi bulunamadı';
 $messages['nosearchname'] = 'Lütfen bir kişi ismi veya e-posta adresi girin';
 $messages['notuploadedwarning'] = 'Henüz tüm ekli dosyalar yüklenmedi. Lütfen bekleyin ya da yüklemeyi iptal edin.';
 $messages['searchsuccessful'] = '$nr posta bulundu';
+$messages['contactsearchsuccessful'] = '$nr kişi bulundu';
 $messages['searchnomatch'] = 'Aramanıza uygun hiçbir sonuç bulunamadı';
 $messages['searching'] = 'Aranıyor...';
 $messages['checking'] = 'Denetleniyor...';
@@ -127,7 +125,6 @@ $messages['smtpautherror'] = 'SMTP Hatası ($code): Kimlik doğrulama başarıs�
 $messages['smtpfromerror'] = 'SMTP Hatası ($code): Gönderen adresi "$from" olarak ayarlanamadı ($msg)';
 $messages['smtptoerror'] = 'SMTP Hatası ($code): "$to" alıcısı eklenemedi ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Hatası: Posta alıcılarının listesi ayrıştırılamadı';
-$messages['smtpdsnerror'] = 'SMTP hatası: Teslimat durumu bildirileri desteklenmiyor';
 $messages['smtperror'] = 'SMTP Hatası: $msg';
 $messages['emailformaterror'] = 'Hatalı e-posta adresi: $email';
 $messages['toomanyrecipients'] = 'Çok fazla alıcı. En fazla $max alıcı girebilirsiniz.';
@@ -140,11 +137,16 @@ $messages['contactrestored'] = 'Kişi(ler) başarıyla geri getirildi.';
 $messages['groupdeleted'] = 'Grup silindi';
 $messages['grouprenamed'] = 'Grup ismi değiştirildi';
 $messages['groupcreated'] = 'Grup oluşturuldu';
+$messages['savedsearchdeleted'] = 'Kayıtlı arama silindi.';
+$messages['savedsearchdeleteerror'] = 'Kayıtlı arama silinemedi.';
+$messages['savedsearchcreated'] = 'Kayıtlı arama oluşturuldu.';
+$messages['savedsearchcreateerror'] = 'Kayıtlı arama oluşturulamadı.';
 $messages['messagedeleted'] = 'Posta(lar) silindi';
 $messages['messagemoved'] = 'Posta(lar) taşındı';
 $messages['messagecopied'] = 'Posta(lar) kopyalandı';
 $messages['messagemarked'] = 'Posta(lar) işaretlendi';
 $messages['autocompletechars'] = 'otomatik tamamlama için en az $min karakter girin';
+$messages['autocompletemore'] = 'Fazla sayıda eşleşen öğe bulundu. Lütfen daha fazla karakter yazın.';
 $messages['namecannotbeempty'] = 'İsim alanı boş olamaz';
 $messages['nametoolong'] = 'İsim çok uzun';
 $messages['folderupdated'] = 'Klasör güncellendi';
@@ -152,5 +154,5 @@ $messages['foldercreated'] = 'Klasör oluşturuldu';
 $messages['invalidimageformat'] = 'Geçerli bir resim biçimi değil.';
 $messages['mispellingsfound'] = 'Postada yazım hataları tespit edildi.';
 $messages['parentnotwritable'] = 'Klasör, seçilen üst klasöre taşınamıyor. Erişim izni yok.';
+$messages['messagetoobig'] = 'Bu ileti parçası işlenemeyecek kadar büyük.';
 
-?>

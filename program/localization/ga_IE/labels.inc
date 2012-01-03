@@ -2,18 +2,16 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/ga/labels.inc                                                |
+ | localization/ga_IE/labels.inc                                         |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author:   Noel Bourke  (cros13)                                       |
+ | Author: Stephen Ryan <Unknown>                                        |
  +-----------------------------------------------------------------------+
-
  @version $Id$
-
 */
 
 $labels = array();
@@ -41,17 +39,16 @@ $labels['date'] = 'Dáta';
 $labels['size'] = 'Méid';
 $labels['priority'] = 'Tosaíocht';
 $labels['organization'] = 'Eagraíocht';
-$labels['reply-to'] = 'Freagair go';
 $labels['mailboxlist'] = 'Fillteán';
+$labels['folders'] = 'Fillteán';
 $labels['messagesfromto'] = 'Teachtaireachta as $from go $to as $count';
 $labels['messagenrof'] = 'Teachtaireacht $nr as $count';
+$labels['copy'] = 'Cóipeáil';
+$labels['move'] = 'Bog';
 $labels['moveto'] = 'bog go...';
 $labels['download'] = 'síos-luchtú';
 $labels['filename'] = 'Comhad';
 $labels['filesize'] = 'Toirt';
-$labels['preferhtml'] = 'Taispeáin an HTML';
-$labels['htmlmessage'] = 'Teachtaireacht HTML';
-$labels['prettydate'] = 'Dátaí Dheas';
 $labels['addtoaddressbook'] = 'Sábháil i mo leabhair seoltaí';
 $labels['sun'] = 'Do';
 $labels['mon'] = 'Lu';
@@ -67,39 +64,58 @@ $labels['wednesday'] = 'An Chéadaoin';
 $labels['thursday'] = 'An Déardaoin';
 $labels['friday'] = 'Aoine';
 $labels['saturday'] = 'An Satharn';
+$labels['jan'] = 'Ean';
+$labels['feb'] = 'Fea';
+$labels['mar'] = 'Már';
+$labels['apr'] = 'Aib';
+$labels['may'] = 'Bea';
+$labels['longmay'] = 'Bea';
+$labels['jun'] = 'Mei';
+$labels['jul'] = 'Iúi';
+$labels['aug'] = 'Lún';
+$labels['nov'] = 'Sam';
+$labels['dec'] = 'Nol';
+$labels['longjan'] = 'Eanáir';
+$labels['longfeb'] = 'Feabhra';
+$labels['longmar'] = 'Márta';
+$labels['longapr'] = 'Aibreán';
+$labels['longjun'] = 'Meitheamh';
+$labels['longjul'] = 'Iúil';
+$labels['longaug'] = 'Lúnasa';
+$labels['longsep'] = 'Meán Fómhair';
+$labels['longoct'] = 'Deireadh Fómhair';
+$labels['longnov'] = 'Samhain';
+$labels['longdec'] = 'Nollag';
 $labels['today'] = 'Inniu';
 $labels['checkmail'] = 'Seiceáil chun teachtaireacht nua';
 $labels['writenewmessage'] = 'Scríobh teachtaireacht nua';
 $labels['replytomessage'] = 'Scríobh freagra chun an seolaí';
 $labels['replytoallmessage'] = 'Scríobh freagra chun an seolaí agus na faighteoir';
+$labels['replyall'] = 'Freagra gach';
 $labels['forwardmessage'] = 'Seol ar aghaidh an teachtaireacht';
 $labels['deletemessage'] = 'Chuir an teachtaireacht i mo bosca bruscair';
 $labels['printmessage'] = 'Priontáil an teachtaireacht seo';
 $labels['previousmessage'] = 'Taispeáin an teachtaireacht roimhe seo';
-$labels['previousmessages'] = 'Taispeáin an foireann roimhe seo';
 $labels['firstmessage'] = 'Taispeáin an cead teachtaireacht';
-$labels['firstmessages'] = 'Taispeáin an cead foireann';
 $labels['nextmessage'] = 'Taispeáin an teachtaireacht ina dhiaidh sin';
-$labels['nextmessages'] = 'Taispeáin an foireann ina dhiaidh sin';
 $labels['lastmessage'] = 'Taispeáin an teachtaireacht deireanach';
-$labels['lastmessages'] = 'Taispeáin an foireann deireanach';
 $labels['backtolist'] = 'Téigh ar ais go dtí an liosta teachtaireachta';
 $labels['viewsource'] = 'Éiriú bunchód';
 $labels['select'] = 'Togh';
 $labels['all'] = 'An uile';
 $labels['none'] = 'Aon cheann';
+$labels['nonesort'] = 'Aon cheann';
 $labels['unread'] = 'Na rudaí nach bhuil corraithe';
 $labels['compact'] = 'Comhbhrúigh';
 $labels['empty'] = 'Folmhaigh';
-$labels['purge'] = 'Purgaigh';
 $labels['quota'] = 'Toilleadh diosca atá athláimhe';
 $labels['unknown'] = 'gan aithne';
 $labels['unlimited'] = 'gan teorainn';
 $labels['quicksearch'] = 'Mearcuardaigh';
 $labels['resetsearch'] = 'Athshocraigh an cuardach';
 $labels['compose'] = 'Scríobh teachtaireacht';
-$labels['sendmessage'] = 'Seol mo teachtaireacht láithreach bonn';
 $labels['savemessage'] = 'Sábháil an dréachta seo';
+$labels['sendmessage'] = 'Seol mo teachtaireacht láithreach bonn';
 $labels['addattachment'] = 'Suimigh Iatán';
 $labels['charset'] = 'Foireann carachtar';
 $labels['editortype'] = 'Sort eagarthóir';
@@ -150,6 +166,9 @@ $labels['manageidentities'] = 'Stiúir céannachtaí i cuntas seo';
 $labels['newidentity'] = 'Céannacht nua';
 $labels['newitem'] = 'Mír nua';
 $labels['edititem'] = 'Athraigh mhír';
+$labels['preferhtml'] = 'Taispeáin an HTML';
+$labels['htmlmessage'] = 'Teachtaireacht HTML';
+$labels['prettydate'] = 'Dátaí Dheas';
 $labels['setdefault'] = 'Socraigh an réamhshocraithe';
 $labels['language'] = 'Teanga';
 $labels['timezone'] = 'Crios ama';
@@ -162,7 +181,6 @@ $labels['previewpane'] = 'Taispeáin an pána réamhamharc';
 $labels['autosavedraft'] = 'Sábháil dréachta go huathoibríoch';
 $labels['never'] = 'riamh';
 $labels['folder'] = 'Fillteán';
-$labels['folders'] = 'Fillteán';
 $labels['foldername'] = 'Ainm fillteán';
 $labels['subscribed'] = 'Síntiú';
 $labels['create'] = 'Cruthaigh';
@@ -172,4 +190,3 @@ $labels['sortby'] = 'Sórtáil trí';
 $labels['sortasc'] = 'Sórtáil in ord méadaitheach';
 $labels['sortdesc'] = 'Sórtáil in ord neartaitheach';
 
-?>

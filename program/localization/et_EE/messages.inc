@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/et_EE/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Üllar Pajus <yllar.pajus@gmail.com>                           |
-|         Raivo Hool <raivo.hool@gmail.com>                             |
-|         Elan Ruusamäe <glen@delfi.ee>                                 |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/et_EE/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -45,10 +40,12 @@ $messages['messagesaved'] = 'Kiri salvestatud mustanditesse';
 $messages['successfullysaved'] = 'Edukalt salvestatud';
 $messages['addedsuccessfully'] = 'Kontakt lisati edukalt aadressiraamatusse';
 $messages['contactexists'] = 'Sellise e-posti aadressiga kontakt on juba olemas';
+$messages['contactnameexists'] = 'Sama nimega kontakt on juba olemas.';
 $messages['blockedimages'] = 'Sinu privaatsuse kaitsmiseks on selles kirjas välised pildid blokeeritud.';
 $messages['encryptedmessage'] = 'See on krüpteeritud kiri ja kahjuks pole seda võimalik näidata. Andestust!';
 $messages['nocontactsfound'] = 'Ei leitud ühtegi kontakti';
 $messages['contactnotfound'] = 'Otsitud kontakti ei leitud';
+$messages['contactsearchonly'] = 'Sisesta otsingusõna kontaktide leidmiseks';
 $messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
 $messages['senttooquickly'] = 'Palun oota enne selle kirja saatmist $sec sekundit.';
 $messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';
@@ -58,9 +55,12 @@ $messages['errorcopying'] = 'Kirju ei õnnestunud kopeerida';
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
 $messages['errormarking'] = 'Kirja märkimine nurjus';
 $messages['deletecontactconfirm'] = 'Soovid valitud kontaktid kustutada?';
+$messages['deletegroupconfirm'] = 'Soovid valitud grupi kustutada?';
 $messages['deletemessagesconfirm'] = 'Soovid valitud kirja(d) kustutada?';
 $messages['deletefolderconfirm'] = 'Soovid selle kataloogi kindlasti kustutada?';
 $messages['purgefolderconfirm'] = 'Soovid sellest kaustast kõik kirjad kustutada?';
+$messages['contactdeleting'] = 'Kontakti(de) kustutamine…';
+$messages['groupdeleting'] = 'Grupi kustutamine…';
 $messages['folderdeleting'] = 'Kustutan kausta...';
 $messages['foldermoving'] = 'Liigutan kausta...';
 $messages['foldersubscribing'] = 'Tellin kausta...';
@@ -75,10 +75,10 @@ $messages['nosubjectwarning'] = 'Väli „Pealkiri“ on tühi. Soovid selle är
 $messages['nobodywarning'] = 'Saadan selle kirja ilma tekstita?';
 $messages['notsentwarning'] = 'Kirja saatmine nurjus. Soovid selle ära visata?';
 $messages['noldapserver'] = 'Palun vali otsinguks LDAPi server';
-$messages['nocontactsreturned'] = 'Ühtegi kontakti ei leitud';
 $messages['nosearchname'] = 'Palun sisesta kontakti nimi või e-posti aadress';
 $messages['notuploadedwarning'] = 'Kõiki manuseid ei ole veel üles laaditud. Palun oota või tühista üleslaadimine.';
 $messages['searchsuccessful'] = 'Leiti $nr kirja';
+$messages['contactsearchsuccessful'] = 'Leiti $nr kontakti.';
 $messages['searchnomatch'] = 'Otsingule vastavaid kirju ei leitud';
 $messages['searching'] = 'Otsin...';
 $messages['checking'] = 'Kontrollin...';
@@ -94,13 +94,16 @@ $messages['messageopenerror'] = 'Kirjade serverist laadimine ebaõnnestus';
 $messages['fileuploaderror'] = 'Faili üleslaadimine ebaõnnestus';
 $messages['filesizeerror'] = 'Üleslaetava faili suurus ületab maksimaalse suuruse $size';
 $messages['copysuccess'] = '$nr aadressi edukalt kopeeritud';
-$messages['copyerror'] = 'Ühegi aadressi kopeerimine ei õnnestunud ';
+$messages['copyerror'] = 'Ühegi aadressi kopeerimine ei õnnestunud';
 $messages['sourceisreadonly'] = 'Aadressi asukohas puuduvad kirjutusõigused';
 $messages['errorsavingcontact'] = 'Kontakti aadressi salvestamine ebaõnnestus';
 $messages['movingmessage'] = 'Liigutan kirja...';
 $messages['copyingmessage'] = 'Kopeerin kirja...';
+$messages['copyingcontact'] = 'Kontakti(de) kopeerimine…';
 $messages['deletingmessage'] = 'Kustutan kirja...';
 $messages['markingmessage'] = 'Märgin kirja...';
+$messages['addingmember'] = 'Kontakti(de) gruppi lisamine…';
+$messages['removingmember'] = 'Kontakti(de) grupist eemaldamine…';
 $messages['receiptsent'] = 'Kättesaamiskinnitus saadetud';
 $messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
 $messages['nodeletelastidentity'] = 'See identiteet on viimane ja seda ei saa kustutada.';
@@ -122,7 +125,6 @@ $messages['smtpautherror'] = 'SMTP tõrge ($code): autentimine nurjus';
 $messages['smtpfromerror'] = 'SMTP tõrge ($code): "$from" saatjaks määramine nurjus ($msg)';
 $messages['smtptoerror'] = 'SMTP tõrge ($code): "$to" saajaks määramine nurjus ($msg)';
 $messages['smtprecipientserror'] = 'SMTP tõrge: saajate nimekirja parsimine nurjus';
-$messages['smtpdsnerror'] = 'SMTP tõrge: puudub kohalejõudmise teavituse toetus';
 $messages['smtperror'] = 'SMTP tõrge: $msg';
 $messages['emailformaterror'] = 'Lubamatu e-posti aadress: $email';
 $messages['toomanyrecipients'] = 'Liiga palju adressaate. Vähenda kirja saajate hulka $max-ni.';
@@ -130,19 +132,27 @@ $messages['maxgroupmembersreached'] = 'Grupi liikmete arv ületab suurima lubatu
 $messages['internalerror'] = 'Ilmnes sisemine tõrge. Palun proovi uuesti.';
 $messages['contactdelerror'] = 'Kontaktide kustutamine nurjus';
 $messages['contactdeleted'] = 'Kontaktide kustutamine õnnestus';
+$messages['contactrestoreerror'] = 'Kustutatud kontakti(de) taastamine nurjus.';
+$messages['contactrestored'] = 'Kontakt(id) edukalt taastatud.';
 $messages['groupdeleted'] = 'Grupi kustutamine õnnestus';
 $messages['grouprenamed'] = 'Grupi ümbernimetamine õnnestus';
 $messages['groupcreated'] = 'Grupi loomine õnnestus';
+$messages['savedsearchdeleted'] = 'Salvestatud otsing edukalt kustutatud.';
+$messages['savedsearchdeleteerror'] = 'Salvestatud otsingu kustutamine nurjus.';
+$messages['savedsearchcreated'] = 'Salvestatud otsing edukalt loodud.';
+$messages['savedsearchcreateerror'] = 'Salvestatud otsingu loomine nurjus.';
 $messages['messagedeleted'] = 'Kiri edukalt kustutatud';
 $messages['messagemoved'] = 'Kiri edukalt liigutatud';
 $messages['messagecopied'] = 'Kiri edukalt kopeeritud';
 $messages['messagemarked'] = 'Kiri edukalt märgitud';
 $messages['autocompletechars'] = 'Sisesta vähemalt $min märki autom. lõpetuseks';
+$messages['autocompletemore'] = 'Otsingule on liiga palju vasteid. Palun sisesta veel mõni märk.';
 $messages['namecannotbeempty'] = 'Nimi ei saa olla tühi';
 $messages['nametoolong'] = 'Nimi liiga pikk';
 $messages['folderupdated'] = 'Kaust uuendatud edukalt';
 $messages['foldercreated'] = 'Kaust loodud edukalt';
 $messages['invalidimageformat'] = 'Pole õige pildi formaat';
 $messages['mispellingsfound'] = 'Kiri sisaldab õigekirjavigu';
+$messages['parentnotwritable'] = 'Kasuta loomine/liigutamine valitud kausta nurjus. Pole õigusi.';
+$messages['messagetoobig'] = 'Kiri on töötlemiseks liiga suur.';
 
-?>

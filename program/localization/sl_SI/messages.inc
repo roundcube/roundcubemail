@@ -1,17 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/sl_SI/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2008-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author:   Barbara Krasovec -  barbarak@arnes.si                       |
-+-----------------------------------------------------------------------+
-
+ +-----------------------------------------------------------------------+
+ | localization/sl_SI/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -155,4 +155,3 @@ $messages['invalidimageformat'] = 'Neveljaven format slike';
 $messages['mispellingsfound'] = 'V sporočilu so bile najdene napake v črkovanju';
 $messages['parentnotwritable'] = 'Podmape v tej mapi ni bilo mogoče ustvariti/premakniti. Nimate pravic.';
 
-?>

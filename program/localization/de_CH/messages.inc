@@ -1,20 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/de_CH/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Thomas Bruederli <roundcube@gmail.com>                        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/de_CH/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -62,6 +59,7 @@ $messages['deletegroupconfirm'] = 'Wollen Sie die gewählte Gruppe wirklich lös
 $messages['deletemessagesconfirm'] = 'Wollen Sie die ausgewählten Nachrichten wirklich löschen?';
 $messages['deletefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich löschen?';
 $messages['purgefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich leeren?';
+$messages['contactdeleting'] = 'Lösche Kontakt(e)...';
 $messages['groupdeleting'] = 'Gruppe wird gelöscht...';
 $messages['folderdeleting'] = 'Lösche Ordner...';
 $messages['foldermoving'] = 'Verschiebe Ordner...';
@@ -77,10 +75,10 @@ $messages['nosubjectwarning'] = 'Die Betreffzeile ist leer. Möchten Sie jetzt e
 $messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
 $messages['notsentwarning'] = 'Ihre Nachricht wurde nicht gesendet. Wollen Sie die Nachricht verwerfen?';
 $messages['noldapserver'] = 'Bitte wählen Sie einen LDAP-Server aus';
-$messages['nocontactsreturned'] = 'Es wurden keine Kontakte gefunden';
 $messages['nosearchname'] = 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse ein';
 $messages['notuploadedwarning'] = 'Es wurden noch nicht alle Dateien hochgeladen. Bitte warten oder Upload abbrechen.';
 $messages['searchsuccessful'] = '$nr Nachrichten gefunden';
+$messages['contactsearchsuccessful'] = '$nr Kontakte gefunden';
 $messages['searchnomatch'] = 'Die Suche lieferte keine Treffer';
 $messages['searching'] = 'Suche...';
 $messages['checking'] = 'Prüfe...';
@@ -127,7 +125,6 @@ $messages['smtpautherror'] = 'SMTP Fehler ($code): Die Authentisierung ist fehlg
 $messages['smtpfromerror'] = 'SMTP Fehler ($code): Der Absender "$from" konnte nicht gesetzt werden ($msg)';
 $messages['smtptoerror'] = 'SMTP Fehler ($code): Der Empfänger "$to" konnte nicht gesetzt werden ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Fehler: Die Empfängerliste konnte nicht verarbeitet werden';
-$messages['smtpdsnerror'] = 'SMTP-Fehler: Übermittlungsbestätigungen werden nicht unterstützt';
 $messages['smtperror'] = 'SMTP Fehler: $msg';
 $messages['emailformaterror'] = 'Ungültige E-Mail-Adresse: $email';
 $messages['toomanyrecipients'] = 'Zuviele Empfänger angegeben. Reduzieren Sie die Empfängeradressen auf $max.';
@@ -140,11 +137,16 @@ $messages['contactrestored'] = 'Kontakte erfolgreich wiederhergestellt.';
 $messages['groupdeleted'] = 'Gruppe erfolgreich gelöscht';
 $messages['grouprenamed'] = 'Gruppe erlogreich umbenannt';
 $messages['groupcreated'] = 'Gruppe erlogreich erstellt';
+$messages['savedsearchdeleted'] = 'Suche erfolgreich gelöscht';
+$messages['savedsearchdeleteerror'] = 'Suche konnte nicht gelöscht werden';
+$messages['savedsearchcreated'] = 'Suche erfolgreich gespeichert';
+$messages['savedsearchcreateerror'] = 'Suche konnte nicht gespeichert werden';
 $messages['messagedeleted'] = 'Nachricht(en) erfolgreich gelöscht';
 $messages['messagemoved'] = 'Nachricht(en) erfolgreich verschoben';
 $messages['messagecopied'] = 'Nachricht(en) erfolgreich kopiert';
 $messages['messagemarked'] = 'Nachricht(en) erfolgreich markiert';
 $messages['autocompletechars'] = 'Geben Sie mind. $min Zeichen für die Auto-Vervollständigung ein';
+$messages['autocompletemore'] = 'Mehrere Treffer. Bitte geben Sie mehr Buchstaben ein';
 $messages['namecannotbeempty'] = 'Der Name darf nicht leer sein';
 $messages['nametoolong'] = 'Der Name ist zu lang';
 $messages['folderupdated'] = 'Der Ordner wurde erfolgreich aktualisiert';
@@ -152,5 +154,5 @@ $messages['foldercreated'] = 'Der Ordner wurde erfolgreich erstellt';
 $messages['invalidimageformat'] = 'Ungültiges Bildformat';
 $messages['mispellingsfound'] = 'Es wurden noch Rechtschreibfehler in der Nachricht gefunden.';
 $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben. Keine Berechtigung.';
+$messages['messagetoobig'] = 'Die Nachricht ist zu gross, um verarbeitet zu werden';
 
-?>

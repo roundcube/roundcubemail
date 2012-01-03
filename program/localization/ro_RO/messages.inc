@@ -1,21 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/ro_RO/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Daniel Anechitoaie - danieLs <daniels@safereaction.ro>        |
-|         Zeno Popovici <zeno.popovici at ulbsibiu.ro>                  |
-|         Cristian Nastase <cristian.nastase@itcaffe.net>               |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ro_RO/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -67,7 +63,6 @@ $messages['nosubjectwarning'] = 'Mesajul nu are subiect. Vreţi să introduceţi
 $messages['nobodywarning'] = 'Trimiteţi acest mesaj fără text?';
 $messages['notsentwarning'] = 'Mesajul nu a fost trimis. Vreţi să renunţaţi la el?';
 $messages['noldapserver'] = 'Vă rugăm să alegeţi un server ldap pentru căutare';
-$messages['nocontactsreturned'] = 'Nu s-a găsit nici un contact';
 $messages['nosearchname'] = 'Vă rugăm să introduceţi un nume de contact sau adresă de e-mail';
 $messages['notuploadedwarning'] = 'Nu toate fişierele au fost ataşate. Vă rugăm să aşteptaţi sau să anulaţi încărcarea acestora.';
 $messages['searchsuccessful'] = '$nr mesaje găsite';
@@ -112,4 +107,3 @@ $messages['emailformaterror'] = 'Adresă de e-mail incorectă: $email';
 $messages['toomanyrecipients'] = 'Prea mulţi destinatari. Reduceţi numărul de destinatari la $max.';
 $messages['maxgroupmembersreached'] = 'Numărul de membri ai grupului depăşeşte maximul de $max.';
 
-?>

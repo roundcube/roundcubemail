@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/hr/messages.inc                                              |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Edi Budimilic <edi@gemstudio.hr>                              |
-|       Tanja Dobričić <tanja.dobricic@everymail.info>                  |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/hr_HR/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -74,7 +70,6 @@ $messages['nosubjectwarning'] = 'Polje \'Naslov\' je prazno. Želite li unijeti 
 $messages['nobodywarning'] = 'Želite li poslati poruku bez teksta?';
 $messages['notsentwarning'] = 'Poruka nije poslana. Želite li odbaciti ovu poruku?';
 $messages['noldapserver'] = 'Unesite LDAP poslužitelj za pretragu';
-$messages['nocontactsreturned'] = 'Nije pronađen niti jedan kontakt';
 $messages['nosearchname'] = 'Unesite ime ili e-mail adresu';
 $messages['notuploadedwarning'] = 'Svi prilozi još nisu presnimljeni na poslužitelj. Molim pričekajte ili zaustavite prsnimavanje.';
 $messages['searchsuccessful'] = 'Broj pronađenih poruka: $nr';
@@ -121,7 +116,6 @@ $messages['smtpautherror'] = 'SMTP Greška ($code): Autentikacija nije uspjela';
 $messages['smtpfromerror'] = 'SMTP Greška ($code): Nije uspjelo postavljanje pošiljatelja "$from" ($msg)';
 $messages['smtptoerror'] = 'SMTP Greška ($code): Nije uspjelo dodavanje primatelja "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Greška: Nije moguće pročitati listu primatelja';
-$messages['smtpdsnerror'] = 'SMTP Greška: Nema podrške za obaviještenje o statusu isporuke';
 $messages['smtperror'] = 'SMTP Greška: $msg';
 $messages['emailformaterror'] = 'Nepravilna e-mail adresa: $email';
 $messages['toomanyrecipients'] = 'Previše primatelja. Smanjite broj primatelja na $max.';
@@ -143,4 +137,3 @@ $messages['folderupdated'] = 'Ažuriranje mape uspješno.';
 $messages['foldercreated'] = 'Kreiranje mape uspješno.';
 $messages['invalidimageformat'] = 'Format slike nije ispravan.';
 
-?>

@@ -1,23 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/es_ES/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Javier Smaldone <javier@smaldone.com.ar>                      |
-|         David Grajal Blanco <dgrabla@gmail.com>                       |
-|         Ángel Bueno Prieto <info@mediaiberia.com>                     |
-|         José M. Ciordia <ciordia@gmail.com>                           |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/es_ES/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: David Marzal <Unknown>                                        |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -41,13 +35,14 @@ $labels['to'] = 'Destinatario';
 $labels['cc'] = 'Copia';
 $labels['bcc'] = 'Cco';
 $labels['replyto'] = 'Respuesta a';
-$labels['followupto'] = 'Seguir a';
+$labels['followupto'] = 'Responder-a';
 $labels['date'] = 'Fecha';
 $labels['size'] = 'Tamaño';
 $labels['priority'] = 'Prioridad';
 $labels['organization'] = 'Organización';
 $labels['readstatus'] = 'Leer estado';
 $labels['mailboxlist'] = 'Bandejas';
+$labels['folders'] = 'Bandejas';
 $labels['messagesfromto'] = 'Mensajes $from a $to de $count';
 $labels['threadsfromto'] = 'Hilos $from a $to de $count';
 $labels['messagenrof'] = 'Mensaje $nr de $count';
@@ -76,7 +71,8 @@ $labels['jan'] = 'Ene';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Abr';
-$labels['may'] = 'May';
+$labels['may'] = 'Mayo';
+$labels['longmay'] = 'Mayo';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Ago';
@@ -88,7 +84,6 @@ $labels['longjan'] = 'Enero';
 $labels['longfeb'] = 'Febrero';
 $labels['longmar'] = 'Marzo';
 $labels['longapr'] = 'Abril';
-$labels['longmay'] = 'Mayo';
 $labels['longjun'] = 'Junio';
 $labels['longjul'] = 'Julio';
 $labels['longaug'] = 'Agosto';
@@ -124,6 +119,7 @@ $labels['moreactions'] = 'Más acciones…';
 $labels['select'] = 'Elija';
 $labels['all'] = 'Todos';
 $labels['none'] = 'Ninguno';
+$labels['nonesort'] = 'Ninguno';
 $labels['currpage'] = 'Página actual';
 $labels['unread'] = 'Sin leer';
 $labels['flagged'] = 'Señalado';
@@ -143,7 +139,6 @@ $labels['expand_only_unread'] = 'solo con mensajes no leídos';
 $labels['fromto'] = 'Remitente/Destinatario';
 $labels['flag'] = 'Marca';
 $labels['attachment'] = 'Adjunto';
-$labels['nonesort'] = 'Ninguno';
 $labels['sentdate'] = 'Fecha de envío';
 $labels['arrival'] = 'Fecha de llegada';
 $labels['asc'] = 'ascendente';
@@ -192,6 +187,7 @@ $labels['highest'] = 'Altísimo';
 $labels['nosubject'] = '(sin asunto)';
 $labels['showimages'] = 'Mostrar imágenes';
 $labels['alwaysshow'] = 'Mostrar siempre imágenes de $sender';
+$labels['isdraft'] = 'Este mensaje es un borrador';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Sólo texto';
 $labels['savesentmessagein'] = 'Guardar mensaje enviado en';
@@ -233,14 +229,15 @@ $labels['male'] = 'Hombre';
 $labels['female'] = 'Mujer';
 $labels['manager'] = 'Director';
 $labels['assistant'] = 'Auxiliar';
+$labels['typeassistant'] = 'Auxiliar';
 $labels['spouse'] = 'Cónyuge';
 $labels['allfields'] = 'Todos los campos';
 $labels['search'] = 'Buscar';
 $labels['advsearch'] = 'Búsqueda avanzada';
 $labels['other'] = 'Otro';
+$labels['typeother'] = 'Otro';
 $labels['typehome'] = 'Casa';
 $labels['typework'] = 'Trabajo';
-$labels['typeother'] = 'Otro';
 $labels['typemobile'] = 'Móvil';
 $labels['typemain'] = 'Principal';
 $labels['typehomefax'] = 'Fax de casa';
@@ -248,7 +245,6 @@ $labels['typeworkfax'] = 'Fax del trabajo';
 $labels['typecar'] = 'Coche';
 $labels['typepager'] = 'Busca';
 $labels['typevideo'] = 'Vídeo';
-$labels['typeassistant'] = 'Auxiliar';
 $labels['typehomepage'] = 'Inicio';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Perfil';
@@ -292,6 +288,7 @@ $labels['importreplace'] = 'Reemplazar toda la lista de contactos';
 $labels['importtext'] = 'Puede importar contactos desde una lista existente.<br/>Actualmente sólo soportamos el formato <a href="http://es.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Hecho';
 $labels['settingsfor'] = 'Configuración para';
+$labels['about'] = 'Acerca De';
 $labels['preferences'] = 'Preferencias';
 $labels['userpreferences'] = 'Preferencias de usuario';
 $labels['editpreferences'] = 'Editar preferencias de usuario';
@@ -353,11 +350,11 @@ $labels['advancedoptions'] = 'Opciones avanzadas';
 $labels['focusonnewmessage'] = 'Activar la ventana del navegador si hay un mensaje nuevo';
 $labels['checkallfolders'] = 'Comprobar en todas las bandejas si hay mensajes nuevos';
 $labels['displaynext'] = 'Después de borrar/mover, mostrar el siguiente mensaje después de borrar/mover un mensaje';
+$labels['defaultfont'] = 'Tipo de letra predeterminada del mensaje HTML';
 $labels['mainoptions'] = 'Opciones principales';
 $labels['section'] = 'Sección';
 $labels['maintenance'] = 'Mantenimiento';
 $labels['newmessage'] = 'Nuevo mensaje';
-$labels['listoptions'] = 'Opciones de listado';
 $labels['signatureoptions'] = 'Opciones de firma';
 $labels['whenreplying'] = 'Al responder';
 $labels['replytopposting'] = 'empezar un mensaje nuevo encima del original';
@@ -376,6 +373,7 @@ $labels['reqmdn'] = 'Solicitar siempre un acuse de recibo';
 $labels['reqdsn'] = 'Solicitar siempre la entrega de notificaciones de estado';
 $labels['replysamefolder'] = 'Coloque las respuestas en la bandeja del mensaje que se responde';
 $labels['defaultaddressbook'] = 'Añadir nuevos contactos a la lista de contactos seleccionada';
+$labels['autocompletesingle'] = 'Omitir direcciones de correo alternativas en autocompletado';
 $labels['spellcheckbeforesend'] = 'Comprobar ortografía antes de enviar un mensaje';
 $labels['spellcheckoptions'] = 'Opciones de ortografía';
 $labels['spellcheckignoresyms'] = 'Ignorar palabras con símbolos';
@@ -383,7 +381,6 @@ $labels['spellcheckignorenums'] = 'Ignorar palabras con números';
 $labels['spellcheckignorecaps'] = 'Ignorar palabras con todo mayúsculas';
 $labels['addtodict'] = 'Añadir al diccionario';
 $labels['folder'] = 'Bandeja';
-$labels['folders'] = 'Bandejas';
 $labels['foldername'] = 'Nombre de bandeja';
 $labels['subscribed'] = 'Suscrita';
 $labels['messagecount'] = 'Mensajes';
@@ -406,6 +403,11 @@ $labels['sortby'] = 'Ordenar por';
 $labels['sortasc'] = 'Orden ascendente';
 $labels['sortdesc'] = 'Orden descendente';
 $labels['undo'] = 'Deshacer';
+$labels['plugin'] = 'Plugin';
+$labels['version'] = 'Versión';
+$labels['source'] = 'Origen';
+$labels['license'] = 'Licencia';
+$labels['support'] = 'Obtener soporte';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
@@ -429,4 +431,3 @@ $labels['japanese'] = 'Japonés';
 $labels['korean'] = 'Coreano';
 $labels['chinese'] = 'Chino';
 
-?>

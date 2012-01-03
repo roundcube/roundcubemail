@@ -1,23 +1,17 @@
 <?php
+
 /*
-
-+-----------------------------------------------------------------------+
-| language/es_ES/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Javier Smaldone <javier@smaldone.com.ar>                      |
-|         David Grajal Blanco <dgrabla@gmail.com>                       |
-|         Lito Jornero <jornero@gmail.com>                              |
-|         Pablo Rosciani <pablo@netsud.com>                             |
-|         http://www.netsud.com                                         |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/es_AR/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -69,7 +63,6 @@ $messages['nosubjectwarning'] = 'El campo "Asunto" esta vacío. ¿Desea completa
 $messages['nobodywarning'] = '¿Quiere enviar este mensaje sin texto?';
 $messages['notsentwarning'] = 'El mensaje no ha sido enviado. ¿Desea descartar su mensaje?';
 $messages['noldapserver'] = 'Por favor, seleccione un servidor LDAP para buscar';
-$messages['nocontactsreturned'] = 'No se han encontrado contactos';
 $messages['nosearchname'] = 'Por favor, introduzca un nombre o la dirección de e-mail';
 $messages['notuploadedwarning'] = 'Todavia no se subieron todos los archivos adjuntos. Por favor aguarde o cancele la subida.';
 $messages['searchsuccessful'] = 'Se encontraron $nr mensajes';
@@ -114,4 +107,3 @@ $messages['emailformaterror'] = 'La dirección $email no es válida';
 $messages['toomanyrecipients'] = 'Demasiados destinatarios. Reduzca la cantidad a un máximo de $max.';
 $messages['maxgroupmembersreached'] = 'El número de miembros del grupo excede el máximo de $max';
 
-?>

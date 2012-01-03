@@ -1,22 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/fr_FR/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Joel S. <joel.s@spijoprod.com>                                |
-|         Jerome Lipowicz <jerome@yayel.com>                            |
-|         Maximilien Cuony <theglu@theglu.org>                          |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/fr_FR/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Edouard Moreau <Unknown>                                      |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -24,7 +19,7 @@ $labels['welcome'] = 'Bienvenue sur $product';
 $labels['username'] = 'Utilisateur';
 $labels['password'] = 'Mot de passe';
 $labels['server'] = 'Serveur';
-$labels['login'] = 'Authentification';
+$labels['login'] = 'Connexion';
 $labels['logout'] = 'Quitter';
 $labels['mail'] = 'Courriel';
 $labels['settings'] = 'Préférences';
@@ -47,6 +42,7 @@ $labels['priority'] = 'Priorité';
 $labels['organization'] = 'Organisation';
 $labels['readstatus'] = 'Statut de lecture';
 $labels['mailboxlist'] = 'Dossiers';
+$labels['folders'] = 'Dossiers';
 $labels['messagesfromto'] = 'Messages de $from à $to sur $count';
 $labels['threadsfromto'] = 'Fil de $from à $to sur $count';
 $labels['messagenrof'] = 'Message $nr sur $count';
@@ -76,6 +72,7 @@ $labels['feb'] = 'Fév';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Avr';
 $labels['may'] = 'Mai';
+$labels['longmay'] = 'Mai';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Aoû';
@@ -87,7 +84,6 @@ $labels['longjan'] = 'Janvier';
 $labels['longfeb'] = 'Février';
 $labels['longmar'] = 'Mars';
 $labels['longapr'] = 'Avril';
-$labels['longmay'] = 'Mai';
 $labels['longjun'] = 'Juin';
 $labels['longjul'] = 'Juillet';
 $labels['longaug'] = 'Août';
@@ -123,6 +119,7 @@ $labels['moreactions'] = 'Plus d\'actions...';
 $labels['select'] = 'Sélectionner';
 $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';
+$labels['nonesort'] = 'Aucun';
 $labels['currpage'] = 'Page courante';
 $labels['unread'] = 'Non lus';
 $labels['flagged'] = 'Marqué';
@@ -142,7 +139,6 @@ $labels['expand_only_unread'] = 'uniquement avec des messages non-lus';
 $labels['fromto'] = 'Expéditeur/Destinataire';
 $labels['flag'] = 'Drapeau';
 $labels['attachment'] = 'Pièce jointe';
-$labels['nonesort'] = 'Aucun';
 $labels['sentdate'] = 'Date d\'envoi';
 $labels['arrival'] = 'Date d\'arrivée';
 $labels['asc'] = 'Ascendant';
@@ -232,15 +228,16 @@ $labels['notes'] = 'Notes';
 $labels['male'] = 'Homme';
 $labels['female'] = 'Femme';
 $labels['manager'] = 'Manager';
-$labels['assistant'] = 'Assistant';
+$labels['assistant'] = 'Assistante';
+$labels['typeassistant'] = 'Assistante';
 $labels['spouse'] = 'Épouse';
 $labels['allfields'] = 'Tous les champs';
 $labels['search'] = 'Rechercher';
 $labels['advsearch'] = 'Recherche avancée';
 $labels['other'] = 'Autre';
+$labels['typeother'] = 'Autre';
 $labels['typehome'] = 'Domicile';
 $labels['typework'] = 'Travail';
-$labels['typeother'] = 'Autre';
 $labels['typemobile'] = 'Mobile';
 $labels['typemain'] = 'Principale';
 $labels['typehomefax'] = 'Fax personnel';
@@ -248,7 +245,6 @@ $labels['typeworkfax'] = 'Fax professionnel';
 $labels['typecar'] = 'Voiture';
 $labels['typepager'] = 'Pager';
 $labels['typevideo'] = 'Vidéo';
-$labels['typeassistant'] = 'Assistante';
 $labels['typehomepage'] = 'Accueil';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profil';
@@ -354,11 +350,11 @@ $labels['advancedoptions'] = 'Options avancées';
 $labels['focusonnewmessage'] = 'Placer le focus sur la fenêtre quand un nouveau message arrive';
 $labels['checkallfolders'] = 'Vérifier tous les dossiers pour les nouveaux messages';
 $labels['displaynext'] = 'Après suppression/déplacement du message, afficher le message suivant';
+$labels['defaultfont'] = 'Police par défaut des messages en HTML';
 $labels['mainoptions'] = 'Options principales';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'Nouveau Message';
-$labels['listoptions'] = 'Lister les options';
 $labels['signatureoptions'] = 'Options pour la signature';
 $labels['whenreplying'] = 'En répondant';
 $labels['replytopposting'] = 'commencer le nouveau message au-dessus de l\'original';
@@ -385,7 +381,6 @@ $labels['spellcheckignorenums'] = 'Ignorer les mots avec des nombres';
 $labels['spellcheckignorecaps'] = 'Ignorer les mots entièrement en majuscule';
 $labels['addtodict'] = 'Ajouter au dictionnaire';
 $labels['folder'] = 'Dossier';
-$labels['folders'] = 'Dossiers';
 $labels['foldername'] = 'Nom du dossier';
 $labels['subscribed'] = 'Abonné';
 $labels['messagecount'] = 'Messages';
@@ -436,4 +431,3 @@ $labels['japanese'] = 'Japonais';
 $labels['korean'] = 'Coréen';
 $labels['chinese'] = 'Chinois';
 
-?>

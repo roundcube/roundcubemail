@@ -2,17 +2,16 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ne/messages.inc                                          |
+ | localization/ne_NP/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2007, The Roundcube Dev Team                            |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Nepali Translation by:                                                |
- | Prasanna Singh <prasanna@bhunet.com>, <prasanna@bhunet.com>           |
- | RoundcubeAuthor: Thomas Bruederli <roundcube@gmail.com>               |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -54,7 +53,6 @@ $messages['nosubjectwarning'] = 'मेलको कुनै विषय त�
 $messages['nobodywarning'] = 'बिना केहि लेखि पठाउने?';
 $messages['notsentwarning'] = 'मेल पठएको छैन.. मेल रद्द गर्न चहानुहुन्छ?';
 $messages['noldapserver'] = 'कृपया खोजको निम्ति एउटा ऐलडाप सर्वर छान्नहोस';
-$messages['nocontactsreturned'] = 'कुनै सम्पर्क फेला परेनन्';
 $messages['nosearchname'] = 'कृपया सम्पर्कको नाम या ई-मेल भर्नुहोस';
 $messages['searchsuccessful'] = '$nr मेलहरु पाइयो';
 $messages['searchnomatch'] = 'खोज असफल रहयो';
@@ -72,4 +70,3 @@ $messages['copyerror'] = 'कुनै पनि ठेगानाहरु उ
 $messages['sourceisreadonly'] = 'यो ठेगाना को श्रोत पढ्नको लागि मात्र उपलब्ध छ';
 $messages['errorsavingcontact'] = 'स्मपर्कको ठेगाना जोगाउन सकिएन';
 
-?>

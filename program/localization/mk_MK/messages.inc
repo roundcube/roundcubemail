@@ -1,19 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/mk_MK/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author:  Ivan Mishev - mishevivan@gmail.com                           |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/mk_MK/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -44,7 +42,7 @@ $messages['contactnotfound'] = 'Бараното име не е пронајде
 $messages['sendingfailed'] = 'Не упеав да го испратам писмото';
 $messages['senttooquickly'] = 'Почекајте $sec секунда/и пред да го испратите писмото';
 $messages['errorsavingsent'] = 'Грешка при зачувувањето на пратеното писмо';
-$messages['errorsaving'] = 'Грешка при зачувувањето ';
+$messages['errorsaving'] = 'Грешка при зачувувањето';
 $messages['errormoving'] = 'Не можев да го преместам писмото';
 $messages['errordeleting'] = 'Не можев да го избришам писмото';
 $messages['errormarking'] = 'Не можев да го обележам писмото';
@@ -64,7 +62,6 @@ $messages['nosubjectwarning'] = 'Немате внесено „Наслов“.
 $messages['nobodywarning'] = 'Писмото нема текст во него. Дали сакате да го испратите?';
 $messages['notsentwarning'] = 'Писмото не е пратено. Дали сакате да го отфрлите?';
 $messages['noldapserver'] = 'Изберете LDAP сервер за пребарување';
-$messages['nocontactsreturned'] = 'Не се најдени имиња';
 $messages['nosearchname'] = 'Внесете име или е-поштенска адреса';
 $messages['notuploadedwarning'] = 'Сè уште нема подигнати прилози. Почекајте или откажете го подигањето';
 $messages['searchsuccessful'] = 'Пронајадени се $nr пораки';
@@ -104,4 +101,3 @@ $messages['smtprecipientserror'] = 'SMTP грешка: Не успеав да ј
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Неправилна поштенска адреса: $email';
 
-?>

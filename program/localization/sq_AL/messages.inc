@@ -1,20 +1,17 @@
 <?php
 
 /*
-
  +-----------------------------------------------------------------------+
- | language/sq_AL/messages.inc                                           |
+ | localization/sq_AL/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dashamir Hoxha <dhoxha@albaniaonline.net>                     |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
-
  @version $Id$
-
 */
 
 $messages = array();
@@ -56,7 +53,6 @@ $messages['nosubjectwarning'] = 'Fusha e temës është bosh. Dëshironi të sh�
 $messages['nobodywarning'] = 'Ta dërgoj mesazhin pa tekst?';
 $messages['notsentwarning'] = 'Mesazhi nuk u dërgua. Doni ta hidhni poshtë mesazhin?';
 $messages['noldapserver'] = 'Ju lutem jepni një server ldap për të kërkuar';
-$messages['nocontactsreturned'] = 'Nuk gjeta kontakte';
 $messages['nosearchname'] = 'Ju lutem jepni një adresë email ose një emër kontakti';
 $messages['searchsuccessful'] = 'U gjetën $nr mesazhe';
 $messages['searchnomatch'] = 'Kërkimi nuk gjeti gjë';
@@ -78,4 +74,3 @@ $messages['receiptsent'] = 'U dërgua me sukses një njoftim leximi';
 $messages['errorsendingreceipt'] = 'Nuk mund të dërgohet njoftimi';
 $messages['nodeletelastidentity'] = 'Ju nuk mund ta fshini këtë identitet sepse nuk ju ka mbetur tjetër.';
 
-?>

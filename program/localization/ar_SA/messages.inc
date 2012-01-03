@@ -1,20 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ar_SA/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Ossama Khayat <okhayat@yahoo.com>                             |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/ar_SA/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -74,7 +71,7 @@ $messages['nonamewarning'] = 'الرجاء إدخال اسم';
 $messages['nopagesizewarning'] = 'الرجاء إدخال حجم الصفحة';
 $messages['nosenderwarning'] = 'رجاء اكتب عنوان البريد الالكتروني للمُرسل';
 $messages['norecipientwarning'] = 'الرجاء إدخال اسم مستقبل واحد على الأقل';
-$messages['nosubjectwarning'] = 'حقل \"الموضوع\" فارغ. هل تريد كتابة موضوع للرسالة؟';
+$messages['nosubjectwarning'] = 'حقل "الموضوع" فارغ. هل تريد كتابة موضوع للرسالة؟';
 $messages['nobodywarning'] = 'إرسال هذه الرسالة دون نص؟';
 $messages['notsentwarning'] = 'لم يتم إرسال الرسالة. هل تريد تجاهل الرسالة؟';
 $messages['noldapserver'] = 'الرجاء اختيار خادم ldap للبحث فيه';
@@ -159,4 +156,3 @@ $messages['mispellingsfound'] = 'عُثر على أخطاء إملائية في 
 $messages['parentnotwritable'] = 'تعذر إنشاء/نقل المجلد إلى المجلد المحدد. ليست لديك الصلاحية.';
 $messages['messagetoobig'] = 'جزء الرسالة أكبر بكثير مما يمكن معالجته.';
 
-?>

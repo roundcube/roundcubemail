@@ -1,20 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/sr_cyrillic/labels.inc                                       |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Branko Kokanovic <branko.kokanovic@gmail.com                  |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/sr_CS/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -44,6 +41,7 @@ $labels['priority'] = 'Приоритет';
 $labels['organization'] = 'Организација';
 $labels['readstatus'] = 'Статус поруке';
 $labels['mailboxlist'] = 'Фасцикле';
+$labels['folders'] = 'Фасцикле';
 $labels['messagesfromto'] = 'Поруке $from до $to од укупно $count';
 $labels['threadsfromto'] = 'Страница $from до $to од $count';
 $labels['messagenrof'] = 'Порука број $nr од $count';
@@ -73,6 +71,7 @@ $labels['feb'] = 'Феб';
 $labels['mar'] = 'Мар';
 $labels['apr'] = 'Апр';
 $labels['may'] = 'Мај';
+$labels['longmay'] = 'Мај';
 $labels['jun'] = 'Јун';
 $labels['jul'] = 'Јул';
 $labels['aug'] = 'Авг';
@@ -84,7 +83,6 @@ $labels['longjan'] = 'Јануар';
 $labels['longfeb'] = 'Фебруар';
 $labels['longmar'] = 'Март';
 $labels['longapr'] = 'Април';
-$labels['longmay'] = 'Мај';
 $labels['longjun'] = 'Јуни';
 $labels['longjul'] = 'Јули';
 $labels['longaug'] = 'Август';
@@ -104,13 +102,9 @@ $labels['deletemessage'] = 'Избриши поруку';
 $labels['movemessagetotrash'] = 'Пребаци поруку у канту';
 $labels['printmessage'] = 'Одштампај поруку';
 $labels['previousmessage'] = 'Прикажи претходну поруку';
-$labels['previousmessages'] = 'Прикажи претходни скуп порука';
 $labels['firstmessage'] = 'Прикажи прву поруку';
-$labels['firstmessages'] = 'Прикажи први скуп порука';
 $labels['nextmessage'] = 'Прикажи следећу поруку';
-$labels['nextmessages'] = 'Прикажи следећи скуп порука';
 $labels['lastmessage'] = 'Прикажи последњу поруку';
-$labels['lastmessages'] = 'Прикажи последњи скуп порука';
 $labels['backtolist'] = 'Повратак на листу порука';
 $labels['viewsource'] = 'Прикажи поруку у изворном облику';
 $labels['markmessages'] = 'Обележи поруке';
@@ -118,10 +112,10 @@ $labels['markread'] = 'Као прочитано';
 $labels['markunread'] = 'Као непрочитано';
 $labels['markflagged'] = 'Као означено';
 $labels['markunflagged'] = 'Као неозначено';
-$labels['messageactions'] = 'Више поставки';
 $labels['select'] = 'Одабери';
 $labels['all'] = 'Све';
-$labels['none'] = 'Ниједну';
+$labels['none'] = 'Ништа';
+$labels['nonesort'] = 'Ништа';
 $labels['currpage'] = 'Тренутна страница';
 $labels['unread'] = 'Непрочитане';
 $labels['flagged'] = 'Означено';
@@ -130,7 +124,6 @@ $labels['deleted'] = 'Обрисано';
 $labels['invert'] = 'Уведи';
 $labels['filter'] = 'Филтер';
 $labels['list'] = 'Листа';
-$labels['nonesort'] = 'Ништа';
 $labels['sentdate'] = 'Датум послато';
 $labels['arrival'] = 'Датум стигло';
 $labels['folderactions'] = 'Поставке фасцикле';
@@ -156,7 +149,7 @@ $labels['editidents'] = 'Модификуј псеудониме';
 $labels['checkspelling'] = 'Провера правописа';
 $labels['resumeediting'] = 'Повратак у режим писања';
 $labels['revertto'] = 'Врати се на';
-$labels['attachments'] = 'Прилози ';
+$labels['attachments'] = 'Прилози';
 $labels['upload'] = 'Додај';
 $labels['close'] = 'Затвори';
 $labels['messageoptions'] = 'Опције поруке';
@@ -203,16 +196,17 @@ $labels['male'] = 'мушко';
 $labels['female'] = 'женско';
 $labels['manager'] = 'Менаџер';
 $labels['assistant'] = 'Асистент';
+$labels['typeassistant'] = 'Асистент';
+$labels['other'] = 'Остало';
+$labels['typeother'] = 'Остало';
 $labels['typehome'] = 'Кућа';
 $labels['typework'] = 'Посао';
-$labels['typeother'] = 'Остало';
 $labels['typemobile'] = 'Мобилни Телефон';
 $labels['typehomefax'] = 'Кућни факс';
 $labels['typeworkfax'] = 'Пословни факс';
 $labels['typecar'] = 'Ауто';
 $labels['typepager'] = 'Пејџер';
 $labels['typevideo'] = 'Видео';
-$labels['typeassistant'] = 'Асистент';
 $labels['addfield'] = 'Додај поље';
 $labels['addcontact'] = 'Додај нови контакт';
 $labels['editcontact'] = 'Измени контакт';
@@ -234,7 +228,6 @@ $labels['print'] = 'Штампај';
 $labels['export'] = 'Извези';
 $labels['exportvcards'] = 'Извези конакте у vCard формату';
 $labels['newcontactgroup'] = 'Креирај нову контакт групу';
-$labels['groupactions'] = 'Радње за контакт групу';
 $labels['previouspage'] = 'Прикажи претходну страну';
 $labels['firstpage'] = 'Прикажи први скуп';
 $labels['nextpage'] = 'Прикажи следећу страну';
@@ -287,7 +280,6 @@ $labels['mimeparamfolding'] = 'имена прилога';
 $labels['mainoptions'] = 'Главне поставке';
 $labels['section'] = 'Секција';
 $labels['newmessage'] = 'Нова порука';
-$labels['listoptions'] = 'Опције листе';
 $labels['signatureoptions'] = 'Опције потписа';
 $labels['whenreplying'] = 'При одговору';
 $labels['replytopposting'] = 'Почни нову поруку преко оригинала';
@@ -306,7 +298,6 @@ $labels['reqmdn'] = 'Увек затражи повратну скрипту';
 $labels['reqdsn'] = 'Увек затражи обавештење о статусу слања поруке';
 $labels['replysamefolder'] = 'Сачувај одговоре у фасциклу поруке на коју се одговара';
 $labels['folder'] = 'Фасцикла';
-$labels['folders'] = 'Фасцикле';
 $labels['foldername'] = 'Име фасцикле';
 $labels['subscribed'] = 'Потписана';
 $labels['messagecount'] = 'Поруке';
@@ -345,4 +336,3 @@ $labels['japanese'] = 'Јапански';
 $labels['korean'] = 'Кореански';
 $labels['chinese'] = 'Кинески';
 
-?>

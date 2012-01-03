@@ -1,27 +1,23 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/tr_TR/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Hasan Cansız <hasancansiz@yahoo.com>                          |
-| Author: Gökdeniz Karadağ <gokdenizk@gmail.com>                        |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/tr_TR/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: ismail yenigul <Unknown>                                      |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
 $labels['welcome'] = '$product, Hoş Geldiniz';
 $labels['username'] = 'Kullanıcı Adı';
-$labels['password'] = 'Şifre';
+$labels['password'] = 'Parola';
 $labels['server'] = 'Sunucu';
 $labels['login'] = 'Oturum Aç';
 $labels['logout'] = 'Oturumu Kapat';
@@ -46,6 +42,7 @@ $labels['priority'] = 'Öncelik';
 $labels['organization'] = 'Kuruluş';
 $labels['readstatus'] = 'Okundu durumu';
 $labels['mailboxlist'] = 'Klasörler';
+$labels['folders'] = 'Klasörler';
 $labels['messagesfromto'] = 'Postalar: $from - $to , Toplam: $count';
 $labels['threadsfromto'] = 'Dizilmler: $from - $to, Toplam $count';
 $labels['messagenrof'] = 'Posta: $nr / $count';
@@ -74,7 +71,8 @@ $labels['jan'] = 'Oca';
 $labels['feb'] = 'Şub';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Nis';
-$labels['may'] = 'May';
+$labels['may'] = 'Mayıs';
+$labels['longmay'] = 'Mayıs';
 $labels['jun'] = 'Haz';
 $labels['jul'] = 'Tem';
 $labels['aug'] = 'Ağu';
@@ -86,7 +84,6 @@ $labels['longjan'] = 'Ocak';
 $labels['longfeb'] = 'Şubat';
 $labels['longmar'] = 'Mart';
 $labels['longapr'] = 'Nisan';
-$labels['longmay'] = 'Mayıs';
 $labels['longjun'] = 'Haziran';
 $labels['longjul'] = 'Temmuz';
 $labels['longaug'] = 'Ağustos';
@@ -118,10 +115,11 @@ $labels['markread'] = 'okunmuş olarak';
 $labels['markunread'] = 'okunmamış olarak';
 $labels['markflagged'] = 'işaretli olarak';
 $labels['markunflagged'] = 'işaretsiz olarak';
-$labels['messageactions'] = 'Diğer eylemler...';
+$labels['moreactions'] = 'Daha fazla eylem...';
 $labels['select'] = 'Seç';
 $labels['all'] = 'Hepsini';
-$labels['none'] = 'Hiçbirini';
+$labels['none'] = 'Yok';
+$labels['nonesort'] = 'Yok';
 $labels['currpage'] = 'Şimdiki sayfa';
 $labels['unread'] = 'Okunmamışları';
 $labels['flagged'] = 'İşaretlenmişleri';
@@ -141,7 +139,6 @@ $labels['expand_only_unread'] = 'sadece okunmamış posta içeren dizilimler';
 $labels['fromto'] = 'Gönderici/Alıcı';
 $labels['flag'] = 'İşaret';
 $labels['attachment'] = 'Eklenti';
-$labels['nonesort'] = 'Yok';
 $labels['sentdate'] = 'Gönderim tarihi';
 $labels['arrival'] = 'Alım tarihi';
 $labels['asc'] = 'artan';
@@ -190,6 +187,7 @@ $labels['highest'] = 'En yüksek';
 $labels['nosubject'] = '(Konu Belirtilmemiş)';
 $labels['showimages'] = 'Resimleri göster';
 $labels['alwaysshow'] = '$sender tarafından gönderilen resimleri her zaman göster';
+$labels['isdraft'] = 'Bu posta taslaktır.';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Düz metin';
 $labels['savesentmessagein'] = 'Gönderileni buraya kaydet';
@@ -231,14 +229,15 @@ $labels['male'] = 'erkek';
 $labels['female'] = 'kadın';
 $labels['manager'] = 'Yönetici';
 $labels['assistant'] = 'Asistan';
+$labels['typeassistant'] = 'Asistan';
 $labels['spouse'] = 'Eş';
 $labels['allfields'] = 'Tüm alanlar';
 $labels['search'] = 'Ara';
 $labels['advsearch'] = 'Gelişmiş ara';
 $labels['other'] = 'Diğer';
+$labels['typeother'] = 'Diğer';
 $labels['typehome'] = 'Ev';
 $labels['typework'] = 'İş';
-$labels['typeother'] = 'Diğer';
 $labels['typemobile'] = 'Cep telefonu';
 $labels['typemain'] = 'Ana';
 $labels['typehomefax'] = 'Ev Faks';
@@ -246,7 +245,6 @@ $labels['typeworkfax'] = 'İş Faks';
 $labels['typecar'] = 'Araba';
 $labels['typepager'] = 'Çağrı cihazı';
 $labels['typevideo'] = 'Görüntülü';
-$labels['typeassistant'] = 'Asistan';
 $labels['typehomepage'] = 'Ev sayfası';
 $labels['typeblog'] = 'Günlük';
 $labels['typeprofile'] = 'Profil';
@@ -271,7 +269,6 @@ $labels['print'] = 'Yazdır';
 $labels['export'] = 'Dışa aktar';
 $labels['exportvcards'] = 'vCard olarak dışa aktar';
 $labels['newcontactgroup'] = 'Yeni kişi grubu oluştur';
-$labels['groupactions'] = 'Kişi grupları için eylemler...';
 $labels['grouprename'] = 'Grubu yeniden adlandır';
 $labels['groupdelete'] = 'Grubu sil';
 $labels['previouspage'] = 'Öncekileri göster';
@@ -281,6 +278,8 @@ $labels['lastpage'] = 'Sonuncuyu göster';
 $labels['group'] = 'Grup';
 $labels['groups'] = 'Gruplar';
 $labels['personaladrbook'] = 'Adresler';
+$labels['searchsave'] = 'Aramayı kaydet';
+$labels['searchdelete'] = 'Aramayı sil';
 $labels['import'] = 'İçe aktar';
 $labels['importcontacts'] = 'Kişileri içe aktar';
 $labels['importfromfile'] = 'Dosyadan içe aktar:';
@@ -289,6 +288,7 @@ $labels['importreplace'] = 'Tüm adres defterinin yerine geçsin';
 $labels['importtext'] = 'Mevcut bir adres defterindeki kişileri yükleyebilirsiniz.<br/><a href="http://en.wikipedia.org/wiki/VCard">vCard</a> dosyalarından adresleri içe aktarmayı destekliyoruz.';
 $labels['done'] = 'Tamam';
 $labels['settingsfor'] = 'Ayarlar';
+$labels['about'] = 'Hakkında';
 $labels['preferences'] = 'Tercihler';
 $labels['userpreferences'] = 'Kullanıcı tercihleri';
 $labels['editpreferences'] = 'Kullanıcı tercihlerini düzenle';
@@ -300,6 +300,8 @@ $labels['edititem'] = 'Öğe düzenle';
 $labels['preferhtml'] = 'HTML görüntüle';
 $labels['defaultcharset'] = 'Varsayılan Karakter Kümesi';
 $labels['htmlmessage'] = 'HTML Posta';
+$labels['dateformat'] = 'Tarih biçimi';
+$labels['timeformat'] = 'Zaman biçimi';
 $labels['prettydate'] = 'Tarihi kısaltarak göster';
 $labels['setdefault'] = 'Varsayılan olarak ata';
 $labels['autodetect'] = 'Otomatik';
@@ -348,11 +350,11 @@ $labels['advancedoptions'] = 'Gelişmiş seçenekler';
 $labels['focusonnewmessage'] = 'Yeni posta geldiğinde web tarayıcı penceresine odaklan.';
 $labels['checkallfolders'] = 'Tüm klasörlerdeki yeni postaları denetle';
 $labels['displaynext'] = 'Posta silindikten/taşındıktan sonra sıradaki postayı göster';
+$labels['defaultfont'] = 'HTML postalar için varsayılan yazı tipi';
 $labels['mainoptions'] = 'Ana Seçenekler';
 $labels['section'] = 'Bölüm';
 $labels['maintenance'] = 'Bakım';
 $labels['newmessage'] = 'Yeni Posta';
-$labels['listoptions'] = 'Liste Seçenekleri';
 $labels['signatureoptions'] = 'İmza Seçenekleri';
 $labels['whenreplying'] = 'Yanıtlarken';
 $labels['replytopposting'] = 'yeni postayı alıntı metninin üstünden başlat';
@@ -371,9 +373,14 @@ $labels['reqmdn'] = 'Her zaman alındı onayı iste';
 $labels['reqdsn'] = 'Her zaman teslimat durumu bildirisi iste';
 $labels['replysamefolder'] = 'Yanıtları, yanıtlanan postanın bulunduğu klasöre kaydet';
 $labels['defaultaddressbook'] = 'Yeni kişileri seçili adres defterine ekle';
+$labels['autocompletesingle'] = 'Otomatik tamamlamalarda alternatif e-posta adreslerini atla';
 $labels['spellcheckbeforesend'] = 'Posta göndermeden önce yazım denetimi yap';
+$labels['spellcheckoptions'] = 'Yazım denetimi seçenekleri';
+$labels['spellcheckignoresyms'] = 'İçinde sembol geçen kelimleri göz ardı et';
+$labels['spellcheckignorenums'] = 'İçinde rakam geçen kelimleri göz ardı et';
+$labels['spellcheckignorecaps'] = 'Tümü büyük harf olan kelimleri göz ardı et';
+$labels['addtodict'] = 'Sözlüğe ekle';
 $labels['folder'] = 'Klasör';
-$labels['folders'] = 'Klasörler';
 $labels['foldername'] = 'Klasör ismi';
 $labels['subscribed'] = 'Abonelik';
 $labels['messagecount'] = 'Postalar';
@@ -396,12 +403,17 @@ $labels['sortby'] = 'Sırala';
 $labels['sortasc'] = 'Artarak';
 $labels['sortdesc'] = 'Azalarak';
 $labels['undo'] = 'Geri al';
+$labels['plugin'] = 'Eklenti';
+$labels['version'] = 'Sürüm';
+$labels['source'] = 'Kaynak';
+$labels['license'] = 'Lisans';
+$labels['support'] = 'Destek al';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 $labels['unicode'] = 'Unicode';
-$labels['english'] = 'İngilizce ';
+$labels['english'] = 'İngilizce';
 $labels['westerneuropean'] = 'Batı Avrupa';
 $labels['easterneuropean'] = 'Doğu Avrupa';
 $labels['southeasterneuropean'] = 'Güneydoğu Avrupa';
@@ -419,4 +431,3 @@ $labels['japanese'] = 'Japonca';
 $labels['korean'] = 'Korece';
 $labels['chinese'] = 'Çince';
 
-?>

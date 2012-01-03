@@ -1,19 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/hy_AM/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Vahan Yerkanian <vahan@arminco.com>                           |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/hy_AM/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -60,7 +58,6 @@ $messages['nosubjectwarning'] = 'Վերնագիր բացակայում է, ցա�
 $messages['nobodywarning'] = 'Ուղարկե՞լ այս նամակը դատարկ';
 $messages['notsentwarning'] = 'Նամակն ուղարկված չէ։ Ջնջե՞լ Ձեր նամակը';
 $messages['noldapserver'] = 'Ընտրեք ldap սերվեր որոնման համար';
-$messages['nocontactsreturned'] = 'Հասցեներ չեն գտնվել';
 $messages['nosearchname'] = 'Մուտքագրեք հասցեատեր կամ էլ. հասցե';
 $messages['searchsuccessful'] = 'Գտնվեց $nr նամակ';
 $messages['searchnomatch'] = 'Համապատասխան նամակներ չգտնվեցին';
@@ -91,4 +88,3 @@ $messages['opnotpermitted'] = 'Գործողությունը անթույլատր
 $messages['nofromaddress'] = 'Նշված անձը հասցե չունի։';
 $messages['editorwarning'] = 'Դեպի պարզ տեքստի խմբագրիչ անցման դեպքում կկորի տեքստի ձևավորումը։ Շարունակե՞լ։';
 
-?>

@@ -1,17 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| language/gl_ES/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2011, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author:    David Garabana Barro <david garabana com>                  |
-+-----------------------------------------------------------------------+
-
+ +-----------------------------------------------------------------------+
+ | localization/gl_ES/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -42,6 +42,7 @@ $labels['priority'] = 'Prioridade';
 $labels['organization'] = 'Organización';
 $labels['readstatus'] = 'Estado da lectura';
 $labels['mailboxlist'] = 'Cartafoles';
+$labels['folders'] = 'Cartafoles';
 $labels['messagesfromto'] = 'Mensaxes da $from á $to de $count';
 $labels['threadsfromto'] = 'Fíos do $from ao $to de $count';
 $labels['messagenrof'] = 'Mensaxe $nr de $count';
@@ -70,7 +71,8 @@ $labels['jan'] = 'Xan';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Abr';
-$labels['may'] = 'Mai';
+$labels['may'] = 'Maio';
+$labels['longmay'] = 'Maio';
 $labels['jun'] = 'Xuñ';
 $labels['jul'] = 'Xul';
 $labels['aug'] = 'Ago';
@@ -82,7 +84,6 @@ $labels['longjan'] = 'Xaneiro';
 $labels['longfeb'] = 'Febreiro';
 $labels['longmar'] = 'Marzo';
 $labels['longapr'] = 'Abril';
-$labels['longmay'] = 'Maio';
 $labels['longjun'] = 'Xuño';
 $labels['longjul'] = 'Xullo';
 $labels['longaug'] = 'Agosto';
@@ -118,6 +119,7 @@ $labels['moreactions'] = 'Máis accións...';
 $labels['select'] = 'Seleccionar';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Ningunha';
+$labels['nonesort'] = 'Ningunha';
 $labels['currpage'] = 'Páxina actual';
 $labels['unread'] = 'Non lidas';
 $labels['flagged'] = 'Marcadas';
@@ -137,7 +139,6 @@ $labels['expand_only_unread'] = 'só con mensaxes non lidas';
 $labels['fromto'] = 'Remitente/Destinatario';
 $labels['flag'] = 'Marca';
 $labels['attachment'] = 'Anexo';
-$labels['nonesort'] = 'Ningunha';
 $labels['sentdate'] = 'Data de envío';
 $labels['arrival'] = 'Data de chegada';
 $labels['asc'] = 'ascendente';
@@ -227,15 +228,16 @@ $labels['notes'] = 'Notes';
 $labels['male'] = 'home';
 $labels['female'] = 'muller';
 $labels['manager'] = 'Xerente';
-$labels['assistant'] = 'Asistente/a';
+$labels['assistant'] = 'Asistente';
+$labels['typeassistant'] = 'Asistente';
 $labels['spouse'] = 'Cónxuxe';
 $labels['allfields'] = 'Tódolos campos';
 $labels['search'] = 'Procurar';
 $labels['advsearch'] = 'Procura avanzada';
 $labels['other'] = 'Outro';
+$labels['typeother'] = 'Outro';
 $labels['typehome'] = 'Casa';
 $labels['typework'] = 'Traballo';
-$labels['typeother'] = 'Outro';
 $labels['typemobile'] = 'Móbil';
 $labels['typemain'] = 'Principal';
 $labels['typehomefax'] = 'Fax da casa';
@@ -243,7 +245,6 @@ $labels['typeworkfax'] = 'Fax do traballo';
 $labels['typecar'] = 'Coche';
 $labels['typepager'] = 'Buscapersonas';
 $labels['typevideo'] = 'Vídeo';
-$labels['typeassistant'] = 'Asistente';
 $labels['typehomepage'] = 'Páxina principal';
 $labels['typeblog'] = 'Blogue';
 $labels['typeprofile'] = 'Perfil';
@@ -284,7 +285,7 @@ $labels['importcontacts'] = 'Importar contactos';
 $labels['importfromfile'] = 'Importar desde ficheiro:';
 $labels['importtarget'] = 'Engadir contactos ao caderno de enderezos:';
 $labels['importreplace'] = 'Substituír completamente o caderno de enderezos';
-$labels['importtext'] = 'Pode cargar contactos desde un caderno de enderezos xa existente.<br/>Polo de agora pódense importar enderezos usando o formato <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>  ';
+$labels['importtext'] = 'Pode cargar contactos desde un caderno de enderezos xa existente.<br/>Polo de agora pódense importar enderezos usando o formato <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>';
 $labels['done'] = 'Rematado';
 $labels['settingsfor'] = 'Axustes de';
 $labels['about'] = 'Acerca de';
@@ -353,7 +354,6 @@ $labels['mainoptions'] = 'Opcións principais';
 $labels['section'] = 'Sección';
 $labels['maintenance'] = 'Mantemento';
 $labels['newmessage'] = 'Mensaxes novas';
-$labels['listoptions'] = 'Opcións de lista';
 $labels['signatureoptions'] = 'Opcións da firma';
 $labels['whenreplying'] = 'Ao respostar';
 $labels['replytopposting'] = 'comezar a nova mensaxe enriba da orixinal';
@@ -362,7 +362,7 @@ $labels['replyremovesignature'] = 'Eliminar a firma do remitente ao respostar';
 $labels['autoaddsignature'] = 'Engadir firma automáticamente';
 $labels['newmessageonly'] = 'só nas mensaxes novas';
 $labels['replyandforwardonly'] = 'só nas respostas e reenvíos';
-$labels['replysignaturepos'] = 'Ao respostar ou reenviar colocar a firma ';
+$labels['replysignaturepos'] = 'Ao respostar ou reenviar colocar a firma';
 $labels['belowquote'] = 'embaixo do texto citado';
 $labels['abovequote'] = 'enriba do texto citado';
 $labels['insertsignature'] = 'Engadir firma';
@@ -380,7 +380,6 @@ $labels['spellcheckignorenums'] = 'Ignorar as palabras con números';
 $labels['spellcheckignorecaps'] = 'Ignorar as palabras escritas en maiúsculas';
 $labels['addtodict'] = 'Engadir ao diccionario';
 $labels['folder'] = 'Cartafol';
-$labels['folders'] = 'Cartafoles';
 $labels['foldername'] = 'Nome do cartafol';
 $labels['subscribed'] = 'Subscrito';
 $labels['messagecount'] = 'Mensaxes';
@@ -431,4 +430,3 @@ $labels['japanese'] = 'Xaponés';
 $labels['korean'] = 'Coreano';
 $labels['chinese'] = 'Chinés';
 
-?>

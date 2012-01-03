@@ -1,25 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/pl_PL/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Tomasz Pajor        <t.pajor@kei.pl>                          |
-| Author: Sławomir Cichoń     <slawek.cichon@gmail.com>                 |
-|         Janusz Zamecki      <janusz@zamecki.eu>                       |
-|         Mariusz Szulerecki  <nob@force.eu.org>                        |
-|         Wojciech Szczepucha <donkoyote@gmail.com>                     |
-|         Aleksander Machniak <alec@alec.pl>                            |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/pl_PL/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -29,6 +21,9 @@ $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
 $messages['imaperror'] = 'Błąd połączenia z serwerem!';
 $messages['servererror'] = 'Błąd serwera!';
 $messages['servererrormsg'] = 'Błąd serwera: $msg';
+$messages['dberror'] = 'Błąd bazy danych!';
+$messages['errorreadonly'] = 'Nie można wykonać operacji. Folder tylko do odczytu.';
+$messages['errornoperm'] = 'Nie można wykonać operacji. Brak uprawnień.';
 $messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';
 $messages['nomessagesfound'] = 'Brak wiadomości w skrzynce.';
 $messages['loggedout'] = 'Użytkownik wylogował się poprawnie.';
@@ -45,10 +40,12 @@ $messages['messagesaved'] = 'Wiadomość została zapisana w folderze Kopie robo
 $messages['successfullysaved'] = 'Zapisano.';
 $messages['addedsuccessfully'] = 'Kontakt został dodany.';
 $messages['contactexists'] = 'Kontakt o podanym adresie e-mail już istnieje!';
+$messages['contactnameexists'] = 'Kontakt z podaną nazwą już istnieje!';
 $messages['blockedimages'] = 'Ze względów bezpieczeństwa zewnętrzne obrazki zostały zablokowane.';
 $messages['encryptedmessage'] = 'Przepraszamy, nie można wyświetlić zaszyfrowanej wiadomości!';
 $messages['nocontactsfound'] = 'Nie znaleziono kontaktu!';
 $messages['contactnotfound'] = 'Szukany kontakt nie został odnaleziony.';
+$messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
 $messages['sendingfailed'] = 'Nie udało się wysłać wiadomości!';
 $messages['senttooquickly'] = 'Musisz poczekać $sec sek. aby móc wysłać tą wiadomość!';
 $messages['errorsavingsent'] = 'Wystąpił błąd podczas zapisu wysłanej wiadomości!';
@@ -62,9 +59,12 @@ $messages['deletegroupconfirm'] = 'Czy na pewno chcesz usunąć wybraną grupę?
 $messages['deletemessagesconfirm'] = 'Czy na pewno chcesz usunąć wybrane wiadomości?';
 $messages['deletefolderconfirm'] = 'Czy na pewno chcesz usunąć wybrany folder?';
 $messages['purgefolderconfirm'] = 'Czy na pewno chcesz usunąć wszystkie wiadomości w tym folderze?';
+$messages['contactdeleting'] = 'Usuwanie kontaktów...';
 $messages['groupdeleting'] = 'Usuwanie grupy...';
 $messages['folderdeleting'] = 'Usuwanie folderu...';
 $messages['foldermoving'] = 'Przenoszenie folderu...';
+$messages['foldersubscribing'] = 'Subskrybowanie folderu...';
+$messages['folderunsubscribing'] = 'Odsubskrybowanie folderu...';
 $messages['formincomplete'] = 'Uzupełnij formularz!';
 $messages['noemailwarning'] = 'Podaj poprawny adres e-mail!';
 $messages['nonamewarning'] = 'Podaj nazwę!';
@@ -75,15 +75,19 @@ $messages['nosubjectwarning'] = 'Nie podano tematu wiadomości. Czy chcesz go te
 $messages['nobodywarning'] = 'Ta wiadomość jest pusta, czy mimo to chcesz ją wysłać?';
 $messages['notsentwarning'] = 'Wiadomość nie została wysłana. Czy chcesz usunąć tę wiadomość?';
 $messages['noldapserver'] = 'Wybierz serwer LDAP!';
-$messages['nocontactsreturned'] = 'Nie znaleziono kontaktów!';
 $messages['nosearchname'] = 'Podaj nazwę kontaktu lub jego adres e-mail.';
 $messages['notuploadedwarning'] = 'Nie wszystkie załączniki zostały pobrane. Poczekaj lub anuluj pobieranie.';
 $messages['searchsuccessful'] = 'Liczba znalezionych wiadomości: $nr.';
+$messages['contactsearchsuccessful'] = 'Znaleziono $nr kontaktów.';
 $messages['searchnomatch'] = 'Nic nie znaleziono.';
 $messages['searching'] = 'Wyszukiwanie...';
 $messages['checking'] = 'Sprawdzanie...';
 $messages['nospellerrors'] = 'Nie znaleziono błędów w pisowni.';
 $messages['folderdeleted'] = 'Folder został pomyślnie usunięty.';
+$messages['foldersubscribed'] = 'Folder został pomyślnie zasubskrybowany.';
+$messages['folderunsubscribed'] = 'Folder został pomyślnie odsubskrybowany.';
+$messages['folderpurged'] = 'Folder został pomyślnie opróżniony.';
+$messages['folderexpunged'] = 'Folder został pomyślnie uporządkowany.';
 $messages['deletedsuccessfully'] = 'Usunięto.';
 $messages['converting'] = 'Konwertowanie tekstu...';
 $messages['messageopenerror'] = 'Nie można załadować wiadomości z serwera.';
@@ -95,8 +99,11 @@ $messages['sourceisreadonly'] = 'Źródło adresu jest tylko do odczytu.';
 $messages['errorsavingcontact'] = 'Nie można było zapisać adresu kontaktu.';
 $messages['movingmessage'] = 'Przenoszenie wiadomości...';
 $messages['copyingmessage'] = 'Kopiowanie wiadomości...';
+$messages['copyingcontact'] = 'Kopiowanie kontaktów...';
 $messages['deletingmessage'] = 'Usuwanie wiadomości...';
 $messages['markingmessage'] = 'Oznaczanie wiadomości...';
+$messages['addingmember'] = 'Dodawanie kontaktów do grupy...';
+$messages['removingmember'] = 'Usuwanie kontaktów z grupy...';
 $messages['receiptsent'] = 'Pomyślnie wysłano potwierdzenie dostarczenia.';
 $messages['errorsendingreceipt'] = 'Nie można wysłać potwierdzenia.';
 $messages['nodeletelastidentity'] = 'Nie można skasować tej tożsamości, ponieważ jest ostatnią.';
@@ -108,6 +115,7 @@ $messages['contactremovedfromgroup'] = 'Kontakty zostały pomyślnie usunięte z
 $messages['importwait'] = 'Importowanie, proszę czekać...';
 $messages['importerror'] = 'Błąd! Pobrany plik nie jest poprawnym plikiem vCard.';
 $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pominięto $skipped istniejących wpisów</b>:<p><em>$names</em></p>.';
+$messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów.</b>';
 $messages['opnotpermitted'] = 'Niedozwolona operacja!';
 $messages['nofromaddress'] = 'Brak adresu e-mail w wybranej tożsamości.';
 $messages['editorwarning'] = 'Zmiana edytora spowoduje utratę formatowania tekstu. Czy jesteś pewien, że chcesz to zrobić?';
@@ -124,45 +132,27 @@ $messages['maxgroupmembersreached'] = 'Liczba członków grupy nie może być wi
 $messages['internalerror'] = 'Wystąpił wewnętrzny błąd systemu. Spróbuj jeszcze raz.';
 $messages['contactdelerror'] = 'Usuwanie kontaktów nie powiodło się.';
 $messages['contactdeleted'] = 'Kontakt(y) został(y) usunięte.';
+$messages['contactrestoreerror'] = 'Przywracanie kontaktów nie powiodło się.';
+$messages['contactrestored'] = 'Kontakt(y) zostały przywrócone.';
 $messages['groupdeleted'] = 'Grupa została usunięta.';
 $messages['grouprenamed'] = 'Nazwa grupy została zmieniona.';
 $messages['groupcreated'] = 'Grupa została utworzona.';
+$messages['savedsearchdeleted'] = 'Wyszukiwanie usunięto pomyślnie.';
+$messages['savedsearchdeleteerror'] = 'Nie można usunąć wyszukiwania.';
+$messages['savedsearchcreated'] = 'Wyszukiwanie zapisano pomyślnie.';
+$messages['savedsearchcreateerror'] = 'Nie można zapisać wyszukiwania.';
 $messages['messagedeleted'] = 'Wiadomości zostały usunięte.';
 $messages['messagemoved'] = 'Wiadomości zostały przeniesione.';
 $messages['messagecopied'] = 'Wiadomości zostały skopiowane.';
 $messages['messagemarked'] = 'Wiadomości zostały oznaczone.';
 $messages['autocompletechars'] = 'Wprowadź co najmniej $min znak(ów) aby skorzystać z autouzupełniania.';
-$messages['foldersubscribing'] = 'Subskrybowanie folderu...';
-$messages['folderunsubscribing'] = 'Odsubskrybowanie folderu...';
-$messages['foldersubscribed'] = 'Folder został pomyślnie zasubskrybowany.';
-$messages['folderunsubscribed'] = 'Folder został pomyślnie odsubskrybowany.';
-$messages['folderpurged'] = 'Folder został pomyślnie opróżniony.';
-$messages['folderexpunged'] = 'Folder został pomyślnie uporządkowany.';
+$messages['autocompletemore'] = 'Znaleziono więcej pasujących wpisów. Wprowadź więcej znaków.';
 $messages['namecannotbeempty'] = 'Nazwa nie może być pusta.';
 $messages['nametoolong'] = 'Nazwa jest zbyt długa.';
 $messages['folderupdated'] = 'Folder został pomyślnie zaktualizowany.';
 $messages['foldercreated'] = 'Folder został pomyślnie utworzony.';
-$messages['errorreadonly'] = 'Nie można wykonać operacji. Folder tylko do odczytu.';
-$messages['errornoperm'] = 'Nie można wykonać operacji. Brak uprawnień.';
-$messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów.</b>';
 $messages['invalidimageformat'] = 'Niepoprawny format obrazka.';
 $messages['mispellingsfound'] = 'Wykryto błędy pisowni w tej wiadomości.';
-$messages['contactrestoreerror'] = 'Przywracanie kontaktów nie powiodło się.';
-$messages['contactrestored'] = 'Kontakt(y) zostały przywrócone.';
-$messages['dberror'] = 'Błąd bazy danych!';
-$messages['contactnameexists'] = 'Kontakt z podaną nazwą już istnieje!';
-$messages['copyingcontact'] = 'Kopiowanie kontaktów...';
-$messages['addingmember'] = 'Dodawanie kontaktów do grupy...';
-$messages['removingmember'] = 'Usuwanie kontaktów z grupy...';
 $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wybrane miejsce. Brak upranień.';
-$messages['contactsearchsuccessful'] = 'Znaleziono $nr kontaktów.';
-$messages['savedsearchdeleted'] = 'Wyszukiwanie usunięto pomyślnie.';
-$messages['savedsearchdeleteerror'] = 'Nie można usunąć wyszukiwania.';
-$messages['savedsearchcreated'] = 'Wyszukiwanie zapisano pomyślnie.';
-$messages['savedsearchcreateerror'] = 'Nie można zapisać wyszukiwania.';
-$messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
-$messages['contactdeleting'] = 'Usuwanie kontaktów...';
-$messages['autocompletemore'] = 'Znaleziono więcej pasujących wpisów. Wprowadź więcej znaków.';
 $messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
 
-?>

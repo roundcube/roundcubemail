@@ -1,27 +1,22 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/ast/messages.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2008, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Mikel González <dangerous_piper@softastur.org>                |
-|         http://blogs.altuxa.com/gyg                                   |
-|         http://softastur.org                                          |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization//messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
 $messages['loginfailed'] = 'La clave nun val';
-$messages['cookiesdisabled'] = 'El to navegador nun acepta "cookies"';
+$messages['cookiesdisabled'] = 'El to navegador nun acepta "cookies';
 $messages['sessionerror'] = 'La to sesión nun val';
 $messages['imaperror'] = 'Fallu de conexón col sirvidor IMAP';
 $messages['servererror'] = '¡Fallu del sirvidor!';
@@ -66,7 +61,6 @@ $messages['nosubjectwarning'] = 'El campo "Asuntu" ta vacíu. ¿Quiés rellenalu
 $messages['nobodywarning'] = '¿Quies unviar esti mensaxe ensin testu?';
 $messages['notsentwarning'] = 'Nun unvie\'l mensaxe. ¿Quies desanicialu?';
 $messages['noldapserver'] = 'Por favor, escueye un sirvidor LDAP pa buscar';
-$messages['nocontactsreturned'] = 'Nun di con nengún contautu';
 $messages['nosearchname'] = 'Por favor, dame un nome o una direición de corréu';
 $messages['searchsuccessful'] = 'Di con $nr mensaxes';
 $messages['searchnomatch'] = 'Nun di con nengún resultáu';
@@ -104,4 +98,3 @@ $messages['smtptoerror'] = 'Fallu SMTP ($code): Fallu al amestar el destinatariu
 $messages['smtprecipientserror'] = 'Fallu SMTP: Nun soi a amosar la llista de destinatarios';
 $messages['smtperror'] = 'Fallu SMTP: $msg';
 
-?>

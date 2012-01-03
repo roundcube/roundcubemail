@@ -1,20 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/is_IS/labels.inc                                             |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2009, The Roundcube Dev Team                            |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Hakon Orri Asgeirsson <hakon at opex.is>                      |
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/is_IS/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -42,17 +39,15 @@ $labels['date'] = 'Dags';
 $labels['size'] = 'Stærð';
 $labels['priority'] = 'Forgangur';
 $labels['organization'] = 'Stofnun';
-$labels['reply-to'] = 'Reply-To';
 $labels['mailboxlist'] = 'Möppur';
+$labels['folders'] = 'Möppur';
 $labels['messagesfromto'] = 'Skeyti $from til $to af $count';
 $labels['messagenrof'] = 'Skeyti $nr af $count';
+$labels['copy'] = 'Afrit';
 $labels['moveto'] = 'færa í...';
 $labels['download'] = 'sækja';
 $labels['filename'] = 'Skrárnafn';
 $labels['filesize'] = 'Skrárstærð';
-$labels['preferhtml'] = 'Vil HTML';
-$labels['htmlmessage'] = 'HTML skeyti';
-$labels['prettydate'] = 'Fallegar dagsetningar';
 $labels['addtoaddressbook'] = 'Bæta í netfangaskrá';
 $labels['sun'] = 'sun';
 $labels['mon'] = 'mán';
@@ -73,6 +68,7 @@ $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Apr';
 $labels['may'] = 'Maí';
+$labels['longmay'] = 'Maí';
 $labels['jun'] = 'Jún';
 $labels['jul'] = 'Júl';
 $labels['aug'] = 'Ágú';
@@ -84,7 +80,6 @@ $labels['longjan'] = 'Janúar';
 $labels['longfeb'] = 'Febrúar';
 $labels['longmar'] = 'Mars';
 $labels['longapr'] = 'Apríl';
-$labels['longmay'] = 'Maí';
 $labels['longjun'] = 'Júní';
 $labels['longjul'] = 'Júlí';
 $labels['longaug'] = 'Ágúst';
@@ -102,13 +97,9 @@ $labels['deletemessage'] = 'Eyða skeyti';
 $labels['movemessagetotrash'] = 'Færa skeyti í rusl';
 $labels['printmessage'] = 'Prenta skeyti';
 $labels['previousmessage'] = 'Sýna fyrra skeyti';
-$labels['previousmessages'] = 'Sýna fyrri skammt af skeytum';
 $labels['firstmessage'] = 'Sýna fyrsta skeyti';
-$labels['firstmessages'] = 'Sýna fyrsta skammtinn af skeytum';
 $labels['nextmessage'] = 'Sýna næsta skeyti';
-$labels['nextmessages'] = 'Sýna næsta skammt af skeytum';
 $labels['lastmessage'] = 'Sýna síðasta skeytið';
-$labels['lastmessages'] = 'Sýna síðasta skammtinn af skeytum';
 $labels['backtolist'] = 'Til baka í skeytalista';
 $labels['viewsource'] = 'Skoða kóða';
 $labels['markmessages'] = 'Merkja skeyti';
@@ -119,13 +110,13 @@ $labels['markunflagged'] = 'Sem óflögguð';
 $labels['select'] = 'Velja';
 $labels['all'] = 'Allt';
 $labels['none'] = 'Ekkert';
+$labels['nonesort'] = 'Ekkert';
 $labels['unread'] = 'Ólesið';
 $labels['flagged'] = 'Flaggað';
 $labels['unanswered'] = 'Ósvarað';
 $labels['filter'] = 'Sía';
 $labels['compact'] = 'Pakka';
 $labels['empty'] = 'Tæma';
-$labels['purge'] = 'Hreinsa';
 $labels['quota'] = 'Gagnamagn';
 $labels['unknown'] = 'óþekkt';
 $labels['unlimited'] = 'ótakmarkað';
@@ -155,7 +146,7 @@ $labels['showimages'] = 'Birta myndir';
 $labels['alwaysshow'] = 'Sýna alltaf myndir frá $sender';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Einfaldur';
-$labels['savesentmessagein'] = 'Vista send skeyti í ';
+$labels['savesentmessagein'] = 'Vista send skeyti í';
 $labels['dontsave'] = 'ekki vista';
 $labels['maxuploadsize'] = 'Leyfileg hámarksstærð skjals er $size';
 $labels['addcc'] = 'Bæta við Cc';
@@ -203,6 +194,9 @@ $labels['manageidentities'] = 'Manage identities for this account';
 $labels['newidentity'] = 'New identity';
 $labels['newitem'] = 'Nýtt';
 $labels['edititem'] = 'Laga';
+$labels['preferhtml'] = 'Vil HTML';
+$labels['htmlmessage'] = 'HTML skeyti';
+$labels['prettydate'] = 'Fallegar dagsetningar';
 $labels['setdefault'] = 'Gera sjálfgilt';
 $labels['autodetect'] = 'Sjálfvirkt';
 $labels['language'] = 'Tungumál';
@@ -244,7 +238,6 @@ $labels['advancedoptions'] = 'Frekari möguleikar';
 $labels['focusonnewmessage'] = 'Láta glugga beinast að nýju skeyti';
 $labels['checkallfolders'] = 'Athuga ný skeyti í öllum möppum';
 $labels['folder'] = 'Mappa';
-$labels['folders'] = 'Möppur';
 $labels['foldername'] = 'Nafn möppu';
 $labels['subscribed'] = 'Valin';
 $labels['messagecount'] = 'Skeyti';
@@ -260,4 +253,3 @@ $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 
-?>

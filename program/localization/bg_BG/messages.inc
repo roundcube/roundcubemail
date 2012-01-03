@@ -1,21 +1,17 @@
 <?php
 
 /*
-
-+-----------------------------------------------------------------------+
-| language/bg_BG/messages.inc                                           |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2005-2010, The Roundcube Dev Team                       |
-| Licensed under the GNU GPL                                            |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Todor Dragnev <todor.dragnev@gmail.com>                       |
-|	  Nickolay Bunev <just4nick@gmail.com>								|
-+-----------------------------------------------------------------------+
-
-@version $Id$
-
+ +-----------------------------------------------------------------------+
+ | localization/bg_BG/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $messages = array();
@@ -139,7 +135,7 @@ $messages['contactdeleted'] = 'Контактът беше изтрит';
 $messages['contactrestoreerror'] = 'Неуспешно възстановяване на изтрите контакт(и).';
 $messages['contactrestored'] = 'Контактът(-ите) са възстановени успешно';
 $messages['groupdeleted'] = 'Групата беше  изтрита';
-$messages['grouprenamed'] = 'Групата беше преименувана ';
+$messages['grouprenamed'] = 'Групата беше преименувана';
 $messages['groupcreated'] = 'Групата беше създадена';
 $messages['savedsearchdeleted'] = 'Запазаните търсения са изтрити успешно.';
 $messages['savedsearchdeleteerror'] = 'Изтриването на запазените търсения е неуспешно.';
@@ -159,4 +155,3 @@ $messages['invalidimageformat'] = 'Невалиден формат на изоб
 $messages['mispellingsfound'] = 'В съобщението са намерени правописни грешки.';
 $messages['parentnotwritable'] = 'Създаването/преместването на папка в избраната родителска папка е неуспешно. Няма права за достъп.';
 
-?>
