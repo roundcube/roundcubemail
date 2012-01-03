@@ -638,11 +638,17 @@ a.iconlink.upload {
 .uibox .listing thead td {
 	font-size: 12px;
 	font-weight: bold;
-	padding: 10px 8px 8px 8px;
+	padding: 10px 8px 3px 8px;
+	height: 20px;  /* doesn't affect table-cells in FF */
 	margin: 0;
 	text-shadow: 0px 1px 1px #fff;
 	border-bottom: 1px solid #bbd3da;
 	white-space: nowrap;
+}
+
+.uibox .listing thead td {
+	padding-bottom: 8px;
+	height: auto;
 }
 
 .uibox .boxtitle,
@@ -672,12 +678,15 @@ a.iconlink.upload {
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	cursor: default;
-	padding: 7px 8px 5px 8px;
+	padding: 7px 8px 2px 8px;
+	height: 17px; /* doesn't affect table-cells in FF */
 	white-space: nowrap;
 }
 
 .listing tbody td {
 	display: table-cell;
+	padding-bottom: 5px;
+	height: auto;
 }
 
 .listbox .listitem.selected,
@@ -1216,6 +1225,7 @@ ul.proplist li {
 	color: #555;
 	min-width: 50px;
 	max-width: 75px;
+	height: 13px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -1270,6 +1280,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.reply-all {
+	min-width: 74px;
 	background-position: center -610px;
 }
 
@@ -1335,7 +1346,8 @@ a.menuselector {
 
 a.menuselector .handle {
 	display: inline-block;
-	padding: 3px 32px 4px 8px;
+	padding: 3px 32px 0 8px;
+	min-height: 18px;
 	text-shadow: 0px 1px 1px #fff;
 	background: url(images/selector.png) right center no-repeat;
 	border-radius: 4px;
@@ -1450,7 +1462,8 @@ ul.toolbarmenu li a.icon {
 ul.toolbarmenu li span.icon {
 	display: block;
 	min-height: 14px;
-	padding: 4px 4px 4px 24px;
+	padding: 4px 4px 1px 24px;
+	height: 17px;
 	background-image: url(images/listicons.png);
 	background-position: -100px 0;
 	background-repeat: no-repeat;
