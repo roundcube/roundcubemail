@@ -54,17 +54,18 @@ foreach ($out as $outfn => $texts) {
  +-----------------------------------------------------------------------+
  | Author: %-62s|
  +-----------------------------------------------------------------------+
- @version $Id$
+ @version %s$
 */
 
 $%s = array();
 
 EOF;
 
-	$output = sprintf($header, $lang, $varname.'.inc', date('Y'), $texts['_translator'], $varname);
+	$output = sprintf($header, $lang, $varname.'.inc', date('Y'), $texts['_translator'], '$Id', $varname);
 
 	foreach ($texts as $label => $value) {
-		if ($label[0] != '_')
+	    if (is_array($value)) { var_dump($outfn, $label, $value); exit; }
+		if ($label[0] != '_' && strlen($value))
 			$output .= sprintf("\$%s['%s'] = '%s';\n", $varname, $label, strtr(addcslashes($value, "'"), array("\r" => '', "\n" => '\n')));
 	}
 
@@ -95,7 +96,7 @@ function import_file($fn)
 {
 	$out = array();
 	$lines = file($fn);
-	$language = 'xx_XX';
+	$language = '';
 	$translator = '';
 
 	$is_header = true;
@@ -163,7 +164,7 @@ function import_file($fn)
 		}
 	}
 	
-	return $out;
+	return $language ? $out : array();
 }
 
 
@@ -177,14 +178,14 @@ function gettext_decode($str)
  */
 function expand_langcode($lang)
 {
-	static $rcube_language_aliases;
+	static $rcube_language_aliases, $rcube_languages;
 
 	if (!$rcube_language_aliases)
 		include(INSTALL_PATH . 'program/localization/index.inc');
 
 	if ($rcube_language_aliases[$lang])
 		return $rcube_language_aliases[$lang];
-	else if (strlen($lang) == 2)
+	else if (strlen($lang) == 2 && !isset($rcube_languages[$lang]))
 		return strtolower($lang) . '_' . strtoupper($lang);
 	else
 		return $lang;
