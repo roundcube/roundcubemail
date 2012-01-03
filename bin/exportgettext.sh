@@ -106,7 +106,7 @@ function load_en_US($fn)
 	}
 	else if (is_file($fn)) {
 		include($fn);
-		$texts = array_merge($texts, (array)$labels);
+		$texts = array_merge($texts, (array)$labels, (array)$messages);
 	}
 	
 	$GLOBALS['en_US'] = $texts;
