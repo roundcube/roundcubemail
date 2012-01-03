@@ -750,11 +750,15 @@ class rcmail
    * @param string IMAP user name
    * @param string IMAP password
    * @param string IMAP host
+   *
    * @return boolean True on success, False on failure
    */
   function login($username, $pass, $host=NULL)
   {
-    $user = NULL;
+    if (empty($username)) {
+      return false;
+    }
+
     $config = $this->config->all();
 
     if (!$host)

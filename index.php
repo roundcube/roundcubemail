@@ -97,8 +97,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $OUTPUT->show_message("cookiesdisabled", 'warning');
   }
   else if ($auth['valid'] && !$auth['abort'] &&
-        !empty($auth['host']) && !empty($auth['user']) &&
-        $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])
+    $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])
   ) {
     // create new session ID, don't destroy the current session
     // it was destroyed already by $RCMAIL->kill_session() above
