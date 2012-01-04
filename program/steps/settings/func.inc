@@ -177,63 +177,30 @@ function rcmail_user_prefs($current=null)
     // timezone selection
     if (!isset($no_override['timezone'])) {
       $field_id = 'rcmfd_timezone';
-      $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id,
-        'onchange' => "$('#rcmfd_dst').attr('disabled', this.selectedIndex==0)"));
+      $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id));
       $select_timezone->add(rcube_label('autodetect'), 'auto');
-      $select_timezone->add('(GMT -11:00) Midway Island, Samoa', '-11');
-      $select_timezone->add('(GMT -10:00) Hawaii', '-10');
-      $select_timezone->add('(GMT -9:30) Marquesas Islands', '-9.5');
-      $select_timezone->add('(GMT -9:00) Alaska', '-9');
-      $select_timezone->add('(GMT -8:00) Pacific Time (US/Canada)', '-8');
-      $select_timezone->add('(GMT -7:00) Mountain Time (US/Canada)', '-7');
-      $select_timezone->add('(GMT -6:00) Central Time (US/Canada), Mexico City', '-6');
-      $select_timezone->add('(GMT -5:00) Eastern Time (US/Canada), Bogota, Lima', '-5');
-      $select_timezone->add('(GMT -4:30) Caracas', '-4.5');
-      $select_timezone->add('(GMT -4:00) Atlantic Time (Canada), La Paz', '-4');
-      $select_timezone->add('(GMT -3:30) Nfld Time (Canada), Nfld, S. Labador', '-3.5');
-      $select_timezone->add('(GMT -3:00) Brazil, Buenos Aires, Georgetown', '-3');
-      $select_timezone->add('(GMT -2:00) Mid-Atlantic', '-2');
-      $select_timezone->add('(GMT -1:00) Azores, Cape Verde Islands', '-1');
-      $select_timezone->add('(GMT) Western Europe, London, Lisbon, Casablanca', '0');
-      $select_timezone->add('(GMT +1:00) Central European Time', '1');
-      $select_timezone->add('(GMT +2:00) EET: Tallinn, Helsinki, Kaliningrad, South Africa', '2');
-      $select_timezone->add('(GMT +3:00) Baghdad, Kuwait, Riyadh, Moscow, Nairobi', '3');
-      $select_timezone->add('(GMT +3:30) Tehran', '3.5');
-      $select_timezone->add('(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi', '4');
-      $select_timezone->add('(GMT +4:30) Kabul', '4.5');
-      $select_timezone->add('(GMT +5:00) Ekaterinburg, Islamabad, Karachi', '5');
-      $select_timezone->add('(GMT +5:30) Chennai, Kolkata, Mumbai, New Delhi', '5.5');
-      $select_timezone->add('(GMT +5:45) Kathmandu', '5.75');
-      $select_timezone->add('(GMT +6:00) Almaty, Dhaka, Colombo', '6');
-      $select_timezone->add('(GMT +6:30) Cocos Islands, Myanmar', '6.5');
-      $select_timezone->add('(GMT +7:00) Bangkok, Hanoi, Jakarta', '7');
-      $select_timezone->add('(GMT +8:00) Beijing, Perth, Singapore, Taipei', '8');
-      $select_timezone->add('(GMT +8:45) Caiguna, Eucla, Border Village', '8.75');
-      $select_timezone->add('(GMT +9:00) Tokyo, Seoul, Yakutsk', '9');
-      $select_timezone->add('(GMT +9:30) Adelaide, Darwin', '9.5');
-      $select_timezone->add('(GMT +10:00) EAST/AEST: Sydney, Guam, Vladivostok', '10');
-      $select_timezone->add('(GMT +10:30) New South Wales', '10.5');
-      $select_timezone->add('(GMT +11:00) Magadan, Solomon Islands', '11');
-      $select_timezone->add('(GMT +11:30) Norfolk Island', '11.5');
-      $select_timezone->add('(GMT +12:00) Auckland, Wellington, Kamchatka', '12');
-      $select_timezone->add('(GMT +12:45) Chatham Islands', '12.75');
-      $select_timezone->add('(GMT +13:00) Tonga, Pheonix Islands', '13');
-      $select_timezone->add('(GMT +14:00) Kiribati', '14');
+
+      $now = new DateTime();
+      foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
+        $tz = new DateTimeZone($tzs);
+        $date = new DateTime('2012-12-21', $tz);
+        $offset = $date->format('Z') + 45000;
+        $sortkey = sprintf('%06d.%s', $offset, $tzs);
+        $zones[$sortkey] = array($tzs, $date->format('P'));
+      }
+
+      ksort($zones);
+      foreach ($zones as $zone) {
+        list($tzs, $offset) = $zone;
+        $select_timezone->add('(GMT ' . $offset . ') ' . strtr($tzs, '_', ' '), $tzs);
+      }
+
+      if (is_numeric($config['timezone']))
+        timezone_name_from_abbr("", $config['timezone'] * 3600, 0);
 
       $blocks['main']['options']['timezone'] = array(
         'title' => html::label($field_id, Q(rcube_label('timezone'))),
         'content' => $select_timezone->show((string)$config['timezone']),
-      );
-    }
-
-    // daylight savings
-    if (!isset($no_override['dst_active'])) {
-      $field_id = 'rcmfd_dst';
-      $input_dst = new html_checkbox(array('name' => '_dst_active', 'id' => $field_id, 'value' => 1, 'disabled' => ($config['timezone'] === 'auto')));
-
-      $blocks['main']['options']['dstactive'] = array(
-        'title' => html::label($field_id, Q(rcube_label('dstactive'))),
-        'content' => $input_dst->show($config['dst_active']),
       );
     }
 

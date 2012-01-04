@@ -93,12 +93,14 @@ class rcube_config
 
         // set timezone auto settings values
         if ($this->prop['timezone'] == 'auto') {
-          $this->prop['dst_active'] = intval(date('I'));
-          $this->prop['_timezone_value'] = date('Z') / 3600 - $this->prop['dst_active'];
+          $this->prop['_timezone_value'] = $this->client_timezone();
         }
-        else if ($this->prop['dst_active'] === null) {
-          $this->prop['dst_active'] = intval(date('I'));
+        else if (is_numeric($this->prop['timezone'])) {
+          $this->prop['timezone'] = timezone_name_from_abbr("", $this->prop['timezone'] * 3600, 0);
         }
+
+        // remove deprecated properties
+        unset($this->prop['dst_active']);
 
         // export config data
         $GLOBALS['CONFIG'] = &$this->prop;
@@ -222,8 +224,7 @@ class rcube_config
 
         // override timezone settings with client values
         if ($this->prop['timezone'] == 'auto') {
-            $this->prop['_timezone_value'] = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : $this->prop['_timezone_value'];
-            $this->prop['dst_active'] = $this->userprefs['dst_active'] = isset($_SESSION['dst_active']) ? $_SESSION['dst_active'] : $this->prop['dst_active'];
+            $this->prop['_timezone_value'] = isset($_SESSION['timezone']) ? $this->client_timezone() : $this->prop['_timezone_value'];
         }
         else if (isset($this->prop['_timezone_value']))
            unset($this->prop['_timezone_value']);
@@ -244,10 +245,16 @@ class rcube_config
      * Special getter for user's timezone offset including DST
      *
      * @return float  Timezone offset (in hours)
+     * @deprecated
      */
     public function get_timezone()
     {
-      return floatval($this->get('timezone')) + intval($this->get('dst_active'));
+      if ($this->get('timezone')) {
+        $tz = new DateTimeZone($this->get('timezone'));
+        return $tz->getOffset(new DateTime('now')) / 3600;
+      }
+
+      return 0;
     }
 
     /**
@@ -347,6 +354,15 @@ class rcube_config
     public function get_error()
     {
         return empty($this->errors) ? false : join("\n", $this->errors);
+    }
+
+
+    /**
+     * Internal getter for client's (browser) timezone identifier
+     */
+    private function client_timezone()
+    {
+        return isset($_SESSION['timezone']) ? timezone_name_from_abbr("", $_SESSION['timezone'] * 3600, 0) : date_default_timezone_get();
     }
 
 }

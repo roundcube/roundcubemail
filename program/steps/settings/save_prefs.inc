@@ -29,8 +29,7 @@ switch ($CURR_SECTION)
   case 'general':
     $a_user_prefs = array(
       'language'     => isset($_POST['_language']) ? get_input_value('_language', RCUBE_INPUT_POST) : $CONFIG['language'],
-      'timezone'     => isset($_POST['_timezone']) ? (is_numeric($_POST['_timezone']) ? floatval($_POST['_timezone']) : get_input_value('_timezone', RCUBE_INPUT_POST)) : $CONFIG['timezone'],
-      'dst_active'   => isset($_POST['_dst_active']) ? TRUE : FALSE,
+      'timezone'     => isset($_POST['_timezone']) ? get_input_value('_timezone', RCUBE_INPUT_POST) : $CONFIG['timezone'],
       'date_format'  => isset($_POST['_date_format']) ? get_input_value('_date_format', RCUBE_INPUT_POST) : $CONFIG['date_format'],
       'time_format'  => isset($_POST['_time_format']) ? get_input_value('_time_format', RCUBE_INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
       'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,

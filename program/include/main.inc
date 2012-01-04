@@ -1062,22 +1062,16 @@ function format_date($date, $format=NULL, $convert=true)
   if (empty($ts))
     return '';
 
-  if ($convert) {
-    // get user's timezone offset
-    $tz = $RCMAIL->config->get_timezone();
+  $date = new DateTime;
+  $date->setTimestamp($ts);
 
-    // convert time to user's timezone
-    $timestamp = $ts - date('Z', $ts) + ($tz * 3600);
+  // convert to the right timezone
+  $stz = date_default_timezone_get();
+  $tz = new DateTimeZone($convert ? $RCMAIL->config->get('timezone') : 'GMT');
+  date_default_timezone_set($tz->getName());
+  $date->setTimezone($tz);
 
-    // get current timestamp in user's timezone
-    $now = time();  // local time
-    $now -= (int)date('Z'); // make GMT time
-    $now += ($tz * 3600); // user's time
-  }
-  else {
-    $now       = time();
-    $timestamp = $ts;
-  }
+  $timestamp = $date->getTimestamp();
 
   // define date format depending on current time
   if (!$format) {
@@ -1098,6 +1092,7 @@ function format_date($date, $format=NULL, $convert=true)
   // strftime() format
   if (preg_match('/%[a-z]+/i', $format)) {
     $format = strftime($format, $timestamp);
+    date_default_timezone_set($stz);
     return $today ? (rcube_label('today') . ' ' . $format) : $format;
   }
 
@@ -1113,20 +1108,20 @@ function format_date($date, $format=NULL, $convert=true)
       $out .= $format[$i];
     // weekday (short)
     else if ($format[$i]=='D')
-      $out .= rcube_label(strtolower(date('D', $timestamp)));
+      $out .= rcube_label(strtolower($date->format('D')));
     // weekday long
     else if ($format[$i]=='l')
-      $out .= rcube_label(strtolower(date('l', $timestamp)));
+      $out .= rcube_label(strtolower($date->format('l')));
     // month name (short)
     else if ($format[$i]=='M')
-      $out .= rcube_label(strtolower(date('M', $timestamp)));
+      $out .= rcube_label(strtolower($date->format('M')));
     // month name (long)
     else if ($format[$i]=='F')
-      $out .= rcube_label('long'.strtolower(date('M', $timestamp)));
+      $out .= rcube_label('long'.strtolower($date->format('M')));
     else if ($format[$i]=='x')
       $out .= strftime('%x %X', $timestamp);
     else
-      $out .= date($format[$i], $timestamp);
+      $out .= $date->format($format[$i]);
   }
 
   if ($today) {
@@ -1140,6 +1135,7 @@ function format_date($date, $format=NULL, $convert=true)
     }
   }
 
+  date_default_timezone_set($stz);
   return $out;
 }
 
@@ -1878,17 +1874,13 @@ function rcmail_gen_message_id()
 // Returns RFC2822 formatted current date in user's timezone
 function rcmail_user_date()
 {
-  global $RCMAIL, $CONFIG;
+  global $RCMAIL;
 
   // get user's timezone
-  $tz = $RCMAIL->config->get_timezone();
+  $tz = new DateTimeZone($RCMAIL->config->get('timezone'));
 
-  $date = time() + $tz * 60 * 60;
-  $date = gmdate('r', $date);
-  $tz   = sprintf('%+05d', intval($tz) * 100 + ($tz - intval($tz)) * 60);
-  $date = preg_replace('/[+-][0-9]{4}$/', $tz, $date);
-
-  return $date;
+  $date = new DateTime('now', $tz);
+  return $date->format('r');
 }
 
 
