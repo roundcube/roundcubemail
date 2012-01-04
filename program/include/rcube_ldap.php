@@ -1298,12 +1298,13 @@ class rcube_ldap extends rcube_addressbook
                 if (!($value = $rec[$lf][$i]))
                     continue;
 
+                list($col, $subtype) = explode(':', $rf);
                 $out['_raw_attrib'][$lf][$i] = $value;
 
                 if ($rf == 'email' && $this->mail_domain && !strpos($value, '@'))
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
-                else if (in_array($rf, array('street','zipcode','locality','country','region')))
-                    $out['address'][$i][$rf] = $value;
+                else if (in_array($col, array('street','zipcode','locality','country','region')))
+                    $out['address'.($subtype?':':'').$subtype][$i][$col] = $value;
                 else if ($rec[$lf]['count'] > 1)
                     $out[$rf][] = $value;
                 else

@@ -252,7 +252,6 @@ $labels['nameprefix']   = 'Prefix';
 $labels['namesuffix']   = 'Suffix';
 $labels['nickname']     = 'Nickname';
 $labels['jobtitle']     = 'Job Title';
-$labels['organization'] = 'Company';
 $labels['department']   = 'Department';
 $labels['gender']       = 'Gender';
 $labels['maidenname']   = 'Maiden Name';
