@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix strict email address searching if contact has more than one address
 - Use proper timezones from PHP's internal timezonedb (#1485592)
 - Add separate pagesize setting for mail messages and contacts (#1488269)
 - Fix handling of INBOX's subfolders in special folders config (#1488279)
