@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix SQL Error when saving a contact with many email addresses (#1488286)
 - Fix strict email address searching if contact has more than one address
 - Use proper timezones from PHP's internal timezonedb (#1485592)
 - Add separate pagesize setting for mail messages and contacts (#1488269)
