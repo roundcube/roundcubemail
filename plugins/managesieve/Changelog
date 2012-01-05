@@ -1,6 +1,9 @@
+* version 5.0 [2012-01-05]
+-----------------------------------------------------------
 - Fixed setting test type to :is when none is specified
 - Fixed javascript error in IE8
-- Fix possible ID duplication when adding filter rules very fast (#1488288)
+- Fixed possible ID duplication when adding filter rules very fast (#1488288)
+- Fixed bug where drag layer wasn't removed when dragging was ended over sets list
 
 * version 5.0-rc1 [2011-11-17]
 -----------------------------------------------------------

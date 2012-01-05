@@ -65,9 +65,9 @@ if (window.rcmail) {
       if (rcmail.gui_objects.filterslist) {
         rcmail.filters_list = new rcube_list_widget(rcmail.gui_objects.filterslist,
           {multiselect:false, draggable:true, keyboard:false});
-        rcmail.filters_list.addEventListener('select', function(o){ p.managesieve_select(o); });
-        rcmail.filters_list.addEventListener('dragstart', function(o){ p.managesieve_dragstart(o); });
-        rcmail.filters_list.addEventListener('dragend', function(e){ p.managesieve_dragend(e); });
+        rcmail.filters_list.addEventListener('select', function(e) { p.managesieve_select(e); });
+        rcmail.filters_list.addEventListener('dragstart', function(e) { p.managesieve_dragstart(e); });
+        rcmail.filters_list.addEventListener('dragend', function(e) { p.managesieve_dragend(e); });
         rcmail.filters_list.row_init = function (row) {
           row.obj.onmouseover = function() { p.managesieve_focus_filter(row); };
           row.obj.onmouseout = function() { p.managesieve_unfocus_filter(row); };
@@ -78,7 +78,7 @@ if (window.rcmail) {
 
       if (rcmail.gui_objects.filtersetslist) {
         rcmail.filtersets_list = new rcube_list_widget(rcmail.gui_objects.filtersetslist, {multiselect:false, draggable:false, keyboard:false});
-        rcmail.filtersets_list.addEventListener('select', function(o){ p.managesieve_setselect(o); });
+        rcmail.filtersets_list.addEventListener('select', function(e) { p.managesieve_setselect(e); });
         rcmail.filtersets_list.init();
         rcmail.filtersets_list.focus();
 
@@ -92,6 +92,9 @@ if (window.rcmail) {
         rcmail.enable_command('plugin.managesieve-set', true);
         rcmail.enable_command('plugin.managesieve-setact', 'plugin.managesieve-setget', setcnt);
         rcmail.enable_command('plugin.managesieve-setdel', setcnt > 1);
+
+        // Fix dragging filters over sets list
+        $('tr', rcmail.gui_objects.filtersetslist).each(function (i, e) { p.managesieve_fixdragend(e); });
       }
     }
     if (rcmail.gui_objects.sieveform && rcmail.env.rule_disabled)
@@ -351,6 +354,9 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
       list.select(id);
 
+      // Fix dragging filters over sets list
+      this.managesieve_fixdragend(row);
+
       break;
   }
 
@@ -392,6 +398,17 @@ rcube_webmail.prototype.managesieve_dragend = function(e)
     }
     this.drag_active = false;
   }
+};
+
+// Fixes filters dragging over sets list
+// @TODO: to be removed after implementing copying filters
+rcube_webmail.prototype.managesieve_fixdragend = function(elem)
+{
+  var p = this;
+  $(elem).bind('mouseup' + ((bw.iphone || bw.ipad) ? ' touchend' : ''), function(e) {
+    if (p.drag_active)
+      p.filters_list.drag_mouse_up(e);
+  });
 };
 
 rcube_webmail.prototype.managesieve_focus_filter = function(row)
