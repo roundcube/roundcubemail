@@ -350,8 +350,10 @@ click_row: function(e, id)
   this.in_selection_before = false;
 
   // row was double clicked
-  if (this.rows && dblclicked && this.in_selection(id))
+  if (this.rows && dblclicked && this.in_selection(id)) {
     this.triggerEvent('dblclick');
+    now = 0;
+  }
   else
     this.triggerEvent('click');
 
