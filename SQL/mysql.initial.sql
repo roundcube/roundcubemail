@@ -40,7 +40,7 @@ CREATE TABLE `cache` (
  `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL ,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `data` longtext NOT NULL,
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `user_id` int(10) UNSIGNED NOT NULL,
  PRIMARY KEY(`cache_id`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -52,7 +52,7 @@ CREATE TABLE `cache` (
 -- Table structure for table `cache_index`
 
 CREATE TABLE `cache_index` (
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `user_id` int(10) UNSIGNED NOT NULL,
  `mailbox` varchar(255) BINARY NOT NULL,
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `valid` tinyint(1) NOT NULL DEFAULT '0',
@@ -67,7 +67,7 @@ CREATE TABLE `cache_index` (
 -- Table structure for table `cache_thread`
 
 CREATE TABLE `cache_thread` (
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `user_id` int(10) UNSIGNED NOT NULL,
  `mailbox` varchar(255) BINARY NOT NULL,
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `data` longtext NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `cache_thread` (
 -- Table structure for table `cache_messages`
 
 CREATE TABLE `cache_messages` (
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `user_id` int(10) UNSIGNED NOT NULL,
  `mailbox` varchar(255) BINARY NOT NULL,
  `uid` int(11) UNSIGNED NOT NULL DEFAULT '0',
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -101,23 +101,23 @@ CREATE TABLE `contacts` (
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `del` tinyint(1) NOT NULL DEFAULT '0',
  `name` varchar(128) NOT NULL DEFAULT '',
- `email` varchar(255) NOT NULL,
+ `email` text NOT NULL DEFAULT '',
  `firstname` varchar(128) NOT NULL DEFAULT '',
  `surname` varchar(128) NOT NULL DEFAULT '',
  `vcard` longtext NULL,
  `words` text NULL,
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `user_id` int(10) UNSIGNED NOT NULL,
  PRIMARY KEY(`contact_id`),
  CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
- INDEX `user_contacts_index` (`user_id`,`email`)
+ INDEX `user_contacts_index` (`user_id`,`del`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 -- Table structure for table `contactgroups`
 
 CREATE TABLE `contactgroups` (
   `contactgroup_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL,
   `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `del` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(128) NOT NULL DEFAULT '',
@@ -129,7 +129,7 @@ CREATE TABLE `contactgroups` (
 
 CREATE TABLE `contactgroupmembers` (
   `contactgroup_id` int(10) UNSIGNED NOT NULL,
-  `contact_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `contact_id` int(10) UNSIGNED NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   PRIMARY KEY (`contactgroup_id`, `contact_id`),
   CONSTRAINT `contactgroup_id_fk_contactgroups` FOREIGN KEY (`contactgroup_id`)
@@ -144,7 +144,7 @@ CREATE TABLE `contactgroupmembers` (
 
 CREATE TABLE `identities` (
  `identity_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `user_id` int(10) UNSIGNED NOT NULL,
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `del` tinyint(1) NOT NULL DEFAULT '0',
  `standard` tinyint(1) NOT NULL DEFAULT '0',
@@ -178,7 +178,7 @@ CREATE TABLE `dictionary` (
 
 CREATE TABLE `searches` (
  `search_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
- `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+ `user_id` int(10) UNSIGNED NOT NULL,
  `type` int(3) NOT NULL DEFAULT '0',
  `name` varchar(128) NOT NULL,
  `data` text,

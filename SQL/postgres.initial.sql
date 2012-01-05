@@ -107,14 +107,14 @@ CREATE TABLE contacts (
     changed timestamp with time zone DEFAULT now() NOT NULL,
     del smallint DEFAULT 0 NOT NULL,
     name varchar(128) DEFAULT '' NOT NULL,
-    email varchar(255) DEFAULT '' NOT NULL,
+    email text DEFAULT '' NOT NULL,
     firstname varchar(128) DEFAULT '' NOT NULL,
     surname varchar(128) DEFAULT '' NOT NULL,
     vcard text,
     words text
 );
 
-CREATE INDEX contacts_user_id_idx ON contacts (user_id, email);
+CREATE INDEX contacts_user_id_idx ON contacts (user_id, del);
 
 --
 -- Sequence "contactgroups_ids"

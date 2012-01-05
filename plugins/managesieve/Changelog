@@ -1,5 +1,6 @@
 - Fixed setting test type to :is when none is specified
 - Fixed javascript error in IE8
+- Fix possible ID duplication when adding filter rules very fast (#1488288)
 
 * version 5.0-rc1 [2011-11-17]
 -----------------------------------------------------------

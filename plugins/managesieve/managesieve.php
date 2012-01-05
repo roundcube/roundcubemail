@@ -1542,7 +1542,7 @@ class managesieve extends rcube_plugin
 
     private function genid()
     {
-        $result = intval(rcube_timer());
+        $result = preg_replace('/[^0-9]/', '', microtime(true));
         return $result;
     }
 

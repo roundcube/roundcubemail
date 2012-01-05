@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix SQL Error when saving a contact with many email addresses (#1488286)
+- Fix strict email address searching if contact has more than one address
+- Remove duplicated 'organization' label (#1488287)
 - Fix so editor selector is hidden when 'htmleditor' is listed in 'dont_override'
 - Fix wrong (long) label usage (#1488283)
 - Fix handling of INBOX's subfolders in special folders config (#1488279)
