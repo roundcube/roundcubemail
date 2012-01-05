@@ -247,13 +247,15 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor',
-            'list-adresses', 'add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage'];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
 
           this.enable_command(this.env.compose_commands, 'identities', true);
+
+          // add more commands (not enabled)
+          $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
 
           if (this.env.spellcheck) {
             this.env.spellcheck.spelling_state_observer = function(s){ ref.set_spellcheck_state(s); };
