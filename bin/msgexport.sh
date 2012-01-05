@@ -51,17 +51,17 @@ function export_mailbox($mbox, $filename)
 	for ($count = $IMAP->messagecount(), $i=1; $i <= $count; $i++)
 	{
 		$headers = $IMAP->get_headers($i, null, false);
-		$from = current($IMAP->decode_address_list($headers->from, 1, false));
-		
+		$from = current(rcube_mime::decode_address_list($headers->from, 1, false));
+
 		fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
 		fwrite($out, $IMAP->conn->fetchPartHeader($mbox, $i));
 		fwrite($out, $IMAP->conn->handlePartBody($mbox, $i));
 		fwrite($out, "\n\n\n");
-		
+
 		progress_update($i, $count);
 	}
 	vputs("\ncomplete.\n");
-	
+
 	if ($filename)
 		fclose($out);
 }
@@ -114,7 +114,7 @@ $IMAP = new rcube_imap(null);
 if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 {
 	vputs("IMAP login successful.\n");
-	
+
 	$filename = null;
 	$mailboxes = $args['mbox'] == '*' ? $IMAP->list_mailboxes(null) : array($args['mbox']);
 
@@ -124,7 +124,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 			$filename = preg_replace('/\.[a-z0-9]{3,4}$/i', '', $args['file']) . asciiwords($mbox) . '.mbox';
 		else if ($args['mbox'] == '*')
 			$filename = asciiwords($mbox) . '.mbox';
-			
+
 		if ($args['mbox'] == '*' && in_array(strtolower($mbox), array('junk','spam','trash')))
 			continue;
 

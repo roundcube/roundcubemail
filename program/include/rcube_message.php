@@ -42,6 +42,13 @@ class rcube_message
      * @var rcube_imap
      */
     private $imap;
+
+    /**
+     * Instance of mime class
+     *
+     * @var rcube_mime
+     */
+    private $mime;
     private $opt = array();
     private $inline_parts = array();
     private $parse_alternative = false;
@@ -63,27 +70,24 @@ class rcube_message
      *
      * @param string $uid The message UID.
      *
-     * @uses rcmail::get_instance()
-     * @uses rcube_imap::decode_mime_string()
-     * @uses self::set_safe()
-     *
      * @see self::$app, self::$imap, self::$opt, self::$structure
      */
     function __construct($uid)
     {
-        $this->app = rcmail::get_instance();
+        $this->uid  = $uid;
+        $this->app  = rcmail::get_instance();
         $this->imap = $this->app->imap;
         $this->imap->get_all_headers = true;
 
-        $this->uid = $uid;
         $this->headers = $this->imap->get_message($uid);
 
         if (!$this->headers)
             return;
 
-        $this->subject = rcube_imap::decode_mime_string(
-            $this->headers->subject, $this->headers->charset);
-        list(, $this->sender) = each($this->imap->decode_address_list($this->headers->from));
+        $this->mime = new rcube_mime($this->headers->charset);
+
+        $this->subject = $this->mime->decode_mime_string($this->headers->subject);
+        list(, $this->sender) = each($this->mime->decode_address_list($this->headers->from, 1));
 
         $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$uid]));
         $this->opt = array(
@@ -115,12 +119,15 @@ class rcube_message
      */
     public function get_header($name, $raw = false)
     {
+        if (empty($this->headers))
+            return null;
+
         if ($this->headers->$name)
             $value = $this->headers->$name;
         else if ($this->headers->others[$name])
             $value = $this->headers->others[$name];
 
-        return $raw ? $value : $this->imap->decode_header($value);
+        return $raw ? $value : $this->mime->decode_header($value);
     }
 
 
@@ -654,95 +661,4 @@ class rcube_message
 
         return $parts;
     }
-
-
-    /**
-     * Interpret a format=flowed message body according to RFC 2646
-     *
-     * @param string  $text Raw body formatted as flowed text
-     * @return string Interpreted text with unwrapped lines and stuffed space removed
-     */
-    public static function unfold_flowed($text)
-    {
-        $text = preg_split('/\r?\n/', $text);
-        $last = -1;
-        $q_level = 0;
-
-        foreach ($text as $idx => $line) {
-            if ($line[0] == '>' && preg_match('/^(>+\s*)/', $line, $regs)) {
-                $q = strlen(str_replace(' ', '', $regs[0]));
-                $line = substr($line, strlen($regs[0]));
-
-                if ($q == $q_level && $line
-                    && isset($text[$last])
-                    && $text[$last][strlen($text[$last])-1] == ' '
-                ) {
-                    $text[$last] .= $line;
-                    unset($text[$idx]);
-                }
-                else {
-                    $last = $idx;
-                }
-            }
-            else {
-                $q = 0;
-                if ($line == '-- ') {
-                    $last = $idx;
-                }
-                else {
-                    // remove space-stuffing
-                    $line = preg_replace('/^\s/', '', $line);
-
-                    if (isset($text[$last]) && $line
-                        && $text[$last] != '-- '
-                        && $text[$last][strlen($text[$last])-1] == ' '
-                    ) {
-                        $text[$last] .= $line;
-                        unset($text[$idx]);
-                    }
-                    else {
-                        $text[$idx] = $line;
-                        $last = $idx;
-                    }
-                }
-            }
-            $q_level = $q;
-        }
-
-        return implode("\r\n", $text);
-    }
-
-
-    /**
-     * Wrap the given text to comply with RFC 2646
-     *
-     * @param string $text Text to wrap
-     * @param int $length Length
-     * @return string Wrapped text
-     */
-    public static function format_flowed($text, $length = 72)
-    {
-        $text = preg_split('/\r?\n/', $text);
-
-        foreach ($text as $idx => $line) {
-            if ($line != '-- ') {
-                if ($line[0] == '>' && preg_match('/^(>+)/', $line, $regs)) {
-                    $prefix = $regs[0];
-                    $level = strlen($prefix);
-                    $line  = rtrim(substr($line, $level));
-                    $line  = $prefix . rc_wordwrap($line, $length - $level - 2, " \r\n$prefix ");
-                }
-                else if ($line) {
-                    $line = rc_wordwrap(rtrim($line), $length - 2, " \r\n");
-                    // space-stuffing
-                    $line = preg_replace('/(^|\r\n)(From| |>)/', '\\1 \\2', $line);
-                }
-
-                $text[$idx] = $line;
-            }
-        }
-
-        return implode("\r\n", $text);
-    }
-
 }

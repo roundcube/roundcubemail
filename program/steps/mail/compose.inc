@@ -268,7 +268,7 @@ else if (count($MESSAGE->identities)) {
   // extract all recipients of the reply-message
   if (is_object($MESSAGE->headers) && in_array($compose_mode, array(RCUBE_COMPOSE_REPLY, RCUBE_COMPOSE_FORWARD)))
   {
-    $a_to = $RCMAIL->imap->decode_address_list($MESSAGE->headers->to);
+    $a_to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
     foreach ($a_to as $addr) {
       if (!empty($addr['mailto'])) {
         $a_recipients[] = strtolower($addr['mailto']);
@@ -277,7 +277,7 @@ else if (count($MESSAGE->identities)) {
     }
 
     if (!empty($MESSAGE->headers->cc)) {
-      $a_cc = $RCMAIL->imap->decode_address_list($MESSAGE->headers->cc);
+      $a_cc = rcube_mime::decode_address_list($MESSAGE->headers->cc, null, true, $MESSAGE->headers->charset);
       foreach ($a_cc as $addr) {
         if (!empty($addr['mailto'])) {
           $a_recipients[] = strtolower($addr['mailto']);
@@ -420,7 +420,7 @@ foreach ($parts as $header) {
 
   // split recipients and put them back together in a unique way
   if (!empty($fvalue) && in_array($header, array('to', 'cc', 'bcc'))) {
-    $to_addresses = $RCMAIL->imap->decode_address_list($fvalue, null, $decode_header);
+    $to_addresses = rcube_mime::decode_address_list($fvalue, null, $decode_header, $MESSAGE->headers->charset);
     $fvalue = array();
 
     foreach ($to_addresses as $addr_part) {
@@ -650,7 +650,7 @@ function rcmail_prepare_message_body()
         if ($body && $part && $part->ctype_secondary == 'plain'
             && $part->ctype_parameters['format'] == 'flowed'
         ) {
-          $body = rcube_message::unfold_flowed($body);
+          $body = rcube_mime::unfold_flowed($body);
         }
       }
     }
@@ -811,7 +811,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
   // build reply prefix
-  $from = array_pop($RCMAIL->imap->decode_address_list($MESSAGE->get_header('from'), 1, false));
+  $from = array_pop(rcube_mime::decode_address_list($MESSAGE->get_header('from'), 1, false, $MESSAGE->headers->charset));
   $prefix = rcube_label(array(
     'name' => 'mailreplyintro',
     'vars' => array(

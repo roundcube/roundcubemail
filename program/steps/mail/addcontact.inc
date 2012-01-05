@@ -37,7 +37,7 @@ if ($abook == null || !is_object($CONTACTS)) {
 
 if (!empty($_POST['_address']) && is_object($CONTACTS))
 {
-  $contact_arr = $RCMAIL->imap->decode_address_list(get_input_value('_address', RCUBE_INPUT_POST, true), 1, false);
+  $contact_arr = rcube_mime::decode_address_list(get_input_value('_address', RCUBE_INPUT_POST, true), 1, false);
 
   if (!empty($contact_arr[1]['mailto'])) {
     $contact = array(

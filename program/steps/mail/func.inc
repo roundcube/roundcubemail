@@ -266,14 +266,12 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     $a_msg_cols = array();
     $a_msg_flags = array();
 
-    $RCMAIL->imap->set_charset(!empty($header->charset) ? $header->charset : $CONFIG['default_charset']);
-
     // format each col; similar as in rcmail_message_list()
     foreach ($a_show_cols as $col) {
       if (in_array($col, array('from', 'to', 'cc', 'replyto')))
-        $cont = Q(rcmail_address_string($header->$col, 3), 'show');
+        $cont = Q(rcmail_address_string($header->$col, 3, false, null, $header->charset), 'show');
       else if ($col=='subject') {
-        $cont = trim($RCMAIL->imap->decode_header($header->$col));
+        $cont = trim(rcube_mime::decode_header($header->$col, $header->charset));
         if (!$cont) $cont = rcube_label('nosubject');
         $cont = Q($cont);
       }
@@ -914,7 +912,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
     }
     else if ($hkey == 'replyto') {
       if ($headers['replyto'] != $headers['from'])
-        $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
+        $header_value = rcmail_address_string($value, null, true, $attrib['addicon'], $headers['charset']);
       else
         continue;
     }
@@ -922,19 +920,19 @@ function rcmail_message_headers($attrib, $headers=NULL)
       if ($headers['mail-replyto'] != $headers['reply-to']
         && $headers['reply-to'] != $headers['from']
       )
-        $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
+        $header_value = rcmail_address_string($value, null, true, $attrib['addicon'], $headers['charset']);
       else
         continue;
     }
     else if ($hkey == 'mail-followup-to') {
-      $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
+      $header_value = rcmail_address_string($value, null, true, $attrib['addicon'], $headers['charset']);
     }
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc')))
-      $header_value = rcmail_address_string($value, null, true, $attrib['addicon']);
+      $header_value = rcmail_address_string($value, null, true, $attrib['addicon'], $headers['charset']);
     else if ($hkey == 'subject' && empty($value))
       $header_value = rcube_label('nosubject');
     else
-      $header_value = trim($RCMAIL->imap->decode_header($value));
+      $header_value = trim(rcube_mime::decode_header($value, $headers['charset']));
 
     $output_headers[$hkey] = array(
         'title' => rcube_label(preg_replace('/(^mail-|-)/', '', $hkey)),
@@ -1260,11 +1258,11 @@ function rcmail_alter_html_link($matches)
 /**
  * decode address string and re-format it as HTML links
  */
-function rcmail_address_string($input, $max=null, $linked=false, $addicon=null)
+function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, $default_charset=null)
 {
   global $RCMAIL, $PRINT_MODE, $CONFIG;
 
-  $a_parts = $RCMAIL->imap->decode_address_list($input);
+  $a_parts = rcube_mime::decode_address_list($input, null, true, $default_charset);
 
   if (!sizeof($a_parts))
     return $input;
@@ -1483,7 +1481,8 @@ function rcmail_send_mdn($message, &$smtp_error)
   {
     $identity = $RCMAIL->user->get_identity();
     $sender = format_email_recipient($identity['email'], $identity['name']);
-    $recipient = array_shift($RCMAIL->imap->decode_address_list($message->headers->mdn_to));
+    $recipient = array_shift(rcube_mime::decode_address_list(
+      $message->headers->mdn_to, 1, true, $message->headers->charset));
     $mailto = $recipient['mailto'];
 
     $compose = new Mail_mime("\r\n");

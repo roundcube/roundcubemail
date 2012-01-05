@@ -382,28 +382,6 @@ class rcube_imap
 
 
     /**
-     * Forces selection of a mailbox
-     *
-     * @param  string $mailbox Mailbox/Folder name
-     * @access public
-     */
-    function select_mailbox($mailbox=null)
-    {
-        if (!strlen($mailbox)) {
-            $mailbox = $this->mailbox;
-        }
-
-        $selected = $this->conn->select($mailbox);
-
-        if ($selected && $this->mailbox != $mailbox) {
-            // clear messagecount cache for this mailbox
-            $this->_clear_messagecount($mailbox);
-            $this->mailbox = $mailbox;
-        }
-    }
-
-
-    /**
      * Set internal list page
      *
      * @param  number $page Page number to list
@@ -428,32 +406,30 @@ class rcube_imap
 
 
     /**
-     * Save a set of message ids for future message listing methods
+     * Save a search result for future message listing methods
      *
-     * @param  string  IMAP Search query
-     * @param  rcube_result_index|rcube_result_thread  Result set
-     * @param  string  Charset of search string
-     * @param  string  Sorting field
-     * @param  string  True if set is sorted (SORT was used for searching)
+     * @param  array  $set  Search set, result from rcube_imap::get_search_set():
+     *                      0 - searching criteria, string
+     *                      1 - search result, rcube_result_index|rcube_result_thread
+     *                      2 - searching character set, string
+     *                      3 - sorting field, string
+     *                      4 - true if sorted, bool
      */
-    function set_search_set($str=null, $msgs=null, $charset=null, $sort_field=null, $sorted=false)
+    function set_search_set($set)
     {
-        if (is_array($str) && $msgs === null)
-            list($str, $msgs, $charset, $sort_field, $sorted) = $str;
+        $set = (array)$set;
 
-        $this->search_string     = $str;
-        $this->search_set        = $msgs;
-        $this->search_charset    = $charset;
-        $this->search_sort_field = $sort_field;
-        $this->search_sorted     = $sorted;
+        $this->search_string     = $set[0];
+        $this->search_set        = $set[1];
+        $this->search_charset    = $set[2];
+        $this->search_sort_field = $set[3];
+        $this->search_sorted     = $set[4];
         $this->search_threads    = is_a($this->search_set, 'rcube_result_thread');
     }
 
 
     /**
      * Return the saved search set as hash array
-     *
-     * @param bool $clone Clone result object
      *
      * @return array Search set
      */
@@ -1413,8 +1389,8 @@ class rcube_imap
 
         $results = $this->_search_index($mailbox, $str, $charset, $sort_field);
 
-        $this->set_search_set($str, $results, $charset, $sort_field,
-            $this->threading || $this->search_sorted ? true : false);
+        $this->set_search_set(array($str, $results, $charset, $sort_field,
+            $this->threading || $this->search_sorted ? true : false));
     }
 
 
@@ -1552,22 +1528,6 @@ class rcube_imap
 
 
     /**
-     * Check if the given message UID is part of the current search set
-     *
-     * @param string $msgid Message UID
-     *
-     * @return boolean True on match or if no search request is stored
-     */
-    function in_searchset($uid)
-    {
-        if (!empty($this->search_string)) {
-            return $this->search_set->exists($uid);
-        }
-        return true;
-    }
-
-
-    /**
      * Return message headers object of a specific message
      *
      * @param int     $id       Message sequence ID or UID
@@ -1662,7 +1622,7 @@ class rcube_imap
                 return $headers;
         }
 
-        $struct = &$this->_structure_part($structure, 0, '', $headers);
+        $struct = $this->_structure_part($structure, 0, '', $headers);
 
         // don't trust given content-type
         if (empty($struct->parts) && !empty($headers->ctype)) {
@@ -1685,7 +1645,7 @@ class rcube_imap
      * @param string $parent
      * @access private
      */
-    function &_structure_part($part, $count=0, $parent='', $mime_headers=null)
+    private function _structure_part($part, $count=0, $parent='', $mime_headers=null)
     {
         $struct = new rcube_message_part;
         $struct->mime_id = empty($parent) ? (string)$count : "$parent.$count";
@@ -1844,7 +1804,7 @@ class rcube_imap
             }
 
             if (is_string($mime_headers))
-                $struct->headers = $this->_parse_headers($mime_headers) + $struct->headers;
+                $struct->headers = rcube_mime::parse_headers($mime_headers) + $struct->headers;
             else if (is_object($mime_headers))
                 $struct->headers = get_object_vars($mime_headers) + $struct->headers;
 
@@ -1988,7 +1948,7 @@ class rcube_imap
             else
                 $charset = rc_detect_encoding($filename_mime, $this->default_charset);
 
-            $part->filename = rcube_imap::decode_mime_string($filename_mime, $charset);
+            $part->filename = rcube_mime::decode_mime_string($filename_mime, $charset);
         }
         else if (!empty($filename_encoded)) {
             // decode filename according to RFC 2231, Section 4
@@ -2031,7 +1991,7 @@ class rcube_imap
      *
      * @return string Message/part body if not printed
      */
-    function &get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL, $skip_charset_conv=false)
+    function get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL, $skip_charset_conv=false)
     {
         // get part data if not provided
         if (!is_object($o_part)) {
@@ -2084,7 +2044,7 @@ class rcube_imap
      * @return string $part Message/part body
      * @see    rcube_imap::get_message_part()
      */
-    function &get_body($uid, $part=1)
+    function get_body($uid, $part=1)
     {
         $headers = $this->get_headers($uid);
         return rcube_charset_convert($this->get_message_part($uid, $part, NULL),
@@ -2100,7 +2060,7 @@ class rcube_imap
      *
      * @return string Message source string
      */
-    function &get_raw_body($uid, $fp=null)
+    function get_raw_body($uid, $fp=null)
     {
         return $this->conn->handlePartBody($this->mailbox, $uid,
             true, null, null, false, $fp);
@@ -2113,7 +2073,7 @@ class rcube_imap
      * @param int $uid  Message UID
      * @return string Message headers string
      */
-    function &get_raw_headers($uid)
+    function get_raw_headers($uid)
     {
         return $this->conn->fetchPartHeader($this->mailbox, $uid, true);
     }
@@ -3621,6 +3581,7 @@ class rcube_imap
         }
     }
 
+
     /**
      * Getter for messages cache object
      */
@@ -3637,6 +3598,7 @@ class rcube_imap
         return $this->mcache;
     }
 
+
     /**
      * Clears the messages cache.
      *
@@ -3647,204 +3609,6 @@ class rcube_imap
     {
         if ($mcache = $this->get_mcache_engine()) {
             $mcache->clear($mailbox, $uids);
-        }
-    }
-
-
-
-    /* --------------------------------
-     *   encoding/decoding methods
-     * --------------------------------*/
-
-    /**
-     * Split an address list into a structured array list
-     *
-     * @param string  $input  Input string
-     * @param int     $max    List only this number of addresses
-     * @param boolean $decode Decode address strings
-     * @return array  Indexed list of addresses
-     */
-    function decode_address_list($input, $max=null, $decode=true)
-    {
-        $a = $this->_parse_address_list($input, $decode);
-        $out = array();
-        // Special chars as defined by RFC 822 need to in quoted string (or escaped).
-        $special_chars = '[\(\)\<\>\\\.\[\]@,;:"]';
-
-        if (!is_array($a))
-            return $out;
-
-        $c = count($a);
-        $j = 0;
-
-        foreach ($a as $val) {
-            $j++;
-            $address = trim($val['address']);
-            $name    = trim($val['name']);
-
-            if ($name && $address && $name != $address)
-                $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
-            else if ($address)
-                $string = $address;
-            else if ($name)
-                $string = $name;
-
-            $out[$j] = array(
-                'name'   => $name,
-                'mailto' => $address,
-                'string' => $string
-            );
-
-            if ($max && $j==$max)
-                break;
-        }
-
-        return $out;
-    }
-
-
-    /**
-     * Decode a message header value
-     *
-     * @param string  $input         Header value
-     * @param boolean $remove_quotas Remove quotes if necessary
-     * @return string Decoded string
-     */
-    function decode_header($input, $remove_quotes=false)
-    {
-        $str = rcube_imap::decode_mime_string((string)$input, $this->default_charset);
-        if ($str[0] == '"' && $remove_quotes)
-            $str = str_replace('"', '', $str);
-
-        return $str;
-    }
-
-
-    /**
-     * Decode a mime-encoded string to internal charset
-     *
-     * @param string $input    Header value
-     * @param string $fallback Fallback charset if none specified
-     *
-     * @return string Decoded string
-     * @static
-     */
-    public static function decode_mime_string($input, $fallback=null)
-    {
-        if (!empty($fallback)) {
-            $default_charset = $fallback;
-        }
-        else {
-            $default_charset = rcmail::get_instance()->config->get('default_charset', 'ISO-8859-1');
-        }
-
-        // rfc: all line breaks or other characters not found
-        // in the Base64 Alphabet must be ignored by decoding software
-        // delete all blanks between MIME-lines, differently we can
-        // receive unnecessary blanks and broken utf-8 symbols
-        $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
-
-        // encoded-word regexp
-        $re = '/=\?([^?]+)\?([BbQq])\?([^\n]*?)\?=/';
-
-        // Find all RFC2047's encoded words
-        if (preg_match_all($re, $input, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
-            // Initialize variables
-            $tmp   = array();
-            $out   = '';
-            $start = 0;
-
-            foreach ($matches as $idx => $m) {
-                $pos      = $m[0][1];
-                $charset  = $m[1][0];
-                $encoding = $m[2][0];
-                $text     = $m[3][0];
-                $length   = strlen($m[0][0]);
-
-                // Append everything that is before the text to be decoded
-                if ($start != $pos) {
-                    $substr = substr($input, $start, $pos-$start);
-                    $out   .= rcube_charset_convert($substr, $default_charset);
-                    $start  = $pos;
-                }
-                $start += $length;
-
-                // Per RFC2047, each string part "MUST represent an integral number
-                // of characters . A multi-octet character may not be split across
-                // adjacent encoded-words." However, some mailers break this, so we
-                // try to handle characters spanned across parts anyway by iterating
-                // through and aggregating sequential encoded parts with the same
-                // character set and encoding, then perform the decoding on the
-                // aggregation as a whole.
-
-                $tmp[] = $text;
-                if ($next_match = $matches[$idx+1]) {
-                    if ($next_match[0][1] == $start
-                        && $next_match[1][0] == $charset
-                        && $next_match[2][0] == $encoding
-                    ) {
-                        continue;
-                    }
-                }
-
-                $count = count($tmp);
-                $text  = '';
-
-                // Decode and join encoded-word's chunks
-                if ($encoding == 'B' || $encoding == 'b') {
-                    // base64 must be decoded a segment at a time
-                    for ($i=0; $i<$count; $i++)
-                        $text .= base64_decode($tmp[$i]);
-                }
-                else { //if ($encoding == 'Q' || $encoding == 'q') {
-                    // quoted printable can be combined and processed at once
-                    for ($i=0; $i<$count; $i++)
-                        $text .= $tmp[$i];
-
-                    $text = str_replace('_', ' ', $text);
-                    $text = quoted_printable_decode($text);
-                }
-
-                $out .= rcube_charset_convert($text, $charset);
-                $tmp = array();
-            }
-
-            // add the last part of the input string
-            if ($start != strlen($input)) {
-                $out .= rcube_charset_convert(substr($input, $start), $default_charset);
-            }
-
-            // return the results
-            return $out;
-        }
-
-        // no encoding information, use fallback
-        return rcube_charset_convert($input, $default_charset);
-    }
-
-
-    /**
-     * Decode a mime part
-     *
-     * @param string $input    Input string
-     * @param string $encoding Part encoding
-     * @return string Decoded string
-     */
-    function mime_decode($input, $encoding='7bit')
-    {
-        switch (strtolower($encoding)) {
-        case 'quoted-printable':
-            return quoted_printable_decode($input);
-        case 'base64':
-            return base64_decode($input);
-        case 'x-uuencode':
-        case 'x-uue':
-        case 'uue':
-        case 'uuencode':
-            return convert_uudecode($input);
-        case '7bit':
-        default:
-            return $input;
         }
     }
 
@@ -3937,7 +3701,7 @@ class rcube_imap
      *
      * @return int Message UID
      */
-    function id2uid($id, $mailbox = null)
+    private function id2uid($id, $mailbox = null)
     {
         if (!strlen($mailbox)) {
             $mailbox = $this->mailbox;
@@ -4025,161 +3789,6 @@ class rcube_imap
             }
             $this->update_cache('messagecount', $a_mailbox_cache);
         }
-    }
-
-
-    /**
-     * Split RFC822 header string into an associative array
-     * @access private
-     */
-    private function _parse_headers($headers)
-    {
-        $a_headers = array();
-        $headers = preg_replace('/\r?\n(\t| )+/', ' ', $headers);
-        $lines = explode("\n", $headers);
-        $c = count($lines);
-
-        for ($i=0; $i<$c; $i++) {
-            if ($p = strpos($lines[$i], ': ')) {
-                $field = strtolower(substr($lines[$i], 0, $p));
-                $value = trim(substr($lines[$i], $p+1));
-                if (!empty($value))
-                    $a_headers[$field] = $value;
-            }
-        }
-
-        return $a_headers;
-    }
-
-
-    /**
-     * @access private
-     */
-    private function _parse_address_list($str, $decode=true)
-    {
-        // remove any newlines and carriage returns before
-        $str = preg_replace('/\r?\n(\s|\t)?/', ' ', $str);
-
-        // extract list items, remove comments
-        $str = self::explode_header_string(',;', $str, true);
-        $result = array();
-
-        // simplified regexp, supporting quoted local part
-        $email_rx = '(\S+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
-
-        foreach ($str as $key => $val) {
-            $name    = '';
-            $address = '';
-            $val     = trim($val);
-
-            if (preg_match('/(.*)<('.$email_rx.')>$/', $val, $m)) {
-                $address = $m[2];
-                $name    = trim($m[1]);
-            }
-            else if (preg_match('/^('.$email_rx.')$/', $val, $m)) {
-                $address = $m[1];
-                $name    = '';
-            }
-            else {
-                $name = $val;
-            }
-
-            // dequote and/or decode name
-            if ($name) {
-                if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
-                    $name = substr($name, 1, -1);
-                    $name = stripslashes($name);
-                }
-                if ($decode) {
-                    $name = $this->decode_header($name);
-                }
-            }
-
-            if (!$address && $name) {
-                $address = $name;
-            }
-
-            if ($address) {
-                $result[$key] = array('name' => $name, 'address' => $address);
-            }
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * Explodes header (e.g. address-list) string into array of strings
-     * using specified separator characters with proper handling
-     * of quoted-strings and comments (RFC2822)
-     *
-     * @param string $separator       String containing separator characters
-     * @param string $str             Header string
-     * @param bool   $remove_comments Enable to remove comments
-     *
-     * @return array Header items
-     */
-    static function explode_header_string($separator, $str, $remove_comments=false)
-    {
-        $length  = strlen($str);
-        $result  = array();
-        $quoted  = false;
-        $comment = 0;
-        $out     = '';
-
-        for ($i=0; $i<$length; $i++) {
-            // we're inside a quoted string
-            if ($quoted) {
-                if ($str[$i] == '"') {
-                    $quoted = false;
-                }
-                else if ($str[$i] == '\\') {
-                    if ($comment <= 0) {
-                        $out .= '\\';
-                    }
-                    $i++;
-                }
-            }
-            // we're inside a comment string
-            else if ($comment > 0) {
-                    if ($str[$i] == ')') {
-                        $comment--;
-                    }
-                    else if ($str[$i] == '(') {
-                        $comment++;
-                    }
-                    else if ($str[$i] == '\\') {
-                        $i++;
-                    }
-                    continue;
-            }
-            // separator, add to result array
-            else if (strpos($separator, $str[$i]) !== false) {
-                    if ($out) {
-                        $result[] = $out;
-                    }
-                    $out = '';
-                    continue;
-            }
-            // start of quoted string
-            else if ($str[$i] == '"') {
-                    $quoted = true;
-            }
-            // start of comment
-            else if ($remove_comments && $str[$i] == '(') {
-                    $comment++;
-            }
-
-            if ($comment <= 0) {
-                $out .= $str[$i];
-            }
-        }
-
-        if ($out && $comment <= 0) {
-            $result[] = $out;
-        }
-
-        return $result;
     }
 
 

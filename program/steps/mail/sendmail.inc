@@ -520,7 +520,7 @@ else {
 
   // compose format=flowed content if enabled
   if ($flowed = $RCMAIL->config->get('send_format_flowed', true))
-    $message_body = rcube_message::format_flowed($message_body, min($LINE_LENGTH+2, 79));
+    $message_body = rcube_mime::format_flowed($message_body, min($LINE_LENGTH+2, 79));
   else
     $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
 

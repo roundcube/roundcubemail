@@ -12,14 +12,11 @@ class rcube_test_maildecode extends UnitTestCase
   function __construct()
   {
     $this->UnitTestCase('Mail headers decoding tests');
-
-    $this->app = rcmail::get_instance();
-    $this->app->imap_init(false);
   }
 
   /**
    * Test decoding of single e-mail address strings
-   * Uses rcube_imap::decode_address_list()
+   * Uses rcube_mime::decode_address_list()
    */
   function test_decode_single_address()
   {
@@ -76,7 +73,7 @@ class rcube_test_maildecode extends UnitTestCase
     );
 
     foreach ($headers as $idx => $header) {
-      $res = $this->app->imap->decode_address_list($header);
+      $res = rcube_mime::decode_address_list($header);
 
       $this->assertEqual($results[$idx][0], count($res), "Rows number in result for header: " . $header);
       $this->assertEqual($results[$idx][1], $res[1]['name'], "Name part decoding for header: " . $header);
@@ -86,7 +83,7 @@ class rcube_test_maildecode extends UnitTestCase
 
   /**
    * Test decoding of header values
-   * Uses rcube_imap::decode_mime_string()
+   * Uses rcube_mime::decode_mime_string()
    */
   function test_header_decode_qp()
   {
@@ -123,7 +120,7 @@ class rcube_test_maildecode extends UnitTestCase
     );
 
     foreach ($test as $idx => $item) {
-      $res = $this->app->imap->decode_mime_string($item['in'], 'UTF-8');
+      $res = rcube_mime::decode_mime_string($item['in'], 'UTF-8');
       $res = quoted_printable_encode($res);
 
       $this->assertEqual($item['out'], $res, "Header decoding for: " . $idx);

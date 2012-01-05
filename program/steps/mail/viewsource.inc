@@ -29,7 +29,8 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
   header("Content-Type: text/plain; charset={$charset}");
 
   if (!empty($_GET['_save'])) {
-    $filename = ($headers->subject ? $RCMAIL->imap->decode_header($headers->subject) : 'roundcube') . '.eml';
+    $subject = rcube_mime::decode_header($headers->subject, $headers->charset);
+    $filename = ($subject ? $subject : $RCMAIL->config->get('product_name', 'email')) . '.eml';
     $browser = $RCMAIL->output->browser;
 
     if ($browser->ie && $browser->ver < 7)
