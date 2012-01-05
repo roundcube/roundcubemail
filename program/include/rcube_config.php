@@ -219,6 +219,11 @@ class rcube_config
             }
         }
 
+        // convert user's timezone into the new format
+        if (is_numeric($prefs['timezone'])) {
+            $prefs['timezone'] = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0);
+        }
+
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);
 
