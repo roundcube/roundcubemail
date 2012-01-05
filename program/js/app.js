@@ -5423,6 +5423,8 @@ function rcube_webmail()
       obj.click(function() { return ref.hide_message(obj); });
     }
 
+    this.triggerEvent('message', { message:msg, type:type, timeout:timeout, object:obj });
+
     if (timeout > 0)
       window.setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
     return id;

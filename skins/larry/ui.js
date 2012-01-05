@@ -58,6 +58,8 @@ function rcube_mail_ui()
    */
   function init()
   {
+    rcmail.addEventListener('message', message_displayed);
+    
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('menu-open', show_listoptions);
       rcmail.addEventListener('menu-save', save_listoptions);
@@ -198,6 +200,39 @@ function rcube_mail_ui()
   }
 
   /**
+   * Triggered when a new user message is displayed
+   */
+  function message_displayed(p)
+  {
+    // show a popup dialog on errors
+    if (p.type == 'error') {
+      if (!me.messagedialog) {
+        me.messagedialog = $('<div>').addClass('popupdialog');
+      }
+
+      var pos = $(p.object).offset();
+      me.messagedialog.dialog('close');
+      me.messagedialog.html(p.message)
+        .dialog({
+          resizable: false,
+          closeOnEscape: true,
+          dialogClass: 'popupmessage ' + p.type,
+          title: null,
+          close: function() {
+            me.messagedialog.dialog('destroy').hide();
+          },
+          position: ['center', pos.top - 160],
+          hide: { effect:'drop', direction:'down' },
+          width: 420,
+          minHeight: 90
+        }).show();
+        
+      window.setTimeout(function(){ me.messagedialog.dialog('close'); }, p.timeout / 2);
+    }
+  }
+
+
+  /**
    * Adjust UI objects of the mail view screen
    */
   function layout_messageview()
@@ -214,6 +249,7 @@ function rcube_mail_ui()
 
   function render_mailboxlist(splitter)
   {
+    // TODO: implement smart shortening of long folder names
   }
 
 

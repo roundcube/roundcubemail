@@ -435,6 +435,49 @@ a.iconlink.upload {
 	text-overflow: ellipsis;
 }
 
+.ui-dialog.error .ui-dialog-title,
+.ui-dialog.warning .ui-dialog-title,
+.ui-dialog.confirmation .ui-dialog-title {
+	padding-left: 25px;
+	background: url(images/messages.png) 0 5px no-repeat;
+	text-shadow: 0 1px 1px #fff;
+}
+
+.ui-dialog.warning .ui-dialog-title {
+	color: #960;
+	background-position: 0 -90px;
+}
+
+.ui-dialog.error .ui-dialog-title {
+	color: #cf2734;
+	background-position: 0 -60px;
+}
+
+.ui-dialog.confirmation .ui-dialog-title {
+	color: #093;
+	background-position: 0 -30px;
+}
+
+.ui-dialog.popupmessage .ui-dialog-titlebar {
+	padding: 8px 1em 4px 1em;
+	background: #e3e3e3;
+	background: -moz-linear-gradient(top, #e3e3e3 0%, #cfcfcf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e3e3e3), color-stop(100%,#cfcfcf));
+	background: -o-linear-gradient(top, #e3e3e3 0%, #cfcfcf 100%);
+	background: -ms-linear-gradient(top, #e3e3e3 0%, #cfcfcf 100%);
+	background: linear-gradient(top, #e3e3e3 0%, #cfcfcf 100%);
+}
+
+.ui-dialog.popupmessage .ui-widget-content {
+	font-size: 12px;
+	background: #eee;
+	background: -moz-linear-gradient(top, #eee 0%, #dcdcdc 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(100%,#dcdcdc));
+	background: -o-linear-gradient(top, #eee 0%, #dcdcdc 100%);
+	background: -ms-linear-gradient(top, #eee 0%, #dcdcdc 100%);
+	background: linear-gradient(top, #eee 0%, #dcdcdc 100%);
+}
+
 
 /*** basic page layout ***/
 
