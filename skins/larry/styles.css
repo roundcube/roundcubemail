@@ -736,6 +736,7 @@ a.iconlink.upload {
 .listbox .tablink.selected,
 .listbox .listitem.selected > a,
 .listbox .tablink.selected > a,
+.listing tbody tr.unfocused td,
 .listing tbody tr.selected td,
 .listing li.selected,
 .listing li.selected > a {

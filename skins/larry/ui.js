@@ -82,6 +82,7 @@ function rcube_mail_ui()
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 100); });
         rcmail.addEventListener('aftersend-attachment', show_uploadform);
+        rcmail.addEventListener('add-recipient', function(p){ show_header_row(p.field, true); });
         layout_composeview();
 
         $('#composeoptionstoggle').parent().click(function(){
@@ -182,8 +183,13 @@ function rcube_mail_ui()
         }
       }
     });
-    
-    $(window).resize(resize);
+
+    $(window).resize(function(e) {
+      // check target due to bugs in jquery
+      // http://bugs.jqueryui.com/ticket/7514
+      // http://bugs.jquery.com/ticket/9841
+      if (e.target == window) resize();
+    });
   }
 
   /**
@@ -631,11 +637,16 @@ function rcube_mail_ui()
   /**
    *
    */
-  function show_header_row(which)
+  function show_header_row(which, updated)
   {
-    if (compose_headers[which])
+    var row = $('#compose-' + which);
+    if (row.is(':visible'))
+      return;  // nothing to be done here
+
+    if (compose_headers[which] && !updated)
       $('#_' + which).val(compose_headers[which]);
-    $('#compose-' + which).show();
+
+    row.show();
     $('#' + which + '-link').hide();
     layout_composeview();
     return false;

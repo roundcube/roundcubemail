@@ -961,6 +961,56 @@ div.message-part blockquote blockquote blockquote {
 	bottom: 0;
 }
 
+#compose-contacts #directorylist {
+	border-bottom: 4px solid #c7e3ef;
+}
+
+#contacts-table {
+	table-layout: fixed;
+}
+
+#contacts-table td {
+	width: 100%;
+}
+
+#contacts-table td span {
+	display: block;
+}
+
+#compose-contacts li a, #contacts-table td {
+	background: url(images/listicons.png) -100px 0 no-repeat;
+	overflow: hidden;
+	padding-left: 36px;
+	text-overflow: ellipsis;
+}
+
+#compose-contacts li.addressbook a {
+	background-position: 6px -766px;
+}
+
+#compose-contacts li.addressbook.selected a {
+	background-position: 6px -791px;
+}
+
+#contacts-table td.contactgroup {
+	background-position: 6px -1555px;
+}
+
+#contacts-table tr.unfocused td.contactgroup,
+#contacts-table tr.selected td.contactgroup {
+	background-position: 6px -1579px;
+}
+
+#contacts-table td.contact {
+	background-position: 6px -1603px;
+}
+
+#contacts-table tr.unfocused td.contact,
+#contacts-table tr.selected td.contact {
+	background-position: 6px -1627px;
+}
+
+
 #compose-content {
 	position: absolute;
 	top: 42px;
