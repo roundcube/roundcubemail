@@ -5,7 +5,7 @@
  | program/steps/mail/compose.inc                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
  | PURPOSE:                                                              |
@@ -1471,6 +1471,58 @@ function get_form_tags($attrib)
 }
 
 
+function rcmail_adressbook_list($attrib = array())
+{
+    global $RCMAIL, $OUTPUT;
+
+    $attrib += array('id' => 'rcmdirectorylist');
+
+    $out = '';
+    $line_templ = html::tag('li', array(
+        'id' => 'rcmli%s', 'class' => '%s'),
+        html::a(array('href' => '#list',
+            'rel' => '%s',
+            'onclick' => "return ".JS_OBJECT_NAME.".command('list-adresses','%s',this)"), '%s'));
+
+    foreach ($RCMAIL->get_address_sources() as $j => $source) {
+        $id = strval(strlen($source['id']) ? $source['id'] : $j);
+        $js_id = JQ($id);
+
+        // set class name(s)
+        $class_name = 'addressbook';
+        if ($source['class_name'])
+            $class_name .= ' ' . $source['class_name'];
+
+        $out .= sprintf($line_templ,
+            html_identifier($id),
+            $class_name,
+            $source['id'],
+            $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
+    }
+
+    $OUTPUT->add_gui_object('adressbookslist', $attrib['id']);
+
+    return html::tag('ul', $attrib, $out, html::$common_attrib);
+}
+
+// return the contacts list as HTML table
+function rcmail_contacts_list($attrib = array())
+{
+    global $OUTPUT;
+
+    $attrib += array('id' => 'rcmAddressList');
+
+    // set client env
+    $OUTPUT->add_gui_object('contactslist', $attrib['id']);
+    $OUTPUT->set_env('pagecount', 0);
+    $OUTPUT->set_env('current_page', 0);
+    $OUTPUT->include_script('list.js');
+
+    return rcube_table_output($attrib, array(), array('name'), 'ID');
+}
+
+
+
 // register UI objects
 $OUTPUT->add_handlers(array(
   'composeheaders' => 'rcmail_compose_headers',
@@ -1484,6 +1536,8 @@ $OUTPUT->add_handlers(array(
   'receiptcheckbox' => 'rcmail_receipt_checkbox',
   'dsncheckbox' => 'rcmail_dsn_checkbox',
   'storetarget' => 'rcmail_store_target_selection',
+  'adressbooks' => 'rcmail_adressbook_list',
+  'addresslist' => 'rcmail_contacts_list',
 ));
 
 $OUTPUT->send('compose');

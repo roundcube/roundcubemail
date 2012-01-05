@@ -3,7 +3,7 @@
  | Roundcube Webmail Client Script                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011, Kolab Systems AG                                  |
  | Licensed under the GNU GPL                                            |
  |                                                                       |
@@ -30,6 +30,7 @@ function rcube_webmail()
   this.command_handlers = {};
   this.onloads = [];
   this.messages = {};
+  this.group2expand = {};
 
   // create protected reference to myself
   this.ref = 'rcmail';
@@ -246,7 +247,8 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor'];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor',
+            'list-adresses', 'add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -265,6 +267,20 @@ function rcube_webmail()
 
           // init message compose form
           this.init_messageform();
+
+          // init address book widget
+          if (this.gui_objects.contactslist) {
+            this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
+              { multiselect:true, draggable:false, keyboard:false });
+            this.contact_list.addEventListener('select', function(o){ ref.compose_recipeint_select(o); });
+            this.contact_list.addEventListener('dblclick', function(o){ ref.compose_add_recipient('to'); });
+            this.contact_list.init();
+          }
+
+          if (this.gui_objects.adressbookslist) {
+            this.gui_objects.folderlist = this.gui_objects.adressbookslist;
+            this.enable_command('list-adresses', true);
+          }
         }
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid)
@@ -944,6 +960,15 @@ function rcube_webmail()
 
       case 'insert-sig':
         this.change_identity($("[name='_from']")[0], true);
+        break;
+
+      case 'list-adresses':
+        this.list_contacts(props);
+        this.enable_command('add-recipient', false);
+        break;
+
+      case 'add-recipient':
+        this.compose_add_recipient(props);
         break;
 
       case 'reply-all':
@@ -1977,10 +2002,10 @@ function rcube_webmail()
     if (page > 0 && page <= this.env.pagecount) {
       this.env.current_page = page;
 
-      if (this.task == 'mail')
-        this.list_mailbox(this.env.mailbox, page);
-      else if (this.task == 'addressbook')
+      if (this.task == 'addressbook' || this.contact_list)
         this.list_contacts(this.env.source, this.env.group, page);
+      else if (this.task == 'mail')
+        this.list_mailbox(this.env.mailbox, page);
     }
   };
 
@@ -2965,6 +2990,38 @@ function rcube_webmail()
     obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr('autocomplete', 'off');
   };
+  
+  this.compose_recipeint_select = function(list)
+  {
+    this.enable_command('add-recipient', list.selection.length > 0);
+  };
+
+  this.compose_add_recipient = function(field)
+  {
+    var recipients = [], input = $('#_'+field);
+    
+    if (this.contact_list && this.contact_list.selection.length) {
+      for (var id, n=0; n < this.contact_list.selection.length; n++) {
+        id = this.contact_list.selection[n];
+        if (id && this.env.contactdata[id]) {
+          recipients.push(this.env.contactdata[id]);
+
+          // group is added, expand it
+          if (id.charAt(0) == 'E' && this.env.contactdata[id].indexOf('@') < 0 && input.length) {
+            var gid = id.substr(1);
+            this.group2expand[gid] = { name:this.env.contactdata[id], input:input.get(0) };
+            this.http_request('group-expand', '_source='+urlencode(this.env.source)+'&_gid='+urlencode(gid), false);
+          }
+        }
+      }
+    }
+
+    if (recipients.length && input.length) {
+      var oldval = input.val();
+      input.val((oldval ? oldval + this.env.recipients_delimiter : '') + recipients.join(this.env.recipients_delimiter));
+      this.triggerEvent('add-recipient', { field:field, recipients:recipients });
+    }
+  };
 
   // checks the input fields before sending a message
   this.check_compose_input = function(cmd)
@@ -3637,8 +3694,7 @@ function rcube_webmail()
     // insert all members of a group
     if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].id) {
       insert += this.env.contacts[id].name + this.env.recipients_delimiter;
-      this.group2expand = $.extend({}, this.env.contacts[id]);
-      this.group2expand.input = this.ksearch_input;
+      this.group2expand[this.env.contacts[id].id] = $.extend({ input: this.ksearch_input }, this.env.contacts[id]);
       this.http_request('mail/group-expand', '_source='+urlencode(this.env.contacts[id].source)+'&_gid='+urlencode(this.env.contacts[id].id), false);
     }
     else if (typeof this.env.contacts[id] === 'string') {
@@ -3659,10 +3715,10 @@ function rcube_webmail()
 
   this.replace_group_recipients = function(id, recipients)
   {
-    if (this.group2expand && this.group2expand.id == id) {
-      this.group2expand.input.value = this.group2expand.input.value.replace(this.group2expand.name, recipients);
-      this.triggerEvent('autocomplete_insert', { field:this.group2expand.input, insert:recipients });
-      this.group2expand = null;
+    if (this.group2expand[id]) {
+      this.group2expand[id].input.value = this.group2expand[id].input.value.replace(this.group2expand[id].name, recipients);
+      this.triggerEvent('autocomplete_insert', { field:this.group2expand[id].input, insert:recipients });
+      this.group2expand[id] = null;
     }
   };
 
@@ -4001,7 +4057,7 @@ function rcube_webmail()
     if (this.env.search_request)
       url += '&_search='+this.env.search_request;
 
-    this.http_request('list', url, lock);
+    this.http_request(this.env.task == 'mail' ? 'list-contacts' : 'list', url, lock);
   };
 
   this.list_contacts_clear = function()
@@ -6038,7 +6094,7 @@ function rcube_webmail()
           this.enable_command('purge', this.purge_mailbox_test());
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount);
 
-          if (response.action == 'list' || response.action == 'search') {
+          if ((response.action == 'list' || response.action == 'search') && this.message_list) {
             this.msglist_select(this.message_list);
             this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
           }
