@@ -727,7 +727,7 @@ a.iconlink.upload {
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	cursor: default;
-	padding: 7px 8px 2px 8px;
+	padding: 6px 8px 2px 8px;
 	height: 17px; /* doesn't affect table-cells in FF */
 	white-space: nowrap;
 }
@@ -937,13 +937,13 @@ table.records-table {
 .records-table thead td a,
 .records-table thead td span {
 	display: block;
-	padding: 8px 7px;
+	padding: 7px 7px;
 	color: #69939e;
 	text-decoration: none;
 }
 
 .records-table tbody td {
-	padding: 3px 7px;
+	padding: 2px 7px;
 	border-bottom: 1px solid #ddd;
 	border-left: 1px dotted #bbd3da;
 	white-space: nowrap;

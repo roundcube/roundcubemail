@@ -204,7 +204,7 @@ a.iconbutton.threadmode.selected {
 #mailboxlist li.mailbox div.collapsed,
 #mailboxlist li.mailbox div.expanded {
 	position: absolute;
-	top: 14px;
+	top: 13px;
 	left: 20px;
 	width: 14px;
 	height: 14px;
@@ -219,12 +219,12 @@ a.iconbutton.threadmode.selected {
 #mailboxlist li.mailbox ul li div.collapsed,
 #mailboxlist li.mailbox ul li div.expanded {
 	left: 45px;
-	top: 15px;
+	top: 14px;
 }
 
 #mailboxlist li.mailbox .unreadcount {
 	position: absolute;
-	top: 4px;
+	top: 3px;
 	right: 6px;
 	min-width: 1.8em;
 	padding: 2px 4px;
@@ -308,7 +308,7 @@ a.iconbutton.threadmode.selected {
 #messagelist tr td.flag,
 #messagelist tr td.priority {
 	width: 20px;
-	padding: 3px;
+	padding: 2px 3px;
 }
 
 .chrome #messagelist tr td.attachment,
