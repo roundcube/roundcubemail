@@ -56,10 +56,7 @@ $CONTACT_COLTYPES = array(
   // TODO: define fields for vcards like GEO, KEY
 );
 
-$PAGE_SIZE = $RCMAIL->config->get('addressbook_pagesize');
-if (!$PAGE_SIZE) {
-    $PAGE_SIZE = $RCMAIL->config->get('pagesize', 50);
-}
+$PAGE_SIZE = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));
 
 // Addressbook UI
 if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
