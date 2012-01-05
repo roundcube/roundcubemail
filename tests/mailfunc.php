@@ -166,5 +166,9 @@ class rcube_test_mailfunc extends UnitTestCase
     $this->assertPattern('|src="http://alec\.pl/dir/img1\.gif"|', $html, "URI base resolving [1]");
     $this->assertPattern('|src="http://alec\.pl/dir/img2\.gif"|', $html, "URI base resolving [2]");
     $this->assertPattern('|src="http://alec\.pl/img3\.gif"|', $html, "URI base resolving [3]");
+
+    // base resolving exceptions
+    $this->assertPattern('|src="cid:theCID"|', $html, "URI base resolving exception [1]");
+    $this->assertPattern('|src="http://other\.domain\.tld/img3\.gif"|', $html, "URI base resolving exception [2]");
   }
 }
