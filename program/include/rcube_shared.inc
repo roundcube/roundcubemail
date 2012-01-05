@@ -164,52 +164,6 @@ function show_bytes($bytes)
 }
 
 /**
- * Convert paths like ../xxx to an absolute path using a base url
- *
- * @param string Relative path
- * @param string Base URL
- * @return string Absolute URL
- */
-function make_absolute_url($path, $base_url)
-{
-  $host_url = $base_url;
-  $abs_path = $path;
-
-  // check if path is an absolute URL
-  if (preg_match('/^[fhtps]+:\/\//', $path))
-    return $path;
-
-  // cut base_url to the last directory
-  if (strrpos($base_url, '/')>7)
-  {
-    $host_url = substr($base_url, 0, strpos($base_url, '/', 7));
-    $base_url = substr($base_url, 0, strrpos($base_url, '/'));
-  }
-
-  // $path is absolute
-  if ($path[0] == '/')
-    $abs_path = $host_url.$path;
-  else
-  {
-    // strip './' because its the same as ''
-    $path = preg_replace('/^\.\//', '', $path);
-
-    if (preg_match_all('/\.\.\//', $path, $matches, PREG_SET_ORDER))
-      foreach ($matches as $a_match)
-      {
-        if (strrpos($base_url, '/'))
-          $base_url = substr($base_url, 0, strrpos($base_url, '/'));
-
-        $path = substr($path, 3);
-      }
-
-    $abs_path = $base_url.'/'.$path;
-  }
-
-  return $abs_path;
-}
-
-/**
  * Wrapper function for wordwrap
  */
 function rc_wordwrap($string, $width=75, $break="\n", $cut=false)

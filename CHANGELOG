@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug in handling of base href and inline content (#1488290)
 - Fix SQL Error when saving a contact with many email addresses (#1488286)
 - Fix strict email address searching if contact has more than one address
 - Remove duplicated 'organization' label (#1488287)

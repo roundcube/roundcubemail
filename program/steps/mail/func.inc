@@ -1084,14 +1084,12 @@ function rcmail_resolve_base($body)
   // check for <base href=...>
   if (preg_match('!(<base.*href=["\']?)([hftps]{3,5}://[a-z0-9/.%-]+)!i', $body, $regs)) {
     $replacer = new rcube_base_replacer($regs[2]);
-
-    // replace all relative paths
-    $body = preg_replace_callback('/(src|background|href)=(["\']?)([^"\'\s]+)(\2|\s|>)/Ui', array($replacer, 'callback'), $body);
-    $body = preg_replace_callback('/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/Ui', array($replacer, 'callback'), $body);
+    $body     = $replacer->replace($body);
   }
 
   return $body;
 }
+
 
 /**
  * modify a HTML message that it can be displayed inside a HTML page
