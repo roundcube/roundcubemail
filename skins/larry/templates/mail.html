@@ -85,10 +85,12 @@
 
 	<div id="countcontrols" class="pagenav dark">
 		<roundcube:object name="messageCountDisplay" class="countdisplay" />
+		<span class="pagenavbuttons">
 		<roundcube:button command="firstpage" type="link" class="button firstpage disabled" classAct="button firstpage" classSel="button firstpage pressed" innerClass="inner" title="firstpage" content="|&amp;lt;" />
 		<roundcube:button command="previouspage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previouspage" content="&amp;lt;" />
 		<roundcube:button command="nextpage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextpage" content="&amp;gt;" />
 		<roundcube:button command="lastpage" type="link" class="button lastpage disabled" classAct="button lastpage" classSel="button lastpage pressed" innerClass="inner" title="lastpage" content="&amp;gt;|" />
+		</span>
 	</div>
 
 	<a href="#preview" id="mailpreviewtoggle" title="<roundcube:label name='previewpane' />"></a>

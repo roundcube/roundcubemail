@@ -262,6 +262,7 @@ input.button:active {
 .pagenav a.button {
 	padding: 1px 3px;
 	height: 16px;
+	vertical-align: middle;
 }
 
 .pagenav a.button span.inner {
@@ -314,6 +315,11 @@ input.button:active {
 	padding:0 1em;
 	text-shadow: 0px 1px 1px #fff;
 	min-width: 16em;
+}
+
+.pagenavbuttons {
+	position: relative;
+	top: -2px;
 }
 
 a.iconbutton {
@@ -858,6 +864,7 @@ table.layout td {
 	height: 13px;
 	width: 14px;
 	text-indent: 1000px;
+	vertical-align: bottom;
 	overflow: hidden;
 	background: url(images/buttons.png) -4px -286px no-repeat;
 }
