@@ -1070,7 +1070,7 @@ function format_date($date, $format=NULL, $convert=true)
   date_default_timezone_set($tz->getName());
   $date->setTimezone($tz);
 
-  $timestamp = $date->getTimestamp();
+  $timestamp = $date->format('U');
 
   // define date format depending on current time
   if (!$format) {
