@@ -1062,8 +1062,7 @@ function format_date($date, $format=NULL, $convert=true)
   if (empty($ts))
     return '';
 
-  $date = new DateTime;
-  $date->setTimestamp($ts);
+  $date = new DateTime("@".$ts);
 
   // convert to the right timezone
   $stz = date_default_timezone_get();
