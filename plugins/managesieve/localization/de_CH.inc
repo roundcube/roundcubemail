@@ -116,4 +116,15 @@ $labels['default'] = 'Vorgabewert';
 $labels['octet'] = 'strikt (Oktet)';
 $labels['asciicasemap'] = 'Gross-/Kleinschreibung ignorieren';
 $labels['asciinumeric'] = 'numerisch (ascii-numeric)';
+$labels['filterunknownerror'] = 'Unbekannter Serverfehler';
+$labels['filterconnerror'] = 'Kann nicht zum Sieve-Server verbinden';
+$labels['filterdeleteerror'] = 'Fehler beim des löschen  Filters. Serverfehler';
+$labels['filterdeleted'] = 'Filter erfolgreich gelöscht';
+$labels['filterdeleteconfirm'] = 'Möchten Sie den Filter löschen ?';
+$labels['filtersaved'] = 'Filter gespeichert';
+$labels['filtersaveerror'] = 'Serverfehler, konnte den Filter nicht speichern.';
+$labels['ruledeleteconfirm'] = 'Sicher, dass Sie die Regel löschen wollen?';
+$labels['actiondeleteconfirm'] = 'Sicher, dass Sie die ausgewaehlte Aktion löschen wollen?';
+$labels['forbiddenchars'] = 'Unerlaubte Zeichen im Feld';
+$labels['cannotbeempty'] = 'Feld darf nicht leer sein';
 
