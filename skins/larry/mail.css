@@ -664,6 +664,32 @@ h3.subject {
 	height: 13px;
 }
 
+#preview-allheaders {
+	display: none;
+}
+
+#preview-shortheaders td.header-title {
+	padding-right: 0;
+}
+
+#preview-shortheaders td.header {
+	padding-right: 12px;
+}
+
+.headers-table .iconlink {
+	text-indent: -1000px;
+	padding: 1px 1px 1px 20px;
+}
+
+.headers-table .iconlink.add {
+	background-position: -5px -359px;
+}
+
+.headers-table .iconlink.delete {
+	background-position: -5px -339px;
+}
+
+
 #full-headers {
 	position: relative;
 	color: #666;

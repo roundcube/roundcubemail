@@ -78,6 +78,7 @@ function rcube_mail_ui()
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         layout_messageview();
         $("#all-headers").resizable({ handles: 's', minHeight: 50 });
+        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false });
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 100); });
@@ -421,6 +422,26 @@ function rcube_mail_ui()
       rcmail.message_list.scrollto(uid);
 
     rcmail.command('save-pref', { name:'preview_pane', value:(visible?1:0) });
+  }
+
+
+  /**
+   * Switch between short and full headers display in message preview
+   */
+  function toggle_preview_headers(button)
+  {
+    $('#preview-shortheaders').toggle();
+    var full = $('#preview-allheaders').toggle();
+    
+    // add toggle button to full headers table
+    if (!full.data('mod')) {
+      $('<a>').attr('href', '#hide')
+        .addClass('iconlink remove')
+        .html('Hide')
+        .appendTo($('<td>').appendTo($('tr:first', full)))
+        .click(function(){ toggle_preview_headers(this);return false });
+      full.data('mod', true);
+    }
   }
 
 
