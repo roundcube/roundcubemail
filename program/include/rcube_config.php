@@ -254,9 +254,13 @@ class rcube_config
      */
     public function get_timezone()
     {
-      if ($this->get('timezone')) {
-        $tz = new DateTimeZone($this->get('timezone'));
-        return $tz->getOffset(new DateTime('now')) / 3600;
+      if ($tz = $this->get('timezone')) {
+        try {
+          $tz = new DateTimeZone($tz);
+          return $tz->getOffset(new DateTime('now')) / 3600;
+        }
+        catch (Exception $e) {
+        }
       }
 
       return 0;

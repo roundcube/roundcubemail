@@ -1072,7 +1072,7 @@ function format_date($date, $format=NULL, $convert=true)
   try {
     // convert to the right timezone
     $stz = date_default_timezone_get();
-    $tz = new DateTimeZone($convert ? $RCMAIL->config->get('timezones') : 'GMT');
+    $tz = new DateTimeZone($convert ? $RCMAIL->config->get('timezone') : 'GMT');
     $date->setTimezone($tz);
     date_default_timezone_set($tz->getName());
 
