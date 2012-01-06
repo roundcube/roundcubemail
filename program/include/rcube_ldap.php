@@ -107,7 +107,7 @@ class rcube_ldap extends rcube_addressbook
             list($col, $type) = explode(':', $col);
             if (!is_array($this->coltypes[$col])) {
                 $subtypes = $type ? array($type) : null;
-                $this->coltypes[$col] = array('limit' => 2, 'subtypes' => $subtypes);
+                $this->coltypes[$col] = array('limit' => 1, 'subtypes' => $subtypes);
             }
             elseif ($type) {
                 $this->coltypes[$col]['subtypes'][] = $type;
@@ -117,8 +117,15 @@ class rcube_ldap extends rcube_addressbook
                 $this->fieldmap[$col] = $lf;
         }
 
-        if ($this->fieldmap['street'] && $this->fieldmap['locality'])
-            $this->coltypes['address'] = array('limit' => 1);
+        if ($this->fieldmap['street'] && $this->fieldmap['locality']) {
+            $this->coltypes['address'] = array('limit' => max(1, $this->coltypes['locality']['limit']), 'subtypes' => $this->coltypes['locality']['subtypes'], 'childs' => array());
+            foreach (array('street','locality','zipcode','region','country') as $childcol) {
+                if ($this->fieldmap[$childcol]) {
+                    $this->coltypes['address']['childs'][$childcol] = array('type' => 'text');
+                    unset($this->coltypes[$childcol]);  // remove address child col from global coltypes list
+                }
+            }
+        }
         else if ($this->coltypes['address'])
             $this->coltypes['address'] = array('type' => 'textarea', 'childs' => null, 'limit' => 1, 'size' => 40);
 
