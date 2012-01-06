@@ -1066,7 +1066,7 @@ function format_date($date, $format=NULL, $convert=true)
     $date = new DateTime("@".$ts);
   }
   catch (Exception $e) {
-    return 'unknown';
+    return '';
   }
 
   try {
@@ -1886,9 +1886,14 @@ function rcmail_user_date()
   global $RCMAIL;
 
   // get user's timezone
-  $tz = new DateTimeZone($RCMAIL->config->get('timezone'));
+  try {
+    $tz   = new DateTimeZone($RCMAIL->config->get('timezone'));
+    $date = new DateTime('now', $tz);
+  }
+  catch (Exception $e) {
+    $date = new DateTime();
+  }
 
-  $date = new DateTime('now', $tz);
   return $date->format('r');
 }
 
