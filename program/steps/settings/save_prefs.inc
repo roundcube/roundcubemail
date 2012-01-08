@@ -149,17 +149,6 @@ switch ($CURR_SECTION)
     else if ($RCMAIL->config->get('skin') != $a_user_prefs['skin'])
       $OUTPUT->command('reload', 500);
 
-    // force min size
-    if ($a_user_prefs['mail_pagesize'] < 1)
-      $a_user_prefs['mail_pagesize'] = 10;
-    if ($a_user_prefs['addressbook_pagesize'] < 1)
-      $a_user_prefs['addressbook_pagesize'] = 10;
-
-    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['mail_pagesize'] > $CONFIG['max_pagesize']))
-      $a_user_prefs['mail_pagesize'] = (int) $CONFIG['max_pagesize'];
-    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['addressbook_pagesize'] > $CONFIG['max_pagesize']))
-      $a_user_prefs['addressbook_pagesize'] = (int) $CONFIG['max_pagesize'];
-
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 
   break;
@@ -171,6 +160,23 @@ switch ($CURR_SECTION)
       if (!empty($CONFIG['session_lifetime']))
         $a_user_prefs['keep_alive'] = min($CONFIG['session_lifetime']*60, $a_user_prefs['keep_alive']);
     }
+
+    // force min size
+    if ($a_user_prefs['mail_pagesize'] < 1)
+      $a_user_prefs['mail_pagesize'] = 10;
+
+    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['mail_pagesize'] > $CONFIG['max_pagesize']))
+      $a_user_prefs['mail_pagesize'] = (int) $CONFIG['max_pagesize'];
+
+  break;
+  case 'addressbook':
+
+    // force min size
+    if ($a_user_prefs['addressbook_pagesize'] < 1)
+      $a_user_prefs['addressbook_pagesize'] = 10;
+
+    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['addressbook_pagesize'] > $CONFIG['max_pagesize']))
+      $a_user_prefs['addressbook_pagesize'] = (int) $CONFIG['max_pagesize'];
 
   break;
   case 'folders':
