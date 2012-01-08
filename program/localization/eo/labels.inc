@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Kristjan SCHMIDT <Unknown>                                    |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -89,6 +89,7 @@ $labels['longnov'] = 'Novembro';
 $labels['longdec'] = 'Decembro';
 $labels['today'] = 'Hodiaŭ';
 $labels['checkmail'] = 'Kontrolu, ĉu novaj mesaĝoj';
+$labels['compose'] = 'Verku mesaĝon';
 $labels['writenewmessage'] = 'Verku novan mesaĝon';
 $labels['replytomessage'] = 'Respondu al mesaĝo';
 $labels['replytoallmessage'] = 'Respondu al sendinto kaj ĉiu ricevinto';
@@ -119,7 +120,6 @@ $labels['unknown'] = 'nekonata';
 $labels['unlimited'] = 'senlima';
 $labels['quicksearch'] = 'Rapida serĉo';
 $labels['resetsearch'] = 'Vakigu serĉon';
-$labels['compose'] = 'Verku mesaĝon';
 $labels['savemessage'] = 'Savu ĉi tiun malneton';
 $labels['sendmessage'] = 'Sendu mesaĝon';
 $labels['addattachment'] = 'Alfiksu dosieron';
@@ -157,14 +157,14 @@ $labels['addcontact'] = 'Aldonu kontakton';
 $labels['editcontact'] = 'Redaktu kontakton';
 $labels['edit'] = 'Redaktu';
 $labels['cancel'] = 'Rezignu';
-$labels['save'] = 'Savu';
-$labels['delete'] = 'Forigu';
+$labels['save'] = 'Konservi';
+$labels['delete'] = 'Forigi';
 $labels['newcontact'] = 'Kreu novan kontakton';
 $labels['deletecontact'] = 'Forigu elektatajn kontaktojn';
 $labels['composeto'] = 'Verku mesaĝon al';
 $labels['contactsfromto'] = 'Kontaktoj ekde $from ĝis $to de $count';
-$labels['print'] = 'Printu';
-$labels['export'] = 'Eksportu';
+$labels['print'] = 'Presi';
+$labels['export'] = 'Elporti';
 $labels['previouspage'] = 'Montru auntaŭan';
 $labels['firstpage'] = 'Montru unuan';
 $labels['nextpage'] = 'Montru sekvan';

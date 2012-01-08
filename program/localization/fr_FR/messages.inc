@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Nicolas Delvaux <Unknown>                                     |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Ajout des contacts dans le groupe ...';
 $messages['removingmember'] = 'Suppression des contacts du groupe ...';
 $messages['receiptsent'] = 'L\'accusé de réception a bien été envoyé';
 $messages['errorsendingreceipt'] = 'L\'accusé de réception n\'a pas pu être envoyé';
+$messages['deleteidentityconfirm'] = 'Voulez vous vraiment supprimer cette identités ?';
 $messages['nodeletelastidentity'] = 'Vous ne pouvez pas effacer votre seule identité.';
 $messages['forbiddencharacter'] = 'Le nom du dossier contient un caractère interdit';
 $messages['selectimportfile'] = 'Veuillez sélectionner un fichier à envoyer';

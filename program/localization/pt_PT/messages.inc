@@ -106,6 +106,7 @@ $messages['addingmember'] = 'A adicionar contacto(s) ao grupo...';
 $messages['removingmember'] = 'A remover contacto(s) do grupo...';
 $messages['receiptsent'] = 'Recibo de leitura enviado com sucesso';
 $messages['errorsendingreceipt'] = 'Não foi possível enviar o recibo';
+$messages['deleteidentityconfirm'] = 'Pretende realmente eliminar esta identidade?';
 $messages['nodeletelastidentity'] = 'Esta é a sua última identidade, não é possível eliminá-la.';
 $messages['forbiddencharacter'] = 'O nome da pasta contém um caractere inválido';
 $messages['selectimportfile'] = 'Por favor, seleccione um ficheiro para enviar.';

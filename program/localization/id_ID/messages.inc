@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Putu Arya Sabda Wijaya <Unknown>                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Menambahkan kontak ke grup...';
 $messages['removingmember'] = 'Menyingkirkan kontak dari grup...';
 $messages['receiptsent'] = 'Berhasil mengirim pemberitahuan tanda terima telah terbaca';
 $messages['errorsendingreceipt'] = 'Tidak dapat mengirim tanda terima';
+$messages['deleteidentityconfirm'] = 'Yakin untuk menghapus identitas ini?';
 $messages['nodeletelastidentity'] = 'Anda tidak bida mengapus identitas ini, ini identitas yang terakhir';
 $messages['forbiddencharacter'] = 'Nama folder mengandung karakter terlarang';
 $messages['selectimportfile'] = 'Mohon pilih sebuah berkas untuk diunggah';

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: emilio brambilla <Unknown>                                    |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Aggiunta contatto al gruppo...';
 $messages['removingmember'] = 'Rimozione contatto dal gruppo...';
 $messages['receiptsent'] = 'Ricevuta di ritorno inviata con successo';
 $messages['errorsendingreceipt'] = 'Impossibile spedire la ricevuta di ritorno';
+$messages['deleteidentityconfirm'] = 'sei sicuro di voler cancellare questo profilo?';
 $messages['nodeletelastidentity'] = 'Impossibile eliminare l\'unica identità disponibile';
 $messages['forbiddencharacter'] = 'Il nome della cartella contiene un carattere vietato';
 $messages['selectimportfile'] = 'Per favore, seleziona il file da caricare';

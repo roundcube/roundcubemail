@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: akn <Unknown>                                                 |
+ | Author: Daniel Winzen <d@winzen4.de>                                  |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Füge Kontakte der Gruppe hinzu...';
 $messages['removingmember'] = 'Entferne Kontakte von der Gruppe...';
 $messages['receiptsent'] = 'Lesebestätigung erfolgreich gesendet.';
 $messages['errorsendingreceipt'] = 'Bestätigung konnte nicht gesendet werden.';
+$messages['deleteidentityconfirm'] = 'Möchten Sie wirklich diese Identität löschen?';
 $messages['nodeletelastidentity'] = 'Diese Identität kann nicht gelöscht werden, da dies die letzte ist.';
 $messages['forbiddencharacter'] = 'Der Ordnername enthält ein ungültiges Zeichen.';
 $messages['selectimportfile'] = 'Bitte wählen Sie eine Datei zum Importieren aus.';

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Justin van Beusekom <Unknown>                                 |
+ | Author: Geert Wirken <Unknown>                                        |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -47,7 +47,7 @@ $messages['nocontactsfound'] = 'Geen contactpersonen gevonden.';
 $messages['contactnotfound'] = 'Contactpersoon niet gevonden.';
 $messages['contactsearchonly'] = 'Voer enkele zoektermen in om contactpersonen te zoeken';
 $messages['sendingfailed'] = 'Verzenden van bericht is mislukt.';
-$messages['senttooquickly'] = 'U moet $sec seconde(n) wachten om het bericht te versturen.';
+$messages['senttooquickly'] = 'Wacht alstublieft $sec seconde(n) voordat u dit bericht verstuurt.';
 $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan van het verzonden bericht.';
 $messages['errorsaving'] = 'Er is een fout opgetreden tijdens het opslaan.';
 $messages['errormoving'] = 'Kan bericht(en) niet verplaatsen.';
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Contactpersonen worden toegevoegd aan de groep...';
 $messages['removingmember'] = 'Contactpersonen worden verwijderd uit de groep...';
 $messages['receiptsent'] = 'Ontvangstbevestiging is verstuurd.';
 $messages['errorsendingreceipt'] = 'Kan de ontvangstbevestiging niet versturen.';
+$messages['deleteidentityconfirm'] = 'Weet u zeker dat u deze identiteit wilt verwijderen?';
 $messages['nodeletelastidentity'] = 'U kunt uw enige identiteit niet verwijderen.';
 $messages['forbiddencharacter'] = 'De naam van de map bevat een karakter dat niet is toegestaan.';
 $messages['selectimportfile'] = 'Selecteer een bestand om de uploaden.';
@@ -118,7 +119,7 @@ $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol ge√
 $messages['importconfirmskipped'] = '<b>$skipped bestaande contactpersonen overgeslagen</b>';
 $messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';
 $messages['nofromaddress'] = 'Het e-mailadres mist in de geselecteerde identiteit.';
-$messages['editorwarning'] = 'Door het overschakelen naar de platte tekst editor gaat alle opmaak verloren. Weet je zeker dat je verder wil gaan?';
+$messages['editorwarning'] = 'Door het overschakelen naar de platte tekst editor gaat alle opmaak verloren. Weet u zeker dat u verder wilt gaan?';
 $messages['httpreceivedencrypterror'] = 'Er is een fatale fout opgetreden. Neem direct contact op met uw systeembeheerder. <b>Uw bericht kon niet worden verzonden.</b>';
 $messages['smtpconnerror'] = 'SMTP Fout ($code): Verbinding met server mislukt.';
 $messages['smtpautherror'] = 'SMTP Fout ($code): Autenticatie mislukt.';

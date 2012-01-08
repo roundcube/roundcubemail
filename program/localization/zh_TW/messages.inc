@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Nansen <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = '新增連絡人至群組';
 $messages['removingmember'] = '從群組刪除連絡人';
 $messages['receiptsent'] = '閱讀回條傳送成功';
 $messages['errorsendingreceipt'] = '無法傳送回條';
+$messages['deleteidentityconfirm'] = '您確定要刪除這位連絡人嗎?';
 $messages['nodeletelastidentity'] = '你不能刪除此身份，因為只剩一個身份。';
 $messages['forbiddencharacter'] = '資料夾名稱中包含非法的字元';
 $messages['selectimportfile'] = '請選擇一個上傳的檔案';

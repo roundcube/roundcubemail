@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: simone <Unknown>                                              |
+ | Author: emilio brambilla <Unknown>                                    |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Cartelle';
 $labels['messagesfromto'] = 'Messaggi da $from a $to di $count';
 $labels['threadsfromto'] = 'Thread da $from a $to di $count';
 $labels['messagenrof'] = 'Messaggio $nr di $count';
+$labels['fromtoshort'] = '$from – $to di $count';
 $labels['copy'] = 'Copia';
 $labels['move'] = 'Sposta';
 $labels['moveto'] = 'Sposta in...';
@@ -92,12 +93,16 @@ $labels['longoct'] = 'Ottobre';
 $labels['longnov'] = 'Novembre';
 $labels['longdec'] = 'Dicembre';
 $labels['today'] = 'Oggi';
+$labels['refresh'] = 'Aggiorna';
 $labels['checkmail'] = 'Controlla nuovi messaggi';
+$labels['compose'] = 'Scrivi un messaggio';
 $labels['writenewmessage'] = 'Scrivi un nuovo messaggio';
+$labels['reply'] = 'Rispondi';
 $labels['replytomessage'] = 'Rispondi al mittente';
 $labels['replytoallmessage'] = 'Rispondi al mittente e ai destinatari';
 $labels['replyall'] = 'Rispondi a tutti';
 $labels['replylist'] = 'Rispondi alla mailing list';
+$labels['forward'] = 'Inoltra';
 $labels['forwardinline'] = 'Inoltra come messaggio';
 $labels['forwardattachment'] = 'Inoltre come allegato';
 $labels['forwardmessage'] = 'Inoltra il messaggio';
@@ -110,12 +115,16 @@ $labels['nextmessage'] = 'Visualizza il messaggio successivo';
 $labels['lastmessage'] = 'Visualizza l\'ultimo messaggio';
 $labels['backtolist'] = 'Torna alla lista messaggi';
 $labels['viewsource'] = 'Visualizza sorgente messaggio';
+$labels['mark'] = 'Contrassegna';
 $labels['markmessages'] = 'Marca i messaggi';
 $labels['markread'] = 'Letti';
 $labels['markunread'] = 'Non letti';
 $labels['markflagged'] = 'Contrassegnato';
 $labels['markunflagged'] = 'Non contrassegnato';
 $labels['moreactions'] = 'Altre operazioni...';
+$labels['more'] = 'Di più';
+$labels['back'] = 'Indietro';
+$labels['options'] = 'Opzioni';
 $labels['select'] = 'Seleziona';
 $labels['all'] = 'Tutti';
 $labels['none'] = 'Nessuno';
@@ -159,7 +168,6 @@ $labels['searchmod'] = 'Ambito di ricerca';
 $labels['msgtext'] = 'Intero messaggio';
 $labels['openinextwin'] = 'Apri in una nuova finestra';
 $labels['emlsave'] = 'Scarica (.eml)';
-$labels['compose'] = 'Scrivi un messaggio';
 $labels['editasnew'] = 'Modifica come nuovo';
 $labels['savemessage'] = 'Salva come bozza';
 $labels['sendmessage'] = 'Invia il messaggio adesso';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Notifica di consegna';
 $labels['mailreplyintro'] = 'Il $date $sender ha scritto:';
 $labels['originalmessage'] = 'Messaggio originale';
 $labels['editidents'] = 'Modifica identità';
+$labels['spellcheck'] = 'Controllo ortografico';
 $labels['checkspelling'] = 'Controlla ortografia';
 $labels['resumeediting'] = 'Torna al messaggio';
 $labels['revertto'] = 'Ripristina';
+$labels['attach'] = 'Allega';
 $labels['attachments'] = 'Allegati';
 $labels['upload'] = 'Aggiungi';
 $labels['uploadprogress'] = '$percent ($current di $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Coniuge';
 $labels['allfields'] = 'Tutti i campi';
 $labels['search'] = 'Ricerca';
 $labels['advsearch'] = 'Ricerca avanzata';
+$labels['advanced'] = 'Opzioni avanzate';
 $labels['other'] = 'Altro';
 $labels['typeother'] = 'Altro';
 $labels['typehome'] = 'Casa';

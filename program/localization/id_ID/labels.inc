@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Putu Arya Sabda Wijaya <Unknown>                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Semua Folder';
 $labels['messagesfromto'] = 'Pesan ke $from sampai $to dari $count';
 $labels['threadsfromto'] = 'Untaian ke $from sampai $to dari $count';
 $labels['messagenrof'] = 'Pesan $nr sebanyak $count';
+$labels['fromtoshort'] = '$from - $to dari $count';
 $labels['copy'] = 'Salin';
 $labels['move'] = 'Pindahkan';
 $labels['moveto'] = 'Pindahkan ke...';
@@ -92,12 +93,16 @@ $labels['longoct'] = 'Oktober';
 $labels['longnov'] = 'November';
 $labels['longdec'] = 'Desember';
 $labels['today'] = 'Hari ini';
+$labels['refresh'] = 'Segarkan';
 $labels['checkmail'] = 'Periksa pesan baru';
+$labels['compose'] = 'Tulis sebuah pesan';
 $labels['writenewmessage'] = 'Buat pesan baru';
+$labels['reply'] = 'Balas';
 $labels['replytomessage'] = 'Balas pesan';
 $labels['replytoallmessage'] = 'Balas ke pengirim dan yang lain';
 $labels['replyall'] = 'Balas ke semua';
 $labels['replylist'] = 'Balas ke milis';
+$labels['forward'] = 'Teruskan';
 $labels['forwardinline'] = 'Teruskan bersama surat';
 $labels['forwardattachment'] = 'Teruskan sebagai sisipan';
 $labels['forwardmessage'] = 'Teruskan pesan';
@@ -110,12 +115,16 @@ $labels['nextmessage'] = 'Perlihatkan pesan berikutnya';
 $labels['lastmessage'] = 'Perlihatkan pesan terakhir';
 $labels['backtolist'] = 'Kembali ke daftar pesan';
 $labels['viewsource'] = 'Perlihatkan kode sumber';
+$labels['mark'] = 'Tandai';
 $labels['markmessages'] = 'Tandai Pesan';
 $labels['markread'] = 'Terbaca';
 $labels['markunread'] = 'Belum Terbaca';
 $labels['markflagged'] = 'Sudah ditandai';
 $labels['markunflagged'] = 'Belum ditandai';
 $labels['moreactions'] = 'Tindakan lain..';
+$labels['more'] = 'Selebihnya';
+$labels['back'] = 'Kembali';
+$labels['options'] = 'Pilihan';
 $labels['select'] = 'Pilih';
 $labels['all'] = 'Semua';
 $labels['none'] = 'Tidak ada';
@@ -159,7 +168,6 @@ $labels['searchmod'] = 'Peubah pencarian';
 $labels['msgtext'] = 'Seluruh pesan';
 $labels['openinextwin'] = 'Buka dalam jendela baru';
 $labels['emlsave'] = 'Unduh (.eml)';
-$labels['compose'] = 'Tulis sebuah pesan';
 $labels['editasnew'] = 'Sunting sebagai pesan baru';
 $labels['savemessage'] = 'Simpan konsep surat  ini';
 $labels['sendmessage'] = 'Kirim pesan sekarang';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Pemberitahuan status terkirim';
 $labels['mailreplyintro'] = 'Pada $date, $sender menulis:';
 $labels['originalmessage'] = 'Pesan Sebenarnya';
 $labels['editidents'] = 'Ubah identitas';
+$labels['spellcheck'] = 'Ejaan';
 $labels['checkspelling'] = 'Pemeriksaan ejaan';
 $labels['resumeediting'] = 'Lanjutkan menyunting';
 $labels['revertto'] = 'Balikkan ke';
+$labels['attach'] = 'Lampirkan';
 $labels['attachments'] = 'Sisipan';
 $labels['upload'] = 'Unggah';
 $labels['uploadprogress'] = '$percent ($current dari $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Suami/Istri';
 $labels['allfields'] = 'Semua isian';
 $labels['search'] = 'Cari';
 $labels['advsearch'] = 'Pencarian Lebih Lanjut';
+$labels['advanced'] = 'Tingkat lanjut';
 $labels['other'] = 'Lainnya';
 $labels['typeother'] = 'Lainnya';
 $labels['typehome'] = 'Rumah';

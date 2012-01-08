@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: pek <Unknown>                                                 |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -93,6 +93,7 @@ $labels['longnov'] = 'Listopad';
 $labels['longdec'] = 'Prosinec';
 $labels['today'] = 'Dnes';
 $labels['checkmail'] = 'Zkontrolovat nové zprávy';
+$labels['compose'] = 'Napsat zprávu';
 $labels['writenewmessage'] = 'Vytvořit novou zprávu';
 $labels['replytomessage'] = 'Odpovědět odesílateli';
 $labels['replytoallmessage'] = 'Odpovědět všem';
@@ -159,7 +160,6 @@ $labels['searchmod'] = 'Parametry hledání';
 $labels['msgtext'] = 'Celá zpráva';
 $labels['openinextwin'] = 'Otevřít v novém okně';
 $labels['emlsave'] = 'Stáhnout (.eml)';
-$labels['compose'] = 'Napsat zprávu';
 $labels['editasnew'] = 'Upravit jako novou';
 $labels['savemessage'] = 'Uložit do rozepsaných';
 $labels['sendmessage'] = 'Odeslat zprávu nyní';

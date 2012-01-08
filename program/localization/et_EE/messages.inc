@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: yllar <Unknown>                                               |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Kontakti(de) gruppi lisamine…';
 $messages['removingmember'] = 'Kontakti(de) grupist eemaldamine…';
 $messages['receiptsent'] = 'Kättesaamiskinnitus saadetud';
 $messages['errorsendingreceipt'] = 'Ei õnnestunud kättesaamiskinnitust saata';
+$messages['deleteidentityconfirm'] = 'Soovid selle identiteedi kustutada?';
 $messages['nodeletelastidentity'] = 'See identiteet on viimane ja seda ei saa kustutada.';
 $messages['forbiddencharacter'] = 'Kausta nimi sisaldab keelatud sümbolit';
 $messages['selectimportfile'] = 'Palun vali üleslaadimiseks fail';

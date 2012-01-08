@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Daniel Winzen <d@winzen4.de>                                  |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Ordner';
 $labels['messagesfromto'] = 'Nachrichten $from bis $to von $count';
 $labels['threadsfromto'] = 'Konversationen $from bis $to von $count';
 $labels['messagenrof'] = 'Nachricht $nr von $count';
+$labels['fromtoshort'] = '$from – $to von $count';
 $labels['copy'] = 'Kopieren';
 $labels['move'] = 'Verschieben';
 $labels['moveto'] = 'Verschieben nach...';
@@ -92,12 +93,16 @@ $labels['longoct'] = 'Oktober';
 $labels['longnov'] = 'November';
 $labels['longdec'] = 'Dezember';
 $labels['today'] = 'Heute';
+$labels['refresh'] = 'Aktualisieren';
 $labels['checkmail'] = 'Auf neue Nachrichten überprüfen';
+$labels['compose'] = 'Schreiben';
 $labels['writenewmessage'] = 'Neue Nachricht schreiben';
+$labels['reply'] = 'Antworten';
 $labels['replytomessage'] = 'Antwort verfassen';
 $labels['replytoallmessage'] = 'Antwort an Mailingliste oder an Absender und alle Empfänger verfassen';
 $labels['replyall'] = 'Allen antworten';
 $labels['replylist'] = 'Liste antworten';
+$labels['forward'] = 'Weiterleiten';
 $labels['forwardinline'] = 'innerhalb der Nachricht';
 $labels['forwardattachment'] = 'als Dateianhang';
 $labels['forwardmessage'] = 'Nachricht weiterleiten';
@@ -110,12 +115,16 @@ $labels['nextmessage'] = 'Nächste Nachricht anzeigen';
 $labels['lastmessage'] = 'Die letzte Nachricht anzeigen';
 $labels['backtolist'] = 'Zurück zur Liste';
 $labels['viewsource'] = 'Quelltext anzeigen';
+$labels['mark'] = 'Markieren';
 $labels['markmessages'] = 'Nachrichten markieren';
 $labels['markread'] = 'Als gelesen';
 $labels['markunread'] = 'Als ungelesen';
 $labels['markflagged'] = 'Stern hinzufügen';
 $labels['markunflagged'] = 'Stern entfernen';
 $labels['moreactions'] = 'Mehr...';
+$labels['more'] = 'Mehr';
+$labels['back'] = 'Zurück';
+$labels['options'] = 'Optionen';
 $labels['select'] = 'Auswahl';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Keine';
@@ -159,7 +168,6 @@ $labels['searchmod'] = 'Suchkriterien ändern';
 $labels['msgtext'] = 'Nachricht';
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Lokal speichern (.eml)';
-$labels['compose'] = 'Neue Nachricht verfassen';
 $labels['editasnew'] = 'Als neue Nachricht öffnen';
 $labels['savemessage'] = 'Nachricht speichern';
 $labels['sendmessage'] = 'Nachricht jetzt senden';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Übermittlungsbestätigung (DSN)';
 $labels['mailreplyintro'] = 'Am $date, schrieb $sender:';
 $labels['originalmessage'] = 'Originalnachricht';
 $labels['editidents'] = 'Absender ändern';
+$labels['spellcheck'] = 'Rechtschreibung';
 $labels['checkspelling'] = 'Rechtschreibung prüfen';
 $labels['resumeediting'] = 'Bearbeitung fortsetzen';
 $labels['revertto'] = 'Zurück zu';
+$labels['attach'] = 'Anhängen';
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
 $labels['uploadprogress'] = '$percent ($current von $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Partner/in';
 $labels['allfields'] = 'Alle Felder';
 $labels['search'] = 'Suche';
 $labels['advsearch'] = 'Detaillierte Suche';
+$labels['advanced'] = 'Erweitert';
 $labels['other'] = 'Andere';
 $labels['typeother'] = 'Andere';
 $labels['typehome'] = 'Privat';
@@ -258,7 +269,7 @@ $labels['edit'] = 'Bearbeiten';
 $labels['cancel'] = 'Abbrechen';
 $labels['save'] = 'Speichern';
 $labels['delete'] = 'Löschen';
-$labels['rename'] = 'umbenennen';
+$labels['rename'] = 'Umbenennen';
 $labels['addphoto'] = 'Kontaktbild hinzufügen';
 $labels['replacephoto'] = 'Bild ändern';
 $labels['newcontact'] = 'Neuen Kontakt erstellen';

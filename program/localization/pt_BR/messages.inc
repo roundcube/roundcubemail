@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Adicionando contato(s) para o grupo...';
 $messages['removingmember'] = 'Removendo contato(s) do grupo...';
 $messages['receiptsent'] = 'Confirmação de recebimento enviada com sucesso';
 $messages['errorsendingreceipt'] = 'Não foi possível enviar a confirmação de recebimento';
+$messages['deleteidentityconfirm'] = 'Você realmente deseja excluir esta identidade?';
 $messages['nodeletelastidentity'] = 'Você não pode excluir sua única identidade';
 $messages['forbiddencharacter'] = 'O nome da pasta contém um caractere não permitido';
 $messages['selectimportfile'] = 'Selecione o arquivo para envio';

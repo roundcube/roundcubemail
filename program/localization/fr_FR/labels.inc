@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Edouard Moreau <Unknown>                                      |
+ | Author: Nicolas Delvaux <Unknown>                                     |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Dossiers';
 $labels['messagesfromto'] = 'Messages de $from à $to sur $count';
 $labels['threadsfromto'] = 'Fil de $from à $to sur $count';
 $labels['messagenrof'] = 'Message $nr sur $count';
+$labels['fromtoshort'] = '$from – $to de $count';
 $labels['copy'] = 'Copier';
 $labels['move'] = 'Déplacer';
 $labels['moveto'] = 'Déplacer vers...';
@@ -92,12 +93,16 @@ $labels['longoct'] = 'Octobre';
 $labels['longnov'] = 'Novembre';
 $labels['longdec'] = 'Décembre';
 $labels['today'] = 'Aujourd\'hui';
+$labels['refresh'] = 'Actualiser';
 $labels['checkmail'] = 'Vérification des nouveaux messages';
+$labels['compose'] = 'Composer un nouveau message';
 $labels['writenewmessage'] = 'Écrire un nouveau message';
+$labels['reply'] = 'Répondre';
 $labels['replytomessage'] = 'Répondre au message';
 $labels['replytoallmessage'] = 'Répondre à tous';
 $labels['replyall'] = 'Répondre à tous';
 $labels['replylist'] = 'Répondre à la liste';
+$labels['forward'] = 'Transférer';
 $labels['forwardinline'] = 'Transférer dans le corps du message';
 $labels['forwardattachment'] = 'Transférer en pièce-jointe';
 $labels['forwardmessage'] = 'Transmettre le message';
@@ -110,12 +115,16 @@ $labels['nextmessage'] = 'Voir le message suivant';
 $labels['lastmessage'] = 'Voir le dernier message';
 $labels['backtolist'] = 'Retourner à la liste des messages';
 $labels['viewsource'] = 'Voir le source';
+$labels['mark'] = 'Marquer';
 $labels['markmessages'] = 'Marquer les messages';
 $labels['markread'] = 'Comme lus';
 $labels['markunread'] = 'Comme non lus';
 $labels['markflagged'] = 'Comme suivi';
 $labels['markunflagged'] = 'Comme non-suivi';
 $labels['moreactions'] = 'Plus d\'actions...';
+$labels['more'] = 'Plus';
+$labels['back'] = 'Retour';
+$labels['options'] = 'Paramètres';
 $labels['select'] = 'Sélectionner';
 $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';
@@ -159,7 +168,6 @@ $labels['searchmod'] = 'Portée de la recherche';
 $labels['msgtext'] = 'Message entier';
 $labels['openinextwin'] = 'Ouvrir dans une nouvelle fenêtre';
 $labels['emlsave'] = 'Télécharger (.eml)';
-$labels['compose'] = 'Composer un nouveau message';
 $labels['editasnew'] = 'Éditer en tant que nouveau message';
 $labels['savemessage'] = 'Enregistrer ce brouillon';
 $labels['sendmessage'] = 'Envoyer le message maintenant';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Notification d\'état de distribution';
 $labels['mailreplyintro'] = 'Le $date, $sender a écrit :';
 $labels['originalmessage'] = 'Message original';
 $labels['editidents'] = 'Modifier les identités';
+$labels['spellcheck'] = 'Vérifier l\'orthographe';
 $labels['checkspelling'] = 'Vérifier l\'orthographe';
 $labels['resumeediting'] = 'Retourner à l\'édition';
 $labels['revertto'] = 'Revenir à';
+$labels['attach'] = 'Joindre';
 $labels['attachments'] = 'Fichiers joints';
 $labels['upload'] = 'Joindre';
 $labels['uploadprogress'] = '$percent ($current sur $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Épouse';
 $labels['allfields'] = 'Tous les champs';
 $labels['search'] = 'Rechercher';
 $labels['advsearch'] = 'Recherche avancée';
+$labels['advanced'] = 'Détails';
 $labels['other'] = 'Autre';
 $labels['typeother'] = 'Autre';
 $labels['typehome'] = 'Domicile';

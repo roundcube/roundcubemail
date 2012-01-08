@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul <Unknown>                                      |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -93,6 +93,7 @@ $labels['longnov'] = 'Kasım';
 $labels['longdec'] = 'Aralık';
 $labels['today'] = 'Bugün';
 $labels['checkmail'] = 'Yeni postaları kontrol et';
+$labels['compose'] = 'Yeni posta oluştur';
 $labels['writenewmessage'] = 'Yeni posta oluştur';
 $labels['replytomessage'] = 'Gönderene yanıtla';
 $labels['replytoallmessage'] = 'Gönderene ve tüm alıcılara yanıtla';
@@ -159,7 +160,6 @@ $labels['searchmod'] = 'Arama detayları';
 $labels['msgtext'] = 'Tüm posta gövdesi';
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
-$labels['compose'] = 'Yeni posta oluştur';
 $labels['editasnew'] = 'Postayı yeni olarak düzenle';
 $labels['savemessage'] = 'Taslak olarak kaydet';
 $labels['sendmessage'] = 'Postayı gönder';

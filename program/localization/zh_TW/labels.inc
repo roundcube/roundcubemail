@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Nansen <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -92,12 +92,16 @@ $labels['longoct'] = '十月';
 $labels['longnov'] = '十一月';
 $labels['longdec'] = '十二月';
 $labels['today'] = '今日';
+$labels['refresh'] = '重新整理';
 $labels['checkmail'] = '檢查新郵件';
+$labels['compose'] = '撰寫新郵件';
 $labels['writenewmessage'] = '撰寫新郵件';
+$labels['reply'] = '回覆';
 $labels['replytomessage'] = '回覆';
 $labels['replytoallmessage'] = '全部回覆';
 $labels['replyall'] = '全部回覆';
 $labels['replylist'] = '清單回覆';
+$labels['forward'] = '轉寄';
 $labels['forwardinline'] = '轉寄';
 $labels['forwardattachment'] = '以附件方式轉寄';
 $labels['forwardmessage'] = '轉寄';
@@ -110,12 +114,16 @@ $labels['nextmessage'] = '顯示下一封郵件';
 $labels['lastmessage'] = '顯示最後一封郵件';
 $labels['backtolist'] = '回到郵件清單';
 $labels['viewsource'] = '顯示原始郵件';
+$labels['mark'] = '標記';
 $labels['markmessages'] = '標記選取的郵件為';
 $labels['markread'] = '標示為已讀取';
 $labels['markunread'] = '標示為未讀取';
 $labels['markflagged'] = '標上旗標';
 $labels['markunflagged'] = '移除旗標';
 $labels['moreactions'] = '資料夾動做...';
+$labels['more'] = '更多';
+$labels['back'] = '上一頁';
+$labels['options'] = '選項';
 $labels['select'] = '選取';
 $labels['all'] = '全部郵件';
 $labels['none'] = '無';
@@ -159,7 +167,6 @@ $labels['searchmod'] = '修改搜尋';
 $labels['msgtext'] = '整封郵件';
 $labels['openinextwin'] = '在新視窗開啟';
 $labels['emlsave'] = '下載（.eml）';
-$labels['compose'] = '撰寫新郵件';
 $labels['editasnew'] = '已新郵件編輯';
 $labels['savemessage'] = '儲存成草稿';
 $labels['sendmessage'] = '立即寄出';
@@ -174,6 +181,7 @@ $labels['editidents'] = '編輯身份資訊';
 $labels['checkspelling'] = '拼字檢查';
 $labels['resumeediting'] = '繼續編輯';
 $labels['revertto'] = '恢復至';
+$labels['attach'] = '附件';
 $labels['attachments'] = '附加檔案';
 $labels['upload'] = '上傳';
 $labels['close'] = '關閉';
@@ -233,6 +241,7 @@ $labels['spouse'] = '配偶';
 $labels['allfields'] = '所有欄位';
 $labels['search'] = '搜尋';
 $labels['advsearch'] = '進階搜尋';
+$labels['advanced'] = '進階設定';
 $labels['other'] = '其他';
 $labels['typeother'] = '其他';
 $labels['typehome'] = '住家';
@@ -374,6 +383,10 @@ $labels['replysamefolder'] = '將回覆與回覆信件放置於相同資料夾';
 $labels['defaultaddressbook'] = '新增連絡人至指定通訊錄';
 $labels['spellcheckbeforesend'] = '寄送前執行拼字檢查';
 $labels['spellcheckoptions'] = '拼字檢查選項';
+$labels['spellcheckignoresyms'] = '忽略符號';
+$labels['spellcheckignorenums'] = '忽略數字';
+$labels['spellcheckignorecaps'] = '忽略大寫字母';
+$labels['addtodict'] = '加入詞典';
 $labels['folder'] = '資料夾';
 $labels['foldername'] = '資料夾名稱';
 $labels['subscribed'] = '顯示';

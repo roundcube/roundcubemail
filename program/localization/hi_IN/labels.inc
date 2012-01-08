@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Vibhav Pant <vibhavp@gmail.com>                               |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -35,6 +35,7 @@ $labels['to'] = 'पाने वाला';
 $labels['cc'] = 'कार्बन';
 $labels['bcc'] = 'अंधा कार्बन';
 $labels['replyto'] = 'जवाब यहाँ';
+$labels['followupto'] = 'को- फॉलोअप';
 $labels['date'] = 'तारीख';
 $labels['size'] = 'माप';
 $labels['priority'] = 'मेल की महत्वपूर्णता';
@@ -44,6 +45,7 @@ $labels['folders'] = 'फ़ोल्डर';
 $labels['messagesfromto'] = '$from से ले कर $to, $count मेल में से';
 $labels['messagenrof'] = '$nr नम्बर मेल, $count में से';
 $labels['copy'] = 'कार्बन';
+$labels['move'] = 'स्थानांतरित करें';
 $labels['moveto'] = 'खीस्काऐं...';
 $labels['download'] = 'डाऊनलोड';
 $labels['filename'] = 'फ़ाईल नाम';
@@ -63,11 +65,34 @@ $labels['wednesday'] = 'बुधवार';
 $labels['thursday'] = 'गुरुवार';
 $labels['friday'] = 'शुक्रवार';
 $labels['saturday'] = 'शनिवार';
+$labels['jan'] = 'जनवरी';
+$labels['feb'] = 'फ़रवरी';
+$labels['mar'] = 'मार्च';
+$labels['apr'] = 'अप्रेल';
+$labels['may'] = 'मई';
+$labels['longmay'] = 'मई';
+$labels['jun'] = 'जून';
+$labels['jul'] = 'जुलाई';
+$labels['longjan'] = 'जनवरी';
+$labels['longfeb'] = 'फ़रवरी';
+$labels['longmar'] = 'मार्च';
+$labels['longapr'] = 'अप्रैल';
+$labels['longjun'] = 'जून';
+$labels['longjul'] = 'जुलाई';
+$labels['longaug'] = 'अगस्त';
+$labels['longsep'] = 'सितंबर';
+$labels['longoct'] = 'अक्टूबर';
+$labels['longnov'] = 'नवम्बर';
+$labels['longdec'] = 'दिसंबर';
 $labels['today'] = 'आज';
+$labels['refresh'] = 'ताज़ा करें';
 $labels['checkmail'] = 'नये मेल लाऐं';
+$labels['compose'] = 'मेल लिखें';
 $labels['writenewmessage'] = 'मेल लिखें';
+$labels['reply'] = 'जवाब';
 $labels['replytomessage'] = 'मेल का जवाब दें';
 $labels['replytoallmessage'] = 'सभी को जवाब लिखें';
+$labels['forward'] = 'अग्रेषित करें';
 $labels['forwardmessage'] = 'आगे भेजें';
 $labels['deletemessage'] = 'रद्द करें';
 $labels['printmessage'] = 'मेल छापें';
@@ -77,6 +102,7 @@ $labels['nextmessage'] = 'अगला मेल दिखाऐं';
 $labels['lastmessage'] = 'आखीरी मेल दिखाऐं';
 $labels['backtolist'] = 'मेल सूची देखें';
 $labels['viewsource'] = 'सोर्स दिखाऐं';
+$labels['mark'] = 'चिह्नित';
 $labels['select'] = 'चुनें';
 $labels['all'] = 'सभी';
 $labels['none'] = 'कोई नहीं';
@@ -89,7 +115,6 @@ $labels['unknown'] = 'अज्ञात';
 $labels['unlimited'] = 'असीम';
 $labels['quicksearch'] = 'तेज़ खोज';
 $labels['resetsearch'] = 'खोज खाली करें';
-$labels['compose'] = 'मेल लिखें';
 $labels['savemessage'] = 'ड्राफ़ट सहेजें';
 $labels['sendmessage'] = 'मेल भेजें';
 $labels['addattachment'] = 'फ़ाईल जोडें';

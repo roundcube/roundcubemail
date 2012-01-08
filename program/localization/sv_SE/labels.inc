@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jonas Nasholm <Unknown>                                       |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -93,6 +93,7 @@ $labels['longnov'] = 'November';
 $labels['longdec'] = 'December';
 $labels['today'] = 'Idag';
 $labels['checkmail'] = 'Hämta nya meddelanden';
+$labels['compose'] = 'Nytt meddelande';
 $labels['writenewmessage'] = 'Nytt meddelande';
 $labels['replytomessage'] = 'Svara avsändaren';
 $labels['replytoallmessage'] = 'Svara avsändaren och alla mottagare';
@@ -159,7 +160,6 @@ $labels['searchmod'] = 'Sökalternativ';
 $labels['msgtext'] = 'Hela meddelandet';
 $labels['openinextwin'] = 'Öppna i nytt fönster';
 $labels['emlsave'] = 'Spara (.eml)';
-$labels['compose'] = 'Nytt meddelande';
 $labels['editasnew'] = 'Redigera som nytt';
 $labels['savemessage'] = 'Spara utkast';
 $labels['sendmessage'] = 'Skicka meddelande';

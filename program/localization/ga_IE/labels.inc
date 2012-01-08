@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Stephen Ryan <Unknown>                                        |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -88,6 +88,7 @@ $labels['longnov'] = 'Samhain';
 $labels['longdec'] = 'Nollag';
 $labels['today'] = 'Inniu';
 $labels['checkmail'] = 'Seiceáil chun teachtaireacht nua';
+$labels['compose'] = 'Scríobh teachtaireacht';
 $labels['writenewmessage'] = 'Scríobh teachtaireacht nua';
 $labels['replytomessage'] = 'Scríobh freagra chun an seolaí';
 $labels['replytoallmessage'] = 'Scríobh freagra chun an seolaí agus na faighteoir';
@@ -113,7 +114,6 @@ $labels['unknown'] = 'gan aithne';
 $labels['unlimited'] = 'gan teorainn';
 $labels['quicksearch'] = 'Mearcuardaigh';
 $labels['resetsearch'] = 'Athshocraigh an cuardach';
-$labels['compose'] = 'Scríobh teachtaireacht';
 $labels['savemessage'] = 'Sábháil an dréachta seo';
 $labels['sendmessage'] = 'Seol mo teachtaireacht láithreach bonn';
 $labels['addattachment'] = 'Suimigh Iatán';

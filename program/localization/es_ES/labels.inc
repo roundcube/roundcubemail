@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David Marzal <Unknown>                                        |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -93,6 +93,7 @@ $labels['longnov'] = 'Noviembre';
 $labels['longdec'] = 'Diciembre';
 $labels['today'] = 'Hoy';
 $labels['checkmail'] = 'Revisar si hay nuevos mensajes';
+$labels['compose'] = 'Escribir un mensaje';
 $labels['writenewmessage'] = 'Crear nuevo mensaje';
 $labels['replytomessage'] = 'Responder mensaje';
 $labels['replytoallmessage'] = 'Responder al emisor y a todos los destinatarios';
@@ -159,7 +160,6 @@ $labels['searchmod'] = 'Opciones de búsqueda';
 $labels['msgtext'] = 'Mensaje completo';
 $labels['openinextwin'] = 'Abrir en nueva ventana';
 $labels['emlsave'] = 'Descargar (.eml)';
-$labels['compose'] = 'Escribir un mensaje';
 $labels['editasnew'] = 'Editar como nuevo';
 $labels['savemessage'] = 'Guardar como borrador';
 $labels['sendmessage'] = 'Enviar ahora el mensaje';
