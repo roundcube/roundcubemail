@@ -1,7 +1,20 @@
 <?php
 
-//  EN-Revision: 3891
+/*
+ +-----------------------------------------------------------------------+
+ | localization/ja_JP/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
 
+$labels = array();
 $labels['filters'] = 'フィルター';
 $labels['managefilters'] = '受信メールのフィルターの管理';
 $labels['filtername'] = 'フィルターの名前';
@@ -19,6 +32,10 @@ $labels['filteris'] = '次と一致する';
 $labels['filterisnot'] = '次と一致しない';
 $labels['filterexists'] = '存在する';
 $labels['filternotexists'] = '存在しない';
+$labels['filtermatches'] = '一致する表記';
+$labels['filternotmatches'] = '一致しない表記';
+$labels['filterregex'] = '一致する正規表現';
+$labels['filternotregex'] = '一致しない正規表現';
 $labels['filterunder'] = 'より上';
 $labels['filterover'] = 'より下';
 $labels['addrule'] = 'ルールの追加';
@@ -39,13 +56,15 @@ $labels['recipient'] = '受信者';
 $labels['vacationaddresses'] = '電子メール受信者の一覧を追加する (カンマ区切り):';
 $labels['vacationdays'] = 'どれ位頻繁にメッセージの送信をするか (1 日あたり):';
 $labels['vacationreason'] = 'メッセージ本文 (vacation reason):';
+$labels['vacationsubject'] = 'メッセージの件名';
 $labels['rulestop'] = 'ルール評価の停止';
+$labels['enable'] = '有効/無効';
 $labels['filterset'] = 'フィルター セット';
+$labels['filtersets'] = 'フィルターセット';
 $labels['filtersetadd'] = 'フィルター セットの追加';
 $labels['filtersetdel'] = '現在のルールセット の削除';
 $labels['filtersetact'] = '現在のフィルター セットを有効にする';
 $labels['filtersetdeact'] = '現在のフィルター セットを無効にする';
-$labels['filtersetget'] = 'テキスト形式でフィルター セットをダウンロードする';
 $labels['filterdef'] = 'フィルターの定義';
 $labels['filtersetname'] = 'フィルター セットの名前';
 $labels['newfilterset'] = '新規フィルター セット';
@@ -54,29 +73,65 @@ $labels['none'] = 'なし';
 $labels['fromset'] = 'セットから';
 $labels['fromfile'] = 'ファイルから';
 $labels['filterdisabled'] = 'フィルターを無効にしました。';
+$labels['countisgreaterthan'] = 'より大きい回数';
+$labels['countisgreaterthanequal'] = '以上の回数';
+$labels['countislessthan'] = '未満の回数';
+$labels['countislessthanequal'] = '以下の回数';
+$labels['countequals'] = '一致する回数';
+$labels['countnotequals'] = '一致しない回数';
+$labels['valueisgreaterthan'] = 'より大きい値';
+$labels['valueisgreaterthanequal'] = '以上の値';
+$labels['valueislessthan'] = '未満の値';
+$labels['valueislessthanequal'] = '以下の値';
+$labels['valueequals'] = '一致する値';
+$labels['valuenotequals'] = '一致しない値';
+$labels['setflags'] = 'メッセージにフラグを設定する';
+$labels['addflags'] = 'メッセージにフラグの追加';
+$labels['removeflags'] = 'メッセージからフラグの削除';
+$labels['flagread'] = '既読';
+$labels['flagdeleted'] = '削除済み';
+$labels['flaganswered'] = '返信済み';
+$labels['flagflagged'] = 'フラグあり';
+$labels['flagdraft'] = '下書き';
+$labels['filtercreate'] = 'フィルターの作成';
+$labels['usedata'] = 'フィルターで次のデータを使う';
+$labels['nextstep'] = '次のステップ';
+$labels['...'] = '...';
+$labels['advancedopts'] = '高度なオプション';
+$labels['body'] = '本文';
+$labels['address'] = 'メールアドレス';
+$labels['envelope'] = 'エンベロープ';
+$labels['modifier'] = '修正:';
+$labels['text'] = 'テキスト';
+$labels['undecoded'] = '未デコード (生の状態)';
+$labels['modtype'] = '種類:';
+$labels['allparts'] = 'すべて';
+$labels['domain'] = 'ドメイン';
+$labels['localpart'] = 'ローカル パート(メールアドレスで@の左)';
+$labels['user'] = 'ユーザー';
+$labels['detail'] = '詳細';
+$labels['default'] = '初期値';
+$labels['asciicasemap'] = '英大小文字の同一視(Aとaが同じ)';
+$labels['asciinumeric'] = '数値 (半角数値)';
+$labels['filterunknownerror'] = '不明なサーバーのエラーです';
+$labels['filterconnerror'] = 'managesieve サーバーに接続できません。';
+$labels['filterdeleteerror'] = 'フィルターを削除できませんでした。サーバーでエラーが発生しました。';
+$labels['filterdeleted'] = 'フィルターの削除に成功しました。';
+$labels['filtersaved'] = 'フィルターの保存に成功しました。';
+$labels['filtersaveerror'] = 'フィルターの保存に失敗しました。サーバーでエラーが発生しました。';
+$labels['filterdeleteconfirm'] = '本当に選択したフィルターを削除しますか?';
+$labels['ruledeleteconfirm'] = '本当に選択したルールを削除しますか?';
+$labels['actiondeleteconfirm'] = '本当に選択した操作を削除しますか?';
+$labels['forbiddenchars'] = '項目に禁止文字があります。';
+$labels['cannotbeempty'] = '空にできませんでした';
+$labels['setactivateerror'] = '選択したフィルター セットの有効化に失敗しました。サーバーでエラーが発生しました。';
+$labels['setdeactivateerror'] = '選択したフィルター セットの無効化に失敗しました。サーバーでエラーが発生しました。';
+$labels['setdeleteerror'] = '選択したフィルター セットの削除に失敗しました。サーバーでエラーが発生しました。';
+$labels['setactivated'] = 'フィルターセットの有効化に成功しました。';
+$labels['setdeactivated'] = 'フィルターセットの無効化に成功しました。';
+$labels['setdeleted'] = 'フィルターセットの削除に成功しました。';
+$labels['setdeleteconfirm'] = '本当に選択したフィルター セットを削除しますか?';
+$labels['setcreateerror'] = 'フィルター セットの作成に失敗しました。サーバーでエラーが発生しました。';
+$labels['setcreated'] = 'フィルター セットの作成に成功しました。';
+$labels['nametoolong'] = 'フィルター セットの作成に失敗しました。名前が長すぎます。';
 
-$messages = array();
-$messages['filterunknownerror'] = '不明なサーバーのエラーです';
-$messages['filterconnerror'] = 'managesieve サーバーに接続できません。';
-$messages['filterdeleteerror'] = 'フィルターを削除できませんでした。サーバーでエラーが発生しました。';
-$messages['filterdeleted'] = 'フィルターの削除に成功しました。';
-$messages['filtersaved'] = 'フィルターの保存に成功しました。';
-$messages['filtersaveerror'] = 'フィルターの保存に失敗しました。サーバーでエラーが発生しました。';
-$messages['filterdeleteconfirm'] = '本当に選択したフィルターを削除しますか?';
-$messages['ruledeleteconfirm'] = '本当に選択したルールを削除しますか?';
-$messages['actiondeleteconfirm'] = '本当に選択した操作を削除しますか?';
-$messages['forbiddenchars'] = '項目に禁止文字があります。';
-$messages['cannotbeempty'] = '空にできませんでした';
-$messages['setactivateerror'] = '選択したフィルター セットの有効化に失敗しました。サーバーでエラーが発生しました。';
-$messages['setdeactivateerror'] = '選択したフィルター セットの無効化に失敗しました。サーバーでエラーが発生しました。';
-$messages['setdeleteerror'] = '選択したフィルター セットの削除に失敗しました。サーバーでエラーが発生しました。';
-$messages['setactivated'] = 'フィルターセットの有効化に成功しました。';
-$messages['setdeactivated'] = 'フィルターセットの無効化に成功しました。';
-$messages['setdeleted'] = 'フィルターセットの削除に成功しました。';
-$messages['setdeleteconfirm'] = '本当に選択したフィルター セットを削除しますか?';
-$messages['setcreateerror'] = 'フィルター セットの作成に失敗しました。サーバーでエラーが発生しました。';
-$messages['setcreated'] = 'フィルター セットの作成に成功しました。';
-$messages['emptyname'] = 'フィルター セットの作成に失敗しました。名前が空です。';
-$messages['nametoolong'] = 'フィルター セットの作成に失敗しました。名前が長すぎます。';
-
-?>

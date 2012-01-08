@@ -1,5 +1,20 @@
 <?php
-	
+
+/*
+ +-----------------------------------------------------------------------+
+ | localization/sl_SI/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
+
+$labels = array();
 $labels['filters'] = 'Pravila';
 $labels['managefilters'] = 'Uredi sporočilna pravila';
 $labels['filtername'] = 'Ime pravila';
@@ -36,18 +51,15 @@ $labels['vacationaddresses'] = 'Dodaten seznam naslovov prejemnikov (ločenih z 
 $labels['vacationdays'] = 'Kako pogosto naj bodo sporočila poslana (v dnevih):';
 $labels['vacationreason'] = 'Vsebina sporočila (vzrok za odsotnost):';
 $labels['rulestop'] = 'Prekini z izvajanjem pravil';
+$labels['filterunknownerror'] = 'Prišlo je do neznane napake.';
+$labels['filterconnerror'] = 'Povezave s strežnikom (managesieve) ni bilo mogoče vzpostaviti';
+$labels['filterdeleteerror'] = 'Pravila ni bilo mogoče izbrisati. Prišlo je do napake.';
+$labels['filterdeleted'] = 'Pravilo je bilo uspešno izbrisano.';
+$labels['filtersaved'] = 'Pravilo je bilo uspešno shranjeno';
+$labels['filtersaveerror'] = 'Pravilo ni bilo shranjeno. Prišlo je do napake.';
+$labels['filterdeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano pravilo?';
+$labels['ruledeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano pravilo?';
+$labels['actiondeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano dejanje?';
+$labels['forbiddenchars'] = 'V polju so neveljavni znaki';
+$labels['cannotbeempty'] = 'Polje ne sme biti prazno';
 
-$messages = array();
-$messages['filterunknownerror'] = 'Prišlo je do neznane napake.';
-$messages['filterconnerror'] = 'Povezave s strežnikom (managesieve) ni bilo mogoče vzpostaviti';
-$messages['filterdeleteerror'] = 'Pravila ni bilo mogoče izbrisati. Prišlo je do napake.';
-$messages['filterdeleted'] = 'Pravilo je bilo uspešno izbrisano.';
-$messages['filterdeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano pravilo?';
-$messages['filtersaved'] = 'Pravilo je bilo uspešno shranjeno';
-$messages['filtersaveerror'] = 'Pravilo ni bilo shranjeno. Prišlo je do napake.';
-$messages['ruledeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano pravilo?';
-$messages['actiondeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano dejanje?';
-$messages['forbiddenchars'] = 'V polju so neveljavni znaki';
-$messages['cannotbeempty'] = 'Polje ne sme biti prazno';
-
-?>

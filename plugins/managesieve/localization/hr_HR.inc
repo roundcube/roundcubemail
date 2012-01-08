@@ -1,5 +1,20 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/hr_HR/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
+
+$labels = array();
 $labels['filters'] = 'Filteri';
 $labels['managefilters'] = 'Uredi filtere za pristiglu poštu';
 $labels['filtername'] = 'Naziv filtera';
@@ -48,7 +63,6 @@ $labels['filtersetadd'] = 'Dodaj grupu filtera';
 $labels['filtersetdel'] = 'Obriši odabranu grupu filtera';
 $labels['filtersetact'] = 'Aktiviraj odabranu grupu filtera';
 $labels['filtersetdeact'] = 'Deaktiviraj odabranu grupu filtera';
-$labels['filtersetget'] = 'Preuzmi grupu filtera u tekstualnom formatu';
 $labels['filterdef'] = 'Definicije filtera';
 $labels['filtersetname'] = 'Naziv grupe filtera';
 $labels['newfilterset'] = 'Nova grupa filtera';
@@ -77,29 +91,25 @@ $labels['flagdeleted'] = 'Obrisana';
 $labels['flaganswered'] = 'Odgovorena';
 $labels['flagflagged'] = 'Označena';
 $labels['flagdraft'] = 'Predložak';
+$labels['filterunknownerror'] = 'Nepoznata greška na poslužitelju';
+$labels['filterconnerror'] = 'Nemoguće spajanje na poslužitelj (managesieve)';
+$labels['filterdeleteerror'] = 'Nemoguće brisanje filtera. Greška na poslužitelju';
+$labels['filterdeleted'] = 'Filter je uspješno obrisan';
+$labels['filtersaved'] = 'Filter je uspješno spremljen';
+$labels['filtersaveerror'] = 'Nemoguće spremiti filter. Greška na poslužitelju';
+$labels['filterdeleteconfirm'] = 'Sigurno želite obrisati odabrani filter?';
+$labels['ruledeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrana pravila?';
+$labels['actiondeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrane akcije?';
+$labels['forbiddenchars'] = 'Nedozvoljeni znakovi u polju';
+$labels['cannotbeempty'] = 'Polje nesmije biti prazno';
+$labels['setactivateerror'] = 'Nemoguće aktivirati odabranu grupu filtera. Greška na poslužitelju';
+$labels['setdeactivateerror'] = 'Nemoguće deaktivirati odabranu grupu filtera. Greška na poslužitelju';
+$labels['setdeleteerror'] = 'Nemoguće obrisati odabranu grupu filtera. Greška na poslužitelju';
+$labels['setactivated'] = 'Grupa filtera je uspješno aktivirana';
+$labels['setdeactivated'] = 'Grupa filtera je uspješno deaktivirana';
+$labels['setdeleted'] = 'Grupa filtera je uspješno obrisana';
+$labels['setdeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabranu grupu filtera?';
+$labels['setcreateerror'] = 'Nemoguće stvoriti grupu filtera. Greška na poslužitelju';
+$labels['setcreated'] = 'Grupa filtera je uspješno stvorena';
+$labels['nametoolong'] = 'Nemoguće napraviti grupu filtera. Naziv je predugačak';
 
-$messages = array();
-$messages['filterunknownerror'] = 'Nepoznata greška na poslužitelju';
-$messages['filterconnerror'] = 'Nemoguće spajanje na poslužitelj (managesieve)';
-$messages['filterdeleteerror'] = 'Nemoguće brisanje filtera. Greška na poslužitelju';
-$messages['filterdeleted'] = 'Filter je uspješno obrisan';
-$messages['filtersaved'] = 'Filter je uspješno spremljen';
-$messages['filtersaveerror'] = 'Nemoguće spremiti filter. Greška na poslužitelju';
-$messages['filterdeleteconfirm'] = 'Sigurno želite obrisati odabrani filter?';
-$messages['ruledeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrana pravila?';
-$messages['actiondeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrane akcije?';
-$messages['forbiddenchars'] = 'Nedozvoljeni znakovi u polju';
-$messages['cannotbeempty'] = 'Polje nesmije biti prazno';
-$messages['setactivateerror'] = 'Nemoguće aktivirati odabranu grupu filtera. Greška na poslužitelju';
-$messages['setdeactivateerror'] = 'Nemoguće deaktivirati odabranu grupu filtera. Greška na poslužitelju';
-$messages['setdeleteerror'] = 'Nemoguće obrisati odabranu grupu filtera. Greška na poslužitelju';
-$messages['setactivated'] = 'Grupa filtera je uspješno aktivirana';
-$messages['setdeactivated'] = 'Grupa filtera je uspješno deaktivirana';
-$messages['setdeleted'] = 'Grupa filtera je uspješno obrisana';
-$messages['setdeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabranu grupu filtera?';
-$messages['setcreateerror'] = 'Nemoguće stvoriti grupu filtera. Greška na poslužitelju';
-$messages['setcreated'] = 'Grupa filtera je uspješno stvorena';
-$messages['emptyname'] = 'Nemoguće napraviti grupu filtera. Naziv je prazan';
-$messages['nametoolong'] = 'Nemoguće napraviti grupu filtera. Naziv je predugačak'
-
-?>

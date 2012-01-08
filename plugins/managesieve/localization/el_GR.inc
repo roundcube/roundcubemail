@@ -1,6 +1,18 @@
 <?php
 
-// Antonis Kanouras (2009-10-22)
+/*
+ +-----------------------------------------------------------------------+
+ | localization/el_GR/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
 
 $labels = array();
 $labels['filters'] = 'Φίλτρα';
@@ -39,18 +51,14 @@ $labels['vacationaddresses'] = 'Πρόσθετη λίστα email παραληπ
 $labels['vacationdays'] = 'Συχνότητα αποστολής μηνυμάτων (σε ημέρες):';
 $labels['vacationreason'] = 'Σώμα μηνύματος (λόγος απουσίας):';
 $labels['rulestop'] = 'Παύση επαλήθευσης κανόνων';
+$labels['filterunknownerror'] = 'Άγνωστο σφάλμα διακομιστή';
+$labels['filterconnerror'] = 'Αδυναμία σύνδεσης στον διακομιστή managesieve';
+$labels['filterdeleteerror'] = 'Αδυναμία διαγραφής φίλτρου. Προέκυψε σφάλμα στον διακομιστή';
+$labels['filterdeleted'] = 'Το φίλτρο διαγράφηκε επιτυχώς';
+$labels['filtersaved'] = 'Το φίλτρο αποθηκεύτηκε επιτυχώς';
+$labels['filtersaveerror'] = 'Αδυναμία αποθήκευσης φίλτρου. Προέκυψε σφάλμα στον διακομιστή';
+$labels['ruledeleteconfirm'] = 'Θέλετε όντως να διαγράψετε τον επιλεγμένο κανόνα;';
+$labels['actiondeleteconfirm'] = 'Θέλετε όντως να διαγράψετε την επιλεγμένη ενέργεια;';
+$labels['forbiddenchars'] = 'Μη επιτρεπτοί χαρακτήρες στο πεδίο';
+$labels['cannotbeempty'] = 'Το πεδίο δεν μπορεί να είναι κενό';
 
-$messages = array();
-$messages['filterunknownerror'] = 'Άγνωστο σφάλμα διακομιστή';
-$messages['filterconnerror'] = 'Αδυναμία σύνδεσης στον διακομιστή managesieve';
-$messages['filterdeleteerror'] = 'Αδυναμία διαγραφής φίλτρου. Προέκυψε σφάλμα στον διακομιστή';
-$messages['filterdeleted'] = 'Το φίλτρο διαγράφηκε επιτυχώς';
-$messages['filterconfirmdelete'] = 'Θέλετε όντως να διαγράψετε το επιλεγμένο φίλτρο;';
-$messages['filtersaved'] = 'Το φίλτρο αποθηκεύτηκε επιτυχώς';
-$messages['filtersaveerror'] = 'Αδυναμία αποθήκευσης φίλτρου. Προέκυψε σφάλμα στον διακομιστή';
-$messages['ruledeleteconfirm'] = 'Θέλετε όντως να διαγράψετε τον επιλεγμένο κανόνα;';
-$messages['actiondeleteconfirm'] = 'Θέλετε όντως να διαγράψετε την επιλεγμένη ενέργεια;';
-$messages['forbiddenchars'] = 'Μη επιτρεπτοί χαρακτήρες στο πεδίο';
-$messages['cannotbeempty'] = 'Το πεδίο δεν μπορεί να είναι κενό';
-
-?>

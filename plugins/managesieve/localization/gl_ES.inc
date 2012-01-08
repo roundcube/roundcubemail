@@ -1,5 +1,19 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/gl_ES/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
+
 $labels = array();
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Xestionar os filtros de correo entrante';
@@ -44,38 +58,33 @@ $labels['filtersetadd'] = 'Engadir un conxunto de filtros';
 $labels['filtersetdel'] = 'Eliminar o conxunto de filtros actual';
 $labels['filtersetact'] = 'Activar o conxunto de filtros actual';
 $labels['filtersetdeact'] = 'Desactivar o conxunto de filtros actual';
-$labels['filtersetget'] = 'Descargar o conxunto de filtros en formato de texto';
 $labels['filterdef'] = 'Definición de filtros';
 $labels['filtersetname'] = 'Nome do conxunto de filtros';
 $labels['newfilterset'] = 'Novo conxunto de filtros';
 $labels['active'] = 'activo';
 $labels['none'] = 'ningún';
-$labels['fromset'] = 'de conxunto ';
+$labels['fromset'] = 'de conxunto';
 $labels['fromfile'] = 'de arquivo';
 $labels['filterdisabled'] = 'Filtro desactivado';
+$labels['filterunknownerror'] = 'Erro descoñecido servidor';
+$labels['filterconnerror'] = 'Imposible conectar co servidor managesieve';
+$labels['filterdeleteerror'] = 'Imposible eliminar filtro. Ocurriu un erro no servidor';
+$labels['filterdeleted'] = 'Filtro borrado con éxito';
+$labels['filtersaved'] = 'Filtro gardado con éxito';
+$labels['filtersaveerror'] = 'Imposible gardar o filtro. Ocurriu un erro no servidor';
+$labels['filterdeleteconfirm'] = 'Realmente desexa eliminar o filtro seleccionado?';
+$labels['ruledeleteconfirm'] = 'Está seguro de que desexa eliminar a regra seleccionada?';
+$labels['actiondeleteconfirm'] = 'Está seguro de que desexa eliminar a acción seleccionada?';
+$labels['forbiddenchars'] = 'Caracteres non permitidos no campo';
+$labels['cannotbeempty'] = 'O campo non pode estar baleiro';
+$labels['setactivateerror'] = 'Imposible activar o conxunto de filtros seleccionado. Ocurriu un erro no servidor';
+$labels['setdeactivateerror'] = 'Imposible desactivar o conxunto de filtros seleccionado. Ocurriu un error no servidor';
+$labels['setdeleteerror'] = 'Imposible eliminar o conxunto de filtros seleccionado. Ocurriu un error no servidor';
+$labels['setactivated'] = 'O conxunto de filtros activouse con éxito';
+$labels['setdeactivated'] = 'O conxunto de filtros desactivouse con éxito';
+$labels['setdeleted'] = 'O Conxunto de filtros borrouse con éxito';
+$labels['setdeleteconfirm'] = 'Está seguro de que desexa eliminar o conxunto de filtros seleccionado?';
+$labels['setcreateerror'] = 'Imposible crear o conxunto de filtros. Ocurriu un error no servidor';
+$labels['setcreated'] = 'Conxunto de filtros creado con éxito';
+$labels['nametoolong'] = 'Imposible crear o conxunto de filtros. O nome é longo de máis';
 
-$messages = array();
-$messages['filterunknownerror'] = 'Erro descoñecido servidor';
-$messages['filterconnerror'] = 'Imposible conectar co servidor managesieve';
-$messages['filterdeleteerror'] = 'Imposible eliminar filtro. Ocurriu un erro no servidor';
-$messages['filterdeleted'] = 'Filtro borrado con éxito';
-$messages['filtersaved'] = 'Filtro gardado con éxito';
-$messages['filtersaveerror'] = 'Imposible gardar o filtro. Ocurriu un erro no servidor';
-$messages['filterdeleteconfirm'] = 'Realmente desexa eliminar o filtro seleccionado?';
-$messages['ruledeleteconfirm'] = 'Está seguro de que desexa eliminar a regra seleccionada?';
-$messages['actiondeleteconfirm'] = 'Está seguro de que desexa eliminar a acción seleccionada?';
-$messages['forbiddenchars'] = 'Caracteres non permitidos no campo';
-$messages['cannotbeempty'] = 'O campo non pode estar baleiro';
-$messages['setactivateerror'] = 'Imposible activar o conxunto de filtros seleccionado. Ocurriu un erro no servidor';
-$messages['setdeactivateerror'] = 'Imposible desactivar o conxunto de filtros seleccionado. Ocurriu un error no servidor';
-$messages['setdeleteerror'] = 'Imposible eliminar o conxunto de filtros seleccionado. Ocurriu un error no servidor';
-$messages['setactivated'] = 'O conxunto de filtros activouse con éxito';
-$messages['setdeactivated'] = 'O conxunto de filtros desactivouse con éxito';
-$messages['setdeleted'] = 'O Conxunto de filtros borrouse con éxito';
-$messages['setdeleteconfirm'] = 'Está seguro de que desexa eliminar o conxunto de filtros seleccionado?';
-$messages['setcreateerror'] = 'Imposible crear o conxunto de filtros. Ocurriu un error no servidor';
-$messages['setcreated'] = 'Conxunto de filtros creado con éxito';
-$messages['emptyname'] = 'Imposible crear o conxunto de filtros. Sen nome';
-$messages['nametoolong'] = 'Imposible crear o conxunto de filtros. O nome é longo de máis'
-
-?>

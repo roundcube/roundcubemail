@@ -1,5 +1,19 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/bg_BG/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
+
 $labels = array();
 $labels['filters'] = 'Филтри';
 $labels['managefilters'] = 'Управление на филтри за входяща поща';
@@ -33,18 +47,15 @@ $labels['add'] = 'Добавяне';
 $labels['del'] = 'Изтриване';
 $labels['sender'] = 'Подател';
 $labels['recipient'] = 'Получател';
+$labels['filterunknownerror'] = 'Неизвестна грешка на сървъра';
+$labels['filterconnerror'] = 'Невъзможност за свързване с managesieve сървъра';
+$labels['filterdeleteerror'] = 'Невъзможност за изтриване на филтър. Сървър грешка';
+$labels['filterdeleted'] = 'Филтърът е изтрит успешно';
+$labels['filtersaved'] = 'Филтърът е записан успешно';
+$labels['filtersaveerror'] = 'Филтърът не може да бъде записан. Сървър грешка.';
+$labels['filterdeleteconfirm'] = 'Наистина ли искате да изтриете избрания филтър?';
+$labels['ruledeleteconfirm'] = 'Сигурни ли сте, че искате да изтриете избраното правило?';
+$labels['actiondeleteconfirm'] = 'Сигурни ли сте, че искате да изтриете избраното действие?';
+$labels['forbiddenchars'] = 'Забранени символи в полето';
+$labels['cannotbeempty'] = 'Полето не може да бъде празно';
 
-$messages = array();
-$messages['filterunknownerror'] = 'Неизвестна грешка на сървъра';
-$messages['filterconnerror'] = 'Невъзможност за свързване с managesieve сървъра ';
-$messages['filterdeleteerror'] = 'Невъзможност за изтриване на филтър. Сървър грешка';
-$messages['filterdeleted'] = 'Филтърът е изтрит успешно';
-$messages['filterdeleteconfirm'] = 'Наистина ли искате да изтриете избрания филтър?';
-$messages['filtersaved'] = 'Филтърът е записан успешно';
-$messages['filtersaveerror'] = 'Филтърът не може да бъде записан. Сървър грешка.';
-$messages['ruledeleteconfirm'] = 'Сигурни ли сте, че искате да изтриете избраното правило?';
-$messages['actiondeleteconfirm'] = 'Сигурни ли сте, че искате да изтриете избраното действие?';
-$messages['forbiddenchars'] = 'Забранени символи в полето';
-$messages['cannotbeempty'] = 'Полето не може да бъде празно';
-
-?>

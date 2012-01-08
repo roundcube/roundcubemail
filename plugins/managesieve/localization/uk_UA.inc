@@ -1,5 +1,19 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/uk_UA/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
+
 $labels = array();
 $labels['filters'] = 'Фільтри';
 $labels['managefilters'] = 'Керування фільтрами вхідної пошти';
@@ -41,7 +55,6 @@ $labels['filterset'] = 'Набір фільтрів';
 $labels['filtersetadd'] = 'Додати набір фільтрів';
 $labels['filtersetdel'] = 'Видалити поточний набір';
 $labels['filtersetact'] = 'Активувати поточний набір';
-$labels['filtersetget'] = 'Зберегти набір у текстовому форматі';
 $labels['filterdef'] = 'Параметри фільтру';
 $labels['filtersetname'] = 'Назва набору фільтрів';
 $labels['newfilterset'] = 'Новий набір фільтрів';
@@ -50,27 +63,23 @@ $labels['none'] = 'нічого';
 $labels['fromset'] = 'з набору';
 $labels['fromfile'] = 'з файлу';
 $labels['filterdisabled'] = 'Фільтр вимкнено';
+$labels['filterunknownerror'] = 'Невідома помилка сервера';
+$labels['filterconnerror'] = 'Неможливо з\'єднатися з сервером';
+$labels['filterdeleteerror'] = 'Неможливо видалити фільтр. Помилка сервера';
+$labels['filterdeleted'] = 'Фільтр успішно видалено';
+$labels['filtersaved'] = 'Фільтр успішно збережено';
+$labels['filtersaveerror'] = 'Неможливо зберегти фільтр. Помилка сервера';
+$labels['filterdeleteconfirm'] = 'Ви дійсно хочете видалити обраний фільтр?';
+$labels['ruledeleteconfirm'] = 'Ви дійсно хочете видалити обране правило?';
+$labels['actiondeleteconfirm'] = 'Ви дійсно хочете видалити обрану дію?';
+$labels['forbiddenchars'] = 'Введено заборонений символ';
+$labels['cannotbeempty'] = 'Поле не може бути пустим';
+$labels['setactivateerror'] = 'Неможливо активувати обраний набір. Помилка сервера';
+$labels['setdeleteerror'] = 'Неможливо видалити обраний набір. Помилка сервера';
+$labels['setactivated'] = 'Набір фільтрів активовано успішно';
+$labels['setdeleted'] = 'Набір фільтрів видалено успішно';
+$labels['setdeleteconfirm'] = 'Ви впевнені, що хочете видалити обраний набір?';
+$labels['setcreateerror'] = 'Не вдалося створити набір. Помилка сервера';
+$labels['setcreated'] = 'Набір фільтрів створено успішно';
+$labels['nametoolong'] = 'Не вдалося створити набір. Занадто довга назва';
 
-$messages = array();
-$messages['filterunknownerror'] = 'Невідома помилка сервера';
-$messages['filterconnerror'] = 'Неможливо з\'єднатися з сервером';
-$messages['filterdeleteerror'] = 'Неможливо видалити фільтр. Помилка сервера';
-$messages['filterdeleted'] = 'Фільтр успішно видалено';
-$messages['filtersaved'] = 'Фільтр успішно збережено';
-$messages['filtersaveerror'] = 'Неможливо зберегти фільтр. Помилка сервера';
-$messages['filterdeleteconfirm'] = 'Ви дійсно хочете видалити обраний фільтр?';
-$messages['ruledeleteconfirm'] = 'Ви дійсно хочете видалити обране правило?';
-$messages['actiondeleteconfirm'] = 'Ви дійсно хочете видалити обрану дію?';
-$messages['forbiddenchars'] = 'Введено заборонений символ';
-$messages['cannotbeempty'] = 'Поле не може бути пустим';
-$messages['setactivateerror'] = 'Неможливо активувати обраний набір. Помилка сервера';
-$messages['setdeleteerror'] = 'Неможливо видалити обраний набір. Помилка сервера';
-$messages['setactivated'] = 'Набір фільтрів активовано успішно';
-$messages['setdeleted'] = 'Набір фільтрів видалено успішно';
-$messages['setdeleteconfirm'] = 'Ви впевнені, що хочете видалити обраний набір?';
-$messages['setcreateerror'] = 'Не вдалося створити набір. Помилка сервера';
-$messages['setcreated'] = 'Набір фільтрів створено успішно';
-$messages['emptyname'] = 'Не вдалося створити набір. Введіть назву набору';
-$messages['nametoolong'] = 'Не вдалося створити набір. Занадто довга назва'
-
-?>

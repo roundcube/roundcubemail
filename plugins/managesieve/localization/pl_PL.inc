@@ -1,5 +1,19 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/pl_PL/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
+
 $labels = array();
 $labels['filters'] = 'Filtry';
 $labels['managefilters'] = 'Zarządzaj filtrami wiadomości przychodzących';
@@ -7,8 +21,8 @@ $labels['filtername'] = 'Nazwa filtru';
 $labels['newfilter'] = 'Nowy filtr';
 $labels['filteradd'] = 'Dodaj filtr';
 $labels['filterdel'] = 'Usuń filtr';
-$labels['enable'] = 'Włącz/Wyłącz';
-$labels['filtersets'] = 'Zbiory fitrów';
+$labels['moveup'] = 'W górę';
+$labels['movedown'] = 'W dół';
 $labels['filterallof'] = 'spełniających wszystkie poniższe kryteria';
 $labels['filteranyof'] = 'spełniających dowolne z poniższych kryteriów';
 $labels['filterany'] = 'wszystkich';
@@ -28,9 +42,9 @@ $labels['addrule'] = 'Dodaj regułę';
 $labels['delrule'] = 'Usuń regułę';
 $labels['messagemoveto'] = 'Przenieś wiadomość do';
 $labels['messageredirect'] = 'Przekaż wiadomość na konto';
-$labels['messagereply'] = 'Odpowiedz wiadomością o treści';
 $labels['messagecopyto'] = 'Skopiuj wiadomość do';
 $labels['messagesendcopy'] = 'Wyślij kopię do';
+$labels['messagereply'] = 'Odpowiedz wiadomością o treści';
 $labels['messagedelete'] = 'Usuń wiadomość';
 $labels['messagediscard'] = 'Odrzuć z komunikatem';
 $labels['messagesrules'] = 'W stosunku do przychodzących wiadomości:';
@@ -39,12 +53,14 @@ $labels['add'] = 'Dodaj';
 $labels['del'] = 'Usuń';
 $labels['sender'] = 'Nadawca';
 $labels['recipient'] = 'Odbiorca';
-$labels['rulestop'] = 'Przerwij przetwarzanie reguł';
-$labels['vacationdays'] = 'Częstotliwość wysyłania wiadomości (w dniach):';
 $labels['vacationaddresses'] = 'Lista dodatkowych adresów odbiorców (oddzielonych przecinkami):';
+$labels['vacationdays'] = 'Częstotliwość wysyłania wiadomości (w dniach):';
 $labels['vacationreason'] = 'Treść (przyczyna nieobecności):';
 $labels['vacationsubject'] = 'Temat wiadomości:';
+$labels['rulestop'] = 'Przerwij przetwarzanie reguł';
+$labels['enable'] = 'Włącz/Wyłącz';
 $labels['filterset'] = 'Zbiór filtrów';
+$labels['filtersets'] = 'Zbiory fitrów';
 $labels['filtersetadd'] = 'Dodaj zbiór filtrów';
 $labels['filtersetdel'] = 'Usuń bieżący zbiór filtrów';
 $labels['filtersetact'] = 'Aktywuj bieżący zbiór filtrów';
@@ -100,38 +116,35 @@ $labels['default'] = 'domyślny';
 $labels['octet'] = 'dokładny (octet)';
 $labels['asciicasemap'] = 'nierozróżniający wielkości liter (ascii-casemap)';
 $labels['asciinumeric'] = 'numeryczny (ascii-numeric)';
+$labels['filterunknownerror'] = 'Nieznany błąd serwera.';
+$labels['filterconnerror'] = 'Nie można nawiązać połączenia z serwerem.';
+$labels['filterdeleteerror'] = 'Nie można usunąć filtra. Błąd serwera.';
+$labels['filterdeleted'] = 'Filtr został usunięty pomyślnie.';
+$labels['filtersaved'] = 'Filtr został zapisany pomyślnie.';
+$labels['filtersaveerror'] = 'Nie można zapisać filtra. Wystąpił błąd serwera.';
+$labels['filterdeleteconfirm'] = 'Czy na pewno chcesz usunąć wybrany filtr?';
+$labels['ruledeleteconfirm'] = 'Czy na pewno chcesz usunąć wybraną regułę?';
+$labels['actiondeleteconfirm'] = 'Czy na pewno usunąć wybraną akcję?';
+$labels['forbiddenchars'] = 'Pole zawiera niedozwolone znaki.';
+$labels['cannotbeempty'] = 'Pole nie może być puste.';
+$labels['ruleexist'] = 'Filtr o podanej nazwie już istnieje.';
+$labels['setactivateerror'] = 'Nie można aktywować wybranego zbioru filtrów. Błąd serwera.';
+$labels['setdeactivateerror'] = 'Nie można deaktywować wybranego zbioru filtrów. Błąd serwera.';
+$labels['setdeleteerror'] = 'Nie można usunąć wybranego zbioru filtrów. Błąd serwera.';
+$labels['setactivated'] = 'Zbiór filtrów został aktywowany pomyślnie.';
+$labels['setdeactivated'] = 'Zbiór filtrów został deaktywowany pomyślnie.';
+$labels['setdeleted'] = 'Zbiór filtrów został usunięty pomyślnie.';
+$labels['setdeleteconfirm'] = 'Czy na pewno chcesz usunąć wybrany zbiór filtrów?';
+$labels['setcreateerror'] = 'Nie można utworzyć zbioru filtrów. Błąd serwera.';
+$labels['setcreated'] = 'Zbiór filtrów został utworzony pomyślnie.';
+$labels['activateerror'] = 'Nie można włączyć wybranych filtrów. Błąd serwera.';
+$labels['deactivateerror'] = 'Nie można wyłączyć wybranych filtrów. Błąd serwera.';
+$labels['activated'] = 'Filtr(y) wyłączono pomyślnie.';
+$labels['deactivated'] = 'Filtr(y) włączono pomyślnie.';
+$labels['moved'] = 'Filter został przeniesiony pomyślnie.';
+$labels['moveerror'] = 'Nie można przenieść wybranego filtra. Błąd serwera.';
+$labels['nametoolong'] = 'Zbyt długa nazwa.';
+$labels['namereserved'] = 'Nazwa zarezerwowana.';
+$labels['setexist'] = 'Zbiór już istnieje.';
+$labels['nodata'] = 'Należy wybrać co najmniej jedną pozycję!';
 
-$messages = array();
-$messages['filterunknownerror'] = 'Nieznany błąd serwera.';
-$messages['filterconnerror'] = 'Nie można nawiązać połączenia z serwerem.';
-$messages['filterdeleteerror'] = 'Nie można usunąć filtra. Błąd serwera.';
-$messages['filterdeleted'] = 'Filtr został usunięty pomyślnie.';
-$messages['filterdeleteconfirm'] = 'Czy na pewno chcesz usunąć wybrany filtr?';
-$messages['filtersaved'] = 'Filtr został zapisany pomyślnie.';
-$messages['filtersaveerror'] = 'Nie można zapisać filtra. Wystąpił błąd serwera.';
-$messages['ruledeleteconfirm'] = 'Czy na pewno chcesz usunąć wybraną regułę?';
-$messages['actiondeleteconfirm'] = 'Czy na pewno usunąć wybraną akcję?';
-$messages['forbiddenchars'] = 'Pole zawiera niedozwolone znaki.';
-$messages['cannotbeempty'] = 'Pole nie może być puste.';
-$messages['setactivateerror'] = 'Nie można aktywować wybranego zbioru filtrów. Błąd serwera.';
-$messages['setdeactivateerror'] = 'Nie można deaktywować wybranego zbioru filtrów. Błąd serwera.';
-$messages['setdeleteerror'] = 'Nie można usunąć wybranego zbioru filtrów. Błąd serwera.';
-$messages['setactivated'] = 'Zbiór filtrów został aktywowany pomyślnie.';
-$messages['setdeactivated'] = 'Zbiór filtrów został deaktywowany pomyślnie.';
-$messages['setdeleted'] = 'Zbiór filtrów został usunięty pomyślnie.';
-$messages['setdeleteconfirm'] = 'Czy na pewno chcesz usunąć wybrany zbiór filtrów?';
-$messages['setcreateerror'] = 'Nie można utworzyć zbioru filtrów. Błąd serwera.';
-$messages['setcreated'] = 'Zbiór filtrów został utworzony pomyślnie.';
-$messages['nodata'] = 'Należy wybrać co najmniej jedną pozycję!';
-$messages['ruleexist'] = 'Filtr o podanej nazwie już istnieje.';
-$messages['activateerror'] = 'Nie można włączyć wybranych filtrów. Błąd serwera.';
-$messages['deactivateerror'] = 'Nie można wyłączyć wybranych filtrów. Błąd serwera.';
-$messages['activated'] = 'Filtr(y) wyłączono pomyślnie.';
-$messages['deactivated'] = 'Filtr(y) włączono pomyślnie.';
-$messages['moved'] = 'Filter został przeniesiony pomyślnie.';
-$messages['moveerror'] = 'Nie można przenieść wybranego filtra. Błąd serwera.';
-$messages['nametoolong'] = 'Zbyt długa nazwa.';
-$messages['namereserved'] = 'Nazwa zarezerwowana.';
-$messages['setexist'] = 'Zbiór już istnieje.';
-
-?>
