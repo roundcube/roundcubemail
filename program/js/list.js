@@ -182,8 +182,12 @@ clear: function(sel)
  */
 remove_row: function(uid, sel_next)
 {
-  if (this.rows[uid].obj)
-    this.rows[uid].obj.style.display = 'none';
+  var obj = this.rows[uid] ? this.rows[uid].obj : null;
+
+  if (!obj)
+    return;
+
+  obj.style.display = 'none';
 
   if (sel_next)
     this.select_next();
