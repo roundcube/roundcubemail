@@ -1509,7 +1509,7 @@ function rcmail_send_mdn($message, &$smtp_error)
       $headers['User-Agent'] = $agent;
 
     $body = rcube_label("yourmessage") . "\r\n\r\n" .
-      "\t" . rcube_label("to") . ': ' . rcube_imap::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
+      "\t" . rcube_label("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
       "\t" . rcube_label("subject") . ': ' . $message->subject . "\r\n" .
       "\t" . rcube_label("sent") . ': ' . format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
       "\r\n" . rcube_label("receiptnote") . "\r\n";
