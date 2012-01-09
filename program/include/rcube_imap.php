@@ -3701,7 +3701,7 @@ class rcube_imap
      *
      * @return int Message UID
      */
-    private function id2uid($id, $mailbox = null)
+    public function id2uid($id, $mailbox = null)
     {
         if (!strlen($mailbox)) {
             $mailbox = $this->mailbox;
