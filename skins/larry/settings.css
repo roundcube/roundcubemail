@@ -94,8 +94,20 @@
 	background-position: 6px -502px;
 }
 
-#settings-sections span.about a {
-	background-position: -100px 0;
+#settings-sections span.filter a {
+	background-position: 6px -1746px;
+}
+
+#settings-sections span.filter.selected a {
+	background-position: 6px -1770px;
+}
+
+#settings-sections span.password a {
+	background-position: 6px -1795px;
+}
+
+#settings-sections span.password.selected a {
+	background-position: 6px -1819px;
 }
 
 #sections-table #rcmrowgeneral td.section {

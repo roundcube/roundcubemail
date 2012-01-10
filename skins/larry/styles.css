@@ -1291,7 +1291,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.disabled {
-	opacity: 0.5;
+	opacity: 0.4;
 }
 
 .dropbutton {
@@ -1312,6 +1312,14 @@ ul.proplist li {
 
 .dropbutton .dropbuttontip:hover {
 	background-position: -26px -1255px;
+}
+
+.dropbutton a.button.disabled + .dropbuttontip {
+	opacity: 0.5;
+}
+
+.dropbutton a.button.disabled + .dropbuttontip:hover {
+	background-position: 0 -1255px;
 }
 
 .toolbar a.button.back {
@@ -1356,7 +1364,10 @@ ul.proplist li {
 	background-position: center -810px;
 }
 
-.toolbar a.button.markmessage,
+.toolbar a.button.markmessage {
+	background-position: center -1095px;
+}
+
 .toolbar a.button.more {
 	background-position: center -850px;
 }
@@ -1367,6 +1378,10 @@ ul.proplist li {
 
 .toolbar a.button.spellcheck {
 	background-position: center -930px;
+}
+
+.toolbar a.button.insertsig {
+	background-position: center -1135px;
 }
 
 .toolbar a.button.search {

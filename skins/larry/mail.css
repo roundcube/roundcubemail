@@ -438,35 +438,26 @@ a.iconbutton.threadmode.selected {
 	background-position: -24px -997px;
 }
 
-/*
-#messagelist tr td.attachment span.report {
-	background-position: 0 -255px;
-}
-
-#messagelist tr td.priority span.priority {
-	background-position: 0 -309px;
+#messagelist tr td.priority {
+	padding-right: 0;
 }
 
 #messagelist tr td.priority span.prio5 {
-	background-position: 0 -358px;
+	background-position: right -1905px;
 }
 
 #messagelist tr td.priority span.prio4 {
-	background-position: 0 -340px;
-}
-
-#messagelist tr td.priority span.prio3 {
-	background-position: 0 -324px;
+	background-position: right -1885px;
 }
 
 #messagelist tr td.priority span.prio2 {
-	background-position: 0 -309px;
+	background-position: right -1865px;
 }
 
 #messagelist tr td.priority span.prio1 {
-	background-position: 0 -290px;
+	background-position: right -1845px;
 }
-*/
+
 #messagelist tbody tr td.flag span.flagged {
 	background-position: 0 -1036px;
 }
@@ -680,19 +671,18 @@ h3.subject {
 	padding-right: 12px;
 }
 
-.headers-table .iconlink {
+#messagepreviewheader .iconlink {
 	text-indent: -1000px;
 	padding: 1px 1px 1px 20px;
 }
 
-.headers-table .iconlink.add {
+#messagepreviewheader .iconlink.add {
 	background-position: -5px -359px;
 }
 
-.headers-table .iconlink.delete {
+#messagepreviewheader .iconlink.delete {
 	background-position: -5px -339px;
 }
-
 
 #full-headers {
 	position: relative;
