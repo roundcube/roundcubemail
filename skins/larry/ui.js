@@ -63,6 +63,7 @@ function rcube_mail_ui()
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('menu-open', show_listoptions);
       rcmail.addEventListener('menu-save', save_listoptions);
+      rcmail.addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list') });
 
       var dragmenu = $('#dragmessagemenu');
       if (dragmenu.length) {
