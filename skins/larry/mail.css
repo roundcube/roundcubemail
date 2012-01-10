@@ -354,6 +354,10 @@ a.iconbutton.threadmode.selected {
 /*	background-color: #fff; */
 }
 
+#messagelist tr.thread.expanded td {
+	background-color: #ededed;
+}
+
 #messagelist tr.unread {
 	font-weight: bold;
 /*	background-color: #fff; */
