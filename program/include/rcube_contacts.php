@@ -31,6 +31,7 @@ class rcube_contacts extends rcube_addressbook
     protected $db_name = 'contacts';
     protected $db_groups = 'contactgroups';
     protected $db_groupmembers = 'contactgroupmembers';
+    protected $vcard_fieldmap = array();
 
     /**
      * Store database connection.
@@ -692,7 +693,7 @@ class rcube_contacts extends rcube_addressbook
 
         if ($sql_arr['vcard']) {
             unset($sql_arr['email']);
-            $vcard = new rcube_vcard($sql_arr['vcard']);
+            $vcard = new rcube_vcard($sql_arr['vcard'], RCMAIL_CHARSET, false, $this->vcard_fieldmap);
             $record += $vcard->get_assoc() + $sql_arr;
         }
         else {
@@ -711,7 +712,7 @@ class rcube_contacts extends rcube_addressbook
         $words = '';
 
         // copy values into vcard object
-        $vcard = new rcube_vcard($record['vcard'] ? $record['vcard'] : $save_data['vcard']);
+        $vcard = new rcube_vcard($record['vcard'] ? $record['vcard'] : $save_data['vcard'], RCMAIL_CHARSET, false, $this->vcard_fieldmap);
         $vcard->reset();
         foreach ($save_data as $key => $values) {
             list($field, $section) = explode(':', $key);
