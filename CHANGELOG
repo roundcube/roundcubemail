@@ -2,16 +2,8 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Added address book widget on compose screen
-- Fix bug in handling of base href and inline content (#1488290)
-- Fix SQL Error when saving a contact with many email addresses (#1488286)
-- Fix strict email address searching if contact has more than one address
 - Use proper timezones from PHP's internal timezonedb (#1485592)
 - Add separate pagesize setting for mail messages and contacts (#1488269)
-- Fix handling of INBOX's subfolders in special folders config (#1488279)
-- Add ifModule statement for setting Options -Indexes in .htaccess file (#1488274)
-- Fix crashes with eAccelerator (#1488256)
-- Fix searching on IMAP servers without CHARSET specifier support (#1488271)
-- Fix expanding folders during drag&drop (#1488260)
 - Deprecate $DB, $USER, $IMAP global variables, Use $RCMAIL instead
 - Add option to set default font for HTML message (#1484137)
 - Fix issues with big memory allocation of IMAP results
@@ -19,6 +11,22 @@ CHANGELOG Roundcube Webmail
 - Add possibility to add SASL mechanisms for SMTP in smtp_connect hook (#1487937)
 - Mark (with different color) folders with recent messages (#1486234)
 - TinyMCE updated to 3.4.6
+
+RELEASE 0.7.1
+-------------
+- Fix bug in handling of base href and inline content (#1488290)
+- Fix SQL Error when saving a contact with many email addresses (#1488286)
+- Fix strict email address searching if contact has more than one address
+- Remove duplicated 'organization' label (#1488287)
+- Fix so editor selector is hidden when 'htmleditor' is listed in 'dont_override'
+- Fix wrong (long) label usage (#1488283)
+- Fix handling of INBOX's subfolders in special folders config (#1488279)
+- Add ifModule statement for setting Options -Indexes in .htaccess file (#1488274)
+- Fix crashes with eAccelerator (#1488256)
+- Fix searching on IMAP servers without CHARSET specifier support (#1488271)
+- Fix expanding folders during drag&drop (#1488260)
+- Fix wrong postgres sequence name in upgrade from 0.6
+- Fix broken CREATE INDEX queries in SQLite DDL files (#1488255)
 
 RELEASE 0.7
 -----------
