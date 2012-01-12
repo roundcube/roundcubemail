@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix failure on MySQL database upgrade from 0.7 - text column can't have default value (#1488300)
 - Added address book widget on compose screen
 - Use proper timezones from PHP's internal timezonedb (#1485592)
 - Add separate pagesize setting for mail messages and contacts (#1488269)

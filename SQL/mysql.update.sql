@@ -223,7 +223,7 @@ ALTER TABLE `session` CHANGE `sess_id` `sess_id` varchar(128) NOT NULL;
 
 ALTER TABLE `contacts` DROP FOREIGN KEY `user_id_fk_contacts`;
 ALTER TABLE `contacts` DROP INDEX `user_contacts_index`;
-ALTER TABLE `contacts` MODIFY `email` text NOT NULL DEFAULT '';
+ALTER TABLE `contacts` MODIFY `email` text NOT NULL;
 ALTER TABLE `contacts` ADD INDEX `user_contacts_index` (`user_id`,`del`);
 ALTER TABLE `contacts` ADD CONSTRAINT `user_id_fk_contacts` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
