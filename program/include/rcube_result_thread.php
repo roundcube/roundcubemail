@@ -553,10 +553,12 @@ class rcube_result_thread
     private function buildThreadData($data, &$depth, &$children, $level = 0)
     {
         foreach ((array)$data as $key => $val) {
-            $children[$key] = !empty($val);
-            $depth[$key] = $level;
-            if (!empty($val))
+            $empty          = empty($val) || !is_array($val);
+            $children[$key] = !$empty;
+            $depth[$key]    = $level;
+            if (!$empty) {
                 $this->buildThreadData($val, $depth, $children, $level + 1);
+            }
         }
     }
 
