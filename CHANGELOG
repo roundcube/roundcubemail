@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix failure on MySQL database upgrade from 0.7 - text column can't have default value (#1488300)
+
+RELEASE 0.7.1
+-------------
 - Fix bug in handling of base href and inline content (#1488290)
 - Fix SQL Error when saving a contact with many email addresses (#1488286)
 - Fix strict email address searching if contact has more than one address

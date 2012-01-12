@@ -441,26 +441,37 @@ class acl extends rcube_plugin
         $acl   = trim(get_input_value('_acl', RCUBE_INPUT_GPC));
         $oldid = trim(get_input_value('_old', RCUBE_INPUT_GPC));
 
-        $acl = array_intersect(str_split($acl), $this->rights_supported());
+        $acl   = array_intersect(str_split($acl), $this->rights_supported());
+        $users = $oldid ? array($user) : explode(',', $user);
 
-        if (!empty($this->specials) && in_array($user, $this->specials)) {
-            $username = $this->gettext($user);
-        }
-        else {
-            if (!strpos($user, '@') && ($realm = $this->get_realm())) {
-                $user .= '@' . rcube_idn_to_ascii(preg_replace('/^@/', '', $realm));
+        foreach ($users as $user) {
+            $user = trim($user);
+
+            if (!empty($this->specials) && in_array($user, $this->specials)) {
+                $username = $this->gettext($user);
             }
-            $username = $user;
-        }
+            else {
+                if (!strpos($user, '@') && ($realm = $this->get_realm())) {
+                    $user .= '@' . rcube_idn_to_ascii(preg_replace('/^@/', '', $realm));
+                }
+                $username = $user;
+            }
 
-        if ($acl && $user && $user != $_SESSION['username'] && strlen($mbox)) {
-            $result = $this->rc->imap->set_acl($mbox, $user, $acl);
+            if (!$acl || !$user || !strlen($mbox)) {
+                continue;
+            }
+
+            if ($user != $_SESSION['username'] && $username != $_SESSION['username']) {
+                if ($this->rc->imap->set_acl($mbox, $user, $acl)) {
+                    $ret = array('id' => html_identifier($user),
+                         'username' => $username, 'acl' => implode($acl), 'old' => $oldid);
+                    $this->rc->output->command('acl_update', $ret);
+                    $result++;
+                }
+            }
         }
 
         if ($result) {
-            $ret = array('id' => html_identifier($user),
-                 'username' => $username, 'acl' => implode($acl), 'old' => $oldid);
-            $this->rc->output->command('acl_update', $ret);
             $this->rc->output->show_message($oldid ? 'acl.updatesuccess' : 'acl.createsuccess', 'confirmation');
         }
         else {
@@ -479,6 +490,7 @@ class acl extends rcube_plugin
         $user = explode(',', $user);
 
         foreach ($user as $u) {
+            $u = trim($u);
             if ($this->rc->imap->delete_acl($mbox, $u)) {
                 $this->rc->output->command('acl_remove_row', html_identifier($u));
             }

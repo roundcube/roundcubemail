@@ -518,7 +518,7 @@ class rcube_install
         '0.4-beta', '0.4.2',
         '0.5-beta', '0.5', '0.5.1',
         '0.6-beta', '0.6',
-        '0.7-beta', '0.7',
+        '0.7-beta', '0.7', '0.7.1'
     ));
     return $select;
   }
