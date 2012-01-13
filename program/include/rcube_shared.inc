@@ -362,12 +362,14 @@ function rc_mime_content_type($path, $name, $failover = 'application/octet-strea
     $mime_type = null;
     $mime_magic = rcmail::get_instance()->config->get('mime_magic');
     $mime_ext = @include(RCMAIL_CONFIG_DIR . '/mimetypes.php');
-    $suffix = $name ? substr($name, strrpos($name, '.')+1) : '*';
 
     // use file name suffix with hard-coded mime-type map
-    if (is_array($mime_ext)) {
-        $mime_type = $mime_ext[$suffix];
+    if (is_array($mime_ext) && $name) {
+        if ($suffix = substr($name, strrpos($name, '.')+1)) {
+            $mime_type = $mime_ext[strtolower($suffix)];
+        }
     }
+
     // try fileinfo extension if available
     if (!$mime_type && function_exists('finfo_open')) {
         if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
@@ -378,10 +380,12 @@ function rc_mime_content_type($path, $name, $failover = 'application/octet-strea
             finfo_close($finfo);
         }
     }
+
     // try PHP's mime_content_type
     if (!$mime_type && !$is_stream && function_exists('mime_content_type')) {
       $mime_type = @mime_content_type($path);
     }
+
     // fall back to user-submitted string
     if (!$mime_type) {
         $mime_type = $failover;
