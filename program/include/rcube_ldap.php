@@ -870,10 +870,8 @@ class rcube_ldap extends rcube_addressbook
                 // The filter is not set, set it.
                 $this->filter = $this->prop['filter'];
             }
-            $this->_exec_search(true);
-            if ($this->ldap_result) {
-                $count = ldap_count_entries($this->conn, $this->ldap_result);
-            }
+
+            $count = (int) $this->_exec_search(true);
         }
 
         return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
