@@ -1234,9 +1234,9 @@ class rcube_ldap extends rcube_addressbook
                 $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
             ) {
                 $entries_count = ldap_count_entries($this->conn, $this->ldap_result);
-                $this->_debug("S: $count_entries record(s)");
+                $this->_debug("S: $entries_count record(s)");
 
-                return $count ? $count_entries : true;
+                return $count ? $entries_count : true;
             }
             else {
                 $this->_debug("S: ".ldap_error($this->conn));
