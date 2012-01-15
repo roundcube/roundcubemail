@@ -343,11 +343,11 @@ a.iconbutton.threadmode.selected {
 #messagelist tr td.to,
 #messagelist tr td.cc,
 #messagelist tr td.replyto {
-	width: 180px;
+	width: 200px;
 }
 
 #messagelist tr td.date {
-	width: 118px;
+	width: 125px;
 }
 
 #messagelist tr.message {

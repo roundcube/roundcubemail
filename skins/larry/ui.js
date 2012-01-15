@@ -234,8 +234,8 @@ function rcube_mail_ui()
           width: 420,
           minHeight: 90
         }).show();
-        
-      window.setTimeout(function(){ me.messagedialog.dialog('close'); }, p.timeout / 2);
+
+      window.setTimeout(function(){ me.messagedialog.dialog('close'); }, Math.max(2000, p.timeout / 2));
     }
   }
 
