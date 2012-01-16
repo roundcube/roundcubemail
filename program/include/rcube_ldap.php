@@ -176,7 +176,7 @@ class rcube_ldap extends rcube_addressbook
             $host     = idn_to_ascii(rcube_parse_host($host));
             $hostname = $host.($this->prop['port'] ? ':'.$this->prop['port'] : '');
 
-            $this->_debug("C: Connect [$hostname]");
+            $this->_debug("C: Connect [$hostname] [{$this->prop['name']}]");
 
             if ($lc = @ldap_connect($host, $this->prop['port']))
             {
