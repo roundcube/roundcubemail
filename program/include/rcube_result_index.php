@@ -27,11 +27,11 @@
  */
 class rcube_result_index
 {
-    private $raw_data;
-    private $mailbox;
-    private $meta = array();
-    private $params = array();
-    private $order = 'ASC';
+    protected $raw_data;
+    protected $mailbox;
+    protected $meta = array();
+    protected $params = array();
+    protected $order = 'ASC';
 
     const SEPARATOR_ELEMENT = ' ';
 
@@ -126,7 +126,7 @@ class rcube_result_index
      *
      * @return bool True if the result is an error, False otherwise
      */
-    public function isError()
+    public function is_error()
     {
         return $this->raw_data === null ? true : false;
     }
@@ -137,7 +137,7 @@ class rcube_result_index
      *
      * @return bool True if the result is empty, False otherwise
      */
-    public function isEmpty()
+    public function is_empty()
     {
         return empty($this->raw_data) ? true : false;
     }
@@ -171,7 +171,7 @@ class rcube_result_index
      *
      * @return int Number of elements
      */
-    public function countMessages()
+    public function count_messages()
     {
         return $this->count();
     }
@@ -305,7 +305,7 @@ class rcube_result_index
                 if ($m[0][1]) {
                     $idx = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]);
                 }
-                // cache position of this element, so we can use it in getElement()
+                // cache position of this element, so we can use it in get_element()
                 $this->meta['pos'][$idx] = (int)$m[0][1];
 
                 return $idx;
@@ -336,7 +336,7 @@ class rcube_result_index
      *
      * @return array List of message IDs
      */
-    public function getCompressed()
+    public function get_compressed()
     {
         if (empty($this->raw_data)) {
             return '';
@@ -353,7 +353,7 @@ class rcube_result_index
      *
      * @return int Element value
      */
-    public function getElement($index)
+    public function get_element($index)
     {
         $count = $this->count();
 
@@ -414,7 +414,7 @@ class rcube_result_index
      *
      * @return array|string Response parameters or parameter value
      */
-    public function getParameters($param=null)
+    public function get_parameters($param=null)
     {
         $params = $this->params;
         $params['MAILBOX'] = $this->mailbox;
@@ -433,7 +433,7 @@ class rcube_result_index
      *
      * @return int Data length
      */
-    private function length()
+    protected function length()
     {
         if (!isset($this->meta['length'])) {
             $this->meta['length'] = strlen($this->raw_data);

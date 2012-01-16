@@ -135,7 +135,7 @@ class rcube_imap_cache
             // We've got a valid index
             else if ($sort_field == 'ANY' || $this->icache[$mailbox]['index']['sort_field'] == $sort_field) {
                 $result = $this->icache[$mailbox]['index']['object'];
-                if ($result->getParameters('ORDER') != $sort_order) {
+                if ($result->get_parameters('ORDER') != $sort_order) {
                     $result->revert();
                 }
                 return $result;
@@ -178,7 +178,7 @@ class rcube_imap_cache
             if ($is_valid) {
                 $data = $index['object'];
                 // revert the order if needed
-                if ($data->getParameters('ORDER') != $sort_order) {
+                if ($data->get_parameters('ORDER') != $sort_order) {
                     $data->revert();
                 }
             }
@@ -198,7 +198,7 @@ class rcube_imap_cache
         // Index not found, not valid or sort field changed, get index from IMAP server
         if ($data === null) {
             // Get mailbox data (UIDVALIDITY, counters, etc.) for status check
-            $mbox_data = $this->imap->mailbox_data($mailbox);
+            $mbox_data = $this->imap->folder_data($mailbox);
             $data      = $this->get_index_data($mailbox, $sort_field, $sort_order, $mbox_data);
 
             // insert/update
@@ -259,7 +259,7 @@ class rcube_imap_cache
         // Index not found or not valid, get index from IMAP server
         if ($index === null) {
             // Get mailbox data (UIDVALIDITY, counters, etc.) for status check
-            $mbox_data = $this->imap->mailbox_data($mailbox);
+            $mbox_data = $this->imap->folder_data($mailbox);
 
             if ($mbox_data['EXISTS']) {
                 // get all threads (default sort order)
@@ -371,7 +371,7 @@ class rcube_imap_cache
 
         // Get the message from IMAP server
         if (empty($message) && $update) {
-            $message = $this->imap->get_headers($uid, $mailbox, true);
+            $message = $this->imap->get_message_headers($uid, $mailbox, true);
             // cache will be updated in close(), see below
         }
 
@@ -740,7 +740,7 @@ class rcube_imap_cache
         $is_thread = is_a($object, 'rcube_result_thread');
 
         // Get mailbox data (UIDVALIDITY, counters, etc.) for status check
-        $mbox_data = $this->imap->mailbox_data($mailbox);
+        $mbox_data = $this->imap->folder_data($mailbox);
 
         // @TODO: Think about skipping validation checks.
         // If we could check only every 10 minutes, we would be able to skip
@@ -757,14 +757,14 @@ class rcube_imap_cache
 
         // Folder is empty but cache isn't
         if (empty($mbox_data['EXISTS'])) {
-            if (!$object->isEmpty()) {
+            if (!$object->is_empty()) {
                 $this->clear($mailbox);
                 $exists = false;
                 return false;
             }
         }
         // Folder is not empty but cache is
-        else if ($object->isEmpty()) {
+        else if ($object->is_empty()) {
             unset($this->icache[$mailbox][$is_thread ? 'thread' : 'index']);
             return false;
         }
@@ -796,7 +796,7 @@ class rcube_imap_cache
         // @TODO: find better validity check for threaded index
         if ($is_thread) {
             // check messages number...
-            if (!$this->skip_deleted && $mbox_data['EXISTS'] != $object->countMessages()) {
+            if (!$this->skip_deleted && $mbox_data['EXISTS'] != $object->count_messages()) {
                 return false;
             }
             return true;
@@ -830,7 +830,7 @@ class rcube_imap_cache
                 $ids = $this->imap->search_once($mailbox, 'ALL UNDELETED NOT UID '.
                     rcube_imap_generic::compressMessageSet($object->get()));
 
-                if (!$ids->isEmpty()) {
+                if (!$ids->is_empty()) {
                     return false;
                 }
             }
@@ -888,6 +888,10 @@ class rcube_imap_cache
             return;
         }
 
+        if (!$this->imap->check_connection()) {
+            return;
+        }
+
         // NOTE: make sure the mailbox isn't selected, before
         // enabling QRESYNC and invoking SELECT
         if ($this->imap->conn->selected !== null) {
@@ -901,7 +905,7 @@ class rcube_imap_cache
         }
 
         // Get mailbox data (UIDVALIDITY, HIGHESTMODSEQ, counters, etc.)
-        $mbox_data = $this->imap->mailbox_data($mailbox);
+        $mbox_data = $this->imap->folder_data($mailbox);
 
         if (empty($mbox_data)) {
              return;
@@ -986,7 +990,7 @@ class rcube_imap_cache
 
         // Get VANISHED
         if ($qresync) {
-            $mbox_data = $this->imap->mailbox_data($mailbox);
+            $mbox_data = $this->imap->folder_data($mailbox);
 
             // Removed messages
             if (!empty($mbox_data['VANISHED'])) {
@@ -1004,7 +1008,7 @@ class rcube_imap_cache
         }
 
         $sort_field = $index['sort_field'];
-        $sort_order = $index['object']->getParameters('ORDER');
+        $sort_order = $index['object']->get_parameters('ORDER');
         $exists     = true;
 
         // Validate index
@@ -1103,12 +1107,12 @@ class rcube_imap_cache
     private function get_index_data($mailbox, $sort_field, $sort_order, $mbox_data = array())
     {
         if (empty($mbox_data)) {
-            $mbox_data = $this->imap->mailbox_data($mailbox);
+            $mbox_data = $this->imap->folder_data($mailbox);
         }
 
         if ($mbox_data['EXISTS']) {
             // fetch sorted sequence numbers
-            $index = $this->imap->message_index_direct($mailbox, $sort_field, $sort_order);
+            $index = $this->imap->index_direct($mailbox, $sort_field, $sort_order);
         }
         else {
             $index = new rcube_result_index($mailbox, '* SORT');

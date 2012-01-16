@@ -20,14 +20,14 @@
 */
 
 $uid   = get_input_value('_uid', RCUBE_INPUT_GET);
-$index = $RCMAIL->imap->message_index(null, $_SESSION['sort_col'], $_SESSION['sort_order']);
-$cnt   = $index->countMessages();
+$index = $RCMAIL->storage->index(null, $_SESSION['sort_col'], $_SESSION['sort_order']);
+$cnt   = $index->count_messages();
 
 if ($cnt && ($pos = $index->exists($uid, true)) !== false) {
-    $prev  = $pos ? $index->getElement($pos-1) : 0;
-    $first = $pos ? $index->getElement('FIRST') : 0;
-    $next  = $pos < $cnt-1 ? $index->getElement($pos+1) : 0;
-    $last  = $pos < $cnt-1 ? $index->getElement('LAST') : 0;
+    $prev  = $pos ? $index->get_element($pos-1) : 0;
+    $first = $pos ? $index->get_element('FIRST') : 0;
+    $next  = $pos < $cnt-1 ? $index->get_element($pos+1) : 0;
+    $last  = $pos < $cnt-1 ? $index->get_element('LAST') : 0;
 }
 
 // Set UIDs and activate navigation buttons

@@ -24,7 +24,7 @@ ob_end_clean();
 // similar code as in program/steps/mail/get.inc
 if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
 {
-  $headers = $RCMAIL->imap->get_headers($uid);
+  $headers = $RCMAIL->storage->get_message_headers($uid);
   $charset = $headers->charset ? $headers->charset : $CONFIG['default_charset'];
   header("Content-Type: text/plain; charset={$charset}");
 
@@ -44,7 +44,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
     header("Content-Disposition: attachment; filename=\"$filename\"");
   }
 
-  $RCMAIL->imap->print_raw_body($uid);
+  $RCMAIL->storage->print_raw_body($uid);
 }
 else
 {

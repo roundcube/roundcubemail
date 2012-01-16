@@ -27,10 +27,10 @@
  */
 class rcube_result_thread
 {
-    private $raw_data;
-    private $mailbox;
-    private $meta = array();
-    private $order = 'ASC';
+    protected $raw_data;
+    protected $mailbox;
+    protected $meta = array();
+    protected $order = 'ASC';
 
     const SEPARATOR_ELEMENT = ' ';
     const SEPARATOR_ITEM    = '~';
@@ -77,7 +77,7 @@ class rcube_result_thread
         $data = preg_replace('/[\r\n]/', '', $data);
         $data = preg_replace('/\s+/', ' ', $data);
 
-        $this->raw_data = $this->parseThread($data);
+        $this->raw_data = $this->parse_thread($data);
     }
 
 
@@ -86,7 +86,7 @@ class rcube_result_thread
      *
      * @return bool True if the result is an error, False otherwise
      */
-    public function isError()
+    public function is_error()
     {
         return $this->raw_data === null ? true : false;
     }
@@ -97,7 +97,7 @@ class rcube_result_thread
      *
      * @return bool True if the result is empty, False otherwise
      */
-    public function isEmpty()
+    public function is_empty()
     {
         return empty($this->raw_data) ? true : false;
     }
@@ -132,7 +132,7 @@ class rcube_result_thread
      *
      * @return int Number of elements
      */
-    public function countMessages()
+    public function count_messages()
     {
         if ($this->meta['messages'] !== null)
             return $this->meta['messages'];
@@ -300,7 +300,7 @@ class rcube_result_thread
                     $idx = substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]+1)
                         + substr_count($this->raw_data, self::SEPARATOR_ITEM, 0, $m[0][1]+1);
                 }
-                // cache position of this element, so we can use it in getElement()
+                // cache position of this element, so we can use it in get_element()
                 $this->meta['pos'][$idx] = (int)$m[0][1];
 
                 return $idx;
@@ -336,7 +336,7 @@ class rcube_result_thread
      *
      * @return array List of message identifiers
      */
-    public function getCompressed()
+    public function get_compressed()
     {
         if (empty($this->raw_data)) {
             return '';
@@ -353,7 +353,7 @@ class rcube_result_thread
      *
      * @return int Element value
      */
-    public function getElement($index)
+    public function get_element($index)
     {
         $count = $this->count();
 
@@ -423,7 +423,7 @@ class rcube_result_thread
      *
      * @return array|string Response parameters or parameter value
      */
-    public function getParameters($param=null)
+    public function get_parameters($param=null)
     {
         $params = $this->params;
         $params['MAILBOX'] = $this->mailbox;
@@ -444,14 +444,14 @@ class rcube_result_thread
      */
     public function sort($index)
     {
-        $this->sort_order = $index->getParameters('ORDER');
+        $this->sort_order = $index->get_parameters('ORDER');
 
         if (empty($this->raw_data)) {
             return;
         }
 
         // when sorting search result it's good to make the index smaller
-        if ($index->count() != $this->countMessages()) {
+        if ($index->count() != $this->count_messages()) {
             $index->intersect($this->get());
         }
 
@@ -510,7 +510,7 @@ class rcube_result_thread
      *
      * @return array Data tree
      */
-    public function getTree()
+    public function get_tree()
     {
         $datalen = strlen($this->raw_data);
         $result  = array();
@@ -522,7 +522,7 @@ class rcube_result_thread
             $len   = $pos - $start;
             $elem  = substr($this->raw_data, $start, $len);
             $items = explode(self::SEPARATOR_ITEM, $elem);
-            $result[array_shift($items)] = $this->buildThread($items);
+            $result[array_shift($items)] = $this->build_thread($items);
             $start = $pos + 1;
         }
 
@@ -535,13 +535,13 @@ class rcube_result_thread
      *
      * @return array Thread data
      */
-    public function getThreadData()
+    public function get_thread_data()
     {
-        $data     = $this->getTree();
+        $data     = $this->get_tree();
         $depth    = array();
         $children = array();
 
-        $this->buildThreadData($data, $depth, $children);
+        $this->build_thread_data($data, $depth, $children);
 
         return array($depth, $children);
     }
@@ -550,14 +550,14 @@ class rcube_result_thread
     /**
      * Creates 'depth' and 'children' arrays from stored thread 'tree' data.
      */
-    private function buildThreadData($data, &$depth, &$children, $level = 0)
+    protected function build_thread_data($data, &$depth, &$children, $level = 0)
     {
         foreach ((array)$data as $key => $val) {
             $empty          = empty($val) || !is_array($val);
             $children[$key] = !$empty;
             $depth[$key]    = $level;
             if (!$empty) {
-                $this->buildThreadData($val, $depth, $children, $level + 1);
+                $this->build_thread_data($val, $depth, $children, $level + 1);
             }
         }
     }
@@ -566,7 +566,7 @@ class rcube_result_thread
     /**
      * Converts part of the raw thread into an array
      */
-    private function buildThread($items, $level = 1, &$pos = 0)
+    protected function build_thread($items, $level = 1, &$pos = 0)
     {
         $result = array();
 
@@ -574,7 +574,7 @@ class rcube_result_thread
             list($lv, $id) = explode(self::SEPARATOR_LEVEL, $items[$pos]);
             if ($level == $lv) {
                 $pos++;
-                $result[$id] = $this->buildThread($items, $level+1, $pos);
+                $result[$id] = $this->build_thread($items, $level+1, $pos);
             }
             else {
                 $pos--;
@@ -589,7 +589,7 @@ class rcube_result_thread
     /**
      * IMAP THREAD response parser
      */
-    private function parseThread($str, $begin = 0, $end = 0, $depth = 0)
+    protected function parse_thread($str, $begin = 0, $end = 0, $depth = 0)
     {
         // Don't be tempted to change $str to pass by reference to speed this up - it will slow it down by about
         // 7 times instead :-) See comments on http://uk2.php.net/references and this article:
@@ -627,7 +627,7 @@ class rcube_result_thread
             $node .= ($depth ? self::SEPARATOR_ITEM.$depth.self::SEPARATOR_LEVEL : '').$msg;
 
             if ($stop + 1 < $end) {
-                $node .= $this->parseThread($str, $stop + 1, $end, $depth + 1);
+                $node .= $this->parse_thread($str, $stop + 1, $end, $depth + 1);
             }
         } else {
             $off = $begin;
@@ -652,7 +652,7 @@ class rcube_result_thread
                     }
                 }
 
-                $thread = $this->parseThread($str, $start + 1, $off - 1, $depth);
+                $thread = $this->parse_thread($str, $start + 1, $off - 1, $depth);
                 if ($thread) {
                     if (!$depth) {
                         if ($node) {

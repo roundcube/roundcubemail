@@ -31,10 +31,14 @@ function export_mailbox($mbox, $filename)
 {
 	global $IMAP;
 
-	$IMAP->set_mailbox($mbox);
+	$IMAP->set_folder($mbox);
+
+    $index = $IMAP->index($mbox, null, 'ASC');
+    $count = $index->countMessages();
+    $index = $index->get();
 
 	vputs("Getting message list of {$mbox}...");
-	vputs($IMAP->messagecount()." messages\n");
+	vputs("$count messages\n");
 
 	if ($filename)
 	{
@@ -48,17 +52,16 @@ function export_mailbox($mbox, $filename)
 	else
 		$out = STDOUT;
 
-	for ($count = $IMAP->messagecount(), $i=1; $i <= $count; $i++)
+	for ($i = 0; $i < $count; $i++)
 	{
-		$headers = $IMAP->get_headers($i, null, false);
+		$headers = $IMAP->get_message_headers($index[$i]);
 		$from = current(rcube_mime::decode_address_list($headers->from, 1, false));
 
 		fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
-		fwrite($out, $IMAP->conn->fetchPartHeader($mbox, $i));
-		fwrite($out, $IMAP->conn->handlePartBody($mbox, $i));
+		fwrite($out, $IMAP->print_raw_body($headers->uid));
 		fwrite($out, "\n\n\n");
 
-		progress_update($i, $count);
+		progress_update($i+1, $count);
 	}
 	vputs("\ncomplete.\n");
 
@@ -116,7 +119,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 	vputs("IMAP login successful.\n");
 
 	$filename = null;
-	$mailboxes = $args['mbox'] == '*' ? $IMAP->list_mailboxes(null) : array($args['mbox']);
+	$mailboxes = $args['mbox'] == '*' ? $IMAP->list_folders(null) : array($args['mbox']);
 
 	foreach ($mailboxes as $mbox)
 	{

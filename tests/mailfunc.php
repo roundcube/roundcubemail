@@ -16,8 +16,7 @@ class rcube_test_mailfunc extends UnitTestCase
     $GLOBALS['RCMAIL'] = $RCMAIL = rcmail::get_instance();
     $GLOBALS['OUTPUT'] = $OUTPUT = $RCMAIL->load_gui();
     $RCMAIL->action = 'autocomplete';
-    $RCMAIL->imap_init(false);
-    $IMAP = $RCMAIL->imap;
+    $RCMAIL->storage_init(false);
     
     require_once INSTALL_PATH . 'program/steps/mail/func.inc';
     

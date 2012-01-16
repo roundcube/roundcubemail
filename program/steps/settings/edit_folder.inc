@@ -21,12 +21,11 @@
 
 // WARNING: folder names in UI are encoded with RCMAIL_CHARSET
 
-// init IMAP connection
-$RCMAIL->imap_connect();
-
 function rcmail_folder_form($attrib)
 {
     global $RCMAIL;
+
+    $storage = $RCMAIL->get_storage();
 
     // edited folder name (empty in create-folder mode)
     $mbox      = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true));
@@ -36,13 +35,13 @@ function rcmail_folder_form($attrib)
     $parent      = trim(get_input_value('_path', RCUBE_INPUT_GPC, true));
     $parent_imap = rcube_charset_convert($parent, RCMAIL_CHARSET, 'UTF7-IMAP');
 
-    $threading_supported = $RCMAIL->imap->get_capability('THREAD');
-    $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
+    $threading_supported = $storage->get_capability('THREAD');
+    $delimiter = $storage->get_hierarchy_delimiter();
 
     // Get mailbox parameters
     if (strlen($mbox)) {
         $options   = rcmail_folder_options($mbox_imap);
-        $namespace = $RCMAIL->imap->get_namespace();
+        $namespace = $storage->get_namespace();
 
         $path   = explode($delimiter, $mbox_imap);
         $folder = array_pop($path);
@@ -57,14 +56,14 @@ function rcmail_folder_form($attrib)
 
         // allow creating subfolders of INBOX folder
         if ($path == 'INBOX') {
-            $path = $RCMAIL->imap->mod_mailbox($path, 'in');
+            $path = $storage->mod_folder($path, 'in');
         }
     }
 
     // remove personal namespace prefix
     if (strlen($path)) {
         $path_id = $path;
-        $path    = $RCMAIL->imap->mod_mailbox($path.$delimiter);
+        $path    = $storage->mod_folder($path.$delimiter);
         if ($path[strlen($path)-1] == $delimiter) {
             $path = substr($path, 0, -1);
         }
@@ -193,7 +192,7 @@ function rcmail_folder_form($attrib)
         );
 
         if ((!$options['noselect'] && !$options['is_root']) || $mbox_imap == 'INBOX') {
-            $msgcount = $RCMAIL->imap->messagecount($mbox_imap, 'ALL', true, false);
+            $msgcount = $storage->count($mbox_imap, 'ALL', true, false);
 
             // Size
             if ($msgcount) {

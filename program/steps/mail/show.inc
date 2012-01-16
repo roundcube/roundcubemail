@@ -30,14 +30,14 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     rcmail_message_error($uid);
   }
 
-  $mbox_name = $RCMAIL->imap->get_mailbox_name();
+  $mbox_name = $RCMAIL->storage->get_folder();
 
   // show images?
   rcmail_check_safe($MESSAGE);
 
   // set message charset as default
   if (!empty($MESSAGE->headers->charset))
-    $RCMAIL->imap->set_charset($MESSAGE->headers->charset);
+    $RCMAIL->storage->set_charset($MESSAGE->headers->charset);
 
   $OUTPUT->set_pagetitle(abbreviate_string($MESSAGE->subject, 128, '...', true));
 
@@ -47,7 +47,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
   $OUTPUT->set_env('permaurl', rcmail_url('show', array('_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
-  $OUTPUT->set_env('delimiter', $RCMAIL->imap->get_hierarchy_delimiter());
+  $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
   $OUTPUT->set_env('mailbox', $mbox_name);
 
   // mimetypes supported by the browser (default settings)
@@ -77,7 +77,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if ($MESSAGE->headers->mdn_to
       && empty($MESSAGE->headers->flags['MDNSENT'])
       && empty($MESSAGE->headers->flags['SEEN'])
-      && ($RCMAIL->imap->check_permflag('MDNSENT') || $RCMAIL->imap->check_permflag('*'))
+      && ($RCMAIL->storage->check_permflag('MDNSENT') || $RCMAIL->storage->check_permflag('*'))
       && $mbox_name != $CONFIG['drafts_mbox']
       && $mbox_name != $CONFIG['sent_mbox']
   ) {
@@ -175,8 +175,8 @@ function rcmail_message_buttons()
 {
   global $MESSAGE, $RCMAIL, $CONFIG;
 
-  $mbox  = $RCMAIL->imap->get_mailbox_name();
-  $delim = $RCMAIL->imap->get_hierarchy_delimiter();
+  $mbox  = $RCMAIL->storage->get_folder();
+  $delim = $RCMAIL->storage->get_hierarchy_delimiter();
   $dbox  = $CONFIG['drafts_mbox'];
 
   // the message is not a draft
@@ -248,7 +248,7 @@ else
 if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']) &&
   ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($CONFIG['preview_pane_mark_read']) == 0)))
 {
-  if ($RCMAIL->imap->set_flag($MESSAGE->uid, 'SEEN')) {
+  if ($RCMAIL->storage->set_flag($MESSAGE->uid, 'SEEN')) {
     if ($count = rcmail_get_unseen_count($mbox_name)) {
       rcmail_set_unseen_count($mbox_name, $count - 1);
     }

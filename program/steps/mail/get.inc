@@ -36,7 +36,7 @@ if (!empty($_GET['_preload'])) {
 ob_end_clean();
 
 // Now we need IMAP connection
-if (!$RCMAIL->imap_connect()) {
+if (!$RCMAIL->storage_connect()) {
   // Get action is often executed simultanously.
   // Some servers have MAXPERIP or other limits.
   // To workaround this we'll wait for some time
@@ -117,7 +117,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       if (!rcmail_mem_check($part->size * 10)) {
         $out = '<body>' . rcube_label('messagetoobig'). ' '
           . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-            .'&_mbox='. urlencode($RCMAIL->imap->get_mailbox_name()), rcube_label('download')) . '</body></html>';
+            .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), rcube_label('download')) . '</body></html>';
       }
       else {
         // get part body if not available
@@ -157,7 +157,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
           $stdout = fopen('php://output', 'w');
           stream_filter_register('rcube_content', 'rcube_content_filter') or die('Failed to register content filter');
           stream_filter_append($stdout, 'rcube_content');
-          $RCMAIL->imap->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
+          $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
         }
       }
       else {
@@ -165,7 +165,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         if ($part->body)
           echo $part->body;
         else if ($part->size)
-          $RCMAIL->imap->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
+          $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
       }
     }
 

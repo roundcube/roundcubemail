@@ -51,30 +51,31 @@ if ($cols = get_input_value('_cols', RCUBE_INPUT_GET))
 if ($save_arr)
   $RCMAIL->user->save_prefs($save_arr);
 
-$mbox_name = $RCMAIL->imap->get_mailbox_name();
+$mbox_name = $RCMAIL->storage->get_folder();
+$threading = (bool) $RCMAIL->storage->get_threading();
 
 // Synchronize mailbox cache, handle flag changes
-$RCMAIL->imap->mailbox_sync($mbox_name);
+$RCMAIL->storage->folder_sync($mbox_name);
 
 // initialize searching result if search_filter is used
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 {
   $search_request = md5($mbox_name.$_SESSION['search_filter']);
-  $RCMAIL->imap->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $sort_col);
-  $_SESSION['search'] = $RCMAIL->imap->get_search_set();
+  $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $sort_col);
+  $_SESSION['search'] = $RCMAIL->storage->get_search_set();
   $_SESSION['search_request'] = $search_request;
   $OUTPUT->set_env('search_request', $search_request);
 }
 
 // fetch message headers
-if ($count = $RCMAIL->imap->messagecount($mbox_name, $RCMAIL->imap->threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh'])))
-  $a_headers = $RCMAIL->imap->list_headers($mbox_name, NULL, $sort_col, $sort_order);
+if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh'])))
+  $a_headers = $RCMAIL->storage->list_messages($mbox_name, NULL, $sort_col, $sort_order);
 
 // update search set (possible change of threading mode)
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     && $_SESSION['search_request'] == $_REQUEST['_search']
 ) {
-  $_SESSION['search'] = $RCMAIL->imap->get_search_set();
+  $_SESSION['search'] = $RCMAIL->storage->get_search_set();
 }
 // remove old search data
 else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
@@ -91,11 +92,11 @@ if (empty($search_request) && empty($a_headers)) {
 rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
 
 // update message count display
-$pages = ceil($count/$RCMAIL->imap->page_size);
+$pages = ceil($count/$RCMAIL->storage->get_pagesize());
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
-$OUTPUT->set_env('threading', (bool) $RCMAIL->imap->threading);
-$OUTPUT->set_env('current_page', $count ? $RCMAIL->imap->list_page : 1);
+$OUTPUT->set_env('threading', $threading);
+$OUTPUT->set_env('current_page', $count ? $RCMAIL->storage->get_page() : 1);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
@@ -108,7 +109,7 @@ if (isset($a_headers) && count($a_headers))
 }
 else {
   // handle IMAP errors (e.g. #1486905)
-  if ($err_code = $RCMAIL->imap->get_error_code()) {
+  if ($err_code = $RCMAIL->storage->get_error_code()) {
     rcmail_display_server_error();
   }
   else if ($search_request)

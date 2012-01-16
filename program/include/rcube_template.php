@@ -804,8 +804,8 @@ class rcube_template extends rcube_html_page
                         break;
                     case 'config':
                         $value = $this->config[$name];
-                        if (is_array($value) && $value[$_SESSION['imap_host']]) {
-                            $value = $value[$_SESSION['imap_host']];
+                        if (is_array($value) && $value[$_SESSION['storage_host']]) {
+                            $value = $value[$_SESSION['storage_host']];
                         }
                         break;
                     case 'request':

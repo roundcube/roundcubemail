@@ -26,7 +26,6 @@
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
 
-require_once 'utf7.inc';
 require_once INSTALL_PATH . 'program/include/rcube_shared.inc';
 
 // define constannts for input reading
@@ -183,336 +182,40 @@ function rcmail_cache_gc()
 }
 
 
-/**
- * Catch an error and throw an exception.
- *
- * @param  int    Level of the error
- * @param  string Error message
- */ 
-function rcube_error_handler($errno, $errstr)
-{
-  throw new ErrorException($errstr, 0, $errno);
-}
-
-
-/**
- * Convert a string from one charset to another.
- * Uses mbstring and iconv functions if possible
- *
- * @param  string Input string
- * @param  string Suspected charset of the input string
- * @param  string Target charset to convert to; defaults to RCMAIL_CHARSET
- * @return string Converted string
- */
+// Deprecated
 function rcube_charset_convert($str, $from, $to=NULL)
 {
-  static $iconv_options = null;
-  static $mbstring_loaded = null;
-  static $mbstring_list = null;
-  static $conv = null;
+    return rcube_charset::convert($str, $from, $to);
+}
 
-  $error = false;
 
-  $to = empty($to) ? strtoupper(RCMAIL_CHARSET) : rcube_parse_charset($to);
-  $from = rcube_parse_charset($from);
+// Deprecated
+function rc_detect_encoding($string, $failover='')
+{
+    return rcube_charset::detect($string, $failover);
+}
 
-  if ($from == $to || empty($str) || empty($from))
-    return $str;
 
-  // convert charset using iconv module
-  if (function_exists('iconv') && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
-    if ($iconv_options === null) {
-      // ignore characters not available in output charset
-      $iconv_options = '//IGNORE';
-      if (iconv('', $iconv_options, '') === false) {
-        // iconv implementation does not support options
-        $iconv_options = '';
-      }
-    }
-
-    // throw an exception if iconv reports an illegal character in input
-    // it means that input string has been truncated
-    set_error_handler('rcube_error_handler', E_NOTICE);
-    try {
-      $_iconv = iconv($from, $to . $iconv_options, $str);
-    } catch (ErrorException $e) {
-      $_iconv = false;
-    }
-    restore_error_handler();
-    if ($_iconv !== false) {
-      return $_iconv;
-    }
-  }
-
-  if ($mbstring_loaded === null)
-    $mbstring_loaded = extension_loaded('mbstring');
-
-  // convert charset using mbstring module
-  if ($mbstring_loaded) {
-    $aliases['WINDOWS-1257'] = 'ISO-8859-13';
-
-    if ($mbstring_list === null) {
-      $mbstring_list = mb_list_encodings();
-      $mbstring_list = array_map('strtoupper', $mbstring_list);
-    }
-
-    $mb_from = $aliases[$from] ? $aliases[$from] : $from;
-    $mb_to = $aliases[$to] ? $aliases[$to] : $to;
-
-    // return if encoding found, string matches encoding and convert succeeded
-    if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
-      if (mb_check_encoding($str, $mb_from) && ($out = mb_convert_encoding($str, $mb_to, $mb_from)))
-        return $out;
-    }
-  }
-
-  // convert charset using bundled classes/functions
-  if ($to == 'UTF-8') {
-    if ($from == 'UTF7-IMAP') {
-      if ($_str = utf7_to_utf8($str))
-        return $_str;
-    }
-    else if ($from == 'UTF-7') {
-      if ($_str = rcube_utf7_to_utf8($str))
-        return $_str;
-    }
-    else if (($from == 'ISO-8859-1') && function_exists('utf8_encode')) {
-      return utf8_encode($str);
-    }
-    else if (class_exists('utf8')) {
-      if (!$conv)
-        $conv = new utf8($from);
-      else
-        $conv->loadCharset($from);
-
-      if($_str = $conv->strToUtf8($str))
-        return $_str;
-    }
-    $error = true;
-  }
-
-  // encode string for output
-  if ($from == 'UTF-8') {
-    // @TODO: we need a function for UTF-7 (RFC2152) conversion
-    if ($to == 'UTF7-IMAP' || $to == 'UTF-7') {
-      if ($_str = utf8_to_utf7($str))
-        return $_str;
-    }
-    else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
-      return utf8_decode($str);
-    }
-    else if (class_exists('utf8')) {
-      if (!$conv)
-        $conv = new utf8($to);
-      else
-        $conv->loadCharset($from);
-
-      if ($_str = $conv->strToUtf8($str))
-        return $_str;
-    }
-    $error = true;
-  }
-
-  // return UTF-8 or original string
-  return $str;
+// Deprecated
+function rc_utf8_clean($input)
+{
+    return rcube_charset::clean($input);
 }
 
 
 /**
- * Parse and validate charset name string (see #1485758).
- * Sometimes charset string is malformed, there are also charset aliases 
- * but we need strict names for charset conversion (specially utf8 class)
+ * Convert a variable into a javascript object notation
  *
- * @param  string Input charset name
- * @return string The validated charset name
+ * @param mixed Input value
+ * @return string Serialized JSON string
  */
-function rcube_parse_charset($input)
+function json_serialize($input)
 {
-  static $charsets = array();
-  $charset = strtoupper($input);
+    $input = rcube_charset::clean($input);
 
-  if (isset($charsets[$input]))
-    return $charsets[$input];
-
-  $charset = preg_replace(array(
-    '/^[^0-9A-Z]+/',    // e.g. _ISO-8859-JP$SIO
-    '/\$.*$/',          // e.g. _ISO-8859-JP$SIO
-    '/UNICODE-1-1-*/',  // RFC1641/1642
-    '/^X-/',            // X- prefix (e.g. X-ROMAN8 => ROMAN8)
-    ), '', $charset);
-
-  if ($charset == 'BINARY')
-    return $charsets[$input] = null;
-
-  # Aliases: some of them from HTML5 spec.
-  $aliases = array(
-    'USASCII'       => 'WINDOWS-1252',
-    'ANSIX31101983' => 'WINDOWS-1252',
-    'ANSIX341968'   => 'WINDOWS-1252',
-    'UNKNOWN8BIT'   => 'ISO-8859-15',
-    'UNKNOWN'       => 'ISO-8859-15',
-    'USERDEFINED'   => 'ISO-8859-15',
-    'KSC56011987'   => 'EUC-KR',
-    'GB2312' 	    => 'GBK',
-    'GB231280'	    => 'GBK',
-    'UNICODE'	    => 'UTF-8',
-    'UTF7IMAP'	    => 'UTF7-IMAP',
-    'TIS620'	    => 'WINDOWS-874',
-    'ISO88599'	    => 'WINDOWS-1254',
-    'ISO885911'	    => 'WINDOWS-874',
-    'MACROMAN'	    => 'MACINTOSH',
-    '77'            => 'MAC',
-    '128'           => 'SHIFT-JIS',
-    '129'           => 'CP949',
-    '130'           => 'CP1361',
-    '134'           => 'GBK',
-    '136'           => 'BIG5',
-    '161'           => 'WINDOWS-1253',
-    '162'           => 'WINDOWS-1254',
-    '163'           => 'WINDOWS-1258',
-    '177'           => 'WINDOWS-1255',
-    '178'           => 'WINDOWS-1256',
-    '186'           => 'WINDOWS-1257',
-    '204'           => 'WINDOWS-1251',
-    '222'           => 'WINDOWS-874',
-    '238'           => 'WINDOWS-1250',
-    'MS950'         => 'CP950',
-    'WINDOWS949'    => 'UHC',
-  );
-
-  // allow A-Z and 0-9 only
-  $str = preg_replace('/[^A-Z0-9]/', '', $charset);
-
-  if (isset($aliases[$str]))
-    $result = $aliases[$str];
-  // UTF
-  else if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m))
-    $result = 'UTF-' . $m[1] . $m[2];
-  // ISO-8859
-  else if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
-    $iso = 'ISO-8859-' . ($m[1] ? $m[1] : 1);
-    // some clients sends windows-1252 text as latin1,
-    // it is safe to use windows-1252 for all latin1
-    $result = $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
-  }
-  // handle broken charset names e.g. WINDOWS-1250HTTP-EQUIVCONTENT-TYPE
-  else if (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
-    $result = 'WINDOWS-' . $m[2];
-  }
-  // LATIN
-  else if (preg_match('/LATIN(.*)/', $str, $m)) {
-    $aliases = array('2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
-        '7' => 13, '8' => 14, '9' => 15, '10' => 16,
-        'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8);
-
-    // some clients sends windows-1252 text as latin1,
-    // it is safe to use windows-1252 for all latin1
-    if ($m[1] == 1) {
-      $result = 'WINDOWS-1252';
-    }
-    // if iconv is not supported we need ISO labels, it's also safe for iconv
-    else if (!empty($aliases[$m[1]])) {
-      $result = 'ISO-8859-'.$aliases[$m[1]];
-    }
-    // iconv requires convertion of e.g. LATIN-1 to LATIN1
-    else {
-      $result = $str;
-    }
-  }
-  else {
-    $result = $charset;
-  }
-
-  $charsets[$input] = $result;
-
-  return $result;
-}
-
-
-/**
- * Converts string from standard UTF-7 (RFC 2152) to UTF-8.
- *
- * @param  string  Input string
- * @return string  The converted string
- */
-function rcube_utf7_to_utf8($str)
-{
-  $Index_64 = array(
-    0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,
-    0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,
-    0,0,0,0, 0,0,0,0, 0,0,0,1, 0,0,0,0,
-    1,1,1,1, 1,1,1,1, 1,1,0,0, 0,0,0,0,
-    0,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1,
-    1,1,1,1, 1,1,1,1, 1,1,1,0, 0,0,0,0,
-    0,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1,
-    1,1,1,1, 1,1,1,1, 1,1,1,0, 0,0,0,0,
-  );
-
-  $u7len = strlen($str);
-  $str = strval($str);
-  $res = '';
-
-  for ($i=0; $u7len > 0; $i++, $u7len--)
-  {
-    $u7 = $str[$i];
-    if ($u7 == '+')
-    {
-      $i++;
-      $u7len--;
-      $ch = '';
-
-      for (; $u7len > 0; $i++, $u7len--)
-      {
-        $u7 = $str[$i];
-
-        if (!$Index_64[ord($u7)])
-          break;
-
-	$ch .= $u7;
-      }
-
-      if ($ch == '') {
-        if ($u7 == '-')
-          $res .= '+';
-        continue;
-      }
-
-      $res .= rcube_utf16_to_utf8(base64_decode($ch));
-    }
-    else
-    {
-      $res .= $u7;
-    }
-  }
-
-  return $res;
-}
-
-/**
- * Converts string from UTF-16 to UTF-8 (helper for utf-7 to utf-8 conversion)
- *
- * @param  string  Input string
- * @return string  The converted string
- */
-function rcube_utf16_to_utf8($str)
-{
-  $len = strlen($str);
-  $dec = '';
-
-  for ($i = 0; $i < $len; $i += 2) {
-    $c = ord($str[$i]) << 8 | ord($str[$i + 1]);
-    if ($c >= 0x0001 && $c <= 0x007F) {
-      $dec .= chr($c);
-    } else if ($c > 0x07FF) {
-      $dec .= chr(0xE0 | (($c >> 12) & 0x0F));
-      $dec .= chr(0x80 | (($c >>  6) & 0x3F));
-      $dec .= chr(0x80 | (($c >>  0) & 0x3F));
-    } else {
-      $dec .= chr(0xC0 | (($c >>  6) & 0x1F));
-      $dec .= chr(0x80 | (($c >>  0) & 0x3F));
-    }
-  }
-  return $dec;
+    // sometimes even using rcube_charset::clean() the input contains invalid UTF-8 sequences
+    // that's why we have @ here
+    return @json_encode($input);
 }
 
 
@@ -1193,13 +896,13 @@ function rcmail_mailbox_list($attrib)
     $attrib['folder_name'] = '*';
 
   // get mailbox list
-  $mbox_name = $RCMAIL->imap->get_mailbox_name();
+  $mbox_name = $RCMAIL->storage->get_folder();
 
   // build the folders tree
   if (empty($a_mailboxes)) {
     // get mailbox list
-    $a_folders = $RCMAIL->imap->list_mailboxes('', $attrib['folder_name'], $attrib['folder_filter']);
-    $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
+    $a_folders = $RCMAIL->storage->list_folders_subscribed('', $attrib['folder_name'], $attrib['folder_filter']);
+    $delimiter = $RCMAIL->storage->get_hierarchy_delimiter();
     $a_mailboxes = array();
 
     foreach ($a_folders as $folder)
@@ -1245,16 +948,18 @@ function rcmail_mailbox_select($p = array())
 
   $p += array('maxlength' => 100, 'realnames' => false);
   $a_mailboxes = array();
+  $storage = $RCMAIL->get_storage();
 
-  if (empty($p['folder_name']))
+  if (empty($p['folder_name'])) {
     $p['folder_name'] = '*';
+  }
 
   if ($p['unsubscribed'])
-    $list = $RCMAIL->imap->list_unsubscribed('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
+    $list = $storage->list_folders('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
   else
-    $list = $RCMAIL->imap->list_mailboxes('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
+    $list = $storage->list_folders_subscribed('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
 
-  $delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
+  $delimiter = $storage->get_hierarchy_delimiter();
 
   foreach ($list as $folder) {
     if (empty($p['exceptions']) || !in_array($folder, $p['exceptions']))
@@ -1285,7 +990,7 @@ function rcmail_build_folder_tree(&$arrFolders, $folder, $delm='/', $path='')
   $prefix = '';
   if (!$path) {
     $n_folder = $folder;
-    $folder = $RCMAIL->imap->mod_mailbox($folder);
+    $folder = $RCMAIL->storage->mod_folder($folder);
 
     if ($n_folder != $folder) {
       $prefix = substr($n_folder, 0, -strlen($folder));
@@ -1340,7 +1045,7 @@ function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $at
 
   $maxlength = intval($attrib['maxlength']);
   $realnames = (bool)$attrib['realnames'];
-  $msgcounts = $RCMAIL->imap->get_cache('messagecount');
+  $msgcounts = $RCMAIL->storage->get_cache('messagecount');
 
   $out = '';
   foreach ($arrFolders as $key => $folder) {
@@ -1432,7 +1137,7 @@ function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength,
     }
 
     // skip folders in which it isn't possible to create subfolders
-    if (!empty($opts['skip_noinferiors']) && ($attrs = $RCMAIL->imap->mailbox_attributes($folder['id']))
+    if (!empty($opts['skip_noinferiors']) && ($attrs = $RCMAIL->storage->folder_attributes($folder['id']))
         && in_array('\\Noinferiors', $attrs)
     ) {
       continue;
@@ -1501,8 +1206,8 @@ function rcmail_localize_folderpath($path)
     global $RCMAIL;
 
     $protect_folders = $RCMAIL->config->get('protect_default_folders');
-    $default_folders = (array) $RCMAIL->config->get('default_imap_folders');
-    $delimiter       = $RCMAIL->imap->get_hierarchy_delimiter();
+    $default_folders = (array) $RCMAIL->config->get('default_folders');
+    $delimiter       = $RCMAIL->storage->get_hierarchy_delimiter();
     $path            = explode($delimiter, $path);
     $result          = array();
 
@@ -1545,7 +1250,7 @@ function rcmail_quota_content($attrib=NULL)
 {
   global $RCMAIL;
 
-  $quota = $RCMAIL->imap->get_quota();
+  $quota = $RCMAIL->storage->get_quota();
   $quota = $RCMAIL->plugins->exec_hook('quota', $quota);
 
   $quota_result = (array) $quota;
@@ -1591,16 +1296,19 @@ function rcmail_display_server_error($fallback=null, $fallback_args=null)
 {
     global $RCMAIL;
 
-    $err_code = $RCMAIL->imap->get_error_code();
-    $res_code = $RCMAIL->imap->get_response_code();
+    $err_code = $RCMAIL->storage->get_error_code();
+    $res_code = $RCMAIL->storage->get_response_code();
 
-    if ($res_code == rcube_imap::NOPERM) {
+    if ($err_code < 0) {
+        $RCMAIL->output->show_message('storageerror', 'error');
+    }
+    else if ($res_code == rcube_storage::NOPERM) {
         $RCMAIL->output->show_message('errornoperm', 'error');
     }
-    else if ($res_code == rcube_imap::READONLY) {
+    else if ($res_code == rcube_storage::READONLY) {
         $RCMAIL->output->show_message('errorreadonly', 'error');
     }
-    else if ($err_code && ($err_str = $RCMAIL->imap->get_error_str())) {
+    else if ($err_code && ($err_str = $RCMAIL->storage->get_error_str())) {
         // try to detect access rights problem and display appropriate message
         if (stripos($err_str, 'Permission denied') !== false)
             $RCMAIL->output->show_message('errornoperm', 'error');
@@ -1968,7 +1676,7 @@ function rcube_parse_host($name, $host='')
   // %d - domain name without first part, e.g. %n=mail.domain.tld, %d=domain.tld
   $d = preg_replace('/^[^\.]+\./', '', $n);
   // %h - IMAP host
-  $h = $_SESSION['imap_host'] ? $_SESSION['imap_host'] : $host;
+  $h = $_SESSION['storage_host'] ? $_SESSION['storage_host'] : $host;
   // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
   $z = preg_replace('/^[^\.]+\./', '', $h);
   // %s - domain name after the '@' from e-mail address provided at login screen. Returns FALSE if an invalid email is provided

@@ -181,15 +181,15 @@ switch ($CURR_SECTION)
   break;
   case 'folders':
 
-    // special handling for 'default_imap_folders'
-    if (in_array('default_imap_folders', (array)$CONFIG['dont_override'])) {
+    // special handling for 'default_folders'
+    if (in_array('default_folders', (array)$CONFIG['dont_override'])) {
       foreach (array('drafts_mbox','sent_mbox','junk_mbox','trash_mbox') as $p)
         $a_user_prefs[$p] = $CONFIG[$p];
     } else {
-      $a_user_prefs['default_imap_folders'] = array('INBOX');
+      $a_user_prefs['default_folders'] = array('INBOX');
       foreach (array('drafts_mbox','sent_mbox','junk_mbox','trash_mbox') as $p) {
         if ($a_user_prefs[$p])
-          $a_user_prefs['default_imap_folders'][] = $a_user_prefs[$p];
+          $a_user_prefs['default_folders'][] = $a_user_prefs[$p];
       }
     }
 

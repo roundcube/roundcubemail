@@ -22,7 +22,7 @@
 // WARNING: folder names in UI are encoded with RCMAIL_CHARSET
 
 // init IMAP connection
-$RCMAIL->imap_connect();
+$STORAGE = $RCMAIL->get_storage();
 
 
 $name = trim(get_input_value('_name', RCUBE_INPUT_POST, true));
@@ -33,7 +33,7 @@ $name_imap = rcube_charset_convert($name, RCMAIL_CHARSET, 'UTF7-IMAP');
 $old_imap  = rcube_charset_convert($old, RCMAIL_CHARSET, 'UTF7-IMAP');
 // $path is in UTF7-IMAP already
 
-$delimiter = $RCMAIL->imap->get_hierarchy_delimiter();
+$delimiter = $STORAGE->get_hierarchy_delimiter();
 $options = strlen($old_imap) ? rcmail_folder_options($old_imap) : array();
 
 // Folder name checks
@@ -66,13 +66,13 @@ else {
         $name_imap = $path . $delimiter . $name_imap;
     }
     else {
-        $name_imap = $RCMAIL->imap->mod_mailbox($name_imap, 'in');
+        $name_imap = $STORAGE->mod_folder($name_imap, 'in');
     }
 }
 
 // Check access rights to the parent folder
 if (!$error && strlen($path) && (!strlen($old_imap) || $old_imap != $name_imap)) {
-    $parent_opts = $RCMAIL->imap->mailbox_info($path);
+    $parent_opts = $STORAGE->folder_info($path);
     if ($parent_opts['namespace'] != 'personal'
         && (empty($parent_opts['rights']) || !preg_match('/[ck]/', implode($parent_opts)))
     ) {
@@ -103,7 +103,7 @@ if (!$error && !strlen($old)) {
     $folder = $plugin['record'];
 
     if (!$plugin['abort']) {
-        $created = $RCMAIL->imap->create_mailbox($folder['name'], $folder['subscribe']);
+        $created = $STORAGE->create_folder($folder['name'], $folder['subscribe']);
     }
     else {
         $created = $plugin['result'];
@@ -143,7 +143,7 @@ else if (!$error) {
 
     if (!$plugin['abort']) {
         if ($rename) {
-            $updated = $RCMAIL->imap->rename_mailbox($folder['oldname'], $folder['name']);
+            $updated = $STORAGE->rename_folder($folder['oldname'], $folder['name']);
         }
         else {
             $updated = true;

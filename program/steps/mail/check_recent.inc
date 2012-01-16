@@ -19,12 +19,12 @@
 
 */
 
-$current = $RCMAIL->imap->get_mailbox_name();
+$current = $RCMAIL->storage->get_folder();
 $check_all = !empty($_GET['_refresh']) || (bool)$RCMAIL->config->get('check_all_folders');
 
 // list of folders to check
 if ($check_all) {
-    $a_mailboxes = $RCMAIL->imap->list_mailboxes('', '*', 'mail');
+    $a_mailboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
 }
 else {
     $a_mailboxes = (array) $current;
@@ -37,11 +37,11 @@ foreach ($a_mailboxes as $mbox_name) {
     $is_current = $mbox_name == $current;
     if ($is_current) {
         // Synchronize mailbox cache, handle flag changes
-        $RCMAIL->imap->mailbox_sync($mbox_name);
+        $RCMAIL->storage->folder_sync($mbox_name);
     }
 
     // Get mailbox status
-    $status = $RCMAIL->imap->mailbox_status($mbox_name);
+    $status = $RCMAIL->storage->folder_status($mbox_name);
 
     if ($status & 1) {
         // trigger plugin hook
@@ -58,7 +58,7 @@ foreach ($a_mailboxes as $mbox_name) {
         if ($search_request && isset($_SESSION['search'])
             && $_SESSION['search_request'] == $search_request
         ) {
-            $_SESSION['search'] = $RCMAIL->imap->refresh_search();
+            $_SESSION['search'] = $RCMAIL->storage->refresh_search();
         }
 
         if (!empty($_GET['_quota']))
@@ -68,28 +68,32 @@ foreach ($a_mailboxes as $mbox_name) {
         if (empty($_GET['_list']))
             continue;
 
-        // get overall message count; allow caching because rcube_imap::mailbox_status() did a refresh
-        $all_count = $RCMAIL->imap->messagecount(null, $RCMAIL->imap->threading ? 'THREADS' : 'ALL');
+        // get overall message count; allow caching because rcube_storage::folder_status() did a refresh
+        $all_count = $RCMAIL->storage->count(null, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+
+        $page      = $RCMAIL->storage->get_page();
+        $page_size = $RCMAIL->storage->get_pagesize();
 
         // check current page if we're not on the first page
-        if ($all_count && $RCMAIL->imap->list_page > 1) {
-            $remaining = $all_count - $RCMAIL->imap->page_size * ($RCMAIL->imap->list_page - 1);
+        if ($all_count && $page > 1) {
+            $remaining = $all_count - $page_size * ($page - 1);
             if ($remaining <= 0) {
-                $RCMAIL->imap->set_page($RCMAIL->imap->list_page-1);
-                $_SESSION['page'] = $RCMAIL->imap->list_page;
+                $page -= 1;
+                $RCMAIL->storage->set_page($page);
+                $_SESSION['page'] = $page;
             }
         }
 
         $OUTPUT->set_env('messagecount', $all_count);
-        $OUTPUT->set_env('pagecount', ceil($all_count/$RCMAIL->imap->page_size));
+        $OUTPUT->set_env('pagecount', ceil($all_count/$page_size));
         $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($all_count), $mbox_name);
-        $OUTPUT->set_env('current_page', $all_count ? $RCMAIL->imap->list_page : 1);
+        $OUTPUT->set_env('current_page', $all_count ? $page : 1);
 
         // remove old rows (and clear selection if new list is empty)
         $OUTPUT->command('message_list.clear', $all_count ? false : true);
 
         if ($all_count) {
-            $a_headers = $RCMAIL->imap->list_headers($mbox_name, null, $_SESSION['sort_col'], $_SESSION['sort_order']);
+            $a_headers = $RCMAIL->storage->list_messages($mbox_name, null, $_SESSION['sort_col'], $_SESSION['sort_order']);
             // add message rows
             rcmail_js_message_list($a_headers, false);
             // remove messages that don't exists from list selection array

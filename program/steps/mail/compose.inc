@@ -56,7 +56,7 @@ if (!is_array($COMPOSE))
   $_SESSION['compose_data_'.$COMPOSE_ID] = array(
     'id'      => $COMPOSE_ID,
     'param'   => request2param(RCUBE_INPUT_GET),
-    'mailbox' => $RCMAIL->imap->get_mailbox_name(),
+    'mailbox' => $RCMAIL->storage->get_folder(),
   );
   $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
@@ -134,7 +134,7 @@ if (!empty($CONFIG['drafts_mbox'])) {
   $OUTPUT->set_env('draft_autosave', $CONFIG['draft_autosave']);
 }
 // set current mailbox in client environment
-$OUTPUT->set_env('mailbox', $RCMAIL->imap->get_mailbox_name());
+$OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
 $OUTPUT->set_env('sig_above', $RCMAIL->config->get('sig_above', false));
 $OUTPUT->set_env('top_posting', $RCMAIL->config->get('top_posting', false));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
@@ -147,7 +147,7 @@ if ($font && !is_array($font)) {
 
 // get reference message and set compose mode
 if ($msg_uid = $COMPOSE['param']['draft_uid']) {
-  $RCMAIL->imap->set_mailbox($CONFIG['drafts_mbox']);
+  $RCMAIL->storage->set_folder($CONFIG['drafts_mbox']);
   $compose_mode = RCUBE_COMPOSE_DRAFT;
 }
 else if ($msg_uid = $COMPOSE['param']['reply_uid'])
@@ -179,10 +179,10 @@ if (!empty($msg_uid))
 
   // make sure message is marked as read
   if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']))
-    $RCMAIL->imap->set_flag($msg_uid, 'SEEN');
+    $RCMAIL->storage->set_flag($msg_uid, 'SEEN');
 
   if (!empty($MESSAGE->headers->charset))
-    $RCMAIL->imap->set_charset($MESSAGE->headers->charset);
+    $RCMAIL->storage->set_charset($MESSAGE->headers->charset);
 
   if ($compose_mode == RCUBE_COMPOSE_REPLY)
   {
@@ -1051,12 +1051,12 @@ function rcmail_write_forward_attachment(&$message)
     $temp_dir = unslashify($RCMAIL->config->get('temp_dir'));
     $path = tempnam($temp_dir, 'rcmAttmnt');
     if ($fp = fopen($path, 'w')) {
-      $RCMAIL->imap->get_raw_body($message->uid, $fp);
+      $RCMAIL->storage->get_raw_body($message->uid, $fp);
       fclose($fp);
     } else
       return false;
   } else {
-    $data = $RCMAIL->imap->get_raw_body($message->uid);
+    $data = $RCMAIL->storage->get_raw_body($message->uid);
   }
 
   $attachment = array(
@@ -1428,16 +1428,16 @@ function rcmail_check_sent_folder($folder, $create=false)
 {
   global $RCMAIL;
 
-  if ($RCMAIL->imap->mailbox_exists($folder, true)) {
+  if ($RCMAIL->storage->folder_exists($folder, true)) {
     return true;
   }
 
   // folder may exist but isn't subscribed (#1485241)
   if ($create) {
-    if (!$RCMAIL->imap->mailbox_exists($folder))
-      return $RCMAIL->imap->create_mailbox($folder, true);
+    if (!$RCMAIL->storage->folder_exists($folder))
+      return $RCMAIL->storage->create_folder($folder, true);
     else
-      return $RCMAIL->imap->subscribe($folder);
+      return $RCMAIL->storage->subscribe($folder);
   }
 
   return false;

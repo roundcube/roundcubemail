@@ -317,8 +317,8 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    $RCMAIL->imap_connect();
-    $threading_supported = $RCMAIL->imap->get_capability('THREAD');
+    $storage             = $RCMAIL->get_storage();
+    $threading_supported = $storage->get_capability('THREAD');
 
     if (!isset($no_override['autoexpand_threads']) && $threading_supported) {
       $field_id = 'rcmfd_autoexpand_threads';
@@ -681,10 +681,7 @@ function rcmail_user_prefs($current=null)
     );
 
     // Configure special folders
-    if (!isset($no_override['default_imap_folders'])) {
-
-      $RCMAIL->imap_connect();
-
+    if (!isset($no_override['default_folders'])) {
       // load folders list only when needed
       if ($current) {
         $select = rcmail_mailbox_select(array(
@@ -849,7 +846,7 @@ function rcmail_folder_options($mailbox)
 {
     global $RCMAIL;
 
-    $options = $RCMAIL->imap->mailbox_info($mailbox);
+    $options = $RCMAIL->get_storage()->folder_info($mailbox);
     $options['protected'] = $options['is_root'] || ($options['special'] && $RCMAIL->config->get('protect_default_folders'));
 
     return $options;
@@ -867,11 +864,12 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
 {
     global $RCMAIL, $CONFIG, $OUTPUT;
 
-    $delimiter    = $RCMAIL->imap->get_hierarchy_delimiter();
+    $storage      = $RCMAIL->get_storage();
+    $delimiter    = $storage->get_hierarchy_delimiter();
     $name_utf8    = rcube_charset_convert($name, 'UTF7-IMAP');
-    $protected    = ($CONFIG['protect_default_folders'] == true && in_array($name, $CONFIG['default_imap_folders']));
+    $protected    = ($CONFIG['protect_default_folders'] == true && in_array($name, $CONFIG['default_folders']));
 
-    $foldersplit  = explode($delimiter, $RCMAIL->imap->mod_mailbox($name));
+    $foldersplit  = explode($delimiter, $storage->mod_folder($name));
     $level        = count($foldersplit) - 1;
     $display_name = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level)
         . Q($protected ? rcmail_localize_foldername($name) : rcube_charset_convert($foldersplit[$level], 'UTF7-IMAP'));

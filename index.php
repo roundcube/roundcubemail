@@ -48,7 +48,7 @@ if ($err_str = $RCMAIL->config->get_error()) {
 }
 
 // check DB connections and exit on failure
-if ($err_str = $DB->is_error()) {
+if ($err_str = $RCMAIL->db->is_error()) {
   raise_error(array(
     'code' => 603,
     'type' => 'db',
@@ -128,9 +128,9 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $OUTPUT->redirect($redir);
   }
   else {
-    $error_code = (isset($RCMAIL->imap) && is_object($RCMAIL->imap)) ? $RCMAIL->imap->get_error_code() : 1;
+    $error_code = is_object($RCMAIL->storage) ? $RCMAIL->storage->get_error_code() : 1;
 
-    $OUTPUT->show_message($error_code < -1 ? 'imaperror' : (!$auth['valid'] ? 'invalidrequest' : 'loginfailed'), 'warning');
+    $OUTPUT->show_message($error_code < -1 ? 'storageerror' : (!$auth['valid'] ? 'invalidrequest' : 'loginfailed'), 'warning');
     $RCMAIL->plugins->exec_hook('login_failed', array(
       'code' => $error_code, 'host' => $auth['host'], 'user' => $auth['user']));
     $RCMAIL->kill_session();
@@ -139,7 +139,11 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
 // end session (after optional referer check)
 else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcube_check_referer())) {
-  $userdata = array('user' => $_SESSION['username'], 'host' => $_SESSION['imap_host'], 'lang' => $RCMAIL->user->language);
+  $userdata = array(
+    'user' => $_SESSION['username'],
+    'host' => $_SESSION['storage_host'],
+    'lang' => $RCMAIL->user->language,
+  );
   $OUTPUT->show_message('loggedout');
   $RCMAIL->logout_actions();
   $RCMAIL->kill_session();

@@ -76,10 +76,10 @@ class rcube_message
     {
         $this->uid  = $uid;
         $this->app  = rcmail::get_instance();
-        $this->imap = $this->app->imap;
-        $this->imap->get_all_headers = true;
+        $this->storage = $this->app->get_storage();
+        $this->storage->set_options(array('all_headers' => true));
 
-        $this->headers = $this->imap->get_message($uid);
+        $this->headers = $this->storage->get_message($uid);
 
         if (!$this->headers)
             return;
@@ -94,7 +94,7 @@ class rcube_message
             'safe' => $this->is_safe,
             'prefer_html' => $this->app->config->get('prefer_html'),
             'get_url' => rcmail_url('get', array(
-                '_mbox' => $this->imap->get_mailbox_name(), '_uid' => $uid))
+                '_mbox' => $this->storage->get_folder(), '_uid' => $uid))
         );
 
         if (!empty($this->headers->structure)) {
@@ -102,7 +102,7 @@ class rcube_message
             $this->parse_structure($this->headers->structure);
         }
         else {
-            $this->body = $this->imap->get_body($uid);
+            $this->body = $this->storage->get_body($uid);
         }
 
         // notify plugins and let them analyze this structured message object
@@ -176,7 +176,7 @@ class rcube_message
                 return $fp ? true : $part->body;
             }
             // get from IMAP
-            return $this->imap->get_message_part($this->uid, $mime_id, $part, NULL, $fp);
+            return $this->storage->get_message_part($this->uid, $mime_id, $part, NULL, $fp);
         } else
             return null;
     }
@@ -211,7 +211,7 @@ class rcube_message
         foreach ($this->mime_parts as $mime_id => $part) {
             $mimetype = strtolower($part->ctype_primary . '/' . $part->ctype_secondary);
             if ($mimetype == 'text/html') {
-                return $this->imap->get_message_part($this->uid, $mime_id, $part);
+                return $this->storage->get_message_part($this->uid, $mime_id, $part);
             }
         }
     }
@@ -234,10 +234,10 @@ class rcube_message
             $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
 
             if ($mimetype == 'text/plain') {
-                return $this->imap->get_message_part($this->uid, $mime_id, $part);
+                return $this->storage->get_message_part($this->uid, $mime_id, $part);
             }
             else if ($mimetype == 'text/html') {
-                $out = $this->imap->get_message_part($this->uid, $mime_id, $part);
+                $out = $this->storage->get_message_part($this->uid, $mime_id, $part);
 
                 // remove special chars encoding
                 $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
@@ -590,7 +590,7 @@ class rcube_message
     {
         // @TODO: attachment may be huge, hadle it via file
         if (!isset($part->body))
-            $part->body = $this->imap->get_message_part($this->uid, $part->mime_id, $part);
+            $part->body = $this->storage->get_message_part($this->uid, $part->mime_id, $part);
 
         $parts = array();
         $tnef = new tnef_decoder;
@@ -626,7 +626,7 @@ class rcube_message
     {
         // @TODO: messages may be huge, hadle body via file
         if (!isset($part->body))
-            $part->body = $this->imap->get_message_part($this->uid, $part->mime_id, $part);
+            $part->body = $this->storage->get_message_part($this->uid, $part->mime_id, $part);
 
         $parts = array();
         // FIXME: line length is max.65?

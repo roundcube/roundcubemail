@@ -28,31 +28,17 @@ $SEARCH_MODS_DEFAULT = array(
     $DRAFTS_MBOX => array('subject'=>1, 'to'=>1)
 );
 
-// actions that do not require imap connection here
-$NOIMAP_ACTIONS = array('addcontact', 'autocomplete', 'upload', 'display-attachment', 'remove-attachment', 'get');
-
-// always instantiate imap object (but not yet connect to server)
-$RCMAIL->imap_init();
-
-// log in to imap server
-if (!in_array($RCMAIL->action, $NOIMAP_ACTIONS) && !$RCMAIL->imap_connect()) {
-  $RCMAIL->kill_session();
-
-  if ($OUTPUT->ajax_call)
-    $OUTPUT->redirect(array(), 2000);
-
-  $OUTPUT->set_env('task', 'login');
-  $OUTPUT->send('login');
-}
+// always instantiate storage object (but not connect to server yet)
+$RCMAIL->storage_init();
 
 // set imap properties and session vars
 if (strlen(trim($mbox = get_input_value('_mbox', RCUBE_INPUT_GPC, true))))
-  $RCMAIL->imap->set_mailbox(($_SESSION['mbox'] = $mbox));
-else if ($RCMAIL->imap)
-  $_SESSION['mbox'] = $RCMAIL->imap->get_mailbox_name();
+  $RCMAIL->storage->set_folder(($_SESSION['mbox'] = $mbox));
+else if ($RCMAIL->storage)
+  $_SESSION['mbox'] = $RCMAIL->storage->get_folder();
 
 if (!empty($_GET['_page']))
-  $RCMAIL->imap->set_page(($_SESSION['page'] = intval($_GET['_page'])));
+  $RCMAIL->storage->set_page(($_SESSION['page'] = intval($_GET['_page'])));
 
 // set default sort col/order to session
 if (!isset($_SESSION['sort_col']))
@@ -69,28 +55,28 @@ if (isset($_GET['_threads'])) {
     unset($a_threading[$_SESSION['mbox']]);
   $RCMAIL->user->save_prefs(array('message_threading' => $a_threading));
 }
-$RCMAIL->imap->set_threading($a_threading[$_SESSION['mbox']]);
+$RCMAIL->storage->set_threading($a_threading[$_SESSION['mbox']]);
 
 // set message set for search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     && $_SESSION['search_request'] == $_REQUEST['_search']
 ) {
-  $RCMAIL->imap->set_search_set($_SESSION['search']);
+  $RCMAIL->storage->set_search_set($_SESSION['search']);
   $OUTPUT->set_env('search_request', $_REQUEST['_search']);
   $OUTPUT->set_env('search_text', $_SESSION['last_text_search']);
 }
 
 // set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
-  $mbox_name = $RCMAIL->imap->get_mailbox_name();
+  $mbox_name = $RCMAIL->storage->get_folder();
 
   if (empty($RCMAIL->action)) {
     // initialize searching result if search_filter is used
     if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
       $search_request = md5($mbox_name.$_SESSION['search_filter']);
 
-      $RCMAIL->imap->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $_SESSION['sort_col']);
-      $_SESSION['search'] = $RCMAIL->imap->get_search_set();
+      $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $_SESSION['sort_col']);
+      $_SESSION['search'] = $RCMAIL->storage->get_search_set();
       $_SESSION['search_request'] = $search_request;
       $OUTPUT->set_env('search_request', $search_request);
     }
@@ -99,13 +85,15 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
       $OUTPUT->set_env('search_mods', $search_mods);
   }
 
+  $threading = (bool) $RCMAIL->storage->get_threading();
+
   // set current mailbox and some other vars in client environment
   $OUTPUT->set_env('mailbox', $mbox_name);
-  $OUTPUT->set_env('pagesize', $RCMAIL->imap->page_size);
-  $OUTPUT->set_env('quota', $RCMAIL->imap->get_capability('QUOTA'));
-  $OUTPUT->set_env('delimiter', $RCMAIL->imap->get_hierarchy_delimiter());
-  $OUTPUT->set_env('threading', (bool) $RCMAIL->imap->threading);
-  $OUTPUT->set_env('threads', $RCMAIL->imap->threading || $RCMAIL->imap->get_capability('THREAD'));
+  $OUTPUT->set_env('pagesize', $RCMAIL->storage->get_pagesize());
+  $OUTPUT->set_env('quota', $RCMAIL->storage->get_capability('QUOTA'));
+  $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
+  $OUTPUT->set_env('threading', $threading);
+  $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
   $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
 
   if ($CONFIG['flag_for_deletion'])
@@ -130,7 +118,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
       'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
       'copy', 'move', 'quota');
 
-  $OUTPUT->set_pagetitle(rcmail_localize_foldername($RCMAIL->imap->mod_mailbox($mbox_name)));
+  $OUTPUT->set_pagetitle(rcmail_localize_foldername($RCMAIL->storage->mod_folder($mbox_name)));
 }
 
 
@@ -161,8 +149,8 @@ function rcmail_message_list($attrib)
   // save some variables for use in ajax list
   $_SESSION['list_attrib'] = $attrib;
 
-  $mbox = $RCMAIL->imap->get_mailbox_name();
-  $delim = $RCMAIL->imap->get_hierarchy_delimiter();
+  $mbox = $RCMAIL->storage->get_folder();
+  $delim = $RCMAIL->storage->get_hierarchy_delimiter();
 
   // show 'to' instead of 'from' in sent/draft messages
   if ((strpos($mbox.$delim, $CONFIG['sent_mbox'].$delim)===0 || strpos($mbox.$delim, $CONFIG['drafts_mbox'].$delim)===0)
@@ -218,8 +206,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     $head_replace = true;
   }
 
-  $mbox = $RCMAIL->imap->get_mailbox_name();
-  $delim = $RCMAIL->imap->get_hierarchy_delimiter();
+  $mbox = $RCMAIL->storage->get_folder();
+  $delim = $RCMAIL->storage->get_hierarchy_delimiter();
 
   // make sure 'threads' and 'subject' columns are present
   if (!in_array('subject', $a_show_cols))
@@ -317,7 +305,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $insert_top);
   }
 
-  if ($RCMAIL->imap->threading) {
+  if ($RCMAIL->storage->get_threading()) {
     $OUTPUT->command('init_threads', (array) $roots, $mbox);
   }
 }
@@ -430,22 +418,24 @@ function rcmail_get_messagecount_text($count=NULL, $page=NULL)
 {
   global $RCMAIL;
 
-  if ($page===NULL)
-    $page = $RCMAIL->imap->list_page;
+  if ($page === NULL) {
+    $page = $RCMAIL->storage->get_page();
+  }
 
-  $start_msg = ($page-1) * $RCMAIL->imap->page_size + 1;
+  $page_size = $RCMAIL->storage->get_pagesize();
+  $start_msg = ($page-1) * $page_size + 1;
 
   if ($count!==NULL)
     $max = $count;
   else if ($RCMAIL->action)
-    $max = $RCMAIL->imap->messagecount(NULL, $RCMAIL->imap->threading ? 'THREADS' : 'ALL');
+    $max = $RCMAIL->storage->count(NULL, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 
   if ($max==0)
     $out = rcube_label('mailboxempty');
   else
-    $out = rcube_label(array('name' => $RCMAIL->imap->threading ? 'threadsfromto' : 'messagesfromto',
+    $out = rcube_label(array('name' => $RCMAIL->storage->get_threading() ? 'threadsfromto' : 'messagesfromto',
             'vars' => array('from'  => $start_msg,
-            'to'    => min($max, $start_msg + $RCMAIL->imap->page_size - 1),
+            'to'    => min($max, $start_msg + $page_size - 1),
             'count' => $max)));
 
   return Q($out);
@@ -468,7 +458,7 @@ function rcmail_mailbox_name_display($attrib)
 function rcmail_get_mailbox_name_text()
 {
   global $RCMAIL;
-  return rcmail_localize_foldername($RCMAIL->imap->get_mailbox_name());
+  return rcmail_localize_foldername($RCMAIL->storage->get_folder());
 }
 
 
@@ -479,7 +469,7 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='
   $old_unseen = rcmail_get_unseen_count($mbox_name);
 
   if ($count === null)
-    $unseen = $RCMAIL->imap->messagecount($mbox_name, 'UNSEEN', $force);
+    $unseen = $RCMAIL->storage->count($mbox_name, 'UNSEEN', $force);
   else
     $unseen = $count;
 
@@ -590,7 +580,7 @@ function rcmail_wash_html($html, $p, $cid_replaces)
   // fix (unknown/malformed) HTML tags before "wash"
   $html = preg_replace_callback('/(<[\/]*)([^\s>]+)/', 'rcmail_html_tag_callback', $html);
 
-  // charset was converted to UTF-8 in rcube_imap::get_message_part(),
+  // charset was converted to UTF-8 in rcube_storage::get_message_part(),
   // change/add charset specification in HTML accordingly,
   // washtml cannot work without that
   $meta = '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />';
@@ -1010,7 +1000,7 @@ function rcmail_message_body($attrib)
         if (!rcmail_mem_check($part->size * 10)) {
           $out .= html::span('part-notice', rcube_label('messagetoobig'). ' '
             . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-              .'&_mbox='. urlencode($RCMAIL->imap->get_mailbox_name()), rcube_label('download')));
+              .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), rcube_label('download')));
           continue;
         }
 
@@ -1056,7 +1046,7 @@ function rcmail_message_body($attrib)
     if (!rcmail_mem_check(strlen($MESSAGE->body) * 10)) {
       $out .= html::span('part-notice', rcube_label('messagetoobig'). ' '
         . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part=0'
-          .'&_mbox='. urlencode($RCMAIL->imap->get_mailbox_name()), rcube_label('download')));
+          .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), rcube_label('download')));
     }
     else {
       $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix', array(
@@ -1477,7 +1467,7 @@ function rcmail_send_mdn($message, &$smtp_error)
     $message = new rcube_message($message);
 
   if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT']) &&
-    ($RCMAIL->imap->check_permflag('MDNSENT') || $RCMAIL->imap->check_permflag('*')))
+    ($RCMAIL->storage->check_permflag('MDNSENT') || $RCMAIL->storage->check_permflag('*')))
   {
     $identity = $RCMAIL->user->get_identity();
     $sender = format_email_recipient($identity['email'], $identity['name']);
@@ -1533,7 +1523,7 @@ function rcmail_send_mdn($message, &$smtp_error)
 
     if ($sent)
     {
-      $RCMAIL->imap->set_flag($message->uid, 'MDNSENT');
+      $RCMAIL->storage->set_flag($message->uid, 'MDNSENT');
       return true;
     }
   }
@@ -1596,7 +1586,7 @@ function rcmail_message_error($uid=null)
 
   // Set env variables for messageerror.html template
   if ($RCMAIL->action == 'show') {
-    $mbox_name = $RCMAIL->imap->get_mailbox_name();
+    $mbox_name = $RCMAIL->storage->get_folder();
     $RCMAIL->output->set_env('mailbox', $mbox_name);
     $RCMAIL->output->set_env('uid', null);
   }
