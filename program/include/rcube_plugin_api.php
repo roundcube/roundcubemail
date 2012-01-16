@@ -71,6 +71,7 @@ class rcube_plugin_api
     'delete_identity'   => 'identity_delete',
     'save_identity'     => 'identity_update',
     'identity_save'     => 'identity_update',
+    'imap_init'         => 'storage_init',
   );
 
   /**

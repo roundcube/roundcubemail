@@ -682,12 +682,11 @@ class rcmail
       $options['port']     = $_SESSION['storage_port'];
       $options['ssl']      = $_SESSION['storage_ssl'];
       $options['password'] = $this->decrypt($_SESSION['password']);
+      // set 'imap_host' for backwards compatibility
+      $_SESSION[$driver.'_host'] = &$_SESSION['storage_host'];
     }
 
     $options = $this->plugins->exec_hook("storage_init", $options);
-
-    // for backward compat. (deprecated, to be removed)
-    $options = $this->plugins->exec_hook("imap_init", $options);
 
     $this->storage->set_options($options);
     $this->set_storage_prop();
