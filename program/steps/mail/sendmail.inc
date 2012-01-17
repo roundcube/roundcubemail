@@ -711,7 +711,7 @@ if ($store_target) {
     $delete_idx = $RCMAIL->storage->search_once($CONFIG['drafts_mbox'],
         'HEADER Message-ID '.$olddraftmessageid);
 
-    if ($del_uid = $delete_idx->getElement('FIRST')) {
+    if ($del_uid = $delete_idx->get_element('FIRST')) {
       $deleted = $RCMAIL->storage->delete_message($del_uid, $CONFIG['drafts_mbox']);
 
       // raise error if deletion of old draft failed
@@ -734,7 +734,7 @@ if ($savedraft) {
   // remember new draft-uid ($saved could be an UID or TRUE here)
   if (is_bool($saved)) {
     $draft_idx = $RCMAIL->storage->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid);
-    $saved     = $draft_idx->getElement('FIRST');
+    $saved     = $draft_idx->get_element('FIRST');
   }
   $COMPOSE['param']['draft_uid'] = $saved;
 
