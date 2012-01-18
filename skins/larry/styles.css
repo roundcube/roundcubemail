@@ -1689,6 +1689,91 @@ ul.toolbarmenu li span.conversation {
 }
 
 
+/*** attachment list ***/
+
+.attachmentslist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.attachmentslist li {
+	display: block;
+	position: relative;
+	background: url(images/filetypes.png) 0 0 no-repeat;
+	margin-bottom: 1px;
+}
+
+.attachmentslist li.pdf {
+	background-position: 0 -26px;
+}
+
+.attachmentslist li.doc,
+.attachmentslist li.msword {
+	background-position: 0 -52px;
+}
+
+.attachmentslist li.xls,
+.attachmentslist li.msexcel {
+	background-position: 0 -78px;
+}
+
+.attachmentslist li.zip,
+.attachmentslist li.gz {
+	background-position: 0 -104px;
+}
+
+.attachmentslist li.image {
+	background-position: 0 -130px;
+}
+
+.attachmentslist li.audio {
+	background-position: 0 -156px;
+}
+
+.attachmentslist li.video {
+	background-position: 0 -182px;
+}
+
+.attachmentslist li a,
+#compose-attachments ul li {
+	display: block;
+	color: #333;
+	font-weight: bold;
+	padding: 8px 4px 3px 30px;
+	text-shadow: 0px 1px 1px #fff;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.attachmentslist li a:hover {
+	text-decoration: underline;
+}
+
+.attachmentslist li.uploading {
+	background: url(images/ajaxloader.gif) 2px 6px no-repeat;
+}
+
+.attachmentslist li a.delete,
+.attachmentslist li a.cancelupload {
+	position: absolute;
+	top: 6px;
+	right: 0;
+	width: 24px;
+	height: 18px;
+	padding: 0;
+	text-decoration: none;
+	text-indent: -1000px;
+	background: url(images/buttons.png) -7px -337px no-repeat;
+}
+
+.attachmentslist li a.cancelupload {
+	background-position: -7px -377px;
+}
+
+
 /*** fieldset tabs ***/
 
 .tabsbar {

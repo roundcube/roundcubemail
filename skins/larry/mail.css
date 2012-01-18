@@ -883,67 +883,6 @@ div.message-part blockquote blockquote blockquote {
 	max-width: 80%;
 }
 
-#attachment-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-#attachment-list li {
-	display: block;
-	position: relative;
-	background: url(images/filetypes.png) 0 0 no-repeat;
-	margin-bottom: 1px;
-}
-
-#attachment-list li.pdf {
-	background-position: 0 -26px;
-}
-
-#attachment-list li.doc,
-#attachment-list li.msword {
-	background-position: 0 -52px;
-}
-
-#attachment-list li.xls,
-#attachment-list li.msexcel {
-	background-position: 0 -78px;
-}
-
-#attachment-list li.zip,
-#attachment-list li.gz {
-	background-position: 0 -104px;
-}
-
-#attachment-list li.image {
-	background-position: 0 -130px;
-}
-
-#attachment-list li.audio {
-	background-position: 0 -156px;
-}
-
-#attachment-list li.video {
-	background-position: 0 -182px;
-}
-
-#attachment-list li a,
-#compose-attachments ul li {
-	display: block;
-	color: #333;
-	font-weight: bold;
-	padding: 8px 4px 3px 30px;
-	text-shadow: 0px 1px 1px #fff;
-	text-decoration: none;
-	white-space: nowrap;
-}
-
-#attachment-list li a:hover {
-	text-decoration: underline;
-}
-
 #messagepartcontainer {
 	position: absolute;
 	top: 60px;
@@ -1210,27 +1149,6 @@ div.message-part blockquote blockquote blockquote {
 	border-left: 1px solid #ddd;
 	padding: 8px;
 	overflow: auto;
-}
-
-#attachment-list li.uploading {
-	background: url(images/ajaxloader.gif) 2px 6px no-repeat;
-}
-
-#attachment-list li a.delete,
-#attachment-list li a.cancelupload {
-	position: absolute;
-	top: 6px;
-	right: 0;
-	width: 24px;
-	height: 18px;
-	padding: 0;
-	text-decoration: none;
-	text-indent: -1000px;
-	background: url(images/buttons.png) -7px -337px no-repeat;
-}
-
-#attachment-list li a.cancelupload {
-	background-position: -7px -377px;
 }
 
 #spellcheck-control {
