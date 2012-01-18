@@ -6,7 +6,10 @@
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
- | Licensed under the GNU GPL                                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Compose a new mail message with all headers and attachments         |
@@ -711,7 +714,7 @@ if ($store_target) {
     $delete_idx = $RCMAIL->storage->search_once($CONFIG['drafts_mbox'],
         'HEADER Message-ID '.$olddraftmessageid);
 
-    if ($del_uid = $delete_idx->get_element('FIRST')) {
+    if ($del_uid = $delete_idx->getElement('FIRST')) {
       $deleted = $RCMAIL->storage->delete_message($del_uid, $CONFIG['drafts_mbox']);
 
       // raise error if deletion of old draft failed
@@ -734,7 +737,7 @@ if ($savedraft) {
   // remember new draft-uid ($saved could be an UID or TRUE here)
   if (is_bool($saved)) {
     $draft_idx = $RCMAIL->storage->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid);
-    $saved     = $draft_idx->get_element('FIRST');
+    $saved     = $draft_idx->getElement('FIRST');
   }
   $COMPOSE['param']['draft_uid'] = $saved;
 

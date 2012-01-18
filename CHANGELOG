@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Changed license to GNU GPLv3+ with exceptions for skins & plugins
 - Make mime type detection based on filename extension to be case-insensitive
 - Fix failure on MySQL database upgrade from 0.7 - text column can't have default value (#1488300)
 - Added address book widget on compose screen

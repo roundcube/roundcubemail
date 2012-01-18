@@ -3,22 +3,33 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 0.6                                                             |
+ | Version 0.8                                                             |
  |                                                                         |
- | Copyright (C) 2009-2011, The Roundcube Dev Team                         |
+ | Copyright (C) 2009-2012, The Roundcube Dev Team                         |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | This program is free software: you can redistribute it and/or modify    |
+ | it under the terms of the GNU General Public License (with exceptions   |
+ | for skins & plugins) as published by the Free Software Foundation,      |
+ | either version 3 of the License, or (at your option) any later version. |
+ |                                                                         |
+ | This file forms part of the Roundcube Webmail Software for which the    |
+ | following exception is added: Plugins and Skins which merely make       |
+ | function calls to the Roundcube Webmail Software, and for that purpose  |
+ | include it by reference shall not be considered modifications of        |
+ | the software.                                                           |
+ |                                                                         |
+ | If you wish to use this file in another project or create a modified    |
+ | version that will not be part of the Roundcube Webmail Software, you    |
+ | may remove the exception above and use this source code under the       |
+ | original version of the license.                                        |
  |                                                                         |
  | This program is distributed in the hope that it will be useful,         |
  | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the            |
  | GNU General Public License for more details.                            |
  |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | You should have received a copy of the GNU General Public License       |
+ | along with this program.  If not, see http://www.gnu.org/licenses/.     |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                          |

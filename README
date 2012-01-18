@@ -9,8 +9,8 @@ of Roundcube with this version. Also using a separate database for this
 installation is highly recommended.
 
 
-Introduction:
--------------
+INTRODUCTION
+------------
 Roundcube Webmail is a browser-based multilingual IMAP client with an
 application-like user interface. It provides full functionality you expect
 from an e-mail client, including MIME support, address book, folder management,
@@ -28,8 +28,8 @@ The current default skin uses icons designed by Stephen Horlander and Kevin
 Gerich for Mozilla.org.
 
 
-Installation:
--------------
+INSTALLATION
+------------
 For detailed instructions on how to install Roundcube webmail on your server,
 please refer to the INSTALL document in the same directory as this document.
 
@@ -37,30 +37,49 @@ If you're updating an older version of Roundcube please follow the steps
 described in the UPGRADING file.
 
 
-Licensing:
-----------
-This product is distributed under the GNU General Public License Version 2.
-Please read through the file LICENSE for more information about our license.
+LICENSING
+---------
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License (with exceptions
+for skins & plugins) as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
 
-Even if skins might contain some programming work, they are not considered
-as a linked part of the application and therefore skins DO NOT fall under
-the provisions of the GPL license. See the README file located in the skins
-folder for details on the skin license.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+This file forms part of the Roundcube Webmail Software for which the
+following exception is added: Plugins and Skins which merely make
+function calls to the Roundcube Webmail Software, and for that purpose
+include it by reference shall not be considered modifications of
+the software.
+
+If you wish to use this file in another project or create a modified
+version that will not be part of the Roundcube Webmail Software, you
+may remove the exception above and use this source code under the
+original version of the license.
+
+For more details about licensing and the expections for skins and plug-ins
+see http://roundcube.net/license
 
 
-Contribution:
--------------
+CONTRIBUTION
+------------
 Want to help make Roundcube the best webmail solution ever?
 Roundcube is open source software. Our developers and contributors all
 are volunteers and we're always looking for new additions and resources.
 For more information visit http://roundcube.net/contribute
 
 
-Contact:
---------
+CONTACT
+-------
 For any bug reports or feature requests please refer to the tracking system
-at trac.roundcube.net (http://trac.roundcube.net/wiki/Howto_ReportIssues) or 
-subscribe to our mailing list. See http://roundcube.net/support
+at trac.roundcube.net (http://trac.roundcube.net/wiki/Howto_ReportIssues)
+or  subscribe to our mailing list. See http://roundcube.net/support
 for details.
 
 You're always welcome to send a message to the project admin:

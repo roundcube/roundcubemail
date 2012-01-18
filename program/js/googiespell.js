@@ -1,16 +1,24 @@
 /*
- SpellCheck
-    jQuery'fied spell checker based on GoogieSpell 4.0
-      (which was published under GPL "version 2 or any later version")
+ +-----------------------------------------------------------------------+
+ | Roundcube SpellCheck script                                           |
+ |   jQuery'fied spell checker based on GoogieSpell 4.0                  |
+ |    (which was published under GPL "version 2 or any later version")   |
+ |                                                                       |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2006 Amir Salihefendic                                  |
+ | Copyright (C) 2009 The Roundcube Dev Team                             |
+ | Copyright (C) 2011 Kolab Systems AG                                   |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Authors: 4mir Salihefendic <amix@amix.dk>                             |
+ |          Aleksander Machniak - <alec [at] alec.pl>                    |
+ +-----------------------------------------------------------------------+
 
- Copyright (C) 2006 Amir Salihefendic
- Copyright (C) 2009 Aleksander Machniak
- Copyright (C) 2011 Kolab Systems AG
-     LICENSE
-         GPL
-     AUTHORS
-         4mir Salihefendic (http://amix.dk) - amix@amix.dk
-	    Aleksander Machniak - alec [at] alec.pl
+  $Id$
 */
 
 var GOOGIE_CUR_LANG,
