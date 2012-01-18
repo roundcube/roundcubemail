@@ -958,13 +958,6 @@ table.records-table {
 	border-left: 0;
 }
 
-.records-table tbody td a {
-	color: #333;
-	text-decoration: none;
-	white-space: nowrap;
-	cursor: default;
-}
-
 .records-table tr.selected td {
 	color: #fff !important;
 	background: #019bc6;

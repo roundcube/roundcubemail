@@ -64,7 +64,7 @@ function rcmail_plugins_list($attrib)
   $table->add_header('source', rcube_label('source'));
 
   foreach ($plugins as $name => $data) {
-    $uri = $data['srcuri'];
+    $uri = $data['srcuri'] ? $data['srcuri'] : $data['uri'];
     if ($uri && stripos($uri, 'http') !== 0) {
       $uri = 'http://' . $uri;
     }
@@ -90,6 +90,7 @@ function rcube_plugin_data($name, &$plugins = array())
     'license' => 'string(//rc:package/rc:license)',
     'license_uri' => 'string(//rc:package/rc:license/@uri)',
     'srcuri' => 'string(//rc:package/rc:srcuri)',
+    'uri' => 'string(//rc:package/rc:uri)',
   );
 
   $package = INSTALL_PATH . "/plugins/$name/package.xml";

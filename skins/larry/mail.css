@@ -384,6 +384,13 @@ a.iconbutton.threadmode.selected {
 	display: inline-block;
 }
 
+#messagelist tbody td a {
+	color: #333;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: default;
+}
+
 #messagelist tbody tr td.flag,
 #messagelist tbody tr td.status,
 #messagelist tbody tr td.subject span.status {
