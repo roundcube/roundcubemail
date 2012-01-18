@@ -489,7 +489,11 @@ class rcmail
 
     if ($ldap_config) {
       $ldap_config = (array) $ldap_config;
-      foreach ($ldap_config as $id => $prop)
+      foreach ($ldap_config as $id => $prop) {
+        // handle misconfiguration
+        if (empty($prop) || !is_array($prop)) {
+          continue;
+        }
         $list[$id] = array(
           'id'       => $id,
           'name'     => $prop['name'],
@@ -498,6 +502,7 @@ class rcmail
           'hidden'   => $prop['hidden'],
           'autocomplete' => in_array($id, $autocomplete)
         );
+      }
     }
 
     $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
