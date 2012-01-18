@@ -3488,7 +3488,7 @@ class rcube_imap extends rcube_storage
         if (substr($entry, 0, 7) == '/shared') {
             return array(substr($entry, 7), 'value.shared');
         }
-        else if (substr($entry, 0, 8) == '/protected') {
+        else if (substr($entry, 0, 8) == '/private' || substr($entry, 0, 8) == '/protected') {
             return array(substr($entry, 8), 'value.priv');
         }
 
