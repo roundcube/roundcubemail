@@ -3553,7 +3553,7 @@ class rcube_imap extends rcube_storage
      * @param string $key  Cache key
      * @param mixed  $data Data
      */
-    protected function update_cache($key, $data)
+    public function update_cache($key, $data)
     {
         if ($cache = $this->get_cache_engine()) {
             $cache->set($key, $data);
