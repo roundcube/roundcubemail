@@ -1715,26 +1715,58 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -52px;
 }
 
+.attachmentslist li.odt {
+	background-position: 0 -78px;
+}
+
 .attachmentslist li.xls,
 .attachmentslist li.msexcel {
-	background-position: 0 -78px;
+	background-position: 0 -104px;
+}
+
+.attachmentslist li.ods {
+	background-position: 0 -130px;
 }
 
 .attachmentslist li.zip,
 .attachmentslist li.gz {
-	background-position: 0 -104px;
-}
-
-.attachmentslist li.image {
-	background-position: 0 -130px;
-}
-
-.attachmentslist li.audio {
 	background-position: 0 -156px;
 }
 
-.attachmentslist li.video {
+.attachmentslist li.rar,
+.attachmentslist li.gz {
 	background-position: 0 -182px;
+}
+
+.attachmentslist li.image {
+	background-position: 0 -208px;
+}
+
+.attachmentslist li.jpg,
+.attachmentslist li.jpeg {
+	background-position: 0 -234px;
+}
+
+.attachmentslist li.png {
+	background-position: 0 -260px;
+}
+
+.attachmentslist li.m4p {
+	background-position: 0 -286px;
+}
+
+.attachmentslist li.mp3,
+.attachmentslist li.audio {
+	background-position: 0 -312px;
+}
+
+.attachmentslist li.video {
+	background-position: 0 -338px;
+}
+
+.attachmentslist li.ics,
+.attachmentslist li.calendar {
+	background-position: 0 -364px;
 }
 
 .attachmentslist li a,
