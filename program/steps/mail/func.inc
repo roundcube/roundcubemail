@@ -882,7 +882,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
   // show these headers
   $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto',
-    'mail-reply-to', 'mail-followup-to', 'date');
+    'mail-reply-to', 'mail-followup-to', 'date', 'priority');
   $exclude_headers = $attrib['exclude'] ? explode(',', $attrib['exclude']) : array();
   $output_headers = array();
 
@@ -902,6 +902,13 @@ function rcmail_message_headers($attrib, $headers=NULL)
         $header_value = format_date($value, $RCMAIL->config->get('date_long', 'x'));
       else
         $header_value = format_date($value);
+    }
+    if ($hkey == 'priority') {
+      if ($value) {
+        $header_value = html::span('prio' . $value, rcmail_localized_priority($value));
+      }
+      else
+        continue;
     }
     else if ($hkey == 'replyto') {
       if ($headers['replyto'] != $headers['from'])
@@ -951,6 +958,24 @@ function rcmail_message_headers($attrib, $headers=NULL)
   return $table->show($attrib);
 }
 
+/**
+ * Convert Priority header value into a localized string
+ */
+function rcmail_localized_priority($value)
+{
+  $labels_map = array(
+    '1' => 'highest',
+    '2' => 'high',
+    '3' => 'normal',
+    '4' => 'low',
+    '5' => 'lowest',
+  );
+  
+  if ($value && $labels_map[$value])
+    return rcube_label($labels_map[$value]);
+    
+  return '';
+}
 
 /**
  * return block to show full message headers
