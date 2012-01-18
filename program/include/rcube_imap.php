@@ -2896,10 +2896,10 @@ class rcube_imap extends rcube_storage
 
         // get list of folders
         if ((strpos($folder, '%') === false) && (strpos($folder, '*') === false)) {
-            $sub_mboxes = $this->list_unsubscribed('', $folder . $delm . '*');
+            $sub_mboxes = $this->list_folders('', $folder . $delm . '*');
         }
         else {
-            $sub_mboxes = $this->list_unsubscribed();
+            $sub_mboxes = $this->list_folders();
         }
 
         // send delete command to server
