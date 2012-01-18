@@ -124,6 +124,10 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px 3px;
 }
 
+#mailboxlist li.mailbox.unread a {
+	padding-right: 36px;
+}
+
 #mailboxlist li.mailbox.selected > a {
 	background-position: 6px -21px;
 }
