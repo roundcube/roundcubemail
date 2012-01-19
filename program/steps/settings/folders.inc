@@ -186,7 +186,7 @@ if ($OUTPUT->ajax_call)
 // build table with all folders listed by server
 function rcube_subscription_form($attrib)
 {
-    global $RCMAIL, $CONFIG, $OUTPUT;
+    global $RCMAIL, $OUTPUT;
 
     list($form_start, $form_end) = get_form_tags($attrib, 'folders');
     unset($attrib['form']);
@@ -214,6 +214,9 @@ function rcube_subscription_form($attrib)
     $a_js_folders   = array();
     $seen           = array();
     $list_folders   = array();
+
+    $default_folders = (array) $RCMAIL->config->get('default_folders');
+    $protect_default = $RCMAIL->config->get('protect_default_folders');
 
     // pre-process folders list
     foreach ($a_unsubscribed as $i => $folder) {
@@ -274,7 +277,7 @@ function rcube_subscription_form($attrib)
         $idx        = $i + 1;
         $sub_key    = array_search($folder['id'], $a_subscribed);
         $subscribed = $sub_key !== false;
-        $protected  = ($CONFIG['protect_default_folders'] == true && in_array($folder['id'], $CONFIG['default_folders']));
+        $protected  = $protect_default && in_array($folder['id'], $default_folders);
         $noselect   = false;
         $classes    = array($i%2 ? 'even' : 'odd');
 
@@ -347,7 +350,7 @@ function rcube_subscription_form($attrib)
 
     $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
     $OUTPUT->set_env('subscriptionrows', $a_js_folders);
-    $OUTPUT->set_env('defaultfolders', $CONFIG['default_folders']);
+    $OUTPUT->set_env('defaultfolders', $default_folders);
     $OUTPUT->set_env('delimiter', $delimiter);
 
     return $form_start . $table->show($attrib) . $form_end;
