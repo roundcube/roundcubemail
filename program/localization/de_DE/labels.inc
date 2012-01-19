@@ -427,5 +427,6 @@ $labels['vietnamese'] = 'Vietnamesisch';
 $labels['japanese'] = 'Japanisch';
 $labels['korean'] = 'Koreanisch';
 $labels['chinese'] = 'Chinesisch';
+$labels['autocompletesingle'] = 'Alternative E-Mailadressen bei der Auto-Vervollständigung nicht berücksichtigen';
 
 ?>
