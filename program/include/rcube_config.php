@@ -5,7 +5,7 @@
  | program/include/rcube_config.php                                      |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,6 +32,18 @@ class rcube_config
     private $prop = array();
     private $errors = array();
     private $userprefs = array();
+
+    /**
+     * Renamed options
+     *
+     * @var array
+     */
+    private $legacy_props = array(
+        // new name => old name
+        'default_folders'      => 'default_imap_folders',
+        'mail_pagesize'        => 'pagesize',
+        'addressbook_pagesize' => 'pagesize',
+    );
 
 
     /**
@@ -164,9 +176,18 @@ class rcube_config
      */
     public function get($name, $def = null)
     {
-        $result = isset($this->prop[$name]) ? $this->prop[$name] : $def;
+        if (isset($this->prop[$name])) {
+            $result = $this->prop[$name];
+        }
+        else if (isset($this->lagacy_props[$name])) {
+            return $this->get($this->lagacy_props[$name], $def);
+        }
+        else {
+            $result = $def;
+        }
+
         $rcmail = rcmail::get_instance();
-        
+
         if ($name == 'timezone' && isset($this->prop['_timezone_value']))
             $result = $this->prop['_timezone_value'];
 
