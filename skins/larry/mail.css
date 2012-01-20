@@ -209,9 +209,9 @@ a.iconbutton.threadmode.selected {
 #mailboxlist li.mailbox div.expanded {
 	position: absolute;
 	top: 13px;
-	left: 20px;
-	width: 14px;
-	height: 14px;
+	left: 19px;
+	width: 13px;
+	height: 13px;
 	background: url(images/listicons.png) -3px -144px no-repeat;
 	cursor: pointer;
 }
@@ -220,9 +220,18 @@ a.iconbutton.threadmode.selected {
 	background-position: -3px -168px;
 }
 
+#mailboxlist li.mailbox.selected > div.collapsed {
+	background-position: -23px -144px;
+}
+
+#mailboxlist li.mailbox.selected > div.expanded {
+	background-position: -23px -168px;
+}
+
+
 #mailboxlist li.mailbox ul li div.collapsed,
 #mailboxlist li.mailbox ul li div.expanded {
-	left: 45px;
+	left: 43px;
 	top: 14px;
 }
 
@@ -477,9 +486,12 @@ a.iconbutton.threadmode.selected {
 	background-position: -24px -1036px;
 }
 
-#messagelist tr td.flag span.unflagged:hover,
 #messagelist tr td.status span.msgicon:hover {
-	background-position: 0 -1056px;
+	background-position: -23px -1056px;
+}
+
+#messagelist tr td.flag span.unflagged:hover {
+	background-position: -23px -1076px;
 }
 
 #messagelist tr td.subject span.msgicon,
