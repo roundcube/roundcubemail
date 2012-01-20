@@ -121,14 +121,16 @@ function roundcube_browser()
     else if (this.konq)
       classname += ' konqueror';
     else if (this.safari)
-      classname += ' safari';
-
-    if (this.chrome)
       classname += ' chrome';
-    else if (this.iphone)
+    else if (this.chrome)
+      classname += ' chrome';
+
+    if (this.iphone)
       classname += ' iphone';
     else if (this.ipad)
       classname += ' ipad';
+    else if (this.safari || this.chrome)
+      classname += ' webkit';
 
     if (document.documentElement)
       document.documentElement.className += classname;

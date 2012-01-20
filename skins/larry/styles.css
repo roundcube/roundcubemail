@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for skin "Larry"
  *
- * Copyright (c) 2011, The Roundcube Dev Team
+ * Copyright (c) 2012, The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -18,6 +18,11 @@ body {
 	color: #333;
 	background: url(images/linen.jpg) repeat #d1d5d8;
 	margin: 0;
+}
+
+body.noscroll {
+	/* also avoids bounce effect in Chrome and Safari */
+	overflow: hidden;
 }
 
 a {
@@ -238,7 +243,7 @@ input.button:active {
 .pagenav.dark a.button {
 	font-weight: bold;
 	border-color: #e6e6e6;
-	background: #f7f7f7;
+	background: #d8d8d8;
 	background: -moz-linear-gradient(top, #d8d8d8 0%, #bababa 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d8d8d8), color-stop(100%,#bababa));
 	background: -o-linear-gradient(top, #d8d8d8 0%, #bababa 100%);
@@ -352,6 +357,7 @@ a.iconlink {
 	display: inline-block;
 	color: #888;
 	text-decoration: none;
+	white-space: nowrap;
 	padding: 2px 8px 2px 20px;
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
@@ -499,7 +505,7 @@ a.iconlink.upload {
 	height: 46px;
 	margin-bottom: 10px;
 	padding: 0 0 0 10px;
-	background: #3a3a3a;
+	background: #111;
 	background: -moz-linear-gradient(top, rgba(64,64,64,1) 0%, rgba(6,6,6,1) 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(64,64,64,1)), color-stop(100%,rgba(6,6,6,1)));
 	background: -o-linear-gradient(top, rgba(64,64,64,1) 0%,rgba(6,6,6,1) 100%);
@@ -736,6 +742,11 @@ a.iconlink.upload {
 	display: table-cell;
 	padding-bottom: 5px;
 	height: auto;
+	min-height: 14px;
+}
+
+.webkit .listing tbody td {
+	height: 14px;
 }
 
 .listbox .listitem.selected,
@@ -922,7 +933,7 @@ table.records-table {
 	font-weight: bold;
 	background: #d6eaf3;
 	background: -moz-linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0,#e3f2f6), color-stop(14px,#d6eaf3), color-stop(100%,#d6eaf3));
+	background: -webkit-gradient(linear, left top, right top, color-stop(0,#e3f2f6), color-stop(8%,#d6eaf3), color-stop(100%,#d6eaf3));
 	background: -o-linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
 	background: -ms-linear-gradient(left, #e3f2f6 0, #d6eaf3 14px ,#d6eaf3 100%);
 	background: linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
@@ -1485,6 +1496,10 @@ ul.toolbarmenu li a {
 	padding: 6px 10px 6px 10px;
 }
 
+.googie_list td span {
+	padding: 3px 10px;
+}
+
 .googie_list td span,
 ul.toolbarmenu li a.active {
 	color: #fff;
@@ -1676,16 +1691,18 @@ ul.toolbarmenu li span.conversation {
 	/* reduce the damage in FF3.0 */
 	display: block; 
 	width: 0;
+	z-index: 251;
 }
 
-._draglayercopy:before {
+.draglayercopy:before {
 	position: absolute;
-	bottom: -5px;
+	bottom: -6px;
 	left: -6px;
 	content: " ";
-	width: 15px;
-	height: 15px;
-	background: url(images/buttons.png) -8px -360px no-repeat;
+	width: 16px;
+	height: 16px;
+	background: url(images/buttons.png) -7px -358px no-repeat;
+	z-index: 255;
 }
 
 
@@ -1845,7 +1862,7 @@ ul.toolbarmenu li span.conversation {
 
 .tabsbar .tablink.selected a {
 	color: #004458;
-	background: #fff;
+	background: #f6f6f6;
 	background: -moz-linear-gradient(top, #fff 40%, #efefef 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,#fff), color-stop(100%,#efefef));
 	background: -o-linear-gradient(top, #fff 40%, #efefef 100%);

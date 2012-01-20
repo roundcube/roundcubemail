@@ -82,7 +82,7 @@ function rcube_mail_ui()
         $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false });
       }
       else if (rcmail.env.action == 'compose') {
-        rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 100); });
+        rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 200); });
         rcmail.addEventListener('aftersend-attachment', show_uploadform);
         rcmail.addEventListener('add-recipient', function(p){ show_header_row(p.field, true); });
         layout_composeview();
@@ -95,7 +95,7 @@ function rcube_mail_ui()
         }).css('cursor', 'pointer');
 
         new rcube_splitter({ id:'composesplitterv', p1:'#composeview-left', p2:'#composeview-right',
-          orientation:'v', relative:true, start:248, min:170, size:12 }).init();
+          orientation:'v', relative:true, start:248, min:170, size:12, render:layout_composeview }).init();
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
           mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
@@ -271,22 +271,26 @@ function rcube_mail_ui()
   function layout_composeview()
   {
     var body = $('#composebody'),
+      form = $('#compose-content'),
       bottom = $('#composeview-bottom'),
       w, h;
 
-    bottom.css('height', (bottom.parent().height() - bottom.position().top) + 'px');
+    bottom.css('height', (form.height() - bottom.position().top) + 'px');
 
-    w = body.parent().width() - 8;
+    w = body.parent().width() - 6;
     h = body.parent().height() - 36;
     body.width(w).height(h);
 
     if (window.tinyMCE && tinyMCE.get('composebody')) {
-      $('#composebody_tbl').width((w+12)+'px').height('').css('margin-top', '1px');
-      $('#composebody_ifr').width((w+12)+'px').height((h-22)+'px');
+      $('#composebody_tbl').width((w+10)+'px').height('').css('margin-top', '1px');
+      $('#composebody_ifr').width((w+10)+'px').height((h-22)+'px');
     }
     else {
       $('#googie_edit_layer').height(h+'px');
     }
+    
+    var abooks = $('#directorylist');
+    $('#compose-contacts .scroller').css('top', abooks.position().top + abooks.outerHeight());
   }
 
 

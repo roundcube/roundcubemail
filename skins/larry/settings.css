@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Settings section
  *
- * Copyright (c) 2011, The Roundcube Dev Team
+ * Copyright (c) 2012, The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -184,13 +184,24 @@
 	bottom: 0;
 }
 
+#subscription-table {
+	table-layout: fixed;
+}
+
 #subscription-table tr.root td {
 	font-size: 5%;
 	height: 5px;
 	padding: 2px;
 }
 
+#subscription-table td.name {
+	width: 85%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 #subscription-table td.subscribed {
+	min-width: 30px;
 	padding: 3px 12px 3px 3px;
 	text-align: right;
 }
@@ -199,8 +210,16 @@
 	width: 5em;
 }
 
+.webkit #pluginlist td.version {
+	width: 6em;
+}
+
 #pluginlist td.license,
 #pluginlist td.source {
 	width: 8em;
 }
 
+.webkit #pluginlist td.license,
+.webkit #pluginlist td.source {
+	width: 9em;
+}

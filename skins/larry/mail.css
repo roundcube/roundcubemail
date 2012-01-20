@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Email section
  *
- * Copyright (c) 2011, The Roundcube Dev Team
+ * Copyright (c) 2012, The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -324,11 +324,11 @@ a.iconbutton.threadmode.selected {
 	padding: 2px 3px;
 }
 
-.chrome #messagelist tr td.attachment,
-.chrome #messagelist tr td.threads,
-.chrome #messagelist tr td.status,
-.chrome #messagelist tr td.flag,
-.chrome #messagelist tr td.priority {
+.webkit #messagelist tr td.attachment,
+.webkit #messagelist tr td.threads,
+.webkit #messagelist tr td.status,
+.webkit #messagelist tr td.flag,
+.webkit #messagelist tr td.priority {
 	width: 26px;
 }
 
@@ -336,7 +336,7 @@ a.iconbutton.threadmode.selected {
 	width: 26px;
 }
 
-.chrome #messagelist tr td.threads {
+.webkit #messagelist tr td.threads {
 	width: 30px;
 }
 
@@ -617,7 +617,7 @@ a.iconbutton.threadmode.selected {
 #composeheaders {
 	position: relative;
 	padding: 3px 0;
-	background: #fff;
+	background: #f9f9f9;
 	background: -moz-linear-gradient(top, #fff 0%, #e9e9e9 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#e9e9e9));
 	background: -o-linear-gradient(top, #fff 0%, #e9e9e9 100%);
@@ -711,7 +711,12 @@ h3.subject {
 	position: relative;
 	color: #666;
 	text-align: center;
-	background-color: #EBEBEB;
+	background-color: #f9f9f9;
+	background: -moz-linear-gradient(top, #eaeaea 0%, #e9e9e9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaea), color-stop(100%,#e9e9e9));
+	background: -o-linear-gradient(top, #eaeaea 0%, #e9e9e9 100%);
+	background: -ms-linear-gradient(top, #eaeaea 0%, #e9e9e9 100%);
+	background: linear-gradient(top, #eaeaea 0%, #e9e9e9 100%);
 }
 
 div.more-headers {
@@ -947,6 +952,11 @@ div.message-part blockquote blockquote blockquote {
 	border-bottom: 4px solid #c7e3ef;
 }
 
+#compose-contacts .scroller {
+	top: 65px;
+	border-top: 1px solid #fff;
+}
+
 #contacts-table {
 	table-layout: fixed;
 }
@@ -964,6 +974,10 @@ div.message-part blockquote blockquote blockquote {
 	overflow: hidden;
 	padding-left: 36px;
 	text-overflow: ellipsis;
+}
+
+#contacts-table tr:first-child td {
+	border-top: 0;
 }
 
 #compose-contacts li.addressbook a {
