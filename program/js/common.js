@@ -55,6 +55,7 @@ function roundcube_browser()
   this.ie4 = (this.ie && !this.dom);
   this.ie5 = (this.dom && this.appver.indexOf('MSIE 5')>0);
   this.ie8 = (this.dom && this.appver.indexOf('MSIE 8')>0);
+  this.ie9 = (this.dom && this.appver.indexOf('MSIE 9')>0);
   this.ie7 = (this.dom && this.appver.indexOf('MSIE 7')>0);
   this.ie6 = (this.dom && !this.ie8 && !this.ie7 && this.appver.indexOf('MSIE 6')>0);
 
@@ -105,17 +106,8 @@ function roundcube_browser()
   {
     var classname = ' js';
 
-    if (this.ie) {
-      classname += ' ie';
-      if (this.ie5)
-        classname += ' ie5';
-      else if (this.ie6)
-        classname += ' ie6';
-      else if (this.ie7)
-        classname += ' ie7';
-      else if (this.ie8)
-        classname += ' ie8';
-    }
+    if (this.ie)
+      classname += ' ie ie'+parseInt(this.vendver);
     else if (this.opera)
       classname += ' opera';
     else if (this.konq)
