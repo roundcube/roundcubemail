@@ -227,6 +227,7 @@ input.button[disabled]:hover {
 
 a.button.disabled span.inner {
 	opacity: 0.4;
+	filter: alpha(opacity=40);
 }
 
 a.button.pressed,
@@ -338,6 +339,7 @@ a.iconbutton {
 
 a.iconbutton.disabled {
 	opacity: 0.4;
+	filter: alpha(opacity=40);
 	cursor: default;
 }
 
@@ -506,11 +508,11 @@ a.iconlink.upload {
 	margin-bottom: 10px;
 	padding: 0 0 0 10px;
 	background: #111;
-	background: -moz-linear-gradient(top, rgba(64,64,64,1) 0%, rgba(6,6,6,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(64,64,64,1)), color-stop(100%,rgba(6,6,6,1)));
-	background: -o-linear-gradient(top, rgba(64,64,64,1) 0%,rgba(6,6,6,1) 100%);
-	background: -ms-linear-gradient(top, rgba(64,64,64,1) 0%,rgba(6,6,6,1) 100%);
-	background: linear-gradient(top, rgba(64,64,64,1) 0%,rgba(6,6,6,1) 100%);
+	background: -moz-linear-gradient(top, #404040 0%, #060606 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#404040), color-stop(100%,#060606));
+	background: -o-linear-gradient(top, #404040 0%, #060606 100%);
+	background: -ms-linear-gradient(top, #404040 0%, #060606 100%);
+	background: linear-gradient(top, #404040 0%, #060606 100%);
 }
 
 #topline a,
@@ -852,6 +854,7 @@ table.layout td {
 
 .boxfooter .listbutton.disabled .inner {
 	opacity: 0.4;
+	filter: alpha(opacity=40);
 }
 
 .boxfooter .countdisplay {
@@ -894,6 +897,7 @@ table.layout td {
 
 .boxpagenav a.icon.disabled {
 	opacity: 0.4;
+	filter: alpha(opacity=40);
 }
 
 .centerbox {
@@ -1181,11 +1185,11 @@ ul.proplist li {
 	text-shadow: 0px 1px 1px #fff;
 	border-color: #f9f9f9;
 	background: #f9f9f9;
-	background: -moz-linear-gradient(top, rgba(249,249,249,1) 0%, rgba(226,226,226,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,249,249,1)), color-stop(100%,rgba(226,226,226,1)));
-	background: -o-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
-	background: -ms-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
-	background: linear-gradient(top, rgba(249,249,249,1) 0%,rgba(226,226,226,1) 100%);
+	background: -moz-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#e2e2e2));
+	background: -o-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
+	background: -ms-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
+	background: linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
 	box-shadow: inset 0 1px 0 0 #fff;
 	-moz-box-shadow: inset 0 1px 0 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 0 #fff;
@@ -1202,11 +1206,11 @@ ul.proplist li {
 
 #login-form input.button:active {
 	color: #333;
-	background: -moz-linear-gradient(top, rgba(220,220,220,1) 0%, rgba(249,249,249,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(220,220,220,1)), color-stop(100%,rgba(249,249,249,1)));
-	background: -o-linear-gradient(top, rgba(220,220,220,1) 0%,rgba(249,249,249,1) 100%);
-	background: -ms-linear-gradient(top, rgba(220,220,220,1) 0%,rgba(249,249,249,1) 100%);
-	background: linear-gradient(top, rgba(220,220,220,1) 0%,rgba(249,249,249,1) 100%);
+	background: -moz-linear-gradient(top, #dcdcdc 0%, #f9f9f9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dcdcdc), color-stop(100%,#f9f9f9));
+	background: -o-linear-gradient(top, #dcdcdc 0%, #f9f9f9 100%);
+	background: -ms-linear-gradient(top, #dcdcdc 0%, #f9f9f9 100%);
+	background: linear-gradient(top, #dcdcdc 0%, #f9f9f9 100%);
 }
 
 #login-form td.title {
@@ -1296,6 +1300,7 @@ ul.proplist li {
 
 .toolbar a.button.disabled {
 	opacity: 0.4;
+	filter: alpha(opacity=40);
 }
 
 .dropbutton {
@@ -1320,6 +1325,7 @@ ul.proplist li {
 
 .dropbutton a.button.disabled + .dropbuttontip {
 	opacity: 0.5;
+	filter: alpha(opacity=50);
 }
 
 .dropbutton a.button.disabled + .dropbuttontip:hover {
@@ -1542,10 +1548,12 @@ ul.toolbarmenu li span.icon {
 	background-position: -100px 0;
 	background-repeat: no-repeat;
 	opacity: 0.2;
+	filter: alpha(opacity=20);
 }
 
 ul.toolbarmenu li a.active span.icon {
 	opacity: 0.99;
+	filter: alpha(opacity=100);
 }
 
 ul.toolbarmenu li span.read {
@@ -1677,6 +1685,7 @@ ul.toolbarmenu li span.conversation {
 	color: #ccc;
 	white-space: nowrap;
 	opacity: 0.92;
+	filter: alpha(opacity=92);
 	text-shadow: 0px 1px 1px #333;
 }
 

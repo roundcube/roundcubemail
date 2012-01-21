@@ -1,0 +1,149 @@
+/**
+ * Roundcube webmail CSS hacks for IE < 9
+ *
+ * Copyright (c) 2012, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ *
+ * $Id$
+ */
+
+input.button {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
+}
+
+.formbuttons input.button {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7b7b7b', endColorstr='#606060', GradientType=0);
+}
+
+.formbuttons input.button:active {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c5c5c', endColorstr='#7b7b7b', GradientType=0);
+}
+
+input.button.mainaction {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#505050', endColorstr='#2a2e31', GradientType=0);
+}
+
+input.button.mainaction:active {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2a2e31', endColorstr='#505050', GradientType=0);
+}
+
+a.button {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
+}
+
+a.button.pressed,
+a.button:active,
+input.button:active {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6e6e6', endColorstr='#f9f9f9', GradientType=0);
+}
+
+.pagenav.dark a.button {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d8d8d8', endColorstr='#bababa', GradientType=0);
+}
+
+.pagenav.dark a.button.pressed {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bababa', endColorstr='#d8d8d8', GradientType=0);
+}
+
+#message.statusbar {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eaeaea', endColorstr='#c8c8c8', GradientType=0);
+}
+
+.ui-dialog.popupmessage .ui-dialog-titlebar {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e3e3e3', endColorstr='#cfcfcf', GradientType=0);
+}
+
+.ui-dialog.popupmessage .ui-widget-content {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#dcdcdc', GradientType=0);
+}
+
+#topnav {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#404040', endColorstr='#060606', GradientType=0);
+}
+
+.records-table tr.selected td {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#019bc6', endColorstr='#017cb4', GradientType=0);
+}
+
+.contentbox .boxtitle,
+body.iframe .boxtitle {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#dfdfdf', GradientType=0);
+}
+
+#login-form input.button {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e2e2e2', GradientType=0);
+}
+
+#login-form input.button:active {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcdcdc', endColorstr='#f9f9f9', GradientType=0);
+}
+
+.toolbar a.button {
+	filter: none;
+}
+
+a.menuselector {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#dddddd', GradientType=0);
+}
+
+a.menuselector:active {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#f8f8f8', GradientType=0);
+}
+
+.googie_list td.googie_list_onhover,
+ul.toolbarmenu li a.active:hover,
+#rcmKSearchpane ul li.selected {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00aad6', endColorstr='#008fc9', GradientType=0);
+}
+
+.tabsbar .tablink {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#d3d3d3 50%, #f8f8f8', GradientType=0);
+}
+
+.tabsbar .tablink.selected a {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
+}
+
+
+/*** addressbook.css ***/
+
+.contactfieldgroup {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#eeeeee', GradientType=0);
+}
+
+.contactfieldgroup legend {
+	margin: -8px -8px 8px -8px;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#d6d6d6', GradientType=0);
+}
+
+
+/*** mail.css ***/
+
+#mailboxlist li.mailbox .unreadcount {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#82acb5', endColorstr='#6a939f', GradientType=0);
+}
+
+#mailboxlist li.mailbox.selected .unreadcount {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#005d76', endColorstr='#004558', GradientType=0);
+}
+
+#messageheader, #partheader, #composeheaders {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e9e9e9', GradientType=0);
+}
+
+#full-headers {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eaeaea', endColorstr='#e9e9e9', GradientType=0);
+}
+
+#all-headers {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3', endColorstr='#ffffff', GradientType=0);
+}
+
+#composeoptionsbox {
+	border-top: 1px solid #999;
+}
+
