@@ -74,7 +74,9 @@ class rcube_plugin_api
     'delete_identity'   => 'identity_delete',
     'save_identity'     => 'identity_update',
     'identity_save'     => 'identity_update',
+    // to be removed after 0.8
     'imap_init'         => 'storage_init',
+    'mailboxes_list'    => 'storage_folders', 
   );
 
   /**

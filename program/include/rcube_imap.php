@@ -2508,7 +2508,7 @@ class rcube_imap extends rcube_storage
         $a_defaults = $a_out = array();
 
         // Give plugins a chance to provide a list of folders
-        $data = rcmail::get_instance()->plugins->exec_hook('folders_list',
+        $data = rcmail::get_instance()->plugins->exec_hook('storage_folders',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LSUB'));
 
         if (isset($data['folders'])) {
@@ -2594,7 +2594,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Give plugins a chance to provide a list of folders
-        $data = rcmail::get_instance()->plugins->exec_hook('folders_list',
+        $data = rcmail::get_instance()->plugins->exec_hook('storage_folders',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LIST'));
 
         if (isset($data['folders'])) {
