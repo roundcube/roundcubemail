@@ -179,8 +179,8 @@ class rcube_config
         if (isset($this->prop[$name])) {
             $result = $this->prop[$name];
         }
-        else if (isset($this->lagacy_props[$name])) {
-            return $this->get($this->lagacy_props[$name], $def);
+        else if (isset($this->legacy_props[$name])) {
+            return $this->get($this->legacy_props[$name], $def);
         }
         else {
             $result = $def;
