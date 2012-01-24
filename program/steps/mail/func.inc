@@ -903,7 +903,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
       else
         $header_value = format_date($value);
     }
-    if ($hkey == 'priority') {
+    else if ($hkey == 'priority') {
       if ($value) {
         $header_value = html::span('prio' . $value, rcmail_localized_priority($value));
       }
