@@ -87,6 +87,13 @@ function rcube_mail_ui()
         rcmail.addEventListener('add-recipient', function(p){ show_header_row(p.field, true); });
         layout_composeview();
 
+        // Show input elements with non-empty value
+        var field, fields = ['cc', 'bcc', 'replyto', 'followupto'];
+        for (var f=0; f < fields.length; f++) {
+          if ((field = $('#_'+fields[f])) && field.length && field.val() != '')
+            show_header_row(fields[f], true);
+        }
+
         $('#composeoptionstoggle').parent().click(function(){
           $('#composeoptionstoggle').toggleClass('enabled');
           $('#composeoptions').toggle();
