@@ -54,12 +54,14 @@ function rcube_mail_ui()
   }
 
   /**
-   *
+   * Initialize UI
+   * Called on document.ready
    */
   function init()
   {
     rcmail.addEventListener('message', message_displayed);
-    
+
+    /***  mail task  ***/
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('menu-open', show_listoptions);
       rcmail.addEventListener('menu-save', save_listoptions);
@@ -70,11 +72,6 @@ function rcube_mail_ui()
         rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
         popups.dragmessagemenu = dragmenu;
       }
-
-      var previewframe = $('#mailpreviewframe').is(':visible');
-      $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').click(function(e){ toggle_preview_pane(e); return false });
-      $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
-      $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         layout_messageview();
@@ -105,12 +102,17 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:248, min:170, size:12, render:layout_composeview }).init();
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
-          mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
-            orientation:'h', relative:true, start:310, min:150, size:0, offset:-22 });
-          if (previewframe)
-            mailviewsplit.init();
+        var previewframe = $('#mailpreviewframe').is(':visible');
+        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').click(function(e){ toggle_preview_pane(e); return false });
+        $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
+        $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
 
-          rcmail.addEventListener('setquota', update_quota);
+        mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
+          orientation:'h', relative:true, start:310, min:150, size:0, offset:-22 });
+        if (previewframe)
+          mailviewsplit.init();
+
+        rcmail.addEventListener('setquota', update_quota);
       }
 
       if ($('#mailview-left').length) {
@@ -118,6 +120,7 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:248, min:150, size:12, callback:render_mailboxlist, render:resize_leftcol }).init();
       }
     }
+    /***  settings task  ***/
     else if (rcmail.env.task == 'settings') {
       rcmail.addEventListener('init', function(){
         var tab = '#settingstabpreferences';
@@ -137,6 +140,7 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:305, min:150, size:12 }).init();
       }
     }
+    /***  addressbook task  ***/
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', show_uploadform);
 
@@ -147,6 +151,7 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:296, min:220, size:12 }).init();
       }
     }
+    /***  login page  ***/
     else if (rcmail.env.task == 'login') {
       if (bw.ie && bw.vendver < 9) {
         var popup = $('<div>')
