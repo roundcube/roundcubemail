@@ -1623,6 +1623,7 @@ function rcube_webmail()
   {
     if (this.env.messages[row.uid])
       this.env.messages[row.uid].expanded = row.expanded;
+    $(row.obj)[row.expanded?'addClass':'removeClass']('expanded');
   };
 
   this.msglist_set_coltypes = function(list)
@@ -2146,7 +2147,6 @@ function rcube_webmail()
     this.set_unread_children(uid);
     row.expanded = !row.expanded;
 
-    $(row.obj)[row.expanded?'removeClass':'addClass']('expanded');
     this.message_list.expand_row(e, uid);
   };
 

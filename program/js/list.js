@@ -419,7 +419,7 @@ expand_row: function(e, id)
 collapse: function(row)
 {
   row.expanded = false;
-  this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+  this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   var depth = row.depth;
   var new_row = row ? row.obj.nextSibling : null;
   var r;
@@ -432,7 +432,7 @@ collapse: function(row)
       $(new_row).css('display', 'none');
       if (r.expanded) {
         r.expanded = false;
-        this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+        this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
       }
     }
     new_row = new_row.nextSibling;
@@ -450,7 +450,7 @@ expand: function(row)
     depth = row.depth;
     new_row = row.obj.nextSibling;
     this.update_expando(row.uid, true);
-    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
     var tbody = this.list.tBodies[0];
@@ -473,7 +473,7 @@ expand: function(row)
               last_expanded_parent_depth = p.depth;
               $(new_row).css('display', '');
               r.expanded = true;
-              this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+              this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
             }
           }
           else
@@ -498,7 +498,7 @@ collapse_all: function(row)
     depth = row.depth;
     new_row = row.obj.nextSibling;
     this.update_expando(row.uid);
-    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
 
     // don't collapse sub-root tree in multiexpand mode 
     if (depth && this.multiexpand)
@@ -520,7 +520,7 @@ collapse_all: function(row)
         if (r.has_children && r.expanded) {
           r.expanded = false;
           this.update_expando(r.uid, false);
-          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
         }
       }
     }
@@ -539,7 +539,7 @@ expand_all: function(row)
     depth = row.depth;
     new_row = row.obj.nextSibling;
     this.update_expando(row.uid, true);
-    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded });
+    this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
     new_row = this.list.tBodies[0].firstChild;
@@ -556,7 +556,7 @@ expand_all: function(row)
         if (r.has_children && !r.expanded) {
           r.expanded = true;
           this.update_expando(r.uid, true);
-          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded });
+          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
         }
       }
     }
