@@ -40,11 +40,11 @@ class rcube_message
     private $app;
 
     /**
-     * Instance of imap class
+     * Instance of storage class
      *
-     * @var rcube_imap
+     * @var rcube_storage
      */
-    private $imap;
+    private $storage;
 
     /**
      * Instance of mime class
@@ -73,7 +73,7 @@ class rcube_message
      *
      * @param string $uid The message UID.
      *
-     * @see self::$app, self::$imap, self::$opt, self::$structure
+     * @see self::$app, self::$storage, self::$opt, self::$parts
      */
     function __construct($uid)
     {
@@ -172,7 +172,7 @@ class rcube_message
     {
         if ($part = $this->mime_parts[$mime_id]) {
             // stored in message structure (winmail/inline-uuencode)
-            if ($part->encoding == 'stream') {
+            if (!empty($part->body) || $part->encoding == 'stream') {
                 if ($fp) {
                     fwrite($fp, $part->body);
                 }
@@ -214,7 +214,7 @@ class rcube_message
         foreach ($this->mime_parts as $mime_id => $part) {
             $mimetype = strtolower($part->ctype_primary . '/' . $part->ctype_secondary);
             if ($mimetype == 'text/html') {
-                return $this->storage->get_message_part($this->uid, $mime_id, $part);
+                return $this->get_part_content($mime_id);
             }
         }
     }
@@ -237,10 +237,10 @@ class rcube_message
             $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
 
             if ($mimetype == 'text/plain') {
-                return $this->storage->get_message_part($this->uid, $mime_id, $part);
+                return $this->get_part_content($mime_id);
             }
             else if ($mimetype == 'text/html') {
-                $out = $this->storage->get_message_part($this->uid, $mime_id, $part);
+                $out = $this->get_part_content($mime_id);
 
                 // remove special chars encoding
                 $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
@@ -258,7 +258,7 @@ class rcube_message
 
 
     /**
-     * Raad the message structure returend by the IMAP server
+     * Read the message structure returend by the IMAP server
      * and build flat lists of content parts and attachments
      *
      * @param rcube_message_part $structure Message structure node
