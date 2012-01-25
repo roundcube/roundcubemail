@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix autoselect_host() for login (#1488297)
 - Fix drafts update issues when edited from preview pane (#1488314)
 - Changed license to GNU GPLv3+ with exceptions for skins & plugins
 - Make mime type detection based on filename extension to be case-insensitive

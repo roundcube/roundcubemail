@@ -1020,16 +1020,21 @@ class rcmail
       list($user, $domain) = explode('@', get_input_value('_user', RCUBE_INPUT_POST));
       if (!empty($domain)) {
         foreach ($default_host as $storage_host => $mail_domains) {
-          if (is_array($mail_domains) && in_array($domain, $mail_domains)) {
+          if (is_array($mail_domains) && in_array_nocase($domain, $mail_domains)) {
             $host = $storage_host;
+            break;
+          }
+          else if (stripos($storage_host, $domain) !== false || stripos(strval($mail_domains), $domain) !== false) {
+            $host = is_numeric($storage_host) ? $mail_domains : $storage_host;
             break;
           }
         }
       }
 
-      // take the first entry if $host is still an array
+      // take the first entry if $host is still not set
       if (empty($host)) {
-        $host = array_shift($default_host);
+        list($key, $val) = each($default_host);
+        $host = is_numeric($key) ? $val : $key;
       }
     }
     else if (empty($default_host)) {
