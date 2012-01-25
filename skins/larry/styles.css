@@ -1759,8 +1759,7 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -156px;
 }
 
-.attachmentslist li.rar,
-.attachmentslist li.gz {
+.attachmentslist li.rar {
 	background-position: 0 -182px;
 }
 
