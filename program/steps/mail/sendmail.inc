@@ -740,6 +740,7 @@ if ($savedraft) {
     $saved     = $draft_idx->get_element('FIRST');
   }
   $COMPOSE['param']['draft_uid'] = $saved;
+  $RCMAIL->plugins->exec_hook('message_draftsaved', array('msgid' => $msgid, 'uid' => $saved, 'folder' => $store_target));
 
   // display success
   $OUTPUT->show_message('messagesaved', 'confirmation');
