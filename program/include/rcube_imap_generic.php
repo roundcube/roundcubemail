@@ -1559,6 +1559,11 @@ class rcube_imap_generic
             return new rcube_result_index($mailbox);
         }
 
+        // RFC 5957: SORT=DISPLAY
+        if (($field == 'FROM' || $field == 'TO') && $this->getCapability('SORT=DISPLAY')) {
+            $field = 'DISPLAY' . $field;
+        }
+
         // message IDs
         if (!empty($add))
             $add = $this->compressMessageSet($add);
