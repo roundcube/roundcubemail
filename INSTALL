@@ -18,6 +18,7 @@ REQUIREMENTS
 * PEAR packages distributed with Roundcube or external:
    - MDB2 2.5.0 or newer
    - Mail_Mime 1.8.1 or newer
+   - Mail_mimeDecode 1.5.5 or newer
    - Net_SMTP 1.4.2 or newer
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.3 or newer

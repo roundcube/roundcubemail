@@ -94,13 +94,13 @@ class rcube_mime
 
         $part_charset = $struct->charset ? $struct->charset : self::$default_charset;
 
-        // TODO: determine filename
+        // determine filename
         if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {
             $struct->filename = rcube_mime::decode_mime_string($filename, $part_charset);
         }
 
         // copy part body and convert it to UTF-8 if necessary
-        $struct->body = $part->ctype_primary == 'text' ? rcube_charset::convert($part->body, $part_charset) : $part->body;
+        $struct->body = $part->ctype_primary == 'text' || !$part->ctype_parameters['charset'] ? rcube_charset::convert($part->body, $part_charset) : $part->body;
         $struct->size = strlen($part->body);
         $struct->disposition = $part->disposition;
 
