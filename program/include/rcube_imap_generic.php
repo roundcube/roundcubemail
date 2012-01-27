@@ -1453,7 +1453,7 @@ class rcube_imap_generic
 
         // Invoke SEARCH as a fallback
         $index = $this->search($mailbox, 'ALL UNSEEN', false, array('COUNT'));
-        if (!$index->isError()) {
+        if (!$index->is_error()) {
             return $index->count();
         }
 
