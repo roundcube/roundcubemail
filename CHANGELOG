@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Revert SORT=DISPLAY support, removed by mistake (#1488327)
 - Add lost translation label in de_DE (#1488315)
 - Fix drafts update issues when edited from preview pane (#1488314)
 - Fix wrong variable name in rcube_ldap.php (#1488302)

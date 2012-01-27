@@ -1557,6 +1557,11 @@ class rcube_imap_generic
         }
 
         if (!$this->select($mailbox)) {
+        }
+
+        // RFC 5957: SORT=DISPLAY
+        if (($field == 'FROM' || $field == 'TO') && $this->getCapability('SORT=DISPLAY')) {
+            $field = 'DISPLAY' . $field;
             return null;
         }
 
