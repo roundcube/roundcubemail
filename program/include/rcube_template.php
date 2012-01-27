@@ -528,6 +528,7 @@ class rcube_template extends rcube_html_page
     {
         $GLOBALS['__version'] = Q(RCMAIL_VERSION);
         $GLOBALS['__comm_path'] = Q($this->app->comm_path);
+        $GLOBALS['__skin_path'] = Q($this->config['skin_path']);
         return preg_replace_callback('/\$(__[a-z0-9_\-]+)/',
 	    array($this, 'globals_callback'), $input);
     }

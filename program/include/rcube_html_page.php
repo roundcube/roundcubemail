@@ -284,7 +284,6 @@ class rcube_html_page
         $output = preg_replace_callback(
             '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
             array($this, 'file_callback'), $output);
-        $output = str_replace('$__skin_path', $base_path, $output);
 
         // trigger hook with final HTML content to be sent
         $hook = rcmail::get_instance()->plugins->exec_hook("send_page", array('content' => $output));
