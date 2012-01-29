@@ -730,9 +730,10 @@ if ($savedraft) {
     $saved     = $draftuids[0];
   }
   $COMPOSE['param']['draft_uid'] = $saved;
+  $plugin = $RCMAIL->plugins->exec_hook('message_draftsaved', array('msgid' => $msgid, 'uid' => $saved, 'folder' => $store_target));
 
   // display success
-  $OUTPUT->show_message('messagesaved', 'confirmation');
+  $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'messagesaved', 'confirmation');
 
   // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
   $OUTPUT->command('set_draft_id', $msgid);
