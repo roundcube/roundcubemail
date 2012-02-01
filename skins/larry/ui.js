@@ -817,6 +817,7 @@ function rcube_splitter(p)
   this.callback = p.callback;
 
   var me = this;
+  rcube_splitter._instances[this.id] = me;
 
   this.init = function()
   {
@@ -1017,4 +1018,12 @@ function rcube_splitter(p)
 
 } // end class rcube_splitter
 
+
+// static getter for splitter instances
+rcube_splitter._instances = {};
+
+rcube_splitter.get_instance = function(id)
+{
+  return rcube_splitter._instances[id];
+};
 
