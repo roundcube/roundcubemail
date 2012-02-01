@@ -712,8 +712,8 @@ function rcube_mail_ui()
    */
   function init_tabs(elem, current)
   {
-    var id = elem.id,
-      content = $(elem),
+    var content = $(elem),
+      id = content.get(0).id,
       fs = content.children('fieldset');
 
     if (!fs.length)
@@ -721,7 +721,7 @@ function rcube_mail_ui()
 
     if (!id) {
       id = 'rcmtabcontainer';
-      elem.attr('id', id);
+      content.attr('id', id);
     }
 
     // first hide not selected tabs
@@ -798,7 +798,7 @@ function rcube_mail_ui()
 
 
 /**
- * Roundcube splitter GUI class
+ * Roundcube UI splitter class
  *
  * @constructor
  */
@@ -823,6 +823,10 @@ function rcube_splitter(p)
     this.p1 = $(this.p.p1);
     this.p2 = $(this.p.p2);
 
+    // check if referenced elements exist, otherwise abort
+    if (!this.p1.length || !this.p2.length)
+      return;
+
     // create and position the handle for this splitter
     this.p1pos = this.relative ? this.p1.position() : this.p1.offset();
     this.p2pos = this.relative ? this.p2.position() : this.p2.offset();
@@ -842,11 +846,9 @@ function rcube_splitter(p)
       this.handle.css({ left:left+'px', top:'0px' });
     }
 
-    this.elm = this.handle.get(0);
-
     // listen to window resize on IE
     if (bw.ie)
-      $(window).resize(function(e){ onResize(e) });
+      $(window).resize(onResize);
 
     // read saved position from cookie
     var cookie = bw.get_cookie(this.id);
