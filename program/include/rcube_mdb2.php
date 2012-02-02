@@ -636,6 +636,8 @@ class rcube_mdb2
     {
         $func = '';
         $args = func_get_args();
+        if (is_array($args[0]))
+            $args = $args[0];
 
         switch($this->db_provider) {
             case 'mysql':

@@ -5,7 +5,7 @@
  | program/steps/settings/func.inc                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -651,13 +651,17 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    if (!isset($no_override['autocomplete_single'])) {
-      $field_id = 'rcmfd_autocomplete_single';
-      $checkbox = new html_checkbox(array('name' => '_autocomplete_single', 'id' => $field_id, 'value' => 1));
+    // show addressbook sort column
+    if (!isset($no_override['addressbook_sort_col'])) {
+      $field_id = 'rcmfd_addressbook_sort_col';
+      $select_sort = new html_select(array('name' => '_addressbook_sort_col', 'id' => $field_id));
+      $select_sort->add(rcube_label('name'), 'name');
+      $select_sort->add(rcube_label('firstname'), 'firstname');
+      $select_sort->add(rcube_label('surname'), 'surname');
 
-      $blocks['main']['options']['autocomplete_single'] = array(
-        'title' => html::label($field_id, Q(rcube_label('autocompletesingle'))),
-        'content' => $checkbox->show($config['autocomplete_single']?1:0),
+      $blocks['main']['options']['sort_col'] = array(
+        'title' => html::label($field_id, Q(rcube_label('listsorting'))),
+        'content' => $select_sort->show($config['addressbook_sort_col']),
       );
     }
 
@@ -671,6 +675,16 @@ function rcmail_user_prefs($current=null)
       $blocks['main']['options']['pagesize'] = array(
         'title' => html::label($field_id, Q(rcube_label('pagesize'))),
         'content' => $input_pagesize->show($size ? $size : 50),
+      );
+    }
+
+    if (!isset($no_override['autocomplete_single'])) {
+      $field_id = 'rcmfd_autocomplete_single';
+      $checkbox = new html_checkbox(array('name' => '_autocomplete_single', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['autocomplete_single'] = array(
+        'title' => html::label($field_id, Q(rcube_label('autocompletesingle'))),
+        'content' => $checkbox->show($config['autocomplete_single']?1:0),
       );
     }
 

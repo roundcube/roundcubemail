@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make contacts list sorting configurable for the admin/user
 - Revert SORT=DISPLAY support, removed by mistake (#1488327)
 - Fix autoselect_host() for login (#1488297)
 - Fix drafts update issues when edited from preview pane (#1488314)

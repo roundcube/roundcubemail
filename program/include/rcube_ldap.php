@@ -4,7 +4,7 @@
  | program/include/rcube_ldap.php                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011, Kolab Systems AG                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -38,8 +38,6 @@ class rcube_ldap extends rcube_addressbook
     public $readonly = true;
     public $ready = false;
     public $group_id = 0;
-    public $list_page = 1;
-    public $page_size = 10;
     public $coltypes = array();
 
     /** private properties */
@@ -50,7 +48,6 @@ class rcube_ldap extends rcube_addressbook
     protected $filter = '';
     protected $result = null;
     protected $ldap_result = null;
-    protected $sort_col = '';
     protected $mail_domain = '';
     protected $debug = false;
 
@@ -417,24 +414,15 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-     * Set internal list page
+     * Set internal sort settings
      *
-     * @param number $page Page number to list
+     * @param string $sort_col Sort column
+     * @param string $sort_order Sort order
      */
-    function set_page($page)
+    function set_sort_order($sort_col, $sort_order = null)
     {
-        $this->list_page = (int)$page;
-    }
-
-
-    /**
-     * Set internal page size
-     *
-     * @param number $size Number of messages to display on one page
-     */
-    function set_pagesize($size)
-    {
-        $this->page_size = (int)$size;
+        if ($this->fieldmap[$sort_col])
+            $this->sort_col = $this->fieldmap[$sort_col];
     }
 
 

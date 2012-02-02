@@ -664,6 +664,9 @@ $rcmail_config['mail_pagesize'] = 50;
 // show up to X items in contacts list view
 $rcmail_config['addressbook_pagesize'] = 50;
 
+// sort contacts by this col (preferably either one of name, firstname, surname)
+$rcmail_config['addressbook_sort_col'] = 'surname';
+
 // use this timezone to display date/time
 // valid timezone identifers are listed here: php.net/manual/en/timezones.php
 // 'auto' will use the browser's timezone settings

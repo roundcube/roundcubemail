@@ -452,6 +452,10 @@ class rcmail
         true, true);
     }
 
+    // set configured sort order
+    if ($sort_col = $this->config->get('addressbook_sort_col'))
+        $contacts->set_sort_order($sort_col);
+
     // add to the 'books' array for shutdown function
     $this->address_books[$id] = $contacts;
 
