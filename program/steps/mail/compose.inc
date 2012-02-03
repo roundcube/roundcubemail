@@ -775,7 +775,7 @@ function rcmail_compose_body($attrib)
 
     $OUTPUT->include_script('googiespell.js');
     $OUTPUT->add_script(sprintf(
-      "var googie = new GoogieSpell('\$__skin_path/images/googiespell/','?_task=utils&_action=spell&lang=', %s);\n".
+      "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n".
       "googie.lang_chck_spell = \"%s\";\n".
       "googie.lang_rsm_edt = \"%s\";\n".
       "googie.lang_close = \"%s\";\n".
@@ -787,6 +787,8 @@ function rcmail_compose_body($attrib)
       "googie.setSpellContainer('spellcheck-control');\n".
       "googie.decorateTextarea('%s');\n".
       "%s.set_env('spellcheck', googie);",
+      $RCMAIL->output->get_skin_path(),
+      $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell')),
       !empty($dictionary) ? 'true' : 'false',
       JQ(Q(rcube_label('checkspelling'))),
       JQ(Q(rcube_label('resumeediting'))),

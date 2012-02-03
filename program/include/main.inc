@@ -1379,8 +1379,8 @@ function rcube_html_editor($mode='')
   $RCMAIL->output->add_script(sprintf("rcmail_editor_init(%s)",
     json_encode(array(
         'mode'       => $mode,
-        'skin_path'  => '$__skin_path',
         'lang'       => $lang,
+        'skin_path'  => $RCMAIL->output->get_skin_path(),
         'spellcheck' => intval($RCMAIL->config->get('enable_spellcheck')),
         'spelldict'  => intval($RCMAIL->config->get('spellcheck_dictionary')),
     ))), 'foot');

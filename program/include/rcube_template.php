@@ -167,6 +167,14 @@ class rcube_template extends rcube_html_page
     }
 
     /**
+     * Getter for the current skin path property
+     */
+    public function get_skin_path()
+    {
+        return $this->config['skin_path'];
+    }
+
+    /**
      * Check if a specific template exists
      *
      * @param string Template name
