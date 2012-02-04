@@ -399,6 +399,7 @@ body.iframe .boxtitle
   height: 11px;
   padding: 0;
   margin: 1px;
+  margin-top: 2px;
   overflow: hidden;
   background: url(images/pagenav.gif) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */

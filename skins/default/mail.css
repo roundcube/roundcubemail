@@ -488,8 +488,8 @@
 {
   position: relative;
   white-space: nowrap;
-  left: 4px;
   line-height: 22px;
+  padding: 0 4px;
   width: auto;
   min-width: 300px;
 }
@@ -504,7 +504,8 @@
 
 #listcontrols input
 {
-  margin-top: 6px;
+  margin-top: 1px;
+  height: 22px;
 }
 
 #listcontrols a.button,
