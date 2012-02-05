@@ -554,7 +554,7 @@ class rcube_ldap extends rcube_addressbook
             $entries = @ldap_get_entries($this->conn, $result);
         }
 
-        for ($i=0; $i < $entries["count"]; $i++)
+        for ($i=0; $i < $entries['count']; $i++)
         {
             $entry = $entries[$i];
 
@@ -564,6 +564,7 @@ class rcube_ldap extends rcube_addressbook
             foreach ((array)$entry['objectclass'] as $objectclass)
             {
                 switch (strtolower($objectclass)) {
+                    case "group":
                     case "groupofnames":
                     case "kolabgroupofnames":
                         $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'member', $count));
@@ -577,7 +578,7 @@ class rcube_ldap extends rcube_addressbook
                         break;
                 }
             }
-            
+
             if ($this->prop['sizelimit'] && count($group_members) > $this->prop['sizelimit'])
               break;
         }
@@ -1538,6 +1539,7 @@ class rcube_ldap extends rcube_addressbook
             // check objectClass attributes of group and act accordingly
             for ($j=0; $j < $ldap_data[$i]['objectclass']['count']; $j++) {
                 switch (strtolower($ldap_data[$i]['objectclass'][$j])) {
+                    case 'group':
                     case 'groupofnames':
                     case 'kolabgroupofnames':
                         $groups[$group_id]['member_attr'] = 'member';
