@@ -29,8 +29,8 @@ CREATE TABLE [dbo].[cache_messages] (
 	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[uid] [int] NOT NULL ,
 	[changed] [datetime] NOT NULL ,
-	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
-	[flags] [int](1) NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL ,
+	[flags] [int] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
@@ -226,7 +226,7 @@ GO
 
 ALTER TABLE [dbo].[cache_messages] ADD 
 	CONSTRAINT [DF_cache_messages_changed] DEFAULT (getdate()) FOR [changed],
-	CONSTRAINT [DF_cache_messages_flags] DEFAULT (0) FOR [flags],
+	CONSTRAINT [DF_cache_messages_flags] DEFAULT (0) FOR [flags]
 GO
 
 CREATE  INDEX [IX_cache_messages_user_id] ON [dbo].[cache_messages]([user_id]) ON [PRIMARY]
@@ -310,7 +310,7 @@ GO
 
 ALTER TABLE [dbo].[searches] ADD 
 	CONSTRAINT [DF_searches_user] DEFAULT (0) FOR [user_id],
-	CONSTRAINT [DF_searches_type] DEFAULT (0) FOR [type],
+	CONSTRAINT [DF_searches_type] DEFAULT (0) FOR [type]
 GO
 
 CREATE UNIQUE INDEX [IX_searches_user_type_name] ON [dbo].[searches]([user_id],[type],[name]) ON [PRIMARY]

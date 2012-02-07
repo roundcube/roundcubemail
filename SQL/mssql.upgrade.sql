@@ -175,8 +175,8 @@ CREATE TABLE [dbo].[cache_messages] (
 	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[uid] [int] NOT NULL ,
 	[changed] [datetime] NOT NULL ,
-	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
-	[flags] [int] NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL ,
+	[flags] [int] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
