@@ -3,13 +3,13 @@
 /**
  * New Mail Notifier plugin
  *
- * Supports two methods of notification:
+ * Supports three methods of notification:
  * 1. Basic - focus browser window and change favicon
  * 2. Sound - play wav file
  * 3. Desktop - display desktop notification (using webkitNotifications feature,
  *              supported by Chrome and Firefox with 'HTML5 Notifications' plugin)
  *
- * @version 0.3
+ * @version 0.4
  * @author Aleksander Machniak <alec@alec.pl>
  *
  *
@@ -132,8 +132,29 @@ class newmail_notifier extends rcube_plugin
      */
     function notify($args)
     {
+        // Already notified or non-automatic check
         if ($this->notified || !empty($_GET['_refresh'])) {
             return $args;
+        }
+
+        // Get folders to skip checking for
+        if (empty($this->exceptions)) {
+            $this->delimiter = $this->rc->imap->get_hierarchy_delimiter();
+            foreach (array('drafts_mbox', 'sent_mbox') as $folder) {
+                $folder = $this->rc->config->get($folder);
+                if (strlen($folder) && $folder != 'INBOX') {
+                    $this->exceptions[] = $folder;
+                }
+            }
+        }
+
+        $mbox = $args['mailbox'];
+
+        // Skip exception (sent/drafts) folders (and their subfolders)
+        foreach ($this->exceptions as $folder) {
+            if (strpos($mbox.$this->delimiter, $folder.$this->delimiter) === 0) {
+                return $args;
+            }
         }
 
         $this->notified = true;
