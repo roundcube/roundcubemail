@@ -249,11 +249,11 @@ class html2text
      *  @access public
      */
     var $callback_search = array(
+        '/<(a) [^>]*href=("|\')([^"\']+)\2[^>]*>(.*?)<\/a>/i',
+                                                   // <a href="">
         '/<(h)[123456][^>]*>(.*?)<\/h[123456]>/i', // H1 - H3
         '/<(b)[^>]*>(.*?)<\/b>/i',                 // <b>
         '/<(strong)[^>]*>(.*?)<\/strong>/i',       // <strong>
-        '/<(a) [^>]*href=("|\')([^"\']+)\2[^>]*>(.*?)<\/a>/i',
-                                                   // <a href="">
         '/<(th)[^>]*>(.*?)<\/th>/i',               // <th> and </th>
     );
 
@@ -675,11 +675,11 @@ class html2text
         switch($matches[1]) {
         case 'b':
         case 'strong':
-            return $this->_strtoupper($matches[2]);
+            return $this->_toupper($matches[2]);
         case 'th':
-            return $this->_strtoupper("\t\t". $matches[2] ."\n");
+            return $this->_toupper("\t\t". $matches[2] ."\n");
         case 'h':
-            return $this->_strtoupper("\n\n". $matches[2] ."\n\n");
+            return $this->_toupper("\n\n". $matches[2] ."\n\n");
         case 'a':
             // Remove spaces in URL (#1487805)
             $url = str_replace(' ', '', $matches[3]);
@@ -699,10 +699,31 @@ class html2text
     }
 
     /**
-     *  Strtoupper multibyte wrapper function with HTML entities handling
+     * Strtoupper function with HTML tags and entities handling.
      *
-     *  @param string $str Text to convert
-     *  @return string Converted text
+     * @param string $str Text to convert
+     * @return string Converted text
+     */
+    private function _toupper($str)
+    {
+        // string can containg HTML tags
+        $chunks = preg_split('/(<[^>]*>)/', $str, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+        // convert toupper only the text between HTML tags
+        foreach ($chunks as $idx => $chunk) {
+            if ($chunk[0] != '<') {
+                $chunks[$idx] = $this->_strtoupper($chunk);
+            }
+        }
+
+        return implode($chunks);
+    }
+
+    /**
+     * Strtoupper multibyte wrapper function with HTML entities handling.
+     *
+     * @param string $str Text to convert
+     * @return string Converted text
      */
     private function _strtoupper($str)
     {
