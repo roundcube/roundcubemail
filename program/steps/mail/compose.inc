@@ -587,10 +587,10 @@ function rcmail_compose_editor_mode()
   $html_editor = intval($RCMAIL->config->get('htmleditor'));
 
   if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
-    $useHtml = $MESSAGE->has_html_part();
+    $useHtml = $MESSAGE->has_html_part(false);
   }
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-    $useHtml = ($html_editor == 1 || ($html_editor == 2 && $MESSAGE->has_html_part()));
+    $useHtml = ($html_editor == 1 || ($html_editor == 2 && $MESSAGE->has_html_part(false)));
   }
   else { // RCUBE_COMPOSE_FORWARD or NEW
     $useHtml = ($html_editor == 1);
@@ -622,40 +622,21 @@ function rcmail_prepare_message_body()
   }
   // reply/edit/draft/forward
   else if ($compose_mode) {
-    $has_html_part = $MESSAGE->has_html_part();
     $isHtml = rcmail_compose_editor_mode();
 
-    if ($isHtml) {
-      if ($has_html_part) {
-        $body = $MESSAGE->first_html_part();
-      }
-      else {
-        $body = $MESSAGE->first_text_part();
-        // try to remove the signature
-        if ($RCMAIL->config->get('strip_existing_sig', true))
-          $body = rcmail_remove_signature($body);
-        // add HTML formatting
-        $body = rcmail_plain_body($body);
-        if ($body)
-          $body = '<pre>' . $body . '</pre>';
+    if (!empty($MESSAGE->parts)) {
+      foreach ($MESSAGE->parts as $part) {
+        if ($part->type != 'content' || !$part->size) {
+          continue;
+        }
+
+        if ($part_body = rcmail_compose_part_body($part, $isHtml)) {
+          $body .= ($body ? ($isHtml ? '<br/>' : "\n") : '') . $part_body;
+        }
       }
     }
     else {
-      if ($has_html_part) {
-        // use html part if it has been used for message (pre)viewing
-        // decrease line length for quoting
-        $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
-        $txt = new html2text($MESSAGE->first_html_part(), false, true, $len);
-        $body = $txt->get_text();
-      }
-      else {
-        $body = $MESSAGE->first_text_part($part);
-        if ($body && $part && $part->ctype_secondary == 'plain'
-            && $part->ctype_parameters['format'] == 'flowed'
-        ) {
-          $body = rcube_mime::unfold_flowed($body);
-        }
-      }
+      $body = rcmail_compose_part_body($MESSAGE, $isHtml);
     }
 
     // compose reply-body
@@ -690,6 +671,70 @@ function rcmail_prepare_message_body()
   $HTML_MODE = $isHtml;
 
   return $body;
+}
+
+function rcmail_compose_part_body($part, $isHtml = false)
+{
+    global $RCMAIL, $MESSAGE, $compose_mode;
+
+    // Check if we have enough memory to handle the message in it
+    // #1487424: we need up to 10x more memory than the body
+    if (!rcmail_mem_check($part->size * 10)) {
+        return '';
+    }
+
+    if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset'])) {
+        $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
+    }
+
+    // fetch part if not available
+    if (!isset($part->body)) {
+        $part->body = $MESSAGE->get_part_content($part->mime_id);
+    }
+
+    // message is cached but not exists (#1485443), or other error
+    if ($part->body === false) {
+        return '';
+    }
+
+    $body = $part->body;
+
+    if ($isHtml) {
+        if ($part->ctype_secondary == 'html') {
+        }
+        else {
+            // try to remove the signature
+            if ($RCMAIL->config->get('strip_existing_sig', true)) {
+                $body = rcmail_remove_signature($body);
+            }
+            // add HTML formatting
+            $body = rcmail_plain_body($body);
+            if ($body) {
+                $body = '<pre>' . $body . '</pre>';
+            }
+        }
+    }
+    else {
+        if ($part->ctype_secondary == 'html') {
+            // use html part if it has been used for message (pre)viewing
+            // decrease line length for quoting
+            $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
+            $txt = new html2text($body, false, true, $len);
+            $body = $txt->get_text();
+        }
+        else {
+            if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
+                $body = rcube_mime::unfold_flowed($body);
+            }
+
+            // try to remove the signature
+            if ($RCMAIL->config->get('strip_existing_sig', true)) {
+                $body = rcmail_remove_signature($body);
+            }
+        }
+    }
+
+    return $body;
 }
 
 function rcmail_compose_body($attrib)
@@ -828,10 +873,6 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
   if (!$bodyIsHtml) {
     $body = preg_replace('/\r?\n/', "\n", $body);
 
-    // try to remove the signature
-    if ($RCMAIL->config->get('strip_existing_sig', true))
-      $body = rcmail_remove_signature($body);
-
     // soft-wrap and quote message text
     $body = rcmail_wrap_and_quote(rtrim($body, "\n"), $LINE_LENGTH);
 
@@ -955,7 +996,8 @@ function rcmail_remove_signature($body)
 {
   global $RCMAIL;
 
-  $len = strlen($body);
+  $body = str_replace("\r\n", "\n", $body);
+  $len  = strlen($body);
   $sig_max_lines = $RCMAIL->config->get('sig_max_lines', 15);
 
   while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
@@ -1546,5 +1588,3 @@ $OUTPUT->add_handlers(array(
 ));
 
 $OUTPUT->send('compose');
-
-

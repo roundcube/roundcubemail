@@ -188,15 +188,36 @@ class rcube_message
     /**
      * Determine if the message contains a HTML part
      *
+     * @param bool $recursive Enables checking in all levels of the structure
+     *
      * @return bool True if a HTML is available, False if not
      */
-    function has_html_part()
+    function has_html_part($recursive = true)
     {
         // check all message parts
-        foreach ($this->parts as $pid => $part) {
-            $mimetype = strtolower($part->ctype_primary . '/' . $part->ctype_secondary);
-            if ($mimetype == 'text/html')
+        foreach ($this->parts as $part) {
+            if ($part->mimetype == 'text/html') {
+                // Level check, we'll skip e.g. HTML attachments
+                if (!$recursive) {
+                    $level = explode('.', $part->mime_id);
+
+                    // Level too high
+                    if (count($level) > 2) {
+                        continue;
+                    }
+
+                    // HTML part can be on the lower level, if not...
+                    if (count($level) > 1) {
+                        // It can be an alternative or related message part
+                        $parent = $this->mime_parts[0];
+                        if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
+                            continue;
+                        }
+                    }
+                }
+
                 return true;
+            }
         }
 
         return false;
@@ -211,10 +232,9 @@ class rcube_message
     function first_html_part()
     {
         // check all message parts
-        foreach ($this->mime_parts as $mime_id => $part) {
-            $mimetype = strtolower($part->ctype_primary . '/' . $part->ctype_secondary);
-            if ($mimetype == 'text/html') {
-                return $this->get_part_content($mime_id);
+        foreach ($this->mime_parts as $pid => $part) {
+            if ($part->mimetype == 'text/html') {
+                return $this->get_part_content($pid);
             }
         }
     }
@@ -234,12 +254,10 @@ class rcube_message
 
         // check all message parts
         foreach ($this->mime_parts as $mime_id => $part) {
-            $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
-
-            if ($mimetype == 'text/plain') {
+            if ($part->mimetype == 'text/plain') {
                 return $this->get_part_content($mime_id);
             }
-            else if ($mimetype == 'text/html') {
+            else if ($part->mimetype == 'text/html') {
                 $out = $this->get_part_content($mime_id);
 
                 // remove special chars encoding
