@@ -699,16 +699,22 @@ class html2text
     }
 
     /**
-     *  Strtoupper multibyte wrapper function
+     *  Strtoupper multibyte wrapper function with HTML entities handling
      *
-     *  @param  string
-     *  @return string
+     *  @param string $str Text to convert
+     *  @return string Converted text
      */
     private function _strtoupper($str)
     {
+        $str = html_entity_decode($str, ENT_COMPAT, RCMAIL_CHARSET);
+
         if (function_exists('mb_strtoupper'))
-            return mb_strtoupper($str);
+            $str = mb_strtoupper($str);
         else
-            return strtoupper($str);
+            $str = strtoupper($str);
+
+        $str = htmlspecialchars($str, ENT_COMPAT, RCMAIL_CHARSET);
+
+        return $str;
     }
 }
