@@ -76,8 +76,9 @@
         <roundcube:button command="collapse-all" type="link" title="collapse-all" class="buttonPas collapse-all" classAct="button collapse-all" classSel="button collapse-allsel" content=" " />
     <roundcube:endif />
     <roundcube:if condition="!in_array('preview_pane', (array)config:dont_override)" />
-        <span style="margin-left: 12px"><label for="prevpaneswitch"><roundcube:label name="previewpane" />:</label>&nbsp;</span>
-        <input type="checkbox" id="prevpaneswitch" onclick="rcmail_ui.switch_preview_pane(this)"<roundcube:exp expression="config:preview_pane == true ? ' checked=checked' : ''" /> />
+        <span style="margin-left: 12px"><label for="prevpaneswitch"><roundcube:label name="previewpane" />:</label>
+            <input type="checkbox" id="prevpaneswitch" onclick="rcmail_ui.switch_preview_pane(this)"<roundcube:exp expression="config:preview_pane == true ? ' checked=checked' : ''" /> />
+        </span>
     <roundcube:endif />
     </div>
     <div id="countcontrols" class="pagenav">

@@ -502,10 +502,9 @@
   font-size: 11px;
 }
 
-#listcontrols input
+#listcontrols span input
 {
-  margin-top: 1px;
-  height: 22px;
+  vertical-align: middle;
 }
 
 #listcontrols a.button,
