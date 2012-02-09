@@ -397,3 +397,9 @@ fieldset.contactfieldgroup legend
   font-size: 10px;
   margin: -5px 0 8px 2px;
 }
+
+#contact-title
+{
+  /* fixes issue where tabs were overlapping box title when scrolling */
+  z-index: 10;
+}

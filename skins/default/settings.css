@@ -67,16 +67,9 @@
   padding-right: 12px;
 }
 
-#identity-frame
-{
-  position: relative;
-  margin-top: 20px;
-  border: 1px solid #999999;
-}
-
-#identity-details,
 #folder-box,
-#prefs-box
+#prefs-box,
+#identity-box
 {
   position: absolute;
   top: 0;
@@ -123,11 +116,20 @@ input.disabled
 
 body.iframe,
 #prefs-frame,
-#folder-frame
+#folder-frame,
+#identity-frame
 {
   background-color: #F2F2F2;
   border: none;
   min-height: 100%; /* Chrome 14 bug */
+}
+
+#prefs-title,
+#folder-title,
+#identity-title
+{
+  /* fixes issue where tabs were overlapping box title when scrolling */
+  z-index: 10;
 }
 
 #formfooter
