@@ -653,6 +653,9 @@ $rcmail_config['skin'] = 'default';
 // show up to X items in list view
 $rcmail_config['pagesize'] = 40;
 
+// sort contacts by this col (preferably either one of name, firstname, surname)
+$rcmail_config['addressbook_sort_col'] = 'surname';
+
 // use this timezone to display date/time
 $rcmail_config['timezone'] = 'auto';
 

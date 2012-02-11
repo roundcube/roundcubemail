@@ -44,6 +44,8 @@ abstract class rcube_addressbook
     public $group_id = null;
     public $list_page = 1;
     public $page_size = 10;
+    public $sort_col = 'name';
+    public $sort_order = 'ASC';
     public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
 
     protected $error;
@@ -180,6 +182,21 @@ abstract class rcube_addressbook
         $this->page_size = (int)$size;
     }
 
+    /**
+     * Set internal sort settings
+     *
+     * @param string $sort_col Sort column
+     * @param string $sort_order Sort order
+     */
+    function set_sort_order($sort_col, $sort_order = null)
+    {
+        if ($sort_col != null && ($this->coltypes[$sort_col] || in_array($sort_col, $this->coltypes))) {
+            $this->sort_col = $sort_col;
+        }
+        if ($sort_order != null) {
+            $this->sort_order = strtoupper($sort_order) == 'DESC' ? 'DESC' : 'ASC';
+        }
+    }
 
     /**
      * Check the given data before saving.

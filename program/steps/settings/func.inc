@@ -660,6 +660,20 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    // show addressbook sort column
+    if (!isset($no_override['addressbook_sort_col'])) {
+      $field_id = 'rcmfd_addressbook_sort_col';
+      $select_sort = new html_select(array('name' => '_addressbook_sort_col', 'id' => $field_id));
+      $select_sort->add(rcube_label('name'), 'name');
+      $select_sort->add(rcube_label('firstname'), 'firstname');
+      $select_sort->add(rcube_label('surname'), 'surname');
+
+      $blocks['main']['options']['sort_col'] = array(
+        'title' => html::label($field_id, Q(rcube_label('listsorting'))),
+        'content' => $select_sort->show($config['addressbook_sort_col']),
+      );
+    }
+
     if (!isset($no_override['autocomplete_single'])) {
       $field_id = 'rcmfd_autocomplete_single';
       $checkbox = new html_checkbox(array('name' => '_autocomplete_single', 'id' => $field_id, 'value' => 1));
