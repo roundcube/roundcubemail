@@ -61,7 +61,10 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
     }
 
     $contact['email'] = rcube_idn_to_utf8($contact['email']);
-    $contact['name'] = rcube_addressbook::compose_display_name($contact);
+    $contact = $RCMAIL->plugins->exec_hook('contact_displayname', $contact);
+
+    if (empty($contact['firstname']) || empty($contact['surname']))
+      $contact['name'] = rcube_addressbook::compose_display_name($contact);
 
     // validate contact record
     if (!$CONTACTS->validate($contact, true)) {

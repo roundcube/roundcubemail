@@ -385,6 +385,7 @@ $labels['reqdsn'] = 'Übermittlungsbestätigung (DSN) immer anfordern';
 $labels['replysamefolder'] = 'Antworten im selben Ordner wie Original speichern';
 $labels['defaultaddressbook'] = 'Neue Kontakte speichern in';
 $labels['autocompletesingle'] = 'Keine alternativen E-Mail-Adressen in Autovervollständigung';
+$labels['listnamedisplay'] = 'Kontakte auflisten als';
 $labels['spellcheckbeforesend'] = 'Rechtscheibung vor dem Senden prüfen';
 $labels['spellcheckoptions'] = 'Rechtschreibprüfungsoptionen';
 $labels['spellcheckignoresyms'] = 'Wörter mit Symbolen überspringen';

@@ -651,6 +651,21 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    // show addressbook listing mode selection
+    if (!isset($no_override['addressbook_name_listing'])) {
+      $field_id = 'rcmfd_addressbook_name_listing';
+      $select_listing = new html_select(array('name' => '_addressbook_name_listing', 'id' => $field_id));
+      $select_listing->add(rcube_label('name'), 0);
+      $select_listing->add(rcube_label('firstname') . ' '  . rcube_label('surname'), 1);
+      $select_listing->add(rcube_label('surname')   . ' '  . rcube_label('firstname'), 2);
+      $select_listing->add(rcube_label('surname')   . ', ' . rcube_label('firstname'), 3);
+
+      $blocks['main']['options']['list_name_listing'] = array(
+        'title' => html::label($field_id, Q(rcube_label('listnamedisplay'))),
+        'content' => $select_listing->show($config['addressbook_name_listing']),
+      );
+    }
+
     // show addressbook sort column
     if (!isset($no_override['addressbook_sort_col'])) {
       $field_id = 'rcmfd_addressbook_sort_col';

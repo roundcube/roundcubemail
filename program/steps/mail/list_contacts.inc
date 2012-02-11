@@ -68,7 +68,7 @@ if ($CONTACTS && $CONTACTS->ready) {
     else if (!empty($result) && $result->count > 0) {
         // create javascript list
         while ($row = $result->next()) {
-            $name = rcube_addressbook::compose_display_name($row, true);
+            $name = rcube_addressbook::compose_list_name($row);
 
             // add record for every email address of the contact
             foreach ($CONTACTS->get_col_values('email', $row, true) as $i => $email) {

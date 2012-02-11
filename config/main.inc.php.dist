@@ -667,6 +667,13 @@ $rcmail_config['addressbook_pagesize'] = 50;
 // sort contacts by this col (preferably either one of name, firstname, surname)
 $rcmail_config['addressbook_sort_col'] = 'surname';
 
+// the way how contact names are displayed in the list
+// 0: display name
+// 1: (prefix) firstname middlename surname (suffix)
+// 2: (prefix) surname firstname middlename (suffix)
+// 3: (prefix) surname, firstname middlename (suffix)
+$rcmail_config['addressbook_name_listing'] = 0;
+
 // use this timezone to display date/time
 // valid timezone identifers are listed here: php.net/manual/en/timezones.php
 // 'auto' will use the browser's timezone settings

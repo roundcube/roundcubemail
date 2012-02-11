@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Handle identity details box with an iframe (#1487020)
 - Fix issue where some text from original message was missing on reply (#1488340)
 - Fix parse errors in DDL files for MS SQL Server
+- User configurable setting how to display contact names in list
 - Make contacts list sorting configurable for the admin/user
 - Revert SORT=DISPLAY support, removed by mistake (#1488327)
 - Fix autoselect_host() for login (#1488297)

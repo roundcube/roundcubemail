@@ -98,6 +98,7 @@ switch ($CURR_SECTION)
       'default_addressbook'  => get_input_value('_default_addressbook', RCUBE_INPUT_POST, true),
       'autocomplete_single'  => isset($_POST['_autocomplete_single']) ? TRUE : FALSE,
       'addressbook_sort_col' => get_input_value('_addressbook_sort_col', RCUBE_INPUT_POST),
+      'addressbook_name_listing' => intval(get_input_value('_addressbook_name_listing', RCUBE_INPUT_POST)),
       'addressbook_pagesize' => is_numeric($_POST['_addressbook_pagesize']) ? max(2, intval($_POST['_addressbook_pagesize'])) : $CONFIG['addressbook_pagesize'],
     );
 
