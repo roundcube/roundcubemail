@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- User configurable setting how to display contact names in list
+- Make contacts list sorting configurable for the admin/user
 - Fix parse errors in DDL files for MS SQL Server
 - Revert SORT=DISPLAY support, removed by mistake (#1488327)
 - Add lost translation label in de_DE (#1488315)

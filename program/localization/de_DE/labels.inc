@@ -375,6 +375,8 @@ $labels['reqmdn'] = 'Empfangsbestätigung (MSN) immer anfordern';
 $labels['reqdsn'] = 'Übermittlungsbestätigung (DSN) immer anfordern';
 $labels['replysamefolder'] = 'Antworten im selben Ordner wie Original speichern';
 $labels['defaultaddressbook'] = 'Neue Kontakte zum ausgewählten Adressbuch hinzufügen';
+$labels['autocompletesingle'] = 'Alternative E-Mailadressen bei der Auto-Vervollständigung nicht berücksichtigen';
+$labels['listnamedisplay'] = 'Kontakte auflisten als';
 $labels['spellcheckbeforesend'] = 'Rechtschreibprüfung vor dem Absenden der Nachricht';
 $labels['spellcheckoptions'] = 'Rechtschreibprüfungsoptionen';
 $labels['spellcheckignoresyms'] = 'Wörter mit Symbolen überspringen';
@@ -427,6 +429,5 @@ $labels['vietnamese'] = 'Vietnamesisch';
 $labels['japanese'] = 'Japanisch';
 $labels['korean'] = 'Koreanisch';
 $labels['chinese'] = 'Chinesisch';
-$labels['autocompletesingle'] = 'Alternative E-Mailadressen bei der Auto-Vervollständigung nicht berücksichtigen';
 
 ?>

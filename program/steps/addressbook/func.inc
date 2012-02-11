@@ -338,13 +338,9 @@ function rcmail_js_contacts_list($result, $prefix='')
 
         // format each col
         foreach ($a_show_cols as $col) {
-            $val = $row[$col];
-            if ($val == '' && $col == 'name') {
-                $val = rcube_addressbook::compose_display_name($row, true);
-            }
-
+            $val = $col == 'name' ? rcube_addressbook::compose_list_name($row) : $row[$col];
             $a_row_cols[$col] = Q($val);
-	}
+        }
 
         $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols);
     }
