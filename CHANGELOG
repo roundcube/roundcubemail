@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added mailto: protocol handler registration link in User Preferences (#1486580)
 - Handle identity details box with an iframe (#1487020)
 - Fix issue where some text from original message was missing on reply (#1488340)
 - Fix parse errors in DDL files for MS SQL Server

@@ -354,18 +354,18 @@ $labels['importtext'] = 'You can upload contacts from an existing address book.<
 $labels['done'] = 'Done';
 
 // settings
-$labels['settingsfor']  = 'Settings for';
+$labels['settingsfor'] = 'Settings for';
 $labels['about'] = 'About';
-$labels['preferences']  = 'Preferences';
-$labels['userpreferences']  = 'User preferences';
-$labels['editpreferences']  = 'Edit user preferences';
+$labels['preferences'] = 'Preferences';
+$labels['userpreferences'] = 'User preferences';
+$labels['editpreferences'] = 'Edit user preferences';
 
-$labels['identities']  = 'Identities';
-$labels['manageidentities']  = 'Manage identities for this account';
-$labels['newidentity']  = 'New identity';
+$labels['identities'] = 'Identities';
+$labels['manageidentities'] = 'Manage identities for this account';
+$labels['newidentity'] = 'New identity';
 
-$labels['newitem']  = 'New item';
-$labels['edititem']  = 'Edit item';
+$labels['newitem'] = 'New item';
+$labels['edititem'] = 'Edit item';
 
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
@@ -422,6 +422,7 @@ $labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['displaynext'] = 'After message delete/move display the next message';
 $labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
+$labels['browseroptions'] = 'Browser Options';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'New Message';
@@ -451,6 +452,7 @@ $labels['spellcheckignoresyms'] = 'Ignore words with symbols';
 $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
+$labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';

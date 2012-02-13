@@ -759,7 +759,8 @@ a.rcmContactAddress:hover
   opacity: 0.8;
 }
 
-.disabled
+.disabled,
+a.disabled
 {
   color: #999;
 }

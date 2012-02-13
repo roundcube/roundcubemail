@@ -4849,7 +4849,7 @@ function rcube_webmail()
 
     return true;
   };
-  
+
   this.update_identity_row = function(id, name, add)
   {
     var row, col, list = this.identity_list,
@@ -6314,6 +6314,32 @@ function rcube_webmail()
       else if (lock || (this.disabled_form_elements && $.inArray(elm, this.disabled_form_elements)<0))
         elm.disabled = lock;
     }
+  };
+
+  this.mailto_handler_uri = function()
+  {
+    return location.href.split('?')[0] + '?_task=mail&_action=compose&_to=%s';
+  };
+
+  this.register_protocol_handler = function(name)
+  {
+    try {
+      window.navigator.registerProtocolHandler('mailto', this.mailto_handler_uri(), name);
+    }
+    catch(e) {};
+  };
+
+  this.check_protocol_handler = function(name, elem)
+  {
+    var nav = window.navigator;
+    if (!nav
+      || (typeof nav.registerProtocolHandler != 'function')
+      || ((typeof nav.isProtocolHandlerRegistered == 'function')
+        && nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri()) == 'registered')
+    )
+      $(elem).addClass('disabled');
+    else
+      $(elem).click(function() { rcmail.register_protocol_handler(name); return false; });
   };
 
 }  // end object rcube_webmail

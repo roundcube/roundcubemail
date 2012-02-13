@@ -87,11 +87,6 @@
   text-align: right;
 }
 
-input.disabled
-{
-  color: #999999;
-}
-
 #bottomboxes
 {
   position: absolute;

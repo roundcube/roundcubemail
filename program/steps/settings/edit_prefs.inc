@@ -51,8 +51,13 @@ function rcmail_user_prefs_form($attrib)
         if ($option['advanced'])
 	      $table->set_row_attribs('advanced');
 
-        $table->add('title', $option['title']);
-	    $table->add(null, $option['content']);
+        if (isset($option['title'])) {
+          $table->add('title', $option['title']);
+  	      $table->add(null, $option['content']);
+        }
+        else {
+          $table->add(array('colspan' => 2), $option['content']);
+        }
       }
 
       $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $table->show($attrib));

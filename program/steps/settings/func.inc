@@ -159,7 +159,8 @@ function rcmail_user_prefs($current=null)
     case 'general':
 
     $blocks = array(
-      'main' => array('name' => Q(rcube_label('mainoptions'))),
+      'main'    => array('name' => Q(rcube_label('mainoptions'))),
+      'browser' => array('name' => Q(rcube_label('browseroptions'))),
     );
 
     // language selection
@@ -262,6 +263,16 @@ function rcmail_user_prefs($current=null)
         );
       }
     }
+
+    $product_name = $RCMAIL->config->get('product_name', 'Roundcube Webmail');
+    $RCMAIL->output->add_script(sprintf("%s.check_protocol_handler('%s', '#mailtoprotohandler');",
+      JS_OBJECT_NAME, JQ($product_name)), 'foot');
+
+    $blocks['browser']['options']['mailtoprotohandler'] = array(
+      'content' => html::a(array(
+        'href' => '#',
+        'id' => 'mailtoprotohandler'), Q(rcube_label('mailtoprotohandler'))),
+    );
 
     break;
 
