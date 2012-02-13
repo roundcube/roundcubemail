@@ -4984,7 +4984,7 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
-    var row, n, i, tmp, folders, rowid, list = [], slist = [],
+    var row, n, i, tmp, tmp_name, folders, rowid, list = [], slist = [],
       tbody = this.gui_objects.subscriptionlist.tBodies[0],
       refrow = $('tr', tbody).get(1),
       id = 'rcmrow'+((new Date).getTime());
@@ -5020,8 +5020,12 @@ function rcube_webmail()
     for (n in folders) {
       // protected folder
       if (folders[n][2]) {
+        tmp_name = folders[n][0] + this.env.delimiter;
+        // prefix namespace cannot have subfolders (#1488349)
+        if (tmp_name == this.env.prefix_ns)
+          continue;
         slist.push(folders[n][0]);
-        tmp = folders[n][0]+this.env.delimiter;
+        tmp = tmp_name;
       }
       // protected folder's child
       else if (tmp && folders[n][0].indexOf(tmp) == 0)

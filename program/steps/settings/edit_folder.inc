@@ -115,6 +115,15 @@ function rcmail_folder_form($attrib)
     }
     else {
         $selected = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
+        $exceptions = array($mbox_imap);
+
+        // Exclude 'prefix' namespace from parent folders list (#1488349)
+        // If INBOX. namespace exists, folders created as INBOX subfolders
+        // will be listed at the same level - selecting INBOX as a parent does nothing
+        if ($prefix = $storage->get_namespace('prefix')) {
+            $exceptions[] = substr($prefix, 0, -1);
+        }
+
         $select = rcmail_mailbox_select(array(
             'name'        => '_parent',
             'noselection' => '---',
@@ -122,7 +131,7 @@ function rcmail_folder_form($attrib)
             'maxlength'   => 150,
             'unsubscribed' => true,
             'skip_noinferiors' => true,
-            'exceptions'  => array($mbox_imap),
+            'exceptions'  => $exceptions,
         ));
 
         $form['props']['fieldsets']['location']['content']['path'] = array(
