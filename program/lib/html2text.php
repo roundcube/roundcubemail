@@ -317,21 +317,11 @@ class html2text
     /**
      *  Contains URL addresses from links to be rendered in plain text.
      *
-     *  @var string $_link_list
+     *  @var array $_link_list
      *  @access private
      *  @see _build_link_list()
      */
-    var $_link_list = '';
-
-    /**
-     *  Number of valid links detected in the text, used for plain text
-     *  display (rendered similar to footnotes).
-     *
-     *  @var integer $_link_count
-     *  @access private
-     *  @see _build_link_list()
-     */
-    var $_link_count = 0;
+    var $_link_list = array();
 
     /**
      * Boolean flag, true if a table of link URLs should be listed after the text.
@@ -472,8 +462,7 @@ class html2text
     function _convert()
     {
         // Variables used for building the link list
-        $this->_link_count = 0;
-        $this->_link_list = '';
+        $this->_link_list = array();
 
         $text = trim(stripslashes($this->html));
 
@@ -481,8 +470,11 @@ class html2text
         $this->_converter($text);
 
         // Add link list
-        if ( !empty($this->_link_list) ) {
-            $text .= "\n\nLinks:\n------\n" . $this->_link_list;
+        if (!empty($this->_link_list)) {
+            $text .= "\n\nLinks:\n------\n";
+            foreach ($this->_link_list as $idx => $url) {
+                $text .= '[' . ($idx+1) . '] ' . $url . "\n";
+            }
         }
 
         $this->text = $text;
@@ -563,28 +555,32 @@ class html2text
      */
     function _build_link_list( $link, $display )
     {
-	    if ( !$this->_do_links )
+	    if (!$this->_do_links || empty($link)) {
 	        return $display;
+	    }
 
-	    if ( preg_match('!^(https?://|mailto:)!', $link) ) {
-            $this->_link_count++;
-            $this->_link_list .= '[' . $this->_link_count . "] $link\n";
-            $additional = ' [' . $this->_link_count . ']';
-	    } elseif ( substr($link, 0, 11) == 'javascript:' ) {
-		    // Don't count the link; ignore it
-		    $additional = '';
-		// what about href="#anchor" ?
-        } else {
-            $this->_link_count++;
-            $this->_link_list .= '[' . $this->_link_count . '] ' . $this->url;
-            if ( substr($link, 0, 1) != '/' ) {
-                $this->_link_list .= '/';
-            }
-            $this->_link_list .= "$link\n";
-            $additional = ' [' . $this->_link_count . ']';
+        // Ignored link types
+	    if (preg_match('!^(javascript|mailto|#):!i', $link)) {
+		    return $display;
         }
 
-        return $display . $additional;
+	    if (preg_match('!^(https?://)!i', $link)) {
+            $url = $link;
+        }
+        else {
+            $url = $this->url;
+            if (substr($link, 0, 1) != '/') {
+                $url .= '/';
+            }
+            $url .= "$link";
+        }
+
+        if (($index = array_search($url, $this->_link_list)) === false) {
+            $this->_link_list[] = $url;
+            $index = count($this->_link_list);
+        }
+
+        return $display . ' [' . ($index+1) . ']';
     }
 
     /**
