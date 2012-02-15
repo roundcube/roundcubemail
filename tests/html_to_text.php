@@ -32,6 +32,16 @@ class rcube_test_html2text extends UnitTestCase
                 'in'    => '&amp;quot;',
                 'out'   => '&quot;',
             ),
+            3 => array(
+                'title' => 'HTML entity in STRONG tag',
+                'in'    => '<strong>&#347;</strong>', // ś
+                'out'   => 'Ś', // upper ś
+            ),
+            4 => array(
+                'title' => 'STRONG tag to upper-case conversion',
+                'in'    => '<strong>ś</strong>',
+                'out'   => 'Ś',
+            ),
         );
 
         $ht = new html2text(null, false, false);
