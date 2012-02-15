@@ -42,14 +42,19 @@ class rcube_test_html2text extends UnitTestCase
                 'in'    => '<strong>ś</strong>',
                 'out'   => 'Ś',
             ),
+            5 => array(
+                'title' => 'STRONG inside B tag',
+                'in'    => '<b><strong>&#347;</strong></b>',
+                'out'   => 'Ś',
+            ),
         );
 
         $ht = new html2text(null, false, false);
 
-        foreach ($data as $item) {
+        foreach ($data as $idx => $item) {
             $ht->set_html($item['in']);
             $res = $ht->get_text();
-            $this->assertEqual($item['out'], $res, $item['title']);
+            $this->assertEqual($item['out'], $res, $item['title'] . "($idx)");
         }
     }
 
