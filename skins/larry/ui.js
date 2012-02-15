@@ -772,6 +772,7 @@ function rcube_mail_ui()
   {
     var frame = $('<iframe>').attr('id', 'aboutframe')
       .attr('src', rcmail.url('settings/about'))
+      .attr('frameborder', '0')
       .appendTo(document.body);
 
     var h = Math.floor($(window).height() * 0.75);

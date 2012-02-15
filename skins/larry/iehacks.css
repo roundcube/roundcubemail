@@ -104,7 +104,8 @@ ul.toolbarmenu li a.active:hover,
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#d3d3d3 50%, #f8f8f8', GradientType=0);
 }
 
-.tabsbar .tablink.selected a {
+.tabsbar .selected a {
+	background-color: #fff;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
 }
 
