@@ -611,6 +611,9 @@ class rcube_ldap extends rcube_addressbook
 
         for ($i=0; $i < $entry[$attr]['count']; $i++)
         {
+            if (empty($entry[$attr][$i]))
+                continue;
+
             $result = @ldap_read($this->conn, $entry[$attr][$i], '(objectclass=*)',
                 $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
 
