@@ -790,6 +790,7 @@ function format_date($date, $format=NULL, $convert=true)
 
   // define date format depending on current time
   if (!$format) {
+    $now         = time();
     $now_date    = getdate($now);
     $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
     $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
