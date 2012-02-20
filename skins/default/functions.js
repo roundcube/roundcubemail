@@ -25,7 +25,7 @@ function rcube_init_settings_tabs()
     tab = '#settingstab' + (action == 'preferences' ? 'default' : (action.indexOf('identity')>0 ? 'identities' : action.replace(/\./g, '')));
 
   $(tab).addClass('tablink-selected');
-  $(a, tab).removeAttr('onclick').click(function() { return false; });
+  $('a', tab).removeAttr('onclick').click(function() { return false; });
 }
 
 function rcube_show_advanced(visible)
