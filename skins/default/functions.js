@@ -8,12 +8,24 @@
 
 function rcube_init_settings_tabs()
 {
-  var tab = '#settingstabdefault';
-  if (window.rcmail && rcmail.env.action)
-    tab = '#settingstab' + (rcmail.env.action=='preferences' ? 'default' : (rcmail.env.action.indexOf('identity')>0 ? 'identities' : rcmail.env.action.replace(/\./g, '')));
+  var el, cl, container = $('#tabsbar'),
+    last_tab = $('span:last', container),
+    tab = '#settingstabdefault',
+    action = window.rcmail && rcmail.env.action ? rcmail.env.action : null;
+
+  // move About tab to the end
+  if (last_tab && last_tab.attr('id') != 'settingstababout' && (el = $('#settingstababout'))) {
+    cl = el.clone(true);
+    el.remove();
+    last_tab.after(cl);
+  }
+
+  // get selected tab
+  if (action)
+    tab = '#settingstab' + (action == 'preferences' ? 'default' : (action.indexOf('identity')>0 ? 'identities' : action.replace(/\./g, '')));
 
   $(tab).addClass('tablink-selected');
-  $(tab + '> a').removeAttr('onclick').click(function() { return false; });
+  $(a, tab).removeAttr('onclick').click(function() { return false; });
 }
 
 function rcube_show_advanced(visible)
