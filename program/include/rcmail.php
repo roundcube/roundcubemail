@@ -704,8 +704,7 @@ class rcmail
     $this->session = new rcube_session($this->get_dbh(), $this->config);
 
     $this->session->register_gc_handler('rcmail_temp_gc');
-    if ($this->config->get('enable_caching'))
-      $this->session->register_gc_handler('rcmail_cache_gc');
+    $this->session->register_gc_handler('rcmail_cache_gc');
 
     // start PHP session (if not in CLI mode)
     if ($_SERVER['REMOTE_ADDR'])
