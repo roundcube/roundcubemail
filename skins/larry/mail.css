@@ -184,6 +184,10 @@ a.iconbutton.threadmode.selected {
 	color: #aaa;
 }
 
+#mailboxlist li.recent > a {
+	color: #017cb4;
+}
+
 #mailboxlist li.mailbox ul {
 	list-style: none;
 	margin: 0;
