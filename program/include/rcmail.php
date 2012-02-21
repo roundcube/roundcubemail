@@ -129,6 +129,7 @@ class rcmail
   private $caches = array();
   private $action_map = array();
   private $shutdown_functions = array();
+  private $expunge_cache = false;
 
 
   /**
@@ -767,8 +768,7 @@ class rcmail
     $this->session = new rcube_session($this->get_dbh(), $this->config);
 
     $this->session->register_gc_handler('rcmail_temp_gc');
-    if ($this->config->get('enable_caching'))
-      $this->session->register_gc_handler('rcmail_cache_gc');
+    $this->session->register_gc_handler(array($this, 'cache_gc'));
 
     // start PHP session (if not in CLI mode)
     if ($_SERVER['REMOTE_ADDR'])
@@ -1278,8 +1278,11 @@ class rcmail
             $cache->close();
     }
 
-    if (is_object($this->storage))
+    if (is_object($this->storage)) {
+        if ($this->expunge_cache)
+            $this->storage->expunge_cache();
       $this->storage->close();
+  }
 
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'] && is_object($this->session)) {
@@ -1312,6 +1315,18 @@ class rcmail
   public function add_shutdown_function($function)
   {
     $this->shutdown_functions[] = $function;
+  }
+
+
+  /**
+   * Garbage collector for cache entries.
+   * Set flag to expunge caches on shutdown
+   */
+  function cache_gc()
+  {
+    // because this gc function is called before storage is initialized,
+    // we just set a flag to expunge storage cache on shutdown.
+    $this->expunge_cache = true;
   }
 
 

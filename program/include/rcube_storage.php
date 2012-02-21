@@ -971,6 +971,11 @@ abstract class rcube_storage
      */
     abstract function get_cache($key);
 
+    /**
+     * Delete outdated cache entries
+     */
+    abstract function expunge_cache();
+
 }  // end class rcube_storage
 
 

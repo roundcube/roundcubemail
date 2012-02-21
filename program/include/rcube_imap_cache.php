@@ -599,6 +599,27 @@ class rcube_imap_cache
 
 
     /**
+     * Delete cache entries older than TTL
+     *
+     * @param string $ttl  Lifetime of message cache entries
+     */
+    function expunge($ttl)
+    {
+        // get expiration timestamp
+        $ts = get_offset_time($ttl, -1);
+
+        $this->db->query("DELETE FROM ".get_table_name('cache_messages')
+              ." WHERE changed < " . $this->db->fromunixtime($ts));
+
+        $this->db->query("DELETE FROM ".get_table_name('cache_index')
+              ." WHERE changed < " . $this->db->fromunixtime($ts));
+
+        $this->db->query("DELETE FROM ".get_table_name('cache_thread')
+              ." WHERE changed < " . $this->db->fromunixtime($ts));
+    }
+
+
+    /**
      * Fetches index data from database
      */
     private function get_index_row($mailbox)
