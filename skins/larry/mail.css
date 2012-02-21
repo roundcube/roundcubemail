@@ -260,7 +260,7 @@ a.iconbutton.threadmode.selected {
 	text-shadow: none;
 }
 
-#mailboxlist li.mailbox.selected .unreadcount {
+#mailboxlist li.mailbox.selected > a .unreadcount {
 	background: #005d76;
 	background: -moz-linear-gradient(top, #005d76 0%, #004558 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#005d76), color-stop(100%,#004558));
@@ -342,9 +342,8 @@ a.iconbutton.threadmode.selected {
 	width: 30px;
 }
 
-#messagelist tr td.flag,
-#messagelist tr td.status,
-#messagelist tr td.threads {
+#messagelist tr td.threads,
+#messagelist tr td.threads + td {
 	border-left: 0;
 }
 
