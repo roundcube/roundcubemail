@@ -44,6 +44,18 @@ a.deletebutton,
 	display: inline;
 }
 
+.toolbar a.button.disabled,
+.boxpagenav a.icon.disabled,
+.pagenav a.button.disabled span.inner,
+.boxfooter .listbutton.disabled .inner,
+.dropbutton a.button.disabled + .dropbuttontip {
+	background-image: url(images/buttons.gif);
+}
+
+.dropbutton .dropbuttontip {
+	right: -2px;
+}
+
 #messagepreviewheader .iconlink {
 	color: #fff;
 	height: 14px;
@@ -61,10 +73,6 @@ ul.toolbarmenu li a {
 	width: 140px;
 }
 
-.dropbutton .dropbuttontip {
-	right: 0;
-}
-
 #threadselectmenu li a {
 	width: 160px;
 }
@@ -73,11 +81,24 @@ ul.toolbarmenu li a {
 	width: 170px;
 }
 
+#rcmKSearchpane {
+	width: 400px;
+}
+#rcmKSearchpane ul li {
+	width: 380px;
+	text-overflow: ellipsis;
+}
+
+
 table.listing,
 table.records-table {
 	display: block;
 	width: auto;
 	border-collapse: expression('separate', cellSpacing = '0');
+}
+
+.records-table tbody td span {
+	white-space: nowrap;
 }
 
 table.listing {
