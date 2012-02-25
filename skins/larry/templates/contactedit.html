@@ -41,7 +41,7 @@
 	<roundcube:button name="cancel" type="input" class="button" label="cancel" onclick="history.back()" condition="env:action=='add'" />
 </div>
 
-<div id="upload-dialog" class="propform popupdialog">
+<div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='uploadphoto' />">
 	<roundcube:object name="photoUploadForm" id="upload-form" size="30" buttons="no" />
 	<div class="formbuttons">
 		<roundcube:button command="upload-photo" type="input" class="button mainaction" label="upload" />

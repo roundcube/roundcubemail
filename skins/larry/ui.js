@@ -251,7 +251,7 @@ function rcube_mail_ui()
           resizable: false,
           closeOnEscape: true,
           dialogClass: 'popupmessage ' + p.type,
-          title: null,
+          title: env.errortitle,
           close: function() {
             me.messagedialog.dialog('destroy').hide();
           },

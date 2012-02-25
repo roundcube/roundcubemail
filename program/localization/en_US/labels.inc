@@ -322,6 +322,7 @@ $labels['delete'] = 'Delete';
 $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
+$labels['uploadphoto'] = 'Upload photo';
 
 $labels['newcontact']     = 'Create new contact card';
 $labels['deletecontact']  = 'Delete selected contacts';

@@ -15,6 +15,7 @@
 */
 
 $messages = array();
+$messages['errortitle']  = 'Fehlermeldung';
 $messages['loginfailed'] = 'Login fehlgeschlagen';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies';
 $messages['sessionerror'] = 'Ihre Session ist ungültig oder abgelaufen';

@@ -272,6 +272,7 @@ $labels['delete'] = 'Löschen';
 $labels['rename'] = 'Umbenennen';
 $labels['addphoto'] = 'Hinzufügen';
 $labels['replacephoto'] = 'Ersetzen';
+$labels['uploadphoto'] = 'Bild hochladen';
 $labels['newcontact'] = 'Neuen Kontakt erfassen';
 $labels['deletecontact'] = 'Gewählte Kontakte löschen';
 $labels['composeto'] = 'Nachricht verfassen';
