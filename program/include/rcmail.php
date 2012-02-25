@@ -777,6 +777,10 @@ class rcmail
     // set initial session vars
     if (!$_SESSION['user_id'])
       $_SESSION['temp'] = true;
+
+    // restore skin selection after logout
+    if ($_SESSION['temp'] && !empty($_SESSION['skin']))
+      $this->config->set('skin', $_SESSION['skin']);
   }
 
 
@@ -1221,7 +1225,7 @@ class rcmail
     $this->plugins->exec_hook('session_destroy');
 
     $this->session->kill();
-    $_SESSION = array('language' => $this->user->language, 'temp' => true);
+    $_SESSION = array('language' => $this->user->language, 'temp' => true, 'skin' => $this->config->get('skin'));
     $this->user->reset();
   }
 
