@@ -136,7 +136,7 @@ function rcube_webmail()
     this.task = this.env.task;
 
     // check browser
-    if (!bw.dom || !bw.xmlhttp_test()) {
+    if (!bw.dom || !bw.xmlhttp_test() || (bw.mz && bw.vendver < 1.9)) {
       this.goto_url('error', '_code=0x199');
       return;
     }

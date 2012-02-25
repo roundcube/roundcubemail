@@ -29,11 +29,11 @@ if ($ERROR_CODE==409) {
   $__error_title = 'Your browser does not suit the requirements for this application';
   $__error_text = <<<EOF
 <i>Supported browsers:</i><br />
-&raquo; &nbsp;Netscape 7+<br />
 &raquo; &nbsp;Microsoft Internet Explorer 6+<br />
-&raquo; &nbsp;Mozilla Firefox 1.0+<br />
-&raquo; &nbsp;Opera 8.0+<br />
-&raquo; &nbsp;Safari 1.2+<br />
+&raquo; &nbsp;Mozilla Firefox 3+<br />
+&raquo; &nbsp;Chrome 10+<br />
+&raquo; &nbsp;Safari 4+<br />
+&raquo; &nbsp;Opera 8+<br />
 <br />
 &raquo; &nbsp;JavaScript enabled<br />
 &raquo; &nbsp;Support for XMLHTTPRequest<br />
