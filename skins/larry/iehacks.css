@@ -128,7 +128,7 @@ ul.toolbarmenu li a.active:hover,
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#82acb5', endColorstr='#6a939f', GradientType=0);
 }
 
-#mailboxlist li.mailbox.selected .unreadcount {
+#mailboxlist li.mailbox.selected > a .unreadcount {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#005d76', endColorstr='#004558', GradientType=0);
 }
 

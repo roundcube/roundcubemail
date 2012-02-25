@@ -173,22 +173,7 @@ function rcube_mail_ui()
     // turn a group of fieldsets into tabs
     $('.tabbed').each(function(idx, elem){ init_tabs(elem); })
 
-    $(document.body).bind('mouseup', function(e){
-      var config, obj, target = e.target;
-      for (var id in popups) {
-        obj = popups[id];
-        config = popupconfig[id];
-        if (obj.is(':visible')
-          && target.id != id+'link'
-          && !config.toggle
-          && (!config.editable || !target_overlaps(target, obj.get(0)))
-          && (!config.sticky || !rcube_mouse_is_over(e, obj.get(0)))
-        ) {
-          var myid = id+'';
-          window.setTimeout(function(){ show_popupmenu(myid, false) }, 10);
-        }
-      }
-    })
+    $(document.body).bind('mouseup', body_mouseup)
     .bind('keyup', function(e){
       if (e.keyCode == 27) {
         for (var id in popups) {
@@ -198,12 +183,41 @@ function rcube_mail_ui()
       }
     });
 
+    $('iframe').load(function(e){
+      // this = iframe
+      var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+      $(doc).mouseup(body_mouseup);
+    })
+    .contents().mouseup(body_mouseup);
+
     $(window).resize(function(e) {
       // check target due to bugs in jquery
       // http://bugs.jqueryui.com/ticket/7514
       // http://bugs.jquery.com/ticket/9841
       if (e.target == window) resize();
     });
+  }
+
+  /**
+   * Handler for mouse-up events on the document body.
+   * This will close all open popup menus
+   */
+  function body_mouseup(e)
+  {
+    var config, obj, target = e.target;
+    for (var id in popups) {
+      obj = popups[id];
+      config = popupconfig[id];
+      if (obj.is(':visible')
+        && target.id != id+'link'
+        && !config.toggle
+        && (!config.editable || !target_overlaps(target, obj.get(0)))
+        && (!config.sticky || !rcube_mouse_is_over(e, obj.get(0)))
+      ) {
+        var myid = id+'';
+        window.setTimeout(function(){ show_popupmenu(myid, false) }, 10);
+      }
+    }
   }
 
   /**

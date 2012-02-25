@@ -61,6 +61,10 @@ ul.toolbarmenu li a {
 	width: 140px;
 }
 
+.dropbutton .dropbuttontip {
+	right: 0;
+}
+
 #threadselectmenu li a {
 	width: 160px;
 }
