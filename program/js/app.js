@@ -4655,7 +4655,7 @@ function rcube_webmail()
   {
     var n, buttons = this.buttons['upload-photo'];
     for (n=0; buttons && n < buttons.length; n++)
-      $('#'+buttons[n].id).html(this.get_label(id == '-del-' ? 'addphoto' : 'replacephoto'));
+      $('a#'+buttons[n].id).html(this.get_label(id == '-del-' ? 'addphoto' : 'replacephoto'));
 
     $('#ff_photo').val(id);
     this.enable_command('upload-photo', this.env.coltypes.photo ? true : false);
