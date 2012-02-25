@@ -2729,7 +2729,7 @@ class rcube_imap extends rcube_storage
      */
     public function get_quota()
     {
-        if ($this->get_capability('QUOTA')) {
+        if ($this->get_capability('QUOTA') && $this->check_connection()) {
             return $this->conn->getQuota();
         }
 
