@@ -44,14 +44,6 @@ a.deletebutton,
 	display: inline;
 }
 
-.toolbar a.button.disabled,
-.boxpagenav a.icon.disabled,
-.pagenav a.button.disabled span.inner,
-.boxfooter .listbutton.disabled .inner,
-.dropbutton a.button.disabled + .dropbuttontip {
-	background-image: url(images/buttons.gif);
-}
-
 .dropbutton .dropbuttontip {
 	right: -2px;
 }

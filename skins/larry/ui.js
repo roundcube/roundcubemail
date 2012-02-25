@@ -153,7 +153,7 @@ function rcube_mail_ui()
     }
     /***  login page  ***/
     else if (rcmail.env.task == 'login') {
-      if (bw.ie && bw.vendver < 9) {
+      if (bw.ie && bw.vendver < 8) {
         var popup = $('<div>')
           .addClass('readtext')
           .html("Roundcube will not work well with the crappy browser ya' using. Get yourself a new internet browsing software and don't come back without!<p>Sincerly,<br/>the Roundcube Dev Team</p>")

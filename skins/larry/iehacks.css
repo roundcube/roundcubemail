@@ -109,6 +109,13 @@ ul.toolbarmenu li a.active:hover,
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);
 }
 
+.toolbar a.button.disabled,
+.boxpagenav a.icon.disabled,
+.pagenav a.button.disabled span.inner,
+.boxfooter .listbutton.disabled .inner,
+.dropbutton a.button.disabled + .dropbuttontip {
+	background-image: url(images/buttons.gif);
+}
 
 /*** addressbook.css ***/
 
