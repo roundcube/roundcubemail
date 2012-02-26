@@ -1210,8 +1210,7 @@ function rcmail_quota_display($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmquotadisplay';
 
-  if(isset($attrib['display']))
-    $_SESSION['quota_display'] = $attrib['display'];
+  $_SESSION['quota_display'] = !empty($attrib['display']) ? $attrib['display'] : 'text';
 
   $OUTPUT->add_gui_object('quotadisplay', $attrib['id']);
 
