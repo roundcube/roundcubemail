@@ -372,15 +372,11 @@ function rcube_webmail()
         this.enable_command('preferences', 'identities', 'save', 'folders', true);
 
         if (this.env.action == 'identities') {
-          this.enable_command('add', 'delete', this.env.identities_level < 2);
+          this.enable_command('add', this.env.identities_level < 2);
         }
         else if (this.env.action == 'edit-identity' || this.env.action == 'add-identity') {
-          this.enable_command('add', this.env.identities_level < 2);
           this.enable_command('save', 'edit', 'toggle-editor', true);
-          if (this.is_framed() && this.env.identities_level < 2)
-            this.set_button('delete', 'act');  // activate button but delegate command to parent
-          else
-            this.enable_command('delete', this.env.identities_level < 2);
+          this.enable_command('delete', this.env.identities_level < 2);
 
           if (this.env.action == 'add-identity')
             $("input[type='text']").first().select();
@@ -4807,14 +4803,16 @@ function rcube_webmail()
   this.identity_select = function(list)
   {
     var id;
-    if (id = list.get_single_selection())
+    if (id = list.get_single_selection()) {
+      this.enable_command('delete', list.rowcount > 1 && this.env.identities_level < 2);
       this.load_identity(id, 'edit-identity');
+    }
   };
 
   // load identity record
   this.load_identity = function(id, action)
   {
-    if (action=='edit-identity' && (!id || id==this.env.iid))
+    if (action == 'edit-identity' && (!id || id == this.env.iid))
       return false;
 
     var add_url = '', target = window;
@@ -4825,7 +4823,7 @@ function rcube_webmail()
       document.getElementById(this.env.contentframe).style.visibility = 'inherit';
     }
 
-    if (action && (id || action=='add-identity')) {
+    if (action && (id || action == 'add-identity')) {
       this.set_busy(true);
       this.location_href(this.env.comm_path+'&_action='+action+'&_iid='+id+add_url, target);
     }
@@ -4835,7 +4833,7 @@ function rcube_webmail()
 
   this.delete_identity = function(id)
   {
-    // exit if no mailbox specified or if selection is empty
+    // exit if no identity is specified or if selection is empty
     var selection = this.identity_list.get_selection();
     if (!(selection.length || this.env.iid))
       return;
