@@ -699,17 +699,21 @@ h3.subject {
 	padding-right: 12px;
 }
 
-#messagepreviewheader .iconlink {
-	text-indent: -1000px;
-	padding: 1px 1px 1px 20px;
+#previewheaderstoggle {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin-top: 5px;
+    position: absolute;
+    outline: none;
 }
 
-#messagepreviewheader .iconlink.add {
-	background-position: -5px -359px;
+#previewheaderstoggle.iconlink.add {
+	background-position: -30px -241px;
 }
 
-#messagepreviewheader .iconlink.delete {
-	background-position: -5px -339px;
+#previewheaderstoggle.iconlink.remove {
+	background-position: -8px -241px;
 }
 
 #full-headers {
@@ -779,7 +783,7 @@ div.hide-headers {
 }
 
 #messagepreviewheader .headers-table {
-	margin: 0 -8px;
+	margin-left: 10px;
 }
 
 #messagepreviewheader h3.subject {

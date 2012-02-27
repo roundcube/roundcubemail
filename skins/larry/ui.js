@@ -462,17 +462,14 @@ function rcube_mail_ui()
   function toggle_preview_headers(button)
   {
     $('#preview-shortheaders').toggle();
-    var full = $('#preview-allheaders').toggle();
-    
+    var full = $('#preview-allheaders').toggle(),
+      button = $('a#previewheaderstoggle');
+
     // add toggle button to full headers table
-    if (!full.data('mod')) {
-      $('<a>').attr('href', '#hide')
-        .addClass('iconlink remove')
-        .html('Hide')
-        .appendTo($('<td>').appendTo($('tr:first', full)))
-        .click(function(){ toggle_preview_headers(this);return false });
-      full.data('mod', true);
-    }
+    if (full.is(':visible'))
+      button.attr('href', '#hide').removeClass('add').addClass('remove')
+    else
+      button.attr('href', '#details').removeClass('remove').addClass('add')
   }
 
 

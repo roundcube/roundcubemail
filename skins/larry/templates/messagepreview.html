@@ -9,6 +9,8 @@
 <div id="messagepreviewheader">
 <h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
 
+<a href="#details" id="previewheaderstoggle" class="iconlink add"></a>
+
 <table class="headers-table" id="preview-shortheaders"><tbody><tr>
 <roundcube:if condition="env:mailbox == config:drafts_mbox || env:mailbox == config:sent_mbox">
 	<td class="header-title"><roundcube:label name="to" /></td>
@@ -19,7 +21,6 @@
 <roundcube:endif />
 	<td class="header-title"><roundcube:label name="date" /></td>
 	<td class="header from"><roundcube:object name="messageHeaders" valueOf="date" /></td>
-	<td class="header"><a href="#details" id="previewheaderstoggle" class="iconlink add">Details</a>
 </tr></tbody></table>
 
 <roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject,replyto" />
