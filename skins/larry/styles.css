@@ -1311,7 +1311,7 @@ ul.proplist li {
 .dropbutton .dropbuttontip {
 	display: block;
 	position: absolute;
-	right: 2px;
+	right: 0;
 	top: 0;
 	height: 42px;
 	width: 18px;
@@ -1332,6 +1332,13 @@ ul.proplist li {
 	background-position: 0 -1255px;
 }
 
+.dropbutton a.button {
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 0;
+    padding-right: 0;
+}
+
 .toolbar a.button.back {
 	background-position: 0 -1216px;
 }
@@ -1349,13 +1356,13 @@ ul.proplist li {
 }
 
 .toolbar a.button.reply-all {
-	min-width: 74px;
-	background-position: center -610px;
+	min-width: 64px;
+	background-position: left -610px;
 }
 
 .toolbar a.button.forward {
-	min-width: 74px;
-	background-position: center -650px;
+	min-width: 64px;
+	background-position: left -650px;
 }
 
 .toolbar a.button.delete {
