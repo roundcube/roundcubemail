@@ -3850,4 +3850,139 @@ class rcube_imap extends rcube_storage
         write_log('imap', $message);
     }
 
-}  // end class rcube_imap
+
+    /**
+     * Deprecated methods (to be removed)
+     */
+
+    public function decode_address_list($input, $max = null, $decode = true, $fallback = null)
+    {
+        return rcube_mime::decode_address_list($input, $max, $decode, $fallback);
+    }
+
+    public function decode_header($input, $fallback = null)
+    {
+        return rcube_mime::decode_mime_string((string)$input, $fallback);
+    }
+
+    public static function decode_mime_string($input, $fallback = null)
+    {
+        return rcube_mime::decode_mime_string($input, $fallback);
+    }
+
+    public function mime_decode($input, $encoding = '7bit')
+    {
+        return rcube_mime::decode($input, $encoding);
+    }
+
+    public static function explode_header_string($separator, $str, $remove_comments = false)
+    {
+        return rcube_mime::explode_header_string($separator, $str, $remove_comments);
+    }
+
+    public function select_mailbox($mailbox)
+    {
+        // do nothing
+    }
+
+    public function set_mailbox($folder)
+    {
+        $this->set_folder($folder);
+    }
+
+    public function get_mailbox_name()
+    {
+        return $this->get_folder();
+    }
+
+    public function list_headers($folder='', $page=NULL, $sort_field=NULL, $sort_order=NULL, $slice=0)
+    {
+        return $this->list_messages($folder, $page, $sort_field, $sort_order, $slice);
+    }
+
+    public function mailbox_status($folder = null)
+    {
+        return $this->folder_status($folder);
+    }
+
+    public function message_index($folder = '', $sort_field = NULL, $sort_order = NULL)
+    {
+        return $this->index($folder, $sort_field, $sort_order);
+    }
+
+    public function message_index_direct($folder, $sort_field = null, $sort_order = null, $skip_cache = true)
+    {
+        return $this->index_direct($folder, $sort_field, $sort_order, $skip_cache);
+    }
+
+    public function list_mailboxes($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
+    {
+        return $this->list_folders_subscribed($root, $name, $filter, $rights, $skip_sort);
+    }
+
+    public function list_unsubscribed($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
+    {
+        return $this->list_folders($root, $name, $filter, $rights, $skip_sort);
+    }
+
+    public function get_mailbox_size($folder)
+    {
+        return $this->folder_size($folder);
+    }
+
+    public function create_mailbox($folder, $subscribe=false)
+    {
+        return $this->create_folder($folder, $subscribe);
+    }
+
+    public function rename_mailbox($folder, $new_name)
+    {
+        return $this->rename_folder($folder, $new_name);
+    }
+
+    function delete_mailbox($folder)
+    {
+        return $this->delete_folder($folder);
+    }
+
+    public function mailbox_exists($folder, $subscription=false)
+    {
+        return $this->folder_exists($folder, $subscription);
+    }
+
+    public function mailbox_namespace($folder)
+    {
+        return $this->folder_namespace($folder);
+    }
+
+    public function mod_mailbox($folder, $mode = 'out')
+    {
+        return $this->mod_folder($folder, $mode);
+    }
+
+    public function mailbox_attributes($folder, $force=false)
+    {
+        return $this->folder_attributes($folder, $force);
+    }
+
+    public function mailbox_data($folder)
+    {
+        return $this->folder_data($folder);
+    }
+
+    public function mailbox_info($folder)
+    {
+        return $this->folder_info($folder);
+    }
+
+    public function mailbox_sync($folder)
+    {
+        return $this->folder_sync($folder);
+    }
+
+    public function expunge($folder='', $clear_cache=true)
+    {
+        return $this->expunge_folder($folder, $clear_cache);
+    }
+
+}

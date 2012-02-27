@@ -682,4 +682,20 @@ class rcube_message
 
         return $parts;
     }
+
+
+    /**
+     * Deprecated methods (to be removed)
+     */
+
+    public static function unfold_flowed($text)
+    {
+        return rcube_mime::unfold_flowed($text);
+    }
+
+    public static function format_flowed($text, $length = 72)
+    {
+        return rcube_mime::format_flowed($text, $length);
+    }
+
 }
