@@ -32,17 +32,18 @@ it on a unix system, you need to do the following operations by hand:
    - ./bin/
    - ./SQL/
    - ./program/
-   - ./installer/
-   - ./skins/default/
-   - ./plugins/
-2. Run ./bin/update.sh from the commandline OR
+2. rsync the contents of the following folders from your installation
+   directory into the target folder:
+   ./skins/
+   ./plugins/
+3. Run ./bin/update.sh from the commandline OR
    open http://url-to-roundcube/installer/ in a browser and choose "3 Test config".
    To enable the latter one, you have to temporary set 'enable_installer'
    to true in your local config/main.inc.php file.
-3. Let the update script/installer check your configuration and
+4. Let the update script/installer check your configuration and
    update your config files and database schema as suggested by the updater.
-4. Make sure 'enable_installer' is set to false again.
-5. See Post-Upgrade Activities section.
+5. Make sure 'enable_installer' is set to false again.
+6. See Post-Upgrade Activities section.
 
 
 Post-Upgrade Activities
