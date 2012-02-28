@@ -272,7 +272,7 @@ class rcube_charset
         if ($from == 'UTF-8') {
             // @TODO: we need a function for UTF-7 (RFC2152) conversion
             if ($to == 'UTF7-IMAP' || $to == 'UTF-7') {
-                if ($_str = utf8_to_utf7imap($str)) {
+                if ($_str = self::utf8_to_utf7imap($str)) {
                     return $_str;
                 }
             }
