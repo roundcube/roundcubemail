@@ -784,14 +784,14 @@ function rcmail_compose_body($attrib)
   // include HTML editor
   rcube_html_editor();
 
-  // include GoogieSpell
+  // Set language list
   if (!empty($CONFIG['enable_spellcheck'])) {
     $engine           = $RCMAIL->config->get('spellcheck_engine','googie');
     $dictionary       = (bool) $RCMAIL->config->get('spellcheck_dictionary');
     $spellcheck_langs = (array) $RCMAIL->config->get('spellcheck_languages',
       array('da'=>'Dansk', 'de'=>'Deutsch', 'en' => 'English', 'es'=>'Español',
             'fr'=>'Français', 'it'=>'Italiano', 'nl'=>'Nederlands', 'pl'=>'Polski',
-            'pt'=>'Português', 'fi'=>'Suomi', 'sv'=>'Svenska'));
+            'pt'=>'Português', 'ru'=>'Русский', 'fi'=>'Suomi', 'sv'=>'Svenska'));
 
     // googie works only with two-letter codes
     if ($engine == 'googie') {
@@ -818,6 +818,7 @@ function rcmail_compose_body($attrib)
       $editor_lang_set[] = ($key == $lang ? '+' : '') . JQ($name).'='.JQ($key);
     }
 
+    // include GoogieSpell
     $OUTPUT->include_script('googiespell.js');
     $OUTPUT->add_script(sprintf(
       "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n".

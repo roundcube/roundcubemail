@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add Russian to the spellchecker languages list (#1488135)
 - Remember custom skin selection after logout (#1488355)
 - Make sure About tab is always the last tab (#1488257)
 - Fix issue with folder creation under INBOX. namespace (#1488349)

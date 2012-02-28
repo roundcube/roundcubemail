@@ -42,9 +42,9 @@ function GoogieSpell(img_dir, server_url, has_dict)
 
     this.org_lang_to_word = {
 	    "da": "Dansk", "de": "Deutsch", "en": "English",
-        "es": "Espa&#241;ol", "fr": "Fran&#231;ais", "it": "Italiano", 
-        "nl": "Nederlands", "pl": "Polski", "pt": "Portugu&#234;s",
-        "fi": "Suomi", "sv": "Svenska"
+        "es": "Español", "fr": "Français", "it": "Italiano",
+        "nl": "Nederlands", "pl": "Polski", "pt": "Português",
+        "ru": "Русский", "fi": "Suomi", "sv": "Svenska"
     };
     this.lang_to_word = this.org_lang_to_word;
     this.langlist_codes = this.array_keys(this.lang_to_word);
