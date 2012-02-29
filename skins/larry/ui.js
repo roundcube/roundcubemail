@@ -173,15 +173,37 @@ function rcube_mail_ui()
     // turn a group of fieldsets into tabs
     $('.tabbed').each(function(idx, elem){ init_tabs(elem); })
 
-    $(document.body).bind('mouseup', body_mouseup)
-    .bind('keyup', function(e){
-      if (e.keyCode == 27) {
-        for (var id in popups) {
-          if (popups[id].is(':visible'))
-            show_popup(id, false);
+    // decorate select elements
+    if (!bw.opera) {
+      $('select.decorated').each(function(){
+        var title = $('option', this).first().text();
+        if ($('option:selected', this).val() != '')
+          title = $('option:selected', this).text();
+        var select = $(this)
+          .change(function(){
+            var val = $('option:selected', this).text();
+            $(this).next().children().html(val);
+          });
+
+        $('<a class="menuselector dropdownselector"><span class="handle">' + title + '</span></a>')
+          .offset(select.position())
+          .insertAfter(select)
+          .children().width(select.width() - 5);
+
+        select.parent().css('position', 'relative');
+      });
+    }
+
+    $(document.body)
+      .bind('mouseup', body_mouseup)
+      .bind('keyup', function(e){
+        if (e.keyCode == 27) {
+          for (var id in popups) {
+            if (popups[id].is(':visible'))
+              show_popup(id, false);
+          }
         }
-      }
-    });
+      });
 
     $('iframe').load(function(e){
       // this = iframe

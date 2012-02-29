@@ -66,10 +66,6 @@ textarea.placeholder {
 	color: #aaa;
 }
 
-select.selector {
-	padding: 2px 4px;
-}
-
 .bold {
 	font-weight: bold;
 }
@@ -1444,6 +1440,24 @@ a.menuselector:active {
 	background: -ms-linear-gradient(top, #dddddd 0%, #f8f8f8 100%);
 	background: linear-gradient(top, #dddddd 0%, #f8f8f8 100%);
 	text-decoration: none;
+}
+
+a.dropdownselector {
+	position: absolute;
+	z-index: 1;
+}
+
+select.decorated {
+	position: relative;
+	z-index: 10;
+	opacity: 0;
+	-khtml-appearance: none;
+	padding: 2px 4px;
+	cursor: pointer;
+}
+
+html.opera select.decorated {
+	opacity: 1;
 }
 
 
