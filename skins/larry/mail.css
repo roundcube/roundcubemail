@@ -277,6 +277,19 @@ a.iconbutton.threadmode.selected {
 	-moz-box-shadow: inset 0 1px 1px 0 #003645;
 }
 
+#mailboxlist li.mailbox.recent > a .unreadcount {
+	background: #017cb4;
+	background: -moz-linear-gradient(top, #017cb4 0%, #006ca4 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#017cb4), color-stop(100%,#006ca4));
+	background: -o-linear-gradient(top, #017cb4 0%, #006ca4 100%);
+	background: -ms-linear-gradient(top, #017cb4 0%, #006ca4 100%);
+	background: linear-gradient(top, #017cb4 0%, #006ca4 100%);
+	box-shadow: inset 0 1px 1px 0 #005080;
+	-o-box-shadow: inset 0 1px 1px 0 #005080;
+	-webkit-box-shadow: inset 0 1px 1px 0 #005080;
+	-moz-box-shadow: inset 0 1px 1px 0 #005080;
+}
+
 #searchfilter {
 	width: 16em;
 }
