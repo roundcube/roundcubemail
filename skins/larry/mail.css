@@ -709,11 +709,11 @@ h3.subject {
 }
 
 #previewheaderstoggle.iconlink.add {
-	background-position: -30px -241px;
+	background-position: -32px -227px;
 }
 
 #previewheaderstoggle.iconlink.remove {
-	background-position: -8px -241px;
+	background-position: -32px -242px;
 }
 
 #full-headers {
@@ -783,7 +783,7 @@ div.hide-headers {
 }
 
 #messagepreviewheader .headers-table {
-	margin-left: 10px;
+	margin-left: 8px;
 }
 
 #messagepreviewheader h3.subject {
