@@ -186,9 +186,10 @@ function rcube_mail_ui()
           });
 
         $('<a class="menuselector dropdownselector"><span class="handle">' + title + '</span></a>')
+          .css('position', 'absolute')
           .offset(select.position())
           .insertAfter(select)
-          .children().width(select.width() - 5);
+          .children().width(select.outerWidth() - 40);
 
         select.parent().css('position', 'relative');
       });

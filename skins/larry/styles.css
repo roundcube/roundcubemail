@@ -1451,13 +1451,27 @@ select.decorated {
 	position: relative;
 	z-index: 10;
 	opacity: 0;
-	-khtml-appearance: none;
-	padding: 2px 4px;
+	height: 22px;
 	cursor: pointer;
+	filter: alpha(opacity=0);
+	-khtml-appearance: none;
+	-webkit-appearance: none;
 }
 
 html.opera select.decorated {
 	opacity: 1;
+	height: auto;
+}
+
+select.decorated option {
+	color: #fff;
+	background: #444;
+	border: 1px solid #999;
+	border-top-color: #5a5a5a;
+	border-bottom-color: #333;
+	text-shadow: 0px 1px 1px #333;
+	padding: 6px 10px;
+	outline: none;
 }
 
 
@@ -1504,12 +1518,14 @@ ul.toolbarmenu li,
 }
 
 .googie_list tr:first-child td,
-ul.toolbarmenu li:first-child {
+ul.toolbarmenu li:first-child,
+select.decorated option:first-child {
 	border-top: 0;
 }
 
 .googie_list tr:last-child td,
-ul.toolbarmenu li:last-child {
+ul.toolbarmenu li:last-child,
+select.decorated option:last-child {
 	border-bottom: 0;
 }
 
@@ -1535,7 +1551,9 @@ ul.toolbarmenu li a.active {
 
 .googie_list td.googie_list_onhover,
 ul.toolbarmenu li a.active:hover,
-#rcmKSearchpane ul li.selected {
+#rcmKSearchpane ul li.selected,
+select.decorated option:hover,
+select.decorated option[selected='selected'] {
 	background-color: #00aad6;
 	background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00aad6), color-stop(100%,#008fc9));
