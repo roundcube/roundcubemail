@@ -611,6 +611,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // -> in this case, assure that groups and contacts are separated due to the concernig filters! 
   'groups'        => array(
     'base_dn'     => '',
+    'scope'       => 'sub',   // search mode: sub|base|list
     'filter'      => '(objectClass=groupOfNames)',
     'object_classes' => array("top", "groupOfNames"),
     'member_attr'  => 'member',   // name of the member attribute, e.g. uniqueMember
