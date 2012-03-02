@@ -169,7 +169,7 @@ function rcmail_cache_gc()
   // get target timestamp
   $ts = get_offset_time($rcmail->config->get('message_cache_lifetime', '30d'), -1);
 
-  if ($rcmail->config->get('messages_cache') || $this->config->get('enable_caching')) {
+  if ($rcmail->config->get('messages_cache') || $rcmail->config->get('enable_caching')) {
     $db->query("DELETE FROM ".get_table_name('cache_messages')
         ." WHERE changed < " . $db->fromunixtime($ts));
 
