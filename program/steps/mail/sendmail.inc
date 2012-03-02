@@ -179,7 +179,11 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
     // address with name (handle name)
     } else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
       $address = $matches[0];
-      $name = trim(str_replace($address, '', $item), '" ');
+      $name = trim(str_replace($address, '', $item));
+      if ($name[0] == '"' && $name[count($name)-1] == '"') {
+        $name = substr($name, 1, -1);
+      }
+      $name = stripcslashes($name);
       $address = rcube_idn_to_ascii(trim($address, '<>'));
       $result[] = format_email_recipient($address, $name);
       $item = $address;
