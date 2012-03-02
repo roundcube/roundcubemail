@@ -13,7 +13,8 @@
 /*  border: 1px solid #cccccc; */
 }
 
-#messagetoolbar a
+#messagetoolbar a,
+#messagetoolbar select
 {
   display: block;
   float: left;
@@ -141,7 +142,7 @@
 {
   position: relative;
   margin: 0 8px;
-  top: 6px;
+  top: 7px;
 }
 
 #messagetoolbar select.mboxlist option
