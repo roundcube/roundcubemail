@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Tomáš Kyzlink <Unknown>                                     |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Složky';
 $labels['messagesfromto'] = 'Zprávy $from až $to z celkem $count';
 $labels['threadsfromto'] = 'Konverzace $from až $to z celkem $count';
 $labels['messagenrof'] = 'Zpráva $nr z $count';
+$labels['fromtoshort'] = '$from - $to z $count';
 $labels['copy'] = 'Kopírovat';
 $labels['move'] = 'Přesunout';
 $labels['moveto'] = 'přesunout do...';
@@ -92,13 +93,16 @@ $labels['longoct'] = 'Říjen';
 $labels['longnov'] = 'Listopad';
 $labels['longdec'] = 'Prosinec';
 $labels['today'] = 'Dnes';
+$labels['refresh'] = 'Obnovit';
 $labels['checkmail'] = 'Zkontrolovat nové zprávy';
 $labels['compose'] = 'Napsat zprávu';
 $labels['writenewmessage'] = 'Vytvořit novou zprávu';
+$labels['reply'] = 'Odpovědět';
 $labels['replytomessage'] = 'Odpovědět odesílateli';
 $labels['replytoallmessage'] = 'Odpovědět všem';
 $labels['replyall'] = 'Odpovědět všem';
 $labels['replylist'] = 'Odpovědět do e-mailové konference';
+$labels['forward'] = 'Přeposlat';
 $labels['forwardinline'] = 'Přeposlat v textu';
 $labels['forwardattachment'] = 'Přeposlat jako přílohu';
 $labels['forwardmessage'] = 'Předat zprávu';
@@ -111,12 +115,16 @@ $labels['nextmessage'] = 'Zobrazit další zprávu';
 $labels['lastmessage'] = 'Zobrazit poslední zprávu';
 $labels['backtolist'] = 'Zpět do seznamu zpráv';
 $labels['viewsource'] = 'Zobrazit zdroj';
+$labels['mark'] = 'Označit';
 $labels['markmessages'] = 'Označ zprávy';
 $labels['markread'] = 'Jako přečtené';
 $labels['markunread'] = 'Jako nepřečtené';
 $labels['markflagged'] = 'Jako označené';
 $labels['markunflagged'] = 'Jako neoznačené';
 $labels['moreactions'] = 'Další akce...';
+$labels['more'] = 'Více';
+$labels['back'] = 'Zpět';
+$labels['options'] = 'Možnosti';
 $labels['select'] = 'Vybrat';
 $labels['all'] = 'Vše';
 $labels['none'] = 'Nic';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Stav doručení';
 $labels['mailreplyintro'] = 'Dne $date, $sender napsal:';
 $labels['originalmessage'] = 'Původní zpráva';
 $labels['editidents'] = 'Editovat identity';
+$labels['spellcheck'] = 'Pravopis';
 $labels['checkspelling'] = 'Zkontrolovat pravopis';
 $labels['resumeediting'] = 'Pokračovat v úpravách';
 $labels['revertto'] = 'Přejít na';
+$labels['attach'] = 'Přiložit';
 $labels['attachments'] = 'Přílohy';
 $labels['upload'] = 'Nahrát';
 $labels['uploadprogress'] = '$percent ($current z $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Manžel/ka';
 $labels['allfields'] = 'Všechny položky';
 $labels['search'] = 'Hledat';
 $labels['advsearch'] = 'Pokročilé vyhledávání';
+$labels['advanced'] = 'Pokročilé';
 $labels['other'] = 'Ostatní';
 $labels['typeother'] = 'Ostatní';
 $labels['typehome'] = 'Domací';
@@ -350,6 +361,7 @@ $labels['advancedoptions'] = 'Pokročilá nastavení';
 $labels['focusonnewmessage'] = 'Aktivovat okno prohlížeče při příchozí zprávě';
 $labels['checkallfolders'] = 'Kontrolovat nové zprávy ve všech složkách';
 $labels['displaynext'] = 'Zobrazit další zprávu po smazání/přesunu zprávy';
+$labels['defaultfont'] = 'Výchozí písmo zprávy HTML';
 $labels['mainoptions'] = 'Hlavní nastavení';
 $labels['section'] = 'Sekce';
 $labels['maintenance'] = 'Údržba';
@@ -373,6 +385,7 @@ $labels['reqdsn'] = 'Vždy požádat o oznámení o stavu doručení';
 $labels['replysamefolder'] = 'Ukládat odpovědi ve stejné složce jako je zodpovězená zpráva';
 $labels['defaultaddressbook'] = 'Přidávat nové kontakty do seznamu kontaktů';
 $labels['autocompletesingle'] = 'Při doplňování adres přeskočit alternativní email.';
+$labels['listnamedisplay'] = 'Vypsat kontakty jako';
 $labels['spellcheckbeforesend'] = 'Před odesláním zkontrolovat pravopis';
 $labels['spellcheckoptions'] = 'Nastavení pravopisu';
 $labels['spellcheckignoresyms'] = 'Ignorovat slova obsahující symboly';

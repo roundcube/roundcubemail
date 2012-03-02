@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Tomas D Davainis <tomasdd@gmail.com>                          |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -92,13 +92,16 @@ $labels['longoct'] = 'Spalis';
 $labels['longnov'] = 'Lapkritis';
 $labels['longdec'] = 'Gruodis';
 $labels['today'] = 'Šiandien';
+$labels['refresh'] = 'Atnaujinti';
 $labels['checkmail'] = 'Tikrinti, ar yra naujų laiškų';
 $labels['compose'] = 'Rašyti naują laišką';
 $labels['writenewmessage'] = 'Rašyti naują laišką';
+$labels['reply'] = 'Atsakyti';
 $labels['replytomessage'] = 'Atsakyti siuntėjui';
 $labels['replytoallmessage'] = 'Atsakyti el. pašto grupei arba laiško siuntėjui ir visiems jo gavėjams';
 $labels['replyall'] = 'Atsakyti visiems';
 $labels['replylist'] = 'Atsakyti el. pašto grupei';
+$labels['forward'] = 'Peradresuoti';
 $labels['forwardinline'] = 'Persiųsti cituojant';
 $labels['forwardattachment'] = 'Persiųsti priedu';
 $labels['forwardmessage'] = 'Persiųsti laišką';
@@ -117,6 +120,9 @@ $labels['markunread'] = 'Kaip neskaitytus';
 $labels['markflagged'] = 'Pažymėti gairele';
 $labels['markunflagged'] = 'Pašalinti gairelę';
 $labels['moreactions'] = 'Kiti veiksmai…';
+$labels['more'] = 'Daugiau';
+$labels['back'] = 'Grįžti';
+$labels['options'] = 'Parinktys';
 $labels['select'] = 'Pažymėti';
 $labels['all'] = 'visus';
 $labels['none'] = 'Nerūšiuoti';
@@ -174,6 +180,7 @@ $labels['editidents'] = 'Tvarkyti tapatybes';
 $labels['checkspelling'] = 'Tikrinti rašybą';
 $labels['resumeediting'] = 'Tęsti redagavimą';
 $labels['revertto'] = 'Atstatyti į';
+$labels['attach'] = 'Prisegti';
 $labels['attachments'] = 'Pridėti failai';
 $labels['upload'] = 'Įkelti';
 $labels['uploadprogress'] = '$percent ($current iš $total)';
@@ -234,6 +241,7 @@ $labels['spouse'] = 'Sutuoktinis';
 $labels['allfields'] = 'Visi laukai';
 $labels['search'] = 'Paieška';
 $labels['advsearch'] = 'Išplėstinė paieška';
+$labels['advanced'] = 'Išsamiau';
 $labels['other'] = 'Kitas';
 $labels['typeother'] = 'Kitas';
 $labels['typehome'] = 'Namų';

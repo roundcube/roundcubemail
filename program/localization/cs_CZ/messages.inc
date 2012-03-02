@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Přidávám kontakty do skupiny...';
 $messages['removingmember'] = 'Odstraňuji kontakty ze skupiny...';
 $messages['receiptsent'] = 'Potvrzení o přřijetí zprávy odesláno';
 $messages['errorsendingreceipt'] = 'Potvrzení o přijetí zprávy nebylo možné odeslat';
+$messages['deleteidentityconfirm'] = 'Opravdu chcete odstranit tuto identitu?';
 $messages['nodeletelastidentity'] = 'Alespoň jedna identita musí být ponechána. Identitu nelze odstranit.';
 $messages['forbiddencharacter'] = 'Název složky obsahuje zakázaný znak';
 $messages['selectimportfile'] = 'Prosím vyberte soubor k nahrání';

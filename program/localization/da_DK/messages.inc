@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Tilføjer kontakt(er) til gruppen...';
 $messages['removingmember'] = 'Fjerner kontakt(er) fra gruppen...';
 $messages['receiptsent'] = 'Kvittering for læsning er sendt';
 $messages['errorsendingreceipt'] = 'Kvitteringen kunne ikke sendes';
+$messages['deleteidentityconfirm'] = 'Vil du slette denne identitet?';
 $messages['nodeletelastidentity'] = 'Du kan ikke slette denne identitet, da det er den eneste der er tilbage.';
 $messages['forbiddencharacter'] = 'Mappe-navnet indeholder ugyldige tegn';
 $messages['selectimportfile'] = 'Vælg venligst den fil der skal uploades';

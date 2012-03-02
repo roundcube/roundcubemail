@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Pievieno kontaktu(s) grupai...';
 $messages['removingmember'] = 'Atvieno kontaktu(s) no grupas...';
 $messages['receiptsent'] = 'Saņemšanas apstiprinājums nosūtīts';
 $messages['errorsendingreceipt'] = 'Neizdevās nosūtīt apstiprinājumu';
+$messages['deleteidentityconfirm'] = 'Vai tiešām vēlaties dzēst šo identitāti?';
 $messages['nodeletelastidentity'] = 'Šo identitāti nevar izdzēst, tā ir pati pēdējā.';
 $messages['forbiddencharacter'] = 'Mapes nosaukums satur aizliegtus simbolus';
 $messages['selectimportfile'] = 'Lūdzu izvēlieties failu, ko vēlaties augšupielādēt';

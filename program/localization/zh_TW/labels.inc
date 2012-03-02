@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nansen <Unknown>                                              |
+ | Author: Tenyi <tenyitseng@yahoo.com.tw>                               |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -22,7 +22,7 @@ $labels['server'] = '伺服器';
 $labels['login'] = '登入';
 $labels['logout'] = '登出';
 $labels['mail'] = '電子郵件';
-$labels['settings'] = '個人設定';
+$labels['settings'] = '設定';
 $labels['addressbook'] = '通訊錄';
 $labels['inbox'] = '收件匣';
 $labels['drafts'] = '草稿匣';
@@ -46,6 +46,7 @@ $labels['folders'] = '資料夾';
 $labels['messagesfromto'] = '郵件 $from 至 $to，共有 $count 封郵件';
 $labels['threadsfromto'] = '郵件串 $from 至 $to，共有 $count 個';
 $labels['messagenrof'] = '第 $nr 封郵件，共有 $count 封';
+$labels['fromtoshort'] = '自 $from – $to 統計 $count';
 $labels['copy'] = '複製';
 $labels['move'] = '移動';
 $labels['moveto'] = '移至...';
@@ -175,15 +176,17 @@ $labels['charset'] = '郵件編碼';
 $labels['editortype'] = '編輯器類型';
 $labels['returnreceipt'] = '要求讀取回條';
 $labels['dsn'] = '傳送狀態通知';
-$labels['mailreplyintro'] = '$sender 於 $data 寫到:';
+$labels['mailreplyintro'] = '$sender 於 $date 寫到:';
 $labels['originalmessage'] = '郵件顯示設定';
 $labels['editidents'] = '編輯身份資訊';
+$labels['spellcheck'] = '拼字';
 $labels['checkspelling'] = '拼字檢查';
 $labels['resumeediting'] = '繼續編輯';
 $labels['revertto'] = '恢復至';
 $labels['attach'] = '附件';
 $labels['attachments'] = '附加檔案';
 $labels['upload'] = '上傳';
+$labels['uploadprogress'] = '$percent ($current / $total)';
 $labels['close'] = '關閉';
 $labels['messageoptions'] = '郵件選項...';
 $labels['low'] = '低';
@@ -285,7 +288,7 @@ $labels['nextpage'] = '顯示下一頁';
 $labels['lastpage'] = '顯示最後一頁';
 $labels['group'] = '群組';
 $labels['groups'] = '群組';
-$labels['personaladrbook'] = '個人住址';
+$labels['personaladrbook'] = '個人通訊錄';
 $labels['searchsave'] = '儲存搜尋結果';
 $labels['searchdelete'] = '刪除搜尋結果';
 $labels['import'] = '匯入通訊錄';
@@ -381,6 +384,8 @@ $labels['reqmdn'] = '永遠索取讀取回條';
 $labels['reqdsn'] = '總是要求傳送狀態通知';
 $labels['replysamefolder'] = '將回覆與回覆信件放置於相同資料夾';
 $labels['defaultaddressbook'] = '新增連絡人至指定通訊錄';
+$labels['autocompletesingle'] = '在自動完成中略過另一個email';
+$labels['listnamedisplay'] = '標記聯絡人為';
 $labels['spellcheckbeforesend'] = '寄送前執行拼字檢查';
 $labels['spellcheckoptions'] = '拼字檢查選項';
 $labels['spellcheckignoresyms'] = '忽略符號';

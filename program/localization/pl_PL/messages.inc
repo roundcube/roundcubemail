@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Dodawanie kontaktów do grupy...';
 $messages['removingmember'] = 'Usuwanie kontaktów z grupy...';
 $messages['receiptsent'] = 'Pomyślnie wysłano potwierdzenie dostarczenia.';
 $messages['errorsendingreceipt'] = 'Nie można wysłać potwierdzenia.';
+$messages['deleteidentityconfirm'] = 'Czy na pewno chcesz usunąć tą tożsamość?';
 $messages['nodeletelastidentity'] = 'Nie można skasować tej tożsamości, ponieważ jest ostatnią.';
 $messages['forbiddencharacter'] = 'Nazwa folderu zawiera niedozwolony znak.';
 $messages['selectimportfile'] = 'Proszę wybrać plik do wysłania.';

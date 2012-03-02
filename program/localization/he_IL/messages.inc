@@ -106,6 +106,7 @@ $messages['addingmember'] = 'הוספת אנשי קשר לקבוצה...';
 $messages['removingmember'] = 'הסרת אנשי קשר מהקבוצה...';
 $messages['receiptsent'] = 'אישור הקבלה נשלח בהצלחה';
 $messages['errorsendingreceipt'] = 'לא ניתן לשלוח אישור קבלה';
+$messages['deleteidentityconfirm'] = 'האם אכן ברצונך למחוק זהות זאת?';
 $messages['nodeletelastidentity'] = 'זו הזהות האחרונה ולכן לא ניתן לבטלה';
 $messages['forbiddencharacter'] = 'שם התיקיה מכיל תוים אסורים';
 $messages['selectimportfile'] = 'נא לבחור קובץ לייבוא';

@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nkolay Parukhin <parukhin@gmail.com>                          |
+ | Author: Vyacheslav Sharmanov <Unknown>                                |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Произошла ошибка!';
 $messages['loginfailed'] = 'Неудачная попытка входа';
 $messages['cookiesdisabled'] = 'Ваш броузер не принимает cookie';
 $messages['sessionerror'] = 'Ваша сессия устарела';
@@ -106,6 +107,7 @@ $messages['addingmember'] = 'Добавление контакта(ов) в гр
 $messages['removingmember'] = 'Удаление контакта(ов) из группы...';
 $messages['receiptsent'] = 'Уведомление о прочтении отправлено';
 $messages['errorsendingreceipt'] = 'Уведомление о прочтении не отправлено';
+$messages['deleteidentityconfirm'] = 'Вы на самом деле хотите удалить эту сущность?';
 $messages['nodeletelastidentity'] = 'Вы не можете удалить этот профиль, он у вас последний';
 $messages['forbiddencharacter'] = 'Имя папки содержит недопустимые символы';
 $messages['selectimportfile'] = 'Выберите файл для загрузки';

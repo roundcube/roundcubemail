@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: bela <Unknown>                                                |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Mappák';
 $labels['messagesfromto'] = 'Üzenetek: $from - $to / $count';
 $labels['threadsfromto'] = 'Témák ($from - $to, összesen $count)';
 $labels['messagenrof'] = '$nr / $count üzenet';
+$labels['fromtoshort'] = '$from – $to / $count';
 $labels['copy'] = 'Másolás';
 $labels['move'] = 'Áthelyezés';
 $labels['moveto'] = 'Áthelyezés...';
@@ -92,13 +93,16 @@ $labels['longoct'] = 'Október';
 $labels['longnov'] = 'November';
 $labels['longdec'] = 'December';
 $labels['today'] = 'Ma';
+$labels['refresh'] = 'Frissítés';
 $labels['checkmail'] = 'Új üzenetek ellenőrzése';
 $labels['compose'] = 'Üzenet létrehozása';
 $labels['writenewmessage'] = 'Új üzenet';
+$labels['reply'] = 'Válasz';
 $labels['replytomessage'] = 'Válasz';
 $labels['replytoallmessage'] = 'Válasz a listának vagy a feladónak és az összes címzettnek';
 $labels['replyall'] = 'Válasz mindenkinek';
 $labels['replylist'] = 'Válasz a listának';
+$labels['forward'] = 'Továbbítás';
 $labels['forwardinline'] = 'Továbbítás beágyazva';
 $labels['forwardattachment'] = 'Továbbítás csatolmányként';
 $labels['forwardmessage'] = 'Továbbítás';
@@ -111,12 +115,16 @@ $labels['nextmessage'] = 'Következő levél mutatása';
 $labels['lastmessage'] = 'Utolsó levél mutatása';
 $labels['backtolist'] = 'Vissza az üzenetekhez';
 $labels['viewsource'] = 'Forrás megtekintése';
+$labels['mark'] = 'Jelölés';
 $labels['markmessages'] = 'Üzenetek megjelölése';
 $labels['markread'] = 'Olvasottként';
 $labels['markunread'] = 'Olvasatlanként';
 $labels['markflagged'] = 'Jelöltként';
 $labels['markunflagged'] = 'Jelöletlenként';
 $labels['moreactions'] = 'További műveletek...';
+$labels['more'] = 'Még egy';
+$labels['back'] = 'Vissza';
+$labels['options'] = 'Beállítások';
 $labels['select'] = 'Kijelölés';
 $labels['all'] = 'Összes';
 $labels['none'] = 'Nincs';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Kézbesítési visszaigazolás';
 $labels['mailreplyintro'] = '$date időpontban $sender ezt írta:';
 $labels['originalmessage'] = 'Eredeti üzenet';
 $labels['editidents'] = 'Azonosítók szerkesztése';
+$labels['spellcheck'] = 'Helyesírás ellenőrzés';
 $labels['checkspelling'] = 'Helyesírás-ellenőrzés';
 $labels['resumeediting'] = 'Helyesírás-ellenőrzés vége';
 $labels['revertto'] = 'Visszaállítás erre';
+$labels['attach'] = 'Csatolás';
 $labels['attachments'] = 'Csatolmányok';
 $labels['upload'] = 'Feltöltés';
 $labels['uploadprogress'] = '$percent ($current / $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Házastárs';
 $labels['allfields'] = 'Összes mező';
 $labels['search'] = 'Keresés';
 $labels['advsearch'] = 'Részletes keresés';
+$labels['advanced'] = 'Haladó beállítások';
 $labels['other'] = 'Egyéb';
 $labels['typeother'] = 'Egyéb';
 $labels['typehome'] = 'Otthon';
@@ -374,6 +385,7 @@ $labels['reqdsn'] = 'Kézbesítési visszaigazolás megkövetelése';
 $labels['replysamefolder'] = 'Válaszok azonos mappába helyezése';
 $labels['defaultaddressbook'] = 'Új kapcsolatok hozzáadása a kiválasztott címjegyzékhez';
 $labels['autocompletesingle'] = 'TRANSLATE!';
+$labels['listnamedisplay'] = 'Névjegyek listázása';
 $labels['spellcheckbeforesend'] = 'Helyesírás-ellenőrzés az üzenet elküldése előtt';
 $labels['spellcheckoptions'] = 'Helyesírás-ellenőrzés opciók';
 $labels['spellcheckignoresyms'] = 'Speciális karaktereket tartalmazó szavak kihagyása';

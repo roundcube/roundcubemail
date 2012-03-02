@@ -15,6 +15,9 @@
 */
 
 $labels = array();
+$labels['preferences'] = 'Նախընտրանքներ';
+$labels['userpreferences'] = 'Օգտվողի նախընտրանքներ';
+$labels['editpreferences'] = 'Խմբագրել օգտվողի նախընտրանքները';
 $labels['welcome'] = 'Բարի գալուստ $product';
 $labels['username'] = 'Օգտվող';
 $labels['password'] = 'Գաղտնաբառ';
@@ -38,7 +41,6 @@ $labels['replyto'] = 'Reply-To';
 $labels['date'] = 'Ամսաթիվ';
 $labels['size'] = 'Չափ';
 $labels['priority'] = 'Առավելություն';
-$labels['organization'] = 'Կազմակերպություն';
 $labels['mailboxlist'] = 'Դարակներ';
 $labels['folders'] = 'Դարակներ';
 $labels['messagesfromto'] = 'Նամակներ $from–ից $to–ը եղած $count–ից';
@@ -186,9 +188,6 @@ $labels['importreplace'] = 'Փոխել ողջ հասցեագիրքը';
 $labels['importtext'] = 'Դուք կարող եք ներկրել նոր հասցեներ առկա հասցեագրքից։ Համակարգը ընդունում է հասցեների ներկրումը <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> չափաձևով։';
 $labels['done'] = 'Ավարտված է';
 $labels['settingsfor'] = 'Նախասիրություններ';
-$labels['preferences'] = 'Ընդհանուր';
-$labels['userpreferences'] = 'Օգտվողի նախասիրություններ';
-$labels['editpreferences'] = 'Խմբագրել օգտվողի նախասիրությունները';
 $labels['identities'] = 'Անձիք';
 $labels['manageidentities'] = 'Կարգավորել անձանց';
 $labels['newidentity'] = 'Նոր անձ';

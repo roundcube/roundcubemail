@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Jonas Nasholm <Unknown>                                       |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Ett fel uppstod!';
 $messages['loginfailed'] = 'Inloggningen misslyckades';
 $messages['cookiesdisabled'] = 'Din webbläsare accepterar inte cookies';
 $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
@@ -106,6 +107,7 @@ $messages['addingmember'] = 'Lägger till kontakter i gruppen...';
 $messages['removingmember'] = 'Tar bort kontakter från gruppen...';
 $messages['receiptsent'] = 'Mottagarkvitto har skickats';
 $messages['errorsendingreceipt'] = 'Mottagarkvitto kunde inte skickas';
+$messages['deleteidentityconfirm'] = 'Vill du verkligen ta bort denna identitet?';
 $messages['nodeletelastidentity'] = 'Du kan inte ta bort identiteten, den är din sista.';
 $messages['forbiddencharacter'] = 'Katalognamnet innehåller otillåtna tecken';
 $messages['selectimportfile'] = 'Välj en fil att ladda upp';

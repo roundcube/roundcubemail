@@ -15,6 +15,7 @@
 */
 
 $messages = array();
+$messages['errortitle'] = 'Ocorreu um erro!';
 $messages['loginfailed'] = 'Falha no login';
 $messages['cookiesdisabled'] = 'Seu navegador não aceita cookies';
 $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';

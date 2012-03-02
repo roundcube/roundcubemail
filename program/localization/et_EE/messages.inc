@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: yllar <Unknown>                                               |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Ilmnes tõrge!';
 $messages['loginfailed'] = 'Sisselogimine ebaõnnestus';
 $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';
 $messages['sessionerror'] = 'Sinu seanss on aegunud või vigane';

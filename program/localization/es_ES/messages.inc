@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Pablo Rosciani <Unknown>                                      |
+ | Author: Marcelino Aranda <marars@gmail.com>                           |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Añadiendo contacto(s) al grupo…';
 $messages['removingmember'] = 'Quitando contacto(s) del grupo…';
 $messages['receiptsent'] = 'La notificación de lectura se ha enviado correctamente.';
 $messages['errorsendingreceipt'] = 'No se ha podido enviar la notificación de lectura.';
+$messages['deleteidentityconfirm'] = 'Realmente desea eliminar esta identidad?';
 $messages['nodeletelastidentity'] = 'No se puede borrar esta identidad puesto que es la última.';
 $messages['forbiddencharacter'] = 'El nombre de la bandeja contiene un carácter prohibido';
 $messages['selectimportfile'] = 'Por favor, seleccione un archivo para subir';

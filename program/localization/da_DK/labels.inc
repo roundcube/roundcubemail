@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: John Loft Christiansen <Unknown>                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Mapper';
 $labels['messagesfromto'] = 'Besked $from til $to af $count';
 $labels['threadsfromto'] = 'Tråd $from til $to af $count';
 $labels['messagenrof'] = 'Besked $nr af $count';
+$labels['fromtoshort'] = '$from – $to af $count';
 $labels['copy'] = 'Kopier';
 $labels['move'] = 'Flyt';
 $labels['moveto'] = 'Flyt til...';
@@ -92,13 +93,16 @@ $labels['longoct'] = 'Oktober';
 $labels['longnov'] = 'November';
 $labels['longdec'] = 'December';
 $labels['today'] = 'I dag';
+$labels['refresh'] = 'Opdater';
 $labels['checkmail'] = 'Se efter nye beskeder';
 $labels['compose'] = 'Forfat en besked';
 $labels['writenewmessage'] = 'Skriv en ny besked';
+$labels['reply'] = 'Svar';
 $labels['replytomessage'] = 'Svar på denne besked';
 $labels['replytoallmessage'] = 'Svar til alle modtagere';
 $labels['replyall'] = 'Svar alle';
 $labels['replylist'] = 'Svar til listen';
+$labels['forward'] = 'Frem';
 $labels['forwardinline'] = 'Videresend';
 $labels['forwardattachment'] = 'Videresend som vedhæftning';
 $labels['forwardmessage'] = 'Videresend denne besked';
@@ -111,12 +115,16 @@ $labels['nextmessage'] = 'Vis næste besked';
 $labels['lastmessage'] = 'Vis sidste besked';
 $labels['backtolist'] = 'Tilbage til beskedlisten';
 $labels['viewsource'] = 'Vis rå besked';
+$labels['mark'] = 'Markér';
 $labels['markmessages'] = 'Markér beskeder';
 $labels['markread'] = 'Som læst';
 $labels['markunread'] = 'Som ulæst';
 $labels['markflagged'] = 'Som markeret';
 $labels['markunflagged'] = 'Som umarkeret';
 $labels['moreactions'] = 'Flere funktioner...';
+$labels['more'] = 'Mere';
+$labels['back'] = 'Tilbage';
+$labels['options'] = 'Indstillinger';
 $labels['select'] = 'Vælg';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Ingen';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Notifikation om leveringstatus';
 $labels['mailreplyintro'] = 'Den $date, $sender skrev:';
 $labels['originalmessage'] = 'Original besked';
 $labels['editidents'] = 'Ret identiteter';
+$labels['spellcheck'] = 'Stav';
 $labels['checkspelling'] = 'Stavekontrol';
 $labels['resumeediting'] = 'Genoptag redigering';
 $labels['revertto'] = 'Vend tilbage til';
+$labels['attach'] = 'Vedhæft';
 $labels['attachments'] = 'Vedhæftninger';
 $labels['upload'] = 'Upload';
 $labels['uploadprogress'] = '$percent ($current af $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Ægtefælle';
 $labels['allfields'] = 'Alle felter';
 $labels['search'] = 'Søg';
 $labels['advsearch'] = 'Avanceret søg';
+$labels['advanced'] = 'Avanceret';
 $labels['other'] = 'Andet';
 $labels['typeother'] = 'Andet';
 $labels['typehome'] = 'Hjem';
@@ -374,6 +385,7 @@ $labels['reqdsn'] = 'Bed altid om at få en status på levering';
 $labels['replysamefolder'] = 'Placer svar til en besked i samme mappe som beskeden der besvares';
 $labels['defaultaddressbook'] = 'Tilføj nye kontakter til den valgte adressebog';
 $labels['autocompletesingle'] = 'Undgå alternative emailadresser under autofuldførelse';
+$labels['listnamedisplay'] = 'List kontakter som';
 $labels['spellcheckbeforesend'] = 'Tjek stavning inden beskeden sendes';
 $labels['spellcheckoptions'] = 'Stavning muligheder';
 $labels['spellcheckignoresyms'] = 'Ignorer ord med symboler';

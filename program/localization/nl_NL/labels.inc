@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Geert Wirken <Unknown>                                        |
+ | Author: Justin van Beusekom <Unknown>                                 |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -385,6 +385,7 @@ $labels['reqdsn'] = 'Vraag altijd om een afleveringsbericht';
 $labels['replysamefolder'] = 'Bewaar reacties in de map van het beantwoorde bericht';
 $labels['defaultaddressbook'] = 'Voeg nieuw contactpersoon toe aan geselecteerd adresboek';
 $labels['autocompletesingle'] = 'Sla alternatieve e-mailadressen over bij automatisch aanvullen';
+$labels['listnamedisplay'] = 'Contacten weergeven als';
 $labels['spellcheckbeforesend'] = 'Controleer spelling voor het versturen van een bericht';
 $labels['spellcheckoptions'] = 'Instellingen spellingscontrole';
 $labels['spellcheckignoresyms'] = 'Negeer woorden met symbolen';

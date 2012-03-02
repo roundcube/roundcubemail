@@ -385,6 +385,7 @@ $labels['reqdsn'] = 'Selalu meminta pemberitahuan status terkirim';
 $labels['replysamefolder'] = 'Taruh balasan di folder yang sama dengan pesan yang dibalas';
 $labels['defaultaddressbook'] = 'Tambahkan kontak baru ke buku alamat terpilih';
 $labels['autocompletesingle'] = 'Lewatkan alamat email alternatif pada pelengkapan otomatis';
+$labels['listnamedisplay'] = 'Daftar kontak sebagai';
 $labels['spellcheckbeforesend'] = 'Periksa ejaan sebelum mengirimkan pesan';
 $labels['spellcheckoptions'] = 'Pilihan Ejaan';
 $labels['spellcheckignoresyms'] = 'Abaikan kata-kata yang bersimbol';

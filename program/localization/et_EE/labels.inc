@@ -363,6 +363,7 @@ $labels['checkallfolders'] = 'Kontrolli uusi kirju kõigist kaustadest';
 $labels['displaynext'] = 'Pärast kirja kustutamist/liigutamist näita järgmist kirja';
 $labels['defaultfont'] = 'HTML kirjade vaikefont';
 $labels['mainoptions'] = 'Peamised valikud';
+$labels['browseroptions'] = 'Sirvimis valikud';
 $labels['section'] = 'Osa';
 $labels['maintenance'] = 'Hooldus';
 $labels['newmessage'] = 'Uus kiri';

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Xosé <Unknown>                                               |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -88,7 +88,7 @@ $labels['longjun'] = 'Xuño';
 $labels['longjul'] = 'Xullo';
 $labels['longaug'] = 'Agosto';
 $labels['longsep'] = 'Setembro';
-$labels['longoct'] = 'Outobro';
+$labels['longoct'] = 'Outubro';
 $labels['longnov'] = 'Novembro';
 $labels['longdec'] = 'Decembro';
 $labels['today'] = 'Hoxe';
@@ -405,7 +405,7 @@ $labels['undo'] = 'Desfacer';
 $labels['plugin'] = 'Complemento';
 $labels['version'] = 'Versión';
 $labels['source'] = 'Fonte';
-$labels['license'] = 'Licencia';
+$labels['license'] = 'Licenza';
 $labels['support'] = 'Obter axuda';
 $labels['B'] = 'B';
 $labels['KB'] = 'KiB';

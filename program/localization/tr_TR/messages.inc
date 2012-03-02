@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul <Unknown>                                      |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Gruba kişi(ler) ekleniyor...';
 $messages['removingmember'] = 'Gruptan kişi(ler) siliniyor...';
 $messages['receiptsent'] = 'Okundu onayı gönderildi';
 $messages['errorsendingreceipt'] = 'Okundu onayı gönderilemedi';
+$messages['deleteidentityconfirm'] = 'Bu kimliği silmek istediğinizden emin misiniz?';
 $messages['nodeletelastidentity'] = 'Son kimliğiniz olduğu için bu kimliği silemezsiniz';
 $messages['forbiddencharacter'] = 'Klasör ismi yasaklanmış bir karakter içeriyor';
 $messages['selectimportfile'] = 'Lütfen yüklenecek dosyayı seçin';

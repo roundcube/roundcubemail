@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: panda <Unknown>                                               |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Vyskytla sa chyba!';
 $messages['loginfailed'] = 'Chybné prihlásenie';
 $messages['cookiesdisabled'] = 'Váš internetový prehliadač nepodporuje cookies, ktoré sú potrebné pre prihlásenie';
 $messages['sessionerror'] = 'Vaše prihlásenie je neplatné alebo vypršala jeho platnosť';
@@ -106,6 +107,7 @@ $messages['addingmember'] = 'Pridávam kontakt(y) do skupiny...';
 $messages['removingmember'] = 'Odoberám kontakt(y) zo skupiny';
 $messages['receiptsent'] = 'Potvrdenie o prijatí správy bolo odoslané';
 $messages['errorsendingreceipt'] = 'Potvrdenie o prijatí správy sa nedalo odoslať';
+$messages['deleteidentityconfirm'] = 'Skutočne chcete zmazať túto identitu?';
 $messages['nodeletelastidentity'] = 'Identita sa nedá odstrániť, je posledná a musí zostať.';
 $messages['forbiddencharacter'] = 'Názov priečinka obsahuje nepovolený znak';
 $messages['selectimportfile'] = 'Zvoľte súbor, ktorý chcete načítať';

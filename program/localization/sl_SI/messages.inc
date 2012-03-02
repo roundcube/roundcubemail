@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Jure Kranjc <Unknown>                                         |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -20,7 +20,7 @@ $messages['cookiesdisabled'] = 'Vaš spletni brskalnik ne sprejema piškotkov.';
 $messages['sessionerror'] = 'Seja je neveljavna ali je potekla.';
 $messages['storageerror'] = 'Povezava z IMAP strežnikom je spodletela.';
 $messages['servererror'] = 'Napaka strežnika!';
-$messages['servererrormsg'] = 'Napaka strežnikaČ $msg';
+$messages['servererrormsg'] = 'Napaka strežnika $msg';
 $messages['dberror'] = 'Napaka v bazi';
 $messages['errorreadonly'] = 'Operacije ni bilo mogoče izvršiti. Mapa je na voljo samo za branje.';
 $messages['errornoperm'] = 'Operacije ni bilo mogoče izvršiti. Dostop zavrnjen.';

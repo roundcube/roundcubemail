@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kristjan SCHMIDT <Unknown>                                    |
+ | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -19,10 +19,10 @@ $labels['welcome'] = 'Bonvenon al $product';
 $labels['username'] = 'Uzantnomo';
 $labels['password'] = 'Pasvorto';
 $labels['server'] = 'Servilo';
-$labels['login'] = 'Ensalutu';
-$labels['logout'] = 'Elsalutu';
+$labels['login'] = 'Ensaluti';
+$labels['logout'] = 'Elsaluti';
 $labels['mail'] = 'Retpoŝto';
-$labels['settings'] = 'Preferoj';
+$labels['settings'] = 'Agordoj';
 $labels['addressbook'] = 'Adresaro';
 $labels['inbox'] = 'Ricevitujo';
 $labels['drafts'] = 'Malnetujo';
@@ -43,7 +43,8 @@ $labels['mailboxlist'] = 'Dosierujoj';
 $labels['folders'] = 'Dosierujoj';
 $labels['messagesfromto'] = 'Mesaĝoj ekde $from ĝis $to de $count';
 $labels['messagenrof'] = 'Mesaĝo $nr-a de $count';
-$labels['copy'] = 'Kopio';
+$labels['copy'] = 'Kopii';
+$labels['move'] = 'Movi';
 $labels['moveto'] = 'transloku al...';
 $labels['download'] = 'elŝutu';
 $labels['filename'] = 'Dosiernomo';
@@ -213,7 +214,7 @@ $labels['folder'] = 'Dosierujo';
 $labels['foldername'] = 'Dosierujo-nomo';
 $labels['subscribed'] = 'Abonata';
 $labels['messagecount'] = 'Mesaĝoj';
-$labels['create'] = 'Kreu';
+$labels['create'] = 'Krei';
 $labels['createfolder'] = 'Kreu novan dosierujon';
 $labels['managefolders'] = 'Administru dosierujon';
 $labels['sortby'] = 'Ordigu per';

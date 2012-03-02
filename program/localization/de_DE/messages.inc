@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Daniel Winzen <d@winzen4.de>                                  |
+ | Author: Thomas <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
-$messages['errortitle']  = 'Fehlermeldung';
+$messages['errortitle'] = 'Fehlermeldung';
 $messages['loginfailed'] = 'Die Anmeldung ist fehlgeschlagen.';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies.';
 $messages['sessionerror'] = 'Ihre Sitzung ist ungültig oder abgelaufen.';
@@ -137,8 +137,8 @@ $messages['contactdeleted'] = 'Kontakt(e) erfolgreich gelöscht.';
 $messages['contactrestoreerror'] = 'Konnte die gelöschten Kontakte nicht wiederherstellen.';
 $messages['contactrestored'] = 'Kontakte erfolgreich wiederhergestellt.';
 $messages['groupdeleted'] = 'Gruppe erfolgreich gelöscht.';
-$messages['grouprenamed'] = 'Gruppe erlogreich umbenannt.';
-$messages['groupcreated'] = 'Gruppe erlogreich erstellt.';
+$messages['grouprenamed'] = 'Gruppe erfolgreich umbenannt.';
+$messages['groupcreated'] = 'Gruppe erfolgreich erstellt.';
 $messages['savedsearchdeleted'] = 'Suchergebnisse erfolgreich gelöscht.';
 $messages['savedsearchdeleteerror'] = 'Suchergebnisse konnten nicht gelöscht werden.';
 $messages['savedsearchcreated'] = 'Suchergebnisse wurden erfolgreich wiederherstellt.';

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Tomas D Davainis <tomasdd@gmail.com>                          |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -106,7 +106,8 @@ $messages['addingmember'] = 'Adresatas(-ai) įtraukiamas(-i) į grupę…';
 $messages['removingmember'] = 'Adresatas(-ai) šalinamas(-i) iš grupės…';
 $messages['receiptsent'] = 'Laiško perskaitymo pažyma sėkmingai išsiųsta.';
 $messages['errorsendingreceipt'] = 'Laiško perskaitymo pažymos išsiųsti nepavyko.';
-$messages['nodeletelastidentity'] = 'Jūs negalite ištrinti šios tapatybės, nes ji yra vienintelė likusi.';
+$messages['deleteidentityconfirm'] = 'Ar tikrai norite ištrinti šią tapatybę?';
+$messages['nodeletelastidentity'] = 'Negalite ištrinti šios tapatybės, nes ji vienintelė likusi.';
 $messages['forbiddencharacter'] = 'Aplanko varde rasta neleistinų simbolių.';
 $messages['selectimportfile'] = 'Parinkite įkelti norimą failą.';
 $messages['addresswriterror'] = 'Pasirinktoji adresų knyga prieinama tik skaitymui.';
@@ -151,7 +152,7 @@ $messages['namecannotbeempty'] = 'Vardas negali būti tuščias.';
 $messages['nametoolong'] = 'Vardas yra per ilgas.';
 $messages['folderupdated'] = 'Aplanko savybės sėkmingai atnaujintos.';
 $messages['foldercreated'] = 'Aplankas sėkmingai sukurtas.';
-$messages['invalidimageformat'] = 'Paveikslo formatas netinkamas.';
+$messages['invalidimageformat'] = 'Paveikslo formatas yra netinkamas.';
 $messages['mispellingsfound'] = 'Laiške rasta rašybos klaidų.';
 $messages['parentnotwritable'] = 'Nepavyko sukurti arba perkelti aplanko į parinktą tėvinį aplanką. Trūksta prieigos teisių.';
 $messages['messagetoobig'] = 'Laiško dalis yra per didelė, kad galėtų būti apdorota.';

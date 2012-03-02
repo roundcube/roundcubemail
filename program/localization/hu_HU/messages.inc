@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: bela <Unknown>                                                |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Sikertelen belépés';
+$messages['loginfailed'] = 'Sikertelen bejelentkezés.';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
 $messages['storageerror'] = 'Nem sikerült csatlakozni az IMAP szerverhez';
@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Kapcsolat(ok) hozzáadása a csoporthoz...';
 $messages['removingmember'] = 'Kapcsolat(ok) törlése a csoportból...';
 $messages['receiptsent'] = 'Az olvasási visszaigazolás el lett küldve';
 $messages['errorsendingreceipt'] = 'Az olvasási visszaigazolást nem sikerült elküldeni';
+$messages['deleteidentityconfirm'] = 'Biztosan törli ezt az azonosítót?';
 $messages['nodeletelastidentity'] = 'Az azonosító nem törölhető, lennie kell legalább egy azonosítónak!';
 $messages['forbiddencharacter'] = 'A mappa neve tiltott karaktert tartalmaz';
 $messages['selectimportfile'] = 'Kérjük válassza ki a feltölteni kívánt fájlt';
@@ -117,7 +118,7 @@ $messages['importerror'] = 'Az importálás sikertelen! A feltöltött állomán
 $messages['importconfirm'] = '<b>Sikeresen importálásra került $inserted kapcsolat, kihagyva $skipped már létező bejegyzés</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Kihagyva $skipped már létező bejegyzés</b>';
 $messages['opnotpermitted'] = 'A művelet nem megengedett!';
-$messages['nofromaddress'] = 'A kiválasztott feladónál hiányzik az e-mail cím!';
+$messages['nofromaddress'] = 'A kiválasztott azonosítónál nincs  email beállítva.';
 $messages['editorwarning'] = 'Az egyszerű szöveges formátumra való váltás az összes formázás elvesztésével jár. Biztosan folytatja?';
 $messages['httpreceivedencrypterror'] = 'Végzetes konfigurációs hiba történt, azonnal lépjen kapcsolatba az üzemeltetővel. <b>Az üzenet nem küldhető el.</b>';
 $messages['smtpconnerror'] = 'SMTP hiba ($code): Sikertelen kapcsolódás a szerverhez';

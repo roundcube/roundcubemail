@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: abuyop <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -56,7 +56,7 @@ $messages['noldapserver'] = 'Sila pilih satu pelayan ldap untuk carian';
 $messages['nosearchname'] = 'Sila masukkan nama kontek atau alamat emel';
 $messages['searchsuccessful'] = '$nr mesej dijumpai';
 $messages['searchnomatch'] = 'Carian tiada padanan';
-$messages['searching'] = 'Mencari...';
+$messages['searching'] = 'Menggelintar...';
 $messages['checking'] = 'Menyemak...';
 $messages['nospellerrors'] = 'Tiada kesalah ejaan dijumpai';
 $messages['folderdeleted'] = 'Kabinet fail berjaya dihapuskan';

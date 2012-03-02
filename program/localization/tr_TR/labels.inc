@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Gökdeniz Karadağ <Unknown>                                  |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -46,6 +46,7 @@ $labels['folders'] = 'Klasörler';
 $labels['messagesfromto'] = 'Postalar: $from - $to , Toplam: $count';
 $labels['threadsfromto'] = 'Dizilmler: $from - $to, Toplam $count';
 $labels['messagenrof'] = 'Posta: $nr / $count';
+$labels['fromtoshort'] = '$from - $to , Toplam: $count';
 $labels['copy'] = 'Kopyala';
 $labels['move'] = 'Taşı';
 $labels['moveto'] = 'Buraya taşı...';
@@ -92,13 +93,16 @@ $labels['longoct'] = 'Ekim';
 $labels['longnov'] = 'Kasım';
 $labels['longdec'] = 'Aralık';
 $labels['today'] = 'Bugün';
+$labels['refresh'] = 'Yenile';
 $labels['checkmail'] = 'Yeni postaları kontrol et';
 $labels['compose'] = 'Yeni posta oluştur';
 $labels['writenewmessage'] = 'Yeni posta oluştur';
+$labels['reply'] = 'Yanıtla';
 $labels['replytomessage'] = 'Gönderene yanıtla';
 $labels['replytoallmessage'] = 'Gönderene ve tüm alıcılara yanıtla';
 $labels['replyall'] = 'Tümüne yanıtla';
 $labels['replylist'] = 'Listeye yanıtla';
+$labels['forward'] = 'İlet';
 $labels['forwardinline'] = 'Postanın içinde ilet';
 $labels['forwardattachment'] = 'Eklenti olarak ilet';
 $labels['forwardmessage'] = 'Postayı ilet';
@@ -111,12 +115,16 @@ $labels['nextmessage'] = 'Sonraki postayı göster';
 $labels['lastmessage'] = 'Son postayı göster';
 $labels['backtolist'] = 'Posta listesine dön';
 $labels['viewsource'] = 'Kaynağı göster';
+$labels['mark'] = 'İşaretle';
 $labels['markmessages'] = 'Postaları işaretle';
 $labels['markread'] = 'okunmuş olarak';
 $labels['markunread'] = 'okunmamış olarak';
 $labels['markflagged'] = 'işaretli olarak';
 $labels['markunflagged'] = 'işaretsiz olarak';
 $labels['moreactions'] = 'Daha fazla eylem...';
+$labels['more'] = 'Daha Fazla';
+$labels['back'] = 'Geri';
+$labels['options'] = 'Seçenekler';
 $labels['select'] = 'Seç';
 $labels['all'] = 'Hepsini';
 $labels['none'] = 'Yok';
@@ -171,9 +179,11 @@ $labels['dsn'] = 'Teslimat durumu bildirisi';
 $labels['mailreplyintro'] = '$date, $sender yazmış:';
 $labels['originalmessage'] = 'Özgün ileti';
 $labels['editidents'] = 'Kimlikleri düzenle';
+$labels['spellcheck'] = 'Yazım denetimi';
 $labels['checkspelling'] = 'Yazım denetimi yap';
 $labels['resumeediting'] = 'Düzenlemeye devam et';
 $labels['revertto'] = 'Geri çevir:';
+$labels['attach'] = 'Ekle';
 $labels['attachments'] = 'Ekler';
 $labels['upload'] = 'Yükle';
 $labels['uploadprogress'] = '$percent ($current / $total)';
@@ -234,6 +244,7 @@ $labels['spouse'] = 'Eş';
 $labels['allfields'] = 'Tüm alanlar';
 $labels['search'] = 'Ara';
 $labels['advsearch'] = 'Gelişmiş ara';
+$labels['advanced'] = 'Gelişmiş';
 $labels['other'] = 'Diğer';
 $labels['typeother'] = 'Diğer';
 $labels['typehome'] = 'Ev';
@@ -374,6 +385,7 @@ $labels['reqdsn'] = 'Her zaman teslimat durumu bildirisi iste';
 $labels['replysamefolder'] = 'Yanıtları, yanıtlanan postanın bulunduğu klasöre kaydet';
 $labels['defaultaddressbook'] = 'Yeni kişileri seçili adres defterine ekle';
 $labels['autocompletesingle'] = 'Otomatik tamamlamalarda alternatif e-posta adreslerini atla';
+$labels['listnamedisplay'] = 'Kişiyi görüntüle';
 $labels['spellcheckbeforesend'] = 'Posta göndermeden önce yazım denetimi yap';
 $labels['spellcheckoptions'] = 'Yazım denetimi seçenekleri';
 $labels['spellcheckignoresyms'] = 'İçinde sembol geçen kelimleri göz ardı et';

@@ -106,6 +106,7 @@ $messages['addingmember'] = 'Yn ychwanegu cyswllt/cysylltiadau i\'r grŵp...';
 $messages['removingmember'] = 'Yn dileu cyswllt/cysylltiadau o\'r grŵp...';
 $messages['receiptsent'] = 'Danfonwyd cadarnhad derbyn yn llwyddiannus';
 $messages['errorsendingreceipt'] = 'Methwyd danfon cadarnhad derbyn';
+$messages['deleteidentityconfirm'] = 'Ydych chi wir am ddileu\'r personoliaeth hwn?';
 $messages['nodeletelastidentity'] = 'Allwch chi ddim dileu\'r personoliaeth yma, hwn yw\'r un olaf.';
 $messages['forbiddencharacter'] = 'Mae enw\'r ffolder yn cynnwys llythyren annerbynniol';
 $messages['selectimportfile'] = 'Dewiswch ffeil i\'w lwytho fyny';
