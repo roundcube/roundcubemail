@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Upgraded to jQuery 1.7.1 (#1488337) and jQuery UI 1.8.18
 - Add Russian to the spellchecker languages list (#1488135)
 - Remember custom skin selection after logout (#1488355)
 - Make sure About tab is always the last tab (#1488257)
