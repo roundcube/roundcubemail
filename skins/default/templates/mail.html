@@ -34,7 +34,7 @@
   <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 
 <roundcube:if condition="env:quota" />
-<img id="quotaimg" src="/images/quota.<roundcube:exp expression="browser:ie && browser:ver < 7 ? 'gif' : 'png'" />" alt="" />
+<img id="quotaimg" src="/images/quota.<roundcube:exp expression="browser:ie && browser:ver < 7 ? 'gif' : 'png'" />" alt="" width="102" height="16" />
 <div id="quota">
   <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
 </div>
@@ -124,9 +124,9 @@
   <label for="rcmlistfilter"><roundcube:label name="filter" /></label>:
   <roundcube:object name="searchfilter" class="searchfilter" />
 </div>
-<roundcube:button name="searchmenulink" id="searchmenulink" image="/images/icons/glass_roll.png" onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" />
+<roundcube:button name="searchmenulink" id="searchmenulink" image="/images/icons/glass_roll.png" onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" width="16" height="16" />
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
+<roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" width="13" height="13" />
 </div>
 
 <div id="dragmessagemenu" class="popupmenu">
