@@ -1332,6 +1332,21 @@ div.hide-headers
   resize: none;
 }
 
+#compose-body_tbl
+{
+  border: 1px solid #999;
+}
+
+#compose-body_tbl td
+{
+  border: none;
+}
+
+#compose-body_tbl tr.mceFirst td.mceToolbar
+{
+  border-bottom: 1px solid #ccc;
+}
+
 #compose-headers
 {
   width: 100%;
