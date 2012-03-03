@@ -272,20 +272,6 @@ function rcube_webmail()
 
           // init message compose form
           this.init_messageform();
-
-          // init address book widget
-          if (this.gui_objects.contactslist) {
-            this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
-              { multiselect:true, draggable:false, keyboard:false });
-            this.contact_list.addEventListener('select', function(o){ ref.compose_recipient_select(o); });
-            this.contact_list.addEventListener('dblclick', function(o){ ref.compose_add_recipient('to'); });
-            this.contact_list.init();
-          }
-
-          if (this.gui_objects.addressbookslist) {
-            this.gui_objects.folderlist = this.gui_objects.addressbookslist;
-            this.enable_command('list-adresses', true);
-          }
         }
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid)
@@ -299,6 +285,20 @@ function rcube_webmail()
           this.env.unread_counts = {};
           this.gui_objects.folderlist = this.gui_objects.mailboxlist;
           this.http_request('getunread', '');
+        }
+
+        // init address book widget
+        if (this.gui_objects.contactslist) {
+          this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
+            { multiselect:true, draggable:false, keyboard:false });
+          this.contact_list.addEventListener('select', function(o){ ref.compose_recipient_select(o); });
+          this.contact_list.addEventListener('dblclick', function(o){ ref.compose_add_recipient('to'); });
+          this.contact_list.init();
+        }
+
+        if (this.gui_objects.addressbookslist) {
+          this.gui_objects.folderlist = this.gui_objects.addressbookslist;
+          this.enable_command('list-adresses', true);
         }
 
         // ask user to send MDN
