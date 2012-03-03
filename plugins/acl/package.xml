@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+	<name>acl</name>
+	<channel>pear.roundcube.net</channel>
+	<summary>Folders Access Control Lists</summary>
+	<description>IMAP Folders Access Control Lists Management (RFC4314, RFC2086).</description>
+	<lead>
+		<name>Aleksander Machniak</name>
+		<user>alec</user>
+		<email>alec@alec.pl</email>
+		<active>yes</active>
+	</lead>
+	<date>2012-01-10</date>
+	<version>
+		<release>0.7</release>
+		<api>0.7</api>
+	</version>
+	<stability>
+		<release>stable</release>
+		<api>stable</api>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	<notes>-</notes>
+	<contents>
+		<dir baseinstalldir="/" name="/">
+			<file name="acl.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="acl.js" role="data">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="config.inc.php.dist" role="data"></file>
+			<file name="localization/de_DE.inc" role="data"></file>
+			<file name="localization/en_US.inc" role="data"></file>
+			<file name="localization/pl_PL.inc" role="data"></file>
+			<file name="skins/default/acl.css" role="data"></file>
+			<file name="skins/default/images/enabled.png" role="data"></file>
+			<file name="skins/default/images/partial.png" role="data"></file>
+			<file name="skins/default/templates/table.html" role="data"></file>
+		</dir>
+		<!-- / -->
+	</contents>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.2.1</min>
+			</php>
+			<pearinstaller>
+				<min>1.7.0</min>
+			</pearinstaller>
+		</required>
+	</dependencies>
+	<phprelease/>
+</package>

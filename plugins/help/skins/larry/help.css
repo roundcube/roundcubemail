@@ -1,0 +1,19 @@
+
+#helpcontentframe {
+	border: 0;
+	border-radius: 4px;
+}
+
+#mainscreen .readtext {
+	margin: 0 auto;
+}
+
+#helptoolbar {
+	position: absolute;
+	top: -6px;
+	right: 0;
+	right: 0;
+	height: 40px;
+	white-space: nowrap;
+}
+
