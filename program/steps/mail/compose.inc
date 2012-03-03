@@ -1519,7 +1519,7 @@ function get_form_tags($attrib)
 }
 
 
-function rcmail_adressbook_list($attrib = array())
+function rcmail_addressbook_list($attrib = array())
 {
     global $RCMAIL, $OUTPUT;
 
@@ -1548,7 +1548,7 @@ function rcmail_adressbook_list($attrib = array())
             $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
     }
 
-    $OUTPUT->add_gui_object('adressbookslist', $attrib['id']);
+    $OUTPUT->add_gui_object('addressbookslist', $attrib['id']);
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }
@@ -1584,7 +1584,7 @@ $OUTPUT->add_handlers(array(
   'receiptcheckbox' => 'rcmail_receipt_checkbox',
   'dsncheckbox' => 'rcmail_dsn_checkbox',
   'storetarget' => 'rcmail_store_target_selection',
-  'adressbooks' => 'rcmail_adressbook_list',
+  'addressbooks' => 'rcmail_addressbook_list',
   'addresslist' => 'rcmail_contacts_list',
 ));
 

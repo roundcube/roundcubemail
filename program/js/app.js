@@ -277,13 +277,13 @@ function rcube_webmail()
           if (this.gui_objects.contactslist) {
             this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
               { multiselect:true, draggable:false, keyboard:false });
-            this.contact_list.addEventListener('select', function(o){ ref.compose_recipeint_select(o); });
+            this.contact_list.addEventListener('select', function(o){ ref.compose_recipient_select(o); });
             this.contact_list.addEventListener('dblclick', function(o){ ref.compose_add_recipient('to'); });
             this.contact_list.init();
           }
 
-          if (this.gui_objects.adressbookslist) {
-            this.gui_objects.folderlist = this.gui_objects.adressbookslist;
+          if (this.gui_objects.addressbookslist) {
+            this.gui_objects.folderlist = this.gui_objects.addressbookslist;
             this.enable_command('list-adresses', true);
           }
         }
@@ -2998,7 +2998,7 @@ function rcube_webmail()
       .attr('autocomplete', 'off');
   };
   
-  this.compose_recipeint_select = function(list)
+  this.compose_recipient_select = function(list)
   {
     this.enable_command('add-recipient', list.selection.length > 0);
   };
