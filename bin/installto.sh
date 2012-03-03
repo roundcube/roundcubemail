@@ -47,7 +47,7 @@ $input = trim(fgets(STDIN));
 if (strtolower($input) == 'y') {
   $err = false;
   echo "Copying files to target location...";
-  foreach (array('program','installer','bin','SQL','plugins','skins/default') as $dir) {
+  foreach (array('program','installer','bin','SQL','plugins','skins') as $dir) {
     if (!system("rsync -avC " . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
       $err = true;
       break;

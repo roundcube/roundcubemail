@@ -1,7 +1,11 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Copy all skins in installto script (#1488376)
 - Prevent from folder selection on virtual folder collapsing (#1488346)
+
+RELEASE 0.8-beta
+----------------
 - Upgraded to jQuery 1.7.1 (#1488337) and jQuery UI 1.8.18
 - Add Russian to the spellchecker languages list (#1488135)
 - Remember custom skin selection after logout (#1488355)
