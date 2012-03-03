@@ -1444,8 +1444,9 @@ function rcube_webmail()
       div.removeClass('expanded').addClass('collapsed');
       this.env.collapsed_folders = this.env.collapsed_folders+'&'+urlencode(name)+'&';
 
-      // select parent folder if one of its childs is currently selected
-      if (this.env.mailbox.indexOf(name + this.env.delimiter) == 0)
+      // select the folder if one of its childs is currently selected
+      // don't select if it's virtual (#1488346)
+      if (this.env.mailbox.indexOf(name + this.env.delimiter) == 0 && !$(li).hasClass('virtual'))
         this.command('list', name);
     }
     else

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Prevent from folder selection on virtual folder collapsing (#1488346)
 - Upgraded to jQuery 1.7.1 (#1488337) and jQuery UI 1.8.18
 - Add Russian to the spellchecker languages list (#1488135)
 - Remember custom skin selection after logout (#1488355)
