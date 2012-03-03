@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Prevent from folder selection on virtual folder collapsing (#1488346)
+- Fix automatic unsubscribe of non-existent folders
+- Fix double-quotes handling in recipient names
 - User configurable setting how to display contact names in list
 - Make contacts list sorting configurable for the admin/user
 - Fix parse errors in DDL files for MS SQL Server

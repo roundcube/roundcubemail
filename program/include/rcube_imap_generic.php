@@ -2279,12 +2279,16 @@ class rcube_imap_generic
                         $folders[$mailbox] = array();
                     }
 
-                    // Add to options array
-                    if (empty($this->data['LIST'][$mailbox]))
-                        $this->data['LIST'][$mailbox] = $opts;
-                    else if (!empty($opts))
-                        $this->data['LIST'][$mailbox] = array_unique(array_merge(
-                            $this->data['LIST'][$mailbox], $opts));
+                    // store LSUB options only if not empty, this way
+                    // we can detect a situation when LIST doesn't return specified folder
+                    if (!empty($opts) || $cmd == 'LIST') {
+                        // Add to options array
+                        if (empty($this->data['LIST'][$mailbox]))
+                            $this->data['LIST'][$mailbox] = $opts;
+                        else if (!empty($opts))
+                            $this->data['LIST'][$mailbox] = array_unique(array_merge(
+                                $this->data['LIST'][$mailbox], $opts));
+                    }
                 }
                 // * STATUS <mailbox> (<result>)
                 else if ($cmd == 'STATUS') {
