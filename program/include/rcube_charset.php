@@ -78,7 +78,7 @@ class rcube_charset
      * @param  int    Level of the error
      * @param  string Error message
      */
-    public function error_handler($errno, $errstr)
+    public static function error_handler($errno, $errstr)
     {
         throw new ErrorException($errstr, 0, $errno);
     }

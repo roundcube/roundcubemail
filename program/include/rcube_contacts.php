@@ -883,7 +883,7 @@ class rcube_contacts extends rcube_addressbook
      * @param string New name to set for this group
      * @return boolean New name on success, false if no data was changed
      */
-    function rename_group($gid, $newname)
+    function rename_group($gid, $newname, &$new_gid)
     {
         // make sure we have a unique name
         $name = $this->unique_groupname($newname);

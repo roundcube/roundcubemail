@@ -335,10 +335,6 @@ class html_inputfield extends html
         if ($attrib['type']) {
             $this->type = $attrib['type'];
         }
-
-        if ($attrib['newline']) {
-            $this->newline = true;
-        }
     }
 
     /**
@@ -381,11 +377,12 @@ class html_passwordfield extends html_inputfield
  * @package HTML
  */
 
-class html_hiddenfield extends html_inputfield
+class html_hiddenfield extends html
 {
+    protected $tagname = 'input';
     protected $type = 'hidden';
     protected $fields_arr = array();
-    protected $newline = true;
+    protected $allowed = array('type','name','value','onchange','disabled','readonly');
 
     /**
      * Constructor
