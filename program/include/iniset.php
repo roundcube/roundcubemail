@@ -65,7 +65,7 @@ if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
 }
 
-ini_set('error_reporting', E_ALL&~E_NOTICE);
+ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
