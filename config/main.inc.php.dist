@@ -195,6 +195,7 @@ $rcmail_config['force_https'] = false;
 // tell PHP that it should work as under secure connection
 // even if it doesn't recognize it as secure ($_SERVER['HTTPS'] is not set)
 // e.g. when you're running Roundcube behind a https proxy
+// this option is mutually exclusive to 'force_https' and only either one of them should be set to true.
 $rcmail_config['use_https'] = false;
 
 // Allow browser-autocompletion on login form.
