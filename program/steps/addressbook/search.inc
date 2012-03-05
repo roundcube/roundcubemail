@@ -144,6 +144,7 @@ function rcmail_contact_search()
     $sources    = $RCMAIL->get_address_sources();
     $search_set = array();
     $records    = array();
+    $sort_col   = $RCMAIL->config->get('addressbook_sort_col', 'name');
 
     foreach ($sources as $s) {
         $source = $RCMAIL->get_address_book($s['id']);
@@ -182,7 +183,7 @@ function rcmail_contact_search()
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s['id'];
-            $key = $row['name'] . ':' . $row['sourceid'];
+            $key = rcmail_contact_key($row, $sort_col);
             $records[$key] = $row;
         }
 
