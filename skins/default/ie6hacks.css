@@ -16,10 +16,10 @@ img
   height: 47px;
 }
 
-#message div.notice,
-#message div.error,
-#message div.warning,
-#message div.confirmation,
+body > #message div.notice,
+body > #message div.error,
+body > #message div.warning,
+body > #message div.confirmation,
 #message-objects div.notice,
 #message-objects div.error,
 #message-objects div.warning,

@@ -38,7 +38,7 @@ body.iframe #prefs-details
   filter: alpha(opacity=35);
 }
 
-#message
+body > #message
 {
   filter: alpha(opacity=85);
 }

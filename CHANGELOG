@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix displaying of HTML messages from Disqus (#1488372)
 - Disable E_STRICT warnings on PHP 5.4
 - Prevent from folder selection on virtual folder collapsing (#1488346)
 - Fix automatic unsubscribe of non-existent folders
