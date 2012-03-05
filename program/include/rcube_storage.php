@@ -109,6 +109,14 @@ abstract class rcube_storage
 
 
     /**
+     * Check connection state, connect if not connected.
+     *
+     * @return bool Connection state.
+     */
+    abstract function check_connection();
+
+
+    /**
      * Returns code of last error
      *
      * @return int Error code

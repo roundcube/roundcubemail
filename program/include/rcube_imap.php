@@ -212,6 +212,8 @@ class rcube_imap extends rcube_storage
 
     /**
      * Check connection state, connect if not connected.
+     *
+     * @return bool Connection state.
      */
     public function check_connection()
     {
