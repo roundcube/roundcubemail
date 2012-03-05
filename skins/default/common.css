@@ -154,7 +154,7 @@ img
   left: 20px;
 }
 
-#header
+body > #header
 {
   position: absolute;
   top: 8px;
@@ -212,7 +212,7 @@ img
   background-position: 0 -75px;
 }
 
-#message
+body > #message
 {
   position: absolute;
   display: none;
@@ -223,7 +223,7 @@ img
   opacity: 0.85;
 }
 
-#message div
+body > #message div
 {
   width: 400px;
   margin: 0px;
@@ -231,8 +231,8 @@ img
   padding: 8px 10px 8px 46px;
 }
 
-#message div.notice,
-#messagebody .part-notice,
+body > #message div.notice,
+body > #messagebody .part-notice,
 #message-objects div.notice
 {
   background: url(images/display/icons.png) 6px 3px no-repeat;
@@ -240,8 +240,8 @@ img
   border: 1px solid #C2D071;
 }
 
-#message div.error,
-#message div.warning,
+body > #message div.error,
+body > #message div.warning,
 #message-objects div.warning,
 #message-objects div.error
 {
@@ -250,7 +250,7 @@ img
   border: 1px solid #DC5757;
 }
 
-#message div.confirmation,
+body > #message div.confirmation,
 #message-objects div.confirmation
 {
   background: url(images/display/icons.png) 6px -47px no-repeat;
@@ -258,7 +258,7 @@ img
   border: 1px solid #76C83F;
 }
 
-#message div.loading,
+body > #message div.loading,
 #message-objects div.loading
 {
   background: url(images/display/loading.gif) 6px 3px no-repeat;
@@ -266,7 +266,7 @@ img
   border: 1px solid #CCCCCC;
 }
 
-#message a
+body > #message a
 {
   cursor: pointer;
   text-decoration: underline;
