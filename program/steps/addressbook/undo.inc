@@ -68,13 +68,6 @@ if ($delcnt && ($search_request = $_REQUEST['_search']) && isset($_SESSION['sear
             continue;
         }
 
-        while ($row = $result->next()) {
-            $row['sourceid'] = $s;
-            $key = $row['name'] . ':' . $row['sourceid'];
-            $records[$key] = $row;
-        }
-        unset($result);
-
         $search[$s] = $source->get_search_set();
     }
 

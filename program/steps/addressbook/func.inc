@@ -729,6 +729,24 @@ function rcmail_format_date_col($val)
 }
 
 
+function rcmail_contact_key($row, $sort_col)
+{
+    $key = $row[$sort_col] . ':' . $row['sourceid'];
+
+    // add email to a key to not skip contacts with the same name (#1488375)
+    if (!empty($row['email'])) {
+         if (is_array($row['email'])) {
+             $key .= ':' . implode(':', $row['email']);
+         }
+         else {
+             $key .= ':' . $row['email'];
+         }
+     }
+
+     return $key;
+}
+
+
 /**
  * Returns contact ID(s) and source(s) from GET/POST data
  *

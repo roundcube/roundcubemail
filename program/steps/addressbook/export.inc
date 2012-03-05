@@ -27,6 +27,7 @@
 // Use search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
 {
+    $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
     $search  = (array)$_SESSION['search'][$_REQUEST['_search']];
     $records = array();
 
@@ -44,7 +45,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s;
-            $key = $row['name'] . ':' . $row['sourceid'];
+            $key = rcmail_contact_key($row, $sort_col);
             $records[$key] = $row;
         }
         unset($result);
