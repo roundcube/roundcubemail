@@ -16,6 +16,7 @@ $optional_php_exts = array(
     'OpenSSL'   => 'openssl',
     'Mcrypt'    => 'mcrypt',
     'Intl'      => 'intl',
+    'Exif'      => 'exif',
 );
 
 $required_libs = array(
@@ -57,10 +58,12 @@ $source_urls = array(
     'JSON'      => 'http://www.php.net/manual/en/book.json.php',
     'DOM'       => 'http://www.php.net/manual/en/book.dom.php',
     'Intl'      => 'http://www.php.net/manual/en/book.intl.php',
+    'Exif'      => 'http://www.php.net/manual/en/book.exif.php',
     'PEAR'      => 'http://pear.php.net',
     'MDB2'      => 'http://pear.php.net/package/MDB2',
     'Net_SMTP'  => 'http://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
+    'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
 );
 
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';
