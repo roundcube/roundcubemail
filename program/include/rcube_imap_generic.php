@@ -3511,13 +3511,16 @@ class rcube_imap_generic
         if ($string === null) {
             return 'NIL';
         }
+
         if ($string === '') {
             return '""';
         }
+
         // atom-string (only safe characters)
-        if (!$force_quotes && !preg_match('/[\x00-\x20\x22\x28-\x2A\x5B-\x5D\x7B\x7D\x80-\xFF]/', $string)) {
+        if (!$force_quotes && !preg_match('/[\x00-\x20\x22\x25\x28-\x2A\x5B-\x5D\x7B\x7D\x80-\xFF]/', $string)) {
             return $string;
         }
+
         // quoted-string
         if (!preg_match('/[\r\n\x00\x80-\xFF]/', $string)) {
             return '"' . addcslashes($string, '\\"') . '"';
