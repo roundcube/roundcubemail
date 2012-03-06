@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of % character in IMAP protocol (#1488382)
 - Fix duplicate names handling in addressbook searches (#1488375)
 - Fix displaying HTML messages from Disqus (#1488372)
 - Exclude E_STRICT from error_reporting for PHP 5.4
