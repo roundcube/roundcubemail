@@ -81,7 +81,7 @@ abstract class rcube_plugin
     $this->home = $api->dir . $this->ID;
     $this->urlbase = $api->url . $this->ID . '/';
   }
-  
+
   /**
    * Initialization method, needs to be implemented by the plugin itself
    */
@@ -117,7 +117,7 @@ abstract class rcube_plugin
         'message' => "Failed to load config from $fpath"), true, false);
       return false;
     }
-    
+
     return true;
   }
 
@@ -131,7 +131,18 @@ abstract class rcube_plugin
   {
     $this->api->register_hook($hook, $callback);
   }
-  
+
+  /**
+   * Unregister a callback function for a specific (server-side) hook.
+   *
+   * @param string $hook Hook name
+   * @param mixed  $callback Callback function as string or array with object reference and method name
+   */
+  public function remove_hook($hook, $callback)
+  {
+    $this->api->unregister_hook($hook, $callback);
+  }
+
   /**
    * Load localized texts from the plugins dir
    *
@@ -141,7 +152,7 @@ abstract class rcube_plugin
   public function add_texts($dir, $add2client = false)
   {
     $domain = $this->ID;
-    
+
     $lang = $_SESSION['language'];
     $locdir = slashify(realpath(slashify($this->home) . $dir));
     $texts = array();
@@ -167,7 +178,7 @@ abstract class rcube_plugin
 
       $rcmail = rcmail::get_instance();
       $rcmail->load_language($lang, $add);
-      
+
       // add labels to client
       if ($add2client) {
         $js_labels = is_array($add2client) ? array_map(array($this, 'label_map_callback'), $add2client) : array_keys($add);
@@ -175,7 +186,7 @@ abstract class rcube_plugin
       }
     }
   }
-  
+
   /**
    * Wrapper for rcmail::gettext() adding the plugin ID as domain
    *
@@ -245,7 +256,7 @@ abstract class rcube_plugin
   {
     $this->api->include_stylesheet($this->resource_url($fn));
   }
-  
+
   /**
    * Append a button to a certain container
    *
@@ -260,11 +271,11 @@ abstract class rcube_plugin
       foreach (array('imagepas', 'imageact', 'imagesel') as $key)
         if ($p[$key])
           $p[$key] = $this->api->url . $this->resource_url($p[$key]);
-      
+
       $this->api->add_content($this->api->output->button($p), $container);
     }
   }
-  
+
   /**
    * Generate an absolute URL to the given resource within the current
    * plugin directory
@@ -315,6 +326,4 @@ abstract class rcube_plugin
     return $this->ID.'.'.$key;
   }
 
-
 }
-

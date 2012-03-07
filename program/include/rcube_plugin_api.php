@@ -230,6 +230,20 @@ class rcube_plugin_api
         'message' => "Invalid callback function for $hook"), true, false);
   }
 
+  /**
+   * Allow a plugin object to unregister a callback.
+   *
+   * @param string $hook Hook name
+   * @param mixed  $callback String with global function name or array($obj, 'methodname')
+   */
+  public function unregister_hook($hook, $callback)
+  {
+    $callback_id = array_search($callback, $this->handlers[$hook]);
+    if ($callback_id !== false) {
+      unset($this->handlers[$hook][$callback_id]);
+    }
+  }
+
 
   /**
    * Triggers a plugin hook.
