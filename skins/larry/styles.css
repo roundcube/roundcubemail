@@ -1674,6 +1674,7 @@ ul.toolbarmenu li span.conversation {
 	min-height: 14px;
 	padding: 6px 10px 6px 10px;
 	border: 0;
+	cursor: default;
 }
 
 .popupdialog {
