@@ -558,6 +558,44 @@ prev_sibling: function(elm)
 
 };
 
+/**
+ * Scroller
+ */
+
+function rcmail_scroller(list, top, bottom)
+{
+  var ref = this;
+
+  this.list = $(list);
+  this.top = $(top);
+  this.bottom = $(bottom);
+  this.step_size = 6;
+  this.step_time = 20;
+  this.delay = 500;
+
+  this.top
+    .mouseenter(function() { ref.ts = window.setTimeout(function() { ref.scroll('down'); }, ref.delay); })
+    .mouseout(function() { if (ref.ts) window.clearTimeout(ref.ts); });
+
+  this.bottom
+    .mouseenter(function() { ref.ts = window.setTimeout(function() { ref.scroll('up'); }, ref.delay); })
+    .mouseout(function() { if (ref.ts) window.clearTimeout(ref.ts); });
+
+  this.scroll = function(dir)
+  {
+    var ref = this, size = this.step_size;
+
+    if (!rcmail.drag_active)
+      return;
+
+    if (dir == 'down')
+      size *= -1;
+
+    this.list.get(0).scrollTop += size;
+    this.ts = window.setTimeout(function() { ref.scroll(dir); }, this.step_time);
+  };
+};
+
 
 // Events handling in iframes (eg. preview pane)
 function iframe_events()
@@ -565,7 +603,7 @@ function iframe_events()
   // this==iframe
   var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
   rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
-}
+};
 
 // Abbreviate mailbox names to fit width of the container
 function rcube_render_mailboxlist()
@@ -592,7 +630,7 @@ function rcube_render_mailboxlist()
       elem.attr('title', text);
     elem.contents().filter(function(){ return (this.nodeType == 3); }).get(0).data = abbrev;
   });
-}
+};
 
 // inspired by https://gist.github.com/24261/7fdb113f1e26111bd78c0c6fe515f6c0bf418af5
 function fit_string_to_size(str, elem, len)
@@ -636,12 +674,12 @@ function fit_string_to_size(str, elem, len)
   }
 
   return result;
-}
+};
 
 function update_quota(data)
 {
   percent_indicator(rcmail.gui_objects.quotadisplay, data);
-}
+};
 
 // percent (quota) indicator
 function percent_indicator(obj, data)
@@ -705,7 +743,7 @@ function percent_indicator(obj, data)
   $(obj).html('').append(bar1).append(bar2).append(main);
   // update #quotaimg title
   $('#quotaimg').attr('title', data.title);
-}
+};
 
 // Optional parameters used by TinyMCE
 var rcmail_editor_settings = {
@@ -740,6 +778,8 @@ function rcube_init_mail_ui()
       rcmail.addEventListener('responseaftergetunread', rcube_render_mailboxlist);
       rcmail.addEventListener('responseaftercheck-recent', rcube_render_mailboxlist);
       rcmail.addEventListener('aftercollapse-folder', rcube_render_mailboxlist);
+
+      new rcmail_scroller('#mailboxlist-content', '#mailboxlist-title', '#mailboxlist-footer');
     }
 
     if (rcmail.env.action == 'compose')
@@ -747,5 +787,12 @@ function rcube_init_mail_ui()
   }
   else if (rcmail.env.task == 'addressbook') {
     rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); });
+
+    if (rcmail.gui_objects.folderlist)
+      new rcmail_scroller('#directorylist-content', '#directorylist-title', '#directorylist-footer');
+  }
+  else if (rcmail.env.task == 'settings') {
+    if (rcmail.gui_objects.subscriptionlist)
+      new rcmail_scroller('#folderlist-content', '#folderlist-title', '#folderlist-footer');
   }
 }

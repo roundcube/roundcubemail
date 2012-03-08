@@ -21,12 +21,12 @@
 <div id="mainscreen">
 
 <div id="folder-manager">
-<div id="folder-title" class="boxtitle"><span class="rightalign"><roundcube:label name="subscribed" /></span><roundcube:label name="folders" /></div>
-<div class="boxlistcontent">
+<div id="folderlist-title" class="boxtitle"><span class="rightalign"><roundcube:label name="subscribed" /></span><roundcube:label name="folders" /></div>
+<div id="folderlist-content" class="boxlistcontent">
     <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" noheader="true"
         cellpadding="1" cellspacing="0" summary="Folder subscription table" class="records-table" />
 </div>
-<div class="boxfooter">
+<div id="folderlist-footer" class="boxfooter">
     <roundcube:button command="create-folder" type="link" title="createfolder" class="buttonPas addgroup" classAct="button addgroup" content=" " />
     <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Scroll long lists on drag&drop (#1485946)
 - Fix handling of % character in IMAP protocol (#1488382)
 - Fix duplicate names handling in addressbook searches (#1488375)
 - Fix displaying HTML messages from Disqus (#1488372)

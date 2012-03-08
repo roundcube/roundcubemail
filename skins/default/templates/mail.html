@@ -27,10 +27,10 @@
 <div id="mailleftcontainer">
 <div id="mailboxlist-container">
 <div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
-<div class="boxlistcontent">
+<div id="mailboxlist-content"  class="boxlistcontent">
 <roundcube:object name="mailboxlist" id="mailboxlist" folder_filter="mail" />
 </div>
-<div class="boxfooter">
+<div id="mailboxlist-footer" class="boxfooter">
   <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 
 <roundcube:if condition="env:quota" />
