@@ -431,6 +431,7 @@ function rcube_webmail()
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {
           $('input[type=submit]', this).prop('disabled', true);
+          rcmail.clear_messages();
           rcmail.display_message('', 'loading');
         });
 
@@ -5542,6 +5543,23 @@ function rcube_webmail()
         }
       }
     }
+  };
+
+  // remove all messages immediately
+  this.clear_messages = function()
+  {
+    // pass command to parent window
+    if (this.is_framed())
+      return parent.rcmail.clear_messages();
+
+    var k, n, m = this.messages;
+
+    for (k in m)
+      for (n in m[k].elements)
+        if (m[k].obj)
+          m[k].obj.hide();
+
+    this.messages = {};
   };
 
   // mark a mailbox as selected and set environment variable
