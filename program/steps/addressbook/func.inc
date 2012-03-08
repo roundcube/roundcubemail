@@ -616,10 +616,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
                         if ($colprop['subtypes'] || $colprop['limit'] != 1)
                             $colprop['array'] = true;
 
-                        // load jquery UI datepickert for date fields
+                        // load jquery UI datepicker for date fields
                         if ($colprop['type'] == 'date') {
                             $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
-                            $val = rcmail_format_date_col($val);
+                            if (!$colprop['render_func'])
+                                $val = rcmail_format_date_col($val);
                         }
 
                         $val = rcmail_get_edit_field($col, $val, $colprop, $colprop['type']);
