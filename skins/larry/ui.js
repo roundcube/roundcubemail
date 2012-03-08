@@ -176,26 +176,30 @@ function rcube_mail_ui()
     $('.tabbed').each(function(idx, elem){ init_tabs(elem); })
 
     // decorate select elements
-    if (!bw.opera) {
-      $('select.decorated').each(function(){
-        var title = $('option', this).first().text();
-        if ($('option:selected', this).val() != '')
-          title = $('option:selected', this).text();
-        var select = $(this)
-          .change(function(){
-            var val = $('option:selected', this).text();
-            $(this).next().children().html(val);
-          });
+    $('select.decorated').each(function(){
+      if (bw.opera) {
+        $(this).removeClass('decorated');
+        return;
+      }
 
-        $('<a class="menuselector dropdownselector"><span class="handle">' + title + '</span></a>')
-          .css('position', 'absolute')
-          .offset(select.position())
-          .insertAfter(select)
-          .children().width(select.outerWidth() - 40);
+      var title = $('option', this).first().text();
+      if ($('option:selected', this).val() != '')
+        title = $('option:selected', this).text();
 
-        select.parent().css('position', 'relative');
-      });
-    }
+      var select = $(this)
+        .change(function(){
+          var val = $('option:selected', this).text();
+          $(this).next().children().html(val);
+        });
+
+      $('<a class="menuselector dropdownselector"><span class="handle">' + title + '</span></a>')
+        .css('position', 'absolute')
+        .offset(select.position())
+        .insertAfter(select)
+        .children().width(select.outerWidth() - 40);
+
+      select.parent().css('position', 'relative');
+    });
 
     $(document.body)
       .bind('mouseup', body_mouseup)
