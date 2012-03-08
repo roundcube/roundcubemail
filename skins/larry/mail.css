@@ -50,6 +50,12 @@
 	left: auto !important;
 }
 
+#folderlist-header {
+	width: 100%;
+	height: 12px;
+	top: 32px;
+}
+
 #mailboxcontainer,
 #messagelistcontainer {
 	position: absolute;

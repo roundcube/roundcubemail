@@ -112,6 +112,8 @@ function rcube_mail_ui()
         if (previewframe)
           mailviewsplit.init();
 
+        new rcube_scroller('#folderlist-content', '#folderlist-header', '#folderlist-footer');
+
         rcmail.addEventListener('setquota', update_quota);
       }
 
@@ -135,6 +137,8 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'folderviewsplitter', p1:'#folderslist', p2:'#folder-details',
           orientation:'v', relative:true, start:305, min:150, size:12 }).init();
 
+        new rcube_scroller('#folderslist-content', '#folderslist-header', '#folderslist-footer');
+
         rcmail.addEventListener('setquota', update_quota);
       }
       else if (rcmail.env.action == 'identities') {
@@ -151,6 +155,8 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:226, min:150, size:12, render:resize_leftcol }).init();
         new rcube_splitter({ id:'addressviewsplitter', p1:'#addresslist', p2:'#contacts-box',
           orientation:'v', relative:true, start:296, min:220, size:12 }).init();
+
+        new rcube_scroller('#directorylist-content', '#directorylist-header', '#directorylist-footer');
       }
     }
     /***  login page  ***/
@@ -837,6 +843,43 @@ function rcube_mail_ui()
 }
 
 
+/**
+ * Roundcube Scroller class
+ */
+function rcube_scroller(list, top, bottom)
+{
+  var ref = this;
+
+  this.list = $(list);
+  this.top = $(top);
+  this.bottom = $(bottom);
+  this.step_size = 6;
+  this.step_time = 20;
+  this.delay = 500;
+
+  this.top
+    .mouseenter(function() { ref.ts = window.setTimeout(function() { ref.scroll('down'); }, ref.delay); })
+    .mouseout(function() { if (ref.ts) window.clearTimeout(ref.ts); });
+
+  this.bottom
+    .mouseenter(function() { ref.ts = window.setTimeout(function() { ref.scroll('up'); }, ref.delay); })
+    .mouseout(function() { if (ref.ts) window.clearTimeout(ref.ts); });
+
+  this.scroll = function(dir)
+  {
+    var ref = this, size = this.step_size;
+
+    if (!rcmail.drag_active)
+      return;
+
+    if (dir == 'down')
+      size *= -1;
+
+    this.list.get(0).scrollTop += size;
+    this.ts = window.setTimeout(function() { ref.scroll(dir); }, this.step_time);
+  };
+};
+
 
 /**
  * Roundcube UI splitter class
@@ -1067,4 +1110,3 @@ rcube_splitter.get_instance = function(id)
 {
   return rcube_splitter._instances[id];
 };
-
