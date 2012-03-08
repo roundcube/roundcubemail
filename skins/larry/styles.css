@@ -1475,6 +1475,18 @@ select.decorated option {
 }
 
 
+/*** quota indicator ***/
+
+#quotadisplay {
+	left: 6px;
+	font-size: 12px;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #fff;
+	padding-left: 30px;
+	height: 18px;
+	background: url(images/quota.png) -100px 0 no-repeat;
+}
+
 /*** popup menus ***/
 
 .popupmenu,
@@ -1922,5 +1934,3 @@ fieldset.tab {
 	padding: 0;
 	margin-left: 0;
 }
-
-

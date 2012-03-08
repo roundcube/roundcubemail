@@ -134,6 +134,8 @@ function rcube_mail_ui()
       if (rcmail.env.action == 'folders') {
         new rcube_splitter({ id:'folderviewsplitter', p1:'#folderslist', p2:'#folder-details',
           orientation:'v', relative:true, start:305, min:150, size:12 }).init();
+
+        rcmail.addEventListener('setquota', update_quota);
       }
       else if (rcmail.env.action == 'identities') {
         new rcube_splitter({ id:'identviewsplitter', p1:'#identitieslist', p2:'#identity-details',
@@ -337,7 +339,7 @@ function rcube_mail_ui()
     else {
       $('#googie_edit_layer').height(h+'px');
     }
-    
+
     var abooks = $('#directorylist');
     $('#compose-contacts .scroller').css('top', abooks.position().top + abooks.outerHeight());
   }

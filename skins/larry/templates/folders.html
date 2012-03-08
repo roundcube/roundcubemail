@@ -21,6 +21,9 @@
 </div>
 <div class="boxfooter">
 	<roundcube:button command="create-folder" type="link" title="createfolder" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.show_popup('mailboxmenu');return false" innerClass="inner" content="&#9881;" />
+	<roundcube:if condition="env:quota" />
+		<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
+	<roundcube:endif />
 </div>
 </div>
 

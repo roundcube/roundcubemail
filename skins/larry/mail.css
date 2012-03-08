@@ -934,16 +934,6 @@ div.message-part blockquote blockquote blockquote {
 	border: 0;
 }
 
-#quotadisplay {
-	left: 6px;
-	font-size: 12px;
-	font-weight: bold;
-	text-shadow: 0px 1px 1px #fff;
-	padding-left: 30px;
-	height: 18px;
-	background: url(images/quota.png) -100px 0 no-repeat;
-}
-
 /*** message composition ***/
 
 #composeview-left {
