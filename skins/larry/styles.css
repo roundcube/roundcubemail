@@ -1228,12 +1228,12 @@ ul.proplist li {
 #login-form #message {
 	min-height: 40px;
 	padding: 5px 25px;
+	text-align: center;
 }
 
 #login-form #message div {
-	display: block;
-	width: 200px;
-	margin: 0 auto;
+	display: inline-block;
+	padding-right: 0;
 }
 
 #bottomline {
