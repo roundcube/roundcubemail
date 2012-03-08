@@ -1789,6 +1789,7 @@ ul.toolbarmenu li span.conversation {
 }
 
 .attachmentslist li.doc,
+.attachmentslist li.docx,
 .attachmentslist li.msword {
 	background-position: 0 -52px;
 }
@@ -1798,6 +1799,7 @@ ul.toolbarmenu li span.conversation {
 }
 
 .attachmentslist li.xls,
+.attachmentslist li.xlsx,
 .attachmentslist li.msexcel {
 	background-position: 0 -104px;
 }
