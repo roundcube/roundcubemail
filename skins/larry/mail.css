@@ -1166,11 +1166,12 @@ div.message-part blockquote blockquote blockquote {
 
 #composebody {
 	position: absolute;
-	top: 24px;
+	top: 1px;
 	left: 0;
 	bottom: 0;
 	width: 99%;
 	border: 0;
+	border-radius: 0;
 	padding: 8px 0 8px 8px;
 	box-shadow: none;
 	resize: none;
@@ -1193,11 +1194,6 @@ div.message-part blockquote blockquote blockquote {
 	border-left: 1px solid #ddd;
 	padding: 8px;
 	overflow: auto;
-}
-
-#spellcheck-control {
-	margin: 6px 8px;
-	text-align: right;
 }
 
 .defaultSkin table.mceLayout,

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Unified (single) spellchecker button
 - Fix encoding of attachment with comma in name (#1488389)
 - Scroll long lists on drag&drop (#1485946)
 - Fix handling of % character in IMAP protocol (#1488382)

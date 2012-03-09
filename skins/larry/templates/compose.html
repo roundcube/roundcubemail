@@ -3,7 +3,9 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
+<roundcube:if condition="config:enable_spellcheck" />
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
+<roundcube:endif />
 </head>
 <body class="noscroll">
 
@@ -38,7 +40,12 @@
 <!-- toolbar -->
 <div id="messagetoolbar" class="fullwidth">
 <div id="mailtoolbar" class="toolbar">
-	<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled" classAct="button spellcheck" classSel="button spellcheck pressed" label="spellcheck" title="checkspelling" />
+	<roundcube:if condition="config:enable_spellcheck" />
+	<span class="dropbutton">
+		<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled" classAct="button spellcheck" classSel="button spellcheck pressed" label="spellcheck" title="checkspelling" />
+		<span class="dropbuttontip" id="spellmenulink" onclick="UI.show_popup('spellmenu');return false"></span>
+	</span>
+	<roundcube:endif />
 	<roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attach pressed" label="attach" title="addattachment" onclick="UI.show_uploadform();return false" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" classSel="button insertsig pressed" label="signature" title="insertsignature" />
 	<roundcube:container name="toolbar" id="compose-toolbar" />
@@ -142,7 +149,6 @@
 <!-- message compose body -->
 <div id="composeview-bottom">
 	<div id="composebodycontainer">
-		<div id="spellcheck-control"></div>
 		<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" tabindex="9" />
 	</div>
 	<div id="compose-attachments" class="rightcol">
@@ -170,6 +176,8 @@
 		<roundcube:button name="close" type="input" class="button" label="cancel" onclick="UI.show_uploadform()" />
 	</div>
 </div>
+
+<div id="spellmenu" class="popupmenu"></div>
 
 <roundcube:include file="/includes/footer.html" />
 

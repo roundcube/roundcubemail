@@ -102,6 +102,7 @@ function rcube_mail_ui()
     groupmenu:      {id:'groupoptionsmenu', above:1},
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
     composemenu:    {id:'composeoptionsmenu', editable:1, overlap:1},
+    spellmenu:      {id:'spellmenu'},
     // toggle: #1486823, #1486930
     uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:!bw.ie&&!bw.linux },
     uploadform:     {id:'upload-form', editable:1, toggle:!bw.ie&&!bw.linux }
@@ -349,6 +350,43 @@ save_listmenu: function()
       .map(function(){ return this.value; }).get();
 
   rcmail.set_list_options(cols, sort, ord, thread == 'thread' ? 1 : 0);
+},
+
+spellmenu: function(show)
+{
+  var link, li,
+    lang = rcmail.spellcheck_lang(),
+    menu = this.popups.spellmenu.obj,
+    ul = $('ul', menu);
+
+  if (!ul.length) {
+    ul = $('<ul>');
+
+    for (i in rcmail.env.spell_langs) {
+      li = $('<li>');
+      link = $('<a href="#">').text(rcmail.env.spell_langs[i])
+        .addClass('active').data('lang', i)
+        .click(function() {
+          rcmail.spellcheck_lang_set($(this).data('lang'));
+        });
+
+      link.appendTo(li);
+      li.appendTo(ul);
+    }
+
+    ul.appendTo(menu);
+  }
+
+  // select current language
+  $('li', ul).each(function() {
+    var el = $('a', this);
+    if (el.data('lang') == lang)
+      el.addClass('selected');
+    else if (el.hasClass('selected'))
+      el.removeClass('selected');
+  });
+
+  this.show_popupmenu('spellmenu', show);
 },
 
 body_mouseup: function(evt, p)

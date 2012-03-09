@@ -1390,7 +1390,8 @@ ul.proplist li {
 }
 
 .toolbar a.button.spellcheck {
-	background-position: center -930px;
+	min-width: 64px;
+	background-position: left -930px;
 }
 
 .toolbar a.button.insertsig {
@@ -1574,8 +1575,13 @@ select.decorated option[selected='selected'] {
 	background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
 }
 
-ul.toolbarmenu.iconized li a {
+ul.toolbarmenu.iconized li a,
+ul.toolbarmenu.selectable li a {
 	padding-left: 30px;
+}
+
+ul.toolbarmenu.selectable li a.selected {
+	background: url(images/messages.png) 4px -27px no-repeat;
 }
 
 ul.toolbarmenu li label {

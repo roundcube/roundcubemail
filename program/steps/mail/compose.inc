@@ -813,6 +813,9 @@ function rcmail_compose_body($attrib)
     if (!$spellcheck_langs[$lang])
       $lang = 'en';
 
+    $OUTPUT->set_env('spell_langs', $spellcheck_langs);
+    $OUTPUT->set_env('spell_lang', $lang);
+
     $editor_lang_set = array();
     foreach ($spellcheck_langs as $key => $name) {
       $editor_lang_set[] = ($key == $lang ? '+' : '') . JQ($name).'='.JQ($key);
@@ -830,7 +833,7 @@ function rcmail_compose_body($attrib)
       "googie.lang_learn_word = \"%s\";\n".
       "googie.setLanguages(%s);\n".
       "googie.setCurrentLanguage('%s');\n".
-      "googie.setSpellContainer('spellcheck-control');\n".
+      "googie.setDecoration(false);\n".
       "googie.decorateTextarea('%s');\n".
       "%s.set_env('spellcheck', googie);",
       $RCMAIL->output->get_skin_path(),

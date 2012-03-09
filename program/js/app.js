@@ -261,11 +261,9 @@ function rcube_webmail()
           $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
 
           if (this.env.spellcheck) {
-            this.env.spellcheck.spelling_state_observer = function(s){ ref.set_spellcheck_state(s); };
+            this.env.spellcheck.spelling_state_observer = function(s) { ref.spellcheck_state(); };
             this.env.compose_commands.push('spellcheck')
-            this.set_spellcheck_state('ready');
-            if ($("input[name='_is_html']").val() == '1')
-              this.display_spellcheck_controls(false);
+            this.enable_command('spellcheck', true);
           }
 
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
@@ -898,13 +896,18 @@ function rcube_webmail()
         break;
 
       case 'spellcheck':
-        if (window.tinyMCE && tinyMCE.get(this.env.composebody)) {
-          tinyMCE.execCommand('mceSpellCheck', true);
+        if (this.spellcheck_state()) {
+          this.stop_spellchecking();
         }
-        else if (this.env.spellcheck && this.env.spellcheck.spellCheck && this.spellcheck_ready) {
-          this.env.spellcheck.spellCheck();
-          this.set_spellcheck_state('checking');
+        else {
+          if (window.tinyMCE && tinyMCE.get(this.env.composebody)) {
+            tinyMCE.execCommand('mceSpellCheck', true);
+          }
+          else if (this.env.spellcheck && this.env.spellcheck.spellCheck) {
+            this.env.spellcheck.spellCheck();
+          }
         }
+        this.spellcheck_state();
         break;
 
       case 'savedraft':
@@ -3116,8 +3119,9 @@ function rcube_webmail()
 
   this.toggle_editor = function(props)
   {
+    this.stop_spellchecking();
+
     if (props.mode == 'html') {
-      this.display_spellcheck_controls(false);
       this.plain2html($('#'+props.id).val(), props.id);
       tinyMCE.execCommand('mceAddControl', false, props.id);
 
@@ -3128,8 +3132,6 @@ function rcube_webmail()
     }
     else {
       var thisMCE = tinyMCE.get(props.id), existingHtml;
-      if (thisMCE.plugins.spellchecker && thisMCE.plugins.spellchecker.active)
-        thisMCE.execCommand('mceSpellCheck', false);
 
       if (existingHtml = thisMCE.getContent()) {
         if (!confirm(this.get_label('editorwarning'))) {
@@ -3138,7 +3140,6 @@ function rcube_webmail()
         this.html2plain(existingHtml, props.id);
       }
       tinyMCE.execCommand('mceRemoveControl', false, props.id);
-      this.display_spellcheck_controls(true);
     }
 
     return true;
@@ -3147,43 +3148,52 @@ function rcube_webmail()
   this.stop_spellchecking = function()
   {
     var ed;
+
     if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
       if (ed.plugins.spellchecker && ed.plugins.spellchecker.active)
         ed.execCommand('mceSpellCheck');
     }
-    else if ((ed = this.env.spellcheck) && !this.spellcheck_ready) {
-      $(ed.spell_span).trigger('click');
-      this.set_spellcheck_state('ready');
+    else if (ed = this.env.spellcheck) {
+      if (ed.state && ed.state != 'ready' && ed.state != 'no_error_found')
+        $(ed.spell_span).trigger('click');
     }
+
+    this.spellcheck_state();
   };
 
-  this.display_spellcheck_controls = function(vis)
+  this.spellcheck_state = function()
   {
-    if (this.env.spellcheck) {
-      // stop spellchecking process
-      if (!vis)
-        this.stop_spellchecking();
+    var ed, active;
 
-      $(this.env.spellcheck.spell_container)[vis ? 'show' : 'hide']();
-    }
-  };
+    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins.spellchecker)
+      active = ed.plugins.spellchecker.active;
+    else if ((ed = this.env.spellcheck) && ed.state)
+      active = ed.state != 'ready' && ed.state != 'no_error_found';
 
-  this.set_spellcheck_state = function(s)
-  {
-    this.spellcheck_ready = (s == 'ready' || s == 'no_error_found');
-    this.enable_command('spellcheck', this.spellcheck_ready);
+    $('#'+rcmail.buttons.spellcheck[0].id)[active ? 'addClass' : 'removeClass']('selected');
+
+    return active;
   };
 
   // get selected language
   this.spellcheck_lang = function()
   {
     var ed;
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins.spellchecker) {
+
+    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins.spellchecker)
       return ed.plugins.spellchecker.selectedLang;
-    }
-    else if (this.env.spellcheck) {
+    else if (this.env.spellcheck)
       return GOOGIE_CUR_LANG;
-    }
+  };
+
+  this.spellcheck_lang_set = function(lang)
+  {
+    var editor;
+
+    if (window.tinyMCE && (editor = tinyMCE.get(this.env.composebody)))
+      editor.plugins.spellchecker.selectedLang = lang;
+    else if (this.env.spellcheck)
+      this.env.spellcheck.setCurrentLanguage(lang);
   };
 
   // resume spellchecking, highlight provided mispellings without new ajax request
@@ -3202,6 +3212,8 @@ function rcube_webmail()
       sp.prepare(false, true);
       sp.processData(data);
     }
+
+    this.spellcheck_state();
   }
 
   this.set_draft_id = function(id)

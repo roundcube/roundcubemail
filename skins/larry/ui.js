@@ -24,6 +24,7 @@ function rcube_mail_ui()
     groupmenu:          { above:1 },
     mailboxmenu:        { above:1 },
     composeoptionsmenu: { editable:1, overlap:1 },
+    spellmenu:          { callback: spellmenu },
     // toggle: #1486823, #1486930
     'attachment-form':  { editable:1, above:1, toggle:!bw.ie&&!bw.linux },
     'upload-form':      { editable:1, toggle:!bw.ie&&!bw.linux }
@@ -338,13 +339,13 @@ function rcube_mail_ui()
 
     bottom.css('height', (form.height() - bottom.position().top) + 'px');
 
-    w = body.parent().width() - 6;
-    h = body.parent().height() - 36;
+    w = body.parent().width() - 5;
+    h = body.parent().height() - 16;
     body.width(w).height(h);
 
     if (window.tinyMCE && tinyMCE.get('composebody')) {
-      $('#composebody_tbl').width((w+10)+'px').height('').css('margin-top', '1px');
-      $('#composebody_ifr').width((w+10)+'px').height((h-22)+'px');
+      $('#composebody_tbl').width((w+8)+'px').height('').css('margin-top', '1px');
+      $('#composebody_ifr').width((w+8)+'px').height((h-40)+'px');
     }
     else {
       $('#googie_edit_layer').height(h+'px');
@@ -425,7 +426,7 @@ function rcube_mail_ui()
       $('select').css('visibility', show?'hidden':'inherit');
       $('select', obj).css('visibility', 'inherit');
     }
-    
+
     return show;
   }
 
@@ -551,6 +552,42 @@ function rcube_mail_ui()
           $('#s_mod_' + n).prop('checked', true);
       }
     }
+  }
+
+
+  function spellmenu(show)
+  {
+    var link, li,
+      lang = rcmail.spellcheck_lang(),
+      menu = popups.spellmenu,
+      ul = $('ul', menu);
+
+    if (!ul.length) {
+      ul = $('<ul class="toolbarmenu selectable">');
+
+      for (i in rcmail.env.spell_langs) {
+        li = $('<li>');
+        link = $('<a href="#">').text(rcmail.env.spell_langs[i])
+          .addClass('active').data('lang', i)
+          .click(function() {
+            rcmail.spellcheck_lang_set($(this).data('lang'));
+          });
+
+        link.appendTo(li);
+        li.appendTo(ul);
+      }
+
+      ul.appendTo(menu);
+    }
+
+    // select current language
+    $('li', ul).each(function() {
+      var el = $('a', this);
+      if (el.data('lang') == lang)
+        el.addClass('selected');
+      else if (el.hasClass('selected'))
+        el.removeClass('selected');
+    });
   }
 
 

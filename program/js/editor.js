@@ -44,17 +44,26 @@ function rcmail_editor_init(config)
       theme_advanced_buttons1: 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr,link,unlink,code,forecolor',
       theme_advanced_buttons2: ',fontselect,fontsizeselect'
     });
-  else // mail compose
+  else { // mail compose
     $.extend(conf, {
       plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,tabfocus' + (config.spellcheck ? ',spellchecker' : ''),
       theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,ltr,rtl,blockquote,|,forecolor,backcolor,fontselect,fontsizeselect',
-      theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search' + (config.spellcheck ? ',spellchecker' : '') + ',undo,redo',
+      theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search,undo,redo',
       spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
       spellchecker_rpc_url: '?_task=utils&_action=spell_html',
       spellchecker_enable_learn_rpc: config.spelldict,
       accessibility_focus: false,
       oninit: 'rcmail_editor_callback'
     });
+
+    // add handler for spellcheck button state update
+    conf.setup = function(ed) {
+      ed.onSetProgressState.add(function(ed, active) {
+        if (!active)
+          rcmail.spellcheck_state();
+      });
+    }
+  }
 
   // support external configuration settings e.g. from skin
   if (window.rcmail_editor_settings)

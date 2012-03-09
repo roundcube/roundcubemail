@@ -495,6 +495,7 @@ body.iframe .boxtitle
   padding: 2px 10px;
   text-decoration: none;
   min-height: 14px;
+  background: transparent;
 }
 
 .popupmenu li a.active,
@@ -504,7 +505,8 @@ body.iframe .boxtitle
   color: #333;
 }
 
-.popupmenu li a.active:hover
+.popupmenu li a.active:hover,
+.popupmenu.selectable li a.selected:hover
 {
   color: #fff;
   background-color: #c00;
@@ -513,6 +515,16 @@ body.iframe .boxtitle
 .popupmenu li.block input
 {
   float: left;
+}
+
+.popupmenu.selectable li a.selected
+{
+  background: url(images/messageicons.png) 2px -372px no-repeat;
+}
+
+.popupmenu.selectable li a
+{
+  padding-left: 20px;
 }
 
 .darkbg
