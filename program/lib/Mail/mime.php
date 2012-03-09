@@ -1142,8 +1142,8 @@ class Mail_mime
             ? $this->_build_params['eol'] : "\r\n";
 
         // add parameters
-        $token_regexp = '#([^\x21,\x23-\x27,\x2A,\x2B,\x2D'
-            . ',\x2E,\x30-\x39,\x41-\x5A,\x5E-\x7E])#';
+        $token_regexp = '#([^\x21\x23-\x27\x2A\x2B\x2D'
+            . '\x2E\x30-\x39\x41-\x5A\x5E-\x7E])#';
         if (is_array($params)) {
             foreach ($params as $name => $value) {
                 if ($name == 'boundary') {
