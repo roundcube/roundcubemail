@@ -154,14 +154,10 @@ img
   left: 20px;
 }
 
-body > #header
+body > #logo
 {
-  position: absolute;
-  top: 8px;
-  left: 19px;
-  width: 170px;
-  height: 40px;
-  z-index: 100;
+  margin-left: 12px;
+  cursor: pointer;
 }
 
 #taskbar
@@ -170,7 +166,7 @@ body > #header
   top: 0px;
   right: 0px;
   height: 24px;
-  width: 100%;
+  left: 250px;
   background: url(images/taskbar.png) top right no-repeat;
   padding: 10px 6px 5px 0px;
   text-align: right;

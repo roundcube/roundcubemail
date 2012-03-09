@@ -157,7 +157,7 @@ class html
             $attr = array('src' => $attr);
         }
         return self::tag('img', $attr + array('alt' => ''), null, array_merge(self::$common_attrib,
-	    array('src','alt','width','height','border','usemap')));
+	        array('src','alt','width','height','border','usemap','onclick')));
     }
 
     /**

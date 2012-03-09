@@ -25,7 +25,7 @@ a, a:active, a:visited
   color: #000000;
 }
 
-#header
+body > #logo
 {
   float: right;
   margin: 0 5mm 3mm 5mm;
@@ -57,7 +57,7 @@ table.headers-table tr td.subject
   width: 90%;
   font-weight: bold;
 }
-  
+
 #attachment-list
 {
   margin-top: 3mm;
