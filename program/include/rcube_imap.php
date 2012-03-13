@@ -566,8 +566,8 @@ class rcube_imap extends rcube_storage
     {
         $mode = strtoupper($mode);
 
-        // count search set
-        if ($this->search_string && $folder == $this->folder && ($mode == 'ALL' || $mode == 'THREADS') && !$force) {
+        // count search set, assume search set is always up-to-date (don't check $force flag)
+        if ($this->search_string && $folder == $this->folder && ($mode == 'ALL' || $mode == 'THREADS')) {
             if ($mode == 'ALL') {
                 return $this->search_set->count_messages();
             }
