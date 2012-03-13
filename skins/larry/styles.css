@@ -939,6 +939,8 @@ table.records-table {
 	background: linear-gradient(left, #e3f2f6 0, #d6eaf3 14px, #d6eaf3 100%);
 	border-left: 1px solid #bbd3da;
 	padding: 8px 7px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .records-table.sortheader thead td {
@@ -951,6 +953,8 @@ table.records-table {
 	padding: 7px 7px;
 	color: #69939e;
 	text-decoration: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .records-table tbody td {
