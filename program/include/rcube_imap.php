@@ -687,8 +687,8 @@ class rcube_imap
     {
         $mode = strtoupper($mode);
 
-        // count search set
-        if ($this->search_string && $mailbox == $this->mailbox && ($mode == 'ALL' || $mode == 'THREADS') && !$force) {
+        // count search set, assume search set is always up-to-date (don't check $force flag)
+        if ($this->search_string && $mailbox == $this->mailbox && ($mode == 'ALL' || $mode == 'THREADS')) {
             if ($this->search_threads)
                 return $mode == 'ALL' ? count((array)$this->search_set['depth']) : count((array)$this->search_set['tree']);
             else

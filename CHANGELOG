@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix counting of messages search results (on refresh when search filter is in use)
+
+RELEASE 0.7.2
+-------------
 - Fix encoding of attachment with comma in name (#1488389)
 - Fix handling of % character in IMAP protocol (#1488382)
 - Fix duplicate names handling in addressbook searches (#1488375)
