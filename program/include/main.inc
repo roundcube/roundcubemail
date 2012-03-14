@@ -725,7 +725,7 @@ function rcube_strtotime($date)
  * Convert the given date to a human readable form
  * This uses the date formatting properties from config
  *
- * @param mixed  Date representation (string or timestamp)
+ * @param mixed  Date representation (string, timestamp or DateTime object)
  * @param string Date format to use
  * @param bool   Enables date convertion according to user timezone
  *
@@ -735,23 +735,31 @@ function format_date($date, $format=NULL, $convert=true)
 {
   global $RCMAIL, $CONFIG;
 
-  if (!empty($date))
-    $ts = rcube_strtotime($date);
-
-  if (empty($ts))
-    return '';
-
-  try {
-    $date = new DateTime("@".$ts);
+  if (is_a($date, 'DateTime')) {
+    $ts = $date->format('U');
+    $tzs = $date->getTimezone();
   }
-  catch (Exception $e) {
-    return '';
+  else {
+    $tzs = 'GMT';
+
+    if (!empty($date))
+      $ts = rcube_strtotime($date);
+
+    if (empty($ts))
+      return '';
+
+    try {
+      $date = new DateTime("@".$ts);
+    }
+    catch (Exception $e) {
+      return '';
+    }
   }
 
   try {
     // convert to the right timezone
     $stz = date_default_timezone_get();
-    $tz = new DateTimeZone($convert ? $RCMAIL->config->get('timezone') : 'GMT');
+    $tz = new DateTimeZone($convert ? $RCMAIL->config->get('timezone') : $tzs);
     $date->setTimezone($tz);
     date_default_timezone_set($tz->getName());
 
