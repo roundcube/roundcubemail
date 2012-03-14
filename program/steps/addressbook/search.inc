@@ -182,7 +182,7 @@ function rcmail_contact_search()
         }
 
         // get records
-        $result = $source->list_records(array('name', 'email'));
+        $result = $source->list_records(array('name', 'firstname', 'surname', 'email'));
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s['id'];

@@ -29,10 +29,10 @@ if ($RCMAIL->action == 'group-expand') {
     $members = array();
     $abook->set_group($gid);
     $abook->set_pagesize(1000);  // TODO: limit number of group members by config
-    $result = $abook->list_records(array('email','name'));
+    $result = $abook->list_records(array('name', 'firstname', 'surname', 'email'));
     while ($result && ($sql_arr = $result->iterate())) {
       foreach ((array)$sql_arr['email'] as $email) {
-        $members[] = format_email_recipient($email, $sql_arr['name']);
+        $members[] = format_email_recipient($email, rcube_addressbook::compose_list_name($sql_arr));
         break;  // only expand one email per contact
       }
     }
@@ -67,7 +67,7 @@ if (!empty($book_types) && strlen($search)) {
     $abook = $RCMAIL->get_address_book($id);
     $abook->set_pagesize($MAXNUM);
 
-    if ($result = $abook->search(array('email','name'), $search, $mode, true, true, 'email')) {
+    if ($result = $abook->search(array('name', 'firstname', 'surname', 'email'), $search, $mode, true, true, 'email')) {
       while ($sql_arr = $result->iterate()) {
         // Contact can have more than one e-mail address
         $email_arr = (array)$abook->get_col_values('email', $sql_arr, true);
@@ -78,6 +78,7 @@ if (!empty($book_types) && strlen($search)) {
             continue;
           }
 
+          $sql_arr['name'] = rcube_addressbook::compose_list_name($sql_arr);
           $contact = format_email_recipient($email, $sql_arr['name']);
 
           // skip entries that don't match

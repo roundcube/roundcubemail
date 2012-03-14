@@ -46,7 +46,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
         $source->set_search_set($set);
 
         // get records
-        $result = $source->list_records(array('name', 'email'));
+        $result = $source->list_records(array('name', 'firstname', 'surname', 'email'));
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s;
@@ -76,7 +76,7 @@ else {
     $CONTACTS = rcmail_contact_source(null, true);
 
     // get contacts for this user
-    $result = $CONTACTS->list_records(array('name'));
+    $result = $CONTACTS->list_records(array('name', 'firstname', 'surname', 'email'));
 
     if (!$result->count && $result->searchonly) {
         $OUTPUT->show_message('contactsearchonly', 'notice');

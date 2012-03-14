@@ -86,7 +86,7 @@ if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$searc
         $source->set_search_set($set);
 
         // get records
-        $result = $source->list_records(array('name', 'email'));
+        $result = $source->list_records(array('name', 'firstname', 'surname', 'email'));
 
         if (!$result->count) {
             unset($search[$s]);

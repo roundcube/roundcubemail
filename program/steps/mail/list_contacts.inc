@@ -60,7 +60,7 @@ if ($CONTACTS && $CONTACTS->ready) {
 
     // get contacts for this user
     $CONTACTS->set_group(0);
-    $result = $CONTACTS->list_records(array('name', 'email'));
+    $result = $CONTACTS->list_records(array('name', 'firstname', 'surname', 'email'));
 
     if (!$result->count && $result->searchonly) {
         $OUTPUT->show_message('contactsearchonly', 'notice');
