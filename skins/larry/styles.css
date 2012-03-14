@@ -425,6 +425,17 @@ a.iconlink.upload {
 	background: url(images/ajaxloader.gif) 2px 6px no-repeat;
 }
 
+#message div a,
+#message div span {
+	padding-right: 0.5em;
+	text-decoration: none;
+}
+
+#message div a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 #message.statusbar {
 	position: absolute;
 	bottom: 0;
@@ -1400,7 +1411,7 @@ ul.proplist li {
 
 .toolbar a.button.spellcheck.selected {
 	background-position: left -1570px;
-	color: #014b6c;
+	color: #1978a1;
 }
 
 .toolbar a.button.insertsig {
