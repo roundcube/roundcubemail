@@ -1398,6 +1398,11 @@ ul.proplist li {
 	background-position: left -930px;
 }
 
+.toolbar a.button.spellcheck.selected {
+	background-position: left -1570px;
+	color: #014b6c;
+}
+
 .toolbar a.button.insertsig {
 	background-position: center -1135px;
 }
