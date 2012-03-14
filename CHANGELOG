@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where it wasn't possible to enter ( or & characters in autocomplete fields
 - Request all needed fields from address book backends (#1488394)
 - Unified (single) spellchecker button
 - Scroll long lists on drag&drop (#1485946)

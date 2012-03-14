@@ -3628,9 +3628,9 @@ function rcube_webmail()
       mod = rcube_event.get_modifier(e);
 
     switch (key) {
-      case 38:  // key up
-      case 40:  // key down
-        if (!this.ksearch_pane)
+      case 38:  // arrow up
+      case 40:  // arrow down
+        if (!this.ksearch_visible())
           break;
 
         var dir = key==38 ? 1 : 0;
