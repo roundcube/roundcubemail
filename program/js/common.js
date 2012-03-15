@@ -694,11 +694,9 @@ Date.prototype.getStdTimezoneOffset = function()
 }
 
 // Make getElementById() case-sensitive on IE
-if (bw.ie)
-{
+if (bw.ie) {
   document._getElementById = document.getElementById;
-  document.getElementById = function(id)
-  {
+  document.getElementById = function(id) {
     var i = 0, obj = document._getElementById(id);
 
     if (obj && obj.id != id)
@@ -708,6 +706,39 @@ if (bw.ie)
     return obj;
   }
 }
+
+// jQuery plugin to emulate HTML5 placeholder attributes on input elements
+jQuery.fn.placeholder = function(text) {
+  return this.each(function() {
+    var elem = $(this);
+    this.title = text;
+
+    if ('placeholder' in this) {
+      elem.attr('placeholder', text);  // Try HTML5 placeholder attribute first
+    }
+    else {  // Fallback to Javascript emulation of placeholder
+      this._placeholder = text;
+      elem.blur(function(e) {
+        if ($.trim(elem.val()) == "")
+          elem.val(text);
+        elem.triggerHandler('change');
+      })
+      .focus(function(e) {
+        if ($.trim(elem.val()) == text)
+          elem.val("");
+        elem.triggerHandler('change');
+      })
+      .change(function(e) {
+        var active = elem.val() == text;
+        elem[(active ? 'addClass' : 'removeClass')]('placeholder').attr('spellcheck', active);
+      });
+
+      if (this != document.activeElement) // Do not blur currently focused element
+        elem.blur();
+    }
+  });
+};
+
 
 // This code was written by Tyler Akins and has been placed in the
 // public domain.  It would be nice if you left this header intact.

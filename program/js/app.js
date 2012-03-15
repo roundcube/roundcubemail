@@ -4505,9 +4505,7 @@ function rcube_webmail()
     if (!elem)
       elem = $('.ff_' + col);
 
-    elem.focus(function(){ ref.focus_textfield(this); })
-      .blur(function(){ ref.blur_textfield(this); })
-      .each(function(){ this._placeholder = this.title = (ref.env.coltypes[col].label || ''); ref.blur_textfield(this); });
+    elem.placeholder(ref.env.coltypes[col].label);
   };
 
   this.insert_edit_field = function(col, section, menu)
@@ -5422,22 +5420,6 @@ function rcube_webmail()
         }
       }
     }
-  };
-
-  this.focus_textfield = function(elem)
-  {
-    elem._hasfocus = true;
-    var $elem = $(elem);
-    if ($elem.hasClass('placeholder') || $elem.val() == elem._placeholder)
-      $elem.val('').removeClass('placeholder').attr('spellcheck', true);
-  };
-
-  this.blur_textfield = function(elem)
-  {
-    elem._hasfocus = false;
-    var $elem = $(elem);
-    if (elem._placeholder && (!$elem.val() || $elem.val() == elem._placeholder))
-      $elem.addClass('placeholder').attr('spellcheck', false).val(elem._placeholder);
   };
 
   // write to the document/window title
