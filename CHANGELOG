@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix lack of warning when switching task in compose window (#1488399)
 - Fix bug where it wasn't possible to enter ( or & characters in autocomplete fields
 - Request all needed fields from address book backends (#1488394)
 - Unified (single) spellchecker button

@@ -936,7 +936,7 @@ class rcube_template extends rcube_html_page
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href'] = rcmail_url(null, null, $attrib['command']);
-                $attrib['onclick'] = sprintf("%s.switch_task('%s');return false", JS_OBJECT_NAME, $attrib['command']);
+                $attrib['onclick'] = sprintf("%s.command('switch-task','%s');return false", JS_OBJECT_NAME, $attrib['command']);
             }
             else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = rcmail_url($attrib['command'], null, $attrib['task']);
