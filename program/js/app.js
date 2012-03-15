@@ -171,7 +171,7 @@ function rcube_webmail()
     }
 
     // enable general commands
-    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', true);
+    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', 'switch-task', true);
 
     if (this.env.permaurl)
       this.enable_command('permaurl', true);

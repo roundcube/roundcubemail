@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix lack of warning when switching task in compose window (#1488399)
 - Fix bug where it wasn't possible to enter ( or & characters in autocomplete fields
 - Fix counting of messages search results (on refresh when search filter is in use)
 
