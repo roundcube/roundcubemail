@@ -1058,6 +1058,10 @@ class rcube_sieve_script
                         $result[] = $text;
                     }
                 }
+                // fallback, skip one character as infinite loop prevention
+                else {
+                    $str = substr($str, 1);
+                }
 
                 break;
             }
