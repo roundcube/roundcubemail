@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fa/labels.inc                                         |
+ | localization/fa_IR/labels.inc                                         |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |

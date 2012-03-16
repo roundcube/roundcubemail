@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fa/messages.inc                                       |
+ | localization/fa_IR/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
