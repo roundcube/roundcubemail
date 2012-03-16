@@ -353,8 +353,9 @@ class rcube_imap_cache
     function get_message($mailbox, $uid, $update = true, $cache = true)
     {
         // Check internal cache
-        if (($message = $this->icache['message'])
-            && $message['mailbox'] == $mailbox && $message['object']->uid == $uid
+        if ($this->icache['message']
+            && $this->icache['message']['mailbox'] == $mailbox
+            && $this->icache['message']['object']->uid == $uid
         ) {
             return $this->icache['message']['object'];
         }
