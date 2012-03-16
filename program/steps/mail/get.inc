@@ -85,7 +85,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
     // allow post-processing of the message body
     $plugin = $RCMAIL->plugins->exec_hook('message_part_get',
-      array('id' => $part->mime_id, 'mimetype' => $mimetype, 'part' => $part, 'download' => !empty($_GET['_download'])));
+      array('uid' => $MESSAGE->uid, 'id' => $part->mime_id, 'mimetype' => $mimetype, 'part' => $part, 'download' => !empty($_GET['_download'])));
 
     if ($plugin['abort'])
       exit;
