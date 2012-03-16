@@ -25,7 +25,7 @@
 
 // langage codes according to ISO 639-1
 // country codes according to ISO 3166-1 (Alpha-2)
-// original names from http://www.mediaglyphs.org/mg/p/langnames.html
+// original names from http://www.mediaglyphs.org/mg/?p=langnames
 
 $rcube_languages = array(
   'sq_AL' => 'Albanian (Shqip)',
@@ -78,7 +78,7 @@ $rcube_languages = array(
   'nb_NO' => 'Norwegian (Bokmål)',
   'nn_NO' => 'Norwegian (Nynorsk)',
   'ps' 	  => 'Pashto',
-  'fa'    => 'Persian (دری)',
+  'fa_IR' => 'Persian (فارسی)',
   'pl_PL' => 'Polish (Polski)',
   'pt_BR' => 'Portuguese (Brasil)',
   'pt_PT' => 'Portuguese (Português)',
@@ -117,6 +117,7 @@ $rcube_language_aliases = array(
   'el' => 'el_GR',
   'en' => 'en_US',
   'eu' => 'eu_ES',
+  'fa' => 'fa_IR',
   'ga' => 'ga_IE',
   'ge' => 'ka_GE',
   'gl' => 'gl_ES',
