@@ -16,14 +16,14 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 240px;
+	width: 220px;
 	bottom: 0;
 }
 
 #mailview-right {
 	position: absolute;
 	top: 0;
-	left: 252px;
+	left: 232px;
 	right: 0;
 	bottom: 0;
 }

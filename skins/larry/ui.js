@@ -120,7 +120,7 @@ function rcube_mail_ui()
 
       if ($('#mailview-left').length) {
         new rcube_splitter({ id:'mailviewsplitterv', p1:'#mailview-left', p2:'#mailview-right',
-          orientation:'v', relative:true, start:248, min:150, size:12, callback:render_mailboxlist, render:resize_leftcol }).init();
+          orientation:'v', relative:true, start:226, min:150, size:12, callback:render_mailboxlist, render:resize_leftcol }).init();
       }
     }
     /***  settings task  ***/
@@ -136,7 +136,7 @@ function rcube_mail_ui()
 
       if (rcmail.env.action == 'folders') {
         new rcube_splitter({ id:'folderviewsplitter', p1:'#folderslist', p2:'#folder-details',
-          orientation:'v', relative:true, start:305, min:150, size:12 }).init();
+          orientation:'v', relative:true, start:266, min:180, size:12 }).init();
 
         new rcube_scroller('#folderslist-content', '#folderslist-header', '#folderslist-footer');
 
@@ -144,7 +144,7 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'identities') {
         new rcube_splitter({ id:'identviewsplitter', p1:'#identitieslist', p2:'#identity-details',
-          orientation:'v', relative:true, start:305, min:150, size:12 }).init();
+          orientation:'v', relative:true, start:266, min:180, size:12 }).init();
       }
     }
     /***  addressbook task  ***/
@@ -155,7 +155,7 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'addressviewsplitterd', p1:'#addressview-left', p2:'#addressview-right',
           orientation:'v', relative:true, start:226, min:150, size:12, render:resize_leftcol }).init();
         new rcube_splitter({ id:'addressviewsplitter', p1:'#addresslist', p2:'#contacts-box',
-          orientation:'v', relative:true, start:296, min:220, size:12 }).init();
+          orientation:'v', relative:true, start:266, min:220, size:12 }).init();
 
         new rcube_scroller('#directorylist-content', '#directorylist-header', '#directorylist-footer');
       }
