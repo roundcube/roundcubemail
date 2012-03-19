@@ -31,20 +31,19 @@ $OUTPUT->reset();
 
 if ($filepath = $_FILES['_photo']['tmp_name']) {
     // check file type and resize image
-    $imageprop = rcmail::imageprops($_FILES['_photo']['tmp_name']);
+    $image     = new rcube_image($_FILES['_photo']['tmp_name']);
+    $imageprop = $image->props();
 
     if (in_array(strtolower($imageprop['type']), $IMAGE_TYPES)
-	&& $imageprop['width'] && $imageprop['height']
+        && $imageprop['width'] && $imageprop['height']
     ) {
-        $maxsize = intval($RCMAIL->config->get('contact_photo_size', 160));
-        $tmpfname = tempnam($RCMAIL->config->get('temp_dir'), 'rcmImgConvert');
+        $maxsize   = intval($RCMAIL->config->get('contact_photo_size', 160));
+        $tmpfname  = tempnam($RCMAIL->config->get('temp_dir'), 'rcmImgConvert');
         $save_hook = 'attachment_upload';
 
         // scale image to a maximum size
-        if (($imageprop['width'] > $maxsize || $imageprop['height'] > $maxsize) &&
-            (rcmail::imageconvert(array('in' => $filepath, 'out' => $tmpfname,
-                'size' => $maxsize.'x'.$maxsize, 'type' => $imageprop['type'])) !== false)) {
-            $filepath = $tmpfname;
+        if (($imageprop['width'] > $maxsize || $imageprop['height'] > $maxsize) && $image->resize($maxsize, $tmpfname)) {
+            $filepath  = $tmpfname;
             $save_hook = 'attachment_save';
         }
 
@@ -57,8 +56,9 @@ if ($filepath = $_FILES['_photo']['tmp_name']) {
             'group' => 'contact',
         ));
     }
-    else
+    else {
         $attachment['error'] = rcube_label('invalidimageformat');
+    }
 
     if ($attachment['status'] && !$attachment['abort']) {
         $file_id = $attachment['id'];

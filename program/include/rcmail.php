@@ -1537,66 +1537,6 @@ class rcmail
 
 
   /**
-   * Use imagemagick or GD lib to read image properties
-   *
-   * @param string Absolute file path
-   * @return mixed Hash array with image props like type, width, height or False on error
-   */
-  public static function imageprops($filepath)
-  {
-    $rcmail = rcmail::get_instance();
-    if ($cmd = $rcmail->config->get('im_identify_path', false)) {
-      list(, $type, $size) = explode(' ', strtolower(rcmail::exec($cmd. ' 2>/dev/null {in}', array('in' => $filepath))));
-      if ($size)
-        list($width, $height) = explode('x', $size);
-    }
-    else if (function_exists('getimagesize')) {
-      $imsize = @getimagesize($filepath);
-      $width = $imsize[0];
-      $height = $imsize[1];
-      $type = preg_replace('!image/!', '', $imsize['mime']);
-    }
-
-    return $type ? array('type' => $type, 'width' => $width, 'height' => $height) : false;
-  }
-
-
-  /**
-   * Convert an image to a given size and type using imagemagick (ensures input is an image)
-   *
-   * @param $p['in']  Input filename (mandatory)
-   * @param $p['out'] Output filename (mandatory)
-   * @param $p['size']  Width x height of resulting image, e.g. "160x60"
-   * @param $p['type']  Output file type, e.g. "jpg"
-   * @param $p['-opts'] Custom command line options to ImageMagick convert
-   * @return Success of convert as true/false
-   */
-  public static function imageconvert($p)
-  {
-    $result = false;
-    $rcmail = rcmail::get_instance();
-    $convert  = $rcmail->config->get('im_convert_path', false);
-    $identify = $rcmail->config->get('im_identify_path', false);
-
-    // imagemagick is required for this
-    if (!$convert)
-        return false;
-
-    if (!(($imagetype = @exif_imagetype($p['in'])) && ($type = image_type_to_extension($imagetype, false))))
-      list(, $type) = explode(' ', strtolower(rcmail::exec($identify . ' 2>/dev/null {in}', $p))); # for things like eps
-
-    $type = strtr($type, array("jpeg" => "jpg", "tiff" => "tif", "ps" => "eps", "ept" => "eps"));
-    $p += array('type' => $type, 'types' => "bmp,eps,gif,jp2,jpg,png,svg,tif", 'quality' => 75);
-    $p['-opts'] = array('-resize' => $p['size'].'>') + (array)$p['-opts'];
-
-    if (in_array($type, explode(',', $p['types']))) # Valid type?
-      $result = rcmail::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p) === "";
-
-    return $result;
-  }
-
-
-  /**
    * Construct shell command, execute it and return output as string.
    * Keywords {keyword} are replaced with arguments
    *
