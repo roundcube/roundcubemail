@@ -36,8 +36,8 @@ if ($RCMAIL->action == 'edit') {
         $OUTPUT->set_env('cid', $record['ID']);
     }
 
-    // adding not allowed here
-    if ($CONTACTS->readonly) {
+    // editing not allowed here
+    if ($CONTACTS->readonly || $record['readonly']) {
         $OUTPUT->show_message('sourceisreadonly');
         rcmail_overwrite_action('show');
         return;

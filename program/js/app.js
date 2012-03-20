@@ -4229,7 +4229,7 @@ function rcube_webmail()
   };
 
   // add row to contacts list
-  this.add_contact_row = function(cid, cols, select)
+  this.add_contact_row = function(cid, cols, classes)
   {
     if (!this.gui_objects.contactslist)
       return false;
@@ -4238,7 +4238,7 @@ function rcube_webmail()
       row = document.createElement('tr');
 
     row.id = 'rcmrow'+this.html_identifier(cid);
-    row.className = 'contact';
+    row.className = 'contact ' + (classes || '');
 
     if (list.in_selection(cid))
       row.className += ' selected';

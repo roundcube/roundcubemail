@@ -45,7 +45,7 @@ if ($CONTACTS && $CONTACTS->ready) {
                     $row_id = 'G'.$group['ID'];
                     $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                     $OUTPUT->command('add_contact_row', $row_id, array(
-                        'contactgroup' => html::span(array('title' => $email), Q($group['name']))));
+                        'contactgroup' => html::span(array('title' => $email), Q($group['name']))), 'group');
                 }
             }
             // show group with count
@@ -53,7 +53,7 @@ if ($CONTACTS && $CONTACTS->ready) {
                 $row_id = 'E'.$group['ID'];
                 $jsresult[$row_id] = $group['name'];
                 $OUTPUT->command('add_contact_row', $row_id, array(
-                    'contactgroup' => Q($group['name'] . ' (' . intval($result->count) . ')')));
+                    'contactgroup' => Q($group['name'] . ' (' . intval($result->count) . ')')), 'group');
             }
         }
     }
@@ -75,7 +75,7 @@ if ($CONTACTS && $CONTACTS->ready) {
                 $row_id = $row['ID'].$i;
                 $jsresult[$row_id] = format_email_recipient($email, $name);
                 $OUTPUT->command('add_contact_row', $row_id, array(
-                    'contact' => html::span(array('title' => $email), Q($name ? $name : $email))));
+                    'contact' => html::span(array('title' => $email), Q($name ? $name : $email))), 'person');
             }
         }
     }

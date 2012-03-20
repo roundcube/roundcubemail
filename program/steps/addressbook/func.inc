@@ -5,7 +5,7 @@
  | program/steps/addressbook/func.inc                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -339,6 +339,7 @@ function rcmail_js_contacts_list($result, $prefix='')
 
     while ($row = $result->next()) {
         $a_row_cols = array();
+        $classes = array('person');  // org records will follow some day
 
         // build contact ID with source ID
         if (isset($row['sourceid'])) {
@@ -351,7 +352,10 @@ function rcmail_js_contacts_list($result, $prefix='')
             $a_row_cols[$col] = Q($val);
         }
 
-        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols);
+        if ($row['readonly'])
+            $classes[] = 'readonly';
+
+        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes));
     }
 }
 

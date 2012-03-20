@@ -1346,21 +1346,21 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_result_index  Search result (UIDs)
      */
-    public function search_once($mailbox = null, $str = 'ALL')
+    public function search_once($folder = null, $str = 'ALL')
     {
         if (!$str) {
             return 'ALL';
         }
 
-        if (!strlen($mailbox)) {
-            $mailbox = $this->mailbox;
+        if (!strlen($folder)) {
+            $folder = $this->folder;
         }
 
         if (!$this->check_connection()) {
             return new rcube_result_index();
         }
 
-        $index = $this->conn->search($mailbox, $str, true);
+        $index = $this->conn->search($folder, $str, true);
 
         return $index;
     }

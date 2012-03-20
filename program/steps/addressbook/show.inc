@@ -33,6 +33,7 @@ $SOURCE_ID = $source;
 
 // read contact record
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
+    $OUTPUT->set_env('readonly', $CONTACTS->readonly || $record['readonly']);
     $OUTPUT->set_env('cid', $record['ID']);
 }
 

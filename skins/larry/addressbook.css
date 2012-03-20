@@ -73,6 +73,10 @@
 	text-overflow: ellipsis;
 }
 
+#contacts-table .contact.readonly td {
+	font-style: italic;
+}
+
 #directorylist li.addressbook a {
 	background-position: 6px -766px;
 }
