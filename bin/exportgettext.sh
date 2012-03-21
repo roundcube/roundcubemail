@@ -42,6 +42,7 @@ $langcode_map = array(
 	'et_EE' => 'et',
 	'el_GR' => 'el',
 	'eu_ES' => 'eu',
+	'fa_IR' => 'fa',
 	'ga_IE' => 'ga',
 	'ka_GE' => 'ka',
 	'gl_ES' => 'gl',
