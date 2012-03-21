@@ -29,7 +29,6 @@ define('RCUBE_COMPOSE_DRAFT', 0x0108);
 define('RCUBE_COMPOSE_EDIT', 0x0109);
 
 $MESSAGE_FORM = null;
-$MESSAGE      = null;
 $COMPOSE_ID   = get_input_value('_id', RCUBE_INPUT_GET);
 $COMPOSE      = null;
 
@@ -181,7 +180,7 @@ if (!empty($msg_uid))
   $MESSAGE = new rcube_message($msg_uid);
 
   // make sure message is marked as read
-  if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']))
+  if ($MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']))
     $RCMAIL->storage->set_flag($msg_uid, 'SEEN');
 
   if (!empty($MESSAGE->headers->charset))
@@ -240,6 +239,9 @@ if (!empty($msg_uid))
     if (!empty($COMPOSE['param']['attachment']))
       $MESSAGE->forward_attachment = true;
   }
+}
+else {
+  $MESSAGE = new stdClass();
 }
 
 $MESSAGE->compose = array();
@@ -1396,7 +1398,7 @@ function rcmail_receipt_checkbox($attrib)
   $attrib['value'] = '1';
   $checkbox = new html_checkbox($attrib);
 
-  if ($MESSAGE && in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
+  if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
     $mdn_default = (bool) $MESSAGE->headers->mdn_to;
   else
     $mdn_default = $RCMAIL->config->get('mdn_default');
