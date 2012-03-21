@@ -1,20 +1,21 @@
 <?php
 
 /*
- +-----------------------------------------------------------------------+
- | localization/sl_SI/messages.inc                                       |
- |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Jure Kranjc <Unknown>                                         |
- +-----------------------------------------------------------------------+
- @version $Id$
++-----------------------------------------------------------------------+
+| localization/sl_SI/messages.inc                                       |
+|                                                                       |
+| Language file of the Roundcube Webmail client                         |
+| Copyright (C) 2012, The Roundcube Dev Team                            |
+| Licensed under the GNU General Public License                         |
+|                                                                       |
++-----------------------------------------------------------------------+
+| Author: Jure Kranjc <Unknown>                                         |
++-----------------------------------------------------------------------+
+@version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Prišlo je do napake!';
 $messages['loginfailed'] = 'Prijava ni uspela';
 $messages['cookiesdisabled'] = 'Vaš spletni brskalnik ne sprejema piškotkov.';
 $messages['sessionerror'] = 'Seja je neveljavna ali je potekla.';
@@ -106,6 +107,7 @@ $messages['addingmember'] = 'Dodajanje stika/ov v skupino...';
 $messages['removingmember'] = 'Odstranjevanje stika/ov iz skupine..';
 $messages['receiptsent'] = 'Sporočilo o branju je bilo uspešno poslano';
 $messages['errorsendingreceipt'] = 'Sporočila o branju ni bilo mogoče poslati';
+$messages['deleteidentityconfirm'] = 'Ste prepričani, da želite izbrisati to identiteto?';
 $messages['nodeletelastidentity'] = 'Te identitete ni mogoče izbrisati, saj je edina.';
 $messages['forbiddencharacter'] = 'Ime mape vsebuje nedovoljen znak';
 $messages['selectimportfile'] = 'Izberite datoteko, ki jo želite prenesti';
@@ -154,4 +156,6 @@ $messages['foldercreated'] = 'Mapa je bila uspešno ustvarjena';
 $messages['invalidimageformat'] = 'Neveljaven format slike';
 $messages['mispellingsfound'] = 'V sporočilu so bile najdene napake v črkovanju';
 $messages['parentnotwritable'] = 'Podmape v tej mapi ni bilo mogoče ustvariti/premakniti. Nimate pravic.';
+$messages['messagetoobig'] = 'Sporočilo je preveliko za obdelavo.';
 
+?>
