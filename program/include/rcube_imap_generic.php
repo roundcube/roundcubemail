@@ -2079,9 +2079,10 @@ class rcube_imap_generic
                 $result[$id]->subject   = '';
                 $result[$id]->messageID = 'mid:' . $id;
 
-                $lines = array();
-                $line  = substr($line, strlen($m[0]) + 2);
-                $ln    = 0;
+                $headers = null;
+                $lines   = array();
+                $line    = substr($line, strlen($m[0]) + 2);
+                $ln      = 0;
 
                 // get complete entry
                 while (preg_match('/\{([0-9]+)\}\r\n$/', $line, $m)) {
