@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Upgraded to jQuery 1.7.2
 - Image resize with GD extension (#1488383)
 - Fix lack of warning when switching task in compose window (#1488399)
 - Fix bug where it wasn't possible to enter ( or & characters in autocomplete fields
