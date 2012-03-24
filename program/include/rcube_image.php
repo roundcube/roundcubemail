@@ -40,8 +40,7 @@ class rcube_image
      */
     public function props()
     {
-        $rcmail = rcmail::get_instance();
-
+        // use GD extension
         if (function_exists('getimagesize') && ($imsize = @getimagesize($this->image_file))) {
             $width   = $imsize[0];
             $height  = $imsize[1];
@@ -49,12 +48,9 @@ class rcube_image
             $type    = image_type_to_extension($imsize['2'], false);
         }
 
-        if (!$type && ($cmd = $rcmail->config->get('im_identify_path', false))) {
-            $id = rcmail::exec($cmd. ' 2>/dev/null {in}', array('in' => $this->image_file));
-            list(, $type, $size) = explode(' ', strtolower($id));
-            if ($size) {
-                list($width, $height) = explode('x', $size);
-            }
+        // use ImageMagick
+        if (!$type && ($data = $this->identify())) {
+            list($type, $width, $height) = $data;
         }
 
         if ($type) {
@@ -66,7 +62,6 @@ class rcube_image
             );
         }
     }
-
 
     /**
      * Resize image to a given size
@@ -81,7 +76,6 @@ class rcube_image
         $result   = false;
         $rcmail   = rcmail::get_instance();
         $convert  = $rcmail->config->get('im_convert_path', false);
-        $identify = $rcmail->config->get('im_identify_path', false);
         $props    = $this->props();
 
         if (!$filename) {
@@ -93,10 +87,10 @@ class rcube_image
             $p['out']  = $filename;
             $p['in']   = $this->image_file;
             $p['size'] = $size.'x'.$size;
-            $p['type'] = $type = $props['type'];
+            $type      = $props['type'];
 
-            if (!$type) {
-                list(, $p['type']) = explode(' ', strtolower(rcmail::exec($identify . ' 2>/dev/null {in}', $p))); // for things like eps
+            if (!$type && ($data = $this->identify())) {
+                $type = $data[0];
             }
 
             $type = strtr($type, array("jpeg" => "jpg", "tiff" => "tif", "ps" => "eps", "ept" => "eps"));
@@ -162,4 +156,20 @@ class rcube_image
         return false;
     }
 
+    /**
+     * Identify command handler.
+     */
+    private function identify()
+    {
+        $rcmail = rcmail::get_instance();
+
+        if ($cmd = $rcmail->config->get('im_identify_path')) {
+            $args = array('in' => $this->image_file, 'format' => "%m %[fx:w] %[fx:h]");
+            $id   = rcmail::exec($cmd. ' 2>/dev/null -format {format} {in}', $args);
+
+            if ($id) {
+                return explode(' ', strtolower($id));
+            }
+        }
+    }
 }
