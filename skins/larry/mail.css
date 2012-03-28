@@ -545,12 +545,13 @@ a.iconbutton.threadmode.selected {
 #messagelist tr td.status span.msgicon:hover {
 	background-position: 0 -272px;
 }
-
-#messagelist tr td.status span.deleted,
-#messagelist tr td.subject span.deleted {
-	background-position: 0 -187px;
-}
 */
+#messagelist tr td.status span.deleted,
+#messagelist tr td.status span.deleted:hover,
+#messagelist tr td.subject span.deleted {
+	background-position: -22px -1096px;
+}
+
 #messagelist tr td.status span.status,
 #messagelist tr td.status span.unread,
 #messagelist tr td.subject span.unread,
