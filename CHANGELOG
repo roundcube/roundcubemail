@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support LDAP RFC2256's country object class read/write (#1488123)
 - Upgraded to jQuery 1.7.2
 - Image resize with GD extension (#1488383)
 - Fix lack of warning when switching task in compose window (#1488399)

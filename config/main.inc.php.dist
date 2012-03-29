@@ -580,6 +580,8 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // the object classes (can include additional fields not required by the object classes).
   'required_fields' => array('cn', 'sn', 'mail'),
   'search_fields'   => array('mail', 'cn'),  // fields to search in
+  // Map of contact sub-objects (attribute name => objectClass(es)), e.g. 'c' => 'country'
+  'sub_fields' => array(),
   // mapping of contact fields to directory attributes
   'fieldmap' => array(
     // Roundcube  => LDAP
