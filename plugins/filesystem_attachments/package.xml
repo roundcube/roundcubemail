@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+	<name>filesystem_attachments</name>
+	<channel>pear.roundcube.net</channel>
+	<summary>Default database storage for uploaded attachments</summary>
+	<description>
+	    This is a core plugin which provides basic, filesystem based
+        attachment temporary file handling. This includes storing
+        attachments of messages currently being composed, writing attachments
+        to disk when drafts with attachments are re-opened and writing
+        attachments to disk for inline display in current html compositions.
+	</description>
+	<lead>
+		<name>Thomas Bruederli</name>
+		<user>thomasb</user>
+		<email>roundcube@gmail.com</email>
+		<active>yes</active>
+	</lead>
+	<developer>
+		<name>Ziba Scott</name>
+		<user>ziba</user>
+		<email>ziba@umich.edu</email>
+		<active>yes</active>
+	</developer>
+	<date>2011-11-21</date>
+	<version>
+		<release>1.0</release>
+		<api>1.0</api>
+	</version>
+	<stability>
+		<release>stable</release>
+		<api>stable</api>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	<notes>-</notes>
+	<contents>
+		<dir baseinstalldir="/" name="/">
+			<file name="filesystem_attachments.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+		</dir>
+		<!-- / -->
+	</contents>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.2.1</min>
+			</php>
+			<pearinstaller>
+				<min>1.7.0</min>
+			</pearinstaller>
+		</required>
+	</dependencies>
+	<phprelease/>
+</package>
