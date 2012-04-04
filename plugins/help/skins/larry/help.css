@@ -10,8 +10,7 @@
 
 #helptoolbar {
 	position: absolute;
-	top: -4px;
-	right: 0;
+	top: -6px;
 	right: 0;
 	height: 40px;
 	white-space: nowrap;
@@ -29,11 +28,11 @@
 }
 
 .toolbar a.button.help {
-	background: url(help.png) center -50px no-repeat;
+	background: url(help.png) center -51px no-repeat;
 }
 
 .toolbar a.button.about {
-	background: url(help.png) center -90px no-repeat;
+	background: url(help.png) center -89px no-repeat;
 }
 
 .toolbar a.button.license {
