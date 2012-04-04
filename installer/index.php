@@ -108,7 +108,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 
 <div id="banner">
   <div class="banner-bg"></div>
-  <div class="banner-logo"><a href="http://roundcube.net"><img src="images/rcube_logo.gif" width="210" height="55" border="0" alt="Roundcube - Open source webmail project" /></a></div>
+  <div class="banner-logo"><a href="http://roundcube.net"><img src="images/roundcube_logo.png" width="210" height="55" border="0" alt="Roundcube - open source webmail software" /></a></div>
 </div>
 
 <div id="topnav">
@@ -144,7 +144,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 </ol>
 
 <?php
-$include_steps = array('./welcome.html', './check.php', './config.php', './test.php');
+$include_steps = array('', './check.php', './config.php', './test.php');
 
 if ($include_steps[$RCI->step]) {
   include $include_steps[$RCI->step];
@@ -158,7 +158,7 @@ else {
 </div>
 
 <div id="footer">
-  Installer by the Roundcube Dev Team. Copyright &copy; 2008-2011 - Published under the GNU Public License;&nbsp;
+  Installer by the Roundcube Dev Team. Copyright &copy; 2008-2012 – Published under the GNU Public License;&nbsp;
   Icons by <a href="http://famfamfam.com">famfamfam</a>
 </div>
 </body>

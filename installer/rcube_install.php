@@ -50,7 +50,7 @@ class rcube_install
   // these config options are required for a working system
   var $required_config = array(
     'db_dsnw', 'db_table_contactgroups', 'db_table_contactgroupmembers',
-    'des_key', 'session_lifetime',
+    'des_key', 'session_lifetime', 'support_url',
   );
 
   /**
@@ -254,7 +254,7 @@ class rcube_install
     
     // iterate over default config
     foreach ($defaults as $prop => $value) {
-      if (!isset($seen[$prop]) && !isset($this->config[$prop]) && isset($required[$prop]))
+      if (!isset($seen[$prop]) && isset($required[$prop]) && !(is_bool($this->config[$prop]) || strlen($this->config[$prop])))
         $out['missing'][] = array('prop' => $prop);
     }
 

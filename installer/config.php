@@ -59,6 +59,30 @@ echo $input_prodname->show($RCI->getprop('product_name'));
 <div>The name of your service (used to compose page titles)</div>
 </dd>
 
+<dt class="propname">support_url</dt>
+<dd>
+<?php
+
+$input_support = new html_inputfield(array('name' => '_support_url', 'size' => 50, 'id' => "cfgsupporturl"));
+echo $input_support->show($RCI->getprop('support_url'));
+
+?>
+<div>Provide an URL where a user can get support for this Roundcube installation.<br/>PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!</div>
+<p class="hint">Enter an absolute URL (inculding http://) to a support page/form or a mailto: link.</p>
+</dd>
+
+<dt class="propname">skin_logo</dt>
+<dd>
+<?php
+
+$input_skin = new html_inputfield(array('name' => '_skin_logo', 'size' => 50, 'id' => "cfgskinlogo"));
+echo $input_skin->show($RCI->getprop('skin_logo'));
+
+?>
+<div>Custom image to display instead of the Roundcube logo.</div>
+<p class="hint">Enter a URL relative to the document root of this Roundcube installation.</p>
+</dd>
+
 <dt class="propname">temp_dir</dt>
 <dd>
 <?php
@@ -68,20 +92,6 @@ echo $input_tempdir->show($RCI->getprop('temp_dir'));
 
 ?>
 <div>Use this folder to store temp files (must be writeable for webserver)</div>
-</dd>
-
-
-<dt class="propname">ip_check</dt>
-<dd>
-<?php
-
-$check_ipcheck = new html_checkbox(array('name' => '_ip_check', 'id' => "cfgipcheck"));
-echo $check_ipcheck->show(intval($RCI->getprop('ip_check')), array('value' => 1));
-
-?>
-<label for="cfgipcheck">Check client IP in session authorization</label><br />
-
-<p class="hint">This increases security but can cause sudden logouts when someone uses a proxy with changing IPs.</p>
 </dd>
 
 <dt class="propname">des_key</dt>
@@ -95,6 +105,19 @@ echo $input_deskey->show($RCI->getprop('des_key'));
 <div>This key is used to encrypt the users imap password before storing in the session record</div>
 <p class="hint">It's a random generated string to ensure that every installation has its own key.
 If you enter it manually please provide a string of exactly 24 chars.</p>
+</dd>
+
+<dt class="propname">ip_check</dt>
+<dd>
+<?php
+
+$check_ipcheck = new html_checkbox(array('name' => '_ip_check', 'id' => "cfgipcheck"));
+echo $check_ipcheck->show(intval($RCI->getprop('ip_check')), array('value' => 1));
+
+?>
+<label for="cfgipcheck">Check client IP in session authorization</label><br />
+
+<p class="hint">This increases security but can cause sudden logouts when someone uses a proxy with changing IPs.</p>
 </dd>
 
 <dt class="propname">enable_caching</dt>
@@ -510,18 +533,6 @@ echo $input_skin->show($RCI->getprop('skin'));
 
 ?>
 <div>Name of interface skin (folder in /skins)</div>
-</dd>
-
-<dt class="propname">skin_logo</dt>
-<dd>
-<?php
-
-$input_skin = new html_inputfield(array('name' => '_skin_logo', 'size' => 50, 'id' => "cfgskinlogo"));
-echo $input_skin->show($RCI->getprop('skin_logo'));
-
-?>
-<div>Custom image to display instead of the Roundcube logo.</div>
-<p class="hint">Enter a URL relative to the document root of this Roundcube installation.</p>
 </dd>
 
 <dt class="propname">mail_pagesize <span class="userconf">*</span></dt>
