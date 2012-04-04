@@ -175,6 +175,17 @@
 	bottom: 0;
 }
 
+#identities-table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+#identities-table tbody td.mail {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 #folder-details,
 #identity-details {
 	position: absolute;

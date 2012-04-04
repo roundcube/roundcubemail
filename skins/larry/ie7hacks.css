@@ -48,6 +48,14 @@ a.deletebutton,
 	right: -2px;
 }
 
+#login-form #message div {
+	display: block;
+	width: 200px;
+	margin-left: 130px;
+	white-space: nowrap;
+	text-align: left;
+}
+
 #messagepreviewheader .iconlink {
 	color: #fff;
 	height: 14px;

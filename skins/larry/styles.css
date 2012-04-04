@@ -1251,6 +1251,10 @@ ul.proplist li {
 	padding-right: 0;
 }
 
+#login-form #message div {
+	float: left;
+}
+
 #bottomline {
 	font-size: 90%;
 	text-align: center;

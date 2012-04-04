@@ -581,6 +581,7 @@ a.iconbutton.threadmode.selected {
 
 #messagelist tbody tr td.subject {
 	width: 99%;
+	white-space: nowrap;
 }
 
 #messagelist tbody tr td.subject a {
@@ -596,14 +597,11 @@ a.iconbutton.threadmode.selected {
 /**** tree indicators ****/
 
 #messagelist tbody tr td span.branch div {
-	float: left;
-	height: 18px;
+	display: inline-block;
 }
 
 #messagelist tbody tr td span.branch div.tree {
-	height: 18px;
 	width: 15px;
-/*	background: url(images/tree.gif) 0px 0px no-repeat; */
 }
 
 #listoptions ul.proplist {

@@ -155,3 +155,9 @@ ul.toolbarmenu li a.active:hover,
 	border-top: 1px solid #999;
 }
 
+#messagelist tbody tr td span.branch div {
+	float: left;
+	height: 18px;
+}
+
+
