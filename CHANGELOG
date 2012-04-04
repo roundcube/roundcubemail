@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where memory_limit = -1 wasn't handled properly
 - Support LDAP RFC2256's country object class read/write (#1488123)
 - Upgraded to jQuery 1.7.2
 - Image resize with GD extension (#1488383)
