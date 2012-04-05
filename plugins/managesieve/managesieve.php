@@ -128,8 +128,9 @@ class managesieve extends rcube_plugin
                 'command'  => 'managesieve-create',
                 'label'    => 'managesieve.filtercreate',
                 'type'     => 'link',
-                'classact' => 'filterlink active',
-                'class'    => 'filterlink',
+                'classact' => 'icon filterlink active',
+                'class'    => 'icon filterlink',
+                'innerclass' => 'icon filterlink',
             ))), 'messagemenu');
 
         // register some labels/messages

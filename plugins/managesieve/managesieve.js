@@ -674,7 +674,8 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
         function(e) {
           var offset = $(this).offset(),
             left = offset.left,
-            top = offset.top - 12;
+            top = offset.top - 12,
+            minwidth = $(this).width();
 
           if (framed) {
             offset = $((rcmail.env.task == 'mail'  ? '#sievefilterform > iframe' : '#filter-box'), parent.document).offset();
@@ -685,7 +686,7 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
           tip.html(e.data.str)
           top -= tip.height();
 
-          tip.css({left: left, top: top}).show();
+          tip.css({left: left, top: top, minWidth: (minwidth-2) + 'px'}).show();
         })
       .bind('mouseleave', function(e) { tip.hide(); });
   }

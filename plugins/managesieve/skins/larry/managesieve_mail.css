@@ -1,6 +1,5 @@
-#messagemenu li a.filterlink {
-  background-image: url(images/filter.png);
-  background-position: 7px 0;
+ul.toolbarmenu li span.filterlink {
+  background-position: 0 -1924px;
 }
 
 #sievefilterform {
@@ -8,10 +7,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #F2F2F2;
-  border: 1px solid #999999;
   padding: 0;
-  margin: 5px;
+  overflow: hidden;
 }
 
 #sievefilterform iframe {
@@ -21,7 +18,6 @@
   right: 0;
   width: 100%;
   min-height: 100%; /* Chrome 14 bug */
-  background-color: #F2F2F2;
   border: 0;
   padding: 0;
   margin: 0;
@@ -36,6 +32,7 @@
 
 #sievefilterform fieldset {
   margin: 5px;
+  border-radius: 4px;
 }
 
 #sievefilterform ul li {
@@ -54,9 +51,12 @@
 #managesieve-tip
 {
   z-index: 100000;
+  padding: 3px;
+  background-color: #eee;
 }
 
 span.sieve.error
 {
   color: red;
+  white-space: nowrap;
 }

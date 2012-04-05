@@ -1,0 +1,23 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
+</head>
+<body class="iframe">
+
+<div id="filter-title" class="boxtitle"><roundcube:label name="managesieve.newfilterset" /></div>
+
+<div id="filter-form" class="boxcontent">
+<roundcube:object name="filtersetform" />
+
+<p>
+<roundcube:button command="plugin.managesieve-save" type="input" class="button mainaction" label="save" />
+</p>
+
+</form>
+</div>
+
+</body>
+</html>

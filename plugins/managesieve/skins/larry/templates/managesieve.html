@@ -1,0 +1,73 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
+</head>
+<body class="noscroll">
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen" class="offset">
+
+<roundcube:include file="/includes/settingstabs.html" />
+
+<div id="settings-right">
+
+<div id="filtersetslistbox" class="uibox listbox">
+<h2 class="boxtitle"><roundcube:label name="managesieve.filtersets" /></h2>
+<div class="scroller withfooter">
+  <roundcube:object name="filtersetslist" id="filtersetslist" class="listing" cellspacing="0" summary="Filters list" type="list" noheader="true" />
+</div>
+<div class="boxfooter">
+  <roundcube:button command="plugin.managesieve-setadd" type="link" title="managesieve.filtersetadd" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="filtersetmenulink" id="filtersetmenulink" type="link" title="moreactions" class="listbutton groupactions" onclick="UI.show_popup('filtersetmenu');return false" innerClass="inner" content="&#9881" />
+</div>
+</div>
+
+<div id="filtersscreen">
+<div id="filterslistbox" class="uibox listbox">
+<h2 class="boxtitle"><roundcube:label name="managesieve.filters" /></h2>
+<div class="scroller withfooter">
+  <roundcube:object name="filterslist" id="filterslist" class="listing" cellspacing="0" summary="Filters list" noheader="true" />
+</div>
+<div class="boxfooter">
+  <roundcube:button command="plugin.managesieve-add" type="link" title="managesieve.filteradd" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="filtermenulink" id="filtermenulink" type="link" title="moreactions" class="listbutton groupactions" onclick="UI.show_popup('filtermenu');return false" innerClass="inner" content="&#9881" />
+</div>
+</div>
+
+<div id="filter-box" class="uibox">
+  <roundcube:object name="filterframe" id="filter-frame" style="width:100%; height:96%" frameborder="0" src="/watermark.html" />
+  <roundcube:object name="message" id="message" class="statusbar" />
+</div>
+
+</div>
+
+<div id="filtersetmenu" class="popupmenu">
+  <ul class="toolbarmenu">
+    <li><roundcube:button command="plugin.managesieve-setact" label="managesieve.enable" classAct="active" /></li>
+    <li><roundcube:button command="plugin.managesieve-setdel" label="delete" classAct="active" /></li>
+    <li class="separator_above"><roundcube:button command="plugin.managesieve-setget" label="download" classAct="active" /></li>
+    <roundcube:container name="filtersetoptions" id="filtersetmenu" />
+  </ul>
+</div>
+
+<div id="filtermenu" class="popupmenu">
+  <ul class="toolbarmenu">
+    <li><roundcube:button command="plugin.managesieve-act" label="managesieve.enable" classAct="active" /></li>
+    <li><roundcube:button command="plugin.managesieve-del" label="delete" classAct="active" /></li>
+    <roundcube:container name="filteroptions" id="filtermenu" />
+  </ul>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+<script type="text/javascript">
+  new rcube_splitter({ id:'managesievesplitter1', p1:'#filtersetslistbox', p2:'#filtersscreen',
+          orientation:'v', relative:true, start:156, min:120, size:12 }).init();
+  new rcube_splitter({ id:'managesievesplitter2', p1:'#filterslistbox', p2:'#filter-box',
+          orientation:'v', relative:true, start:186, min:120, size:12 }).init();
+</script>
+
+</body>
+</html>
