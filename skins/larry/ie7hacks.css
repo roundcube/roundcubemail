@@ -49,6 +49,7 @@ a.deletebutton,
 }
 
 #login-form #message div {
+	float: left;
 	display: block;
 	width: 200px;
 	margin-left: 130px;
