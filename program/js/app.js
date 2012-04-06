@@ -959,7 +959,7 @@ function rcube_webmail()
       case 'send-attachment':
         // Reset the auto-save timer
         self.clearTimeout(this.save_timer);
-        
+
         this.upload_file(props || this.gui_objects.uploadform);
         break;
 
@@ -3443,8 +3443,9 @@ function rcube_webmail()
 
       if (this.env.loadingicon)
         content = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />'+content;
-      if (this.env.cancelicon)
-        content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload" class="cancelupload"><img src="'+this.env.cancelicon+'" alt="" /></a>'+content;
+      content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload" class="cancelupload">'
+        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="" />' : this.get_label('cancel')) + '</a>' + content;
+
       this.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false });
 
       // upload progress support

@@ -204,7 +204,8 @@
   background-position: 7px -71px;
 }
 
-#markmessagemenu li a
+#markmessagemenu li a,
+#compose-attachments li a
 {
   background: url(images/messageicons.png) no-repeat;
 }
@@ -1469,9 +1470,29 @@ input.from_address
   -o-text-overflow: ellipsis;
 }
 
-#compose-attachments ul li img
+#compose-attachments li a
 {
-  padding-right: 2px;
+  text-indent: -1000px;
+  width: 17px;
+  display: block;
+  float: left;
+  text-decoration: none;
+}
+
+#compose-attachments li img
+{
+  vertical-align: middle;
+}
+
+#compose-attachments li a.delete,
+#compose-attachments li a.cancelupload
+{
+  background-position: 0px -392px;
+}
+
+#compose-attachments li span
+{
+  line-height: 18px;
   vertical-align: middle;
 }
 

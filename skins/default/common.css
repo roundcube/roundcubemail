@@ -556,6 +556,11 @@ body.iframe .boxtitle
   background-position: -74px 0;
 }
 
+img.uploading
+{
+  width: 16px;
+  height: 16px;
+}
 
 /***** common table settings ******/
 
