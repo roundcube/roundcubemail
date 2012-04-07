@@ -107,7 +107,7 @@ function rcmail_editor_tabindex(focus)
       if (textarea && node)
         node.tabIndex = textarea.tabIndex;
       if (focus)
-        editor.getWin().focus();
+        editor.getBody().focus();
     }
   }
 }

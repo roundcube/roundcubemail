@@ -1377,7 +1377,7 @@ function rcube_html_editor($mode='')
         'skin_path'  => $RCMAIL->output->get_skin_path(),
         'spellcheck' => intval($RCMAIL->config->get('enable_spellcheck')),
         'spelldict'  => intval($RCMAIL->config->get('spellcheck_dictionary')),
-    ))), 'foot');
+    ))), 'docready');
 }
 
 
