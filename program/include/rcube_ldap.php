@@ -127,15 +127,23 @@ class rcube_ldap extends rcube_addressbook
                 }
             }
         }
-        else if ($this->coltypes['address'])
+        else if ($this->coltypes['address']) {
             $this->coltypes['address'] = array('type' => 'textarea', 'childs' => null, 'limit' => 1, 'size' => 40);
+        }
 
         // make sure 'required_fields' is an array
-        if (!is_array($this->prop['required_fields']))
+        if (!is_array($this->prop['required_fields'])) {
             $this->prop['required_fields'] = (array) $this->prop['required_fields'];
+        }
 
-        foreach ($this->prop['required_fields'] as $key => $val)
+        // make sure LDAP_rdn field is required
+        if (!empty($this->prop['LDAP_rdn']) && !in_array($this->prop['LDAP_rdn'], $this->prop['required_fields'])) {
+            $this->prop['required_fields'][] = $this->prop['LDAP_rdn'];
+        }
+
+        foreach ($this->prop['required_fields'] as $key => $val) {
             $this->prop['required_fields'][$key] = $this->_attr_name(strtolower($val));
+        }
 
         // Build sub_fields filter
         if (!empty($this->prop['sub_fields']) && is_array($this->prop['sub_fields'])) {
@@ -962,6 +970,11 @@ class rcube_ldap extends rcube_addressbook
      */
     public function validate(&$save_data, $autofix = false)
     {
+        // validate e-mail addresses
+        if (!parent::validate($save_data, $autofix)) {
+            return false;
+        }
+
         // check for name input
         if (empty($save_data['name'])) {
             $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');
@@ -972,7 +985,7 @@ class rcube_ldap extends rcube_addressbook
         $missing = null;
         $ldap_data = $this->_map_data($save_data);
         foreach ($this->prop['required_fields'] as $fld) {
-            if (!isset($ldap_data[$fld])) {
+            if (!isset($ldap_data[$fld]) || $ldap_data[$fld] === '') {
                 $missing[$fld] = 1;
             }
         }
@@ -981,25 +994,29 @@ class rcube_ldap extends rcube_addressbook
             // try to complete record automatically
             if ($autofix) {
                 $reverse_map = array_flip($this->fieldmap);
-                $name_parts = preg_split('/[\s,.]+/', $save_data['name']);
-                if ($missing['sn']) {
-                    $sn_field = $reverse_map['sn'];
-                    $save_data[$sn_field] = array_pop ($name_parts);
-                }
-                if ($missing[($fn_field = $this->fieldmap['firstname'])]) {
-                    $save_data['firstname'] = array_shift($name_parts);
+                $name_parts  = preg_split('/[\s,.]+/', $save_data['name']);
+                $sn_field    = $this->fieldmap['surname'];
+                $fn_field    = $this->fieldmap['firstname'];
+
+                if ($sn_field && $missing[$sn_field]) {
+                    $save_data['surname'] = array_pop($name_parts);
+                    unset($missing[$sn_field]);
                 }
 
-                return $this->validate($save_data, false);
+                if ($fn_field && $missing[$fn_field]) {
+                    $save_data['firstname'] = array_shift($name_parts);
+                    unset($missing[$fn_field]);
+                }
             }
 
             // TODO: generate message saying which fields are missing
-            $this->set_error(self::ERROR_VALIDATE, 'formincomplete');
-            return false;
+            if (!empty($missing)) {
+                $this->set_error(self::ERROR_VALIDATE, 'formincomplete');
+                return false;
+            }
         }
 
-        // validate e-mail addresses
-        return parent::validate($save_data, $autofix);
+        return true;
     }
 
 
