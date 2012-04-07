@@ -735,38 +735,36 @@ function format_date($date, $format=NULL, $convert=true)
 {
   global $RCMAIL, $CONFIG;
 
-  if (is_a($date, 'DateTime')) {
-    $ts = $date->format('U');
-    $tzs = $date->getTimezone();
+  if (is_object($date) && is_a($date, 'DateTime')) {
+    $timestamp = $date->format('U');
   }
   else {
-    $tzs = 'GMT';
-
     if (!empty($date))
-      $ts = rcube_strtotime($date);
+      $timestamp = rcube_strtotime($date);
 
-    if (empty($ts))
+    if (empty($timestamp))
       return '';
 
     try {
-      $date = new DateTime("@".$ts);
+      $date = new DateTime("@".$timestamp);
     }
     catch (Exception $e) {
       return '';
     }
   }
 
-  try {
-    // convert to the right timezone
-    $stz = date_default_timezone_get();
-    $tz = new DateTimeZone($convert ? $RCMAIL->config->get('timezone') : $tzs);
-    $date->setTimezone($tz);
-    date_default_timezone_set($tz->getName());
+  if ($convert) {
+    try {
+      // convert to the right timezone
+      $stz = date_default_timezone_get();
+      $tz = new DateTimeZone($RCMAIL->config->get('timezone'));
+      $date->setTimezone($tz);
+      date_default_timezone_set($tz->getName());
 
-    $timestamp = $date->format('U');
-  }
-  catch (Exception $e) {
-    $timestamp = $ts;
+      $timestamp = $date->format('U');
+    }
+    catch (Exception $e) {
+    }
   }
 
   // define date format depending on current time
@@ -789,14 +787,18 @@ function format_date($date, $format=NULL, $convert=true)
   // strftime() format
   if (preg_match('/%[a-z]+/i', $format)) {
     $format = strftime($format, $timestamp);
-    date_default_timezone_set($stz);
+
+    if ($convert && $stz) {
+      date_default_timezone_set($stz);
+    }
+
     return $today ? (rcube_label('today') . ' ' . $format) : $format;
   }
 
   // parse format string manually in order to provide localized weekday and month names
   // an alternative would be to convert the date() format string to fit with strftime()
   $out = '';
-  for($i=0; $i<strlen($format); $i++) {
+  for ($i=0; $i<strlen($format); $i++) {
     if ($format[$i]=='\\')  // skip escape chars
       continue;
 
@@ -805,20 +807,20 @@ function format_date($date, $format=NULL, $convert=true)
       $out .= $format[$i];
     // weekday (short)
     else if ($format[$i]=='D')
-      $out .= rcube_label(strtolower($date->format('D')));
+      $out .= rcube_label(strtolower(date('D', $timestamp)));
     // weekday long
     else if ($format[$i]=='l')
-      $out .= rcube_label(strtolower($date->format('l')));
+      $out .= rcube_label(strtolower(date('l', $timestamp)));
     // month name (short)
     else if ($format[$i]=='M')
-      $out .= rcube_label(strtolower($date->format('M')));
+      $out .= rcube_label(strtolower(date('M', $timestamp)));
     // month name (long)
     else if ($format[$i]=='F')
-      $out .= rcube_label('long'.strtolower($date->format('M')));
+      $out .= rcube_label('long'.strtolower(date('M', $timestamp)));
     else if ($format[$i]=='x')
       $out .= strftime('%x %X', $timestamp);
     else
-      $out .= $date->format($format[$i]);
+      $out .= date($format[$i], $timestamp);
   }
 
   if ($today) {
@@ -832,7 +834,10 @@ function format_date($date, $format=NULL, $convert=true)
     }
   }
 
-  date_default_timezone_set($stz);
+  if ($convert && $stz) {
+    date_default_timezone_set($stz);
+  }
+
   return $out;
 }
 
