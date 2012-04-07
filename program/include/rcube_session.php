@@ -5,7 +5,7 @@
  | program/include/rcube_session.php                                     |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011, Kolab Systems AG                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -383,6 +383,7 @@ class rcube_session
   public function kill()
   {
     $this->vars = false;
+    $this->ip = $_SERVER['REMOTE_ADDR']; // update IP (might have changed)
     $this->destroy(session_id());
     rcmail::setcookie($this->cookiename, '-del-', time() - 60);
   }
