@@ -220,8 +220,7 @@ function rcube_webmail()
           $(this.gui_objects.qsearchbox).focusin(function() { rcmail.message_list.blur(); });
         }
 
-        if (!this.env.flag_for_deletion && this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox)
-          this.set_alttext('delete', 'movemessagetotrash');
+        this.set_button_titles();
 
         this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list', 'forward',
           'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'download',
@@ -573,13 +572,10 @@ function rcube_webmail()
         this.reset_qsearch();
         if (this.task == 'mail') {
           this.list_mailbox(props);
-
-          if (this.env.trash_mailbox && !this.env.flag_for_deletion)
-            this.set_alttext('delete', this.env.mailbox != this.env.trash_mailbox ? 'movemessagetotrash' : 'deletemessage');
+          this.set_button_titles();
         }
-        else if (this.task == 'addressbook') {
+        else if (this.task == 'addressbook')
           this.list_contacts(props);
-        }
         break;
 
       case 'load-headers':
@@ -2570,6 +2566,9 @@ function rcube_webmail()
     // @TODO: we should check if defined trash mailbox exists
     else if (!trash || this.env.mailbox == trash)
       this.permanently_remove_messages();
+    // we're in Junk folder and delete_junk is enabled
+    else if (this.env.delete_junk && this.env.junk_mailbox && this.env.mailbox == this.env.junk_mailbox)
+      this.permanently_remove_messages();
     // if there is a trash mailbox defined and we're not currently in it
     else {
       // if shift was pressed delete it immediately
@@ -2869,6 +2868,19 @@ function rcube_webmail()
     return this.select_all_mode ? '*' : uids.join(',');
   };
 
+  // Sets title of the delete button
+  this.set_button_titles = function()
+  {
+    var label = 'deletemessage';
+
+    if (!this.env.flag_for_deletion
+      && this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox
+      && (!this.env.delete_junk || !this.env.junk_mailbox || this.env.mailbox != this.env.junk_mailbox)
+    )
+      label = 'movemessagetotrash';
+
+    this.set_alttext('delete', label);
+  };
 
   /*********************************************************/
   /*********       mailbox folders methods         *********/

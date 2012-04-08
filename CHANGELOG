@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to delete messages instead of moving to Trash when in Junk folder (#1486686)
 - Fix invisible cursor when replying to a html message (#1487073)
 - Reset IP stored in session when destroying session data (#1488056)
 - Fix bug where memory_limit = -1 wasn't handled properly

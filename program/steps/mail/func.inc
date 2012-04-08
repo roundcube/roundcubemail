@@ -99,6 +99,8 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
   $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
 
+  if ($CONFIG['delete_junk'])
+    $OUTPUT->set_env('delete_junk', true);
   if ($CONFIG['flag_for_deletion'])
     $OUTPUT->set_env('flag_for_deletion', true);
   if ($CONFIG['read_when_deleted'])

@@ -816,6 +816,16 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['delete_junk'])) {
+      $field_id = 'rcmfd_delete_junk';
+      $input_delete_junk = new html_checkbox(array('name' => '_delete_junk', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['delete_junk'] = array(
+        'title' => html::label($field_id, Q(rcube_label('deletejunk'))),
+        'content' => $input_delete_junk->show($config['delete_junk']?1:0),
+      );
+    }
+
     // Trash purging on logout
     if (!isset($no_override['logout_purge'])) {
       $field_id = 'rcmfd_logout_purge';

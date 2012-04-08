@@ -341,6 +341,7 @@ $labels['readwhendeleted'] = '將刪除的郵件標示為已讀取';
 $labels['flagfordeletion'] = '刪除郵件時將原始郵件標示為已刪除';
 $labels['skipdeleted'] = '不要顯示已刪除的郵件';
 $labels['deletealways'] = '如果移到垃圾桶失敗，就直接刪除';
+$labels['deletejunk'] = '直接從垃圾郵件刪除';
 $labels['showremoteimages'] = '顯示遠端郵件內文中的圖片';
 $labels['fromknownsenders'] = '從已知的寄件者';
 $labels['always'] = '總是接受';

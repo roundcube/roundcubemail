@@ -110,6 +110,7 @@ switch ($CURR_SECTION)
       'skip_deleted'      => isset($_POST['_skip_deleted']) ? TRUE : FALSE,
       'flag_for_deletion' => isset($_POST['_flag_for_deletion']) ? TRUE : FALSE,
       'delete_always' 	  => isset($_POST['_delete_always']) ? TRUE : FALSE,
+      'delete_junk' 	  => isset($_POST['_delete_junk']) ? TRUE : FALSE,
       'logout_purge'      => isset($_POST['_logout_purge']) ? TRUE : FALSE,
       'logout_expunge'    => isset($_POST['_logout_expunge']) ? TRUE : FALSE,
     );

@@ -785,6 +785,9 @@ $rcmail_config['addressbook_search_mods'] = null;  // Example: array('name'=>1, 
 // when user is over quota and Trash is included in the quota.
 $rcmail_config['delete_always'] = false;
 
+// Directly delete messages in Junk instead of moving to Trash
+$rcmail_config['delete_junk'] = false;
+
 // Behavior if a received message requests a message delivery notification (read receipt)
 // 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
 // 3 = send automatically if sender is in addressbook, otherwise ask the user
