@@ -2126,8 +2126,8 @@ function rcube_webmail()
 
     while (new_row) {
       if (new_row.nodeType == 1 && (r = this.message_list.rows[new_row.uid]) && r.unread_children) {
-	    this.message_list.expand_all(r);
-	    this.set_unread_children(r.uid);
+        this.message_list.expand_all(r);
+        this.set_unread_children(r.uid);
       }
       new_row = new_row.nextSibling;
     }
@@ -2312,38 +2312,38 @@ function rcube_webmail()
     row = row.obj.nextSibling;
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
-	    if (!r.depth || r.depth <= depth)
-	      break;
+        if (!r.depth || r.depth <= depth)
+          break;
 
-	    r.depth--; // move left
+        r.depth--; // move left
         // reset width and clear the content of a tab, icons will be added later
-	    $('#rcmtab'+r.uid).width(r.depth * 15).html('');
+        $('#rcmtab'+r.uid).width(r.depth * 15).html('');
         if (!r.depth) { // a new root
-	      count++; // increase roots count
-	      r.parent_uid = 0;
-	      if (r.has_children) {
-	        // replace 'leaf' with 'collapsed'
-	        $('#rcmrow'+r.uid+' '+'.leaf:first')
+          count++; // increase roots count
+          r.parent_uid = 0;
+          if (r.has_children) {
+            // replace 'leaf' with 'collapsed'
+            $('#rcmrow'+r.uid+' '+'.leaf:first')
               .attr('id', 'rcmexpando' + r.uid)
-	          .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
-    	      .bind('mousedown', {uid:r.uid, p:this},
-	            function(e) { return e.data.p.expand_message_row(e, e.data.uid); });
+              .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
+              .bind('mousedown', {uid:r.uid, p:this},
+                function(e) { return e.data.p.expand_message_row(e, e.data.uid); });
 
-	        r.unread_children = 0;
-	        roots.push(r);
-	      }
-	      // show if it was hidden
-	      if (r.obj.style.display == 'none')
-	        $(r.obj).show();
-	    }
-	    else {
-	      if (r.depth == depth)
-	        r.parent_uid = parent;
-	      if (r.unread && roots.length)
-	        roots[roots.length-1].unread_children++;
-	    }
-	  }
-	  row = row.nextSibling;
+            r.unread_children = 0;
+            roots.push(r);
+          }
+          // show if it was hidden
+          if (r.obj.style.display == 'none')
+            $(r.obj).show();
+        }
+        else {
+          if (r.depth == depth)
+            r.parent_uid = parent;
+          if (r.unread && roots.length)
+            roots[roots.length-1].unread_children++;
+        }
+      }
+      row = row.nextSibling;
     }
 
     // update unread_children for roots
@@ -2362,13 +2362,13 @@ function rcube_webmail()
 
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
-	    if (!r.depth && cnt)
-	      cnt--;
+        if (!r.depth && cnt)
+          cnt--;
 
         if (!cnt)
-	      this.message_list.remove_row(row.uid);
-	  }
-	  row = row.nextSibling;
+          this.message_list.remove_row(row.uid);
+      }
+      row = row.nextSibling;
     }
   };
 
@@ -2805,12 +2805,12 @@ function rcube_webmail()
         if (rows[uid].unread)
           r_uids[r_uids.length] = uid;
 
-	    if (this.env.skip_deleted) {
-	      count += this.update_thread(uid);
+        if (this.env.skip_deleted) {
+          count += this.update_thread(uid);
           this.message_list.remove_row(uid, (this.env.display_next && i == this.message_list.selection.length-1));
-	    }
-	    else
-	      this.set_message(uid, 'deleted', true);
+        }
+        else
+          this.set_message(uid, 'deleted', true);
       }
     }
 
@@ -3013,7 +3013,7 @@ function rcube_webmail()
     obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr('autocomplete', 'off');
   };
-  
+
   this.compose_recipient_select = function(list)
   {
     this.enable_command('add-recipient', list.selection.length > 0);
@@ -3022,7 +3022,7 @@ function rcube_webmail()
   this.compose_add_recipient = function(field)
   {
     var recipients = [], input = $('#_'+field);
-    
+
     if (this.contact_list && this.contact_list.selection.length) {
       for (var id, n=0; n < this.contact_list.selection.length; n++) {
         id = this.contact_list.selection[n];
@@ -6340,4 +6340,3 @@ rcube_webmail.long_subject_title_ie = function(elem, indent)
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_webmail.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_webmail.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
-
