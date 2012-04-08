@@ -79,7 +79,9 @@ input, textarea
 }
 
 input.placeholder,
-textarea.placeholder
+textarea.placeholder,
+input:-moz-placeholder,
+textarea:-moz-placeholder
 {
   color: #aaa;
 }
