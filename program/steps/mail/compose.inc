@@ -118,7 +118,11 @@ if (!is_array($COMPOSE))
   }
 
   // redirect to a unique URL with all parameters stored in session
-  $OUTPUT->redirect(array('_action' => 'compose', '_id' => $COMPOSE['id']));
+  $OUTPUT->redirect(array(
+    '_action' => 'compose',
+    '_id'     => $COMPOSE['id'],
+    '_search' => $_REQUEST['_search'],
+  ));
 }
 
 

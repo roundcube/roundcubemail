@@ -569,7 +569,8 @@ function rcube_webmail()
         break;
 
       case 'list':
-        this.reset_qsearch();
+        if (props && props != '')
+          this.reset_qsearch();
         if (this.task == 'mail') {
           this.list_mailbox(props);
           this.set_button_titles();
@@ -857,6 +858,9 @@ function rcube_webmail()
           url += '&_mbox='+urlencode(this.env.mailbox);
           if (props)
              url += '&_to='+urlencode(props);
+          // also send search request so we can go back to search result after message is sent
+          if (this.env.search_request)
+            url += '&_search='+this.env.search_request;
         }
         // modify url if we're in addressbook
         else if (this.task == 'addressbook') {
