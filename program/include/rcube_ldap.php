@@ -1673,23 +1673,7 @@ class rcube_ldap extends rcube_addressbook
             $groups[$group_id]['ID'] = $group_id;
             $groups[$group_id]['dn'] = $ldap_data[$i]['dn'];
             $groups[$group_id]['name'] = $group_name;
-            $groups[$group_id]['member_attr'] = $this->prop['member_attr'];
-
-            // check objectClass attributes of group and act accordingly
-            for ($j=0; $j < $ldap_data[$i]['objectclass']['count']; $j++) {
-                switch (strtolower($ldap_data[$i]['objectclass'][$j])) {
-                    case 'group':
-                    case 'groupofnames':
-                    case 'kolabgroupofnames':
-                        $groups[$group_id]['member_attr'] = 'member';
-                        break;
-
-                    case 'groupofuniquenames':
-                    case 'kolabgroupofuniquenames':
-                        $groups[$group_id]['member_attr'] = 'uniqueMember';
-                        break;
-                }
-            }
+            $groups[$group_id]['member_attr'] = $this->get_group_member_attr($ldap_data[$i]['objectclass']);
 
             // list email attributes of a group
             for ($j=0; $ldap_data[$i][$email_attr] && $j < $ldap_data[$i][$email_attr]['count']; $j++) {
@@ -1750,8 +1734,8 @@ class rcube_ldap extends rcube_addressbook
         $base_dn = $this->groups_base_dn;
         $new_dn = "cn=$group_name,$base_dn";
         $new_gid = self::dn_encode($group_name);
-        $member_attr = $this->prop['groups']['member_attr'];
-        $name_attr = $this->prop['groups']['name_attr'];
+        $member_attr = $this->get_group_member_attr();
+        $name_attr = $this->prop['groups']['name_attr'] ? $this->prop['groups']['name_attr'] : 'cn';
 
         $new_entry = array(
             'objectClass' => $this->prop['groups']['object_classes'],
@@ -1903,8 +1887,8 @@ class rcube_ldap extends rcube_addressbook
 
         $base_dn     = $this->groups_base_dn;
         $contact_dn  = self::dn_decode($contact_id);
-        $name_attr   = $this->prop['groups']['name_attr'];
-        $member_attr = $this->prop['member_attr'];
+        $name_attr   = $this->prop['groups']['name_attr'] ? $this->prop['groups']['name_attr'] : 'cn';
+        $member_attr = $this->get_group_member_attr();
         $add_filter  = '';
         if ($member_attr != 'member' && $member_attr != 'uniqueMember')
             $add_filter = "($member_attr=$contact_dn)";
@@ -1929,6 +1913,42 @@ class rcube_ldap extends rcube_addressbook
             $groups[$group_id] = $group_id;
         }
         return $groups;
+    }
+
+    /**
+     * Detects group member attribute name
+     */
+    private function get_group_member_attr($object_classes = array())
+    {
+        if (empty($object_classes)) {
+            $object_classes = $this->prop['groups']['object_classes'];
+        }
+        if (!empty($object_classes)) {
+            foreach ((array)$object_classes as $oc) {
+                switch (strtolower($oc)) {
+                    case 'group':
+                    case 'groupofnames':
+                    case 'kolabgroupofnames':
+                        $member_attr = 'member';
+                        break;
+
+                    case 'groupofuniquenames':
+                    case 'kolabgroupofuniquenames':
+                        $member_attr = 'uniqueMember';
+                        break;
+                }
+            }
+        }
+
+        if (!empty($member_attr)) {
+            return $member_attr;
+        }
+
+        if (!empty($this->prop['groups']['member_attr'])) {
+            return $this->prop['groups']['member_attr'];
+        }
+
+        return 'member';
     }
 
 
