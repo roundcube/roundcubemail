@@ -1284,7 +1284,7 @@ class rcube_ldap extends rcube_addressbook
 
             // Need to delete all sub-entries first
             if ($this->sub_filter) {
-                if ($entries = $this->ldap_list($dn, $this->sub_filter, array_keys($this->props['sub_fields']))) {
+                if ($entries = $this->ldap_list($dn, $this->sub_filter)) {
                     foreach ($entries as $entry) {
                         if (!$this->ldap_delete($entry['dn'])) {
                             $this->set_error(self::ERROR_SAVING, 'errorsaving');
@@ -1311,6 +1311,23 @@ class rcube_ldap extends rcube_addressbook
         } // end foreach
 
         return count($ids);
+    }
+
+
+    /**
+     * Remove all contact records
+     */
+    function delete_all()
+    {
+        //searching for contact entries
+        $dn_list = $this->ldap_list($this->base_dn, $this->prop['filter'] ? $this->prop['filter'] : '(objectclass=*)');
+
+        if (!empty($dn_list)) {
+            foreach ($dn_list as $idx => $entry) {
+                $dn_list[$idx] = self::dn_encode($entry['dn']);
+            }
+            $this->delete($dn_list);
+        }
     }
 
 
@@ -2172,7 +2189,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Wrapper for ldap_list()
      */
-    protected function ldap_list($dn, $filter, $attrs)
+    protected function ldap_list($dn, $filter, $attrs = array(''))
     {
         $list = array();
         $this->_debug("C: List [dn: $dn] [{$filter}]");
