@@ -769,6 +769,15 @@ a.rcmContactAddress:hover
   width: 200px;
 }
 
+#login-bottomline
+{
+	width: 400px;
+	margin: 5em auto;
+	font-size: 85%;
+	text-align: center;
+	color: #333;
+}
+
 #console
 {
   opacity: 0.8;
