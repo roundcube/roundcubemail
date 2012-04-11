@@ -1109,6 +1109,14 @@ class rcube_ldap extends rcube_addressbook
         $ldap_data = $this->_map_data($save_cols);
         $old_data  = $record['_raw_attrib'];
 
+        // special handling of photo col
+        if ($photo_fld = $this->fieldmap['photo']) {
+            // undefined means keep old photo
+            if (!array_key_exists('photo', $save_cols)) {
+                $ldap_data[$photo_fld] = $record['photo'];
+            }
+        }
+
         foreach ($this->fieldmap as $col => $fld) {
             if ($fld) {
                 $val = $ldap_data[$fld];
@@ -1120,6 +1128,9 @@ class rcube_ldap extends rcube_addressbook
                 // make sure comparing array with one element with a string works as expected
                 if (is_array($old) && count($old) == 1 && !is_array($val)) {
                     $old = array_pop($old);
+                }
+                if (is_array($val) && count($val) == 1 && !is_array($old)) {
+                    $val = array_pop($val);
                 }
                 // Subentries must be handled separately
                 if (!empty($this->prop['sub_fields']) && isset($this->prop['sub_fields'][$fld])) {
@@ -1136,6 +1147,7 @@ class rcube_ldap extends rcube_addressbook
                     }
                     continue;
                 }
+
                 // The field does exist compare it to the ldap record.
                 if ($old != $val) {
                     // Changed, but find out how.
