@@ -212,7 +212,7 @@ class rcube_json_output
     public function redirect($p = array(), $delay = 1)
     {
         $location = rcmail::get_instance()->url($p);
-        $this->remote_response("window.setTimeout(\"location.href='{$location}'\", $delay);");
+        $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);", JS_OBJECT_NAME, $location, $delay));
         exit;
     }
 
