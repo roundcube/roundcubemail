@@ -51,8 +51,14 @@ if ($cols = get_input_value('_cols', RCUBE_INPUT_GET))
   $save_arr['list_cols'] = explode(',', $cols);
 }
 
-if ($save_arr)
+if ($save_arr) {
   $RCMAIL->user->save_prefs($save_arr);
+
+  // force page reload if list columns changed in IE8 (#1487822)
+  if ($save_arr['list_cols'] && $OUTPUT->browser->ie && $OUTPUT->browser->ver == 8) {
+    $OUTPUT->redirect(array('_mbox' => $RCMAIL->storage->get_folder()), 0);
+  }
+}
 
 $mbox_name = $RCMAIL->storage->get_folder();
 $threading = (bool) $RCMAIL->storage->get_threading();
