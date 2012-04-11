@@ -681,6 +681,7 @@ body.messagelist
 #messagelist thead tr td.subject
 {
   padding-left: 18px;
+  width: 99%;
 }
 
 #messagelist tbody tr td
