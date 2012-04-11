@@ -4016,6 +4016,10 @@ function rcube_webmail()
       }
     }
 
+    // if a group is currently selected, and there is at least one contact selected
+    // thend we can enable the group-remove-selected command
+    this.enable_command('group-remove-selected', typeof this.env.group != 'undefined' && list.selection.length > 0);
+
     this.enable_command('compose', this.env.group || list.selection.length > 0);
     this.enable_command('edit', id && writable);
     this.enable_command('delete', list.selection.length && writable);
@@ -4374,6 +4378,28 @@ function rcube_webmail()
 
     this.name_input.select().focus();
   };
+
+  //remove selected contacts from current active group
+  this.group_remove_selected = function()
+  {
+    ref.http_post('group-delmembers','_cid='+urlencode(this.contact_list.selection)
+		  + '&_source='+urlencode(this.env.source)
+		  + '&_gid='+urlencode(this.env.group));
+  };
+
+  //callback after deleting contact(s) from current group
+  this.remove_group_contacts = function(props)
+  {
+    if('undefined' != typeof this.env.group && (this.env.group === props.gid)){
+      var selection = this.contact_list.get_selection();
+      for (var n=0; n<selection.length; n++) {
+	id = selection[n];
+	this.contact_list.remove_row(id, (n == selection.length-1));
+      }
+    }
+  }
+
+
 
   // handler for keyboard events on the input field
   this.add_input_keydown = function(e)

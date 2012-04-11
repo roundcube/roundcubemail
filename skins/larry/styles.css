@@ -860,6 +860,10 @@ table.layout td {
 	background-position: 2px -1502px;
 }
 
+.boxfooter .listbutton.removegroup .inner {
+	background-position: 5px -1540px;
+}
+
 .boxfooter .listbutton.disabled .inner {
 	opacity: 0.4;
 	filter: alpha(opacity=40);
@@ -1411,7 +1415,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.spellcheck.selected {
-	background-position: left -1570px;
+	background-position: left -1610px;
 	color: #1978a1;
 }
 

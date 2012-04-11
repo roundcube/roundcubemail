@@ -284,6 +284,7 @@ $labels['exportvcards'] = 'Kontakte im vCard-Format exportieren';
 $labels['newcontactgroup'] = 'Neue Kontaktgruppe erstellen';
 $labels['grouprename'] = 'Gruppe umbenennen';
 $labels['groupdelete'] = 'Gruppe löschen';
+$labels['groupremoveselected'] = 'Gewählte Kontakte aus Gruppe entfernen';
 $labels['previouspage'] = 'Seite zurück';
 $labels['firstpage'] = 'Erste Seite';
 $labels['nextpage'] = 'Nächste Seite';

@@ -155,7 +155,7 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'addressviewsplitterd', p1:'#addressview-left', p2:'#addressview-right',
           orientation:'v', relative:true, start:226, min:150, size:12, render:resize_leftcol }).init();
         new rcube_splitter({ id:'addressviewsplitter', p1:'#addresslist', p2:'#contacts-box',
-          orientation:'v', relative:true, start:266, min:220, size:12 }).init();
+          orientation:'v', relative:true, start:286, min:270, size:12 }).init();
 
         new rcube_scroller('#directorylist-content', '#directorylist-header', '#directorylist-footer');
       }

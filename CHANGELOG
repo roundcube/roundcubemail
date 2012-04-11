@@ -1,7 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix removing all folders on import to LDAP addressbook
+- Allow mass-removal of addresses from a group (#1487748)
+- Fix removing all contacts on import to LDAP addressbook
 - Fix so "Back" from compose/show doesn't reset search request (#1488238)
 - Add option to delete messages instead of moving to Trash when in Junk folder (#1486686)
 - Fix invisible cursor when replying to a html message (#1487073)

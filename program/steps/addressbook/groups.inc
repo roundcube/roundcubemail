@@ -64,10 +64,12 @@ else if ($RCMAIL->action == 'group-delmembers') {
     else
       $result = $plugin['result'];
 
-    if ($result)
+    if ($result){
       $OUTPUT->show_message('contactremovedfromgroup');
-    else
+      $OUTPUT->command('remove_group_contacts',array('source' => $source, 'gid' => $gid));
+    }else{
       $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
+    }
   }
 }
 

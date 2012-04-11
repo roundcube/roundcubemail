@@ -748,11 +748,11 @@ h3.subject {
 div.more-headers {
 	cursor: pointer;
 	height: 10px;
-	background: url(images/buttons.png) center -1539px no-repeat;
+	background: url(images/buttons.png) center -1579px no-repeat;
 }
 
 div.hide-headers {
-	background-position: center -1549px;
+	background-position: center -1589px;
 }
 
 #all-headers {
