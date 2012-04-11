@@ -1187,12 +1187,13 @@ ul.proplist li {
 }
 
 #login-form td.input {
+	width: 80%;
 	padding: 8px;
 }
 
 #login-form input[type="text"],
 #login-form input[type="password"] {
-	width: 24em;
+	width: 100%;
 	border-color: #666;
 }
 
@@ -1229,7 +1230,13 @@ ul.proplist li {
 	background: linear-gradient(top, #dcdcdc 0%, #f9f9f9 100%);
 }
 
+#login-form form table {
+	width: 98%;
+}
+
 #login-form td.title {
+	width: 20%;
+	white-space: nowrap;
 	color: #cecece;
 	text-shadow: 0px 1px 1px black;
 	text-align: right;

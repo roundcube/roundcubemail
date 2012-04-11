@@ -160,24 +160,6 @@ function rcube_mail_ui()
         new rcube_scroller('#directorylist-content', '#directorylist-header', '#directorylist-footer');
       }
     }
-    /***  login page  ***/
-    else if (rcmail.env.task == 'login') {
-      if (bw.ie && bw.vendver < 8) {
-        var popup = $('<div>')
-          .addClass('readtext')
-          .html("Roundcube will not work well with the crappy browser ya' using. Get yourself a new internet browsing software and don't come back without!<p>Sincerly,<br/>the Roundcube Dev Team</p>")
-          .appendTo(document.body)
-          .dialog({
-            dialogClass: 'alert',
-            closeOnEscape: true,
-            title: "No way, are you serious?",
-            close: function() {
-              popup.dialog('destroy').remove();
-            },
-            width: 450
-          });
-      }
-    }
 
     // turn a group of fieldsets into tabs
     $('.tabbed').each(function(idx, elem){ init_tabs(elem); })
