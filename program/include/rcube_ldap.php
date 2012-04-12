@@ -993,10 +993,13 @@ class rcube_ldap extends rcube_addressbook
         if ($missing) {
             // try to complete record automatically
             if ($autofix) {
-                $reverse_map = array_flip($this->fieldmap);
-                $name_parts  = preg_split('/[\s,.]+/', $save_data['name']);
                 $sn_field    = $this->fieldmap['surname'];
                 $fn_field    = $this->fieldmap['firstname'];
+                $mail_field  = $this->fieldmap['email'];
+
+                // try to extract surname and firstname from displayname
+                $reverse_map = array_flip($this->fieldmap);
+                $name_parts  = preg_split('/[\s,.]+/', $save_data['name']);
 
                 if ($sn_field && $missing[$sn_field]) {
                     $save_data['surname'] = array_pop($name_parts);
@@ -1006,6 +1009,16 @@ class rcube_ldap extends rcube_addressbook
                 if ($fn_field && $missing[$fn_field]) {
                     $save_data['firstname'] = array_shift($name_parts);
                     unset($missing[$fn_field]);
+                }
+
+                // try to fix missing e-mail, very often on import
+                // from vCard we have email:other only defined
+                if ($mail_field && $missing[$mail_field]) {
+                    $emails = $this->get_col_values('email', $save_data, true);
+                    if (!empty($emails) && ($email = array_shift($emails))) {
+                        $save_data['email'] = $email;
+                        unset($missing[$mail_field]);
+                    }
                 }
             }
 
