@@ -4563,8 +4563,15 @@ function rcube_webmail()
       var lastelem = $('.ff_'+col),
         appendcontainer = $('#contactsection'+section+' .contactcontroller'+col);
 
-      if (!appendcontainer.length)
-        appendcontainer = $('<fieldset>').addClass('contactfieldgroup contactcontroller'+col).insertAfter($('#contactsection'+section+' .contactfieldgroup').last());
+      if (!appendcontainer.length) {
+        var sect = $('#contactsection'+section),
+          lastgroup = $('.contactfieldgroup', sect).last();
+        appendcontainer = $('<fieldset>').addClass('contactfieldgroup contactcontroller'+col);
+        if (lastgroup.length)
+          appendcontainer.insertAfter(lastgroup);
+        else
+          sect.prepend(appendcontainer);
+      }
 
       if (appendcontainer.length && appendcontainer.get(0).nodeName == 'FIELDSET') {
         var input, colprop = this.env.coltypes[col],
