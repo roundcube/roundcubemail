@@ -575,7 +575,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // The RDN field that is used for new entries, this field needs
   // to be one of the search_fields, the base of base_dn is appended
   // to the RDN to insert into the LDAP directory.
-  'LDAP_rdn'       => 'mail',
+  'LDAP_rdn'       => 'cn',
   // The required fields needed to build a new contact as required by
   // the object classes (can include additional fields not required by the object classes).
   'required_fields' => array('cn', 'sn', 'mail'),
@@ -588,15 +588,26 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'name'        => 'cn',
     'surname'     => 'sn',
     'firstname'   => 'givenName',
+    'title'       => 'title',
     'email'       => 'mail',
     'phone:home'  => 'homePhone',
     'phone:work'  => 'telephoneNumber',
+    'phone:workfax' => 'facsimileTelephoneNumber',
     'phone:mobile' => 'mobile',
+    'phone:pager' => 'pager',
     'street'      => 'street',
     'zipcode'     => 'postalCode',
+    'region'      => 'st',
     'locality'    => 'l',
-    'country'     => 'c',
-    'organization' => 'o',
+// if you uncomment country, you need to modify 'sub_fields' above
+//    'country'     => 'c',
+    'department'  => 'departmentNumber',
+    'notes'       => 'description',
+// these currently don't work:
+//    'photo'        => 'jpegPhoto',
+//    'organization' => 'o',
+//    'manager'      => 'manager',
+//    'assistant'    => 'secretary',
   ),
   'sort'          => 'cn',    // The field to sort the listing by.
   'scope'         => 'sub',   // search mode: sub|base|list
