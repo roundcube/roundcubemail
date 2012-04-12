@@ -999,7 +999,7 @@ class rcube_template extends rcube_html_page
               $attrib['disabled'] = 'disabled';
             }
 
-            $out = html::tag('input', $attrib, '', array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
+            $out = html::tag('input', $attrib, null, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
         }
 
         // generate html code for button
