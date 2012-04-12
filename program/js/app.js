@@ -4545,10 +4545,13 @@ function rcube_webmail()
 
   this.init_edit_field = function(col, elem)
   {
+    var label = this.env.coltypes[col].label;
+
     if (!elem)
       elem = $('.ff_' + col);
 
-    elem.placeholder(ref.env.coltypes[col].label);
+    if (label)
+      elem.placeholder(label);
   };
 
   this.insert_edit_field = function(col, section, menu)
