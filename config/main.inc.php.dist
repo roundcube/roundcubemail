@@ -592,7 +592,6 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'email'       => 'mail',
     'phone:home'  => 'homePhone',
     'phone:work'  => 'telephoneNumber',
-    'phone:workfax' => 'facsimileTelephoneNumber',
     'phone:mobile' => 'mobile',
     'phone:pager' => 'pager',
     'street'      => 'street',
@@ -604,6 +603,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'department'  => 'departmentNumber',
     'notes'       => 'description',
 // these currently don't work:
+//    'phone:workfax' => 'facsimileTelephoneNumber',
 //    'photo'        => 'jpegPhoto',
 //    'organization' => 'o',
 //    'manager'      => 'manager',
