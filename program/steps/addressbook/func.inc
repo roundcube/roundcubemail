@@ -669,7 +669,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 }
             }
 
-            if (!$content && !$edit_mode)
+            if (!$content && (!$edit_mode || !$select_add->_count))
                 continue;
 
             // also render add-field selector
