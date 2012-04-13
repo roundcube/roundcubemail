@@ -19,11 +19,11 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-03-11</date>
-	<time>19:00</time>
+	<date>2012-04-13</date>
+	<time>12:00</time>
 	<version>
-		<release>3.1-beta</release>
-		<api>3.1-beta</api>
+		<release>3.1</release>
+		<api>3.1</api>
 	</version>
 	<stability>
 		<release>stable</release>
@@ -31,10 +31,9 @@
 	</stability>
 	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
 	<notes>
-- Add styles for new skin "Larry"
-- Exec contact_create hook when adding contact (#1486964)
-- Make icons skinable
-- Display vcard icon on messages list when message is of type vcard
+- Fixed doble urlencoding of vcard identifier
+- Fixed encoding when default charset is different than vcard charset
+- Improved vcards import to work as addressbook::import procedure (with validation and autofix)
 	</notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -117,5 +116,24 @@
 				- Add styles for new skin "Larry"
 			</notes>
 		</release>
+        <release>
+        	<date>2012-03-11</date>
+        	<time>19:00</time>
+	        <version>
+        		<release>3.1-beta</release>
+		        <api>3.1-beta</api>
+        	</version>
+	        <stability>
+        		<release>stable</release>
+        		<api>stable</api>
+        	</stability>
+        	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
+        	<notes>
+- Add styles for new skin "Larry"
+- Exec contact_create hook when adding contact (#1486964)
+- Make icons skinable
+- Display vcard icon on messages list when message is of type vcard
+        	</notes>
+	    </release>
 	</changelog>
 </package>
