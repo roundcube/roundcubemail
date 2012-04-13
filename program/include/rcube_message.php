@@ -166,11 +166,13 @@ class rcube_message
     /**
      * Get content of a specific part of this message
      *
-     * @param string $mime_id Part MIME-ID
-     * @param resource $fp File pointer to save the message part
+     * @param string   $mime_id           Part MIME-ID
+     * @param resource $fp File           pointer to save the message part
+     * @param boolean  $skip_charset_conv Disables charset conversion
+     *
      * @return string Part content
      */
-    public function get_part_content($mime_id, $fp=NULL)
+    public function get_part_content($mime_id, $fp = null, $skip_charset_conv = false)
     {
         if ($part = $this->mime_parts[$mime_id]) {
             // stored in message structure (winmail/inline-uuencode)
@@ -181,7 +183,7 @@ class rcube_message
                 return $fp ? true : $part->body;
             }
             // get from IMAP
-            return $this->storage->get_message_part($this->uid, $mime_id, $part, NULL, $fp);
+            return $this->storage->get_message_part($this->uid, $mime_id, $part, NULL, $fp, $skip_charset_conv);
         } else
             return null;
     }
