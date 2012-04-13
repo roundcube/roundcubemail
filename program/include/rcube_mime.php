@@ -545,4 +545,149 @@ class rcube_mime
         return implode("\r\n", $text);
     }
 
+
+    /**
+     * Improved wordwrap function.
+     *
+     * @param string $string  Text to wrap
+     * @param int    $width   Line width
+     * @param string $break   Line separator
+     * @param bool   $cut     Enable to cut word
+     *
+     * @return string Text
+     */
+    public static function wordwrap($string, $width=75, $break="\n", $cut=false)
+    {
+        $para   = explode($break, $string);
+        $string = '';
+
+        while (count($para)) {
+            $line = array_shift($para);
+            if ($line[0] == '>') {
+                $string .= $line.$break;
+                continue;
+            }
+
+            $list = explode(' ', $line);
+            $len = 0;
+            while (count($list)) {
+                $line   = array_shift($list);
+                $l      = mb_strlen($line);
+                $newlen = $len + $l + ($len ? 1 : 0);
+
+                if ($newlen <= $width) {
+                    $string .= ($len ? ' ' : '').$line;
+                    $len += (1 + $l);
+                }
+                else {
+                    if ($l > $width) {
+                        if ($cut) {
+                            $start = 0;
+                            while ($l) {
+                                $str = mb_substr($line, $start, $width);
+                                $strlen = mb_strlen($str);
+                                $string .= ($len ? $break : '').$str;
+                                $start += $strlen;
+                                $l -= $strlen;
+                                $len = $strlen;
+                            }
+                        }
+                        else {
+                            $string .= ($len ? $break : '').$line;
+                            if (count($list)) {
+                                $string .= $break;
+                            }
+                            $len = 0;
+                        }
+                    }
+                    else {
+                        $string .= $break.$line;
+                        $len = $l;
+                    }
+                }
+            }
+
+            if (count($para)) {
+                $string .= $break;
+            }
+        }
+
+        return $string;
+    }
+
+
+    /**
+     * A method to guess the mime_type of an attachment.
+     *
+     * @param string $path      Path to the file.
+     * @param string $name      File name (with suffix)
+     * @param string $failover  Mime type supplied for failover.
+     * @param string $is_stream Set to True if $path contains file body
+     *
+     * @return string
+     * @author Till Klampaeckel <till@php.net>
+     * @see    http://de2.php.net/manual/en/ref.fileinfo.php
+     * @see    http://de2.php.net/mime_content_type
+     */
+    public static function file_content_type($path, $name, $failover = 'application/octet-stream', $is_stream = false)
+    {
+        $mime_type = null;
+        $mime_magic = rcube::get_instance()->config->get('mime_magic');
+        $mime_ext = @include RCMAIL_CONFIG_DIR . '/mimetypes.php';
+
+        // use file name suffix with hard-coded mime-type map
+        if (is_array($mime_ext) && $name) {
+            if ($suffix = substr($name, strrpos($name, '.')+1)) {
+                $mime_type = $mime_ext[strtolower($suffix)];
+            }
+        }
+
+        // try fileinfo extension if available
+        if (!$mime_type && function_exists('finfo_open')) {
+            if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
+                if ($is_stream)
+                    $mime_type = finfo_buffer($finfo, $path);
+                else
+                    $mime_type = finfo_file($finfo, $path);
+                finfo_close($finfo);
+            }
+        }
+
+        // try PHP's mime_content_type
+        if (!$mime_type && !$is_stream && function_exists('mime_content_type')) {
+            $mime_type = @mime_content_type($path);
+        }
+
+        // fall back to user-submitted string
+        if (!$mime_type) {
+            $mime_type = $failover;
+        }
+        else {
+            // Sometimes (PHP-5.3?) content-type contains charset definition,
+            // Remove it (#1487122) also "charset=binary" is useless
+            $mime_type = array_shift(preg_split('/[; ]/', $mime_type));
+        }
+
+        return $mime_type;
+    }
+
+
+    /**
+     * Detect image type of the given binary data by checking magic numbers.
+     *
+     * @param string $data  Binary file content
+     *
+     * @return string Detected mime-type or jpeg as fallback
+     */
+    public static function image_content_type($data)
+    {
+        $type = 'jpeg';
+        if      (preg_match('/^\x89\x50\x4E\x47/', $data)) $type = 'png';
+        else if (preg_match('/^\x47\x49\x46\x38/', $data)) $type = 'gif';
+        else if (preg_match('/^\x00\x00\x01\x00/', $data)) $type = 'ico';
+    //  else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) $type = 'jpeg';
+
+        return 'image/' . $type;
+    }
+
 }
