@@ -54,6 +54,18 @@ abstract class rcube_output
 
 
     /**
+     * Magic getter
+     */
+    public function __get($var)
+    {
+        // allow read-only access to $env
+        if ($var == 'env')
+            return $this->env;
+
+        return null;
+    }
+
+    /**
      * Setter for page title
      *
      * @param string $title Page title
