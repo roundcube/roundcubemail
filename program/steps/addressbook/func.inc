@@ -203,7 +203,7 @@ function rcmail_directory_list($attrib)
             'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
 
-    $sources = (array) $OUTPUT->env['address_sources'];
+    $sources = (array) $OUTPUT->get_env('address_sources');
     reset($sources);
 
     // currently selected source

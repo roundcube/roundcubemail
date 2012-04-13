@@ -126,20 +126,24 @@ function rcmail_message_attachments($attrib)
 
   if (sizeof($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
-      if ($PRINT_MODE) {
-        $ol .= html::tag('li', null, sprintf("%s (%s)", Q($attach_prop->filename), Q(show_bytes($attach_prop->size))));
-      }
-      else {
-        if (mb_strlen($attach_prop->filename) > 50) {
-          $filename = abbreviate_string($attach_prop->filename, 50);
-          $title = $attach_prop->filename;
-      }
-      else {
-        $filename = $attach_prop->filename;
-        $title = '';
+      $filename = $attach_prop->filename;
+      if (empty($filename) && $attach_prop->mimetype == 'text/html') {
+        $filename = rcube_label('htmlmessage');
       }
 
-        $ol .= html::tag('li', rcmail_filetype2classname($attach_prop->mimetype, $attach_prop->filename),
+      if ($PRINT_MODE) {
+        $ol .= html::tag('li', null, sprintf("%s (%s)", Q($filename), Q(show_bytes($attach_prop->size))));
+      }
+      else {
+        if (mb_strlen($filename) > 50) {
+          $filename = abbreviate_string($filename, 50);
+          $title = $filename;
+        }
+        else {
+          $title = '';
+        }
+
+        $ol .= html::tag('li', rcmail_filetype2classname($attach_prop->mimetype, $filename),
           html::a(array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
             'onclick' => sprintf(

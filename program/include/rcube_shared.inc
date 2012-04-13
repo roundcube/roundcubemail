@@ -2,17 +2,17 @@
 
 /*
  +-----------------------------------------------------------------------+
- | rcube_shared.inc                                                      |
+ | program/include/rcube_shared.inc                                      |
  |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  |                                                                       |
  | CONTENTS:                                                             |
- |   Shared functions and classes used in PHP projects                   |
+ |   Shared functions used by Roundcube Framework                        |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -31,213 +31,95 @@
 
 
 /**
- * Send HTTP headers to prevent caching this page
- */
-function send_nocacheing_headers()
-{
-  global $OUTPUT;
-
-  if (headers_sent())
-    return;
-
-  header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
-  header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-  // Request browser to disable DNS prefetching (CVE-2010-0464)
-  header("X-DNS-Prefetch-Control: off");
-
-  // We need to set the following headers to make downloads work using IE in HTTPS mode.
-  if ($OUTPUT->browser->ie && rcube_https_check()) {
-    header('Pragma: private');
-    header("Cache-Control: private, must-revalidate");
-  } else {
-    header("Cache-Control: private, no-cache, must-revalidate, post-check=0, pre-check=0");
-    header("Pragma: no-cache");
-  }
-}
-
-
-/**
- * Send header with expire date 30 days in future
- *
- * @param int Expiration time in seconds
- */
-function send_future_expire_header($offset=2600000)
-{
-  if (headers_sent())
-    return;
-
-  header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+$offset)." GMT");
-  header("Cache-Control: max-age=$offset");
-  header("Pragma: ");
-}
-
-
-/**
  * Similar function as in_array() but case-insensitive
  *
- * @param mixed Needle value
- * @param array Array to search in
+ * @param string $needle    Needle value
+ * @param array  $heystack  Array to search in
+ *
  * @return boolean True if found, False if not
  */
 function in_array_nocase($needle, $haystack)
 {
-  $needle = mb_strtolower($needle);
-  foreach ($haystack as $value)
-    if ($needle===mb_strtolower($value))
-      return true;
+    $needle = mb_strtolower($needle);
+    foreach ($haystack as $value) {
+        if ($needle === mb_strtolower($value)) {
+            return true;
+        }
+    }
 
-  return false;
+    return false;
 }
 
 
 /**
- * Find out if the string content means TRUE or FALSE
+ * Find out if the string content means true or false
  *
- * @param string Input value
- * @return boolean Imagine what!
+ * @param string $str  Input value
+ *
+ * @return boolean Boolean value
  */
 function get_boolean($str)
 {
-  $str = strtolower($str);
-  if (in_array($str, array('false', '0', 'no', 'off', 'nein', ''), TRUE))
-    return FALSE;
-  else
-    return TRUE;
+    $str = strtolower($str);
+
+    return !in_array($str, array('false', '0', 'no', 'off', 'nein', ''), true);
 }
 
 
 /**
- * Parse a human readable string for a number of bytes
+ * Parse a human readable string for a number of bytes.
  *
- * @param string Input string
+ * @param string $str  Input string
+ *
  * @return float Number of bytes
  */
 function parse_bytes($str)
 {
-  if (is_numeric($str))
-    return floatval($str);
-
-  if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs))
-  {
-    $bytes = floatval($regs[1]);
-    switch (strtolower($regs[2]))
-    {
-      case 'g':
-      case 'gb':
-        $bytes *= 1073741824;
-        break;
-      case 'm':
-      case 'mb':
-        $bytes *= 1048576;
-        break;
-      case 'k':
-      case 'kb':
-        $bytes *= 1024;
-        break;
+    if (is_numeric($str)) {
+        return floatval($str);
     }
-  }
 
-  return floatval($bytes);
-}
-
-/**
- * Create a human readable string for a number of bytes
- *
- * @param int Number of bytes
- * @return string Byte string
- */
-function show_bytes($bytes)
-{
-  if ($bytes >= 1073741824)
-  {
-    $gb = $bytes/1073741824;
-    $str = sprintf($gb>=10 ? "%d " : "%.1f ", $gb) . rcube_label('GB');
-  }
-  else if ($bytes >= 1048576)
-  {
-    $mb = $bytes/1048576;
-    $str = sprintf($mb>=10 ? "%d " : "%.1f ", $mb) . rcube_label('MB');
-  }
-  else if ($bytes >= 1024)
-    $str = sprintf("%d ",  round($bytes/1024)) . rcube_label('KB');
-  else
-    $str = sprintf('%d ', $bytes) . rcube_label('B');
-
-  return $str;
-}
-
-/**
- * Wrapper function for wordwrap
- */
-function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
-{
-  $para = explode($break, $string);
-  $string = '';
-  while (count($para)) {
-    $line = array_shift($para);
-    if ($line[0] == '>') {
-      $string .= $line.$break;
-      continue;
-    }
-    $list = explode(' ', $line);
-    $len = 0;
-    while (count($list)) {
-      $line = array_shift($list);
-      $l = mb_strlen($line);
-      $newlen = $len + $l + ($len ? 1 : 0);
-
-      if ($newlen <= $width) {
-        $string .= ($len ? ' ' : '').$line;
-        $len += (1 + $l);
-      } else {
-        if ($l > $width) {
-          if ($cut) {
-            $start = 0;
-            while ($l) {
-              $str = mb_substr($line, $start, $width);
-              $strlen = mb_strlen($str);
-              $string .= ($len ? $break : '').$str;
-              $start += $strlen;
-              $l -= $strlen;
-              $len = $strlen;
-            }
-          } else {
-                $string .= ($len ? $break : '').$line;
-            if (count($list)) $string .= $break;
-            $len = 0;
-          }
-        } else {
-          $string .= $break.$line;
-          $len = $l;
+    if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
+        $bytes = floatval($regs[1]);
+        switch (strtolower($regs[2])) {
+        case 'g':
+        case 'gb':
+            $bytes *= 1073741824;
+            break;
+        case 'm':
+        case 'mb':
+            $bytes *= 1048576;
+            break;
+        case 'k':
+        case 'kb':
+            $bytes *= 1024;
+            break;
         }
-      }
     }
-    if (count($para)) $string .= $break;
-  }
-  return $string;
+
+    return floatval($bytes);
 }
 
+
 /**
- * Read a specific HTTP request header
+ * Read a specific HTTP request header.
  *
- * @access static
  * @param  string $name Header name
+ *
  * @return mixed  Header value or null if not available
  */
-function rc_request_header($name)
+function rcube_request_header($name)
 {
-  if (function_exists('getallheaders'))
-  {
-    $hdrs = array_change_key_case(getallheaders(), CASE_UPPER);
-    $key  = strtoupper($name);
-  }
-  else
-  {
-    $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
-    $hdrs = array_change_key_case($_SERVER, CASE_UPPER);
-  }
+    if (function_exists('getallheaders')) {
+        $hdrs = array_change_key_case(getallheaders(), CASE_UPPER);
+        $key  = strtoupper($name);
+    }
+    else {
+        $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
+        $hdrs = array_change_key_case($_SERVER, CASE_UPPER);
+    }
 
-  return $hdrs[$key];
+    return $hdrs[$key];
 }
 
 
@@ -263,219 +145,251 @@ function unslashify($str)
  * Delete all files within a folder
  *
  * @param string Path to directory
+ *
  * @return boolean True on success, False if directory was not found
  */
 function clear_directory($dir_path)
 {
-  $dir = @opendir($dir_path);
-  if(!$dir) return FALSE;
+    $dir = @opendir($dir_path);
+    if (!$dir) {
+        return false;
+    }
 
-  while ($file = readdir($dir))
-    if (strlen($file)>2)
-      unlink("$dir_path/$file");
+    while ($file = readdir($dir)) {
+        if (strlen($file) > 2) {
+            unlink("$dir_path/$file");
+        }
+    }
 
-  closedir($dir);
-  return TRUE;
+    closedir($dir);
+
+    return true;
 }
 
 
 /**
- * Create a unix timestamp with a specified offset from now
+ * Create a unix timestamp with a specified offset from now.
  *
- * @param string String representation of the offset (e.g. 20min, 5h, 2days)
- * @param int Factor to multiply with the offset
+ * @param string $offset_str  String representation of the offset (e.g. 20min, 5h, 2days)
+ * @param int    $factor      Factor to multiply with the offset
+ *
  * @return int Unix timestamp
  */
 function get_offset_time($offset_str, $factor=1)
 {
-  if (preg_match('/^([0-9]+)\s*([smhdw])/i', $offset_str, $regs))
-  {
-    $amount = (int)$regs[1];
-    $unit = strtolower($regs[2]);
-  }
-  else
-  {
-    $amount = (int)$offset_str;
-    $unit = 's';
-  }
-
-  $ts = mktime();
-  switch ($unit)
-  {
-    case 'w':
-      $amount *= 7;
-    case 'd':
-      $amount *= 24;
-    case 'h':
-      $amount *= 60;
-    case 'm':
-      $amount *= 60;
-    case 's':
-      $ts += $amount * $factor;
-  }
-
-  return $ts;
-}
-
-
-/**
- * Truncate string if it is longer than the allowed length
- * Replace the middle or the ending part of a string with a placeholder
- *
- * @param string Input string
- * @param int    Max. length
- * @param string Replace removed chars with this
- * @param bool   Set to True if string should be truncated from the end
- * @return string Abbreviated string
- */
-function abbreviate_string($str, $maxlength, $place_holder='...', $ending=false)
-{
-  $length = mb_strlen($str);
-
-  if ($length > $maxlength)
-  {
-    if ($ending)
-      return mb_substr($str, 0, $maxlength) . $place_holder;
-
-    $place_holder_length = mb_strlen($place_holder);
-    $first_part_length = floor(($maxlength - $place_holder_length)/2);
-    $second_starting_location = $length - $maxlength + $first_part_length + $place_holder_length;
-    $str = mb_substr($str, 0, $first_part_length) . $place_holder . mb_substr($str, $second_starting_location);
-  }
-
-  return $str;
-}
-
-
-/**
- * A method to guess the mime_type of an attachment.
- *
- * @param string $path      Path to the file.
- * @param string $name      File name (with suffix)
- * @param string $failover  Mime type supplied for failover.
- * @param string $is_stream Set to True if $path contains file body
- *
- * @return string
- * @author Till Klampaeckel <till@php.net>
- * @see    http://de2.php.net/manual/en/ref.fileinfo.php
- * @see    http://de2.php.net/mime_content_type
- */
-function rc_mime_content_type($path, $name, $failover = 'application/octet-stream', $is_stream=false)
-{
-    $mime_type = null;
-    $mime_magic = rcmail::get_instance()->config->get('mime_magic');
-    $mime_ext = @include(RCMAIL_CONFIG_DIR . '/mimetypes.php');
-
-    // use file name suffix with hard-coded mime-type map
-    if (is_array($mime_ext) && $name) {
-        if ($suffix = substr($name, strrpos($name, '.')+1)) {
-            $mime_type = $mime_ext[strtolower($suffix)];
-        }
-    }
-
-    // try fileinfo extension if available
-    if (!$mime_type && function_exists('finfo_open')) {
-        if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
-            if ($is_stream)
-                $mime_type = finfo_buffer($finfo, $path);
-            else
-                $mime_type = finfo_file($finfo, $path);
-            finfo_close($finfo);
-        }
-    }
-
-    // try PHP's mime_content_type
-    if (!$mime_type && !$is_stream && function_exists('mime_content_type')) {
-      $mime_type = @mime_content_type($path);
-    }
-
-    // fall back to user-submitted string
-    if (!$mime_type) {
-        $mime_type = $failover;
+    if (preg_match('/^([0-9]+)\s*([smhdw])/i', $offset_str, $regs)) {
+        $amount = (int)$regs[1];
+        $unit   = strtolower($regs[2]);
     }
     else {
-        // Sometimes (PHP-5.3?) content-type contains charset definition,
-        // Remove it (#1487122) also "charset=binary" is useless
-        $mime_type = array_shift(preg_split('/[; ]/', $mime_type));
+        $amount = (int)$offset_str;
+        $unit   = 's';
     }
 
-    return $mime_type;
+    $ts = mktime();
+    switch ($unit) {
+    case 'w':
+        $amount *= 7;
+    case 'd':
+        $amount *= 24;
+    case 'h':
+        $amount *= 60;
+    case 'm':
+        $amount *= 60;
+    case 's':
+        $ts += $amount * $factor;
+    }
+
+    return $ts;
 }
 
 
 /**
- * Detect image type of the given binary data by checking magic numbers
+ * Truncate string if it is longer than the allowed length.
+ * Replace the middle or the ending part of a string with a placeholder.
  *
- * @param string  Binary file content
- * @return string Detected mime-type or jpeg as fallback
+ * @param string $str         Input string
+ * @param int    $maxlength   Max. length
+ * @param string $placeholder Replace removed chars with this
+ * @param bool   $ending      Set to True if string should be truncated from the end
+ *
+ * @return string Abbreviated string
  */
-function rc_image_content_type($data)
+function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
 {
-    $type = 'jpeg';
-    if      (preg_match('/^\x89\x50\x4E\x47/', $data)) $type = 'png';
-    else if (preg_match('/^\x47\x49\x46\x38/', $data)) $type = 'gif';
-    else if (preg_match('/^\x00\x00\x01\x00/', $data)) $type = 'ico';
-//  else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) $type = 'jpeg';
+    $length = mb_strlen($str);
 
-    return 'image/' . $type;
+    if ($length > $maxlength) {
+        if ($ending) {
+            return mb_substr($str, 0, $maxlength) . $placeholder;
+        }
+
+        $placeholder_length = mb_strlen($placeholder);
+        $first_part_length  = floor(($maxlength - $placeholder_length)/2);
+        $second_starting_location = $length - $maxlength + $first_part_length + $placeholder_length;
+
+        $str = mb_substr($str, 0, $first_part_length) . $placeholder . mb_substr($str, $second_starting_location);
+    }
+
+    return $str;
 }
 
 
 /**
  * Explode quoted string
- * 
+ *
  * @param string Delimiter expression string for preg_match()
  * @param string Input string
  */
 function rcube_explode_quoted_string($delimiter, $string)
 {
-  $result = array();
-  $strlen = strlen($string);
+    $result = array();
+    $strlen = strlen($string);
 
-  for ($q=$p=$i=0; $i < $strlen; $i++) {
-    if ($string[$i] == "\"" && $string[$i-1] != "\\") {
-      $q = $q ? false : true;
-    } 
-    else if (!$q && preg_match("/$delimiter/", $string[$i])) {
-      $result[] = substr($string, $p, $i - $p);
-      $p = $i + 1;
+    for ($q=$p=$i=0; $i < $strlen; $i++) {
+        if ($string[$i] == "\"" && $string[$i-1] != "\\") {
+            $q = $q ? false : true;
+        }
+        else if (!$q && preg_match("/$delimiter/", $string[$i])) {
+            $result[] = substr($string, $p, $i - $p);
+            $p = $i + 1;
+        }
     }
-  }
 
-  $result[] = substr($string, $p);
-  return $result;
+    $result[] = substr($string, $p);
+
+    return $result;
 }
 
 
 /**
- * Get all keys from array (recursive)
- * 
- * @param array Input array
- * @return array
+ * Get all keys from array (recursive).
+ *
+ * @param array $array  Input array
+ *
+ * @return array List of array keys
  */
 function array_keys_recursive($array)
 {
-  $keys = array();
+    $keys = array();
 
-  if (!empty($array))
-    foreach ($array as $key => $child) {
-      $keys[] = $key;
-      foreach (array_keys_recursive($child) as $val)
-        $keys[] = $val;
+    if (!empty($array)) {
+        foreach ($array as $key => $child) {
+            $keys[] = $key;
+            foreach (array_keys_recursive($child) as $val) {
+                $keys[] = $val;
+            }
+        }
     }
-  return $keys;
+
+    return $keys;
+}
+
+
+/**
+ * Remove all non-ascii and non-word chars except ., -, _
+ */
+function asciiwords($str, $css_id = false, $replace_with = '')
+{
+    $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
+    return preg_replace("/[^$allowed]/i", $replace_with, $str);
+}
+
+
+/**
+ * Remove single and double quotes from given string
+ *
+ * @param string Input value
+ *
+ * @return string Dequoted string
+ */
+function strip_quotes($str)
+{
+    return str_replace(array("'", '"'), '', $str);
+}
+
+
+/**
+ * Remove new lines characters from given string
+ *
+ * @param string $str  Input value
+ *
+ * @return string Stripped string
+ */
+function strip_newlines($str)
+{
+    return preg_replace('/[\r\n]/', '', $str);
+}
+
+
+/**
+ * Improved equivalent to strtotime()
+ *
+ * @param string $date  Date string
+ *
+ * @return int Unix timestamp
+ */
+function rcube_strtotime($date)
+{
+    // check for MS Outlook vCard date format YYYYMMDD
+    if (preg_match('/^([12][90]\d\d)([01]\d)(\d\d)$/', trim($date), $matches)) {
+        return mktime(0,0,0, intval($matches[2]), intval($matches[3]), intval($matches[1]));
+    }
+    else if (is_numeric($date)) {
+        return $date;
+    }
+
+    // support non-standard "GMTXXXX" literal
+    $date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
+
+    // if date parsing fails, we have a date in non-rfc format.
+    // remove token from the end and try again
+    while ((($ts = @strtotime($date)) === false) || ($ts < 0)) {
+        $d = explode(' ', $date);
+        array_pop($d);
+        if (!$d) {
+            break;
+        }
+        $date = implode(' ', $d);
+    }
+
+    return $ts;
+}
+
+
+/**
+ * Compose a valid representation of name and e-mail address
+ *
+ * @param string $email  E-mail address
+ * @param string $name   Person name
+ *
+ * @return string Formatted string
+ */
+function format_email_recipient($email, $name = '')
+{
+    $email = trim($email);
+
+    if ($name && $name != $email) {
+        // Special chars as defined by RFC 822 need to in quoted string (or escaped).
+        if (preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
+            $name = '"'.addcslashes($name, '"').'"';
+        }
+
+        return "$name <$email>";
+    }
+
+    return $email;
 }
 
 
 /**
  * mbstring replacement functions
  */
-
 if (!extension_loaded('mbstring'))
 {
     function mb_strlen($str)
     {
-	return strlen($str);
+        return strlen($str);
     }
 
     function mb_strtolower($str)
@@ -552,3 +466,89 @@ if (!function_exists('idn_to_ascii'))
     }
 }
 
+
+/*
+ * Idn_to_ascii wrapper.
+ * Intl/Idn modules version of this function doesn't work with e-mail address
+ */
+function rcube_idn_to_ascii($str)
+{
+    return rcube_idn_convert($str, true);
+}
+
+/*
+ * Idn_to_ascii wrapper.
+ * Intl/Idn modules version of this function doesn't work with e-mail address
+ */
+function rcube_idn_to_utf8($str)
+{
+    return rcube_idn_convert($str, false);
+}
+
+function rcube_idn_convert($input, $is_utf=false)
+{
+    if ($at = strpos($input, '@')) {
+        $user   = substr($input, 0, $at);
+        $domain = substr($input, $at+1);
+    }
+    else {
+        $domain = $input;
+    }
+
+    $domain = $is_utf ? idn_to_ascii($domain) : idn_to_utf8($domain);
+
+    if ($domain === false) {
+        return '';
+    }
+
+    return $at ? $user . '@' . $domain : $domain;
+}
+
+
+/**
+ * Use PHP5 autoload for dynamic class loading
+ *
+ * @todo Make Zend, PEAR etc play with this
+ * @todo Make our classes conform to a more straight forward CS.
+ */
+function rcube_autoload($classname)
+{
+    $filename = preg_replace(
+        array(
+            '/MDB2_(.+)/',
+            '/Mail_(.+)/',
+            '/Net_(.+)/',
+            '/Auth_(.+)/',
+            '/^html_.+/',
+            '/^utf8$/',
+        ),
+        array(
+            'MDB2/\\1',
+            'Mail/\\1',
+            'Net/\\1',
+            'Auth/\\1',
+            'html',
+            'utf8.class',
+        ),
+        $classname
+    );
+
+    if ($fp = @fopen("$filename.php", 'r', true)) {
+        fclose($fp);
+        include_once("$filename.php");
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Local callback function for PEAR errors
+ */
+function rcube_pear_error($err)
+{
+    error_log(sprintf("%s (%s): %s",
+        $err->getMessage(),
+        $err->getCode(),
+        $err->getUserinfo()), 0);
+}

@@ -29,42 +29,9 @@
 
 */
 
-/**
- * Struct representing an e-mail message header
- *
- * @package Mail
- * @author  Aleksander Machniak <alec@alec.pl>
- */
-class rcube_mail_header
-{
-    public $id;
-    public $uid;
-    public $subject;
-    public $from;
-    public $to;
-    public $cc;
-    public $replyto;
-    public $in_reply_to;
-    public $date;
-    public $messageID;
-    public $size;
-    public $encoding;
-    public $charset;
-    public $ctype;
-    public $timestamp;
-    public $bodystructure;
-    public $internaldate;
-    public $references;
-    public $priority;
-    public $mdn_to;
-    public $others = array();
-    public $flags = array();
-}
+// for backward copat.
+class rcube_mail_header extends rcube_message_header { }
 
-// For backward compatibility with cached messages (#1486602)
-class iilBasicHeader extends rcube_mail_header
-{
-}
 
 /**
  * PHP based wrapper class to connect to an IMAP server
@@ -1545,8 +1512,6 @@ class rcube_imap_generic
      */
     function sort($mailbox, $field, $add='', $return_uid=false, $encoding = 'US-ASCII')
     {
-        require_once dirname(__FILE__) . '/rcube_result_index.php';
-
         $field = strtoupper($field);
         if ($field == 'INTERNALDATE') {
             $field = 'ARRIVAL';
@@ -1595,8 +1560,6 @@ class rcube_imap_generic
      */
     function thread($mailbox, $algorithm='REFERENCES', $criteria='', $return_uid=false, $encoding='US-ASCII')
     {
-        require_once dirname(__FILE__) . '/rcube_result_thread.php';
-
         $old_sel = $this->selected;
 
         if (!$this->select($mailbox)) {
@@ -1635,8 +1598,6 @@ class rcube_imap_generic
      */
     function search($mailbox, $criteria, $return_uid=false, $items=array())
     {
-        require_once dirname(__FILE__) . '/rcube_result_index.php';
-
         $old_sel = $this->selected;
 
         if (!$this->select($mailbox)) {
@@ -1696,8 +1657,6 @@ class rcube_imap_generic
     function index($mailbox, $message_set, $index_field='', $skip_deleted=true,
         $uidfetch=false, $return_uid=false)
     {
-        require_once dirname(__FILE__) . '/rcube_result_index.php';
-
         $msg_index = $this->fetchHeaderIndex($mailbox, $message_set,
             $index_field, $skip_deleted, $uidfetch, $return_uid);
 
@@ -2034,7 +1993,7 @@ class rcube_imap_generic
      * @param string $mod_seq     Modification sequence for CHANGEDSINCE (RFC4551) query
      * @param bool   $vanished    Enables VANISHED parameter (RFC5162) for CHANGEDSINCE query
      *
-     * @return array List of rcube_mail_header elements, False on error
+     * @return array List of rcube_message_header elements, False on error
      * @since 0.6
      */
     function fetch($mailbox, $message_set, $is_uid = false, $query_items = array(),
@@ -2074,7 +2033,7 @@ class rcube_imap_generic
             if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
                 $id = intval($m[1]);
 
-                $result[$id]            = new rcube_mail_header;
+                $result[$id]            = new rcube_message_header;
                 $result[$id]->id        = $id;
                 $result[$id]->subject   = '';
                 $result[$id]->messageID = 'mid:' . $id;

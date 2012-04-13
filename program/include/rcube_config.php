@@ -85,11 +85,11 @@ class rcube_config
 
         // fix default imap folders encoding
         foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
-            $this->prop[$folder] = rcube_charset_convert($this->prop[$folder], RCMAIL_CHARSET, 'UTF7-IMAP');
+            $this->prop[$folder] = rcube_charset::convert($this->prop[$folder], RCMAIL_CHARSET, 'UTF7-IMAP');
 
         if (!empty($this->prop['default_folders']))
             foreach ($this->prop['default_folders'] as $n => $folder)
-                $this->prop['default_folders'][$n] = rcube_charset_convert($folder, RCMAIL_CHARSET, 'UTF7-IMAP');
+                $this->prop['default_folders'][$n] = rcube_charset::convert($folder, RCMAIL_CHARSET, 'UTF7-IMAP');
 
         // set PHP error logging according to config
         if ($this->prop['debug_level'] & 1) {
@@ -186,7 +186,7 @@ class rcube_config
             $result = $def;
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = rcube::get_instance();
 
         if ($name == 'timezone' && isset($this->prop['_timezone_value']))
             $result = $this->prop['_timezone_value'];
@@ -300,7 +300,7 @@ class rcube_config
     {
         // Bomb out if the requested key does not exist
         if (!array_key_exists($key, $this->prop)) {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 500, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Request for unconfigured crypto key \"$key\""
@@ -311,7 +311,7 @@ class rcube_config
 
         // Bomb out if the configured key is not exactly 24 bytes long
         if (strlen($key) != 24) {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 500, 'type' => 'php',
 	            'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Configured crypto key '$key' is not exactly 24 bytes long"
@@ -335,7 +335,7 @@ class rcube_config
             if ($delim == "\n" || $delim == "\r\n")
                 return $delim;
             else
-                raise_error(array(
+                rcube::raise_error(array(
                     'code' => 500, 'type' => 'php',
 	                'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid mail_header_delimiter setting"
@@ -370,7 +370,7 @@ class rcube_config
                 $domain = $this->prop['mail_domain'][$host];
         }
         else if (!empty($this->prop['mail_domain']))
-            $domain = rcube_parse_host($this->prop['mail_domain']);
+            $domain = rcmail::parse_host($this->prop['mail_domain']);
 
         if ($encode)
             $domain = rcube_idn_to_ascii($domain);

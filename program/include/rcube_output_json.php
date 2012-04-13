@@ -2,21 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_json_output.php                                 |
+ | program/include/rcube_output_json.php                                 |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Class to handle HTML page output using a skin template.             |
- |   Extends rcube_html_page class from rcube_shared.inc                 |
- |                                                                       |
+ |   Class to handle JSON (AJAX) output                                  |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 
  $Id$
@@ -29,34 +28,15 @@
  *
  * @package View
  */
-class rcube_json_output
+class rcube_output_json extends rcube_output
 {
-    /**
-     * Stores configuration object.
-     *
-     * @var rcube_config
-     */
-    private $config;
-    private $charset = RCMAIL_CHARSET;
-    private $texts = array();
-    private $commands = array();
-    private $callbacks = array();
-    private $message = null;
+    protected $texts = array();
+    protected $commands = array();
+    protected $callbacks = array();
+    protected $message = null;
 
-    public $browser;
-    public $env = array();
     public $type = 'js';
     public $ajax_call = true;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($task=null)
-    {
-        $this->config  = rcmail::get_instance()->config;
-        $this->browser = new rcube_browser();
-    }
 
 
     /**
@@ -88,31 +68,10 @@ class rcube_json_output
 
 
     /**
-     * @ignore
-     */
-    function set_charset($charset)
-    {
-        // ignore: $this->charset = $charset;
-    }
-
-
-    /**
-     * Get charset for output
-     *
-     * @return string Output charset
-     */
-    function get_charset()
-    {
-        return $this->charset;
-    }
-
-
-    /**
      * Register a template object handler
      *
      * @param  string $obj Object name
      * @param  string $func Function name to call
-     * @return void
      */
     public function add_handler($obj, $func)
     {
@@ -124,7 +83,6 @@ class rcube_json_output
      * Register a list of template object handlers
      *
      * @param  array $arr Hash array with object=>handler pairs
-     * @return void
      */
     public function add_handlers($arr)
     {
@@ -159,7 +117,7 @@ class rcube_json_output
             $args = $args[0];
 
         foreach ($args as $name) {
-            $this->texts[$name] = rcube_label($name);
+            $this->texts[$name] = $this->app->gettext($name);
         }
     }
 
@@ -177,10 +135,11 @@ class rcube_json_output
     public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
     {
         if ($override || !$this->message) {
-            if (rcube_label_exists($message)) {
-                if (!empty($vars))
-                    $vars = array_map('Q', $vars);
-                $msgtext = rcube_label(array('name' => $message, 'vars' => $vars));
+            if ($this->app->text_exists($message)) {
+                if (!empty($vars)) {
+                    $vars = array_map(array('rcube_ui', 'Q'), $vars);
+                }
+                $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
             }
             else
                 $msgtext = $message;
@@ -196,7 +155,7 @@ class rcube_json_output
      */
     public function reset()
     {
-        $this->env = array();
+        parent::reset();
         $this->texts = array();
         $this->commands = array();
     }
@@ -228,6 +187,20 @@ class rcube_json_output
 
 
     /**
+     * Show error page and terminate script execution
+     *
+     * @param int    $code     Error code
+     * @param string $message  Error message
+     */
+    public function raise_error($code, $message)
+    {
+        $this->show_message("Application Error ($code): $message", 'error');
+        $this->remote_response();
+        exit;
+    }
+
+
+    /**
      * Send an AJAX response with executable JS code
      *
      * @param  string  $add Additional JS code
@@ -235,13 +208,13 @@ class rcube_json_output
      * @return void
      * @deprecated
      */
-    public function remote_response($add='')
+    protected function remote_response($add='')
     {
         static $s_header_sent = false;
 
         if (!$s_header_sent) {
             $s_header_sent = true;
-            send_nocacheing_headers();
+            $this->nocacheing_headers();
             header('Content-Type: text/plain; charset=' . $this->get_charset());
         }
 
@@ -251,7 +224,7 @@ class rcube_json_output
         $rcmail = rcmail::get_instance();
         $response['action'] = $rcmail->action;
 
-        if ($unlock = get_input_value('_unlock', RCUBE_INPUT_GPC)) {
+        if ($unlock = rcube_ui::get_input_value('_unlock', rcube_ui::INPUT_GPC)) {
             $response['unlock'] = $unlock;
         }
 
@@ -267,7 +240,7 @@ class rcube_json_output
         if (!empty($this->callbacks))
             $response['callbacks'] = $this->callbacks;
 
-        echo json_serialize($response);
+        echo self::json_serialize($response);
     }
 
 
@@ -276,14 +249,14 @@ class rcube_json_output
      *
      * @return string $out
      */
-    private function get_js_commands()
+    protected function get_js_commands()
     {
         $out = '';
 
         foreach ($this->commands as $i => $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
-                $args[$i] = json_serialize($arg);
+                $args[$i] = self::json_serialize($arg);
             }
 
             $out .= sprintf(

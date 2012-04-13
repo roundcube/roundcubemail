@@ -40,7 +40,7 @@ foreach ($crit_opts as $optname => $optval) {
 }
 
 // application constants
-define('RCMAIL_VERSION', '0.8-svn');
+define('RCMAIL_VERSION', '0.9-svn');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 define('RCMAIL_START', microtime(true));
@@ -51,11 +51,6 @@ if (!defined('INSTALL_PATH')) {
 
 if (!defined('RCMAIL_CONFIG_DIR')) {
     define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
-}
-
-// make sure path_separator is defined
-if (!defined('PATH_SEPARATOR')) {
-    define('PATH_SEPARATOR', (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') ? ';' : ':');
 }
 
 // RC include folders MUST be included FIRST to avoid other
@@ -80,59 +75,14 @@ if (extension_loaded('mbstring')) {
     @mb_regex_encoding(RCMAIL_CHARSET);
 }
 
-/**
- * Use PHP5 autoload for dynamic class loading
- * 
- * @todo Make Zend, PEAR etc play with this
- * @todo Make our classes conform to a more straight forward CS.
- */
-function rcube_autoload($classname)
-{
-    $filename = preg_replace(
-        array(
-            '/MDB2_(.+)/',
-            '/Mail_(.+)/',
-            '/Net_(.+)/',
-            '/Auth_(.+)/',
-            '/^html_.+/',
-            '/^utf8$/',
-        ),
-        array(
-            'MDB2/\\1',
-            'Mail/\\1',
-            'Net/\\1',
-            'Auth/\\1',
-            'html',
-            'utf8.class',
-        ),
-        $classname
-    );
+// include global functions
+require_once INSTALL_PATH . 'program/include/rcube_shared.inc';
 
-    if ($fp = @fopen("$filename.php", 'r', true)) {
-        fclose($fp);
-        include_once("$filename.php");
-        return true;
-    }
-
-    return false;
-}
-
+// Register autoloader
 spl_autoload_register('rcube_autoload');
-
-/**
- * Local callback function for PEAR errors
- */
-function rcube_pear_error($err)
-{
-    error_log(sprintf("%s (%s): %s",
-        $err->getMessage(),
-        $err->getCode(),
-        $err->getUserinfo()), 0);
-}
 
 // set PEAR error handling (will also load the PEAR main class)
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
 
-// include global functions
+// backward compatybility (to be removed)
 require_once INSTALL_PATH . 'program/include/main.inc';
-require_once INSTALL_PATH . 'program/include/rcube_shared.inc';

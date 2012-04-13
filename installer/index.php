@@ -53,6 +53,8 @@ $include_path .= ini_get('include_path');
 set_include_path($include_path);
 
 require_once 'utils.php';
+require_once 'rcube_shared.inc';
+// deprecated aliases (to be removed)
 require_once 'main.inc';
 
 session_start();

@@ -22,6 +22,7 @@
 
 */
 
+$rcmail = rcmail::get_instance();
 
 // browser is not compatible with this application
 if ($ERROR_CODE==409) {
@@ -88,7 +89,7 @@ else {
   $__error_title = "SERVICE CURRENTLY NOT AVAILABLE!";
   $__error_text  = "Please contact your server-administrator.";
 
-  if (($CONFIG['debug_level'] & 4) && $ERROR_MESSAGE)
+  if (($rcmail->config->get('debug_level') & 4) && $ERROR_MESSAGE)
     $__error_text = $ERROR_MESSAGE;
   else
     $__error_text = sprintf('Error No. [%s]', $ERROR_CODE);
@@ -97,7 +98,7 @@ else {
 $HTTP_ERR_CODE = $ERROR_CODE && $ERROR_CODE < 600 ? $ERROR_CODE : 500;
 
 // Ajax request
-if ($OUTPUT && ($OUTPUT instanceof rcube_json_output)) {
+if ($rcmail->output && $rcmail->output->type == 'js') {
   header("HTTP/1.0 $HTTP_ERR_CODE $__error_title");
   die;
 }
@@ -110,13 +111,13 @@ $__page_content = <<<EOF
 </div>
 EOF;
 
-if ($OUTPUT && $OUTPUT->template_exists('error')) {
-  $OUTPUT->reset();
-  $OUTPUT->send('error');
+if ($rcmail->output && $rcmail->output->template_exists('error')) {
+  $rcmail->output->reset();
+  $rcmail->output->send('error');
 }
 
-$__skin = $CONFIG->skin ? $CONFIG->skin : 'default';
-$__productname = $CONFIG['product_name'] ? $CONFIG['product_name'] : 'Roundcube Webmail';
+$__skin = $rcmail->config->get('skin', 'default');
+$__productname = $rcmail->config->get('product_name', 'Roundcube Webmail');
 
 // print system error page
 print <<<EOF

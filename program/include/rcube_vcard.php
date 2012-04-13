@@ -389,7 +389,7 @@ class rcube_vcard
         if (is_array($subnode) && (($charset = $force_charset) || ($subnode['charset'] && ($charset = $subnode['charset'][0])))) {
           foreach ($subnode as $j => $value) {
             if (is_numeric($j) && is_string($value))
-              $card[$key][$i][$j] = rcube_charset_convert($value, $charset);
+              $card[$key][$i][$j] = rcube_charset::convert($value, $charset);
           }
           unset($card[$key][$i]['charset']);
         }
@@ -425,7 +425,7 @@ class rcube_vcard
       $charset = null;
     // detect charset and convert to utf-8
     else if (($charset = self::detect_encoding($data)) && $charset != RCMAIL_CHARSET) {
-      $data = rcube_charset_convert($data, $charset);
+      $data = rcube_charset::convert($data, $charset);
       $data = preg_replace(array('/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'), '', $data); // also remove BOM
       $charset = RCMAIL_CHARSET;
     }
@@ -780,7 +780,7 @@ class rcube_vcard
         )*\z/xs', substr($string, 0, 2048)))
       return 'UTF-8';
 
-    return rcmail::get_instance()->config->get('default_charset', 'ISO-8859-1'); # fallback to Latin-1
+    return rcube::get_instance()->config->get('default_charset', 'ISO-8859-1'); # fallback to Latin-1
   }
 
 }

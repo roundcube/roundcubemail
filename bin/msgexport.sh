@@ -34,7 +34,7 @@ function export_mailbox($mbox, $filename)
 	$IMAP->set_folder($mbox);
 
     $index = $IMAP->index($mbox, null, 'ASC');
-    $count = $index->countMessages();
+    $count = $index->count();
     $index = $index->get();
 
 	vputs("Getting message list of {$mbox}...");

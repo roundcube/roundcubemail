@@ -61,7 +61,7 @@ class rcube_spellchecker
         $this->lang   = $lang ? $lang : 'en';
 
         if ($this->engine == 'pspell' && !extension_loaded('pspell')) {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 500, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Pspell extension not available"), true, true);
@@ -535,7 +535,7 @@ class rcube_spellchecker
     private function update_dict()
     {
         if (strcasecmp($this->options['dictionary'], 'shared') != 0) {
-            $userid = (int) $this->rc->user->ID;
+            $userid = $this->rc->get_user_id();
         }
 
         $plugin = $this->rc->plugins->exec_hook('spell_dictionary_save', array(
@@ -548,24 +548,24 @@ class rcube_spellchecker
         if ($this->have_dict) {
             if (!empty($this->dict)) {
                 $this->rc->db->query(
-                    "UPDATE ".get_table_name('dictionary')
+                    "UPDATE ".$this->rc->db->table_name('dictionary')
                     ." SET data = ?"
-                    ." WHERE user_id " . ($plugin['userid'] ? "= ".$plugin['userid'] : "IS NULL")
+                    ." WHERE user_id " . ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
                         ." AND " . $this->rc->db->quoteIdentifier('language') . " = ?",
                     implode(' ', $plugin['dictionary']), $plugin['language']);
             }
             // don't store empty dict
             else {
                 $this->rc->db->query(
-                    "DELETE FROM " . get_table_name('dictionary')
-                    ." WHERE user_id " . ($plugin['userid'] ? "= ".$plugin['userid'] : "IS NULL")
+                    "DELETE FROM " . $this->rc->db->table_name('dictionary')
+                    ." WHERE user_id " . ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
                         ." AND " . $this->rc->db->quoteIdentifier('language') . " = ?",
                     $plugin['language']);
             }
         }
         else if (!empty($this->dict)) {
             $this->rc->db->query(
-                "INSERT INTO " .get_table_name('dictionary')
+                "INSERT INTO " .$this->rc->db->table_name('dictionary')
                 ." (user_id, " . $this->rc->db->quoteIdentifier('language') . ", data) VALUES (?, ?, ?)",
                 $plugin['userid'], $plugin['language'], implode(' ', $plugin['dictionary']));
         }
@@ -582,7 +582,7 @@ class rcube_spellchecker
         }
 
         if (strcasecmp($this->options['dictionary'], 'shared') != 0) {
-            $userid = (int) $this->rc->user->ID;
+            $userid = $this->rc->get_user_id();
         }
 
         $plugin = $this->rc->plugins->exec_hook('spell_dictionary_get', array(
@@ -591,8 +591,8 @@ class rcube_spellchecker
         if (empty($plugin['abort'])) {
             $dict = array();
             $this->rc->db->query(
-                "SELECT data FROM ".get_table_name('dictionary')
-                ." WHERE user_id ". ($plugin['userid'] ? "= ".$plugin['userid'] : "IS NULL")
+                "SELECT data FROM ".$this->rc->db->table_name('dictionary')
+                ." WHERE user_id ". ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
                     ." AND " . $this->rc->db->quoteIdentifier('language') . " = ?",
                 $plugin['language']);
 

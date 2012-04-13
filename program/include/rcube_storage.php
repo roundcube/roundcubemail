@@ -434,7 +434,7 @@ abstract class rcube_storage
      * @param int     $uid     Message UID to fetch
      * @param string  $folder  Folder to read from
      *
-     * @return object rcube_mail_header Message data
+     * @return object rcube_message_header Message data
      */
     abstract function get_message($uid, $folder = null);
 
@@ -446,7 +446,7 @@ abstract class rcube_storage
      * @param string  $folder   Folder to read from
      * @param bool    $force    True to skip cache
      *
-     * @return rcube_mail_header Message headers
+     * @return rcube_message_header Message headers
      */
     abstract function get_message_headers($uid, $folder = null, $force = false);
 
@@ -477,7 +477,7 @@ abstract class rcube_storage
     public function get_body($uid, $part = 1)
     {
         $headers = $this->get_message_headers($uid);
-        return rcube_charset_convert($this->get_message_part($uid, $part, null),
+        return rcube_charset::convert($this->get_message_part($uid, $part, null),
             $headers->charset ? $headers->charset : $this->default_charset);
     }
 
@@ -970,6 +970,7 @@ abstract class rcube_storage
      */
     abstract function clear_cache($key = null, $prefix_mode = false);
 
+
     /**
      * Returns cached value
      *
@@ -979,93 +980,10 @@ abstract class rcube_storage
      */
     abstract function get_cache($key);
 
+
     /**
      * Delete outdated cache entries
      */
     abstract function expunge_cache();
 
 }  // end class rcube_storage
-
-
-/**
- * Class representing a message part
- *
- * @package Mail
- */
-class rcube_message_part
-{
-    var $mime_id = '';
-    var $ctype_primary = 'text';
-    var $ctype_secondary = 'plain';
-    var $mimetype = 'text/plain';
-    var $disposition = '';
-    var $filename = '';
-    var $encoding = '8bit';
-    var $charset = '';
-    var $size = 0;
-    var $headers = array();
-    var $d_parameters = array();
-    var $ctype_parameters = array();
-
-    function __clone()
-    {
-        if (isset($this->parts)) {
-            foreach ($this->parts as $idx => $part) {
-                if (is_object($part)) {
-                    $this->parts[$idx] = clone $part;
-                }
-            }
-        }
-    }
-}
-
-
-/**
- * Class for sorting an array of rcube_mail_header objects in a predetermined order.
- *
- * @package Mail
- * @author Eric Stadtherr
- */
-class rcube_header_sorter
-{
-    private $uids = array();
-
-
-    /**
-     * Set the predetermined sort order.
-     *
-     * @param array $index  Numerically indexed array of IMAP UIDs
-     */
-    function set_index($index)
-    {
-        $index = array_flip($index);
-
-        $this->uids = $index;
-    }
-
-    /**
-     * Sort the array of header objects
-     *
-     * @param array $headers Array of rcube_mail_header objects indexed by UID
-     */
-    function sort_headers(&$headers)
-    {
-        uksort($headers, array($this, "compare_uids"));
-    }
-
-    /**
-     * Sort method called by uksort()
-     *
-     * @param int $a Array key (UID)
-     * @param int $b Array key (UID)
-     */
-    function compare_uids($a, $b)
-    {
-        // then find each sequence number in my ordered list
-        $posa = isset($this->uids[$a]) ? intval($this->uids[$a]) : -1;
-        $posb = isset($this->uids[$b]) ? intval($this->uids[$b]) : -1;
-
-        // return the relative position as the comparison value
-        return $posa - $posb;
-    }
-}

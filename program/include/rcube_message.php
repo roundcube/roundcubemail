@@ -78,7 +78,7 @@ class rcube_message
     function __construct($uid)
     {
         $this->uid  = $uid;
-        $this->app  = rcmail::get_instance();
+        $this->app  = rcube::get_instance();
         $this->storage = $this->app->get_storage();
         $this->storage->set_options(array('all_headers' => true));
 
@@ -96,8 +96,10 @@ class rcube_message
         $this->opt = array(
             'safe' => $this->is_safe,
             'prefer_html' => $this->app->config->get('prefer_html'),
-            'get_url' => rcmail_url('get', array(
-                '_mbox' => $this->storage->get_folder(), '_uid' => $uid))
+            'get_url' => $this->app->url(array(
+                'action' => 'get',
+                'mbox'   => $this->storage->get_folder(),
+                'uid'    => $uid))
         );
 
         if (!empty($this->headers->structure)) {
@@ -380,7 +382,8 @@ class rcube_message
                 $c->type            = 'content';
                 $c->ctype_primary   = 'text';
                 $c->ctype_secondary = 'plain';
-                $c->body            = rcube_label('htmlmessage');
+                $c->mimetype        = 'text/plain';
+                $c->realtype        = 'text/html';
 
                 $this->parts[] = $c;
             }
@@ -388,7 +391,6 @@ class rcube_message
             // add html part as attachment
             if ($html_part !== null && $structure->parts[$html_part] !== $print_part) {
                 $html_part = &$structure->parts[$html_part];
-                $html_part->filename = rcube_label('htmlmessage');
                 $html_part->mimetype = 'text/html';
 
                 $this->attachments[] = $html_part;
@@ -400,8 +402,8 @@ class rcube_message
             $p->type            = 'content';
             $p->ctype_primary   = 'text';
             $p->ctype_secondary = 'plain';
-            $p->body            = rcube_label('encryptedmessage');
-            $p->size            = strlen($p->body);
+            $p->mimetype        = 'text/plain';
+            $p->realtype        = 'multipart/encrypted';
 
             $this->parts[] = $p;
         }
@@ -671,7 +673,7 @@ class rcube_message
                 $uupart->size     = strlen($uupart->body);
                 $uupart->mime_id  = 'uu.' . $part->mime_id . '.' . $pid;
 
-                $ctype = rc_mime_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
+                $ctype = rcube_mime::content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
                 $uupart->mimetype = $ctype;
                 list($uupart->ctype_primary, $uupart->ctype_secondary) = explode('/', $ctype);
 

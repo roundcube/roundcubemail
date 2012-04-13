@@ -1,6 +1,17 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Roundcube Framework:
+    Add possibility to replace IMAP driver with custom class
+    Add IMAP auto-connection feature, improving performance with caching enabled
+    Replace imap_init hook with storage_init (with additional 'driver' argument)
+    Improved performance by caching IMAP server's capabilities in session
+    Unified global functions naming (rcube_ prefix)
+    Move global functions from main.inc and rcube_shared.inc into classes
+    Better classes separation
+
+RELEASE 0.8-rc
+----------------
 - Set flexible width to login form fields (#1488418)
 - Fix re-draw bug on list columns change in IE8 (#1487822)
 - Allow mass-removal of addresses from a group (#1487748)

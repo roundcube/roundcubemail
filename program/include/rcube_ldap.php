@@ -63,12 +63,11 @@ class rcube_ldap extends rcube_addressbook
     /**
     * Object constructor
     *
-    * @param array 	    LDAP connection properties
-    * @param boolean 	Enables debug mode
-    * @param string 	Current user mail domain name
-    * @param integer User-ID
+    * @param array 	 $p            LDAP connection properties
+    * @param boolean $debug        Enables debug mode
+    * @param string  $mail_domain  Current user mail domain name
     */
-    function __construct($p, $debug=false, $mail_domain=NULL)
+    function __construct($p, $debug = false, $mail_domain = null)
     {
         $this->prop = $p;
 
@@ -176,10 +175,10 @@ class rcube_ldap extends rcube_addressbook
     */
     private function _connect()
     {
-        global $RCMAIL;
+        $RCMAIL = rcmail::get_instance();
 
         if (!function_exists('ldap_connect'))
-            raise_error(array('code' => 100, 'type' => 'ldap',
+            rcube::raise_error(array('code' => 100, 'type' => 'ldap',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "No ldap support in this installation of PHP"),
                 true, true);
@@ -195,7 +194,7 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ($this->prop['hosts'] as $host)
         {
-            $host     = idn_to_ascii(rcube_parse_host($host));
+            $host     = idn_to_ascii(rcmail::parse_host($host));
             $hostname = $host.($this->prop['port'] ? ':'.$this->prop['port'] : '');
 
             $this->_debug("C: Connect [$hostname] [{$this->prop['name']}]");
@@ -225,7 +224,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         if (!is_resource($this->conn)) {
-            raise_error(array('code' => 100, 'type' => 'ldap',
+            rcube::raise_error(array('code' => 100, 'type' => 'ldap',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Could not connect to any LDAP server, last tried $hostname"), true);
 
@@ -248,7 +247,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // Get the pieces needed for variable replacement.
-            if ($fu = $RCMAIL->user->get_username())
+            if ($fu = $RCMAIL->get_user_name())
                 list($u, $d) = explode('@', $fu);
             else
                 $d = $this->mail_domain;
@@ -287,7 +286,7 @@ class rcube_ldap extends rcube_addressbook
                     if (!empty($this->prop['search_dn_default']))
                         $replaces['%dn'] = $this->prop['search_dn_default'];
                     else {
-                        raise_error(array(
+                        rcube::raise_error(array(
                             'code' => 100, 'type' => 'ldap',
                             'file' => __FILE__, 'line' => __LINE__,
                             'message' => "DN not found using LDAP search."), true);
@@ -341,7 +340,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         if (!function_exists('ldap_sasl_bind')) {
-            raise_error(array('code' => 100, 'type' => 'ldap',
+            rcube::raise_error(array('code' => 100, 'type' => 'ldap',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Unable to bind: ldap_sasl_bind() not exists"),
                 true, true);
@@ -367,7 +366,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->_debug("S: ".ldap_error($this->conn));
 
-        raise_error(array(
+        rcube::raise_error(array(
             'code' => ldap_errno($this->conn), 'type' => 'ldap',
             'file' => __FILE__, 'line' => __LINE__,
             'message' => "Bind failed for authcid=$authc ".ldap_error($this->conn)),
@@ -400,7 +399,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->_debug("S: ".ldap_error($this->conn));
 
-        raise_error(array(
+        rcube::raise_error(array(
             'code' => ldap_errno($this->conn), 'type' => 'ldap',
             'file' => __FILE__, 'line' => __LINE__,
             'message' => "Bind failed for dn=$dn: ".ldap_error($this->conn)),
@@ -1562,8 +1561,9 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _debug($str)
     {
-        if ($this->debug)
-            write_log('ldap', $str);
+        if ($this->debug) {
+            rcmail::write_log('ldap', $str);
+        }
     }
 
 

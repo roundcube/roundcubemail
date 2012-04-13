@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 0.8-svn                                                         |
+ | Version 0.9-svn                                                         |
  |                                                                         |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                         |
  |                                                                         |
@@ -45,7 +45,7 @@ require_once 'program/include/iniset.php';
 $RCMAIL = rcmail::get_instance();
 
 // Make the whole PHP output non-cacheable (#1487797)
-send_nocacheing_headers();
+$RCMAIL->output->nocacheing_headers();
 
 // turn on output buffering
 ob_start();
@@ -67,14 +67,14 @@ if ($err_str = $RCMAIL->db->is_error()) {
 }
 
 // error steps
-if ($RCMAIL->action=='error' && !empty($_GET['_code'])) {
+if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
   raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
 }
 
 // check if https is required (for login) and redirect if necessary
 if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
   $https_port = is_bool($force_https) ? 443 : $force_https;
-  if (!rcube_https_check($https_port)) {
+  if (!rcube_ui::https_check($https_port)) {
     $host  = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
     $host .= ($https_port != 443 ? ':' . $https_port : '');
     header('Location: https://' . $host . $_SERVER['REQUEST_URI']);
@@ -89,15 +89,15 @@ $RCMAIL->action = $startup['action'];
 
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
-  $request_valid = $_SESSION['temp'] && $RCMAIL->check_request(RCUBE_INPUT_POST, 'login');
+  $request_valid = $_SESSION['temp'] && $RCMAIL->check_request(rcube_ui::INPUT_POST, 'login');
 
   // purge the session in case of new login when a session already exists 
   $RCMAIL->kill_session();
 
   $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
     'host' => $RCMAIL->autoselect_host(),
-    'user' => trim(get_input_value('_user', RCUBE_INPUT_POST)),
-    'pass' => get_input_value('_pass', RCUBE_INPUT_POST, true,
+    'user' => trim(rcube_ui::get_input_value('_user', rcube_ui::INPUT_POST)),
+    'pass' => rcube_ui::get_input_value('_pass', rcube_ui::INPUT_POST, true,
        $RCMAIL->config->get('password_charset', 'ISO-8859-1')),
     'cookiecheck' => true,
     'valid' => $request_valid,
@@ -119,11 +119,11 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $RCMAIL->session->set_auth_cookie();
 
     // log successful login
-    rcmail_log_login();
+    $RCMAIL->log_login();
 
     // restore original request parameters
     $query = array();
-    if ($url = get_input_value('_url', RCUBE_INPUT_POST)) {
+    if ($url = rcube_ui::get_input_value('_url', rcube_ui::INPUT_POST)) {
       parse_str($url, $query);
 
       // prevent endless looping on login page
@@ -149,7 +149,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 }
 
 // end session (after optional referer check)
-else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcube_check_referer())) {
+else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcmail::check_referer())) {
   $userdata = array(
     'user' => $_SESSION['username'],
     'host' => $_SESSION['storage_host'],
@@ -172,7 +172,8 @@ else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
   // log session failures
-  if (($task = get_input_value('_task', RCUBE_INPUT_GPC)) && !in_array($task, array('login','logout')) && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])) {
+  $task = rcube_ui::get_input_value('_task', rcube_ui::INPUT_GPC);
+  if ($task && !in_array($task, array('login','logout')) && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])) {
     $RCMAIL->session->log("Aborted session " . $sess_id . "; no valid session data found");
     $session_error = true;
   }
@@ -208,7 +209,7 @@ else {
 
   // check client X-header to verify request origin
   if ($OUTPUT->ajax_call) {
-    if (rc_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token() && !$RCMAIL->config->get('devel_mode')) {
+    if (rcube_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token() && !$RCMAIL->config->get('devel_mode')) {
       header('HTTP/1.1 403 Forbidden');
       die("Invalid Request");
     }
@@ -220,7 +221,7 @@ else {
   }
 
   // check referer if configured
-  if (!$request_check_whitelist[$RCMAIL->action] && $RCMAIL->config->get('referer_check') && !rcube_check_referer()) {
+  if (!$request_check_whitelist[$RCMAIL->action] && $RCMAIL->config->get('referer_check') && !rcmail::check_referer()) {
     raise_error(array(
       'code' => 403,
       'type' => 'php',

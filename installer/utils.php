@@ -45,26 +45,16 @@ function __autoload($classname)
     include_once $filename. '.php';
 }
 
-
-/**
- * Fake internal error handler to catch errors
- */
-function raise_error($p)
-{
-    $rci = rcube_install::get_instance();
-    $rci->raise_error($p);
-}
-
 /**
  * Local callback function for PEAR errors
  */
-function rcube_pear_error($err)
+function __pear_error($err)
 {
-    raise_error(array(
+    rcmail::raise_error(array(
         'code' => $err->getCode(),
         'message' => $err->getMessage(),
     ));
 }
 
 // set PEAR error handling (will also load the PEAR main class)
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, '__pear_error');

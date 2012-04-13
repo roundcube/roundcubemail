@@ -66,7 +66,7 @@ class rcube_user
 
         if ($id && !$sql_arr) {
             $sql_result = $this->db->query(
-                "SELECT * FROM ".get_table_name('users')." WHERE user_id = ?", $id);
+                "SELECT * FROM ".$this->db->table_name('users')." WHERE user_id = ?", $id);
             $sql_arr = $this->db->fetch_assoc($sql_result);
         }
 
@@ -127,9 +127,9 @@ class rcube_user
             if (!empty($_SESSION['preferences'])) {
                 // Check last write attempt time, try to write again (every 5 minutes)
                 if ($_SESSION['preferences_time'] < time() - 5 * 60) {
-		    $saved_prefs = unserialize($_SESSION['preferences']);
+                    $saved_prefs = unserialize($_SESSION['preferences']);
                     $this->rc->session->remove('preferences');
-	            $this->rc->session->remove('preferences_time');
+                    $this->rc->session->remove('preferences_time');
                     $this->save_prefs($saved_prefs);
                 }
                 else {
@@ -173,7 +173,7 @@ class rcube_user
         $save_prefs = serialize($save_prefs);
 
         $this->db->query(
-            "UPDATE ".get_table_name('users').
+            "UPDATE ".$this->db->table_name('users').
             " SET preferences = ?".
                 ", language = ?".
             " WHERE user_id = ?",
@@ -232,7 +232,7 @@ class rcube_user
         $result = array();
 
         $sql_result = $this->db->query(
-            "SELECT * FROM ".get_table_name('identities').
+            "SELECT * FROM ".$this->db->table_name('identities').
             " WHERE del <> 1 AND user_id = ?".
             ($sql_add ? " ".$sql_add : "").
             " ORDER BY ".$this->db->quoteIdentifier('standard')." DESC, name ASC, identity_id ASC",
@@ -267,7 +267,7 @@ class rcube_user
         $query_params[] = $iid;
         $query_params[] = $this->ID;
 
-        $sql = "UPDATE ".get_table_name('identities').
+        $sql = "UPDATE ".$this->db->table_name('identities').
             " SET changed = ".$this->db->now().", ".join(', ', $query_cols).
             " WHERE identity_id = ?".
                 " AND user_id = ?".
@@ -301,7 +301,7 @@ class rcube_user
         $insert_cols[]   = 'user_id';
         $insert_values[] = $this->ID;
 
-        $sql = "INSERT INTO ".get_table_name('identities').
+        $sql = "INSERT INTO ".$this->db->table_name('identities').
             " (changed, ".join(', ', $insert_cols).")".
             " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
 
@@ -324,7 +324,7 @@ class rcube_user
             return false;
 
         $sql_result = $this->db->query(
-            "SELECT count(*) AS ident_count FROM ".get_table_name('identities').
+            "SELECT count(*) AS ident_count FROM ".$this->db->table_name('identities').
             " WHERE user_id = ? AND del <> 1",
             $this->ID);
 
@@ -335,7 +335,7 @@ class rcube_user
             return -1;
 
         $this->db->query(
-            "UPDATE ".get_table_name('identities').
+            "UPDATE ".$this->db->table_name('identities').
             " SET del = 1, changed = ".$this->db->now().
             " WHERE user_id = ?".
                 " AND identity_id = ?",
@@ -355,7 +355,7 @@ class rcube_user
     {
         if ($this->ID && $iid) {
             $this->db->query(
-                "UPDATE ".get_table_name('identities').
+                "UPDATE ".$this->db->table_name('identities').
                 " SET ".$this->db->quoteIdentifier('standard')." = '0'".
                 " WHERE user_id = ?".
                     " AND identity_id <> ?".
@@ -373,7 +373,7 @@ class rcube_user
     {
         if ($this->ID) {
             $this->db->query(
-                "UPDATE ".get_table_name('users').
+                "UPDATE ".$this->db->table_name('users').
                 " SET last_login = ".$this->db->now().
                 " WHERE user_id = ?",
                 $this->ID);
@@ -403,7 +403,7 @@ class rcube_user
         $dbh = rcmail::get_instance()->get_dbh();
 
         // query for matching user name
-        $query = "SELECT * FROM ".get_table_name('users')." WHERE mail_host = ? AND %s = ?";
+        $query = "SELECT * FROM ".$dbh->table_name('users')." WHERE mail_host = ? AND %s = ?";
         $sql_result = $dbh->query(sprintf($query, 'username'), $host, $user);
 
         // query for matching alias
@@ -451,7 +451,7 @@ class rcube_user
         $dbh = $rcmail->get_dbh();
 
         $dbh->query(
-            "INSERT INTO ".get_table_name('users').
+            "INSERT INTO ".$dbh->table_name('users').
             " (created, last_login, username, mail_host, alias, language)".
             " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?, ?)",
             strip_newlines($user),
@@ -507,7 +507,7 @@ class rcube_user
             }
         }
         else {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 500,
                 'type' => 'php',
                 'line' => __LINE__,
@@ -573,7 +573,7 @@ class rcube_user
 
         $sql_result = $this->db->query(
             "SELECT search_id AS id, ".$this->db->quoteIdentifier('name')
-            ." FROM ".get_table_name('searches')
+            ." FROM ".$this->db->table_name('searches')
             ." WHERE user_id = ?"
                 ." AND ".$this->db->quoteIdentifier('type')." = ?"
             ." ORDER BY ".$this->db->quoteIdentifier('name'),
@@ -607,7 +607,7 @@ class rcube_user
             "SELECT ".$this->db->quoteIdentifier('name')
                 .", ".$this->db->quoteIdentifier('data')
                 .", ".$this->db->quoteIdentifier('type')
-            ." FROM ".get_table_name('searches')
+            ." FROM ".$this->db->table_name('searches')
             ." WHERE user_id = ?"
                 ." AND search_id = ?",
             (int) $this->ID, (int) $id);
@@ -638,7 +638,7 @@ class rcube_user
             return false;
 
         $this->db->query(
-            "DELETE FROM ".get_table_name('searches')
+            "DELETE FROM ".$this->db->table_name('searches')
             ." WHERE user_id = ?"
                 ." AND search_id = ?",
             (int) $this->ID, $sid);
@@ -668,7 +668,7 @@ class rcube_user
         $insert_cols[]   = $this->db->quoteIdentifier('data');
         $insert_values[] = serialize($data['data']);
 
-        $sql = "INSERT INTO ".get_table_name('searches')
+        $sql = "INSERT INTO ".$this->db->table_name('searches')
             ." (".join(', ', $insert_cols).")"
             ." VALUES (".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
 

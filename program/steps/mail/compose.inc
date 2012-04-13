@@ -1162,10 +1162,22 @@ function rcmail_save_attachment(&$message, $pid)
     $data = $message->get_part_content($pid);
   }
 
+  $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
+  $filename = $part->filename;
+  if (!strlen($filename)) {
+    if ($mimetype == 'text/html') {
+      $filename = rcube_label('htmlmessage');
+    }
+    else {
+      $filename = 'Part_'.$pid;
+    }
+    $filename .= '.' . $part->ctype_secondary;
+  }
+
   $attachment = array(
     'group' => $COMPOSE['id'],
-    'name' => $part->filename ? $part->filename : 'Part_'.$pid.'.'.$part->ctype_secondary,
-    'mimetype' => $part->ctype_primary . '/' . $part->ctype_secondary,
+    'name' => $filename,
+    'mimetype' => $mimetype,
     'content_id' => $part->content_id,
     'data' => $data,
     'path' => $path,
