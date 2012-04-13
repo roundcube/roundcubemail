@@ -475,7 +475,7 @@ a.iconbutton.threadmode.selected {
 }
 
 #messagelist tbody tr td.attachment span.attachment {
-	background-position: 0 -998px;
+	background-position: 0 -996px;
 }
 #messagelist thead tr td.attachment span.attachment {
 	background-position: -24px -997px;
