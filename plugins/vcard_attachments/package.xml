@@ -34,6 +34,8 @@
 - Fixed doble urlencoding of vcard identifier
 - Fixed encoding when default charset is different than vcard charset
 - Improved vcards import to work as addressbook::import procedure (with validation and autofix)
+- Support IDNA
+- Import contacts to default addressbook
 	</notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">

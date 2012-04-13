@@ -128,7 +128,7 @@ class vcard_attachments extends rcube_plugin
         if ($part && ($vcards = rcube_vcard::import($part))
             && ($vcard = $vcards[$index]) && $vcard->displayname && $vcard->email
         ) {
-            $CONTACTS = $rcmail->get_address_book(null, true);
+            $CONTACTS = $this->get_address_book();
             $email    = $vcard->email[0];
             $contact  = $vcard->get_assoc();
             $valid    = true;
@@ -194,5 +194,30 @@ class vcard_attachments extends rcube_plugin
                 )
             )
         );
+    }
+
+    /**
+     * Getter for default (writable) addressbook
+     */
+    private function get_address_book()
+    {
+        if ($this->abook) {
+            return $this->abook;
+        }
+
+        $rcmail = rcmail::get_instance();
+        $abook  = $rcmail->config->get('default_addressbook');
+
+        // Get configured addressbook
+        $CONTACTS = $rcmail->get_address_book($abook, true);
+
+        // Get first writeable addressbook if the configured doesn't exist
+        // This can happen when user deleted the addressbook (e.g. Kolab folder)
+        if ($abook === null || $abook === '' || !is_object($CONTACTS)) {
+            $source   = reset($rcmail->get_address_sources(true));
+            $CONTACTS = $rcmail->get_address_book($source['id'], true);
+        }
+
+        return $this->abook = $CONTACTS;
     }
 }
