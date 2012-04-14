@@ -769,7 +769,7 @@ class rcube_ui
     /**
      * Create a hierarchical array of the mailbox list
      */
-    private static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
+    public static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
     {
         global $RCMAIL;
 
@@ -969,7 +969,7 @@ class rcube_ui
     /**
      * Return internal name for the given folder if it matches the configured special folders
      */
-    private static function folder_classname($folder_id)
+    public static function folder_classname($folder_id)
     {
         global $CONFIG;
 
