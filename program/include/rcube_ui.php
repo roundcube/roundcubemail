@@ -842,7 +842,7 @@ class rcube_ui
         foreach ($arrFolders as $key => $folder) {
             $title        = null;
             $folder_class = self::folder_classname($folder['id']);
-            $collapsed    = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
+            $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
             $unread       = $msgcounts ? intval($msgcounts[$folder['id']]['UNSEEN']) : 0;
 
             if ($folder_class && !$realnames) {
@@ -896,7 +896,7 @@ class rcube_ui
                 'noclose' => true),
                 html::a($link_attrib, $html_name) .
                 (!empty($folder['folders']) ? html::div(array(
-                    'class' => ($collapsed ? 'collapsed' : 'expanded'),
+                    'class' => ($is_collapsed ? 'collapsed' : 'expanded'),
                     'style' => "position:absolute",
                     'onclick' => sprintf("%s.command('collapse-folder', '%s')", JS_OBJECT_NAME, $js_name)
                 ), '&nbsp;') : ''));
@@ -908,7 +908,7 @@ class rcube_ui
             );
 
             if (!empty($folder['folders'])) {
-                $out .= html::tag('ul', array('style' => ($collapsed ? "display:none;" : null)),
+                $out .= html::tag('ul', array('style' => ($is_collapsed ? "display:none;" : null)),
                     self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel+1));
             }
 
