@@ -829,7 +829,7 @@ class rcube_ui
     /**
      * Return html for a structured list &lt;ul&gt; for the mailbox tree
      */
-    private static function render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
+    public static function render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
     {
         global $RCMAIL;
 
@@ -922,7 +922,7 @@ class rcube_ui
     /**
      * Return html for a flat list <select> for the mailbox tree
      */
-    private static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
+    public static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
     {
         global $RCMAIL;
 

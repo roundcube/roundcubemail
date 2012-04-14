@@ -44,14 +44,14 @@ class rcube_charset
         'UNKNOWN'       => 'ISO-8859-15',
         'USERDEFINED'   => 'ISO-8859-15',
         'KSC56011987'   => 'EUC-KR',
-        'GB2312' 	    => 'GBK',
-        'GB231280'	    => 'GBK',
-        'UNICODE'	    => 'UTF-8',
-        'UTF7IMAP'	    => 'UTF7-IMAP',
-        'TIS620'	    => 'WINDOWS-874',
-        'ISO88599'	    => 'WINDOWS-1254',
-        'ISO885911'	    => 'WINDOWS-874',
-        'MACROMAN'	    => 'MACINTOSH',
+        'GB2312'        => 'GBK',
+        'GB231280'      => 'GBK',
+        'UNICODE'       => 'UTF-8',
+        'UTF7IMAP'      => 'UTF7-IMAP',
+        'TIS620'        => 'WINDOWS-874',
+        'ISO88599'      => 'WINDOWS-1254',
+        'ISO885911'     => 'WINDOWS-874',
+        'MACROMAN'      => 'MACINTOSH',
         '77'            => 'MAC',
         '128'           => 'SHIFT-JIS',
         '129'           => 'CP949',
@@ -336,7 +336,7 @@ class rcube_charset
                         break;
                     }
 
-	                $ch .= $u7;
+                    $ch .= $u7;
                 }
 
                 if ($ch == '') {
@@ -724,7 +724,7 @@ class rcube_charset
             }
             else if ($ord >= 0xC0) {
                 if (strlen($seq) > 1) {
-	                $out .= preg_match($regexp, $seq) ? $seq : '';
+                    $out .= preg_match($regexp, $seq) ? $seq : '';
                     $seq = '';
                 }
                 else if ($seq && ord($seq) < 0xC0) {
