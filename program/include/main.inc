@@ -170,6 +170,26 @@ function rcmail_mailbox_select($attrib = array())
     return rcube_ui::folder_selector($attrib);
 }
 
+function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
+{
+    return rcube_ui::render_folder_tree_html($arrFolders, $mbox_name, $jslist, $attrib, $nestLevel);
+}
+
+function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
+{
+    return rcube_ui::render_folder_tree_select($arrFolders, $mbox_name, $maxlength, $select, $realnames, $nestLevel, $opts);    
+}
+
+function rcmail_build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
+{
+    return rcmail_ui::build_folder_tree($arrFolders, $folder, $delm, $path);
+}
+
+function rcmail_folder_classname($folder_id)
+{
+    return rcube_ui::folder_classname($folder_id);
+}
+
 function rcmail_localize_foldername($name)
 {
     return rcube_ui::localize_foldername($name);
