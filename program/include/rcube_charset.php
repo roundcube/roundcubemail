@@ -93,7 +93,7 @@ class rcube_charset
      *
      * @return string The validated charset name
      */
-    public static function parse($input)
+    public static function parse_charset($input)
     {
         static $charsets = array();
         $charset = strtoupper($input);
@@ -178,20 +178,18 @@ class rcube_charset
     public static function convert($str, $from, $to = null)
     {
         static $iconv_options   = null;
-        static $mbstring_loaded = null;
         static $mbstring_list   = null;
         static $conv            = null;
 
-        $to   = empty($to) ? strtoupper(RCMAIL_CHARSET) : self::parse($to);
-        $from = self::parse($from);
+        $to   = empty($to) ? strtoupper(RCMAIL_CHARSET) : self::parse_charset($to);
+        $from = self::parse_charset($from);
 
         if ($from == $to || empty($str) || empty($from)) {
             return $str;
         }
 
-        // convert charset using iconv module
-        if (function_exists('iconv') && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
-            if ($iconv_options === null) {
+        if ($iconv_options === null) {
+            if (function_exists('iconv')) {
                 // ignore characters not available in output charset
                 $iconv_options = '//IGNORE';
                 if (iconv('', $iconv_options, '') === false) {
@@ -199,7 +197,10 @@ class rcube_charset
                     $iconv_options = '';
                 }
             }
+        }
 
+        // convert charset using iconv module
+        if ($iconv_options !== null && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
             // throw an exception if iconv reports an illegal character in input
             // it means that input string has been truncated
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
@@ -215,18 +216,16 @@ class rcube_charset
             }
         }
 
-        if ($mbstring_loaded === null) {
-            $mbstring_loaded = extension_loaded('mbstring');
-        }
-
-        // convert charset using mbstring module
-        if ($mbstring_loaded) {
-            $aliases['WINDOWS-1257'] = 'ISO-8859-13';
-
-            if ($mbstring_list === null) {
+        if ($mbstring_list === null) {
+            if (extension_loaded('mbstring')) {
                 $mbstring_list = mb_list_encodings();
                 $mbstring_list = array_map('strtoupper', $mbstring_list);
             }
+        }
+
+        // convert charset using mbstring module
+        if ($mbstring_list !== null) {
+            $aliases['WINDOWS-1257'] = 'ISO-8859-13';
 
             $mb_from = $aliases[$from] ? $aliases[$from] : $from;
             $mb_to   = $aliases[$to] ? $aliases[$to] : $to;
