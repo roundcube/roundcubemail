@@ -73,10 +73,10 @@ class rcube_image
      */
     public function resize($size, $filename = null)
     {
-        $result   = false;
-        $rcmail   = rcmail::get_instance();
-        $convert  = $rcmail->config->get('im_convert_path', false);
-        $props    = $this->props();
+        $result  = false;
+        $rcube   = rcube::get_instance();
+        $convert = $rcmail->config->get('im_convert_path', false);
+        $props   = $this->props();
 
         if (!$filename) {
             $filename = $this->image_file;
@@ -98,7 +98,7 @@ class rcube_image
             $p['-opts'] = array('-resize' => $size.'>');
 
             if (in_array($type, explode(',', $p['types']))) { // Valid type?
-                $result = rcmail::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p) === '';
+                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p) === '';
             }
 
             if ($result) {
@@ -161,11 +161,11 @@ class rcube_image
      */
     private function identify()
     {
-        $rcmail = rcmail::get_instance();
+        $rcube = rcube::get_instance();
 
-        if ($cmd = $rcmail->config->get('im_identify_path')) {
+        if ($cmd = $rcube->config->get('im_identify_path')) {
             $args = array('in' => $this->image_file, 'format' => "%m %[fx:w] %[fx:h]");
-            $id   = rcmail::exec($cmd. ' 2>/dev/null -format {format} {in}', $args);
+            $id   = rcube::exec($cmd. ' 2>/dev/null -format {format} {in}', $args);
 
             if ($id) {
                 return explode(' ', strtolower($id));

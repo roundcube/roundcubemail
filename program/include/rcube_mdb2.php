@@ -826,7 +826,7 @@ class rcube_mdb2
         if ($scope != 'prepare') {
             $debug_output = sprintf('%s(%d): %s;',
                 $scope, $db->db_index, rtrim($message, ';'));
-            rcmail::write_log('sql', $debug_output);
+            rcube::write_log('sql', $debug_output);
         }
     }
 
@@ -840,12 +840,12 @@ class rcube_mdb2
      */
     public function table_name($table)
     {
-        $rcmail = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         // return table name if configured
         $config_key = 'db_table_'.$table;
 
-        if ($name = $rcmail->config->get($config_key)) {
+        if ($name = $rcube->config->get($config_key)) {
             return $name;
         }
 
@@ -863,12 +863,12 @@ class rcube_mdb2
      */
     public function sequence_name($sequence)
     {
-        $rcmail = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         // return sequence name if configured
         $config_key = 'db_sequence_'.$sequence;
 
-        if ($name = $rcmail->config->get($config_key)) {
+        if ($name = $rcube->config->get($config_key)) {
             return $name;
         }
 

@@ -66,12 +66,12 @@ class rcube_cache
      */
     function __construct($type, $userid, $prefix='', $ttl=0, $packed=true)
     {
-        $rcmail = rcube::get_instance();
-        $type   = strtolower($type);
+        $rcube = rcube::get_instance();
+        $type  = strtolower($type);
 
         if ($type == 'memcache') {
             $this->type = 'memcache';
-            $this->db   = $rcmail->get_memcache();
+            $this->db   = $rcube->get_memcache();
         }
         else if ($type == 'apc') {
             $this->type = 'apc';
@@ -79,7 +79,7 @@ class rcube_cache
         }
         else {
             $this->type = 'db';
-            $this->db   = $rcmail->get_dbh();
+            $this->db   = $rcube->get_dbh();
         }
 
         $this->userid    = (int) $userid;

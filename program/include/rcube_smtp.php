@@ -52,7 +52,7 @@ class rcube_smtp
    */
   public function connect($host=null, $port=null, $user=null, $pass=null)
   {
-    $RCMAIL = rcube::get_instance();
+    $rcube = rcube::get_instance();
 
     // disconnect/destroy $this->conn
     $this->disconnect();
@@ -61,16 +61,16 @@ class rcube_smtp
     $this->error = $this->response = null;
 
     // let plugins alter smtp connection config
-    $CONFIG = $RCMAIL->plugins->exec_hook('smtp_connect', array(
-      'smtp_server'    => $host ? $host : $RCMAIL->config->get('smtp_server'),
-      'smtp_port'      => $port ? $port : $RCMAIL->config->get('smtp_port', 25),
-      'smtp_user'      => $user ? $user : $RCMAIL->config->get('smtp_user'),
-      'smtp_pass'      => $pass ? $pass : $RCMAIL->config->get('smtp_pass'),
-      'smtp_auth_cid'  => $RCMAIL->config->get('smtp_auth_cid'),
-      'smtp_auth_pw'   => $RCMAIL->config->get('smtp_auth_pw'),
-      'smtp_auth_type' => $RCMAIL->config->get('smtp_auth_type'),
-      'smtp_helo_host' => $RCMAIL->config->get('smtp_helo_host'),
-      'smtp_timeout'   => $RCMAIL->config->get('smtp_timeout'),
+    $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
+      'smtp_server'    => $host ? $host : $rcube->config->get('smtp_server'),
+      'smtp_port'      => $port ? $port : $rcube->config->get('smtp_port', 25),
+      'smtp_user'      => $user ? $user : $rcube->config->get('smtp_user'),
+      'smtp_pass'      => $pass ? $pass : $rcube->config->get('smtp_pass'),
+      'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
+      'smtp_auth_pw'   => $rcube->config->get('smtp_auth_pw'),
+      'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
+      'smtp_helo_host' => $rcube->config->get('smtp_helo_host'),
+      'smtp_timeout'   => $rcube->config->get('smtp_timeout'),
       'smtp_auth_callbacks' => array(),
     ));
 
@@ -109,7 +109,7 @@ class rcube_smtp
 
     $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
 
-    if ($RCMAIL->config->get('smtp_debug'))
+    if ($rcube->config->get('smtp_debug'))
       $this->conn->setDebug(true, array($this, 'debug_handler'));
 
     // register authentication methods
@@ -138,7 +138,7 @@ class rcube_smtp
     }
 
     $smtp_user = str_replace('%u', $_SESSION['username'], $CONFIG['smtp_user']);
-    $smtp_pass = str_replace('%p', $RCMAIL->decrypt($_SESSION['password']), $CONFIG['smtp_pass']);
+    $smtp_pass = str_replace('%p', $rcube->decrypt($_SESSION['password']), $CONFIG['smtp_pass']);
     $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
 
     if (!empty($CONFIG['smtp_auth_cid'])) {
@@ -338,7 +338,7 @@ class rcube_smtp
    */
   public function debug_handler(&$smtp, $message)
   {
-    rcmail::write_log('smtp', preg_replace('/\r\n$/', '', $message));
+    rcube::write_log('smtp', preg_replace('/\r\n$/', '', $message));
   }
 
 

@@ -56,7 +56,7 @@ class rcube_spellchecker
      */
     function __construct($lang = 'en')
     {
-        $this->rc     = rcmail::get_instance();
+        $this->rc     = rcube::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
         $this->lang   = $lang ? $lang : 'en';
 

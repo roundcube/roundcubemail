@@ -170,7 +170,7 @@ class rcube_output_json extends rcube_output
      */
     public function redirect($p = array(), $delay = 1)
     {
-        $location = rcmail::get_instance()->url($p);
+        $location = $this->app->url($p);
         $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
             rcmail::JS_OBJECT_NAME, $location, $delay));
         exit;

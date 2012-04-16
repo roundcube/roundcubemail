@@ -46,7 +46,7 @@ class rcube_mime
             self::$default_charset = $default_charset;
         }
         else {
-            self::$default_charset = rcmail::get_instance()->config->get('default_charset', RCMAIL_CHARSET);
+            self::$default_charset = rcube::get_instance()->config->get('default_charset', RCMAIL_CHARSET);
         }
     }
 

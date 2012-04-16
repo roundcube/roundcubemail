@@ -163,8 +163,8 @@ class rcube_ldap extends rcube_addressbook
         $this->mail_domain = $mail_domain;
 
         // initialize cache
-        $rcmail = rcmail::get_instance();
-        $this->cache = $rcmail->get_cache('LDAP.' . asciiwords($this->prop['name']), 'db', 600);
+        $rcube = rcube::get_instance();
+        $this->cache = $rcube->get_cache('LDAP.' . asciiwords($this->prop['name']), 'db', 600);
 
         $this->_connect();
     }
@@ -175,7 +175,7 @@ class rcube_ldap extends rcube_addressbook
     */
     private function _connect()
     {
-        $RCMAIL = rcmail::get_instance();
+        $rcube = rcube::get_instance();
 
         if (!function_exists('ldap_connect'))
             rcube::raise_error(array('code' => 100, 'type' => 'ldap',
@@ -194,7 +194,7 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ($this->prop['hosts'] as $host)
         {
-            $host     = idn_to_ascii(rcube_utils::parse_host($host));
+            $host     = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
             $hostname = $host.($this->prop['port'] ? ':'.$this->prop['port'] : '');
 
             $this->_debug("C: Connect [$hostname] [{$this->prop['name']}]");
@@ -243,11 +243,11 @@ class rcube_ldap extends rcube_addressbook
         if ($this->prop['user_specific']) {
             // No password set, use the session password
             if (empty($bind_pass)) {
-                $bind_pass = $RCMAIL->decrypt($_SESSION['password']);
+                $bind_pass = $rcube->decrypt($_SESSION['password']);
             }
 
             // Get the pieces needed for variable replacement.
-            if ($fu = $RCMAIL->get_user_name())
+            if ($fu = $rcube->get_user_name())
                 list($u, $d) = explode('@', $fu);
             else
                 $d = $this->mail_domain;
@@ -1562,7 +1562,7 @@ class rcube_ldap extends rcube_addressbook
     private function _debug($str)
     {
         if ($this->debug) {
-            rcmail::write_log('ldap', $str);
+            rcube::write_log('ldap', $str);
         }
     }
 

@@ -2598,7 +2598,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Give plugins a chance to provide a list of folders
-        $data = rcmail::get_instance()->plugins->exec_hook('storage_folders',
+        $data = rcube::get_instance()->plugins->exec_hook('storage_folders',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LIST'));
 
         if (isset($data['folders'])) {
@@ -3508,7 +3508,7 @@ class rcube_imap extends rcube_storage
     /**
      * Enable or disable indexes caching
      *
-     * @param string $type Cache type (@see rcmail::get_cache)
+     * @param string $type Cache type (@see rcube::get_cache)
      */
     public function set_caching($type)
     {
@@ -3530,9 +3530,9 @@ class rcube_imap extends rcube_storage
     protected function get_cache_engine()
     {
         if ($this->caching && !$this->cache) {
-            $rcmail = rcube::get_instance();
-            $ttl = $rcmail->config->get('message_cache_lifetime', '10d') - mktime();
-            $this->cache = $rcmail->get_cache('IMAP', $this->caching, $ttl);
+            $rcube = rcube::get_instance();
+            $ttl = $rcube->config->get('message_cache_lifetime', '10d') - mktime();
+            $this->cache = $rcube->get_cache('IMAP', $this->caching, $ttl);
         }
 
         return $this->cache;
@@ -3585,7 +3585,7 @@ class rcube_imap extends rcube_storage
     public function expunge_cache()
     {
         if ($this->mcache) {
-            $ttl = rcmail::get_instance()->config->get('message_cache_lifetime', '10d');
+            $ttl = rcube::get_instance()->config->get('message_cache_lifetime', '10d');
             $this->mcache->expunge($ttl);
         }
 
@@ -3625,10 +3625,10 @@ class rcube_imap extends rcube_storage
     protected function get_mcache_engine()
     {
         if ($this->messages_caching && !$this->mcache) {
-            $rcmail = rcube::get_instance();
-            if ($dbh = $rcmail->get_dbh()) {
+            $rcube = rcube::get_instance();
+            if ($dbh = $rcube->get_dbh()) {
                 $this->mcache = new rcube_imap_cache(
-                    $dbh, $this, $rcmail->get_user_id(), $this->options['skip_deleted']);
+                    $dbh, $this, $rcube->get_user_id(), $this->options['skip_deleted']);
             }
         }
 
@@ -3852,7 +3852,7 @@ class rcube_imap extends rcube_storage
      */
     public function debug_handler(&$imap, $message)
     {
-        rcmail::write_log('imap', $message);
+        rcube::write_log('imap', $message);
     }
 
 

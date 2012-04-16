@@ -44,9 +44,9 @@ class rcube_user
     private $db;
 
     /**
-     * rcmail object.
+     * Framework object.
      *
-     * @var rcmail
+     * @var rcube
      */
     private $rc;
 
@@ -61,7 +61,7 @@ class rcube_user
      */
     function __construct($id = null, $sql_arr = null)
     {
-        $this->rc = rcmail::get_instance();
+        $this->rc = rcube::get_instance();
         $this->db = $this->rc->get_dbh();
 
         if ($id && !$sql_arr) {
@@ -400,7 +400,7 @@ class rcube_user
      */
     static function query($user, $host)
     {
-        $dbh = rcmail::get_instance()->get_dbh();
+        $dbh = rcube::get_instance()->get_dbh();
 
         // query for matching user name
         $query = "SELECT * FROM ".$dbh->table_name('users')." WHERE mail_host = ? AND %s = ?";
@@ -431,14 +431,14 @@ class rcube_user
     {
         $user_name  = '';
         $user_email = '';
-        $rcmail = rcmail::get_instance();
+        $rcube = rcube::get_instance();
 
         // try to resolve user in virtuser table and file
         if ($email_list = self::user2email($user, false, true)) {
             $user_email = is_array($email_list[0]) ? $email_list[0]['email'] : $email_list[0];
         }
 
-        $data = $rcmail->plugins->exec_hook('user_create',
+        $data = $rcube->plugins->exec_hook('user_create',
 	        array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email, 'host'=>$host));
 
         // plugin aborted this operation
@@ -448,7 +448,7 @@ class rcube_user
         $user_name  = $data['user_name'];
         $user_email = $data['user_email'];
 
-        $dbh = $rcmail->get_dbh();
+        $dbh = $rcube->get_dbh();
 
         $dbh->query(
             "INSERT INTO ".$dbh->table_name('users').
@@ -462,9 +462,9 @@ class rcube_user
         if ($user_id = $dbh->insert_id('users')) {
             // create rcube_user instance to make plugin hooks work
             $user_instance = new rcube_user($user_id);
-            $rcmail->user  = $user_instance;
+            $rcube->user   = $user_instance;
 
-            $mail_domain = $rcmail->config->mail_domain($host);
+            $mail_domain = $rcube->config->mail_domain($host);
 
             if ($user_email == '') {
                 $user_email = strpos($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
@@ -476,7 +476,7 @@ class rcube_user
             if (empty($email_list))
                 $email_list[] = strip_newlines($user_email);
             // identities_level check
-            else if (count($email_list) > 1 && $rcmail->config->get('identities_level', 0) > 1)
+            else if (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1)
                 $email_list = array($email_list[0]);
 
             // create new identities records
@@ -497,11 +497,11 @@ class rcube_user
                 $record['user_id'] = $user_id;
                 $record['standard'] = $standard;
 
-                $plugin = $rcmail->plugins->exec_hook('identity_create',
+                $plugin = $rcube->plugins->exec_hook('identity_create',
 	                array('login' => true, 'record' => $record));
 
                 if (!$plugin['abort'] && $plugin['record']['email']) {
-                    $rcmail->user->insert_identity($plugin['record']);
+                    $rcube->user->insert_identity($plugin['record']);
                 }
                 $standard = 0;
             }
@@ -527,8 +527,8 @@ class rcube_user
      */
     static function email2user($email)
     {
-        $rcmail = rcmail::get_instance();
-        $plugin = $rcmail->plugins->exec_hook('email2user',
+        $rcube = rcube::get_instance();
+        $plugin = $rcube->plugins->exec_hook('email2user',
             array('email' => $email, 'user' => NULL));
 
         return $plugin['user'];
@@ -545,8 +545,8 @@ class rcube_user
      */
     static function user2email($user, $first=true, $extended=false)
     {
-        $rcmail = rcmail::get_instance();
-        $plugin = $rcmail->plugins->exec_hook('user2email',
+        $rcube = rcube::get_instance();
+        $plugin = $rcube->plugins->exec_hook('user2email',
             array('email' => NULL, 'user' => $user,
                 'first' => $first, 'extended' => $extended));
 

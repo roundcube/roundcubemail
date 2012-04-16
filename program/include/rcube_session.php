@@ -65,7 +65,7 @@ class rcube_session
 
     // use memcache backend
     if ($config->get('session_storage', 'db') == 'memcache') {
-      $this->memcache = rcmail::get_instance()->get_memcache();
+      $this->memcache = rcube::get_instance()->get_memcache();
 
       // set custom functions for PHP session management if memcache is available
       if ($this->memcache) {
@@ -632,7 +632,7 @@ class rcube_session
   function log($line)
   {
     if ($this->logging)
-      rcmail::write_log('session', $line);
+      rcube::write_log('session', $line);
   }
 
 }

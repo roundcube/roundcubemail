@@ -186,19 +186,15 @@ class rcube_config
             $result = $def;
         }
 
-        $rcmail = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         if ($name == 'timezone' && isset($this->prop['_timezone_value']))
             $result = $this->prop['_timezone_value'];
 
-        if (is_object($rcmail->plugins)) {
-            $plugin = $rcmail->plugins->exec_hook('config_get', array(
-                'name' => $name, 'default' => $def, 'result' => $result));
+        $plugin = $rcube->plugins->exec_hook('config_get', array(
+            'name' => $name, 'default' => $def, 'result' => $result));
 
-            return $plugin['result'];
-        }
-
-        return $result;
+        return $plugin['result'];
     }
 
 

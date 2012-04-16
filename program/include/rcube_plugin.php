@@ -110,8 +110,8 @@ abstract class rcube_plugin
   public function load_config($fname = 'config.inc.php')
   {
     $fpath = $this->home.'/'.$fname;
-    $rcmail = rcube::get_instance();
-    if (is_file($fpath) && !$rcmail->config->load_from_file($fpath)) {
+    $rcube = rcube::get_instance();
+    if (is_file($fpath) && !$rcube->config->load_from_file($fpath)) {
       rcube::raise_error(array(
         'code' => 527, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
@@ -177,7 +177,7 @@ abstract class rcube_plugin
       foreach ($texts as $key => $value)
         $add[$domain.'.'.$key] = $value;
 
-      $rcmail = rcube::get_instance();
+      $rcmail = rcmail::get_instance();
       $rcmail->load_language($lang, $add);
 
       // add labels to client

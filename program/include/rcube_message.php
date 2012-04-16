@@ -33,9 +33,9 @@
 class rcube_message
 {
     /**
-     * Instace of rcmail.
+     * Instace of framework class.
      *
-     * @var rcmail
+     * @var rcube
      */
     private $app;
 

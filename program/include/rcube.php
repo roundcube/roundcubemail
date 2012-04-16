@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcmail.php                                            |
+ | program/include/rcube.php                                             |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -36,7 +36,7 @@ class rcube
   const INIT_WITH_PLUGINS = 2;
 
   /**
-   * Singleton instace of rcmail
+   * Singleton instace of rcube
    *
    * @var rcmail
    */
@@ -109,7 +109,7 @@ class rcube
   /**
    * This implements the 'singleton' design pattern
    *
-   * @return rcmail The one and only instance
+   * @return rcube The one and only instance
    */
   static function get_instance()
   {
@@ -718,7 +718,7 @@ class rcube
 
     /*-
      * Trim PHP's padding and the canary byte; see note in
-     * rcmail::encrypt() and http://php.net/mcrypt_generic#68082
+     * rcube::encrypt() and http://php.net/mcrypt_generic#68082
      */
     $clear = substr(rtrim($clear, "\0"), 0, -1);
 
@@ -848,15 +848,13 @@ class rcube
     {
         $args = func_get_args();
 
-        if (class_exists('rcmail', false)) {
+        if (class_exists('rcube', false)) {
             $rcube = self::get_instance();
-            if (is_object($rcube->plugins)) {
-                $plugin = $rcube->plugins->exec_hook('console', array('args' => $args));
-                if ($plugin['abort']) {
-                    return;
-                }
-               $args = $plugin['args'];
+            $plugin = $rcube->plugins->exec_hook('console', array('args' => $args));
+            if ($plugin['abort']) {
+                return;
             }
+           $args = $plugin['args'];
         }
 
         $msg = array();
