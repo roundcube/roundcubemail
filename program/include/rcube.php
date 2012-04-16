@@ -410,6 +410,112 @@ class rcube
   }
 
 
+    /**
+     * Create session object and start the session.
+     */
+    public function session_init()
+    {
+        // session started (Installer?)
+        if (session_id()) {
+            return;
+        }
+
+        $sess_name   = $this->config->get('session_name');
+        $sess_domain = $this->config->get('session_domain');
+        $lifetime    = $this->config->get('session_lifetime', 0) * 60;
+
+        // set session domain
+        if ($sess_domain) {
+            ini_set('session.cookie_domain', $sess_domain);
+        }
+        // set session garbage collecting time according to session_lifetime
+        if ($lifetime) {
+            ini_set('session.gc_maxlifetime', $lifetime * 2);
+        }
+
+        ini_set('session.cookie_secure', rcube_utils::https_check());
+        ini_set('session.name', $sess_name ? $sess_name : 'roundcube_sessid');
+        ini_set('session.use_cookies', 1);
+        ini_set('session.use_only_cookies', 1);
+        ini_set('session.serialize_handler', 'php');
+
+        // use database for storing session data
+        $this->session = new rcube_session($this->get_dbh(), $this->config);
+
+        $this->session->register_gc_handler(array($this, 'temp_gc'));
+        $this->session->register_gc_handler(array($this, 'cache_gc'));
+
+        // start PHP session (if not in CLI mode)
+        if ($_SERVER['REMOTE_ADDR']) {
+            session_start();
+        }
+    }
+
+
+    /**
+     * Configure session object internals
+     */
+    public function session_configure()
+    {
+        if (!$this->session) {
+            return;
+        }
+
+        $lifetime   = $this->config->get('session_lifetime', 0) * 60;
+        $keep_alive = $this->config->get('keep_alive');
+
+        // set keep-alive/check-recent interval
+        if ($keep_alive) {
+            // be sure that it's less than session lifetime
+            if ($lifetime) {
+                $keep_alive = min($keep_alive, $lifetime - 30);
+            }
+            $keep_alive = max(60, $keep_alive);
+            $this->session->set_keep_alive($keep_alive);
+        }
+
+        $this->session->set_secret($this->config->get('des_key') . $_SERVER['HTTP_USER_AGENT']);
+        $this->session->set_ip_check($this->config->get('ip_check'));
+    }
+
+
+    /**
+     * Garbage collector function for temp files.
+     * Remove temp files older than two days
+     */
+    public function temp_gc()
+    {
+        $tmp = unslashify($this->config->get('temp_dir'));
+        $expire = mktime() - 172800;  // expire in 48 hours
+
+        if ($tmp && ($dir = opendir($tmp))) {
+            while (($fname = readdir($dir)) !== false) {
+                if ($fname{0} == '.') {
+                    continue;
+                }
+
+                if (filemtime($tmp.'/'.$fname) < $expire) {
+                    @unlink($tmp.'/'.$fname);
+                }
+            }
+
+            closedir($dir);
+        }
+    }
+
+
+    /**
+     * Garbage collector for cache entries.
+     * Set flag to expunge caches on shutdown
+     */
+    public function cache_gc()
+    {
+        // because this gc function is called before storage is initialized,
+        // we just set a flag to expunge storage cache on shutdown.
+        $this->expunge_cache = true;
+    }
+
+
   /**
    * Get localized text in the desired language
    *
@@ -1102,4 +1208,3 @@ class rcube_dummy_plugin_api
         return $args;
     }
 }
-
