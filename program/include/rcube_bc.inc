@@ -30,10 +30,11 @@
  */
 
 // constants for input reading
-define('RCUBE_INPUT_GET',  rcube_ui::INPUT_GET);
-define('RCUBE_INPUT_POST', rcube_ui::INPUT_POST);
-define('RCUBE_INPUT_GPC',  rcube_ui::INPUT_GPC);
+define('RCUBE_INPUT_GET',  rcube_utils::INPUT_GET);
+define('RCUBE_INPUT_POST', rcube_utils::INPUT_POST);
+define('RCUBE_INPUT_GPC',  rcube_utils::INPUT_GPC);
 
+define('JS_OBJECT_NAME',   rcmail::JS_OBJECT_NAME);
 
 function get_table_name($table)
 {
@@ -62,7 +63,7 @@ function rcmail_overwrite_action($action)
 
 function rcmail_url($action, $p=array(), $task=null)
 {
-    return rcube_ui::url($action, $p, $task);
+    return rcmail::get_instance()->url((array)$p + array('_action' => $action, 'task' => $task));
 }
 
 function rcmail_temp_gc()
@@ -92,57 +93,57 @@ function json_serialize($input)
 
 function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
 {
-    return rcube_ui::rep_specialchars_output($str, $enctype, $mode, $newlines);
+    return rcube_utils::rep_specialchars_output($str, $enctype, $mode, $newlines);
 }
 
 function Q($str, $mode='strict', $newlines=TRUE)
 {
-    return rcube_ui::Q($str, $mode, $newlines);
+    return rcmail::Q($str, $mode, $newlines);
 }
 
 function JQ($str)
 {
-    return rcube_ui::JQ($str);
+    return rcmail::JQ($str);
 }
 
 function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
 {
-    return rcube_ui::get_input_value($fname, $source, $allow_html, $charset);
+    return rcube_utils::get_input_value($fname, $source, $allow_html, $charset);
 }
 
 function parse_input_value($value, $allow_html=FALSE, $charset=NULL)
 {
-    return rcube_ui::parse_input_value($value, $allow_html, $charset);
+    return rcube_utils::parse_input_value($value, $allow_html, $charset);
 }
 
 function request2param($mode = RCUBE_INPUT_GPC, $ignore = 'task|action')
 {
-    return rcube_ui::request2param($mode, $ignore);
+    return rcube_utils::request2param($mode, $ignore);
 }
 
 function html_identifier($str, $encode=false)
 {
-    return rcube_ui::html_identifier($str, $encode);
+    return rcube_utils::html_identifier($str, $encode);
 }
 
 function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
 {
-    return rcube_ui::table_output($attrib, $table_data, $a_show_cols, $id_col);
+    return rcmail::get_instance()->table_output($attrib, $table_data, $a_show_cols, $id_col);
 }
 
 function rcmail_get_edit_field($col, $value, $attrib, $type='text')
 {
-  return rcube_ui::get_edit_field($col, $value, $attrib, $type);
+  return rcube_utils::get_edit_field($col, $value, $attrib, $type);
 }
 
 function rcmail_mod_css_styles($source, $container_id, $allow_remote=false)
 {
-    return rcube_ui::mod_css_styles($source, $container_id, $allow_remote);
+    return rcube_utils::mod_css_styles($source, $container_id, $allow_remote);
 }
 
 function rcmail_xss_entity_decode($content)
 {
-    return rcube_ui::xss_entity_decode($content);
+    return rcube_utils::xss_entity_decode($content);
 }
 
 function create_attrib_string($attrib, $allowed_attribs=array('id', 'class', 'style'))
@@ -157,77 +158,77 @@ function parse_attrib_string($str)
 
 function format_date($date, $format=NULL, $convert=true)
 {
-    return rcube_ui::format_date($date, $format, $convert);
+    return rcmail::get_instance()->format_date($date, $format, $convert);
 }
 
 function rcmail_mailbox_list($attrib)
 {
-    return rcube_ui::folder_list($attrib);
+    return rcmail::get_instance()->folder_list($attrib);
 }
 
 function rcmail_mailbox_select($attrib = array())
 {
-    return rcube_ui::folder_selector($attrib);
+    return rcmail::get_instance()->folder_selector($attrib);
 }
 
 function rcmail_render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
 {
-    return rcube_ui::render_folder_tree_html($arrFolders, $mbox_name, $jslist, $attrib, $nestLevel);
+    return rcmail::get_instance()->render_folder_tree_html($arrFolders, $mbox_name, $jslist, $attrib, $nestLevel);
 }
 
 function rcmail_render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
 {
-    return rcube_ui::render_folder_tree_select($arrFolders, $mbox_name, $maxlength, $select, $realnames, $nestLevel, $opts);    
+    return rcmail::get_instance()->render_folder_tree_select($arrFolders, $mbox_name, $maxlength, $select, $realnames, $nestLevel, $opts);    
 }
 
 function rcmail_build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
 {
-    return rcmail_ui::build_folder_tree($arrFolders, $folder, $delm, $path);
+    return rcmail::get_instance()->build_folder_tree($arrFolders, $folder, $delm, $path);
 }
 
 function rcmail_folder_classname($folder_id)
 {
-    return rcube_ui::folder_classname($folder_id);
+    return rcmail::get_instance()->folder_classname($folder_id);
 }
 
 function rcmail_localize_foldername($name)
 {
-    return rcube_ui::localize_foldername($name);
+    return rcmail::get_instance()->localize_foldername($name);
 }
 
 function rcmail_localize_folderpath($path)
 {
-    return rcube_ui::localize_folderpath($path);
+    return rcmail::get_instance()->localize_folderpath($path);
 }
 
 function rcmail_quota_display($attrib)
 {
-    return rcube_ui::quota_display($attrib);
+    return rcmail::get_instance()->quota_display($attrib);
 }
 
 function rcmail_quota_content($attrib = null)
 {
-    return rcube_ui::quota_content($attrib);
+    return rcmail::get_instance()->quota_content($attrib);
 }
 
 function rcmail_display_server_error($fallback=null, $fallback_args=null)
 {
-    rcube_ui::display_server_error($fallback, $fallback_args);
+    rcmail::get_instance()->display_server_error($fallback, $fallback_args);
 }
 
 function rcmail_filetype2classname($mimetype, $filename)
 {
-    return rcube_ui::file2class($mimetype, $filename);
+    return rcube_utils::file2class($mimetype, $filename);
 }
 
 function rcube_html_editor($mode='')
 {
-    rcube_ui::html_editor($mode);
+    rcmail::get_instance()->html_editor($mode);
 }
 
 function rcmail_replace_emoticons($html)
 {
-    return rcube_ui::replace_emoticons($html);
+    return rcmail::get_instance()->replace_emoticons($html);
 }
 
 function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file=null, $smtp_opts=null)
@@ -247,12 +248,12 @@ function rcmail_user_date()
 
 function rcmail_mem_check($need)
 {
-    return rcube_ui::mem_check($need);
+    return rcube_utils::mem_check($need);
 }
 
 function rcube_https_check($port=null, $use_https=true)
 {
-    return rcube_ui::https_check($port, $use_https);
+    return rcube_utils::https_check($port, $use_https);
 }
 
 function rcube_sess_unset($var_name=null)
@@ -262,12 +263,12 @@ function rcube_sess_unset($var_name=null)
 
 function rcube_parse_host($name, $host='')
 {
-    return rcmail::parse_host($name, $host);
+    return rcube_utils::parse_host($name, $host);
 }
 
 function check_email($email, $dns_check=true)
 {
-    return rcmail::get_instance()->check_email($email, $dns_check);
+    return rcube_utils::check_email($email, $dns_check);
 }
 
 function console()
@@ -287,7 +288,7 @@ function rcmail_log_login()
 
 function rcmail_remote_ip()
 {
-    return rcmail::remote_ip();
+    return rcube_utils::remote_ip();
 }
 
 function rcube_check_referer()
@@ -317,22 +318,22 @@ function rcube_log_bug($arg_arr)
 
 function rcube_upload_progress()
 {
-    rcube_ui::upload_progress();
+    rcmail::get_instance()->upload_progress();
 }
 
 function rcube_upload_init()
 {
-    return rcube_ui::upload_init();
+    return rcmail::get_instance()->upload_init();
 }
 
 function rcube_autocomplete_init()
 {
-    rcube_ui::autocomplete_init();
+    rcmail::get_instance()->autocomplete_init();
 }
 
 function rcube_fontdefs($font = null)
 {
-    return rcube_ui::font_defs($font);
+    return rcmail::font_defs($font);
 }
 
 function send_nocacheing_headers()
@@ -342,7 +343,7 @@ function send_nocacheing_headers()
 
 function show_bytes($bytes)
 {
-    return rcube_ui::show_bytes($bytes);
+    return rcmail::get_instance()->show_bytes($bytes);
 }
 
 function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
@@ -352,7 +353,12 @@ function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
 
 function rc_request_header($name)
 {
-    return rcube_request_header($name);
+    return rcube_utils::request_header($name);
+}
+
+function rcube_explode_quoted_string($delimiter, $string)
+{
+    return rcube_utils::explode_quoted_string($delimiter, $string);
 }
 
 function rc_mime_content_type($path, $name, $failover = 'application/octet-stream', $is_stream=false)
@@ -363,4 +369,19 @@ function rc_mime_content_type($path, $name, $failover = 'application/octet-strea
 function rc_image_content_type($data)
 {
     return rcube_mime::image_content_type($data);
+}
+
+function rcube_strtotime($date)
+{
+    return rcube_utils::strtotime($date);
+}
+
+function rcube_idn_to_ascii($str)
+{
+    return rcube_utils::idn_to_ascii($str);
+}
+
+function rcube_idn_to_utf8($str)
+{
+    return rcube_utils::idn_to_utf8($str);
 }

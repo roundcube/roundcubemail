@@ -137,7 +137,7 @@ class rcube_output_json extends rcube_output
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
                 if (!empty($vars)) {
-                    $vars = array_map(array('rcube_ui', 'Q'), $vars);
+                    $vars = array_map(array('rcmail', 'Q'), $vars);
                 }
                 $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
             }
@@ -171,7 +171,8 @@ class rcube_output_json extends rcube_output
     public function redirect($p = array(), $delay = 1)
     {
         $location = rcmail::get_instance()->url($p);
-        $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);", JS_OBJECT_NAME, $location, $delay));
+        $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
+            rcmail::JS_OBJECT_NAME, $location, $delay));
         exit;
     }
 
@@ -224,7 +225,7 @@ class rcube_output_json extends rcube_output
         $rcmail = rcmail::get_instance();
         $response['action'] = $rcmail->action;
 
-        if ($unlock = rcube_ui::get_input_value('_unlock', rcube_ui::INPUT_GPC)) {
+        if ($unlock = rcube_utils::get_input_value('_unlock', rcube_utils::INPUT_GPC)) {
             $response['unlock'] = $unlock;
         }
 

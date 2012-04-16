@@ -55,7 +55,7 @@ set_include_path($include_path);
 require_once 'utils.php';
 require_once 'rcube_shared.inc';
 // deprecated aliases (to be removed)
-require_once 'main.inc';
+require_once 'rcube_bc.inc';
 
 session_start();
 

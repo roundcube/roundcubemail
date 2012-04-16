@@ -52,7 +52,7 @@ ob_start();
 
 // check if config files had errors
 if ($err_str = $RCMAIL->config->get_error()) {
-  raise_error(array(
+  rcmail::raise_error(array(
     'code' => 601,
     'type' => 'php',
     'message' => $err_str), false, true);
@@ -60,7 +60,7 @@ if ($err_str = $RCMAIL->config->get_error()) {
 
 // check DB connections and exit on failure
 if ($err_str = $RCMAIL->db->is_error()) {
-  raise_error(array(
+  rcmail::raise_error(array(
     'code' => 603,
     'type' => 'db',
     'message' => $err_str), FALSE, TRUE);
@@ -68,13 +68,13 @@ if ($err_str = $RCMAIL->db->is_error()) {
 
 // error steps
 if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
-  raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
+  rcmail::raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
 }
 
 // check if https is required (for login) and redirect if necessary
 if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
   $https_port = is_bool($force_https) ? 443 : $force_https;
-  if (!rcube_ui::https_check($https_port)) {
+  if (!rcube_utils::https_check($https_port)) {
     $host  = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
     $host .= ($https_port != 443 ? ':' . $https_port : '');
     header('Location: https://' . $host . $_SERVER['REQUEST_URI']);
@@ -89,15 +89,15 @@ $RCMAIL->action = $startup['action'];
 
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
-  $request_valid = $_SESSION['temp'] && $RCMAIL->check_request(rcube_ui::INPUT_POST, 'login');
+  $request_valid = $_SESSION['temp'] && $RCMAIL->check_request(rcube_utils::INPUT_POST, 'login');
 
   // purge the session in case of new login when a session already exists 
   $RCMAIL->kill_session();
 
   $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
     'host' => $RCMAIL->autoselect_host(),
-    'user' => trim(rcube_ui::get_input_value('_user', rcube_ui::INPUT_POST)),
-    'pass' => rcube_ui::get_input_value('_pass', rcube_ui::INPUT_POST, true,
+    'user' => trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST)),
+    'pass' => rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true,
        $RCMAIL->config->get('password_charset', 'ISO-8859-1')),
     'cookiecheck' => true,
     'valid' => $request_valid,
@@ -123,7 +123,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
     // restore original request parameters
     $query = array();
-    if ($url = rcube_ui::get_input_value('_url', rcube_ui::INPUT_POST)) {
+    if ($url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST)) {
       parse_str($url, $query);
 
       // prevent endless looping on login page
@@ -172,7 +172,7 @@ else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
   // log session failures
-  $task = rcube_ui::get_input_value('_task', rcube_ui::INPUT_GPC);
+  $task = rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC);
   if ($task && !in_array($task, array('login','logout')) && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])) {
     $RCMAIL->session->log("Aborted session " . $sess_id . "; no valid session data found");
     $session_error = true;
@@ -209,7 +209,7 @@ else {
 
   // check client X-header to verify request origin
   if ($OUTPUT->ajax_call) {
-    if (rcube_request_header('X-Roundcube-Request') != $RCMAIL->get_request_token() && !$RCMAIL->config->get('devel_mode')) {
+    if (rcube_utils::request_header('X-Roundcube-Request') != $RCMAIL->get_request_token() && !$RCMAIL->config->get('devel_mode')) {
       header('HTTP/1.1 403 Forbidden');
       die("Invalid Request");
     }
@@ -281,7 +281,7 @@ $OUTPUT->send($RCMAIL->task);
 
 
 // if we arrive here, something went wrong
-raise_error(array(
+rcmail::raise_error(array(
   'code' => 404,
   'type' => 'php',
   'line' => __LINE__,

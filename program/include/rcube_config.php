@@ -369,11 +369,13 @@ class rcube_config
             if (isset($this->prop['mail_domain'][$host]))
                 $domain = $this->prop['mail_domain'][$host];
         }
-        else if (!empty($this->prop['mail_domain']))
-            $domain = rcmail::parse_host($this->prop['mail_domain']);
+        else if (!empty($this->prop['mail_domain'])) {
+            $domain = rcube_utils::parse_host($this->prop['mail_domain']);
+        }
 
-        if ($encode)
-            $domain = rcube_idn_to_ascii($domain);
+        if ($encode) {
+            $domain = rcube_utils::idn_to_ascii($domain);
+        }
 
         return $domain;
     }

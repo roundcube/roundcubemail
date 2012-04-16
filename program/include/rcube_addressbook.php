@@ -216,7 +216,7 @@ abstract class rcube_addressbook
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
-                if (!$rcmail->check_email(rcube_idn_to_ascii($email))) {
+                if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
                     $error = $rcmail->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
                     $this->set_error(self::ERROR_VALIDATE, $error);
                     return false;

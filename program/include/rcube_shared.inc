@@ -102,28 +102,6 @@ function parse_bytes($str)
 
 
 /**
- * Read a specific HTTP request header.
- *
- * @param  string $name Header name
- *
- * @return mixed  Header value or null if not available
- */
-function rcube_request_header($name)
-{
-    if (function_exists('getallheaders')) {
-        $hdrs = array_change_key_case(getallheaders(), CASE_UPPER);
-        $key  = strtoupper($name);
-    }
-    else {
-        $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
-        $hdrs = array_change_key_case($_SERVER, CASE_UPPER);
-    }
-
-    return $hdrs[$key];
-}
-
-
-/**
  * Make sure the string ends with a slash
  */
 function slashify($str)
@@ -236,33 +214,6 @@ function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
 
 
 /**
- * Explode quoted string
- *
- * @param string Delimiter expression string for preg_match()
- * @param string Input string
- */
-function rcube_explode_quoted_string($delimiter, $string)
-{
-    $result = array();
-    $strlen = strlen($string);
-
-    for ($q=$p=$i=0; $i < $strlen; $i++) {
-        if ($string[$i] == "\"" && $string[$i-1] != "\\") {
-            $q = $q ? false : true;
-        }
-        else if (!$q && preg_match("/$delimiter/", $string[$i])) {
-            $result[] = substr($string, $p, $i - $p);
-            $p = $i + 1;
-        }
-    }
-
-    $result[] = substr($string, $p);
-
-    return $result;
-}
-
-
-/**
  * Get all keys from array (recursive).
  *
  * @param array $array  Input array
@@ -319,41 +270,6 @@ function strip_quotes($str)
 function strip_newlines($str)
 {
     return preg_replace('/[\r\n]/', '', $str);
-}
-
-
-/**
- * Improved equivalent to strtotime()
- *
- * @param string $date  Date string
- *
- * @return int Unix timestamp
- */
-function rcube_strtotime($date)
-{
-    // check for MS Outlook vCard date format YYYYMMDD
-    if (preg_match('/^([12][90]\d\d)([01]\d)(\d\d)$/', trim($date), $matches)) {
-        return mktime(0,0,0, intval($matches[2]), intval($matches[3]), intval($matches[1]));
-    }
-    else if (is_numeric($date)) {
-        return $date;
-    }
-
-    // support non-standard "GMTXXXX" literal
-    $date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
-
-    // if date parsing fails, we have a date in non-rfc format.
-    // remove token from the end and try again
-    while ((($ts = @strtotime($date)) === false) || ($ts < 0)) {
-        $d = explode(' ', $date);
-        array_pop($d);
-        if (!$d) {
-            break;
-        }
-        $date = implode(' ', $d);
-    }
-
-    return $ts;
 }
 
 
@@ -466,45 +382,6 @@ if (!function_exists('idn_to_ascii'))
     }
 }
 
-
-/*
- * Idn_to_ascii wrapper.
- * Intl/Idn modules version of this function doesn't work with e-mail address
- */
-function rcube_idn_to_ascii($str)
-{
-    return rcube_idn_convert($str, true);
-}
-
-/*
- * Idn_to_ascii wrapper.
- * Intl/Idn modules version of this function doesn't work with e-mail address
- */
-function rcube_idn_to_utf8($str)
-{
-    return rcube_idn_convert($str, false);
-}
-
-function rcube_idn_convert($input, $is_utf=false)
-{
-    if ($at = strpos($input, '@')) {
-        $user   = substr($input, 0, $at);
-        $domain = substr($input, $at+1);
-    }
-    else {
-        $domain = $input;
-    }
-
-    $domain = $is_utf ? idn_to_ascii($domain) : idn_to_utf8($domain);
-
-    if ($domain === false) {
-        return '';
-    }
-
-    return $at ? $user . '@' . $domain : $domain;
-}
-
-
 /**
  * Use PHP5 autoload for dynamic class loading
  *
@@ -535,7 +412,7 @@ function rcube_autoload($classname)
 
     if ($fp = @fopen("$filename.php", 'r', true)) {
         fclose($fp);
-        include_once("$filename.php");
+        include_once "$filename.php";
         return true;
     }
 

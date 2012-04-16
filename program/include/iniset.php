@@ -42,7 +42,6 @@ foreach ($crit_opts as $optname => $optval) {
 // application constants
 define('RCMAIL_VERSION', '0.9-svn');
 define('RCMAIL_CHARSET', 'UTF-8');
-define('JS_OBJECT_NAME', 'rcmail');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
@@ -85,4 +84,4 @@ spl_autoload_register('rcube_autoload');
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
 
 // backward compatybility (to be removed)
-require_once INSTALL_PATH . 'program/include/main.inc';
+require_once INSTALL_PATH . 'program/include/rcube_bc.inc';

@@ -74,7 +74,7 @@ class rcube_smtp
       'smtp_auth_callbacks' => array(),
     ));
 
-    $smtp_host = rcmail::parse_host($CONFIG['smtp_server']);
+    $smtp_host = rcube_utils::parse_host($CONFIG['smtp_server']);
     // when called from Installer it's possible to have empty $smtp_host here
     if (!$smtp_host) $smtp_host = 'localhost';
     $smtp_port = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;
@@ -105,7 +105,7 @@ class rcube_smtp
       $helo_host = 'localhost';
 
     // IDNA Support
-    $smtp_host = rcube_idn_to_ascii($smtp_host);
+    $smtp_host = rcube_utils::idn_to_ascii($smtp_host);
 
     $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
 
@@ -152,7 +152,7 @@ class rcube_smtp
     {
       // IDNA Support
       if (strpos($smtp_user, '@')) {
-        $smtp_user = rcube_idn_to_ascii($smtp_user);
+        $smtp_user = rcube_utils::idn_to_ascii($smtp_user);
       }
 
       $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls, $smtp_authz);
@@ -449,12 +449,12 @@ class rcube_smtp
       $recipients = implode(', ', $recipients);
 
     $addresses = array();
-    $recipients = rcube_explode_quoted_string(',', $recipients);
+    $recipients = rcube_utils::explode_quoted_string(',', $recipients);
 
     reset($recipients);
     while (list($k, $recipient) = each($recipients))
     {
-      $a = rcube_explode_quoted_string(' ', $recipient);
+      $a = rcube_utils::explode_quoted_string(' ', $recipient);
       while (list($k2, $word) = each($a))
       {
         if (strpos($word, "@") > 0 && $word[strlen($word)-1] != '"')

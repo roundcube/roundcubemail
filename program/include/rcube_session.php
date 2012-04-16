@@ -386,7 +386,7 @@ class rcube_session
     $this->vars = false;
     $this->ip = $_SERVER['REMOTE_ADDR']; // update IP (might have changed)
     $this->destroy(session_id());
-    rcmail::setcookie($this->cookiename, '-del-', time() - 60);
+    rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
   }
 
 
@@ -610,7 +610,7 @@ class rcube_session
   function set_auth_cookie()
   {
     $this->cookie = $this->_mkcookie($this->now);
-    rcmail::setcookie($this->cookiename, $this->cookie, 0);
+    rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
     $_COOKIE[$this->cookiename] = $this->cookie;
   }
 

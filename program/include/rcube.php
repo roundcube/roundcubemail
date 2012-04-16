@@ -794,66 +794,6 @@ class rcube
 
 
   /**
-   * Use imagemagick or GD lib to read image properties
-   *
-   * @param string Absolute file path
-   * @return mixed Hash array with image props like type, width, height or False on error
-   */
-  public static function imageprops($filepath)
-  {
-    $rcube = self::get_instance();
-    if ($cmd = $rcube->config->get('im_identify_path', false)) {
-      list(, $type, $size) = explode(' ', strtolower(self::exec($cmd. ' 2>/dev/null {in}', array('in' => $filepath))));
-      if ($size)
-        list($width, $height) = explode('x', $size);
-    }
-    else if (function_exists('getimagesize')) {
-      $imsize = @getimagesize($filepath);
-      $width = $imsize[0];
-      $height = $imsize[1];
-      $type = preg_replace('!image/!', '', $imsize['mime']);
-    }
-
-    return $type ? array('type' => $type, 'width' => $width, 'height' => $height) : false;
-  }
-
-
-  /**
-   * Convert an image to a given size and type using imagemagick (ensures input is an image)
-   *
-   * @param $p['in']  Input filename (mandatory)
-   * @param $p['out'] Output filename (mandatory)
-   * @param $p['size']  Width x height of resulting image, e.g. "160x60"
-   * @param $p['type']  Output file type, e.g. "jpg"
-   * @param $p['-opts'] Custom command line options to ImageMagick convert
-   * @return Success of convert as true/false
-   */
-  public static function imageconvert($p)
-  {
-    $result = false;
-    $rcube = self::get_instance();
-    $convert  = $rcube->config->get('im_convert_path', false);
-    $identify = $rcube->config->get('im_identify_path', false);
-
-    // imagemagick is required for this
-    if (!$convert)
-        return false;
-
-    if (!(($imagetype = @exif_imagetype($p['in'])) && ($type = image_type_to_extension($imagetype, false))))
-      list(, $type) = explode(' ', strtolower(self::exec($identify . ' 2>/dev/null {in}', $p))); # for things like eps
-
-    $type = strtr($type, array("jpeg" => "jpg", "tiff" => "tif", "ps" => "eps", "ept" => "eps"));
-    $p += array('type' => $type, 'types' => "bmp,eps,gif,jp2,jpg,png,svg,tif", 'quality' => 75);
-    $p['-opts'] = array('-resize' => $p['size'].'>') + (array)$p['-opts'];
-
-    if (in_array($type, explode(',', $p['types']))) # Valid type?
-      $result = self::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p) === "";
-
-    return $result;
-  }
-
-
-  /**
    * Construct shell command, execute it and return output as string.
    * Keywords {keyword} are replaced with arguments
    *
@@ -897,39 +837,6 @@ class rcube
 
     return (string)shell_exec($cmd);
   }
-
-
-    /**
-     * Replaces hostname variables.
-     *
-     * @param string $name Hostname
-     * @param string $host Optional IMAP hostname
-     *
-     * @return string Hostname
-     */
-    public static function parse_host($name, $host = '')
-    {
-        // %n - host
-        $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
-        // %d - domain name without first part, e.g. %n=mail.domain.tld, %d=domain.tld
-        $d = preg_replace('/^[^\.]+\./', '', $n);
-        // %h - IMAP host
-        $h = $_SESSION['storage_host'] ? $_SESSION['storage_host'] : $host;
-        // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
-        $z = preg_replace('/^[^\.]+\./', '', $h);
-        // %s - domain name after the '@' from e-mail address provided at login screen. Returns FALSE if an invalid email is provided
-        if (strpos($name, '%s') !== false) {
-            $user_email = rcube_ui::get_input_value('_user', rcube_ui::INPUT_POST);
-            $user_email = rcube_idn_convert($user_email, true);
-            $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
-            if ($matches < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false) {
-                return false;
-            }
-        }
-
-        $name = str_replace(array('%n', '%d', '%h', '%z', '%s'), array($n, $d, $h, $z, $s[2]), $name);
-        return $name;
-    }
 
 
     /**
@@ -1111,32 +1018,6 @@ class rcube
             print '<br />';
             flush();
         }
-    }
-
-
-    /**
-     * Returns remote IP address and forwarded addresses if found
-     *
-     * @return string Remote IP address(es)
-     */
-    public static function remote_ip()
-    {
-        $address = $_SERVER['REMOTE_ADDR'];
-
-        // append the NGINX X-Real-IP header, if set
-        if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-            $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
-        }
-        // append the X-Forwarded-For header, if set
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-
-        if (!empty($remote_ip)) {
-            $address .= '(' . implode(',', $remote_ip) . ')';
-        }
-
-        return $address;
     }
 
 

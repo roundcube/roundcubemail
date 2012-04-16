@@ -74,10 +74,10 @@ class rcube_output_html extends rcube_output
         $this->set_skin($this->config->get('skin'));
 
         // add common javascripts
-        $this->add_script('var '.JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
+        $this->add_script('var '.rcmail::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)
-        $this->add_script(JS_OBJECT_NAME.'.init();', 'docready');
+        $this->add_script(rcmail::JS_OBJECT_NAME.'.init();', 'docready');
 
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery.min.js');
@@ -183,7 +183,7 @@ class rcube_output_html extends rcube_output
      */
     public function add_gui_object($obj, $id)
     {
-        $this->add_script(JS_OBJECT_NAME.".gui_object('$obj', '$id');");
+        $this->add_script(rcmail::JS_OBJECT_NAME.".gui_object('$obj', '$id');");
     }
 
 
@@ -457,7 +457,7 @@ class rcube_output_html extends rcube_output
     {
         $out = '';
         if (!$this->framed && !empty($this->js_env)) {
-            $out .= JS_OBJECT_NAME . '.set_env('.self::json_serialize($this->js_env).");\n";
+            $out .= rcmail::JS_OBJECT_NAME . '.set_env('.self::json_serialize($this->js_env).");\n";
         }
         if (!empty($this->js_labels)) {
             $this->command('add_label', $this->js_labels);
@@ -470,7 +470,7 @@ class rcube_output_html extends rcube_output
             $parent = $this->framed || preg_match('/^parent\./', $method);
             $out .= sprintf(
                 "%s.%s(%s);\n",
-                ($parent ? 'if(window.parent && parent.'.JS_OBJECT_NAME.') parent.' : '') . JS_OBJECT_NAME,
+                ($parent ? 'if(window.parent && parent.'.rcmail::JS_OBJECT_NAME.') parent.' : '') . rcmail::JS_OBJECT_NAME,
                 preg_replace('/^parent\./', '', $method),
                 implode(',', $args)
             );
@@ -644,7 +644,7 @@ class rcube_output_html extends rcube_output
                 "\$_SESSION['\\1']",
                 "\$this->app->config->get('\\1',get_boolean('\\3'))",
                 "\$this->env['\\1']",
-                "rcube_ui::get_input_value('\\1', rcube_ui::INPUT_GPC)",
+                "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
                 "\$_COOKIE['\\1']",
                 "\$this->browser->{'\\1'}",
                 $this->template_name,
@@ -812,7 +812,7 @@ class rcube_output_html extends rcube_output
                         }
                         break;
                     case 'request':
-                        $value = rcube_ui::get_input_value($name, rcube_ui::INPUT_GPC);
+                        $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
                         break;
                     case 'session':
                         $value = $_SESSION[$name];
@@ -917,7 +917,7 @@ class rcube_output_html extends rcube_output
         if ($attrib['command']) {
             $this->add_script(sprintf(
                 "%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
-                JS_OBJECT_NAME,
+                rcmail::JS_OBJECT_NAME,
                 $command,
                 $attrib['id'],
                 $attrib['type'],
@@ -929,7 +929,7 @@ class rcube_output_html extends rcube_output
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href']    = $this->app->url(array('task' => $attrib['command']));
-                $attrib['onclick'] = sprintf("%s.command('switch-task','%s');return false", JS_OBJECT_NAME, $attrib['command']);
+                $attrib['onclick'] = sprintf("%s.command('switch-task','%s');return false", rcmail::JS_OBJECT_NAME, $attrib['command']);
             }
             else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(array('action' => $attrib['command'], 'task' => $attrib['task']));
@@ -953,7 +953,7 @@ class rcube_output_html extends rcube_output
         else if ($command && !$attrib['onclick']) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this)",
-                JS_OBJECT_NAME,
+                rcmail::JS_OBJECT_NAME,
                 $command,
                 $attrib['prop']
             );
@@ -1328,7 +1328,7 @@ class rcube_output_html extends rcube_output
             $username = $this->app->user->get_username();
         }
 
-        return rcube_idn_to_utf8($username);
+        return rcube_utils::idn_to_utf8($username);
     }
 
 
@@ -1347,7 +1347,7 @@ class rcube_output_html extends rcube_output
         $_SESSION['temp'] = true;
 
         // save original url
-        $url = rcube_ui::get_input_value('_url', rcube_ui::INPUT_POST);
+        $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
         if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
             $url = $_SERVER['QUERY_STRING'];
 
@@ -1397,7 +1397,7 @@ class rcube_output_html extends rcube_output
         $table = new html_table(array('cols' => 2));
 
         $table->add('title', html::label('rcmloginuser', html::quote($this->app->gettext('username'))));
-        $table->add('input', $input_user->show(rcube_ui::get_input_value('_user', rcube_ui::INPUT_GPC)));
+        $table->add('input', $input_user->show(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC)));
 
         $table->add('title', html::label('rcmloginpwd', html::quote($this->app->gettext('password'))));
         $table->add('input', $input_pass->show());
@@ -1405,7 +1405,7 @@ class rcube_output_html extends rcube_output
         // add host selection row
         if (is_object($input_host) && !$hide_host) {
             $table->add('title', html::label('rcmloginhost', html::quote($this->app->gettext('server'))));
-            $table->add('input', $input_host->show(rcube_ui::get_input_value('_host', rcube_ui::INPUT_GPC)));
+            $table->add('input', $input_host->show(rcube_utils::get_input_value('_host', rcube_utils::INPUT_GPC)));
         }
 
         $out  = $input_task->show();
@@ -1481,7 +1481,7 @@ class rcube_output_html extends rcube_output
         if (empty($attrib['form'])) {
             $out = $this->form_tag(array(
                 'name' => "rcmqsearchform",
-                'onsubmit' => JS_OBJECT_NAME . ".command('search');return false;",
+                'onsubmit' => rcmail::JS_OBJECT_NAME . ".command('search');return false;",
                 'style' => "display:inline"),
                 $out);
         }

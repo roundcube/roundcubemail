@@ -98,7 +98,7 @@ class rcube_string_replacer
       $i = $this->add($prefix . html::a(array(
           'href' => $url_prefix . $url,
           'target' => '_blank'
-        ), rcube_ui::Q($url)) . $suffix);
+        ), rcmail::Q($url)) . $suffix);
     }
 
     // Return valid link for recognized schemes, otherwise, return the unmodified string for unrecognized schemes.
@@ -118,8 +118,8 @@ class rcube_string_replacer
 
     $i = $this->add(html::a(array(
         'href' => 'mailto:' . $href,
-        'onclick' => "return ".JS_OBJECT_NAME.".command('compose','".rcube_ui::JQ($href)."',this)",
-      ), rcube_ui::Q($href)) . $suffix);
+        'onclick' => "return ".rcmail::JS_OBJECT_NAME.".command('compose','".rcmail::JQ($href)."',this)",
+      ), rcmail::Q($href)) . $suffix);
 
     return $i >= 0 ? $this->get_replacement($i) : '';
   }

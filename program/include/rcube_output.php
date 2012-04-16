@@ -227,7 +227,7 @@ abstract class rcube_output
         header("X-DNS-Prefetch-Control: off");
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
-        if ($this->browser->ie && rcube_ui::https_check()) {
+        if ($this->browser->ie && rcube_utils::https_check()) {
             header('Pragma: private');
             header("Cache-Control: private, must-revalidate");
         }
