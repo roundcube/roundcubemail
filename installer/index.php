@@ -3,7 +3,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 0.8                                                             |
+ | Version 0.9-svn                                                         |
  |                                                                         |
  | Copyright (C) 2009-2012, The Roundcube Dev Team                         |
  |                                                                         |
@@ -39,11 +39,12 @@
 
 */
 
-ini_set('error_reporting', E_ALL&~E_NOTICE);
+ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 ini_set('display_errors', 1);
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../').'/');
 define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+define('RCMAIL_CHARSET', 'UTF-8');
 
 $include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
 $include_path .= INSTALL_PATH . 'program' . PATH_SEPARATOR;
