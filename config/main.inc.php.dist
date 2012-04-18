@@ -600,12 +600,12 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'locality'    => 'l',
 // if you uncomment country, you need to modify 'sub_fields' above
 //    'country'     => 'c',
+    'organization' => 'o',
     'department'  => 'departmentNumber',
     'notes'       => 'description',
 // these currently don't work:
 //    'phone:workfax' => 'facsimileTelephoneNumber',
 //    'photo'        => 'jpegPhoto',
-//    'organization' => 'o',
 //    'manager'      => 'manager',
 //    'assistant'    => 'secretary',
   ),
