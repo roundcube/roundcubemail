@@ -1577,13 +1577,13 @@ class rcmail extends rcube
                 if ($maxlength && $maxlength > 1) {
                     $foldername = abbreviate_string($foldername, $maxlength);
                 }
+            }
 
-                 $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
+            $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
 
-                if (!empty($folder['folders'])) {
-                    $out .= $this->render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
-                        $select, $realnames, $nestLevel+1, $opts);
-                }
+            if (!empty($folder['folders'])) {
+                $out .= $this->render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
+                    $select, $realnames, $nestLevel+1, $opts);
             }
         }
 
