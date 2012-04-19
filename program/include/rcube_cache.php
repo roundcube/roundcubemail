@@ -59,7 +59,7 @@ class rcube_cache
      * @param string $type   Engine type ('db' or 'memcache' or 'apc')
      * @param int    $userid User identifier
      * @param string $prefix Key name prefix
-     * @param int    $ttl    Expiration time of memcache/apc items in seconds (max.2592000)
+     * @param string $ttl    Expiration time of memcache/apc items
      * @param bool   $packed Enables/disabled data serialization.
      *                       It's possible to disable data serialization if you're sure
      *                       stored data will be always a safe string
@@ -82,8 +82,12 @@ class rcube_cache
             $this->db   = $rcube->get_dbh();
         }
 
+        // convert ttl string to seconds
+        $ttl = get_offset_sec($ttl);
+        if ($ttl > 2592000) $ttl = 2592000;
+
         $this->userid    = (int) $userid;
-        $this->ttl       = (int) $ttl;
+        $this->ttl       = $ttl;
         $this->packed    = $packed;
         $this->prefix    = $prefix;
     }

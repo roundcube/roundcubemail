@@ -146,25 +146,23 @@ function clear_directory($dir_path)
 
 
 /**
- * Create a unix timestamp with a specified offset from now.
+ * Returns number of seconds for a specified offset string.
  *
- * @param string $offset_str  String representation of the offset (e.g. 20min, 5h, 2days)
- * @param int    $factor      Factor to multiply with the offset
+ * @param string $str  String representation of the offset (e.g. 20min, 5h, 2days, 1week)
  *
- * @return int Unix timestamp
+ * @return int Number of seconds
  */
-function get_offset_time($offset_str, $factor=1)
+function get_offset_sec($str)
 {
-    if (preg_match('/^([0-9]+)\s*([smhdw])/i', $offset_str, $regs)) {
-        $amount = (int)$regs[1];
+    if (preg_match('/^([0-9]+)\s*([smhdw])/i', $str, $regs)) {
+        $amount = (int) $regs[1];
         $unit   = strtolower($regs[2]);
     }
     else {
-        $amount = (int)$offset_str;
+        $amount = (int) $str;
         $unit   = 's';
     }
 
-    $ts = time();
     switch ($unit) {
     case 'w':
         $amount *= 7;
@@ -174,11 +172,23 @@ function get_offset_time($offset_str, $factor=1)
         $amount *= 60;
     case 'm':
         $amount *= 60;
-    case 's':
-        $ts += $amount * $factor;
     }
 
-    return $ts;
+    return $amount;
+}
+
+
+/**
+ * Create a unix timestamp with a specified offset from now.
+ *
+ * @param string $offset_str  String representation of the offset (e.g. 20min, 5h, 2days)
+ * @param int    $factor      Factor to multiply with the offset
+ *
+ * @return int Unix timestamp
+ */
+function get_offset_time($offset_str, $factor=1)
+{
+    return time() + get_offset_sec($offset_str) * $factor;
 }
 
 

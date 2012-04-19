@@ -236,7 +236,7 @@ class rcube
    *
    * @param string $name   Cache identifier
    * @param string $type   Cache type ('db', 'apc' or 'memcache')
-   * @param int    $ttl    Expiration time for cache items in seconds
+   * @param string $ttl    Expiration time for cache items
    * @param bool   $packed Enables/disables data serialization
    *
    * @return rcube_cache Cache object
