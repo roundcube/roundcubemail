@@ -66,7 +66,7 @@ function send_future_expire_header($offset=2600000)
   if (headers_sent())
     return;
 
-  header("Expires: ".gmdate("D, d M Y H:i:s", mktime()+$offset)." GMT");
+  header("Expires: ".gmdate("D, d M Y H:i:s", time()+$offset)." GMT");
   header("Cache-Control: max-age=$offset");
   header("Pragma: ");
 }
@@ -299,7 +299,7 @@ function get_offset_time($offset_str, $factor=1)
     $unit = 's';
   }
 
-  $ts = mktime();
+  $ts = time();
   switch ($unit)
   {
     case 'w':

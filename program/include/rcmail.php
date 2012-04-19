@@ -966,7 +966,7 @@ class rcmail
       $_SESSION['storage_port'] = $port;
       $_SESSION['storage_ssl']  = $ssl;
       $_SESSION['password']     = $this->encrypt($pass);
-      $_SESSION['login_time']   = mktime();
+      $_SESSION['login_time']   = time();
 
       if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_')
         $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
