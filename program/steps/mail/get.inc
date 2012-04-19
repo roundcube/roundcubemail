@@ -151,11 +151,10 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         $filename = rcube_label('htmlmessage');
       }
       else {
-        $filename = ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube');
+        $ext = '.' . ($mimetype == 'text/plain' ? 'txt' : $ctype_secondary);
+        $filename = ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . $ext;
       }
 
-      $ext      = '.' . ($mimetype == 'text/plain' ? 'txt' : $ctype_secondary);
-      $filename .= $ext;
       $filename = preg_replace('[\r\n]', '', $filename);
 
       if ($browser->ie && $browser->ver < 7)
