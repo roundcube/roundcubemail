@@ -164,7 +164,7 @@ function get_offset_time($offset_str, $factor=1)
         $unit   = 's';
     }
 
-    $ts = mktime();
+    $ts = time();
     switch ($unit) {
     case 'w':
         $amount *= 7;

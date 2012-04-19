@@ -486,7 +486,7 @@ class rcube
     public function temp_gc()
     {
         $tmp = unslashify($this->config->get('temp_dir'));
-        $expire = mktime() - 172800;  // expire in 48 hours
+        $expire = time() - 172800;  // expire in 48 hours
 
         if ($tmp && ($dir = opendir($tmp))) {
             while (($fname = readdir($dir)) !== false) {
