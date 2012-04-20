@@ -75,7 +75,7 @@ class rcube_image
     {
         $result  = false;
         $rcube   = rcube::get_instance();
-        $convert = $rcmail->config->get('im_convert_path', false);
+        $convert = $rcube->config->get('im_convert_path', false);
         $props   = $this->props();
 
         if (!$filename) {
