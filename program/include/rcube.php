@@ -244,7 +244,8 @@ class rcube
   public function get_cache($name, $type='db', $ttl=0, $packed=true)
   {
     if (!isset($this->caches[$name])) {
-      $this->caches[$name] = new rcube_cache($type, $_SESSION['user_id'], $name, $ttl, $packed);
+      $userid = $this->get_user_id();
+      $this->caches[$name] = new rcube_cache($type, $userid, $name, $ttl, $packed);
     }
 
     return $this->caches[$name];
@@ -1170,6 +1171,9 @@ class rcube
     {
         if (is_object($this->user)) {
             return $this->user->ID;
+        }
+        else if (isset($_SESSION['user_id'])) {
+            return $_SESSION['user_id'];
         }
 
         return null;
