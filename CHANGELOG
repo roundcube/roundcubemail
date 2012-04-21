@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 
 RELEASE 0.8-rc
 ----------------
+- Support mutliple name/email pairs for Bcc and Reply-To identity settings (#1488445)
 - Set flexible width to login form fields (#1488418)
 - Fix re-draw bug on list columns change in IE8 (#1487822)
 - Allow mass-removal of addresses from a group (#1487748)
