@@ -4620,6 +4620,14 @@ function rcube_webmail()
           if (colprop.type == 'date' && $.datepicker)
             input.datepicker();
         }
+        else if (colprop.type == 'textarea') {
+          input = $('<textarea>')
+            .addClass('ff_'+col)
+            .attr({ name: '_'+col+name_suffix, cols:colprop.size, rows:colprop.rows })
+            .appendTo(cell);
+
+          this.init_edit_field(col, input);
+        }
         else if (colprop.type == 'composite') {
           var childcol, cp, first, templ, cols = [], suffices = [];
           // read template for composite field order
