@@ -566,8 +566,8 @@ class rcube_imap extends rcube_storage
     {
         $mode = strtoupper($mode);
 
-        // count search set
-        if ($this->search_string && $folder == $this->folder && ($mode == 'ALL' || $mode == 'THREADS') && !$force) {
+        // count search set, assume search set is always up-to-date (don't check $force flag)
+        if ($this->search_string && $folder == $this->folder && ($mode == 'ALL' || $mode == 'THREADS')) {
             if ($mode == 'ALL') {
                 return $this->search_set->count_messages();
             }
@@ -3144,6 +3144,13 @@ class rcube_imap extends rcube_storage
             return $this->icache['options'];
         }
 
+        // get cached metadata
+        $cache_key = 'mailboxes.folder-info.' . $folder;
+        $cached = $this->get_cache($cache_key);
+
+        if (is_array($cached))
+            return $cached;
+
         $acl       = $this->get_capability('ACL');
         $namespace = $this->get_namespace();
         $options   = array();
@@ -3206,7 +3213,9 @@ class rcube_imap extends rcube_storage
             $options['norename'] = $options['is_root'] || $options['namespace'] != 'personal';
         }
 
+        // update caches
         $this->icache['options'] = $options;
+        $this->update_cache($cache_key, $options);
 
         return $options;
     }
@@ -3271,6 +3280,8 @@ class rcube_imap extends rcube_storage
         if (!$this->check_connection()) {
             return false;
         }
+
+        $this->clear_cache('mailboxes.folder-info.' . $folder);
 
         return $this->conn->setACL($folder, $user, $acl);
     }
@@ -3385,6 +3396,8 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
+        $this->clear_cache('mailboxes.metadata.' . $folder);
+
         if ($this->get_capability('METADATA') ||
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
@@ -3416,6 +3429,8 @@ class rcube_imap extends rcube_storage
         if (!$this->check_connection()) {
             return false;
         }
+
+        $this->clear_cache('mailboxes.metadata.' . $folder);
 
         if ($this->get_capability('METADATA') || 
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
@@ -3450,10 +3465,16 @@ class rcube_imap extends rcube_storage
             return null;
         }
 
+        $cache_key = 'mailboxes.metadata.' . $folder;
+        if ($cached = $this->get_cache($cache_key))
+            return $cached;
+
         if ($this->get_capability('METADATA') ||
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
-            return $this->conn->getMetadata($folder, $entries, $options);
+            $res = $this->conn->getMetadata($folder, $entries, $options);
+            $this->update_cache($cache_key, $res);
+            return $res;
         }
         else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
             $queries = array();
@@ -3472,6 +3493,7 @@ class rcube_imap extends rcube_storage
                 }
             }
 
+            $this->update_cache($cache_key, $res);
             return $res;
         }
 
