@@ -25,7 +25,6 @@
 define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 
 $a_save_cols = array('name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature');
-$a_html_cols = array('signature', 'name', 'organization');
 $a_boolean_cols = array('standard', 'html_signature');
 $updated = $default_id = false;
 
@@ -43,7 +42,7 @@ foreach ($a_save_cols as $col)
 {
   $fname = '_'.$col;
   if (isset($_POST[$fname]))
-    $save_data[$col] = get_input_value($fname, RCUBE_INPUT_POST, in_array($col, $a_html_cols));
+    $save_data[$col] = get_input_value($fname, RCUBE_INPUT_POST, true);
 }
 
 // set "off" values for checkboxes that were not checked, and therefore
@@ -60,15 +59,18 @@ if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3)
   unset($save_data['email']);
 
 // Validate e-mail addresses
-foreach (array('email', 'reply-to', 'bcc') as $item) {
-  if ($email = $save_data[$item]) {
-    $ascii_email = rcube_idn_to_ascii($email);
-    if (!check_email($ascii_email)) {
-      // show error message
-      $OUTPUT->show_message('emailformaterror', 'error', array('email' => $email), false);
-      rcmail_overwrite_action('edit-identity');
-      return;
-    }
+$email_checks = array(rcube_idn_to_ascii($save_data['email']));
+foreach (array('reply-to', 'bcc') as $item) {
+  foreach (rcube_mime::decode_address_list(rcube_idn_to_ascii($save_data[$item]), null, false) as $rcpt)
+    $email_checks[] = $rcpt['mailto'];
+}
+
+foreach ($email_checks as $email) {
+  if ($email && !check_email($email)) {
+    // show error message
+    $OUTPUT->show_message('emailformaterror', 'error', array('email' => rcube_idn_to_utf8($email)), false);
+    rcmail_overwrite_action('edit-identity');
+    return;
   }
 }
 

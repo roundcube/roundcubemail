@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support mutliple name/email pairs for Bcc and Reply-To identity settings (#1488445)
 - Fix parent folder permissions checking on folder creation (#1488443)
 - Set flexible width to login form fields (#1488418)
 - Fix re-draw bug on list columns change in IE8 (#1487822)
