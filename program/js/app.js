@@ -3266,20 +3266,11 @@ function rcube_webmail()
   this.compose_field_hash = function(save)
   {
     // check input fields
-    var ed, str = '',
-      value_to = $("[name='_to']").val(),
-      value_cc = $("[name='_cc']").val(),
-      value_bcc = $("[name='_bcc']").val(),
-      value_subject = $("[name='_subject']").val();
+    var ed, i, val, str = '', hash_fields = ['to', 'cc', 'bcc', 'subject'];
 
-    if (value_to)
-      str += value_to+':';
-    if (value_cc)
-      str += value_cc+':';
-    if (value_bcc)
-      str += value_bcc+':';
-    if (value_subject)
-      str += value_subject+':';
+    for (i=0; i<hash_fields.length; i++)
+      if (val = $('[name="_' + hash_fields[i] + '"]').val())
+        str += val + ':';
 
     if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)))
       str += ed.getContent();
@@ -6233,12 +6224,15 @@ function rcube_webmail()
   // starts interval for keep-alive/check-recent signal
   this.start_keepalive = function()
   {
+    if (!this.env.keep_alive || this.env.framed)
+      return;
+
     if (this._int)
       clearInterval(this._int);
 
-    if (this.env.keep_alive && !this.env.framed && this.task == 'mail' && this.gui_objects.mailboxlist)
+    if (this.task == 'mail' && this.gui_objects.mailboxlist)
       this._int = setInterval(function(){ ref.check_for_recent(false); }, this.env.keep_alive * 1000);
-    else if (this.env.keep_alive && !this.env.framed && this.task != 'login' && this.env.action != 'print')
+    else if (this.task != 'login' && this.env.action != 'print')
       this._int = setInterval(function(){ ref.keep_alive(); }, this.env.keep_alive * 1000);
   };
 
@@ -6299,7 +6293,7 @@ function rcube_webmail()
       return obj.selectionEnd;
     else if (document.selection && document.selection.createRange) {
       var range = document.selection.createRange();
-      if (range.parentElement()!=obj)
+      if (range.parentElement() != obj)
         return 0;
 
       var gm = range.duplicate();
