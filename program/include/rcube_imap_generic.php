@@ -1650,7 +1650,7 @@ class rcube_imap_generic
 
         // If ESEARCH is supported always use ALL
         // but not when items are specified or using simple id2uid search
-        if (empty($items) && ((int) $criteria != $criteria)) {
+        if (empty($items) && preg_match('/[^0-9]/', $criteria)) {
             $items = array('ALL');
         }
 

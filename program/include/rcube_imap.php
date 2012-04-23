@@ -1213,7 +1213,9 @@ class rcube_imap extends rcube_storage
         }
         // use message index sort as default sorting
         else if (!$sort_field) {
+            // use search result from count() if possible
             if ($this->options['skip_deleted'] && !empty($this->icache['undeleted_idx'])
+                && $this->icache['undeleted_idx']->get_parameters('ALL') !== null
                 && $this->icache['undeleted_idx']->get_parameters('MAILBOX') == $folder
             ) {
                 $index = $this->icache['undeleted_idx'];

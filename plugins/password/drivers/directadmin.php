@@ -5,7 +5,7 @@
  *
  * Driver to change passwords via DirectAdmin Control Panel
  *
- * @version 2.0
+ * @version 2.1
  * @author Victor Benincasa <vbenincasa@gmail.com>
  *
  */
@@ -62,16 +62,17 @@ class rcube_directadmin_password
  *
  * Very, very basic usage:
  *   $Socket = new HTTPSocket;
- *   echo $Socket->get('http://user:pass@somesite.com/somedir/some.file?query=string&this=that');
+ *   echo $Socket->get('http://user:pass@somehost.com:2222/CMD_API_SOMEAPI?query=string&this=that');
  *
  * @author Phi1 'l0rdphi1' Stier <l0rdphi1@liquenox.net>
+ * @updates 2.7 and 2.8 by Victor Benincasa <vbenincasa @ gmail.com>
  * @package HTTPSocket
- * @version 2.7 (Updated by Victor Benincasa <vbenincasa@gmail.com>)
+ * @version 2.8
  */
 class HTTPSocket {
 
-    var $version = '2.7';
-
+    var $version = '2.8';
+    
     /* all vars are private except $error, $query_cache, and $doFollowLocationHeader */
 
     var $method = 'GET';
@@ -107,7 +108,7 @@ class HTTPSocket {
     {
         if (!is_numeric($port))
         {
-            $port = 80;
+            $port = 2222;
         }
 
         $this->remote_host = $host;
@@ -166,13 +167,13 @@ class HTTPSocket {
         $this->error = $this->warn = array();
         $this->result_status_code = NULL;
 
-        // is our request a http:// ... ?
-        if (preg_match('!^http://!i',$request))
+        // is our request a http(s):// ... ?
+        if (preg_match('/^(http|https):\/\//i',$request))
         {
             $location = parse_url($request);
             $this->connect($location['host'],$location['port']);
             $this->set_login($location['user'],$location['pass']);
-
+            
             $request = $location['path'];
             $content = $location['query'];
 
@@ -185,7 +186,7 @@ class HTTPSocket {
 
         $array_headers = array(
             'User-Agent' => "HTTPSocket/$this->version",
-            'Host' => ( $this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port" ),
+            'Host' => ( $this->remote_port == 80 ? parse_url($this->remote_host,PHP_URL_HOST) : parse_url($this->remote_host,PHP_URL_HOST).":".$this->remote_port ),
             'Accept' => '*/*',
             'Connection' => 'Close' );
 
@@ -325,7 +326,7 @@ class HTTPSocket {
             }
 
         }
-
+        
         list($this->result_header,$this->result_body) = preg_split("/\r\n\r\n/",$this->result,2);
 
         if ($this->bind_host)
@@ -364,6 +365,7 @@ class HTTPSocket {
                 $this->query($headers['location']);
             }
         }
+        
     }
 
     function getTransferSpeed()
@@ -447,7 +449,7 @@ class HTTPSocket {
     function fetch_header( $header = '' )
     {
         $array_headers = preg_split("/\r\n/",$this->result_header);
-
+        
         $array_return = array( 0 => $array_headers[0] );
         unset($array_headers[0]);
 

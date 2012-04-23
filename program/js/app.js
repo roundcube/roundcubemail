@@ -273,7 +273,7 @@ function rcube_webmail()
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid)
           if (bw.safari)
-            window.setTimeout('window.print()', 10);
+            setTimeout('window.print()', 10);
           else
             window.print();
 
@@ -770,7 +770,7 @@ function rcube_webmail()
       case 'always-load':
         if (this.env.uid && this.env.sender) {
           this.add_contact(urlencode(this.env.sender));
-          window.setTimeout(function(){ ref.command('load-images'); }, 300);
+          setTimeout(function(){ ref.command('load-images'); }, 300);
           break;
         }
 
@@ -788,7 +788,7 @@ function rcube_webmail()
             qstring += '&_safe=1';
           this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');
           if (this.attachment_win) {
-            window.setTimeout(function(){ ref.attachment_win.focus(); }, 10);
+            setTimeout(function(){ ref.attachment_win.focus(); }, 10);
             break;
           }
         }
@@ -911,19 +911,25 @@ function rcube_webmail()
         break;
 
       case 'savedraft':
+        var form = this.gui_objects.messageform, msgid;
+
         // Reset the auto-save timer
-        self.clearTimeout(this.save_timer);
+        clearTimeout(this.save_timer);
 
-        if (!this.gui_objects.messageform)
+        // saving Drafts is disabled
+        if (!form)
           break;
 
-        // if saving Drafts is disabled in main.inc.php
-        // or if compose form did not change
-        if (!this.env.drafts_mailbox || this.cmp_hash == this.compose_field_hash())
+        // compose form did not change
+        if (this.cmp_hash == this.compose_field_hash()) {
+          this.auto_save_start();
           break;
+        }
 
-        var form = this.gui_objects.messageform,
-          msgid = this.set_busy(true, 'savingmessage');
+        // re-set keep-alive timeout
+        this.start_keepalive();
+
+        msgid = this.set_busy(true, 'savingmessage');
 
         form.target = "savetarget";
         form._draft.value = '1';
@@ -939,7 +945,7 @@ function rcube_webmail()
           break;
 
         // Reset the auto-save timer
-        self.clearTimeout(this.save_timer);
+        clearTimeout(this.save_timer);
 
         // all checks passed, send message
         var lang = this.spellcheck_lang(),
@@ -958,7 +964,7 @@ function rcube_webmail()
 
       case 'send-attachment':
         // Reset the auto-save timer
-        self.clearTimeout(this.save_timer);
+        clearTimeout(this.save_timer);
 
         this.upload_file(props || this.gui_objects.uploadform);
         break;
@@ -1005,7 +1011,7 @@ function rcube_webmail()
         if (uid = this.get_single_uid()) {
           ref.printwin = window.open(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''));
           if (this.printwin) {
-            window.setTimeout(function(){ ref.printwin.focus(); }, 20);
+            setTimeout(function(){ ref.printwin.focus(); }, 20);
             if (this.env.action != 'show')
               this.mark_message('read', uid);
           }
@@ -1016,7 +1022,7 @@ function rcube_webmail()
         if (uid = this.get_single_uid()) {
           ref.sourcewin = window.open(this.env.comm_path+'&_action=viewsource&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox));
           if (this.sourcewin)
-            window.setTimeout(function(){ ref.sourcewin.focus(); }, 20);
+            setTimeout(function(){ ref.sourcewin.focus(); }, 20);
           }
         break;
 
@@ -1161,7 +1167,7 @@ function rcube_webmail()
 
     // set timer for requests
     if (a && this.env.request_timeout)
-      this.request_timer = window.setTimeout(function(){ ref.request_timed_out(); }, this.env.request_timeout * 1000);
+      this.request_timer = setTimeout(function(){ ref.request_timed_out(); }, this.env.request_timeout * 1000);
 
     return id;
   };
@@ -1213,7 +1219,7 @@ function rcube_webmail()
     if (this.is_framed())
       parent.rcmail.reload(delay);
     else if (delay)
-      window.setTimeout(function(){ rcmail.reload(); }, delay);
+      setTimeout(function(){ rcmail.reload(); }, delay);
     else if (window.location)
       location.href = this.env.comm_path + (this.env.action ? '&_action='+this.env.action : '');
   };
@@ -1346,7 +1352,7 @@ function rcube_webmail()
     this.env.last_folder_target = null;
 
     if (this.folder_auto_timer) {
-      window.clearTimeout(this.folder_auto_timer);
+      clearTimeout(this.folder_auto_timer);
       this.folder_auto_timer = null;
       this.folder_auto_expand = null;
     }
@@ -1399,15 +1405,15 @@ function rcube_webmail()
             // if the folder is collapsed, expand it after 1sec and restart the drag & drop process.
             if (div.hasClass('collapsed')) {
               if (this.folder_auto_timer)
-                window.clearTimeout(this.folder_auto_timer);
+                clearTimeout(this.folder_auto_timer);
 
               this.folder_auto_expand = this.env.mailboxes[k].id;
-              this.folder_auto_timer = window.setTimeout(function() {
+              this.folder_auto_timer = setTimeout(function() {
                 rcmail.command('collapse-folder', rcmail.folder_auto_expand);
                 rcmail.drag_start(null);
               }, 1000);
             } else if (this.folder_auto_timer) {
-              window.clearTimeout(this.folder_auto_timer);
+              clearTimeout(this.folder_auto_timer);
               this.folder_auto_timer = null;
               this.folder_auto_expand = null;
             }
@@ -1559,7 +1565,7 @@ function rcube_webmail()
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select)
-      this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, 200);
+      this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, 200);
     else if (this.env.contentframe)
       this.show_contentframe(false);
   };
@@ -1576,7 +1582,7 @@ function rcube_webmail()
           clearTimeout(this.preview_timer);
         if (this.preview_read_timer)
           clearTimeout(this.preview_read_timer);
-        this.preview_timer = window.setTimeout(function(){ ref.msglist_get_preview(); }, 200);
+        this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, 200);
       }
     }
   };
@@ -1962,7 +1968,7 @@ function rcube_webmail()
 
       // mark as read and change mbox unread counter
       if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
-        this.preview_read_timer = window.setTimeout(function() {
+        this.preview_read_timer = setTimeout(function() {
           ref.set_message(id, 'unread', false);
           ref.update_thread_root(id, 'read');
           if (ref.env.unread_counts[ref.env.mailbox]) {
@@ -3142,7 +3148,7 @@ function rcube_webmail()
       tinyMCE.execCommand('mceAddControl', false, props.id);
 
       if (this.env.default_font)
-        window.setTimeout(function() {
+        setTimeout(function() {
           $(tinyMCE.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
         }, 500);
     }
@@ -3241,7 +3247,7 @@ function rcube_webmail()
   this.auto_save_start = function()
   {
     if (this.env.draft_autosave)
-      this.save_timer = self.setTimeout(function(){ ref.command("savedraft"); }, this.env.draft_autosave * 1000);
+      this.save_timer = setTimeout(function(){ ref.command("savedraft"); }, this.env.draft_autosave * 1000);
 
     // Unlock interface now that saving is complete
     this.busy = false;
@@ -3250,20 +3256,11 @@ function rcube_webmail()
   this.compose_field_hash = function(save)
   {
     // check input fields
-    var ed, str = '',
-      value_to = $("[name='_to']").val(),
-      value_cc = $("[name='_cc']").val(),
-      value_bcc = $("[name='_bcc']").val(),
-      value_subject = $("[name='_subject']").val();
+    var ed, i, val, str = '', hash_fields = ['to', 'cc', 'bcc', 'subject'];
 
-    if (value_to)
-      str += value_to+':';
-    if (value_cc)
-      str += value_cc+':';
-    if (value_bcc)
-      str += value_bcc+':';
-    if (value_subject)
-      str += value_subject+':';
+    for (i=0; i<hash_fields.length; i++)
+      if (val = $('[name="_' + hash_fields[i] + '"]').val())
+        str += val + ':';
 
     if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)))
       str += ed.getContent();
@@ -3526,7 +3523,7 @@ function rcube_webmail()
 
   this.upload_progress_start = function(action, name)
   {
-    window.setTimeout(function() { rcmail.http_request(action, {_progress: name}); },
+    setTimeout(function() { rcmail.http_request(action, {_progress: name}); },
       this.env.upload_progress_time * 1000);
   };
 
@@ -3626,7 +3623,7 @@ function rcube_webmail()
   {
     this.display_message(msg, type);
     // before redirect we need to wait some time for Chrome (#1486177)
-    window.setTimeout(function(){ ref.list_mailbox(); }, 500);
+    setTimeout(function(){ ref.list_mailbox(); }, 500);
   };
 
 
@@ -3684,11 +3681,11 @@ function rcube_webmail()
       case 37:  // left
       case 39:  // right
         if (mod != SHIFT_KEY)
-	      return;
+          return;
     }
 
     // start timer
-    this.ksearch_timer = window.setTimeout(function(){ ref.ksearch_get_results(props); }, 200);
+    this.ksearch_timer = setTimeout(function(){ ref.ksearch_get_results(props); }, 200);
     this.ksearch_input = obj;
 
     return true;
@@ -3995,7 +3992,7 @@ function rcube_webmail()
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
     if (id = list.get_single_selection())
-      this.preview_timer = window.setTimeout(function(){ ref.load_contact(id, 'show'); }, 200);
+      this.preview_timer = setTimeout(function(){ ref.load_contact(id, 'show'); }, 200);
     else if (this.env.contentframe)
       this.show_contentframe(false);
 
@@ -4598,6 +4595,14 @@ function rcube_webmail()
 
           if (colprop.type == 'date' && $.datepicker)
             input.datepicker();
+        }
+        else if (colprop.type == 'textarea') {
+          input = $('<textarea>')
+            .addClass('ff_'+col)
+            .attr({ name: '_'+col+name_suffix, cols:colprop.size, rows:colprop.rows })
+            .appendTo(cell);
+
+          this.init_edit_field(col, input);
         }
         else if (colprop.type == 'composite') {
           var childcol, cp, first, templ, cols = [], suffices = [];
@@ -5524,7 +5529,7 @@ function rcube_webmail()
       }
       // add element and set timeout
       this.messages[key].elements.push(id);
-      window.setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
+      setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
       return id;
     }
 
@@ -5544,7 +5549,7 @@ function rcube_webmail()
     this.triggerEvent('message', { message:msg, type:type, timeout:timeout, object:obj });
 
     if (timeout > 0)
-      window.setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
+      setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
     return id;
   };
 
@@ -6196,12 +6201,15 @@ function rcube_webmail()
   // starts interval for keep-alive/check-recent signal
   this.start_keepalive = function()
   {
+    if (!this.env.keep_alive || this.env.framed)
+      return;
+
     if (this._int)
       clearInterval(this._int);
 
-    if (this.env.keep_alive && !this.env.framed && this.task == 'mail' && this.gui_objects.mailboxlist)
+    if (this.task == 'mail' && this.gui_objects.mailboxlist)
       this._int = setInterval(function(){ ref.check_for_recent(false); }, this.env.keep_alive * 1000);
-    else if (this.env.keep_alive && !this.env.framed && this.task != 'login' && this.env.action != 'print')
+    else if (this.task != 'login' && this.env.action != 'print')
       this._int = setInterval(function(){ ref.keep_alive(); }, this.env.keep_alive * 1000);
   };
 
@@ -6262,7 +6270,7 @@ function rcube_webmail()
       return obj.selectionEnd;
     else if (document.selection && document.selection.createRange) {
       var range = document.selection.createRange();
-      if (range.parentElement()!=obj)
+      if (range.parentElement() != obj)
         return 0;
 
       var gm = range.duplicate();

@@ -89,18 +89,18 @@ class rcube_result_index
                         $param = strtoupper($m[1]);
                         $value = $m[2];
 
-                        $this->params[strtoupper($m[1])] = $value;
+                        $this->params[$param] = $value;
                         $data_item = substr($data_item, strlen($m[0]));
 
                         if (in_array($param, array('COUNT', 'MIN', 'MAX'))) {
-                            $this->meta[strtolower($param)] = (int) $m[2];
+                            $this->meta[strtolower($param)] = (int) $value;
                         }
                     }
 
 // @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
 // @TODO: work with compressed result?!
                     if (isset($this->params['ALL'])) {
-                        $data[$idx] = implode(self::SEPARATOR_ELEMENT,
+                        $data_item = implode(self::SEPARATOR_ELEMENT,
                             rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
                     }
                 }
@@ -110,6 +110,8 @@ class rcube_result_index
 
             unset($data[$i]);
         }
+
+        $data = array_filter($data);
 
         if (empty($data)) {
             return;
