@@ -184,6 +184,55 @@ class rcube_message_header
      * @var array
      */
     public $flags = array();
+
+    // map header to rcube_message_header object property
+    private $obj_headers = array(
+        'date'      => 'date',
+        'from'      => 'from',
+        'to'        => 'to',
+        'subject'   => 'subject',
+        'reply-to'  => 'replyto',
+        'cc'        => 'cc',
+        'bcc'       => 'bcc',
+        'content-transfer-encoding' => 'encoding',
+        'in-reply-to'               => 'in_reply_to',
+        'content-type'              => 'ctype',
+        'references'                => 'references',
+        'return-receipt-to'         => 'mdn_to',
+        'disposition-notification-to' => 'mdn_to',
+        'x-confirm-reading-to'      => 'mdn_to',
+        'message-id'                => 'messageID',
+        'x-priority'                => 'priority',
+    );
+
+    /**
+     * Returns header value
+     */
+    public function get($name)
+    {
+        $name = strtolower($name);
+
+        if (isset($this->obj_headers[$name])) {
+            return $this->{$this->obj_headers[$name]};
+        }
+
+        return $this->others[$name];
+    }
+
+    /**
+     * Sets header value
+     */
+    public function set($name, $value)
+    {
+        $name = strtolower($name);
+
+        if (isset($this->obj_headers[$name])) {
+            $this->{$this->obj_headers[$name]} = $value;
+        }
+        else {
+            $this->others[$name] = $value;
+        }
+    }
 }
 
 
