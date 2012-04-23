@@ -100,7 +100,7 @@ class rcube_result_index
 // @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
 // @TODO: work with compressed result?!
                     if (isset($this->params['ALL'])) {
-                        $data[$idx] = implode(self::SEPARATOR_ELEMENT,
+                        $data_item = implode(self::SEPARATOR_ELEMENT,
                             rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
                     }
                 }
@@ -110,6 +110,8 @@ class rcube_result_index
 
             unset($data[$i]);
         }
+
+        $data = array_filter($data);
 
         if (empty($data)) {
             return;
