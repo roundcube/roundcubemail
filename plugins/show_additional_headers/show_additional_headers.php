@@ -42,9 +42,8 @@ class show_additional_headers extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
     foreach ((array)$rcmail->config->get('show_additional_headers', array()) as $header) {
-      $key = strtolower($header);
-      if ($value = $p['headers']->others[$key])
-        $p['output'][$key] = array('title' => $header, 'value' => Q($value));
+      if ($value = $p['headers']->get($header))
+        $p['output'][$header] = array('title' => $header, 'value' => Q($value));
     }
 
     return $p;
