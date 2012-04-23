@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add vCard import from multiple files at once (#1488015)
 - Roundcube Framework:
     Add possibility to replace IMAP driver with custom class
     Add IMAP auto-connection feature, improving performance with caching enabled
