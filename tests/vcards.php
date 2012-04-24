@@ -44,7 +44,7 @@ class rcube_test_vcards extends UnitTestCase
     $input .= file_get_contents($this->_srcpath('johndoe.vcf'));
     
     $vcards = rcube_vcard::import($input);
-    
+
     $this->assertEqual(2, count($vcards), "Detected 2 vcards");
     $this->assertEqual("Apple Computer AG", $vcards[0]->displayname, "FN => displayname");
     $this->assertEqual("John Doë", $vcards[1]->displayname, "Displayname with correct charset");

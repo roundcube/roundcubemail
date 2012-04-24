@@ -295,11 +295,10 @@ class rcube_vcard
       case 'photo':
         if (strpos($value, 'http:') === 0) {
             // TODO: fetch file from URL and save it locally?
-            $this->raw['PHOTO'][0] = array(0 => $value, 'URL' => true);
+            $this->raw['PHOTO'][0] = array(0 => $value, 'url' => true);
         }
         else {
-            $encoded = !preg_match('![^a-z0-9/=+-]!i', $value);
-            $this->raw['PHOTO'][0] = array(0 => $encoded ? $value : base64_encode($value), 'BASE64' => true);
+            $this->raw['PHOTO'][0] = array(0 => $value, 'base64' => (bool) preg_match('![^a-z0-9/=+-]!i', $value));
         }
         break;
 
@@ -552,26 +551,45 @@ class rcube_vcard
       if (preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
         $entry = array();
         $field = strtoupper($regs2[1][0]);
+        $enc   = null;
 
         foreach($regs2[1] as $attrid => $attr) {
           if ((list($key, $value) = explode('=', $attr)) && $value) {
             $value = trim($value);
             if ($key == 'ENCODING') {
               // add next line(s) to value string if QP line end detected
-              while ($value == 'QUOTED-PRINTABLE' && preg_match('/=$/', $lines[$i]))
+              if ($value == 'QUOTED-PRINTABLE') {
+                while (preg_match('/=$/', $lines[$i]))
                   $line[2] .= "\n" . $lines[++$i];
-
-              $line[2] = self::decode_value($line[2], $value);
+              }
+              $enc = $value;
             }
-            else
-              $entry[strtolower($key)] = array_merge((array)$entry[strtolower($key)], (array)self::vcard_unquote($value, ','));
+            else {
+              $lc_key = strtolower($key);
+              $entry[$lc_key] = array_merge((array)$entry[$lc_key], (array)self::vcard_unquote($value, ','));
+            }
           }
           else if ($attrid > 0) {
-            $entry[$key] = true;  // true means attr without =value
+            $entry[strtolower($key)] = true;  // true means attr without =value
           }
         }
 
-        $entry = array_merge($entry, (array)self::vcard_unquote($line[2]));
+        // decode value
+        if ($enc || !empty($entry['base64'])) {
+          // save encoding type (#1488432)
+          if ($enc == 'B') {
+            $entry['encoding'] = 'B';
+            // should we use vCard 3.0 instead?
+            // $entry['base64'] = true;
+          }
+          $line[2] = self::decode_value($line[2], $enc ? $enc : 'base64');
+        }
+
+        if ($enc != 'B' && empty($entry['base64'])) {
+          $line[2] = self::vcard_unquote($line[2]);
+        }
+
+        $entry = array_merge($entry, (array) $line[2]);
         $data[$field][] = $entry;
       }
     }
@@ -596,6 +614,7 @@ class rcube_vcard
         return quoted_printable_decode($value);
 
       case 'base64':
+      case 'b':
         self::$values_decoded = true;
         return base64_decode($value);
 
@@ -627,13 +646,20 @@ class rcube_vcard
         if (is_array($entry)) {
           $value = array();
           foreach($entry as $attrname => $attrvalues) {
-            if (is_int($attrname))
+            if (is_int($attrname)) {
+              if (!empty($entry['base64']) || $entry['encoding'] == 'B') {
+                $attrvalues = base64_encode($attrvalues);
+              }
               $value[] = $attrvalues;
-            elseif ($attrvalues === true)
-              $attr .= ";$attrname";    // true means just tag, not tag=value, as in PHOTO;BASE64:...
+            }
+            else if (is_bool($attrvalues)) {
+              if ($attrvalues) {
+                $attr .= strtoupper(";$attrname");    // true means just tag, not tag=value, as in PHOTO;BASE64:...
+              }
+            }
             else {
               foreach((array)$attrvalues as $attrvalue)
-                $attr .= ";$attrname=" . self::vcard_quote($attrvalue, ',');
+                $attr .= strtoupper(";$attrname=") . self::vcard_quote($attrvalue, ',');
             }
           }
         }

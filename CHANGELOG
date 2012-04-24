@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix importing vCard photo with ENCODING param specified (#1488432)
 - Add vCard import from multiple files at once (#1488015)
 - Roundcube Framework:
     Add possibility to replace IMAP driver with custom class
