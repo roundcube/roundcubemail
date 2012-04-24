@@ -348,6 +348,7 @@ class rcube
       $options['port']     = $_SESSION['storage_port'];
       $options['ssl']      = $_SESSION['storage_ssl'];
       $options['password'] = $this->decrypt($_SESSION['password']);
+      $_SESSION[$driver.'_host'] = $_SESSION['storage_host'];
     }
 
     $options = $this->plugins->exec_hook("storage_init", $options);

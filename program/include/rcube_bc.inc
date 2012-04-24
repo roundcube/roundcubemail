@@ -385,3 +385,8 @@ function rcube_idn_to_utf8($str)
 {
     return rcube_utils::idn_to_utf8($str);
 }
+
+function send_future_expire_header($offset = 2600000)
+{
+    return rcmail::get_instance()->output->future_expire_header($offset);
+}

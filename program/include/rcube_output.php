@@ -237,6 +237,21 @@ abstract class rcube_output
         }
     }
 
+    /**
+     * Send header with expire date 30 days in future
+     *
+     * @param int Expiration time in seconds
+     */
+    public function future_expire_header($offset = 2600000)
+    {
+        if (headers_sent())
+            return;
+
+        header("Expires: " . gmdate("D, d M Y H:i:s", time()+$offset) . " GMT");
+        header("Cache-Control: max-age=$offset");
+        header("Pragma: ");
+    }
+
 
     /**
      * Show error page and terminate script execution
