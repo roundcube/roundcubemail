@@ -698,17 +698,19 @@ if ($store_target) {
       unlink($mailbody_file);
       $mailbody_file = null;
     }
+  }
 
-    // raise error if saving failed
-    if (!$saved) {
-      raise_error(array('code' => 800, 'type' => 'imap',
-	    'file' => __FILE__, 'line' => __LINE__,
-            'message' => "Could not save message in $store_target"), TRUE, FALSE);
+  // raise error if saving failed
+  if (!$saved) {
+    raise_error(array('code' => 800, 'type' => 'imap',
+       'file' => __FILE__, 'line' => __LINE__,
+       'message' => "Could not save message in $store_target"), TRUE, FALSE);
 
-      if ($savedraft) {
-        $OUTPUT->show_message('errorsaving', 'error');
-        $OUTPUT->send('iframe');
-      }
+    if ($savedraft) {
+      $OUTPUT->show_message('errorsaving', 'error');
+      // start the auto-save timer again
+      $OUTPUT->command('auto_save_start');
+      $OUTPUT->send('iframe');
     }
   }
 
