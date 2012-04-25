@@ -1286,13 +1286,13 @@ div.hide-headers
 
 #headers-source
 {
-  margin: 0 0 2px 0;
+  margin: 2px 0;
   padding: 0.5em;
   height: 145px;
   background: white;
   overflow: auto;
   font-size: 11px;
-  border: 1px solid #999999;
+  border: 1px solid #CCC;
   display: none;
   text-align: left;
   color: #333;

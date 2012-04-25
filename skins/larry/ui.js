@@ -76,7 +76,8 @@ function rcube_mail_ui()
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         layout_messageview();
-        $("#all-headers").resizable({ handles: 's', minHeight: 50 });
+        rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); });
+        rcmail.addEventListener('afterhide-headers', function() { layout_messageview(); });
         $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false });
       }
       else if (rcmail.env.action == 'compose') {
@@ -291,7 +292,7 @@ function rcube_mail_ui()
   {
     $('#messagecontent').css('top', ($('#messageheader').outerHeight() + 10) + 'px');
     $('#message-objects div a').addClass('button');
-    
+
     if (!$('#attachment-list li').length) {
       $('div.rightcol').hide();
       $('div.leftcol').css('margin-right', '0');
