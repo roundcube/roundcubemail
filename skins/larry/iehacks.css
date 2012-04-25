@@ -143,14 +143,6 @@ ul.toolbarmenu li a.active:hover,
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e9e9e9', GradientType=0);
 }
 
-#full-headers {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eaeaea', endColorstr='#e9e9e9', GradientType=0);
-}
-
-#all-headers {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3', endColorstr='#ffffff', GradientType=0);
-}
-
 #composeoptionsbox {
 	border-top: 1px solid #999;
 }
@@ -159,5 +151,3 @@ ul.toolbarmenu li a.active:hover,
 	float: left;
 	height: 18px;
 }
-
-
