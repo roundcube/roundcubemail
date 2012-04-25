@@ -550,7 +550,7 @@ function rcube_mail_ui()
 
       for (i in rcmail.env.spell_langs) {
         li = $('<li>');
-        link = $('<a href="#">').text(rcmail.env.spell_langs[i])
+        link = $('<a href="#"></a>').text(rcmail.env.spell_langs[i])
           .addClass('active').data('lang', i)
           .click(function() {
             rcmail.spellcheck_lang_set($(this).data('lang'));
