@@ -1853,8 +1853,11 @@ function rcube_webmail()
       else if (c == 'threads')
         html = expando;
       else if (c == 'subject') {
-        if (bw.ie)
+        if (bw.ie) {
           col.onmouseover = function() { rcube_webmail.long_subject_title_ie(this, message.depth+1); };
+          if (bw.ie8)
+            tree = '<span></span>' + tree; // #1487821
+        }
         html = tree + cols[c];
       }
       else if (c == 'priority') {
