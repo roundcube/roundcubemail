@@ -609,7 +609,6 @@
   position: absolute;
   top: 4px;
   right: 4px;
-  min-width: 25em;
   white-space: nowrap;
   font-size: 11px;
 }
