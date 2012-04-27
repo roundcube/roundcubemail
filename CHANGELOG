@@ -1,7 +1,11 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix redirect to mail/compose on re-login (#1488226)
+- Add IE8 hack for messages list issue (#1487821)
+- Fix handling errors on draft auto-save
 - Fix importing vCard photo with ENCODING param specified (#1488432)
+- Fix issue where draft auto-save wasn't executed after some inactivity time
 - Add vCard import from multiple files at once (#1488015)
 - Roundcube Framework:
     Add possibility to replace IMAP driver with custom class
