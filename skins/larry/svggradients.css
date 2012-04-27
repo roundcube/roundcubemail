@@ -137,14 +137,6 @@ ul.toolbarmenu li a.active:hover,
 	background-image: url(svggradient.php?c=ffffff;e9e9e9);
 }
 
-#full-headers {
-	background-image: url(svggradient.php?c=eaeaea;e9e9e9);
-}
-
-#all-headers {
-	background-image: url(svggradient.php?c=f3f3f3;ffffff);
-}
-
 
 /*** jqueryui theme ***/
 

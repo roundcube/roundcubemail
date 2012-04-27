@@ -129,6 +129,10 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
       // prevent endless looping on login page
       if ($query['_task'] == 'login')
         unset($query['_task']);
+
+      // prevent redirect to compose with specified ID (#1488226)
+      if ($query['_action'] == 'compose' && !empty($query['_id']))
+        $query = array();
     }
 
     // allow plugins to control the redirect url after login success

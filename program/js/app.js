@@ -224,7 +224,7 @@ function rcube_webmail()
 
         this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list', 'forward',
           'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'download',
-          'print', 'load-attachment', 'load-headers', 'forward-attachment'];
+          'print', 'load-attachment', 'show-headers', 'hide-headers', 'forward-attachment'];
 
         if (this.env.action == 'show' || this.env.action == 'preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
@@ -577,10 +577,6 @@ function rcube_webmail()
         }
         else if (this.task == 'addressbook')
           this.list_contacts(props);
-        break;
-
-      case 'load-headers':
-        this.load_headers(obj);
         break;
 
       case 'sort':
@@ -1108,7 +1104,7 @@ function rcube_webmail()
       default:
         var func = command.replace(/-/g, '_');
         if (this[func] && typeof this[func] === 'function') {
-          ret = this[func](props);
+          ret = this[func](props, obj);
         }
         break;
     }
@@ -1856,8 +1852,11 @@ function rcube_webmail()
       else if (c == 'threads')
         html = expando;
       else if (c == 'subject') {
-        if (bw.ie)
+        if (bw.ie) {
           col.onmouseover = function() { rcube_webmail.long_subject_title_ie(this, message.depth+1); };
+          if (bw.ie8)
+            tree = '<span></span>' + tree; // #1487821
+        }
         html = tree + cols[c];
       }
       else if (c == 'priority') {
@@ -5829,14 +5828,14 @@ function rcube_webmail()
   };
 
   // display all-headers row and fetch raw message headers
-  this.load_headers = function(elem)
+  this.show_headers = function(props, elem)
   {
     if (!this.gui_objects.all_headers_row || !this.gui_objects.all_headers_box || !this.env.uid)
       return;
 
     $(elem).removeClass('show-headers').addClass('hide-headers');
     $(this.gui_objects.all_headers_row).show();
-    elem.onclick = function() { rcmail.hide_headers(elem); };
+    elem.onclick = function() { rcmail.command('hide-headers', '', elem); };
 
     // fetch headers only once
     if (!this.gui_objects.all_headers_box.innerHTML) {
@@ -5846,14 +5845,14 @@ function rcube_webmail()
   };
 
   // hide all-headers row
-  this.hide_headers = function(elem)
+  this.hide_headers = function(props, elem)
   {
     if (!this.gui_objects.all_headers_row || !this.gui_objects.all_headers_box)
       return;
 
     $(elem).removeClass('hide-headers').addClass('show-headers');
     $(this.gui_objects.all_headers_row).hide();
-    elem.onclick = function() { rcmail.load_headers(elem); };
+    elem.onclick = function() { rcmail.command('show-headers', '', elem); };
   };
 
 
