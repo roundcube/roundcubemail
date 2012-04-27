@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix redirect to mail/compose on re-login (#1488226)
+- Add IE8 hack for messages list issue (#1487821)
+- Fix handling errors on draft auto-save
 - Fix importing vCard photo with ENCODING param specified (#1488432)
 - Support mutliple name/email pairs for Bcc and Reply-To identity settings (#1488445)
 - Fix parent folder permissions checking on folder creation (#1488443)
