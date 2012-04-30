@@ -43,7 +43,6 @@ class rcube_session
   private $vars = false;
   private $key;
   private $now;
-  private $prev;
   private $secret = '';
   private $ip_check = false;
   private $logging = false;
@@ -519,7 +518,6 @@ class rcube_session
       // valid time range is now - 1/2 lifetime to now + 1/2 lifetime
       $now = time();
       $this->now = $now - ($now % ($this->lifetime / 2));
-      $this->prev = $this->now - ($this->lifetime / 2);
   }
 
   /**
@@ -590,15 +588,22 @@ class rcube_session
       $this->log("IP check failed for " . $this->key . "; expected " . $this->ip . "; got " . $_SERVER['REMOTE_ADDR']);
 
     if ($result && $this->_mkcookie($this->now) != $this->cookie) {
-      // Check if using id from previous time slot
-      if ($this->_mkcookie($this->prev) == $this->cookie) {
-        $this->set_auth_cookie();
+      $this->log("Session auth check failed for " . $this->key . "; timeslot = " . date('Y-m-d H:i:s', $this->now));
+      $result = false;
+
+      // Check if using id from a previous time slot
+      for ($i = 1; $i <= 2; $i++) {
+        $prev = $this->now - ($this->lifetime / 2) * $i;
+        if ($this->_mkcookie($prev) == $this->cookie) {
+          $this->log("Send new auth cookie for " . $this->key . ": " . $this->cookie);
+          $this->set_auth_cookie();
+          $result = true;
+        }
       }
-      else {
-        $result = false;
-        $this->log("Session authentication failed for " . $this->key . "; invalid auth cookie sent");
-      }
-    }
+	}
+
+    if (!$result)
+      $this->log("Session authentication failed for " . $this->key . "; invalid auth cookie sent; timeslot = " . date('Y-m-d H:i:s', $prev));
 
     return $result;
   }
