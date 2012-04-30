@@ -802,7 +802,7 @@ class rcmail
       $this->session->set_keep_alive($keep_alive);
     }
 
-    $this->session->set_secret($this->config->get('des_key') . $_SERVER['HTTP_USER_AGENT']);
+    $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
     $this->session->set_ip_check($this->config->get('ip_check'));
   }
 
