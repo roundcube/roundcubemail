@@ -29,6 +29,7 @@ $messages['storageerror'] = 'Connection to storage server failed.';
 $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
 $messages['dberror'] = 'Database Error!';
+$messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
 $messages['errornoperm'] = 'Unable to perform operation. Permission denied.';
 $messages['invalidrequest'] = 'Invalid request! No data was saved.';

@@ -325,7 +325,7 @@ class rcmail extends rcube
     $this->output->set_charset(RCMAIL_CHARSET);
 
     // add some basic labels to client
-    $this->output->add_label('loading', 'servererror');
+    $this->output->add_label('loading', 'servererror', 'requesttimedout');
 
     return $this->output;
   }
