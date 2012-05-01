@@ -54,9 +54,10 @@ function rcube_webmail()
 
   // set jQuery ajax options
   $.ajaxSetup({
-    cache:false,
-    error:function(request, status, err){ ref.http_error(request, status, err); },
-    beforeSend:function(xmlhttp){ xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token); }
+    cache: false,
+    timeout: this.env.request_timeout * 1000,
+    error: function(request, status, err){ ref.http_error(request, status, err); },
+    beforeSend: function(xmlhttp){ xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token); }
   });
 
   // set environment variable(s)
@@ -954,8 +955,6 @@ function rcube_webmail()
         form.action = this.add_url(form.action, '_lang', lang);
         form.submit();
 
-        // clear timeout (sending could take longer)
-        clearTimeout(this.request_timer);
         break;
 
       case 'send-attachment':
@@ -1157,14 +1156,6 @@ function rcube_webmail()
     if (this.gui_objects.editform)
       this.lock_form(this.gui_objects.editform, a);
 
-    // clear pending timer
-    if (this.request_timer)
-      clearTimeout(this.request_timer);
-
-    // set timer for requests
-    if (a && this.env.request_timeout)
-      this.request_timer = setTimeout(function(){ ref.request_timed_out(); }, this.env.request_timeout * 1000);
-
     return id;
   };
 
@@ -1201,13 +1192,6 @@ function rcube_webmail()
       url = this.env.comm_path;
 
     return url.replace(/_task=[a-z]+/, '_task='+task);
-  };
-
-  // called when a request timed out
-  this.request_timed_out = function()
-  {
-    this.set_busy(false);
-    this.display_message('Request timed out!', 'error');
   };
 
   this.reload = function(delay)
@@ -5974,7 +5958,7 @@ function rcube_webmail()
     return $.ajax({
       type: 'GET', url: url, data: { _unlock:(lock?lock:0) }, dataType: 'json',
       success: function(data){ ref.http_response(data); },
-      error: function(o, status, err) { rcmail.http_error(o, status, err, lock); }
+      error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
   };
 
@@ -6006,7 +5990,7 @@ function rcube_webmail()
     return $.ajax({
       type: 'POST', url: url, data: postdata, dataType: 'json',
       success: function(data){ ref.http_response(data); },
-      error: function(o, status, err) { rcmail.http_error(o, status, err, lock); }
+      error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
   };
 
@@ -6138,7 +6122,7 @@ function rcube_webmail()
   };
 
   // handle HTTP request errors
-  this.http_error = function(request, status, err, lock)
+  this.http_error = function(request, status, err, lock, action)
   {
     var errmsg = request.statusText;
 
@@ -6147,6 +6131,16 @@ function rcube_webmail()
 
     if (request.status && errmsg)
       this.display_message(this.get_label('servererror') + ' (' + errmsg + ')', 'error');
+    else if (status == 'timeout')
+      this.display_message(this.get_label('requesttimedout'), 'error');
+    else if (request.status == 0 && status != 'abort')
+      this.display_message(this.get_label('servererror') + ' (No connection)', 'error');
+
+    // re-send keep-alive requests after 30 seconds
+    if (action == 'keep-alive')
+      setTimeout(function(){ ref.keep_alive(); }, 30000);
+    else if (action == 'check-recent')
+      setTimeout(function(){ ref.check_for_recent(false); }, 30000);
   };
 
   // post the given form to a hidden iframe
