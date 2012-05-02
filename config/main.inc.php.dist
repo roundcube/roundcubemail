@@ -580,16 +580,16 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // the object classes (can include additional fields not required by the object classes).
   'required_fields' => array('cn', 'sn', 'mail'),
   'search_fields'   => array('mail', 'cn'),  // fields to search in
-  // Map of contact sub-objects (attribute name => objectClass(es)), e.g. 'c' => 'country'
-  'sub_fields' => array(),
   // mapping of contact fields to directory attributes
+  //   for every attribute one can specify the number of values (limit) allowed.
+  //   default is 1, a wildcard * means unlimited
   'fieldmap' => array(
-    // Roundcube  => LDAP
+    // Roundcube  => LDAP:limit
     'name'        => 'cn',
     'surname'     => 'sn',
     'firstname'   => 'givenName',
     'title'       => 'title',
-    'email'       => 'mail',
+    'email'       => 'mail:*',
     'phone:home'  => 'homePhone',
     'phone:work'  => 'telephoneNumber',
     'phone:mobile' => 'mobile',
@@ -598,17 +598,20 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'zipcode'     => 'postalCode',
     'region'      => 'st',
     'locality'    => 'l',
-// if you uncomment country, you need to modify 'sub_fields' above
-//    'country'     => 'c',
+    // if you country is a complex object, you need to configure 'sub_fields' below
+    'country'      => 'c',
     'organization' => 'o',
-    'department'  => 'departmentNumber',
-    'notes'       => 'description',
-// these currently don't work:
-//    'phone:workfax' => 'facsimileTelephoneNumber',
-//    'photo'        => 'jpegPhoto',
-//    'manager'      => 'manager',
-//    'assistant'    => 'secretary',
+    'department'   => 'ou',
+    'jobtitle'     => 'title',
+    'notes'        => 'description',
+    // these currently don't work:
+    // 'phone:workfax' => 'facsimileTelephoneNumber',
+    // 'photo'         => 'jpegPhoto',
+    // 'manager'       => 'manager',
+    // 'assistant'     => 'secretary',
   ),
+  // Map of contact sub-objects (attribute name => objectClass(es)), e.g. 'c' => 'country'
+  'sub_fields' => array(),
   'sort'          => 'cn',    // The field to sort the listing by.
   'scope'         => 'sub',   // search mode: sub|base|list
   'filter'        => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
