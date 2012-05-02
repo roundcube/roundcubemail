@@ -144,7 +144,14 @@ class rcube_ldap extends rcube_addressbook
             }
         }
         else if ($this->coltypes['address']) {
-            $this->coltypes['address'] = array('type' => 'textarea', 'childs' => null, 'limit' => 1, 'size' => 40);
+            $this->coltypes['address'] += array('type' => 'textarea', 'childs' => null, 'size' => 40);
+
+            // 'serialized' means the UI has to present a composite address field
+            if ($this->coltypes['address']['serialized']) {
+                $childprop = array('type' => 'text');
+                $this->coltypes['address']['type'] = 'composite';
+                $this->coltypes['address']['childs'] = array('street' => $childprop, 'locality' => $childprop, 'zipcode' => $childprop, 'country' => $childprop);
+            }
         }
 
         // make sure 'required_fields' is an array
