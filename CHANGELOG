@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed multi-threaded autocompletion when number of threads > number of sources
+- Allow to configure the number of values allowed for each LDAP attribute
+- Support for serialized LDAP address values (usually delimited with a $)
+- Less restrictive session auth checks, repeat keep-alive requests on failure (#1488449)
 - Fix redirect to mail/compose on re-login (#1488226)
 - Add IE8 hack for messages list issue (#1487821)
 - Fix handling errors on draft auto-save
