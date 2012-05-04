@@ -3796,7 +3796,7 @@ function rcube_webmail()
 
     for (i=0; i<threads; i++) {
       source = this.ksearch_data.sources.shift();
-      if (threads > 1 && source === null)
+      if (threads > 1 && source === undefined)
         break;
 
       lock = this.display_message(this.get_label('searching'), 'loading');
