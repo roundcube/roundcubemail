@@ -770,6 +770,13 @@ class rcube_output_html extends rcube_output
                         if (preg_match('/Revision:\s(\d+)/', @shell_exec('svn info'), $regs))
                           $ver .= ' [SVN r'.$regs[1].']';
                     }
+                    else if (is_file(INSTALL_PATH . '.git/index')) {
+                        if (preg_match('/Date:\s+([^\n]+)/', @shell_exec('git log -1'), $regs)) {
+                            if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
+                                $ver .= ' [GIT '.$date.']';
+                            }
+                        }
+                    }
                     $content = html::quote($ver);
                 }
                 else if ($object == 'steptitle') {
