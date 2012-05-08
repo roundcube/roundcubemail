@@ -326,13 +326,9 @@ function rcube_mail_ui()
     h = body.parent().height() - 16;
     body.width(w).height(h);
 
-    if (window.tinyMCE && tinyMCE.get('composebody')) {
-      $('#composebody_tbl').width((w+8)+'px').height('').css('margin-top', '1px');
-      $('#composebody_ifr').width((w+8)+'px').height((h-40)+'px');
-    }
-    else {
-      $('#googie_edit_layer').height(h+'px');
-    }
+    $('#composebody_tbl').width((w+8)+'px').height('').css('margin-top', '1px');
+    $('#composebody_ifr').width((w+8)+'px').height((h-40)+'px');
+    $('#googie_edit_layer').height(h+'px');
 
     var abooks = $('#directorylist');
     $('#compose-contacts .scroller').css('top', abooks.position().top + abooks.outerHeight());
