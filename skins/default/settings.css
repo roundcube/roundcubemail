@@ -76,7 +76,7 @@
   right: 0;
   bottom: 0;
   border: 1px solid #999999;
-  overflow: auto;
+  overflow: hidden;
   background-color: #F2F2F2;
 }
 
