@@ -131,7 +131,7 @@ class rcube_ldap extends rcube_addressbook
         if ($this->fieldmap['street'] && $this->fieldmap['locality']) {
             $this->coltypes['address'] = array(
                'limit'    => max(1, $this->coltypes['locality']['limit'] + $this->coltypes['address']['limit']),
-               'subtypes' => array_merge((array)$this->coltypes['address']['subtypes'], $this->coltypes['locality']['subtypes']),
+               'subtypes' => array_merge((array)$this->coltypes['address']['subtypes'], (array)$this->coltypes['locality']['subtypes']),
                'childs' => array(),
                ) + (array)$this->coltypes['address'];
 
