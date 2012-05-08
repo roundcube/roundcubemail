@@ -508,15 +508,10 @@ resize_compose_body: function()
   w -= 8;  // 2 x 3px padding + 2 x 1px border
   h -= 4;
 
+  $('#compose-body_tbl').width((w+6)+'px').height('');
+  $('#compose-body_ifr').width((w+6)+'px').height((h-54)+'px');
   $('#compose-body').width(w+'px').height(h+'px');
-
-  if (window.tinyMCE && tinyMCE.get('compose-body')) {
-    $('#compose-body_tbl').width((w+6)+'px').height('');
-    $('#compose-body_ifr').width((w+6)+'px').height((h-54)+'px');
-  }
-  else {
-    $('#googie_edit_layer').height(h+'px');
-  }
+  $('#googie_edit_layer').height(h+'px');
 },
 
 resize_compose_body_ev: function()
