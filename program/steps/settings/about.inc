@@ -104,7 +104,7 @@ function rcube_plugin_data($name, &$plugins = array())
     foreach ($metadata as $key => $path) {
       $data[$key] = $xpath->evaluate($path);
     }
-console($name);
+
     $plugins[$name] = $data;
 
     // dependent required plugins (can be used, but not included in config)
@@ -113,7 +113,6 @@ console($name);
 
     for ($i=0; $i<$cnt; $i++) {
       $dn = $deps->item($i)->nodeValue;
-console($dn);
       if (!array_key_exists($dn, $plugins)) {
         rcube_plugin_data($dn, $plugins);
       }
