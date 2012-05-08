@@ -2988,7 +2988,7 @@ function rcube_webmail()
       this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
       // add signature according to selected identity
       // if we have HTML editor, signature is added in callback
-      if (input_from.prop('type') == 'select-one' && $("input[name='_draft_saveid']").val() == '') {
+      if (input_from.prop('type') == 'select-one') {
         this.change_identity(input_from[0]);
       }
     }
