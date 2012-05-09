@@ -40,7 +40,7 @@ foreach ($crit_opts as $optname => $optval) {
 }
 
 // application constants
-define('RCMAIL_VERSION', '0.9-svn');
+define('RCMAIL_VERSION', '0.9-git');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('RCMAIL_START', microtime(true));
 
