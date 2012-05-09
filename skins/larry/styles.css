@@ -1280,7 +1280,8 @@ ul.proplist li {
 #quicksearchbar input {
 	width: 176px;
 	margin: 0;
-	padding: 5px 26px 5px 38px;
+	padding: 5px 26px 2px 38px;
+	height: 18px;
 	background: #f1f1f1;
 	border-color: #a3a3a3;
 	font-weight: bold;
@@ -1295,7 +1296,7 @@ ul.proplist li {
 #quicksearchbar #searchreset {
 	position: absolute;
 	top: 4px;
-	right: 3px;
+	right: 1px;
 }
 
 
@@ -1477,7 +1478,14 @@ a.menuselector:active {
 
 a.dropdownselector {
 	position: absolute;
+	padding: 1px 0;
 	z-index: 1;
+}
+
+a.dropdownselector .handle {
+	margin: -1px 0;
+	padding-top: 5px;
+	min-height: 20px;
 }
 
 select.decorated {
@@ -1884,6 +1892,19 @@ ul.toolbarmenu li span.conversation {
 .attachmentslist li.ics,
 .attachmentslist li.calendar {
 	background-position: 0 -364px;
+}
+
+.attachmentslist li.txt,
+.attachmentslist li.text {
+	background-position: 0 -416px;
+}
+
+.attachmentslist li.vcard {
+	background-position: 0 -390px;
+}
+
+.attachmentslist li.html {
+	background-position: 0 -442px;
 }
 
 .attachmentslist li a,
