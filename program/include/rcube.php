@@ -631,7 +631,7 @@ class rcube
         $this->texts = array_merge($this->texts, $messages);
 
       // include user language files
-      if ($lang != 'en' && is_dir(INSTALL_PATH . 'program/localization/' . $lang)) {
+      if ($lang != 'en' && $lang != 'en_US' && is_dir(INSTALL_PATH . 'program/localization/' . $lang)) {
         include_once(INSTALL_PATH . 'program/localization/' . $lang . '/labels.inc');
         include_once(INSTALL_PATH . 'program/localization/' . $lang . '/messages.inc');
 

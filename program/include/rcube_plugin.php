@@ -153,19 +153,47 @@ abstract class rcube_plugin
   public function add_texts($dir, $add2client = false)
   {
     $domain = $this->ID;
-
-    $lang = $_SESSION['language'];
+    $lang   = $_SESSION['language'];
+    $langs  = array_unique(array('en_US', $lang));
     $locdir = slashify(realpath(slashify($this->home) . $dir));
-    $texts = array();
+    $texts  = array();
+
+    // Language aliases used to find localization in similar lang, see below
+    $aliases = array(
+        'de_CH' => 'de_DE',
+        'es_AR' => 'es_ES',
+        'fa_AF' => 'fa_IR',
+        'nl_BE' => 'nl_NL',
+        'pt_BR' => 'pt_PT',
+        'zh_CN' => 'zh_TW',
+    );
 
     // use buffering to handle empty lines/spaces after closing PHP tag
     ob_start();
 
-    foreach (array('en_US', $lang) as $lng) {
+    foreach ($langs as $lng) {
       $fpath = $locdir . $lng . '.inc';
       if (is_file($fpath) && is_readable($fpath)) {
-        include($fpath);
+        include $fpath;
         $texts = (array)$labels + (array)$messages + (array)$texts;
+      }
+      else if ($lng != 'en_US') {
+        // Find localization in similar language (#1488401)
+        $alias = null;
+        if (!empty($aliases[$lng])) {
+          $alias = $aliases[$lng];
+        }
+        else if ($key = array_search($lng, $aliases)) {
+          $alias = $key;
+        }
+
+        if (!empty($alias)) {
+          $fpath = $locdir . $alias . '.inc';
+          if (is_file($fpath) && is_readable($fpath)) {
+            include $fpath;
+            $texts = (array)$labels + (array)$messages + (array)$texts;
+          }
+        }
       }
     }
 
