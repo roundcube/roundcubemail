@@ -5,7 +5,7 @@ Roundcube Webmail
 
 ATTENTION
 ---------
-This is just a snapshot of the current SVN repository and is **NOT A STABLE
+This is just a snapshot from the GIT repository and is **NOT A STABLE
 version of Roundcube**. It's not recommended to replace an existing installation
 of Roundcube with this version. Also using a separate database for this
 installation is highly recommended.
