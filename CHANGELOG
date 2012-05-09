@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use similar language as a fallback for plugin localization (#1488401)
 - Fix issue where signature wasn't re-added on draft compose (#1488322)
 - Update to TinyMCE 3.5 (#1488459)
 - Fixed multi-threaded autocompletion when number of threads > number of sources
