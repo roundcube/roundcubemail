@@ -593,7 +593,12 @@ function rcmail_contact_form($form, $record, $attrib = null)
                         $composite = array(); $j = 0;
                         $template = $RCMAIL->config->get($col . '_template', '{'.join('} {', array_keys($colprop['childs'])).'}');
                         foreach ($colprop['childs'] as $childcol => $cp) {
-                            $childvalue = $val[$childcol] ? $val[$childcol] : $val[$j];
+                            if (!empty($val) && is_array($val)) {
+                                $childvalue = $val[$childcol] ? $val[$childcol] : $val[$j];
+                            }
+                            else {
+                                $childvalue = '';
+                            }
 
                             if ($edit_mode) {
                                 if ($colprop['subtypes'] || $colprop['limit'] != 1) $cp['array'] = true;
