@@ -418,6 +418,24 @@ class rcmail extends rcube
     /* Modify username with domain if required
        Inspired by Marco <P0L0_notspam_binware.org>
     */
+    
+    /**
+     * If username_domain has only one domain, don't
+     * allow users to specify the doamin.
+     * i.e. Google Apps domains connect to the same imap server
+     *
+     * @todo Create a specific configuration parameter for this.
+     */
+     if (!empty($config['username_domain']) && !is_array($config['username_domain']))
+     {
+        $jPos = strpos($username, '@');
+
+        if ($jPos > 1) {
+          $username = substr($username, 0, $jPos);
+        }
+        unset($jPos);
+     }
+    
     // Check if we need to add domain
     if (!empty($config['username_domain']) && strpos($username, '@') === false) {
       if (is_array($config['username_domain']) && isset($config['username_domain'][$host]))
