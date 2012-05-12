@@ -766,7 +766,7 @@ function rcube_webmail()
 
       case 'always-load':
         if (this.env.uid && this.env.sender) {
-          this.add_contact(urlencode(this.env.sender));
+          this.add_contact(this.env.sender);
           setTimeout(function(){ ref.command('load-images'); }, 300);
           break;
         }
@@ -3527,7 +3527,7 @@ function rcube_webmail()
   this.add_contact = function(value)
   {
     if (value)
-      this.http_post('addcontact', '_address='+value);
+      this.http_post('addcontact', {_address: value});
 
     return true;
   };
