@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of "usemap" attribute (#1488472)
 - Fix handling of some HTML tags e.g. IMG (#1488471)
 - Use similar language as a fallback for plugin localization (#1488401)
 - Fix issue where signature wasn't re-added on draft compose (#1488322)
