@@ -653,23 +653,29 @@ class rcube_message
 
         $parts = array();
         // FIXME: line length is max.65?
-        $uu_regexp = '/begin [0-7]{3,4} ([^\n]+)\n(([\x21-\x7E]{0,65}\n)+)`\nend/s';
+        $uu_regexp = '/begin [0-7]{3,4} ([^\n]+)\n/s';
 
         if (preg_match_all($uu_regexp, $part->body, $matches, PREG_SET_ORDER)) {
-            // remove attachments bodies from the message body
-            $part->body = preg_replace($uu_regexp, '', $part->body);
             // update message content-type
             $part->ctype_primary   = 'multipart';
             $part->ctype_secondary = 'mixed';
             $part->mimetype        = $part->ctype_primary . '/' . $part->ctype_secondary;
+            $uu_endstring = "`\nend\n";
 
             // add attachments to the structure
             foreach ($matches as $pid => $att) {
+                $startpos = strpos($part->body, $att[1]) + strlen($att[1]) + 1; // "\n"
+                $endpos = strpos($part->body, $uu_endstring);
+                $filebody = substr($part->body, $startpos, $endpos-$startpos);
+
+                // remove attachments bodies from the message body
+                $part->body = substr_replace($part->body, "", $startpos, $endpos+strlen($uu_endstring)-$startpos);
+
                 $uupart = new rcube_message_part;
 
                 $uupart->filename = trim($att[1]);
                 $uupart->encoding = 'stream';
-                $uupart->body     = convert_uudecode($att[2]);
+                $uupart->body     = convert_uudecode($filebody);
                 $uupart->size     = strlen($uupart->body);
                 $uupart->mime_id  = 'uu.' . $part->mime_id . '.' . $pid;
 
@@ -680,6 +686,9 @@ class rcube_message
                 $parts[] = $uupart;
                 unset($matches[$pid]);
             }
+
+            // remove attachments bodies from the message body
+            $part->body = preg_replace($uu_regexp, '', $part->body);
         }
 
         return $parts;
