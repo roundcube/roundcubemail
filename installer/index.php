@@ -90,7 +90,7 @@ if ($RCI->configured && ($RCI->getprop('enable_installer') || $_SESSION['allowin
 }
 
 // go to 'check env' step if we have a local configuration
-if ($RCI->configured && empty($_REQUEST['_step'])) {
+if (!$RCI->configured && empty($_REQUEST['_step'])) {
   header("Location: ./?_step=1");
   exit;
 }
@@ -130,14 +130,14 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
     echo '</div></body></html>';
     exit;
   }
-  
+
 ?>
 
 <h1>Roundcube Webmail Installer</h1>
 
 <ol id="progress">
 <?php
-  
+
   foreach (array('Check environment', 'Create config', 'Test config') as $i => $item) {
     $j = $i + 1;
     $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="./index.php?_step='.$j.'">' . Q($item) . '</a>' : Q($item);
