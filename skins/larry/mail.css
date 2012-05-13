@@ -737,11 +737,11 @@ h3.subject {
 div.more-headers {
 	cursor: pointer;
 	height: 10px;
-	background: url(images/buttons.png) center -1579px no-repeat;
+	background: url(images/buttons.png) center -1619px no-repeat;
 }
 
 div.hide-headers {
-	background-position: center -1589px;
+	background-position: center -1629px;
 }
 
 #all-headers {
@@ -1114,12 +1114,12 @@ div.message-part blockquote blockquote blockquote {
 	left: 6px;
 	width: 20px;
 	height: 18px;
-	background: url(images/buttons.png) -3px -458px no-repeat;
+	background: url(images/buttons.png) -3px -1640px no-repeat;
 	text-decoration: none;
 }
 
 #composeoptionstoggle.enabled {
-	background-position: -28px -458px;
+	background-position: -28px -1640px;
 }
 
 #composeview-bottom {
