@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -93,7 +93,7 @@ $labels['flagdeleted'] = 'Usunięta';
 $labels['flaganswered'] = 'Z odpowiedzią';
 $labels['flagflagged'] = 'Oflagowana';
 $labels['flagdraft'] = 'Szkic';
-$labels['filtercreate'] = 'Utwóż filtr';
+$labels['filtercreate'] = 'Utwórz filtr';
 $labels['usedata'] = 'Użyj następujących danych do utworzenia filtra:';
 $labels['nextstep'] = 'Następny krok';
 $labels['...'] = '...';

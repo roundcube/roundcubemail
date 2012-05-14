@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: JorSol <Unknown>                                              |
+ | Author: Marcelo Magaña Silva <magasil7@gmail.com>                    |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -100,6 +100,22 @@ $labels['...'] = '...';
 $labels['advancedopts'] = 'Opciones avanzadas';
 $labels['body'] = 'Cuerpo del mensaje';
 $labels['address'] = 'dirección';
+$labels['envelope'] = 'envoltura';
+$labels['modifier'] = 'modificador:';
+$labels['text'] = 'texto';
+$labels['undecoded'] = 'decodificar (en bruto)';
+$labels['contenttype'] = 'tipo de contenido';
+$labels['modtype'] = 'tipo:';
+$labels['allparts'] = 'todo';
+$labels['domain'] = 'dominio';
+$labels['localpart'] = 'parte local';
+$labels['user'] = 'usuario';
+$labels['detail'] = 'detalle';
+$labels['comparator'] = 'comparador:';
+$labels['default'] = 'predeterminado';
+$labels['octet'] = 'estricto (octeto)';
+$labels['asciicasemap'] = 'no sensible a mayúsculas (ascii-casemap)';
+$labels['asciinumeric'] = 'numerico (ascii-numeric)';
 $labels['filterunknownerror'] = 'Error desconocido de servidor';
 $labels['filterconnerror'] = 'Imposible conectar con el servidor managesieve';
 $labels['filterdeleteerror'] = 'Imposible borrar filtro. Ha ocurrido un error en el servidor';
@@ -111,6 +127,7 @@ $labels['ruledeleteconfirm'] = '¿Está seguro de que desea borrar la regla sele
 $labels['actiondeleteconfirm'] = '¿Está seguro de que desea borrar la acción seleccionada?';
 $labels['forbiddenchars'] = 'Caracteres prohibidos en el campo';
 $labels['cannotbeempty'] = 'El campo no puede estar vacío';
+$labels['ruleexist'] = 'Ya existe un filtro con el nombre especificado.';
 $labels['setactivateerror'] = 'Imposible activar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor';
 $labels['setdeactivateerror'] = 'Imposible desactivar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor';
 $labels['setdeleteerror'] = 'Imposible borrar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor';
@@ -120,5 +137,14 @@ $labels['setdeleted'] = 'Conjunto de filtros borrado satisfactoriamente';
 $labels['setdeleteconfirm'] = '¿Está seguro de que desea borrar el conjunto de filtros seleccionado?';
 $labels['setcreateerror'] = 'Imposible crear el conjunto de filtros. Ha ocurrido un error en el servidor';
 $labels['setcreated'] = 'Conjunto de filtros creado satisfactoriamente';
+$labels['activateerror'] = 'No se ha podido habilitar el filtro(s) seleccionado. Se ha producido un error de servidor.';
+$labels['deactivateerror'] = 'No se ha podido deshabilitar el filtro(s) seleccionado. Se ha producido un error de servidor.';
+$labels['activated'] = 'Filtro(s) deshabilitado(s) correctamente.';
+$labels['deactivated'] = 'Filtro(s) habilitado(s) correctamente.';
+$labels['moved'] = 'Filtro movido correctamente';
+$labels['moveerror'] = 'No se ha podido mover el filtro seleccionado. Ha ocurrido un error de servidor.';
 $labels['nametoolong'] = 'Imposible crear el conjunto de filtros. Nombre demasiado largo';
+$labels['namereserved'] = 'Nombre reservado.';
+$labels['setexist'] = 'El conjunto ya existe.';
+$labels['nodata'] = '¡Al menos una posicion debe ser seleccionada!';
 

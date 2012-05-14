@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: ghas <Unknown>                                                |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -53,6 +53,7 @@ $labels['vacationaddresses'] = 'Lista de enderezos de correo de destinatarios ad
 $labels['vacationdays'] = 'Cada canto enviar mensaxes (en días):';
 $labels['vacationreason'] = 'Corpo da mensaxe (razón de vacacións):';
 $labels['rulestop'] = 'Parar de avaliar regras';
+$labels['enable'] = 'Activar/Desactivar';
 $labels['filterset'] = 'Conxunto de filtros';
 $labels['filtersetadd'] = 'Engadir un conxunto de filtros';
 $labels['filtersetdel'] = 'Eliminar o conxunto de filtros actual';

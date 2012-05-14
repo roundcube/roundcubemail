@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: michael.cho <Unknown>                                         |
+ | Author: Christopher Meng <cickumqt@gmail.com>                         |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -137,4 +137,8 @@ $labels['setdeleted'] = '过滤器成功删除。';
 $labels['setdeleteconfirm'] = '你确定要删除指定过滤器？';
 $labels['setcreateerror'] = '无法创建过滤器，服务器错误。';
 $labels['setcreated'] = '过滤器成功创建。';
+$labels['activated'] = '禁用过滤器成功。';
+$labels['deactivated'] = '启用过滤器成功。';
+$labels['moved'] = '过滤器移动成功。';
+$labels['moveerror'] = '无法移动选中的过滤器，因为服务器发生错误。';
 
