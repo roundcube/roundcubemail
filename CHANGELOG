@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix listing shared folders on Courier IMAP (#1488466)
+
+RELEASE 0.8-rc
+--------------
 - Added new translations in Belarusian, Interlingua and Malayalam
 - Flipped compose options arrow (#1488474)
 - Fix handling of large uuencode attachments (#1488473)
