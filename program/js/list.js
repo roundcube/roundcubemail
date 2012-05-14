@@ -252,7 +252,7 @@ blur: function()
   for (n in this.selection) {
     id = this.selection[n];
     if (this.rows[id] && this.rows[id].obj) {
-      $(this.rows[id].obj).removeClass('selected').addClass('unfocused');
+      $(this.rows[id].obj).removeClass('selected focused').addClass('unfocused');
     }
   }
 },
@@ -611,7 +611,7 @@ get_first_row: function()
 
     for (i=0, len=rows.length-1; i<len; i++)
       if (rows[i].id && String(rows[i].id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
-	    return RegExp.$1;
+        return RegExp.$1;
   }
 
   return null;
