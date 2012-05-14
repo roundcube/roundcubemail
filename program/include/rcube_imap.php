@@ -2468,7 +2468,16 @@ class rcube_imap extends rcube_storage
             return $a_mboxes;
         }
 
-        $a_mboxes = $this->_list_folders_subscribed($root, $name, $filter, $rights);
+        // Give plugins a chance to provide a list of folders
+        $data = rcube::get_instance()->plugins->exec_hook('storage_folders',
+            array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LSUB'));
+
+        if (isset($data['folders'])) {
+            $a_mboxes = $data['folders'];
+        }
+        else {
+            $a_mboxes = $this->list_folders_subscribed_direct($root, $name);
+        }
 
         if (!is_array($a_mboxes)) {
             return array();
@@ -2497,68 +2506,57 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * protected method for folders listing (LSUB)
+     * Method for direct folders listing (LSUB)
      *
      * @param   string  $root   Optional root folder
      * @param   string  $name   Optional name pattern
-     * @param   mixed   $filter Optional filter
-     * @param   string  $rights Optional ACL requirements
      *
      * @return  array   List of subscribed folders
      * @see     rcube_imap::list_folders_subscribed()
      */
-    protected function _list_folders_subscribed($root='', $name='*', $filter=null, $rights=null)
+    public function list_folders_subscribed_direct($root='', $name='*')
     {
-        $a_defaults = $a_out = array();
-
-        // Give plugins a chance to provide a list of folders
-        $data = rcube::get_instance()->plugins->exec_hook('storage_folders',
-            array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LSUB'));
-
-        if (isset($data['folders'])) {
-            $a_folders = $data['folders'];
-        }
-        else if (!$this->check_connection()) {
+        if (!$this->check_connection()) {
            return null;
         }
-        else {
-            // Server supports LIST-EXTENDED, we can use selection options
-            $config = rcube::get_instance()->config;
-            // #1486225: Some dovecot versions returns wrong result using LIST-EXTENDED
-            if (!$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED')) {
-                // This will also set folder options, LSUB doesn't do that
-                $a_folders = $this->conn->listMailboxes($root, $name,
-                    NULL, array('SUBSCRIBED'));
 
-                // unsubscribe non-existent folders, remove from the list
-                // we can do this only when LIST response is available
-                if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
-                    foreach ($a_folders as $idx => $folder) {
-                        if (($opts = $this->conn->data['LIST'][$folder])
-                            && in_array('\\NonExistent', $opts)
-                        ) {
-                            $this->conn->unsubscribe($folder);
-                            unset($a_folders[$idx]);
-                        }
+        $config = rcube::get_instance()->config;
+
+        // Server supports LIST-EXTENDED, we can use selection options
+        // #1486225: Some dovecot versions returns wrong result using LIST-EXTENDED
+        if (!$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED')) {
+            // This will also set folder options, LSUB doesn't do that
+            $a_folders = $this->conn->listMailboxes($root, $name,
+                NULL, array('SUBSCRIBED'));
+
+            // unsubscribe non-existent folders, remove from the list
+            // we can do this only when LIST response is available
+            if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
+                foreach ($a_folders as $idx => $folder) {
+                    if (($opts = $this->conn->data['LIST'][$folder])
+                        && in_array('\\NonExistent', $opts)
+                    ) {
+                        $this->conn->unsubscribe($folder);
+                        unset($a_folders[$idx]);
                     }
                 }
             }
-            // retrieve list of folders from IMAP server using LSUB
-            else {
-                $a_folders = $this->conn->listSubscribed($root, $name);
+        }
+        // retrieve list of folders from IMAP server using LSUB
+        else {
+            $a_folders = $this->conn->listSubscribed($root, $name);
 
-                // unsubscribe non-existent folders, remove them from the list,
-                // we can do this only when LIST response is available
-                if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
-                    foreach ($a_folders as $idx => $folder) {
-                        if (!isset($this->conn->data['LIST'][$folder])
-                            || in_array('\\Noselect', $this->conn->data['LIST'][$folder])
-                        ) {
-                            // Some servers returns \Noselect for existing folders
-                            if (!$this->folder_exists($folder)) {
-                                $this->conn->unsubscribe($folder);
-                                unset($a_folders[$idx]);
-                            }
+            // unsubscribe non-existent folders, remove them from the list,
+            // we can do this only when LIST response is available
+            if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
+                foreach ($a_folders as $idx => $folder) {
+                    if (!isset($this->conn->data['LIST'][$folder])
+                        || in_array('\\Noselect', $this->conn->data['LIST'][$folder])
+                    ) {
+                        // Some servers returns \Noselect for existing folders
+                        if (!$this->folder_exists($folder)) {
+                            $this->conn->unsubscribe($folder);
+                            unset($a_folders[$idx]);
                         }
                     }
                 }
@@ -2608,7 +2606,7 @@ class rcube_imap extends rcube_storage
         }
         else {
             // retrieve list of folders from IMAP server
-            $a_mboxes = $this->_list_folders($root, $name);
+            $a_mboxes = $this->list_folders_direct($root, $name);
         }
 
         if (!is_array($a_mboxes)) {
@@ -2643,7 +2641,7 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * protected method for folders listing (LIST)
+     * Method for direct folders listing (LIST)
      *
      * @param   string  $root   Optional root folder
      * @param   string  $name   Optional name pattern
@@ -2651,7 +2649,7 @@ class rcube_imap extends rcube_storage
      * @return  array   List of folders
      * @see     rcube_imap::list_folders()
      */
-    protected function _list_folders($root='', $name='*')
+    public function list_folders_direct($root='', $name='*')
     {
         if (!$this->check_connection()) {
             return null;
@@ -2919,7 +2917,7 @@ class rcube_imap extends rcube_storage
                 if (strpos($c_mbox, $folder.$delm) === 0) {
                     $this->conn->unsubscribe($c_mbox);
                     if ($this->conn->deleteFolder($c_mbox)) {
-	                    $this->clear_message_cache($c_mbox);
+                        $this->clear_message_cache($c_mbox);
                     }
                 }
             }
