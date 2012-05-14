@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Asier Iturralde Sarasola <Unknown>                            |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -110,8 +110,8 @@ $labels['markflagged'] = 'Markatua bezala';
 $labels['markunflagged'] = 'Ez-markatua bezala';
 $labels['select'] = 'Hautatu';
 $labels['all'] = 'Denak';
-$labels['none'] = 'Batez';
-$labels['nonesort'] = 'Batez';
+$labels['none'] = 'Bat ere ez';
+$labels['nonesort'] = 'Bat ere ez';
 $labels['unread'] = 'Irakurri gabeak';
 $labels['compact'] = 'Trinkotu';
 $labels['empty'] = 'Hustu';

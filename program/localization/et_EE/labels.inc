@@ -392,6 +392,7 @@ $labels['spellcheckignoresyms'] = 'Ignoreeri sõnu, milles on sümbolid';
 $labels['spellcheckignorenums'] = 'Ignoreeri sõnu, milles on numbreid';
 $labels['spellcheckignorecaps'] = 'Ignoreeri suurte tähtedega kirjutatud sõnu';
 $labels['addtodict'] = 'Lisa sõnastikku';
+$labels['mailtoprotohandler'] = 'Kasuta mailto: linkide avamisel';
 $labels['folder'] = 'Kaust';
 $labels['foldername'] = 'Kausta nimi';
 $labels['subscribed'] = 'Näitan';

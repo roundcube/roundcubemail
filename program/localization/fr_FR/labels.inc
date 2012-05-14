@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nicolas Delvaux <Unknown>                                     |
+ | Author: Nicolas DERIVE <kalon33@ubuntu.com>                           |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Taille';
 $labels['priority'] = 'Priorité';
 $labels['organization'] = 'Organisation';
 $labels['readstatus'] = 'Statut de lecture';
+$labels['listoptions'] = 'Lister les options...';
 $labels['mailboxlist'] = 'Dossiers';
 $labels['folders'] = 'Dossiers';
 $labels['messagesfromto'] = 'Messages de $from à $to sur $count';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Supprimer';
 $labels['rename'] = 'Renommer';
 $labels['addphoto'] = 'Ajouter';
 $labels['replacephoto'] = 'Remplacer';
+$labels['uploadphoto'] = 'Envoyer une photo';
 $labels['newcontact'] = 'Créer un nouveau contact';
 $labels['deletecontact'] = 'Supprimer les contacts sélectionnés';
 $labels['composeto'] = 'Écrire un message à';
@@ -363,6 +365,7 @@ $labels['checkallfolders'] = 'Vérifier tous les dossiers pour les nouveaux mess
 $labels['displaynext'] = 'Après suppression/déplacement du message, afficher le message suivant';
 $labels['defaultfont'] = 'Police par défaut des messages en HTML';
 $labels['mainoptions'] = 'Options principales';
+$labels['browseroptions'] = 'Options du navigateur';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'Nouveau Message';
@@ -391,6 +394,7 @@ $labels['spellcheckignoresyms'] = 'Ignorer les mots avec des symboles';
 $labels['spellcheckignorenums'] = 'Ignorer les mots avec des nombres';
 $labels['spellcheckignorecaps'] = 'Ignorer les mots entièrement en majuscule';
 $labels['addtodict'] = 'Ajouter au dictionnaire';
+$labels['mailtoprotohandler'] = 'Enregistrer le gestionnaire de protocole pour les liens mailto:';
 $labels['folder'] = 'Dossier';
 $labels['foldername'] = 'Nom du dossier';
 $labels['subscribed'] = 'Abonné';

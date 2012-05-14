@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Iorga Vladut Mihai <iorga.vladutz@cucap.ro>                   |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'A avut loc o EROARE!';
 $messages['loginfailed'] = 'Autentificare eşuată';
 $messages['cookiesdisabled'] = 'Browserul dumneavoastră nu acceptă cookies';
 $messages['sessionerror'] = 'Sesiunea dumneavoastră este invalidă sau a expirat';

@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Moshe Leibovitch <moish@mln.co.il>                            |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'קרתה שגיאה !';
 $messages['loginfailed'] = 'הכניסה נכשלה';
 $messages['cookiesdisabled'] = 'הדפדפן אינו מקבל עוגיות';
 $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או שפג תוקפה';

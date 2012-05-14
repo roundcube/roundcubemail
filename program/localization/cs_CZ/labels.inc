@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomáš Kyzlink <Unknown>                                     |
+ | Author: AIKEN <lukas@aiken.cz>                                        |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Velikost';
 $labels['priority'] = 'Priorita';
 $labels['organization'] = 'Organizace';
 $labels['readstatus'] = 'Přečteno';
+$labels['listoptions'] = 'Seznam  možností ...';
 $labels['mailboxlist'] = 'Složky';
 $labels['folders'] = 'Složky';
 $labels['messagesfromto'] = 'Zprávy $from až $to z celkem $count';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Smazat';
 $labels['rename'] = 'Přejmenovat';
 $labels['addphoto'] = 'Přidat';
 $labels['replacephoto'] = 'Změnit';
+$labels['uploadphoto'] = 'Nahrát fotku';
 $labels['newcontact'] = 'Vytvořit nový kontakt';
 $labels['deletecontact'] = 'Smazat vybrané kontakty';
 $labels['composeto'] = 'Poslat e-mail';
@@ -282,6 +284,7 @@ $labels['exportvcards'] = 'Exportovat kontakty ve formátu vCard';
 $labels['newcontactgroup'] = 'Vytvořit novou skupinu kontaktů';
 $labels['grouprename'] = 'Přejmenovat skupinu';
 $labels['groupdelete'] = 'Smazat skupinu';
+$labels['groupremoveselected'] = 'Odstranit označené kontakty ze skupiny';
 $labels['previouspage'] = 'Předchozí';
 $labels['firstpage'] = 'Zobrazit první zprávy';
 $labels['nextpage'] = 'Další';
@@ -341,6 +344,7 @@ $labels['readwhendeleted'] = 'Při odstranění označit zprávu jako přečteno
 $labels['flagfordeletion'] = 'Zprávu nemazat, pouze označit pro odstranění';
 $labels['skipdeleted'] = 'Nezobrazovat smazané zprávy';
 $labels['deletealways'] = 'Odstranit zprávy, pokud selže jejich přesun do koše';
+$labels['deletejunk'] = 'Přímo mazat zprávy ze složky Nevyžádaná pošta';
 $labels['showremoteimages'] = 'Zobrazovat obrázky uložené mimo mail';
 $labels['fromknownsenders'] = 'od známých uživatelů';
 $labels['always'] = 'vždy';
@@ -363,6 +367,7 @@ $labels['checkallfolders'] = 'Kontrolovat nové zprávy ve všech složkách';
 $labels['displaynext'] = 'Zobrazit další zprávu po smazání/přesunu zprávy';
 $labels['defaultfont'] = 'Výchozí písmo zprávy HTML';
 $labels['mainoptions'] = 'Hlavní nastavení';
+$labels['browseroptions'] = 'Možnosti prohlížeče';
 $labels['section'] = 'Sekce';
 $labels['maintenance'] = 'Údržba';
 $labels['newmessage'] = 'Nová zpráva';
@@ -392,6 +397,7 @@ $labels['spellcheckignoresyms'] = 'Ignorovat slova obsahující symboly';
 $labels['spellcheckignorenums'] = 'Ignorovat slova obsahující čísla';
 $labels['spellcheckignorecaps'] = 'Ignorovat slova psaná velkými písmeny';
 $labels['addtodict'] = 'Přidat do slovníku';
+$labels['mailtoprotohandler'] = 'Zaregistrovat handler pro odkazy „mailto:“';
 $labels['folder'] = 'Složka';
 $labels['foldername'] = 'Jméno složky';
 $labels['subscribed'] = 'Vybráno';

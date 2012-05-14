@@ -15,6 +15,7 @@
 */
 
 $messages = array();
+$messages['errortitle'] = 'エラーが発生しました!';
 $messages['loginfailed'] = 'ログインできませんでした。';
 $messages['cookiesdisabled'] = 'ブラウザーがCookieを受け付けません。';
 $messages['sessionerror'] = 'セッションが正しくないか期限が切れています。';

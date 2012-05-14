@@ -15,6 +15,7 @@
 */
 
 $messages = array();
+$messages['errortitle'] = 'Er is een fout opgetreden!';
 $messages['loginfailed'] = 'Inloggen mislukt.';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies.';
 $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig.';

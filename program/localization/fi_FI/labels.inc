@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Samu Juvonen <Unknown>                                        |
+ | Author: Jiri Grönroos <Unknown>                                      |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -283,6 +283,7 @@ $labels['exportvcards'] = 'Vie yhteystiedot vCard-muodossa';
 $labels['newcontactgroup'] = 'Luo uusi yhteystietoryhmä';
 $labels['grouprename'] = 'Nimeä ryhmä uudelleen';
 $labels['groupdelete'] = 'Poista ryhmä';
+$labels['groupremoveselected'] = 'Poista valitut yhteystiedot ryhmästä';
 $labels['previouspage'] = 'Näytä edellinen luettelo';
 $labels['firstpage'] = 'Näytä ensimmäinen luettelo';
 $labels['nextpage'] = 'Näytä seuraava luettelo';
@@ -342,6 +343,7 @@ $labels['readwhendeleted'] = 'Merkitse poistettavat viestit luetuiksi';
 $labels['flagfordeletion'] = 'Poistamisen sijaan merkitse viestit poistettavaksi';
 $labels['skipdeleted'] = 'Älä näytä poistettuja viestejä';
 $labels['deletealways'] = 'Poista viestit, joiden siirtäminen roskakoriin epäonnistuu';
+$labels['deletejunk'] = 'Poista roskapostiviestit suoraan';
 $labels['showremoteimages'] = 'Näytä ulkopuoliset kuvat viestissä';
 $labels['fromknownsenders'] = 'tunnetuilta lähettäjiltä';
 $labels['always'] = 'aina';

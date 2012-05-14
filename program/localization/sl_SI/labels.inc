@@ -1,17 +1,17 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| localization/sl_SI/labels.inc                                         |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2012, The Roundcube Dev Team                            |
-| Licensed under the GNU General Public License                         |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Barbara Krasovec                                              |
-+-----------------------------------------------------------------------+
-@version $Id$
+ +-----------------------------------------------------------------------+
+ | localization/sl_SI/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas <Unknown>                                              |
+ +-----------------------------------------------------------------------+
+ @version $Id$
 */
 
 $labels = array();
@@ -43,6 +43,7 @@ $labels['organization'] = 'Organizacija';
 $labels['readstatus'] = 'Status';
 $labels['listoptions'] = 'Možnosti prikaza...';
 $labels['mailboxlist'] = 'Mape';
+$labels['folders'] = 'Mape';
 $labels['messagesfromto'] = 'Sporočila $from do $to od $count';
 $labels['threadsfromto'] = 'Nit $from do $to od $count';
 $labels['messagenrof'] = 'Sporočilo $nr od $count';
@@ -73,6 +74,7 @@ $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Apr';
 $labels['may'] = 'Maj';
+$labels['longmay'] = 'Maj';
 $labels['jun'] = 'Jun';
 $labels['jul'] = 'Jul';
 $labels['aug'] = 'Avg';
@@ -84,7 +86,6 @@ $labels['longjan'] = 'Januar';
 $labels['longfeb'] = 'Februar';
 $labels['longmar'] = 'Marec';
 $labels['longapr'] = 'April';
-$labels['longmay'] = 'Maj';
 $labels['longjun'] = 'Junij';
 $labels['longjul'] = 'Julij';
 $labels['longaug'] = 'Avgust';
@@ -128,6 +129,7 @@ $labels['options'] = 'Možnosti';
 $labels['select'] = 'Izberi';
 $labels['all'] = 'Vse';
 $labels['none'] = 'Brez';
+$labels['nonesort'] = 'Brez';
 $labels['currpage'] = 'Trenutna stran';
 $labels['unread'] = 'Neprebrano';
 $labels['flagged'] = 'Označeno';
@@ -147,7 +149,6 @@ $labels['expand_only_unread'] = 'samo niti z neprebranimi sporočili';
 $labels['fromto'] = 'Pošiljatelj/Prejemnik';
 $labels['flag'] = 'Oznaka';
 $labels['attachment'] = 'Priponka';
-$labels['nonesort'] = 'Brez';
 $labels['sentdate'] = 'Datum pošiljanja';
 $labels['arrival'] = 'Datum prejema';
 $labels['asc'] = 'naraščajoče';
@@ -239,15 +240,16 @@ $labels['male'] = 'moški';
 $labels['female'] = 'ženska';
 $labels['manager'] = 'Vodja';
 $labels['assistant'] = 'Pomoč';
+$labels['typeassistant'] = 'Pomoč';
 $labels['spouse'] = 'Zakonec';
 $labels['allfields'] = 'Vsa polja';
 $labels['search'] = 'Iskanje';
 $labels['advsearch'] = 'Napredno iskanje';
 $labels['advanced'] = 'Napredno';
 $labels['other'] = 'Ostalo';
+$labels['typeother'] = 'Ostalo';
 $labels['typehome'] = 'Doma';
 $labels['typework'] = 'Služba';
-$labels['typeother'] = 'Ostalo';
 $labels['typemobile'] = 'Mobilni telefon';
 $labels['typemain'] = 'Osnovno';
 $labels['typehomefax'] = 'Domači fax';
@@ -255,7 +257,6 @@ $labels['typeworkfax'] = 'Službeni fax';
 $labels['typecar'] = 'Avto';
 $labels['typepager'] = 'Pozivnik';
 $labels['typevideo'] = 'Video';
-$labels['typeassistant'] = 'Pomoč';
 $labels['typehomepage'] = 'Domača stran';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profil';
@@ -396,7 +397,6 @@ $labels['spellcheckignorecaps'] = 'Ne upoštevaj besed, ki vsebujejo samo velike
 $labels['addtodict'] = 'Dodaj v slovar';
 $labels['mailtoprotohandler'] = 'Registriraj upravljavca protokola za e-naslov: povezave';
 $labels['folder'] = 'Mapa';
-$labels['folders'] = 'Mape';
 $labels['foldername'] = 'Ime mape';
 $labels['subscribed'] = 'Vpisan';
 $labels['messagecount'] = 'Sporočila';
@@ -447,4 +447,3 @@ $labels['japanese'] = 'Japonsko';
 $labels['korean'] = 'Korejsko';
 $labels['chinese'] = 'Kitajsko';
 
-?>

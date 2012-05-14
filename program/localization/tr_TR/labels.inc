@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Gökdeniz Karadağ <Unknown>                                  |
+ | Author: bedo <bedreddinsahbaz@gmail.com>                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Boyut';
 $labels['priority'] = 'Öncelik';
 $labels['organization'] = 'Kuruluş';
 $labels['readstatus'] = 'Okundu durumu';
+$labels['listoptions'] = 'Seçenekleri listele...';
 $labels['mailboxlist'] = 'Klasörler';
 $labels['folders'] = 'Klasörler';
 $labels['messagesfromto'] = 'Postalar: $from - $to , Toplam: $count';
@@ -72,8 +73,8 @@ $labels['jan'] = 'Oca';
 $labels['feb'] = 'Şub';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Nis';
-$labels['may'] = 'Mayıs';
-$labels['longmay'] = 'Mayıs';
+$labels['may'] = 'May';
+$labels['longmay'] = 'May';
 $labels['jun'] = 'Haz';
 $labels['jul'] = 'Tem';
 $labels['aug'] = 'Ağu';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Sil';
 $labels['rename'] = 'Yeniden adlandır';
 $labels['addphoto'] = 'Ekle';
 $labels['replacephoto'] = 'Değiştir';
+$labels['uploadphoto'] = 'Fotoğraf yükle';
 $labels['newcontact'] = 'Yeni adres kartı ekle';
 $labels['deletecontact'] = 'Seçili kişileri sil';
 $labels['composeto'] = 'Seçili kişiye posta gönder';
@@ -363,6 +365,7 @@ $labels['checkallfolders'] = 'Tüm klasörlerdeki yeni postaları denetle';
 $labels['displaynext'] = 'Posta silindikten/taşındıktan sonra sıradaki postayı göster';
 $labels['defaultfont'] = 'HTML postalar için varsayılan yazı tipi';
 $labels['mainoptions'] = 'Ana Seçenekler';
+$labels['browseroptions'] = 'Tarayıcı Seçenekleri';
 $labels['section'] = 'Bölüm';
 $labels['maintenance'] = 'Bakım';
 $labels['newmessage'] = 'Yeni Posta';
@@ -392,6 +395,7 @@ $labels['spellcheckignoresyms'] = 'İçinde sembol geçen kelimleri göz ardı e
 $labels['spellcheckignorenums'] = 'İçinde rakam geçen kelimleri göz ardı et';
 $labels['spellcheckignorecaps'] = 'Tümü büyük harf olan kelimleri göz ardı et';
 $labels['addtodict'] = 'Sözlüğe ekle';
+$labels['mailtoprotohandler'] = 'mailto: bağlantıları için protokol işleyici kayıt et';
 $labels['folder'] = 'Klasör';
 $labels['foldername'] = 'Klasör ismi';
 $labels['subscribed'] = 'Abonelik';

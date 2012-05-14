@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Marcelino Aranda <marars@gmail.com>                           |
+ | Author: David Marzal <Unknown>                                        |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = '¡Ha ocurrido un error!';
 $messages['loginfailed'] = 'Contraseña o nombre de usuario incorrecto';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies';
 $messages['sessionerror'] = 'Su sesión no es válida o ha expirado';

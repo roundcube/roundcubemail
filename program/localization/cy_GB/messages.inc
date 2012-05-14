@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Dafydd Tomos <Unknown>                                        |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Fe gafwyd gwall!';
 $messages['loginfailed'] = 'Methwyd a\'ch mewngofnodi';
 $messages['cookiesdisabled'] = 'Nid yw eich porwr yn derbyn cwcis';
 $messages['sessionerror'] = 'Mae\'r sesiwn yn anghywir neu wedi dod i ben';
