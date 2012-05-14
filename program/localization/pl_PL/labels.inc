@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: pp/bs <Unknown>                                               |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Rozmiar';
 $labels['priority'] = 'Priorytet';
 $labels['organization'] = 'Organizacja';
 $labels['readstatus'] = 'Przeczytano';
+$labels['listoptions'] = 'Opcje listy...';
 $labels['mailboxlist'] = 'Foldery';
 $labels['folders'] = 'Foldery';
 $labels['messagesfromto'] = 'Wiadomości od $from do $to z $count';
@@ -185,7 +186,7 @@ $labels['resumeediting'] = 'Zakończ sprawdzanie pisowni';
 $labels['revertto'] = 'Powróć do';
 $labels['attach'] = 'Załącz';
 $labels['attachments'] = 'Załączniki';
-$labels['upload'] = 'Wyślij';
+$labels['upload'] = 'Prześlij';
 $labels['uploadprogress'] = '$percent ($current z $total)';
 $labels['close'] = 'Zamknij';
 $labels['messageoptions'] = 'Opcje wiadomości...';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Usuń';
 $labels['rename'] = 'Zmień nazwę';
 $labels['addphoto'] = 'Dodaj';
 $labels['replacephoto'] = 'Zamień';
+$labels['uploadphoto'] = 'Wyślij zdjęcie';
 $labels['newcontact'] = 'Dodaj nowy kontakt';
 $labels['deletecontact'] = 'Usuń zaznaczone kontakty';
 $labels['composeto'] = 'Utwórz wiadomość do wybranych kontaktów';
@@ -282,6 +284,7 @@ $labels['exportvcards'] = 'Eksport kontaktów w formacie vCard';
 $labels['newcontactgroup'] = 'Utwórz nową grupę';
 $labels['grouprename'] = 'Zmień nazwę grupy';
 $labels['groupdelete'] = 'Usuń grupę';
+$labels['groupremoveselected'] = 'Usuń wybrane kontakty z grupy';
 $labels['previouspage'] = 'Poprzednia strona';
 $labels['firstpage'] = 'Pierwsza strona';
 $labels['nextpage'] = 'Następna strona';
@@ -341,6 +344,7 @@ $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczyta
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 $labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';
 $labels['deletealways'] = 'Usuń wiadomości, gdy przenoszenie do Kosza zawiedzie';
+$labels['deletejunk'] = 'Kasuj wiadomości bezpośrednio w folderze Spam';
 $labels['showremoteimages'] = 'Wyświetlaj obrazki w wiadomościach';
 $labels['fromknownsenders'] = 'od znanych nadawców';
 $labels['always'] = 'zawsze';
@@ -363,6 +367,7 @@ $labels['checkallfolders'] = 'Sprawdzaj czy nadeszły nowe wiadomości we wszyst
 $labels['displaynext'] = 'Po usunięciu/przeniesieniu wiadomości wyświetl następną';
 $labels['defaultfont'] = 'Czcionka wiadomości HTML';
 $labels['mainoptions'] = 'Opcje główne';
+$labels['browseroptions'] = 'Opcje przeglądarki';
 $labels['section'] = 'Sekcja';
 $labels['maintenance'] = 'Konserwacja';
 $labels['newmessage'] = 'Nowa wiadomość';
@@ -385,12 +390,14 @@ $labels['reqdsn'] = 'Zawsze żądaj statusu dostarczenia (DSN)';
 $labels['replysamefolder'] = 'Umieszczaj odpowiedzi w folderze wiadomości, na którą odpowiadam';
 $labels['defaultaddressbook'] = 'Nowe kontakty dodawaj do wybranej książki adresowej';
 $labels['autocompletesingle'] = 'Nie pokazuj alternatywnych adresów przy autouzupełnianiu';
+$labels['listnamedisplay'] = 'Wyświetl kontakty jako';
 $labels['spellcheckbeforesend'] = 'Przed wysłaniem wiadomości sprawdzaj pisownię';
 $labels['spellcheckoptions'] = 'Opcje sprawdzania pisowni';
 $labels['spellcheckignoresyms'] = 'Ignoruj słowa zawierające symbole';
 $labels['spellcheckignorenums'] = 'Ignoruj słowa zawierające cyfry';
 $labels['spellcheckignorecaps'] = 'Ignoruj słowa pisane wielkimi literami';
 $labels['addtodict'] = 'Dodaj do słownika';
+$labels['mailtoprotohandler'] = 'Zainstaluj obsługę linków mailto:';
 $labels['folder'] = 'Folder';
 $labels['foldername'] = 'Nazwa folderu';
 $labels['subscribed'] = 'Zasubskrybowany';

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: tudor <tudor@starnet-alba.ro>                                 |
+ | Author: Iorga Vladut Mihai <iorga.vladutz@cucap.ro>                   |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Mărime';
 $labels['priority'] = 'Prioritate';
 $labels['organization'] = 'Organizaţie';
 $labels['readstatus'] = 'Starea de citit';
+$labels['listoptions'] = 'Listează opţiunile...';
 $labels['mailboxlist'] = 'Dosare';
 $labels['folders'] = 'Dosare';
 $labels['messagesfromto'] = 'Mesaje de la $from până la $to din $count';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Şterge';
 $labels['rename'] = 'Redenumeşte';
 $labels['addphoto'] = 'Adaugă';
 $labels['replacephoto'] = 'Înlocuiește';
+$labels['uploadphoto'] = 'Încarcă poya';
 $labels['newcontact'] = 'Creează contact nou';
 $labels['deletecontact'] = 'Şterge contactul selectat';
 $labels['composeto'] = 'Compune e-mail pentru';
@@ -363,6 +365,7 @@ $labels['checkallfolders'] = 'Verifică toate dosarele pentru mesaje noi';
 $labels['displaynext'] = 'După ştergerea sau mutarea unui mesaj afişează-l pe următorul din listă';
 $labels['defaultfont'] = 'Font-ul implicit al mesajului HTML';
 $labels['mainoptions'] = 'Opţiuni principale';
+$labels['browseroptions'] = 'Optiuni browser';
 $labels['section'] = 'Secţiune';
 $labels['maintenance'] = 'Mentenanţă';
 $labels['newmessage'] = 'Mesaj nou';
@@ -385,12 +388,14 @@ $labels['reqdsn'] = 'Cere întotdeauna o notificare a stării de trimitere';
 $labels['replysamefolder'] = 'Pune răspunsurile în folder-ul mesajului la care se răspunde';
 $labels['defaultaddressbook'] = 'Adaugă noile contacte la agenda selectată';
 $labels['autocompletesingle'] = 'Sari peste adresele e-mail alternative la autocompletare';
+$labels['listnamedisplay'] = 'Listează contactele ca';
 $labels['spellcheckbeforesend'] = 'Verifică ortografia înainte de a trimite un mesaj';
 $labels['spellcheckoptions'] = 'Opţiuni verificare ortografie';
 $labels['spellcheckignoresyms'] = 'Ignoră cuvintele cu simboluri';
 $labels['spellcheckignorenums'] = 'Ignoră cuvintele cu numere';
 $labels['spellcheckignorecaps'] = 'Ignoră cuvintele din litere mari';
 $labels['addtodict'] = 'Adaugă la dicţionar';
+$labels['mailtoprotohandler'] = 'Îregistrează handler protocol pentru mailto: link-uri';
 $labels['folder'] = 'Dosar';
 $labels['foldername'] = 'Nume dosar';
 $labels['subscribed'] = 'Înscris';

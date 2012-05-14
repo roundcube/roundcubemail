@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: javierwilson <Unknown>                                        |
+ | Author: Juan Pablo <Unknown>                                          |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Tamaño';
 $labels['priority'] = 'Prioridad';
 $labels['organization'] = 'Organización';
 $labels['readstatus'] = 'Leer estado';
+$labels['listoptions'] = 'Lista de opciones...';
 $labels['mailboxlist'] = 'Carpetas';
 $labels['folders'] = 'Carpetas';
 $labels['messagesfromto'] = 'Mensajes $from a $to de $count';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Eliminar';
 $labels['rename'] = 'Renombrar';
 $labels['addphoto'] = 'Añadir';
 $labels['replacephoto'] = 'Reemplazar';
+$labels['uploadphoto'] = 'Subir foto';
 $labels['newcontact'] = 'Crear nueva tarjeta de contacto';
 $labels['deletecontact'] = 'Eliminar contactos seleccionados';
 $labels['composeto'] = 'Escribir mensaje a';
@@ -282,6 +284,7 @@ $labels['exportvcards'] = 'Exportar contactos en formato vCard';
 $labels['newcontactgroup'] = 'Crear un nuevo grupo de contactos';
 $labels['grouprename'] = 'Renombrar grupo';
 $labels['groupdelete'] = 'Borrar grupo';
+$labels['groupremoveselected'] = 'Eliminar los contactos seleccionados del grupo';
 $labels['previouspage'] = 'Mostrar grupo anterior';
 $labels['firstpage'] = 'Mostrar primer grupo';
 $labels['nextpage'] = 'Mostrar grupo siguiente';
@@ -341,6 +344,7 @@ $labels['readwhendeleted'] = 'Marcar el mensaje como leído al borrarlo';
 $labels['flagfordeletion'] = 'Marcar el mensaje para borrarse en vez de borrarlo';
 $labels['skipdeleted'] = 'No mostrar mensajes borrados';
 $labels['deletealways'] = 'Cuando falle trasladar los mensajes a la papelera, borrarlos';
+$labels['deletejunk'] = 'Directamente eliminar mensajes de Correo no Deseado';
 $labels['showremoteimages'] = 'Mostrar las imágenes externas';
 $labels['fromknownsenders'] = 'de remitentes conocidos';
 $labels['always'] = 'siempre';
@@ -363,6 +367,7 @@ $labels['checkallfolders'] = 'Comprobar en todas las bandejas si hay mensajes nu
 $labels['displaynext'] = 'Después de borrar/mover un mensaje, mostrar el siguiente';
 $labels['defaultfont'] = 'Tipo de letra predeterminada del mensaje HTML';
 $labels['mainoptions'] = 'Opciones principales';
+$labels['browseroptions'] = 'Opciones del Navegador';
 $labels['section'] = 'Sección';
 $labels['maintenance'] = 'Mantenimiento';
 $labels['newmessage'] = 'Nuevo mensaje';
@@ -385,12 +390,14 @@ $labels['reqdsn'] = 'Solicitar siempre la entrega de notificaciones de estado';
 $labels['replysamefolder'] = 'Coloque las respuestas en la bandeja del mensaje que se responde';
 $labels['defaultaddressbook'] = 'Añadir nuevos contactos a la lista de contactos seleccionada';
 $labels['autocompletesingle'] = 'Omitir direcciones de correo alternativas en autocompletado';
+$labels['listnamedisplay'] = 'Listar contactos como';
 $labels['spellcheckbeforesend'] = 'Comprobar ortografía antes de enviar un mensaje';
 $labels['spellcheckoptions'] = 'Opciones de ortografía';
 $labels['spellcheckignoresyms'] = 'Ignorar palabras con símbolos';
 $labels['spellcheckignorenums'] = 'Ignorar palabras con números';
 $labels['spellcheckignorecaps'] = 'Ignorar palabras con todo mayúsculas';
 $labels['addtodict'] = 'Añadir al diccionario';
+$labels['mailtoprotohandler'] = 'Registrar controlador de protocolo para enlaces mailto:';
 $labels['folder'] = 'Bandeja';
 $labels['foldername'] = 'Nombre de bandeja';
 $labels['subscribed'] = 'Suscrita';

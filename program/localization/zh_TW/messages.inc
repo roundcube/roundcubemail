@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nansen <Unknown>                                              |
+ | Author: Denny Lin <dennylin93@hs.ntnu.edu.tw>                         |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = '發生錯誤！';
 $messages['loginfailed'] = '登入失敗';
 $messages['cookiesdisabled'] = '你的瀏覽器不接受 cookies';
 $messages['sessionerror'] = '你的工作階段已失效或過期';
@@ -29,8 +30,8 @@ $messages['nomessagesfound'] = '此郵件匣沒有任何郵件';
 $messages['loggedout'] = '你已成功地登出並結束工作階段了。再見！';
 $messages['mailboxempty'] = '郵件匣是空的';
 $messages['loading'] = '載入中...';
-$messages['uploading'] = '上傳檔案中…';
-$messages['uploadingmany'] = '檔案上載中...';
+$messages['uploading'] = '上傳檔案中...';
+$messages['uploadingmany'] = '上傳檔案中...';
 $messages['loadingdata'] = '載入資料中...';
 $messages['checkingmail'] = '檢查新郵件...';
 $messages['sendingmessage'] = '寄出郵件中...';
@@ -153,5 +154,7 @@ $messages['nametoolong'] = '名稱太長';
 $messages['folderupdated'] = '資料夾成功更新';
 $messages['foldercreated'] = '資料夾成功建立';
 $messages['invalidimageformat'] = '圖片格式錯誤';
+$messages['mispellingsfound'] = '郵件中偵測到拼字錯誤';
 $messages['parentnotwritable'] = '無法建立/移動資料夾至指定的上層目錄 (No access rights)';
+$messages['messagetoobig'] = '郵件太大無法處理';
 

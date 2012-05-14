@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Emin Mastizadeh <emin25@ovi.com>                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -19,7 +19,7 @@ $labels['welcome'] = '$product-a xoş gəldiniz!';
 $labels['username'] = 'İstifadəçi adı';
 $labels['password'] = 'Şifrə';
 $labels['server'] = 'Server';
-$labels['login'] = 'Daxil ol';
+$labels['login'] = 'Giriş';
 $labels['logout'] = 'Çıx';
 $labels['mail'] = 'Poçt';
 $labels['settings'] = 'Nizamlamalar';
@@ -115,9 +115,9 @@ $labels['markunread'] = 'Oxunmamış';
 $labels['markflagged'] = 'Qeyd et';
 $labels['markunflagged'] = 'Qeydi çıxar';
 $labels['select'] = 'Seçin';
-$labels['all'] = 'Hamısını';
-$labels['none'] = 'Yoxdur';
-$labels['nonesort'] = 'Yoxdur';
+$labels['all'] = 'Hamısı';
+$labels['none'] = 'Heç biri';
+$labels['nonesort'] = 'Heç biri';
 $labels['currpage'] = 'Hazırki səhifəni';
 $labels['unread'] = 'Oxunmamışları';
 $labels['flagged'] = 'İşarəliləri';

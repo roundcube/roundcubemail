@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Yaron <sh.yaron@gmail.com>                                    |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,8 +41,9 @@ $labels['size'] = 'גודל';
 $labels['priority'] = 'עדיפות';
 $labels['organization'] = 'ארגון';
 $labels['readstatus'] = 'נקרא';
-$labels['mailboxlist'] = 'תיקים';
-$labels['folders'] = 'תיקים';
+$labels['listoptions'] = 'הצגת אפשרויות...';
+$labels['mailboxlist'] = 'תיקיות';
+$labels['folders'] = 'תיקיות';
 $labels['messagesfromto'] = 'הודעות $from עד $to מתוך $count';
 $labels['threadsfromto'] = 'שרשור $from עד $to מתוך $count';
 $labels['messagenrof'] = 'הודעה $nr מתוך $count';
@@ -272,6 +273,7 @@ $labels['delete'] = 'מחיקה';
 $labels['rename'] = 'שינוי שם';
 $labels['addphoto'] = 'הוספה';
 $labels['replacephoto'] = 'החלפה';
+$labels['uploadphoto'] = 'העלאת תמונה';
 $labels['newcontact'] = 'איש קשר חדש';
 $labels['deletecontact'] = 'מחיקת אנשי קשר מסומנים';
 $labels['composeto'] = 'יצירת הודעה אל';
@@ -282,6 +284,7 @@ $labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard';
 $labels['newcontactgroup'] = 'יצירת קבוצה חדשה של אנשי קשר';
 $labels['grouprename'] = 'שינוי שם קבוצה';
 $labels['groupdelete'] = 'מחיקת קבוצה';
+$labels['groupremoveselected'] = 'אנשי הקשר שנבחרו יוסרו מהקבוצה';
 $labels['previouspage'] = 'הצגת הקבוצה הקודמת';
 $labels['firstpage'] = 'הצגת הקבוצה הראשונה';
 $labels['nextpage'] = 'הצגת הקבוצה הבאה';
@@ -341,6 +344,7 @@ $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחי
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
 $labels['skipdeleted'] = 'הסתרת הודעות שנמחקו';
 $labels['deletealways'] = 'אם העברה לתיקית מחיקה נכשלת יש למחוק לתמיד';
+$labels['deletejunk'] = 'מחיקה ישירה של הודעות זבל';
 $labels['showremoteimages'] = 'הצגת תמונות משרת מרוחק בגוף ההודעה';
 $labels['fromknownsenders'] = 'משולחים מוכרים';
 $labels['always'] = 'תמיד';
@@ -363,6 +367,7 @@ $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיק
 $labels['displaynext'] = 'מעבר להודעה הבאה לאחר מחיקה או תיוק';
 $labels['defaultfont'] = 'גופן ברירת מחדל להודעה בפורמט HTML';
 $labels['mainoptions'] = 'אפשרויות עיקריות';
+$labels['browseroptions'] = 'אפשרויות דפדפן';
 $labels['section'] = 'קטע';
 $labels['maintenance'] = 'תחזוקה';
 $labels['newmessage'] = 'הודעה חדשה';
@@ -392,6 +397,7 @@ $labels['spellcheckignoresyms'] = 'התעלמות ממילים המכילות ס
 $labels['spellcheckignorenums'] = 'התעלמות ממילים המכילות מספרים';
 $labels['spellcheckignorecaps'] = 'התעלמות ממילים עם אותציות ראשיות';
 $labels['addtodict'] = 'הוספה למילון';
+$labels['mailtoprotohandler'] = 'קביעת הפרוטוקול לטיפול בקישור מסוג  mailto:links';
 $labels['folder'] = 'תיק';
 $labels['foldername'] = 'שם תיק';
 $labels['subscribed'] = 'מנוי';

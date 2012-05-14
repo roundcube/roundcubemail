@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nicolas Delvaux <Unknown>                                     |
+ | Author: Emmanuel Andry <Unknown>                                      |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Une erreur est survenue !';
 $messages['loginfailed'] = 'Erreur d\'authentification';
 $messages['cookiesdisabled'] = 'Votre navigateur n\'accepte pas les cookies';
 $messages['sessionerror'] = 'Votre session est invalide ou a expiré';

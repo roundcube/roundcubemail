@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Prokopis Stamoulis <prokopino@gmail.com>                      |
+ | Author: Nikos Keramidis <info@torus.gr>                               |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Μέγεθος';
 $labels['priority'] = 'Πρoτεραιότητα';
 $labels['organization'] = 'Οργανισμός';
 $labels['readstatus'] = 'Κατάσταση ανάγνωσης';
+$labels['listoptions'] = 'Κατάλογος επιλογών';
 $labels['mailboxlist'] = 'Φάκελοι';
 $labels['folders'] = 'Φάκελοι';
 $labels['messagesfromto'] = 'Μηνύματα $from από $to έως $count';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Διαγραφή';
 $labels['rename'] = 'Μετονομασία';
 $labels['addphoto'] = 'Προσθήκη';
 $labels['replacephoto'] = 'Αντικατάσταση';
+$labels['uploadphoto'] = 'Φόρτωση εικόνας';
 $labels['newcontact'] = 'Δημιουργία νέας κάρτας επαφής';
 $labels['deletecontact'] = 'Διαγραφή επιλεγμένων επαφών';
 $labels['composeto'] = 'Σύνθεση μηνύματος προς';
@@ -363,6 +365,7 @@ $labels['checkallfolders'] = 'Να γίνεται έλεγχος σε όλους
 $labels['displaynext'] = 'Μετά από κάθε μετακίνηση/διαγραφή μηνήματος να εμφανίζεται το επόμενο';
 $labels['defaultfont'] = 'Προεπιλεγμένη γραμματοσειρά για τα μηνύματα μορφής HTML';
 $labels['mainoptions'] = 'Βασικές επιλογές';
+$labels['browseroptions'] = 'Επιλογές περιηγητή';
 $labels['section'] = 'Ενότητα';
 $labels['maintenance'] = 'Συντήρηση';
 $labels['newmessage'] = 'Νέο Μήνυμα';
@@ -385,12 +388,14 @@ $labels['reqdsn'] = 'Να γίνεται πάντα αίτηση για αναφ
 $labels['replysamefolder'] = 'Τα μηνύματα που είναι απαντήσεις να τοποθετούνται σε ξεχωριστό φάκελο';
 $labels['defaultaddressbook'] = 'Οι νέες επαφές να αποθηκεύονται στο επιλεγμένο βιβλίο διευθύνσεων';
 $labels['autocompletesingle'] = 'Να μην χρησιμοποιούνται οι εναλλακτικές διευθύνσεις κατά την αυτόματη συμπλήρωση';
+$labels['listnamedisplay'] = 'Εμφάνιση επαφών ως';
 $labels['spellcheckbeforesend'] = 'Να γίνεται πάντα έλεγχος ορθογραφίας πριν την αποστολή του μηνύματος';
 $labels['spellcheckoptions'] = 'Επιλογές Ορθογραφικού ελέγχου';
 $labels['spellcheckignoresyms'] = 'Οι λέξεις που περιέχουν σύμβολα να αγνοούνται';
 $labels['spellcheckignorenums'] = 'Οι λέξεις που περιέχουν αριθμούς να αγνοούνται';
 $labels['spellcheckignorecaps'] = 'Οι λέξεις γραμμένες με ΚΕΦΑΛΑΙΑ να αγνοούνται';
 $labels['addtodict'] = 'Προσθήκη στο λεξικό';
+$labels['mailtoprotohandler'] = 'Καταχώρηση διαχείρισης πρωτοκόλλου δεσμών mailto:';
 $labels['folder'] = 'Φάκελος';
 $labels['foldername'] = 'Όνομα φακέλου';
 $labels['subscribed'] = 'Εγγεγραμμένος';

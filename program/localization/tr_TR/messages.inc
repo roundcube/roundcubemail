@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: ismail yenigul <Unknown>                                      |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Bir hata oluştu!';
 $messages['loginfailed'] = 'Giriş Başarısız';
 $messages['cookiesdisabled'] = 'Tarayıcınız çerezleri kabul etmiyor';
 $messages['sessionerror'] = 'Oturumunuz sona ermiş veya hatalı';

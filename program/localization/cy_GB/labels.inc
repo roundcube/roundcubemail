@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Dafydd Tomos <Unknown>                                        |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = 'Maint';
 $labels['priority'] = 'Blaenoriaeth';
 $labels['organization'] = 'Enw\'r Sefydliad';
 $labels['readstatus'] = 'Statws darllen';
+$labels['listoptions'] = 'Dewisiadau rhestr...';
 $labels['mailboxlist'] = 'Ffolderi';
 $labels['folders'] = 'Ffolderi';
 $labels['messagesfromto'] = 'Negeseuon $from i $to o $count';
@@ -272,6 +273,7 @@ $labels['delete'] = 'Dileu';
 $labels['rename'] = 'Ail-enwi';
 $labels['addphoto'] = 'Ychwanegu';
 $labels['replacephoto'] = 'Amnewid';
+$labels['uploadphoto'] = 'Llwytho fyny llun';
 $labels['newcontact'] = 'Creu cerdyn cyswllt newydd';
 $labels['deletecontact'] = 'Dileu y cysylltiadau a ddewiswyd';
 $labels['composeto'] = 'Ysgrifennu neges at';
@@ -282,6 +284,7 @@ $labels['exportvcards'] = 'Allforio cysylltiadau mewn fformat vCard';
 $labels['newcontactgroup'] = 'Creu grŵp cysylltiadau newydd';
 $labels['grouprename'] = 'Ail-enwi grŵp';
 $labels['groupdelete'] = 'Dileu grŵp';
+$labels['groupremoveselected'] = 'Dileu y cysylltiadau dewiswyd o\'r grŵp';
 $labels['previouspage'] = 'Dangos y set flaenorol';
 $labels['firstpage'] = 'Dangos y set gyntaf';
 $labels['nextpage'] = 'Dangos y set nesaf';
@@ -341,6 +344,7 @@ $labels['readwhendeleted'] = 'Nodi\'r neges fel darllenwyd wrth ddileu';
 $labels['flagfordeletion'] = 'Fflagio\'r neges i\'w ddileu yn hytrach na dileu yn syth';
 $labels['skipdeleted'] = 'Peidio dangos negesuon wedi ei dileu';
 $labels['deletealways'] = 'Pan fod symud negeseuon i\'r Sbwriel yn methu, dileu nhw';
+$labels['deletejunk'] = 'Dileu negeseuon yn uniongyrchol yn Sbwriel';
 $labels['showremoteimages'] = 'Dangos lluniau o wefannau allanol';
 $labels['fromknownsenders'] = 'o ddanfonwyr hysbys';
 $labels['always'] = 'bob amser';
@@ -363,6 +367,7 @@ $labels['checkallfolders'] = 'Chwilio pob ffolder am negeseuon newydd';
 $labels['displaynext'] = 'Ar ôl dileu/symud neges dangos y neges nesaf';
 $labels['defaultfont'] = 'Ffont arferol ar gyfer negeseuon HTML';
 $labels['mainoptions'] = 'Prif Ddewisiadau';
+$labels['browseroptions'] = 'Dewisiadau Porwr';
 $labels['section'] = 'Adran';
 $labels['maintenance'] = 'Gwaith cynnal a chadw';
 $labels['newmessage'] = 'Neges Newydd';
@@ -392,6 +397,7 @@ $labels['spellcheckignoresyms'] = 'Anwybyddu geiriau gyda symbolau';
 $labels['spellcheckignorenums'] = 'Anwybyddu geiriau gyda rhifau';
 $labels['spellcheckignorecaps'] = 'Anwybyddu geiriau sy\'n briflythrennau yn gyfangwbl';
 $labels['addtodict'] = 'Ychwanegu i\'r geiriadur';
+$labels['mailtoprotohandler'] = 'Cofrestru trafodwr protocol ar gyfer dolenni mailto:';
 $labels['folder'] = 'Ffolder';
 $labels['foldername'] = 'Enw ffolder';
 $labels['subscribed'] = 'Tanysgrifwyd';

@@ -9,21 +9,19 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Steven Beer <Unknown>                                         |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
-$messages['errortitle'] = 'Fehlermeldung';
+$messages['errortitle'] = 'Ein Fehler ist aufgetreten!';
 $messages['loginfailed'] = 'Die Anmeldung ist fehlgeschlagen.';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies.';
 $messages['sessionerror'] = 'Ihre Sitzung ist ungültig oder abgelaufen.';
-$messages['storageerror'] = 'Keine Verbindung zum IMAP Server.';
 $messages['servererror'] = 'Serverfehler!';
 $messages['servererrormsg'] = 'Serverfehler: $msg';
 $messages['dberror'] = 'Datenbankfehler!';
-$messages['requesttimedout'] = 'Zeitlimit überschritten';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
 $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';

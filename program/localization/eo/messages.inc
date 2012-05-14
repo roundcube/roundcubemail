@@ -9,16 +9,22 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Andreas van Cranenburgh <andreas@unstable.nl>                 |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Eraro okazis!';
 $messages['loginfailed'] = 'Malsukcesis ensaluti';
 $messages['cookiesdisabled'] = 'Via foliumilo ne akceptas kuketojn';
 $messages['sessionerror'] = 'Via seanco estas nevalida aŭ finita';
 $messages['storageerror'] = 'Konekto kun IMAP-servilo malsukcesis';
+$messages['servererror'] = 'Servil-eraro!';
+$messages['servererrormsg'] = 'Servil-eraro: $msg';
+$messages['dberror'] = 'Datumbaz-eraro!';
+$messages['errornoperm'] = 'Ne povis fari agon. Ne havas permeson.';
+$messages['invalidrequest'] = 'Nevalida peto';
 $messages['nomessagesfound'] = 'Neniu mesaĝo en ĉi tiu dosierujo';
 $messages['loggedout'] = 'Vi sukcese finis la seancon. Ĝis!';
 $messages['mailboxempty'] = 'Dosierujo estas malplena';

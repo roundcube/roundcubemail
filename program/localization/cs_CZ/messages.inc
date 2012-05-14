@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Tomáš Bittner <tbittner@itoutsourcing.cz>                   |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Došlo k chybě!';
 $messages['loginfailed'] = 'Přihlášení selhalo';
 $messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nezbytné';
 $messages['sessionerror'] = 'Vaše přihlášení je neplatné nebo vypršelo';

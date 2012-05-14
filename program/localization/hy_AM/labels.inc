@@ -41,6 +41,7 @@ $labels['replyto'] = 'Reply-To';
 $labels['date'] = 'Ամսաթիվ';
 $labels['size'] = 'Չափ';
 $labels['priority'] = 'Առավելություն';
+$labels['organization'] = 'Կազմակերպություն';
 $labels['mailboxlist'] = 'Դարակներ';
 $labels['folders'] = 'Դարակներ';
 $labels['messagesfromto'] = 'Նամակներ $from–ից $to–ը եղած $count–ից';

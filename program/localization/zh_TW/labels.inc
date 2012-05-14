@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tenyi <tenyitseng@yahoo.com.tw>                               |
+ | Author: Nansen <Unknown>                                              |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -41,6 +41,7 @@ $labels['size'] = '大小';
 $labels['priority'] = '優先順序';
 $labels['organization'] = '組織';
 $labels['readstatus'] = '讀信狀態';
+$labels['listoptions'] = '列表選項...';
 $labels['mailboxlist'] = '資料夾';
 $labels['folders'] = '資料夾';
 $labels['messagesfromto'] = '郵件 $from 至 $to，共有 $count 封郵件';
@@ -121,7 +122,7 @@ $labels['markread'] = '標示為已讀取';
 $labels['markunread'] = '標示為未讀取';
 $labels['markflagged'] = '標上旗標';
 $labels['markunflagged'] = '移除旗標';
-$labels['moreactions'] = '資料夾動做...';
+$labels['moreactions'] = '資料夾動作...';
 $labels['more'] = '更多';
 $labels['back'] = '上一頁';
 $labels['options'] = '選項';
@@ -168,7 +169,7 @@ $labels['searchmod'] = '修改搜尋';
 $labels['msgtext'] = '整封郵件';
 $labels['openinextwin'] = '在新視窗開啟';
 $labels['emlsave'] = '下載（.eml）';
-$labels['editasnew'] = '已新郵件編輯';
+$labels['editasnew'] = '以新郵件編輯';
 $labels['savemessage'] = '儲存成草稿';
 $labels['sendmessage'] = '立即寄出';
 $labels['addattachment'] = '增加附件檔案';
@@ -272,6 +273,7 @@ $labels['delete'] = '刪除';
 $labels['rename'] = '重新命名';
 $labels['addphoto'] = '新增';
 $labels['replacephoto'] = '取代';
+$labels['uploadphoto'] = '上傳相片';
 $labels['newcontact'] = '建立新聯絡人資料';
 $labels['deletecontact'] = '刪除所選擇的聯絡人';
 $labels['composeto'] = '寄信至所選擇的聯絡人';
@@ -282,6 +284,7 @@ $labels['exportvcards'] = '匯出通訊錄為 vCard 格式';
 $labels['newcontactgroup'] = '新增聯絡人群組';
 $labels['grouprename'] = '重新命名群組';
 $labels['groupdelete'] = '刪除群組';
+$labels['groupremoveselected'] = '從群組中刪除選擇的聯絡人';
 $labels['previouspage'] = '顯示上一頁';
 $labels['firstpage'] = '顯示第一頁';
 $labels['nextpage'] = '顯示下一頁';
@@ -357,13 +360,14 @@ $labels['mimeparamfolding'] = '附加檔案名稱的編碼方式';
 $labels['2231folding'] = '完全 RFC 2231 模式（Thunderbird）';
 $labels['miscfolding'] = 'RFC 2047/2231 混合模式（MS Outlook）';
 $labels['2047folding'] = '完全 RFC 2047 模式（其他）';
-$labels['force7bit'] = '使用MIME編碼對於8位元字元';
+$labels['force7bit'] = '使用 MIME 編碼對於 8 位元字元';
 $labels['advancedoptions'] = '顯示進階設定選項';
 $labels['focusonnewmessage'] = '收到新郵件時使瀏覽器獲得焦點';
 $labels['checkallfolders'] = '檢查所有資料夾中的新郵件';
 $labels['displaynext'] = '郵件刪除／移動時顯示下一個郵件';
 $labels['defaultfont'] = 'HTML格式預設字型';
 $labels['mainoptions'] = '主要選項';
+$labels['browseroptions'] = '瀏覽選項';
 $labels['section'] = '分類';
 $labels['maintenance'] = '管理';
 $labels['newmessage'] = '新郵件';
@@ -393,6 +397,7 @@ $labels['spellcheckignoresyms'] = '忽略符號';
 $labels['spellcheckignorenums'] = '忽略數字';
 $labels['spellcheckignorecaps'] = '忽略大寫字母';
 $labels['addtodict'] = '加入詞典';
+$labels['mailtoprotohandler'] = '註冊mailto:協定處理程式';
 $labels['folder'] = '資料夾';
 $labels['foldername'] = '資料夾名稱';
 $labels['subscribed'] = '顯示';

@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = 'Wystąpił błąd!';
 $messages['loginfailed'] = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
 $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';

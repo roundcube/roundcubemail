@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: snowdream <yanghui1986527@gmail.com>                          |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
 
 $messages = array();
+$messages['errortitle'] = '发生错误！';
 $messages['loginfailed'] = '登录失败';
 $messages['cookiesdisabled'] = '您的浏览器不接受 cookies';
 $messages['sessionerror'] = '会话已过期';
@@ -106,6 +107,7 @@ $messages['addingmember'] = '正在添加联系人到组...';
 $messages['removingmember'] = '正在从组中删除联系人...';
 $messages['receiptsent'] = '成功发送了一个已读回执';
 $messages['errorsendingreceipt'] = '无法发送回执';
+$messages['deleteidentityconfirm'] = '你真的想删除这个验证信息吗？';
 $messages['nodeletelastidentity'] = '无法删除这个身份，这是最后一个。';
 $messages['forbiddencharacter'] = '目录名包含隐藏字符';
 $messages['selectimportfile'] = '请选择要上传的文件';

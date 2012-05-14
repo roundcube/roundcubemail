@@ -19,6 +19,7 @@ $messages['loading'] = 'Բեռնում...';
 $messages['loginfailed'] = 'Մուտքը ձախողվեց';
 $messages['cookiesdisabled'] = 'Сookies–ների ապահովվումը բացակայում է';
 $messages['sessionerror'] = 'Անվավեր կամ ժամկետանց սեսիա';
+$messages['storageerror'] = 'IMAP սերվերի հետ կապը ձախողվեց';
 $messages['nomessagesfound'] = 'Այս փոստարկղում նամակներ չկան';
 $messages['loggedout'] = 'Դուք բարեհաջող ավարտեցիք աշխատանքը։ Ցտեսություն…';
 $messages['mailboxempty'] = 'Փոստարկղը դատարկ է';

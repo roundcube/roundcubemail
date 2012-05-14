@@ -15,6 +15,7 @@
 */
 
 $messages = array();
+$messages['errortitle'] = 'Terjadi galat!';
 $messages['loginfailed'] = 'Gagal masuk';
 $messages['cookiesdisabled'] = 'Browser Anda tidak menerima cookies';
 $messages['sessionerror'] = 'Session Anda invalid atau kadaluwarsa';

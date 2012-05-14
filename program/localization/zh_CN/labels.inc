@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Christopher Meng <cickumqt@gmail.com>                         |
  +-----------------------------------------------------------------------+
  @version $Id$
 */
@@ -272,6 +272,7 @@ $labels['delete'] = '删除';
 $labels['rename'] = '更名';
 $labels['addphoto'] = '上传';
 $labels['replacephoto'] = '覆盖';
+$labels['uploadphoto'] = '上传照片';
 $labels['newcontact'] = '新建联系人';
 $labels['deletecontact'] = '删除选中的联系人';
 $labels['composeto'] = '写信给';
@@ -282,6 +283,7 @@ $labels['exportvcards'] = '以 vCard 格式导出联系人';
 $labels['newcontactgroup'] = '创建新的组';
 $labels['grouprename'] = '重命名组';
 $labels['groupdelete'] = '删除组';
+$labels['groupremoveselected'] = '从分组中移除选中的联系人';
 $labels['previouspage'] = '上一页';
 $labels['firstpage'] = '第一页';
 $labels['nextpage'] = '下一页';
@@ -341,6 +343,7 @@ $labels['readwhendeleted'] = '删除后标记为已读';
 $labels['flagfordeletion'] = '标记邮件为已删除而不是实际删除';
 $labels['skipdeleted'] = '不显示标记为已删除的邮件';
 $labels['deletealways'] = '如果移动邮件到回收站失败，则删除';
+$labels['deletejunk'] = '在、';
 $labels['showremoteimages'] = '显示内嵌的图片';
 $labels['fromknownsenders'] = '来自已知发件人';
 $labels['always'] = '总是';
@@ -363,6 +366,7 @@ $labels['checkallfolders'] = '检查所有邮件夹里的新邮件';
 $labels['displaynext'] = '当邮件删掉/移动后显示下一封邮件';
 $labels['defaultfont'] = '默认的HTML格式字体';
 $labels['mainoptions'] = '主要选项';
+$labels['browseroptions'] = '浏览器选项';
 $labels['section'] = '项目';
 $labels['maintenance'] = '维护';
 $labels['newmessage'] = '新邮件';

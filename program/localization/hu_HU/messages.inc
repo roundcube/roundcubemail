@@ -15,6 +15,7 @@
 */
 
 $messages = array();
+$messages['errortitle'] = 'Hiba történt';
 $messages['loginfailed'] = 'Sikertelen bejelentkezés.';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
