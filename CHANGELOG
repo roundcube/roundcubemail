@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix listing shared folders on Courier IMAP (#1488466)
 - Flipped compose options arrow (#1488474)
 - Fix handling of large uuencode attachments (#1488473)
 - Fix handling of "usemap" attribute (#1488472)
