@@ -3398,7 +3398,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $this->clear_cache('mailboxes.metadata.' . $folder);
+        $this->clear_cache($this->metadata_cache_key($folder));
 
         if ($this->get_capability('METADATA') ||
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
@@ -3432,7 +3432,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $this->clear_cache('mailboxes.metadata.' . $folder);
+        $this->clear_cache($this->metadata_cache_key($folder));
 
         if ($this->get_capability('METADATA') || 
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
@@ -3467,15 +3467,30 @@ class rcube_imap extends rcube_storage
             return null;
         }
 
-        $cache_key = 'mailboxes.metadata.' . $folder;
-        if ($cached = $this->get_cache($cache_key))
-            return $cached;
+        $entries = (array)$entries;
+
+        // check cached data
+        $cache_key = $this->metadata_cache_key($folder);
+        $cached_data = (array)$this->get_cache($cache_key);
+        $cached_result = array();
+        $cached_count = 0;
+        foreach ($entries as $entry_key) {
+            if (isset($cached_data[$folder][$entry_key])) {
+                $cached_result[$folder][$entry_key] = $cached_data[$folder][$entry_key];
+                $cached_count++;
+            }
+        }
+
+        // all requested entries are cached
+        if ($cached_count == count($entries)) {
+            return $cached_result;
+        }
 
         if ($this->get_capability('METADATA') ||
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             $res = $this->conn->getMetadata($folder, $entries, $options);
-            $this->update_cache($cache_key, $res);
+            $this->update_cache($cache_key, array_merge_recursive($cached_data, $res));
             return $res;
         }
         else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
@@ -3483,7 +3498,7 @@ class rcube_imap extends rcube_storage
             $res     = array();
 
             // Convert entry names
-            foreach ((array)$entries as $entry) {
+            foreach ($entries as $entry) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $queries[$attr][] = $ent;
             }
@@ -3495,11 +3510,21 @@ class rcube_imap extends rcube_storage
                 }
             }
 
-            $this->update_cache($cache_key, $res);
+            $this->update_cache($cache_key, array_merge_recursive($cached_data, $res));
             return $res;
         }
 
         return null;
+    }
+
+
+    /**
+     * Helper method to compose the cache key for the given folder metadata
+     */
+    protected function metadata_cache_key($folder)
+    {
+        $suffix = $folder == '' ? '[SERVER]' : (strpos($folder, '*') === false ? $folder : '');
+        return 'mailboxes.metadata.' . $suffix;
     }
 
 
