@@ -3396,7 +3396,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $this->clear_cache($this->metadata_cache_key($folder));
+        $this->clear_cache('mailboxes.metadata.', true);
 
         if ($this->get_capability('METADATA') ||
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
@@ -3430,9 +3430,9 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $this->clear_cache($this->metadata_cache_key($folder));
+        $this->clear_cache('mailboxes.metadata.', true);
 
-        if ($this->get_capability('METADATA') || 
+        if ($this->get_capability('METADATA') ||
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->deleteMetadata($folder, $entries);
@@ -3461,35 +3461,31 @@ class rcube_imap extends rcube_storage
      */
     public function get_metadata($folder, $entries, $options=array())
     {
-        if (!$this->check_connection()) {
-            return null;
-        }
-
         $entries = (array)$entries;
 
-        // check cached data
-        $cache_key = $this->metadata_cache_key($folder);
-        $cached_data = (array)$this->get_cache($cache_key);
-        $cached_result = array();
-        $cached_count = 0;
-        foreach ($entries as $entry_key) {
-            if (isset($cached_data[$folder][$entry_key])) {
-                $cached_result[$folder][$entry_key] = $cached_data[$folder][$entry_key];
-                $cached_count++;
-            }
+        // create cache key
+        // @TODO: this is the simplest solution, but we do the same with folders list
+        //        maybe we should store data per-entry and merge on request
+        sort($options);
+        sort($entries);
+        $cache_key = 'mailboxes.metadata.' . $folder;
+        $cache_key .= '.' . md5(serialize($options).serialize($entries));
+
+        // get cached data
+        $cached_data = $this->get_cache($cache_key);
+
+        if (is_array($cached_data)) {
+            return $cached_data;
         }
 
-        // all requested entries are cached
-        if ($cached_count == count($entries)) {
-            return $cached_result;
+        if (!$this->check_connection()) {
+            return null;
         }
 
         if ($this->get_capability('METADATA') ||
             (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             $res = $this->conn->getMetadata($folder, $entries, $options);
-            $this->update_cache($cache_key, array_merge_recursive($cached_data, $res));
-            return $res;
         }
         else if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
             $queries = array();
@@ -3507,22 +3503,14 @@ class rcube_imap extends rcube_storage
                     $res = array_merge_recursive($res, $result);
                 }
             }
+        }
 
-            $this->update_cache($cache_key, array_merge_recursive($cached_data, $res));
+        if (isset($res)) {
+            $this->update_cache($cache_key, $res);
             return $res;
         }
 
         return null;
-    }
-
-
-    /**
-     * Helper method to compose the cache key for the given folder metadata
-     */
-    protected function metadata_cache_key($folder)
-    {
-        $suffix = $folder == '' ? '[SERVER]' : (strpos($folder, '*') === false ? $folder : '');
-        return 'mailboxes.metadata.' . $suffix;
     }
 
 
