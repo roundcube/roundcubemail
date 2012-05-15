@@ -790,4 +790,45 @@ class rcube_utils
         return $at ? $user . '@' . $domain : $domain;
     }
 
+    /**
+     * Split the given string into word tokens
+     *
+     * @param string Input to tokenize
+     * @return array List of tokens
+     */
+    public static function tokenize_string($str)
+    {
+        return explode(" ", preg_replace(
+            array('/[\s;\/+-]+/i', '/(\d)[-.\s]+(\d)/', '/\s\w{1,3}\s/u'),
+            array(' ', '\\1\\2', ' '),
+            $str));
+    }
+
+    /**
+     * Normalize the given string for fulltext search.
+     * Currently only optimized for Latin-1 characters; to be extended
+     *
+     * @param string  Input string (UTF-8)
+     * @param boolean True to return list of words as array
+     * @return mixed  Normalized string or a list of normalized tokens
+     */
+    public static function normalize_string($str, $as_array = false)
+    {
+        // split by words
+        $arr = self::tokenize_string($str);
+
+        foreach ($arr as $i => $part) {
+            if (utf8_encode(utf8_decode($part)) == $part) {  // is latin-1 ?
+                $arr[$i] = utf8_encode(strtr(strtolower(strtr(utf8_decode($part),
+                    'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ',
+                    'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy')),
+                    array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u')));
+            }
+            else
+                $arr[$i] = mb_strtolower($part);
+        }
+
+        return $as_array ? $arr : join(" ", $arr);
+    }
+
 }

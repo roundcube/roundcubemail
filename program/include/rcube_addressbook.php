@@ -447,29 +447,12 @@ abstract class rcube_addressbook
      *
      * @param string Input string (UTF-8)
      * @return string Normalized string
+     * @deprecated since 0.9-beta
      */
     protected static function normalize_string($str)
     {
-        // split by words
-        $arr = explode(" ", preg_replace(
-            array('/[\s;\+\-\/]+/i', '/(\d)[-.\s]+(\d)/', '/\s\w{1,3}\s/'),
-            array(' ', '\\1\\2', ' '),
-            $str));
-
-        foreach ($arr as $i => $part) {
-            if (utf8_encode(utf8_decode($part)) == $part) {  // is latin-1 ?
-                $arr[$i] = utf8_encode(strtr(strtolower(strtr(utf8_decode($part),
-                    'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ',
-                    'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy')),
-                    array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u')));
-            }
-            else
-                $arr[$i] = mb_strtolower($part);
-        }
-
-        return join(" ", $arr);
+        return rcbe_utils::normalize_string($str);
     }
-
 
     /**
      * Compose a valid display name from the given structured contact data

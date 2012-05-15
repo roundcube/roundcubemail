@@ -313,7 +313,7 @@ class rcube_contacts extends rcube_addressbook
             // fulltext search in all fields
             else if ($col == '*') {
                 $words = array();
-                foreach (explode($WS, self::normalize_string($value)) as $word) {
+                foreach (explode($WS, rcube_utils::normalize_string($value)) as $word) {
                     switch ($mode) {
                     case 1: // strict
                         $words[] = '(' . $this->db->ilike('words', $word . '%')
@@ -352,7 +352,7 @@ class rcube_contacts extends rcube_addressbook
                 // vCard field
                 else {
                     if (in_array($col, $this->fulltext_cols)) {
-                        foreach (explode(" ", self::normalize_string($val)) as $word) {
+                        foreach (rcube_utils::normalize_string($val, true) as $word) {
                             switch ($mode) {
                             case 1: // strict
                                 $words[] = '(' . $this->db->ilike('words', $word . $WS . '%')
@@ -728,9 +728,9 @@ class rcube_contacts extends rcube_addressbook
                 if (isset($value))
                     $vcard->set($field, $value, $section);
                 if ($fulltext && is_array($value))
-                    $words .= ' ' . self::normalize_string(join(" ", $value));
+                    $words .= ' ' . rcube_utils::normalize_string(join(" ", $value));
                 else if ($fulltext && strlen($value) >= 3)
-                    $words .= ' ' . self::normalize_string($value);
+                    $words .= ' ' . rcube_utils::normalize_string($value);
             }
         }
         $out['vcard'] = $vcard->export(false);
