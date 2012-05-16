@@ -1057,7 +1057,8 @@ class rcube
             return;
         }
 
-        if ($log && $arg['type'] && $arg['message']) {
+        if (($log || $terminate) && $arg['type'] && $arg['message']) {
+            $arg['fatal'] = $terminate;
             self::log_bug($arg);
         }
 
@@ -1085,7 +1086,7 @@ class rcube
         }
 
         // write error to local log file
-        if ($level & 1) {
+        if (($level & 1) || !empty($arg_arr['fatal'])) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $post_query = '?_task='.urlencode($_POST['_task']).'&_action='.urlencode($_POST['_action']);
             }
