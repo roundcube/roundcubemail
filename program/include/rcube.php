@@ -1050,6 +1050,18 @@ class rcube
      */
     public static function raise_error($arg = array(), $log = false, $terminate = false)
     {
+        // handle PHP exceptions
+        if (is_object($arg) && is_a($arg, 'Exception')) {
+            $err = array(
+                'type' => 'php',
+                'code' => $arg->getCode(),
+                'line' => $arg->getLine(),
+                'file' => $arg->getFile(),
+                'message' => $arg->getMessage(),
+            );
+            $arg = $err;
+        }
+
         // installer
         if (class_exists('rcube_install', false)) {
             $rci = rcube_install::get_instance();
