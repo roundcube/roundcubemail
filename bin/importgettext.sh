@@ -71,7 +71,7 @@ EOF;
 
 	$output .= "\n";
 	$dir = dirname($outfn);
-	@mkdir($dir, 664, true);
+	@mkdir($dir, 0755, true);
 	if (file_put_contents($outfn, $output))
 		echo "-> $outfn\n";
 }
