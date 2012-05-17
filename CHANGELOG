@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added new translations in Belarusian, Interlingua and Malayalam
 - Flipped compose options arrow (#1488474)
 - Fix handling of large uuencode attachments (#1488473)
 - Fix handling of "usemap" attribute (#1488472)
