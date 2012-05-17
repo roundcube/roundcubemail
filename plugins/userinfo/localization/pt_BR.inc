@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Claudio F Filho <Unknown>                                     |
+ | Author: Claudio F Filho <filhocf@gmail.com>                           |
  +-----------------------------------------------------------------------+
  @version $Id$
 */

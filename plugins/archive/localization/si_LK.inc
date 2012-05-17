@@ -1,0 +1,21 @@
+<?php
+
+/*
+ +-----------------------------------------------------------------------+
+ | localization/si_LK/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Mohamed Rizmi <Unknown>                                       |
+ +-----------------------------------------------------------------------+
+ @version $Id$
+*/
+
+$labels = array();
+$labels['buttontitle'] = 'මෙම පණිවිඩය සංරක්‍ෂණය කරන්න';
+$labels['archived'] = 'සංරක්‍ෂණය සාර්ථකයි';
+$labels['archivefolder'] = 'සංරක්‍ෂණය';
+
