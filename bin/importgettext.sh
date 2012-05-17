@@ -99,6 +99,10 @@ function import_file($fn)
 	$language = '';
 	$translator = '';
 
+	// get language code from file name
+	if (preg_match('/-([a-z_]+).po$/i', $fn, $m))
+	  $language = expand_langcode($m[1]);
+
 	$is_header = true;
 	$msgid = null;
 	$msgstr = '';
