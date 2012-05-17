@@ -48,7 +48,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   CVS: $Id$
+ * @version   1.8.4
  * @link      http://pear.php.net/package/Mail_mime
  */
 
@@ -70,7 +70,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   Release: @package_version@
+ * @version   Release: 1.8.4
  * @link      http://pear.php.net/package/Mail_mime
  */
 class Mail_mimePart
@@ -156,6 +156,7 @@ class Mail_mimePart
     *     headers_charset   - Charset of the headers e.g. filename, description.
     *                         If not set, 'charset' will be used
     *     eol               - End of line sequence. Default: "\r\n"
+    *     headers           - Hash array with additional part headers
     *     body_file         - Location of file with part's body (instead of $body)
     *
     * @access public
@@ -166,6 +167,11 @@ class Mail_mimePart
             $this->_eol = $params['eol'];
         } else if (defined('MAIL_MIMEPART_CRLF')) { // backward-copat.
             $this->_eol = MAIL_MIMEPART_CRLF;
+        }
+
+        // Additional part headers
+        if (!empty($params['headers']) && is_array($params['headers'])) {
+            $headers = $params['headers'];
         }
 
         foreach ($params as $key => $value) {
