@@ -3940,6 +3940,11 @@ class rcube_imap extends rcube_storage
         return $this->list_messages($folder, $page, $sort_field, $sort_order, $slice);
     }
 
+    public function get_headers($uid, $folder = null, $force = false)
+    {
+        return $this->get_message_headers($uid, $folder, $force);
+    }
+
     public function mailbox_status($folder = null)
     {
         return $this->folder_status($folder);
