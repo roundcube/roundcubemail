@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix listing shared folders on Courier IMAP (#1488466)
 - Fix issue where draft auto-save wasn't executed after some inactivity time
 - Add vCard import from multiple files at once (#1488015)
 - Roundcube Framework:

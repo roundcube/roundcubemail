@@ -2524,11 +2524,27 @@ class rcube_imap extends rcube_storage
 
         // Server supports LIST-EXTENDED, we can use selection options
         // #1486225: Some dovecot versions returns wrong result using LIST-EXTENDED
-        if (!$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED')) {
+        $list_extended = !$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED');
+        if ($list_extended) {
             // This will also set folder options, LSUB doesn't do that
             $a_folders = $this->conn->listMailboxes($root, $name,
                 NULL, array('SUBSCRIBED'));
+        }
+        else {
+            // retrieve list of folders from IMAP server using LSUB
+            $a_folders = $this->conn->listSubscribed($root, $name);
+        }
 
+        if (!is_array($a_folders)) {
+            return array();
+        }
+
+        // #1486796: some server configurations doesn't return folders in all namespaces
+        if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
+            $this->list_folders_update($a_folders, ($list_extended ? 'ext-' : '') . 'subscribed');
+        }
+
+        if ($list_extended) {
             // unsubscribe non-existent folders, remove from the list
             // we can do this only when LIST response is available
             if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
@@ -2542,10 +2558,7 @@ class rcube_imap extends rcube_storage
                 }
             }
         }
-        // retrieve list of folders from IMAP server using LSUB
         else {
-            $a_folders = $this->conn->listSubscribed($root, $name);
-
             // unsubscribe non-existent folders, remove them from the list,
             // we can do this only when LIST response is available
             if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
@@ -2561,10 +2574,6 @@ class rcube_imap extends rcube_storage
                     }
                 }
             }
-        }
-
-        if (!is_array($a_folders) || !sizeof($a_folders)) {
-            $a_folders = array();
         }
 
         return $a_folders;
@@ -2661,50 +2670,69 @@ class rcube_imap extends rcube_storage
             return array();
         }
 
-        // #1486796: some server configurations doesn't
-        // return folders in all namespaces, we'll try to detect that situation
-        // and ask for these namespaces separately
-        if ($root == '' && $name == '*') {
-            $delim     = $this->get_hierarchy_delimiter();
-            $namespace = $this->get_namespace();
-            $search    = array();
+        // #1486796: some server configurations doesn't return folders in all namespaces
+        if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
+            $this->list_folders_update($result);
+        }
 
-            // build list of namespace prefixes
-            foreach ((array)$namespace as $ns) {
-                if (is_array($ns)) {
-                    foreach ($ns as $ns_data) {
-                        if (strlen($ns_data[0])) {
-                            $search[] = $ns_data[0];
-                        }
-                    }
-                }
-            }
+        return $result;
+    }
 
-            if (!empty($search)) {
-                // go through all folders detecting namespace usage
-                foreach ($result as $folder) {
-                    foreach ($search as $idx => $prefix) {
-                        if (strpos($folder, $prefix) === 0) {
-                            unset($search[$idx]);
-                        }
-                    }
-                    if (empty($search)) {
-                        break;
-                    }
-                }
 
-                // get folders in hidden namespaces and add to the result
-                foreach ($search as $prefix) {
-                    $list = $this->conn->listMailboxes($prefix, $name);
+    /**
+     * Fix folders list by adding folders from other namespaces.
+     * Needed on some servers eg. Courier IMAP
+     *
+     * @param array  $result  Reference to folders list
+     * @param string $type    Listing type (ext-subscribed, subscribed or all)
+     */
+    private function list_folders_update(&$result, $type = null)
+    {
+        $delim     = $this->get_hierarchy_delimiter();
+        $namespace = $this->get_namespace();
+        $search    = array();
 
-                    if (!empty($list)) {
-                        $result = array_merge($result, $list);
+        // build list of namespace prefixes
+        foreach ((array)$namespace as $ns) {
+            if (is_array($ns)) {
+                foreach ($ns as $ns_data) {
+                    if (strlen($ns_data[0])) {
+                        $search[] = $ns_data[0];
                     }
                 }
             }
         }
 
-        return $result;
+        if (!empty($search)) {
+            // go through all folders detecting namespace usage
+            foreach ($result as $folder) {
+                foreach ($search as $idx => $prefix) {
+                    if (strpos($folder, $prefix) === 0) {
+                        unset($search[$idx]);
+                    }
+                }
+                if (empty($search)) {
+                    break;
+                }
+            }
+
+            // get folders in hidden namespaces and add to the result
+            foreach ($search as $prefix) {
+                if ($type == 'ext-subscribed') {
+                    $list = $this->conn->listMailboxes('', $prefix . '*', null, array('SUBSCRIBED'));
+                }
+                else if ($type == 'subscribed') {
+                    $list = $this->conn->listSubscribed('', $prefix . '*');
+                }
+                else {
+                    $list = $this->conn->listMailboxes('', $prefix . '*');
+                }
+
+                if (!empty($list)) {
+                    $result = array_merge($result, $list);
+                }
+            }
+        }
     }
 
 
