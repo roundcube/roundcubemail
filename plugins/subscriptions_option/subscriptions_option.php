@@ -74,12 +74,9 @@ class subscriptions_option extends rcube_plugin
 
     function mailboxes_list($args)
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         if (!$rcmail->config->get('use_subscriptions', true)) {
-            $storage = $rcmail->get_storage();
-            if ($storage->check_connection()) {
-                $args['folders'] = $storage->conn->listMailboxes($args['root'], $args['name']);
-            }
+            $args['folders'] = $rcmail->get_storage()->list_folders_direct();
         }
         return $args;
     }

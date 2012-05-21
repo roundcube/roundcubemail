@@ -106,6 +106,10 @@ $rcmail_config['imap_force_caps'] = false;
 // Enable this option to force LSUB command usage instead.
 $rcmail_config['imap_force_lsub'] = false;
 
+// Some server configurations (e.g. Courier) doesn't list folders in all namespaces
+// Enable this option to force listing of folders in all namespaces
+$rcmail_config['imap_force_ns'] = false;
+
 // IMAP connection timeout, in seconds. Default: 0 (no limit)
 $rcmail_config['imap_timeout'] = 0;
 

@@ -2539,11 +2539,8 @@ class rcube_imap extends rcube_storage
             return array();
         }
 
-        // #1486796: some server configurations doesn't
-        // return folders in all namespaces, we'll try to detect that situation
-        // and ask for these namespaces separately
-        // @TODO: make this optional
-        if ($root == '' && $name == '*') {
+        // #1486796: some server configurations doesn't return folders in all namespaces
+        if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
             $this->list_folders_update($a_folders, ($list_extended ? 'ext-' : '') . 'subscribed');
         }
 
@@ -2673,11 +2670,8 @@ class rcube_imap extends rcube_storage
             return array();
         }
 
-        // #1486796: some server configurations doesn't
-        // return folders in all namespaces, we'll try to detect that situation
-        // and ask for these namespaces separately
-        // @TODO: make this optional
-        if ($root == '' && $name == '*') {
+        // #1486796: some server configurations doesn't return folders in all namespaces
+        if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
             $this->list_folders_update($result);
         }
 
