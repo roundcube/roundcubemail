@@ -1,6 +1,19 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where draft auto-save wasn't executed after some inactivity time
+- Add vCard import from multiple files at once (#1488015)
+- Roundcube Framework:
+    Add possibility to replace IMAP driver with custom class
+    Add IMAP auto-connection feature, improving performance with caching enabled
+    Replace imap_init hook with storage_init (with additional 'driver' argument)
+    Improved performance by caching IMAP server's capabilities in session
+    Unified global functions naming (rcube_ prefix)
+    Move global functions from main.inc and rcube_shared.inc into classes
+    Better classes separation
+
+RELEASE 0.8-rc
+--------------
 - Added new translations in Belarusian, Interlingua and Malayalam
 - Flipped compose options arrow (#1488474)
 - Fix handling of large uuencode attachments (#1488473)
@@ -17,19 +30,6 @@ CHANGELOG Roundcube Webmail
 - Add IE8 hack for messages list issue (#1487821)
 - Fix handling errors on draft auto-save
 - Fix importing vCard photo with ENCODING param specified (#1488432)
-- Fix issue where draft auto-save wasn't executed after some inactivity time
-- Add vCard import from multiple files at once (#1488015)
-- Roundcube Framework:
-    Add possibility to replace IMAP driver with custom class
-    Add IMAP auto-connection feature, improving performance with caching enabled
-    Replace imap_init hook with storage_init (with additional 'driver' argument)
-    Improved performance by caching IMAP server's capabilities in session
-    Unified global functions naming (rcube_ prefix)
-    Move global functions from main.inc and rcube_shared.inc into classes
-    Better classes separation
-
-RELEASE 0.8-rc
-----------------
 - Support mutliple name/email pairs for Bcc and Reply-To identity settings (#1488445)
 - Set flexible width to login form fields (#1488418)
 - Fix re-draw bug on list columns change in IE8 (#1487822)
