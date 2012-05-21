@@ -2670,6 +2670,8 @@ class rcube_imap extends rcube_storage
             return array();
         }
 
+        $config = rcube::get_instance()->config;
+
         // #1486796: some server configurations doesn't return folders in all namespaces
         if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
             $this->list_folders_update($result);
