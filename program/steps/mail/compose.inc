@@ -770,6 +770,7 @@ function rcmail_compose_body($attrib)
 
   // If desired, set this textarea to be editable by TinyMCE
   if ($isHtml) {
+    $MESSAGE_BODY = htmlentities($MESSAGE_BODY, ENT_NOQUOTES, RCMAIL_CHARSET);
     $attrib['class'] = 'mce_editor';
     $textarea = new html_textarea($attrib);
     $out .= $textarea->show($MESSAGE_BODY);
