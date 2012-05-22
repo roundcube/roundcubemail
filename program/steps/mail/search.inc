@@ -13,9 +13,6 @@
  | Author: Benjamin Smith <defitro@gmail.com>                            |
  |         Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 $REMOTE_REQUEST = TRUE;

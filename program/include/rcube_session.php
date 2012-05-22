@@ -19,9 +19,6 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
-
- $Id: session.inc 2932 2009-09-07 12:51:21Z alec $
-
 */
 
 /**

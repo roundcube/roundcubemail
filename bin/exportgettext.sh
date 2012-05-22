@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php
 /*
-
  +-----------------------------------------------------------------------+
  | bin/exportgettext.sh                                                  |
  |                                                                       |
@@ -14,9 +13,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
@@ -205,7 +201,7 @@ EOF;
 		$msgid = $is_pot ? $msgstr : ($GLOBALS['en_US'][$label] ?: $label);
 		$messages[$msgid][] = $label;
 	}
-	
+
 	foreach ($messages as $msgid => $labels) {
 		$out .= "\n";
 		foreach ($labels as $label)

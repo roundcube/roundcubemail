@@ -19,9 +19,6 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
  +-----------------------------------------------------------------------+
-
- $Id: search.inc 456 2007-01-10 12:34:33Z thomasb $
-
 */
 
 if ($RCMAIL->action == 'search-create') {

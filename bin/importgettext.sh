@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php
 /*
-
  +-----------------------------------------------------------------------+
  | bin/importgettext.sh                                                  |
  |                                                                       |
@@ -14,9 +13,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
@@ -39,7 +35,7 @@ else if (is_file($srcdir)) {
 foreach ($out as $outfn => $texts) {
 	$lang = preg_match('!/([a-z]{2}(_[A-Z]{2})?)[./]!', $outfn, $m) ? $m[1] : '';
 	$varname = strpos($outfn, 'messages.inc') !== false ? 'messages' : 'labels';
-	
+
 	$header = <<<EOF
 <?php
 
@@ -54,14 +50,13 @@ foreach ($out as $outfn => $texts) {
  +-----------------------------------------------------------------------+
  | Author: %-62s|
  +-----------------------------------------------------------------------+
- @version %s$
 */
 
 $%s = array();
 
 EOF;
 
-	$output = sprintf($header, $lang, $varname.'.inc', date('Y'), $texts['_translator'], '$Id', $varname);
+	$output = sprintf($header, $lang, $varname.'.inc', date('Y'), $texts['_translator'], $varname);
 
 	foreach ($texts as $label => $value) {
 	    if (is_array($value)) { var_dump($outfn, $label, $value); exit; }
@@ -131,7 +126,7 @@ function import_file($fn)
 					$out[$file][$label] = $msgstr;
 				}
 			}
-			
+
 			$msgid = null;
 			$msgstr = '';
 			$dests = array();
@@ -167,7 +162,7 @@ function import_file($fn)
 			$out[$file]['_translator'] = $translator;
 		}
 	}
-	
+
 	return $language ? $out : array();
 }
 

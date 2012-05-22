@@ -24,9 +24,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  | Author: Ryo Chijiiwa <Ryo@IlohaMail.org>                              |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 // for backward compat.

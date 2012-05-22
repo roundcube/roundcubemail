@@ -17,9 +17,6 @@
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 // WARNING: folder names in UI are encoded with RCMAIL_CHARSET

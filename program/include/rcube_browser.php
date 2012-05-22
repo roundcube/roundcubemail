@@ -17,14 +17,11 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
-/** 
+/**
  * rcube_browser
- * 
+ *
  * Provide details about the client's browser based on the User-Agent header
  *
  * @package Core

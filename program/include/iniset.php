@@ -18,9 +18,6 @@
  | Author: Till Klampaeckel <till@php.net>                               |
  |         Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 // Some users are not using Installer, so we'll check some

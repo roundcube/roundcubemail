@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | program/include/rcube_ldap.php                                        |
@@ -19,9 +20,6 @@
  |         Andreas Dick <andudi (at) gmx (dot) ch>                       |
  |         Aleksander Machniak <machniak@kolabsys.com>                   |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 

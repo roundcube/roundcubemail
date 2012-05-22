@@ -19,9 +19,6 @@
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 

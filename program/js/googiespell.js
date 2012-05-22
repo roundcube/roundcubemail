@@ -17,8 +17,6 @@
  | Authors: 4mir Salihefendic <amix@amix.dk>                             |
  |          Aleksander Machniak - <alec [at] alec.pl>                    |
  +-----------------------------------------------------------------------+
-
-  $Id$
 */
 
 var GOOGIE_CUR_LANG,
