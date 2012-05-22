@@ -38,34 +38,14 @@ if (!empty($_GET['_preload'])) {
 
 ob_end_clean();
 
-// Now we need IMAP connection
-if (!$RCMAIL->storage_connect()) {
-  // Get action is often executed simultanously.
-  // Some servers have MAXPERIP or other limits.
-  // To workaround this we'll wait for some time
-  // and try again (once).
-  // Note: Random sleep interval is used to minimize concurency
-  // in getting message parts
-  if (!isset($_GET['_redirected'])) {
-    usleep(rand(10,30)*100000); // 1-3 sec.
-    header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
-  }
-  else {
-    raise_error(array(
-      'code' => 500, 'type' => 'php',
-      'file' => __FILE__, 'line' => __LINE__,
-      'message' => 'Unable to get/display message part. IMAP connection error'),
-      true, true);
-  }
-  // Don't kill session, just quit (#1486995)
-  exit;
-}
-
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {
   $RCMAIL->config->set('prefer_html', true);
   $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
 }
+
+// check connection status
+check_storage_status();
 
 // show part page
 if (!empty($_GET['_frame'])) {
@@ -137,6 +117,11 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         $out = rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false));
       }
 
+      // check connection status
+      if ($part->size && empty($part->body)) {
+        check_storage_status();
+      }
+
       $OUTPUT = new rcube_output_html();
       $OUTPUT->write($out);
     }
@@ -170,21 +155,31 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
       // do content filtering to avoid XSS through fake images
       if (!empty($_REQUEST['_embed']) && $browser->ie && $browser->ver <= 8) {
-        if ($part->body)
+        if ($part->body) {
           echo preg_match('/<(script|iframe|object)/i', $part->body) ? '' : $part->body;
+          $sent = true;
+        }
         else if ($part->size) {
           $stdout = fopen('php://output', 'w');
           stream_filter_register('rcube_content', 'rcube_content_filter') or die('Failed to register content filter');
           stream_filter_append($stdout, 'rcube_content');
-          $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
+          $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
         }
       }
       else {
         // turn off output buffering and print part content
-        if ($part->body)
+        if ($part->body) {
           echo $part->body;
-        else if ($part->size)
-          $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
+          $sent = true;
+        }
+        else if ($part->size) {
+          $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
+        }
+      }
+
+      // check connection status
+      if ($part->size && !$sent) {
+        check_storage_status();
       }
     }
 
@@ -213,3 +208,34 @@ header('HTTP/1.1 404 Not Found');
 exit;
 
 
+function check_storage_status()
+{
+    $error = rcmail::get_instance()->storage->get_error_code();
+
+    // Check if we have a connection error
+    if ($error == rcube_imap_generic::ERROR_BAD) {
+        ob_end_clean();
+
+        // Get action is often executed simultanously.
+        // Some servers have MAXPERIP or other limits.
+        // To workaround this we'll wait for some time
+        // and try again (once).
+        // Note: Random sleep interval is used to minimize concurency
+        // in getting message parts
+
+        if (!isset($_GET['_redirected'])) {
+            usleep(rand(10,30)*100000); // 1-3 sec.
+            header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
+        }
+        else {
+            raise_error(array(
+                'code' => 500, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Unable to get/display message part. IMAP connection error'),
+                true, true);
+        }
+
+        // Don't kill session, just quit (#1486995)
+        exit;
+    }
+}
