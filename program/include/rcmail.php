@@ -2006,4 +2006,9 @@ class rcmail extends rcube
     {
         rcube_utils::setcookie($name, $value, $exp);
     }
+
+    public function imap_connect()
+    {
+        return $this->storage_connect();
+    }
 }
