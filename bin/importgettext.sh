@@ -56,7 +56,8 @@ $%s = array();
 
 EOF;
 
-	$output = sprintf($header, $lang, $varname.'.inc', date('Y'), $texts['_translator'], $varname);
+    $author = preg_replace('/\s*<Unknown>/i', '', $texts['_translator']);
+	$output = sprintf($header, $lang, $varname.'.inc', date('Y'), $author, $varname);
 
 	foreach ($texts as $label => $value) {
 	    if (is_array($value)) { var_dump($outfn, $label, $value); exit; }
