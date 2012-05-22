@@ -127,14 +127,23 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
     echo '</div></body></html>';
     exit;
   }
-  
+
 ?>
 
 <h1>Roundcube Webmail Installer</h1>
 
 <ol id="progress">
 <?php
-  
+  $include_steps = array(
+    1 => './check.php',
+    2 => './config.php',
+    3 => './test.php',
+  );
+
+  if (!in_array($RCI->step, array_keys($include_steps))) {
+    $RCI->step = 1;
+  }
+
   foreach (array('Check environment', 'Create config', 'Test config') as $i => $item) {
     $j = $i + 1;
     $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="./index.php?_step='.$j.'">' . Q($item) . '</a>' : Q($item);
@@ -144,15 +153,8 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 </ol>
 
 <?php
-$include_steps = array('', './check.php', './config.php', './test.php');
 
-if ($include_steps[$RCI->step]) {
-  include $include_steps[$RCI->step];
-}
-else {
-  header("HTTP/1.0 404 Not Found");
-  echo '<h2 class="error">Invalid step</h2>';
-}
+include $include_steps[$RCI->step];
 
 ?>
 </div>

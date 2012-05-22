@@ -413,7 +413,7 @@ class rcube_install
   {
     if (!$this->configured)
       return false;
-    
+
     $options = array(
       'use_transactions' => false,
       'log_line_break' => "\n",
@@ -423,11 +423,11 @@ class rcube_install
       'force_defaults' => false,
       'portability' => true
     );
-    
+
     $dsnw = $this->config['db_dsnw'];
     $schema = MDB2_Schema::factory($dsnw, $options);
     $schema->db->supported['transactions'] = false;
-    
+
     if (PEAR::isError($schema)) {
       $this->raise_error(array('code' => $schema->getCode(), 'message' => $schema->getMessage() . ' ' . $schema->getUserInfo()));
       return false;
@@ -435,33 +435,33 @@ class rcube_install
     else {
       $definition = $schema->getDefinitionFromDatabase();
       $definition['charset'] = 'utf8';
-      
+
       if (PEAR::isError($definition)) {
         $this->raise_error(array('code' => $definition->getCode(), 'message' => $definition->getMessage() . ' ' . $definition->getUserInfo()));
         return false;
       }
-      
+
       // load reference schema
       $dsn_arr = MDB2::parseDSN($this->config['db_dsnw']);
 
       $ref_schema = INSTALL_PATH . 'SQL/' . $dsn_arr['phptype'] . '.schema.xml';
-      
+
       if (is_readable($ref_schema)) {
         $reference = $schema->parseDatabaseDefinition($ref_schema, false, array(), $schema->options['fail_on_invalid_names']);
-        
+
         if (PEAR::isError($reference)) {
           $this->raise_error(array('code' => $reference->getCode(), 'message' => $reference->getMessage() . ' ' . $reference->getUserInfo()));
         }
         else {
           $diff = $schema->compareDefinitions($reference, $definition);
-          
+
           if (empty($diff)) {
             return true;
           }
           else if ($update) {
             // update database schema with the diff from the above check
             $success = $schema->alterDatabase($reference, $definition, $diff);
-            
+
             if (PEAR::isError($success)) {
               $this->raise_error(array('code' => $success->getCode(), 'message' => $success->getMessage() . ' ' . $success->getUserInfo()));
             }
@@ -476,11 +476,11 @@ class rcube_install
         $this->raise_error(array('message' => "Could not find reference schema file ($ref_schema)"));
         return false;
     }
-    
+
     return false;
   }
-  
-  
+
+
   /**
    * Getter for the last error message
    *
@@ -490,8 +490,8 @@ class rcube_install
   {
       return $this->last_error['message'];
   }
-  
-  
+
+
   /**
    * Return a list with all imap hosts configured
    *
@@ -501,12 +501,12 @@ class rcube_install
   {
     $default_hosts = (array)$this->getprop('default_host');
     $out = array();
-    
+
     foreach ($default_hosts as $key => $name) {
       if (!empty($name))
         $out[] = rcube_parse_host(is_numeric($key) ? $name : $key);
     }
-    
+
     return $out;
   }
 
@@ -524,7 +524,7 @@ class rcube_install
         '0.5-beta', '0.5', '0.5.1',
         '0.6-beta', '0.6',
         '0.7-beta', '0.7', '0.7.1', '0.7.2',
-        '0.8-beta',
+        '0.8-beta', '0.8-rc',
     ));
     return $select;
   }
@@ -543,7 +543,7 @@ class rcube_install
     }
     return $skins;
   }
-  
+
   /**
    * Display OK status
    *
@@ -555,8 +555,8 @@ class rcube_install
     echo Q($name) . ':&nbsp; <span class="success">OK</span>';
     $this->_showhint($message);
   }
-  
-  
+
+
   /**
    * Display an error status and increase failure count
    *
@@ -567,7 +567,7 @@ class rcube_install
   function fail($name, $message = '', $url = '')
   {
     $this->failures++;
-    
+
     echo Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
     $this->_showhint($message, $url);
   }
@@ -585,8 +585,8 @@ class rcube_install
     echo Q($name) . ':&nbsp; <span class="na">NOT OK</span>';
     $this->_showhint($message, $url);
   }
-  
-  
+
+
   /**
    * Display warning status
    *
@@ -599,24 +599,24 @@ class rcube_install
     echo Q($name) . ':&nbsp; <span class="na">NOT AVAILABLE</span>';
     $this->_showhint($message, $url);
   }
-  
-  
+
+
   function _showhint($message, $url = '')
   {
     $hint = Q($message);
-    
+
     if ($url)
       $hint .= ($hint ? '; ' : '') . 'See <a href="' . Q($url) . '" target="_blank">' . Q($url) . '</a>';
-      
+
     if ($hint)
       echo '<span class="indent">(' . $hint . ')</span>';
   }
-  
-  
+
+
   static function _clean_array($arr)
   {
     $out = array();
-    
+
     foreach (array_unique($arr) as $k => $val) {
       if (!empty($val)) {
         if (is_numeric($k))
@@ -625,11 +625,11 @@ class rcube_install
           $out[$k] = $val;
       }
     }
-    
+
     return $out;
   }
-  
-  
+
+
   static function _dump_var($var, $name=null) {
     // special values
     switch ($name) {
@@ -658,16 +658,16 @@ class rcube_install
             break;
           }
         }
-        
+
         if ($isnum)
           return 'array(' . join(', ', array_map(array('rcube_install', '_dump_var'), $var)) . ')';
       }
     }
-    
+
     return var_export($var, true);
   }
-  
-  
+
+
   /**
    * Initialize the database with the according schema
    *
@@ -677,7 +677,7 @@ class rcube_install
   function init_db($DB)
   {
     $engine = isset($this->db_map[$DB->db_provider]) ? $this->db_map[$DB->db_provider] : $DB->db_provider;
-    
+
     // read schema file from /SQL/*
     $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
     if ($sql = @file_get_contents($fname)) {
@@ -687,7 +687,7 @@ class rcube_install
       $this->fail('DB Schema', "Cannot read the schema file: $fname");
       return false;
     }
-    
+
     if ($err = $this->get_error()) {
       $this->fail('DB Schema', "Error creating database schema: $err");
       return false;
@@ -695,8 +695,8 @@ class rcube_install
 
     return true;
   }
-  
-  
+
+
   /**
    * Update database with SQL statements from SQL/*.update.sql
    *
@@ -708,7 +708,7 @@ class rcube_install
   {
     $version = strtolower($version);
     $engine = isset($this->db_map[$DB->db_provider]) ? $this->db_map[$DB->db_provider] : $DB->db_provider;
-    
+
     // read schema file from /SQL/*
     $fname = INSTALL_PATH . "SQL/$engine.update.sql";
     if ($lines = @file($fname, FILE_SKIP_EMPTY_LINES)) {
@@ -723,7 +723,7 @@ class rcube_install
         if ($from && !$is_comment)
           $sql .= $line. "\n";
       }
-      
+
       if ($sql)
         $this->exec_sql($sql, $DB);
     }
@@ -731,7 +731,7 @@ class rcube_install
       $this->fail('DB Schema', "Cannot read the update file: $fname");
       return false;
     }
-    
+
     if ($err = $this->get_error()) {
       $this->fail('DB Schema', "Error updating database: $err");
       return false;
@@ -739,8 +739,8 @@ class rcube_install
 
     return true;
   }
-  
-  
+
+
   /**
    * Execute the given SQL queries on the database connection
    *
@@ -754,7 +754,7 @@ class rcube_install
     foreach (explode("\n", $sql) as $line) {
       if (preg_match('/^--/', $line) || trim($line) == '')
         continue;
-        
+
       $buff .= $line . "\n";
       if (preg_match('/(;|^GO)$/', trim($line))) {
         $DB->query($buff);
@@ -763,11 +763,11 @@ class rcube_install
           break;
       }
     }
-    
+
     return !$DB->is_error();
   }
-  
-  
+
+
   /**
    * Handler for Roundcube errors
    */
@@ -775,8 +775,8 @@ class rcube_install
   {
       $this->last_error = $p;
   }
-  
-  
+
+
   /**
    * Generarte a ramdom string to be used as encryption key
    *
@@ -788,12 +788,12 @@ class rcube_install
   {
     $alpha = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789+*%&?!$-_=';
     $out = '';
-    
+
     for ($i=0; $i < $length; $i++)
       $out .= $alpha{rand(0, strlen($alpha)-1)};
-    
+
     return $out;
   }
-  
+
 }
 
