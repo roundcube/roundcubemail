@@ -298,7 +298,7 @@ class html
                 }
             }
             else {
-                $attrib_arr[] = $key . '="' . self::quote($value) . '"';
+                $attrib_arr[] = $key . '="' . self::quote($value, true) . '"';
             }
         }
 
@@ -331,17 +331,20 @@ class html
     /**
      * Replacing specials characters in html attribute value
      *
-     * @param  string  $str  Input string
+     * @param  string  $str       Input string
+     * @param  bool    $validate  Enables double quotation prevention
      *
      * @return string  The quoted string
      */
-    public static function quote($str)
+    public static function quote($str, $validate = false)
     {
         $str = htmlspecialchars($str, ENT_COMPAT, RCMAIL_CHARSET);
 
         // avoid douple quotation of &
-        // @TODO: get rid of it?
-        $str = preg_replace('/&amp;([A-Za-z]{2,6}|#[0-9]{2,4});/', '&\\1;', $str);
+        // @TODO: get rid of it
+        if ($validate) {
+            $str = preg_replace('/&amp;([A-Za-z]{2,6}|#[0-9]{2,4});/', '&\\1;', $str);
+        }
 
         return $str;
     }
@@ -558,8 +561,8 @@ class html_textarea extends html
             unset($this->attrib['value']);
         }
 
-        if (!empty($value) && !preg_match('/mce_editor/', $this->attrib['class'])) {
-            $value = self::quote($value);
+        if (!empty($value) && empty($this->attrib['is_escaped'])) {
+            $value = self::quote($value, true);
         }
 
         return self::tag($this->tagname, $this->attrib, $value,
@@ -633,7 +636,12 @@ class html_select extends html
                 'selected' => (in_array($option['value'], $select, true) ||
                   in_array($option['text'], $select, true)) ? 1 : null);
 
-            $this->content .= self::tag('option', $attr, self::quote($option['text']));
+            $option_content = $option['text'];
+            if (empty($this->attrib['is_escaped'])) {
+                $option_content = self::quote($option_content, true);
+            }
+
+            $this->content .= self::tag('option', $attr, $option_content);
         }
 
         return parent::show();

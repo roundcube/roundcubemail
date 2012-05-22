@@ -1329,11 +1329,12 @@ class rcmail extends rcube
         $attrib      = $hook['attribs'];
 
         if ($type == 'select') {
+            $attrib['is_escaped'] = true;
             $select = new html_select($attrib);
 
             // add no-selection option
             if ($attrib['noselection']) {
-                $select->add($rcmail->gettext($attrib['noselection']), '');
+                $select->add(html::quote($rcmail->gettext($attrib['noselection'])), '');
             }
 
             $rcmail->render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
@@ -1362,7 +1363,7 @@ class rcmail extends rcube
      */
     public function folder_selector($p = array())
     {
-        $p += array('maxlength' => 100, 'realnames' => false);
+        $p += array('maxlength' => 100, 'realnames' => false, 'is_escaped' => true);
         $a_mailboxes = array();
         $storage = $this->get_storage();
 
@@ -1388,7 +1389,7 @@ class rcmail extends rcube
         $select = new html_select($p);
 
         if ($p['noselection']) {
-            $select->add($p['noselection'], '');
+            $select->add(html::quote($p['noselection']), '');
         }
 
         $this->render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames'], 0, $p);
@@ -1579,7 +1580,7 @@ class rcmail extends rcube
                 }
             }
 
-            $select->add(str_repeat('&nbsp;', $nestLevel*4) . $foldername, $folder['id']);
+            $select->add(str_repeat('&nbsp;', $nestLevel*4) . html::quote($foldername), $folder['id']);
 
             if (!empty($folder['folders'])) {
                 $out .= $this->render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,

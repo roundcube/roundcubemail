@@ -772,6 +772,7 @@ function rcmail_compose_body($attrib)
   if ($isHtml) {
     $MESSAGE_BODY = htmlentities($MESSAGE_BODY, ENT_NOQUOTES, RCMAIL_CHARSET);
     $attrib['class'] = 'mce_editor';
+    $attrib['is_escaped'] = true;
     $textarea = new html_textarea($attrib);
     $out .= $textarea->show($MESSAGE_BODY);
   }

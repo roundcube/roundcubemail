@@ -88,7 +88,8 @@ function rcube_identity_form($attrib)
 
   // Enable TinyMCE editor
   if ($IDENTITY_RECORD['html_signature']) {
-    $form['signature']['content']['signature']['class'] = 'mce_editor';
+    $form['signature']['content']['signature']['class']      = 'mce_editor';
+    $form['signature']['content']['signature']['is_escaped'] = true;
   }
 
   $IDENTITY_RECORD['signature'] = htmlentities($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCMAIL_CHARSET);
