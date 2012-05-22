@@ -362,35 +362,6 @@ class rcube
 
 
   /**
-   * Connect to the mail storage server with stored session data
-   *
-   * @return bool True on success, False on error
-   */
-  public function storage_connect()
-  {
-    $storage = $this->get_storage();
-
-    if ($_SESSION['storage_host'] && !$storage->is_connected()) {
-      $host = $_SESSION['storage_host'];
-      $user = $_SESSION['username'];
-      $port = $_SESSION['storage_port'];
-      $ssl  = $_SESSION['storage_ssl'];
-      $pass = $this->decrypt($_SESSION['password']);
-
-      if (!$storage->connect($host, $user, $pass, $port, $ssl)) {
-        if (is_object($this->output))
-          $this->output->show_message($storage->get_error_code() == -1 ? 'storageerror' : 'sessionerror', 'error');
-      }
-      else {
-        $this->set_storage_prop();
-        return $storage->is_connected();
-      }
-    }
-
-    return false;
-  }
-
-  /**
    * Set storage parameters.
    * This must be done AFTER connecting to the server!
    */
