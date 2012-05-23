@@ -26,9 +26,6 @@
  +-----------------------------------------------------------------------+
 */
 
-// for backward compat.
-class rcube_mail_header extends rcube_message_header { }
-
 
 /**
  * PHP based wrapper class to connect to an IMAP server

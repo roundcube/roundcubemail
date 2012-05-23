@@ -1146,3 +1146,6 @@ class rcube_imap_cache
         return $index;
     }
 }
+
+// for backward compat.
+class rcube_mail_header extends rcube_message_header { }
