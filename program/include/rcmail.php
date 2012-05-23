@@ -2010,6 +2010,11 @@ class rcmail extends rcube
         return $this->storage_connect();
     }
 
+    public function imap_init()
+    {
+        return $this->storage_init();
+    }
+
     /**
      * Connect to the mail storage server with stored session data
      *
