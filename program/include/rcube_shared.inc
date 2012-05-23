@@ -82,9 +82,11 @@ function send_future_expire_header($offset=2600000)
 function in_array_nocase($needle, $haystack)
 {
   $needle = mb_strtolower($needle);
-  foreach ($haystack as $value)
-    if ($needle===mb_strtolower($value))
-      return true;
+  foreach ((array)$haystack as $value) {
+    if ($needle === mb_strtolower($value)) {
+       return true;
+    }
+  }
 
   return false;
 }
