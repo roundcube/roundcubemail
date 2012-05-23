@@ -118,8 +118,8 @@ div.message-part blockquote
   border-left: 2px solid blue;
   border-right: 2px solid blue;
   background-color: #F6F6F6;
-  margin: 0.5em 0em 0.5em 0em;
-  padding: 0.25em 1em 0.25em 1em;
+  margin: 2px 0px;
+  padding: 1px 8px 1px 10px;
 }
 
 div.message-part blockquote blockquote
