@@ -38,7 +38,7 @@
 function in_array_nocase($needle, $haystack)
 {
     $needle = mb_strtolower($needle);
-    foreach ($haystack as $value) {
+    foreach ((array)$haystack as $value) {
         if ($needle === mb_strtolower($value)) {
             return true;
         }
