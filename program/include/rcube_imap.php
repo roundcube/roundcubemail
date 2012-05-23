@@ -404,15 +404,56 @@ class rcube_imap extends rcube_storage
      */
     public function check_permflag($flag)
     {
-        $flag = strtoupper($flag);
-        $imap_flag = $this->conn->flags[$flag];
+        $flag       = strtoupper($flag);
+        $imap_flag  = $this->conn->flags[$flag];
+        $perm_flags = $this->get_permflags($this->folder);
 
-        if ($this->folder !== null) {
-            $this->check_connection();
+        return in_array_nocase($imap_flag, $perm_flags);
+    }
+
+
+    /**
+     * Returns PERMANENTFLAGS of the specified folder
+     *
+     * @param  string $folder Folder name
+     *
+     * @return array Flags
+     */
+    public function get_permflags($folder)
+    {
+        if (!strlen($folder)) {
+            return array();
         }
-        // @TODO: cache permanent flags (?)
+/*
+        Checking PERMANENTFLAGS is rather rare, so we disable caching of it
+        Re-think when we'll use it for more than only MDNSENT flag
 
-        return (in_array_nocase($imap_flag, $this->conn->data['PERMANENTFLAGS']));
+        $cache_key = 'mailboxes.permanentflags.' . $folder;
+        $permflags = $this->get_cache($cache_key);
+
+        if ($permflags !== null) {
+            return explode(' ', $permflags);
+        }
+*/
+        if (!$this->check_connection()) {
+            return array();
+        }
+
+        if ($this->conn->select($folder)) {
+            $permflags = $this->conn->data['PERMANENTFLAGS'];
+        }
+        else {
+            return array();
+        }
+
+        if (!is_array($permflags)) {
+            $permflags = array();
+        }
+/*
+        // Store permflags as string to limit cached object size
+        $this->update_cache($cache_key, implode(' ', $permflags));
+*/
+        return $permflags;
     }
 
 
