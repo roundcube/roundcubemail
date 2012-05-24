@@ -24,7 +24,7 @@ function hide_blockquote()
       .css({'white-space': 'nowrap', overflow: 'hidden', position: 'relative'})
       .text(res[0]);
 
-    link = $('<span class="blockquote-link">')
+    link = $('<span class="blockquote-link"></span>')
       .css({position: 'absolute', 'z-Index': 2})
       .text(rcmail.gettext('hide_blockquote.show'))
       .data('parent', div)
