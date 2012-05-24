@@ -37,7 +37,7 @@ class rcube_session
   private $unsets = array();
   private $gc_handlers = array();
   private $cookiename = 'roundcube_sessauth';
-  private $vars = false;
+  private $vars;
   private $key;
   private $now;
   private $secret = '';
@@ -134,11 +134,10 @@ class rcube_session
       $this->vars    = base64_decode($sql_arr['vars']);
       $this->key     = $key;
 
-      if (!empty($this->vars))
-        return $this->vars;
+      return !empty($this->vars) ? (string) $this->vars : '';
     }
 
-    return false;
+    return null;
   }
 
 
@@ -157,7 +156,7 @@ class rcube_session
 
     // no session row in DB (db_read() returns false)
     if (!$this->key) {
-      $oldvars = false;
+      $oldvars = null;
     }
     // use internal data from read() for fast requests (up to 0.5 sec.)
     else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5)) {
@@ -167,7 +166,7 @@ class rcube_session
       $oldvars = $this->db_read($key);
     }
 
-    if ($oldvars !== false) {
+    if ($oldvars !== null) {
       $newvars = $this->_fixvars($vars, $oldvars);
 
       if ($newvars !== $oldvars) {
@@ -197,7 +196,7 @@ class rcube_session
    */
   private function _fixvars($vars, $oldvars)
   {
-    if ($oldvars !== false) {
+    if ($oldvars !== null) {
       $a_oldvars = $this->unserialize($oldvars);
       if (is_array($a_oldvars)) {
         foreach ((array)$this->unsets as $k)
@@ -265,12 +264,12 @@ class rcube_session
       $this->vars    = $arr['vars'];
       $this->key     = $key;
 
-      if (!empty($this->vars))
-        return $this->vars;
+      return !empty($this->vars) ? (string) $this->vars : '';
     }
 
-    return false;
+    return null;
   }
+
 
   /**
    * Save session data.
@@ -286,20 +285,21 @@ class rcube_session
 
     // no session data in cache (mc_read() returns false)
     if (!$this->key)
-      $oldvars = false;
+      $oldvars = null;
     // use internal data for fast requests (up to 0.5 sec.)
     else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5))
       $oldvars = $this->vars;
     else // else read data again
       $oldvars = $this->mc_read($key);
 
-    $newvars = $oldvars !== false ? $this->_fixvars($vars, $oldvars) : $vars;
-    
+    $newvars = $oldvars !== null ? $this->_fixvars($vars, $oldvars) : $vars;
+
     if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 2)
       return $this->memcache->set($key, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars)), MEMCACHE_COMPRESSED, $this->lifetime);
-    
+
     return true;
   }
+
 
   /**
    * Handler for session_destroy() with memcache backend
@@ -350,7 +350,7 @@ class rcube_session
   {
     session_regenerate_id($destroy);
 
-    $this->vars = false;
+    $this->vars = null;
     $this->key  = session_id();
 
     return true;
@@ -373,13 +373,14 @@ class rcube_session
 
     return true;
   }
-  
+
+
   /**
    * Kill this session
    */
   public function kill()
   {
-    $this->vars = false;
+    $this->vars = null;
     $this->ip = $_SERVER['REMOTE_ADDR']; // update IP (might have changed)
     $this->destroy(session_id());
     rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
