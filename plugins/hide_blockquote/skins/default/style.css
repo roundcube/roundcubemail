@@ -17,7 +17,7 @@ span.blockquote-link {
   border-top: none;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
-  background: #fff;
+  background: #f8f8f8;
   background: -moz-linear-gradient(top, #f8f8f8 0%, #e8e8e8 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#e8e8e8));
   background: -o-linear-gradient(top, #f8f8f8 0%, #e8e8e8 100%);
