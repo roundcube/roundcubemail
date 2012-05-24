@@ -21,10 +21,6 @@ $rcmail_config['password_require_nonalpha'] = false;
 // Enables logging of password changes into logs/password
 $rcmail_config['password_log'] = false;
 
-// Comma-separated list of login exceptions for which password change
-// will be not available (no Password tab in Settings)
-$rcmail_config['password_login_exceptions'] = null;
-
 
 // SQL Driver options
 // ------------------
@@ -308,40 +304,5 @@ $rcmail_config['hmailserver_server'] = array(
 // 5: domain-username
 // 6: username_domain
 // 7: domain_username
-$rcmail_config['password_virtualmin_format'] = 0;
-
-
-// pw_usermod Driver options
-// --------------------------
-// Use comma delimited exlist to disable password change for users
-// Add the following line to visudo to tighten security:
-// www  ALL=NOPASSWORD: /usr/sbin/pw
-$rcmail_config['password_pw_usermod_cmd'] = 'sudo /usr/sbin/pw usermod -h 0 -n';
-
-
-// DBMail Driver options
-// -------------------
-// Additional arguments for the dbmail-users call
-$rcmail_config['password_dbmail_args'] = '-p sha512';
-
-
-// Expect Driver options
-// ---------------------
-// Location of expect binary
-$rcmail_config['password_expect_bin'] = '/usr/bin/expect';
-
-// Location of expect script (see helpers/passwd-expect)
-$rcmail_config['password_expect_script'] = '';
-
-// Arguments for the expect script. See the helpers/passwd-expect file for details.
-// This is probably a good starting default:
-//   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
-$rcmail_config['password_expect_params'] = '';
-
-
-// smb Driver options
-// ---------------------
-// Samba host (default: localhost)
-$rcmail_config['password_smb_host'] = 'localhost';
-// Location of smbpasswd binary
-$rcmail_config['password_smb_cmd'] = '/usr/bin/smbpasswd';
+// 8: domain from: mbox@domain; username: mbox.user (virtualmin default)
+$rcmail_config['password_virtualmin_format'] = 8;
