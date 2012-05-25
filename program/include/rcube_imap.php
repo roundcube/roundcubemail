@@ -2913,11 +2913,11 @@ class rcube_imap extends rcube_storage
 
         // get list of subscribed folders
         if ((strpos($folder, '%') === false) && (strpos($folder, '*') === false)) {
-            $a_subscribed = $this->_list_folders_subscribed('', $folder . $delm . '*');
+            $a_subscribed = $this->list_folders_subscribed('', $folder . $delm . '*');
             $subscribed   = $this->folder_exists($folder, true);
         }
         else {
-            $a_subscribed = $this->_list_folders_subscribed();
+            $a_subscribed = $this->list_folders_subscribed();
             $subscribed   = in_array($folder, $a_subscribed);
         }
 
