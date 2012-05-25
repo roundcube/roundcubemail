@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Move messages forwarding mode setting into Preferences
 - Add is_escaped attribute for html_select and html_textarea (#1488485)
 - Fix HTML entities handling in HTML editor (#1488483)
 - Fix listing shared folders on Courier IMAP (#1488466)
