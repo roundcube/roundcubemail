@@ -1229,21 +1229,21 @@ class rcube_output_html extends rcube_output
      */
     protected function file_callback($matches)
     {
-	    $file = $matches[3];
+        $file = $matches[3];
 
         // correct absolute paths
-	    if ($file[0] == '/') {
-	        $file = $this->base_path . $file;
+        if ($file[0] == '/') {
+            $file = $this->base_path . $file;
         }
 
         // add file modification timestamp
-	    if (preg_match('/\.(js|css)$/', $file)) {
+        if (preg_match('/\.(js|css)$/', $file)) {
             if ($fs = @filemtime($file)) {
                 $file .= '?s=' . $fs;
             }
         }
 
-	    return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
 
 
@@ -1564,16 +1564,20 @@ class rcube_output_html extends rcube_output
             'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
         );
 
-        if (!empty($_POST['_charset']))
-	        $set = $_POST['_charset'];
-	    else if (!empty($attrib['selected']))
-	        $set = $attrib['selected'];
-	    else
-	        $set = $this->get_charset();
+        if (!empty($_POST['_charset'])) {
+            $set = $_POST['_charset'];
+        }
+        else if (!empty($attrib['selected'])) {
+            $set = $attrib['selected'];
+        }
+        else {
+            $set = $this->get_charset();
+        }
 
-	    $set = strtoupper($set);
-	    if (!isset($charsets[$set]))
-	        $charsets[$set] = $set;
+        $set = strtoupper($set);
+        if (!isset($charsets[$set])) {
+            $charsets[$set] = $set;
+        }
 
         $select = new html_select($field_attrib);
         $select->add(array_values($charsets), array_keys($charsets));
