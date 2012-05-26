@@ -48,6 +48,10 @@ class rcube_virtualmin_password
             $pieces = explode("_", $username);
             $domain = $pieces[0];
             break;
+		case 8: // domain taken from alias, username left as it was
+			$email = $rcmail->user->data['alias'];
+			$domain = substr(strrchr($email, "@"), 1);
+			break
         default: // username@domain
             $domain = substr(strrchr($username, "@"), 1);
         }
