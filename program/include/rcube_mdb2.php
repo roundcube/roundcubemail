@@ -48,6 +48,7 @@ class rcube_mdb2
     private $a_query_results = array('dummy');
     private $last_res_id = 0;
     private $tables;
+    private $variables;
 
 
     /**
@@ -210,6 +211,31 @@ class rcube_mdb2
     public function is_replicated()
     {
       return !empty($this->db_dsnr) && $this->db_dsnw != $this->db_dsnr;
+    }
+
+
+    /**
+     * Get database runtime variables
+     *
+     * @param string Variable name
+     * @param mixed  Default value if var is not set
+     * @return mixed Variable value or default
+     */
+    public function get_variable($varname, $default = null)
+    {
+        if (!isset($this->variables)) {
+            $this->variables = array();
+
+            // only mysql and postgres are know to support this
+            if ($this->db_provider == 'pgsql' || $this->db_provider == 'mysql' || $this->db_provider == 'mysqli') {
+                $this->db_connect('r');
+                $query = $this->db_provider == 'pgsql' ? 'SHOW ALL' : 'SHOW VARIABLES';
+                foreach ((array)$this->db_handle->queryAll($query) as $row)
+                    $this->variables[$row[0]] = $row[1];
+            }
+        }
+
+        return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
     }
 
 
