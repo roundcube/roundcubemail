@@ -1017,15 +1017,16 @@ class rcmail
 
     if (is_array($default_host)) {
       $post_host = get_input_value('_host', RCUBE_INPUT_POST);
+      $post_user = get_input_value('_user', RCUBE_INPUT_POST);
+
+      list($user, $domain) = explode('@', $post_user);
 
       // direct match in default_host array
-      if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
+      if ($default_host[$post_host] || in_array($post_host, $default_host)) {
         $host = $post_host;
       }
-
       // try to select host by mail domain
-      list($user, $domain) = explode('@', get_input_value('_user', RCUBE_INPUT_POST));
-      if (!empty($domain)) {
+      else if (!empty($domain)) {
         foreach ($default_host as $storage_host => $mail_domains) {
           if (is_array($mail_domains) && in_array_nocase($domain, $mail_domains)) {
             $host = $storage_host;
