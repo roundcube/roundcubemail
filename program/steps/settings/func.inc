@@ -617,6 +617,18 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['forward_attachment'])) {
+      $field_id = 'rcmfd_forward_attachment';
+      $select = new html_select(array('name' => '_forward_attachment', 'id' => $field_id));
+      $select->add(rcube_label('inline'), 0);
+      $select->add(rcube_label('asattachment'), 1);
+
+      $blocks['main']['options']['forward_attachment'] = array(
+        'title' => html::label($field_id, Q(rcube_label('forwardmode'))),
+        'content' => $select->show(intval($config['forward_attachment'])),
+      );
+    }
+
     if (!isset($no_override['default_font'])) {
       $field_id     = 'rcmfd_default_font';
       $fonts        = rcube_fontdefs();
