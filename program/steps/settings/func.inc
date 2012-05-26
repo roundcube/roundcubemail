@@ -186,11 +186,14 @@ function rcmail_user_prefs($current=null)
 
       $now = new DateTime();
       foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
-        $tz = new DateTimeZone($tzs);
-        $date = new DateTime('2012-12-21', $tz);
-        $offset = $date->format('Z') + 45000;
-        $sortkey = sprintf('%06d.%s', $offset, $tzs);
-        $zones[$sortkey] = array($tzs, $date->format('P'));
+        try {
+          $tz = new DateTimeZone($tzs);
+          $date = new DateTime('2012-12-21', $tz);
+          $offset = $date->format('Z') + 45000;
+          $sortkey = sprintf('%06d.%s', $offset, $tzs);
+          $zones[$sortkey] = array($tzs, $date->format('P'));
+        }
+        catch (Exception $e) {}
       }
 
       ksort($zones);
