@@ -668,7 +668,7 @@ class html2text
      */
     private function _preg_callback($matches)
     {
-        switch($matches[1]) {
+        switch (strtolower($matches[1])) {
         case 'b':
         case 'strong':
             return $this->_toupper($matches[2]);
