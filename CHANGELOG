@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Don't display PDF and TIFF attachments inline without browser support (#1488452, #1487929)
+- Don't display Pdf/Tiff/Flash attachments inline without browser support (#1488452, #1487929)
 - Fix html2text conversion of strong|b|a|th|h tags when used in upper case
 - Add listcontrols template container in Larry skin (#1488498)
 - Fix host autoselection when default_host is an array (#1488495)

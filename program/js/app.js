@@ -6384,6 +6384,9 @@ function rcube_webmail()
     if (this.env.browser_capabilities.pdf === undefined)
       this.env.browser_capabilities.pdf = this.pdf_support_check();
 
+    if (this.env.browser_capabilities.flash === undefined)
+      this.env.browser_capabilities.flash = this.flash_support_check();
+
     if (this.env.browser_capabilities.tif === undefined)
       this.tif_support_check();
   };
@@ -6442,6 +6445,24 @@ function rcube_webmail()
       }
       else if (plugin.name && regex.test(plugin.name))
         return 1;
+    }
+
+    return 0;
+  };
+
+  this.flash_support_check = function()
+  {
+    var plugin = navigator.mimeTypes ? navigator.mimeTypes["application/x-shockwave-flash"] : {};
+
+    if (plugin && plugin.enabledPlugin)
+        return 1;
+
+    if (window.ActiveXObject) {
+      try {
+        if (axObj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
+          return 1;
+      }
+      catch (e) {}
     }
 
     return 0;

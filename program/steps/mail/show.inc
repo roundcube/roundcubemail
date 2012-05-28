@@ -69,6 +69,9 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if (empty($_SESSION['browser_caps']['pdf']) && ($key = array_search('application/pdf', $mimetypes)) !== false) {
     unset($mimetypes[$key]);
   }
+  if (empty($_SESSION['browser_caps']['flash']) && ($key = array_search('application/x-shockwave-flash', $mimetypes)) !== false) {
+    unset($mimetypes[$key]);
+  }
   // @TODO: we could convert TIFF to JPEG and display it
   if (empty($_SESSION['browser_caps']['tif']) && ($key = array_search('image/tiff', $mimetypes)) !== false) {
     unset($mimetypes[$key]);
