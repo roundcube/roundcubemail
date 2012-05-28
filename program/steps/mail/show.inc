@@ -21,6 +21,16 @@
 
 $PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
 
+// Read browser capabilities and store them in session
+if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
+  $browser_caps = array();
+  foreach (explode(',', $caps) as $cap) {
+    $cap = explode('=', $cap);
+    $browser_caps[$cap[0]] = $cap[1];
+  }
+  $_SESSION['browser_caps'] = $browser_caps;
+}
+
 // similar code as in program/steps/mail/get.inc
 if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $MESSAGE = new rcube_message($uid);

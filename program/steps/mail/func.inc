@@ -81,8 +81,8 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
       $OUTPUT->set_env('search_request', $search_request);
     }
 
-      $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
-      $OUTPUT->set_env('search_mods', $search_mods);
+    $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
+    $OUTPUT->set_env('search_mods', $search_mods);
   }
 
   $threading = (bool) $RCMAIL->storage->get_threading();
@@ -114,6 +114,9 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
   if ($CONFIG['junk_mbox'])
     $OUTPUT->set_env('junk_mailbox', $CONFIG['junk_mbox']);
+
+  if (!empty($_SESSION['browser_caps']))
+    $OUTPUT->set_env('browser_capabilities', $_SESSION['browser_caps']);
 
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
