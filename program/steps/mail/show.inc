@@ -21,6 +21,16 @@
 
 $PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
 
+// Read browser capabilities and store them in session
+if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
+  $browser_caps = array();
+  foreach (explode(',', $caps) as $cap) {
+    $cap = explode('=', $cap);
+    $browser_caps[$cap[0]] = $cap[1];
+  }
+  $_SESSION['browser_caps'] = $browser_caps;
+}
+
 // similar code as in program/steps/mail/get.inc
 if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $MESSAGE = new rcube_message($uid);
@@ -51,8 +61,23 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $OUTPUT->set_env('mailbox', $mbox_name);
 
   // mimetypes supported by the browser (default settings)
-  $mimetypes = $RCMAIL->config->get('client_mimetypes', 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/x-javascript,application/pdf,application/x-shockwave-flash');
-  $OUTPUT->set_env('mimetypes', is_string($mimetypes) ? explode(',', $mimetypes) : (array)$mimetypes);
+  $mimetypes = $RCMAIL->config->get('client_mimetypes', 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,image/tiff,application/x-javascript,application/pdf,application/x-shockwave-flash');
+  $mimetypes = is_string($mimetypes) ? explode(',', $mimetypes) : (array)$mimetypes;
+
+  // Remove unsupported types, which makes that attachment which cannot be
+  // displayed in a browser will be downloaded directly without displaying an overlay page
+  if (empty($_SESSION['browser_caps']['pdf']) && ($key = array_search('application/pdf', $mimetypes)) !== false) {
+    unset($mimetypes[$key]);
+  }
+  if (empty($_SESSION['browser_caps']['flash']) && ($key = array_search('application/x-shockwave-flash', $mimetypes)) !== false) {
+    unset($mimetypes[$key]);
+  }
+  // @TODO: we could convert TIFF to JPEG and display it
+  if (empty($_SESSION['browser_caps']['tif']) && ($key = array_search('image/tiff', $mimetypes)) !== false) {
+    unset($mimetypes[$key]);
+  }
+
+  $OUTPUT->set_env('mimetypes', $mimetypes);
 
   if ($CONFIG['drafts_mbox'])
     $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
