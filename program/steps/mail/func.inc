@@ -1097,12 +1097,6 @@ function rcmail_message_body($attrib)
     }
   }
 
-  // Skip TIFF images if browser doesn't support this format
-  // @TODO: we could convert TIFF to JPEG and display it
-  $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
-  $mime_regex   = $tiff_support ? '/^image\//i' : '/^image\/(?!tif)/i';
-  $ext_regex    = '/\.(jpg|jpeg|png|gif|bmp' . ($tiff_support ? '|tif|tiff' : '') .')$/i';
-
   // list images after mail body
   if ($CONFIG['inline_images'] && !empty($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
@@ -1112,12 +1106,7 @@ function rcmail_message_body($attrib)
       }
 
       // Content-Type: image/*...
-      if (preg_match($mime_regex, $attach_prop->mimetype) ||
-        // ...or known file extension: many clients are using application/octet-stream
-        ($attach_prop->filename &&
-          preg_match('/^application\/octet-stream$/i', $attach_prop->mimetype) &&
-          preg_match($ext_regex, $attach_prop->filename))
-      ) {
+      if (rcmail_part_image_type($attach_prop)) {
         $out .= html::tag('hr') . html::p(array('align' => "center"),
           html::img(array(
             'src' => $MESSAGE->get_part_url($attach_prop->mime_id, true),
@@ -1135,6 +1124,48 @@ function rcmail_message_body($attrib)
   return html::div($attrib, $out);
 }
 
+function rcmail_part_image_type($part)
+{
+  $rcmail = rcmail::get_instance();
+
+  // Skip TIFF images if browser doesn't support this format...
+  $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
+  // until we can convert them to JPEG
+  $tiff_support = $tiff_support || $rcmail->config->get('im_convert_path');
+
+  // Content-type regexp
+  $mime_regex = $tiff_support ? '/^image\//i' : '/^image\/(?!tif)/i';
+
+  // Content-Type: image/*...
+  if (preg_match($mime_regex, $part->mimetype)) {
+    return $part->mimetype;
+  }
+
+  // Many clients use application/octet-stream, we'll detect mimetype
+  // by checking filename extension
+
+  // Supported image filename extensions to image type map
+  $types = array(
+    'jpg'  => 'image/jpeg',
+    'jpeg' => 'image/jpeg',
+    'png'  => 'image/png',
+    'gif'  => 'image/gif',
+    'bmp'  => 'image/bmp',
+  );
+  if ($tiff_support) {
+    $types['tif']  = 'image/tiff';
+    $types['tiff'] = 'image/tiff';
+  }
+
+  if ($part->filename
+    && preg_match('/^application\/octet-stream$/i', $part->mimetype)
+    && preg_match('/\.([^.])$/i', $part->filename, $m)
+    && ($extension = strtolower($m[1]))
+    && isset($types[$extension])
+  ) {
+    return $types[$extension];
+  }
+}
 
 /**
  * Convert all relative URLs according to a <base> in HTML

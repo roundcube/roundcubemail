@@ -22,7 +22,7 @@
 
 // show loading page
 if (!empty($_GET['_preload'])) {
-  $url = preg_replace('/[&?]+_preload=1/', '', $_SERVER['REQUEST_URI']);
+  $url = preg_replace('/([&?]+)_preload=/', '\\1_embed=', $_SERVER['REQUEST_URI']);
   $message = rcube_label('loadingdata');
 
   header('Content-Type: text/html; charset=' . RCMAIL_CHARSET);
@@ -76,6 +76,17 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
     // overwrite modified vars from plugin
     $mimetype = $plugin['mimetype'];
+
+    // TIFF to JPEG conversion, if needed
+    $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
+    if (!empty($_REQUEST['_embed']) && !$tiff_support
+      && $RCMAIL->config->get('im_convert_path')
+      && rcmail_part_image_type($part) == 'image/tiff'
+    ) {
+      $tiff2jpeg = true;
+      $mimetype = 'image/jpeg';
+    }
+
     list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
     if ($plugin['body'])
       $part->body = $plugin['body'];
@@ -150,8 +161,33 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
       header("Content-Disposition: $disposition; filename=\"$filename\"");
 
+      // handle tiff to jpeg conversion
+      if (!empty($tiff2jpeg)) {
+        $temp_dir  = unslashify($RCMAIL->config->get('temp_dir'));
+        $file_path = tempnam($temp_dir, 'rcmAttmnt');
+
+        // write content to temp file
+        if ($part->body) {
+          $saved = file_put_contents($file_path, $part->body);
+        }
+        else if ($part->size) {
+          $fd = fopen($file_path, 'w');
+          $saved = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $fd);
+          fclose($fd);
+        }
+
+        // convert image to jpeg and send it to the browser
+        if ($saved) {
+          $image = new rcube_image($file_path);
+          if ($image->convert(rcube_image::TYPE_JPG, $file_path)) {
+            header("Content-Length: " . filesize($file_path));
+            readfile($file_path);
+          }
+          unlink($file_path);
+        }
+      }
       // do content filtering to avoid XSS through fake images
-      if (!empty($_REQUEST['_embed']) && $browser->ie && $browser->ver <= 8) {
+      else if (!empty($_REQUEST['_embed']) && $browser->ie && $browser->ver <= 8) {
         if ($part->body) {
           echo preg_match('/<(script|iframe|object)/i', $part->body) ? '' : $part->body;
           $sent = true;

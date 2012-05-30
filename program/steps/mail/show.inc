@@ -61,7 +61,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $OUTPUT->set_env('mailbox', $mbox_name);
 
   // mimetypes supported by the browser (default settings)
-  $mimetypes = $RCMAIL->config->get('client_mimetypes', 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,image/tiff,application/x-javascript,application/pdf,application/x-shockwave-flash');
+  $mimetypes = $RCMAIL->config->get('client_mimetypes', 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,image/bmp,image/tiff,application/x-javascript,application/pdf,application/x-shockwave-flash');
   $mimetypes = is_string($mimetypes) ? explode(',', $mimetypes) : (array)$mimetypes;
 
   // Remove unsupported types, which makes that attachment which cannot be
@@ -72,9 +72,11 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if (empty($_SESSION['browser_caps']['flash']) && ($key = array_search('application/x-shockwave-flash', $mimetypes)) !== false) {
     unset($mimetypes[$key]);
   }
-  // @TODO: we could convert TIFF to JPEG and display it
   if (empty($_SESSION['browser_caps']['tif']) && ($key = array_search('image/tiff', $mimetypes)) !== false) {
-    unset($mimetypes[$key]);
+    // we can convert tiff to jpeg
+    if (!$RCMAIL->config->get('im_convert_path')) {
+      unset($mimetypes[$key]);
+    }
   }
 
   $OUTPUT->set_env('mimetypes', $mimetypes);
