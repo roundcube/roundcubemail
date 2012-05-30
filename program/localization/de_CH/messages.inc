@@ -115,6 +115,7 @@ $messages['selectimportfile'] = 'Bitte wählen Sie eine Datei zum Importieren au
 $messages['addresswriterror'] = 'Das gewählte Adressbuch kann nicht verändert werden.';
 $messages['contactaddedtogroup'] = 'Kontakte wurden dieser Gruppe hinzugefügt.';
 $messages['contactremovedfromgroup'] = 'Kontakte wurden aus dieser Gruppe entfernt.';
+$messages['nogroupassignmentschanged'] = 'Es wurde keine Gruppenzuweisung verändert.';
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
 $messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert</b>';
