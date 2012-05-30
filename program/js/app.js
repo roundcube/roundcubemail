@@ -307,6 +307,10 @@ function rcube_webmail()
           this.http_post(postact, postdata);
         }
 
+        // detect browser capabilities
+        if (!this.is_framed())
+          this.browser_capabilities_check();
+
         break;
 
       case 'addressbook':
@@ -1943,13 +1947,16 @@ function rcube_webmail()
     if (this.env.search_request)
       url += '&_search='+this.env.search_request;
 
-    if (action == 'preview' && String(target.location.href).indexOf(url) >= 0)
+    // add browser capabilities, so we can properly handle attachments
+    url += '&_caps='+urlencode(this.browser_capabilities());
+
+    if (preview && String(target.location.href).indexOf(url) >= 0)
       this.show_contentframe(true);
     else {
       this.location_href(this.env.comm_path+url, target, true);
 
       // mark as read and change mbox unread counter
-      if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
+      if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
         this.preview_read_timer = setTimeout(function() {
           ref.set_message(id, 'unread', false);
           ref.update_thread_root(id, 'read');
@@ -6366,6 +6373,99 @@ function rcube_webmail()
       $(elem).addClass('disabled');
     else
       $(elem).click(function() { rcmail.register_protocol_handler(name); return false; });
+  };
+
+  // Checks browser capabilities eg. PDF support, TIF support
+  this.browser_capabilities_check = function()
+  {
+    if (!this.env.browser_capabilities)
+      this.env.browser_capabilities = {};
+
+    if (this.env.browser_capabilities.pdf === undefined)
+      this.env.browser_capabilities.pdf = this.pdf_support_check();
+
+    if (this.env.browser_capabilities.flash === undefined)
+      this.env.browser_capabilities.flash = this.flash_support_check();
+
+    if (this.env.browser_capabilities.tif === undefined)
+      this.tif_support_check();
+  };
+
+  // Returns browser capabilities string
+  this.browser_capabilities = function()
+  {
+    if (!this.env.browser_capabilities)
+      return '';
+
+    var n, ret = [];
+
+    for (n in this.env.browser_capabilities)
+      ret.push(n + '=' + this.env.browser_capabilities[n]);
+
+    return ret.join();
+  };
+
+  this.tif_support_check = function()
+  {
+    var img = new Image();
+
+    img.onload = function() { rcmail.env.browser_capabilities.tif = 1; };
+    img.onerror = function() { rcmail.env.browser_capabilities.tif = 0; };
+    img.src = 'program/blank.tif';
+  };
+
+  this.pdf_support_check = function()
+  {
+    var plugin = navigator.mimeTypes ? navigator.mimeTypes["application/pdf"] : {},
+      plugins = navigator.plugins,
+      len = plugins.length,
+      regex = /Adobe Reader|PDF|Acrobat/i;
+
+    if (plugin && plugin.enabledPlugin)
+        return 1;
+
+    if (window.ActiveXObject) {
+      try {
+        if (axObj = new ActiveXObject("AcroPDF.PDF"))
+          return 1;
+      }
+      catch (e) {}
+      try {
+        if (axObj = new ActiveXObject("PDF.PdfCtrl"))
+          return 1;
+      }
+      catch (e) {}
+    }
+
+    for (i=0; i<len; i++) {
+      plugin = plugins[i];
+      if (typeof plugin === 'String') {
+        if (regex.test(plugin))
+          return 1;
+      }
+      else if (plugin.name && regex.test(plugin.name))
+        return 1;
+    }
+
+    return 0;
+  };
+
+  this.flash_support_check = function()
+  {
+    var plugin = navigator.mimeTypes ? navigator.mimeTypes["application/x-shockwave-flash"] : {};
+
+    if (plugin && plugin.enabledPlugin)
+        return 1;
+
+    if (window.ActiveXObject) {
+      try {
+        if (axObj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
+          return 1;
+      }
+      catch (e) {}
+    }
+
+    return 0;
   };
 
 }  // end object rcube_webmail
