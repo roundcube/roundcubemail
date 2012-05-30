@@ -631,7 +631,7 @@ function rcube_webmail()
           uid = this.get_single_uid();
           if (uid && (!this.env.uid || uid != this.env.uid)) {
             if (this.env.mailbox == this.env.drafts_mailbox)
-              this.goto_url('compose', '_draft_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true);
+              this.goto_url('compose', { _draft_uid: uid, _mbox: this.env.mailbox }, true);
             else
               this.show_message(uid);
           }
@@ -653,13 +653,14 @@ function rcube_webmail()
         break;
 
       case 'edit':
-        if (this.task=='addressbook' && (cid = this.get_single_cid()))
+        if (this.task == 'addressbook' && (cid = this.get_single_cid()))
           this.load_contact(cid, 'edit');
-        else if (this.task=='settings' && props)
+        else if (this.task == 'settings' && props)
           this.load_identity(props, 'edit-identity');
-        else if (this.task=='mail' && (cid = this.get_single_uid())) {
-          url = (this.env.mailbox == this.env.drafts_mailbox) ? '_draft_uid=' : '_uid=';
-          this.goto_url('compose', url+cid+'&_mbox='+urlencode(this.env.mailbox), true);
+        else if (this.task == 'mail' && (cid = this.get_single_uid())) {
+          url = { _mbox: this.env.mailbox };
+          url[this.env.mailbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid'] = cid;
+          this.goto_url('compose', url, true);
         }
         break;
 
@@ -984,12 +985,12 @@ function rcube_webmail()
       case 'reply-list':
       case 'reply':
         if (uid = this.get_single_uid()) {
-          url = '_reply_uid='+uid+'&_mbox='+urlencode(this.env.mailbox);
+          url = {_reply_uid: uid, _mbox: this.env.mailbox};
           if (command == 'reply-all')
             // do reply-list, when list is detected and popup menu wasn't used 
-            url += '&_all=' + (!props && this.commands['reply-list'] ? 'list' : 'all');
+            url._all = (!props && this.commands['reply-list'] ? 'list' : 'all');
           else if (command == 'reply-list')
-            url += '&_all=list';
+            url._all = list;
 
           this.goto_url('compose', url, true);
         }
@@ -998,9 +999,9 @@ function rcube_webmail()
       case 'forward-attachment':
       case 'forward':
         if (uid = this.get_single_uid()) {
-          url = '_forward_uid='+uid+'&_mbox='+urlencode(this.env.mailbox);
+          url = { _forward_uid: uid, _mbox: this.env.mailbox };
           if (command == 'forward-attachment' || (!props && this.env.forward_attachment))
-            url += '&_attachment=1';
+            url._attachment = 1;
           this.goto_url('compose', url, true);
         }
         break;
@@ -1026,7 +1027,7 @@ function rcube_webmail()
 
       case 'download':
         if (uid = this.get_single_uid())
-          this.goto_url('viewsource', '&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+'&_save=1');
+          this.goto_url('viewsource', { _uid: uid, _mbox: this.env.mailbox, _save: 1 });
         break;
 
       // quicksearch
@@ -1079,7 +1080,7 @@ function rcube_webmail()
 
       case 'export':
         if (this.contact_list.rowcount > 0) {
-          this.goto_url('export', { _source:this.env.source, _gid:this.env.group, _search:this.env.search_request });
+          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request });
         }
         break;
 
@@ -1580,7 +1581,7 @@ function rcube_webmail()
 
     var uid = list.get_single_selection();
     if (uid && this.env.mailbox == this.env.drafts_mailbox)
-      this.goto_url('compose', '_draft_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true);
+      this.goto_url('compose', { _draft_uid: uid, _mbox: this.env.mailbox }, true);
     else if (uid)
       this.show_message(uid, false, false);
   };
@@ -4925,7 +4926,7 @@ function rcube_webmail()
 
     // submit request with appended token
     if (confirm(this.get_label('deleteidentityconfirm')))
-      this.goto_url('delete-identity', '_iid='+id+'&_token='+this.env.request_token, true);
+      this.goto_url('delete-identity', { _iid: id, _token: this.env.request_token }, true);
 
     return true;
   };
