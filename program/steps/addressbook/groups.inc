@@ -50,8 +50,10 @@ if ($RCMAIL->action == 'group-addmembers') {
 
     if ($result)
       $OUTPUT->show_message('contactaddedtogroup');
-    else
+    else if ($plugin['abort'] || $CONTACTS->get_error())
       $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
+    else
+      $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'nogroupassignmentschanged');
   }
 }
 
