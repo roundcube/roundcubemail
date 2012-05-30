@@ -1916,6 +1916,12 @@ ul.toolbarmenu li span.conversation {
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#compose-attachments ul li {
+	padding-right: 28px;
 }
 
 .attachmentslist li a:hover {
