@@ -186,6 +186,10 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px -1723px;
 }
 
+#mailboxlist li.unread {
+	font-weight: bold;
+}
+
 #mailboxlist li.virtual > a {
 	color: #aaa;
 }
