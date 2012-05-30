@@ -3783,7 +3783,7 @@ function rcube_webmail()
       return;
 
     // ...new search value contains old one and previous search was not finished or its result was empty
-    if (old_value && old_value.length && q.indexOf(old_value) == 0 && (!ac || !ac.num) && this.env.contacts && !this.env.contacts.length)
+    if (old_value && old_value.length && q.indexOf(old_value) == 0 && (!ac || ac.num <= 0) && this.env.contacts && !this.env.contacts.length)
       return;
 
     var i, lock, source, xhr, reqid = new Date().getTime(),
