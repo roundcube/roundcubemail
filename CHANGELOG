@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix window.resize handler on IE8 and Opera (#1488453)
 - Don't let error message popups cover the login form (#1488500)
 - Don't show errors when moving contacts into groups they are already in (#1488493)
 - Make folders with unread messages in subfolders bold again (#1486793)

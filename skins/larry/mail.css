@@ -803,7 +803,8 @@ div.hide-headers {
 
 #messagecontent .leftcol,
 #messagepreview .leftcol {
-	margin-right: 250px;
+	margin-right: 252px;
+	overflow-x: auto;
 }
 
 #messagecontent .rightcol,
@@ -849,7 +850,7 @@ div.hide-headers {
 
 div.message-part,
 div.message-htmlpart {
-	padding: 10px 2px;
+	padding: 0 2px 10px 2px;
 	border-top: 2px solid #f0f0f0;
 }
 
