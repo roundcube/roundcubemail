@@ -1086,7 +1086,7 @@ body.iframe .footerbuttons {
 }
 
 .footerleft {
-	padding: 0 12px;
+	padding: 0 12px 10px 12px;
 }
 
 .propform fieldset {
