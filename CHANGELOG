@@ -2,6 +2,8 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Don't let error message popups cover the login form (#1488500)
+- Display Tiff as Jpeg in browsers without Tiff support (#1488452)
+- Don't display Pdf/Tiff/Flash attachments inline without browser support (#1488452, #1487929)
 - Don't show errors when moving contacts into groups they are already in (#1488493)
 - Make folders with unread messages in subfolders bold again (#1486793)
 - Abbreviate long attachment file names with ellipsis (#1488499)

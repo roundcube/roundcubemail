@@ -13,7 +13,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Image resizer                                                       |
+ |   Image resizer and converter                                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -24,6 +24,19 @@
 class rcube_image
 {
     private $image_file;
+
+    const TYPE_GIF = 1;
+    const TYPE_JPG = 2;
+    const TYPE_PNG = 3;
+    const TYPE_TIF = 4;
+
+    public static $extensions = array(
+        self::TYPE_GIF => 'gif',
+        self::TYPE_JPG => 'jpg',
+        self::TYPE_PNG => 'png',
+        self::TYPE_TIF => 'tif',
+    );
+
 
     function __construct($filename)
     {
@@ -66,7 +79,7 @@ class rcube_image
      * @param int    $size      Max width/height size
      * @param string $filename  Output filename
      *
-     * @return Success of convert as true/false
+     * @return bool True on success, False on failure
      */
     public function resize($size, $filename = null)
     {
@@ -95,10 +108,10 @@ class rcube_image
             $p['-opts'] = array('-resize' => $size.'>');
 
             if (in_array($type, explode(',', $p['types']))) { // Valid type?
-                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p) === '';
+                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p);
             }
 
-            if ($result) {
+            if ($result === '') {
                 return true;
             }
         }
@@ -148,6 +161,71 @@ class rcube_image
             }
         }
 
+        // @TODO: print error to the log?
+        return false;
+    }
+
+    /**
+     * Convert image to a given type
+     *
+     * @param int    $type      Destination file type (see class constants)
+     * @param string $filename  Output filename (if empty, original file will be used
+     *                          and filename extension will be modified)
+     *
+     * @return bool True on success, False on failure
+     */
+    public function convert($type, $filename = null)
+    {
+        $rcube   = rcube::get_instance();
+        $convert = $rcube->config->get('im_convert_path', false);
+
+        if (!$filename) {
+            $filename = $this->image_file;
+
+            // modify extension
+            if ($extension = self::$extensions[$type]) {
+                $filename = preg_replace('/\.[^.]+$/', '', $filename) . '.' . $extension;
+            }
+        }
+
+        // use ImageMagick
+        if ($convert) {
+            $p['in']   = $this->image_file;
+            $p['out']  = $filename;
+            $p['type'] = self::$extensions[$type];
+
+            $result = rcube::exec($convert . ' 2>&1 -colorspace RGB -quality 75 {in} {type}:{out}', $p);
+
+            if ($result === '') {
+                return true;
+            }
+        }
+
+        // use GD extension (TIFF isn't supported)
+        $props    = $this->props();
+        $gd_types = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG);
+
+        if ($props['gd_type'] && in_array($props['gd_type'], $gd_types)) {
+            if ($props['gd_type'] == IMAGETYPE_JPEG) {
+                $image = imagecreatefromjpeg($this->image_file);
+            }
+            else if ($props['gd_type'] == IMAGETYPE_GIF) {
+                $image = imagecreatefromgif($this->image_file);
+            }
+            else if ($props['gd_type'] == IMAGETYPE_PNG) {
+                $image = imagecreatefrompng($this->image_file);
+            }
+
+            if ($type == self::TYPE_JPG) {
+                $result = imagejpeg($image, $filename, 75);
+            }
+            else if ($type == self::TYPE_GIF) {
+                $result = imagegif($image, $filename);
+            }
+            else if ($type == self::TYPE_PNG) {
+                $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+            }
+        }
 
         // @TODO: print error to the log?
         return false;
@@ -169,4 +247,5 @@ class rcube_image
             }
         }
     }
+
 }

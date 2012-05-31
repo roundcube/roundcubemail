@@ -307,6 +307,10 @@ function rcube_webmail()
           this.http_post(postact, postdata);
         }
 
+        // detect browser capabilities
+        if (!this.is_framed())
+          this.browser_capabilities_check();
+
         break;
 
       case 'addressbook':
@@ -627,7 +631,7 @@ function rcube_webmail()
           uid = this.get_single_uid();
           if (uid && (!this.env.uid || uid != this.env.uid)) {
             if (this.env.mailbox == this.env.drafts_mailbox)
-              this.goto_url('compose', '_draft_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true);
+              this.goto_url('compose', { _draft_uid: uid, _mbox: this.env.mailbox }, true);
             else
               this.show_message(uid);
           }
@@ -649,13 +653,14 @@ function rcube_webmail()
         break;
 
       case 'edit':
-        if (this.task=='addressbook' && (cid = this.get_single_cid()))
+        if (this.task == 'addressbook' && (cid = this.get_single_cid()))
           this.load_contact(cid, 'edit');
-        else if (this.task=='settings' && props)
+        else if (this.task == 'settings' && props)
           this.load_identity(props, 'edit-identity');
-        else if (this.task=='mail' && (cid = this.get_single_uid())) {
-          url = (this.env.mailbox == this.env.drafts_mailbox) ? '_draft_uid=' : '_uid=';
-          this.goto_url('compose', url+cid+'&_mbox='+urlencode(this.env.mailbox), true);
+        else if (this.task == 'mail' && (cid = this.get_single_uid())) {
+          url = { _mbox: this.env.mailbox };
+          url[this.env.mailbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid'] = cid;
+          this.goto_url('compose', url, true);
         }
         break;
 
@@ -980,12 +985,12 @@ function rcube_webmail()
       case 'reply-list':
       case 'reply':
         if (uid = this.get_single_uid()) {
-          url = '_reply_uid='+uid+'&_mbox='+urlencode(this.env.mailbox);
+          url = {_reply_uid: uid, _mbox: this.env.mailbox};
           if (command == 'reply-all')
             // do reply-list, when list is detected and popup menu wasn't used 
-            url += '&_all=' + (!props && this.commands['reply-list'] ? 'list' : 'all');
+            url._all = (!props && this.commands['reply-list'] ? 'list' : 'all');
           else if (command == 'reply-list')
-            url += '&_all=list';
+            url._all = list;
 
           this.goto_url('compose', url, true);
         }
@@ -994,9 +999,9 @@ function rcube_webmail()
       case 'forward-attachment':
       case 'forward':
         if (uid = this.get_single_uid()) {
-          url = '_forward_uid='+uid+'&_mbox='+urlencode(this.env.mailbox);
+          url = { _forward_uid: uid, _mbox: this.env.mailbox };
           if (command == 'forward-attachment' || (!props && this.env.forward_attachment))
-            url += '&_attachment=1';
+            url._attachment = 1;
           this.goto_url('compose', url, true);
         }
         break;
@@ -1022,7 +1027,7 @@ function rcube_webmail()
 
       case 'download':
         if (uid = this.get_single_uid())
-          this.goto_url('viewsource', '&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+'&_save=1');
+          this.goto_url('viewsource', { _uid: uid, _mbox: this.env.mailbox, _save: 1 });
         break;
 
       // quicksearch
@@ -1075,7 +1080,7 @@ function rcube_webmail()
 
       case 'export':
         if (this.contact_list.rowcount > 0) {
-          this.goto_url('export', { _source:this.env.source, _gid:this.env.group, _search:this.env.search_request });
+          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request });
         }
         break;
 
@@ -1576,7 +1581,7 @@ function rcube_webmail()
 
     var uid = list.get_single_selection();
     if (uid && this.env.mailbox == this.env.drafts_mailbox)
-      this.goto_url('compose', '_draft_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true);
+      this.goto_url('compose', { _draft_uid: uid, _mbox: this.env.mailbox }, true);
     else if (uid)
       this.show_message(uid, false, false);
   };
@@ -1943,13 +1948,16 @@ function rcube_webmail()
     if (this.env.search_request)
       url += '&_search='+this.env.search_request;
 
-    if (action == 'preview' && String(target.location.href).indexOf(url) >= 0)
+    // add browser capabilities, so we can properly handle attachments
+    url += '&_caps='+urlencode(this.browser_capabilities());
+
+    if (preview && String(target.location.href).indexOf(url) >= 0)
       this.show_contentframe(true);
     else {
       this.location_href(this.env.comm_path+url, target, true);
 
       // mark as read and change mbox unread counter
-      if (action == 'preview' && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
+      if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
         this.preview_read_timer = setTimeout(function() {
           ref.set_message(id, 'unread', false);
           ref.update_thread_root(id, 'read');
@@ -3796,7 +3804,7 @@ function rcube_webmail()
       return;
 
     // ...new search value contains old one and previous search was not finished or its result was empty
-    if (old_value && old_value.length && q.indexOf(old_value) == 0 && (!ac || !ac.num) && this.env.contacts && !this.env.contacts.length)
+    if (old_value && old_value.length && q.indexOf(old_value) == 0 && (!ac || ac.num <= 0) && this.env.contacts && !this.env.contacts.length)
       return;
 
     var i, lock, source, xhr, reqid = new Date().getTime(),
@@ -4918,7 +4926,7 @@ function rcube_webmail()
 
     // submit request with appended token
     if (confirm(this.get_label('deleteidentityconfirm')))
-      this.goto_url('delete-identity', '_iid='+id+'&_token='+this.env.request_token, true);
+      this.goto_url('delete-identity', { _iid: id, _token: this.env.request_token }, true);
 
     return true;
   };
@@ -6366,6 +6374,99 @@ function rcube_webmail()
       $(elem).addClass('disabled');
     else
       $(elem).click(function() { rcmail.register_protocol_handler(name); return false; });
+  };
+
+  // Checks browser capabilities eg. PDF support, TIF support
+  this.browser_capabilities_check = function()
+  {
+    if (!this.env.browser_capabilities)
+      this.env.browser_capabilities = {};
+
+    if (this.env.browser_capabilities.pdf === undefined)
+      this.env.browser_capabilities.pdf = this.pdf_support_check();
+
+    if (this.env.browser_capabilities.flash === undefined)
+      this.env.browser_capabilities.flash = this.flash_support_check();
+
+    if (this.env.browser_capabilities.tif === undefined)
+      this.tif_support_check();
+  };
+
+  // Returns browser capabilities string
+  this.browser_capabilities = function()
+  {
+    if (!this.env.browser_capabilities)
+      return '';
+
+    var n, ret = [];
+
+    for (n in this.env.browser_capabilities)
+      ret.push(n + '=' + this.env.browser_capabilities[n]);
+
+    return ret.join();
+  };
+
+  this.tif_support_check = function()
+  {
+    var img = new Image();
+
+    img.onload = function() { rcmail.env.browser_capabilities.tif = 1; };
+    img.onerror = function() { rcmail.env.browser_capabilities.tif = 0; };
+    img.src = 'program/blank.tif';
+  };
+
+  this.pdf_support_check = function()
+  {
+    var plugin = navigator.mimeTypes ? navigator.mimeTypes["application/pdf"] : {},
+      plugins = navigator.plugins,
+      len = plugins.length,
+      regex = /Adobe Reader|PDF|Acrobat/i;
+
+    if (plugin && plugin.enabledPlugin)
+        return 1;
+
+    if (window.ActiveXObject) {
+      try {
+        if (axObj = new ActiveXObject("AcroPDF.PDF"))
+          return 1;
+      }
+      catch (e) {}
+      try {
+        if (axObj = new ActiveXObject("PDF.PdfCtrl"))
+          return 1;
+      }
+      catch (e) {}
+    }
+
+    for (i=0; i<len; i++) {
+      plugin = plugins[i];
+      if (typeof plugin === 'String') {
+        if (regex.test(plugin))
+          return 1;
+      }
+      else if (plugin.name && regex.test(plugin.name))
+        return 1;
+    }
+
+    return 0;
+  };
+
+  this.flash_support_check = function()
+  {
+    var plugin = navigator.mimeTypes ? navigator.mimeTypes["application/x-shockwave-flash"] : {};
+
+    if (plugin && plugin.enabledPlugin)
+        return 1;
+
+    if (window.ActiveXObject) {
+      try {
+        if (axObj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
+          return 1;
+      }
+      catch (e) {}
+    }
+
+    return 0;
   };
 
 }  // end object rcube_webmail
