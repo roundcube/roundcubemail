@@ -264,6 +264,7 @@ function rcube_mail_ui()
       }
 
       var pos = $(p.object).offset();
+      pos.top -= (rcmail.env.task == 'login' ? 20 : 160);
       me.messagedialog.dialog('close');
       me.messagedialog.html(p.message)
         .dialog({
@@ -274,7 +275,7 @@ function rcube_mail_ui()
           close: function() {
             me.messagedialog.dialog('destroy').hide();
           },
-          position: ['center', pos.top - 160],
+          position: ['center', pos.top],
           hide: { effect:'drop', direction:'down' },
           width: 420,
           minHeight: 90

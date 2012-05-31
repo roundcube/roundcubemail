@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't let error message popups cover the login form (#1488500)
 - Don't show errors when moving contacts into groups they are already in (#1488493)
 - Make folders with unread messages in subfolders bold again (#1486793)
 - Abbreviate long attachment file names with ellipsis (#1488499)
