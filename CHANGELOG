@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to TinyMCE 3.5.2
 - Fix window.resize handler on IE8 and Opera (#1488453)
 - Don't let error message popups cover the login form (#1488500)
 - Display Tiff as Jpeg in browsers without Tiff support (#1488452)
