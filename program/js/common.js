@@ -114,6 +114,8 @@ function roundcube_browser()
       classname += ' chrome';
     else if (this.chrome)
       classname += ' chrome';
+    else if (this.mz)
+      classname += ' mozilla';
 
     if (this.iphone)
       classname += ' iphone';
