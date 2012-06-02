@@ -448,7 +448,7 @@ abstract class rcube_addressbook
      */
     protected static function normalize_string($str)
     {
-        return rcbe_utils::normalize_string($str);
+        return rcube_utils::normalize_string($str);
     }
 
     /**
