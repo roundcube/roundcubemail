@@ -40,6 +40,8 @@ $ini_checks = array(
     'zend.ze1_compatibility_mode'   => 0,
     'mbstring.func_overload'        => 0,
     'suhosin.session.encrypt'       => 0,
+    'magic_quotes_runtime'          => 0,
+    'magic_quotes_sybase'           => 0,
 );
 
 $optional_checks = array(

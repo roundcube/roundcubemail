@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix errors with enabled PHP magic_quotes_sybase option (#1488506)
 - Fix SQL query for contacts listing on MS SQL Server (#1488505)
 - Update to TinyMCE 3.5.2
 - Fix window.resize handler on IE8 and Opera (#1488453)
