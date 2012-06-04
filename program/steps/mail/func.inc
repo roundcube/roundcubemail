@@ -1193,14 +1193,15 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
   // find STYLE tags
   while (($pos = stripos($body, '<style', $last_style_pos)) && ($pos2 = stripos($body, '</style>', $pos)))
   {
-    $pos = strpos($body, '>', $pos)+1;
+    $pos = strpos($body, '>', $pos) + 1;
+    $len = $pos2 - $pos;
 
     // replace all css definitions with #container [def]
-    $styles = rcmail_mod_css_styles(
-      substr($body, $pos, $pos2-$pos), $cont_id, $allow_remote);
+    $styles = substr($body, $pos, $len);
+    $styles = rcmail_mod_css_styles($styles, $cont_id, $allow_remote);
 
-    $body = substr_replace($body, $styles, $pos, $pos2-$pos);
-    $last_style_pos = $pos2;
+    $body = substr_replace($body, $styles, $pos, $len);
+    $last_style_pos = $pos2 + strlen($styles) - $len;
   }
 
   // modify HTML links to open a new window if clicked
