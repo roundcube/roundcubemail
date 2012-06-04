@@ -20,18 +20,20 @@
  +-----------------------------------------------------------------------+
 */
 
-// Some users are not using Installer, so we'll check some
-// critical PHP settings here. Only these, which doesn't provide
-// an error/warning in the logs later. See (#1486307).
-$crit_opts = array(
-    'mbstring.func_overload' => 0,
+$config = array(
+    'error_reporting'         => E_ALL &~ (E_NOTICE | E_STRICT),
+    // Some users are not using Installer, so we'll check some
+    // critical PHP settings here. Only these, which doesn't provide
+    // an error/warning in the logs later. See (#1486307).
+    'mbstring.func_overload'  => 0,
     'suhosin.session.encrypt' => 0,
-    'session.auto_start' => 0,
-    'file_uploads' => 1,
-    'magic_quotes_runtime' => 0,
+    'session.auto_start'      => 0,
+    'file_uploads'            => 1,
+    'magic_quotes_runtime'    => 0,
+    'magic_quotes_sybase'     => 0, // #1488506
 );
-foreach ($crit_opts as $optname => $optval) {
-    if ($optval != ini_get($optname)) {
+foreach ($config as $optname => $optval) {
+    if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
         die("ERROR: Wrong '$optname' option value. Read REQUIREMENTS section in INSTALL file or use Roundcube Installer, please!");
     }
 }
@@ -58,8 +60,6 @@ $include_path.= ini_get('include_path');
 if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
 }
-
-ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
