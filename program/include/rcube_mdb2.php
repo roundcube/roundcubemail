@@ -691,6 +691,11 @@ class rcube_mdb2
             case 'mssql':
             case 'sqlsrv':
                 $delim = ' + ';
+                // Modify arguments, because + operator requires them to be of type varchar (#1488505)
+                // with SQL Server 2012 we can use just CONCAT(), but we need to support older versions
+                foreach ($args as $idx => $arg) {
+                    $args[$idx] = "CAST($arg AS varchar)";
+                }
                 break;
             default:
                 $delim = ' || ';
