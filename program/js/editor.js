@@ -29,6 +29,7 @@ function rcmail_editor_init(config)
       theme_advanced_toolbar_location: 'top',
       theme_advanced_toolbar_align: 'left',
       theme_advanced_buttons3: '',
+      theme_advanced_statusbar_location: 'none',
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       relative_urls: false,
       remove_script_host: false,
