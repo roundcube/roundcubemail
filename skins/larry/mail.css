@@ -1168,9 +1168,34 @@ div.message-part blockquote blockquote blockquote {
 	bottom: 0;
 	width: 240px;
 	background: #f0f0f0;
-	border-left: 1px solid #ddd;
+	border-style: solid;
+	border-color: #f0f0f0 #f0f0f0 #f0f0f0 #ddd;
+	border-width: 1px;
 	padding: 8px;
 	overflow: auto;
+}
+
+#compose-attachments.droptarget {
+	background-image: url(images/filedrop.png);
+	background-position: center bottom;
+	background-repeat: no-repeat;
+}
+
+#compose-attachments.droptarget.hover,
+#compose-attachments.droptarget.active {
+	border-color: #019bc6;
+	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+	-moz-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+	-webkit-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+	-o-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+}
+
+#compose-attachments.droptarget.hover {
+	background-color: #d9ecf4;
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 }
 
 .defaultSkin table.mceLayout,

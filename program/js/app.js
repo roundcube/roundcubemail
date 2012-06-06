@@ -458,6 +458,14 @@ function rcube_webmail()
     if (this.gui_objects.folderlist)
       this.gui_containers.foldertray = $(this.gui_objects.folderlist);
 
+    // activate html5 file drop feature (if browser supports it and if configured)
+    if (this.gui_objects.filedrop && this.env.filedrop && ((XMLHttpRequest && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
+      $(document.body).bind('dragover dragleave drop', function(e){ return ref.document_drag_hover(e, e.type == 'dragover'); });
+      $(this.gui_objects.filedrop).addClass('droptarget')
+        .bind('dragover dragleave', function(e){ return ref.file_drag_hover(e, e.type == 'dragover'); })
+        .get(0).addEventListener('drop', function(e){ return ref.file_dropped(e); }, false);
+    }
+
     // trigger init event hook
     this.triggerEvent('init', { task:this.task, action:this.env.action });
 
@@ -3453,12 +3461,7 @@ function rcube_webmail()
       var content = '<span>' + this.get_label('uploading' + (files > 1 ? 'many' : '')) + '</span>',
         ts = frame_name.replace(/^rcmupload/, '');
 
-      if (this.env.loadingicon)
-        content = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />'+content;
-      content = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+ts+'\', \''+frame_name+'\');" href="#cancelupload" class="cancelupload">'
-        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="" />' : this.get_label('cancel')) + '</a>' + content;
-
-      this.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false });
+      this.add2attachment_list(ts, { name:'', html:content, classname:'uploading', frame:frame_name, complete:false });
 
       // upload progress support
       if (this.env.upload_progress_time) {
@@ -3477,6 +3480,13 @@ function rcube_webmail()
   {
     if (!this.gui_objects.attachmentlist)
       return false;
+
+    if (!att.complete && ref.env.loadingicon)
+      att.html = '<img src="'+ref.env.loadingicon+'" alt="" class="uploading" />' + att.html;
+
+    if (!att.complete && att.frame)
+      att.html = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
+        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="" />' : this.get_label('cancel')) + '</a>' + att.html;
 
     var indicator, li = $('<li>').attr('id', name).addClass(att.classname).html(att.html);
 
@@ -6219,6 +6229,121 @@ function rcube_webmail()
 
     return frame_name;
   };
+
+  // html5 file-drop API
+  this.document_drag_hover = function(e, over)
+  {
+    e.preventDefault();
+    $(ref.gui_objects.filedrop)[(over?'addClass':'removeClass')]('active');
+  };
+
+  this.file_drag_hover = function(e, over)
+  {
+    e.preventDefault();
+    e.stopPropagation();
+    $(ref.gui_objects.filedrop)[(over?'addClass':'removeClass')]('hover');
+  };
+
+  // handler when files are dropped to a designated area.
+  // compose a multipart form data and submit it to the server
+  this.file_dropped = function(e)
+  {
+    // abort event and reset UI
+    this.file_drag_hover(e, false);
+
+    // prepare multipart form data composition
+    var files = e.target.files || e.dataTransfer.files,
+      formdata = window.FormData ? new FormData() : null,
+      fieldname = this.env.filedrop.fieldname || '_file',
+      boundary = '------multipartformboundary' + (new Date).getTime(),
+      dashdash = '--', crlf = '\r\n',
+      multipart = dashdash + boundary + crlf;
+
+    if (!file || !files.length)
+      return;
+
+    // inline function to submit the files to the server
+    var submit_data = function() {
+      var multiple = files.length > 1,
+        ts = new Date().getTime(),
+        content = '<span>' + (multiple ? ref.get_label('uploadingmany') : files[0].name) + '</span>';
+
+      // add to attachments list
+      ref.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false });
+
+      // complete multipart content and post request
+      multipart += dashdash + boundary + dashdash + crlf;
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ref.url(ref.env.filedrop.action||'upload', { _id:ref.env.compose_id||'', _uploadid:ts, _remote:1 }),
+        contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
+        processData: false,
+        data: formdata || multipart,
+        beforeSend: function(xhr, s) { if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; },
+        success: function(data){ ref.http_response(data); },
+        error: function(o, status, err) { ref.http_error(o, status, err, null, 'attachment'); }
+      });
+    };
+
+    // get contents of all dropped files
+    var last = this.env.filedrop.single ? 0 : files.length - 1;
+    for (var i=0, f; i <= last && (f = files[i]); i++) {
+      if (!f.name) f.name = f.fileName;
+      if (!f.size) f.size = f.fileSize;
+      if (!f.type) f.type = 'application/octet-stream';
+
+      // binary encode file name
+      if (!formdata && /[^\x20-\x7E]/.test(f.name))
+        f.name_bin = unescape(encodeURIComponent(f.name));
+
+      if (this.env.filedrop.filter && !f.type.match(new RegExp(this.env.filedrop.filter))) {
+        // TODO: show message to user
+        continue;
+      }
+
+      // the easy way with FormData (FF4+, Chrome, Safari)
+      if (formdata) {
+        formdata.append(fieldname + '[]', f);
+        if (i == last)
+          return submit_data();
+      }
+      // use FileReader supporetd by Firefox 3.6
+      else if (window.FileReader) {
+        var reader = new FileReader();
+
+        // closure to pass file properties to async callback function
+        reader.onload = (function(file, i) {
+          return function(e) {
+            multipart += 'Content-Disposition: form-data; name="' + fieldname + '[]"';
+            multipart += '; filename="' + (f.name_bin || file.name) + '"' + crlf;
+            multipart += 'Content-Length: ' + file.size + crlf;
+            multipart += 'Content-Type: ' + file.type + crlf + crlf;
+            multipart += e.target.result + crlf;
+            multipart += dashdash + boundary + crlf;
+
+            if (i == last)  // we're done, submit the data
+              return submit_data();
+          }
+        })(f,i);
+        reader.readAsBinaryString(f);
+      }
+      // Firefox 3
+      else if (f.getAsBinary) {
+        multipart += 'Content-Disposition: form-data; name="' + fieldname + '[]"';
+        multipart += '; filename="' + (f.name_bin || f.name) + '"' + crlf;
+        multipart += 'Content-Length: ' + f.size + crlf;
+        multipart += 'Content-Type: ' + f.type + crlf + crlf;
+        multipart += f.getAsBinary() + crlf;
+        multipart += dashdash + boundary +crlf;
+
+        if (i == last)
+          return submit_data();
+      }
+    }
+  };
+
 
   // starts interval for keep-alive/check-recent signal
   this.start_keepalive = function()

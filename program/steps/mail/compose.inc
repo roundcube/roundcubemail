@@ -1590,6 +1590,19 @@ function rcmail_contacts_list($attrib = array())
 }
 
 
+/**
+ * Register a certain container as active area to drop files onto
+ */
+function compose_file_drop_area($attrib)
+{
+    global $OUTPUT;
+
+    if ($attrib['id']) {
+        $OUTPUT->add_gui_object('filedrop', $attrib['id']);
+        $OUTPUT->set_env('filedrop', array('action' => 'upload', 'fieldname' => '_attachments'));
+    }
+}
+
 
 // register UI objects
 $OUTPUT->add_handlers(array(
@@ -1599,6 +1612,7 @@ $OUTPUT->add_handlers(array(
   'composeattachmentlist' => 'rcmail_compose_attachment_list',
   'composeattachmentform' => 'rcmail_compose_attachment_form',
   'composeattachment' => 'rcmail_compose_attachment_field',
+  'filedroparea'    => 'compose_file_drop_area',
   'priorityselector' => 'rcmail_priority_selector',
   'editorselector' => 'rcmail_editor_selector',
   'receiptcheckbox' => 'rcmail_receipt_checkbox',
