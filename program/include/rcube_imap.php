@@ -1635,11 +1635,24 @@ class rcube_imap extends rcube_storage
                 $structure[1] = $m[2];
             }
             else {
-                return $headers;
+                // Try to parse the message using Mail_mimeDecode package
+                // We need a better solution, Mail_mimeDecode parses message
+                // in memory, which wouldn't work for very big messages,
+                // (it uses up to 10x more memory than the message size)
+                // it's also buggy and not actively developed
+                if ($headers->size && rcube_utils::mem_check($headers->size * 10)) {
+                    $raw_msg = $this->get_raw_body($uid);
+                    $struct = rcube_mime::parse_message($raw_msg);
+                }
+                else {
+                    return $headers;
+                }
             }
         }
 
-        $struct = $this->structure_part($structure, 0, '', $headers);
+        if (empty($struct)) {
+            $struct = $this->structure_part($structure, 0, '', $headers);
+        }
 
         // don't trust given content-type
         if (empty($struct->parts) && !empty($headers->ctype)) {

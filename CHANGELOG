@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add workaround for invalid BODYSTRUCTURE response - parse message with Mail_mimeDecode package (#1485585)
 - Decode header value in rcube_mime::get() by default (#1488511)
 - Fix errors with enabled PHP magic_quotes_sybase option (#1488506)
 - Fix SQL query for contacts listing on MS SQL Server (#1488505)
