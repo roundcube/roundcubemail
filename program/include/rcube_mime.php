@@ -42,9 +42,25 @@ class rcube_mime
         if ($default_charset) {
             self::$default_charset = $default_charset;
         }
-        else {
-            self::$default_charset = rcube::get_instance()->config->get('default_charset', RCMAIL_CHARSET);
+    }
+
+
+    /**
+     * Returns message/object character set name
+     *
+     * @return string Characted set name
+     */
+    public static function get_charset()
+    {
+        if (self::$default_charset) {
+            return self::$default_charset;
         }
+
+        if ($charset = rcube::get_instance()->config->get('default_charset')) {
+            return $charset;
+        }
+
+        return RCMAIL_CHARSET;
     }
 
 
@@ -89,7 +105,7 @@ class rcube_mime
         if ($part->ctype_parameters['charset'])
             $struct->charset = $part->ctype_parameters['charset'];
 
-        $part_charset = $struct->charset ? $struct->charset : self::$default_charset;
+        $part_charset = $struct->charset ? $struct->charset : self::get_charset();
 
         // determine filename
         if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {
@@ -183,7 +199,7 @@ class rcube_mime
      */
     public static function decode_mime_string($input, $fallback = null)
     {
-        $default_charset = !empty($fallback) ? $fallback : self::$default_charset;
+        $default_charset = !empty($fallback) ? $fallback : self::get_charset();
 
         // rfc: all line breaks or other characters not found
         // in the Base64 Alphabet must be ignored by decoding software

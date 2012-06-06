@@ -205,15 +205,18 @@ class rcube_message_header
     /**
      * Returns header value
      */
-    public function get($name)
+    public function get($name, $decode = true)
     {
         $name = strtolower($name);
 
         if (isset($this->obj_headers[$name])) {
-            return $this->{$this->obj_headers[$name]};
+            $value = $this->{$this->obj_headers[$name]};
+        }
+        else {
+            $value = $this->others[$name];
         }
 
-        return $this->others[$name];
+        return $decode ? rcube_mime::decode_header($value, $this->charset) : $value;
     }
 
     /**
