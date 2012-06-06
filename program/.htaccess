@@ -1,4 +1,4 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteRule !^js|.*\.gif$ - [F]
+RewriteRule !^js|.*\.[gt]if$ - [F]
 </IfModule>
