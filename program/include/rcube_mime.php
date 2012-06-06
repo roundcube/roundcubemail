@@ -31,7 +31,7 @@
  */
 class rcube_mime
 {
-    private static $default_charset = RCMAIL_CHARSET;
+    private static $default_charset;
 
 
     /**
@@ -39,9 +39,7 @@ class rcube_mime
      */
     function __construct($default_charset = null)
     {
-        if ($default_charset) {
-            self::$default_charset = $default_charset;
-        }
+        self::$default_charset = $default_charset;
     }
 
 
