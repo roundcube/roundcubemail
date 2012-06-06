@@ -184,9 +184,7 @@ form #contacthead {
 }
 
 #contacthead span.nickname:before,
-#contacthead span.nickname:after,
-#contacthead input.ff_nickname:before,
-#contacthead input.ff_nickname:after {
+#contacthead span.nickname:after {
 	content: '"';
 }
 
