@@ -6294,16 +6294,17 @@ function rcube_webmail()
       if (!f.size) f.size = f.fileSize;
       if (!f.type) f.type = 'application/octet-stream';
 
-      // binary encode file name
+      // file name contains non-ASCII characters, do UTF8-binary string conversion.
       if (!formdata && /[^\x20-\x7E]/.test(f.name))
         f.name_bin = unescape(encodeURIComponent(f.name));
 
+      // filter by file type if requested
       if (this.env.filedrop.filter && !f.type.match(new RegExp(this.env.filedrop.filter))) {
         // TODO: show message to user
         continue;
       }
 
-      // the easy way with FormData (FF4+, Chrome, Safari)
+      // do it the easy way with FormData (FF 4+, Chrome 5+, Safari 5+)
       if (formdata) {
         formdata.append(fieldname + '[]', f);
         if (i == last)
