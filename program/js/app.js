@@ -6259,7 +6259,7 @@ function rcube_webmail()
       dashdash = '--', crlf = '\r\n',
       multipart = dashdash + boundary + crlf;
 
-    if (!file || !files.length)
+    if (!files || !files.length)
       return;
 
     // inline function to submit the files to the server

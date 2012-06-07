@@ -1448,6 +1448,14 @@ input.from_address
   background-color: #F9F9F9;
 }
 
+#compose-attachments.droptarget.hover
+{
+  background-color: #F0F0EE;
+  box-shadow: 0 0 5px 0 #999;
+  -moz-box-shadow: 0 0 5px 0 #999;
+  -o-box-shadow: 0 0 5px 0 #999;
+}
+
 #compose-attachments ul
 {
   margin: 0px;
