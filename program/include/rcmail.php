@@ -1997,6 +1997,31 @@ class rcmail extends rcube
     }
 
 
+    /**
+     * Returns real size (calculated) of the message part
+     *
+     * @param rcube_message_part  Message part
+     *
+     * @return string Part size (and unit)
+     */
+    public function message_part_size($part)
+    {
+        if (isset($part->d_parameters['size'])) {
+            $size = $this->show_bytes((int)$part->d_parameters['size']);
+        }
+        else {
+          $size = $part->size;
+          if ($part->encoding == 'base64') {
+            $size = $size / 1.33;
+          }
+
+          $size = '~' . $this->show_bytes($size);
+        }
+
+        return $size;
+    }
+
+
     /************************************************************************
      *********          Deprecated methods (to be removed)          *********
      ***********************************************************************/

@@ -1477,13 +1477,13 @@ function rcmail_draftinfo_decode($str)
 
 function rcmail_message_part_controls($attrib)
 {
-  global $MESSAGE;
+  global $MESSAGE, $RCMAIL;
 
   $part = asciiwords(get_input_value('_part', RCUBE_INPUT_GPC));
   if (!is_object($MESSAGE) || !is_array($MESSAGE->parts) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE->mime_parts[$part])
     return '';
 
-  $part = $MESSAGE->mime_parts[$part];
+  $part  = $MESSAGE->mime_parts[$part];
   $table = new html_table(array('cols' => 3));
 
   $filename = $part->filename;
@@ -1497,10 +1497,8 @@ function rcmail_message_part_controls($attrib)
     $table->add('download-link', html::a(array('href' => './?'.str_replace('_frame=', '_download=', $_SERVER['QUERY_STRING'])), Q(rcube_label('download'))));
   }
 
-  if (!empty($part->size)) {
-    $table->add('title', Q(rcube_label('filesize')));
-    $table->add('header', Q(show_bytes($part->size)));
-  }
+  $table->add('title', Q(rcube_label('filesize')));
+  $table->add('header', Q($RCMAIL->message_part_size($part)));
 
   return $table->show($attrib);
 }
