@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of links with various URI schemes e.g. "skype:" (#1488106)
+- Fix handling of links inside PRE elements on html to text conversion
+- Fix indexing of links on html to text conversion
 - Add mail attachments using drag & drop on HTML5 enabled browsers
 - Add workaround for invalid BODYSTRUCTURE response - parse message with Mail_mimeDecode package (#1485585)
 - Decode header value in rcube_mime::get() by default (#1488511)

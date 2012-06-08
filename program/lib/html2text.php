@@ -249,12 +249,11 @@ class html2text
      *  @access public
      */
     var $callback_search = array(
-        '/<(a) [^>]*href=("|\')([^"\']+)\2[^>]*>(.*?)<\/a>/i',
-                                                   // <a href="">
-        '/<(h)[123456][^>]*>(.*?)<\/h[123456]>/i', // H1 - H3
-        '/<(b)[^>]*>(.*?)<\/b>/i',                 // <b>
-        '/<(strong)[^>]*>(.*?)<\/strong>/i',       // <strong>
-        '/<(th)[^>]*>(.*?)<\/th>/i',               // <th> and </th>
+        '/<(a) [^>]*href=("|\')([^"\']+)\2[^>]*>(.*?)<\/a>/i', // <a href="">
+        '/<(h)[123456]( [^>]*)?>(.*?)<\/h[123456]>/i',         // h1 - h6
+        '/<(b)( [^>]*)?>(.*?)<\/b>/i',                         // <b>
+        '/<(strong)( [^>]*)?>(.*?)<\/strong>/i',               // <strong>
+        '/<(th)( [^>]*)?>(.*?)<\/th>/i',                       // <th> and </th>
     );
 
    /**
@@ -368,7 +367,7 @@ class html2text
     function set_html( $source, $from_file = false )
     {
         if ( $from_file && file_exists($source) ) {
-            $this->html = file_get_contents($source); 
+            $this->html = file_get_contents($source);
         }
         else
             $this->html = $source;
@@ -560,11 +559,11 @@ class html2text
 	    }
 
         // Ignored link types
-	    if (preg_match('!^(javascript|mailto|#):!i', $link)) {
+	    if (preg_match('!^(javascript:|mailto:|#)!i', $link)) {
 		    return $display;
         }
 
-	    if (preg_match('!^(https?://)!i', $link)) {
+	    if (preg_match('!^([a-z][a-z0-9.+-]+:)!i', $link)) {
             $url = $link;
         }
         else {
@@ -576,8 +575,8 @@ class html2text
         }
 
         if (($index = array_search($url, $this->_link_list)) === false) {
-            $this->_link_list[] = $url;
             $index = count($this->_link_list);
+            $this->_link_list[] = $url;
         }
 
         return $display . ' [' . ($index+1) . ']';
@@ -593,12 +592,20 @@ class html2text
     {
         // get the content of PRE element
         while (preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches)) {
+            $this->pre_content = $matches[1];
+
+            // Run our defined tags search-and-replace with callback
+            $this->pre_content = preg_replace_callback($this->callback_search,
+                array('html2text', '_preg_callback'), $this->pre_content);
+
             // convert the content
             $this->pre_content = sprintf('<div><br>%s<br></div>',
-                preg_replace($this->pre_search, $this->pre_replace, $matches[1]));
+                preg_replace($this->pre_search, $this->pre_replace, $this->pre_content));
+
             // replace the content (use callback because content can contain $0 variable)
-            $text = preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU', 
+            $text = preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU',
                 array('html2text', '_preg_pre_callback'), $text, 1);
+
             // free memory
             $this->pre_content = '';
         }
@@ -671,11 +678,11 @@ class html2text
         switch (strtolower($matches[1])) {
         case 'b':
         case 'strong':
-            return $this->_toupper($matches[2]);
+            return $this->_toupper($matches[3]);
         case 'th':
-            return $this->_toupper("\t\t". $matches[2] ."\n");
+            return $this->_toupper("\t\t". $matches[3] ."\n");
         case 'h':
-            return $this->_toupper("\n\n". $matches[2] ."\n\n");
+            return $this->_toupper("\n\n". $matches[3] ."\n\n");
         case 'a':
             // Remove spaces in URL (#1487805)
             $url = str_replace(' ', '', $matches[3]);
