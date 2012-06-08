@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of links with various URI schemes e.g. "skype:" (#1488106)
+- Fix handling of links inside PRE elements on html to text conversion
+- Fix indexing of links on html to text conversion
 - Decode header value in rcube_mime::get() by default (#1488511)
 - Fix errors with enabled PHP magic_quotes_sybase option (#1488506)
 - Fix SQL query for contacts listing on MS SQL Server (#1488505)
