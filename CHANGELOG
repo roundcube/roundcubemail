@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add Content-Length for attachments where possible (#1485478)
 - Fix attachment sizes in message print page and attachment preview page (#1488515)
 - Fix XSS vulnerability in message subject handling using Larry skin (#1488519)
 - Fix handling of links with various URI schemes e.g. "skype:" (#1488106)

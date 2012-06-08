@@ -199,13 +199,18 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
           $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
         }
       }
+      // send part as-it-is
       else {
-        // turn off output buffering and print part content
         if ($part->body) {
+          header("Content-Length: " . sizeof($part->body));
           echo $part->body;
           $sent = true;
         }
         else if ($part->size) {
+          if ($size = (int)$part->d_parameters['size']) {
+            header("Content-Length: $size");
+          }
+
           $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
         }
       }
