@@ -947,7 +947,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
 
   // single header value is requested
   if (!empty($attrib['valueof']))
-    return Q($plugin['output'][$attrib['valueof']]['value'], ($hkey == 'subject' ? 'strict' : 'show'));
+    return Q($plugin['output'][$attrib['valueof']]['value'], ($attrib['valueof'] == 'subject' ? 'strict' : 'show'));
 
   // compose html table
   $table = new html_table(array('cols' => 2));
