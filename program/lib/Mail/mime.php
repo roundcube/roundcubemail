@@ -48,7 +48,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   1.8.4
+ * @version   1.8.5
  * @link      http://pear.php.net/package/Mail_mime
  *
  *            This class is based on HTML Mime Mail class from
@@ -89,7 +89,7 @@ require_once 'Mail/mimePart.php';
  * @author    Sean Coates <sean@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   Release: 1.8.4
+ * @version   Release: 1.8.5
  * @link      http://pear.php.net/package/Mail_mime
  */
 class Mail_mime
@@ -387,7 +387,8 @@ class Mail_mime
      * @param string $description Content-Description header
      * @param string $h_charset   The character set of the headers e.g. filename
      *                            If not specified, $charset will be used
-     * @param array  $add_headers Additional part headers
+     * @param array  $add_headers Additional part headers. Array keys can be in form
+     *                            of <header_name>:<parameter_name>
      *
      * @return mixed              True on success or PEAR_Error object
      * @access public

@@ -48,7 +48,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   1.8.4
+ * @version   1.8.5
  * @link      http://pear.php.net/package/Mail_mime
  */
 
@@ -70,7 +70,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   Release: 1.8.4
+ * @version   Release: 1.8.5
  * @link      http://pear.php.net/package/Mail_mime
  */
 class Mail_mimePart
@@ -156,7 +156,8 @@ class Mail_mimePart
     *     headers_charset   - Charset of the headers e.g. filename, description.
     *                         If not set, 'charset' will be used
     *     eol               - End of line sequence. Default: "\r\n"
-    *     headers           - Hash array with additional part headers
+    *     headers           - Hash array with additional part headers. Array keys can be
+    *                         in form of <header_name>:<parameter_name>
     *     body_file         - Location of file with part's body (instead of $body)
     *
     * @access public
@@ -222,13 +223,17 @@ class Mail_mimePart
                 $params['headers_charset'] = $params['charset'];
             }
         }
+
+        // header values encoding parameters
+        $h_charset  = !empty($params['headers_charset']) ? $params['headers_charset'] : 'US-ASCII';
+        $h_language = !empty($params['language']) ? $params['language'] : null;
+        $h_encoding = !empty($params['name_encoding']) ? $params['name_encoding'] : null;
+
+
         if (!empty($params['filename'])) {
             $headers['Content-Type'] .= ';' . $this->_eol;
             $headers['Content-Type'] .= $this->_buildHeaderParam(
-                'name', $params['filename'],
-                !empty($params['headers_charset']) ? $params['headers_charset'] : 'US-ASCII',
-                !empty($params['language']) ? $params['language'] : null,
-                !empty($params['name_encoding']) ? $params['name_encoding'] : null
+                'name', $params['filename'], $h_charset, $h_language, $h_encoding
             );
         }
 
@@ -238,21 +243,39 @@ class Mail_mimePart
             if (!empty($params['filename'])) {
                 $headers['Content-Disposition'] .= ';' . $this->_eol;
                 $headers['Content-Disposition'] .= $this->_buildHeaderParam(
-                    'filename', $params['filename'],
-                    !empty($params['headers_charset']) ? $params['headers_charset'] : 'US-ASCII',
-                    !empty($params['language']) ? $params['language'] : null,
+                    'filename', $params['filename'], $h_charset, $h_language,
                     !empty($params['filename_encoding']) ? $params['filename_encoding'] : null
                 );
+            }
+
+            // add attachment size
+            $size = $this->_body_file ? filesize($this->_body_file) : strlen($body);
+            if ($size) {
+                $headers['Content-Disposition'] .= ';' . $this->_eol . ' size=' . $size;
             }
         }
 
         if (!empty($params['description'])) {
             $headers['Content-Description'] = $this->encodeHeader(
-                'Content-Description', $params['description'],
-                !empty($params['headers_charset']) ? $params['headers_charset'] : 'US-ASCII',
-                !empty($params['name_encoding']) ? $params['name_encoding'] : 'quoted-printable',
+                'Content-Description', $params['description'], $h_charset, $h_encoding,
                 $this->_eol
             );
+        }
+
+        // Search and add existing headers' parameters
+        foreach ($headers as $key => $value) {
+            $items = explode(':', $key);
+            if (count($items) == 2) {
+                $header = $items[0];
+                $param  = $items[1];
+                if (isset($headers[$header])) {
+                    $headers[$header] .= ';' . $this->_eol;
+                }
+                $headers[$header] .= $this->_buildHeaderParam(
+                    $param, $value, $h_charset, $h_language, $h_encoding
+                );
+                unset($headers[$key]);
+            }
         }
 
         // Default encoding
