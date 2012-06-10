@@ -312,8 +312,9 @@ class rcube_vcard
         break;
 
       case 'birthday':
-        if ($val = rcube_strtotime($value))
-          $this->raw['BDAY'][] = array(0 => date('Y-m-d', $val), 'value' => array('date'));
+      case 'anniversary':
+        if (($val = rcube_strtotime($value)) && ($fn = self::$fieldmap[$field]))
+          $this->raw[$fn][] = array(0 => date('Y-m-d', $val), 'value' => array('date'));
         break;
 
       case 'address':
