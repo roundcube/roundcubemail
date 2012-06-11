@@ -493,7 +493,7 @@ function rcube_webmail()
   /*********************************************************/
 
   // execute a specific command on the web client
-  this.command = function(command, props, obj)
+  this.command = function(command, props, obj, event)
   {
     var ret, uid, cid, url, flag;
 
@@ -713,7 +713,7 @@ function rcube_webmail()
       case 'delete':
         // mail task
         if (this.task == 'mail')
-          this.delete_messages();
+          this.delete_messages(event);
         // addressbook task
         else if (this.task == 'addressbook')
           this.delete_contacts();
@@ -1827,7 +1827,7 @@ function rcube_webmail()
         html = '<span id="flagicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
       }
       else if (c == 'attachment') {
-        if (/application\/|multipart\/m/.test(flags.ctype))
+        if (/application\/|multipart\/(m|signed)/.test(flags.ctype))
           html = '<span class="attachment">&nbsp;</span>';
         else if (/multipart\/report/.test(flags.ctype))
           html = '<span class="report">&nbsp;</span>';
@@ -2555,7 +2555,7 @@ function rcube_webmail()
   };
 
   // delete selected messages from the current mailbox
-  this.delete_messages = function()
+  this.delete_messages = function(event)
   {
     var uid, i, len, trash = this.env.trash_mailbox,
       list = this.message_list,
@@ -2587,7 +2587,7 @@ function rcube_webmail()
     // if there is a trash mailbox defined and we're not currently in it
     else {
       // if shift was pressed delete it immediately
-      if (list && list.modkey == SHIFT_KEY) {
+      if ((list && list.modkey == SHIFT_KEY) || (event && rcube_event.get_modifier(event) == SHIFT_KEY)) {
         if (confirm(this.get_label('deletemessagesconfirm')))
           this.permanently_remove_messages();
       }

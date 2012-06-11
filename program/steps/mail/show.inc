@@ -144,7 +144,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
 
 function rcmail_message_attachments($attrib)
 {
-  global $PRINT_MODE, $MESSAGE;
+  global $PRINT_MODE, $MESSAGE, $RCMAIL;
 
   $out = $ol = '';
 
@@ -156,7 +156,8 @@ function rcmail_message_attachments($attrib)
       }
 
       if ($PRINT_MODE) {
-        $ol .= html::tag('li', null, sprintf("%s (%s)", Q($filename), Q(show_bytes($attach_prop->size))));
+        $size = $RCMAIL->message_part_size($attach_prop);
+        $ol .= html::tag('li', null, Q(sprintf("%s (%s)", $filename, $size)));
       }
       else {
         if (mb_strlen($filename) > 50) {

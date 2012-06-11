@@ -933,7 +933,7 @@ class rcube_output_html extends rcube_output
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href']    = $this->app->url(array('task' => $attrib['command']));
-                $attrib['onclick'] = sprintf("%s.command('switch-task','%s');return false", rcmail::JS_OBJECT_NAME, $attrib['command']);
+                $attrib['onclick'] = sprintf("%s.command('switch-task','%s',null,event); return false", rcmail::JS_OBJECT_NAME, $attrib['command']);
             }
             else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(array('action' => $attrib['command'], 'task' => $attrib['task']));
@@ -956,7 +956,7 @@ class rcube_output_html extends rcube_output
         }
         else if ($command && !$attrib['onclick']) {
             $attrib['onclick'] = sprintf(
-                "return %s.command('%s','%s',this)",
+                "return %s.command('%s','%s',this,event)",
                 rcmail::JS_OBJECT_NAME,
                 $command,
                 $attrib['prop']
@@ -1485,7 +1485,7 @@ class rcube_output_html extends rcube_output
         if (empty($attrib['form'])) {
             $out = $this->form_tag(array(
                 'name' => "rcmqsearchform",
-                'onsubmit' => rcmail::JS_OBJECT_NAME . ".command('search');return false;",
+                'onsubmit' => rcmail::JS_OBJECT_NAME . ".command('search'); return false",
                 'style' => "display:inline"),
                 $out);
         }
