@@ -76,6 +76,7 @@
  * - added RFC2397 support
  * - base URL support
  * - invalid HTML comments removal before parsing
+ * - "fixing" unitless CSS values for XHTML output
  */
 
 class washtml
@@ -157,14 +158,17 @@ class washtml
     foreach (explode(';', $style) as $declaration) {
       if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
         $cssid = $match[1];
-        $str = $match[2];
+        $str   = $match[2];
         $value = '';
+
         while (sizeof($str) > 0 &&
           preg_match('/^(url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)'./*1,2*/
                  '|rgb\(\s*[0-9]+\s*,\s*[0-9]+\s*,\s*[0-9]+\s*\)'.
                  '|-?[0-9.]+\s*(em|ex|px|cm|mm|in|pt|pc|deg|rad|grad|ms|s|hz|khz|%)?'.
-                 '|#[0-9a-f]{3,6}|[a-z0-9", -]+'.
-                 ')\s*/i', $str, $match)) {
+                 '|#[0-9a-f]{3,6}'.
+                 '|[a-z0-9", -]+'.
+                 ')\s*/i', $str, $match)
+        ) {
           if ($match[2]) {
             if (($src = $this->config['cid_map'][$match[2]])
                 || ($src = $this->config['cid_map'][$this->config['base_url'].$match[2]])) {
@@ -180,13 +184,21 @@ class washtml
               $value .= ' url('.htmlspecialchars($match[2], ENT_QUOTES).')';
             }
           }
-          else if ($match[0] != 'url' && $match[0] != 'rgb') //whitelist ?
+          else { //whitelist ?
             $value .= ' ' . $match[0];
+
+            // #1488535: Fix size units, so width:800 would be changed to width:800px
+            if (preg_match('/(left|right|top|bottom|width|height)/i', $cssid) && preg_match('/^[0-9]+$/', $match[0])) {
+              $value .= 'px';
+            }
+          }
 
           $str = substr($str, strlen($match[0]));
         }
-        if ($value)
+
+        if (isset($value[0])) {
           $s .= ($s?' ':'') . $cssid . ':' . $value . ';';
+        }
       }
     }
     return $s;
