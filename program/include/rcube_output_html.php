@@ -68,7 +68,9 @@ class rcube_output_html extends rcube_output
         $this->set_env('x_frame_options', $this->config->get('x_frame_options', 'sameorigin'));
 
         // load the correct skin (in case user-defined)
-        $this->set_skin($this->config->get('skin'));
+        $skin = $this->config->get('skin');
+        $this->set_skin($skin);
+        $this->set_env('skin', $skin);
 
         // add common javascripts
         $this->add_script('var '.rcmail::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
