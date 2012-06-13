@@ -77,7 +77,9 @@ class rcube_template extends rcube_html_page
         $this->set_env('x_frame_options', $this->app->config->get('x_frame_options', 'sameorigin'));
 
         // load the correct skin (in case user-defined)
-        $this->set_skin($this->config['skin']);
+        $skin = $this->app->config->get('skin', 'default');
+        $this->set_skin($skin);
+        $this->set_env('skin', $skin);
 
         // add common javascripts
         $this->add_script('var '.JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
