@@ -5,7 +5,7 @@
  | program/include/clisetup.php                                          |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2010, The Roundcube Dev Team                            |
+ | Copyright (C) 2010-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -31,27 +31,29 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 /**
  * Parse commandline arguments into a hash array
  */
-function get_opt($aliases=array())
+function get_opt($aliases = array())
 {
 	$args = array();
-	for ($i=1; $i<count($_SERVER['argv']); $i++)
-	{
+	for ($i=1; $i < count($_SERVER['argv']); $i++) {
 		$arg = $_SERVER['argv'][$i];
-		if (substr($arg, 0, 2) == '--')
-		{
+		$value = true;
+		$key = null;
+
+		if ($arg[0] == '-') {
+			$key = preg_replace('/^-+/', '', $arg);
 			$sp = strpos($arg, '=');
-			$key = substr($arg, 2, $sp - 2);
-			$value = substr($arg, $sp+1);
-		}
-		else if ($arg{0} == '-')
-		{
-			$key = substr($arg, 1);
-			$value = $_SERVER['argv'][++$i];
+			if ($sp > 0) {
+				$key = substr($key, 0, $sp - 2);
+				$value = substr($arg, $sp+1);
+			}
+			else if (strlen($_SERVER['argv'][$i+1]) && $_SERVER['argv'][$i+1][0] != '-') {
+				$value = $_SERVER['argv'][++$i];
+			}
+
+			$args[$key] = is_string($value) ? preg_replace(array('/^["\']/', '/["\']$/'), '', $value) : $value;
 		}
 		else
-			continue;
-
-		$args[$key] = preg_replace(array('/^["\']/', '/["\']$/'), '', $value);
+			$args[] = $arg;
 
 		if ($alias = $aliases[$key])
 			$args[$alias] = $args[$key];
