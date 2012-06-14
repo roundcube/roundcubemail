@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of unitless CSS size values in HTML message (#1488535)
+- Fix removing contact photo using LDAP addressbook (#1488420)
 - Fix storing X-ANNIVERSARY date in vCard format (#1488527)
 - Update to Mail_Mime-1.8.5 (#1488521)
 - Fix Shift + delete button does not permanently delete messages (#1488243)

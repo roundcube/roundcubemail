@@ -71,10 +71,14 @@ class rcube_config
         $this->load_host_config();
 
         // set skin (with fallback to old 'skin_path' property)
-        if (empty($this->prop['skin']) && !empty($this->prop['skin_path']))
-            $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
-        else if (empty($this->prop['skin']))
-            $this->prop['skin'] = 'default';
+        if (empty($this->prop['skin'])) {
+            if (!empty($this->prop['skin_path'])) {
+                $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
+            }
+            else {
+                $this->prop['skin'] = 'default';
+            }
+        }
 
         // fix paths
         $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : INSTALL_PATH . 'logs';
