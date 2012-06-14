@@ -220,6 +220,8 @@ function rcube_mail_ui()
   function body_mouseup(e)
   {
     var config, obj, target = e.target;
+    if (target.className == 'inner')
+        target = e.target.parentNode;
     for (var id in popups) {
       obj = popups[id];
       config = popupconfig[id];
