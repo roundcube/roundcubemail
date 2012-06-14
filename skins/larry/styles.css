@@ -1889,14 +1889,14 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -338px;
 }
 
-.attachmentslist li.ics,
-.attachmentslist li.calendar {
-	background-position: 0 -364px;
-}
-
 .attachmentslist li.txt,
 .attachmentslist li.text {
 	background-position: 0 -416px;
+}
+
+.attachmentslist li.ics,
+.attachmentslist li.calendar {
+	background-position: 0 -364px;
 }
 
 .attachmentslist li.vcard {
