@@ -1481,7 +1481,7 @@ input.from_address
 
 #compose-attachments li a
 {
-  text-indent: -1000px;
+  text-indent: -5000px;
   width: 17px;
   height: 16px;
   display: block;
