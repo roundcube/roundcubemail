@@ -289,6 +289,6 @@ a.deletebutton {
 	width: 24px;
 	height: 18px;
 	text-decoration: none;
-	text-indent: -1000px;
+	text-indent: -5000px;
 	background: url(images/buttons.png) -7px -377px no-repeat;
 }

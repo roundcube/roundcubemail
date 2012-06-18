@@ -330,7 +330,7 @@ a.iconbutton {
 	width: 24px;
 	height: 18px;
 	text-decoration: none;
-	text-indent: -1000px;
+	text-indent: -5000px;
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
 
@@ -827,7 +827,7 @@ table.layout td {
 	display: inline-block;
 	width: 48px;
 	height: 35px;
-	text-indent: -1000px;
+	text-indent: -5000px;
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
 
@@ -1941,7 +1941,7 @@ ul.toolbarmenu li span.conversation {
 	height: 18px;
 	padding: 0;
 	text-decoration: none;
-	text-indent: -1000px;
+	text-indent: -5000px;
 	background: url(images/buttons.png) -7px -337px no-repeat;
 }
 
