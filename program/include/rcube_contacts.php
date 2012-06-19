@@ -934,8 +934,8 @@ class rcube_contacts extends rcube_addressbook
                 $contact_id
             );
 
-            if ($this->db->db_error)
-                $this->set_error(self::ERROR_SAVING, $this->db->db_error_msg);
+            if ($error = $this->db->is_error())
+                $this->set_error(self::ERROR_SAVING, $error);
             else
                 $added++;
         }
