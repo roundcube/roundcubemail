@@ -54,7 +54,9 @@
 #settings-sections span.listitem a,
 #settings-sections span.tablink a {
 	padding-left: 36px;
-	background: url(images/listicons.png) -100px 0 no-repeat;
+	background-image: url(images/listicons.png);
+	background-position: -100px 0;
+	background-repeat: no-repeat;
 }
 
 /* note: support span.tablink because this is used by plugins */

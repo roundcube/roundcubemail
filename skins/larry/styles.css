@@ -769,6 +769,7 @@ a.iconlink.upload {
 .listing li.selected > a {
 	color: #004458;
 	font-weight: bold;
+	background-color: #c7e3ef;
 }
 
 ul.listing {
@@ -784,7 +785,7 @@ ul.listing li {
 
 ul.listing li.droptarget,
 table.listing tr.droptarget td {
-	background-color: #c7e3ef;
+	background-color: #e8e798;
 }
 
 table.listing,
