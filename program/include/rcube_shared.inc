@@ -407,7 +407,7 @@ function rcube_autoload($classname)
             '/^utf8$/',
         ),
         array(
-            'MDB2/\\1',
+            'Mail/\\1',
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',

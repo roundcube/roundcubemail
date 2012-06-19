@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add new DB abstraction layer based on PHP PDO, supporting SQLite3 (#1488332)
 - Fix handling of unitless CSS size values in HTML message (#1488535)
 - Fix removing contact photo using LDAP addressbook (#1488420)
 - Fix storing X-ANNIVERSARY date in vCard format (#1488527)

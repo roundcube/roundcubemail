@@ -267,13 +267,8 @@ echo $input_syslogfacility->show($RCI->getprop('syslog_facility'), LOG_USER);
 <p>Database settings for read/write operations:</p>
 <?php
 
-require_once 'MDB2.php';
-
-$supported_dbs = array('MySQL' => 'mysql', 'MySQLi' => 'mysqli',
-    'PgSQL' => 'pgsql', 'SQLite' => 'sqlite');
-
 $select_dbtype = new html_select(array('name' => '_dbtype', 'id' => "cfgdbtype"));
-foreach ($supported_dbs AS $database => $ext) {
+foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         $select_dbtype->add($database, $ext);
     }
@@ -284,7 +279,7 @@ $input_dbname = new html_inputfield(array('name' => '_dbname', 'size' => 20, 'id
 $input_dbuser = new html_inputfield(array('name' => '_dbuser', 'size' => 20, 'id' => "cfgdbuser"));
 $input_dbpass = new html_passwordfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
 
-$dsnw = MDB2::parseDSN($RCI->getprop('db_dsnw'));
+$dsnw = rcube_db::parse_dsn($RCI->getprop('db_dsnw'));
 
 echo $select_dbtype->show($RCI->is_post ? $_POST['_dbtype'] : $dsnw['phptype']);
 echo '<label for="cfgdbtype">Database type</label><br />';

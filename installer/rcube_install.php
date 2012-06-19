@@ -50,6 +50,17 @@ class rcube_install
     'des_key', 'session_lifetime', 'support_url',
   );
 
+  // list of supported database drivers
+  var $supported_dbs = array(
+    'MySQL'               => 'pdo_mysql',
+    'PostgreSQL'          => 'pdo_pgsql',
+    'SQLite'              => 'pdo_sqlite',
+    'SQLite (v2)'         => 'pdo_sqlite2',
+    'SQL Server (SQLSRV)' => 'pdo_sqlsrv',
+    'SQL Server (DBLIB)'  => 'pdo_dblib',
+  );
+
+
   /**
    * Constructor
    */
@@ -371,7 +382,7 @@ class rcube_install
           $errors[] = "Missing columns in table '$table': " . join(',', $diff);
       }
     }
-    
+
     return !empty($errors) ? $errors : false;
   }
 
@@ -394,87 +405,8 @@ class rcube_install
         }
       }
     }
-    
+
     return $schema;
-  }
-  
-  
-  /**
-   * Compare the local database schema with the reference schema
-   * required for this version of Roundcube
-   *
-   * @param boolean True if the schema schould be updated
-   * @return boolean True if the schema is up-to-date, false if not or an error occured
-   */
-  function mdb2_schema_check($update = false)
-  {
-    if (!$this->configured)
-      return false;
-
-    $options = array(
-      'use_transactions' => false,
-      'log_line_break' => "\n",
-      'idxname_format' => '%s',
-      'debug' => false,
-      'quote_identifier' => true,
-      'force_defaults' => false,
-      'portability' => true
-    );
-
-    $dsnw = $this->config['db_dsnw'];
-    $schema = MDB2_Schema::factory($dsnw, $options);
-    $schema->db->supported['transactions'] = false;
-
-    if (PEAR::isError($schema)) {
-      $this->raise_error(array('code' => $schema->getCode(), 'message' => $schema->getMessage() . ' ' . $schema->getUserInfo()));
-      return false;
-    }
-    else {
-      $definition = $schema->getDefinitionFromDatabase();
-      $definition['charset'] = 'utf8';
-
-      if (PEAR::isError($definition)) {
-        $this->raise_error(array('code' => $definition->getCode(), 'message' => $definition->getMessage() . ' ' . $definition->getUserInfo()));
-        return false;
-      }
-
-      // load reference schema
-      $dsn_arr = MDB2::parseDSN($this->config['db_dsnw']);
-
-      $ref_schema = INSTALL_PATH . 'SQL/' . $dsn_arr['phptype'] . '.schema.xml';
-
-      if (is_readable($ref_schema)) {
-        $reference = $schema->parseDatabaseDefinition($ref_schema, false, array(), $schema->options['fail_on_invalid_names']);
-
-        if (PEAR::isError($reference)) {
-          $this->raise_error(array('code' => $reference->getCode(), 'message' => $reference->getMessage() . ' ' . $reference->getUserInfo()));
-        }
-        else {
-          $diff = $schema->compareDefinitions($reference, $definition);
-
-          if (empty($diff)) {
-            return true;
-          }
-          else if ($update) {
-            // update database schema with the diff from the above check
-            $success = $schema->alterDatabase($reference, $definition, $diff);
-
-            if (PEAR::isError($success)) {
-              $this->raise_error(array('code' => $success->getCode(), 'message' => $success->getMessage() . ' ' . $success->getUserInfo()));
-            }
-            else
-              return true;
-          }
-          echo '<pre>'; var_dump($diff); echo '</pre>';
-          return false;
-        }
-      }
-      else
-        $this->raise_error(array('message' => "Could not find reference schema file ($ref_schema)"));
-        return false;
-    }
-
-    return false;
   }
 
 
