@@ -125,7 +125,7 @@ else {
 $db_working = false;
 if ($RCI->configured) {
     if (!empty($RCI->config['db_dsnw'])) {
-        $DB = new rcube_db::factory($RCI->config['db_dsnw'], '', false);
+        $DB = rcube_db::factory($RCI->config['db_dsnw'], '', false);
         $DB->db_connect('w');
 
         if (!($db_error_msg = $DB->is_error())) {

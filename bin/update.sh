@@ -137,7 +137,7 @@ if ($RCI->configured) {
 
   // check database schema
   if ($RCI->config['db_dsnw']) {
-    $DB = new rcube_db::factory($RCI->config['db_dsnw'], '', false);
+    $DB = rcube_db::factory($RCI->config['db_dsnw'], '', false);
     $DB->db_connect('w');
     if ($db_error_msg = $DB->is_error()) {
       echo "Error connecting to database: $db_error_msg\n";
