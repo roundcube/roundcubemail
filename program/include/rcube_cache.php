@@ -33,9 +33,9 @@
 class rcube_cache
 {
     /**
-     * Instance of rcube_mdb2 or Memcache class
+     * Instance of database handler
      *
-     * @var rcube_mdb2/Memcache
+     * @var rcube_db|Memcache|bool
      */
     private $db;
     private $type;

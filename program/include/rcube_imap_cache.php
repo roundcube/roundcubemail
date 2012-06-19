@@ -39,9 +39,9 @@ class rcube_imap_cache
     private $imap;
 
     /**
-     * Instance of rcube_mdb2
+     * Instance of rcube_db
      *
-     * @var rcube_mdb2
+     * @var rcube_db
      */
     private $db;
 
