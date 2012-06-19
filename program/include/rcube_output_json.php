@@ -37,18 +37,6 @@ class rcube_output_json extends rcube_output
 
 
     /**
-     * Set environment variable
-     *
-     * @param string $name Property name
-     * @param mixed $value Property value
-     */
-    public function set_env($name, $value)
-    {
-        $this->env[$name] = $value;
-    }
-
-
-    /**
      * Issue command to set page title
      *
      * @param string $title New page title
