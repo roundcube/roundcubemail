@@ -370,6 +370,10 @@ body.iframe .boxtitle
   background-position: 0 -26px;
 }
 
+.boxfooter a.delgroup {
+  background-position: 0 -49px;
+}
+
 .boxfooter a.buttonPas
 {
   opacity: 0.35;
