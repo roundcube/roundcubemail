@@ -482,12 +482,18 @@ a.iconbutton.threadmode.selected {
 #messagelist tbody tr td.attachment span.attachment {
 	background-position: 0 -996px;
 }
+
 #messagelist thead tr td.attachment span.attachment {
 	background-position: -24px -997px;
 }
 
+#messagelist tbody tr td.attachment span.report {
+	background-position: -24px -1116px;
+}
+
 #messagelist tr td.priority {
 	padding-right: 0;
+	text-align: right;
 }
 
 #messagelist tr td.priority span.prio5 {
