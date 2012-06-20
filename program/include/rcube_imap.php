@@ -3742,9 +3742,9 @@ class rcube_imap extends rcube_storage
     {
         if ($this->messages_caching && !$this->mcache) {
             $rcube = rcube::get_instance();
-            if ($dbh = $rcube->get_dbh()) {
+            if (($dbh = $rcube->get_dbh()) && ($userid = $rcube->get_user_id())) {
                 $this->mcache = new rcube_imap_cache(
-                    $dbh, $this, $rcube->get_user_id(), $this->options['skip_deleted']);
+                    $dbh, $this, $userid, $this->options['skip_deleted']);
             }
         }
 

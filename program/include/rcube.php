@@ -106,12 +106,14 @@ class rcube
   /**
    * This implements the 'singleton' design pattern
    *
+   * @param integer Options to initialize with this instance. See rcube::INIT_WITH_* constants
    * @return rcube The one and only instance
    */
-  static function get_instance()
+  static function get_instance($mode = 0)
   {
     if (!self::$instance) {
       self::$instance = new rcube();
+      self::$instance->init($mode);
     }
 
     return self::$instance;
@@ -240,8 +242,7 @@ class rcube
    */
   public function get_cache($name, $type='db', $ttl=0, $packed=true)
   {
-    if (!isset($this->caches[$name])) {
-      $userid = $this->get_user_id();
+    if (!isset($this->caches[$name]) && ($userid = $this->get_user_id())) {
       $this->caches[$name] = new rcube_cache($type, $userid, $name, $ttl, $packed);
     }
 
