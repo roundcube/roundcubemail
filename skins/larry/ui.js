@@ -184,7 +184,7 @@ function rcube_mail_ui()
         .css('position', 'absolute')
         .offset(select.position())
         .insertAfter(select)
-        .children().width(select.outerWidth() - 40);
+        .children().width(select.outerWidth() - 10);
 
       select.parent().css('position', 'relative');
     });
