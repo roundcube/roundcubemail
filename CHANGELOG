@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Better icons with distinct shapes for priority columns (#1488377)
 - Show dedicated icon for multipart/report messages (#1488524)
 - Properly hide text of icon links/buttons (#1488534)
 - Fix handling of unitless CSS size values in HTML message (#1488535)

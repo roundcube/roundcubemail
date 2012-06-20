@@ -491,25 +491,20 @@ a.iconbutton.threadmode.selected {
 	background-position: -24px -1116px;
 }
 
-#messagelist tr td.priority {
-	padding-right: 0;
-	text-align: right;
-}
-
 #messagelist tr td.priority span.prio5 {
-	background-position: right -1905px;
+	background-position: 0 -1905px;
 }
 
 #messagelist tr td.priority span.prio4 {
-	background-position: right -1885px;
+	background-position: 0 -1885px;
 }
 
 #messagelist tr td.priority span.prio2 {
-	background-position: right -1865px;
+	background-position: 0 -1865px;
 }
 
 #messagelist tr td.priority span.prio1 {
-	background-position: right -1845px;
+	background-position: 0 -1845px;
 }
 
 #messagelist tbody tr td.flag span.flagged {
