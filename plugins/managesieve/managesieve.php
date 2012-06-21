@@ -709,9 +709,12 @@ class managesieve extends rcube_plugin
                             if (!count($headers))
                                 $this->errors['tests'][$i]['header'] = $this->gettext('cannotbeempty');
                             else {
-                                foreach ($headers as $hr)
-                                    if (!preg_match('/^[a-z0-9-]+$/i', $hr))
+                                foreach ($headers as $hr) {
+                                    // RFC2822: printable ASCII except colon
+                                    if (!preg_match('/^[\x21-\x39\x41-\x7E]+$/i', $hr)) {
                                         $this->errors['tests'][$i]['header'] = $this->gettext('forbiddenchars');
+                                    }
+                                }
                             }
 
                             if (empty($this->errors['tests'][$i]['header']))

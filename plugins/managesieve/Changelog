@@ -1,6 +1,9 @@
+* version 5.1 [2012-06-21]
+-----------------------------------------------------------
 - Fixed filter popup width (for non-english localizations)
 - Fixed tokenizer infinite loop on invalid script content
 - Larry skin support
+- Fixed custom header name validity check, made RFC2822-compliant
 
 * version 5.0 [2012-01-05]
 -----------------------------------------------------------
