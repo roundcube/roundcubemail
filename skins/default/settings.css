@@ -134,14 +134,14 @@ body.iframe,
 
 #formfooter .footerleft
 {
-  padding-left: 15px;
+  padding: 0 2px 10px;
   white-space: nowrap;
   float: left;
 }
 
 #formfooter .footerright
 {
-  padding-right: 15px;
+  padding: 0 2px 10px;
   white-space: nowrap;
   text-align: right;
   float: right;
