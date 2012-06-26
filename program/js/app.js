@@ -4715,11 +4715,11 @@ function rcube_webmail()
   {
     if (form && form.elements._photo.value) {
       this.async_upload_form(form, 'upload-photo', function(e) {
-        rcmail.set_busy(false, null, rcmail.photo_upload_id);
+        rcmail.set_busy(false, null, rcmail.file_upload_id);
       });
 
       // display upload indicator
-      this.photo_upload_id = this.set_busy(true, 'uploading');
+      this.file_upload_id = this.set_busy(true, 'uploading');
     }
   };
 
@@ -4734,8 +4734,8 @@ function rcube_webmail()
 
   this.photo_upload_end = function()
   {
-    this.set_busy(false, null, this.photo_upload_id);
-    delete this.photo_upload_id;
+    this.set_busy(false, null, this.file_upload_id);
+    delete this.file_upload_id;
   };
 
   this.set_photo_actions = function(id)
@@ -6254,7 +6254,7 @@ function rcube_webmail()
     // prepare multipart form data composition
     var files = e.target.files || e.dataTransfer.files,
       formdata = window.FormData ? new FormData() : null,
-      fieldname = this.env.filedrop.fieldname || '_file',
+      fieldname = (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
       boundary = '------multipartformboundary' + (new Date).getTime(),
       dashdash = '--', crlf = '\r\n',
       multipart = dashdash + boundary + crlf;
@@ -6269,7 +6269,8 @@ function rcube_webmail()
         content = '<span>' + (multiple ? ref.get_label('uploadingmany') : files[0].name) + '</span>';
 
       // add to attachments list
-      ref.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false });
+      if (!ref.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false }))
+        ref.file_upload_id = ref.set_busy(true, 'uploading');
 
       // complete multipart content and post request
       multipart += dashdash + boundary + dashdash + crlf;
@@ -6277,7 +6278,7 @@ function rcube_webmail()
       $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: ref.url(ref.env.filedrop.action||'upload', { _id:ref.env.compose_id||'', _uploadid:ts, _remote:1 }),
+        url: ref.url(ref.env.filedrop.action||'upload', { _id:ref.env.compose_id||ref.env.cid||'', _uploadid:ts, _remote:1 }),
         contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
         processData: false,
         data: formdata || multipart,
@@ -6289,7 +6290,7 @@ function rcube_webmail()
 
     // get contents of all dropped files
     var last = this.env.filedrop.single ? 0 : files.length - 1;
-    for (var i=0, f; i <= last && (f = files[i]); i++) {
+    for (var j=0, i=0, f; j <= last && (f = files[i]); i++) {
       if (!f.name) f.name = f.fileName;
       if (!f.size) f.size = f.fileSize;
       if (!f.type) f.type = 'application/octet-stream';
@@ -6306,8 +6307,8 @@ function rcube_webmail()
 
       // do it the easy way with FormData (FF 4+, Chrome 5+, Safari 5+)
       if (formdata) {
-        formdata.append(fieldname + '[]', f);
-        if (i == last)
+        formdata.append(fieldname, f);
+        if (j == last)
           return submit_data();
       }
       // use FileReader supporetd by Firefox 3.6
@@ -6315,33 +6316,35 @@ function rcube_webmail()
         var reader = new FileReader();
 
         // closure to pass file properties to async callback function
-        reader.onload = (function(file, i) {
+        reader.onload = (function(file, j) {
           return function(e) {
-            multipart += 'Content-Disposition: form-data; name="' + fieldname + '[]"';
+            multipart += 'Content-Disposition: form-data; name="' + fieldname + '"';
             multipart += '; filename="' + (f.name_bin || file.name) + '"' + crlf;
             multipart += 'Content-Length: ' + file.size + crlf;
             multipart += 'Content-Type: ' + file.type + crlf + crlf;
             multipart += e.target.result + crlf;
             multipart += dashdash + boundary + crlf;
 
-            if (i == last)  // we're done, submit the data
+            if (j == last)  // we're done, submit the data
               return submit_data();
           }
-        })(f,i);
+        })(f,j);
         reader.readAsBinaryString(f);
       }
       // Firefox 3
       else if (f.getAsBinary) {
-        multipart += 'Content-Disposition: form-data; name="' + fieldname + '[]"';
+        multipart += 'Content-Disposition: form-data; name="' + fieldname + '"';
         multipart += '; filename="' + (f.name_bin || f.name) + '"' + crlf;
         multipart += 'Content-Length: ' + f.size + crlf;
         multipart += 'Content-Type: ' + f.type + crlf + crlf;
         multipart += f.getAsBinary() + crlf;
         multipart += dashdash + boundary +crlf;
 
-        if (i == last)
+        if (j == last)
           return submit_data();
       }
+
+      j++;
     }
   };
 
