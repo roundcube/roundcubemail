@@ -516,7 +516,6 @@ class rcube_imap_cache
                     .($uids !== null ? " AND uid IN (".$this->db->array2list((array)$uids, 'integer').")" : ""),
                 $this->userid, $mailbox);
         }
-
     }
 
 
@@ -951,8 +950,10 @@ class rcube_imap_cache
             return;
         }
 
-        // Get known uids
-        $uids = array();
+        $uids    = array();
+        $removed = array();
+
+        // Get known UIDs
         $sql_result = $this->db->query(
             "SELECT uid"
             ." FROM ".$this->db->table_name('cache_messages')
@@ -961,74 +962,69 @@ class rcube_imap_cache
             $this->userid, $mailbox);
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-          $uids[] = $sql_arr['uid'];
+            $uids[] = $sql_arr['uid'];
         }
 
-        // No messages in database, nothing to sync
-        if (empty($uids)) {
-            return;
-        }
+        // Synchronize messages data
+        if (!empty($uids)) {
+            // Get modified flags and vanished messages
+            // UID FETCH 1:* (FLAGS) (CHANGEDSINCE 0123456789 VANISHED)
+            $result = $this->imap->conn->fetch($mailbox,
+                $uids, true, array('FLAGS'), $index['modseq'], $qresync);
 
-        // Get modified flags and vanished messages
-        // UID FETCH 1:* (FLAGS) (CHANGEDSINCE 0123456789 VANISHED)
-        $result = $this->imap->conn->fetch($mailbox,
-            !empty($uids) ? $uids : '1:*', true, array('FLAGS'),
-            $index['modseq'], $qresync);
-
-        $invalidated = false;
-
-        if (!empty($result)) {
-            foreach ($result as $id => $msg) {
-                $uid = $msg->uid;
-                // Remove deleted message
-                if ($this->skip_deleted && !empty($msg->flags['DELETED'])) {
-                    $this->remove_message($mailbox, $uid);
-
-                    if (!$invalidated) {
-                        $invalidated = true;
-                        // Invalidate thread indexes (?)
-                        $this->remove_thread($mailbox);
+            if (!empty($result)) {
+                foreach ($result as $id => $msg) {
+                    $uid = $msg->uid;
+                    // Remove deleted message
+                    if ($this->skip_deleted && !empty($msg->flags['DELETED'])) {
+                        $removed[] = $uid;
                         // Invalidate index
                         $index['valid'] = false;
+                        continue;
                     }
-                    continue;
-                }
 
-                $flags = 0;
-                if (!empty($msg->flags)) {
-                    foreach ($this->flags as $idx => $flag)
-                        if (!empty($msg->flags[$flag]))
-                            $flags += $idx;
-                }
+                    $flags = 0;
+                    if (!empty($msg->flags)) {
+                        foreach ($this->flags as $idx => $flag) {
+                            if (!empty($msg->flags[$flag])) {
+                                $flags += $idx;
+                            }
+                        }
+                    }
 
-                $this->db->query(
-                    "UPDATE ".$this->db->table_name('cache_messages')
-                    ." SET flags = ?, changed = ".$this->db->now()
-                    ." WHERE user_id = ?"
-                        ." AND mailbox = ?"
-                        ." AND uid = ?"
-                        ." AND flags <> ?",
-                    $flags, $this->userid, $mailbox, $uid, $flags);
+                    $this->db->query(
+                        "UPDATE ".$this->db->table_name('cache_messages')
+                        ." SET flags = ?, changed = ".$this->db->now()
+                        ." WHERE user_id = ?"
+                            ." AND mailbox = ?"
+                            ." AND uid = ?"
+                            ." AND flags <> ?",
+                        $flags, $this->userid, $mailbox, $uid, $flags);
+                }
             }
-        }
 
-        // Get VANISHED
-        if ($qresync) {
-            $mbox_data = $this->imap->folder_data($mailbox);
+            // VANISHED found?
+            if ($qresync) {
+                $mbox_data = $this->imap->folder_data($mailbox);
 
-            // Removed messages
-            if (!empty($mbox_data['VANISHED'])) {
+                // Removed messages found
                 $uids = rcube_imap_generic::uncompressMessageSet($mbox_data['VANISHED']);
                 if (!empty($uids)) {
-                    // remove messages from database
-                    $this->remove_message($mailbox, $uids);
-
-                    // Invalidate thread indexes (?)
-                    $this->remove_thread($mailbox);
+                    $removed = array_merge($removed, $uids);
                     // Invalidate index
                     $index['valid'] = false;
                 }
             }
+
+            // remove messages from database
+            if (!empty($removed)) {
+                $this->remove_message($mailbox, $removed);
+            }
+        }
+
+        // Invalidate thread index (?)
+        if (!$index['valid']) {
+            $this->remove_thread($mailbox);
         }
 
         $sort_field = $index['sort_field'];
