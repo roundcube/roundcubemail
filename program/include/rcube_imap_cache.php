@@ -917,16 +917,15 @@ class rcube_imap_cache
             return;
         }
 
-        // NOTE: make sure the mailbox isn't selected, before
-        // enabling QRESYNC and invoking SELECT
-        if ($this->imap->conn->selected !== null) {
-            $this->imap->conn->close();
-        }
-
         // Enable QRESYNC
         $res = $this->imap->conn->enable($qresync ? 'QRESYNC' : 'CONDSTORE');
-        if (!is_array($res)) {
+        if ($res === false) {
             return;
+        }
+
+        // Close mailbox if already selected to get most recent data
+        if ($this->imap->conn->selected == $mailbox) {
+            $this->imap->conn->close();
         }
 
         // Get mailbox data (UIDVALIDITY, HIGHESTMODSEQ, counters, etc.)

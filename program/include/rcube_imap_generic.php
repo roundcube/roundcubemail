@@ -1472,14 +1472,31 @@ class rcube_imap_generic
      */
     function enable($extension)
     {
-        if (empty($extension))
+        if (empty($extension)) {
             return false;
+        }
 
-        if (!$this->hasCapability('ENABLE'))
+        if (!$this->hasCapability('ENABLE')) {
             return false;
+        }
 
-        if (!is_array($extension))
+        if (!is_array($extension)) {
             $extension = array($extension);
+        }
+
+        if (!empty($this->extensions_enabled)) {
+            // check if all extensions are already enabled
+            $diff = array_diff($extension, $this->extensions_enabled);
+
+            if (empty($diff)) {
+                return $extension;
+            }
+
+            // Make sure the mailbox isn't selected, before enabling extension(s)
+            if ($this->selected !== null) {
+                $this->close();
+            }
+        }
 
         list($code, $response) = $this->execute('ENABLE', $extension);
 
@@ -1487,7 +1504,9 @@ class rcube_imap_generic
             $response = substr($response, 10); // remove prefix "* ENABLED "
             $result   = (array) $this->tokenizeResponse($response);
 
-            return $result;
+            $this->extensions_enabled = array_unique(array_merge((array)$this->extensions_enabled, $result));
+
+            return $this->extensions_enabled;
         }
 
         return false;
