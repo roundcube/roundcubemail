@@ -262,12 +262,27 @@ function rcmail_source_selector($attrib)
 }
 
 
+/**
+ * Register container as active area to drop photos onto
+ */
+function rcmail_photo_drop_area($attrib)
+{
+    global $OUTPUT;
+
+    if ($attrib['id']) {
+        $OUTPUT->add_gui_object('filedrop', $attrib['id']);
+        $OUTPUT->set_env('filedrop', array('action' => 'upload-photo', 'fieldname' => '_photo', 'single' => 1, 'filter' => '^image/.+'));
+    }
+}
+
+
 $OUTPUT->add_handlers(array(
     'contactedithead' => 'rcmail_contact_edithead',
     'contacteditform' => 'rcmail_contact_editform',
     'contactphoto'    => 'rcmail_contact_photo',
     'photouploadform' => 'rcmail_upload_photo_form',
     'sourceselector'  => 'rcmail_source_selector',
+    'filedroparea'    => 'rcmail_photo_drop_area',
 ));
 
 if ($RCMAIL->action == 'add' && $OUTPUT->template_exists('contactadd'))
