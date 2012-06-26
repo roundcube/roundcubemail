@@ -60,7 +60,7 @@ class rcube_mail_header
     public $others = array();
     public $flags = array();
 
-    // map header to rcube_message_header object property
+    // map header to rcube_mail_header object property
     private $obj_headers = array(
         'date'      => 'date',
         'from'      => 'from',
@@ -115,6 +115,11 @@ class rcube_mail_header
 
 // For backward compatibility with cached messages (#1486602)
 class iilBasicHeader extends rcube_mail_header
+{
+}
+
+// Support objects created in git-master (0.9)
+class rcube_message_header extends rcube_mail_header
 {
 }
 
