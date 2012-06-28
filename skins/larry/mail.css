@@ -715,29 +715,47 @@ h3.subject {
 	display: none;
 }
 
+#preview-allheaders td.header-title,
 #preview-shortheaders td.header-title {
-	padding-right: 0;
+	padding-left: 0;
 }
 
 #preview-shortheaders td.header {
-	padding-right: 12px;
+	padding-right: 18px;
 }
 
 #previewheaderstoggle {
-    width: 16px;
-    height: 16px;
-    padding: 0;
-    margin-top: 5px;
-    position: absolute;
-    outline: none;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 18px;
+	padding: 0;
+	outline: none;
+	background: #f2f2f2;
+	background: -moz-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0,#fbfbfb), color-stop(100%,#e9e9e9));
+	background: -o-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
+	background: -ms-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
+	background: linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
+	border-right: 1px solid #dfdfdf;
 }
 
-#previewheaderstoggle.iconlink.add {
-	background-position: -32px -227px;
+#previewheaderstoggle .iconlink {
+	display: inline-block;
+	position: absolute;
+	top: 8px;
+	left: 0;
+	width: 18px;
+	height: 16px;
+	background: url(images/buttons.png) -27px -242px no-repeat;
 }
 
-#previewheaderstoggle.iconlink.remove {
-	background-position: -32px -242px;
+#previewheaderstoggle.remove .iconlink {
+	top: auto;
+	bottom: 5px;
+	background-position: -5px -242px;
 }
 
 div.more-headers {
@@ -774,17 +792,15 @@ div.hide-headers {
 }
 
 #messagepreviewheader {
-	margin: 0 8px;
-	padding-bottom: 8px;
+	position: relative;
+	height: auto;
+	margin: 0 8px 0 0;
+	padding: 0 0 6px 26px;
 	border-bottom: 2px solid #f0f0f0;
 }
 
-#messagepreviewheader .headers-table {
-	margin-left: 8px;
-}
-
 #messagepreviewheader h3.subject {
-	padding-left: 0;
+	padding: 8px 8px 2px 0;
 }
 
 #messagepreviewheader #countcontrols,

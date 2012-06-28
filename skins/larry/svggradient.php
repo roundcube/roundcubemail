@@ -20,6 +20,7 @@ header("Pragma: ");
 
 $svg_stops = '';
 $color_stops = explode(';', preg_replace('/[^a-f0-9,;%]/i', '', $_GET['c']));
+$gradient_coords = !empty($_GET['h']) ? 'x1="0%" y1="0%" x2="100%" y2="0%"' : 'x1="0%" y1="0%" x2="0%" y2="100%"';
 $last = count($color_stops) - 1;
 foreach ($color_stops as $i => $stop) {
 	list($color, $offset) = explode(',', $stop);
@@ -34,7 +35,7 @@ foreach ($color_stops as $i => $stop) {
 ?>
 <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" version="1.0" width="100%" height="100%">
 <defs>
-  <linearGradient id="LG1" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+  <linearGradient id="LG1" <?php echo $gradient_coords; ?> spreadMethod="pad">
     <?php echo $svg_stops; ?>
   </linearGradient>
 </defs>
