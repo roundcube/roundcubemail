@@ -128,8 +128,10 @@ class acl extends rcube_plugin
      */
     function folder_form($args)
     {
-        // Edited folder name (empty in create-folder mode)
         $mbox_imap = $args['options']['name'];
+        $myrights  = $args['options']['rights'];
+
+        // Edited folder name (empty in create-folder mode)
         if (!strlen($mbox_imap)) {
             return $args;
         }
@@ -139,18 +141,8 @@ class acl extends rcube_plugin
             return $args;
         }
 */
-        // Namespace root
-        if ($args['options']['is_root']) {
-            return $args;
-        }
-
         // Get MYRIGHTS
-        if (!($myrights = $args['options']['rights'])) {
-            return $args;
-        }
-
-        // Do nothing if no ACL support
-        if (!$this->rc->storage->get_capability('ACL')) {
+        if (empty($myrights)) {
             return $args;
         }
 
