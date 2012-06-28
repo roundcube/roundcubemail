@@ -93,14 +93,27 @@ class rcube_db_sqlsrv extends rcube_db
      */
     protected function set_limit($query, $limit = 0, $offset = 0)
     {
-        // code from MDB2 package
-        if ($limit > 0) {
-            $fetch = $offset + $limit;
-            return preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',
-                "\\1SELECT\\2 TOP $fetch", $query);
+        $limit  = intval($limit);
+        $offset = intval($offset);
+
+        $orderby = stristr($query, 'ORDER BY');
+        if ($orderby !== false) {
+            $sort  = (stripos($orderby, ' desc') !== false) ? 'desc' : 'asc';
+            $order = str_ireplace('ORDER BY', '', $orderby);
+            $order = trim(preg_replace('/\bASC\b|\bDESC\b/i', '', $order));
         }
 
-// @TODO: proper OFFSET handling i _fetch_row()
+        $query = preg_replace('/^SELECT\s/i', 'SELECT TOP ' . ($limit + $offset) . ' ', $query);
+
+        $query = 'SELECT * FROM (SELECT TOP ' . $limit . ' * FROM (' . $query . ') AS inner_tbl';
+        if ($orderby !== false) {
+            $query .= ' ORDER BY ' . $order . ' ';
+            $query .= (stripos($sort, 'asc') !== false) ? 'DESC' : 'ASC';
+        }
+        $query .= ') AS outer_tbl';
+        if ($orderby !== false) {
+            $query .= ' ORDER BY ' . $order . ' ' . $sort;
+        }
 
         return $query;
     }
