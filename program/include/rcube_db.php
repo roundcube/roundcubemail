@@ -67,6 +67,7 @@ class rcube_db
             'sqlite2' => 'sqlite',
             'sybase'  => 'mssql',
             'dblib'   => 'mssql',
+            'mysqli'  => 'mysql',
         );
 
         $driver = isset($driver_map[$driver]) ? $driver_map[$driver] : $driver;
