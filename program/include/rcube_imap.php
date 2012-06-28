@@ -3653,7 +3653,7 @@ class rcube_imap
         $options['rights']     = $acl && !$options['is_root'] ? (array)$this->my_rights($mailbox) : array();
         $options['special']    = in_array($mailbox, $this->default_folders);
 
-        // Set 'noselect' and 'norename' flags
+        // Set 'noselect' flag
         if (is_array($options['attributes'])) {
             foreach ($options['attributes'] as $attrib) {
                 $attrib = strtolower($attrib);
@@ -3666,6 +3666,15 @@ class rcube_imap
             $options['noselect'] = true;
         }
 
+        // Get folder rights (MYRIGHTS)
+        if ($acl && !$options['noselect']) {
+            // skip shared roots
+            if (!$options['is_root'] || $options['namespace'] == 'personal') {
+                $options['rights'] =  (array)$this->my_rights($mailbox);
+            }
+        }
+
+        // Set 'norename' flag
         if (!empty($options['rights'])) {
             $options['norename'] = !in_array('x', $options['rights']) && !in_array('d', $options['rights']);
 
