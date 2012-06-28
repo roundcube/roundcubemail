@@ -181,6 +181,7 @@ function rcmail_user_prefs($current=null)
       $select_timezone = new html_select(array('name' => '_timezone', 'id' => $field_id));
       $select_timezone->add(rcube_label('autodetect'), 'auto');
 
+      $zones = array();
       foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
         try {
           $tz = new DateTimeZone($tzs);
