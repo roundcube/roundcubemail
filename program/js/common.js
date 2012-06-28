@@ -62,8 +62,8 @@ function roundcube_browser()
   this.ns = ((this.ver < 5 && this.name == 'Netscape') || (this.ver >= 5 && this.vendor.indexOf('Netscape') >= 0));
   this.chrome = (this.agent_lc.indexOf('chrome') > 0);
   this.safari = (!this.chrome && (this.agent_lc.indexOf('safari') > 0 || this.agent_lc.indexOf('applewebkit') > 0));
-  this.mz = (this.dom && !this.ie && !this.ns && !this.chrome && !this.safari && this.agent.indexOf('Mozilla') >= 0);
-  this.konq   = (this.agent_lc.indexOf('konqueror') > 0);
+  this.konq = (this.agent_lc.indexOf('konqueror') > 0);
+  this.mz = (this.dom && !this.ie && !this.ns && !this.chrome && !this.safari && !this.konq && this.agent.indexOf('Mozilla') >= 0);
   this.iphone = (this.safari && this.agent_lc.indexOf('iphone') > 0);
   this.ipad = (this.safari && this.agent_lc.indexOf('ipad') > 0);
   this.opera = window.opera ? true : false;
