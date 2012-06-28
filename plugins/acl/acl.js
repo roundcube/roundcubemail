@@ -28,6 +28,9 @@ if (window.rcmail) {
 
         rcmail.enable_command('acl-create', 'acl-save', 'acl-cancel', 'acl-mode-switch', true);
         rcmail.enable_command('acl-delete', 'acl-edit', false);
+
+        if (rcmail.env.acl_advanced)
+            $('#acl-switch').addClass('selected');
     });
 }
 
@@ -129,6 +132,8 @@ rcube_webmail.prototype.acl_mode_switch = function(elem)
 // ACL table initialization
 rcube_webmail.prototype.acl_list_init = function()
 {
+    $('#acl-switch')[this.env.acl_advanced ? 'addClass' : 'removeClass']('selected');
+
     this.acl_list = new rcube_list_widget(this.gui_objects.acltable,
         {multiselect:true, draggable:false, keyboard:true, toggleselect:true});
     this.acl_list.addEventListener('select', function(o) { rcmail.acl_list_select(o); });
