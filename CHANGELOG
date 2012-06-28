@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix fatal error when date.timezone isn't set (#1488546)
 - Update to TinyMCE 3.5.4.1
 - Better icons with distinct shapes for priority columns (#1488377)
 - Show dedicated icon for multipart/report messages (#1488524)
