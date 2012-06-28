@@ -23,7 +23,7 @@ $rcmail = rcmail::get_instance();
 
 // browser is not compatible with this application
 if ($ERROR_CODE==409) {
-  $user_agent = $GLOBALS['HTTP_SERVER_VARS']['HTTP_USER_AGENT'];
+  $user_agent = $_SERVER['HTTP_USER_AGENT'];
   $__error_title = 'Your browser does not suit the requirements for this application';
   $__error_text = <<<EOF
 <i>Supported browsers:</i><br />
