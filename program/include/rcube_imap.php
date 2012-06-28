@@ -3229,8 +3229,9 @@ class rcube_imap extends rcube_storage
         $cache_key = 'mailboxes.folder-info.' . $folder;
         $cached = $this->get_cache($cache_key);
 
-        if (is_array($cached))
+        if (is_array($cached)) {
             return $cached;
+        }
 
         $acl       = $this->get_capability('ACL');
         $namespace = $this->get_namespace();
@@ -3267,10 +3268,9 @@ class rcube_imap extends rcube_storage
         $options['name']       = $folder;
         $options['attributes'] = $this->folder_attributes($folder, true);
         $options['namespace']  = $this->folder_namespace($folder);
-        $options['rights']     = $acl && !$options['is_root'] ? (array)$this->my_rights($folder) : array();
         $options['special']    = in_array($folder, $this->default_folders);
 
-        // Set 'noselect' and 'norename' flags
+        // Set 'noselect' flag
         if (is_array($options['attributes'])) {
             foreach ($options['attributes'] as $attrib) {
                 $attrib = strtolower($attrib);
@@ -3283,6 +3283,15 @@ class rcube_imap extends rcube_storage
             $options['noselect'] = true;
         }
 
+        // Get folder rights (MYRIGHTS)
+        if ($acl && !$options['noselect']) {
+            // skip shared roots
+            if (!$options['is_root'] || $options['namespace'] == 'personal') {
+                $options['rights'] =  (array)$this->my_rights($folder);
+            }
+        }
+
+        // Set 'norename' flag
         if (!empty($options['rights'])) {
             $options['norename'] = !in_array('x', $options['rights']) && !in_array('d', $options['rights']);
 
