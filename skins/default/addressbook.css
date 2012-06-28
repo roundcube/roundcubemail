@@ -310,6 +310,13 @@ body.iframe,
 	width: 60px;
 }
 
+#contactpic.droptarget.hover {
+	background-color: #f0f0ee;
+	box-shadow: 0 0 5px 0 #999;
+	-moz-box-shadow: 0 0 5px 0 #999;
+	-o-box-shadow: 0 0 5px 0 #999;
+}
+
 #contactphoto .formlinks
 {
 	margin-top: 0.5em;
