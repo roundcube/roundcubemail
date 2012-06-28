@@ -42,9 +42,9 @@ class rcube_browser
         $this->ns4 = strpos($HTTP_USER_AGENT, 'mozilla/4') !== false && strpos($HTTP_USER_AGENT, 'msie') === false;
         $this->ns  = ($this->ns4 || strpos($HTTP_USER_AGENT, 'netscape') !== false);
         $this->ie  = !$this->opera && strpos($HTTP_USER_AGENT, 'compatible; msie') !== false;
-        $this->mz  = !$this->ie && strpos($HTTP_USER_AGENT, 'mozilla/5') !== false;
-        $this->chrome = strpos($HTTP_USER_AGENT, 'chrome') !== false;
         $this->khtml = strpos($HTTP_USER_AGENT, 'khtml') !== false;
+        $this->mz  = !$this->ie && !$this->khtml && strpos($HTTP_USER_AGENT, 'mozilla/5') !== false;
+        $this->chrome = strpos($HTTP_USER_AGENT, 'chrome') !== false;
         $this->safari = !$this->chrome && ($this->khtml || strpos($HTTP_USER_AGENT, 'safari') !== false);
 
         if ($this->ns || $this->chrome) {
