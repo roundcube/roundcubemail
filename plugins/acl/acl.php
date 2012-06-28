@@ -142,17 +142,8 @@ class acl extends rcube_plugin
             return $args;
         }
 */
-        // Get MYRIGHTS
-<<<<<<< HEAD
-        if (!($myrights = $args['options']['rights'])) {
-            return $args;
-        }
-
-        // Do nothing if no ACL support
-        if (!$this->rc->imap->get_capability('ACL')) {
-=======
+        // Check if myrights is set
         if (empty($myrights)) {
->>>>>>> e4c9942... Fix handling of MYRIGHTS on private namespace roots - fixes issue where
             return $args;
         }
 
