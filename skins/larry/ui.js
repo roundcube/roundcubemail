@@ -110,7 +110,7 @@ function rcube_mail_ui()
         $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
 
         mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
-          orientation:'h', relative:true, start:310, min:150, size:0, offset:-22 });
+          orientation:'h', relative:true, start:310, min:150, size:0, offset:-18 });
         if (previewframe)
           mailviewsplit.init();
 
@@ -172,23 +172,30 @@ function rcube_mail_ui()
         return;
       }
 
-      var title = $('option', this).first().text();
+      var select = $(this),
+        height = Math.max(select.height(), 24) - 2,
+        width = select.width() - 22,
+        title = $('option', this).first().text();
+
       if ($('option:selected', this).val() != '')
         title = $('option:selected', this).text();
 
-      var select = $(this)
-        .change(function(){
-          var val = $('option:selected', this).text();
-          $(this).next().children().html(val);
-        });
-
-      $('<a class="menuselector dropdownselector"><span class="handle">' + title + '</span></a>')
+      var new_select = $('<a class="menuselector"><span class="handle">' + title + '</span></a>')
         .css('position', 'absolute')
         .offset(select.position())
-        .insertAfter(select)
-        .children().width(select.outerWidth() - 10);
+        .insertAfter(select);
 
-      select.parent().css('position', 'relative');
+      new_select.children().width(width).height(height).css('line-height', (height - 1) + 'px');
+
+      select.change(function() {
+          var val = $('option:selected', this).text();
+          $(this).next().children().html(val);
+        })
+        .parent().css('position', 'relative');
+
+      // re-set original select width to fix click action and options width in Chrome
+      if (bw.chrome)
+        select.width(new_select.width());
     });
 
     $(document.body)
@@ -336,7 +343,13 @@ function rcube_mail_ui()
 
   function update_quota(p)
   {
-    var y = p.total ? Math.ceil(p.percent / 100 * 20) * 24 : 0;
+    var step = 24, step_count = 20,
+      y = p.total ? Math.ceil(p.percent / 100 * step_count) * step : 0;
+
+    // never show full-circle if quota is close to 100% but below.
+    if (p.total && y == step * step_count && p.percent < 100)
+      y -= step;
+
     $('#quotadisplay').css('background-position', '0 -'+y+'px');
   }
 
