@@ -41,7 +41,7 @@ input[type="text"],
 input[type="password"],
 textarea {
 	margin: 0; /* Safari by default adds a margin */
-	padding: 4px;
+	padding: 3px;
 	border: 1px solid #b2b2b2;
 	border-radius: 4px;
 	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
@@ -266,6 +266,7 @@ input.button:active {
 	padding: 1px 3px;
 	height: 16px;
 	vertical-align: middle;
+	margin-bottom: 1px;
 }
 
 .pagenav a.button span.inner {
@@ -322,7 +323,6 @@ input.button:active {
 
 .pagenavbuttons {
 	position: relative;
-	top: -2px;
 }
 
 a.iconbutton {
@@ -1281,22 +1281,24 @@ ul.proplist li {
 #quicksearchbar input {
 	width: 176px;
 	margin: 0;
-	padding: 5px 26px 2px 38px;
+	margin-top: 8px;
+	padding: 2px 30px 2px 34px;
 	height: 18px;
 	background: #f1f1f1;
-	border-color: #a3a3a3;
+	border-color: #ababab;
 	font-weight: bold;
+	font-size: 11px;
 }
 
 #quicksearchbar #searchmenulink {
 	position: absolute;
-	top: 5px;
-	left: 8px;
+	top: 12px;
+	left: 6px;
 }
 
 #quicksearchbar #searchreset {
 	position: absolute;
-	top: 4px;
+	top: 11px;
 	right: 1px;
 }
 
@@ -1456,12 +1458,14 @@ a.menuselector {
 	background: linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
 	text-decoration: none;
 	color: #333;
+	cursor: pointer;
 }
 
 a.menuselector .handle {
 	display: inline-block;
-	padding: 3px 32px 0 8px;
-	min-height: 18px;
+	padding: 0 32px 0 6px;
+	height: 20px;
+	line-height: 19px;
 	text-shadow: 0px 1px 1px #fff;
 	background: url(images/selector.png) right center no-repeat;
 	border-radius: 4px;
@@ -1477,21 +1481,6 @@ a.menuselector:active {
 	text-decoration: none;
 }
 
-a.dropdownselector {
-	position: absolute;
-	padding: 1px 0;
-	z-index: 1;
-}
-
-a.dropdownselector .handle {
-	margin: -1px 0;
-	padding-top: 5px;
-	min-height: 20px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
 select.decorated {
 	position: relative;
 	z-index: 10;
@@ -1505,7 +1494,6 @@ select.decorated {
 
 html.opera select.decorated {
 	opacity: 1;
-	height: auto;
 }
 
 select.decorated option {
@@ -1515,7 +1503,7 @@ select.decorated option {
 	border-top: 1px solid #5a5a5a;
 	border-bottom: 1px solid #333;
 	text-shadow: 0px 1px 1px #333;
-	padding: 6px 10px;
+	padding: 4px 6px;
 	outline: none;
 }
 
