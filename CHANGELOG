@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix wrong compose screen elements focus in IE9 (#1488541)
 - Fix redirect to mail/compose on re-login (#1488226)
 - Add IE8 hack for messages list issue (#1487821)
 - Fix handling errors on draft auto-save

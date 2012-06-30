@@ -70,8 +70,11 @@ function rcmail_editor_callback()
     rcmail.change_identity(elem);
     // Focus previously focused element
     if (fe && fe.id != rcmail.env.composebody) {
-      window.focus(); // for WebKit (#1486674)
-      fe.focus();
+      // use setTimeout() for IE9 (#1488541)
+      window.setTimeout(function() {
+        window.focus(); // for WebKit (#1486674)
+        fe.focus();
+      }, 10);
     }
   }
 
