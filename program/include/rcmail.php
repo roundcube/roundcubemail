@@ -131,6 +131,11 @@ class rcmail
   private $shutdown_functions = array();
   private $expunge_cache = false;
 
+  const ERROR_STORAGE          = -2;
+  const ERROR_INVALID_REQUEST  = 1;
+  const ERROR_INVALID_HOST     = 2;
+  const ERROR_COOKIES_DISABLED = 3;
+
 
   /**
    * This implements the 'singleton' design pattern
@@ -814,12 +819,20 @@ class rcmail
    * @param string Mail storage (IMAP) user name
    * @param string Mail storage (IMAP) password
    * @param string Mail storage (IMAP) host
+   * @param bool   Enables cookie check
    *
    * @return boolean True on success, False on failure
    */
-  function login($username, $pass, $host=NULL)
+  function login($username, $pass, $host = null, $cookiecheck = false)
   {
+    $this->login_error = null;
+
     if (empty($username)) {
+      return false;
+    }
+
+    if ($cookiecheck && empty($_COOKIE)) {
+      $this->login_error = self::ERROR_COOKIES_DISABLED;
       return false;
     }
 
@@ -839,11 +852,18 @@ class rcmail
           break;
         }
       }
-      if (!$allowed)
-        return false;
+      if (!$allowed) {
+        $host = null;
       }
-    else if (!empty($config['default_host']) && $host != rcube_parse_host($config['default_host']))
+    }
+    else if (!empty($config['default_host']) && $host != rcube_parse_host($config['default_host'])) {
+      $host = null;
+    }
+
+    if (!$host) {
+      $this->login_error = self::ERROR_INVALID_HOST;
       return false;
+    }
 
     // parse $host URL
     $a_host = parse_url($host);
@@ -981,6 +1001,23 @@ class rcmail
 
     return false;
   }
+
+
+    /**
+     * Returns error code of last login operation
+     *
+     * @return int Error code
+     */
+    public function login_error()
+    {
+        if ($this->login_error) {
+            return $this->login_error;
+        }
+
+        if ($this->storage && $this->storage->get_error_code() < -1) {
+            return self::ERROR_STORAGE;
+        }
+    }
 
 
   /**

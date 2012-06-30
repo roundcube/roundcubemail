@@ -103,12 +103,9 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     'valid' => $request_valid,
   ));
 
-  // check if client supports cookies
-  if ($auth['cookiecheck'] && empty($_COOKIE)) {
-    $OUTPUT->show_message("cookiesdisabled", 'warning');
-  }
-  else if ($auth['valid'] && !$auth['abort'] &&
-    $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'])
+  // Login
+  if ($auth['valid'] && !$auth['abort'] &&
+    $RCMAIL->login($auth['user'], $auth['pass'], $auth['host'], $auth['cookiecheck'])
   ) {
     // create new session ID, don't destroy the current session
     // it was destroyed already by $RCMAIL->kill_session() above
@@ -143,9 +140,23 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $OUTPUT->redirect($redir);
   }
   else {
-    $error_code = is_object($RCMAIL->storage) ? $RCMAIL->storage->get_error_code() : 1;
+    if (!$auth['valid']) {
+      $error_code  = RCMAIL::ERROR_INVALID_REQUEST;
+    }
+    else {
+      $error_code = $auth['error'] ? $auth['error'] : $RCMAIL->login_error();
+    }
 
-    $OUTPUT->show_message($error_code < -1 ? 'storageerror' : (!$auth['valid'] ? 'invalidrequest' : 'loginfailed'), 'warning');
+    $error_labels = array(
+      RCMAIL::ERROR_STORAGE          => 'storageerror',
+      RCMAIL::ERROR_COOKIES_DISABLED => 'cookiesdisabled',
+      RCMAIL::ERROR_INVALID_REQUEST  => 'invalidrequest',
+      RCMAIL::ERROR_INVALID_HOST     => 'invalidhost',
+    );
+
+    $error_message = $error_labels[$error_code] ? $error_labels[$error_code] : 'loginfailed';
+
+    $OUTPUT->show_message($error_message, 'warning');
     $RCMAIL->plugins->exec_hook('login_failed', array(
       'code' => $error_code, 'host' => $auth['host'], 'user' => $auth['user']));
     $RCMAIL->kill_session();

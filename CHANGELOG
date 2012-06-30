@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Show explicit error message when provided hostname is invalid (#1488550)
 - Fix wrong compose screen elements focus in IE9 (#1488541)
 - Fix fatal error when date.timezone isn't set (#1488546)
 - Update to TinyMCE 3.5.4.1
