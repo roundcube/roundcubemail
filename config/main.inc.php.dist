@@ -762,7 +762,7 @@ $rcmail_config['keep_alive'] = 60;
 $rcmail_config['check_all_folders'] = false;
 
 // If true, after message delete/move, the next message will be displayed
-$rcmail_config['display_next'] = false;
+$rcmail_config['display_next'] = true;
 
 // 0 - Do not expand threads 
 // 1 - Expand all threads automatically 
