@@ -31,7 +31,6 @@
  */
 class rcube_db_pgsql extends rcube_db
 {
-
     /**
      * Get last inserted record ID
      * For Postgres databases, a table name is required
@@ -55,7 +54,6 @@ class rcube_db_pgsql extends rcube_db
         return $id;
     }
 
-
     /**
      * Return SQL statement to convert a field value into a unix timestamp
      *
@@ -71,7 +69,6 @@ class rcube_db_pgsql extends rcube_db
     {
         return "EXTRACT (EPOCH FROM $field)";
     }
-
 
     /**
      * Return SQL statement for case insensitive LIKE

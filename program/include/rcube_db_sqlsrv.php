@@ -31,16 +31,22 @@
  */
 class rcube_db_sqlsrv extends rcube_db
 {
+    /**
+     * Driver initialization
+     */
     protected function init()
     {
         $this->options['identifier_start'] = '[';
         $this->options['identifier_end'] = ']';
     }
 
+    /**
+     * Database character set setting
+     */
     protected function set_charset($charset)
     {
+        // UTF-8 is default
     }
-
 
     /**
      * Return SQL function for current time and date
@@ -51,7 +57,6 @@ class rcube_db_sqlsrv extends rcube_db
     {
         return "getdate()";
     }
-
 
     /**
      * Return SQL statement to convert a field value into a unix timestamp
@@ -69,7 +74,6 @@ class rcube_db_sqlsrv extends rcube_db
         return "DATEDIFF(second, '19700101', $field) + DATEDIFF(second, GETDATE(), GETUTCDATE())";
     }
 
-
     /**
      * Abstract SQL statement for value concatenation
      *
@@ -86,10 +90,14 @@ class rcube_db_sqlsrv extends rcube_db
         return '(' . join('+', $args) . ')';
     }
 
-
     /**
      * Adds TOP (LIMIT,OFFSET) clause to the query
      *
+     * @param string $query   SQL query
+     * @param int    $limit   Number of rows
+     * @param int    $offset  Offset
+     *
+     * @return string SQL query
      */
     protected function set_limit($query, $limit = 0, $offset = 0)
     {
@@ -119,7 +127,7 @@ class rcube_db_sqlsrv extends rcube_db
     }
 
     /**
-     * Returns PDO DSN string from DSN array (parse_dsn() result)
+     * Returns PDO DSN string from DSN array
      */
     protected function dsn_string($dsn)
     {

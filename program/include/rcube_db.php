@@ -463,6 +463,11 @@ class rcube_db
     /**
      * Adds LIMIT,OFFSET clauses to the query
      *
+     * @param string $query   SQL query
+     * @param int    $limit   Number of rows
+     * @param int    $offset  Offset
+     *
+     * @return string SQL query
      */
     protected function set_limit($query, $limit = 0, $offset = 0)
     {

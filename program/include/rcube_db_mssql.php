@@ -31,16 +31,22 @@
  */
 class rcube_db_mssql extends rcube_db
 {
+    /**
+     * Driver initialization
+     */
     protected function init()
     {
         $this->options['identifier_start'] = '[';
         $this->options['identifier_end'] = ']';
     }
 
+    /**
+     * Character setting
+     */
     protected function set_charset($charset)
     {
+        // UTF-8 is default
     }
-
 
     /**
      * Return SQL function for current time and date
@@ -51,7 +57,6 @@ class rcube_db_mssql extends rcube_db
     {
         return "getdate()";
     }
-
 
     /**
      * Return SQL statement to convert a field value into a unix timestamp
@@ -69,7 +74,6 @@ class rcube_db_mssql extends rcube_db
         return "DATEDIFF(second, '19700101', $field) + DATEDIFF(second, GETDATE(), GETUTCDATE())";
     }
 
-
     /**
      * Abstract SQL statement for value concatenation
      *
@@ -86,28 +90,44 @@ class rcube_db_mssql extends rcube_db
         return '(' . join('+', $args) . ')';
     }
 
-
     /**
      * Adds TOP (LIMIT,OFFSET) clause to the query
      *
+     * @param string $query   SQL query
+     * @param int    $limit   Number of rows
+     * @param int    $offset  Offset
+     *
+     * @return string SQL query
      */
     protected function set_limit($query, $limit = 0, $offset = 0)
     {
-        // code from MDB2 package
-        if ($limit > 0) {
-            $fetch = $offset + $limit;
-            return preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',
-                "\\1SELECT\\2 TOP $fetch", $query);
+        $limit  = intval($limit);
+        $offset = intval($offset);
+
+        $orderby = stristr($query, 'ORDER BY');
+        if ($orderby !== false) {
+            $sort  = (stripos($orderby, ' desc') !== false) ? 'desc' : 'asc';
+            $order = str_ireplace('ORDER BY', '', $orderby);
+            $order = trim(preg_replace('/\bASC\b|\bDESC\b/i', '', $order));
         }
 
-// @TODO: proper OFFSET handling i _fetch_row()
+        $query = preg_replace('/^SELECT\s/i', 'SELECT TOP ' . ($limit + $offset) . ' ', $query);
+
+        $query = 'SELECT * FROM (SELECT TOP ' . $limit . ' * FROM (' . $query . ') AS inner_tbl';
+        if ($orderby !== false) {
+            $query .= ' ORDER BY ' . $order . ' ';
+            $query .= (stripos($sort, 'asc') !== false) ? 'DESC' : 'ASC';
+        }
+        $query .= ') AS outer_tbl';
+        if ($orderby !== false) {
+            $query .= ' ORDER BY ' . $order . ' ' . $sort;
+        }
 
         return $query;
     }
 
-
     /**
-     * Returns PDO DSN string from DSN array (parse_dsn() result)
+     * Returns PDO DSN string from DSN array
      */
     protected function dsn_string($dsn)
     {

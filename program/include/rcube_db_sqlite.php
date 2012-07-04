@@ -31,11 +31,16 @@
  */
 class rcube_db_sqlite extends rcube_db
 {
-
+    /**
+     * Database character set
+     */
     protected function set_charset($charset)
     {
     }
 
+    /**
+     * Prepare connection
+     */
     protected function conn_prepare($dsn)
     {
         // Create database file, required by PDO to exist on connection
@@ -44,6 +49,9 @@ class rcube_db_sqlite extends rcube_db
         }
     }
 
+    /**
+     * Configure connection, create database if not exists
+     */
     protected function conn_configure($dsn, $dbh)
     {
         // we emulate via callback some missing functions
@@ -74,7 +82,6 @@ class rcube_db_sqlite extends rcube_db
         }
     }
 
-
     /**
      * Callback for sqlite: unix_timestamp()
      */
@@ -94,7 +101,6 @@ class rcube_db_sqlite extends rcube_db
         return $ret;
     }
 
-
     /**
      * Callback for sqlite: now()
      */
@@ -102,7 +108,6 @@ class rcube_db_sqlite extends rcube_db
     {
         return date("Y-m-d H:i:s");
     }
-
 
     /**
      * Returns list of tables in database
@@ -125,7 +130,6 @@ class rcube_db_sqlite extends rcube_db
 
         return $this->tables;
     }
-
 
     /**
      * Returns list of columns in database table
@@ -161,7 +165,9 @@ class rcube_db_sqlite extends rcube_db
         return $columns;
     }
 
-
+    /**
+     * Build DSN string for PDO constructor
+     */
     protected function dsn_string($dsn)
     {
         return $dsn['phptype'] . ':' . $dsn['database'];

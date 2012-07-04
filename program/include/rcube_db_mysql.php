@@ -31,13 +31,15 @@
  */
 class rcube_db_mysql extends rcube_db
 {
+    /**
+     * Driver initialization/configuration
+     */
     protected function init()
     {
         // SQL identifiers quoting
         $this->options['identifier_start'] = '`';
         $this->options['identifier_end'] = '`';
     }
-
 
     /**
      * Abstract SQL statement for value concatenation
@@ -55,9 +57,8 @@ class rcube_db_mysql extends rcube_db
         return 'CONCAT(' . join(', ', $args) . ')';
     }
 
-
     /**
-     * Returns PDO DSN string from DSN array (parse_dsn() result)
+     * Returns PDO DSN string from DSN array
      */
     protected function dsn_string($dsn)
     {
