@@ -44,6 +44,10 @@ a.deletebutton,
 	display: inline;
 }
 
+.pagenavbuttons {
+	top: 4px;
+}
+
 .dropbutton .dropbuttontip {
 	right: -2px;
 }
@@ -113,7 +117,7 @@ ul.toolbarmenu li label {
 
 #quicksearchbar input {
 	padding-top: 4px;
-	padding-bottom: 4px;
+	padding-bottom: 2px;
 }
 
 #messagelistfooter #listcontrols,

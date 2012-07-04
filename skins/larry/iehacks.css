@@ -131,6 +131,10 @@ ul.toolbarmenu li a.active:hover,
 
 /*** mail.css ***/
 
+#messagelistfooter {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#c6c6c6', GradientType=0);
+}
+
 #mailboxlist li.mailbox .unreadcount {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#82acb5', endColorstr='#6a939f', GradientType=0);
 }
