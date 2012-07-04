@@ -83,13 +83,12 @@ class rcube_db
         return new $class($db_dsnw, $db_dsnr, $pconn);
     }
 
-
     /**
      * Object constructor
      *
-     * @param  string $db_dsnw DSN for read/write operations
-     * @param  string $db_dsnr Optional DSN for read only operations
-     * @param bool   $pconn    Enables persistent connections
+     * @param  string $db_dsnw  DSN for read/write operations
+     * @param  string $db_dsnr  Optional DSN for read only operations
+     * @param  bool   $pconn    Enables persistent connections
      */
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
@@ -108,7 +107,9 @@ class rcube_db
         $this->init();
     }
 
-
+    /**
+     * Initialization of the object with driver specific code
+     */
     protected function init()
     {
         // To be used by driver classes
@@ -159,15 +160,34 @@ class rcube_db
         return $dbh;
     }
 
-
+    /**
+     * Driver-specific preparation of database connection
+     *
+     * @param  array $dsn  DSN for DB connections
+     */
     protected function conn_prepare($dsn)
     {
     }
 
+    /**
+     * Driver-specific configuration of database connection
+     *
+     * @param  array $dsn  DSN for DB connections
+     * @param  PDO   $dbh  Connection handler
+     */
     protected function conn_configure($dsn, $dbh)
     {
     }
 
+    /**
+     * Driver-specific database character set setting
+     *
+     * @param  string $charset  Character set name
+     */
+    protected function set_charset($charset)
+    {
+        $this->query("SET NAMES 'utf8'");
+    }
 
     /**
      * Connect to appropiate database depending on the operation
@@ -215,7 +235,6 @@ class rcube_db
         }
     }
 
-
     /**
      * Activate/deactivate debug mode
      *
@@ -225,13 +244,6 @@ class rcube_db
     {
         $this->options['debug_mode'] = $dbg;
     }
-
-
-    protected function set_charset($charset)
-    {
-        $this->query("SET NAMES 'utf8'");
-    }
-
 
     /**
      * Getter for error state
@@ -243,7 +255,6 @@ class rcube_db
         return $this->db_error ? $this->db_error_msg : false;
     }
 
-
     /**
      * Connection state checker
      *
@@ -254,7 +265,6 @@ class rcube_db
         return !is_object($this->dbh) ? false : $this->db_connected;
     }
 
-
     /**
      * Is database replication configured?
      * This returns true if dsnw != dsnr
@@ -263,7 +273,6 @@ class rcube_db
     {
       return !empty($this->db_dsnr) && $this->db_dsnw != $this->db_dsnr;
     }
-
 
     /**
      * Execute a SQL query
@@ -286,7 +295,6 @@ class rcube_db
         return $this->_query($query, 0, 0, $params);
     }
 
-
     /**
      * Execute a SQL query with limits
      *
@@ -306,7 +314,6 @@ class rcube_db
 
         return $this->_query($query, $offset, $numrows, $params);
     }
-
 
     /**
      * Execute a SQL query with limits
@@ -369,7 +376,6 @@ class rcube_db
         return $this->_add_result($query);
     }
 
-
     /**
      * Get number of affected rows for the last query
      *
@@ -384,7 +390,6 @@ class rcube_db
 
         return 0;
     }
-
 
     /**
      * Get last inserted record ID
@@ -410,7 +415,6 @@ class rcube_db
         return $id;
     }
 
-
     /**
      * Get an associative array for one row
      * If no query handle is specified, the last query will be taken as reference
@@ -425,7 +429,6 @@ class rcube_db
         return $this->_fetch_row($result, PDO::FETCH_ASSOC);
     }
 
-
     /**
      * Get an index array for one row
      * If no query handle is specified, the last query will be taken as reference
@@ -439,7 +442,6 @@ class rcube_db
         $result = $this->_get_result($res_id);
         return $this->_fetch_row($result, PDO::FETCH_NUM);
     }
-
 
     /**
      * Get col values for a result row
@@ -458,7 +460,6 @@ class rcube_db
         return $result->fetch($mode);
     }
 
-
     /**
      * Adds LIMIT,OFFSET clauses to the query
      *
@@ -475,7 +476,6 @@ class rcube_db
 
         return $query;
     }
-
 
     /**
      * Returns list of tables in a database
@@ -499,7 +499,6 @@ class rcube_db
         return $this->tables;
     }
 
-
     /**
      * Returns list of columns in database table
      *
@@ -518,7 +517,6 @@ class rcube_db
 
         return array();
     }
-
 
     /**
      * Formats input so it can be safely used in a query
@@ -552,7 +550,6 @@ class rcube_db
         return 'NULL';
     }
 
-
     /**
      * Quotes a string so it can be safely used as a table or column name
      *
@@ -566,7 +563,6 @@ class rcube_db
     {
         return $this->quote_identifier($str);
     }
-
 
     /**
      * Quotes a string so it can be safely used as a table or column name
@@ -589,7 +585,6 @@ class rcube_db
         return  implode($name, '.');
     }
 
-
     /**
      * Return SQL function for current time and date
      *
@@ -599,7 +594,6 @@ class rcube_db
     {
         return "now()";
     }
-
 
     /**
      * Return list of elements for use with SQL's IN clause
@@ -622,7 +616,6 @@ class rcube_db
         return implode(',', $arr);
     }
 
-
     /**
      * Return SQL statement to convert a field value into a unix timestamp
      *
@@ -639,7 +632,6 @@ class rcube_db
         return "UNIX_TIMESTAMP($field)";
     }
 
-
     /**
      * Return SQL statement to convert from a unix timestamp
      *
@@ -651,7 +643,6 @@ class rcube_db
     {
         return date("'Y-m-d H:i:s'", $timestamp);
     }
-
 
     /**
      * Return SQL statement for case insensitive LIKE
@@ -665,7 +656,6 @@ class rcube_db
     {
         return $this->quote_identifier($column).' LIKE '.$this->quote($value);
     }
-
 
     /**
      * Abstract SQL statement for value concatenation
@@ -681,7 +671,6 @@ class rcube_db
 
         return '(' . join(' || ', $args) . ')';
     }
-
 
     /**
      * Encodes non-UTF-8 characters in string/array/object (recursive)
@@ -708,7 +697,6 @@ class rcube_db
         return utf8_encode($input);
     }
 
-
     /**
      * Decodes encoded UTF-8 string/object/array (recursive)
      *
@@ -734,7 +722,6 @@ class rcube_db
         return utf8_decode($input);
     }
 
-
     /**
      * Adds a query result and returns a handle ID
      *
@@ -750,7 +737,6 @@ class rcube_db
 
         return $res_id;
     }
-
 
     /**
      * Resolves a given handle ID and returns the according query handle
@@ -773,7 +759,6 @@ class rcube_db
         return false;
     }
 
-
     /**
      * Return correct name for a specific database table
      *
@@ -794,7 +779,6 @@ class rcube_db
 
         return $table;
     }
-
 
     /**
      * Return correct name for a specific database sequence
@@ -818,9 +802,12 @@ class rcube_db
         return $sequence;
     }
 
-
     /**
      * MDB2 DSN string parser
+     *
+     * @param string $sequence Secuence name
+     *
+     * @return array DSN parameters
      */
     public static function parse_dsn($dsn)
     {
@@ -939,7 +926,11 @@ class rcube_db
     }
 
     /**
-     * Returns PDO DSN string from DSN array (parse_dsn() result)
+     * Returns PDO DSN string from DSN array
+     *
+     * @param array $dsn  DSN parameters
+     *
+     * @return string DSN string
      */
     protected function dsn_string($dsn)
     {
@@ -966,7 +957,11 @@ class rcube_db
     }
 
     /**
-     * Returns PDO driver options array from DSN array (parse_dsn() result)
+     * Returns driver-specific connection options
+     *
+     * @param array  $dsn  DSN parameters
+     *
+     * @return array Connection options
      */
     protected function dsn_options($dsn)
     {
