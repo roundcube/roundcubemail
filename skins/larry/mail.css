@@ -36,6 +36,10 @@
 	bottom: 28px;
 }
 
+#mailview-top.fullheight {
+	border-radius: 4px 4px 0 0;
+}
+
 #mailview-bottom {
 	position: absolute;
 	left: 0;
@@ -67,7 +71,7 @@
 
 #messagelistcontainer {
 	top: 0;
-	bottom: 28px;
+	bottom: 30px;
 	overflow: auto;
 }
 
@@ -77,7 +81,19 @@
 	left: 0;
 	right: 0;
 	height: 22px;
-	padding: 2px 4px;
+	padding: 4px 8px;
+	border-top: 1px solid #ddd;
+	background: #ebebeb;
+	background: -moz-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(100%,#c6c6c6));
+	background: -o-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
+	background: -ms-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
+	background: linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
+	border-radius: 0 0 4px 4px;
+}
+
+#mailview-top.fullheight #messagelistfooter {
+	border-radius: 0;
 }
 
 #messagelistfooter.rightalign {
@@ -93,6 +109,10 @@
 	display: inline-block;
 	margin-right: 2em;
 	vertical-align: middle;
+}
+
+#messagelistfooter #listselectors .menuselector {
+	margin-top: -2px;
 }
 
 a.iconbutton.listmode {
@@ -302,9 +322,10 @@ a.iconbutton.threadmode.selected {
 }
 
 #searchfilter {
-	width: 16em;
-    top: 8px;
 	position: absolute;
+	right: 256px;
+	width: auto;
+	top: 8px;
 }
 
 #searchfilter select {
@@ -317,28 +338,36 @@ a.iconbutton.threadmode.selected {
 	width: 100%;
 }
 
+#mailboxtoolbar,
 #messagetoolbar {
 	position: absolute;
 	top: -6px;
-	right: 0;
-	left: 15em;
+	right: 390px;
+	left: 0;
 	height: 40px;
 	white-space: nowrap;
 }
 
 #messagetoolbar.fullwidth {
-	left: 0;
+	right: 0;
 }
 
-#mailtoolbar {
-	text-align: right;
+#mailboxtoolbar {
+	right: 0;
+}
+
+#messagesearchtools {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 240px;
 }
 
 #mailpreviewtoggle {
 	display: block;
 	position: absolute;
-	top: 4px;
-	right: 0;
+	top: 6px;
+	right: 6px;
 	width: 20px;
 	height: 18px;
 	background: url(images/buttons.png) -3px -458px no-repeat;
@@ -350,6 +379,14 @@ a.iconbutton.threadmode.selected {
 
 
 /*** message list ***/
+
+#messagelist thead td:first-child {
+	border-radius: 4px 0 0 0;
+}
+
+#messagelist thead td:last-child {
+	border-radius: 0 4px 0 0;
+}
 
 #messagelist tr td.attachment,
 #messagelist tr td.threads,

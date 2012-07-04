@@ -28,13 +28,18 @@
 	bottom: 0;
 }
 
+#directorytoolbar,
 #addressbooktoolbar {
 	position: absolute;
 	top: -6px;
 	left: 0;
-	right: 0;
+	right: 260px;
 	height: 40px;
 	white-space: nowrap;
+}
+
+#directorytoolbar {
+	right: 0;
 }
 
 #directorylistbox {

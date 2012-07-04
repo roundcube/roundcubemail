@@ -1,9 +1,6 @@
 <div id="mailtoolbar" class="toolbar">
 <roundcube:if condition="template:name == 'message'" />
 <roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
-<roundcube:else />
-<roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="refresh" title="checkmail" />
-<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
 <roundcube:endif />
 <roundcube:button command="reply" type="link" class="button reply disabled" classAct="button reply" classSel="button reply pressed" label="reply" title="replytomessage" />
 <span class="dropbutton">

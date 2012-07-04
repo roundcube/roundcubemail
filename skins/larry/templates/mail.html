@@ -5,7 +5,7 @@
 <roundcube:include file="/includes/links.html" />
 <style type="text/css">
 <roundcube:if condition="config:preview_pane == true" />
-	#mailview-top { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-38 : 300" />px; }
+	#mailview-top { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-45 : 300" />px; }
 	#mailview-bottom { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 320" />px; height: auto; }
 	#mailpreviewframe { display: block; }
 <roundcube:endif />
@@ -19,11 +19,10 @@
 
 <div id="mailview-left">
 
-<!-- search box -->
-<div id="quicksearchbar">
-<roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
-<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
+<!-- toolbar -->
+<div id="mailboxtoolbar" class="toolbar">
+	<roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="refresh" title="checkmail" />
+	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
 </div>
 
 <!-- folders list -->
@@ -44,20 +43,35 @@
 
 <div id="mailview-right">
 
-<!-- search filter -->
-<div id="searchfilter">
-	<roundcube:object name="searchfilter" class="searchfilter decorated" />
-</div>
-
 <!-- toolbar -->
 <div id="messagetoolbar">
 <roundcube:include file="/includes/mailtoolbar.html" />
 </div>
 
-<div id="mailview-top">
+<div id="messagesearchtools">
+
+<!-- search filter -->
+<div id="searchfilter">
+	<roundcube:object name="searchfilter" class="searchfilter decorated" />
+</div>
+
+<!-- search box -->
+<div id="quicksearchbar">
+<roundcube:object name="searchform" id="quicksearchbox" />
+<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
+<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
+</div>
+
+</div>
+
+<roundcube:if condition="config:preview_pane == true" />
+<div id="mailview-top" class="uibox">
+<roundcube:else />
+<div id="mailview-top" class="uibox fullheight">
+<roundcube:endif />
 
 <!-- messagelist -->
-<div id="messagelistcontainer" class="uibox boxlistcontent">
+<div id="messagelistcontainer" class="boxlistcontent">
 <roundcube:object name="messages"
 	id="messagelist"
 	class="records-table sortheader"
