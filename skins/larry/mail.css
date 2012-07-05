@@ -81,7 +81,7 @@
 	left: 0;
 	right: 0;
 	height: 22px;
-	padding: 4px 8px;
+	padding: 4px 6px;
 	border-top: 1px solid #ddd;
 	background: #ebebeb;
 	background: -moz-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
@@ -367,7 +367,7 @@ a.iconbutton.threadmode.selected {
 	display: block;
 	position: absolute;
 	top: 6px;
-	right: 6px;
+	right: 4px;
 	width: 20px;
 	height: 18px;
 	background: url(images/buttons.png) -3px -458px no-repeat;
