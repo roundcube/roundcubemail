@@ -1285,8 +1285,8 @@ ul.proplist li {
 #quicksearchbar input {
 	width: 176px;
 	margin: 0;
-	margin-top: 10px;
-	padding: 2px 30px 2px 34px;
+	margin-top: 7px;
+	padding: 3px 30px 3px 34px;
 	height: 18px;
 	background: #f1f1f1;
 	border-color: #ababab;
@@ -1296,13 +1296,13 @@ ul.proplist li {
 
 #quicksearchbar #searchmenulink {
 	position: absolute;
-	top: 14px;
+	top: 12px;
 	left: 6px;
 }
 
 #quicksearchbar #searchreset {
 	position: absolute;
-	top: 13px;
+	top: 11px;
 	right: 1px;
 }
 
