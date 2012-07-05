@@ -211,8 +211,10 @@ if (empty($RCMAIL->user->ID)) {
   if ($session_error || $_REQUEST['_err'] == 'session')
     $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
 
-  $RCMAIL->set_task('login');
-  $OUTPUT->send('login');
+  $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array('task' => 'login', 'error' => $session_error));
+
+  $RCMAIL->set_task($plugin['task']);
+  $OUTPUT->send($plugin['task']);
 }
 // CSRF prevention
 else {
