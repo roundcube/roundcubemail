@@ -41,7 +41,7 @@ input[type="text"],
 input[type="password"],
 textarea {
 	margin: 0; /* Safari by default adds a margin */
-	padding: 3px;
+	padding: 4px;
 	border: 1px solid #b2b2b2;
 	border-radius: 4px;
 	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
