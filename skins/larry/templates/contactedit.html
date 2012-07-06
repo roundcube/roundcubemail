@@ -4,7 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
-<body class="iframe footerbuttons">
+<body class="iframe">
 
 <h1 class="boxtitle">
 	<roundcube:if condition="env:action=='add'" /><roundcube:label name="addcontact" />
@@ -36,7 +36,7 @@
 
 </form>
 
-<div class="footerbuttons formbuttons">
+<div class="footerleft formbuttons">
 	<roundcube:button command="save" type="input" class="button mainaction" label="save" />
 	<roundcube:button command="show" type="input" class="button" label="cancel" condition="env:action=='edit'" />
 	<roundcube:button name="cancel" type="input" class="button" label="cancel" onclick="history.back()" condition="env:action=='add'" />
