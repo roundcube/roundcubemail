@@ -137,6 +137,11 @@ class rcube_db
 
         // Connect
         try {
+            // with this check we skip fatal error on PDO object creation
+            if (!class_exists('PDO', false)) {
+                throw new Exception('PDO extension not loaded. See http://php.net/manual/en/intro.pdo.php');
+            }
+
             $this->conn_prepare($dsn);
 
             $dbh = new PDO($dsn_string, $dsn['username'], $dsn['password'], $dsn_options);
@@ -144,7 +149,7 @@ class rcube_db
             // don't throw exceptions or warnings
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         }
-        catch (PDOException $e) {
+        catch (Exception $e) {
             $this->db_error     = true;
             $this->db_error_msg = $e->getMessage();
 
