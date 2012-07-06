@@ -218,13 +218,14 @@ class rcube_session
    * Handler for session_destroy()
    *
    * @param string Session ID
+   *
    * @return boolean True on success
    */
   public function db_destroy($key)
   {
-    $this->db->query(
-      sprintf("DELETE FROM %s WHERE sess_id = ?", $this->db->table_name('session')),
-      $key);
+    if ($key) {
+      $this->db->query(sprintf("DELETE FROM %s WHERE sess_id = ?", $this->db->table_name('session')), $key);
+    }
 
     return true;
   }
@@ -305,11 +306,16 @@ class rcube_session
    * Handler for session_destroy() with memcache backend
    *
    * @param string Session ID
+   *
    * @return boolean True on success
    */
   public function mc_destroy($key)
   {
-    return $this->memcache->delete($key);
+    if ($key) {
+      $this->memcache->delete($key);
+    }
+
+    return true;
   }
 
 
