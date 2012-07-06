@@ -265,7 +265,7 @@ function rcube_mail_ui()
   function message_displayed(p)
   {
     // show a popup dialog on errors
-    if (p.type == 'error') {
+    if (p.type == 'error' && rcmail.env.task != 'login') {
       if (!me.messagedialog) {
         me.messagedialog = $('<div>').addClass('popupdialog');
       }
