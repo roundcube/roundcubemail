@@ -35,9 +35,9 @@ class rcube_db_pgsql extends rcube_db
      * Get last inserted record ID
      * For Postgres databases, a table name is required
      *
-     * @param  string $table  Table name (to find the incremented sequence)
+     * @param string $table Table name (to find the incremented sequence)
      *
-     * @return mixed   ID or false on failure
+     * @return mixed ID or false on failure
      */
     public function insert_id($table = '')
     {
@@ -60,9 +60,9 @@ class rcube_db_pgsql extends rcube_db
      * This method is deprecated and should not be used anymore due to limitations
      * of timestamp functions in Mysql (year 2038 problem)
      *
-     * @param  string $field Field name
+     * @param string $field Field name
      *
-     * @return string  SQL statement to use in query
+     * @return string SQL statement to use in query
      * @deprecated
      */
     public function unixtimestamp($field)
@@ -73,10 +73,10 @@ class rcube_db_pgsql extends rcube_db
     /**
      * Return SQL statement for case insensitive LIKE
      *
-     * @param  string $column  Field name
-     * @param  string $value   Search value
+     * @param string $column Field name
+     * @param string $value  Search value
      *
-     * @return string  SQL statement to use in query
+     * @return string SQL statement to use in query
      */
     public function ilike($column, $value)
     {
@@ -86,8 +86,8 @@ class rcube_db_pgsql extends rcube_db
     /**
      * Get database runtime variables
      *
-     * @param string $varname  Variable name
-     * @param mixed  $default  Default value if variable is not set
+     * @param string $varname Variable name
+     * @param mixed  $default Default value if variable is not set
      *
      * @return mixed Variable value or default
      */

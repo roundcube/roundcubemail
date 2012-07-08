@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcube_db_sqlsrv.php                                   |
  |                                                                       |
@@ -26,8 +26,8 @@
  *
  * This is a wrapper for the PHP PDO
  *
- * @package    Database
- * @version    1.0
+ * @package Database
+ * @version 1.0
  */
 class rcube_db_sqlsrv extends rcube_db
 {
@@ -64,9 +64,9 @@ class rcube_db_sqlsrv extends rcube_db
      * This method is deprecated and should not be used anymore due to limitations
      * of timestamp functions in Mysql (year 2038 problem)
      *
-     * @param  string $field Field name
+     * @param string $field Field name
      *
-     * @return string  SQL statement to use in query
+     * @return string SQL statement to use in query
      * @deprecated
      */
     public function unixtimestamp($field)
@@ -93,9 +93,9 @@ class rcube_db_sqlsrv extends rcube_db
     /**
      * Adds TOP (LIMIT,OFFSET) clause to the query
      *
-     * @param string $query   SQL query
-     * @param int    $limit   Number of rows
-     * @param int    $offset  Offset
+     * @param string $query  SQL query
+     * @param int    $limit  Number of rows
+     * @param int    $offset Offset
      *
      * @return string SQL query
      */

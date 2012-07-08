@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcube_db.php                                          |
  |                                                                       |
@@ -25,8 +25,8 @@
  *
  * This is a wrapper for the PHP PDO
  *
- * @package    Database
- * @version    1.0
+ * @package Database
+ * @version 1.0
  */
 class rcube_db
 {
@@ -36,14 +36,14 @@ class rcube_db
     protected $db_mode;               // Connection mode
     protected $dbh;                   // Connection handle
 
-    protected $db_error = false;
-    protected $db_error_msg = '';
-    protected $conn_failure = false;
+    protected $db_error        = false;
+    protected $db_error_msg    = '';
+    protected $conn_failure    = false;
     protected $a_query_results = array('dummy');
-    protected $last_res_id = 0;
+    protected $last_res_id     = 0;
+    protected $db_index        = 0;
     protected $tables;
     protected $variables;
-    protected $db_index = 0;
 
     protected $options = array(
         // column/table quotes
@@ -55,11 +55,11 @@ class rcube_db
     /**
      * Factory, returns driver-specific instance of the class
      *
-     * @param string $db_dsnw  DSN for read/write operations
-     * @param string $db_dsnr  Optional DSN for read only operations
-     * @param bool   $pconn    Enables persistent connections
+     * @param string $db_dsnw DSN for read/write operations
+     * @param string $db_dsnr Optional DSN for read only operations
+     * @param bool   $pconn   Enables persistent connections
      *
-     * @return rcube_db  Object instance
+     * @return rcube_db Object instance
      */
     public static function factory($db_dsnw, $db_dsnr = '', $pconn = false)
     {
@@ -87,9 +87,9 @@ class rcube_db
     /**
      * Object constructor
      *
-     * @param  string $db_dsnw  DSN for read/write operations
-     * @param  string $db_dsnr  Optional DSN for read only operations
-     * @param  bool   $pconn    Enables persistent connections
+     * @param string $db_dsnw DSN for read/write operations
+     * @param string $db_dsnr Optional DSN for read only operations
+     * @param bool   $pconn   Enables persistent connections
      */
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
@@ -119,7 +119,7 @@ class rcube_db
     /**
      * Connect to specific database
      *
-     * @param  array $dsn  DSN for DB connections
+     * @param array $dsn DSN for DB connections
      *
      * @return PDO database handle
      */
@@ -169,7 +169,7 @@ class rcube_db
     /**
      * Driver-specific preparation of database connection
      *
-     * @param  array $dsn  DSN for DB connections
+     * @param array $dsn DSN for DB connections
      */
     protected function conn_prepare($dsn)
     {
@@ -178,8 +178,8 @@ class rcube_db
     /**
      * Driver-specific configuration of database connection
      *
-     * @param  array $dsn  DSN for DB connections
-     * @param  PDO   $dbh  Connection handler
+     * @param array $dsn DSN for DB connections
+     * @param PDO   $dbh Connection handler
      */
     protected function conn_configure($dsn, $dbh)
     {
@@ -188,7 +188,7 @@ class rcube_db
     /**
      * Driver-specific database character set setting
      *
-     * @param  string $charset  Character set name
+     * @param string $charset Character set name
      */
     protected function set_charset($charset)
     {
@@ -198,7 +198,7 @@ class rcube_db
     /**
      * Connect to appropiate database depending on the operation
      *
-     * @param  string $mode Connection mode (r|w)
+     * @param string $mode Connection mode (r|w)
      */
     public function db_connect($mode)
     {
@@ -254,7 +254,7 @@ class rcube_db
     /**
      * Getter for error state
      *
-     * @param  boolean  True on error
+     * @return boolean True on error
      */
     public function is_error()
     {
@@ -264,7 +264,7 @@ class rcube_db
     /**
      * Connection state checker
      *
-     * @param  boolean  True if in connected state
+     * @return boolean True if in connected state
      */
     public function is_connected()
     {
@@ -273,7 +273,8 @@ class rcube_db
 
     /**
      * Is database replication configured?
-     * This returns true if dsnw != dsnr
+     *
+     * @return bool Returns true if dsnw != dsnr
      */
     public function is_replicated()
     {
@@ -283,8 +284,8 @@ class rcube_db
     /**
      * Get database runtime variables
      *
-     * @param string $varname  Variable name
-     * @param mixed  $default  Default value if variable is not set
+     * @param string $varname Variable name
+     * @param mixed  $default Default value if variable is not set
      *
      * @return mixed Variable value or default
      */
@@ -297,8 +298,8 @@ class rcube_db
     /**
      * Execute a SQL query
      *
-     * @param  string  SQL query to execute
-     * @param  mixed   Values to be inserted in query
+     * @param string SQL query to execute
+     * @param mixed  Values to be inserted in query
      *
      * @return number  Query handle identifier
      */
@@ -318,12 +319,12 @@ class rcube_db
     /**
      * Execute a SQL query with limits
      *
-     * @param  string  SQL query to execute
-     * @param  number  Offset for LIMIT statement
-     * @param  number  Number of rows for LIMIT statement
-     * @param  mixed   Values to be inserted in query
+     * @param string SQL query to execute
+     * @param int    Offset for LIMIT statement
+     * @param int    Number of rows for LIMIT statement
+     * @param mixed  Values to be inserted in query
      *
-     * @return number  Query handle identifier
+     * @return int Query handle identifier
      */
     public function limitquery()
     {
@@ -338,11 +339,12 @@ class rcube_db
     /**
      * Execute a SQL query with limits
      *
-     * @param  string $query   SQL query to execute
-     * @param  number $offset  Offset for LIMIT statement
-     * @param  number $numrows Number of rows for LIMIT statement
-     * @param  array  $params  Values to be inserted in query
-     * @return number  Query handle identifier
+     * @param string $query   SQL query to execute
+     * @param int    $offset  Offset for LIMIT statement
+     * @param int    $numrows Number of rows for LIMIT statement
+     * @param array  $params  Values to be inserted in query
+     *
+     * @return int Query handle identifier
      */
     protected function _query($query, $offset, $numrows, $params)
     {
@@ -400,7 +402,8 @@ class rcube_db
      * Get number of affected rows for the last query
      *
      * @param  number $res_id Optional query handle identifier
-     * @return mixed   Number of rows or false on failure
+     *
+     * @return int Number of rows or false on failure
      */
     public function affected_rows($res_id = null)
     {
@@ -415,9 +418,9 @@ class rcube_db
      * Get last inserted record ID
      * For Postgres databases, a sequence name is required
      *
-     * @param  string $table  Table name (to find the incremented sequence)
+     * @param string $table Table name (to find the incremented sequence)
      *
-     * @return mixed   ID or false on failure
+     * @return mixed ID or false on failure
      */
     public function insert_id($table = '')
     {
@@ -439,9 +442,9 @@ class rcube_db
      * Get an associative array for one row
      * If no query handle is specified, the last query will be taken as reference
      *
-     * @param  number $res_id Optional query handle identifier
+     * @param int $res_id Optional query handle identifier
      *
-     * @return mixed   Array with col values or false on failure
+     * @return mixed Array with col values or false on failure
      */
     public function fetch_assoc($res_id = null)
     {
@@ -453,9 +456,9 @@ class rcube_db
      * Get an index array for one row
      * If no query handle is specified, the last query will be taken as reference
      *
-     * @param  number $res_id  Optional query handle identifier
+     * @param int $res_id Optional query handle identifier
      *
-     * @return mixed   Array with col values or false on failure
+     * @return mixed Array with col values or false on failure
      */
     public function fetch_array($res_id = null)
     {
@@ -466,10 +469,10 @@ class rcube_db
     /**
      * Get col values for a result row
      *
-     * @param  PDOStatement $result Result handle
-     * @param  number       $mode   Fetch mode identifier
+     * @param PDOStatement $result Result handle
+     * @param int          $mode   Fetch mode identifier
      *
-     * @return mixed  Array with col values or false on failure
+     * @return mixed Array with col values or false on failure
      */
     protected function _fetch_row($result, $mode)
     {
@@ -483,9 +486,9 @@ class rcube_db
     /**
      * Adds LIMIT,OFFSET clauses to the query
      *
-     * @param string $query   SQL query
-     * @param int    $limit   Number of rows
-     * @param int    $offset  Offset
+     * @param string $query  SQL query
+     * @param int    $limit  Number of rows
+     * @param int    $offset Offset
      *
      * @return string SQL query
      */
@@ -527,7 +530,7 @@ class rcube_db
     /**
      * Returns list of columns in database table
      *
-     * @param string Table name
+     * @param string $table Table name
      *
      * @return array List of table cols
      */
@@ -546,10 +549,10 @@ class rcube_db
     /**
      * Formats input so it can be safely used in a query
      *
-     * @param  mixed  $input  Value to quote
-     * @param  string $type   Type of data
+     * @param mixed  $input Value to quote
+     * @param string $type  Type of data
      *
-     * @return string  Quoted/converted string for use in query
+     * @return string Quoted/converted string for use in query
      */
     public function quote($input, $type = null)
     {
@@ -578,11 +581,11 @@ class rcube_db
     /**
      * Quotes a string so it can be safely used as a table or column name
      *
-     * @param  string $str Value to quote
+     * @param string $str Value to quote
      *
-     * @return string  Quoted string for use in query
-     * @deprecated     Replaced by rcube_db::quote_identifier
-     * @see            rcube_db::quote_identifier
+     * @return string Quoted string for use in query
+     * @deprecated    Replaced by rcube_db::quote_identifier
+     * @see           rcube_db::quote_identifier
      */
     public function quoteIdentifier($str)
     {
@@ -592,9 +595,9 @@ class rcube_db
     /**
      * Quotes a string so it can be safely used as a table or column name
      *
-     * @param  string $str Value to quote
+     * @param string $str Value to quote
      *
-     * @return string  Quoted string for use in query
+     * @return string Quoted string for use in query
      */
     public function quote_identifier($str)
     {
@@ -623,8 +626,8 @@ class rcube_db
     /**
      * Return list of elements for use with SQL's IN clause
      *
-     * @param  array  $arr  Input array
-     * @param  string $type Type of data
+     * @param array  $arr  Input array
+     * @param string $type Type of data
      *
      * @return string Comma-separated list of quoted values for use in query
      */
@@ -647,7 +650,7 @@ class rcube_db
      * This method is deprecated and should not be used anymore due to limitations
      * of timestamp functions in Mysql (year 2038 problem)
      *
-     * @param  string $field Field name
+     * @param string $field Field name
      *
      * @return string  SQL statement to use in query
      * @deprecated
@@ -660,9 +663,9 @@ class rcube_db
     /**
      * Return SQL statement to convert from a unix timestamp
      *
-     * @param  string $timestamp Field name
+     * @param int $timestamp Unix timestamp
      *
-     * @return string  SQL statement to use in query
+     * @return string Date string in db-specific format
      */
     public function fromunixtime($timestamp)
     {
@@ -672,10 +675,10 @@ class rcube_db
     /**
      * Return SQL statement for case insensitive LIKE
      *
-     * @param  string $column  Field name
-     * @param  string $value   Search value
+     * @param string $column Field name
+     * @param string $value  Search value
      *
-     * @return string  SQL statement to use in query
+     * @return string SQL statement to use in query
      */
     public function ilike($column, $value)
     {
@@ -700,9 +703,9 @@ class rcube_db
     /**
      * Encodes non-UTF-8 characters in string/array/object (recursive)
      *
-     * @param  mixed  $input Data to fix
+     * @param mixed $input Data to fix
      *
-     * @return mixed  Properly UTF-8 encoded data
+     * @return mixed Properly UTF-8 encoded data
      */
     public static function encode($input)
     {
@@ -725,9 +728,9 @@ class rcube_db
     /**
      * Decodes encoded UTF-8 string/object/array (recursive)
      *
-     * @param  mixed $input Input data
+     * @param mixed $input Input data
      *
-     * @return mixed  Decoded data
+     * @return mixed Decoded data
      */
     public static function decode($input)
     {
@@ -750,26 +753,25 @@ class rcube_db
     /**
      * Adds a query result and returns a handle ID
      *
-     * @param  object $res Query handle
+     * @param object $res Query handle
      *
-     * @return mixed   Handle ID
+     * @return int Handle ID
      */
     protected function _add_result($res)
     {
-        $res_id = sizeof($this->a_query_results);
-        $this->last_res_id = $res_id;
-        $this->a_query_results[$res_id] = $res;
+        $this->last_res_id = sizeof($this->a_query_results);
+        $this->a_query_results[$this->last_res_id] = $res;
 
-        return $res_id;
+        return $this->last_res_id;
     }
 
     /**
      * Resolves a given handle ID and returns the according query handle
      * If no ID is specified, the last resource handle will be returned
      *
-     * @param  number $res_id Handle ID
+     * @param int $res_id Handle ID
      *
-     * @return mixed   Resource handle or false on failure
+     * @return mixed Resource handle or false on failure
      */
     protected function _get_result($res_id = null)
     {
@@ -844,7 +846,8 @@ class rcube_db
         if (($pos = strpos($dsn, '://')) !== false) {
             $str = substr($dsn, 0, $pos);
             $dsn = substr($dsn, $pos + 3);
-        } else {
+        }
+        else {
             $str = $dsn;
             $dsn = null;
         }
@@ -854,7 +857,8 @@ class rcube_db
         if (preg_match('|^(.+?)\((.*?)\)$|', $str, $arr)) {
             $parsed['phptype']  = $arr[1];
             $parsed['dbsyntax'] = !$arr[2] ? $arr[1] : $arr[2];
-        } else {
+        }
+        else {
             $parsed['phptype']  = $str;
             $parsed['dbsyntax'] = $str;
         }
@@ -871,7 +875,8 @@ class rcube_db
             if (($pos = strpos($str, ':')) !== false) {
                 $parsed['username'] = rawurldecode(substr($str, 0, $pos));
                 $parsed['password'] = rawurldecode(substr($str, $pos + 1));
-            } else {
+            }
+            else {
                 $parsed['username'] = rawurldecode($str);
             }
         }
@@ -900,9 +905,11 @@ class rcube_db
                 $pos = strrpos($proto_opts, '/');
                 $dsn = substr($proto_opts, $pos + 1);
                 $proto_opts = substr($proto_opts, 0, $pos);
-            } elseif (strpos($dsn, '/') !== false) {
+            }
+            else if (strpos($dsn, '/') !== false) {
                 list($proto_opts, $dsn) = explode('/', $dsn, 2);
-            } else {
+            }
+            else {
                 $proto_opts = $dsn;
                 $dsn = null;
             }
@@ -934,7 +941,8 @@ class rcube_db
                 $dsn = substr($dsn, $pos + 1);
                 if (strpos($dsn, '&') !== false) {
                     $opts = explode('&', $dsn);
-                } else { // database?param1=value1
+                }
+                else { // database?param1=value1
                     $opts = array($dsn);
                 }
                 foreach ($opts as $opt) {
@@ -953,7 +961,7 @@ class rcube_db
     /**
      * Returns PDO DSN string from DSN array
      *
-     * @param array $dsn  DSN parameters
+     * @param array $dsn DSN parameters
      *
      * @return string DSN string
      */
@@ -984,7 +992,7 @@ class rcube_db
     /**
      * Returns driver-specific connection options
      *
-     * @param array  $dsn  DSN parameters
+     * @param array $dsn DSN parameters
      *
      * @return array Connection options
      */

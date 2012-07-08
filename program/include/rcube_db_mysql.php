@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcube_db_mysql.php                                    |
  |                                                                       |
@@ -26,8 +26,8 @@
  *
  * This is a wrapper for the PHP PDO
  *
- * @package    Database
- * @version    1.0
+ * @package Database
+ * @version 1.0
  */
 class rcube_db_mysql extends rcube_db
 {
@@ -93,8 +93,8 @@ class rcube_db_mysql extends rcube_db
     /**
      * Get database runtime variables
      *
-     * @param string $varname  Variable name
-     * @param mixed  $default  Default value if variable is not set
+     * @param string $varname Variable name
+     * @param mixed  $default Default value if variable is not set
      *
      * @return mixed Variable value or default
      */

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcube_db_sqlite.php                                   |
  |                                                                       |
@@ -26,8 +26,8 @@
  *
  * This is a wrapper for the PHP PDO
  *
- * @package    Database
- * @version    1.0
+ * @package Database
+ * @version 1.0
  */
 class rcube_db_sqlite extends rcube_db
 {
@@ -134,7 +134,7 @@ class rcube_db_sqlite extends rcube_db
     /**
      * Returns list of columns in database table
      *
-     * @param string Table name
+     * @param string $table Table name
      *
      * @return array List of table cols
      */
