@@ -33,13 +33,12 @@ class rcube_db_pgsql extends rcube_db
 {
     /**
      * Get last inserted record ID
-     * For Postgres databases, a table name is required
      *
      * @param string $table Table name (to find the incremented sequence)
      *
      * @return mixed ID or false on failure
      */
-    public function insert_id($table = '')
+    public function insert_id($table = null)
     {
         if (!$this->db_connected || $this->db_mode == 'r') {
             return false;
@@ -52,6 +51,27 @@ class rcube_db_pgsql extends rcube_db
         $id = $this->dbh->lastInsertId($table);
 
         return $id;
+    }
+
+    /**
+     * Return correct name for a specific database sequence
+     *
+     * @param string $sequence Secuence name
+     *
+     * @return string Translated sequence name
+     */
+    protected function sequence_name($sequence)
+    {
+        $rcube = rcube::get_instance();
+
+        // return sequence name if configured
+        $config_key = 'db_sequence_'.$sequence;
+
+        if ($name = $rcube->config->get($config_key)) {
+            return $name;
+        }
+
+        return $sequence;
     }
 
     /**

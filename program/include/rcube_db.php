@@ -416,7 +416,6 @@ class rcube_db
 
     /**
      * Get last inserted record ID
-     * For Postgres databases, a sequence name is required
      *
      * @param string $table Table name (to find the incremented sequence)
      *
@@ -805,28 +804,6 @@ class rcube_db
         }
 
         return $table;
-    }
-
-    /**
-     * Return correct name for a specific database sequence
-     * (used for Postgres only)
-     *
-     * @param string $sequence Secuence name
-     *
-     * @return string Translated sequence name
-     */
-    public function sequence_name($sequence)
-    {
-        $rcube = rcube::get_instance();
-
-        // return sequence name if configured
-        $config_key = 'db_sequence_'.$sequence;
-
-        if ($name = $rcube->config->get($config_key)) {
-            return $name;
-        }
-
-        return $sequence;
     }
 
     /**
