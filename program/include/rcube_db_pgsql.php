@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcube_db_pgsql.php                                    |
  |                                                                       |
@@ -26,8 +26,8 @@
  *
  * This is a wrapper for the PHP PDO
  *
- * @package    Database
- * @version    1.0
+ * @package Database
+ * @version 1.0
  */
 class rcube_db_pgsql extends rcube_db
 {
@@ -80,7 +80,36 @@ class rcube_db_pgsql extends rcube_db
      */
     public function ilike($column, $value)
     {
-        return $this->quote_identifier($column).' ILIKE '.$this->quote($value);
+        return $this->quote_identifier($column) . ' ILIKE ' . $this->quote($value);
+    }
+
+    /**
+     * Get database runtime variables
+     *
+     * @param string $varname  Variable name
+     * @param mixed  $default  Default value if variable is not set
+     *
+     * @return mixed Variable value or default
+     */
+    public function get_variable($varname, $default = null)
+    {
+        // There's a known case when max_allowed_packet is queried
+        // PostgreSQL doesn't have such limit, return immediately
+        if ($varname == 'max_allowed_packet') {
+            return $default;
+        }
+
+        if (!isset($this->variables)) {
+            $this->variables = array();
+
+            $result = $this->query('SHOW ALL');
+
+            while ($row = $this->fetch_array($result)) {
+                $this->variables[$row[0]] = $row[1];
+            }
+        }
+
+        return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
     }
 
 }

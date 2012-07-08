@@ -90,4 +90,27 @@ class rcube_db_mysql extends rcube_db
         return $result;
     }
 
+    /**
+     * Get database runtime variables
+     *
+     * @param string $varname  Variable name
+     * @param mixed  $default  Default value if variable is not set
+     *
+     * @return mixed Variable value or default
+     */
+    public function get_variable($varname, $default = null)
+    {
+        if (!isset($this->variables)) {
+            $this->variables = array();
+
+            $result = $this->query('SHOW VARIABLES');
+
+            while ($sql_arr = $this->fetch_array($result)) {
+                $this->variables[$row[0]] = $row[1];
+            }
+        }
+
+        return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
+    }
+
 }

@@ -42,6 +42,7 @@ class rcube_db
     protected $a_query_results = array('dummy');
     protected $last_res_id = 0;
     protected $tables;
+    protected $variables;
     protected $db_index = 0;
 
     protected $options = array(
@@ -280,6 +281,20 @@ class rcube_db
     }
 
     /**
+     * Get database runtime variables
+     *
+     * @param string $varname  Variable name
+     * @param mixed  $default  Default value if variable is not set
+     *
+     * @return mixed Variable value or default
+     */
+    public function get_variable($varname, $default = null)
+    {
+        // to be implemented by driver class
+        return $default;
+    }
+
+    /**
      * Execute a SQL query
      *
      * @param  string  SQL query to execute
@@ -332,7 +347,7 @@ class rcube_db
     protected function _query($query, $offset, $numrows, $params)
     {
         // Read or write ?
-        $mode = preg_match('/^select/i', ltrim($query)) ? 'r' : 'w';
+        $mode = preg_match('/^(select|show)/i', ltrim($query)) ? 'r' : 'w';
 
         $this->db_connect($mode);
 
