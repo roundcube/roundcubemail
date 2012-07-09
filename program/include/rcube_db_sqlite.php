@@ -45,7 +45,12 @@ class rcube_db_sqlite extends rcube_db
     {
         // Create database file, required by PDO to exist on connection
         if (!empty($dsn['database']) && !file_exists($dsn['database'])) {
-            touch($dsn['database']);
+            $created = touch($dsn['database']);
+
+            // File mode setting, for compat. with MDB2
+            if (!empty($dsn['mode']) && $created) {
+                chmod($dsn['database'], octdec($dsn['mode']));
+            }
         }
     }
 
@@ -68,7 +73,7 @@ class rcube_db_sqlite extends rcube_db
                 $q = $dbh->exec($data);
 
                 if ($q === false) {
-                    $error = $this->dbh->errorInfo();
+                    $error = $dbh->errorInfo();
                     $this->db_error = true;
                     $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
