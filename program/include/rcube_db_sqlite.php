@@ -63,9 +63,7 @@ class rcube_db_sqlite extends rcube_db
             $data = file_get_contents(INSTALL_PATH . 'SQL/sqlite.initial.sql');
 
             if (strlen($data)) {
-                if ($this->options['debug_mode']) {
-                    $this::debug('INITIALIZE DATABASE');
-                }
+                $this->debug('INITIALIZE DATABASE');
 
                 $q = $dbh->exec($data);
 

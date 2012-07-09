@@ -252,6 +252,18 @@ class rcube_db
     }
 
     /**
+     * Writes debug information/query to 'sql' log file
+     *
+     * @param string $query SQL query
+     */
+    protected function debug($query)
+    {
+        if ($this->options['debug_mode']) {
+            rcube::write_log('sql', '[' . (++$this->db_index) . '] ' . $query . ';');
+        }
+    }
+
+    /**
      * Getter for error state
      *
      * @return boolean True on error
@@ -378,9 +390,7 @@ class rcube_db
 
         $query = rtrim($query, ';');
 
-        if ($this->options['debug_mode']) {
-            rcube::write_log('sql', '[' . (++$this->db_index) . '] ' . $query . ';');
-        }
+        $this->debug($query);
 
         $query = $this->dbh->query($query);
 
