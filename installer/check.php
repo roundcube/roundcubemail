@@ -45,7 +45,9 @@ $ini_checks = array(
 );
 
 $optional_checks = array(
-    'date.timezone' => '-NOTEMPTY-',
+    // required for utils/modcss.inc, should we require this?
+    'allow_url_fopen'  => 1,
+    'date.timezone'    => '-NOTEMPTY-',
 );
 
 $source_urls = array(
