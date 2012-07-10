@@ -518,21 +518,26 @@ function rcmail_check_safe(&$message)
 {
   global $RCMAIL;
 
-  $show_images = $RCMAIL->config->get('show_images');
   if (!$message->is_safe
-    && !empty($show_images)
-    && $message->has_html_part())
-  {
-    switch($show_images) {
-      case '1': // known senders only
-        $CONTACTS = new rcube_contacts($RCMAIL->db, $_SESSION['user_id']);
-        if ($CONTACTS->search('email', $message->sender['mailto'], true, false)->count) {
-          $message->set_safe(true);
+    && ($show_images = $RCMAIL->config->get('show_images'))
+    && $message->has_html_part()
+  ) {
+    switch ($show_images) {
+      case 1: // known senders only
+        // get default addressbook, like in addcontact.inc
+        $CONTACTS = $RCMAIL->get_address_book(-1, true);
+
+        if ($CONTACTS) {
+          $result = $CONTACTS->search('email', $message->sender['mailto'], 1, false);
+          if ($result->count) {
+            $message->set_safe(true);
+          }
         }
-      break;
-      case '2': // always
+        break;
+
+      case 2: // always
         $message->set_safe(true);
-      break;
+        break;
     }
   }
 }

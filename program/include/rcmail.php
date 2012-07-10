@@ -171,7 +171,7 @@ class rcmail extends rcube
   /**
    * Return instance of the internal address book class
    *
-   * @param string  Address book identifier
+   * @param string  Address book identifier (-1 for default addressbook)
    * @param boolean True if the address book needs to be writeable
    *
    * @return rcube_contacts Address book object
@@ -180,17 +180,17 @@ class rcmail extends rcube
   {
     $contacts    = null;
     $ldap_config = (array)$this->config->get('ldap_public');
-    $abook_type  = strtolower($this->config->get('address_book_type'));
 
     // 'sql' is the alias for '0' used by autocomplete
     if ($id == 'sql')
-        $id = '0';
+      $id = '0';
+    else if ($id == -1) {
+      $id = $this->config->get('default_addressbook');
+      $default = true;
+    }
 
     // use existing instance
-    if (isset($this->address_books[$id]) && is_object($this->address_books[$id])
-      && is_a($this->address_books[$id], 'rcube_addressbook')
-      && (!$writeable || !$this->address_books[$id]->readonly)
-    ) {
+    if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
       $contacts = $this->address_books[$id];
     }
     else if ($id && $ldap_config[$id]) {
@@ -206,14 +206,16 @@ class rcmail extends rcube
       if ($plugin['instance'] instanceof rcube_addressbook) {
         $contacts = $plugin['instance'];
       }
-      // get first source from the list
-      else if (!$id) {
-        $source = reset($this->get_address_sources($writeable));
-        if (!empty($source)) {
-          $contacts = $this->get_address_book($source['id']);
-          if ($contacts)
-            $id = $source['id'];
-        }
+    }
+
+    // Get first addressbook from the list if configured default doesn't exist
+    // This can happen when user deleted the addressbook (e.g. Kolab folder)
+    if (!$contacts && (!$id || $default)) {
+      $source = reset($this->get_address_sources($writeable));
+      if (!empty($source)) {
+        $contacts = $this->get_address_book($source['id']);
+        if ($contacts)
+          $id = $source['id'];
       }
     }
 
@@ -223,6 +225,10 @@ class rcmail extends rcube
         'file' => __FILE__, 'line' => __LINE__,
         'message' => "Addressbook source ($id) not found!"),
         true, true);
+    }
+
+    if ($writeable && $contacts->readonly) {
+      return null;
     }
 
     // set configured sort order
