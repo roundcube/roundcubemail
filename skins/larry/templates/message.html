@@ -10,8 +10,17 @@
 
 <div id="mainscreen">
 
+<!-- toolbar -->
+<div id="messagetoolbar" class="toolbar fullwidth">
+	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
+	<span class="spacer"></span>
+	<roundcube:include file="/includes/mailtoolbar.html" />
+	<div class="toolbarselect">
+		<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mailboxlist decorated" folder_filter="mail" />
+	</div>
+</div>
+
 <div id="mailview-left">
-<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('moveto', this.options[this.selectedIndex].value)" class="mailboxlist" folder_filter="mail" />
 
 <!-- folders list -->
 <div id="mailboxcontainer" class="uibox listbox">
@@ -23,11 +32,6 @@
 </div>
 
 <div id="mailview-right">
-
-<!-- toolbar -->
-<div id="messagetoolbar" class="fullwidth">
-<roundcube:include file="/includes/mailtoolbar.html" />
-</div>
 
 <div id="mailview-top">
 <div id="messageheader" class="uibox">

@@ -11,19 +11,22 @@
 <roundcube:endif />
 </style>
 </head>
-<body class="noscroll">
+<body>
 
+<div class="minwidth">
 <roundcube:include file="/includes/header.html" />
 
 <div id="mainscreen">
 
-<div id="mailview-left">
-
 <!-- toolbar -->
-<div id="mailboxtoolbar" class="toolbar">
+<div id="messagetoolbar" class="toolbar">
 	<roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="refresh" title="checkmail" />
 	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
+	<span class="spacer"></span>
+	<roundcube:include file="/includes/mailtoolbar.html" />
 </div>
+
+<div id="mailview-left">
 
 <!-- folders list -->
 <div id="folderlist-header"></div>
@@ -45,7 +48,6 @@
 
 <!-- toolbar -->
 <div id="messagetoolbar">
-<roundcube:include file="/includes/mailtoolbar.html" />
 </div>
 
 <div id="messagesearchtools">
@@ -127,6 +129,8 @@
 </div><!-- end mailview-right -->
 
 </div><!-- end mainscreen -->
+
+<div><!-- end minwidth -->
 
 <div id="searchmenu" class="popupmenu">
 	<ul class="toolbarmenu">
