@@ -461,7 +461,7 @@ function rcube_webmail()
       this.gui_containers.foldertray = $(this.gui_objects.folderlist);
 
     // activate html5 file drop feature (if browser supports it and if configured)
-    if (this.gui_objects.filedrop && this.env.filedrop && ((XMLHttpRequest && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
+    if (this.gui_objects.filedrop && this.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
       $(document.body).bind('dragover dragleave drop', function(e){ return ref.document_drag_hover(e, e.type == 'dragover'); });
       $(this.gui_objects.filedrop).addClass('droptarget')
         .bind('dragover dragleave', function(e){ return ref.file_drag_hover(e, e.type == 'dragover'); })
