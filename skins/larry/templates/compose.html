@@ -7,8 +7,9 @@
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
 <roundcube:endif />
 </head>
-<body class="noscroll">
+<body>
 
+<div class="minwidth">
 <roundcube:include file="/includes/header.html" />
 
 <div id="mainscreen">
@@ -169,6 +170,8 @@
 </div><!-- end mailview-right -->
 
 </div><!-- end mainscreen -->
+
+</div><!-- end minwidth -->
 
 <div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='addattachment' />">
 	<roundcube:object name="composeAttachmentForm" id="uploadform" attachmentFieldSize="40" buttons="no" />

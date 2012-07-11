@@ -654,6 +654,15 @@ a.iconlink.upload {
 	background: #fff;
 }
 
+.minwidth {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	min-width: 1150px;
+}
+
 .scroller {
 	overflow: auto;
 }
@@ -1328,6 +1337,13 @@ ul.proplist li {
 
 /*** toolbar ***/
 
+.toolbar .spacer {
+	display: inline-block;
+	width: 24px;
+	height: 40px;
+	padding: 0;
+}
+
 .toolbar a.button {
 	text-align: center;
 	font-size: 10px;
@@ -1971,6 +1987,7 @@ ul.toolbarmenu li span.conversation {
 	margin-bottom: 12px;
 	padding-top: 15px;
 	height: 27px;
+	white-space: nowrap;
 }
 
 .tabsbar .tablink {
