@@ -10,13 +10,17 @@
 
 <div id="mainscreen">
 
-<div id="addressview-left">
-
 <!-- toolbar -->
-<div id="directorytoolbar" class="toolbar">
+<div id="addressbooktoolbar" class="toolbar">
 	<roundcube:button command="import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="import" title="importcontacts" />
 	<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="export" title="exportvcards" />
+	<span class="spacer"></span>
+	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
+	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advanced" title="advsearch" />
+	<roundcube:container name="toolbar" id="addressbooktoolbar" />
 </div>
+
+<div id="addressview-left">
 
 <!-- sources/groups list -->
 <div id="directorylistbox" class="uibox listbox">
@@ -32,13 +36,6 @@
 </div><!-- end addressview-left -->
 
 <div id="addressview-right">
-
-<!-- toolbar -->
-<div id="addressbooktoolbar" class="toolbar">
-	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
-	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advanced" title="advsearch" />
-	<roundcube:container name="toolbar" id="addressbooktoolbar" />
-</div>
 
 <!-- search box -->
 <div id="quicksearchbar">
