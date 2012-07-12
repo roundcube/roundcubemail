@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't add attachments content into reply/forward/draft message body (#1488557)
+- Fix 'no connection' errors on page unloads (#1488547)
 - Plugin API: Add 'unauthenticated' hook (#1488138)
 - Show explicit error message when provided hostname is invalid (#1488550)
 - Fix wrong compose screen elements focus in IE9 (#1488541)

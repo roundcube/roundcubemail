@@ -60,6 +60,8 @@ function rcube_webmail()
     beforeSend: function(xmlhttp){ xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token); }
   });
 
+  $(window).bind('beforeunload', function() { rcmail.unload = true; });
+
   // set environment variable(s)
   this.set_env = function(p, value)
   {
@@ -6128,6 +6130,10 @@ function rcube_webmail()
 
     this.set_busy(false, null, lock);
     request.abort();
+
+    // don't display error message on page unload (#1488547)
+    if (this.unload)
+      return;
 
     if (request.status && errmsg)
       this.display_message(this.get_label('servererror') + ' (' + errmsg + ')', 'error');

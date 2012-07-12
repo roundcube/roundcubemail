@@ -278,6 +278,32 @@ class rcube_message
 
 
     /**
+     * Checks if part of the message is an attachment (or part of it)
+     *
+     * @param rcube_message_part $part Message part
+     *
+     * @return bool True if the part is an attachment part
+     */
+    public function is_attachment($part)
+    {
+        foreach ($this->attachments as $att_part) {
+            if ($att_part->mime_id == $part->mime_id) {
+                return true;
+            }
+
+            // check if the part is a subpart of another attachment part (message/rfc822)
+            if ($att_part->mimetype == 'message/rfc822') {
+                if (in_array($part, (array)$att_part->parts)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
      * Read the message structure returend by the IMAP server
      * and build flat lists of content parts and attachments
      *

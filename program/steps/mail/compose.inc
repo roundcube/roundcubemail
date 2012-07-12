@@ -632,7 +632,8 @@ function rcmail_prepare_message_body()
 
     if (!empty($MESSAGE->parts)) {
       foreach ($MESSAGE->parts as $part) {
-        if ($part->type != 'content' || !$part->size) {
+        // skip no-content and attachment parts (#1488557)
+        if ($part->type != 'content' || !$part->size || $MESSAGE->is_attachment($part)) {
           continue;
         }
 
