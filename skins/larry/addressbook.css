@@ -18,6 +18,7 @@
 	left: 0;
 	width: 220px;
 	bottom: 0;
+	z-index: 2;
 }
 
 #addressview-right {
@@ -26,9 +27,9 @@
 	left: 232px;
 	right: 0;
 	bottom: 0;
+	z-index: 3;
 }
 
-#directorytoolbar,
 #addressbooktoolbar {
 	position: absolute;
 	top: -6px;
@@ -36,10 +37,7 @@
 	right: 260px;
 	height: 40px;
 	white-space: nowrap;
-}
-
-#directorytoolbar {
-	right: 0;
+	z-index: 10;
 }
 
 #directorylistbox {
