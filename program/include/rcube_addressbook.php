@@ -422,7 +422,7 @@ abstract class rcube_addressbook
     function get_col_values($col, $data, $flat = false)
     {
         $out = array();
-        foreach ($data as $c => $values) {
+        foreach ((array)$data as $c => $values) {
             if ($c === $col || strpos($c, $col.':') === 0) {
                 if ($flat) {
                     $out = array_merge($out, (array)$values);

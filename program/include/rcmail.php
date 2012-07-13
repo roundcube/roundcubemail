@@ -726,8 +726,12 @@ class rcmail extends rcube
    */
   public function url($p)
   {
-    if (!is_array($p))
+    if (!is_array($p)) {
+      if (strpos($p, 'http') === 0)
+        return $p;
+
       $p = array('_action' => @func_get_arg(0));
+    }
 
     $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
     $p['_task'] = $task;
