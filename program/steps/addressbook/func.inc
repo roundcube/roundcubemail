@@ -709,7 +709,11 @@ function rcmail_contact_photo($attrib)
     $RCMAIL->output->set_env('photo_placeholder', $photo_img);
     unset($attrib['placeholder']);
 
-    if (preg_match('!^https?://!i', $record['photo']))
+    $plugin = $RCMAIL->plugins->exec_hook('contact_photo', array('record' => $record, 'data' => $record['photo']));
+
+    if ($plugin['url'])
+        $photo_img = $plugin['url'];
+    else if (preg_match('!^https?://!i', $record['photo']))
         $photo_img = $record['photo'];
     else if ($record['photo'])
         $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID));
