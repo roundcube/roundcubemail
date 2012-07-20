@@ -7,7 +7,7 @@
  * Web apps to integrate themselves with the desktop and thus provide
  * a smoother axperience to the end user.
  *
- * @version 1.0
+ * @version 0.1
  * @author Jean-Tiare LE BIGOT <admin@jtlebi.fr>
  * @url http://example.com
  */
