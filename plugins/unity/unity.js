@@ -40,9 +40,7 @@
 
     Unity.Launcher.setCount(unread);
   }
-function dummy() {
-  alert("I'm dunb, trust me !");
-}
+
   /* Main Setup */
   function unityReady() {
     // Launcher menu
@@ -58,8 +56,7 @@ function dummy() {
       if(count > 0) {
         Unity.MessagingIndicator.showIndicator(mbox, {
           count: count,
-          //onIndicatorActivated: goto_mbox(mbox)
-          onIndicatorActivated: dummy
+          onIndicatorActivated: goto_mbox(mbox)
         });
       } else {
         Unity.MessagingIndicator.clearIndicator(mbox);
