@@ -6288,6 +6288,7 @@ function rcube_webmail()
         contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
         processData: false,
         data: formdata || multipart,
+        headers: {'X-Roundcube-Request': ref.env.request_token},
         beforeSend: function(xhr, s) { if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; },
         success: function(data){ ref.http_response(data); },
         error: function(o, status, err) { ref.http_error(o, status, err, null, 'attachment'); }
