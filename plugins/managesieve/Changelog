@@ -1,4 +1,5 @@
 - Added GUI for variables setting - RFC5229 (patch from Paweł Słowik)
+- Fixed scrollbars in Larry's iframes
 
 * version 5.1 [2012-06-21]
 -----------------------------------------------------------

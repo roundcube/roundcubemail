@@ -5,7 +5,7 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
 </head>
-<body class="iframe<roundcube:exp expression="env:task != 'mail' ? '' : ' mail'" />">
+<body class="iframe<roundcube:exp expression="env:task != 'mail' ? ' floatingbuttons' : ' mail'" />">
 
 <roundcube:if condition="env:task != 'mail'" />
 <div id="filter-title" class="boxtitle"><roundcube:label name="managesieve.filterdef" /></div>
@@ -16,12 +16,12 @@
 
 <roundcube:if condition="env:task != 'mail'" />
 <div id="footer">
-<div class="footerleft">
+<div class="footerleft formbuttons floating">
 <roundcube:button command="plugin.managesieve-save" type="input" class="button mainaction" label="save" />
-</div>
-<div class="footerright">
-<label for="disabled"><roundcube:label name="managesieve.filterdisabled" /></label>
+<label for="disabled">
 <input type="checkbox" id="disabled" name="_disabled" value="1" />
+<roundcube:label name="managesieve.filterdisabled" />
+</label>
 </div>
 </div>
 <roundcube:endif />

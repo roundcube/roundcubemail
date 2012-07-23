@@ -5,16 +5,18 @@
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
 </head>
-<body class="iframe">
+<body class="iframe floatingbuttons">
 
 <div id="filter-title" class="boxtitle"><roundcube:label name="managesieve.newfilterset" /></div>
 
 <div id="filter-form" class="boxcontent">
 <roundcube:object name="filtersetform" />
 
-<p>
+<div id="footer">
+<div class="footerleft formbuttons floating">
 <roundcube:button command="plugin.managesieve-save" type="input" class="button mainaction" label="save" />
-</p>
+</div>
+</div>
 
 </form>
 </div>

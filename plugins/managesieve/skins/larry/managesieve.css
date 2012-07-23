@@ -216,19 +216,10 @@ span.label
   width: 100%;
 }
 
-#footer .footerleft
+#footer .footerleft label
 {
-  padding-left: 2px;
+  margin-left: 40px;
   white-space: nowrap;
-  float: left;
-}
-
-#footer .footerright
-{
-  padding-right: 2px;
-  white-space: nowrap;
-  text-align: right;
-  float: right;
 }
 
 .itemlist
