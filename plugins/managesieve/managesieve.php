@@ -1553,7 +1553,9 @@ class managesieve extends rcube_plugin
         foreach ($set_modifiers as $j => $s_m) {
             $s_m_id = 'action_varmods' . $id . $s_m;
             $out .= sprintf('<input type="checkbox" name="_action_varmods[%s][]" value="%s" id="%s"%s />%s<br>',
-                $id, $s_m, $s_m_id, (array_key_exists($s_m, (array)$action) && $action[$s_m] ? ' checked="checked"' : ''), $s_m);
+                $id, $s_m, $s_m_id,
+                (array_key_exists($s_m, (array)$action) && $action[$s_m] ? ' checked="checked"' : ''),
+                Q($this->gettext('var' . $s_m)));
         }
         $out .= '</div>';
 
