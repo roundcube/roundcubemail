@@ -1,3 +1,5 @@
+* version 5.2 [2012-07-23]
+-----------------------------------------------------------
 - Added GUI for variables setting - RFC5229 (patch from Paweł Słowik)
 - Fixed scrollbars in Larry's iframes
 
