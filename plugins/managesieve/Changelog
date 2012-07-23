@@ -1,3 +1,5 @@
+- Added GUI for variables setting - RFC5229 (patch from Paweł Słowik)
+
 * version 5.1 [2012-06-21]
 -----------------------------------------------------------
 - Fixed filter popup width (for non-english localizations)

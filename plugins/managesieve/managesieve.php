@@ -615,6 +615,9 @@ class managesieve extends rcube_plugin
             $days           = get_input_value('_action_days', RCUBE_INPUT_POST);
             $subject        = get_input_value('_action_subject', RCUBE_INPUT_POST, true);
             $flags          = get_input_value('_action_flags', RCUBE_INPUT_POST);
+            $varnames       = get_input_value('_action_varname', RCUBE_INPUT_POST);
+            $varvalues      = get_input_value('_action_varvalue', RCUBE_INPUT_POST);
+            $varmods        = get_input_value('_action_varmods', RCUBE_INPUT_POST);
 
             // we need a "hack" for radiobuttons
             foreach ($sizeitems as $item)
@@ -848,6 +851,20 @@ class managesieve extends rcube_plugin
                         $this->errors['actions'][$i]['reason'] = $this->gettext('cannotbeempty');
                     if ($this->form['actions'][$i]['days'] && !preg_match('/^[0-9]+$/', $this->form['actions'][$i]['days']))
                         $this->errors['actions'][$i]['days'] = $this->gettext('forbiddenchars');
+                    break;
+
+                case 'set':
+                    if (empty($varnames[$idx])) {
+                        $this->errors['actions'][$i]['name'] = $this->gettext('cannotbeempty');
+                    }
+                    if (empty($varvalues[$idx])) {
+                        $this->errors['actions'][$i]['value'] = $this->gettext('cannotbeempty');
+                    }
+                    foreach ($varmods[$idx] as $v_m) {
+                        $this->form['actions'][$i][$v_m] = true;
+                    }
+                    $this->form['actions'][$i]['name'] = $varnames[$idx];
+                    $this->form['actions'][$i]['value'] = $varvalues[$idx];
                     break;
                 }
 
@@ -1447,6 +1464,9 @@ class managesieve extends rcube_plugin
             $select_action->add(Q($this->gettext('addflags')), 'addflag');
             $select_action->add(Q($this->gettext('removeflags')), 'removeflag');
         }
+        if (in_array('variables', $this->exts)) {
+            $select_action->add(Q($this->gettext('setvariable')), 'set');
+        }
         $select_action->add(Q($this->gettext('rulestop')), 'stop');
 
         $select_type = $action['type'];
@@ -1507,6 +1527,33 @@ class managesieve extends rcube_plugin
             $out .= '<input type="checkbox" name="_action_flags[' .$id .'][]" value="' . $flag . '"'
                 . (in_array_nocase($flag, $flags_target) ? 'checked="checked"' : '') . ' />'
                 . Q($this->gettext('flag'.$fidx)) .'<br>';
+        }
+        $out .= '</div>';
+
+        // set variable
+        $set_modifiers = array(
+            'lower',
+            'upper',
+            'lowerfirst',
+            'upperfirst',
+            'quotewildcard',
+            'length'
+        );
+
+        $out .= '<div id="action_set' .$id.'" style="display:' .($action['type']=='set' ? 'inline' : 'none') .'">';
+        $out .= '<span class="label">' .Q($this->gettext('setvarname')) . '</span><br />'
+            .'<input type="text" name="_action_varname['.$id.']" id="action_varname'.$id.'" '
+            .'value="' . Q($action['name']) . '" size="35" '
+            . $this->error_class($id, 'action', 'name', 'action_varname') .' />';
+        $out .= '<br /><span class="label">' .Q($this->gettext('setvarvalue')) . '</span><br />'
+            .'<input type="text" name="_action_varvalue['.$id.']" id="action_varvalue'.$id.'" '
+            .'value="' . Q($action['value']) . '" size="35" '
+            . $this->error_class($id, 'action', 'value', 'action_varvalue') .' />';
+        $out .= '<br /><span class="label">' .Q($this->gettext('setvarmodifiers')) . '</span><br />';
+        foreach ($set_modifiers as $j => $s_m) {
+            $s_m_id = 'action_varmods' . $id . $s_m;
+            $out .= sprintf('<input type="checkbox" name="_action_varmods[%s][]" value="%s" id="%s"%s />%s<br>',
+                $id, $s_m, $s_m_id, (array_key_exists($s_m, (array)$action) && $action[$s_m] ? ' checked="checked"' : ''), $s_m);
         }
         $out .= '</div>';
 
