@@ -854,17 +854,22 @@ class managesieve extends rcube_plugin
                     break;
 
                 case 'set':
+                    $this->form['actions'][$i]['name'] = $varnames[$idx];
+                    $this->form['actions'][$i]['value'] = $varvalues[$idx];
+                    foreach ((array)$varmods[$idx] as $v_m) {
+                        $this->form['actions'][$i][$v_m] = true;
+                    }
+
                     if (empty($varnames[$idx])) {
                         $this->errors['actions'][$i]['name'] = $this->gettext('cannotbeempty');
                     }
-                    if (empty($varvalues[$idx])) {
+                    else if (!preg_match('/^[0-9a-z_]+$/i', $varnames[$idx])) {
+                        $this->errors['actions'][$i]['name'] = $this->gettext('forbiddenchars');
+                    }
+
+                    if (!isset($varvalues[$idx]) || $varvalues[$idx] === '') {
                         $this->errors['actions'][$i]['value'] = $this->gettext('cannotbeempty');
                     }
-                    foreach ($varmods[$idx] as $v_m) {
-                        $this->form['actions'][$i][$v_m] = true;
-                    }
-                    $this->form['actions'][$i]['name'] = $varnames[$idx];
-                    $this->form['actions'][$i]['value'] = $varvalues[$idx];
                     break;
                 }
 
