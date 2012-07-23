@@ -1,3 +1,8 @@
+* version 5.2 [2012-07-23]
+-----------------------------------------------------------
+- Added GUI for variables setting - RFC5229 (patch from Paweł Słowik)
+- Fixed scrollbars in Larry's iframes
+
 * version 5.1 [2012-06-21]
 -----------------------------------------------------------
 - Fixed filter popup width (for non-english localizations)
@@ -231,7 +236,7 @@
 - Added pagetitle setting
 - Added option 'managesieve_replace_delimiter'
 - Fixed errors on IE (still need some css fixes)
-    
+
 * version beta2 [2008-05-20]
 -----------------------------------------------------------    
 - Use 'if' only for first filter and 'elsif' for the rest
