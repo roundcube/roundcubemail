@@ -699,7 +699,15 @@ class rcube_output_html extends rcube_output
                     $vars = $attrib + array('product' => $this->config->get('product_name'));
                     unset($vars['name'], $vars['command']);
                     $label = $this->app->gettext($attrib + array('vars' => $vars));
-                    return !$attrib['noshow'] ? (get_boolean((string)$attrib['html']) ? $label : html::quote($label)) : '';
+                    $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (get_boolean((string)$attrib['html']) ? 'no' : '');
+                    switch ($quoting) {
+                        case 'no':
+                        case 'raw': break;
+                        case 'javascript':
+                        case 'js': $label = rcmail::JQ($label); break;
+                        default:   $label = html::quote($label); break;
+                    }
+                    return !$attrib['noshow'] ? $label : '';
                 }
                 break;
 
