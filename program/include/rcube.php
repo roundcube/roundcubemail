@@ -409,6 +409,7 @@ class rcube
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
         ini_set('session.serialize_handler', 'php');
+        ini_set('session.cookie_httponly', 1);
 
         // use database for storing session data
         $this->session = new rcube_session($this->get_dbh(), $this->config);
