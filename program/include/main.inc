@@ -886,13 +886,14 @@ function rcmail_mailbox_list($attrib)
     $attrib['folder_name'] = '*';
 
   // get mailbox list
-  $mbox_name = $RCMAIL->storage->get_folder();
+  $storage = $RCMAIL->get_storage();
+  $mbox_name = $storage->get_folder();
 
   // build the folders tree
   if (empty($a_mailboxes)) {
     // get mailbox list
-    $a_folders = $RCMAIL->storage->list_folders_subscribed('', $attrib['folder_name'], $attrib['folder_filter']);
-    $delimiter = $RCMAIL->storage->get_hierarchy_delimiter();
+    $a_folders = $storage->list_folders_subscribed('', $attrib['folder_name'], $attrib['folder_filter']);
+    $delimiter = $storage->get_hierarchy_delimiter();
     $a_mailboxes = array();
 
     foreach ($a_folders as $folder)
