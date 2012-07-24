@@ -257,7 +257,7 @@ function rcmail_contact_exists($email)
 
   if ($email) {
     // @TODO: search in all address books?
-    $CONTACTS = $RCMAIL->get_address_book(null, true);
+    $CONTACTS = $RCMAIL->get_address_book(-1, true);
     $existing = $CONTACTS->search('email', $email, true, false);
     if ($existing->count)
       return true;
