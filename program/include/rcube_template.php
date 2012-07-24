@@ -711,7 +711,15 @@ class rcube_template extends rcube_html_page
                     $vars = $attrib + array('product' => $this->config['product_name']);
                     unset($vars['name'], $vars['command']);
                     $label = rcube_label($attrib + array('vars' => $vars));
-                    return !$attrib['noshow'] ? (get_boolean((string)$attrib['html']) ? $label : Q($label)) : '';
+                    $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (get_boolean((string)$attrib['html']) ? 'no' : '');
+                    switch ($quoting) {
+                        case 'no':
+                        case 'raw': break;
+                        case 'javascript':
+                        case 'js': $label = JQ($label); break;
+                        default:   $label = Q($label); break;
+                    }
+                    return !$attrib['noshow'] ? $label : '';
                 }
                 break;
 
