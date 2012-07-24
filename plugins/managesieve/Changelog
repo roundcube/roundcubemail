@@ -1,7 +1,8 @@
-* version 5.2 [2012-07-23]
+* version 5.2 [2012-07-24]
 -----------------------------------------------------------
 - Added GUI for variables setting - RFC5229 (patch from Paweł Słowik)
 - Fixed scrollbars in Larry's iframes
+- Fix performance issue in message_headers_output hook handling
 
 * version 5.1 [2012-06-21]
 -----------------------------------------------------------

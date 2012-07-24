@@ -62,7 +62,7 @@ class managesieve extends rcube_plugin
         "x-beenthere",
     );
 
-    const VERSION = '5.0';
+    const VERSION = '5.2';
     const PROGNAME = 'Roundcube (Managesieve)';
 
 
@@ -143,6 +143,13 @@ class managesieve extends rcube_plugin
      */
     function mail_headers($args)
     {
+        // this hook can be executed many times
+        if ($this->mail_headers_done) {
+            return $args;
+        }
+
+        $this->mail_headers_done = true;
+
         $headers = $args['headers'];
         $ret     = array();
 
