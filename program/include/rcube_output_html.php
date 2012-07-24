@@ -696,18 +696,31 @@ class rcube_output_html extends rcube_output
             // show a label
             case 'label':
                 if ($attrib['name'] || $attrib['command']) {
+                    // @FIXME: 'noshow' is useless, remove?
+                    if ($attrib['noshow']) {
+                        return '';
+                    }
+
                     $vars = $attrib + array('product' => $this->config->get('product_name'));
                     unset($vars['name'], $vars['command']);
-                    $label = $this->app->gettext($attrib + array('vars' => $vars));
+
+                    $label   = $this->app->gettext($attrib + array('vars' => $vars));
                     $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (get_boolean((string)$attrib['html']) ? 'no' : '');
+
                     switch ($quoting) {
                         case 'no':
-                        case 'raw': break;
+                        case 'raw':
+                            break;
                         case 'javascript':
-                        case 'js': $label = rcmail::JQ($label); break;
-                        default:   $label = html::quote($label); break;
+                        case 'js':
+                            $label = rcmail::JQ($label);
+                            break;
+                        default:
+                            $label = html::quote($label);
+                            break;
                     }
-                    return !$attrib['noshow'] ? $label : '';
+
+                    return $label;
                 }
                 break;
 
