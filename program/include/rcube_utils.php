@@ -47,7 +47,7 @@ class rcube_utils
         }
 
         $cookie = session_get_cookie_params();
-        $secure = self::https_check();
+        $secure = $cookie['secure'] || self::https_check();
 
         setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'], $secure, true);
     }
