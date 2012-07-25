@@ -313,8 +313,12 @@ class rcube_imap_generic
                 else {
                     $this->resultcode = null;
                     // parse response for [APPENDUID 1204196876 3456]
-                    if (preg_match("/^\[APPENDUID [0-9]+ ([0-9,:*]+)\]/i", $str, $m)) {
+                    if (preg_match("/^\[APPENDUID [0-9]+ ([0-9]+)\]/i", $str, $m)) {
                         $this->data['APPENDUID'] = $m[1];
+                    }
+                    // parse response for [COPYUID 1204196876 3456:3457 123:124]
+                    else if (preg_match("/^\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\]/i", $str, $m)) {
+                        $this->data['COPYUID'] = array($m[1], $m[2]);
                     }
                 }
                 $this->result = $str;
@@ -1950,6 +1954,9 @@ class rcube_imap_generic
      */
     function copy($messages, $from, $to)
     {
+        // Clear last COPYUID data
+        unset($this->data['COPYUID']);
+
         if (!$this->select($from)) {
             return false;
         }
