@@ -3202,10 +3202,10 @@ class rcube_imap_generic
      */
     static function getStructurePartData($structure, $part)
     {
-	    $part_a = self::getStructurePartArray($structure, $part);
-	    $data   = array();
+        $part_a = self::getStructurePartArray($structure, $part);
+        $data   = array();
 
-	    if (empty($part_a)) {
+        if (empty($part_a)) {
             return $data;
         }
 
@@ -3238,13 +3238,13 @@ class rcube_imap_generic
 
     static function getStructurePartArray($a, $part)
     {
-	    if (!is_array($a)) {
+        if (!is_array($a)) {
             return false;
         }
 
         if (empty($part)) {
-		    return $a;
-	    }
+            return $a;
+        }
 
         $ctype = is_string($a[0]) && is_string($a[1]) ? $a[0] . '/' . $a[1] : '';
 
@@ -3252,20 +3252,17 @@ class rcube_imap_generic
             $a = $a[8];
         }
 
-	    if (strpos($part, '.') > 0) {
-		    $orig_part = $part;
-		    $pos       = strpos($part, '.');
-		    $rest      = substr($orig_part, $pos+1);
-		    $part      = substr($orig_part, 0, $pos);
+        if (strpos($part, '.') > 0) {
+            $orig_part = $part;
+            $pos       = strpos($part, '.');
+            $rest      = substr($orig_part, $pos+1);
+            $part      = substr($orig_part, 0, $pos);
 
-		    return self::getStructurePartArray($a[$part-1], $rest);
-	    }
+            return self::getStructurePartArray($a[$part-1], $rest);
+        }
         else if ($part > 0) {
-		    if (is_array($a[$part-1]))
-                return $a[$part-1];
-		    else
-                return $a;
-	    }
+            return (is_array($a[$part-1])) ? $a[$part-1] : $a;
+        }
     }
 
     /**
