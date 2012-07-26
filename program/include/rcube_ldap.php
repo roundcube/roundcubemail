@@ -767,7 +767,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // use VLV pseudo-search for autocompletion
-        if ($this->prop['vlv_search'] && $this->conn && join(',', (array)$fields) == 'email,name')
+        if ($this->prop['vlv_search'] && $this->conn && join(',', (array)$fields) == 'name,firstname,surname,email')
         {
             // add general filter to query
             if (!empty($this->prop['filter']) && empty($this->filter))
