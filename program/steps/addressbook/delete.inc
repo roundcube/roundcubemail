@@ -70,6 +70,7 @@ $page = isset($_SESSION['page']) ? $_SESSION['page'] : 1;
 // update saved search after data changed
 if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request])) {
     $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
+    $afields = $RCMAIL->config->get('contactlist_fields');
     $search  = (array)$_SESSION['search'][$search_request];
     $records = array();
 
@@ -83,7 +84,7 @@ if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$searc
         $source->set_search_set($set);
 
         // get records
-        $result = $source->list_records(array('name', 'firstname', 'surname', 'email'));
+        $result = $source->list_records($afields);
 
         if (!$result->count) {
             unset($search[$s]);

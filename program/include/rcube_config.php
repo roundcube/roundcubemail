@@ -49,6 +49,11 @@ class rcube_config
     public function __construct()
     {
         $this->load();
+
+        // Defaults, that we do not require you to configure,
+        // but contain information that is used in various
+        // locations in the code:
+        $this->set('contactlist_fields', array('name', 'firstname', 'surname', 'email'));
     }
 
 
