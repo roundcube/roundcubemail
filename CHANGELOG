@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support connections to memcached socket file (#1488577)
 - Enable TinyMCE inlinepopups plugin
 - Update to TinyMCE 3.5.6
 - Correctly escape localized labels in javascript variable (#1488567)
