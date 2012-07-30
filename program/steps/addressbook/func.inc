@@ -368,7 +368,7 @@ function rcmail_contact_frame($attrib)
     $attrib['name'] = $attrib['id'];
 
     $OUTPUT->set_env('contentframe', $attrib['name']);
-    $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
+    $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
     return html::iframe($attrib);
 }
@@ -705,7 +705,7 @@ function rcmail_contact_photo($attrib)
     if ($result = $CONTACTS->get_result())
         $record = $result->first();
 
-    $photo_img = $attrib['placeholder'] ? $CONFIG['skin_path'] . $attrib['placeholder'] : 'program/blank.gif';
+    $photo_img = $attrib['placeholder'] ? $CONFIG['skin_path'] . $attrib['placeholder'] : 'program/resources/blank.gif';
     $RCMAIL->output->set_env('photo_placeholder', $photo_img);
     unset($attrib['placeholder']);
 

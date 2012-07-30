@@ -85,7 +85,7 @@ if ($RCMAIL->action == 'photo') {
         $RCMAIL->output->future_expire_header(86400);
 
     header('Content-Type: ' . rc_image_content_type($data));
-    echo $data ? $data : file_get_contents('program/blank.gif');
+    echo $data ? $data : file_get_contents('program/resources/blank.gif');
     exit;
 }
 

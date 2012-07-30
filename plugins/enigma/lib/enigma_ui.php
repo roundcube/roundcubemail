@@ -129,7 +129,7 @@ class enigma_ui
 
         $this->rc->output->set_env('contentframe', $attrib['name']);
         $this->rc->output->set_env('blankpage', $attrib['src'] ? 
-            $this->rc->output->abs_url($attrib['src']) : 'program/blank.gif');
+            $this->rc->output->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
         return html::tag('iframe', $attrib);
     }

@@ -48,7 +48,7 @@ class rcube_test_mailfunc extends UnitTestCase
     $html = rcmail_html4inline(rcmail_print_body($part, array('safe' => false)), 'foo');
 
     $this->assertPattern('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
-    $this->assertPattern('#background="./program/blocked.gif"#', $html, "Replace external background image");
+    $this->assertPattern('#background="./program/resources/blocked.gif"#', $html, "Replace external background image");
     $this->assertNoPattern('/ex3.jpg/', $html, "No references to external images");
     $this->assertNoPattern('/<meta [^>]+>/', $html, "No meta tags allowed");
     //$this->assertNoPattern('/<style [^>]+>/', $html, "No style tags allowed");
