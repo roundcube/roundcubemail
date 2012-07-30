@@ -29,9 +29,10 @@ $crit_opts = array(
     'session.auto_start' => 0,
     'file_uploads' => 1,
     'magic_quotes_runtime' => 0,
+    'magic_quotes_sybase'  => 0, // #1488506
 );
 foreach ($crit_opts as $optname => $optval) {
-    if ($optval != ini_get($optname)) {
+    if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
         die("ERROR: Wrong '$optname' option value. Read REQUIREMENTS section in INSTALL file or use Roundcube Installer, please!");
     }
 }
