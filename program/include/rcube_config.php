@@ -252,6 +252,11 @@ class rcube_config
             $prefs['timezone'] = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0);
         }
 
+        // larry is the new default skin :-)
+        if ($prefs['skin'] == 'default') {
+            $prefs['skin'] = 'larry';
+        }
+
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);
 
