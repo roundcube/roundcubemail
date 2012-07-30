@@ -24,7 +24,7 @@
 
 var supported = /MSIE ((5\.5)|6)/.test(navigator.userAgent) && navigator.platform == "Win32",
   realSrc,
-  blankSrc = "skins/default/images/blank.gif",
+  blankSrc = "program/resources/blank.gif",
   isPrinting = false;
 
 if (supported) fixImage();

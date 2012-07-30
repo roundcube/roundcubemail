@@ -48,7 +48,7 @@ function rcube_webmail()
   this.env.request_timeout = 180;  // seconds
   this.env.draft_autosave = 0;     // seconds
   this.env.comm_path = './';
-  this.env.blankpage = 'program/blank.gif';
+  this.env.blankpage = 'program/resources/blank.gif';
 
   // set jQuery ajax options
   $.ajaxSetup({
@@ -6210,7 +6210,7 @@ function rcube_webmail()
     // have to do it this way for IE
     // otherwise the form will be posted to a new window
     if (document.all) {
-      var html = '<iframe name="'+frame_name+'" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
+      var html = '<iframe name="'+frame_name+'" src="program/resources/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
       document.body.insertAdjacentHTML('BeforeEnd', html);
     }
     else { // for standards-compilant browsers
@@ -6548,7 +6548,7 @@ function rcube_webmail()
 
     img.onload = function() { rcmail.env.browser_capabilities.tif = 1; };
     img.onerror = function() { rcmail.env.browser_capabilities.tif = 0; };
-    img.src = 'program/blank.tif';
+    img.src = 'program/resources/blank.tif';
   };
 
   this.pdf_support_check = function()

@@ -663,10 +663,10 @@ function rcmail_prepare_message_body()
   unset($plugin);
 
   // add blocked.gif attachment (#1486516)
-  if ($isHtml && preg_match('#<img src="\./program/blocked\.gif"#', $body)) {
-    if ($attachment = rcmail_save_image('program/blocked.gif', 'image/gif')) {
+  if ($isHtml && preg_match('#<img src="\./program/resources/blocked\.gif"#', $body)) {
+    if ($attachment = rcmail_save_image('program/resources/blocked.gif', 'image/gif')) {
       $COMPOSE['attachments'][$attachment['id']] = $attachment;
-      $body = preg_replace('#\./program/blocked\.gif#',
+      $body = preg_replace('#\./program/resources/blocked\.gif#',
         $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'],
         $body);
     }
@@ -860,7 +860,7 @@ function rcmail_compose_body($attrib)
     $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
   }
 
-  $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
+  $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
 
   return $out;
 }

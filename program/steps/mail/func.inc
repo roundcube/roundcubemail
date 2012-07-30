@@ -398,7 +398,7 @@ function rcmail_messagecontent_frame($attrib)
 
   if ($RCMAIL->config->get('preview_pane'))
     $OUTPUT->set_env('contentframe', $attrib['id']);
-  $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
+  $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
   return html::iframe($attrib);
 }
@@ -610,7 +610,7 @@ function rcmail_wash_html($html, $p, $cid_replaces)
   $wash_opts = array(
     'show_washed' => false,
     'allow_remote' => $p['safe'],
-    'blocked_src' => "./program/blocked.gif",
+    'blocked_src' => "./program/resources/blocked.gif",
     'charset' => RCMAIL_CHARSET,
     'cid_map' => $cid_replaces,
     'html_elements' => array('body'),

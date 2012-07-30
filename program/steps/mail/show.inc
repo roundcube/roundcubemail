@@ -274,7 +274,7 @@ function rcmail_message_contactphoto($attrib)
   if ($MESSAGE->sender)
     $photo_img = $RCMAIL->url(array('_task' => 'addressbook', '_action' => 'photo', '_email' => $MESSAGE->sender['mailto'], '_alt' => $placeholder));
   else
-    $photo_img = $placeholder ? $placeholder : 'program/blank.gif';
+    $photo_img = $placeholder ? $placeholder : 'program/resources/blank.gif';
 
   return html::img(array('src' => $photo_img) + $attrib);
 }
