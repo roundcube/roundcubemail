@@ -348,8 +348,13 @@ class rcmail
       // add alll configured hosts to pool
       $pconnect = $this->config->get('memcache_pconnect', true);
       foreach ($this->config->get('memcache_hosts', array()) as $host) {
-        list($host, $port) = explode(':', $host);
-        if (!$port) $port = 11211;
+        if (substr($host, 0, 4) != 'unix') {
+          list($host, $port) = explode(':', $host);
+          if (!$port) $port = 11211;
+        }
+        else {
+          $port = 0;
+        }
         $this->mc_available += intval($this->memcache->addServer($host, $port, $pconnect, 1, 1, 15, false, array($this, 'memcache_failure')));
       }
       
