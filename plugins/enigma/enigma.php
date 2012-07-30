@@ -435,7 +435,7 @@ class enigma extends rcube_plugin
                     'href' => "#",
                     'onclick' => "return ".JS_OBJECT_NAME.".enigma_import_attachment('".JQ($part)."')",
                     'title' => $this->gettext('keyattimport')),
-                    html::img(array('src' => $this->url('skins/default/key_add.png'), 'style' => "vertical-align:middle")))
+                    html::img(array('src' => $this->url('skins/classic/key_add.png'), 'style' => "vertical-align:middle")))
                 . ' ' . html::span(null, $this->gettext('keyattfound')));
 
             $attach_script = true;

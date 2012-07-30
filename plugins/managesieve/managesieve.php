@@ -109,16 +109,16 @@ class managesieve extends rcube_plugin
     function mail_task_handler()
     {
         // use jQuery for popup window
-        $this->require_plugin('jqueryui'); 
+        $this->require_plugin('jqueryui');
 
         // include js script and localization
         $this->init_ui();
 
         // include styles
-        $skin = $this->rc->config->get('skin');
-        if (!file_exists($this->home."/skins/$skin/managesieve_mail.css"))
-            $skin = 'default';
-        $this->include_stylesheet("skins/$skin/managesieve_mail.css");
+        $skin_path = $this->local_skin_path();
+        if (is_file($this->home . "/$skin_path/managesieve_mail.css")) {
+            $this->include_stylesheet("$skin_path/managesieve_mail.css");
+        }
 
         // add 'Create filter' item to message menu
         $this->api->add_content(html::tag('li', null, 
