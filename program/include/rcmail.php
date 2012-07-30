@@ -344,11 +344,11 @@ class rcmail
 
       $this->memcache = new Memcache;
       $this->mc_available = 0;
-      
-      // add alll configured hosts to pool
+
+      // add all configured hosts to pool
       $pconnect = $this->config->get('memcache_pconnect', true);
       foreach ($this->config->get('memcache_hosts', array()) as $host) {
-        if (substr($host, 0, 4) != 'unix') {
+        if (substr($host, 0, 7) != 'unix://') {
           list($host, $port) = explode(':', $host);
           if (!$port) $port = 11211;
         }
@@ -357,7 +357,7 @@ class rcmail
         }
         $this->mc_available += intval($this->memcache->addServer($host, $port, $pconnect, 1, 1, 15, false, array($this, 'memcache_failure')));
       }
-      
+
       // test connection and failover (will result in $this->mc_available == 0 on complete failure)
       $this->memcache->increment('__CONNECTIONTEST__', 1);  // NOP if key doesn't exist
 
@@ -367,14 +367,14 @@ class rcmail
 
     return $this->memcache;
   }
-  
+
   /**
    * Callback for memcache failure
    */
   public function memcache_failure($host, $port)
   {
     static $seen = array();
-    
+
     // only report once
     if (!$seen["$host:$port"]++) {
       $this->mc_available--;
