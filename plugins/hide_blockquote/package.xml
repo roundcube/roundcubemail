@@ -36,7 +36,7 @@
 			</file>
 			<file name="localization/en_US.inc" role="data"></file>
 			<file name="localization/pl_PL.inc" role="data"></file>
-			<file name="skins/default/style.css" role="data"></file>
+			<file name="skins/classic/style.css" role="data"></file>
 		</dir>
 		<!-- / -->
 	</contents>

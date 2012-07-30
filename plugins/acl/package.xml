@@ -38,10 +38,10 @@
 			<file name="localization/de_DE.inc" role="data"></file>
 			<file name="localization/en_US.inc" role="data"></file>
 			<file name="localization/pl_PL.inc" role="data"></file>
-			<file name="skins/default/acl.css" role="data"></file>
-			<file name="skins/default/images/enabled.png" role="data"></file>
-			<file name="skins/default/images/partial.png" role="data"></file>
-			<file name="skins/default/templates/table.html" role="data"></file>
+			<file name="skins/classic/acl.css" role="data"></file>
+			<file name="skins/classic/images/enabled.png" role="data"></file>
+			<file name="skins/classic/images/partial.png" role="data"></file>
+			<file name="skins/classic/templates/table.html" role="data"></file>
 			<file name="skins/larry/acl.css" role="data"></file>
 			<file name="skins/larry/images/enabled.png" role="data"></file>
 			<file name="skins/larry/images/partial.png" role="data"></file>

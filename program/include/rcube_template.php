@@ -77,7 +77,7 @@ class rcube_template extends rcube_html_page
         $this->set_env('x_frame_options', $this->app->config->get('x_frame_options', 'sameorigin'));
 
         // load the correct skin (in case user-defined)
-        $skin = $this->app->config->get('skin', 'default');
+        $skin = $this->app->config->get('skin');
         $this->set_skin($skin);
         $this->set_env('skin', $skin);
 

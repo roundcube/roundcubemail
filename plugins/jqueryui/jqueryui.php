@@ -24,7 +24,7 @@ class jqueryui extends rcube_plugin
         $this->include_script("js/jquery-ui-$version.custom.min.js");
 
         // include UI stylesheet
-        $skin = $rcmail->config->get('skin', 'default');
+        $skin = $rcmail->config->get('skin');
         $ui_map = $rcmail->config->get('jquery_ui_skin_map', array());
         $ui_theme = $ui_map[$skin] ? $ui_map[$skin] : $skin;
 
@@ -32,7 +32,7 @@ class jqueryui extends rcube_plugin
             $this->include_stylesheet("themes/$ui_theme/jquery-ui-$version.custom.css");
         }
         else {
-            $this->include_stylesheet("themes/default/jquery-ui-$version.custom.css");
+            $this->include_stylesheet("themes/larry/jquery-ui-$version.custom.css");
         }
 
         // jquery UI localization

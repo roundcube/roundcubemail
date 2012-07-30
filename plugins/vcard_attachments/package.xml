@@ -61,9 +61,9 @@
 			<file name="localization/ru_RU.inc" role="data"></file>
 			<file name="localization/sv_SE.inc" role="data"></file>
 			<file name="localization/zh_TW.inc" role="data"></file>
-			<file name="skins/default/style.css" role="data"></file>
-			<file name="skins/default/vcard_add_contact.png" role="data"></file>
-			<file name="skins/default/vcard.png" role="data"></file>
+			<file name="skins/classic/style.css" role="data"></file>
+			<file name="skins/classic/vcard_add_contact.png" role="data"></file>
+			<file name="skins/classic/vcard.png" role="data"></file>
 			<file name="skins/larry/style.css" role="data"></file>
 			<file name="skins/larry/vcard_add_contact.png" role="data"></file>
 			<file name="skins/larry/vcard.png" role="data"></file>

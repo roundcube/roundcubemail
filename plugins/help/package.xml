@@ -33,9 +33,9 @@
 			<file name="content/about.html" role="data"></file>
 			<file name="content/license.html" role="data"></file>
 			<file name="config.inc.php.dist" role="data"></file>
-			<file name="skins/default/help.css" role="data"></file>
-			<file name="skins/default/help.gif" role="data"></file>
-			<file name="skins/default/templates/help.html" role="data"></file>
+			<file name="skins/classic/help.css" role="data"></file>
+			<file name="skins/classic/help.gif" role="data"></file>
+			<file name="skins/classic/templates/help.html" role="data"></file>
 			<file name="localization/cs_CZ.inc" role="data"></file>
 			<file name="localization/da_DK.inc" role="data"></file>
 			<file name="localization/de_DE.inc" role="data"></file>

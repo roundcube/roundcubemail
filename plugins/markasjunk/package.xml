@@ -50,8 +50,8 @@
 			<file name="localization/sk_SK.inc" role="data"></file>
 			<file name="localization/sv_SE.inc" role="data"></file>
 			<file name="localization/zh_TW.inc" role="data"></file>
-			<file name="skins/default/junk_act.png" role="data"></file>
-			<file name="skins/default/junk_pas.png" role="data"></file>
+			<file name="skins/classic/junk_act.png" role="data"></file>
+			<file name="skins/classic/junk_pas.png" role="data"></file>
 		</dir>
 		<!-- / -->
 	</contents>

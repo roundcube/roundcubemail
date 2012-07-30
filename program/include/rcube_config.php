@@ -77,7 +77,11 @@ class rcube_config
         if (empty($this->prop['skin']) && !empty($this->prop['skin_path']))
             $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
         else if (empty($this->prop['skin']))
-            $this->prop['skin'] = 'default';
+            $this->prop['skin'] = 'larry';
+
+        // larry is the new default skin :-)
+        if ($this->prop['skin'] == 'default')
+            $this->prop['skin'] = 'larry';
 
         // fix paths
         $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : INSTALL_PATH . 'logs';
@@ -236,10 +240,8 @@ class rcube_config
         // Honor the dont_override setting for any existing user preferences
         $dont_override = $this->get('dont_override');
         if (is_array($dont_override) && !empty($dont_override)) {
-            foreach ($prefs as $key => $pref) {
-                if (in_array($key, $dont_override)) {
-                    unset($prefs[$key]);
-                }
+            foreach ($dont_override as $key) {
+                unset($prefs[$key]);
             }
         }
 
@@ -247,6 +249,10 @@ class rcube_config
         if (is_numeric($prefs['timezone'])) {
             $prefs['timezone'] = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0);
         }
+
+        // larry is the new default skin :-)
+        if ($prefs['skin'] == 'default')
+            $prefs['skin'] = 'larry';
 
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);
