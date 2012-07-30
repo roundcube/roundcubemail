@@ -85,16 +85,16 @@
 			<file name="localization/vi_VN.inc" role="data"></file>
 			<file name="localization/zh_CN.inc" role="data"></file>
 			<file name="localization/zh_TW.inc" role="data"></file>
-			<file name="skins/default/managesieve.css" role="data"></file>
-			<file name="skins/default/managesieve_mail.css" role="data"></file>
-			<file name="skins/default/templates/filteredit.html" role="data"></file>
-			<file name="skins/default/templates/managesieve.html" role="data"></file>
-			<file name="skins/default/templates/setedit.html" role="data"></file>
-			<file name="skins/default/images/add.png" role="data"></file>
-			<file name="skins/default/images/del.png" role="data"></file>
-			<file name="skins/default/images/down_small.gif" role="data"></file>
-			<file name="skins/default/images/filter.png" role="data"></file>
-			<file name="skins/default/images/up_small.gif" role="data"></file>
+			<file name="skins/classic/managesieve.css" role="data"></file>
+			<file name="skins/classic/managesieve_mail.css" role="data"></file>
+			<file name="skins/classic/templates/filteredit.html" role="data"></file>
+			<file name="skins/classic/templates/managesieve.html" role="data"></file>
+			<file name="skins/classic/templates/setedit.html" role="data"></file>
+			<file name="skins/classic/images/add.png" role="data"></file>
+			<file name="skins/classic/images/del.png" role="data"></file>
+			<file name="skins/classic/images/down_small.gif" role="data"></file>
+			<file name="skins/classic/images/filter.png" role="data"></file>
+			<file name="skins/classic/images/up_small.gif" role="data"></file>
 			<file name="managesieve.php" role="php"></file>
 			<file name="lib/rcube_sieve.php" role="php"></file>
 			<file name="lib/rcube_sieve_script.php" role="php"></file>

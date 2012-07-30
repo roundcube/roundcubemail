@@ -336,9 +336,12 @@ abstract class rcube_plugin
   public function local_skin_path()
   {
     $rcmail = rcube::get_instance();
-    $skin_path = 'skins/' . $rcmail->config->get('skin');
-    if (!is_dir(realpath(slashify($this->home) . $skin_path)))
-      $skin_path = 'skins/default';
+    foreach (array($rcmail->config->get('skin'),'default') as $skin) {
+      $skin_path = 'skins/' . $skin;
+      if (is_dir(realpath(slashify($this->home) . $skin_path)))
+        break;
+    }
+
     return $skin_path;
   }
 

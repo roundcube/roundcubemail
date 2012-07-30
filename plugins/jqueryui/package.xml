@@ -99,22 +99,22 @@
 			<file name="js/i18n/jquery.ui.datepicker-zh-HK.js" role="data"></file>
 			<file name="js/i18n/jquery.ui.datepicker-zh-TW.js" role="data"></file>
 
-			<file name="themes/default/jquery-ui-1.8.14.custom.css" role="data"></file>
-			<file name="themes/default/roundcube-custom.diff" role="data"></file>
-			<file name="themes/default/images/buttongradient.png" role="data"></file>
-			<file name="themes/default/images/ui-bg_flat_90_cc3333_40x100.png" role="data"></file>
-			<file name="themes/default/images/ui-bg_highlight-hard_90_f4f4f4_1x100.png" role="data"></file>
-			<file name="themes/default/images/ui-icons_cc3333_256x240.png" role="data"></file>
-			<file name="themes/default/images/listheader.png" role="data"></file>
-			<file name="themes/default/images/ui-bg_glass_95_fef1ec_1x400.png" role="data"></file>
-			<file name="themes/default/images/ui-icons_000000_256x240.png" role="data"></file>
-			<file name="themes/default/images/ui-icons_dddddd_256x240.png" role="data"></file>
-			<file name="themes/default/images/ui-bg_flat_0_aaaaaa_40x100.png" role="data"></file>
-			<file name="themes/default/images/ui-bg_highlight-hard_90_a3a3a3_1x100.png" role="data"></file>
-			<file name="themes/default/images/ui-icons_333333_256x240.png" role="data"></file>
-			<file name="themes/default/images/ui-bg_flat_75_ffffff_40x100.png" role="data"></file>
-			<file name="themes/default/images/ui-bg_highlight-hard_90_e6e6e7_1x100.png" role="data"></file>
-			<file name="themes/default/images/ui-icons_666666_256x240.png" role="data"></file>
+			<file name="themes/classic/jquery-ui-1.8.14.custom.css" role="data"></file>
+			<file name="themes/classic/roundcube-custom.diff" role="data"></file>
+			<file name="themes/classic/images/buttongradient.png" role="data"></file>
+			<file name="themes/classic/images/ui-bg_flat_90_cc3333_40x100.png" role="data"></file>
+			<file name="themes/classic/images/ui-bg_highlight-hard_90_f4f4f4_1x100.png" role="data"></file>
+			<file name="themes/classic/images/ui-icons_cc3333_256x240.png" role="data"></file>
+			<file name="themes/classic/images/listheader.png" role="data"></file>
+			<file name="themes/classic/images/ui-bg_glass_95_fef1ec_1x400.png" role="data"></file>
+			<file name="themes/classic/images/ui-icons_000000_256x240.png" role="data"></file>
+			<file name="themes/classic/images/ui-icons_dddddd_256x240.png" role="data"></file>
+			<file name="themes/classic/images/ui-bg_flat_0_aaaaaa_40x100.png" role="data"></file>
+			<file name="themes/classic/images/ui-bg_highlight-hard_90_a3a3a3_1x100.png" role="data"></file>
+			<file name="themes/classic/images/ui-icons_333333_256x240.png" role="data"></file>
+			<file name="themes/classic/images/ui-bg_flat_75_ffffff_40x100.png" role="data"></file>
+			<file name="themes/classic/images/ui-bg_highlight-hard_90_e6e6e7_1x100.png" role="data"></file>
+			<file name="themes/classic/images/ui-icons_666666_256x240.png" role="data"></file>
 
 			<file name="themes/redmont/jquery-ui-1.8.14.custom.css" role="data"></file>
 			<file name="themes/redmont/images/ui-bg_flat_0_aaaaaa_40x100.png" role="data"></file>

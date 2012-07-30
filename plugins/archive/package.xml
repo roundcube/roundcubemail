@@ -50,9 +50,9 @@
 			<file name="localization/ru_RU.inc" role="data"></file>
 			<file name="localization/sv_SE.inc" role="data"></file>
 			<file name="localization/zh_TW.inc" role="data"></file>
-			<file name="skins/default/archive_act.png" role="data"></file>
-			<file name="skins/default/archive_pas.png" role="data"></file>
-			<file name="skins/default/foldericon.png" role="data"></file>
+			<file name="skins/classic/archive_act.png" role="data"></file>
+			<file name="skins/classic/archive_pas.png" role="data"></file>
+			<file name="skins/classic/foldericon.png" role="data"></file>
 		</dir>
 		<!-- / -->
 	</contents>
