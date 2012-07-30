@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to TinyMCE 3.5.6
 - Correctly escape localized labels in javascript variable (#1488567)
 - Update Net_SMTP/Auth_SASL packages to fix Digest-MD5/Cram-MD5 authentication (#1488571)
 - Don't add attachments content into reply/forward/draft message body (#1488557)
