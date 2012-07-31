@@ -4277,7 +4277,7 @@ function rcube_webmail()
     if (!this.gui_objects.contactslist)
       return false;
 
-    var c, list = this.contact_list,
+    var c, col, list = this.contact_list,
       row = document.createElement('tr');
 
     row.id = 'rcmrow'+this.html_identifier(cid);
