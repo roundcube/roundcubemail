@@ -51,7 +51,7 @@ class newmail_notifier extends rcube_plugin
         else { // if ($this->rc->task == 'mail') {
             $this->add_hook('new_messages', array($this, 'notify'));
             // add script when not in ajax and not in frame
-            if (is_a($this->rc->output, 'rcube_template') && empty($_REQUEST['_framed'])) {
+            if (is_a($this->rc->output, 'rcube_output_html') && empty($_REQUEST['_framed'])) {
                 $this->add_texts('localization/');
                 $this->rc->output->add_label('newmail_notifier.title', 'newmail_notifier.body');
                 $this->include_script('newmail_notifier.js');
