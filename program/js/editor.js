@@ -49,7 +49,7 @@ function rcmail_editor_init(config)
       theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,ltr,rtl,blockquote,|,forecolor,backcolor,fontselect,fontsizeselect',
       theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search,undo,redo',
       spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
-      spellchecker_rpc_url: '?_task=utils&_action=spell_html',
+      spellchecker_rpc_url: '?_task=utils&_action=spell_html&_remote=1',
       spellchecker_enable_learn_rpc: config.spelldict,
       accessibility_focus: false,
       oninit: 'rcmail_editor_callback'
