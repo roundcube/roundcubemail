@@ -59,6 +59,10 @@ class rcube_db_mysql extends rcube_db
 
     /**
      * Returns PDO DSN string from DSN array
+     *
+     * @param array $dsn DSN parameters
+     *
+     * @return string Connection string
      */
     protected function dsn_string($dsn)
     {
@@ -85,6 +89,40 @@ class rcube_db_mysql extends rcube_db
 
         if (!empty($params)) {
             $result .= implode(';', $params);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns driver-specific connection options
+     *
+     * @param array $dsn DSN parameters
+     *
+     * @return array Connection options
+     */
+    protected function dsn_options($dsn)
+    {
+        $result = array();
+
+        if (!empty($dsn['key'])) {
+            $result[PDO::MYSQL_ATTR_KEY] = $dsn['key'];
+        }
+
+        if (!empty($dsn['cipher'])) {
+            $result[PDO::MYSQL_ATTR_CIPHER] = $dsn['cipher'];
+        }
+
+        if (!empty($dsn['cert'])) {
+            $result[PDO::MYSQL_ATTR_SSL_CERT] = $dsn['cert'];
+        }
+
+        if (!empty($dsn['capath'])) {
+            $result[PDO::MYSQL_ATTR_SSL_CAPATH] = $dsn['capath'];
+        }
+
+        if (!empty($dsn['ca'])) {
+            $result[PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
         }
 
         return $result;
