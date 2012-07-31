@@ -5360,13 +5360,6 @@ function rcube_webmail()
     }
   };
 
-  // enable/disable buttons for page shifting
-  this.set_page_buttons = function()
-  {
-    this.enable_command('nextpage', 'lastpage', (this.env.pagecount > this.env.current_page));
-    this.enable_command('previouspage', 'firstpage', (this.env.current_page > 1));
-  };
-
   // set event handlers on registered buttons
   this.init_buttons = function()
   {
@@ -5374,7 +5367,7 @@ function rcube_webmail()
       if (typeof cmd !== 'string')
         continue;
 
-      for (var i=0; i< this.buttons[cmd].length; i++) {
+      for (var i=0; i<this.buttons[cmd].length; i++) {
         init_button(cmd, this.buttons[cmd][i]);
       }
     }
@@ -5393,28 +5386,31 @@ function rcube_webmail()
       button = a_buttons[n];
       obj = document.getElementById(button.id);
 
+      if (!obj)
+        continue;
+
       // get default/passive setting of the button
-      if (obj && button.type == 'image' && !button.status) {
+      if (button.type == 'image' && !button.status) {
         button.pas = obj._original_src ? obj._original_src : obj.src;
         // respect PNG fix on IE browsers
         if (obj.runtimeStyle && obj.runtimeStyle.filter && obj.runtimeStyle.filter.match(/src=['"]([^'"]+)['"]/))
           button.pas = RegExp.$1;
       }
-      else if (obj && !button.status)
+      else if (!button.status)
         button.pas = String(obj.className);
 
       // set image according to button state
-      if (obj && button.type == 'image' && button[state]) {
+      if (button.type == 'image' && button[state]) {
         button.status = state;
         obj.src = button[state];
       }
       // set class name according to button state
-      else if (obj && button[state] !== undefined) {
+      else if (button[state] !== undefined) {
         button.status = state;
         obj.className = button[state];
       }
       // disable/enable input buttons
-      if (obj && button.type=='input') {
+      if (button.type == 'input') {
         button.status = state;
         obj.disabled = !state;
       }
@@ -5635,6 +5631,13 @@ function rcube_webmail()
           m[k].obj.hide();
 
     this.messages = {};
+  };
+
+  // enable/disable buttons for page shifting
+  this.set_page_buttons = function()
+  {
+    this.enable_command('nextpage', 'lastpage', (this.env.pagecount > this.env.current_page));
+    this.enable_command('previouspage', 'firstpage', (this.env.current_page > 1));
   };
 
   // mark a mailbox as selected and set environment variable
