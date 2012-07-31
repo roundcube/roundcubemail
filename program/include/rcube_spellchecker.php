@@ -228,8 +228,9 @@ class rcube_spellchecker
             else if (!pspell_check($this->plink, $word)) {
                 $suggestions = pspell_suggest($this->plink, $word);
 
-                if (sizeof($suggestions) > self::MAX_SUGGESTIONS)
+                if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
                     $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
+                }
 
                 $matches[] = array($word, $pos, $len, null, $suggestions);
             }
