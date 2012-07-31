@@ -322,3 +322,12 @@ a.deletebutton {
 	text-indent: -5000px;
 	background: url(images/buttons.png) -7px -377px no-repeat;
 }
+
+#directorylist li a.canceladd {
+  background: url(images/buttons.png) -1000px 0 no-repeat;
+  background-position: -26px -317px;
+  display: inline;
+  padding: 4px 24px 5px 0px;
+  cursor: auto;
+  margin-left:5px;
+}

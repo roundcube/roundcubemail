@@ -164,6 +164,15 @@
   white-space: nowrap;
 }
 
+#directorylist li a.canceladd {
+  background: url(images/icons/reset.gif) no-repeat;
+  display: inline;
+  margin-right: -13px;
+  margin-left: -12px;
+  padding-top: 0px;
+  cursor: auto;
+}
+
 #directorylist li.contactgroup
 {
   padding-left: 15px;
