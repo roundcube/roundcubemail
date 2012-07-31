@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't show product version on login screen (can be enabled by config)
+- Renamed old default skin to 'classic'. Larry is the new default skin.
 - Support connections to memcached socket file (#1488577)
 - Enable TinyMCE inlinepopups plugin
 - Update to TinyMCE 3.5.6

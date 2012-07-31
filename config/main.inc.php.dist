@@ -228,6 +228,9 @@ $rcmail_config['login_lc'] = false;
 // Includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = false;
 
+// display software version on login screen
+$rcmail_config['display_version'] = false;
+
 // Session lifetime in minutes
 // must be greater than 'keep_alive'/60
 $rcmail_config['session_lifetime'] = 10;
