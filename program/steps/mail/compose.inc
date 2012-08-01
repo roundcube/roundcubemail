@@ -1304,12 +1304,13 @@ function rcmail_compose_attachment_list($attrib)
         continue;
 
       $out .= html::tag('li', array('id' => 'rcmfile'.$id, 'class' => rcmail_filetype2classname($a_prop['mimetype'], $a_prop['name'])),
+        html::div(array('class'=>'deletewrap'),
         html::a(array(
             'href' => "#delete",
             'title' => rcube_label('delete'),
             'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id),
             'class' => 'delete'),
-          $button) . Q($a_prop['name']));
+          $button)) . Q($a_prop['name']));
 
         $jslist['rcmfile'.$id] = array('name' => $a_prop['name'], 'complete' => true, 'mimetype' => $a_prop['mimetype']);
     }

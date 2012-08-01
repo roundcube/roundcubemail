@@ -3487,7 +3487,7 @@ function rcube_webmail()
       att.html = '<img src="'+ref.env.loadingicon+'" alt="" class="uploading" />' + att.html;
 
     if (!att.complete && att.frame)
-      att.html = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
+      att.html = '<div class=deletewrap><a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload"></div>'
         + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="" />' : this.get_label('cancel')) + '</a>' + att.html;
 
     var indicator, li = $('<li>').attr('id', name).addClass(att.classname).html(att.html);
