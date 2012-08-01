@@ -479,23 +479,23 @@ class rcube_user
             // create new identities records
             $standard = 1;
             foreach ($email_list as $row) {
-	            $record = array();
+                $record = array();
 
                 if (is_array($row)) {
-	                $record = $row;
+                    $record = $row;
                 }
                 else {
                     $record['email'] = $row;
                 }
 
-	            if (empty($record['name']))
-	                $record['name'] = $user_name;
+                if (empty($record['name']))
+                    $record['name'] = $user_name;
                 $record['name'] = strip_newlines($record['name']);
                 $record['user_id'] = $user_id;
                 $record['standard'] = $standard;
 
                 $plugin = $rcube->plugins->exec_hook('identity_create',
-	                array('login' => true, 'record' => $record));
+                    array('login' => true, 'record' => $record));
 
                 if (!$plugin['abort'] && $plugin['record']['email']) {
                     $rcube->user->insert_identity($plugin['record']);
