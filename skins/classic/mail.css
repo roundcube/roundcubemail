@@ -1470,7 +1470,7 @@ input.from_address
 {
   height: 18px;
   font-size: 11px;
-  padding-left: 2px;
+  padding-left: 20px;
   padding-top: 2px;
   padding-right: 4px;
   border-bottom: 1px solid #EBEBEB;
@@ -1482,6 +1482,7 @@ input.from_address
 
 #compose-attachments li a
 {
+  position: absolute;
   text-indent: -5000px;
   width: 17px;
   height: 16px;
@@ -1492,6 +1493,11 @@ input.from_address
 #compose-attachments li img
 {
   vertical-align: middle;
+}
+
+#compose-attachments li .deletewrap {
+  position: relative;
+  left: -18px;
 }
 
 #compose-attachments li a.delete,

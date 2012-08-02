@@ -122,12 +122,13 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
         $button = Q(rcube_label('delete'));
       }
 
-      $content = html::a(array(
+      $content = html::div(array('class'=>'deletewrap'),
+        html::a(array(
         'href' => "#delete",
         'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id),
         'title' => rcube_label('delete'),
         'class' => 'delete',
-      ), $button);
+      ), $button));
 
       $content .= Q($attachment['name']);
 
