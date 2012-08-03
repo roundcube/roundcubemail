@@ -112,7 +112,7 @@ init_row: function(row)
     row.onmousedown = function(e){ return self.drag_row(e, this.uid); };
     row.onmouseup = function(e){ return self.click_row(e, this.uid); };
 
-    if (bw.iphone || bw.ipad) {
+    if (bw.mobile) {
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
           if (!self.drag_row(rcube_event.touchevent(e.touches[0]), this.uid))
@@ -313,7 +313,7 @@ drag_row: function(e, id)
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
     rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
     rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
-    if (bw.iphone || bw.ipad) {
+    if (bw.mobile) {
       rcube_event.add_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
       rcube_event.add_listener({event:'touchend', object:this, method:'drag_mouse_up'});
     }
@@ -1220,7 +1220,7 @@ drag_mouse_move: function(e)
 drag_mouse_up: function(e)
 {
   document.onmousemove = null;
-  
+
   if (e.type == 'touchend') {
     if (e.changedTouches.length != 1)
       return rcube_event.cancel(e);
@@ -1239,8 +1239,8 @@ drag_mouse_up: function(e)
 
   rcube_event.remove_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
   rcube_event.remove_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
-  
-  if (bw.iphone || bw.ipad) {
+
+  if (bw.mobile) {
     rcube_event.remove_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
     rcube_event.remove_listener({event:'touchend', object:this, method:'drag_mouse_up'});
   }
