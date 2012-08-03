@@ -646,7 +646,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                         $val = $colprop['options'][$val];
                     else
                         $val = Q($val);
-console($val);
+
                     // use subtype as label
                     if ($colprop['subtypes'])
                         $label = rcmail_get_type_label($subtype);
