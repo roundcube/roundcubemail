@@ -35,6 +35,16 @@ class jqueryui extends rcube_plugin
             $this->include_stylesheet("themes/larry/jquery-ui-$version.custom.css");
         }
 
+        if ($ui_theme == 'larry') {
+            // patch dialog position function in order to fully fit the close button into the window
+            $rcmail->output->add_script("jQuery.extend(jQuery.ui.dialog.prototype.options.position, {
+                using: function(pos) {
+                    var topOffset = $(this).css(pos).offset().top - 12;
+                    if (topOffset < 0) $(this).css('top', pos.top - topOffset);
+                }
+            });", 'foot');
+        }
+
         // jquery UI localization
         $jquery_ui_i18n = $rcmail->config->get('jquery_ui_i18n', array('datepicker'));
         if (count($jquery_ui_i18n) > 0) {
