@@ -39,8 +39,8 @@ class jqueryui extends rcube_plugin
             // patch dialog position function in order to fully fit the close button into the window
             $rcmail->output->add_script("jQuery.extend(jQuery.ui.dialog.prototype.options.position, {
                 using: function(pos) {
-                    var topOffset = $(this).css(pos).offset().top - 12;
-                    if (topOffset < 0) $(this).css('top', pos.top - topOffset);
+                    var topOffset = jQuery(this).css(pos).offset().top - 12;
+                    if (topOffset < 0) jQuery(this).css('top', pos.top - topOffset);
                 }
             });", 'foot');
         }
