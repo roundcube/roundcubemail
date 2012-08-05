@@ -63,10 +63,11 @@ if (strtolower($input) == 'y') {
 
   if (is_dir("$target_dir/skins/default")) {
       echo "Removing old default skin...";
-      system("rm -rf $target_dir/skins/default");
+      system("rm -rf $target_dir/skins/default $target_dir/plugins/jqueryui/themes/default");
       foreach (glob(INSTALL_PATH . "plugins/*/skins") as $plugin_skin_dir) {
           $plugin_skin_dir = preg_replace('!^.*' . INSTALL_PATH . '!', '', $plugin_skin_dir);
-          system("rm -rf $target_dir/$plugin_skin_dir/default");
+          if (is_dir("$target_dir/$plugin_skin_dir/classic"))
+            system("rm -rf $target_dir/$plugin_skin_dir/default");
       }
       echo "done.\n\n";
   }
