@@ -922,14 +922,8 @@ function rcube_webmail()
         break;
 
       case 'savedraft':
-        var form = this.gui_objects.messageform, msgid;
-
         // Reset the auto-save timer
         clearTimeout(this.save_timer);
-
-        // saving Drafts is disabled
-        if (!form)
-          break;
 
         // compose form did not change
         if (this.cmp_hash == this.compose_field_hash()) {
@@ -940,35 +934,17 @@ function rcube_webmail()
         // re-set keep-alive timeout
         this.start_keepalive();
 
-        msgid = this.set_busy(true, 'savingmessage');
-
-        form.target = "savetarget";
-        form._draft.value = '1';
-        form.action = this.add_url(form.action, '_unlock', msgid);
-        form.submit();
+        this.submit_messageform(true);
         break;
 
       case 'send':
-        if (!this.gui_objects.messageform)
-          break;
-
         if (!props.nocheck && !this.check_compose_input(command))
           break;
 
         // Reset the auto-save timer
         clearTimeout(this.save_timer);
 
-        // all checks passed, send message
-        var lang = this.spellcheck_lang(),
-          form = this.gui_objects.messageform,
-          msgid = this.set_busy(true, 'sendingmessage');
-
-        form.target = 'savetarget';
-        form._draft.value = '';
-        form.action = this.add_url(form.action, '_unlock', msgid);
-        form.action = this.add_url(form.action, '_lang', lang);
-        form.submit();
-
+        this.submit_messageform();
         break;
 
       case 'send-attachment':
@@ -3031,6 +3007,29 @@ function rcube_webmail()
 
     obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr('autocomplete', 'off');
+  };
+
+  this.submit_messageform = function(draft)
+  {
+    var form = this.gui_objects.messageform;
+
+    if (!form)
+      return;
+
+    // all checks passed, send message
+    var msgid = this.set_busy(true, draft ? 'savingmessage' : 'sendingmessage'),
+      lang = this.spellcheck_lang(),
+      files = [];
+
+    // send files list
+    $('li', this.gui_objects.attachmentlist).each(function() { files.push(this.id.replace(/^rcmfile/, '')); });
+    $('input[name="_attachments"]', form).val(files.join());
+
+    form.target = 'savetarget';
+    form._draft.value = draft ? '1' : '';
+    form.action = this.add_url(form.action, '_unlock', msgid);
+    form.action = this.add_url(form.action, '_lang', lang);
+    form.submit();
   };
 
   this.compose_recipient_select = function(list)

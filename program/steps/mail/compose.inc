@@ -1523,6 +1523,7 @@ function get_form_tags($attrib)
     $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
     $hiddenfields->add(array('name' => '_id', 'value' => $COMPOSE['id']));
+    $hiddenfields->add(array('name' => '_attachments'));
 
     $form_start = empty($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();

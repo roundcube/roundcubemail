@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix order of attachments in sent mail (#1488423)
 - Don't show product version on login screen (can be enabled by config)
 - Renamed old default skin to 'classic'. Larry is the new default skin.
 - Support connections to memcached socket file (#1488577)
