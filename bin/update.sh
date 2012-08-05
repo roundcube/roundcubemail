@@ -114,6 +114,12 @@ if ($RCI->configured) {
         if ($write1 && $write2) {
           echo "Done.\n";
           echo "Your configuration files are now up-to-date!\n";
+
+          if ($messages['missing']) {
+            echo "But you still need to add the following missing options:\n";
+            foreach ($messages['missing'] as $msg)
+              echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
+          }
         }
         else {
           echo "Failed to write config files!\n";

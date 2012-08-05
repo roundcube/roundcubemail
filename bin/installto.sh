@@ -5,7 +5,7 @@
  | bin/installto.sh                                                      |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2011, The Roundcube Dev Team                            |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -53,14 +53,24 @@ if (strtolower($input) == 'y') {
       break;
     }
   }
-  foreach (array('index.php','.htaccess','config/main.inc.php.dist','config/db.inc.php.dist','CHANGELOG','README','UPGRADING') as $file) {
+  foreach (array('index.php','.htaccess','config/main.inc.php.dist','config/db.inc.php.dist','CHANGELOG','README.md','UPGRADING','LICENSE') as $file) {
     if (!system("rsync -av " . INSTALL_PATH . "$file $target_dir/$file")) {
       $err = true;
       break;
     }
   }
   echo "done.\n\n";
-  
+
+  if (is_dir("$target_dir/skins/default")) {
+      echo "Removing old default skin...";
+      system("rm -rf $target_dir/skins/default");
+      foreach (glob(INSTALL_PATH . "plugins/*/skins") as $plugin_skin_dir) {
+          $plugin_skin_dir = preg_replace('!^.*' . INSTALL_PATH . '!', '', $plugin_skin_dir);
+          system("rm -rf $target_dir/$plugin_skin_dir/default");
+      }
+      echo "done.\n\n";
+  }
+
   if (!$err) {
     echo "Running update script at target...\n";
     system("cd $target_dir && bin/update.sh --version=$oldversion");
