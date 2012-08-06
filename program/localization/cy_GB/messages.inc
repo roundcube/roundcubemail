@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dafydd Tomos <Unknown>                                        |
+ | Author: Dafydd Tomos                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Methwyd cysylltu a\'r gweinydd IMAP';
 $messages['servererror'] = 'Gwall Gweinydd!';
 $messages['servererrormsg'] = 'Gwall Gweinydd: $msg';
 $messages['dberror'] = 'Gwall Cronfa Ddata!';
+$messages['requesttimedout'] = 'Cais wedi dod i derfyn amser';
 $messages['errorreadonly'] = 'Methwyd gweithredu. Mae\'r ffolder yn darllen-yn-unig';
 $messages['errornoperm'] = 'Methwyd gweithredu. Gwrthodwyd caniatad';
 $messages['invalidrequest'] = 'Cais annilys! Ni chadwyd unrhyw wybodaeth.';

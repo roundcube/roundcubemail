@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Svebor Prstačić <svebor.prstacic@gmail.com>                 |
+ | Author: gogo <trebelnik2@gmail.com>                                   |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -415,7 +414,7 @@ $labels['sortasc'] = 'Sortiraj rastućim nizom';
 $labels['sortdesc'] = 'Sortiraj opadajućim nizom';
 $labels['undo'] = 'Poništi';
 $labels['plugin'] = 'Plugin';
-$labels['version'] = 'Verzija';
+$labels['version'] = 'Inačica';
 $labels['source'] = 'Izvor';
 $labels['license'] = 'Licenca';
 $labels['support'] = 'Podrška';

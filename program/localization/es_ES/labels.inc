@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Juan Pablo <Unknown>                                          |
+ | Author: Jorge López <jorge@adobo.org>                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -212,7 +211,7 @@ $labels['mdnrequest'] = 'El emisor de este mensaje desea ser notificado cuando u
 $labels['receiptread'] = 'Notificación de lectura';
 $labels['yourmessage'] = 'Esto es un acuse de recibo de su mensaje';
 $labels['receiptnote'] = 'Nota: Esta notificación sólo significa que su mensaje fue abierto en el ordenador del destinatario. Eso no garantiza que el destinatario haya leído o entendido el contenido del mensaje.';
-$labels['name'] = 'Mostra nombre';
+$labels['name'] = 'Nombre para mostrar';
 $labels['firstname'] = 'Nombre';
 $labels['surname'] = 'Apellido';
 $labels['middlename'] = 'Segundo nombre';
@@ -234,7 +233,7 @@ $labels['country'] = 'País';
 $labels['birthday'] = 'Cumpleaños';
 $labels['anniversary'] = 'Santo';
 $labels['website'] = 'Página web';
-$labels['instantmessenger'] = 'Instant Messenger';
+$labels['instantmessenger'] = 'Mensajería instantánea';
 $labels['notes'] = 'Notas';
 $labels['male'] = 'Hombre';
 $labels['female'] = 'Mujer';

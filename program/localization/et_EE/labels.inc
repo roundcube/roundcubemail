@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: yllar <Unknown>                                               |
+ | Author: yllar                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -272,6 +271,7 @@ $labels['delete'] = 'Kustuta';
 $labels['rename'] = 'Nimeta ümber';
 $labels['addphoto'] = 'Lisa';
 $labels['replacephoto'] = 'Asenda';
+$labels['uploadphoto'] = 'Lisa foto';
 $labels['newcontact'] = 'Uue sissekande loomine';
 $labels['deletecontact'] = 'Kustuta märgistatud kontaktid';
 $labels['composeto'] = 'Kirjuta kiri';

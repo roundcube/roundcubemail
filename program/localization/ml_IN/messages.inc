@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ml_IN/messages.inc                                       |
+ | localization/ml_ML/messages.inc                                       |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Anish A <aneesh.nl@gmail.com>                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();

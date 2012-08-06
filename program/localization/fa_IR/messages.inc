@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Hamid <abbaszadeh.h@gmail.com>                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'اتصال به سرور انباره ناموفق 
 $messages['servererror'] = 'خطای سرور!';
 $messages['servererrormsg'] = 'خطای سرور: $msg';
 $messages['dberror'] = 'خطای پایگاه‌داده';
+$messages['requesttimedout'] = 'زمان درخواست تمام شد';
 $messages['errorreadonly'] = 'ناتوانی در انجام عملیات. پوشه فقط خواندنی است.';
 $messages['errornoperm'] = 'ناتوانی در انجام عملیات. دسترسی وجود ندارد.';
 $messages['invalidrequest'] = 'درخواست نامعتبر! هیچ داده‌ای ذخیره نشد.';

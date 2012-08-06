@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Denny Lin <dennylin93@hs.ntnu.edu.tw>                         |
+ | Author: Nansen                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = '連線到 IMAP 伺服器失敗';
 $messages['servererror'] = '伺服器錯誤！';
 $messages['servererrormsg'] = '伺服器錯誤：$msg';
 $messages['dberror'] = '資料庫錯誤!';
+$messages['requesttimedout'] = '要求逾時';
 $messages['errorreadonly'] = '動作無法完成。資料夾唯讀';
 $messages['errornoperm'] = '動作無法完成。權限不符';
 $messages['invalidrequest'] = '要求無效！未儲存任何資料。';

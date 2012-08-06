@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emmanuel Andry <Unknown>                                      |
+ | Author: Nicolas Delvaux                                               |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Erreur de connexion au serveur IMAP';
 $messages['servererror'] = 'Erreur Serveur !';
 $messages['servererrormsg'] = 'Erreur du serveur: $msg';
 $messages['dberror'] = 'Erreur avec la base de donnée!';
+$messages['requesttimedout'] = 'Délai de la requête expiré';
 $messages['errorreadonly'] = 'Impossible d\'effectuer cette opération. Le dossier est en lecture seule';
 $messages['errornoperm'] = 'Impossible d\'effectuer cette opération. Permission refusée';
 $messages['invalidrequest'] = 'Requête invalide ! Aucune donnée n\'a été sauvegardée.';

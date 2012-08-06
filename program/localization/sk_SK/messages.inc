@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: panda <Unknown>                                               |
+ | Author: panda                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Nepodarilo sa spojiť s IMAP serverom';
 $messages['servererror'] = 'Chyba servera!';
 $messages['servererrormsg'] = 'Chyba servera: $msg';
 $messages['dberror'] = 'Databázová chyba!';
+$messages['requesttimedout'] = 'Čas požiadavky vypršal';
 $messages['errorreadonly'] = 'Nemožno vykonať operáciu. Adresár je len na čítanie';
 $messages['errornoperm'] = 'Nemožno vykonať operáciu. Prístup odmietnutý';
 $messages['invalidrequest'] = 'Chybný požiadavek. Žiadne údaje neboli uložené.';

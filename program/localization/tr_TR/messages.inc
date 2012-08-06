@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul <Unknown>                                      |
+ | Author: ismail yenigul                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'IMAP sunucusuna bağlanılamadı';
 $messages['servererror'] = 'Sunucu Hatası!';
 $messages['servererrormsg'] = 'Sunucu hatası: $msg';
 $messages['dberror'] = 'Veritabanı Hatası!';
+$messages['requesttimedout'] = 'İstek zaman aşımına uğradı';
 $messages['errorreadonly'] = 'İşlem gerçekleştirilemedi. Dizin salt okunabilir';
 $messages['errornoperm'] = 'İşlem gerçekleştirilemedi. İzin verilmedi.';
 $messages['invalidrequest'] = 'Geçersiz İstek! Veri kaydedilmedi';

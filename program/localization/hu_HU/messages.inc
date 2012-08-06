@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: bela <Unknown>                                                |
+ | Author: Németh András <narzym@hotmail.com>                          |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Nem sikerült csatlakozni az IMAP szerverhez';
 $messages['servererror'] = 'Szerverhiba!';
 $messages['servererrormsg'] = 'Szerverhiba: $msg';
 $messages['dberror'] = 'Adatbázishiba!';
+$messages['requesttimedout'] = 'A kérés túllépte az időkorlátot';
 $messages['errorreadonly'] = 'A műveletet nem sikerült végrehajtani. A mappa írásvédett.';
 $messages['errornoperm'] = 'A műveletet nem sikerült végrehajtani. Hozzáférés megtagadva.';
 $messages['invalidrequest'] = 'Érvénytelen kérés! Az adatok nem lettek elmentve.';

@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Nansen                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = '垃圾郵件';
 $labels['buttontitle'] = '標示為垃圾信';
 $labels['reportedasjunk'] = '成功回報垃圾信';
 

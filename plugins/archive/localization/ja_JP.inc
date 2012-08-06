@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe <Unknown>                                      |
+ | Author: Takahiro Kambe                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'アーカイブ';
+$labels['archivefolder'] = 'アーカイブ';
 $labels['buttontitle'] = 'このメッセージをアーカイブ';
 $labels['archived'] = 'アーカイブしました。';
-$labels['archivefolder'] = 'アーカイブ';
 
