@@ -239,3 +239,7 @@ ALTER TABLE `identities` ALTER `user_id` DROP DEFAULT;
 ALTER TABLE `searches` ALTER `user_id` DROP DEFAULT;
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
+
+-- Updates from version 0.8
+
+ALTER TABLE cache DROP COLUMN cache_id;

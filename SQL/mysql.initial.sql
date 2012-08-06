@@ -36,12 +36,10 @@ CREATE TABLE `users` (
 -- Table structure for table `cache`
 
 CREATE TABLE `cache` (
- `cache_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user_id` int(10) UNSIGNED NOT NULL,
  `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL ,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `data` longtext NOT NULL,
- `user_id` int(10) UNSIGNED NOT NULL,
- PRIMARY KEY(`cache_id`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
  INDEX `created_index` (`created`),

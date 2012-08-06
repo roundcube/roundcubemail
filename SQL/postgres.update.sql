@@ -175,3 +175,8 @@ ALTER TABLE "session" ALTER sess_id TYPE varchar(128);
 DROP INDEX contacts_user_id_idx;
 CREATE INDEX contacts_user_id_idx ON contacts USING btree (user_id, del);
 ALTER TABLE contacts ALTER email TYPE text;
+
+-- Updates from version 0.8
+
+ALTER TABLE cache DROP COLUMN cache_id;
+DROP SEQUENCE cache_ids;

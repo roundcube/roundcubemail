@@ -160,23 +160,11 @@ CREATE TABLE contactgroupmembers (
 CREATE INDEX contactgroupmembers_contact_id_idx ON contactgroupmembers (contact_id);
 
 --
--- Sequence "cache_ids"
--- Name: cache_ids; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE cache_ids
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
---
 -- Table "cache"
 -- Name: cache; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE "cache" (
-    cache_id integer DEFAULT nextval('cache_ids'::text) PRIMARY KEY,
     user_id integer NOT NULL
     	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     cache_key varchar(128) DEFAULT '' NOT NULL,

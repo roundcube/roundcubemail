@@ -333,3 +333,16 @@ INSERT INTO contacts (contact_id, user_id, changed, del, name, email, firstname,
 
 CREATE INDEX ix_contacts_user_id ON contacts(user_id, del);
 DROP TABLE contacts_tmp;
+
+-- Updates from version 0.8
+
+DROP TABLE cache;
+CREATE TABLE cache (
+  user_id integer NOT NULL default 0,
+  cache_key varchar(128) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  data text NOT NULL
+);
+
+CREATE INDEX ix_cache_user_cache_key ON cache(user_id, cache_key);
+CREATE INDEX ix_cache_created ON cache(created);

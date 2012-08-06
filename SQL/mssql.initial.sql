@@ -1,5 +1,4 @@
 CREATE TABLE [dbo].[cache] (
-	[cache_id] [int] IDENTITY (1, 1) NOT NULL ,
 	[user_id] [int] NOT NULL ,
 	[cache_key] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
@@ -115,13 +114,6 @@ CREATE TABLE [dbo].[searches] (
 	[name] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[cache] WITH NOCHECK ADD 
-	 PRIMARY KEY  CLUSTERED 
-	(
-		[cache_id]
-	)  ON [PRIMARY] 
 GO
 
 ALTER TABLE [dbo].[cache_index] WITH NOCHECK ADD 
