@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Johannes Hessellund <osos@openeyes.dk>                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Forbindelse til e-mailserveren fejlede.';
 $messages['servererror'] = 'Server fejl!';
 $messages['servererrormsg'] = 'Server fejl: $msg';
 $messages['dberror'] = 'Database fejl!';
+$messages['requesttimedout'] = 'Forespørgselstiden udløb';
 $messages['errorreadonly'] = 'Kunne ikke udføre den ønskede handling. Mappen er skrivebeskyttet.';
 $messages['errornoperm'] = 'Kunne ikke udføre den ønskede handling. Adgang nægtet.';
 $messages['invalidrequest'] = 'Ugyldig forespørgsel! Ingen data blev gemt.';
@@ -38,7 +38,7 @@ $messages['sendingmessage'] = 'Sender besked...';
 $messages['messagesent'] = 'Beskeden blev afsendt succesfuldt.';
 $messages['savingmessage'] = 'Gemmer besked...';
 $messages['messagesaved'] = 'Beskeden er gemt i kladdemappen.';
-$messages['successfullysaved'] = 'Beskeden er gemt.';
+$messages['successfullysaved'] = 'Gemt succesfuldt';
 $messages['addedsuccessfully'] = 'Kontakten blev tilføjet adressebogen.';
 $messages['contactexists'] = 'Der er allerede en kontakt med denne e-mailadresse.';
 $messages['contactnameexists'] = 'En kontakt med samme navn eksisterer allerede.';

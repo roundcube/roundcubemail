@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Błąd połączenia z serwerem!';
 $messages['servererror'] = 'Błąd serwera!';
 $messages['servererrormsg'] = 'Błąd serwera: $msg';
 $messages['dberror'] = 'Błąd bazy danych!';
+$messages['requesttimedout'] = 'Upłynął limit czasu żądania';
 $messages['errorreadonly'] = 'Nie można wykonać operacji. Folder tylko do odczytu.';
 $messages['errornoperm'] = 'Nie można wykonać operacji. Brak uprawnień.';
 $messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';

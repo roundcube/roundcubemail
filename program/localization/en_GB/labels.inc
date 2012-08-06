@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Lazlo                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -41,6 +40,7 @@ $labels['size'] = 'Size';
 $labels['priority'] = 'Priority';
 $labels['organization'] = 'Company';
 $labels['readstatus'] = 'Read status';
+$labels['listoptions'] = 'List options...';
 $labels['mailboxlist'] = 'Folders';
 $labels['folders'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
@@ -272,6 +272,7 @@ $labels['delete'] = 'Delete';
 $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
+$labels['uploadphoto'] = 'Upload photo';
 $labels['newcontact'] = 'Create new contact card';
 $labels['deletecontact'] = 'Delete selected contacts';
 $labels['composeto'] = 'Compose mail to';
@@ -282,6 +283,7 @@ $labels['exportvcards'] = 'Export contacts in vCard format';
 $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename'] = 'Rename group';
 $labels['groupdelete'] = 'Delete group';
+$labels['groupremoveselected'] = 'Remove selected contacts from group';
 $labels['previouspage'] = 'Show previous set';
 $labels['firstpage'] = 'Show first set';
 $labels['nextpage'] = 'Show next set';
@@ -364,6 +366,7 @@ $labels['checkallfolders'] = 'Check all folders for new messages';
 $labels['displaynext'] = 'After message delete/move display the next message';
 $labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
+$labels['browseroptions'] = 'Browser Options';
 $labels['section'] = 'Section';
 $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'New Message';
@@ -386,12 +389,14 @@ $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultaddressbook'] = 'Add new contacts to the selected addressbook';
 $labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
+$labels['listnamedisplay'] = 'List contacts as';
 $labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
 $labels['spellcheckoptions'] = 'Spellcheck Options';
 $labels['spellcheckignoresyms'] = 'Ignore words with symbols';
 $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalised';
 $labels['addtodict'] = 'Add to dictionary';
+$labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
 $labels['folder'] = 'Folder';
 $labels['foldername'] = 'Folder name';
 $labels['subscribed'] = 'Subscribed';

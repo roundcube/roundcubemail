@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Christopher Meng <cickumqt@gmail.com>                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -137,6 +136,8 @@ $labels['setdeleted'] = '过滤器成功删除。';
 $labels['setdeleteconfirm'] = '你确定要删除指定过滤器？';
 $labels['setcreateerror'] = '无法创建过滤器，服务器错误。';
 $labels['setcreated'] = '过滤器成功创建。';
+$labels['activateerror'] = '无法启用选中的过滤器，因为服务器发生错误。';
+$labels['deactivateerror'] = '无法禁用选中的过滤器，因为服务器发生错误。';
 $labels['activated'] = '禁用过滤器成功。';
 $labels['deactivated'] = '启用过滤器成功。';
 $labels['moved'] = '过滤器移动成功。';

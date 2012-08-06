@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Jonas Nasholm                                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Skräp';
 $labels['buttontitle'] = 'Märk som skräp';
 $labels['reportedasjunk'] = 'Framgångsrikt rapporterat som skräp';
 

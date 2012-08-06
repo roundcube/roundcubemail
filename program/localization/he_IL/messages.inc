@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Moshe Leibovitch <moish@mln.co.il>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'הקשר לשרת הדואר נכשל';
 $messages['servererror'] = '! שגיאת שרת';
 $messages['servererrormsg'] = '$msg  שגיאת שרת';
 $messages['dberror'] = '! שגיאה במסד הנתונים';
+$messages['requesttimedout'] = 'תם הזמן המוקצב לבקשה';
 $messages['errorreadonly'] = 'לא ניתן לבצע הפעולה כי התיק ניתן לקריאה בלבד';
 $messages['errornoperm'] = 'לא ניתן לבצע הפעולה כי אין הרשאה לבצעה';
 $messages['invalidrequest'] = 'בקשה לא חוקית. המידע לא נשמר';

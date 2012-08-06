@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Geert Wirken <Unknown>                                        |
+ | Author: Geert Wirken                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Verbinding met IMAP-server mislukt.';
 $messages['servererror'] = 'Serverfout!';
 $messages['servererrormsg'] = 'Serverfout: $msg';
 $messages['dberror'] = 'Databasefout!';
+$messages['requesttimedout'] = 'Opdracht duurde te lang';
 $messages['errorreadonly'] = 'Niet in staat om de bewerking uit te voeren. Map is alleen-lezen.';
 $messages['errornoperm'] = 'Niet in staat om de bewerking uit te voeren. Toestemming geweigerd.';
 $messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgeslagen.';
@@ -85,8 +85,8 @@ $messages['searching'] = 'Zoeken...';
 $messages['checking'] = 'Controleren...';
 $messages['nospellerrors'] = 'Geen spelfouten gevonden.';
 $messages['folderdeleted'] = 'Map successvol verwijderd.';
-$messages['foldersubscribed'] = 'Folder succesvol geabonneerd.';
-$messages['folderunsubscribed'] = 'Folder succesvol uitgeschreven.';
+$messages['foldersubscribed'] = 'Succesvol geabonneerd op map.';
+$messages['folderunsubscribed'] = 'Abonnement op map succesvol opgezegd.';
 $messages['folderpurged'] = 'Folder met succes geleegd.';
 $messages['folderexpunged'] = 'Folder succesvol geleegd.';
 $messages['deletedsuccessfully'] = 'Met succes verwijderd.';

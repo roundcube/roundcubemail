@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: bela <Unknown>                                                |
+ | Author: bela                                                          |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -245,7 +244,7 @@ $labels['spouse'] = 'Házastárs';
 $labels['allfields'] = 'Összes mező';
 $labels['search'] = 'Keresés';
 $labels['advsearch'] = 'Részletes keresés';
-$labels['advanced'] = 'Haladó beállítások';
+$labels['advanced'] = 'Haladó';
 $labels['other'] = 'Egyéb';
 $labels['typeother'] = 'Egyéb';
 $labels['typehome'] = 'Otthon';
@@ -264,7 +263,7 @@ $labels['addfield'] = 'Új mező hozzáadása...';
 $labels['addcontact'] = 'Új kapcsolat hozzáadása';
 $labels['editcontact'] = 'Kapcsolat szerkesztése';
 $labels['contacts'] = 'Kapcsolatok';
-$labels['contactproperties'] = 'Kapcsolatok tulajdonságai';
+$labels['contactproperties'] = 'Kapcsolat tulajdonságai';
 $labels['personalinfo'] = 'Személyes adatok';
 $labels['edit'] = 'Szerkesztés';
 $labels['cancel'] = 'Mégsem';
@@ -345,7 +344,7 @@ $labels['flagfordeletion'] = 'Üzenet törlendőnek jelölése törlés helyett'
 $labels['skipdeleted'] = 'Törölt üzenetek ne legyenek megjelenítve';
 $labels['deletealways'] = 'Üzenet törlése, ha nem sikerül áthelyezni a törölt elemek mappába';
 $labels['deletejunk'] = 'Közvetlen törlése az üzeneteknek a levélszemét mappában';
-$labels['showremoteimages'] = 'Távoli beágyazott képek mutatása';
+$labels['showremoteimages'] = 'Távoli beágyazott képek megjelenítése';
 $labels['fromknownsenders'] = 'csak ismert feladóktól';
 $labels['always'] = 'mindig';
 $labels['showinlineimages'] = 'Csatolt képek megjelenítése az üzenet alatt';
@@ -397,10 +396,10 @@ $labels['spellcheckignoresyms'] = 'Speciális karaktereket tartalmazó szavak ki
 $labels['spellcheckignorenums'] = 'Számot tartalmazó szavak kihagyása';
 $labels['spellcheckignorecaps'] = 'Csak nagybetűt tartalmazó szavak kihagyása';
 $labels['addtodict'] = 'Hozzáadás a szótárhoz';
-$labels['mailtoprotohandler'] = 'A roundcube beállítása a mailto: linkek kezelőjeként.';
+$labels['mailtoprotohandler'] = 'Beállítás a mailto: linkek kezelőjeként';
 $labels['folder'] = 'Mappa';
 $labels['foldername'] = 'Mappa neve';
-$labels['subscribed'] = 'Feliratkozott';
+$labels['subscribed'] = 'Feliratkozva';
 $labels['messagecount'] = 'Üzenet';
 $labels['create'] = 'Létrehozás';
 $labels['createfolder'] = 'Új mappa létrehozása';

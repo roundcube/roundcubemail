@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jiri Grönroos <Unknown>                                      |
+ | Author: Jiri Grönroos                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -22,7 +21,7 @@ $labels['server'] = 'Palvelin';
 $labels['login'] = 'Kirjaudu';
 $labels['logout'] = 'Kirjaudu ulos';
 $labels['mail'] = 'Sähköposti';
-$labels['settings'] = 'Omat asetukset';
+$labels['settings'] = 'Asetukset';
 $labels['addressbook'] = 'Osoitekirja';
 $labels['inbox'] = 'Saapuneet';
 $labels['drafts'] = 'Luonnokset';
@@ -41,6 +40,7 @@ $labels['size'] = 'Koko';
 $labels['priority'] = 'Tärkeys';
 $labels['organization'] = 'Organisaatio';
 $labels['readstatus'] = 'Luettu';
+$labels['listoptions'] = 'Listaa valinnat...';
 $labels['mailboxlist'] = 'Kansiot';
 $labels['folders'] = 'Kansiot';
 $labels['messagesfromto'] = 'Viestit $from-$to/$count';
@@ -396,6 +396,7 @@ $labels['spellcheckignoresyms'] = 'Jätä huomiotta sanat, joissa on symboleja';
 $labels['spellcheckignorenums'] = 'Jätä huomiotta sanat, joissa on numeroita';
 $labels['spellcheckignorecaps'] = 'Jätä huomiotta sanat, joissa kaikki kirjaimet on isoja';
 $labels['addtodict'] = 'Lisää sanakirjaan';
+$labels['mailtoprotohandler'] = 'Rekisteröi mailto:-linkkien protokollakäsitteljä';
 $labels['folder'] = 'Kansio';
 $labels['foldername'] = 'Kansion nimi';
 $labels['subscribed'] = 'Näytetään';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Teja Cetinski <teja.cetinski@gmail.com>                       |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -284,6 +283,7 @@ $labels['exportvcards'] = 'Izvozi stike v formatu vCard';
 $labels['newcontactgroup'] = 'Ustvari novo skupino stikov';
 $labels['grouprename'] = 'Preimenuj skupino';
 $labels['groupdelete'] = 'Izbriši skupino';
+$labels['groupremoveselected'] = 'Odstrani izbrane stike iz skupine';
 $labels['previouspage'] = 'Prejšnja stran';
 $labels['firstpage'] = 'Prva stran';
 $labels['nextpage'] = 'Naslednja stran';
@@ -343,6 +343,7 @@ $labels['readwhendeleted'] = 'Označi izbrisano sporočilo kot prebrano';
 $labels['flagfordeletion'] = 'Ne izbriši sporočila, le označi kot izbrisano';
 $labels['skipdeleted'] = 'Ne prikaži izbrisanih sporočil';
 $labels['deletealways'] = 'Če premikanje sporočil v Smeti spodleti, naj bodo izbrisana.';
+$labels['deletejunk'] = 'Neposredno izbriši sporočila v mapi Nezaželena sporočila';
 $labels['showremoteimages'] = 'Prikaži medvrstične slike';
 $labels['fromknownsenders'] = 'od znanih pošiljateljev';
 $labels['always'] = 'vedno';

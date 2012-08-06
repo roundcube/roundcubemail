@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -120,8 +119,8 @@ $labels['mark'] = 'Markieren';
 $labels['markmessages'] = 'Nachrichten markieren';
 $labels['markread'] = 'Als gelesen';
 $labels['markunread'] = 'Als ungelesen';
-$labels['markflagged'] = 'Stern hinzufügen';
-$labels['markunflagged'] = 'Stern entfernen';
+$labels['markflagged'] = 'Markierung hinzufügen';
+$labels['markunflagged'] = 'Markierung entfernen';
 $labels['moreactions'] = 'Mehr ...';
 $labels['more'] = 'Mehr';
 $labels['back'] = 'Zurück';
@@ -344,6 +343,7 @@ $labels['readwhendeleted'] = 'Beim Löschen als gelesen markieren';
 $labels['flagfordeletion'] = 'Als gelöscht markieren anstatt in den Papierkorb verschieben';
 $labels['skipdeleted'] = 'Zeige keine gelöschten Nachrichten an';
 $labels['deletealways'] = 'Löschen wenn Verschieben in den Papierkorb nicht möglich';
+$labels['deletejunk'] = 'Nachrichten in Spam direkt löschen';
 $labels['showremoteimages'] = 'Eingebettete Bilder vom Internet laden';
 $labels['fromknownsenders'] = 'bei bekannten Absendern';
 $labels['always'] = 'immer';

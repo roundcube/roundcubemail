@@ -9,18 +9,17 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Barbara Krasovec <barbarak@arnes.si>                          |
+ | Author: Teja Cetinski <teja.cetinski@gmail.com>                       |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['filters'] = 'Pravila';
-$labels['managefilters'] = 'Uredi sporočilna pravila';
-$labels['filtername'] = 'Ime pravila';
-$labels['newfilter'] = 'Novo pravilo';
-$labels['filteradd'] = 'Dodaj pravilo';
-$labels['filterdel'] = 'Izbriši pravilo';
+$labels['filters'] = 'Filtri';
+$labels['managefilters'] = 'Uredi filtre za dohodno pošto';
+$labels['filtername'] = 'Ime filtra';
+$labels['newfilter'] = 'Nov filter';
+$labels['filteradd'] = 'Dodaj filter';
+$labels['filterdel'] = 'Izbriši filter';
 $labels['moveup'] = 'Pomakni se navzgor';
 $labels['movedown'] = 'Pomakni se navzdol';
 $labels['filterallof'] = 'izpolnjeni morajo biti vsi pogoji';
@@ -101,14 +100,19 @@ $labels['advancedopts'] = 'Dodatne možnosti';
 $labels['body'] = 'Vsebina';
 $labels['address'] = 'naslov';
 $labels['envelope'] = 'ovojnica';
+$labels['modifier'] = 'modifikator';
 $labels['text'] = 'besedilo';
+$labels['undecoded'] = 'neobdelano';
 $labels['contenttype'] = 'tip vsebine';
 $labels['modtype'] = 'tip';
 $labels['allparts'] = 'vse';
 $labels['domain'] = 'domena';
+$labels['localpart'] = 'lokalni del';
 $labels['user'] = 'uporabnik';
 $labels['detail'] = 'podrobnosti';
+$labels['comparator'] = 'primerjalnik';
 $labels['default'] = 'privzeto';
+$labels['octet'] = 'strict (octet)';
 $labels['asciicasemap'] = 'ni občutljiv na velike/male črke (ascii-casemap)';
 $labels['asciinumeric'] = 'numerično (ascii-numeric)';
 $labels['filterunknownerror'] = 'Prišlo je do neznane napake.';

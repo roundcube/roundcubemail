@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jiri Grönroos <Unknown>                                      |
+ | Author: Jiri Grönroos                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Yhteys IMAP-palvelimeen epäonnistui';
 $messages['servererror'] = 'Palvelinvirhe!';
 $messages['servererrormsg'] = 'Palvelinvirhe: $msg';
 $messages['dberror'] = 'Tietokantavirhe!';
+$messages['requesttimedout'] = 'Pyyntö aikakatkaistiin';
 $messages['errorreadonly'] = 'Toiminnon suoritus ei onnistu, koska hakemisto on vain lukutilassa.';
 $messages['errornoperm'] = 'Toimintoa ei voitu suorittaa. Ei oikeuksia.';
 $messages['invalidrequest'] = 'Virheellinen pyyntö! Tietoa ei tallennettu.';

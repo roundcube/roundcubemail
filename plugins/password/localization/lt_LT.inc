@@ -1,21 +1,31 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/lt_LT/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Rimas Kudelis <rq@akl.lt>                                     |
+ +-----------------------------------------------------------------------+
+*/
+
 $labels = array();
-$labels['changepasswd']  = 'Slaptažodžio keitimas';
-$labels['curpasswd']  = 'Dabartinis slaptažodis:';
-$labels['newpasswd']  = 'Naujasis slaptažodis:';
-$labels['confpasswd']  = 'Pakartokite naująjį slaptažodį:';
+$labels['changepasswd'] = 'Slaptažodžio keitimas';
+$labels['curpasswd'] = 'Dabartinis slaptažodis:';
+$labels['newpasswd'] = 'Naujasis slaptažodis:';
+$labels['confpasswd'] = 'Pakartokite naująjį slaptažodį:';
+$labels['nopassword'] = 'Prašom įvesti naująjį slaptažodį.';
+$labels['nocurpassword'] = 'Prašom įvesti dabartinį slaptažodį.';
+$labels['passwordincorrect'] = 'Dabartinis slaptažodis neteisingas.';
+$labels['passwordinconsistency'] = 'Slaptažodžiai nesutapo. Bandykite dar kartą.';
+$labels['crypterror'] = 'Nepavyko įrašyti naujojo slaptažodžio. Trūksta šifravimo funkcijos.';
+$labels['connecterror'] = 'Nepavyko įrašyti naujojo slaptažodžio. Ryšio klaida.';
+$labels['internalerror'] = 'Nepavyko įrašyti naujojo slaptažodžio.';
+$labels['passwordshort'] = 'Slaptažodis turi būti sudarytas bent iš $length simbolių.';
+$labels['passwordweak'] = 'Slaptažodyje turi būti bent vienas skaitmuo ir vienas skyrybos ženklas.';
+$labels['passwordforbidden'] = 'Slaptažodyje rasta neleistinų simbolių.';
 
-$messages = array();
-$messages['nopassword'] = 'Prašom įvesti naująjį slaptažodį.';
-$messages['nocurpassword'] = 'Prašom įvesti dabartinį slaptažodį.';
-$messages['passwordincorrect'] = 'Dabartinis slaptažodis neteisingas.';
-$messages['passwordinconsistency'] = 'Slaptažodžiai nesutapo. Bandykite dar kartą.';
-$messages['crypterror'] = 'Nepavyko įrašyti naujojo slaptažodžio. Trūksta šifravimo funkcijos.';
-$messages['connecterror'] = 'Nepavyko įrašyti naujojo slaptažodžio. Prisijungimo klaida.';
-$messages['internalerror'] = 'Nepavyko įrašyti naujojo slaptažodžio.';
-$messages['passwordshort'] = 'Slaptažodis turi būti sudarytas iš bent $length simbolių.';
-$messages['passwordweak'] = 'Slaptažodyje turi būti bent vienas skaitmuo ir vienas skyrybos ženklas.';
-$messages['passwordforbidden'] = 'Slaptažodyje rasta neleistinų simbolių.';
-
-?>

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: pp/bs <Unknown>                                               |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -96,7 +95,7 @@ $labels['longdec'] = 'grudzień';
 $labels['today'] = 'Dzisiaj';
 $labels['refresh'] = 'Odśwież';
 $labels['checkmail'] = 'Sprawdź skrzynkę';
-$labels['compose'] = 'Utwórz wiadomość';
+$labels['compose'] = 'Utwórz';
 $labels['writenewmessage'] = 'Utwórz nową wiadomość';
 $labels['reply'] = 'Odpowiedz';
 $labels['replytomessage'] = 'Odpowiedz nadawcy';
@@ -116,7 +115,7 @@ $labels['nextmessage'] = 'Następna wiadomość';
 $labels['lastmessage'] = 'Ostatnia wiadomość';
 $labels['backtolist'] = 'Pokaż listę wiadomości';
 $labels['viewsource'] = 'Pokaż źródło';
-$labels['mark'] = 'Zaznacz';
+$labels['mark'] = 'Oznacz';
 $labels['markmessages'] = 'Oznacz wiadomości';
 $labels['markread'] = 'Jako przeczytane';
 $labels['markunread'] = 'Jako nieprzeczytane';

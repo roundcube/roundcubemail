@@ -9,32 +9,31 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe <Unknown>                                      |
+ | Author: Takahiro Kambe                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
 $labels['filters'] = 'フィルター';
 $labels['managefilters'] = '受信メールのフィルターを管理';
-$labels['filtername'] = 'フィルターの名前';
+$labels['filtername'] = 'フィルター名';
 $labels['newfilter'] = '新しいフィルター';
 $labels['filteradd'] = 'フィルターを追加';
 $labels['filterdel'] = 'フィルターを削除';
 $labels['moveup'] = '上に移動';
 $labels['movedown'] = '下に移動';
-$labels['filterallof'] = '次のルールすべてに一致';
-$labels['filteranyof'] = '次のルールのどれかに一致';
+$labels['filterallof'] = '次のルールのすべてに一致';
+$labels['filteranyof'] = '次のルールのいずれかに一致';
 $labels['filterany'] = 'すべてのメッセージ';
 $labels['filtercontains'] = '含む';
 $labels['filternotcontains'] = '含まない';
-$labels['filteris'] = '次と等しい';
-$labels['filterisnot'] = '次と等しくない';
+$labels['filteris'] = '次に等しい';
+$labels['filterisnot'] = '次に等しくない';
 $labels['filterexists'] = 'が存在';
 $labels['filternotexists'] = 'が存在しない';
-$labels['filtermatches'] = '次の式と一致';
-$labels['filternotmatches'] = '次の式と一致しない';
-$labels['filterregex'] = '次の正規表現と一致';
+$labels['filtermatches'] = '次の式に一致';
+$labels['filternotmatches'] = '次の式に一致しない';
+$labels['filterregex'] = '次の正規表現に一致';
 $labels['filternotregex'] = '次の正規表現に一致しない';
 $labels['filterunder'] = 'より下';
 $labels['filterover'] = 'より上';
@@ -48,7 +47,7 @@ $labels['messagereply'] = 'メッセージを返信';
 $labels['messagedelete'] = 'メッセージを削除';
 $labels['messagediscard'] = 'メッセージを破棄';
 $labels['messagesrules'] = '受信したメールの処理:';
-$labels['messagesactions'] = '以下の動作を実行:';
+$labels['messagesactions'] = '以下の操作を実行:';
 $labels['add'] = '追加';
 $labels['del'] = '削除';
 $labels['sender'] = '送信者';
