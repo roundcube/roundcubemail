@@ -21,7 +21,7 @@ REQUIREMENTS
    - Mail_mimeDecode 1.5.5 or newer
    - Net_SMTP 1.4.2 or newer
    - Net_IDNA2 0.1.1 or newer
-   - Auth_SASL 1.0.3 or newer
+   - Auth_SASL 1.0.6 or newer
 * php.ini options (see .htaccess file):
    - error_reporting E_ALL & ~E_NOTICE (or lower)
    - memory_limit > 16MB (increase as suitable to support large attachments)

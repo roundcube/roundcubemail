@@ -57,7 +57,8 @@ if ($CONTACTS && $CONTACTS->ready) {
 
     // get contacts for this user
     $CONTACTS->set_group(0);
-    $result = $CONTACTS->list_records(array('name', 'firstname', 'surname', 'email'));
+    $afields = $RCMAIL->config->get('contactlist_fields');
+    $result = $CONTACTS->list_records($afields);
 
     if (!$result->count && $result->searchonly) {
         $OUTPUT->show_message('contactsearchonly', 'notice');

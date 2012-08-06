@@ -32,7 +32,7 @@
 // | Author: Christoph Schulz <develop@kristov.de>                         | 
 // +-----------------------------------------------------------------------+ 
 // 
-// $Id: External.php 286825 2009-08-05 06:23:42Z cweiske $
+// $Id$
 
 /**
 * Implmentation of EXTERNAL SASL mechanism

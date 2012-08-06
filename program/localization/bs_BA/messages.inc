@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Kenan Dervišević <kenan3008@gmail.com>                      |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Neuspješna konekcija na IMAP server';
 $messages['servererror'] = 'Serverska greška!';
 $messages['servererrormsg'] = 'Serverska greška: $msg';
 $messages['dberror'] = 'Greška u bazi podataka!';
+$messages['requesttimedout'] = 'Zahtjev je istekao';
 $messages['errorreadonly'] = 'Nije moguće izvršiti operaciju. Folder je samo za čitanje.';
 $messages['errornoperm'] = 'Nije moguće izvršiti operaciju. Pristup je odbijen.';
 $messages['invalidrequest'] = 'Neispravan zahtjev! Podaci nisu sačuvani.';

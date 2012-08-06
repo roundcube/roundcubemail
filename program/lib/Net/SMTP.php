@@ -17,8 +17,6 @@
 // |          Jon Parise <jon@php.net>                                    |
 // |          Damian Alejandro Fernandez Sosa <damlists@cnba.uba.ar>      |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once 'PEAR.php';
 require_once 'Net/Socket.php';
@@ -189,7 +187,7 @@ class Net_SMTP
 
         /* Include the Auth_SASL package.  If the package is available, we 
          * enable the authentication methods that depend upon it. */
-        if ((@include_once 'Auth/SASL.php') === true) {
+        if (@include_once 'Auth/SASL.php') {
             $this->setAuthMethod('CRAM-MD5', array($this, '_authCram_MD5'));
             $this->setAuthMethod('DIGEST-MD5', array($this, '_authDigest_MD5'));
         }
@@ -727,7 +725,7 @@ class Net_SMTP
         }
 
         $challenge = base64_decode($this->_arguments[0]);
-        $digest = &Auth_SASL::factory('digestmd5');
+        $digest = &Auth_SASL::factory('digest-md5');
         $auth_str = base64_encode($digest->getResponse($uid, $pwd, $challenge,
                                                        $this->host, "smtp",
                                                        $authz));
@@ -779,7 +777,7 @@ class Net_SMTP
         }
 
         $challenge = base64_decode($this->_arguments[0]);
-        $cram = &Auth_SASL::factory('crammd5');
+        $cram = &Auth_SASL::factory('cram-md5');
         $auth_str = base64_encode($cram->getResponse($uid, $pwd, $challenge));
 
         if (PEAR::isError($error = $this->_put($auth_str))) {
@@ -1004,14 +1002,12 @@ class Net_SMTP
      */
     function quotedata(&$data)
     {
-        /* Change Unix (\n) and Mac (\r) linefeeds into
-         * Internet-standard CRLF (\r\n) linefeeds. */
-        $data = preg_replace(array('/(?<!\r)\n/','/\r(?!\n)/'), "\r\n", $data);
-
         /* Because a single leading period (.) signifies an end to the
-         * data, legitimate leading periods need to be "doubled"
-         * (e.g. '..'). */
-        $data = str_replace("\n.", "\n..", $data);
+         * data, legitimate leading periods need to be "doubled" ('..'). */
+        $data = preg_replace('/^\./m', '..', $data);
+
+        /* Change Unix (\n) and Mac (\r) linefeeds into CRLF's (\r\n). */
+        $data = preg_replace('/(?:\r\n|\n|\r(?!\n))/', "\r\n", $data);
     }
 
     /**

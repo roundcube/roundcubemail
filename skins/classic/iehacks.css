@@ -1,0 +1,305 @@
+
+input, textarea
+{
+  border-style: expression(this.type=='checkbox' || this.type=='radio' || this.id=='quicksearchbox' ? 'none' : 'solid');
+  border-width: expression(this.type=='checkbox' || this.type=='radio' ? '0' : '1px');
+  border-color: expression(this.type=='checkbox' || this.type=='radio' ? '' : '#666666');
+  background-color: expression(this.type=='checkbox' || this.type=='radio' ? 'transparent' : '#ffffff');
+}
+
+body.iframe
+{
+  margin-top: 0px;
+}
+
+body.iframe div.boxcontent
+{
+  margin-top: 20px;
+  z-index: 2;
+}
+
+body.iframe div.boxtitle
+{
+  z-index: 100;
+}
+
+body.iframe #prefs-details
+{
+  padding-top: 1px;
+}
+
+#login-form form
+{
+  margin-top: 0;
+}
+
+.pagenav a.buttonPas
+{
+  filter: alpha(opacity=35);
+}
+
+body > #message
+{
+  filter: alpha(opacity=85);
+}
+
+.popupmenu
+{
+  background-color: #ffffff;
+}
+
+#tabsbar,
+#partheader
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-240)+'px');
+}
+
+#mainscreen
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
+}
+
+#mainscreen,
+#messagepartcontainer
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-40)+'px');
+}
+
+#messagetoolbar
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-215)+'px');
+  z-index: 240;
+}
+
+#messagetoolbar select.mboxlist
+{
+  margin: 0 8px;
+  top: 8px;
+}
+
+div.messageheaderbox
+{
+  margin-top: 0px;
+}
+
+body.iframe div.messageheaderbox
+{
+  margin-top: 6px;
+}
+
+#abooktoolbar a.buttonPas
+{
+  filter: alpha(opacity=35);
+  background-image: url(images/abook_toolbar.gif);
+}
+
+#messagetoolbar a.buttonPas
+{
+  filter: alpha(opacity=35);
+  background-image: url(images/mail_toolbar.gif);
+}
+
+#listcontrols a.buttonPas
+{
+  filter: alpha(opacity=35);
+}
+
+#quicksearchbar
+{
+  z-index: 250;
+}
+
+#addresslist,
+#sectionslist,
+#identities-list,
+#mailleftcontainer,
+#mailrightcontainer,
+#compose-container,
+#compose-attachments,
+#mailcontframe,
+#mailboxlist-container,
+#mailrightcontent,
+#messageframe,
+#identity-details,
+#contacts-box,
+#prefs-box,
+#folder-box,
+#directorylistbox,
+#addressscreen
+{
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
+#mailrightcontainer
+{
+  width: expression((parseInt(this.parentNode.offsetWidth)-170)+'px');
+}
+
+#messagepartcontainer
+{
+  height: expression((parseInt(document.documentElement.clientHeight)-90)+'px');
+}
+
+#mailrightcontent
+{
+  width: 100%;
+}
+
+#compose-div
+{
+  height: expression((parseInt(this.parentNode.offsetHeight)-1-parseInt(document.getElementById('compose-headers').offsetHeight))+'px');
+}
+
+#compose-attachments ul li
+{
+  width: 1000px; /* for IE7 */
+}
+
+#compose-attachments li a
+{
+  float: left; /* for IE7 */
+}
+
+#messagelist
+{
+  width: inherit;
+  *width: auto; /* IE6/7 conditional hack */
+  border-collapse: collapse;
+}
+
+#messagelist thead tr td,
+#messagelist tbody tr td
+{
+  height: 18px;
+}
+
+#messagelist tbody tr.unroot td.subject
+{
+  text-decoration: underline;
+}
+
+#messageframe
+{
+  width: expression((parseInt(this.parentNode.offsetWidth)-180)+'px');
+  overflow: hidden;
+}
+
+#countcontrols
+{
+  width: 24em;
+  padding-right: 10px;
+}
+
+body.iframe 
+{
+  width: expression((parseInt(document.documentElement.clientWidth))+'px');
+}
+
+div.message-part pre,
+div.message-htmlpart pre,
+div.message-part div.pre
+{
+  word-wrap: break-word;
+}
+
+#addressscreen
+{
+  width: expression((parseInt(document.documentElement.clientWidth)-245)+'px');
+}
+
+#contacts-table
+{
+  width: expression(document.getElementById('addresslist').clientWidth);
+}
+
+#contacts-box,
+#prefs-box,
+#folder-box
+{
+  width: expression((parseInt(this.parentNode.offsetWidth)-555)+'px');
+  overflow: hidden;
+}
+
+#rcmdraglayer
+{
+  filter: alpha(opacity=82);
+  padding-left: 20px;
+}
+
+div.draglayercopy
+{
+  border-color: #00cc00;
+  background: url(images/messageactions.png) 0 -125px no-repeat #fff;
+}
+
+html.ie8 .draglayercopy:before
+{
+  content: "";
+  display: none;
+}
+
+ul.toolbarmenu
+{
+  margin: 0 0 -4px 0;
+}
+
+.popupmenu ul li,
+ul.toolbarmenu li
+{
+  min-width: auto;
+}
+
+.popupmenu ul li a,
+ul.toolbarmenu li a
+{
+  min-height: auto;
+}
+
+.popupmenu li.block a
+{
+  clear: none;
+  display: inline-block;
+  padding-left: 2px;
+}
+
+#console
+{
+  filter: alpha(opacity=80);
+}
+
+table.records-table thead tr td
+{
+  height: 19px;
+}
+
+#listmenu fieldset
+{
+  margin: 0 4px;
+  padding: 0.8em;
+}
+
+#listcontrols input
+{
+  margin-top: 2px;
+}
+
+#contact-details
+{
+  margin-top: 20px;
+}
+
+#contact-details form {
+  margin-top: -1px;
+}
+
+.contactfieldgroup legend
+{
+	padding: 0 0 0.5em 0;
+	margin-left: -4px;
+}
+
+/* fix "jumping" login form in IE7 */
+#login-form div.boxcontent
+{
+  overflow: hidden;
+}

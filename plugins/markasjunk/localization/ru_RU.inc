@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'СПАМ';
 $labels['buttontitle'] = 'Переместить в "СПАМ';
 $labels['reportedasjunk'] = 'Перемещено в "СПАМ';
 

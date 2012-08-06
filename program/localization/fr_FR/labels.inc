@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nicolas DERIVE <kalon33@ubuntu.com>                           |
+ | Author: Nicolas Delvaux                                               |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -284,6 +283,7 @@ $labels['exportvcards'] = 'Exporter les contacts au format vCard';
 $labels['newcontactgroup'] = 'Créer un nouveau groupe de contacts';
 $labels['grouprename'] = 'Renommer le groupe';
 $labels['groupdelete'] = 'Supprimer le groupe';
+$labels['groupremoveselected'] = 'Retiré les contacts sélectionnés du groupe';
 $labels['previouspage'] = 'Montrer page précédente';
 $labels['firstpage'] = 'Voir la première page';
 $labels['nextpage'] = 'Montrer page suivante';
@@ -343,6 +343,7 @@ $labels['readwhendeleted'] = 'Marquer le message comme lu à la suppression';
 $labels['flagfordeletion'] = 'Mettre le drapeau de suppression au lieu de supprimer';
 $labels['skipdeleted'] = 'Ne pas montrer les messages supprimés';
 $labels['deletealways'] = 'Lorsque le déplacement des messages à la corbeille échoue, supprimez-les';
+$labels['deletejunk'] = 'Supprimer directement les pourriels';
 $labels['showremoteimages'] = 'Afficher les images distantes';
 $labels['fromknownsenders'] = 'venant d\'expéditeurs connus';
 $labels['always'] = 'toujours';
@@ -388,6 +389,7 @@ $labels['reqdsn'] = 'Toujours demander une notification d\'état de distribution
 $labels['replysamefolder'] = 'Placer les réponses dans le dossier du message auquel il est répondu';
 $labels['defaultaddressbook'] = 'Ajouter de nouveaux contacts au carnet d’adresses sélectionné';
 $labels['autocompletesingle'] = 'Ne pas tenir compte des adresses emails alternatives dans l\'autoremplissage';
+$labels['listnamedisplay'] = 'Lister les contacts comme';
 $labels['spellcheckbeforesend'] = 'Vérifier l’orthographe avant l’envoie d’un message';
 $labels['spellcheckoptions'] = 'Options du vérificateur d\'orthographe';
 $labels['spellcheckignoresyms'] = 'Ignorer les mots avec des symboles';

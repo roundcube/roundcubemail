@@ -811,7 +811,7 @@ div.hide-headers {
 }
 
 #all-headers {
-    position: relative;
+	position: relative;
 	margin: 0 10px;
 	padding: 0;
 	height: 180px;
@@ -837,7 +837,7 @@ div.hide-headers {
 	position: relative;
 	height: auto;
 	margin: 0 8px 0 0;
-	padding: 0 0 6px 26px;
+	padding: 0 0 6px 72px;
 	border-bottom: 2px solid #f0f0f0;
 }
 
@@ -845,12 +845,47 @@ div.hide-headers {
 	padding: 8px 8px 2px 0;
 }
 
+#messagepreviewheader #contactphoto {
+	display: block;
+	position: absolute;
+	top: 11px;
+	left: 30px;
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	background: url(images/contactpic_32px.png) center center no-repeat #fff;
+	border-radius: 3px;
+}
+
+#messagepreviewheader #contactphoto img {
+	width: 32px;
+	height: auto;
+	border-radius: 3px;
+}
+
+#messageheader #contactphoto {
+	display: block;
+	position: absolute;
+	top: 40px;
+	right: 10px;
+	width: 48px;
+	height: 48px;
+	overflow: hidden;
+	border-radius: 4px;
+}
+
+#messageheader #contactphoto img {
+	width: 48px;
+	height: auto;
+	border-radius: 4px;
+}
+
 #messagepreviewheader #countcontrols,
 #messageheader #countcontrols {
 	position: absolute;
 	top: 8px;
 	right: 8px;
-	width: 18em;
+	width: 20em;
 	text-align: right;
 	white-space: nowrap;
 }

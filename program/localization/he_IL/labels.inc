@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Yaron <sh.yaron@gmail.com>                                    |
+ | Author: Moshe Leibovitch <moish@mln.co.il>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -30,8 +29,8 @@ $labels['sent'] = 'נשלח';
 $labels['trash'] = 'אשפה';
 $labels['junk'] = 'זבל';
 $labels['subject'] = 'נושא';
-$labels['from'] = 'השולח';
-$labels['to'] = 'הנמען';
+$labels['from'] = 'מאת';
+$labels['to'] = 'אל';
 $labels['cc'] = 'לידיעה';
 $labels['bcc'] = 'מכותב מוסתר';
 $labels['replyto'] = 'כתובת למענה';

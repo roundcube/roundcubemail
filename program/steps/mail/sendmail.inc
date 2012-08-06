@@ -458,6 +458,19 @@ if ($isHtml) {
   $message_body .= "\r\n</body></html>\r\n";
 }
 
+// sort attachments to make sure the order is the same as in the UI (#1488423)
+$files = get_input_value('_attachments', RCUBE_INPUT_POST);
+if ($files) {
+  $files = explode(',', $files);
+  $files = array_flip($files);
+  foreach ($files as $idx => $val) {
+    $files[$idx] = $COMPOSE['attachments'][$idx];
+    unset($COMPOSE['attachments'][$idx]);
+  }
+
+  $COMPOSE['attachments'] = array_merge(array_filter($files), $COMPOSE['attachments']);
+}
+
 // set line length for body wrapping
 $LINE_LENGTH = $RCMAIL->config->get('line_length', 72);
 

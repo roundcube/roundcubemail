@@ -368,7 +368,7 @@ function rcmail_contact_frame($attrib)
     $attrib['name'] = $attrib['id'];
 
     $OUTPUT->set_env('contentframe', $attrib['name']);
-    $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
+    $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
     return html::iframe($attrib);
 }
@@ -580,8 +580,13 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 if (empty($values) && $colprop['visible'])
                     $values[] = '';
 
+                if (!is_array($values)) {
+                    // $values can be an object, don't use (array)$values syntax
+                    $values = !empty($values) ? array($values) : array();
+                }
+
                 $rows = '';
-                foreach ((array)$values as $i => $val) {
+                foreach ($values as $i => $val) {
                     if ($subtypes[$i])
                         $subtype = $subtypes[$i];
 
@@ -705,11 +710,15 @@ function rcmail_contact_photo($attrib)
     if ($result = $CONTACTS->get_result())
         $record = $result->first();
 
-    $photo_img = $attrib['placeholder'] ? $CONFIG['skin_path'] . $attrib['placeholder'] : 'program/blank.gif';
+    $photo_img = $attrib['placeholder'] ? $CONFIG['skin_path'] . $attrib['placeholder'] : 'program/resources/blank.gif';
     $RCMAIL->output->set_env('photo_placeholder', $photo_img);
     unset($attrib['placeholder']);
 
-    if (preg_match('!^https?://!i', $record['photo']))
+    $plugin = $RCMAIL->plugins->exec_hook('contact_photo', array('record' => $record, 'data' => $record['photo']));
+
+    if ($plugin['url'])
+        $photo_img = $plugin['url'];
+    else if (preg_match('!^https?://!i', $record['photo']))
         $photo_img = $record['photo'];
     else if ($record['photo'])
         $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID));

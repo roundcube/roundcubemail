@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Oznacz jako SPAM';
 $labels['reportedasjunk'] = 'Pomyślnie oznaczono jako SPAM';
 

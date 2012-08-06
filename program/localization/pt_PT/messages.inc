@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David <Unknown>                                               |
+ | Author: David                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'A ligação ao servidor IMAP falhou';
 $messages['servererror'] = 'Erro do Servidor!';
 $messages['servererrormsg'] = 'Erro do Servidor: $msg';
 $messages['dberror'] = 'Erro na base de dados!';
+$messages['requesttimedout'] = 'A solicitação expirou';
 $messages['errorreadonly'] = 'Não foi possível efectuar a operação. A pasta é só de leitura.';
 $messages['errornoperm'] = 'Não tem permissões para efectuar esta operação.';
 $messages['invalidrequest'] = 'Pedido inválido! Não foi guardada nenhuma informação.';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomáš Bittner <tbittner@itoutsourcing.cz>                   |
+ | Author: Tomáš Kyzlink                                               |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Připojení na IMAP server selhalo';
 $messages['servererror'] = 'Chyba serveru!';
 $messages['servererrormsg'] = 'Chyba serveru: $msg';
 $messages['dberror'] = 'Chyba v databázi!';
+$messages['requesttimedout'] = 'Došlo k vypršení požadavku';
 $messages['errorreadonly'] = 'Příkaz nelze provést, složka je určena jen ke čtení.';
 $messages['errornoperm'] = 'Příkaz nelze provést, nemáte oprávnění.';
 $messages['invalidrequest'] = 'Nesprávný požadavek. Data nebyla uložena.';

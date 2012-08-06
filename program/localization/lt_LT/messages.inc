@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Rimas Kudelis <rq@akl.lt>                                     |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Nepavyko prisijungti prie IMAP serverio.';
 $messages['servererror'] = 'Serverio klaida!';
 $messages['servererrormsg'] = 'Serverio klaida: $msg';
 $messages['dberror'] = 'Duomenų bazės klaida!';
+$messages['requesttimedout'] = 'Baigėsi užklausai skirtas laikas';
 $messages['errorreadonly'] = 'Nepavyko atlikti veiksmo – aplankas prieinamas tik skaitymui.';
 $messages['errornoperm'] = 'Nepavyko atlikti veiksmo – nepakanka teisių.';
 $messages['invalidrequest'] = 'Netinkama užklausa! Duomenys neišsaugoti.';

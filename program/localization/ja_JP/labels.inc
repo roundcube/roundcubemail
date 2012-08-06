@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe <Unknown>                                      |
+ | Author: Takahiro Kambe                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -96,7 +95,7 @@ $labels['longdec'] = '12月';
 $labels['today'] = '今日';
 $labels['refresh'] = '再読込み';
 $labels['checkmail'] = '新しく届いたメッセージを確認';
-$labels['compose'] = 'メッセージを作成';
+$labels['compose'] = 'メッセージの作成';
 $labels['writenewmessage'] = '新しいメッセージを作成';
 $labels['reply'] = '返信';
 $labels['replytomessage'] = '送信者に返信';
@@ -166,7 +165,7 @@ $labels['unlimited'] = '無制限';
 $labels['quicksearch'] = '高速検索';
 $labels['resetsearch'] = '検索を解除';
 $labels['searchmod'] = '検索の条件';
-$labels['msgtext'] = 'メッセージの全体';
+$labels['msgtext'] = 'メッセージ全体';
 $labels['openinextwin'] = '新しいウィンドウで開く';
 $labels['emlsave'] = 'ダウンロード(.eml形式)';
 $labels['editasnew'] = '新しいメッセージとして編集';
@@ -302,7 +301,7 @@ $labels['importreplace'] = 'アドレス帳全体と置き換え';
 $labels['importtext'] = '既存のアドレス帳から連絡先をアップロードできます。現在、<a href="http://ja.wikipedia.org/wiki/VCard">vCard</a> 形式からのインポートに対応しています。';
 $labels['done'] = '完了';
 $labels['settingsfor'] = '次の設定:';
-$labels['about'] = 'Roundcube Webmailについて';
+$labels['about'] = 'このプログラムについて';
 $labels['preferences'] = '設定';
 $labels['userpreferences'] = 'ユーザー設定';
 $labels['editpreferences'] = 'ユーザー設定を変更';
@@ -354,8 +353,8 @@ $labels['everynminutes'] = '$n分毎';
 $labels['keepalive'] = '新着メッセージを確認する間隔';
 $labels['never'] = 'しない';
 $labels['immediately'] = '即時';
-$labels['messagesdisplaying'] = 'メッセージを表示';
-$labels['messagescomposition'] = 'メッセージを作成';
+$labels['messagesdisplaying'] = 'メッセージの表示';
+$labels['messagescomposition'] = 'メッセージの作成';
 $labels['mimeparamfolding'] = '添付ファイルの名前';
 $labels['2231folding'] = 'RFC 2231に完全準拠(Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231(MS Outlook)';

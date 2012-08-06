@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: pompilos <ciordia@gmail.com>                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'SPAM';
 $labels['buttontitle'] = 'Marcar como SPAM';
 $labels['reportedasjunk'] = 'Mensaje informado como SPAM';
 

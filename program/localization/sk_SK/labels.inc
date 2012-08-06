@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: panda <Unknown>                                               |
+ | Author: panda                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -397,6 +396,7 @@ $labels['spellcheckignoresyms'] = 'Ignorovať slová so symbolmi';
 $labels['spellcheckignorenums'] = 'Ignorovať slová s číslami';
 $labels['spellcheckignorecaps'] = 'Ignorovať slová písané veľkými písmenami';
 $labels['addtodict'] = 'Pridať do slovníka';
+$labels['mailtoprotohandler'] = 'Zaregistrovať handler pre odkazy „mailto:“';
 $labels['folder'] = 'Priečinok';
 $labels['foldername'] = 'Názov priečinku';
 $labels['subscribed'] = 'Prihlásený k odberu';

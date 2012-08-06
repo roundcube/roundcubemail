@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ml_IN/labels.inc                                         |
+ | localization/ml_ML/labels.inc                                         |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: midhun <orisis47@gmail.com>                                   |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();

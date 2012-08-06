@@ -397,15 +397,22 @@ class rcube_user
      */
     static function query($user, $host)
     {
-        $dbh = rcube::get_instance()->get_dbh();
+        $dbh    = rcube::get_instance()->get_dbh();
+        $config = rcube::get_instance()->config;
 
         // query for matching user name
-        $query = "SELECT * FROM ".$dbh->table_name('users')." WHERE mail_host = ? AND %s = ?";
-        $sql_result = $dbh->query(sprintf($query, 'username'), $host, $user);
+        $sql_result = $dbh->query("SELECT * FROM " . $dbh->table_name('users')
+            ." WHERE mail_host = ? AND username = ?", $host, $user);
 
-        // query for matching alias
-        if (!($sql_arr = $dbh->fetch_assoc($sql_result))) {
-            $sql_result = $dbh->query(sprintf($query, 'alias'), $host, $user);
+        $sql_arr = $dbh->fetch_assoc($sql_result);
+
+        // username not found, try aliases from identities
+        if (empty($sql_arr) && $config->get('user_aliases') && strpos($user, '@')) {
+            $sql_result = $dbh->limitquery("SELECT u.*"
+                ." FROM " . $dbh->table_name('users') . " u"
+                ." JOIN " . $dbh->table_name('identities') . " i ON (i.user_id = u.user_id)"
+                ." WHERE email = ? AND del <> 1", 0, 1, $user);
+
             $sql_arr = $dbh->fetch_assoc($sql_result);
         }
 
@@ -479,23 +486,23 @@ class rcube_user
             // create new identities records
             $standard = 1;
             foreach ($email_list as $row) {
-	            $record = array();
+                $record = array();
 
                 if (is_array($row)) {
-	                $record = $row;
+                    $record = $row;
                 }
                 else {
                     $record['email'] = $row;
                 }
 
-	            if (empty($record['name']))
-	                $record['name'] = $user_name;
+                if (empty($record['name']))
+                    $record['name'] = $user_name;
                 $record['name'] = strip_newlines($record['name']);
                 $record['user_id'] = $user_id;
                 $record['standard'] = $standard;
 
                 $plugin = $rcube->plugins->exec_hook('identity_create',
-	                array('login' => true, 'record' => $record));
+                    array('login' => true, 'record' => $record));
 
                 if (!$plugin['abort'] && $plugin['record']['email']) {
                     $rcube->user->insert_identity($plugin['record']);

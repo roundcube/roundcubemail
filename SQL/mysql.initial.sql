@@ -22,26 +22,22 @@ CREATE TABLE `users` (
  `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
  `username` varchar(128) BINARY NOT NULL,
  `mail_host` varchar(128) NOT NULL,
- `alias` varchar(128) BINARY NOT NULL,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `last_login` datetime DEFAULT NULL,
  `language` varchar(5),
  `preferences` text,
  PRIMARY KEY(`user_id`),
- UNIQUE `username` (`username`, `mail_host`),
- INDEX `alias_index` (`alias`)
+ UNIQUE `username` (`username`, `mail_host`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
 -- Table structure for table `cache`
 
 CREATE TABLE `cache` (
- `cache_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user_id` int(10) UNSIGNED NOT NULL,
  `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL ,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `data` longtext NOT NULL,
- `user_id` int(10) UNSIGNED NOT NULL,
- PRIMARY KEY(`cache_id`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
  INDEX `created_index` (`created`),
@@ -158,7 +154,8 @@ CREATE TABLE `identities` (
  PRIMARY KEY(`identity_id`),
  CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
- INDEX `user_identities_index` (`user_id`, `del`)
+ INDEX `user_identities_index` (`user_id`, `del`),
+ INDEX `email_identities_index` (`email`, `del`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 

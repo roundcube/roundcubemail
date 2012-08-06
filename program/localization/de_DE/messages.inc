@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Steven Beer <Unknown>                                         |
+ | Author: akn                                                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -19,9 +18,11 @@ $messages['errortitle'] = 'Ein Fehler ist aufgetreten!';
 $messages['loginfailed'] = 'Die Anmeldung ist fehlgeschlagen.';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies.';
 $messages['sessionerror'] = 'Ihre Sitzung ist ungültig oder abgelaufen.';
+$messages['storageerror'] = 'Verbindung zum Speicherserver fehlgeschlagen.';
 $messages['servererror'] = 'Serverfehler!';
 $messages['servererrormsg'] = 'Serverfehler: $msg';
 $messages['dberror'] = 'Datenbankfehler!';
+$messages['requesttimedout'] = 'Zeitüberschreitung der Anforderung';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
 $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';
@@ -34,15 +35,15 @@ $messages['uploadingmany'] = 'Dateien werden hochgeladen...';
 $messages['loadingdata'] = 'Daten werden geladen...';
 $messages['checkingmail'] = 'Überprüfung auf neue Nachrichten...';
 $messages['sendingmessage'] = 'Nachricht wird gesendet...';
-$messages['messagesent'] = 'Nachricht erfolgreich gesendet';
+$messages['messagesent'] = 'Nachricht erfolgreich gesendet.';
 $messages['savingmessage'] = 'Nachricht wird gespeichert...';
-$messages['messagesaved'] = 'Nachricht als Entwurf gespeichert';
+$messages['messagesaved'] = 'Nachricht als Entwurf gespeichert.';
 $messages['successfullysaved'] = 'Erfolgreich gespeichert.';
 $messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefügt.';
 $messages['contactexists'] = 'Es existiert bereits ein Kontakt mit dieser E-Mail-Adresse.';
-$messages['contactnameexists'] = 'Ein Kontakt mit demselben Namen existiert bereits.';
+$messages['contactnameexists'] = 'Ein Kontakt mit dem gleichen Namen existiert bereits.';
 $messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
-$messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigtwerden.';
+$messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden.';
 $messages['contactnotfound'] = 'Der angeforderte Kontakt wurde nicht gefunden.';
 $messages['contactsearchonly'] = 'Geben Sie einen Suchbegriff ein, um Kontakte zu finden.';
@@ -113,7 +114,6 @@ $messages['selectimportfile'] = 'Bitte wählen Sie eine Datei zum Importieren au
 $messages['addresswriterror'] = 'Das gewählte Adressbuch kann nicht verändert werden.';
 $messages['contactaddedtogroup'] = 'Kontakte wurden dieser Gruppe hinzugefügt.';
 $messages['contactremovedfromgroup'] = 'Kontakte wurden aus dieser Gruppe entfernt.';
-$messages['nogroupassignmentschanged'] = 'Es wurde keine Gruppenzuweisung verändert.';
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
 $messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert.</b>';

@@ -313,8 +313,12 @@ class rcube_imap_generic
                 else {
                     $this->resultcode = null;
                     // parse response for [APPENDUID 1204196876 3456]
-                    if (preg_match("/^\[APPENDUID [0-9]+ ([0-9,:*]+)\]/i", $str, $m)) {
+                    if (preg_match("/^\[APPENDUID [0-9]+ ([0-9]+)\]/i", $str, $m)) {
                         $this->data['APPENDUID'] = $m[1];
+                    }
+                    // parse response for [COPYUID 1204196876 3456:3457 123:124]
+                    else if (preg_match("/^\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\]/i", $str, $m)) {
+                        $this->data['COPYUID'] = array($m[1], $m[2]);
                     }
                 }
                 $this->result = $str;
@@ -1950,6 +1954,9 @@ class rcube_imap_generic
      */
     function copy($messages, $from, $to)
     {
+        // Clear last COPYUID data
+        unset($this->data['COPYUID']);
+
         if (!$this->select($from)) {
             return false;
         }
@@ -3195,10 +3202,10 @@ class rcube_imap_generic
      */
     static function getStructurePartData($structure, $part)
     {
-	    $part_a = self::getStructurePartArray($structure, $part);
-	    $data   = array();
+        $part_a = self::getStructurePartArray($structure, $part);
+        $data   = array();
 
-	    if (empty($part_a)) {
+        if (empty($part_a)) {
             return $data;
         }
 
@@ -3231,13 +3238,13 @@ class rcube_imap_generic
 
     static function getStructurePartArray($a, $part)
     {
-	    if (!is_array($a)) {
+        if (!is_array($a)) {
             return false;
         }
 
         if (empty($part)) {
-		    return $a;
-	    }
+            return $a;
+        }
 
         $ctype = is_string($a[0]) && is_string($a[1]) ? $a[0] . '/' . $a[1] : '';
 
@@ -3245,20 +3252,17 @@ class rcube_imap_generic
             $a = $a[8];
         }
 
-	    if (strpos($part, '.') > 0) {
-		    $orig_part = $part;
-		    $pos       = strpos($part, '.');
-		    $rest      = substr($orig_part, $pos+1);
-		    $part      = substr($orig_part, 0, $pos);
+        if (strpos($part, '.') > 0) {
+            $orig_part = $part;
+            $pos       = strpos($part, '.');
+            $rest      = substr($orig_part, $pos+1);
+            $part      = substr($orig_part, 0, $pos);
 
-		    return self::getStructurePartArray($a[$part-1], $rest);
-	    }
+            return self::getStructurePartArray($a[$part-1], $rest);
+        }
         else if ($part > 0) {
-		    if (is_array($a[$part-1]))
-                return $a[$part-1];
-		    else
-                return $a;
-	    }
+            return (is_array($a[$part-1])) ? $a[$part-1] : $a;
+        }
     }
 
     /**

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Claudio F Filho <filhocf@gmail.com>                           |
+ | Author: Victor Benincasa <vbenincasa@gmail.com>                       |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -19,19 +18,20 @@ $messages['errortitle'] = 'Ocorreu um erro!';
 $messages['loginfailed'] = 'Falha no login';
 $messages['cookiesdisabled'] = 'Seu navegador não aceita cookies';
 $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';
-$messages['storageerror'] = 'Falha na conexão com o servidor IMAP';
+$messages['storageerror'] = 'Falha na conexão com o servidor. Verifique se informou os dados corretamente.';
 $messages['servererror'] = 'Erro no Servidor!';
 $messages['servererrormsg'] = 'Erro no Servidor: $msg';
 $messages['dberror'] = 'Erro no banco de dados!';
+$messages['requesttimedout'] = 'Tempo da requisição esgotado';
 $messages['errorreadonly'] = 'Não foi possível realizar a operação. Pasta somente leitura';
 $messages['errornoperm'] = 'Não foi possível realizar a operação. Acesso negado';
 $messages['invalidrequest'] = 'Requisição inválida! Nenhum dado foi salvo.';
 $messages['nomessagesfound'] = 'Nenhuma mensagem encontrada nessa caixa de mensagens';
-$messages['loggedout'] = 'Sua sessão foi finalizada com sucesso. Até breve!';
+$messages['loggedout'] = 'Sua sessão foi finalizada com sucesso. Até logo!';
 $messages['mailboxempty'] = 'A caixa de mensagens está vazia';
 $messages['loading'] = 'Carregando...';
-$messages['uploading'] = 'Carregando arquivo...';
-$messages['uploadingmany'] = 'Carregando arquivos...';
+$messages['uploading'] = 'Enviando arquivo...';
+$messages['uploadingmany'] = 'Enviando arquivos...';
 $messages['loadingdata'] = 'Carregando dados...';
 $messages['checkingmail'] = 'Verificando se há novas mensagens...';
 $messages['sendingmessage'] = 'Enviando mensagem...';
@@ -76,7 +76,7 @@ $messages['nosubjectwarning'] = 'O campo "Assunto" está vazio. Deseja incluí-l
 $messages['nobodywarning'] = 'Enviar a mensagem sem texto?';
 $messages['notsentwarning'] = 'A mensagem não foi enviada. Deseja descartar sua mensagem?';
 $messages['noldapserver'] = 'Por favor, selecione um servidor LDAP para a pesquisa';
-$messages['nosearchname'] = 'Por favor, informe o nome do contado ou seu endereço de e-mail';
+$messages['nosearchname'] = 'Por favor, informe o nome do contato ou seu endereço de e-mail.';
 $messages['notuploadedwarning'] = 'Há anexos ainda não enviados. Aguarde ou cancele o envio.';
 $messages['searchsuccessful'] = '$nr mensagens encontradas.';
 $messages['contactsearchsuccessful'] = '$nr contatos encontrados.';
@@ -110,16 +110,16 @@ $messages['errorsendingreceipt'] = 'Não foi possível enviar a confirmação de
 $messages['deleteidentityconfirm'] = 'Você realmente deseja excluir esta identidade?';
 $messages['nodeletelastidentity'] = 'Você não pode excluir sua única identidade';
 $messages['forbiddencharacter'] = 'O nome da pasta contém um caractere não permitido';
-$messages['selectimportfile'] = 'Selecione o arquivo para envio';
+$messages['selectimportfile'] = 'Selecione o arquivo a ser enviado.';
 $messages['addresswriterror'] = 'O catálogo de endereços selecionado não tem permissão de modificação';
-$messages['contactaddedtogroup'] = 'Adicionado os contatos a este grupo com sucesso';
-$messages['contactremovedfromgroup'] = 'Removido contatos deste grupo com sucesso';
+$messages['contactaddedtogroup'] = 'Contatos adicionados a este grupo com sucesso.';
+$messages['contactremovedfromgroup'] = 'Contatos removidos deste grupo com sucesso.';
 $messages['importwait'] = 'Importando, aguarde por favor...';
 $messages['importerror'] = 'Falha na importação! O arquivo enviado não é um arquivo vCard válido.';
 $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contatos</b>';
 $messages['importconfirmskipped'] = '<b>Ignorado(s) $skipped registro(s) já existente(s)</b>';
 $messages['opnotpermitted'] = 'Operação não permitida!';
-$messages['nofromaddress'] = 'Falta o endereço de email na identidade selecionada';
+$messages['nofromaddress'] = 'Falta o e-mail na identidade selecionada.';
 $messages['editorwarning'] = 'Mudar para o editor de texto simples elimina toda a formatação de texto. Deseja continuar?';
 $messages['httpreceivedencrypterror'] = 'Ocorreu um erro de configuração. Informe ao administrador do sistema imediatamente. <b>Sua mensagem não pode ser enviada.</b>';
 $messages['smtpconnerror'] = 'Erro SMTP ($code): Conexão ao servidor falhou.';
@@ -129,7 +129,7 @@ $messages['smtptoerror'] = 'Erro SMTP ($code): Falha ao adicionar o destinatári
 $messages['smtprecipientserror'] = 'Erro SMTP: Não é possível processar a lista destinatários.';
 $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'Endereço de e-mail inválido: $email';
-$messages['toomanyrecipients'] = 'Muitos destinatários. Reduza o número de destinatários para $max.';
+$messages['toomanyrecipients'] = 'Há muitos destinatários. Reduza o número de destinatários para $max.';
 $messages['maxgroupmembersreached'] = 'O número de membros do grupo excede o máximo de $max';
 $messages['internalerror'] = 'Ocorreu um erro interno. Por favor tente novamente.';
 $messages['contactdelerror'] = 'Não foi possível excluir o(s) contato(s).';
@@ -148,13 +148,13 @@ $messages['messagemoved'] = 'Mensagem(s) movida(s) com sucesso';
 $messages['messagecopied'] = 'Mensagem(s) copiada(s) com sucesso';
 $messages['messagemarked'] = 'Mensagem(s) marcada(s) com sucesso';
 $messages['autocompletechars'] = 'Digite pelo menos $min caractere(s) para auto-completar';
-$messages['autocompletemore'] = 'Muitos registros encontrados. Por favor, digite mais caracteres.';
+$messages['autocompletemore'] = 'Mais registros foram encontrados. Por favor, digite mais caracteres.';
 $messages['namecannotbeempty'] = 'Nome não pode ser vazio';
 $messages['nametoolong'] = 'Nome é muito longo';
 $messages['folderupdated'] = 'Pasta atualizada com sucesso';
 $messages['foldercreated'] = 'Pasta criada com sucesso';
 $messages['invalidimageformat'] = 'Formato de imagem inválido.';
-$messages['mispellingsfound'] = 'Foram detectados erros de ortografia.';
+$messages['mispellingsfound'] = 'Foram detectados erros de ortografia na mensagem.';
 $messages['parentnotwritable'] = 'Sem permissão para criar/mover a pasta dentro da pasta selecionada.';
-$messages['messagetoobig'] = 'A parte da mensagem é muito grande para ser processada';
+$messages['messagetoobig'] = 'A mensagem é muito grande para ser processada.';
 

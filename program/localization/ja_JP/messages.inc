@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe <Unknown>                                      |
+ | Author: Takahiro Kambe                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'IMAP サーバーへの接続に失敗しました�
 $messages['servererror'] = 'サーバーでエラーです!';
 $messages['servererrormsg'] = 'サーバーエラー: $msg';
 $messages['dberror'] = 'データベースのエラーです!';
+$messages['requesttimedout'] = 'リクエストのタイムアウト';
 $messages['errorreadonly'] = '操作を実行できませんでした。フォルダーは読み込み専用です。';
 $messages['errornoperm'] = '操作を実行できませんでした。権限がありません。';
 $messages['invalidrequest'] = '不正なリクエストです!  データは保存していません。';

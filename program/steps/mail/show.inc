@@ -257,7 +257,7 @@ function rcmail_contact_exists($email)
 
   if ($email) {
     // @TODO: search in all address books?
-    $CONTACTS = $RCMAIL->get_address_book(null, true);
+    $CONTACTS = $RCMAIL->get_address_book(-1, true);
     $existing = $CONTACTS->search('email', $email, true, false);
     if ($existing->count)
       return true;
@@ -266,11 +266,25 @@ function rcmail_contact_exists($email)
   return false;
 }
 
+function rcmail_message_contactphoto($attrib)
+{
+  global $RCMAIL, $MESSAGE;
+
+  $placeholder = $attrib['placeholder'] ? $RCMAIL->config->get('skin_path') . $attrib['placeholder'] : null;
+  if ($MESSAGE->sender)
+    $photo_img = $RCMAIL->url(array('_task' => 'addressbook', '_action' => 'photo', '_email' => $MESSAGE->sender['mailto'], '_alt' => $placeholder));
+  else
+    $photo_img = $placeholder ? $placeholder : 'program/resources/blank.gif';
+
+  return html::img(array('src' => $photo_img) + $attrib);
+}
+
 
 $OUTPUT->add_handlers(array(
   'messageattachments' => 'rcmail_message_attachments',
   'mailboxname' => 'rcmail_mailbox_name_display',
   'messageobjects' => 'rcmail_message_objects',
+  'contactphoto' => 'rcmail_message_contactphoto',
 ));
 
 

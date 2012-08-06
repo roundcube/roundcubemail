@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: panda                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Označiť ako Spam';
 $labels['reportedasjunk'] = 'Úspešne nahlásené ako Spam';
 

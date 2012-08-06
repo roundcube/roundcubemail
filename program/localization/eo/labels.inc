@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Andreas van Cranenburgh <andreas@unstable.nl>                 |
+ | Author: Kristjan SCHMIDT                                              |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -84,7 +83,7 @@ $labels['nov'] = 'Nov';
 $labels['dec'] = 'Dec';
 $labels['longjan'] = 'Januaro';
 $labels['longfeb'] = 'Februaro';
-$labels['longmar'] = 'Marĉo';
+$labels['longmar'] = 'Marto';
 $labels['longapr'] = 'Aprilo';
 $labels['longjun'] = 'Junio';
 $labels['longjul'] = 'Julio';
@@ -115,9 +114,9 @@ $labels['firstmessage'] = 'Montru unuan mesaĝon';
 $labels['nextmessage'] = 'Montru sekvan mesaĝon';
 $labels['lastmessage'] = 'Montru lastan mesaĝon';
 $labels['backtolist'] = 'Reen al mesaĝo-listo';
-$labels['viewsource'] = 'Montru fonton';
-$labels['mark'] = 'Marku';
-$labels['markmessages'] = 'Marku mesaĝojn';
+$labels['viewsource'] = 'Montri fonton';
+$labels['mark'] = 'Marki';
+$labels['markmessages'] = 'Marki mesaĝojn';
 $labels['markread'] = 'Kiel legita';
 $labels['markunread'] = 'Kiel nelegita';
 $labels['markflagged'] = 'kiel markita';
@@ -179,6 +178,7 @@ $labels['dsn'] = 'Ricev-status-konfirmo';
 $labels['mailreplyintro'] = 'Je $date, $sender skribis:';
 $labels['originalmessage'] = 'Originala mesaĝo';
 $labels['editidents'] = 'Redaktu identojn';
+$labels['spellcheck'] = 'Literumu';
 $labels['checkspelling'] = 'Kontrolu literumadon';
 $labels['resumeediting'] = 'Rekomencu redaktadon';
 $labels['revertto'] = 'Reiru al';
@@ -242,6 +242,7 @@ $labels['spouse'] = 'Edz(in)o';
 $labels['allfields'] = 'Ĉiuj kampoj';
 $labels['search'] = 'Serĉu';
 $labels['advsearch'] = 'Detala sercô';
+$labels['advanced'] = 'Altnivela';
 $labels['other'] = 'Alia';
 $labels['typeother'] = 'Alia';
 $labels['typehome'] = 'Hejmo';
@@ -262,7 +263,7 @@ $labels['contacts'] = 'Kontaktoj';
 $labels['contactproperties'] = 'Kontakt-informoj';
 $labels['personalinfo'] = 'Personaj informoj';
 $labels['edit'] = 'Redaktu';
-$labels['cancel'] = 'Rezignu';
+$labels['cancel'] = 'Nuligi';
 $labels['save'] = 'Konservi';
 $labels['delete'] = 'Forigi';
 $labels['rename'] = 'Alinomigu';

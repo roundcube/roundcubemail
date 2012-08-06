@@ -48,7 +48,7 @@ function rcube_webmail()
   this.env.request_timeout = 180;  // seconds
   this.env.draft_autosave = 0;     // seconds
   this.env.comm_path = './';
-  this.env.blankpage = 'program/blank.gif';
+  this.env.blankpage = 'program/resources/blank.gif';
 
   // set jQuery ajax options
   $.ajaxSetup({
@@ -922,14 +922,8 @@ function rcube_webmail()
         break;
 
       case 'savedraft':
-        var form = this.gui_objects.messageform, msgid;
-
         // Reset the auto-save timer
         clearTimeout(this.save_timer);
-
-        // saving Drafts is disabled
-        if (!form)
-          break;
 
         // compose form did not change
         if (this.cmp_hash == this.compose_field_hash()) {
@@ -940,35 +934,17 @@ function rcube_webmail()
         // re-set keep-alive timeout
         this.start_keepalive();
 
-        msgid = this.set_busy(true, 'savingmessage');
-
-        form.target = "savetarget";
-        form._draft.value = '1';
-        form.action = this.add_url(form.action, '_unlock', msgid);
-        form.submit();
+        this.submit_messageform(true);
         break;
 
       case 'send':
-        if (!this.gui_objects.messageform)
-          break;
-
         if (!props.nocheck && !this.check_compose_input(command))
           break;
 
         // Reset the auto-save timer
         clearTimeout(this.save_timer);
 
-        // all checks passed, send message
-        var lang = this.spellcheck_lang(),
-          form = this.gui_objects.messageform,
-          msgid = this.set_busy(true, 'sendingmessage');
-
-        form.target = 'savetarget';
-        form._draft.value = '';
-        form.action = this.add_url(form.action, '_unlock', msgid);
-        form.action = this.add_url(form.action, '_lang', lang);
-        form.submit();
-
+        this.submit_messageform();
         break;
 
       case 'send-attachment':
@@ -3033,6 +3009,29 @@ function rcube_webmail()
       .attr('autocomplete', 'off');
   };
 
+  this.submit_messageform = function(draft)
+  {
+    var form = this.gui_objects.messageform;
+
+    if (!form)
+      return;
+
+    // all checks passed, send message
+    var msgid = this.set_busy(true, draft ? 'savingmessage' : 'sendingmessage'),
+      lang = this.spellcheck_lang(),
+      files = [];
+
+    // send files list
+    $('li', this.gui_objects.attachmentlist).each(function() { files.push(this.id.replace(/^rcmfile/, '')); });
+    $('input[name="_attachments"]', form).val(files.join());
+
+    form.target = 'savetarget';
+    form._draft.value = draft ? '1' : '';
+    form.action = this.add_url(form.action, '_unlock', msgid);
+    form.action = this.add_url(form.action, '_lang', lang);
+    form.submit();
+  };
+
   this.compose_recipient_select = function(list)
   {
     this.enable_command('add-recipient', list.selection.length > 0);
@@ -4277,7 +4276,7 @@ function rcube_webmail()
     if (!this.gui_objects.contactslist)
       return false;
 
-    var c, list = this.contact_list,
+    var c, col, list = this.contact_list,
       row = document.createElement('tr');
 
     row.id = 'rcmrow'+this.html_identifier(cid);
@@ -5361,13 +5360,6 @@ function rcube_webmail()
     }
   };
 
-  // enable/disable buttons for page shifting
-  this.set_page_buttons = function()
-  {
-    this.enable_command('nextpage', 'lastpage', (this.env.pagecount > this.env.current_page));
-    this.enable_command('previouspage', 'firstpage', (this.env.current_page > 1));
-  };
-
   // set event handlers on registered buttons
   this.init_buttons = function()
   {
@@ -5375,7 +5367,7 @@ function rcube_webmail()
       if (typeof cmd !== 'string')
         continue;
 
-      for (var i=0; i< this.buttons[cmd].length; i++) {
+      for (var i=0; i<this.buttons[cmd].length; i++) {
         init_button(cmd, this.buttons[cmd][i]);
       }
     }
@@ -5394,28 +5386,31 @@ function rcube_webmail()
       button = a_buttons[n];
       obj = document.getElementById(button.id);
 
+      if (!obj)
+        continue;
+
       // get default/passive setting of the button
-      if (obj && button.type == 'image' && !button.status) {
+      if (button.type == 'image' && !button.status) {
         button.pas = obj._original_src ? obj._original_src : obj.src;
         // respect PNG fix on IE browsers
         if (obj.runtimeStyle && obj.runtimeStyle.filter && obj.runtimeStyle.filter.match(/src=['"]([^'"]+)['"]/))
           button.pas = RegExp.$1;
       }
-      else if (obj && !button.status)
+      else if (!button.status)
         button.pas = String(obj.className);
 
       // set image according to button state
-      if (obj && button.type == 'image' && button[state]) {
+      if (button.type == 'image' && button[state]) {
         button.status = state;
         obj.src = button[state];
       }
       // set class name according to button state
-      else if (obj && button[state] !== undefined) {
+      else if (button[state] !== undefined) {
         button.status = state;
         obj.className = button[state];
       }
       // disable/enable input buttons
-      if (obj && button.type=='input') {
+      if (button.type == 'input') {
         button.status = state;
         obj.disabled = !state;
       }
@@ -5636,6 +5631,13 @@ function rcube_webmail()
           m[k].obj.hide();
 
     this.messages = {};
+  };
+
+  // enable/disable buttons for page shifting
+  this.set_page_buttons = function()
+  {
+    this.enable_command('nextpage', 'lastpage', (this.env.pagecount > this.env.current_page));
+    this.enable_command('previouspage', 'firstpage', (this.env.current_page > 1));
   };
 
   // mark a mailbox as selected and set environment variable
@@ -6211,7 +6213,7 @@ function rcube_webmail()
     // have to do it this way for IE
     // otherwise the form will be posted to a new window
     if (document.all) {
-      var html = '<iframe name="'+frame_name+'" src="program/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
+      var html = '<iframe name="'+frame_name+'" src="program/resources/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
       document.body.insertAdjacentHTML('BeforeEnd', html);
     }
     else { // for standards-compilant browsers
@@ -6289,6 +6291,7 @@ function rcube_webmail()
         contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
         processData: false,
         data: formdata || multipart,
+        headers: {'X-Roundcube-Request': ref.env.request_token},
         beforeSend: function(xhr, s) { if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; },
         success: function(data){ ref.http_response(data); },
         error: function(o, status, err) { ref.http_error(o, status, err, null, 'attachment'); }
@@ -6548,7 +6551,7 @@ function rcube_webmail()
 
     img.onload = function() { rcmail.env.browser_capabilities.tif = 1; };
     img.onerror = function() { rcmail.env.browser_capabilities.tif = 0; };
-    img.src = 'program/blank.tif';
+    img.src = 'program/resources/blank.tif';
   };
 
   this.pdf_support_check = function()

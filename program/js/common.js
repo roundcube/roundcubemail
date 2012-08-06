@@ -83,6 +83,7 @@ function roundcube_browser()
   if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc)))
     this.lang = RegExp.$1;
 
+  this.mobile = this.agent_lc.match(/iphone|ipad|ipod|android|blackberry|iemobile|opera mini|opera mobi/);
   this.dhtml = ((this.ie4 && this.win) || this.ie5 || this.ie6 || this.ns4 || this.mz);
   this.vml = (this.win && this.ie && this.dom && !this.opera);
   this.pngalpha = (this.mz || (this.opera && this.vendver >= 6) || (this.ie && this.mac && this.vendver >= 5) ||
@@ -123,6 +124,9 @@ function roundcube_browser()
       classname += ' ipad';
     else if (this.safari || this.chrome)
       classname += ' webkit';
+
+    if (this.mobile)
+      classname += ' mobile';
 
     if (document.documentElement)
       document.documentElement.className += classname;

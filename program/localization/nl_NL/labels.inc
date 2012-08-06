@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Geert Wirken <Unknown>                                        |
+ | Author: Geert Wirken                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -154,7 +153,7 @@ $labels['arrival'] = 'Aankomst datum';
 $labels['asc'] = 'oplopend';
 $labels['desc'] = 'aflopend';
 $labels['listcolumns'] = 'Kolommen';
-$labels['listsorting'] = 'Sorteerkolom';
+$labels['listsorting'] = 'Sorteer op kolom';
 $labels['listorder'] = 'Sorteervolgorde';
 $labels['listmode'] = 'Weergavemodus';
 $labels['folderactions'] = 'Acties voor map...';
@@ -173,7 +172,7 @@ $labels['editasnew'] = 'Als nieuw bewerken';
 $labels['savemessage'] = 'Bewaar als concept';
 $labels['sendmessage'] = 'Verstuur het bericht nu';
 $labels['addattachment'] = 'Voeg een bijlage toe';
-$labels['charset'] = 'Karakterset';
+$labels['charset'] = 'Tekenset';
 $labels['editortype'] = 'Opmaak';
 $labels['returnreceipt'] = 'Ontvangstbevestiging';
 $labels['dsn'] = 'Afleveringsbericht (DSN)';
@@ -267,7 +266,7 @@ $labels['contacts'] = 'Contactpersonen';
 $labels['contactproperties'] = 'Contact eigenschappen';
 $labels['personalinfo'] = 'Persoonlijke informatie';
 $labels['edit'] = 'Wijzig';
-$labels['cancel'] = 'Annuleer';
+$labels['cancel'] = 'Annuleren';
 $labels['save'] = 'Opslaan';
 $labels['delete'] = 'Verwijder';
 $labels['rename'] = 'Hernoem';
@@ -312,11 +311,11 @@ $labels['newidentity'] = 'Identiteit toevoegen';
 $labels['newitem'] = 'Nieuw item';
 $labels['edititem'] = 'Wijzig item';
 $labels['preferhtml'] = 'Toon HTML';
-$labels['defaultcharset'] = 'Standaard karakterset';
+$labels['defaultcharset'] = 'Standaard tekenset';
 $labels['htmlmessage'] = 'HTML-bericht';
 $labels['dateformat'] = 'Datumnotatie';
 $labels['timeformat'] = 'Tijdweergave';
-$labels['prettydate'] = 'Gebruiksvriendelijke data';
+$labels['prettydate'] = 'Leesbare datums';
 $labels['setdefault'] = 'Stel in als standaard';
 $labels['autodetect'] = 'Automatisch';
 $labels['language'] = 'Taal';
@@ -335,23 +334,23 @@ $labels['uisettings'] = 'Gebruikersinterface';
 $labels['serversettings'] = 'Serverinstellingen';
 $labels['mailboxview'] = 'Mailboxweergave';
 $labels['mdnrequests'] = 'Ontvangstmeldingen';
-$labels['askuser'] = 'vraag de gebruiker';
+$labels['askuser'] = 'altijd aan mij vragen';
 $labels['autosend'] = 'stuur automatisch';
 $labels['autosendknown'] = 'stuur ontvangstbevestiging alleen naar mijn contactpersonen, voor anderen aan mij vragen';
 $labels['autosendknownignore'] = 'stuur ontvangstbevestiging alleen naar mijn contactpersonen,  voor anderen negeren';
-$labels['ignore'] = 'negeer';
+$labels['ignore'] = 'negeren';
 $labels['readwhendeleted'] = 'Bericht na verwijderen als gelezen markeren';
 $labels['flagfordeletion'] = 'Bericht niet verwijderen maar als verwijderd markeren';
 $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';
 $labels['deletealways'] = 'Verwijder bericht wanneer verplaatsen naar Prullenbak mislukt';
 $labels['deletejunk'] = 'Verwijder direct berichten in Spam';
-$labels['showremoteimages'] = 'Geef externe toegevoegde berichten weer';
-$labels['fromknownsenders'] = 'Van bekende afzenders';
+$labels['showremoteimages'] = 'Afbeeldingen op afstand weergeven';
+$labels['fromknownsenders'] = 'van bekende afzenders';
 $labels['always'] = 'altijd';
-$labels['showinlineimages'] = 'Toon bijgevoegde afbeeldingen onder het bericht';
+$labels['showinlineimages'] = 'Bijgevoegde afbeeldingen onder het bericht weergeven';
 $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
-$labels['keepalive'] = 'Controleer op nieuwe berichten';
+$labels['keepalive'] = 'Op nieuwe berichten controleren';
 $labels['never'] = 'nooit';
 $labels['immediately'] = 'onmiddellijk';
 $labels['messagesdisplaying'] = 'Berichtenweergave';
@@ -363,8 +362,8 @@ $labels['2047folding'] = 'Volledig RFC 2047 (andere)';
 $labels['force7bit'] = 'Gebruik MIME-codering voor 8-bit karakters';
 $labels['advancedoptions'] = 'Geavanceerde opties';
 $labels['focusonnewmessage'] = 'Focus browserscherm bij nieuw bericht';
-$labels['checkallfolders'] = 'Controleer alle mappen op nieuwe berichten';
-$labels['displaynext'] = 'Na verplaatsen/verwijderen het volgende bericht tonen';
+$labels['checkallfolders'] = 'In alle mappen op nieuwe berichten controleren';
+$labels['displaynext'] = 'Ga naar volgend bericht na verwijderen of verplaatsen';
 $labels['defaultfont'] = 'Standaardlettertype voor HTML-berichten';
 $labels['mainoptions'] = 'Hoofdopties';
 $labels['browseroptions'] = 'Browserinstellingen';
@@ -388,8 +387,8 @@ $labels['afternseconds'] = 'Na $n seconden';
 $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
 $labels['reqdsn'] = 'Vraag altijd om een afleveringsbericht';
 $labels['replysamefolder'] = 'Bewaar reacties in de map van het beantwoorde bericht';
-$labels['defaultaddressbook'] = 'Voeg nieuw contactpersoon toe aan geselecteerd adresboek';
-$labels['autocompletesingle'] = 'Sla alternatieve e-mailadressen over bij automatisch aanvullen';
+$labels['defaultaddressbook'] = 'Nieuwe contactpersonen toevoegen aan gekozen adresboek';
+$labels['autocompletesingle'] = 'Alternatieve e-mailadressen niet gebruiken bij automatisch aanvullen';
 $labels['listnamedisplay'] = 'Contactpersonen weergeven als';
 $labels['spellcheckbeforesend'] = 'Controleer spelling voor het versturen van een bericht';
 $labels['spellcheckoptions'] = 'Instellingen spellingscontrole';

@@ -45,7 +45,6 @@ class rcube_cache
     private $packed;
     private $index;
     private $cache         = array();
-    private $cache_keys    = array();
     private $cache_changes = array();
     private $cache_sums    = array();
 
@@ -167,7 +166,7 @@ class rcube_cache
             $this->cache         = array();
             $this->cache_changed = false;
             $this->cache_changes = array();
-            $this->cache_keys    = array();
+            $this->cache_sums    = array();
         }
         // Remove keys by name prefix
         else if ($prefix_mode) {
@@ -175,7 +174,7 @@ class rcube_cache
                 if (strpos($k, $key) === 0) {
                     $this->cache[$k] = null;
                     $this->cache_changes[$k] = false;
-                    unset($this->cache_keys[$k]);
+                    unset($this->cache_sums[$k]);
                 }
             }
         }
@@ -183,7 +182,7 @@ class rcube_cache
         else {
             $this->cache[$key] = null;
             $this->cache_changes[$key] = false;
-            unset($this->cache_keys[$key]);
+            unset($this->cache_sums[$key]);
         }
 
         // Remove record(s) from the backend
@@ -274,7 +273,7 @@ class rcube_cache
         }
         else {
             $sql_result = $this->db->limitquery(
-                "SELECT cache_id, data, cache_key".
+                "SELECT data, cache_key".
                 " FROM ".$this->db->table_name('cache').
                 " WHERE user_id = ?".
                 " AND cache_key = ?".
@@ -296,7 +295,6 @@ class rcube_cache
 
                 $this->cache[$key]      = $data;
 	            $this->cache_sums[$key] = $md5sum;
-                $this->cache_keys[$key] = $sql_arr['cache_id'];
             }
             else {
                 $this->cache[$key] = null;
@@ -325,7 +323,7 @@ class rcube_cache
             return $this->add_record($this->ckey($key), $data);
         }
 
-        $key_exists = $this->cache_keys[$key];
+        $key_exists = array_key_exists($key, $this->cache_sums);
         $key        = $this->prefix . '.' . $key;
 
         // Remove NULL rows (here we don't need to check if the record exist)

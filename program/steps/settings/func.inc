@@ -34,7 +34,7 @@ function rcmail_preferences_frame($attrib)
   $attrib['name'] = $attrib['id'];
 
   $OUTPUT->set_env('contentframe', $attrib['name']);
-  $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/blank.gif');
+  $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
   return html::iframe($attrib);
 }

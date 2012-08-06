@@ -68,10 +68,11 @@ $rcmail_config['smtp_debug'] = false;
 // to display a pulldown menu or set one host as string.
 // To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
 // Supported replacement variables:
-// %n - http hostname ($_SERVER['SERVER_NAME'])
-// %d - domain (http hostname without the first part)
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %s - domain name after the '@' from e-mail address provided at login screen
-// For example %n = mail.domain.tld, %d = domain.tld
+// For example %n = mail.domain.tld, %t = domain.tld
 $rcmail_config['default_host'] = '';
 
 // TCP port used for IMAP connections
@@ -135,10 +136,11 @@ $rcmail_config['messages_cache'] = false;
 // If left blank, the PHP mail() function is used
 // Supported replacement variables:
 // %h - user's IMAP hostname
-// %n - http hostname ($_SERVER['SERVER_NAME'])
-// %d - domain (http hostname without the first part)
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
-// For example %n = mail.domain.tld, %d = domain.tld
+// For example %n = mail.domain.tld, %t = domain.tld
 $rcmail_config['smtp_server'] = '';
 
 // SMTP port (default is 25; use 587 for STARTTLS or 465 for the
@@ -193,6 +195,9 @@ $rcmail_config['skin_logo'] = null;
 // set to false if only registered users can use this service
 $rcmail_config['auto_create_user'] = true;
 
+// Enables possibility to log in using email address from user identities
+$rcmail_config['user_aliases'] = false;
+
 // use this folder to store log files (must be writeable for apache user)
 // This is used by the 'file' log driver.
 $rcmail_config['log_dir'] = 'logs/';
@@ -228,6 +233,9 @@ $rcmail_config['login_lc'] = false;
 // Includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = false;
 
+// display software version on login screen
+$rcmail_config['display_version'] = false;
+
 // Session lifetime in minutes
 // must be greater than 'keep_alive'/60
 $rcmail_config['session_lifetime'] = 10;
@@ -244,8 +252,8 @@ $rcmail_config['session_name'] = null;
 $rcmail_config['session_storage'] = 'db';
 
 // Use these hosts for accessing memcached
-// Define any number of hosts in the form hostname:port
-$rcmail_config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211' );
+// Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
+$rcmail_config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
 
 // check client IP in session athorization
 $rcmail_config['ip_check'] = false;
@@ -267,10 +275,11 @@ $rcmail_config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 // Specify an array with 'host' => 'domain' values to support multiple hosts
 // Supported replacement variables:
 // %h - user's IMAP hostname
-// %n - http hostname ($_SERVER['SERVER_NAME'])
-// %d - domain (http hostname without the first part)
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
-// For example %n = mail.domain.tld, %d = domain.tld
+// For example %n = mail.domain.tld, %t = domain.tld
 $rcmail_config['username_domain'] = '';
 
 // This domain will be used to form e-mail addresses of new users
@@ -280,7 +289,7 @@ $rcmail_config['username_domain'] = '';
 // %n - http hostname ($_SERVER['SERVER_NAME'])
 // %d - domain (http hostname without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
-// For example %n = mail.domain.tld, %d = domain.tld
+// For example %n = mail.domain.tld, %t = domain.tld
 $rcmail_config['mail_domain'] = '';
 
 // Password charset.
@@ -532,10 +541,11 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   'name'          => 'Verisign.com',
   // Replacement variables supported in host names:
   // %h - user's IMAP hostname
-  // %n - http hostname ($_SERVER['SERVER_NAME'])
-  // %d - domain (http hostname without the first part)
+  // %n - hostname ($_SERVER['SERVER_NAME'])
+  // %t - hostname without the first part
+  // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
   // %z - IMAP domain (IMAP hostname without the first part)
-  // For example %n = mail.domain.tld, %d = domain.tld
+  // For example %n = mail.domain.tld, %t = domain.tld
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
   'use_tls'	      => false,
@@ -592,7 +602,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'name'        => 'cn',
     'surname'     => 'sn',
     'firstname'   => 'givenName',
-    'title'       => 'title',
+    'jobtitle'    => 'title',
     'email'       => 'mail:*',
     'phone:home'  => 'homePhone',
     'phone:work'  => 'telephoneNumber',
@@ -678,7 +688,7 @@ $rcmail_config['addressbook_search_mode'] = 0;
 $rcmail_config['default_charset'] = 'ISO-8859-1';
 
 // skin name: folder from skins/
-$rcmail_config['skin'] = 'default';
+$rcmail_config['skin'] = 'larry';
 
 // show up to X items in messages list view
 $rcmail_config['mail_pagesize'] = 50;

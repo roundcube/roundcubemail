@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Mohamed Rizmi <Unknown>                                       |
+ | Author: පසිඳු කාවින්ද <info@pk-soft.tk>       |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -36,7 +35,7 @@ $labels['cc'] = 'Cc';
 $labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'පිළිතුරු සඳහා';
 $labels['date'] = 'දිනය';
-$labels['size'] = 'විශාලත්වය';
+$labels['size'] = 'ප්‍රමාණය';
 $labels['priority'] = 'ප්‍රමුඛත්වය';
 $labels['organization'] = 'සංවිධානය';
 $labels['mailboxlist'] = 'බහාලුම්';
@@ -47,8 +46,8 @@ $labels['copy'] = 'පිටපත් කරන්න';
 $labels['move'] = 'ගෙනයන්න';
 $labels['moveto'] = 'ගෙන යන්න...';
 $labels['download'] = 'බාගත කරන්න';
-$labels['filename'] = 'ගොනු නම';
-$labels['filesize'] = 'ගොනුවේ ප්රමාණය';
+$labels['filename'] = 'ගොනුවේ නම';
+$labels['filesize'] = 'ගොනුවේ ප්‍රමාණය';
 $labels['addtoaddressbook'] = 'ලිපින පොතට එක් කරන්න';
 $labels['sun'] = 'ඉ';
 $labels['mon'] = 'ස';
@@ -207,7 +206,7 @@ $labels['typeblog'] = 'බ්ලොග්';
 $labels['typeprofile'] = 'පැතිකඩ';
 $labels['addcontact'] = 'නව සබඳතාවය එක් කරන්න';
 $labels['editcontact'] = 'ලිපිනය වෙනස් කිරීම';
-$labels['contacts'] = 'සම්බන්ධතා';
+$labels['contacts'] = 'සබඳතා';
 $labels['personalinfo'] = 'පුද්ගලික තොරතුරු';
 $labels['edit'] = 'සංස්කරණය';
 $labels['cancel'] = 'අවලංගු කරන්න';
@@ -276,9 +275,12 @@ $labels['folder'] = 'බහාලුම';
 $labels['foldername'] = 'බහාලුමේ නම';
 $labels['subscribed'] = 'සාමාජික';
 $labels['messagecount'] = 'පණිවිඩ';
-$labels['create'] = 'සෑදීම';
-$labels['createfolder'] = 'නව බහාලුමක් සාදන්න';
-$labels['managefolders'] = 'බහාලුම් කලමණාකරනය';
+$labels['create'] = 'තනන්න';
+$labels['createfolder'] = 'නව බහාලුමක් තනන්න';
+$labels['managefolders'] = 'බහාලුම් කළමනාකරණය කරන්න';
+$labels['specialfolders'] = 'විශේෂ බහාලුම්';
+$labels['properties'] = 'වත්කම්';
+$labels['folderproperties'] = 'බහාලුමේ වත්කම්';
 $labels['location'] = 'ස්ථානය';
 $labels['info'] = 'තොරතුරු';
 $labels['foldertype'] = 'බහාලුම් වර්ගය';

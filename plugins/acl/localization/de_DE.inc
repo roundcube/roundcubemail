@@ -1,5 +1,19 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/de_DE/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas                                                        |
+ +-----------------------------------------------------------------------+
+*/
+
+$labels = array();
 $labels['sharing'] = 'Freigabe';
 $labels['myrights'] = 'Zugriffsrechte';
 $labels['username'] = 'Benutzer:';
@@ -9,48 +23,44 @@ $labels['actions'] = 'Zugriffsrechte Aktionen...';
 $labels['anyone'] = 'Alle Benutzer (anyone)';
 $labels['anonymous'] = 'Gäste (anonymous)';
 $labels['identifier'] = 'Bezeichnung';
-
-$labels['acll'] = 'Ordner sichtbar';
+$labels['acll'] = 'Sichtbar';
+$labels['shortacll'] = 'Sichtbar';
 $labels['aclr'] = 'Nachrichten lesen';
 $labels['acls'] = 'Lesestatus ändern';
 $labels['aclw'] = 'Flags schreiben';
 $labels['acli'] = 'Nachrichten Hinzufügen';
-$labels['aclp'] = 'Nachrichten Senden an';
+$labels['aclp'] = 'Senden an';
+$labels['shortaclp'] = 'Senden an';
 $labels['aclc'] = 'Unterordner erstellen';
 $labels['aclk'] = 'Unterordner erstellen';
 $labels['acld'] = 'Nachrichten als gelöscht markieren';
 $labels['aclt'] = 'Nachrichten als gelöscht markieren';
-$labels['acle'] = 'Nachrichten endgültig Löschen';
+$labels['acle'] = 'endgültig löschen';
+$labels['shortacle'] = 'endgültig löschen';
 $labels['aclx'] = 'Ordner löschen';
-$labels['acla'] = 'Zugriffsrechte Verwalten';
-
+$labels['acla'] = 'Verwalten';
+$labels['shortacla'] = 'Verwalten';
 $labels['aclfull'] = 'Vollzugriff';
 $labels['aclother'] = 'Andere';
+$labels['shortaclother'] = 'Andere';
 $labels['aclread'] = 'Lesen';
-$labels['aclwrite'] = 'Schreiben';
-$labels['acldelete'] = 'Löschen';
-
-$labels['shortacll'] = 'Sichtbar';
 $labels['shortaclr'] = 'Lesen';
-$labels['shortacls'] = 'Lesestatus';
-$labels['shortaclw'] = 'Flags ändern';
-$labels['shortacli'] = 'Hinzufügen';
-$labels['shortaclp'] = 'Senden an';
-$labels['shortaclc'] = 'Erstellen';
-$labels['shortaclk'] = 'Erstellen';
+$labels['shortaclread'] = 'Lesen';
+$labels['aclwrite'] = 'Schreiben';
+$labels['shortaclw'] = 'Schreiben';
+$labels['shortaclwrite'] = 'Schreiben';
+$labels['acldelete'] = 'Löschen';
 $labels['shortacld'] = 'Löschen';
 $labels['shortaclt'] = 'Löschen';
-$labels['shortacle'] = 'endgültig löschen';
-$labels['shortaclx'] = 'Ordner löschen';
-$labels['shortacla'] = 'Verwalten';
-
-$labels['shortaclother'] = 'Andere';
-$labels['shortaclread'] = 'Lesen';
-$labels['shortaclwrite'] = 'Schreiben';
 $labels['shortacldelete'] = 'Löschen';
-
+$labels['shortacls'] = 'Lesestatus';
+$labels['shortacli'] = 'Hinzufügen';
+$labels['shortaclc'] = 'Erstellen';
+$labels['shortaclk'] = 'Erstellen';
+$labels['shortaclx'] = 'Ordner löschen';
 $labels['longacll'] = 'Der Ordner ist sichtbar und kann abonniert werden';
-$labels['longaclr'] = 'Nachrichten im Ordner können gelesen werden';
+$labels['longaclr'] = 'Der Ordnerinhalt kann gelesen werden';
+$labels['longaclread'] = 'Der Ordnerinhalt kann gelesen werden';
 $labels['longacls'] = 'Der Lesestatus von Nachrichten kann geändert werden';
 $labels['longaclw'] = 'Alle Nachrichten-Flags und Schlüsselwörter außer "Gelesen" und "Gelöscht" können geändert werden';
 $labels['longacli'] = 'Nachrichten können in diesen Ordner kopiert oder verschoben werden';
@@ -62,22 +72,18 @@ $labels['longaclt'] = 'Der "gelöscht" Status von Nachrichten kann geändert wer
 $labels['longacle'] = 'Als "gelöscht" markiert Nachrichten können gelöscht werden.';
 $labels['longaclx'] = 'Der Ordner kann gelöscht oder umbenannt werden';
 $labels['longacla'] = 'Die Zugriffsrechte des Ordners können geändert werden';
-
 $labels['longaclfull'] = 'Vollzugriff inklusive Ordner-Verwaltung';
-$labels['longaclread'] = 'Der Ordnerinhalt kann gelesen werden';
 $labels['longaclwrite'] = 'Nachrichten können markiert, an den Ordner gesendet und in den Ordner kopiert oder verschoben werden';
 $labels['longacldelete'] = 'Nachrichten können gelöscht werden';
+$labels['deleting'] = 'Zugriffsrechte werden entzogen...';
+$labels['saving'] = 'Zugriffsrechte werden gewährt...';
+$labels['updatesuccess'] = 'Zugriffsrechte erfolgreich geändert';
+$labels['deletesuccess'] = 'Zugriffsrechte erfolgreich entzogen';
+$labels['createsuccess'] = 'Zugriffsrechte erfolgreich gewährt';
+$labels['updateerror'] = 'Zugriffsrechte konnten nicht geändert werden';
+$labels['deleteerror'] = 'Zugriffsrechte konnten nicht entzogen werden';
+$labels['createerror'] = 'Zugriffsrechte konnten nicht gewährt werden';
+$labels['deleteconfirm'] = 'Sind Sie sicher, daß Sie die Zugriffsrechte den ausgewählten Benutzern entziehen möchten?';
+$labels['norights'] = 'Es wurden keine Zugriffsrechte ausgewählt!';
+$labels['nouser'] = 'Es wurde kein Benutzer ausgewählt!';
 
-$messages['deleting'] = 'Zugriffsrechte werden entzogen...';
-$messages['saving'] = 'Zugriffsrechte werden gewährt...';
-$messages['updatesuccess'] = 'Zugriffsrechte erfolgreich geändert';
-$messages['deletesuccess'] = 'Zugriffsrechte erfolgreich entzogen';
-$messages['createsuccess'] = 'Zugriffsrechte erfolgreich gewährt';
-$messages['updateerror'] = 'Zugriffsrechte konnten nicht geändert werden';
-$messages['deleteerror'] = 'Zugriffsrechte konnten nicht entzogen werden';
-$messages['createerror'] = 'Zugriffsrechte konnten nicht gewährt werden';
-$messages['deleteconfirm'] = 'Sind Sie sicher, daß Sie die Zugriffsrechte den ausgewählten Benutzern entziehen möchten?';
-$messages['norights'] = 'Es wurden keine Zugriffsrechte ausgewählt!';
-$messages['nouser'] = 'Es wurde kein Benutzer ausgewählt!';
-
-?>

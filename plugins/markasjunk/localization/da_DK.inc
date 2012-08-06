@@ -11,10 +11,10 @@
  +-----------------------------------------------------------------------+
  | Author: Johannes Hessellund <osos@openeyes.dk>                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Marker som spam mail';
 $labels['reportedasjunk'] = 'Successfuldt rapporteret som spam mail';
 

@@ -5,7 +5,7 @@
  | rcube_install.php                                                     |
  |                                                                       |
  | This file is part of the Roundcube Webmail package                    |
- | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -263,7 +263,7 @@ class rcube_install
       }
       else if (!empty($this->config['spellcheck_languages'])) {
         foreach ($this->config['spellcheck_languages'] as $lang => $descr)
-          if (!pspell_new($lang))
+          if (!@pspell_new($lang))
             $out['dependencies'][] = array('prop' => 'spellcheck_languages',
               'explain' => "You are missing pspell support for language $lang ($descr)");
       }

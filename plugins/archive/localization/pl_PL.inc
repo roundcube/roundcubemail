@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Archiwum';
+$labels['archivefolder'] = 'Archiwum';
 $labels['buttontitle'] = 'Przenieś do archiwum';
 $labels['archived'] = 'Pomyślnie zarchiwizowano';
-$labels['archivefolder'] = 'Archiwum';
 

@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe <Unknown>                                      |
+ | Author: Takahiro Kambe                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = '迷惑メール';
 $labels['buttontitle'] = '迷惑メールとして設定';
 $labels['reportedasjunk'] = '迷惑メールとして報告しました。';
 

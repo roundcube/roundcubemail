@@ -663,10 +663,10 @@ function rcmail_prepare_message_body()
   unset($plugin);
 
   // add blocked.gif attachment (#1486516)
-  if ($isHtml && preg_match('#<img src="\./program/blocked\.gif"#', $body)) {
-    if ($attachment = rcmail_save_image('program/blocked.gif', 'image/gif')) {
+  if ($isHtml && preg_match('#<img src="\./program/resources/blocked\.gif"#', $body)) {
+    if ($attachment = rcmail_save_image('program/resources/blocked.gif', 'image/gif')) {
       $COMPOSE['attachments'][$attachment['id']] = $attachment;
-      $body = preg_replace('#\./program/blocked\.gif#',
+      $body = preg_replace('#\./program/resources/blocked\.gif#',
         $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'],
         $body);
     }
@@ -843,7 +843,7 @@ function rcmail_compose_body($attrib)
       "googie.decorateTextarea('%s');\n".
       "%s.set_env('spellcheck', googie);",
       $RCMAIL->output->get_skin_path(),
-      $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell')),
+      $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell', '_remote' => 1)),
       !empty($dictionary) ? 'true' : 'false',
       JQ(Q(rcube_label('checkspelling'))),
       JQ(Q(rcube_label('resumeediting'))),
@@ -860,7 +860,7 @@ function rcmail_compose_body($attrib)
     $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
   }
 
-  $out .= "\n".'<iframe name="savetarget" src="program/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
+  $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
 
   return $out;
 }
@@ -959,18 +959,18 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
       rcube_label('subject'), Q($MESSAGE->subject),
       rcube_label('date'), Q($date),
-      rcube_label('from'), htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $charset),
-      rcube_label('to'), htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $charset));
+      rcube_label('from'), Q($MESSAGE->get_header('from'), 'replace'),
+      rcube_label('to'), Q($MESSAGE->get_header('to'), 'replace'));
 
     if ($MESSAGE->headers->cc)
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
         rcube_label('cc'),
-        htmlspecialchars(Q($MESSAGE->get_header('cc'), 'replace'), ENT_COMPAT, $charset));
+        Q($MESSAGE->get_header('cc'), 'replace'));
 
     if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
         rcube_label('replyto'),
-        htmlspecialchars(Q($MESSAGE->get_header('replyto'), 'replace'), ENT_COMPAT, $charset));
+        Q($MESSAGE->get_header('replyto'), 'replace'));
 
     $prefix .= "</tbody></table><br>";
   }
@@ -1523,6 +1523,7 @@ function get_form_tags($attrib)
     $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
     $hiddenfields->add(array('name' => '_action', 'value' => 'send'));
     $hiddenfields->add(array('name' => '_id', 'value' => $COMPOSE['id']));
+    $hiddenfields->add(array('name' => '_attachments'));
 
     $form_start = empty($attrib['form']) ? $RCMAIL->output->form_tag(array('name' => "form", 'method' => "post")) : '';
     $form_start .= $hiddenfields->show();

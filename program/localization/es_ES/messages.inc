@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David Marzal <Unknown>                                        |
+ | Author: pompilos <ciordia@gmail.com>                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Error de conexión con el servidor IMAP';
 $messages['servererror'] = '¡Error del servidor!';
 $messages['servererrormsg'] = 'Error de servidor: $msg';
 $messages['dberror'] = '¡Error de base de datos!';
+$messages['requesttimedout'] = 'Ha expirado el tiempo de respuesta';
 $messages['errorreadonly'] = 'No se ha podido hacer. La bandeja es sólo de lectura';
 $messages['errornoperm'] = 'Imposible realizar la operación. Permiso denegado';
 $messages['invalidrequest'] = '¡Petición no válida! No se han guardado los datos.';

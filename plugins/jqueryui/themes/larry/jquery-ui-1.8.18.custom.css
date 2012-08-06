@@ -56,7 +56,7 @@
 .ui-widget { font-family: Lucida Grande,Verdana,Arial,sans-serif; font-size: 1.0em; }
 .ui-widget .ui-widget { font-size: 1em; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Lucida Grande,Verdana,Arial,sans-serif; font-size: 1em; }
-.ui-widget-content { border: 0; background: #fafafa url(images/ui-bg_highlight-soft_75_fafafa_1x100.png) 50% top repeat-x; color: #333; }
+.ui-widget-content { border: 1px solid #aaa; background: #fafafa url(images/ui-bg_highlight-soft_75_fafafa_1x100.png) 50% top repeat-x; color: #333; }
 /*.ui-widget-content a { color: #333; }*/
 .ui-widget-header { border: 2px solid #fafafa; background: #e4e4e4 url(images/ui-bg_highlight-soft_90_e4e4e4_1x100.png) 50% 50% repeat-x; color: #666666; font-weight: bold; }
 .ui-widget-header a { color: #aaaaaa; }
@@ -505,6 +505,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  * http://docs.jquery.com/UI/Dialog#theming
  */
 .ui-dialog { position: absolute; padding: 3px; width: 300px; background: #fff; border-radius:6px; box-shadow: 1px 1px 18px #666; -moz-box-shadow: 1px 1px 12px #666; -webkit-box-shadow: #666 1px 1px 12px; }
+.ui-dialog .ui-widget-content { border: 0 }
 .ui-dialog .ui-dialog-titlebar { padding: 15px 1em 8px 1em; position: relative; border: 0; border-radius: 5px 5px 0 0; }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; font-size: 1.3em; text-shadow: 1px 1px 1px #fff; } 
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; right: -15px; top: -15px;  margin:0; width: 30px; height: 30px; z-index:99999; }

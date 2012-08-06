@@ -1,6 +1,17 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Removed users.alias column, added option ('user_aliases')
+  to use email address from identities as username (#1488581)
+- Removed redundant cache.cache_id column (#1488528)
+- Fix order of attachments in sent mail (#1488423)
+- Don't show product version on login screen (can be enabled by config)
+- Renamed old default skin to 'classic'. Larry is the new default skin.
+- Support connections to memcached socket file (#1488577)
+- Enable TinyMCE inlinepopups plugin
+- Update to TinyMCE 3.5.6
+- Correctly escape localized labels in javascript variable (#1488567)
+- Update Net_SMTP/Auth_SASL packages to fix Digest-MD5/Cram-MD5 authentication (#1488571)
 - Don't add attachments content into reply/forward/draft message body (#1488557)
 - Fix 'no connection' errors on page unloads (#1488547)
 - Plugin API: Add 'unauthenticated' hook (#1488138)

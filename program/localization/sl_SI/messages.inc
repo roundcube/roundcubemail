@@ -1,17 +1,16 @@
 <?php
 
 /*
-+-----------------------------------------------------------------------+
-| localization/sl_SI/messages.inc                                       |
-|                                                                       |
-| Language file of the Roundcube Webmail client                         |
-| Copyright (C) 2012, The Roundcube Dev Team                            |
-| Licensed under the GNU General Public License                         |
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Author: Jure Kranjc <Unknown>                                         |
-+-----------------------------------------------------------------------+
-@version $Id$
+ +-----------------------------------------------------------------------+
+ | localization/sl_SI/messages.inc                                       |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Teja Cetinski <teja.cetinski@gmail.com>                       |
+ +-----------------------------------------------------------------------+
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Povezava z IMAP strežnikom je spodletela.';
 $messages['servererror'] = 'Napaka strežnika!';
 $messages['servererrormsg'] = 'Napaka strežnika $msg';
 $messages['dberror'] = 'Napaka v bazi';
+$messages['requesttimedout'] = 'Zahteva je potekla';
 $messages['errorreadonly'] = 'Operacije ni bilo mogoče izvršiti. Mapa je na voljo samo za branje.';
 $messages['errornoperm'] = 'Operacije ni bilo mogoče izvršiti. Dostop zavrnjen.';
 $messages['invalidrequest'] = 'Neveljavna zahteva. Podatki niso bili shranjeni.';
@@ -158,4 +158,3 @@ $messages['mispellingsfound'] = 'V sporočilu so bile najdene napake v črkovanj
 $messages['parentnotwritable'] = 'Podmape v tej mapi ni bilo mogoče ustvariti/premakniti. Nimate pravic.';
 $messages['messagetoobig'] = 'Sporočilo je preveliko za obdelavo.';
 
-?>

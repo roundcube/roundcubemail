@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Andreas van Cranenburgh <andreas@unstable.nl>                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,6 +22,7 @@ $messages['storageerror'] = 'Konekto kun IMAP-servilo malsukcesis';
 $messages['servererror'] = 'Servil-eraro!';
 $messages['servererrormsg'] = 'Servil-eraro: $msg';
 $messages['dberror'] = 'Datumbaz-eraro!';
+$messages['errorreadonly'] = 'Ne povis fari agon. Dosierujo estas nurlega';
 $messages['errornoperm'] = 'Ne povis fari agon. Ne havas permeson.';
 $messages['invalidrequest'] = 'Nevalida peto';
 $messages['nomessagesfound'] = 'Neniu mesaĝo en ĉi tiu dosierujo';

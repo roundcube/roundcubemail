@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Asier Iturralde Sarasola <Unknown>                            |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -38,7 +37,6 @@ $labels['replyto'] = 'Erantzun-Honi';
 $labels['date'] = 'Data';
 $labels['size'] = 'Tamaina';
 $labels['priority'] = 'Lehentasuna';
-$labels['organization'] = 'Erakundea';
 $labels['mailboxlist'] = 'Karpetak';
 $labels['folders'] = 'Karpetak';
 $labels['messagesfromto'] = '$from -tik $to -ra $count mezuetatik';
@@ -110,8 +108,8 @@ $labels['markflagged'] = 'Markatua bezala';
 $labels['markunflagged'] = 'Ez-markatua bezala';
 $labels['select'] = 'Hautatu';
 $labels['all'] = 'Denak';
-$labels['none'] = 'Bat ere ez';
-$labels['nonesort'] = 'Bat ere ez';
+$labels['none'] = 'Batez';
+$labels['nonesort'] = 'Batez';
 $labels['unread'] = 'Irakurri gabeak';
 $labels['compact'] = 'Trinkotu';
 $labels['empty'] = 'Hustu';

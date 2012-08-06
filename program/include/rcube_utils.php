@@ -47,7 +47,7 @@ class rcube_utils
         }
 
         $cookie = session_get_cookie_params();
-        $secure = self::https_check();
+        $secure = $cookie['secure'] || self::https_check();
 
         setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'], $secure, true);
     }
@@ -616,8 +616,10 @@ class rcube_utils
     {
         // %n - host
         $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
-        // %d - domain name without first part, e.g. %n=mail.domain.tld, %d=domain.tld
-        $d = preg_replace('/^[^\.]+\./', '', $n);
+        // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
+	$t = preg_replace('/^[^\.]+\./', '', $n);
+	// %d - domain name without first part
+        $d = preg_replace('/^[^\.]+\./', '', $_SERVER['HTTP_HOST']);
         // %h - IMAP host
         $h = $_SESSION['storage_host'] ? $_SESSION['storage_host'] : $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
@@ -632,7 +634,7 @@ class rcube_utils
             }
         }
 
-        $name = str_replace(array('%n', '%d', '%h', '%z', '%s'), array($n, $d, $h, $z, $s[2]), $name);
+        $name = str_replace(array('%n', '%t', '%d', '%h', '%z', '%s'), array($n, $t, $d, $h, $z, $s[2]), $name);
         return $name;
     }
 
