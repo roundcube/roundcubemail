@@ -959,18 +959,18 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
       rcube_label('subject'), Q($MESSAGE->subject),
       rcube_label('date'), Q($date),
-      rcube_label('from'), htmlspecialchars(Q($MESSAGE->get_header('from'), 'replace'), ENT_COMPAT, $charset),
-      rcube_label('to'), htmlspecialchars(Q($MESSAGE->get_header('to'), 'replace'), ENT_COMPAT, $charset));
+      rcube_label('from'), Q($MESSAGE->get_header('from'), 'replace'),
+      rcube_label('to'), Q($MESSAGE->get_header('to'), 'replace'));
 
     if ($MESSAGE->headers->cc)
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
         rcube_label('cc'),
-        htmlspecialchars(Q($MESSAGE->get_header('cc'), 'replace'), ENT_COMPAT, $charset));
+        Q($MESSAGE->get_header('cc'), 'replace'));
 
     if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
         rcube_label('replyto'),
-        htmlspecialchars(Q($MESSAGE->get_header('replyto'), 'replace'), ENT_COMPAT, $charset));
+        Q($MESSAGE->get_header('replyto'), 'replace'));
 
     $prefix .= "</tbody></table><br>";
   }
