@@ -180,3 +180,6 @@ ALTER TABLE contacts ALTER email TYPE text;
 
 ALTER TABLE cache DROP COLUMN cache_id;
 DROP SEQUENCE cache_ids;
+
+ALTER TABLE users DROP COLUMN alias;
+CREATE INDEX identities_email_idx ON identities (email, del);

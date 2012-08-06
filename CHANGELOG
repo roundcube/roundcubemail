@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Removed users.alias column, added option ('user_aliases')
+  to use email address from identities as username (#1488581)
 - Removed redundant cache.cache_id column (#1488528)
 - Fix order of attachments in sent mail (#1488423)
 - Don't show product version on login screen (can be enabled by config)

@@ -20,7 +20,6 @@ CREATE TABLE users (
     user_id integer DEFAULT nextval('user_ids'::text) PRIMARY KEY,
     username varchar(128) DEFAULT '' NOT NULL,
     mail_host varchar(128) DEFAULT '' NOT NULL,
-    alias varchar(128) DEFAULT '' NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     last_login timestamp with time zone DEFAULT NULL,
     "language" varchar(5),
@@ -28,9 +27,7 @@ CREATE TABLE users (
     CONSTRAINT users_username_key UNIQUE (username, mail_host)
 );
 
-CREATE INDEX users_alias_id_idx ON users (alias);
 
-  
 --
 -- Table "session"
 -- Name: session; Type: TABLE; Schema: public; Owner: postgres
@@ -81,6 +78,7 @@ CREATE TABLE identities (
 );
 
 CREATE INDEX identities_user_id_idx ON identities (user_id, del);
+CREATE INDEX identities_email_idx ON identities (email, del);
 
 
 --

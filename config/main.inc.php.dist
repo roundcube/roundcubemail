@@ -195,6 +195,9 @@ $rcmail_config['skin_logo'] = null;
 // set to false if only registered users can use this service
 $rcmail_config['auto_create_user'] = true;
 
+// Enables possibility to log in using email address from user identities
+$rcmail_config['user_aliases'] = false;
+
 // use this folder to store log files (must be writeable for apache user)
 // This is used by the 'file' log driver.
 $rcmail_config['log_dir'] = 'logs/';

@@ -80,6 +80,7 @@ CREATE TABLE identities (
 );
 
 CREATE INDEX ix_identities_user_id ON identities(user_id, del);
+CREATE INDEX ix_identities_email ON identities(email, del);
 
 
 -- --------------------------------------------------------
@@ -92,7 +93,6 @@ CREATE TABLE users (
   user_id integer NOT NULL PRIMARY KEY,
   username varchar(128) NOT NULL default '',
   mail_host varchar(128) NOT NULL default '',
-  alias varchar(128) NOT NULL default '',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   last_login datetime DEFAULT NULL,
   language varchar(5),
@@ -100,7 +100,6 @@ CREATE TABLE users (
 );
 
 CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
-CREATE INDEX ix_users_alias ON users(alias);
 
 -- --------------------------------------------------------
 
