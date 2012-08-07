@@ -456,11 +456,10 @@ class rcube_user
 
         $dbh->query(
             "INSERT INTO ".$dbh->table_name('users').
-            " (created, last_login, username, mail_host, alias, language)".
-            " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?, ?)",
+            " (created, last_login, username, mail_host, language)".
+            " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
             strip_newlines($user),
             strip_newlines($host),
-            strip_newlines($data['alias'] ? $data['alias'] : $user_email),
             strip_newlines($data['language'] ? $data['language'] : $_SESSION['language']));
 
         if ($user_id = $dbh->insert_id('users')) {
