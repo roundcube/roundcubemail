@@ -219,27 +219,28 @@ if (empty($RCMAIL->user->ID)) {
 // CSRF prevention
 else {
   // don't check for valid request tokens in these actions
-  $request_check_whitelist = array('login'=>1, 'spell'=>1);
+  $request_check_whitelist = array('login'=>1, 'spell'=>1, 'spell_html'=>1);
 
-  // check client X-header to verify request origin
-  if ($OUTPUT->ajax_call) {
-    if (rcube_utils::request_header('X-Roundcube-Request') != $RCMAIL->get_request_token()) {
-      header('HTTP/1.1 403 Forbidden');
-      die("Invalid Request");
+  if (!$request_check_whitelist[$RCMAIL->action]) {
+    // check client X-header to verify request origin
+    if ($OUTPUT->ajax_call) {
+      if (rcube_utils::request_header('X-Roundcube-Request') != $RCMAIL->get_request_token()) {
+        header('HTTP/1.1 403 Forbidden');
+        die("Invalid Request");
+      }
     }
-  }
-  // check request token in POST form submissions
-  else if (!empty($_POST) && !$request_check_whitelist[$RCMAIL->action] && !$RCMAIL->check_request()) {
-    $OUTPUT->show_message('invalidrequest', 'error');
-    $OUTPUT->send($RCMAIL->task);
-  }
+    // check request token in POST form submissions
+    else if (!empty($_POST) && !$RCMAIL->check_request()) {
+      $OUTPUT->show_message('invalidrequest', 'error');
+      $OUTPUT->send($RCMAIL->task);
+    }
 
-  // check referer if configured
-  if (!$request_check_whitelist[$RCMAIL->action] && $RCMAIL->config->get('referer_check') && !rcmail::check_referer()) {
-    raise_error(array(
-      'code' => 403,
-      'type' => 'php',
-      'message' => "Referer check failed"), true, true);
+    // check referer if configured
+    if ($RCMAIL->config->get('referer_check') && !rcmail::check_referer()) {
+      raise_error(array(
+        'code' => 403, 'type' => 'php',
+        'message' => "Referer check failed"), true, true);
+    }
   }
 }
 
