@@ -615,7 +615,7 @@ class acl extends rcube_plugin
     private function get_realm()
     {
         // When user enters a username without domain part, realm
-        // alows to add it to the username (and display correct username in the table)
+        // allows to add it to the username (and display correct username in the table)
 
         if (isset($_SESSION['acl_username_realm'])) {
             return $_SESSION['acl_username_realm'];

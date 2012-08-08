@@ -124,12 +124,12 @@ class rcube_spellchecker
 
 
     /**
-     * Returns mispelled words
+     * Returns misspelled words
      *
      * @param string $text The content for spellchecking. If empty content
      *                     used for check() method will be used.
      *
-     * @return array List of mispelled words
+     * @return array List of misspelled words
      */
     function get_words($text = null, $is_html=false)
     {
@@ -164,7 +164,7 @@ class rcube_spellchecker
 
 
     /**
-     * Returns checking result (mispelled words with suggestions)
+     * Returns checking result (misspelled words with suggestions)
      *
      * @return array Spellchecking result. An array indexed by word.
      */
@@ -243,7 +243,7 @@ class rcube_spellchecker
 
 
     /**
-     * Returns the mispelled words
+     * Returns the misspelled words
      */
     private function _pspell_words($text = null, $is_html=false)
     {
@@ -257,7 +257,7 @@ class rcube_spellchecker
                 return array();
             }
 
-            // With PSpell we don't need to get suggestions to return mispelled words
+            // With PSpell we don't need to get suggestions to return misspelled words
             if ($is_html) {
                 $text = $this->html2text($text);
             }
@@ -289,7 +289,7 @@ class rcube_spellchecker
 
 
     /**
-     * Returns suggestions for mispelled word
+     * Returns suggestions for misspelled word
      */
     private function _pspell_suggestions($word)
     {

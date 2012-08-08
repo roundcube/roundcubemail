@@ -1090,7 +1090,7 @@ class Mail_mime
 
     /**
      * Get the text version of the headers
-     * (usefull if you want to use the PHP mail() function)
+     * (useful if you want to use the PHP mail() function)
      *
      * @param array $xtra_headers Assoc array with any extra headers (optional)
      *                            (Don't set Content-Type for multipart messages here!)
