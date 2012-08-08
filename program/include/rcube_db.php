@@ -268,15 +268,15 @@ class rcube_db
      *
      * @param int $res_id Optional query result identifier
      *
-     * @return boolean True on error, False otherwise
+     * @return string Error message
      */
     public function is_error($res_id = null)
     {
         if ($res_id !== null) {
-            return $this->_get_result($res_id) === false;
+            return $this->_get_result($res_id) === false ? $this->db_error_msg : null;
         }
 
-        return $this->db_error;
+        return $this->db_error ? $this->db_error_msg : null;
     }
 
     /**
