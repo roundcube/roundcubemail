@@ -27,23 +27,23 @@ if (!$RCMAIL->config->get('devel_mode')) {
 
 // @TODO: transaction here (if supported by DB) would be a good thing
 $res = $RCMAIL->db->query("DELETE FROM cache");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 $res = $RCMAIL->db->query("DELETE FROM cache_messages");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 $res = $RCMAIL->db->query("DELETE FROM cache_index");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 $res = $RCMAIL->db->query("DELETE FROM cache_thread");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 echo "Cache cleared\n";
