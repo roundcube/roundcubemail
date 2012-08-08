@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix (disable) request validation for spell and spell_html actions
+
+RELEASE 0.8.0
+-------------
 - Don't show product version on login screen (can be enabled by config)
 - Renamed old default skin to 'classic'. Larry is the new default skin.
 - Support connections to memcached socket file (#1488577)
