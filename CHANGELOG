@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add new DB abstraction layer based on PHP PDO, supporting SQLite3 (#1488332)
+- Removed PEAR::MDB2 package
 - Removed users.alias column, added option ('user_aliases')
   to use email address from identities as username (#1488581)
 - Removed redundant cache.cache_id column (#1488528)
@@ -1387,7 +1389,3 @@ RELEASE 0.1-RC1
   Now based on the message structure delivered by the IMAP server.
 - Fixed some XSS and SQL injection issues
 - Fixed charset problems with folder renaming
-
-
-
-

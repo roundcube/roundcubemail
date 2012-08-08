@@ -125,9 +125,9 @@ else {
 $db_working = false;
 if ($RCI->configured) {
     if (!empty($RCI->config['db_dsnw'])) {
-
-        $DB = new rcube_mdb2($RCI->config['db_dsnw'], '', false);
+        $DB = rcube_db::factory($RCI->config['db_dsnw'], '', false);
         $DB->db_connect('w');
+
         if (!($db_error_msg = $DB->is_error())) {
             $RCI->pass('DSN (write)');
             echo '<br />';
@@ -167,7 +167,7 @@ else if ($db_working && $_POST['updatedb']) {
 // test database
 if ($db_working) {
     $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_table_users']}");
-    if ($DB->db_error) {
+    if ($DB->is_error()) {
         $RCI->fail('DB Schema', "Database not initialized");
         echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
         $db_working = false;

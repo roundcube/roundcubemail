@@ -6,7 +6,8 @@ $required_php_exts = array(
     'DOM'       => 'dom',
     'Session'   => 'session',
     'XML'       => 'xml',
-    'JSON'      => 'json'
+    'JSON'      => 'json',
+    'PDO'       => 'PDO',
 );
 
 $optional_php_exts = array(
@@ -21,17 +22,9 @@ $optional_php_exts = array(
 
 $required_libs = array(
     'PEAR'      => 'PEAR.php',
-    'MDB2'      => 'MDB2.php',
     'Net_SMTP'  => 'Net/SMTP.php',
     'Net_IDNA2' => 'Net/IDNA2.php',
     'Mail_mime' => 'Mail/mime.php',
-);
-
-$supported_dbs = array(
-    'MySQL'         => 'mysql',
-    'MySQLi'        => 'mysqli',
-    'PostgreSQL'    => 'pgsql',
-    'SQLite (v2)'   => 'sqlite',
 );
 
 $ini_checks = array(
@@ -63,8 +56,14 @@ $source_urls = array(
     'DOM'       => 'http://www.php.net/manual/en/book.dom.php',
     'Intl'      => 'http://www.php.net/manual/en/book.intl.php',
     'Exif'      => 'http://www.php.net/manual/en/book.exif.php',
+    'PDO'       => 'http://www.php.net/manual/en/book.pdo.php',
+    'pdo_mysql'   => 'http://www.php.net/manual/en/book.pdo-mysql.php',
+    'pdo_pgsql'   => 'http://www.php.net/manual/en/book.pdo-pgsql.php',
+    'pdo_sqlite'  => 'http://www.php.net/manual/en/book.pdo-sqlite.php',
+    'pdo_sqlite2' => 'http://www.php.net/manual/en/book.pdo-sqlite.php',
+    'pdo_sqlsrv'  => 'http://www.php.net/manual/en/book.pdo-sqlsrv.php',
+    'pdo_dblib'   => 'http://www.php.net/manual/en/book.pdo-dblib.php',
     'PEAR'      => 'http://pear.php.net',
-    'MDB2'      => 'http://pear.php.net/package/MDB2',
     'Net_SMTP'  => 'http://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
     'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
@@ -129,14 +128,14 @@ foreach ($optional_php_exts as $name => $ext) {
 <?php
 
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
-foreach ($supported_dbs as $database => $ext) {
+foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($database);
     }
     else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
-        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : 'Not installed';
-        $RCI->na($database, $msg, $source_urls[$database]);
+        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
+        $RCI->na($database, $msg, $source_urls[$ext]);
     }
     echo '<br />';
 }

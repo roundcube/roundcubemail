@@ -36,7 +36,7 @@ class rcube_user
     /**
      * Holds database connection.
      *
-     * @var rcube_mdb2
+     * @var rcube_db
      */
     private $db;
 

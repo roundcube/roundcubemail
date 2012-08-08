@@ -23,7 +23,6 @@ function __autoload($classname)
 {
     $filename = preg_replace(
         array(
-            '/MDB2_(.+)/',
             '/Mail_(.+)/',
             '/Net_(.+)/',
             '/Auth_(.+)/',
@@ -31,7 +30,6 @@ function __autoload($classname)
             '/^utf8$/'
         ),
         array(
-            'MDB2/\\1',
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',
