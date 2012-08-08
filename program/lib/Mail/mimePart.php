@@ -648,7 +648,7 @@ class Mail_mimePart
     }
 
     /**
-     * Encodes the paramater of a header.
+     * Encodes the parameter of a header.
      *
      * @param string $name      The name of the header-parameter
      * @param string $value     The value of the paramter

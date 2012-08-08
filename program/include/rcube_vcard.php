@@ -703,7 +703,7 @@ class rcube_vcard
    *
    * @param string vCard string to split
    * @param string Separator char/string
-   * @return array List with splitted values
+   * @return array List with splited values
    */
   private static function vcard_unquote($s, $sep = ';')
   {

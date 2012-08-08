@@ -429,7 +429,7 @@ class enigma extends rcube_plugin
             $style = "margin:0 1em; padding:0.2em 0.5em; border:1px solid #999; width: auto"
                 ." border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px";
 
-            // add box below messsage body
+            // add box below message body
             $p['content'] .= html::p(array('style' => $style),
                 html::a(array(
                     'href' => "#",

@@ -196,7 +196,7 @@ class rcube_db
     }
 
     /**
-     * Connect to appropiate database depending on the operation
+     * Connect to appropriate database depending on the operation
      *
      * @param string $mode Connection mode (r|w)
      */
