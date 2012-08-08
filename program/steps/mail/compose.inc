@@ -669,9 +669,9 @@ function rcmail_prepare_message_body()
   if ($isHtml && preg_match('#<img src="\./program/blocked\.gif"#', $body)) {
     if ($attachment = rcmail_save_image('program/blocked.gif', 'image/gif')) {
       $COMPOSE['attachments'][$attachment['id']] = $attachment;
-      $body = preg_replace('#\./program/blocked\.gif#',
-        $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'],
-        $body);
+      $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
+        $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
+      $body = preg_replace('#\./program/blocked\.gif#', $url, $body);
     }
   }
 
@@ -1052,7 +1052,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
       if (!$skip && ($attachment = rcmail_save_attachment($message, $pid))) {
         $COMPOSE['attachments'][$attachment['id']] = $attachment;
         if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
-          $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'];
+          $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
+            $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
           if ($part->content_id)
             $cid_map['cid:'.$part->content_id] = $url;
           else
@@ -1077,7 +1078,8 @@ function rcmail_write_inline_attachments(&$message)
     if (($part->content_id || $part->content_location) && $part->filename) {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
         $COMPOSE['attachments'][$attachment['id']] = $attachment;
-        $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'];
+          $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
+            $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
         if ($part->content_id)
           $cid_map['cid:'.$part->content_id] = $url;
         else
