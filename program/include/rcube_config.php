@@ -29,6 +29,8 @@
  */
 class rcube_config
 {
+    const DEFAULT_SKIN = 'larry';
+
     private $prop = array();
     private $errors = array();
     private $userprefs = array();
@@ -74,14 +76,15 @@ class rcube_config
         $this->load_host_config();
 
         // set skin (with fallback to old 'skin_path' property)
+
         if (empty($this->prop['skin']) && !empty($this->prop['skin_path']))
             $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
         else if (empty($this->prop['skin']))
-            $this->prop['skin'] = 'larry';
+            $this->prop['skin'] = self::DEFAULT_SKIN;
 
         // larry is the new default skin :-)
         if ($this->prop['skin'] == 'default')
-            $this->prop['skin'] = 'larry';
+            $this->prop['skin'] = self::DEFAULT_SKIN;
 
         // fix paths
         $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : INSTALL_PATH . 'logs';
@@ -251,8 +254,9 @@ class rcube_config
         }
 
         // larry is the new default skin :-)
+
         if ($prefs['skin'] == 'default')
-            $prefs['skin'] = 'larry';
+            $prefs['skin'] = self::DEFAULT_SKIN;
 
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);

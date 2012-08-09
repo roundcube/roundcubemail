@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix fallback to Larry skin when configured skin isn't available (#1488591)
 - Fix (workaround) delete operations with some versions of memcache (#1488592)
 - Fix (disable) request validation for spell and spell_html actions
 
