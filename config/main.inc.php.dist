@@ -572,12 +572,14 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   'required_fields' => array('cn', 'sn', 'mail'),
   'search_fields'   => array('mail', 'cn'),  // fields to search in
   // mapping of contact fields to directory attributes
+  //   for every attribute one can specify the number of values (limit) allowed.
+  //   default is 1, a wildcard * means unlimited
   'fieldmap' => array(
-    // Roundcube  => LDAP
+    // Roundcube  => LDAP:limit
     'name'        => 'cn',
     'surname'     => 'sn',
     'firstname'   => 'givenName',
-    'email'       => 'mail',
+    'email'       => 'mail:*',
     'phone:home'  => 'homePhone',
     'phone:work'  => 'telephoneNumber',
     'phone:mobile' => 'mobile',

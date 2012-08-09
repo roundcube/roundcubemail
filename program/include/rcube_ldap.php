@@ -100,22 +100,38 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // use fieldmap to advertise supported coltypes to the application
-        foreach ($this->fieldmap as $col => $lf) {
-            list($col, $type) = explode(':', $col);
+        foreach ($this->fieldmap as $colv => $lfv) {
+            list($col, $type) = explode(':', $colv);
+            list($lf, $limit, $delim) = explode(':', $lfv);
+
+            if ($limit == '*') $limit = null;
+            else               $limit = max(1, intval($limit));
+
             if (!is_array($this->coltypes[$col])) {
                 $subtypes = $type ? array($type) : null;
-                $this->coltypes[$col] = array('limit' => 1, 'subtypes' => $subtypes);
+                $this->coltypes[$col] = array('limit' => $limit, 'subtypes' => $subtypes);
             }
             elseif ($type) {
                 $this->coltypes[$col]['subtypes'][] = $type;
-                $this->coltypes[$col]['limit']++;
+                $this->coltypes[$col]['limit'] += $limit;
             }
+
+            if ($delim)
+                $this->coltypes[$col]['serialized'][$type] = $delim;
+
             if ($type && !$this->fieldmap[$col])
                 $this->fieldmap[$col] = $lf;
+
+            $this->fieldmap[$colv] = $lf;
         }
 
         if ($this->fieldmap['street'] && $this->fieldmap['locality']) {
-            $this->coltypes['address'] = array('limit' => max(1, $this->coltypes['locality']['limit']), 'subtypes' => $this->coltypes['locality']['subtypes'], 'childs' => array());
+            $this->coltypes['address'] = array(
+               'limit'    => max(1, $this->coltypes['locality']['limit'] + $this->coltypes['address']['limit']),
+               'subtypes' => array_merge((array)$this->coltypes['address']['subtypes'], $this->coltypes['locality']['subtypes']),
+               'childs' => array(),
+               ) + (array)$this->coltypes['address'];
+
             foreach (array('street','locality','zipcode','region','country') as $childcol) {
                 if ($this->fieldmap[$childcol]) {
                     $this->coltypes['address']['childs'][$childcol] = array('type' => 'text');
@@ -123,8 +139,16 @@ class rcube_ldap extends rcube_addressbook
                 }
             }
         }
-        else if ($this->coltypes['address'])
-            $this->coltypes['address'] = array('type' => 'textarea', 'childs' => null, 'limit' => 1, 'size' => 40);
+        else if ($this->coltypes['address']) {
+            $this->coltypes['address'] += array('type' => 'textarea', 'childs' => null, 'size' => 40);
+
+            // 'serialized' means the UI has to present a composite address field
+            if ($this->coltypes['address']['serialized']) {
+                $childprop = array('type' => 'text');
+                $this->coltypes['address']['type'] = 'composite';
+                $this->coltypes['address']['childs'] = array('street' => $childprop, 'locality' => $childprop, 'zipcode' => $childprop, 'country' => $childprop);
+            }
+        }
 
         // make sure 'required_fields' is an array
         if (!is_array($this->prop['required_fields']))
@@ -1303,6 +1327,8 @@ class rcube_ldap extends rcube_addressbook
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
                 else if (in_array($col, array('street','zipcode','locality','country','region')))
                     $out['address'.($subtype?':':'').$subtype][$i][$col] = $value;
+                else if ($col == 'address' && strpos($value, '$') !== false)  // address data is represented as string separated with $
+                    list($out[$rf][$i]['street'], $out[$rf][$i]['locality'], $out[$rf][$i]['zipcode'], $out[$rf][$i]['country']) = explode('$', $value);
                 else if ($rec[$lf]['count'] > 1)
                     $out[$rf][] = $value;
                 else
@@ -1345,6 +1371,15 @@ class rcube_ldap extends rcube_addressbook
                     }
                 }
             }
+
+            // if addresses are to be saved as serialized string, do so
+            if (is_array($colprop['serialized'])) {
+               foreach ($colprop['serialized'] as $subtype => $delim) {
+                  $key = $col.':'.$subtype;
+                  foreach ((array)$save_cols[$key] as $i => $val)
+                     $save_cols[$key][$i] = join($delim, array($val['street'], $val['locality'], $val['zipcode'], $val['country']));
+               }
+            }
         }
 
         $ldap_data = array();
@@ -1365,17 +1400,21 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Returns unified attribute name (resolving aliases)
      */
-    private static function _attr_name($name)
+    private static function _attr_name($namev)
     {
         // list of known attribute aliases
-        $aliases = array(
+        static $aliases = array(
             'gn' => 'givenname',
             'rfc822mailbox' => 'email',
             'userid' => 'uid',
             'emailaddress' => 'email',
             'pkcs9email' => 'email',
         );
-        return isset($aliases[$name]) ? $aliases[$name] : $name;
+
+        list($name, $limit) = explode(':', $namev, 2);
+        $suffix = $limit ? ':'.$limit : '';
+
+        return (isset($aliases[$name]) ? $aliases[$name] : $name) . $suffix;
     }
 
 
