@@ -319,7 +319,8 @@ class rcube_session
    */
   public function mc_destroy($key)
   {
-    $ret = $this->memcache->delete($key);
+    // #1488592: use 2nd argument
+    $ret = $this->memcache->delete($key, 0);
     if ($this->mc_debug) write_log('memcache', "delete($key): " . ($ret ? 'OK' : 'ERR'));
     return $ret;
   }
