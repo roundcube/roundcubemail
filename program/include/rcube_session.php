@@ -315,7 +315,8 @@ class rcube_session
   public function mc_destroy($key)
   {
     if ($key) {
-      $this->memcache->delete($key);
+      // #1488592: use 2nd argument
+      $this->memcache->delete($key, 0);
     }
 
     return true;

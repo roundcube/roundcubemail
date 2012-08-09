@@ -464,10 +464,13 @@ class rcube_cache
      */
     private function delete_record($key, $index=true)
     {
-        if ($this->type == 'memcache')
-            $this->db->delete($this->ckey($key));
-        else
+        if ($this->type == 'memcache') {
+            // #1488592: use 2nd argument
+            $this->db->delete($this->ckey($key), 0);
+        }
+        else {
             apc_delete($this->ckey($key));
+        }
 
         if ($index) {
             if (($idx = array_search($key, $this->index)) !== false) {
