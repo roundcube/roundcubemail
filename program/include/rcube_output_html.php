@@ -149,7 +149,7 @@ class rcube_output_html extends rcube_output
         else {
             $skin_path = $this->config->get('skin_path');
             if (!$skin_path) {
-                $skin_path = 'skins/default';
+                $skin_path = 'skins/' . rcube_config::DEFAULT_SKIN;
             }
             $valid = !$skin;
         }

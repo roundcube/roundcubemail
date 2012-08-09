@@ -28,7 +28,7 @@ php_value	mbstring.func_overload	0
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteRule ^favicon\.ico$ skins/default/images/favicon.ico
+RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 # security rules
 RewriteRule .git - [F]
 RewriteRule ^/?(README(.md)?|INSTALL|LICENSE|SQL|bin|CHANGELOG)$ - [F]
