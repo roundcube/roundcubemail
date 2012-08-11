@@ -422,6 +422,7 @@ a.iconbutton.threadmode.selected {
 	text-align: right;
 }
 
+#messagelist tr td.fromto,
 #messagelist tr td.from,
 #messagelist tr td.to,
 #messagelist tr td.cc,
