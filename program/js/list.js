@@ -234,7 +234,7 @@ focus: function(e)
   }
 
   // Un-focus already focused elements
-  $('*:focus', window).blur();
+  $(document.activeElement).blur();
   $('iframe').each(function() { this.blur(); });
 
   if (e || (e = window.event))
