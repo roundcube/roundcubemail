@@ -103,7 +103,8 @@ if (!empty($subject)) {
     $search_str .= sprintf(" %s {%d}\r\n%s", $sub, strlen($search), $search);
 }
 
-$search_str = trim($search_str);
+$search_str  = trim($search_str);
+$sort_column = rcmail_sort_column();
 
 // execute IMAP search
 if ($search_str)
@@ -121,9 +122,8 @@ $_SESSION['search_request'] = $search_request;
 
 
 // Get the headers
-$result_h = $RCMAIL->storage->list_messages($mbox, 1, rcmail_sort_column(), rcmail_sort_order());
+$result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
 $count = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
-
 
 // Make sure we got the headers
 if (!empty($result_h)) {
