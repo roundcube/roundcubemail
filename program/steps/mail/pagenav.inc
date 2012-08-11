@@ -23,7 +23,7 @@
 */
 
 $uid   = get_input_value('_uid', RCUBE_INPUT_GET);
-$index = $RCMAIL->storage->index(null, $_SESSION['sort_col'], $_SESSION['sort_order']);
+$index = $RCMAIL->storage->index(null, rcmail_sort_column(), rcmail_sort_order());
 $cnt   = $index->count_messages();
 
 if ($cnt && ($pos = $index->exists($uid, true)) !== false) {

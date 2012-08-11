@@ -1624,7 +1624,7 @@ function rcube_webmail()
     for (i=0; i<cols.length; i++)
       if (cols[i].id && cols[i].id.match(/^rcm/)) {
         name = cols[i].id.replace(/^rcm/, '');
-        this.env.coltypes.push(name == 'to' ? 'from' : name);
+        this.env.coltypes.push(name);
       }
 
     if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
@@ -1903,7 +1903,7 @@ function rcube_webmail()
       // make sure new columns are added at the end of the list
       var i, idx, name, newcols = [], oldcols = this.env.coltypes;
       for (i=0; i<oldcols.length; i++) {
-        name = oldcols[i] == 'to' ? 'from' : oldcols[i];
+        name = oldcols[i];
         idx = $.inArray(name, cols);
         if (idx != -1) {
           newcols.push(name);
@@ -5646,7 +5646,7 @@ function rcube_webmail()
 
   // for reordering column array (Konqueror workaround)
   // and for setting some message list global variables
-  this.set_message_coltypes = function(coltypes, repl)
+  this.set_message_coltypes = function(coltypes, repl, smart_col)
   {
     var list = this.message_list,
       thead = list ? list.list.tHead : null,
@@ -5674,7 +5674,7 @@ function rcube_webmail()
 
       for (n=0, len=this.env.coltypes.length; n<len; n++) {
         col = this.env.coltypes[n];
-        if ((cell = thead.rows[0].cells[n]) && (col=='from' || col=='to')) {
+        if ((cell = thead.rows[0].cells[n]) && (col == 'from' || col == 'to' || col == 'fromto')) {
           cell.id = 'rcm'+col;
           // if we have links for sorting, it's a bit more complicated...
           if (cell.firstChild && cell.firstChild.tagName.toLowerCase()=='a') {
@@ -5682,7 +5682,7 @@ function rcube_webmail()
             cell.onclick = function(){ return rcmail.command('sort', this.__col, this); };
             cell.__col = col;
           }
-          cell.innerHTML = this.get_label(col);
+          cell.innerHTML = this.get_label(col == 'fromto' ? smart_col : col);
         }
       }
     }

@@ -618,18 +618,10 @@ function rcube_mail_ui()
     $('input[name="view"][value="thread"]').prop('checked', rcmail.env.threading ? true : false);
     $('input[name="view"][value="list"]').prop('checked', rcmail.env.threading ? false : true);
 
-    // list columns
-    var found, cols = $('input[name="list_col[]"]');
-    for (var i=0; i < cols.length; i++) {
-      if (cols[i].value != 'from') {
-        found = $.inArray(cols[i].value, rcmail.env.coltypes) != -1;
-      }
-      else {
-        found = ($.inArray('from', rcmail.env.coltypes) != -1
-          || $.inArray('to', rcmail.env.coltypes) != -1);
-      }
-      $(cols[i]).prop('checked', found);
-    }
+    // set checkboxes
+    $('input[name="list_col[]"]').each(function() {
+      $(this).prop('checked', $.inArray(this.value, rcmail.env.coltypes) != -1);
+    });
 
     $dialog.dialog({
       modal: true,

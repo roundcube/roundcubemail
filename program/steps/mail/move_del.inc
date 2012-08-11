@@ -138,11 +138,8 @@ else
 
   // add new rows from next page (if any)
   if ($addrows && $count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
-    $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
-    $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
-
-    $a_headers = $RCMAIL->storage->list_messages($mbox, NULL, $sort_col, $sort_order,
-      $jump_back ? NULL : $count);
+    $a_headers = $RCMAIL->storage->list_messages($mbox, NULL,
+      rcmail_sort_column(), rcmail_sort_order(), $jump_back ? NULL : $count);
 
     rcmail_js_message_list($a_headers, false);
   }

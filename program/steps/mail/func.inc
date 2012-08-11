@@ -78,7 +78,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
       $search_request = md5($mbox_name.$_SESSION['search_filter']);
 
-      $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $_SESSION['sort_col']);
+      $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, rcmail_sort_column());
       $_SESSION['search'] = $RCMAIL->storage->get_search_set();
       $_SESSION['search_request'] = $search_request;
       $OUTPUT->set_env('search_request', $search_request);
@@ -126,13 +126,76 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   $OUTPUT->set_pagetitle(rcmail_localize_foldername($RCMAIL->storage->mod_folder($mbox_name)));
 }
 
+/**
+ * Returns 'to' if current folder is configured Sent or Drafts
+ * or their subfolders, otherwise returns 'from'.
+ *
+ * @return string Column name
+ */
+function rcmail_message_list_smart_column_name()
+{
+  global $RCMAIL;
+
+  $delim       = $RCMAIL->storage->get_hierarchy_delimiter();
+  $mbox        = $RCMAIL->storage->get_folder();
+  $sent_mbox   = $RCMAIL->config->get('sent_mbox');
+  $drafts_mbox = $RCMAIL->config->get('drafts_mbox');
+
+  if (strpos($mbox.$delim, $sent_mbox.$delim) === 0 || strpos($mbox.$delim, $drafts_mbox.$delim) === 0) {
+    return 'to';
+  }
+
+  return 'from';
+}
+
+/**
+ * Returns configured messages list sorting column name
+ * The name is context-sensitive, which means if sorting is set to 'fromto'
+ * it will return 'from' or 'to' according to current folder type.
+ *
+ * @return string Column name
+ */
+function rcmail_sort_column()
+{
+  global $RCMAIL;
+
+  if (isset($_SESSION['sort_col'])) {
+    $column = $_SESSION['sort_col'];
+  }
+  else {
+    $column = $RCMAIL->config->get('message_sort_col');
+  }
+
+  // get name of smart From/To column in folder context
+  if ($column == 'fromto') {
+    $column = rcmail_message_list_smart_column_name();
+  }
+
+  return $column;
+}
+
+/**
+ * Returns configured message list sorting order
+ *
+ * @return string Sorting order (ASC|DESC)
+ */
+function rcmail_sort_order()
+{
+  global $RCMAIL;
+
+  if (isset($_SESSION['sort_order'])) {
+    return $_SESSION['sort_order'];
+  }
+
+  return $RCMAIL->config->get('message_sort_order');
+}
 
 /**
  * return the message list as HTML table
  */
 function rcmail_message_list($attrib)
 {
-  global $RCMAIL, $CONFIG, $OUTPUT;
+  global $CONFIG, $OUTPUT;
 
   // add some labels to client
   $OUTPUT->add_label('from', 'to');
@@ -153,15 +216,6 @@ function rcmail_message_list($attrib)
 
   // save some variables for use in ajax list
   $_SESSION['list_attrib'] = $attrib;
-
-  $mbox = $RCMAIL->storage->get_folder();
-  $delim = $RCMAIL->storage->get_hierarchy_delimiter();
-
-  // show 'to' instead of 'from' in sent/draft messages
-  if ((strpos($mbox.$delim, $CONFIG['sent_mbox'].$delim)===0 || strpos($mbox.$delim, $CONFIG['drafts_mbox'].$delim)===0)
-      && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
-    $a_show_cols[$f] = 'to';
-
   // make sure 'threads' and 'subject' columns are present
   if (!in_array('subject', $a_show_cols))
     array_unshift($a_show_cols, 'subject');
@@ -212,7 +266,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   }
 
   $mbox = $RCMAIL->storage->get_folder();
-  $delim = $RCMAIL->storage->get_hierarchy_delimiter();
 
   // make sure 'threads' and 'subject' columns are present
   if (!in_array('subject', $a_show_cols))
@@ -221,11 +274,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     array_unshift($a_show_cols, 'threads');
 
   $_SESSION['list_attrib']['columns'] = $a_show_cols;
-
-  // show 'to' instead of 'from' in sent/draft messages
-  if ((strpos($mbox.$delim, $CONFIG['sent_mbox'].$delim)===0 || strpos($mbox.$delim, $CONFIG['drafts_mbox'].$delim)===0)
-      && (($f = array_search('from', $a_show_cols)) !== false) && array_search('to', $a_show_cols) === false)
-    $a_show_cols[$f] = 'to';
 
   // Make sure there are no duplicated columns (#1486999)
   $a_show_cols = array_unique($a_show_cols);
@@ -240,7 +288,12 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
 
   $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
 
-  $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead);
+  // get name of smart From/To column in folder context
+  if (($f = array_search('fromto', $a_show_cols)) !== false) {
+    $smart_col = rcmail_message_list_smart_column_name();
+  }
+
+  $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
 
   if (empty($a_headers))
     return;
@@ -261,16 +314,18 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
 
     // format each col; similar as in rcmail_message_list()
     foreach ($a_show_cols as $col) {
-      if (in_array($col, array('from', 'to', 'cc', 'replyto')))
-        $cont = Q(rcmail_address_string($header->$col, 3, false, null, $header->charset), 'show');
-      else if ($col=='subject') {
+      $col_name = $col == 'fromto' ? $smart_col : $col;
+
+      if (in_array($col_name, array('from', 'to', 'cc', 'replyto')))
+        $cont = Q(rcmail_address_string($header->$col_name, 3, false, null, $header->charset), 'show');
+      else if ($col == 'subject') {
         $cont = trim(rcube_mime::decode_header($header->$col, $header->charset));
         if (!$cont) $cont = rcube_label('nosubject');
         $cont = Q($cont);
       }
-      else if ($col=='size')
+      else if ($col == 'size')
         $cont = show_bytes($header->$col);
-      else if ($col=='date')
+      else if ($col == 'date')
         $cont = format_date($header->date);
       else
         $cont = Q($header->$col);
@@ -321,8 +376,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
  */
 function rcmail_message_list_head($attrib, $a_show_cols)
 {
-  global $CONFIG;
-
   $skin_path = $_SESSION['skin_path'];
   $image_tag = html::img(array('src' => "%s%s", 'alt' => "%s"));
 
@@ -331,7 +384,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   $sort_order = $_SESSION['sort_order'];
 
   // define sortable columns
-  $a_sort_cols = array('subject', 'date', 'from', 'to', 'size', 'cc');
+  $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
   if (!empty($attrib['optionsmenuicon'])) {
     $onclick = 'return ' . JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu')";
@@ -349,6 +402,11 @@ function rcmail_message_list_head($attrib, $a_show_cols)
 
   $cells = array();
 
+  // get name of smart From/To column in folder context
+  if (($f = array_search('fromto', $a_show_cols)) !== false) {
+    $smart_col = rcmail_message_list_smart_column_name();
+  }
+
   foreach ($a_show_cols as $col) {
     // get column name
     switch ($col) {
@@ -362,6 +420,9 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         break;
       case 'threads':
         $col_name = $list_menu;
+        break;
+      case 'fromto':
+        $col_name = Q(rcube_label($smart_col));
         break;
       default:
         $col_name = Q(rcube_label($col));

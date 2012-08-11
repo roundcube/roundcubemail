@@ -96,7 +96,7 @@ foreach ($a_mailboxes as $mbox_name) {
         $OUTPUT->command('message_list.clear', $all_count ? false : true);
 
         if ($all_count) {
-            $a_headers = $RCMAIL->storage->list_messages($mbox_name, null, $_SESSION['sort_col'], $_SESSION['sort_order']);
+            $a_headers = $RCMAIL->storage->list_messages($mbox_name, null, rcmail_sort_column(), rcmail_sort_order());
             // add message rows
             rcmail_js_message_list($a_headers, false);
             // remove messages that don't exists from list selection array

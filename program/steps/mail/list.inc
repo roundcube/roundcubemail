@@ -37,12 +37,6 @@ if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
   $_SESSION['sort_col'] = $save_arr['message_sort_col'] = $sort_col;
   $_SESSION['sort_order'] = $save_arr['message_sort_order'] = $sort_order;
 }
-else
-{
-  // use session settings if set, defaults if not
-  $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
-  $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
-}
 
 // is there a set of columns for this request?
 if ($cols = get_input_value('_cols', RCUBE_INPUT_GET))
@@ -64,7 +58,7 @@ $RCMAIL->storage->folder_sync($mbox_name);
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 {
   $search_request = md5($mbox_name.$_SESSION['search_filter']);
-  $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, $sort_col);
+  $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, rcmail_sort_column());
   $_SESSION['search'] = $RCMAIL->storage->get_search_set();
   $_SESSION['search_request'] = $search_request;
   $OUTPUT->set_env('search_request', $search_request);
@@ -72,7 +66,7 @@ if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
 
 // fetch message headers
 if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh'])))
-  $a_headers = $RCMAIL->storage->list_messages($mbox_name, NULL, $sort_col, $sort_order);
+  $a_headers = $RCMAIL->storage->list_messages($mbox_name, NULL, rcmail_sort_column(), rcmail_sort_order());
 
 // update search set (possible change of threading mode)
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
