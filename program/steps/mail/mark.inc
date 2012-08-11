@@ -107,15 +107,12 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
       if ($IMAP->threading)
-	    $count = get_input_value('_count', RCUBE_INPUT_POST);
+        $count = get_input_value('_count', RCUBE_INPUT_POST);
 
       // add new rows from next page (if any)
       if ($count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
-        $sort_col   = isset($_SESSION['sort_col'])   ? $_SESSION['sort_col']   : $CONFIG['message_sort_col'];
-        $sort_order = isset($_SESSION['sort_order']) ? $_SESSION['sort_order'] : $CONFIG['message_sort_order'];
-
-        $a_headers = $IMAP->list_headers($mbox, NULL, $sort_col, $sort_order,
-	    $jump_back ? NULL : $count);
+        $a_headers = $IMAP->list_headers($mbox, NULL,
+          rcmail_sort_column(), rcmail_sort_order(), $jump_back ? NULL : $count);
 
         rcmail_js_message_list($a_headers, false);
       }

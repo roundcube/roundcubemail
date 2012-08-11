@@ -285,22 +285,18 @@ listmenu: function(show)
       pos.left = pos.left - menuwidth;
 
     obj.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)});
+
     // set form values
     $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]').prop('checked', true);
     $('input[name="sort_ord"][value="DESC"]').prop('checked', rcmail.env.sort_order == 'DESC');
     $('input[name="sort_ord"][value="ASC"]').prop('checked', rcmail.env.sort_order != 'DESC');
     $('input[name="view"][value="thread"]').prop('checked', rcmail.env.threading ? true : false);
     $('input[name="view"][value="list"]').prop('checked', rcmail.env.threading ? false : true);
-    // list columns
-    var found, cols = $('input[name="list_col[]"]');
-    for (var i=0; i<cols.length; i++) {
-      if (cols[i].value != 'from')
-        found = jQuery.inArray(cols[i].value, rcmail.env.coltypes) != -1;
-      else
-        found = (jQuery.inArray('from', rcmail.env.coltypes) != -1
-	        || jQuery.inArray('to', rcmail.env.coltypes) != -1);
-      $(cols[i]).prop('checked', found);
-    }
+
+    // set checkboxes
+    $('input[name="list_col[]"]').each(function() {
+      $(this).prop('checked', jQuery.inArray(this.value, rcmail.env.coltypes) != -1);
+    });
   }
 
   obj[show?'show':'hide']();

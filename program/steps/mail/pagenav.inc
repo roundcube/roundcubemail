@@ -42,7 +42,7 @@ if ($_SESSION['sort_col'] == 'date' && $_SESSION['sort_order'] == 'DESC'
 }
 else {
     // Only if we use custom sorting
-    $a_msg_index = $IMAP->message_index(NULL, $_SESSION['sort_col'], $_SESSION['sort_order']);
+    $a_msg_index = $IMAP->message_index(NULL, rcmail_sort_column(), rcmail_sort_order());
 
     $index = array_search($IMAP->get_id($uid), $a_msg_index);
 

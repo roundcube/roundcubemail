@@ -891,6 +891,7 @@ body.messagelist
   padding: 0 2px;
 }
 
+#messagelist tr td.fromto,
 #messagelist tr td.from,
 #messagelist tr td.to,
 #messagelist tr td.cc,
