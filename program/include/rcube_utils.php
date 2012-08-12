@@ -84,9 +84,9 @@ class rcube_utils
 
         // from PEAR::Validate
         $regexp = '&^(?:
-	        ("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+")| 			 	            #1 quoted name
-	        ([-\w!\#\$%\&\'*+~/^`|{}=]+(?:\.[-\w!\#\$%\&\'*+~/^`|{}=]+)*)) 	#2 OR dot-atom (RFC5322)
-	        $&xi';
+            ("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+")|                             #1 quoted name
+            ([-\w!\#\$%\&\'*+~/^`|{}=]+(?:\.[-\w!\#\$%\&\'*+~/^`|{}=]+)*))  #2 OR dot-atom (RFC5322)
+            $&xi';
 
         if (!preg_match($regexp, $local_part)) {
             return false;
@@ -617,8 +617,8 @@ class rcube_utils
         // %n - host
         $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
         // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
-	$t = preg_replace('/^[^\.]+\./', '', $n);
-	// %d - domain name without first part
+        $t = preg_replace('/^[^\.]+\./', '', $n);
+        // %d - domain name without first part
         $d = preg_replace('/^[^\.]+\./', '', $_SERVER['HTTP_HOST']);
         // %h - IMAP host
         $h = $_SESSION['storage_host'] ? $_SESSION['storage_host'] : $host;

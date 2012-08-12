@@ -324,7 +324,7 @@ class rcube_config
         if (strlen($key) != 24) {
             rcube::raise_error(array(
                 'code' => 500, 'type' => 'php',
-	            'file' => __FILE__, 'line' => __LINE__,
+                'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Configured crypto key '$key' is not exactly 24 bytes long"
             ), true, true);
         }
@@ -348,7 +348,7 @@ class rcube_config
             else
                 rcube::raise_error(array(
                     'code' => 500, 'type' => 'php',
-	                'file' => __FILE__, 'line' => __LINE__,
+                    'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid mail_header_delimiter setting"
                 ), true, false);
         }

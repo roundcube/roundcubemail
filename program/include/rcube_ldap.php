@@ -2027,12 +2027,12 @@ class rcube_ldap extends rcube_addressbook
         # a0 = type context-specific/constructed with a length of 06 (6) bytes following
         # 02 = type integer with 2 bytes following (offset): 01 01 (ie 1)
         # 02 = type integer with 2 bytes following (contentCount):  01 00
-        
+
         # whith a search string present:
         # 81 = type context-specific/constructed with a length of 04 (4) bytes following (the length will change here)
         # 81 indicates a user string is present where as a a0 indicates just a offset search
         # 81 = type context-specific/constructed with a length of 06 (6) bytes following
-        
+
         # the following info was taken from the ISO/IEC 8825-1:2003 x.690 standard re: the
         # encoding of integer values (note: these values are in
         # two-complement form so since offset will never be negative bit 8 of the
@@ -2042,7 +2042,7 @@ class rcube_ldap extends rcube_addressbook
         # of the second (to the left of first octet) octet:
         # a) shall not all be ones; and
         # b) shall not all be zero
-        
+
         if ($search)
         {
             $search = preg_replace('/[^-[:alpha:] ,.()0-9]+/', '', $search);
@@ -2062,7 +2062,7 @@ class rcube_ldap extends rcube_addressbook
             // now compute length over $str
             $str = self::_ber_addseq($str, 'a0');
         }
-        
+
         // now tack on records per page
         $str = "020100" . self::_ber_addseq(self::_ber_encode_int($rpp-1), '02') . $str;
 
