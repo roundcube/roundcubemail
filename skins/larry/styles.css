@@ -1498,6 +1498,7 @@ a.menuselector {
 	text-decoration: none;
 	color: #333;
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 a.menuselector .handle {
