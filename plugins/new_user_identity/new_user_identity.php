@@ -38,16 +38,19 @@ class new_user_identity extends rcube_plugin
     function lookup_user_name($args)
     {
         $rcmail = rcmail::get_instance();
-        
+
         if ($this->init_ldap($args['host'])) {
-            $results = $this->ldap->search('*', $args['user'], TRUE);
+            $results = $this->ldap->search('*', $args['user'], true);
             if (count($results->records) == 1) {
-                $args['user_name'] = $results->records[0]['name'];
-                if (!$args['user_email'] && strpos($results->records[0]['email'], '@')) {
-                    $args['user_email'] = rcube_idn_to_ascii($results->records[0]['email']);
+                $user_name  = is_array($results->records[0]['name']) ? $results->records[0]['name'][0] : $results->records[0]['name'];
+                $user_email = is_array($results->records[0]['email']) ? $results->records[0]['email'][0] : $results->records[0]['email'];
+
+                $args['user_name'] = $user_name;
+                if (!$args['user_email'] && strpos($user_email, '@')) {
+                    $args['user_email'] = rcube_idn_to_ascii($user_email);
                 }
                 if (($alias_col = $rcmail->config->get('new_user_identity_alias')) && $results->records[0][$alias_col]) {
-                  $args['alias'] = $results->records[0][$alias_col];
+                  $args['alias'] = is_array($results->records[0][$alias_col]) ? $results->records[0][$alias_col][0] : $results->records[0][$alias_col];
                 }
             }
         }
@@ -56,8 +59,9 @@ class new_user_identity extends rcube_plugin
 
     private function init_ldap($host)
     {
-        if ($this->ldap)
+        if ($this->ldap) {
             return $this->ldap->ready;
+        }
 
         $rcmail = rcmail::get_instance();
 
