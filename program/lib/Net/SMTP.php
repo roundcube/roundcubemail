@@ -936,14 +936,12 @@ class Net_SMTP
      */
     function quotedata(&$data)
     {
-        /* Change Unix (\n) and Mac (\r) linefeeds into
-         * Internet-standard CRLF (\r\n) linefeeds. */
-        $data = preg_replace(array('/(?<!\r)\n/','/\r(?!\n)/'), "\r\n", $data);
-
         /* Because a single leading period (.) signifies an end to the
-         * data, legitimate leading periods need to be "doubled"
-         * (e.g. '..'). */
-        $data = str_replace("\n.", "\n..", $data);
+         * data, legitimate leading periods need to be "doubled" ('..'). */
+        $data = preg_replace('/^\./m', '..', $data);
+
+        /* Change Unix (\n) and Mac (\r) linefeeds into CRLF's (\r\n). */
+        $data = preg_replace('/(?:\r\n|\n|\r(?!\n))/', "\r\n", $data);
     }
 
     /**
