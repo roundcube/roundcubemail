@@ -767,9 +767,9 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // use VLV pseudo-search for autocompletion
-        $rcmail = rcmail::get_instance();
+        $rcube = rcube::get_instance();
 
-        if ($this->prop['vlv_search'] && $this->conn && join(',', (array)$fields) == join(',', $rcmail->config->get('contactlist_fields')))
+        if ($this->prop['vlv_search'] && $this->conn && join(',', (array)$fields) == join(',', $rcube->config->get('contactlist_fields')))
         {
             // add general filter to query
             if (!empty($this->prop['filter']) && empty($this->filter))
