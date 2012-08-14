@@ -1098,7 +1098,9 @@ class Net_Sieve
                     return PEAR::raiseError(trim($response . $line), 6);
                 }
 
-                if (preg_match('/^{([0-9]+)}/i', $line, $matches)) {
+                // "\+?" is added in the regexp to workaround DBMail bug
+                // http://dbmail.org/mantis/view.php?id=963
+                if (preg_match('/^{([0-9]+)\+?}/i', $line, $matches)) {
                     // Matches literal string responses.
                     $line = $this->_recvBytes($matches[1] + 2);
 
