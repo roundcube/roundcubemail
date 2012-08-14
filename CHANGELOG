@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Disable autocapitalization in login form on iPad/iPhone (#1488609)
 - Fix focus on the list when list row is clicked (#1488600)
 - Added separate From and To columns apart from smart From/To column (#1486891)
 - Fix fallback to Larry skin when configured skin isn't available (#1488591)
