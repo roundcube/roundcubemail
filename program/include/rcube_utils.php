@@ -617,8 +617,8 @@ class rcube_utils
         // %n - host
         $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
         // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
-	$t = preg_replace('/^[^\.]+\./', '', $n);
-	// %d - domain name without first part
+        $t = preg_replace('/^[^\.]+\./', '', $n);
+        // %d - domain name without first part
         $d = preg_replace('/^[^\.]+\./', '', $_SERVER['HTTP_HOST']);
         // %h - IMAP host
         $h = $_SESSION['storage_host'] ? $_SESSION['storage_host'] : $host;
@@ -627,7 +627,7 @@ class rcube_utils
         // %s - domain name after the '@' from e-mail address provided at login screen. Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {
             $user_email = self::get_input_value('_user', self::INPUT_POST);
-            $user_email = rcube_utils::idn_convert($user_email, true);
+            $user_email = self::idn_convert($user_email, true);
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
             if ($matches < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false) {
                 return false;
