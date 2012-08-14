@@ -1488,7 +1488,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
 function rcmail_wrap_and_quote($text, $length = 72)
 {
   // Rebuild the message body with a maximum of $max chars, while keeping quoted message.
-  $max = min(77, $length + 8);
+  $max = max(75, $length + 8);
   $lines = preg_split('/\r?\n/', trim($text));
   $out = '';
 
