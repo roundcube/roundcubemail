@@ -239,9 +239,12 @@ function rcmail_contact_search()
     $OUTPUT->command('set_env', 'source', '');
     $OUTPUT->command('set_env', 'group', '');
 
-    // unselect currently selected directory/group
-    if (!$sid)
+    if (!$sid) {
+        // unselect currently selected directory/group
         $OUTPUT->command('unselect_directory');
+        // enable "Save search" command
+        $OUTPUT->command('enable_command', 'search-create', true);
+    }
     $OUTPUT->command('update_group_commands');
 
     // send response

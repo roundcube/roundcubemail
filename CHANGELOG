@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix inactive Save search option after advanced search (#1488607)
 - Fix Remove from group option is active for contact search result (#1488608)
 - Disable autocapitalization in login form on iPad/iPhone (#1488609)
 - Fix focus on the list when list row is clicked (#1488600)
