@@ -1378,6 +1378,9 @@ class rcube_output_html extends rcube_output
         if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
             $url = $_SERVER['QUERY_STRING'];
 
+        // Disable autocapitalization on iPad/iPhone (#1488609)
+        $attrib['autocapitalize'] = 'off';
+
         // set atocomplete attribute
         $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
         $host_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
