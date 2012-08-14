@@ -99,9 +99,7 @@ function rcube_identity_form($attrib)
     $form['addressing']['content']['email']['class'] = 'disabled';
   }
 
-  $IDENTITY_RECORD['email']    = rcube_idn_to_utf8($IDENTITY_RECORD['email']);
-  $IDENTITY_RECORD['reply-to'] = rcube_idn_to_utf8($IDENTITY_RECORD['reply-to']);
-  $IDENTITY_RECORD['bcc']      = rcube_idn_to_utf8($IDENTITY_RECORD['bcc']);
+  $IDENTITY_RECORD['email'] = rcube_idn_to_utf8($IDENTITY_RECORD['email']);
 
   // Allow plugins to modify identity form content
   $plugin = $RCMAIL->plugins->exec_hook('identity_form', array(
