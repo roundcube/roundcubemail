@@ -4031,8 +4031,7 @@ function rcube_webmail()
 
     // if a group is currently selected, and there is at least one contact selected
     // thend we can enable the group-remove-selected command
-    this.enable_command('group-remove-selected', typeof this.env.group != 'undefined' && list.selection.length > 0);
-
+    this.enable_command('group-remove-selected', this.env.group && list.selection.length > 0);
     this.enable_command('compose', this.env.group || list.selection.length > 0);
     this.enable_command('edit', id && writable);
     this.enable_command('delete', list.selection.length && writable);
