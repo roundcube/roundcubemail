@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix quotation of message body when sending via SMTP
 - Added separate From and To columns apart from smart From/To column (#1486891)
 - Fix (workaround) delete operations with some versions of memcache (#1488592)
 - Fix wrong compose screen elements focus in IE9 (#1488541)
