@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix impossible to create message with empty plain text part (#1488610)
 - Fix stripped apostrophes when replying in plain text to HTML message (#1488606)
 - Fix inactive Save search option after advanced search (#1488607)
 - Fix Remove from group option is active for contact search result (#1488608)
