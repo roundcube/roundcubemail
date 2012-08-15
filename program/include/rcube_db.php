@@ -388,13 +388,19 @@ class rcube_db
         $idx = 0;
 
         while ($pos = strpos($query, '?', $pos)) {
-            $val = $this->quote($params[$idx++]);
-            unset($params[$idx-1]);
-            $query = substr_replace($query, $val, $pos, 1);
-            $pos += strlen($val);
+            if ($query[$pos+1] == '?') {  // skip escaped ?
+                $pos += 2;
+            }
+            else {
+                $val = $this->quote($params[$idx++]);
+                unset($params[$idx-1]);
+                $query = substr_replace($query, $val, $pos, 1);
+                $pos += strlen($val);
+            }
         }
 
-        $query = rtrim($query, ';');
+        // replace escaped ? back to normal
+        $query = rtrim(strtr($query, array('??' => '?')), ';');
 
         $this->debug($query);
 
@@ -591,7 +597,7 @@ class rcube_db
                 'integer' => PDO::PARAM_INT,
             );
             $type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
-            return $this->dbh->quote($input, $type);
+            return strtr($this->dbh->quote($input, $type), array('?' => '??'));  // escape ?
         }
 
         return 'NULL';
