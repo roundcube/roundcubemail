@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix lower-casing email address on replies (#1488598)
 - Fix line separator in exported messages (#1488603)
 - Fix XSS issue where plain signatures wasn't secured in HTML mode (#1488613)
 - Fix XSS issue where href="javascript:" wasn't secured (#1488613)

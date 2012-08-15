@@ -470,6 +470,29 @@ function array_keys_recursive($array)
 
 
 /**
+ * Format e-mail address
+ *
+ * @param string $email E-mail address
+ *
+ * @return string Formatted e-mail address
+ */
+function format_email($email)
+{
+    $email = trim($email);
+    $parts = explode('@', $email);
+    $count = count($parts);
+
+    if ($count > 1) {
+        $parts[$count-1] = mb_strtolower($parts[$count-1]);
+
+        $email = implode('@', $parts);
+    }
+
+    return $email;
+}
+
+
+/**
  * mbstring replacement functions
  */
 
