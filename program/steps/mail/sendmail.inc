@@ -501,14 +501,9 @@ if ($isHtml) {
   $h2t = new html2text($plugin['body'], false, true, 0);
   $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n");
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
-  if (!$plainTextPart) {
-    // empty message body breaks attachment handling in drafts
-    $plainTextPart = "\r\n";
-  }
-  else {
-    // make sure all line endings are CRLF (#1486712)
-    $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
-  }
+
+  // make sure all line endings are CRLF (#1486712)
+  $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
 
   $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
     array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
@@ -532,10 +527,6 @@ else {
     $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
 
   $message_body = wordwrap($message_body, 998, "\r\n", true);
-  if (!strlen($message_body)) { 
-    // empty message body breaks attachment handling in drafts 
-    $message_body = "\r\n"; 
-  }
 
   $MAIL_MIME->setTXTBody($message_body, false, true);
 }
