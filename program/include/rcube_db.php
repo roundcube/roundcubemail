@@ -576,6 +576,10 @@ class rcube_db
             return intval($input);
         }
 
+        if (is_null($input)) {
+            return 'NULL';
+        }
+
         // create DB handle if not available
         if (!$this->dbh) {
             $this->db_connect('r');
