@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix XSS issue with href="javascript:" not being removed (#1488613)
 - Fix impossible to create message with empty plain text part (#1488610)
 - Fix stripped apostrophes when replying in plain text to HTML message (#1488606)
 - Fix inactive Save search option after advanced search (#1488607)
