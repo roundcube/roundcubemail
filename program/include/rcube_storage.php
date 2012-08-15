@@ -505,8 +505,11 @@ abstract class rcube_storage
 
     /**
      * Sends the whole message source to stdout
+     *
+     * @param int  $uid       Message UID
+     * @param bool $formatted Enables line-ending formatting
      */
-    abstract function print_raw_body($uid);
+    abstract function print_raw_body($uid, $formatted = true);
 
 
     /**

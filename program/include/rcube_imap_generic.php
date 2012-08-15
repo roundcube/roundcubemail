@@ -2455,7 +2455,7 @@ class rcube_imap_generic
         return $this->handlePartBody($mailbox, $id, $is_uid, $part);
     }
 
-    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL)
+    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL, $formatted=true)
     {
         if (!$this->select($mailbox)) {
             return false;
@@ -2572,7 +2572,7 @@ class rcube_imap_generic
                         continue;
                     $line = convert_uudecode($line);
                 // default
-                } else {
+                } else if ($formatted) {
                     $line = rtrim($line, "\t\r\n\0\x0B") . "\n";
                 }
 

@@ -2128,14 +2128,17 @@ class rcube_imap extends rcube_storage
 
     /**
      * Sends the whole message source to stdout
+     *
+     * @param int  $uid       Message UID
+     * @param bool $formatted Enables line-ending formatting
      */
-    public function print_raw_body($uid)
+    public function print_raw_body($uid, $formatted = true)
     {
         if (!$this->check_connection()) {
             return;
         }
 
-        $this->conn->handlePartBody($this->folder, $uid, true, NULL, NULL, true);
+        $this->conn->handlePartBody($this->folder, $uid, true, null, null, true, null, $formatted);
     }
 
 

@@ -47,7 +47,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
     header("Content-Disposition: attachment; filename=\"$filename\"");
   }
 
-  $RCMAIL->storage->print_raw_body($uid);
+  $RCMAIL->storage->print_raw_body($uid, empty($_GET['_save']));
 }
 else
 {
