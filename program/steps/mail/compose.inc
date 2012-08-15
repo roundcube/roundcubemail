@@ -532,7 +532,7 @@ function rcmail_compose_headers($attrib)
 
 function rcmail_compose_header_from($attrib)
 {
-  global $MESSAGE, $OUTPUT;
+  global $MESSAGE, $OUTPUT, $RCMAIL, $compose_mode;
 
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_from');
@@ -543,6 +543,8 @@ function rcmail_compose_header_from($attrib)
   if (count($MESSAGE->identities))
   {
     $a_signatures = array();
+    $separator    = $RCMAIL->config->get('sig_above')
+      && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD) ? '---' : '-- ';
 
     $field_attrib['onchange'] = JS_OBJECT_NAME.".change_identity(this)";
     $select_from = new html_select($field_attrib);
@@ -556,13 +558,27 @@ function rcmail_compose_header_from($attrib)
       // add signature to array
       if (!empty($sql_arr['signature']) && empty($COMPOSE['param']['nosig']))
       {
-        $a_signatures[$identity_id]['text'] = $sql_arr['signature'];
-        $a_signatures[$identity_id]['is_html'] = ($sql_arr['html_signature'] == 1) ? true : false;
-        if ($a_signatures[$identity_id]['is_html'])
-        {
-            $h2t = new html2text($a_signatures[$identity_id]['text'], false, false);
-            $a_signatures[$identity_id]['plain_text'] = trim($h2t->get_text());
+        $text = $html = $sql_arr['signature'];
+
+        if ($sql_arr['html_signature']) {
+            $h2t  = new html2text($sql_arr['signature'], false, false);
+            $text = trim($h2t->get_text());
         }
+        else {
+            $html = htmlentities($html, ENT_NOQUOTES, RCMAIL_CHARSET);
+        }
+
+        if (!preg_match('/^--[ -]\r?\n/m', $text)) {
+            $text = $separator . "\n" . $text;
+            $html = $separator . "<br>" . $html;
+        }
+
+        if (!$sql_arr['html_signature']) {
+            $html = "<pre>" . $html . "</pre>";
+        }
+
+        $a_signatures[$identity_id]['text'] = $text;
+        $a_signatures[$identity_id]['html'] = $html;
       }
     }
 
