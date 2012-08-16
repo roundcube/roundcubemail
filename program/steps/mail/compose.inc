@@ -252,7 +252,8 @@ $MESSAGE->identities = $RCMAIL->user->list_identities();
 if (count($MESSAGE->identities))
 {
   foreach ($MESSAGE->identities as $idx => $ident) {
-    $email = mb_strtolower(rcube_idn_to_utf8($ident['email']));
+    $ident['email'] = format_email($ident['email']);
+    $email = format_email(rcube_idn_to_utf8($ident['email']));
 
     $MESSAGE->identities[$idx]['email_ascii'] = $ident['email'];
     $MESSAGE->identities[$idx]['ident']       = format_email_recipient($ident['email'], $ident['name']);
@@ -277,7 +278,7 @@ else if (count($MESSAGE->identities)) {
     $a_to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
     foreach ($a_to as $addr) {
       if (!empty($addr['mailto'])) {
-        $a_recipients[] = strtolower($addr['mailto']);
+        $a_recipients[] = format_email($addr['mailto']);
         $a_names[]      = $addr['name'];
       }
     }
@@ -286,7 +287,7 @@ else if (count($MESSAGE->identities)) {
       $a_cc = rcube_mime::decode_address_list($MESSAGE->headers->cc, null, true, $MESSAGE->headers->charset);
       foreach ($a_cc as $addr) {
         if (!empty($addr['mailto'])) {
-          $a_recipients[] = strtolower($addr['mailto']);
+          $a_recipients[] = format_email($addr['mailto']);
           $a_names[]      = $addr['name'];
         }
       }
@@ -433,7 +434,7 @@ foreach ($parts as $header) {
       if (empty($addr_part['mailto']))
         continue;
 
-      $mailto = mb_strtolower(rcube_idn_to_utf8($addr_part['mailto']));
+      $mailto = format_email(rcube_idn_to_utf8($addr_part['mailto']));
 
       if (!in_array($mailto, $a_recipients)
         && ($header == 'to' || empty($MESSAGE->compose['from_email']) || $mailto != $MESSAGE->compose['from_email'])
@@ -529,7 +530,7 @@ function rcmail_compose_headers($attrib)
 
 function rcmail_compose_header_from($attrib)
 {
-  global $MESSAGE, $OUTPUT;
+  global $MESSAGE, $OUTPUT, $RCMAIL, $compose_mode;
 
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_from');
@@ -540,6 +541,8 @@ function rcmail_compose_header_from($attrib)
   if (count($MESSAGE->identities))
   {
     $a_signatures = array();
+    $separator    = $RCMAIL->config->get('sig_above')
+      && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD) ? '---' : '-- ';
 
     $field_attrib['onchange'] = JS_OBJECT_NAME.".change_identity(this)";
     $select_from = new html_select($field_attrib);
@@ -553,13 +556,27 @@ function rcmail_compose_header_from($attrib)
       // add signature to array
       if (!empty($sql_arr['signature']) && empty($COMPOSE['param']['nosig']))
       {
-        $a_signatures[$identity_id]['text'] = $sql_arr['signature'];
-        $a_signatures[$identity_id]['is_html'] = ($sql_arr['html_signature'] == 1) ? true : false;
-        if ($a_signatures[$identity_id]['is_html'])
-        {
-            $h2t = new html2text($a_signatures[$identity_id]['text'], false, false);
-            $a_signatures[$identity_id]['plain_text'] = trim($h2t->get_text());
+        $text = $html = $sql_arr['signature'];
+
+        if ($sql_arr['html_signature']) {
+            $h2t  = new html2text($sql_arr['signature'], false, false);
+            $text = trim($h2t->get_text());
         }
+        else {
+            $html = htmlentities($html, ENT_NOQUOTES, RCMAIL_CHARSET);
+        }
+
+        if (!preg_match('/^--[ -]\r?\n/m', $text)) {
+            $text = $separator . "\n" . $text;
+            $html = $separator . "<br>" . $html;
+        }
+
+        if (!$sql_arr['html_signature']) {
+            $html = "<pre>" . $html . "</pre>";
+        }
+
+        $a_signatures[$identity_id]['text'] = $text;
+        $a_signatures[$identity_id]['html'] = $html;
       }
     }
 
@@ -666,9 +683,9 @@ function rcmail_prepare_message_body()
   if ($isHtml && preg_match('#<img src="\./program/resources/blocked\.gif"#', $body)) {
     if ($attachment = rcmail_save_image('program/resources/blocked.gif', 'image/gif')) {
       $COMPOSE['attachments'][$attachment['id']] = $attachment;
-      $body = preg_replace('#\./program/resources/blocked\.gif#',
-        $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'],
-        $body);
+      $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
+        $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
+      $body = preg_replace('#\./program/resources/blocked\.gif#', $url, $body);
     }
   }
 
@@ -1050,7 +1067,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
       if (!$skip && ($attachment = rcmail_save_attachment($message, $pid))) {
         $COMPOSE['attachments'][$attachment['id']] = $attachment;
         if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
-          $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'];
+          $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
+            $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
           if ($part->content_id)
             $cid_map['cid:'.$part->content_id] = $url;
           else
@@ -1075,7 +1093,8 @@ function rcmail_write_inline_attachments(&$message)
     if (($part->content_id || $part->content_location) && $part->filename) {
       if ($attachment = rcmail_save_attachment($message, $pid)) {
         $COMPOSE['attachments'][$attachment['id']] = $attachment;
-        $url = $RCMAIL->comm_path.'&_action=display-attachment&_file=rcmfile'.$attachment['id'].'&_id='.$COMPOSE['id'];
+          $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
+            $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
         if ($part->content_id)
           $cid_map['cid:'.$part->content_id] = $url;
         else

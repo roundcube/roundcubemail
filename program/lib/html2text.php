@@ -89,7 +89,7 @@
  *  out that extra spaces should be compressed--a problem addressed with
  *  Marcus Bointon's fixes but that I had not yet incorporated.
  *
- *	Thanks to Daniel Schledermann (http://www.typoconsult.dk/) for
+ *  Thanks to Daniel Schledermann (http://www.typoconsult.dk/) for
  *  suggesting a valuable fix with <a> tag handling.
  *
  *  Thanks to Wojciech Bajon (again!) for suggesting fixes and additions,
@@ -200,7 +200,7 @@ class html2text
     var $ent_search = array(
         '/&(nbsp|#160);/i',                      // Non-breaking space
         '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i',
-		                                         // Double quotes
+                                         // Double quotes
         '/&(apos|rsquo|lsquo|#8216|#8217);/i',   // Single quotes
         '/&gt;/i',                               // Greater-than
         '/&lt;/i',                               // Less-than
@@ -437,11 +437,11 @@ class html2text
     function set_base_url( $url = '' )
     {
         if ( empty($url) ) {
-        	if ( !empty($_SERVER['HTTP_HOST']) ) {
-	            $this->url = 'http://' . $_SERVER['HTTP_HOST'];
-        	} else {
-	            $this->url = '';
-	        }
+            if ( !empty($_SERVER['HTTP_HOST']) ) {
+                $this->url = 'http://' . $_SERVER['HTTP_HOST'];
+            } else {
+                $this->url = '';
+            }
         } else {
             // Strip any trailing slashes for consistency (relative
             // URLs may already start with a slash like "/file.html")
@@ -515,7 +515,7 @@ class html2text
         $text = preg_replace($this->ent_search, $this->ent_replace, $text);
 
         // Replace known html entities
-        $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
+        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
 
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
         $text = preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
@@ -535,7 +535,7 @@ class html2text
         // for PHP versions >= 4.0.2. Default width is 75
         // If width is 0 or less, don't wrap the text.
         if ( $this->width > 0 ) {
-        	$text = wordwrap($text, $this->width);
+            $text = wordwrap($text, $this->width);
         }
     }
 
@@ -554,16 +554,16 @@ class html2text
      */
     function _build_link_list( $link, $display )
     {
-	    if (!$this->_do_links || empty($link)) {
-	        return $display;
-	    }
-
-        // Ignored link types
-	    if (preg_match('!^(javascript:|mailto:|#)!i', $link)) {
-		    return $display;
+        if (!$this->_do_links || empty($link)) {
+            return $display;
         }
 
-	    if (preg_match('!^([a-z][a-z0-9.+-]+:)!i', $link)) {
+        // Ignored link types
+        if (preg_match('!^(javascript:|mailto:|#)!i', $link)) {
+            return $display;
+        }
+
+        if (preg_match('!^([a-z][a-z0-9.+-]+:)!i', $link)) {
             $url = $link;
         }
         else {

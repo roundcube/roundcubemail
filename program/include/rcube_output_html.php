@@ -149,7 +149,7 @@ class rcube_output_html extends rcube_output
         else {
             $skin_path = $this->config->get('skin_path');
             if (!$skin_path) {
-                $skin_path = 'skins/default';
+                $skin_path = 'skins/' . rcube_config::DEFAULT_SKIN;
             }
             $valid = !$skin;
         }
@@ -1377,6 +1377,9 @@ class rcube_output_html extends rcube_output
         $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
         if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
             $url = $_SERVER['QUERY_STRING'];
+
+        // Disable autocapitalization on iPad/iPhone (#1488609)
+        $attrib['autocapitalize'] = 'off';
 
         // set atocomplete attribute
         $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');

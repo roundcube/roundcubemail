@@ -26,6 +26,8 @@
  */
 class rcube_config
 {
+    const DEFAULT_SKIN = 'larry';
+
     private $prop = array();
     private $errors = array();
     private $userprefs = array();
@@ -81,13 +83,13 @@ class rcube_config
                 $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
             }
             else {
-                $this->prop['skin'] = 'larry';
+                $this->prop['skin'] = self::DEFAULT_SKIN;
             }
         }
 
         // larry is the new default skin :-)
         if ($this->prop['skin'] == 'default')
-            $this->prop['skin'] = 'larry';
+            $this->prop['skin'] = self::DEFAULT_SKIN;
 
         // fix paths
         $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : INSTALL_PATH . 'logs';
@@ -254,7 +256,7 @@ class rcube_config
 
         // larry is the new default skin :-)
         if ($prefs['skin'] == 'default') {
-            $prefs['skin'] = 'larry';
+            $prefs['skin'] = self::DEFAULT_SKIN;
         }
 
         $this->userprefs = $prefs;
@@ -322,7 +324,7 @@ class rcube_config
         if (strlen($key) != 24) {
             rcube::raise_error(array(
                 'code' => 500, 'type' => 'php',
-	            'file' => __FILE__, 'line' => __LINE__,
+                'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Configured crypto key '$key' is not exactly 24 bytes long"
             ), true, true);
         }
@@ -346,7 +348,7 @@ class rcube_config
             else
                 rcube::raise_error(array(
                     'code' => 500, 'type' => 'php',
-	                'file' => __FILE__, 'line' => __LINE__,
+                    'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid mail_header_delimiter setting"
                 ), true, false);
         }

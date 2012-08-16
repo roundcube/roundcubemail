@@ -36,7 +36,7 @@ class rcube_user
     /**
      * Holds database connection.
      *
-     * @var rcube_mdb2
+     * @var rcube_db
      */
     private $db;
 
@@ -443,7 +443,7 @@ class rcube_user
         }
 
         $data = $rcube->plugins->exec_hook('user_create',
-	        array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email, 'host'=>$host));
+            array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email, 'host'=>$host));
 
         // plugin aborted this operation
         if ($data['abort'])
@@ -456,11 +456,10 @@ class rcube_user
 
         $dbh->query(
             "INSERT INTO ".$dbh->table_name('users').
-            " (created, last_login, username, mail_host, alias, language)".
-            " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?, ?)",
+            " (created, last_login, username, mail_host, language)".
+            " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
             strip_newlines($user),
             strip_newlines($host),
-            strip_newlines($data['alias'] ? $data['alias'] : $user_email),
             strip_newlines($data['language'] ? $data['language'] : $_SESSION['language']));
 
         if ($user_id = $dbh->insert_id('users')) {

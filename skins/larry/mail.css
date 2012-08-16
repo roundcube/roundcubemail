@@ -137,6 +137,10 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px 2px;
 }
 
+#mailboxlist li:first-child {
+	border-radius: 4px 4px 0 0;
+}
+
 #mailboxlist li.mailbox a {
 	padding-left: 36px;
 	white-space: nowrap;
@@ -422,6 +426,7 @@ a.iconbutton.threadmode.selected {
 	text-align: right;
 }
 
+#messagelist tr td.fromto,
 #messagelist tr td.from,
 #messagelist tr td.to,
 #messagelist tr td.cc,

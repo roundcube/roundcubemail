@@ -25,35 +25,25 @@ if (!$RCMAIL->config->get('devel_mode')) {
     die("Access denied!");
 }
 
-$options = array(
-    'use_transactions' => false,
-    'log_line_break' => "\n",
-    'idxname_format' => '%s',
-    'debug' => false,
-    'quote_identifier' => true,
-    'force_defaults' => false,
-    'portability' => true
-);
-
 // @TODO: transaction here (if supported by DB) would be a good thing
 $res = $RCMAIL->db->query("DELETE FROM cache");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 $res = $RCMAIL->db->query("DELETE FROM cache_messages");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 $res = $RCMAIL->db->query("DELETE FROM cache_index");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 $res = $RCMAIL->db->query("DELETE FROM cache_thread");
-if (PEAR::isError($res)) {
-    exit($res->getMessage());
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
 }
 
 echo "Cache cleared\n";

@@ -8,15 +8,13 @@
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
- *
- * $Id$
  */
 
 #settings-sections {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 220px;
+	width: 200px;
 	bottom: 0;
 }
 
@@ -24,7 +22,7 @@
 #settings-right {
 	position: absolute;
 	top: 0;
-	left: 232px;
+	left: 212px;
 	right: 0;
 	bottom: 0;
 }

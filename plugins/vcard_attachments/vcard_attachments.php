@@ -81,7 +81,7 @@ class vcard_attachments extends rcube_plugin
                 if ($vcard->email[0])
                     $display .= ' <'.$vcard->email[0].'>';
 
-                // add box below messsage body
+                // add box below message body
                 $p['content'] .= html::p(array('class' => 'vcardattachment'),
                     html::a(array(
                         'href' => "#",

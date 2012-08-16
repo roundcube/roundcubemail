@@ -1,10 +1,48 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Rewritten test scripts for PHPUnit
+- Fix lower-casing email address on replies (#1488598)
+- Fix line separator in exported messages (#1488603)
+- Fix XSS issue where plain signatures wasn't secured in HTML mode (#1488613)
+- Fix XSS issue where href="javascript:" wasn't secured (#1488613)
+- Fix impossible to create message with empty plain text part (#1488610)
+- Fix stripped apostrophes when replying in plain text to HTML message (#1488606)
+- Fix inactive Save search option after advanced search (#1488607)
+- Fix Remove from group option is active for contact search result (#1488608)
+- Disable autocapitalization in login form on iPad/iPhone (#1488609)
+- Fix focus on the list when list row is clicked (#1488600)
+- Added separate From and To columns apart from smart From/To column (#1486891)
+- Fix fallback to Larry skin when configured skin isn't available (#1488591)
+- Fix (workaround) delete operations with some versions of memcache (#1488592)
+- Fix (disable) request validation for spell and spell_html actions
+- Add new DB abstraction layer based on PHP PDO, supporting SQLite3 (#1488332)
+- Removed PEAR::MDB2 package
 - Removed users.alias column, added option ('user_aliases')
   to use email address from identities as username (#1488581)
 - Removed redundant cache.cache_id column (#1488528)
 - Fix order of attachments in sent mail (#1488423)
+- Fix Shift + delete button does not permanently delete messages (#1488243)
+- Add Content-Length for attachments where possible (#1485478)
+- Fix attachment sizes in message print page and attachment preview page (#1488515)
+- Add mail attachments using drag & drop on HTML5 enabled browsers
+- Add workaround for invalid BODYSTRUCTURE response - parse message with Mail_mimeDecode package (#1485585)
+- Display Tiff as Jpeg in browsers without Tiff support (#1488452)
+- Don't display Pdf/Tiff/Flash attachments inline without browser support (#1488452, #1487929)
+- Add is_escaped attribute for html_select and html_textarea (#1488485)
+- Fix issue where draft auto-save wasn't executed after some inactivity time
+- Add vCard import from multiple files at once (#1488015)
+- Roundcube Framework:
+    Add possibility to replace IMAP driver with custom class
+    Add IMAP auto-connection feature, improving performance with caching enabled
+    Replace imap_init hook with storage_init (with additional 'driver' argument)
+    Improved performance by caching IMAP server's capabilities in session
+    Unified global functions naming (rcube_ prefix)
+    Move global functions from main.inc and rcube_shared.inc into classes
+    Better classes separation
+
+RELEASE 0.8.0
+-------------
 - Don't show product version on login screen (can be enabled by config)
 - Renamed old default skin to 'classic'. Larry is the new default skin.
 - Support connections to memcached socket file (#1488577)
@@ -26,23 +64,16 @@ CHANGELOG Roundcube Webmail
 - Fix removing contact photo using LDAP addressbook (#1488420)
 - Fix storing X-ANNIVERSARY date in vCard format (#1488527)
 - Update to Mail_Mime-1.8.5 (#1488521)
-- Fix Shift + delete button does not permanently delete messages (#1488243)
-- Add Content-Length for attachments where possible (#1485478)
-- Fix attachment sizes in message print page and attachment preview page (#1488515)
 - Fix XSS vulnerability in message subject handling using Larry skin (#1488519)
 - Fix handling of links with various URI schemes e.g. "skype:" (#1488106)
 - Fix handling of links inside PRE elements on html to text conversion
 - Fix indexing of links on html to text conversion
-- Add mail attachments using drag & drop on HTML5 enabled browsers
-- Add workaround for invalid BODYSTRUCTURE response - parse message with Mail_mimeDecode package (#1485585)
 - Decode header value in rcube_mime::get() by default (#1488511)
 - Fix errors with enabled PHP magic_quotes_sybase option (#1488506)
 - Fix SQL query for contacts listing on MS SQL Server (#1488505)
-- Update to TinyMCE 3.5.2
 - Fix window.resize handler on IE8 and Opera (#1488453)
 - Don't let error message popups cover the login form (#1488500)
-- Display Tiff as Jpeg in browsers without Tiff support (#1488452)
-- Don't display Pdf/Tiff/Flash attachments inline without browser support (#1488452, #1487929)
+- Update to TinyMCE 3.5.2
 - Don't show errors when moving contacts into groups they are already in (#1488493)
 - Make folders with unread messages in subfolders bold again (#1486793)
 - Abbreviate long attachment file names with ellipsis (#1488499)
@@ -50,19 +81,8 @@ CHANGELOG Roundcube Webmail
 - Add listcontrols template container in Larry skin (#1488498)
 - Fix host autoselection when default_host is an array (#1488495)
 - Move messages forwarding mode setting into Preferences
-- Add is_escaped attribute for html_select and html_textarea (#1488485)
 - Fix HTML entities handling in HTML editor (#1488483)
 - Fix listing shared folders on Courier IMAP (#1488466)
-- Fix issue where draft auto-save wasn't executed after some inactivity time
-- Add vCard import from multiple files at once (#1488015)
-- Roundcube Framework:
-    Add possibility to replace IMAP driver with custom class
-    Add IMAP auto-connection feature, improving performance with caching enabled
-    Replace imap_init hook with storage_init (with additional 'driver' argument)
-    Improved performance by caching IMAP server's capabilities in session
-    Unified global functions naming (rcube_ prefix)
-    Move global functions from main.inc and rcube_shared.inc into classes
-    Better classes separation
 
 RELEASE 0.8-rc
 --------------
@@ -181,7 +201,7 @@ RELEASE 0.7
 - Fix handling contact photo url with https:// prefix (#1488202)
 - Fix possible infinite redirect on attachment preview (#1488199)
 - Improved clickjacking protection for browsers which don't support X-Frame-Options headers
-- Fixed bug where similiar folder names were highlighted wrong (#1487860)
+- Fixed bug where similar folder names were highlighted wrong (#1487860)
 - Fixed bug in handling link with '!' character in it (#1488195)
 - Fixed bug where session ID's length was limited to 40 characters (#1488196)
 - TinyMCE security issue: removed moxieplayer (embedding flv and mp4 is not supported anymore)
@@ -1384,7 +1404,3 @@ RELEASE 0.1-RC1
   Now based on the message structure delivered by the IMAP server.
 - Fixed some XSS and SQL injection issues
 - Fixed charset problems with folder renaming
-
-
-
-

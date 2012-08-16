@@ -306,6 +306,29 @@ function format_email_recipient($email, $name = '')
 
 
 /**
+ * Format e-mail address
+ *
+ * @param string $email E-mail address
+ *
+ * @return string Formatted e-mail address
+ */
+function format_email($email)
+{
+    $email = trim($email);
+    $parts = explode('@', $email);
+    $count = count($parts);
+
+    if ($count > 1) {
+        $parts[$count-1] = mb_strtolower($parts[$count-1]);
+
+        $email = implode('@', $parts);
+    }
+
+    return $email;
+}
+
+
+/**
  * mbstring replacement functions
  */
 if (!extension_loaded('mbstring'))
@@ -407,7 +430,7 @@ function rcube_autoload($classname)
             '/^utf8$/',
         ),
         array(
-            'MDB2/\\1',
+            'Mail/\\1',
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',

@@ -12,14 +12,13 @@ REQUIREMENTS
 * The Apache, Lighttpd, Cherokee or Hiawatha web server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.2.1 or greater including
-   - PCRE, DOM, JSON, XML, Session, Sockets (required)
+   - PDO, PCRE, DOM, JSON, XML, Session, Sockets (required)
    - libiconv (recommended)
    - mbstring, fileinfo, mcrypt (optional)
 * PEAR packages distributed with Roundcube or external:
-   - MDB2 2.5.0 or newer
    - Mail_Mime 1.8.1 or newer
    - Mail_mimeDecode 1.5.5 or newer
-   - Net_SMTP 1.4.2 or newer
+   - Net_SMTP (latest from https://github.com/pear/Net_SMTP/)
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.6 or newer
 * php.ini options (see .htaccess file):
@@ -34,7 +33,7 @@ REQUIREMENTS
    - magic_quotes_sybase disabled
 * PHP compiled with OpenSSL to connect to IMAPS and to use the spell checker
 * A MySQL (4.0.8 or newer), PostgreSQL, MSSQL database engine
-  or the SQLite extension for PHP
+  or SQLite support in PHP
 * One of the above databases with permission to create tables
 * An SMTP server (recommended) or PHP configured for mail delivery
 

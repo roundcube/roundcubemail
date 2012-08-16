@@ -33,9 +33,9 @@
 class rcube_cache
 {
     /**
-     * Instance of rcube_mdb2 or Memcache class
+     * Instance of database handler
      *
-     * @var rcube_mdb2/Memcache
+     * @var rcube_db|Memcache|bool
      */
     private $db;
     private $type;
@@ -254,7 +254,7 @@ class rcube_cache
             }
             else if ($this->type == 'apc') {
                 $data = apc_fetch($this->ckey($key));
-	        }
+            }
 
             if ($data) {
                 $md5sum = md5($data);
@@ -294,7 +294,7 @@ class rcube_cache
                 }
 
                 $this->cache[$key]      = $data;
-	            $this->cache_sums[$key] = $md5sum;
+                $this->cache_sums[$key] = $md5sum;
             }
             else {
                 $this->cache[$key] = null;
@@ -463,10 +463,13 @@ class rcube_cache
      */
     private function delete_record($key, $index=true)
     {
-        if ($this->type == 'memcache')
-            $this->db->delete($this->ckey($key));
-        else
+        if ($this->type == 'memcache') {
+            // #1488592: use 2nd argument
+            $this->db->delete($this->ckey($key), 0);
+        }
+        else {
             apc_delete($this->ckey($key));
+        }
 
         if ($index) {
             if (($idx = array_search($key, $this->index)) !== false) {

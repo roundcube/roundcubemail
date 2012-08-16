@@ -36,7 +36,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Store database connection.
      *
-     * @var rcube_mdb2
+     * @var rcube_db
      */
     private $db = null;
     private $user_id = 0;
@@ -934,8 +934,8 @@ class rcube_contacts extends rcube_addressbook
                 $contact_id
             );
 
-            if ($this->db->db_error)
-                $this->set_error(self::ERROR_SAVING, $this->db->db_error_msg);
+            if ($error = $this->db->is_error())
+                $this->set_error(self::ERROR_SAVING, $error);
             else
                 $added++;
         }
@@ -990,9 +990,10 @@ class rcube_contacts extends rcube_addressbook
                 $checkname);
 
             // append number to make name unique
-            if ($hit = $this->db->num_rows($sql_result))
+            if ($hit = $this->db->fetch_array($sql_result)) {
                 $checkname = $name . ' ' . $num++;
-        } while ($hit > 0);
+            }
+        } while ($hit);
 
         return $checkname;
     }

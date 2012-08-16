@@ -824,6 +824,10 @@ table.layout td {
 	overflow: hidden;
 }
 
+.uibox .boxfooter {
+	border-radius: 0 0 4px 4px;
+}
+
 .boxfooter .listbutton {
 	display: inline-block;
 	text-decoration: none;
@@ -832,6 +836,10 @@ table.layout td {
 	background: #c7e3ef;
 	padding: 3px 0;
 	margin-top: 1px;
+}
+
+.uibox .boxfooter .listbutton:first-child {
+	border-radius: 0 0 0 4px;
 }
 
 .boxfooter .listbutton .inner {
@@ -1498,6 +1506,7 @@ a.menuselector {
 	text-decoration: none;
 	color: #333;
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 a.menuselector .handle {

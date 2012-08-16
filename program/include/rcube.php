@@ -49,14 +49,14 @@ class rcube
   /**
    * Instace of database class.
    *
-   * @var rcube_mdb2
+   * @var rcube_pdo
    */
   public $db;
 
   /**
    * Instace of Memcache class.
    *
-   * @var rcube_mdb2
+   * @var Memcache
    */
   public $memcache;
 
@@ -160,15 +160,13 @@ class rcube
   /**
    * Get the current database connection
    *
-   * @return rcube_mdb2  Database connection object
+   * @return rcube_pdo  Database connection object
    */
   public function get_dbh()
   {
     if (!$this->db) {
       $config_all = $this->config->all();
-
-      $this->db = new rcube_mdb2($config_all['db_dsnw'], $config_all['db_dsnr'], $config_all['db_persistent']);
-      $this->db->sqlite_initials = INSTALL_PATH . 'SQL/sqlite.initial.sql';
+      $this->db = rcube_db::factory($config_all['db_dsnw'], $config_all['db_dsnr'], $config_all['db_persistent']);
       $this->db->set_debug((bool)$config_all['sql_debug']);
     }
 

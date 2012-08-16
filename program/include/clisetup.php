@@ -33,33 +33,36 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
  */
 function get_opt($aliases = array())
 {
-	$args = array();
-	for ($i=1; $i < count($_SERVER['argv']); $i++) {
-		$arg = $_SERVER['argv'][$i];
-		$value = true;
-		$key = null;
+    $args = array();
 
-		if ($arg[0] == '-') {
-			$key = preg_replace('/^-+/', '', $arg);
-			$sp = strpos($arg, '=');
-			if ($sp > 0) {
-				$key = substr($key, 0, $sp - 2);
-				$value = substr($arg, $sp+1);
-			}
-			else if (strlen($_SERVER['argv'][$i+1]) && $_SERVER['argv'][$i+1][0] != '-') {
-				$value = $_SERVER['argv'][++$i];
-			}
+    for ($i=1; $i < count($_SERVER['argv']); $i++) {
+        $arg   = $_SERVER['argv'][$i];
+        $value = true;
+        $key   = null;
 
-			$args[$key] = is_string($value) ? preg_replace(array('/^["\']/', '/["\']$/'), '', $value) : $value;
-		}
-		else
-			$args[] = $arg;
+        if ($arg[0] == '-') {
+            $key = preg_replace('/^-+/', '', $arg);
+            $sp  = strpos($arg, '=');
+            if ($sp > 0) {
+                $key   = substr($key, 0, $sp - 2);
+                $value = substr($arg, $sp+1);
+            }
+            else if (strlen($_SERVER['argv'][$i+1]) && $_SERVER['argv'][$i+1][0] != '-') {
+                $value = $_SERVER['argv'][++$i];
+            }
 
-		if ($alias = $aliases[$key])
-			$args[$alias] = $args[$key];
-	}
+            $args[$key] = is_string($value) ? preg_replace(array('/^["\']/', '/["\']$/'), '', $value) : $value;
+        }
+        else {
+            $args[] = $arg;
+        }
 
-	return $args;
+        if ($alias = $aliases[$key]) {
+            $args[$alias] = $args[$key];
+        }
+    }
+
+    return $args;
 }
 
 

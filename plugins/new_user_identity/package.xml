@@ -15,10 +15,10 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2011-11-21</date>
+	<date>2012-08-13</date>
 	<version>
-		<release>1.0.5</release>
-		<api>1.0</api>
+		<release>1.0.7</release>
+		<api>1.1</api>
 	</version>
 	<stability>
 		<release>stable</release>
