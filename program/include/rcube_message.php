@@ -50,13 +50,13 @@ class rcube_message
      */
     private $mime;
     private $opt = array();
-    private $inline_parts = array();
     private $parse_alternative = false;
 
     public $uid = null;
     public $headers;
     public $parts = array();
     public $mime_parts = array();
+    public $inline_parts = array();
     public $attachments = array();
     public $subject = '';
     public $sender = null;
