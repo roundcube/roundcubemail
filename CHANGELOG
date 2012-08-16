@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Rewritten test scripts for PHPUnit
 - Fix lower-casing email address on replies (#1488598)
 - Fix line separator in exported messages (#1488603)
 - Fix XSS issue where plain signatures wasn't secured in HTML mode (#1488613)

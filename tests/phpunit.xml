@@ -1,0 +1,13 @@
+<phpunit backupGlobals="false"
+    bootstrap="bootstrap.php"
+    colors="true">
+    <testsuites>
+        <testsuite name="All Tests">
+            <file>HtmlToText.php</file>
+            <file>MailDecode.php</file>
+            <file>MailFunc.php</file>
+            <file>ModCss.php</file>
+            <file>VCards.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
