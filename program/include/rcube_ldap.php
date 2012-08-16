@@ -142,6 +142,11 @@ class rcube_ldap extends rcube_addressbook
                     unset($this->coltypes[$childcol]);  // remove address child col from global coltypes list
                 }
             }
+
+            // at least one address type must be specified
+            if (empty($this->coltypes['address']['subtypes'])) {
+                $this->coltypes['address']['subtypes'] = array('home');
+            }
         }
         else if ($this->coltypes['address']) {
             $this->coltypes['address'] += array('type' => 'textarea', 'childs' => null, 'size' => 40);
