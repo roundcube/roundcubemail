@@ -899,7 +899,14 @@ class rcmail
     // Convert username to lowercase. If storage backend
     // is case-insensitive we need to store always the same username (#1487113)
     if ($config['login_lc']) {
-      $username = mb_strtolower($username);
+      if ($config['login_lc'] == 2 || $config['login_lc'] === true) {
+        $username = mb_strtolower($username);
+      }
+      else if (strpos($username, '@')) {
+        // lowercase domain name
+        list($local, $domain) = explode('@', $username);
+        $username = $local . '@' . mb_strtolower($domain);
+      }
     }
 
     // try to resolve email address from virtuser table
@@ -909,17 +916,13 @@ class rcmail
 
     // Here we need IDNA ASCII
     // Only rcube_contacts class is using domain names in Unicode
-    $host = rcube_idn_to_ascii($host);
-    if (strpos($username, '@')) {
-      // lowercase domain name
-      list($local, $domain) = explode('@', $username);
-      $username = $local . '@' . mb_strtolower($domain);
-      $username = rcube_idn_to_ascii($username);
-    }
+    $host     = rcube_idn_to_ascii($host);
+    $username = rcube_idn_to_ascii($username);
 
     // user already registered -> overwrite username
-    if ($user = rcube_user::query($username, $host))
+    if ($user = rcube_user::query($username, $host)) {
       $username = $user->data['username'];
+    }
 
     if (!$this->storage)
       $this->storage_init();

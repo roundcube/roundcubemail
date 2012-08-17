@@ -219,11 +219,12 @@ $rcmail_config['use_https'] = false;
 // 0 - disabled, 1 - username and host only, 2 - username, host, password
 $rcmail_config['login_autocomplete'] = 0;
 
-// If users authentication is not case sensitive this must be enabled.
-// You can also use it to force conversion of logins to lower case.
+// Forces conversion of logins to lower case.
+// 0 - disabled, 1 - only domain part, 2 - domain and local part.
+// If users authentication is not case-sensitive this must be enabled.
 // After enabling it all user records need to be updated, e.g. with query:
 // UPDATE users SET username = LOWER(username);
-$rcmail_config['login_lc'] = false;
+$rcmail_config['login_lc'] = 0;
 
 // Includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = false;
