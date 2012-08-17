@@ -163,6 +163,7 @@ $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
 $labels['deleted'] = 'Deleted';
+$labels['notdeleted'] = 'Not deleted';
 $labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
 $labels['list'] = 'List';
