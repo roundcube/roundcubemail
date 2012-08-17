@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where domain name was converted to lower-case even with login_lc=false (#1488593)
 - Rewritten test scripts for PHPUnit
 - Fix lower-casing email address on replies (#1488598)
 - Fix line separator in exported messages (#1488603)
