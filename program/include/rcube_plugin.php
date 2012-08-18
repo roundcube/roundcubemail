@@ -17,9 +17,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 /**
@@ -337,9 +334,13 @@ abstract class rcube_plugin
    */
   public function local_skin_path()
   {
-      $skin_path = 'skins/'.$this->api->config->get('skin');
-      if (!is_dir(realpath(slashify($this->home) . $skin_path)))
-        $skin_path = 'skins/default';
+    $rcmail = rcmail::get_instance();
+    foreach (array($rcmail->config->get('skin'), 'larry') as $skin) {
+      $skin_path = 'skins/' . $skin;
+      if (is_dir(realpath(slashify($this->home) . $skin_path)))
+        break;
+    }
+
     return $skin_path;
   }
 
