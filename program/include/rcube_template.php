@@ -158,7 +158,7 @@ class rcube_template extends rcube_html_page
             $valid = true;
         }
         else {
-            $skin_path = $this->config['skin_path'] ? $this->config['skin_path'] : rcube_config::DEFAULT_SKIN;
+            $skin_path = $this->config['skin_path'] ? $this->config['skin_path'] : 'skins/'.rcube_config::DEFAULT_SKIN;
             $valid = !$skin;
         }
 
