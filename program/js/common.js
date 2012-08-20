@@ -635,6 +635,7 @@ function getCookie(name)
   return unescape(dc.substring(begin + prefix.length, end));
 };
 
+// deprecated aliases, to be removed, use rcmail.set_cookie/rcmail.get_cookie
 roundcube_browser.prototype.set_cookie = setCookie;
 roundcube_browser.prototype.get_cookie = getCookie;
 

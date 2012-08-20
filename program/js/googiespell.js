@@ -25,7 +25,7 @@ var GOOGIE_CUR_LANG,
 function GoogieSpell(img_dir, server_url, has_dict)
 {
     var ref = this,
-        cookie_value = getCookie('language');
+        cookie_value = rcmail.get_cookie('language');
 
     GOOGIE_CUR_LANG = cookie_value != null ? cookie_value : GOOGIE_DEFAULT_LANG;
 
@@ -150,7 +150,7 @@ this.setCurrentLanguage = function(lan_code)
     //Set cookie
     var now = new Date();
     now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000);
-    setCookie('language', lan_code, now);
+    rcmail.set_cookie('language', lan_code, now);
 };
 
 this.setForceWidthHeight = function(width, height)

@@ -405,11 +405,16 @@ class rcube
 
         $sess_name   = $this->config->get('session_name');
         $sess_domain = $this->config->get('session_domain');
+        $sess_path   = $this->config->get('session_path');
         $lifetime    = $this->config->get('session_lifetime', 0) * 60;
 
         // set session domain
         if ($sess_domain) {
             ini_set('session.cookie_domain', $sess_domain);
+        }
+        // set session path
+        if ($sess_path) {
+            ini_set('session.cookie_path', $sess_path);
         }
         // set session garbage collecting time according to session_lifetime
         if ($lifetime) {

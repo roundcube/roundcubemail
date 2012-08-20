@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added session_path config option and unified cookies settings in javascript
 - Added "Undeleted" option to messages list filter
 - Rewritten test scripts for PHPUnit
 - Add new DB abstraction layer based on PHP PDO, supporting SQLite3 (#1488332)

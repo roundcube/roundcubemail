@@ -461,7 +461,7 @@ function rcube_mail_ui()
     var button = $(e.target),
       frame = $('#mailpreviewframe'),
       visible = !frame.is(':visible'),
-      splitter = mailviewsplit.pos || parseInt(bw.get_cookie('mailviewsplitter') || 320),
+      splitter = mailviewsplit.pos || parseInt(rcmail.get_cookie('mailviewsplitter') || 320),
       topstyles, bottomstyles, uid;
 
     frame.toggle();
@@ -974,7 +974,7 @@ function rcube_splitter(p)
       $(window).resize(onResize);
 
     // read saved position from cookie
-    var cookie = bw.get_cookie(this.id);
+    var cookie = rcmail.get_cookie(this.id);
     if (cookie && !isNaN(cookie)) {
       this.pos = parseFloat(cookie);
       this.resize();
@@ -1135,7 +1135,7 @@ function rcube_splitter(p)
   {
     var exp = new Date();
     exp.setYear(exp.getFullYear() + 1);
-    bw.set_cookie(this.id, this.pos, exp);
+    rcmail.set_cookie(this.id, this.pos, exp);
   };
 
 } // end class rcube_splitter

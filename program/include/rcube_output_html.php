@@ -67,6 +67,11 @@ class rcube_output_html extends rcube_output
         $this->set_env('task', $task);
         $this->set_env('x_frame_options', $this->config->get('x_frame_options', 'sameorigin'));
 
+        // add cookie info
+        $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
+        $this->set_env('cookie_path', ini_get('session.cookie_path'));
+        $this->set_env('cookie_secure', ini_get('session.cookie_secure'));
+
         // load the correct skin (in case user-defined)
         $skin = $this->config->get('skin');
         $this->set_skin($skin);
