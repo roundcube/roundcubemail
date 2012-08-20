@@ -605,6 +605,15 @@ function rcube_mouse_is_over(ev, obj)
 // cookie functions by GoogieSpell
 function setCookie(name, value, expires, path, domain, secure)
 {
+  if (!path && rcmail.env.cookie_path)
+      path = rcmail.env.cookie_path;
+
+  if (!domain && rcmail.env.cookie_domain)
+      domain = rcmail.env.cookie_domain;
+
+  if (!secure && rcmail.env.cookie_secure)
+      secure = rcmail.env.cookie_secure;
+
   var curCookie = name + "=" + escape(value) +
       (expires ? "; expires=" + expires.toGMTString() : "") +
       (path ? "; path=" + path : "") +
