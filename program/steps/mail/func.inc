@@ -1712,8 +1712,10 @@ function rcmail_search_filter($attrib)
   $select_filter->add(rcube_label('unread'), 'UNSEEN');
   $select_filter->add(rcube_label('flagged'), 'FLAGGED');
   $select_filter->add(rcube_label('unanswered'), 'UNANSWERED');
-  if (!$CONFIG['skip_deleted'])
+  if (!$CONFIG['skip_deleted']) {
     $select_filter->add(rcube_label('deleted'), 'DELETED');
+    $select_filter->add(rcube_label('undeleted'), 'UNDELETED');
+  }
   $select_filter->add(rcube_label('priority').': '.rcube_label('highest'), 'HEADER X-PRIORITY 1');
   $select_filter->add(rcube_label('priority').': '.rcube_label('high'), 'HEADER X-PRIORITY 2');
   $select_filter->add(rcube_label('priority').': '.rcube_label('normal'), 'NOT HEADER X-PRIORITY 1 NOT HEADER X-PRIORITY 2 NOT HEADER X-PRIORITY 4 NOT HEADER X-PRIORITY 5');
