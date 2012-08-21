@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix Larry skin issues in IE7 compat. mode (#1488618)
 - Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 
 RELEASE 0.8.1
