@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 - Rewritten test scripts for PHPUnit
 - Add new DB abstraction layer based on PHP PDO, supporting SQLite3 (#1488332)
 - Removed PEAR::MDB2 package
