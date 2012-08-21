@@ -7,6 +7,7 @@
             <file>MailDecode.php</file>
             <file>MailFunc.php</file>
             <file>ModCss.php</file>
+            <file>Utils.php</file>
             <file>VCards.php</file>
         </testsuite>
     </testsuites>

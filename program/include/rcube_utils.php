@@ -110,6 +110,11 @@ class rcube_utils
                 }
             }
 
+            // last domain part
+            if (preg_match('/[^a-zA-Z]/', array_pop($domain_array))) {
+                return false;
+            }
+
             $rcube = rcube::get_instance();
 
             if (!$dns_check || !$rcube->config->get('email_dns_check')) {

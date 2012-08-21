@@ -241,11 +241,14 @@ $rcmail_config['display_version'] = false;
 // must be greater than 'keep_alive'/60
 $rcmail_config['session_lifetime'] = 10;
 
-// session domain: .example.org
+// Session domain: .example.org
 $rcmail_config['session_domain'] = '';
 
-// session name. Default: 'roundcube_sessid'
+// Session name. Default: 'roundcube_sessid'
 $rcmail_config['session_name'] = null;
+
+// Session path. Defaults to PHP session.cookie_path setting.
+$rcmail_config['session_path'] = null;
 
 // Backend to use for session storage. Can either be 'db' (default) or 'memcache'
 // If set to memcache, a list of servers need to be specified in 'memcache_hosts'

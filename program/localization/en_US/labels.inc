@@ -1,7 +1,6 @@
 <?php
 
 /*
-
  +-----------------------------------------------------------------------+
  | language/en_US/labels.inc                                             |
  |                                                                       |
@@ -15,9 +14,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- @version $Id$
-
 */
 
 $labels = array();
@@ -163,6 +159,7 @@ $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
 $labels['deleted'] = 'Deleted';
+$labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
 $labels['list'] = 'List';

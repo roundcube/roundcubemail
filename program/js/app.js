@@ -6585,6 +6585,12 @@ function rcube_webmail()
     return 0;
   };
 
+  // Cookie setter
+  this.set_cookie = function(name, value, expires)
+  {
+    setCookie(name, value, expires, this.env.cookie_path, this.env.cookie_domain, this.env.cookie_secure);
+  }
+
 }  // end object rcube_webmail
 
 
@@ -6614,6 +6620,8 @@ rcube_webmail.long_subject_title_ie = function(elem, indent)
       elem.title = txt;
   }
 };
+
+rcube_webmail.prototype.get_cookie = getCookie;
 
 // copy event engine prototype
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
