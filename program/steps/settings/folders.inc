@@ -44,8 +44,8 @@ if ($RCMAIL->action == 'subscribe')
 
         if ($result) {
             // Handle subscription of protected folder (#1487656)
-            if ($CONFIG['protect_default_folders'] == true
-                && in_array($mbox, $CONFIG['default_folders'])
+            if ($RCMAIL->config->get('protect_default_folders')
+                && in_array($mbox, (array)$RCMAIL->config->get('default_folders'))
             ) {
                 $OUTPUT->command('disable_subscription', $mbox);
             }
@@ -321,8 +321,8 @@ function rcube_subscription_form($attrib)
                 }
             }
         }
-        // check if the folder is shared, then disable subscription option on it
-        if (!$disabled && $folder['virtual'] && !empty($namespace)) {
+        // check if the folder is shared, then disable subscription option on it (if not subscribed already)
+        if (!$disabled && !$subscribed && $folder['virtual'] && !empty($namespace)) {
             $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
             foreach ($tmp_ns as $item) {
                 if (strpos($folder['id'], $item[0]) === 0) {
