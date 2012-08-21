@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
+
+RELEASE 0.8.1
+-------------
 - Fix bug where domain name was converted to lower-case even with login_lc=false (#1488593)
 - Fix lower-casing email address on replies (#1488598)
 - Fix line separator in exported messages (#1488603)
