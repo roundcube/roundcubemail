@@ -44,8 +44,8 @@ if ($RCMAIL->action == 'subscribe')
 
         if ($result) {
             // Handle subscription of protected folder (#1487656)
-            if ($CONFIG['protect_default_folders'] == true
-                && in_array($mbox, $CONFIG['default_folders'])
+            if ($RCMAIL->config->get('protect_default_folders')
+                && in_array($mbox, (array)$RCMAIL->config->get('default_folders'))
             ) {
                 $OUTPUT->command('disable_subscription', $mbox);
             }
