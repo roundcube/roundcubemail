@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
+
+RELEASE 0.7.3
+-------------
 - Fix quotation of message body when sending via SMTP
 - Added separate From and To columns apart from smart From/To column (#1486891)
 - Fix (workaround) delete operations with some versions of memcache (#1488592)
