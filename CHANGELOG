@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix email address validation for addresses with IP address in domain part
 - Fix Larry skin issues in IE7 compat. mode (#1488618)
 - Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 
