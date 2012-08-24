@@ -21,7 +21,7 @@ $rcmail_config = array();
 // LOGGING/DEBUGGING
 // ----------------------------------
 
-// system error reporting: 1 = log; 2 = report (not implemented yet), 4 = show, 8 = trace
+// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
 $rcmail_config['debug_level'] = 1;
 
 // log driver:  'syslog' or 'file'.
