@@ -976,7 +976,7 @@ function rcube_webmail()
             // do reply-list, when list is detected and popup menu wasn't used 
             url._all = (!props && this.commands['reply-list'] ? 'list' : 'all');
           else if (command == 'reply-list')
-            url._all = list;
+            url._all = 'list';
 
           this.goto_url('compose', url, true);
         }
