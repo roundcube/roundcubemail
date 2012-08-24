@@ -108,11 +108,11 @@ function slashify($str)
 
 
 /**
- * Remove slash at the end of the string
+ * Remove slashes at the end of the string
  */
 function unslashify($str)
 {
-  return preg_replace('/\/$/', '', $str);
+  return preg_replace('/\/+$/', '', $str);
 }
 
 
@@ -231,7 +231,7 @@ function array_keys_recursive($array)
 {
     $keys = array();
 
-    if (!empty($array)) {
+    if (!empty($array) && is_array($array)) {
         foreach ($array as $key => $child) {
             $keys[] = $key;
             foreach (array_keys_recursive($child) as $val) {
@@ -255,7 +255,7 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 
 
 /**
- * Remove single and double quotes from given string
+ * Remove single and double quotes from a given string
  *
  * @param string Input value
  *
