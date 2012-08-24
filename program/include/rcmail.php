@@ -252,14 +252,16 @@ class rcmail
       $this->config->set_user_prefs((array)$this->user->get_prefs());
     }
 
-    $_SESSION['language'] = $this->user->language = $this->language_prop($this->config->get('language', $_SESSION['language']));
+    $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
+    $_SESSION['language'] = $this->user->language = $lang;
 
     // set localization
-    setlocale(LC_ALL, $_SESSION['language'] . '.utf8', 'en_US.utf8');
+    setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
 
     // workaround for http://bugs.php.net/bug.php?id=18556
-    if (in_array($_SESSION['language'], array('tr_TR', 'ku', 'az_AZ')))
-      setlocale(LC_CTYPE, 'en_US' . '.utf8');
+    if (in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
+      setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
+    }
   }
 
 
