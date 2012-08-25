@@ -6184,7 +6184,17 @@ function rcube_webmail()
         field.prependTo(form);
       }
 
-      field.val(ts);
+      // lighttpd upload progress support, else APC
+      if (this.env.upload_progress_name == 'X-Progress-ID') {
+        var upload_uuid = '';
+        for (i = 0; i < 32; i++) {
+          upload_uuid += Math.floor(Math.random() * 16).toString(16);
+        };
+        frame_name = 'rcmupload'+upload_uuid;
+        field.val(upload_uuid);
+      }else{
+        field.val(ts);
+      }
     }
 
     // have to do it this way for IE
@@ -6208,7 +6218,7 @@ function rcube_webmail()
 
     $(form).attr({
         target: frame_name,
-        action: this.url(action, { _id:this.env.compose_id||'', _uploadid:ts }),
+        action: this.url(action, (upload_uuid) ? { _id:this.env.compose_id||'', _uploadid:upload_uuid||ts, 'X-Progress-ID':upload_uuid} : { _id:this.env.compose_id||'', _uploadid:ts }),
         method: 'POST'})
       .attr(form.encoding ? 'encoding' : 'enctype', 'multipart/form-data')
       .submit();

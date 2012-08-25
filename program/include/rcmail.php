@@ -1882,24 +1882,48 @@ class rcmail extends rcube
      */
     public function upload_progress()
     {
-        $prefix = ini_get('apc.rfc1867_prefix');
+        $apc_prefix = ini_get('apc.rfc1867_prefix');
+        $progress_url_lighttpd = $this->config->get('upload_progress_url_lighttpd');
         $params = array(
             'action' => $this->action,
             'name' => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
         );
 
-        if (function_exists('apc_fetch')) {
-            $status = apc_fetch($prefix . $params['name']);
+        if ($progress_url_lighttpd && function_exists('json_decode')) {
+            $context = stream_context_create(array(
+              'http' => array(
+                'method' => 'GET',
+                'header' => 'X-Progress-ID: ' . $params['name']
+              )
+            ));
+            // Construct request URL from _SERVER variables, only works with standard ports
+            $protocol = ($_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
+            $request_url = $protocol . '://' . $_SERVER['SERVER_NAME'] . $progress_url_lighttpd;
+            $response = file_get_contents($request_url, false, $context);
+            $status = json_decode($response, $assoc = true);
+			// $status structure:  http://redmine.lighttpd.net/projects/1/wiki/Docs_ModUploadProgress
+            if (!empty($status)) {
+                $status['current'] = $status['received'];
+                $status['total'] = $status['size'];
+			    // div-by-0-warning: When stalled/failed, 'state' is 'done', 'size' is 0.
+				if ($status['size'] > 0)
+                    $status['percent'] = round($status['current']/$status['total']*100) . '%';
+				else
+					$status['percent'] = 'failed';
+                $params = array_merge($status, $params);
+	        }
+        } else if (function_exists('apc_fetch')) {
+            $status = apc_fetch($apc_prefix . $params['name']);
 
             if (!empty($status)) {
-                $status['percent'] = round($status['current']/$status['total']*100);
+                $status['percent'] = round($status['current']/$status['total']*100) . '%';
                 $params = array_merge($status, $params);
             }
         }
 
         if (isset($params['percent']))
             $params['text'] = $this->gettext(array('name' => 'uploadprogress', 'vars' => array(
-                'percent' => $params['percent'] . '%',
+                'percent' => $params['percent'],
                 'current' => $this->show_bytes($params['current']),
                 'total'   => $this->show_bytes($params['total'])
         )));
@@ -1915,8 +1939,10 @@ class rcmail extends rcube
     public function upload_init()
     {
         // Enable upload progress bar
-        if (($seconds = $this->config->get('upload_progress')) && ini_get('apc.rfc1867')) {
-            if ($field_name = ini_get('apc.rfc1867_name')) {
+        if (($seconds = $this->config->get('upload_progress'))
+            && ($progress_url_lighttpd = $this->config->get('upload_progress_url_lighttpd'))) {
+            if ((ini_get('apc.rfc1867') && ($field_name = ini_get('apc.rfc1867_name')))
+                || (function_exists('json_decode') && $progress_url_lighttpd && ($field_name = 'X-Progress-ID'))) {
                 $this->output->set_env('upload_progress_name', $field_name);
                 $this->output->set_env('upload_progress_time', (int) $seconds);
             }
