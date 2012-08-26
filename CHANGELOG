@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to not include original message on reply, rename option top_posting to reply_mode (#1485149)
 - Fix Larry's messages list filter in IE (#1488632)
 - Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)
 - Fix setting locales under Solaris - use additional .UTF-8 suffix (#1488628)

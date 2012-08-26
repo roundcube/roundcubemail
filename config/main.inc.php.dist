@@ -783,8 +783,11 @@ $rcmail_config['display_next'] = true;
 // 2 - Expand only threads with unread messages 
 $rcmail_config['autoexpand_threads'] = 0;
 
-// When replying place cursor above original message (top posting)
-$rcmail_config['top_posting'] = false;
+// When replying:
+// -1 - don't cite the original message
+// 0  - place cursor below the original message
+// 1  - place cursor above original message (top posting)
+$rcmail_config['reply_mode'] = 0;
 
 // When replying strip original signature from message
 $rcmail_config['strip_existing_sig'] = true;

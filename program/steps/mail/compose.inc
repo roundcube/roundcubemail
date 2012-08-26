@@ -139,7 +139,7 @@ if (!empty($CONFIG['drafts_mbox'])) {
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
 $OUTPUT->set_env('sig_above', $RCMAIL->config->get('sig_above', false));
-$OUTPUT->set_env('top_posting', $RCMAIL->config->get('top_posting', false));
+$OUTPUT->set_env('top_posting', intval($RCMAIL->config->get('reply_mode')) > 0);
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 
 // default font for HTML editor
@@ -641,7 +641,7 @@ function rcmail_prepare_message_body()
       rcmail_write_forward_attachment($MESSAGE);
   }
   // reply/edit/draft/forward
-  else if ($compose_mode) {
+  else if ($compose_mode && ($compose_mode != RCUBE_COMPOSE_REPLY || $RCMAIL->config->get('reply_mode') != -1)) {
     $isHtml = rcmail_compose_editor_mode();
 
     if (!empty($MESSAGE->parts)) {
@@ -906,8 +906,9 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $prefix .= "\n";
     $suffix = '';
 
-    if ($RCMAIL->config->get('top_posting'))
+    if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
       $prefix = "\n\n\n" . $prefix;
+    }
   }
   else {
     // save inline images to files
@@ -921,7 +922,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $prefix = '<p>' . Q($prefix) . "</p>\n";
     $prefix .= '<blockquote>';
 
-    if ($RCMAIL->config->get('top_posting')) {
+    if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
       $prefix = '<br>' . $prefix;
       $suffix = '</blockquote>';
     }
