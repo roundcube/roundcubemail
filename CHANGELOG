@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix Larry's messages list filter in IE (#1488632)
 - Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)
 - Fix setting locales under Solaris - use additional .UTF-8 suffix (#1488628)
 - Fix email address validation for addresses with IP address in domain part

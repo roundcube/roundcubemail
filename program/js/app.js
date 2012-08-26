@@ -1447,29 +1447,21 @@ function rcube_webmail()
 
   this.doc_mouse_up = function(e)
   {
-    var model, list, li, id;
+    var model, list, id;
 
     // ignore event if jquery UI dialog is open
     if ($(rcube_event.get_target(e)).closest('.ui-dialog, .ui-widget-overlay').length)
       return;
 
-    if (list = this.message_list) {
-      if (!rcube_mouse_is_over(e, list.list.parentNode))
-        list.blur();
-      else
-        list.focus();
+    if (list = this.message_list)
       model = this.env.mailboxes;
-    }
-    else if (list = this.contact_list) {
-      if (!rcube_mouse_is_over(e, list.list.parentNode))
-        list.blur();
-      else
-        list.focus();
+    else if (list = this.contact_list)
       model = this.env.contactfolders;
-    }
-    else if (this.ksearch_value) {
+    else if (this.ksearch_value)
       this.ksearch_blur();
-    }
+
+    if (list && !rcube_mouse_is_over(e, list.list.parentNode))
+      list.blur();
 
     // handle mouse release when dragging
     if (this.drag_active && model && this.env.last_folder_target) {
@@ -2652,34 +2644,37 @@ function rcube_webmail()
   // set a specific flag to one or more messages
   this.mark_message = function(flag, uid)
   {
-    var a_uids = [], r_uids = [], len, n, id,
-      selection = this.message_list ? this.message_list.get_selection() : [];
+    var a_uids = [], r_uids = [], len, n, id, selection,
+      list = this.message_list;
 
     if (uid)
       a_uids[0] = uid;
     else if (this.env.uid)
       a_uids[0] = this.env.uid;
-    else if (this.message_list) {
+    else if (list) {
+      selection = list.get_selection();
       for (n=0, len=selection.length; n<len; n++) {
           a_uids.push(selection[n]);
       }
     }
 
-    if (!this.message_list)
+    if (!list)
       r_uids = a_uids;
-    else
+    else {
+      list.focus();
       for (n=0, len=a_uids.length; n<len; n++) {
         id = a_uids[n];
-        if ((flag=='read' && this.message_list.rows[id].unread) 
-            || (flag=='unread' && !this.message_list.rows[id].unread)
-            || (flag=='delete' && !this.message_list.rows[id].deleted)
-            || (flag=='undelete' && this.message_list.rows[id].deleted)
-            || (flag=='flagged' && !this.message_list.rows[id].flagged)
-            || (flag=='unflagged' && this.message_list.rows[id].flagged))
+        if ((flag=='read' && list.rows[id].unread) 
+            || (flag=='unread' && !list.rows[id].unread)
+            || (flag=='delete' && !list.rows[id].deleted)
+            || (flag=='undelete' && list.rows[id].deleted)
+            || (flag=='flagged' && !list.rows[id].flagged)
+            || (flag=='unflagged' && list.rows[id].flagged))
         {
           r_uids.push(id);
         }
       }
+    }
 
     // nothing to do
     if (!r_uids.length && !this.select_all_mode)
