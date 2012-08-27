@@ -40,13 +40,33 @@ class rcube_sql_password
         // crypted password
         if (strpos($sql, '%c') !== FALSE) {
             $salt = '';
-            if (CRYPT_MD5) {
-                // Always use eight salt characters for MD5 (#1488136)
-    	        $len = 8;
-            } else if (CRYPT_STD_DES) {
-        	    $len = 2;
-            } else {
-        	    return PASSWORD_CRYPT_ERROR;
+
+            if (!($crypt_digest = $rcmail->config->get('password_crypt_digest')))
+                $crypt_digest = CRYPT_MD5;
+            
+            switch ($crypt_digest)
+            {
+            case CRYPT_MD5:
+                $len = 8;
+                $salt_digest = '$1$';
+                break;
+            case CRYPT_STD_DES:
+                $len = 2;
+                break;
+            case CRYPT_BLOWFISH:
+                $len = 22;
+                $salt_digest = '$2a$';
+                break;
+            case CRYPT_SHA256:
+                $len = 16;
+                $salt_digest = '$5$';
+                break;
+            case CRYPT_SHA512:
+                $len = 16;
+                $salt_digest = '$6$';
+                break;
+            default:
+                return PASSWORD_CRYPT_ERROR;
             }
 
             //Restrict the character set used as salt (#1488136)
@@ -55,7 +75,7 @@ class rcube_sql_password
     	        $salt .= $seedchars[rand(0, 63)];
             }
 
-            $sql = str_replace('%c',  $db->quote(crypt($passwd, CRYPT_MD5 ? '$1$'.$salt.'$' : $salt)), $sql);
+            $sql = str_replace('%c',  $db->quote(crypt($passwd, $salt_digest ? $salt_digest .$salt.'$' : $salt)), $sql);
         }
 
         // dovecotpw
