@@ -617,13 +617,13 @@ class rcube_imap_cache
         // get expiration timestamp
         $ts = get_offset_time($ttl, -1);
 
-        $this->db->query("DELETE FROM ".get_table_name('cache_messages')
+        $this->db->query("DELETE FROM ".$this->db->table_name('cache_messages')
               ." WHERE changed < " . $this->db->fromunixtime($ts));
 
-        $this->db->query("DELETE FROM ".get_table_name('cache_index')
+        $this->db->query("DELETE FROM ".$this->db->table_name('cache_index')
               ." WHERE changed < " . $this->db->fromunixtime($ts));
 
-        $this->db->query("DELETE FROM ".get_table_name('cache_thread')
+        $this->db->query("DELETE FROM ".$this->db->table_name('cache_thread')
               ." WHERE changed < " . $this->db->fromunixtime($ts));
     }
 

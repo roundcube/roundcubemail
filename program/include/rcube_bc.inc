@@ -38,11 +38,6 @@ function get_table_name($table)
     return rcmail::get_instance()->db->table_name($table);
 }
 
-function get_sequence_name($sequence)
-{
-    return rcmail::get_instance()->db->sequence_name($sequence);
-}
-
 function rcube_label($p, $domain=null)
 {
     return rcmail::get_instance()->gettext($p, $domain);
