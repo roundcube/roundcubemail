@@ -298,16 +298,12 @@ else if (count($MESSAGE->identities)) {
   }
 
   $from_idx         = null;
-  $default_identity = null;
+  $found_idx        = null;
+  $default_identity = 0; // default identity is always first on the list
   $return_path      = $MESSAGE->headers->others['return-path'];
 
   // Select identity
   foreach ($MESSAGE->identities as $idx => $ident) {
-    // save default identity ID
-    if ($ident['standard']) {
-      $default_identity = $idx;
-    }
-
     // use From header
     if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
       if ($MESSAGE->headers->from == $ident['ident']) {
@@ -322,11 +318,20 @@ else if (count($MESSAGE->identities)) {
     }
     // use replied message recipients
     else if (($found = array_search($ident['email_ascii'], $a_recipients)) !== false) {
-      // match identity name, prefer default identity
-      if ($from_idx === null || ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name'])) {
+      if ($found_idx === null) {
+        $found_idx = $idx;
+      }
+      // match identity name
+      if ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name']) {
         $from_idx = $idx;
+        break;
       }
     }
+  }
+
+  // If matching by name+address doesn't found any amtches, get first found address (identity)
+  if ($from_idx === null) {
+    $from_idx = $found_idx;
   }
 
   // Fallback using Return-Path
@@ -339,12 +344,7 @@ else if (count($MESSAGE->identities)) {
     }
   }
 
-  // Still no ID, use default/first identity
-  if ($from_idx === null) {
-    $from_idx = $default_identity !== null ? $default_identity : key(reset($MESSAGE->identities));
-  }
-
-  $ident   = $MESSAGE->identities[$from_idx];
+  $ident   = $MESSAGE->identities[$from_idx !== null ? $from_idx : $default_identity];
   $from_id = $ident['identity_id'];
 
   $MESSAGE->compose['from_email'] = $ident['email'];

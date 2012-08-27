@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix identity selection on reply (#1488101)
 - Fix Larry's messages list filter in IE (#1488632)
 - Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)
 - Fix setting locales under Solaris - use additional .UTF-8 suffix (#1488628)
@@ -1390,7 +1391,3 @@ RELEASE 0.1-RC1
   Now based on the message structure delivered by the IMAP server.
 - Fixed some XSS and SQL injection issues
 - Fixed charset problems with folder renaming
-
-
-
-
