@@ -3,8 +3,27 @@
     colors="true">
     <testsuites>
         <testsuite name="All Tests">
+            <file>Framework/BaseReplacer.php</file>
+            <file>Framework/Browser.php</file>
+            <file>Framework/Cache.php</file>
+            <file>Framework/Charset.php</file>
+            <file>Framework/ContentFilter.php</file>
+            <file>Framework/Html.php</file>
+            <file>Framework/Imap.php</file>
+            <file>Framework/ImapGeneric.php</file>
+            <file>Framework/Image.php</file>
+            <file>Framework/MessageHeader.php</file>
+            <file>Framework/MessagePart.php</file>
             <file>Framework/Mime.php</file>
+            <file>Framework/Rcube.php</file>
+            <file>Framework/ResultIndex.php</file>
+            <file>Framework/ResultSet.php</file>
+            <file>Framework/ResultThread.php</file>
             <file>Framework/Shared.php</file>
+            <file>Framework/Smtp.php</file>
+            <file>Framework/Spellchecker.php</file>
+            <file>Framework/StringReplacer.php</file>
+            <file>Framework/User.php</file>
             <file>Framework/Utils.php</file>
             <file>Framework/VCard.php</file>
             <file>HtmlToText.php</file>
