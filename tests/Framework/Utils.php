@@ -130,6 +130,36 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data for test_rep_specialchars_output()
+     */
+    function data_rep_specialchars_output()
+    {
+        return array(
+            array('', '', 'abc', 'abc'),
+            array('', '', '?', '?'),
+            array('', '', '"', '&quot;'),
+            array('', '', '<', '&lt;'),
+            array('', '', '>', '&gt;'),
+            array('', '', '&', '&amp;'),
+            array('', '', '&amp;', '&amp;amp;'),
+            array('', '', '<a>', '&lt;a&gt;'),
+            array('', 'remove', '<a>', ''),
+        );
+    }
+
+    /**
+     * Test for rep_specialchars_output
+     * @dataProvider data_rep_specialchars_output
+     */
+    function test_rep_specialchars_output($type, $mode, $str, $res)
+    {
+        $result = rcube_utils::rep_specialchars_output(
+            $str, $type ? $type : 'html', $mode ? $mode : 'strict');
+
+        $this->assertEquals($result, $res);
+    }
+
+    /**
      * rcube_utils::mod_css_styles()
      */
     function test_mod_css_styles()
