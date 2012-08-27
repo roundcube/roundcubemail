@@ -200,8 +200,8 @@ class rcube_utils
     public static function check_referer()
     {
         $uri = parse_url($_SERVER['REQUEST_URI']);
-        $referer = parse_url(rcube_request_header('Referer'));
-        return $referer['host'] == rcube_request_header('Host') && $referer['path'] == $uri['path'];
+        $referer = parse_url(self::request_header('Referer'));
+        return $referer['host'] == self::request_header('Host') && $referer['path'] == $uri['path'];
     }
 
 
