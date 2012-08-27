@@ -94,7 +94,7 @@ class rcube_utils
 
         // Validate domain part
         if (preg_match('/^\[((IPv6:[0-9a-f:.]+)|([0-9.]+))\]$/i', $domain_part, $matches)) {
-            return self::ip_check(preg_replace('/^IPv6:/i', '', $matches[1])); // valid IPv4 or IPv6 address
+            return self::check_ip(preg_replace('/^IPv6:/i', '', $matches[1])); // valid IPv4 or IPv6 address
         }
         else {
             // If not an IP address
@@ -154,7 +154,7 @@ class rcube_utils
      *
      * @return bool True if the address is valid
      */
-    public static function ip_check($ip)
+    public static function check_ip($ip)
     {
         // IPv6, but there's no build-in IPv6 support
         if (strpos($ip, ':') !== false && !defined('AF_INET6')) {

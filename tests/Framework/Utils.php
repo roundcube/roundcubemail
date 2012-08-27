@@ -83,6 +83,53 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Valid IP addresses for test_valid_ip()
+     */
+    function data_valid_ip()
+    {
+        return array(
+            array('0.0.0.0'),
+            array('123.123.123.123'),
+            array('::'),
+            array('::1'),
+            array('::1.2.3.4'),
+            array('2001:2d12:c4fe:5afe::1'),
+        );
+    }
+
+    /**
+     * Valid IP addresses for test_invalid_ip()
+     */
+    function data_invalid_ip()
+    {
+        return array(
+            array(''),
+            array(0),
+            array('123.123.123.1234'),
+            array('1.1.1.1.1'),
+            array('::1.2.3.260'),
+            array('::1.0'),
+            array('2001::c4fe:5afe::1'),
+        );
+    }
+
+    /**
+     * @dataProvider data_valid_ip
+     */
+    function test_valid_ip($ip)
+    {
+        $this->assertTrue(rcube_utils::check_ip($ip));
+    }
+
+    /**
+     * @dataProvider data_invalid_ip
+     */
+    function test_invalid_ip($ip)
+    {
+        $this->assertFalse(rcube_utils::check_ip($ip));
+    }
+
+    /**
      * rcube_utils::mod_css_styles()
      */
     function test_mod_css_styles()
