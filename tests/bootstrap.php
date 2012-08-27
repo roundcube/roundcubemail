@@ -31,3 +31,5 @@ if (@is_dir(TESTS_DIR . 'config')) {
 }
 
 require_once(INSTALL_PATH . 'program/include/iniset.php');
+
+rcmail::get_instance()->config->set('devel_mode', false);

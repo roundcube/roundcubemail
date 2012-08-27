@@ -3,13 +3,12 @@
     colors="true">
     <testsuites>
         <testsuite name="All Tests">
+            <file>Framework/Mime.php</file>
+            <file>Framework/Shared.php</file>
+            <file>Framework/Utils.php</file>
+            <file>Framework/VCard.php</file>
             <file>HtmlToText.php</file>
-            <file>MailDecode.php</file>
             <file>MailFunc.php</file>
-            <file>ModCss.php</file>
-            <file>Shared.php</file>
-            <file>Utils.php</file>
-            <file>VCards.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
