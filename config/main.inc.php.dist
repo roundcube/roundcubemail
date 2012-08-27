@@ -725,7 +725,7 @@ $rcmail_config['prefer_html'] = true;
 $rcmail_config['show_images'] = 0;
 
 // compose html formatted messages by default
-// 0 - never, 1 - always, 2 - on reply to HTML message only 
+// 0 - never, 1 - always, 2 - on reply to HTML message, 3 - on forward or reply to HTML message
 $rcmail_config['htmleditor'] = 0;
 
 // show pretty dates as standard

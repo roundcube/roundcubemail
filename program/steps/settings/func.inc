@@ -470,6 +470,7 @@ function rcmail_user_prefs($current=null)
       $select_htmleditor->add(rcube_label('never'), 0);
       $select_htmleditor->add(rcube_label('always'), 1);
       $select_htmleditor->add(rcube_label('htmlonreply'), 2);
+      $select_htmleditor->add(rcube_label('htmlonreplyandforward'), 3);
 
       $blocks['main']['options']['htmleditor'] = array(
         'title' => html::label($field_id, Q(rcube_label('htmleditor'))),

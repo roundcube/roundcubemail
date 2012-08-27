@@ -610,9 +610,12 @@ function rcmail_compose_editor_mode()
     $useHtml = $MESSAGE->has_html_part(false);
   }
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-    $useHtml = ($html_editor == 1 || ($html_editor == 2 && $MESSAGE->has_html_part(false)));
+    $useHtml = ($html_editor == 1 || ($html_editor >= 2 && $MESSAGE->has_html_part(false)));
   }
-  else { // RCUBE_COMPOSE_FORWARD or NEW
+  else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
+    $useHtml = ($html_editor == 1 || ($html_editor == 3 && $MESSAGE->has_html_part(false)));
+  }
+  else {
     $useHtml = ($html_editor == 1);
   }
 
