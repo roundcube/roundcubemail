@@ -41,29 +41,34 @@ class rcube_sql_password
         if (strpos($sql, '%c') !== FALSE) {
             $salt = '';
 
-            if (!($crypt_digest = $rcmail->config->get('password_crypt_digest')))
-                $crypt_digest = CRYPT_MD5;
-            
-            switch ($crypt_digest)
+            if (!($crypt_hash = $rcmail->config->get('password_crypt_hash')))
             {
-            case CRYPT_MD5:
+                if (CRYPT_MD5)
+                    $crypt_hash = 'md5';
+                else if (CRYPT_STD_DES)
+                    $crypt_hash = 'des';
+            }
+            
+            switch ($crypt_hash)
+            {
+            case 'md5':
                 $len = 8;
-                $salt_digest = '$1$';
+                $salt_hashindicator = '$1$';
                 break;
-            case CRYPT_STD_DES:
+            case 'des':
                 $len = 2;
                 break;
-            case CRYPT_BLOWFISH:
+            case 'blowfish':
                 $len = 22;
-                $salt_digest = '$2a$';
+                $salt_hashindicator = '$2a$';
                 break;
-            case CRYPT_SHA256:
+            case 'sha256':
                 $len = 16;
-                $salt_digest = '$5$';
+                $salt_hashindicator = '$5$';
                 break;
-            case CRYPT_SHA512:
+            case 'sha512':
                 $len = 16;
-                $salt_digest = '$6$';
+                $salt_hashindicator = '$6$';
                 break;
             default:
                 return PASSWORD_CRYPT_ERROR;
@@ -75,7 +80,7 @@ class rcube_sql_password
     	        $salt .= $seedchars[rand(0, 63)];
             }
 
-            $sql = str_replace('%c',  $db->quote(crypt($passwd, $salt_digest ? $salt_digest .$salt.'$' : $salt)), $sql);
+            $sql = str_replace('%c',  $db->quote(crypt($passwd, $salt_hashindicator ? $salt_hashindicator .$salt.'$' : $salt)), $sql);
         }
 
         // dovecotpw
