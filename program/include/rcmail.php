@@ -1905,6 +1905,7 @@ class rcmail extends rcube
             if (!empty($status)) {
                 $status['current'] = $status['received'];
                 $status['total'] = $status['size'];
+				$status['done'] = ($status['state'] == 'done') ? true : false;
 			    // div-by-0-warning: When stalled/failed, 'state' is 'done', 'size' is 0.
 				if ($status['size'] > 0)
                     $status['percent'] = round($status['current']/$status['total']*100) . '%';
