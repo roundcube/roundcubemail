@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added template object 'frame'
 - Fix identity selection on reply (#1488101)
 - Add option to enable HTML editor on forwarding (#1488517)
 - Add option to not include original message on reply, rename option top_posting to reply_mode (#1485149)
