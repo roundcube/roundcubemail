@@ -400,7 +400,7 @@ class rcube_output_html extends rcube_output
                 'line' => __LINE__,
                 'file' => __FILE__,
                 'message' => 'Error loading template for '.$realname
-                ), true, true);
+                ), true, $write);
             return false;
         }
 
