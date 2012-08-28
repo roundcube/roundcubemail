@@ -3,14 +3,14 @@
     <roundcube:object name="acltable" id="acltable" class="records-table" />
 </div>
 <div id="acllist-footer" class="boxfooter">
-    <roundcube:button command="acl-create" id="aclcreatelink" type="link" title="acl.newuser" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="aclmenulink" id="aclmenulink" type="link" title="acl.actions" class="listbutton groupactions"onclick="UI.show_popup('aclmenu');return false" innerClass="inner" content="&#9881;" />
+    <roundcube:button command="acl-create" id="aclcreatelink" type="link" title="acl.newuser" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="aclmenulink" id="aclmenulink" type="link" title="acl.actions" class="listbutton groupactions"onclick="UI.show_popup('aclmenu', undefined, {above:1});return false" innerClass="inner" content="&#9881;" />
 </div>
 </div>
 
 <div id="aclmenu" class="popupmenu">
-    <ul class="toolbarmenu selectable">
-        <li><roundcube:button command="acl-edit" label="edit" classAct="active" /></li>
-        <li><roundcube:button command="acl-delete" label="delete" classAct="active" /></li>
+    <ul class="toolbarmenu selectable iconized">
+        <li><roundcube:button command="acl-edit" label="edit" class="icon" classAct="icon active" innerclass="icon edit" /></li>
+        <li><roundcube:button command="acl-delete" label="delete" class="icon" classAct="icon active" innerclass="icon delete" /></li>
         <roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)" />
             <li><roundcube:button name="acl-switch" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch')" class="active" /></li>
         <roundcube:endif />

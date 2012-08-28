@@ -111,3 +111,19 @@
   text-align: center;
   clear: both;
 }
+
+#aclform ul
+{
+  list-style: none;
+  margin: 0.2em;
+  padding: 0;
+}
+
+#aclform ul li label
+{
+  margin-left: 0.5em;
+}
+
+ul.toolbarmenu li span.delete {
+  background-position: 0 -1509px;
+}
