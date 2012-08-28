@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Utils extends PHPUnit_Framework_TestCase
+class Framework_Utils extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -82,4 +82,115 @@ class Utils extends PHPUnit_Framework_TestCase
         $this->assertFalse(rcube_utils::check_email($email, false), $title);
     }
 
+    /**
+     * Valid IP addresses for test_valid_ip()
+     */
+    function data_valid_ip()
+    {
+        return array(
+            array('0.0.0.0'),
+            array('123.123.123.123'),
+            array('::'),
+            array('::1'),
+            array('::1.2.3.4'),
+            array('2001:2d12:c4fe:5afe::1'),
+        );
+    }
+
+    /**
+     * Valid IP addresses for test_invalid_ip()
+     */
+    function data_invalid_ip()
+    {
+        return array(
+            array(''),
+            array(0),
+            array('123.123.123.1234'),
+            array('1.1.1.1.1'),
+            array('::1.2.3.260'),
+            array('::1.0'),
+            array('2001::c4fe:5afe::1'),
+        );
+    }
+
+    /**
+     * @dataProvider data_valid_ip
+     */
+    function test_valid_ip($ip)
+    {
+        $this->assertTrue(rcube_utils::check_ip($ip));
+    }
+
+    /**
+     * @dataProvider data_invalid_ip
+     */
+    function test_invalid_ip($ip)
+    {
+        $this->assertFalse(rcube_utils::check_ip($ip));
+    }
+
+    /**
+     * Data for test_rep_specialchars_output()
+     */
+    function data_rep_specialchars_output()
+    {
+        return array(
+            array('', '', 'abc', 'abc'),
+            array('', '', '?', '?'),
+            array('', '', '"', '&quot;'),
+            array('', '', '<', '&lt;'),
+            array('', '', '>', '&gt;'),
+            array('', '', '&', '&amp;'),
+            array('', '', '&amp;', '&amp;amp;'),
+            array('', '', '<a>', '&lt;a&gt;'),
+            array('', 'remove', '<a>', ''),
+        );
+    }
+
+    /**
+     * Test for rep_specialchars_output
+     * @dataProvider data_rep_specialchars_output
+     */
+    function test_rep_specialchars_output($type, $mode, $str, $res)
+    {
+        $result = rcube_utils::rep_specialchars_output(
+            $str, $type ? $type : 'html', $mode ? $mode : 'strict');
+
+        $this->assertEquals($result, $res);
+    }
+
+    /**
+     * rcube_utils::mod_css_styles()
+     */
+    function test_mod_css_styles()
+    {
+        $css = file_get_contents(TESTS_DIR . 'src/valid.css');
+        $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
+
+        $this->assertRegExp('/#rcmbody\s+\{/', $mod, "Replace body style definition");
+        $this->assertRegExp('/#rcmbody h1\s\{/', $mod, "Prefix tag styles (single)");
+        $this->assertRegExp('/#rcmbody h1, #rcmbody h2, #rcmbody h3, #rcmbody textarea\s+\{/', $mod, "Prefix tag styles (multiple)");
+        $this->assertRegExp('/#rcmbody \.noscript\s+\{/', $mod, "Prefix class styles");
+    }
+
+    /**
+     * rcube_utils::mod_css_styles()
+     */
+    function test_mod_css_styles_xss()
+    {
+        $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "No url() values allowed");
+
+        $mod = rcube_utils::mod_css_styles("@import url('http://localhost/somestuff/css/master.css');", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "No import statements");
+
+        $mod = rcube_utils::mod_css_styles("left:expression(document.body.offsetWidth-20)", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "No expression properties");
+
+        $mod = rcube_utils::mod_css_styles("left:exp/*  */ression( alert(&#039;xss3&#039;) )", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks");
+
+        $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
+    }
 }

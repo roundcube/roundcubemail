@@ -308,7 +308,7 @@ class rcmail extends rcube
 
   /**
    * Init output object for GUI and add common scripts.
-   * This will instantiate a rcmail_template object and set
+   * This will instantiate a rcube_output_html object and set
    * environment vars according to the current session and configuration
    *
    * @param boolean True if this request is loaded in a (i)frame
@@ -1209,7 +1209,7 @@ class rcmail extends rcube
         }
         else {
             if (!empty($date)) {
-                $timestamp = rcube_strtotime($date);
+                $timestamp = rcube_utils::strtotime($date);
             }
 
             if (empty($timestamp)) {

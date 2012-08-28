@@ -725,7 +725,7 @@ $rcmail_config['prefer_html'] = true;
 $rcmail_config['show_images'] = 0;
 
 // compose html formatted messages by default
-// 0 - never, 1 - always, 2 - on reply to HTML message only 
+// 0 - never, 1 - always, 2 - on reply to HTML message, 3 - on forward or reply to HTML message
 $rcmail_config['htmleditor'] = 0;
 
 // show pretty dates as standard
@@ -783,8 +783,11 @@ $rcmail_config['display_next'] = true;
 // 2 - Expand only threads with unread messages 
 $rcmail_config['autoexpand_threads'] = 0;
 
-// When replying place cursor above original message (top posting)
-$rcmail_config['top_posting'] = false;
+// When replying:
+// -1 - don't cite the original message
+// 0  - place cursor below the original message
+// 1  - place cursor above original message (top posting)
+$rcmail_config['reply_mode'] = 0;
 
 // When replying strip original signature from message
 $rcmail_config['strip_existing_sig'] = true;

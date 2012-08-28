@@ -233,8 +233,7 @@ class acl extends rcube_plugin
 
         // Advanced rights
         $attrib['id'] = 'advancedrights';
-        foreach ($supported as $val) {
-            $id = "acl$val";
+        foreach ($supported as $idx => $val) {
             $ul .= html::tag('li', null,
                 $input->show('', array(
                     'name' => "acl[$val]", 'value' => $val, 'id' => $id))

@@ -470,6 +470,7 @@ function rcmail_user_prefs($current=null)
       $select_htmleditor->add(rcube_label('never'), 0);
       $select_htmleditor->add(rcube_label('always'), 1);
       $select_htmleditor->add(rcube_label('htmlonreply'), 2);
+      $select_htmleditor->add(rcube_label('htmlonreplyandforward'), 3);
 
       $blocks['main']['options']['htmleditor'] = array(
         'title' => html::label($field_id, Q(rcube_label('htmleditor'))),
@@ -544,16 +545,17 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    if (!isset($no_override['top_posting'])) {
-      $field_id = 'rcmfd_top_posting';
-      $select_replymode = new html_select(array('name' => '_top_posting', 'id' => $field_id,
-        'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex==0)"));
+    if (!isset($no_override['reply_mode'])) {
+      $field_id = 'rcmfd_reply_mode';
+      $select_replymode = new html_select(array('name' => '_reply_mode', 'id' => $field_id,
+        'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex<2)"));
+      $select_replymode->add(rcube_label('replyempty'), -1);
       $select_replymode->add(rcube_label('replybottomposting'), 0);
       $select_replymode->add(rcube_label('replytopposting'), 1);
 
-      $blocks['main']['options']['top_posting'] = array(
+      $blocks['main']['options']['reply_mode'] = array(
         'title' => html::label($field_id, Q(rcube_label('whenreplying'))),
-        'content' => $select_replymode->show($config['top_posting']?1:0),
+        'content' => $select_replymode->show(intval($config['reply_mode'])),
       );
     }
 
@@ -597,7 +599,7 @@ function rcmail_user_prefs($current=null)
 
     if (!isset($no_override['sig_above'])) {
       $field_id = 'rcmfd_sig_above';
-      $select_sigabove = new html_select(array('name' => '_sig_above', 'id' => $field_id, 'disabled' => !$config['top_posting']));
+      $select_sigabove = new html_select(array('name' => '_sig_above', 'id' => $field_id, 'disabled' => $config['reply_mode'] < 1));
       $select_sigabove->add(rcube_label('belowquote'), 0);
       $select_sigabove->add(rcube_label('abovequote'), 1);
 
