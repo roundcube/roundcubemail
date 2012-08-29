@@ -1297,7 +1297,7 @@ class rcube_output_html extends rcube_output
             $attrib['name'] = $attrib['id'];
         }
 
-        $this->set_env('contentframe', $attrib['name']);
+        $this->set_env('contentframe', $attrib['id']);
         $this->set_env('blankpage', $attrib['src'] ? $this->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
         return html::iframe($attrib);
