@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
 - Fix quota capability detection so it can be overwritten by a plugin (#1488655)
 - Fix identity selection on reply (#1488101)
 - Fix Larry's messages list filter in IE (#1488632)
