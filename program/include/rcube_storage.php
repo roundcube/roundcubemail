@@ -195,7 +195,7 @@ abstract class rcube_storage
      */
     public function set_folder($folder)
     {
-        if ($this->folder == $folder) {
+        if ($this->folder === $folder) {
             return;
         }
 
