@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix quota capability detection so it can be overwritten by a plugin (#1488655)
 - Fix identity selection on reply (#1488101)
 - Fix Larry's messages list filter in IE (#1488632)
 - Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)

@@ -93,11 +93,13 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   // set current mailbox and some other vars in client environment
   $OUTPUT->set_env('mailbox', $mbox_name);
   $OUTPUT->set_env('pagesize', $RCMAIL->storage->get_pagesize());
-  $OUTPUT->set_env('quota', $RCMAIL->storage->get_capability('QUOTA'));
   $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
   $OUTPUT->set_env('threading', $threading);
   $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
   $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
+  if ($RCMAIL->storage->get_capability('QUOTA')) {
+    $OUTPUT->set_env('quota', true);
+  }
 
   if ($CONFIG['delete_junk'])
     $OUTPUT->set_env('delete_junk', true);
