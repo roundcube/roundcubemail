@@ -1538,14 +1538,17 @@ function rcube_webmail()
     if (list.multi_selecting || !this.env.contentframe)
       return;
 
-    if (list.get_single_selection() && window.frames && window.frames[this.env.contentframe]) {
-      if (window.frames[this.env.contentframe].location.href.indexOf(this.env.blankpage)>=0) {
-        if (this.preview_timer)
-          clearTimeout(this.preview_timer);
-        if (this.preview_read_timer)
-          clearTimeout(this.preview_read_timer);
-        this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, 200);
-      }
+    if (list.get_single_selection())
+      return;
+
+    var win = this.get_frame_window(this.env.contentframe);
+
+    if (win && win.location.href.indexOf(this.env.blankpage)>=0) {
+      if (this.preview_timer)
+        clearTimeout(this.preview_timer);
+      if (this.preview_read_timer)
+        clearTimeout(this.preview_read_timer);
+      this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, 200);
     }
   };
 
@@ -1910,12 +1913,12 @@ function rcube_webmail()
     if (!id)
       return;
 
-    var target = window,
+    var win, target = window,
       action = preview ? 'preview': 'show',
       url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.env.mailbox);
 
-    if (preview && this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-      target = window.frames[this.env.contentframe];
+    if (preview && (win = this.get_frame_window(this.env.contentframe))) {
+      target = win;
       url += '&_framed=1';
     }
 
@@ -1952,18 +1955,35 @@ function rcube_webmail()
 
   this.show_contentframe = function(show)
   {
-    var frm, win;
-    if (this.env.contentframe && (frm = $('#'+this.env.contentframe)) && frm.length) {
-      if (!show && (win = window.frames[this.env.contentframe])) {
+    var frame, win, name = this.env.contentframe;
+
+    if (name && (frame = this.get_frame_element(name))) {
+      if (!show && (win = this.get_frame_window(name))) {
         if (win.location && win.location.href.indexOf(this.env.blankpage)<0)
           win.location.href = this.env.blankpage;
       }
       else if (!bw.safari && !bw.konq)
-        frm[show ? 'show' : 'hide']();
-      }
+        $(frame)[show ? 'show' : 'hide']();
+    }
 
     if (!show && this.busy)
       this.set_busy(false, null, this.env.frame_lock);
+  };
+
+  this.get_frame_element = function(id)
+  {
+    var frame;
+
+    if (id && (frame = document.getElementById(id)))
+      return frame;
+  };
+
+  this.get_frame_window = function(id)
+  {
+    var frame = this.get_frame_element(id);
+
+    if (frame && frame.name && window.frames)
+      return window.frames[frame.name];
   };
 
   this.lock_frame = function()
@@ -2009,7 +2029,7 @@ function rcube_webmail()
   // list messages of a specific mailbox
   this.list_mailbox = function(mbox, page, sort, url)
   {
-    var target = window;
+    var win, target = window;
 
     if (typeof url != 'object')
       url = {};
@@ -2048,8 +2068,8 @@ function rcube_webmail()
       return;
     }
 
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-      target = window.frames[this.env.contentframe];
+    if (win = this.get_frame_window(this.env.contentframe)) {
+      target = win;
       url._framed = 1;
     }
 
@@ -4015,7 +4035,7 @@ function rcube_webmail()
 
   this.list_contacts = function(src, group, page)
   {
-    var folder, url = {},
+    var win, folder, url = {},
       target = window;
 
     if (!src)
@@ -4047,8 +4067,8 @@ function rcube_webmail()
       return;
     }
 
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-      target = window.frames[this.env.contentframe];
+    if (win = this.get_frame_window(this.env.contentframe)) {
+      target = win;
       url._framed = 1;
     }
 
@@ -4104,11 +4124,11 @@ function rcube_webmail()
   // load contact record
   this.load_contact = function(cid, action, framed)
   {
-    var url = {}, target = window;
+    var win, url = {}, target = window;
 
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
+    if (win = this.get_frame_window(this.env.contentframe)) {
       url._framed = 1;
-      target = window.frames[this.env.contentframe];
+      target = win;
       this.show_contentframe(true);
 
       // load dummy content
@@ -4726,11 +4746,11 @@ function rcube_webmail()
   // load advanced search page
   this.advanced_search = function()
   {
-    var url = {_form: 1, _action: 'search'}, target = window;
+    var win, url = {_form: 1, _action: 'search'}, target = window;
 
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
+    if (win = this.get_frame_window(this.env.contentframe)) {
       url._framed = 1;
-      target = window.frames[this.env.contentframe];
+      target = win;
       this.contact_list.clear_selection();
     }
 
@@ -4852,13 +4872,13 @@ function rcube_webmail()
   // preferences section select and load options frame
   this.section_select = function(list)
   {
-    var id = list.get_single_selection(), target = window,
+    var win, id = list.get_single_selection(), target = window,
       url = {_action: 'edit-prefs', _section: id};
 
     if (id) {
-      if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
+      if (win = this.get_frame_window(this.env.contentframe)) {
         url._framed = 1;
-        target = window.frames[this.env.contentframe];
+        target = win;
       }
       this.location_href(url, target, true);
     }
@@ -4881,13 +4901,12 @@ function rcube_webmail()
     if (action == 'edit-identity' && (!id || id == this.env.iid))
       return false;
 
-    var target = window,
+    var win, target = window,
       url = {_action: action, _iid: id};
 
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
+    if (win = this.get_frame_window(this.env.contentframe)) {
       url._framed = 1;
-      target = window.frames[this.env.contentframe];
-      document.getElementById(this.env.contentframe).style.visibility = 'inherit';
+      target = win;
     }
 
     if (action && (id || action == 'add-identity')) {
@@ -5263,14 +5282,14 @@ function rcube_webmail()
   // when user select a folder in manager
   this.show_folder = function(folder, path, force)
   {
-    var target = window,
+    var win, target = window,
       url = '&_action=edit-folder&_mbox='+urlencode(folder);
 
     if (path)
       url += '&_path='+urlencode(path);
 
-    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-      target = window.frames[this.env.contentframe];
+    if (win = this.get_frame_window(this.env.contentframe)) {
+      target = win;
       url += '&_framed=1';
     }
 
