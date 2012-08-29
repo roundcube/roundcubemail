@@ -254,11 +254,11 @@ function rcube_mail_ui()
    */
   function resize()
   {
-    if (rcmail.env.task == 'mail' && (rcmail.env.action == 'show' || rcmail.env.action == 'preview')) {
-      layout_messageview();
-    }
-    if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
-      layout_composeview();
+    if (rcmail.env.task == 'mail') {
+      if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
+        layout_messageview();
+      else if (rcmail.env.action == 'compose')
+        layout_composeview();
     }
 
     // make iframe footer buttons float if scrolling is active
@@ -267,13 +267,13 @@ function rcube_mail_ui()
         body = $(document.body),
         floating = footer.hasClass('floating'),
         overflow = body.outerHeight(true) > $(window).height();
+
       if (overflow != floating) {
         var action = overflow ? 'addClass' : 'removeClass';
         footer[action]('floating');
         body[action]('floatingbuttons');
       }
-    })
-
+    });
   }
 
   /**
@@ -847,6 +847,8 @@ function rcube_mail_ui()
       // Select/unselect tab
       $('#tab'+idx).toggleClass('selected', idx==index);
     });
+
+    resize();
   }
 
   /**
