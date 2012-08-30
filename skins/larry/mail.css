@@ -383,11 +383,7 @@ a.iconbutton.threadmode.selected {
 /*** message list ***/
 
 #messagelist thead td:first-child {
-	border-radius: 4px 0 0 0;
-}
-
-#messagelist thead td:last-child {
-	border-radius: 0 4px 0 0;
+	border-radius: 4px 0 0 0; /* for Chrome */
 }
 
 #messagelist tr td.attachment,
