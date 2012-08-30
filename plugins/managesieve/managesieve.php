@@ -625,6 +625,10 @@ class managesieve extends rcube_plugin
             $varnames       = get_input_value('_action_varname', RCUBE_INPUT_POST);
             $varvalues      = get_input_value('_action_varvalue', RCUBE_INPUT_POST);
             $varmods        = get_input_value('_action_varmods', RCUBE_INPUT_POST);
+            $notifyaddrs    = get_input_value('_action_notifyaddress', RCUBE_INPUT_POST);
+            $notifybodies   = get_input_value('_action_notifybody', RCUBE_INPUT_POST);
+            $notifymessages = get_input_value('_action_notifymessage', RCUBE_INPUT_POST);
+            $notifyfrom     = get_input_value('_action_notifyfrom', RCUBE_INPUT_POST);
 
             // we need a "hack" for radiobuttons
             foreach ($sizeitems as $item)
@@ -877,6 +881,22 @@ class managesieve extends rcube_plugin
                     if (!isset($varvalues[$idx]) || $varvalues[$idx] === '') {
                         $this->errors['actions'][$i]['value'] = $this->gettext('cannotbeempty');
                     }
+                    break;
+
+                case 'notify':
+                    if (empty($notifyaddrs[$idx])) {
+                        $this->errors['actions'][$i]['address'] = $this->gettext('cannotbeempty');
+                    }
+                    else if (!check_email($notifyaddrs[$idx])) {
+                        $this->errors['actions'][$i]['address'] = $this->gettext('noemailwarning');
+                    }
+                    if (!empty($notifyfrom[$idx]) && !check_email($notifyfrom[$idx])) {
+                        $this->errors['actions'][$i]['from'] = $this->gettext('noemailwarning');
+                    }
+                    $this->form['actions'][$i]['address'] = $notifyaddrs[$idx];
+                    $this->form['actions'][$i]['body'] = $notifybodies[$idx];
+                    $this->form['actions'][$i]['message'] = $notifymessages[$idx];
+                    $this->form['actions'][$i]['from'] = $notifyfrom[$idx];
                     break;
                 }
 
@@ -1479,6 +1499,9 @@ class managesieve extends rcube_plugin
         if (in_array('variables', $this->exts)) {
             $select_action->add(Q($this->gettext('setvariable')), 'set');
         }
+        if (in_array('enotify', $this->exts)) {
+            $select_action->add(Q($this->gettext('notify')), 'notify');
+        }
         $select_action->add(Q($this->gettext('rulestop')), 'stop');
 
         $select_type = $action['type'];
@@ -1569,6 +1592,27 @@ class managesieve extends rcube_plugin
                 (array_key_exists($s_m, (array)$action) && $action[$s_m] ? ' checked="checked"' : ''),
                 Q($this->gettext('var' . $s_m)));
         }
+        $out .= '</div>';
+
+        // notify
+        // skip :options tag - not used by the mailto method
+        $out .= '<div id="action_notify' .$id.'" style="display:' .($action['type']=='notify' ? 'inline' : 'none') .'">';
+        $out .= '<span class="label">' .Q($this->gettext('notifyaddress')) . '</span><br />'
+            .'<input type="text" name="_action_notifyaddress['.$id.']" id="action_notifyaddress'.$id.'" '
+            .'value="' . Q($action['address']) . '" size="35" '
+            . $this->error_class($id, 'action', 'address', 'action_notifyaddress') .' />';
+        $out .= '<br /><span class="label">'. Q($this->gettext('notifybody')) .'</span><br />'
+            .'<textarea name="_action_notifybody['.$id.']" id="action_notifybody' .$id. '" '
+            .'rows="3" cols="35" '. $this->error_class($id, 'action', 'method', 'action_notifybody') . '>'
+            . Q($action['body'], 'strict', false) . "</textarea>\n";
+        $out .= '<br /><span class="label">' .Q($this->gettext('notifysubject')) . '</span><br />'
+            .'<input type="text" name="_action_notifymessage['.$id.']" id="action_notifymessage'.$id.'" '
+            .'value="' . Q($action['message']) . '" size="35" '
+            . $this->error_class($id, 'action', 'message', 'action_notifymessage') .' />';
+        $out .= '<br /><span class="label">' .Q($this->gettext('notifyfrom')) . '</span><br />'
+            .'<input type="text" name="_action_notifyfrom['.$id.']" id="action_notifyfrom'.$id.'" '
+            .'value="' . Q($action['from']) . '" size="35" '
+            . $this->error_class($id, 'action', 'from', 'action_notifyfrom') .' />';
         $out .= '</div>';
 
         // mailbox select
