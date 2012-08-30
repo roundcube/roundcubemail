@@ -403,6 +403,20 @@ class rcube_sieve_script
                         $action_script .= self::escape_string($action['name']) . ' ' . self::escape_string($action['value']);
                         break;
 
+                    case 'notify':
+                        array_push($exts, 'enotify');
+                        $action_script .= 'notify';
+                        foreach (array('from', 'importance', 'options', 'message') as $n_tag) {
+                            if (!empty($action[$n_tag])) {
+                                $action_script .= " :$n_tag " . self::escape_string($action[$n_tag]);
+                            }
+                        }
+                        $method = (!empty($action['address']) && !empty($action['body'])) ?
+                            sprintf('mailto:%s?body=%s', $action['address'], rawurlencode($action['body'])) :
+                            $action['method'];
+                        $action_script .= " " . self::escape_string($method);
+                        break;
+
                     case 'vacation':
                         array_push($exts, 'vacation');
                         $action_script .= 'vacation';
@@ -838,6 +852,32 @@ class rcube_sieve_script
             case 'require':
                 // skip, will be build according to used commands
                 // $result[] = array('type' => 'require', 'target' => $tokens);
+                break;
+
+            case 'notify':
+                $notify = array('type' => 'notify', 'method' => array_pop($tokens));
+
+                // Parameters: :from, :importance, :options, :message
+                for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    $tok = strtolower($tokens[$i]);
+                    if ($tok[0] == ':') {
+                        $notify[substr($tok, 1)] = $tokens[$i+1];
+                    }
+                }
+                $method_components = parse_url($notify['method']);
+                if ($method_components['scheme'] == 'mailto') {
+                    $notify['address'] = $method_components['path'];
+                    $method_params = array();
+                    parse_str($method_components['query'], $method_params);
+                    $method_params = array_change_key_case($method_params, CASE_LOWER);
+                    /* magic_quotes_gpc and magic_quotes_sybase affect the output of parse_str */
+                    if (ini_get('magic_quotes_gpc') || ini_get('magic_quotes_sybase')) {
+                        array_map('stripslashes', $method_params);
+                    }
+                    $notify['body'] = $method_params['body'];
+                }
+
+                $result[] = $notify;
                 break;
 
             }
