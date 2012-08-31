@@ -29,5 +29,9 @@
             <file>HtmlToText.php</file>
             <file>MailFunc.php</file>
         </testsuite>
+        <testsuite name="managesieve">
+            <file>./../plugins/managesieve/tests/Parser.php</file>
+            <file>./../plugins/managesieve/tests/Tokenizer.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>
