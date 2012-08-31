@@ -2538,7 +2538,7 @@ class rcube_imap_generic
     {
         unset($this->data['APPENDUID']);
 
-        if (!$mailbox) {
+        if ($mailbox === null || $mailbox === '') {
             return false;
         }
 
@@ -2603,7 +2603,7 @@ class rcube_imap_generic
     {
         unset($this->data['APPENDUID']);
 
-        if (!$mailbox) {
+        if ($mailbox === null || $mailbox === '') {
             return false;
         }
 
@@ -2612,6 +2612,7 @@ class rcube_imap_generic
         if (file_exists(realpath($path))) {
             $in_fp = fopen($path, 'r');
         }
+
         if (!$in_fp) {
             $this->setError(self::ERROR_UNKNOWN, "Couldn't open $path for reading");
             return false;
