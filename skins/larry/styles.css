@@ -647,6 +647,7 @@ a.iconlink.upload {
 .uibox {
 	border: 1px solid #a3a3a3;
 	border-radius: 4px;
+	overflow: hidden;
 	box-shadow: 0 0 2px #999;
 	-o-box-shadow: 0 0 2px #999;
 	-webkit-box-shadow: 0 0 2px #999;
@@ -698,7 +699,8 @@ a.iconlink.upload {
 	left: 0;
 	width: 100%;
 	bottom: 0;
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .listbox .scroller.withfooter {
