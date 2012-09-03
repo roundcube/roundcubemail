@@ -26,7 +26,8 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_POST))
     $source = $RCMAIL->storage->get_raw_headers($uid);
 
     if ($source !== false) {
-        $source = htmlspecialchars(trim($source));
+        $source = trim(rcube_charset::clean($source));
+        $source = htmlspecialchars($source);
         $source = preg_replace(
             array(
                 '/\n[\t\s]+/',
