@@ -2222,6 +2222,10 @@ class rcube_imap extends rcube_storage
             $folder = $this->folder;
         }
 
+        if (!$this->check_connection()) {
+            return false;
+        }
+
         // make sure folder exists
         if ($this->folder_exists($folder)) {
             if ($is_file) {

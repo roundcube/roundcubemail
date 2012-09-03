@@ -8,7 +8,7 @@
 class HtmlToText extends PHPUnit_Framework_TestCase
 {
 
-    function data()
+    function data_html2text()
     {
         return array(
             0 => array(
@@ -45,7 +45,7 @@ class HtmlToText extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider data
+     * @dataProvider data_html2text
      */
     function test_html2text($title, $in, $out)
     {
