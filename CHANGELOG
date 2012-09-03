@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix displaying all headers when they contain malformed characters (#1488666)
 - Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
 - Fix quota capability detection so it can be overwritten by a plugin (#1488655)
 - Added template object 'frame'
