@@ -868,13 +868,15 @@ class rcube_sieve_script
                 if ($method_components['scheme'] == 'mailto') {
                     $notify['address'] = $method_components['path'];
                     $method_params = array();
-                    parse_str($method_components['query'], $method_params);
+                    if (array_key_exists('query', $method_components)) {
+                        parse_str($method_components['query'], $method_params);
+                    }
                     $method_params = array_change_key_case($method_params, CASE_LOWER);
                     /* magic_quotes_gpc and magic_quotes_sybase affect the output of parse_str */
                     if (ini_get('magic_quotes_gpc') || ini_get('magic_quotes_sybase')) {
                         array_map('stripslashes', $method_params);
                     }
-                    $notify['body'] = $method_params['body'];
+                    $notify['body'] = (array_key_exists('body', $method_params)) ? $method_params['body'] : '';
                 }
 
                 $result[] = $notify;
