@@ -233,8 +233,8 @@ focus: function(e)
     }
   }
 
-  // Un-focus already focused elements
-  $(document.activeElement).blur();
+  // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
+  $(':focus:not(body)').blur();
   $('iframe').each(function() { this.blur(); });
 
   if (e || (e = window.event))
