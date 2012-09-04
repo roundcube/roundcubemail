@@ -29,7 +29,7 @@ a.deletebutton,
 .boxfooter .listbutton .inner,
 .attachmentslist li a.delete,
 .attachmentslist li a.cancelupload,
-#messagepreviewheader .iconlink {
+#messageheader .iconlink {
 	/* workaround for text-indent which also offsets the background image */
 	text-indent: 0;
 	font-size: 0;
@@ -45,7 +45,7 @@ a.deletebutton,
 
 .pagenav a.button,
 .pagenav a.button span.inner,
-#messagepreviewheader .iconlink,
+#messageheader .iconlink,
 #uploadform a.iconlink {
 	display: inline;
 }
@@ -67,7 +67,7 @@ a.deletebutton,
 	text-align: left;
 }
 
-#messagepreviewheader .iconlink {
+#messageheader .iconlink {
 	color: #fff;
 	height: 14px;
 }
