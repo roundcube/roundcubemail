@@ -163,6 +163,12 @@ function rcube_mail_ui()
       }
     }
 
+    // set min-width to show all toolbar buttons
+    var screen = $('.minwidth');
+    if (screen.length) {
+      screen.css('min-width', $('.toolbar').width() + $('#quicksearchbar').parent().width() + 20);
+    }
+
     // turn a group of fieldsets into tabs
     $('.tabbed').each(function(idx, elem){ init_tabs(elem); })
 
