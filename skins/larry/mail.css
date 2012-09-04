@@ -821,6 +821,8 @@ h3.subject {
 	padding: 0;
 	height: 180px;
 	background-color: #f0f0f0;
+	overflow: hidden;
+	border-radius: 4px;
 }
 
 #headers-source {
@@ -830,7 +832,7 @@ h3.subject {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding: 0;
+	padding: 2px;
 	overflow: auto;
 	text-align: left;
 	color: #666;
@@ -894,13 +896,11 @@ h3.subject {
 	white-space: nowrap;
 }
 
-#messagecontent .leftcol,
 #messagepreview .leftcol {
 	margin-right: 252px;
 	overflow-x: auto;
 }
 
-#messagecontent .rightcol,
 #messagepreview .rightcol {
 	float: right;
 /*
@@ -914,6 +914,7 @@ h3.subject {
 	min-height: 200px;
 	background: #f0f0f0;
 	padding: 8px;
+	border-radius: 4px;
 }
 
 #messagebody {
