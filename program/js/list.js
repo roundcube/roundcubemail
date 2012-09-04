@@ -232,13 +232,8 @@ focus: function(e)
   }
 
   // Un-focus already focused elements
-  if(document.activeElement) {
-    if(document.activeElement.nodeName.toLowerCase() != 'body') {
-      document.activeElement.blur();
-    }
-  } else {
-    $('*:focus', window).blur();
-  }
+  $(':focus:not(body)').blur();
+  
   $('iframe').each(function() { this.blur(); });
 
   if (e || (e = window.event))
