@@ -1,0 +1,54 @@
+<?php
+
+class Parser extends PHPUnit_Framework_TestCase
+{
+
+    function setUp()
+    {
+        include_once dirname(__FILE__) . '/../lib/rcube_sieve_script.php';
+    }
+
+    /**
+     * Sieve script parsing
+     *
+     * @dataProvider data_parser
+     */
+    function test_parser($input, $output, $message)
+    {
+        $script = new rcube_sieve_script($input);
+        $result = $script->as_text();
+
+        $this->assertEquals(trim($result), trim($output), $message);
+    }
+
+    /**
+     * Data provider for test_parser()
+     */
+    function data_parser()
+    {
+        $dir_path = realpath(dirname(__FILE__) . '/src');
+        $dir      = opendir($dir_path);
+        $result   = array();
+
+        while ($file = readdir($dir)) {
+            if (preg_match('/^[a-z0-9_]+$/', $file)) {
+                $input = file_get_contents($dir_path . '/' . $file);
+
+                if (file_exists($dir_path . '/' . $file . '.out')) {
+                    $output = file_get_contents($dir_path . '/' . $file . '.out');
+                }
+                else {
+                    $output = $input;
+                }
+
+                $result[] = array(
+                    'input'   => $input,
+                    'output'  => $output,
+                    'message' => "Error in parsing '$file' file",
+                );
+            }
+        }
+
+        return $result;
+    }
+}

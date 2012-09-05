@@ -158,4 +158,47 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($input_str, $result_str, "Invalid array_keys_recursive() result");
     }
+
+    /**
+     * rcube_shared.inc: format_email()
+     */
+    function test_format_email()
+    {
+        $data = array(
+            ''                 => '',
+            'test'             => 'test',
+            'test@test.tld'    => 'test@test.tld',
+            'test@[127.0.0.1]' => 'test@[127.0.0.1]',
+            'TEST@TEST.TLD'    => 'TEST@test.tld',
+        );
+
+        foreach ($data as $value => $expected) {
+            $result = format_email($value);
+            $this->assertEquals($expected, $result, "Invalid format_email() result for $value");
+        }
+
+    }
+
+    /**
+     * rcube_shared.inc: format_email_recipient()
+     */
+    function test_format_email_recipient()
+    {
+        $data = array(
+            ''                          => array(''),
+            'test'                      => array('test'),
+            'test@test.tld'             => array('test@test.tld'),
+            'test@[127.0.0.1]'          => array('test@[127.0.0.1]'),
+            'TEST@TEST.TLD'             => array('TEST@TEST.TLD'),
+            'TEST <test@test.tld>'      => array('test@test.tld', 'TEST'),
+            '"TEST\"" <test@test.tld>'  => array('test@test.tld', 'TEST"'),
+        );
+
+        foreach ($data as $expected => $value) {
+            $result = format_email_recipient($value[0], $value[1]);
+            $this->assertEquals($expected, $result, "Invalid format_email_recipient()");
+        }
+
+    }
+
 }

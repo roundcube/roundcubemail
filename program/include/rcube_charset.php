@@ -181,6 +181,12 @@ class rcube_charset
         $to   = empty($to) ? strtoupper(RCMAIL_CHARSET) : self::parse_charset($to);
         $from = self::parse_charset($from);
 
+        // It is a common case when UTF-16 charset is used with US-ASCII content (#1488654)
+        // In that case we can just skip the conversion (use UTF-8)
+        if ($from == 'UTF-16' && !preg_match('/[^\x00-\x7F]/', $str)) {
+            $from = 'UTF-8';
+        }
+
         if ($from == $to || empty($str) || empty($from)) {
             return $str;
         }

@@ -411,8 +411,10 @@ function rcmail_rename_folder($oldname, $newname)
 
 $OUTPUT->set_pagetitle(rcube_label('folders'));
 $OUTPUT->include_script('list.js');
-$OUTPUT->set_env('quota', $STORAGE->get_capability('QUOTA'));
 $OUTPUT->set_env('prefix_ns', $STORAGE->get_namespace('prefix'));
+if ($STORAGE->get_capability('QUOTA')) {
+    $OUTPUT->set_env('quota', true);
+}
 
 // add some labels to client
 $OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'folderdeleting',

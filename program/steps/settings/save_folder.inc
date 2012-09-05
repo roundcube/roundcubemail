@@ -80,7 +80,10 @@ if (!$error && strlen($path) && (!strlen($old_imap) || $old_imap != $name_imap))
     }
 }
 
-if (!$error) {
+if ($error) {
+    $OUTPUT->command('display_message', $error, 'error');
+}
+else {
     $folder['name']     = $name_imap;
     $folder['oldname']  = $old_imap;
     $folder['class']    = '';

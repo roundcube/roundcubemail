@@ -400,7 +400,7 @@ class rcube_output_html extends rcube_output
                 'line' => __LINE__,
                 'file' => __FILE__,
                 'message' => 'Error loading template for '.$realname
-                ), true, true);
+                ), true, $write);
             return false;
         }
 
@@ -696,6 +696,11 @@ class rcube_output_html extends rcube_output
                 if ($attrib['name'] || $attrib['command']) {
                     return $this->button($attrib);
                 }
+                break;
+
+            // frame
+            case 'frame':
+                return $this->frame($attrib);
                 break;
 
             // show a label
@@ -1272,6 +1277,30 @@ class rcube_output_html extends rcube_output
         }
 
         return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+    }
+
+
+    /**
+     * Returns iframe object, registers some related env variables
+     *
+     * @param array $attrib HTML attributes
+     *
+     * @return string IFRAME element
+     */
+    public function frame($attrib)
+    {
+        if (!$attrib['id']) {
+            $attrib['id'] = 'rcmframe';
+        }
+
+        if (!$attrib['name']) {
+            $attrib['name'] = $attrib['id'];
+        }
+
+        $this->set_env('contentframe', $attrib['id']);
+        $this->set_env('blankpage', $attrib['src'] ? $this->abs_url($attrib['src']) : 'program/resources/blank.gif');
+
+        return html::iframe($attrib);
     }
 
 

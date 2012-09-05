@@ -8,7 +8,7 @@
 class MailFunc extends PHPUnit_Framework_TestCase
 {
 
-    function __construct()
+    function setUp()
     {
         // simulate environment to successfully include func.inc
         $GLOBALS['RCMAIL'] = $RCMAIL = rcmail::get_instance();

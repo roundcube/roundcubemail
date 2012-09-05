@@ -422,7 +422,6 @@ function rcube_autoload($classname)
 {
     $filename = preg_replace(
         array(
-            '/MDB2_(.+)/',
             '/Mail_(.+)/',
             '/Net_(.+)/',
             '/Auth_(.+)/',
@@ -430,7 +429,6 @@ function rcube_autoload($classname)
             '/^utf8$/',
         ),
         array(
-            'Mail/\\1',
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',
