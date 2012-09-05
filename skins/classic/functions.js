@@ -28,11 +28,6 @@ function rcube_init_settings_tabs()
   $('a', tab).removeAttr('onclick').click(function() { return false; });
 }
 
-function rcube_show_advanced(visible)
-{
-  $('tr.advanced').css('display', (visible ? (bw.ie ? 'block' : 'table-row') : 'none'));
-}
-
 // Fieldsets-to-tabs converter
 // Warning: don't place "caller" <script> inside page element (id)
 function rcube_init_tabs(id, current)
@@ -530,7 +525,7 @@ show_header_form: function(id)
   if ((row = document.getElementById('compose-' + id))) {
     var div = document.getElementById('compose-div'),
       headers_div = document.getElementById('compose-headers-div');
-    row.style.display = (document.all && !window.opera) ? 'block' : 'table-row';
+    $(row).show();
     div.style.top = (parseInt(headers_div.offsetHeight, 10) + 3) + 'px';
     this.resize_compose_body();
   }
@@ -550,11 +545,11 @@ hide_header_form: function(id)
   for (var i=0; i<links.length; i++)
     if (links[i].style.display != 'none')
       for (var j=i+1; j<links.length; j++)
-	    if (links[j].style.display != 'none')
+        if (links[j].style.display != 'none')
           if ((ns = this.next_sibling(links[i]))) {
-	        ns.style.display = '';
-	        break;
-	      }
+            ns.style.display = '';
+            break;
+          }
 
   document.getElementById('_' + id).value = '';
 

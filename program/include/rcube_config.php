@@ -42,6 +42,7 @@ class rcube_config
         'default_folders'      => 'default_imap_folders',
         'mail_pagesize'        => 'pagesize',
         'addressbook_pagesize' => 'pagesize',
+        'reply_mode'           => 'top_posting',
     );
 
 

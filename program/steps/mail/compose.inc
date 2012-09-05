@@ -139,7 +139,7 @@ if (!empty($CONFIG['drafts_mbox'])) {
 // set current mailbox in client environment
 $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
 $OUTPUT->set_env('sig_above', $RCMAIL->config->get('sig_above', false));
-$OUTPUT->set_env('top_posting', $RCMAIL->config->get('top_posting', false));
+$OUTPUT->set_env('top_posting', intval($RCMAIL->config->get('reply_mode')) > 0);
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 
 // default font for HTML editor
@@ -252,7 +252,8 @@ $MESSAGE->identities = $RCMAIL->user->list_identities();
 if (count($MESSAGE->identities))
 {
   foreach ($MESSAGE->identities as $idx => $ident) {
-    $email = mb_strtolower(rcube_idn_to_utf8($ident['email']));
+    $ident['email'] = format_email($ident['email']);
+    $email = format_email(rcube_idn_to_utf8($ident['email']));
 
     $MESSAGE->identities[$idx]['email_ascii'] = $ident['email'];
     $MESSAGE->identities[$idx]['ident']       = format_email_recipient($ident['email'], $ident['name']);
@@ -277,7 +278,7 @@ else if (count($MESSAGE->identities)) {
     $a_to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
     foreach ($a_to as $addr) {
       if (!empty($addr['mailto'])) {
-        $a_recipients[] = strtolower($addr['mailto']);
+        $a_recipients[] = format_email($addr['mailto']);
         $a_names[]      = $addr['name'];
       }
     }
@@ -286,7 +287,7 @@ else if (count($MESSAGE->identities)) {
       $a_cc = rcube_mime::decode_address_list($MESSAGE->headers->cc, null, true, $MESSAGE->headers->charset);
       foreach ($a_cc as $addr) {
         if (!empty($addr['mailto'])) {
-          $a_recipients[] = strtolower($addr['mailto']);
+          $a_recipients[] = format_email($addr['mailto']);
           $a_names[]      = $addr['name'];
         }
       }
@@ -294,16 +295,12 @@ else if (count($MESSAGE->identities)) {
   }
 
   $from_idx         = null;
-  $default_identity = null;
+  $found_idx        = null;
+  $default_identity = 0; // default identity is always first on the list
   $return_path      = $MESSAGE->headers->others['return-path'];
 
   // Select identity
   foreach ($MESSAGE->identities as $idx => $ident) {
-    // save default identity ID
-    if ($ident['standard']) {
-      $default_identity = $idx;
-    }
-
     // use From header
     if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
       if ($MESSAGE->headers->from == $ident['ident']) {
@@ -318,11 +315,20 @@ else if (count($MESSAGE->identities)) {
     }
     // use replied message recipients
     else if (($found = array_search($ident['email_ascii'], $a_recipients)) !== false) {
-      // match identity name, prefer default identity
-      if ($from_idx === null || ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name'])) {
+      if ($found_idx === null) {
+        $found_idx = $idx;
+      }
+      // match identity name
+      if ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name']) {
         $from_idx = $idx;
+        break;
       }
     }
+  }
+
+  // If matching by name+address doesn't found any amtches, get first found address (identity)
+  if ($from_idx === null) {
+    $from_idx = $found_idx;
   }
 
   // Fallback using Return-Path
@@ -335,12 +341,7 @@ else if (count($MESSAGE->identities)) {
     }
   }
 
-  // Still no ID, use default/first identity
-  if ($from_idx === null) {
-    $from_idx = $default_identity !== null ? $default_identity : key(reset($MESSAGE->identities));
-  }
-
-  $ident   = $MESSAGE->identities[$from_idx];
+  $ident   = $MESSAGE->identities[$from_idx !== null ? $from_idx : $default_identity];
   $from_id = $ident['identity_id'];
 
   $MESSAGE->compose['from_email'] = $ident['email'];
@@ -433,7 +434,7 @@ foreach ($parts as $header) {
       if (empty($addr_part['mailto']))
         continue;
 
-      $mailto = mb_strtolower(rcube_idn_to_utf8($addr_part['mailto']));
+      $mailto = format_email(rcube_idn_to_utf8($addr_part['mailto']));
 
       if (!in_array($mailto, $a_recipients)
         && ($header == 'to' || empty($MESSAGE->compose['from_email']) || $mailto != $MESSAGE->compose['from_email'])
@@ -609,9 +610,12 @@ function rcmail_compose_editor_mode()
     $useHtml = $MESSAGE->has_html_part(false);
   }
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-    $useHtml = ($html_editor == 1 || ($html_editor == 2 && $MESSAGE->has_html_part(false)));
+    $useHtml = ($html_editor == 1 || ($html_editor >= 2 && $MESSAGE->has_html_part(false)));
   }
-  else { // RCUBE_COMPOSE_FORWARD or NEW
+  else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
+    $useHtml = ($html_editor == 1 || ($html_editor == 3 && $MESSAGE->has_html_part(false)));
+  }
+  else {
     $useHtml = ($html_editor == 1);
   }
 
@@ -640,7 +644,7 @@ function rcmail_prepare_message_body()
       rcmail_write_forward_attachment($MESSAGE);
   }
   // reply/edit/draft/forward
-  else if ($compose_mode) {
+  else if ($compose_mode && ($compose_mode != RCUBE_COMPOSE_REPLY || $RCMAIL->config->get('reply_mode') != -1)) {
     $isHtml = rcmail_compose_editor_mode();
 
     if (!empty($MESSAGE->parts)) {
@@ -905,8 +909,9 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $prefix .= "\n";
     $suffix = '';
 
-    if ($RCMAIL->config->get('top_posting'))
+    if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
       $prefix = "\n\n\n" . $prefix;
+    }
   }
   else {
     // save inline images to files
@@ -920,7 +925,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $prefix = '<p>' . Q($prefix) . "</p>\n";
     $prefix .= '<blockquote>';
 
-    if ($RCMAIL->config->get('top_posting')) {
+    if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
       $prefix = '<br>' . $prefix;
       $suffix = '</blockquote>';
     }

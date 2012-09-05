@@ -27,8 +27,6 @@
 
 </div>
 
-<div id="mailview-right">
-
 <!-- toolbar -->
 <div id="messagetoolbar" class="fullwidth">
 	<div id="mailtoolbar" class="toolbar">
@@ -36,11 +34,11 @@
 	</div>
 </div>
 
-<div id="mailview-top" class="uibox watermark"></div>
+<div id="mailview-right" class="uibox" style="top: 42px">
 
-<div id="mailview-bottom" class="uibox">
-	<roundcube:object name="message" id="message" class="statusbar" />
-</div>
+<div id="messagecontent" class="watermark"></div>
+
+<roundcube:object name="message" id="message" class="statusbar" />
 
 </div><!-- end mailview-right -->
 

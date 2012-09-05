@@ -157,14 +157,16 @@ class rcmail extends rcube
       $this->config->set_user_prefs((array)$this->user->get_prefs());
     }
 
-    $_SESSION['language'] = $this->user->language = $this->language_prop($this->config->get('language', $_SESSION['language']));
+    $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
+    $_SESSION['language'] = $this->user->language = $lang;
 
     // set localization
-    setlocale(LC_ALL, $_SESSION['language'] . '.utf8', 'en_US.utf8');
+    setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
 
     // workaround for http://bugs.php.net/bug.php?id=18556
-    if (in_array($_SESSION['language'], array('tr_TR', 'ku', 'az_AZ')))
-      setlocale(LC_CTYPE, 'en_US' . '.utf8');
+    if (in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
+      setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
+    }
   }
 
 
@@ -306,7 +308,7 @@ class rcmail extends rcube
 
   /**
    * Init output object for GUI and add common scripts.
-   * This will instantiate a rcmail_template object and set
+   * This will instantiate a rcube_output_html object and set
    * environment vars according to the current session and configuration
    *
    * @param boolean True if this request is loaded in a (i)frame
@@ -453,7 +455,14 @@ class rcmail extends rcube
     // Convert username to lowercase. If storage backend
     // is case-insensitive we need to store always the same username (#1487113)
     if ($config['login_lc']) {
-      $username = mb_strtolower($username);
+      if ($config['login_lc'] == 2 || $config['login_lc'] === true) {
+        $username = mb_strtolower($username);
+      }
+      else if (strpos($username, '@')) {
+        // lowercase domain name
+        list($local, $domain) = explode('@', $username);
+        $username = $local . '@' . mb_strtolower($domain);
+      }
     }
 
     // try to resolve email address from virtuser table
@@ -463,17 +472,13 @@ class rcmail extends rcube
 
     // Here we need IDNA ASCII
     // Only rcube_contacts class is using domain names in Unicode
-    $host = rcube_utils::idn_to_ascii($host);
-    if (strpos($username, '@')) {
-      // lowercase domain name
-      list($local, $domain) = explode('@', $username);
-      $username = $local . '@' . mb_strtolower($domain);
-      $username = rcube_utils::idn_to_ascii($username);
-    }
+    $host     = rcube_utils::idn_to_ascii($host);
+    $username = rcube_utils::idn_to_ascii($username);
 
     // user already registered -> overwrite username
-    if ($user = rcube_user::query($username, $host))
+    if ($user = rcube_user::query($username, $host)) {
       $username = $user->data['username'];
+    }
 
     $storage = $this->get_storage();
 
@@ -1204,7 +1209,7 @@ class rcmail extends rcube
         }
         else {
             if (!empty($date)) {
-                $timestamp = rcube_strtotime($date);
+                $timestamp = rcube_utils::strtotime($date);
             }
 
             if (empty($timestamp)) {

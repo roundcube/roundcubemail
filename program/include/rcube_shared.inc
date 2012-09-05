@@ -108,11 +108,11 @@ function slashify($str)
 
 
 /**
- * Remove slash at the end of the string
+ * Remove slashes at the end of the string
  */
 function unslashify($str)
 {
-  return preg_replace('/\/$/', '', $str);
+  return preg_replace('/\/+$/', '', $str);
 }
 
 
@@ -231,7 +231,7 @@ function array_keys_recursive($array)
 {
     $keys = array();
 
-    if (!empty($array)) {
+    if (!empty($array) && is_array($array)) {
         foreach ($array as $key => $child) {
             $keys[] = $key;
             foreach (array_keys_recursive($child) as $val) {
@@ -255,7 +255,7 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 
 
 /**
- * Remove single and double quotes from given string
+ * Remove single and double quotes from a given string
  *
  * @param string Input value
  *
@@ -299,6 +299,29 @@ function format_email_recipient($email, $name = '')
         }
 
         return "$name <$email>";
+    }
+
+    return $email;
+}
+
+
+/**
+ * Format e-mail address
+ *
+ * @param string $email E-mail address
+ *
+ * @return string Formatted e-mail address
+ */
+function format_email($email)
+{
+    $email = trim($email);
+    $parts = explode('@', $email);
+    $count = count($parts);
+
+    if ($count > 1) {
+        $parts[$count-1] = mb_strtolower($parts[$count-1]);
+
+        $email = implode('@', $parts);
     }
 
     return $email;
@@ -399,7 +422,6 @@ function rcube_autoload($classname)
 {
     $filename = preg_replace(
         array(
-            '/MDB2_(.+)/',
             '/Mail_(.+)/',
             '/Net_(.+)/',
             '/Auth_(.+)/',
@@ -407,7 +429,6 @@ function rcube_autoload($classname)
             '/^utf8$/',
         ),
         array(
-            'Mail/\\1',
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',

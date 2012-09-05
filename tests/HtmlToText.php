@@ -5,18 +5,12 @@
  *
  * @package Tests
  */
-class rcube_test_html2text extends UnitTestCase
+class HtmlToText extends PHPUnit_Framework_TestCase
 {
 
-    function __construct()
+    function data_html2text()
     {
-        $this->UnitTestCase("HTML-to-Text conversion tests");
-
-    }
-
-    function test_html2text()
-    {
-        $data = array(
+        return array(
             0 => array(
                 'title' => 'Test entry',
                 'in'    => '',
@@ -48,14 +42,18 @@ class rcube_test_html2text extends UnitTestCase
                 'out'   => 'Ś',
             ),
         );
-
-        $ht = new html2text(null, false, false);
-
-        foreach ($data as $idx => $item) {
-            $ht->set_html($item['in']);
-            $res = $ht->get_text();
-            $this->assertEqual($item['out'], $res, $item['title'] . "($idx)");
-        }
     }
 
+    /**
+     * @dataProvider data_html2text
+     */
+    function test_html2text($title, $in, $out)
+    {
+        $ht = new html2text(null, false, false);
+
+        $ht->set_html($in);
+        $res = $ht->get_text();
+
+        $this->assertEquals($out, $res, $title);
+    }
 }

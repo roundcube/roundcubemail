@@ -6,10 +6,10 @@
 </head>
 <body class="iframe fullheight">
 
-<div id="messagepreviewheader">
+<div id="messageheader">
 <h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
 
-<a href="#details" id="previewheaderstoggle"><span class="iconlink"></span></a>
+<a href="#details" id="previewheaderstoggle"><span class="iconlink"></span><span id="headerstoggleall" class="iconlink allheaders"></a>
 <div id="contactphoto"><roundcube:object name="contactphoto" /></div>
 
 <table class="headers-table" id="preview-shortheaders"><tbody><tr>
@@ -25,6 +25,7 @@
 </tr></tbody></table>
 
 <roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject,replyto" />
+<roundcube:object name="messageFullHeaders" no-switch="true" />
 
 <!-- record navigation -->
 <div id="countcontrols" class="pagenav">

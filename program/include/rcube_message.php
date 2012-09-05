@@ -50,13 +50,14 @@ class rcube_message
      */
     private $mime;
     private $opt = array();
-    private $inline_parts = array();
     private $parse_alternative = false;
 
-    public $uid = null;
+    public $uid;
+    public $folder;
     public $headers;
     public $parts = array();
     public $mime_parts = array();
+    public $inline_parts = array();
     public $attachments = array();
     public $subject = '';
     public $sender = null;
@@ -68,16 +69,21 @@ class rcube_message
      *
      * Provide a uid, and parse message structure.
      *
-     * @param string $uid The message UID.
+     * @param string $uid    The message UID.
+     * @param string $folder Folder name
      *
      * @see self::$app, self::$storage, self::$opt, self::$parts
      */
-    function __construct($uid)
+    function __construct($uid, $folder = null)
     {
         $this->uid  = $uid;
         $this->app  = rcube::get_instance();
         $this->storage = $this->app->get_storage();
+        $this->folder  = strlen($folder) ? $folder : $this->storage->get_folder();
         $this->storage->set_options(array('all_headers' => true));
+
+        // Set current folder
+        $this->storage->set_folder($this->folder);
 
         $this->headers = $this->storage->get_message($uid);
 
@@ -179,10 +185,12 @@ class rcube_message
                 }
                 return $fp ? true : $part->body;
             }
+
             // get from IMAP
+            $this->storage->set_folder($this->folder);
+
             return $this->storage->get_message_part($this->uid, $mime_id, $part, NULL, $fp, $skip_charset_conv);
-        } else
-            return null;
+        }
     }
 
 
@@ -637,8 +645,10 @@ class rcube_message
     function tnef_decode(&$part)
     {
         // @TODO: attachment may be huge, hadle it via file
-        if (!isset($part->body))
+        if (!isset($part->body)) {
+            $this->storage->set_folder($this->folder);
             $part->body = $this->storage->get_message_part($this->uid, $part->mime_id, $part);
+        }
 
         $parts = array();
         $tnef = new tnef_decoder;
@@ -673,8 +683,10 @@ class rcube_message
     function uu_decode(&$part)
     {
         // @TODO: messages may be huge, hadle body via file
-        if (!isset($part->body))
+        if (!isset($part->body)) {
+            $this->storage->set_folder($this->folder);
             $part->body = $this->storage->get_message_part($this->uid, $part->mime_id, $part);
+        }
 
         $parts = array();
         // FIXME: line length is max.65?

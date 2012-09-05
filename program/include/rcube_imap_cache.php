@@ -5,7 +5,7 @@
  | program/include/rcube_imap_cache.php                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -350,11 +350,11 @@ class rcube_imap_cache
     function get_message($mailbox, $uid, $update = true, $cache = true)
     {
         // Check internal cache
-        if ($this->icache['message']
-            && $this->icache['message']['mailbox'] == $mailbox
-            && $this->icache['message']['object']->uid == $uid
+        if ($this->icache['__message']
+            && $this->icache['__message']['mailbox'] == $mailbox
+            && $this->icache['__message']['object']->uid == $uid
         ) {
-            return $this->icache['message']['object'];
+            return $this->icache['__message']['object'];
         }
 
         $sql_result = $this->db->query(
@@ -386,7 +386,7 @@ class rcube_imap_cache
             // Save current message from internal cache
             $this->save_icache();
 
-            $this->icache['message'] = array(
+            $this->icache['__message'] = array(
                 'object'  => $message,
                 'mailbox' => $mailbox,
                 'exists'  => $found,
@@ -459,20 +459,28 @@ class rcube_imap_cache
      */
     function change_flag($mailbox, $uids, $flag, $enabled = false)
     {
+        if (empty($uids)) {
+            return;
+        }
+
         $flag = strtoupper($flag);
         $idx  = (int) array_search($flag, $this->flags);
+        $uids = (array) $uids;
 
         if (!$idx) {
             return;
         }
 
         // Internal cache update
-        if ($uids && count($uids) == 1 && ($uid = current($uids))
-            && ($message = $this->icache['message'])
-            && $message['mailbox'] == $mailbox && $message['object']->uid == $uid
+        if (($message = $this->icache['__message'])
+            && $message['mailbox'] === $mailbox
+            && in_array($message['object']->uid, $uids)
         ) {
             $message['object']->flags[$flag] = $enabled;
-            return;
+
+            if (count($uids) == 1) {
+                return;
+            }
         }
 
         $this->db->query(
@@ -481,7 +489,7 @@ class rcube_imap_cache
             .", flags = flags ".($enabled ? "+ $idx" : "- $idx")
             ." WHERE user_id = ?"
                 ." AND mailbox = ?"
-                .($uids !== null ? " AND uid IN (".$this->db->array2list((array)$uids, 'integer').")" : "")
+                .($uids !== null ? " AND uid IN (".$this->db->array2list($uids, 'integer').")" : "")
                 ." AND (flags & $idx) ".($enabled ? "= 0" : "= $idx"),
             $this->userid, $mailbox);
     }
@@ -503,10 +511,11 @@ class rcube_imap_cache
         }
         else {
             // Remove the message from internal cache
-            if (!empty($uids) && !is_array($uids) && ($message = $this->icache['message'])
-                && $message['mailbox'] == $mailbox && $message['object']->uid == $uids
+            if (!empty($uids) && ($message = $this->icache['__message'])
+                && $message['mailbox'] === $mailbox
+                && in_array($message['object']->uid, (array)$uids)
             ) {
-                $this->icache['message'] = null;
+                $this->icache['__message'] = null;
             }
 
             $this->db->query(
@@ -608,13 +617,13 @@ class rcube_imap_cache
         // get expiration timestamp
         $ts = get_offset_time($ttl, -1);
 
-        $this->db->query("DELETE FROM ".get_table_name('cache_messages')
+        $this->db->query("DELETE FROM ".$this->db->table_name('cache_messages')
               ." WHERE changed < " . $this->db->fromunixtime($ts));
 
-        $this->db->query("DELETE FROM ".get_table_name('cache_index')
+        $this->db->query("DELETE FROM ".$this->db->table_name('cache_index')
               ." WHERE changed < " . $this->db->fromunixtime($ts));
 
-        $this->db->query("DELETE FROM ".get_table_name('cache_thread')
+        $this->db->query("DELETE FROM ".$this->db->table_name('cache_thread')
               ." WHERE changed < " . $this->db->fromunixtime($ts));
     }
 
@@ -762,6 +771,11 @@ class rcube_imap_cache
     {
         $object    = $index['object'];
         $is_thread = is_a($object, 'rcube_result_thread');
+
+        // sanity check
+        if (empty($object)) {
+            return false;
+        }
 
         // Get mailbox data (UIDVALIDITY, counters, etc.) for status check
         $mbox_data = $this->imap->folder_data($mailbox);
@@ -1078,7 +1092,7 @@ class rcube_imap_cache
     private function save_icache()
     {
         // Save current message from internal cache
-        if ($message = $this->icache['message']) {
+        if ($message = $this->icache['__message']) {
             // clean up some object's data
             $object = $this->message_object_prepare($message['object']);
 
@@ -1089,7 +1103,7 @@ class rcube_imap_cache
                 $this->add_message($message['mailbox'], $object, !$message['exists']);
             }
 
-            $this->icache['message']['md5sum'] = $md5sum;
+            $this->icache['__message']['md5sum'] = $md5sum;
         }
     }
 

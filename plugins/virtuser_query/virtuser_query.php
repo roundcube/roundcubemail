@@ -14,8 +14,11 @@
  *
  * $rcmail_config['virtuser_query'] = array('email' => '', 'user' => '', 'host' => '');
  *
+ * The email query can return more than one record to create more identities.
+ * This requires identities_level option to be set to value less than 2.
+ *
  * @version @package_version@
- * @author Aleksander Machniak
+ * @author Aleksander Machniak <alec@alec.pl>
  * @author Steffen Vogel
  */
 class virtuser_query extends rcube_plugin
