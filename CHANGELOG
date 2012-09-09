@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
 - Fix focus issue in IE when selecting message row (#1488620)
 - Fix displaying all headers when they contain malformed characters (#1488666)
 - Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
