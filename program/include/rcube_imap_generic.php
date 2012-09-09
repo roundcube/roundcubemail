@@ -622,6 +622,7 @@ class rcube_imap_generic
                 }
                 else {
                     $authc = $user;
+                    $user  = '';
                 }
                 $auth_sasl = Auth_SASL::factory('digestmd5');
                 $reply = base64_encode($auth_sasl->getResponse($authc, $pass,
@@ -660,6 +661,7 @@ class rcube_imap_generic
             }
             else {
                 $authc = $user;
+                $user  = '';
             }
 
             $reply = base64_encode($user . chr(0) . $authc . chr(0) . $pass);
