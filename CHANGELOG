@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
 - Fix focus issue in IE when selecting message row (#1488620)
 - Remove (too big) min-width on mail screen
 - Add full headers view in message preview window (#1488538)
