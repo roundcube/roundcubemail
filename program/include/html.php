@@ -154,7 +154,7 @@ class html
             $attr = array('src' => $attr);
         }
         return self::tag('img', $attr + array('alt' => ''), null, array_merge(self::$common_attrib,
-	        array('src','alt','width','height','border','usemap','onclick')));
+            array('src','alt','width','height','border','usemap','onclick')));
     }
 
     /**
@@ -171,7 +171,7 @@ class html
             $attr = array('href' => $attr);
         }
         return self::tag('a', $attr, $cont, array_merge(self::$common_attrib,
-	    array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
+        array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
     }
 
     /**
@@ -358,7 +358,7 @@ class html_inputfield extends html
     protected $tagname = 'input';
     protected $type = 'text';
     protected $allowed = array(
-        'type','name','value','size','tabindex',
+        'type','name','value','size','tabindex','autocapitalize',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
         'spellcheck','results','maxlength','src','multiple','placeholder',
     );
@@ -532,7 +532,7 @@ class html_textarea extends html
 {
     protected $tagname = 'textarea';
     protected $allowed = array('name','rows','cols','wrap','tabindex',
-	'onchange','disabled','readonly','spellcheck');
+        'onchange','disabled','readonly','spellcheck');
 
     /**
      * Get HTML code for this object
@@ -563,7 +563,7 @@ class html_textarea extends html
         }
 
         return self::tag($this->tagname, $this->attrib, $value,
-	        array_merge(self::$common_attrib, $this->allowed));
+            array_merge(self::$common_attrib, $this->allowed));
     }
 }
 
@@ -591,7 +591,7 @@ class html_select extends html
     protected $tagname = 'select';
     protected $options = array();
     protected $allowed = array('name','size','tabindex','autocomplete',
-	'multiple','onchange','disabled','rel');
+        'multiple','onchange','disabled','rel');
 
     /**
      * Add a new option to this drop-down
@@ -655,7 +655,7 @@ class html_table extends html
 {
     protected $tagname = 'table';
     protected $allowed = array('id','class','style','width','summary',
-	    'cellpadding','cellspacing','border');
+        'cellpadding','cellspacing','border');
 
     private $header = array();
     private $rows = array();
@@ -705,8 +705,9 @@ class html_table extends html
      */
     public function add_header($attr, $cont)
     {
-        if (is_string($attr))
-    	    $attr = array('class' => $attr);
+        if (is_string($attr)) {
+            $attr = array('class' => $attr);
+        }
 
         $cell = new stdClass;
         $cell->attrib = $attr;
@@ -763,11 +764,13 @@ class html_table extends html
      */
     public function set_row_attribs($attr = array(), $index = null)
     {
-        if (is_string($attr))
-    	    $attr = array('class' => $attr);
+        if (is_string($attr)) {
+            $attr = array('class' => $attr);
+        }
 
-        if ($index === null)
+        if ($index === null) {
             $index = $this->rowindex;
+        }
 
         $this->rows[$index]->attrib = $attr;
     }
@@ -781,8 +784,9 @@ class html_table extends html
      */
     public function get_row_attribs($index = null)
     {
-        if ($index === null)
+        if ($index === null) {
             $index = $this->rowindex;
+        }
 
         return $this->rows[$index] ? $this->rows[$index]->attrib : null;
     }

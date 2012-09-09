@@ -254,7 +254,7 @@ class rcube_cache
             }
             else if ($this->type == 'apc') {
                 $data = apc_fetch($this->ckey($key));
-	        }
+            }
 
             if ($data) {
                 $md5sum = md5($data);
@@ -294,7 +294,7 @@ class rcube_cache
                 }
 
                 $this->cache[$key]      = $data;
-	            $this->cache_sums[$key] = $md5sum;
+                $this->cache_sums[$key] = $md5sum;
             }
             else {
                 $this->cache[$key] = null;

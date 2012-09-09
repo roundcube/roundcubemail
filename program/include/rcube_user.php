@@ -443,7 +443,7 @@ class rcube_user
         }
 
         $data = $rcube->plugins->exec_hook('user_create',
-	        array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email, 'host'=>$host));
+            array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email, 'host'=>$host));
 
         // plugin aborted this operation
         if ($data['abort'])

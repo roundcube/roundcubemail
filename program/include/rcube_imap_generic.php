@@ -530,6 +530,7 @@ class rcube_imap_generic
                 }
                 else {
                     $authc = $user;
+                    $user  = '';
                 }
                 $auth_sasl = Auth_SASL::factory('digestmd5');
                 $reply = base64_encode($auth_sasl->getResponse($authc, $pass,
@@ -568,6 +569,7 @@ class rcube_imap_generic
             }
             else {
                 $authc = $user;
+                $user  = '';
             }
 
             $reply = base64_encode($user . chr(0) . $authc . chr(0) . $pass);
@@ -2377,7 +2379,7 @@ class rcube_imap_generic
         return $this->handlePartBody($mailbox, $id, $is_uid, $part);
     }
 
-    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL)
+    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL, $formatted=true)
     {
         if (!$this->select($mailbox)) {
             return false;
@@ -2494,7 +2496,7 @@ class rcube_imap_generic
                         continue;
                     $line = convert_uudecode($line);
                 // default
-                } else {
+                } else if ($formatted) {
                     $line = rtrim($line, "\t\r\n\0\x0B") . "\n";
                 }
 
@@ -2538,7 +2540,7 @@ class rcube_imap_generic
     {
         unset($this->data['APPENDUID']);
 
-        if (!$mailbox) {
+        if ($mailbox === null || $mailbox === '') {
             return false;
         }
 
@@ -2603,7 +2605,7 @@ class rcube_imap_generic
     {
         unset($this->data['APPENDUID']);
 
-        if (!$mailbox) {
+        if ($mailbox === null || $mailbox === '') {
             return false;
         }
 
@@ -2612,6 +2614,7 @@ class rcube_imap_generic
         if (file_exists(realpath($path))) {
             $in_fp = fopen($path, 'r');
         }
+
         if (!$in_fp) {
             $this->setError(self::ERROR_UNKNOWN, "Couldn't open $path for reading");
             return false;

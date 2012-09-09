@@ -1,7 +1,6 @@
 <?php
 
 /*
-
  +-----------------------------------------------------------------------+
  | language/en_US/labels.inc                                             |
  |                                                                       |
@@ -15,9 +14,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- @version $Id$
-
 */
 
 $labels = array();
@@ -163,6 +159,7 @@ $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
 $labels['deleted'] = 'Deleted';
+$labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Invert';
 $labels['filter'] = 'Filter';
 $labels['list'] = 'List';
@@ -384,7 +381,8 @@ $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Daylight saving time';
 $labels['htmleditor'] = 'Compose HTML messages';
-$labels['htmlonreply'] = 'on reply to HTML message only';
+$labels['htmlonreply'] = 'on reply to HTML message';
+$labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML signature';
 $labels['previewpane'] = 'Show preview pane';
 $labels['skin'] = 'Interface skin';
@@ -432,8 +430,9 @@ $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'New Message';
 $labels['signatureoptions'] = 'Signature Options';
 $labels['whenreplying'] = 'When replying';
-$labels['replytopposting'] = 'start new message above original';
-$labels['replybottomposting'] = 'start new message below original';
+$labels['replyempty'] = 'do not quote the original message';
+$labels['replytopposting'] = 'start new message above the quote';
+$labels['replybottomposting'] = 'start new message below the quote';
 $labels['replyremovesignature'] = 'When replying remove original signature from message';
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';

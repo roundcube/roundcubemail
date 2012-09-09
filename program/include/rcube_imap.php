@@ -359,11 +359,11 @@ class rcube_imap extends rcube_storage
 
         return array(
             $this->search_string,
-	        $this->search_set,
-        	$this->search_charset,
-        	$this->search_sort_field,
-        	$this->search_sorted,
-	    );
+            $this->search_set,
+            $this->search_charset,
+            $this->search_sort_field,
+            $this->search_sorted,
+        );
     }
 
 
@@ -2138,14 +2138,17 @@ class rcube_imap extends rcube_storage
 
     /**
      * Sends the whole message source to stdout
+     *
+     * @param int  $uid       Message UID
+     * @param bool $formatted Enables line-ending formatting
      */
-    public function print_raw_body($uid)
+    public function print_raw_body($uid, $formatted = true)
     {
         if (!$this->check_connection()) {
             return;
         }
 
-        $this->conn->handlePartBody($this->folder, $uid, true, NULL, NULL, true);
+        $this->conn->handlePartBody($this->folder, $uid, true, null, null, true, null, $formatted);
     }
 
 
@@ -2217,6 +2220,10 @@ class rcube_imap extends rcube_storage
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
+        }
+
+        if (!$this->check_connection()) {
+            return false;
         }
 
         // make sure folder exists
@@ -3847,12 +3854,12 @@ class rcube_imap extends rcube_storage
     protected function rsort($folder, $delimiter, &$list, &$out)
     {
         while (list($key, $name) = each($list)) {
-	        if (strpos($name, $folder.$delimiter) === 0) {
-	            // set the type of folder name variable (#1485527)
-    	        $out[] = (string) $name;
-	            unset($list[$key]);
-	            $this->rsort($name, $delimiter, $list, $out);
-	        }
+            if (strpos($name, $folder.$delimiter) === 0) {
+                // set the type of folder name variable (#1485527)
+                $out[] = (string) $name;
+                unset($list[$key]);
+                $this->rsort($name, $delimiter, $list, $out);
+            }
         }
         reset($list);
     }

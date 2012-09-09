@@ -531,7 +531,7 @@ class rcube_session
   public function set_keep_alive($keep_alive)
   {
     $this->keep_alive = $keep_alive;
-    
+
     if ($this->lifetime < $keep_alive)
         $this->set_lifetime($keep_alive + 30);
   }
@@ -551,7 +551,7 @@ class rcube_session
   {
     return $this->ip;
   }
-  
+
   /**
    * Setter for cookie encryption secret
    */
@@ -568,7 +568,8 @@ class rcube_session
   {
     $this->ip_check = $check;
   }
-  
+
+
   /**
    * Setter for the cookie name used for session cookie
    */
@@ -605,7 +606,7 @@ class rcube_session
           $result = true;
         }
       }
-	}
+    }
 
     if (!$result)
       $this->log("Session authentication failed for " . $this->key . "; invalid auth cookie sent; timeslot = " . date('Y-m-d H:i:s', $prev));
@@ -637,7 +638,7 @@ class rcube_session
   }
 
   /**
-   * 
+   * Writes debug information to the log
    */
   function log($line)
   {

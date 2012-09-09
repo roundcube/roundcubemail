@@ -541,10 +541,10 @@ class rcube_mime
                     $prefix = $regs[0];
                     $level = strlen($prefix);
                     $line  = rtrim(substr($line, $level));
-                    $line  = $prefix . rc_wordwrap($line, $length - $level - 2, " \r\n$prefix ");
+                    $line  = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix ");
                 }
                 else if ($line) {
-                    $line = rc_wordwrap(rtrim($line), $length - 2, " \r\n");
+                    $line = self::wordwrap(rtrim($line), $length - 2, " \r\n");
                     // space-stuffing
                     $line = preg_replace('/(^|\r\n)(From| |>)/', '\\1 \\2', $line);
                 }

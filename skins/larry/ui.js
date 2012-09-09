@@ -74,9 +74,8 @@ function rcube_mail_ui()
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         layout_messageview();
-        rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); });
-        rcmail.addEventListener('afterhide-headers', function() { layout_messageview(); });
-        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false });
+        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false; });
+        $('#headerstoggleall').click(function(e){ toggle_all_headers(this); return false; });
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 200); });
@@ -162,6 +161,12 @@ function rcube_mail_ui()
 
         new rcube_scroller('#directorylist-content', '#directorylist-header', '#directorylist-footer');
       }
+    }
+
+    // set min-width to show all toolbar buttons
+    var screen = $('.minwidth');
+    if (screen.length) {
+      screen.css('min-width', $('.toolbar').width() + $('#quicksearchbar').parent().width() + 20);
     }
 
     // turn a group of fieldsets into tabs
@@ -254,11 +259,11 @@ function rcube_mail_ui()
    */
   function resize()
   {
-    if (rcmail.env.task == 'mail' && (rcmail.env.action == 'show' || rcmail.env.action == 'preview')) {
-      layout_messageview();
-    }
-    if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
-      layout_composeview();
+    if (rcmail.env.task == 'mail') {
+      if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
+        layout_messageview();
+      else if (rcmail.env.action == 'compose')
+        layout_composeview();
     }
 
     // make iframe footer buttons float if scrolling is active
@@ -267,13 +272,13 @@ function rcube_mail_ui()
         body = $(document.body),
         floating = footer.hasClass('floating'),
         overflow = body.outerHeight(true) > $(window).height();
+
       if (overflow != floating) {
         var action = overflow ? 'addClass' : 'removeClass';
         footer[action]('floating');
         body[action]('floatingbuttons');
       }
-    })
-
+    });
   }
 
   /**
@@ -315,7 +320,6 @@ function rcube_mail_ui()
    */
   function layout_messageview()
   {
-    $('#messagecontent').css('top', ($('#messageheader').outerHeight() + 10) + 'px');
     $('#message-objects div a').addClass('button');
 
     if (!$('#attachment-list li').length) {
@@ -461,7 +465,7 @@ function rcube_mail_ui()
     var button = $(e.target),
       frame = $('#mailpreviewframe'),
       visible = !frame.is(':visible'),
-      splitter = mailviewsplit.pos || parseInt(bw.get_cookie('mailviewsplitter') || 320),
+      splitter = mailviewsplit.pos || parseInt(rcmail.get_cookie('mailviewsplitter') || 320),
       topstyles, bottomstyles, uid;
 
     frame.toggle();
@@ -508,13 +512,31 @@ function rcube_mail_ui()
   {
     $('#preview-shortheaders').toggle();
     var full = $('#preview-allheaders').toggle(),
-      button = $('a#previewheaderstoggle');
+      button = $('#previewheaderstoggle');
+
+    if (!$('#headerstoggleall').length)
+      $('#all-headers').toggle();
 
     // add toggle button to full headers table
-    if (full.is(':visible'))
-      button.attr('href', '#hide').removeClass('add').addClass('remove')
-    else
-      button.attr('href', '#details').removeClass('remove').addClass('add')
+    if (full.is(':visible')) {
+      button.attr('href', '#hide').removeClass('add').addClass('remove');
+    }
+    else {
+      button.attr('href', '#details').removeClass('remove').addClass('add');
+    }
+  }
+
+
+  /**
+   * Show/hide all message headers
+   */
+  function toggle_all_headers(button)
+  {
+    rcmail.command('show-headers', '', button);
+    $(button).remove();
+    $('#previewheaderstoggle span').css({bottom: '5px'});
+
+    return false;
   }
 
 
@@ -847,6 +869,8 @@ function rcube_mail_ui()
       // Select/unselect tab
       $('#tab'+idx).toggleClass('selected', idx==index);
     });
+
+    resize();
   }
 
   /**
@@ -974,7 +998,7 @@ function rcube_splitter(p)
       $(window).resize(onResize);
 
     // read saved position from cookie
-    var cookie = bw.get_cookie(this.id);
+    var cookie = rcmail.get_cookie(this.id);
     if (cookie && !isNaN(cookie)) {
       this.pos = parseFloat(cookie);
       this.resize();
@@ -1135,7 +1159,7 @@ function rcube_splitter(p)
   {
     var exp = new Date();
     exp.setYear(exp.getFullYear() + 1);
-    bw.set_cookie(this.id, this.pos, exp);
+    rcmail.set_cookie(this.id, this.pos, exp);
   };
 
 } // end class rcube_splitter

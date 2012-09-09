@@ -32,12 +32,12 @@ if (!defined('RCMAIL_PLUGINS_DIR'))
 class rcube_plugin_api
 {
   static private $instance;
-  
+
   public $dir;
   public $url = 'plugins/';
   public $task = '';
   public $output;
-  
+
   public $handlers = array();
   private $plugins = array();
   private $tasks = array();

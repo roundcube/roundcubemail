@@ -423,7 +423,7 @@ class rcube_smtp
         $lines[] = $key . ': ' . $value;
       }
     }
-    
+
     return array($from, join(SMTP_MIME_CRLF, $lines) . SMTP_MIME_CRLF);
   }
 

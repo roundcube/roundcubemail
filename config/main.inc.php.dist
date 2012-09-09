@@ -21,7 +21,7 @@ $rcmail_config = array();
 // LOGGING/DEBUGGING
 // ----------------------------------
 
-// system error reporting: 1 = log; 2 = report (not implemented yet), 4 = show, 8 = trace
+// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
 $rcmail_config['debug_level'] = 1;
 
 // log driver:  'syslog' or 'file'.
@@ -78,7 +78,7 @@ $rcmail_config['default_host'] = '';
 // TCP port used for IMAP connections
 $rcmail_config['default_port'] = 143;
 
-// IMAP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or empty to use
+// IMAP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or null to use
 // best server supported one)
 $rcmail_config['imap_auth_type'] = null;
 
@@ -224,11 +224,12 @@ $rcmail_config['use_https'] = false;
 // 0 - disabled, 1 - username and host only, 2 - username, host, password
 $rcmail_config['login_autocomplete'] = 0;
 
-// If users authentication is not case sensitive this must be enabled.
-// You can also use it to force conversion of logins to lower case.
+// Forces conversion of logins to lower case.
+// 0 - disabled, 1 - only domain part, 2 - domain and local part.
+// If users authentication is not case-sensitive this must be enabled.
 // After enabling it all user records need to be updated, e.g. with query:
 // UPDATE users SET username = LOWER(username);
-$rcmail_config['login_lc'] = false;
+$rcmail_config['login_lc'] = 0;
 
 // Includes should be interpreted as PHP files
 $rcmail_config['skin_include_php'] = false;
@@ -240,11 +241,14 @@ $rcmail_config['display_version'] = false;
 // must be greater than 'keep_alive'/60
 $rcmail_config['session_lifetime'] = 10;
 
-// session domain: .example.org
+// Session domain: .example.org
 $rcmail_config['session_domain'] = '';
 
-// session name. Default: 'roundcube_sessid'
+// Session name. Default: 'roundcube_sessid'
 $rcmail_config['session_name'] = null;
+
+// Session path. Defaults to PHP session.cookie_path setting.
+$rcmail_config['session_path'] = null;
 
 // Backend to use for session storage. Can either be 'db' (default) or 'memcache'
 // If set to memcache, a list of servers need to be specified in 'memcache_hosts'
@@ -721,7 +725,7 @@ $rcmail_config['prefer_html'] = true;
 $rcmail_config['show_images'] = 0;
 
 // compose html formatted messages by default
-// 0 - never, 1 - always, 2 - on reply to HTML message only 
+// 0 - never, 1 - always, 2 - on reply to HTML message, 3 - on forward or reply to HTML message
 $rcmail_config['htmleditor'] = 0;
 
 // show pretty dates as standard
@@ -779,8 +783,11 @@ $rcmail_config['display_next'] = true;
 // 2 - Expand only threads with unread messages 
 $rcmail_config['autoexpand_threads'] = 0;
 
-// When replying place cursor above original message (top posting)
-$rcmail_config['top_posting'] = false;
+// When replying:
+// -1 - don't cite the original message
+// 0  - place cursor below the original message
+// 1  - place cursor above original message (top posting)
+$rcmail_config['reply_mode'] = 0;
 
 // When replying strip original signature from message
 $rcmail_config['strip_existing_sig'] = true;
