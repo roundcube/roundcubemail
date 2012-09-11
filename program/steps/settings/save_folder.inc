@@ -185,6 +185,11 @@ else if (!$error) {
         $OUTPUT->show_message('folderupdated', 'confirmation');
         if ($rename) {
             rcmail_update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
+
+            if($_SESSION["mbox"] == $folder['oldname']) {
+                $_SESSION["mbox"] = $folder['name'];
+            }
+
             $OUTPUT->send('iframe');
         }
     }
