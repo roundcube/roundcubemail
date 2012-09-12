@@ -1434,6 +1434,12 @@ class rcube_imap extends rcube_storage
             $criteria = 'UNDELETED '.$criteria;
         }
 
+        // unset CHARSET if criteria string is ASCII, this way
+        // SEARCH won't be re-sent after "unsupported charset" response
+        if ($charset && $charset != 'US-ASCII' && is_ascii($criteria)) {
+            $charset = 'US-ASCII';
+        }
+
         if ($this->threading) {
             $threads = $this->conn->thread($folder, $this->threading, $criteria, true, $charset);
 
@@ -1465,7 +1471,7 @@ class rcube_imap extends rcube_storage
         }
 
         $messages = $this->conn->search($folder,
-            ($charset ? "CHARSET $charset " : '') . $criteria, true);
+            ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
 
         // Error, try with US-ASCII (some servers may support only US-ASCII)
         if ($messages->is_error() && $charset && $charset != 'US-ASCII') {

@@ -100,7 +100,7 @@ $search = isset($srch) ? trim($srch) : trim($str);
 if (!empty($subject)) {
   $search_str .= str_repeat(' OR', count($subject)-1);
   foreach ($subject as $sub)
-    $search_str .= sprintf(" %s {%d}\r\n%s", $sub, strlen($search), $search);
+    $search_str .= ' ' . $sub . ' ' . rcube_imap_generic::escape($search);
 }
 
 $search_str  = trim($search_str);

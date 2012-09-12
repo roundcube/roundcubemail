@@ -255,6 +255,21 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 
 
 /**
+ * Check if a string contains only ascii characters
+ *
+ * @param string $str           String to check
+ * @param bool   $control_chars Includes control characters
+ *
+ * @return bool
+ */
+function is_ascii($str, $control_chars = true)
+{
+    $regexp = $control_chars ? '/[^\x00-\x7F]/' : '/[^\x20-\x7E]/';
+    return preg_match($regexp, $str) ? false : true;
+}
+
+
+/**
  * Remove single and double quotes from a given string
  *
  * @param string Input value
