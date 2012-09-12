@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Vă rugăm aşteptaţi $sec sec. înainte de a tr
 $messages['errorsavingsent'] = 'A intervenit o eroare în timp ce se efectua salvarea mesajului trimis';
 $messages['errorsaving'] = 'A intervenit o eroare în timp ce se efectua salvarea';
 $messages['errormoving'] = 'Mesajul(e) nu a(u) putut fi mutat(e)';
+$messages['errormovingreadonly'] = 'Mesajul(e) nu a(u) putut fi mutat(e). Dosarul este doar-citire.';
 $messages['errorcopying'] = 'Mesajul(e) nu a(u) putut fi copiat(e)';
 $messages['errordeleting'] = 'Mesajul(e) nu a(u) putut fi şters(e)';
 $messages['errormarking'] = 'Mesajul(e) nu a(u) putut fi marcat(e)';

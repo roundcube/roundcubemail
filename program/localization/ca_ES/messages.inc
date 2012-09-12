@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Si us plau, espereu $sec segon(s) abans d\'enviar
 $messages['errorsavingsent'] = 'Hi ha hagut un error mentre es desava el missatge enviat.';
 $messages['errorsaving'] = 'Hi ha hagut un error mentre es desava.';
 $messages['errormoving'] = 'No s\'ha pogut moure el(s) missatge(s).';
+$messages['errormovingreadonly'] = 'No s\'ha pogut moure el(s) missatge(s). La carpeta és de només lectura.';
 $messages['errorcopying'] = 'No s\'ha pogut copiar el(s) missatge(s).';
 $messages['errordeleting'] = 'No s\'ha pogut suprimir el missatge.';
 $messages['errormarking'] = 'No s\'ha pogut marcar el(s) missatge(s).';

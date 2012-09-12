@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Molimo sačekajte $sec sekundi prije slanja ove p
 $messages['errorsavingsent'] = 'Desila se greška pri snimanju poslane poruke.';
 $messages['errorsaving'] = 'Desila se greška pri snimanju.';
 $messages['errormoving'] = 'Nije moguće premjestiti poruke.';
+$messages['errormovingreadonly'] = 'Nije moguće premjestiti poruke. Folder je samo za čitanje.';
 $messages['errorcopying'] = 'Nije moguće kopirati poruke.';
 $messages['errordeleting'] = 'Nije moguće obrisati poruke.';
 $messages['errormarking'] = 'Nije moguće označiti poruke.';

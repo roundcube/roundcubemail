@@ -51,6 +51,7 @@ $messages['senttooquickly'] = 'Per favore, attendi $sec secondi prima di inviare
 $messages['errorsavingsent'] = 'C\'è stato un errore nel salvare il messaggio inviato';
 $messages['errorsaving'] = 'Impossibile salvare';
 $messages['errormoving'] = 'Impossibile spostare il messaggio';
+$messages['errormovingreadonly'] = 'Impossibile spostare il messaggio. Cartella in sola lettura';
 $messages['errorcopying'] = 'Impossibile copiare il messaggio';
 $messages['errordeleting'] = 'Impossibile eliminare il messaggio';
 $messages['errormarking'] = 'Impossibile segnare il messaggio';

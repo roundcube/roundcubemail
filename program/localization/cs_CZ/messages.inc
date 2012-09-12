@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Prosím počkejte $sec sekund před odesláním z
 $messages['errorsavingsent'] = 'Nastala chyba při ukládání odeslané zprávy';
 $messages['errorsaving'] = 'Vyskytla se chyba při ukládání';
 $messages['errormoving'] = 'Nemohu přesunout zprávu';
+$messages['errormovingreadonly'] = 'Nemohu přesunout zprávu, složka je určena jen ke čtení.';
 $messages['errorcopying'] = 'Nemohu zkopírovat zprávu';
 $messages['errordeleting'] = 'Nemohu smazat zprávu';
 $messages['errormarking'] = 'Zprávu nelze označit';

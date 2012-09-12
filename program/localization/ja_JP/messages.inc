@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'このメッセージを送信するまで、$sec
 $messages['errorsavingsent'] = '送信メッセージの保存中にエラーが発生しました。';
 $messages['errorsaving'] = '保存中にエラーが発生しました。';
 $messages['errormoving'] = 'メッセージを移動できません。';
+$messages['errormovingreadonly'] = 'メッセージを移動できません。フォルダーは読み込み専用です。';
 $messages['errorcopying'] = 'メッセージをコピーできません。';
 $messages['errordeleting'] = 'メッセージを削除できません。';
 $messages['errormarking'] = 'メッセージにマークを設定できません。';

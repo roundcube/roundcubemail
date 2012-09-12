@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Odota $sec sekunti(a) ennen viestin lähettämist
 $messages['errorsavingsent'] = 'Lähetetyn viestin tallennuksessa tapahtui virhe';
 $messages['errorsaving'] = 'Tallennuksessa tapahtui virhe';
 $messages['errormoving'] = 'Viestiä ei voitu siirtää';
+$messages['errormovingreadonly'] = 'Viestiä ei voitu siirtää, koska hakemisto on vain lukutilassa.';
 $messages['errorcopying'] = 'Viestiä ei voitu kopioida';
 $messages['errordeleting'] = 'Viestiä ei voitu poistaa';
 $messages['errormarking'] = 'Viestiä ei voitu merkiä';

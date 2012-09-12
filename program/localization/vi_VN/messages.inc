@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Xin đợi vài giây trước khi gửi thư nà
 $messages['errorsavingsent'] = 'Xuất hiện một lỗi trong khi lưu thư đã gửi';
 $messages['errorsaving'] = 'Lỗi khi lưu';
 $messages['errormoving'] = 'Không thể chuyển được thư';
+$messages['errormovingreadonly'] = 'Không thể chuyển được thư. Folder chỉ cho phép đọc.';
 $messages['errorcopying'] = 'Không thể sao chép thư';
 $messages['errordeleting'] = 'Không thể xóa được thư';
 $messages['errormarking'] = 'Không thể đánh dấu (các) thư';
