@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Kérem várjon még $sec másodpercet az üzenet 
 $messages['errorsavingsent'] = 'Hiba történt az elküldött üzenet mentése közben';
 $messages['errorsaving'] = 'A mentés során hiba lépett fel';
 $messages['errormoving'] = 'Az üzenet(ek)et nem sikerült áthelyezni';
+$messages['errormovingreadonly'] = 'Az üzenet(ek)et nem sikerült áthelyezni. A mappa írásvédett.';
 $messages['errorcopying'] = 'Az üzenet(ek)et nem sikerült másolni';
 $messages['errordeleting'] = 'Az üzenet(ek)et nem sikerült törölni';
 $messages['errormarking'] = 'Az üzenet(ek)et nem sikerült megjelölni';

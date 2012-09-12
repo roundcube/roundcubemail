@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Arhoswch $sec eiliad cyn danfon y neges';
 $messages['errorsavingsent'] = 'Fe gafwyd gwall wrth cadw\'r neges ddanfonwyd';
 $messages['errorsaving'] = 'Fe gafwyd gwall wrth gadw';
 $messages['errormoving'] = 'Methwyd symud y neges';
+$messages['errormovingreadonly'] = 'Methwyd symud y neges. Mae\'r ffolder yn darllen-yn-unig';
 $messages['errorcopying'] = 'Methwyd copïo\'r neges(euon)';
 $messages['errordeleting'] = 'Methwyd dileu y neges';
 $messages['errormarking'] = 'Methwyd nodi y neges';

@@ -51,6 +51,7 @@ $messages['senttooquickly'] = 'U moet $sec seconden wachten om het bericht te ve
 $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan van het verzonden bericht';
 $messages['errorsaving'] = 'Er is een fout opgetreden bij het opslaan van het bericht...';
 $messages['errormoving'] = 'Kon de bericht(en) niet verplaatsen...';
+$messages['errormovingreadonly'] = 'Kon de bericht(en) niet verplaatsen. Map is alleen-lezen';
 $messages['errorcopying'] = 'Kon de bericht(en) niet kopiëren';
 $messages['errordeleting'] = 'Kon de bericht(en) niet verwijderen...';
 $messages['errormarking'] = 'Kon de bericht(en) niet markeren...';

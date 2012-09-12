@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Počakajte $sec sekund in nato znova poskusite s 
 $messages['errorsavingsent'] = 'Pri shranjevanju poslanega sporočila je prišlo do napake.';
 $messages['errorsaving'] = 'Pri shranjevanju je prišlo do napake.';
 $messages['errormoving'] = 'Sporočila ni bilo mogoče premakniti.';
+$messages['errormovingreadonly'] = 'Sporočila ni bilo mogoče premakniti. Mapa je na voljo samo za branje.';
 $messages['errorcopying'] = 'Sporočila ni bilo mogoče kopirati.';
 $messages['errordeleting'] = 'Sporočila ni bilo mogoče izbrisati.';
 $messages['errormarking'] = 'Sporočila ni bilo mogoče označiti.';

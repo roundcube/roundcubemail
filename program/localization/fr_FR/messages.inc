@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Vous devez attendre $sec sec. pour envoyer le mes
 $messages['errorsavingsent'] = 'Une erreur est survenue pendant la sauvegarde du message envoyé';
 $messages['errorsaving'] = 'Une erreur a empêché la sauvegarde';
 $messages['errormoving'] = 'Impossible de déplacer le message';
+$messages['errormovingreadonly'] = 'Impossible de déplacer le message. Le dossier est en lecture seule';
 $messages['errorcopying'] = 'Le(s) message(s) n\'a/ont pas pu être copié(s)';
 $messages['errordeleting'] = 'Impossible d\'effacer le message';
 $messages['errormarking'] = 'Impossible de marquer le message';

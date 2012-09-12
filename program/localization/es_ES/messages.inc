@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de mandar
 $messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje enviado';
 $messages['errorsaving'] = 'Ocurrió un error mientras se guardaba';
 $messages['errormoving'] = 'No se ha podido mover el mensaje';
+$messages['errormovingreadonly'] = 'No se ha podido mover el mensaje. La bandeja es sólo de lectura';
 $messages['errorcopying'] = 'No se ha podido copiar el/los mensaje(s)';
 $messages['errordeleting'] = 'No se ha podido eliminar el mensaje';
 $messages['errormarking'] = 'No se ha podido marcar el mensaje';
