@@ -68,8 +68,8 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && strlen($_POST['_targe
     else {
       if ($copyOnly) {
         $OUTPUT->show_message('messagecopied', 'confirmation');
+        $OUTPUT->command('set_busy', 'false');
         $OUTPUT->command('list_mailbox');
-        $OUTPUT->send();
       } else {
         $OUTPUT->show_message('messagemoved', 'confirmation');
       }
