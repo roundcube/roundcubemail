@@ -64,10 +64,14 @@ class rcube_result_index
         for ($i=0, $len=count($data); $i<$len; $i++) {
             $data_item = &$data[$i];
             if (preg_match('/^ SORT/i', $data_item)) {
+                // valid response, initialize raw_data for is_error()
+                $this->raw_data = '';
                 $data_item = substr($data_item, 5);
                 break;
             }
             else if (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
+                // valid response, initialize raw_data for is_error()
+                $this->raw_data = '';
                 $data_item = substr($data_item, strlen($m[0]));
 
                 if (strtoupper($m[1]) == 'ESEARCH') {

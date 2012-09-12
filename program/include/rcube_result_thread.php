@@ -64,6 +64,8 @@ class rcube_result_thread
         // ...skip unilateral untagged server responses
         for ($i=0, $len=count($data); $i<$len; $i++) {
             if (preg_match('/^ THREAD/i', $data[$i])) {
+                // valid response, initialize raw_data for is_error()
+                $this->raw_data = '';
                 $data[$i] = substr($data[$i], 7);
                 break;
             }
