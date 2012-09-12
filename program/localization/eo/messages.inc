@@ -45,6 +45,7 @@ $messages['contactnotfound'] = 'La petita kontakto ne trovis';
 $messages['sendingfailed'] = 'Ne sukcesis sendi mesaĝon';
 $messages['errorsaving'] = 'Okazis eraro dum savo de mesaĝo';
 $messages['errormoving'] = 'Ne povis transloki mesaĝon';
+$messages['errormovingreadonly'] = 'Ne povis transloki mesaĝon. Dosierujo estas nurlega';
 $messages['errordeleting'] = 'Ne povis forigi mesaĝon';
 $messages['deletecontactconfirm'] = 'Ĉu vi vere volas forigi la elektata(j)n kontakto(j)n?';
 $messages['deletemessagesconfirm'] = 'Ĉu vi vere volas forigi la elektata(j)n mesaĝo(j)n?';

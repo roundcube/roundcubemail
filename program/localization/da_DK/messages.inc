@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Vent venligst $sec sekunder før du sender denne 
 $messages['errorsavingsent'] = 'Der opstod en fejl da den sendte besked blev gemt.';
 $messages['errorsaving'] = 'Der opstod en fejl under gemning.';
 $messages['errormoving'] = 'Beskeden kunne ikke flyttes.';
+$messages['errormovingreadonly'] = 'Beskeden kunne ikke flyttes. Mappen er skrivebeskyttet.';
 $messages['errorcopying'] = 'Beskeden kunne ikke kopieres.';
 $messages['errordeleting'] = 'Beskeden kunne ikke slettes.';
 $messages['errormarking'] = 'Beskeden kunne ikke markeres.';

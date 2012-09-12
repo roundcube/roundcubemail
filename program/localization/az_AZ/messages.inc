@@ -47,6 +47,7 @@ $messages['senttooquickly'] = 'Məktub göndərmək üçün $sec saniyə gözlə
 $messages['errorsavingsent'] = 'Göndərilən məktub saxlanılan zaman xəta baş verdi';
 $messages['errorsaving'] = 'Saxlanma prosesi zamanı problem baş verdi';
 $messages['errormoving'] = 'Məktubu (məktubları) köçürmək alnmadı';
+$messages['errormovingreadonly'] = 'Məktubu (məktubları) köçürmək alnmadı. Qovluq yalnız oxunuş üçündür.';
 $messages['errorcopying'] = 'Məktubu (məktubları) kopyalamaq alınmadı';
 $messages['errordeleting'] = 'Məktubu (məktubları) silmək alınmadı';
 $messages['errormarking'] = 'Məktubu (məktubları) işarələmək mümkün deyil';

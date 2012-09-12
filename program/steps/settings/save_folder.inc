@@ -190,6 +190,11 @@ else if (!$error) {
                 $_SESSION['mbox'] = $folder['name'];
             }
             rcmail_update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
+
+            if($_SESSION["mbox"] == $folder['oldname']) {
+                $_SESSION["mbox"] = $folder['name'];
+            }
+
             $OUTPUT->send('iframe');
         }
     }

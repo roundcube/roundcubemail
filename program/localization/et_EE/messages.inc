@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Palun oota enne selle kirja saatmist $sec sekundi
 $messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';
 $messages['errorsaving'] = 'Salvestamise ajal ilmnes viga';
 $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
+$messages['errormovingreadonly'] = 'Ei suutnud seda kirja liigutada. Kaustale on vaid lugemisõigus';
 $messages['errorcopying'] = 'Kirju ei õnnestunud kopeerida';
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
 $messages['errormarking'] = 'Kirja märkimine nurjus';

@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Musisz poczekać $sec sek. aby móc wysłać tą 
 $messages['errorsavingsent'] = 'Wystąpił błąd podczas zapisu wysłanej wiadomości!';
 $messages['errorsaving'] = 'Wystąpił błąd podczas zapisu!';
 $messages['errormoving'] = 'Nie można przenieść wiadomości!';
+$messages['errormovingreadonly'] = 'Nie można przenieść wiadomości! Folder tylko do odczytu.';
 $messages['errorcopying'] = 'Nie można skopiować wiadomości!';
 $messages['errordeleting'] = 'Nie można usunąć wiadomości!';
 $messages['errormarking'] = 'Nie można oznaczyć wiadomości!';

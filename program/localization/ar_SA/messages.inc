@@ -49,6 +49,7 @@ $messages['senttooquickly'] = 'رجاء انتظر $sec ثوان قبل إرسا
 $messages['errorsavingsent'] = 'حدث خطأ أثناء حفظ الرسالة المُرسلة';
 $messages['errorsaving'] = 'حدث خطأ أثناء الحفظ';
 $messages['errormoving'] = 'تعذر نقل هذه الرسالة';
+$messages['errormovingreadonly'] = 'تعذر نقل هذه الرسالة. ﺎﻠﻤﺠﻟﺩ ﻞﻠﻗﺭﺍﺀﺓ ﻒﻘﻃ.';
 $messages['errorcopying'] = 'تعذر نسخ الرسائل';
 $messages['errordeleting'] = 'تعذر حذف هذه الرسالة';
 $messages['errormarking'] = 'تعذر تحديد الرسائل';

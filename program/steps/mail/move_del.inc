@@ -28,24 +28,51 @@ $threading = (bool) $RCMAIL->storage->get_threading();
 $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 
+$currentMboxOptions=$RCMAIL->storage->folder_info($_SESSION["mbox"]);
+$copyOnly = false;
+if (!in_array('t', $currentMboxOptions['rights'])) {
+  $copyOnly = true;
+  rcmail_display_server_error('errormovingreadonly');
+
+  if ($RCMAIL->action == 'delete') {
+    $OUTPUT->command('list_mailbox');
+    $OUTPUT->send();
+    exit;
+  }
+}
+
 // move messages
 if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
     $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
     $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
 
-    $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
+    if ($copyOnly) {
+      $moved = $RCMAIL->storage->copy_message($uids, $target, $mbox);
+    } else {
+      $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
+    }
 
     if (!$moved) {
         // send error message
 	    if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
-        rcmail_display_server_error('errormoving');
+        if ($copyOnly) {
+          rcmail_display_server_error('errorcopying');
+        } else {
+          rcmail_display_server_error('errormoving');
+        }
         $OUTPUT->send();
         exit;
     }
     else {
-      $OUTPUT->show_message('messagemoved', 'confirmation');
+      if ($copyOnly) {
+        $OUTPUT->show_message('messagecopied', 'confirmation');
+        $OUTPUT->command('set_busy', 'false');
+        $OUTPUT->command('list_mailbox');
+      } else {
+        $OUTPUT->show_message('messagemoved', 'confirmation');
+      }
     }
 
     $addrows = true;

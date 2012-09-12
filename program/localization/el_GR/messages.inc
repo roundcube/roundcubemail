@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Παρακαλώ περιμένετε $sec δευ
 $messages['errorsavingsent'] = 'Παρουσιάστηκε σφάλμα, κατά την αποθήκευση του απεσταλμένου μηνύματος';
 $messages['errorsaving'] = 'Παρουσιάστηκε σφάλμα κατά την αποθήκευση';
 $messages['errormoving'] = 'Το μήνυμα δε μπορούσε να μετακινηθεί';
+$messages['errormovingreadonly'] = 'Το μήνυμα δε μπορούσε να μετακινηθεί. Ο φάκελος είναι μόνο για ανάγνωση.';
 $messages['errorcopying'] = 'Δεν είναι δυνατή η αντιγραφή του μηνύματος/των';
 $messages['errordeleting'] = 'Το μήνυμα δε μπορούσε να διαγραφεί';
 $messages['errormarking'] = 'Δεν έγινε επισήμανση στο μύνημα';

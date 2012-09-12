@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Mohon tunggu $sec detik sebelum mengirim pesan in
 $messages['errorsavingsent'] = 'Error ketika menyimpan pesan terkirim';
 $messages['errorsaving'] = 'Error ketika menyimpan';
 $messages['errormoving'] = 'Pesan tidak bisa dipindahkan';
+$messages['errormoving'] = 'Pesan tidak bisa dipindahkan. Folder hanya bisa dibaca';
 $messages['errorcopying'] = 'Pesan tidak dapat disalin';
 $messages['errordeleting'] = 'Pesan tidak bisa dihapus';
 $messages['errormarking'] = 'Tidak dapat menandai pesan';

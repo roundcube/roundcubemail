@@ -47,6 +47,7 @@ $messages['senttooquickly'] = 'Молимо Вас да сачекате $sec с
 $messages['errorsavingsent'] = 'Приликом похрањивања послате поруке десила се грешка';
 $messages['errorsaving'] = 'Грешка при снимању поруке';
 $messages['errormoving'] = 'Грешка при премештању поруке';
+$messages['errormovingreadonly'] = 'Грешка при премештању поруке. Фасицкло је';
 $messages['errorcopying'] = 'Копирање поруке није било успешно';
 $messages['errordeleting'] = 'Грешка при брисању поруке';
 $messages['errormarking'] = 'Маркирање поруке неуспешно';

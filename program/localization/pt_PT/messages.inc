@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Por favor espere $sec seg(s) antes de enviar esta
 $messages['errorsavingsent'] = 'Ocorreu um erro ao guardar a mensagem enviada';
 $messages['errorsaving'] = 'Ocorreu um erro ao guardar';
 $messages['errormoving'] = 'Não foi possível mover a mensagem';
+$messages['errormovingreadonly'] = 'Não foi possível mover a mensagem. A pasta é só de leitura.';
 $messages['errorcopying'] = 'Não foi possível copiar a mensagem';
 $messages['errordeleting'] = 'Não foi possível eliminar a mensagem';
 $messages['errormarking'] = 'Não foi possível marcar a mensagem.';
