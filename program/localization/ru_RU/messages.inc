@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Вы должны подождать $sec сек.
 $messages['errorsavingsent'] = 'Произошла ошибка при сохранении отправленного сообщения';
 $messages['errorsaving'] = 'В процессе сохранения произошла ошибка';
 $messages['errormoving'] = 'Не удалось переместить сообщение';
+$messages['errormovingreadonly'] = 'Не удалось переместить сообщение. Папка доступна только для чтения';
 $messages['errorcopying'] = 'Не удалось скопировать сообщение';
 $messages['errordeleting'] = 'Не удалось удалить сообщение';
 $messages['errormarking'] = 'Невозможно пометить сообщение';

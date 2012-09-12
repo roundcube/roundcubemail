@@ -43,6 +43,14 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     $count = sizeof(explode(',', $uids));
   }
 
+  $currentMboxOptions=$RCMAIL->storage->folder_info($_SESSION["mbox"]);
+  if ($flag == 'DELETED' && !in_array('t', $currentMboxOptions['rights'])) {
+    rcmail_display_server_error('errorreadonly');
+    $OUTPUT->command('set_message', $uids, 'deleted', false);
+    $OUTPUT->send();
+    exit;
+  }
+
   $marked = $RCMAIL->storage->set_flag($uids, $flag);
 
   if (!$marked) {

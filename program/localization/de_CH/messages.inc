@@ -53,6 +53,7 @@ $messages['senttooquickly'] = 'Bitte warten Sie $sec Sekunde(n) vor dem Senden d
 $messages['errorsavingsent'] = 'Beim Speichern der gesendeten Nachricht ist ein Fehler aufgetreten.';
 $messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 $messages['errormoving'] = 'Nachricht(en) konnte(n) nicht verschoben werden.';
+$messages['errormovingreadonly'] = 'Nachricht(en) konnte(n) nicht verschoben werden. Der Ordner ist schreibgeschützt.';
 $messages['errorcopying'] = 'Nachticht(en) konnte(n) nicht kopiert werden.';
 $messages['errordeleting'] = 'Nachricht(en) konnte(n) nicht gelöscht werden.';
 $messages['errormarking'] = 'Nachricht(en) konnte(n) nicht markiert werden.';

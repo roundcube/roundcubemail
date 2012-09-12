@@ -51,6 +51,7 @@ $messages['senttooquickly'] = 'Por favor, espere $sec segundos antes de enviar e
 $messages['errorsavingsent'] = 'Ocurriu un erro mentres se gardaba a mensaxe enviada.';
 $messages['errorsaving'] = 'Ocurriu un erro mentres se gardaba.';
 $messages['errormoving'] = 'Non foi posible mover a(s) mensaxe(s).';
+$messages['errormovingreadonly'] = 'Non foi posible mover a(s) mensaxe(s). O cartafol é de só lectura.';
 $messages['errorcopying'] = 'Non foi posible copiar a(s) mensaxe(s).';
 $messages['errordeleting'] = 'Non foi posible eliminar a(s) mensaxe(s).';
 $messages['errormarking'] = 'Non foi posible marcar a(s) mensaxe(s).';

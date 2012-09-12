@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'لطفا قبل از ارسال این پیغام
 $messages['errorsavingsent'] = 'در لحظه ذخیره پیغام ارسال شده، مشکل به وجود آمد.';
 $messages['errorsaving'] = 'هنگام ذخیره‌سازی، اشکالی پیش آمد.';
 $messages['errormoving'] = 'ناتوان در انتقال پیغام(ها).';
+$messages['errormovingreadonly'] = 'ناتوان در انتقال پیغام(ها). پوشه فقط خواندنی است.';
 $messages['errorcopying'] = 'ناتوان در رونوشت پیغام(ها).';
 $messages['errordeleting'] = 'ناتوان در حذف پیغام(ها).';
 $messages['errormarking'] = 'ناتوان در نشانه گذاری پیغام(ها).';

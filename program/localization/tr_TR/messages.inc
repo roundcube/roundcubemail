@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Lütfen bu postayı göndermeden önce $sec saniy
 $messages['errorsavingsent'] = 'Gönderilen postayı kaydederken hata oluştu';
 $messages['errorsaving'] = 'Kaydederken bir hata oluştu';
 $messages['errormoving'] = 'Posta taşınamadı';
+$messages['errormovingreadonly'] = 'Posta taşınamadı. Dizin salt okunabilir';
 $messages['errorcopying'] = 'Posta kopyalanamadı';
 $messages['errordeleting'] = 'Posta silinemedi';
 $messages['errormarking'] = 'Posta işaretlenemedi';
