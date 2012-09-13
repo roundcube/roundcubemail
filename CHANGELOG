@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so "Edit as new" on draft creates a new message (#1488687)
 - Fix invalid error message on deleting mail from read only folder (#1488694)
 - Fix error where session wasn't updated after folder rename/delete (#1488692)
 - Replace data URIs of images (pasted in HTML editor) with inline attachments (#1488502)
