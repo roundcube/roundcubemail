@@ -49,6 +49,7 @@ $messages['senttooquickly'] = 'Vänta ytterligare $sec sekunder med att skicka m
 $messages['errorsavingsent'] = 'Ett fel inträffade när det skickade meddelandet skulle sparas';
 $messages['errorsaving'] = 'Meddelandet kunde inte sparas';
 $messages['errormoving'] = 'Meddelandet kunde inte flyttas';
+$messages['errormovingreadonly'] = 'Meddelandet kunde inte flyttas. Katalogen är skrivskyddad';
 $messages['errorcopying'] = 'Meddelandet kunde inte kopieras';
 $messages['errordeleting'] = 'Meddelandet kunde inte tas bort';
 $messages['errormarking'] = 'Meddelandet kunde inte markeras';

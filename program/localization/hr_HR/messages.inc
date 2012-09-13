@@ -51,6 +51,7 @@ $messages['senttooquickly'] = 'Molimo sačekajte $sec sek. prije slanja ove poru
 $messages['errorsavingsent'] = 'Greška pri spremanju poslane poruke';
 $messages['errorsaving'] = 'Greška pri spremanju';
 $messages['errormoving'] = 'Greška pri premještanju poruke';
+$messages['errormovingreadonly'] = 'Greška pri premještanju poruke. Mapa je samo za čitanje.';
 $messages['errorcopying'] = 'Greška pri kopiranju poruke';
 $messages['errordeleting'] = 'Greška pri brisanju poruke';
 $messages['errormarking'] = 'Nije moguće označiti poruku';

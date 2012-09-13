@@ -52,6 +52,7 @@ $messages['senttooquickly'] = 'Please wait $sec sec(s). before sending this mess
 $messages['errorsavingsent'] = 'An error occurred while saving sent message.';
 $messages['errorsaving'] = 'An error occurred while saving.';
 $messages['errormoving'] = 'Could not move the message(s).';
+$messages['errormovingreadonly'] = 'Could not move the message(s). Folder is read-only.';
 $messages['errorcopying'] = 'Could not copy the message(s).';
 $messages['errordeleting'] = 'Could not delete the message(s).';
 $messages['errormarking'] = 'Could not mark the message(s).';

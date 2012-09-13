@@ -51,6 +51,7 @@ $messages['senttooquickly'] = 'Будь ласка, зачекайте $sec се
 $messages['errorsavingsent'] = 'Помилка при збереженні відправленого листа';
 $messages['errorsaving'] = 'Помилка при збереженні';
 $messages['errormoving'] = 'Не вдалося перемістити листи';
+$messages['errormovingreadonly'] = 'Не вдалося перемістити листи. Папка доступна тільки для читання.';
 $messages['errorcopying'] = 'Не вдалося зкопіювати листи';
 $messages['errordeleting'] = 'Не вдалося видалити листи';
 $messages['errormarking'] = 'Не вдалося позначити листи';
