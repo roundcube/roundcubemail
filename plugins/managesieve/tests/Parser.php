@@ -31,7 +31,7 @@ class Parser extends PHPUnit_Framework_TestCase
         $result   = array();
 
         while ($file = readdir($dir)) {
-            if (preg_match('/^[a-z_]+$/', $file)) {
+            if (preg_match('/^[a-z0-9_]+$/', $file)) {
                 $input = file_get_contents($dir_path . '/' . $file);
 
                 if (file_exists($dir_path . '/' . $file . '.out')) {

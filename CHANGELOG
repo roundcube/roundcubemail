@@ -1,6 +1,16 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix invalid error message on deleting mail from read only folder (#1488694)
+- Fix error where session wasn't updated after folder rename/delete (#1488692)
+- Replace data URIs of images (pasted in HTML editor) with inline attachments (#1488502)
+- Fix PLAIN authentication for some IMAP servers (#1488674)
+- Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
+- Fix focus issue in IE when selecting message row (#1488620)
+- Remove (too big) min-width on mail screen
+- Add full headers view in message preview window (#1488538)
+- Fix message display page issues - unified with message preview (#1488590, #1488642)
+- Fix displaying all headers when they contain malformed characters (#1488666)
 - Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
 - Fix quota capability detection so it can be overwritten by a plugin (#1488655)
 - Added template object 'frame'

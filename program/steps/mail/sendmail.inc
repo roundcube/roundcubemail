@@ -93,9 +93,8 @@ function rcmail_get_identity($id)
  * to this:
  *
  * <img src="/path/on/server/.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
- * ...
  */
-function rcmail_fix_emoticon_paths(&$mime_message)
+function rcmail_fix_emoticon_paths($mime_message)
 {
   global $CONFIG;
 
@@ -134,8 +133,53 @@ function rcmail_fix_emoticon_paths(&$mime_message)
   }
 
   $mime_message->setHTMLBody($body);
+}
 
-  return $body;
+/**
+ * Extract image attachments from HTML content (data URIs)
+ */
+function rcmail_extract_inline_images($mime_message, $from)
+{
+    $body   = $mime_message->getHTMLBody();
+    $offset = 0;
+    $list   = array();
+    $regexp = '# src=[\'"](data:(image/[a-z]+);base64,([a-z0-9+/=\r\n]+))([\'"])#i';
+
+    // get domain for the Content-ID, must be the same as in Mail_Mime::get()
+    if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $matches)) {
+        $domain = $matches[1];
+    } else {
+        $domain = 'localhost';
+    }
+
+    if (preg_match_all($regexp, $body, $matches, PREG_OFFSET_CAPTURE)) {
+        foreach ($matches[1] as $idx => $m) {
+            $data = preg_replace('/\r\n/', '', $matches[3][$idx][0]);
+            $data = base64_decode($data);
+
+            if (empty($data)) {
+                continue;
+            }
+
+            $hash      = md5($data) . '@' . $domain;
+            $mime_type = $matches[2][$idx][0];
+            $name      = $list[$hash];
+
+            // add the image to the MIME message
+            if (!$name) {
+                $ext         = preg_replace('#^[^/]+/#', '', $mime_type);
+                $name        = substr($hash, 0, 8) . '.' . $ext;
+                $list[$hash] = $name;
+
+                $mime_message->addHTMLImage($data, $mime_type, $name, false, $hash);
+            }
+
+            $body = substr_replace($body, $name, $m[1] + $offset, strlen($m[0]));
+            $offset += strlen($name) - strlen($m[0]);
+        }
+    }
+
+    $mime_message->setHTMLBody($body);
 }
 
 /**
@@ -522,7 +566,10 @@ if ($isHtml) {
 
   // look for "emoticon" images from TinyMCE and change their src paths to
   // be file paths on the server instead of URL paths.
-  $message_body = rcmail_fix_emoticon_paths($MAIL_MIME);
+  rcmail_fix_emoticon_paths($MAIL_MIME);
+
+  // Extract image Data URIs into message attachments (#1488502)
+  rcmail_extract_inline_images($MAIL_MIME, $from);
 }
 else {
   $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
