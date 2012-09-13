@@ -313,7 +313,7 @@ class rcube_vcard
 
       case 'birthday':
       case 'anniversary':
-        if (($val = rcube_strtotime($value)) && ($fn = self::$fieldmap[$field]))
+        if (($val = rcube_utils::strtotime($value)) && ($fn = self::$fieldmap[$field]))
           $this->raw[$fn][] = array(0 => date('Y-m-d', $val), 'value' => array('date'));
         break;
 
@@ -555,6 +555,7 @@ class rcube_vcard
           if ((list($key, $value) = explode('=', $attr)) && $value) {
             $value = trim($value);
             if ($key == 'ENCODING') {
+              $value = strtoupper($value);
               // add next line(s) to value string if QP line end detected
               if ($value == 'QUOTED-PRINTABLE') {
                 while (preg_match('/=$/', $lines[$i]))

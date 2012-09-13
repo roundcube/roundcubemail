@@ -123,3 +123,7 @@
 {
   margin-left: 0.5em;
 }
+
+ul.toolbarmenu li span.delete {
+  background-position: 0 -1509px;
+}

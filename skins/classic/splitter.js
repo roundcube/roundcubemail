@@ -47,7 +47,7 @@ function rcube_splitter(attrib)
       rcube_event.add_listener({element: window, event:'resize', object:this, method:'onResize'});
 
     // read saved position from cookie
-    var cookie = bw.get_cookie(this.id);
+    var cookie = rcmail.get_cookie(this.id);
     if (cookie && !isNaN(cookie)) {
       this.pos = parseFloat(cookie);
       this.resize();
@@ -197,7 +197,7 @@ function rcube_splitter(attrib)
   {
     var exp = new Date();
     exp.setYear(exp.getFullYear() + 1);
-    bw.set_cookie(this.id, this.pos, exp);
+    rcmail.set_cookie(this.id, this.pos, exp);
   };
 
 } // end class rcube_splitter

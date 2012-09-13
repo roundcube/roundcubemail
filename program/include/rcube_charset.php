@@ -86,7 +86,7 @@ class rcube_charset
      * Sometimes charset string is malformed, there are also charset aliases 
      * but we need strict names for charset conversion (specially utf8 class)
      *
-     * @param  string Input charset name
+     * @param string $input Input charset name
      *
      * @return string The validated charset name
      */
@@ -176,10 +176,17 @@ class rcube_charset
     {
         static $iconv_options   = null;
         static $mbstring_list   = null;
+        static $mbstring_sch    = null;
         static $conv            = null;
 
-        $to   = empty($to) ? strtoupper(RCMAIL_CHARSET) : self::parse_charset($to);
+        $to   = empty($to) ? strtoupper(RCMAIL_CHARSET) : $to;
         $from = self::parse_charset($from);
+
+        // It is a common case when UTF-16 charset is used with US-ASCII content (#1488654)
+        // In that case we can just skip the conversion (use UTF-8)
+        if ($from == 'UTF-16' && !preg_match('/[^\x00-\x7F]/', $str)) {
+            $from = 'UTF-8';
+        }
 
         if ($from == $to || empty($str) || empty($from)) {
             return $str;
@@ -215,6 +222,7 @@ class rcube_charset
 
         if ($mbstring_list === null) {
             if (extension_loaded('mbstring')) {
+                $mbstring_sch  = mb_substitute_character();
                 $mbstring_list = mb_list_encodings();
                 $mbstring_list = array_map('strtoupper', $mbstring_list);
             }
@@ -223,14 +231,25 @@ class rcube_charset
         // convert charset using mbstring module
         if ($mbstring_list !== null) {
             $aliases['WINDOWS-1257'] = 'ISO-8859-13';
+            // it happens that mbstring supports ASCII but not US-ASCII
+            if (($from == 'US-ASCII' || $to == 'US-ASCII') && !in_array('US-ASCII', $mbstring_list)) {
+                $aliases['US-ASCII'] = 'ASCII';
+            }
 
             $mb_from = $aliases[$from] ? $aliases[$from] : $from;
             $mb_to   = $aliases[$to] ? $aliases[$to] : $to;
 
             // return if encoding found, string matches encoding and convert succeeded
             if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
-                if (mb_check_encoding($str, $mb_from) && ($out = mb_convert_encoding($str, $mb_to, $mb_from))) {
-                    return $out;
+                if (mb_check_encoding($str, $mb_from)) {
+                    // Do the same as //IGNORE with iconv
+                    mb_substitute_character('none');
+                    $out = mb_convert_encoding($str, $mb_to, $mb_from);
+                    mb_substitute_character($mbstring_sch);
+
+                    if ($out !== false) {
+                        return $out;
+                    }
                 }
             }
         }
@@ -640,14 +659,14 @@ class rcube_charset
             return $failover;
         }
 
-        // FIXME: the order is important, because sometimes 
+        // FIXME: the order is important, because sometimes
         // iso string is detected as euc-jp and etc.
         $enc = array(
             'UTF-8', 'SJIS', 'BIG5', 'GB2312',
             'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
             'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
             'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
-            'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R', 
+            'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R',
             'ISO-2022-KR', 'ISO-2022-JP'
         );
 

@@ -82,9 +82,9 @@ switch ($CURR_SECTION)
       'spellcheck_ignore_nums' => isset($_POST['_spellcheck_ignore_nums']) ? TRUE : FALSE,
       'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']) ? TRUE : FALSE,
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
-      'top_posting'        => !empty($_POST['_top_posting']),
+      'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
-      'sig_above'          => !empty($_POST['_sig_above']) && !empty($_POST['_top_posting']),
+      'sig_above'          => !empty($_POST['_sig_above']) && $_POST['_reply_mode'] < 1,
       'default_font'       => get_input_value('_default_font', RCUBE_INPUT_POST),
       'forward_attachment' => !empty($_POST['_forward_attachment']),
     );

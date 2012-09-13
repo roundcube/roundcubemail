@@ -35,13 +35,14 @@ class rcube_install
 
   var $obsolete_config = array('db_backend', 'double_auth');
   var $replaced_config = array(
-    'skin_path' => 'skin',
-    'locale_string' => 'language',
-    'multiple_identities' => 'identities_level',
+    'skin_path'            => 'skin',
+    'locale_string'        => 'language',
+    'multiple_identities'  => 'identities_level',
     'addrbook_show_images' => 'show_images',
-    'imap_root' => 'imap_ns_personal',
-    'pagesize' => 'mail_pagesize',
+    'imap_root'            => 'imap_ns_personal',
+    'pagesize'             => 'mail_pagesize',
     'default_imap_folders' => 'default_folders',
+    'top_posting'          => 'reply_mode',
   );
 
   // these config options are required for a working system

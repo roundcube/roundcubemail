@@ -108,11 +108,11 @@ function slashify($str)
 
 
 /**
- * Remove slash at the end of the string
+ * Remove slashes at the end of the string
  */
 function unslashify($str)
 {
-  return preg_replace('/\/$/', '', $str);
+  return preg_replace('/\/+$/', '', $str);
 }
 
 
@@ -231,7 +231,7 @@ function array_keys_recursive($array)
 {
     $keys = array();
 
-    if (!empty($array)) {
+    if (!empty($array) && is_array($array)) {
         foreach ($array as $key => $child) {
             $keys[] = $key;
             foreach (array_keys_recursive($child) as $val) {
@@ -255,7 +255,22 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 
 
 /**
- * Remove single and double quotes from given string
+ * Check if a string contains only ascii characters
+ *
+ * @param string $str           String to check
+ * @param bool   $control_chars Includes control characters
+ *
+ * @return bool
+ */
+function is_ascii($str, $control_chars = true)
+{
+    $regexp = $control_chars ? '/[^\x00-\x7F]/' : '/[^\x20-\x7E]/';
+    return preg_match($regexp, $str) ? false : true;
+}
+
+
+/**
+ * Remove single and double quotes from a given string
  *
  * @param string Input value
  *
@@ -422,7 +437,6 @@ function rcube_autoload($classname)
 {
     $filename = preg_replace(
         array(
-            '/MDB2_(.+)/',
             '/Mail_(.+)/',
             '/Net_(.+)/',
             '/Auth_(.+)/',
@@ -430,7 +444,6 @@ function rcube_autoload($classname)
             '/^utf8$/',
         ),
         array(
-            'Mail/\\1',
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',

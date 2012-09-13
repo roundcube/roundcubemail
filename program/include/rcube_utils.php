@@ -92,9 +92,9 @@ class rcube_utils
             return false;
         }
 
-        // Check domain part
-        if (preg_match('/^\[*(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\]*$/', $domain_part)) {
-            return true; // IP address
+        // Validate domain part
+        if (preg_match('/^\[((IPv6:[0-9a-f:.]+)|([0-9.]+))\]$/i', $domain_part, $matches)) {
+            return self::check_ip(preg_replace('/^IPv6:/i', '', $matches[1])); // valid IPv4 or IPv6 address
         }
         else {
             // If not an IP address
@@ -108,6 +108,11 @@ class rcube_utils
                 if (!preg_match('/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $part)) {
                     return false;
                 }
+            }
+
+            // last domain part
+            if (preg_match('/[^a-zA-Z]/', array_pop($domain_array))) {
+                return false;
             }
 
             $rcube = rcube::get_instance();
@@ -141,6 +146,52 @@ class rcube_utils
         return false;
     }
 
+
+    /**
+     * Validates IPv4 or IPv6 address
+     *
+     * @param string $ip IP address in v4 or v6 format
+     *
+     * @return bool True if the address is valid
+     */
+    public static function check_ip($ip)
+    {
+        // IPv6, but there's no build-in IPv6 support
+        if (strpos($ip, ':') !== false && !defined('AF_INET6')) {
+            $parts = explode(':', $domain_part);
+            $count = count($parts);
+
+            if ($count > 8 || $count < 2) {
+                return false;
+            }
+
+            foreach ($parts as $idx => $part) {
+                $length = strlen($part);
+                if (!$length) {
+                    // there can be only one ::
+                    if ($found_empty) {
+                        return false;
+                    }
+                    $found_empty = true;
+                }
+                // last part can be an IPv4 address
+                else if ($idx == $count - 1) {
+                    if (!preg_match('/^[0-9a-f]{1,4}$/i', $part)) {
+                        return @inet_pton($part) !== false;
+                    }
+                }
+                else if (!preg_match('/^[0-9a-f]{1,4}$/i', $part)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return @inet_pton($ip) !== false;
+    }
+
+
     /**
      * Check whether the HTTP referer matches the current request
      *
@@ -149,8 +200,8 @@ class rcube_utils
     public static function check_referer()
     {
         $uri = parse_url($_SERVER['REQUEST_URI']);
-        $referer = parse_url(rcube_request_header('Referer'));
-        return $referer['host'] == rcube_request_header('Host') && $referer['path'] == $uri['path'];
+        $referer = parse_url(self::request_header('Referer'));
+        return $referer['host'] == self::request_header('Host') && $referer['path'] == $uri['path'];
     }
 
 

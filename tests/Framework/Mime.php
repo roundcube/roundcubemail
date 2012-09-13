@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Test class to test messages decoding functions
+ * Test class to test rcube_mime class
  *
  * @package Tests
  */
-class MailDecode extends PHPUnit_Framework_TestCase
+class Framework_Mime extends PHPUnit_Framework_TestCase
 {
 
     /**

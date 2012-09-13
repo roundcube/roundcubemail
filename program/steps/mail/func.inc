@@ -90,11 +90,13 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   // set current mailbox and some other vars in client environment
   $OUTPUT->set_env('mailbox', $mbox_name);
   $OUTPUT->set_env('pagesize', $RCMAIL->storage->get_pagesize());
-  $OUTPUT->set_env('quota', $RCMAIL->storage->get_capability('QUOTA'));
   $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
   $OUTPUT->set_env('threading', $threading);
   $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
   $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
+  if ($RCMAIL->storage->get_capability('QUOTA')) {
+    $OUTPUT->set_env('quota', true);
+  }
 
   if ($CONFIG['delete_junk'])
     $OUTPUT->set_env('delete_junk', true);
@@ -1053,12 +1055,17 @@ function rcmail_message_full_headers($attrib, $headers=NULL)
   global $OUTPUT;
 
   $html = html::div(array('id' => "all-headers", 'class' => "all", 'style' => 'display:none'), html::div(array('id' => 'headers-source'), ''));
-  $html .= html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('show-headers','',this)"), '');
+
+  if (!get_boolean($attrib['no-switch'])) {
+    $html .= html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('show-headers','',this)"), '');
+  }
+
+  unset($attrib['no-switch']);
 
   $OUTPUT->add_gui_object('all_headers_row', 'all-headers');
   $OUTPUT->add_gui_object('all_headers_box', 'headers-source');
 
-  return html::div($attrib, $html);
+  return count($attrib) > 1 ? html::div($attrib, $html) : $html;
 }
 
 
@@ -1712,8 +1719,10 @@ function rcmail_search_filter($attrib)
   $select_filter->add(rcube_label('unread'), 'UNSEEN');
   $select_filter->add(rcube_label('flagged'), 'FLAGGED');
   $select_filter->add(rcube_label('unanswered'), 'UNANSWERED');
-  if (!$CONFIG['skip_deleted'])
+  if (!$CONFIG['skip_deleted']) {
     $select_filter->add(rcube_label('deleted'), 'DELETED');
+    $select_filter->add(rcube_label('undeleted'), 'UNDELETED');
+  }
   $select_filter->add(rcube_label('priority').': '.rcube_label('highest'), 'HEADER X-PRIORITY 1');
   $select_filter->add(rcube_label('priority').': '.rcube_label('high'), 'HEADER X-PRIORITY 2');
   $select_filter->add(rcube_label('priority').': '.rcube_label('normal'), 'NOT HEADER X-PRIORITY 1 NOT HEADER X-PRIORITY 2 NOT HEADER X-PRIORITY 4 NOT HEADER X-PRIORITY 5');
