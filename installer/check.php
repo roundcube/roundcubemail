@@ -35,12 +35,12 @@ $ini_checks = array(
     'suhosin.session.encrypt'       => 0,
     'magic_quotes_runtime'          => 0,
     'magic_quotes_sybase'           => 0,
+    'date.timezone'                 => '-NOTEMPTY-',
 );
 
 $optional_checks = array(
     // required for utils/modcss.inc, should we require this?
     'allow_url_fopen'  => 1,
-    'date.timezone'    => '-NOTEMPTY-',
 );
 
 $source_urls = array(
@@ -171,7 +171,15 @@ foreach ($ini_checks as $var => $val) {
     $status = ini_get($var);
     if ($val === '-NOTEMPTY-') {
         if (empty($status)) {
-            $RCI->fail($var, "cannot be empty and needs to be set");
+            $RCI->fail($var, "empty value detected");
+        } else if ($var == 'date.timezone') {
+            try {
+                $tz = new DateTimeZone($status);
+                $RCI->pass($var);
+            }
+            catch (Exception $e) {
+                $RCI->fail($var, "invalid value detected");
+            }
         } else {
             $RCI->pass($var);
         }
