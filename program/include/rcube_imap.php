@@ -3297,11 +3297,8 @@ class rcube_imap extends rcube_storage
         }
 
         // Get folder rights (MYRIGHTS)
-        if ($acl && !$options['noselect']) {
-            // skip shared roots
-            if (!$options['is_root'] || $options['namespace'] == 'personal') {
-                $options['rights'] =  (array)$this->my_rights($folder);
-            }
+        if ($acl && ($rights = $this->my_rights($folder))) {
+            $options['rights'] = $rights;
         }
 
         // Set 'norename' flag

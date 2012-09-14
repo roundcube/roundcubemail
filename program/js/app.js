@@ -669,7 +669,7 @@ function rcube_webmail()
           this.load_identity(props, 'edit-identity');
         else if (this.task == 'mail' && (cid = this.get_single_uid())) {
           url = { _mbox: this.env.mailbox };
-          url[this.env.mailbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid'] = cid;
+          url[this.env.mailbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = cid;
           this.goto_url('compose', url, true);
         }
         break;
