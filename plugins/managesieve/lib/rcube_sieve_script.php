@@ -411,9 +411,15 @@ class rcube_sieve_script
                                 $action_script .= " :$n_tag " . self::escape_string($action[$n_tag]);
                             }
                         }
-                        $method = (!empty($action['address']) && !empty($action['body'])) ?
-                            sprintf('mailto:%s?body=%s', $action['address'], rawurlencode($action['body'])) :
-                            $action['method'];
+                        if (!empty($action['address'])) {
+                            $method = 'mailto:' . $action['address'];
+                            if (!empty($action['body'])) {
+                                $method .= '?body=' . rawurlencode($action['body']);
+                            }
+                        }
+                        else {
+                            $method = $action['method'];
+                        }
                         $action_script .= " " . self::escape_string($method);
                         break;
 
