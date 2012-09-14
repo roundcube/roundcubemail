@@ -178,7 +178,7 @@ foreach ($ini_checks as $var => $val) {
                 $RCI->pass($var);
             }
             catch (Exception $e) {
-                $RCI->fail($var, "invalid value detected");
+                $RCI->fail($var, "invalid value detected: $status");
             }
         } else {
             $RCI->pass($var);
