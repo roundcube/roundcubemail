@@ -629,6 +629,7 @@ class managesieve extends rcube_plugin
             $notifybodies   = get_input_value('_action_notifybody', RCUBE_INPUT_POST);
             $notifymessages = get_input_value('_action_notifymessage', RCUBE_INPUT_POST);
             $notifyfrom     = get_input_value('_action_notifyfrom', RCUBE_INPUT_POST);
+            $notifyimp      = get_input_value('_action_notifyimportance', RCUBE_INPUT_POST);
 
             // we need a "hack" for radiobuttons
             foreach ($sizeitems as $item)
@@ -897,6 +898,7 @@ class managesieve extends rcube_plugin
                     $this->form['actions'][$i]['body'] = $notifybodies[$idx];
                     $this->form['actions'][$i]['message'] = $notifymessages[$idx];
                     $this->form['actions'][$i]['from'] = $notifyfrom[$idx];
+                    $this->form['actions'][$i]['importance'] = $notifyimp[$idx];
                     break;
                 }
 
@@ -1613,6 +1615,20 @@ class managesieve extends rcube_plugin
             .'<input type="text" name="_action_notifyfrom['.$id.']" id="action_notifyfrom'.$id.'" '
             .'value="' . Q($action['from']) . '" size="35" '
             . $this->error_class($id, 'action', 'from', 'action_notifyfrom') .' />';
+        $importance_options = array(
+            3 => 'notifyimportancelow',
+            2 => 'notifyimportancenormal',
+            1 => 'notifyimportancehigh'
+        );
+        $select_importance = new html_select(array(
+            'name' => '_action_notifyimportance[' . $id . ']',
+            'id' => '_action_notifyimportance' . $id,
+            'class' => $this->error_class($id, 'action', 'importance', 'action_notifyimportance')));
+        foreach ($importance_options as $io_v => $io_n) {
+            $select_importance->add(Q($this->gettext($io_n)), $io_v);
+        }
+        $out .= '<br /><span class="label">' . Q($this->gettext('notifyimportance')) . '</span><br />';
+        $out .= $select_importance->show(array(intval($action['importance'])));
         $out .= '</div>';
 
         // mailbox select
