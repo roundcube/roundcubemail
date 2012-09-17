@@ -482,7 +482,7 @@ abstract class rcube_addressbook
         $fn = $contact['name'];
 
         if (!$fn)  // default display name composition according to vcard standard
-            $fn = join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
+            $fn = trim(join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']))));
 
         // use email address part for name
         $email = is_array($contact['email']) ? $contact['email'][0] : $contact['email'];
