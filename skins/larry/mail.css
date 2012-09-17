@@ -837,6 +837,7 @@ h3.subject {
 #messageheader {
 	position: relative;
 	height: auto;
+	min-height: 52px;
 	margin: 0 8px 0 0;
 	padding: 0 0 0 72px;
 	border-bottom: 2px solid #f0f0f0;

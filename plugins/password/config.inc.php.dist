@@ -36,7 +36,8 @@ $rcmail_config['password_db_dsn'] = '';
 // The query can contain the following macros that will be expanded as follows:
 //      %p is replaced with the plaintext new password
 //      %c is replaced with the crypt version of the new password, MD5 if available
-//         otherwise DES.
+//         otherwise DES. More hash function can be enabled using the password_crypt_hash 
+//         configuration parameter.
 //      %D is replaced with the dovecotpw-crypted version of the new password
 //      %o is replaced with the password before the change
 //      %n is replaced with the hashed version of the new password
@@ -50,6 +51,13 @@ $rcmail_config['password_db_dsn'] = '';
 // Escaping of macros is handled by this module.
 // Default: "SELECT update_passwd(%c, %u)"
 $rcmail_config['password_query'] = 'SELECT update_passwd(%c, %u)';
+
+// By default the crypt() function which is used to create the '%c' 
+// parameter uses the md5 algorithm. To use different algorithms 
+// you can choose between: des, md5, blowfish, sha256, sha512.
+// Before using other hash functions than des or md5 please make sure
+// your operating system supports the other hash functions.
+$rcmail_config['password_crypt_hash'] = 'md5';
 
 // By default domains in variables are using unicode.
 // Enable this option to use punycoded names

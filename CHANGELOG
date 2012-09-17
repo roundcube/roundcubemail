@@ -1,6 +1,13 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- List related text/html part as attachment in plain text mode (#1488677)
+- Use IMAP BINARY (RFC3516) extension to fetch message/part bodies
+- Fix folder creation under public namespace root (#1488665)
+- Fix so "Edit as new" on draft creates a new message (#1488687)
+- Fix invalid error message on deleting mail from read only folder (#1488694)
+- Fix error where session wasn't updated after folder rename/delete (#1488692)
+- Replace data URIs of images (pasted in HTML editor) with inline attachments (#1488502)
 - Fix PLAIN authentication for some IMAP servers (#1488674)
 - Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
 - Fix focus issue in IE when selecting message row (#1488620)

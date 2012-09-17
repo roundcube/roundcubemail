@@ -161,7 +161,6 @@ else {
     $source = $orig_source;
 
   // show notice if existing contacts with same e-mail are found
-  $existing = false;
   foreach ($CONTACTS->get_col_values('email', $a_record, true) as $email) {
       if ($email && ($res = $CONTACTS->search('email', $email, 1, false, true)) && $res->count) {
           $OUTPUT->show_message('contactexists', 'notice', null, false);
