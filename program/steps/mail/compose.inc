@@ -1047,15 +1047,23 @@ function rcmail_remove_signature($body)
 
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
-  global $RCMAIL, $COMPOSE;
+  global $RCMAIL, $COMPOSE, $compose_mode;
 
   $cid_map = $messages = array();
   foreach ((array)$message->mime_parts as $pid => $part)
   {
-    if (($part->ctype_primary != 'message' || !$bodyIsHtml) && $part->ctype_primary != 'multipart' && 
-        ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename)
-        && $part->mimetype != 'application/ms-tnef'
-    ) {
+    if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
+      if ($part->ctype_primary == 'message' || $part->ctype_primary == 'multipart') {
+        continue;
+      }
+      if ($part->mimetype == 'application/ms-tnef') {
+        continue;
+      }
+      // skip inline images when forwarding in plain text
+      if ($part->content_id && !$bodyIsHtml && $compose_mode == RCUBE_COMPOSE_FORWARD) {
+        continue;
+      }
+
       $skip = false;
       if ($part->mimetype == 'message/rfc822') {
         $messages[] = $part->mime_id;
