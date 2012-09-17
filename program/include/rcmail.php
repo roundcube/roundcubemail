@@ -1774,10 +1774,7 @@ class rcmail extends rcube
         $err_code = $this->storage->get_error_code();
         $res_code = $this->storage->get_response_code();
 
-        if ($err_code < 0) {
-            $this->output->show_message('storageerror', 'error');
-        }
-        else if ($res_code == rcube_storage::NOPERM) {
+        if ($res_code == rcube_storage::NOPERM) {
             $this->output->show_message('errornoperm', 'error');
         }
         else if ($res_code == rcube_storage::READONLY) {
@@ -1791,6 +1788,9 @@ class rcmail extends rcube
             else {
                 $this->output->show_message('servererrormsg', 'error', array('msg' => $err_str));
             }
+        }
+        else if ($err_code < 0) {
+            $this->output->show_message('storageerror', 'error');
         }
         else if ($fallback) {
             $this->output->show_message($fallback, 'error', $fallback_args);

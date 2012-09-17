@@ -1,11 +1,11 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/save_folder.inc                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -170,7 +170,7 @@ else if (!$error) {
                     }
                     else if (preg_match($oldprefix, $key)) {
                         unset($a_threaded[$key]);
-  	                    $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = true;
+                        $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = true;
                     }
                 }
             }
@@ -183,7 +183,12 @@ else if (!$error) {
         }
 
         $OUTPUT->show_message('folderupdated', 'confirmation');
+
         if ($rename) {
+            // #1488692: update session
+            if ($_SESSION['mbox'] === $folder['oldname']) {
+                $_SESSION['mbox'] = $folder['name'];
+            }
             rcmail_update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
             $OUTPUT->send('iframe');
         }

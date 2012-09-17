@@ -85,6 +85,11 @@ else if ($RCMAIL->action == 'delete-folder')
         else {
             $deleted = $plugin['result'];
         }
+
+        // #1488692: update session
+        if ($deleted && $_SESSION['mbox'] === $mbox) {
+            $RCMAIL->session->remove('mbox');
+        }
     }
 
     if ($OUTPUT->ajax_call && $deleted) {
@@ -393,14 +398,19 @@ function rcmail_rename_folder($oldname, $newname)
         foreach ($a_threaded as $key => $val) {
             if ($key == $oldname) {
                 unset($a_threaded[$key]);
-    	        $a_threaded[$newname] = true;
+                $a_threaded[$newname] = true;
             }
             else if (preg_match($oldprefix, $key)) {
                 unset($a_threaded[$key]);
-	            $a_threaded[preg_replace($oldprefix, $newname.$delimiter, $key)] = true;
+                $a_threaded[preg_replace($oldprefix, $newname.$delimiter, $key)] = true;
             }
         }
         $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
+
+        // #1488692: update session
+        if ($_SESSION['mbox'] === $oldname) {
+            $_SESSION['mbox'] = $newname;
+        }
 
         return true;
     }

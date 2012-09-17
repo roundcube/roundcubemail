@@ -530,6 +530,7 @@ class rcube_imap_generic
                 }
                 else {
                     $authc = $user;
+                    $user  = '';
                 }
                 $auth_sasl = Auth_SASL::factory('digestmd5');
                 $reply = base64_encode($auth_sasl->getResponse($authc, $pass,
@@ -568,6 +569,7 @@ class rcube_imap_generic
             }
             else {
                 $authc = $user;
+                $user  = '';
             }
 
             $reply = base64_encode($user . chr(0) . $authc . chr(0) . $pass);
@@ -2400,15 +2402,22 @@ class rcube_imap_generic
             $mode = 0;
         }
 
+        // Use BINARY extension when possible (and safe)
+        $binary     = $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
+        $fetch_mode = $binary ? 'BINARY' : 'BODY';
+
         // format request
-        $reply_key = '* ' . $id;
         $key       = $this->nextTag();
-        $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id (BODY.PEEK[$part])";
+        $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part])";
 
         // send request
         if (!$this->putLine($request)) {
             $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
             return false;
+        }
+
+        if ($binary) {
+            $mode = -1;
         }
 
         // receive reply line
@@ -2455,13 +2464,13 @@ class rcube_imap_generic
             $prev     = '';
 
             while ($bytes > 0) {
-                $line = $this->readLine(4096);
+                $line = $this->readLine(8192);
 
                 if ($line === NULL) {
                     break;
                 }
 
-                $len  = strlen($line);
+                $len = strlen($line);
 
                 if ($len > $bytes) {
                     $line = substr($line, 0, $bytes);

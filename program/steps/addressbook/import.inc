@@ -189,32 +189,36 @@ if (is_array($_FILES['_file'])) {
         $IMPORT_STATS->names = array();
         $IMPORT_STATS->skipped_names = array();
         $IMPORT_STATS->count = count($vcards);
-        $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->nomail = $IMPORT_STATS->errors = 0;
+        $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->invalid = $IMPORT_STATS->errors = 0;
 
         if ($replace) {
             $CONTACTS->delete_all();
         }
 
         foreach ($vcards as $vcard) {
-            $email    = $vcard->email[0];
             $a_record = $vcard->get_assoc();
 
-            // skip entries without an e-mail address or invalid
-            if (empty($email) || !$CONTACTS->validate($a_record, true)) {
-                $IMPORT_STATS->nomail++;
+            // skip invalid (incomplete) entries
+            if (!$CONTACTS->validate($a_record, true)) {
+                $IMPORT_STATS->invalid++;
                 continue;
             }
 
             // We're using UTF8 internally
+            $email = $vcard->email[0];
             $email = rcube_idn_to_utf8($email);
 
-            if (!$replace && $email) {
+            if (!$replace) {
+                $existing = null;
                 // compare e-mail address
-                $existing = $CONTACTS->search('email', $email, 1, false);
-                if (!$existing->count && $vcard->displayname) {  // compare display name
+                if ($email) {
+                    $existing = $CONTACTS->search('email', $email, 1, false);
+                }
+                // compare display name if email not found
+                if ((!$existing || !$existing->count) && $vcard->displayname) {
                     $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
                 }
-                if ($existing->count) {
+                if ($existing && $existing->count) {
                     $IMPORT_STATS->skipped++;
                     $IMPORT_STATS->skipped_names[] = $vcard->displayname ? $vcard->displayname : $email;
                     continue;

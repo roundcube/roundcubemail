@@ -555,6 +555,7 @@ class rcube_vcard
           if ((list($key, $value) = explode('=', $attr)) && $value) {
             $value = trim($value);
             if ($key == 'ENCODING') {
+              $value = strtoupper($value);
               // add next line(s) to value string if QP line end detected
               if ($value == 'QUOTED-PRINTABLE') {
                 while (preg_match('/=$/', $lines[$i]))
