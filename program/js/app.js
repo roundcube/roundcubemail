@@ -6186,7 +6186,9 @@ function rcube_webmail()
   this.async_upload_form = function(form, action, onload)
   {
     var ts = new Date().getTime(),
-      frame_name = 'rcmupload'+ts;
+      frame_name = 'rcmupload'+ts,
+      url_params = { _id:this.env.compose_id||'', _uploadid:ts },
+      lighttpd_progressid = '';
 
     // upload progress support
     if (this.env.upload_progress_name) {
@@ -6198,7 +6200,18 @@ function rcube_webmail()
         field.prependTo(form);
       }
 
-      field.val(ts);
+      // lighttpd upload progress support, else APC
+      if (this.env.upload_progress_name == 'X-Progress-ID') {
+        for (i = 0; i < 32; i++) {
+          lighttpd_progressid += Math.floor(Math.random() * 16).toString(16);
+        }
+        url_params._uploadid = lighttpd_progressid;
+        $.extend(url_params, { 'X-Progress-ID':lighttpd_progressid });
+        frame_name = 'rcmupload'+lighttpd_progressid;
+        field.val(lighttpd_progressid);
+      }else{
+        field.val(ts);
+      }
     }
 
     // have to do it this way for IE
@@ -6222,7 +6235,7 @@ function rcube_webmail()
 
     $(form).attr({
         target: frame_name,
-        action: this.url(action, { _id:this.env.compose_id||'', _uploadid:ts }),
+        action: this.url(action, url_params),
         method: 'POST'})
       .attr(form.encoding ? 'encoding' : 'enctype', 'multipart/form-data')
       .submit();
@@ -6266,7 +6279,18 @@ function rcube_webmail()
     var submit_data = function() {
       var multiple = files.length > 1,
         ts = new Date().getTime(),
+        lighttpd_progressid = ''
+        upload_headers = { 'X-Roundcube-Request' : ref.env.request_token },
         content = '<span>' + (multiple ? ref.get_label('uploadingmany') : files[0].name) + '</span>';
+
+      // lighttpd upload progress support
+      if (ref.env.upload_progress_name && ref.env.upload_progress_name == 'X-Progress-ID') {
+        for (i = 0; i < 32; i++) {
+          lighttpd_progressid += Math.floor(Math.random() * 16).toString(16);
+        }
+        ts = lighttpd_progressid;
+        $.extend(upload_headers, { 'X-Progress-ID':lighttpd_progressid });
+      }
 
       // add to attachments list
       if (!ref.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false }))
@@ -6282,19 +6306,32 @@ function rcube_webmail()
         contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
         processData: false,
         data: formdata || multipart,
-        headers: {'X-Roundcube-Request': ref.env.request_token},
+        headers: upload_headers,
         beforeSend: function(xhr, s) { if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; },
         success: function(data){ ref.http_response(data); },
         error: function(o, status, err) { ref.http_error(o, status, err, null, 'attachment'); }
       });
+
+      // upload progress support
+      if (ref.env.upload_progress_time) {
+        ref.upload_progress_start('upload', ts);
+      }
     };
 
     // get contents of all dropped files
-    var last = this.env.filedrop.single ? 0 : files.length - 1;
+    var last = this.env.filedrop.single ? 0 : files.length - 1,
+      size = 0;
     for (var j=0, i=0, f; j <= last && (f = files[i]); i++) {
       if (!f.name) f.name = f.fileName;
       if (!f.size) f.size = f.fileSize;
       if (!f.type) f.type = 'application/octet-stream';
+
+      // check cumulative file size
+      size += f.size;
+      if (size && size > ref.env.max_filesize) {
+        this.display_message(this.env.filesizeerror, 'error');
+        return;
+      }
 
       // file name contains non-ASCII characters, do UTF8-binary string conversion.
       if (!formdata && /[^\x20-\x7E]/.test(f.name))

@@ -504,6 +504,13 @@ $rcmail_config['min_keep_alive'] = 60;
 // or any integer value indicating number of seconds.
 $rcmail_config['upload_progress'] = false;
 
+// Upload progress indicator requires APC with apc.rfc1867 enabled
+// or Lighttpd with mod_uploadprogress:
+//   http://redmine.lighttpd.net/projects/1/wiki/Docs_ModUploadProgress
+// To enable lighttpd upload progress, set this value to
+// your lighttpd's upload-progress.progress-url value.
+$rcmail_config['upload_progress_url_lighttpd'] = '';
+
 // Specifies for how many seconds the Undo button will be available
 // after object delete action. Currently used with supporting address book sources.
 // Setting it to 0, disables the feature.
