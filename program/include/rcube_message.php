@@ -494,8 +494,13 @@ class rcube_message
                     }
 
                     // list as attachment as well
-                    if (!empty($mail_part->filename))
+                    if (!empty($mail_part->filename)) {
                         $this->attachments[] = $mail_part;
+                    }
+                    // list html part as attachment (here the part is most likely inside a multipart/related part)
+                    else if ($this->parse_alternative && ($secondary_type == 'html' && !$this->opt['prefer_html'])) {
+                        $this->attachments[] = $mail_part;
+                    }
                 }
                 // part message/*
                 else if ($primary_type == 'message') {

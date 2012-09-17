@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- List related text/html part as attachment in plain text mode (#1488677)
 - Use IMAP BINARY (RFC3516) extension to fetch message/part bodies
 - Fix folder creation under public namespace root (#1488665)
 - Fix so "Edit as new" on draft creates a new message (#1488687)
