@@ -117,9 +117,6 @@ function rcmail_contact_editform($attrib)
 
     $record = rcmail_get_edit_record();
 
-    // add some labels to client
-    $RCMAIL->output->add_label('noemailwarning', 'nonamewarning');
-
     // copy (parsed) address template to client
     if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $RCMAIL->config->get('address_template', ''), $templ, PREG_SET_ORDER))
       $RCMAIL->output->set_env('address_template', $templ);
