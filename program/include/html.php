@@ -295,7 +295,7 @@ class html
                 }
             }
             else {
-                $attrib_arr[] = $key . '="' . self::quote($value, true) . '"';
+                $attrib_arr[] = $key . '="' . self::quote($value) . '"';
             }
         }
 
@@ -328,22 +328,13 @@ class html
     /**
      * Replacing specials characters in html attribute value
      *
-     * @param  string  $str       Input string
-     * @param  bool    $validate  Enables double quotation prevention
+     * @param string $str Input string
      *
-     * @return string  The quoted string
+     * @return string The quoted string
      */
-    public static function quote($str, $validate = false)
+    public static function quote($str)
     {
-        $str = htmlspecialchars($str, ENT_COMPAT, RCMAIL_CHARSET);
-
-        // avoid douple quotation of &
-        // @TODO: get rid of it
-        if ($validate) {
-            $str = preg_replace('/&amp;([A-Za-z]{2,6}|#[0-9]{2,4});/', '&\\1;', $str);
-        }
-
-        return $str;
+        return htmlspecialchars($str, ENT_COMPAT, RCMAIL_CHARSET);
     }
 }
 
@@ -559,7 +550,7 @@ class html_textarea extends html
         }
 
         if (!empty($value) && empty($this->attrib['is_escaped'])) {
-            $value = self::quote($value, true);
+            $value = self::quote($value);
         }
 
         return self::tag($this->tagname, $this->attrib, $value,
@@ -635,7 +626,7 @@ class html_select extends html
 
             $option_content = $option['text'];
             if (empty($this->attrib['is_escaped'])) {
-                $option_content = self::quote($option_content, true);
+                $option_content = self::quote($option_content);
             }
 
             $this->content .= self::tag('option', $attr, $option_content);
