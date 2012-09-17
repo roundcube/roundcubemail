@@ -221,6 +221,10 @@ class rcube_utils
         static $js_rep_table = false;
         static $xml_rep_table = false;
 
+        if (!is_string($str)) {
+            $str = strval($str);
+        }
+
         // encode for HTML output
         if ($enctype == 'html') {
             if (!$html_encode_arr) {
