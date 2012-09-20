@@ -1628,7 +1628,7 @@ class managesieve extends rcube_plugin
             $select_importance->add(Q($this->gettext($io_n)), $io_v);
         }
         $out .= '<br /><span class="label">' . Q($this->gettext('notifyimportance')) . '</span><br />';
-        $out .= $select_importance->show(array(intval($action['importance'])));
+        $out .= $select_importance->show($action['importance'] ? $action['importance'] : 2);
         $out .= '</div>';
 
         // mailbox select
