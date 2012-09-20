@@ -42,7 +42,7 @@ class rcube_sieve_script
         'body',                     // RFC5173
         'subaddress',               // RFC5233
         'enotify',                  // RFC5435
-        'notify',                   // draft-ietf-sieve-notify-04
+        'notify',                   // draft-ietf-sieve-notify-00
         // @TODO: spamtest+virustest, mailbox, date
     );
 
@@ -408,11 +408,25 @@ class rcube_sieve_script
                         array_push($exts, $notify);
                         $action_script .= 'notify';
 
+                        // Here we support only 00 version of notify draft, there
+                        // were a couple regressions in 00 to 04 changelog, we use
+                        // the version used by Cyrus
+                        if ($notify == 'notify') {
+                            switch ($action['importance']) {
+                                case 1: $action_script .= " :high"; break;
+                                case 2: $action_script .= " :normal"; break;
+                                case 3: $action_script .= " :low"; break;
+
+                            }
+                            unset($action['importance']);
+                        }
+
                         foreach (array('from', 'importance', 'options', 'message') as $n_tag) {
                             if (!empty($action[$n_tag])) {
                                 $action_script .= " :$n_tag " . self::escape_string($action[$n_tag]);
                             }
                         }
+
                         if (!empty($action['address'])) {
                             $method = 'mailto:' . $action['address'];
                             if (!empty($action['body'])) {
@@ -869,13 +883,22 @@ class rcube_sieve_script
 
             case 'notify':
                 $notify = array('type' => 'notify');
+                $priorities = array(':high' => 1, ':normal' => 2, ':low' => 3);
 
                 // Parameters: :from, :importance, :options, :message
                 //     additional (optional) :method parameter for notify extension
                 for ($i=0, $len=count($tokens); $i<$len; $i++) {
                     $tok = strtolower($tokens[$i]);
                     if ($tok[0] == ':') {
-                        $notify[substr($tok, 1)] = $tokens[++$i];
+                        // Here we support only 00 version of notify draft, there
+                        // were a couple regressions in 00 to 04 changelog, we use
+                        // the version used by Cyrus
+                        if (isset($priorities[$tok])) {
+                            $notify['importance'] = $priorities[$tok];
+                        }
+                        else {
+                            $notify[substr($tok, 1)] = $tokens[++$i];
+                        }
                     }
                     else {
                         // unnamed parameter is a :method in enotify extension
@@ -891,7 +914,7 @@ class rcube_sieve_script
                         parse_str($method_components['query'], $method_params);
                     }
                     $method_params = array_change_key_case($method_params, CASE_LOWER);
-                    /* magic_quotes_gpc and magic_quotes_sybase affect the output of parse_str */
+                    // magic_quotes_gpc and magic_quotes_sybase affect the output of parse_str
                     if (ini_get('magic_quotes_gpc') || ini_get('magic_quotes_sybase')) {
                         array_map('stripslashes', $method_params);
                     }
