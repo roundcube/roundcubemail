@@ -219,12 +219,13 @@ function rcmail_directory_list($attrib)
         if ($source['class_name'])
             $class_name .= ' ' . $source['class_name'];
 
+        $name = !empty($source['name']) ? html_entity_decode($source['name'], ENT_COMPAT, 'UTF-8') : $id;
         $out .= sprintf($line_templ,
             html_identifier($id),
             $class_name,
             Q(rcmail_url(null, array('_source' => $id))),
             $source['id'],
-            $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
+            $js_id, Q($name));
 
         $groupdata = array('out' => $out, 'jsdata' => $jsdata, 'source' => $id);
         if ($source['groups'])

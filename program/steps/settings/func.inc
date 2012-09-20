@@ -667,7 +667,7 @@ function rcmail_user_prefs($current=null)
       $select_abook = new html_select(array('name' => '_default_addressbook', 'id' => $field_id));
 
       foreach ($books as $book) {
-        $select_abook->add($book['name'], $book['id']);
+        $select_abook->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
       }
 
       $blocks['main']['options']['default_addressbook'] = array(
