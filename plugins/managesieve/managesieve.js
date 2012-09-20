@@ -639,7 +639,8 @@ function action_type_select(id)
       target_area: document.getElementById('action_target_area' + id),
       flags: document.getElementById('action_flags' + id),
       vacation: document.getElementById('action_vacation' + id),
-      set: document.getElementById('action_set' + id)
+      set: document.getElementById('action_set' + id),
+      notify: document.getElementById('action_notify' + id)
     };
 
   if (obj.value == 'fileinto' || obj.value == 'fileinto_copy') {
@@ -659,6 +660,9 @@ function action_type_select(id)
   }
   else if (obj.value == 'set') {
     enabled.set = 1;
+  }
+  else if (obj.value == 'notify') {
+    enabled.notify = 1;
   }
 
   for (var x in elems) {
