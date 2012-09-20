@@ -1501,7 +1501,7 @@ class managesieve extends rcube_plugin
         if (in_array('variables', $this->exts)) {
             $select_action->add(Q($this->gettext('setvariable')), 'set');
         }
-        if (in_array('enotify', $this->exts)) {
+        if (in_array('enotify', $this->exts) || in_array('notify', $this->exts)) {
             $select_action->add(Q($this->gettext('notify')), 'notify');
         }
         $select_action->add(Q($this->gettext('rulestop')), 'stop');
