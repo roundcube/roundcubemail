@@ -1,4 +1,5 @@
 - Fixed issue with DBMail bug [http://pear.php.net/bugs/bug.php?id=19077] (#1488594)
+- Added support for enotify/notify (RFC5435, RFC5436, draft-ietf-sieve-notify-04)
 
 * version 5.2 [2012-07-24]
 -----------------------------------------------------------

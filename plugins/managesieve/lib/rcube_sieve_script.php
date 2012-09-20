@@ -41,7 +41,9 @@ class rcube_sieve_script
         'variables',                // RFC5229
         'body',                     // RFC5173
         'subaddress',               // RFC5233
-        // @TODO: enotify/notify, spamtest+virustest, mailbox, date
+        'enotify',                  // RFC5435
+        'notify',                   // draft-ietf-sieve-notify-04
+        // @TODO: spamtest+virustest, mailbox, date
     );
 
     /**
@@ -197,6 +199,9 @@ class rcube_sieve_script
                 }
             }
         }
+
+        $imapflags = in_array('imap4flags', $this->supported) ? 'imap4flags' : 'imapflags';
+        $notify    = in_array('enotify', $this->supported) ? 'enotify' : 'notify';
 
         // rules
         foreach ($this->content as $rule) {
@@ -370,11 +375,7 @@ class rcube_sieve_script
                     case 'addflag':
                     case 'setflag':
                     case 'removeflag':
-                        if (in_array('imap4flags', $this->supported))
-                            array_push($exts, 'imap4flags');
-                        else
-                            array_push($exts, 'imapflags');
-
+                        array_push($exts, $imapflags);
                         $action_script .= $action['type'].' '
                             . self::escape_string($action['target']);
                         break;
@@ -404,8 +405,9 @@ class rcube_sieve_script
                         break;
 
                     case 'notify':
-                        array_push($exts, 'enotify');
+                        array_push($exts, $notify);
                         $action_script .= 'notify';
+
                         foreach (array('from', 'importance', 'options', 'message') as $n_tag) {
                             if (!empty($action[$n_tag])) {
                                 $action_script .= " :$n_tag " . self::escape_string($action[$n_tag]);
@@ -420,7 +422,12 @@ class rcube_sieve_script
                         else {
                             $method = $action['method'];
                         }
-                        $action_script .= " " . self::escape_string($method);
+
+                        // method is optional in notify extension
+                        if (!empty($method)) {
+                            $action_script .= ($notify == 'notify' ? " :method " : " ") . self::escape_string($method);
+                        }
+
                         break;
 
                     case 'vacation':
@@ -861,15 +868,21 @@ class rcube_sieve_script
                 break;
 
             case 'notify':
-                $notify = array('type' => 'notify', 'method' => array_pop($tokens));
+                $notify = array('type' => 'notify');
 
                 // Parameters: :from, :importance, :options, :message
+                //     additional (optional) :method parameter for notify extension
                 for ($i=0, $len=count($tokens); $i<$len; $i++) {
                     $tok = strtolower($tokens[$i]);
                     if ($tok[0] == ':') {
-                        $notify[substr($tok, 1)] = $tokens[$i+1];
+                        $notify[substr($tok, 1)] = $tokens[++$i];
+                    }
+                    else {
+                        // unnamed parameter is a :method in enotify extension
+                        $notify['method'] = $tokens[$i];
                     }
                 }
+
                 $method_components = parse_url($notify['method']);
                 if ($method_components['scheme'] == 'mailto') {
                     $notify['address'] = $method_components['path'];
