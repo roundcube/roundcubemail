@@ -7,13 +7,13 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 5.0
+ * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist)
  *
- * Copyright (C) 2008-2011, The Roundcube Dev Team
- * Copyright (C) 2011, Kolab Systems AG
+ * Copyright (C) 2008-2012, The Roundcube Dev Team
+ * Copyright (C) 2011-2012, Kolab Systems AG
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -62,8 +62,9 @@ class managesieve extends rcube_plugin
         "x-beenthere",
     );
 
-    const VERSION = '5.2';
+    const VERSION  = '5.2';
     const PROGNAME = 'Roundcube (Managesieve)';
+    const PORT     = 4190;
 
 
     function init()
@@ -200,9 +201,15 @@ class managesieve extends rcube_plugin
         set_include_path($include_path);
 
         $host = rcube_parse_host($this->rc->config->get('managesieve_host', 'localhost'));
-        $port = $this->rc->config->get('managesieve_port', 2000);
-
         $host = rcube_idn_to_ascii($host);
+
+        $port = $this->rc->config->get('managesieve_port');
+        if (empty($port)) {
+            $port = getservbyname('sieve', 'tcp');
+            if (empty($port)) {
+                $port = self::PORT;
+            }
+        }
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', array(
             'user'      => $_SESSION['username'],
