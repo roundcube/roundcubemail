@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix HTML special characters handling in message list/header display (#1488523)
 - List related text/html part as attachment in plain text mode (#1488677)
 - Use IMAP BINARY (RFC3516) extension to fetch message/part bodies
 - Fix folder creation under public namespace root (#1488665)
