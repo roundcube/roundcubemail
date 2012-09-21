@@ -43,7 +43,7 @@ function rcmail_import_form($attrib)
 
   // addressbook selector
   if (count($writable_books) > 1) {
-    $select = new html_select(array('name' => '_target', 'id' => 'rcmimporttarget'));
+    $select = new html_select(array('name' => '_target', 'id' => 'rcmimporttarget', 'is_escaped' => true));
 
     foreach ($writable_books as $book)
         $select->add($book['name'], $book['id']);

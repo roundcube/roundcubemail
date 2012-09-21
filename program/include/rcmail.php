@@ -281,7 +281,7 @@ class rcmail extends rcube
         }
         $list[$id] = array(
           'id'       => $id,
-          'name'     => $prop['name'],
+          'name'     => html::quote($prop['name']),
           'groups'   => is_array($prop['groups']),
           'readonly' => !$prop['writable'],
           'hidden'   => $prop['hidden'],

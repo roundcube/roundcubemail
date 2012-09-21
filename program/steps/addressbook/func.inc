@@ -178,7 +178,7 @@ function rcmail_set_sourcename($abook)
         if (!$name && $source == 0) {
             $name = rcube_label('personaladrbook');
         }
-        $OUTPUT->set_env('sourcename', $name);
+        $OUTPUT->set_env('sourcename', html_entity_decode($name, ENT_COMPAT, 'UTF-8'));
     }
 }
 
@@ -219,13 +219,13 @@ function rcmail_directory_list($attrib)
         if ($source['class_name'])
             $class_name .= ' ' . $source['class_name'];
 
-        $name = !empty($source['name']) ? html_entity_decode($source['name'], ENT_COMPAT, 'UTF-8') : $id;
+        $name = !empty($source['name']) ? $source['name'] : $id;
         $out .= sprintf($line_templ,
             html_identifier($id),
             $class_name,
             Q(rcmail_url(null, array('_source' => $id))),
             $source['id'],
-            $js_id, Q($name));
+            $js_id, $name);
 
         $groupdata = array('out' => $out, 'jsdata' => $jsdata, 'source' => $id);
         if ($source['groups'])
