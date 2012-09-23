@@ -250,9 +250,6 @@ class rcube_utils
 
             $out = strtr($str, $encode_arr);
 
-            // avoid douple quotation of &
-            $out = preg_replace('/&amp;([A-Za-z]{2,6}|#[0-9]{2,4});/', '&\\1;', $out);
-
             return $newlines ? nl2br($out) : $out;
         }
 

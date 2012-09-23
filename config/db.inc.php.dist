@@ -58,7 +58,6 @@ $rcmail_config['db_sequence_users'] = 'user_ids';
 $rcmail_config['db_sequence_identities'] = 'identity_ids';
 $rcmail_config['db_sequence_contacts'] = 'contact_ids';
 $rcmail_config['db_sequence_contactgroups'] = 'contactgroups_ids';
-$rcmail_config['db_sequence_cache'] = 'cache_ids';
 $rcmail_config['db_sequence_searches'] = 'search_ids';
 
 

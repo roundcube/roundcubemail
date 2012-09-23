@@ -7,13 +7,13 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version 5.0
+ * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist)
  *
- * Copyright (C) 2008-2011, The Roundcube Dev Team
- * Copyright (C) 2011, Kolab Systems AG
+ * Copyright (C) 2008-2012, The Roundcube Dev Team
+ * Copyright (C) 2011-2012, Kolab Systems AG
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -62,8 +62,9 @@ class managesieve extends rcube_plugin
         "x-beenthere",
     );
 
-    const VERSION = '5.2';
+    const VERSION  = '5.2';
     const PROGNAME = 'Roundcube (Managesieve)';
+    const PORT     = 4190;
 
 
     function init()
@@ -200,9 +201,15 @@ class managesieve extends rcube_plugin
         set_include_path($include_path);
 
         $host = rcube_parse_host($this->rc->config->get('managesieve_host', 'localhost'));
-        $port = $this->rc->config->get('managesieve_port', 2000);
-
         $host = rcube_idn_to_ascii($host);
+
+        $port = $this->rc->config->get('managesieve_port');
+        if (empty($port)) {
+            $port = getservbyname('sieve', 'tcp');
+            if (empty($port)) {
+                $port = self::PORT;
+            }
+        }
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', array(
             'user'      => $_SESSION['username'],
@@ -625,6 +632,11 @@ class managesieve extends rcube_plugin
             $varnames       = get_input_value('_action_varname', RCUBE_INPUT_POST);
             $varvalues      = get_input_value('_action_varvalue', RCUBE_INPUT_POST);
             $varmods        = get_input_value('_action_varmods', RCUBE_INPUT_POST);
+            $notifyaddrs    = get_input_value('_action_notifyaddress', RCUBE_INPUT_POST);
+            $notifybodies   = get_input_value('_action_notifybody', RCUBE_INPUT_POST);
+            $notifymessages = get_input_value('_action_notifymessage', RCUBE_INPUT_POST);
+            $notifyfrom     = get_input_value('_action_notifyfrom', RCUBE_INPUT_POST);
+            $notifyimp      = get_input_value('_action_notifyimportance', RCUBE_INPUT_POST);
 
             // we need a "hack" for radiobuttons
             foreach ($sizeitems as $item)
@@ -877,6 +889,23 @@ class managesieve extends rcube_plugin
                     if (!isset($varvalues[$idx]) || $varvalues[$idx] === '') {
                         $this->errors['actions'][$i]['value'] = $this->gettext('cannotbeempty');
                     }
+                    break;
+
+                case 'notify':
+                    if (empty($notifyaddrs[$idx])) {
+                        $this->errors['actions'][$i]['address'] = $this->gettext('cannotbeempty');
+                    }
+                    else if (!check_email($notifyaddrs[$idx])) {
+                        $this->errors['actions'][$i]['address'] = $this->gettext('noemailwarning');
+                    }
+                    if (!empty($notifyfrom[$idx]) && !check_email($notifyfrom[$idx])) {
+                        $this->errors['actions'][$i]['from'] = $this->gettext('noemailwarning');
+                    }
+                    $this->form['actions'][$i]['address'] = $notifyaddrs[$idx];
+                    $this->form['actions'][$i]['body'] = $notifybodies[$idx];
+                    $this->form['actions'][$i]['message'] = $notifymessages[$idx];
+                    $this->form['actions'][$i]['from'] = $notifyfrom[$idx];
+                    $this->form['actions'][$i]['importance'] = $notifyimp[$idx];
                     break;
                 }
 
@@ -1479,6 +1508,9 @@ class managesieve extends rcube_plugin
         if (in_array('variables', $this->exts)) {
             $select_action->add(Q($this->gettext('setvariable')), 'set');
         }
+        if (in_array('enotify', $this->exts) || in_array('notify', $this->exts)) {
+            $select_action->add(Q($this->gettext('notify')), 'notify');
+        }
         $select_action->add(Q($this->gettext('rulestop')), 'stop');
 
         $select_type = $action['type'];
@@ -1569,6 +1601,41 @@ class managesieve extends rcube_plugin
                 (array_key_exists($s_m, (array)$action) && $action[$s_m] ? ' checked="checked"' : ''),
                 Q($this->gettext('var' . $s_m)));
         }
+        $out .= '</div>';
+
+        // notify
+        // skip :options tag - not used by the mailto method
+        $out .= '<div id="action_notify' .$id.'" style="display:' .($action['type']=='notify' ? 'inline' : 'none') .'">';
+        $out .= '<span class="label">' .Q($this->gettext('notifyaddress')) . '</span><br />'
+            .'<input type="text" name="_action_notifyaddress['.$id.']" id="action_notifyaddress'.$id.'" '
+            .'value="' . Q($action['address']) . '" size="35" '
+            . $this->error_class($id, 'action', 'address', 'action_notifyaddress') .' />';
+        $out .= '<br /><span class="label">'. Q($this->gettext('notifybody')) .'</span><br />'
+            .'<textarea name="_action_notifybody['.$id.']" id="action_notifybody' .$id. '" '
+            .'rows="3" cols="35" '. $this->error_class($id, 'action', 'method', 'action_notifybody') . '>'
+            . Q($action['body'], 'strict', false) . "</textarea>\n";
+        $out .= '<br /><span class="label">' .Q($this->gettext('notifysubject')) . '</span><br />'
+            .'<input type="text" name="_action_notifymessage['.$id.']" id="action_notifymessage'.$id.'" '
+            .'value="' . Q($action['message']) . '" size="35" '
+            . $this->error_class($id, 'action', 'message', 'action_notifymessage') .' />';
+        $out .= '<br /><span class="label">' .Q($this->gettext('notifyfrom')) . '</span><br />'
+            .'<input type="text" name="_action_notifyfrom['.$id.']" id="action_notifyfrom'.$id.'" '
+            .'value="' . Q($action['from']) . '" size="35" '
+            . $this->error_class($id, 'action', 'from', 'action_notifyfrom') .' />';
+        $importance_options = array(
+            3 => 'notifyimportancelow',
+            2 => 'notifyimportancenormal',
+            1 => 'notifyimportancehigh'
+        );
+        $select_importance = new html_select(array(
+            'name' => '_action_notifyimportance[' . $id . ']',
+            'id' => '_action_notifyimportance' . $id,
+            'class' => $this->error_class($id, 'action', 'importance', 'action_notifyimportance')));
+        foreach ($importance_options as $io_v => $io_n) {
+            $select_importance->add(Q($this->gettext($io_n)), $io_v);
+        }
+        $out .= '<br /><span class="label">' . Q($this->gettext('notifyimportance')) . '</span><br />';
+        $out .= $select_importance->show($action['importance'] ? $action['importance'] : 2);
         $out .= '</div>';
 
         // mailbox select
