@@ -530,9 +530,37 @@ class managesieve extends rcube_plugin
         // Init plugin and handle managesieve connection
         $error = $this->managesieve_start();
 
-        // filters set add action
-        if (!empty($_POST['_newset'])) {
+        // get request size limits (#1488648)
+        $max_post = max(array(
+            ini_get('max_input_vars'),
+            ini_get('suhosin.request.max_vars'),
+            ini_get('suhosin.post.max_vars'),
+        ));
+        $max_depth = max(array(
+            ini_get('suhosin.request.max_array_depth'),
+            ini_get('suhosin.post.max_array_depth'),
+        ));
 
+        // check request size limit
+        if ($max_post && count($_POST, COUNT_RECURSIVE) >= $max_post) {
+            rcube::raise_error(array(
+                'code' => 500, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Request size limit exceeded (one of max_input_vars/suhosin.request.max_vars/suhosin.post.max_vars)"
+                ), true, false);
+            $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
+        }
+        // check request depth limits
+        else if ($max_depth && count($_POST['_header']) > $max_depth) {
+            rcube::raise_error(array(
+                'code' => 500, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Request size limit exceeded (one of suhosin.request.max_array_depth/suhosin.post.max_array_depth)"
+                ), true, false);
+            $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
+        }
+        // filters set add action
+        else if (!empty($_POST['_newset'])) {
             $name       = get_input_value('_name', RCUBE_INPUT_POST, true);
             $copy       = get_input_value('_copy', RCUBE_INPUT_POST, true);
             $from       = get_input_value('_from', RCUBE_INPUT_POST);
