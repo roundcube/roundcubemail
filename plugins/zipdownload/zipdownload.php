@@ -22,7 +22,7 @@ class zipdownload extends rcube_plugin
 	{
 		// check requirements first
 		if (!class_exists('ZipArchive', false)) {
-			rcube::raise_error(array(
+			rcmail::raise_error(array(
 				'code' => 520, 'type' => 'php',
 				'file' => __FILE__, 'line' => __LINE__,
 				'message' => "php_zip extension is required for the zipdownload plugin"), true, false);
@@ -70,7 +70,7 @@ class zipdownload extends rcube_plugin
 			);
 
 			// append link to attachments list, slightly different in some skins
-			switch (rcube::get_instance()->config->get('skin')) {
+			switch (rcmail::get_instance()->config->get('skin')) {
 				case 'classic':
 					$p['content'] = str_replace('</ul>', html::tag('li', array('class' => 'zipdownload'), $link) . '</ul>', $p['content']);
 					break;
