@@ -104,7 +104,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
 
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
-      'movingmessage', 'deletingmessage');
+      'movingmessage', 'deletingmessage', 'markingmessage');
 
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to

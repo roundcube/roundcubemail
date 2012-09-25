@@ -2447,7 +2447,7 @@ function rcube_webmail()
   // set message row status, class and icon
   this.set_message = function(uid, flag, status)
   {
-    var row = this.message_list.rows[uid];
+    var row = this.message_list && this.message_list.rows[uid];
 
     if (!row)
       return false;
