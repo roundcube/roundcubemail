@@ -12,9 +12,7 @@
 <roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="printmessage" />
 <roundcube:endif />
 <roundcube:container name="toolbar" id="mailtoolbar" />
-<roundcube:if condition="template:name == 'mail'" />
 <roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="button markmessage" label="mark" title="markmessages" onclick="UI.show_popup('markmessagemenu');return false" />
-<roundcube:endif />
 <roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button more" label="more" title="moreactions" onclick="UI.show_popup('messagemenu');return false" />
 
 <div id="forwardmenu" class="popupmenu">
@@ -44,7 +42,6 @@
   </ul>
 </div>
 
-<roundcube:if condition="template:name == 'mail'" />
 <div id="markmessagemenu" class="popupmenu">
   <ul class="toolbarmenu iconized">
 	<li><roundcube:button command="mark" prop="read" label="markread" classAct="icon active" class="icon" innerclass="icon read" /></li>
@@ -54,4 +51,3 @@
 	<roundcube:container name="markmenu" id="markmessagemenu" />
   </ul>
 </div>
-<roundcube:endif />
