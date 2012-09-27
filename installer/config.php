@@ -270,7 +270,7 @@ echo $input_syslogfacility->show($RCI->getprop('syslog_facility'), LOG_USER);
 $select_dbtype = new html_select(array('name' => '_dbtype', 'id' => "cfgdbtype"));
 foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
-        $select_dbtype->add($database, $ext);
+        $select_dbtype->add($database, substr($ext, 4));
     }
 }
 
