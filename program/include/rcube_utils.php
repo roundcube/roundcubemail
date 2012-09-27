@@ -250,9 +250,6 @@ class rcube_utils
 
             $out = strtr($str, $encode_arr);
 
-            // avoid douple quotation of &
-            $out = preg_replace('/&amp;([A-Za-z]{2,6}|#[0-9]{2,4});/', '&\\1;', $out);
-
             return $newlines ? nl2br($out) : $out;
         }
 
@@ -682,7 +679,7 @@ class rcube_utils
         // %s - domain name after the '@' from e-mail address provided at login screen. Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {
             $user_email = self::get_input_value('_user', self::INPUT_POST);
-            $user_email = rcube_utils::idn_convert($user_email, true);
+            $user_email = self::idn_convert($user_email, true);
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
             if ($matches < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false) {
                 return false;

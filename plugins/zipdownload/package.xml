@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+		http://pear.php.net/dtd/tasks-1.0.xsd
+		http://pear.php.net/dtd/package-2.0
+		http://pear.php.net/dtd/package-2.0.xsd">
+	<name>zipdownload</name>
+	<channel>pear.roundcube.net</channel>
+	<summary>Download multiple attachments or messages in one zip file</summary>
+	<description>Adds an option to download all attachments to a message in one zip file, when a message has multiple attachments. Also allows the download of a selection of messages in one zip file and the download of entire folders.</description>
+	<lead>
+		<name>Philip Weir</name>
+		<user>JohnDoh</user>
+		<email>roundcube@tehinterweb.co.uk</email>
+		<active>no</active>
+	</lead>
+	<lead>
+		<name>Thomas Bruederli</name>
+		<user>bruederli</user>
+		<email>roundcube@gmail.com</email>
+		<active>yes</active>
+	</lead>
+	<date>2012-09-20</date>
+	<time>19:16:00</time>
+	<version>
+		<release>2.0</release>
+		<api>2.0</api>
+	</version>
+	<stability>
+		<release>stable</release>
+		<api>stable</api>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
+	<notes>Repo only</notes>
+	<contents>
+		<dir baseinstalldir="/" name="/">
+			<file name="zipdownload.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="zipdownload.js" role="data">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="config.inc.php.dist" role="data"/>
+			<file name="CHANGELOG" role="data"/>
+			<file name="README" role="data"/>
+			<file name="localization/ca_ES.inc" role="data"/>
+			<file name="localization/cs_CZ.inc" role="data"/>
+			<file name="localization/da_DK.inc" role="data"/>
+			<file name="localization/de_CH.inc" role="data"/>
+			<file name="localization/de_DE.inc" role="data"/>
+			<file name="localization/en_GB.inc" role="data"/>
+			<file name="localization/en_US.inc" role="data"/>
+			<file name="localization/es_AR.inc" role="data"/>
+			<file name="localization/es_ES.inc" role="data"/>
+			<file name="localization/et_EE.inc" role="data"/>
+			<file name="localization/fr_FR.inc" role="data"/>
+			<file name="localization/gl_ES.inc" role="data"/>
+			<file name="localization/hu_HU.inc" role="data"/>
+			<file name="localization/it_IT.inc" role="data"/>
+			<file name="localization/nl_NL.inc" role="data"/>
+			<file name="localization/pl_PL.inc" role="data"/>
+			<file name="localization/pt_BR.inc" role="data"/>
+			<file name="localization/ro_RO.inc" role="data"/>
+			<file name="localization/ru_RU.inc" role="data"/>
+			<file name="localization/tr_TR.inc" role="data"/>
+			<file name="skins/classic/zip.png" role="data"/>
+			<file name="skins/classic/zipdownload.css" role="data"/>
+			<file name="skins/larry/zipdownload.css" role="data"/>
+		</dir>
+		<!-- / -->
+	</contents>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.2.1</min>
+			</php>
+			<pearinstaller>
+				<min>1.7.0</min>
+			</pearinstaller>
+			<extension>
+				<name>zip</name>
+				<channel>pecl.php.net</channel>
+				<providesextension>zip</providesextension>
+			</extension>
+		</required>
+	</dependencies>
+	<phprelease/>
+</package>

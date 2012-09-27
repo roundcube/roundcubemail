@@ -244,11 +244,12 @@ function rcmail_source_selector($attrib)
     if (count($sources_list) < 2) {
         $source = $sources_list[$SOURCE_ID];
         $hiddenfield = new html_hiddenfield(array('name' => '_source', 'value' => $SOURCE_ID));
-        return html::span($attrib, Q($source['name']) . $hiddenfield->show());
+        return html::span($attrib, $source['name'] . $hiddenfield->show());
     }
 
-    $attrib['name'] = '_source';
-    $attrib['onchange'] = JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
+    $attrib['name']       = '_source';
+    $attrib['is_escaped'] = true;
+    $attrib['onchange']   = JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
 
     $select = new html_select($attrib);
 

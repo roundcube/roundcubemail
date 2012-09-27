@@ -1,4 +1,7 @@
 - Fixed issue with DBMail bug [http://pear.php.net/bugs/bug.php?id=19077] (#1488594)
+- Added support for enotify/notify (RFC5435, RFC5436, draft-ietf-sieve-notify-00)
+- Change default port to 4190 (IANA-allocated), add port auto-detection (#1488713)
+- Added request size limits detection and script corruption prevention (#1488648)
 
 * version 5.2 [2012-07-24]
 -----------------------------------------------------------

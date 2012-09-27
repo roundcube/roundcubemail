@@ -145,6 +145,7 @@ class html2text
     var $search = array(
         "/\r/",                                  // Non-legal carriage return
         "/[\n\t]+/",                             // Newlines and tabs
+        '/<head[^>]*>.*?<\/head>/i',             // <head>
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
         '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
         '/<p[^>]*>/i',                           // <P>
@@ -172,6 +173,7 @@ class html2text
     var $replace = array(
         '',                                     // Non-legal carriage return
         ' ',                                    // Newlines and tabs
+        '',                                     // <head>
         '',                                     // <script>s -- which strip_tags supposedly has problems with
         '',                                     // <style>s -- which strip_tags supposedly has problems with
         "\n\n",                                 // <P>

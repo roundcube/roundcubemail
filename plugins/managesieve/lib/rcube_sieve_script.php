@@ -41,7 +41,9 @@ class rcube_sieve_script
         'variables',                // RFC5229
         'body',                     // RFC5173
         'subaddress',               // RFC5233
-        // @TODO: enotify/notify, spamtest+virustest, mailbox, date
+        'enotify',                  // RFC5435
+        'notify',                   // draft-ietf-sieve-notify-00
+        // @TODO: spamtest+virustest, mailbox, date
     );
 
     /**
@@ -197,6 +199,9 @@ class rcube_sieve_script
                 }
             }
         }
+
+        $imapflags = in_array('imap4flags', $this->supported) ? 'imap4flags' : 'imapflags';
+        $notify    = in_array('enotify', $this->supported) ? 'enotify' : 'notify';
 
         // rules
         foreach ($this->content as $rule) {
@@ -370,11 +375,7 @@ class rcube_sieve_script
                     case 'addflag':
                     case 'setflag':
                     case 'removeflag':
-                        if (in_array('imap4flags', $this->supported))
-                            array_push($exts, 'imap4flags');
-                        else
-                            array_push($exts, 'imapflags');
-
+                        array_push($exts, $imapflags);
                         $action_script .= $action['type'].' '
                             . self::escape_string($action['target']);
                         break;
@@ -401,6 +402,46 @@ class rcube_sieve_script
                             $action_script .= ":$opt ";
                         }
                         $action_script .= self::escape_string($action['name']) . ' ' . self::escape_string($action['value']);
+                        break;
+
+                    case 'notify':
+                        array_push($exts, $notify);
+                        $action_script .= 'notify';
+
+                        // Here we support only 00 version of notify draft, there
+                        // were a couple regressions in 00 to 04 changelog, we use
+                        // the version used by Cyrus
+                        if ($notify == 'notify') {
+                            switch ($action['importance']) {
+                                case 1: $action_script .= " :high"; break;
+                                case 2: $action_script .= " :normal"; break;
+                                case 3: $action_script .= " :low"; break;
+
+                            }
+                            unset($action['importance']);
+                        }
+
+                        foreach (array('from', 'importance', 'options', 'message') as $n_tag) {
+                            if (!empty($action[$n_tag])) {
+                                $action_script .= " :$n_tag " . self::escape_string($action[$n_tag]);
+                            }
+                        }
+
+                        if (!empty($action['address'])) {
+                            $method = 'mailto:' . $action['address'];
+                            if (!empty($action['body'])) {
+                                $method .= '?body=' . rawurlencode($action['body']);
+                            }
+                        }
+                        else {
+                            $method = $action['method'];
+                        }
+
+                        // method is optional in notify extension
+                        if (!empty($method)) {
+                            $action_script .= ($notify == 'notify' ? " :method " : " ") . self::escape_string($method);
+                        }
+
                         break;
 
                     case 'vacation':
@@ -838,6 +879,49 @@ class rcube_sieve_script
             case 'require':
                 // skip, will be build according to used commands
                 // $result[] = array('type' => 'require', 'target' => $tokens);
+                break;
+
+            case 'notify':
+                $notify = array('type' => 'notify');
+                $priorities = array(':high' => 1, ':normal' => 2, ':low' => 3);
+
+                // Parameters: :from, :importance, :options, :message
+                //     additional (optional) :method parameter for notify extension
+                for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    $tok = strtolower($tokens[$i]);
+                    if ($tok[0] == ':') {
+                        // Here we support only 00 version of notify draft, there
+                        // were a couple regressions in 00 to 04 changelog, we use
+                        // the version used by Cyrus
+                        if (isset($priorities[$tok])) {
+                            $notify['importance'] = $priorities[$tok];
+                        }
+                        else {
+                            $notify[substr($tok, 1)] = $tokens[++$i];
+                        }
+                    }
+                    else {
+                        // unnamed parameter is a :method in enotify extension
+                        $notify['method'] = $tokens[$i];
+                    }
+                }
+
+                $method_components = parse_url($notify['method']);
+                if ($method_components['scheme'] == 'mailto') {
+                    $notify['address'] = $method_components['path'];
+                    $method_params = array();
+                    if (array_key_exists('query', $method_components)) {
+                        parse_str($method_components['query'], $method_params);
+                    }
+                    $method_params = array_change_key_case($method_params, CASE_LOWER);
+                    // magic_quotes_gpc and magic_quotes_sybase affect the output of parse_str
+                    if (ini_get('magic_quotes_gpc') || ini_get('magic_quotes_sybase')) {
+                        array_map('stripslashes', $method_params);
+                    }
+                    $notify['body'] = (array_key_exists('body', $method_params)) ? $method_params['body'] : '';
+                }
+
+                $result[] = $notify;
                 break;
 
             }

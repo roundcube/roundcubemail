@@ -527,7 +527,7 @@ class rcube_output_html extends rcube_output
     {
         $GLOBALS['__version']   = html::quote(RCMAIL_VERSION);
         $GLOBALS['__comm_path'] = html::quote($this->app->comm_path);
-        $GLOBALS['__skin_path'] = Q($this->config->get('skin_path'));
+        $GLOBALS['__skin_path'] = html::quote($this->config->get('skin_path'));
 
         return preg_replace_callback('/\$(__[a-z0-9_\-]+)/',
             array($this, 'globals_callback'), $input);
