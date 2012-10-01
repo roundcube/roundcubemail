@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add full headers view in message preview window (#1488538)
+- Fix message display page issues (#1488590, #1488642)
 - Fix handling vCard entries with TEL;TYPE=CELL (#1488728)
 - Fix error where session wasn't updated after folder rename/delete (#1488692)
 - Fix PLAIN authentication for some IMAP servers (#1488674)

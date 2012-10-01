@@ -10,20 +10,23 @@
 <h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
 
 <a href="#details" id="previewheaderstoggle"><span class="iconlink"></span></a>
+<div id="contactphoto"><roundcube:object name="contactphoto" /></div>
 
 <table class="headers-table" id="preview-shortheaders"><tbody><tr>
 <roundcube:if condition="env:mailbox == config:drafts_mbox || env:mailbox == config:sent_mbox">
 	<td class="header-title"><roundcube:label name="to" /></td>
-	<td class="header from"><roundcube:object name="messageHeaders" valueOf="to" addicon="/images/addcontact.png" /></td>
+	<td class="header from"><roundcube:object name="messageHeaders" valueOf="to" max="3" addicon="/images/addcontact.png" /></td>
 <roundcube:else />
 	<td class="header-title"><roundcube:label name="from" /></td>
 	<td class="header from"><roundcube:object name="messageHeaders" valueOf="from" addicon="/images/addcontact.png" /></td>
 <roundcube:endif />
 	<td class="header-title"><roundcube:label name="date" /></td>
-	<td class="header from"><roundcube:object name="messageHeaders" valueOf="date" /></td>
+	<td class="header date"><span><roundcube:object name="messageHeaders" valueOf="date" /></span></td>
 </tr></tbody></table>
 
 <roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject,replyto" />
+
+<roundcube:object name="messageFullHeaders" id="full-headers" />
 
 <!-- record navigation -->
 <div id="countcontrols" class="pagenav">
