@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling vCard entries with TEL;TYPE=CELL (#1488728)
 - Fix error where session wasn't updated after folder rename/delete (#1488692)
 - Fix PLAIN authentication for some IMAP servers (#1488674)
 - Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
