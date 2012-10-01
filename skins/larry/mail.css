@@ -30,11 +30,6 @@
 	z-index: 3;
 }
 
-#mailview-right.offset {
-	top: 42px;
-	margin-top: 0;
-}
-
 #mailview-top {
 	position: absolute;
 	top: 42px;
