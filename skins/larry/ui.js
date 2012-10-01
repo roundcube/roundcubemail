@@ -74,8 +74,9 @@ function rcube_mail_ui()
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         layout_messageview();
-        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false; });
-        $('#headerstoggleall').click(function(e){ toggle_all_headers(this); return false; });
+        rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); });
+        rcmail.addEventListener('afterhide-headers', function() { layout_messageview(); });
+        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false });
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 200); });
@@ -320,6 +321,7 @@ function rcube_mail_ui()
    */
   function layout_messageview()
   {
+    $('#messagecontent').css('top', ($('#messageheader').outerHeight() + 10) + 'px');
     $('#message-objects div a').addClass('button');
 
     if (!$('#attachment-list li').length) {
@@ -512,31 +514,13 @@ function rcube_mail_ui()
   {
     $('#preview-shortheaders').toggle();
     var full = $('#preview-allheaders').toggle(),
-      button = $('#previewheaderstoggle');
-
-    if (!$('#headerstoggleall').length)
-      $('#all-headers').toggle();
+      button = $('a#previewheaderstoggle');
 
     // add toggle button to full headers table
-    if (full.is(':visible')) {
-      button.attr('href', '#hide').removeClass('add').addClass('remove');
-    }
-    else {
-      button.attr('href', '#details').removeClass('remove').addClass('add');
-    }
-  }
-
-
-  /**
-   * Show/hide all message headers
-   */
-  function toggle_all_headers(button)
-  {
-    rcmail.command('show-headers', '', button);
-    $(button).remove();
-    $('#previewheaderstoggle span').css({bottom: '5px'});
-
-    return false;
+    if (full.is(':visible'))
+      button.attr('href', '#hide').removeClass('add').addClass('remove')
+    else
+      button.attr('href', '#details').removeClass('remove').addClass('add')
   }
 
 

@@ -1055,17 +1055,12 @@ function rcmail_message_full_headers($attrib, $headers=NULL)
   global $OUTPUT;
 
   $html = html::div(array('id' => "all-headers", 'class' => "all", 'style' => 'display:none'), html::div(array('id' => 'headers-source'), ''));
-
-  if (!get_boolean($attrib['no-switch'])) {
-    $html .= html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('show-headers','',this)"), '');
-  }
-
-  unset($attrib['no-switch']);
+  $html .= html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('show-headers','',this)"), '');
 
   $OUTPUT->add_gui_object('all_headers_row', 'all-headers');
   $OUTPUT->add_gui_object('all_headers_box', 'headers-source');
 
-  return count($attrib) > 1 ? html::div($attrib, $html) : $html;
+  return html::div($attrib, $html);
 }
 
 

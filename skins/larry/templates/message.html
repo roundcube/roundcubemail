@@ -24,38 +24,20 @@
 
 <!-- folders list -->
 <div id="mailboxcontainer" class="uibox listbox">
-    <div class="scroller">
-        <roundcube:object name="mailboxlist" id="mailboxlist" class="listing" folder_filter="mail" unreadwrap="%s" />
-    </div>
+<div class="scroller">
+<roundcube:object name="mailboxlist" id="mailboxlist" class="listing" folder_filter="mail" unreadwrap="%s" />
+</div>
 </div>
 
-</div><!-- end mailview-left -->
+</div>
 
-<div id="mailview-right" class="uibox" style="top: 42px">
+<div id="mailview-right">
 
-<div id="messagecontent">
-
-<div id="messageheader">
-<h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
-
-<a href="#details" id="previewheaderstoggle"><span class="iconlink"></span><span id="headerstoggleall" class="iconlink allheaders"></span></a>
-
-<div id="contactphoto"><roundcube:object name="contactphoto" /></div>
-
-<table class="headers-table" id="preview-shortheaders"><tbody><tr>
-<roundcube:if condition="env:mailbox == config:drafts_mbox || env:mailbox == config:sent_mbox">
-	<td class="header-title"><roundcube:label name="to" /></td>
-	<td class="header from"><roundcube:object name="messageHeaders" valueOf="to" addicon="/images/addcontact.png" /></td>
-<roundcube:else />
-	<td class="header-title"><roundcube:label name="from" /></td>
-	<td class="header from"><roundcube:object name="messageHeaders" valueOf="from" addicon="/images/addcontact.png" /></td>
-<roundcube:endif />
-	<td class="header-title"><roundcube:label name="date" /></td>
-	<td class="header from"><roundcube:object name="messageHeaders" valueOf="date" /></td>
-</tr></tbody></table>
-
-<roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject,replyto" />
-<roundcube:object name="messageFullHeaders" no-switch="true" />
+<div id="mailview-top">
+<div id="messageheader" class="uibox">
+<h2 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h2>
+<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject" />
+<roundcube:object name="messageFullHeaders" id="full-headers" />
 
 <!-- record navigation -->
 <div id="countcontrols" class="pagenav">
@@ -64,21 +46,24 @@
 	<roundcube:button command="nextmessage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextmessage" content="&amp;gt;" />
 </div>
 
-</div><!-- end messageheader -->
-
-<div id="messagepreview">
-    <div class="rightcol">
-        <roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
-    </div>
-    <div class="leftcol">
-        <roundcube:object name="messageObjects" id="message-objects" />
-        <roundcube:object name="messageBody" id="messagebody" />
-    </div>
+<div id="contactphoto"><roundcube:object name="contactphoto" /></div>
 </div>
 
-</div><!-- end messagecontent -->
+<div id="messagecontent" class="uibox">
+<div class="rightcol">
+<roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
+</div>
+<div class="leftcol">
+<roundcube:object name="messageObjects" id="message-objects" />
+<roundcube:object name="messageBody" id="messagebody" />
+</div>
+</div>
 
+</div><!-- end mailview-top -->
+
+<div id="mailview-bottom" class="uibox">
 <roundcube:object name="message" id="message" class="statusbar" />
+</div>
 
 </div><!-- end mailview-right -->
 
