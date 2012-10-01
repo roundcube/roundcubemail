@@ -299,40 +299,44 @@ function rcube_subscription_form($attrib)
 
         $disabled = (($protected && $subscribed) || $noselect);
 
-        // check if the folder is a namespace prefix, then disable subscription option on it
-        if (!$disabled && $folder['virtual'] && $folder['level'] == 0 && !empty($namespace)) {
-            $fname = $folder['id'] . $delimiter;
-            foreach ($namespace as $ns) {
-                if (is_array($ns)) {
-                    foreach ($ns as $item) {
-                        if ($item[0] === $fname) {
-                            $disabled = true;
-                            break 2;
+        // Below we will disable subscription option for "virtual" folders
+        // according to namespaces, but only if they aren't already subscribed.
+        // User should be able to unsubscribe from the folder
+        // even if it doesn't exists or is not accessible (OTRS:1000059)
+        if (!$subscribed && !$disabled && !empty($namespace) && $folder['virtual']) {
+            // check if the folder is a namespace prefix, then disable subscription option on it
+            if (!$disabled && $folder['level'] == 0) {
+                $fname = $folder['id'] . $delimiter;
+                foreach ($namespace as $ns) {
+                    if (is_array($ns)) {
+                        foreach ($ns as $item) {
+                            if ($item[0] === $fname) {
+                                $disabled = true;
+                                break 2;
+                            }
                         }
                     }
                 }
             }
-        }
-        // check if the folder is an other users virtual-root folder, then disable subscription option on it
-        if (!$disabled && $folder['virtual'] && $folder['level'] == 1
-            && !empty($namespace) && !empty($namespace['other'])
-        ) {
-            $parts = explode($delimiter, $folder['id']);
-            $fname = $parts[0] . $delimiter;
-            foreach ($namespace['other'] as $item) {
-                if ($item[0] === $fname) {
-                    $disabled = true;
-                    break;
+            // check if the folder is an other users virtual-root folder, then disable subscription option on it
+            if (!$disabled && $folder['level'] == 1 && !empty($namespace['other'])) {
+                $parts = explode($delimiter, $folder['id']);
+                $fname = $parts[0] . $delimiter;
+                foreach ($namespace['other'] as $item) {
+                    if ($item[0] === $fname) {
+                        $disabled = true;
+                        break;
+                    }
                 }
             }
-        }
-        // check if the folder is shared, then disable subscription option on it (if not subscribed already)
-        if (!$disabled && !$subscribed && $folder['virtual'] && !empty($namespace)) {
-            $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
-            foreach ($tmp_ns as $item) {
-                if (strpos($folder['id'], $item[0]) === 0) {
-                    $disabled = true;
-                    break;
+            // check if the folder is shared, then disable subscription option on it (if not subscribed already)
+            if (!$disabled) {
+                $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
+                foreach ($tmp_ns as $item) {
+                    if (strpos($folder['id'], $item[0]) === 0) {
+                        $disabled = true;
+                        break;
+                    }
                 }
             }
         }
