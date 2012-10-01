@@ -72,6 +72,11 @@ a.deletebutton,
 	height: 14px;
 }
 
+#mailview-right #messageheader h2.subject {
+	position: relative;
+	left: -56px;
+}
+
 #uploadform a.iconlink {
 	text-indent: 0px;
 }

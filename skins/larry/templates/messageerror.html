@@ -16,6 +16,13 @@
 
 <div id="mainscreen">
 
+<!-- toolbar -->
+<div id="messagetoolbar" class="fullwidth">
+	<div id="mailtoolbar" class="toolbar">
+		<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
+	</div>
+</div>
+
 <div id="mailview-left">
 
 <!-- folders list -->
@@ -27,20 +34,11 @@
 
 </div>
 
-<div id="mailview-right">
+<div id="mailview-right" class="offset uibox">
 
-<!-- toolbar -->
-<div id="messagetoolbar" class="fullwidth">
-	<div id="mailtoolbar" class="toolbar">
-		<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
-	</div>
-</div>
+<div id="messagecontent" class="watermark"></div>
 
-<div id="mailview-top" class="uibox watermark"></div>
-
-<div id="mailview-bottom" class="uibox">
-	<roundcube:object name="message" id="message" class="statusbar" />
-</div>
+<roundcube:object name="message" id="message" class="statusbar" />
 
 </div><!-- end mailview-right -->
 
