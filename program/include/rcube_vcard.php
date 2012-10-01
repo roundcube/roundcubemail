@@ -50,7 +50,7 @@ class rcube_vcard
     'spouse'      => 'X-SPOUSE',
     'edit'        => 'X-AB-EDIT',
   );
-  private $typemap = array('iPhone' => 'mobile', 'CELL' => 'mobile', 'WORK,FAX' => 'workfax');
+  private $typemap = array('IPHONE' => 'mobile', 'CELL' => 'mobile', 'WORK,FAX' => 'workfax');
   private $phonetypemap = array('HOME1' => 'HOME', 'BUSINESS1' => 'WORK', 'BUSINESS2' => 'WORK2', 'BUSINESSFAX' => 'WORK,FAX');
   private $addresstypemap = array('BUSINESS' => 'WORK');
   private $immap = array('X-JABBER' => 'jabber', 'X-ICQ' => 'icq', 'X-MSN' => 'msn', 'X-AIM' => 'aim', 'X-YAHOO' => 'yahoo', 'X-SKYPE' => 'skype', 'X-SKYPE-USERNAME' => 'skype');
@@ -159,7 +159,18 @@ class rcube_vcard
 
           if (!empty($raw['type'])) {
             $combined = join(',', self::array_filter((array)$raw['type'], 'internet,pref', true));
-            $subtype = $typemap[$combined] ? $typemap[$combined] : ($typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]));
+            $combined = strtoupper($combined);
+
+            if ($typemap[$combined]) {
+                $subtype = $typemap[$combined];
+            }
+            else if ($typemap[$raw['type'][++$k]]) {
+                $subtype = $typemap[$raw['type'][$k]];
+            }
+            else {
+                $subtype = strtolower($raw['type'][$k]);
+            }
+
             while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref'))
               $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
           }
@@ -167,8 +178,11 @@ class rcube_vcard
           // read vcard 2.1 subtype
           if (!$subtype) {
             foreach ($raw as $k => $v) {
-              if (!is_numeric($k) && $v === true && !in_array(strtolower($k), array('pref','internet','voice','base64'))) {
-                $subtype = $typemap[$k] ? $typemap[$k] : strtolower($k);
+              if (!is_numeric($k) && $v === true && ($k = strtolower($k))
+                && !in_array($k, array('pref','internet','voice','base64'))
+              ) {
+                $k_uc    = strtoupper($k);
+                $subtype = $typemap[$k_uc] ? $typemap[$k_uc] : $k;
                 break;
               }
             }
@@ -335,7 +349,7 @@ class rcube_vcard
           $index = count($this->raw[$tag]);
           $this->raw[$tag][$index] = (array)$value;
           if ($type)
-            $this->raw[$tag][$index]['type'] = explode(',', ($typemap[$type] ? $typemap[$type] : $type));
+            $this->raw[$tag][$index]['type'] = explode(',', ($typemap[$type_uc] ? $typemap[$type_uc] : $type));
         }
         break;
     }
