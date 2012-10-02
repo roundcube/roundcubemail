@@ -5573,6 +5573,40 @@ function rcube_webmail()
     this.messages = {};
   };
 
+  // open a jquery UI dialog with the given content
+  this.show_popup_dialog = function(html, title)
+  {
+    // forward call to parent window
+    if (this.is_framed()) {
+      parent.rcmail.show_popup_dialog(html, title);
+      return;
+    }
+
+    var popup = $('<div class="popup">')
+      .html(html)
+      .dialog({
+        title: title,
+        modal: true,
+        resizable: true,
+        width: 580,
+        close: function(event, ui) { $(this).remove() }
+      });
+
+      // resize and center popup
+      var win = $(window), w = win.width(), h = win.height(),
+        width = popup.width(), height = popup.height();
+      popup.dialog('option', { height: Math.min(h-40, height+50), width: Math.min(w-20, width+50) })
+        .dialog('option', 'position', ['center', 'center']);  // only works in a separate call (!?)
+  };
+
+  // enable/disable buttons for page shifting
+  this.set_page_buttons = function()
+  {
+    this.enable_command('nextpage', 'lastpage', (this.env.pagecount > this.env.current_page));
+    this.enable_command('previouspage', 'firstpage', (this.env.current_page > 1));
+  };
+
+>>>>>>> 765ecb9... Let the skin limit the number of visible recipeints and place a link to show them all in a dialog (better fix for #1488590)
   // mark a mailbox as selected and set environment variable
   this.select_folder = function(name, prefix, encode)
   {

@@ -964,6 +964,8 @@ function rcmail_message_headers($attrib, $headers=NULL)
     if (in_array($hkey, $exclude_headers))
       continue;
 
+    $header_title = rcube_label(preg_replace('/(^mail-|-)/', '', $hkey));
+
     if ($hkey == 'date') {
       if ($PRINT_MODE)
         $header_value = format_date($value, $RCMAIL->config->get('date_long', 'x'));
@@ -979,7 +981,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
     }
     else if ($hkey == 'replyto') {
       if ($headers['replyto'] != $headers['from']) {
-        $header_value = rcmail_address_string($value, null, true, $attrib['addicon'], $headers['charset']);
+        $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
         $ishtml = true;
       }
       else
@@ -989,18 +991,18 @@ function rcmail_message_headers($attrib, $headers=NULL)
       if ($headers['mail-replyto'] != $headers['reply-to']
         && $headers['reply-to'] != $headers['from']
       ) {
-        $header_value = rcmail_address_string($value, null, true, $attrib['addicon'], $headers['charset']);
+        $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
         $ishtml = true;
       }
       else
         continue;
     }
     else if ($hkey == 'mail-followup-to') {
-      $header_value = rcmail_address_string($value, null, true, $attrib['addicon'], $headers['charset']);
+      $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
       $ishtml = true;
     }
     else if (in_array($hkey, array('from', 'to', 'cc', 'bcc'))) {
-      $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset']);
+      $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
       $ishtml = true;
     }
     else if ($hkey == 'subject' && empty($value))
@@ -1009,7 +1011,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
       $header_value = trim(rcube_mime::decode_header($value, $headers['charset']));
 
     $output_headers[$hkey] = array(
-        'title' => rcube_label(preg_replace('/(^mail-|-)/', '', $hkey)),
+        'title' => $header_title,
         'value' => $header_value,
         'raw' => $value,
         'html' => $ishtml,
@@ -1352,7 +1354,7 @@ function rcmail_alter_html_link($matches)
 /**
  * decode address string and re-format it as HTML links
  */
-function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, $default_charset=null)
+function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, $default_charset=null, $title=null)
 {
   global $RCMAIL, $PRINT_MODE, $CONFIG;
 
@@ -1364,6 +1366,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
   $c = count($a_parts);
   $j = 0;
   $out = '';
+  $allvalues = array();
 
   if ($addicon && !isset($_SESSION['writeable_abook'])) {
     $_SESSION['writeable_abook'] = $RCMAIL->get_address_sources(true) ? true : false;
@@ -1371,7 +1374,6 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
 
   foreach ($a_parts as $part) {
     $j++;
-
     $name   = $part['name'];
     $mailto = $part['mailto'];
     $string = $part['string'];
@@ -1413,7 +1415,6 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             'alt' => "Add contact",
           )));
       }
-      $out .= html::span('adr', $address);
     }
     else {
       $address = '';
@@ -1421,17 +1422,35 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
         $address .= Q($name);
       if ($mailto)
         $address .= (strlen($address) ? ' ' : '') . sprintf('&lt;%s&gt;', Q($mailto));
-
-      $out .= html::span('adr', $address);
     }
 
-    if ($c>$j)
-      $out .= ','.($max ? '&nbsp;' : ' ');
+    $address = html::span('adr', $address);
+    $allvalues[] = $address;
 
-    if ($max && $j==$max && $c>$j) {
-      $out .= '...';
-      break;
+    if (!$moreadrs)
+      $out .= ($out ? ', ' : '') . $address;
+
+    if ($max && $j == $max && $c > $j) {
+      if ($linked) {
+        $moreadrs = $c - $j;
+      }
+      else {
+        $out .= '...';
+        break;
+      }
     }
+  }
+
+  if ($moreadrs) {
+      $out .= ' ' . html::a(array(
+          'href' => '#more',
+          'class' => 'morelink',
+          'onclick' => sprintf("return %s.show_popup_dialog('%s','%s')",
+            JS_OBJECT_NAME,
+            JQ(join(', ', $allvalues)),
+            JQ($title))
+        ),
+        Q(rcube_label(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs)))));
   }
 
   return $out;
