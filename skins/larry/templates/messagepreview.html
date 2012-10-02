@@ -6,11 +6,10 @@
 </head>
 <body class="iframe fullheight">
 
-<div id="messagepreviewheader">
+<div id="messageheader" class="previewheader">
 <h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
 
 <a href="#details" id="previewheaderstoggle"><span class="iconlink"></span></a>
-<div id="contactphoto"><roundcube:object name="contactphoto" /></div>
 
 <table class="headers-table" id="preview-shortheaders"><tbody><tr>
 <roundcube:if condition="env:mailbox == config:drafts_mbox || env:mailbox == config:sent_mbox">
@@ -24,7 +23,7 @@
 	<td class="header date"><span><roundcube:object name="messageHeaders" valueOf="date" /></span></td>
 </tr></tbody></table>
 
-<roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject,replyto" />
+<roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" max="10" exclude="subject,replyto" />
 
 <roundcube:object name="messageFullHeaders" id="full-headers" />
 

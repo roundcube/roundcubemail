@@ -301,7 +301,7 @@ class html
                 $attrib_arr[] = $key . '="' . Q($value, 'strict', false) . '"';
             }
             else {
-                $attrib_arr[] = $key . '="' . Q($value) . '"';
+                $attrib_arr[] = $key . '="' . htmlspecialchars($value, ENT_COMPAT, RCMAIL_CHARSET) . '"';
             }
         }
         return count($attrib_arr) ? ' '.implode(' ', $attrib_arr) : '';
