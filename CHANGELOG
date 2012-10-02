@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Force fonts in compose fields to be all the same (#1488690)
 - Add full headers view in message preview window (#1488538)
 - Fix message display page issues (#1488590, #1488642)
 - Fix handling vCard entries with TEL;TYPE=CELL (#1488728)
