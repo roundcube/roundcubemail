@@ -237,6 +237,8 @@ $labels['showimages'] = 'Display images';
 $labels['alwaysshow'] = 'Always show images from $sender';
 $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
+$labels['togglemoreheaders'] = 'Show more message headers';
+$labels['togglefullheaders'] = 'Toggle raw message headers';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';

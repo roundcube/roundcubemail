@@ -1068,7 +1068,7 @@ function rcmail_message_full_headers($attrib, $headers=NULL)
   global $OUTPUT;
 
   $html = html::div(array('id' => "all-headers", 'class' => "all", 'style' => 'display:none'), html::div(array('id' => 'headers-source'), ''));
-  $html .= html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('show-headers','',this)"), '');
+  $html .= html::div(array('class' => "more-headers show-headers", 'onclick' => "return ".JS_OBJECT_NAME.".command('show-headers','',this)", 'title' => rcube_label('togglefullheaders')), '');
 
   $OUTPUT->add_gui_object('all_headers_row', 'all-headers');
   $OUTPUT->add_gui_object('all_headers_box', 'headers-source');
