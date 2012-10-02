@@ -34,8 +34,10 @@
 <div id="mailview-right" class="offset uibox">
 
 <div id="messageheader">
+<span id="previewheaderstoggle"></span>
+
 <h2 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h2>
-<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject" />
+<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject" max="20" />
 <roundcube:object name="messageFullHeaders" id="full-headers" />
 
 <!-- record navigation -->

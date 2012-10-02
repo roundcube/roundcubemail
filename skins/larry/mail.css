@@ -688,17 +688,20 @@ a.iconbutton.threadmode.selected {
 	position: relative;
 	padding: 3px 0;
 	background: #f9f9f9;
-	background: -moz-linear-gradient(top, #fff 0%, #e9e9e9 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#e9e9e9));
-	background: -o-linear-gradient(top, #fff 0%, #e9e9e9 100%);
-	background: -ms-linear-gradient(top, #fff 0%, #e9e9e9 100%);
-	background: linear-gradient(top, #fff 0%, #e9e9e9 100%);
+	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
+	background: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	border-bottom: 1px solid #dfdfdf;
 }
 
 #mailview-right #messageheader {
 	border-radius: 4px 4px 0 0;
-	padding-left: 58px;
-	border-bottom: 2px solid #e6e6e6;
+	padding-left: 78px;
+	/* avoid headers eating up all the vertical space */
+	max-height: 50%;
+	overflow: auto;
 }
 
 h2.subject {
@@ -728,7 +731,8 @@ h3.subject {
 	padding: 2px 8px;
 }
 
-.headers-table td.header {
+.headers-table td.header,
+.ui-dialog-content.popup span.adr {
 	font-weight: bold;
 }
 
@@ -736,12 +740,14 @@ h3.subject {
 	white-space: nowrap;
 }
 
-.headers-table td.header a {
+.headers-table td.header a,
+.ui-dialog-content.popup span.adr a {
 	color: #666;
 	text-decoration: none;
 }
 
-.headers-table td.header a:hover {
+.headers-table td.header a:hover,
+.ui-dialog-content.popup span.adr a:hover {
 	text-decoration: underline;
 }
 
@@ -751,8 +757,15 @@ h3.subject {
 	font-weight: bold;
 }
 
-.headers-table td.header span {
+.headers-table td.header span,
+.ui-dialog-content.popup span.adr {
 	white-space: nowrap;
+}
+
+.headers-table td.header a.morelink {
+	color: #0069a6;
+	white-space: nowrap;
+	font-weight: normal;
 }
 
 .rcmaddcontact {
@@ -859,24 +872,22 @@ div.hide-headers {
 	color: #333;
 }
 
-#messagepreviewheader #all-headers {
+#messageheader.previewheader #all-headers {
 	margin-left: 0;
 }
 
-#messagepreviewheader {
+#messageheader.previewheader {
 	position: relative;
 	height: auto;
 	min-height: 52px;
-	margin: 0 8px 0 0;
-	padding: 0 0 0px 72px;
-	border-bottom: 2px solid #f0f0f0;
+	padding: 0 0 3px 72px;
 }
 
-#messagepreviewheader h3.subject {
+#messageheader.previewheader h3.subject {
 	padding: 8px 8px 2px 0;
 }
 
-#messagepreviewheader #contactphoto {
+#messageheader.previewheader #contactphoto {
 	display: block;
 	position: absolute;
 	top: 11px;
@@ -888,7 +899,7 @@ div.hide-headers {
 	border-radius: 3px;
 }
 
-#messagepreviewheader #contactphoto img {
+#messageheader.previewheader #contactphoto img {
 	width: 32px;
 	height: auto;
 	border-radius: 3px;
@@ -898,11 +909,12 @@ div.hide-headers {
 	display: block;
 	position: absolute;
 	top: 34px;
-	left: 10px;
+	left: 30px;
 	width: 48px;
 	height: 48px;
 	overflow: hidden;
 	border-radius: 4px;
+	border: 1px solid #e6e6e6;
 	background: url(images/contactpic_48px.png) center center no-repeat #fff;
 }
 
@@ -912,7 +924,6 @@ div.hide-headers {
 	border-radius: 4px;
 }
 
-#messagepreviewheader #countcontrols,
 #messageheader #countcontrols {
 	position: absolute;
 	top: 8px;
@@ -1147,6 +1158,7 @@ div.message-part blockquote blockquote blockquote {
 	-webkit-box-shadow: 0 2px 3px 0 #999;
 	-moz-box-shadow: 0 2px 3px 0 #999;
 	box-shadow: 0 2px 3px 0 #999;
+	border-bottom: 0;
 }
 
 #composebuttons {

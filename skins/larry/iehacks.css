@@ -144,7 +144,7 @@ ul.toolbarmenu li a.active:hover,
 }
 
 #messageheader, #partheader, #composeheaders {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e9e9e9', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0', GradientType=0);
 }
 
 #previewheaderstoggle {

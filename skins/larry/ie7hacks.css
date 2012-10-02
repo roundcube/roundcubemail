@@ -67,14 +67,9 @@ a.deletebutton,
 	text-align: left;
 }
 
-#messagepreviewheader .iconlink {
+#messageheader.previewheader .iconlink {
 	color: #fff;
 	height: 14px;
-}
-
-#mailview-right #messageheader h2.subject {
-	position: relative;
-	left: -56px;
 }
 
 #uploadform a.iconlink {
