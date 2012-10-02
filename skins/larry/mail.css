@@ -1217,6 +1217,8 @@ div.message-part blockquote blockquote blockquote {
 .compose-headers td input {
 	width: 100%;
 	resize: none;
+	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
 }
 
 #compose-cc, #compose-bcc, #compose-replyto, #compose-followupto {
