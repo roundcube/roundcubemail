@@ -58,6 +58,10 @@ a.deletebutton,
 	right: -2px;
 }
 
+#login-form .box-inner form {
+	margin: 0;
+}
+
 #login-form #message div {
 	float: left;
 	display: block;
