@@ -31,6 +31,8 @@
  */
 class rcube_db_mssql extends rcube_db
 {
+    public $db_provider = 'mssql';
+
     /**
      * Driver initialization
      */

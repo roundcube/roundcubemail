@@ -31,6 +31,8 @@
  */
 class rcube_db_pgsql extends rcube_db
 {
+    public $db_provider = 'postgres';
+
     /**
      * Get last inserted record ID
      *

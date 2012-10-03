@@ -30,6 +30,8 @@
  */
 class rcube_db
 {
+    public $db_provider;
+
     protected $db_dsnw;               // DSN for write operations
     protected $db_dsnr;               // DSN for read operations
     protected $db_connected = false;  // Already connected ?

@@ -31,6 +31,8 @@
  */
 class rcube_db_mysql extends rcube_db
 {
+    public $db_provider = 'mysql';
+
     /**
      * Driver initialization/configuration
      */
