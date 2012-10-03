@@ -123,8 +123,11 @@ class rcube_config
         if ($this->prop['timezone'] == 'auto') {
           $this->prop['_timezone_value'] = $this->client_timezone();
         }
-        else if (is_numeric($this->prop['timezone'])) {
-          $this->prop['timezone'] = timezone_name_from_abbr("", $this->prop['timezone'] * 3600, 0);
+        else if (is_numeric($this->prop['timezone']) && ($tz = timezone_name_from_abbr("", $this->prop['timezone'] * 3600, 0))) {
+          $this->prop['timezone'] = $tz;
+        }
+        else if (empty($this->prop['timezone'])) {
+          $this->prop['timezone'] = 'UTC';
         }
 
         // remove deprecated properties
@@ -251,8 +254,8 @@ class rcube_config
         }
 
         // convert user's timezone into the new format
-        if (is_numeric($prefs['timezone'])) {
-            $prefs['timezone'] = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0);
+        if (is_numeric($prefs['timezone']) && ($tz = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0))) {
+            $prefs['timezone'] = $tz;
         }
 
         // larry is the new default skin :-)
@@ -409,7 +412,7 @@ class rcube_config
      */
     private function client_timezone()
     {
-        return isset($_SESSION['timezone']) ? timezone_name_from_abbr("", $_SESSION['timezone'] * 3600, 0) : date_default_timezone_get();
+        return isset($_SESSION['timezone']) && ($ctz = timezone_name_from_abbr("", $_SESSION['timezone'] * 3600, 0)) ? $ctz : date_default_timezone_get();
     }
 
 }
