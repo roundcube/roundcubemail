@@ -17,10 +17,10 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-07-24</date>
+	<date>2012-10-03</date>
 	<version>
-		<release>5.2</release>
-		<api>5.0</api>
+		<release>6.0</release>
+		<api>6.0</api>
 	</version>
 	<stability>
 		<release>stable</release>
@@ -95,6 +95,15 @@
 			<file name="skins/classic/images/down_small.gif" role="data"></file>
 			<file name="skins/classic/images/filter.png" role="data"></file>
 			<file name="skins/classic/images/up_small.gif" role="data"></file>
+			<file name="skins/larry/managesieve.css" role="data"></file>
+			<file name="skins/larry/managesieve_mail.css" role="data"></file>
+			<file name="skins/larry/templates/filteredit.html" role="data"></file>
+			<file name="skins/larry/templates/managesieve.html" role="data"></file>
+			<file name="skins/larry/templates/setedit.html" role="data"></file>
+			<file name="skins/larry/images/add.png" role="data"></file>
+			<file name="skins/larry/images/del.png" role="data"></file>
+			<file name="skins/larry/images/down_small.gif" role="data"></file>
+			<file name="skins/larry/images/up_small.gif" role="data"></file>
 			<file name="managesieve.php" role="php"></file>
 			<file name="lib/rcube_sieve.php" role="php"></file>
 			<file name="lib/rcube_sieve_script.php" role="php"></file>
