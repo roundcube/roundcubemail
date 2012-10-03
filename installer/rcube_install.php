@@ -70,20 +70,20 @@ class rcube_install
     $this->step = intval($_REQUEST['_step']);
     $this->is_post = $_SERVER['REQUEST_METHOD'] == 'POST';
   }
-  
+
   /**
    * Singleton getter
    */
   function get_instance()
   {
     static $inst;
-    
+
     if (!$inst)
       $inst = new rcube_install();
-    
+
     return $inst;
   }
-  
+
   /**
    * Read the default config files and store properties
    */
@@ -120,8 +120,8 @@ class rcube_install
         $this->config += $rcmail_config;
     }
   }
-  
-  
+
+
   /**
    * Getter for a certain config property
    *
@@ -132,10 +132,10 @@ class rcube_install
   function getprop($name, $default = '')
   {
     $value = $this->config[$name];
-    
+
     if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"]))
       $value = rcube_install::random_key(24);
-    
+
     return $value !== null && $value !== '' ? $value : $default;
   }
 
@@ -193,16 +193,16 @@ class rcube_install
         $value = '%p';
       }
       else if ($prop == 'default_folders') {
-	    $value = array();
-	    foreach ($this->config['default_folders'] as $_folder) {
-	      switch ($_folder) {
-	      case 'Drafts': $_folder = $this->config['drafts_mbox']; break;
-	      case 'Sent':   $_folder = $this->config['sent_mbox']; break;
-	      case 'Junk':   $_folder = $this->config['junk_mbox']; break;
-	      case 'Trash':  $_folder = $this->config['trash_mbox']; break;
+        $value = array();
+        foreach ($this->config['default_folders'] as $_folder) {
+          switch ($_folder) {
+          case 'Drafts': $_folder = $this->config['drafts_mbox']; break;
+          case 'Sent':   $_folder = $this->config['sent_mbox']; break;
+          case 'Junk':   $_folder = $this->config['junk_mbox']; break;
+          case 'Trash':  $_folder = $this->config['trash_mbox']; break;
           }
-	    if (!in_array($_folder, $value))
-	      $value[] = $_folder;
+        if (!in_array($_folder, $value))
+          $value[] = $_folder;
         }
       }
       else if (is_bool($default)) {
@@ -241,14 +241,14 @@ class rcube_install
     $this->config = array();
     $this->load_defaults();
     $defaults = $this->config;
-    
+
     $this->load_config();
     if (!$this->configured)
       return null;
-    
+
     $out = $seen = array();
     $required = array_flip($this->required_config);
-    
+
     // iterate over the current configuration
     foreach ($this->config as $prop => $value) {
       if ($replacement = $this->replaced_config[$prop]) {
@@ -260,7 +260,7 @@ class rcube_install
         $seen[$prop] = true;
       }
     }
-    
+
     // iterate over default config
     foreach ($defaults as $prop => $value) {
       if (!isset($seen[$prop]) && isset($required[$prop]) && !(is_bool($this->config[$prop]) || strlen($this->config[$prop])))
@@ -280,7 +280,7 @@ class rcube_install
               'explain' => "You are missing pspell support for language $lang ($descr)");
       }
     }
-    
+
     if ($this->config['log_driver'] == 'syslog') {
       if (!function_exists('openlog')) {
         $out['dependencies'][] = array('prop' => 'log_driver',
@@ -291,7 +291,7 @@ class rcube_install
           'explain' => 'Using <tt>syslog</tt> for logging requires a syslog ID to be configured');
       }
     }
-    
+
     // check ldap_public sources having global_search enabled
     if (is_array($this->config['ldap_public']) && !is_array($this->config['autocomplete_addressbooks'])) {
       foreach ($this->config['ldap_public'] as $ldap_public) {
@@ -301,11 +301,11 @@ class rcube_install
         }
       }
     }
-    
+
     return $out;
   }
-  
-  
+
+
   /**
    * Merge the current configuration with the defaults
    * and copy replaced values to the new options.
@@ -327,11 +327,11 @@ class rcube_install
       }
       unset($current[$prop]);
     }
-    
+
     foreach ($this->obsolete_config as $prop) {
       unset($current[$prop]);
     }
-    
+
     // add all ldap_public sources having global_search enabled to autocomplete_addressbooks
     if (is_array($current['ldap_public'])) {
       foreach ($current['ldap_public'] as $key => $ldap_public) {
@@ -341,7 +341,7 @@ class rcube_install
         }
       }
     }
-    
+
     if ($current['keep_alive'] && $current['session_lifetime'] < $current['keep_alive'])
       $current['session_lifetime'] = max(10, ceil($current['keep_alive'] / 60) * 2);
 
@@ -351,7 +351,7 @@ class rcube_install
       $this->config['ldap_public'][$key] = $current['ldap_public'][$key];
     }
   }
-  
+
   /**
    * Compare the local database schema with the reference schema
    * required for this version of Roundcube
@@ -363,11 +363,11 @@ class rcube_install
   {
     if (!$this->configured)
       return false;
-    
+
     // read reference schema from mysql.initial.sql
     $db_schema = $this->db_read_schema(INSTALL_PATH . 'SQL/mysql.initial.sql');
     $errors = array();
-    
+
     // check list of tables
     $existing_tables = $DB->list_tables();
 
@@ -453,8 +453,8 @@ class rcube_install
         '0.4-beta', '0.4.2',
         '0.5-beta', '0.5', '0.5.1',
         '0.6-beta', '0.6',
-        '0.7-beta', '0.7', '0.7.1', '0.7.2',
-        '0.8-beta', '0.8-rc', '0.8.0',
+        '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3',
+        '0.8-beta', '0.8-rc', '0.8.0', '0.8.1',
     ));
     return $select;
   }
