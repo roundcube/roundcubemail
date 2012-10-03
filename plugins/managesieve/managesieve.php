@@ -62,7 +62,7 @@ class managesieve extends rcube_plugin
         "x-beenthere",
     );
 
-    const VERSION  = '5.2';
+    const VERSION  = '6.0';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
@@ -1838,6 +1838,12 @@ class managesieve extends rcube_plugin
             // Get active script name
             if ($active = $this->sieve->get_active()) {
                 $this->active = array($active);
+            }
+
+            // Hide scripts from config
+            $exceptions = $this->rc->config->get('managesieve_filename_exceptions');
+            if (!empty($exceptions)) {
+                $this->list = array_diff($this->list, (array)$exceptions);
             }
         }
 
