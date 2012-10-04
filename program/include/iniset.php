@@ -42,7 +42,7 @@ foreach ($config as $optname => $optval) {
 }
 
 // application constants
-define('RCMAIL_VERSION', '0.8.1');
+define('RCMAIL_VERSION', '0.8.2');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('JS_OBJECT_NAME', 'rcmail');
 define('RCMAIL_START', microtime(true));
