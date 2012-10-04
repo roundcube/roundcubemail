@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Edouard Moreau <Unknown>                                      |
+ | Author: Nicolas Delvaux                                               |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Indésirables';
 $labels['buttontitle'] = 'Marquer comme indésirable';
 $labels['reportedasjunk'] = 'Notification de message indésirable envoyée';
 

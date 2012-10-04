@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nicolas Delvaux                                               |
+ | Author: Baptiste Darthenay <bapdarth@yahoo.fr>                        |
  +-----------------------------------------------------------------------+
 */
 
@@ -106,7 +106,7 @@ $labels['forward'] = 'Transférer';
 $labels['forwardinline'] = 'Transférer dans le corps du message';
 $labels['forwardattachment'] = 'Transférer en pièce-jointe';
 $labels['forwardmessage'] = 'Transmettre le message';
-$labels['deletemessage'] = 'Déplacer le message dans la corbeille';
+$labels['deletemessage'] = 'Supprimer le message';
 $labels['movemessagetotrash'] = 'Déplacer le message dans la corbeille';
 $labels['printmessage'] = 'Imprimer ce message';
 $labels['previousmessage'] = 'Voir le message précédent';
@@ -169,8 +169,8 @@ $labels['msgtext'] = 'Message entier';
 $labels['openinextwin'] = 'Ouvrir dans une nouvelle fenêtre';
 $labels['emlsave'] = 'Télécharger (.eml)';
 $labels['editasnew'] = 'Éditer en tant que nouveau message';
-$labels['savemessage'] = 'Enregistrer ce brouillon';
-$labels['sendmessage'] = 'Envoyer le message maintenant';
+$labels['savemessage'] = 'Enregistrer';
+$labels['sendmessage'] = 'Envoyer';
 $labels['addattachment'] = 'Joindre un fichier';
 $labels['charset'] = 'Encodage';
 $labels['editortype'] = 'Type d\'éditeur';

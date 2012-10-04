@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
+ | Author: Aritz <aritz@itxaropena.org>                                  |
  +-----------------------------------------------------------------------+
 */
 
 $labels = array();
-$labels['welcome'] = 'Ongietorri Roundcube|Mail-era';
+$labels['welcome'] = 'Ongi etorri $product';
 $labels['username'] = 'Erabiltzailea';
 $labels['password'] = 'Pasahitza';
 $labels['server'] = 'Zerbitzaria';
@@ -34,14 +34,21 @@ $labels['to'] = 'Nori';
 $labels['cc'] = 'Kopia';
 $labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'Erantzun-Honi';
+$labels['followupto'] = 'Jarraipena honi';
 $labels['date'] = 'Data';
 $labels['size'] = 'Tamaina';
 $labels['priority'] = 'Lehentasuna';
+$labels['organization'] = 'Erakundea';
+$labels['readstatus'] = 'Irakurketaren egoera';
+$labels['listoptions'] = 'Zerrendaren aukerak...';
 $labels['mailboxlist'] = 'Karpetak';
 $labels['folders'] = 'Karpetak';
 $labels['messagesfromto'] = '$from -tik $to -ra $count mezuetatik';
+$labels['threadsfromto'] = '$from -etik $to -rako gaiak (guztira $count)';
 $labels['messagenrof'] = '$nr mezua $count -tik';
+$labels['fromtoshort'] = '$from - $to , guztira $count';
 $labels['copy'] = 'Kopia';
+$labels['move'] = 'Mugitu';
 $labels['moveto'] = 'mugitu hona...';
 $labels['download'] = 'deskargatu';
 $labels['filename'] = 'Fitxategi Izena';
@@ -86,11 +93,16 @@ $labels['longoct'] = 'Urria';
 $labels['longnov'] = 'Azaroa';
 $labels['longdec'] = 'Abendua';
 $labels['today'] = 'Gaur';
+$labels['refresh'] = 'Eguneratu';
 $labels['checkmail'] = 'Mezu berrien bila arakatu';
 $labels['compose'] = 'Mezu bat sortu';
 $labels['writenewmessage'] = 'Mezu berri bat sortu';
+$labels['reply'] = 'Erantzun';
 $labels['replytomessage'] = 'Mezuari erantzun';
 $labels['replytoallmessage'] = 'Bidaltzaile eta hartzaile guztiei erantzun';
+$labels['replyall'] = 'Guztiei erantzun';
+$labels['forward'] = 'Berbidali';
+$labels['forwardattachment'] = 'Erantsi gisa berbidali';
 $labels['forwardmessage'] = 'Mezua Birbidali';
 $labels['deletemessage'] = 'Mezua ezabatu';
 $labels['movemessagetotrash'] = 'Mezua zakarrontzira mugitu';
@@ -101,16 +113,23 @@ $labels['nextmessage'] = 'Hurrengo mezua ikusi';
 $labels['lastmessage'] = 'Azken mezua ikusi';
 $labels['backtolist'] = 'Mezu zerrendara itzuli';
 $labels['viewsource'] = 'Jatorria bistarazi';
+$labels['mark'] = 'Markatu';
 $labels['markmessages'] = 'Markatu mezuak';
 $labels['markread'] = 'Irakurria bezala';
 $labels['markunread'] = 'Ez-irakurria bezala';
 $labels['markflagged'] = 'Markatua bezala';
 $labels['markunflagged'] = 'Ez-markatua bezala';
+$labels['moreactions'] = 'Ekintza gehiago...';
+$labels['more'] = 'Gehiago';
+$labels['back'] = 'Atzera';
+$labels['options'] = 'Aukerak';
 $labels['select'] = 'Hautatu';
 $labels['all'] = 'Denak';
-$labels['none'] = 'Batez';
-$labels['nonesort'] = 'Batez';
+$labels['none'] = 'Bat ere ez';
+$labels['nonesort'] = 'Bat ere ez';
+$labels['currpage'] = 'Uneko orrialdea';
 $labels['unread'] = 'Irakurri gabeak';
+$labels['flagged'] = 'Banderaduna';
 $labels['compact'] = 'Trinkotu';
 $labels['empty'] = 'Hustu';
 $labels['quota'] = 'Disko erabilera';

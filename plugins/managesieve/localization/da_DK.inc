@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: John Loft Christiansen <Unknown>                              |
+ | Author: Johannes Hessellund <osos@openeyes.dk>                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,7 @@ $labels['add'] = 'Tilføje';
 $labels['del'] = 'Fjern';
 $labels['sender'] = 'Afsender';
 $labels['recipient'] = 'Modtager';
-$labels['vacationaddresses'] = 'Ekstra liste af modtager email adresser (komma separeret):';
+$labels['vacationaddresses'] = 'Mine alternative e-mailadresser (kommasepareret):';
 $labels['vacationdays'] = 'Hvor tit skal besked sendes (i dage):';
 $labels['vacationreason'] = 'Besked (ved ferie):';
 $labels['vacationsubject'] = 'Besked emne:';

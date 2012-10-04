@@ -11,10 +11,9 @@
  +-----------------------------------------------------------------------+
  | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
 $labels['addvcardmsg'] = 'Aldoni vCard al adresaro';
-$labels['vcardsavefailed'] = 'Neeblas konservi vCard';
+$labels['vcardsavefailed'] = 'vCard ne konserveblas';
 

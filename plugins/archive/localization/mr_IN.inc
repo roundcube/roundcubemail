@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Devendra Buddhikot <devendradb@rediffmail.com>                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'जतन केलेला';
+$labels['archivefolder'] = 'जतन केलेला';
 $labels['buttontitle'] = 'हा संदेश जतन करा';
 $labels['archived'] = 'यशस्वीरीत्या जतन केला';
-$labels['archivefolder'] = 'जतन केलेला';
 

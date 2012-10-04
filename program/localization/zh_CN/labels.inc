@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Christopher Meng <cickumqt@gmail.com>                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -25,9 +24,9 @@ $labels['mail'] = '邮件';
 $labels['settings'] = '设置';
 $labels['addressbook'] = '通讯录';
 $labels['inbox'] = '收件箱';
-$labels['drafts'] = '草稿箱';
-$labels['sent'] = '已发送邮件';
-$labels['trash'] = '回收站';
+$labels['drafts'] = '草稿';
+$labels['sent'] = '已发送';
+$labels['trash'] = '已删除邮件';
 $labels['junk'] = '垃圾邮件';
 $labels['subject'] = '主题';
 $labels['from'] = '发件人';
@@ -49,18 +48,18 @@ $labels['messagenrof'] = '第 $nr 封邮件，共 $count 封';
 $labels['fromtoshort'] = '自 $from – $to 统计 $count';
 $labels['copy'] = '复制';
 $labels['move'] = '移动';
-$labels['moveto'] = '移动到';
+$labels['moveto'] = '移动至';
 $labels['download'] = '下载';
 $labels['filename'] = '文件名';
 $labels['filesize'] = '文件大小';
-$labels['addtoaddressbook'] = '添加到通讯录';
+$labels['addtoaddressbook'] = '添加至通讯录';
 $labels['sun'] = '周日';
-$labels['mon'] = '周一';
-$labels['tue'] = '周二';
-$labels['wed'] = '周三';
-$labels['thu'] = '周四';
-$labels['fri'] = '周五';
-$labels['sat'] = '周六';
+$labels['mon'] = '星期一';
+$labels['tue'] = '星期二';
+$labels['wed'] = '星期三';
+$labels['thu'] = '星期四';
+$labels['fri'] = '星期五';
+$labels['sat'] = '星期六';
 $labels['sunday'] = '星期日';
 $labels['monday'] = '星期一';
 $labels['tuesday'] = '星期二';
@@ -92,11 +91,11 @@ $labels['longsep'] = '九月';
 $labels['longoct'] = '十月';
 $labels['longnov'] = '十一月';
 $labels['longdec'] = '十二月';
-$labels['today'] = '今日';
+$labels['today'] = '今天';
 $labels['refresh'] = '刷新';
 $labels['checkmail'] = '收取新邮件';
-$labels['compose'] = '写新邮件';
-$labels['writenewmessage'] = '写新邮件';
+$labels['compose'] = '写邮件';
+$labels['writenewmessage'] = '写邮件';
 $labels['reply'] = '回复';
 $labels['replytomessage'] = '回复发件人';
 $labels['replytoallmessage'] = '回复所有';

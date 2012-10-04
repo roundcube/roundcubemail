@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anton Gladky <Unknown>                                        |
+ | Author: Anton Gladky                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Архів';
+$labels['archivefolder'] = 'Архів';
 $labels['buttontitle'] = 'Архівувати це повідомлення';
 $labels['archived'] = 'Перенесено в архів';
-$labels['archivefolder'] = 'Архів';
 

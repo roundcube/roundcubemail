@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Hamid <abbaszadeh.h@gmail.com>                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,7 @@ $labels['add'] = 'افزودن';
 $labels['del'] = 'حذف';
 $labels['sender'] = 'فرستنده';
 $labels['recipient'] = 'گیرنده';
-$labels['vacationaddresses'] = 'فهرست اضافی آدرس پست الکترونیکی های گیرنده (جداشده با کاما):';
+$labels['vacationaddresses'] = 'آدرس‌های ایمیل دیگر من (جدا شده با ویرگول):';
 $labels['vacationdays'] = 'پیغام ها در چه مواقعی فرستاده شدند (در روزهای):';
 $labels['vacationreason'] = 'بدنه پیغام (علت مسافرت):';
 $labels['vacationsubject'] = 'موضوع پیغام:';

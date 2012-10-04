@@ -11,10 +11,9 @@
  +-----------------------------------------------------------------------+
  | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = 'Bonvolu plenumi vian identon pri sendanto';
+$labels['identitydialogtitle'] = 'Bonvole plenumu vian identon pri sendanto';
 $labels['identitydialoghint'] = 'Ĉi tiu kesto aperas nur unufoje je la unua ensaluto.';
 

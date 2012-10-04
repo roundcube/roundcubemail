@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Nikos Keramidis <info@torus.gr>                               |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Αρχειοθέτηση';
+$labels['archivefolder'] = 'Αρχειοθέτηση';
 $labels['buttontitle'] = 'Αρχειοθέτηση μηνύματος';
 $labels['archived'] = 'Αρχειοθετήθηκε με επιτυχία';
-$labels['archivefolder'] = 'Αρχειοθέτηση';
 

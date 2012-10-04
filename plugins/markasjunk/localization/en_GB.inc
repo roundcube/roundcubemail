@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tony Whitmore <Unknown>                                       |
+ | Author: Christian Foellmann <foellmann@foe-services.de>               |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Junk';
 $labels['buttontitle'] = 'Mark as Junk';
 $labels['reportedasjunk'] = 'Successfully reported as Junk';
 

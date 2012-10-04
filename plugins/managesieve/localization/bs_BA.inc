@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Kenan Dervišević <kenan3008@gmail.com>                      |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,7 @@ $labels['add'] = 'Dodaj';
 $labels['del'] = 'Obriši';
 $labels['sender'] = 'Pošiljaoc';
 $labels['recipient'] = 'Primaoc';
-$labels['vacationaddresses'] = 'Dodatna lista emailova primaoca (odvojenih zarezima):';
+$labels['vacationaddresses'] = 'Moje dodatne email adrese (odvojite zarezima):';
 $labels['vacationdays'] = 'Frekvencija slanja poruka (u danima):';
 $labels['vacationreason'] = 'Tijelo poruke (razlog za odmor):';
 $labels['vacationsubject'] = 'Naslov poruke:';

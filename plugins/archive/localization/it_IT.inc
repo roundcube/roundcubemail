@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: emilio brambilla <Unknown>                                    |
+ | Author: emilio brambilla                                              |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Archivio';
+$labels['archivefolder'] = 'Archivio';
 $labels['buttontitle'] = 'Archivia questo messaggio';
 $labels['archived'] = 'Archiviato correttamente';
-$labels['archivefolder'] = 'Archivio';
 

@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: tudor <tudor@starnet-alba.ro>                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arhivă';
+$labels['archivefolder'] = 'Arhivă';
 $labels['buttontitle'] = 'Arhivează acest mesaj.';
 $labels['archived'] = 'Arhivare reuşită.';
-$labels['archivefolder'] = 'Arhivă';
 

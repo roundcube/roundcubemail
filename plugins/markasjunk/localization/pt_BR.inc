@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Claudio F Filho <filhocf@gmail.com>                           |
+ | Author: Victor Benincasa <vbenincasa@gmail.com>                       |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Marcar como Spam';
 $labels['reportedasjunk'] = 'Marcado como Spam com sucesso';
 

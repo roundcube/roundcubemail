@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: panda <Unknown>                                               |
+ | Author: panda                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Archivovať';
+$labels['archivefolder'] = 'Archivovať';
 $labels['buttontitle'] = 'Archivovať túto správu';
 $labels['archived'] = 'Úspešne archivované';
-$labels['archivefolder'] = 'Archivovať';
 

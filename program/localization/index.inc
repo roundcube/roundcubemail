@@ -18,9 +18,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- $Id$
-
 */
 
 // langage codes according to ISO 639-1
@@ -139,6 +136,8 @@ $rcube_language_aliases = array(
   'no' => 'nn_NO',
   'ms' => 'ms_MY',
   'mr' => 'mr_IN',
+  'ml' => 'ml_IN',
+  'ml_ML' => 'ml_IN',
   'pl' => 'pl_PL',
   'tw' => 'zh_TW',
   'si' => 'si_LK',

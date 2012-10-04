@@ -9,19 +9,18 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emi Bcn <Unknown>                                             |
+ | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
 $labels['basic'] = 'Mostra notificacions del navegador quan hi hagi un missatge nou';
 $labels['desktop'] = 'Mostra notificacions de l\'escriptori quan hi hagi un missatge nou';
 $labels['sound'] = 'Reprodueix el so quan hi hagi un missatge nou';
-$labels['test'] = 'Prova';
+$labels['test'] = 'Comprova';
 $labels['title'] = 'Missatge nou!';
-$labels['body'] = 'Has rebut un missatge nou.';
-$labels['testbody'] = 'Aquesta és una notificació de prova.';
-$labels['desktopdisabled'] = 'Les notificacions d\'escriptori estan deshabilitades al teu navegador.';
-$labels['desktopunsupported'] = 'El teu navegador no suporta les notificacions d\'escriptori.';
+$labels['body'] = 'Heu rebut un missatge nou.';
+$labels['testbody'] = 'Això és una notificació de prova.';
+$labels['desktopdisabled'] = 'Les notificacions d\'escriptori estan deshabilitades al vostre navegador.';
+$labels['desktopunsupported'] = 'El vostre navegador no permet les notificacions d\'escriptori.';
 

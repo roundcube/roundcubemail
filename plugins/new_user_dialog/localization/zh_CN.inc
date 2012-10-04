@@ -9,12 +9,11 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: waring_id <Unknown>                                           |
+ | Author: Christopher Meng <cickumqt@gmail.com>                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = '请填写发送者的标识';
-$labels['identitydialoghint'] = '本提示框只在第一次登陆时显示';
+$labels['identitydialogtitle'] = '请填写发送者标识';
+$labels['identitydialoghint'] = '本提示仅在第一次登录时显示。';
 

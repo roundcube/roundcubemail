@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arkivo';
+$labels['archivefolder'] = 'Arkivo';
 $labels['buttontitle'] = 'Arkivigi ĉi tiun mesaĝon';
 $labels['archived'] = 'Sukcese arkivigita';
-$labels['archivefolder'] = 'Arkivo';
 

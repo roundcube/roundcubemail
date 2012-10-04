@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jiri Grönroos <Unknown>                                      |
+ | Author: Jiri Grönroos                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Roskaposti';
 $labels['buttontitle'] = 'Merkitse roskapostiksi';
 $labels['reportedasjunk'] = 'Ilmoitettu onnistuneesti roskapostista';
 

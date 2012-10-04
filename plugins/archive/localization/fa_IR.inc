@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Hamid <abbaszadeh.h@gmail.com>                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'بایگانی';
+$labels['archivefolder'] = 'بایگانی';
 $labels['buttontitle'] = 'بایگانی این پیغام';
 $labels['archived'] = 'با موفقیت بایگانی شد';
-$labels['archivefolder'] = 'بایگانی';
 

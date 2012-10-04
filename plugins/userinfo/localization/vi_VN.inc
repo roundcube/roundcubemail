@@ -9,14 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hung Pham <phamhung77@gmail.com>                              |
+ | Author: Kenny Tran <kennethanh@gmail.com>                             |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
 $labels['userinfo'] = 'Thông tin người dùng';
-$labels['created'] = 'đã khởi tạo';
-$labels['lastlogin'] = 'lần đăng nhập cuối';
-$labels['defaultidentity'] = 'nhận dạng mặc định';
+$labels['created'] = 'Được tạo';
+$labels['lastlogin'] = 'Lần đăng nhập cuối';
+$labels['defaultidentity'] = 'Nhận diện mặc định';
 

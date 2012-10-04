@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Saša Zejnilović <zejnils@gmail.com>                         |
+ | Author: gpredrag <gavrilovic@gmail.com>                               |
  +-----------------------------------------------------------------------+
 */
 
@@ -168,7 +168,7 @@ $labels['charset'] = 'Скуп карактера';
 $labels['editortype'] = 'Врста едитора';
 $labels['returnreceipt'] = 'Потврда о приспећу';
 $labels['dsn'] = 'Обавештење о статусу слања поруке';
-$labels['mailreplyintro'] = 'Дана  $датум, $посиљатељ  је написао:';
+$labels['mailreplyintro'] = 'Дана $date, $sender је написао:';
 $labels['originalmessage'] = 'Оригинална порука';
 $labels['editidents'] = 'Модификуј псеудониме';
 $labels['spellcheck'] = 'Провера правописа';

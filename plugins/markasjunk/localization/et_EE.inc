@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: yllar                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Rämps';
 $labels['buttontitle'] = 'Märgista Rämpsuks';
 $labels['reportedasjunk'] = 'Edukalt Rämpsuks märgitud';
 

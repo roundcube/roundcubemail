@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Aleksander Machniak <alec@alec.pl>                            |
+ | Author: Szymon Sieciński                                             |
  +-----------------------------------------------------------------------+
 */
 
@@ -71,16 +71,16 @@ $labels['saturday'] = 'Sobota';
 $labels['jan'] = 'sty';
 $labels['feb'] = 'lut';
 $labels['mar'] = 'mar';
-$labels['apr'] = 'kwi';
-$labels['may'] = 'maj';
-$labels['longmay'] = 'maj';
-$labels['jun'] = 'cze';
-$labels['jul'] = 'lip';
-$labels['aug'] = 'sie';
-$labels['sep'] = 'wrz';
-$labels['oct'] = 'paź';
-$labels['nov'] = 'lis';
-$labels['dec'] = 'gru';
+$labels['apr'] = 'Kwi';
+$labels['may'] = 'Maj';
+$labels['longmay'] = 'Maj';
+$labels['jun'] = 'Cze';
+$labels['jul'] = 'Lip';
+$labels['aug'] = 'Sie';
+$labels['sep'] = 'Wrz';
+$labels['oct'] = 'Paź';
+$labels['nov'] = 'Lis';
+$labels['dec'] = 'Gru';
 $labels['longjan'] = 'styczeń';
 $labels['longfeb'] = 'luty';
 $labels['longmar'] = 'marzec';
