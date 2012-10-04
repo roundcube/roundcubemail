@@ -31,6 +31,8 @@
  */
 class rcube_db_sqlite extends rcube_db
 {
+    public $db_provider = 'sqlite';
+
     /**
      * Database character set
      */
