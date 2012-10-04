@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix XSS vulnerability from HTTP User-Agent header (#1488737)
 - Force fonts in compose fields to be all the same (#1488690)
 - Fix handling vCard entries with TEL;TYPE=CELL (#1488728)
 - Integrated zipdownload plugin to download all attachments (#1445509)
