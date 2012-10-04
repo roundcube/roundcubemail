@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ml_ML/labels.inc                                         |
+ | localization/ml_IN/labels.inc                                         |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
@@ -11,10 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Anish A <aneesh.nl@gmail.com>                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = 'സ്വീകര്‍ത്താവിന്റെ വ്യക്തിത്വം പൂര്‍ത്തീകരിക്കുക';
-$labels['identitydialoghint'] = 'ആദ്യത്തെ പ്രവേശനത്തില്‍ മാത്രമേ ഈ പെട്ടി വരികയുള്ളു';
+$labels['buttontext'] = 'ശേഖരം';
+$labels['archivefolder'] = 'ശേഖരം';
+$labels['buttontitle'] = 'ഈ മെസ്സേജ് ശേഖരിക്കുക';
+$labels['archived'] = 'വിജയകരമായി ശേഖരിച്ചു';
 

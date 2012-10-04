@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kristjan SCHMIDT                                              |
+ | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
  +-----------------------------------------------------------------------+
 */
 
@@ -62,7 +62,7 @@ $labels['thu'] = 'Ĵaŭ';
 $labels['fri'] = 'Ven';
 $labels['sat'] = 'Sab';
 $labels['sunday'] = 'Dimanĉo';
-$labels['monday'] = 'Luno';
+$labels['monday'] = 'Lundo';
 $labels['tuesday'] = 'Mardo';
 $labels['wednesday'] = 'Merkredo';
 $labels['thursday'] = 'Ĵaŭdo';
@@ -93,16 +93,16 @@ $labels['longoct'] = 'Oktobro';
 $labels['longnov'] = 'Novembro';
 $labels['longdec'] = 'Decembro';
 $labels['today'] = 'Hodiaŭ';
-$labels['refresh'] = 'Aktualigu';
-$labels['checkmail'] = 'Kontrolu, ĉu novaj mesaĝoj';
-$labels['compose'] = 'Verku mesaĝon';
-$labels['writenewmessage'] = 'Verku novan mesaĝon';
-$labels['reply'] = 'Respondu';
-$labels['replytomessage'] = 'Respondu al mesaĝo';
-$labels['replytoallmessage'] = 'Respondu al sendinto kaj ĉiu ricevinto';
-$labels['replyall'] = 'Respondu al ĉiu';
-$labels['replylist'] = 'Respondu al listo';
-$labels['forward'] = 'Plusendu';
+$labels['refresh'] = 'Aktualigi';
+$labels['checkmail'] = 'Kontroli por novaj mesaĝoj';
+$labels['compose'] = 'Verki';
+$labels['writenewmessage'] = 'Verki novan mesaĝon';
+$labels['reply'] = 'Respondi';
+$labels['replytomessage'] = 'Respondi al sendanto';
+$labels['replytoallmessage'] = 'Respondi al listo aŭ al sendanto kaj al ĉiuj ricevintoj';
+$labels['replyall'] = 'Respondi al ĉiuj';
+$labels['replylist'] = 'Respondi al listo';
+$labels['forward'] = 'Plusendi';
 $labels['forwardinline'] = 'Plusendu enmesaĝe';
 $labels['forwardattachment'] = 'Plusendu alfikse';
 $labels['forwardmessage'] = 'Plusendu mesaĝon';
@@ -186,7 +186,7 @@ $labels['attach'] = 'Alfiksu';
 $labels['attachments'] = 'Alfiksaĵoj';
 $labels['upload'] = 'Alŝutu';
 $labels['uploadprogress'] = '$percent ($current de $total)';
-$labels['close'] = 'Fermu';
+$labels['close'] = 'Fermi';
 $labels['messageoptions'] = 'Mesaĝ-agordoj...';
 $labels['low'] = 'Malalta';
 $labels['lowest'] = 'Plej malalta';
@@ -236,8 +236,8 @@ $labels['notes'] = 'Notoj';
 $labels['male'] = 'viro';
 $labels['female'] = 'virino';
 $labels['manager'] = 'Estro';
-$labels['assistant'] = 'Helpanto';
-$labels['typeassistant'] = 'Helpanto';
+$labels['assistant'] = 'Asistanto';
+$labels['typeassistant'] = 'Asistanto';
 $labels['spouse'] = 'Edz(in)o';
 $labels['allfields'] = 'Ĉiuj kampoj';
 $labels['search'] = 'Serĉu';

@@ -11,10 +11,10 @@
  +-----------------------------------------------------------------------+
  | Author: Kenan Dervišević <kenan3008@gmail.com>                      |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Označi kao spam';
 $labels['reportedasjunk'] = 'Uspješno označeno kao spam';
 

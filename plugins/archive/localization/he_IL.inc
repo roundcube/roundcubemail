@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Moshe Leibovitch <moish@mln.co.il>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'ארכיון';
+$labels['archivefolder'] = 'ארכיון';
 $labels['buttontitle'] = 'משלוח ההודעה לארכיב';
 $labels['archived'] = 'עדכון הארכיון הצליח';
-$labels['archivefolder'] = 'ארכיון';
 

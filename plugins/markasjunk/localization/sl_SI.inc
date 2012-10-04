@@ -11,10 +11,10 @@
  +-----------------------------------------------------------------------+
  | Author: Barbara Krasovec <barbarak@arnes.si>                          |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Nezaželena sporočila';
 $labels['buttontitle'] = 'Označi kot spam';
 $labels['reportedasjunk'] = 'Uspešno označeno kot spam';
 

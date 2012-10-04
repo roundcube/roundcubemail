@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Johannes Hessellund <osos@openeyes.dk>                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arkiv';
+$labels['archivefolder'] = 'Arkiv';
 $labels['buttontitle'] = 'Arkivér denne besked';
 $labels['archived'] = 'Succesfuldt arkiveret.';
-$labels['archivefolder'] = 'Arkiv';
 

@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Chris January <Unknown>                                       |
+ | Author: Chris January                                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Archive';
+$labels['archivefolder'] = 'Archive';
 $labels['buttontitle'] = 'Archive this message';
 $labels['archived'] = 'Successfully archived';
-$labels['archivefolder'] = 'Archive';
 

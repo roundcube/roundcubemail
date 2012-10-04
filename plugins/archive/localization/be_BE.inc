@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Alex Nehaichik <nab@mail.by>                                  |
+ | Author: Alex Nehaichik <alex.nehaichik@gmail.com>                     |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Архіў';
+$labels['archivefolder'] = 'Архіў';
 $labels['buttontitle'] = 'Перанесці ў Архіў';
 $labels['archived'] = 'Паспяхова перанесены ў Архіў';
-$labels['archivefolder'] = 'Архіў';
 

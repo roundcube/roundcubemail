@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hung Pham <phamhung77@gmail.com>                              |
+ | Author: Kenny Tran <kennethanh@gmail.com>                             |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -22,6 +21,6 @@ $labels['test'] = 'Kiểm tra';
 $labels['title'] = 'Có thư mới!';
 $labels['body'] = 'Bạn vừa nhận một thư mới';
 $labels['testbody'] = 'Đây là thông báo kiểm tra';
-$labels['desktopdisabled'] = 'thông báo máy tính bị tắt trên trình duyệt của bạn';
+$labels['desktopdisabled'] = 'Thông báo máy tính bị tắt trên trình duyệt của bạn';
 $labels['desktopunsupported'] = 'Trình duyệt của bạn không hỗ trợ thông báo trên máy tính';
 

@@ -11,10 +11,10 @@
  +-----------------------------------------------------------------------+
  | Author: Moshe Leibovitch <moish@mln.co.il>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['buttontitle'] = 'סימון כדואר זבל';
-$labels['reportedasjunk'] = 'סומן בהצלחה כדואר זבל';
+$labels['buttontext'] = 'זבל';
+$labels['buttontitle'] = 'סמן כדואר זבל';
+$labels['reportedasjunk'] = 'דואר הזבל דווח בהצלחה';
 

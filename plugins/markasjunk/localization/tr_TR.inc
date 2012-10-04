@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul <Unknown>                                      |
+ | Author: ismail yenigul                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'İstenmeyen';
 $labels['buttontitle'] = 'Çöp olarak işaretle';
 $labels['reportedasjunk'] = 'Spam olarak rapor edildi';
 

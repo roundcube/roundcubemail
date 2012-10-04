@@ -9,12 +9,11 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emi Bcn <Unknown>                                             |
+ | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['addvcardmsg'] = 'Afegir la vCard a la llibreta d\'adreces';
+$labels['addvcardmsg'] = 'Afegeix la vCard a la llibreta d\'adreces';
 $labels['vcardsavefailed'] = 'No s\'ha pogut desar la vCard';
 

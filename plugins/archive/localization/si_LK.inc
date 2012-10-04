@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Mohamed Rizmi <Unknown>                                       |
+ | Author: Mohamed Rizmi                                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'සංරක්‍ෂණය';
+$labels['archivefolder'] = 'සංරක්‍ෂණය';
 $labels['buttontitle'] = 'මෙම පණිවිඩය සංරක්‍ෂණය කරන්න';
 $labels['archived'] = 'සංරක්‍ෂණය සාර්ථකයි';
-$labels['archivefolder'] = 'සංරක්‍ෂණය';
 

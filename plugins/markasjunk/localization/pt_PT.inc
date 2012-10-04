@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David <Unknown>                                               |
+ | Author: David                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Lixo';
 $labels['buttontitle'] = 'Marcar como Lixo';
 $labels['reportedasjunk'] = 'Reportado como Lixo com sucesso';
 

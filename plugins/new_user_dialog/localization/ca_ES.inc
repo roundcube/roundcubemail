@@ -9,12 +9,11 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emi Bcn <Unknown>                                             |
+ | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = 'Si us plau, completa la teva identitat del remitent';
-$labels['identitydialoghint'] = 'Aquesta caixa només apareix un cop a la primera entrada.';
+$labels['identitydialogtitle'] = 'Si us plau, completeu la identitat del vostre remitent';
+$labels['identitydialoghint'] = 'Aquest quadre només apareix un cop a la primera entrada.';
 

@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Svebor Prstačić <svebor.prstacic@gmail.com>                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arhiva';
+$labels['archivefolder'] = 'Arhiva';
 $labels['buttontitle'] = 'Arhiviraj poruku';
 $labels['archived'] = 'Uspješno arhivirana';
-$labels['archivefolder'] = 'Arhiva';
 

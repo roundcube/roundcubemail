@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
+ | Author: Andrea Bernini <andrea.bernini@gmail.com>                     |
  +-----------------------------------------------------------------------+
 */
 
@@ -22,6 +22,7 @@ $messages['storageerror'] = 'Impossibile connettersi al server IMAP';
 $messages['servererror'] = 'Errore del server!';
 $messages['servererrormsg'] = 'Errore del server: $msg';
 $messages['dberror'] = 'Errore del database!';
+$messages['requesttimedout'] = 'Richiesta scaduta';
 $messages['errorreadonly'] = 'Impossibile eseguire l\'operazione. Cartella in sola lettura';
 $messages['errornoperm'] = 'Impossibile eseguire l\'operazione. Permesso negato';
 $messages['invalidrequest'] = 'Richiesta non valida! Nessun dato salvato.';

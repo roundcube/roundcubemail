@@ -11,10 +11,10 @@
  +-----------------------------------------------------------------------+
  | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Rubaĵo';
 $labels['buttontitle'] = 'Marki kiel rubaĵo';
 $labels['reportedasjunk'] = 'Sukcese raportita kiel rubaĵo';
 

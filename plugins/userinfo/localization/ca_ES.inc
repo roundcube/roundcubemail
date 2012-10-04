@@ -9,14 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emi Bcn <Unknown>                                             |
+ | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
 $labels['userinfo'] = 'Informació de l\'usuari/a';
 $labels['created'] = 'Creat';
 $labels['lastlogin'] = 'Última connexió';
-$labels['defaultidentity'] = 'Identitat per omissió';
+$labels['defaultidentity'] = 'Identitat per defecte';
 

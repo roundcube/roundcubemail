@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: seunghwan lee <hellix98@gmail.com>                            |
+ | Author: Kim, Woohyun <woohyun.kim@gmail.com>                          |
  +-----------------------------------------------------------------------+
 */
 
@@ -308,7 +308,7 @@ $labels['dstactive'] = '서머타임';
 $labels['htmleditor'] = 'HTML 메일 쓰기';
 $labels['htmlonreply'] = 'HTML 메시지에 회신할 때에 만';
 $labels['htmlsignature'] = 'HTML 서명';
-$labels['previewpane'] = '이전 구역 보기';
+$labels['previewpane'] = '미리 보기 창 보기';
 $labels['skin'] = '인터페이스 스킨';
 $labels['logoutclear'] = '로그아웃할 때 휴지통 비우기';
 $labels['logoutcompact'] = '로그아웃할 때 받은편지함 압축하기';

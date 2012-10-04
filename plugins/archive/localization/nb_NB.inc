@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Martin Bore <Unknown>                                         |
+ | Author: Tobias V. Langhoff <spug@thespug.net>                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['buttontitle'] = 'Arkiver meldingen';
+$labels['buttontext'] = 'Arkiv';
 $labels['archivefolder'] = 'Arkiv';
+$labels['buttontitle'] = 'Arkiver meldingen';
+$labels['archived'] = 'Arkivert';
 

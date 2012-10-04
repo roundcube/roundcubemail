@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dafydd Tomos <Unknown>                                        |
+ | Author: Dafydd Tomos                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,7 @@ $labels['add'] = 'Ychwanegu';
 $labels['del'] = 'Dileu';
 $labels['sender'] = 'Anfonwr';
 $labels['recipient'] = 'Derbynnwr';
-$labels['vacationaddresses'] = 'Rhestr ychwanegol o ebost derbynnwyr (gwahanwyd a coma):';
+$labels['vacationaddresses'] = 'Fy chyfeiriadau ebost ychwanegol (gwahanir gyda coma):';
 $labels['vacationdays'] = 'Pa mor aml i ddanfon negeseuon (mewn dyddiau):';
 $labels['vacationreason'] = 'Corff neges (rheswm ar wyliau):';
 $labels['vacationsubject'] = 'Pwnc neges:';
@@ -114,4 +113,37 @@ $labels['detail'] = 'manylion';
 $labels['comparator'] = 'cymharydd';
 $labels['default'] = 'rhagosodiad';
 $labels['octet'] = 'llym (octet)';
+$labels['asciicasemap'] = 'maint llythrennau (ascii-casemap)';
+$labels['asciinumeric'] = 'rhifau (ascii-numeric)';
+$labels['filterunknownerror'] = 'Gwall gweinydd anhysbys.';
+$labels['filterconnerror'] = 'Methwyd cysylltu a\'r gweinydd.';
+$labels['filterdeleteerror'] = 'Methwyd dileu hidlydd. Cafwydd gwall gweinydd.';
+$labels['filterdeleted'] = 'Dilëuwyd hidlydd yn llwyddiannus.';
+$labels['filtersaved'] = 'Cadwyd hidlydd yn llwyddiannus.';
+$labels['filtersaveerror'] = 'Methwyd cadw hidlydd. Cafwyd gwall gweinydd.';
+$labels['filterdeleteconfirm'] = 'Ydych chi wir am ddileu yr hidlydd ddewiswyd?';
+$labels['ruledeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r rheol ddewiswyd?';
+$labels['actiondeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r weithred ddewiswyd?';
+$labels['forbiddenchars'] = 'Llythrennau gwaharddedig yn y maes.';
+$labels['cannotbeempty'] = 'Ni all y maes fod yn wag.';
+$labels['ruleexist'] = 'Mae hidlydd gyda\'r enw yma yn bodoli\'n barod.';
+$labels['setactivateerror'] = 'Methwyd bywiogi y set hidlydd dewiswyd. Cafwyd gwall gweinydd.';
+$labels['setdeactivateerror'] = 'Methwyd dadfywiogi y set hidlydd dewiswyd. Cafwyd gwall gweinydd.';
+$labels['setdeleteerror'] = 'Methwyd dileu y set hidlydd dewiswyd. Cafwyd gwall gweinydd.';
+$labels['setactivated'] = 'Bywiogwyd y set hidlydd yn llwyddiannus.';
+$labels['setdeactivated'] = 'Dadfywiogwyd y set hidlydd yn llwyddiannus.';
+$labels['setdeleted'] = 'Dilëuwyd y set hidlydd yn llwyddiannus.';
+$labels['setdeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r set hidlydd ddewiswyd?';
+$labels['setcreateerror'] = 'Methwyd creu set hidlydd. Cafwyd gwall gweinydd.';
+$labels['setcreated'] = 'Crëuwyd y set hidlydd yn llwyddiannus.';
+$labels['activateerror'] = 'Methwyd galluogi y hidlydd(ion) dewiswyd. Cafwyd gwall gweinydd.';
+$labels['deactivateerror'] = 'Methwyd analluogi y hidlydd(ion) dewiswyd. Cafwyd gwall gweinydd.';
+$labels['activated'] = 'Analluogwyd y hidlydd(ion) yn llwyddiannus.';
+$labels['deactivated'] = 'Galluogwyd y hidlydd(ion) yn llwyddiannus.';
+$labels['moved'] = 'Symudwyd y hidlydd yn llwyddiannus.';
+$labels['moveerror'] = 'Methwyd symud y hidlydd dewiswyd. Cafwyd gwall gweinydd.';
+$labels['nametoolong'] = 'Enw yn rhy hir.';
+$labels['namereserved'] = 'Enw neilltuedig.';
+$labels['setexist'] = 'Mae\'r set yn bodoli\'n barod.';
+$labels['nodata'] = 'Rhaid dewis o leia un safle!';
 

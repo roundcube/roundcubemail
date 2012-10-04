@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Droszler Gabor <droszler@datatrans.hu>                        |
+ | Author: Németh András <narzym@hotmail.com>                          |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Levélszemét';
 $labels['buttontitle'] = 'Szemétnek jelölés';
 $labels['reportedasjunk'] = 'Sikeresen szemétnek jelentve';
 

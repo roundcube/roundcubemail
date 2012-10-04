@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: emilio brambilla <Unknown>                                    |
+ | Author: Andrea Bernini <andrea.bernini@gmail.com>                     |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -284,6 +283,7 @@ $labels['exportvcards'] = 'Esporta i contatti in formato vCard';
 $labels['newcontactgroup'] = 'Crea un nuovo gruppo';
 $labels['grouprename'] = 'Rinomina il gruppo';
 $labels['groupdelete'] = 'Cancella il gruppo';
+$labels['groupremoveselected'] = 'Rimuovi i contatti selezionati dal gruppo';
 $labels['previouspage'] = 'Pagina precedente';
 $labels['firstpage'] = 'Prima pagina';
 $labels['nextpage'] = 'Pagina successiva';
@@ -343,6 +343,7 @@ $labels['readwhendeleted'] = 'Marca il messaggio come letto prima di eliminarlo'
 $labels['flagfordeletion'] = 'Marca il messaggio come eliminato invece di eliminarlo';
 $labels['skipdeleted'] = 'Non mostrare i messaggi marcati come eliminati';
 $labels['deletealways'] = 'Quando non è possinile spostare i messaggi nel Cestino eliminali';
+$labels['deletejunk'] = 'Elimina direttamente i messaggi in Spam';
 $labels['showremoteimages'] = 'Mostra immagini remote contenute nel messaggio';
 $labels['fromknownsenders'] = 'da mittenti conosciuti';
 $labels['always'] = 'sempre';

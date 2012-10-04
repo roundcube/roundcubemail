@@ -11,10 +11,10 @@
  +-----------------------------------------------------------------------+
  | Author: Rimas Kudelis <rq@akl.lt>                                     |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Brukalas';
 $labels['buttontitle'] = 'Žymėti kaip brukalą';
 $labels['reportedasjunk'] = 'Sėkmingai pranešta, jog laiškas yra brukalas';
 

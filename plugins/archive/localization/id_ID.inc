@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya <Unknown>                              |
+ | Author: Putu Arya Sabda Wijaya                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arsip';
+$labels['archivefolder'] = 'Arsip';
 $labels['buttontitle'] = 'Arsipkan pesan ini';
 $labels['archived'] = 'Berhasil mengarsipkan';
-$labels['archivefolder'] = 'Arsip';
 

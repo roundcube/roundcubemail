@@ -9,12 +9,11 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hung Pham <phamhung77@gmail.com>                              |
+ | Author: Kenny Tran <kennethanh@gmail.com>                             |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = 'Hãy điền nhận diện người gửi của bạn';
+$labels['identitydialogtitle'] = 'Xin điền nhận diện người gửi của bạn';
 $labels['identitydialoghint'] = 'Hộp này chỉ xuất hiện 1 lần khi đăng nhập lần đầu tiên';
 

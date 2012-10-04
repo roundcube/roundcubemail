@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: Emin Mastizadeh <emin25@ovi.com>                              |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -169,8 +168,9 @@ $labels['editidents'] = 'İdentifikasiyanı dəyiş';
 $labels['checkspelling'] = 'Orfoqrafiyanı yoxla';
 $labels['resumeediting'] = 'Redaktəni davam et';
 $labels['revertto'] = 'Dəyişiklikləri ləğv et';
-$labels['attachments'] = 'Əlavələr';
+$labels['attachments'] = 'Bərkidilmiş Fayllar';
 $labels['upload'] = 'Yüklə';
+$labels['uploadprogress'] = '$percent ($current cəmi: $total)';
 $labels['close'] = 'Bağla';
 $labels['messageoptions'] = 'Məktub xüsusiyyətləri...';
 $labels['low'] = 'Alçaq';

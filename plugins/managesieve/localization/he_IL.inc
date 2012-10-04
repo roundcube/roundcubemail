@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Yaron <sh.yaron@gmail.com>                                    |
+ | Author: Moshe Leibovitch <moish@mln.co.il>                            |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,7 @@ $labels['add'] = 'הוספה';
 $labels['del'] = 'מחיקה';
 $labels['sender'] = 'השולח';
 $labels['recipient'] = 'הנמען';
-$labels['vacationaddresses'] = 'רשימה של כתובות דוא"ל של נמענים נוספים ( מופרדים על ידי פסיק ):';
+$labels['vacationaddresses'] = 'כתובות דוא"ל נוספות שלי (מופרדות ע"י פסיקים)';
 $labels['vacationdays'] = 'באיזו תדירות ( בימים ) לשלוח הודעות:';
 $labels['vacationreason'] = 'גוף ההודעה (סיבת החופשה):';
 $labels['vacationsubject'] = 'נושא ההודעה:';

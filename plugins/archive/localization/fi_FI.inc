@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jiri Grönroos <Unknown>                                      |
+ | Author: Jiri Grönroos                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arkistoi';
+$labels['archivefolder'] = 'Arkistoi';
 $labels['buttontitle'] = 'Arkistoi viesti';
 $labels['archived'] = 'Arkistoitu onnistuneesti';
-$labels['archivefolder'] = 'Arkistoi';
 

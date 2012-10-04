@@ -9,12 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Martin Bore <Unknown>                                         |
+ | Author: Patrick Kvaksrud <patrick@idrettsforbundet.no>                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
 $labels['userinfo'] = 'Brukerinformasjon';
 $labels['created'] = 'Opprettet';
+$labels['lastlogin'] = 'Sist logget inn';
+$labels['defaultidentity'] = 'Standard identitet';
 

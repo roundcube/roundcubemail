@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hung Pham <phamhung77@gmail.com>                              |
+ | Author: Kenny Tran <kennethanh@gmail.com>                             |
  +-----------------------------------------------------------------------+
 */
 
 $labels = array();
 $labels['help'] = 'Trợ giúp';
-$labels['about'] = 'Giới thiệu';
+$labels['about'] = 'Lời ngõ';
 $labels['license'] = 'Bản quyền';
 

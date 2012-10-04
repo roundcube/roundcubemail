@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Rimas Kudelis <rq@akl.lt>                                     |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -22,7 +21,7 @@ $labels['server'] = 'Serveris';
 $labels['login'] = 'Prisijungti';
 $labels['logout'] = 'Atsijungti';
 $labels['mail'] = 'El. paštas';
-$labels['settings'] = 'Nuostatos';
+$labels['settings'] = 'Nustatymai';
 $labels['addressbook'] = 'Adresų knyga';
 $labels['inbox'] = 'Gauti laiškai';
 $labels['drafts'] = 'Juodraščiai';
