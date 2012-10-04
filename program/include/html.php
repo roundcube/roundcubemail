@@ -643,9 +643,9 @@ class html_table extends html
         $cell->content = $cont;
 
         $this->rows[$this->rowindex]->cells[$this->colindex] = $cell;
-        $this->colindex++;
+        $this->colindex += max(1, intval($attr['colspan']));
 
-        if ($this->attrib['cols'] && $this->colindex == $this->attrib['cols']) {
+        if ($this->attrib['cols'] && $this->colindex >= $this->attrib['cols']) {
             $this->add_row();
         }
     }
