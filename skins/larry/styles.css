@@ -2002,6 +2002,10 @@ ul.toolbarmenu li span.conversation {
 	white-space: nowrap;
 }
 
+.ui-dialog-content .tabsbar {
+	margin-bottom: 0;
+}
+
 .tabsbar .tablink {
 	padding: 15px 1px 15px 0;
 	background: #f8f8f8;
