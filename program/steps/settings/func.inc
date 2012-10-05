@@ -157,7 +157,6 @@ function rcmail_user_prefs($current=null)
 
     $blocks = array(
       'main'    => array('name' => Q(rcube_label('mainoptions'))),
-      'browser' => array('name' => Q(rcube_label('browseroptions'))),
     );
 
     // language selection
@@ -252,15 +251,32 @@ function rcmail_user_prefs($current=null)
 
       if (count($skins) > 1) {
         $field_id = 'rcmfd_skin';
-        $input_skin = new html_select(array('name'=>'_skin', 'id'=>$field_id));
+        $input_skin = new html_radiobutton(array('name'=>'_skin'));
 
-        foreach($skins as $skin)
-          $input_skin->add($skin, $skin);
+        $blocks['skin'] = array('name' => Q(rcube_label('skin')),);
 
-        $blocks['main']['options']['skin'] = array(
-          'title' => html::label($field_id, Q(rcube_label('skin'))),
-          'content' => $input_skin->show($config['skin']),
-        );
+        foreach($skins as $skin) {
+          $thumbnail = "./skins/$skin/thumbnail.png";
+          if (!is_file($thumbnail))
+            $thumbnail = './program/resources/blank.gif';
+
+          $skinname = ucfirst($skin);
+          $author_link = $license_link = '';
+          $meta = @json_decode(@file_get_contents("./skins/$skin/meta.json"), true);
+          if (is_array($meta) && $meta['name']) {
+            $skinname = $meta['name'];
+            $author_link  = $meta['url'] ? html::a(array('href' => $meta['url'], 'target' => '_blank'), Q($meta['author'])) : Q($meta['author']);
+            $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank'), Q($meta['license'])) : Q($meta['license']);
+          }
+
+          $blocks['skin']['options'][$skin]['content'] = html::label(array('class' => 'skinselection'),
+            html::span('skinitem', $input_skin->show($config['skin'], array('value' => $skin, 'id' => $field_id.$skin))) .
+            html::span('skinitem', html::img(array('src' => $thumbnail, 'class' => 'skinthumbnail', 'alt' => $skin, 'width' => 64, 'height' => 64))) .
+            html::span('skinitem', html::span('skinname', Q($skinname)) . html::br() .
+              html::span('skinauthor', $author_link ? 'by ' . $author_link : '') . html::br() .
+              html::span('skinlicense', $license_link ? rcube_label('license').':&nbsp;' . $license_link : ''))
+          );
+        }
       }
     }
 
@@ -268,10 +284,13 @@ function rcmail_user_prefs($current=null)
     $RCMAIL->output->add_script(sprintf("%s.check_protocol_handler('%s', '#mailtoprotohandler');",
       JS_OBJECT_NAME, JQ($product_name)), 'foot');
 
-    $blocks['browser']['options']['mailtoprotohandler'] = array(
-      'content' => html::a(array(
-        'href' => '#',
-        'id' => 'mailtoprotohandler'), Q(rcube_label('mailtoprotohandler'))),
+    $blocks['browser'] = array(
+      'name' => Q(rcube_label('browseroptions')),
+      'options' => array('mailtoprotohandler' => array(
+        'content' => html::a(array(
+          'href' => '#',
+          'id' => 'mailtoprotohandler'), Q(rcube_label('mailtoprotohandler'))),
+        )),
     );
 
     break;

@@ -217,6 +217,39 @@
 	text-align: right;
 }
 
+.skinselection {
+	display: block;
+}
+
+.skinselection span {
+	display: inline-block;
+	vertical-align: middle;
+	padding-right: 1em;
+}
+
+.skinselection .skinname {
+	font-weight: bold;
+}
+
+.skinselection .skinlicense,
+.skinselection .skinlicense a {
+	font-style: italic;
+	color: #666;
+	text-decoration: none;
+}
+
+.skinselection .skinlicense a:hover {
+	text-decoration: underline;
+}
+
+img.skinthumbnail {
+	width: 64px;
+	height: 64px;
+	border: 1px solid #ccc;
+	background: #fff;
+	border-radius: 4px;
+}
+
 #pluginlist td.version {
 	width: 5em;
 }
