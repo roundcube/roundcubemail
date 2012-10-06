@@ -1,9 +1,6 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix XSS vulnerability from HTTP User-Agent header (#1488737)
-- Force fonts in compose fields to be all the same (#1488690)
-- Fix handling vCard entries with TEL;TYPE=CELL (#1488728)
 - Integrated zipdownload plugin to download all attachments (#1445509)
 - Fix HTML special characters handling in message list/header display (#1488523)
 - List related text/html part as attachment in plain text mode (#1488677)
@@ -11,27 +8,11 @@ CHANGELOG Roundcube Webmail
 - Fix folder creation under public namespace root (#1488665)
 - Fix so "Edit as new" on draft creates a new message (#1488687)
 - Fix invalid error message on deleting mail from read only folder (#1488694)
-- Fix error where session wasn't updated after folder rename/delete (#1488692)
 - Replace data URIs of images (pasted in HTML editor) with inline attachments (#1488502)
-- Fix PLAIN authentication for some IMAP servers (#1488674)
-- Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
-- Fix focus issue in IE when selecting message row (#1488620)
 - Remove (too big) min-width on mail screen
-- Add full headers view in message preview window (#1488538)
-- Fix message display page issues - unified with message preview (#1488590, #1488642)
-- Fix displaying all headers when they contain malformed characters (#1488666)
-- Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
-- Fix quota capability detection so it can be overwritten by a plugin (#1488655)
 - Added template object 'frame'
-- Fix identity selection on reply (#1488101)
 - Add option to enable HTML editor on forwarding (#1488517)
 - Add option to not include original message on reply, rename option top_posting to reply_mode (#1485149)
-- Fix Larry's messages list filter in IE (#1488632)
-- Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)
-- Fix setting locales under Solaris - use additional .UTF-8 suffix (#1488628)
-- Fix email address validation for addresses with IP address in domain part
-- Fix Larry skin issues in IE7 compat. mode (#1488618)
-- Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 - Added session_path config option and unified cookies settings in javascript
 - Added "Undeleted" option to messages list filter
 - Rewritten test scripts for PHPUnit
@@ -59,6 +40,28 @@ CHANGELOG Roundcube Webmail
     Unified global functions naming (rcube_ prefix)
     Move global functions from main.inc and rcube_shared.inc into classes
     Better classes separation
+
+RELEASE 0.8.2
+-------------
+- Fix XSS vulnerability from HTTP User-Agent header (#1488737)
+- Force fonts in compose fields to be all the same (#1488690)
+- Fix handling vCard entries with TEL;TYPE=CELL (#1488728)
+- Fix error where session wasn't updated after folder rename/delete (#1488692)
+- Fix PLAIN authentication for some IMAP servers (#1488674)
+- Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
+- Fix focus issue in IE when selecting message row (#1488620)
+- Add full headers view in message preview window (#1488538)
+- Fix message display page issues - unified with message preview (#1488590, #1488642)
+- Fix displaying all headers when they contain malformed characters (#1488666)
+- Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
+- Fix quota capability detection so it can be overwritten by a plugin (#1488655)
+- Fix identity selection on reply (#1488101)
+- Fix Larry's messages list filter in IE (#1488632)
+- Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)
+- Fix setting locales under Solaris - use additional .UTF-8 suffix (#1488628)
+- Fix email address validation for addresses with IP address in domain part
+- Fix Larry skin issues in IE7 compat. mode (#1488618)
+- Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 
 RELEASE 0.8.1
 -------------
