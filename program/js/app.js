@@ -1066,7 +1066,10 @@ function rcube_webmail()
 
       case 'export':
         if (this.contact_list.rowcount > 0) {
-          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request });
+          if (this.contact_list.get_selection().length > 0)
+            this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') });
+          else
+            this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request });
         }
         break;
 
