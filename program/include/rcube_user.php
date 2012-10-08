@@ -435,31 +435,33 @@ class rcube_user
     {
         $user_name  = '';
         $user_email = '';
-        $rcube = rcube::get_instance();
+        $rcube      = rcube::get_instance();
+        $dbh        = $rcube->get_dbh();
 
         // try to resolve user in virtuser table and file
         if ($email_list = self::user2email($user, false, true)) {
             $user_email = is_array($email_list[0]) ? $email_list[0]['email'] : $email_list[0];
         }
 
-        $data = $rcube->plugins->exec_hook('user_create',
-            array('user'=>$user, 'user_name'=>$user_name, 'user_email'=>$user_email, 'host'=>$host));
+        $data = $rcube->plugins->exec_hook('user_create', array(
+            'host'       => $host,
+            'user'       => $user,
+            'user_name'  => $user_name,
+            'user_email' => $user_email,
+            'email_list' => $email_list,
+        ));
 
         // plugin aborted this operation
-        if ($data['abort'])
+        if ($data['abort']) {
             return false;
-
-        $user_name  = $data['user_name'];
-        $user_email = $data['user_email'];
-
-        $dbh = $rcube->get_dbh();
+        }
 
         $dbh->query(
             "INSERT INTO ".$dbh->table_name('users').
             " (created, last_login, username, mail_host, language)".
             " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
-            strip_newlines($user),
-            strip_newlines($host),
+            strip_newlines($data['user']),
+            strip_newlines($data['host']),
             strip_newlines($data['language'] ? $data['language'] : $_SESSION['language']));
 
         if ($user_id = $dbh->insert_id('users')) {
@@ -467,20 +469,25 @@ class rcube_user
             $user_instance = new rcube_user($user_id);
             $rcube->user   = $user_instance;
 
-            $mail_domain = $rcube->config->mail_domain($host);
+            $mail_domain = $rcube->config->mail_domain($data['host']);
+            $user_name   = $data['user_name'];
+            $user_email  = $data['user_email'];
+            $email_list  = $data['email_list'];
 
-            if ($user_email == '') {
-                $user_email = strpos($user, '@') ? $user : sprintf('%s@%s', $user, $mail_domain);
-            }
-            if ($user_name == '') {
-                $user_name = $user != $user_email ? $user : '';
-            }
-
-            if (empty($email_list))
+            if (empty($email_list)) {
+                if (empty($user_email)) {
+                    $user_email = strpos($data['user'], '@') ? $user : sprintf('%s@%s', $data['user'], $mail_domain);
+                }
                 $email_list[] = strip_newlines($user_email);
+            }
             // identities_level check
-            else if (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1)
+            else if (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1) {
                 $email_list = array($email_list[0]);
+            }
+
+            if (empty($user_name)) {
+                $user_name = $data['user'];
+            }
 
             // create new identities records
             $standard = 1;
@@ -488,16 +495,21 @@ class rcube_user
                 $record = array();
 
                 if (is_array($row)) {
+                    if (empty($row['email'])) {
+                        continue;
+                    }
                     $record = $row;
                 }
                 else {
                     $record['email'] = $row;
                 }
 
-                if (empty($record['name']))
-                    $record['name'] = $user_name;
-                $record['name'] = strip_newlines($record['name']);
-                $record['user_id'] = $user_id;
+                if (empty($record['name'])) {
+                    $record['name'] = $user_name != $record['email'] ? $user_name : '';
+                }
+
+                $record['name']     = strip_newlines($record['name']);
+                $record['user_id']  = $user_id;
                 $record['standard'] = $standard;
 
                 $plugin = $rcube->plugins->exec_hook('identity_create',
