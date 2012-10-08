@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix Warning: htmlspecialchars(): charset `RCMAIL_CHARSET' not supported warning in Installer (#1488744)
+
+RELEASE 0.8.2
+-------------
 - Fix XSS vulnerability from HTTP User-Agent header (#1488737)
 - Force fonts in compose fields to be all the same (#1488690)
 - Add full headers view in message preview window (#1488538)
