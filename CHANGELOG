@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Plugin API: Add 'email_list' argument for identities data in user_create hook
 - Integrated zipdownload plugin to download all attachments (#1445509)
 - Fix HTML special characters handling in message list/header display (#1488523)
 - List related text/html part as attachment in plain text mode (#1488677)
