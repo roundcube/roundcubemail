@@ -635,7 +635,7 @@ function rcube_render_mailboxlist()
   var list = $('#mailboxlist > li a, #mailboxlist ul:visible > li a');
 
   // it's too slow with really big number of folders, especially on IE
-  if (list.length > 500 * (bw.ie ? 0.2 : 1))
+  if (list.length > (bw.ie ? 25 : 100))
     return;
 
   list.each(function(){
