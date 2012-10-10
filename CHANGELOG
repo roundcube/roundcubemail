@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix lower-casing email address on replies (#1488598)
 - Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 
 RELEASE 0.7.3

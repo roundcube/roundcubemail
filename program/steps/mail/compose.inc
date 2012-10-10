@@ -243,7 +243,8 @@ $MESSAGE->identities = $USER->list_identities();
 if (count($MESSAGE->identities))
 {
   foreach ($MESSAGE->identities as $idx => $ident) {
-    $email = mb_strtolower(rcube_idn_to_utf8($ident['email']));
+    $ident['email'] = format_email($ident['email']);
+    $email = format_email(rcube_idn_to_utf8($ident['email']));
 
     $MESSAGE->identities[$idx]['email_ascii'] = $ident['email'];
     $MESSAGE->identities[$idx]['ident']       = format_email_recipient($ident['email'], $ident['name']);
@@ -268,7 +269,7 @@ else if (count($MESSAGE->identities)) {
     $a_to = $IMAP->decode_address_list($MESSAGE->headers->to);
     foreach ($a_to as $addr) {
       if (!empty($addr['mailto'])) {
-        $a_recipients[] = strtolower($addr['mailto']);
+        $a_recipients[] = format_email($addr['mailto']);
         $a_names[]      = $addr['name'];
       }
     }
@@ -277,7 +278,7 @@ else if (count($MESSAGE->identities)) {
       $a_cc = $IMAP->decode_address_list($MESSAGE->headers->cc);
       foreach ($a_cc as $addr) {
         if (!empty($addr['mailto'])) {
-          $a_recipients[] = strtolower($addr['mailto']);
+          $a_recipients[] = format_email($addr['mailto']);
           $a_names[]      = $addr['name'];
         }
       }
@@ -424,7 +425,7 @@ foreach ($parts as $header) {
       if (empty($addr_part['mailto']))
         continue;
 
-      $mailto = mb_strtolower(rcube_idn_to_utf8($addr_part['mailto']));
+      $mailto = format_email(rcube_idn_to_utf8($addr_part['mailto']));
 
       if (!in_array($mailto, $a_recipients)
         && ($header == 'to' || empty($MESSAGE->compose['from_email']) || $mailto != $MESSAGE->compose['from_email'])
