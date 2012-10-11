@@ -475,16 +475,18 @@ class rcube_result_thread
             $items = explode(self::SEPARATOR_ITEM, $elem);
             $root  = (int) array_shift($items);
 
-            $result[$elem] = $elem;
-            foreach ($items as $item) {
-                list($lv, $id) = explode(self::SEPARATOR_LEVEL, $item);
+            if ($root) {
+                $result[$root] = $root;
+                foreach ($items as $item) {
+                    list($lv, $id) = explode(self::SEPARATOR_LEVEL, $item);
                     $result[$id] = $root;
+                }
             }
         }
 
         // get only unique roots
         $result = array_filter($result); // make sure there are no nulls
-        $result = array_unique($result, SORT_NUMERIC);
+        $result = array_unique($result);
 
         // Re-sort raw data
         $result = array_fill_keys($result, null);
