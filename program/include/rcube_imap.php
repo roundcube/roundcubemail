@@ -2232,13 +2232,15 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
+        $flags = array('SEEN');
+
         // make sure folder exists
         if ($this->folder_exists($folder)) {
             if ($is_file) {
-                $saved = $this->conn->appendFromFile($folder, $message, $headers);
+                $saved = $this->conn->appendFromFile($folder, $message, $headers, $flags);
             }
             else {
-                $saved = $this->conn->append($folder, $message);
+                $saved = $this->conn->append($folder, $message, $flags);
             }
         }
 

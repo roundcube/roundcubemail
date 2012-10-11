@@ -2540,10 +2540,12 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      * @param string $message Message content
+     * @param array  $flags   Message flags
+     * @param string $date    Message internal date
      *
      * @return string|bool On success APPENDUID response (if available) or True, False on failure
      */
-    function append($mailbox, &$message)
+    function append($mailbox, &$message, $flags = array(), $date = null)
     {
         unset($this->data['APPENDUID']);
 
@@ -2559,12 +2561,17 @@ class rcube_imap_generic
             return false;
         }
 
+        // build APPEND command
         $key = $this->nextTag();
-        $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($mailbox),
-            $len, ($this->prefs['literal+'] ? '+' : ''));
+        $request = "$key APPEND " . $this->escape($mailbox) . ' (' . $this->flagsToStr($flags) . ')';
+        if (!empty($date)) {
+            $request .= ' ' . $this->escape($date);
+        }
+        $request .= ' {' . $len . ($this->prefs['literal+'] ? '+' : '') . '}';
 
+        // send APPEND command
         if ($this->putLine($request)) {
-            // Don't wait when LITERAL+ is supported
+            // Do not wait when LITERAL+ is supported
             if (!$this->prefs['literal+']) {
                 $line = $this->readReply();
 
@@ -2605,10 +2612,12 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      * @param string $path    Path to the file with message body
      * @param string $headers Message headers
+     * @param array  $flags   Message flags
+     * @param string $date    Message internal date
      *
      * @return string|bool On success APPENDUID response (if available) or True, False on failure
      */
-    function appendFromFile($mailbox, $path, $headers=null)
+    function appendFromFile($mailbox, $path, $headers=null, $flags = array(), $date = null)
     {
         unset($this->data['APPENDUID']);
 
@@ -2639,11 +2648,15 @@ class rcube_imap_generic
             $len += strlen($headers) + strlen($body_separator);
         }
 
-        // send APPEND command
+        // build APPEND command
         $key = $this->nextTag();
-        $request = sprintf("$key APPEND %s (\\Seen) {%d%s}", $this->escape($mailbox),
-            $len, ($this->prefs['literal+'] ? '+' : ''));
+        $request = "$key APPEND " . $this->escape($mailbox) . ' (' . $this->flagsToStr($flags) . ')';
+        if (!empty($date)) {
+            $request .= ' ' . $this->escape($date);
+        }
+        $request .= ' {' . $len . ($this->prefs['literal+'] ? '+' : '') . '}';
 
+        // send APPEND command
         if ($this->putLine($request)) {
             // Don't wait when LITERAL+ is supported
             if (!$this->prefs['literal+']) {
@@ -3543,6 +3556,24 @@ class rcube_imap_generic
         }
 
         return $result;
+    }
+
+    /**
+     * Converts flags array into string for inclusion in IMAP command
+     *
+     * @param array $flags Flags (see self::flags)
+     *
+     * @return string Space-separated list of flags
+     */
+    private function flagsToStr($flags)
+    {
+        foreach ((array)$flags as $idx => $flag) {
+            if ($flag = $this->flags[strtoupper($flag)]) {
+                $flags[$idx] = $flag;
+            }
+        }
+
+        return implode(' ', (array)$flags);
     }
 
     /**
