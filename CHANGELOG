@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix Warning: htmlspecialchars(): charset `RCMAIL_CHARSET' not supported warning in Installer (#1488744)
+- Fix threaded list sorting on PHP < 5.2.9 (#1488748)
 
 RELEASE 0.8.2
 -------------
