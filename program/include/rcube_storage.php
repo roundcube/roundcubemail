@@ -545,10 +545,12 @@ abstract class rcube_storage
      * @param string  $message The message source string or filename
      * @param string  $headers Headers string if $message contains only the body
      * @param boolean $is_file True if $message is a filename
+     * @param array   $flags   Message flags
+     * @param mixed   $date    Message internal date
      *
      * @return int|bool Appended message UID or True on success, False on error
      */
-    abstract function save_message($folder, &$message, $headers = '', $is_file = false);
+    abstract function save_message($folder, &$message, $headers = '', $is_file = false, $flags = array(), $date = null);
 
 
     /**

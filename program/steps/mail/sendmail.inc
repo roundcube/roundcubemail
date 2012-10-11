@@ -739,7 +739,8 @@ if ($store_target) {
             'message' => "Could not create message: ".$msg->getMessage()),
             TRUE, FALSE);
     else {
-      $saved = $RCMAIL->storage->save_message($store_target, $msg, $headers, $mailbody_file ? true : false);
+      $saved = $RCMAIL->storage->save_message($store_target, $msg, $headers,
+        $mailbody_file ? true : false, array('SEEN'));
     }
 
     if ($mailbody_file) {
