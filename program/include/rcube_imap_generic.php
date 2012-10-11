@@ -2180,7 +2180,7 @@ class rcube_imap_generic
                             $result[$id]->encoding = $string;
                         break;
                         case 'content-type':
-                            $ctype_parts = preg_split('/[; ]/', $string);
+                            $ctype_parts = preg_split('/[; ]+/', $string);
                             $result[$id]->ctype = strtolower(array_shift($ctype_parts));
                             if (preg_match('/charset\s*=\s*"?([a-z0-9\-\.\_]+)"?/i', $string, $regs)) {
                                 $result[$id]->charset = $regs[1];
