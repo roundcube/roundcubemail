@@ -371,6 +371,10 @@ class rcube_message
             foreach ($structure->parts as $p => $sub_part) {
                 $sub_mimetype = $sub_part->mimetype;
 
+                // skip empty parts
+                if (!$sub_part->size)
+                    continue;
+
                 // check if sub part is
                 if ($sub_mimetype == 'text/plain')
                     $plain_part = $p;
