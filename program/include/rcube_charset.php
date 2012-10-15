@@ -179,7 +179,7 @@ class rcube_charset
         static $mbstring_sch    = null;
         static $conv            = null;
 
-        $to   = empty($to) ? strtoupper(RCMAIL_CHARSET) : $to;
+        $to   = empty($to) ? RCMAIL_CHARSET : self::parse_charset($to);
         $from = self::parse_charset($from);
 
         // It is a common case when UTF-16 charset is used with US-ASCII content (#1488654)
