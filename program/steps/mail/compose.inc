@@ -423,6 +423,8 @@ foreach ($parts as $header) {
       $fvalue = $MESSAGE->get_header('reply-to');
     else if ($header=='followupto' && !empty($MESSAGE->headers->others['mail-followup-to']))
       $fvalue = $MESSAGE->get_header('mail-followup-to');
+
+    $decode_header = false;  // $MESSAGE->get_header() returns already decoded header values
   }
 
   // split recipients and put them back together in a unique way

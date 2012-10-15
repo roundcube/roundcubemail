@@ -256,8 +256,7 @@ if (strlen($_POST['_draft_saveid']) > 3)
 $message_id = rcmail_gen_message_id();
 
 // set default charset
-$input_charset = $OUTPUT->get_charset();
-$message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $input_charset;
+$message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get_charset();
 
 $EMAIL_FORMAT_ERROR = NULL;
 $RECIPIENT_COUNT = 0;
