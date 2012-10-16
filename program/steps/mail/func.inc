@@ -68,6 +68,9 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
 
 // set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
+  // connect to storage server and trigger error on failure
+  $RCMAIL->storage_connect();
+
   $mbox_name = $RCMAIL->storage->get_folder();
 
   if (empty($RCMAIL->action)) {
