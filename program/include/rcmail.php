@@ -2118,10 +2118,9 @@ class rcmail extends rcube
             }
             else {
                 $this->set_storage_prop();
-                return $storage->is_connected();
             }
         }
 
-        return false;
+        return $storage->is_connected();
     }
 }
