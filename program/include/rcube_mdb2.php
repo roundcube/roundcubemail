@@ -197,7 +197,7 @@ class rcube_mdb2
      */
     function is_connected()
     {
-        return PEAR::isError($this->db_handle) ? false : $this->db_connected;
+        return is_a($this->db_handle, 'PEAR_Error') ? false : $this->db_connected;
     }
 
 
