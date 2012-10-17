@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
 - Fix displaying of multipart/alternative messages with empty parts (#1488750)
 - Fix Warning: htmlspecialchars(): charset `RCMAIL_CHARSET' not supported warning in Installer (#1488744)
 - Fix threaded list sorting on PHP < 5.2.9 (#1488748)
