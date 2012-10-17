@@ -323,6 +323,7 @@ $labels['timezone'] = 'Tijdzone';
 $labels['pagesize'] = 'Aantal berichten per pagina';
 $labels['signature'] = 'Ondertekening';
 $labels['dstactive'] = 'Zomertijd';
+$labels['composeextwin'] = 'Berichten in nieuw venster';
 $labels['htmleditor'] = 'Berichten opstellen in HTML-opmaak';
 $labels['htmlonreply'] = 'alleen bij beantwoorden van HTML-berichten';
 $labels['htmlsignature'] = 'HTML-ondertekening';

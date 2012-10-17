@@ -323,6 +323,7 @@ $labels['timezone'] = 'Fuso orario';
 $labels['pagesize'] = 'Righe per pagina';
 $labels['signature'] = 'Firma';
 $labels['dstactive'] = 'Gestione ora legale';
+$labels['composeextwin'] = 'Componi in nuova finestra';
 $labels['htmleditor'] = 'Scrivi i messaggi in HTML';
 $labels['htmlonreply'] = 'solo in risposta a messaggi HTML';
 $labels['htmlsignature'] = 'Firma in HTML';
