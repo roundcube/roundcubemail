@@ -202,7 +202,7 @@ abstract class rcube_plugin
       foreach ($texts as $key => $value)
         $add[$domain.'.'.$key] = $value;
 
-      $rcmail = rcmail::get_instance();
+      $rcmail = rcube::get_instance();
       $rcmail->load_language($lang, $add);
 
       // add labels to client
