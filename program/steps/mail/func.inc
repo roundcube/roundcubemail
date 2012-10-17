@@ -101,18 +101,11 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $OUTPUT->set_env('quota', true);
   }
 
-  if ($CONFIG['delete_junk'])
-    $OUTPUT->set_env('delete_junk', true);
-  if ($CONFIG['flag_for_deletion'])
-    $OUTPUT->set_env('flag_for_deletion', true);
-  if ($CONFIG['read_when_deleted'])
-    $OUTPUT->set_env('read_when_deleted', true);
-  if ($CONFIG['skip_deleted'])
-    $OUTPUT->set_env('skip_deleted', true);
-  if ($CONFIG['display_next'])
-    $OUTPUT->set_env('display_next', true);
-  if ($CONFIG['forward_attachment'])
-    $OUTPUT->set_env('forward_attachment', true);
+  foreach (array('delete_junk','flag_for_deletion','read_when_deleted','skip_deleted','display_next','message_extwin','compose_extwin','forward_attachment') as $prop) {
+    if ($CONFIG[$prop])
+      $OUTPUT->set_env($prop, true);
+  }
+
   if ($CONFIG['trash_mbox'])
     $OUTPUT->set_env('trash_mailbox', $CONFIG['trash_mbox']);
   if ($CONFIG['drafts_mbox'])

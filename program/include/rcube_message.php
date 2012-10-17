@@ -210,15 +210,16 @@ class rcube_message
                 if (!$recursive) {
                     $level = explode('.', $part->mime_id);
 
-                    // Level too high
-                    if (count($level) > 2) {
+                    // Skip if level too deep or part has a file name
+                    if (count($level) > 2 || $part->filename) {
                         continue;
                     }
 
                     // HTML part can be on the lower level, if not...
                     if (count($level) > 1) {
-                        // It can be an alternative or related message part
-                        $parent = $this->mime_parts[0];
+                        array_pop($level);
+                        $parent = $this->mime_parts[join('.', $level)];
+                        // ... parent isn't multipart/alternative or related
                         if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
                             continue;
                         }

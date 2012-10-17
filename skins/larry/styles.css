@@ -637,6 +637,10 @@ a.iconlink.upload {
 	bottom: 20px;
 }
 
+.extwin #mainscreen {
+	top: 40px;
+}
+
 #mainscreen.offset {
 	top: 130px;
 }

@@ -77,6 +77,9 @@ class rcube_output_html extends rcube_output
         $this->set_skin($skin);
         $this->set_env('skin', $skin);
 
+        if (!empty($_REQUEST['_extwin']))
+          $this->set_env('extwin', 1);
+
         // add common javascripts
         $this->add_script('var '.rcmail::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
 
@@ -274,6 +277,8 @@ class rcube_output_html extends rcube_output
      */
     public function redirect($p = array(), $delay = 1)
     {
+        if ($this->env['extwin'])
+            $p['extwin'] = 1;
         $location = $this->app->url($p);
         header('Location: ' . $location);
         exit;
@@ -974,7 +979,7 @@ class rcube_output_html extends rcube_output
             else if (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = $this->app->url(array('action' => $attrib['command']));
             }
-            else if ($attrib['command'] == 'permaurl' && !empty($this->env['permaurl'])) {
+            else if (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
               $attrib['href'] = $this->env['permaurl'];
             }
         }
@@ -1317,6 +1322,10 @@ class rcube_output_html extends rcube_output
     {
       if ($this->framed || !empty($_REQUEST['_framed'])) {
         $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
+        $hidden = $hiddenfield->show();
+      }
+      if ($this->env['extwin']) {
+        $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
         $hidden = $hiddenfield->show();
       }
 

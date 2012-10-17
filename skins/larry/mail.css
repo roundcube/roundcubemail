@@ -30,6 +30,10 @@
 	z-index: 3;
 }
 
+#mailview-right.fullwidth {
+	left: 0;
+}
+
 #mailview-top {
 	position: absolute;
 	top: 42px;

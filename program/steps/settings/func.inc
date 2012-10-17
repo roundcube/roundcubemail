@@ -129,8 +129,8 @@ function rcmail_user_prefs($current=null)
 
   $sections['general'] = array('id' => 'general', 'section' => rcube_label('uisettings'));
   $sections['mailbox'] = array('id' => 'mailbox', 'section' => rcube_label('mailboxview'));
-  $sections['compose'] = array('id' => 'compose', 'section' => rcube_label('messagescomposition'));
   $sections['mailview'] = array('id' => 'mailview','section' => rcube_label('messagesdisplaying'));
+  $sections['compose'] = array('id' => 'compose', 'section' => rcube_label('messagescomposition'));
   $sections['addressbook'] = array('id' => 'addressbook','section' => rcube_label('addressbook'));
   $sections['folders'] = array('id' => 'folders', 'section' => rcube_label('specialfolders'));
   $sections['server'] = array('id' => 'server',  'section' => rcube_label('serversettings'));
@@ -414,6 +414,17 @@ function rcmail_user_prefs($current=null)
       'main' => array('name' => Q(rcube_label('mainoptions'))),
     );
 
+    // show checkbox to open message view in new window
+    if (!isset($no_override['message_extwin'])) {
+      $field_id = 'rcmfd_message_extwin';
+      $input_msgextwin = new html_checkbox(array('name' => '_message_extwin', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['message_extwin'] = array(
+        'title' => html::label($field_id, Q(rcube_label('showinextwin'))),
+        'content' => $input_msgextwin->show($config['message_extwin']?1:0),
+      );
+    }
+
     // show checkbox for HTML/plaintext messages
     if (!isset($no_override['prefer_html'])) {
       $field_id = 'rcmfd_htmlmsg';
@@ -482,6 +493,17 @@ function rcmail_user_prefs($current=null)
       'spellcheck' => array('name' => Q(rcube_label('spellcheckoptions'))),
       'sig'        => array('name' => Q(rcube_label('signatureoptions'))),
     );
+
+    // show checkbox to compose messages in a new window
+    if (!isset($no_override['compose_extwin'])) {
+      $field_id = 'rcmfdcompose_extwin';
+      $input_compextwin = new html_checkbox(array('name' => '_compose_extwin', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['compose_extwin'] = array(
+        'title' => html::label($field_id, Q(rcube_label('composeextwin'))),
+        'content' => $input_compextwin->show($config['compose_extwin']?1:0),
+      );
+    }
 
     if (!isset($no_override['htmleditor'])) {
       $field_id = 'rcmfd_htmleditor';

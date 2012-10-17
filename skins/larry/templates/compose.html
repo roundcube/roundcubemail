@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
 <roundcube:endif />
 </head>
-<body>
+<roundcube:if condition="env:extwin" /><body class="extwin"><roundcube:else /><body><roundcube:endif />
 
 <div class="minwidth">
 <roundcube:include file="/includes/header.html" />
@@ -108,10 +108,11 @@
 </tbody>
 </table>
 
-<div id="composebuttons" class="formbuttons">
+<div id="composebuttons" class="pagenav formbuttons">
 	<roundcube:button type="input" command="send" class="button mainaction" label="sendmessage" tabindex="11" />
 	<roundcube:button type="input" command="savedraft" class="button" label="savemessage" tabindex="12" />
 	<roundcube:button type="input" command="list" class="button" label="cancel" tabindex="13" />
+	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="inner" title="openinextwin" content="[]" condition="!env:extwin" />
 </div>
 
 </div>

@@ -59,6 +59,7 @@ switch ($CURR_SECTION)
 
   case 'mailview':
     $a_user_prefs = array(
+      'message_extwin'  => intval($_POST['_message_extwin']),
       'prefer_html'     => isset($_POST['_prefer_html']) ? TRUE : FALSE,
       'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
       'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
@@ -70,6 +71,7 @@ switch ($CURR_SECTION)
 
   case 'compose':
     $a_user_prefs = array(
+      'compose_extwin'     => intval($_POST['_compose_extwin']),
       'htmleditor'         => intval($_POST['_htmleditor']),
       'draft_autosave'     => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
       'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,

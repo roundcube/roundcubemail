@@ -130,6 +130,7 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'fileuploaderror', 'sendmessage');
 
 $OUTPUT->set_env('compose_id', $COMPOSE['id']);
+$OUTPUT->set_pagetitle(rcube_label('compose'));
 
 // add config parameters to client script
 if (!empty($CONFIG['drafts_mbox'])) {
@@ -606,7 +607,10 @@ function rcmail_compose_editor_mode()
 
   $html_editor = intval($RCMAIL->config->get('htmleditor'));
 
-  if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
+  if (isset($_POST['_is_html'])) {
+    $useHtml = !empty($_POST['_is_html']);
+  }
+  else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
     $useHtml = $MESSAGE->has_html_part(false);
   }
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
@@ -1445,7 +1449,9 @@ function rcmail_receipt_checkbox($attrib)
   $attrib['value'] = '1';
   $checkbox = new html_checkbox($attrib);
 
-  if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
+  if (isset($_POST['_receipt']))
+    $mdn_default = $_POST['_receipt'];
+  else if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
     $mdn_default = (bool) $MESSAGE->headers->mdn_to;
   else
     $mdn_default = $RCMAIL->config->get('mdn_default');
@@ -1472,8 +1478,13 @@ function rcmail_dsn_checkbox($attrib)
   $attrib['value'] = '1';
   $checkbox = new html_checkbox($attrib);
 
+  if (isset($_POST['_dsn']))
+    $dsn_value = $_POST['_dsn'];
+  else
+    $dsn_value = $RCMAIL->config->get('dsn_default');
+
   $out = $form_start ? "$form_start\n" : '';
-  $out .= $checkbox->show($RCMAIL->config->get('dsn_default'));
+  $out .= $checkbox->show($dsn_value);
   $out .= $form_end ? "\n$form_end" : '';
 
   return $out;
@@ -1520,7 +1531,7 @@ function rcmail_store_target_selection($attrib)
     'folder_filter' => 'mail',
     'folder_rights' => 'w',
   )));
-  return $select->show($COMPOSE['param']['sent_mbox'], $attrib);
+  return $select->show(isset($_POST['_store_target']) ? $_POST['_store_target'] : $COMPOSE['param']['sent_mbox'], $attrib);
 }
 
 
