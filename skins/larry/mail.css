@@ -1174,6 +1174,11 @@ div.message-part blockquote blockquote blockquote {
 	z-index: 100;
 }
 
+#composebuttons a.button.extwin {
+	padding: 2px 3px;
+	margin-top: -3px;
+}
+
 .compose-headers {
 	width: 99%;
 	margin: 4px 0;

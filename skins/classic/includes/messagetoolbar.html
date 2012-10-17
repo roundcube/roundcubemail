@@ -1,10 +1,12 @@
 <div id="messagetoolbar">
-<roundcube:if condition="template:name == 'message'" />
+<roundcube:if condition="template:name == 'message' && env:extwin" />
+<roundcube:button command="close" type="link" class="button back" classAct="button back" classSel="button backSel" title="close" content=" " />
+<roundcube:elseif condition="template:name == 'message'" />
 <roundcube:button command="list" type="link" class="button back" classAct="button back" classSel="button backSel" title="backtolist" content=" " />
 <roundcube:else />
 <roundcube:button command="checkmail" type="link" class="button checkmail" classAct="button checkmail" classSel="button checkmailSel" title="checkmail" content=" " />
-<roundcube:endif />
 <roundcube:button command="compose" type="link" class="button compose" classAct="button compose" classSel="button composeSel" title="writenewmessage" content=" " />
+<roundcube:endif />
 <roundcube:button command="reply" type="link" class="buttonPas reply" classAct="button reply" classSel="button replySel" title="replytomessage" content=" " />
 <span class="dropbutton">
 <roundcube:button command="reply-all" type="link" class="buttonPas replyAll" classAct="button replyAll" classSel="button replyAllSel" title="replytoallmessage" content=" " />

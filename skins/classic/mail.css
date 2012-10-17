@@ -13,6 +13,12 @@
 /*  border: 1px solid #cccccc; */
 }
 
+.extwin #messagetoolbar
+{
+  top: 5px;
+  left: 20px;
+}
+
 #messagetoolbar a,
 #messagetoolbar select
 {
@@ -1041,6 +1047,11 @@ td span.branch div.l3
   z-index: 1;
 }
 
+.extwin #messageframe
+{
+	left: 0;
+}
+
 div.messageheaderbox
 {
   margin: -14px 8px 0px 8px;
@@ -1245,7 +1256,7 @@ div.message-htmlpart div.rcmBody
   color: #333333;
 }
 
-#messageviewlink
+#openextwinlink
 {
   position: absolute;
   top: 8px;
@@ -1253,6 +1264,12 @@ div.message-htmlpart div.rcmBody
   width: 15px;
   height: 15px;
   border: 0;
+}
+
+#compose-headers #openextwinlink
+{
+	top: 4px;
+	right: 2px;
 }
 
 #full-headers
