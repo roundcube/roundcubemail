@@ -1496,6 +1496,11 @@ ul.proplist li {
 	background-position: center -1054px;
 }
 
+.toolbar a.button.export-all {
+	min-width: 64px;
+	background-position: left -1054px;
+}
+
 a.menuselector {
 	display: inline-block;
 	border: 1px solid #ababab;

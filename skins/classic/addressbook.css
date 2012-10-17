@@ -67,6 +67,14 @@
   background-position: -128px -32px;
 }
 
+#abooktoolbar a.exportAll {
+  background-position: -128px 0;
+}
+
+#abooktoolbar a.exportAllSel {
+  background-position: -128px -32px;
+}
+
 #abooktoolbar span.separator {
   width: 5px;
   background-position: -162px 0;
