@@ -3030,9 +3030,9 @@ function rcube_webmail()
       ac_fields = ['cc', 'bcc', 'replyto', 'followupto'],
       ac_props;
 
-    // copy contents from opener (after opening in a new window)
+    // close compose step in opener
     if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose') {
-      //opener.history.back();
+      opener.history.back();
     }
 
     // configure parallel autocompletion
