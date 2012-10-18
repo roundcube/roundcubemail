@@ -1,3 +1,4 @@
+- Fixed filter activation/deactivation confirmation message (#1488765)
 - Fixed issue with DBMail bug [http://pear.php.net/bugs/bug.php?id=19077] (#1488594)
 
 * version 5.2 [2012-07-24]
