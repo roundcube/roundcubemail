@@ -334,7 +334,7 @@ class html
      */
     public static function quote($str)
     {
-        return htmlspecialchars($str, ENT_COMPAT, RCMAIL_CHARSET);
+        return @htmlspecialchars($str, ENT_COMPAT, RCMAIL_CHARSET);
     }
 }
 
