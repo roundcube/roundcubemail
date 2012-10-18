@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of URLs with asterisk characters (#1488759)
 - Remove automatic to-lowercase conversion of usernames (#1488715)
 - Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
 - Fix displaying of multipart/alternative messages with empty parts (#1488750)
