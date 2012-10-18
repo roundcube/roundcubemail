@@ -449,6 +449,7 @@ class rcube_user
             'user_name'  => $user_name,
             'user_email' => $user_email,
             'email_list' => $email_list,
+            'language'   =>  $_SESSION['language'],
         ));
 
         // plugin aborted this operation
@@ -462,13 +463,17 @@ class rcube_user
             " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
             strip_newlines($data['user']),
             strip_newlines($data['host']),
-            strip_newlines($data['language'] ? $data['language'] : $_SESSION['language']));
+            strip_newlines($data['language']));
 
         if ($user_id = $dbh->insert_id('users')) {
             // create rcube_user instance to make plugin hooks work
-            $user_instance = new rcube_user($user_id);
-            $rcube->user   = $user_instance;
-
+            $user_instance = new rcube_user($user_id, array(
+                'user_id'   => $user_id,
+                'username'  => $data['user'],
+                'mail_host' => $data['host'],
+                'language'  => $data['language'],
+            ));
+            $rcube->user = $user_instance;
             $mail_domain = $rcube->config->mail_domain($data['host']);
             $user_name   = $data['user_name'];
             $user_email  = $data['user_email'];
