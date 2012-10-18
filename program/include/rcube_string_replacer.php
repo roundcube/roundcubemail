@@ -37,16 +37,16 @@ class rcube_string_replacer
   {
     // Simplified domain expression for UTF8 characters handling
     // Support unicode/punycode in top-level domain part
-    $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.([^\\x00-\\x2f\\x3b-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,})';
+    $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.([^\\x00-\\x2f\\x3b-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
     $url1 = '.:;,';
-    $url2 = 'a-z0-9%=#@+?!&\\/_~\\[\\]{}-';
+    $url2 = 'a-zA-Z0-9%=#$@+?!&\\/_~\\[\\]{}\*-';
 
-    $this->link_pattern = "/([\w]+:\/\/|\Wwww\.)($utf_domain([$url1]?[$url2]+)*)/i";
+    $this->link_pattern = "/([\w]+:\/\/|\W[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)($utf_domain([$url1]?[$url2]+)*)/";
     $this->mailto_pattern = "/("
         ."[-\w!\#\$%&\'*+~\/^`|{}=]+(?:\.[-\w!\#\$%&\'*+~\/^`|{}=]+)*"  // local-part
         ."@$utf_domain"                                                 // domain-part
         ."(\?[$url1$url2]+)?"                                           // e.g. ?subject=test...
-        .")/i";
+        .")/";
   }
 
   /**
@@ -81,11 +81,11 @@ class rcube_string_replacer
     $i = -1;
     $scheme = strtolower($matches[1]);
 
-    if (preg_match('!^(http|ftp|file)s?://!', $scheme)) {
+    if (preg_match('!^(http|ftp|file)s?://!i', $scheme)) {
       $url = $matches[1] . $matches[2];
     }
-    else if (preg_match('/^(\W)www\.$/', $matches[1], $m)) {
-      $url        = 'www.' . $matches[2];
+    else if (preg_match('/^(\W*)(www\.)$/i', $matches[1], $m)) {
+      $url        = $m[2] . $matches[2];
       $url_prefix = 'http://';
       $prefix     = $m[1];
     }
@@ -131,6 +131,22 @@ class rcube_string_replacer
   public function replace_callback($matches)
   {
     return $this->values[$matches[1]];
+  }
+
+  /**
+   * Replace all defined (link|mailto) patterns with replacement string
+   *
+   * @param string $str Text
+   *
+   * @return string Text
+   */
+  public function replace($str)
+  {
+    // search for patterns like links and e-mail addresses
+    $str = preg_replace_callback($this->link_pattern, array($this, 'link_callback'), $str);
+    $str = preg_replace_callback($this->mailto_pattern, array($this, 'mailto_callback'), $str);
+
+    return $str;
   }
 
   /**

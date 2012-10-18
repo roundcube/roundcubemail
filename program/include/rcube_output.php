@@ -44,7 +44,7 @@ abstract class rcube_output
      */
     public function __construct($task = null, $framed = false)
     {
-        $this->app     = rcmail::get_instance();
+        $this->app     = rcube::get_instance();
         $this->config  = $this->app->config;
         $this->browser = new rcube_browser();
     }

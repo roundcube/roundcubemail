@@ -31,7 +31,7 @@ if (!defined('RCMAIL_PLUGINS_DIR'))
  */
 class rcube_plugin_api
 {
-  static private $instance;
+  static protected $instance;
 
   public $dir;
   public $url = 'plugins/';
@@ -39,16 +39,16 @@ class rcube_plugin_api
   public $output;
 
   public $handlers = array();
-  private $plugins = array();
-  private $tasks = array();
-  private $actions = array();
-  private $actionmap = array();
-  private $objectsmap = array();
-  private $template_contents = array();
-  private $active_hook = false;
+  protected $plugins = array();
+  protected $tasks = array();
+  protected $actions = array();
+  protected $actionmap = array();
+  protected $objectsmap = array();
+  protected $template_contents = array();
+  protected $active_hook = false;
 
   // Deprecated names of hooks, will be removed after 0.5-stable release
-  private $deprecated_hooks = array(
+  protected $deprecated_hooks = array(
     'create_user'       => 'user_create',
     'kill_session'      => 'session_destroy',
     'upload_attachment' => 'attachment_upload',
@@ -98,7 +98,7 @@ class rcube_plugin_api
   /**
    * Private constructor
    */
-  private function __construct()
+  protected function __construct()
   {
     $this->dir = slashify(RCMAIL_PLUGINS_DIR);
   }
@@ -470,7 +470,7 @@ class rcube_plugin_api
    * @param array $attrib
    * @return array
    */
-  private function template_container_hook($attrib)
+  protected function template_container_hook($attrib)
   {
     $container = $attrib['name'];
     return array('content' => $attrib['content'] . $this->template_contents[$container]);
@@ -483,7 +483,7 @@ class rcube_plugin_api
    * @param string $fn Filename
    * @return string 
    */
-  private function resource_url($fn)
+  protected function resource_url($fn)
   {
     if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn))
       return $this->url . $fn;

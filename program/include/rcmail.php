@@ -452,6 +452,10 @@ class rcmail extends rcube
         $username .= '@'.rcube_utils::parse_host($config['username_domain'], $host);
     }
 
+    if (!isset($config['login_lc'])) {
+      $config['login_lc'] = 2; // default
+    }
+
     // Convert username to lowercase. If storage backend
     // is case-insensitive we need to store always the same username (#1487113)
     if ($config['login_lc']) {
@@ -483,21 +487,7 @@ class rcmail extends rcube
     $storage = $this->get_storage();
 
     // try to log in
-    if (!($login = $storage->connect($host, $username, $pass, $port, $ssl))) {
-      // try with lowercase
-      $username_lc = mb_strtolower($username);
-      if ($username_lc != $username) {
-        // try to find user record again -> overwrite username
-        if (!$user && ($user = rcube_user::query($username_lc, $host)))
-          $username_lc = $user->data['username'];
-
-        if ($login = $storage->connect($host, $username_lc, $pass, $port, $ssl))
-          $username = $username_lc;
-      }
-    }
-
-    // exit if login failed
-    if (!$login) {
+    if (!$storage->connect($host, $username, $pass, $port, $ssl)) {
       return false;
     }
 
@@ -2117,10 +2107,9 @@ class rcmail extends rcube
             }
             else {
                 $this->set_storage_prop();
-                return $storage->is_connected();
             }
         }
 
-        return false;
+        return $storage->is_connected();
     }
 }

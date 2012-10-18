@@ -786,9 +786,8 @@ function rcmail_plain_body($body, $flowed=false)
   // make links and email-addresses clickable
   $replacer = new rcube_string_replacer;
 
-  // search for patterns like links and e-mail addresses
-  $body = preg_replace_callback($replacer->link_pattern, array($replacer, 'link_callback'), $body);
-  $body = preg_replace_callback($replacer->mailto_pattern, array($replacer, 'mailto_callback'), $body);
+  // search for patterns like links and e-mail addresses and replace with tokens
+  $body = $replacer->replace($body);
 
   // split body into single lines
   $body = preg_split('/\r?\n/', $body);

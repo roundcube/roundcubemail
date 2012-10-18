@@ -299,7 +299,6 @@
   bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
-  overflow: hidden;
 }
 
 #messagecontframe
@@ -359,7 +358,6 @@
   bottom: 0;
   border: 1px solid #999;
   background-color: #F9F9F9;
-  overflow: hidden;
 }
 
 #mailboxlist
