@@ -2112,8 +2112,7 @@ class rcmail extends rcube
 
             if (!$storage->connect($host, $user, $pass, $port, $ssl)) {
                 if (is_object($this->output)) {
-                    $error = $storage->get_error_code() == -1 ? 'storageerror' : 'sessionerror';
-                    $this->output->show_message($error, 'error');
+                    $this->output->show_message('storageerror', 'error');
                 }
             }
             else {
