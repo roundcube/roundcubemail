@@ -34,7 +34,9 @@ $config = array(
 );
 foreach ($config as $optname => $optval) {
     if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
-        die("ERROR: Wrong '$optname' option value. Read REQUIREMENTS section in INSTALL file or use Roundcube Installer, please!");
+        die("ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
+            ."Check your PHP configuration (including php_admin_flag).\n"
+            ."Read REQUIREMENTS section in INSTALL file or use Roundcube Installer!");
     }
 }
 
