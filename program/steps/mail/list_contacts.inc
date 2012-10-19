@@ -69,11 +69,14 @@ if ($CONTACTS && $CONTACTS->ready) {
             $name = rcube_addressbook::compose_list_name($row);
 
             // add record for every email address of the contact
-            foreach ($CONTACTS->get_col_values('email', $row, true) as $i => $email) {
+            $emails = $CONTACTS->get_col_values('email', $row, true);
+            foreach ($emails as $i => $email) {
                 $row_id = $row['ID'].$i;
                 $jsresult[$row_id] = format_email_recipient($email, $name);
                 $OUTPUT->command('add_contact_row', $row_id, array(
-                    'contact' => html::span(array('title' => $email), Q($name ? $name : $email))), 'person');
+                    'contact' => html::span(array('title' => $email), Q($name ? $name : $email) .
+                        ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', Q($email)) : '')
+                    )), 'person');
             }
         }
     }

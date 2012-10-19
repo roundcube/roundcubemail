@@ -1104,6 +1104,13 @@ div.message-part blockquote blockquote blockquote {
 	display: block;
 }
 
+#contacts-table td span.email {
+	display: inline;
+	color: #69939e;
+	font-style: italic;
+	margin-left: 0.5em;
+}
+
 #compose-contacts li a, #contacts-table td {
 	background: url(images/listicons.png) -100px 0 no-repeat;
 	overflow: hidden;
