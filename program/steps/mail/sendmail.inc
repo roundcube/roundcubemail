@@ -468,6 +468,7 @@ if (!$savedraft) {
   if ($CONFIG['spellcheck_before_send'] && $CONFIG['enable_spellcheck']
     && empty($COMPOSE['spell_checked']) && !empty($message_body)
   ) {
+    $message_body = str_replace("\r\n", "\n", $message_body);
     $spellchecker = new rcube_spellchecker(get_input_value('_lang', RCUBE_INPUT_GPC));
     $spell_result = $spellchecker->check($message_body, $isHtml);
 
