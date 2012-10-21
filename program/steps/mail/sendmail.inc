@@ -72,13 +72,13 @@ function rcmail_encrypt_header($what)
 // get identity record
 function rcmail_get_identity($id)
 {
-  global $RCMAIL, $OUTPUT;
+  global $RCMAIL;
 
   if ($sql_arr = $RCMAIL->user->get_identity($id)) {
     $out = $sql_arr;
     $out['mailto'] = $sql_arr['email'];
     $out['string'] = format_email_recipient($sql_arr['email'],
-      rcube_charset_convert($sql_arr['name'], RCMAIL_CHARSET, $OUTPUT->get_charset()));
+      rcube_charset_convert($sql_arr['name'], RCMAIL_CHARSET, $RCMAIL->output->get_charset()));
 
     return $out;
   }
@@ -96,7 +96,7 @@ function rcmail_get_identity($id)
  */
 function rcmail_fix_emoticon_paths($mime_message)
 {
-  global $CONFIG;
+  global $RCMAIL;
 
   $body = $mime_message->getHTMLBody();
 
@@ -121,8 +121,9 @@ function rcmail_fix_emoticon_paths($mime_message)
 
         if (! in_array($image_name, $included_images)) {
           // add the image to the MIME message
-          if (! $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name))
-            $OUTPUT->show_message("emoticonerror", 'error');
+          if (!$mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name)) {
+            $RCMAIL->output->show_message("emoticonerror", 'error');
+          }
           array_push($included_images, $image_name);
         }
 
