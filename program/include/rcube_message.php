@@ -211,7 +211,18 @@ class rcube_message
                     // HTML part can be on the lower level, if not...
                     if (count($level) > 1) {
                         // It can be an alternative or related message part
-                        $parent = $this->mime_parts[0];
+                        // find parent part
+                        $parent = null;
+                        foreach ($this->mime_parts as $part) {
+                            if ($part->mime_id == $level[0]) {
+                                $parent = $part;
+                            }
+                        }
+
+                        if (!$parent) {
+                            continue;
+                        }
+
                         if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
                             continue;
                         }

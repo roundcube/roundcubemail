@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix HTML part detection in messages with attachments (#1488769)
 - Fix bug where wrong words were highlighted on spell-before-send check
 - Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
 - Fix displaying of multipart/alternative messages with empty parts (#1488750)
