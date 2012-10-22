@@ -27,7 +27,10 @@
 <roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletecontact" content=" " />
 <span class="separator">&nbsp;</span>
 <roundcube:button command="import" type="link" class="buttonPas import" classAct="button import" classSel="button importSel" title="importcontacts" content=" " />
-<roundcube:button command="export" type="link" class="buttonPas export" classAct="button export" classSel="button exportSel" title="exportvcards" content=" " />
+<span class="dropbutton">
+<roundcube:button command="export-all" type="link" class="buttonPas exportAll" classAct="button exportAll" classSel="button exportAllSel" title="exportvcards" content=" " />
+<span id="exportallmenulink" onclick="rcmail_ui.show_popup('exportallmenu');return false"></span>
+</span>
 <roundcube:button command="advanced-search" type="link" class="buttonPas search" classAct="button search" classSel="button searchSel" title="advsearch" content=" " />
 <roundcube:container name="toolbar" id="abooktoolbar" />
 </div>
@@ -36,6 +39,13 @@
 <roundcube:button name="searchmenulink" id="searchmenulink" image="/images/icons/glass_roll.png" onclick="rcmail_ui.show_popup('searchmenu');return false" title="searchmod" width="16" height="16" />
 <roundcube:object name="searchform" id="quicksearchbox" />
 <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" width="13" height="13" />
+</div>
+
+<div id="exportallmenu" class="popupmenu">
+    <ul>
+        <li><roundcube:button command="export-all" label="exportall" prop="sub" classAct="exportalllink active" class="exportalllink" /></li>
+        <li><roundcube:button command="export-selected" label="exportsel" prop="sub" classAct="exportsellink active" class="exportsellink" /></li>
+    </ul>
 </div>
 
 <div id="searchmenu" class="popupmenu">

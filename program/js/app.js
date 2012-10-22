@@ -1064,9 +1064,16 @@ function rcube_webmail()
           this.goto_url('import', (this.env.source ? '_target='+urlencode(this.env.source)+'&' : ''));
         break;
 
-      case 'export':
+      case 'export': // depreciated in 0.9
+      case 'export-all':
         if (this.contact_list.rowcount > 0) {
           this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request });
+        }
+        break;
+
+      case 'export-selected':
+        if (this.contact_list.rowcount > 0) {
+          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') });
         }
         break;
 
@@ -4027,6 +4034,7 @@ function rcube_webmail()
     // thend we can enable the group-remove-selected command
     this.enable_command('group-remove-selected', this.env.group && list.selection.length > 0);
     this.enable_command('compose', this.env.group || list.selection.length > 0);
+    this.enable_command('export-selected', list.selection.length > 0);
     this.enable_command('edit', id && writable);
     this.enable_command('delete', list.selection.length && writable);
 
@@ -4288,7 +4296,7 @@ function rcube_webmail()
 
     list.insert_row(row);
 
-    this.enable_command('export', list.rowcount > 0);
+    this.enable_command('export', 'export-all', list.rowcount > 0);
   };
 
   this.init_contact_form = function()
@@ -6117,7 +6125,8 @@ function rcube_webmail()
           }
           this.enable_command('compose', (uid && this.contact_list.rows[uid]));
           this.enable_command('delete', 'edit', writable);
-          this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+          this.enable_command('export', 'export-all', (this.contact_list && this.contact_list.rowcount > 0));
+          this.enable_command('export-selected', false);
         }
 
       case 'moveto':
@@ -6163,7 +6172,7 @@ function rcube_webmail()
           }
         }
         else if (this.task == 'addressbook') {
-          this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+          this.enable_command('export', 'export-all', (this.contact_list && this.contact_list.rowcount > 0));
 
           if (response.action == 'list' || response.action == 'search') {
             this.enable_command('search-create', this.env.source == '');
