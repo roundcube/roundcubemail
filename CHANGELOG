@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix HTML part detection in messages with attachments (#1488769)
 - Fix bug where wrong words were highlighted on spell-before-send check
 - Fix handling of URLs with asterisk characters (#1488759)
 - Remove automatic to-lowercase conversion of usernames (#1488715)
