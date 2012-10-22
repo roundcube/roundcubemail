@@ -72,13 +72,18 @@ function rcmail_encrypt_header($what)
 // get identity record
 function rcmail_get_identity($id)
 {
-  global $RCMAIL, $OUTPUT;
+  global $RCMAIL, $message_charset;
 
   if ($sql_arr = $RCMAIL->user->get_identity($id)) {
     $out = $sql_arr;
+
+    if ($message_charset != RCMAIL_CHARSET) {
+      foreach ($out as $k => $v)
+        $out[$k] = rcube_charset_convert($v, RCMAIL_CHARSET, $message_charset);
+    }
+
     $out['mailto'] = $sql_arr['email'];
-    $out['string'] = format_email_recipient($sql_arr['email'],
-      rcube_charset_convert($sql_arr['name'], RCMAIL_CHARSET, $OUTPUT->get_charset()));
+    $out['string'] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
 
     return $out;
   }
