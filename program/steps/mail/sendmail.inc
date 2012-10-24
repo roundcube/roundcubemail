@@ -49,7 +49,7 @@ if (!$savedraft) {
 
   if(!empty($CONFIG['sendmail_delay'])) {
     $wait_sec = time() - intval($CONFIG['sendmail_delay']) - intval($CONFIG['last_message_time']);
-    if($wait_sec < 0) {
+    if ($wait_sec < 0) {
       $OUTPUT->show_message('senttooquickly', 'error', array('sec' => $wait_sec * -1));
       $OUTPUT->send('iframe');
     }
@@ -676,19 +676,18 @@ if (!$savedraft)
     $smtp_error, $mailbody_file, $smtp_opts);
 
   // return to compose page if sending failed
-  if (!$sent)
-    {
+  if (!$sent) {
     // remove temp file
     if ($mailbody_file) {
       unlink($mailbody_file);
-      }
+    }
 
     if ($smtp_error)
       $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']); 
     else
       $OUTPUT->show_message('sendingfailed', 'error'); 
     $OUTPUT->send('iframe');
-    }
+  }
 
   // save message sent time
   if (!empty($CONFIG['sendmail_delay']))
@@ -706,7 +705,7 @@ if (!$savedraft)
 // Determine which folder to save message
 if ($savedraft)
   $store_target = $CONFIG['drafts_mbox'];
-else
+else if (!$RCMAIL->config->get('no_save_sent_messages'))
   $store_target = isset($_POST['_store_target']) ? get_input_value('_store_target', RCUBE_INPUT_POST) : $CONFIG['sent_mbox'];
 
 if ($store_target) {

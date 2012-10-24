@@ -1528,6 +1528,11 @@ function rcmail_check_sent_folder($folder, $create=false)
 {
   global $RCMAIL;
 
+  // we'll not save the message, so it doesn't matter
+  if ($RCMAIL->config->get('no_save_sent_messages')) {
+    return true;
+  }
+
   if ($RCMAIL->storage->folder_exists($folder, true)) {
     return true;
   }

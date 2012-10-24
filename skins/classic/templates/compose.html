@@ -143,10 +143,10 @@
     </tr><tr>
         <td><label for="rcmcomposepriority"><roundcube:label name="priority" />:</label></td>
         <td><roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" /></td>
-    </tr><tr>
+    </tr><roundcube:if condition="!config:no_save_sent_messages" /><tr>
         <td><label><roundcube:label name="savesentmessagein" />:</label></td>
         <td><roundcube:object name="storetarget" maxlength="30" /></td>
-    </tr>
+    </tr><roundcube:endif />
     </table>
 </div>
 

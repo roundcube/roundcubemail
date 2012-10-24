@@ -182,6 +182,9 @@ $rcmail_config['smtp_timeout'] = 0;
 // ONLY ENABLE IT IF YOU'RE REALLY SURE WHAT YOU'RE DOING!
 $rcmail_config['enable_installer'] = false;
 
+// don't allow these settings to be overriden by the user
+$rcmail_config['dont_override'] = array();
+
 // provide an URL where a user can get support for this Roundcube installation
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $rcmail_config['support_url'] = '';
@@ -349,9 +352,6 @@ $rcmail_config['line_length'] = 72;
 // send plaintext messages as format=flowed
 $rcmail_config['send_format_flowed'] = true;
 
-// don't allow these settings to be overriden by the user
-$rcmail_config['dont_override'] = array();
-
 // Set identities access level:
 // 0 - many identities with possibility to edit all params
 // 1 - many identities with possibility to edit all params but not email address
@@ -378,6 +378,10 @@ $rcmail_config['contact_photo_size'] = 160;
 
 // Enable DNS checking for e-mail address validation
 $rcmail_config['email_dns_check'] = false;
+
+// Disables saving sent messages in Sent folder (like gmail) (Default: false)
+// Note: useful when SMTP server stores sent mail in user mailbox
+$rcmail_config['no_save_sent_messages'] = false;
 
 // ----------------------------------
 // PLUGINS
