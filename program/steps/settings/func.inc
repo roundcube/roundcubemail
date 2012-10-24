@@ -198,9 +198,6 @@ function rcmail_user_prefs($current=null)
         $select_timezone->add('(GMT ' . $offset . ') ' . strtr($tzs, '_', ' '), $tzs);
       }
 
-      if (is_numeric($config['timezone']))
-        timezone_name_from_abbr("", $config['timezone'] * 3600, 0);
-
       $blocks['main']['options']['timezone'] = array(
         'title' => html::label($field_id, Q(rcube_label('timezone'))),
         'content' => $select_timezone->show((string)$config['timezone']),
