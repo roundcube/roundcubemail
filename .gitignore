@@ -3,3 +3,8 @@ logs/*
 temp/*
 config/*
 plugins/*/config.inc.php
+
+# composer-related
+composer.phar
+composer.lock
+vendor
