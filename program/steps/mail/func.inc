@@ -381,6 +381,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
  */
 function rcmail_message_list_head($attrib, $a_show_cols)
 {
+  global $RCMAIL;
+
   $skin_path = $_SESSION['skin_path'];
   $image_tag = html::img(array('src' => "%s%s", 'alt' => "%s"));
 
@@ -388,8 +390,18 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   $sort_col   = $_SESSION['sort_col'];
   $sort_order = $_SESSION['sort_order'];
 
+  $dont_override  = (array)$RCMAIL->config->get('dont_override');
+  $disabled_sort  = in_array('message_sort_col', $dont_override);
+  $disabled_order = in_array('message_sort_order', $dont_override);
+
+  $RCMAIL->output->set_env('disabled_sort_col', $disabled_sort);
+  $RCMAIL->output->set_env('disabled_sort_order', $disabled_order);
+
   // define sortable columns
-  $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
+  if ($disabled_sort)
+    $a_sort_cols = $sort_col && !$disabled_order ? array($sort_col) : array();
+  else
+    $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
   if (!empty($attrib['optionsmenuicon'])) {
     $onclick = 'return ' . JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu')";
@@ -439,7 +451,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     else if ($col_name[0] != '<')
       $col_name = '<span class="' . $col .'">' . $col_name . '</span>';
 
-    $sort_class = $col == $sort_col ? " sorted$sort_order" : '';
+    $sort_class = $col == $sort_col && !$disabled_order ? " sorted$sort_order" : '';
     $class_name = $col.$sort_class;
 
     // put it all together

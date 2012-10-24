@@ -23,27 +23,33 @@ if (!$OUTPUT->ajax_call) {
   return;
 }
 
+$save_arr       = array();
+$dont_override  = (array) $RCMAIL->config->get('dont_override');
+
 // is there a sort type for this request?
-if ($sort = get_input_value('_sort', RCUBE_INPUT_GET))
-{
+if ($sort = get_input_value('_sort', RCUBE_INPUT_GET)) {
   // yes, so set the sort vars
   list($sort_col, $sort_order) = explode('_', $sort);
 
   // set session vars for sort (so next page and task switch know how to sort)
-  $save_arr = array();
-  $_SESSION['sort_col'] = $save_arr['message_sort_col'] = $sort_col;
-  $_SESSION['sort_order'] = $save_arr['message_sort_order'] = $sort_order;
+  if (!in_array('message_sort_col', $dont_override)) {
+    $_SESSION['sort_col'] = $save_arr['message_sort_col'] = $sort_col;
+  }
+  if (!in_array('message_sort_order', $dont_override)) {
+    $_SESSION['sort_order'] = $save_arr['message_sort_order'] = $sort_order;
+  }
 }
 
 // is there a set of columns for this request?
-if ($cols = get_input_value('_cols', RCUBE_INPUT_GET))
-{
-  $save_arr = array();
-  $save_arr['list_cols'] = explode(',', $cols);
+if ($cols = get_input_value('_cols', RCUBE_INPUT_GET)) {
+  if (!in_array('list_cols', $dont_override)) {
+    $save_arr['list_cols'] = explode(',', $cols);
+  }
 }
 
-if ($save_arr)
+if (!empty($save_arr)) {
   $RCMAIL->user->save_prefs($save_arr);
+}
 
 $mbox_name = $RCMAIL->storage->get_folder();
 $threading = (bool) $RCMAIL->storage->get_threading();
@@ -52,8 +58,7 @@ $threading = (bool) $RCMAIL->storage->get_threading();
 $RCMAIL->storage->folder_sync($mbox_name);
 
 // initialize searching result if search_filter is used
-if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL')
-{
+if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
   $search_request = md5($mbox_name.$_SESSION['search_filter']);
   $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, rcmail_sort_column());
   $_SESSION['search'] = $RCMAIL->storage->get_search_set();
@@ -76,7 +81,6 @@ else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
   $RCMAIL->session->remove('search');
 }
 
-
 // empty result? we'll skip UNSEEN counting in rcmail_send_unread_count()
 if (empty($search_request) && empty($a_headers)) {
     $unseen = 0;
@@ -96,10 +100,10 @@ $OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
 // add message rows
 rcmail_js_message_list($a_headers, FALSE, $cols);
-if (isset($a_headers) && count($a_headers))
-{
-  if ($search_request)
+if (isset($a_headers) && count($a_headers)) {
+  if ($search_request) {
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
+  }
 }
 else {
   // handle IMAP errors (e.g. #1486905)

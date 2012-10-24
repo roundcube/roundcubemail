@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling dont_override with message_sort_col and message_sort_order settings (#1488760)
 - Fix HTML part detection in messages with attachments (#1488769)
 - Fix bug where wrong words were highlighted on spell-before-send check
 - Fix handling of URLs with asterisk characters (#1488759)

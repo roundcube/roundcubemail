@@ -594,12 +594,11 @@ function rcube_webmail()
         break;
 
       case 'sort':
-        var sort_order, sort_col = props;
+        var sort_order = this.env.sort_order,
+          sort_col = !this.env.disabled_sort_col ? props : this.env.sort_col;
 
-        if (this.env.sort_col==sort_col)
-          sort_order = this.env.sort_order=='ASC' ? 'DESC' : 'ASC';
-        else
-          sort_order = 'ASC';
+        if (!this.env.disabled_sort_order)
+          sort_order = this.env.sort_col == sort_col && sort_order == 'ASC' ? 'DESC' : 'ASC';
 
         // set table header and update env
         this.set_list_sorting(sort_col, sort_order);
@@ -5733,13 +5732,11 @@ function rcube_webmail()
         col = this.env.coltypes[n];
         if ((cell = thead.rows[0].cells[n]) && (col == 'from' || col == 'to' || col == 'fromto')) {
           cell.id = 'rcm'+col;
+          $('span,a', cell).text(this.get_label(col == 'fromto' ? smart_col : col));
           // if we have links for sorting, it's a bit more complicated...
-          if (cell.firstChild && cell.firstChild.tagName.toLowerCase()=='a') {
-            cell = cell.firstChild;
-            cell.onclick = function(){ return rcmail.command('sort', this.__col, this); };
-            cell.__col = col;
-          }
-          cell.innerHTML = this.get_label(col == 'fromto' ? smart_col : col);
+          $('a', cell).click(function(){
+            return rcmail.command('sort', this.id.replace(/^rcm/, ''), this);
+          });
         }
       }
     }
