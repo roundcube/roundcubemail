@@ -1,0 +1,33 @@
+{
+    "name": "roundcube/roundcubemail",
+    "description": "The Roundcube Webmail suite",
+    "license": "GPL-3.0",
+    "repositories": [
+        {
+            "packagist": false
+        },
+        {
+            "type": "pear",
+            "url": "http://pear.php.net/"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "Net_SMTP",
+                "version": "dev-master",
+                "source": {
+                    "url": "http://github.com/pear/Net_SMTP",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
+    "require" : {
+        "pear-pear/Mail_Mime": ">=1.8.1",
+        "pear-pear/Mail_mimeDecode": ">=1.5.5",
+        "Net_SMTP": "dev-master",
+        "pear-pear/Net_IDNA2": ">=0.1.1",
+        "pear-pear/Auth_SASL": ">=1.0.6"
+    }
+}
