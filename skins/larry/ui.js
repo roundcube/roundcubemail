@@ -21,7 +21,6 @@ function rcube_mail_ui()
     dragmessagemenu:    { sticky:1 },
     groupmenu:          { above:1 },
     mailboxmenu:        { above:1 },
-    composeoptionsmenu: { editable:1, overlap:1 },
     spellmenu:          { callback: spellmenu },
     // toggle: #1486823, #1486930
     'attachment-form':  { editable:1, above:1, toggle:!bw.ie&&!bw.linux },
@@ -90,8 +89,8 @@ function rcube_mail_ui()
             show_header_row(fields[f], true);
         }
 
-        $('#composeoptionstoggle').parent().click(function(){
-          $('#composeoptionstoggle').toggleClass('enabled');
+        $('#composeoptionstoggle').click(function(){
+          $('#composeoptionstoggle').toggleClass('remove');
           $('#composeoptions').toggle();
           layout_composeview();
           return false;
@@ -354,9 +353,14 @@ function rcube_mail_ui()
     var body = $('#composebody'),
       form = $('#compose-content'),
       bottom = $('#composeview-bottom'),
-      w, h;
+      w, h, bh, ovflw, btns = 0,
+      minheight = 300,
 
-    bottom.css('height', (form.height() - bottom.position().top) + 'px');
+    bh = (form.height() - bottom.position().top);
+    ovflw = minheight - bh;
+    btns = ovflw > -100 ? 0 : 40;
+    bottom.css('height', Math.max(minheight, bh) + 'px');
+    form.css('overflow', ovflw > 0 ? 'auto' : 'hidden');
 
     w = body.parent().width() - 5;
     h = body.parent().height() - 16;
@@ -365,6 +369,8 @@ function rcube_mail_ui()
     $('#composebody_tbl').width((w+8)+'px').height('').css('margin-top', '1px');
     $('#composebody_ifr').width((w+8)+'px').height((h-40)+'px');
     $('#googie_edit_layer').height(h+'px');
+//    $('#composebodycontainer')[(btns ? 'addClass' : 'removeClass')]('buttons');
+//    $('#composeformbuttons')[(btns ? 'show' : 'hide')]();
 
     var abooks = $('#directorylist');
     $('#compose-contacts .scroller').css('top', abooks.position().top + abooks.outerHeight());

@@ -1088,7 +1088,8 @@ body.iframe .boxtitle {
 	z-index: 100;
 }
 
-body.iframe .footerleft.floating {
+body.iframe .footerleft.floating,
+#composeview-bottom .formbuttons.floating {
 	position: fixed;
 	left: 0;
 	bottom: 0;
@@ -1099,7 +1100,8 @@ body.iframe .footerleft.floating {
 	padding-bottom: 12px;
 }
 
-body.iframe .footerleft.floating:before {
+body.iframe .footerleft.floating:before,
+#composeview-bottom .formbuttons.floating:before {
 	content: " ";
 	position: absolute;
 	top: -6px;
@@ -1480,7 +1482,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.spellcheck.selected {
-	background-position: left -1580px;
+	background-position: left -1620px;
 	color: #1978a1;
 }
 
@@ -1499,6 +1501,19 @@ ul.proplist li {
 .toolbar a.button.export {
 	background-position: center -1054px;
 }
+
+.toolbar a.button.send {
+	background-position: center -1660px;
+}
+
+.toolbar a.button.savedraft {
+	background-position: center -1700px;
+}
+
+.toolbar a.button.close {
+	background-position: 0 -1745px;
+}
+
 
 a.menuselector {
 	display: inline-block;
