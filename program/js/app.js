@@ -3039,7 +3039,7 @@ function rcube_webmail()
 
     // close compose step in opener
     if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose') {
-      opener.history.back();
+      setTimeout(function(){ opener.history.back(); }, 100);
     }
 
     // configure parallel autocompletion
