@@ -415,10 +415,13 @@ a.iconbutton.threadmode.selected {
 	border-left: 0;
 }
 
-
 #messagelist tr td.size {
 	width: 60px;
 	text-align: right;
+}
+
+#messagelist thead tr td.size {
+	text-align: left;
 }
 
 #messagelist tr td.fromto,
