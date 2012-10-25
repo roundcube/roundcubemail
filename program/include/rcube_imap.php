@@ -4119,6 +4119,11 @@ class rcube_imap extends rcube_storage
         return $this->delete_folder($folder);
     }
 
+    function clear_mailbox($folder = null)
+    {
+        return $this->clear_folder($folder);
+    }
+
     public function mailbox_exists($folder, $subscription=false)
     {
         return $this->folder_exists($folder, $subscription);
