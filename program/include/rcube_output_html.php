@@ -33,7 +33,7 @@ class rcube_output_html extends rcube_output
     protected $js_env = array();
     protected $js_labels = array();
     protected $js_commands = array();
-    protected $plugin_skin_path;
+    protected $skin_paths = array();
     protected $template_name;
     protected $scripts_path = '';
     protected $script_files = array();
@@ -161,7 +161,25 @@ class rcube_output_html extends rcube_output
 
         $this->config->set('skin_path', $skin_path);
 
+        // register skin path(s)
+        $this->skin_paths = array();
+        $this->load_skin($skin_path);
+
         return $valid;
+    }
+
+    /**
+     * Helper method to recursively read skin meta files and register search paths
+     */
+    private function load_skin($skin_path)
+    {
+        $this->skin_paths[] = $skin_path;
+
+        // read meta file and check for dependecies
+        $meta = @json_decode(@file_get_contents($skin_path.'/meta.json'), true);
+        if ($meta['extends'] && is_dir('skins/' . $meta['extends'])) {
+            $this->load_skin('skins/' . $meta['extends']);
+        }
     }
 
 
@@ -173,8 +191,14 @@ class rcube_output_html extends rcube_output
      */
     public function template_exists($name)
     {
-        $filename = $this->config->get('skin_path') . '/templates/' . $name . '.html';
-        return (is_file($filename) && is_readable($filename)) || ($this->deprecated_templates[$name] && $this->template_exists($this->deprecated_templates[$name]));
+        $found = false;
+        foreach ($this->skin_paths as $skin_path) {
+            $filename = $skin_path . '/templates/' . $name . '.html';
+            $found = (is_file($filename) && is_readable($filename)) || ($this->deprecated_templates[$name] && $this->template_exists($this->deprecated_templates[$name]));
+            if ($found)
+                break;
+        }
+        return $found;
     }
 
 
@@ -359,41 +383,60 @@ class rcube_output_html extends rcube_output
      */
     function parse($name = 'main', $exit = true, $write = true)
     {
-        $skin_path = $this->config->get('skin_path');
         $plugin    = false;
         $realname  = $name;
-        $temp      = explode('.', $name, 2);
+        $this->template_name = $realname;
 
-        $this->plugin_skin_path = null;
-        $this->template_name    = $realname;
-
+        $temp = explode('.', $name, 2);
         if (count($temp) > 1) {
             $plugin    = $temp[0];
             $name      = $temp[1];
             $skin_dir  = $plugin . '/skins/' . $this->config->get('skin');
-            $skin_path = $this->plugin_skin_path = $this->app->plugins->dir . $skin_dir;
 
-            // fallback to default skin
-            if (!is_dir($skin_path)) {
+            // apply skin search escalation list to plugin directory
+            $plugin_skin_paths = array();
+            foreach ($this->skin_paths as $skin_path) {
+                $plugin_skin_paths[] = $this->app->plugins->dir . $plugin . '/' . $skin_path;
+            }
+
+            // add fallback to default skin
+            if (is_dir($this->app->plugins->dir . $plugin . '/skins/default')) {
                 $skin_dir = $plugin . '/skins/default';
-                $skin_path = $this->plugin_skin_path = $this->app->plugins->dir . $skin_dir;
+                $plugin_skin_paths[] = $this->app->plugins->dir . $skin_dir;
+            }
+
+            // add plugin skin paths to search list
+            $this->skin_paths = array_merge($plugin_skin_paths, $this->skin_paths);
+        }
+
+        // find skin template
+        $path = false;
+        foreach ($this->skin_paths as $skin_path) {
+            $path = "$skin_path/templates/$name.html";
+
+            // fallback to deprecated template names
+            if (!is_readable($path) && $this->deprecated_templates[$realname]) {
+                $path = "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
+                rcube::raise_error(array(
+                    'code' => 502, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Using deprecated template '" . $this->deprecated_templates[$realname]
+                        . "' in $skin_path/templates. Please rename to '$realname'"),
+                    true, false);
+            }
+
+            if (is_readable($path)) {
+                $this->config->set('skin_path', $skin_path);
+                $this->base_path = $skin_path;
+                break;
+            }
+            else {
+                $path = false;
             }
         }
 
-        $path = "$skin_path/templates/$name.html";
-
-        if (!is_readable($path) && $this->deprecated_templates[$realname]) {
-            $path = "$skin_path/templates/".$this->deprecated_templates[$realname].".html";
-            if (is_readable($path))
-                rcube::raise_error(array('code' => 502, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Using deprecated template '".$this->deprecated_templates[$realname]
-                        ."' in $skin_path/templates. Please rename to '".$realname."'"),
-                true, false);
-        }
-
         // read template file
-        if (($templ = @file_get_contents($path)) === false) {
+        if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error(array(
                 'code' => 501,
                 'type' => 'php',
@@ -421,7 +464,7 @@ class rcube_output_html extends rcube_output
         $output = $hook['content'];
         unset($hook['content']);
 
-        $output = $this->parse_with_globals($output);
+        $output = $this->parse_with_globals($this->fix_paths($output));
 
         // make sure all <form> tags have a valid request token
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
@@ -493,7 +536,7 @@ class rcube_output_html extends rcube_output
     public function abs_url($str)
     {
         if ($str[0] == '/')
-            return $this->config->get('skin_path') . $str;
+            return $this->base_path . $str;
         else
             return $str;
     }
@@ -527,7 +570,7 @@ class rcube_output_html extends rcube_output
     {
         $GLOBALS['__version']   = html::quote(RCMAIL_VERSION);
         $GLOBALS['__comm_path'] = html::quote($this->app->comm_path);
-        $GLOBALS['__skin_path'] = html::quote($this->config->get('skin_path'));
+        $GLOBALS['__skin_path'] = html::quote($this->base_path);
 
         return preg_replace_callback('/\$(__[a-z0-9_\-]+)/',
             array($this, 'globals_callback'), $input);
@@ -540,6 +583,43 @@ class rcube_output_html extends rcube_output
     protected function globals_callback($matches)
     {
         return $GLOBALS[$matches[1]];
+    }
+
+
+    /**
+     * Correct absolute paths in images and other tags
+     * add timestamp to .js and .css filename
+     */
+    protected function fix_paths($output)
+    {
+        return preg_replace_callback(
+            '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
+            array($this, 'file_callback'), $output);
+    }
+
+
+    /**
+     * Callback function for preg_replace_callback in write()
+     *
+     * @return string Parsed string
+     */
+    protected function file_callback($matches)
+    {
+        $file = $matches[3];
+
+        // correct absolute paths
+        if ($file[0] == '/') {
+            $file = $this->base_path . $file;
+        }
+
+        // add file modification timestamp
+        if (preg_match('/\.(js|css)$/', $file)) {
+            if ($fs = @filemtime($file)) {
+                $file .= '?s=' . $fs;
+            }
+        }
+
+        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
 
 
@@ -705,6 +785,9 @@ class rcube_output_html extends rcube_output
 
             // show a label
             case 'label':
+                if ($attrib['expression'])
+                    $attrib['name'] = eval("return " . $this->parse_expression($attrib['expression']) .";");
+
                 if ($attrib['name'] || $attrib['command']) {
                     // @FIXME: 'noshow' is useless, remove?
                     if ($attrib['noshow']) {
@@ -736,8 +819,17 @@ class rcube_output_html extends rcube_output
 
             // include a file
             case 'include':
-                if (!$this->plugin_skin_path || !is_file($path = realpath($this->plugin_skin_path . $attrib['file'])))
-                    $path = realpath(($attrib['skin_path'] ? $attrib['skin_path'] : $this->config->get('skin_path')).$attrib['file']);
+                $old_base_path = $this->base_path;
+                $skin_paths = $this->skin_paths;
+                if ($attrib['skin_path'])
+                    array_unshift($skin_paths, $attrib['skin_path']);
+                foreach ($skin_paths as $skin_path) {
+                    $path = realpath($skin_path . $attrib['file']);
+                    if (is_file($path)) {
+                        $this->base_path = $skin_path;
+                        break;
+                    }
+                }
 
                 if (is_readable($path)) {
                     if ($this->config->get('skin_include_php')) {
@@ -747,14 +839,16 @@ class rcube_output_html extends rcube_output
                       $incl = file_get_contents($path);
                     }
                     $incl = $this->parse_conditions($incl);
-                    return $this->parse_xml($incl);
+                    $incl = $this->parse_xml($incl);
+                    $incl = $this->fix_paths($incl);
+                    $this->base_path = $old_base_path;
+                    return $incl;
                 }
                 break;
 
             case 'plugin.include':
                 $hook = $this->app->plugins->exec_hook("template_plugin_include", $attrib);
                 return $hook['content'];
-                break;
 
             // define a container block
             case 'container':
@@ -1234,14 +1328,6 @@ class rcube_output_html extends rcube_output
             $output = substr_replace($output, $css, $pos, 0);
         }
 
-        $this->base_path = $base_path;
-
-        // correct absolute paths in images and other tags
-        // add timestamp to .js and .css filename
-        $output = preg_replace_callback(
-            '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
-            array($this, 'file_callback'), $output);
-
         // trigger hook with final HTML content to be sent
         $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
         if (!$hook['abort']) {
@@ -1252,31 +1338,6 @@ class rcube_output_html extends rcube_output
                 echo $hook['content'];
             }
         }
-    }
-
-
-    /**
-     * Callback function for preg_replace_callback in write()
-     *
-     * @return string Parsed string
-     */
-    protected function file_callback($matches)
-    {
-        $file = $matches[3];
-
-        // correct absolute paths
-        if ($file[0] == '/') {
-            $file = $this->base_path . $file;
-        }
-
-        // add file modification timestamp
-        if (preg_match('/\.(js|css)$/', $file)) {
-            if ($fs = @filemtime($file)) {
-                $file .= '?s=' . $fs;
-            }
-        }
-
-        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
 
 
