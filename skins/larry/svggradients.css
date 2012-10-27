@@ -137,7 +137,7 @@ ul.toolbarmenu li a.active:hover,
 	background-image: url(svggradient.php?c=ffffff;f0f0f0);
 }
 
-#previewheaderstoggle {
+.moreheaderstoggle {
 	background-image: url(svggradient.php?c=fbfbfb;e9e9e9&h=1);
 }
 

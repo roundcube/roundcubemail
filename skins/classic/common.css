@@ -156,6 +156,11 @@ img
   left: 20px;
 }
 
+.extwin #mainscreen
+{
+  top: 43px;
+}
+
 body > #logo
 {
   margin-left: 12px;

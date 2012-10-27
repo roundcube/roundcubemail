@@ -323,6 +323,7 @@ $labels['timezone'] = 'Часовой пояс';
 $labels['pagesize'] = 'Строк на странице';
 $labels['signature'] = 'Подпись';
 $labels['dstactive'] = 'Летнее время';
+$labels['composeextwin'] = 'Написать сообщение в новом окне';
 $labels['htmleditor'] = 'Создавать сообщения в HTML';
 $labels['htmlonreply'] = 'только в ответ на сообщение в HTML';
 $labels['htmlsignature'] = 'Подпись в HTML';

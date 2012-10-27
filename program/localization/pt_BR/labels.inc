@@ -323,6 +323,7 @@ $labels['timezone'] = 'Fuso horário';
 $labels['pagesize'] = 'Mensagens por página';
 $labels['signature'] = 'Assinatura';
 $labels['dstactive'] = 'Horário de verão';
+$labels['composeextwin'] = 'Escrever em nova janela';
 $labels['htmleditor'] = 'Criar mensagens em HTML';
 $labels['htmlonreply'] = 'em resposta à mensagem em HTML somente';
 $labels['htmlsignature'] = 'Assinatura em HTML';

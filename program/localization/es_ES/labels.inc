@@ -323,6 +323,7 @@ $labels['timezone'] = 'Zona horaria';
 $labels['pagesize'] = 'Filas por página';
 $labels['signature'] = 'Firma';
 $labels['dstactive'] = 'Cambio de horario';
+$labels['composeextwin'] = 'Redactar en una ventana nueva';
 $labels['htmleditor'] = 'Componer mensaje en HTML';
 $labels['htmlonreply'] = 'sólo en respuesta a un mensaje HTML';
 $labels['htmlsignature'] = 'Firma HTML';

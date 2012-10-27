@@ -176,10 +176,10 @@ function rcube_webmail()
     }
 
     // enable general commands
-    this.enable_command('logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', 'about', 'switch-task', true);
+    this.enable_command('close', 'logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', 'about', 'switch-task', true);
 
     if (this.env.permaurl)
-      this.enable_command('permaurl', true);
+      this.enable_command('permaurl', 'extwin', true);
 
     switch (this.task) {
 
@@ -249,7 +249,7 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses'];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'extwin'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -570,6 +570,19 @@ function rcube_webmail()
           parent.location.href = this.env.permaurl;
         break;
 
+      case 'extwin':
+        if (this.env.action == 'compose') {
+          var prevstate = this.env.compose_extwin;
+          $("input[name='_action']", this.gui_objects.messageform).val('compose');
+          this.gui_objects.messageform.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
+          this.gui_objects.messageform.target = this.open_window('', 1150, 900);
+          this.gui_objects.messageform.submit();
+        }
+        else {
+          this.open_window(this.env.permaurl, 1000, 1200);
+        }
+        break;
+
       case 'menu-open':
       case 'menu-save':
         this.triggerEvent(command, {props:props});
@@ -582,10 +595,18 @@ function rcube_webmail()
         }
         break;
 
+      case 'close':
+        if (this.env.extwin)
+          window.close();
+        break;
+
       case 'list':
         if (props && props != '')
           this.reset_qsearch();
-        if (this.task == 'mail') {
+        if (this.env.action == 'compose' && this.env.extwin) {
+          window.close();
+        }
+        else if (this.task == 'mail') {
           this.list_mailbox(props);
           this.set_button_titles();
         }
@@ -640,7 +661,7 @@ function rcube_webmail()
           uid = this.get_single_uid();
           if (uid && (!this.env.uid || uid != this.env.uid)) {
             if (this.env.mailbox == this.env.drafts_mailbox)
-              this.goto_url('compose', { _draft_uid: uid, _mbox: this.env.mailbox }, true);
+              this.open_compose_step({ _draft_uid: uid, _mbox: this.env.mailbox });
             else
               this.show_message(uid);
           }
@@ -669,7 +690,7 @@ function rcube_webmail()
         else if (this.task == 'mail' && (cid = this.get_single_uid())) {
           url = { _mbox: this.env.mailbox };
           url[this.env.mailbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = cid;
-          this.goto_url('compose', url, true);
+          this.open_compose_step(url);
         }
         break;
 
@@ -862,47 +883,46 @@ function rcube_webmail()
         break;
 
       case 'compose':
-        url = this.url('mail/compose');
+        url = {};
 
         if (this.task == 'mail') {
-          url += '&_mbox='+urlencode(this.env.mailbox);
+          url._mbox = this.env.mailbox;
           if (props)
-             url += '&_to='+urlencode(props);
+             url._to = props;
           // also send search request so we can go back to search result after message is sent
           if (this.env.search_request)
-            url += '&_search='+this.env.search_request;
+            url._search = this.env.search_request;
         }
         // modify url if we're in addressbook
         else if (this.task == 'addressbook') {
           // switch to mail compose step directly
           if (props && props.indexOf('@') > 0) {
-            url = this.get_task_url('mail', url);
-            this.redirect(url + '&_to='+urlencode(props));
+            url._to = props;
+          }
+          else {
+            // use contact_id passed as command parameter
+            var n, len, a_cids = [];
+            if (props)
+              a_cids.push(props);
+            // get selected contacts
+            else if (this.contact_list) {
+              var selection = this.contact_list.get_selection();
+              for (n=0, len=selection.length; n<len; n++)
+                a_cids.push(selection[n]);
+            }
+
+            if (a_cids.length)
+              this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source, }, true);
+            else if (this.env.group)
+              this.http_post('mailto', { _gid: this.env.group, _source: this.env.source }, true);
+
             break;
           }
-
-          // use contact_id passed as command parameter
-          var n, len, a_cids = [];
-          if (props)
-            a_cids.push(props);
-          // get selected contacts
-          else if (this.contact_list) {
-            var selection = this.contact_list.get_selection();
-            for (n=0, len=selection.length; n<len; n++)
-              a_cids.push(selection[n]);
-          }
-
-          if (a_cids.length)
-            this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source}, true);
-          else if (this.env.group)
-            this.http_post('mailto', { _gid: this.env.group, _source: this.env.source}, true);
-
-          break;
         }
         else if (props)
-          url += '&_to='+urlencode(props);
+          url._to = props;
 
-        this.redirect(url);
+        this.open_compose_step(url);
         break;
 
       case 'spellcheck':
@@ -977,7 +997,7 @@ function rcube_webmail()
           else if (command == 'reply-list')
             url._all = 'list';
 
-          this.goto_url('compose', url, true);
+          this.open_compose_step(url);
         }
         break;
 
@@ -987,7 +1007,7 @@ function rcube_webmail()
           url = { _forward_uid: uid, _mbox: this.env.mailbox };
           if (command == 'forward-attachment' || (!props && this.env.forward_attachment))
             url._attachment = 1;
-          this.goto_url('compose', url, true);
+          this.open_compose_step(url);
         }
         break;
 
@@ -1561,7 +1581,7 @@ function rcube_webmail()
 
     var uid = list.get_single_selection();
     if (uid && this.env.mailbox == this.env.drafts_mailbox)
-      this.goto_url('compose', { _draft_uid: uid, _mbox: this.env.mailbox }, true);
+      this.open_compose_step({ _draft_uid: uid, _mbox: this.env.mailbox });
     else if (uid)
       this.show_message(uid, false, false);
   };
@@ -1641,6 +1661,28 @@ function rcube_webmail()
     }
 
     return allow ? (copy ? 2 : 1) : 0;
+  };
+
+  this.open_window = function(url, width, height)
+  {
+    var w = Math.min(width, screen.width - 10),
+      h = Math.min(height, screen.height - 100),
+      l = (screen.width - w) / 2 + (screen.left || 0),
+      t = Math.max(0, (screen.height - h) / 2 + (screen.top || 0) - 20);
+
+    var wname = 'rcmextwin' + new Date().getTime(),
+      extwin = window.open(url + '&_extwin=1', wname, 'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no');
+    extwin.moveTo(l,t);
+
+    // write loading... message to empty windows
+    if (!url && extwin.document) {
+      extwin.document.write('<html><body>' + this.get_label('loading') + '</body></html>');
+    }
+
+    // focus window, delayed to bring to front
+    window.setTimeout(function(){ extwin.focus(); }, 10);
+
+    return wname;
   };
 
 
@@ -1906,7 +1948,7 @@ function rcube_webmail()
       this.list_mailbox('', '', sort_col+'_'+sort_order, post_data);
   };
 
-  // when user doble-clicks on a row
+  // when user double-clicks on a row
   this.show_message = function(id, safe, preview)
   {
     if (!id)
@@ -1931,10 +1973,17 @@ function rcube_webmail()
     // add browser capabilities, so we can properly handle attachments
     url += '&_caps='+urlencode(this.browser_capabilities());
 
-    if (preview && String(target.location.href).indexOf(url) >= 0)
+    if (this.env.extwin)
+      url += '&_extwin=1';
+
+    if (preview && String(target.location.href).indexOf(url) >= 0) {
       this.show_contentframe(true);
+    }
     else {
-      this.location_href(this.env.comm_path+url, target, true);
+      if (!preview && this.env.message_extwin && !this.env.extwin)
+        this.open_window(this.env.comm_path+url, 1000, 1200);
+      else
+        this.location_href(this.env.comm_path+url, target, true);
 
       // mark as read and change mbox unread counter
       if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
@@ -2962,6 +3011,17 @@ function rcube_webmail()
   /*********        message compose methods        *********/
   /*********************************************************/
 
+  this.open_compose_step = function(p)
+  {
+    var url = this.url('mail/compose', p);
+
+    // open new compose window
+    if (this.env.compose_extwin)
+      this.open_window(url, 1150, 900);
+    else
+      this.redirect(url);
+  };
+
   // init message compose form: set focus and eventhandlers
   this.init_messageform = function()
   {
@@ -2975,6 +3035,11 @@ function rcube_webmail()
       html_mode = $("input[name='_is_html']").val() == '1',
       ac_fields = ['cc', 'bcc', 'replyto', 'followupto'],
       ac_props;
+
+    // close compose step in opener
+    if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose') {
+      setTimeout(function(){ opener.history.back(); }, 100);
+    }
 
     // configure parallel autocompletion
     if (this.env.autocomplete_threads > 0) {
@@ -3630,8 +3695,16 @@ function rcube_webmail()
   this.sent_successfully = function(type, msg)
   {
     this.display_message(msg, type);
-    // before redirect we need to wait some time for Chrome (#1486177)
-    setTimeout(function(){ ref.list_mailbox(); }, 500);
+
+    if (this.env.extwin && window.opener && opener.rcmail) {
+      this.lock_form(this.gui_objects.messageform);
+      opener.rcmail.display_message(msg, type);
+      setTimeout(function(){ window.close() }, 1000);
+    }
+    else {
+      // before redirect we need to wait some time for Chrome (#1486177)
+      setTimeout(function(){ ref.list_mailbox(); }, 500);
+    }
   };
 
 

@@ -730,6 +730,12 @@ $rcmail_config['prefer_html'] = true;
 // 2 - Always show inline images
 $rcmail_config['show_images'] = 0;
 
+// open messages in new window
+$rcmail_config['message_extwin'] = false;
+
+// open message compose form in new window
+$rcmail_config['compose_extwin'] = false;
+
 // compose html formatted messages by default
 // 0 - never, 1 - always, 2 - on reply to HTML message, 3 - on forward or reply to HTML message
 $rcmail_config['htmleditor'] = 0;
