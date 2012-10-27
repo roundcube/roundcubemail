@@ -258,8 +258,8 @@ class rcmail extends rcube
     $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
     $list = array();
 
-    // We are using the DB address book
-    if ($abook_type != 'ldap') {
+    // We are using the DB address book or a plugin address book
+    if ($abook_type != 'ldap' && $abook_type != '') {
       if (!isset($this->address_books['0']))
         $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
       $list['0'] = array(
