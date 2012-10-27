@@ -4,6 +4,9 @@ temp/*
 config/*
 plugins/*/config.inc.php
 
+# this is for the sample plugin (via composer)
+plugins/rcsample
+
 # composer-related
 composer.json
 composer.phar
