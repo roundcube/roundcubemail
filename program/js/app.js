@@ -912,7 +912,7 @@ function rcube_webmail()
             }
 
             if (a_cids.length)
-              this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source, }, true);
+              this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source }, true);
             else if (this.env.group)
               this.http_post('mailto', { _gid: this.env.group, _source: this.env.source }, true);
 
