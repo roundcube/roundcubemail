@@ -6,6 +6,7 @@ plugins/*/config.inc.php
 
 # this is for the sample plugin (via composer)
 plugins/rcsample
+plugins/plugin_manager
 
 # composer-related
 composer.json

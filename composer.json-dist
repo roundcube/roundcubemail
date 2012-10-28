@@ -4,9 +4,6 @@
     "license": "GPL-3.0",
     "repositories": [
         {
-            "packagist": false
-        },
-        {
             "type": "composer",
             "url": "http://plugins.roundcube.net/"
         },
