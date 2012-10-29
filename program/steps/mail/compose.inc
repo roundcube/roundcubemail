@@ -1614,7 +1614,7 @@ function rcmail_addressbook_list($attrib = array())
             html_identifier($id),
             $class_name,
             $source['id'],
-            $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
+            $js_id, (!empty($source['name']) ? $source['name'] : $id));
     }
 
     $OUTPUT->add_gui_object('addressbookslist', $attrib['id']);
