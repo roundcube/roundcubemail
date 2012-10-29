@@ -288,7 +288,7 @@ class rcube_mdb2
         else {
             $params = (array)$params;
             $q = $this->db_handle->prepare($query, null, $mode=='w' ? MDB2_PREPARE_MANIP : null);
-            if ($this->db_handle->isError($q)) {
+            if (MDB2::isError($q)) {
                 $this->db_error = true;
                 $this->db_error_msg = $q->userinfo;
 
@@ -369,7 +369,7 @@ class rcube_mdb2
 
         $id = $this->db_handle->lastInsertID($table);
 
-        return $this->db_handle->isError($id) ? null : $id;
+        return MDB2::isError($id) ? null : $id;
     }
 
 
