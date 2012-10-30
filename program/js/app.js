@@ -6271,6 +6271,11 @@ function rcube_webmail()
     else if (request.status == 0 && status != 'abort')
       this.display_message(this.get_label('servererror') + ' (No connection)', 'error');
 
+    // redirect to url specified in location header if not empty
+    var location_url = request.getResponseHeader("Location");
+    if (location_url)
+      this.redirect(location_url);
+
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
       setTimeout(function(){ ref.keep_alive(); }, 30000);
