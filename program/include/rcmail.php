@@ -542,9 +542,7 @@ class rcmail extends rcube
       $_SESSION['login_time']   = time();
 
       if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_')
-        $_SESSION['timezone'] = floatval($_REQUEST['_timezone']);
-      if (isset($_REQUEST['_dstactive']) && $_REQUEST['_dstactive'] != '_default_')
-        $_SESSION['dst_active'] = intval($_REQUEST['_dstactive']);
+        $_SESSION['timezone'] = rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_GPC);
 
       // force reloading complete list of subscribed mailboxes
       $storage->clear_cache('mailboxes', true);

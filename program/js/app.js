@@ -424,12 +424,14 @@ function rcube_webmail()
           $('#rcmloginpwd').focus();
 
         // detect client timezone
-        var dt = new Date(),
-          tz = dt.getTimezoneOffset() / -60,
-          stdtz = dt.getStdTimezoneOffset() / -60;
-
-        $('#rcmlogintz').val(stdtz);
-        $('#rcmlogindst').val(tz > stdtz ? 1 : 0);
+        if (window.jstz && !bw.ie6) {
+          var timezone = jstz.determine();
+          if (timezone.name())
+            $('#rcmlogintz').val(timezone.name());
+        }
+        else {
+          $('#rcmlogintz').val(new Date().getStdTimezoneOffset() / -60);
+        }
 
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {

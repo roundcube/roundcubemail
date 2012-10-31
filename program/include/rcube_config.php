@@ -412,7 +412,20 @@ class rcube_config
      */
     private function client_timezone()
     {
-        return isset($_SESSION['timezone']) && ($ctz = timezone_name_from_abbr("", $_SESSION['timezone'] * 3600, 0)) ? $ctz : date_default_timezone_get();
+        if (isset($_SESSION['timezone']) && is_numeric($_SESSION['timezone'])
+              && ($ctz = timezone_name_from_abbr("", $_SESSION['timezone'] * 3600, 0))) {
+            return $ctz;
+        }
+        else if (!empty($_SESSION['timezone'])) {
+            try {
+                $tz = timezone_open($_SESSION['timezone']);
+                return $tz->getName();
+            }
+            catch (Exception $e) { /* gracefully ignore */ }
+        }
+
+        // fallback to server's timezone
+        return date_default_timezone_get();
     }
 
 }

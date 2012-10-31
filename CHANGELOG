@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
 - Fix possible HTTP DoS on error in keep-alive requests (#1488782)
 - Add option to disable saving sent mail in Sent folder - no_save_sent_messages (#1488686)
 - Fix handling dont_override with message_sort_col and message_sort_order settings (#1488760)
