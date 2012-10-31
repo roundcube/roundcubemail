@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix possible HTTP DoS on error in keep-alive requests (#1488782)
 - Fix compatybility with MDB2 2.5.0b4 (#1488779)
 - Fix a bug where saving a message in INBOX wasn't possible
 - Fix HTML part detection in messages with attachments (#1488769)
