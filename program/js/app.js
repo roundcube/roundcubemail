@@ -6273,9 +6273,9 @@ function rcube_webmail()
 
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
-      setTimeout(function(){ ref.keep_alive(); }, 30000);
+      setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
     else if (action == 'check-recent')
-      setTimeout(function(){ ref.check_for_recent(false); }, 30000);
+      setTimeout(function(){ ref.check_for_recent(false); ref.start_keepalive(); }, 30000);
   };
 
   // post the given form to a hidden iframe
