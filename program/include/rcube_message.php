@@ -483,7 +483,7 @@ class rcube_message
                     if ($plugin['abort'])
                         continue;
 
-                    if ($part_mimetype == 'text/html') {
+                    if ($part_mimetype == 'text/html' && $mail_part->size) {
                         $got_html_part = true;
                     }
 
