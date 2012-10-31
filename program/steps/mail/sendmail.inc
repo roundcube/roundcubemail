@@ -364,7 +364,7 @@ if (!empty($mailcc)) {
 if (!empty($mailbcc)) {
   $headers['Bcc'] = $mailbcc;
 }
-if (!empty($identity_arr['bcc'])) {
+if (!empty($identity_arr['bcc']) && stripos($headers['Bcc'], $identity_arr['bcc']) === false) {
   $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
   $RECIPIENT_COUNT ++;
 }
