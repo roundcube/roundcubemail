@@ -183,18 +183,24 @@ else {
     $insert_id = $plugin['result'];
 
   if ($insert_id) {
+    $CONTACTS->reset();
+
     // add new contact to the specified group
     if ($CONTACTS->groups && $CONTACTS->group_id) {
       $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array(
         'group_id' => $CONTACTS->group_id, 'ids' => $insert_id, 'source' => $source));
 
+      $counts = $CONTACTS->count();
+
       if (!$plugin['abort']) {
-        if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + 1 > $maxnum))
+        if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($counts->count + 1 > $maxnum))
           $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
 
         $CONTACTS->add_to_group($gid, $plugin['ids']);
       }
     }
+    else
+      $counts = $CONTACTS->count();
 
     if ((string)$source === (string)$orig_source) {
       // add contact row or jump to the page where it should appear
@@ -206,7 +212,7 @@ else {
 
       // update record count display
       $CONTACTS->reset();
-      $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text());
+      $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text($counts));
     }
     else {
       // re-set iframe
