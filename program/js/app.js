@@ -3018,10 +3018,13 @@ function rcube_webmail()
     var url = this.url('mail/compose', p);
 
     // open new compose window
-    if (this.env.compose_extwin)
+    if (this.env.compose_extwin && !this.env.extwin) {
       this.open_window(url, 1150, 900);
-    else
+    }
+    else {
       this.redirect(url);
+      window.resizeTo(Math.max(1150, $(window).width()), Math.max(900, $(window).height()));
+    }
   };
 
   // init message compose form: set focus and eventhandlers
@@ -6041,10 +6044,18 @@ function rcube_webmail()
     if (lock || lock === null)
       this.set_busy(true);
 
-    if (this.is_framed())
+    if (this.is_framed()) {
       parent.rcmail.redirect(url, lock);
-    else
+    }
+    else {
+      if (this.env.extwin) {
+        if (typeof url == 'string')
+          url += (url.indexOf('?') < 0 ? '?' : '&') + '_extwin=1';
+        else
+          url._extwin = 1;
+      }
       this.location_href(url, window);
+    }
   };
 
   this.goto_url = function(action, query, lock)
