@@ -3044,6 +3044,7 @@ function rcube_webmail()
     // close compose step in opener
     if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose') {
       setTimeout(function(){ opener.history.back(); }, 100);
+      this.env.opened_extwin = true;
     }
 
     // configure parallel autocompletion
@@ -3064,7 +3065,7 @@ function rcube_webmail()
       this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
       // add signature according to selected identity
       // if we have HTML editor, signature is added in callback
-      if (input_from.prop('type') == 'select-one') {
+      if (input_from.prop('type') == 'select-one' && !this.env.opened_extwin) {
         this.change_identity(input_from[0]);
       }
     }
