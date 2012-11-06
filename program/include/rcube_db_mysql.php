@@ -127,6 +127,9 @@ class rcube_db_mysql extends rcube_db
             $result[PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
         }
 
+        // Always return matching (not affected only) rows count
+        $result[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
+
         return $result;
     }
 

@@ -3530,6 +3530,10 @@ class rcube_imap_generic
      */
     static function uncompressMessageSet($messages)
     {
+        if (empty($messages)) {
+            return array();
+        }
+
         $result   = array();
         $messages = explode(',', $messages);
 
@@ -3538,7 +3542,7 @@ class rcube_imap_generic
             $max   = max($items[0], $items[1]);
 
             for ($x=$items[0]; $x<=$max; $x++) {
-                $result[] = $x;
+                $result[] = (int)$x;
             }
             unset($messages[$idx]);
         }
@@ -3651,18 +3655,6 @@ class rcube_imap_generic
 
         // literal-string
         return sprintf("{%d}\r\n%s", strlen($string), $string);
-    }
-
-    /**
-     * Unescapes quoted-string
-     *
-     * @param string  $string       IMAP string
-     *
-     * @return string String
-     */
-    static function unEscape($string)
-    {
-        return stripslashes($string);
     }
 
     /**
