@@ -431,6 +431,11 @@ abstract class rcube_addressbook
             }
         }
 
+        // remove duplicates
+        if ($flat && !empty($out)) {
+            $out = array_unique($out);
+        }
+
         return $out;
     }
 
