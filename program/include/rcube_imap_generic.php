@@ -3658,18 +3658,6 @@ class rcube_imap_generic
     }
 
     /**
-     * Unescapes quoted-string
-     *
-     * @param string  $string       IMAP string
-     *
-     * @return string String
-     */
-    static function unEscape($string)
-    {
-        return stripslashes($string);
-    }
-
-    /**
      * Set the value of the debugging flag.
      *
      * @param   boolean $debug      New value for the debugging flag.
