@@ -369,12 +369,7 @@ function rcmail_folder_frame($attrib)
     if (!$attrib['id'])
         $attrib['id'] = 'rcmfolderframe';
 
-    $attrib['name'] = $attrib['id'];
-
-    $OUTPUT->set_env('contentframe', $attrib['name']);
-    $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/resources/blank.gif');
-
-    return html::iframe($attrib);
+    return $OUTPUT->frame($attrib, true);
 }
 
 function rcmail_rename_folder($oldname, $newname)

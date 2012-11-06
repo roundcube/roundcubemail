@@ -33,11 +33,7 @@ function rcmail_identity_frame($attrib)
   if (!$attrib['id'])
     $attrib['id'] = 'rcmIdentityFrame';
 
-  $attrib['name'] = $attrib['id'];
-
-  $OUTPUT->set_env('contentframe', $attrib['name']);
-
-  return html::iframe($attrib);
+  return $OUTPUT->frame($attrib, true);
   }
 
 $OUTPUT->add_handler('identityframe', 'rcmail_identity_frame');

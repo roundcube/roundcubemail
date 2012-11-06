@@ -471,7 +471,7 @@ function rcmail_messagecontent_frame($attrib)
     $OUTPUT->set_env('contentframe', $attrib['id']);
   $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
-  return html::iframe($attrib);
+  return $OUTPUT->frame($attrib, true);
 }
 
 

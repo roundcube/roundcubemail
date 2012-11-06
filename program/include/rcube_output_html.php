@@ -206,6 +206,31 @@ class rcube_output_html extends rcube_output
 
 
     /**
+     * Find the given file in the current skin path stack
+     *
+     * @param string File name/path to resolve (starting with /)
+     * @param string Reference to the base path of the matching skin
+     * @param string Additional path to search in
+     * @return mixed Relative path to the requested file or False if not found
+     */
+    public function get_skin_file($file, &$skin_path, $add_path = null)
+    {
+        $skin_paths = $this->skin_paths;
+        if ($add_path)
+            array_unshift($skin_paths, $add_path);
+
+        foreach ($skin_paths as $skin_path) {
+            $path = realpath($skin_path . $file);
+            if (is_file($path)) {
+                return $skin_path . $file;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
      * Register a GUI object to the client script
      *
      * @param  string Object name
@@ -401,13 +426,13 @@ class rcube_output_html extends rcube_output
             // apply skin search escalation list to plugin directory
             $plugin_skin_paths = array();
             foreach ($this->skin_paths as $skin_path) {
-                $plugin_skin_paths[] = $this->app->plugins->dir . $plugin . '/' . $skin_path;
+                $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
             }
 
             // add fallback to default skin
             if (is_dir($this->app->plugins->dir . $plugin . '/skins/default')) {
                 $skin_dir = $plugin . '/skins/default';
-                $plugin_skin_paths[] = $this->app->plugins->dir . $skin_dir;
+                $plugin_skin_paths[] = $this->app->plugins->url . $skin_dir;
             }
 
             // add plugin skin paths to search list
@@ -536,12 +561,17 @@ class rcube_output_html extends rcube_output
      * Make URLs starting with a slash point to skin directory
      *
      * @param  string Input string
+     * @param  boolean True if URL should be resolved using the current skin path stack
      * @return string
      */
-    public function abs_url($str)
+    public function abs_url($str, $search_path = false)
     {
-        if ($str[0] == '/')
+        if ($str[0] == '/') {
+            if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path)))
+                return $file_url;
+
             return $this->base_path . $str;
+        }
         else
             return $str;
     }
@@ -825,15 +855,9 @@ class rcube_output_html extends rcube_output
             // include a file
             case 'include':
                 $old_base_path = $this->base_path;
-                $skin_paths = $this->skin_paths;
-                if ($attrib['skin_path'])
-                    array_unshift($skin_paths, $attrib['skin_path']);
-                foreach ($skin_paths as $skin_path) {
-                    $path = realpath($skin_path . $attrib['file']);
-                    if (is_file($path)) {
-                        $this->base_path = $skin_path;
-                        break;
-                    }
+                if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skin_path'])) {
+                    $this->base_path = $skin_path;
+                    $path = realpath($path);
                 }
 
                 if (is_readable($path)) {
@@ -1350,21 +1374,25 @@ class rcube_output_html extends rcube_output
      * Returns iframe object, registers some related env variables
      *
      * @param array $attrib HTML attributes
-     *
+     * @param boolean $is_contentframe Register this iframe as the 'contentframe' gui object
      * @return string IFRAME element
      */
-    public function frame($attrib)
+    public function frame($attrib, $is_contentframe = false)
     {
+        static $idcount = 0;
+
         if (!$attrib['id']) {
-            $attrib['id'] = 'rcmframe';
+            $attrib['id'] = 'rcmframe' . ++$idcount;
         }
 
-        if (!$attrib['name']) {
-            $attrib['name'] = $attrib['id'];
-        }
+        $attrib['name'] = $attrib['id'];
+        $attrib['src'] = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
 
-        $this->set_env('contentframe', $attrib['id']);
-        $this->set_env('blankpage', $attrib['src'] ? $this->abs_url($attrib['src']) : 'program/resources/blank.gif');
+        // register as 'contentframe' object
+        if ($is_contentframe)
+            $this->set_env('contentframe', $attrib['name']);
+            $this->set_env('blankpage', $attrib['src']);
+        }
 
         return html::iframe($attrib);
     }
