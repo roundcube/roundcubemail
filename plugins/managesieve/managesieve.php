@@ -1085,7 +1085,7 @@ class managesieve extends rcube_plugin
         $this->rc->output->set_env('blankpage', $attrib['src'] ?
         $this->rc->output->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
-        return html::tag('iframe', $attrib);
+        return $this->rc->output->frame($attrib);
     }
 
     function filterset_form($attrib)
