@@ -1389,8 +1389,8 @@ class rcube_output_html extends rcube_output
         $attrib['src'] = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
 
         // register as 'contentframe' object
-        if ($is_contentframe) {
-            $this->set_env('contentframe', $attrib['name']);
+        if ($is_contentframe || $attrib['contentframe']) {
+            $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
             $this->set_env('blankpage', $attrib['src']);
         }
 
