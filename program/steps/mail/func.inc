@@ -1247,7 +1247,7 @@ function rcmail_part_image_type($part)
 
   if ($part->filename
     && preg_match('/^application\/octet-stream$/i', $part->mimetype)
-    && preg_match('/\.([^.])$/i', $part->filename, $m)
+    && preg_match('/\.([^.]+)$/i', $part->filename, $m)
     && ($extension = strtolower($m[1]))
     && isset($types[$extension])
   ) {
