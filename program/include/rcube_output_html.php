@@ -855,7 +855,7 @@ class rcube_output_html extends rcube_output
             // include a file
             case 'include':
                 $old_base_path = $this->base_path;
-                if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skin_path'])) {
+                if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     $this->base_path = $skin_path;
                     $path = realpath($path);
                 }
