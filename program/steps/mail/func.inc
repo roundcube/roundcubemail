@@ -1234,7 +1234,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
 
   // modify HTML links to open a new window if clicked
   $GLOBALS['rcmail_html_container_id'] = $container_id;
-  $body = preg_replace_callback('/<(a|link)\s+([^>]+)>/Ui', 'rcmail_alter_html_link', $body);
+  $body = preg_replace_callback('/<(a|link|area)\s+([^>]+)>/Ui', 'rcmail_alter_html_link', $body);
   unset($GLOBALS['rcmail_html_container_id']);
 
   $body = preg_replace(array(
@@ -1347,7 +1347,11 @@ function rcmail_alter_html_link($matches)
     $attrib['target'] = '_blank';
   }
 
-  return "<$tag" . html::attrib_string($attrib, array('href','name','target','onclick','id','class','style','title','rel','type','media')) . $end;
+  // allowed attributes for a|link|area tags
+  $allow = array('href','name','target','onclick','id','class','style','title',
+    'rel','type','media','alt','coords','nohref','hreflang','shape');
+
+  return "<$tag" . html::attrib_string($attrib, $allow) . $end;
 }
 
 
