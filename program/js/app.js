@@ -952,9 +952,6 @@ function rcube_webmail()
           break;
         }
 
-        // re-set keep-alive timeout
-        this.start_keepalive();
-
         this.submit_messageform(true);
         break;
 
@@ -6077,6 +6074,9 @@ function rcube_webmail()
       $('<a>').attr('href', url).appendTo(document.body).get(0).click();
     else
       target.location.href = url;
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // send a http request to the server
@@ -6105,6 +6105,9 @@ function rcube_webmail()
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // send a http POST request to the server
@@ -6137,6 +6140,9 @@ function rcube_webmail()
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // aborts ajax request
@@ -6264,6 +6270,9 @@ function rcube_webmail()
 
     this.triggerEvent('responseafter', {response: response});
     this.triggerEvent('responseafter'+response.action, {response: response});
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // handle HTTP request errors
@@ -6288,8 +6297,6 @@ function rcube_webmail()
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
       setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
-    else if (action == 'check-recent')
-      setTimeout(function(){ ref.check_for_recent(false); ref.start_keepalive(); }, 30000);
   };
 
   // post the given form to a hidden iframe
@@ -6459,20 +6466,16 @@ function rcube_webmail()
     }
   };
 
-
-  // starts interval for keep-alive/check-recent signal
+  // starts interval for keep-alive signal
   this.start_keepalive = function()
   {
-    if (!this.env.keep_alive || this.env.framed)
+    if (!this.env.session_lifetime || this.env.framed || this.task == 'login' || this.env.action == 'print')
       return;
 
     if (this._int)
       clearInterval(this._int);
 
-    if (this.task == 'mail' && this.gui_objects.mailboxlist)
-      this._int = setInterval(function(){ ref.check_for_recent(false); }, this.env.keep_alive * 1000);
-    else if (this.task != 'login' && this.env.action != 'print')
-      this._int = setInterval(function(){ ref.keep_alive(); }, this.env.keep_alive * 1000);
+    this._int = setInterval(function(){ ref.keep_alive(); }, this.env.session_lifetime * 0.5 * 1000);
   };
 
   // sends keep-alive signal
@@ -6493,8 +6496,6 @@ function rcube_webmail()
     if (refresh) {
       lock = this.set_busy(true, 'checkingmail');
       url._refresh = 1;
-      // reset check-recent interval
-      this.start_keepalive();
     }
 
     if (this.gui_objects.messagelist)

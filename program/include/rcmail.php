@@ -94,9 +94,6 @@ class rcmail extends rcube
     // create user object
     $this->set_user(new rcube_user($_SESSION['user_id']));
 
-    // configure session (after user config merge!)
-    $this->session_configure();
-
     // set task and action properties
     $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
     $this->action = asciiwords(rcube_utils::get_input_value('_action', rcube_utils::INPUT_GPC));
@@ -320,10 +317,9 @@ class rcmail extends rcube
     if (!($this->output instanceof rcube_output_html))
       $this->output = new rcube_output_html($this->task, $framed);
 
-    // set keep-alive/check-recent interval
-    if ($this->session && ($keep_alive = $this->session->get_keep_alive())) {
-      $this->output->set_env('keep_alive', $keep_alive);
-    }
+    // set keep-alive interval
+    $this->output->set_env('keep_alive', $this->config->get('keep_alive', 0));
+    $this->output->set_env('session_lifetime', $this->config->get('session_lifetime', 0) * 60);
 
     if ($framed) {
       $this->comm_path .= '&_framed=1';
@@ -522,7 +518,6 @@ class rcmail extends rcube
       // Configure environment
       $this->set_user($user);
       $this->set_storage_prop();
-      $this->session_configure();
 
       // fix some old settings according to namespace prefix
       $this->fix_namespace_settings($user);
