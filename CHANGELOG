@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Upgraded to jQuery 1.8.2 and jQuery UI 1.9.1
+- Add config option to automatically generate LDAP attributes for new entries
 - Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
 - Fix possible HTTP DoS on error in keep-alive requests (#1488782)
 - Add option to disable saving sent mail in Sent folder - no_save_sent_messages (#1488686)
