@@ -636,6 +636,11 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   ),
   // Map of contact sub-objects (attribute name => objectClass(es)), e.g. 'c' => 'country'
   'sub_fields' => array(),
+  // Generate values for the following LDAP attributes automatically when creating a new record
+  'autovalues' => array(
+  // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed 
+  // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
+  ),
   'sort'          => 'cn',    // The field to sort the listing by.
   'scope'         => 'sub',   // search mode: sub|base|list
   'filter'        => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act

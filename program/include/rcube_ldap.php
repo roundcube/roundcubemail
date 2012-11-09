@@ -160,7 +160,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // make sure LDAP_rdn field is required
-        if (!empty($this->prop['LDAP_rdn']) && !in_array($this->prop['LDAP_rdn'], $this->prop['required_fields'])) {
+        if (!empty($this->prop['LDAP_rdn']) && !in_array($this->prop['LDAP_rdn'], $this->prop['required_fields']) && !in_array($this->prop['LDAP_rdn'], array_keys($this->prop['autovalues']))) {
             $this->prop['required_fields'][] = $this->prop['LDAP_rdn'];
         }
 
@@ -1086,6 +1086,9 @@ class rcube_ldap extends rcube_addressbook
         $newentry = $this->_map_data($save_cols);
         $newentry['objectClass'] = $this->prop['LDAP_Object_Classes'];
 
+        // add automatically generated attributes
+        $this->add_autovalues($newentry);
+
         // Verify that the required fields are set.
         $missing = null;
         foreach ($this->prop['required_fields'] as $fld) {
@@ -1389,6 +1392,30 @@ class rcube_ldap extends rcube_addressbook
         }
     }
 
+    /**
+     * Generate missing attributes as configured
+     *
+     * @param array LDAP record attributes
+     */
+    protected function add_autovalues(&$attrs)
+    {
+        $attrvals = array();
+        foreach ($attrs as $k => $v) {
+            $attrvals['{'.$k.'}'] = is_array($v) ? $v[0] : $v;
+        }
+
+        foreach ((array)$this->prop['autovalues'] as $lf => $templ) {
+            if (empty($attrs[$lf])) {
+                // replace {attr} placeholders with concrete attribute values
+                $templ = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
+
+                if (strpos($templ, '(') !== false)
+                    $attrs[$lf] = eval("return ($templ);");
+                else
+                    $attrs[$lf] = $templ;
+            }
+        }
+    }
 
     /**
      * Execute the LDAP search based on the stored credentials
