@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.8.3
+-------------
 - Fix AREA links handling (#1488792)
 - Fix possible HTTP DoS on error in keep-alive requests (#1488782)
 - Fix compatybility with MDB2 2.5.0b4 (#1488779)
