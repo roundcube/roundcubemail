@@ -3,18 +3,11 @@ CHANGELOG Roundcube Webmail
 
 - Upgraded to jQuery 1.8.2 and jQuery UI 1.9.1
 - Add config option to automatically generate LDAP attributes for new entries
-- Fix AREA links handling (#1488792)
 - Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
-- Fix possible HTTP DoS on error in keep-alive requests (#1488782)
 - Add option to disable saving sent mail in Sent folder - no_save_sent_messages (#1488686)
 - Fix handling dont_override with message_sort_col and message_sort_order settings (#1488760)
-- Fix HTML part detection in messages with attachments (#1488769)
-- Fix bug where wrong words were highlighted on spell-before-send check
 - Fix handling of URLs with asterisk characters (#1488759)
 - Remove automatic to-lowercase conversion of usernames (#1488715)
-- Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
-- Fix displaying of multipart/alternative messages with empty parts (#1488750)
-- Fix threaded list sorting on PHP < 5.2.9 (#1488748)
 - Plugin API: Add 'email_list' argument for identities data in user_create hook
 - Integrated zipdownload plugin to download all attachments (#1445509)
 - Fix HTML special characters handling in message list/header display (#1488523)
@@ -55,6 +48,19 @@ CHANGELOG Roundcube Webmail
     Unified global functions naming (rcube_ prefix)
     Move global functions from main.inc and rcube_shared.inc into classes
     Better classes separation
+
+RELEASE 0.8.3
+-------------
+- Fix AREA links handling (#1488792)
+- Fix possible HTTP DoS on error in keep-alive requests (#1488782)
+- Fix compatybility with MDB2 2.5.0b4 (#1488779)
+- Fix a bug where saving a message in INBOX wasn't possible
+- Fix HTML part detection in messages with attachments (#1488769)
+- Fix bug where wrong words were highlighted on spell-before-send check
+- Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
+- Fix displaying of multipart/alternative messages with empty parts (#1488750)
+- Fix threaded list sorting on PHP < 5.2.9 (#1488748)
+- Fix Warning: htmlspecialchars(): charset `RCMAIL_CHARSET' not supported warning in Installer (#1488744)
 
 RELEASE 0.8.2
 -------------
