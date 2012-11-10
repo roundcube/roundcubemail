@@ -1050,8 +1050,49 @@ div.message-part blockquote blockquote blockquote {
 	border-bottom: 2px solid #f0f0f0;
 }
 
-#messagebody > p > img {
+#messagebody fieldset.image-attachment {
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin-top: 1em;
+}
+
+#messagebody fieldset.image-attachment p > img {
 	max-width: 80%;
+}
+
+#messagebody legend.image-filename {
+	color: #999;
+	font-size: 0.9em;
+	margin: 0 1em;
+}
+
+#messagebody p.image-attachment {
+	position: relative;
+	padding: 1em;
+	border-top: 1px solid #ccc;
+}
+
+#messagebody p.image-attachment a.image-link {
+	float: left;
+	display: block;
+	margin-right: 2em;
+	min-width: 160px;
+	min-height: 60px;
+	text-align: center;
+}
+
+#messagebody p.image-attachment .image-filename {
+	display: block;
+	font-weight: bold;
+	line-height: 1.6em;
+}
+
+#messagebody p.image-attachment .image-filesize {
+	padding-right: 1em;
+}
+
+#messagebody p.image-attachment .attachment-links a {
+	margin-right: 0.6em;
 }
 
 #messagepartcontainer {

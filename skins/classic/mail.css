@@ -1254,6 +1254,65 @@ div.message-htmlpart div.rcmBody
   color: #333333;
 }
 
+#messagebody fieldset.image-attachment {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 1em 0 1em;
+}
+
+#messagebody fieldset.image-attachment p > img
+{
+  max-width: 80%;
+}
+
+#messagebody legend.image-filename
+{
+  color: #999;
+  font-size: 0.9em;
+}
+
+#messagebody p.image-attachment
+{
+  margin: 0 1em;
+  padding: 1em;
+  border-top: 1px solid #ccc;
+}
+
+#messagebody p.image-attachment a.image-link
+{
+  float: left;
+  margin-right: 2em;
+  min-width: 160px;
+  min-height: 60px;
+  text-align: center;
+}
+
+#messagebody p.image-attachment .image-filename
+{
+  display: block;
+  font-weight: bold;
+  line-height: 1.6em;
+}
+
+#messagebody p.image-attachment .image-filesize
+{
+  font-size: 11px;
+  padding-right: 1em;
+}
+
+#messagebody p.image-attachment .attachment-links a
+{
+  margin-right: 0.6em;
+  color: #cc0000;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+#messagebody p.image-attachment .attachment-links a:hover
+{
+  text-decoration: underline;
+}
+
 #openextwinlink
 {
   position: absolute;

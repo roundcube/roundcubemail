@@ -252,9 +252,9 @@ class html
      * @return string HTML code
      * @see html::tag()
      */
-    public static function br()
+    public static function br($attrib = array())
     {
-        return self::tag('br');
+        return self::tag('br', $attrib);
     }
 
     /**

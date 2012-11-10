@@ -78,10 +78,11 @@ class rcube_image
      *
      * @param int    $size      Max width/height size
      * @param string $filename  Output filename
+     * @param boolean $browser_compat  Convert to image type displayable by any browser
      *
-     * @return bool True on success, False on failure
+     * @return mixed Output type on success, False on failure
      */
-    public function resize($size, $filename = null)
+    public function resize($size, $filename = null, $browser_compat = false)
     {
         $result  = false;
         $rcube   = rcube::get_instance();
@@ -104,15 +105,22 @@ class rcube_image
             }
 
             $type = strtr($type, array("jpeg" => "jpg", "tiff" => "tif", "ps" => "eps", "ept" => "eps"));
+            $p['intype'] = $type;
+
+            // convert to an image format every browser can display
+            if ($browser_compat && !in_array($type, array('jpg','gif','png'))) {
+                $type = 'jpg';
+            }
+
             $p += array('type' => $type, 'types' => "bmp,eps,gif,jp2,jpg,png,svg,tif", 'quality' => 75);
-            $p['-opts'] = array('-resize' => $size.'>');
+            $p['-opts'] = array('-resize' => $p['size'].'>');
 
             if (in_array($type, explode(',', $p['types']))) { // Valid type?
-                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {in} {type}:{out}', $p);
+                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {intype}:{in} {type}:{out}', $p);
             }
 
             if ($result === '') {
-                return true;
+                return $type;
             }
         }
 
@@ -148,16 +156,19 @@ class rcube_image
 
             if ($props['gd_type'] == IMAGETYPE_JPEG) {
                 $result = imagejpeg($image, $filename, 75);
+                $type = 'jpg';
             }
             elseif($props['gd_type'] == IMAGETYPE_GIF) {
                 $result = imagegif($image, $filename);
+                $type = 'gid';
             }
             elseif($props['gd_type'] == IMAGETYPE_PNG) {
                 $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                $type = 'png';
             }
 
             if ($result) {
-                return true;
+                return $type;
             }
         }
 

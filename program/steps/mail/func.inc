@@ -1186,7 +1186,9 @@ function rcmail_message_body($attrib)
   }
 
   // list images after mail body
-  if ($CONFIG['inline_images'] && !empty($MESSAGE->attachments)) {
+  if ($RCMAIL->config->get('inline_images', true) && !empty($MESSAGE->attachments)) {
+    $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
+
     foreach ($MESSAGE->attachments as $attach_prop) {
       // skip inline images
       if ($attach_prop->content_id && $attach_prop->disposition == 'inline') {
@@ -1195,12 +1197,45 @@ function rcmail_message_body($attrib)
 
       // Content-Type: image/*...
       if (rcmail_part_image_type($attach_prop)) {
-        $out .= html::tag('hr') . html::p(array('align' => "center"),
-          html::img(array(
-            'src' => $MESSAGE->get_part_url($attach_prop->mime_id, true),
-            'title' => $attach_prop->filename,
-            'alt' => $attach_prop->filename,
-          )));
+        // display thumbnails
+        if ($thumbnail_size) {
+          $show_link = array(
+            'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
+            'onclick' => sprintf(
+              'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
+              JS_OBJECT_NAME,
+              $attach_prop->mime_id,
+              rcmail_fix_mimetype($attach_prop->mimetype))
+          );
+          $out .= html::p('image-attachment',
+             html::a($show_link + array('class' => 'image-link'),
+               html::img(array(
+                'class' => 'image-thumbnail',
+                'src'   => $MESSAGE->get_part_url($attach_prop->mime_id, true) . '&_thumb=1',
+                'title' => $attach_prop->filename,
+                'alt'   => $attach_prop->filename,
+                'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
+              ))
+            ) .
+            html::span('image-filename', Q($attach_prop->filename)) .
+            html::span('image-filesize', Q($RCMAIL->show_bytes($attach_prop->size))) .
+            html::span('attachment-links',
+              html::a($show_link['href'] . '&_download=1', rcube_label('download'))
+            ) .
+            html::br(array('style' => 'clear:both'))
+          );
+        }
+        else {
+          $out .= html::tag('fieldset', 'image-attachment',
+            html::tag('legend', 'image-filename', Q($attach_prop->filename)) .
+            html::p(array('align' => "center"),
+              html::img(array(
+                'src'   => $MESSAGE->get_part_url($attach_prop->mime_id, true),
+                'title' => $attach_prop->filename,
+                'alt'   => $attach_prop->filename,
+              )))
+          );
+        }
       }
     }
   }

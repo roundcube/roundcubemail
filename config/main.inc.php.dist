@@ -373,6 +373,11 @@ $rcmail_config['im_identify_path'] = null;
 // path to imagemagick convert binary
 $rcmail_config['im_convert_path'] = null;
 
+// Size of thumbnails from image attachments displayed below the message content.
+// Note: whether images are displayed at all depends on the 'inline_images' option.
+// Set to 0 to display images in full size.
+$rcmail_config['image_thumbnail_size'] = 240;
+
 // maximum size of uploaded contact photos in pixel
 $rcmail_config['contact_photo_size'] = 160;
 
