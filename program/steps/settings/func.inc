@@ -237,6 +237,24 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    if (!isset($no_override['keep_alive'])) {
+      $field_id = 'rcmfd_keep_alive';
+      $select_keep_alive = new html_select(array('name' => '_keep_alive', 'id' => $field_id));
+
+      $select_keep_alive->add(rcube_label('never'), 0);
+      foreach (array(1, 3, 5, 10, 15, 30, 60) as $min) {
+        if (!$config['min_keep_alive'] || $config['min_keep_alive'] <= $min * 60) {
+          $label = rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min)));
+          $select_keep_alive->add($label, $min);
+        }
+      }
+
+      $blocks['main']['options']['keep_alive'] = array(
+        'title' => html::label($field_id, Q(rcube_label('refreshinterval'))),
+        'content' => $select_keep_alive->show($config['keep_alive']/60),
+      );
+    }
+
     // show drop-down for available skins
     if (!isset($no_override['skin'])) {
       $skins = rcmail_get_skins();
@@ -370,23 +388,6 @@ function rcmail_user_prefs($current=null)
         'content' => $input_pagesize->show($size ? $size : 50),
       );
     }
-
-    if (!isset($no_override['keep_alive'])) {
-      $field_id = 'rcmfd_keep_alive';
-      $select_keep_alive = new html_select(array('name' => '_keep_alive', 'id' => $field_id));
-
-      foreach(array(1, 3, 5, 10, 15, 30, 60) as $min)
-        if((!$config['min_keep_alive'] || $config['min_keep_alive'] <= $min * 60)
-            && (!$config['session_lifetime'] || $config['session_lifetime'] > $min)) {
-          $select_keep_alive->add(rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min))), $min);
-        }
-
-      $blocks['new_message']['options']['keep_alive'] = array(
-        'title' => html::label($field_id, Q(rcube_label('keepalive'))),
-        'content' => $select_keep_alive->show($config['keep_alive']/60),
-      );
-    }
-
     if (!isset($no_override['check_all_folders'])) {
       $field_id = 'rcmfd_check_all_folders';
       $input_check_all = new html_checkbox(array('name' => '_check_all_folders', 'id' => $field_id, 'value' => 1));

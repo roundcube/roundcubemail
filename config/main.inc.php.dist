@@ -241,7 +241,6 @@ $rcmail_config['skin_include_php'] = false;
 $rcmail_config['display_version'] = false;
 
 // Session lifetime in minutes
-// must be greater than 'keep_alive'/60
 $rcmail_config['session_lifetime'] = 10;
 
 // Session domain: .example.org
@@ -500,7 +499,6 @@ $rcmail_config['recipients_separator'] = ',';
 $rcmail_config['max_pagesize'] = 200;
 
 // Minimal value of user's 'keep_alive' setting (in seconds)
-// Must be less than 'session_lifetime'
 $rcmail_config['min_keep_alive'] = 60;
 
 // Enables files upload indicator. Requires APC installed and enabled apc.rfc1867 option.
@@ -780,8 +778,9 @@ $rcmail_config['read_when_deleted'] = true;
 // Use 'Purge' to remove messages marked as deleted
 $rcmail_config['flag_for_deletion'] = false;
 
-// Default interval for keep-alive/check-recent requests (in seconds)
-// Must be greater than or equal to 'min_keep_alive' and less than 'session_lifetime'
+// Default interval for auto-refresh requests (in seconds)
+// These are requests for system state updates e.g. checking for new messages, etc.
+// Setting it to 0 disables the feature.
 $rcmail_config['keep_alive'] = 60;
 
 // If true all folders will be checked for recent messages
