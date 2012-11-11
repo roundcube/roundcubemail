@@ -494,8 +494,6 @@ class rcube_output_html extends rcube_output
         $output = $hook['content'];
         unset($hook['content']);
 
-        $output = $this->parse_with_globals($this->fix_paths($output));
-
         // make sure all <form> tags have a valid request token
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
         $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
@@ -856,7 +854,7 @@ class rcube_output_html extends rcube_output
             case 'include':
                 $old_base_path = $this->base_path;
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
-                    $this->base_path = $skin_path;
+                    $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
                     $path = realpath($path);
                 }
 
@@ -1356,6 +1354,8 @@ class rcube_output_html extends rcube_output
             }
             $output = substr_replace($output, $css, $pos, 0);
         }
+
+        $output = $this->parse_with_globals($this->fix_paths($output));
 
         // trigger hook with final HTML content to be sent
         $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
