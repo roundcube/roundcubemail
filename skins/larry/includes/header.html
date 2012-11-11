@@ -6,6 +6,7 @@
 		<a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link" id="supportlink"><roundcube:label name="support" /></a>
 		<roundcube:endif />
 	</div>
+
 	<div class="topright">
 	<roundcube:if condition="!env:extwin" />
 		<span class="username"><roundcube:object name="username" /></span>
@@ -14,6 +15,8 @@
 		<roundcube:button command="close" label="close" class="closelink" />
 	<roundcube:endif />
 	</div>
+
+	<roundcube:container name="topline" id="topline" />
 </div>
 
 <roundcube:if condition="!env:extwin" />
