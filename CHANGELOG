@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where leading blanks were stripped from quoted lines (#1488795)
 - Upgraded to jQuery 1.8.2 and jQuery UI 1.9.1
 - Add config option to automatically generate LDAP attributes for new entries
 - Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
