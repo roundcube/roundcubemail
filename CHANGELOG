@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where leading blanks were stripped from quoted lines (#1488795)
+
 RELEASE 0.8.3
 -------------
 - Fix AREA links handling (#1488792)
