@@ -332,7 +332,7 @@ class rcmail extends rcube
     $this->output->set_charset(RCMAIL_CHARSET);
 
     // add some basic labels to client
-    $this->output->add_label('loading', 'servererror', 'requesttimedout');
+    $this->output->add_label('loading', 'servererror', 'requesttimedout', 'refreshing');
 
     return $this->output;
   }
@@ -770,6 +770,7 @@ class rcmail extends rcube
     }
   }
 
+
   /**
    * Registers action aliases for current task
    *
@@ -784,6 +785,7 @@ class rcmail extends rcube
     }
   }
 
+
   /**
    * Returns current action filename
    *
@@ -797,6 +799,7 @@ class rcmail extends rcube
 
     return strtr($this->action, '-', '_') . '.inc';
   }
+
 
   /**
    * Fixes some user preferences according to namespace handling change.
