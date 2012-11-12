@@ -447,12 +447,15 @@ class rcube_output_html extends rcube_output
             // fallback to deprecated template names
             if (!is_readable($path) && $this->deprecated_templates[$realname]) {
                 $path = "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
-                rcube::raise_error(array(
-                    'code' => 502, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Using deprecated template '" . $this->deprecated_templates[$realname]
-                        . "' in $skin_path/templates. Please rename to '$realname'"),
-                    true, false);
+
+                if (is_readable($path)) {
+                    rcube::raise_error(array(
+                        'code' => 502, 'type' => 'php',
+                        'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Using deprecated template '" . $this->deprecated_templates[$realname]
+                            . "' in $skin_path/templates. Please rename to '$realname'"),
+                        true, false);
+                }
             }
 
             if (is_readable($path)) {
