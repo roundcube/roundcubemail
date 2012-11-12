@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix excessive LFs at the end of composed message with top_posting=true (#1488797)
 - Option to display attached images as thumbnails below message body
 - Fix bug where leading blanks were stripped from quoted lines (#1488795)
 - Upgraded to jQuery 1.8.2 and jQuery UI 1.9.1

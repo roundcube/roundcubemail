@@ -1594,7 +1594,7 @@ function rcmail_wrap_and_quote($text, $length = 72)
     $out .= $line . "\n";
   }
 
-  return $out;
+  return rtrim($out, "\n");
 }
 
 
