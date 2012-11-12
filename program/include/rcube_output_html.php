@@ -457,7 +457,7 @@ class rcube_output_html extends rcube_output
 
             if (is_readable($path)) {
                 $this->config->set('skin_path', $skin_path);
-                $this->base_path = $skin_path;
+                $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
                 break;
             }
             else {
