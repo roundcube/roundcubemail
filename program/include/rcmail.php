@@ -317,8 +317,8 @@ class rcmail extends rcube
     if (!($this->output instanceof rcube_output_html))
       $this->output = new rcube_output_html($this->task, $framed);
 
-    // set keep-alive interval
-    $this->output->set_env('keep_alive', $this->config->get('keep_alive', 0));
+    // set refresh interval
+    $this->output->set_env('refresh_interval', $this->config->get('refresh_interval', 0));
     $this->output->set_env('session_lifetime', $this->config->get('session_lifetime', 0) * 60);
 
     if ($framed) {

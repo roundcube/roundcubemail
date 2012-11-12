@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Improved keep-alive action. Now the interval is based on session_lifetime (#1488507)
 - Added cross-task 'refresh' request for system state updates (#1488507)
+- Renamed config options: keep_alive to refresh_interval, min_keep_alive to min_refresh_interval
 - Fix AREA links handling (#1488792)
 - Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
 - Fix possible HTTP DoS on error in keep-alive requests (#1488782)

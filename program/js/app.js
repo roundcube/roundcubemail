@@ -44,7 +44,6 @@ function rcube_webmail()
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
   // default environment vars
-  this.env.keep_alive = 60;        // seconds
   this.env.request_timeout = 180;  // seconds
   this.env.draft_autosave = 0;     // seconds
   this.env.comm_path = './';
@@ -6488,13 +6487,13 @@ function rcube_webmail()
   // starts interval for refresh signal
   this.start_refresh = function()
   {
-    if (!this.env.keep_alive || this.env.framed || this.env.extwin || this.task == 'login' || this.env.action == 'print')
+    if (!this.env.refresh_interval || this.env.framed || this.env.extwin || this.task == 'login' || this.env.action == 'print')
       return;
 
     if (this._refresh)
       clearInterval(this._refresh);
 
-    this._refresh = setInterval(function(){ ref.refresh(); }, this.env.keep_alive * 1000);
+    this._refresh = setInterval(function(){ ref.refresh(); }, this.env.refresh_interval * 1000);
   };
 
   // sends keep-alive signal

@@ -237,21 +237,21 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    if (!isset($no_override['keep_alive'])) {
-      $field_id = 'rcmfd_keep_alive';
-      $select_keep_alive = new html_select(array('name' => '_keep_alive', 'id' => $field_id));
+    if (!isset($no_override['refresh_interval'])) {
+      $field_id = 'rcmfd_refresh_interval';
+      $select_refresh_interval = new html_select(array('name' => '_refresh_interval', 'id' => $field_id));
 
-      $select_keep_alive->add(rcube_label('never'), 0);
+      $select_refresh_interval->add(rcube_label('never'), 0);
       foreach (array(1, 3, 5, 10, 15, 30, 60) as $min) {
-        if (!$config['min_keep_alive'] || $config['min_keep_alive'] <= $min * 60) {
+        if (!$config['min_refresh_interval'] || $config['min_refresh_interval'] <= $min * 60) {
           $label = rcube_label(array('name' => 'everynminutes', 'vars' => array('n' => $min)));
-          $select_keep_alive->add($label, $min);
+          $select_refresh_interval->add($label, $min);
         }
       }
 
-      $blocks['main']['options']['keep_alive'] = array(
+      $blocks['main']['options']['refresh_interval'] = array(
         'title' => html::label($field_id, Q(rcube_label('refreshinterval'))),
-        'content' => $select_keep_alive->show($config['keep_alive']/60),
+        'content' => $select_refresh_interval->show($config['refresh_interval']/60),
       );
     }
 

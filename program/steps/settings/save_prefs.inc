@@ -33,7 +33,7 @@ switch ($CURR_SECTION)
       'date_format'  => isset($_POST['_date_format']) ? get_input_value('_date_format', RCUBE_INPUT_POST) : $CONFIG['date_format'],
       'time_format'  => isset($_POST['_time_format']) ? get_input_value('_time_format', RCUBE_INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
       'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
-      'keep_alive'   => isset($_POST['_keep_alive']) ? intval($_POST['_keep_alive'])*60 : $CONFIG['keep_alive'],
+      'refresh_interval' => isset($_POST['_refresh_interval']) ? intval($_POST['_refresh_interval'])*60 : $CONFIG['refresh_interval'],
       'skin'         => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
     );
 
@@ -157,9 +157,9 @@ switch ($CURR_SECTION)
 
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 
-    if (isset($a_user_prefs['keep_alive']) && !empty($CONFIG['min_keep_alive'])) {
-      if ($a_user_prefs['keep_alive'] > $CONFIG['min_keep_alive']) {
-        $a_user_prefs['keep_alive'] = $CONFIG['min_keep_alive'];
+    if (isset($a_user_prefs['refresh_interval']) && !empty($CONFIG['min_refresh_interval'])) {
+      if ($a_user_prefs['refresh_interval'] > $CONFIG['min_refresh_interval']) {
+        $a_user_prefs['refresh_interval'] = $CONFIG['min_refresh_interval'];
       }
     }
 
