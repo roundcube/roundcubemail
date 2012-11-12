@@ -901,9 +901,10 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 
   if (!$bodyIsHtml) {
     $body = preg_replace('/\r?\n/', "\n", $body);
+    $body = trim($body, "\n");
 
     // soft-wrap and quote message text
-    $body = rcmail_wrap_and_quote(rtrim($body, "\n"), $LINE_LENGTH);
+    $body = rcmail_wrap_and_quote($body, $LINE_LENGTH);
 
     $prefix .= "\n";
     $suffix = '';
@@ -947,8 +948,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
   $date    = format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
   $charset = $RCMAIL->output->get_charset();
 
-  if (!$bodyIsHtml)
-  {
+  if (!$bodyIsHtml) {
     $prefix = "\n\n\n-------- " . rcube_label('originalmessage') . " --------\n";
     $prefix .= rcube_label('subject') . ': ' . $MESSAGE->subject . "\n";
     $prefix .= rcube_label('date')    . ': ' . $date . "\n";
@@ -961,9 +961,9 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
       $prefix .= rcube_label('replyto') . ': ' . $MESSAGE->get_header('replyto') . "\n";
 
     $prefix .= "\n";
+    $body = trim($body, "\r\n");
   }
-  else
-  {
+  else {
     // set is_safe flag (we need this for html body washing)
     rcmail_check_safe($MESSAGE);
     // clean up html tags

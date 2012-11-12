@@ -3300,6 +3300,10 @@ function rcube_webmail()
             message = message.substring(0, p) + sig + message.substring(p, message.length);
             cursor_pos = p - 1;
           }
+          else if (!message) { // empty message
+            cursor_pos = 0;
+            message = '\n\n' + sig;
+          }
           else if (pos = this.get_caret_pos(input_message.get(0))) { // at cursor position
             message = message.substring(0, pos) + '\n' + sig + '\n\n' + message.substring(pos, message.length);
             cursor_pos = pos;
