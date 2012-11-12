@@ -2074,7 +2074,7 @@ class rcube_imap extends rcube_storage
 
         if ($o_part && $o_part->size) {
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
-                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp);
+                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $o_part->ctype_primary == 'text');
         }
 
         if ($fp || $print) {

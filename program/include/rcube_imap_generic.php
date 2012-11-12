@@ -2379,7 +2379,7 @@ class rcube_imap_generic
         return $this->handlePartBody($mailbox, $id, $is_uid, $part);
     }
 
-    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL, $formatted=true)
+    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL, $formatted=false)
     {
         if (!$this->select($mailbox)) {
             return false;
@@ -2417,6 +2417,7 @@ class rcube_imap_generic
         }
 
         if ($binary) {
+            // WARNING: Use $formatting argument with care, this may break binary data stream
             $mode = -1;
         }
 
