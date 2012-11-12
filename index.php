@@ -290,6 +290,9 @@ while ($redirects < 5) {
   }
 }
 
+if ($RCMAIL->action == 'refresh') {
+  $RCMAIL->plugins->exec_hook('refresh', array());
+}
 
 // parse main template (default)
 $OUTPUT->send($RCMAIL->task);
