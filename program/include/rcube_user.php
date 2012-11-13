@@ -47,6 +47,13 @@ class rcube_user
      */
     private $rc;
 
+    /**
+     * Internal identities cache
+     *
+     * @var array
+     */
+    private $identities = array();
+
     const SEARCH_ADDRESSBOOK = 1;
     const SEARCH_MAIL = 2;
 
@@ -213,8 +220,14 @@ class rcube_user
      */
     function get_identity($id = null)
     {
-        $result = $this->list_identities($id ? sprintf('AND identity_id = %d', $id) : '');
-        return $result[0];
+        $id = (int)$id;
+        // cache identities for better performance
+        if (!array_key_exists($id, $this->identities)) {
+            $result = $this->list_identities($id ? 'AND identity_id = ' . $id : '');
+            $this->identities[$id] = $result[0];
+        }
+
+        return $this->identities[$id];
     }
 
 
@@ -273,6 +286,8 @@ class rcube_user
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $query_params));
 
+        $this->identities = array();
+
         return $this->db->affected_rows();
     }
 
@@ -304,6 +319,8 @@ class rcube_user
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));
+
+        $this->identities = array();
 
         return $this->db->insert_id('identities');
     }
@@ -339,6 +356,8 @@ class rcube_user
             $this->ID,
             $iid);
 
+        $this->identities = array();
+
         return $this->db->affected_rows();
     }
 
@@ -359,6 +378,8 @@ class rcube_user
                     " AND del <> 1",
                 $this->ID,
                 $iid);
+
+            unset($this->identities[0]);
         }
     }
 
