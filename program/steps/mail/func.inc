@@ -1110,7 +1110,6 @@ function rcmail_message_body($attrib)
 
   if (!empty($MESSAGE->parts)) {
     foreach ($MESSAGE->parts as $i => $part) {
- console($part);
       if ($part->type == 'headers')
         $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part->headers);
       else if ($part->type == 'content') {
