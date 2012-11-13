@@ -160,7 +160,8 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // make sure LDAP_rdn field is required
-        if (!empty($this->prop['LDAP_rdn']) && !in_array($this->prop['LDAP_rdn'], $this->prop['required_fields']) && !in_array($this->prop['LDAP_rdn'], array_keys($this->prop['autovalues']))) {
+        if (!empty($this->prop['LDAP_rdn']) && !in_array($this->prop['LDAP_rdn'], $this->prop['required_fields'])
+            && !in_array($this->prop['LDAP_rdn'], array_keys((array)$this->prop['autovalues']))) {
             $this->prop['required_fields'][] = $this->prop['LDAP_rdn'];
         }
 
