@@ -507,6 +507,11 @@ function rcube_webmail()
     if (this.busy)
       return false;
 
+    // let the browser handle this click (shift/ctrl usually opens the link in a new window/tab)
+    if ((obj && (obj.href.indexOf(location.href) < 0)) && rcube_event.get_modifier(event)) {
+      return true;
+    }
+
     // command not supported or allowed
     if (!this.commands[command]) {
       // pass command to parent window
@@ -562,7 +567,7 @@ function rcube_webmail()
         break;
 
       case 'about':
-        location.href = '?_task=settings&_action=about';
+        this.redirect('?_task=settings&_action=about', false);
         break;
 
       case 'permaurl':

@@ -1087,7 +1087,7 @@ class rcube_output_html extends rcube_output
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href']    = $this->app->url(array('task' => $attrib['command']));
-                $attrib['onclick'] = sprintf("%s.command('switch-task','%s',null,event); return false", rcmail::JS_OBJECT_NAME, $attrib['command']);
+                $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", rcmail::JS_OBJECT_NAME, $attrib['command']);
             }
             else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(array('action' => $attrib['command'], 'task' => $attrib['task']));
