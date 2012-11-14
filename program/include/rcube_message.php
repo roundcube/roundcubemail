@@ -270,10 +270,6 @@ class rcube_message
             else if ($part->mimetype == 'text/html') {
                 $out = $this->get_part_content($mime_id);
 
-                // remove special chars encoding
-                $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
-                $out = strtr($out, $trans);
-
                 // create instance of html2text class
                 $txt = new html2text($out);
                 return $txt->get_text();
