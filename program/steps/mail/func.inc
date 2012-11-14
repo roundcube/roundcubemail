@@ -740,7 +740,9 @@ function rcmail_print_body($part, $p = array())
   else if ($data['type'] == 'enriched') {
     $part->ctype_secondary = 'html';
     require_once(INSTALL_PATH . 'program/lib/enriched.inc');
-    $body = Q(enriched_to_html($data['body']), 'show');
+    $body = enriched_to_html($data['body']);
+    $body = rcmail_wash_html($body, $data, $part->replaces);
+    $part->ctype_secondary = 'html';
   }
   else {
     // assert plaintext
