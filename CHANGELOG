@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of text/enriched content on message reply/forward/edit
 - Fix XSS vulnerability in handling of text/enriched messages (#1488806)
 - Fix handling of 'media' attribute on linked css (#1488789)
 - Fix excessive LFs at the end of composed message with top_posting=true (#1488797)

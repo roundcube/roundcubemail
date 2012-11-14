@@ -198,14 +198,15 @@ class rcube_message
      * Determine if the message contains a HTML part
      *
      * @param bool $recursive Enables checking in all levels of the structure
+     * @param bool $enriched  Enables checking for text/enriched parts too
      *
      * @return bool True if a HTML is available, False if not
      */
-    function has_html_part($recursive = true)
+    function has_html_part($recursive = true, $enriched = false)
     {
         // check all message parts
         foreach ($this->parts as $part) {
-            if ($part->mimetype == 'text/html') {
+            if ($part->mimetype == 'text/html' || ($enriched && $part->mimetype == 'text/enriched')) {
                 // Level check, we'll skip e.g. HTML attachments
                 if (!$recursive) {
                     $level = explode('.', $part->mime_id);
