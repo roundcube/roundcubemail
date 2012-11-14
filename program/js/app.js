@@ -508,7 +508,7 @@ function rcube_webmail()
       return false;
 
     // let the browser handle this click (shift/ctrl usually opens the link in a new window/tab)
-    if ((obj && (obj.href.indexOf(location.href) < 0)) && rcube_event.get_modifier(event)) {
+    if ((obj && obj.href && obj.href.indexOf(location.href) < 0) && rcube_event.get_modifier(event)) {
       return true;
     }
 
