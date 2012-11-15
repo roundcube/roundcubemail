@@ -274,8 +274,10 @@ class password extends rcube_plugin
                 return;
             case PASSWORD_CRYPT_ERROR;
                 $reason = $this->gettext('crypterror');
+                break;
             case PASSWORD_CONNECT_ERROR;
                 $reason = $this->gettext('connecterror');
+                break;
             case PASSWORD_ERROR:
             default:
                 $reason = $this->gettext('internalerror');

@@ -15,9 +15,9 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-03-07</date>
+	<date>2012-11-15</date>
 	<version>
-		<release>3.1</release>
+		<release>3.2</release>
 		<api>2.0</api>
 	</version>
 	<stability>
@@ -26,13 +26,7 @@
 	</stability>
 	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
 	<notes>
-- Added pw_usermod driver (#1487826)
-- Added option password_login_exceptions (#1487826)
-- Added domainfactory driver (#1487882)
-- Added DBMail driver (#1488281)
-- Helper files moved to helpers/ directory from drivers/
-- Added Expect driver (#1488363)
-- Added Samba password (#1488364)
+- Fix wrong (non-specific) error message on crypt or connection error (#1488808)
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -329,6 +323,27 @@
         	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
         	<notes>
 - Fixed drivers namespace issues
+            </notes>
+        </release>
+        <release>
+        	<date>2012-03-07</date>
+        	<version>
+		        <release>3.1</release>
+        		<api>2.0</api>
+        	</version>
+        	<stability>
+		        <release>stable</release>
+        		<api>stable</api>
+        	</stability>
+        	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+        	<notes>
+- Added pw_usermod driver (#1487826)
+- Added option password_login_exceptions (#1487826)
+- Added domainfactory driver (#1487882)
+- Added DBMail driver (#1488281)
+- Helper files moved to helpers/ directory from drivers/
+- Added Expect driver (#1488363)
+- Added Samba password (#1488364)
             </notes>
         </release>
     </changelog>
