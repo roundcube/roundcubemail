@@ -761,7 +761,7 @@ class rcube_utils
             }
         }
 
-        $result[] = substr($string, $p);
+        $result[] = (string) substr($string, $p);
 
         return $result;
     }
