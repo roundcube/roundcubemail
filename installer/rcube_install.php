@@ -342,9 +342,6 @@ class rcube_install
       }
     }
 
-    if ($current['keep_alive'] && $current['session_lifetime'] < $current['keep_alive'])
-      $current['session_lifetime'] = max(10, ceil($current['keep_alive'] / 60) * 2);
-
     $this->config  = array_merge($this->config, $current);
 
     foreach ((array)$current['ldap_public'] as $key => $values) {

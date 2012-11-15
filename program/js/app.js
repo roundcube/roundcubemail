@@ -44,7 +44,6 @@ function rcube_webmail()
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
   // default environment vars
-  this.env.keep_alive = 60;        // seconds
   this.env.request_timeout = 180;  // seconds
   this.env.draft_autosave = 0;     // seconds
   this.env.comm_path = './';
@@ -482,7 +481,8 @@ function rcube_webmail()
         this.onloads[i]();
       }
 
-    // start keep-alive interval
+    // start keep-alive and refresh intervals
+    this.start_refresh();
     this.start_keepalive();
   };
 
@@ -885,10 +885,6 @@ function rcube_webmail()
           this.show_message(this.env.first_uid);
         break;
 
-      case 'checkmail':
-        this.check_for_recent(true);
-        break;
-
       case 'compose':
         url = {};
 
@@ -956,9 +952,6 @@ function rcube_webmail()
           this.auto_save_start();
           break;
         }
-
-        // re-set keep-alive timeout
-        this.start_keepalive();
 
         this.submit_messageform(true);
         break;
@@ -2067,6 +2060,15 @@ function rcube_webmail()
       else if (this.task == 'mail')
         this.list_mailbox(this.env.mailbox, page);
     }
+  };
+
+  // sends request to check for recent messages
+  this.checkmail = function()
+  {
+    var lock = this.set_busy(true, 'checkingmail'),
+      params = this.check_recent_params();
+
+    this.http_request('check-recent', params, lock);
   };
 
   // list messages of a specific mailbox using filter
@@ -6086,6 +6088,9 @@ function rcube_webmail()
       $('<a>').attr('href', url).appendTo(document.body).get(0).click();
     else
       target.location.href = url;
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // send a http request to the server
@@ -6114,6 +6119,9 @@ function rcube_webmail()
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // send a http POST request to the server
@@ -6131,7 +6139,7 @@ function rcube_webmail()
     // trigger plugin hook
     var result = this.triggerEvent('request'+action, postdata);
     if (result !== undefined) {
-      // abort if one the handlers returned false
+      // abort if one of the handlers returned false
       if (result === false)
         return false;
       else
@@ -6146,6 +6154,9 @@ function rcube_webmail()
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // aborts ajax request
@@ -6240,6 +6251,7 @@ function rcube_webmail()
         }
         break;
 
+      case 'refresh':
       case 'check-recent':
       case 'getunread':
       case 'search':
@@ -6273,6 +6285,9 @@ function rcube_webmail()
 
     this.triggerEvent('responseafter', {response: response});
     this.triggerEvent('responseafter'+response.action, {response: response});
+
+    // reset keep-alive interval
+    this.start_keepalive();
   };
 
   // handle HTTP request errors
@@ -6297,8 +6312,6 @@ function rcube_webmail()
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
       setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
-    else if (action == 'check-recent')
-      setTimeout(function(){ ref.check_for_recent(false); ref.start_keepalive(); }, 30000);
   };
 
   // post the given form to a hidden iframe
@@ -6468,20 +6481,28 @@ function rcube_webmail()
     }
   };
 
-
-  // starts interval for keep-alive/check-recent signal
+  // starts interval for keep-alive signal
   this.start_keepalive = function()
   {
-    if (!this.env.keep_alive || this.env.framed)
+    if (!this.env.session_lifetime || this.env.framed || this.env.extwin || this.task == 'login' || this.env.action == 'print')
       return;
 
-    if (this._int)
-      clearInterval(this._int);
+    if (this._keepalive)
+      clearInterval(this._keepalive);
 
-    if (this.task == 'mail' && this.gui_objects.mailboxlist)
-      this._int = setInterval(function(){ ref.check_for_recent(false); }, this.env.keep_alive * 1000);
-    else if (this.task != 'login' && this.env.action != 'print')
-      this._int = setInterval(function(){ ref.keep_alive(); }, this.env.keep_alive * 1000);
+    this._keepalive = setInterval(function(){ ref.keep_alive(); }, this.env.session_lifetime * 0.5 * 1000);
+  };
+
+  // starts interval for refresh signal
+  this.start_refresh = function()
+  {
+    if (!this.env.refresh_interval || this.env.framed || this.env.extwin || this.task == 'login' || this.env.action == 'print')
+      return;
+
+    if (this._refresh)
+      clearInterval(this._refresh);
+
+    this._refresh = setInterval(function(){ ref.refresh(); }, this.env.refresh_interval * 1000);
   };
 
   // sends keep-alive signal
@@ -6491,29 +6512,39 @@ function rcube_webmail()
       this.http_request('keep-alive');
   };
 
-  // sends request to check for recent messages
-  this.check_for_recent = function(refresh)
+  // sends refresh signal
+  this.refresh = function()
   {
-    if (this.busy)
+    if (this.busy) {
+      // try again after 10 seconds
+      setTimeout(function(){ ref.refresh(); ref.start_refresh(); }, 10000);
       return;
-
-    var lock, url = {_mbox: this.env.mailbox};
-
-    if (refresh) {
-      lock = this.set_busy(true, 'checkingmail');
-      url._refresh = 1;
-      // reset check-recent interval
-      this.start_keepalive();
     }
 
-    if (this.gui_objects.messagelist)
-      url._list = 1;
-    if (this.gui_objects.quotadisplay)
-      url._quota = 1;
-    if (this.env.search_request)
-      url._search = this.env.search_request;
+    var params = {}, lock = this.set_busy(true, 'refreshing');
 
-    this.http_request('check-recent', url, lock);
+    if (this.task == 'mail' && this.gui_objects.mailboxlist)
+      params = this.check_recent_params();
+
+    // plugins should bind to 'requestrefresh' event to add own params
+    this.http_request('refresh', params, lock);
+  };
+
+  // returns check-recent request parameters
+  this.check_recent_params = function()
+  {
+    var params = {_mbox: this.env.mailbox};
+
+    if (this.gui_objects.mailboxlist)
+      params._folderlist = 1;
+    if (this.gui_objects.messagelist)
+      params._list = 1;
+    if (this.gui_objects.quotadisplay)
+      params._quota = 1;
+    if (this.env.search_request)
+      params._search = this.env.search_request;
+
+    return params;
   };
 
 

@@ -43,6 +43,8 @@ class rcube_config
         'mail_pagesize'        => 'pagesize',
         'addressbook_pagesize' => 'pagesize',
         'reply_mode'           => 'top_posting',
+        'refresh_interval'     => 'keep_alive',
+        'min_refresh_interval' => 'min_keep_alive',
     );
 
 

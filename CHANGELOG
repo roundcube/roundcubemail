@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improved keep-alive action. Now the interval is based on session_lifetime (#1488507)
+- Added cross-task 'refresh' request for system state updates (#1488507)
+- Renamed config options: keep_alive to refresh_interval, min_keep_alive to min_refresh_interval
 - Fix handling of text/enriched content on message reply/forward/edit
 - Option to display attached images as thumbnails below message body
 - Upgraded to jQuery 1.8.3 and jQuery UI 1.9.1
