@@ -21,7 +21,6 @@
 
 function rcube_webmail()
 {
-  this.env = { recipients_separator:',', recipients_delimiter:', ' };
   this.labels = {};
   this.buttons = {};
   this.buttons_sel = {};
@@ -33,21 +32,24 @@ function rcube_webmail()
   this.messages = {};
   this.group2expand = {};
 
-  // create protected reference to myself
-  this.ref = 'rcmail';
-  var ref = this;
-
   // webmail client settings
   this.dblclick_time = 500;
   this.message_time = 4000;
-
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
-  // default environment vars
-  this.env.request_timeout = 180;  // seconds
-  this.env.draft_autosave = 0;     // seconds
-  this.env.comm_path = './';
-  this.env.blankpage = 'program/resources/blank.gif';
+  // environment defaults
+  this.env = {
+    request_timeout: 180,  // seconds
+    draft_autosave: 0,     // seconds
+    comm_path: './',
+    blankpage: 'program/resources/blank.gif',
+    recipients_separator: ',',
+    recipients_delimiter: ', '
+  };
+
+  // create protected reference to myself
+  this.ref = 'rcmail';
+  var ref = this;
 
   // set jQuery ajax options
   $.ajaxSetup({
@@ -57,6 +59,7 @@ function rcube_webmail()
     beforeSend: function(xmlhttp){ xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token); }
   });
 
+  // unload fix
   $(window).bind('beforeunload', function() { rcmail.unload = true; });
 
   // set environment variable(s)
@@ -81,13 +84,14 @@ function rcube_webmail()
   // add a button to the button list
   this.register_button = function(command, id, type, act, sel, over)
   {
-    if (!this.buttons[command])
-      this.buttons[command] = [];
-
     var button_prop = {id:id, type:type};
+
     if (act) button_prop.act = act;
     if (sel) button_prop.sel = sel;
     if (over) button_prop.over = over;
+
+    if (!this.buttons[command])
+      this.buttons[command] = [];
 
     this.buttons[command].push(button_prop);
 
@@ -187,7 +191,6 @@ function rcube_webmail()
         this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', true);
 
         if (this.gui_objects.messagelist) {
-
           this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
             multiselect:true, multiexpand:true, draggable:true, keyboard:true,
             column_movable:this.env.col_movable, dblclick_time:this.dblclick_time
@@ -214,9 +217,8 @@ function rcube_webmail()
         }
 
         if (this.gui_objects.qsearchbox) {
-          if (this.env.search_text != null) {
+          if (this.env.search_text != null)
             this.gui_objects.qsearchbox.value = this.env.search_text;
-          }
           $(this.gui_objects.qsearchbox).focusin(function() { rcmail.message_list.blur(); });
         }
 
@@ -322,7 +324,6 @@ function rcube_webmail()
         this.enable_command('list', 'listgroup', 'listsearch', 'advanced-search', true);
 
         if (this.gui_objects.contactslist) {
-
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
             {multiselect:true, draggable:this.gui_objects.folderlist?true:false, keyboard:true});
           this.contact_list.row_init = function(row){ p.triggerEvent('insertrow', { cid:row.uid, row:row }); };
@@ -338,9 +339,8 @@ function rcube_webmail()
 
           this.gui_objects.contactslist.parentNode.onmousedown = function(e){ return p.click_on_list(e); };
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
-          if (this.gui_objects.qsearchbox) {
+          if (this.gui_objects.qsearchbox)
             $(this.gui_objects.qsearchbox).focusin(function() { rcmail.contact_list.blur(); });
-          }
 
           this.update_group_commands();
           this.command('list');
@@ -364,9 +364,8 @@ function rcube_webmail()
               this.init_contact_form();
         }
 
-        if (this.gui_objects.qsearchbox) {
+        if (this.gui_objects.qsearchbox)
           this.enable_command('search', 'reset-search', 'moveto', true);
-        }
 
         break;
 
@@ -597,7 +596,7 @@ function rcube_webmail()
 
       case 'open':
         if (uid = this.get_single_uid()) {
-          obj.href = '?_task='+this.env.task+'&_action=show&_mbox='+urlencode(this.env.mailbox)+'&_uid='+uid;
+          obj.href = this.url('show', {_mbox: this.env.mailbox, _uid: uid});
           return true;
         }
         break;
@@ -610,9 +609,8 @@ function rcube_webmail()
       case 'list':
         if (props && props != '')
           this.reset_qsearch();
-        if (this.env.action == 'compose' && this.env.extwin) {
+        if (this.env.action == 'compose' && this.env.extwin)
           window.close();
-        }
         else if (this.task == 'mail') {
           this.list_mailbox(props);
           this.set_button_titles();
@@ -780,9 +778,8 @@ function rcube_webmail()
           uid = props._row.uid;
 
           // toggle read/unread
-          if (this.message_list.rows[uid].deleted) {
+          if (this.message_list.rows[uid].deleted)
             flag = 'undelete';
-          }
           else if (!this.message_list.rows[uid].unread)
             flag = 'unread';
         }
@@ -801,7 +798,7 @@ function rcube_webmail()
           // toggle flagged/unflagged
           if (this.message_list.rows[uid].flagged)
             flag = 'unflagged';
-          }
+        }
         this.mark_message(flag, uid);
         break;
 
@@ -877,7 +874,7 @@ function rcube_webmail()
 
       case 'previousmessage':
         if (this.env.prev_uid)
-          this.show_message(this.env.prev_uid, false, this.env.action=='preview');
+          this.show_message(this.env.prev_uid, false, this.env.action == 'preview');
         break;
 
       case 'firstmessage':
@@ -6570,7 +6567,8 @@ function rcube_webmail()
   {
     if (obj.selectionEnd !== undefined)
       return obj.selectionEnd;
-    else if (document.selection && document.selection.createRange) {
+
+    if (document.selection && document.selection.createRange) {
       var range = document.selection.createRange();
       if (range.parentElement() != obj)
         return 0;
@@ -6584,10 +6582,10 @@ function rcube_webmail()
       gm.setEndPoint('EndToStart', range);
       var p = gm.text.length;
 
-      return p<=obj.value.length ? p : -1;
+      return p <= obj.value.length ? p : -1;
     }
-    else
-      return obj.value.length;
+
+    return obj.value.length;
   };
 
   // moves cursor to specified position
