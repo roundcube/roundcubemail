@@ -62,7 +62,6 @@ class rcube_vcard
   public $middlename;
   public $nickname;
   public $organization;
-  public $notes;
   public $email = array();
 
   public static $eol = "\r\n";
@@ -265,26 +264,25 @@ class rcube_vcard
    */
   public function set($field, $value, $type = 'HOME')
   {
-    $field = strtolower($field);
+    $field   = strtolower($field);
     $type_uc = strtoupper($type);
-    $typemap = array_flip($this->typemap);
 
     switch ($field) {
       case 'name':
       case 'displayname':
-        $this->raw['FN'][0][0] = $value;
+        $this->raw['FN'][0][0] = $this->displayname = $value;
         break;
 
       case 'surname':
-        $this->raw['N'][0][0] = $value;
+        $this->raw['N'][0][0] = $this->surname = $value;
         break;
 
       case 'firstname':
-        $this->raw['N'][0][1] = $value;
+        $this->raw['N'][0][1] = $this->firstname = $value;
         break;
 
       case 'middlename':
-        $this->raw['N'][0][2] = $value;
+        $this->raw['N'][0][2] = $this->middlename = $value;
         break;
 
       case 'prefix':
@@ -296,11 +294,11 @@ class rcube_vcard
         break;
 
       case 'nickname':
-        $this->raw['NICKNAME'][0][0] = $value;
+        $this->raw['NICKNAME'][0][0] = $this->nickname = $value;
         break;
 
       case 'organization':
-        $this->raw['ORG'][0][0] = $value;
+        $this->raw['ORG'][0][0] = $this->organization = $value;
         break;
 
       case 'photo':
@@ -348,8 +346,10 @@ class rcube_vcard
         if (($tag = self::$fieldmap[$field]) && (is_array($value) || strlen($value))) {
           $index = count($this->raw[$tag]);
           $this->raw[$tag][$index] = (array)$value;
-          if ($type)
+          if ($type) {
+            $typemap = array_flip($this->typemap);
             $this->raw[$tag][$index]['type'] = explode(',', ($typemap[$type_uc] ? $typemap[$type_uc] : $type));
+          }
         }
         break;
     }
