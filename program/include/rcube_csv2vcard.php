@@ -54,11 +54,11 @@ class rcube_csv2vcard
         //'company_main_phone'    => '',
         'department'            => 'department',
         //'email_2_address'       => '', //@TODO
-        //'email_2_type'          => '', //@TODO
+        //'email_2_type'          => '',
         //'email_3_address'       => '', //@TODO
-        //'email_3_type'          => '', //@TODO
+        //'email_3_type'          => '',
         'email_address'         => 'email:main',
-        //'email_type'            => '', //@TODO
+        //'email_type'            => '',
         'first_name'            => 'firstname',
         'gender'                => 'gender',
         'home_city'             => 'locality:home',
@@ -155,12 +155,12 @@ class rcube_csv2vcard
         //'company_main_phone' => "Company Main Phone",
         'department'        => "Department",
         //'directory_server'  => "Directory Server",
-        //'email_2_address'   => "E-mail 2 Address", //@TODO
-        //'email_2_type'      => "E-mail 2 Type", //@TODO
-        //'email_3_address'   => "E-mail 3 Address", //@TODO
-        //'email_3_type'      => "E-mail 3 Type", //@TODO
+        //'email_2_address'   => "E-mail 2 Address",
+        //'email_2_type'      => "E-mail 2 Type",
+        //'email_3_address'   => "E-mail 3 Address",
+        //'email_3_type'      => "E-mail 3 Type",
         'email_address'     => "E-mail Address",
-        //'email_type'        => "E-mail Type", //@TODO
+        //'email_type'        => "E-mail Type",
         'first_name'        => "First Name",
         'gender'            => "Gender",
         'home_city'         => "Home City",
@@ -336,6 +336,18 @@ class rcube_csv2vcard
         // Handle special values
         if (!empty($contact['birthday-d']) && !empty($contact['birthday-m']) && !empty($contact['birthday-y'])) {
             $contact['birthday'] = $contact['birthday-y'] .'-' .$contact['birthday-m'] . '-' . $contact['birthday-d'];
+        }
+
+        foreach (array('birthday', 'anniversary') as $key) {
+            if (!empty($contact[$key]) && $contact[$key] == '0/0/00') { // @TODO: localization?
+                unset($contact[$key]);
+            }
+        }
+
+        if (!empty($contact['gender']) && ($gender = strtolower($contact['gender']))) {
+            if (!in_array($gender, array('male', 'female'))) {
+                unset($contact['gender']);
+            }
         }
 
         // Create vcard object
