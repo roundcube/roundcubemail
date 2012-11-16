@@ -55,14 +55,14 @@ class password extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         $this->load_config();
-        
-        $host = isset( $_SESSION['imap_host'] ) ? $_SESSION['imap_host'] : NULL;
-        $hosts = $rcmail->config->get( 'password_supported_hosts' );
-        if ( !empty( $hosts ) and !in_array( $host, $hosts ) ) {
+
+        // Host exceptions
+        $hosts = $rcmail->config->get('password_hosts');
+        if (!empty($hosts) && !in_array($_SESSION['storage_host'], $hosts)) {
             return;
         }
 
-        // Exceptions list
+        // Login exceptions
         if ($exceptions = $rcmail->config->get('password_login_exceptions')) {
             $exceptions = array_map('trim', (array) $exceptions);
             $exceptions = array_filter($exceptions);

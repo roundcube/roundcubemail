@@ -1,14 +1,5 @@
 <?php
 
-// Supported hosts
-// -----------------------
-// Array of hosts that support password changing.
-// Default is NULL. Supported hosts will feature
-// a Password option in Settings; others will not.
-// Example:
-//$rcmail_config['password_supported_hosts'] = array( 'mail.example.com', 'mail2.example.org' );
-$rcmail_config['password_supported_hosts'] = NULL;
-
 // Password Plugin options
 // -----------------------
 // A driver to use for password change. Default: "sql".
@@ -33,6 +24,12 @@ $rcmail_config['password_log'] = false;
 // Comma-separated list of login exceptions for which password change
 // will be not available (no Password tab in Settings)
 $rcmail_config['password_login_exceptions'] = null;
+
+// Array of hosts that support password changing. Default is NULL.
+// Listed hosts will feature a Password option in Settings; others will not.
+// Example:
+//$rcmail_config['password_hosts'] = array('mail.example.com', 'mail2.example.org');
+$rcmail_config['password_hosts'] = null;
 
 
 // SQL Driver options

@@ -27,6 +27,7 @@
 	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
 	<notes>
 - Fix wrong (non-specific) error message on crypt or connection error (#1488808)
+- Added option to define IMAP hosts that support password changes - password_hosts
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
