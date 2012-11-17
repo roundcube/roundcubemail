@@ -23,7 +23,8 @@
 /**
  * Class to create HTML page output using a skin template
  *
- * @package View
+ * @package    Framework
+ * @subpackage View
  */
 class rcube_output_html extends rcube_output
 {

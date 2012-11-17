@@ -22,7 +22,8 @@
 /**
  * Configuration class for Roundcube
  *
- * @package Core
+ * @package    Framework
+ * @subpackage Core
  */
 class rcube_config
 {

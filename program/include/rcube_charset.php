@@ -25,10 +25,11 @@
 /**
  * Character sets conversion functionality
  *
- * @package Core
- * @author Thomas Bruederli <roundcube@gmail.com>
- * @author Aleksander Machniak <alec@alec.pl>
- * @author Edmund Grimley Evans <edmundo@rano.org>
+ * @package    Framework
+ * @subpackage Core
+ * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @author     Aleksander Machniak <alec@alec.pl>
+ * @author     Edmund Grimley Evans <edmundo@rano.org>
  */
 class rcube_charset
 {

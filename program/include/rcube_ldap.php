@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ | Copyright (C) 2011-2012, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,7 +26,8 @@
 /**
  * Model class to access an LDAP address directory
  *
- * @package Addressbook
+ * @package    Framework
+ * @subpackage Addressbook
  */
 class rcube_ldap extends rcube_addressbook
 {

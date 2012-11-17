@@ -23,7 +23,8 @@
 /**
  * View class to produce JSON responses
  *
- * @package View
+ * @package    Framework
+ * @subpackage View
  */
 class rcube_output_json extends rcube_output
 {

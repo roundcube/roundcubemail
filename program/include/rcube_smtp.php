@@ -25,7 +25,8 @@ define('SMTP_MIME_CRLF', "\r\n");
 /**
  * Class to provide SMTP functionality using PEAR Net_SMTP
  *
- * @package    Mail
+ * @package    Framework
+ * @subpackage Mail
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
  */

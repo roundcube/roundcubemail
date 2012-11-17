@@ -21,12 +21,11 @@
 
 
 /**
- * Database independent query interface
+ * Database independent query interface.
+ * This is a wrapper for the PHP PDO.
  *
- * This is a wrapper for the PHP PDO
- *
- * @package Database
- * @version 1.0
+ * @package   Framework
+ * @sbpackage Database
  */
 class rcube_db
 {

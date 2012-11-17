@@ -22,7 +22,8 @@
 /**
  * Class for output generation
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 abstract class rcube_output
 {

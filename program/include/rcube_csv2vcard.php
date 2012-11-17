@@ -21,8 +21,9 @@
 /**
  * CSV to vCard data converter
  *
- * @package Roundcube Framework
- * @author  Aleksander Machniak <alec@alec.pl>
+ * @package    Framework
+ * @subpackage Addressbook
+ * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_csv2vcard
 {

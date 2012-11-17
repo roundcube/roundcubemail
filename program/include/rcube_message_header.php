@@ -23,8 +23,9 @@
 /**
  * Struct representing an e-mail message header
  *
- * @package Mail
- * @author  Aleksander Machniak <alec@alec.pl>
+ * @package    Framework
+ * @subpackage Storage
+ * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_header
 {

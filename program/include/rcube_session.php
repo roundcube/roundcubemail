@@ -24,7 +24,8 @@
 /**
  * Class to provide database supported session storage
  *
- * @package    Core
+ * @package    Framework
+ * @subpackage Core
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
  */

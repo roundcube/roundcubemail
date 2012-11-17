@@ -5,7 +5,7 @@
  | program/include/rcube_vcard.php                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -15,6 +15,7 @@
  |   Logical representation of a vcard address record                    |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -23,8 +24,8 @@
  * Logical representation of a vcard-based address record
  * Provides functions to parse and export vCard data format
  *
- * @package    Addressbook
- * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @package    Framework
+ * @subpackage Addressbook
  */
 class rcube_vcard
 {

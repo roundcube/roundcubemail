@@ -23,7 +23,8 @@
 /**
  * Roundcube shared functions
  *
- * @package Core
+ * @package    Framework
+ * @subpackage Core
  */
 
 

@@ -23,7 +23,8 @@
 /**
  * Model class for the local address book database
  *
- * @package Addressbook
+ * @package    Framework
+ * @subpackage Addressbook
  */
 class rcube_contacts extends rcube_addressbook
 {

@@ -24,7 +24,8 @@
  * Logical representation of a mail message with all its data
  * and related functions
  *
- * @package    Mail
+ * @package    Framework
+ * @subpackage Storage
  * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_message

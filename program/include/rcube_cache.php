@@ -25,10 +25,10 @@
 /**
  * Interface class for accessing Roundcube cache
  *
- * @package    Cache
+ * @package    Framework
+ * @subpackage Cache
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
- * @version    1.1
  */
 class rcube_cache
 {

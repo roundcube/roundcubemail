@@ -23,7 +23,8 @@
 /**
  * Helper class for string replacements based on preg_replace_callback
  *
- * @package Core
+ * @package    Framework
+ * @subpackage Utils
  */
 class rcube_string_replacer
 {

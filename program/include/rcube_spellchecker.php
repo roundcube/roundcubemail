@@ -25,7 +25,8 @@
 /**
  * Helper class for spellchecking with Googielspell and PSpell support.
  *
- * @package Core
+ * @package    Framework
+ * @subpackage Utils
  */
 class rcube_spellchecker
 {

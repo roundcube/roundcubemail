@@ -25,10 +25,10 @@
 /**
  * Abstract class for accessing mail messages storage server
  *
- * @package Mail
- * @author  Thomas Bruederli <roundcube@gmail.com>
- * @author  Aleksander Machniak <alec@alec.pl>
- * @version 2.0
+ * @package    Framework
+ * @subpackage Storage
+ * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @author     Aleksander Machniak <alec@alec.pl>
  */
 abstract class rcube_storage
 {

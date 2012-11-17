@@ -23,8 +23,9 @@
  * Helper class to turn relative urls into absolute ones
  * using a predefined base
  *
- * @package Core
- * @author Thomas Bruederli <roundcube@gmail.com>
+ * @package    Framework
+ * @subpackage Core
+ * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_base_replacer
 {
