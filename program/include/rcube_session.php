@@ -24,7 +24,8 @@
 /**
  * Class to provide database supported session storage
  *
- * @package    Core
+ * @package    Framework
+ * @subpackage Core
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
  */
@@ -43,7 +44,6 @@ class rcube_session
   private $secret = '';
   private $ip_check = false;
   private $logging = false;
-  private $keep_alive = 0;
   private $memcache;
 
   /**
@@ -525,24 +525,6 @@ class rcube_session
       $this->now = $now - ($now % ($this->lifetime / 2));
   }
 
-  /**
-   * Setter for keep_alive interval
-   */
-  public function set_keep_alive($keep_alive)
-  {
-    $this->keep_alive = $keep_alive;
-
-    if ($this->lifetime < $keep_alive)
-        $this->set_lifetime($keep_alive + 30);
-  }
-
-  /**
-   * Getter for keep_alive interval
-   */
-  public function get_keep_alive()
-  {
-    return $this->keep_alive;
-  }
 
   /**
    * Getter for remote IP saved with this session
@@ -551,6 +533,7 @@ class rcube_session
   {
     return $this->ip;
   }
+
 
   /**
    * Setter for cookie encryption secret

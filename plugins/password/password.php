@@ -3,7 +3,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Password Plugin for Roundcube                                           |
- | @version @package_version@                                                             |
+ | @version @package_version@                                              |
  |                                                                         |
  | Copyright (C) 2009-2010, Roundcube Dev.                                 |
  |                                                                         |
@@ -56,7 +56,13 @@ class password extends rcube_plugin
 
         $this->load_config();
 
-        // Exceptions list
+        // Host exceptions
+        $hosts = $rcmail->config->get('password_hosts');
+        if (!empty($hosts) && !in_array($_SESSION['storage_host'], $hosts)) {
+            return;
+        }
+
+        // Login exceptions
         if ($exceptions = $rcmail->config->get('password_login_exceptions')) {
             $exceptions = array_map('trim', (array) $exceptions);
             $exceptions = array_filter($exceptions);
@@ -274,8 +280,10 @@ class password extends rcube_plugin
                 return;
             case PASSWORD_CRYPT_ERROR;
                 $reason = $this->gettext('crypterror');
+                break;
             case PASSWORD_CONNECT_ERROR;
                 $reason = $this->gettext('connecterror');
+                break;
             case PASSWORD_ERROR:
             default:
                 $reason = $this->gettext('internalerror');

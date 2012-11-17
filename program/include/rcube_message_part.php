@@ -25,10 +25,10 @@
 /**
  * Class representing a message part
  *
- * @package    Mail
+ * @package    Framework
+ * @subpackage Storage
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
- * @version    2.0
  */
 class rcube_message_part
 {

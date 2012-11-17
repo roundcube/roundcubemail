@@ -64,7 +64,7 @@ function rcmail_import_form($attrib)
   $OUTPUT->add_label('selectimportfile','importwait');
   $OUTPUT->add_gui_object('importform', $attrib['id']);
 
-  $out = html::p(null, Q(rcube_label('importtext'), 'show'));
+  $out = html::p(null, Q(rcube_label('importdesc'), 'show'));
 
   $out .= $OUTPUT->form_tag(array(
       'action' => $RCMAIL->url('import'),
@@ -159,11 +159,22 @@ if (is_array($_FILES['_file'])) {
                 $upload_error = $err;
             }
             else {
+                $file_content = file_get_contents($filepath);
+
                 // let rcube_vcard do the hard work :-)
                 $vcard_o = new rcube_vcard();
                 $vcard_o->extend_fieldmap($CONTACTS->vcard_map);
+                $v_list = $vcard_o->import($file_content);
 
-                $v_list = $vcard_o->import(file_get_contents($filepath));
+                if (!empty($v_list)) {
+                    $vcards = array_merge($vcards, $v_list);
+                    continue;
+                }
+
+                // no vCards found, try CSV
+                $csv = new rcube_csv2vcard($_SESSION['language']);
+                $csv->import($file_content);
+                $v_list = $csv->export();
 
                 if (!empty($v_list)) {
                     $vcards = array_merge($vcards, $v_list);
@@ -181,7 +192,7 @@ if (is_array($_FILES['_file'])) {
             $OUTPUT->show_message('fileuploaderror', 'error');
         }
         else {
-            $OUTPUT->show_message('importerror', 'error');
+            $OUTPUT->show_message('importformaterror', 'error');
         }
     }
     else {

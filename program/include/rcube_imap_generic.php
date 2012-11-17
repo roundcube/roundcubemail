@@ -30,8 +30,8 @@
 /**
  * PHP based wrapper class to connect to an IMAP server
  *
- * @package Mail
- * @author  Aleksander Machniak <alec@alec.pl>
+ * @package    Framework
+ * @subpackage Storage
  */
 class rcube_imap_generic
 {

@@ -24,7 +24,8 @@
  * Roundcube result set class.
  * Representing an address directory result set.
  *
- * @package Addressbook
+ * @package    Framework
+ * @subpackage Addressbook
  */
 class rcube_result_set
 {

@@ -249,7 +249,6 @@ $plugin = $RCMAIL->plugins->exec_hook('ready', array('task' => $RCMAIL->task, 'a
 $RCMAIL->set_task($plugin['task']);
 $RCMAIL->action = $plugin['action'];
 
-
 // handle special actions
 if ($RCMAIL->action == 'keep-alive') {
   $OUTPUT->reset();
@@ -282,7 +281,8 @@ while ($redirects < 5) {
   else if (($stepfile = $RCMAIL->get_action_file())
     && is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/'.$stepfile)
   ) {
-    include $incfile;
+    // include action file only once (in case it don't exit)
+    include_once $incfile;
     $redirects++;
   }
   else {
@@ -290,6 +290,9 @@ while ($redirects < 5) {
   }
 }
 
+if ($RCMAIL->action == 'refresh') {
+  $RCMAIL->plugins->exec_hook('refresh', array());
+}
 
 // parse main template (default)
 $OUTPUT->send($RCMAIL->task);

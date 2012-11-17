@@ -611,13 +611,13 @@ function rcmail_compose_editor_mode()
     $useHtml = !empty($_POST['_is_html']);
   }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
-    $useHtml = $MESSAGE->has_html_part(false);
+    $useHtml = $MESSAGE->has_html_part(false, true);
   }
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-    $useHtml = ($html_editor == 1 || ($html_editor >= 2 && $MESSAGE->has_html_part(false)));
+    $useHtml = ($html_editor == 1 || ($html_editor >= 2 && $MESSAGE->has_html_part(false, true)));
   }
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
-    $useHtml = ($html_editor == 1 || ($html_editor == 3 && $MESSAGE->has_html_part(false)));
+    $useHtml = ($html_editor == 1 || ($html_editor == 3 && $MESSAGE->has_html_part(false, true)));
   }
   else {
     $useHtml = ($html_editor == 1);
@@ -730,6 +730,10 @@ function rcmail_compose_part_body($part, $isHtml = false)
     if ($isHtml) {
         if ($part->ctype_secondary == 'html') {
         }
+        else if ($part->ctype_secondary == 'enriched') {
+            require_once(INSTALL_PATH . 'program/lib/enriched.inc');
+            $body = enriched_to_html($body);
+        }
         else {
             // try to remove the signature
             if ($RCMAIL->config->get('strip_existing_sig', true)) {
@@ -743,12 +747,22 @@ function rcmail_compose_part_body($part, $isHtml = false)
         }
     }
     else {
+        if ($part->ctype_secondary == 'enriched') {
+            require_once(INSTALL_PATH . 'program/lib/enriched.inc');
+            $body = enriched_to_html($body);
+            $part->ctype_secondary = 'html';
+        }
+
         if ($part->ctype_secondary == 'html') {
             // use html part if it has been used for message (pre)viewing
             // decrease line length for quoting
             $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
             $txt = new html2text($body, false, true, $len);
             $body = $txt->get_text();
+        }
+        else if ($part->ctype_secondary == 'enriched') {
+            require_once(INSTALL_PATH . 'program/lib/enriched.inc');
+            $body = enriched_to_html($body);
         }
         else {
             if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {

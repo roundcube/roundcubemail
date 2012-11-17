@@ -1,12 +1,11 @@
 <?php
 
 /*
-
  +-----------------------------------------------------------------------+
  | language/en_US/messages.inc                                           |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -15,9 +14,6 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-
- @version $Id$
-
 */
 
 $messages = array();
@@ -37,6 +33,7 @@ $messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'No messages found in this mailbox.';
 $messages['loggedout'] = 'You have successfully terminated the session. Good bye!';
 $messages['mailboxempty'] = 'Mailbox is empty.';
+$messages['refreshing'] = 'Refreshing...';
 $messages['loading'] = 'Loading...';
 $messages['uploading'] = 'Uploading file...';
 $messages['uploadingmany'] = 'Uploading files...';
@@ -124,7 +121,7 @@ $messages['contactaddedtogroup'] = 'Successfully added the contacts to this grou
 $messages['contactremovedfromgroup'] = 'Successfully removed contacts from this group.';
 $messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Importing, please wait...';
-$messages['importerror'] = 'Import failed! The uploaded file is not a valid vCard file.';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts</b>';
 $messages['importconfirmskipped'] = '<b>Skipped $skipped existing entries</b>';
 $messages['opnotpermitted'] = 'Operation not permitted!';

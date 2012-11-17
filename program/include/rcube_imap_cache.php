@@ -24,10 +24,10 @@
 /**
  * Interface class for accessing Roundcube messages cache
  *
- * @package    Cache
+ * @package    Framework
+ * @subpackage Storage
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
- * @version    1.0
  */
 class rcube_imap_cache
 {

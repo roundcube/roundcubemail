@@ -5,7 +5,7 @@
  | program/include/rcube_user.inc                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -17,6 +17,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -24,8 +25,8 @@
 /**
  * Class representing a system user
  *
- * @package    Core
- * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @package    Framework
+ * @subpackage Core
  */
 class rcube_user
 {
@@ -46,6 +47,13 @@ class rcube_user
      * @var rcube
      */
     private $rc;
+
+    /**
+     * Internal identities cache
+     *
+     * @var array
+     */
+    private $identities = array();
 
     const SEARCH_ADDRESSBOOK = 1;
     const SEARCH_MAIL = 2;
@@ -213,8 +221,14 @@ class rcube_user
      */
     function get_identity($id = null)
     {
-        $result = $this->list_identities($id ? sprintf('AND identity_id = %d', $id) : '');
-        return $result[0];
+        $id = (int)$id;
+        // cache identities for better performance
+        if (!array_key_exists($id, $this->identities)) {
+            $result = $this->list_identities($id ? 'AND identity_id = ' . $id : '');
+            $this->identities[$id] = $result[0];
+        }
+
+        return $this->identities[$id];
     }
 
 
@@ -273,6 +287,8 @@ class rcube_user
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $query_params));
 
+        $this->identities = array();
+
         return $this->db->affected_rows();
     }
 
@@ -304,6 +320,8 @@ class rcube_user
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));
+
+        $this->identities = array();
 
         return $this->db->insert_id('identities');
     }
@@ -339,6 +357,8 @@ class rcube_user
             $this->ID,
             $iid);
 
+        $this->identities = array();
+
         return $this->db->affected_rows();
     }
 
@@ -359,6 +379,8 @@ class rcube_user
                     " AND del <> 1",
                 $this->ID,
                 $iid);
+
+            unset($this->identities[0]);
         }
     }
 

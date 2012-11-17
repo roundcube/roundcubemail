@@ -25,10 +25,10 @@
 /**
  * Interface class for accessing an IMAP server
  *
- * @package    Mail
+ * @package    Framework
+ * @subpackage Storage
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
- * @version    2.0
  */
 class rcube_imap extends rcube_storage
 {

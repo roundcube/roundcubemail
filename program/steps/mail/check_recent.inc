@@ -19,8 +19,14 @@
  +-----------------------------------------------------------------------+
 */
 
+// If there's no folder or messages list, there's nothing to update
+// This can happen on 'refresh' request
+if (empty($_REQUEST['_folderlist']) && empty($_REQUEST['_list'])) {
+    return;
+}
+
 $current = $RCMAIL->storage->get_folder();
-$check_all = !empty($_GET['_refresh']) || (bool)$RCMAIL->config->get('check_all_folders');
+$check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
 
 // list of folders to check
 if ($check_all) {
@@ -101,7 +107,5 @@ foreach ($a_mailboxes as $mbox_name) {
         }
     }
 }
-
-$RCMAIL->plugins->exec_hook('keep_alive', array());
 
 $OUTPUT->send();

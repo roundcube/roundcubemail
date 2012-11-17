@@ -434,37 +434,13 @@ class rcube
         $this->session->register_gc_handler(array($this, 'temp_gc'));
         $this->session->register_gc_handler(array($this, 'cache_gc'));
 
+        $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
+        $this->session->set_ip_check($this->config->get('ip_check'));
+
         // start PHP session (if not in CLI mode)
         if ($_SERVER['REMOTE_ADDR']) {
             session_start();
         }
-    }
-
-
-    /**
-     * Configure session object internals
-     */
-    public function session_configure()
-    {
-        if (!$this->session) {
-            return;
-        }
-
-        $lifetime   = $this->config->get('session_lifetime', 0) * 60;
-        $keep_alive = $this->config->get('keep_alive');
-
-        // set keep-alive/check-recent interval
-        if ($keep_alive) {
-            // be sure that it's less than session lifetime
-            if ($lifetime) {
-                $keep_alive = min($keep_alive, $lifetime - 30);
-            }
-            $keep_alive = max(60, $keep_alive);
-            $this->session->set_keep_alive($keep_alive);
-        }
-
-        $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
-        $this->session->set_ip_check($this->config->get('ip_check'));
     }
 
 

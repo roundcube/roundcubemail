@@ -23,7 +23,8 @@
 /**
  * Class for HTML code creation
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage HTML
  */
 class html
 {

@@ -21,6 +21,12 @@
  +-----------------------------------------------------------------------+
 */
 
+/**
+ * Image resizer and converter
+ *
+ * @package    Framework
+ * @subpackage Utils
+ */
 class rcube_image
 {
     private $image_file;

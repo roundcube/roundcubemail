@@ -193,4 +193,17 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
     }
+
+    /**
+     * Check rcube_utils::explode_quoted_string() compat. with explode()
+     */
+    function test_explode_quoted_string_compat()
+    {
+        $data = array('', 'a,b,c', 'a', ',', ',a');
+
+        foreach ($data as $text) {
+            $result = rcube_utils::explode_quoted_string(',', $text);
+            $this->assertSame(explode(',', $text), $result);
+        }
+    }
 }

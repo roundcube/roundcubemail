@@ -23,11 +23,10 @@
 
 /**
  * Database independent query interface
- *
  * This is a wrapper for the PHP PDO
  *
- * @package Database
- * @version 1.0
+ * @package    Framework
+ * @subpackage Database
  */
 class rcube_db_mssql extends rcube_db
 {

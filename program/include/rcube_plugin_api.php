@@ -27,7 +27,8 @@ if (!defined('RCMAIL_PLUGINS_DIR'))
 /**
  * The plugin loader and global API
  *
- * @package PluginAPI
+ * @package    Framework
+ * @subpackage PluginAPI
  */
 class rcube_plugin_api
 {
@@ -327,7 +328,7 @@ class rcube_plugin_api
     if (isset($this->actions[$action])) {
       call_user_func($this->actions[$action]);
     }
-    else {
+    else if (rcube::get_instance()->action != 'refresh') {
       rcube::raise_error(array('code' => 524, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
         'message' => "No handler found for action $action"), true, true);

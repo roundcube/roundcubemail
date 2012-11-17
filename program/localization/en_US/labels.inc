@@ -354,7 +354,7 @@ $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
 $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
-$labels['importtext'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> data format.';
+$labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
 
 // settings
@@ -414,7 +414,7 @@ $labels['always'] = 'always';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minute(s)';
-$labels['keepalive']  = 'Check for new messages on';
+$labels['refreshinterval']  = 'Refresh (check for new messages, etc.)';
 $labels['never']  = 'never';
 $labels['immediately']  = 'immediately';
 $labels['messagesdisplaying'] = 'Displaying Messages';

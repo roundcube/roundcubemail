@@ -342,9 +342,6 @@ class rcube_install
       }
     }
 
-    if ($current['keep_alive'] && $current['session_lifetime'] < $current['keep_alive'])
-      $current['session_lifetime'] = max(10, ceil($current['keep_alive'] / 60) * 2);
-
     $this->config  = array_merge($this->config, $current);
 
     foreach ((array)$current['ldap_public'] as $key => $values) {
@@ -454,7 +451,7 @@ class rcube_install
         '0.5-beta', '0.5', '0.5.1',
         '0.6-beta', '0.6',
         '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3',
-        '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3',
+        '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4',
     ));
     return $select;
   }

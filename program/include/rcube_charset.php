@@ -25,10 +25,11 @@
 /**
  * Character sets conversion functionality
  *
- * @package Core
- * @author Thomas Bruederli <roundcube@gmail.com>
- * @author Aleksander Machniak <alec@alec.pl>
- * @author Edmund Grimley Evans <edmundo@rano.org>
+ * @package    Framework
+ * @subpackage Core
+ * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @author     Aleksander Machniak <alec@alec.pl>
+ * @author     Edmund Grimley Evans <edmundo@rano.org>
  */
 class rcube_charset
 {
@@ -655,22 +656,49 @@ class rcube_charset
      */
     public static function detect($string, $failover='')
     {
-        if (!function_exists('mb_detect_encoding')) {
-            return $failover;
+        if (substr($string, 0, 4) == "\0\0\xFE\xFF") return 'UTF-32BE';  // Big Endian
+        if (substr($string, 0, 4) == "\xFF\xFE\0\0") return 'UTF-32LE';  // Little Endian
+        if (substr($string, 0, 2) == "\xFE\xFF")     return 'UTF-16BE';  // Big Endian
+        if (substr($string, 0, 2) == "\xFF\xFE")     return 'UTF-16LE';  // Little Endian
+        if (substr($string, 0, 3) == "\xEF\xBB\xBF") return 'UTF-8';
+
+        // heuristics
+        if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-32BE';
+        if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") return 'UTF-32LE';
+        if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
+        if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
+
+        if (function_exists('mb_detect_encoding')) {
+            // FIXME: the order is important, because sometimes
+            // iso string is detected as euc-jp and etc.
+            $enc = array(
+                'UTF-8', 'SJIS', 'GB2312',
+                'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
+                'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
+                'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
+                'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R', 'BIG5',
+                'ISO-2022-KR', 'ISO-2022-JP',
+            );
+
+            $result = mb_detect_encoding($string, join(',', $enc));
         }
-
-        // FIXME: the order is important, because sometimes
-        // iso string is detected as euc-jp and etc.
-        $enc = array(
-            'UTF-8', 'SJIS', 'BIG5', 'GB2312',
-            'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
-            'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
-            'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
-            'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R',
-            'ISO-2022-KR', 'ISO-2022-JP'
-        );
-
-        $result = mb_detect_encoding($string, join(',', $enc));
+        else {
+            // No match, check for UTF-8
+            // from http://w3.org/International/questions/qa-forms-utf-8.html
+            if (preg_match('/\A(
+                [\x09\x0A\x0D\x20-\x7E]
+                | [\xC2-\xDF][\x80-\xBF]
+                | \xE0[\xA0-\xBF][\x80-\xBF]
+                | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}
+                | \xED[\x80-\x9F][\x80-\xBF]
+                | \xF0[\x90-\xBF][\x80-\xBF]{2}
+                | [\xF1-\xF3][\x80-\xBF]{3}
+                | \xF4[\x80-\x8F][\x80-\xBF]{2}
+                )*\z/xs', substr($string, 0, 2048))
+            ) {
+            return 'UTF-8';
+            }
+        }
 
         return $result ? $result : $failover;
     }

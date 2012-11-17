@@ -22,7 +22,8 @@
 /**
  * Configuration class for Roundcube
  *
- * @package Core
+ * @package    Framework
+ * @subpackage Core
  */
 class rcube_config
 {
@@ -43,6 +44,8 @@ class rcube_config
         'mail_pagesize'        => 'pagesize',
         'addressbook_pagesize' => 'pagesize',
         'reply_mode'           => 'top_posting',
+        'refresh_interval'     => 'keep_alive',
+        'min_refresh_interval' => 'min_keep_alive',
     );
 
 

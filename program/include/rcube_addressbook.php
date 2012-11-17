@@ -23,7 +23,8 @@
 /**
  * Abstract skeleton of an address book/repository
  *
- * @package Addressbook
+ * @package    Framework
+ * @subpackage Addressbook
  */
 abstract class rcube_addressbook
 {

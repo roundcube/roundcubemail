@@ -25,9 +25,10 @@
 /**
  * Class for parsing MIME messages
  *
- * @package Mail
- * @author  Thomas Bruederli <roundcube@gmail.com>
- * @author  Aleksander Machniak <alec@alec.pl>
+ * @package    Framework
+ * @subpackage Storage
+ * @author     Thomas Bruederli <roundcube@gmail.com>
+ * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_mime
 {
