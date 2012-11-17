@@ -1220,7 +1220,7 @@ function rcmail_message_body($attrib)
               ))
             ) .
             html::span('image-filename', Q($attach_prop->filename)) .
-            html::span('image-filesize', Q($RCMAIL->show_bytes($attach_prop->size))) .
+            html::span('image-filesize', Q($RCMAIL->message_part_size($attach_prop))) .
             html::span('attachment-links',
               (in_array($attach_prop->mimetype, $client_mimetypes) ? html::a($show_link, rcube_label('showattachment')) . '&nbsp;' : '') .
               html::a($show_link['href'] . '&_download=1', rcube_label('download'))
