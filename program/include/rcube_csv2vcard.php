@@ -229,8 +229,9 @@ class rcube_csv2vcard
         'work_zipcode'      => "Work ZipCode",
     );
 
+    protected $local_label_map = array();
     protected $vcards = array();
-    protected $map    = array();
+    protected $map = array();
 
 
     /**
@@ -247,11 +248,12 @@ class rcube_csv2vcard
             }
 
             if (!empty($map)) {
-                $this->label_map = array_merge($this->label_map, $map);
+                $this->local_label_map = array_merge($this->label_map, $map);
             }
         }
 
         $this->label_map = array_flip($this->label_map);
+        $this->local_label_map = array_flip($this->local_label_map);
     }
 
     /**
@@ -307,13 +309,29 @@ class rcube_csv2vcard
      * Parse CSV header line, detect fields mapping
      */
     protected function parse_header($elements)
-     {
-        for ($i = 0, $size = count($elements); $i<$size; $i++) {
+    {
+        $map1 = array();
+        $map2 = array();
+        $size = count($elements);
+
+        // check English labels
+        for ($i = 0; $i < $size; $i++) {
             $label = $this->label_map[$elements[$i]];
             if ($label && !empty($this->csv2vcard_map[$label])) {
-                $this->map[$i] = $this->csv2vcard_map[$label];
+                $map1[$i] = $this->csv2vcard_map[$label];
             }
         }
+        // check localized labels
+        if (!empty($this->local_label_map)) {
+            for ($i = 0; $i < $size; $i++) {
+                $label = $this->local_label_map[$elements[$i]];
+                if ($label && !empty($this->csv2vcard_map[$label])) {
+                    $map2[$i] = $this->csv2vcard_map[$label];
+                }
+            }
+        }
+
+        $this->map = count($map1) >= count($map2) ? $map1 : $map2;
     }
 
     /**
