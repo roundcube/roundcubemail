@@ -63,6 +63,7 @@ $labels['copy']     = 'Copy';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'Move to...';
 $labels['download'] = 'Download';
+$labels['showattachment'] = 'Show';
 
 $labels['filename'] = 'File name';
 $labels['filesize'] = 'File size';

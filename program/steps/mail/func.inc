@@ -1189,6 +1189,7 @@ function rcmail_message_body($attrib)
   // list images after mail body
   if ($RCMAIL->config->get('inline_images', true) && !empty($MESSAGE->attachments)) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
+    $client_mimetypes = (array)$RCMAIL->config->get('client_mimetypes');
 
     foreach ($MESSAGE->attachments as $attach_prop) {
       // skip inline images
@@ -1209,7 +1210,7 @@ function rcmail_message_body($attrib)
               rcmail_fix_mimetype($attach_prop->mimetype))
           );
           $out .= html::p('image-attachment',
-             html::a($show_link + array('class' => 'image-link'),
+             html::a($show_link + array('class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)),
                html::img(array(
                 'class' => 'image-thumbnail',
                 'src'   => $MESSAGE->get_part_url($attach_prop->mime_id, true) . '&_thumb=1',
@@ -1221,6 +1222,7 @@ function rcmail_message_body($attrib)
             html::span('image-filename', Q($attach_prop->filename)) .
             html::span('image-filesize', Q($RCMAIL->show_bytes($attach_prop->size))) .
             html::span('attachment-links',
+              (in_array($attach_prop->mimetype, $client_mimetypes) ? html::a($show_link['href'], rcube_label('showattachment')) . '&nbsp;' : '') .
               html::a($show_link['href'] . '&_download=1', rcube_label('download'))
             ) .
             html::br(array('style' => 'clear:both'))
