@@ -818,7 +818,7 @@ function rcube_webmail()
         var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props.part;
 
         // open attachment in frame if it's of a supported mimetype
-        if (this.env.uid && props.mimetype && this.env.mimetypes && $.inArray(props.mimetype, this.env.mimetypes)>=0) {
+        if (this.env.uid && props.mimetype && this.env.mimetypes && $.map(this.env.mimetypes, function(v,k){ return v }).indexOf(props.mimetype) >= 0) {
           if (props.mimetype == 'text/html')
             qstring += '&_safe=1';
           this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');
