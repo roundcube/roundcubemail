@@ -207,8 +207,15 @@ class rcube_config
 
         $rcube = rcube::get_instance();
 
-        if ($name == 'timezone' && isset($this->prop['_timezone_value']))
+        if ($name == 'timezone' && isset($this->prop['_timezone_value'])) {
             $result = $this->prop['_timezone_value'];
+        }
+        else if ($name == 'client_mimetypes') {
+            if ($result == null && $def == null)
+                $result = 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,image/bmp,image/tiff,application/x-javascript,application/pdf,application/x-shockwave-flash';
+            if ($result && is_string($result))
+                $result = explode(',', $result);
+        }
 
         $plugin = $rcube->plugins->exec_hook('config_get', array(
             'name' => $name, 'default' => $def, 'result' => $result));
