@@ -14,6 +14,7 @@
 </head>
 <roundcube:if condition="env:extwin" />
 <body class="extwin" onload="rcube_init_mail_ui()">
+<roundcube:object name="message" id="message" />
 <roundcube:else />
 <body onload="rcube_init_mail_ui()">
 
