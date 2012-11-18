@@ -5593,7 +5593,7 @@ function rcube_webmail()
       // save message in order to display after page loaded
       if (type != 'loading')
         this.pending_message = [msg, type, timeout];
-      return false;
+      return 1;
     }
 
     type = type ? type : 'notice';
@@ -5654,6 +5654,9 @@ function rcube_webmail()
     // pass command to parent window
     if (this.is_framed())
       return parent.rcmail.hide_message(obj, fade);
+
+    if (!this.gui_objects.message)
+      return;
 
     var k, n, i, msg, m = this.messages;
 
