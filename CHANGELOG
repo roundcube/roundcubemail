@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so mobile phone has TYPE=CELL in exported vCard (#1488812)
 - Support contacts import from CSV file (#1486399)
 - Improved keep-alive action. Now the interval is based on session_lifetime (#1488507)
 - Added cross-task 'refresh' request for system state updates (#1488507)
