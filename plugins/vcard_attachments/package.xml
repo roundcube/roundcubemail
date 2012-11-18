@@ -19,11 +19,10 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-04-13</date>
-	<time>12:00</time>
+	<date>2012-11-18</date>
 	<version>
-		<release>3.1</release>
-		<api>3.1</api>
+		<release>3.2</release>
+		<api>3.2</api>
 	</version>
 	<stability>
 		<release>stable</release>
@@ -31,11 +30,7 @@
 	</stability>
 	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
 	<notes>
-- Fixed doble urlencoding of vcard identifier
-- Fixed encoding when default charset is different than vcard charset
-- Improved vcards import to work as addressbook::import procedure (with validation and autofix)
-- Support IDNA
-- Import contacts to default addressbook
+- Skip invalid vcards (#1488788)
 	</notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -47,19 +42,51 @@
 				<tasks:replace from="@name@" to="name" type="package-info"/>
 				<tasks:replace from="@package_version@" to="version" type="package-info"/>
 			</file>
+			<file name="localization/be_BE.inc" role="data"></file>
+			<file name="localization/bs_BA.inc" role="data"></file>
+			<file name="localization/ca_ES.inc" role="data"></file>
 			<file name="localization/cs_CZ.inc" role="data"></file>
+			<file name="localization/cy_GB.inc" role="data"></file>
+			<file name="localization/da_DK.inc" role="data"></file>
 			<file name="localization/de_CH.inc" role="data"></file>
 			<file name="localization/de_DE.inc" role="data"></file>
+			<file name="localization/en_GB.inc" role="data"></file>
 			<file name="localization/en_US.inc" role="data"></file>
+			<file name="localization/eo.inc" role="data"></file>
 			<file name="localization/es_ES.inc" role="data"></file>
 			<file name="localization/et_EE.inc" role="data"></file>
+			<file name="localization/fa_IR.inc" role="data"></file>
+			<file name="localization/fi_FI.inc" role="data"></file>
+			<file name="localization/fr_FR.inc" role="data"></file>
 			<file name="localization/gl_ES.inc" role="data"></file>
+			<file name="localization/he_IL.inc" role="data"></file>
+			<file name="localization/hr_HR.inc" role="data"></file>
+			<file name="localization/hu_HU.inc" role="data"></file>
+			<file name="localization/hy_AM.inc" role="data"></file>
+			<file name="localization/id_ID.inc" role="data"></file>
 			<file name="localization/it_IT.inc" role="data"></file>
 			<file name="localization/ja_JP.inc" role="data"></file>
+			<file name="localization/ko_KR.inc" role="data"></file>
+			<file name="localization/lt_LT.inc" role="data"></file>
+			<file name="localization/lv_LV.inc" role="data"></file>
+			<file name="localization/ml_IN.inc" role="data"></file>
+			<file name="localization/mr_IN.inc" role="data"></file>
+			<file name="localization/nb_NB.inc" role="data"></file>
+			<file name="localization/nl_NL.inc" role="data"></file>
 			<file name="localization/pl_PL.inc" role="data"></file>
 			<file name="localization/pt_BR.inc" role="data"></file>
+			<file name="localization/pt_PT.inc" role="data"></file>
+			<file name="localization/ro_RO.inc" role="data"></file>
 			<file name="localization/ru_RU.inc" role="data"></file>
+			<file name="localization/si_LK.inc" role="data"></file>
+			<file name="localization/sk_SK.inc" role="data"></file>
+			<file name="localization/sl_SI.inc" role="data"></file>
+			<file name="localization/sr_CS.inc" role="data"></file>
 			<file name="localization/sv_SE.inc" role="data"></file>
+			<file name="localization/tr_TR.inc" role="data"></file>
+			<file name="localization/uk_UA.inc" role="data"></file>
+			<file name="localization/vi_VN.inc" role="data"></file>
+			<file name="localization/zh_CN.inc" role="data"></file>
 			<file name="localization/zh_TW.inc" role="data"></file>
 			<file name="skins/classic/style.css" role="data"></file>
 			<file name="skins/classic/vcard_add_contact.png" role="data"></file>
@@ -135,7 +162,26 @@
 - Exec contact_create hook when adding contact (#1486964)
 - Make icons skinable
 - Display vcard icon on messages list when message is of type vcard
-        	</notes>
-	    </release>
-	</changelog>
+            </notes>
+        </release>
+        <release>
+            <date>2012-04-13</date>
+            <version>
+                <release>3.1</release>
+                <api>3.1</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
+            <notes>
+- Fixed doble urlencoding of vcard identifier
+- Fixed encoding when default charset is different than vcard charset
+- Improved vcards import to work as addressbook::import procedure (with validation and autofix)
+- Support IDNA
+- Import contacts to default addressbook
+            </notes>
+        </release>
+    </changelog>
 </package>
