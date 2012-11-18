@@ -63,12 +63,6 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     // add list of address sources to client env
     $js_list = $RCMAIL->get_address_sources();
 
-    $source = get_input_value('_source', RCUBE_INPUT_GPC);
-
-    // use first directory by default
-    if (!strlen($source) || !isset($js_list[$source]))
-        $source = $js_list[key($js_list)]['id'];
-
     // count all/writeable sources
     $writeable = 0;
     $count = 0;
@@ -93,8 +87,16 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
-    if (!strlen($source))
-      $source = strval(key($js_list));
+    // select address book
+    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+
+    // use first directory by default
+    if (!strlen($source) || !isset($js_list[$source])) {
+        $source = $RCMAIL->config->get('default_addressbook');
+        if (!strlen($source) || !isset($js_list[$source])) {
+            $source = strval(key($js_list));
+        }
+    }
 
     $CONTACTS = rcmail_contact_source($source, true);
 }

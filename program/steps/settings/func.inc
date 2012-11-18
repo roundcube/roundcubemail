@@ -705,7 +705,7 @@ function rcmail_user_prefs($current=null)
       }
 
       $blocks['main']['options']['default_addressbook'] = array(
-        'title' => html::label($field_id, Q(rcube_label('defaultaddressbook'))),
+        'title' => html::label($field_id, Q(rcube_label('defaultabook'))),
         'content' => $select_abook->show($config['default_addressbook']),
       );
     }
