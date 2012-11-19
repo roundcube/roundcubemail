@@ -87,9 +87,10 @@ function rcube_identity_form($attrib)
   if ($IDENTITY_RECORD['html_signature']) {
     $form['signature']['content']['signature']['class']      = 'mce_editor';
     $form['signature']['content']['signature']['is_escaped'] = true;
-  }
 
-  $IDENTITY_RECORD['signature'] = htmlentities($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCMAIL_CHARSET);
+    // Correctly handle HTML entities in HTML editor (#1488483)
+    $IDENTITY_RECORD['signature'] = htmlspecialchars($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCMAIL_CHARSET);
+  }
 
   // disable some field according to access level
   if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
