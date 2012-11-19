@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix cache (in)validation after setting \Deleted flag
 - Fix keybord events on messages list in opera browser (#1488823)
+- Fix wrapping of quoted text with format=flowed (#1488177)
 
 RELEASE 0.8.4
 -------------

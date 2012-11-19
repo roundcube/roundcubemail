@@ -540,11 +540,11 @@ class rcube_mime
 
         foreach ($text as $idx => $line) {
             if ($line != '-- ') {
-                if ($line[0] == '>' && preg_match('/^(>+)/', $line, $regs)) {
-                    $prefix = $regs[0];
-                    $level = strlen($prefix);
-                    $line  = rtrim(substr($line, $level));
-                    $line  = $prefix . rc_wordwrap($line, $length - $level - 2, " \r\n$prefix ");
+                if ($line[0] == '>' && preg_match('/^(>+ {0,1})+/', $line, $regs)) {
+                    $level  = substr_count($regs[0], '>');
+                    $prefix = str_repeat('>', $level) . ' ';
+                    $line   = rtrim(substr($line, strlen($regs[0])));
+                    $line   = $prefix . rc_wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
                 }
                 else if ($line) {
                     $line = rc_wordwrap(rtrim($line), $length - 2, " \r\n");
