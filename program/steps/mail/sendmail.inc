@@ -559,8 +559,8 @@ if ($isHtml) {
   $plugin['body'] = rcmail_replace_emoticons($plugin['body']);
 
   // add a plain text version of the e-mail as an alternative part.
-  $h2t = new html2text($plugin['body'], false, true, 0);
-  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n");
+  $h2t = new html2text($plugin['body'], false, true, 0, $message_charset);
+  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
   // make sure all line endings are CRLF (#1486712)
@@ -586,9 +586,9 @@ else {
 
   // compose format=flowed content if enabled
   if ($flowed = $RCMAIL->config->get('send_format_flowed', true))
-    $message_body = rcube_mime::format_flowed($message_body, min($LINE_LENGTH+2, 79));
+    $message_body = rcube_mime::format_flowed($message_body, min($LINE_LENGTH+2, 79), $message_charset);
   else
-    $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
+    $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n", false, $message_charset);
 
   $message_body = wordwrap($message_body, 998, "\r\n", true);
 

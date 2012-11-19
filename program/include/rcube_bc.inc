@@ -338,9 +338,9 @@ function show_bytes($bytes)
     return rcmail::get_instance()->show_bytes($bytes);
 }
 
-function rc_wordwrap($string, $width=75, $break="\n", $cut=false)
+function rc_wordwrap($string, $width=75, $break="\n", $cut=false, $charset=null)
 {
-    return rcube_mime::wordwrap($string, $width, $break, $cut);
+    return rcube_mime::wordwrap($string, $width, $break, $cut, $charset);
 }
 
 function rc_request_header($name)

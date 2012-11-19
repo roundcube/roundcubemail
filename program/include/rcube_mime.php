@@ -529,10 +529,11 @@ class rcube_mime
      *
      * @param string $text Text to wrap
      * @param int $length Length
+     * @param string $charset Character encoding of $text
      *
      * @return string Wrapped text
      */
-    public static function format_flowed($text, $length = 72)
+    public static function format_flowed($text, $length = 72, $charset=null)
     {
         $text = preg_split('/\r?\n/', $text);
 
@@ -542,10 +543,10 @@ class rcube_mime
                     $prefix = $regs[0];
                     $level = strlen($prefix);
                     $line  = rtrim(substr($line, $level));
-                    $line  = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix ");
+                    $line  = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix ", false, $charset);
                 }
                 else if ($line) {
-                    $line = self::wordwrap(rtrim($line), $length - 2, " \r\n");
+                    $line = self::wordwrap(rtrim($line), $length - 2, " \r\n", false, $charset);
                     // space-stuffing
                     $line = preg_replace('/(^|\r\n)(From| |>)/', '\\1 \\2', $line);
                 }
@@ -565,12 +566,16 @@ class rcube_mime
      * @param int    $width   Line width
      * @param string $break   Line separator
      * @param bool   $cut     Enable to cut word
+     * @param string $charset Charset of $string
      *
      * @return string Text
      */
-    public static function wordwrap($string, $width=75, $break="\n", $cut=false)
+    public static function wordwrap($string, $width=75, $break="\n", $cut=false, $charset=null)
     {
-        $para   = explode($break, $string);
+        if ($charset)
+            mb_internal_encoding($charset);
+
+        $para   = preg_split('/\r?\n/', $string);
         $string = '';
 
         while (count($para)) {
@@ -623,6 +628,9 @@ class rcube_mime
                 $string .= $break;
             }
         }
+
+        if ($charset)
+            mb_internal_encoding(RCMAIL_CHARSET);
 
         return $string;
     }
