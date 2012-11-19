@@ -171,7 +171,7 @@ class rcube_user
 
         // don't save prefs with default values if they haven't been changed yet
         foreach ($a_user_prefs as $key => $value) {
-            if (!isset($old_prefs[$key]) && ($value == $config->get($key)))
+            if ($value === null || (!isset($old_prefs[$key]) && ($value == $config->get($key))))
                 unset($save_prefs[$key]);
         }
 
