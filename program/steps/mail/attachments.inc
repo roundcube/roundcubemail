@@ -89,6 +89,8 @@ $OUTPUT->reset();
 $uploadid = get_input_value('_uploadid', RCUBE_INPUT_GET);
 
 if (is_array($_FILES['_attachments']['tmp_name'])) {
+  $multiple = count($_FILES['_attachments']['tmp_name']) > 1;
+
   foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
     // Process uploaded attachment if there is no error
     $err = $_FILES['_attachments']['error'][$i];
@@ -149,8 +151,10 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
         $msg = rcube_label('fileuploaderror');
       }
 
-      $OUTPUT->command('display_message', $msg, 'error');
-      $OUTPUT->command('remove_from_attachment_list', $uploadid);
+      if ($attachment['error'] || $err != UPLOAD_ERR_NO_FILE) {
+        $OUTPUT->command('display_message', $msg, 'error');
+        $OUTPUT->command('remove_from_attachment_list', $uploadid);
+      }
     }
   }
 }

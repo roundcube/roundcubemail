@@ -3493,20 +3493,26 @@ function rcube_webmail()
     if (!form)
       return false;
 
-    // get file input field, count files on capable browser
-    var i, size = 0, field = $('input[type=file]', form).get(0),
-      files = field.files ? field.files.length : field.value ? 1 : 0;
+    // count files and size on capable browser
+    var size = 0, numfiles = 0;
+
+    $('input[type=file]', form).each(function(i, field) {
+      var files = field.files ? field.files.length : (field.value ? 1 : 0);
+
+      // check file size
+      if (field.files) {
+        for (var i=0; i < files; i++)
+          size += field.files[i].size;
+      }
+
+      numfiles += files;
+    });
 
     // create hidden iframe and post upload form
-    if (files) {
-      // check file size
-      if (field.files && this.env.max_filesize && this.env.filesizeerror) {
-        for (i=0; i<files; i++)
-          size += field.files[i].size;
-        if (size && size > this.env.max_filesize) {
-          this.display_message(this.env.filesizeerror, 'error');
-          return;
-        }
+    if (numfiles) {
+      if (this.env.max_filesize && this.env.filesizeerror && size > this.env.max_filesize) {
+        this.display_message(this.env.filesizeerror, 'error');
+        return;
       }
 
       var frame_name = this.async_upload_form(form, 'upload', function(e) {
@@ -3531,7 +3537,7 @@ function rcube_webmail()
       });
 
       // display upload indicator and cancel button
-      var content = '<span>' + this.get_label('uploading' + (files > 1 ? 'many' : '')) + '</span>',
+      var content = '<span>' + this.get_label('uploading' + (numfiles > 1 ? 'many' : '')) + '</span>',
         ts = frame_name.replace(/^rcmupload/, '');
 
       this.add2attachment_list(ts, { name:'', html:content, classname:'uploading', frame:frame_name, complete:false });
