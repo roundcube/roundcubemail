@@ -1233,6 +1233,14 @@ ul.proplist li {
 	padding-top: 10px;
 }
 
+#login-form .noscriptwarning {
+	margin: 0 auto;
+	width: 430px;
+	color: #cf2734;
+	font-size: 110%;
+	font-weight: bold;
+}
+
 #login-form td.input {
 	width: 80%;
 	padding: 8px;

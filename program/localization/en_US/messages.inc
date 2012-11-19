@@ -163,5 +163,6 @@ $messages['invalidimageformat'] = 'Not a valid image format.';
 $messages['mispellingsfound'] = 'Spelling errors detected in the message.';
 $messages['parentnotwritable'] = 'Unable to create/move folder into selected parent folder. No access rights.';
 $messages['messagetoobig'] = 'The message part is too big to process it.';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
 ?>
