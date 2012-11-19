@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Option to display attached images as thumbnails below message body
 - Upgraded to jQuery 1.8.3 and jQuery UI 1.9.1
 - Add config option to automatically generate LDAP attributes for new entries
+- Add user settings to open message view and compose form in new windows (#1485486)
 - Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
 - Add option to disable saving sent mail in Sent folder - no_save_sent_messages (#1488686)
 - Fix handling dont_override with message_sort_col and message_sort_order settings (#1488760)
