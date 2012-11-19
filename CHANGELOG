@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Always save drafts with format=flowed in order to keep original line wraps (#1488799)
 - Fix wrapping of quoted text with format=flowed (#1488177)
 - Select default_addressbook on the list in Address Book (#1488280)
 - Fix so mobile phone has TYPE=CELL in exported vCard (#1488812)
