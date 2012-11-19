@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Peter Grindem <peter@grindem.no>                              |
+ | Author: Martin Bore                                                   |
  +-----------------------------------------------------------------------+
 */
 
@@ -37,4 +37,21 @@ $labels['shortacle'] = 'Slett fullstendig';
 $labels['aclx'] = 'Slett mappe';
 $labels['acla'] = 'Administrer';
 $labels['shortacla'] = 'Administrer';
+$labels['aclread'] = 'Les';
+$labels['shortaclr'] = 'Les';
+$labels['shortaclread'] = 'Les';
+$labels['aclwrite'] = 'Skriv';
+$labels['shortaclw'] = 'Skriv';
+$labels['shortaclwrite'] = 'Skriv';
+$labels['acldelete'] = 'Slett';
+$labels['shortacld'] = 'Slett';
+$labels['shortaclt'] = 'Slett';
+$labels['shortacldelete'] = 'Slett';
+$labels['shortacls'] = 'Behold';
+$labels['shortacli'] = 'Sett inn';
+$labels['shortaclc'] = 'Opprett';
+$labels['shortaclk'] = 'Opprett';
+$labels['longacldelete'] = 'Meldingen kan slettes';
+$labels['deleting'] = 'Sletter tilgangsrettigheter';
+$labels['saving'] = 'Lagrer tilgangsrettigheter';
 

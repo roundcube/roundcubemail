@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -141,8 +140,8 @@ $labels['msgtext'] = 'Mensaje completo';
 $labels['openinextwin'] = 'Abrir en ventana nueva';
 $labels['emlsave'] = 'Guardar (.eml)';
 $labels['editasnew'] = 'Editar como nuevo';
-$labels['savemessage'] = 'Guardar como borrador';
 $labels['sendmessage'] = 'Enviar ahora el mensaje';
+$labels['savemessage'] = 'Guardar como borrador';
 $labels['addattachment'] = 'Añadir un archivo';
 $labels['charset'] = 'Codificación';
 $labels['editortype'] = 'Tipo de editor';
@@ -202,7 +201,6 @@ $labels['import'] = 'Importar';
 $labels['importcontacts'] = 'Importar contactos';
 $labels['importfromfile'] = 'Importar desde el archivo:';
 $labels['importreplace'] = 'Reemplazar completamente la lista de contactos';
-$labels['importtext'] = 'Puede importar contactos desde una lista existente.<br/>Actualmente sólo soportamos el formato <a href="http://es.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Hecho';
 $labels['settingsfor'] = 'Configuración para';
 $labels['preferences'] = 'Preferencias';
@@ -247,7 +245,6 @@ $labels['always'] = 'siempre';
 $labels['showinlineimages'] = 'Mostrar imágenes adjuntas debajo del mensaje';
 $labels['autosavedraft'] = 'Guardar borrador automáticamente';
 $labels['everynminutes'] = 'cada $n minuto(s)';
-$labels['keepalive'] = 'Verificar si hay nuevos mensajes en';
 $labels['never'] = 'nunca';
 $labels['immediately'] = 'inmediatamente';
 $labels['messagesdisplaying'] = 'Vista de mensajes';

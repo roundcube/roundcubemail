@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Xosé <Unknown>                                               |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -167,8 +166,8 @@ $labels['msgtext'] = 'Mensaxe enteira';
 $labels['openinextwin'] = 'Abrir nunha nova fiestra';
 $labels['emlsave'] = 'Gardar (.eml)';
 $labels['editasnew'] = 'Editar como nova';
-$labels['savemessage'] = 'Gardar a mensaxe como borrador';
 $labels['sendmessage'] = 'Enviar a mensaxe agora';
+$labels['savemessage'] = 'Gardar a mensaxe como borrador';
 $labels['addattachment'] = 'Anexar un ficheiro';
 $labels['charset'] = 'Codificación';
 $labels['editortype'] = 'Tipo de editor';
@@ -293,7 +292,6 @@ $labels['importcontacts'] = 'Importar contactos';
 $labels['importfromfile'] = 'Importar desde ficheiro:';
 $labels['importtarget'] = 'Engadir contactos ao caderno de enderezos:';
 $labels['importreplace'] = 'Substituír completamente o caderno de enderezos';
-$labels['importtext'] = 'Pode cargar contactos desde un caderno de enderezos xa existente.<br/>Polo de agora pódense importar enderezos usando o formato <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>';
 $labels['done'] = 'Rematado';
 $labels['settingsfor'] = 'Axustes de';
 $labels['about'] = 'Acerca de';
@@ -344,7 +342,6 @@ $labels['always'] = 'sempre';
 $labels['showinlineimages'] = 'Amosar as imaxes anexas baixo a mensaxe';
 $labels['autosavedraft'] = 'Gardar borrador automáticamente';
 $labels['everynminutes'] = 'cada $n minuto(s)';
-$labels['keepalive'] = 'Procurar novas mensaxes';
 $labels['never'] = 'nunca';
 $labels['immediately'] = 'de inmediato';
 $labels['messagesdisplaying'] = 'Visualización das mensaxes';

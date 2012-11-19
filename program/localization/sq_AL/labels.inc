@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -94,8 +93,8 @@ $labels['unknown'] = 'i panjohur';
 $labels['unlimited'] = 'i pakufizuar';
 $labels['quicksearch'] = 'Kërkim i shpejtë';
 $labels['resetsearch'] = 'Pastro kërkimin';
-$labels['savemessage'] = 'Ruaje si draft';
 $labels['sendmessage'] = 'Dërgoje mesazhin tani';
+$labels['savemessage'] = 'Ruaje si draft';
 $labels['addattachment'] = 'Bashkangjit një skedar';
 $labels['charset'] = 'Bashkësi shkronjash';
 $labels['editortype'] = 'Lloj editori';

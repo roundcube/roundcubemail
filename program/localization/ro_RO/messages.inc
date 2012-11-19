@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Iorga Vladut Mihai <iorga.vladutz@cucap.ro>                   |
+ | Author: Raduta Alex <raduta.alex@gmail.com>                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -26,6 +25,7 @@ $messages['dberror'] = 'Eroare bază de date!';
 $messages['errorreadonly'] = 'Nu se poate efectua operaţia. Dosarul este doar-citire.';
 $messages['errornoperm'] = 'Nu se poate efectua operaţia. Acces interzis.';
 $messages['invalidrequest'] = 'Solicitare invalidă! Datele nu au fost salvate.';
+$messages['invalidhost'] = 'Hosname invalid';
 $messages['nomessagesfound'] = 'Nu a fost găsit nici un mesaj în această căsuţă poştală';
 $messages['loggedout'] = 'Sesiune încheiată cu succes. La revedere!';
 $messages['mailboxempty'] = 'Căsuţa poştală este goală';
@@ -115,7 +115,6 @@ $messages['addresswriterror'] = 'Agenda selectată nu poate fi actualizată';
 $messages['contactaddedtogroup'] = 'Contactele au fost adăugate cu succes la acest grup';
 $messages['contactremovedfromgroup'] = 'Contactele au fost şterse cu succes din acest grup';
 $messages['importwait'] = 'Datele sunt importate, vă rugăm să aşteptaţi...';
-$messages['importerror'] = 'Importul a eşuat! Fişierul încărcat nu este un fişier vCard valid.';
 $messages['importconfirm'] = 'Contactele $inserted au fost importate cu succes, $skipped intrări au fost ignorate deoarece ele există deja:$names';
 $messages['importconfirmskipped'] = '<b>Am sărit peste $skipped înregistrări</b>';
 $messages['opnotpermitted'] = 'Operaţia nu este permisă!';

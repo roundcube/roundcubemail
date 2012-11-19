@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: gogo <trebelnik2@gmail.com>                                   |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
 */
 
@@ -168,8 +168,8 @@ $labels['msgtext'] = 'Cijela poruka';
 $labels['openinextwin'] = 'Otvori u novom prozoru';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['editasnew'] = 'Uredi kao novo';
-$labels['savemessage'] = 'Spremi u \'Predlošci\'';
 $labels['sendmessage'] = 'Pošalji poruku';
+$labels['savemessage'] = 'Spremi u \'Predlošci\'';
 $labels['addattachment'] = 'Priloži datoteku';
 $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Tip editora';
@@ -295,7 +295,6 @@ $labels['importcontacts'] = 'Uvoz kontakta';
 $labels['importfromfile'] = 'Uvezi iz datoteke:';
 $labels['importtarget'] = 'Dodaj nove kontakte u imenik:';
 $labels['importreplace'] = 'Prepiši cijeli adresar';
-$labels['importtext'] = 'Možete prebaciti kontakte iz postojećeg adresara.<br/>Trenutno podržavamo uvozenje adresa iz <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> formata.';
 $labels['done'] = 'Završeno';
 $labels['settingsfor'] = 'Postavke za';
 $labels['about'] = 'O programu';
@@ -346,7 +345,6 @@ $labels['always'] = 'uvijek';
 $labels['showinlineimages'] = 'Prikaži slike ispod poruke';
 $labels['autosavedraft'] = 'Automatski spremi draft';
 $labels['everynminutes'] = 'svakih $n minuta';
-$labels['keepalive'] = 'Provjeri nove poruke';
 $labels['never'] = 'nikada';
 $labels['immediately'] = 'odmah';
 $labels['messagesdisplaying'] = 'Prikazujem poruke';

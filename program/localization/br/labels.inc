@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -90,8 +89,8 @@ $labels['unknown'] = 'Dianav';
 $labels['unlimited'] = 'didermen';
 $labels['quicksearch'] = 'Klask prim';
 $labels['resetsearch'] = 'Aderaouekaat ar glask';
-$labels['savemessage'] = 'Gwarediñ ar brouilhed-se';
 $labels['sendmessage'] = 'Kas ar c\'hemennad diouzhtu';
+$labels['savemessage'] = 'Gwarediñ ar brouilhed-se';
 $labels['addattachment'] = 'Stagañ ur restr';
 $labels['charset'] = 'Engodadur';
 $labels['editortype'] = 'Furmad aozer';

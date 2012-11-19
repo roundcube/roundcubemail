@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: tudor <tudor@starnet-alba.ro>                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,6 @@ $labels['add'] = 'Adaugă';
 $labels['del'] = 'Șterge';
 $labels['sender'] = 'Expeditor';
 $labels['recipient'] = 'Destinatar';
-$labels['vacationaddresses'] = 'Listă adiţională cu email-urile destinatarilor (separate prin virgulă):';
 $labels['vacationdays'] = 'Cât de des să trimit mesajele (în zile):';
 $labels['vacationreason'] = 'Corpul mesajului (motivul vacanţei):';
 $labels['vacationsubject'] = 'Subiectul mesajului:';
@@ -139,8 +137,8 @@ $labels['setcreateerror'] = 'Nu am putut crea setul de filtre. S-a produs o eroa
 $labels['setcreated'] = 'Setul de filtre creat cu succes.';
 $labels['activateerror'] = 'Nu am putut activa filtrele selectate. S-a produs o eroare la server.';
 $labels['deactivateerror'] = 'Nu am putut dezactiva filtrele selectate. S-a produs o eroare la server.';
-$labels['deactivated'] = 'Filtrele au fost dezactivate cu succes.';
-$labels['activated'] = 'Filtrele au fost activate cu succes.';
+$labels['activated'] = 'Filtrele au fost dezactivate cu succes.';
+$labels['deactivated'] = 'Filtrele au fost activate cu succes.';
 $labels['moved'] = 'Filtrele au fost mutate cu succes.';
 $labels['moveerror'] = 'Nu am putut muta filtreele selectate. S-a produs o eroare la server.';
 $labels['nametoolong'] = 'Numele este prea lung.';

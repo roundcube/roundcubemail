@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Vibhav Pant <vibhavp@gmail.com>                               |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -115,8 +114,8 @@ $labels['unknown'] = 'अज्ञात';
 $labels['unlimited'] = 'असीम';
 $labels['quicksearch'] = 'तेज़ खोज';
 $labels['resetsearch'] = 'खोज खाली करें';
-$labels['savemessage'] = 'ड्राफ़ट सहेजें';
 $labels['sendmessage'] = 'मेल भेजें';
+$labels['savemessage'] = 'ड्राफ़ट सहेजें';
 $labels['addattachment'] = 'फ़ाईल जोडें';
 $labels['charset'] = 'कैरेक्टर सैट';
 $labels['editortype'] = 'सम्पादक प्राकार';

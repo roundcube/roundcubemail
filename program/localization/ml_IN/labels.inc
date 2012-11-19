@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ml_ML/labels.inc                                         |
+ | localization/ml_IN/labels.inc                                         |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
@@ -134,8 +134,8 @@ $labels['quicksearch'] = 'പെട്ടെന്ന് തെരയു';
 $labels['msgtext'] = 'മുഴുവന്‍ സന്ദേശവും';
 $labels['openinextwin'] = 'പുതിയ വിന്‍ഡോയില്‍ തുറക്കുക';
 $labels['editasnew'] = 'പുതിയതായി തിരുത്തുക';
-$labels['savemessage'] = 'പൂര്‍ത്തിയാകാത്തവ ആയി സൂക്ഷിക്കുക';
 $labels['sendmessage'] = 'സന്ദേശം അയയ്ക്കുക';
+$labels['savemessage'] = 'പൂര്‍ത്തിയാകാത്തവ ആയി സൂക്ഷിക്കുക';
 $labels['addattachment'] = 'ഒരു ഫയല്‍ മെയിലിനൊപ്പം ചേര്‍ക്കുക';
 $labels['editortype'] = 'തിരുത്തല്‍ രീതി';
 $labels['originalmessage'] = 'യഥാര്‍ഥ സന്ദേശം';

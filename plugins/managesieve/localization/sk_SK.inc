@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Nepodarilo sa vytvoriť sadu filtrov, server ohlás
 $labels['setcreated'] = 'Sada filtrov bola vytvorená';
 $labels['activateerror'] = 'Nepodarilo sa povoliť vybraný filter(e). Chyba servera.';
 $labels['deactivateerror'] = 'Nepodarilo sa vypnúť vybraný filter(e). Chyba servera.';
-$labels['deactivated'] = 'Filter(e) úspešne vypnutý.';
-$labels['activated'] = 'Filter(e) povolený.';
+$labels['activated'] = 'Filter(e) úspešne vypnutý.';
+$labels['deactivated'] = 'Filter(e) povolený.';
 $labels['moved'] = 'Filter presunutý.';
 $labels['moveerror'] = 'Nemôžem presunúť zvolený filter. Chyba servera.';
 $labels['nametoolong'] = 'Názov sady filtrov je príliš dlhý';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Devendra Buddhikot <devendradb@rediffmail.com>                |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -164,8 +163,8 @@ $labels['msgtext'] = 'संपूर्ण संदेश';
 $labels['openinextwin'] = 'नवीन खिडकी उघडा';
 $labels['emlsave'] = 'इएमएल स्‍वरूपात उतरवून घ्या';
 $labels['editasnew'] = 'नवीन आहे असा संपादित करा';
-$labels['savemessage'] = 'हा मसूदा साठवून ठेवा';
 $labels['sendmessage'] = 'आत्ता पाठवा';
+$labels['savemessage'] = 'हा मसूदा साठवून ठेवा';
 $labels['addattachment'] = 'फाईल सोबत जोडा';
 $labels['charset'] = 'कॅरेक्टर सेट';
 $labels['editortype'] = 'संपादकाचा प्रकार';
@@ -272,7 +271,6 @@ $labels['importcontacts'] = 'पत्ते आयात करा';
 $labels['importfromfile'] = 'या फाईल मधून आयात करा';
 $labels['importtarget'] = 'नवीन पत्ता नोंदवहीत नोंदवा';
 $labels['importreplace'] = 'संपूर्ण पत्ता नोंदवही बदला';
-$labels['importtext'] = 'तुम्ही तुमच्याकडील पत्ता नोंदवहीतील पत्ते तुम्ही येथे घेऊ शकता.<br/>सध्या आम्ही या <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> प्रकारच्या वेगवेगळ्या नोंदवहीतील पत्ते घेऊ शकतो.';
 $labels['done'] = 'झाले';
 $labels['settingsfor'] = 'साठी सेटिंग्ज';
 $labels['about'] = 'च्या विषयी';
@@ -318,7 +316,6 @@ $labels['always'] = 'नेहमी';
 $labels['showinlineimages'] = 'सोबत जोडलेली चित्रे संदेशाच्या खाली दाखवा';
 $labels['autosavedraft'] = 'मसूदा आपोआप जतन करा';
 $labels['everynminutes'] = 'प्रत्येक $n मिनिटांनी';
-$labels['keepalive'] = 'वर नवे संदेश आले आहेत का ते पहा';
 $labels['never'] = 'कधीच नाही';
 $labels['immediately'] = 'ताबडतोब';
 $labels['messagesdisplaying'] = 'संदेश दाखवा';

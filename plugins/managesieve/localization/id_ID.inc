@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya <Unknown>                              |
+ | Author: Putu Arya Sabda Wijaya                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,6 @@ $labels['add'] = 'Tambah';
 $labels['del'] = 'Hapus';
 $labels['sender'] = 'Pengirim';
 $labels['recipient'] = 'Penerima';
-$labels['vacationaddresses'] = 'Daftar tambahan penerima email (terpisah koma):';
 $labels['vacationdays'] = 'Seberapa sering mengirim pesan (dalam hari):';
 $labels['vacationreason'] = 'Badan pesan (alasan liburan):';
 $labels['vacationsubject'] = 'Judul pesan:';
@@ -139,8 +137,8 @@ $labels['setcreateerror'] = 'Tidak bisa membuat kumpulan penyaringan. Terjadi ga
 $labels['setcreated'] = 'Kumpulan penyaringan berhasul dibuat.';
 $labels['activateerror'] = 'Tidak bisa menghidupkan penyaringan terpilih. terjadi galat pada server.';
 $labels['deactivateerror'] = 'Tidak bisa mematikan penyaringan terpilih. Terjadi galat pada server.';
-$labels['deactivated'] = 'Berhasil mematikan penyaringan.';
-$labels['activated'] = 'Berhasil menghidupkan penyaringan.';
+$labels['activated'] = 'Berhasil mematikan penyaringan.';
+$labels['deactivated'] = 'Berhasil menghidupkan penyaringan.';
 $labels['moved'] = 'Berhasil memindahkan penyaringan.';
 $labels['moveerror'] = 'Tidak bisa memindahkan penyaringan terpilih. Terjadi galat pada server.';
 $labels['nametoolong'] = 'Kepanjangan nama.';

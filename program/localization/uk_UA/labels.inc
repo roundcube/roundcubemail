@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -161,8 +160,8 @@ $labels['msgtext'] = 'В усьому листі';
 $labels['openinextwin'] = 'Відкрити в новому вікні';
 $labels['emlsave'] = 'Зберегти (.eml)';
 $labels['editasnew'] = 'Редагувати як новий';
-$labels['savemessage'] = 'Зберегти чернетку';
 $labels['sendmessage'] = 'Надіслати зараз';
+$labels['savemessage'] = 'Зберегти чернетку';
 $labels['addattachment'] = 'Вкласти файл';
 $labels['charset'] = 'Кодування';
 $labels['editortype'] = 'Редактор';
@@ -285,7 +284,6 @@ $labels['importcontacts'] = 'Імпортувати контакти';
 $labels['importfromfile'] = 'Імпортувати з файлу:';
 $labels['importtarget'] = 'Додати нові контакти до адресної книги';
 $labels['importreplace'] = 'Замінити всю адресну книгу';
-$labels['importtext'] = 'Ви можете завантажити контакти з існуючої адресної книги. На даний момент підтримується імпортування контактів з формату vCard';
 $labels['done'] = 'Готово';
 $labels['settingsfor'] = 'Налаштування для';
 $labels['about'] = 'Про програму';
@@ -336,7 +334,6 @@ $labels['always'] = 'завжди';
 $labels['showinlineimages'] = 'Показувати вкладені зображення внизу листа';
 $labels['autosavedraft'] = 'Автозбереження чернетки';
 $labels['everynminutes'] = 'кожні $n хвилин';
-$labels['keepalive'] = 'Перевірка нових листів';
 $labels['never'] = 'ніколи';
 $labels['immediately'] = 'одразу';
 $labels['messagesdisplaying'] = 'Відображення листів';

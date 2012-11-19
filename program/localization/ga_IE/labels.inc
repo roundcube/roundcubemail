@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -114,8 +113,8 @@ $labels['unknown'] = 'gan aithne';
 $labels['unlimited'] = 'gan teorainn';
 $labels['quicksearch'] = 'Mearcuardaigh';
 $labels['resetsearch'] = 'Athshocraigh an cuardach';
-$labels['savemessage'] = 'Sábháil an dréachta seo';
 $labels['sendmessage'] = 'Seol mo teachtaireacht láithreach bonn';
+$labels['savemessage'] = 'Sábháil an dréachta seo';
 $labels['addattachment'] = 'Suimigh Iatán';
 $labels['charset'] = 'Foireann carachtar';
 $labels['editortype'] = 'Sort eagarthóir';

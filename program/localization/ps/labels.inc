@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -124,8 +123,8 @@ $labels['unlimited'] = 'بي کچه';
 $labels['quicksearch'] = 'ژر پلټنه';
 $labels['resetsearch'] = 'د پلټنې بياسمون';
 $labels['openinextwin'] = 'په نوي کړکۍ کې پرانيزه';
-$labels['savemessage'] = 'دا ګارليک خوندي کړه';
 $labels['sendmessage'] = 'اوس يې واستوه';
+$labels['savemessage'] = 'دا ګارليک خوندي کړه';
 $labels['addattachment'] = 'يو فايل ونښلوه';
 $labels['charset'] = 'چيرست';
 $labels['editortype'] = 'د ټايب سمونګر';
@@ -183,7 +182,6 @@ $labels['import'] = 'رانقلول';
 $labels['importcontacts'] = 'اړيکلوري نقل کړئ';
 $labels['importfromfile'] = 'له فايل څخه رانقل کړئ';
 $labels['importreplace'] = 'ټول ادرس کتاب بدل کړئ';
-$labels['importtext'] = 'تاسې کولی شئ‌چې يو اړيکلوری له شته پتې کتاب څخه پورته کړئ<br/>موږ همدا اوس له  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>پتې رانقلوو . د فايلونو بڼې';
 $labels['done'] = 'ترسره شو';
 $labels['settingsfor'] = 'لپاره برابرونې';
 $labels['preferences'] = 'غورونې';
@@ -226,7 +224,6 @@ $labels['always'] = 'تل';
 $labels['showinlineimages'] = 'نښلول شوي انځورونه تر استوزې لاندې ښکاره کړه';
 $labels['autosavedraft'] = 'بارليک په خپل سري توګه  خوندي‌کړه';
 $labels['everynminutes'] = 'هر ه ګڼه په دقيقو کې';
-$labels['keepalive'] = 'نوي استوزي وګوره په';
 $labels['never'] = 'هېڅ';
 $labels['messagesdisplaying'] = 'استوزي ښيي';
 $labels['messagescomposition'] = 'استوزي ليکي';

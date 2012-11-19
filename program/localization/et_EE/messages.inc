@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: yllar                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -23,9 +22,11 @@ $messages['storageerror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
 $messages['servererror'] = 'Serveri tõrge!';
 $messages['servererrormsg'] = 'Serveri tõrge: $msg';
 $messages['dberror'] = 'Andmebaasi tõrge!';
+$messages['requesttimedout'] = 'Päring aegus';
 $messages['errorreadonly'] = 'Operatsioon nurjus. Kaustale on vaid lugemisõigus';
 $messages['errornoperm'] = 'Operatsioon nurjus. Ligipääsu õigused puuduvad';
 $messages['invalidrequest'] = 'Lubamatu päring! Andmeid ei salvestatud.';
+$messages['invalidhost'] = 'Lubamatu serveri nimi.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
 $messages['loggedout'] = 'Sinu seanss on edukalt lõpetatud. Nägemiseni!';
 $messages['mailboxempty'] = 'Postkast on tühi';
@@ -114,8 +115,8 @@ $messages['selectimportfile'] = 'Palun vali üleslaadimiseks fail';
 $messages['addresswriterror'] = 'Valitud aadressiraamat pole kirjutatav';
 $messages['contactaddedtogroup'] = 'Kontaktide lisamine gruppi õnnestus';
 $messages['contactremovedfromgroup'] = 'Kontaktide eemaldamine grupist õnnestus';
+$messages['nogroupassignmentschanged'] = 'Gruppide ülesandeid ei muudetud';
 $messages['importwait'] = 'Impordin, palun oota...';
-$messages['importerror'] = 'Import nurjus! Üleslaaditud fail ei ole vCard formaadis.';
 $messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped olemasolevat sissekannet vahele jäetud</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b> $skipped olemasolevat kirjet jäeti vahele</b>';
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';

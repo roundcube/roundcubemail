@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Esa Immonen <esa.raato@gmail.com>                             |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Suodatinlistan luonti epäonnistui. Palvelin virhe.
 $labels['setcreated'] = 'Suodatinlistan luonti onnistui.';
 $labels['activateerror'] = 'Suodatinlistan päälle kytkeminen epäonnistui. Palvelin virhe.';
 $labels['deactivateerror'] = 'Suodatinlistan pois päältä kytkeminen epäonnistui. Palvelin virhe.';
-$labels['deactivated'] = 'Suodatinlista(t) kytketty pois päältä onnistuneesti.';
-$labels['activated'] = 'Suodatinlista(t) kytketty päälle onnistuneesti.';
+$labels['activated'] = 'Suodatinlista(t) kytketty pois päältä onnistuneesti.';
+$labels['deactivated'] = 'Suodatinlista(t) kytketty päälle onnistuneesti.';
 $labels['moved'] = 'Suodatin siirretty onnistuneesti.';
 $labels['moveerror'] = 'Valitun suodattimen siirto epäonnistui palvelinvirheen vuoksi.';
 $labels['nametoolong'] = 'Nimi on liian pitkä.';

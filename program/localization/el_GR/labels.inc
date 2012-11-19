@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nikos Keramidis <info@torus.gr>                               |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -170,8 +169,8 @@ $labels['msgtext'] = 'Σε όλο το μήνυμα';
 $labels['openinextwin'] = 'Άνοιγμα σε νέο παράθυρο';
 $labels['emlsave'] = 'Λήψη αρχείου (.eml)';
 $labels['editasnew'] = 'Επεξεργασία σαν νέο';
-$labels['savemessage'] = 'Αποθήκευση ως πρόχειρο';
 $labels['sendmessage'] = 'Αποστολή μηνύματος';
+$labels['savemessage'] = 'Αποθήκευση ως πρόχειρο';
 $labels['addattachment'] = 'Επισύναψη αρχείου';
 $labels['charset'] = 'Κωδικοποίηση χαρακτήρων';
 $labels['editortype'] = 'Είδος επεξεργαστή κειμένου';
@@ -298,7 +297,6 @@ $labels['importcontacts'] = 'Εισαγωγή επαφών';
 $labels['importfromfile'] = 'Εισαγωγή από το αρχείο:';
 $labels['importtarget'] = 'Προσθήκη νέων επαφών στο βιβλίο διευθύνσεων:';
 $labels['importreplace'] = 'Αντικατάσταση όλου του βιβλίου διευθύνσεων';
-$labels['importtext'] = 'Μπορείτε να αποστείλετε επαφές από ένα υπάρχων βιβλίο διευθύνσεων.<br/>Προς το παρόν, όσον αφορά την εισαγωγή επαφών, επιτρέπετε η εισαγωγή επαφών σε μορφή <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Ολοκληρώθηκε';
 $labels['settingsfor'] = 'Ρυθμίσεις για';
 $labels['about'] = 'Σχετικά';
@@ -349,7 +347,6 @@ $labels['always'] = 'πάντα';
 $labels['showinlineimages'] = 'Οι συνημμένες εικόνες να προβάλλονται στο τέλος του μηνήματος';
 $labels['autosavedraft'] = 'Να γίνεται αυτόματη αποθήκευση σαν πρόχειρο';
 $labels['everynminutes'] = 'κάθε $n λεπτό/α';
-$labels['keepalive'] = 'Έλεγχος για νέα μηνύματα';
 $labels['never'] = 'ποτέ';
 $labels['immediately'] = 'άμεσα';
 $labels['messagesdisplaying'] = 'Προβολή Μηνυμάτων';

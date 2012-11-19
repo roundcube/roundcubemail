@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tobias V. Langhoff <spug@thespug.net>                         |
+ | Author: Martin Bore                                                   |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,6 +26,7 @@ $messages['requesttimedout'] = 'Forespørselen har fått et tidsavbrudd';
 $messages['errorreadonly'] = 'Kunne ikke utføre handlingen. Mappen kan kun leses.';
 $messages['errornoperm'] = 'Kan ikke utføre operasjon. Nektet tilgang.';
 $messages['invalidrequest'] = 'Ugyldig forespørsel! Ingen data ble lagret.';
+$messages['invalidhost'] = 'Ugyldig servernavn.';
 $messages['nomessagesfound'] = 'Det ble ikke funnet noen meldinger i denne mappen';
 $messages['loggedout'] = 'Du er logget av webmail. Ha det bra!';
 $messages['mailboxempty'] = 'Mappen er tom!';
@@ -115,7 +116,6 @@ $messages['addresswriterror'] = 'Den valgte adresseboken er ikke skrivbar';
 $messages['contactaddedtogroup'] = 'Lagt til kontakter til denne gruppen.';
 $messages['contactremovedfromgroup'] = 'Kontaktene ble vellykket fjernet fra denne gruppen';
 $messages['importwait'] = 'Importerer, vennligst vent...';
-$messages['importerror'] = 'Feil ved importering! Den opplastede filen er ikke en gyldig vCard-fil.';
 $messages['importconfirm'] = '<b>Importerte $inserted kontakter, hoppet over $skipped oppføringer som allerede eksisterte</b>: <p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Hoppen over $skipped existing entries</b>';
 $messages['opnotpermitted'] = 'Handling ikke tillatt!';
@@ -148,7 +148,7 @@ $messages['messagemoved'] = 'Meldingen(e) er  flyttet.';
 $messages['messagecopied'] = 'Meldingen(e) er kopiert.';
 $messages['messagemarked'] = 'Meldingen(e) er markert.';
 $messages['autocompletechars'] = 'Skriv inn minst $min tegn for autofullføring.';
-$messages['autocompletemore'] = 'Flere like oppføring oppdaget. Vennligst skriv flere karakterer.';
+$messages['autocompletemore'] = 'Flere like oppføring funnet. Vennligst skriv flere tegn.';
 $messages['namecannotbeempty'] = 'Navn kan ikke være tomt.';
 $messages['nametoolong'] = 'Navnet er for langt.';
 $messages['folderupdated'] = 'Mappen er oppdatert.';

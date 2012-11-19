@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -158,8 +157,8 @@ $labels['msgtext'] = 'សំបុត្រទាំងមូល';
 $labels['openinextwin'] = 'បើកក្នុងវីនដូវថ្មី';
 $labels['emlsave'] = 'រក្សាទុកទិន្នន័យជាឯកសារប្រភេទ(.eml)';
 $labels['editasnew'] = 'កែហើយរក្សាទុកដូចជាសំបុត្រថ្មី';
-$labels['savemessage'] = 'រក្សាទុកសំបុត្រពង្រៀង';
 $labels['sendmessage'] = 'ផ្ញើសំបុត្រនេះ';
+$labels['savemessage'] = 'រក្សាទុកសំបុត្រពង្រៀង';
 $labels['addattachment'] = 'ឯកសារភ្ជាប់';
 $labels['charset'] = 'ប្រភេទអក្សរ';
 $labels['editortype'] = 'ប្រភេទ Editor';
@@ -312,7 +311,6 @@ $labels['always'] = 'គ្រប់ពេល';
 $labels['showinlineimages'] = 'បង្ហាញរូបភាពនៅក្រោមអត្ថបទសំបុត្រ';
 $labels['autosavedraft'] = 'រក្សាទុកសំបុត្រពង្រៀងដោយស្វ័យប្រវត្តិ';
 $labels['everynminutes'] = 'រៀងរាល់ $n នាទី';
-$labels['keepalive'] = 'ត្រួតពិនិត្យរកមើលសំបុត្រថ្មីនៅ';
 $labels['never'] = 'មិនដែល';
 $labels['immediately'] = 'ភ្លាមៗ';
 $labels['messagesdisplaying'] = 'កំពុងបង្ហាញសំបុត្រ';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: emilio brambilla <Unknown>                                    |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Impossibile creare il gruppo. Errore del server';
 $labels['setcreated'] = 'Gruppo di filtri creato';
 $labels['activateerror'] = 'impossibile selezionare il filtro (server error)';
 $labels['deactivateerror'] = 'impossibile disabilitare il filtro (server error)';
-$labels['deactivated'] = 'filtro disabilitato';
-$labels['activated'] = 'filtro abilitato';
+$labels['activated'] = 'filtro disabilitato';
+$labels['deactivated'] = 'filtro abilitato';
 $labels['moved'] = 'filtro spostato';
 $labels['moveerror'] = 'impossibile spostare il filtro (server error)';
 $labels['nametoolong'] = 'Impossibile creare il gruppo: Nome troppo lungo';

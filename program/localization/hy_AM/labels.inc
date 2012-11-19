@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Vahan Yerkanian <vahan@yerkanian.com>                         |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
 */
 
@@ -172,8 +172,8 @@ $labels['msgtext'] = 'Ողջ հաղորդագրությունը';
 $labels['openinextwin'] = 'Բացել նոր պատուհանում';
 $labels['emlsave'] = 'Ներբեռնել (.eml)';
 $labels['editasnew'] = 'Խմբագրել որպես նոր';
-$labels['savemessage'] = 'Հիշել որպես սևագիր';
 $labels['sendmessage'] = 'Ուղարկել';
+$labels['savemessage'] = 'Հիշել որպես սևագիր';
 $labels['addattachment'] = 'Կցել ֆայլ';
 $labels['charset'] = 'Տառաշար';
 $labels['editortype'] = 'Խմբագրի տիպը';
@@ -301,7 +301,6 @@ $labels['importcontacts'] = 'Ներկրել հասցեներ';
 $labels['importfromfile'] = 'Ներկրել ֆայլից';
 $labels['importtarget'] = 'Ավելացնել նոր կապորդներ հասցեագրքում';
 $labels['importreplace'] = 'Փոխել ողջ հասցեագիրքը';
-$labels['importtext'] = 'Դուք կարող եք ներկրել նոր հասցեներ առկա հասցեագրքից։ Համակարգը ընդունում է հասցեների ներկրումը <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> չափաձևով։';
 $labels['done'] = 'Ավարտված է';
 $labels['settingsfor'] = 'Նախասիրություններ';
 $labels['about'] = 'Նկարագիր';
@@ -350,7 +349,6 @@ $labels['always'] = 'միշտ';
 $labels['showinlineimages'] = 'Ցուցադրել կցված պատկերները հաղորդագրության տակ';
 $labels['autosavedraft'] = 'Սևագրի ավտոմատ գրանցում';
 $labels['everynminutes'] = 'ամեն $n րոպեն';
-$labels['keepalive'] = 'Ստուգել նոր նամակները';
 $labels['never'] = 'երբեք';
 $labels['immediately'] = 'անմիջապես';
 $labels['messagesdisplaying'] = 'նամակները ցուցադրելիս';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -161,8 +160,8 @@ $labels['msgtext'] = 'Vēstules tekstā';
 $labels['openinextwin'] = 'atvērt jaunā logā';
 $labels['emlsave'] = 'lejupielādēt (.eml)';
 $labels['editasnew'] = 'rediģēt kā jaunu';
-$labels['savemessage'] = 'Saglabāt uzmetumu';
 $labels['sendmessage'] = 'Sūtīt vēstuli';
+$labels['savemessage'] = 'Saglabāt uzmetumu';
 $labels['addattachment'] = 'Pievienot failu';
 $labels['charset'] = 'Rakstzīmju kopa';
 $labels['editortype'] = 'Redaktora tips';
@@ -285,7 +284,6 @@ $labels['importcontacts'] = 'Importēt kontaktus';
 $labels['importfromfile'] = 'Importēt no faila:';
 $labels['importtarget'] = 'Pievienot jaunus kontaktus adrešu grāmatai';
 $labels['importreplace'] = 'Aizvietot visu adrešu grāmatu';
-$labels['importtext'] = 'Jūst varat augšupielādēt kontaktus no citas adrešu grāmatas.<br/>Pašlaik ir atbalstīts adrešu imports no <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> datu formāta.';
 $labels['done'] = 'Pabeigts';
 $labels['settingsfor'] = 'Iestatījumi';
 $labels['about'] = 'Par';
@@ -336,7 +334,6 @@ $labels['always'] = 'vienmēr';
 $labels['showinlineimages'] = 'Rādīt pielikuma attēlus zem vēstules';
 $labels['autosavedraft'] = 'Automātiski saglabāt uzmetumu';
 $labels['everynminutes'] = 'ik pa $n minūti(ēm)';
-$labels['keepalive'] = 'Pārbaudīt vai nav jaunas vēstules';
 $labels['never'] = 'nekad';
 $labels['immediately'] = 'nekavējoties';
 $labels['messagesdisplaying'] = 'Vēstuļu attēlošana';

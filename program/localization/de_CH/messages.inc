@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
@@ -27,6 +26,7 @@ $messages['requesttimedout'] = 'Zeitlimit überschritten';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
 $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';
+$messages['invalidhost'] = 'Ungültiger Servername';
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner';
 $messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wiedersehen!';
 $messages['mailboxempty'] = 'Ordner ist leer';
@@ -117,7 +117,6 @@ $messages['contactaddedtogroup'] = 'Kontakte wurden dieser Gruppe hinzugefügt.'
 $messages['contactremovedfromgroup'] = 'Kontakte wurden aus dieser Gruppe entfernt.';
 $messages['nogroupassignmentschanged'] = 'Es wurde keine Gruppenzuweisung verändert.';
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
-$messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert</b>';
 $messages['importconfirmskipped'] = '<b>$skipped bestehende Einträge wurden übersprungen</b>';
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Szymon Sieciński                                             |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
 $labels['unanswered'] = 'Bez odpowiedzi';
 $labels['deleted'] = 'Usunięte';
+$labels['undeleted'] = 'Nieusunięte';
 $labels['invert'] = 'Odwróć';
 $labels['filter'] = 'Filtr';
 $labels['list'] = 'Lista';
@@ -169,8 +170,8 @@ $labels['msgtext'] = 'Cała wiadomość';
 $labels['openinextwin'] = 'Otwórz w nowym oknie';
 $labels['emlsave'] = 'Pobierz (.eml)';
 $labels['editasnew'] = 'Edytuj jako nową';
-$labels['savemessage'] = 'Zapisz kopię roboczą';
 $labels['sendmessage'] = 'Wyślij teraz';
+$labels['savemessage'] = 'Zapisz kopię roboczą';
 $labels['addattachment'] = 'Dołącz plik';
 $labels['charset'] = 'Kodowanie znaków';
 $labels['editortype'] = 'Typ edytora';
@@ -198,6 +199,9 @@ $labels['nosubject'] = '(brak tematu)';
 $labels['showimages'] = 'Wyświetl obrazki';
 $labels['alwaysshow'] = 'Zawsze wyświetlaj obrazki od $sender';
 $labels['isdraft'] = 'To jest kopia robocza wiadomości.';
+$labels['andnmore'] = '$nr więcej...';
+$labels['togglemoreheaders'] = 'Pokaż więcej nagłówków wiadomości';
+$labels['togglefullheaders'] = 'Przełącz podgląd nagłówków wiadomości';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Zwykły tekst';
 $labels['savesentmessagein'] = 'Zapisz wiadomość w';
@@ -298,7 +302,6 @@ $labels['importcontacts'] = 'Import kontaktów';
 $labels['importfromfile'] = 'Import z pliku:';
 $labels['importtarget'] = 'Dodaj nowe kontakty do książki adresowej:';
 $labels['importreplace'] = 'Zastąp całą książkę adresową';
-$labels['importtext'] = 'Możesz dodać kontakty z istniejącej książki adresowej.<br/>Aktualnie możliwy jest import kontaktów w formacie <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Wykonane';
 $labels['settingsfor'] = 'Ustawienia dla';
 $labels['about'] = 'O programie';
@@ -325,6 +328,7 @@ $labels['signature'] = 'Podpis';
 $labels['dstactive'] = 'Czas letni';
 $labels['htmleditor'] = 'Twórz wiadomości HTML';
 $labels['htmlonreply'] = 'tylko w odpowiedzi na wiadomość HTML';
+$labels['htmlonreplyandforward'] = 'podczas przesyłania dalej lub odpowiedzi na wiadomość HTML';
 $labels['htmlsignature'] = 'Podpis w HTML';
 $labels['previewpane'] = 'Pokaż podgląd wiadomości';
 $labels['skin'] = 'Wygląd interfejsu';
@@ -350,7 +354,6 @@ $labels['always'] = 'zawsze';
 $labels['showinlineimages'] = 'Wyświetlaj załączone obrazki pod treścią wiadomości';
 $labels['autosavedraft'] = 'Automatycznie zapisuj tworzoną wiadomość';
 $labels['everynminutes'] = 'co $n minut(y)';
-$labels['keepalive'] = 'Sprawdzaj czy nadeszły nowe wiadomości';
 $labels['never'] = 'nigdy';
 $labels['immediately'] = 'natychmiast';
 $labels['messagesdisplaying'] = 'Wyświetlanie wiadomości';
@@ -372,6 +375,7 @@ $labels['maintenance'] = 'Konserwacja';
 $labels['newmessage'] = 'Nowa wiadomość';
 $labels['signatureoptions'] = 'Opcje podpisów';
 $labels['whenreplying'] = 'Podczas odpowiadania rozpocznij wiadomość';
+$labels['replyempty'] = 'nie cytuj oryginalnej wiadomości';
 $labels['replytopposting'] = 'powyżej cytowanej treści';
 $labels['replybottomposting'] = 'poniżej cytowanej treści';
 $labels['replyremovesignature'] = 'Podczas odpowiedzi usuń podpis z cytowanej treści';
@@ -397,6 +401,9 @@ $labels['spellcheckignorenums'] = 'Ignoruj słowa zawierające cyfry';
 $labels['spellcheckignorecaps'] = 'Ignoruj słowa pisane wielkimi literami';
 $labels['addtodict'] = 'Dodaj do słownika';
 $labels['mailtoprotohandler'] = 'Zainstaluj obsługę linków mailto:';
+$labels['forwardmode'] = 'Przekazywanie wiadomości';
+$labels['inline'] = 'w treści';
+$labels['asattachment'] = 'jako załącznik';
 $labels['folder'] = 'Folder';
 $labels['foldername'] = 'Nazwa folderu';
 $labels['subscribed'] = 'Zasubskrybowany';

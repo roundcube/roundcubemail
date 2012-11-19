@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: yllar <Unknown>                                               |
+ | Author: yllar                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -128,13 +127,23 @@ $labels['actiondeleteconfirm'] = 'Soovid valitud tegevuse kustutada?';
 $labels['forbiddenchars'] = 'Väljal on lubamatu märk';
 $labels['cannotbeempty'] = 'Väli ei või tühi olla';
 $labels['ruleexist'] = 'Määratud nimega filter on juba olemas';
+$labels['setactivateerror'] = 'Valitud filtrite kogumi aktiveerimine nurjus. Ilmnes serveri tõrge.';
+$labels['setdeactivateerror'] = 'Valitud filtrite kogumi deaktiveerimine nurjus. Ilmnes serveri tõrge.';
+$labels['setdeleteerror'] = 'Valitud filtrite kogumi kustutamine nurjus. Ilmnes serveri tõrge.';
+$labels['setactivated'] = 'Filtrite kogumi aktiveerimine õnnestus.';
+$labels['setdeactivated'] = 'Filtrite kogumi deaktiveerimine õnnestus.';
+$labels['setdeleted'] = 'Filtrite kogumi kustutamine õnnestus.';
+$labels['setdeleteconfirm'] = 'Oled kindel, et soovid valitud filtrite kogumi kustutada?';
+$labels['setcreateerror'] = 'Filtrite kogumi loomine nurjus. Ilmnes serveri tõrge.';
+$labels['setcreated'] = 'Filtrite kogumi loomine õnnestus.';
 $labels['activateerror'] = 'Valitud filtrite lubamine nurjus. Ilmnes serveri tõrge.';
 $labels['deactivateerror'] = 'Valitud filtrite keelamine nurjus. Ilmnes serveri tõrge.';
-$labels['deactivated'] = 'Filter edukalt keelatud.';
-$labels['activated'] = 'Filter edukalt lubatud.';
+$labels['activated'] = 'Filter edukalt keelatud.';
+$labels['deactivated'] = 'Filter edukalt lubatud.';
 $labels['moved'] = 'Filter edukalt liigutatud.';
 $labels['moveerror'] = 'Valitud filtri liigutamine nurjus. Ilmnes serveri tõrge.';
 $labels['nametoolong'] = 'Nimi on liiga pikk.';
 $labels['namereserved'] = 'Nimi on reserveeritud.';
+$labels['setexist'] = 'Kogum on juba olemas.';
 $labels['nodata'] = 'Valitud peab olema vähemalt üks asukoht!';
 

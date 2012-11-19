@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -124,8 +123,8 @@ $labels['unlimited'] = 'সীমাহীন';
 $labels['quicksearch'] = 'ঝটকরে খোজা';
 $labels['resetsearch'] = 'নতুনকরে খুজুন';
 $labels['openinextwin'] = 'নতুন উইন্ডো তে দেখুন';
-$labels['savemessage'] = 'খসড়া হিসাবে জমা করে রাখুন';
 $labels['sendmessage'] = 'এখুনি মেইল / চিঠিটি পাঠান';
+$labels['savemessage'] = 'খসড়া হিসাবে জমা করে রাখুন';
 $labels['addattachment'] = 'একটা ফাইল জুড়ে দিন চিঠির সাথে';
 $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Editor type';
@@ -183,7 +182,6 @@ $labels['import'] = 'আমদানি করুন';
 $labels['importcontacts'] = 'ঠিকানা আমদানি করুন';
 $labels['importfromfile'] = 'ফাইলের থেকে ঠিকানা আমদানি করুন';
 $labels['importreplace'] = 'পুরো ঠিকানার বইটি খালি করে নতুন ঠিকানা গুলো ভরুন';
-$labels['importtext'] = 'আপনি অন্য কোনো ঠিকানার বই (address book) আমাদের এখানে তুলতে পারেন। <br/>আমরা বর্তমানে <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> আকারে খালি ঠিকানা তুলতে পারি।';
 $labels['done'] = 'শেষ';
 $labels['settingsfor'] = 'খুটিনাটি';
 $labels['preferences'] = 'পছন্দ';
@@ -226,7 +224,6 @@ $labels['always'] = 'সবসময়';
 $labels['showinlineimages'] = 'মেইলের সাথে জোড়া লাগানো ছবি, মেইলের নিচে দেখা যাবে';
 $labels['autosavedraft'] = 'নিজেনিজি খসড়া জমা হয়ে যাবে';
 $labels['everynminutes'] = 'প্রতি $n মিনিটে';
-$labels['keepalive'] = 'নতুন মেইল/চিঠি এসেছে কিনা তা দেখা হবে,';
 $labels['never'] = 'কখোনোই না';
 $labels['messagesdisplaying'] = 'মেইল/চিঠি দেখা যাচ্ছে';
 $labels['messagescomposition'] = 'মেইল/চিঠি লেখা হচ্ছে';

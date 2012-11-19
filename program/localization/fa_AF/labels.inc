@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -124,8 +123,8 @@ $labels['unlimited'] = 'نامعين/ نامحدود';
 $labels['quicksearch'] = 'جستجوی سریع';
 $labels['resetsearch'] = 'بازنشاندن جستجو';
 $labels['openinextwin'] = 'در پینجره ای جدید باز کنید';
-$labels['savemessage'] = 'این پیش نویس را حفظ نمایید';
 $labels['sendmessage'] = 'پيغام را همين حالا ارسال کنيد';
+$labels['savemessage'] = 'این پیش نویس را حفظ نمایید';
 $labels['addattachment'] = 'ضميمه نمودن يک فايل';
 $labels['charset'] = 'ست کرکتر ها';
 $labels['editortype'] = 'روش تصحیح کننده / نوشتاری';
@@ -183,7 +182,6 @@ $labels['import'] = 'وارد کردن';
 $labels['importcontacts'] = 'آدرس ها را وارد نمایید';
 $labels['importfromfile'] = 'از یک فایل وارد نمایید';
 $labels['importreplace'] = 'تمام کتاب آدرس ها را عوض نمایید';
-$labels['importtext'] = 'شما میتوانید که آدرس ها را از یاک کتاب آدرس های موجوده وارد نمایید<br/>شما میتوانید که آدرس ها را به فرمت <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>وارد نمایید';
 $labels['done'] = 'اجرا شد';
 $labels['settingsfor'] = 'تنظیمات برای';
 $labels['preferences'] = 'ترجيحات';
@@ -226,7 +224,6 @@ $labels['always'] = 'همیشه';
 $labels['showinlineimages'] = 'تصاویر ضمیمه شده را در پایین پیام نشان دهید.';
 $labels['autosavedraft'] = 'بصورت خودکار پیش نويس را حفظ کنيد';
 $labels['everynminutes'] = 'دقیفه$n هر';
-$labels['keepalive'] = 'بررسي کردن پيغام های جديد';
 $labels['never'] = 'هیچگاه';
 $labels['messagesdisplaying'] = 'نمایش دادن پیام ها';
 $labels['messagescomposition'] = 'ایجاد کردن پیام جدید';

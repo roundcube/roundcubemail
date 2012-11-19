@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomáš Kyzlink <Unknown>                                     |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Nelze vytvořit sadu filtrů. Došlo k chybě serve
 $labels['setcreated'] = 'Sada filtrů úspěšně vytvořena.';
 $labels['activateerror'] = 'Nelze zapnout vybrané filtr/y. Došlo k chybě serveru.';
 $labels['deactivateerror'] = 'Nelze vypnout vybrané filtr/y. Došlo k chybě serveru.';
-$labels['deactivated'] = 'Filtr/y úspěšne vypnuty.';
-$labels['activated'] = 'Filtr/y úspěšně zapnuty.';
+$labels['activated'] = 'Filtr/y úspěšne vypnuty.';
+$labels['deactivated'] = 'Filtr/y úspěšně zapnuty.';
 $labels['moved'] = 'Filtr byl úspěšně přesunut.';
 $labels['moveerror'] = 'Nelze přesunout vybraný filtr. Došlo k chybě na serveru.';
 $labels['nametoolong'] = 'Příliš dlouhý název.';

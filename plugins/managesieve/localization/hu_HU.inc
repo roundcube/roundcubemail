@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: bela <Unknown>                                                |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Nem sikerült létrehozni a szűrő készletet. Sze
 $labels['setcreated'] = 'A szűrő készlet sikeresen létrejött.';
 $labels['activateerror'] = 'Nem sikerült engedélyezni a kiválasztott szűrö(k)et. Szerver hiba történt.';
 $labels['deactivateerror'] = 'Nem sikerült kikapcsolni a kiválasztott szűrő(ke)t. Szerver hiba történt.';
-$labels['deactivated'] = 'Szűrő(k) sikeresen kikapcsolva.';
-$labels['activated'] = 'Szűrő(k) sikeresen bekapcsolva.';
+$labels['activated'] = 'Szűrő(k) sikeresen kikapcsolva.';
+$labels['deactivated'] = 'Szűrő(k) sikeresen bekapcsolva.';
 $labels['moved'] = 'A szűrő sikeresen áthelyezve.';
 $labels['moveerror'] = 'Az áthelyezés nem sikerült. Szerver hiba történt.';
 $labels['nametoolong'] = 'Túll hosszu név';

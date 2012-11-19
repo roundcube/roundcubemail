@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Martin Bárta <martin.bartama@gmail.com>                      |
+ | Author: Zbynek Vanzura <heptau@gmail.com>                             |
  +-----------------------------------------------------------------------+
 */
 
@@ -54,13 +54,21 @@ $labels['shortacli'] = 'Vložit';
 $labels['shortaclc'] = 'Vytvořit';
 $labels['shortaclk'] = 'Vytvořit';
 $labels['shortaclx'] = 'Mazat složky';
+$labels['longacll'] = 'Složka je viditelná v seznamu a může být přihlášena';
 $labels['longaclr'] = 'Složka může být otevřena pro čtení';
 $labels['longaclread'] = 'Složka může být otevřena pro čtení';
 $labels['longacls'] = 'Označená zpráva byla změněna';
+$labels['longacli'] = 'Zpŕava může být napsána nebo zkopírována do složky';
 $labels['longaclp'] = 'Zpráva byla odeslána do složky';
+$labels['longaclc'] = 'Složka může být vytvořena (nebo přejmenována) přimo v této složce';
+$labels['longaclk'] = 'Složka může být vytvořena (nebo přejmenována) přimo v této složce';
+$labels['longacld'] = 'Značka o smazání zprávy může být změněna';
+$labels['longaclt'] = 'Značka o smazání zprávy může být změněna';
 $labels['longacle'] = 'Zpráva může být smazána';
 $labels['longaclx'] = 'Složka může být smazána nebo přejmenována';
 $labels['longacla'] = 'Přístupová práva složky mohou být změněna';
+$labels['longaclfull'] = 'Plný přístup včetně správy složky';
+$labels['longaclwrite'] = 'Zpráva může být označena, napsána nebo zkopírována do složky';
 $labels['longacldelete'] = 'Zprávy mohou být smazány';
 $labels['deleting'] = 'Odstraňuji přístupová práva...';
 $labels['saving'] = 'Ukládám přístupová práva...';

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: pompilos <ciordia@gmail.com>                                  |
+ | Author: Jose Antonio Morales Santiago <cike@txsolutions.com>          |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,6 +26,7 @@ $messages['requesttimedout'] = 'Ha expirado el tiempo de respuesta';
 $messages['errorreadonly'] = 'No se ha podido hacer. La bandeja es sólo de lectura';
 $messages['errornoperm'] = 'Imposible realizar la operación. Permiso denegado';
 $messages['invalidrequest'] = '¡Petición no válida! No se han guardado los datos.';
+$messages['invalidhost'] = 'Nombre de servidor inválido';
 $messages['nomessagesfound'] = 'No se han encontrado mensajes en esta casilla';
 $messages['loggedout'] = 'Ha cerrado bien la sesión. ¡Hasta pronto!';
 $messages['mailboxempty'] = 'La casilla está vacía';
@@ -114,8 +115,8 @@ $messages['selectimportfile'] = 'Por favor, seleccione un archivo para subir';
 $messages['addresswriterror'] = 'No se puede escribir la dirección de contacto seleccionada';
 $messages['contactaddedtogroup'] = 'Se han añadido correctamente los contactos a este grupo.';
 $messages['contactremovedfromgroup'] = 'Se han borrado correctamente los contactos de este grupo.';
+$messages['nogroupassignmentschanged'] = 'No hay cambios en la asgnación de grupos';
 $messages['importwait'] = 'Importando, espere...';
-$messages['importerror'] = '¡Error al importar! Este archivo no es un formato válido vCard.';
 $messages['importconfirm'] = '<b>Se han insertado: $inserted contactos, y se han omitido: $skipped porque ya existían</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = 'Ignorar $skipped entradas existentes';
 $messages['opnotpermitted'] = '¡Operación no permitida!';

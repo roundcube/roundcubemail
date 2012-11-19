@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Johannes Hessellund <osos@openeyes.dk>                        |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -170,8 +169,8 @@ $labels['msgtext'] = 'Hele beskeden';
 $labels['openinextwin'] = 'Åbn i nyt vindue';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['editasnew'] = 'Redigér som ny';
-$labels['savemessage'] = 'Gem som kladde';
 $labels['sendmessage'] = 'Send besked';
+$labels['savemessage'] = 'Gem som kladde';
 $labels['addattachment'] = 'Vedhæft en fil';
 $labels['charset'] = 'Tegnsæt';
 $labels['editortype'] = 'Tekstbehandler';
@@ -299,7 +298,6 @@ $labels['importcontacts'] = 'Importér kontakter';
 $labels['importfromfile'] = 'Importér fra fil:';
 $labels['importtarget'] = 'Tilføj nye kontakter til adressebogen:';
 $labels['importreplace'] = 'Overskriv hele adressebogen';
-$labels['importtext'] = 'Du kan uploade kontakter fra en eksisterende adressebog.Vi understøtter i øjeblikket import af adresser i vCard formatet.';
 $labels['done'] = 'Færdig';
 $labels['settingsfor'] = 'Indstillinger for';
 $labels['about'] = 'Om';
@@ -351,7 +349,6 @@ $labels['always'] = 'altid';
 $labels['showinlineimages'] = 'Vis vedhæftede billeder under beskeden';
 $labels['autosavedraft'] = 'Gem kladde automatisk';
 $labels['everynminutes'] = 'hver $n. minut';
-$labels['keepalive'] = 'Tjek for nye beskeder';
 $labels['never'] = 'aldrig';
 $labels['immediately'] = 'straks';
 $labels['messagesdisplaying'] = 'Viser beskeder';

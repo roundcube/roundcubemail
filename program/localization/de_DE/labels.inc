@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
+ | Author: SimonFS <simonschuette@arcor.de>                              |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['unread'] = 'Ungelesene';
 $labels['flagged'] = 'Markierte';
 $labels['unanswered'] = 'Unbeantwortete';
 $labels['deleted'] = 'Gelöschte';
+$labels['undeleted'] = 'Nicht gelöscht';
 $labels['invert'] = 'Invertieren';
 $labels['filter'] = 'Filter';
 $labels['list'] = 'Liste';
@@ -299,7 +300,6 @@ $labels['importcontacts'] = 'Kontakte importieren';
 $labels['importfromfile'] = 'Import aus Datei:';
 $labels['importtarget'] = 'Einen neuen Kontakt hinzufügen:';
 $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
-$labels['importtext'] = 'Sie können Kontakte aus einem bestehenden Adressbuch hochladen. Zur Zeit können Adressbücher im vCard-Format importiert werden.';
 $labels['done'] = 'Fertig';
 $labels['settingsfor'] = 'Einstellungen für';
 $labels['about'] = 'Über';
@@ -353,7 +353,6 @@ $labels['always'] = 'immer';
 $labels['showinlineimages'] = 'Angehängte Bilder unter der Nachricht anzeigen';
 $labels['autosavedraft'] = 'Entwurf automatisch speichern';
 $labels['everynminutes'] = '$n Minute(n)';
-$labels['keepalive'] = 'Auf neue Nachrichten prüfen nach';
 $labels['never'] = 'nie';
 $labels['immediately'] = 'sofort';
 $labels['messagesdisplaying'] = 'Nachrichtendarstellung';
@@ -423,6 +422,7 @@ $labels['sortby'] = 'Sortieren nach';
 $labels['sortasc'] = 'Aufsteigend sortieren';
 $labels['sortdesc'] = 'Absteigend sortieren';
 $labels['undo'] = 'Rückgängig machen';
+$labels['installedplugins'] = 'Installierte Plugins';
 $labels['plugin'] = 'Erweiterung';
 $labels['version'] = 'Version';
 $labels['source'] = 'Quellcode';

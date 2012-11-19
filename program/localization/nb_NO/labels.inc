@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
+ | Author: Tobias V. Langhoff <spug@thespug.net>                         |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['unread'] = 'Uleste';
 $labels['flagged'] = 'Flagget';
 $labels['unanswered'] = 'Ubesvarte';
 $labels['deleted'] = 'Slettet';
+$labels['undeleted'] = 'Ikke slettet';
 $labels['invert'] = 'Inverter';
 $labels['filter'] = 'Filter';
 $labels['list'] = 'Liste';
@@ -169,8 +170,8 @@ $labels['msgtext'] = 'Hele meldingen';
 $labels['openinextwin'] = 'Åpne i nytt vindu';
 $labels['emlsave'] = 'Last ned (.eml)';
 $labels['editasnew'] = 'Rediger som ny';
-$labels['savemessage'] = 'Lagre kladd';
 $labels['sendmessage'] = 'Send e-posten';
+$labels['savemessage'] = 'Lagre kladd';
 $labels['addattachment'] = 'Vedlegg';
 $labels['charset'] = 'Tegnsett';
 $labels['editortype'] = 'Format';
@@ -198,6 +199,9 @@ $labels['nosubject'] = '(intet emne)';
 $labels['showimages'] = 'Vis bilder';
 $labels['alwaysshow'] = 'Vis alltid bilder fra $sender';
 $labels['isdraft'] = 'Dette er en kladd.';
+$labels['andnmore'] = '$nr flere ...';
+$labels['togglemoreheaders'] = 'Vis flere meldings-headere';
+$labels['togglefullheaders'] = 'Vis rå meldings-headere';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Ren tekst';
 $labels['savesentmessagein'] = 'Lagre sendt melding i';
@@ -298,7 +302,6 @@ $labels['importcontacts'] = 'Importer kontakter';
 $labels['importfromfile'] = 'Importer fra fil:';
 $labels['importtarget'] = 'Legg til kontakter i adresseboka:';
 $labels['importreplace'] = 'Erstatt hele adresseboken';
-$labels['importtext'] = 'Du kan laste opp kontakter fra en eksisterende adressebok.<br/>For øyeblikket støttes importering av kontakter i <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>-formatet.';
 $labels['done'] = 'Fullført';
 $labels['settingsfor'] = 'Innstillinger for';
 $labels['about'] = 'Om';
@@ -324,7 +327,8 @@ $labels['pagesize'] = 'Linjer per side';
 $labels['signature'] = 'Signatur';
 $labels['dstactive'] = 'Sommertid';
 $labels['htmleditor'] = 'Bruk HTML-editor';
-$labels['htmlonreply'] = 'kun ved svar på HTML-melding';
+$labels['htmlonreply'] = 'ved svar på HTML-melding';
+$labels['htmlonreplyandforward'] = 'ved videresending av eller svar på HTML-melding';
 $labels['htmlsignature'] = 'HTML-signatur';
 $labels['previewpane'] = 'Forhåndsvisning';
 $labels['skin'] = 'Utseende';
@@ -350,7 +354,6 @@ $labels['always'] = 'alltid';
 $labels['showinlineimages'] = 'Vis vedlagte bilder nedenfor meldingen';
 $labels['autosavedraft'] = 'Autolagring av utkast';
 $labels['everynminutes'] = 'hvert $n minutt';
-$labels['keepalive'] = 'Se etter ny e-post';
 $labels['never'] = 'Aldri';
 $labels['immediately'] = 'umiddelbart';
 $labels['messagesdisplaying'] = 'Visning av meldinger';
@@ -372,6 +375,7 @@ $labels['maintenance'] = 'Vedlikehold';
 $labels['newmessage'] = 'Ny melding';
 $labels['signatureoptions'] = 'Innstillinger for signatur';
 $labels['whenreplying'] = 'Ved svar på e-post';
+$labels['replyempty'] = 'Ikke siter den originale meldingen';
 $labels['replytopposting'] = 'start den nye meldingen over orginalmeldingen';
 $labels['replybottomposting'] = 'start den nye meldingen under orginalmeldingen';
 $labels['replyremovesignature'] = 'Fjern orginalsignaturen i svar på melding';
@@ -397,6 +401,8 @@ $labels['spellcheckignorenums'] = 'Ignorer ord med tall';
 $labels['spellcheckignorecaps'] = 'Ignorer ord med kun store bokstaver';
 $labels['addtodict'] = 'Legg til i ordbok';
 $labels['mailtoprotohandler'] = 'Registrer protokollhåndtering for mailto-lenker';
+$labels['inline'] = 'i teksten';
+$labels['asattachment'] = 'som vedlegg';
 $labels['folder'] = 'Mappe';
 $labels['foldername'] = 'Mappenavn';
 $labels['subscribed'] = 'Abonnere';

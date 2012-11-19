@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul                                                |
+ | Author: Gökdeniz Karadağ                                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['unread'] = 'Okunmamışları';
 $labels['flagged'] = 'İşaretlenmişleri';
 $labels['unanswered'] = 'Yanıtlanmamışları';
 $labels['deleted'] = 'Silinmişleri';
+$labels['undeleted'] = 'Silinmemiş';
 $labels['invert'] = 'Seçimi Tersine Çevir';
 $labels['filter'] = 'Göster';
 $labels['list'] = 'Liste';
@@ -169,8 +170,8 @@ $labels['msgtext'] = 'Tüm posta gövdesi';
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
 $labels['editasnew'] = 'Postayı yeni olarak düzenle';
-$labels['savemessage'] = 'Taslak olarak kaydet';
 $labels['sendmessage'] = 'Postayı gönder';
+$labels['savemessage'] = 'Taslak olarak kaydet';
 $labels['addattachment'] = 'Dosya ekle';
 $labels['charset'] = 'Karakter kodlaması';
 $labels['editortype'] = 'Düzenleyici';
@@ -198,6 +199,8 @@ $labels['nosubject'] = '(Konu Belirtilmemiş)';
 $labels['showimages'] = 'Resimleri göster';
 $labels['alwaysshow'] = '$sender tarafından gönderilen resimleri her zaman göster';
 $labels['isdraft'] = 'Bu posta taslaktır.';
+$labels['andnmore'] = '$nr daha...';
+$labels['togglemoreheaders'] = 'Daha fazla posta başlığı göster';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Düz metin';
 $labels['savesentmessagein'] = 'Gönderileni buraya kaydet';
@@ -298,7 +301,6 @@ $labels['importcontacts'] = 'Kişileri içe aktar';
 $labels['importfromfile'] = 'Dosyadan içe aktar:';
 $labels['importtarget'] = 'Yeni kişiler eklenecek adres defteri:';
 $labels['importreplace'] = 'Tüm adres defterinin yerine geçsin';
-$labels['importtext'] = 'Mevcut bir adres defterindeki kişileri yükleyebilirsiniz.<br/><a href="http://en.wikipedia.org/wiki/VCard">vCard</a> dosyalarından adresleri içe aktarmayı destekliyoruz.';
 $labels['done'] = 'Tamam';
 $labels['settingsfor'] = 'Ayarlar';
 $labels['about'] = 'Hakkında';
@@ -350,7 +352,6 @@ $labels['always'] = 'her zaman';
 $labels['showinlineimages'] = 'Postanın ekindeki resimleri postanın altında göster';
 $labels['autosavedraft'] = 'Taslağı otomatik kaydet:';
 $labels['everynminutes'] = 'her $n dakikada bir';
-$labels['keepalive'] = 'Yeni postaları denetle:';
 $labels['never'] = 'asla';
 $labels['immediately'] = 'hemen';
 $labels['messagesdisplaying'] = 'Posta Görüntüleme';

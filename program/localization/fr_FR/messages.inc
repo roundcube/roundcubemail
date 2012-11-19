@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jibec <jb.holcroft@gmail.com>                                 |
+ | Author: Anthony Prades <toony.github@chezouam.net>                    |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,6 +26,7 @@ $messages['requesttimedout'] = 'Délai de la requête expiré';
 $messages['errorreadonly'] = 'Impossible d\'effectuer cette opération. Le dossier est en lecture seule';
 $messages['errornoperm'] = 'Impossible d\'effectuer cette opération. Permission refusée';
 $messages['invalidrequest'] = 'Requête invalide ! Aucune donnée n\'a été sauvegardée.';
+$messages['invalidhost'] = 'Nom du serveur invalide.';
 $messages['nomessagesfound'] = 'Cette boîte aux lettres ne contient aucun message.';
 $messages['loggedout'] = 'Vous venez de vous déconnecter avec succès. Au revoir !';
 $messages['mailboxempty'] = 'La boîte aux lettres est vide.';
@@ -78,7 +79,7 @@ $messages['notsentwarning'] = 'Le message n\'a pas été envoyé. Voulez-vous ab
 $messages['noldapserver'] = 'Choisissez un serveur LDAP pour la recherche';
 $messages['nosearchname'] = 'Entrez un nom de contact ou un courriel';
 $messages['notuploadedwarning'] = 'Certaines pièces jointes sont en cours d\'expédition : attendez ou annulez l\'envoi.';
-$messages['searchsuccessful'] = '$nr messages.';
+$messages['searchsuccessful'] = '$nr messages trouvés';
 $messages['contactsearchsuccessful'] = '$nr contact(s) trouvé(s).';
 $messages['searchnomatch'] = 'La recherche ne donne aucun résultat';
 $messages['searching'] = 'En cours de recherche...';
@@ -114,8 +115,8 @@ $messages['selectimportfile'] = 'Veuillez sélectionner un fichier à envoyer';
 $messages['addresswriterror'] = 'Impossible d\'écrire dans le carnet d\'adresse sélectionné';
 $messages['contactaddedtogroup'] = 'Les contacts ont bien été ajoutés à ce groupe';
 $messages['contactremovedfromgroup'] = 'Les contacts ont bien été supprimés de ce groupe';
+$messages['nogroupassignmentschanged'] = 'Appartenance aux groupes inchangée.';
 $messages['importwait'] = 'Importation, veuillez patienter...';
-$messages['importerror'] = 'Importation échouée ! Le fichier envoyé n\'est pas un fichier vCard valide.';
 $messages['importconfirm'] = '<b>$inserted contacts importés avec succès, $skipped entrées existantes ignorées</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>$skipped entrée(s) déjà existante(s)</b>';
 $messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';

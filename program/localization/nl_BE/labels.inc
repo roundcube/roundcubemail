@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -158,8 +157,8 @@ $labels['msgtext'] = 'Volledig bericht';
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
 $labels['editasnew'] = 'Als nieuw bewerken';
-$labels['savemessage'] = 'Bewaar als concept';
 $labels['sendmessage'] = 'Verzenden';
+$labels['savemessage'] = 'Bewaar als concept';
 $labels['addattachment'] = 'Bestand toevoegen als bijlage';
 $labels['charset'] = 'Karakterset';
 $labels['editortype'] = 'Opmaak';
@@ -226,7 +225,6 @@ $labels['import'] = 'Importeer';
 $labels['importcontacts'] = 'Contactpersonen importeren';
 $labels['importfromfile'] = 'Importeer van bestand:';
 $labels['importreplace'] = 'Vervang het complete adresboek';
-$labels['importtext'] = 'U kunt hier contactpersonen importeren vanuit een bestaand adresboek.<br />Op dit moment ondersteunen wij het <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> bestandsformaat.';
 $labels['done'] = 'Klaar';
 $labels['settingsfor'] = 'Instellingen voor';
 $labels['preferences'] = 'Voorkeuren';
@@ -274,7 +272,6 @@ $labels['always'] = 'altijd';
 $labels['showinlineimages'] = 'Toon bijgevoegde afbeeldingen onder het bericht';
 $labels['autosavedraft'] = 'Automatisch als concept opslaan';
 $labels['everynminutes'] = 'elke $n minuten';
-$labels['keepalive'] = 'Controleer op nieuwe berichten';
 $labels['never'] = 'nooit';
 $labels['immediately'] = 'onmiddellijk';
 $labels['messagesdisplaying'] = 'Berichten weergave';

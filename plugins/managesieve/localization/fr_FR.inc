@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: François Charlier <Unknown>                                  |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Impossible de créer le groupe de filtres. Le serve
 $labels['setcreated'] = 'Le groupe de filtres a bien été créé.';
 $labels['activateerror'] = 'Impossible d\'activer le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
 $labels['deactivateerror'] = 'Impossible de désactiver le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
-$labels['deactivated'] = 'Filtre(s) désactivé(s) avec succès';
-$labels['activated'] = 'Filtre(s) activé(s) avec succès';
+$labels['activated'] = 'Filtre(s) désactivé(s) avec succès';
+$labels['deactivated'] = 'Filtre(s) activé(s) avec succès';
 $labels['moved'] = 'Filtre déplacé avec succès.';
 $labels['moveerror'] = 'Déplacement du filtre sélectionné impossible. Le serveur a renvoyé une erreur.';
 $labels['nametoolong'] = 'Nom trop long.';

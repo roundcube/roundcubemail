@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -143,8 +142,8 @@ $labels['msgtext'] = 'ყველა შეტყობინება';
 $labels['openinextwin'] = 'გახსნა ახალ ფანჯარაში';
 $labels['emlsave'] = 'გადმოწერა (.eml)';
 $labels['editasnew'] = 'რედაქტირება როგორც ახლის';
-$labels['savemessage'] = 'დროებით შენახვა';
 $labels['sendmessage'] = 'შეტყობინების გაგზავნა';
+$labels['savemessage'] = 'დროებით შენახვა';
 $labels['addattachment'] = 'ფაილის ატვირთვა';
 $labels['charset'] = 'კოდირება';
 $labels['editortype'] = 'რედაქტორი';
@@ -244,7 +243,6 @@ $labels['import'] = 'შემოტანა';
 $labels['importcontacts'] = 'კონტაქტების შემოტანა';
 $labels['importfromfile'] = 'შემოტანა ფაილიდან:';
 $labels['importreplace'] = 'ჩაანაცვლეთ არსებული მისამართები';
-$labels['importtext'] = 'თქვენ შეგიძლიათ ატვირთოთ კონტაქტები აღნიშნული მისამართიდან. <br/> ჩვენ შეგვიძლია მივიღოთ მისამართები <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> მონაცემთა ფორმატში.';
 $labels['done'] = 'დასრულებულია';
 $labels['settingsfor'] = 'პარამეტრები';
 $labels['preferences'] = 'პარამეტრები';
@@ -290,7 +288,6 @@ $labels['always'] = 'ყოველთვის';
 $labels['showinlineimages'] = 'ატვირთული სურათები გამოაჩინე გზავნილის ქვემოთ';
 $labels['autosavedraft'] = 'ავტომატური შენახვა';
 $labels['everynminutes'] = 'ყოველ $n წუთში';
-$labels['keepalive'] = 'შეამოწმე ახალ შეტყობინებაზე';
 $labels['never'] = 'არასდროს';
 $labels['immediately'] = 'დაუყონებლივ';
 $labels['messagesdisplaying'] = 'გამოაჩინე შეტყობინებები';

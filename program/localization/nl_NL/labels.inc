@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Geert Wirken                                                  |
+ | Author: Hendrik Maryns <hendrik@hendrikmaryns.name>                   |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['unread'] = 'Ongelezen';
 $labels['flagged'] = 'Geselecteerd';
 $labels['unanswered'] = 'Onbeantwoord';
 $labels['deleted'] = 'Verwijderd';
+$labels['undeleted'] = 'Niet verwijderd';
 $labels['invert'] = 'Selectie omdraaien';
 $labels['filter'] = 'Filter';
 $labels['list'] = 'Lijst';
@@ -169,8 +170,9 @@ $labels['msgtext'] = 'Gehele bericht';
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
 $labels['editasnew'] = 'Als nieuw bewerken';
-$labels['savemessage'] = 'Bewaar als concept';
+$labels['send'] = 'Verzenden';
 $labels['sendmessage'] = 'Verstuur het bericht nu';
+$labels['savemessage'] = 'Bewaar als concept';
 $labels['addattachment'] = 'Voeg een bijlage toe';
 $labels['charset'] = 'Tekenset';
 $labels['editortype'] = 'Opmaak';
@@ -198,6 +200,9 @@ $labels['nosubject'] = '(geen onderwerp)';
 $labels['showimages'] = 'Toon afbeeldingen';
 $labels['alwaysshow'] = 'Afbeeldingen van $sender altijd tonen';
 $labels['isdraft'] = 'Dit is een concept.';
+$labels['andnmore'] = '$nr meer...';
+$labels['togglemoreheaders'] = 'Toon meer berichtheaders';
+$labels['togglefullheaders'] = 'Originele berichtheaders aan/uit';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Gewone tekst';
 $labels['savesentmessagein'] = 'Bewaar verzonden bericht in';
@@ -298,7 +303,6 @@ $labels['importcontacts'] = 'Contactpersonen importeren';
 $labels['importfromfile'] = 'Importeer van bestand:';
 $labels['importtarget'] = 'Voeg nieuwe contactpersonen toe aan adresboek:';
 $labels['importreplace'] = 'Vervang het complete adresboek';
-$labels['importtext'] = 'U kunt hier contactpersonen importeren vanuit een bestaand adresboek.<br />Op dit moment wordt het <a href="http://nl.wikipedia.org/wiki/VCard">vCard</a>-formaat ondersteund.';
 $labels['done'] = 'Klaar';
 $labels['settingsfor'] = 'Instellingen voor';
 $labels['about'] = 'Over';
@@ -323,9 +327,11 @@ $labels['timezone'] = 'Tijdzone';
 $labels['pagesize'] = 'Aantal berichten per pagina';
 $labels['signature'] = 'Ondertekening';
 $labels['dstactive'] = 'Zomertijd';
-$labels['composeextwin'] = 'Berichten in nieuw venster';
+$labels['showinextwin'] = 'Bericht in een nieuw venster openen';
+$labels['composeextwin'] = 'In een nieuw venster bewerken';
 $labels['htmleditor'] = 'Berichten opstellen in HTML-opmaak';
 $labels['htmlonreply'] = 'alleen bij beantwoorden van HTML-berichten';
+$labels['htmlonreplyandforward'] = 'bij doorsturen of beantwoorden van een HTML-bericht';
 $labels['htmlsignature'] = 'HTML-ondertekening';
 $labels['previewpane'] = 'Toon voorbeeldvenster';
 $labels['skin'] = 'Interfacestijl';
@@ -351,7 +357,6 @@ $labels['always'] = 'altijd';
 $labels['showinlineimages'] = 'Bijgevoegde afbeeldingen onder het bericht weergeven';
 $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
-$labels['keepalive'] = 'Op nieuwe berichten controleren';
 $labels['never'] = 'nooit';
 $labels['immediately'] = 'onmiddellijk';
 $labels['messagesdisplaying'] = 'Berichtenweergave';
@@ -373,6 +378,7 @@ $labels['maintenance'] = 'Onderhoud';
 $labels['newmessage'] = 'Nieuw bericht';
 $labels['signatureoptions'] = 'Instellingen voor ondertekening';
 $labels['whenreplying'] = 'Bij antwoorden';
+$labels['replyempty'] = 'het oorspronkelijke bericht niet citeren';
 $labels['replytopposting'] = 'begin bericht boven het origineel';
 $labels['replybottomposting'] = 'begin bericht onder het origineel';
 $labels['replyremovesignature'] = 'Verwijder oorspronkelijke ondertekening van bericht bij beantwoorden';
@@ -398,6 +404,9 @@ $labels['spellcheckignorenums'] = 'Negeer woorden met cijfers';
 $labels['spellcheckignorecaps'] = 'Negeer woorden welke volledig uit hoofdletters bestaan';
 $labels['addtodict'] = 'Voeg toe aan woordenboek';
 $labels['mailtoprotohandler'] = 'Registreer protocolhandler voor mailto: links';
+$labels['forwardmode'] = 'Berichten doorsturen';
+$labels['inline'] = 'invoegen';
+$labels['asattachment'] = 'als bijlage';
 $labels['folder'] = 'Map';
 $labels['foldername'] = 'Mapnaam';
 $labels['subscribed'] = 'Geabonneerd';
@@ -421,6 +430,7 @@ $labels['sortby'] = 'Sorteer op';
 $labels['sortasc'] = 'Sorteer oplopend';
 $labels['sortdesc'] = 'Sorteer aflopend';
 $labels['undo'] = 'Ongedaan maken';
+$labels['installedplugins'] = 'Geïnstalleerde plug-ins';
 $labels['plugin'] = 'Invoegtoepassing';
 $labels['version'] = 'Versie';
 $labels['source'] = 'Broncode';

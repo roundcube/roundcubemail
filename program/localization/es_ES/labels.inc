@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jorge López <jorge@adobo.org>                                |
+ | Author: Adolfo Jayme Barrientos <fitoschido@gmail.com>                |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['unread'] = 'Sin leer';
 $labels['flagged'] = 'Señalado';
 $labels['unanswered'] = 'Sin respuesta';
 $labels['deleted'] = 'Eliminado';
+$labels['undeleted'] = 'No eliminado';
 $labels['invert'] = 'Invertir';
 $labels['filter'] = 'Filtrar';
 $labels['list'] = 'Lista';
@@ -169,8 +170,9 @@ $labels['msgtext'] = 'Mensaje completo';
 $labels['openinextwin'] = 'Abrir en nueva ventana';
 $labels['emlsave'] = 'Descargar (.eml)';
 $labels['editasnew'] = 'Editar como nuevo';
-$labels['savemessage'] = 'Guardar como borrador';
+$labels['send'] = 'Enviar';
 $labels['sendmessage'] = 'Enviar ahora el mensaje';
+$labels['savemessage'] = 'Guardar como borrador';
 $labels['addattachment'] = 'Adjuntar un archivo';
 $labels['charset'] = 'Codificación';
 $labels['editortype'] = 'Tipo de editor';
@@ -198,6 +200,9 @@ $labels['nosubject'] = '(sin asunto)';
 $labels['showimages'] = 'Mostrar imágenes';
 $labels['alwaysshow'] = 'Mostrar siempre imágenes de $sender';
 $labels['isdraft'] = 'Este mensaje es un borrador';
+$labels['andnmore'] = '$nr más…';
+$labels['togglemoreheaders'] = 'Mostrar más encabezados del mensaje';
+$labels['togglefullheaders'] = 'Mostrar u ocultar encabezados de mensajes';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Sólo texto';
 $labels['savesentmessagein'] = 'Guardar mensaje enviado en';
@@ -298,7 +303,6 @@ $labels['importcontacts'] = 'Importar contactos';
 $labels['importfromfile'] = 'Importar desde archivo:';
 $labels['importtarget'] = 'Añadir un nuevo contacto a la los contactos:';
 $labels['importreplace'] = 'Reemplazar toda la lista de contactos';
-$labels['importtext'] = 'Puede importar contactos desde una lista existente.<br/>Actualmente sólo soportamos el formato <a href="http://es.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Hecho';
 $labels['settingsfor'] = 'Configuración para';
 $labels['about'] = 'Acerca de';
@@ -323,9 +327,11 @@ $labels['timezone'] = 'Zona horaria';
 $labels['pagesize'] = 'Filas por página';
 $labels['signature'] = 'Firma';
 $labels['dstactive'] = 'Cambio de horario';
+$labels['showinextwin'] = 'Abrir mensaje en una ventana nueva';
 $labels['composeextwin'] = 'Redactar en una ventana nueva';
 $labels['htmleditor'] = 'Componer mensaje en HTML';
 $labels['htmlonreply'] = 'sólo en respuesta a un mensaje HTML';
+$labels['htmlonreplyandforward'] = 'en reenvío o respuesta al mensaje HTML';
 $labels['htmlsignature'] = 'Firma HTML';
 $labels['previewpane'] = 'Mostrar vista preliminar';
 $labels['skin'] = 'Apariencia de la interfaz';
@@ -351,7 +357,6 @@ $labels['always'] = 'siempre';
 $labels['showinlineimages'] = 'Mostrar imágenes adjuntas debajo del mensaje';
 $labels['autosavedraft'] = 'Guardar borrador automáticamente';
 $labels['everynminutes'] = 'cada $n minuto(s)';
-$labels['keepalive'] = 'Comprobar si hay mensajes nuevos';
 $labels['never'] = 'nunca';
 $labels['immediately'] = 'inmediatamente';
 $labels['messagesdisplaying'] = 'Vista de mensajes';
@@ -373,6 +378,7 @@ $labels['maintenance'] = 'Mantenimiento';
 $labels['newmessage'] = 'Nuevo mensaje';
 $labels['signatureoptions'] = 'Opciones de firma';
 $labels['whenreplying'] = 'Al responder';
+$labels['replyempty'] = 'no citar el mensaje original';
 $labels['replytopposting'] = 'empezar un mensaje nuevo encima del original';
 $labels['replybottomposting'] = 'empezar un mensaje nuevo debajo del original';
 $labels['replyremovesignature'] = 'Eliminar la firma original del mensaje al responder';
@@ -398,6 +404,7 @@ $labels['spellcheckignorenums'] = 'Ignorar palabras con números';
 $labels['spellcheckignorecaps'] = 'Ignorar palabras con todo mayúsculas';
 $labels['addtodict'] = 'Añadir al diccionario';
 $labels['mailtoprotohandler'] = 'Registrar controlador de protocolo para enlaces mailto:';
+$labels['asattachment'] = 'como adjunto';
 $labels['folder'] = 'Bandeja';
 $labels['foldername'] = 'Nombre de bandeja';
 $labels['subscribed'] = 'Suscrita';

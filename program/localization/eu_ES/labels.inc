@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Aritz <aritz@itxaropena.org>                                  |
+ | Author: Asier Iturralde Sarasola                                      |
  +-----------------------------------------------------------------------+
 */
 
@@ -101,6 +101,7 @@ $labels['reply'] = 'Erantzun';
 $labels['replytomessage'] = 'Mezuari erantzun';
 $labels['replytoallmessage'] = 'Bidaltzaile eta hartzaile guztiei erantzun';
 $labels['replyall'] = 'Guztiei erantzun';
+$labels['replylist'] = 'Erantzun zerrenda';
 $labels['forward'] = 'Berbidali';
 $labels['forwardattachment'] = 'Erantsi gisa berbidali';
 $labels['forwardmessage'] = 'Mezua Birbidali';
@@ -137,8 +138,8 @@ $labels['unknown'] = 'ezezaguna';
 $labels['unlimited'] = 'mugagabea';
 $labels['quicksearch'] = 'Bilaketa azkarra';
 $labels['resetsearch'] = 'Bilaketa berrabiarazi';
-$labels['savemessage'] = 'Zirriborro hau gorde';
 $labels['sendmessage'] = 'Mezua orain bidali';
+$labels['savemessage'] = 'Zirriborro hau gorde';
 $labels['addattachment'] = 'Fitxategia erantsi';
 $labels['charset'] = 'Karaktere jokoa';
 $labels['editortype'] = 'Editore mota';

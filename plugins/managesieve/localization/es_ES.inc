@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Marcelo Magaña Silva <magasil7@gmail.com>                    |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Imposible crear el conjunto de filtros. Ha ocurrido
 $labels['setcreated'] = 'Conjunto de filtros creado satisfactoriamente';
 $labels['activateerror'] = 'No se ha podido habilitar el filtro(s) seleccionado. Se ha producido un error de servidor.';
 $labels['deactivateerror'] = 'No se ha podido deshabilitar el filtro(s) seleccionado. Se ha producido un error de servidor.';
-$labels['deactivated'] = 'Filtro(s) deshabilitado(s) correctamente.';
-$labels['activated'] = 'Filtro(s) habilitado(s) correctamente.';
+$labels['activated'] = 'Filtro(s) deshabilitado(s) correctamente.';
+$labels['deactivated'] = 'Filtro(s) habilitado(s) correctamente.';
 $labels['moved'] = 'Filtro movido correctamente';
 $labels['moveerror'] = 'No se ha podido mover el filtro seleccionado. Ha ocurrido un error de servidor.';
 $labels['nametoolong'] = 'Imposible crear el conjunto de filtros. Nombre demasiado largo';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -130,8 +129,8 @@ $labels['msgtext'] = 'முழு செய்தி';
 $labels['openinextwin'] = 'புது சாளரத்தில் திற';
 $labels['emlsave'] = 'பதிவிறக்கு (.eml)';
 $labels['editasnew'] = 'புதியதாக திருத்து';
-$labels['savemessage'] = 'இந்த வரைவை சேமி';
 $labels['sendmessage'] = 'இப்போது அனுப்பு';
+$labels['savemessage'] = 'இந்த வரைவை சேமி';
 $labels['addattachment'] = 'ஒரு கோப்பை இணைக்கவும்';
 $labels['charset'] = 'எழுத்து குறிமுறை';
 $labels['editortype'] = 'திருத்தும் வகை';
@@ -189,7 +188,6 @@ $labels['import'] = 'இறக்குமதி';
 $labels['importcontacts'] = 'தொடர்புகளை இறக்குமதி செய்யவும்';
 $labels['importfromfile'] = 'இந்த கோப்பிலிருந்து இறக்குமதி செய்யவும்:';
 $labels['importreplace'] = 'எல்லா தொடர்புகளையும் மாற்றி அமை';
-$labels['importtext'] = 'நீங்கள் ஏற்கனவே உள்ள தொடர்புகளை ஏற்றலாம்.<br/>நாங்கள் முகவரியை <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> தரவு வடிவத்தில் ஏற்றுவதை ஆதரிக்கிறோம்';
 $labels['done'] = 'முடிந்தது';
 $labels['settingsfor'] = 'இதற்கான அமைப்புகள்';
 $labels['preferences'] = 'விருப்பங்கள்';
@@ -232,7 +230,6 @@ $labels['always'] = 'எப்போதும்';
 $labels['showinlineimages'] = 'இணைத்த படங்களை செய்திகளுக்கு கீழே காட்டவும்';
 $labels['autosavedraft'] = 'தானாக வரைவுகளை சேமி';
 $labels['everynminutes'] = 'ஒவ்வொரு $n நிமிடங்களுக்கும்';
-$labels['keepalive'] = 'புது செய்திக்கு இங்கு சரி பார்';
 $labels['never'] = 'எப்போதுமில்லை';
 $labels['messagesdisplaying'] = 'செய்திகளை காட்டுகிறது';
 $labels['messagescomposition'] = 'செய்திகளை எழுதுகிறது';

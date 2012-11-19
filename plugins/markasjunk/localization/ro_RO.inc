@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: tudor <tudor@starnet-alba.ro>                                 |
+ | Author: Raduta Alex <raduta.alex@gmail.com>                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Vechituri';
 $labels['buttontitle'] = 'Marchează ca SPAM';
 $labels['reportedasjunk'] = 'Raportat cu succes ca SPAM';
 

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Christoph Wickert <Unknown>                                   |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Filtersatz kann nicht erstellt werden. Serverfehler
 $labels['setcreated'] = 'Filter erfolgreich erstellt.';
 $labels['activateerror'] = 'Filter kann nicht aktiviert werden. Serverfehler.';
 $labels['deactivateerror'] = 'Filter kann nicht deaktiviert werden. Serverfehler.';
-$labels['deactivated'] = 'Filter erfolgreich deaktiviert.';
-$labels['activated'] = 'Filter erfolgreich aktiviert.';
+$labels['activated'] = 'Filter erfolgreich deaktiviert.';
+$labels['deactivated'] = 'Filter erfolgreich aktiviert.';
 $labels['moved'] = 'Filter erfolgreich verschoben.';
 $labels['moveerror'] = 'Filter kann nicht verschoben werden. Serverfehler.';
 $labels['nametoolong'] = 'Filtersatz kann nicht erstellt werden. Name zu lang.';

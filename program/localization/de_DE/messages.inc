@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: akn                                                           |
+ | Author: Dennis Baudys                                                 |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,10 +26,11 @@ $messages['requesttimedout'] = 'Zeitüberschreitung der Anforderung';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
 $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';
+$messages['invalidhost'] = 'Ungültiger Server Name';
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner.';
 $messages['loggedout'] = 'Sie haben Ihre Sitzung erfolgreich beendet. Auf Wiedersehen!';
-$messages['mailboxempty'] = 'Ordner ist leer.';
-$messages['loading'] = 'Lädt…';
+$messages['mailboxempty'] = 'Mailbox ist leer.';
+$messages['loading'] = 'Wird geladen ...';
 $messages['uploading'] = 'Datei wird hochgeladen...';
 $messages['uploadingmany'] = 'Dateien werden hochgeladen...';
 $messages['loadingdata'] = 'Daten werden geladen...';
@@ -114,8 +115,8 @@ $messages['selectimportfile'] = 'Bitte wählen Sie eine Datei zum Importieren au
 $messages['addresswriterror'] = 'Das gewählte Adressbuch kann nicht verändert werden.';
 $messages['contactaddedtogroup'] = 'Kontakte wurden dieser Gruppe hinzugefügt.';
 $messages['contactremovedfromgroup'] = 'Kontakte wurden aus dieser Gruppe entfernt.';
+$messages['nogroupassignmentschanged'] = 'Es wurden keine Gruppenzuordnungen geändert.';
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
-$messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert.</b>';
 $messages['importconfirmskipped'] = '<b>$skipped bestehende Einträge wurden übersprungen.</b>';
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';

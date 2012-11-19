@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Sebastian Schweizer                                           |
+ | Author: SimonFS <simonschuette@arcor.de>                              |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['setactivated'] = 'Filtersatz wurde erfolgreich aktiviert';
 $labels['setdeactivated'] = 'Filtersatz wurde erfolgreich deaktiviert';
 $labels['setdeleted'] = 'Filtersatz wurde erfolgreich gelöscht';
 $labels['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
+$labels['setcreateerror'] = 'Erstellen von Filter Sätzen nicht möglich. Es ist ein Server Fehler aufgetreten.';
 $labels['setcreated'] = 'Filtersatz wurde erfolgreich erstellt';
 $labels['activateerror'] = 'Filter kann nicht aktiviert werden. Serverfehler.';
 $labels['deactivateerror'] = 'Filter kann nicht deaktiviert werden. Serverfehler.';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -160,8 +159,8 @@ $labels['msgtext'] = 'Heile eposten';
 $labels['openinextwin'] = 'Opna i nytt vindauga';
 $labels['emlsave'] = 'Last ned (.eml)';
 $labels['editasnew'] = 'Rediger som ny';
-$labels['savemessage'] = 'Lagra kladd';
 $labels['sendmessage'] = 'Send meldinga no';
+$labels['savemessage'] = 'Lagra kladd';
 $labels['addattachment'] = 'Legg ved ei fil';
 $labels['charset'] = 'Teiknkoding';
 $labels['editortype'] = 'Redigeringstype';
@@ -275,7 +274,6 @@ $labels['importcontacts'] = 'Importer kontaktar';
 $labels['importfromfile'] = 'Importer frå fil:';
 $labels['importtarget'] = 'Legg til kontakter i adresseboka';
 $labels['importreplace'] = 'Byt ut heile adresseboka';
-$labels['importtext'] = 'Du kan lasta opp kontaktar frå ei eksisterande adressebok.Me stør innlasting frå vCard-formatet.';
 $labels['done'] = 'Ferdig';
 $labels['settingsfor'] = 'Innstillingar for';
 $labels['preferences'] = 'Innstillingar';
@@ -322,7 +320,6 @@ $labels['always'] = 'alltid';
 $labels['showinlineimages'] = 'Vis vedlagte bilete under meldinga';
 $labels['autosavedraft'] = 'Lagra kladd automatisk';
 $labels['everynminutes'] = 'kvart $n minutt';
-$labels['keepalive'] = 'Sjekk etter ny epost';
 $labels['never'] = 'aldri';
 $labels['immediately'] = 'med ein gong';
 $labels['messagesdisplaying'] = 'Meldingar som viser';

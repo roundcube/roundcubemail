@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Svebor Prstačić <svebor.prstacic@gmail.com>                 |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -139,8 +138,8 @@ $labels['setcreateerror'] = 'Nemoguće stvoriti grupu filtera. Greška na poslu�
 $labels['setcreated'] = 'Grupa filtera je uspješno stvorena';
 $labels['activateerror'] = 'Nije moguće omogućiti odabrani filter(e). Greška poslužitelja.';
 $labels['deactivateerror'] = 'Nije moguće onemogučiti odabrane filter(e). Greška poslužitelja.';
-$labels['deactivated'] = 'Filter(i) onemogućen(i) uspješno.';
-$labels['activated'] = 'Filter(i) omogućen(i) uspješno.';
+$labels['activated'] = 'Filter(i) onemogućen(i) uspješno.';
+$labels['deactivated'] = 'Filter(i) omogućen(i) uspješno.';
 $labels['moved'] = 'Filter uspješno premješten.';
 $labels['moveerror'] = 'Nije moguće premjestiti odabrani filter. Greška poslužitelja.';
 $labels['nametoolong'] = 'Nemoguće napraviti grupu filtera. Naziv je predugačak';

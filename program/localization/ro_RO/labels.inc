@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Iorga Vladut Mihai <iorga.vladutz@cucap.ro>                   |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -170,8 +169,8 @@ $labels['msgtext'] = 'Tot mesajul';
 $labels['openinextwin'] = 'Deschide într-o fereastră nouă';
 $labels['emlsave'] = 'Salvează în format .eml';
 $labels['editasnew'] = 'Editează ca nou';
-$labels['savemessage'] = 'Salvează această ciornă';
 $labels['sendmessage'] = 'Trimite mesaj';
+$labels['savemessage'] = 'Salvează această ciornă';
 $labels['addattachment'] = 'Ataşează fişier';
 $labels['charset'] = 'Set de caractere';
 $labels['editortype'] = 'Tip de editor';
@@ -298,7 +297,6 @@ $labels['importcontacts'] = 'Importă contacte';
 $labels['importfromfile'] = 'Importă din fişier:';
 $labels['importtarget'] = 'Adaugă contactele noi în agenda:';
 $labels['importreplace'] = 'Înlocuieşte întreaga agendă';
-$labels['importtext'] = 'Puteţi încărca contacte dintr-o agendă existentă. Se pot importa adresele în format vCard.';
 $labels['done'] = 'Finalizat';
 $labels['settingsfor'] = 'Setări pentru';
 $labels['about'] = 'Despre';
@@ -349,7 +347,6 @@ $labels['always'] = 'întotdeauna';
 $labels['showinlineimages'] = 'Arată imaginile ataşate sub mesaj';
 $labels['autosavedraft'] = 'Salvează ciorna automat';
 $labels['everynminutes'] = 'la fiecare $n minut(e)';
-$labels['keepalive'] = 'Verifică mesaje noi la';
 $labels['never'] = 'niciodată';
 $labels['immediately'] = 'imediat';
 $labels['messagesdisplaying'] = 'Afişarea mesajelor';

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -161,8 +160,8 @@ $labels['msgtext'] = 'Цялото съобщение';
 $labels['openinextwin'] = 'Отвори в нов прозорец';
 $labels['emlsave'] = 'Изтегли като .eml';
 $labels['editasnew'] = 'Редактирай като ново';
-$labels['savemessage'] = 'Запиши в Чернови';
 $labels['sendmessage'] = 'Изпрати писмото';
+$labels['savemessage'] = 'Запиши в Чернови';
 $labels['addattachment'] = 'Прикачи файл';
 $labels['charset'] = 'Кодировка';
 $labels['editortype'] = 'Вид редактор';
@@ -285,7 +284,6 @@ $labels['importcontacts'] = 'Внасяне';
 $labels['importfromfile'] = 'Внасяне от файл';
 $labels['importtarget'] = 'Добави нови контакти в книгата с адреси';
 $labels['importreplace'] = 'Замени цялата книга с адреси';
-$labels['importtext'] = 'Можете да внесете контакти от съществуваща книга с адреси. В момента поддържане внасянето на адреси от vCard формат за данни.';
 $labels['done'] = 'Извършено';
 $labels['settingsfor'] = 'Настройки за';
 $labels['preferences'] = 'Настройки';
@@ -335,7 +333,6 @@ $labels['always'] = 'Винаги';
 $labels['showinlineimages'] = 'Покажи прикачените изображения след съобщението';
 $labels['autosavedraft'] = 'Автоматично записвай чернова';
 $labels['everynminutes'] = 'всеки $n минути';
-$labels['keepalive'] = 'Проверявай за нови съобщения на';
 $labels['never'] = 'никога';
 $labels['immediately'] = 'веднага';
 $labels['messagesdisplaying'] = 'Показване на събщенията';
