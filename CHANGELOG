@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix wrapping of quoted text with format=flowed (#1488177)
 - Select default_addressbook on the list in Address Book (#1488280)
 - Fix so mobile phone has TYPE=CELL in exported vCard (#1488812)
 - Support contacts import from CSV file (#1486399)
