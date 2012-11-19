@@ -572,7 +572,7 @@ class rcube_mime
      */
     public static function wordwrap($string, $width=75, $break="\n", $cut=false, $charset=null)
     {
-        if ($charset)
+        if ($charset && function_exists('mb_internal_encoding'))
             mb_internal_encoding($charset);
 
         $para   = preg_split('/\r?\n/', $string);
@@ -629,7 +629,7 @@ class rcube_mime
             }
         }
 
-        if ($charset)
+        if ($charset && function_exists('mb_internal_encoding'))
             mb_internal_encoding(RCMAIL_CHARSET);
 
         return $string;
