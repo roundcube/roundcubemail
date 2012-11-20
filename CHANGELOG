@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix keybord events on messages list in opera browser (#1488823)
+
 RELEASE 0.8.4
 -------------
 - Fix XSS vulnerability in handling of text/enriched messages (#1488806)
