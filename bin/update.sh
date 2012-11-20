@@ -25,7 +25,7 @@ require_once INSTALL_PATH . 'program/include/clisetup.php';
 require_once INSTALL_PATH . 'installer/rcube_install.php';
 
 // get arguments
-$opts = get_opt(array('v' => 'version'));
+$opts = rcube_utils::get_opt(array('v' => 'version'));
 
 // ask user if no version is specified
 if (!$opts['version']) {

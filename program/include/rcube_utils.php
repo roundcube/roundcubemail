@@ -883,4 +883,79 @@ class rcube_utils
         return $as_array ? $arr : join(" ", $arr);
     }
 
+    /**
+     * Parse commandline arguments into a hash array
+     *
+     * @param array $aliases Argument alias names
+     *
+     * @return array Argument values hash
+     */
+    public static function get_opt($aliases = array())
+    {
+        $args = array();
+
+        for ($i=1; $i < count($_SERVER['argv']); $i++) {
+            $arg   = $_SERVER['argv'][$i];
+            $value = true;
+            $key   = null;
+
+            if ($arg[0] == '-') {
+                $key = preg_replace('/^-+/', '', $arg);
+                $sp  = strpos($arg, '=');
+                if ($sp > 0) {
+                    $key   = substr($key, 0, $sp - 2);
+                    $value = substr($arg, $sp+1);
+                }
+                else if (strlen($_SERVER['argv'][$i+1]) && $_SERVER['argv'][$i+1][0] != '-') {
+                    $value = $_SERVER['argv'][++$i];
+                }
+
+                $args[$key] = is_string($value) ? preg_replace(array('/^["\']/', '/["\']$/'), '', $value) : $value;
+            }
+            else {
+                $args[] = $arg;
+            }
+
+            if ($alias = $aliases[$key]) {
+                $args[$alias] = $args[$key];
+            }
+        }
+
+        return $args;
+    }
+
+    /**
+     * Safe password prompt for command line
+     * from http://blogs.sitepoint.com/2009/05/01/interactive-cli-password-prompt-in-php/
+     *
+     * @return string Password
+     */
+    public static function prompt_silent($prompt = "Password:")
+    {
+        if (preg_match('/^win/i', PHP_OS)) {
+            $vbscript  = sys_get_temp_dir() . 'prompt_password.vbs';
+            $vbcontent = 'wscript.echo(InputBox("' . addslashes($prompt) . '", "", "password here"))';
+            file_put_contents($vbscript, $vbcontent);
+
+            $command  = "cscript //nologo " . escapeshellarg($vbscript);
+            $password = rtrim(shell_exec($command));
+            unlink($vbscript);
+
+            return $password;
+        }
+        else {
+            $command = "/usr/bin/env bash -c 'echo OK'";
+            if (rtrim(shell_exec($command)) !== 'OK') {
+                echo $prompt;
+                $pass = trim(fgets(STDIN));
+                echo chr(8)."\r" . $prompt . str_repeat("*", strlen($pass))."\n";
+                return $pass;
+            }
+
+            $command = "/usr/bin/env bash -c 'read -s -p \"" . addslashes($prompt) . "\" mypassword && echo \$mypassword'";
+            $password = rtrim(shell_exec($command));
+            echo "\n";
+            return $password;
+        }
+    }
 }

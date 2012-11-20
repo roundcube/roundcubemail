@@ -382,3 +382,13 @@ function send_future_expire_header($offset = 2600000)
 {
     return rcmail::get_instance()->output->future_expire_header($offset);
 }
+
+function get_opt($aliases = array())
+{
+    return rcube_utils::get_opt($aliases);
+}
+
+function prompt_silent($prompt = 'Password:')
+{
+    return rcube_utils::prompt_silent($prompt);
+}
