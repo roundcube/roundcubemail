@@ -621,12 +621,12 @@ a.iconbutton.threadmode.selected {
 }
 
 #messagelist tr td div.collapsed {
-	background-position: 0 -1136px;
+	background-position: 0 -1137px;
 	cursor: pointer;
 }
 
 #messagelist tr td div.expanded {
-	background-position: 0 -1156px;
+	background-position: 0 -1157px;
 	cursor: pointer;
 }
 
