@@ -134,12 +134,12 @@ class rcube_utils
             }
 
             // find MX record(s)
-            if (getmxrr($domain_part, $mx_records)) {
+            if (!function_exists('getmxrr') || getmxrr($domain_part, $mx_records)) {
                 return true;
             }
 
             // find any DNS record
-            if (checkdnsrr($domain_part, 'ANY')) {
+            if (!function_exists('checkdnsrr') || checkdnsrr($domain_part, 'ANY')) {
                 return true;
             }
         }
