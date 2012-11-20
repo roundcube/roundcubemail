@@ -88,10 +88,8 @@ init: function()
     this.frame = this.list.parentNode;
 
     // set body events
-    if (this.keyboard) {
-      rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object:this, method:'key_press'});
-      rcube_event.add_listener({event:'keydown', object:this, method:'key_down'});
-    }
+    if (this.keyboard)
+      rcube_event.add_listener({event:'keydown', object:this, method:'key_press'});
   }
 },
 
@@ -1007,6 +1005,14 @@ key_press: function(e)
     case 35: // End
       this.select_last(mod_key);
       return rcube_event.cancel(e);
+    case 27:
+      if (this.drag_active)
+        return this.drag_mouse_up(e);
+      if (this.col_drag_active) {
+        this.selected_column = null;
+        return this.column_drag_mouse_up(e);
+      }
+      return rcube_event.cancel(e);
     default:
       this.key_pressed = keyCode;
       this.modkey = mod_key;
@@ -1015,41 +1021,6 @@ key_press: function(e)
 
       if (this.key_pressed == this.BACKSPACE_KEY)
         return rcube_event.cancel(e);
-  }
-
-  return true;
-},
-
-/**
- * Handler for keydown events
- */
-key_down: function(e)
-{
-  var target = e.target || {};
-  if (this.focused != true || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
-    return true;
-  
-  switch (rcube_event.get_keycode(e)) {
-    case 27:
-      if (this.drag_active)
-      return this.drag_mouse_up(e);
-      if (this.col_drag_active) {
-        this.selected_column = null;
-        return this.column_drag_mouse_up(e);
-      }
-
-    case 40:
-    case 38: 
-    case 63233:
-    case 63232:
-    case 61:
-    case 107:
-    case 109:
-    case 32:
-      if (!rcube_event.get_modifier(e) && this.focused)
-        return rcube_event.cancel(e);
-
-    default:
   }
 
   return true;
