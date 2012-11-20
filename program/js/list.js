@@ -528,6 +528,7 @@ collapse_all: function(row)
   return false;
 },
 
+
 expand_all: function(row)
 {
   var depth, new_row, r;
@@ -562,6 +563,7 @@ expand_all: function(row)
   }
   return false;
 },
+
 
 update_expando: function(uid, expanded)
 {
@@ -735,7 +737,7 @@ select_first: function(mod_key)
 
 
 /**
- * Select last row 
+ * Select last row
  */
 select_last: function(mod_key)
 {
@@ -756,25 +758,13 @@ select_last: function(mod_key)
 /**
  * Add all childs of the given row to selection
  */
-select_childs: function(uid)
+select_children: function(uid)
 {
-  if (!this.rows[uid] || !this.rows[uid].has_children)
-    return;
+  var i, children = this.row_children(uid), len = children.length;
 
-  var depth = this.rows[uid].depth,
-    row = this.rows[uid].obj.nextSibling;
-
-  while (row) {
-    if (row.nodeType == 1) {
-      if ((r = this.rows[row.uid])) {
-        if (!r.depth || r.depth <= depth)
-          break;
-        if (!this.in_selection(r.uid))
-          this.select_row(r.uid, CONTROL_KEY);
-      }
-    }
-    row = row.nextSibling;
-  }
+  for (i=0; i<len; i++)
+    if (!this.in_selection(children[i]))
+      this.select_row(children[i], CONTROL_KEY);
 },
 
 
@@ -932,17 +922,22 @@ get_single_selection: function()
  */
 highlight_row: function(id, multiple)
 {
-  if (this.rows[id] && !multiple) {
+  if (!this.rows[id])
+    return;
+
+  if (!multiple) {
     if (this.selection.length > 1 || !this.in_selection(id)) {
       this.clear_selection();
       this.selection[0] = id;
       $(this.rows[id].obj).addClass('selected');
     }
   }
-  else if (this.rows[id]) {
+  else {
     if (!this.in_selection(id)) { // select row
-      this.selection[this.selection.length] = id;
+      this.selection.push(id);
       $(this.rows[id].obj).addClass('selected');
+      if (!this.rows[id].expanded)
+        this.highlight_children(id, true);
     }
     else { // unselect row
       var p = $.inArray(id, this.selection),
@@ -951,7 +946,25 @@ highlight_row: function(id, multiple)
 
       this.selection = a_pre.concat(a_post);
       $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
+      if (!this.rows[id].expanded)
+        this.highlight_children(id, false);
     }
+  }
+},
+
+
+/**
+ * Highlight/unhighlight all childs of the given row
+ */
+highlight_children: function(id, status)
+{
+  var i, selected,
+    children = this.row_children(id), len = children.length;
+
+  for (i=0; i<len; i++) {
+    selected = this.in_selection(children[i]);
+    if ((status && !selected) || (!status && selected))
+      this.highlight_row(children[i], true);
   }
 },
 
@@ -1102,7 +1115,7 @@ drag_mouse_move: function(e)
     else
       return rcube_event.cancel(e);
   }
-  
+
   if (this.drag_start) {
     // check mouse movement, of less than 3 pixels, don't start dragging
     var m = rcube_event.get_mouse_pos(e);
@@ -1119,8 +1132,8 @@ drag_mouse_move: function(e)
     var n, uid, selection = $.merge([], this.selection);
     for (n in selection) {
       uid = selection[n];
-      if (this.rows[uid].has_children && !this.rows[uid].expanded)
-        this.select_childs(uid);
+      if (!this.rows[uid].expanded)
+        this.select_children(uid);
     }
 
     // reset content
@@ -1337,6 +1350,32 @@ column_drag_mouse_up: function(e)
   this.triggerEvent('column_dragend');
 
   return rcube_event.cancel(e);
+},
+
+
+/**
+ * Returns IDs of all rows in a thread (except root) for specified root
+ */
+row_children: function(uid)
+{
+  if (!this.rows[uid] || !this.rows[uid].has_children)
+    return [];
+
+  var res = [], depth = this.rows[uid].depth,
+    row = this.rows[uid].obj.nextSibling;
+
+  while (row) {
+    if (row.nodeType == 1) {
+      if ((r = this.rows[row.uid])) {
+        if (!r.depth || r.depth <= depth)
+          break;
+        res.push(r.uid);
+      }
+    }
+    row = row.nextSibling;
+  }
+
+  return res;
 },
 
 
