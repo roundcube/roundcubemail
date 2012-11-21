@@ -447,13 +447,15 @@ function rcube_autoload($classname)
             '/Net_(.+)/',
             '/Auth_(.+)/',
             '/^html_.+/',
+            '/^rcube(.*)/',
             '/^utf8$/',
         ),
         array(
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',
-            'html',
+            'Roundcube/html',
+            'Roundcube/rcube\\1',
             'utf8.class',
         ),
         $classname

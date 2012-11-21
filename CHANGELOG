@@ -59,8 +59,8 @@ CHANGELOG Roundcube Webmail
     Replace imap_init hook with storage_init (with additional 'driver' argument)
     Improved performance by caching IMAP server's capabilities in session
     Unified global functions naming (rcube_ prefix)
-    Move global functions from main.inc and rcube_shared.inc into classes
     Better classes separation
+    Framework files moved to lib/Roundcube
 
 RELEASE 0.8.4
 -------------

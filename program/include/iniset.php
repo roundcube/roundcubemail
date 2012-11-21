@@ -58,7 +58,10 @@ if (set_include_path($include_path) === false) {
 @set_time_limit(120);
 
 // include Roundcube Framework
-require_once INSTALL_PATH . 'program/include/bootstrap.php';
+require_once 'Roundcube/bootstrap.php';
+
+// backward compatybility (to be removed)
+require_once INSTALL_PATH . 'program/include/rcmail.php';
 
 // backward compatybility (to be removed)
 require_once INSTALL_PATH . 'program/include/rcube_bc.inc';
