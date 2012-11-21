@@ -103,6 +103,7 @@ $labels['replytoallmessage'] = 'Répondre à tous';
 $labels['replyall'] = 'Répondre à tous';
 $labels['replylist'] = 'Répondre à la liste';
 $labels['forward'] = 'Transférer';
+$labels['forwardmode'] = 'Mode de transmition des messages';
 $labels['forwardinline'] = 'Transférer dans le corps du message';
 $labels['forwardattachment'] = 'Transférer en pièce-jointe';
 $labels['forwardmessage'] = 'Transmettre le message';
