@@ -958,4 +958,20 @@ class rcube_utils
             return $password;
         }
     }
+
+
+    /**
+     * Find out if the string content means true or false
+     *
+     * @param string $str Input value
+     *
+     * @return boolean Boolean value
+     */
+    public static function get_boolean($str)
+    {
+        $str = strtolower($str);
+
+        return !in_array($str, array('false', '0', 'no', 'off', 'nein', ''), true);
+    }
+
 }

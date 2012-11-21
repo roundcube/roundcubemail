@@ -392,3 +392,8 @@ function prompt_silent($prompt = 'Password:')
 {
     return rcube_utils::prompt_silent($prompt);
 }
+
+function get_boolean($str)
+{
+    return rcube_utils::get_boolean($str);
+}

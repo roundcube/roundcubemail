@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_shared.inc                                      |
+ | program/include/bootstrap.php                                         |
  |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -12,20 +12,66 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | CONTENTS:                                                             |
- |   Shared functions used by Roundcube Framework                        |
+ |   Roundcube Framework Initialization                                  |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
 
 /**
- * Roundcube shared functions
+ * Roundcube Framework Initialization
  *
  * @package    Framework
  * @subpackage Core
  */
+
+$config = array(
+    'error_reporting'         => E_ALL &~ (E_NOTICE | E_STRICT),
+    // Some users are not using Installer, so we'll check some
+    // critical PHP settings here. Only these, which doesn't provide
+    // an error/warning in the logs later. See (#1486307).
+    'mbstring.func_overload'  => 0,
+    'suhosin.session.encrypt' => 0,
+    'session.auto_start'      => 0,
+    'file_uploads'            => 1,
+    'magic_quotes_runtime'    => 0,
+    'magic_quotes_sybase'     => 0, // #1488506
+);
+foreach ($config as $optname => $optval) {
+    if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
+        die("ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
+            ."Check your PHP configuration (including php_admin_flag).");
+    }
+}
+
+// application constants
+define('RCMAIL_VERSION', '0.9-git');
+define('RCMAIL_CHARSET', 'UTF-8');
+define('RCMAIL_START', microtime(true));
+
+if (!defined('INSTALL_PATH')) {
+    define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
+}
+
+if (!defined('RCMAIL_CONFIG_DIR')) {
+    define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+}
+
+// set internal encoding for mbstring extension
+if (extension_loaded('mbstring')) {
+    mb_internal_encoding(RCMAIL_CHARSET);
+    @mb_regex_encoding(RCMAIL_CHARSET);
+}
+
+// Register autoloader
+spl_autoload_register('rcube_autoload');
+
+// set PEAR error handling (will also load the PEAR main class)
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
+
 
 
 /**
@@ -46,21 +92,6 @@ function in_array_nocase($needle, $haystack)
     }
 
     return false;
-}
-
-
-/**
- * Find out if the string content means true or false
- *
- * @param string $str  Input value
- *
- * @return boolean Boolean value
- */
-function get_boolean($str)
-{
-    $str = strtolower($str);
-
-    return !in_array($str, array('false', '0', 'no', 'off', 'nein', ''), true);
 }
 
 
@@ -114,32 +145,6 @@ function slashify($str)
 function unslashify($str)
 {
   return preg_replace('/\/+$/', '', $str);
-}
-
-
-/**
- * Delete all files within a folder
- *
- * @param string Path to directory
- *
- * @return boolean True on success, False if directory was not found
- */
-function clear_directory($dir_path)
-{
-    $dir = @opendir($dir_path);
-    if (!$dir) {
-        return false;
-    }
-
-    while ($file = readdir($dir)) {
-        if (strlen($file) > 2) {
-            unlink("$dir_path/$file");
-        }
-    }
-
-    closedir($dir);
-
-    return true;
 }
 
 

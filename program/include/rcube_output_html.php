@@ -763,7 +763,7 @@ class rcube_output_html extends rcube_output
             ),
             array(
                 "\$_SESSION['\\1']",
-                "\$this->app->config->get('\\1',get_boolean('\\3'))",
+                "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
                 "\$this->env['\\1']",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
                 "\$_COOKIE['\\1']",
@@ -835,7 +835,7 @@ class rcube_output_html extends rcube_output
                     unset($vars['name'], $vars['command']);
 
                     $label   = $this->app->gettext($attrib + array('vars' => $vars));
-                    $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (get_boolean((string)$attrib['html']) ? 'no' : '');
+                    $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (rcube_utils::get_boolean((string)$attrib['html']) ? 'no' : '');
 
                     switch ($quoting) {
                         case 'no':
