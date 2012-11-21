@@ -64,4 +64,4 @@ require_once 'Roundcube/bootstrap.php';
 require_once INSTALL_PATH . 'program/include/rcmail.php';
 
 // backward compatybility (to be removed)
-require_once INSTALL_PATH . 'program/include/rcube_bc.inc';
+require_once INSTALL_PATH . 'program/include/bc.php';
