@@ -1198,7 +1198,7 @@ function rcmail_message_body($attrib)
       }
 
       // Content-Type: image/*...
-      if (rcmail_part_image_type($attach_prop)) {
+      if ($mimetype = rcmail_part_image_type($attach_prop)) {
         // display thumbnails
         if ($thumbnail_size) {
           $show_link = array(
@@ -1207,7 +1207,7 @@ function rcmail_message_body($attrib)
               'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
               JS_OBJECT_NAME,
               $attach_prop->mime_id,
-              rcmail_fix_mimetype($attach_prop->mimetype))
+              $mimetype)
           );
           $out .= html::p('image-attachment',
              html::a($show_link + array('class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)),
@@ -1222,7 +1222,7 @@ function rcmail_message_body($attrib)
             html::span('image-filename', Q($attach_prop->filename)) .
             html::span('image-filesize', Q($RCMAIL->message_part_size($attach_prop))) .
             html::span('attachment-links',
-              (in_array($attach_prop->mimetype, $client_mimetypes) ? html::a($show_link, rcube_label('showattachment')) . '&nbsp;' : '') .
+              (in_array($mimetype, $client_mimetypes) ? html::a($show_link, rcube_label('showattachment')) . '&nbsp;' : '') .
               html::a($show_link['href'] . '&_download=1', rcube_label('download'))
             ) .
             html::br(array('style' => 'clear:both'))
