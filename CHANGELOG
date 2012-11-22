@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix cache (in)validation after setting \Deleted flag
 - Fix keybord events on messages list in opera browser (#1488823)
 
 RELEASE 0.8.4

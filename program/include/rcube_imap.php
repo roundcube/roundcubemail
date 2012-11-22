@@ -2172,10 +2172,10 @@ class rcube_imap extends rcube_storage
             $result = $this->conn->flag($folder, $uids, $flag);
         }
 
-        if ($result) {
+        if ($result && !$skip_cache) {
             // reload message headers if cached
-            // @TODO: update flags instead removing from cache
-            if (!$skip_cache && ($mcache = $this->get_mcache_engine())) {
+            // update flags instead removing from cache
+            if ($mcache = $this->get_mcache_engine()) {
                 $status = strpos($flag, 'UN') !== 0;
                 $mflag  = preg_replace('/^UN/', '', $flag);
                 $mcache->change_flag($folder, $all_mode ? null : explode(',', $uids),
@@ -2187,8 +2187,12 @@ class rcube_imap extends rcube_storage
                 $this->clear_messagecount($folder, 'SEEN');
                 $this->clear_messagecount($folder, 'UNSEEN');
             }
-            else if ($flag == 'DELETED') {
+            else if ($flag == 'DELETED' || $flag == 'UNDELETED') {
                 $this->clear_messagecount($folder, 'DELETED');
+                // remove cached messages
+                if ($this->options['skip_deleted']) {
+                    $this->clear_message_cache($folder, $all_mode ? null : explode(',', $uids));
+                }
             }
         }
 
