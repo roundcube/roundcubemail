@@ -52,7 +52,7 @@ else {
 
     // find writable addressbook
     if (!$CONTACTS || $CONTACTS->readonly)
-        $source = rcmail_default_source(true);
+        $source = $RCMAIL->get_address_book(-1, true);
 
     // Initialize addressbook
     $CONTACTS = rcmail_contact_source($source, true);
@@ -239,7 +239,7 @@ function rcmail_source_selector($attrib)
 {
     global $RCMAIL, $SOURCE_ID;
 
-    $sources_list = $RCMAIL->get_address_sources(true);
+    $sources_list = $RCMAIL->get_address_sources(true, true);
 
     if (count($sources_list) < 2) {
         $source = $sources_list[$SOURCE_ID];

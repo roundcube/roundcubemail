@@ -695,7 +695,7 @@ function rcmail_user_prefs($current=null)
     );
 
     if (!isset($no_override['default_addressbook'])
-      && ($books = $RCMAIL->get_address_sources(true))
+      && ($books = $RCMAIL->get_address_sources(true, true))
     ) {
       $field_id = 'rcmfd_default_addressbook';
       $select_abook = new html_select(array('name' => '_default_addressbook', 'id' => $field_id));
