@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.8.4
+-------------
 - Fix XSS vulnerability in handling of text/enriched messages (#1488806)
 - Fix handling of 'media' attribute on linked css (#1488789)
 - Fix regression where unintentional page reload was done after request abort (#1488802)
