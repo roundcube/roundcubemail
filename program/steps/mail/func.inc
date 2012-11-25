@@ -1050,10 +1050,10 @@ function rcmail_localized_priority($value)
     '4' => 'low',
     '5' => 'lowest',
   );
-  
+
   if ($value && $labels_map[$value])
     return rcube_label($labels_map[$value]);
-    
+
   return '';
 }
 
@@ -1392,7 +1392,9 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     $mailto = rcube_idn_to_utf8($mailto);
 
     if ($PRINT_MODE) {
-      $out .= sprintf('%s &lt;%s&gt;', Q($name), $mailto);
+      $out .= ($out ? ', ' : '') . sprintf('%s &lt;%s&gt;', Q($name), $mailto);
+      // for printing we display all addresses
+      continue;
     }
     else if (check_email($part['mailto'], false)) {
       if ($linked) {
