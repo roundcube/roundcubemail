@@ -207,14 +207,22 @@ class rcmail extends rcube
       }
     }
 
+    // when user requested default writeable addressbook
+    // we need to check if default is writeable, if not we
+    // will return first writeable book (if any exist)
+    if ($contacts && $default && $contacts->readonly && $writeable) {
+      $contacts = null;
+    }
+
     // Get first addressbook from the list if configured default doesn't exist
     // This can happen when user deleted the addressbook (e.g. Kolab folder)
     if (!$contacts && (!$id || $default)) {
-      $source = reset($this->get_address_sources($writeable));
+      $source = reset($this->get_address_sources($writeable, !$default));
       if (!empty($source)) {
         $contacts = $this->get_address_book($source['id']);
-        if ($contacts)
+        if ($contacts) {
           $id = $source['id'];
+        }
       }
     }
 
@@ -226,16 +234,17 @@ class rcmail extends rcube
         true, true);
     }
 
+    // add to the 'books' array for shutdown function
+    $this->address_books[$id] = $contacts;
+
     if ($writeable && $contacts->readonly) {
       return null;
     }
 
     // set configured sort order
-    if ($sort_col = $this->config->get('addressbook_sort_col'))
+    if ($sort_col = $this->config->get('addressbook_sort_col')) {
         $contacts->set_sort_order($sort_col);
-
-    // add to the 'books' array for shutdown function
-    $this->address_books[$id] = $contacts;
+    }
 
     return $contacts;
   }
@@ -245,10 +254,11 @@ class rcmail extends rcube
    * Return address books list
    *
    * @param boolean True if the address book needs to be writeable
+   * @param boolean True if the address book needs to be not hidden
    *
    * @return array  Address books array
    */
-  public function get_address_sources($writeable = false)
+  public function get_address_sources($writeable = false, $skip_hidden = false)
   {
     $abook_type = strtolower($this->config->get('address_book_type'));
     $ldap_config = $this->config->get('ldap_public');
@@ -292,11 +302,17 @@ class rcmail extends rcube
 
     foreach ($list as $idx => $item) {
       // register source for shutdown function
-      if (!is_object($this->address_books[$item['id']]))
+      if (!is_object($this->address_books[$item['id']])) {
         $this->address_books[$item['id']] = $item;
+      }
       // remove from list if not writeable as requested
-      if ($writeable && $item['readonly'])
+      if ($writeable && $item['readonly']) {
           unset($list[$idx]);
+      }
+      // remove from list if hidden as requested
+      else if ($skip_hidden && $item['hidden']) {
+          unset($list[$idx]);
+      }
     }
 
     return $list;

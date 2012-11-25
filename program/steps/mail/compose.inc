@@ -1615,7 +1615,7 @@ function rcmail_addressbook_list($attrib = array())
             'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list-adresses','%s',this)"), '%s'));
 
-    foreach ($RCMAIL->get_address_sources() as $j => $source) {
+    foreach ($RCMAIL->get_address_sources(false, true) as $j => $source) {
         $id = strval(strlen($source['id']) ? $source['id'] : $j);
         $js_id = JQ($id);
 

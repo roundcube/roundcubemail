@@ -160,17 +160,6 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
 }
 
 
-function rcmail_default_source($writable=false)
-{
-    global $RCMAIL;
-
-    // get list of address sources
-    $first = reset($RCMAIL->get_address_sources($writable));
-
-    // use first directory by default
-    return $first['id'];
-}
-
 function rcmail_set_sourcename($abook)
 {
     global $OUTPUT;
