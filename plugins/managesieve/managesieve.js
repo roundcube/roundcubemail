@@ -373,7 +373,7 @@ rcube_webmail.prototype.load_managesieveframe = function(id)
     target = window.frames[this.env.contentframe];
     var msgid = this.set_busy(true, 'loading');
     target.location.href = this.env.comm_path+'&_action=plugin.managesieve&_framed=1'
-      +(id ? '&_fid='+id : '')+'&_unlock='+msgid;
+      +(has_id ? '&_fid='+id : '')+'&_unlock='+msgid;
   }
 };
 
