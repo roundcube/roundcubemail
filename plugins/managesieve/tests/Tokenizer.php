@@ -5,7 +5,7 @@ class Tokenizer extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../lib/rcube_sieve_script.php';
+        include_once dirname(__FILE__) . '/../lib/Roundcube/rcube_sieve_script.php';
     }
 
     function data_tokenizer()
