@@ -40,8 +40,8 @@ ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 ini_set('display_errors', 1);
 
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../').'/');
-define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
-define('RCMAIL_CHARSET', 'UTF-8');
+define('RCUBE_INSTALL_PATH', INSTALL_PATH);
+define('RCUBE_CONFIG_DIR', INSTALL_PATH . 'config');
 
 $include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
 $include_path .= INSTALL_PATH . 'program' . PATH_SEPARATOR;
@@ -50,10 +50,10 @@ $include_path .= ini_get('include_path');
 
 set_include_path($include_path);
 
-require_once 'utils.php';
-require_once 'rcube_shared.inc';
+require_once 'Roundcube/bootstrap.php';
+require_once 'rcube_install.php';
 // deprecated aliases (to be removed)
-require_once 'rcube_bc.inc';
+require_once 'bc.php';
 
 session_start();
 
@@ -123,7 +123,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
   if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
     // header("HTTP/1.0 404 Not Found");
     echo '<h2 class="error">The installer is disabled!</h2>';
-    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in RCMAIL_CONFIG_DIR/main.inc.php</p>';
+    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/main.inc.php</p>';
     echo '</div></body></html>';
     exit;
   }
