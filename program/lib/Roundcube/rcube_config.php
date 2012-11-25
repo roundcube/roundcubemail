@@ -71,11 +71,11 @@ class rcube_config
     private function load()
     {
         // load main config file
-        if (!$this->load_from_file(RCUBE_CONFIG_DIR . '/main.inc.php'))
+        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php'))
             $this->errors[] = 'main.inc.php was not found.';
 
         // load database config
-        if (!$this->load_from_file(RCUBE_CONFIG_DIR . '/db.inc.php'))
+        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'db.inc.php'))
             $this->errors[] = 'db.inc.php was not found.';
 
         // load host-specific configuration
@@ -156,7 +156,7 @@ class rcube_config
         }
 
         if ($fname) {
-            $this->load_from_file(RCUBE_CONFIG_DIR . '/' . $fname);
+            $this->load_from_file(RCUBE_CONFIG_DIR . $fname);
         }
     }
 

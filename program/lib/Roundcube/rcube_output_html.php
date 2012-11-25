@@ -1760,7 +1760,7 @@ class rcube_output_html extends rcube_output
             'about.html',
         );
         foreach ($filenames as $file) {
-            $fn = RCUBE_CONFIG_DIR . '/' . $file;
+            $fn = RCUBE_CONFIG_DIR . $file;
             if (is_readable($fn)) {
                 $content = file_get_contents($fn);
                 $content = $this->parse_conditions($content);

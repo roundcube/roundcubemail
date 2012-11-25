@@ -109,12 +109,12 @@ class rcube_install
    */
   function _load_config($suffix)
   {
-    if (is_readable($main_inc = RCUBE_CONFIG_DIR . '/main.inc' . $suffix)) {
+    if (is_readable($main_inc = RCUBE_CONFIG_DIR . 'main.inc' . $suffix)) {
       include($main_inc);
       if (is_array($rcmail_config))
         $this->config += $rcmail_config;
     }
-    if (is_readable($db_inc = RCUBE_CONFIG_DIR . '/db.inc'. $suffix)) {
+    if (is_readable($db_inc = RCUBE_CONFIG_DIR . 'db.inc'. $suffix)) {
       include($db_inc);
       if (is_array($rcmail_config))
         $this->config += $rcmail_config;
@@ -149,7 +149,7 @@ class rcube_install
    */
   function create_config($which, $force = false)
   {
-    $out = @file_get_contents(RCUBE_CONFIG_DIR . "/{$which}.inc.php.dist");
+    $out = @file_get_contents(RCUBE_CONFIG_DIR . $which . '.inc.php.dist');
 
     if (!$out)
       return '[Warning: could not read the config template file]';
