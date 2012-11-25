@@ -30,7 +30,7 @@ function rcmail_import_form($attrib)
 
   $attrib += array('id' => "rcmImportForm");
 
-  $writable_books = $RCMAIL->get_address_sources(true);
+  $writable_books = $RCMAIL->get_address_sources(true, true);
 
   $upload = new html_inputfield(array(
     'type' => 'file',
