@@ -370,6 +370,10 @@ class rcube_plugin_api
    */
   public function register_task($task, $owner)
   {
+    // tasks are irrelevant in framework mode
+    if (!class_exists('rcmail', false))
+      return true;
+
     if ($task != asciiwords($task)) {
       rcube::raise_error(array('code' => 526, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
