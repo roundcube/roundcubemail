@@ -1,5 +1,6 @@
 - Fixed filter activation/deactivation confirmation message (#1488765)
 - Moved rcube_* classes to <plugin>/lib/Roundcube for compat. with Roundcube Framework autoloader
+- Fixed filter selection after filter deletion (#1488832)
 
 * version 6.0 [2012-10-03]
 -----------------------------------------------------------
