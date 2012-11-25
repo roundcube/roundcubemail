@@ -20,8 +20,8 @@
 */
 
 // location where plugins are loade from
-if (!defined('RCMAIL_PLUGINS_DIR'))
-  define('RCMAIL_PLUGINS_DIR', INSTALL_PATH . 'plugins/');
+if (!defined('RCUBE_PLUGINS_DIR'))
+  define('RCUBE_PLUGINS_DIR', RCUBE_INSTALL_PATH . 'plugins/');
 
 
 /**
@@ -101,7 +101,7 @@ class rcube_plugin_api
    */
   protected function __construct()
   {
-    $this->dir = slashify(RCMAIL_PLUGINS_DIR);
+    $this->dir = slashify(RCUBE_PLUGINS_DIR);
   }
 
 

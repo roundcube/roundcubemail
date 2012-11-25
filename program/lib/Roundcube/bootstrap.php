@@ -52,12 +52,24 @@ define('RCMAIL_VERSION', '0.9-git');
 define('RCMAIL_CHARSET', 'UTF-8');
 define('RCMAIL_START', microtime(true));
 
-if (!defined('INSTALL_PATH')) {
-    define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
+if (!defined('RCUBE_LIB_DIR')) {
+    define('RCUBE_LIB_DIR', dirname(__FILE__).'/');
 }
 
-if (!defined('RCMAIL_CONFIG_DIR')) {
-    define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+if (!defined('RCUBE_INSTALL_PATH')) {
+    define('RCUBE_INSTALL_PATH', RCUBE_LIB_DIR);
+}
+
+if (!defined('RCUBE_CONFIG_DIR')) {
+    define('RCUBE_CONFIG_DIR', RCUBE_INSTALL_PATH . 'config');
+}
+
+if (!defined('RCUBE_PLUGINS_DIR')) {
+    define('RCUBE_PLUGINS_DIR', RCUBE_INSTALL_PATH . 'plugins/');
+}
+
+if (!defined('RCUBE_LOCALIZATION_DIR')) {
+    define('RCUBE_LOCALIZATION_DIR', RCUBE_INSTALL_PATH . 'localization/');
 }
 
 // set internal encoding for mbstring extension

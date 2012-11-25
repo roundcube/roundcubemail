@@ -244,8 +244,8 @@ class rcube_csv2vcard
     {
         // Localize fields map
         if ($lang && $lang != 'en_US') {
-            if (file_exists(INSTALL_PATH . "program/localization/$lang/csv2vcard.inc")) {
-                include INSTALL_PATH . "program/localization/$lang/csv2vcard.inc";
+            if (file_exists(RCUBE_LOCALIZATION_DIR . "$lang/csv2vcard.inc")) {
+                include RCUBE_LOCALIZATION_DIR . "$lang/csv2vcard.inc";
             }
 
             if (!empty($map)) {

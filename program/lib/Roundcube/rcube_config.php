@@ -71,11 +71,11 @@ class rcube_config
     private function load()
     {
         // load main config file
-        if (!$this->load_from_file(RCMAIL_CONFIG_DIR . '/main.inc.php'))
+        if (!$this->load_from_file(RCUBE_CONFIG_DIR . '/main.inc.php'))
             $this->errors[] = 'main.inc.php was not found.';
 
         // load database config
-        if (!$this->load_from_file(RCMAIL_CONFIG_DIR . '/db.inc.php'))
+        if (!$this->load_from_file(RCUBE_CONFIG_DIR . '/db.inc.php'))
             $this->errors[] = 'db.inc.php was not found.';
 
         // load host-specific configuration
@@ -96,8 +96,8 @@ class rcube_config
             $this->prop['skin'] = self::DEFAULT_SKIN;
 
         // fix paths
-        $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : INSTALL_PATH . 'logs';
-        $this->prop['temp_dir'] = $this->prop['temp_dir'] ? realpath(unslashify($this->prop['temp_dir'])) : INSTALL_PATH . 'temp';
+        $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : RCUBE_INSTALL_PATH . 'logs';
+        $this->prop['temp_dir'] = $this->prop['temp_dir'] ? realpath(unslashify($this->prop['temp_dir'])) : RCUBE_INSTALL_PATH . 'temp';
 
         // fix default imap folders encoding
         foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
@@ -156,7 +156,7 @@ class rcube_config
         }
 
         if ($fname) {
-            $this->load_from_file(RCMAIL_CONFIG_DIR . '/' . $fname);
+            $this->load_from_file(RCUBE_CONFIG_DIR . '/' . $fname);
         }
     }
 

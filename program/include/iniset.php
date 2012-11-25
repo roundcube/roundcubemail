@@ -43,6 +43,14 @@ if (!defined('RCMAIL_CONFIG_DIR')) {
     define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
 }
 
+if (!defined('RCUBE_LOCALIZATION_DIR')) {
+    define('RCUBE_LOCALIZATION_DIR', INSTALL_PATH . 'program/localization/');
+}
+
+define('RCUBE_INSTALL_PATH', INSTALL_PATH);
+define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR);
+
+
 // RC include folders MUST be included FIRST to avoid other
 // possible not compatible libraries (i.e PEAR) to be included
 // instead the ones provided by RC

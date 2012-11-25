@@ -592,7 +592,7 @@ class rcube_output_html extends rcube_output
         $ERROR_CODE    = $code;
         $ERROR_MESSAGE = $message;
 
-        include INSTALL_PATH . 'program/steps/utils/error.inc';
+        include RCUBE_INSTALL_PATH . 'program/steps/utils/error.inc';
         exit;
     }
 
@@ -921,11 +921,11 @@ class rcube_output_html extends rcube_output
                 }
                 else if ($object == 'version') {
                     $ver = (string)RCMAIL_VERSION;
-                    if (is_file(INSTALL_PATH . '.svn/entries')) {
+                    if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (preg_match('/Revision:\s(\d+)/', @shell_exec('svn info'), $regs))
                           $ver .= ' [SVN r'.$regs[1].']';
                     }
-                    else if (is_file(INSTALL_PATH . '.git/index')) {
+                    else if (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
                         if (preg_match('/Date:\s+([^\n]+)/', @shell_exec('git log -1'), $regs)) {
                             if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
                                 $ver .= ' [GIT '.$date.']';
@@ -1760,7 +1760,7 @@ class rcube_output_html extends rcube_output
             'about.html',
         );
         foreach ($filenames as $file) {
-            $fn = RCMAIL_CONFIG_DIR . '/' . $file;
+            $fn = RCUBE_CONFIG_DIR . '/' . $file;
             if (is_readable($fn)) {
                 $content = file_get_contents($fn);
                 $content = $this->parse_conditions($content);

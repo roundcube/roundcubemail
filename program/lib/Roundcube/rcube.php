@@ -596,8 +596,8 @@ class rcube
             ob_start();
 
             // get english labels (these should be complete)
-            @include(INSTALL_PATH . 'program/localization/en_US/labels.inc');
-            @include(INSTALL_PATH . 'program/localization/en_US/messages.inc');
+            @include(RCUBE_LOCALIZATION_DIR . 'en_US/labels.inc');
+            @include(RCUBE_LOCALIZATION_DIR . 'en_US/messages.inc');
 
             if (is_array($labels))
                 $this->texts = $labels;
@@ -605,9 +605,9 @@ class rcube
                 $this->texts = array_merge($this->texts, $messages);
 
             // include user language files
-            if ($lang != 'en' && $lang != 'en_US' && is_dir(INSTALL_PATH . 'program/localization/' . $lang)) {
-                include_once(INSTALL_PATH . 'program/localization/' . $lang . '/labels.inc');
-                include_once(INSTALL_PATH . 'program/localization/' . $lang . '/messages.inc');
+            if ($lang != 'en' && $lang != 'en_US' && is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
+                include_once(RCUBE_LOCALIZATION_DIR . $lang . '/labels.inc');
+                include_once(RCUBE_LOCALIZATION_DIR . $lang . '/messages.inc');
 
                 if (is_array($labels))
                     $this->texts = array_merge($this->texts, $labels);
@@ -645,7 +645,7 @@ class rcube
         }
 
         if (empty($rcube_languages)) {
-            @include(INSTALL_PATH . 'program/localization/index.inc');
+            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
         }
 
         // check if we have an alias for that language
@@ -666,7 +666,7 @@ class rcube
             }
         }
 
-        if (!isset($rcube_languages[$lang]) || !is_dir(INSTALL_PATH . 'program/localization/' . $lang)) {
+        if (!isset($rcube_languages[$lang]) || !is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
             $lang = 'en_US';
         }
 
@@ -684,11 +684,11 @@ class rcube
         static $sa_languages = array();
 
         if (!sizeof($sa_languages)) {
-            @include(INSTALL_PATH . 'program/localization/index.inc');
+            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
 
-            if ($dh = @opendir(INSTALL_PATH . 'program/localization')) {
+            if ($dh = @opendir(RCUBE_LOCALIZATION_DIR)) {
                 while (($name = readdir($dh)) !== false) {
-                    if ($name[0] == '.' || !is_dir(INSTALL_PATH . 'program/localization/' . $name)) {
+                    if ($name[0] == '.' || !is_dir(RCUBE_LOCALIZATION_DIR . $name)) {
                         continue;
                     }
 
@@ -1017,7 +1017,7 @@ class rcube
         $log_dir  = self::$instance ? self::$instance->config->get('log_dir') : null;
 
         if (empty($log_dir)) {
-            $log_dir = INSTALL_PATH . 'logs';
+            $log_dir = RCUBE_INSTALL_PATH . 'logs';
         }
 
         // try to open specific log file for writing
