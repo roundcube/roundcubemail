@@ -59,7 +59,7 @@ class rcube_virtualmin_password
         $username = escapeshellcmd($username);
         $domain   = escapeshellcmd($domain);
         $newpass  = escapeshellcmd($newpass);
-        $curdir   = INSTALL_PATH . 'plugins/password/helpers';
+        $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
 
         exec("$curdir/chgvirtualminpasswd modify-user --domain $domain --user $username --pass $newpass", $output, $returnvalue);
 

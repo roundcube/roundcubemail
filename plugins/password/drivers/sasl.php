@@ -20,7 +20,7 @@ class rcube_sasl_password
 {
     function save($currpass, $newpass)
     {
-        $curdir   = INSTALL_PATH . 'plugins/password/helpers';
+        $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellcmd($_SESSION['username']);
         $args     = rcmail::get_instance()->config->get('password_saslpasswd_args', '');
 
