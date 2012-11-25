@@ -20,6 +20,10 @@
  +-----------------------------------------------------------------------+
 */
 
+// application constants
+define('RCMAIL_VERSION', '0.9-git');
+define('RCMAIL_START', microtime(true));
+
 $config = array(
     // Some users are not using Installer, so we'll check some
     // critical PHP settings here. Only these, which doesn't provide

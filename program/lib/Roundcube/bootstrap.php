@@ -47,10 +47,9 @@ foreach ($config as $optname => $optval) {
     }
 }
 
-// application constants
-define('RCMAIL_VERSION', '0.9-git');
+// framework constants
+define('RCUBE_VERSION', '0.9-git');
 define('RCMAIL_CHARSET', 'UTF-8');
-define('RCMAIL_START', microtime(true));
 
 if (!defined('RCUBE_LIB_DIR')) {
     define('RCUBE_LIB_DIR', dirname(__FILE__).'/');
