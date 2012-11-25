@@ -919,6 +919,7 @@ div.hide-headers {
 }
 
 #messagebody {
+	position: relative;
 	margin: 8px;
 }
 

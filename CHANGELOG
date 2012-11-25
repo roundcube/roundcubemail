@@ -1,8 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix cache (in)validation after setting \Deleted flag
+- Fix absolute positioning in HTML messages (#1488819)
 - Fix keybord events on messages list in opera browser (#1488823)
+- Fix cache (in)validation after setting \Deleted flag
 - Fix selection of collapsed thread rows (#1488772)
 - Fix wrapping of quoted text with format=flowed (#1488177)
 
