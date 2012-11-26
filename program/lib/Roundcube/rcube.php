@@ -1220,6 +1220,22 @@ class rcube
             return $this->user->get_username('mail');
         }
     }
+
+
+    /**
+     * Getter for logged user password.
+     *
+     * @return string User password
+     */
+    public function get_user_password()
+    {
+        if ($this->password) {
+            return $this->password;
+        }
+        else if ($_SESSION['password']) {
+            return $this->decrypt($_SESSION['password']);
+        }
+    }
 }
 
 
