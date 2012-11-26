@@ -1203,8 +1203,22 @@ class rcube
         if (is_object($this->user)) {
             return $this->user->get_username();
         }
+        else if (isset($_SESSION['username'])) {
+            return $_SESSION['username'];
+        }
+    }
 
-        return null;
+
+    /**
+     * Getter for logged user email (derived from user name not identity).
+     *
+     * @return string User email address
+     */
+    public function get_user_email()
+    {
+        if (is_object($this->user)) {
+            return $this->user->get_username('mail');
+        }
     }
 }
 

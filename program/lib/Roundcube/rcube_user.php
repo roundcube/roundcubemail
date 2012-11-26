@@ -86,12 +86,17 @@ class rcube_user
     /**
      * Build a user name string (as e-mail address)
      *
-     * @param  string $part Username part (empty or 'local' or 'domain')
+     * @param  string $part Username part (empty or 'local' or 'domain', 'mail')
      * @return string Full user name or its part
      */
     function get_username($part = null)
     {
         if ($this->data['username']) {
+            // return real name
+            if (!$part) {
+                return $this->data['username'];
+            }
+
             list($local, $domain) = explode('@', $this->data['username']);
 
             // at least we should always have the local part

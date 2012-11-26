@@ -164,7 +164,7 @@ class password extends rcube_plugin
                 // Log password change
                 if ($rcmail->config->get('password_log')) {
                     write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
-                        $rcmail->user->get_username(), $rcmail->user->ID, rcmail_remote_ip()));
+                        $rcmail->get_user_name(), $rcmail->user->ID, rcmail_remote_ip()));
                 }
             }
             else {

@@ -42,8 +42,9 @@ else {
     rcmail_overwrite_action('identities');
     return;
   }
-  else if (IDENTITIES_LEVEL == 1)
-    $IDENTITY_RECORD['email'] = $RCMAIL->user->get_username();
+  else if (IDENTITIES_LEVEL == 1) {
+    $IDENTITY_RECORD['email'] = $RCMAIL->get_user_email();
+  }
 }
 
 

@@ -107,8 +107,9 @@ if ($_POST['_iid'])
 // insert a new identity record
 else if (IDENTITIES_LEVEL < 2)
 {
-  if (IDENTITIES_LEVEL == 1)
-    $save_data['email'] = $RCMAIL->user->get_username();
+  if (IDENTITIES_LEVEL == 1) {
+    $save_data['email'] = $RCMAIL->get_user_email();
+  }
 
   $plugin = $RCMAIL->plugins->exec_hook('identity_create', array('record' => $save_data));
   $save_data = $plugin['record'];
