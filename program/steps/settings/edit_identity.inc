@@ -97,6 +97,13 @@ function rcube_identity_form($attrib)
     $form['addressing']['content']['email']['class'] = 'disabled';
   }
 
+  if (IDENTITIES_LEVEL == 4) {
+    foreach($form['addressing']['content'] as $formfield => $value){
+      $form['addressing']['content'][$formfield]['disabled'] = true;
+      $form['addressing']['content'][$formfield]['class'] = 'disabled';
+    }
+  }
+
   $IDENTITY_RECORD['email'] = rcube_idn_to_utf8($IDENTITY_RECORD['email']);
 
   // Allow plugins to modify identity form content
