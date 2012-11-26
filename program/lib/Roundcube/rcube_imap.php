@@ -141,10 +141,10 @@ class rcube_imap extends rcube_storage
             $this->set_debug(true);
 
             $this->options['ident'] = array(
-                'name' => 'Roundcube Webmail',
-                'version' => RCMAIL_VERSION,
-                'php' => PHP_VERSION,
-                'os' => PHP_OS,
+                'name'    => 'Roundcube',
+                'version' => RCUBE_VERSION,
+                'php'     => PHP_VERSION,
+                'os'      => PHP_OS,
                 'command' => $_SERVER['REQUEST_URI'],
             );
         }
