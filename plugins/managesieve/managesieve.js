@@ -231,24 +231,31 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
     // Delete filter row
     case 'del':
-      var i, list = this.filters_list, rows = list.rows;
+      var i = 0, list = this.filters_list;
 
       list.remove_row(this.managesieve_rowid(o.id));
       list.clear_selection();
       this.show_contentframe(false);
       this.enable_command('plugin.managesieve-del', 'plugin.managesieve-act', false);
 
-      // re-numbering filters
-      for (i=0; i<rows.length; i++) {
-        if (rows[i] != null && rows[i].uid > o.id)
-          rows[i].uid = rows[i].uid-1;
-      }
+      // filter identifiers changed, fix the list
+      $('tr', this.filters_list.list).each(function() {
+        // remove hidden (deleted) rows
+        if (this.style.display == 'none') {
+          $(this).detach();
+          return;
+        }
+
+        // modify ID and remove all attached events
+        $(this).attr('id', 'rcmrow'+(i++)).unbind();
+      });
+      list.init();
 
       break;
 
     // Update filter row
     case 'update':
-      var i, row = $('#rcmrow'+o.id);
+      var i, row = $('#rcmrow'+this.managesieve_rowid(o.id));
 
       if (o.name)
         $('td', row).html(o.name);
