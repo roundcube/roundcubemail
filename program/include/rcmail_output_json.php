@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rc,aiö_output_json.php                                |
+ | program/include/rcmail_output_json.php                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |

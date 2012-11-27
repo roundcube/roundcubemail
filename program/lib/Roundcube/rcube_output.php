@@ -31,7 +31,7 @@ abstract class rcube_output
 
     protected $app;
     protected $config;
-    protected $charset = RCMAIL_CHARSET;
+    protected $charset = RCUBE_CHARSET;
     protected $env = array();
 
 
