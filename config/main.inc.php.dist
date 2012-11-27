@@ -356,7 +356,7 @@ $rcmail_config['identities_level'] = 0;
 $rcmail_config['client_mimetypes'] = null;  # null == default
 
 // mime magic database
-$rcmail_config['mime_magic'] = '/usr/share/misc/magic';
+$rcmail_config['mime_magic'] = null;
 
 // path to imagemagick identify binary
 $rcmail_config['im_identify_path'] = null;
