@@ -363,8 +363,14 @@ $rcmail_config['identities_level'] = 0;
 // either a comma-separated list or an array: 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/pdf'
 $rcmail_config['client_mimetypes'] = null;  # null == default
 
-// mime magic database
-$rcmail_config['mime_magic'] = '/usr/share/misc/magic';
+// Path to a local mime magic database file for PHPs finfo extension.
+// Set to null if the default path should be used.
+$rcmail_config['mime_magic'] = null;
+
+// Path to local mime.types mapping table.
+// This is used to derive mime-types from the filename extension or vice versa.
+// Such a file is usually part of the apache webserver.
+$rcmail_config['mime_types'] = null;
 
 // path to imagemagick identify binary
 $rcmail_config['im_identify_path'] = null;

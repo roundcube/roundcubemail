@@ -641,21 +641,22 @@ class rcube_mime
     /**
      * A method to guess the mime_type of an attachment.
      *
-     * @param string $path      Path to the file.
+     * @param string $path      Path to the file or file contents
      * @param string $name      File name (with suffix)
-     * @param string $failover  Mime type supplied for failover.
-     * @param string $is_stream Set to True if $path contains file body
+     * @param string $failover  Mime type supplied for failover
+     * @param boolean $is_stream   Set to True if $path contains file contents
+     * @param boolean $skip_suffix Set to True if the config/mimetypes.php mappig should be ignored
      *
      * @return string
      * @author Till Klampaeckel <till@php.net>
      * @see    http://de2.php.net/manual/en/ref.fileinfo.php
      * @see    http://de2.php.net/mime_content_type
      */
-    public static function file_content_type($path, $name, $failover = 'application/octet-stream', $is_stream = false)
+    public static function file_content_type($path, $name, $failover = 'application/octet-stream', $is_stream = false, $skip_suffix = false)
     {
         $mime_type = null;
         $mime_magic = rcube::get_instance()->config->get('mime_magic');
-        $mime_ext = @include RCUBE_CONFIG_DIR . '/mimetypes.php';
+        $mime_ext = $skip_suffix ? null : @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
 
         // use file name suffix with hard-coded mime-type map
         if (is_array($mime_ext) && $name) {
@@ -691,6 +692,70 @@ class rcube_mime
         }
 
         return $mime_type;
+    }
+
+
+    /**
+     * Get mimetype => file extension mapping
+     *
+     * @param string  Mime-Type to get extensions for
+     * @return array  List of extensions matching the given mimetype or a hash array with ext -> mimetype mappings if $mimetype is not given
+     */
+    public static function get_mime_extensions($mimetype = null)
+    {
+        static $mime_types, $mime_extensions;
+
+        // return cached data
+        if (is_array($mime_types)) {
+            return $mimetype ? $mime_types[$mimetype] : $mime_extensions;
+        }
+
+        // load mapping file
+        $file_paths = array();
+
+        if ($mime_types = rcube::get_instance()->config->get('mime_types'))
+            $file_paths[] = $mime_types;
+
+        // try common locations
+        $file_paths[] = '/etc/httpd/mime.types';
+        $file_paths[] = '/etc/httpd2/mime.types';
+        $file_paths[] = '/etc/apache/mime.types';
+        $file_paths[] = '/etc/apache2/mime.types';
+        $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
+        $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
+
+        foreach ($file_paths as $fp) {
+            if (is_readable($fp)) {
+                $lines = file($fp, FILE_IGNORE_NEW_LINES);
+                break;
+            }
+        }
+
+        $mime_types = $mime_extensions = array();
+        $regex = "/([\w\+\-\.\/]+)\t+([\w\s]+)/i"; 
+        foreach((array)$lines as $line) {
+             // skip comments or mime types w/o any extensions
+            if ($line[0] == '#' || !preg_match($regex, $line, $matches))
+                continue;
+
+            $mime = $matches[1];
+            foreach (explode(' ', $matches[2]) as $ext) {
+                $ext = trim($ext);
+                $mime_types[$mime][] = $ext;
+                $mime_extensions[$ext] = $mime;
+            }
+        }
+
+        // fallback to some well-known types most important for daily emails
+        if (empty($mime_types)) {
+            $mime_extensions = @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
+            $mime_extensions += array('gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpg', 'jpeg' => 'image/jpeg', 'tif' => 'image/tiff');
+
+            foreach ($mime_extensions as $ext => $mime)
+                $mime_types[$mime][] = $ext;
+        }
+
+        return $mimetype ? $mime_types[$mimetype] : $mime_extensions;
     }
 
 
