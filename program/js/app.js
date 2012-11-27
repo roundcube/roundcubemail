@@ -2541,7 +2541,7 @@ function rcube_webmail()
     for (i=0, len=selection.length; i<len; i++) {
       uid = selection[i];
       if (list.rows[uid].has_children && !list.rows[uid].expanded)
-        list.select_childs(uid);
+        list.select_children(uid);
     }
 
     // if config is set to flag for deletion
