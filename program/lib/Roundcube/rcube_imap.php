@@ -2051,10 +2051,11 @@ class rcube_imap extends rcube_storage
      * @param  mixed              $print  True to print part, ressource to write part contents in
      * @param  resource           $fp     File pointer to save the message part
      * @param  boolean            $skip_charset_conv Disables charset conversion
+     * @param  int                $max_bytes  Only read this number of bytes
      *
      * @return string Message/part body if not printed
      */
-    public function get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL, $skip_charset_conv=false)
+    public function get_message_part($uid, $part=1, $o_part=NULL, $print=NULL, $fp=NULL, $skip_charset_conv=false, $max_bytes=0)
     {
         if (!$this->check_connection()) {
             return null;
@@ -2074,7 +2075,7 @@ class rcube_imap extends rcube_storage
 
         if ($o_part && $o_part->size) {
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
-                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $o_part->ctype_primary == 'text');
+                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $o_part->ctype_primary == 'text', $max_bytes);
         }
 
         if ($fp || $print) {

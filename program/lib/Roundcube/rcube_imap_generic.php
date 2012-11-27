@@ -2379,7 +2379,7 @@ class rcube_imap_generic
         return $this->handlePartBody($mailbox, $id, $is_uid, $part);
     }
 
-    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL, $formatted=false)
+    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL, $formatted=false, $max_bytes=0)
     {
         if (!$this->select($mailbox)) {
             return false;
@@ -2405,10 +2405,11 @@ class rcube_imap_generic
         // Use BINARY extension when possible (and safe)
         $binary     = $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
         $fetch_mode = $binary ? 'BINARY' : 'BODY';
+        $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
 
         // format request
         $key       = $this->nextTag();
-        $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part])";
+        $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
 
         // send request
         if (!$this->putLine($request)) {
@@ -2508,8 +2509,10 @@ class rcube_imap_generic
                     $line = rtrim($line, "\t\r\n\0\x0B") . "\n";
                 }
 
-                if ($file)
-                    fwrite($file, $line);
+                if ($file) {
+                    if (fwrite($file, $line) === false)
+                        break;
+                }
                 else if ($print)
                     echo $line;
                 else
@@ -2525,7 +2528,7 @@ class rcube_imap_generic
 
         if ($result !== false) {
             if ($file) {
-                fwrite($file, $result);
+                return fwrite($file, $result);
             } else if ($print) {
                 echo $result;
             } else
