@@ -398,3 +398,8 @@ function get_boolean($str)
 {
     return rcube_utils::get_boolean($str);
 }
+
+class rcube_html_page extends rcmail_html_page
+{
+    
+}
