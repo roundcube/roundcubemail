@@ -5,11 +5,11 @@
  *
  * @package Tests
  */
-class Framework_Shared extends PHPUnit_Framework_TestCase
+class Framework_Bootstrap extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * rcube_shared.inc: in_array_nocase()
+     * bootstrap.php: in_array_nocase()
      */
     function test_in_array_nocase()
     {
@@ -25,29 +25,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: get_boolean()
-     */
-    function test_get_boolean()
-    {
-        $input = array(
-            false, 'false', '0', 'no', 'off', 'nein', 'FALSE', '', null,
-        );
-
-        foreach ($input as $idx => $value) {
-            $this->assertFalse(get_boolean($value), "Invalid result for $idx test item");
-        }
-
-        $input = array(
-            true, 'true', '1', 1, 'yes', 'anything', 1000,
-        );
-
-        foreach ($input as $idx => $value) {
-            $this->assertTrue(get_boolean($value), "Invalid result for $idx test item");
-        }
-    }
-
-    /**
-     * rcube_shared.inc: parse_bytes()
+     * bootstrap.php: parse_bytes()
      */
     function test_parse_bytes()
     {
@@ -75,7 +53,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: slashify()
+     * bootstrap.php: slashify()
      */
     function test_slashify()
     {
@@ -94,7 +72,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: unslashify()
+     * bootstrap.php: unslashify()
      */
     function test_unslashify()
     {
@@ -115,7 +93,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: get_offset_sec()
+     * bootstrap.php: get_offset_sec()
      */
     function test_get_offset_sec()
     {
@@ -138,7 +116,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: array_keys_recursive()
+     * bootstrap.php: array_keys_recursive()
      */
     function test_array_keys_recursive()
     {
@@ -160,7 +138,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: format_email()
+     * bootstrap.php: format_email()
      */
     function test_format_email()
     {
@@ -180,7 +158,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: format_email_recipient()
+     * bootstrap.php: format_email_recipient()
      */
     function test_format_email_recipient()
     {
@@ -202,7 +180,7 @@ class Framework_Shared extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * rcube_shared.inc: is_ascii()
+     * bootstrap.php: is_ascii()
      */
     function test_is_ascii()
     {

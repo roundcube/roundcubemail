@@ -4,6 +4,7 @@
     <testsuites>
         <testsuite name="All Tests">
             <file>Framework/BaseReplacer.php</file>
+            <file>Framework/Bootstrap.php</file>
             <file>Framework/Browser.php</file>
             <file>Framework/Cache.php</file>
             <file>Framework/Charset.php</file>
@@ -20,7 +21,6 @@
             <file>Framework/ResultIndex.php</file>
             <file>Framework/ResultSet.php</file>
             <file>Framework/ResultThread.php</file>
-            <file>Framework/Shared.php</file>
             <file>Framework/Smtp.php</file>
             <file>Framework/Spellchecker.php</file>
             <file>Framework/StringReplacer.php</file>

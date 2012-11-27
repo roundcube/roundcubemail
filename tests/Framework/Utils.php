@@ -206,4 +206,27 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             $this->assertSame(explode(',', $text), $result);
         }
     }
+
+    /**
+     * rcube_utils::get_boolean()
+     */
+    function test_get_boolean()
+    {
+        $input = array(
+            false, 'false', '0', 'no', 'off', 'nein', 'FALSE', '', null,
+        );
+
+        foreach ($input as $idx => $value) {
+            $this->assertFalse(get_boolean($value), "Invalid result for $idx test item");
+        }
+
+        $input = array(
+            true, 'true', '1', 1, 'yes', 'anything', 1000,
+        );
+
+        foreach ($input as $idx => $value) {
+            $this->assertTrue(get_boolean($value), "Invalid result for $idx test item");
+        }
+    }
+
 }
