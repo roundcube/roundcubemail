@@ -54,7 +54,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   $OUTPUT->set_env('mailbox', $mbox_name);
 
   // mimetypes supported by the browser (default settings)
-  $mimetypes = $RCMAIL->config->get('client_mimetypes', 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/x-javascript,application/pdf,application/x-shockwave-flash');
+  $mimetypes = $RCMAIL->config->get('client_mimetypes', 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/x-javascript,application/pdf');
   $OUTPUT->set_env('mimetypes', is_string($mimetypes) ? explode(',', $mimetypes) : (array)$mimetypes);
 
   if ($CONFIG['drafts_mbox'])
