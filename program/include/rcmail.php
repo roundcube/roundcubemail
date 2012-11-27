@@ -56,8 +56,6 @@ class rcmail extends rcube
   private $action_map = array();
 
 
-  const JS_OBJECT_NAME = 'rcmail';
-
   const ERROR_STORAGE          = -2;
   const ERROR_INVALID_REQUEST  = 1;
   const ERROR_INVALID_HOST     = 2;
@@ -321,17 +319,17 @@ class rcmail extends rcube
 
   /**
    * Init output object for GUI and add common scripts.
-   * This will instantiate a rcube_output_html object and set
+   * This will instantiate a rcmail_output_html object and set
    * environment vars according to the current session and configuration
    *
    * @param boolean True if this request is loaded in a (i)frame
-   * @return rcube_output_html Reference to HTML output object
+   * @return rcube_output Reference to HTML output object
    */
   public function load_gui($framed = false)
   {
     // init output page
-    if (!($this->output instanceof rcube_output_html))
-      $this->output = new rcube_output_html($this->task, $framed);
+    if (!($this->output instanceof rcmail_output_html))
+      $this->output = new rcmail_output_html($this->task, $framed);
 
     // set refresh interval
     $this->output->set_env('refresh_interval', $this->config->get('refresh_interval', 0));
@@ -357,12 +355,12 @@ class rcmail extends rcube
   /**
    * Create an output object for JSON responses
    *
-   * @return rcube_output_json Reference to JSON output object
+   * @return rcube_output Reference to JSON output object
    */
   public function json_init()
   {
-    if (!($this->output instanceof rcube_output_json))
-      $this->output = new rcube_output_json($this->task);
+    if (!($this->output instanceof rcmail_output_json))
+      $this->output = new rcmail_output_json($this->task);
 
     return $this->output;
   }
@@ -1566,7 +1564,7 @@ class rcmail extends rcube
             $html_name = $this->Q($foldername) . ($unread ? html::span('unreadcount', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? array() : array(
                 'href' => $this->url(array('_mbox' => $folder['id'])),
-                'onclick' => sprintf("return %s.command('list','%s',this)", rcmail::JS_OBJECT_NAME, $js_name),
+                'onclick' => sprintf("return %s.command('list','%s',this)", rcmail_output::JS_OBJECT_NAME, $js_name),
                 'rel' => $folder['id'],
                 'title' => $title,
             );
@@ -1579,7 +1577,7 @@ class rcmail extends rcube
                 (!empty($folder['folders']) ? html::div(array(
                     'class' => ($is_collapsed ? 'collapsed' : 'expanded'),
                     'style' => "position:absolute",
-                    'onclick' => sprintf("%s.command('collapse-folder', '%s')", rcmail::JS_OBJECT_NAME, $js_name)
+                    'onclick' => sprintf("%s.command('collapse-folder', '%s')", rcmail_output::JS_OBJECT_NAME, $js_name)
                 ), '&nbsp;') : ''));
 
             $jslist[$folder_id] = array(

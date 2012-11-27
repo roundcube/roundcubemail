@@ -72,8 +72,26 @@ if (set_include_path($include_path) === false) {
 // include Roundcube Framework
 require_once 'Roundcube/bootstrap.php';
 
-// backward compatybility (to be removed)
-require_once INSTALL_PATH . 'program/include/rcmail.php';
+// register autoloader for rcmail app classes
+spl_autoload_register('rcmail_autoload');
 
 // backward compatybility (to be removed)
 require_once INSTALL_PATH . 'program/include/bc.php';
+
+
+/**
+ * PHP5 autoloader routine for dynamic class loading
+ */
+function rcmail_autoload($classname)
+{
+    if (strpos($classname, 'rcmail') === 0) {
+        $filepath = INSTALL_PATH . "program/include/$classname.php";
+        if (is_readable($filepath)) {
+            include_once $filepath;
+            return true;
+        }
+    }
+
+    return false;
+}
+

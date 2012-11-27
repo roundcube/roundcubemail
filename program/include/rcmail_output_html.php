@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcubeoutput_html.php                                  |
+ | program/include/rcmail_output_html.php                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
@@ -23,10 +23,10 @@
 /**
  * Class to create HTML page output using a skin template
  *
- * @package    Framework
+ * @package    Core
  * @subpackage View
  */
-class rcube_output_html extends rcube_output
+class rcmail_output_html extends rcmail_output
 {
     public $type = 'html';
 
@@ -82,10 +82,10 @@ class rcube_output_html extends rcube_output
           $this->set_env('extwin', 1);
 
         // add common javascripts
-        $this->add_script('var '.rcmail::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
+        $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)
-        $this->add_script(rcmail::JS_OBJECT_NAME.'.init();', 'docready');
+        $this->add_script(self::JS_OBJECT_NAME.'.init();', 'docready');
 
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery.min.js');
@@ -240,7 +240,7 @@ class rcube_output_html extends rcube_output
      */
     public function add_gui_object($obj, $id)
     {
-        $this->add_script(rcmail::JS_OBJECT_NAME.".gui_object('$obj', '$id');");
+        $this->add_script(self::JS_OBJECT_NAME.".gui_object('$obj', '$id');");
     }
 
 
@@ -536,7 +536,7 @@ class rcube_output_html extends rcube_output
     {
         $out = '';
         if (!$this->framed && !empty($this->js_env)) {
-            $out .= rcmail::JS_OBJECT_NAME . '.set_env('.self::json_serialize($this->js_env).");\n";
+            $out .= self::JS_OBJECT_NAME . '.set_env('.self::json_serialize($this->js_env).");\n";
         }
         if (!empty($this->js_labels)) {
             $this->command('add_label', $this->js_labels);
@@ -549,7 +549,7 @@ class rcube_output_html extends rcube_output
             $parent = $this->framed || preg_match('/^parent\./', $method);
             $out .= sprintf(
                 "%s.%s(%s);\n",
-                ($parent ? 'if(window.parent && parent.'.rcmail::JS_OBJECT_NAME.') parent.' : '') . rcmail::JS_OBJECT_NAME,
+                ($parent ? 'if(window.parent && parent.'.self::JS_OBJECT_NAME.') parent.' : '') . self::JS_OBJECT_NAME,
                 preg_replace('/^parent\./', '', $method),
                 implode(',', $args)
             );
@@ -1079,7 +1079,7 @@ class rcube_output_html extends rcube_output
         if ($attrib['command']) {
             $this->add_script(sprintf(
                 "%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
-                rcmail::JS_OBJECT_NAME,
+                self::JS_OBJECT_NAME,
                 $command,
                 $attrib['id'],
                 $attrib['type'],
@@ -1091,7 +1091,7 @@ class rcube_output_html extends rcube_output
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href']    = $this->app->url(array('task' => $attrib['command']));
-                $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", rcmail::JS_OBJECT_NAME, $attrib['command']);
+                $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
             }
             else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(array('action' => $attrib['command'], 'task' => $attrib['task']));
@@ -1115,7 +1115,7 @@ class rcube_output_html extends rcube_output
         else if ($command && !$attrib['onclick']) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this,event)",
-                rcmail::JS_OBJECT_NAME,
+                self::JS_OBJECT_NAME,
                 $command,
                 $attrib['prop']
             );
@@ -1648,7 +1648,7 @@ class rcube_output_html extends rcube_output
         if (empty($attrib['form'])) {
             $out = $this->form_tag(array(
                 'name' => "rcmqsearchform",
-                'onsubmit' => rcmail::JS_OBJECT_NAME . ".command('search'); return false",
+                'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
                 'style' => "display:inline"),
                 $out);
         }

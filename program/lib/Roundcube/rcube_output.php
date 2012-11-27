@@ -28,22 +28,17 @@
 abstract class rcube_output
 {
     public $browser;
-    public $type = 'html';
-    public $ajax_call = false;
-    public $framed = false;
 
     protected $app;
     protected $config;
-    protected $charset = RCUBE_CHARSET;
+    protected $charset = RCMAIL_CHARSET;
     protected $env = array();
-    protected $pagetitle = '';
-    protected $object_handlers = array();
 
 
     /**
      * Object constructor
      */
-    public function __construct($task = null, $framed = false)
+    public function __construct()
     {
         $this->app     = rcube::get_instance();
         $this->config  = $this->app->config;
@@ -61,16 +56,6 @@ abstract class rcube_output
             return $this->env;
 
         return null;
-    }
-
-    /**
-     * Setter for page title
-     *
-     * @param string $title Page title
-     */
-    public function set_pagetitle($title)
-    {
-        $this->pagetitle = $title;
     }
 
 
@@ -94,15 +79,6 @@ abstract class rcube_output
     public function get_charset()
     {
         return $this->charset;
-    }
-
-
-    /**
-     * Getter for the current skin path property
-     */
-    public function get_skin_path()
-    {
-        return $this->config->get('skin_path');
     }
 
 
@@ -137,24 +113,7 @@ abstract class rcube_output
     public function reset()
     {
         $this->env = array();
-        $this->object_handlers = array();
-        $this->pagetitle = '';
     }
-
-
-    /**
-     * Call a client method
-     *
-     * @param string Method to call
-     * @param ... Additional arguments
-     */
-    abstract function command();
-
-
-    /**
-     * Add a localized label to the client environment
-     */
-    abstract function add_label();
 
 
     /**
@@ -182,31 +141,6 @@ abstract class rcube_output
      * Send output to the client.
      */
     abstract function send();
-
-
-    /**
-     * Register a template object handler
-     *
-     * @param  string Object name
-     * @param  string Function name to call
-     * @return void
-     */
-    public function add_handler($obj, $func)
-    {
-        $this->object_handlers[$obj] = $func;
-    }
-
-
-    /**
-     * Register a list of template object handlers
-     *
-     * @param  array Hash array with object=>handler pairs
-     * @return void
-     */
-    public function add_handlers($arr)
-    {
-        $this->object_handlers = array_merge($this->object_handlers, $arr);
-    }
 
 
     /**
@@ -262,6 +196,59 @@ abstract class rcube_output
         // STUB: to be overloaded by specific output classes
         fputs(STDERR, "Error $code: $message\n");
         exit(-1);
+    }
+
+
+    /**
+     * Create an edit field for inclusion on a form
+     *
+     * @param string col field name
+     * @param string value field value
+     * @param array attrib HTML element attributes for field
+     * @param string type HTML element type (default 'text')
+     *
+     * @return string HTML field definition
+     */
+    public static function get_edit_field($col, $value, $attrib, $type = 'text')
+    {
+        static $colcounts = array();
+
+        $fname = '_'.$col;
+        $attrib['name']  = $fname . ($attrib['array'] ? '[]' : '');
+        $attrib['class'] = trim($attrib['class'] . ' ff_' . $col);
+
+        if ($type == 'checkbox') {
+            $attrib['value'] = '1';
+            $input = new html_checkbox($attrib);
+        }
+        else if ($type == 'textarea') {
+            $attrib['cols'] = $attrib['size'];
+            $input = new html_textarea($attrib);
+        }
+        else if ($type == 'select') {
+            $input = new html_select($attrib);
+            $input->add('---', '');
+            $input->add(array_values($attrib['options']), array_keys($attrib['options']));
+        }
+        else if ($attrib['type'] == 'password') {
+            $input = new html_passwordfield($attrib);
+        }
+        else {
+            if ($attrib['type'] != 'text' && $attrib['type'] != 'hidden') {
+                $attrib['type'] = 'text';
+            }
+            $input = new html_inputfield($attrib);
+        }
+
+        // use value from post
+        if (isset($_POST[$fname])) {
+            $postvalue = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+            $value = $attrib['array'] ? $postvalue[intval($colcounts[$col]++)] : $postvalue;
+        }
+
+        $out = $input->show($value);
+
+        return $out;
     }
 
 

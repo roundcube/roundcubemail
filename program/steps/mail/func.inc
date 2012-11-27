@@ -790,7 +790,7 @@ function rcmail_plain_body($body, $flowed=false)
   global $RCMAIL;
 
   // make links and email-addresses clickable
-  $replacer = new rcube_string_replacer;
+  $replacer = new rcmail_string_replacer;
 
   // search for patterns like links and e-mail addresses and replace with tokens
   $body = $replacer->replace($body);

@@ -31,7 +31,7 @@ define('RCUBE_INPUT_GET',  rcube_utils::INPUT_GET);
 define('RCUBE_INPUT_POST', rcube_utils::INPUT_POST);
 define('RCUBE_INPUT_GPC',  rcube_utils::INPUT_GPC);
 
-define('JS_OBJECT_NAME',   rcmail::JS_OBJECT_NAME);
+define('JS_OBJECT_NAME',   rcmail_output::JS_OBJECT_NAME);
 define('RCMAIL_CHARSET',   RCUBE_CHARSET);
 
 function get_table_name($table)
@@ -126,7 +126,7 @@ function rcube_table_output($attrib, $table_data, $a_show_cols, $id_col)
 
 function rcmail_get_edit_field($col, $value, $attrib, $type='text')
 {
-  return rcube_utils::get_edit_field($col, $value, $attrib, $type);
+  return rcube_output::get_edit_field($col, $value, $attrib, $type);
 }
 
 function rcmail_mod_css_styles($source, $container_id, $allow_remote=false)

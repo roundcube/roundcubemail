@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_output_json.php                                 |
+ | program/include/rc,aiö_output_json.php                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -23,10 +23,10 @@
 /**
  * View class to produce JSON responses
  *
- * @package    Framework
+ * @package    Core
  * @subpackage View
  */
-class rcube_output_json extends rcube_output
+class rcmail_output_json extends rcmail_output
 {
     protected $texts = array();
     protected $commands = array();
@@ -158,7 +158,7 @@ class rcube_output_json extends rcube_output
     {
         $location = $this->app->url($p);
         $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
-            rcmail::JS_OBJECT_NAME, $location, $delay));
+            self::JS_OBJECT_NAME, $location, $delay));
         exit;
     }
 
