@@ -84,19 +84,19 @@ function json_serialize($input)
     return rcube_output::json_serialize($input);
 }
 
-function rep_specialchars_output($str, $enctype='', $mode='', $newlines=TRUE)
+function rep_specialchars_output($str, $enctype='', $mode='', $newlines=true)
 {
     return rcube_utils::rep_specialchars_output($str, $enctype, $mode, $newlines);
 }
 
-function Q($str, $mode='strict', $newlines=TRUE)
+function Q($str, $mode='strict', $newlines=true)
 {
-    return rcmail::Q($str, $mode, $newlines);
+    return rcube_utils::rep_specialchars_output($str, 'html', $mode, $newlines);
 }
 
 function JQ($str)
 {
-    return rcmail::JQ($str);
+    return rcube_utils::rep_specialchars_output($str, 'js');
 }
 
 function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)

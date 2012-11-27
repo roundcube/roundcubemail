@@ -843,7 +843,7 @@ class rcube_output_html extends rcube_output
                             break;
                         case 'javascript':
                         case 'js':
-                            $label = rcmail::JQ($label);
+                            $label = rcube::JQ($label);
                             break;
                         default:
                             $label = html::quote($label);

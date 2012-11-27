@@ -894,6 +894,30 @@ class rcube
 
 
     /**
+     * Quote a given string.
+     * Shortcut function for rcube_utils::rep_specialchars_output()
+     *
+     * @return string HTML-quoted string
+     */
+    public static function Q($str, $mode = 'strict', $newlines = true)
+    {
+        return rcube_utils::rep_specialchars_output($str, 'html', $mode, $newlines);
+    }
+
+
+    /**
+     * Quote a given string for javascript output.
+     * Shortcut function for rcube_utils::rep_specialchars_output()
+     *
+     * @return string JS-quoted string
+     */
+    public static function JQ($str)
+    {
+        return rcube_utils::rep_specialchars_output($str, 'js');
+    }
+
+
+    /**
      * Construct shell command, execute it and return output as string.
      * Keywords {keyword} are replaced with arguments
      *
