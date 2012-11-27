@@ -59,7 +59,7 @@ class rcube_mime
             return $charset;
         }
 
-        return RCMAIL_CHARSET;
+        return RCUBE_CHARSET;
     }
 
 
@@ -572,8 +572,9 @@ class rcube_mime
      */
     public static function wordwrap($string, $width=75, $break="\n", $cut=false, $charset=null)
     {
-        if ($charset && function_exists('mb_internal_encoding'))
+        if ($charset && function_exists('mb_internal_encoding')) {
             mb_internal_encoding($charset);
+        }
 
         $para   = preg_split('/\r?\n/', $string);
         $string = '';
@@ -629,8 +630,9 @@ class rcube_mime
             }
         }
 
-        if ($charset && function_exists('mb_internal_encoding'))
-            mb_internal_encoding(RCMAIL_CHARSET);
+        if ($charset && function_exists('mb_internal_encoding')) {
+            mb_internal_encoding(RCUBE_CHARSET);
+        }
 
         return $string;
     }

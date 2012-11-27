@@ -169,7 +169,7 @@ class rcube_charset
      *
      * @param  string Input string
      * @param  string Suspected charset of the input string
-     * @param  string Target charset to convert to; defaults to RCMAIL_CHARSET
+     * @param  string Target charset to convert to; defaults to RCUBE_CHARSET
      *
      * @return string Converted string
      */
@@ -180,7 +180,7 @@ class rcube_charset
         static $mbstring_sch    = null;
         static $conv            = null;
 
-        $to   = empty($to) ? RCMAIL_CHARSET : $to;
+        $to   = empty($to) ? RCUBE_CHARSET : $to;
         $from = self::parse_charset($from);
 
         // It is a common case when UTF-16 charset is used with US-ASCII content (#1488654)

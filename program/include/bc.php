@@ -32,6 +32,7 @@ define('RCUBE_INPUT_POST', rcube_utils::INPUT_POST);
 define('RCUBE_INPUT_GPC',  rcube_utils::INPUT_GPC);
 
 define('JS_OBJECT_NAME',   rcmail::JS_OBJECT_NAME);
+define('RCMAIL_CHARSET',   RCUBE_CHARSET);
 
 function get_table_name($table)
 {

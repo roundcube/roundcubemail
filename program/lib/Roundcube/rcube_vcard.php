@@ -70,7 +70,7 @@ class rcube_vcard
   /**
    * Constructor
    */
-  public function __construct($vcard = null, $charset = RCMAIL_CHARSET, $detect = false, $fieldmap = array())
+  public function __construct($vcard = null, $charset = RCUBE_CHARSET, $detect = false, $fieldmap = array())
   {
     if (!empty($fielmap))
       $this->extend_fieldmap($fieldmap);
@@ -87,7 +87,7 @@ class rcube_vcard
    * @param string Charset of string values
    * @param boolean True if loading a 'foreign' vcard and extra heuristics for charset detection is required
    */
-  public function load($vcard, $charset = RCMAIL_CHARSET, $detect = false)
+  public function load($vcard, $charset = RCUBE_CHARSET, $detect = false)
   {
     self::$values_decoded = false;
     $this->raw = self::vcard_decode($vcard);
@@ -98,7 +98,7 @@ class rcube_vcard
     }
     // vcard has encoded values and charset should be detected
     else if ($detect && self::$values_decoded &&
-      ($detected_charset = self::detect_encoding(self::vcard_encode($this->raw))) && $detected_charset != RCMAIL_CHARSET) {
+      ($detected_charset = self::detect_encoding(self::vcard_encode($this->raw))) && $detected_charset != RCUBE_CHARSET) {
         $this->raw = self::charset_convert($this->raw, $detected_charset);
     }
 
@@ -436,10 +436,10 @@ class rcube_vcard
     if (preg_match('/charset=/i', substr($data, 0, 2048)))
       $charset = null;
     // detect charset and convert to utf-8
-    else if (($charset = self::detect_encoding($data)) && $charset != RCMAIL_CHARSET) {
+    else if (($charset = self::detect_encoding($data)) && $charset != RCUBE_CHARSET) {
       $data = rcube_charset::convert($data, $charset);
       $data = preg_replace(array('/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'), '', $data); // also remove BOM
-      $charset = RCMAIL_CHARSET;
+      $charset = RCUBE_CHARSET;
     }
 
     $vcard_block = '';

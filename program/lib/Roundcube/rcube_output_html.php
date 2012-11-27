@@ -1364,8 +1364,8 @@ class rcube_output_html extends rcube_output
         // trigger hook with final HTML content to be sent
         $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
         if (!$hook['abort']) {
-            if ($this->charset != RCMAIL_CHARSET) {
-                echo rcube_charset::convert($hook['content'], RCMAIL_CHARSET, $this->charset);
+            if ($this->charset != RCUBE_CHARSET) {
+                echo rcube_charset::convert($hook['content'], RCUBE_CHARSET, $this->charset);
             }
             else {
                 echo $hook['content'];

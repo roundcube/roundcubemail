@@ -379,7 +379,7 @@ class rcube
     {
         $storage = $this->get_storage();
 
-        $storage->set_charset($this->config->get('default_charset', RCMAIL_CHARSET));
+        $storage->set_charset($this->config->get('default_charset', RCUBE_CHARSET));
 
         if ($default_folders = $this->config->get('default_folders')) {
             $storage->set_default_folders($default_folders);

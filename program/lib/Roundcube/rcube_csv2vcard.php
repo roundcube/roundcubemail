@@ -265,7 +265,7 @@ class rcube_csv2vcard
         // convert to UTF-8
         $head     = substr($csv, 0, 4096);
         $fallback = rcube::get_instance()->config->get('default_charset', 'ISO-8859-1'); // fallback to Latin-1?
-        $charset  = rcube_charset::detect($head, RCMAIL_CHARSET);
+        $charset  = rcube_charset::detect($head, RCUBE_CHARSET);
         $csv      = rcube_charset::convert($csv, $charset);
         $head     = '';
 

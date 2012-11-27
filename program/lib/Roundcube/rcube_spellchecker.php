@@ -150,7 +150,7 @@ class rcube_spellchecker
     function get_xml()
     {
         // send output
-        $out = '<?xml version="1.0" encoding="'.RCMAIL_CHARSET.'"?><spellresult charschecked="'.mb_strlen($this->content).'">';
+        $out = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><spellresult charschecked="'.mb_strlen($this->content).'">';
 
         foreach ($this->matches as $item) {
             $out .= '<c o="'.$item[1].'" l="'.$item[2].'">';
@@ -178,7 +178,7 @@ class rcube_spellchecker
                 $word = $item[0];
             }
             else {
-                $word = mb_substr($this->content, $item[1], $item[2], RCMAIL_CHARSET);
+                $word = mb_substr($this->content, $item[1], $item[2], RCUBE_CHARSET);
             }
             $result[$word] = is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
         }
@@ -326,7 +326,7 @@ class rcube_spellchecker
                 return;
             }
 
-            $this->plink = pspell_new($this->lang, null, null, RCMAIL_CHARSET, PSPELL_FAST);
+            $this->plink = pspell_new($this->lang, null, null, RCUBE_CHARSET, PSPELL_FAST);
         }
 
         if (!$this->plink) {
@@ -387,7 +387,7 @@ class rcube_spellchecker
             || !empty($this->options['ignore_caps']) || !empty($this->options['dictionary'])
         ) {
             foreach ($matches as $idx => $m) {
-                $word = mb_substr($text, $m[1], $m[2], RCMAIL_CHARSET);
+                $word = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
                 // skip  exceptions
                 if ($this->is_exception($word)) {
                     unset($matches[$idx]);
@@ -416,7 +416,7 @@ class rcube_spellchecker
         $result = array();
 
         foreach ($matches as $m) {
-            $result[] = mb_substr($text, $m[1], $m[2], RCMAIL_CHARSET);
+            $result[] = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
         }
 
         return $result;

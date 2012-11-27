@@ -49,7 +49,7 @@ foreach ($config as $optname => $optval) {
 
 // framework constants
 define('RCUBE_VERSION', '0.9-git');
-define('RCMAIL_CHARSET', 'UTF-8');
+define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
     define('RCUBE_LIB_DIR', dirname(__FILE__).'/');
@@ -73,8 +73,8 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 
 // set internal encoding for mbstring extension
 if (extension_loaded('mbstring')) {
-    mb_internal_encoding(RCMAIL_CHARSET);
-    @mb_regex_encoding(RCMAIL_CHARSET);
+    mb_internal_encoding(RCUBE_CHARSET);
+    @mb_regex_encoding(RCUBE_CHARSET);
 }
 
 // Register autoloader
