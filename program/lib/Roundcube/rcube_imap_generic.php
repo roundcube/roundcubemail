@@ -2206,10 +2206,13 @@ class rcube_imap_generic
                             }
                             break;
                         default:
-                            if (strlen($field) > 2) {
-                                $result[$id]->others[$field] = $string;
+                            if (strlen($field) < 3) {
+                                break;
                             }
-                            break;
+                            if ($result[$id]->others[$field]) {
+                                $string = array_merge((array)$result[$id]->others[$field], (array)$string);
+                            }
+                            $result[$id]->others[$field] = $string;
                         }
                     }
                 }
@@ -2217,7 +2220,6 @@ class rcube_imap_generic
 
             // VANISHED response (QRESYNC RFC5162)
             // Sample: * VANISHED (EARLIER) 300:310,405,411
-
             else if (preg_match('/^\* VANISHED [()EARLIER]*/i', $line, $match)) {
                 $line   = substr($line, strlen($match[0]));
                 $v_data = $this->tokenizeResponse($line, 1);

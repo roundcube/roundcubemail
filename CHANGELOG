@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use Delivered-To header as a last resort for identity selection (#1488840)
 - Fix XSS vulnerability using Flash files (#1488828)
 - Fix absolute positioning in HTML messages (#1488819)
 - Fix cache (in)validation after setting \Deleted flag

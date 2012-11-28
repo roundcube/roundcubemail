@@ -298,7 +298,6 @@ else if (count($MESSAGE->identities)) {
   $from_idx         = null;
   $found_idx        = null;
   $default_identity = 0; // default identity is always first on the list
-  $return_path      = $MESSAGE->headers->others['return-path'];
 
   // Select identity
   foreach ($MESSAGE->identities as $idx => $ident) {
@@ -332,10 +331,20 @@ else if (count($MESSAGE->identities)) {
     $from_idx = $found_idx;
   }
 
-  // Fallback using Return-Path
-  if ($from_idx === null && $return_path) {
+  // Try Return-Path
+  if ($from_idx === null && ($return_path = $MESSAGE->headers->others['return-path'])) {
     foreach ($MESSAGE->identities as $idx => $ident) {
       if (strpos($return_path, str_replace('@', '=', $ident['email_ascii']).'@') !== false) {
+        $from_idx = $idx;
+        break;
+      }
+    }
+  }
+
+  // Fallback using Delivered-To
+  if ($from_idx === null && ($delivered_to = $MESSAGE->headers->others['delivered-to'])) {
+    foreach ($MESSAGE->identities as $idx => $ident) {
+      if (in_array($ident['email_ascii'], $delivered_to)) {
         $from_idx = $idx;
         break;
       }
