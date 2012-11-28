@@ -754,7 +754,7 @@ rcube_webmail.prototype.managesieve_create = function()
 
     // load form in the iframe
     var frame = $('<iframe>').attr({src: url, frameborder: 0})
-    dialog.empty().append(frame).dialog('dialog').resize();
+    dialog.empty().append(frame).dialog('widget').resize();
 
     // Change [Next Step] button with [Save] button
     buttons = {};
