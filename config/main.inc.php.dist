@@ -356,6 +356,7 @@ $rcmail_config['send_format_flowed'] = true;
 // 1 - many identities with possibility to edit all params but not email address
 // 2 - one identity with possibility to edit all params
 // 3 - one identity with possibility to edit all params but not email address
+// 4 - one identity with possibility to edit only signature
 $rcmail_config['identities_level'] = 0;
 
 // Mimetypes supported by the browser.

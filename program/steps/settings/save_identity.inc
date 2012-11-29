@@ -26,7 +26,7 @@ $a_boolean_cols = array('standard', 'html_signature');
 $updated = $default_id = false;
 
 // check input
-if (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))
+if (IDENTITIES_LEVEL != 4 && (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3)))
 {
   $OUTPUT->show_message('formincomplete', 'warning');
   rcmail_overwrite_action('edit-identity');
@@ -52,8 +52,17 @@ foreach ($a_boolean_cols as $col)
 }
 
 // unset email address if user has no rights to change it
-if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3)
+if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3 )
   unset($save_data['email']);
+
+if (IDENTITIES_LEVEL == 4 ){
+  unset($save_data['name']);
+  unset($save_data['email']);
+  unset($save_data['organization']);
+  unset($save_data['reply-to']);
+  unset($save_data['bcc']);
+  unset($save_data['standard']);
+}
 
 // Validate e-mail addresses
 $email_checks = array(rcube_idn_to_ascii($save_data['email']));
