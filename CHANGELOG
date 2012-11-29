@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix empty email on identities list after identity update (#1488834)
 - Add new identities_level: (4) one identity with possibility to edit only signature
 - Use Delivered-To header as a last resort for identity selection (#1488840)
 - Fix XSS vulnerability using Flash files (#1488828)
