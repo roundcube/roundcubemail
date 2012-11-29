@@ -52,7 +52,7 @@ else {
 
     // find writable addressbook
     if (!$CONTACTS || $CONTACTS->readonly)
-        $source = rcmail_default_source(true);
+        $source = $RCMAIL->get_address_book(-1, true);
 
     // Initialize addressbook
     $CONTACTS = rcmail_contact_source($source, true);
@@ -116,9 +116,6 @@ function rcmail_contact_editform($attrib)
     global $RCMAIL, $CONTACT_COLTYPES;
 
     $record = rcmail_get_edit_record();
-
-    // add some labels to client
-    $RCMAIL->output->add_label('noemailwarning', 'nonamewarning');
 
     // copy (parsed) address template to client
     if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $RCMAIL->config->get('address_template', ''), $templ, PREG_SET_ORDER))
@@ -242,16 +239,17 @@ function rcmail_source_selector($attrib)
 {
     global $RCMAIL, $SOURCE_ID;
 
-    $sources_list = $RCMAIL->get_address_sources(true);
+    $sources_list = $RCMAIL->get_address_sources(true, true);
 
     if (count($sources_list) < 2) {
         $source = $sources_list[$SOURCE_ID];
         $hiddenfield = new html_hiddenfield(array('name' => '_source', 'value' => $SOURCE_ID));
-        return html::span($attrib, Q($source['name']) . $hiddenfield->show());
+        return html::span($attrib, $source['name'] . $hiddenfield->show());
     }
 
-    $attrib['name'] = '_source';
-    $attrib['onchange'] = JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
+    $attrib['name']       = '_source';
+    $attrib['is_escaped'] = true;
+    $attrib['onchange']   = JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
 
     $select = new html_select($attrib);
 

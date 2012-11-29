@@ -5,7 +5,7 @@
  | program/steps/addressbook/show.inc                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,6 +32,7 @@ $SOURCE_ID = $source;
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     $OUTPUT->set_env('readonly', $CONTACTS->readonly || $record['readonly']);
     $OUTPUT->set_env('cid', $record['ID']);
+    $OUTPUT->set_env('compose_extwin', $RCMAIL->config->get('compose_extwin',false));
 }
 
 // get address book name (for display)

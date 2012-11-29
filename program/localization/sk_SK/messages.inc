@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: panda                                                         |
+ | Author: Miroslav Ďurian                                              |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,6 +26,7 @@ $messages['requesttimedout'] = 'Čas požiadavky vypršal';
 $messages['errorreadonly'] = 'Nemožno vykonať operáciu. Adresár je len na čítanie';
 $messages['errornoperm'] = 'Nemožno vykonať operáciu. Prístup odmietnutý';
 $messages['invalidrequest'] = 'Chybný požiadavek. Žiadne údaje neboli uložené.';
+$messages['invalidhost'] = 'Neplatný názov servera';
 $messages['nomessagesfound'] = 'Vo Vašej schránke nie je žiadna správa';
 $messages['loggedout'] = 'Odhlásenie prebehlo úspešne. Dovidenia.';
 $messages['mailboxempty'] = 'Schránka je prázdna';
@@ -114,8 +115,8 @@ $messages['selectimportfile'] = 'Zvoľte súbor, ktorý chcete načítať';
 $messages['addresswriterror'] = 'Zvolený adresár kontaktov je iba na čítanie';
 $messages['contactaddedtogroup'] = 'Kontakty boli úspešne presunuty do tejto skupiny';
 $messages['contactremovedfromgroup'] = 'Kontakty boli úspešne odstráneny z tejto skupiny';
+$messages['nogroupassignmentschanged'] = 'Priradenia do skupín neboli zmenené.';
 $messages['importwait'] = 'Prebieha import, počkajte ...';
-$messages['importerror'] = 'Import zlyhal. Načítavaný súbor nie je platným vCard súborom.';
 $messages['importconfirm'] = '<b>Úspešne sa načítalo $inserted kontaktov, preskočilo sa $skipped existujúcich záznamov</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Preskočených $skipped existujúcich záznamov</b>';
 $messages['opnotpermitted'] = 'Operácia nie je povolená!';

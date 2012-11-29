@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Lanigiro Nainiarku <r00f@itx.com.ua>                          |
+ | Author: Nkolay Parukhin <parukhin@gmail.com>                          |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['unread'] = 'Непрочитанные';
 $labels['flagged'] = 'Помеченные';
 $labels['unanswered'] = 'Неотвеченные';
 $labels['deleted'] = 'Удаленное';
+$labels['undeleted'] = 'Не удалено';
 $labels['invert'] = 'Инвертное';
 $labels['filter'] = 'Фильтр';
 $labels['list'] = 'Список';
@@ -169,8 +170,9 @@ $labels['msgtext'] = 'Всё сообщение';
 $labels['openinextwin'] = 'Открыть в новом окне';
 $labels['emlsave'] = 'Сохранить (.eml)';
 $labels['editasnew'] = 'Редактировать как новое';
-$labels['savemessage'] = 'Сохранить черновик';
+$labels['send'] = 'Отправлено';
 $labels['sendmessage'] = 'Отправить сейчас';
+$labels['savemessage'] = 'Сохранить черновик';
 $labels['addattachment'] = 'Добавить вложение';
 $labels['charset'] = 'Кодировка';
 $labels['editortype'] = 'Редактор';
@@ -198,6 +200,8 @@ $labels['nosubject'] = '(без темы)';
 $labels['showimages'] = 'Показать изображения';
 $labels['alwaysshow'] = 'Всегда показывать изображенияв письмах от $sender';
 $labels['isdraft'] = 'Это черновик.';
+$labels['andnmore'] = 'ещё $nr...';
+$labels['togglemoreheaders'] = 'Загрузить ещё заголовки сообщений';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Текст';
 $labels['savesentmessagein'] = 'Сохранить в';
@@ -298,7 +302,6 @@ $labels['importcontacts'] = 'Импортировать контакты';
 $labels['importfromfile'] = 'Импортировать из файла:';
 $labels['importtarget'] = 'Добавить новые контакты в адресную книгу:';
 $labels['importreplace'] = 'Заменить всю адресную книгу';
-$labels['importtext'] = 'Вы можете загрузить контакты из существующей адресной книги. На данный момент поддерживается загрузка в формате vCard.';
 $labels['done'] = 'Завершено';
 $labels['settingsfor'] = 'Настройки для';
 $labels['about'] = 'О программе';
@@ -323,8 +326,11 @@ $labels['timezone'] = 'Часовой пояс';
 $labels['pagesize'] = 'Строк на странице';
 $labels['signature'] = 'Подпись';
 $labels['dstactive'] = 'Летнее время';
+$labels['showinextwin'] = 'Открыть сообщение в новом окне';
+$labels['composeextwin'] = 'Создать в новом окне';
 $labels['htmleditor'] = 'Создавать сообщения в HTML';
 $labels['htmlonreply'] = 'только в ответ на сообщение в HTML';
+$labels['htmlonreplyandforward'] = 'при пересылке или ответе на HTML сообщение';
 $labels['htmlsignature'] = 'Подпись в HTML';
 $labels['previewpane'] = 'Показать панель превью';
 $labels['skin'] = 'Стиль оформления';
@@ -350,7 +356,6 @@ $labels['always'] = 'всегда';
 $labels['showinlineimages'] = 'Показывать вложенные изображения внизу сообщения';
 $labels['autosavedraft'] = 'Автосохранение черновика';
 $labels['everynminutes'] = 'каждые $n минут';
-$labels['keepalive'] = 'Проверять новые сообщения';
 $labels['never'] = 'никогда';
 $labels['immediately'] = 'немедленно';
 $labels['messagesdisplaying'] = 'Отображение сообщений';
@@ -372,6 +377,7 @@ $labels['maintenance'] = 'Обслуживание';
 $labels['newmessage'] = 'Новое сообщение';
 $labels['signatureoptions'] = 'Опции подписи';
 $labels['whenreplying'] = 'При ответе';
+$labels['replyempty'] = 'не цитировать оригинальное сообщение';
 $labels['replytopposting'] = 'начать новое сообщение перед цитируемым';
 $labels['replybottomposting'] = 'начать новое сообщение после цитируемого';
 $labels['replyremovesignature'] = 'Удалить подпись при ответе';
@@ -397,6 +403,9 @@ $labels['spellcheckignorenums'] = 'Пропускать слова с цифра
 $labels['spellcheckignorecaps'] = 'Пропускать слова из прописных букв';
 $labels['addtodict'] = 'Добавить в словарь';
 $labels['mailtoprotohandler'] = 'Зарегистрировать обработчик для ссылок mailto:';
+$labels['forwardmode'] = 'Пересылка сообщений';
+$labels['inline'] = 'в тексте';
+$labels['asattachment'] = 'как вложение';
 $labels['folder'] = 'Папка';
 $labels['foldername'] = 'Имя папки';
 $labels['subscribed'] = 'Подписан';

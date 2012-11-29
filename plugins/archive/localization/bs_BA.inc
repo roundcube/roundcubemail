@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Kenan Dervišević <kenan3008@gmail.com>                      |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arhiva';
+$labels['archivefolder'] = 'Arhiva';
 $labels['buttontitle'] = 'Arhiviraj ovu poruku';
 $labels['archived'] = 'Arhiviranje uspješno';
-$labels['archivefolder'] = 'Arhiva';
 

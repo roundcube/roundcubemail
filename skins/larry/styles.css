@@ -536,6 +536,7 @@ a.iconlink.upload {
 
 #toplogo {
 	padding-top: 2px;
+	cursor: pointer;
 }
 
 .topleft {
@@ -634,6 +635,10 @@ a.iconlink.upload {
 	left: 10px;
 	right: 10px;
 	bottom: 20px;
+}
+
+.extwin #mainscreen {
+	top: 40px;
 }
 
 #mainscreen.offset {
@@ -1083,7 +1088,8 @@ body.iframe .boxtitle {
 	z-index: 100;
 }
 
-body.iframe .footerleft.floating {
+body.iframe .footerleft.floating,
+#composeview-bottom .formbuttons.floating {
 	position: fixed;
 	left: 0;
 	bottom: 0;
@@ -1094,7 +1100,8 @@ body.iframe .footerleft.floating {
 	padding-bottom: 12px;
 }
 
-body.iframe .footerleft.floating:before {
+body.iframe .footerleft.floating:before,
+#composeview-bottom .formbuttons.floating:before {
 	content: " ";
 	position: absolute;
 	top: -6px;
@@ -1224,6 +1231,14 @@ ul.proplist li {
 	background: url(images/login_shadow.png) top center no-repeat;
 	margin-top: -3px;
 	padding-top: 10px;
+}
+
+#login-form .noscriptwarning {
+	margin: 0 auto;
+	width: 430px;
+	color: #cf2734;
+	font-size: 110%;
+	font-weight: bold;
 }
 
 #login-form td.input {
@@ -1475,7 +1490,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.spellcheck.selected {
-	background-position: left -1580px;
+	background-position: left -1620px;
 	color: #1978a1;
 }
 
@@ -1494,6 +1509,19 @@ ul.proplist li {
 .toolbar a.button.export {
 	background-position: center -1054px;
 }
+
+.toolbar a.button.send {
+	background-position: center -1660px;
+}
+
+.toolbar a.button.savedraft {
+	background-position: center -1700px;
+}
+
+.toolbar a.button.close {
+	background-position: 0 -1745px;
+}
+
 
 a.menuselector {
 	display: inline-block;
@@ -1999,6 +2027,10 @@ ul.toolbarmenu li span.conversation {
 	padding-top: 15px;
 	height: 27px;
 	white-space: nowrap;
+}
+
+.ui-dialog-content .tabsbar {
+	margin-bottom: 0;
 }
 
 .tabsbar .tablink {

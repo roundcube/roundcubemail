@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: emilio brambilla <Unknown>                                    |
+ | Author: Andrea Bernini <andrea.bernini@gmail.com>                     |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -135,6 +134,7 @@ $labels['unread'] = 'Non letti';
 $labels['flagged'] = 'Contrassegnato';
 $labels['unanswered'] = 'Senza risposta';
 $labels['deleted'] = 'Cancellato';
+$labels['undeleted'] = 'Non eliminato';
 $labels['invert'] = 'Inverti';
 $labels['filter'] = 'Filtra';
 $labels['list'] = 'Elenco';
@@ -170,8 +170,9 @@ $labels['msgtext'] = 'Intero messaggio';
 $labels['openinextwin'] = 'Apri in una nuova finestra';
 $labels['emlsave'] = 'Scarica (.eml)';
 $labels['editasnew'] = 'Modifica come nuovo';
-$labels['savemessage'] = 'Salva come bozza';
+$labels['send'] = 'Invia';
 $labels['sendmessage'] = 'Invia il messaggio adesso';
+$labels['savemessage'] = 'Salva come bozza';
 $labels['addattachment'] = 'Allega un file';
 $labels['charset'] = 'Set di caratteri';
 $labels['editortype'] = 'Tipo editor';
@@ -199,6 +200,8 @@ $labels['nosubject'] = '(nessun oggetto)';
 $labels['showimages'] = 'Visualizza immagini';
 $labels['alwaysshow'] = 'Mostra sempre immagini da $sender';
 $labels['isdraft'] = 'Questa è una bozza.';
+$labels['andnmore'] = 'ancora $nr...';
+$labels['togglemoreheaders'] = 'Mostra più intestazioni dei messaggi';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Testo semplice';
 $labels['savesentmessagein'] = 'Salva i messaggi inviati in';
@@ -284,6 +287,7 @@ $labels['exportvcards'] = 'Esporta i contatti in formato vCard';
 $labels['newcontactgroup'] = 'Crea un nuovo gruppo';
 $labels['grouprename'] = 'Rinomina il gruppo';
 $labels['groupdelete'] = 'Cancella il gruppo';
+$labels['groupremoveselected'] = 'Rimuovi i contatti selezionati dal gruppo';
 $labels['previouspage'] = 'Pagina precedente';
 $labels['firstpage'] = 'Prima pagina';
 $labels['nextpage'] = 'Pagina successiva';
@@ -298,7 +302,6 @@ $labels['importcontacts'] = 'Importa contatti';
 $labels['importfromfile'] = 'Importa da file:';
 $labels['importtarget'] = 'Aggiungi nuovi contattu alla rubrica:';
 $labels['importreplace'] = 'Sostituisci l\'intera rubrica';
-$labels['importtext'] = 'Puoi caricare i contatti da una rubrica esistente. Al momento è supportata l\'importazione dei contatti dal formato vCard.';
 $labels['done'] = 'Fatto';
 $labels['settingsfor'] = 'Impostazioni per';
 $labels['about'] = 'Informazioni';
@@ -323,8 +326,11 @@ $labels['timezone'] = 'Fuso orario';
 $labels['pagesize'] = 'Righe per pagina';
 $labels['signature'] = 'Firma';
 $labels['dstactive'] = 'Gestione ora legale';
+$labels['showinextwin'] = 'Apri il messaggio in una nuova finestra';
+$labels['composeextwin'] = 'Crea messaggio in una nuova finestra';
 $labels['htmleditor'] = 'Scrivi i messaggi in HTML';
 $labels['htmlonreply'] = 'solo in risposta a messaggi HTML';
+$labels['htmlonreplyandforward'] = 'su inoltro o risposta a messaggi HTML';
 $labels['htmlsignature'] = 'Firma in HTML';
 $labels['previewpane'] = 'Mostra l\'anteprima';
 $labels['skin'] = 'Tema interfaccia';
@@ -343,13 +349,13 @@ $labels['readwhendeleted'] = 'Marca il messaggio come letto prima di eliminarlo'
 $labels['flagfordeletion'] = 'Marca il messaggio come eliminato invece di eliminarlo';
 $labels['skipdeleted'] = 'Non mostrare i messaggi marcati come eliminati';
 $labels['deletealways'] = 'Quando non è possinile spostare i messaggi nel Cestino eliminali';
+$labels['deletejunk'] = 'Elimina direttamente i messaggi in Spam';
 $labels['showremoteimages'] = 'Mostra immagini remote contenute nel messaggio';
 $labels['fromknownsenders'] = 'da mittenti conosciuti';
 $labels['always'] = 'sempre';
 $labels['showinlineimages'] = 'Mostra immagini allegate sotto il messaggio';
 $labels['autosavedraft'] = 'Salva le bozze automaticamente';
 $labels['everynminutes'] = 'ogni $n minuto(i)';
-$labels['keepalive'] = 'Controlla la presenza di nuovi messaggi';
 $labels['never'] = 'mai';
 $labels['immediately'] = 'immediatamente';
 $labels['messagesdisplaying'] = 'Visualizzazione Messaggi';
@@ -371,6 +377,7 @@ $labels['maintenance'] = 'Manutenzione';
 $labels['newmessage'] = 'Nuovo Messaggio';
 $labels['signatureoptions'] = 'Opzioni firma';
 $labels['whenreplying'] = 'Quando rispondi';
+$labels['replyempty'] = 'non citare il messaggio originale';
 $labels['replytopposting'] = 'inizia il nuovo messaggio sopra quello originale';
 $labels['replybottomposting'] = 'inizia il nuovo messaggio sotto quello originale';
 $labels['replyremovesignature'] = 'Quando rispondi, rimuovi la firma dal messaggio originale';
@@ -396,6 +403,9 @@ $labels['spellcheckignorenums'] = 'Ignora le parole contenenti numeri';
 $labels['spellcheckignorecaps'] = 'Ignora le parole con tutte le lettere maiuscole';
 $labels['addtodict'] = 'Aggiungi al dizionario';
 $labels['mailtoprotohandler'] = 'Registra gestore per mailto:';
+$labels['forwardmode'] = 'Inoltro messaggi';
+$labels['inline'] = 'In linea';
+$labels['asattachment'] = 'come allegato';
 $labels['folder'] = 'Cartella';
 $labels['foldername'] = 'Nome cartella';
 $labels['subscribed'] = 'Sottoscritta';

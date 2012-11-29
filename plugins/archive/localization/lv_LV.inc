@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Ivars Strazdiņš <Unknown>                                   |
+ | Author: Ivars Strazdiņš                                             |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arhīvs';
+$labels['archivefolder'] = 'Arhīvs';
 $labels['buttontitle'] = 'Arhivēt vēstuli';
 $labels['archived'] = 'Vēstule sekmīgi arhivēta';
-$labels['archivefolder'] = 'Arhīvs';
 

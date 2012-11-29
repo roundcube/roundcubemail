@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Droszler Gabor <droszler@datatrans.hu>                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Archiválás';
+$labels['archivefolder'] = 'Archiválás';
 $labels['buttontitle'] = 'Üzenet archiválása';
 $labels['archived'] = 'Sikeres archiválás';
-$labels['archivefolder'] = 'Archiválás';
 

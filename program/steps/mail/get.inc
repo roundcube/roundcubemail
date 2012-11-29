@@ -60,6 +60,42 @@ if (!empty($_GET['_frame'])) {
   exit;
 }
 
+// render thumbnail of an image attachment
+else if ($_GET['_thumb']) {
+  $pid = get_input_value('_part', RCUBE_INPUT_GET);
+  if ($part = $MESSAGE->mime_parts[$pid]) {
+    $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
+    $temp_dir = $RCMAIL->config->get('temp_dir');
+    list(,$ext) = explode('/', $part->mimetype);
+    $cache_basename = $temp_dir . '/' . md5($MESSAGE->headers->messageID . $part->mime_id . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
+    $cache_file = $cache_basename . '.' . $ext;
+    $mimetype = $part->mimetype;
+
+    // render thumbnail image if not done yet
+    if (!is_file($cache_file)) {
+      $fp = fopen(($orig_name = $cache_basename . '.orig.' . $ext), 'w');
+      $MESSAGE->get_part_content($part->mime_id, $fp);
+      fclose($fp);
+
+      $image = new rcube_image($orig_name);
+      if ($imgtype = $image->resize($RCMAIL->config->get('image_thumbnail_size', 240), $cache_file, true)) {
+        $mimetype = 'image/' . $imgtype;
+        unlink($orig_name);
+      }
+      else {
+        rename($orig_name, $cache_file);
+      }
+    }
+
+    if (is_file($cache_file)) {
+      header('Content-Type: ' . $mimetype);
+      readfile($cache_file);
+    }
+  }
+
+  exit;
+}
+
 else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
   if ($part = $MESSAGE->mime_parts[$pid]) {
@@ -76,6 +112,71 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
     // overwrite modified vars from plugin
     $mimetype = $plugin['mimetype'];
+    $extensions = rcube_mime::get_mime_extensions($mimetype);
+
+    if ($plugin['body'])
+      $part->body = $plugin['body'];
+
+
+    // compare file mimetype with the stated content-type headers and file extension to avoid malicious operations
+    if (!empty($_REQUEST['_embed']) && empty($_REQUEST['_nocheck'])) {
+      $file_extension = strtolower(pathinfo($part->filename, PATHINFO_EXTENSION));
+
+      // 1. compare filename suffix with expected suffix derived from mimetype
+      $valid = $file_extension && in_array($file_extension, (array)$extensions);
+
+      // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
+      if ($valid || !$file_extension || $mimetype == 'application/octet-stream') {
+        if ($part->body)  // part body is already loaded
+          $body = $part->body;
+        else if ($part->size && $part->size < 1024*1024)   // load the entire part if it's small enough
+          $body = $part->body = $MESSAGE->get_part_content($part->mime_id);
+        else  // fetch the first 2K of the message part
+          $body = $MESSAGE->get_part_content($part->mime_id, null, true, 2048);
+
+        // detect message part mimetype
+        $real_mimetype = rcube_mime::file_content_type($body, $part->filename, $mimetype, true, true);
+        list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
+
+        // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
+        if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0)
+          $real_mimetype = $mimetype;
+
+        // get valid file extensions
+        $extensions = rcube_mime::get_mime_extensions($real_mimetype);
+        $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
+
+        // fix mimetype for images wrongly declared as octet-stream
+        if ($mimetype == 'application/octet-stream' && strpos($real_mimetype, 'image/') === 0 && $valid_extension)
+          $mimetype = $real_mimetype;
+
+        $valid = ($real_mimetype == $mimetype && $valid_extension);
+      }
+      else {
+        $real_mimetype = $mimetype;
+      }
+
+      // show warning if validity checks failed
+      if (!$valid) {
+        $OUTPUT = new rcmail_html_page();
+        $OUTPUT->write(html::tag('html', null, html::tag('body', array('style' => 'font-family:sans-serif; margin:1em'),
+          html::div(array('class' => 'warning', 'style' => 'border:2px solid #ffdf0e; background:#fef893; padding:1em 1em 0 1em;'),
+            rcube_label(array(
+              'name' => 'attachmentvalidationerror',
+              'vars' => array('expected' => "$mimetype (.$file_extension)", 'detected' => "$real_mimetype (.$extensions[0])")
+            )) .
+            html::p('buttons',
+              html::tag('button', null,
+                html::a(array(
+                  'href' => $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))),
+                  'style' => 'text-decoration:none;color:#000',
+                ), rcube_label('showanyway')))
+            ))
+        )));
+        exit;
+      }
+    }
+
 
     // TIFF to JPEG conversion, if needed
     $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
@@ -87,11 +188,9 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       $mimetype = 'image/jpeg';
     }
 
-    list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
-    if ($plugin['body'])
-      $part->body = $plugin['body'];
 
     $browser = $RCMAIL->output->browser;
+    list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
 
     // send download headers
     if ($plugin['download']) {
@@ -107,6 +206,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       header("Content-Type: $mimetype");
       header("Content-Transfer-Encoding: binary");
     }
+
 
     // deliver part content
     if ($ctype_primary == 'text' && $ctype_secondary == 'html' && empty($plugin['download'])) {
@@ -130,7 +230,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         check_storage_status();
       }
 
-      $OUTPUT = new rcube_output_html();
+      $OUTPUT = new rcube_html_page();
       $OUTPUT->write($out);
     }
     else {

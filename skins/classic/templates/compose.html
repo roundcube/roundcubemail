@@ -15,15 +15,23 @@
 }
 </style>
 </head>
+<roundcube:if condition="env:extwin" />
+<body class="extwin" onload="rcube_init_mail_ui()">
+<roundcube:object name="message" id="message" />
+<roundcube:else />
 <body onload="rcube_init_mail_ui()">
-
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
+<roundcube:endif />
 
 <form name="form" action="./" method="post">
 
 <div id="messagetoolbar">
+<roundcube:if condition="env:extwin" />
+    <roundcube:button command="close" type="link" class="button back" classAct="button back" classSel="button backSel" title="close" content=" " />
+<roundcube:else />
     <roundcube:button command="list" type="link" class="button back" classAct="button back" classSel="button backSel" title="backtolist" content=" " />
+<roundcube:endif />
     <roundcube:button command="send" type="link" class="buttonPas send" classAct="button send" classSel="button sendSel" title="sendmessage" content=" " />
 <roundcube:if condition="config:enable_spellcheck" />
     <span class="dropbutton">
@@ -64,6 +72,7 @@
             <td class="editfield formlinks">
                 <roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
                 <a href="#identities" onclick="return rcmail.command('identities')"><roundcube:label name="editidents" /></a>
+                <roundcube:button command="extwin" image="/images/icons/extwin.png" width="15" height="15" title="openinextwin" id="openextwinlink" condition="!env:extwin" />
             </td>
         </tr><tr>
             <td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
@@ -143,10 +152,10 @@
     </tr><tr>
         <td><label for="rcmcomposepriority"><roundcube:label name="priority" />:</label></td>
         <td><roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" /></td>
-    </tr><tr>
+    </tr><roundcube:if condition="!config:no_save_sent_messages" /><tr>
         <td><label><roundcube:label name="savesentmessagein" />:</label></td>
         <td><roundcube:object name="storetarget" maxlength="30" /></td>
-    </tr>
+    </tr><roundcube:endif />
     </table>
 </div>
 

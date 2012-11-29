@@ -30,6 +30,10 @@
 	z-index: 3;
 }
 
+#mailview-right.fullwidth {
+	left: 0;
+}
+
 #mailview-top {
 	position: absolute;
 	top: 42px;
@@ -38,16 +42,18 @@
 	bottom: 28px;
 }
 
+#mailview-top.fullheight {
+	border-radius: 4px 4px 0 0;
+}
+
 #mailview-bottom {
 	position: absolute;
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 26px;
-}
-
-#mailview-top.fullheight {
-	border-radius: 4px 4px 0 0;
+	height: 27px;
+	border-radius: 4px;
+	border-top: none;
 }
 
 #folderlist-header {
@@ -139,6 +145,7 @@ a.iconbutton.threadmode.selected {
 
 #mailboxlist li:first-child {
 	border-radius: 4px 4px 0 0;
+	border-top: 0;
 }
 
 #mailboxlist li.mailbox a {
@@ -415,10 +422,13 @@ a.iconbutton.threadmode.selected {
 	border-left: 0;
 }
 
-
 #messagelist tr td.size {
 	width: 60px;
 	text-align: right;
+}
+
+#messagelist thead tr td.size {
+	text-align: left;
 }
 
 #messagelist tr td.fromto,
@@ -612,12 +622,12 @@ a.iconbutton.threadmode.selected {
 }
 
 #messagelist tr td div.collapsed {
-	background-position: 0 -1136px;
+	background-position: 0 -1137px;
 	cursor: pointer;
 }
 
 #messagelist tr td div.expanded {
-	background-position: 0 -1156px;
+	background-position: 0 -1157px;
 	cursor: pointer;
 }
 
@@ -675,24 +685,33 @@ a.iconbutton.threadmode.selected {
 
 #messagecontent {
 	position: absolute;
-	top: 0;
+	top: 110px;
 	left: 0;
 	width: 100%;
-	bottom: 28px;
+	bottom: 27px;
 	overflow: auto;
-	border-radius: 4px 4px 0 0;
 }
 
+#messageheader,
 #partheader,
 #composeheaders {
 	position: relative;
 	padding: 3px 0;
 	background: #f9f9f9;
-	background: -moz-linear-gradient(top, #fff 0%, #e9e9e9 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#e9e9e9));
-	background: -o-linear-gradient(top, #fff 0%, #e9e9e9 100%);
-	background: -ms-linear-gradient(top, #fff 0%, #e9e9e9 100%);
-	background: linear-gradient(top, #fff 0%, #e9e9e9 100%);
+	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
+	background: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	border-bottom: 1px solid #dfdfdf;
+}
+
+#mailview-right #messageheader {
+	border-radius: 4px 4px 0 0;
+	padding-left: 78px;
+	/* avoid headers eating up all the vertical space */
+	max-height: 50%;
+	overflow: auto;
 }
 
 h2.subject {
@@ -704,9 +723,13 @@ h2.subject {
 	text-overflow: ellipsis;
 }
 
+#mailview-right #messageheader h2.subject {
+	margin-left: -56px;
+}
+
 h3.subject {
 	font-size: 14px;
-	margin: 0 13em 0 0;
+	margin: 0 8em 0 0;
 	padding: 8px 8px 4px 8px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -718,16 +741,23 @@ h3.subject {
 	padding: 2px 8px;
 }
 
-.headers-table td.header {
+.headers-table td.header,
+.ui-dialog-content.popup span.adr {
 	font-weight: bold;
 }
 
-.headers-table td.header a {
+.headers-table td.header-title {
+	white-space: nowrap;
+}
+
+.headers-table td.header a,
+.ui-dialog-content.popup span.adr a {
 	color: #666;
 	text-decoration: none;
 }
 
-.headers-table td.header a:hover {
+.headers-table td.header a:hover,
+.ui-dialog-content.popup span.adr a:hover {
 	text-decoration: underline;
 }
 
@@ -737,8 +767,15 @@ h3.subject {
 	font-weight: bold;
 }
 
-.headers-table td.header span {
+.headers-table td.header span,
+.ui-dialog-content.popup span.adr {
 	white-space: nowrap;
+}
+
+.headers-table td.header a.morelink {
+	color: #0069a6;
+	white-space: nowrap;
+	font-weight: normal;
 }
 
 .rcmaddcontact {
@@ -765,7 +802,7 @@ h3.subject {
 	padding-right: 18px;
 }
 
-#previewheaderstoggle {
+.moreheaderstoggle {
 	display: block;
 	position: absolute;
 	top: 0;
@@ -784,7 +821,7 @@ h3.subject {
 	border-radius: 3px 0 0 0; /* for Opera */
 }
 
-#previewheaderstoggle .iconlink {
+.moreheaderstoggle .iconlink {
 	display: inline-block;
 	position: absolute;
 	top: 8px;
@@ -794,31 +831,42 @@ h3.subject {
 	background: url(images/buttons.png) -27px -242px no-repeat;
 }
 
-#previewheaderstoggle.remove .iconlink {
+.moreheaderstoggle.remove .iconlink {
 	top: auto;
-	bottom: 15px;
+	bottom: 5px;
 	background-position: -5px -242px;
 }
 
-#previewheaderstoggle .iconlink.allheaders {
-	display: none;
+#full-headers {
+	position: relative;
 }
 
-#previewheaderstoggle.remove .iconlink.allheaders {
-	top: auto;
-	bottom: 2px;
-	display: inline-block;
-	background-position: -27px -242px;
+div.more-headers {
+	position: absolute;
+	top: -12px;
+	right: 10px;
+	width: 12px;
+	height: 10px;
+	cursor: pointer;
+	background: url(images/buttons.png) center -1579px no-repeat;
+}
+
+div.hide-headers {
+	background-position: center -1589px;
 }
 
 #all-headers {
 	position: relative;
-	margin: 2px 0;
+	margin: 4px 10px;
 	padding: 0;
 	height: 180px;
-	background-color: #f0f0f0;
-	overflow: hidden;
+	border: 1px solid #ccc;
 	border-radius: 4px;
+	background: #fdfdfd;
+	-moz-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
+	-webkit-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
+	-o-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
+	box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 }
 
 #headers-source {
@@ -828,30 +876,28 @@ h3.subject {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding: 2px;
+	padding: 3px 6px;
 	overflow: auto;
 	text-align: left;
-	color: #666;
+	color: #333;
 }
 
-#messageheader {
+#messageheader.previewheader #all-headers {
+	margin-left: 0;
+}
+
+#messageheader.previewheader {
 	position: relative;
 	height: auto;
-	margin: 0 8px 0 0;
-	padding: 0 0 0 72px;
-	border-bottom: 2px solid #f0f0f0;
+	min-height: 52px;
+	padding: 0 0 3px 72px;
 }
 
-#messagecontent #messageheader {
-	padding: 0 0 0 90px;
-	min-height: 68px;
-}
-
-#messageheader h3.subject {
+#messageheader.previewheader h3.subject {
 	padding: 8px 8px 2px 0;
 }
 
-#messageheader #contactphoto {
+#messageheader.previewheader #contactphoto {
 	display: block;
 	position: absolute;
 	top: 11px;
@@ -863,22 +909,26 @@ h3.subject {
 	border-radius: 3px;
 }
 
-#messageheader #contactphoto img {
+#messageheader.previewheader #contactphoto img {
 	width: 32px;
 	height: auto;
 	border-radius: 3px;
 }
 
-#messagecontent #messageheader #contactphoto {
-	top: 11px;
-	left: 31px;
+#messageheader #contactphoto {
+	display: block;
+	position: absolute;
+	top: 34px;
+	left: 30px;
 	width: 48px;
 	height: 48px;
-	background: url(images/contactpic_48px.png) center center no-repeat #fff;
+	overflow: hidden;
 	border-radius: 4px;
+	border: 1px solid #e6e6e6;
+	background: url(images/contactpic_48px.png) center center no-repeat #fff;
 }
 
-#messagecontent #messageheader #contactphoto img {
+#messageheader #contactphoto img {
 	width: 48px;
 	height: auto;
 	border-radius: 4px;
@@ -887,16 +937,25 @@ h3.subject {
 #messageheader #countcontrols {
 	position: absolute;
 	top: 8px;
-	right: 0;
+	right: 8px;
+	width: 20em;
 	text-align: right;
 	white-space: nowrap;
 }
 
+#messageheader .pagenav .countdisplay {
+	min-width: 0;
+	padding-right: 0.5em;
+	white-space: nowrap;
+}
+
+#messagecontent .leftcol,
 #messagepreview .leftcol {
 	margin-right: 252px;
 	overflow-x: auto;
 }
 
+#messagecontent .rightcol,
 #messagepreview .rightcol {
 	float: right;
 /*
@@ -914,6 +973,7 @@ h3.subject {
 }
 
 #messagebody {
+	position: relative;
 	margin: 8px;
 }
 
@@ -992,8 +1052,49 @@ div.message-part blockquote blockquote blockquote {
 	border-bottom: 2px solid #f0f0f0;
 }
 
-#messagebody > p > img {
+#messagebody fieldset.image-attachment {
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin-top: 1em;
+}
+
+#messagebody fieldset.image-attachment p > img {
 	max-width: 80%;
+}
+
+#messagebody legend.image-filename {
+	color: #999;
+	font-size: 0.9em;
+	margin: 0 1em;
+}
+
+#messagebody p.image-attachment {
+	position: relative;
+	padding: 1em;
+	border-top: 1px solid #ccc;
+}
+
+#messagebody p.image-attachment a.image-link {
+	float: left;
+	display: block;
+	margin-right: 2em;
+	min-width: 160px;
+	min-height: 60px;
+	text-align: center;
+}
+
+#messagebody p.image-attachment .image-filename {
+	display: block;
+	font-weight: bold;
+	line-height: 1.6em;
+}
+
+#messagebody p.image-attachment .image-filesize {
+	padding-right: 1em;
+}
+
+#messagebody p.image-attachment .attachment-links a {
+	margin-right: 0.6em;
 }
 
 #messagepartcontainer {
@@ -1055,6 +1156,13 @@ div.message-part blockquote blockquote blockquote {
 	display: block;
 }
 
+#contacts-table td span.email {
+	display: inline;
+	color: #69939e;
+	font-style: italic;
+	margin-left: 0.5em;
+}
+
 #compose-contacts li a, #contacts-table td {
 	background: url(images/listicons.png) -100px 0 no-repeat;
 	overflow: hidden;
@@ -1092,46 +1200,48 @@ div.message-part blockquote blockquote blockquote {
 	background-position: 6px -1627px;
 }
 
-
 #compose-content {
 	position: absolute;
 	top: 42px;
 	left: 0;
 	width: 100%;
 	bottom: 28px;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
+	border-radius: 4px 4px 0 0;
+	border-bottom: none;
 	overflow: hidden;
 }
 
 #composeheaders {
 	border-radius: 4px 4px 0 0;
-	-webkit-box-shadow: 0 2px 3px 0 #999;
-	-moz-box-shadow: 0 2px 3px 0 #999;
-	box-shadow: 0 2px 3px 0 #999;
+	padding-left: 19px;
 }
 
 #composebuttons {
 	position: absolute;
-	top: 8px;
-	right: 8px;
+	top: 6px;
+	right: 6px;
 	width: auto;
 	white-space: nowrap;
 	z-index: 100;
 }
 
+#composebuttons a.button.extwin {
+	padding: 2px 3px;
+}
+
 .compose-headers {
 	width: 99%;
-	margin: 4px 0;
+	margin-bottom: 2px;
 }
 
 .compose-headers td {
-	padding: 4px 4px 4px 8px;
+	padding: 2px 4px;
 }
 
 .compose-headers td.title {
 	width: 11%;
 	white-space: nowrap;
+	padding-left: 6px;
 }
 
 .compose-headers td.title label {
@@ -1167,55 +1277,43 @@ div.message-part blockquote blockquote blockquote {
 .compose-headers td input {
 	width: 100%;
 	resize: none;
+	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
 }
 
 #compose-cc, #compose-bcc, #compose-replyto, #compose-followupto {
 	display: none;
 }
 
-#composeoptionsbox {
-	padding: 4px 8px 0 8px;
-	background: #d2d2d2;
-	border-bottom: 1px solid #e8e8e8;
-	-webkit-box-shadow: 0 2px 3px 0 #999;
-	-moz-box-shadow: 0 2px 3px 0 #999;
-	box-shadow: 0 2px 3px 0 #999;
-	white-space: nowrap;
-}
-
 #composeoptions {
 	display: none;
-	padding: 2px 0;
+	padding: 2px 0 0 8px;
 	white-space: normal;
+	border-top: 1px solid #dfdfdf;
+	box-shadow: inset 0 1px 0 0 #fff;
+	-o-box-shadow: inset 0 1px 0 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 0 #fff;
+	-moz-box-shadow: inset 0 1px 0 0 #fff;
+
 }
 
 .composeoption {
+	color: #666;
 	padding-right: 22px;
 	white-space: nowrap;
 }
 
 #composeoptions .composeoption {
 	display: inline-block;
-	padding: 4px 28px 4px 0;
+	padding: 4px 22px 4px 0;
 }
 
 #composeoptions .composeoption:last-child {
 	padding-right: 4px;
 }
 
-#composeoptionstoggle {
-	display: inline-block;
-	position: relative;
-	top: -1px;
-	left: 6px;
-	width: 20px;
-	height: 18px;
-	background: url(images/buttons.png) -3px -1640px no-repeat;
-	text-decoration: none;
-}
-
-#composeoptionstoggle.enabled {
-	background-position: -28px -1640px;
+.mozilla .composeoption input {
+	vertical-align: -3px;
 }
 
 #composeview-bottom {
@@ -1232,24 +1330,35 @@ div.message-part blockquote blockquote blockquote {
 	bottom: 0;
 }
 
+#composebodycontainer.buttons {
+	bottom: 42px;
+}
+
 #composebody {
 	position: absolute;
-	top: 1px;
+	top: 0;
 	left: 0;
 	bottom: 0;
 	width: 99%;
 	border: 0;
 	border-radius: 0;
 	padding: 8px 0 8px 8px;
-	box-shadow: none;
 	resize: none;
 	font-family: monospace;
 	font-size: 9pt;
 	outline: none;
+	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+	-moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+	-o-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
 }
 
 #composebody:active,
 #composebody:focus {
+	box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
+	-moz-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
+	-webkit-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
+	-o-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
 }
 
 #compose-attachments {
@@ -1289,9 +1398,25 @@ div.message-part blockquote blockquote blockquote {
 	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 }
 
+#composeview-bottom .formbuttons.floating {
+	position: absolute;
+	width: auto;
+	right: 260px;
+	z-index: 200;
+	padding-bottom: 8px;
+}
+
 .defaultSkin table.mceLayout,
 .defaultSkin table.mceLayout tr.mceLast td {
 	border: 0 !important;
+}
+
+.defaultSkin td.mceToolbar {
+	border: 0 !important;
+}
+
+.defaultSkin table.mceLayout tr.mceFirst td {
+	background: #f0f0f0;
 }
 
 #composebody_toolbargroup {

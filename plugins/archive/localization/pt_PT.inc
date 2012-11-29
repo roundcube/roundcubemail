@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David <Unknown>                                               |
+ | Author: David                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arquivo';
+$labels['archivefolder'] = 'Arquivo';
 $labels['buttontitle'] = 'Arquivar esta mensagem';
 $labels['archived'] = 'Arquivada com sucesso';
-$labels['archivefolder'] = 'Arquivo';
 

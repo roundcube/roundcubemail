@@ -135,6 +135,14 @@ class html2text
     var $width = 70;
 
     /**
+     *  Target character encoding for output text
+     *
+     *  @var string $charset
+     *  @access public
+     */
+    var $charset = 'UTF-8';
+
+    /**
      *  List of preg* regular expression patterns to search for,
      *  used in conjunction with $replace.
      *
@@ -145,6 +153,7 @@ class html2text
     var $search = array(
         "/\r/",                                  // Non-legal carriage return
         "/[\n\t]+/",                             // Newlines and tabs
+        '/<head[^>]*>.*?<\/head>/i',             // <head>
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
         '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
         '/<p[^>]*>/i',                           // <P>
@@ -172,6 +181,7 @@ class html2text
     var $replace = array(
         '',                                     // Non-legal carriage return
         ' ',                                    // Newlines and tabs
+        '',                                     // <head>
         '',                                     // <script>s -- which strip_tags supposedly has problems with
         '',                                     // <style>s -- which strip_tags supposedly has problems with
         "\n\n",                                 // <P>
@@ -345,7 +355,7 @@ class html2text
      *  @access public
      *  @return void
      */
-    function html2text( $source = '', $from_file = false, $do_links = true, $width = 75 )
+    function html2text( $source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8' )
     {
         if ( !empty($source) ) {
             $this->set_html($source, $from_file);
@@ -354,6 +364,7 @@ class html2text
         $this->set_base_url();
         $this->_do_links = $do_links;
         $this->width = $width;
+        $this->charset = $charset;
     }
 
     /**
@@ -515,7 +526,7 @@ class html2text
         $text = preg_replace($this->ent_search, $this->ent_replace, $text);
 
         // Replace known html entities
-        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+        $text = html_entity_decode($text, ENT_QUOTES, $this->charset);
 
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
         $text = preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
@@ -730,14 +741,14 @@ class html2text
      */
     private function _strtoupper($str)
     {
-        $str = html_entity_decode($str, ENT_COMPAT, RCMAIL_CHARSET);
+        $str = html_entity_decode($str, ENT_COMPAT, $this->charset);
 
         if (function_exists('mb_strtoupper'))
             $str = mb_strtoupper($str);
         else
             $str = strtoupper($str);
 
-        $str = htmlspecialchars($str, ENT_COMPAT, RCMAIL_CHARSET);
+        $str = htmlspecialchars($str, ENT_COMPAT, $this->charset);
 
         return $str;
     }

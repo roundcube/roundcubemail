@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dafydd Tomos <Unknown>                                        |
+ | Author: Dafydd Tomos                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Archif';
+$labels['archivefolder'] = 'Archif';
 $labels['buttontitle'] = 'Archifo\'r neges hwn';
 $labels['archived'] = 'Archifwyd yn llwyddiannus';
-$labels['archivefolder'] = 'Archif';
 

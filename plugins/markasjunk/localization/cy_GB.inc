@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dafydd Tomos <Unknown>                                        |
+ | Author: Dafydd Tomos                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Sothach';
 $labels['buttontitle'] = 'Nodi fel Sbwriel';
 $labels['reportedasjunk'] = 'Adroddwyd yn llwyddiannus fel Sbwriel';
 

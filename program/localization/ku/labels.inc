@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -94,8 +93,8 @@ $labels['unknown'] = 'nayê zanîn';
 $labels['unlimited'] = 'bêsînor';
 $labels['quicksearch'] = 'Lêgerîna bilez';
 $labels['resetsearch'] = 'Lêgerînê reset bike';
-$labels['savemessage'] = 'Hilîne';
 $labels['sendmessage'] = 'Peyamê niha bişîne';
+$labels['savemessage'] = 'Hilîne';
 $labels['addattachment'] = 'Pelekê lê zêde bike';
 $labels['charset'] = 'Curetîp';
 $labels['editortype'] = 'Cureyê serastkat';

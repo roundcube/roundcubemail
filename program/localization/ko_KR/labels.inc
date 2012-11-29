@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: seunghwan lee <hellix98@gmail.com>                            |
+ | Author: Kim, Woohyun <woohyun.kim@gmail.com>                          |
  +-----------------------------------------------------------------------+
 */
 
@@ -157,8 +157,8 @@ $labels['resetsearch'] = '찾기 리셋';
 $labels['msgtext'] = '전체 메시지';
 $labels['openinextwin'] = '새 창에서 열기';
 $labels['emlsave'] = '다운로드 (.eml)';
-$labels['savemessage'] = '드래프트 저장';
 $labels['sendmessage'] = '메일 지금 보냄';
+$labels['savemessage'] = '드래프트 저장';
 $labels['addattachment'] = '파일 첨부';
 $labels['charset'] = '문자셋';
 $labels['editortype'] = '편집기 형태';
@@ -280,7 +280,6 @@ $labels['import'] = '가져오기';
 $labels['importcontacts'] = '연락처 가져오기';
 $labels['importfromfile'] = '파일에서 가져오기';
 $labels['importreplace'] = '전체 주소록을 바꿈';
-$labels['importtext'] = '연락처들을 가지고 있는 주소록에서 가져올 수 있습니다.<br/> 현재는 <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> 포맷에서 가져오기를 지원합니다.';
 $labels['done'] = '완료';
 $labels['settingsfor'] = '설정';
 $labels['about'] = '이것은...';
@@ -308,7 +307,7 @@ $labels['dstactive'] = '서머타임';
 $labels['htmleditor'] = 'HTML 메일 쓰기';
 $labels['htmlonreply'] = 'HTML 메시지에 회신할 때에 만';
 $labels['htmlsignature'] = 'HTML 서명';
-$labels['previewpane'] = '이전 구역 보기';
+$labels['previewpane'] = '미리 보기 창 보기';
 $labels['skin'] = '인터페이스 스킨';
 $labels['logoutclear'] = '로그아웃할 때 휴지통 비우기';
 $labels['logoutcompact'] = '로그아웃할 때 받은편지함 압축하기';
@@ -330,7 +329,6 @@ $labels['always'] = '항상';
 $labels['showinlineimages'] = '메시지 아래에 첨부 이미지 보이기';
 $labels['autosavedraft'] = '드래프트 자동 저장';
 $labels['everynminutes'] = '$n 분마다';
-$labels['keepalive'] = '다음 간격마다 새 메시지 자동 체크';
 $labels['never'] = '하지 않음';
 $labels['immediately'] = '즉시';
 $labels['messagesdisplaying'] = '메시지 표시 중';

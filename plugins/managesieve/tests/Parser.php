@@ -5,7 +5,7 @@ class Parser extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../lib/rcube_sieve_script.php';
+        include_once dirname(__FILE__) . '/../lib/Roundcube/rcube_sieve_script.php';
     }
 
     /**
@@ -15,7 +15,15 @@ class Parser extends PHPUnit_Framework_TestCase
      */
     function test_parser($input, $output, $message)
     {
-        $script = new rcube_sieve_script($input);
+        // get capabilities list from the script
+        $caps = array();
+        if (preg_match('/require \[([a-z0-9", ]+)\]/', $input, $m)) {
+            foreach (explode(',', $m[1]) as $cap) {
+                $caps[] = trim($cap, '" ');
+            }
+        }
+
+        $script = new rcube_sieve_script($input, $caps);
         $result = $script->as_text();
 
         $this->assertEquals(trim($result), trim($output), $message);

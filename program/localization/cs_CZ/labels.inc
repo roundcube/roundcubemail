@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: AIKEN <lukas@aiken.cz>                                        |
+ | Author: Jan Žárský <jan.zarsky@gmail.com>                          |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -135,6 +134,7 @@ $labels['unread'] = 'Nepřečtené';
 $labels['flagged'] = 'Označené';
 $labels['unanswered'] = 'Neoznačené';
 $labels['deleted'] = 'Smazané';
+$labels['undeleted'] = 'Nesmazáno';
 $labels['invert'] = 'Převrátit';
 $labels['filter'] = 'Filtr';
 $labels['list'] = 'Seznam';
@@ -170,8 +170,9 @@ $labels['msgtext'] = 'Celá zpráva';
 $labels['openinextwin'] = 'Otevřít v novém okně';
 $labels['emlsave'] = 'Stáhnout (.eml)';
 $labels['editasnew'] = 'Upravit jako novou';
-$labels['savemessage'] = 'Uložit do rozepsaných';
+$labels['send'] = 'Odeslat';
 $labels['sendmessage'] = 'Odeslat zprávu nyní';
+$labels['savemessage'] = 'Uložit do rozepsaných';
 $labels['addattachment'] = 'Přidat přílohu';
 $labels['charset'] = 'Znaková sada';
 $labels['editortype'] = 'Typ editoru zpráv';
@@ -199,6 +200,9 @@ $labels['nosubject'] = '(bez predmetu)';
 $labels['showimages'] = 'Zobrazit obrázky';
 $labels['alwaysshow'] = 'Vždy ukazovat obrázky od $sender';
 $labels['isdraft'] = 'Toto je šablona zprávy.';
+$labels['andnmore'] = '$nr dalších...';
+$labels['togglemoreheaders'] = 'Zobrazit více hlaviček zprávy';
+$labels['togglefullheaders'] = 'Přepnout skutečné hlavičky zprávy';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Prostý text';
 $labels['savesentmessagein'] = 'Ukládat odeslané zprávy v';
@@ -299,7 +303,6 @@ $labels['importcontacts'] = 'Importovat kontakty';
 $labels['importfromfile'] = 'Importovat ze souboru';
 $labels['importtarget'] = 'Přidat nové kontakty do seznamu kontaktů:';
 $labels['importreplace'] = 'Nahradit celý seznam kontaktů';
-$labels['importtext'] = 'Můžete nahrát kontakty z existujícího seznamu kontaktů. Podporujeme formát vCard.';
 $labels['done'] = 'Hotovo';
 $labels['settingsfor'] = 'Nastavení pro';
 $labels['about'] = 'O programu';
@@ -324,8 +327,10 @@ $labels['timezone'] = 'Časová zóna';
 $labels['pagesize'] = 'Řádků na stránku';
 $labels['signature'] = 'Podpis';
 $labels['dstactive'] = 'Letní čas';
+$labels['showinextwin'] = 'Otevřít zprávu v novém okně';
 $labels['htmleditor'] = 'Vytvářet HTML zprávy';
 $labels['htmlonreply'] = 'jen při odpovědi na HTML zprávy';
+$labels['htmlonreplyandforward'] = 'při přeposlání nebo odpovědi na HTML zprávu';
 $labels['htmlsignature'] = 'HTML podpis';
 $labels['previewpane'] = 'Zobrazit panel náhledu';
 $labels['skin'] = 'Vzhled';
@@ -351,7 +356,6 @@ $labels['always'] = 'vždy';
 $labels['showinlineimages'] = 'Zobrazovat připojené obrázky pod textem';
 $labels['autosavedraft'] = 'Automaticky uložit rozepsané zprávy';
 $labels['everynminutes'] = 'každých $n minut';
-$labels['keepalive'] = 'Zkontrolovat nové zprávy';
 $labels['never'] = 'nikdy';
 $labels['immediately'] = 'ihned';
 $labels['messagesdisplaying'] = 'Zobrazování zpráv';
@@ -373,6 +377,7 @@ $labels['maintenance'] = 'Údržba';
 $labels['newmessage'] = 'Nová zpráva';
 $labels['signatureoptions'] = 'Nastavení podpisu';
 $labels['whenreplying'] = 'Při odpovídání';
+$labels['replyempty'] = 'necitovat původní zprávu';
 $labels['replytopposting'] = 'začít novou zprávu nad původní';
 $labels['replybottomposting'] = 'začít novou zprávu pod původní';
 $labels['replyremovesignature'] = 'Při odpovídání odstranit ze zprávy původní podpis';
@@ -398,6 +403,9 @@ $labels['spellcheckignorenums'] = 'Ignorovat slova obsahující čísla';
 $labels['spellcheckignorecaps'] = 'Ignorovat slova psaná velkými písmeny';
 $labels['addtodict'] = 'Přidat do slovníku';
 $labels['mailtoprotohandler'] = 'Zaregistrovat handler pro odkazy „mailto:“';
+$labels['forwardmode'] = 'Přeposlat zprávu';
+$labels['inline'] = 'vloženě';
+$labels['asattachment'] = 'jako přílohu';
 $labels['folder'] = 'Složka';
 $labels['foldername'] = 'Jméno složky';
 $labels['subscribed'] = 'Vybráno';

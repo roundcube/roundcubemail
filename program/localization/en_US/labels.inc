@@ -63,6 +63,8 @@ $labels['copy']     = 'Copy';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'Move to...';
 $labels['download'] = 'Download';
+$labels['showattachment'] = 'Show';
+$labels['showanyway'] = 'Show it anyway';
 
 $labels['filename'] = 'File name';
 $labels['filesize'] = 'File size';
@@ -203,8 +205,9 @@ $labels['emlsave'] = 'Download (.eml)';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';
-$labels['savemessage']    = 'Save as draft';
+$labels['send']           = 'Send';
 $labels['sendmessage']    = 'Send message';
+$labels['savemessage']    = 'Save as draft';
 $labels['addattachment']  = 'Attach a file';
 $labels['charset']        = 'Charset';
 $labels['editortype']     = 'Editor type';
@@ -236,6 +239,9 @@ $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Display images';
 $labels['alwaysshow'] = 'Always show images from $sender';
 $labels['isdraft']    = 'This is a draft message.';
+$labels['andnmore']   = '$nr more...';
+$labels['togglemoreheaders'] = 'Show more message headers';
+$labels['togglefullheaders'] = 'Toggle raw message headers';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';
@@ -350,7 +356,7 @@ $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
 $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
-$labels['importtext'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> data format.';
+$labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
 
 // settings
@@ -380,6 +386,8 @@ $labels['timezone']  = 'Time zone';
 $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Daylight saving time';
+$labels['showinextwin'] = 'Open message in a new window';
+$labels['composeextwin'] = 'Compose in a new window';
 $labels['htmleditor'] = 'Compose HTML messages';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
@@ -408,7 +416,7 @@ $labels['always'] = 'always';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minute(s)';
-$labels['keepalive']  = 'Check for new messages on';
+$labels['refreshinterval']  = 'Refresh (check for new messages, etc.)';
 $labels['never']  = 'never';
 $labels['immediately']  = 'immediately';
 $labels['messagesdisplaying'] = 'Displaying Messages';
@@ -446,7 +454,7 @@ $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
 $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
-$labels['defaultaddressbook'] = 'Add new contacts to the selected addressbook';
+$labels['defaultabook'] = 'Default address book';
 $labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
 $labels['listnamedisplay'] = 'List contacts as';
 $labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
@@ -486,6 +494,7 @@ $labels['sortasc']  = 'Sort ascending';
 $labels['sortdesc'] = 'Sort descending';
 $labels['undo'] = 'Undo';
 
+$labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';

@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hung Pham <phamhung77@gmail.com>                              |
+ | Author: Kenny Tran <kennethanh@gmail.com>                             |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Lưu trữ';
+$labels['archivefolder'] = 'Lưu trữ';
 $labels['buttontitle'] = 'Lưu lại bức thư này';
 $labels['archived'] = 'Lưu lại thành công';
-$labels['archivefolder'] = 'Danh sách thư cũ';
 

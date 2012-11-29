@@ -50,6 +50,7 @@ $langcode_map = array(
 	'km_KH' => 'km',
 	'ms_MY' => 'ms',
 	'mr_IN' => 'mr',
+	'ml_IN' => 'ml',
 	'pl_PL' => 'pl',
 	'si_LK' => 'si',
 	'sl_SI' => 'sl',

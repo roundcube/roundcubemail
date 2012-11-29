@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Ossama M. Khayat <okhayat@yahoo.com>                          |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'الأرشيف';
+$labels['archivefolder'] = 'الأرشيف';
 $labels['buttontitle'] = 'أرشف هذه الرسالة';
 $labels['archived'] = 'أُرشفت بنجاح';
-$labels['archivefolder'] = 'الأرشيف';
 

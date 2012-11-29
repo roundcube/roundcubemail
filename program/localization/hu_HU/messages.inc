@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Németh András <narzym@hotmail.com>                          |
+ | Author: bela                                                          |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,6 +26,7 @@ $messages['requesttimedout'] = 'A kérés túllépte az időkorlátot';
 $messages['errorreadonly'] = 'A műveletet nem sikerült végrehajtani. A mappa írásvédett.';
 $messages['errornoperm'] = 'A műveletet nem sikerült végrehajtani. Hozzáférés megtagadva.';
 $messages['invalidrequest'] = 'Érvénytelen kérés! Az adatok nem lettek elmentve.';
+$messages['invalidhost'] = 'Hibás szerver hoszt név';
 $messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
 $messages['loggedout'] = 'Sikeres kijelentkezés. Viszontlátásra!';
 $messages['mailboxempty'] = 'A fiók üres';
@@ -115,7 +116,6 @@ $messages['addresswriterror'] = 'A kiválasztott címjegyzék nem írható';
 $messages['contactaddedtogroup'] = 'A kapcsolat hozzáadása a csoporthoz sikeresen megtörtént';
 $messages['contactremovedfromgroup'] = 'A kapcsolat törlése a csoportból sikeresen megtörtént';
 $messages['importwait'] = 'Importálás folyamatban, kérem várjon...';
-$messages['importerror'] = 'Az importálás sikertelen! A feltöltött állomány nem egy érvényes vCard fájl.';
 $messages['importconfirm'] = '<b>Sikeresen importálásra került $inserted kapcsolat, kihagyva $skipped már létező bejegyzés</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Kihagyva $skipped már létező bejegyzés</b>';
 $messages['opnotpermitted'] = 'A művelet nem megengedett!';

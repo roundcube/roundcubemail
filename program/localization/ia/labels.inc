@@ -2,16 +2,15 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ia/labels.inc                                            |
+ | localization/ia/labels.inc                                         |
  |                                                                       |
  | Language file of the Roundcube Webmail client                         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emilio Sepulveda <emilio@chilemoz.org>                        |
+ | Author: Emilio Sepulveda                                              |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -120,8 +119,8 @@ $labels['resetsearch'] = 'Reinitialisar cerca';
 $labels['msgtext'] = 'Message complete';
 $labels['openinextwin'] = 'Aperir in nove fenestra';
 $labels['editasnew'] = 'Modificar como nove';
-$labels['savemessage'] = 'Salveguardar como version provisori';
 $labels['sendmessage'] = 'Inviar message';
+$labels['savemessage'] = 'Salveguardar como version provisori';
 $labels['addattachment'] = 'Attachar un file';
 $labels['charset'] = 'Insimul de Characteres';
 $labels['editortype'] = 'Typo de editor';

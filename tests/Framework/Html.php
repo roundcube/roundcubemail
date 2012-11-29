@@ -31,7 +31,6 @@ class Framework_Html extends PHPUnit_Framework_TestCase
             array('>', '&gt;'),
             array('&', '&amp;'),
             array('&amp;', '&amp;amp;'),
-            array('&amp;', '&amp;', true),
         );
     }
 
@@ -39,8 +38,8 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      * Test for quote()
      * @dataProvider data_quote
      */
-    function test_quote($str, $result, $validate = false)
+    function test_quote($str, $result)
     {
-        $this->assertEquals(html::quote($str, $validate), $result);
+        $this->assertEquals(html::quote($str), $result);
     }
 }

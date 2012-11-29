@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emi Bcn <Unknown>                                             |
+ | Author: Emi Bcn                                                       |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arxiva';
+$labels['archivefolder'] = 'Arxiva';
 $labels['buttontitle'] = 'Arxiva aquest missatge';
 $labels['archived'] = 'Arxivat correctament';
-$labels['archivefolder'] = 'Arxiva';
 

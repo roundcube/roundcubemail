@@ -69,17 +69,22 @@ class vcard_attachments extends rcube_plugin
             $vcards = rcube_vcard::import($this->message->get_part_content($part, null, true));
 
             // successfully parsed vcards?
-            if (empty($vcards))
+            if (empty($vcards)) {
                 continue;
+            }
 
             // remove part's body
-            if (in_array($part, $this->vcard_bodies))
+            if (in_array($part, $this->vcard_bodies)) {
                 $p['content'] = '';
+            }
 
             foreach ($vcards as $idx => $vcard) {
-                $display = $vcard->displayname;
-                if ($vcard->email[0])
-                    $display .= ' <'.$vcard->email[0].'>';
+                // skip invalid vCards
+                if (empty($vcard->email) || empty($vcard->email[0])) {
+                    continue;
+                }
+
+                $display = $vcard->displayname . ' <'.$vcard->email[0].'>';
 
                 // add box below message body
                 $p['content'] .= html::p(array('class' => 'vcardattachment'),
@@ -108,7 +113,7 @@ class vcard_attachments extends rcube_plugin
      */
     function save_vcard()
     {
-	    $this->add_texts('localization', true);
+        $this->add_texts('localization', true);
 
         $uid = get_input_value('_uid', RCUBE_INPUT_POST);
         $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);

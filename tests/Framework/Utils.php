@@ -193,4 +193,40 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
     }
+
+    /**
+     * Check rcube_utils::explode_quoted_string() compat. with explode()
+     */
+    function test_explode_quoted_string_compat()
+    {
+        $data = array('', 'a,b,c', 'a', ',', ',a');
+
+        foreach ($data as $text) {
+            $result = rcube_utils::explode_quoted_string(',', $text);
+            $this->assertSame(explode(',', $text), $result);
+        }
+    }
+
+    /**
+     * rcube_utils::get_boolean()
+     */
+    function test_get_boolean()
+    {
+        $input = array(
+            false, 'false', '0', 'no', 'off', 'nein', 'FALSE', '', null,
+        );
+
+        foreach ($input as $idx => $value) {
+            $this->assertFalse(get_boolean($value), "Invalid result for $idx test item");
+        }
+
+        $input = array(
+            true, 'true', '1', 1, 'yes', 'anything', 1000,
+        );
+
+        foreach ($input as $idx => $value) {
+            $this->assertTrue(get_boolean($value), "Invalid result for $idx test item");
+        }
+    }
+
 }

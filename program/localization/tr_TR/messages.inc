@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul                                                |
+ | Author: Gökdeniz Karadağ                                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,6 +26,7 @@ $messages['requesttimedout'] = 'İstek zaman aşımına uğradı';
 $messages['errorreadonly'] = 'İşlem gerçekleştirilemedi. Dizin salt okunabilir';
 $messages['errornoperm'] = 'İşlem gerçekleştirilemedi. İzin verilmedi.';
 $messages['invalidrequest'] = 'Geçersiz İstek! Veri kaydedilmedi';
+$messages['invalidhost'] = 'Geçersiz sunucu adı.';
 $messages['nomessagesfound'] = 'Posta kutusunda ileti bulunamadı';
 $messages['loggedout'] = 'Oturumu başarılı bir şekilde kapattınız. Güle güle!';
 $messages['mailboxempty'] = 'Posta kutusu boş';
@@ -115,7 +116,6 @@ $messages['addresswriterror'] = 'Seçili adres defterine yazılamaz';
 $messages['contactaddedtogroup'] = 'Kişiler bu gruba eklendi';
 $messages['contactremovedfromgroup'] = 'Kişiler bu gruptan çıkarıldı';
 $messages['importwait'] = 'Aktarılıyor, lütfen bekleyin...';
-$messages['importerror'] = 'İçe aktarma başarısız! Yüklenen dosya geçerli bir vCard dosyası değil';
 $messages['importconfirm'] = '<b>$inserted kişi başarıyla aktarıldı</b>';
 $messages['importconfirmskipped'] = '<b>Var olan $skipped girdi atlandı</b>';
 $messages['opnotpermitted'] = 'Bu işleme izin verilmedi!';

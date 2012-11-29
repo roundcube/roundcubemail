@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Christoph Wickert <Unknown>                                   |
+ | Author: SimonFS <simonschuette@arcor.de>                              |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -135,12 +134,12 @@ $labels['setactivated'] = 'Filtersatz wurde erfolgreich aktiviert';
 $labels['setdeactivated'] = 'Filtersatz wurde erfolgreich deaktiviert';
 $labels['setdeleted'] = 'Filtersatz wurde erfolgreich gelöscht';
 $labels['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
-$labels['setcreateerror'] = 'Kann Filtersatz nicht erstellen. Serverfehler';
+$labels['setcreateerror'] = 'Erstellen von Filter Sätzen nicht möglich. Es ist ein Server Fehler aufgetreten.';
 $labels['setcreated'] = 'Filtersatz wurde erfolgreich erstellt';
 $labels['activateerror'] = 'Filter kann nicht aktiviert werden. Serverfehler.';
 $labels['deactivateerror'] = 'Filter kann nicht deaktiviert werden. Serverfehler.';
-$labels['activated'] = 'Filter erfolgreich deaktiviert.';
-$labels['deactivated'] = 'Filter erfolgreich aktiviert.';
+$labels['activated'] = 'Filter erfolgreich aktiviert.';
+$labels['deactivated'] = 'Filter erfolgreich deaktiviert.';
 $labels['moved'] = 'Filter erfolgreich verschoben.';
 $labels['moveerror'] = 'Filter kann nicht verschoben werden. Serverfehler.';
 $labels['nametoolong'] = 'Kann Filtersatz nicht erstellen. Name zu lang';

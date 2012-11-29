@@ -102,7 +102,7 @@ class washtml
     'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight',
     'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
     'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace',
-    'cellborder', 'size', 'lang', 'dir', 'usemap',
+    'cellborder', 'size', 'lang', 'dir', 'usemap', 'shape', 'media',
     // attributes of form elements
     'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value'
   );

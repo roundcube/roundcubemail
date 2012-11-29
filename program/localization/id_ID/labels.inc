@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya <Unknown>                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -170,8 +169,8 @@ $labels['msgtext'] = 'Seluruh pesan';
 $labels['openinextwin'] = 'Buka dalam jendela baru';
 $labels['emlsave'] = 'Unduh (.eml)';
 $labels['editasnew'] = 'Sunting sebagai pesan baru';
-$labels['savemessage'] = 'Simpan konsep surat  ini';
 $labels['sendmessage'] = 'Kirim pesan sekarang';
+$labels['savemessage'] = 'Simpan konsep surat  ini';
 $labels['addattachment'] = 'Sisipkan sebuah berkas';
 $labels['charset'] = 'Set karakter';
 $labels['editortype'] = 'Tipe penyunting';
@@ -299,7 +298,6 @@ $labels['importcontacts'] = 'Impor kontak';
 $labels['importfromfile'] = 'Impor dari berkas:';
 $labels['importtarget'] = 'Tambahkan kontak baru ke buku alamat:';
 $labels['importreplace'] = 'Ganti seluruh buku alamat';
-$labels['importtext'] = 'Anda bisa mengunggah kontak dari buku alamat yang sudah ada.<br/>Kami kebetulan mendukung pengimportan alamat dari format data <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Selesai';
 $labels['settingsfor'] = 'Pengaturan untuk';
 $labels['about'] = 'Informasi program';
@@ -351,7 +349,6 @@ $labels['always'] = 'selalu';
 $labels['showinlineimages'] = 'Tampilkan gambar terlampir dibawah pesan';
 $labels['autosavedraft'] = 'Otomatis menyimpan pesan tertunda';
 $labels['everynminutes'] = 'setiap $n menit';
-$labels['keepalive'] = 'Periksa pesan baru saat';
 $labels['never'] = 'tidak pernah';
 $labels['immediately'] = 'secepatnya';
 $labels['messagesdisplaying'] = 'Penampilan Pesan';

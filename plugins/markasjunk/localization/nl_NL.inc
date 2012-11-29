@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Justin van Beusekom <Unknown>                                 |
+ | Author: Geert Wirken                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Markeer als spam';
 $labels['reportedasjunk'] = 'Succesvol gemarkeerd als spam';
 

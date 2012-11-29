@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Rimas Kudelis <rq@akl.lt>                                     |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Archyvuoti';
+$labels['archivefolder'] = 'Archyvuoti';
 $labels['buttontitle'] = 'Perkelti šį laišką į archyvą';
 $labels['archived'] = 'Laiškas sėkmingai perkeltas į archyvą';
-$labels['archivefolder'] = 'Archyvuoti';
 

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -130,8 +129,8 @@ $labels['msgtext'] = 'Цело писмо';
 $labels['openinextwin'] = 'Отвори во нов прозорец';
 $labels['emlsave'] = 'Преземи (.eml)';
 $labels['editasnew'] = 'Уреди како ново';
-$labels['savemessage'] = 'Зачувај го писмото во Непратени';
 $labels['sendmessage'] = 'Испрати сега';
+$labels['savemessage'] = 'Зачувај го писмото во Непратени';
 $labels['addattachment'] = 'Приложи податотека';
 $labels['charset'] = 'Збир од знаци';
 $labels['editortype'] = 'Тип на уредник';
@@ -189,7 +188,6 @@ $labels['import'] = 'Увези';
 $labels['importcontacts'] = 'Увези контакти';
 $labels['importfromfile'] = 'Увези од податотека:';
 $labels['importreplace'] = 'Замени го целиот именик';
-$labels['importtext'] = 'Можете да приложите контакти од веќе постоечки именик.<br/>Во моментот поддржуваме увоз на адреси од <a href="http://mk.wikipedia.org/wiki/VCard">vCard</a> форматот.';
 $labels['done'] = 'Завршено';
 $labels['settingsfor'] = 'Нагодувања за';
 $labels['preferences'] = 'Нагодувања';
@@ -232,7 +230,6 @@ $labels['always'] = 'секогаш';
 $labels['showinlineimages'] = 'Прикажи приложени слики под писмото';
 $labels['autosavedraft'] = 'Авоматски зачувувај во Непратени';
 $labels['everynminutes'] = 'секои $n минути';
-$labels['keepalive'] = 'Проверувај за нови писма на';
 $labels['never'] = 'никогаш';
 $labels['messagesdisplaying'] = 'Прикажување на писма';
 $labels['messagescomposition'] = 'Пишување на писма';

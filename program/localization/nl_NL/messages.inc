@@ -9,23 +9,24 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Geert Wirken                                                  |
+ | Author: Hendrik Maryns <hendrik@hendrikmaryns.name>                   |
  +-----------------------------------------------------------------------+
 */
 
 $messages = array();
 $messages['errortitle'] = 'Er is een fout opgetreden!';
-$messages['loginfailed'] = 'Inloggen mislukt.';
+$messages['loginfailed'] = 'Aanmelden mislukt.';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies.';
 $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig.';
 $messages['storageerror'] = 'Verbinding met IMAP-server mislukt.';
 $messages['servererror'] = 'Serverfout!';
 $messages['servererrormsg'] = 'Serverfout: $msg';
 $messages['dberror'] = 'Databasefout!';
-$messages['requesttimedout'] = 'Opdracht duurde te lang';
+$messages['requesttimedout'] = 'Wachttijd verzoek overschreden';
 $messages['errorreadonly'] = 'Niet in staat om de bewerking uit te voeren. Map is alleen-lezen.';
 $messages['errornoperm'] = 'Niet in staat om de bewerking uit te voeren. Toestemming geweigerd.';
 $messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgeslagen.';
+$messages['invalidhost'] = 'Ongeldige servernaam.';
 $messages['nomessagesfound'] = 'Geen berichten gevonden in deze mailbox.';
 $messages['loggedout'] = 'Succesvol uitgelogd. Tot ziens!';
 $messages['mailboxempty'] = 'Mailbox is leeg.';
@@ -114,8 +115,8 @@ $messages['selectimportfile'] = 'Selecteer een bestand om de uploaden.';
 $messages['addresswriterror'] = 'Het geselecteerde adresboek is alleen lezen.';
 $messages['contactaddedtogroup'] = 'Contact(en) met succes toegevoegd aan de groep.';
 $messages['contactremovedfromgroup'] = 'Contact(en) met succes verwijderd aan de groep.';
+$messages['nogroupassignmentschanged'] = 'Geen groepstoewijzingen aangepast.';
 $messages['importwait'] = 'Importeren, even geduld...';
-$messages['importerror'] = 'Importeren mislukt! Het verstuurde bestand is geen geldig vCard bestand.';
 $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol geïmporteerd, en $skipped bestaande overgeslagen</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>$skipped bestaande contactpersonen overgeslagen</b>';
 $messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';

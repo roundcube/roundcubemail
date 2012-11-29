@@ -7,12 +7,32 @@
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
 <roundcube:endif />
 </head>
-<body>
+<roundcube:if condition="env:extwin" /><body class="extwin"><roundcube:else /><body><roundcube:endif />
 
-<div class="minwidth">
 <roundcube:include file="/includes/header.html" />
 
 <div id="mainscreen">
+
+<!-- toolbar -->
+<div id="messagetoolbar" class="fullwidth">
+<div id="mailtoolbar" class="toolbar">
+	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="cancel" condition="!env:extwin" />
+	<roundcube:button command="close" type="link" class="button close disabled" classAct="button close" classSel="button close pressed" label="cancel" condition="env:extwin" />
+	<span class="spacer"></span>
+	<roundcube:button command="send" type="link" class="button send" classAct="button send" classSel="button send pressed" label="send" title="sendmessage" />
+	<roundcube:button command="savedraft" type="link" class="button savedraft" classAct="button savedraft" classSel="button savedraft pressed" label="save" title="savemessage" />
+	<span class="spacer"></span>
+	<roundcube:if condition="config:enable_spellcheck" />
+	<span class="dropbutton">
+		<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled" classAct="button spellcheck" classSel="button spellcheck pressed" label="spellcheck" title="checkspelling" />
+		<span class="dropbuttontip" id="spellmenulink" onclick="UI.show_popup('spellmenu');return false"></span>
+	</span>
+	<roundcube:endif />
+	<roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attach pressed" label="attach" title="addattachment" onclick="UI.show_uploadform();return false" />
+	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" classSel="button insertsig pressed" label="signature" title="insertsignature" />
+	<roundcube:container name="toolbar" id="compose-toolbar" />
+</div>
+</div>
 
 <div id="composeview-left">
 
@@ -38,25 +58,11 @@
 
 <div id="composeview-right">
 
-<!-- toolbar -->
-<div id="messagetoolbar" class="fullwidth">
-<div id="mailtoolbar" class="toolbar">
-	<roundcube:if condition="config:enable_spellcheck" />
-	<span class="dropbutton">
-		<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled" classAct="button spellcheck" classSel="button spellcheck pressed" label="spellcheck" title="checkspelling" />
-		<span class="dropbuttontip" id="spellmenulink" onclick="UI.show_popup('spellmenu');return false"></span>
-	</span>
-	<roundcube:endif />
-	<roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attach pressed" label="attach" title="addattachment" onclick="UI.show_uploadform();return false" />
-	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" classSel="button insertsig pressed" label="signature" title="insertsignature" />
-	<roundcube:container name="toolbar" id="compose-toolbar" />
-</div>
-</div>
-
 <form name="form" action="./" method="post" id="compose-content" class="uibox">
 
 <!-- message headers -->
 <div id="composeheaders">
+<a href="#options" id="composeoptionstoggle" class="moreheaderstoggle"><span class="iconlink" title="<roundcube:label name='options' />"></span></a>
 
 <table class="headers-table compose-headers">
 <tbody>
@@ -108,43 +114,36 @@
 </tbody>
 </table>
 
-<div id="composebuttons" class="formbuttons">
-	<roundcube:button type="input" command="send" class="button mainaction" label="sendmessage" tabindex="11" />
-	<roundcube:button type="input" command="savedraft" class="button" label="savemessage" tabindex="12" />
-	<roundcube:button type="input" command="list" class="button" label="cancel" tabindex="13" />
-</div>
-
+<div id="composebuttons" class="pagenav formbuttons">
+	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="inner" title="openinextwin" content="[]" condition="!env:extwin" />
 </div>
 
 <!-- (collapsable) message options -->
-<div id="composeoptionsbox">
+<div id="composeoptions">
+	<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
 	<span class="composeoption">
-		<label><roundcube:label name="options" />
-			<a href="#options" id="composeoptionstoggle">&nbsp;</a></label>
+		<label><roundcube:label name="editortype" />
+			<roundcube:object name="editorSelector" editorid="composebody" tabindex="14" /></label>
 	</span>
-	
-	<div id="composeoptions">
-		<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
-		<span class="composeoption">
-			<label><roundcube:label name="editortype" />
-				<roundcube:object name="editorSelector" editorid="composebody" tabindex="14" /></label>
-		</span>
-		<roundcube:endif />
-		<span class="composeoption">
-			<label for="rcmcomposepriority"><roundcube:label name="priority" />
-				<roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" /></label>
-		</span>
-		<span class="composeoption">
-			<label><roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" /> <roundcube:label name="returnreceipt" /></label>
-		</span>
-		<span class="composeoption">
-			<label><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" /> <roundcube:label name="dsn" /></label>
-		</span>
-		<span class="composeoption">
-			<label><roundcube:label name="savesentmessagein" /> <roundcube:object name="storetarget" maxlength="30" style="max-width:12em" /></label>
-		</span>
-		<roundcube:container name="composeoptions" id="composeoptions" />
-	</div>
+	<roundcube:endif />
+	<span class="composeoption">
+		<label for="rcmcomposepriority"><roundcube:label name="priority" />
+			<roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" /></label>
+	</span>
+	<span class="composeoption">
+		<label><roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" /> <roundcube:label name="returnreceipt" /></label>
+	</span>
+	<span class="composeoption">
+		<label><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" /> <roundcube:label name="dsn" /></label>
+	</span>
+	<roundcube:if condition="!config:no_save_sent_messages" />
+	<span class="composeoption">
+		<label><roundcube:label name="savesentmessagein" /> <roundcube:object name="storetarget" maxlength="30" style="max-width:12em" /></label>
+	</span>
+	<roundcube:endif />
+	<roundcube:container name="composeoptions" id="composeoptions" />
+</div>
+
 </div>
 
 <!-- message compose body -->
@@ -154,11 +153,18 @@
 	</div>
 	<div id="compose-attachments" class="rightcol">
 		<div style="text-align:center; margin-bottom:20px">
-			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="addattachment" onclick="UI.show_uploadform();return false" tabindex="10" />
+			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="addattachment" onclick="UI.show_uploadform();return false" />
 		</div>
 		<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" />
 		<roundcube:object name="fileDropArea" id="compose-attachments" />
 	</div>
+<!--
+	<div id="composeformbuttons" class="footerleft formbuttons floating">
+		<roundcube:button type="input" command="send" class="button mainaction" label="sendmessage" tabindex="11" />
+		<roundcube:button type="input" command="savedraft" class="button" label="savemessage" tabindex="12" />
+		<roundcube:button type="input" command="list" class="button" label="cancel" tabindex="13" />
+	</div>
+-->
 </div>
 
 </form>
@@ -170,8 +176,6 @@
 </div><!-- end mailview-right -->
 
 </div><!-- end mainscreen -->
-
-</div><!-- end minwidth -->
 
 <div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='addattachment' />">
 	<roundcube:object name="composeAttachmentForm" id="uploadform" attachmentFieldSize="40" buttons="no" />

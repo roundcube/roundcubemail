@@ -4,10 +4,12 @@
     <testsuites>
         <testsuite name="All Tests">
             <file>Framework/BaseReplacer.php</file>
+            <file>Framework/Bootstrap.php</file>
             <file>Framework/Browser.php</file>
             <file>Framework/Cache.php</file>
             <file>Framework/Charset.php</file>
             <file>Framework/ContentFilter.php</file>
+            <file>Framework/Csv2vcard.php</file>
             <file>Framework/Html.php</file>
             <file>Framework/Imap.php</file>
             <file>Framework/ImapGeneric.php</file>
@@ -19,7 +21,6 @@
             <file>Framework/ResultIndex.php</file>
             <file>Framework/ResultSet.php</file>
             <file>Framework/ResultThread.php</file>
-            <file>Framework/Shared.php</file>
             <file>Framework/Smtp.php</file>
             <file>Framework/Spellchecker.php</file>
             <file>Framework/StringReplacer.php</file>
@@ -29,7 +30,7 @@
             <file>HtmlToText.php</file>
             <file>MailFunc.php</file>
         </testsuite>
-        <testsuite name="managesieve">
+        <testsuite name="Managesieve Tests">
             <file>./../plugins/managesieve/tests/Parser.php</file>
             <file>./../plugins/managesieve/tests/Tokenizer.php</file>
         </testsuite>

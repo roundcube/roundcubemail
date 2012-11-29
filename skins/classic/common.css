@@ -156,6 +156,11 @@ img
   left: 20px;
 }
 
+.extwin #mainscreen
+{
+  top: 43px;
+}
+
 body > #logo
 {
   margin-left: 12px;
@@ -775,6 +780,14 @@ a.rcmContactAddress:hover
 	font-size: 85%;
 	text-align: center;
 	color: #666;
+}
+
+#login-noscriptwarning
+{
+	margin: 2em auto 0 auto;
+	width: 400px;
+	color: #cf2734;
+	font-weight: bold;
 }
 
 #console

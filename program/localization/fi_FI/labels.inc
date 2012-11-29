@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jiri Grönroos                                                |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
 */
 
@@ -169,8 +169,8 @@ $labels['msgtext'] = 'Koko viesti';
 $labels['openinextwin'] = 'Avaa uudessa ikkunassa';
 $labels['emlsave'] = 'Tallenna (.eml)';
 $labels['editasnew'] = 'Muokkaa uutena';
-$labels['savemessage'] = 'Tallenna tämä luonnos';
 $labels['sendmessage'] = 'Lähetä viesti';
+$labels['savemessage'] = 'Tallenna tämä luonnos';
 $labels['addattachment'] = 'Liitetiedosto';
 $labels['charset'] = 'Merkistö';
 $labels['editortype'] = 'Editorin tyyppi';
@@ -298,7 +298,6 @@ $labels['importcontacts'] = 'Tuo yhteystiedot';
 $labels['importfromfile'] = 'Tuo tiedostosta:';
 $labels['importtarget'] = 'Lisää uudet yhteystiedot osoitekirjaan:';
 $labels['importreplace'] = 'Korvaa koko osoitekirja';
-$labels['importtext'] = 'Voit lähettää yhteystietoja muista osoitekirjoistna.Kontaktien tuomine on hetkellä mahdollista vCard-muodossa.';
 $labels['done'] = 'Valmis';
 $labels['settingsfor'] = 'Asetukset';
 $labels['about'] = 'Tietoja';
@@ -350,7 +349,6 @@ $labels['always'] = 'aina';
 $labels['showinlineimages'] = 'Näytä liitekuvat viestin jälkeen';
 $labels['autosavedraft'] = 'Tallenna luonnos automaattisesti';
 $labels['everynminutes'] = 'joka $n. minuutti';
-$labels['keepalive'] = 'Tarkasta uudet viestit';
 $labels['never'] = 'ei koskaan';
 $labels['immediately'] = 'välittömästi';
 $labels['messagesdisplaying'] = 'Viestien näyttäminen';

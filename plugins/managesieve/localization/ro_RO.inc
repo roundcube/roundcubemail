@@ -11,7 +11,6 @@
  +-----------------------------------------------------------------------+
  | Author: tudor <tudor@starnet-alba.ro>                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,6 @@ $labels['add'] = 'Adaugă';
 $labels['del'] = 'Șterge';
 $labels['sender'] = 'Expeditor';
 $labels['recipient'] = 'Destinatar';
-$labels['vacationaddresses'] = 'Listă adiţională cu email-urile destinatarilor (separate prin virgulă):';
 $labels['vacationdays'] = 'Cât de des să trimit mesajele (în zile):';
 $labels['vacationreason'] = 'Corpul mesajului (motivul vacanţei):';
 $labels['vacationsubject'] = 'Subiectul mesajului:';

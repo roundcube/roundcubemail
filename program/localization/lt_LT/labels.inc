@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Rimas Kudelis <rq@akl.lt>                                     |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -170,8 +169,8 @@ $labels['msgtext'] = 'Visas laiškas';
 $labels['openinextwin'] = 'Atverti naujame lange';
 $labels['emlsave'] = 'Parsisiųsti (.eml)';
 $labels['editasnew'] = 'Redaguoti kaip naują';
-$labels['savemessage'] = 'Išsaugoti šį juodraštį';
 $labels['sendmessage'] = 'Išsiųsti laiską';
+$labels['savemessage'] = 'Išsaugoti šį juodraštį';
 $labels['addattachment'] = 'Pridėti failą';
 $labels['charset'] = 'Koduotė';
 $labels['editortype'] = 'Laiško tipas';
@@ -299,7 +298,6 @@ $labels['importcontacts'] = 'Importuoti adresatus';
 $labels['importfromfile'] = 'Importuoti iš failo:';
 $labels['importtarget'] = 'Pridėti naujus adresatus į adresų knygą:';
 $labels['importreplace'] = 'Perrašyti visą adresų knygą';
-$labels['importtext'] = 'Jūs galite įkelti adresatus iš egzistuojančios adresų knygos.<br/>Šiuo metu galima importuoti adresus iš <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> tipo failų.';
 $labels['done'] = 'Baigta';
 $labels['settingsfor'] = 'Nuostatos';
 $labels['about'] = 'Apie';
@@ -351,7 +349,6 @@ $labels['always'] = 'visada';
 $labels['showinlineimages'] = 'Rodyti pridėtus paveikslėlius žemiau laiško';
 $labels['autosavedraft'] = 'Automatiškai įrašyti juodraščius';
 $labels['everynminutes'] = 'kas $n min.';
-$labels['keepalive'] = 'Tikrinti ar yra naujų laiškų';
 $labels['never'] = 'niekada';
 $labels['immediately'] = 'nedelsiant';
 $labels['messagesdisplaying'] = 'Laiškų rodymas';

@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul <Unknown>                                      |
+ | Author: ismail yenigul                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arşiv';
+$labels['archivefolder'] = 'Arşiv';
 $labels['buttontitle'] = 'Bu postayı arşivle';
 $labels['archived'] = 'Başarıyla arşivlendi';
-$labels['archivefolder'] = 'Arşiv';
 

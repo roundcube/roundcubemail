@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jóhannes Birgir Jensson <joi@betra.is>                       |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -169,8 +168,8 @@ $labels['msgtext'] = 'Allt skeytið';
 $labels['openinextwin'] = 'Opna í nýjum glugga';
 $labels['emlsave'] = 'Niðurhlaða (.eml)';
 $labels['editasnew'] = 'Breyta sem nýju';
-$labels['savemessage'] = 'Vista drög';
 $labels['sendmessage'] = 'Senda skeytið núna';
+$labels['savemessage'] = 'Vista drög';
 $labels['addattachment'] = 'Hengja við';
 $labels['charset'] = 'Stafasett';
 $labels['editortype'] = 'Gerð ritils';
@@ -296,7 +295,6 @@ $labels['importcontacts'] = 'Flytja inn nafnspjöld';
 $labels['importfromfile'] = 'Flytja inn af skrá';
 $labels['importtarget'] = 'Bæta nýjum tengiliðum við:';
 $labels['importreplace'] = 'Skipta út allri netfangaskránni';
-$labels['importtext'] = 'Þú getur flutt inn nafnspjöld frá núverandi netfangaskrá. <br/>Nú styðjum við innflutning á netföngum á <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> formi.';
 $labels['done'] = 'Búið';
 $labels['settingsfor'] = 'Stillingar fyrir';
 $labels['about'] = 'Um forritið';
@@ -347,7 +345,6 @@ $labels['always'] = 'alltaf';
 $labels['showinlineimages'] = 'Sýna viðhangandi myndir fyrir neðan skeytið';
 $labels['autosavedraft'] = 'Vista sjálfkrafa sem drög';
 $labels['everynminutes'] = '$n mínútu fresti';
-$labels['keepalive'] = 'Athuga ný skeyti á';
 $labels['never'] = 'aldrei';
 $labels['immediately'] = 'samstundis';
 $labels['messagesdisplaying'] = 'Sýni skeyti';

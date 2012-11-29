@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: Barbara Krasovec <barbarak@arnes.si>                          |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arhiv';
+$labels['archivefolder'] = 'Arhiv';
 $labels['buttontitle'] = 'Arhiviraj to sporočilo';
 $labels['archived'] = 'Sporočilo je bilo uspešno arhivirano';
-$labels['archivefolder'] = 'Arhiv';
 

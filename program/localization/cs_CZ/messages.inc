@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tomáš Kyzlink                                               |
+ | Author: Zbynek Vanzura <heptau@gmail.com>                             |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,6 +26,7 @@ $messages['requesttimedout'] = 'Došlo k vypršení požadavku';
 $messages['errorreadonly'] = 'Příkaz nelze provést, složka je určena jen ke čtení.';
 $messages['errornoperm'] = 'Příkaz nelze provést, nemáte oprávnění.';
 $messages['invalidrequest'] = 'Nesprávný požadavek. Data nebyla uložena.';
+$messages['invalidhost'] = 'Špatné jméno serveru.';
 $messages['nomessagesfound'] = 'Ve schránce nebyla nalezena žádná zpráva';
 $messages['loggedout'] = 'Byli jste úspěšně odhlášeni. Nashledanou!';
 $messages['mailboxempty'] = 'Schránka je prázdná';
@@ -115,7 +116,6 @@ $messages['addresswriterror'] = 'Vybraný seznam kontaktů není zapisovatelný'
 $messages['contactaddedtogroup'] = 'Kontakty byly úspěšně přidány do této skupiny';
 $messages['contactremovedfromgroup'] = 'Kontakty byly odstraněny z této skupiny';
 $messages['importwait'] = 'Importuji, prosím čekejte...';
-$messages['importerror'] = 'Během importu nastala chyba! Nahraný soubor není ve formátu vCard.';
 $messages['importconfirm'] = 'Úspěšně naimportováno $inserted kontaktů, $skipped existujících záznamů přeskočeno: $names';
 $messages['importconfirmskipped'] = '<b>Přeskočeno $skipped existujících položek</b>';
 $messages['opnotpermitted'] = 'Operace není povolena!';

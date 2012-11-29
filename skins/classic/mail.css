@@ -13,6 +13,12 @@
 /*  border: 1px solid #cccccc; */
 }
 
+.extwin #messagetoolbar
+{
+  top: 5px;
+  left: 20px;
+}
+
 #messagetoolbar a,
 #messagetoolbar select
 {
@@ -299,7 +305,6 @@
   bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
-  overflow: hidden;
 }
 
 #messagecontframe
@@ -359,7 +364,6 @@
   bottom: 0;
   border: 1px solid #999;
   background-color: #F9F9F9;
-  overflow: hidden;
 }
 
 #mailboxlist
@@ -1041,6 +1045,11 @@ td span.branch div.l3
   z-index: 1;
 }
 
+.extwin #messageframe
+{
+	left: 0;
+}
+
 div.messageheaderbox
 {
   margin: -14px 8px 0px 8px;
@@ -1245,7 +1254,66 @@ div.message-htmlpart div.rcmBody
   color: #333333;
 }
 
-#messageviewlink
+#messagebody fieldset.image-attachment {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 1em 0 1em;
+}
+
+#messagebody fieldset.image-attachment p > img
+{
+  max-width: 80%;
+}
+
+#messagebody legend.image-filename
+{
+  color: #999;
+  font-size: 0.9em;
+}
+
+#messagebody p.image-attachment
+{
+  margin: 0 1em;
+  padding: 1em;
+  border-top: 1px solid #ccc;
+}
+
+#messagebody p.image-attachment a.image-link
+{
+  float: left;
+  margin-right: 2em;
+  min-width: 160px;
+  min-height: 60px;
+  text-align: center;
+}
+
+#messagebody p.image-attachment .image-filename
+{
+  display: block;
+  font-weight: bold;
+  line-height: 1.6em;
+}
+
+#messagebody p.image-attachment .image-filesize
+{
+  font-size: 11px;
+  padding-right: 1em;
+}
+
+#messagebody p.image-attachment .attachment-links a
+{
+  margin-right: 0.6em;
+  color: #cc0000;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+#messagebody p.image-attachment .attachment-links a:hover
+{
+  text-decoration: underline;
+}
+
+#openextwinlink
 {
   position: absolute;
   top: 8px;
@@ -1253,6 +1321,12 @@ div.message-htmlpart div.rcmBody
   width: 15px;
   height: 15px;
   border: 0;
+}
+
+#compose-headers #openextwinlink
+{
+	top: 4px;
+	right: 2px;
 }
 
 #full-headers

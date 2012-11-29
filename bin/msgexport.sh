@@ -71,7 +71,8 @@ function export_mailbox($mbox, $filename)
 
 
 // get arguments
-$args = get_opt(array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file')) + array('host' => 'localhost', 'mbox' => 'INBOX');
+$opts = array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file');
+$args = rcube_utils::get_opt($opts) + array('host' => 'localhost', 'mbox' => 'INBOX');
 
 if ($_SERVER['argv'][1] == 'help')
 {
@@ -93,7 +94,7 @@ if (empty($args['user']))
 }
 
 // prompt for password
-$args['pass'] = prompt_silent("Password: ");
+$args['pass'] = rcube_utils::prompt_silent("Password: ");
 
 
 // parse $host URL

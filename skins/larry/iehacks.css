@@ -143,16 +143,12 @@ ul.toolbarmenu li a.active:hover,
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#005d76', endColorstr='#004558', GradientType=0);
 }
 
-#partheader, #composeheaders {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e9e9e9', GradientType=0);
+#messageheader, #partheader, #composeheaders {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0', GradientType=0);
 }
 
-#previewheaderstoggle {
+.moreheaderstoggle {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#e9e9e9', GradientType=1);
-}
-
-#composeoptionsbox {
-	border-top: 1px solid #999;
 }
 
 #messagelist tbody tr td span.branch div {

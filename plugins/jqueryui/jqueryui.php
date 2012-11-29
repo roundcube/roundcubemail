@@ -5,7 +5,7 @@
  *
  * Provide the jQuery UI library with according themes.
  *
- * @version 1.8.18
+ * @version 1.9.1
  * @author Cor Bosman <roundcube@wa.ter.net>
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
@@ -15,7 +15,7 @@ class jqueryui extends rcube_plugin
 
     public function init()
     {
-        $version = '1.8.18';
+        $version = '1.9.1';
 
         $rcmail = rcmail::get_instance();
         $this->load_config();

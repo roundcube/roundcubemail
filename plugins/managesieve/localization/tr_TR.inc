@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul <Unknown>                                      |
+ | Author: ismail yenigul                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,7 @@ $labels['add'] = 'Ekle';
 $labels['del'] = 'Sil';
 $labels['sender'] = 'Gönderici';
 $labels['recipient'] = 'Alıcı';
-$labels['vacationaddresses'] = 'İlave e-posta alıcıları listesi(virgüllü ayrılmış)';
+$labels['vacationaddresses'] = 'İlave e-posta adreslerim(virgül ile ayrılmış)';
 $labels['vacationdays'] = 'Ne sıklıkla mesajlar gönderilir(gün)';
 $labels['vacationreason'] = 'Mesaj gövdesi(tatil sebebi):';
 $labels['vacationsubject'] = 'Mesaj konusu:';

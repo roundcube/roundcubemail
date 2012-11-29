@@ -67,9 +67,10 @@ class archive extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
     $archive_folder = $rcmail->config->get('archive_mbox');
+    $localize_name = $rcmail->config->get('archive_localize_name', true);
 
     // set localized name for the configured archive folder
-    if ($archive_folder) {
+    if ($archive_folder && $localize_name) {
       if (isset($p['list'][$archive_folder]))
         $p['list'][$archive_folder]['name'] = $this->gettext('archivefolder');
       else // search in subfolders

@@ -198,6 +198,46 @@ div.readtext
   margin-top: 1.5em;
 }
 
+.skinselection
+{
+  display: block;
+  white-space: nowrap;
+  margin: 0.3em 0;
+}
+
+.skinselection span
+{
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 1em;
+}
+
+.skinselection .skinname
+{
+  font-weight: bold;
+}
+
+.skinselection .skinlicense,
+.skinselection .skinlicense a
+{
+  color: #999;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.skinselection .skinlicense a:hover
+{
+  text-decoration: underline;
+}
+
+img.skinthumbnail
+{
+  width: 64px;
+  height: 64px;
+  border: 1px solid #999;
+  background: #fff;
+}
+
 #pluginlist
 {
   border: 1px solid #999;

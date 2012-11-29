@@ -30,7 +30,7 @@ function rcmail_import_form($attrib)
 
   $attrib += array('id' => "rcmImportForm");
 
-  $writable_books = $RCMAIL->get_address_sources(true);
+  $writable_books = $RCMAIL->get_address_sources(true, true);
 
   $upload = new html_inputfield(array(
     'type' => 'file',
@@ -43,7 +43,7 @@ function rcmail_import_form($attrib)
 
   // addressbook selector
   if (count($writable_books) > 1) {
-    $select = new html_select(array('name' => '_target', 'id' => 'rcmimporttarget'));
+    $select = new html_select(array('name' => '_target', 'id' => 'rcmimporttarget', 'is_escaped' => true));
 
     foreach ($writable_books as $book)
         $select->add($book['name'], $book['id']);
@@ -64,7 +64,7 @@ function rcmail_import_form($attrib)
   $OUTPUT->add_label('selectimportfile','importwait');
   $OUTPUT->add_gui_object('importform', $attrib['id']);
 
-  $out = html::p(null, Q(rcube_label('importtext'), 'show'));
+  $out = html::p(null, Q(rcube_label('importdesc'), 'show'));
 
   $out .= $OUTPUT->form_tag(array(
       'action' => $RCMAIL->url('import'),
@@ -159,11 +159,22 @@ if (is_array($_FILES['_file'])) {
                 $upload_error = $err;
             }
             else {
+                $file_content = file_get_contents($filepath);
+
                 // let rcube_vcard do the hard work :-)
                 $vcard_o = new rcube_vcard();
                 $vcard_o->extend_fieldmap($CONTACTS->vcard_map);
+                $v_list = $vcard_o->import($file_content);
 
-                $v_list = $vcard_o->import(file_get_contents($filepath));
+                if (!empty($v_list)) {
+                    $vcards = array_merge($vcards, $v_list);
+                    continue;
+                }
+
+                // no vCards found, try CSV
+                $csv = new rcube_csv2vcard($_SESSION['language']);
+                $csv->import($file_content);
+                $v_list = $csv->export();
 
                 if (!empty($v_list)) {
                     $vcards = array_merge($vcards, $v_list);
@@ -181,7 +192,7 @@ if (is_array($_FILES['_file'])) {
             $OUTPUT->show_message('fileuploaderror', 'error');
         }
         else {
-            $OUTPUT->show_message('importerror', 'error');
+            $OUTPUT->show_message('importformaterror', 'error');
         }
     }
     else {
@@ -189,32 +200,36 @@ if (is_array($_FILES['_file'])) {
         $IMPORT_STATS->names = array();
         $IMPORT_STATS->skipped_names = array();
         $IMPORT_STATS->count = count($vcards);
-        $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->nomail = $IMPORT_STATS->errors = 0;
+        $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->invalid = $IMPORT_STATS->errors = 0;
 
         if ($replace) {
             $CONTACTS->delete_all();
         }
 
         foreach ($vcards as $vcard) {
-            $email    = $vcard->email[0];
             $a_record = $vcard->get_assoc();
 
-            // skip entries without an e-mail address or invalid
-            if (empty($email) || !$CONTACTS->validate($a_record, true)) {
-                $IMPORT_STATS->nomail++;
+            // skip invalid (incomplete) entries
+            if (!$CONTACTS->validate($a_record, true)) {
+                $IMPORT_STATS->invalid++;
                 continue;
             }
 
             // We're using UTF8 internally
+            $email = $vcard->email[0];
             $email = rcube_idn_to_utf8($email);
 
-            if (!$replace && $email) {
+            if (!$replace) {
+                $existing = null;
                 // compare e-mail address
-                $existing = $CONTACTS->search('email', $email, 1, false);
-                if (!$existing->count && $vcard->displayname) {  // compare display name
+                if ($email) {
+                    $existing = $CONTACTS->search('email', $email, 1, false);
+                }
+                // compare display name if email not found
+                if ((!$existing || !$existing->count) && $vcard->displayname) {
                     $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
                 }
-                if ($existing->count) {
+                if ($existing && $existing->count) {
                     $IMPORT_STATS->skipped++;
                     $IMPORT_STATS->skipped_names[] = $vcard->displayname ? $vcard->displayname : $email;
                     continue;

@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dafydd Tomos <Unknown>                                        |
+ | Author: Dafydd Tomos                                                  |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -94,7 +93,7 @@ $labels['longoct'] = 'Hydref';
 $labels['longnov'] = 'Tachwedd';
 $labels['longdec'] = 'Rhagfyr';
 $labels['today'] = 'Heddiw';
-$labels['refresh'] = 'Adnewyddu';
+$labels['refresh'] = 'Ail-ofyn';
 $labels['checkmail'] = 'Edrych am negeseuon newydd';
 $labels['compose'] = 'Ysgrifennu neges';
 $labels['writenewmessage'] = 'Creu neges newydd';
@@ -135,6 +134,7 @@ $labels['unread'] = 'Heb eu darllen';
 $labels['flagged'] = 'Nodwyd';
 $labels['unanswered'] = 'Heb ei ateb';
 $labels['deleted'] = 'Dilewyd';
+$labels['undeleted'] = 'Heb ei ddileu';
 $labels['invert'] = 'Gwrth-droi';
 $labels['filter'] = 'Hidlo';
 $labels['list'] = 'Rhestr';
@@ -170,8 +170,9 @@ $labels['msgtext'] = 'Y neges yn llawn';
 $labels['openinextwin'] = 'Agor mewn ffenest newydd';
 $labels['emlsave'] = 'Llwytho lawr (.eml)';
 $labels['editasnew'] = 'Golygu fel neges newydd';
-$labels['savemessage'] = 'Cadw\'r drafft hwn';
+$labels['send'] = 'Anfon';
 $labels['sendmessage'] = 'Danfon nawr';
+$labels['savemessage'] = 'Cadw\'r drafft hwn';
 $labels['addattachment'] = 'Atodi ffeil';
 $labels['charset'] = 'Set nodiau';
 $labels['editortype'] = 'Math golygydd';
@@ -199,6 +200,9 @@ $labels['nosubject'] = '(dim pwnc)';
 $labels['showimages'] = 'Dangos lluniau';
 $labels['alwaysshow'] = 'Dangos lluniau bob amser o $sender';
 $labels['isdraft'] = 'Mae hwn yn neges ddrafft';
+$labels['andnmore'] = '$nr mwy...';
+$labels['togglemoreheaders'] = 'Dangos fwy o benynnau\'r neges';
+$labels['togglefullheaders'] = 'Toglo penawdau llawn y neges';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Testun plaen';
 $labels['savesentmessagein'] = 'Cadw negeseuon a ddanfonir yn';
@@ -299,7 +303,6 @@ $labels['importcontacts'] = 'Mewnforio cysylltiadau';
 $labels['importfromfile'] = 'Mewnforio o ffeil:';
 $labels['importtarget'] = 'Ychwanegu cysylltiadau newydd i\'r llyfr cyfeiriad:';
 $labels['importreplace'] = 'Dileu y llyfr cyfeiriadau cyfan wrth lwytho';
-$labels['importtext'] = 'Fe allwch chi lwytho fyny cysylltiadau o lyfr cyfeiriadau sy\'n bodoli yn barod. Ar hyn o bryd rydyn\' ni\'n cefnogi mewnforio cyfeiriadau yn y fformat <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>.';
 $labels['done'] = 'Wedi gorffen';
 $labels['settingsfor'] = 'Gosodiadau ar gyfer';
 $labels['about'] = 'Amdan';
@@ -324,8 +327,11 @@ $labels['timezone'] = 'Parth amser';
 $labels['pagesize'] = 'Rhesi ar bob tudalen';
 $labels['signature'] = 'Llofnod';
 $labels['dstactive'] = 'Amser arbed golau ddydd';
+$labels['showinextwin'] = 'Agor neges mewn ffenest newydd';
+$labels['composeextwin'] = 'Ysgrifennu mewn ffenest newydd';
 $labels['htmleditor'] = 'Ysgrifennu negeseuon HTML';
 $labels['htmlonreply'] = 'wrth ateb i neges HTML yn unig';
+$labels['htmlonreplyandforward'] = 'wrth ddanfon ymlaen neu ymateb i neges HTML';
 $labels['htmlsignature'] = 'Llofnod HTML';
 $labels['previewpane'] = 'Dangos ffenest rhagolwg';
 $labels['skin'] = 'Croen rhyngwyneb';
@@ -351,7 +357,6 @@ $labels['always'] = 'bob amser';
 $labels['showinlineimages'] = 'Dangos lluniau atodol islaw\'r neges';
 $labels['autosavedraft'] = 'Cadw drafft yn awtomatig';
 $labels['everynminutes'] = 'bob $n munud';
-$labels['keepalive'] = 'Gofyn am negeseuon newydd ymlaen';
 $labels['never'] = 'byth';
 $labels['immediately'] = 'ar unwaith';
 $labels['messagesdisplaying'] = 'Dangos Negeseuon';
@@ -373,6 +378,7 @@ $labels['maintenance'] = 'Gwaith cynnal a chadw';
 $labels['newmessage'] = 'Neges Newydd';
 $labels['signatureoptions'] = 'Dewisiadau Llofnod';
 $labels['whenreplying'] = 'Wrth ateb';
+$labels['replyempty'] = 'peidio dyfynnu\'r neges wreiddiol';
 $labels['replytopposting'] = 'dechrau\'r neges newydd uwchben y neges wreiddiol';
 $labels['replybottomposting'] = 'dechrau\'r neges newydd o dan y neges wreiddiol';
 $labels['replyremovesignature'] = 'Wrth ateb, dileu\'r llofnod gwreiddiol o\'r neges';
@@ -398,6 +404,9 @@ $labels['spellcheckignorenums'] = 'Anwybyddu geiriau gyda rhifau';
 $labels['spellcheckignorecaps'] = 'Anwybyddu geiriau sy\'n briflythrennau yn gyfangwbl';
 $labels['addtodict'] = 'Ychwanegu i\'r geiriadur';
 $labels['mailtoprotohandler'] = 'Cofrestru trafodwr protocol ar gyfer dolenni mailto:';
+$labels['forwardmode'] = 'Danfon neges ymlaen';
+$labels['inline'] = 'mewnlin';
+$labels['asattachment'] = 'fel atodiad';
 $labels['folder'] = 'Ffolder';
 $labels['foldername'] = 'Enw ffolder';
 $labels['subscribed'] = 'Tanysgrifwyd';

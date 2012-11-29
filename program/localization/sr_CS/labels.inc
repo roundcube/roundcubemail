@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Saša Zejnilović <zejnils@gmail.com>                         |
+ | Author: gpredrag <gavrilovic@gmail.com>                               |
  +-----------------------------------------------------------------------+
 */
 
@@ -161,14 +161,14 @@ $labels['msgtext'] = 'Цела порука';
 $labels['openinextwin'] = 'Отвори у новом прозору';
 $labels['emlsave'] = 'Довнлоад (.eml)';
 $labels['editasnew'] = 'Модификуј као ново';
-$labels['savemessage'] = 'Сачувај у Снимљене';
 $labels['sendmessage'] = 'Пошаљи поруку';
+$labels['savemessage'] = 'Сачувај у Снимљене';
 $labels['addattachment'] = 'Приложи датотеку';
 $labels['charset'] = 'Скуп карактера';
 $labels['editortype'] = 'Врста едитора';
 $labels['returnreceipt'] = 'Потврда о приспећу';
 $labels['dsn'] = 'Обавештење о статусу слања поруке';
-$labels['mailreplyintro'] = 'Дана  $датум, $посиљатељ  је написао:';
+$labels['mailreplyintro'] = 'Дана $date, $sender је написао:';
 $labels['originalmessage'] = 'Оригинална порука';
 $labels['editidents'] = 'Модификуј псеудониме';
 $labels['spellcheck'] = 'Провера правописа';
@@ -288,7 +288,6 @@ $labels['importcontacts'] = 'Увези контакте';
 $labels['importfromfile'] = 'Увези из датотеке:';
 $labels['importtarget'] = 'Додај нове контакте у адресар';
 $labels['importreplace'] = 'Измени цели адресар';
-$labels['importtext'] = 'Можете да сачувате контакте већ постојећег адресара.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> data format.';
 $labels['done'] = 'Готово';
 $labels['settingsfor'] = 'Подешавања за';
 $labels['about'] = 'Инфо';
@@ -329,7 +328,6 @@ $labels['deletealways'] = 'Ако слање поруке у отпад не у�
 $labels['always'] = 'увек';
 $labels['showinlineimages'] = 'Покажи приложене слике испод поруке';
 $labels['autosavedraft'] = 'Аутоматски чувај у Снимљене';
-$labels['keepalive'] = 'Проверити нове поруке на';
 $labels['never'] = 'никад';
 $labels['immediately'] = 'одмах';
 $labels['messagesdisplaying'] = 'прикажи поруке';

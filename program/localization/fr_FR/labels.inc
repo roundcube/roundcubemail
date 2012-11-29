@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nicolas Delvaux                                               |
+ | Author: Penegal                                                       |
  +-----------------------------------------------------------------------+
 */
 
@@ -106,7 +106,7 @@ $labels['forward'] = 'Transférer';
 $labels['forwardinline'] = 'Transférer dans le corps du message';
 $labels['forwardattachment'] = 'Transférer en pièce-jointe';
 $labels['forwardmessage'] = 'Transmettre le message';
-$labels['deletemessage'] = 'Déplacer le message dans la corbeille';
+$labels['deletemessage'] = 'Supprimer le message';
 $labels['movemessagetotrash'] = 'Déplacer le message dans la corbeille';
 $labels['printmessage'] = 'Imprimer ce message';
 $labels['previousmessage'] = 'Voir le message précédent';
@@ -134,6 +134,7 @@ $labels['unread'] = 'Non lus';
 $labels['flagged'] = 'Marqué';
 $labels['unanswered'] = 'Non répondu';
 $labels['deleted'] = 'Supprimé';
+$labels['undeleted'] = 'Non supprimé';
 $labels['invert'] = 'Inverser';
 $labels['filter'] = 'Filtre';
 $labels['list'] = 'Lister';
@@ -169,8 +170,9 @@ $labels['msgtext'] = 'Message entier';
 $labels['openinextwin'] = 'Ouvrir dans une nouvelle fenêtre';
 $labels['emlsave'] = 'Télécharger (.eml)';
 $labels['editasnew'] = 'Éditer en tant que nouveau message';
-$labels['savemessage'] = 'Enregistrer ce brouillon';
-$labels['sendmessage'] = 'Envoyer le message maintenant';
+$labels['send'] = 'Envoyer';
+$labels['sendmessage'] = 'Envoyer';
+$labels['savemessage'] = 'Enregistrer';
 $labels['addattachment'] = 'Joindre un fichier';
 $labels['charset'] = 'Encodage';
 $labels['editortype'] = 'Type d\'éditeur';
@@ -198,6 +200,9 @@ $labels['nosubject'] = '(pas de sujet)';
 $labels['showimages'] = 'Afficher les images';
 $labels['alwaysshow'] = 'Toujours afficher les images de $sender';
 $labels['isdraft'] = 'Ceci est un brouillon.';
+$labels['andnmore'] = 'Plus de $nr...';
+$labels['togglemoreheaders'] = 'Afficher plus d\'en-têtes du message';
+$labels['togglefullheaders'] = 'Afficher/Cacher l\'entête du message';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'texte brut';
 $labels['savesentmessagein'] = 'Enregistrer le message envoyé dans';
@@ -298,7 +303,6 @@ $labels['importcontacts'] = 'Importer les contacts';
 $labels['importfromfile'] = 'Importer depuis un fichier :';
 $labels['importtarget'] = 'Ajouter de nouveaux contact au carnet d’adresse :';
 $labels['importreplace'] = 'Remplacer le carnet d\'adresse entier';
-$labels['importtext'] = 'Vous pouvez envoyer des contacts depuis un carnet d\'adresse existant. Nous supportons actuellement l\'importation d\'adresses au format vCard.';
 $labels['done'] = 'Terminé';
 $labels['settingsfor'] = 'Paramètres pour';
 $labels['about'] = 'A propos';
@@ -323,8 +327,11 @@ $labels['timezone'] = 'Fuseau horaire';
 $labels['pagesize'] = 'Nombre de lignes par page';
 $labels['signature'] = 'Signature';
 $labels['dstactive'] = 'Heure d\'été';
+$labels['showinextwin'] = 'Ouvrir le message dans une nouvelle fenêtre';
+$labels['composeextwin'] = 'Écrire dans une nouvelle fenêtre';
 $labels['htmleditor'] = 'Composer un message au format HTML';
 $labels['htmlonreply'] = 'en réponse aux messages HTML uniquement';
+$labels['htmlonreplyandforward'] = 'Transférer ou répondre au message HTML';
 $labels['htmlsignature'] = 'Signature HTML';
 $labels['previewpane'] = 'Afficher le panneau d\'aperçu';
 $labels['skin'] = 'Thème de l\'interface';
@@ -350,7 +357,6 @@ $labels['always'] = 'toujours';
 $labels['showinlineimages'] = 'Afficher les images attachées après le message';
 $labels['autosavedraft'] = 'Enregistrement automatique des brouillons';
 $labels['everynminutes'] = 'toutes les $n minute(s)';
-$labels['keepalive'] = 'Chercher les nouveaux messages';
 $labels['never'] = 'jamais';
 $labels['immediately'] = 'Immédiatement';
 $labels['messagesdisplaying'] = 'Affichage des messages';
@@ -372,6 +378,7 @@ $labels['maintenance'] = 'Maintenance';
 $labels['newmessage'] = 'Nouveau Message';
 $labels['signatureoptions'] = 'Options pour la signature';
 $labels['whenreplying'] = 'En répondant';
+$labels['replyempty'] = 'Ne pas citer le message original';
 $labels['replytopposting'] = 'commencer le nouveau message au-dessus de l\'original';
 $labels['replybottomposting'] = 'commencer le nouveau message en-dessous de l\'original';
 $labels['replyremovesignature'] = 'En répondant, supprimer la signature d\'origine du message';
@@ -397,6 +404,9 @@ $labels['spellcheckignorenums'] = 'Ignorer les mots avec des nombres';
 $labels['spellcheckignorecaps'] = 'Ignorer les mots entièrement en majuscule';
 $labels['addtodict'] = 'Ajouter au dictionnaire';
 $labels['mailtoprotohandler'] = 'Enregistrer le gestionnaire de protocole pour les liens mailto:';
+$labels['forwardmode'] = 'Transfert des messages';
+$labels['inline'] = 'dans le corps';
+$labels['asattachment'] = 'en pièce jointe';
 $labels['folder'] = 'Dossier';
 $labels['foldername'] = 'Nom du dossier';
 $labels['subscribed'] = 'Abonné';

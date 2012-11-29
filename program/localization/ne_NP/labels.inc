@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Prasanna Singh <Unknown>                                      |
+ | Author: Prasanna Singh                                                |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -132,8 +131,8 @@ $labels['unknown'] = 'अज्ञात';
 $labels['unlimited'] = 'अनगिन्ति';
 $labels['quicksearch'] = 'स्फुर्ति खोज';
 $labels['resetsearch'] = 'पन: खोज';
-$labels['savemessage'] = 'ड्राफ्ट जोगाउनुहोस';
 $labels['sendmessage'] = 'तुरुन्तै मेल पठाउनुहोस';
+$labels['savemessage'] = 'ड्राफ्ट जोगाउनुहोस';
 $labels['addattachment'] = 'फाइल टाँस्नुहोस';
 $labels['charset'] = 'क्यारेक्टर सेट';
 $labels['editortype'] = 'सम्पादकको प्रकार';

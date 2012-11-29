@@ -90,8 +90,7 @@ class help extends rcube_plugin
 
         $attrib['name'] = $attrib['id'];
 
-        return html::tag('iframe', $attrib, '', array(
-            'id', 'class', 'style', 'src', 'width', 'height', 'frameborder'));
+        return $rcmail->output->frame($attrib);
     }
 
 }

@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hung Pham <phamhung77@gmail.com>                              |
+ | Author: Kenny Tran <kennethanh@gmail.com>                             |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['buttontitle'] = 'Đánh dấu thư rác';
-$labels['reportedasjunk'] = 'Đánh dấu thành công';
+$labels['buttontext'] = 'Thư rác';
+$labels['buttontitle'] = 'Đánh dấu để được xem là thư rác';
+$labels['reportedasjunk'] = 'Đánh dấu để được xem là thư rác thành công';
 

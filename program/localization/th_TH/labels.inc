@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -90,8 +89,8 @@ $labels['unknown'] = 'ไม่ทราบ';
 $labels['unlimited'] = 'ไม่จำกัด';
 $labels['quicksearch'] = 'ค้นหาแบบด่วน';
 $labels['resetsearch'] = 'ล้างการค้นหา';
-$labels['savemessage'] = 'บันทึกฉบับร่าง';
 $labels['sendmessage'] = 'ส่งจดหมาย';
+$labels['savemessage'] = 'บันทึกฉบับร่าง';
 $labels['addattachment'] = 'แนบไฟล์';
 $labels['charset'] = 'Charset';
 $labels['returnreceipt'] = 'ตอบกลับผู้รับ';

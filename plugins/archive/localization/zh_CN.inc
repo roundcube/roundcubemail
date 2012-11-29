@@ -9,13 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: waring_id <Unknown>                                           |
+ | Author: waring_id                                                     |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = '存档';
+$labels['archivefolder'] = '存档';
 $labels['buttontitle'] = '将该信息存档';
 $labels['archived'] = '存档成功';
-$labels['archivefolder'] = '存档';
 

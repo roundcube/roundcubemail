@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nansen                                                        |
+ | Author: 林子忠                                                     |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,7 +26,9 @@ $labels['identifier'] = '識別';
 $labels['acll'] = '尋找';
 $labels['shortacll'] = '尋找';
 $labels['aclr'] = '讀取訊息';
+$labels['acls'] = '保持上線狀態';
 $labels['aclw'] = '寫入標幟';
+$labels['acli'] = '插入(複製到這裡)';
 $labels['aclp'] = '發表';
 $labels['shortaclp'] = '發表';
 $labels['aclc'] = '建立子資料夾';
@@ -61,12 +63,15 @@ $labels['longaclread'] = '資料夾能被打開與讀取';
 $labels['longacls'] = '能修改訊息標幟';
 $labels['longacli'] = '訊息能寫入或複製到資料夾';
 $labels['longaclp'] = '訊息能被投遞到這個資料夾';
+$labels['longaclc'] = '這個資料夾之下可以建子資料夾(或重新命名）';
+$labels['longaclk'] = '這個資料夾之下可以建子資料夾(或重新命名）';
 $labels['longacld'] = '能修改訊息刪除標幟';
 $labels['longaclt'] = '能修改訊息刪除標幟';
 $labels['longacle'] = '能抹除訊息';
 $labels['longaclx'] = '資料夾能被刪除或重新命名';
 $labels['longacla'] = '能變更資料夾權限';
-$labels['longaclfull'] = '完全控制包含資料夾管理者';
+$labels['longaclfull'] = '完全控制包含資料夾管理';
+$labels['longaclwrite'] = '信件可以被標記、編寫或複製到資料夾';
 $labels['longacldelete'] = '訊息能被刪除';
 $labels['deleting'] = '刪除權限...';
 $labels['saving'] = '儲存權限...';
@@ -77,4 +82,6 @@ $labels['updateerror'] = '無法更新權限';
 $labels['deleteerror'] = '無法刪除權限';
 $labels['createerror'] = '無法新增權限';
 $labels['deleteconfirm'] = '您確定要刪除所選取使用者的權限嗎?';
+$labels['norights'] = '沒有指定任何權限';
+$labels['nouser'] = '沒有指定用戶名稱';
 

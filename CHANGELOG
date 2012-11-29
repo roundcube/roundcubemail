@@ -1,29 +1,46 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix broken message/part bodies when FETCH response contains more untagged lines (#1488836)
+- Fix empty email on identities list after identity update (#1488834)
+- Add new identities_level: (4) one identity with possibility to edit only signature
+- Use Delivered-To header as a last resort for identity selection (#1488840)
+- Fix XSS vulnerability using Flash files (#1488828)
+- Fix absolute positioning in HTML messages (#1488819)
+- Fix cache (in)validation after setting \Deleted flag
+- Fix keybord events on messages list in opera browser (#1488823)
+- Fix selection of collapsed thread rows (#1488772)
+- Always save drafts with format=flowed in order to keep original line wraps (#1488799)
+- Fix wrapping of quoted text with format=flowed (#1488177)
+- Select default_addressbook on the list in Address Book (#1488280)
+- Fix so mobile phone has TYPE=CELL in exported vCard (#1488812)
+- Support contacts import from CSV file (#1486399)
+- Improved keep-alive action. Now the interval is based on session_lifetime (#1488507)
+- Added cross-task 'refresh' request for system state updates (#1488507)
+- Renamed config options: keep_alive to refresh_interval, min_keep_alive to min_refresh_interval
+- Fix handling of text/enriched content on message reply/forward/edit
+- Option to display attached images as thumbnails below message body
+- Upgraded to jQuery 1.8.3 and jQuery UI 1.9.1
+- Add config option to automatically generate LDAP attributes for new entries
+- Add user settings to open message view and compose form in new windows (#1485486)
+- Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
+- Add option to disable saving sent mail in Sent folder - no_save_sent_messages (#1488686)
+- Fix handling dont_override with message_sort_col and message_sort_order settings (#1488760)
+- Fix handling of URLs with asterisk characters (#1488759)
+- Remove automatic to-lowercase conversion of usernames (#1488715)
+- Plugin API: Add 'email_list' argument for identities data in user_create hook
+- Integrated zipdownload plugin to download all attachments (#1445509)
+- Fix HTML special characters handling in message list/header display (#1488523)
+- List related text/html part as attachment in plain text mode (#1488677)
+- Use IMAP BINARY (RFC3516) extension to fetch message/part bodies
+- Fix folder creation under public namespace root (#1488665)
 - Fix so "Edit as new" on draft creates a new message (#1488687)
 - Fix invalid error message on deleting mail from read only folder (#1488694)
-- Fix error where session wasn't updated after folder rename/delete (#1488692)
 - Replace data URIs of images (pasted in HTML editor) with inline attachments (#1488502)
-- Fix PLAIN authentication for some IMAP servers (#1488674)
-- Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
-- Fix focus issue in IE when selecting message row (#1488620)
 - Remove (too big) min-width on mail screen
-- Add full headers view in message preview window (#1488538)
-- Fix message display page issues - unified with message preview (#1488590, #1488642)
-- Fix displaying all headers when they contain malformed characters (#1488666)
-- Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
-- Fix quota capability detection so it can be overwritten by a plugin (#1488655)
 - Added template object 'frame'
-- Fix identity selection on reply (#1488101)
 - Add option to enable HTML editor on forwarding (#1488517)
 - Add option to not include original message on reply, rename option top_posting to reply_mode (#1485149)
-- Fix Larry's messages list filter in IE (#1488632)
-- Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)
-- Fix setting locales under Solaris - use additional .UTF-8 suffix (#1488628)
-- Fix email address validation for addresses with IP address in domain part
-- Fix Larry skin issues in IE7 compat. mode (#1488618)
-- Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 - Added session_path config option and unified cookies settings in javascript
 - Added "Undeleted" option to messages list filter
 - Rewritten test scripts for PHPUnit
@@ -49,8 +66,51 @@ CHANGELOG Roundcube Webmail
     Replace imap_init hook with storage_init (with additional 'driver' argument)
     Improved performance by caching IMAP server's capabilities in session
     Unified global functions naming (rcube_ prefix)
-    Move global functions from main.inc and rcube_shared.inc into classes
     Better classes separation
+    Framework files moved to lib/Roundcube
+
+RELEASE 0.8.4
+-------------
+- Fix regression where unintentional page reload was done after request abort (#1488802)
+- Fix XSS vulnerability in handling of text/enriched messages (#1488806)
+- Fix handling of 'media' attribute on linked css (#1488789)
+- Fix excessive LFs at the end of composed message with top_posting=true (#1488797)
+- Fix bug where leading blanks were stripped from quoted lines (#1488795)
+
+RELEASE 0.8.3
+-------------
+- Fix AREA links handling (#1488792)
+- Fix possible HTTP DoS on error in keep-alive requests (#1488782)
+- Fix compatybility with MDB2 2.5.0b4 (#1488779)
+- Fix a bug where saving a message in INBOX wasn't possible
+- Fix HTML part detection in messages with attachments (#1488769)
+- Fix bug where wrong words were highlighted on spell-before-send check
+- Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
+- Fix displaying of multipart/alternative messages with empty parts (#1488750)
+- Fix threaded list sorting on PHP < 5.2.9 (#1488748)
+- Fix Warning: htmlspecialchars(): charset `RCMAIL_CHARSET' not supported warning in Installer (#1488744)
+
+RELEASE 0.8.2
+-------------
+- Fix XSS vulnerability from HTTP User-Agent header (#1488737)
+- Force fonts in compose fields to be all the same (#1488690)
+- Fix handling vCard entries with TEL;TYPE=CELL (#1488728)
+- Fix error where session wasn't updated after folder rename/delete (#1488692)
+- Fix PLAIN authentication for some IMAP servers (#1488674)
+- Fix encoding vCard file when contains PHOTO;ENCODING=b (#1488683)
+- Fix focus issue in IE when selecting message row (#1488620)
+- Add full headers view in message preview window (#1488538)
+- Fix message display page issues - unified with message preview (#1488590, #1488642)
+- Fix displaying all headers when they contain malformed characters (#1488666)
+- Fix decoding of HTML messages with UTF-16 charset specified (#1488654)
+- Fix quota capability detection so it can be overwritten by a plugin (#1488655)
+- Fix identity selection on reply (#1488101)
+- Fix Larry's messages list filter in IE (#1488632)
+- Fix more IE issues by disabling Compat. mode with X-UA-Compatible meta tag (#1488626)
+- Fix setting locales under Solaris - use additional .UTF-8 suffix (#1488628)
+- Fix email address validation for addresses with IP address in domain part
+- Fix Larry skin issues in IE7 compat. mode (#1488618)
+- Fix so subscribed non-existing/non-accessible shared folder can be unsubscribed
 
 RELEASE 0.8.1
 -------------

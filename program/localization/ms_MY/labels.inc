@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: nawawi <Unknown>                                              |
+ | Author: nawawi                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -170,8 +169,8 @@ $labels['msgtext'] = 'Keseluruhan mesej';
 $labels['openinextwin'] = 'Buka dalam tetingkap baru';
 $labels['emlsave'] = 'Muat-turun (.eml)';
 $labels['editasnew'] = 'Ubah seperti baharu';
-$labels['savemessage'] = 'Simapan sebagai draf';
 $labels['sendmessage'] = 'Hantar mesej';
+$labels['savemessage'] = 'Simapan sebagai draf';
 $labels['addattachment'] = 'Lampir fail';
 $labels['charset'] = 'Set aksara';
 $labels['editortype'] = 'Jenis Editor';

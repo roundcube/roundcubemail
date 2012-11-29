@@ -12,13 +12,20 @@
 }
 </style>
 </head>
+<roundcube:if condition="env:extwin" />
+<body class="extwin" onload="rcube_init_mail_ui()">
+<roundcube:object name="message" id="message" />
+<roundcube:else />
 <body onload="rcube_init_mail_ui()">
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
+<roundcube:endif />
+
 <roundcube:include file="/includes/messagetoolbar.html" />
 
 <div id="mainscreen">
+<roundcube:if condition="!env:extwin" />
 <div id="mailleftcontainer">
 <div id="mailboxlist-container">
 <div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
@@ -28,6 +35,7 @@
 <div class="boxfooter"></div>
 </div>
 </div>
+<roundcube:endif />
 
 <div id="messageframe">
 <div class="boxlistcontent" style="top:0; overflow-x:auto">

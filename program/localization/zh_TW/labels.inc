@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nansen <Unknown>                                              |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -170,8 +169,8 @@ $labels['msgtext'] = '整封郵件';
 $labels['openinextwin'] = '在新視窗開啟';
 $labels['emlsave'] = '下載（.eml）';
 $labels['editasnew'] = '以新郵件編輯';
-$labels['savemessage'] = '儲存成草稿';
 $labels['sendmessage'] = '立即寄出';
+$labels['savemessage'] = '儲存成草稿';
 $labels['addattachment'] = '增加附件檔案';
 $labels['charset'] = '郵件編碼';
 $labels['editortype'] = '編輯器類型';
@@ -299,7 +298,6 @@ $labels['importcontacts'] = '由檔案匯入通訊錄';
 $labels['importfromfile'] = '選擇你要匯入的檔案:';
 $labels['importtarget'] = '新增連絡人至通訊錄:';
 $labels['importreplace'] = '以匯入的資料取代已存在的重複資料';
-$labels['importtext'] = '你可以由已存在的通訊錄上傳資料，<br/>目前系統僅支援匯入 <a href="http://zh.wikipedia.org/wiki/VCard" target="_blank">vCard</a> 格式的資料。';
 $labels['done'] = '完成';
 $labels['settingsfor'] = '設定';
 $labels['about'] = '關於';
@@ -351,7 +349,6 @@ $labels['always'] = '總是接受';
 $labels['showinlineimages'] = '將附加檔案的圖片顯示於郵件最後';
 $labels['autosavedraft'] = '自動儲存草稿';
 $labels['everynminutes'] = '每 $n 分鐘';
-$labels['keepalive'] = '檢查新郵件的間隔時間';
 $labels['never'] = '絕對不要';
 $labels['immediately'] = '馬上';
 $labels['messagesdisplaying'] = '郵件顯示設定';

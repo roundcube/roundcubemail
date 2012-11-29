@@ -9,12 +9,12 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Emi Bcn <Unknown>                                             |
+ | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Correu brossa';
 $labels['buttontitle'] = 'Marca com a Spam';
 $labels['reportedasjunk'] = 'S\'ha reportat correctament com a Spam';
 

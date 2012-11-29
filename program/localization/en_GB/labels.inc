@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Lazlo                                                         |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
 */
 
@@ -95,7 +95,7 @@ $labels['longdec'] = 'December';
 $labels['today'] = 'Today';
 $labels['refresh'] = 'Refresh';
 $labels['checkmail'] = 'Check for new messages';
-$labels['compose'] = 'Compose a message';
+$labels['compose'] = 'Compose';
 $labels['writenewmessage'] = 'Create a new message';
 $labels['reply'] = 'Reply';
 $labels['replytomessage'] = 'Reply to sender';
@@ -169,8 +169,8 @@ $labels['msgtext'] = 'Entire message';
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['editasnew'] = 'Edit as new';
-$labels['savemessage'] = 'Save this draft';
 $labels['sendmessage'] = 'Send now';
+$labels['savemessage'] = 'Save this draft';
 $labels['addattachment'] = 'Attach a file';
 $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Editor type';
@@ -298,7 +298,6 @@ $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
 $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
-$labels['importtext'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> data format.';
 $labels['done'] = 'Done';
 $labels['settingsfor'] = 'Settings for';
 $labels['about'] = 'About';
@@ -350,7 +349,6 @@ $labels['always'] = 'always';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft'] = 'Automatically save draft';
 $labels['everynminutes'] = 'every $n minute(s)';
-$labels['keepalive'] = 'Check for new messages on';
 $labels['never'] = 'never';
 $labels['immediately'] = 'immediately';
 $labels['messagesdisplaying'] = 'Displaying Messages';

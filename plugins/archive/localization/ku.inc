@@ -11,11 +11,11 @@
  +-----------------------------------------------------------------------+
  | Author: david absalan <absalan@live.com>                              |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
+$labels['buttontext'] = 'Arşîv';
+$labels['archivefolder'] = 'Arşîv';
 $labels['buttontitle'] = 'am masaja bxa arşiv';
 $labels['archived'] = 'ba gşti Arşiv kra';
-$labels['archivefolder'] = 'Arşîv';
 

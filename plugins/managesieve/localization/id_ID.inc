@@ -9,9 +9,8 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya <Unknown>                              |
+ | Author: Putu Arya Sabda Wijaya                                        |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
@@ -53,7 +52,6 @@ $labels['add'] = 'Tambah';
 $labels['del'] = 'Hapus';
 $labels['sender'] = 'Pengirim';
 $labels['recipient'] = 'Penerima';
-$labels['vacationaddresses'] = 'Daftar tambahan penerima email (terpisah koma):';
 $labels['vacationdays'] = 'Seberapa sering mengirim pesan (dalam hari):';
 $labels['vacationreason'] = 'Badan pesan (alasan liburan):';
 $labels['vacationsubject'] = 'Judul pesan:';

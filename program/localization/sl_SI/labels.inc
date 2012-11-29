@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Teja Cetinski <teja.cetinski@gmail.com>                       |
+ | Author: Thomas                                                        |
  +-----------------------------------------------------------------------+
 */
 
@@ -169,8 +169,8 @@ $labels['msgtext'] = 'Celotno sporočilo';
 $labels['openinextwin'] = 'Odpri v novem oknu';
 $labels['emlsave'] = 'Prenos datoteke (.eml)';
 $labels['editasnew'] = 'Uredi kot novo';
-$labels['savemessage'] = 'Shrani kot osnutek';
 $labels['sendmessage'] = 'Pošlji sporočilo';
+$labels['savemessage'] = 'Shrani kot osnutek';
 $labels['addattachment'] = 'Pripni datoteko';
 $labels['charset'] = 'Nabor znakov';
 $labels['editortype'] = 'Vrsta urejevalnika';
@@ -298,7 +298,6 @@ $labels['importcontacts'] = 'Uvozi stike';
 $labels['importfromfile'] = 'Uvozi iz datoteke:';
 $labels['importtarget'] = 'Dodaj nove stike v imenik:';
 $labels['importreplace'] = 'Zamenjaj celoten imenik';
-$labels['importtext'] = 'Stike lahko prenesete iz obstoječega imenika<br/> Trenutno je podprto uvažanje naslovov v  formatu <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>';
 $labels['done'] = 'Dokončano';
 $labels['settingsfor'] = 'Nastavitve za';
 $labels['about'] = 'Vizitka';
@@ -350,7 +349,6 @@ $labels['always'] = 'vedno';
 $labels['showinlineimages'] = 'Prikaži priponke na dnu sporočila';
 $labels['autosavedraft'] = 'Samodejno shrani osnutke';
 $labels['everynminutes'] = '$n minut';
-$labels['keepalive'] = 'Preglej nova sporočila na';
 $labels['never'] = 'nikoli';
 $labels['immediately'] = 'takoj';
 $labels['messagesdisplaying'] = 'Prikazovanje sporočil';

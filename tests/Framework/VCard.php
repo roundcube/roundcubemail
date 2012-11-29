@@ -33,6 +33,23 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $this->assertEquals("roundcube@gmail.com", $vcard->email[0], "Use PREF e-mail as primary");
     }
 
+    /**
+     * Make sure MOBILE phone is returned as CELL (as specified in standard)
+     */
+    function test_parse_three()
+    {
+        $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
+
+        $vcf = $vcard->export();
+        $this->assertRegExp('/TEL;CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (import)");
+
+        $vcard = new rcube_vcard();
+        $vcard->set('phone', '+987654321', 'MOBILE');
+
+        $vcf = $vcard->export();
+        $this->assertRegExp('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
+    }
+
     function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));

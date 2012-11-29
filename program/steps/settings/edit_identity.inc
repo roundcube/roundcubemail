@@ -42,8 +42,9 @@ else {
     rcmail_overwrite_action('identities');
     return;
   }
-  else if (IDENTITIES_LEVEL == 1)
-    $IDENTITY_RECORD['email'] = $RCMAIL->user->get_username();
+  else if (IDENTITIES_LEVEL == 1) {
+    $IDENTITY_RECORD['email'] = $RCMAIL->get_user_email();
+  }
 }
 
 
@@ -87,14 +88,22 @@ function rcube_identity_form($attrib)
   if ($IDENTITY_RECORD['html_signature']) {
     $form['signature']['content']['signature']['class']      = 'mce_editor';
     $form['signature']['content']['signature']['is_escaped'] = true;
-  }
 
-  $IDENTITY_RECORD['signature'] = htmlentities($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCMAIL_CHARSET);
+    // Correctly handle HTML entities in HTML editor (#1488483)
+    $IDENTITY_RECORD['signature'] = htmlspecialchars($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCMAIL_CHARSET);
+  }
 
   // disable some field according to access level
   if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
     $form['addressing']['content']['email']['disabled'] = true;
     $form['addressing']['content']['email']['class'] = 'disabled';
+  }
+
+  if (IDENTITIES_LEVEL == 4) {
+    foreach($form['addressing']['content'] as $formfield => $value){
+      $form['addressing']['content'][$formfield]['disabled'] = true;
+      $form['addressing']['content'][$formfield]['class'] = 'disabled';
+    }
   }
 
   $IDENTITY_RECORD['email'] = rcube_idn_to_utf8($IDENTITY_RECORD['email']);

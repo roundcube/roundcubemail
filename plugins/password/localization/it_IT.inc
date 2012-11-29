@@ -1,21 +1,31 @@
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | localization/it_IT/labels.inc                                         |
+ |                                                                       |
+ | Language file of the Roundcube Webmail client                         |
+ | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+ | Author: Andrea Bernini <andrea.bernini@gmail.com>                     |
+ +-----------------------------------------------------------------------+
+*/
+
 $labels = array();
-$labels['changepasswd']  = 'Cambia la Password';
-$labels['curpasswd']  = 'Password corrente:';
-$labels['newpasswd']  = 'Nuova Password:';
-$labels['confpasswd']  = 'Conferma la Nuova Password:';
+$labels['changepasswd'] = 'Modifica la Password';
+$labels['curpasswd'] = 'Password corrente:';
+$labels['newpasswd'] = 'Nuova password:';
+$labels['confpasswd'] = 'Conferma la nuova Password:';
+$labels['nopassword'] = 'Per favore inserire la nuova password.';
+$labels['nocurpassword'] = 'Per favore inserire la password corrente.';
+$labels['passwordincorrect'] = 'La password corrente non è corretta.';
+$labels['passwordinconsistency'] = 'Le password non coincidono, per favore reinserire.';
+$labels['crypterror'] = 'Impossibile salvare la nuova password. Funzione di crittografia mancante.';
+$labels['connecterror'] = 'Imposibile salvare la nuova password. Errore di connessione.';
+$labels['internalerror'] = 'Impossibile salvare la nuova password.';
+$labels['passwordshort'] = 'La password deve essere lunga almeno $length caratteri.';
+$labels['passwordweak'] = 'La password deve includere almeno una cifra decimale e un simbolo di punteggiatura.';
+$labels['passwordforbidden'] = 'La password contiene caratteri proibiti.';
 
-$messages = array();
-$messages['nopassword'] = 'Per favore inserisci la nuova password.';
-$messages['nocurpassword'] = 'Per favore inserisci la password corrente.';
-$messages['passwordincorrect'] = 'Password corrente sbagliata.';
-$messages['passwordinconsistency'] = 'Le password non coincidono, inserirle di nuovo.';
-$messages['crypterror'] = 'Non posso salvare la password, funzione di cifratura assente.';
-$messages['connecterror'] = 'Non posso salvare la password, errore di connessione.';
-$messages['internalerror'] = 'Non posso salvare la password.';
-$messages['passwordshort'] = 'La nuova password deve essere lunga almeno $length caratteri.';
-$messages['passwordweak'] = 'La nuova password deve contenere almeno una cifra e un segno di punteggiatura.';
-$messages['passwordforbidden'] = 'La password scelta contiene dei caratteri non consentiti.';
-
-?>
