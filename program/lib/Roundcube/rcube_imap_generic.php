@@ -2410,8 +2410,9 @@ class rcube_imap_generic
         $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
 
         // format request
-        $key       = $this->nextTag();
-        $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
+        $key     = $this->nextTag();
+        $request = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
+        $result  = false;
 
         // send request
         if (!$this->putLine($request)) {
@@ -2424,118 +2425,117 @@ class rcube_imap_generic
             $mode = -1;
         }
 
-        // receive reply line
         do {
-            $line = rtrim($this->readLine(1024));
-            $a    = explode(' ', $line);
-        } while (!($end = $this->startsWith($line, $key, true)) && $a[2] != 'FETCH');
+            $line = trim($this->readLine(1024));
 
-        $len    = strlen($line);
-        $result = false;
-
-        if ($a[2] != 'FETCH') {
-        }
-        // handle empty "* X FETCH ()" response
-        else if ($line[$len-1] == ')' && $line[$len-2] != '(') {
-            // one line response, get everything between first and last quotes
-            if (substr($line, -4, 3) == 'NIL') {
-                // NIL response
-                $result = '';
-            } else {
-                $from = strpos($line, '"') + 1;
-                $to   = strrpos($line, '"');
-                $len  = $to - $from;
-                $result = substr($line, $from, $len);
+            if (!$line) {
+                break;
             }
 
-            if ($mode == 1) {
-                $result = base64_decode($result);
-            }
-            else if ($mode == 2) {
-                $result = quoted_printable_decode($result);
-            }
-            else if ($mode == 3) {
-                $result = convert_uudecode($result);
+            if (!preg_match('/^\* ([0-9]+) FETCH (.*)$/', $line, $m)) {
+                continue;
             }
 
-        } else if ($line[$len-1] == '}') {
-            // multi-line request, find sizes of content and receive that many bytes
-            $from     = strpos($line, '{') + 1;
-            $to       = strrpos($line, '}');
-            $len      = $to - $from;
-            $sizeStr  = substr($line, $from, $len);
-            $bytes    = (int)$sizeStr;
-            $prev     = '';
+            $line = $m[2];
+            $last = substr($line, -1);
 
-            while ($bytes > 0) {
-                $line = $this->readLine(8192);
+            // handle one line response
+            if ($line[0] == '(' && $last == ')') {
+                // tokenize content inside brackets
+                $tokens = $this->tokenizeResponse(preg_replace('/(^\(|\$)/', '', $line));
+                $result = count($tokens) == 1 ? $tokens[0] : false;
 
-                if ($line === NULL) {
-                    break;
-                }
-
-                $len = strlen($line);
-
-                if ($len > $bytes) {
-                    $line = substr($line, 0, $bytes);
-                    $len = strlen($line);
-                }
-                $bytes -= $len;
-
-                // BASE64
-                if ($mode == 1) {
-                    $line = rtrim($line, "\t\r\n\0\x0B");
-                    // create chunks with proper length for base64 decoding
-                    $line = $prev.$line;
-                    $length = strlen($line);
-                    if ($length % 4) {
-                        $length = floor($length / 4) * 4;
-                        $prev = substr($line, $length);
-                        $line = substr($line, 0, $length);
+                if ($result !== false) {
+                    if ($mode == 1) {
+                        $result = base64_decode($result);
                     }
-                    else
-                        $prev = '';
-                    $line = base64_decode($line);
-                // QUOTED-PRINTABLE
-                } else if ($mode == 2) {
-                    $line = rtrim($line, "\t\r\0\x0B");
-                    $line = quoted_printable_decode($line);
-                // UUENCODE
-                } else if ($mode == 3) {
-                    $line = rtrim($line, "\t\r\n\0\x0B");
-                    if ($line == 'end' || preg_match('/^begin\s+[0-7]+\s+.+$/', $line))
-                        continue;
-                    $line = convert_uudecode($line);
-                // default
-                } else if ($formatted) {
-                    $line = rtrim($line, "\t\r\n\0\x0B") . "\n";
+                    else if ($mode == 2) {
+                        $result = quoted_printable_decode($result);
+                    }
+                    else if ($mode == 3) {
+                        $result = convert_uudecode($result);
+                    }
                 }
-
-                if ($file) {
-                    if (fwrite($file, $line) === false)
-                        break;
-                }
-                else if ($print)
-                    echo $line;
-                else
-                    $result .= $line;
             }
-        }
+            // response with string literal
+            else if (preg_match('/\{([0-9]+)\}$/', $line, $m)) {
+                $bytes = (int) $m[1];
+                $prev  = '';
 
-        // read in anything up until last line
-        if (!$end)
-            do {
-                $line = $this->readLine(1024);
-            } while (!$this->startsWith($line, $key, true));
+                while ($bytes > 0) {
+                    $line = $this->readLine(8192);
+
+                    if ($line === NULL) {
+                        break;
+                    }
+
+                    $len = strlen($line);
+
+                    if ($len > $bytes) {
+                        $line = substr($line, 0, $bytes);
+                        $len  = strlen($line);
+                    }
+                    $bytes -= $len;
+
+                    // BASE64
+                    if ($mode == 1) {
+                        $line = rtrim($line, "\t\r\n\0\x0B");
+                        // create chunks with proper length for base64 decoding
+                        $line = $prev.$line;
+                        $length = strlen($line);
+                        if ($length % 4) {
+                            $length = floor($length / 4) * 4;
+                            $prev = substr($line, $length);
+                            $line = substr($line, 0, $length);
+                        }
+                        else {
+                            $prev = '';
+                        }
+                        $line = base64_decode($line);
+                    }
+                    // QUOTED-PRINTABLE
+                    else if ($mode == 2) {
+                        $line = rtrim($line, "\t\r\0\x0B");
+                        $line = quoted_printable_decode($line);
+                    }
+                    // UUENCODE
+                    else if ($mode == 3) {
+                        $line = rtrim($line, "\t\r\n\0\x0B");
+                        if ($line == 'end' || preg_match('/^begin\s+[0-7]+\s+.+$/', $line)) {
+                            continue;
+                        }
+                        $line = convert_uudecode($line);
+                    }
+                    // default
+                    else if ($formatted) {
+                        $line = rtrim($line, "\t\r\n\0\x0B") . "\n";
+                    }
+
+                    if ($file) {
+                        if (fwrite($file, $line) === false) {
+                            break;
+                        }
+                    }
+                    else if ($print) {
+                        echo $line;
+                    }
+                    else {
+                        $result .= $line;
+                    }
+                }
+            }
+        } while (!$this->startsWith($line, $key, true));
 
         if ($result !== false) {
             if ($file) {
                 return fwrite($file, $result);
-            } else if ($print) {
+            }
+            else if ($print) {
                 echo $result;
-            } else
-                return $result;
-            return true;
+                return true;
+            }
+
+            return $result;
         }
 
         return false;

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix broken message/part bodies when FETCH response contains more untagged lines (#1488836)
 - Fix empty email on identities list after identity update (#1488834)
 - Add new identities_level: (4) one identity with possibility to edit only signature
 - Use Delivered-To header as a last resort for identity selection (#1488840)
