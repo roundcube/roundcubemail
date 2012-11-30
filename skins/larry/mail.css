@@ -1001,7 +1001,7 @@ div.hide-headers {
 div.message-part,
 div.message-htmlpart {
 	padding: 0 2px 10px 2px;
-	border-top: 2px solid #f0f0f0;
+	border-top: 1px solid #ccc;
 }
 
 #messagebody div:first-child {
