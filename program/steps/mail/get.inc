@@ -302,7 +302,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       // send part as-it-is
       else {
         if ($part->body) {
-          header("Content-Length: " . sizeof($part->body));
+          header("Content-Length: " . strlen($part->body));
           echo $part->body;
           $sent = true;
         }
