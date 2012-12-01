@@ -733,8 +733,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
         if ($part->ctype_secondary == 'html') {
         }
         else if ($part->ctype_secondary == 'enriched') {
-            require_once(INSTALL_PATH . 'program/lib/enriched.inc');
-            $body = enriched_to_html($body);
+            $body = rcube_enriched::to_html($body);
         }
         else {
             // try to remove the signature
@@ -750,8 +749,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
     }
     else {
         if ($part->ctype_secondary == 'enriched') {
-            require_once(INSTALL_PATH . 'program/lib/enriched.inc');
-            $body = enriched_to_html($body);
+            $body = rcube_enriched::to_html($body);
             $part->ctype_secondary = 'html';
         }
 
@@ -763,8 +761,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
             $body = $txt->get_text();
         }
         else if ($part->ctype_secondary == 'enriched') {
-            require_once(INSTALL_PATH . 'program/lib/enriched.inc');
-            $body = enriched_to_html($body);
+            $body = rcube_enriched::to_html($body);
         }
         else {
             if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {

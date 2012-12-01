@@ -751,8 +751,7 @@ function rcmail_print_body($part, $p = array())
   }
   // text/enriched
   else if ($data['type'] == 'enriched') {
-    require_once(INSTALL_PATH . 'program/lib/enriched.inc');
-    $body = enriched_to_html($data['body']);
+    $body = rcube_enriched::to_html($data['body']);
     $body = rcmail_wash_html($body, $data, $part->replaces);
     $part->ctype_secondary = 'html';
   }
