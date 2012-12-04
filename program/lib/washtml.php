@@ -214,7 +214,7 @@ class washtml
       $key = strtolower($key);
       $value = $node->getAttribute($key);
       if (isset($this->_html_attribs[$key]) ||
-         ($key == 'href' && !preg_match('!^javascript!i', $value)
+         ($key == 'href' && !preg_match('!^(javascript|vbscript|data:text)!i', $value)
            && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value))
       ) {
         $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
