@@ -97,6 +97,20 @@ class MailFunc extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test the elimination of some XSS vulnerabilities
+     */
+    function test_html_xss3()
+    {
+        // #1488850
+        $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+            .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
+        $washed = rcmail_wash_html($html, array('safe' => true), array());
+
+        $this->assertNotRegExp('/data:text/', $washed, "Remove data:text/html links");
+        $this->assertNotRegExp('/vbscript:/', $washed, "Remove vbscript: links");
+    }
+
+    /**
      * Test washtml class on non-unicode characters (#1487813)
      */
     function test_washtml_utf8()
