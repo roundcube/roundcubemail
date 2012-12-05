@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
 - Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
 - Fix absolute positioning in HTML messages (#1488819)
 - Fix keybord events on messages list in opera browser (#1488823)

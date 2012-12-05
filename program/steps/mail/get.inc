@@ -150,6 +150,13 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
       $disposition = !empty($plugin['download']) ? 'attachment' : 'inline';
 
+      // Workaround for nasty IE bug (#1488844)
+      // If Content-Disposition header contains string "attachment" e.g. in filename
+      // IE handles data as attachment not inline
+      if ($disposition == 'inline' && $browser->ie && $browser->ver < 9) {
+        $filename = str_ireplace('attachment', 'attach', $filename);
+      }
+
       header("Content-Disposition: $disposition; filename=\"$filename\"");
 
       // do content filtering to avoid XSS through fake images
