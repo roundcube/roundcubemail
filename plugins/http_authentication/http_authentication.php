@@ -36,7 +36,7 @@ class http_authentication extends rcube_plugin
                 $args['action'] = 'login';
             }
             // Set user password in session (see shutdown() method for more info)
-            else if (!empty($_SESSION['user_id']) && empty($_SESION['password'])) {
+            else if (!empty($_SESSION['user_id']) && empty($_SESSION['password'])) {
                 $_SESSION['password'] = $rcmail->encrypt($_SERVER['PHP_AUTH_PW']);
             }
         }
