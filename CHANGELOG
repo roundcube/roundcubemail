@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix big memory consumption of DB layer (#1488856)
 - Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
 - Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
 - Fix broken message/part bodies when FETCH response contains more untagged lines (#1488836)
