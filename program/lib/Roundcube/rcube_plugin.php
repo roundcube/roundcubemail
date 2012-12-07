@@ -203,23 +203,23 @@ abstract class rcube_plugin
       foreach ($texts as $key => $value)
         $add[$domain.'.'.$key] = $value;
 
-      $rcmail = rcube::get_instance();
-      $rcmail->load_language($lang, $add);
+      $rcube = rcube::get_instance();
+      $rcube->load_language($lang, $add);
 
       // add labels to client
       if ($add2client) {
         $js_labels = is_array($add2client) ? array_map(array($this, 'label_map_callback'), $add2client) : array_keys($add);
-        $rcmail->output->add_label($js_labels);
+        $rcube->output->add_label($js_labels);
       }
     }
   }
 
   /**
-   * Wrapper for rcmail::gettext() adding the plugin ID as domain
+   * Wrapper for rcube::gettext() adding the plugin ID as domain
    *
    * @param string $p Message identifier
    * @return string Localized text
-   * @see rcmail::gettext()
+   * @see rcube::gettext()
    */
   public function gettext($p)
   {
@@ -336,8 +336,8 @@ abstract class rcube_plugin
    */
   public function local_skin_path()
   {
-    $rcmail = rcube::get_instance();
-    foreach (array($rcmail->config->get('skin'), 'larry') as $skin) {
+    $rcube = rcube::get_instance();
+    foreach (array($rcube->config->get('skin'), 'larry') as $skin) {
       $skin_path = 'skins/' . $skin;
       if (is_dir(realpath(slashify($this->home) . $skin_path)))
         break;

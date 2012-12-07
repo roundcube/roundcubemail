@@ -36,7 +36,7 @@ class rcube
     /**
      * Singleton instace of rcube
      *
-     * @var rcmail
+     * @var rcube
      */
     static protected $instance;
 

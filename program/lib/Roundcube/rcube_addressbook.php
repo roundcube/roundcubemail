@@ -209,13 +209,13 @@ abstract class rcube_addressbook
      */
     public function validate(&$save_data, $autofix = false)
     {
-        $rcmail = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
                 if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
-                    $error = $rcmail->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
+                    $error = $rcube->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
                     $this->set_error(self::ERROR_VALIDATE, $error);
                     return false;
                 }
