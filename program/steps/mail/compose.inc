@@ -454,7 +454,7 @@ function rcmail_identity_select($MESSAGE, $identities, $compose_mode)
   // Fallback using Delivered-To
   if ($from_idx === null && ($delivered_to = $MESSAGE->headers->others['delivered-to'])) {
     foreach ($identities as $idx => $ident) {
-      if (in_array($ident['email_ascii'], $delivered_to)) {
+      if (in_array($ident['email_ascii'], (array)$delivered_to)) {
         $from_idx = $idx;
         break;
       }
