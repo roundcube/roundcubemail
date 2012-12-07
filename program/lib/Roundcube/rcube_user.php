@@ -263,7 +263,7 @@ class rcube_user
 
                 $sql_arr['email_ascii'] = $ascii_email;
                 $sql_arr['email']       = $utf8_email;
-                $sql_arr['ident']       = format_email_recipient($ascii_email, $ident['name']);
+                $sql_arr['ident']       = format_email_recipient($ascii_email, $sql_arr['name']);
             }
 
             $result[] = $sql_arr;
