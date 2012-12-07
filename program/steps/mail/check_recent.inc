@@ -25,7 +25,7 @@ if (empty($_REQUEST['_folderlist']) && empty($_REQUEST['_list'])) {
     return;
 }
 
-$current = $RCMAIL->storage->get_folder();
+$current   = $RCMAIL->storage->get_folder();
 $check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
 
 // list of folders to check
@@ -34,9 +34,14 @@ if ($check_all) {
 }
 else {
     $a_mailboxes = (array) $current;
-    if ($a_mailboxes[0] != 'INBOX')
+    if ($current != 'INBOX') {
         $a_mailboxes[] = 'INBOX';
+    }
 }
+
+// Control folders list from a plugin
+$plugin      = $RCMAIL->plugins->exec_hook('check_recent', array('folders' => $a_mailboxes, 'all' => $check_all));
+$a_mailboxes = $plugin['folders'];
 
 // check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
