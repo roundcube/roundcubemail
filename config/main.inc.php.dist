@@ -368,9 +368,10 @@ $rcmail_config['client_mimetypes'] = null;  # null == default
 // Set to null if the default path should be used.
 $rcmail_config['mime_magic'] = null;
 
-// Path to local mime.types mapping table.
+// Absolute path to a local mime.types mapping table file.
 // This is used to derive mime-types from the filename extension or vice versa.
-// Such a file is usually part of the apache webserver.
+// Such a file is usually part of the apache webserver. If you don't find a file named mime.types on your system,
+// download it from http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 $rcmail_config['mime_types'] = null;
 
 // path to imagemagick identify binary
