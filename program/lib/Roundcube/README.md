@@ -40,6 +40,7 @@ instantiating them.
 If you wanna use more complex functionality like IMAP access with database
 caching or plugins, the rcube singleton helps you loading the necessary files:
 
+```php
 <?php
 
 define('RCUBE_CONFIG_DIR',  '<path-to-config-directory>');
@@ -53,7 +54,7 @@ $imap = $rcube->get_storage();
 // do cool stuff here...
 
 ?>
-
+```
 
 LICENSE
 -------
