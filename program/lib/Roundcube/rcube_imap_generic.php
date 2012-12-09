@@ -2548,10 +2548,11 @@ class rcube_imap_generic
      * @param string $message Message content
      * @param array  $flags   Message flags
      * @param string $date    Message internal date
+     * @param bool   $binary  Enable BINARY append (RFC3516)
      *
      * @return string|bool On success APPENDUID response (if available) or True, False on failure
      */
-    function append($mailbox, &$message, $flags = array(), $date = null)
+    function append($mailbox, &$message, $flags = array(), $date = null, $binary = false)
     {
         unset($this->data['APPENDUID']);
 
@@ -2559,8 +2560,13 @@ class rcube_imap_generic
             return false;
         }
 
-        $message = str_replace("\r", '', $message);
-        $message = str_replace("\n", "\r\n", $message);
+        $binary       = $binary && $this->getCapability('BINARY');
+        $literal_plus = !$binary && $this->prefs['literal+'];
+
+        if (!$binary) {
+            $message = str_replace("\r", '', $message);
+            $message = str_replace("\n", "\r\n", $message);
+        }
 
         $len = strlen($message);
         if (!$len) {
@@ -2573,12 +2579,12 @@ class rcube_imap_generic
         if (!empty($date)) {
             $request .= ' ' . $this->escape($date);
         }
-        $request .= ' {' . $len . ($this->prefs['literal+'] ? '+' : '') . '}';
+        $request .= ' ' . ($binary ? '~' : '') . '{' . $len . ($literal_plus ? '+' : '') . '}';
 
         // send APPEND command
         if ($this->putLine($request)) {
             // Do not wait when LITERAL+ is supported
-            if (!$this->prefs['literal+']) {
+            if (!$literal_plus) {
                 $line = $this->readReply();
 
                 if ($line[0] != '+') {
@@ -2620,10 +2626,11 @@ class rcube_imap_generic
      * @param string $headers Message headers
      * @param array  $flags   Message flags
      * @param string $date    Message internal date
+     * @param bool   $binary  Enable BINARY append (RFC3516)
      *
      * @return string|bool On success APPENDUID response (if available) or True, False on failure
      */
-    function appendFromFile($mailbox, $path, $headers=null, $flags = array(), $date = null)
+    function appendFromFile($mailbox, $path, $headers=null, $flags = array(), $date = null, $binary = false)
     {
         unset($this->data['APPENDUID']);
 
@@ -2654,18 +2661,21 @@ class rcube_imap_generic
             $len += strlen($headers) + strlen($body_separator);
         }
 
+        $binary       = $binary && $this->getCapability('BINARY');
+        $literal_plus = !$binary && $this->prefs['literal+'];
+
         // build APPEND command
         $key = $this->nextTag();
         $request = "$key APPEND " . $this->escape($mailbox) . ' (' . $this->flagsToStr($flags) . ')';
         if (!empty($date)) {
             $request .= ' ' . $this->escape($date);
         }
-        $request .= ' {' . $len . ($this->prefs['literal+'] ? '+' : '') . '}';
+        $request .= ' ' . ($binary ? '~' : '') . '{' . $len . ($literal_plus ? '+' : '') . '}';
 
         // send APPEND command
         if ($this->putLine($request)) {
             // Don't wait when LITERAL+ is supported
-            if (!$this->prefs['literal+']) {
+            if (!$literal_plus) {
                 $line = $this->readReply();
 
                 if ($line[0] != '+') {
