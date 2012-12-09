@@ -179,7 +179,7 @@ class squirrelmail_usercopy extends rcube_plugin
 				$rec['firstname'] = rcube_charset_convert(rtrim($sql_array['firstname']), $db_charset);
 				$rec['surname']   = rcube_charset_convert(rtrim($sql_array['lastname']), $db_charset);
 				$rec['email']     = rcube_charset_convert(rtrim($sql_array['email']), $db_charset);
-				$rec['note']      = rcube_charset_convert(rtrim($sql_array['label']), $db_charset);
+				$rec['notes']      = rcube_charset_convert(rtrim($sql_array['label']), $db_charset);
 
 				if ($rec['name'] && $rec['email'])
 					$this->abook[] = $rec;
