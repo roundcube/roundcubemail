@@ -1455,6 +1455,7 @@ class rcube_ldap extends rcube_addressbook
                 if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control')) {
                     if (ldap_parse_result($this->conn, $this->ldap_result,
                         $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)
+                        && $serverctrls // can be null e.g. in case of adm. limit error
                     ) {
                         ldap_parse_virtuallist_control($this->conn, $serverctrls,
                             $last_offset, $this->vlv_count, $vresult);
