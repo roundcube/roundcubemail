@@ -266,6 +266,11 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         $filename = str_ireplace('attachment', 'attach', $filename);
       }
 
+      // add filename extension if missing
+      if (!pathinfo($filename, PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
+        $filename .= '.' . $extensions[0];
+      }
+
       header("Content-Disposition: $disposition; filename=\"$filename\"");
 
       // handle tiff to jpeg conversion
