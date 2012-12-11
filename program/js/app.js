@@ -224,9 +224,10 @@ function rcube_webmail()
 
         this.set_button_titles();
 
-        this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list', 'forward',
-          'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'download',
-          'print', 'load-attachment', 'show-headers', 'hide-headers', 'forward-attachment'];
+        this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list',
+          'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource',
+          'print', 'load-attachment', 'show-headers', 'hide-headers', 'download',
+          'forward', 'forward-inline', 'forward-attachment'];
 
         if (this.env.action == 'show' || this.env.action == 'preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
@@ -999,10 +1000,12 @@ function rcube_webmail()
         break;
 
       case 'forward-attachment':
+      case 'forward-inline':
       case 'forward':
-        if (uid = this.get_single_uid()) {
-          url = { _forward_uid: uid, _mbox: this.env.mailbox };
-          if (command == 'forward-attachment' || (!props && this.env.forward_attachment))
+        var uids = this.env.uid ? [this.env.uid] : (this.message_list ? this.message_list.get_selection() : []);
+        if (uids.length) {
+          url = { _forward_uid: this.uids_to_list(uids), _mbox: this.env.mailbox };
+          if (command == 'forward-attachment' || (!props && this.env.forward_attachment) || uids.length > 1)
             url._attachment = 1;
           this.open_compose_step(url);
         }
@@ -1526,7 +1529,7 @@ function rcube_webmail()
     if (selected) {
       // Hide certain command buttons when Drafts folder is selected
       if (this.env.mailbox == this.env.drafts_mailbox)
-        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-attachment', false);
+        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-attachment', 'forward-inline', false);
       // Disable reply-list when List-Post header is not set
       else {
         var msg = this.env.messages[list.get_single_selection()];
@@ -1535,7 +1538,7 @@ function rcube_webmail()
       }
     }
     // Multi-message commands
-    this.enable_command('delete', 'moveto', 'copy', 'mark', (list.selection.length > 0 ? true : false));
+    this.enable_command('delete', 'moveto', 'copy', 'mark', 'forward', 'forward-attachment', list.selection.length > 0);
 
     // reset all-pages-selection
     if (selected || (list.selection.length && list.selection.length != list.rowcount))
