@@ -2701,16 +2701,18 @@ function rcube_webmail()
     this.http_post(action, post_data, lock);
   };
 
-  // build post data for message delete/move/copy requests
+  // build post data for message delete/move/copy/flag requests
   this.selection_post_data = function(data)
   {
-    var a_uids = this.env.uid ? this.env.uid : this.message_list.get_selection();
-
     if (typeof(data) != 'object')
       data = {};
 
-    data._uid = this.uids_to_list(a_uids);
     data._mbox = this.env.mailbox;
+
+    if (!data._uid) {
+      var uids = this.env.uid ? this.env.uid : this.message_list.get_selection();
+      data._uid = this.uids_to_list(uids);
+    }
 
     if (this.env.action)
       data._from = this.env.action;
@@ -2777,16 +2779,12 @@ function rcube_webmail()
   this.toggle_read_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: flag},
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // mark all message rows as read/unread
     for (i=0; i<len; i++)
-      this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
-
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
+      this.set_message(a_uids[i], 'unread', (flag == 'unread' ? true : false));
 
     this.http_post('mark', post_data, lock);
 
@@ -2798,16 +2796,12 @@ function rcube_webmail()
   this.toggle_flagged_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: flag},
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // mark all message rows as flagged/unflagged
     for (i=0; i<len; i++)
-      this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
-
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
+      this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
 
     this.http_post('mark', post_data, lock);
   };
@@ -2846,25 +2840,20 @@ function rcube_webmail()
 
   this.flag_as_undeleted = function(a_uids)
   {
-    var i, len=a_uids.length,
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: 'undelete'},
+    var i, len = a_uids.length,
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'undelete'}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     for (i=0; i<len; i++)
       this.set_message(a_uids[i], 'deleted', false);
 
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
-
     this.http_post('mark', post_data, lock);
-    return true;
   };
 
   this.flag_as_deleted = function(a_uids)
   {
     var r_uids = [],
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: 'delete'},
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'delete'}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading'),
       rows = this.message_list ? this.message_list.rows : [],
       count = 0;
@@ -2895,9 +2884,6 @@ function rcube_webmail()
         this.delete_excessive_thread_rows();
     }
 
-    if (this.env.action)
-      post_data._from = this.env.action;
-
     // ??
     if (r_uids.length)
       post_data._ruid = this.uids_to_list(r_uids);
@@ -2905,12 +2891,7 @@ function rcube_webmail()
     if (this.env.skip_deleted && this.env.display_next && this.env.next_uid)
       post_data._next_uid = this.env.next_uid;
 
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
-
     this.http_post('mark', post_data, lock);
-    return true;
   };
 
   // flag as read without mark request (called from backend)
