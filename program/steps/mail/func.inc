@@ -5,7 +5,7 @@
  | program/steps/mail/func.inc                                           |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -939,13 +939,13 @@ function rcmail_html_tag_callback($matches)
 /**
  * return table with message headers
  */
-function rcmail_message_headers($attrib, $headers=NULL)
+function rcmail_message_headers($attrib, $headers=null)
   {
   global $OUTPUT, $MESSAGE, $PRINT_MODE, $RCMAIL;
   static $sa_attrib;
 
   // keep header table attrib
-  if (is_array($attrib) && !$sa_attrib)
+  if (is_array($attrib) && !$sa_attrib && !$attrib['valueof'])
     $sa_attrib = $attrib;
   else if (!is_array($attrib) && is_array($sa_attrib))
     $attrib = $sa_attrib;
@@ -954,8 +954,13 @@ function rcmail_message_headers($attrib, $headers=NULL)
     return FALSE;
 
   // get associative array of headers object
-  if (!$headers)
-    $headers = is_object($MESSAGE->headers) ? get_object_vars($MESSAGE->headers) : $MESSAGE->headers;
+  if (!$headers) {
+    $headers_obj = $MESSAGE->headers;
+    $headers = get_object_vars($MESSAGE->headers);
+  }
+  else {
+    $headers_obj = rcube_message_header::from_array($headers);
+  }
 
   // show these headers
   $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto',
@@ -1031,7 +1036,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
   }
 
   $plugin = $RCMAIL->plugins->exec_hook('message_headers_output',
-    array('output' => $output_headers, 'headers' => $MESSAGE->headers, 'exclude' => $exclude_headers));
+    array('output' => $output_headers, 'headers' => $headers_obj, 'exclude' => $exclude_headers));
 
   // single header value is requested
   if (!empty($attrib['valueof']))
@@ -1110,8 +1115,9 @@ function rcmail_message_body($attrib)
 
   if (!empty($MESSAGE->parts)) {
     foreach ($MESSAGE->parts as $i => $part) {
-      if ($part->type == 'headers')
-        $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part->headers);
+      if ($part->type == 'headers') {
+        $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
+      }
       else if ($part->type == 'content') {
         // unsapported
         if ($part->realtype) {
@@ -1138,6 +1144,15 @@ function rcmail_message_body($attrib)
         // fetch part if not available
         if (!isset($part->body))
           $part->body = $MESSAGE->get_part_content($part->mime_id);
+
+        // extract headers from message/rfc822 parts
+        if ($part->mimetype == 'message/rfc822') {
+          list($hdrs, $body) = explode("\r\n\r\n", $part->body, 2);
+          if ($hdrs && $body && preg_match('/^[\w-]+:\s/i', $hdrs)) {
+            $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, rcube_mime::parse_headers($hdrs)));
+            $part->body = $body;
+          }
+        }
 
         // message is cached but not exists (#1485443), or other error
         if ($part->body === false) {

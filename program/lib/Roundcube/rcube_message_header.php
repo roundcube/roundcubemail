@@ -235,6 +235,22 @@ class rcube_message_header
             $this->others[$name] = $value;
         }
     }
+
+
+    /**
+     * Factory method to instantiate headers from a data array
+     *
+     * @param array Hash array with header values
+     * @return object rcube_message_header instance filled with headers values
+     */
+    public static function from_array($arr)
+    {
+        $obj = new rcube_message_header;
+        foreach ($arr as $k => $v)
+            $obj->set($k, $v);
+
+        return $obj;
+    }
 }
 
 

@@ -320,8 +320,15 @@ class rcube_message
     private function parse_structure($structure, $recursive = false)
     {
         // real content-type of message/rfc822 part
-        if ($structure->mimetype == 'message/rfc822' && $structure->real_mimetype)
+        if ($structure->mimetype == 'message/rfc822' && $structure->real_mimetype) {
             $mimetype = $structure->real_mimetype;
+
+            // parse headers from message/rfc822 part
+            if (!isset($structure->headers['subject'])) {
+                list($headers, $dump) = explode("\r\n\r\n", $this->get_part_content($structure->mime_id, null, true, 4096));
+                $structure->headers = rcube_mime::parse_headers($headers);
+            }
+        }
         else
             $mimetype = $structure->mimetype;
 
