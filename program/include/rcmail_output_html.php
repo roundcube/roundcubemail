@@ -670,7 +670,10 @@ class rcmail_output_html extends rcmail_output
      */
     public function just_parse($input)
     {
-        return $this->parse_xml($input);
+        $input = $this->parse_conditions($input);
+        $input = $this->parse_xml($input);
+
+        return $input;
     }
 
 
