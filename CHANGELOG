@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so compacting of non-empty folder is possible also when messages list is empty (#1488858)
 - Allow forwarding of multiple emails (#1486854)
 - Fix big memory consumption of DB layer (#1488856)
 - Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)

@@ -651,13 +651,13 @@ function rcube_webmail()
         break;
 
       case 'expunge':
-        if (this.env.messagecount)
+        if (this.env.exists)
           this.expunge_mailbox(this.env.mailbox);
         break;
 
       case 'purge':
       case 'empty-mailbox':
-        if (this.env.messagecount)
+        if (this.env.exists)
           this.purge_mailbox(this.env.mailbox);
         break;
 
@@ -2971,7 +2971,7 @@ function rcube_webmail()
   // test if purge command is allowed
   this.purge_mailbox_test = function()
   {
-    return (this.env.messagecount && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox
+    return (this.env.exists && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox
       || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter))
       || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))));
   };
@@ -6228,7 +6228,7 @@ function rcube_webmail()
       case 'purge':
       case 'expunge':
         if (this.task == 'mail') {
-          if (!this.env.messagecount) {
+          if (!this.env.exists) {
             // clear preview pane content
             if (this.env.contentframe)
               this.show_contentframe(false);
@@ -6248,7 +6248,8 @@ function rcube_webmail()
         this.env.qsearch = null;
       case 'list':
         if (this.task == 'mail') {
-          this.enable_command('show', 'expunge', 'select-all', 'select-none', (this.env.messagecount > 0));
+          this.enable_command('show', 'select-all', 'select-none', this.env.messagecount > 0);
+          this.enable_command('expunge', this.env.exists);
           this.enable_command('purge', this.purge_mailbox_test());
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount);
 

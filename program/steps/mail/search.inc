@@ -143,5 +143,6 @@ else {
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
+$OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1), $mbox);
 $OUTPUT->send();
