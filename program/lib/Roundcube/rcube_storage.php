@@ -65,6 +65,7 @@ abstract class rcube_storage
         'MAIL-REPLY-TO',
         'RETURN-PATH',
         'DELIVERED-TO',
+        'ENVELOPE-TO',
     );
 
     const UNKNOWN       = 0;

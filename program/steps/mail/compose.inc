@@ -455,6 +455,16 @@ function rcmail_identity_select($MESSAGE, $identities, $compose_mode)
     }
   }
 
+  // Fallback using Envelope-To
+  if ($from_idx === null && ($envelope_to = $MESSAGE->headers->others['envelope-to'])) {
+    foreach ($identities as $idx => $ident) {
+      if (in_array($ident['email_ascii'], (array)$envelope_to)) {
+        $from_idx = $idx;
+        break;
+      }
+    }
+  }
+
   return $identities[$from_idx !== null ? $from_idx : $default_identity];
 }
 
