@@ -571,7 +571,7 @@ class rcube_imap extends rcube_storage
      * Get message count for a specific folder
      *
      * @param  string  $folder  Folder name
-     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
      * @param  boolean $force   Force reading from server and update cache
      * @param  boolean $status  Enables storing folder status info (max UID/count),
      *                          required for folder_status()
@@ -592,7 +592,7 @@ class rcube_imap extends rcube_storage
      * protected method for getting nr of messages
      *
      * @param string  $folder  Folder name
-     * @param string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
      * @param boolean $force   Force reading from server and update cache
      * @param boolean $status  Enables storing folder status info (max UID/count),
      *                         required for folder_status()
@@ -613,6 +613,10 @@ class rcube_imap extends rcube_storage
                 return $this->search_set->count();
             }
         }
+
+        // EXISTS is a special alias for ALL, it allows to get the number
+        // of all messages in a folder also when search is active and with
+        // any skip_deleted setting
 
         $a_folder_cache = $this->get_cache('messagecount');
 
@@ -644,7 +648,7 @@ class rcube_imap extends rcube_storage
             $count = $this->conn->countRecent($folder);
         }
         // use SEARCH for message counting
-        else if (!empty($this->options['skip_deleted'])) {
+        else if ($mode != 'EXISTS' && !empty($this->options['skip_deleted'])) {
             $search_str = "ALL UNDELETED";
             $keys       = array('COUNT');
 
@@ -683,8 +687,8 @@ class rcube_imap extends rcube_storage
             }
             else {
                 $count = $this->conn->countMessages($folder);
-                if ($status) {
-                    $this->set_folder_stats($folder,'cnt', $count);
+                if ($status && $mode == 'ALL') {
+                    $this->set_folder_stats($folder, 'cnt', $count);
                     $this->set_folder_stats($folder, 'maxuid', $count ? $this->id2uid($count, $folder) : 0);
                 }
             }
