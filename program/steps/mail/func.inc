@@ -958,6 +958,10 @@ function rcmail_message_headers($attrib, $headers=null)
     $headers_obj = $MESSAGE->headers;
     $headers = get_object_vars($MESSAGE->headers);
   }
+  else if (is_object($headers)) {
+    $headers_obj = $headers;
+    $headers = get_object_vars($headers_obj);
+  }
   else {
     $headers_obj = rcube_message_header::from_array($headers);
   }
@@ -1147,10 +1151,10 @@ function rcmail_message_body($attrib)
 
         // extract headers from message/rfc822 parts
         if ($part->mimetype == 'message/rfc822') {
-          list($hdrs, $body) = explode("\r\n\r\n", $part->body, 2);
-          if ($hdrs && $body && preg_match('/^[\w-]+:\s/i', $hdrs)) {
-            $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, rcube_mime::parse_headers($hdrs)));
-            $part->body = $body;
+          $msgpart = rcube_mime::parse_message($part->body);
+          if (!empty($msgpart->headers)) {
+            $part = $msgpart;
+            $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
           }
         }
 
