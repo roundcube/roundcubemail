@@ -75,13 +75,15 @@ foreach ($a_mailboxes as $mbox_name) {
         if (!empty($_GET['_quota']))
             $OUTPUT->command('set_quota', rcmail_quota_content());
 
+        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+
         // "No-list" mode, don't get messages
         if (empty($_GET['_list']))
             continue;
 
         // get overall message count; allow caching because rcube_storage::folder_status() did a refresh
         $list_mode = $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL';
-        $all_count = $RCMAIL->storage->count(null, $list_mode, false, false);
+        $all_count = $RCMAIL->storage->count($mbox_name, $list_mode, false, false);
         $page      = $RCMAIL->storage->get_page();
         $page_size = $RCMAIL->storage->get_pagesize();
 

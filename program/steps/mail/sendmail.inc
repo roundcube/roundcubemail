@@ -617,13 +617,12 @@ if (is_array($COMPOSE['attachments']))
       $ctype = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
       $file = $attachment['data'] ? $attachment['data'] : $attachment['path'];
 
-      // .eml attachments send inline
       $MAIL_MIME->addAttachment($file,
         $ctype,
         $attachment['name'],
         ($attachment['data'] ? false : true),
         ($ctype == 'message/rfc822' ? '8bit' : 'base64'),
-        ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
+        'attachment',
         '', '', '',
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
         $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL,

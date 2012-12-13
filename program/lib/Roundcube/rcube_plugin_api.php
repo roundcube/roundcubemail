@@ -78,7 +78,8 @@ class rcube_plugin_api
     'identity_save'     => 'identity_update',
     // to be removed after 0.8
     'imap_init'         => 'storage_init',
-    'mailboxes_list'    => 'storage_folders', 
+    'mailboxes_list'    => 'storage_folders',
+    'imap_connect'      => 'storage_connect',
   );
 
   /**
