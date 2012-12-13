@@ -151,7 +151,7 @@ class rcube_imap extends rcube_storage
 
         $attempt = 0;
         do {
-            $data = rcube::get_instance()->plugins->exec_hook('imap_connect',
+            $data = rcube::get_instance()->plugins->exec_hook('storage_connect',
                 array_merge($this->options, array('host' => $host, 'user' => $user,
                     'attempt' => ++$attempt)));
 
