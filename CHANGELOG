@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so compacting of non-empty folder is possible also when messages list is empty (#1488858)
 - Allow forwarding of multiple emails (#1486854)
 - Fix big memory consumption of DB layer (#1488856)
 - Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
@@ -8,7 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix broken message/part bodies when FETCH response contains more untagged lines (#1488836)
 - Fix empty email on identities list after identity update (#1488834)
 - Add new identities_level: (4) one identity with possibility to edit only signature
-- Use Delivered-To header as a last resort for identity selection (#1488840)
+- Use Delivered-To and Envelope-To headers for identity selection (#1488840, #1488553)
 - Fix XSS vulnerability using Flash files (#1488828)
 - Fix absolute positioning in HTML messages (#1488819)
 - Fix cache (in)validation after setting \Deleted flag

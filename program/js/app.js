@@ -651,13 +651,13 @@ function rcube_webmail()
         break;
 
       case 'expunge':
-        if (this.env.messagecount)
+        if (this.env.exists)
           this.expunge_mailbox(this.env.mailbox);
         break;
 
       case 'purge':
       case 'empty-mailbox':
-        if (this.env.messagecount)
+        if (this.env.exists)
           this.purge_mailbox(this.env.mailbox);
         break;
 
@@ -2553,27 +2553,18 @@ function rcube_webmail()
     if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
 
-    // exit if current or no mailbox specified or if selection is empty
-    if (!mbox || mbox == this.env.mailbox || (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length)))
+    // exit if current or no mailbox specified
+    if (!mbox || mbox == this.env.mailbox)
       return;
 
-    var a_uids = [], n, selection,
-      lock = this.display_message(this.get_label('copyingmessage'), 'loading'),
-      post_data = {_mbox: this.env.mailbox, _target_mbox: mbox, _from: (this.env.action ? this.env.action : '')};
+    var post_data = this.selection_post_data({_target_mbox: mbox});
 
-    if (this.env.uid)
-      a_uids[0] = this.env.uid;
-    else {
-      selection = this.message_list.get_selection();
-      for (n in selection) {
-        a_uids.push(selection[n]);
-      }
-    }
-
-    post_data._uid = this.uids_to_list(a_uids);
+    // exit if selection is empty
+    if (!post_data._uid)
+      return;
 
     // send request to server
-    this.http_post('copy', post_data, lock);
+    this.http_post('copy', post_data, this.display_message(this.get_label('copyingmessage'), 'loading'));
   };
 
   // move selected messages to the specified mailbox
@@ -2582,12 +2573,15 @@ function rcube_webmail()
     if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
 
-    // exit if current or no mailbox specified or if selection is empty
-    if (!mbox || mbox == this.env.mailbox || (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length)))
+    // exit if current or no mailbox specified
+    if (!mbox || mbox == this.env.mailbox)
       return;
 
-    var lock = false,
-      add_post = {_target_mbox: mbox, _from: (this.env.action ? this.env.action : '')};
+    var lock = false, post_data = this.selection_post_data({_target_mbox: mbox});
+
+    // exit if selection is empty
+    if (!post_data._uid)
+      return;
 
     // show wait message
     if (this.env.action == 'show')
@@ -2598,7 +2592,7 @@ function rcube_webmail()
     // Hide message command buttons until a message is selected
     this.enable_command(this.env.message_commands, false);
 
-    this._with_selected_messages('moveto', lock, add_post);
+    this._with_selected_messages('moveto', post_data, lock);
   };
 
   // delete selected messages from the current mailbox
@@ -2606,7 +2600,7 @@ function rcube_webmail()
   {
     var uid, i, len, trash = this.env.trash_mailbox,
       list = this.message_list,
-      selection = list ? $.merge([], list.get_selection()) : [];
+      selection = list.get_selection();
 
     // exit if no mailbox specified or if selection is empty
     if (!this.env.uid && !selection.length)
@@ -2625,7 +2619,6 @@ function rcube_webmail()
       return false;
     }
     // if there isn't a defined trash mailbox or we are in it
-    // @TODO: we should check if defined trash mailbox exists
     else if (!trash || this.env.mailbox == trash)
       this.permanently_remove_messages();
     // we're in Junk folder and delete_junk is enabled
@@ -2648,32 +2641,29 @@ function rcube_webmail()
   // delete the selected messages permanently
   this.permanently_remove_messages = function()
   {
-    // exit if no mailbox specified or if selection is empty
-    if (!this.env.uid && (!this.message_list || !this.message_list.get_selection().length))
+    var post_data = this.selection_post_data();
+
+    // exit if selection is empty
+    if (!post_data._uid)
       return;
 
     this.show_contentframe(false);
-    this._with_selected_messages('delete', false, {_from: this.env.action ? this.env.action : ''});
+    this._with_selected_messages('delete', post_data);
   };
 
   // Send a specifc moveto/delete request with UIDs of all selected messages
   // @private
-  this._with_selected_messages = function(action, lock, post_data)
+  this._with_selected_messages = function(action, post_data, lock)
   {
-    var a_uids = [], count = 0, msg, lock;
+    var count = 0, msg;
 
-    if (typeof(post_data) != 'object')
-      post_data = {};
-
-    if (this.env.uid)
-      a_uids[0] = this.env.uid;
-    else {
+    // update the list (remove rows, clear selection)
+    if (this.message_list) {
       var n, id, root, roots = [],
         selection = this.message_list.get_selection();
 
       for (n=0, len=selection.length; n<len; n++) {
         id = selection[n];
-        a_uids.push(id);
 
         if (this.env.threading) {
           count += this.update_thread(id);
@@ -2693,10 +2683,6 @@ function rcube_webmail()
       }
     }
 
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
-
     if (this.env.display_next && this.env.next_uid)
       post_data._next_uid = this.env.next_uid;
 
@@ -2705,9 +2691,6 @@ function rcube_webmail()
     // remove threads from the end of the list
     else if (count > 0)
       this.delete_excessive_thread_rows();
-
-    post_data._uid = this.uids_to_list(a_uids);
-    post_data._mbox = this.env.mailbox;
 
     if (!lock) {
       msg = action == 'moveto' ? 'movingmessage' : 'deletingmessage';
@@ -2718,22 +2701,41 @@ function rcube_webmail()
     this.http_post(action, post_data, lock);
   };
 
+  // build post data for message delete/move/copy/flag requests
+  this.selection_post_data = function(data)
+  {
+    if (typeof(data) != 'object')
+      data = {};
+
+    data._mbox = this.env.mailbox;
+
+    if (!data._uid) {
+      var uids = this.env.uid ? this.env.uid : this.message_list.get_selection();
+      data._uid = this.uids_to_list(uids);
+    }
+
+    if (this.env.action)
+      data._from = this.env.action;
+
+    // also send search request to get the right messages
+    if (this.env.search_request)
+      data._search = this.env.search_request;
+
+    return data;
+  };
+
   // set a specific flag to one or more messages
   this.mark_message = function(flag, uid)
   {
-    var a_uids = [], r_uids = [], len, n, id, selection,
+    var a_uids = [], r_uids = [], len, n, id,
       list = this.message_list;
 
     if (uid)
       a_uids[0] = uid;
     else if (this.env.uid)
       a_uids[0] = this.env.uid;
-    else if (list) {
-      selection = list.get_selection();
-      for (n=0, len=selection.length; n<len; n++) {
-          a_uids.push(selection[n]);
-      }
-    }
+    else if (list)
+      a_uids = list.get_selection();
 
     if (!list)
       r_uids = a_uids;
@@ -2741,12 +2743,12 @@ function rcube_webmail()
       list.focus();
       for (n=0, len=a_uids.length; n<len; n++) {
         id = a_uids[n];
-        if ((flag=='read' && list.rows[id].unread) 
-            || (flag=='unread' && !list.rows[id].unread)
-            || (flag=='delete' && !list.rows[id].deleted)
-            || (flag=='undelete' && list.rows[id].deleted)
-            || (flag=='flagged' && !list.rows[id].flagged)
-            || (flag=='unflagged' && list.rows[id].flagged))
+        if ((flag == 'read' && list.rows[id].unread)
+            || (flag == 'unread' && !list.rows[id].unread)
+            || (flag == 'delete' && !list.rows[id].deleted)
+            || (flag == 'undelete' && list.rows[id].deleted)
+            || (flag == 'flagged' && !list.rows[id].flagged)
+            || (flag == 'unflagged' && list.rows[id].flagged))
         {
           r_uids.push(id);
         }
@@ -2777,16 +2779,12 @@ function rcube_webmail()
   this.toggle_read_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: flag},
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // mark all message rows as read/unread
     for (i=0; i<len; i++)
-      this.set_message(a_uids[i], 'unread', (flag=='unread' ? true : false));
-
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
+      this.set_message(a_uids[i], 'unread', (flag == 'unread' ? true : false));
 
     this.http_post('mark', post_data, lock);
 
@@ -2798,16 +2796,12 @@ function rcube_webmail()
   this.toggle_flagged_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: flag},
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     // mark all message rows as flagged/unflagged
     for (i=0; i<len; i++)
-      this.set_message(a_uids[i], 'flagged', (flag=='flagged' ? true : false));
-
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
+      this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
 
     this.http_post('mark', post_data, lock);
   };
@@ -2846,25 +2840,20 @@ function rcube_webmail()
 
   this.flag_as_undeleted = function(a_uids)
   {
-    var i, len=a_uids.length,
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: 'undelete'},
+    var i, len = a_uids.length,
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'undelete'}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading');
 
     for (i=0; i<len; i++)
       this.set_message(a_uids[i], 'deleted', false);
 
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
-
     this.http_post('mark', post_data, lock);
-    return true;
   };
 
   this.flag_as_deleted = function(a_uids)
   {
     var r_uids = [],
-      post_data = {_uid: this.uids_to_list(a_uids), _flag: 'delete'},
+      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'delete'}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading'),
       rows = this.message_list ? this.message_list.rows : [],
       count = 0;
@@ -2895,9 +2884,6 @@ function rcube_webmail()
         this.delete_excessive_thread_rows();
     }
 
-    if (this.env.action)
-      post_data._from = this.env.action;
-
     // ??
     if (r_uids.length)
       post_data._ruid = this.uids_to_list(r_uids);
@@ -2905,12 +2891,7 @@ function rcube_webmail()
     if (this.env.skip_deleted && this.env.display_next && this.env.next_uid)
       post_data._next_uid = this.env.next_uid;
 
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      post_data._search = this.env.search_request;
-
     this.http_post('mark', post_data, lock);
-    return true;
   };
 
   // flag as read without mark request (called from backend)
@@ -2990,7 +2971,7 @@ function rcube_webmail()
   // test if purge command is allowed
   this.purge_mailbox_test = function()
   {
-    return (this.env.messagecount && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox
+    return (this.env.exists && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox
       || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter))
       || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))));
   };
@@ -6247,7 +6228,7 @@ function rcube_webmail()
       case 'purge':
       case 'expunge':
         if (this.task == 'mail') {
-          if (!this.env.messagecount) {
+          if (!this.env.exists) {
             // clear preview pane content
             if (this.env.contentframe)
               this.show_contentframe(false);
@@ -6267,7 +6248,8 @@ function rcube_webmail()
         this.env.qsearch = null;
       case 'list':
         if (this.task == 'mail') {
-          this.enable_command('show', 'expunge', 'select-all', 'select-none', (this.env.messagecount > 0));
+          this.enable_command('show', 'select-all', 'select-none', this.env.messagecount > 0);
+          this.enable_command('expunge', this.env.exists);
           this.enable_command('purge', this.purge_mailbox_test());
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount);
 

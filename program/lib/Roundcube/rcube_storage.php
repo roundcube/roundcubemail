@@ -65,6 +65,7 @@ abstract class rcube_storage
         'MAIL-REPLY-TO',
         'RETURN-PATH',
         'DELIVERED-TO',
+        'ENVELOPE-TO',
     );
 
     const UNKNOWN       = 0;
@@ -353,7 +354,7 @@ abstract class rcube_storage
      * Get messages count for a specific folder.
      *
      * @param  string  $folder  Folder name
-     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
      * @param  boolean $force   Force reading from server and update cache
      * @param  boolean $status  Enables storing folder status info (max UID/count),
      *                          required for folder_status()
