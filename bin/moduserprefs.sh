@@ -31,7 +31,7 @@ function print_usage()
 
 
 // get arguments
-$args = rcube_utils:get_opt(array('u' => 'user', 'd' => 'delete'));
+$args = rcube_utils::get_opt(array('u' => 'user', 'd' => 'delete'));
 
 if ($_SERVER['argv'][1] == 'help') {
 	print_usage();
