@@ -219,11 +219,11 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
     // address in brackets without name (do nothing)
     if (preg_match('/^<'.$email_regexp.'>$/', $item)) {
       $item = rcube_idn_to_ascii(trim($item, '<>'));
-      $result[] = '<' . $item . '>';
+      $result[] = $item;
     // address without brackets and without name (add brackets)
     } else if (preg_match('/^'.$email_regexp.'$/', $item)) {
       $item = rcube_idn_to_ascii($item);
-      $result[] = '<' . $item . '>';
+      $result[] = $item;
     // address with name (handle name)
     } else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
       $address = $matches[0];
