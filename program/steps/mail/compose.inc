@@ -20,10 +20,10 @@
 */
 
 // define constants for message compose mode
-define('RCUBE_COMPOSE_REPLY', 0x0106);
-define('RCUBE_COMPOSE_FORWARD', 0x0107);
-define('RCUBE_COMPOSE_DRAFT', 0x0108);
-define('RCUBE_COMPOSE_EDIT', 0x0109);
+define('RCUBE_COMPOSE_REPLY', 'reply');
+define('RCUBE_COMPOSE_FORWARD', 'forward');
+define('RCUBE_COMPOSE_DRAFT', 'draft');
+define('RCUBE_COMPOSE_EDIT', 'edit');
 
 $MESSAGE_FORM = null;
 $COMPOSE_ID   = get_input_value('_id', RCUBE_INPUT_GET);
@@ -156,17 +156,16 @@ if ($msg_uid = $COMPOSE['param']['draft_uid']) {
 }
 else if ($msg_uid = $COMPOSE['param']['reply_uid']) {
   $compose_mode = RCUBE_COMPOSE_REPLY;
-  $OUTPUT->set_env('compose_mode', 'reply');
 }
 else if ($msg_uid = $COMPOSE['param']['forward_uid']) {
   $compose_mode = RCUBE_COMPOSE_FORWARD;
-  $OUTPUT->set_env('compose_mode', 'forward');
   $COMPOSE['forward_uid']   = $msg_uid;
   $COMPOSE['as_attachment'] = !empty($COMPOSE['param']['attachment']);
 }
 else if ($msg_uid = $COMPOSE['param']['uid']) {
   $compose_mode = RCUBE_COMPOSE_EDIT;
 }
+$OUTPUT->set_env('compose_mode', $compose_mode);
 
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
 if ($compose_mode == RCUBE_COMPOSE_EDIT || $compose_mode == RCUBE_COMPOSE_DRAFT) {
@@ -373,102 +372,6 @@ $MESSAGE_BODY = rcmail_prepare_message_body();
 
 
 /****** compose mode functions ********/
-
-function rcmail_identity_select($MESSAGE, $identities, $compose_mode)
-{
-  $a_recipients = array();
-  $a_names      = array();
-
-  // extract all recipients of the reply-message
-  if (is_object($MESSAGE->headers) && in_array($compose_mode, array(RCUBE_COMPOSE_REPLY, RCUBE_COMPOSE_FORWARD))) {
-    $a_to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
-    foreach ($a_to as $addr) {
-      if (!empty($addr['mailto'])) {
-        $a_recipients[] = format_email($addr['mailto']);
-        $a_names[]      = $addr['name'];
-      }
-    }
-
-    if (!empty($MESSAGE->headers->cc)) {
-      $a_cc = rcube_mime::decode_address_list($MESSAGE->headers->cc, null, true, $MESSAGE->headers->charset);
-      foreach ($a_cc as $addr) {
-        if (!empty($addr['mailto'])) {
-          $a_recipients[] = format_email($addr['mailto']);
-          $a_names[]      = $addr['name'];
-        }
-      }
-    }
-  }
-
-  $from_idx         = null;
-  $found_idx        = null;
-  $default_identity = 0; // default identity is always first on the list
-
-  // Select identity
-  foreach ($identities as $idx => $ident) {
-    // use From header
-    if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
-      if ($MESSAGE->headers->from == $ident['ident']) {
-        $from_idx = $idx;
-        break;
-      }
-    }
-    // reply to yourself
-    else if ($compose_mode == RCUBE_COMPOSE_REPLY && $MESSAGE->headers->from == $ident['ident']) {
-      $from_idx = $idx;
-      break;
-    }
-    // use replied message recipients
-    else if (($found = array_search($ident['email_ascii'], $a_recipients)) !== false) {
-      if ($found_idx === null) {
-        $found_idx = $idx;
-      }
-      // match identity name
-      if ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name']) {
-        $from_idx = $idx;
-        break;
-      }
-    }
-  }
-
-  // If matching by name+address doesn't found any amtches, get first found address (identity)
-  if ($from_idx === null) {
-    $from_idx = $found_idx;
-  }
-
-  // Try Return-Path
-  if ($from_idx === null && ($return_path = $MESSAGE->headers->others['return-path'])) {
-    foreach ($identities as $idx => $ident) {
-      if (strpos($return_path, str_replace('@', '=', $ident['email_ascii']).'@') !== false) {
-        $from_idx = $idx;
-        break;
-      }
-    }
-  }
-
-  // Fallback using Delivered-To
-  if ($from_idx === null && ($delivered_to = $MESSAGE->headers->others['delivered-to'])) {
-    foreach ($identities as $idx => $ident) {
-      if (in_array($ident['email_ascii'], (array)$delivered_to)) {
-        $from_idx = $idx;
-        break;
-      }
-    }
-  }
-
-  // Fallback using Envelope-To
-  if ($from_idx === null && ($envelope_to = $MESSAGE->headers->others['envelope-to'])) {
-    foreach ($identities as $idx => $ident) {
-      if (in_array($ident['email_ascii'], (array)$envelope_to)) {
-        $from_idx = $idx;
-        break;
-      }
-    }
-  }
-
-  return $identities[$from_idx !== null ? $from_idx : $default_identity];
-}
-
 
 function rcmail_compose_headers($attrib)
 {

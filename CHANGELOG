@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use matching identity in MDN response (#1488864)
 - Fix unwanted horizontal scrollbar in message preview header (#1488866)
 - Fix handling of signatures on draft edit (#1488798)
 - Fix so compacting of non-empty folder is possible also when messages list is empty (#1488858)

@@ -1720,11 +1720,11 @@ function rcmail_send_mdn($message, &$smtp_error)
   if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT']) &&
     ($RCMAIL->storage->check_permflag('MDNSENT') || $RCMAIL->storage->check_permflag('*')))
   {
-    $identity = $RCMAIL->user->get_identity();
-    $sender = format_email_recipient($identity['email'], $identity['name']);
+    $identity  = rcmail_identity_select($message);
+    $sender    = format_email_recipient($identity['email'], $identity['name']);
     $recipient = array_shift(rcube_mime::decode_address_list(
       $message->headers->mdn_to, 1, true, $message->headers->charset));
-    $mailto = $recipient['mailto'];
+    $mailto    = $recipient['mailto'];
 
     $compose = new Mail_mime("\r\n");
 
@@ -1782,6 +1782,107 @@ function rcmail_send_mdn($message, &$smtp_error)
   return false;
 }
 
+/**
+ * Detect recipient identity from specified message
+ */
+function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'reply')
+{
+    $a_recipients = array();
+    $a_names      = array();
+
+    if ($identities === null) {
+        $identities = rcmail::get_instance()->user->list_identities(null, true);
+    }
+
+    // extract all recipients of the reply-message
+    if (is_object($MESSAGE->headers) && in_array($compose_mode, array('reply', 'forward'))) {
+        $a_to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
+        foreach ($a_to as $addr) {
+            if (!empty($addr['mailto'])) {
+                $a_recipients[] = format_email($addr['mailto']);
+                $a_names[]      = $addr['name'];
+            }
+        }
+
+        if (!empty($MESSAGE->headers->cc)) {
+            $a_cc = rcube_mime::decode_address_list($MESSAGE->headers->cc, null, true, $MESSAGE->headers->charset);
+            foreach ($a_cc as $addr) {
+                if (!empty($addr['mailto'])) {
+                    $a_recipients[] = format_email($addr['mailto']);
+                    $a_names[]      = $addr['name'];
+                }
+            }
+        }
+    }
+
+    $from_idx         = null;
+    $found_idx        = null;
+    $default_identity = 0; // default identity is always first on the list
+
+    // Select identity
+    foreach ($identities as $idx => $ident) {
+        // use From header
+        if (in_array($compose_mode, array('draft', 'edit'))) {
+            if ($MESSAGE->headers->from == $ident['ident']) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+        // reply to yourself
+        else if ($compose_mode == 'reply' && $MESSAGE->headers->from == $ident['ident']) {
+            $from_idx = $idx;
+            break;
+        }
+        // use replied message recipients
+        else if (($found = array_search($ident['email_ascii'], $a_recipients)) !== false) {
+            if ($found_idx === null) {
+                $found_idx = $idx;
+            }
+            // match identity name
+            if ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name']) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    // If matching by name+address doesn't found any matches, get first found address (identity)
+    if ($from_idx === null) {
+        $from_idx = $found_idx;
+    }
+
+    // Try Return-Path
+    if ($from_idx === null && ($return_path = $MESSAGE->headers->others['return-path'])) {
+        foreach ($identities as $idx => $ident) {
+            if (strpos($return_path, str_replace('@', '=', $ident['email_ascii']).'@') !== false) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    // Fallback using Delivered-To
+    if ($from_idx === null && ($delivered_to = $MESSAGE->headers->others['delivered-to'])) {
+        foreach ($identities as $idx => $ident) {
+            if (in_array($ident['email_ascii'], (array)$delivered_to)) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    // Fallback using Envelope-To
+    if ($from_idx === null && ($envelope_to = $MESSAGE->headers->others['envelope-to'])) {
+        foreach ($identities as $idx => $ident) {
+            if (in_array($ident['email_ascii'], (array)$envelope_to)) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    return $identities[$from_idx !== null ? $from_idx : $default_identity];
+}
 
 // Fixes some content-type names
 function rcmail_fix_mimetype($name)
