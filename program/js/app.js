@@ -1386,8 +1386,8 @@ function rcube_webmail()
       // over the folders
       for (k in this.env.folder_coords) {
         pos = this.env.folder_coords[k];
-        if (mouse.x >= pos.x1 && mouse.x < pos.x2 && mouse.y >= pos.y1 && mouse.y < pos.y2){
-          if ((check = this.check_droptarget(k))) {
+        if (mouse.x >= pos.x1 && mouse.x < pos.x2 && mouse.y >= pos.y1 && mouse.y < pos.y2) {
+          if (check = this.check_droptarget(k)) {
             li = this.get_folder_li(k);
             div = $(li.getElementsByTagName('div')[0]);
 
@@ -1401,7 +1401,8 @@ function rcube_webmail()
                 rcmail.command('collapse-folder', rcmail.folder_auto_expand);
                 rcmail.drag_start(null);
               }, 1000);
-            } else if (this.folder_auto_timer) {
+            }
+            else if (this.folder_auto_timer) {
               clearTimeout(this.folder_auto_timer);
               this.folder_auto_timer = null;
               this.folder_auto_expand = null;
@@ -1411,9 +1412,10 @@ function rcube_webmail()
             this.env.folder_coords[k].on = 1;
             this.env.last_folder_target = k;
             layerclass = 'draglayer' + (check > 1 ? 'copy' : 'normal');
-          } else { // Clear target, otherwise drag end will trigger move into last valid droptarget
-            this.env.last_folder_target = null;
           }
+          // Clear target, otherwise drag end will trigger move into last valid droptarget
+          else
+            this.env.last_folder_target = null;
         }
         else if (pos.on) {
           $(this.get_folder_li(k)).removeClass('droptarget');
@@ -1640,27 +1642,31 @@ function rcube_webmail()
 
   this.check_droptarget = function(id)
   {
-    var allow = false, copy = false;
-
     if (this.task == 'mail')
-      allow = (this.env.mailboxes[id] && this.env.mailboxes[id].id != this.env.mailbox && !this.env.mailboxes[id].virtual);
-    else if (this.task == 'settings')
-      allow = (id != this.env.mailbox);
-    else if (this.task == 'addressbook') {
+      return (this.env.mailboxes[id] && this.env.mailboxes[id].id != this.env.mailbox && !this.env.mailboxes[id].virtual) ? 1 : 0;
+
+    if (this.task == 'settings')
+      return id != this.env.mailbox ? 1 : 0;
+
+    if (this.task == 'addressbook') {
       if (id != this.env.source && this.env.contactfolders[id]) {
+        // droptarget is a group - contact add to group action
         if (this.env.contactfolders[id].type == 'group') {
           var target_abook = this.env.contactfolders[id].source;
-          allow = this.env.contactfolders[id].id != this.env.group && !this.env.contactfolders[target_abook].readonly;
-          copy = target_abook != this.env.source;
+          if (this.env.contactfolders[id].id != this.env.group && !this.env.contactfolders[target_abook].readonly) {
+            // search result may contain contacts from many sources
+            return (this.env.selection_sources.length > 1 || $.inArray(target_abook, this.env.selection_sources) == -1) ? 2 : 1;
+          }
         }
-        else {
-          allow = !this.env.contactfolders[id].readonly;
-          copy = true;
+        // droptarget is a (writable) addressbook - contact copy action
+        else if (!this.env.contactfolders[id].readonly) {
+          // search result may contain contacts from many sources
+          return (this.env.selection_sources.length > 1 || $.inArray(id, this.env.selection_sources) == -1) ? 2 : 0;
         }
       }
     }
 
-    return allow ? (copy ? 2 : 1) : 0;
+    return 0;
   };
 
   this.open_window = function(url, width, height)
@@ -4082,19 +4088,24 @@ function rcube_webmail()
     else if (this.env.contentframe)
       this.show_contentframe(false);
 
-    // no source = search result, we'll need to detect if any of
-    // selected contacts are in writable addressbook to enable edit/delete
     if (list.selection.length) {
+      // no source = search result, we'll need to detect if any of
+      // selected contacts are in writable addressbook to enable edit/delete
+      // we'll also need to know sources used in selection for copy
+      // and group-addmember operations (drag&drop)
+      this.env.selection_sources = [];
       if (!source) {
         for (n in list.selection) {
           sid = String(list.selection[n]).replace(/^[^-]+-/, '');
-          if (sid && this.env.address_sources[sid] && !this.env.address_sources[sid].readonly) {
-            writable = true;
-            break;
+          if (sid && this.env.address_sources[sid]) {
+            writable = writable || !this.env.address_sources[sid].readonly;
+            this.env.selection_sources.push(sid);
           }
         }
+        this.env.selection_sources = $.unique(this.env.selection_sources);
       }
       else {
+        this.env.selection_sources.push(this.env.source);
         writable = !source.readonly;
       }
     }
@@ -4245,22 +4256,35 @@ function rcube_webmail()
   // copy a contact to the specified target (group or directory)
   this.copy_contact = function(cid, to)
   {
+    var n, dest = to.type == 'group' ? to.source : to.id,
+      source = this.env.source,
+      group = this.env.group ? this.env.group : '';
+
     if (!cid)
       cid = this.contact_list.get_selection().join(',');
 
-    if (to.type == 'group' && to.source == this.env.source)
-      this.group_member_change('add', cid, to.source, to.id);
-    else if (to.type == 'group' && !this.env.address_sources[to.source].readonly) {
-      var lock = this.display_message(this.get_label('copyingcontact'), 'loading'),
-        post_data = {_cid: cid, _source: this.env.source, _to: to.source, _togid: to.id,
-          _gid: (this.env.group ? this.env.group : '')};
+    if (!cid || !this.env.address_sources[dest] || this.env.address_sources[dest].readonly)
+      return;
 
-      this.http_post('copy', post_data, lock);
+    // search result may contain contacts from many sources, but if there is only one...
+    if (source == '' && this.env.selection_sources.length == 1)
+      source = this.env.selection_sources[0];
+
+    // tagret is a group
+    if (to.type == 'group') {
+      if (dest == source)
+        this.group_member_change('add', cid, dest, to.id);
+      else {
+        var lock = this.display_message(this.get_label('copyingcontact'), 'loading'),
+          post_data = {_cid: cid, _source: source, _to: dest, _togid: to.id, _gid: group};
+
+        this.http_post('copy', post_data, lock);
+      }
     }
-    else if (to.id != this.env.source && cid && this.env.address_sources[to.id] && !this.env.address_sources[to.id].readonly) {
+    // target is an addressbook
+    else if (to.id != source) {
       var lock = this.display_message(this.get_label('copyingcontact'), 'loading'),
-        post_data = {_cid: cid, _source: this.env.source, _to: to.id,
-          _gid: (this.env.group ? this.env.group : '')};
+        post_data = {_cid: cid, _source: source, _to: to.id, _gid: group};
 
       this.http_post('copy', post_data, lock);
     }

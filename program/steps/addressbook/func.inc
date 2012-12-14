@@ -756,7 +756,7 @@ function rcmail_contact_key($row, $sort_col)
  *
  * @return array List of contact IDs per-source
  */
-function rcmail_get_cids()
+function rcmail_get_cids($filter = null)
 {
     // contact ID (or comma-separated list of IDs) is provided in two
     // forms. If _source is an empty string then the ID is a string
@@ -765,24 +765,25 @@ function rcmail_get_cids()
     $cid    = get_input_value('_cid', RCUBE_INPUT_GPC);
     $source = (string) get_input_value('_source', RCUBE_INPUT_GPC);
 
+    if (is_array($cid)) {
+        return $cid;
+    }
+
     if (!preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
         return array();
     }
 
-    $cid        = explode(',', $cid);
-    $got_source = strlen($source);
-    $result     = array();
+    $cid    = explode(',', $cid);
+    $result = array();
 
     // create per-source contact IDs array
     foreach ($cid as $id) {
-        // if _source is not specified we'll find it from decoded ID
-        if (!$got_source) {
-            if ($sep = strrpos($id, '-')) {
-                $contact_id = substr($id, 0, $sep);
-                $source_id  = substr($id, $sep+1);
-                if (strlen($source_id)) {
-                    $result[(string)$source_id][] = $contact_id;
-                }
+        // get source from decoded ID
+        if ($sep = strrpos($id, '-')) {
+            $contact_id = substr($id, 0, $sep);
+            $source_id  = substr($id, $sep+1);
+            if (strlen($source_id)) {
+                $result[(string)$source_id][] = $contact_id;
             }
         }
         else {
@@ -790,8 +791,9 @@ function rcmail_get_cids()
         }
     }
 
-    return $result;
+    return $filter !== null ? $result[$filter] : $result;
 }
+
 
 // register UI objects
 $OUTPUT->add_handlers(array(

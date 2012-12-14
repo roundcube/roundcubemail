@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix contact copy/add-to-group operations on search result (#1488862)
 - Use matching identity in MDN response (#1488864)
 - Fix unwanted horizontal scrollbar in message preview header (#1488866)
 - Fix handling of signatures on draft edit (#1488798)
