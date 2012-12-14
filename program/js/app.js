@@ -2600,7 +2600,7 @@ function rcube_webmail()
   {
     var uid, i, len, trash = this.env.trash_mailbox,
       list = this.message_list,
-      selection = list.get_selection();
+      selection = list ? list.get_selection() : [];
 
     // exit if no mailbox specified or if selection is empty
     if (!this.env.uid && !selection.length)
@@ -2710,7 +2710,7 @@ function rcube_webmail()
     data._mbox = this.env.mailbox;
 
     if (!data._uid) {
-      var uids = this.env.uid ? this.env.uid : this.message_list.get_selection();
+      var uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
       data._uid = this.uids_to_list(uids);
     }
 
