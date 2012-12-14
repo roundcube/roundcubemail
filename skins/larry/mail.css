@@ -729,7 +729,7 @@ h2.subject {
 
 h3.subject {
 	font-size: 14px;
-	margin: 0 8em 0 0;
+	margin: 0 12em 0 0;
 	padding: 8px 8px 4px 8px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -938,7 +938,6 @@ div.hide-headers {
 	position: absolute;
 	top: 8px;
 	right: 8px;
-	width: 20em;
 	text-align: right;
 	white-space: nowrap;
 }
