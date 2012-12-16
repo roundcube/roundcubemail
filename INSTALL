@@ -12,9 +12,10 @@ REQUIREMENTS
 * The Apache, Lighttpd, Cherokee or Hiawatha web server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.2.1 or greater including
-   - PDO, PCRE, DOM, JSON, XML, Session, Sockets (required)
-   - libiconv, zip (recommended)
-   - mbstring, fileinfo, mcrypt (optional)
+   - PCRE, DOM, JSON, XML, Session, Sockets (required)
+   - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
+   - Libiconv, Zip (recommended)
+   - Fileinfo, Mcrypt, mbstring (optional)
 * PEAR packages distributed with Roundcube or external:
    - Mail_Mime 1.8.1 or newer
    - Mail_mimeDecode 1.5.5 or newer
