@@ -257,7 +257,8 @@ class rcube_message_header
 /**
  * Class for sorting an array of rcube_message_header objects in a predetermined order.
  *
- * @package Mail
+ * @package    Framework
+ * @subpackage Storage
  * @author  Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_header_sorter

@@ -1266,7 +1266,8 @@ class rcube
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
  *
- * @package Core
+ * @package Framework
+ * @subpackage Core
  */
 class rcube_dummy_plugin_api
 {

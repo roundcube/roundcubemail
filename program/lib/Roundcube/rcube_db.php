@@ -25,7 +25,7 @@
  * This is a wrapper for the PHP PDO.
  *
  * @package   Framework
- * @sbpackage Database
+ * @subpackage Database
  */
 class rcube_db
 {

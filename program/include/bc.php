@@ -23,6 +23,7 @@
  * Roundcube Webmail deprecated functions
  *
  * @package Core
+ * @subpackage Legacy
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
 

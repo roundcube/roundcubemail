@@ -1,10 +1,11 @@
 #!/bin/sh
 
-TITLE="Roundcube Classes"
+TITLE="Roundcube Webmail"
 PACKAGES="Core"
 
 INSTALL_PATH="`dirname $0`/.."
 PATH_PROJECT=$INSTALL_PATH/program/include
+PATH_FRAMEWORK=$INSTALL_PATH/program/lib/Roundcube
 PATH_DOCS=$INSTALL_PATH/doc/phpdoc
 BIN_PHPDOC="`/usr/bin/which phpdoc`"
 
@@ -20,6 +21,6 @@ TEMPLATE=earthli
 PRIVATE=off
 
 # make documentation
-$BIN_PHPDOC -d $PATH_PROJECT -t $PATH_DOCS -ti "$TITLE" -dn $PACKAGES \
+$BIN_PHPDOC -d $PATH_PROJECT,$PATH_FRAMEWORK -t $PATH_DOCS -ti "$TITLE" -dn $PACKAGES \
 -o $OUTPUTFORMAT:$CONVERTER:$TEMPLATE -pp $PRIVATE
 
