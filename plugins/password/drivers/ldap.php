@@ -85,7 +85,7 @@ class rcube_ldap_password
 
         // Crypt new samba password
         if ($smbpwattr && !($samba_pass = $this->hashPassword($passwd, 'samba'))) {
-	        return PASSWORD_CRYPT_ERROR;
+            return PASSWORD_CRYPT_ERROR;
         }
 
         // Writing new crypted password to LDAP
@@ -274,8 +274,8 @@ class rcube_ldap_password
                 $cryptedPassword = hash('md4', rcube_charset_convert($passwordClear, RCMAIL_CHARSET, 'UTF-16LE'));
                 $cryptedPassword = strtoupper($cryptedPassword);
             } else {
-				/* Your PHP install does not have the hash() function */
-				return false;
+                /* Your PHP install does not have the hash() function */
+                return false;
             }
             break;
 

@@ -56,4 +56,3 @@ class rcube_smb_password
     }
 
 }
-?>
