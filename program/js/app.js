@@ -6128,14 +6128,14 @@ function rcube_webmail()
     // send request
     this.log('HTTP GET: ' + url);
 
+    // reset keep-alive interval
+    this.start_keepalive();
+
     return $.ajax({
       type: 'GET', url: url, data: { _unlock:(lock?lock:0) }, dataType: 'json',
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
-
-    // reset keep-alive interval
-    this.start_keepalive();
   };
 
   // send a http POST request to the server
@@ -6163,14 +6163,14 @@ function rcube_webmail()
     // send request
     this.log('HTTP POST: ' + url);
 
+    // reset keep-alive interval
+    this.start_keepalive();
+
     return $.ajax({
       type: 'POST', url: url, data: postdata, dataType: 'json',
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
-
-    // reset keep-alive interval
-    this.start_keepalive();
   };
 
   // aborts ajax request
