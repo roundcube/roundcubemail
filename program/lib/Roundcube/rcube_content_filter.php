@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_content_filter.php                              |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011, The Roundcube Dev Team                            |
  |                                                                       |
@@ -13,7 +11,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   PHP stream filter to detect evil content in mail attachments        |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+

@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_ldap.php                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -14,14 +12,12 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Interface to an LDAP address directory                              |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  |         Andreas Dick <andudi (at) gmx (dot) ch>                       |
  |         Aleksander Machniak <machniak@kolabsys.com>                   |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Model class to access an LDAP address directory

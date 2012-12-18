@@ -2,8 +2,6 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcube_message_header.php                              |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -14,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   E-mail message headers representation                               |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+

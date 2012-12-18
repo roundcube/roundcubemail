@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_result_index.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  | Copyright (C) 2011, Kolab Systems AG                                  |
@@ -14,13 +12,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   SORT/SEARCH/ESEARCH response handler                                |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Class for accessing IMAP's SORT/SEARCH/ESEARCH result

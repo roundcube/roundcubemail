@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_result_set.php                                  |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,12 +11,10 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Class representing an address directory result set                  |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Roundcube result set class.

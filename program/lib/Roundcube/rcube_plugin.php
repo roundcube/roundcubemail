@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_plugin.php                                      |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2009, The Roundcube Dev Team                       |
  |                                                                       |

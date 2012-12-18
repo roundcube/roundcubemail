@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_message.php                                     |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2010, The Roundcube Dev Team                       |
  |                                                                       |
@@ -18,7 +16,6 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Logical representation of a mail message with all its data

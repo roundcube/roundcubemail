@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_spellchecker.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011, Kolab Systems AG                                  |
  | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
@@ -14,13 +12,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Spellchecking using different backends                              |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Helper class for spellchecking with Googielspell and PSpell support.

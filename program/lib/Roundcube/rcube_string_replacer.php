@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_string_replacer.php                             |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2009-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,12 +11,10 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Handle string replacements based on preg_replace_callback           |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Helper class for string replacements based on preg_replace_callback

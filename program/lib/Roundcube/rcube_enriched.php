@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_enriched.php                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,13 +11,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Helper class to convert Enriched to HTML format (RFC 1523, 1896)    |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  | Author: Ryo Chijiiwa (IlohaMail)                                      |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Class for Enriched to HTML conversion
