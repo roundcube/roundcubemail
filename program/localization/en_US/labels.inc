@@ -41,6 +41,7 @@ $labels['junk']   = 'Junk';
 // message listing
 $labels['subject'] = 'Subject';
 $labels['from']    = 'From';
+$labels['sender']  = 'Sender';
 $labels['to']      = 'To';
 $labels['cc']      = 'Cc';
 $labels['bcc']     = 'Bcc';

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display 'Sender' header in message preview
 - Plugin API: Added message_before_send hook
 - Fix contact copy/add-to-group operations on search result (#1488862)
 - Use matching identity in MDN response (#1488864)

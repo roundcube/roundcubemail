@@ -967,7 +967,7 @@ function rcmail_message_headers($attrib, $headers=null)
   }
 
   // show these headers
-  $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto',
+  $standard_headers = array('subject', 'from', 'sender', 'to', 'cc', 'bcc', 'replyto',
     'mail-reply-to', 'mail-followup-to', 'date', 'priority');
   $exclude_headers = $attrib['exclude'] ? explode(',', $attrib['exclude']) : array();
   $output_headers = array();
@@ -1012,6 +1012,14 @@ function rcmail_message_headers($attrib, $headers=null)
       if ($headers['mail-replyto'] != $headers['reply-to']
         && $headers['reply-to'] != $headers['from']
       ) {
+        $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
+        $ishtml = true;
+      }
+      else
+        continue;
+    }
+    else if ($hkey == 'sender') {
+      if ($headers['sender'] != $headers['from']) {
         $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
         $ishtml = true;
       }

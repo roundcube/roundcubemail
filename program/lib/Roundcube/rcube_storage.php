@@ -53,6 +53,7 @@ abstract class rcube_storage
     protected $all_headers = array(
         'IN-REPLY-TO',
         'BCC',
+        'SENDER',
         'MESSAGE-ID',
         'CONTENT-TRANSFER-ENCODING',
         'REFERENCES',
