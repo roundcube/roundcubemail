@@ -169,7 +169,7 @@ class html
             $attr = array('href' => $attr);
         }
         return self::tag('a', $attr, $cont, array_merge(self::$common_attrib,
-        array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
+            array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
     }
 
     /**
@@ -675,7 +675,7 @@ class html_table extends html
         }
 
         $cell = new stdClass;
-        $cell->attrib = $attr;
+        $cell->attrib  = $attr;
         $cell->content = $cont;
 
         $this->rows[$this->rowindex]->cells[$this->colindex] = $cell;
@@ -699,16 +699,16 @@ class html_table extends html
         }
 
         $cell = new stdClass;
-        $cell->attrib = $attr;
-        $cell->content = $cont;
+        $cell->attrib   = $attr;
+        $cell->content  = $cont;
         $this->header[] = $cell;
     }
 
-     /**
+    /**
      * Remove a column from a table
      * Useful for plugins making alterations
-     * 
-     * @param string $class 
+     *
+     * @param string $class
      */
     public function remove_column($class)
     {
@@ -788,8 +788,9 @@ class html_table extends html
      */
     public function show($attrib = null)
     {
-        if (is_array($attrib))
+        if (is_array($attrib)) {
             $this->attrib = array_merge($this->attrib, $attrib);
+        }
 
         $thead = $tbody = "";
 
@@ -831,7 +832,7 @@ class html_table extends html
      */
     public function size()
     {
-      return count($this->rows);
+        return count($this->rows);
     }
 
     /**

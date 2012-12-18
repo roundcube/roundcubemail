@@ -138,7 +138,7 @@ abstract class rcube_addressbook
      */
     function get_error()
     {
-      return $this->error;
+        return $this->error;
     }
 
     /**
@@ -149,7 +149,7 @@ abstract class rcube_addressbook
      */
     protected function set_error($type, $message)
     {
-      $this->error = array('type' => $type, 'message' => $message);
+        $this->error = array('type' => $type, 'message' => $message);
     }
 
     /**
