@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add Compose button on message view page (#1488747)
 - Display 'Sender' header in message preview
 - Plugin API: Added message_before_send hook
 - Fix contact copy/add-to-group operations on search result (#1488862)

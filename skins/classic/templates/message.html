@@ -58,10 +58,12 @@
 
 </div>
 
+<roundcube:if condition="!env:extwin" />
 <script type="text/javascript">
     var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailboxlist-container', p2: 'messageframe', orientation: 'v', relative: true, start: 165});
     rcmail.add_onload('mailviewsplitv.init()');
 </script>
+<roundcube:endif />
 
 </body>
 </html>
