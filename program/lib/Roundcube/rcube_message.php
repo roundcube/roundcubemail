@@ -351,15 +351,22 @@ class rcube_message
 
         // print body if message doesn't have multiple parts
         if ($message_ctype_primary == 'text' && !$recursive) {
+            // parts with unsupported type add to attachments list
+            if (!in_array($message_ctype_secondary, array('plain', 'html', 'enriched'))) {
+                $this->attachments[] = $structure;
+                return;
+            }
+
             $structure->type = 'content';
             $this->parts[] = $structure;
 
             // Parse simple (plain text) message body
-            if ($message_ctype_secondary == 'plain')
+            if ($message_ctype_secondary == 'plain') {
                 foreach ((array)$this->uu_decode($structure) as $uupart) {
                     $this->mime_parts[$uupart->mime_id] = $uupart;
                     $this->attachments[] = $uupart;
                 }
+            }
         }
         // the same for pgp signed messages
         else if ($mimetype == 'application/pgp' && !$recursive) {
