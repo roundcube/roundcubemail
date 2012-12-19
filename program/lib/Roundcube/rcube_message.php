@@ -106,6 +106,7 @@ class rcube_message
         if (!empty($this->headers->structure)) {
             $this->get_mime_numbers($this->headers->structure);
             $this->parse_structure($this->headers->structure);
+            $this->parse_attachments();
         }
         else {
             $this->body = $this->storage->get_body($uid);
@@ -333,7 +334,7 @@ class rcube_message
         if ($recursive && is_array($structure->headers) && isset($structure->headers['subject'])) {
             $c = new stdClass;
             $c->type = 'headers';
-            $c->headers = &$structure->headers;
+            $c->headers = $structure->headers;
             $this->parts[] = $c;
         }
 
@@ -351,7 +352,7 @@ class rcube_message
         // print body if message doesn't have multiple parts
         if ($message_ctype_primary == 'text' && !$recursive) {
             $structure->type = 'content';
-            $this->parts[] = &$structure;
+            $this->parts[] = $structure;
 
             // Parse simple (plain text) message body
             if ($message_ctype_secondary == 'plain')
@@ -363,32 +364,39 @@ class rcube_message
         // the same for pgp signed messages
         else if ($mimetype == 'application/pgp' && !$recursive) {
             $structure->type = 'content';
-            $this->parts[] = &$structure;
+            $this->parts[] = $structure;
         }
         // message contains (more than one!) alternative parts
         else if ($mimetype == 'multipart/alternative'
             && is_array($structure->parts) && count($structure->parts) > 1
         ) {
-            // get html/plaintext parts
-            $plain_part = $html_part = $print_part = $related_part = null;
+            $plain_part   = null;
+            $html_part    = null;
+            $print_part   = null;
+            $related_part = null;
+            $attach_part  = null;
 
+            // get html/plaintext parts, other add to attachments list
             foreach ($structure->parts as $p => $sub_part) {
                 $sub_mimetype = $sub_part->mimetype;
+                $is_multipart = in_array($sub_mimetype, array('multipart/related', 'multipart/mixed', 'multipart/alternative'));
 
                 // skip empty text parts
-                if (!$sub_part->size && preg_match('#^text/(plain|html|enriched)$#', $sub_mimetype)) {
+                if (!$sub_part->size && !$is_multipart) {
                     continue;
                 }
 
                 // check if sub part is
-                if ($sub_mimetype == 'text/plain')
+                if ($is_multipart)
+                    $related_part = $p;
+                else if ($sub_mimetype == 'text/plain')
                     $plain_part = $p;
                 else if ($sub_mimetype == 'text/html')
                     $html_part = $p;
                 else if ($sub_mimetype == 'text/enriched')
                     $enriched_part = $p;
-                else if (in_array($sub_mimetype, array('multipart/related', 'multipart/mixed', 'multipart/alternative')))
-                    $related_part = $p;
+                else
+                    $attach_part = $p;
             }
 
             // parse related part (alternative part could be in here)
@@ -404,13 +412,13 @@ class rcube_message
 
             // choose html/plain part to print
             if ($html_part !== null && $this->opt['prefer_html']) {
-                $print_part = &$structure->parts[$html_part];
+                $print_part = $structure->parts[$html_part];
             }
             else if ($enriched_part !== null) {
-                $print_part = &$structure->parts[$enriched_part];
+                $print_part = $structure->parts[$enriched_part];
             }
             else if ($plain_part !== null) {
-                $print_part = &$structure->parts[$plain_part];
+                $print_part = $structure->parts[$plain_part];
             }
 
             // add the right message body
@@ -432,10 +440,15 @@ class rcube_message
 
             // add html part as attachment
             if ($html_part !== null && $structure->parts[$html_part] !== $print_part) {
-                $html_part = &$structure->parts[$html_part];
+                $html_part = $structure->parts[$html_part];
                 $html_part->mimetype = 'text/html';
 
                 $this->attachments[] = $html_part;
+            }
+
+            // add unsupported/unrecognized parts to attachments list
+            if ($attach_part) {
+                $this->attachments[] = $structure->parts[$attach_part];
             }
         }
         // this is an ecrypted message -> create a plaintext body with the according message
@@ -561,9 +574,6 @@ class rcube_message
                     // regular attachment with valid content type
                     // (content-type name regexp according to RFC4288.4.2)
                     else if (preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
-                        if (!$mail_part->filename)
-                            $mail_part->filename = 'Part '.$mail_part->mime_id;
-
                         $this->attachments[] = $mail_part;
                     }
                     // attachment with invalid content type
@@ -628,8 +638,27 @@ class rcube_message
         }
         // message is a single part non-text (without filename)
         else if (preg_match('/application\//i', $mimetype)) {
-            $structure->filename = 'Part '.$structure->mime_id;
             $this->attachments[] = $structure;
+        }
+    }
+
+
+    /**
+     * Parse attachment parts
+     */
+    private function parse_attachments()
+    {
+        // Attachment must have a name
+        foreach ($this->attachments as $attachment) {
+            if (!$attachment->filename) {
+                $ext = rcube_mime::get_mime_extensions($attachment->mimetype);
+                $ext = array_shift($ext);
+
+                $attachment->filename = 'Part_' . $attachment->mime_id;
+                if ($ext) {
+                    $attachment->filename .= '.' . $ext;
+                }
+            }
         }
     }
 

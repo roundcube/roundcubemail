@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add unsupported alternative parts to attachments list (#1488870)
 - Add Compose button on message view page (#1488747)
 - Display 'Sender' header in message preview
 - Plugin API: Added message_before_send hook
