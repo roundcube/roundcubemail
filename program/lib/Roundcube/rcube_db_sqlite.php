@@ -120,12 +120,7 @@ class rcube_db_sqlite extends rcube_db
             $q = $this->query('SELECT name FROM sqlite_master'
                 .' WHERE type = \'table\' ORDER BY name');
 
-            if ($res = $this->_get_result($q)) {
-                $this->tables = $res->fetchAll(PDO::FETCH_COLUMN, 0);
-            }
-            else {
-                $this->tables = array();
-            }
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
         }
 
         return $this->tables;
