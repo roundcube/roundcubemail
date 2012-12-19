@@ -128,16 +128,19 @@ class rcube_image
         }
 
         // use GD extension
-        $gd_types = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG);
-        if ($props['gd_type'] && in_array($props['gd_type'], $gd_types)) {
-            if ($props['gd_type'] == IMAGETYPE_JPEG) {
+        if ($props['gd_type']) {
+            if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
             }
-            elseif($props['gd_type'] == IMAGETYPE_GIF) {
+            else if($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
             }
-            elseif($props['gd_type'] == IMAGETYPE_PNG) {
+            else if($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
+            }
+            else {
+                // @TODO: print error to the log?
+                return false;
             }
 
             $scale  = $size / max($props['width'], $props['height']);
@@ -216,18 +219,21 @@ class rcube_image
         }
 
         // use GD extension (TIFF isn't supported)
-        $props    = $this->props();
-        $gd_types = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG);
+        $props = $this->props();
 
-        if ($props['gd_type'] && in_array($props['gd_type'], $gd_types)) {
-            if ($props['gd_type'] == IMAGETYPE_JPEG) {
+        if ($props['gd_type']) {
+            if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
             }
-            else if ($props['gd_type'] == IMAGETYPE_GIF) {
+            else if ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
             }
-            else if ($props['gd_type'] == IMAGETYPE_PNG) {
+            else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
+            }
+            else {
+                // @TODO: print error to the log?
+                return false;
             }
 
             if ($type == self::TYPE_JPG) {
