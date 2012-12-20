@@ -358,6 +358,22 @@ function format_email($email)
 
 
 /**
+ * Fix version number so it can be used correctly in version_compare()
+ *
+ * @param string $version Version number string
+ *
+ * @param return Version number string
+ */
+function version_parse($version)
+{
+    return str_replace(
+        array('-stable', '-git'),
+        array('.0', '.99'),
+        $version);
+}
+
+
+/**
  * mbstring replacement functions
  */
 if (!extension_loaded('mbstring'))

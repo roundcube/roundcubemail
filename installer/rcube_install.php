@@ -633,8 +633,8 @@ class rcube_install
    */
   function update_db($DB, $version)
   {
-    $version = strtolower($version);
-    $engine = isset($this->db_map[$DB->db_provider]) ? $this->db_map[$DB->db_provider] : $DB->db_provider;
+    $version = version_parse(strtolower($version));
+    $engine  = isset($this->db_map[$DB->db_provider]) ? $this->db_map[$DB->db_provider] : $DB->db_provider;
 
     // read schema file from /SQL/*
     $fname = INSTALL_PATH . "SQL/$engine.update.sql";
@@ -643,7 +643,7 @@ class rcube_install
       foreach ($lines as $line) {
         $is_comment = preg_match('/^--/', $line);
         if (!$from && $is_comment && preg_match('/from version\s([0-9.]+[a-z-]*)/', $line, $m)) {
-          $v = strtolower($m[1]);
+          $v = version_parse(strtolower($m[1]));
           if ($v == $version || version_compare($version, $v, '<='))
             $from = true;
         }

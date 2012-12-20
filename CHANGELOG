@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix version comparisons with -stable suffix (#1488876)
 - Add unsupported alternative parts to attachments list (#1488870)
 - Add Compose button on message view page (#1488747)
 - Display 'Sender' header in message preview

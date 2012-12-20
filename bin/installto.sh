@@ -35,7 +35,7 @@ if (!preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)/', $iniset, $m))
 
 $oldversion = $m[1];
 
-if (version_compare($oldversion, RCMAIL_VERSION, '>='))
+if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '>='))
   die("Installation at target location is up-to-date!\n");
 
 echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
