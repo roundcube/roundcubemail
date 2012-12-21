@@ -426,7 +426,7 @@ class rcube_db
      *
      * @param mixed $result Optional query handle
      *
-     * @return int Number of rows or false on failure
+     * @return int Number of (matching) rows
      */
     public function affected_rows($result = null)
     {
