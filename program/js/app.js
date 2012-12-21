@@ -1525,16 +1525,16 @@ function rcube_webmail()
     if (this.preview_read_timer)
       clearTimeout(this.preview_read_timer);
 
-    var selected = list.get_single_selection() != null;
+    var selected = list.get_single_selection();
 
-    this.enable_command(this.env.message_commands, selected);
+    this.enable_command(this.env.message_commands, selected != null);
     if (selected) {
       // Hide certain command buttons when Drafts folder is selected
       if (this.env.mailbox == this.env.drafts_mailbox)
         this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-attachment', 'forward-inline', false);
       // Disable reply-list when List-Post header is not set
       else {
-        var msg = this.env.messages[list.get_single_selection()];
+        var msg = this.env.messages[selected];
         if (!msg.ml)
           this.enable_command('reply-list', false);
       }
