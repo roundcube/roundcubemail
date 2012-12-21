@@ -328,7 +328,7 @@ class rcube_sieve
                         continue 2;
                     }
                 }
-                if (empty($script->content[$idx+1]) || $script->content[$idx+1]['type'] != 'if') {
+                if (!empty($script->content[$idx+1]) && $script->content[$idx+1]['type'] != 'if') {
                     $script->content[$idx]['actions'][] = array('type' => 'stop');
                 }
             }
