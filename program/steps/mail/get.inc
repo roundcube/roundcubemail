@@ -166,12 +166,11 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
               'vars' => array('expected' => "$mimetype (.$file_extension)", 'detected' => "$real_mimetype (.$extensions[0])")
             )) .
             html::p('buttons',
-              html::tag('button', null,
-                html::a(array(
-                  'href' => $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))),
-                  'style' => 'text-decoration:none;color:#000',
-                ), rcube_label('showanyway')))
-            ))
+              html::a(array(
+                'href' => $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))),
+                'style' => 'text-decoration:none;color:#000',
+              ), html::tag('button', null, rcube_label('showanyway'))))
+            )
         )));
         exit;
       }
