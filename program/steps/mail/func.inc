@@ -1290,7 +1290,7 @@ function rcmail_part_image_type($part)
 
   // Content-Type: image/*...
   if (preg_match($mime_regex, $part->mimetype)) {
-    return $part->mimetype;
+    return rcmail_fix_mimetype($part->mimetype);
   }
 
   // Many clients use application/octet-stream, we'll detect mimetype
@@ -1899,6 +1899,10 @@ function rcmail_fix_mimetype($name)
   // application/pdf.A520491B_3BF7_494D_8855_7FAC2C6C0608
   if (preg_match('/^application\/pdf.+/', $name))
     $name = 'application/pdf';
+
+  // treat image/pjpeg as image/jpeg
+  else if (preg_match('/^image\/p?jpe?g$/', $name))
+    $name = 'image/jpeg';
 
   return $name;
 }
