@@ -63,8 +63,8 @@ $rcmail_config['smtp_debug'] = false;
 // IMAP
 // ----------------------------------
 
-// the mail host chosen to perform the log-in
-// leave blank to show a textbox at login, give a list of hosts
+// The mail host chosen to perform the log-in.
+// Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
 // To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
 // Supported replacement variables:
@@ -73,6 +73,8 @@ $rcmail_config['smtp_debug'] = false;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %s - domain name after the '@' from e-mail address provided at login screen
 // For example %n = mail.domain.tld, %t = domain.tld
+// WARNING: After hostname change update of mail_host column in users table is
+//          required to match old user data records with the new host.
 $rcmail_config['default_host'] = '';
 
 // TCP port used for IMAP connections

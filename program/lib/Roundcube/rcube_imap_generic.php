@@ -753,12 +753,16 @@ class rcube_imap_generic
         $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
 
         if (!$this->fp) {
+            if (!$errstr) {
+                $errstr = "Unknown reason (fsockopen() function disabled?)";
+            }
             $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s", $host, $this->prefs['port'], $errstr));
             return false;
         }
 
-        if ($this->prefs['timeout'] > 0)
+        if ($this->prefs['timeout'] > 0) {
             stream_set_timeout($this->fp, $this->prefs['timeout']);
+        }
 
         $line = trim(fgets($this->fp, 8192));
 
