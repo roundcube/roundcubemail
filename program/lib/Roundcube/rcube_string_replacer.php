@@ -36,7 +36,7 @@ class rcube_string_replacer
         // Support unicode/punycode in top-level domain part
         $utf_domain = '[^?&@"\'\\/()\s\r\t\n]+\\.?([^\\x00-\\x2f\\x3b-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
         $url1       = '.:;,';
-        $url2       = 'a-zA-Z0-9%=#$@+?!&\\/_~\\[\\]{}\*-';
+        $url2       = 'a-zA-Z0-9%=#$@+?!&\\/_~\\[\\]\\(\\){}\*-';
 
         $this->link_pattern = "/([\w]+:\/\/|\W[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)($utf_domain([$url1]?[$url2]+)*)/";
         $this->mailto_pattern = "/("
@@ -161,6 +161,9 @@ class rcube_string_replacer
         // "http://example.com/?a[b]=c". However we need to handle
         // properly situation when a bracket is placed at the end
         // of the link e.g. "[http://example.com]"
+        // Yes, this is not perfect handles correctly only paired characters
+        // but it should work for common cases
+
         if (preg_match('/(\\[|\\])/', $url)) {
             $in = false;
             for ($i=0, $len=strlen($url); $i<$len; $i++) {
@@ -170,6 +173,28 @@ class rcube_string_replacer
                     $in = true;
                 }
                 else if ($url[$i] == ']') {
+                    if (!$in)
+                        break;
+                    $in = false;
+                }
+            }
+
+            if ($i < $len) {
+                $suffix = substr($url, $i);
+                $url    = substr($url, 0, $i);
+            }
+        }
+
+        // Do the same for parentheses
+        if (preg_match('/(\\(|\\))/', $url)) {
+            $in = false;
+            for ($i=0, $len=strlen($url); $i<$len; $i++) {
+                if ($url[$i] == '(') {
+                    if ($in)
+                        break;
+                    $in = true;
+                }
+                else if ($url[$i] == ')') {
                     if (!$in)
                         break;
                     $in = false;
