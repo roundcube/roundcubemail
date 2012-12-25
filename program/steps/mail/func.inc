@@ -628,39 +628,6 @@ function rcmail_wash_html($html, $p, $cid_replaces)
 
   $p += array('safe' => false, 'inline_html' => true);
 
-  // special replacements (not properly handled by washtml class)
-  $html_search = array(
-    '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-    '/<title[^>]*>[^<]*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
-    '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
-    '/<html\s[^>]+>/i',			// washtml/DOMDocument cannot handle xml namespaces
-  );
-  $html_replace = array(
-    '\\1'.' &nbsp; '.'\\3',
-    '',
-    '',
-    '<html>',
-  );
-  $html = preg_replace($html_search, $html_replace, trim($html));
-
-  // PCRE errors handling (#1486856), should we use something like for every preg_* use?
-  if ($html === null && ($preg_error = preg_last_error()) != PREG_NO_ERROR) {
-    $errstr = "Could not clean up HTML message! PCRE Error: $preg_error.";
-
-    if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR)
-      $errstr .= " Consider raising pcre.backtrack_limit!";
-    if ($preg_error == PREG_RECURSION_LIMIT_ERROR)
-      $errstr .= " Consider raising pcre.recursion_limit!";
-
-    raise_error(array('code' => 620, 'type' => 'php',
-        'line' => __LINE__, 'file' => __FILE__,
-        'message' => $errstr), true, false);
-    return '';
-  }
-
-  // fix (unknown/malformed) HTML tags before "wash"
-  $html = preg_replace_callback('/(<[\/]*)([^\s>]+)/', 'rcmail_html_tag_callback', $html);
-
   // charset was converted to UTF-8 in rcube_storage::get_message_part(),
   // change/add charset specification in HTML accordingly,
   // washtml cannot work without that
@@ -673,9 +640,6 @@ function rcmail_wash_html($html, $p, $cid_replaces)
   if (!$rcount) {
     $html = '<head>' . $meta . '</head>' . $html;
   }
-
-  // turn relative into absolute urls
-  $html = rcmail_resolve_base($html);
 
   // clean HTML with washhtml by Frederic Motte
   $wash_opts = array(
@@ -702,7 +666,7 @@ function rcmail_wash_html($html, $p, $cid_replaces)
     $wash_opts['html_attribs'] = $p['html_attribs'];
 
   // initialize HTML washer
-  $washer = new washtml($wash_opts);
+  $washer = new rcube_washtml($wash_opts);
 
   if (!$p['skip_washer_form_callback'])
     $washer->add_callback('form', 'rcmail_washtml_callback');
@@ -917,22 +881,6 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
   }
 
   return $out;
-}
-
-
-/**
- * Callback function for HTML tags fixing
- */
-function rcmail_html_tag_callback($matches)
-{
-  $tagname = $matches[2];
-
-  $tagname = preg_replace(array(
-    '/:.*$/',			// Microsoft's Smart Tags <st1:xxxx>
-    '/[^a-z0-9_\[\]\!-]/i',	// forbidden characters
-    ), '', $tagname);
-
-  return $matches[1].$tagname;
 }
 
 
@@ -1317,20 +1265,6 @@ function rcmail_part_image_type($part)
   ) {
     return $types[$extension];
   }
-}
-
-/**
- * Convert all relative URLs according to a <base> in HTML
- */
-function rcmail_resolve_base($body)
-{
-  // check for <base href=...>
-  if (preg_match('!(<base.*href=["\']?)([hftps]{3,5}://[a-z0-9/.%-]+)!i', $body, $regs)) {
-    $replacer = new rcube_base_replacer($regs[2]);
-    $body     = $replacer->replace($body);
-  }
-
-  return $body;
 }
 
 

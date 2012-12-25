@@ -28,6 +28,7 @@
             <file>Framework/User.php</file>
             <file>Framework/Utils.php</file>
             <file>Framework/VCard.php</file>
+            <file>Framework/Washtml.php</file>
             <file>HtmlToText.php</file>
             <file>MailFunc.php</file>
         </testsuite>
