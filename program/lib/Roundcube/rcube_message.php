@@ -272,7 +272,7 @@ class rcube_message
                 $out = $this->get_part_content($mime_id);
 
                 // create instance of html2text class
-                $txt = new html2text($out);
+                $txt = new rcube_html2text($out);
                 return $txt->get_text();
             }
         }

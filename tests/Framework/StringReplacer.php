@@ -29,6 +29,12 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
             array('Start http://localhost/?foo End', 'Start <a href="http://localhost/?foo" target="_blank">http://localhost/?foo</a> End'),
             array('www.domain.tld', '<a href="http://www.domain.tld" target="_blank">www.domain.tld</a>'),
             array('WWW.DOMAIN.TLD', '<a href="http://WWW.DOMAIN.TLD" target="_blank">WWW.DOMAIN.TLD</a>'),
+            array('[http://link.com]', '[<a href="http://link.com" target="_blank">http://link.com</a>]'),
+            array('http://link.com?a[]=1', '<a href="http://link.com?a[]=1" target="_blank">http://link.com?a[]=1</a>'),
+            array('http://link.com?a[]', '<a href="http://link.com?a[]" target="_blank">http://link.com?a[]</a>'),
+            array('(http://link.com)', '(<a href="http://link.com" target="_blank">http://link.com</a>)'),
+            array('http://link.com?a(b)c', '<a href="http://link.com?a(b)c" target="_blank">http://link.com?a(b)c</a>'),
+            array('http://link.com?(link)', '<a href="http://link.com?(link)" target="_blank">http://link.com?(link)</a>'),
         );
     }
 

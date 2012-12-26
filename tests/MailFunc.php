@@ -173,7 +173,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
     function test_resolve_base()
     {
         $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
-        $html = rcmail_resolve_base($html);
+        $html = rcube_washtml::resolve_base($html);
 
         $this->assertRegExp('|src="http://alec\.pl/dir/img1\.gif"|', $html, "URI base resolving [1]");
         $this->assertRegExp('|src="http://alec\.pl/dir/img2\.gif"|', $html, "URI base resolving [2]");
