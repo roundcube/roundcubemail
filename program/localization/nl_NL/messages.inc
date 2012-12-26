@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hendrik Maryns <hendrik@hendrikmaryns.name>                   |
+ | Author: Geert Wirken                                                  |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Ongeldige servernaam.';
 $messages['nomessagesfound'] = 'Geen berichten gevonden in deze mailbox.';
 $messages['loggedout'] = 'Succesvol uitgelogd. Tot ziens!';
 $messages['mailboxempty'] = 'Mailbox is leeg.';
+$messages['refreshing'] = 'Vernieuwen...';
 $messages['loading'] = 'Laden...';
 $messages['uploading'] = 'Bestand wordt geüpload...';
 $messages['uploadingmany'] = 'Bestanden worden geüpload...';
@@ -117,6 +118,7 @@ $messages['contactaddedtogroup'] = 'Contact(en) met succes toegevoegd aan de gro
 $messages['contactremovedfromgroup'] = 'Contact(en) met succes verwijderd aan de groep.';
 $messages['nogroupassignmentschanged'] = 'Geen groepstoewijzingen aangepast.';
 $messages['importwait'] = 'Importeren, even geduld...';
+$messages['importformaterror'] = 'Importeren mislukt! Het geüploade bestand is geen geldig importbestand.';
 $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol geïmporteerd, en $skipped bestaande overgeslagen</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>$skipped bestaande contactpersonen overgeslagen</b>';
 $messages['opnotpermitted'] = 'Deze verrichting is niet toegestaan!';
@@ -158,4 +160,6 @@ $messages['invalidimageformat'] = 'Geen geldig afbeeldings formaat';
 $messages['mispellingsfound'] = 'Spelfouten gedetecteerd in bericht';
 $messages['parentnotwritable'] = 'U heeft niet voldoende rechten een map te maken / verplaatsen in deze map.';
 $messages['messagetoobig'] = 'Het bericht is te groot om te verwerken.';
+$messages['attachmentvalidationerror'] = 'WAARSCHUWING! Deze bijlage is verdacht omdat het bestandstype niet overeen komt met het bestandstype dat gespecificeerd is in het bericht. Open deze bijlage niet in uw browser als u de afzender niet vertrouwt, aangezien deze bijlage kwaadaardige inhoud kan bevatten.<br /><br /><em>Verwacht: $expected; gevonden: $detected</em>';
+$messages['noscriptwarning'] = 'Waarschuwing: deze webmailapplicatie vereist Javascript! U dient Javascript in te schakelen wanneer u gebruik wilt maken van deze webmail.';
 

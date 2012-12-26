@@ -9,14 +9,13 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Jonas Nasholm                                                 |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
 $labels['userinfo'] = 'Användarinfo';
 $labels['created'] = 'Skapad';
 $labels['lastlogin'] = 'Senast inloggad';
-$labels['defaultidentity'] = 'Standardprofil';
+$labels['defaultidentity'] = 'Standardidentitet';
 

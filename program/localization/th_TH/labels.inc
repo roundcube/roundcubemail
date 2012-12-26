@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
+ | Author: Lazlo                                                         |
  +-----------------------------------------------------------------------+
 */
 
@@ -43,8 +43,10 @@ $labels['folders'] = 'กล่องจดหมาย';
 $labels['messagesfromto'] = 'จดหมายจาก $from ถึง $to จำนวน $count ฉบับ';
 $labels['messagenrof'] = 'จดหมายฉบับที่ $nr จาก $count ฉบับ';
 $labels['copy'] = 'คัดลอก';
+$labels['move'] = 'เลื่อน';
 $labels['moveto'] = 'ย้ายไป...';
 $labels['download'] = 'ดาวน์โหลด';
+$labels['showattachment'] = 'แสดง';
 $labels['filename'] = 'ชื่อไฟล์';
 $labels['filesize'] = 'ขนาดไฟล์';
 $labels['addtoaddressbook'] = 'บันทึกในสมุดรายชื่อ';
@@ -62,6 +64,30 @@ $labels['wednesday'] = 'วันพุธ';
 $labels['thursday'] = 'วันพฤหัสบดี';
 $labels['friday'] = 'วันศุกร์';
 $labels['saturday'] = 'วันเสาร์';
+$labels['jan'] = 'ม.ค.';
+$labels['feb'] = 'ก.พ.';
+$labels['mar'] = 'มี.ค.';
+$labels['apr'] = 'เม.ย.';
+$labels['may'] = 'พ.ค.';
+$labels['longmay'] = 'พ.ค.';
+$labels['jun'] = 'มิ.ย.';
+$labels['jul'] = 'ก.ค.';
+$labels['aug'] = 'ส.ค.';
+$labels['sep'] = 'ก.ย.';
+$labels['oct'] = 'ต.ค.';
+$labels['nov'] = 'พ.ย.';
+$labels['dec'] = 'ธ.ค.';
+$labels['longjan'] = 'มกราคม';
+$labels['longfeb'] = 'กุมภาพันธ์';
+$labels['longmar'] = 'มีนาคม';
+$labels['longapr'] = 'เมษายน';
+$labels['longjun'] = 'มิถุนายน';
+$labels['longjul'] = 'กรกฎาคม';
+$labels['longaug'] = 'สิงหาคม';
+$labels['longsep'] = 'กันยายน';
+$labels['longoct'] = 'ตุลาคม';
+$labels['longnov'] = 'พฤศจิกายน';
+$labels['longdec'] = 'ธันวาคม';
 $labels['today'] = 'วันนี้';
 $labels['checkmail'] = 'ตรวจสอบจดหมายใหม่';
 $labels['compose'] = 'เขียนจดหมายใหม่';

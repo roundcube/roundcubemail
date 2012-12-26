@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kim, Woohyun <woohyun.kim@gmail.com>                          |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -164,7 +164,7 @@ $labels['charset'] = '문자셋';
 $labels['editortype'] = '편집기 형태';
 $labels['returnreceipt'] = '수신 확인 요청하기';
 $labels['dsn'] = '전송상태 메일 받기';
-$labels['mailreplyintro'] = '$data에, $sender가 작성:';
+$labels['mailreplyintro'] = '$date에, $sender가 작성:';
 $labels['originalmessage'] = '원본 메세지';
 $labels['spellcheck'] = '맞춤법';
 $labels['checkspelling'] = '스펠링 체크';
@@ -356,7 +356,6 @@ $labels['insertsignature'] = '서명 삽입';
 $labels['previewpanemarkread'] = '미리 읽힘 메시지를 읽음으로 표시';
 $labels['afternseconds'] = '$n 초 이후';
 $labels['reqmdn'] = '항상 수신확인 요청 하기';
-$labels['defaultaddressbook'] = '선택한 주소록에 새로운 연락처를 추가';
 $labels['spellcheckbeforesend'] = '메시지를 보내기 전에 맞춤법 확인';
 $labels['spellcheckoptions'] = '맞춤법 확인 옵션';
 $labels['spellcheckignoresyms'] = '심볼이 포함된 단어 무시하기';

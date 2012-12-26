@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Victor Benincasa <vbenincasa@gmail.com>                       |
+ | Author: Claudio F Filho <filhocf@gmail.com>                           |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Endereço de servidor inválido.';
 $messages['nomessagesfound'] = 'Nenhuma mensagem encontrada nessa caixa de mensagens';
 $messages['loggedout'] = 'Sua sessão foi finalizada com sucesso. Até logo!';
 $messages['mailboxempty'] = 'A caixa de mensagens está vazia';
+$messages['refreshing'] = 'Atualizando...';
 $messages['loading'] = 'Carregando...';
 $messages['uploading'] = 'Enviando arquivo...';
 $messages['uploadingmany'] = 'Enviando arquivos...';
@@ -117,6 +118,7 @@ $messages['contactaddedtogroup'] = 'Contatos adicionados a este grupo com sucess
 $messages['contactremovedfromgroup'] = 'Contatos removidos deste grupo com sucesso.';
 $messages['nogroupassignmentschanged'] = 'Nenhuma atribuição do grupo foi alterada.';
 $messages['importwait'] = 'Importando, aguarde por favor...';
+$messages['importformaterror'] = 'Falha na importação! O arquivo enviado não está em um formato válido.';
 $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contatos</b>';
 $messages['importconfirmskipped'] = '<b>Ignorado(s) $skipped registro(s) já existente(s)</b>';
 $messages['opnotpermitted'] = 'Operação não permitida!';
@@ -158,4 +160,6 @@ $messages['invalidimageformat'] = 'Formato de imagem inválido.';
 $messages['mispellingsfound'] = 'Foram detectados erros de ortografia na mensagem.';
 $messages['parentnotwritable'] = 'Sem permissão para criar/mover a pasta dentro da pasta selecionada.';
 $messages['messagetoobig'] = 'A mensagem é muito grande para ser processada.';
+$messages['attachmentvalidationerror'] = 'ATENÇÃO! Este anexo é suspeito porque seu tipo não combina com o tipo declarado na mensagem. Se você não confia no remetente, não deveria abri-lo no navegador porque pode conter conteúdo malicioso.<br/><br/><em>Esperado: $expected; encontrado: $detected</em>';
+$messages['noscriptwarning'] = 'Aviso: Este webmail utiliza Javascript, habilite-o nas configurações de seu navegador.';
 

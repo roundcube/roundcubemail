@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Gökdeniz Karadağ                                            |
+ | Author: ismail yenigul                                                |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Geçersiz sunucu adı.';
 $messages['nomessagesfound'] = 'Posta kutusunda ileti bulunamadı';
 $messages['loggedout'] = 'Oturumu başarılı bir şekilde kapattınız. Güle güle!';
 $messages['mailboxempty'] = 'Posta kutusu boş';
+$messages['refreshing'] = 'Yenileniyor...';
 $messages['loading'] = 'Yükleniyor...';
 $messages['uploading'] = 'Dosya yükleniyor...';
 $messages['uploadingmany'] = 'Dosyalar yükleniyor...';
@@ -115,7 +116,9 @@ $messages['selectimportfile'] = 'Lütfen yüklenecek dosyayı seçin';
 $messages['addresswriterror'] = 'Seçili adres defterine yazılamaz';
 $messages['contactaddedtogroup'] = 'Kişiler bu gruba eklendi';
 $messages['contactremovedfromgroup'] = 'Kişiler bu gruptan çıkarıldı';
+$messages['nogroupassignmentschanged'] = 'Grup atamalarında bir değişiklik yapılmadı';
 $messages['importwait'] = 'Aktarılıyor, lütfen bekleyin...';
+$messages['importformaterror'] = 'İçe aktarım başarısız. Yüklenen dosya geçerli bir içe aktarım dosyası değil.';
 $messages['importconfirm'] = '<b>$inserted kişi başarıyla aktarıldı</b>';
 $messages['importconfirmskipped'] = '<b>Var olan $skipped girdi atlandı</b>';
 $messages['opnotpermitted'] = 'Bu işleme izin verilmedi!';
@@ -157,4 +160,6 @@ $messages['invalidimageformat'] = 'Geçerli bir resim biçimi değil.';
 $messages['mispellingsfound'] = 'Postada yazım hataları tespit edildi.';
 $messages['parentnotwritable'] = 'Klasör, seçilen üst klasöre taşınamıyor. Erişim izni yok.';
 $messages['messagetoobig'] = 'Bu ileti parçası işlenemeyecek kadar büyük.';
+$messages['attachmentvalidationerror'] = 'UYARI! Bu eklenti mesajda belirtilenden farklı olduğu için şüpheli bulundu. Eğer göndericiye güvenmiyorsanız eki web tarayıcısında açmayın. Şüpheli içerik bulunabilir.';
+$messages['noscriptwarning'] = 'Uyarı: Bu e-posta servisi Javascript gerektirmektedir! Servisi kullanabilmek için lütfen web tarayıcınızın ayarlarından Javascript\'i etkinleştiriniz.';
 

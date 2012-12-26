@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Gökdeniz Karadağ                                            |
+ | Author: ismail yenigul                                                |
  +-----------------------------------------------------------------------+
 */
 
@@ -51,6 +51,8 @@ $labels['copy'] = 'Kopyala';
 $labels['move'] = 'Taşı';
 $labels['moveto'] = 'Şuraya taşı...';
 $labels['download'] = 'İndir';
+$labels['showattachment'] = 'Göster';
+$labels['showanyway'] = 'Yine de göster';
 $labels['filename'] = 'Dosya Adı';
 $labels['filesize'] = 'Dosya Boyutu';
 $labels['addtoaddressbook'] = 'Adres Defterine Ekle';
@@ -170,6 +172,7 @@ $labels['msgtext'] = 'Tüm posta gövdesi';
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
 $labels['editasnew'] = 'Postayı yeni olarak düzenle';
+$labels['send'] = 'Gönder';
 $labels['sendmessage'] = 'Postayı gönder';
 $labels['savemessage'] = 'Taslak olarak kaydet';
 $labels['addattachment'] = 'Dosya ekle';
@@ -201,6 +204,7 @@ $labels['alwaysshow'] = '$sender tarafından gönderilen resimleri her zaman gö
 $labels['isdraft'] = 'Bu posta taslaktır.';
 $labels['andnmore'] = '$nr daha...';
 $labels['togglemoreheaders'] = 'Daha fazla posta başlığı göster';
+$labels['togglefullheaders'] = 'Posta başlıklarını göster/gizle';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Düz metin';
 $labels['savesentmessagein'] = 'Gönderileni buraya kaydet';
@@ -286,7 +290,7 @@ $labels['exportvcards'] = 'vCard olarak dışa aktar';
 $labels['newcontactgroup'] = 'Yeni kişi grubu oluştur';
 $labels['grouprename'] = 'Grubu yeniden adlandır';
 $labels['groupdelete'] = 'Grubu sil';
-$labels['groupremoveselected'] = 'Seçili kontaktları gruptan sil';
+$labels['groupremoveselected'] = 'Seçili kişileri gruptan sil';
 $labels['previouspage'] = 'Öncekileri göster';
 $labels['firstpage'] = 'İlkini göster';
 $labels['nextpage'] = 'Sonrakileri göster';
@@ -301,6 +305,7 @@ $labels['importcontacts'] = 'Kişileri içe aktar';
 $labels['importfromfile'] = 'Dosyadan içe aktar:';
 $labels['importtarget'] = 'Yeni kişiler eklenecek adres defteri:';
 $labels['importreplace'] = 'Tüm adres defterinin yerine geçsin';
+$labels['importdesc'] = 'Mevcut bir adres defterinden kişileri yükleyebilirsiniz.<br/> Şu anda <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> veya CSV (virgülle ayrılmış) veri formatları desteklenmektedir.';
 $labels['done'] = 'Tamam';
 $labels['settingsfor'] = 'Ayarlar';
 $labels['about'] = 'Hakkında';
@@ -325,8 +330,11 @@ $labels['timezone'] = 'Saat dilimi';
 $labels['pagesize'] = 'Bir sayfadaki satır sayısı';
 $labels['signature'] = 'İmza';
 $labels['dstactive'] = 'Yaz saati uygulaması';
+$labels['showinextwin'] = 'Postayı yeni pencerede aç';
+$labels['composeextwin'] = 'Postayı yeni pencerede yaz';
 $labels['htmleditor'] = 'HTML postaları oluştur';
 $labels['htmlonreply'] = 'sadece HTML postaları yanıtlarken';
+$labels['htmlonreplyandforward'] = 'HTML biçimindeki posta yanıtlandığında veye iletildiğinde';
 $labels['htmlsignature'] = 'HTML imza';
 $labels['previewpane'] = 'Önizleme panelini göster';
 $labels['skin'] = 'Arayüz görünümü';
@@ -352,6 +360,7 @@ $labels['always'] = 'her zaman';
 $labels['showinlineimages'] = 'Postanın ekindeki resimleri postanın altında göster';
 $labels['autosavedraft'] = 'Taslağı otomatik kaydet:';
 $labels['everynminutes'] = 'her $n dakikada bir';
+$labels['refreshinterval'] = 'Yenile (yeni postaları kontrol et, vb.)';
 $labels['never'] = 'asla';
 $labels['immediately'] = 'hemen';
 $labels['messagesdisplaying'] = 'Posta Görüntüleme';
@@ -373,6 +382,7 @@ $labels['maintenance'] = 'Bakım';
 $labels['newmessage'] = 'Yeni Posta';
 $labels['signatureoptions'] = 'İmza Seçenekleri';
 $labels['whenreplying'] = 'Yanıtlarken';
+$labels['replyempty'] = 'özgün postayı alıntılama';
 $labels['replytopposting'] = 'yeni postayı alıntı metninin üstünden başlat';
 $labels['replybottomposting'] = 'yeni postayı alıntı metninden sonra başlat';
 $labels['replyremovesignature'] = 'Yanıtlarken önceki imzaları sil';
@@ -388,7 +398,7 @@ $labels['afternseconds'] = '$n saniye sonra';
 $labels['reqmdn'] = 'Her zaman alındı onayı iste';
 $labels['reqdsn'] = 'Her zaman teslimat durumu bildirisi iste';
 $labels['replysamefolder'] = 'Yanıtları, yanıtlanan postanın bulunduğu klasöre kaydet';
-$labels['defaultaddressbook'] = 'Yeni kişileri seçili adres defterine ekle';
+$labels['defaultabook'] = 'Varsayılan adres defteri';
 $labels['autocompletesingle'] = 'Otomatik tamamlamalarda alternatif e-posta adreslerini atla';
 $labels['listnamedisplay'] = 'Kişiyi görüntüle';
 $labels['spellcheckbeforesend'] = 'Posta göndermeden önce yazım denetimi yap';
@@ -398,6 +408,9 @@ $labels['spellcheckignorenums'] = 'İçinde rakam geçen kelimleri göz ardı et
 $labels['spellcheckignorecaps'] = 'Tümü büyük harf olan kelimleri göz ardı et';
 $labels['addtodict'] = 'Sözlüğe Ekle';
 $labels['mailtoprotohandler'] = 'mailto: bağlantıları için protokol işleyici kayıt et';
+$labels['forwardmode'] = 'Posta yönlendirme';
+$labels['inline'] = 'postanın içinde';
+$labels['asattachment'] = 'ek olarak';
 $labels['folder'] = 'Klasör';
 $labels['foldername'] = 'Klasör Adı';
 $labels['subscribed'] = 'Abonelik';
@@ -421,6 +434,7 @@ $labels['sortby'] = 'Sırala';
 $labels['sortasc'] = 'Artarak';
 $labels['sortdesc'] = 'Azalarak';
 $labels['undo'] = 'Geri al';
+$labels['installedplugins'] = 'Yüklü eklentiler';
 $labels['plugin'] = 'Eklenti';
 $labels['version'] = 'Sürüm';
 $labels['source'] = 'Kaynak';

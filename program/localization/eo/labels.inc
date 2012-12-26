@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
+ | Author: Eliovir                                                       |
  +-----------------------------------------------------------------------+
 */
 
@@ -266,7 +266,7 @@ $labels['edit'] = 'Redaktu';
 $labels['cancel'] = 'Nuligi';
 $labels['save'] = 'Konservi';
 $labels['delete'] = 'Forigi';
-$labels['rename'] = 'Alinomigu';
+$labels['rename'] = 'Alinomu';
 $labels['addphoto'] = 'Aldonu';
 $labels['replacephoto'] = 'Anstataŭu';
 $labels['uploadphoto'] = 'Alŝutu bildon';

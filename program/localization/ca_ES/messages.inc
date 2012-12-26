@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
+ | Author: Pau Argelaguet <pau@paelladebits.cat>                         |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Nom de servidor no vàlid.';
 $messages['nomessagesfound'] = 'No s\'han trobat missatges en aquesta bústia.';
 $messages['loggedout'] = 'Heu tancat la sessió. A reveure!';
 $messages['mailboxempty'] = 'La bústia és buida.';
+$messages['refreshing'] = 'Refrescant...';
 $messages['loading'] = 'S\'està carregant…';
 $messages['uploading'] = 'S\'està pujant el fitxer...';
 $messages['uploadingmany'] = 'S\'està pujant els fitxers...';
@@ -117,6 +118,7 @@ $messages['contactaddedtogroup'] = 'S\'han afegit correctament els contactes a a
 $messages['contactremovedfromgroup'] = 'S\'han suprimit correctament els contactes d\'aquest grup.';
 $messages['nogroupassignmentschanged'] = 'No s\'ha canviat cap assignació de grup.';
 $messages['importwait'] = 'S\'està important, espereu si us plau...';
+$messages['importformaterror'] = 'La importació ha fallat. El fitxer pujat no és un fitxer de dades vàlid.';
 $messages['importconfirm'] = '<b>S\'han importat $inserted contactes correctament</b>';
 $messages['importconfirmskipped'] = '<b>S\'han descartat $skipped entrades ja existents</b>';
 $messages['opnotpermitted'] = 'Operació no permesa!';
@@ -158,4 +160,6 @@ $messages['invalidimageformat'] = 'No és un format d\'imatge vàlid.';
 $messages['mispellingsfound'] = 'S\'han detectat errors d\'ortografia al misstage.';
 $messages['parentnotwritable'] = 'No s\'ha pogut crear/moure la carpeta dins de la carpeta ascendent seleccionada. No hi ha permisos d\'escriptura.';
 $messages['messagetoobig'] = 'La part del missatge és massa gran per processar-la.';
+$messages['attachmentvalidationerror'] = 'ATENCIÓ! Aquest adjunt és sospitós perquè el seu tipus no coincideix amb el tipus declarat al missatge. Si no confies en l\'emissor, no l\'hauries d\'obrir al navegador perquè pot contenir elements maliciosos. <br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Atenció: Aquest client de correu necessita Javascript! Per a poder fer-lo servir, has d\'activar Javascript a les opcions del navegador.';
 
