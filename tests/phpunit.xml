@@ -12,6 +12,7 @@
             <file>Framework/Csv2vcard.php</file>
             <file>Framework/Enriched.php</file>
             <file>Framework/Html.php</file>
+            <file>Framework/Html2text.php</file>
             <file>Framework/Imap.php</file>
             <file>Framework/ImapGeneric.php</file>
             <file>Framework/Image.php</file>
@@ -29,7 +30,6 @@
             <file>Framework/Utils.php</file>
             <file>Framework/VCard.php</file>
             <file>Framework/Washtml.php</file>
-            <file>HtmlToText.php</file>
             <file>MailFunc.php</file>
         </testsuite>
         <testsuite name="Managesieve Tests">

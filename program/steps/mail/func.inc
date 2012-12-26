@@ -704,7 +704,7 @@ function rcmail_print_body($part, $p = array())
 
   // convert html to text/plain
   if ($data['type'] == 'html' && $data['plain']) {
-    $txt = new html2text($data['body'], false, true);
+    $txt = new rcube_html2text($data['body'], false, true);
     $body = $txt->get_text();
     $part->ctype_secondary = 'plain';
   }

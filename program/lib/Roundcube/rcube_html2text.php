@@ -1,35 +1,23 @@
 <?php
 
-/*************************************************************************
- *                                                                       *
- * class.html2text.inc                                                   *
- *                                                                       *
- *************************************************************************
- *                                                                       *
- * Converts HTML to formatted plain text                                 *
- *                                                                       *
- * Copyright (c) 2005-2007 Jon Abernathy <jon@chuggnutt.com>             *
- * All rights reserved.                                                  *
- *                                                                       *
- * This script is free software; you can redistribute it and/or modify   *
- * it under the terms of the GNU General Public License as published by  *
- * the Free Software Foundation; either version 2 of the License, or     *
- * (at your option) any later version.                                   *
- *                                                                       *
- * The GNU General Public License can be found at                        *
- * http://www.gnu.org/copyleft/gpl.html.                                 *
- *                                                                       *
- * This script is distributed in the hope that it will be useful,        *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          *
- * GNU General Public License for more details.                          *
- *                                                                       *
- * Author(s): Jon Abernathy <jon@chuggnutt.com>                          *
- *                                                                       *
- * Last modified: 08/08/07                                               *
- *                                                                       *
- *************************************************************************/
-
+/**
+ +-----------------------------------------------------------------------+
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ | Copyright (c) 2005-2007, Jon Abernathy <jon@chuggnutt.com>            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   Converts HTML to formatted plain text (based on html2text class)    |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
+ | Author: Jon Abernathy <jon@chuggnutt.com>                             |
+ +-----------------------------------------------------------------------+
+ */
 
 /**
  *  Takes HTML and converts it to formatted, plain text.
@@ -99,58 +87,55 @@
  *  future time.
  *
  *  *** End of the housecleaning updates. Updated 08/08/07.
- *
- *  @author Jon Abernathy <jon@chuggnutt.com>
- *  @version 1.0.0
- *  @since PHP 4.0.2
  */
-class html2text
+
+/**
+ * Converts HTML to formatted plain text
+ *
+ * @package    Framework
+ * @subpackage Utils
+ */
+class rcube_html2text
 {
+    /**
+     * Contains the HTML content to convert.
+     *
+     * @var string $html
+     */
+    protected $html;
 
     /**
-     *  Contains the HTML content to convert.
+     * Contains the converted, formatted text.
      *
-     *  @var string $html
-     *  @access public
+     * @var string $text
      */
-    var $html;
+    protected $text;
 
     /**
-     *  Contains the converted, formatted text.
+     * Maximum width of the formatted text, in columns.
      *
-     *  @var string $text
-     *  @access public
+     * Set this value to 0 (or less) to ignore word wrapping
+     * and not constrain text to a fixed-width column.
+     *
+     * @var integer $width
      */
-    var $text;
+    protected $width = 70;
 
     /**
-     *  Maximum width of the formatted text, in columns.
+     * Target character encoding for output text
      *
-     *  Set this value to 0 (or less) to ignore word wrapping
-     *  and not constrain text to a fixed-width column.
-     *
-     *  @var integer $width
-     *  @access public
+     * @var string $charset
      */
-    var $width = 70;
+    protected $charset = 'UTF-8';
 
     /**
-     *  Target character encoding for output text
+     * List of preg* regular expression patterns to search for,
+     * used in conjunction with $replace.
      *
-     *  @var string $charset
-     *  @access public
+     * @var array $search
+     * @see $replace
      */
-    var $charset = 'UTF-8';
-
-    /**
-     *  List of preg* regular expression patterns to search for,
-     *  used in conjunction with $replace.
-     *
-     *  @var array $search
-     *  @access public
-     *  @see $replace
-     */
-    var $search = array(
+    protected $search = array(
         "/\r/",                                  // Non-legal carriage return
         "/[\n\t]+/",                             // Newlines and tabs
         '/<head[^>]*>.*?<\/head>/i',             // <head>
@@ -172,13 +157,12 @@ class html2text
     );
 
     /**
-     *  List of pattern replacements corresponding to patterns searched.
+     * List of pattern replacements corresponding to patterns searched.
      *
-     *  @var array $replace
-     *  @access public
-     *  @see $search
+     * @var array $replace
+     * @see $search
      */
-    var $replace = array(
+    protected $replace = array(
         '',                                     // Non-legal carriage return
         ' ',                                    // Newlines and tabs
         '',                                     // <head>
@@ -200,14 +184,13 @@ class html2text
     );
 
     /**
-     *  List of preg* regular expression patterns to search for,
-     *  used in conjunction with $ent_replace.
+     * List of preg* regular expression patterns to search for,
+     * used in conjunction with $ent_replace.
      *
-     *  @var array $ent_search
-     *  @access public
-     *  @see $ent_replace
+     * @var array $ent_search
+     * @see $ent_replace
      */
-    var $ent_search = array(
+    protected $ent_search = array(
         '/&(nbsp|#160);/i',                      // Non-breaking space
         '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i',
                                          // Double quotes
@@ -227,13 +210,12 @@ class html2text
     );
 
     /**
-     *  List of pattern replacements corresponding to patterns searched.
+     * List of pattern replacements corresponding to patterns searched.
      *
-     *  @var array $ent_replace
-     *  @access public
-     *  @see $ent_search
+     * @var array $ent_replace
+     * @see $ent_search
      */
-    var $ent_replace = array(
+    protected $ent_replace = array(
         ' ',                                    // Non-breaking space
         '"',                                    // Double quotes
         "'",                                    // Single quotes
@@ -252,13 +234,12 @@ class html2text
     );
 
     /**
-     *  List of preg* regular expression patterns to search for
-     *  and replace using callback function.
+     * List of preg* regular expression patterns to search for
+     * and replace using callback function.
      *
-     *  @var array $callback_search
-     *  @access public
+     * @var array $callback_search
      */
-    var $callback_search = array(
+    protected $callback_search = array(
         '/<(a) [^>]*href=("|\')([^"\']+)\2[^>]*>(.*?)<\/a>/i', // <a href="">
         '/<(h)[123456]( [^>]*)?>(.*?)<\/h[123456]>/i',         // h1 - h6
         '/<(b)( [^>]*)?>(.*?)<\/b>/i',                         // <b>
@@ -267,14 +248,13 @@ class html2text
     );
 
    /**
-    *  List of preg* regular expression patterns to search for in PRE body,
-    *  used in conjunction with $pre_replace.
+    * List of preg* regular expression patterns to search for in PRE body,
+    * used in conjunction with $pre_replace.
     *
-    *  @var array $pre_search
-    *  @access public
-    *  @see $pre_replace
+    * @var array $pre_search
+    * @see $pre_replace
     */
-    var $pre_search = array(
+    protected $pre_search = array(
         "/\n/",
         "/\t/",
         '/ /',
@@ -283,13 +263,12 @@ class html2text
     );
 
     /**
-     *  List of pattern replacements corresponding to patterns searched for PRE body.
+     * List of pattern replacements corresponding to patterns searched for PRE body.
      *
-     *  @var array $pre_replace
-     *  @access public
-     *  @see $pre_search
+     * @var array $pre_replace
+     * @see $pre_search
      */
-    var $pre_replace = array(
+    protected $pre_replace = array(
         '<br>',
         '&nbsp;&nbsp;&nbsp;&nbsp;',
         '&nbsp;',
@@ -298,103 +277,95 @@ class html2text
     );
 
     /**
-     *  Contains a list of HTML tags to allow in the resulting text.
+     * Contains a list of HTML tags to allow in the resulting text.
      *
-     *  @var string $allowed_tags
-     *  @access public
-     *  @see set_allowed_tags()
+     * @var string $allowed_tags
+     * @see set_allowed_tags()
      */
-    var $allowed_tags = '';
+    protected $allowed_tags = '';
 
     /**
-     *  Contains the base URL that relative links should resolve to.
+     * Contains the base URL that relative links should resolve to.
      *
-     *  @var string $url
-     *  @access public
+     * @var string $url
      */
-    var $url;
+    protected $url;
 
     /**
-     *  Indicates whether content in the $html variable has been converted yet.
+     * Indicates whether content in the $html variable has been converted yet.
      *
-     *  @var boolean $_converted
-     *  @access private
-     *  @see $html, $text
+     * @var boolean $_converted
+     * @see $html, $text
      */
-    var $_converted = false;
+    protected $_converted = false;
 
     /**
-     *  Contains URL addresses from links to be rendered in plain text.
+     * Contains URL addresses from links to be rendered in plain text.
      *
-     *  @var array $_link_list
-     *  @access private
-     *  @see _build_link_list()
+     * @var array $_link_list
+     * @see _build_link_list()
      */
-    var $_link_list = array();
+    protected $_link_list = array();
 
     /**
      * Boolean flag, true if a table of link URLs should be listed after the text.
      *
      * @var boolean $_do_links
-     * @access private
-     * @see html2text()
+     * @see __construct()
      */
-    var $_do_links = true;
+    protected $_do_links = true;
 
     /**
-     *  Constructor.
+     * Constructor.
      *
-     *  If the HTML source string (or file) is supplied, the class
-     *  will instantiate with that source propagated, all that has
-     *  to be done it to call get_text().
+     * If the HTML source string (or file) is supplied, the class
+     * will instantiate with that source propagated, all that has
+     * to be done it to call get_text().
      *
-     *  @param string $source HTML content
-     *  @param boolean $from_file Indicates $source is a file to pull content from
-     *  @param boolean $do_links Indicate whether a table of link URLs is desired
-     *  @param integer $width Maximum width of the formatted text, 0 for no limit
-     *  @access public
-     *  @return void
+     * @param string $source HTML content
+     * @param boolean $from_file Indicates $source is a file to pull content from
+     * @param boolean $do_links Indicate whether a table of link URLs is desired
+     * @param integer $width Maximum width of the formatted text, 0 for no limit
      */
-    function html2text( $source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8' )
+    function __construct($source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8')
     {
-        if ( !empty($source) ) {
+        if (!empty($source)) {
             $this->set_html($source, $from_file);
         }
 
         $this->set_base_url();
+
         $this->_do_links = $do_links;
-        $this->width = $width;
-        $this->charset = $charset;
+        $this->width     = $width;
+        $this->charset   = $charset;
     }
 
     /**
-     *  Loads source HTML into memory, either from $source string or a file.
+     * Loads source HTML into memory, either from $source string or a file.
      *
-     *  @param string $source HTML content
-     *  @param boolean $from_file Indicates $source is a file to pull content from
-     *  @access public
-     *  @return void
+     * @param string $source HTML content
+     * @param boolean $from_file Indicates $source is a file to pull content from
      */
-    function set_html( $source, $from_file = false )
+    function set_html($source, $from_file = false)
     {
-        if ( $from_file && file_exists($source) ) {
+        if ($from_file && file_exists($source)) {
             $this->html = file_get_contents($source);
         }
-        else
+        else {
             $this->html = $source;
+        }
 
         $this->_converted = false;
     }
 
     /**
-     *  Returns the text, converted from HTML.
+     * Returns the text, converted from HTML.
      *
-     *  @access public
-     *  @return string
+     * @return string Plain text
      */
     function get_text()
     {
-        if ( !$this->_converted ) {
+        if (!$this->_converted) {
             $this->_convert();
         }
 
@@ -402,10 +373,7 @@ class html2text
     }
 
     /**
-     *  Prints the text, converted from HTML.
-     *
-     *  @access public
-     *  @return void
+     * Prints the text, converted from HTML.
      */
     function print_text()
     {
@@ -413,50 +381,34 @@ class html2text
     }
 
     /**
-     *  Alias to print_text(), operates identically.
+     * Sets the allowed HTML tags to pass through to the resulting text.
      *
-     *  @access public
-     *  @return void
-     *  @see print_text()
+     * Tags should be in the form "<p>", with no corresponding closing tag.
      */
-    function p()
+    function set_allowed_tags($allowed_tags = '')
     {
-        print $this->get_text();
-    }
-
-    /**
-     *  Sets the allowed HTML tags to pass through to the resulting text.
-     *
-     *  Tags should be in the form "<p>", with no corresponding closing tag.
-     *
-     *  @access public
-     *  @return void
-     */
-    function set_allowed_tags( $allowed_tags = '' )
-    {
-        if ( !empty($allowed_tags) ) {
+        if (!empty($allowed_tags)) {
             $this->allowed_tags = $allowed_tags;
         }
     }
 
     /**
-     *  Sets a base URL to handle relative links.
-     *
-     *  @access public
-     *  @return void
+     * Sets a base URL to handle relative links.
      */
-    function set_base_url( $url = '' )
+    function set_base_url($url = '')
     {
-        if ( empty($url) ) {
-            if ( !empty($_SERVER['HTTP_HOST']) ) {
+        if (empty($url)) {
+            if (!empty($_SERVER['HTTP_HOST'])) {
                 $this->url = 'http://' . $_SERVER['HTTP_HOST'];
-            } else {
+            }
+            else {
                 $this->url = '';
             }
-        } else {
+        }
+        else {
             // Strip any trailing slashes for consistency (relative
             // URLs may already start with a slash like "/file.html")
-            if ( substr($url, -1) == '/' ) {
+            if (substr($url, -1) == '/') {
                 $url = substr($url, 0, -1);
             }
             $this->url = $url;
@@ -464,12 +416,9 @@ class html2text
     }
 
     /**
-     *  Workhorse function that does actual conversion (calls _converter() method).
-     *
-     *  @access private
-     *  @return void
+     * Workhorse function that does actual conversion (calls _converter() method).
      */
-    function _convert()
+    protected function _convert()
     {
         // Variables used for building the link list
         $this->_link_list = array();
@@ -487,25 +436,21 @@ class html2text
             }
         }
 
-        $this->text = $text;
-
+        $this->text       = $text;
         $this->_converted = true;
     }
 
     /**
-     *  Workhorse function that does actual conversion.
+     * Workhorse function that does actual conversion.
      *
-     *  First performs custom tag replacement specified by $search and
-     *  $replace arrays. Then strips any remaining HTML tags, reduces whitespace
-     *  and newlines to a readable format, and word wraps the text to
-     *  $width characters.
+     * First performs custom tag replacement specified by $search and
+     * $replace arrays. Then strips any remaining HTML tags, reduces whitespace
+     * and newlines to a readable format, and word wraps the text to
+     * $width characters.
      *
-     *  @param string Reference to HTML content string
-     *
-     *  @access private
-     *  @return void
+     * @param string Reference to HTML content string
      */
-    function _converter(&$text)
+    protected function _converter(&$text)
     {
         // Convert <BLOCKQUOTE> (before PRE!)
         $this->_convert_blockquotes($text);
@@ -517,7 +462,7 @@ class html2text
         $text = preg_replace($this->search, $this->replace, $text);
 
         // Run our defined tags search-and-replace with callback
-        $text = preg_replace_callback($this->callback_search, array('html2text', '_preg_callback'), $text);
+        $text = preg_replace_callback($this->callback_search, array($this, 'tags_preg_callback'), $text);
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
@@ -551,19 +496,17 @@ class html2text
     }
 
     /**
-     *  Helper function called by preg_replace() on link replacement.
+     * Helper function called by preg_replace() on link replacement.
      *
-     *  Maintains an internal list of links to be displayed at the end of the
-     *  text, with numeric indices to the original point in the text they
-     *  appeared. Also makes an effort at identifying and handling absolute
-     *  and relative links.
+     * Maintains an internal list of links to be displayed at the end of the
+     * text, with numeric indices to the original point in the text they
+     * appeared. Also makes an effort at identifying and handling absolute
+     * and relative links.
      *
-     *  @param string $link URL of the link
-     *  @param string $display Part of the text to associate number with
-     *  @access private
-     *  @return string
+     * @param string $link URL of the link
+     * @param string $display Part of the text to associate number with
      */
-    function _build_link_list( $link, $display )
+    protected function _build_link_list( $link, $display )
     {
         if (!$this->_do_links || empty($link)) {
             return $display;
@@ -594,12 +537,11 @@ class html2text
     }
 
     /**
-     *  Helper function for PRE body conversion.
+     * Helper function for PRE body conversion.
      *
-     *  @param string HTML content
-     *  @access private
+     * @param string HTML content
      */
-    function _convert_pre(&$text)
+    protected function _convert_pre(&$text)
     {
         // get the content of PRE element
         while (preg_match('/<pre[^>]*>(.*)<\/pre>/ismU', $text, $matches)) {
@@ -607,7 +549,7 @@ class html2text
 
             // Run our defined tags search-and-replace with callback
             $this->pre_content = preg_replace_callback($this->callback_search,
-                array('html2text', '_preg_callback'), $this->pre_content);
+                array($this, 'tags_preg_callback'), $this->pre_content);
 
             // convert the content
             $this->pre_content = sprintf('<div><br>%s<br></div>',
@@ -615,7 +557,7 @@ class html2text
 
             // replace the content (use callback because content can contain $0 variable)
             $text = preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU',
-                array('html2text', '_preg_pre_callback'), $text, 1);
+                array($this, 'pre_preg_callback'), $text, 1);
 
             // free memory
             $this->pre_content = '';
@@ -623,12 +565,11 @@ class html2text
     }
 
     /**
-     *  Helper function for BLOCKQUOTE body conversion.
+     * Helper function for BLOCKQUOTE body conversion.
      *
-     *  @param string HTML content
-     *  @access private
+     * @param string HTML content
      */
-    function _convert_blockquotes(&$text)
+    protected function _convert_blockquotes(&$text)
     {
         if (preg_match_all('/<\/*blockquote[^>]*>/i', $text, $matches, PREG_OFFSET_CAPTURE)) {
             $level = 0;
@@ -679,12 +620,12 @@ class html2text
     }
 
     /**
-     *  Callback function for preg_replace_callback use.
+     * Callback function for preg_replace_callback use.
      *
-     *  @param  array PREG matches
-     *  @return string
+     * @param  array PREG matches
+     * @return string
      */
-    private function _preg_callback($matches)
+    public function tags_preg_callback($matches)
     {
         switch (strtolower($matches[1])) {
         case 'b':
@@ -702,12 +643,12 @@ class html2text
     }
 
     /**
-     *  Callback function for preg_replace_callback use in PRE content handler.
+     * Callback function for preg_replace_callback use in PRE content handler.
      *
-     *  @param  array PREG matches
-     *  @return string
+     * @param array PREG matches
+     * @return string
      */
-    private function _preg_pre_callback($matches)
+    public function pre_preg_callback($matches)
     {
         return $this->pre_content;
     }
@@ -742,12 +683,7 @@ class html2text
     private function _strtoupper($str)
     {
         $str = html_entity_decode($str, ENT_COMPAT, $this->charset);
-
-        if (function_exists('mb_strtoupper'))
-            $str = mb_strtoupper($str);
-        else
-            $str = strtoupper($str);
-
+        $str = mb_strtoupper($str);
         $str = htmlspecialchars($str, ENT_COMPAT, $this->charset);
 
         return $str;

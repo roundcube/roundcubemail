@@ -470,7 +470,7 @@ function rcmail_compose_header_from($attrib)
         $text = $html = $sql_arr['signature'];
 
         if ($sql_arr['html_signature']) {
-            $h2t  = new html2text($sql_arr['signature'], false, false);
+            $h2t  = new rcube_html2text($sql_arr['signature'], false, false);
             $text = trim($h2t->get_text());
         }
         else {
@@ -667,7 +667,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
             // use html part if it has been used for message (pre)viewing
             // decrease line length for quoting
             $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
-            $txt = new html2text($body, false, true, $len);
+            $txt = new rcube_html2text($body, false, true, $len);
             $body = $txt->get_text();
         }
         else if ($part->ctype_secondary == 'enriched') {

@@ -412,3 +412,7 @@ class rcube_html_page extends rcmail_html_page
 class washtml extends rcube_washtml
 {
 }
+
+class html2text extends rcube_html2text
+{
+}

@@ -559,7 +559,7 @@ if ($isHtml) {
   $plugin['body'] = rcmail_replace_emoticons($plugin['body']);
 
   // add a plain text version of the e-mail as an alternative part.
-  $h2t = new html2text($plugin['body'], false, true, 0, $message_charset);
+  $h2t = new rcube_html2text($plugin['body'], false, true, 0, $message_charset);
   $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
