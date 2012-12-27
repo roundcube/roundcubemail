@@ -441,10 +441,11 @@ function rcube_webmail()
 
         this.enable_command('login', true);
         break;
+    }
 
-      default:
-        break;
-      }
+    // unset contentframe variable if preview_pane is enabled
+    if (this.env.contentframe && !$('#' + this.env.contentframe).is(':visible'))
+      this.env.contentframe = null;
 
     // prevent from form submit with Enter key in file input fields
     if (bw.ie)
