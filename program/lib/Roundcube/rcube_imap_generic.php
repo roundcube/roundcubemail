@@ -1311,6 +1311,11 @@ class rcube_imap_generic
                 if ($cmd == 'LIST' || $cmd == 'LSUB') {
                     list($opts, $delim, $mailbox) = $this->tokenizeResponse($line, 3);
 
+                    // Remove redundant separator at the end of folder name, UW-IMAP bug? (#1488879)
+                    if ($delim) {
+                        $mailbox = rtrim($mailbox, $delim);
+                    }
+
                     // Add to result array
                     if (!$lstatus) {
                         $folders[] = $mailbox;
