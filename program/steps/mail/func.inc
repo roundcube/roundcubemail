@@ -1838,7 +1838,7 @@ function rcmail_fix_mimetype($name)
 }
 
 // return attachment filename, handle empty filename case
-function rcmail_attachment_name($attachment)
+function rcmail_attachment_name($attachment, $display = false)
 {
     $filename = $attachment->filename;
 
@@ -1857,6 +1857,13 @@ function rcmail_attachment_name($attachment)
     }
 
     $filename = preg_replace('[\r\n]', '', $filename);
+
+    // Display smart names for some known mimetypes
+    if ($display) {
+        if (preg_match('/application\/(pgp|pkcs7)-signature/i', $attachment->mimetype)) {
+            $filename = rcube_label('digitalsig');
+        }
+    }
 
     return $filename;
 }

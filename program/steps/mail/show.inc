@@ -150,7 +150,7 @@ function rcmail_message_attachments($attrib)
 
   if (sizeof($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
-      $filename = rcmail_attachment_name($attach_prop);
+      $filename = rcmail_attachment_name($attach_prop, true);
 
       if ($PRINT_MODE) {
         $size = $RCMAIL->message_part_size($attach_prop);

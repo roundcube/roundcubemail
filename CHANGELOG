@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display PGP/MIME signature attachments as "Digital Signature" (#1488570)
 - Workaround UW-IMAP bug where hierarchy separator is added to the shared folder name (#1488879)
 - Fix version comparisons with -stable suffix (#1488876)
 - Add unsupported alternative parts to attachments list (#1488870)
