@@ -377,6 +377,7 @@ $labels['edititem'] = 'Edit item';
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Message';
+$labels['messagepart'] = 'Part';
 $labels['dateformat'] = 'Date format';
 $labels['timeformat'] = 'Time format';
 $labels['prettydate'] = 'Pretty dates';

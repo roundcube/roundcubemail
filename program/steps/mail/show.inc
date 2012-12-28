@@ -150,10 +150,7 @@ function rcmail_message_attachments($attrib)
 
   if (sizeof($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
-      $filename = $attach_prop->filename;
-      if (empty($filename) && $attach_prop->mimetype == 'text/html') {
-        $filename = rcube_label('htmlmessage');
-      }
+      $filename = rcmail_attachment_name($attach_prop);
 
       if ($PRINT_MODE) {
         $size = $RCMAIL->message_part_size($attach_prop);
