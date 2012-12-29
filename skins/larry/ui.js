@@ -43,6 +43,15 @@ function rcube_mail_ui()
   this.hide_header_row = hide_header_row;
 
 
+  // set minimal mode on small screens (don't wait for document.ready)
+  if (window.$ && document.body) {
+    var minmode = rcmail.get_cookie('minimalmode');
+    if (parseInt(minmode) || (minmode === null && $(window).height() < 850)) {
+      $(document.body).addClass('minimal');
+    }
+  }
+
+
   /**
    *
    */
@@ -58,6 +67,17 @@ function rcube_mail_ui()
   function init()
   {
     rcmail.addEventListener('message', message_displayed);
+
+    /*** prepare minmode functions ***/
+    $('#taskbar a').each(function(i,elem){
+      $(elem).append('<span class="tooltip">' + $('.button-inner', this).html() + '</span>')
+    });
+
+    $('#taskbar .minmodetoggle').click(function(e){
+      var ismin = $(document.body).toggleClass('minimal').hasClass('minimal');
+      rcmail.set_cookie('minimalmode', ismin?1:0);
+      $(window).resize();
+    });
 
     /***  mail task  ***/
     if (rcmail.env.task == 'mail') {
