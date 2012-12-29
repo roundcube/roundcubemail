@@ -1154,16 +1154,7 @@ function rcmail_save_attachment(&$message, $pid)
   }
 
   $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
-  $filename = $part->filename;
-  if (!strlen($filename)) {
-    if ($mimetype == 'text/html') {
-      $filename = rcube_label('htmlmessage');
-    }
-    else {
-      $filename = 'Part_'.$pid;
-    }
-    $filename .= '.' . $part->ctype_secondary;
-  }
+  $filename = rcmail_attachment_name($part);
 
   $attachment = array(
     'group' => $COMPOSE['id'],

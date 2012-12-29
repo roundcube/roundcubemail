@@ -106,7 +106,6 @@ class rcube_message
         if (!empty($this->headers->structure)) {
             $this->get_mime_numbers($this->headers->structure);
             $this->parse_structure($this->headers->structure);
-            $this->parse_attachments();
         }
         else {
             $this->body = $this->storage->get_body($uid);
@@ -646,26 +645,6 @@ class rcube_message
         // message is a single part non-text (without filename)
         else if (preg_match('/application\//i', $mimetype)) {
             $this->attachments[] = $structure;
-        }
-    }
-
-
-    /**
-     * Parse attachment parts
-     */
-    private function parse_attachments()
-    {
-        // Attachment must have a name
-        foreach ($this->attachments as $attachment) {
-            if (!$attachment->filename) {
-                $ext = rcube_mime::get_mime_extensions($attachment->mimetype);
-                $ext = array_shift($ext);
-
-                $attachment->filename = 'Part_' . $attachment->mime_id;
-                if ($ext) {
-                    $attachment->filename .= '.' . $ext;
-                }
-            }
         }
     }
 

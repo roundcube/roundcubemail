@@ -1598,10 +1598,7 @@ function rcmail_message_part_controls($attrib)
   $part  = $MESSAGE->mime_parts[$part];
   $table = new html_table(array('cols' => 3));
 
-  $filename = $part->filename;
-  if (empty($filename) && $attach_prop->mimetype == 'text/html') {
-    $filename = rcube_label('htmlmessage');
-  }
+  $filename = rcmail_attachment_name($part);
 
   if (!empty($filename)) {
     $table->add('title', Q(rcube_label('filename')));
@@ -1614,7 +1611,6 @@ function rcmail_message_part_controls($attrib)
 
   return $table->show($attrib);
 }
-
 
 
 function rcmail_message_part_frame($attrib)
@@ -1839,6 +1835,37 @@ function rcmail_fix_mimetype($name)
     $name = 'image/jpeg';
 
   return $name;
+}
+
+// return attachment filename, handle empty filename case
+function rcmail_attachment_name($attachment, $display = false)
+{
+    $filename = $attachment->filename;
+
+    if ($filename === null || $filename === '') {
+        if ($attachment->mimetype == 'text/html') {
+            $filename = rcube_label('htmlmessage');
+        }
+        else {
+            $ext      = rcube_mime::get_mime_extensions($attachment->mimetype);
+            $ext      = array_shift($ext);
+            $filename = rcube_label('messagepart') . ' ' . $attachment->mime_id;
+            if ($ext) {
+                $filename .= '.' . $ext;
+            }
+        }
+    }
+
+    $filename = preg_replace('[\r\n]', '', $filename);
+
+    // Display smart names for some known mimetypes
+    if ($display) {
+        if (preg_match('/application\/(pgp|pkcs7)-signature/i', $attachment->mimetype)) {
+            $filename = rcube_label('digitalsig');
+        }
+    }
+
+    return $filename;
 }
 
 function rcmail_search_filter($attrib)
