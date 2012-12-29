@@ -1126,6 +1126,8 @@ div.message-partheaders .headers-table td.header {
 
 #messagepartframe {
 	border: 0;
+	width: 100%;
+	height: 100%;
 }
 
 /*** message composition ***/

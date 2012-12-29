@@ -25,6 +25,10 @@
   height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
 }
 
+#messagepartframe {
+	height: expression((parseInt(this.parentNode.offsetHeight)-1)+'px');
+}
+
 input.button {
 	display: inline;
 	font-size: 90%;
