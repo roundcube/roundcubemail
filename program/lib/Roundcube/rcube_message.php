@@ -385,7 +385,7 @@ class rcube_message
             // get html/plaintext parts, other add to attachments list
             foreach ($structure->parts as $p => $sub_part) {
                 $sub_mimetype = $sub_part->mimetype;
-                $is_multipart = in_array($sub_mimetype, array('multipart/related', 'multipart/mixed', 'multipart/alternative'));
+                $is_multipart = preg_match('/^multipart\/(related|relative|mixed|alternative)/', $sub_mimetype);
 
                 // skip empty text parts
                 if (!$sub_part->size && !$is_multipart) {
@@ -560,7 +560,7 @@ class rcube_message
                         continue;
 
                     // part belongs to a related message and is linked
-                    if ($mimetype == 'multipart/related'
+                    if (preg_match('/^multipart\/(related|relative)/', $mimetype)
                         && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
                         if ($mail_part->headers['content-id'])
                             $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
@@ -599,7 +599,7 @@ class rcube_message
             }
 
             // if this was a related part try to resolve references
-            if ($mimetype == 'multipart/related' && sizeof($this->inline_parts)) {
+            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && sizeof($this->inline_parts)) {
                 $a_replaces = array();
                 $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
