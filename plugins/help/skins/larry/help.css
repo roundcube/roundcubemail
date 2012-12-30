@@ -17,13 +17,13 @@
 }
 
 #taskbar a.button-help span.button-inner {
-	background: url(help.png) 2px 0px no-repeat;
+	background: url(help.png) 0 0 no-repeat;
 	height: 19px;
 }
 
 #taskbar a.button-help:hover span.button-inner,
 #taskbar a.button-help.button-selected span.button-inner {
-	background: url(help.png) 2px -24px no-repeat;
+	background: url(help.png) 0 -24px no-repeat;
 	height: 19px;
 }
 
