@@ -71,6 +71,12 @@ textarea.placeholder {
 	font-weight: bold;
 }
 
+/* fixes vertical alignment of checkboxes and labels */
+label input,
+label span {
+	vertical-align: middle;
+}
+
 /*** buttons ***/
 
 input.button {
