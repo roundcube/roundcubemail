@@ -184,13 +184,7 @@ body.iframe div.messageheaderbox
   overflow: hidden;
 }
 
-#countcontrols
-{
-  width: 24em;
-  padding-right: 10px;
-}
-
-body.iframe 
+body.iframe
 {
   width: expression((parseInt(document.documentElement.clientWidth))+'px');
 }
