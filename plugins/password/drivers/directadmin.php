@@ -34,11 +34,11 @@ class rcube_directadmin_password
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD',
             array(
-                'email' 		=> $da_user,
-                'oldpassword' 	=> $da_curpass,
-                'password1' 	=> $da_newpass,
-                'password2' 	=> $da_newpass,
-                'api' 			=> '1'
+                'email'         => $da_user,
+                'oldpassword'   => $da_curpass,
+                'password1'     => $da_newpass,
+                'password2'     => $da_newpass,
+                'api'           => '1'
             ));
         $response = $Socket->fetch_parsed_body();
 
@@ -72,7 +72,7 @@ class rcube_directadmin_password
 class HTTPSocket {
 
     var $version = '2.8';
-    
+
     /* all vars are private except $error, $query_cache, and $doFollowLocationHeader */
 
     var $method = 'GET';
@@ -173,7 +173,7 @@ class HTTPSocket {
             $location = parse_url($request);
             $this->connect($location['host'],$location['port']);
             $this->set_login($location['user'],$location['pass']);
-            
+
             $request = $location['path'];
             $content = $location['query'];
 
@@ -326,7 +326,7 @@ class HTTPSocket {
             }
 
         }
-        
+
         list($this->result_header,$this->result_body) = preg_split("/\r\n\r\n/",$this->result,2);
 
         if ($this->bind_host)
@@ -365,7 +365,6 @@ class HTTPSocket {
                 $this->query($headers['location']);
             }
         }
-        
     }
 
     function getTransferSpeed()
@@ -449,8 +448,7 @@ class HTTPSocket {
     function fetch_header( $header = '' )
     {
         $array_headers = preg_split("/\r\n/",$this->result_header);
-        
-        $array_return = array( 0 => $array_headers[0] );
+        $array_return  = array( 0 => $array_headers[0] );
         unset($array_headers[0]);
 
         foreach ( $array_headers as $pair )

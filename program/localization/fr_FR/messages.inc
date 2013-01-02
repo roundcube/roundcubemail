@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anthony Prades <toony.github@chezouam.net>                    |
+ | Author: Sébastien BLAISOT <sebastien@blaisot.org>                    |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Nom du serveur invalide.';
 $messages['nomessagesfound'] = 'Cette boîte aux lettres ne contient aucun message.';
 $messages['loggedout'] = 'Vous venez de vous déconnecter avec succès. Au revoir !';
 $messages['mailboxempty'] = 'La boîte aux lettres est vide.';
+$messages['refreshing'] = 'Rafraîchissement en cours...';
 $messages['loading'] = 'Chargement...';
 $messages['uploading'] = 'Envoi du fichier...';
 $messages['uploadingmany'] = 'Envoi des fichiers ...';
@@ -117,6 +118,7 @@ $messages['contactaddedtogroup'] = 'Les contacts ont bien été ajoutés à ce g
 $messages['contactremovedfromgroup'] = 'Les contacts ont bien été supprimés de ce groupe';
 $messages['nogroupassignmentschanged'] = 'Appartenance aux groupes inchangée.';
 $messages['importwait'] = 'Importation, veuillez patienter...';
+$messages['importformaterror'] = 'Echec de l\'import ! Le fichier n\'est pas un fichier d\'import de données valide.';
 $messages['importconfirm'] = '<b>$inserted contacts importés avec succès, $skipped entrées existantes ignorées</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>$skipped entrée(s) déjà existante(s)</b>';
 $messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';
@@ -158,4 +160,5 @@ $messages['invalidimageformat'] = 'Format d\'image invalide';
 $messages['mispellingsfound'] = 'Des fautes d\'orthographe ont été détectées dans le message.';
 $messages['parentnotwritable'] = 'Impossible de créer/déplacer le dossier dans le dossier parent sélectionné. Aucun droit d\'accès.';
 $messages['messagetoobig'] = 'Le message est trop gros pour être traité.';
+$messages['noscriptwarning'] = 'Atention : Ce service de webmail nécessite Javascript ! Pour pouvoir l\'utiliser, merci d\'activer Javascript dans les préférences de votre navigateur.';
 

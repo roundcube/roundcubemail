@@ -14,7 +14,6 @@
 <div id="messagetoolbar" class="toolbar fullwidth">
 <roundcube:if condition="!env:extwin" />
 	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
-	<span class="spacer"></span>
 <roundcube:endif />
 	<roundcube:include file="/includes/mailtoolbar.html" />
 	<div class="toolbarselect">
@@ -64,7 +63,7 @@
 </div>
 <div class="leftcol">
 <roundcube:object name="messageObjects" id="message-objects" />
-<roundcube:object name="messageBody" id="messagebody" />
+<roundcube:object name="messageBody" id="messagebody" headertableclass="message-partheaders headers-table" />
 </div>
 </div>
 

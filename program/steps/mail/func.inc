@@ -5,7 +5,7 @@
  | program/steps/mail/func.inc                                           |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -628,39 +628,6 @@ function rcmail_wash_html($html, $p, $cid_replaces)
 
   $p += array('safe' => false, 'inline_html' => true);
 
-  // special replacements (not properly handled by washtml class)
-  $html_search = array(
-    '/(<\/nobr>)(\s+)(<nobr>)/i',	// space(s) between <NOBR>
-    '/<title[^>]*>[^<]*<\/title>/i',	// PHP bug #32547 workaround: remove title tag
-    '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',	// byte-order mark (only outlook?)
-    '/<html\s[^>]+>/i',			// washtml/DOMDocument cannot handle xml namespaces
-  );
-  $html_replace = array(
-    '\\1'.' &nbsp; '.'\\3',
-    '',
-    '',
-    '<html>',
-  );
-  $html = preg_replace($html_search, $html_replace, trim($html));
-
-  // PCRE errors handling (#1486856), should we use something like for every preg_* use?
-  if ($html === null && ($preg_error = preg_last_error()) != PREG_NO_ERROR) {
-    $errstr = "Could not clean up HTML message! PCRE Error: $preg_error.";
-
-    if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR)
-      $errstr .= " Consider raising pcre.backtrack_limit!";
-    if ($preg_error == PREG_RECURSION_LIMIT_ERROR)
-      $errstr .= " Consider raising pcre.recursion_limit!";
-
-    raise_error(array('code' => 620, 'type' => 'php',
-        'line' => __LINE__, 'file' => __FILE__,
-        'message' => $errstr), true, false);
-    return '';
-  }
-
-  // fix (unknown/malformed) HTML tags before "wash"
-  $html = preg_replace_callback('/(<[\/]*)([^\s>]+)/', 'rcmail_html_tag_callback', $html);
-
   // charset was converted to UTF-8 in rcube_storage::get_message_part(),
   // change/add charset specification in HTML accordingly,
   // washtml cannot work without that
@@ -673,9 +640,6 @@ function rcmail_wash_html($html, $p, $cid_replaces)
   if (!$rcount) {
     $html = '<head>' . $meta . '</head>' . $html;
   }
-
-  // turn relative into absolute urls
-  $html = rcmail_resolve_base($html);
 
   // clean HTML with washhtml by Frederic Motte
   $wash_opts = array(
@@ -702,7 +666,7 @@ function rcmail_wash_html($html, $p, $cid_replaces)
     $wash_opts['html_attribs'] = $p['html_attribs'];
 
   // initialize HTML washer
-  $washer = new washtml($wash_opts);
+  $washer = new rcube_washtml($wash_opts);
 
   if (!$p['skip_washer_form_callback'])
     $washer->add_callback('form', 'rcmail_washtml_callback');
@@ -740,7 +704,7 @@ function rcmail_print_body($part, $p = array())
 
   // convert html to text/plain
   if ($data['type'] == 'html' && $data['plain']) {
-    $txt = new html2text($data['body'], false, true);
+    $txt = new rcube_html2text($data['body'], false, true);
     $body = $txt->get_text();
     $part->ctype_secondary = 'plain';
   }
@@ -751,8 +715,7 @@ function rcmail_print_body($part, $p = array())
   }
   // text/enriched
   else if ($data['type'] == 'enriched') {
-    require_once(INSTALL_PATH . 'program/lib/enriched.inc');
-    $body = enriched_to_html($data['body']);
+    $body = rcube_enriched::to_html($data['body']);
     $body = rcmail_wash_html($body, $data, $part->replaces);
     $part->ctype_secondary = 'html';
   }
@@ -922,31 +885,15 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
 
 
 /**
- * Callback function for HTML tags fixing
- */
-function rcmail_html_tag_callback($matches)
-{
-  $tagname = $matches[2];
-
-  $tagname = preg_replace(array(
-    '/:.*$/',			// Microsoft's Smart Tags <st1:xxxx>
-    '/[^a-z0-9_\[\]\!-]/i',	// forbidden characters
-    ), '', $tagname);
-
-  return $matches[1].$tagname;
-}
-
-
-/**
  * return table with message headers
  */
-function rcmail_message_headers($attrib, $headers=NULL)
+function rcmail_message_headers($attrib, $headers=null)
   {
   global $OUTPUT, $MESSAGE, $PRINT_MODE, $RCMAIL;
   static $sa_attrib;
 
   // keep header table attrib
-  if (is_array($attrib) && !$sa_attrib)
+  if (is_array($attrib) && !$sa_attrib && !$attrib['valueof'])
     $sa_attrib = $attrib;
   else if (!is_array($attrib) && is_array($sa_attrib))
     $attrib = $sa_attrib;
@@ -955,11 +902,20 @@ function rcmail_message_headers($attrib, $headers=NULL)
     return FALSE;
 
   // get associative array of headers object
-  if (!$headers)
-    $headers = is_object($MESSAGE->headers) ? get_object_vars($MESSAGE->headers) : $MESSAGE->headers;
+  if (!$headers) {
+    $headers_obj = $MESSAGE->headers;
+    $headers = get_object_vars($MESSAGE->headers);
+  }
+  else if (is_object($headers)) {
+    $headers_obj = $headers;
+    $headers = get_object_vars($headers_obj);
+  }
+  else {
+    $headers_obj = rcube_message_header::from_array($headers);
+  }
 
   // show these headers
-  $standard_headers = array('subject', 'from', 'to', 'cc', 'bcc', 'replyto',
+  $standard_headers = array('subject', 'from', 'sender', 'to', 'cc', 'bcc', 'replyto',
     'mail-reply-to', 'mail-followup-to', 'date', 'priority');
   $exclude_headers = $attrib['exclude'] ? explode(',', $attrib['exclude']) : array();
   $output_headers = array();
@@ -1010,6 +966,14 @@ function rcmail_message_headers($attrib, $headers=NULL)
       else
         continue;
     }
+    else if ($hkey == 'sender') {
+      if ($headers['sender'] != $headers['from']) {
+        $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
+        $ishtml = true;
+      }
+      else
+        continue;
+    }
     else if ($hkey == 'mail-followup-to') {
       $header_value = rcmail_address_string($value, $attrib['max'], true, $attrib['addicon'], $headers['charset'], $header_title);
       $ishtml = true;
@@ -1032,7 +996,7 @@ function rcmail_message_headers($attrib, $headers=NULL)
   }
 
   $plugin = $RCMAIL->plugins->exec_hook('message_headers_output',
-    array('output' => $output_headers, 'headers' => $MESSAGE->headers, 'exclude' => $exclude_headers));
+    array('output' => $output_headers, 'headers' => $headers_obj, 'exclude' => $exclude_headers));
 
   // single header value is requested
   if (!empty($attrib['valueof']))
@@ -1111,8 +1075,9 @@ function rcmail_message_body($attrib)
 
   if (!empty($MESSAGE->parts)) {
     foreach ($MESSAGE->parts as $i => $part) {
-      if ($part->type == 'headers')
-        $out .= rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : NULL, $part->headers);
+      if ($part->type == 'headers') {
+        $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
+      }
       else if ($part->type == 'content') {
         // unsapported
         if ($part->realtype) {
@@ -1139,6 +1104,15 @@ function rcmail_message_body($attrib)
         // fetch part if not available
         if (!isset($part->body))
           $part->body = $MESSAGE->get_part_content($part->mime_id);
+
+        // extract headers from message/rfc822 parts
+        if ($part->mimetype == 'message/rfc822') {
+          $msgpart = rcube_mime::parse_message($part->body);
+          if (!empty($msgpart->headers)) {
+            $part = $msgpart;
+            $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
+          }
+        }
 
         // message is cached but not exists (#1485443), or other error
         if ($part->body === false) {
@@ -1264,7 +1238,7 @@ function rcmail_part_image_type($part)
 
   // Content-Type: image/*...
   if (preg_match($mime_regex, $part->mimetype)) {
-    return $part->mimetype;
+    return rcmail_fix_mimetype($part->mimetype);
   }
 
   // Many clients use application/octet-stream, we'll detect mimetype
@@ -1291,20 +1265,6 @@ function rcmail_part_image_type($part)
   ) {
     return $types[$extension];
   }
-}
-
-/**
- * Convert all relative URLs according to a <base> in HTML
- */
-function rcmail_resolve_base($body)
-{
-  // check for <base href=...>
-  if (preg_match('!(<base.*href=["\']?)([hftps]{3,5}://[a-z0-9/.%-]+)!i', $body, $regs)) {
-    $replacer = new rcube_base_replacer($regs[2]);
-    $body     = $replacer->replace($body);
-  }
-
-  return $body;
 }
 
 
@@ -1510,7 +1470,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
       if ($addicon && $_SESSION['writeable_abook']) {
         $address .= html::a(array(
             'href' => "#add",
-            'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, $string),
+            'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, JQ($string)),
             'title' => rcube_label('addtoaddressbook'),
             'class' => 'rcmaddcontact',
           ),
@@ -1638,10 +1598,7 @@ function rcmail_message_part_controls($attrib)
   $part  = $MESSAGE->mime_parts[$part];
   $table = new html_table(array('cols' => 3));
 
-  $filename = $part->filename;
-  if (empty($filename) && $attach_prop->mimetype == 'text/html') {
-    $filename = rcube_label('htmlmessage');
-  }
+  $filename = rcmail_attachment_name($part);
 
   if (!empty($filename)) {
     $table->add('title', Q(rcube_label('filename')));
@@ -1654,7 +1611,6 @@ function rcmail_message_part_controls($attrib)
 
   return $table->show($attrib);
 }
-
 
 
 function rcmail_message_part_frame($attrib)
@@ -1702,11 +1658,11 @@ function rcmail_send_mdn($message, &$smtp_error)
   if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT']) &&
     ($RCMAIL->storage->check_permflag('MDNSENT') || $RCMAIL->storage->check_permflag('*')))
   {
-    $identity = $RCMAIL->user->get_identity();
-    $sender = format_email_recipient($identity['email'], $identity['name']);
+    $identity  = rcmail_identity_select($message);
+    $sender    = format_email_recipient($identity['email'], $identity['name']);
     $recipient = array_shift(rcube_mime::decode_address_list(
       $message->headers->mdn_to, 1, true, $message->headers->charset));
-    $mailto = $recipient['mailto'];
+    $mailto    = $recipient['mailto'];
 
     $compose = new Mail_mime("\r\n");
 
@@ -1731,6 +1687,9 @@ function rcmail_send_mdn($message, &$smtp_error)
     if ($agent = $RCMAIL->config->get('useragent'))
       $headers['User-Agent'] = $agent;
 
+    if ($RCMAIL->config->get('mdn_use_from'))
+      $options['mdn_use_from'] = true;
+
     $body = rcube_label("yourmessage") . "\r\n\r\n" .
       "\t" . rcube_label("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
       "\t" . rcube_label("subject") . ': ' . $message->subject . "\r\n" .
@@ -1752,7 +1711,7 @@ function rcmail_send_mdn($message, &$smtp_error)
     $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
-    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file);
+    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
 
     if ($sent)
     {
@@ -1764,6 +1723,107 @@ function rcmail_send_mdn($message, &$smtp_error)
   return false;
 }
 
+/**
+ * Detect recipient identity from specified message
+ */
+function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'reply')
+{
+    $a_recipients = array();
+    $a_names      = array();
+
+    if ($identities === null) {
+        $identities = rcmail::get_instance()->user->list_identities(null, true);
+    }
+
+    // extract all recipients of the reply-message
+    if (is_object($MESSAGE->headers) && in_array($compose_mode, array('reply', 'forward'))) {
+        $a_to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
+        foreach ($a_to as $addr) {
+            if (!empty($addr['mailto'])) {
+                $a_recipients[] = format_email($addr['mailto']);
+                $a_names[]      = $addr['name'];
+            }
+        }
+
+        if (!empty($MESSAGE->headers->cc)) {
+            $a_cc = rcube_mime::decode_address_list($MESSAGE->headers->cc, null, true, $MESSAGE->headers->charset);
+            foreach ($a_cc as $addr) {
+                if (!empty($addr['mailto'])) {
+                    $a_recipients[] = format_email($addr['mailto']);
+                    $a_names[]      = $addr['name'];
+                }
+            }
+        }
+    }
+
+    $from_idx         = null;
+    $found_idx        = null;
+    $default_identity = 0; // default identity is always first on the list
+
+    // Select identity
+    foreach ($identities as $idx => $ident) {
+        // use From header
+        if (in_array($compose_mode, array('draft', 'edit'))) {
+            if ($MESSAGE->headers->from == $ident['ident']) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+        // reply to yourself
+        else if ($compose_mode == 'reply' && $MESSAGE->headers->from == $ident['ident']) {
+            $from_idx = $idx;
+            break;
+        }
+        // use replied message recipients
+        else if (($found = array_search($ident['email_ascii'], $a_recipients)) !== false) {
+            if ($found_idx === null) {
+                $found_idx = $idx;
+            }
+            // match identity name
+            if ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name']) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    // If matching by name+address doesn't found any matches, get first found address (identity)
+    if ($from_idx === null) {
+        $from_idx = $found_idx;
+    }
+
+    // Try Return-Path
+    if ($from_idx === null && ($return_path = $MESSAGE->headers->others['return-path'])) {
+        foreach ($identities as $idx => $ident) {
+            if (strpos($return_path, str_replace('@', '=', $ident['email_ascii']).'@') !== false) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    // Fallback using Delivered-To
+    if ($from_idx === null && ($delivered_to = $MESSAGE->headers->others['delivered-to'])) {
+        foreach ($identities as $idx => $ident) {
+            if (in_array($ident['email_ascii'], (array)$delivered_to)) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    // Fallback using Envelope-To
+    if ($from_idx === null && ($envelope_to = $MESSAGE->headers->others['envelope-to'])) {
+        foreach ($identities as $idx => $ident) {
+            if (in_array($ident['email_ascii'], (array)$envelope_to)) {
+                $from_idx = $idx;
+                break;
+            }
+        }
+    }
+
+    return $identities[$from_idx !== null ? $from_idx : $default_identity];
+}
 
 // Fixes some content-type names
 function rcmail_fix_mimetype($name)
@@ -1773,7 +1833,42 @@ function rcmail_fix_mimetype($name)
   if (preg_match('/^application\/pdf.+/', $name))
     $name = 'application/pdf';
 
+  // treat image/pjpeg as image/jpeg
+  else if (preg_match('/^image\/p?jpe?g$/', $name))
+    $name = 'image/jpeg';
+
   return $name;
+}
+
+// return attachment filename, handle empty filename case
+function rcmail_attachment_name($attachment, $display = false)
+{
+    $filename = $attachment->filename;
+
+    if ($filename === null || $filename === '') {
+        if ($attachment->mimetype == 'text/html') {
+            $filename = rcube_label('htmlmessage');
+        }
+        else {
+            $ext      = rcube_mime::get_mime_extensions($attachment->mimetype);
+            $ext      = array_shift($ext);
+            $filename = rcube_label('messagepart') . ' ' . $attachment->mime_id;
+            if ($ext) {
+                $filename .= '.' . $ext;
+            }
+        }
+    }
+
+    $filename = preg_replace('[\r\n]', '', $filename);
+
+    // Display smart names for some known mimetypes
+    if ($display) {
+        if (preg_match('/application\/(pgp|pkcs7)-signature/i', $attachment->mimetype)) {
+            $filename = rcube_label('digitalsig');
+        }
+    }
+
+    return $filename;
 }
 
 function rcmail_search_filter($attrib)

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kevin Beynon                                                  |
+ | Author: Lazlo                                                         |
  +-----------------------------------------------------------------------+
 */
 
@@ -26,9 +26,11 @@ $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
 $messages['errornoperm'] = 'Unable to perform operation. Permission denied.';
 $messages['invalidrequest'] = 'Invalid request! No data was saved.';
+$messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'No messages found in this mailbox.';
 $messages['loggedout'] = 'You have successfully terminated the session. Good bye!';
 $messages['mailboxempty'] = 'Mailbox is empty.';
+$messages['refreshing'] = 'Refreshing...';
 $messages['loading'] = 'Loading...';
 $messages['uploading'] = 'Uploading file...';
 $messages['uploadingmany'] = 'Uploading files...';
@@ -114,8 +116,9 @@ $messages['selectimportfile'] = 'Please select a file to upload.';
 $messages['addresswriterror'] = 'The selected address book is not writeable.';
 $messages['contactaddedtogroup'] = 'Successfully added the contacts to this group.';
 $messages['contactremovedfromgroup'] = 'Successfully removed contacts from this group.';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Importing, please wait...';
-$messages['importerror'] = 'Import failed! The uploaded file is not a valid vCard file.';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts</b>';
 $messages['importconfirmskipped'] = '<b>Skipped $skipped existing entries</b>';
 $messages['opnotpermitted'] = 'Operation not permitted!';
@@ -157,4 +160,6 @@ $messages['invalidimageformat'] = 'Not a valid image format.';
 $messages['mispellingsfound'] = 'Spelling errors detected in the message.';
 $messages['parentnotwritable'] = 'Unable to create/move folder into selected parent folder. No access rights.';
 $messages['messagetoobig'] = 'The message part is too big to process it.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 

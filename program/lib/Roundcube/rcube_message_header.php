@@ -2,8 +2,6 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcube_message_header.php                              |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -14,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   E-mail message headers representation                               |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
@@ -235,13 +232,30 @@ class rcube_message_header
             $this->others[$name] = $value;
         }
     }
+
+
+    /**
+     * Factory method to instantiate headers from a data array
+     *
+     * @param array Hash array with header values
+     * @return object rcube_message_header instance filled with headers values
+     */
+    public static function from_array($arr)
+    {
+        $obj = new rcube_message_header;
+        foreach ($arr as $k => $v)
+            $obj->set($k, $v);
+
+        return $obj;
+    }
 }
 
 
 /**
  * Class for sorting an array of rcube_message_header objects in a predetermined order.
  *
- * @package Mail
+ * @package    Framework
+ * @subpackage Storage
  * @author  Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_header_sorter

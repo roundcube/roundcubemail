@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Penegal                                                       |
+ | Author: Sébastien BLAISOT <sebastien@blaisot.org>                    |
  +-----------------------------------------------------------------------+
 */
 
@@ -51,6 +51,8 @@ $labels['copy'] = 'Copier';
 $labels['move'] = 'Déplacer';
 $labels['moveto'] = 'Déplacer vers...';
 $labels['download'] = 'Télécharger';
+$labels['showattachment'] = 'Afficher';
+$labels['showanyway'] = 'Afficher quand même';
 $labels['filename'] = 'Nom du fichier';
 $labels['filesize'] = 'Taille du fichier';
 $labels['addtoaddressbook'] = 'Ajouter au carnet d\'adresses';
@@ -357,6 +359,7 @@ $labels['always'] = 'toujours';
 $labels['showinlineimages'] = 'Afficher les images attachées après le message';
 $labels['autosavedraft'] = 'Enregistrement automatique des brouillons';
 $labels['everynminutes'] = 'toutes les $n minute(s)';
+$labels['refreshinterval'] = 'Rafraîchir (Vérifier les nouveaux messages, etc.)';
 $labels['never'] = 'jamais';
 $labels['immediately'] = 'Immédiatement';
 $labels['messagesdisplaying'] = 'Affichage des messages';
@@ -394,7 +397,7 @@ $labels['afternseconds'] = 'après $n secondes';
 $labels['reqmdn'] = 'Toujours demander un avis de réception';
 $labels['reqdsn'] = 'Toujours demander une notification d\'état de distribution';
 $labels['replysamefolder'] = 'Placer les réponses dans le dossier du message auquel il est répondu';
-$labels['defaultaddressbook'] = 'Ajouter de nouveaux contacts au carnet d’adresses sélectionné';
+$labels['defaultabook'] = 'Carnet d\'adresse par défaut';
 $labels['autocompletesingle'] = 'Ne pas tenir compte des adresses emails alternatives dans l\'autoremplissage';
 $labels['listnamedisplay'] = 'Lister les contacts comme';
 $labels['spellcheckbeforesend'] = 'Vérifier l’orthographe avant l’envoie d’un message';
@@ -430,6 +433,7 @@ $labels['sortby'] = 'Trier par';
 $labels['sortasc'] = 'Tri ascendant';
 $labels['sortdesc'] = 'Tri descendant';
 $labels['undo'] = 'Annuler';
+$labels['installedplugins'] = 'Extensions installées';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';

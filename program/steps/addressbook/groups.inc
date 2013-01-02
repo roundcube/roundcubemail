@@ -20,7 +20,7 @@
 */
 
 $source = get_input_value('_source', RCUBE_INPUT_GPC);
-$CONTACTS = rcmail_contact_source($source, true);
+$CONTACTS = rcmail_contact_source($source);
 
 if ($CONTACTS->readonly || !$CONTACTS->groups) {
   $OUTPUT->show_message('sourceisreadonly', 'warning');
@@ -28,11 +28,11 @@ if ($CONTACTS->readonly || !$CONTACTS->groups) {
 }
 
 if ($RCMAIL->action == 'group-addmembers') {
-  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = get_input_value('_cid', RCUBE_INPUT_POST))) {
+  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = rcmail_get_cids($source))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
 
     $CONTACTS->set_group($gid);
-    $num2add = count(explode(',', $plugin['ids']));
+    $num2add = count($plugin['ids']);
 
     if (!$plugin['abort']) {
       if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + $num2add > $maxnum)) {
@@ -55,7 +55,7 @@ if ($RCMAIL->action == 'group-addmembers') {
 }
 
 else if ($RCMAIL->action == 'group-delmembers') {
-  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = get_input_value('_cid', RCUBE_INPUT_POST))) {
+  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = rcmail_get_cids($source))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_delmembers', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
 
     if (!$plugin['abort'])
@@ -63,10 +63,11 @@ else if ($RCMAIL->action == 'group-delmembers') {
     else
       $result = $plugin['result'];
 
-    if ($result){
+    if ($result) {
       $OUTPUT->show_message('contactremovedfromgroup');
       $OUTPUT->command('remove_group_contacts',array('source' => $source, 'gid' => $gid));
-    }else{
+    }
+    else {
       $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
     }
   }

@@ -1,10 +1,29 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to use envelope From address for MDN responses (#1488880)
+- Add possibility to search in message body only (#1488770)
+- Support "multipart/relative" as an alias for "multipart/related" type (#1488886)
+- Display PGP/MIME signature attachments as "Digital Signature" (#1488570)
+- Workaround UW-IMAP bug where hierarchy separator is added to the shared folder name (#1488879)
+- Fix version comparisons with -stable suffix (#1488876)
+- Add unsupported alternative parts to attachments list (#1488870)
+- Add Compose button on message view page (#1488747)
+- Display 'Sender' header in message preview
+- Plugin API: Added message_before_send hook
+- Fix contact copy/add-to-group operations on search result (#1488862)
+- Use matching identity in MDN response (#1488864)
+- Fix unwanted horizontal scrollbar in message preview header (#1488866)
+- Fix handling of signatures on draft edit (#1488798)
+- Fix so compacting of non-empty folder is possible also when messages list is empty (#1488858)
+- Allow forwarding of multiple emails (#1486854)
+- Fix big memory consumption of DB layer (#1488856)
+- Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
+- Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
 - Fix broken message/part bodies when FETCH response contains more untagged lines (#1488836)
 - Fix empty email on identities list after identity update (#1488834)
 - Add new identities_level: (4) one identity with possibility to edit only signature
-- Use Delivered-To header as a last resort for identity selection (#1488840)
+- Use Delivered-To and Envelope-To headers for identity selection (#1488840, #1488553)
 - Fix XSS vulnerability using Flash files (#1488828)
 - Fix absolute positioning in HTML messages (#1488819)
 - Fix cache (in)validation after setting \Deleted flag

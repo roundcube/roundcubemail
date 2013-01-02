@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_utils.php                                       |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -19,7 +17,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Utility class providing common functions

@@ -1070,6 +1070,17 @@ table.headers-table
   background-color: #F4F4F4;
 }
 
+#messagebody table.headers-table
+{
+  margin: 16px 6px 6px 6px;
+}
+
+div.message-partheaders + div.message-part
+{
+  border-top: 0;
+  padding-top: 4px;
+}
+
 table.headers-table tr td
 {
   font-size: 11px;

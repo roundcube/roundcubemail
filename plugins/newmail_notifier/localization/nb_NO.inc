@@ -9,19 +9,18 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Einar Svensen <Unknown>                                       |
+ | Author: Fredrik Larsen <fredrik.h.larsen@gmail.com>                   |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $labels = array();
-$labels['basic'] = 'Vis nettleser hendlese ved ny melding';
-$labels['desktop'] = 'Vis skirivebord hendlese ved ny melding';
+$labels['basic'] = 'Vis varsel i nettleseren ved ny melding';
+$labels['desktop'] = 'Vis varsel på skrivebordet ved ny melding';
 $labels['sound'] = 'Spill av lyd ved ny melding';
 $labels['test'] = 'Test';
 $labels['title'] = 'Ny e-post!';
 $labels['body'] = 'Du har mottatt en ny melding';
-$labels['testbody'] = 'Dette er en test hendlese';
-$labels['desktopdisabled'] = 'Skrivebord hendelse er deaktivert i din nettleser.';
-$labels['desktopunsupported'] = 'Din nettleser støtter ikke skrivebord\'s hendelser.';
+$labels['testbody'] = 'Dette er et testvarsel.';
+$labels['desktopdisabled'] = 'Skrivebordsvarsel er slått av i din nettleser.';
+$labels['desktopunsupported'] = 'Din nettleser støtter ikke visning av varsel på skrivebordet.';
 

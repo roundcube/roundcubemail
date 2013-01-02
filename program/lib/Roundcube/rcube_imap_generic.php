@@ -2,8 +2,6 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcube_imap_generic.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -19,13 +17,11 @@
  |   functionality built-in.                                             |
  |                                                                       |
  |   Based on Iloha IMAP Library. See http://ilohamail.org/ for details  |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  | Author: Ryo Chijiiwa <Ryo@IlohaMail.org>                              |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * PHP based wrapper class to connect to an IMAP server
@@ -757,12 +753,16 @@ class rcube_imap_generic
         $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
 
         if (!$this->fp) {
+            if (!$errstr) {
+                $errstr = "Unknown reason (fsockopen() function disabled?)";
+            }
             $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s", $host, $this->prefs['port'], $errstr));
             return false;
         }
 
-        if ($this->prefs['timeout'] > 0)
+        if ($this->prefs['timeout'] > 0) {
             stream_set_timeout($this->fp, $this->prefs['timeout']);
+        }
 
         $line = trim(fgets($this->fp, 8192));
 
@@ -1310,6 +1310,11 @@ class rcube_imap_generic
                 // * LIST (<options>) <delimiter> <mailbox>
                 if ($cmd == 'LIST' || $cmd == 'LSUB') {
                     list($opts, $delim, $mailbox) = $this->tokenizeResponse($line, 3);
+
+                    // Remove redundant separator at the end of folder name, UW-IMAP bug? (#1488879)
+                    if ($delim) {
+                        $mailbox = rtrim($mailbox, $delim);
+                    }
 
                     // Add to result array
                     if (!$lstatus) {
@@ -2548,10 +2553,11 @@ class rcube_imap_generic
      * @param string $message Message content
      * @param array  $flags   Message flags
      * @param string $date    Message internal date
+     * @param bool   $binary  Enable BINARY append (RFC3516)
      *
      * @return string|bool On success APPENDUID response (if available) or True, False on failure
      */
-    function append($mailbox, &$message, $flags = array(), $date = null)
+    function append($mailbox, &$message, $flags = array(), $date = null, $binary = false)
     {
         unset($this->data['APPENDUID']);
 
@@ -2559,8 +2565,13 @@ class rcube_imap_generic
             return false;
         }
 
-        $message = str_replace("\r", '', $message);
-        $message = str_replace("\n", "\r\n", $message);
+        $binary       = $binary && $this->getCapability('BINARY');
+        $literal_plus = !$binary && $this->prefs['literal+'];
+
+        if (!$binary) {
+            $message = str_replace("\r", '', $message);
+            $message = str_replace("\n", "\r\n", $message);
+        }
 
         $len = strlen($message);
         if (!$len) {
@@ -2573,12 +2584,12 @@ class rcube_imap_generic
         if (!empty($date)) {
             $request .= ' ' . $this->escape($date);
         }
-        $request .= ' {' . $len . ($this->prefs['literal+'] ? '+' : '') . '}';
+        $request .= ' ' . ($binary ? '~' : '') . '{' . $len . ($literal_plus ? '+' : '') . '}';
 
         // send APPEND command
         if ($this->putLine($request)) {
             // Do not wait when LITERAL+ is supported
-            if (!$this->prefs['literal+']) {
+            if (!$literal_plus) {
                 $line = $this->readReply();
 
                 if ($line[0] != '+') {
@@ -2620,10 +2631,11 @@ class rcube_imap_generic
      * @param string $headers Message headers
      * @param array  $flags   Message flags
      * @param string $date    Message internal date
+     * @param bool   $binary  Enable BINARY append (RFC3516)
      *
      * @return string|bool On success APPENDUID response (if available) or True, False on failure
      */
-    function appendFromFile($mailbox, $path, $headers=null, $flags = array(), $date = null)
+    function appendFromFile($mailbox, $path, $headers=null, $flags = array(), $date = null, $binary = false)
     {
         unset($this->data['APPENDUID']);
 
@@ -2654,18 +2666,21 @@ class rcube_imap_generic
             $len += strlen($headers) + strlen($body_separator);
         }
 
+        $binary       = $binary && $this->getCapability('BINARY');
+        $literal_plus = !$binary && $this->prefs['literal+'];
+
         // build APPEND command
         $key = $this->nextTag();
         $request = "$key APPEND " . $this->escape($mailbox) . ' (' . $this->flagsToStr($flags) . ')';
         if (!empty($date)) {
             $request .= ' ' . $this->escape($date);
         }
-        $request .= ' {' . $len . ($this->prefs['literal+'] ? '+' : '') . '}';
+        $request .= ' ' . ($binary ? '~' : '') . '{' . $len . ($literal_plus ? '+' : '') . '}';
 
         // send APPEND command
         if ($this->putLine($request)) {
             // Don't wait when LITERAL+ is supported
-            if (!$this->prefs['literal+']) {
+            if (!$literal_plus) {
                 $line = $this->readReply();
 
                 if ($line[0] != '+') {

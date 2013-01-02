@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_contacts.php                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,7 +11,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Interface to the local address book database                        |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+

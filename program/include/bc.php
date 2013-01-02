@@ -23,6 +23,7 @@
  * Roundcube Webmail deprecated functions
  *
  * @package Core
+ * @subpackage Legacy
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
 
@@ -399,7 +400,19 @@ function get_boolean($str)
     return rcube_utils::get_boolean($str);
 }
 
+function enriched_to_html($data)
+{
+    return rcube_enriched::to_html($data);
+}
+
 class rcube_html_page extends rcmail_html_page
 {
-    
+}
+
+class washtml extends rcube_washtml
+{
+}
+
+class html2text extends rcube_html2text
+{
 }

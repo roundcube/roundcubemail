@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_config.php                                      |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,7 +11,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Class to read configuration settings                                |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+

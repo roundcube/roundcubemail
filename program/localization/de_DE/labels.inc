@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: SimonFS <simonschuette@arcor.de>                              |
+ | Author: Arnd <bla@espenfeld.de>                                       |
  +-----------------------------------------------------------------------+
 */
 
@@ -51,6 +51,8 @@ $labels['copy'] = 'Kopieren';
 $labels['move'] = 'Verschieben';
 $labels['moveto'] = 'Verschieben nach...';
 $labels['download'] = 'Herunterladen';
+$labels['showattachment'] = 'Anzeigen';
+$labels['showanyway'] = 'Trotzdem anzeigen';
 $labels['filename'] = 'Dateiname';
 $labels['filesize'] = 'Dateigröße';
 $labels['addtoaddressbook'] = 'Ins Adressbuch übernehmen';
@@ -176,7 +178,7 @@ $labels['savemessage'] = 'Nachricht speichern';
 $labels['addattachment'] = 'Datei anfügen';
 $labels['charset'] = 'Zeichensatz';
 $labels['editortype'] = 'Editor Typ';
-$labels['returnreceipt'] = 'Empfangsbestätigung (MSN)';
+$labels['returnreceipt'] = 'Empfangsbestätigung (MDN)';
 $labels['dsn'] = 'Übermittlungsbestätigung (DSN)';
 $labels['mailreplyintro'] = 'Am $date, schrieb $sender:';
 $labels['originalmessage'] = 'Originalnachricht';
@@ -200,6 +202,9 @@ $labels['nosubject'] = '(kein Betreff)';
 $labels['showimages'] = 'Bilder anzeigen';
 $labels['alwaysshow'] = 'Bilder von $sender immer zeigen';
 $labels['isdraft'] = 'Dies ist ein Entwurf';
+$labels['andnmore'] = '$nr weitere';
+$labels['togglemoreheaders'] = 'Zeige weitere Nachrichten-Header';
+$labels['togglefullheaders'] = 'Original-Kopfzeilen ein-/ausblenden';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Nur-Text';
 $labels['savesentmessagein'] = 'Nachricht speichern in';
@@ -300,6 +305,7 @@ $labels['importcontacts'] = 'Kontakte importieren';
 $labels['importfromfile'] = 'Import aus Datei:';
 $labels['importtarget'] = 'Einen neuen Kontakt hinzufügen:';
 $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
+$labels['importdesc'] = 'Sie können Kontakte von einem vorhandenen Adressbuch hochladen.<br/>Zur Zeit wird der Import von Adressen im <a href="http://de.wikipedia.org/wiki/VCard">vCard</a> oder <a href="http://de.wikipedia.org/wiki/CSV_(Dateiformat)">CSV</a>Format unterstützt.';
 $labels['done'] = 'Fertig';
 $labels['settingsfor'] = 'Einstellungen für';
 $labels['about'] = 'Über';
@@ -328,6 +334,7 @@ $labels['showinextwin'] = 'Nachrichten in neuem Fenster öffnen';
 $labels['composeextwin'] = 'Nachrichten in neuem Fenster verfassen';
 $labels['htmleditor'] = 'HTML-Nachrichten verfassen';
 $labels['htmlonreply'] = 'nur Antworten auf HTML-Nachrichten';
+$labels['htmlonreplyandforward'] = 'beim Weiterleiten und  Beantworten auf HTML-Nachrichten';
 $labels['htmlsignature'] = 'HTML-Signatur';
 $labels['previewpane'] = 'Nachrichtenvorschau anzeigen';
 $labels['skin'] = 'Oberflächendesign';
@@ -353,6 +360,7 @@ $labels['always'] = 'immer';
 $labels['showinlineimages'] = 'Angehängte Bilder unter der Nachricht anzeigen';
 $labels['autosavedraft'] = 'Entwurf automatisch speichern';
 $labels['everynminutes'] = '$n Minute(n)';
+$labels['refreshinterval'] = 'Aktualisieren (auf neue Nachrichten prüfen, etc.)';
 $labels['never'] = 'nie';
 $labels['immediately'] = 'sofort';
 $labels['messagesdisplaying'] = 'Nachrichtendarstellung';
@@ -374,6 +382,7 @@ $labels['maintenance'] = 'Wartung';
 $labels['newmessage'] = 'Neue Nachricht';
 $labels['signatureoptions'] = 'Signatur';
 $labels['whenreplying'] = 'Beantworten einer Nachricht';
+$labels['replyempty'] = 'die Originalnachricht nicht zitieren';
 $labels['replytopposting'] = 'Antwort über der Originalnachricht';
 $labels['replybottomposting'] = 'Antwort unter der Originalnachricht';
 $labels['replyremovesignature'] = 'Beim Antworten Signatur der Originalnachricht entfernen';
@@ -386,10 +395,10 @@ $labels['abovequote'] = 'über der Originalnachricht einfügen';
 $labels['insertsignature'] = 'Signatur einfügen';
 $labels['previewpanemarkread'] = 'Nachricht in Vorschau als gelesen markieren';
 $labels['afternseconds'] = 'nach $n Sekunden';
-$labels['reqmdn'] = 'Empfangsbestätigung (MSN) immer anfordern';
+$labels['reqmdn'] = 'Empfangsbestätigung (MDN) immer anfordern';
 $labels['reqdsn'] = 'Übermittlungsbestätigung (DSN) immer anfordern';
 $labels['replysamefolder'] = 'Antworten im selben Ordner wie Original speichern';
-$labels['defaultaddressbook'] = 'Neue Kontakte zum ausgewählten Adressbuch hinzufügen';
+$labels['defaultabook'] = 'Standard Adressbuch';
 $labels['autocompletesingle'] = 'Alternative E-Mailadressen bei der Auto-Vervollständigung nicht berücksichtigen';
 $labels['listnamedisplay'] = 'Kontakte auflisten als';
 $labels['spellcheckbeforesend'] = 'Rechtschreibprüfung vor dem Absenden der Nachricht';
@@ -399,6 +408,9 @@ $labels['spellcheckignorenums'] = 'Wörter mit Ziffern überspringen';
 $labels['spellcheckignorecaps'] = 'Wörter überspringen, die nur aus Großbuchstaben bestehen';
 $labels['addtodict'] = 'Zum Wörterbuch hinzufügen';
 $labels['mailtoprotohandler'] = 'Als Empfänger für mailto: Links einrichten';
+$labels['forwardmode'] = 'Nachrichtenweiterleitung';
+$labels['inline'] = 'eingebettet';
+$labels['asattachment'] = 'als Anhang';
 $labels['folder'] = 'Ordner';
 $labels['foldername'] = 'Ordnername';
 $labels['subscribed'] = 'Abonniert';

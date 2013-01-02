@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
+ | Author: Jonas Nasholm                                                 |
  +-----------------------------------------------------------------------+
 */
 
@@ -18,10 +18,10 @@ $labels['changepasswd'] = 'Ändra lösenord';
 $labels['curpasswd'] = 'Nuvarande lösenord:';
 $labels['newpasswd'] = 'Nytt lösenord:';
 $labels['confpasswd'] = 'Bekräfta nytt lösenord:';
-$labels['nopassword'] = 'Vänligen ange nytt lösenord.';
-$labels['nocurpassword'] = 'Vänligen ange nuvarande lösenord.';
+$labels['nopassword'] = 'Ange nytt lösenord.';
+$labels['nocurpassword'] = 'Ange nuvarande lösenord.';
 $labels['passwordincorrect'] = 'Felaktigt nuvarande lösenord.';
-$labels['passwordinconsistency'] = 'Nya lösenordet och bekräftelsen överensstämmer inte, försök igen.';
+$labels['passwordinconsistency'] = 'Bekräftelsen av lösenordet stämmer inte, försök igen.';
 $labels['crypterror'] = 'Lösenordet kunde inte ändras. Krypteringsfunktionen saknas.';
 $labels['connecterror'] = 'Lösenordet kunde inte ändras. Anslutningen misslyckades.';
 $labels['internalerror'] = 'Lösenordet kunde inte ändras.';

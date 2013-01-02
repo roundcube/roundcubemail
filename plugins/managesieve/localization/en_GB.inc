@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Sebastian Schweizer                                           |
+ | Author: Vibhav Pant <vibhavp@gmail.com>                               |
  +-----------------------------------------------------------------------+
 */
 
@@ -134,6 +134,7 @@ $labels['setactivated'] = 'Filters set activated successfully.';
 $labels['setdeactivated'] = 'Filters set deactivated successfully.';
 $labels['setdeleted'] = 'Filters set deleted successfully.';
 $labels['setdeleteconfirm'] = 'Are you sure, you want to delete selected filters set?';
+$labels['setcreateerror'] = 'Unable to create filters set. Server error occured.';
 $labels['setcreated'] = 'Filters set created successfully.';
 $labels['activateerror'] = 'Unable to enable selected filter(s). Server error occured.';
 $labels['deactivateerror'] = 'Unable to disable selected filter(s). Server error occured.';

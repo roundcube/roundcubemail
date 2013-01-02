@@ -219,11 +219,11 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
     // address in brackets without name (do nothing)
     if (preg_match('/^<'.$email_regexp.'>$/', $item)) {
       $item = rcube_idn_to_ascii(trim($item, '<>'));
-      $result[] = '<' . $item . '>';
+      $result[] = $item;
     // address without brackets and without name (add brackets)
     } else if (preg_match('/^'.$email_regexp.'$/', $item)) {
       $item = rcube_idn_to_ascii($item);
-      $result[] = '<' . $item . '>';
+      $result[] = $item;
     // address with name (handle name)
     } else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
       $address = $matches[0];
@@ -559,7 +559,7 @@ if ($isHtml) {
   $plugin['body'] = rcmail_replace_emoticons($plugin['body']);
 
   // add a plain text version of the e-mail as an alternative part.
-  $h2t = new html2text($plugin['body'], false, true, 0, $message_charset);
+  $h2t = new rcube_html2text($plugin['body'], false, true, 0, $message_charset);
   $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
@@ -617,13 +617,12 @@ if (is_array($COMPOSE['attachments']))
       $ctype = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
       $file = $attachment['data'] ? $attachment['data'] : $attachment['path'];
 
-      // .eml attachments send inline
       $MAIL_MIME->addAttachment($file,
         $ctype,
         $attachment['name'],
         ($attachment['data'] ? false : true),
         ($ctype == 'message/rfc822' ? '8bit' : 'base64'),
-        ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
+        'attachment',
         '', '', '',
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
         $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL,

@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hendrik Maryns <hendrik@hendrikmaryns.name>                   |
+ | Author: Lazlo                                                         |
  +-----------------------------------------------------------------------+
 */
 
@@ -51,6 +51,8 @@ $labels['copy'] = 'Kopiëren';
 $labels['move'] = 'Verplaats';
 $labels['moveto'] = 'Verplaats naar...';
 $labels['download'] = 'Download';
+$labels['showattachment'] = 'Toon';
+$labels['showanyway'] = 'Laat toch zien';
 $labels['filename'] = 'Bestandsnaam';
 $labels['filesize'] = 'Bestandsgrootte';
 $labels['addtoaddressbook'] = 'Toevoegen aan adresboek';
@@ -268,7 +270,7 @@ $labels['addfield'] = 'Veld toevoegen...';
 $labels['addcontact'] = 'Nieuwe contactpersoon toevoegen';
 $labels['editcontact'] = 'Contactpersoon wijzigen';
 $labels['contacts'] = 'Contactpersonen';
-$labels['contactproperties'] = 'Contact eigenschappen';
+$labels['contactproperties'] = 'Gegevens van contactpersoon';
 $labels['personalinfo'] = 'Persoonlijke informatie';
 $labels['edit'] = 'Wijzig';
 $labels['cancel'] = 'Annuleren';
@@ -303,6 +305,7 @@ $labels['importcontacts'] = 'Contactpersonen importeren';
 $labels['importfromfile'] = 'Importeer van bestand:';
 $labels['importtarget'] = 'Voeg nieuwe contactpersonen toe aan adresboek:';
 $labels['importreplace'] = 'Vervang het complete adresboek';
+$labels['importdesc'] = 'U kunt contactpersonen uploaden van een bestaand adresboek<br/>Momenteel wordt het importeren van adresboeken in <a href="http://en.wikipedia.org/wiki/VCard">vCard-formaat</a> of CSV-formaat (kommagescheiden tekstbestand) ondersteund.';
 $labels['done'] = 'Klaar';
 $labels['settingsfor'] = 'Instellingen voor';
 $labels['about'] = 'Over';
@@ -357,6 +360,7 @@ $labels['always'] = 'altijd';
 $labels['showinlineimages'] = 'Bijgevoegde afbeeldingen onder het bericht weergeven';
 $labels['autosavedraft'] = 'Concept automatisch opslaan';
 $labels['everynminutes'] = 'iedere $n minuten';
+$labels['refreshinterval'] = 'Vernieuwen (controleer op nieuwe berichten, etc.)';
 $labels['never'] = 'nooit';
 $labels['immediately'] = 'onmiddellijk';
 $labels['messagesdisplaying'] = 'Berichtenweergave';
@@ -394,7 +398,7 @@ $labels['afternseconds'] = 'Na $n seconden';
 $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
 $labels['reqdsn'] = 'Vraag altijd om een afleveringsbericht';
 $labels['replysamefolder'] = 'Bewaar reacties in de map van het beantwoorde bericht';
-$labels['defaultaddressbook'] = 'Nieuwe contactpersonen toevoegen aan gekozen adresboek';
+$labels['defaultabook'] = 'Standaard adresboek';
 $labels['autocompletesingle'] = 'Alternatieve e-mailadressen niet gebruiken bij automatisch aanvullen';
 $labels['listnamedisplay'] = 'Contactpersonen weergeven als';
 $labels['spellcheckbeforesend'] = 'Controleer spelling voor het versturen van een bericht';

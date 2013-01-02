@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_user.inc                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -14,13 +12,11 @@
  | PURPOSE:                                                              |
  |   This class represents a system user linked and provides access      |
  |   to the related database records.                                    |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Class representing a system user
@@ -263,7 +259,7 @@ class rcube_user
 
                 $sql_arr['email_ascii'] = $ascii_email;
                 $sql_arr['email']       = $utf8_email;
-                $sql_arr['ident']       = format_email_recipient($ascii_email, $ident['name']);
+                $sql_arr['ident']       = format_email_recipient($ascii_email, $sql_arr['name']);
             }
 
             $result[] = $sql_arr;

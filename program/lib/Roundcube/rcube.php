@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube.php                                             |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -36,7 +34,7 @@ class rcube
     /**
      * Singleton instace of rcube
      *
-     * @var rcmail
+     * @var rcube
      */
     static protected $instance;
 
@@ -1266,7 +1264,8 @@ class rcube
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
  *
- * @package Core
+ * @package Framework
+ * @subpackage Core
  */
 class rcube_dummy_plugin_api
 {

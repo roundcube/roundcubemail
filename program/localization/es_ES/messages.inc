@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jose Antonio Morales Santiago <cike@txsolutions.com>          |
+ | Author: Adolfo Jayme Barrientos <fitoschido@gmail.com>                |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Nombre de servidor inválido';
 $messages['nomessagesfound'] = 'No se han encontrado mensajes en esta casilla';
 $messages['loggedout'] = 'Ha cerrado bien la sesión. ¡Hasta pronto!';
 $messages['mailboxempty'] = 'La casilla está vacía';
+$messages['refreshing'] = 'Actualizando…';
 $messages['loading'] = 'Cargando...';
 $messages['uploading'] = 'Subiendo archivo...';
 $messages['uploadingmany'] = 'Subiendo archivos…';

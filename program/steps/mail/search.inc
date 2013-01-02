@@ -69,7 +69,7 @@ else if (preg_match("/^subject:.*/i", $str))
 else if (preg_match("/^body:.*/i", $str))
 {
   list(,$srch) = explode(":", $str);
-  $subject['text'] = "TEXT";
+  $subject['body'] = "BODY";
 }
 else if (strlen(trim($str)))
 {
@@ -81,7 +81,7 @@ else if (strlen(trim($str)))
         break;
       }
       else {
-        $subject[$header] = 'HEADER '.strtoupper($header);
+        $subject[$header] = ($header != 'body' ? 'HEADER ' : '') . strtoupper($header);
       }
     }
 
@@ -89,7 +89,8 @@ else if (strlen(trim($str)))
     $search_mods = $RCMAIL->config->get('search_mods', $SEARCH_MODS_DEFAULT);
     $search_mods[$mbox] = array_fill_keys(array_keys($subject), 1);
     $RCMAIL->user->save_prefs(array('search_mods' => $search_mods));
-  } else {
+  }
+  else {
     // search in subject by default
     $subject['subject'] = 'HEADER SUBJECT';
   }
@@ -143,5 +144,6 @@ else {
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
+$OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1), $mbox);
 $OUTPUT->send();

@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_cache.php                                       |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011, The Roundcube Dev Team                            |
  | Copyright (C) 2011, Kolab Systems AG                                  |
@@ -14,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Caching engine                                                      |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |

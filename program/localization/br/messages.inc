@@ -9,16 +9,19 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
+ | Author: Denis                                                         |
  +-----------------------------------------------------------------------+
- @version $Id$
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Fazi dilesadur';
+$messages['errortitle'] = 'Degouezhet ez eus bet ur fazi !';
+$messages['loginfailed'] = 'C\'hwitadenn war kennaskañ';
 $messages['cookiesdisabled'] = 'N\'eus ket c\'hoant toupinoù Hor merder';
-$messages['sessionerror'] = 'Direizh eo hoc\'h dalc\'h pe echu eo';
-$messages['storageerror'] = 'Fazi kevreadur ouzh ar servijer IMAP';
+$messages['sessionerror'] = 'Didalvoudek pe echuet eo hoc\'h estez.';
+$messages['storageerror'] = 'C\'hwitadenn war kennaskañ ouzh an dafariad mirout';
+$messages['servererror'] = 'Fazi dafariad !';
+$messages['servererrormsg'] = 'Fazi dafariad : $msg';
+$messages['dberror'] = 'Fazi stlennvon !';
 $messages['nomessagesfound'] = 'Kemennadoù ebet er voest lizhiri';
 $messages['loggedout'] = 'Digevreet hoc\'h eus mat. Kenavo !';
 $messages['mailboxempty'] = 'Boest lizhiri dileun';

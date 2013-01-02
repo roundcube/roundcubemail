@@ -11,6 +11,8 @@
  *
  * See logout.html (in this directory) for an example how HTTP auth can be cleared.
  *
+ * For other configuration options, see config.inc.php.dist!
+ *
  * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
@@ -36,7 +38,7 @@ class http_authentication extends rcube_plugin
                 $args['action'] = 'login';
             }
             // Set user password in session (see shutdown() method for more info)
-            else if (!empty($_SESSION['user_id']) && empty($_SESION['password'])) {
+            else if (!empty($_SESSION['user_id']) && empty($_SESSION['password'])) {
                 $_SESSION['password'] = $rcmail->encrypt($_SERVER['PHP_AUTH_PW']);
             }
         }
@@ -46,6 +48,13 @@ class http_authentication extends rcube_plugin
 
     function authenticate($args)
     {
+        // Load plugin's config file
+        $this->load_config();
+
+        $host = rcmail::get_instance()->config->get('http_authentication_host');
+        if (is_string($host) && trim($host) !== '')
+            $args['host'] = rcube_idn_to_ascii(rcube_parse_host($host));
+
         // Allow entering other user data in login form,
         // e.g. after log out (#1487953)
         if (!empty($args['user'])) {

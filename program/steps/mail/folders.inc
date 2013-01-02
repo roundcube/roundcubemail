@@ -65,6 +65,7 @@ else if ($RCMAIL->action == 'purge')
             if (!empty($_REQUEST['_reload'])) {
                 $OUTPUT->set_env('messagecount', 0);
                 $OUTPUT->set_env('pagecount', 0);
+                $OUTPUT->set_env('exists', 0);
                 $OUTPUT->command('message_list.clear');
                 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text(), $mbox);
                 $OUTPUT->command('set_unread_count', $mbox, 0);

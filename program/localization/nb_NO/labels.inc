@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Tobias V. Langhoff <spug@thespug.net>                         |
+ | Author: Fredrik Larsen <fredrik.h.larsen@gmail.com>                   |
  +-----------------------------------------------------------------------+
 */
 
@@ -51,6 +51,8 @@ $labels['copy'] = 'Kopier';
 $labels['move'] = 'Flytt';
 $labels['moveto'] = 'flytt til...';
 $labels['download'] = 'last ned';
+$labels['showattachment'] = 'Vis';
+$labels['showanyway'] = 'Vis likevel';
 $labels['filename'] = 'Filnavn';
 $labels['filesize'] = 'Filstørrelse';
 $labels['addtoaddressbook'] = 'Legg til i adressebok';
@@ -170,6 +172,7 @@ $labels['msgtext'] = 'Hele meldingen';
 $labels['openinextwin'] = 'Åpne i nytt vindu';
 $labels['emlsave'] = 'Last ned (.eml)';
 $labels['editasnew'] = 'Rediger som ny';
+$labels['send'] = 'Send.';
 $labels['sendmessage'] = 'Send e-posten';
 $labels['savemessage'] = 'Lagre kladd';
 $labels['addattachment'] = 'Vedlegg';
@@ -201,7 +204,7 @@ $labels['alwaysshow'] = 'Vis alltid bilder fra $sender';
 $labels['isdraft'] = 'Dette er en kladd.';
 $labels['andnmore'] = '$nr flere ...';
 $labels['togglemoreheaders'] = 'Vis flere meldings-headere';
-$labels['togglefullheaders'] = 'Vis rå meldings-headere';
+$labels['togglefullheaders'] = 'Veksle visning av meldingens headere i råformat';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Ren tekst';
 $labels['savesentmessagein'] = 'Lagre sendt melding i';
@@ -302,6 +305,7 @@ $labels['importcontacts'] = 'Importer kontakter';
 $labels['importfromfile'] = 'Importer fra fil:';
 $labels['importtarget'] = 'Legg til kontakter i adresseboka:';
 $labels['importreplace'] = 'Erstatt hele adresseboken';
+$labels['importdesc'] = 'Du kan laste opp kontakter fra en eksisterende adressebok.<br/>Vi støtter adressebøker i <a href="http://no.wikipedia.org/wiki/VCard">vCard</a> eller CSV (kommaseparert) .';
 $labels['done'] = 'Fullført';
 $labels['settingsfor'] = 'Innstillinger for';
 $labels['about'] = 'Om';
@@ -326,6 +330,8 @@ $labels['timezone'] = 'Tidssone';
 $labels['pagesize'] = 'Linjer per side';
 $labels['signature'] = 'Signatur';
 $labels['dstactive'] = 'Sommertid';
+$labels['showinextwin'] = 'Åpne melding i nytt vindu';
+$labels['composeextwin'] = 'Skriv i nytt vindu';
 $labels['htmleditor'] = 'Bruk HTML-editor';
 $labels['htmlonreply'] = 'ved svar på HTML-melding';
 $labels['htmlonreplyandforward'] = 'ved videresending av eller svar på HTML-melding';
@@ -354,6 +360,7 @@ $labels['always'] = 'alltid';
 $labels['showinlineimages'] = 'Vis vedlagte bilder nedenfor meldingen';
 $labels['autosavedraft'] = 'Autolagring av utkast';
 $labels['everynminutes'] = 'hvert $n minutt';
+$labels['refreshinterval'] = 'Oppdater (sjekk for nye meldinger etc.)';
 $labels['never'] = 'Aldri';
 $labels['immediately'] = 'umiddelbart';
 $labels['messagesdisplaying'] = 'Visning av meldinger';
@@ -391,7 +398,7 @@ $labels['afternseconds'] = 'etter $n sekunder';
 $labels['reqmdn'] = 'Alltid be om svarkvittering';
 $labels['reqdsn'] = 'Alltid be om leveringsstatus';
 $labels['replysamefolder'] = 'Legg svar i mappen til meldingen det svares på';
-$labels['defaultaddressbook'] = 'Legg til nye kontakter i valgt adressebok';
+$labels['defaultabook'] = 'Standard adressebok';
 $labels['autocompletesingle'] = 'Hopp over alternative e-postadresser i autofullføring';
 $labels['listnamedisplay'] = 'Vis kontakter som';
 $labels['spellcheckbeforesend'] = 'Kontroller staving før en melding sendes';
@@ -401,6 +408,7 @@ $labels['spellcheckignorenums'] = 'Ignorer ord med tall';
 $labels['spellcheckignorecaps'] = 'Ignorer ord med kun store bokstaver';
 $labels['addtodict'] = 'Legg til i ordbok';
 $labels['mailtoprotohandler'] = 'Registrer protokollhåndtering for mailto-lenker';
+$labels['forwardmode'] = 'Meldinger videresendes';
 $labels['inline'] = 'i teksten';
 $labels['asattachment'] = 'som vedlegg';
 $labels['folder'] = 'Mappe';
@@ -426,6 +434,7 @@ $labels['sortby'] = 'Sorter etter';
 $labels['sortasc'] = 'Eldste først';
 $labels['sortdesc'] = 'Nyeste først';
 $labels['undo'] = 'Angre';
+$labels['installedplugins'] = 'Installerte tillegg';
 $labels['plugin'] = 'Tilleggsmodul';
 $labels['version'] = 'Versjon';
 $labels['source'] = 'Kildekode';

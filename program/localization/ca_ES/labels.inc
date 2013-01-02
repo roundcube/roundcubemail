@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
+ | Author: Pau Argelaguet <pau@paelladebits.cat>                         |
  +-----------------------------------------------------------------------+
 */
 
@@ -51,6 +51,8 @@ $labels['copy'] = 'Copia';
 $labels['move'] = 'Mou';
 $labels['moveto'] = 'Mou a...';
 $labels['download'] = 'Descarrega';
+$labels['showattachment'] = 'Mostrar';
+$labels['showanyway'] = 'Mostra-ho de totes maneres';
 $labels['filename'] = 'Nom del fitxer';
 $labels['filesize'] = 'Mida del fitxer';
 $labels['addtoaddressbook'] = 'Afegeix a contactes';
@@ -170,6 +172,7 @@ $labels['msgtext'] = 'Missatge sencer';
 $labels['openinextwin'] = 'Obre a una nova finestra';
 $labels['emlsave'] = 'Descarrega (.eml)';
 $labels['editasnew'] = 'Edita com a nou';
+$labels['send'] = 'Enviar';
 $labels['sendmessage'] = 'Envia el missatge';
 $labels['savemessage'] = 'Desa aquest esborrany';
 $labels['addattachment'] = 'Adjunta un fitxer';
@@ -325,6 +328,8 @@ $labels['timezone'] = 'Fus horari';
 $labels['pagesize'] = 'Files per pàgina';
 $labels['signature'] = 'Signatura';
 $labels['dstactive'] = 'Horari d\'estiu';
+$labels['showinextwin'] = 'Obrir el missatge en una nova finestra';
+$labels['composeextwin'] = 'Redactar en una nova finestra';
 $labels['htmleditor'] = 'Escriu missatges en HTML';
 $labels['htmlonreply'] = 'només en resposta a missatges en HTML';
 $labels['htmlsignature'] = 'Signatura en HTML';
@@ -352,6 +357,7 @@ $labels['always'] = 'sempre';
 $labels['showinlineimages'] = 'Mostra les imatges adjuntes sota el missatge';
 $labels['autosavedraft'] = 'Desa l\'esborrany automàticament';
 $labels['everynminutes'] = 'cada $n minut(s)';
+$labels['refreshinterval'] = 'Resfrescar (comprovar nous missatges, etc.)';
 $labels['never'] = 'mai';
 $labels['immediately'] = 'immediatament';
 $labels['messagesdisplaying'] = 'Vista de missatges';
@@ -373,6 +379,7 @@ $labels['maintenance'] = 'Manteniment';
 $labels['newmessage'] = 'Missatge nou';
 $labels['signatureoptions'] = 'Opcions de signatura';
 $labels['whenreplying'] = 'Quan es respon';
+$labels['replyempty'] = 'do citis el missatge original';
 $labels['replytopposting'] = 'comença el missatge nou per sobre de l\'original';
 $labels['replybottomposting'] = 'comença el missatge nou per sota de l\'original';
 $labels['replyremovesignature'] = 'Quan es contesti, suprimeix la signatura original del missatge';
@@ -388,7 +395,7 @@ $labels['afternseconds'] = 'després de $n segons';
 $labels['reqmdn'] = 'Demana sempre la confirmació de recepció';
 $labels['reqdsn'] = 'Demana sempre una notificació d\'estat de lliurament';
 $labels['replysamefolder'] = 'Posa les respostes a la carpeta del missatge que es respon';
-$labels['defaultaddressbook'] = 'Afegeix contactes nous a la llibreta d\'adreces seleccionada';
+$labels['defaultabook'] = 'Llibreta d\'adreces per defecte';
 $labels['autocompletesingle'] = 'Omet adreces alternatives quan s\'autocompleti';
 $labels['listnamedisplay'] = 'Llista contactes com a';
 $labels['spellcheckbeforesend'] = 'Comprova l\'ortografia abans d\'enviar un missatge';
@@ -423,6 +430,7 @@ $labels['sortby'] = 'Ordena per';
 $labels['sortasc'] = 'Ordena ascendentment';
 $labels['sortdesc'] = 'Ordena descendentment';
 $labels['undo'] = 'Desfés';
+$labels['installedplugins'] = 'Connectors Instal·lats';
 $labels['plugin'] = 'Complement';
 $labels['version'] = 'Versió';
 $labels['source'] = 'Font';

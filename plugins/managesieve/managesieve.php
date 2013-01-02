@@ -62,7 +62,7 @@ class managesieve extends rcube_plugin
         "x-beenthere",
     );
 
-    const VERSION  = '6.0';
+    const VERSION  = '6.1';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 

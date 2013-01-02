@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_addressbook.php                                 |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,7 +11,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Interface to the local address book database                        |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -141,7 +138,7 @@ abstract class rcube_addressbook
      */
     function get_error()
     {
-      return $this->error;
+        return $this->error;
     }
 
     /**
@@ -152,7 +149,7 @@ abstract class rcube_addressbook
      */
     protected function set_error($type, $message)
     {
-      $this->error = array('type' => $type, 'message' => $message);
+        $this->error = array('type' => $type, 'message' => $message);
     }
 
     /**
@@ -209,13 +206,13 @@ abstract class rcube_addressbook
      */
     public function validate(&$save_data, $autofix = false)
     {
-        $rcmail = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
                 if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
-                    $error = $rcmail->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
+                    $error = $rcube->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
                     $this->set_error(self::ERROR_VALIDATE, $error);
                     return false;
                 }

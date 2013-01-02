@@ -97,6 +97,7 @@ $rcube_languages = array(
   'uk_UA' => 'Ukrainian (Українська)',
   'vi_VN' => 'Vietnamese (Tiếng Việt)',
   'cy_GB' => 'Welsh (Cymraeg)',
+  'fy_NL' => 'West Frisian (Frysk)',
 );
 
 $rcube_language_aliases = array(

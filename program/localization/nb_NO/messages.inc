@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Martin Bore                                                   |
+ | Author: Åsmund Skjæveland <aasmunds@ulrik.uio.no>                   |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Ugyldig servernavn.';
 $messages['nomessagesfound'] = 'Det ble ikke funnet noen meldinger i denne mappen';
 $messages['loggedout'] = 'Du er logget av webmail. Ha det bra!';
 $messages['mailboxempty'] = 'Mappen er tom!';
+$messages['refreshing'] = 'Oppdaterer …';
 $messages['loading'] = 'Laster...';
 $messages['uploading'] = 'Laster opp fil...';
 $messages['uploadingmany'] = 'Laster opp filer ...';
@@ -47,7 +48,7 @@ $messages['blockedimages'] = 'Av sikkerhetsgrunner er bilder lagret på eksterne
 $messages['encryptedmessage'] = 'Dette er en kryptert melding som ikke kan vises. Beklager!';
 $messages['nocontactsfound'] = 'Ingen kontakter ble funnet';
 $messages['contactnotfound'] = 'Den ønskede kontakten ble ikke funnet';
-$messages['contactsearchonly'] = 'Skriv inn noen søkeord for å finne kontater.';
+$messages['contactsearchonly'] = 'Skriv inn noen søkeord for å finne kontakter.';
 $messages['sendingfailed'] = 'Kunne ikke sende e-posten';
 $messages['senttooquickly'] = 'Vennligst vent $sec sekund(er) før du sender denne meldingen';
 $messages['errorsavingsent'] = 'En feil oppsto under lagring av sendt melding';
@@ -101,8 +102,8 @@ $messages['sourceisreadonly'] = 'Denne adressekilden er skrivebeskyttet';
 $messages['errorsavingcontact'] = 'Kunne ikke lagre kontaktadressen.';
 $messages['movingmessage'] = 'Flytter e-post ...';
 $messages['copyingmessage'] = 'Kopierer e-post...';
-$messages['copyingcontact'] = 'Kopieerer kontakt(er) ...';
-$messages['deletingmessage'] = 'Sletter melding(er) ...';
+$messages['copyingcontact'] = 'Kopierer kontakt(er) …';
+$messages['deletingmessage'] = 'Sletter melding(er) …';
 $messages['markingmessage'] = 'Markerer melding(er) ...';
 $messages['addingmember'] = 'Legger til kontakt(er) i gruppa ...';
 $messages['removingmember'] = 'Fjerner kontakt(er) fra gruppa ...';
@@ -115,12 +116,14 @@ $messages['selectimportfile'] = 'Vennligst velg en fil for opplasting';
 $messages['addresswriterror'] = 'Den valgte adresseboken er ikke skrivbar';
 $messages['contactaddedtogroup'] = 'Lagt til kontakter til denne gruppen.';
 $messages['contactremovedfromgroup'] = 'Kontaktene ble vellykket fjernet fra denne gruppen';
+$messages['nogroupassignmentschanged'] = 'Ingen gruppetilordninger ble endret.';
 $messages['importwait'] = 'Importerer, vennligst vent...';
-$messages['importconfirm'] = '<b>Importerte $inserted kontakter, hoppet over $skipped oppføringer som allerede eksisterte</b>: <p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>Hoppen over $skipped existing entries</b>';
+$messages['importformaterror'] = 'Import feilet! Den opplastede filen er i feil format.';
+$messages['importconfirm'] = '<b>Importerte $inserted kontakter</b>';
+$messages['importconfirmskipped'] = '<b>Hoppet over $skipped eksisterende oppføringer</b>';
 $messages['opnotpermitted'] = 'Handling ikke tillatt!';
 $messages['nofromaddress'] = 'E-postadresse mangler i valgt identitet';
-$messages['editorwarning'] = 'Ved å bytte for mat til ren tekst vil all tekstformatering gå tapt. Ønsker du å fortsette?';
+$messages['editorwarning'] = 'Ved å bytte format til ren tekst vil all tekstformatering gå tapt. Ønsker du å fortsette?';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppsto. Vennligst kontakt systemansvarlig umiddelbart. <b>Din melding kunne ikke sendes.</b>';
 $messages['smtpconnerror'] = 'SMTP-feil ($code): Klarte ikke koble til server';
 $messages['smtpautherror'] = 'SMTP-feil ($code): Pålogging feilet';
@@ -156,5 +159,7 @@ $messages['foldercreated'] = 'Mappe opprettet.';
 $messages['invalidimageformat'] = 'Ikke et gyldig bildeformat.';
 $messages['mispellingsfound'] = 'Fant stavefeil i meldingen.';
 $messages['parentnotwritable'] = 'Kunne ikke opprette/flytte mappen i valgt overordnet mappe. Ingen tilgangsrettigheter.';
-$messages['messagetoobig'] = 'Meldingens delen er for stor til at den kan prosesseres.';
+$messages['messagetoobig'] = 'Meldingsdelen er for stor til at den kan prosesseres.';
+$messages['attachmentvalidationerror'] = 'ADVARSEL! Dette vedlegget er mistenkelig fordi det er av en type som ikke passer med det som er deklarert i meldingen. Hvis du ikke stoler på avsenderen burde du ikke åpne det i nettleseren, fordi det kan ha skadelig innhold.<br/><br/><em>Forventet: $expected; fant: $detected</em>rnrnWARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'NB: Denne webmail-klienten krever Javascript! Skru på Javascript i nettleseren din for å kunne bruke den.';
 

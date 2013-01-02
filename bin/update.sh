@@ -34,7 +34,7 @@ if (!$opts['version']) {
     $opts['version'] = $input;
 }
 
-if ($opts['version'] && version_compare($opts['version'], RCMAIL_VERSION, '>'))
+if ($opts['version'] && version_compare(version_parse($opts['version']), version_parse(RCMAIL_VERSION), '>'))
   die("Nothing to be done here. Bye!\n");
 
 
@@ -169,7 +169,7 @@ if ($RCI->configured) {
   }
   
   // index contacts for fulltext searching
-  if (version_compare($opts['version'], '0.6', '<')) {
+  if (version_compare(version_parse($opts['version']), '0.6.0', '<')) {
     system(INSTALL_PATH . 'bin/indexcontacts.sh');
   }
   

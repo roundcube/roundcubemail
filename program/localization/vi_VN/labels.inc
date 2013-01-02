@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kenny Tran <kennethanh@gmail.com>                             |
+ | Author: Tran Khai Hoang <hanhvansu@yahoo.com>                         |
  +-----------------------------------------------------------------------+
 */
 
@@ -41,8 +41,8 @@ $labels['priority'] = 'Độ ưu tiên';
 $labels['organization'] = 'Tổ chức';
 $labels['readstatus'] = 'Trạng thái của thư';
 $labels['listoptions'] = 'Danh sách lựa chọn';
-$labels['mailboxlist'] = 'Giữ liệu';
-$labels['folders'] = 'Giữ liệu';
+$labels['mailboxlist'] = 'Các thư mục';
+$labels['folders'] = 'Các thư mục';
 $labels['messagesfromto'] = 'Thư từ $from đến $to trong tổng số $count';
 $labels['threadsfromto'] = 'Dòng thư từ $from đến $to của tổng số $count';
 $labels['messagenrof'] = 'Thư thứ $nr trong tổng số $count';
@@ -393,8 +393,7 @@ $labels['previewpanemarkread'] = 'Đánh dẫu thư xem thử là đã đọc';
 $labels['afternseconds'] = 'sau $n giây';
 $labels['reqmdn'] = 'Luôn luôn yêu cầu biên nhận khi gửi thư';
 $labels['reqdsn'] = 'Luôn yêu cầu xác nhận trạng thái thư cho người gửi';
-$labels['replysamefolder'] = 'Đưa các thư trả lời nhận được vào cùng giữ liệu của thư mà bạn đã trả lời';
-$labels['defaultaddressbook'] = 'Thêm thông tin liên lạc mới vào sổ địa chỉ đã chọn';
+$labels['replysamefolder'] = 'Đưa các thư phản hồi  vào cùng thư mục của thư đang trả lời';
 $labels['autocompletesingle'] = 'Bỏ qua địa chỉ email thay thế trong năng tự động gõ';
 $labels['listnamedisplay'] = 'Hiện thị danh sách liên lạc như là';
 $labels['spellcheckbeforesend'] = 'Kiểm tra chính tả trước khi gửi thư';
@@ -408,24 +407,24 @@ $labels['forwardmode'] = 'Chuyển tiếp thư';
 $labels['inline'] = 'nội tuyến';
 $labels['asattachment'] = 'dạng gửi kèm';
 $labels['folder'] = 'Thư mục';
-$labels['foldername'] = 'Tên giữ liệu';
+$labels['foldername'] = 'Tên thư mục';
 $labels['subscribed'] = 'Đã đăng ký';
 $labels['messagecount'] = 'Các tin nhắn';
 $labels['create'] = 'Tạo';
-$labels['createfolder'] = 'Tạo giữ liệu mới';
-$labels['managefolders'] = 'Quản lý giữ liệu';
-$labels['specialfolders'] = 'Giữ liệu đặc biệt';
+$labels['createfolder'] = 'Tạo thư mục mới';
+$labels['managefolders'] = 'Quản lý các thư mục';
+$labels['specialfolders'] = 'Thư mục đặc biệt';
 $labels['properties'] = 'Các thuộc tính';
-$labels['folderproperties'] = 'Thuộc tính giữ liệu';
-$labels['parentfolder'] = 'Giữ liệu gốc';
+$labels['folderproperties'] = 'Thuộc tính thư mục';
+$labels['parentfolder'] = 'Thư mục cha';
 $labels['location'] = 'Địa điểm';
 $labels['info'] = 'Thông tin';
-$labels['getfoldersize'] = 'Nhấp chuột để xem kích thước giữ liệu';
+$labels['getfoldersize'] = 'Nhấp chuột để xem kích thước thư mục';
 $labels['changesubscription'] = 'Nhấp chuột để đổi cách đóng góp';
-$labels['foldertype'] = 'Kiểu giữ liệu';
-$labels['personalfolder'] = 'Giữ liệu cá nhân';
-$labels['otherfolder'] = 'Các giữ liệu khác của người dùng';
-$labels['sharedfolder'] = 'Giữ liệu chung';
+$labels['foldertype'] = 'Kiểu thư mục';
+$labels['personalfolder'] = 'Thư mục cá nhân';
+$labels['otherfolder'] = 'Thư mục khác của Người dùng';
+$labels['sharedfolder'] = 'Thư mục công khai';
 $labels['sortby'] = 'Soạn theo';
 $labels['sortasc'] = 'Soạn tăng dần';
 $labels['sortdesc'] = 'Soạn giảm dần';

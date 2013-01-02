@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Test class to test html2text class
+ * Test class to test rcube_html2text class
  *
  * @package Tests
  */
-class HtmlToText extends PHPUnit_Framework_TestCase
+class rc_html2text extends PHPUnit_Framework_TestCase
 {
 
     function data_html2text()
@@ -49,7 +49,7 @@ class HtmlToText extends PHPUnit_Framework_TestCase
      */
     function test_html2text($title, $in, $out)
     {
-        $ht = new html2text(null, false, false);
+        $ht = new rcube_html2text(null, false, false);
 
         $ht->set_html($in);
         $res = $ht->get_text();

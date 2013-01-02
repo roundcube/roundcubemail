@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_storage.php                                     |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2012, Kolab Systems AG                                  |
@@ -14,13 +12,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Mail Storage Engine                                                 |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Abstract class for accessing mail messages storage server
@@ -57,6 +53,7 @@ abstract class rcube_storage
     protected $all_headers = array(
         'IN-REPLY-TO',
         'BCC',
+        'SENDER',
         'MESSAGE-ID',
         'CONTENT-TRANSFER-ENCODING',
         'REFERENCES',
@@ -65,6 +62,7 @@ abstract class rcube_storage
         'MAIL-REPLY-TO',
         'RETURN-PATH',
         'DELIVERED-TO',
+        'ENVELOPE-TO',
     );
 
     const UNKNOWN       = 0;
@@ -353,7 +351,7 @@ abstract class rcube_storage
      * Get messages count for a specific folder.
      *
      * @param  string  $folder  Folder name
-     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
      * @param  boolean $force   Force reading from server and update cache
      * @param  boolean $status  Enables storing folder status info (max UID/count),
      *                          required for folder_status()

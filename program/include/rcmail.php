@@ -934,15 +934,26 @@ class rcmail extends rcube
      * @param object $message    Reference to Mail_MIME object
      * @param string $from       Sender address string
      * @param array  $mailto     Array of recipient address strings
-     * @param array  $smtp_error SMTP error array (reference)
+     * @param array  $error      SMTP error array (reference)
      * @param string $body_file  Location of file with saved message body (reference),
      *                           used when delay_file_io is enabled
-     * @param array  $smtp_opts  SMTP options (e.g. DSN request)
+     * @param array  $options    SMTP options (e.g. DSN request)
      *
      * @return boolean Send status.
      */
-    public function deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file = null, $smtp_opts = null)
+    public function deliver_message(&$message, $from, $mailto, &$error, &$body_file = null, $options = null)
     {
+        $plugin = $this->plugins->exec_hook('message_before_send', array(
+            'message' => $message,
+            'from'    => $from,
+            'mailto'  => $mailto,
+            'options' => $options,
+        ));
+
+        $from    = $plugin['from'];
+        $mailto  = $plugin['mailto'];
+        $options = $plugin['options'];
+        $message = $plugin['message'];
         $headers = $message->headers();
 
         // send thru SMTP server using custom SMTP library
@@ -985,15 +996,15 @@ class rcmail extends rcube
                 $this->smtp_init(true);
             }
 
-            $sent = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $smtp_opts);
-            $smtp_response = $this->smtp->get_response();
-            $smtp_error = $this->smtp->get_error();
+            $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
+            $response = $this->smtp->get_response();
+            $error    = $this->smtp->get_error();
 
             // log error
             if (!$sent) {
                 self::raise_error(array('code' => 800, 'type' => 'smtp',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
+                    'message' => "SMTP error: ".join("\n", $response)), TRUE, FALSE);
             }
         }
         // send mail using PHP's mail() function
@@ -1061,7 +1072,7 @@ class rcmail extends rcube
                     $this->user->get_username(),
                     $_SERVER['REMOTE_ADDR'],
                     $mailto,
-                    !empty($smtp_response) ? join('; ', $smtp_response) : ''));
+                    !empty($response) ? join('; ', $response) : ''));
             }
         }
 

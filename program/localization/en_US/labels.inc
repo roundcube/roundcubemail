@@ -2,18 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | language/en_US/labels.inc                                             |
+ | localization/<lang>/labels.inc                                        |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
 $labels = array();
@@ -41,6 +41,7 @@ $labels['junk']   = 'Junk';
 // message listing
 $labels['subject'] = 'Subject';
 $labels['from']    = 'From';
+$labels['sender']  = 'Sender';
 $labels['to']      = 'To';
 $labels['cc']      = 'Cc';
 $labels['bcc']     = 'Bcc';
@@ -199,6 +200,7 @@ $labels['quicksearch']  = 'Quick search';
 $labels['resetsearch']  = 'Reset search';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
+$labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -376,6 +378,8 @@ $labels['edititem'] = 'Edit item';
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Message';
+$labels['messagepart'] = 'Part';
+$labels['digitalsig'] = 'Digital Signature';
 $labels['dateformat'] = 'Date format';
 $labels['timeformat'] = 'Time format';
 $labels['prettydate'] = 'Pretty dates';

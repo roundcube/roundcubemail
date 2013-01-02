@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_mime.php                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -14,13 +12,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   MIME message parsing utilities                                      |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Class for parsing MIME messages
@@ -717,6 +713,7 @@ class rcube_mime
             $file_paths[] = $mime_types;
 
         // try common locations
+        $file_paths[] = '/etc/mime.types';
         $file_paths[] = '/etc/httpd/mime.types';
         $file_paths[] = '/etc/httpd2/mime.types';
         $file_paths[] = '/etc/apache/mime.types';
@@ -749,7 +746,7 @@ class rcube_mime
         // fallback to some well-known types most important for daily emails
         if (empty($mime_types)) {
             $mime_extensions = @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
-            $mime_extensions += array('gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpg', 'jpeg' => 'image/jpeg', 'tif' => 'image/tiff');
+            $mime_extensions += array('gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'tif' => 'image/tiff');
 
             foreach ($mime_extensions as $ext => $mime)
                 $mime_types[$mime][] = $ext;

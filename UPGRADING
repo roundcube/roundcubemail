@@ -20,7 +20,7 @@ target location and check and update the configuration and database schema.
 After all is done, the temporary folder with the new Roundcube files can be 
 removed again.
 
-Please also see Post-Upgrade Activities section.
+WARNING: See Post-Upgrade Activities section below.
 
 
 Updating manually
@@ -53,3 +53,4 @@ Post-Upgrade Activities
 3. When upgrading from version older than 0.6-beta you should make sure
    your folder settings contain namespace prefix. For example Courier users
    should add INBOX. prefix to folder names in main configuration file.
+4. Check system requirements in INSTALL file.

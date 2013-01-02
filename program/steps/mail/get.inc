@@ -47,13 +47,7 @@ check_storage_status();
 // show part page
 if (!empty($_GET['_frame'])) {
   if (($part_id = get_input_value('_part', RCUBE_INPUT_GPC)) && ($part = $MESSAGE->mime_parts[$part_id])) {
-    $filename = $part->filename;
-    if (empty($filename) && $part->mimetype == 'text/html') {
-      $filename = rcube_label('htmlmessage');
-    }
-    if (!empty($filename)) {
-      $OUTPUT->set_pagetitle($filename);
-    }
+    $OUTPUT->set_pagetitle(rcmail_attachment_name($part));
   }
 
   $OUTPUT->send('messagepart');
@@ -166,12 +160,10 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
               'vars' => array('expected' => "$mimetype (.$file_extension)", 'detected' => "$real_mimetype (.$extensions[0])")
             )) .
             html::p('buttons',
-              html::tag('button', null,
-                html::a(array(
-                  'href' => $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))),
-                  'style' => 'text-decoration:none;color:#000',
-                ), rcube_label('showanyway')))
-            ))
+              html::tag('button',
+                array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"),
+                rcube_label('showanyway')))
+            )
         )));
         exit;
       }
@@ -237,18 +229,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       // don't kill the connection if download takes more than 30 sec.
       @set_time_limit(0);
 
-      if ($part->filename) {
-        $filename = $part->filename;
-      }
-      else if ($part->mimetype == 'text/html') {
-        $filename = rcube_label('htmlmessage');
-      }
-      else {
-        $ext = '.' . ($mimetype == 'text/plain' ? 'txt' : $ctype_secondary);
-        $filename = ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . $ext;
-      }
-
-      $filename = preg_replace('[\r\n]', '', $filename);
+      $filename = rcmail_attachment_name($part);
 
       if ($browser->ie && $browser->ver < 7)
         $filename = rawurlencode(abbreviate_string($filename, 55));
@@ -258,6 +239,18 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         $filename = addcslashes($filename, '"');
 
       $disposition = !empty($plugin['download']) ? 'attachment' : 'inline';
+
+      // Workaround for nasty IE bug (#1488844)
+      // If Content-Disposition header contains string "attachment" e.g. in filename
+      // IE handles data as attachment not inline
+      if ($disposition == 'inline' && $browser->ie && $browser->ver < 9) {
+        $filename = str_ireplace('attachment', 'attach', $filename);
+      }
+
+      // add filename extension if missing
+      if (!pathinfo($filename, PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
+        $filename .= '.' . $extensions[0];
+      }
 
       header("Content-Disposition: $disposition; filename=\"$filename\"");
 
@@ -302,7 +295,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       // send part as-it-is
       else {
         if ($part->body) {
-          header("Content-Length: " . sizeof($part->body));
+          header("Content-Length: " . strlen($part->body));
           echo $part->body;
           $sent = true;
         }

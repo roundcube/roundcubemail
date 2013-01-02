@@ -9,7 +9,7 @@
  | Licensed under the GNU General Public License                         |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dennis Baudys                                                 |
+ | Author: Arnd <bla@espenfeld.de>                                       |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $messages['invalidhost'] = 'Ungültiger Server Name';
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner.';
 $messages['loggedout'] = 'Sie haben Ihre Sitzung erfolgreich beendet. Auf Wiedersehen!';
 $messages['mailboxempty'] = 'Mailbox ist leer.';
+$messages['refreshing'] = 'Aktualisieren …';
 $messages['loading'] = 'Wird geladen ...';
 $messages['uploading'] = 'Datei wird hochgeladen...';
 $messages['uploadingmany'] = 'Dateien werden hochgeladen...';
@@ -117,6 +118,7 @@ $messages['contactaddedtogroup'] = 'Kontakte wurden dieser Gruppe hinzugefügt.'
 $messages['contactremovedfromgroup'] = 'Kontakte wurden aus dieser Gruppe entfernt.';
 $messages['nogroupassignmentschanged'] = 'Es wurden keine Gruppenzuordnungen geändert.';
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
+$messages['importformaterror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist keine gültige Importdatei.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert.</b>';
 $messages['importconfirmskipped'] = '<b>$skipped bestehende Einträge wurden übersprungen.</b>';
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';
@@ -158,4 +160,6 @@ $messages['invalidimageformat'] = 'Kein gültiges Bildformat.';
 $messages['mispellingsfound'] = 'Es wurden noch Rechtschreibfehler in der Nachricht gefunden.';
 $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben. Keine Berechtigung.';
 $messages['messagetoobig'] = 'Die Nachricht ist zu gross und kann nicht verarbeitet werden.';
+$messages['attachmentvalidationerror'] = 'WARNUNG! Dieser Anhang ist verdächtig, weil sein Typ nicht dem in der Nachricht deklarierten Typ entspricht. Wenn Sie dem Sender nicht trauen, sollten Sie den Anhang nicht öffnen, weil er schadhaften Inhalte beinhalten könnte.<br/><br/><em>Erwartet: $expected; gefunden: $detected</em>';
+$messages['noscriptwarning'] = 'Warnung: Dieser Webmail-Service erfordert Javascript. Um ihn zu benutzten aktivieren Sie Javascript in ihren Browser-Einstellungen.';
 
