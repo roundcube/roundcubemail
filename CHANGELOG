@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
 - Add option to use envelope From address for MDN responses (#1488880)
 - Add possibility to search in message body only (#1488770)
 - Support "multipart/relative" as an alias for "multipart/related" type (#1488886)
