@@ -612,6 +612,17 @@ a.iconlink.upload {
 	transition: top 0.3s ease-in-out;
 }
 
+.extwin #topline,
+.extwin #topline:hover {
+	position: static;
+	top: 0px;
+	height: 18px;
+	width: auto;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	opacity: 0.999;
+}
+
 .minimal #topline a.button-logout {
 	display: none;
 }
@@ -790,6 +801,14 @@ a.iconlink.upload {
 	bottom: 20px;
 }
 
+.minimal #mainscreen {
+	top: 62px;
+}
+
+.minimal #mainscreen.offset {
+	top: 102px;
+}
+
 .extwin #mainscreen {
 	top: 40px;
 }
@@ -800,14 +819,6 @@ a.iconlink.upload {
 
 #mainscreen .offset {
 	margin-top: 42px;
-}
-
-.minimal #mainscreen {
-	top: 62px;
-}
-
-.minimal #mainscreen.offset {
-	top: 102px;
 }
 
 .uibox {
