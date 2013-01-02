@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                    |
+ | plugins/acl/localization/<lang>.inc                                   |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
