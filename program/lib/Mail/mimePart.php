@@ -48,7 +48,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   1.8.5
+ * @version   Release: 1.8.7
  * @link      http://pear.php.net/package/Mail_mime
  */
 
@@ -70,7 +70,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   Release: 1.8.5
+ * @version   Release: 1.8.7
  * @link      http://pear.php.net/package/Mail_mime
  */
 class Mail_mimePart
@@ -315,7 +315,7 @@ class Mail_mimePart
             for ($i = 0; $i < count($this->_subparts); $i++) {
                 $encoded['body'] .= '--' . $boundary . $eol;
                 $tmp = $this->_subparts[$i]->encode();
-                if (PEAR::isError($tmp)) {
+                if ($this->_isError($tmp)) {
                     return $tmp;
                 }
                 foreach ($tmp['headers'] as $key => $value) {
@@ -338,7 +338,7 @@ class Mail_mimePart
                 @ini_set('magic_quotes_runtime', $magic_quote_setting);
             }
 
-            if (PEAR::isError($body)) {
+            if ($this->_isError($body)) {
                 return $body;
             }
             $encoded['body'] = $body;
@@ -390,7 +390,7 @@ class Mail_mimePart
             @ini_set('magic_quotes_runtime', $magic_quote_setting);
         }
 
-        return PEAR::isError($res) ? $res : $this->_headers;
+        return $this->_isError($res) ? $res : $this->_headers;
     }
 
     /**
@@ -425,7 +425,7 @@ class Mail_mimePart
             for ($i = 0; $i < count($this->_subparts); $i++) {
                 fwrite($fh, $f_eol . '--' . $boundary . $eol);
                 $res = $this->_subparts[$i]->_encodePartToFile($fh);
-                if (PEAR::isError($res)) {
+                if ($this->_isError($res)) {
                     return $res;
                 }
                 $f_eol = $eol;
@@ -440,7 +440,7 @@ class Mail_mimePart
             $res = $this->_getEncodedDataFromFile(
                 $this->_body_file, $this->_encoding, $fh
             );
-            if (PEAR::isError($res)) {
+            if ($this->_isError($res)) {
                 return $res;
             }
         }
@@ -648,7 +648,7 @@ class Mail_mimePart
     }
 
     /**
-     * Encodes the parameter of a header.
+     * Encodes the paramater of a header.
      *
      * @param string $name      The name of the header-parameter
      * @param string $value     The value of the paramter
@@ -815,6 +815,7 @@ class Mail_mimePart
             'from', 'to', 'cc', 'bcc', 'sender', 'reply-to',
             'resent-from', 'resent-to', 'resent-cc', 'resent-bcc',
             'resent-sender', 'resent-reply-to',
+            'mail-reply-to', 'mail-followup-to',
             'return-receipt-to', 'disposition-notification-to',
         );
         $other_headers = array(
@@ -1223,6 +1224,24 @@ class Mail_mimePart
     function _encodeReplaceCallback($matches)
     {
         return sprintf('%%%02X', ord($matches[1]));
+    }
+
+    /**
+     * PEAR::isError wrapper
+     *
+     * @param mixed $data Object
+     *
+     * @return bool True if object is an instance of PEAR_Error
+     * @access private
+     */
+    function _isError($data)
+    {
+        // PEAR::isError() is not PHP 5.4 compatible (see Bug #19473)
+        if (is_object($data) && is_a($data, 'PEAR_Error')) {
+            return true;
+        }
+
+        return false;
     }
 
 } // End of class
