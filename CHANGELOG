@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to use envelope From address for MDN responses (#1488880)
 - Add possibility to search in message body only (#1488770)
 - Support "multipart/relative" as an alias for "multipart/related" type (#1488886)
 - Display PGP/MIME signature attachments as "Digital Signature" (#1488570)

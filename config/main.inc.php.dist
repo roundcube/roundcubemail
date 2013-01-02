@@ -353,6 +353,10 @@ $rcmail_config['line_length'] = 72;
 // send plaintext messages as format=flowed
 $rcmail_config['send_format_flowed'] = true;
 
+// According to RFC2298, return receipt envelope sender address must be empty.
+// If this option is true, Roundcube will use user's identity as envelope sender for MDN responses.
+$rcmail_config['mdn_use_from'] = false;
+
 // Set identities access level:
 // 0 - many identities with possibility to edit all params
 // 1 - many identities with possibility to edit all params but not email address

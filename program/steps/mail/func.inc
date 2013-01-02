@@ -1687,6 +1687,9 @@ function rcmail_send_mdn($message, &$smtp_error)
     if ($agent = $RCMAIL->config->get('useragent'))
       $headers['User-Agent'] = $agent;
 
+    if ($RCMAIL->config->get('mdn_use_from'))
+      $options['mdn_use_from'] = true;
+
     $body = rcube_label("yourmessage") . "\r\n\r\n" .
       "\t" . rcube_label("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
       "\t" . rcube_label("subject") . ': ' . $message->subject . "\r\n" .
@@ -1708,7 +1711,7 @@ function rcmail_send_mdn($message, &$smtp_error)
     $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
-    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file);
+    $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
 
     if ($sent)
     {

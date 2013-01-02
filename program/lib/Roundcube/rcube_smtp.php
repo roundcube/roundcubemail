@@ -227,7 +227,8 @@ class rcube_smtp
         }
 
         // RFC2298.3: remove envelope sender address
-        if (preg_match('/Content-Type: multipart\/report/', $text_headers)
+        if (empty($opts['mdn_use_from'])
+            && preg_match('/Content-Type: multipart\/report/', $text_headers)
             && preg_match('/report-type=disposition-notification/', $text_headers)
         ) {
             $from = '';
