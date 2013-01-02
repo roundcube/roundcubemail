@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/de_CH/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                            |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
  | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Verwalte eingehende Nachrichtenfilter';
 $labels['filtername'] = 'Filtername';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Gelöscht';
 $labels['flaganswered'] = 'Beantwortet';
 $labels['flagflagged'] = 'Markiert';
 $labels['flagdraft'] = 'Entwurf';
+$labels['setvariable'] = 'Setze Variable';
+$labels['setvarname'] = 'Variablenname:';
+$labels['setvarvalue'] = 'Variablenwert:';
+$labels['setvarmodifiers'] = 'Umwandler:';
+$labels['varlower'] = 'Kleinschreibung';
+$labels['varupper'] = 'Grossschreibung';
+$labels['varlowerfirst'] = 'Erster Buchstabe klein';
+$labels['varupperfirst'] = 'Erster Buchstabe gross';
+$labels['varquotewildcard'] = 'Sonderzeichen auszeichnen';
+$labels['varlength'] = 'Länge';
+$labels['notify'] = 'Mitteilung senden';
+$labels['notifyaddress'] = 'Empfängeradresse:';
+$labels['notifybody'] = 'Mitteilungstext:';
+$labels['notifysubject'] = 'Mitteilungsbetreff:';
+$labels['notifyfrom'] = 'Absender:';
+$labels['notifyimportance'] = 'Wichtigkeit:';
+$labels['notifyimportancelow'] = 'tief';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'hoch';
 $labels['filtercreate'] = 'Filter erstellen';
 $labels['usedata'] = 'Die folgenden Daten im Filter benutzen:';
 $labels['nextstep'] = 'Nächster Schritt';
@@ -115,35 +137,38 @@ $labels['default'] = 'Vorgabewert';
 $labels['octet'] = 'strikt (Oktet)';
 $labels['asciicasemap'] = 'Gross-/Kleinschreibung ignorieren';
 $labels['asciinumeric'] = 'numerisch (ascii-numeric)';
-$labels['filterunknownerror'] = 'Unbekannter Serverfehler';
-$labels['filterconnerror'] = 'Kann nicht zum Sieve-Server verbinden';
-$labels['filterdeleteerror'] = 'Fehler beim des löschen  Filters. Serverfehler';
-$labels['filterdeleted'] = 'Filter erfolgreich gelöscht';
-$labels['filtersaved'] = 'Filter gespeichert';
-$labels['filtersaveerror'] = 'Serverfehler, konnte den Filter nicht speichern.';
-$labels['filterdeleteconfirm'] = 'Möchten Sie den Filter löschen ?';
-$labels['ruledeleteconfirm'] = 'Sicher, dass Sie die Regel löschen wollen?';
-$labels['actiondeleteconfirm'] = 'Sicher, dass Sie die ausgewaehlte Aktion löschen wollen?';
-$labels['forbiddenchars'] = 'Unerlaubte Zeichen im Feld';
-$labels['cannotbeempty'] = 'Feld darf nicht leer sein';
-$labels['ruleexist'] = 'Ein Filter mit dem angegebenen Namen existiert bereits.';
-$labels['setactivateerror'] = 'Filtersatz kann nicht aktiviert werden. Serverfehler.';
-$labels['setdeactivateerror'] = 'Filtersatz kann nicht deaktiviert werden. Serverfehler.';
-$labels['setdeleteerror'] = 'Filtersatz kann nicht gelöscht werden. Serverfehler.';
-$labels['setactivated'] = 'Filtersatz erfolgreich aktiviert.';
-$labels['setdeactivated'] = 'Filtersatz erfolgreich deaktiviert.';
-$labels['setdeleted'] = 'Filtersatz erfolgreich gelöscht.';
-$labels['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
-$labels['setcreateerror'] = 'Filtersatz kann nicht erstellt werden. Serverfehler.';
-$labels['setcreated'] = 'Filter erfolgreich erstellt.';
-$labels['activateerror'] = 'Filter kann nicht aktiviert werden. Serverfehler.';
-$labels['deactivateerror'] = 'Filter kann nicht deaktiviert werden. Serverfehler.';
-$labels['activated'] = 'Filter erfolgreich deaktiviert.';
-$labels['deactivated'] = 'Filter erfolgreich aktiviert.';
-$labels['moved'] = 'Filter erfolgreich verschoben.';
-$labels['moveerror'] = 'Filter kann nicht verschoben werden. Serverfehler.';
-$labels['nametoolong'] = 'Filtersatz kann nicht erstellt werden. Name zu lang.';
-$labels['namereserved'] = 'Reservierter Name.';
-$labels['setexist'] = 'Filtersatz existiert bereits.';
-$labels['nodata'] = 'Mindestens eine Position muss ausgewählt werden!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Unbekannter Serverfehler';
+$messages['filterconnerror'] = 'Kann nicht zum Sieve-Server verbinden';
+$messages['filterdeleteerror'] = 'Fehler beim des löschen  Filters. Serverfehler';
+$messages['filterdeleted'] = 'Filter erfolgreich gelöscht';
+$messages['filtersaved'] = 'Filter gespeichert';
+$messages['filtersaveerror'] = 'Serverfehler, konnte den Filter nicht speichern.';
+$messages['filterdeleteconfirm'] = 'Möchten Sie den Filter löschen ?';
+$messages['ruledeleteconfirm'] = 'Sicher, dass Sie die Regel löschen wollen?';
+$messages['actiondeleteconfirm'] = 'Sicher, dass Sie die ausgewaehlte Aktion löschen wollen?';
+$messages['forbiddenchars'] = 'Unerlaubte Zeichen im Feld';
+$messages['cannotbeempty'] = 'Feld darf nicht leer sein';
+$messages['ruleexist'] = 'Ein Filter mit dem angegebenen Namen existiert bereits.';
+$messages['setactivateerror'] = 'Filtersatz kann nicht aktiviert werden. Serverfehler.';
+$messages['setdeactivateerror'] = 'Filtersatz kann nicht deaktiviert werden. Serverfehler.';
+$messages['setdeleteerror'] = 'Filtersatz kann nicht gelöscht werden. Serverfehler.';
+$messages['setactivated'] = 'Filtersatz erfolgreich aktiviert.';
+$messages['setdeactivated'] = 'Filtersatz erfolgreich deaktiviert.';
+$messages['setdeleted'] = 'Filtersatz erfolgreich gelöscht.';
+$messages['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
+$messages['setcreateerror'] = 'Filtersatz kann nicht erstellt werden. Serverfehler.';
+$messages['setcreated'] = 'Filter erfolgreich erstellt.';
+$messages['activateerror'] = 'Filter kann nicht aktiviert werden. Serverfehler.';
+$messages['deactivateerror'] = 'Filter kann nicht deaktiviert werden. Serverfehler.';
+$messages['deactivated'] = 'Filter erfolgreich aktiviert.';
+$messages['activated'] = 'Filter erfolgreich deaktiviert.';
+$messages['moved'] = 'Filter erfolgreich verschoben.';
+$messages['moveerror'] = 'Filter kann nicht verschoben werden. Serverfehler.';
+$messages['nametoolong'] = 'Filtersatz kann nicht erstellt werden. Name zu lang.';
+$messages['namereserved'] = 'Reservierter Name.';
+$messages['setexist'] = 'Filtersatz existiert bereits.';
+$messages['nodata'] = 'Mindestens eine Position muss ausgewählt werden!';
+
+?>
