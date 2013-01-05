@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of escaped separator in vCard file (#1488896)
 - Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
 - Add option to use envelope From address for MDN responses (#1488880)
 - Add possibility to search in message body only (#1488770)

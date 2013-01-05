@@ -55,12 +55,14 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
      */
     function test_parse_four()
     {
-        $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\;;first\\\\;middle;;\nFN:test\nEND:VCARD";
+        $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\;;first\\\\;middle\\\\\\;\\\\;prefix;\nFN:test\nEND:VCARD";
         $vcard = new rcube_vcard($vcard, null);
+        $vcard = $vcard->get_assoc();
 
-        $this->assertEquals("last;", $vcard->surname, "Decode backslash character");
-        $this->assertEquals("first\\", $vcard->firstname, "Decode backslash character");
-        $this->assertEquals("middle", $vcard->middlename, "Decode backslash character");
+        $this->assertEquals("last;", $vcard['surname'], "Decode backslash character");
+        $this->assertEquals("first\\", $vcard['firstname'], "Decode backslash character");
+        $this->assertEquals("middle\\;\\", $vcard['middlename'], "Decode backslash character");
+        $this->assertEquals("prefix", $vcard['prefix'], "Decode backslash character");
     }
 
     function test_import()
