@@ -50,6 +50,19 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
     }
 
+    /**
+     * Backslash escaping test (#1488896)
+     */
+    function test_parse_four()
+    {
+        $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\;;first\\\\;middle;;\nFN:test\nEND:VCARD";
+        $vcard = new rcube_vcard($vcard, null);
+
+        $this->assertEquals("last;", $vcard->surname, "Decode backslash character");
+        $this->assertEquals("first\\", $vcard->firstname, "Decode backslash character");
+        $this->assertEquals("middle", $vcard->middlename, "Decode backslash character");
+    }
+
     function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));
