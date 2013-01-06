@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve charset detection by prioritizing charset according to user language (#1485669)
 - Fix handling of escaped separator in vCard file (#1488896)
 - Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
 - Add option to use envelope From address for MDN responses (#1488880)
