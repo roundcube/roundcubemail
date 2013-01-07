@@ -45,6 +45,7 @@ class rcube_contacts extends rcube_addressbook
     private $fulltext_cols = array('name', 'firstname', 'surname', 'middlename', 'nickname',
       'jobtitle', 'organization', 'department', 'maidenname', 'email', 'phone',
       'address', 'street', 'locality', 'zipcode', 'region', 'country', 'website', 'im', 'notes');
+    protected $date_types = array('birthday', 'anniversary');
 
     // public properties
     public $primary_key = 'contact_id';
@@ -401,32 +402,16 @@ class rcube_contacts extends rcube_addressbook
             for ($i=0; $i<$pages; $i++) {
                 $this->list_records(null, $i, true);
                 while ($row = $this->result->next()) {
-                    $id = $row[$this->primary_key];
+                    $id    = $row[$this->primary_key];
                     $found = array();
                     foreach (preg_grep($regexp, array_keys($row)) as $col) {
                         $pos     = strpos($col, ':');
                         $colname = $pos ? substr($col, 0, $pos) : $col;
                         $search  = $post_search[$colname];
                         foreach ((array)$row[$col] as $value) {
-                            // composite field, e.g. address
-                            foreach ((array)$value as $val) {
-                                $val = mb_strtolower($val);
-                                switch ($mode) {
-                                case 1:
-                                    $got = ($val == $search);
-                                    break;
-                                case 2:
-                                    $got = ($search == substr($val, 0, strlen($search)));
-                                    break;
-                                default:
-                                    $got = (strpos($val, $search) !== false);
-                                    break;
-                                }
-
-                                if ($got) {
-                                    $found[$colname] = true;
-                                    break 2;
-                                }
+                            if ($this->compare_search_value($colname, $value, $search, $mode)) {
+                                $found[$colname] = true;
+                                break 2;
                             }
                         }
                     }

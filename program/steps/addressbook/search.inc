@@ -300,8 +300,12 @@ function rcmail_contact_search_form($attrib)
             $label    = isset($colprop['label']) ? $colprop['label'] : rcube_label($col);
             $category = $colprop['category'] ? $colprop['category'] : 'other';
 
-            if ($ftype == 'text')
+            // load jquery UI datepicker for date fields 
+            if ($colprop['type'] == 'date')
+                $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
+            else if ($ftype == 'text')
                 $colprop['size'] = $i_size;
+
 
             $content  = html::div('row', html::div('contactfieldlabel label', Q($label))
                 . html::div('contactfieldcontent', rcmail_get_edit_field('search_'.$col, '', $colprop, $ftype)));

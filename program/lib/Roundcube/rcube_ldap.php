@@ -794,27 +794,14 @@ class rcube_ldap extends rcube_addressbook
             $this->_debug("S: ".ldap_count_entries($this->conn, $this->ldap_result)." record(s)");
 
             // get all entries of this page and post-filter those that really match the query
-            $search = mb_strtolower($value);
+            $search  = mb_strtolower($value);
             $entries = ldap_get_entries($this->conn, $this->ldap_result);
 
             for ($i = 0; $i < $entries['count']; $i++) {
                 $rec = $this->_ldap2result($entries[$i]);
                 foreach ($fields as $f) {
                     foreach ((array)$rec[$f] as $val) {
-                        $val = mb_strtolower($val);
-                        switch ($mode) {
-                        case 1:
-                            $got = ($val == $search);
-                            break;
-                        case 2:
-                            $got = ($search == substr($val, 0, strlen($search)));
-                            break;
-                        default:
-                            $got = (strpos($val, $search) !== false);
-                            break;
-                        }
-
-                        if ($got) {
+                        if ($this->compare_search_value($f, $val, $search, $mode)) {
                             $this->result->add($rec);
                             $this->result->count++;
                             break 2;

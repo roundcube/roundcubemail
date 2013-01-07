@@ -46,6 +46,7 @@ abstract class rcube_addressbook
     public $sort_order = 'ASC';
     public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
 
+    protected $date_types = array();
     protected $error;
 
     /**
@@ -221,7 +222,6 @@ abstract class rcube_addressbook
 
         return true;
     }
-
 
     /**
      * Create a new contact record
@@ -407,7 +407,6 @@ abstract class rcube_addressbook
         return array();
     }
 
-
     /**
      * Utility function to return all values of a certain data column
      * either as flat list or grouped by subtype
@@ -439,7 +438,6 @@ abstract class rcube_addressbook
 
         return $out;
     }
-
 
     /**
      * Normalize the given string for fulltext search.
@@ -488,7 +486,6 @@ abstract class rcube_addressbook
         return $fn;
     }
 
-
     /**
      * Compose the name to display in the contacts list for the given contact record.
      * This respects the settings parameter how to list conacts.
@@ -524,6 +521,51 @@ abstract class rcube_addressbook
             return $email;
 
         return $fn;
+    }
+
+    /**
+     * Compare search value with contact data
+     *
+     * @param string       $colname Data name
+     * @param string|array $value   Data value
+     * @param string       $search  Search value
+     * @param int          $mode    Search mode
+     *
+     * @return bool Comparision result
+     */
+    protected function compare_search_value($colname, $value, $search, $mode)
+    {
+        // The value is a date string, for date we'll
+        // use only strict comparison (mode = 1)
+        // @TODO: partial search, e.g. match only day and month
+        if (in_array($colname, $this->date_types)) {
+            return (($value = rcube_utils::strtotime($value))
+                && ($search = rcube_utils::strtotime($search))
+                && date('Ymd', $value) == date('Ymd', $search));
+        }
+
+        // composite field, e.g. address
+        foreach ((array)$value as $val) {
+            $val = mb_strtolower($val);
+            switch ($mode) {
+            case 1:
+                $got = ($val == $search);
+                break;
+
+            case 2:
+                $got = ($search == substr($val, 0, strlen($search)));
+                break;
+
+            default:
+                $got = (strpos($val, $search) !== false);
+            }
+
+            if ($got) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
