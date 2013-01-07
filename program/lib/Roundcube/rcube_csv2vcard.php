@@ -271,13 +271,7 @@ class rcube_csv2vcard
 
         // Parse file
         foreach (preg_split("/[\r\n]+/", $csv) as $i => $line) {
-            $line = trim($line);
-            if (empty($line)) {
-                continue;
-            }
-
-            $elements = rcube_utils::explode_quoted_string(',', $line);
-
+            $elements = $this->parse_line($line);
             if (empty($elements)) {
                 continue;
             }
@@ -302,6 +296,35 @@ class rcube_csv2vcard
     public function export()
     {
         return $this->vcards;
+    }
+
+    /**
+     * Parse CSV file line
+     */
+    protected function parse_line($line)
+    {
+        $line = trim($line);
+        if (empty($line)) {
+            return null;
+        }
+
+        $fields = rcube_utils::explode_quoted_string(',', $line);
+
+        // remove quotes if needed
+        if (!empty($fields)) {
+            foreach ($fields as $idx => $value) {
+                if (($len = strlen($value)) > 1 && $value[0] == '"' && $value[$len-1] == '"') {
+                    // remove surrounding quotes
+                    $value = substr($value, 1, -1);
+                    // replace doubled quotes inside the string with single quote
+                    $value = str_replace('""', '"', $value);
+
+                    $fields[$idx] = $value;
+                }
+            }
+        }
+
+        return $fields;
     }
 
     /**
