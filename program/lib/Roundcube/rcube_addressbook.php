@@ -538,7 +538,7 @@ abstract class rcube_addressbook
         // The value is a date string, for date we'll
         // use only strict comparison (mode = 1)
         // @TODO: partial search, e.g. match only day and month
-        if (in_array($colname, $this->date_fields)) {
+        if (in_array($colname, $this->date_cols)) {
             return (($value = rcube_utils::strtotime($value))
                 && ($search = rcube_utils::strtotime($search))
                 && date('Ymd', $value) == date('Ymd', $search));
