@@ -45,8 +45,8 @@ abstract class rcube_addressbook
     public $sort_col = 'name';
     public $sort_order = 'ASC';
     public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
+    public $date_cols = array();
 
-    protected $date_types = array();
     protected $error;
 
     /**
@@ -538,7 +538,7 @@ abstract class rcube_addressbook
         // The value is a date string, for date we'll
         // use only strict comparison (mode = 1)
         // @TODO: partial search, e.g. match only day and month
-        if (in_array($colname, $this->date_types)) {
+        if (in_array($colname, $this->date_fields)) {
             return (($value = rcube_utils::strtotime($value))
                 && ($search = rcube_utils::strtotime($search))
                 && date('Ymd', $value) == date('Ymd', $search));

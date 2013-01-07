@@ -45,7 +45,6 @@ class rcube_contacts extends rcube_addressbook
     private $fulltext_cols = array('name', 'firstname', 'surname', 'middlename', 'nickname',
       'jobtitle', 'organization', 'department', 'maidenname', 'email', 'phone',
       'address', 'street', 'locality', 'zipcode', 'region', 'country', 'website', 'im', 'notes');
-    protected $date_types = array('birthday', 'anniversary');
 
     // public properties
     public $primary_key = 'contact_id';
@@ -61,6 +60,7 @@ class rcube_contacts extends rcube_addressbook
       'jobtitle', 'organization', 'department', 'assistant', 'manager',
       'gender', 'maidenname', 'spouse', 'email', 'phone', 'address',
       'birthday', 'anniversary', 'website', 'im', 'notes', 'photo');
+    public $date_cols = array('birthday', 'anniversary');
 
     const SEPARATOR = ',';
 
