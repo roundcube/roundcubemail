@@ -390,6 +390,15 @@ class rcube_csv2vcard
             }
         }
 
+        // Convert address(es) to rcube_vcard data
+        foreach ($contact as $idx => $value) {
+            $name = explode(':', $idx);
+            if (in_array($name[0], array('street', 'locality', 'region', 'zipcode', 'country'))) {
+                $contact['address:'.$name[1]][$name[0]] = $value;
+                unset($contact[$idx]);
+            }
+        }
+
         // Create vcard object
         $vcard = new rcube_vcard();
         foreach ($contact as $name => $value) {
