@@ -35,6 +35,8 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
             array('(http://link.com)', '(<a href="http://link.com" target="_blank">http://link.com</a>)'),
             array('http://link.com?a(b)c', '<a href="http://link.com?a(b)c" target="_blank">http://link.com?a(b)c</a>'),
             array('http://link.com?(link)', '<a href="http://link.com?(link)" target="_blank">http://link.com?(link)</a>'),
+            array('http://<test>', 'http://<test>'),
+            array('http://', 'http://'),
         );
     }
 
