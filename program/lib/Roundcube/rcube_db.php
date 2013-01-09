@@ -402,6 +402,7 @@ class rcube_db
 
         // destroy reference to previous result, required for SQLite driver (#1488874)
         $this->last_result = null;
+        $this->db_error_msg = null;
 
         // send query
         $query = $this->dbh->query($query);
