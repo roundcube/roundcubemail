@@ -462,6 +462,7 @@ class rcmail_output_html extends rcmail_output
             if (is_readable($path)) {
                 $this->config->set('skin_path', $skin_path);
                 $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
+                $skin_dir = preg_replace('!^plugins/!', '', $skin_path);
                 break;
             }
             else {
@@ -643,6 +644,7 @@ class rcmail_output_html extends rcmail_output
     protected function file_callback($matches)
     {
         $file = $matches[3];
+        $file[0] = preg_replace('!^/this/!', '/', $file[0]);
 
         // correct absolute paths
         if ($file[0] == '/') {
