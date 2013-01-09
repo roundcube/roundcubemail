@@ -511,7 +511,7 @@ a.iconlink.upload {
 /*** basic page layout ***/
 
 #header {
-	overflow: hidden; /* Chrome bug #1488851 */
+	overflow-x: hidden; /* Chrome bug #1488851 */
 }
 
 #topline {
@@ -1503,7 +1503,7 @@ ul.proplist li {
 #quicksearchbar {
 	position: absolute;
 	right: 1px;
-	top: 0;
+	top: -5px;
 	width: 240px;
 }
 
