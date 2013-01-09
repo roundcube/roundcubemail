@@ -45,8 +45,27 @@ if (!file_exists($opts['dir'])) {
   exit(1);
 }
 
-// version is specified, use release-to-version map
-if ($opts['version']) {
+$RC = rcube::get_instance();
+$DB = rcube_db::factory($RC->config->get('db_dsnw'));
+
+// Connect to database
+$DB->db_connect('w');
+if (!$DB->is_connected()) {
+    echo "Error connecting to database: " . $DB->is_error() . ".\n";
+    exit(1);
+}
+
+// Read DB schema version from database
+$DB->query("SELECT " . $DB->quote_identifier('value')
+    ." FROM " . $DB->quote_identifier('system')
+    ." WHERE " . $DB->quote_identifier('name') ." = ?",
+    $opts['label'] . '-version');
+
+$row     = $DB->fetch_array();
+$version = $row[0];
+
+// no DB version, but release version is specified
+if (!$version && $opts['version']) {
     // Map old release version string to DB schema version
     // Note: This is for backward compat. only, do not need to be updated
     $map = array(
@@ -82,28 +101,7 @@ if ($opts['version']) {
     $version = $map[$opts['version']];
 }
 
-$RC = rcube::get_instance();
-$DB = rcube_db::factory($RC->config->get('db_dsnw'));
-
-// Connect to database
-$DB->db_connect('w');
-if (!$DB->is_connected()) {
-    echo "Error connecting to database: " . $DB->is_error() . ".\n";
-    exit(1);
-}
-
-// Read DB schema version from database
-if (empty($version)) {
-    @$DB->query("SELECT " . $DB->quote_identifier('value')
-        ." FROM " . $DB->quote_identifier('system')
-        ." WHERE name = ?",
-        $opts['label'] . '-version');
-
-    $row     = $DB->fetch_array();
-    $version = $row[0];
-}
-
-// Assume last version without the "system" table
+// Assume last version before the system table was added
 if (empty($version)) {
     $version = 2012080700;
 }
@@ -162,13 +160,13 @@ function update_db_schema($label, $version, $file)
     $DB->query("UPDATE " . $DB->quote_identifier('system')
         ." SET " . $DB->quote_identifier('value') . " = ?"
         ." WHERE " . $DB->quote_identifier('name') . " = ?",
-        $version, $opts['label'] . '-version');
+        $version, $label . '-version');
 
     if (!$DB->is_error() && !$DB->affected_rows()) {
         $DB->query("INSERT INTO " . $DB->quote_identifier('system')
             ." (" . $DB->quote_identifier('name') . ", " . $DB->quote_identifier('value') . ")"
             ." VALUES (?, ?)",
-            $opts['label'] . '-version', $version);
+            $label . '-version', $version);
     }
 
     return $DB->is_error();
