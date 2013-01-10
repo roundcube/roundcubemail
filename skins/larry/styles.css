@@ -513,6 +513,7 @@ a.iconlink.upload {
 }
 
 #topnav {
+	position: relative;
 	height: 46px;
 	margin-bottom: 10px;
 	padding: 0 0 0 10px;
