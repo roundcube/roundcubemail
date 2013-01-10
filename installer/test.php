@@ -1,3 +1,10 @@
+<?php
+
+if (!class_exists('rcube_install') || !is_object($RCI)) {
+    die("Not allowed! Please open installer/index.php instead.");
+}
+
+?>
 <form action="index.php?_step=3" method="post">
 
 <h3>Check config files</h3>
