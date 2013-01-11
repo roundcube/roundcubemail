@@ -1090,6 +1090,12 @@ function rcube_webmail()
         }
         break;
 
+      case 'export-selected':
+        if (this.contact_list.rowcount > 0) {
+          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') });
+        }
+        break;
+
       case 'upload-photo':
         this.upload_contact_photo(props || this.gui_objects.uploadform);
         break;
@@ -4115,6 +4121,7 @@ function rcube_webmail()
     // thend we can enable the group-remove-selected command
     this.enable_command('group-remove-selected', this.env.group && list.selection.length > 0);
     this.enable_command('compose', this.env.group || list.selection.length > 0);
+    this.enable_command('export-selected', list.selection.length > 0);
     this.enable_command('edit', id && writable);
     this.enable_command('delete', list.selection.length && writable);
 
@@ -6238,6 +6245,7 @@ function rcube_webmail()
           this.enable_command('compose', (uid && this.contact_list.rows[uid]));
           this.enable_command('delete', 'edit', writable);
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+          this.enable_command('export-selected', false);
         }
 
       case 'moveto':

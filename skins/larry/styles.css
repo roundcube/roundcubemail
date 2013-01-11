@@ -1680,6 +1680,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.export {
+	min-width: 74px;
 	background-position: center -1054px;
 }
 
@@ -1694,7 +1695,6 @@ ul.proplist li {
 .toolbar a.button.close {
 	background-position: 0 -1745px;
 }
-
 
 a.menuselector {
 	display: inline-block;
