@@ -124,6 +124,12 @@ class rcube_csv2vcard
         //'work_address_2'        => '',
         'work_country'          => 'country:work',
         'work_zipcode'          => 'zipcode:work',
+        'last'                  => 'surname',
+        'first'                 => 'firstname',
+        'work_city'             => 'locality:work',
+        'work_state'            => 'region:work',
+        'home_city_short'       => 'locality:home',
+        'home_state_short'      => 'region:home',
     );
 
     /**
