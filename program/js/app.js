@@ -3043,7 +3043,7 @@ function rcube_webmail()
       ac_props;
 
     // close compose step in opener
-    if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose') {
+    if (window.opener && !window.opener.closed && opener.rcmail && opener.rcmail.env.action == 'compose') {
       setTimeout(function(){ opener.history.back(); }, 100);
       this.env.opened_extwin = true;
     }
@@ -3713,9 +3713,10 @@ function rcube_webmail()
   {
     this.display_message(msg, type);
 
-    if (this.env.extwin && window.opener && opener.rcmail) {
+    if (this.env.extwin) {
       this.lock_form(this.gui_objects.messageform);
-      opener.rcmail.display_message(msg, type);
+      if (window.opener && !window.opener.closed && opener.rcmail)
+        opener.rcmail.display_message(msg, type);
       setTimeout(function(){ window.close() }, 1000);
     }
     else {
