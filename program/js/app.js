@@ -4227,12 +4227,10 @@ function rcube_webmail()
       target = win;
       this.show_contentframe(true);
 
-      // load dummy content
-      if (!cid) {
-        // unselect selected row(s)
+      // load dummy content, unselect selected row(s)
+      if (!cid)
         this.contact_list.clear_selection();
-        this.enable_command('delete', 'compose', false);
-      }
+      this.enable_command('delete', 'compose', 'export-selected', cid);
     }
     else if (framed)
       return false;
