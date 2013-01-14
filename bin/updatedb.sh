@@ -55,16 +55,18 @@ if (!$DB->is_connected()) {
     exit(1);
 }
 
-// Read DB schema version from database
-$DB->query("SELECT " . $DB->quote_identifier('value')
-    ." FROM " . $DB->quote_identifier('system')
-    ." WHERE " . $DB->quote_identifier('name') ." = ?",
-    $opts['label'] . '-version');
+// Read DB schema version from database (if system table exists)
+if (in_array('system', (array)$DB->list_tables())) {
+    $DB->query("SELECT " . $DB->quote_identifier('value')
+        ." FROM " . $DB->quote_identifier('system')
+        ." WHERE " . $DB->quote_identifier('name') ." = ?",
+        $opts['label'] . '-version');
 
-$row     = $DB->fetch_array();
-$version = $row[0];
+    $row     = $DB->fetch_array();
+    $version = $row[0];
+}
 
-// no DB version, but release version is specified
+// DB version not found, but release version is specified
 if (!$version && $opts['version']) {
     // Map old release version string to DB schema version
     // Note: This is for backward compat. only, do not need to be updated
