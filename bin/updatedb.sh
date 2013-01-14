@@ -159,6 +159,11 @@ function update_db_schema($label, $version, $file)
         }
     }
 
+    // escape if 'system' table does not exist
+    if ($version < 2013011000) {
+        return;
+    }
+
     $DB->query("UPDATE " . $DB->quote_identifier('system')
         ." SET " . $DB->quote_identifier('value') . " = ?"
         ." WHERE " . $DB->quote_identifier('name') . " = ?",
