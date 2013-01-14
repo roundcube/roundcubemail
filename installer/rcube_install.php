@@ -29,7 +29,6 @@ class rcube_install
   var $config = array();
   var $configured = false;
   var $last_error = null;
-  var $db_map = array('pgsql' => 'postgres', 'mysqli' => 'mysql', 'sqlsrv' => 'mssql');
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
   var $bool_config_props = array();
 
@@ -604,7 +603,7 @@ class rcube_install
    */
   function init_db($DB)
   {
-    $engine = isset($this->db_map[$DB->db_provider]) ? $this->db_map[$DB->db_provider] : $DB->db_provider;
+    $engine = $DB->db_provider;
 
     // read schema file from /SQL/*
     $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
