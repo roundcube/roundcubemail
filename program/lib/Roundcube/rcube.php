@@ -1258,6 +1258,22 @@ class rcube
             return $this->decrypt($_SESSION['password']);
         }
     }
+
+
+    /**
+     * Getter for logged user language code.
+     *
+     * @return string User language code
+     */
+    public function get_user_language()
+    {
+        if (is_object($this->user)) {
+            return $this->user->language;
+        }
+        else if (isset($_SESSION['language'])) {
+            return $_SESSION['language'];
+        }
+    }
 }
 
 

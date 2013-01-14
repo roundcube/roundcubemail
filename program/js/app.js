@@ -361,7 +361,7 @@ function rcube_webmail()
 
         if (this.gui_objects.editform) {
           this.enable_command('save', true);
-          if (this.env.action == 'add' || this.env.action == 'edit')
+          if (this.env.action == 'add' || this.env.action == 'edit' || this.env.action == 'search')
               this.init_contact_form();
         }
 
@@ -509,7 +509,7 @@ function rcube_webmail()
       return false;
 
     // let the browser handle this click (shift/ctrl usually opens the link in a new window/tab)
-    if ((obj && obj.href && String(obj.href).indexOf(location.href) < 0) && rcube_event.get_modifier(event)) {
+    if ((obj && obj.href && String(obj.href).indexOf('#') < 0) && rcube_event.get_modifier(event)) {
       return true;
     }
 
@@ -1087,6 +1087,12 @@ function rcube_webmail()
       case 'export':
         if (this.contact_list.rowcount > 0) {
           this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request });
+        }
+        break;
+
+      case 'export-selected':
+        if (this.contact_list.rowcount > 0) {
+          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') });
         }
         break;
 
@@ -3037,7 +3043,7 @@ function rcube_webmail()
       ac_props;
 
     // close compose step in opener
-    if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose') {
+    if (window.opener && !window.opener.closed && opener.rcmail && opener.rcmail.env.action == 'compose') {
       setTimeout(function(){ opener.history.back(); }, 100);
       this.env.opened_extwin = true;
     }
@@ -3707,9 +3713,10 @@ function rcube_webmail()
   {
     this.display_message(msg, type);
 
-    if (this.env.extwin && window.opener && opener.rcmail) {
+    if (this.env.extwin) {
       this.lock_form(this.gui_objects.messageform);
-      opener.rcmail.display_message(msg, type);
+      if (window.opener && !window.opener.closed && opener.rcmail)
+        opener.rcmail.display_message(msg, type);
       setTimeout(function(){ window.close() }, 1000);
     }
     else {
@@ -4115,6 +4122,7 @@ function rcube_webmail()
     // thend we can enable the group-remove-selected command
     this.enable_command('group-remove-selected', this.env.group && list.selection.length > 0);
     this.enable_command('compose', this.env.group || list.selection.length > 0);
+    this.enable_command('export-selected', list.selection.length > 0);
     this.enable_command('edit', id && writable);
     this.enable_command('delete', list.selection.length && writable);
 
@@ -4219,12 +4227,10 @@ function rcube_webmail()
       target = win;
       this.show_contentframe(true);
 
-      // load dummy content
-      if (!cid) {
-        // unselect selected row(s)
+      // load dummy content, unselect selected row(s)
+      if (!cid)
         this.contact_list.clear_selection();
-        this.enable_command('delete', 'compose', false);
-      }
+      this.enable_command('delete', 'compose', 'export-selected', cid);
     }
     else if (framed)
       return false;
@@ -4396,10 +4402,11 @@ function rcube_webmail()
   {
     var ref = this, col;
 
-    this.set_photo_actions($('#ff_photo').val());
-
-    for (col in this.env.coltypes)
-      this.init_edit_field(col, null);
+    if (this.env.coltypes) {
+      this.set_photo_actions($('#ff_photo').val());
+      for (col in this.env.coltypes)
+        this.init_edit_field(col, null);
+    }
 
     $('.contactfieldgroup .row a.deletebutton').click(function() {
       ref.delete_edit_field(this);
@@ -6238,6 +6245,7 @@ function rcube_webmail()
           this.enable_command('compose', (uid && this.contact_list.rows[uid]));
           this.enable_command('delete', 'edit', writable);
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+          this.enable_command('export-selected', false);
         }
 
       case 'moveto':

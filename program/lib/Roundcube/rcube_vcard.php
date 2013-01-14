@@ -770,15 +770,21 @@ class rcube_vcard
      */
     private static function vcard_unquote($s, $sep = ';')
     {
-        // break string into parts separated by $sep, but leave escaped $sep alone
-        if (count($parts = explode($sep, strtr($s, array("\\$sep" => "\007")))) > 1) {
-            foreach($parts as $s) {
-                $result[] = self::vcard_unquote(strtr($s, array("\007" => "\\$sep")), $sep);
+        // break string into parts separated by $sep
+        if (!empty($sep)) {
+            // Handle properly backslash escaping (#1488896)
+            $rep1 = array("\\\\" => "\010", "\\$sep" => "\007");
+            $rep2 = array("\007" => "\\$sep", "\010" => "\\\\");
+
+            if (count($parts = explode($sep, strtr($s, $rep1))) > 1) {
+                foreach ($parts as $s) {
+                    $result[] = self::vcard_unquote(strtr($s, $rep2));
+                }
+                return $result;
             }
-            return $result;
         }
 
-        return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';', '\:' => ':'));
+        return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';'));
     }
 
     /**

@@ -261,6 +261,11 @@ class rcube_install
       }
     }
 
+    // the old default mime_magic reference is obsolete
+    if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
+        $out['obsolete'][] = array('prop' => 'mime_magic', 'explain' => "Set value to null in order to use system default");
+    }
+
     // iterate over default config
     foreach ($defaults as $prop => $value) {
       if (!isset($seen[$prop]) && isset($required[$prop]) && !(is_bool($this->config[$prop]) || strlen($this->config[$prop])))
@@ -452,6 +457,7 @@ class rcube_install
         '0.6-beta', '0.6',
         '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3',
         '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4',
+        '0.9-beta',
     ));
     return $select;
   }

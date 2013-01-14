@@ -44,7 +44,6 @@ define('RCUBE_INSTALL_PATH', INSTALL_PATH);
 define('RCUBE_CONFIG_DIR', INSTALL_PATH . 'config/');
 
 $include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
-$include_path .= INSTALL_PATH . 'program' . PATH_SEPARATOR;
 $include_path .= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
 $include_path .= ini_get('include_path');
 

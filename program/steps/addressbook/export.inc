@@ -56,6 +56,29 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
     $result = new rcube_result_set($count);
     $result->records = array_values($records);
 }
+// selected contacts
+else if (!empty($_REQUEST['_cid'])) {
+    $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
+    $records = array();
+
+    $cids = explode(',', get_input_value('_cid', RCUBE_INPUT_GET));
+    $CONTACTS = rcmail_contact_source(null, true);
+
+    // Get records from all sources
+    foreach ($cids as $cid) {
+        $record = $CONTACTS->get_record($cid, true);
+        $key = rcmail_contact_key($record, $sort_col);
+        $records[$key] = $record;
+        unset($record);
+    }
+
+    ksort($records, SORT_LOCALE_STRING);
+
+    // create resultset object
+    $count  = count($records);
+    $result = new rcube_result_set($count);
+    $result->records = array_values($records);
+}
 // selected directory/group
 else {
     $CONTACTS = rcmail_contact_source(null, true);

@@ -646,12 +646,13 @@ class rcube_charset
     /**
      * A method to guess character set of a string.
      *
-     * @param string $string    String.
-     * @param string $failover 	Default result for failover.
+     * @param string $string   String
+     * @param string $failover Default result for failover
+     * @param string $language User language
      *
      * @return string Charset name
      */
-    public static function detect($string, $failover='')
+    public static function detect($string, $failover = null, $language = null)
     {
         if (substr($string, 0, 4) == "\0\0\xFE\xFF") return 'UTF-32BE';  // Big Endian
         if (substr($string, 0, 4) == "\xFF\xFE\0\0") return 'UTF-32LE';  // Little Endian
@@ -666,38 +667,62 @@ class rcube_charset
         if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
 
         if (function_exists('mb_detect_encoding')) {
-            // FIXME: the order is important, because sometimes
-            // iso string is detected as euc-jp and etc.
-            $enc = array(
-                'UTF-8', 'SJIS', 'GB2312',
-                'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
-                'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
-                'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
-                'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R', 'BIG5',
-                'ISO-2022-KR', 'ISO-2022-JP',
-            );
-
-            $result = mb_detect_encoding($string, join(',', $enc));
-        }
-        else {
-            // No match, check for UTF-8
-            // from http://w3.org/International/questions/qa-forms-utf-8.html
-            if (preg_match('/\A(
-                [\x09\x0A\x0D\x20-\x7E]
-                | [\xC2-\xDF][\x80-\xBF]
-                | \xE0[\xA0-\xBF][\x80-\xBF]
-                | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}
-                | \xED[\x80-\x9F][\x80-\xBF]
-                | \xF0[\x90-\xBF][\x80-\xBF]{2}
-                | [\xF1-\xF3][\x80-\xBF]{3}
-                | \xF4[\x80-\x8F][\x80-\xBF]{2}
-                )*\z/xs', substr($string, 0, 2048))
-            ) {
-            return 'UTF-8';
+            if (empty($language)) {
+                $rcube    = rcube::get_instance();
+                $language = $rcube->get_user_language();
             }
+
+            // Prioritize charsets according to current language (#1485669)
+            switch ($language) {
+            case 'ja_JP': // for Japanese
+                $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
+                break;
+
+            case 'zh_CN': // for Chinese (Simplified)
+            case 'zh_TW': // for Chinese (Traditional)
+                $prio = array('UTF-8', 'BIG-5', 'GB2312', 'EUC-TW');
+                break;
+
+            case 'ko_KR': // for Korean
+                $prio = array('UTF-8', 'EUC-KR', 'ISO-2022-KR');
+                break;
+
+            case 'ru_RU': // for Russian
+                $prio = array('UTF-8', 'WINDOWS-1251', 'KOI8-R');
+                break;
+
+            default:
+                $prio = array('UTF-8', 'SJIS', 'GB2312',
+                    'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
+                    'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
+                    'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
+                    'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R', 'BIG-5',
+                    'ISO-2022-KR', 'ISO-2022-JP',
+                );
+            }
+
+            $encodings = array_unique(array_merge($prio, mb_list_encodings()));
+
+            return mb_detect_encoding($string, $encodings);
         }
 
-        return $result ? $result : $failover;
+        // No match, check for UTF-8
+        // from http://w3.org/International/questions/qa-forms-utf-8.html
+        if (preg_match('/\A(
+            [\x09\x0A\x0D\x20-\x7E]
+            | [\xC2-\xDF][\x80-\xBF]
+            | \xE0[\xA0-\xBF][\x80-\xBF]
+            | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}
+            | \xED[\x80-\x9F][\x80-\xBF]
+            | \xF0[\x90-\xBF][\x80-\xBF]{2}
+            | [\xF1-\xF3][\x80-\xBF]{3}
+            | \xF4[\x80-\x8F][\x80-\xBF]{2}
+            )*\z/xs', substr($string, 0, 2048))
+        ) {
+            return 'UTF-8';
+        }
+
+        return $failover;
     }
 
 

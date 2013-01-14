@@ -1,6 +1,15 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Feature to export only selected contacts from addressbook (by Phil Weir)
+- Force autocommit mode in mysql database driver (#1488902)
+
+RELEASE 0.9-beta
+----------------
+- Fix searching by date in address book (#1488888)
+- Improve charset detection by prioritizing charset according to user language (#1485669)
+- Fix handling of escaped separator in vCard file (#1488896)
+- Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
 - Add option to use envelope From address for MDN responses (#1488880)
 - Add possibility to search in message body only (#1488770)
 - Support "multipart/relative" as an alias for "multipart/related" type (#1488886)

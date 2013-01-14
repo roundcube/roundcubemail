@@ -124,6 +124,12 @@ class rcube_csv2vcard
         //'work_address_2'        => '',
         'work_country'          => 'country:work',
         'work_zipcode'          => 'zipcode:work',
+        'last'                  => 'surname',
+        'first'                 => 'firstname',
+        'work_city'             => 'locality:work',
+        'work_state'            => 'region:work',
+        'home_city_short'       => 'locality:home',
+        'home_state_short'      => 'region:home',
     );
 
     /**
@@ -271,13 +277,7 @@ class rcube_csv2vcard
 
         // Parse file
         foreach (preg_split("/[\r\n]+/", $csv) as $i => $line) {
-            $line = trim($line);
-            if (empty($line)) {
-                continue;
-            }
-
-            $elements = rcube_utils::explode_quoted_string(',', $line);
-
+            $elements = $this->parse_line($line);
             if (empty($elements)) {
                 continue;
             }
@@ -302,6 +302,35 @@ class rcube_csv2vcard
     public function export()
     {
         return $this->vcards;
+    }
+
+    /**
+     * Parse CSV file line
+     */
+    protected function parse_line($line)
+    {
+        $line = trim($line);
+        if (empty($line)) {
+            return null;
+        }
+
+        $fields = rcube_utils::explode_quoted_string(',', $line);
+
+        // remove quotes if needed
+        if (!empty($fields)) {
+            foreach ($fields as $idx => $value) {
+                if (($len = strlen($value)) > 1 && $value[0] == '"' && $value[$len-1] == '"') {
+                    // remove surrounding quotes
+                    $value = substr($value, 1, -1);
+                    // replace doubled quotes inside the string with single quote
+                    $value = str_replace('""', '"', $value);
+
+                    $fields[$idx] = $value;
+                }
+            }
+        }
+
+        return $fields;
     }
 
     /**
@@ -364,6 +393,15 @@ class rcube_csv2vcard
         if (!empty($contact['gender']) && ($gender = strtolower($contact['gender']))) {
             if (!in_array($gender, array('male', 'female'))) {
                 unset($contact['gender']);
+            }
+        }
+
+        // Convert address(es) to rcube_vcard data
+        foreach ($contact as $idx => $value) {
+            $name = explode(':', $idx);
+            if (in_array($name[0], array('street', 'locality', 'region', 'zipcode', 'country'))) {
+                $contact['address:'.$name[1]][$name[0]] = $value;
+                unset($contact[$idx]);
             }
         }
 

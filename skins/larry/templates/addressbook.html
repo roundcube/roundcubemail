@@ -13,7 +13,11 @@
 <!-- toolbar -->
 <div id="addressbooktoolbar" class="toolbar">
 	<roundcube:button command="import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="import" title="importcontacts" />
-	<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="export" title="exportvcards" />
+	<span class="dropbutton">
+		<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="export" title="exportvcards" />
+		<span class="dropbuttontip" id="exportmenulink" onclick="UI.show_popup('exportmenu');return false"></span>
+	</span>
+
 	<span class="spacer"></span>
 	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
 	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advanced" title="advsearch" />
@@ -75,6 +79,12 @@
 
 </div><!-- end mainscreen -->
 
+<div id="exportmenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="export" label="exportall" prop="sub" class="exportalllink" classAct="exportalllink active" /></li>
+		<li><roundcube:button command="export-selected" label="exportsel" prop="sub" class="exportsellink" classAct="exportsellink active" /></li>
+	</ul>
+</div>
 
 <div id="searchmenu" class="popupmenu">
 	<ul class="toolbarmenu">

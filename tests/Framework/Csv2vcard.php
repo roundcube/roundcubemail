@@ -31,6 +31,7 @@ class Framework_Csv2vcard extends PHPUnit_Framework_TestCase
 
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
+
         $this->assertEquals($vcf_text, $vcard);
     }
 

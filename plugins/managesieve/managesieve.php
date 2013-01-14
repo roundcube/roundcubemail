@@ -200,10 +200,19 @@ class managesieve extends rcube_plugin
         $include_path .= ini_get('include_path');
         set_include_path($include_path);
 
-        $host = rcube_parse_host($this->rc->config->get('managesieve_host', 'localhost'));
+        // Get connection parameters
+        $host = $this->rc->config->get('managesieve_host', 'localhost');
+        $port = $this->rc->config->get('managesieve_port');
+        $tls  = $this->rc->config->get('managesieve_usetls', false);
+
+        $host = rcube_parse_host($host);
         $host = rcube_idn_to_ascii($host);
 
-        $port = $this->rc->config->get('managesieve_port');
+        // remove tls:// prefix, set TLS flag
+        if (($host = preg_replace('|^tls://|i', '', $host, 1, $cnt)) && $cnt) {
+            $tls = true;
+        }
+
         if (empty($port)) {
             $port = getservbyname('sieve', 'tcp');
             if (empty($port)) {
@@ -216,8 +225,8 @@ class managesieve extends rcube_plugin
             'password'  => $this->rc->decrypt($_SESSION['password']),
             'host'      => $host,
             'port'      => $port,
+            'usetls'    => $tls,
             'auth_type' => $this->rc->config->get('managesieve_auth_type'),
-            'usetls'    => $this->rc->config->get('managesieve_usetls', false),
             'disabled'  => $this->rc->config->get('managesieve_disabled_extensions'),
             'debug'     => $this->rc->config->get('managesieve_debug', false),
             'auth_cid'  => $this->rc->config->get('managesieve_auth_cid'),
