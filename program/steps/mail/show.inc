@@ -79,7 +79,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     }
   }
 
-  $OUTPUT->set_env('mimetypes', $mimetypes);
+  $OUTPUT->set_env('mimetypes', array_values($mimetypes));
 
   if ($CONFIG['drafts_mbox'])
     $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
