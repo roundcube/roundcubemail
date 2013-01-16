@@ -55,10 +55,10 @@ if (!$DB->is_connected()) {
     exit(1);
 }
 
-// Read DB schema version from database (if system table exists)
+// Read DB schema version from database (if 'system' table exists)
 if (in_array('system', (array)$DB->list_tables())) {
     $DB->query("SELECT " . $DB->quote_identifier('value')
-        ." FROM " . $DB->quote_identifier('system')
+        ." FROM " . $DB->quote_identifier($DB->table_name('system'))
         ." WHERE " . $DB->quote_identifier('name') ." = ?",
         $opts['package'] . '-version');
 
@@ -103,7 +103,7 @@ if (!$version && $opts['version']) {
     $version = $map[$opts['version']];
 }
 
-// Assume last version before the system table was added
+// Assume last version before the 'system' table was added
 if (empty($version)) {
     $version = 2012080700;
 }
@@ -164,13 +164,15 @@ function update_db_schema($package, $version, $file)
         return;
     }
 
-    $DB->query("UPDATE " . $DB->quote_identifier('system')
+    $system_table = $DB->quote_identifier($DB->table_name('system'));
+
+    $DB->query("UPDATE " . $system_table
         ." SET " . $DB->quote_identifier('value') . " = ?"
         ." WHERE " . $DB->quote_identifier('name') . " = ?",
         $version, $package . '-version');
 
     if (!$DB->is_error() && !$DB->affected_rows()) {
-        $DB->query("INSERT INTO " . $DB->quote_identifier('system')
+        $DB->query("INSERT INTO " . $system_table
             ." (" . $DB->quote_identifier('name') . ", " . $DB->quote_identifier('value') . ")"
             ." VALUES (?, ?)",
             $package . '-version', $version);
