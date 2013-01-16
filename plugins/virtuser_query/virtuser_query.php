@@ -20,6 +20,9 @@
  * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  * @author Steffen Vogel
+ * 
+ * Added function dbHandler. Via $rcmail_config['virtuser_query_dsn'] = 'mysql_dsn'; in main you i
+ * can set a different databasehost connection from which to retrieve data.
  */
 class virtuser_query extends rcube_plugin
 {
@@ -53,7 +56,7 @@ class virtuser_query extends rcube_plugin
      */
     function user2email($p)
     {
-	    $dbh = $this->app->get_dbh();
+            $dbh = $this->getdbHandler();
 
 	    $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($p['user']), $this->config['email']));
 
@@ -89,7 +92,7 @@ class virtuser_query extends rcube_plugin
      */
     function email2user($p)
     {
-        $dbh = $this->app->get_dbh();
+        $dbh = $this->getdbHandler();
 
         $sql_result = $dbh->query(preg_replace('/%m/', $dbh->escapeSimple($p['email']), $this->config['user']));
 
@@ -105,7 +108,7 @@ class virtuser_query extends rcube_plugin
      */
     function user2host($p)
     {
-        $dbh = $this->app->get_dbh();
+        $dbh = $this->getdbHandler();
 
         $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($p['user']), $this->config['host']));
 
@@ -115,6 +118,21 @@ class virtuser_query extends rcube_plugin
 
         return $p;
     }
-
+   function getdbHandler()
+   {
+	$this->app = rcmail::get_instance();
+	$virtuser_query_dsn=$this->app->config->get('virtuser_query_dsn');
+	if (isset($virtuser_query_dsn)) 
+	{
+                        /* connect to squirrelmail database */
+                        $dbh = new rcube_mdb2($this->app->config->get('virtuser_query_dsn'));
+                        $dbh->db_connect('r'); // connect in read mode
+	}   
+       else
+	{
+		$this->app->get_dbh();
+	}
+	return $dbh;
+   }
 }
 
