@@ -144,7 +144,7 @@ if ($RCI->configured) {
   // check database schema
   if ($RCI->config['db_dsnw']) {
     echo "Executing database schema update.\n";
-    system(INSTALL_PATH . "bin/updatedb.sh --label=roundcube --version=" . $ops['version']
+    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube --version=" . $ops['version']
       . " --dir=" . INSTALL_PATH . DIRECTORY_SEPARATOR . "SQL", $res);
 
     $success = !$res;

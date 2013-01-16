@@ -27,15 +27,15 @@ require_once INSTALL_PATH . 'program/include/clisetup.php';
 $opts = rcube_utils::get_opt(array(
     'v' => 'version',
     'd' => 'dir',
-    'l' => 'label',
+    'p' => 'package',
 ));
 
 if (empty($opts['dir'])) {
   echo "ERROR: Database schema directory not specified (--dir).\n";
   exit(1);
 }
-if (empty($opts['label'])) {
-  echo "ERROR: Database schema label not specified (--label).\n";
+if (empty($opts['package'])) {
+  echo "ERROR: Database schema package name not specified (--package).\n";
   exit(1);
 }
 
@@ -60,7 +60,7 @@ if (in_array('system', (array)$DB->list_tables())) {
     $DB->query("SELECT " . $DB->quote_identifier('value')
         ." FROM " . $DB->quote_identifier('system')
         ." WHERE " . $DB->quote_identifier('name') ." = ?",
-        $opts['label'] . '-version');
+        $opts['package'] . '-version');
 
     $row     = $DB->fetch_array();
     $version = $row[0];
@@ -126,7 +126,7 @@ sort($result, SORT_NUMERIC);
 
 foreach ($result as $v) {
     echo "Updating database schema ($v)... ";
-    $error = update_db_schema($opts['label'], $v, $dir . DIRECTORY_SEPARATOR . "$v.sql");
+    $error = update_db_schema($opts['package'], $v, $dir . DIRECTORY_SEPARATOR . "$v.sql");
 
     if ($error) {
         echo "\nError in DDL upgrade $v: $error\n";
@@ -137,7 +137,7 @@ foreach ($result as $v) {
 
 exit(0);
 
-function update_db_schema($label, $version, $file)
+function update_db_schema($package, $version, $file)
 {
     global $DB;
 
@@ -167,13 +167,13 @@ function update_db_schema($label, $version, $file)
     $DB->query("UPDATE " . $DB->quote_identifier('system')
         ." SET " . $DB->quote_identifier('value') . " = ?"
         ." WHERE " . $DB->quote_identifier('name') . " = ?",
-        $version, $label . '-version');
+        $version, $package . '-version');
 
     if (!$DB->is_error() && !$DB->affected_rows()) {
         $DB->query("INSERT INTO " . $DB->quote_identifier('system')
             ." (" . $DB->quote_identifier('name') . ", " . $DB->quote_identifier('value') . ")"
             ." VALUES (?, ?)",
-            $label . '-version', $version);
+            $package . '-version', $version);
     }
 
     return $DB->is_error();

@@ -633,7 +633,7 @@ class rcube_install
    */
   function update_db($version)
   {
-    system(INSTALL_PATH . "bin/updatedb.sh --label=roundcube --version=" . $version
+    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube --version=" . $version
       . " --dir=" . INSTALL_PATH . "SQL", $result);
 
     return !$result;
