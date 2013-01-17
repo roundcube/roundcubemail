@@ -40,11 +40,31 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
         // get records
         $result = $source->list_records();
 
-        while ($row = $result->next()) {
-            $row['sourceid'] = $s;
-            $key = rcmail_contact_key($row, $sort_col);
-            $records[$key] = $row;
+        while ($record = $result->next()) {
+            // because vcard_map is per-source we need to create vcard here
+            if (empty($record['vcard']) || empty($record['name'])) {
+                $vcard = new rcube_vcard();
+                $vcard->extend_fieldmap($source->vcard_map);
+                $vcard->load($record['vcard']);
+                $vcard->reset();
+
+                foreach ($record as $key => $values) {
+                    list($field, $section) = explode(':', $key);
+                    foreach ((array)$values as $value) {
+                        if (is_array($value) || @strlen($value)) {
+                            $vcard->set($field, $value, strtoupper($section));
+                        }
+                    }
+                }
+
+                $record['vcard'] = $vcard->export(true);
+            }
+
+            $record['sourceid'] = $s;
+            $key = rcmail_contact_key($record, $sort_col);
+            $records[$key] = $record;
         }
+
         unset($result);
     }
 
@@ -59,17 +79,39 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 // selected contacts
 else if (!empty($_REQUEST['_cid'])) {
     $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
-    $records = array();
+    $records  = array();
 
-    $cids = explode(',', get_input_value('_cid', RCUBE_INPUT_GET));
-    $CONTACTS = rcmail_contact_source(null, true);
+    // Selected contact IDs (with multi-source support)
+    $cids = rcmail_get_cids();
 
-    // Get records from all sources
-    foreach ($cids as $cid) {
-        $record = $CONTACTS->get_record($cid, true);
-        $key = rcmail_contact_key($record, $sort_col);
-        $records[$key] = $record;
-        unset($record);
+    foreach ($cids as $s => $ids) {
+        $source = $RCMAIL->get_address_book($s);
+        $result = $source->search('ID', $ids, 1, true, true);
+
+        while ($record = $result->next()) {
+            // because vcard_map is per-source we need to create vcard here
+            if (empty($record['vcard']) || empty($record['name'])) {
+                $vcard = new rcube_vcard();
+                $vcard->extend_fieldmap($source->vcard_map);
+                $vcard->load($record['vcard']);
+                $vcard->reset();
+
+                foreach ($record as $key => $values) {
+                    list($field, $section) = explode(':', $key);
+                    foreach ((array)$values as $value) {
+                        if (is_array($value) || @strlen($value)) {
+                            $vcard->set($field, $value, strtoupper($section));
+                        }
+                    }
+                }
+
+                $record['vcard'] = $vcard->export(true);
+            }
+
+            $record['sourceid'] = $s;
+            $key = rcmail_contact_key($record, $sort_col);
+            $records[$key] = $record;
+        }
     }
 
     ksort($records, SORT_LOCALE_STRING);
@@ -91,7 +133,7 @@ else {
 
 // send downlaod headers
 header('Content-Type: text/x-vcard; charset='.RCMAIL_CHARSET);
-header('Content-Disposition: attachment; filename="rcube_contacts.vcf"');
+header('Content-Disposition: attachment; filename="contacts.vcf"');
 
 while ($result && ($row = $result->next())) {
     // we already have a vcard record
