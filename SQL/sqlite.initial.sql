@@ -209,4 +209,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011000.sql');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011700.sql');
