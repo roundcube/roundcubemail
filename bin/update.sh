@@ -124,7 +124,7 @@ if ($RCI->configured) {
         }
       }
       else {
-        echo "Please update your config files manually according to the above messages.\n\n";
+        echo "Please update your config files manually according to the above messages.\n";
       }
     }
 
@@ -143,36 +143,18 @@ if ($RCI->configured) {
 
   // check database schema
   if ($RCI->config['db_dsnw']) {
-    $DB = rcube_db::factory($RCI->config['db_dsnw'], '', false);
-    $DB->db_connect('w');
-    if ($db_error_msg = $DB->is_error()) {
-      echo "Error connecting to database: $db_error_msg\n";
-      $success = false;
-    }
-    else if ($err = $RCI->db_schema_check($DB, false)) {
-      $updatefile = INSTALL_PATH . 'SQL/' . (isset($RCI->db_map[$DB->db_provider]) ? $RCI->db_map[$DB->db_provider] : $DB->db_provider) . '.update.sql';
-      echo "WARNING: Database schema needs to be updated!\n";
-      echo join("\n", $err) . "\n\n";
-      $success = false;
-      
-      if ($opts['version']) {
-        echo "Do you want to run the update queries to get the schmea fixed? (y/N)\n";
-        $input = trim(fgets(STDIN));
-        if (strtolower($input) == 'y') {
-          $success = $RCI->update_db($DB, $opts['version']);
-        }
-      }
-      
-      if (!$success)
-        echo "Open $updatefile and execute all queries below the comment with the currently installed version number.\n";
-    }
+    echo "Executing database schema update.\n";
+    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube --version=" . $ops['version']
+      . " --dir=" . INSTALL_PATH . DIRECTORY_SEPARATOR . "SQL", $res);
+
+    $success = !$res;
   }
-  
+
   // index contacts for fulltext searching
   if (version_compare(version_parse($opts['version']), '0.6.0', '<')) {
     system(INSTALL_PATH . 'bin/indexcontacts.sh');
   }
-  
+
   if ($success) {
     echo "This instance of Roundcube is up-to-date.\n";
     echo "Have fun!\n";
@@ -182,7 +164,5 @@ else {
   echo "This instance of Roundcube is not yet configured!\n";
   echo "Open http://url-to-roundcube/installer/ in your browser and follow the instuctions.\n";
 }
-
-echo "\n";
 
 ?>

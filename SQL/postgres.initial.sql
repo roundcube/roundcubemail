@@ -262,3 +262,16 @@ CREATE TABLE searches (
     data text NOT NULL,
     CONSTRAINT searches_user_id_key UNIQUE (user_id, "type", name)
 );
+
+
+--
+-- Table "system"
+-- Name: system; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "system" (
+    name varchar(64) NOT NULL PRIMARY KEY,
+    value text
+);
+
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011000.sql');
