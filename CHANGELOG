@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improved database schema upgrade procedure, added updatedb.sh script
 - Force autocommit mode in mysql database driver (#1488902)
 
 RELEASE 0.9-beta
