@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improved database schema upgrade procedure, added updatedb.sh script
 - Feature to export only selected contacts from addressbook (by Phil Weir)
 - Force autocommit mode in mysql database driver (#1488902)
 
