@@ -89,11 +89,12 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   }
 
   $threading = (bool) $RCMAIL->storage->get_threading();
+  $delimiter = $RCMAIL->storage->get_hierarchy_delimiter();
 
   // set current mailbox and some other vars in client environment
   $OUTPUT->set_env('mailbox', $mbox_name);
   $OUTPUT->set_env('pagesize', $RCMAIL->storage->get_pagesize());
-  $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
+  $OUTPUT->set_env('delimiter', $delimiter);
   $OUTPUT->set_env('threading', $threading);
   $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
   $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
@@ -121,7 +122,10 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
       'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
       'copy', 'move', 'quota');
 
-  $OUTPUT->set_pagetitle(rcmail_localize_foldername($RCMAIL->storage->mod_folder($mbox_name)));
+  $pagetitle = $RCMAIL->localize_foldername($RCMAIL->storage->mod_folder($mbox_name), true);
+  $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
+
+  $OUTPUT->set_pagetitle($pagetitle);
 }
 
 /**

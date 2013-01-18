@@ -1677,12 +1677,31 @@ class rcmail extends rcube
      * Try to localize the given IMAP folder name.
      * UTF-7 decode it in case no localized text was found
      *
-     * @param string $name  Folder name
+     * @param string $name      Folder name
+     * @param bool   $with_path Enable path localization
      *
      * @return string Localized folder name in UTF-8 encoding
      */
-    public function localize_foldername($name)
+    public function localize_foldername($name, $with_path = true)
     {
+        // try to localize path of the folder
+        if ($with_path) {
+            $storage   = $this->get_storage();
+            $delimiter = $storage->get_hierarchy_delimiter();
+            $path      = explode($delimiter, $name);
+            $count     = count($path);
+
+            if ($count > 1) {
+                for ($i = 1; $i < $count; $i++) {
+                    $folder = implode($delimiter, array_slice($path, 0, -$i));
+                    if ($folder_class = $this->folder_classname($folder)) {
+                        $name = implode($delimiter, array_slice($path, $count - $i));
+                        return $this->gettext($folder_class) . $delimiter . rcube_charset::convert($name, 'UTF7-IMAP');
+                    }
+                }
+            }
+        }
+
         if ($folder_class = $this->folder_classname($name)) {
             return $this->gettext($folder_class);
         }
