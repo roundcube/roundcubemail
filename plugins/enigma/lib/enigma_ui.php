@@ -49,7 +49,7 @@ class enigma_ui
 
         // Enigma actions
         if ($this->rc->action == 'plugin.enigma') {
-            $action = get_input_value('_a', RCUBE_INPUT_GPC);
+            $action = rcube_utils::get_input_value('_a', rcube_utils::INPUT_GPC);
 
             switch ($action) {
                 case 'keyedit':
@@ -152,7 +152,7 @@ class enigma_ui
         $a_show_cols = array('name');
 
         // create XHTML table
-        $out = rcube_table_output($attrib, array(), $a_show_cols, 'id');
+        $out = $this->rc->table_output($attrib, array(), $a_show_cols, 'id');
 
         // set client env
         $this->rc->output->add_gui_object('keyslist', $attrib['id']);
@@ -172,8 +172,8 @@ class enigma_ui
         $this->enigma->load_engine();
 
         $pagesize = $this->rc->config->get('pagesize', 100);
-        $page     = max(intval(get_input_value('_p', RCUBE_INPUT_GPC)), 1);
-        $search   = get_input_value('_q', RCUBE_INPUT_GPC);
+        $page     = max(intval(rcube_utils::get_input_value('_p', rcube_utils::INPUT_GPC)), 1);
+        $search   = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GPC);
 
         // define list of cols to be displayed
         $a_show_cols = array('name');
@@ -202,7 +202,7 @@ class enigma_ui
                 // Add rows
                 foreach($list as $idx => $key) {
                     $this->rc->output->command('enigma_add_list_row',
-                        array('name' => Q($key->name), 'id' => $key->id));
+                        array('name' => rcube::Q($key->name), 'id' => $key->id));
                 }
             }
         }
@@ -261,7 +261,7 @@ class enigma_ui
      */
     private function key_info()
     {
-        $id = get_input_value('_id', RCUBE_INPUT_GET);
+        $id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GET);
 
         $this->enigma->load_engine();
         $res = $this->enigma->engine->get_key($id);
@@ -288,7 +288,7 @@ class enigma_ui
      */
     function tpl_key_name($attrib)
     {
-        return Q($this->data->name);
+        return rcube::Q($this->data->name);
     }
 
     /**
@@ -301,7 +301,7 @@ class enigma_ui
 
         // Key user ID
         $table->add('title', $this->enigma->gettext('keyuserid'));
-        $table->add(null, Q($this->data->name));
+        $table->add(null, rcube::Q($this->data->name));
         // Key ID
         $table->add('title', $this->enigma->gettext('keyid'));
         $table->add(null, $this->data->subkeys[0]->get_short_id());
@@ -369,7 +369,7 @@ class enigma_ui
         else if ($err = $_FILES['_file']['error']) {
             if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
                 $this->rc->output->show_message('filesizeerror', 'error',
-                    array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize')))));
+                    array('size' => $this->rc->show_bytes(parse_bytes(ini_get('upload_max_filesize')))));
             } else {
                 $this->rc->output->show_message('fileuploaderror', 'error');
             }
@@ -394,7 +394,7 @@ class enigma_ui
             'id' => 'rcmimportfile', 'size' => 30));
 
         $form = html::p(null,
-            Q($this->enigma->gettext('keyimporttext'), 'show')
+            rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
             . html::br() . html::br() . $upload->show()
         );
 
@@ -433,15 +433,15 @@ class enigma_ui
         $chbox = new html_checkbox(array('value' => 1));
 
         $menu->add(null, html::label(array('for' => 'enigmadefaultopt'),
-            Q($this->enigma->gettext('identdefault'))));
+            rcube::Q($this->enigma->gettext('identdefault'))));
         $menu->add(null, $chbox->show(1, array('name' => '_enigma_default', 'id' => 'enigmadefaultopt')));
 
         $menu->add(null, html::label(array('for' => 'enigmasignopt'),
-            Q($this->enigma->gettext('signmsg'))));
+            rcube::Q($this->enigma->gettext('signmsg'))));
         $menu->add(null, $chbox->show(1, array('name' => '_enigma_sign', 'id' => 'enigmasignopt')));
 
         $menu->add(null, html::label(array('for' => 'enigmacryptopt'),
-            Q($this->enigma->gettext('encryptmsg'))));
+            rcube::Q($this->enigma->gettext('encryptmsg'))));
         $menu->add(null, $chbox->show(1, array('name' => '_enigma_crypt', 'id' => 'enigmacryptopt')));
 
         $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'),

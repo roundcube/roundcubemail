@@ -63,7 +63,7 @@ class new_user_dialog extends rcube_plugin
       $table->add(null, html::tag('input', array(
         'type' => 'text',
         'name' => '_email',
-        'value' => rcube_idn_to_utf8($identity['email']),
+        'value' => rcube_utils::idn_to_utf8($identity['email']),
         'disabled' => ($identities_level == 1 || $identities_level == 3)
       )));
 
@@ -86,8 +86,8 @@ class new_user_dialog extends rcube_plugin
             'id' => 'newuserdialog',
             'action' => $rcmail->url('plugin.newusersave'),
             'method' => 'post'),
-          html::tag('h3', null, Q($this->gettext('identitydialogtitle'))) .
-          html::p('hint', Q($this->gettext('identitydialoghint'))) .
+          html::tag('h3', null, rcube::Q($this->gettext('identitydialogtitle'))) .
+          html::p('hint', rcube::Q($this->gettext('identitydialoghint'))) .
           $table->show() .
           html::p(array('class' => 'formbuttons'),
             html::tag('input', array('type' => 'submit',
@@ -119,17 +119,17 @@ class new_user_dialog extends rcube_plugin
     $identities_level = intval($rcmail->config->get('identities_level', 0));
 
     $save_data = array(
-      'name' => get_input_value('_name', RCUBE_INPUT_POST),
-      'email' => get_input_value('_email', RCUBE_INPUT_POST),
-      'organization' => get_input_value('_organization', RCUBE_INPUT_POST),
-      'signature' => get_input_value('_signature', RCUBE_INPUT_POST),
+      'name'         => rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST),
+      'email'        => rcube_utils::get_input_value('_email', rcube_utils::INPUT_POST),
+      'organization' => rcube_utils::get_input_value('_organization', rcube_utils::INPUT_POST),
+      'signature'    => rcube_utils::get_input_value('_signature', rcube_utils::INPUT_POST),
     );
 
     // don't let the user alter the e-mail address if disabled by config
     if ($identities_level == 1 || $identities_level == 3)
       $save_data['email'] = $identity['email'];
     else
-      $save_data['email'] = rcube_idn_to_ascii($save_data['email']);
+      $save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']);
 
     // save data if not empty
     if (!empty($save_data['name']) && !empty($save_data['email'])) {

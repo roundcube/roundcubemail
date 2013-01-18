@@ -26,7 +26,7 @@ class rcube_chpasswd_password
             return PASSWORD_SUCCESS;
         }
         else {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,

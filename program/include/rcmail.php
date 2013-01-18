@@ -1692,7 +1692,7 @@ class rcmail extends rcube
             $count     = count($path);
 
             if ($count > 1) {
-                for ($i = 1; $i < $count; $i++) {
+                for ($i = 0; $i < $count; $i++) {
                     $folder = implode($delimiter, array_slice($path, 0, -$i));
                     if ($folder_class = $this->folder_classname($folder)) {
                         $name = implode($delimiter, array_slice($path, $count - $i));

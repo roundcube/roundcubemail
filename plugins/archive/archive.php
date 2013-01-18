@@ -104,7 +104,7 @@ class archive extends rcube_plugin
 
       // load folders list when needed
       if ($CURR_SECTION)
-        $select = rcmail_mailbox_select(array('noselection' => '---', 'realnames' => true,
+        $select = $rcmail->folder_selector(array('noselection' => '---', 'realnames' => true,
           'maxlength' => 30, 'exceptions' => array('INBOX'), 'folder_filter' => 'mail', 'folder_rights' => 'w'));
       else
         $select = new html_select();
@@ -121,7 +121,7 @@ class archive extends rcube_plugin
   function save_prefs($args)
   {
     if ($args['section'] == 'folders') {
-      $args['prefs']['archive_mbox'] = get_input_value('_archive_mbox', RCUBE_INPUT_POST);
+      $args['prefs']['archive_mbox'] = rcube_utils::get_input_value('_archive_mbox', rcube_utils::INPUT_POST);
       return $args;
     }
   }

@@ -20,7 +20,7 @@ class rcube_pam_password
                 }
             }
             else {
-                raise_error(array(
+                rcube::raise_error(array(
                     'code' => 600,
                     'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
@@ -29,7 +29,7 @@ class rcube_pam_password
             }
         }
         else {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,

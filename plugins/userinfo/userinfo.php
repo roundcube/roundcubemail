@@ -31,25 +31,25 @@ class userinfo extends rcube_plugin
     $table = new html_table(array('cols' => 2, 'cellpadding' => 3));
 
     $table->add('title', 'ID');
-    $table->add('', Q($user->ID));
+    $table->add('', rcube::Q($user->ID));
     
-    $table->add('title', Q($this->gettext('username')));
-    $table->add('', Q($user->data['username']));
+    $table->add('title', rcube::Q($this->gettext('username')));
+    $table->add('', rcube::Q($user->data['username']));
     
-    $table->add('title', Q($this->gettext('server')));
-    $table->add('', Q($user->data['mail_host']));
+    $table->add('title', rcube::Q($this->gettext('server')));
+    $table->add('', rcube::Q($user->data['mail_host']));
 
-    $table->add('title', Q($this->gettext('created')));
-    $table->add('', Q($user->data['created']));
+    $table->add('title', rcube::Q($this->gettext('created')));
+    $table->add('', rcube::Q($user->data['created']));
 
-    $table->add('title', Q($this->gettext('lastlogin')));
-    $table->add('', Q($user->data['last_login']));
+    $table->add('title', rcube::Q($this->gettext('lastlogin')));
+    $table->add('', rcube::Q($user->data['last_login']));
     
     $identity = $user->get_identity();
-    $table->add('title', Q($this->gettext('defaultidentity')));
-    $table->add('', Q($identity['name'] . ' <' . $identity['email'] . '>'));
+    $table->add('title', rcube::Q($this->gettext('defaultidentity')));
+    $table->add('', rcube::Q($identity['name'] . ' <' . $identity['email'] . '>'));
     
-    return html::tag('h4', null, Q('Infos for ' . $user->get_username())) . $table->show();
+    return html::tag('h4', null, rcube::Q('Infos for ' . $user->get_username())) . $table->show();
   }
 
 }

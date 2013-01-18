@@ -32,7 +32,7 @@ class rcube_xmail_password
         $xmail->port = $rcmail->config->get('xmail_port');
 
         if (!$xmail->connect()) {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
@@ -42,7 +42,7 @@ class rcube_xmail_password
         }
         else if (!$xmail->send("userpasswd\t".$domain."\t".$user."\t".$newpass."\n")) {
             $xmail->close();
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
