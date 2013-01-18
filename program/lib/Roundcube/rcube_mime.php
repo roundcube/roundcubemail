@@ -480,7 +480,8 @@ class rcube_mime
                 $q = strlen(str_replace(' ', '', $regs[0]));
                 $line = substr($line, strlen($regs[0]));
 
-                if ($q == $q_level && $line
+                if ($q == $q_level
+                    && strlen($line[$last]) > 1  // don't hit if line only consist of one single white space
                     && isset($text[$last])
                     && $text[$last][strlen($text[$last])-1] == ' '
                 ) {
