@@ -33,3 +33,9 @@ if (@is_dir(TESTS_DIR . 'config')) {
 require_once(INSTALL_PATH . 'program/include/iniset.php');
 
 rcmail::get_instance()->config->set('devel_mode', false);
+
+// Extend include path so some plugin test won't fail
+$include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
+if (set_include_path($include_path) === false) {
+    die("Fatal error: ini_set/set_include_path does not work.");
+}
