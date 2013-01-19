@@ -142,8 +142,9 @@ class debug_logger extends rcube_plugin
         return $args;
     }
 
-    function __destruct(){
-                $this->runlog->end();
+    function __destruct()
+    {
+        if ($this->runlog)
+            $this->runlog->end();
     }
 }
-?>
