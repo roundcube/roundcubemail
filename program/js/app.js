@@ -821,11 +821,9 @@ function rcube_webmail()
 
         // open attachment in frame if it's of a supported mimetype
         if (this.env.uid && props.mimetype && this.env.mimetypes && $.inArray(props.mimetype, this.env.mimetypes) >= 0) {
-          if (props.mimetype == 'text/html')
-            qstring += '&_safe=1';
-          this.attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment');
-          if (this.attachment_win) {
-            setTimeout(function(){ ref.attachment_win.focus(); }, 10);
+          var attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment'+this.env.uid+props.part);
+          if (attachment_win) {
+            setTimeout(function(){ attachment_win.focus(); }, 10);
             break;
           }
         }

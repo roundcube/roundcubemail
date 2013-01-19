@@ -35,6 +35,11 @@ if (!empty($_GET['_preload'])) {
 
 ob_end_clean();
 
+
+// define global style for warning blocks inside the attachment part frame
+// TODO: get styles for this from skin (but we don't have a skin template here...)
+$warning_css_style = 'border:2px solid #ffdf0e; background:#fef893; padding:0.6em 1em';
+
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {
   $RCMAIL->config->set('prefer_html', true);
@@ -154,12 +159,12 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       if (!$valid) {
         $OUTPUT = new rcmail_html_page();
         $OUTPUT->write(html::tag('html', null, html::tag('body', array('style' => 'font-family:sans-serif; margin:1em'),
-          html::div(array('class' => 'warning', 'style' => 'border:2px solid #ffdf0e; background:#fef893; padding:1em 1em 0 1em;'),
+          html::div(array('class' => 'warning', 'style' => $warning_css_style),
             rcube_label(array(
               'name' => 'attachmentvalidationerror',
               'vars' => array('expected' => "$mimetype (.$file_extension)", 'detected' => "$real_mimetype (.$extensions[0])")
             )) .
-            html::p('buttons',
+            html::p(array('class' => 'buttons', 'style' => 'margin-bottom:0'),
               html::tag('button',
                 array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"),
                 rcube_label('showanyway')))
@@ -214,7 +219,27 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         if (!$part->body)
           $part->body = $MESSAGE->get_part_content($part->mime_id);
 
+        // show images?
+        rcmail_check_safe($MESSAGE);
+
+        // render HTML body
         $out = rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false));
+
+        // insert remote objects warning into HTML body
+        if ($REMOTE_OBJECTS) {
+          $body_start = 0;
+          if ($body_pos = strpos($out, '<body')) {
+            $body_start = strpos($out, '>', $body_pos) + 1;
+          }
+          $out = substr($out, 0, $body_start) .
+            html::div(array('class' => 'warning', 'style' => $warning_css_style),
+              Q(rcube_label('blockedimages')) . '&nbsp;' .
+              html::tag('button',
+                array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_safe' => 1))) . "'"),
+                Q(rcube_label('showimages')))
+            ) .
+            substr($out, $body_start);
+        }
       }
 
       // check connection status
