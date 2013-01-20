@@ -14,3 +14,6 @@ On XX.YY.YYYY Y:YY, Somebody wrote:
 > xxxxxxxxxx. xxxx xxxxx xxxxx xxxx xx xx.xx. xxxxxx xxxxxxxxxxxx, xxxx xx
 > 
 > ... and this one as well.
+
+-- 
+Sig
