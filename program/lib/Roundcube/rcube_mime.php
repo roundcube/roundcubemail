@@ -476,14 +476,18 @@ class rcube_mime
         $q_level = 0;
 
         foreach ($text as $idx => $line) {
-            if ($line[0] == '>' && preg_match('/^(>+\s*)/', $line, $regs)) {
-                $q = strlen(str_replace(' ', '', $regs[0]));
-                $line = substr($line, strlen($regs[0]));
+            if ($line[0] == '>') {
+                $len  = strlen($line);
+                $line = preg_replace('/^>+ {0,1}/', '', $line);
+                $q    = $len - strlen($line);
 
+                // The same paragraph (We join current line with the previous one) when:
+                // - the same level of quoting
+                // - previous line was flowed
+                // - previous line contains more than only one single space (and quote char(s))
                 if ($q == $q_level
-                    && strlen($line[$last]) > 1  // don't hit if line only consist of one single white space
-                    && isset($text[$last])
-                    && $text[$last][strlen($text[$last])-1] == ' '
+                    && isset($text[$last]) && $text[$last][strlen($text[$last])-1] == ' '
+                    && !preg_match('/^>+ {0,1}$/', $text[$last])
                 ) {
                     $text[$last] .= $line;
                     unset($text[$idx]);
