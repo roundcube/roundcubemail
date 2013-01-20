@@ -477,9 +477,10 @@ class rcube_mime
 
         foreach ($text as $idx => $line) {
             if ($line[0] == '>') {
-                $len  = strlen($line);
-                $line = preg_replace('/^>+ {0,1}/', '', $line);
-                $q    = $len - strlen($line);
+                // remove quote chars, store level in $q
+                $line = preg_replace('/^>+/', '', $line, -1, $q);
+                // remove (optional) space-staffing
+                $line = preg_replace('/^ /', '', $line);
 
                 // The same paragraph (We join current line with the previous one) when:
                 // - the same level of quoting
@@ -540,10 +541,12 @@ class rcube_mime
 
         foreach ($text as $idx => $line) {
             if ($line != '-- ') {
-                if ($line[0] == '>' && preg_match('/^(>+ {0,1})+/', $line, $regs)) {
-                    $level  = substr_count($regs[0], '>');
+                if ($line[0] == '>') {
+                    // remove quote chars, store level in $level
+                    $line   = preg_replace('/^>+/', '', $line, -1, $level);
+                    // remove (optional) space-staffing
+                    $line   = preg_replace('/^ /', '', $line);
                     $prefix = str_repeat('>', $level) . ' ';
-                    $line   = rtrim(substr($line, strlen($regs[0])));
                     $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
                 }
                 else if ($line) {
@@ -583,7 +586,7 @@ class rcube_mime
         while (count($para)) {
             $line = array_shift($para);
             if ($line[0] == '>') {
-                $string .= $line.$break;
+                $string .= $line . (count($para) ? $break : '');
                 continue;
             }
 

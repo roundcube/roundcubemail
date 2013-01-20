@@ -15,5 +15,7 @@ On XX.YY.YYYY Y:YY, Somebody wrote:
 > 
 > ... and this one as well.
 
+> > text
+
 -- 
 Sig
