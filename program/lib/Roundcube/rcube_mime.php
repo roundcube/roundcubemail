@@ -544,8 +544,8 @@ class rcube_mime
                 if ($line[0] == '>') {
                     // remove quote chars, store level in $level
                     $line   = preg_replace('/^>+/', '', $line, -1, $level);
-                    // remove (optional) space-staffing
-                    $line   = preg_replace('/^ /', '', $line);
+                    // remove (optional) space-staffing and spaces before the line end
+                    $line   = preg_replace('/(^ | +$)/', '', $line);
                     $prefix = str_repeat('>', $level) . ' ';
                     $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
                 }
