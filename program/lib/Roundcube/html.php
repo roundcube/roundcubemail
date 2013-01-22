@@ -287,7 +287,7 @@ class html
             }
 
             // attributes with no value
-            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected'))) {
+            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'autofocus'))) {
                 if ($value) {
                     $attrib_arr[] = $key . '="' . $key . '"';
                 }
@@ -350,6 +350,7 @@ class html_inputfield extends html
         'type','name','value','size','tabindex','autocapitalize',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
         'spellcheck','results','maxlength','src','multiple','placeholder',
+        'autofocus',
     );
 
     /**
