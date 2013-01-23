@@ -156,7 +156,7 @@ class rcube_utils
     {
         // IPv6, but there's no build-in IPv6 support
         if (strpos($ip, ':') !== false && !defined('AF_INET6')) {
-            $parts = explode(':', $domain_part);
+            $parts = explode(':', $ip);
             $count = count($parts);
 
             if ($count > 8 || $count < 2) {
