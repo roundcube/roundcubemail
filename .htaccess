@@ -31,7 +31,7 @@ RewriteEngine On
 RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 # security rules
 RewriteRule .git - [F]
-RewriteRule ^/?(README(.md)?|INSTALL|LICENSE|SQL|bin|CHANGELOG)$ - [F]
+RewriteRule ^/?(README(.md)?|INSTALL|LICENSE|SQL|bin|CHANGELOG|UPGRADING)$ - [F]
 </IfModule>
 
 <IfModule mod_deflate.c>
