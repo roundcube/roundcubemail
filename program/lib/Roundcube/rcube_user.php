@@ -72,17 +72,11 @@ class rcube_user
         }
 
         // BUGFIX: Fix for database replication.
-        /*
-          An error occurs when, on a database replication have diferences between the data from master and slave.
-          When the master server goes down, and the slave begin to respond, if there are a diffrence in user table
-          the USER ID(master) that is storage in SESSION is not from the same user in slave, then , when the slave database is on,
-          the current user changes.
-        */
-
-        if ($sql_arr["username"]!=$_SESSION["username"]){
-            $renew_user = rcube_user::query($_SESSION["username"], $_SESSION["imap_host"]); 
-            $_SESSION['user_id'] = $renew_user->ID; // setando a nova sessao
-           $sql_arr = $renew_user->data; //
+        // Verifying if the user gotten is the same from the user SESSION
+        if ($sql_arr['username']!=$_SESSION['username']){
+            $renew_user = rcube_user::query($_SESSION['username'], $_SESSION['imap_host']); 
+            $_SESSION['user_id'] = $renew_user->ID; // setting the new session
+            $sql_arr = $renew_user->data; //
         }
 
         if (!empty($sql_arr)) {
