@@ -214,15 +214,16 @@ class rcube_ldap extends rcube_addressbook
         if (empty($this->prop['ldap_version']))
             $this->prop['ldap_version'] = 3;
 
-        foreach ($this->prop['hosts'] as $host)
-        {
+        // try to connect + bind for every host configured
+        // with OpenLDAP 2.x ldap_connect() always succeeds but ldap_bind will fail if host isn't reachable
+        // see http://www.php.net/manual/en/function.ldap-connect.php
+        foreach ($this->prop['hosts'] as $host) {
             $host     = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
             $hostname = $host.($this->prop['port'] ? ':'.$this->prop['port'] : '');
 
             $this->_debug("C: Connect [$hostname] [{$this->prop['name']}]");
 
-            if ($lc = @ldap_connect($host, $this->prop['port']))
-            {
+            if ($lc = @ldap_connect($host, $this->prop['port'])) {
                 if ($this->prop['use_tls'] === true)
                     if (!ldap_start_tls($lc))
                         continue;
@@ -233,17 +234,117 @@ class rcube_ldap extends rcube_addressbook
                 $this->prop['host'] = $host;
                 $this->conn = $lc;
 
+                if (!empty($this->prop['network_timeout']))
+                  ldap_set_option($lc, LDAP_OPT_NETWORK_TIMEOUT, $this->prop['network_timeout']);
+
                 if (isset($this->prop['referrals']))
                     ldap_set_option($lc, LDAP_OPT_REFERRALS, $this->prop['referrals']);
+            }
+            else {
+                $this->_debug("S: NOT OK");
+                continue;
+            }
+
+            // See if the directory is writeable.
+            if ($this->prop['writable']) {
+                $this->readonly = false;
+            }
+
+            $bind_pass = $this->prop['bind_pass'];
+            $bind_user = $this->prop['bind_user'];
+            $bind_dn   = $this->prop['bind_dn'];
+
+            $this->base_dn        = $this->prop['base_dn'];
+            $this->groups_base_dn = ($this->prop['groups']['base_dn']) ?
+            $this->prop['groups']['base_dn'] : $this->base_dn;
+
+            // User specific access, generate the proper values to use.
+            if ($this->prop['user_specific']) {
+                // No password set, use the session password
+                if (empty($bind_pass)) {
+                    $bind_pass = $rcube->get_user_password();
+                }
+
+                // Get the pieces needed for variable replacement.
+                if ($fu = $rcube->get_user_email())
+                    list($u, $d) = explode('@', $fu);
+                else
+                    $d = $this->mail_domain;
+
+                $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
+
+                $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
+
+                if ($this->prop['search_base_dn'] && $this->prop['search_filter']) {
+                    if (!empty($this->prop['search_bind_dn']) && !empty($this->prop['search_bind_pw'])) {
+                        $this->bind($this->prop['search_bind_dn'], $this->prop['search_bind_pw']);
+                    }
+
+                    // Search for the dn to use to authenticate
+                    $this->prop['search_base_dn'] = strtr($this->prop['search_base_dn'], $replaces);
+                    $this->prop['search_filter'] = strtr($this->prop['search_filter'], $replaces);
+
+                    $this->_debug("S: searching with base {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
+
+                    $res = @ldap_search($this->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
+                    if ($res) {
+                        if (($entry = ldap_first_entry($this->conn, $res))
+                            && ($bind_dn = ldap_get_dn($this->conn, $entry))
+                        ) {
+                            $this->_debug("S: search returned dn: $bind_dn");
+                            $dn = ldap_explode_dn($bind_dn, 1);
+                            $replaces['%dn'] = $dn[0];
+                        }
+                    }
+                    else {
+                        $this->_debug("S: ".ldap_error($this->conn));
+                    }
+
+                    // DN not found
+                    if (empty($replaces['%dn'])) {
+                        if (!empty($this->prop['search_dn_default']))
+                            $replaces['%dn'] = $this->prop['search_dn_default'];
+                        else {
+                            rcube::raise_error(array(
+                                'code' => 100, 'type' => 'ldap',
+                                'file' => __FILE__, 'line' => __LINE__,
+                                'message' => "DN not found using LDAP search."), true);
+                            return false;
+                        }
+                    }
+                }
+
+                // Replace the bind_dn and base_dn variables.
+                $bind_dn              = strtr($bind_dn, $replaces);
+                $this->base_dn        = strtr($this->base_dn, $replaces);
+                $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
+
+                if (empty($bind_user)) {
+                    $bind_user = $u;
+                }
+            }
+
+            if (empty($bind_pass)) {
+                $this->ready = true;
+            }
+            else {
+                if (!empty($bind_dn)) {
+                    $this->ready = $this->bind($bind_dn, $bind_pass);
+                }
+                else if (!empty($this->prop['auth_cid'])) {
+                    $this->ready = $this->sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
+                }
+                else {
+                    $this->ready = $this->sasl_bind($bind_user, $bind_pass);
+                }
+            }
+
+            // connection established, we're done here
+            if ($this->ready) {
                 break;
             }
-            $this->_debug("S: NOT OK");
-        }
 
-        // See if the directory is writeable.
-        if ($this->prop['writable']) {
-            $this->readonly = false;
-        }
+        }  // end foreach hosts
 
         if (!is_resource($this->conn)) {
             rcube::raise_error(array('code' => 100, 'type' => 'ldap',
@@ -251,95 +352,6 @@ class rcube_ldap extends rcube_addressbook
                 'message' => "Could not connect to any LDAP server, last tried $hostname"), true);
 
             return false;
-        }
-
-        $bind_pass = $this->prop['bind_pass'];
-        $bind_user = $this->prop['bind_user'];
-        $bind_dn   = $this->prop['bind_dn'];
-
-        $this->base_dn        = $this->prop['base_dn'];
-        $this->groups_base_dn = ($this->prop['groups']['base_dn']) ?
-        $this->prop['groups']['base_dn'] : $this->base_dn;
-
-        // User specific access, generate the proper values to use.
-        if ($this->prop['user_specific']) {
-            // No password set, use the session password
-            if (empty($bind_pass)) {
-                $bind_pass = $rcube->get_user_password();
-            }
-
-            // Get the pieces needed for variable replacement.
-            if ($fu = $rcube->get_user_email())
-                list($u, $d) = explode('@', $fu);
-            else
-                $d = $this->mail_domain;
-
-            $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
-
-            $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
-
-            if ($this->prop['search_base_dn'] && $this->prop['search_filter']) {
-                if (!empty($this->prop['search_bind_dn']) && !empty($this->prop['search_bind_pw'])) {
-                    $this->bind($this->prop['search_bind_dn'], $this->prop['search_bind_pw']);
-                }
-
-                // Search for the dn to use to authenticate
-                $this->prop['search_base_dn'] = strtr($this->prop['search_base_dn'], $replaces);
-                $this->prop['search_filter'] = strtr($this->prop['search_filter'], $replaces);
-
-                $this->_debug("S: searching with base {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
-
-                $res = @ldap_search($this->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
-                if ($res) {
-                    if (($entry = ldap_first_entry($this->conn, $res))
-                        && ($bind_dn = ldap_get_dn($this->conn, $entry))
-                    ) {
-                        $this->_debug("S: search returned dn: $bind_dn");
-                        $dn = ldap_explode_dn($bind_dn, 1);
-                        $replaces['%dn'] = $dn[0];
-                    }
-                }
-                else {
-                    $this->_debug("S: ".ldap_error($this->conn));
-                }
-
-                // DN not found
-                if (empty($replaces['%dn'])) {
-                    if (!empty($this->prop['search_dn_default']))
-                        $replaces['%dn'] = $this->prop['search_dn_default'];
-                    else {
-                        rcube::raise_error(array(
-                            'code' => 100, 'type' => 'ldap',
-                            'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "DN not found using LDAP search."), true);
-                        return false;
-                    }
-                }
-            }
-
-            // Replace the bind_dn and base_dn variables.
-            $bind_dn              = strtr($bind_dn, $replaces);
-            $this->base_dn        = strtr($this->base_dn, $replaces);
-            $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
-
-            if (empty($bind_user)) {
-                $bind_user = $u;
-            }
-        }
-
-        if (empty($bind_pass)) {
-            $this->ready = true;
-        }
-        else {
-            if (!empty($bind_dn)) {
-                $this->ready = $this->bind($bind_dn, $bind_pass);
-            }
-            else if (!empty($this->prop['auth_cid'])) {
-                $this->ready = $this->sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
-            }
-            else {
-                $this->ready = $this->sasl_bind($bind_user, $bind_pass);
-            }
         }
 
         return $this->ready;
