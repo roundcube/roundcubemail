@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Submit Addressbook advanced search form with Enter key (#1488568)
 - Improved database schema upgrade procedure, added updatedb.sh script
 - Force autocommit mode in mysql database driver (#1488902)
 

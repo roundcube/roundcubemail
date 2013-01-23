@@ -4426,6 +4426,11 @@ function rcube_webmail()
     }
 
     $("input[type='text']:visible").first().focus();
+
+    // Submit search form on Enter
+    if (this.env.action == 'search')
+      $(this.gui_objects.editform).append($('<input type="submit">').hide())
+        .submit(function() { $('input.mainaction').click(); return false; });
   };
 
   this.group_create = function()
