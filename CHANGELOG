@@ -1,7 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use LDAP fallback hosts on connect + bind instead of ldap_connect() only.
+- Add config option for LDAP bind timeout (sets LDAP_OPT_NETWORK_TIMEOUT option)
 - Submit Addressbook advanced search form with Enter key (#1488568)
+- Also block remote images in HTML part view (#1488827)
 - Improved database schema upgrade procedure, added updatedb.sh script
 - Force autocommit mode in mysql database driver (#1488902)
 
