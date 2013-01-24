@@ -1550,10 +1550,10 @@ class rcmail_output_html extends rcmail_output
                 }
             }
         }
-        else if (is_array($default_host) && ($host = array_pop($default_host))) {
+        else if (is_array($default_host) && ($host = key($default_host)) !== null) {
             $hide_host = true;
             $input_host = new html_hiddenfield(array(
-                'name' => '_host', 'id' => 'rcmloginhost', 'value' => $host) + $attrib);
+                'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host) + $attrib);
         }
         else if (empty($default_host)) {
             $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost')
