@@ -36,10 +36,6 @@ if (!empty($_GET['_preload'])) {
 ob_end_clean();
 
 
-// define global style for warning blocks inside the attachment part frame
-// TODO: get styles for this from skin (but we don't have a skin template here...)
-$warning_css_style = 'border:2px solid #ffdf0e; background:#fef893; padding:0.6em 1em';
-
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {
   $RCMAIL->config->set('prefer_html', true);
@@ -158,13 +154,13 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       // show warning if validity checks failed
       if (!$valid) {
         $OUTPUT = new rcmail_html_page();
-        $OUTPUT->write(html::tag('html', null, html::tag('body', array('style' => 'font-family:sans-serif; margin:1em'),
-          html::div(array('class' => 'warning', 'style' => $warning_css_style),
+        $OUTPUT->write(html::tag('html', null, html::tag('body', 'embed',
+          html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
             rcube_label(array(
               'name' => 'attachmentvalidationerror',
               'vars' => array('expected' => "$mimetype (.$file_extension)", 'detected' => "$real_mimetype (.$extensions[0])")
             )) .
-            html::p(array('class' => 'buttons', 'style' => 'margin-bottom:0'),
+            html::p(array('class' => 'rcmail-inline-buttons'),
               html::tag('button',
                 array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"),
                 rcube_label('showanyway')))
@@ -232,7 +228,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
             $body_start = strpos($out, '>', $body_pos) + 1;
           }
           $out = substr($out, 0, $body_start) .
-            html::div(array('class' => 'warning', 'style' => $warning_css_style),
+            html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
               Q(rcube_label('blockedimages')) . '&nbsp;' .
               html::tag('button',
                 array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_safe' => 1))) . "'"),
