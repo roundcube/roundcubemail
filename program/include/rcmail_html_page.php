@@ -5,7 +5,7 @@
  | program/include/rcmail_html_page.php                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,7 @@
 
 
 /**
- * Class to create HTML page output using a skin template
+ * Class to create an empty HTML page with some default styles
  *
  * @package    Core
  * @subpackage View
@@ -31,6 +31,18 @@ class rcmail_html_page extends rcmail_output_html
     public function write($contents = '')
     {
         self::reset();
+
+        // load embed.css from skin folder (if exists)
+        if ($embed_css = $this->get_skin_file('/embed.css')) {
+            $this->include_css($embed_css);
+        }
+        else {  // set default styles for warning blocks inside the attachment part frame
+            $this->add_header(html::tag('style', array('type' => 'text/css'),
+                ".rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e; background:#fef893; padding:0.6em 1em; margin-bottom:0.6em }\n" .
+                ".rcmail-inline-buttons { margin-bottom:0 }"
+            ));
+        }
+
         parent::write($contents);
     }
 }

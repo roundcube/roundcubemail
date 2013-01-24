@@ -164,6 +164,7 @@ class rcmail_output_html extends rcmail_output
         }
 
         $this->config->set('skin_path', $skin_path);
+        $this->base_path = $skin_path;
 
         // register skin path(s)
         $this->skin_paths = array();
