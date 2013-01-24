@@ -2161,8 +2161,19 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -390px;
 }
 
-.attachmentslist li.html {
+.attachmentslist li.sig,
+.attachmentslist li.pgp-signature,
+.attachmentslist li.pkcs7-signature {
 	background-position: 0 -442px;
+}
+
+.attachmentslist li.html {
+	background-position: 0 -468px;
+}
+
+.attachmentslist li.eml,
+.attachmentslist li.rfc822 {
+	background-position: 0 -494px;
 }
 
 .attachmentslist li a,
