@@ -628,6 +628,17 @@ a.iconlink.upload {
 	opacity: 0.999;
 }
 
+.partwin #topline {
+	position: absolute;
+	right: 6px;
+	top: 18px;
+	width: auto;
+	z-index: 100;
+	background: transparent;
+	background: none;
+	border: 0;
+}
+
 .minimal #topline a.button-logout {
 	display: none;
 }
@@ -808,6 +819,10 @@ a.iconlink.upload {
 
 .minimal #mainscreen.offset {
 	top: 102px;
+}
+
+.partwin #mainscreen {
+	top: 60px
 }
 
 .extwin #mainscreen {
