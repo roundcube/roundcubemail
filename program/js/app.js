@@ -583,11 +583,11 @@ function rcube_webmail()
           var prevstate = this.env.compose_extwin;
           $("input[name='_action']", this.gui_objects.messageform).val('compose');
           this.gui_objects.messageform.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
-          this.gui_objects.messageform.target = this.open_window('', 1150, 900);
+          this.gui_objects.messageform.target = this.open_window('', 1100, 900);
           this.gui_objects.messageform.submit();
         }
         else {
-          this.open_window(this.env.permaurl, 1000, 1200);
+          this.open_window(this.env.permaurl, 900, 900);
         }
         break;
 
@@ -1684,11 +1684,10 @@ function rcube_webmail()
     var w = Math.min(width, screen.width - 10),
       h = Math.min(height, screen.height - 100),
       l = (screen.width - w) / 2 + (screen.left || 0),
-      t = Math.max(0, (screen.height - h) / 2 + (screen.top || 0) - 20);
-
-    var wname = 'rcmextwin' + new Date().getTime(),
-      extwin = window.open(url + '&_extwin=1', wname, 'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no');
-    extwin.moveTo(l,t);
+      t = Math.max(0, (screen.height - h) / 2 + (screen.top || 0) - 20),
+      wname = 'rcmextwin' + new Date().getTime(),
+      extwin = window.open(url + '&_extwin=1', wname,
+        'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
 
     // write loading... message to empty windows
     if (!url && extwin.document) {
@@ -1696,7 +1695,9 @@ function rcube_webmail()
     }
 
     // focus window, delayed to bring to front
-    window.setTimeout(function(){ extwin.focus(); }, 10);
+    window.setTimeout(function() { extwin.focus(); }, 10);
+    // position window with setTimeout for Chrome (#1488931)
+    window.setTimeout(function() { extwin.moveTo(l,t); }, bw.chrome ? 100 : 10);
 
     return wname;
   };

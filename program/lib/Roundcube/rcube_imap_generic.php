@@ -906,7 +906,7 @@ class rcube_imap_generic
      */
     function closeConnection()
     {
-        if ($this->putLine($this->nextTag() . ' LOGOUT')) {
+        if ($this->logged && $this->putLine($this->nextTag() . ' LOGOUT')) {
             $this->readReply();
         }
 
