@@ -1514,17 +1514,21 @@ ul.proplist li {
 
 /*** quicksearch **/
 
+.searchbox {
+	position: relative;
+}
+
 #quicksearchbar {
 	position: absolute;
 	right: 1px;
-	top: -5px;
+	top: 2px;
 	width: 240px;
 }
 
+.searchbox input,
 #quicksearchbar input {
 	width: 176px;
 	margin: 0;
-	margin-top: 7px;
 	padding: 3px 30px 3px 34px;
 	height: 18px;
 	background: #f1f1f1;
@@ -1533,15 +1537,17 @@ ul.proplist li {
 	font-size: 11px;
 }
 
+.searchbox #searchmenulink,
 #quicksearchbar #searchmenulink {
 	position: absolute;
-	top: 12px;
+	top: 5px;
 	left: 6px;
 }
 
+.searchbox #searchreset,
 #quicksearchbar #searchreset {
 	position: absolute;
-	top: 11px;
+	top: 4px;
 	right: 1px;
 }
 

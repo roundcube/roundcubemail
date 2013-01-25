@@ -138,7 +138,7 @@ ul.toolbarmenu li label {
 	padding: 3px 8px;
 }
 
-#quicksearchbar input {
+.searchbox input {
 	padding-top: 4px;
 	padding-bottom: 2px;
 }
