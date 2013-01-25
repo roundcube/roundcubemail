@@ -268,6 +268,7 @@ $labels['personalinfo'] = 'Osebni podatki';
 $labels['edit'] = 'Uredi';
 $labels['cancel'] = 'Prekliči';
 $labels['save'] = 'Shrani';
+$labels['send'] = 'Pošlji';
 $labels['delete'] = 'Izbriši';
 $labels['rename'] = 'Preimenuj';
 $labels['addphoto'] = 'Dodaj';
