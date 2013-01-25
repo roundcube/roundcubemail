@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add search box to compose address book widget (#1488381)
 - Fix login in case when default_host is an array with one element (#1488928)
 - Use LDAP fallback hosts on connect + bind instead of ldap_connect() only.
 - Add config option for LDAP bind timeout (sets LDAP_OPT_NETWORK_TIMEOUT option)
