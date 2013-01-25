@@ -251,7 +251,12 @@ class rcube_install
         $seen[$prop] = true;
       }
     }
-    
+
+    // the old default mime_magic reference is obsolete
+    if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
+        $out['obsolete'][] = array('prop' => 'mime_magic', 'explain' => "Set value to null in order to use system default");
+    }
+
     // iterate over default config
     foreach ($defaults as $prop => $value) {
       if (!isset($seen[$prop]) && isset($required[$prop]) && !(is_bool($this->config[$prop]) || strlen($this->config[$prop])))

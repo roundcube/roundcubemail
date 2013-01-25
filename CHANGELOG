@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
+- Fix unwanted horizontal scrollbar in message preview header (#1488866)
+- Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
+- Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
 - Fix absolute positioning in HTML messages (#1488819)
 - Fix keybord events on messages list in opera browser (#1488823)
 - Fix cache (in)validation after setting \Deleted flag

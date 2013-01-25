@@ -1414,7 +1414,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
       if ($addicon && $_SESSION['writeable_abook']) {
         $address .= html::a(array(
             'href' => "#add",
-            'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, $string),
+            'onclick' => sprintf("return %s.command('add-contact','%s',this)", JS_OBJECT_NAME, JQ($string)),
             'title' => rcube_label('addtoaddressbook'),
             'class' => 'rcmaddcontact',
           ),

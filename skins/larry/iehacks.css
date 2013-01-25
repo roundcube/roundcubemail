@@ -65,6 +65,12 @@ input.button:active {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#404040', endColorstr='#060606', GradientType=0);
 }
 
+#toplogo {
+	position: absolute;
+	top: 0px;
+	left: 10px;
+}
+
 .records-table tr.selected td {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#019bc6', endColorstr='#017cb4', GradientType=0);
 }
