@@ -524,6 +524,22 @@ abstract class rcube_addressbook
     }
 
     /**
+     * Create a unique key for sorting contacts
+     */
+    public static function compose_contact_key($contact, $sort_col)
+    {
+        $key = $contact[$sort_col] . ':' . $row['sourceid'];
+
+        // add email to a key to not skip contacts with the same name (#1488375)
+        if (!empty($contact['email'])) {
+             $key .= ':' . implode(':', (array)$contact['email']);
+         }
+
+         return $key;
+    }
+
+
+    /**
      * Compare search value with contact data
      *
      * @param string       $colname Data name

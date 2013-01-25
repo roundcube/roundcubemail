@@ -184,7 +184,7 @@ function rcmail_contact_search()
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s['id'];
-            $key = rcmail_contact_key($row, $sort_col);
+            $key = rcube_addressbook::compose_contact_key($row, $sort_col);
             $records[$key] = $row;
         }
 

@@ -61,7 +61,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
             }
 
             $record['sourceid'] = $s;
-            $key = rcmail_contact_key($record, $sort_col);
+            $key = rcube_addressbook::compose_contact_key($record, $sort_col);
             $records[$key] = $record;
         }
 
@@ -109,7 +109,7 @@ else if (!empty($_REQUEST['_cid'])) {
             }
 
             $record['sourceid'] = $s;
-            $key = rcmail_contact_key($record, $sort_col);
+            $key = rcube_addressbook::compose_contact_key($record, $sort_col);
             $records[$key] = $record;
         }
     }
