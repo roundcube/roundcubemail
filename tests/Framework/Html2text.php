@@ -56,4 +56,23 @@ class rc_html2text extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($out, $res, $title);
     }
+
+    /**
+     *
+     */
+    function test_multiple_blockquotes()
+    {
+        $html = <<<EOF
+<br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
+<blockquote>INNER 2</blockquote><div><br></div><div>Par 2</div>
+<div><br></div><div>Par 3</div><div><br></div>
+<blockquote>INNER 3</blockquote>OUTER END</blockquote>
+EOF;
+        $ht = new rcube_html2text($html, false, false);
+        $res = $ht->get_text();
+
+        $this->assertContains('>> INNER 1', $res, 'Quote inner');
+        $this->assertContains('>> INNER 3', $res, 'Quote inner');
+        $this->assertContains('> OUTER END', $res, 'Quote outer');
+    }
 }
