@@ -3,8 +3,8 @@
  | Roundcube Webmail Client Script                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2012, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -219,7 +219,7 @@ function rcube_webmail()
         if (this.gui_objects.qsearchbox) {
           if (this.env.search_text != null)
             this.gui_objects.qsearchbox.value = this.env.search_text;
-          $(this.gui_objects.qsearchbox).focusin(function() { rcmail.message_list.blur(); });
+          $(this.gui_objects.qsearchbox).focusin(function() { rcmail.message_list && rcmail.message_list.blur(); });
         }
 
         this.set_button_titles();
@@ -251,7 +251,7 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'extwin'];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'search', 'reset-search', 'extwin'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -1050,8 +1050,13 @@ function rcube_webmail()
         this.reset_qsearch();
         this.select_all_mode = false;
 
-        if (s && this.env.mailbox)
+        if (s && this.env.action == 'compose') {
+          if (this.contact_list)
+            this.list_contacts_clear();
+        }
+        else if (s && this.env.mailbox) {
           this.list_mailbox(this.env.mailbox, 1);
+        }
         else if (s && this.task == 'addressbook') {
           if (this.env.source == '') {
             for (n in this.env.address_sources) break;
@@ -3652,7 +3657,8 @@ function rcube_webmail()
       // reset vars
       this.env.current_page = 1;
 
-      r = this.http_request('search', url, lock);
+      var action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
+      r = this.http_request(action, url, lock);
 
       this.env.qsearch = {lock: lock, request: r};
     }
@@ -4147,7 +4153,7 @@ function rcube_webmail()
 
     if (this.env.search_id)
       folder = 'S'+this.env.search_id;
-    else
+    else if (!this.env.search_request)
       folder = group ? 'G'+src+group : src;
 
     this.select_folder(folder);
@@ -4200,7 +4206,7 @@ function rcube_webmail()
     this.env.source = src;
     this.env.group = group;
 
-    // also send search request to get the right messages
+    // also send search request to get the right records
     if (this.env.search_request)
       url._search = this.env.search_request;
 
