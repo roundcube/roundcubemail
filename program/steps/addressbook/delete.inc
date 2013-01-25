@@ -93,7 +93,7 @@ if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$searc
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s;
-            $key = rcmail_contact_key($row, $sort_col);
+            $key = rcube_addressbook::compose_contact_key($row, $sort_col);
             $records[$key] = $row;
         }
         unset($result);
