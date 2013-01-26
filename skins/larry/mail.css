@@ -1160,15 +1160,11 @@ div.message-partheaders .headers-table td.header {
 	background: #c7e3ef;
 }
 
-#composequicksearch .searchbox {
-	height: 26px;
-}
-
 #composequicksearch .searchbox input {
-	width: auto;
-	position: absolute;
-	left: 0px;
-	right: 0px;
+	width: 100%;
+	height: 26px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 #composequicksearch #searchmenulink {
