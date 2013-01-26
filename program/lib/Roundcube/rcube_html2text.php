@@ -597,8 +597,15 @@ class rcube_html2text
                     // get blockquote content
                     $body = trim(substr($text, $startpos, $end - $startpos));
 
+                    // adjust text wrapping width
+                    $p_width = $this->width;
+                    if ($this->width > 0) $this->width -= 2;
+
                     // replace content with inner blockquotes
                     $this->_converter($body);
+
+                    // resore text width
+                    $this->width = $p_width;
 
                     // Add citation markers and create <pre> block
                     $body = preg_replace_callback('/((?:^|\n)>*)([^\n]*)/', array($this, 'blockquote_citation_ballback'), trim($body));
