@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add addressbook widget on compose page in classic skin
 - Add search box to compose address book widget (#1488381)
 - Fix login in case when default_host is an array with one element (#1488928)
 - Use LDAP fallback hosts on connect + bind instead of ldap_connect() only.
