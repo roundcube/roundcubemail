@@ -28,13 +28,13 @@ function rcube_splitter(attrib)
 
     if (this.horizontal) {
       var top = this.p1pos.top + this.p1.offsetHeight;
-      this.layer = new rcube_layer(this.id, {x: 0, y: top, height: 10, 
-    	    width: '100%', vis: 1, parent: this.p1.parentNode});
+      this.layer = new rcube_layer(this.id, {x: 0, y: top, height: 10,
+        width: '100%', vis: 1, parent: this.p1.parentNode});
     }
     else {
       var left = this.p1pos.left + this.p1.offsetWidth;
-      this.layer = new rcube_layer(this.id, {x: left, y: 0, width: 10, 
-    	    height: '100%', vis: 1,  parent: this.p1.parentNode});
+      this.layer = new rcube_layer(this.id, {x: left, y: 0, width: 10,
+        height: '100%', vis: 1,  parent: this.p1.parentNode});
     }
 
     this.elm = this.layer.elm;
@@ -147,6 +147,7 @@ function rcube_splitter(attrib)
 
     this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
     this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
+
     return false;
   };
 
