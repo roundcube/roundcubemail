@@ -215,7 +215,7 @@ class rcmail_output_html extends rcmail_output
      * @param string Additional path to search in
      * @return mixed Relative path to the requested file or False if not found
      */
-    public function get_skin_file($file, &$skin_path, $add_path = null)
+    public function get_skin_file($file, &$skin_path = null, $add_path = null)
     {
         $skin_paths = $this->skin_paths;
         if ($add_path)
