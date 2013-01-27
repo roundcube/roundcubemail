@@ -1720,6 +1720,11 @@ input.from_address
   background: url("images/icons/groupactions.png") no-repeat right -70px;
 }
 
+#abookactions a.disabled
+{
+  color: #999;
+}
+
 #compose-contacts #quicksearchbar
 {
   top: 2px;
