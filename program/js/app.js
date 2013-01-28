@@ -3113,6 +3113,13 @@ function rcube_webmail()
     form._draft.value = draft ? '1' : '';
     form.action = this.add_url(form.action, '_unlock', msgid);
     form.action = this.add_url(form.action, '_lang', lang);
+
+    // register timer to notify about connection timeout
+    this.submit_timer = setTimeout(function(){
+      ref.set_busy(false, null, msgid);
+      ref.display_message(ref.get_label('requesttimedout'), 'error');
+    }, this.env.request_timeout * 1000);
+
     form.submit();
   };
 
@@ -6339,12 +6346,21 @@ function rcube_webmail()
 
     // redirect to url specified in location header if not empty
     var location_url = request.getResponseHeader("Location");
-    if (location_url)
+    if (location_url && this.env.action != 'compose')  // don't redirect on compose screen, contents might get lost (#1488926)
       this.redirect(location_url);
 
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
       setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
+  };
+
+  // callback when an iframe finished loading
+  this.iframe_loaded = function(unlock)
+  {
+    this.set_busy(false, null, unlock);
+
+    if (this.submit_timer)
+      clearTimeout(this.submit_timer);
   };
 
   // post the given form to a hidden iframe
