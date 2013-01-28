@@ -64,7 +64,7 @@ class rcube_install
   /**
    * Constructor
    */
-  function rcube_install()
+  function __construct()
   {
     $this->step = intval($_REQUEST['_step']);
     $this->is_post = $_SERVER['REQUEST_METHOD'] == 'POST';
@@ -73,7 +73,7 @@ class rcube_install
   /**
    * Singleton getter
    */
-  function get_instance()
+  static function get_instance()
   {
     static $inst;
 
