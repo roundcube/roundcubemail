@@ -380,7 +380,7 @@ class rcmail_output_html extends rcmail_output
         // unlock interface after iframe load
         $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
         if ($this->framed) {
-            array_unshift($this->js_commands, array('set_busy', false, null, $unlock));
+            array_unshift($this->js_commands, array('iframe_loaded', $unlock));
         }
         else if ($unlock) {
             array_unshift($this->js_commands, array('hide_message', $unlock));
