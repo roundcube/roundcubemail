@@ -355,7 +355,7 @@ spellmenu: function(show)
 
     for (i in rcmail.env.spell_langs) {
       li = $('<li>');
-      link = $('<a href="#">').text(rcmail.env.spell_langs[i])
+      link = $('<a href="#"></a>').text(rcmail.env.spell_langs[i])
         .addClass('active').data('lang', i)
         .click(function() {
           rcmail.spellcheck_lang_set($(this).data('lang'));
@@ -491,17 +491,23 @@ init_compose_form: function()
 
   div.style.top = (parseInt(headers_div.offsetHeight, 10) + 3) + 'px';
   $(window).resize();
+
+  // contacts search submit
+  $('#quicksearchbox').keydown(function(e) {
+    if (rcube_event.get_keycode(e) == 13)
+      rcmail.command('search');
+  });
 },
 
 resize_compose_body: function()
 {
-  var div = $('#compose-div .boxlistcontent'), w = div.width(), h = div.height();
-  w -= 8;  // 2 x 3px padding + 2 x 1px border
-  h -= 4;
+  var div = $('#compose-div .boxlistcontent'),
+    w = div.width() - 2, h = div.height(),
+    x = bw.ie || bw.opera ? 4 : 0;
 
-  $('#compose-body_tbl').width((w+6)+'px').height('');
-  $('#compose-body_ifr').width((w+6)+'px').height((h-54)+'px');
-  $('#compose-body').width(w+'px').height(h+'px');
+  $('#compose-body_tbl').width((w+3)+'px').height('');
+  $('#compose-body_ifr').width((w+3)+'px').height((h-54)+'px');
+  $('#compose-body').width((w-x)+'px').height(h+'px');
   $('#googie_edit_layer').height(h+'px');
 },
 

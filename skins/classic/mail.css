@@ -255,7 +255,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 195px;
+  width: 160px;
 }
 
 #mailrightcontainer
@@ -1392,7 +1392,7 @@ div.hide-headers
 {
   position: absolute;
   top: 0;
-  left: 185px;
+  left: 205px;
   right: 0;
   bottom: 0;
   margin: 0;
@@ -1402,16 +1402,20 @@ div.hide-headers
 {
   position: absolute;
   top: 85px;
+  right: 0;
+  left: 0;
   bottom: 0;
   margin: 0;
-  width: 100%;
 }
 
-#compose-div .boxfooter
+#compose-body-div
 {
-  height: 22px;
-  background: none;
-  border-top: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 175px;
+  border: 1px solid #999;
 }
 
 #compose-div .boxlistcontent
@@ -1429,15 +1433,12 @@ div.hide-headers
   margin: 0;
   font-size: 9pt;
   font-family: monospace;
-  border: 1px solid #999;
   resize: none;
+  border: none;
+  outline: none;
 }
 
-#compose-body_tbl
-{
-  border: 1px solid #999;
-}
-
+#compose-body_tbl,
 #compose-body_tbl td
 {
   border: none;
@@ -1504,9 +1505,10 @@ input.from_address
 #compose-editorfooter
 {
   position: absolute;
-  right: 0;
+  right: 5px;
   bottom: 0;
   text-align: right;
+  line-height: 20px;
 }
 
 #compose-editorfooter label
@@ -1519,9 +1521,20 @@ input.from_address
 #compose-buttons
 {
   position: absolute;
+  left: 5px;
+  bottom: 1px;
+  width: auto;
+}
+
+#compose-contacts
+{
+  position: absolute;
+  top: 0;
   left: 0;
   bottom: 0;
-  width: auto;
+  width: 195px;
+  border: 1px solid #999;
+  background-color: #F9F9F9;
 }
 
 #compose-attachments
@@ -1529,8 +1542,8 @@ input.from_address
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   bottom: 0;
-  width: 175px;
   border: 1px solid #999;
   background-color: #F9F9F9;
 }
@@ -1621,4 +1634,113 @@ input.from_address
   top: 3px;
   right: 6px;
   z-index: 101;
+}
+
+/* addressbook in compose - copy from addressbook.css */
+
+#directorylist
+{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+}
+
+#directorylist li
+{
+  display: block;
+  font-size: 11px;
+  background: url(images/icons/folders.png) 5px -108px no-repeat;
+  border-bottom: 1px solid #EBEBEB;
+  white-space: nowrap;
+}
+
+#directorylist li a
+{
+  cursor: default;
+  display: block;
+  padding-left: 25px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 15px;
+}
+
+#directorylist li.selected
+{
+  background-color: #929292;
+  border-bottom: 1px solid #898989;
+}
+
+#directorylist li.selected a
+{
+  color: #FFF;
+  font-weight: bold;
+}
+
+#contacts-table
+{
+  width: 100%;
+  table-layout: fixed;
+}
+
+#contacts-table tbody td
+{
+  cursor: default;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+
+#abookcountbar
+{
+  margin-top: 4px;
+  margin-left: 4px;
+  position: absolute;
+  margin-right: 5px;
+  right: 0;
+}
+
+#abookactions
+{
+  position: absolute;
+  text-underline: none;
+}
+
+#abookactions a
+{
+  font-weight: bold;
+  line-height: 22px;
+  height: 22px;
+  width: auto;
+  margin: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-shadow: 1px 1px white;
+  background: url("images/icons/groupactions.png") no-repeat right -70px;
+}
+
+#abookactions a.disabled
+{
+  color: #999;
+}
+
+#compose-contacts #quicksearchbar
+{
+  top: 2px;
+  left: 7px;
+}
+
+#compose-contacts #directorylist
+{
+  width: 100%;
+  top: 23px;
+  position: absolute;
+  border-top: 1px solid #eee;
+}
+
+#compose-contacts #contacts-table
+{
+  top: 45px;
+  position: absolute;
 }
