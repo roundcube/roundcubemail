@@ -441,7 +441,7 @@ class acl extends rcube_plugin
             if (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
             }
-            else {
+            else if (!empty($user)) {
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
