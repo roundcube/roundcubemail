@@ -317,3 +317,13 @@ a.deletebutton {
 	text-indent: -5000px;
 	background: url(images/buttons.png) -7px -377px no-repeat;
 }
+
+#import-box {
+	position: absolute;
+	bottom: 28px;
+	top: 34px;
+	left: 0;
+	right: 0;
+	overflow: auto;
+	padding: 10px;
+}
