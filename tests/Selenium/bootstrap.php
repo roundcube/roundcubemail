@@ -50,6 +50,7 @@ PHPUnit_Extensions_Selenium2TestCase::shareSession(true);
 
 // @TODO: remove user record from DB before running tests
 // @TODO: make sure mailbox has some content (always the same) or is empty
+// @TODO: plugins: enable all?
 
 /**
  * Base class for all tests in this directory
@@ -60,7 +61,10 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
     {
 //        $this->rc = rcube::get_instance();
         $this->setBrowser(TESTS_BROWSER);
-        $this->setBrowserUrl(TESTS_URL);
+
+        // Set root to our index.html, for better performance
+        // See https://github.com/sebastianbergmann/phpunit-selenium/issues/217
+        $this->setBrowserUrl(TESTS_URL . '/tests/Selenium');
     }
 
     protected function login()
