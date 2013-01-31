@@ -622,6 +622,27 @@ table.records-table tr.unfocused td
   background-color: #929292;
 }
 
+ul.treelist li div.treetoggle
+{
+  position: absolute;
+  left: 8px !important;
+  left: -16px;
+  top: 1px;
+  width: 14px;
+  height: 16px;
+  cursor: pointer;
+}
+
+ul.treelist li div.collapsed
+{
+  background: url(images/icons/collapsed.png) bottom right no-repeat;
+}
+
+ul.treelist li div.expanded
+{
+  background: url(images/icons/expanded.png) bottom right no-repeat;
+}
+
 
 /***** mac-style quicksearch field *****/
 
@@ -666,6 +687,7 @@ table.records-table tr.unfocused td
   font-size: 11px;
   padding: 0px;
   border: none;
+  outline: none;
 }
 
 /***** roundcube webmail pre-defined classes *****/

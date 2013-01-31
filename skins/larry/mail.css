@@ -141,7 +141,7 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px 2px;
 }
 
-#mailboxlist li:first-child {
+#mailboxlist > li:first-child {
 	border-radius: 4px 4px 0 0;
 	border-top: 0;
 }
@@ -247,32 +247,12 @@ a.iconbutton.threadmode.selected {
 	border-bottom: 0;
 }
 
-#mailboxlist li.mailbox div.collapsed,
-#mailboxlist li.mailbox div.expanded {
-	position: absolute;
+#mailboxlist li.mailbox div.treetoggle {
 	top: 13px;
 	left: 19px;
-	width: 13px;
-	height: 13px;
-	background: url(images/listicons.png) -3px -144px no-repeat;
-	cursor: pointer;
 }
 
-#mailboxlist li.mailbox div.expanded {
-	background-position: -3px -168px;
-}
-
-#mailboxlist li.mailbox.selected > div.collapsed {
-	background-position: -23px -144px;
-}
-
-#mailboxlist li.mailbox.selected > div.expanded {
-	background-position: -23px -168px;
-}
-
-
-#mailboxlist li.mailbox ul li div.collapsed,
-#mailboxlist li.mailbox ul li div.expanded {
+#mailboxlist li.mailbox ul li div.treetoggle {
 	left: 43px;
 	top: 14px;
 }
