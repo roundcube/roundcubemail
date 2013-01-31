@@ -83,8 +83,21 @@
 	background-position: 6px -766px;
 }
 
-#directorylist li.addressbook.selected a {
+#directorylist li.addressbook.selected > a {
 	background-position: 6px -791px;
+}
+
+#directorylist li.addressbook ul li:last-child {
+	border-bottom: 0;
+}
+
+#directorylist li.addressbook ul.groups {
+	margin: 0;
+	padding: 0;
+}
+
+#directorylist li.addressbook ul.groups li {
+	width: 100%;
 }
 
 #directorylist li.contactgroup a {
@@ -110,6 +123,12 @@
 
 #directorylist li.contactsearch input {
 	margin-left: 8px;
+}
+
+#directorylist li.addressbook div.collapsed,
+#directorylist li.addressbook div.expanded {
+	top: 15px;
+	left: 20px;
 }
 
 #contacts-table .contact td.name {

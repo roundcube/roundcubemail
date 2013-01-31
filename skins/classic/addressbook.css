@@ -118,7 +118,7 @@
 
 #directorylistbox input
 {
-  margin: 0px;
+  margin: 0 0 0 20px;
   font-size: 11px;
   width: 90%;
 }
@@ -144,7 +144,8 @@
   width: 280px;
 }
 
-#directorylist
+#directorylist,
+#directorylist li ul
 {
   list-style: none;
   margin: 0;
@@ -152,11 +153,15 @@
   background-color: #FFFFFF;
 }
 
+#directorylist li ul
+{
+  border-top: 1px solid #EBEBEB;
+}
+
 #directorylist li
 {
   display: block;
   font-size: 11px;
-  background: url(images/icons/folders.png) 5px -108px no-repeat;
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
 }
@@ -168,31 +173,37 @@
   padding-left: 25px;
   padding-top: 2px;
   padding-bottom: 2px;
+  height: 16px;
   text-decoration: none;
   white-space: nowrap;
+  background: url(images/icons/folders.png) 5px -108px no-repeat;
 }
 
-#directorylist li.contactgroup
+#directorylist li ul li a
 {
-  padding-left: 15px;
-  background-position: 20px -143px;
+  padding-left: 45px;
 }
 
-#directorylist li.contactsearch
+#directorylist li ul li:last-child
+{
+  border-bottom: 0;
+}
+
+#directorylist li.contactgroup a
+{
+  background-position: 22px -143px;
+}
+
+#directorylist li.contactsearch a
 {
   background-position: 6px -162px;
 }
 
-#directorylist li.selected
-{
-  background-color: #929292;
-  border-bottom: 1px solid #898989;
-}
-
-#directorylist li.selected a
+#directorylist li.selected > a
 {
   color: #FFF;
   font-weight: bold;
+  background-color: #929292;
 }
 
 #directorylist li.droptarget
