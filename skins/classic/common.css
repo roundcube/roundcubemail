@@ -622,6 +622,11 @@ table.records-table tr.unfocused td
   background-color: #929292;
 }
 
+ul.treelist li
+{
+  position: relative;
+}
+
 ul.treelist li div.treetoggle
 {
   position: absolute;
