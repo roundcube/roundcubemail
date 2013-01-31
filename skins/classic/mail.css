@@ -393,32 +393,6 @@
   border-bottom: none;
 }
 
-#mailboxlist li div
-{
-  position: absolute;
-  left: 8px !important;
-  left: -16px;
-  top: 1px;
-  width: 14px;
-  height: 16px;
-}
-
-#mailboxlist li div.collapsed,
-#mailboxlist li div.expanded
-{
-  cursor: pointer;
-}
-
-#mailboxlist li div.collapsed
-{
-  background: url(images/icons/collapsed.png) bottom right no-repeat;
-}
-
-#mailboxlist li div.expanded
-{
-  background: url(images/icons/expanded.png) bottom right no-repeat;
-}
-
 #mailboxlist li.inbox
 {
   background-position: 5px -18px;

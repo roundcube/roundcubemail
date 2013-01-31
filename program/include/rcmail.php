@@ -1406,6 +1406,7 @@ class rcmail extends rcube
             $js_mailboxlist = array();
             $out = html::tag('ul', $attrib, $rcmail->render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib), html::$common_attrib);
 
+            $rcmail->output->include_script('treelist.js');
             $rcmail->output->add_gui_object('mailboxlist', $attrib['id']);
             $rcmail->output->set_env('mailboxes', $js_mailboxlist);
             $rcmail->output->set_env('unreadwrap', $attrib['unreadwrap']);
@@ -1584,14 +1585,13 @@ class rcmail extends rcube
                 'id' => "rcmli".$folder_id,
                 'class' => join(' ', $classes),
                 'noclose' => true),
-                html::a($link_attrib, $html_name) .
-                (!empty($folder['folders']) ? html::div(array(
-                    'class' => ($is_collapsed ? 'collapsed' : 'expanded'),
-                    'style' => "position:absolute",
-                    'onclick' => sprintf("%s.command('collapse-folder', '%s')", rcmail_output::JS_OBJECT_NAME, $js_name)
-                ), '&nbsp;') : ''));
+                html::a($link_attrib, $html_name));
 
-            $jslist[$folder_id] = array(
+            if (!empty($folder['folders'])) {
+                $out .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
+            }
+
+            $jslist[$folder['id']] = array(
                 'id'      => $folder['id'],
                 'name'    => $foldername,
                 'virtual' => $folder['virtual']

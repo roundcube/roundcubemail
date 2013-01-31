@@ -986,6 +986,10 @@ ul.listing li {
 	background-color: #d9ecf4;
 }
 
+ul.listing li ul {
+	border-top: 1px solid #bbd3da;
+}
+
 ul.listing li.droptarget,
 table.listing tr.droptarget td {
 	background-color: #e8e798;
@@ -1000,6 +1004,28 @@ table.layout {
 
 table.layout td {
 	vertical-align: top;
+}
+
+ul.treelist li div.treetoggle {
+	position: absolute;
+	top: 13px;
+	left: 19px;
+	width: 13px;
+	height: 13px;
+	background: url(images/listicons.png) -3px -144px no-repeat;
+	cursor: pointer;
+}
+
+ul.treelist li div.treetoggle.expanded {
+	background-position: -3px -168px;
+}
+
+ul.treelist li.selected > div.collapsed {
+	background-position: -23px -144px;
+}
+
+ul.treelist li.selected > div.expanded {
+	background-position: -23px -168px;
 }
 
 .listbox .boxfooter {
