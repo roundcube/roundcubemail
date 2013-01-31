@@ -70,7 +70,7 @@ class rcube_db
         $driver = isset($driver_map[$driver]) ? $driver_map[$driver] : $driver;
         $class  = "rcube_db_$driver";
 
-        if (!class_exists($class)) {
+        if (!$driver || !class_exists($class)) {
             rcube::raise_error(array('code' => 600, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
                 'message' => "Configuration error. Unsupported database driver: $driver"),
