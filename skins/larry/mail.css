@@ -156,7 +156,7 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px 3px;
 }
 
-#mailboxlist li.mailbox.unread a {
+#mailboxlist li.mailbox.unread > a {
 	padding-right: 36px;
 }
 
@@ -224,6 +224,17 @@ a.iconbutton.threadmode.selected {
 	color: #017cb4;
 }
 
+#mailboxlist li.mailbox div.treetoggle {
+	top: 13px;
+	left: 19px;
+}
+
+#mailboxlist li.mailbox ul li:last-child {
+	border-bottom: 0;
+}
+
+/* nested mailboxes */
+
 #mailboxlist li.mailbox ul {
 	list-style: none;
 	margin: 0;
@@ -231,30 +242,57 @@ a.iconbutton.threadmode.selected {
 	border-top: 1px solid #bbd3da;
 }
 
-#mailboxlist li.mailbox ul li {
-	padding-left: 26px;
-}
-
 #mailboxlist li.mailbox ul li a {
-	background-position: 6px -93px;
+	padding-left: 52px;  /* 36 + 1 x 16 */
+	background-position: 22px -93px;  /* 6 + 1 x 16 */
 }
-
 #mailboxlist li.mailbox ul li.selected > a {
-	background-position: 6px -117px;
+	background-position: 22px -117px;
 }
-
-#mailboxlist li.mailbox ul li:last-child {
-	border-bottom: 0;
-}
-
-#mailboxlist li.mailbox div.treetoggle {
-	top: 13px;
-	left: 19px;
-}
-
 #mailboxlist li.mailbox ul li div.treetoggle {
-	left: 43px;
+	left: 33px;
 	top: 14px;
+}
+
+#mailboxlist li.mailbox ul ul li.mailbox a {
+	padding-left: 68px;  /* 2x */
+	background-position: 38px -93px;
+}
+#mailboxlist li.mailbox ul ul li.selected > a {
+	background-position: 38px -117px;
+}
+#mailboxlist li.mailbox ul ul li div.treetoggle {
+	left: 48px;
+}
+
+#mailboxlist li.mailbox ul ul ul li.mailbox a {
+	padding-left: 84px;  /* 3x */
+	background-position: 54px -93px;
+}
+#mailboxlist li.mailbox ul ul ul li.selected > a {
+	background-position: 54px -117px;
+}
+#mailboxlist li.mailbox ul ul ul li div.treetoggle {
+	left: 64px;
+}
+
+#mailboxlist li.mailbox ul ul ul ul li.mailbox a {
+	padding-left: 100px;  /* 4x */
+	background-position: 70px -93px;
+}
+#mailboxlist li.mailbox ul ul ul ul li.selected > a {
+	background-position: 70px -117px;
+}
+#mailboxlist li.mailbox ul ul ul ul li div.treetoggle {
+	left: 80px;
+}
+
+/* indent folders on levels > 4 */
+#mailboxlist li.mailbox ul ul ul ul ul li {
+	padding-left: 16px;
+}
+#mailboxlist li.mailbox ul ul ul ul ul li div.treetoggle {
+	left: 96px;
 }
 
 #mailboxlist li.mailbox .unreadcount {
