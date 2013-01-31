@@ -1,7 +1,7 @@
 /**
  * Roundcube functions for default skin interface
  *
- * Copyright (c) 2011, The Roundcube Dev Team
+ * Copyright (c) 2013, The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -940,11 +940,11 @@ function rcube_scroller(list, top, bottom)
   this.delay = 500;
 
   this.top
-    .mouseenter(function() { ref.ts = window.setTimeout(function() { ref.scroll('down'); }, ref.delay); })
+    .mouseenter(function() { if (rcmail.drag_active) ref.ts = window.setTimeout(function() { ref.scroll('down'); }, ref.delay); })
     .mouseout(function() { if (ref.ts) window.clearTimeout(ref.ts); });
 
   this.bottom
-    .mouseenter(function() { ref.ts = window.setTimeout(function() { ref.scroll('up'); }, ref.delay); })
+    .mouseenter(function() { if (rcmail.drag_active) ref.ts = window.setTimeout(function() { ref.scroll('up'); }, ref.delay); })
     .mouseout(function() { if (ref.ts) window.clearTimeout(ref.ts); });
 
   this.scroll = function(dir)
