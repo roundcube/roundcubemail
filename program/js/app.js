@@ -472,6 +472,7 @@ function rcube_webmail()
         });
         this.treelist.addEventListener('collapse', function(node){ ref.folder_collapsed(node) });
         this.treelist.addEventListener('expand', function(node){ ref.folder_collapsed(node) });
+        this.treelist.addEventListener('select', function(node){ ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }) });
       }
     }
 
@@ -4416,11 +4417,8 @@ function rcube_webmail()
   // callback from server upon group-delete command
   this.remove_group_item = function(prop)
   {
-    var li, key = 'G'+prop.source+prop.id;
-    if ((li = this.get_folder_li(key,'',true))) {
-      this.triggerEvent('group_delete', { source:prop.source, id:prop.id, li:li });
-
-      li.parentNode.removeChild(li);
+    var key = 'G'+prop.source+prop.id;
+    if (this.treelist.remove(key)) {
       delete this.env.contactfolders[key];
       delete this.env.contactgroups[key];
     }
@@ -4524,14 +4522,12 @@ function rcube_webmail()
       link = $('<a>').attr('href', '#')
         .attr('rel', prop.source+':'+prop.id)
         .click(function() { return rcmail.command('listgroup', prop, this); })
-        .html(prop.name),
-      li = $('<li>').attr({id: 'rcmli'+this.html_identifier(key), 'class': 'contactgroup'})
-        .append(link);
+        .html(prop.name);
 
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
-    this.add_contact_group_row(prop, li);
+    this.treelist.insert({ id:key, html:link, classes:['contactgroup'] }, prop.source, true);
 
-    this.triggerEvent('group_insert', { id:prop.id, source:prop.source, name:prop.name, li:li[0] });
+    this.triggerEvent('group_insert', { id:prop.id, source:prop.source, name:prop.name, li:this.treelist.get_item(key) });
   };
 
   // callback for renaming a contact group
@@ -4540,15 +4536,13 @@ function rcube_webmail()
     this.reset_add_input();
 
     var key = 'G'+prop.source+prop.id,
-      li = this.get_folder_li(key,'',true),
-      link;
+      newnode = {};
 
     // group ID has changed, replace link node and identifiers
-    if (li && prop.newid) {
+    if (prop.newid) {
       var newkey = 'G'+prop.source+prop.newid,
-        newprop = $.extend({}, prop);;
+        newprop = $.extend({}, prop);
 
-      li.id = 'rcmli' + this.html_identifier(newkey);
       this.env.contactfolders[newkey] = this.env.contactfolders[key];
       this.env.contactfolders[newkey].id = prop.newid;
       this.env.group = prop.newid;
@@ -4559,45 +4553,22 @@ function rcube_webmail()
       newprop.id = prop.newid;
       newprop.type = 'group';
 
-      link = $('<a>').attr('href', '#')
+      newnode.id = newkey;
+      newnode.html = $('<a>').attr('href', '#')
         .attr('rel', prop.source+':'+prop.newid)
         .click(function() { return rcmail.command('listgroup', newprop, this); })
         .html(prop.name);
-      $(li).children().replaceWith(link);
     }
     // update displayed group name
-    else if (li && (link = li.firstChild) && link.tagName.toLowerCase() == 'a')
-      link.innerHTML = prop.name;
-
-    this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
-    this.add_contact_group_row(prop, $(li), true);
-
-    this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0], newid:prop.newid });
-  };
-
-  // add contact group row to the list, with sorting
-  this.add_contact_group_row = function(prop, li, reloc)
-  {
-    var row, name = prop.name.toUpperCase(),
-      sibling = this.get_folder_li(prop.source,'',true),
-      prefix = 'rcmli' + this.html_identifier('G'+prop.source, true);
-
-    // When renaming groups, we need to remove it from DOM and insert it in the proper place
-    if (reloc) {
-      row = li.clone(true);
-      li.remove();
+    else {
+      $(this.treelist.get_item(key)).children().first().html(prop.name);
+      this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
     }
-    else
-      row = li;
 
-    $('li[id^="'+prefix+'"]', this.gui_objects.folderlist).each(function(i, elem) {
-      if (name >= $(this).text().toUpperCase())
-        sibling = elem;
-      else
-        return false;
-    });
+    // update list node and re-sort it
+    this.treelist.update(key, newnode, true);
 
-    row.insertAfter(sibling);
+    this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:this.treelist.get_item(key), newid:prop.newid });
   };
 
   this.update_group_commands = function()
@@ -4829,45 +4800,14 @@ function rcube_webmail()
         .attr('rel', id)
         .click(function() { return rcmail.command('listsearch', id, this); })
         .html(name),
-      li = $('<li>').attr({ id:'rcmli' + this.html_identifier(key,true), 'class':'contactsearch' })
-        .append(link),
-      prop = {name:name, id:id, li:li[0]};
+      prop = { name:name, id:id };
 
-    this.add_saved_search_row(prop, li);
+    this.treelist.insert({ id:key, html:link, classes:['contactsearch'] }, null, 'contactsearch');
     this.select_folder(key,'',true);
     this.enable_command('search-delete', true);
     this.env.search_id = id;
 
     this.triggerEvent('abook_search_insert', prop);
-  };
-
-  // add saved search row to the list, with sorting
-  this.add_saved_search_row = function(prop, li, reloc)
-  {
-    var row, sibling, name = prop.name.toUpperCase();
-
-    // When renaming groups, we need to remove it from DOM and insert it in the proper place
-    if (reloc) {
-      row = li.clone(true);
-      li.remove();
-    }
-    else
-      row = li;
-
-    $('li[class~="contactsearch"]', this.gui_objects.folderlist).each(function(i, elem) {
-      if (!sibling)
-        sibling = this.previousSibling;
-
-      if (name >= $(this).text().toUpperCase())
-        sibling = elem;
-      else
-        return false;
-    });
-
-    if (sibling)
-      row.insertAfter(sibling);
-    else
-      row.appendTo(this.gui_objects.folderlist);
   };
 
   // creates an input for saved search name
@@ -4888,10 +4828,8 @@ function rcube_webmail()
   this.remove_search_item = function(id)
   {
     var li, key = 'S'+id;
-    if ((li = this.get_folder_li(key,'',true))) {
+    if (this.treelist.remove(key)) {
       this.triggerEvent('search_delete', { id:id, li:li });
-
-      li.parentNode.removeChild(li);
     }
 
     this.env.search_id = null;
@@ -5716,7 +5654,10 @@ function rcube_webmail()
   // mark a mailbox as selected and set environment variable
   this.select_folder = function(name, prefix, encode)
   {
-    if (this.gui_objects.folderlist) {
+    if (this.treelist) {
+      this.treelist.select(name);
+    }
+    else if (this.gui_objects.folderlist) {
       var current_li, target_li;
 
       if ((current_li = $('li.selected', this.gui_objects.folderlist))) {

@@ -55,6 +55,11 @@ function rcube_treelist_widget(node, p)
 	this.drag_start = drag_start;
 	this.drag_end = drag_end;
 	this.intersects = intersects;
+	this.update = update_node;
+	this.insert = insert;
+	this.remove = remove;
+	this.get_item = get_item;
+	this.get_selection = get_selection;
 
 
 	/////// startup code (constructor)
@@ -68,8 +73,7 @@ function rcube_treelist_widget(node, p)
 	}
 	// load data from DOM
 	else {
-		data = walk_list(container);
-		// console.log(data);
+		update_data();
 	}
 
 	// register click handlers on list
@@ -170,6 +174,131 @@ function rcube_treelist_widget(node, p)
 	}
 
 	/**
+	 * Insert the given node
+	 */
+	function insert(node, parent_id, sort)
+	{
+		var li, parent_li,
+			parent_node = parent_id ? indexbyid[parent_id] : null;
+
+		// insert as child of an existing node
+		if (parent_node) {
+			if (!parent_node.children)
+				parent_node.children = [];
+
+			parent_node.children.push(node);
+			parent_li = id2dom(parent_id);
+
+			// re-render the entire subtree
+			if (parent_node.children.length == 1) {
+				render_node(parent_node, parent_li.parent(), parent_li);
+				li = id2dom(node.id);
+			}
+			else {
+				// append new node to parent's child list
+				li = render_node(node, parent_li.children('ul').first());
+			}
+		}
+		// insert at top level
+		else {
+			data.push(node);
+			li = render_node(node, container);
+		}
+
+		indexbyid[node.id] = node;
+
+		if (sort) {
+			resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
+		}
+	}
+
+	/**
+	 * Update properties of an existing node
+	 */
+	function update_node(id, updates, sort)
+	{
+		var li, node = indexbyid[id];
+		if (node) {
+			li = id2dom(id);
+
+			if (updates.id || updates.html || updates.children || updates.classes) {
+				$.extend(node, updates);
+				render_node(node, li.parent(), li);
+			}
+
+			if (node.id != id) {
+				delete indexbyid[id];
+				indexbyid[node.id] = node;
+			}
+
+			if (sort) {
+				resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
+			}
+		}
+	}
+
+	/**
+	 * Helper method to sort the list of the given item
+	 */
+	function resort_node(li, filter)
+	{
+		var first, sibling,
+			myid = li.get(0).id,
+			sortname = li.children().first().text().toUpperCase();
+
+		li.parent().children('li' + filter).each(function(i, elem) {
+			if (i == 0)
+				first = elem;
+			if (elem.id == myid) {
+				// skip
+			}
+			else if (elem.id != myid && sortname >= $(elem).children().first().text().toUpperCase()) {
+				sibling = elem;
+			}
+			else {
+				return false;
+			}
+		});
+
+		if (sibling) {
+			li.insertAfter(sibling);
+		}
+		else {
+			li.insertBefore(first);
+		}
+
+		// reload data from dom
+		update_data();
+	}
+
+	/**
+	 * Remove the item with the given ID
+	 */
+	function remove(id)
+	{
+		var node, li;
+		if (node = indexbyid[id]) {
+			li = id2dom(id);
+			li.remove();
+
+			node.deleted = true;
+			delete indexbyid[id];
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * (Re-)read tree data from DOM
+	 */
+	function update_data()
+	{
+		data = walk_list(container);
+	}
+
+	/**
 	 * Apply the 'collapsed' status of the data node to the corresponding DOM element(s)
 	 */
 	function update_dom(node)
@@ -202,12 +331,26 @@ function rcube_treelist_widget(node, p)
 	/**
 	 * Render a specific node into the DOM list
 	 */
-	function render_node(node, parent)
+	function render_node(node, parent, replace)
 	{
-		var li = $('<li>' + node.html + '</li>')
-			.attr('id', p.id_prefix + node.id)
-			.addClass((node.classes || []).join(' '))
-			.appendTo(parent);
+		if (node.deleted)
+			return;
+
+		var li = $('<li>')
+			.attr('id', p.id_prefix + (p.id_encode ? p.id_encode(node.id) : node.id))
+			.addClass((node.classes || []).join(' '));
+
+		if (replace)
+			replace.replaceWith(li);
+		else
+			li.appendTo(parent);
+
+		if (typeof node.html == 'string') {
+			li.html(node.html);
+		}
+		else if (typeof node.html == 'object') {
+			li.append(node.html);
+		}
 
 		if (node.virtual)
 			li.addClass('virtual');
@@ -217,7 +360,7 @@ function rcube_treelist_widget(node, p)
 		// add child list and toggle icon
 		if (node.children && node.children.length) {
 			$('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
-			var ul = $('<ul>').appendTo(li);
+			var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass);
 			if (node.collapsed)
 				ul.hide();
 
@@ -225,6 +368,8 @@ function rcube_treelist_widget(node, p)
 				render_node(node.children[i], ul);
 			}
 		}
+
+		return li;
 	}
 
 	/**
@@ -245,6 +390,7 @@ function rcube_treelist_widget(node, p)
 			}
 
 			if (node.children.length) {
+				node.childlistclass = li.children('ul').attr('class');
 				node.collapsed = li.children('ul').css('display') == 'none';
 			}
 			if (li.hasClass('selected')) {
