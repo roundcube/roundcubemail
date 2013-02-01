@@ -6,7 +6,7 @@ if [ ! -d "$JS_DIR" ]; then
 	exit 1
 fi
 
-for fn in app common googiespell list; do
+for fn in app common googiespell list treelist; do
 	if [ -r "$JS_DIR/${fn}.js.src" ]; then
 		mv "$JS_DIR/${fn}.js.src" "$JS_DIR/${fn}.js"
 		echo "Reverted $JS_DIR/${fn}.js"

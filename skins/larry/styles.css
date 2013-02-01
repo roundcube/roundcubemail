@@ -1006,6 +1006,10 @@ table.layout td {
 	vertical-align: top;
 }
 
+ul.treelist li {
+	position: relative;
+}
+
 ul.treelist li div.treetoggle {
 	position: absolute;
 	top: 13px;
