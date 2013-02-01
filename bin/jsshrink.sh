@@ -56,7 +56,7 @@ if [ $# -gt 0 ]; then
 fi
 
 # default: compress application scripts
-for fn in app common googiespell list; do
+for fn in app common googiespell list treelist; do
 	if [ -r "$JS_DIR/${fn}.js.src" ]; then
 		echo "$JS_DIR/${fn}.js.src already exists, not overwriting"
 	else

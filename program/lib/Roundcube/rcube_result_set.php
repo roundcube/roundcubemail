@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -17,20 +17,22 @@
 */
 
 /**
- * Roundcube result set class.
+ * Roundcube result set class
+ *
  * Representing an address directory result set.
+ * Implenets Iterator and thus be used in foreach() loops.
  *
  * @package    Framework
  * @subpackage Addressbook
  */
-class rcube_result_set
+class rcube_result_set implements Iterator
 {
-    var $count = 0;
-    var $first = 0;
-    var $current = 0;
-    var $searchonly = false;
-    var $records = array();
+    public $count = 0;
+    public $first = 0;
+    public $searchonly = false;
+    public $records = array();
 
+    private $current = 0;
 
     function __construct($c=0, $f=0)
     {
@@ -51,18 +53,39 @@ class rcube_result_set
     function first()
     {
         $this->current = 0;
-        return $this->records[$this->current++];
-    }
-
-    // alias for iterate()
-    function next()
-    {
-        return $this->iterate();
+        return $this->records[$this->current];
     }
 
     function seek($i)
     {
         $this->current = $i;
+    }
+
+    /***  PHP 5 Iterator interface  ***/
+
+    function rewind()
+    {
+        $this->current = 0;
+    }
+
+    function current()
+    {
+        return $this->records[$this->current];
+    }
+
+    function key()
+    {
+        return $this->current;
+    }
+
+    function next()
+    {
+        return $this->iterate();
+    }
+
+    function valid()
+    {
+        return isset($this->records[$this->current]);
     }
 
 }
