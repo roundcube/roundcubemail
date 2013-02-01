@@ -322,7 +322,7 @@ function rcube_webmail()
           this.env.contactfolders = $.extend($.extend({}, this.env.address_sources), this.env.contactgroups);
 
         this.enable_command('add', 'import', this.env.writable_source);
-        this.enable_command('list', 'listgroup', 'listsearch', 'advanced-search', true);
+        this.enable_command('list', 'listgroup', 'pushgroup', 'listsearch', 'advanced-search', true);
 
         if (this.gui_objects.contactslist) {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
@@ -1080,6 +1080,8 @@ function rcube_webmail()
         }
         break;
 
+      case 'pushgroup':
+        // TODO: so some magic stuff here
       case 'listgroup':
         this.reset_qsearch();
         this.list_contacts(props.source, props.id);
@@ -4151,6 +4153,7 @@ function rcube_webmail()
 
   this.list_contacts_clear = function()
   {
+    this.contact_list.data = {};
     this.contact_list.clear(true);
     this.show_contentframe(false);
     this.enable_command('delete', false);
@@ -4160,7 +4163,12 @@ function rcube_webmail()
   // load contact record
   this.load_contact = function(cid, action, framed)
   {
-    var win, url = {}, target = window;
+    var win, url = {}, target = window,
+      rec = this.contact_list.data[cid];
+
+    if (rec && rec.type == 'group') {
+      alert('group ' + cid)
+    }
 
     if (win = this.get_frame_window(this.env.contentframe)) {
       url._framed = 1;
@@ -4311,7 +4319,7 @@ function rcube_webmail()
   };
 
   // add row to contacts list
-  this.add_contact_row = function(cid, cols, classes)
+  this.add_contact_row = function(cid, cols, classes, data)
   {
     if (!this.gui_objects.contactslist)
       return false;
@@ -4333,6 +4341,8 @@ function rcube_webmail()
       row.appendChild(col);
     }
 
+    // store data in list member
+    list.data[cid] = data;
     list.insert_row(row);
 
     this.enable_command('export', list.rowcount > 0);

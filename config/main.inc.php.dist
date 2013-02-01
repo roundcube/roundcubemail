@@ -680,6 +680,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'object_classes' => array("top", "groupOfNames"),
     'member_attr'  => 'member',   // name of the member attribute, e.g. uniqueMember
     'name_attr'    => 'cn',       // attribute to be used as group name
+    'member_filter' => '(objectclass=*)',  // optional filter to use when querying for group members
   ),
 );
 */

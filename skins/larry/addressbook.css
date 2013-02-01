@@ -141,6 +141,17 @@
 	font-weight: bold;
 }
 
+#contacts-table .group td.name {
+	background-position: 6px -1555px;
+}
+
+#contacts-table .group.selected td.name,
+#contacts-table .group.unfocused td.name {
+	background-position: 6px -1579px;
+	font-weight: bold;
+}
+
+
 #contact-frame {
 	position: absolute;
 	top: 0;

@@ -310,7 +310,7 @@ function rcmail_contacts_list($attrib)
     global $CONTACTS, $OUTPUT;
 
     // define list of cols to be displayed
-    $a_show_cols = array('name');
+    $a_show_cols = array('name','action');
 
     // add id to message list table if not specified
     if (!strlen($attrib['id']))
@@ -339,27 +339,51 @@ function rcmail_js_contacts_list($result, $prefix='')
         return;
 
     // define list of cols to be displayed
-    $a_show_cols = array('name');
+    $a_show_cols = array('name','action');
 
     while ($row = $result->next()) {
+        $row['CID'] = $row['ID'];
+        $source_id = $OUTPUT->get_env('source');
         $a_row_cols = array();
-        $classes = array('person');  // org records will follow some day
+        $classes = array($row['_type'] ? $row['_type'] : 'person');
 
         // build contact ID with source ID
         if (isset($row['sourceid'])) {
             $row['ID'] = $row['ID'].'-'.$row['sourceid'];
+            $source_id = $row['sourceid'];
         }
 
         // format each col
         foreach ($a_show_cols as $col) {
-            $val = $col == 'name' ? rcube_addressbook::compose_list_name($row) : $row[$col];
-            $a_row_cols[$col] = Q($val);
+            $val = '';
+            switch ($col) {
+                case 'name':
+                    $val = Q(rcube_addressbook::compose_list_name($row));
+                    break;
+
+                case 'action':
+                    if ($row['_type'] == 'group') {
+                        $val = html::a(array(
+                            'href' => '#list',
+                            'rel' => $row['ID'],
+                            'title' => rcube_label('listgroup'),
+                            'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this)", JS_OBJECT_NAME, $source_id, $row['CID']),
+                        ), '&raquo;');
+                    }
+                    break;
+
+                default:
+                    $val = Q($row[$col]);
+                    break;
+            }
+
+            $a_row_cols[$col] = $val;
         }
 
         if ($row['readonly'])
             $classes[] = 'readonly';
 
-        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes));
+        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes), $row);
     }
 }
 

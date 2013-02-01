@@ -657,6 +657,21 @@ class rcube_ldap extends rcube_addressbook
         if (empty($entry[$attr]))
             return $group_members;
 
+        // add group record to cache if it isn't yet there
+        $group_id = self::dn_encode($dn);
+        $group_cache = $this->cache->get('groups');
+        if (!$group_cache[$group_id]) {
+            $name_attr = $this->prop['groups']['name_attr'];
+            $group_name = is_array($ldap_data[$i][$name_attr]) ? $ldap_data[$i][$name_attr][0] : $ldap_data[$i][$name_attr];
+
+            $group_cache[$group_id]['ID'] = $group_id;
+            $group_cache[$group_id]['dn'] = $dn;
+            $group_cache[$group_id]['name'] = $group_name;
+            $group_cache[$group_id]['member_attr'] = $this->get_group_member_attr($entry[$i]['objectclass']);
+
+            $this->cache->set('groups', $group_cache);
+        }
+
         // read these attributes for all members
         $attrib = $count ? array('dn') : array_values($this->fieldmap);
         $attrib[] = 'objectClass';
@@ -664,12 +679,14 @@ class rcube_ldap extends rcube_addressbook
         $attrib[] = 'uniqueMember';
         $attrib[] = 'memberURL';
 
+        $filter = $this->prop['groups']['member_filter'] ? $this->prop['groups']['member_filter'] : '(objectclass=*)';
+
         for ($i=0; $i < $entry[$attr]['count']; $i++)
         {
             if (empty($entry[$attr][$i]))
                 continue;
 
-            $result = @ldap_read($this->conn, $entry[$attr][$i], '(objectclass=*)',
+            $result = @ldap_read($this->conn, $entry[$attr][$i], $filter,
                 $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit']);
 
             $members = @ldap_get_entries($this->conn, $result);
@@ -1522,10 +1539,19 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _ldap2result($rec)
     {
-        $out = array();
+        $out = array('_type' => 'person');
 
         if ($rec['dn'])
             $out[$this->primary_key] = self::dn_encode($rec['dn']);
+
+        // determine record type
+        if (array_intersect(array('groupofuniquenames','kolabgroupofuniquenames'), (array)$rec['objectclass'])) {
+            $out['_type'] = 'group';
+            $out['readonly'] = true;
+            if ($this->fieldmap['groupname']) {
+                $this->fieldmap['name'] = $this->fieldmap['groupname'];
+            }
+        }
 
         foreach ($this->fieldmap as $rf => $lf)
         {
@@ -1780,7 +1806,7 @@ class rcube_ldap extends rcube_addressbook
         for ($i=0; $i < $group_count; $i++)
         {
             $group_name = is_array($ldap_data[$i][$name_attr]) ? $ldap_data[$i][$name_attr][0] : $ldap_data[$i][$name_attr];
-            $group_id = self::dn_encode($group_name);
+            $group_id = self::dn_encode($ldap_data[$i]['dn']);
             $groups[$group_id]['ID'] = $group_id;
             $groups[$group_id]['dn'] = $ldap_data[$i]['dn'];
             $groups[$group_id]['name'] = $group_name;
