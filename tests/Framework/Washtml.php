@@ -25,4 +25,18 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertNotRegExp('/vbscript:/', $washed, "Remove vbscript: links");
     }
 
+    /**
+     * Test fixing of invalid href (#1488940)
+     */
+    function test_href()
+    {
+        $html = "<p><a href=\"\nhttp://test.com\n\">Firefox</a>";
+
+        $washer = new rcube_washtml;
+
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|href="http://test.com">|', $washed, "Link href with newlines (#1488940)");
+    }
+
 }
