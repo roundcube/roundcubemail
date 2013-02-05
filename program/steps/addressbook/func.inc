@@ -268,6 +268,7 @@ function rcmail_contact_groups($args)
 {
     global $RCMAIL;
 
+    $groups_html = '';
     $groups = $RCMAIL->get_address_book($args['source'])->list_groups();
     $js_id = $RCMAIL->JQ($args['source']);
 
@@ -283,7 +284,6 @@ function rcmail_contact_groups($args)
         $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
 
         $jsdata = array();
-        $groups_html = '';
         foreach ($groups as $group) {
             $groups_html .= sprintf($line_templ,
                 rcube_utils::html_identifier('G' . $args['source'] . $group['ID'], true),
