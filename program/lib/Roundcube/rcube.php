@@ -1073,14 +1073,17 @@ class rcube
     {
         // handle PHP exceptions
         if (is_object($arg) && is_a($arg, 'Exception')) {
-            $err = array(
+            $arg = array(
                 'type' => 'php',
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
                 'file' => $arg->getFile(),
                 'message' => $arg->getMessage(),
             );
-            $arg = $err;
+        }
+
+        if (empty($arg['code'])) {
+            $arg['code'] = 500;
         }
 
         // installer
