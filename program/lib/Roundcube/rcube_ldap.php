@@ -38,7 +38,7 @@ class rcube_ldap extends rcube_addressbook
     /** private properties */
     protected $conn;
     protected $prop = array();
-    protected $fieldmap = array();
+    protected $fieldmap = array('_objclass' => 'objectclass');
     protected $sub_filter;
     protected $filter = '';
     protected $result = null;
@@ -82,6 +82,12 @@ class rcube_ldap extends rcube_addressbook
                 $this->prop['groups']['name_attr'] = 'cn';
             if (empty($this->prop['groups']['scope']))
                 $this->prop['groups']['scope'] = 'sub';
+
+            // add group name attrib to fieldmap in order to have it fetched
+            $this->fieldmap['_groupname'] = $this->prop['groups']['name_attr'];
+        }
+        else if (is_array($p['group_filters']) && count($p['group_filters'])) {
+            $this->groups = true;
         }
 
         // fieldmap property is given
@@ -549,13 +555,15 @@ class rcube_ldap extends rcube_addressbook
         }
         else
         {
+            $prop = $this->group_id ? $this->group_data : $this->prop;
+
             // add general filter to query
-            if (!empty($this->prop['filter']) && empty($this->filter))
-                $this->set_search_set($this->prop['filter']);
+            if (!empty($prop['filter']) && empty($this->filter))
+                $this->set_search_set($prop['filter']);
 
             // exec LDAP search if no result resource is stored
             if ($this->conn && !$this->ldap_result)
-                $this->_exec_search();
+                $this->_exec_search($prop);
 
             // count contacts for this user
             $this->result = $this->count();
@@ -564,7 +572,7 @@ class rcube_ldap extends rcube_addressbook
             if ($this->ldap_result && $this->result->count > 0)
             {
                 // sorting still on the ldap server
-                if ($this->sort_col && $this->prop['scope'] !== 'base' && !$this->vlv_active)
+                if ($this->sort_col && $prop['scope'] !== 'base' && !$this->vlv_active)
                     ldap_sort($this->conn, $this->ldap_result, $this->sort_col);
 
                 // get all entries from the ldap server
@@ -599,6 +607,7 @@ class rcube_ldap extends rcube_addressbook
 
         // fetch group object
         if (empty($entries)) {
+            $this->_debug("C: Read Group [dn: $dn]");
             $result = @ldap_read($this->conn, $dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL'));
             if ($result === false)
             {
@@ -657,21 +666,6 @@ class rcube_ldap extends rcube_addressbook
         if (empty($entry[$attr]))
             return $group_members;
 
-        // add group record to cache if it isn't yet there
-        $group_id = self::dn_encode($dn);
-        $group_cache = $this->cache->get('groups');
-        if (!$group_cache[$group_id]) {
-            $name_attr = $this->prop['groups']['name_attr'];
-            $group_name = is_array($ldap_data[$i][$name_attr]) ? $ldap_data[$i][$name_attr][0] : $ldap_data[$i][$name_attr];
-
-            $group_cache[$group_id]['ID'] = $group_id;
-            $group_cache[$group_id]['dn'] = $dn;
-            $group_cache[$group_id]['name'] = $group_name;
-            $group_cache[$group_id]['member_attr'] = $this->get_group_member_attr($entry[$i]['objectclass']);
-
-            $this->cache->set('groups', $group_cache);
-        }
-
         // read these attributes for all members
         $attrib = $count ? array('dn') : array_values($this->fieldmap);
         $attrib[] = 'objectClass';
@@ -726,26 +720,15 @@ class rcube_ldap extends rcube_addressbook
 
             // add search filter if any
             $filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
-            $func = $m[2] == 'sub' ? 'ldap_search' : ($m[2] == 'base' ? 'ldap_read' : 'ldap_list');
-
-            $attrib = $count ? array('dn') : array_values($this->fieldmap);
-            if ($result = @$func($this->conn, $m[1], $filter,
-                $attrib, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
-            ) {
-                $this->_debug("S: ".ldap_count_entries($this->conn, $result)." record(s) for ".$m[1]);
-            }
-            else {
-                $this->_debug("S: ".ldap_error($this->conn));
-                return $group_members;
-            }
-
-            $entries = @ldap_get_entries($this->conn, $result);
-            for ($j = 0; $j < $entries['count']; $j++)
-            {
-                if ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count))
-                    $group_members = array_merge($group_members, $nested_group_members);
-                else
-                    $group_members[] = $entries[$j];
+            $attrs = $count ? array('dn') : array_values($this->fieldmap);
+            if ($result = $this->ldap_search($m[1], $filter, $m[2], $attrs, $this->group_data)) {
+                $entries = @ldap_get_entries($this->conn, $result);
+                for ($j = 0; $j < $entries['count']; $j++) {
+                    if ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count))
+                        $group_members = array_merge($group_members, $nested_group_members);
+                    else
+                        $group_members[] = $entries[$j];
+                }
             }
         }
 
@@ -910,7 +893,7 @@ class rcube_ldap extends rcube_addressbook
 
         // set filter string and execute search
         $this->set_search_set($filter);
-        $this->_exec_search();
+        $this->_exec_search($this->prop);
 
         if ($select)
             $this->list_records();
@@ -936,13 +919,15 @@ class rcube_ldap extends rcube_addressbook
             $count = count($this->list_group_members($this->group_data['dn'], true));
         }
         else if ($this->conn) {
+            $prop = $this->group_id ? $this->group_data : $this->prop;
+
             // We have a connection but no result set, attempt to get one.
             if (empty($this->filter)) {
                 // The filter is not set, set it.
                 $this->filter = $this->prop['filter'];
             }
 
-            $count = (int) $this->_exec_search(true);
+            $count = (int) $this->_exec_search($prop, true);
         }
 
         return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
@@ -1434,57 +1419,35 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Execute the LDAP search based on the stored credentials
      */
-    private function _exec_search($count = false)
+    private function _exec_search($prop, $count = false)
     {
         if ($this->ready)
         {
-            $filter = $this->filter ? $this->filter : '(objectclass=*)';
-            $function = $this->_scope2func($this->prop['scope'], $ns_function);
-
-            $this->_debug("C: Search [$filter][dn: $this->base_dn]");
+            $function = $this->_scope2func($prop['scope'], $ns_function);
+            $base_dn = $this->group_id && $prop['base_dn'] ? $prop['base_dn'] : $this->base_dn;
 
             // when using VLV, we get the total count by...
-            if (!$count && $function != 'ldap_read' && $this->prop['vlv'] && !$this->group_id) {
+            if (!$count && $function != 'ldap_read' && $prop['vlv']) {
                 // ...either reading numSubOrdinates attribute
-                if ($this->prop['numsub_filter'] && ($result_count = @$ns_function($this->conn, $this->base_dn, $this->prop['numsub_filter'], array('numSubOrdinates'), 0, 0, 0))) {
+                if ($prop['numsub_filter'] && ($result_count = @$ns_function($this->conn, $base_dn, $prop['numsub_filter'], array('numSubOrdinates'), 0, 0, 0))) {
                     $counts = ldap_get_entries($this->conn, $result_count);
                     for ($this->vlv_count = $j = 0; $j < $counts['count']; $j++)
                         $this->vlv_count += $counts[$j]['numsubordinates'][0];
                     $this->_debug("D: total numsubordinates = " . $this->vlv_count);
                 }
                 else if (!function_exists('ldap_parse_virtuallist_control'))  // ...or by fetching all records dn and count them
-                    $this->vlv_count = $this->_exec_search(true);
-
-                $this->vlv_active = $this->_vlv_set_controls($this->prop, $this->list_page, $this->page_size);
+                    $this->vlv_count = $this->_exec_search($prop, true);
             }
 
-            // only fetch dn for count (should keep the payload low)
-            $attrs = $count ? array('dn') : array_values($this->fieldmap);
-            if ($this->ldap_result = @$function($this->conn, $this->base_dn, $filter,
-                $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
-            ) {
-                // when running on a patched PHP we can use the extended functions to retrieve the total count from the LDAP search result
-                if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control')) {
-                    if (ldap_parse_result($this->conn, $this->ldap_result,
-                        $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)
-                        && $serverctrls // can be null e.g. in case of adm. limit error
-                    ) {
-                        ldap_parse_virtuallist_control($this->conn, $serverctrls,
-                            $last_offset, $this->vlv_count, $vresult);
-                        $this->_debug("S: VLV result: last_offset=$last_offset; content_count=$this->vlv_count");
-                    }
-                    else {
-                        $this->_debug("S: ".($errmsg ? $errmsg : ldap_error($this->conn)));
-                    }
+            $filter = $this->filter ? $this->filter : '(objectclass=*)';
+            $attrs = $count ? array('dn') : array_values($this->fieldmap);  // only fetch dn for count (should keep the payload low)
+            if ($this->ldap_result = $this->ldap_search($base_dn, $filter, $prop['scope'], $attrs, $prop)) {
+                if ($count) {
+                    return ldap_count_entries($this->conn, $this->ldap_result);
                 }
-
-                $entries_count = ldap_count_entries($this->conn, $this->ldap_result);
-                $this->_debug("S: $entries_count record(s)");
-
-                return $count ? $entries_count : true;
-            }
-            else {
-                $this->_debug("S: ".ldap_error($this->conn));
+                else {
+                    return true;
+                }
             }
         }
 
@@ -1540,20 +1503,19 @@ class rcube_ldap extends rcube_addressbook
     private function _ldap2result($rec)
     {
         $out = array('_type' => 'person');
+        $fieldmap = $this->fieldmap;
 
         if ($rec['dn'])
             $out[$this->primary_key] = self::dn_encode($rec['dn']);
 
         // determine record type
-        if (array_intersect(array('groupofuniquenames','kolabgroupofuniquenames'), (array)$rec['objectclass'])) {
+        if (array_intersect(array('groupofuniquenames','kolabgroupofuniquenames'), array_map('strtolower', (array)$rec['objectclass']))) {
             $out['_type'] = 'group';
             $out['readonly'] = true;
-            if ($this->fieldmap['groupname']) {
-                $this->fieldmap['name'] = $this->fieldmap['groupname'];
-            }
+            $fieldmap['name'] = $fieldmap['_groupname'];
         }
 
-        foreach ($this->fieldmap as $rf => $lf)
+        foreach ($fieldmap as $rf => $lf)
         {
             for ($i=0; $i < $rec[$lf]['count']; $i++) {
                 if (!($value = $rec[$lf][$i]))
@@ -1718,20 +1680,14 @@ class rcube_ldap extends rcube_addressbook
 
     /**
      * Setter for the current group
-     * (empty, has to be re-implemented by extending class)
      */
     function set_group($group_id)
     {
-        if ($group_id)
-        {
-            if (($group_cache = $this->cache->get('groups')) === null)
-                $group_cache = $this->_fetch_groups();
-
+        if ($group_id) {
             $this->group_id = $group_id;
-            $this->group_data = $group_cache[$group_id];
+            $this->group_data = $this->get_group_entry($group_id);
         }
-        else
-        {
+        else {
             $this->group_id = 0;
             $this->group_data = null;
         }
@@ -1772,6 +1728,23 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _fetch_groups($vlv_page = 0)
     {
+        // special case: list groups from 'group_filters' config
+        if (!empty($this->prop['group_filters'])) {
+            $groups = array();
+
+            // list regular groups configuration as special filter
+            if (!empty($this->prop['groups']['filter'])) {
+                $id = '__groups__';
+                $groups[$id] = array('ID' => $id, 'name' => rcube_label('groups')) + $this->prop['groups'];
+            }
+
+            foreach ($this->prop['group_filters'] as $id => $prop) {
+                $groups[$id] = $prop + array('ID' => $id, 'name' => ucfirst($id));
+            }
+
+            return $groups;
+        }
+
         $base_dn = $this->groups_base_dn;
         $filter = $this->prop['groups']['filter'];
         $name_attr = $this->prop['groups']['name_attr'];
@@ -1841,6 +1814,40 @@ class rcube_ldap extends rcube_addressbook
         $this->cache->set('groups', $groups);
 
         return $groups;
+    }
+
+    /**
+     * Fetch a group entry from LDAP and save in local cache
+     */
+    private function get_group_entry($group_id)
+    {
+        if (($group_cache = $this->cache->get('groups')) === null)
+            $group_cache = $this->_fetch_groups();
+
+        // add group record to cache if it isn't yet there
+        if (!isset($group_cache[$group_id])) {
+            $name_attr = $this->prop['groups']['name_attr'];
+            $dn = self::dn_decode($group_id);
+
+            $this->_debug("C: Read Group [dn: $dn]");
+            if ($result = @ldap_read($this->conn, $dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL',$name_attr))) {
+                $list = ldap_get_entries($this->conn, $result);
+                $entry = $list[0];
+                $group_name = is_array($entry[$name_attr]) ? $entry[$name_attr][0] : $entry[$name_attr];
+                $group_cache[$group_id]['ID'] = $group_id;
+                $group_cache[$group_id]['dn'] = $dn;
+                $group_cache[$group_id]['name'] = $group_name;
+                $group_cache[$group_id]['member_attr'] = $this->get_group_member_attr($entry['objectclass']);
+            }
+            else {
+                $this->_debug("S: ".ldap_error($this->conn));
+                $group_cache[$group_id] = false;
+            }
+
+            $this->cache->set('groups', $group_cache);
+        }
+
+        return $group_cache[$group_id];
     }
 
     /**
@@ -2243,6 +2250,59 @@ class rcube_ldap extends rcube_addressbook
     {
         $str = str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT);
         return base64_decode($str);
+    }
+
+    /**
+     * Wrapper for ldap_search or ldap_list depending on the given scope.
+     * It optionally uses VLV index if configured in $prop
+     *
+     * @param string Base DN to read from
+     * @param string Query filter to use
+     * @param string Listing scope (sub|list|base)
+     * @param array List of entry attributes to read
+     * @param array Hash array with query configuration properties:
+     *   - vlv: true if VLV index should be used
+     *   - sort: array of sort attributes (has to be in sync with the VLV index)
+     */
+    protected function ldap_search($base_dn, $filter = '(objectclass=*)', $scope = 'sub', $attrs = array('dn'), $prop = array())
+    {
+        if ($this->ready) {
+            $this->_debug("C: LDAP Search [$filter][dn: $base_dn]");
+
+            // set VLV controls if requested
+            if ($prop['vlv'] && $scope != 'base')
+                $this->vlv_active = $this->_vlv_set_controls($prop, $this->list_page, $this->page_size);
+
+            $function = $this->_scope2func($scope);
+            if ($ldap_result = $function($this->conn, $base_dn, $filter,
+                $attrs, 0, (int)$this->prop['sizelimit'], (int)$this->prop['timelimit'])
+            ) {
+                // when running on a patched PHP we can use the extended functions to retrieve the total count from the LDAP search result
+                if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control')) {
+                    if (ldap_parse_result($this->conn, $this->ldap_result,
+                        $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)
+                        && $serverctrls // can be null e.g. in case of adm. limit error
+                    ) {
+                        ldap_parse_virtuallist_control($this->conn, $serverctrls,
+                            $last_offset, $this->vlv_count, $vresult);
+                        $this->_debug("S: VLV result: last_offset=$last_offset; content_count=$this->vlv_count");
+                    }
+                    else {
+                        $this->_debug("S: ".($errmsg ? $errmsg : ldap_error($this->conn)));
+                    }
+                }
+
+                $entries_count = ldap_count_entries($this->conn, $ldap_result);
+                $this->_debug("S: $entries_count record(s)");
+
+                return $ldap_result;
+            }
+            else {
+                $this->_debug("S: ".ldap_error($this->conn));
+            }
+        }
+
+        return false;
     }
 
     /**
