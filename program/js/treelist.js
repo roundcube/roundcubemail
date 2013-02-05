@@ -263,7 +263,7 @@ function rcube_treelist_widget(node, p)
 		if (sibling) {
 			li.insertAfter(sibling);
 		}
-		else {
+		else if (first.id != myid) {
 			li.insertBefore(first);
 		}
 
@@ -380,18 +380,20 @@ function rcube_treelist_widget(node, p)
 	{
 		var result = [];
 		ul.children('li').each(function(i,e){
-			var li = $(e);
+			var li = $(e), sublist = li.children('ul');
 			var node = {
 				id: dom2id(li),
 				classes: li.attr('class').split(' '),
 				virtual: li.hasClass('virtual'),
 				html: li.children().first().get(0).outerHTML,
-				children: walk_list(li.children('ul'))
+				children: walk_list(sublist)
 			}
 
+			if (sublist.length) {
+				node.childlistclass = sublist.attr('class');
+			}
 			if (node.children.length) {
-				node.childlistclass = li.children('ul').attr('class');
-				node.collapsed = li.children('ul').css('display') == 'none';
+				node.collapsed = sublist.css('display') == 'none';
 			}
 			if (li.hasClass('selected')) {
 				selection = node.id;

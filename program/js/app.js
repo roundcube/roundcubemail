@@ -4438,7 +4438,10 @@ function rcube_webmail()
       this.name_input_li = $('<li>').addClass(type).append(this.name_input);
 
       var li = type == 'contactsearch' ? $('li:last', this.gui_objects.folderlist) : $('ul.groups li:last', this.get_folder_li(this.env.source,'',true));
-      this.name_input_li.insertAfter(li);
+      if (li.length)
+        this.name_input_li.insertAfter(li);
+      else
+        this.name_input_li.appendTo(type == 'contactsearch' ? this.gui_objects.folderlist : $('ul.groups', this.get_folder_li(this.env.source,'',true)));
     }
 
     this.name_input.select().focus();
