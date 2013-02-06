@@ -124,8 +124,8 @@ class virtuser_query extends rcube_plugin
 	$virtuser_query_dsn=$this->app->config->get('virtuser_query_dsn');
 	if (isset($virtuser_query_dsn)) 
 	{
-                        /* connect to squirrelmail database */
-                        $dbh = new rcube_mdb2($this->app->config->get('virtuser_query_dsn'));
+                        /* connect to the virtuser database */
+			$dbh = rcube_db::factory($this->app->config->get('virtuser_query_dsn'));
                         $dbh->db_connect('r'); // connect in read mode
 	}   
        else
