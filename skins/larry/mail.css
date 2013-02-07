@@ -1224,6 +1224,19 @@ div.message-partheaders .headers-table td.header {
 	text-overflow: ellipsis;
 }
 
+#contacts-table td.contactgroup a {
+	color: #376572;
+	text-decoration: none;
+}
+
+#contacts-table td.contactgroup a span {
+	display: inline-block;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 11px;
+	margin-left: 0.3em;
+}
+
 #contacts-table tr:first-child td {
 	border-top: 0;
 }

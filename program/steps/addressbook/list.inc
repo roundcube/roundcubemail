@@ -81,6 +81,11 @@ else {
         $OUTPUT->show_message('contactsearchonly', 'notice');
         $OUTPUT->command('command', 'advanced-search');
     }
+
+    if ($CONTACTS->group_id) {
+        $OUTPUT->command('set_group_prop', array('ID' => $CONTACTS->group_id)
+            + array_intersect_key((array)$CONTACTS->get_group($CONTACTS->group_id), array('name'=>1,'email'=>1)));
+    }
 }
 
 // update message count display

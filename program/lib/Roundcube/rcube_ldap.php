@@ -924,7 +924,7 @@ class rcube_ldap extends rcube_addressbook
             // We have a connection but no result set, attempt to get one.
             if (empty($this->filter)) {
                 // The filter is not set, set it.
-                $this->filter = $this->prop['filter'];
+                $this->filter = $prop['filter'];
             }
 
             $count = (int) $this->_exec_search($prop, true);
@@ -1299,7 +1299,7 @@ class rcube_ldap extends rcube_addressbook
             // change the group membership of the contact
             if ($this->groups) {
                 $group_ids = $this->get_record_groups($dn);
-                foreach ($group_ids as $group_id)
+                foreach ($group_ids as $group_id => $group_prop)
                 {
                     $this->remove_from_group($group_id, $dn);
                     $this->add_to_group($group_id, $newdn);
@@ -1365,7 +1365,7 @@ class rcube_ldap extends rcube_addressbook
             if ($this->groups) {
                 $dn = self::dn_encode($dn);
                 $group_ids = $this->get_record_groups($dn);
-                foreach ($group_ids as $group_id) {
+                foreach ($group_ids as $group_id => $group_prop) {
                     $this->remove_from_group($group_id, $dn);
                 }
             }
@@ -1735,11 +1735,11 @@ class rcube_ldap extends rcube_addressbook
             // list regular groups configuration as special filter
             if (!empty($this->prop['groups']['filter'])) {
                 $id = '__groups__';
-                $groups[$id] = array('ID' => $id, 'name' => rcube_label('groups')) + $this->prop['groups'];
+                $groups[$id] = array('ID' => $id, 'name' => rcube_label('groups'), 'virtual' => true) + $this->prop['groups'];
             }
 
             foreach ($this->prop['group_filters'] as $id => $prop) {
-                $groups[$id] = $prop + array('ID' => $id, 'name' => ucfirst($id));
+                $groups[$id] = $prop + array('ID' => $id, 'name' => ucfirst($id), 'virtual' => true);
             }
 
             return $groups;
@@ -1830,7 +1830,7 @@ class rcube_ldap extends rcube_addressbook
             $dn = self::dn_decode($group_id);
 
             $this->_debug("C: Read Group [dn: $dn]");
-            if ($result = @ldap_read($this->conn, $dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL',$name_attr))) {
+            if ($result = @ldap_read($this->conn, $dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL',$name_attr,$this->fieldmap['email']))) {
                 $list = ldap_get_entries($this->conn, $result);
                 $entry = $list[0];
                 $group_name = is_array($entry[$name_attr]) ? $entry[$name_attr][0] : $entry[$name_attr];
@@ -1858,10 +1858,7 @@ class rcube_ldap extends rcube_addressbook
      */
     function get_group($group_id)
     {
-        if (($group_cache = $this->cache->get('groups')) === null)
-            $group_cache = $this->_fetch_groups();
-
-        $group_data = $group_cache[$group_id];
+        $group_data = $this->get_group_entry($group_id);
         unset($group_data['dn'], $group_data['member_attr']);
 
         return $group_data;
@@ -2040,7 +2037,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->_debug("C: Search [$filter][dn: $base_dn]");
 
-        $res = @ldap_search($this->conn, $base_dn, $filter, array($name_attr));
+        $res = @ldap_search($this->conn, $base_dn, $filter, array('dn', $name_attr));
         if ($res === false)
         {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -2053,8 +2050,8 @@ class rcube_ldap extends rcube_addressbook
         for ($i=0; $i<$ldap_data["count"]; $i++)
         {
             $group_name = $ldap_data[$i][$name_attr][0];
-            $group_id = self::dn_encode($group_name);
-            $groups[$group_id] = $group_id;
+            $group_id = self::dn_encode($ldap_data[$i]['dn']);
+            $groups[$group_id] = array('ID' => $group_id, 'name' => $group_name, 'dn' => $ldap_data[$i]['dn']);
         }
         return $groups;
     }

@@ -75,10 +75,6 @@
 	text-overflow: ellipsis;
 }
 
-#contacts-table .contact.readonly td {
-	font-style: italic;
-}
-
 #directorylist li.addressbook a {
 	background-position: 6px -766px;
 }
@@ -131,6 +127,28 @@
 	left: 20px;
 }
 
+#contacts-table .contact.readonly td {
+	font-style: italic;
+}
+
+#contacts-table td.name {
+	width: 95%;
+}
+
+#contacts-table td.action {
+	width: 24px;
+	padding: 4px;
+}
+
+#contacts-table td.action a {
+	display: block;
+	width: 16px;
+	height: 14px;
+	text-indent: -5000px;
+	overflow: hidden;
+	background: url(images/listicons.png) -2px -1180px no-repeat;
+}
+
 #contacts-table .contact td.name {
 	background-position: 6px -1603px;
 }
@@ -151,6 +169,11 @@
 	font-weight: bold;
 }
 
+#addresslist .boxtitle {
+	padding-right: 95px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
 #contact-frame {
 	position: absolute;

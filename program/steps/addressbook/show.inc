@@ -215,8 +215,11 @@ function rcmail_contact_record_groups($contact_id)
     $checkbox = new html_checkbox(array('name' => '_gid[]',
         'class' => 'groupmember', 'disabled' => $CONTACTS->readonly));
 
-    foreach ($GROUPS as $group) {
+    foreach (array_merge($GROUPS, $members) as $group) {
         $gid = $group['ID'];
+        if ($seen[$gid]++)
+            continue;
+
         $table->add(null, $checkbox->show($members[$gid] ? $gid : null,
             array('value' => $gid, 'id' => 'ff_gid' . $gid)));
         $table->add(null, html::label('ff_gid' . $gid, Q($group['name'])));
