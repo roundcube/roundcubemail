@@ -372,6 +372,8 @@ function rcmail_js_contacts_list($result, $prefix='')
                             'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", JS_OBJECT_NAME, $source_id, $row['CID']),
                         ), '&raquo;');
                     }
+                    else
+                        $val = '&nbsp;';
                     break;
 
                 default:

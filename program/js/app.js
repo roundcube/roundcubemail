@@ -251,6 +251,7 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
+          this.env.address_group_stack = [];
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin'];
 
           if (this.env.drafts_mailbox)
@@ -318,13 +319,13 @@ function rcube_webmail()
         break;
 
       case 'addressbook':
+        this.env.address_group_stack = [];
+
         if (this.gui_objects.folderlist)
           this.env.contactfolders = $.extend($.extend({}, this.env.address_sources), this.env.contactgroups);
 
         this.enable_command('add', 'import', this.env.writable_source);
-        this.enable_command('list', 'listgroup', 'pushgroup', 'listsearch', 'advanced-search', true);
-
-        this.env.address_group_stack = [];
+        this.enable_command('list', 'listgroup', 'pushgroup', 'popgroup', 'listsearch', 'advanced-search', true);
 
         if (this.gui_objects.contactslist) {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
@@ -1091,6 +1092,14 @@ function rcube_webmail()
       case 'listgroup':
         this.reset_qsearch();
         this.list_contacts(props.source, props.id);
+        break;
+
+      case 'popgroup':
+        if (this.env.address_group_stack.length > 1) {
+          this.env.address_group_stack.pop();
+          this.reset_qsearch();
+          this.list_contacts(props.source, this.env.address_group_stack[this.env.address_group_stack.length-1]);
+        }
         break;
 
       case 'import':
@@ -4198,8 +4207,20 @@ function rcube_webmail()
 
   this.set_group_prop = function(prop)
   {
-    if (this.gui_objects.addresslist_title)
-      $(this.gui_objects.addresslist_title).html(prop.name);
+    if (this.gui_objects.addresslist_title) {
+      var boxtitle = $(this.gui_objects.addresslist_title).html('');  // clear contents
+
+      // add link to pop back to parent group
+      if (this.env.address_group_stack.length > 1) {
+        $('<a href="#list">...</a>')
+          .addClass('poplink')
+          .appendTo(boxtitle)
+          .click(function(e){ return ref.command('popgroup','',this); });
+        boxtitle.append('&nbsp;&raquo;&nbsp;');
+      }
+
+      boxtitle.append($('<span>'+prop.name+'</span>'));
+    }
 
     this.triggerEvent('groupupdate', prop);
   };

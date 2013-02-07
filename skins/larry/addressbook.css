@@ -175,6 +175,13 @@
 	text-overflow: ellipsis;
 }
 
+#addresslist .boxtitle a.poplink {
+	color: #004458;
+	font-size: 14px;
+	line-height: 12px;
+	text-decoration: none;
+}
+
 #contact-frame {
 	position: absolute;
 	top: 0;
