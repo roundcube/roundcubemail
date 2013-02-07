@@ -452,6 +452,9 @@ class acl extends rcube_plugin
                 continue;
             }
 
+            $user     = $this->mod_login($user);
+            $username = $this->mod_login($username);
+
             if ($user != $_SESSION['username'] && $username != $_SESSION['username']) {
                 if ($this->rc->storage->set_acl($mbox, $user, $acl)) {
                     $ret = array('id' => html_identifier($user),
@@ -702,5 +705,24 @@ class acl extends rcube_plugin
             $this->rc->config->mail_domain($_SESSION['imap_host']));
 
         return $this->ldap->ready;
+    }
+
+    /**
+     * Modify user login according to 'login_lc' setting
+     */
+    protected function mod_login($user)
+    {
+        $login_lc = $this->rc->config->get('login_lc');
+
+        if ($login_lc === true || $login_lc == 2) {
+            $user = mb_strtolower($user);
+        }
+        // lowercase domain name
+        else if ($login_lc && strpos($user, '@')) {
+            list($local, $domain) = explode('@', $user);
+            $user = $local . '@' . mb_strtolower($domain);
+        }
+
+        return $user;
     }
 }
