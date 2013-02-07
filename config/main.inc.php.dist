@@ -636,6 +636,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'phone:work'  => 'telephoneNumber',
     'phone:mobile' => 'mobile',
     'phone:pager' => 'pager',
+    'phone:workfax' => 'facsimileTelephoneNumber',
     'street'      => 'street',
     'zipcode'     => 'postalCode',
     'region'      => 'st',
@@ -646,9 +647,8 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'department'   => 'ou',
     'jobtitle'     => 'title',
     'notes'        => 'description',
+    'photo'        => 'jpegPhoto',
     // these currently don't work:
-    // 'phone:workfax' => 'facsimileTelephoneNumber',
-    // 'photo'         => 'jpegPhoto',
     // 'manager'       => 'manager',
     // 'assistant'     => 'secretary',
   ),
@@ -681,6 +681,23 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'member_attr'  => 'member',   // name of the member attribute, e.g. uniqueMember
     'name_attr'    => 'cn',       // attribute to be used as group name
     'member_filter' => '(objectclass=*)',  // optional filter to use when querying for group members
+  ),
+  // this configuration replaces the regular groups listing in the directory tree with
+  // a hard-coded list of groups, each listing entries with the configured base DN and filter.
+  // if the 'groups' option from above is set, it'll be shown as the first entry with the name 'Groups'
+  'group_filters' => array(
+    'departments' => array(
+      'name'    => 'Company Departments',
+      'scope'   => 'list',
+      'base_dn' => 'ou=Groups,dc=mydomain,dc=com',
+      'filter'  => '(|(objectclass=groupofuniquenames)(objectclass=groupofurls))',
+    ),
+    'customers' => array(
+      'name'    => 'Customers',
+      'scope'   => 'sub',
+      'base_dn' => 'ou=Customers,dc=mydomain,dc=com',
+      'filter'  => '(objectClass=inetOrgPerson)',
+    ),
   ),
 );
 */
