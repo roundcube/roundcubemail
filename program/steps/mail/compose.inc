@@ -1558,7 +1558,7 @@ function rcmail_addressbook_list($attrib = array())
             $class_name .= ' ' . $source['class_name'];
 
         $out .= sprintf($line_templ,
-            html_identifier($id),
+            html_identifier($id,true),
             $class_name,
             $source['id'],
             $js_id, (!empty($source['name']) ? $source['name'] : $id));
