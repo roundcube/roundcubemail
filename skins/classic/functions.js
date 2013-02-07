@@ -492,6 +492,9 @@ init_compose_form: function()
   div.style.top = (parseInt(headers_div.offsetHeight, 10) + 3) + 'px';
   $(window).resize();
 
+  // fixes contacts-table position when there's more than one addressbook
+  $('#contacts-table').css('top', $('#directorylist').height() + 24 + 'px');
+
   // contacts search submit
   $('#quicksearchbox').keydown(function(e) {
     if (rcube_event.get_keycode(e) == 13)
