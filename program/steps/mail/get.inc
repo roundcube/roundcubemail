@@ -121,7 +121,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       $valid = $file_extension && in_array($file_extension, (array)$extensions);
 
       // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
-      if ($valid || !$file_extension || $mimetype == 'application/octet-stream') {
+      if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || $mimetype == 'text/plain') {
         if ($part->body)  // part body is already loaded
           $body = $part->body;
         else if ($part->size && $part->size < 1024*1024)   // load the entire part if it's small enough
@@ -132,6 +132,10 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         // detect message part mimetype
         $real_mimetype = rcube_mime::file_content_type($body, $part->filename, $mimetype, true, true);
         list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
+
+        // accept text/plain with any extension
+        if ($real_mimetype == 'text/plain' && $real_mimetype == $mimetype)
+          $file_extension = 'txt';
 
         // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
         if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0)
