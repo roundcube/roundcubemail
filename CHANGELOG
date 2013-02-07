@@ -19,7 +19,6 @@ RELEASE 0.9-beta
 - Fix searching by date in address book (#1488888)
 - Improve charset detection by prioritizing charset according to user language (#1485669)
 - Fix handling of escaped separator in vCard file (#1488896)
-- Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
 - Add option to use envelope From address for MDN responses (#1488880)
 - Add possibility to search in message body only (#1488770)
 - Support "multipart/relative" as an alias for "multipart/related" type (#1488886)
@@ -32,24 +31,16 @@ RELEASE 0.9-beta
 - Plugin API: Added message_before_send hook
 - Fix contact copy/add-to-group operations on search result (#1488862)
 - Use matching identity in MDN response (#1488864)
-- Fix unwanted horizontal scrollbar in message preview header (#1488866)
 - Fix handling of signatures on draft edit (#1488798)
 - Fix so compacting of non-empty folder is possible also when messages list is empty (#1488858)
 - Allow forwarding of multiple emails (#1486854)
 - Fix big memory consumption of DB layer (#1488856)
-- Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
-- Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
 - Fix broken message/part bodies when FETCH response contains more untagged lines (#1488836)
 - Fix empty email on identities list after identity update (#1488834)
 - Add new identities_level: (4) one identity with possibility to edit only signature
 - Use Delivered-To and Envelope-To headers for identity selection (#1488840, #1488553)
 - Fix XSS vulnerability using Flash files (#1488828)
-- Fix absolute positioning in HTML messages (#1488819)
-- Fix cache (in)validation after setting \Deleted flag
-- Fix keybord events on messages list in opera browser (#1488823)
-- Fix selection of collapsed thread rows (#1488772)
 - Always save drafts with format=flowed in order to keep original line wraps (#1488799)
-- Fix wrapping of quoted text with format=flowed (#1488177)
 - Select default_addressbook on the list in Address Book (#1488280)
 - Fix so mobile phone has TYPE=CELL in exported vCard (#1488812)
 - Support contacts import from CSV file (#1486399)
@@ -106,6 +97,18 @@ RELEASE 0.9-beta
     Unified global functions naming (rcube_ prefix)
     Better classes separation
     Framework files moved to lib/Roundcube
+
+RELEASE 0.8.5
+-------------
+- Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
+- Fix unwanted horizontal scrollbar in message preview header (#1488866)
+- Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
+- Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
+- Fix absolute positioning in HTML messages (#1488819)
+- Fix cache (in)validation after setting \Deleted flag
+- Fix keybord events on messages list in opera browser (#1488823)
+- Fix selection of collapsed thread rows (#1488772)
+- Fix wrapping of quoted text with format=flowed (#1488177)
 
 RELEASE 0.8.4
 -------------
