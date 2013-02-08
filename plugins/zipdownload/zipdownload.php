@@ -30,9 +30,9 @@ class zipdownload extends rcube_plugin
 		}
 
 		$rcmail = rcmail::get_instance();
-		$this->charset = $rcmail->config->get('zipdownload_charset', RCMAIL_CHARSET);
 
 		$this->load_config();
+		$this->charset = $rcmail->config->get('zipdownload_charset', RCUBE_CHARSET);
 		$this->add_texts('localization');
 
 		if ($rcmail->config->get('zipdownload_attachments', 1) > -1 && ($rcmail->action == 'show' || $rcmail->action == 'preview'))
@@ -208,7 +208,7 @@ class zipdownload extends rcube_plugin
 				$disp_name = "message_rfc822.eml";
 
 			$disp_name = $uid . "_" . $disp_name;
-			
+
 			$tmpfn = tempnam($temp_dir, 'zipmessage');
 			$tmpfp = fopen($tmpfn, 'w');
 			$imap->get_raw_body($uid, $tmpfp);
@@ -260,8 +260,8 @@ class zipdownload extends rcube_plugin
 	 */
 	private function _convert_filename($str, $from = RCMAIL_CHARSET)
 	{
-		return strtr(rcube_charset_convert($str, $from, $this->charset), array(':'=>'', '/'=>'-'));
+        $str = rcube_charset::convert($str, $from == '' ? RCUBE_CHARSET : $from, $this->charset);
+
+		return strtr($str, array(':'=>'', '/'=>'-'));
 	}
 }
-
-?>
