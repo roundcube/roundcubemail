@@ -668,7 +668,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @param  string $input
      * @return string
-     * @uses   rcube_output_html::parse_xml()
+     * @uses   rcmail_output_html::parse_xml()
      * @since  0.1-rc1
      */
     public function just_parse($input)
