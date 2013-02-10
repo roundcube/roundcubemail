@@ -21,7 +21,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '0.9-beta');
+define('RCMAIL_VERSION', '0.9-rc');
 define('RCMAIL_START', microtime(true));
 
 $config = array(
