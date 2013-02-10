@@ -80,6 +80,8 @@ class rcmail_output_html extends rcmail_output
 
         if (!empty($_REQUEST['_extwin']))
           $this->set_env('extwin', 1);
+        if ($this->framed || !empty($_REQUEST['_framed']))
+          $this->set_env('framed', 1);
 
         // add common javascripts
         $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
@@ -308,8 +310,12 @@ class rcmail_output_html extends rcmail_output
      */
     public function reset()
     {
+        $env = array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+
         parent::reset();
-        $this->js_env = array();
+
+        // let some env variables survive
+        $this->env = $this->js_env = $env;
         $this->js_labels = array();
         $this->js_commands = array();
         $this->script_files = array();
