@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hy_AM/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Vahan Yerkanian <vahan@yerkanian.com>                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Գաղտնաբառի փոփոխում';
-$labels['curpasswd'] = 'Առկա գաղտնաբառը`';
-$labels['newpasswd'] = 'Նոր գաղտնաբառը`';
-$labels['confpasswd'] = 'Կրկնեք նոր գաղտնաբառը`';
-$labels['nopassword'] = 'Ներմուցեք նոր գաղտնաբառը։';
-$labels['nocurpassword'] = 'Ներմուցեք առկա գաղտնաբառը։';
-$labels['passwordincorrect'] = 'Առկա գաղտնաբառը սխալ է։';
-$labels['passwordinconsistency'] = 'Նոր գաղտնաբառերը չեն համընկնում, կրկին փորձեք։';
-$labels['crypterror'] = 'Նոր գաղտնաբառի պահպանումը ձախողվեց։ Բացակայում է գաղտնագրման ֆունկցիան։';
-$labels['connecterror'] = 'Նոր գաղտնաբառի պահպանումը ձախողվեց։ Կապի սխալ։';
-$labels['internalerror'] = 'Նոր գաղտնաբառի պահպանումը ձախողվեց։';
-$labels['passwordshort'] = 'Գաղտնաբառերը պետք է լինեն առնվազն $length նիշ երկարությամբ։';
-$labels['passwordweak'] = 'Գաղտնաբառերը պետք է պարունակեն առնվազն մեկ թիվ և մեկ կետադրական նիշ։';
-$labels['passwordforbidden'] = 'Գաղտնաբառը պարունակում է արգելված նիշ։';
+$labels['changepasswd']  = 'Գաղտնաբառի փոփոխում';
+$labels['curpasswd']  = 'Առկա գաղտնաբառը`';
+$labels['newpasswd']  = 'Նոր գաղտնաբառը`';
+$labels['confpasswd']  = 'Կրկնեք նոր գաղտնաբառը`';
 
+$messages = array();
+$messages['nopassword'] = 'Ներմուցեք նոր գաղտնաբառը։';
+$messages['nocurpassword'] = 'Ներմուցեք առկա գաղտնաբառը։';
+$messages['passwordincorrect'] = 'Առկա գաղտնաբառը սխալ է։';
+$messages['passwordinconsistency'] = 'Նոր գաղտնաբառերը չեն համընկնում, կրկին փորձեք։';
+$messages['crypterror'] = 'Նոր գաղտնաբառի պահպանումը ձախողվեց։ Բացակայում է գաղտնագրման ֆունկցիան։';
+$messages['connecterror'] = 'Նոր գաղտնաբառի պահպանումը ձախողվեց։ Կապի սխալ։';
+$messages['internalerror'] = 'Նոր գաղտնաբառի պահպանումը ձախողվեց։';
+$messages['passwordshort'] = 'Գաղտնաբառերը պետք է լինեն առնվազն $length նիշ երկարությամբ։';
+$messages['passwordweak'] = 'Գաղտնաբառերը պետք է պարունակեն առնվազն մեկ թիվ և մեկ կետադրական նիշ։';
+$messages['passwordforbidden'] = 'Գաղտնաբառը պարունակում է արգելված նիշ։';
+
+?>

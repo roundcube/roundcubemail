@@ -2,20 +2,33 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/pt_PT/labels.inc                                         |
+ | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Archive plugin             |
+ | Copyright (C) 2013, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: David                                                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
 $labels = array();
 $labels['buttontext'] = 'Arquivo';
-$labels['archivefolder'] = 'Arquivo';
 $labels['buttontitle'] = 'Arquivar esta mensagem';
 $labels['archived'] = 'Arquivada com sucesso';
+$labels['archivedreload'] = 'Arquivado com sucesso. Recarregue a página para ver as novas pastas de arquivo.';
+$labels['archiveerror'] = 'Algumas mensagens não puderam ser arquivadas';
+$labels['archivefolder'] = 'Arquivo';
+$labels['settingstitle'] = 'Arquivo';
+$labels['archivetype'] = 'Dividir arquivo por';
+$labels['archivetypeyear'] = 'Ano (ex. Arquivo/2012)';
+$labels['archivetypemonth'] = 'Mês (ex. Arquivo/2012/06)';
+$labels['archivetypefolder'] = 'Pasta original';
+$labels['archivetypesender'] = 'E-mail do remetente';
+$labels['unkownsender'] = 'desconhecido';
 
+?>

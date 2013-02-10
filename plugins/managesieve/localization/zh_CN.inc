@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/zh_CN/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Christopher Meng <cickumqt@gmail.com>                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = '过滤器';
 $labels['managefilters'] = '管理邮件过滤规则';
 $labels['filtername'] = '过滤规则名称';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = '删除';
 $labels['flaganswered'] = '已答复';
 $labels['flagflagged'] = '已标记';
 $labels['flagdraft'] = '草稿';
+$labels['setvariable'] = '设置变量';
+$labels['setvarname'] = '变量名：';
+$labels['setvarvalue'] = '值：';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = '长度';
+$labels['notify'] = '发送通知';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = '通知主题';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = '优先级：';
+$labels['notifyimportancelow'] = '低';
+$labels['notifyimportancenormal'] = '中';
+$labels['notifyimportancehigh'] = '高';
 $labels['filtercreate'] = '创建过滤器';
 $labels['usedata'] = '在过滤器中使用以下数据';
 $labels['nextstep'] = '下一步';
@@ -115,33 +137,38 @@ $labels['default'] = '默认';
 $labels['octet'] = '严格的（字节）';
 $labels['asciicasemap'] = '不区分大小写（ascii字符）';
 $labels['asciinumeric'] = '数字（ascii数字）';
-$labels['filterunknownerror'] = '未知的服务器错误';
-$labels['filterconnerror'] = '无法连接到 managesieve 服务器';
-$labels['filterdeleteerror'] = '无法删除过滤器。服务器错误';
-$labels['filterdeleted'] = '过滤器已成功删除';
-$labels['filtersaved'] = '过滤器已成功保存。';
-$labels['filtersaveerror'] = '无法保存过滤器。服务器错误';
-$labels['filterdeleteconfirm'] = '您确定要删除所选择的过滤器吗？';
-$labels['ruledeleteconfirm'] = '您确定要删除所选择的规则吗？';
-$labels['actiondeleteconfirm'] = '您确定要删除所选择的动作吗？';
-$labels['forbiddenchars'] = '内容中包含禁用的字符';
-$labels['cannotbeempty'] = '内容不能为空';
-$labels['ruleexist'] = '指定过滤器名称已存在。';
-$labels['setactivateerror'] = '无法启用指定过滤器，服务器错误。';
-$labels['setdeactivateerror'] = '无法停用指定过滤器，服务器错误。';
-$labels['setdeleteerror'] = '无法删除指定过滤器，服务器错误。';
-$labels['setactivated'] = '过滤器成功启用。';
-$labels['setdeactivated'] = '过滤器成功停用。';
-$labels['setdeleted'] = '过滤器成功删除。';
-$labels['setdeleteconfirm'] = '你确定要删除指定过滤器？';
-$labels['setcreateerror'] = '无法创建过滤器，服务器错误。';
-$labels['setcreated'] = '过滤器成功创建。';
-$labels['activateerror'] = '无法启用选中的过滤器，因为服务器发生错误。';
-$labels['deactivateerror'] = '无法禁用选中的过滤器，因为服务器发生错误。';
-$labels['activated'] = '禁用过滤器成功。';
-$labels['deactivated'] = '启用过滤器成功。';
-$labels['moved'] = '过滤器移动成功。';
-$labels['moveerror'] = '无法移动选中的过滤器，因为服务器发生错误。';
-$labels['nametoolong'] = '名称太长。';
-$labels['setexist'] = '设置已存在。';
 
+$messages = array();
+$messages['filterunknownerror'] = '未知的服务器错误';
+$messages['filterconnerror'] = '无法连接到 managesieve 服务器';
+$messages['filterdeleteerror'] = '无法删除过滤器。服务器错误';
+$messages['filterdeleted'] = '过滤器已成功删除';
+$messages['filtersaved'] = '过滤器已成功保存。';
+$messages['filtersaveerror'] = '无法保存过滤器。服务器错误';
+$messages['filterdeleteconfirm'] = '您确定要删除所选择的过滤器吗？';
+$messages['ruledeleteconfirm'] = '您确定要删除所选择的规则吗？';
+$messages['actiondeleteconfirm'] = '您确定要删除所选择的动作吗？';
+$messages['forbiddenchars'] = '内容中包含禁用的字符';
+$messages['cannotbeempty'] = '内容不能为空';
+$messages['ruleexist'] = '指定过滤器名称已存在。';
+$messages['setactivateerror'] = '无法启用指定过滤器，服务器错误。';
+$messages['setdeactivateerror'] = '无法停用指定过滤器，服务器错误。';
+$messages['setdeleteerror'] = '无法删除指定过滤器，服务器错误。';
+$messages['setactivated'] = '过滤器成功启用。';
+$messages['setdeactivated'] = '过滤器成功停用。';
+$messages['setdeleted'] = '过滤器成功删除。';
+$messages['setdeleteconfirm'] = '你确定要删除指定过滤器？';
+$messages['setcreateerror'] = '无法创建过滤器，服务器错误。';
+$messages['setcreated'] = '过滤器成功创建。';
+$messages['activateerror'] = '无法启用选中的过滤器，因为服务器发生错误。';
+$messages['deactivateerror'] = '无法禁用选中的过滤器，因为服务器发生错误。';
+$messages['deactivated'] = '启用过滤器成功。';
+$messages['activated'] = '禁用过滤器成功。';
+$messages['moved'] = '过滤器移动成功。';
+$messages['moveerror'] = '无法移动选中的过滤器，因为服务器发生错误。';
+$messages['nametoolong'] = '名称太长。';
+$messages['namereserved'] = 'Reserved name.';
+$messages['setexist'] = '设置已存在。';
+$messages['nodata'] = 'At least one position must be selected!';
+
+?>

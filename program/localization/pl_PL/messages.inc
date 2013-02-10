@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/pl_PL/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Aleksander Machniak <alec@alec.pl>                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Wystąpił błąd!';
-$messages['loginfailed'] = 'Błąd logowania!';
+$messages['errortitle']  = 'Wystąpił błąd!';
+$messages['loginfailed']  = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
 $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
 $messages['storageerror'] = 'Błąd połączenia z serwerem!';
@@ -57,11 +60,11 @@ $messages['errormoving'] = 'Nie można przenieść wiadomości!';
 $messages['errorcopying'] = 'Nie można skopiować wiadomości!';
 $messages['errordeleting'] = 'Nie można usunąć wiadomości!';
 $messages['errormarking'] = 'Nie można oznaczyć wiadomości!';
-$messages['deletecontactconfirm'] = 'Czy na pewno chcesz usunąć wybrane kontakty?';
-$messages['deletegroupconfirm'] = 'Czy na pewno chcesz usunąć wybraną grupę?';
+$messages['deletecontactconfirm']  = 'Czy na pewno chcesz usunąć wybrane kontakty?';
+$messages['deletegroupconfirm']  = 'Czy na pewno chcesz usunąć wybraną grupę?';
 $messages['deletemessagesconfirm'] = 'Czy na pewno chcesz usunąć wybrane wiadomości?';
-$messages['deletefolderconfirm'] = 'Czy na pewno chcesz usunąć wybrany folder?';
-$messages['purgefolderconfirm'] = 'Czy na pewno chcesz usunąć wszystkie wiadomości w tym folderze?';
+$messages['deletefolderconfirm']  = 'Czy na pewno chcesz usunąć wybrany folder?';
+$messages['purgefolderconfirm']  = 'Czy na pewno chcesz usunąć wszystkie wiadomości w tym folderze?';
 $messages['contactdeleting'] = 'Usuwanie kontaktów...';
 $messages['groupdeleting'] = 'Usuwanie grupy...';
 $messages['folderdeleting'] = 'Usuwanie folderu...';
@@ -70,11 +73,11 @@ $messages['foldersubscribing'] = 'Subskrybowanie folderu...';
 $messages['folderunsubscribing'] = 'Odsubskrybowanie folderu...';
 $messages['formincomplete'] = 'Uzupełnij formularz!';
 $messages['noemailwarning'] = 'Podaj poprawny adres e-mail!';
-$messages['nonamewarning'] = 'Podaj nazwę!';
+$messages['nonamewarning']  = 'Podaj nazwę!';
 $messages['nopagesizewarning'] = 'Podaj poprawną wartość!';
 $messages['nosenderwarning'] = 'Podaj adres nadawcy!';
 $messages['norecipientwarning'] = 'Podaj co najmniej jednego odbiorcę!';
-$messages['nosubjectwarning'] = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
+$messages['nosubjectwarning']  = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
 $messages['nobodywarning'] = 'Ta wiadomość jest pusta, czy mimo to chcesz ją wysłać?';
 $messages['notsentwarning'] = 'Wiadomość nie została wysłana. Czy chcesz usunąć tę wiadomość?';
 $messages['noldapserver'] = 'Wybierz serwer LDAP!';
@@ -160,4 +163,7 @@ $messages['invalidimageformat'] = 'Niepoprawny format obrazka.';
 $messages['mispellingsfound'] = 'Wykryto błędy pisowni w tej wiadomości.';
 $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wybrane miejsce. Brak upranień.';
 $messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
+$messages['attachmentvalidationerror'] = 'UWAGA! Ten załącznik jest podejrzany ponieważ jego typ nie jest zgodny z typem zadeklarownym w wiadomości. Jeśli nie ufasz temu nadawcy nie powinieneś otwierać go w przeglądarce, bo może zawierać złośliwe oprogramowanie.<br/><br/><em>Spodziwany: $expected; znaleziono: $detected</em>';
+$messages['noscriptwarning'] = 'Uwaga: Usługa wymaga Javascriptu! Aby z niej skorzystać proszę włączyć obsługę języka Javascript w ustawieniach przeglądarki.';
 
+?>

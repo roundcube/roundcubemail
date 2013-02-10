@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/cy_GB/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Dafydd Tomos                                                  |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Newid Cyfrinair';
-$labels['curpasswd'] = 'Cyfrinair Presennol:';
-$labels['newpasswd'] = 'Cyfrinair Newydd:';
-$labels['confpasswd'] = 'Cadarnhau Cyfrinair Newydd:';
-$labels['nopassword'] = 'Rhowch eich cyfrinair newydd.';
-$labels['nocurpassword'] = 'Rhowch eich cyfrinair presennol.';
-$labels['passwordincorrect'] = 'Roedd y cyfrinair presennol yn anghywir.';
-$labels['passwordinconsistency'] = 'Nid yw\'r cyfrineiriau yn cymharu, ceisiwch eto.';
-$labels['crypterror'] = 'Methwyd cadw\'r cyfrinair newydd. Ffwythiant amgodi ar goll.';
-$labels['connecterror'] = 'Methwyd cadw\'r cyfrinair newydd. Gwall cysylltiad.';
-$labels['internalerror'] = 'Methwyd cadw\'r cyfrinair newydd.';
-$labels['passwordshort'] = 'Rhaid i\'r cyfrinair fod o leia $length llythyren o hyd.';
-$labels['passwordweak'] = 'Rhaid i\'r cyfrinair gynnwys o leia un rhif a un cymeriad atalnodi.';
-$labels['passwordforbidden'] = 'Mae\'r cyfrinair yn cynnwys llythrennau wedi gwahardd.';
+$labels['changepasswd']  = 'Newid Cyfrinair';
+$labels['curpasswd']  = 'Cyfrinair Presennol:';
+$labels['newpasswd']  = 'Cyfrinair Newydd:';
+$labels['confpasswd']  = 'Cadarnhau Cyfrinair Newydd:';
 
+$messages = array();
+$messages['nopassword'] = 'Rhowch eich cyfrinair newydd.';
+$messages['nocurpassword'] = 'Rhowch eich cyfrinair presennol.';
+$messages['passwordincorrect'] = 'Roedd y cyfrinair presennol yn anghywir.';
+$messages['passwordinconsistency'] = 'Nid yw\'r cyfrineiriau yn cymharu, ceisiwch eto.';
+$messages['crypterror'] = 'Methwyd cadw\'r cyfrinair newydd. Ffwythiant amgodi ar goll.';
+$messages['connecterror'] = 'Methwyd cadw\'r cyfrinair newydd. Gwall cysylltiad.';
+$messages['internalerror'] = 'Methwyd cadw\'r cyfrinair newydd.';
+$messages['passwordshort'] = 'Rhaid i\'r cyfrinair fod o leia $length llythyren o hyd.';
+$messages['passwordweak'] = 'Rhaid i\'r cyfrinair gynnwys o leia un rhif a un cymeriad atalnodi.';
+$messages['passwordforbidden'] = 'Mae\'r cyfrinair yn cynnwys llythrennau wedi gwahardd.';
+
+?>

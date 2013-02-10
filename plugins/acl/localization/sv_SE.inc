@@ -2,18 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/sv_SE/labels.inc                                         |
+ | plugins/acl/localization/<lang>.inc                                   |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail ACL plugin                 |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jonas Nasholm                                                 |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 
-$labels = array();
 $labels['sharing'] = 'Utdelning';
 $labels['myrights'] = 'Åtkomsträttigheter';
 $labels['username'] = 'Användare:';
@@ -23,44 +25,48 @@ $labels['actions'] = 'Hantera åtkomsträttigheter...';
 $labels['anyone'] = 'Alla användare (alla)';
 $labels['anonymous'] = 'Gäster (anonyma)';
 $labels['identifier'] = 'Identifikation';
+
 $labels['acll'] = 'Uppslagning';
-$labels['shortacll'] = 'Uppslagning';
 $labels['aclr'] = 'Läs meddelanden';
 $labels['acls'] = 'Behåll status Sett';
 $labels['aclw'] = 'Skriv flaggor';
 $labels['acli'] = 'Infoga (kopiera in)';
 $labels['aclp'] = 'Posta';
-$labels['shortaclp'] = 'Posta';
 $labels['aclc'] = 'Skapa underkataloger';
 $labels['aclk'] = 'Skapa underkataloger';
 $labels['acld'] = 'Ta bort meddelanden';
 $labels['aclt'] = 'Ta bort meddelanden';
 $labels['acle'] = 'Utplåna';
-$labels['shortacle'] = 'Utplåna';
 $labels['aclx'] = 'Ta bort katalog';
 $labels['acla'] = 'Administrera';
-$labels['shortacla'] = 'Administrera';
+
 $labels['aclfull'] = 'Full kontroll';
 $labels['aclother'] = 'Övrig';
-$labels['shortaclother'] = 'Övrig';
 $labels['aclread'] = 'Läs';
-$labels['shortaclr'] = 'Läs';
-$labels['shortaclread'] = 'Läs';
 $labels['aclwrite'] = 'Skriv';
-$labels['shortaclw'] = 'Skriv';
-$labels['shortaclwrite'] = 'Skriv';
 $labels['acldelete'] = 'Ta bort';
-$labels['shortacld'] = 'Ta bort';
-$labels['shortaclt'] = 'Ta bort';
-$labels['shortacldelete'] = 'Ta bort';
+
+$labels['shortacll'] = 'Uppslagning';
+$labels['shortaclr'] = 'Läs';
 $labels['shortacls'] = 'Behåll';
+$labels['shortaclw'] = 'Skriv';
 $labels['shortacli'] = 'Infoga';
+$labels['shortaclp'] = 'Posta';
 $labels['shortaclc'] = 'Skapa';
 $labels['shortaclk'] = 'Skapa';
+$labels['shortacld'] = 'Ta bort';
+$labels['shortaclt'] = 'Ta bort';
+$labels['shortacle'] = 'Utplåna';
 $labels['shortaclx'] = 'Ta bort katalog';
+$labels['shortacla'] = 'Administrera';
+
+$labels['shortaclother'] = 'Övrig';
+$labels['shortaclread'] = 'Läs';
+$labels['shortaclwrite'] = 'Skriv';
+$labels['shortacldelete'] = 'Ta bort';
+
 $labels['longacll'] = 'Katalogen är synlig i listor och den kan prenumereras på';
 $labels['longaclr'] = 'Katalogen kan öppnas för läsning';
-$labels['longaclread'] = 'Katalogen kan öppnas för läsning';
 $labels['longacls'] = 'Meddelandeflagga Sett kan ändras';
 $labels['longaclw'] = 'Meddelandeflaggor och nyckelord kan ändras, undantaget Sett och Raderat';
 $labels['longacli'] = 'Meddelanden kan skrivas eller kopieras till katalogen';
@@ -72,18 +78,22 @@ $labels['longaclt'] = 'Meddelandeflagga Raderat kan ändras';
 $labels['longacle'] = 'Meddelanden kan utplånas';
 $labels['longaclx'] = 'Katalogen kan tas bort eller ges annat namn';
 $labels['longacla'] = 'Katalogens åtkomsträttigheter kan ändras';
+
 $labels['longaclfull'] = 'Full kontroll inklusive katalogadministration';
+$labels['longaclread'] = 'Katalogen kan öppnas för läsning';
 $labels['longaclwrite'] = 'Meddelanden kan märkas, skrivas eller kopieras till katalogen';
 $labels['longacldelete'] = 'Meddelanden kan tas bort';
-$labels['deleting'] = 'Tar bort åtkomsträttigheter...';
-$labels['saving'] = 'Sparar åtkomsträttigheter...';
-$labels['updatesuccess'] = 'Åtkomsträttigheterna är ändrade';
-$labels['deletesuccess'] = 'Åtkomsträttigheterna är borttagna';
-$labels['createsuccess'] = 'Åtkomsträttigheterna är tillagda';
-$labels['updateerror'] = 'Åtkomsträttigheterna kunde inte ändras';
-$labels['deleteerror'] = 'Åtkomsträttigheterna kunde inte tas bort';
-$labels['createerror'] = 'Åtkomsträttigheterna kunde inte läggas till';
-$labels['deleteconfirm'] = 'Vill du verkligen ta bort åtkomsträttigheterna för markerade användare?';
-$labels['norights'] = 'Inga åtkomsträttigheter angavs!';
-$labels['nouser'] = 'Inget användarnamn angavs!';
 
+$messages['deleting'] = 'Tar bort åtkomsträttigheter...';
+$messages['saving'] = 'Sparar åtkomsträttigheter...';
+$messages['updatesuccess'] = 'Åtkomsträttigheterna är ändrade';
+$messages['deletesuccess'] = 'Åtkomsträttigheterna är borttagna';
+$messages['createsuccess'] = 'Åtkomsträttigheterna är tillagda';
+$messages['updateerror'] = 'Åtkomsträttigheterna kunde inte ändras';
+$messages['deleteerror'] = 'Åtkomsträttigheterna kunde inte tas bort';
+$messages['createerror'] = 'Åtkomsträttigheterna kunde inte läggas till';
+$messages['deleteconfirm'] = 'Vill du verkligen ta bort åtkomsträttigheterna för markerade användare?';
+$messages['norights'] = 'Inga åtkomsträttigheter angavs!';
+$messages['nouser'] = 'Inget användarnamn angavs!';
+
+?>

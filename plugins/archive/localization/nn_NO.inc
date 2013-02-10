@@ -2,20 +2,33 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/nn_NN/labels.inc                                         |
+ | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Archive plugin             |
+ | Copyright (C) 2013, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Fredrik Larsen <fredrik.h.larsen@gmail.com>                   |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
 $labels = array();
 $labels['buttontext'] = 'Arkiver';
-$labels['archivefolder'] = 'Arkiver';
 $labels['buttontitle'] = 'Arkiver meldinga';
 $labels['archived'] = 'Arkivert';
+$labels['archivedreload'] = 'Arkivering vellukka. Last inn sida på nytt for å sjå dei nye arkivmappene.';
+$labels['archiveerror'] = 'Nokre meldingar kunne ikkje arkiverast';
+$labels['archivefolder'] = 'Arkiver';
+$labels['settingstitle'] = 'Arkiv';
+$labels['archivetype'] = 'Del arkiv etter';
+$labels['archivetypeyear'] = 'År (f.eks. Arkiv/2012)';
+$labels['archivetypemonth'] = 'Månad (f.eks. Arkiv/2012/06)';
+$labels['archivetypefolder'] = 'Opprinneleg mappe';
+$labels['archivetypesender'] = 'Sender email';
+$labels['unkownsender'] = 'ukjent';
 
+?>

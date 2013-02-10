@@ -2,18 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/da_DK/labels.inc                                         |
+ | plugins/acl/localization/<lang>.inc                                   |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail ACL plugin                 |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Johannes Hessellund <osos@openeyes.dk>                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 
-$labels = array();
 $labels['sharing'] = 'Deling';
 $labels['myrights'] = 'Adgangrettigheder';
 $labels['username'] = 'Bruger:';
@@ -23,44 +25,48 @@ $labels['actions'] = 'Tilgangsrettigheder...';
 $labels['anyone'] = 'Alle brugere';
 $labels['anonymous'] = 'Gæst (anonym)';
 $labels['identifier'] = 'Identifikator';
+
 $labels['acll'] = 'Slå op';
-$labels['shortacll'] = 'Slå op';
 $labels['aclr'] = 'Læs beskeder';
 $labels['acls'] = 'Behold læst-status';
 $labels['aclw'] = 'Skriv flag';
 $labels['acli'] = 'Indsæt (kopier ind i)';
 $labels['aclp'] = 'Send';
-$labels['shortaclp'] = 'Send';
 $labels['aclc'] = 'Opret undermapper';
 $labels['aclk'] = 'Opret undermapper';
 $labels['acld'] = 'Slet beskeder';
 $labels['aclt'] = 'Slet beskeder';
 $labels['acle'] = 'Udslet';
-$labels['shortacle'] = 'Udslet';
 $labels['aclx'] = 'Slet mappe';
 $labels['acla'] = 'Administrer';
-$labels['shortacla'] = 'Administrer';
+
 $labels['aclfull'] = 'Fuld kontrol';
 $labels['aclother'] = 'Andet';
-$labels['shortaclother'] = 'Andet';
 $labels['aclread'] = 'Læse';
-$labels['shortaclr'] = 'Læse';
-$labels['shortaclread'] = 'Læse';
 $labels['aclwrite'] = 'Skrive';
-$labels['shortaclw'] = 'Skrive';
-$labels['shortaclwrite'] = 'Skrive';
 $labels['acldelete'] = 'Slet';
-$labels['shortacld'] = 'Slet';
-$labels['shortaclt'] = 'Slet';
-$labels['shortacldelete'] = 'Slet';
+
+$labels['shortacll'] = 'Slå op';
+$labels['shortaclr'] = 'Læse';
 $labels['shortacls'] = 'Behold';
+$labels['shortaclw'] = 'Skrive';
 $labels['shortacli'] = 'Indsæt';
+$labels['shortaclp'] = 'Send';
 $labels['shortaclc'] = 'Opret';
 $labels['shortaclk'] = 'Opret';
+$labels['shortacld'] = 'Slet';
+$labels['shortaclt'] = 'Slet';
+$labels['shortacle'] = 'Udslet';
 $labels['shortaclx'] = 'Slet mappe';
+$labels['shortacla'] = 'Administrer';
+
+$labels['shortaclother'] = 'Andet';
+$labels['shortaclread'] = 'Læse';
+$labels['shortaclwrite'] = 'Skrive';
+$labels['shortacldelete'] = 'Slet';
+
 $labels['longacll'] = 'Mappen er synlig på listen og kan abonneres på';
 $labels['longaclr'] = 'Mappen kan åbnes for læsning';
-$labels['longaclread'] = 'Mappen kan åbnes for læsning';
 $labels['longacls'] = 'Beskeders Læst-flag kan ændres';
 $labels['longaclw'] = 'Beskeders flag og nøgleord kan ændres med undtagelse af Læst og Slettet';
 $labels['longacli'] = 'Beskeder kan blive skrevet eller kopieret til mappen';
@@ -72,18 +78,22 @@ $labels['longaclt'] = 'Beskeders Slet-flag kan ændres';
 $labels['longacle'] = 'Beskeder kan slettes';
 $labels['longaclx'] = 'Mappen kan blive slettet eller omdøbt';
 $labels['longacla'] = 'Mappen adgangsrettigheder kan ændres';
+
 $labels['longaclfull'] = 'Fuld kontrol inklusiv mappeadministration';
+$labels['longaclread'] = 'Mappen kan åbnes for læsning';
 $labels['longaclwrite'] = 'Beskeder kan blive markeret, skrevet eller kopieret til mappen';
 $labels['longacldelete'] = 'Beskeder kan slettes';
-$labels['deleting'] = 'Slette rettigheder...';
-$labels['saving'] = 'Gemme rettigheder...';
-$labels['updatesuccess'] = 'Tilgangsrettighederne blev ændret';
-$labels['deletesuccess'] = 'Sletterettigheder blev ændret';
-$labels['createsuccess'] = 'Tilgangsrettigheder blev tilføjet';
-$labels['updateerror'] = 'Kunne ikke opdatere tilgangsrettigheder';
-$labels['deleteerror'] = 'Kunne ikke slette tilgangsrettigheder';
-$labels['createerror'] = 'Kunne ikke tilføje tilgangsrettigheder';
-$labels['deleteconfirm'] = 'Er du sikker på, at du vil slette tilgangsrettigheder fra de(n) valgte bruger(e)?';
-$labels['norights'] = 'Der er ikke specificeret nogle rettigheder!';
-$labels['nouser'] = 'Der er ikke angiver et brugernavn!';
 
+$messages['deleting'] = 'Slette rettigheder...';
+$messages['saving'] = 'Gemme rettigheder...';
+$messages['updatesuccess'] = 'Tilgangsrettighederne blev ændret';
+$messages['deletesuccess'] = 'Sletterettigheder blev ændret';
+$messages['createsuccess'] = 'Tilgangsrettigheder blev tilføjet';
+$messages['updateerror'] = 'Kunne ikke opdatere tilgangsrettigheder';
+$messages['deleteerror'] = 'Kunne ikke slette tilgangsrettigheder';
+$messages['createerror'] = 'Kunne ikke tilføje tilgangsrettigheder';
+$messages['deleteconfirm'] = 'Er du sikker på, at du vil slette tilgangsrettigheder fra de(n) valgte bruger(e)?';
+$messages['norights'] = 'Der er ikke specificeret nogle rettigheder!';
+$messages['nouser'] = 'Der er ikke angiver et brugernavn!';
+
+?>

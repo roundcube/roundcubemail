@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/pt_PT/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Gerir filtros';
 $labels['filtername'] = 'Nome do filtro';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Eliminada';
 $labels['flaganswered'] = 'Respondida';
 $labels['flagflagged'] = 'Marcada';
 $labels['flagdraft'] = 'Rascunho';
+$labels['setvariable'] = 'Definir variável';
+$labels['setvarname'] = 'Nome da Variável:';
+$labels['setvarvalue'] = 'Valor da Variável:';
+$labels['setvarmodifiers'] = 'Modificadores:';
+$labels['varlower'] = 'minúscula';
+$labels['varupper'] = 'maiúscula';
+$labels['varlowerfirst'] = 'primeira letra em minúscula';
+$labels['varupperfirst'] = 'primeira letra em maiúscula';
+$labels['varquotewildcard'] = 'citar caracteres especiais';
+$labels['varlength'] = 'tamanho';
+$labels['notify'] = 'Enviar notificação';
+$labels['notifyaddress'] = 'Endereço de E-mail to:';
+$labels['notifybody'] = 'Corpo de Notificação:';
+$labels['notifysubject'] = 'Assunto Notificação:';
+$labels['notifyfrom'] = 'Remetente Notificação:';
+$labels['notifyimportance'] = 'Importância:';
+$labels['notifyimportancelow'] = 'baixa';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'alta';
 $labels['filtercreate'] = 'Criar filtro';
 $labels['usedata'] = 'Usar os seguintes dados no filtro:';
 $labels['nextstep'] = 'Próximo passo';
@@ -115,35 +137,38 @@ $labels['default'] = 'predefinido';
 $labels['octet'] = 'estrito (octeto)';
 $labels['asciicasemap'] = 'não sensível a maiúsculas/minúsculas (caracteres ascii)';
 $labels['asciinumeric'] = 'numérico (numérico ascii)';
-$labels['filterunknownerror'] = 'Erro de servidor desconhecido';
-$labels['filterconnerror'] = 'Não é possível ligar ao servidor Sieve';
-$labels['filterdeleteerror'] = 'Não foi possível eliminar o filtro. Erro no servidor';
-$labels['filterdeleted'] = 'Filtro eliminado com sucesso';
-$labels['filtersaved'] = 'Filtro guardado com sucesso';
-$labels['filtersaveerror'] = 'Não foi possível guardar o filtro. Erro no servidor';
-$labels['filterdeleteconfirm'] = 'Tem a certeza que pretende eliminar este filtro?';
-$labels['ruledeleteconfirm'] = 'Tem a certeza que pretende eliminar esta regra?';
-$labels['actiondeleteconfirm'] = 'Tem a certeza que pretende eliminar esta acção?';
-$labels['forbiddenchars'] = 'Caracteres inválidos no campo.';
-$labels['cannotbeempty'] = 'Este campo não pode estar vazio.';
-$labels['ruleexist'] = 'Já existe um Filtro com o nome especificado.';
-$labels['setactivateerror'] = 'Não foi possível ativar os filtros selecionados.  Ocorreu um erro no servidor.';
-$labels['setdeactivateerror'] = 'Não foi possível desativar os filtros selecionados.  Ocorreu um erro no servidor.';
-$labels['setdeleteerror'] = 'Não foi possível eliminar os filtros selecionados.  Ocorreu um erro no servidor.';
-$labels['setactivated'] = 'Filtros ativados com sucesso.';
-$labels['setdeactivated'] = 'Filtros desativados com sucesso.';
-$labels['setdeleted'] = 'Filtros eliminados com sucesso.';
-$labels['setdeleteconfirm'] = 'Tem a certeza que pretende eliminar os filtros selecionados?';
-$labels['setcreateerror'] = 'Não foi possível criar o conjunto de filtros. Ocorreu um erro no servidor.';
-$labels['setcreated'] = 'Conjunto de filtros criado com sucesso.';
-$labels['activateerror'] = 'Não foi possível ativar os filtros selecionados. Ocorreu um erro no servidor.';
-$labels['deactivateerror'] = 'Não foi possível desativar os filtros selecionados. Ocorreu um erro no servidor.';
-$labels['activated'] = 'Filtro(s) desativado(s) com sucesso.';
-$labels['deactivated'] = 'Filtro(s) ativado(s) com sucesso.';
-$labels['moved'] = 'Filtro movido com sucesso.';
-$labels['moveerror'] = 'Não foi possível mover o filtro selecionado. Ocorreu um erro no servidor.';
-$labels['nametoolong'] = 'Nome demasiado longo.';
-$labels['namereserved'] = 'Nome invertido.';
-$labels['setexist'] = 'O conjunto já existe.';
-$labels['nodata'] = 'Deve selecionar pelo menos uma posição.';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Erro de servidor desconhecido';
+$messages['filterconnerror'] = 'Não é possível ligar ao servidor Sieve';
+$messages['filterdeleteerror'] = 'Não foi possível eliminar o filtro. Erro no servidor';
+$messages['filterdeleted'] = 'Filtro eliminado com sucesso';
+$messages['filtersaved'] = 'Filtro guardado com sucesso';
+$messages['filtersaveerror'] = 'Não foi possível guardar o filtro. Erro no servidor';
+$messages['filterdeleteconfirm'] = 'Tem a certeza que pretende eliminar este filtro?';
+$messages['ruledeleteconfirm'] = 'Tem a certeza que pretende eliminar esta regra?';
+$messages['actiondeleteconfirm'] = 'Tem a certeza que pretende eliminar esta acção?';
+$messages['forbiddenchars'] = 'Caracteres inválidos no campo.';
+$messages['cannotbeempty'] = 'Este campo não pode estar vazio.';
+$messages['ruleexist'] = 'Já existe um Filtro com o nome especificado.';
+$messages['setactivateerror'] = 'Não foi possível ativar os filtros selecionados.  Ocorreu um erro no servidor.';
+$messages['setdeactivateerror'] = 'Não foi possível desativar os filtros selecionados.  Ocorreu um erro no servidor.';
+$messages['setdeleteerror'] = 'Não foi possível eliminar os filtros selecionados.  Ocorreu um erro no servidor.';
+$messages['setactivated'] = 'Filtros ativados com sucesso.';
+$messages['setdeactivated'] = 'Filtros desativados com sucesso.';
+$messages['setdeleted'] = 'Filtros eliminados com sucesso.';
+$messages['setdeleteconfirm'] = 'Tem a certeza que pretende eliminar os filtros selecionados?';
+$messages['setcreateerror'] = 'Não foi possível criar o conjunto de filtros. Ocorreu um erro no servidor.';
+$messages['setcreated'] = 'Conjunto de filtros criado com sucesso.';
+$messages['activateerror'] = 'Não foi possível ativar os filtros selecionados. Ocorreu um erro no servidor.';
+$messages['deactivateerror'] = 'Não foi possível desativar os filtros selecionados. Ocorreu um erro no servidor.';
+$messages['deactivated'] = 'Filtro(s) ativado(s) com sucesso.';
+$messages['activated'] = 'Filtro(s) desativado(s) com sucesso.';
+$messages['moved'] = 'Filtro movido com sucesso.';
+$messages['moveerror'] = 'Não foi possível mover o filtro selecionado. Ocorreu um erro no servidor.';
+$messages['nametoolong'] = 'Nome demasiado longo.';
+$messages['namereserved'] = 'Nome invertido.';
+$messages['setexist'] = 'O conjunto já existe.';
+$messages['nodata'] = 'Deve selecionar pelo menos uma posição.';
+
+?>

@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/nn_NN/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Fredrik Larsen <fredrik.h.larsen@gmail.com>                   |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Rediger filter for innkommande e-post';
 $labels['filtername'] = 'Filternamn';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Sletta';
 $labels['flaganswered'] = 'Svart på';
 $labels['flagflagged'] = 'Flagga';
 $labels['flagdraft'] = 'Skisse';
+$labels['setvariable'] = 'Sett variabel:';
+$labels['setvarname'] = 'Variabelnamn:';
+$labels['setvarvalue'] = 'Variabelverdi:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'med små bokstavar';
+$labels['varupper'] = 'med store bokstavar';
+$labels['varlowerfirst'] = 'med liten forbokstav';
+$labels['varupperfirst'] = 'med stor forbokstav';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'lengde';
+$labels['notify'] = 'Send varsel';
+$labels['notifyaddress'] = 'Til e-postadresse:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Betyding:';
+$labels['notifyimportancelow'] = 'låg';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'høg';
 $labels['filtercreate'] = 'Opprett filter';
 $labels['usedata'] = 'Bruk følgande data i filteret:';
 $labels['nextstep'] = 'Neste steg';
@@ -115,35 +137,38 @@ $labels['default'] = 'standard';
 $labels['octet'] = 'streng (oktett)';
 $labels['asciicasemap'] = 'ikkje skil mellom store og små bokstavar (ascii-casemap)';
 $labels['asciinumeric'] = 'numerisk (ascii-numeric)';
-$labels['filterunknownerror'] = 'Ukjent problem med tenar.';
-$labels['filterconnerror'] = 'Kunne ikkje kople til tenaren.';
-$labels['filterdeleteerror'] = 'Kunne ikkje slette filter. Det oppstod ein feil på tenaren.';
-$labels['filterdeleted'] = 'Filteret er blitt sletta.';
-$labels['filtersaved'] = 'Filteret er blitt lagra.';
-$labels['filtersaveerror'] = 'Kunne ikkje lagre filteret. Det oppstod ein feil på tenaren.';
-$labels['filterdeleteconfirm'] = 'Vil du verkeleg slette det valde filteret?';
-$labels['ruledeleteconfirm'] = 'Er du sikker på at du vil slette vald regel?';
-$labels['actiondeleteconfirm'] = 'Er du sikker på at du vil slette vald hending?';
-$labels['forbiddenchars'] = 'Ugyldige teikn i felt.';
-$labels['cannotbeempty'] = 'Feltet kan ikkje stå tomt.';
-$labels['ruleexist'] = 'Det finst alt eit filter med dette namnet.';
-$labels['setactivateerror'] = 'Kunne ikkje aktivere det valde filtersettet. Det oppsto ein tenarfeil.';
-$labels['setdeactivateerror'] = 'Kunne ikkje deaktivere det valde filtersettet. Det oppsto ein tenarfeil.';
-$labels['setdeleteerror'] = 'Kunne ikkje slette det valde filtersettet. Det oppsto ein tenarfeil.';
-$labels['setactivated'] = 'Filtersett aktivert.';
-$labels['setdeactivated'] = 'Filtersett deaktivert.';
-$labels['setdeleted'] = 'Filtersett sletta.';
-$labels['setdeleteconfirm'] = 'Er du sikker på at du vil slette det valde filtersettet?';
-$labels['setcreateerror'] = 'Kunne ikkje opprette filtersettet. Det oppstod ein tenarfeil.';
-$labels['setcreated'] = 'Filtersett oppretta.';
-$labels['activateerror'] = 'Kunne ikkje skru på valde filter. Det oppstod ein tenarfeil.';
-$labels['deactivateerror'] = 'Kunne ikkje skru av valde filter. Det oppstod ein tenarfeil.';
-$labels['activated'] = 'Filter skrudd av.';
-$labels['deactivated'] = 'Filter skrudd på.';
-$labels['moved'] = 'Filter vart flytta.';
-$labels['moveerror'] = 'Kunne ikkje flytte valde filter. Det oppstod ein tenarfeil.';
-$labels['nametoolong'] = 'Namnet er for langt.';
-$labels['namereserved'] = 'Namnet er reservert.';
-$labels['setexist'] = 'Settet eksisterer alt.';
-$labels['nodata'] = 'Du må velje minst éin posisjon!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Ukjent problem med tenar.';
+$messages['filterconnerror'] = 'Kunne ikkje kople til tenaren.';
+$messages['filterdeleteerror'] = 'Kunne ikkje slette filter. Det oppstod ein feil på tenaren.';
+$messages['filterdeleted'] = 'Filteret er blitt sletta.';
+$messages['filtersaved'] = 'Filteret er blitt lagra.';
+$messages['filtersaveerror'] = 'Kunne ikkje lagre filteret. Det oppstod ein feil på tenaren.';
+$messages['filterdeleteconfirm'] = 'Vil du verkeleg slette det valde filteret?';
+$messages['ruledeleteconfirm'] = 'Er du sikker på at du vil slette vald regel?';
+$messages['actiondeleteconfirm'] = 'Er du sikker på at du vil slette vald hending?';
+$messages['forbiddenchars'] = 'Ugyldige teikn i felt.';
+$messages['cannotbeempty'] = 'Feltet kan ikkje stå tomt.';
+$messages['ruleexist'] = 'Det finst alt eit filter med dette namnet.';
+$messages['setactivateerror'] = 'Kunne ikkje aktivere det valde filtersettet. Det oppsto ein tenarfeil.';
+$messages['setdeactivateerror'] = 'Kunne ikkje deaktivere det valde filtersettet. Det oppsto ein tenarfeil.';
+$messages['setdeleteerror'] = 'Kunne ikkje slette det valde filtersettet. Det oppsto ein tenarfeil.';
+$messages['setactivated'] = 'Filtersett aktivert.';
+$messages['setdeactivated'] = 'Filtersett deaktivert.';
+$messages['setdeleted'] = 'Filtersett sletta.';
+$messages['setdeleteconfirm'] = 'Er du sikker på at du vil slette det valde filtersettet?';
+$messages['setcreateerror'] = 'Kunne ikkje opprette filtersettet. Det oppstod ein tenarfeil.';
+$messages['setcreated'] = 'Filtersett oppretta.';
+$messages['activateerror'] = 'Kunne ikkje skru på valde filter. Det oppstod ein tenarfeil.';
+$messages['deactivateerror'] = 'Kunne ikkje skru av valde filter. Det oppstod ein tenarfeil.';
+$messages['deactivated'] = 'Filter skrudd på.';
+$messages['activated'] = 'Filter skrudd av.';
+$messages['moved'] = 'Filter vart flytta.';
+$messages['moveerror'] = 'Kunne ikkje flytte valde filter. Det oppstod ein tenarfeil.';
+$messages['nametoolong'] = 'Namnet er for langt.';
+$messages['namereserved'] = 'Namnet er reservert.';
+$messages['setexist'] = 'Settet eksisterer alt.';
+$messages['nodata'] = 'Du må velje minst éin posisjon!';
+
+?>

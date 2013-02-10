@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -335,6 +335,8 @@ $labels['composeto']      = 'Nachricht verfassen';
 $labels['contactsfromto'] = 'Kontakte $from bis $to von $count';
 $labels['print']          = 'Drucken';
 $labels['export']         = 'Exportieren';
+$labels['exportall']      = 'Alle exportieren';
+$labels['exportsel']      = 'Ausgewählte exportieren';
 $labels['exportvcards']   = 'Kontakte im vCard-Format exportieren';
 $labels['newcontactgroup'] = 'Neue Adressgruppe erstellen';
 $labels['grouprename']    = 'Gruppe umbenennen';

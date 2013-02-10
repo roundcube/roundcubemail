@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/zh_TW/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nansen                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = '發生錯誤！';
-$messages['loginfailed'] = '登入失敗';
+$messages['errortitle']  = '發生錯誤！';
+$messages['loginfailed']  = '登入失敗';
 $messages['cookiesdisabled'] = '你的瀏覽器不接受 cookies';
 $messages['sessionerror'] = '你的工作階段已失效或過期';
 $messages['storageerror'] = '連線到 IMAP 伺服器失敗';
@@ -57,11 +60,11 @@ $messages['errormoving'] = '無法移動此郵件';
 $messages['errorcopying'] = '無法訊息';
 $messages['errordeleting'] = '無法刪除此郵件';
 $messages['errormarking'] = '無法標上旗標';
-$messages['deletecontactconfirm'] = '你確定要刪除已選擇的聯絡人？';
-$messages['deletegroupconfirm'] = '您確定要刪除選擇的群組嗎?';
+$messages['deletecontactconfirm']  = '你確定要刪除已選擇的聯絡人？';
+$messages['deletegroupconfirm']  = '您確定要刪除選擇的群組嗎?';
 $messages['deletemessagesconfirm'] = '你確定要刪除已選擇的郵件？';
-$messages['deletefolderconfirm'] = '你確定要刪除這個資料夾嗎？';
-$messages['purgefolderconfirm'] = '你確定要刪除這個資料夾裡面所有的郵件嗎？';
+$messages['deletefolderconfirm']  = '你確定要刪除這個資料夾嗎？';
+$messages['purgefolderconfirm']  = '你確定要刪除這個資料夾裡面所有的郵件嗎？';
 $messages['contactdeleting'] = '刪除連絡人...';
 $messages['groupdeleting'] = '刪除存組...';
 $messages['folderdeleting'] = '刪除資料夾中...';
@@ -70,11 +73,11 @@ $messages['foldersubscribing'] = '訂閱資料夾...';
 $messages['folderunsubscribing'] = '取消訂閱資料夾...';
 $messages['formincomplete'] = '這個表單有部分未填，請完整填寫';
 $messages['noemailwarning'] = '請輸入一個有效的電子郵件位址';
-$messages['nonamewarning'] = '請輸入名字';
+$messages['nonamewarning']  = '請輸入名字';
 $messages['nopagesizewarning'] = '請輸入一頁顯示多少郵件';
 $messages['nosenderwarning'] = '請輸入寄件者的電子郵件位址';
 $messages['norecipientwarning'] = '請輸入至少一位收信者';
-$messages['nosubjectwarning'] = '「主旨」欄是空的。你要輸入一個主旨嗎？';
+$messages['nosubjectwarning']  = '「主旨」欄是空的。你要輸入一個主旨嗎？';
 $messages['nobodywarning'] = '要傳送沒有內文的郵件嗎？';
 $messages['notsentwarning'] = '郵件尚未寄出。你確定要離開並且捨棄此郵件？';
 $messages['noldapserver'] = '請選擇一個 LDAP 伺服器進行搜尋';
@@ -116,6 +119,7 @@ $messages['selectimportfile'] = '請選擇一個上傳的檔案';
 $messages['addresswriterror'] = '無法寫入選擇的通訊錄';
 $messages['contactaddedtogroup'] = '成功把聯絡人加入此群組';
 $messages['contactremovedfromgroup'] = '成功把移除此群組中的聯絡人';
+$messages['nogroupassignmentschanged'] = '群組資料沒有異動';
 $messages['importwait'] = '匯入中，請稍候...';
 $messages['importformaterror'] = '匯入失敗！上載的檔案格式不支援';
 $messages['importconfirm'] = '<b>成功匯入 $inserted 筆資料，略過 $skipped 筆已存在的資料</b>：<p><em>$names</em></p>';
@@ -159,4 +163,8 @@ $messages['invalidimageformat'] = '圖片格式錯誤';
 $messages['mispellingsfound'] = '郵件中偵測到拼字錯誤';
 $messages['parentnotwritable'] = '無法建立/移動資料夾至指定的上層目錄 (No access rights)';
 $messages['messagetoobig'] = '郵件太大無法處理';
+$messages['attachmentvalidationerror'] = '警告！這個附件是可疑的，因為它的檔案類型與其宣稱的不同。如果您不能相信寄件者請不要開啟附件，它可能含有惡意的內容。<br /><br />
+<em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = '警告：使用Webmail需要Javascript支援，請檢查您瀏覽器的Javascript設定';
 
+?>
