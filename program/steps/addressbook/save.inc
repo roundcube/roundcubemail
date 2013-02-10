@@ -85,7 +85,7 @@ if (empty($a_record['name'])) {
 // do input checks (delegated to $CONTACTS instance)
 if (!$CONTACTS->validate($a_record)) {
     $err = (array)$CONTACTS->get_error();
-    $OUTPUT->show_message($err['message'] ? $err['message'] : 'formincomplete', 'warning');
+    $OUTPUT->show_message($err['message'] ? Q($err['message']) : 'formincomplete', 'warning');
     $GLOBALS['EDIT_RECORD'] = $a_record;  // store submitted data to be used in edit form
     rcmail_overwrite_action($return_action);
     return;
