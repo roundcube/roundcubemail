@@ -1276,6 +1276,10 @@ body.iframe {
 	margin: 38px 0 10px 0;
 }
 
+body.iframe.error {
+	background: #ededed;
+}
+
 body.iframe.floatingbuttons {
 	margin-bottom: 40px;
 }
