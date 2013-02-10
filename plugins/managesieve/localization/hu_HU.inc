@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hu_HU/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Üzenetszűrők';
 $labels['managefilters'] = 'Bejövő üzenetek szűrői';
 $labels['filtername'] = 'Szűrő neve';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Törölt';
 $labels['flaganswered'] = 'Megválaszolt';
 $labels['flagflagged'] = 'Megjelölt';
 $labels['flagdraft'] = 'Vázlat';
+$labels['setvariable'] = 'Változó beállítása';
+$labels['setvarname'] = 'Változó neve:';
+$labels['setvarvalue'] = 'Változó értéke:';
+$labels['setvarmodifiers'] = 'Módosítók';
+$labels['varlower'] = 'kisbetű';
+$labels['varupper'] = 'nagybetű';
+$labels['varlowerfirst'] = 'első karakter kisbetű';
+$labels['varupperfirst'] = 'első karakter nagybetű';
+$labels['varquotewildcard'] = 'speciális karakterek idézése';
+$labels['varlength'] = 'hossz';
+$labels['notify'] = 'Értesítés küldése';
+$labels['notifyaddress'] = 'Címzett e-mail címe:';
+$labels['notifybody'] = 'Értesítés levéltörzse:';
+$labels['notifysubject'] = 'Értesítés tárgya:';
+$labels['notifyfrom'] = 'Értesítés feladója:';
+$labels['notifyimportance'] = 'Fontosság:';
+$labels['notifyimportancelow'] = 'alacsony';
+$labels['notifyimportancenormal'] = 'normál';
+$labels['notifyimportancehigh'] = 'magas';
 $labels['filtercreate'] = 'Szűrő létrehozása';
 $labels['usedata'] = 'A következő adatok használata a szűrőben';
 $labels['nextstep'] = 'Következő lépés';
@@ -115,35 +137,38 @@ $labels['default'] = 'alapértelmezett';
 $labels['octet'] = 'strict (octet)';
 $labels['asciicasemap'] = 'kis-nagybetüre nem érzékeny (ascii-casemap)';
 $labels['asciinumeric'] = 'számszerü (ascii-numeric)';
-$labels['filterunknownerror'] = 'Ismeretlen szerverhiba';
-$labels['filterconnerror'] = 'Nem tudok a szűrőszerverhez kapcsolódni';
-$labels['filterdeleteerror'] = 'A szűrőt nem lehet törölni, szerverhiba történt';
-$labels['filterdeleted'] = 'A szűrő törlése sikeres';
-$labels['filtersaved'] = 'A szűrő mentése sikeres';
-$labels['filtersaveerror'] = 'A szűrő mentése sikertelen, szerverhiba történt';
-$labels['filterdeleteconfirm'] = 'Biztosan törli ezt a szűrőt?';
-$labels['ruledeleteconfirm'] = 'Biztosan törli ezt a szabályt?';
-$labels['actiondeleteconfirm'] = 'Biztosan törli ezt a műveletet?';
-$labels['forbiddenchars'] = 'Érvénytelen karakter a mezőben';
-$labels['cannotbeempty'] = 'A mező nem lehet üres';
-$labels['ruleexist'] = 'Már van ilyen névvel elmentett szűrő.';
-$labels['setactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült engedélyezni. Szerver hiba történt.';
-$labels['setdeactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült tiltani. Szerver hiba történt.';
-$labels['setdeleteerror'] = 'Nem sikerült a kiválasztott szűrő készletet törölni. Szerver hiba történt.';
-$labels['setactivated'] = 'A filter készlet engedélyezése sikeresen végrehajtódott.';
-$labels['setdeactivated'] = 'A filter készlet tiltása sikeresen végrehajtódott.';
-$labels['setdeleted'] = 'A filter készlet törlése sikeresen végrehajtódott.';
-$labels['setdeleteconfirm'] = 'Biztosan törölni szeretnéd a kiválasztott szűrő készleteket?';
-$labels['setcreateerror'] = 'Nem sikerült létrehozni a szűrő készletet. Szerver hiba történt.';
-$labels['setcreated'] = 'A szűrő készlet sikeresen létrejött.';
-$labels['activateerror'] = 'Nem sikerült engedélyezni a kiválasztott szűrö(k)et. Szerver hiba történt.';
-$labels['deactivateerror'] = 'Nem sikerült kikapcsolni a kiválasztott szűrő(ke)t. Szerver hiba történt.';
-$labels['activated'] = 'Szűrő(k) sikeresen kikapcsolva.';
-$labels['deactivated'] = 'Szűrő(k) sikeresen bekapcsolva.';
-$labels['moved'] = 'A szűrő sikeresen áthelyezve.';
-$labels['moveerror'] = 'Az áthelyezés nem sikerült. Szerver hiba történt.';
-$labels['nametoolong'] = 'Túll hosszu név';
-$labels['namereserved'] = 'Nem használható (foglalt) név-';
-$labels['setexist'] = 'A készlet már létezik.';
-$labels['nodata'] = 'Legalább egyet ki kell választani.';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Ismeretlen szerverhiba';
+$messages['filterconnerror'] = 'Nem tudok a szűrőszerverhez kapcsolódni';
+$messages['filterdeleteerror'] = 'A szűrőt nem lehet törölni, szerverhiba történt';
+$messages['filterdeleted'] = 'A szűrő törlése sikeres';
+$messages['filtersaved'] = 'A szűrő mentése sikeres';
+$messages['filtersaveerror'] = 'A szűrő mentése sikertelen, szerverhiba történt';
+$messages['filterdeleteconfirm'] = 'Biztosan törli ezt a szűrőt?';
+$messages['ruledeleteconfirm'] = 'Biztosan törli ezt a szabályt?';
+$messages['actiondeleteconfirm'] = 'Biztosan törli ezt a műveletet?';
+$messages['forbiddenchars'] = 'Érvénytelen karakter a mezőben';
+$messages['cannotbeempty'] = 'A mező nem lehet üres';
+$messages['ruleexist'] = 'Már van ilyen névvel elmentett szűrő.';
+$messages['setactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült engedélyezni. Szerver hiba történt.';
+$messages['setdeactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült tiltani. Szerver hiba történt.';
+$messages['setdeleteerror'] = 'Nem sikerült a kiválasztott szűrő készletet törölni. Szerver hiba történt.';
+$messages['setactivated'] = 'A filter készlet engedélyezése sikeresen végrehajtódott.';
+$messages['setdeactivated'] = 'A filter készlet tiltása sikeresen végrehajtódott.';
+$messages['setdeleted'] = 'A filter készlet törlése sikeresen végrehajtódott.';
+$messages['setdeleteconfirm'] = 'Biztosan törölni szeretnéd a kiválasztott szűrő készleteket?';
+$messages['setcreateerror'] = 'Nem sikerült létrehozni a szűrő készletet. Szerver hiba történt.';
+$messages['setcreated'] = 'A szűrő készlet sikeresen létrejött.';
+$messages['activateerror'] = 'Nem sikerült engedélyezni a kiválasztott szűrö(k)et. Szerver hiba történt.';
+$messages['deactivateerror'] = 'Nem sikerült kikapcsolni a kiválasztott szűrő(ke)t. Szerver hiba történt.';
+$messages['deactivated'] = 'Szűrő(k) sikeresen bekapcsolva.';
+$messages['activated'] = 'Szűrő(k) sikeresen kikapcsolva.';
+$messages['moved'] = 'A szűrő sikeresen áthelyezve.';
+$messages['moveerror'] = 'Az áthelyezés nem sikerült. Szerver hiba történt.';
+$messages['nametoolong'] = 'Túll hosszu név';
+$messages['namereserved'] = 'Nem használható (foglalt) név-';
+$messages['setexist'] = 'A készlet már létezik.';
+$messages['nodata'] = 'Legalább egyet ki kell választani.';
+
+?>

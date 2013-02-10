@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/nb_NO/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Åsmund Skjæveland <aasmunds@ulrik.uio.no>                   |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Det oppsto en feil!';
-$messages['loginfailed'] = 'Pålogging mislyktes';
+$messages['errortitle']  = 'Det oppsto en feil!';
+$messages['loginfailed']  = 'Pålogging mislyktes';
 $messages['cookiesdisabled'] = 'Nettleseren din tillater ikke informasjonskapsler (cookies)';
 $messages['sessionerror'] = 'Din nettlesertilkobling er ugyldig eller utløpt';
 $messages['storageerror'] = 'Tilkobling til IMAP-tjener mislyktes.';
@@ -57,11 +60,11 @@ $messages['errormoving'] = 'Kunne ikke flytte meldingen(e)';
 $messages['errorcopying'] = 'Kunne ikke kopiere meldingen(e)';
 $messages['errordeleting'] = 'Kunne ikke slette meldingen(e)';
 $messages['errormarking'] = 'Kunne ikke markere meldingen(e)';
-$messages['deletecontactconfirm'] = 'Vil du virkelig slette valgte kontakt(er)?';
-$messages['deletegroupconfirm'] = 'Vil du virkelig slette den valgte gruppa?';
+$messages['deletecontactconfirm']  = 'Vil du virkelig slette valgte kontakt(er)?';
+$messages['deletegroupconfirm']  = 'Vil du virkelig slette den valgte gruppa?';
 $messages['deletemessagesconfirm'] = 'Vil du virkelig slette de(n) valgte meldingen(e)?';
-$messages['deletefolderconfirm'] = 'Vil du virkelig slette denne mappen?';
-$messages['purgefolderconfirm'] = 'Vil du virkelig slette alle meldingene i denne mappen?';
+$messages['deletefolderconfirm']  = 'Vil du virkelig slette denne mappen?';
+$messages['purgefolderconfirm']  = 'Vil du virkelig slette alle meldingene i denne mappen?';
 $messages['contactdeleting'] = 'Sletter kontakt(er) ...';
 $messages['groupdeleting'] = 'Sletter gruppe ...';
 $messages['folderdeleting'] = 'Sletter mappe...';
@@ -70,11 +73,11 @@ $messages['foldersubscribing'] = 'Abonnerer på mappe ...';
 $messages['folderunsubscribing'] = 'Avslutter mappeabonnement ...';
 $messages['formincomplete'] = 'Skjemaet var ikke fullstendig fylt ut';
 $messages['noemailwarning'] = 'Vennligst oppgi en gyldig epostadresse.';
-$messages['nonamewarning'] = 'Angi et navn';
+$messages['nonamewarning']  = 'Angi et navn';
 $messages['nopagesizewarning'] = 'Angi sidestørrelsen';
 $messages['nosenderwarning'] = 'Vennligst angi avsenderadresse';
 $messages['norecipientwarning'] = 'Skriv inn minst én mottaker';
-$messages['nosubjectwarning'] = 'Emnefeltet er tomt. Vil du skrive det inn nå?';
+$messages['nosubjectwarning']  = 'Emnefeltet er tomt. Vil du skrive det inn nå?';
 $messages['nobodywarning'] = 'Send denne meldingen uten tekst?';
 $messages['notsentwarning'] = 'E-posten er ikke sendt. Er du sikker på at du vil avbryte skrivingen?';
 $messages['noldapserver'] = 'Velg LDAP-tjener å søke i';
@@ -163,3 +166,4 @@ $messages['messagetoobig'] = 'Meldingsdelen er for stor til at den kan prosesser
 $messages['attachmentvalidationerror'] = 'ADVARSEL! Dette vedlegget er mistenkelig fordi det er av en type som ikke passer med det som er deklarert i meldingen. Hvis du ikke stoler på avsenderen burde du ikke åpne det i nettleseren, fordi det kan ha skadelig innhold.<br/><br/><em>Forventet: $expected; fant: $detected</em>rnrnWARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'NB: Denne webmail-klienten krever Javascript! Skru på Javascript i nettleseren din for å kunne bruke den.';
 
+?>

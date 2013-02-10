@@ -2,19 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/lt_LT/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: tomas <tomas@saulessmugis.lt>                                 |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtrai';
 $labels['managefilters'] = 'Tvarkyti gaunamų laiškų filtrus';
 $labels['filtername'] = 'Filtro pavadinimas';
@@ -46,6 +48,7 @@ $labels['messagecopyto'] = 'Kopijuoti laišką į';
 $labels['messagesendcopy'] = 'Nusiųsti laiško kopiją';
 $labels['messagereply'] = 'Atsakyti laišku';
 $labels['messagedelete'] = 'Pašalinti laišką';
+$labels['messagediscard'] = 'Discard with message';
 $labels['messagesrules'] = 'Gaunamiems laiškams:';
 $labels['messagesactions'] = '…vykdyti šiuos veiksmus:';
 $labels['add'] = 'Pridėti';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Pašalintas';
 $labels['flaganswered'] = 'Atsakytas';
 $labels['flagflagged'] = 'Pažymėtas gairele';
 $labels['flagdraft'] = 'Juodraštis';
+$labels['setvariable'] = 'Nustatyti kintamąjį';
+$labels['setvarname'] = 'Kintamojo vardas:';
+$labels['setvarvalue'] = 'Kintamojo vertė:';
+$labels['setvarmodifiers'] = 'Modifikatoriai:';
+$labels['varlower'] = 'mažosios raidės';
+$labels['varupper'] = 'didžiosios raidės';
+$labels['varlowerfirst'] = 'pirmoji raidė mažoji';
+$labels['varupperfirst'] = 'pirmoji raidė didžioji';
+$labels['varquotewildcard'] = 'cituoti specialius simbolius';
+$labels['varlength'] = 'ilgis';
+$labels['notify'] = 'Siųsti priminimą';
+$labels['notifyaddress'] = 'Kam, el. pašto adresas:';
+$labels['notifybody'] = 'Priminimo tekstas';
+$labels['notifysubject'] = 'Priminimo pavadinimas';
+$labels['notifyfrom'] = 'Priminimo siuntėjas';
+$labels['notifyimportance'] = 'Svarbumas';
+$labels['notifyimportancelow'] = 'žemas';
+$labels['notifyimportancenormal'] = 'normalus';
+$labels['notifyimportancehigh'] = 'aukštas';
 $labels['filtercreate'] = 'Kurti filtrą';
 $labels['usedata'] = 'Filtrui naudoti šiuos duomenis:';
 $labels['nextstep'] = 'Kitas žingsnis';
@@ -116,3 +138,37 @@ $labels['octet'] = 'griežtas („octet“)';
 $labels['asciicasemap'] = 'nepaisantis raidžių registro („ascii-casemap“)';
 $labels['asciinumeric'] = 'skaitinis („ascii-numeric“)';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Nežinoma serverio klaida.';
+$messages['filterconnerror'] = 'Neįmanoma užmegzti ryšio su serveriu.';
+$messages['filterdeleteerror'] = 'Filtro panaikinti neįmanoma. Įvyko serverio klaida.';
+$messages['filterdeleted'] = 'Filtras panaikintas sėkmingai.';
+$messages['filtersaved'] = 'Filtras sėkmingai išsaugotas';
+$messages['filtersaveerror'] = 'Filtro išsaugoti neįmanoma. Įvyko serverio klaida.';
+$messages['filterdeleteconfirm'] = 'Ar jūs esate įsitikinęs, jog norite panaikinti pasirinktus filtrus(-ą)?';
+$messages['ruledeleteconfirm'] = 'Ar jūs įsitikinęs, jog norite panaikinti pasirinktą taisyklę?';
+$messages['actiondeleteconfirm'] = 'Ar jūs įsitikinęs, jog norite panaikinti pasirinktą veiksmą?';
+$messages['forbiddenchars'] = 'Laukelyje yra draudžiamų simbolių.';
+$messages['cannotbeempty'] = 'Laukelis negali būti tuščias';
+$messages['ruleexist'] = 'Filtras tokiu vardu jau yra.';
+$messages['setactivateerror'] = 'Neįmanoma aktyvuoti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setdeactivateerror'] = 'Neįmanoma deaktyvuoti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setdeleteerror'] = 'Neįmanoma panaikinti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setactivated'] = 'Filtrų rinkinys sėkmingai aktyvuotas.';
+$messages['setdeactivated'] = 'Filtrų rinkinys sėkmingai deaktyvuotas.';
+$messages['setdeleted'] = 'Filtrų rinkinys sėkmingai panaikintas.';
+$messages['setdeleteconfirm'] = 'Ar jūs esate tikri, jog norite panaikinti pasirinktą filtrų rinkinį?';
+$messages['setcreateerror'] = 'Neįmanoma sukurti filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setcreated'] = 'Filtrų rinkinys sėkmingai sukurtas.';
+$messages['activateerror'] = 'Neįmanoma įjungti pasirinktų filtrų(-o). Įvyko serverio klaida.';
+$messages['deactivateerror'] = 'Neįmanoma išjungti pasirinktų filtrų(-o). Įvyko serverio klaida.';
+$messages['deactivated'] = 'Filtras(-as) sėkmingai išjungti.';
+$messages['activated'] = 'Filtras(-as) sėkmingai įjungti.';
+$messages['moved'] = 'Filtrai perkelti sėkmingai.';
+$messages['moveerror'] = 'Pasirinkto filtro perkelti neįmanoma. Įvyko serverio klaida.';
+$messages['nametoolong'] = 'Vardas per ilgas.';
+$messages['namereserved'] = 'Rezervuotas vardas.';
+$messages['setexist'] = 'Rinkinys jau yra sukurtas.';
+$messages['nodata'] = 'At least one position must be selected!';
+
+?>

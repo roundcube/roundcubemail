@@ -2,19 +2,22 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ku/labels.inc                                         |
+ | plugins/new_user_dialog/localization/<lang>.inc                       |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail New User Dialog plugin     |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: david absalan <absalan@live.com>                              |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
 $labels = array();
 $labels['identitydialogtitle'] = 'tkaya nawnişani nenar ba tawawi bnwsa';
 $labels['identitydialoghint'] = 'am qtwia wadiara yak jar la sarata krawatawa';
 
+?>

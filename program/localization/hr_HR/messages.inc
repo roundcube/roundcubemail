@@ -2,32 +2,38 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hr_HR/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Prijava neuspješna';
+$messages['errortitle']  = 'An error occurred!';
+$messages['loginfailed']  = 'Prijava neuspješna';
 $messages['cookiesdisabled'] = 'Vaš Web preglednik ne podržava kolačiće (cookies)';
 $messages['sessionerror'] = 'Morate se ponovno ulogirati';
 $messages['storageerror'] = 'Neuspješna veza na IMAP server';
 $messages['servererror'] = 'Greška poslužitelja';
 $messages['servererrormsg'] = 'Greška na serveru: $msg';
 $messages['dberror'] = 'Greška baze podataka!';
+$messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Nemoguća izvedba operacije. Mapa je samo za čitanje.';
 $messages['errornoperm'] = 'Nemoguća izvedba operacije. Dozvola odbijena.';
 $messages['invalidrequest'] = 'Nepravilan zahtijev! Podaci nisu spremljeni.';
+$messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'Nema poruka u sandučiću';
 $messages['loggedout'] = 'Uspješno ste se odjavili. Zbogom!';
 $messages['mailboxempty'] = 'Sandučuć je prazan';
+$messages['refreshing'] = 'Refreshing...';
 $messages['loading'] = 'Učitavanje...';
 $messages['uploading'] = 'Prenosim datoteku...';
 $messages['uploadingmany'] = 'Prenosim datoteke...';
@@ -54,11 +60,11 @@ $messages['errormoving'] = 'Greška pri premještanju poruke';
 $messages['errorcopying'] = 'Greška pri kopiranju poruke';
 $messages['errordeleting'] = 'Greška pri brisanju poruke';
 $messages['errormarking'] = 'Nije moguće označiti poruku';
-$messages['deletecontactconfirm'] = 'Želite li obrisati izabrane kontakte?';
-$messages['deletegroupconfirm'] = 'Jeste li sigurni da želite obrisati odabranu grupu?';
+$messages['deletecontactconfirm']  = 'Želite li obrisati izabrane kontakte?';
+$messages['deletegroupconfirm']  = 'Jeste li sigurni da želite obrisati odabranu grupu?';
 $messages['deletemessagesconfirm'] = 'Sigurno želite obrisati odabrane poruke?';
-$messages['deletefolderconfirm'] = 'Želite li obrisati ovu mapu?';
-$messages['purgefolderconfirm'] = 'Želite li obrisati sve poruke u mapi?';
+$messages['deletefolderconfirm']  = 'Želite li obrisati ovu mapu?';
+$messages['purgefolderconfirm']  = 'Želite li obrisati sve poruke u mapi?';
 $messages['contactdeleting'] = 'Brišem kontakt(e)...';
 $messages['groupdeleting'] = 'Brišem grupu...';
 $messages['folderdeleting'] = 'Brišem mapu...';
@@ -67,11 +73,11 @@ $messages['foldersubscribing'] = 'Pretplata na mapu...';
 $messages['folderunsubscribing'] = 'Poništavanje pretplate na mapu...';
 $messages['formincomplete'] = 'Obrazac nije u cjelosti popunjen';
 $messages['noemailwarning'] = 'Unesite valjanu e-mail adresu';
-$messages['nonamewarning'] = 'Unesite ime';
+$messages['nonamewarning']  = 'Unesite ime';
 $messages['nopagesizewarning'] = 'Unesite veličinu stranice';
 $messages['nosenderwarning'] = 'Unesite e-mail adresu pošiljatelja';
 $messages['norecipientwarning'] = 'Unesite primatelja (ZA)';
-$messages['nosubjectwarning'] = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
+$messages['nosubjectwarning']  = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
 $messages['nobodywarning'] = 'Želite li poslati poruku bez teksta?';
 $messages['notsentwarning'] = 'Poruka nije poslana. Želite li odbaciti ovu poruku?';
 $messages['noldapserver'] = 'Unesite LDAP poslužitelj za pretragu';
@@ -113,8 +119,9 @@ $messages['selectimportfile'] = 'Odaberite datoteku za prijenos';
 $messages['addresswriterror'] = 'U odabrani adresar nije moguće zapisivat...';
 $messages['contactaddedtogroup'] = 'Kontakti uspješno dodani ovoj grupi';
 $messages['contactremovedfromgroup'] = 'Kontakti uspješno izbrisani iz ove grupe';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Uvozim, molimo sačekajte...';
-$messages['importerror'] = 'Greška pri uvozu! Datoteka ne sadrži pravilan vCard format.';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>Uspješno je uvezeno $inserted kontakt(a), preskočeno $skipped već postojećih</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Preskočeno $skipped postojećih unosa</b>';
 $messages['opnotpermitted'] = 'Operacija nije dozvoljena!';
@@ -156,4 +163,7 @@ $messages['invalidimageformat'] = 'Format slike nije ispravan.';
 $messages['mispellingsfound'] = 'Greške pravopisa su pronađene u poruci.';
 $messages['parentnotwritable'] = 'Nije moguće stvoriti/pomaknuti mapu u odabranu mapu. Nemate prava pristupa.';
 $messages['messagetoobig'] = 'Dio poruke je prevelik za procesiranje.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
+?>

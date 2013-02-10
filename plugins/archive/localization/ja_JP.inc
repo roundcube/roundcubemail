@@ -2,20 +2,33 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ja_JP/labels.inc                                         |
+ | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Archive plugin             |
+ | Copyright (C) 2013, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe                                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
 $labels = array();
 $labels['buttontext'] = 'アーカイブ';
-$labels['archivefolder'] = 'アーカイブ';
 $labels['buttontitle'] = 'このメッセージをアーカイブ';
 $labels['archived'] = 'アーカイブしました。';
+$labels['archivedreload'] = 'アーカイブしました。ページを再読み込みすると、新しいアーカイブのフォルダーを表示します。';
+$labels['archiveerror'] = 'アーカイブできないメッセージがありました';
+$labels['archivefolder'] = 'アーカイブ';
+$labels['settingstitle'] = 'アーカイブ';
+$labels['archivetype'] = 'アーカイブを分割: ';
+$labels['archivetypeyear'] = '年 (例: アーカイブ/2012)';
+$labels['archivetypemonth'] = '月 (e.g. アーカイブ/2012/06)';
+$labels['archivetypefolder'] = '元のフォルダー';
+$labels['archivetypesender'] = '電子メールの送信者';
+$labels['unkownsender'] = '不明';
 
+?>

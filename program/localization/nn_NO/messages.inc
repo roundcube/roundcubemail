@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/nn_NO/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Åsmund Skjæveland <aasmunds@ulrik.uio.no>                   |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Noko gjekk feil.';
-$messages['loginfailed'] = 'Feil ved innlogging.';
+$messages['errortitle']  = 'Noko gjekk feil.';
+$messages['loginfailed']  = 'Feil ved innlogging.';
 $messages['cookiesdisabled'] = 'Nettlesaren din tillet ikkje informasjonskapslar (cookies).';
 $messages['sessionerror'] = 'Økta di er ugyldig eller har gått ut på tid.';
 $messages['storageerror'] = 'Tilkoplinga til lagringstenaren vart mislukka.';
@@ -57,11 +60,11 @@ $messages['errormoving'] = 'Klarte ikkje flytte meldinga(r).';
 $messages['errorcopying'] = 'Klarte ikkje kopiera meldinga(r).';
 $messages['errordeleting'] = 'Klarte ikkje sletta meldinga(r).';
 $messages['errormarking'] = 'Klarte ikkje markera meldinga(r).';
-$messages['deletecontactconfirm'] = 'Sletta kontakt(ar)?';
-$messages['deletegroupconfirm'] = 'Vil du sletta den valde gruppa?';
+$messages['deletecontactconfirm']  = 'Sletta kontakt(ar)?';
+$messages['deletegroupconfirm']  = 'Vil du sletta den valde gruppa?';
 $messages['deletemessagesconfirm'] = 'Sletta melding(ar)?';
-$messages['deletefolderconfirm'] = 'Sletta mappa?';
-$messages['purgefolderconfirm'] = 'Sletta alle meldingane i denne mappa?';
+$messages['deletefolderconfirm']  = 'Sletta mappa?';
+$messages['purgefolderconfirm']  = 'Sletta alle meldingane i denne mappa?';
 $messages['contactdeleting'] = 'Slettar kontakt(ar) …';
 $messages['groupdeleting'] = 'Slettar gruppe …';
 $messages['folderdeleting'] = 'Slettar mappe …';
@@ -70,11 +73,11 @@ $messages['foldersubscribing'] = 'Abonnerer på mappe …';
 $messages['folderunsubscribing'] = 'Avsluttar mappeabonnement …';
 $messages['formincomplete'] = 'Skjemaet var ikkje fullstendig fylt ut.';
 $messages['noemailwarning'] = 'Skriv ei gyldig e-postadresse.';
-$messages['nonamewarning'] = 'Skriv eit namn.';
+$messages['nonamewarning']  = 'Skriv eit namn.';
 $messages['nopagesizewarning'] = 'Oppgje sidestorleik.';
 $messages['nosenderwarning'] = 'Skriv inn avsendar si e-postadresse';
 $messages['norecipientwarning'] = 'Skriv minst ein mottakar.';
-$messages['nosubjectwarning'] = 'Emnefeltet er tomt. Vil du skriva eitt emne no?';
+$messages['nosubjectwarning']  = 'Emnefeltet er tomt. Vil du skriva eitt emne no?';
 $messages['nobodywarning'] = 'Senda meldinga utan tekst?';
 $messages['notsentwarning'] = 'Meldinga er ikkje sendt. Vil du kasta ho?';
 $messages['noldapserver'] = 'Vel LDAP-tenar å søkja i.';
@@ -163,3 +166,4 @@ $messages['messagetoobig'] = 'Meldingsdelen er for stor til å prosesserast.';
 $messages['attachmentvalidationerror'] = 'ÅTVARING: Dette vedlegget er mistenkjeleg fordi det er av ein  type som ikkje stemmer med det som er deklarert i meldinga. Viss du ikkje stolar på avsendaren bør du ikkje opna det i nettlesaren. Det kan ha skadeleg innhald.<br/><br/><em>Venta: $expected; fann: $detected</em>';
 $messages['noscriptwarning'] = 'NB: Denne webmail-klienten krev JavaScript. Skru på JavaScript i nettlesaren din for å kunna bruka klienten.';
 
+?>

@@ -2,20 +2,33 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ro_RO/labels.inc                                         |
+ | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Archive plugin             |
+ | Copyright (C) 2013, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: tudor <tudor@starnet-alba.ro>                                 |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
 $labels = array();
 $labels['buttontext'] = 'Arhivă';
-$labels['archivefolder'] = 'Arhivă';
 $labels['buttontitle'] = 'Arhivează acest mesaj.';
 $labels['archived'] = 'Arhivare reuşită.';
+$labels['archivedreload'] = 'Arhivat cu succes. Reîncărcați pagina pentru a vedea noul dosar de arhivare.';
+$labels['archiveerror'] = 'Câteva mesaje nu au putut fi arhivate';
+$labels['archivefolder'] = 'Arhivă';
+$labels['settingstitle'] = 'Arhivă';
+$labels['archivetype'] = 'Divide arhiva pe';
+$labels['archivetypeyear'] = 'Ani (ex. Arhiva/2013)';
+$labels['archivetypemonth'] = 'Luni (ex. Arhiva/2013/06)';
+$labels['archivetypefolder'] = 'Dosar original';
+$labels['archivetypesender'] = 'E-mail expeditor';
+$labels['unkownsender'] = 'necunoscut';
 
+?>

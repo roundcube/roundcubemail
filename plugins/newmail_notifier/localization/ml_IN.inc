@@ -2,18 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ml_IN/labels.inc                                         |
+ | plugins/newmail_notifier/localization/<lang>.inc                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail New Mail Notifier plugin   |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anish A <aneesh.nl@gmail.com>                                 |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
-$labels = array();
 $labels['basic'] = 'ബ്രൌസര്‍ അറിയിപ്പുകള്‍ പുതിയ സന്ദേശത്തില്‍ കാണിക്കുക';
 $labels['desktop'] = 'ഡെസ്ക്ക്ടോപ്പ് അറിയിപ്പുകള്‍ പുതിയ സന്ദേശത്തില്‍ കാണിക്കുക';
 $labels['sound'] = 'പുതിയ സന്ദേശത്തില്‍ സബ്ദം കേള്‍പ്പിക്കുക';
@@ -24,3 +26,4 @@ $labels['testbody'] = 'ഇത് ഒരു പരീക്ഷണ അറിയി
 $labels['desktopdisabled'] = 'താങ്കളുടെ ബ്രൌസറില്‍ ഡെസ്ക്ക്ടോപ്പ് നോട്ടിഫിക്കേഷന്‍ പ്രവര്‍ത്തനരഹിതമാണ്.';
 $labels['desktopunsupported'] = 'താങ്കളുടെ ബ്രൌസ്സര്‍ ഡെസ്ക്ടോപ്പ് അറിയിപ്പുകള്‍ പിന്‍തുണയ്ക്കുന്നില്ല.';
 
+?>

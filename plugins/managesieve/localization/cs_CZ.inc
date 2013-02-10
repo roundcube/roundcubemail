@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/cs_CZ/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtry';
 $labels['managefilters'] = 'Nastavení filtrů';
 $labels['filtername'] = 'Název filtru';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Smazáno';
 $labels['flaganswered'] = 'Odpovězené';
 $labels['flagflagged'] = 'Označeno';
 $labels['flagdraft'] = 'Koncept';
+$labels['setvariable'] = 'Nastavit proměnnou';
+$labels['setvarname'] = 'Název proměnné:';
+$labels['setvarvalue'] = 'Hodnota proměnné:';
+$labels['setvarmodifiers'] = 'Modifikátory:';
+$labels['varlower'] = 'malá písmena';
+$labels['varupper'] = 'velká písmena';
+$labels['varlowerfirst'] = 'první písmeno malé';
+$labels['varupperfirst'] = 'první písmeno velké';
+$labels['varquotewildcard'] = 'uvodit speciální znaky uvozovkama';
+$labels['varlength'] = 'délka';
+$labels['notify'] = 'Odeslat oznámení';
+$labels['notifyaddress'] = 'Na emailovou adresu:';
+$labels['notifybody'] = 'Zpráva oznámení:';
+$labels['notifysubject'] = 'Předmět oznámení:';
+$labels['notifyfrom'] = 'Odesílatel oznámení:';
+$labels['notifyimportance'] = 'Důležitost:';
+$labels['notifyimportancelow'] = 'nízká';
+$labels['notifyimportancenormal'] = 'normální';
+$labels['notifyimportancehigh'] = 'vysoká';
 $labels['filtercreate'] = 'Vytvořit filtr';
 $labels['usedata'] = 'Použít následující údaje ve filtru:';
 $labels['nextstep'] = 'Další krok';
@@ -115,35 +137,38 @@ $labels['default'] = 'výchozí';
 $labels['octet'] = 'striktní (oktet)';
 $labels['asciicasemap'] = 'necitlivé na velikost písmen (ascii-casemap)';
 $labels['asciinumeric'] = 'číslené (ascii-numeric)';
-$labels['filterunknownerror'] = 'Neznámá chyba serveru';
-$labels['filterconnerror'] = 'Nebylo možné se připojit k sieve serveru';
-$labels['filterdeleteerror'] = 'Nebylo možné smazat filtr. Server nahlásil chybu';
-$labels['filterdeleted'] = 'Filtr byl smazán';
-$labels['filtersaved'] = 'Filtr byl uložen';
-$labels['filtersaveerror'] = 'Nebylo možné uložit filtr. Server nahlásil chybu.';
-$labels['filterdeleteconfirm'] = 'Opravdu chcete smazat vybraný filtr?';
-$labels['ruledeleteconfirm'] = 'Jste si jisti, že chcete smazat vybrané pravidlo?';
-$labels['actiondeleteconfirm'] = 'Jste si jisti, že chcete smazat vybranou akci?';
-$labels['forbiddenchars'] = 'Zakázané znaky v poli';
-$labels['cannotbeempty'] = 'Pole nemůže být prázdné';
-$labels['ruleexist'] = 'Filtr s uvedeným názvem již existuje.';
-$labels['setactivateerror'] = 'Nelze zapnout vybranou sadu filtrů. Došlo k chybě serveru.';
-$labels['setdeactivateerror'] = 'Nelze vypnout vybranou sadu filtrů. Došlo k chybě serveru.';
-$labels['setdeleteerror'] = 'Nelze odstranit vybranou sadu filtrů. Došlo k chybě serveru.';
-$labels['setactivated'] = 'Sada filtrů úspěšně zapnuta.';
-$labels['setdeactivated'] = 'Sada filtrů úspěšně vypnuta.';
-$labels['setdeleted'] = 'Sada filtrů úspěšně odstraněna.';
-$labels['setdeleteconfirm'] = 'Opravdu si přejete odebrat vybranou sadu filtrů.';
-$labels['setcreateerror'] = 'Nelze vytvořit sadu filtrů. Došlo k chybě serveru.';
-$labels['setcreated'] = 'Sada filtrů úspěšně vytvořena.';
-$labels['activateerror'] = 'Nelze zapnout vybrané filtr/y. Došlo k chybě serveru.';
-$labels['deactivateerror'] = 'Nelze vypnout vybrané filtr/y. Došlo k chybě serveru.';
-$labels['activated'] = 'Filtr/y úspěšne vypnuty.';
-$labels['deactivated'] = 'Filtr/y úspěšně zapnuty.';
-$labels['moved'] = 'Filtr byl úspěšně přesunut.';
-$labels['moveerror'] = 'Nelze přesunout vybraný filtr. Došlo k chybě na serveru.';
-$labels['nametoolong'] = 'Příliš dlouhý název.';
-$labels['namereserved'] = 'Vyhrazený název.';
-$labels['setexist'] = 'Sada již existuje.';
-$labels['nodata'] = 'Musí být vybrána minimálně jedna pozice!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Neznámá chyba serveru';
+$messages['filterconnerror'] = 'Nebylo možné se připojit k sieve serveru';
+$messages['filterdeleteerror'] = 'Nebylo možné smazat filtr. Server nahlásil chybu';
+$messages['filterdeleted'] = 'Filtr byl smazán';
+$messages['filtersaved'] = 'Filtr byl uložen';
+$messages['filtersaveerror'] = 'Nebylo možné uložit filtr. Server nahlásil chybu.';
+$messages['filterdeleteconfirm'] = 'Opravdu chcete smazat vybraný filtr?';
+$messages['ruledeleteconfirm'] = 'Jste si jisti, že chcete smazat vybrané pravidlo?';
+$messages['actiondeleteconfirm'] = 'Jste si jisti, že chcete smazat vybranou akci?';
+$messages['forbiddenchars'] = 'Zakázané znaky v poli';
+$messages['cannotbeempty'] = 'Pole nemůže být prázdné';
+$messages['ruleexist'] = 'Filtr s uvedeným názvem již existuje.';
+$messages['setactivateerror'] = 'Nelze zapnout vybranou sadu filtrů. Došlo k chybě serveru.';
+$messages['setdeactivateerror'] = 'Nelze vypnout vybranou sadu filtrů. Došlo k chybě serveru.';
+$messages['setdeleteerror'] = 'Nelze odstranit vybranou sadu filtrů. Došlo k chybě serveru.';
+$messages['setactivated'] = 'Sada filtrů úspěšně zapnuta.';
+$messages['setdeactivated'] = 'Sada filtrů úspěšně vypnuta.';
+$messages['setdeleted'] = 'Sada filtrů úspěšně odstraněna.';
+$messages['setdeleteconfirm'] = 'Opravdu si přejete odebrat vybranou sadu filtrů.';
+$messages['setcreateerror'] = 'Nelze vytvořit sadu filtrů. Došlo k chybě serveru.';
+$messages['setcreated'] = 'Sada filtrů úspěšně vytvořena.';
+$messages['activateerror'] = 'Nelze zapnout vybrané filtr/y. Došlo k chybě serveru.';
+$messages['deactivateerror'] = 'Nelze vypnout vybrané filtr/y. Došlo k chybě serveru.';
+$messages['deactivated'] = 'Filtr/y úspěšně zapnuty.';
+$messages['activated'] = 'Filtr/y úspěšne vypnuty.';
+$messages['moved'] = 'Filtr byl úspěšně přesunut.';
+$messages['moveerror'] = 'Nelze přesunout vybraný filtr. Došlo k chybě na serveru.';
+$messages['nametoolong'] = 'Příliš dlouhý název.';
+$messages['namereserved'] = 'Vyhrazený název.';
+$messages['setexist'] = 'Sada již existuje.';
+$messages['nodata'] = 'Musí být vybrána minimálně jedna pozice!';
+
+?>

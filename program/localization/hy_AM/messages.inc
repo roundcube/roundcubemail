@@ -2,21 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hy_AM/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Vahan Yerkanian <vahan@yerkanian.com>                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['loading'] = 'Բեռնում...';
-$messages['errortitle'] = 'Սխա՛լ';
-$messages['loginfailed'] = 'Մուտքը ձախողվեց';
+$messages['errortitle']  = 'Սխա՛լ';
+$messages['loginfailed']  = 'Մուտքը ձախողվեց';
 $messages['cookiesdisabled'] = 'Сookies–ների ապահովվումը բացակայում է';
 $messages['sessionerror'] = 'Անվավեր կամ ժամկետանց սեսիա';
 $messages['storageerror'] = 'IMAP սերվերի հետ կապը ձախողվեց';
@@ -27,9 +29,12 @@ $messages['requesttimedout'] = 'Հարցման թույլատրելի ժաման
 $messages['errorreadonly'] = 'Գործողությունը անհնար է։ Պանակը միայն ընթերցման համար է։';
 $messages['errornoperm'] = 'Գործողության կատարման իրավունքը մերժված է։';
 $messages['invalidrequest'] = 'Սխալ հարցում, ապարդյուն։';
+$messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'Այս փոստարկղում նամակներ չկան';
 $messages['loggedout'] = 'Դուք բարեհաջող ավարտեցիք աշխատանքը։ Ցտեսություն…';
 $messages['mailboxempty'] = 'Փոստարկղը դատարկ է';
+$messages['refreshing'] = 'Refreshing...';
+$messages['loading'] = 'Բեռնում...';
 $messages['uploading'] = 'Ֆայլի վերբեռնում…';
 $messages['uploadingmany'] = 'Վերբեռնվում են ֆայլերը…';
 $messages['loadingdata'] = 'Տվյալների բեռնավորում…';
@@ -55,11 +60,11 @@ $messages['errormoving'] = 'Նամակի տեղափոխման ձախողում';
 $messages['errorcopying'] = 'Հաղորդագրության պատճենումը ձախողվեց։';
 $messages['errordeleting'] = 'Նամակի ջնջման ձախողում';
 $messages['errormarking'] = 'Հաղորդագրության նշումը ձախողվեց։';
-$messages['deletecontactconfirm'] = 'Ուզու՞մ էք ջնջել նշված անձերին';
-$messages['deletegroupconfirm'] = 'Դուք իսկապե՞ս ուզում եք ջնջել նշված խումբը։';
+$messages['deletecontactconfirm']  = 'Ուզու՞մ էք ջնջել նշված անձերին';
+$messages['deletegroupconfirm']  = 'Դուք իսկապե՞ս ուզում եք ջնջել նշված խումբը։';
 $messages['deletemessagesconfirm'] = 'Ուզու՞մ էք ջնջել նշված նամակները';
-$messages['deletefolderconfirm'] = 'Ուզու՞մ էք ջնջել այս դարակը';
-$messages['purgefolderconfirm'] = 'Ուզու՞մ էք ջնջել այս դարակի բոլոր նամակները';
+$messages['deletefolderconfirm']  = 'Ուզու՞մ էք ջնջել այս դարակը';
+$messages['purgefolderconfirm']  = 'Ուզու՞մ էք ջնջել այս դարակի բոլոր նամակները';
 $messages['contactdeleting'] = 'Անձի ջնջում…';
 $messages['groupdeleting'] = 'Խմբի ջնջում…';
 $messages['folderdeleting'] = 'Դարակը ջնջվում է…';
@@ -68,11 +73,11 @@ $messages['foldersubscribing'] = 'Պանակի բաժանորդագրում…';
 $messages['folderunsubscribing'] = 'Պանակի ապաբաժանորդագրում…';
 $messages['formincomplete'] = 'Ձևը թերի է լրացված';
 $messages['noemailwarning'] = 'Մուտքագրեք ճիշտ էլ. հասցե';
-$messages['nonamewarning'] = 'Մուտքագրեք անուն';
+$messages['nonamewarning']  = 'Մուտքագրեք անուն';
 $messages['nopagesizewarning'] = 'Մուտքագրեք էջի չափս';
 $messages['nosenderwarning'] = 'Մուտքագրեք հասցեատիրոջ հասցեն';
 $messages['norecipientwarning'] = 'Մուտքագրեք նվազագույնը մեկ հասցեատեր';
-$messages['nosubjectwarning'] = 'Վերնագիր բացակայում է, ցանկանո՞ւմ եք լրացնել';
+$messages['nosubjectwarning']  = 'Վերնագիր բացակայում է, ցանկանո՞ւմ եք լրացնել';
 $messages['nobodywarning'] = 'Ուղարկե՞լ այս նամակը դատարկ';
 $messages['notsentwarning'] = 'Նամակն ուղարկված չէ։ Ջնջե՞լ Ձեր նամակը';
 $messages['noldapserver'] = 'Ընտրեք ldap սերվեր որոնման համար';
@@ -114,8 +119,9 @@ $messages['selectimportfile'] = 'Ընտրեք ուղարկվող ֆայլը';
 $messages['addresswriterror'] = 'Ընտրված հասցեագիրքը ենթակա չէ փոփոխման';
 $messages['contactaddedtogroup'] = 'Անձինք բարեհաջող ավելացվեցին խմբին։';
 $messages['contactremovedfromgroup'] = 'Անձինք բարեհաջող հանվեցին խմբից։';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Ներկրումն ընթացքի մեջ է...';
-$messages['importerror'] = 'Ներկրումը խափանվեց։ Ներկրված ֆայլը vCard չափաձևի չէ։';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '$inserted նոր ներկրված հասցեներ, $skipped արդեն առկա հասցեներ՝ <p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Բաց թողնվեց $skipped առկա գրառում</b>';
 $messages['opnotpermitted'] = 'Գործողությունը անթույլատրելի է։';
@@ -157,4 +163,7 @@ $messages['invalidimageformat'] = 'Պատկերի սխալ ձևաչափ։';
 $messages['mispellingsfound'] = 'Հաղորդագրության մեջ կան տառասխալներ։';
 $messages['parentnotwritable'] = 'Նշված պանակի մեջ պանակի ստեղծումը կամ տեղափոխումը անհնար է անբավարար իրավունքների պատճառով։';
 $messages['messagetoobig'] = 'Հաղորդագրության մասը չափազանց մեծ է սպասարկման համար։';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
+?>

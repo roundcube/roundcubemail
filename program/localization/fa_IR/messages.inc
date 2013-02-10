@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fa_IR/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hamid <abbaszadeh.h@gmail.com>                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'خطایی رخ داد!';
-$messages['loginfailed'] = 'ورود ناموفق بود.';
+$messages['errortitle']  = 'خطایی رخ داد!';
+$messages['loginfailed']  = 'ورود ناموفق بود.';
 $messages['cookiesdisabled'] = 'مرورگر شما کوکی‌ها را قبول نمی‌کند.';
 $messages['sessionerror'] = 'نشست شما معتبر نیست، یا منقضی شده است.';
 $messages['storageerror'] = 'اتصال به سرور انباره ناموفق بود.';
@@ -57,11 +60,11 @@ $messages['errormoving'] = 'ناتوان در انتقال پیغام(ها).';
 $messages['errorcopying'] = 'ناتوان در رونوشت پیغام(ها).';
 $messages['errordeleting'] = 'ناتوان در حذف پیغام(ها).';
 $messages['errormarking'] = 'ناتوان در نشانه گذاری پیغام(ها).';
-$messages['deletecontactconfirm'] = 'آیا واقعاً می‌خواهید تماس(های) انتخاب شده را حذف کنید؟';
-$messages['deletegroupconfirm'] = 'آیا واقعا می‌خواهید گروه انتخاب شده را حذف کنید؟';
+$messages['deletecontactconfirm']  = 'آیا واقعاً می‌خواهید تماس(های) انتخاب شده را حذف کنید؟';
+$messages['deletegroupconfirm']  = 'آیا واقعا می‌خواهید گروه انتخاب شده را حذف کنید؟';
 $messages['deletemessagesconfirm'] = 'آیا واقعاً می‌خواهید پیغام(های) انتخاب شده را حذف کنید؟';
-$messages['deletefolderconfirm'] = 'آیا واقعاً می‌خواهید این پوشه را حذف کنید؟';
-$messages['purgefolderconfirm'] = 'آیا واقعاً می‌خواهید همه‌ی پیغام‌های داخل این پوشه را حذف کنید؟';
+$messages['deletefolderconfirm']  = 'آیا واقعاً می‌خواهید این پوشه را حذف کنید؟';
+$messages['purgefolderconfirm']  = 'آیا واقعاً می‌خواهید همه‌ی پیغام‌های داخل این پوشه را حذف کنید؟';
 $messages['contactdeleting'] = 'حذف تماس(ها)...';
 $messages['groupdeleting'] = 'حذف گروه...';
 $messages['folderdeleting'] = 'حذف پوشه...';
@@ -70,11 +73,11 @@ $messages['foldersubscribing'] = 'اشتراک پوشه...';
 $messages['folderunsubscribing'] = 'لغو اشتراک پوشه...';
 $messages['formincomplete'] = 'فرم کاملاً پر نشده بود.';
 $messages['noemailwarning'] = 'لطفا یک نشانی پست الکترونیکی معتبر وارد کنید.';
-$messages['nonamewarning'] = 'لطفا یک نام وارد کنید.';
+$messages['nonamewarning']  = 'لطفا یک نام وارد کنید.';
 $messages['nopagesizewarning'] = 'لطفا اندازه ی صفحه را وارد کنید.';
 $messages['nosenderwarning'] = 'لطفا آدرس پست الکترونیکی فرستنده را وارد کنید.';
 $messages['norecipientwarning'] = 'لطفاً حداقل یک گیرنده وارد کنید.';
-$messages['nosubjectwarning'] = 'قسمت "موضوع" خالی است. آیا می‌خواهید اکنون وارد کنید؟';
+$messages['nosubjectwarning']  = 'قسمت "موضوع" خالی است. آیا می‌خواهید اکنون وارد کنید؟';
 $messages['nobodywarning'] = 'این پیغام بدون متن ارسال شود؟';
 $messages['notsentwarning'] = 'پیغام ارسال نشده است. آیا می‌خواهید پیغام را از بین ببرید؟';
 $messages['noldapserver'] = 'برای جست و جو انتخاب کنید LDAP لطفا یک سرور.';
@@ -160,4 +163,7 @@ $messages['invalidimageformat'] = 'فرمت تصویر نامعتبر.';
 $messages['mispellingsfound'] = 'خطای املایی در پیغام شناسایی شد.';
 $messages['parentnotwritable'] = 'ناتوانی در ایجاد/انتقال پوشه به پوشه والد انتخاب شده. بدون حق دسترسی.';
 $messages['messagetoobig'] = 'بخش پیغام برای اجرای آن خیلی بزرگ است.';
+$messages['attachmentvalidationerror'] = 'هشدار! این پیوست مشکوک است زیرا نوع آن با نوعی که در پیغام اشاره شده مطابقت ندارد. اگر شما فرستنده را تایید نمی‌کنید، شما نباید آن را در مرورگر باز نمایید زیرا ممکن است که شامل محتوای مخرب باشد.<br/><br/><em>مورد انتظار: $expected; یافت شده: $detected</em>';
+$messages['noscriptwarning'] = 'هشدار: این برنامه به جاوااسکریپت نیاز دارد! برای استفاده از این لطفا جاوااسکریپت را در تنظیمات مرورگر خود فعال نمایید.';
 
+?>

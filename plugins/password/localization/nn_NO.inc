@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/nn_NN/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Fredrik Larsen <fredrik.h.larsen@gmail.com>                   |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Bytt passord';
-$labels['curpasswd'] = 'Noverande passord:';
-$labels['newpasswd'] = 'Nytt passord:';
-$labels['confpasswd'] = 'Bekreft nytt passord';
-$labels['nopassword'] = 'Venlegast skriv inn nytt passord.';
-$labels['nocurpassword'] = 'Venlegast skriv inn noverande passord.';
-$labels['passwordincorrect'] = 'Noverande passord er feil.';
-$labels['passwordinconsistency'] = 'Passorda er ikkje like, venlegast prøv igjen.';
-$labels['crypterror'] = 'Kunne ikkje lagre nytt passord. Krypteringsfunksjonen manglar.';
-$labels['connecterror'] = 'Kunne ikkje lagre nytt passord. Tilkoblingsfeil.';
-$labels['internalerror'] = 'Kunne ikkje lagre nytt passord.';
-$labels['passwordshort'] = 'Passordet må minimum innehalde $length teikn.';
-$labels['passwordweak'] = 'Passordet må innehalde minst eitt tal og eitt skilleteikn.';
-$labels['passwordforbidden'] = 'Passordet inneheld forbodne teikn.';
+$labels['changepasswd']  = 'Bytt passord';
+$labels['curpasswd']  = 'Noverande passord:';
+$labels['newpasswd']  = 'Nytt passord:';
+$labels['confpasswd']  = 'Bekreft nytt passord';
 
+$messages = array();
+$messages['nopassword'] = 'Venlegast skriv inn nytt passord.';
+$messages['nocurpassword'] = 'Venlegast skriv inn noverande passord.';
+$messages['passwordincorrect'] = 'Noverande passord er feil.';
+$messages['passwordinconsistency'] = 'Passorda er ikkje like, venlegast prøv igjen.';
+$messages['crypterror'] = 'Kunne ikkje lagre nytt passord. Krypteringsfunksjonen manglar.';
+$messages['connecterror'] = 'Kunne ikkje lagre nytt passord. Tilkoblingsfeil.';
+$messages['internalerror'] = 'Kunne ikkje lagre nytt passord.';
+$messages['passwordshort'] = 'Passordet må minimum innehalde $length teikn.';
+$messages['passwordweak'] = 'Passordet må innehalde minst eitt tal og eitt skilleteikn.';
+$messages['passwordforbidden'] = 'Passordet inneheld forbodne teikn.';
+
+?>

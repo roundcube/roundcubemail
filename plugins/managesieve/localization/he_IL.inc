@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/he_IL/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Moshe Leibovitch <moish@mln.co.il>                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'מסננים';
 $labels['managefilters'] = 'ניהול מסננים לדואר נכנס';
 $labels['filtername'] = 'שם המסנן';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'נמחק';
 $labels['flaganswered'] = 'נענה';
 $labels['flagflagged'] = 'סומן בדגל';
 $labels['flagdraft'] = 'טיוטה';
+$labels['setvariable'] = 'הגדרת משתנה';
+$labels['setvarname'] = 'שם המשתנה:';
+$labels['setvarvalue'] = 'ערך המשתנה:';
+$labels['setvarmodifiers'] = 'גורם משנה:';
+$labels['varlower'] = 'אותיות קטנות';
+$labels['varupper'] = 'אותיות גדולות';
+$labels['varlowerfirst'] = 'התו הראשון אות קטנה';
+$labels['varupperfirst'] = 'התו הראשון אות גדולה';
+$labels['varquotewildcard'] = 'תו מיוחד יש לשים בין מרכאות';
+$labels['varlength'] = 'אורך';
+$labels['notify'] = 'משלוח התראה';
+$labels['notifyaddress'] = 'אל כתובת דו"אל:';
+$labels['notifybody'] = 'גוף ההתראה:';
+$labels['notifysubject'] = 'נושא ההתראה:';
+$labels['notifyfrom'] = 'שולח ההתראה:';
+$labels['notifyimportance'] = 'חשיובת:';
+$labels['notifyimportancelow'] = 'נמוכה';
+$labels['notifyimportancenormal'] = 'רגילה';
+$labels['notifyimportancehigh'] = 'גבוהה';
 $labels['filtercreate'] = 'יצירת מסנן';
 $labels['usedata'] = 'שימוש במידע שלהלן ליצירת המסנן:';
 $labels['nextstep'] = 'הצעד הבא';
@@ -115,35 +137,38 @@ $labels['default'] = 'ברירת מחדל';
 $labels['octet'] = 'strict (octet)';
 $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
-$labels['filterunknownerror'] = 'שגיאת שרת בלתי מוכרת.';
-$labels['filterconnerror'] = 'לא ניתן להתחבר לשרת.';
-$labels['filterdeleteerror'] = 'לא ניתן למחוק את המסנן. אירעה שגיאה בצד השרת.';
-$labels['filterdeleted'] = 'המסנן נמחק בהצלחה.';
-$labels['filtersaved'] = 'המסנן נשמר בהצלחה.';
-$labels['filtersaveerror'] = 'לא ניתן לשמור את המסנן. אירעה שגיאה בצד השרת.';
-$labels['filterdeleteconfirm'] = 'האם אכן ברצונך למחוק את המסנן הנבחר?';
-$labels['ruledeleteconfirm'] = 'האם אכן ברצונך למחוק את הכלל הנבחר?';
-$labels['actiondeleteconfirm'] = 'האם אכן ברצונך למחוק את הפעולה הנבחרת?';
-$labels['forbiddenchars'] = 'תווים אסורים בשדה.';
-$labels['cannotbeempty'] = 'השדה לא יכול להישאר ריק.';
-$labels['ruleexist'] = 'כבר קיים מסנן בשם כזה.';
-$labels['setactivateerror'] = 'לא ניתן להפעיל את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
-$labels['setdeactivateerror'] = 'לא ניתן לנטרל את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
-$labels['setdeleteerror'] = 'לא ניתן למחוק את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
-$labels['setactivated'] = 'ערכת המסננים הופעלה בהצלחה.';
-$labels['setdeactivated'] = 'ערכת המסננים נוטרלה בהצלחה.';
-$labels['setdeleted'] = 'ערכת המסננים נמחקה בהצלחה.';
-$labels['setdeleteconfirm'] = 'האם אכן ברצונך למחוק את ערכת המסננים הנבחרת?';
-$labels['setcreateerror'] = 'לא ניתן ליצור ערכת מסננים. אירעה שגיאה בצד השרת.';
-$labels['setcreated'] = 'ערכת המסננים נוצרה בהצלחה.';
-$labels['activateerror'] = 'לא ניתן להפעיל את המסננים הנבחרים. אירעה שגיאה בצד השרת.';
-$labels['deactivateerror'] = 'לא ניתן לנטרל את המסננים הנבחרים. אירעה שגיאה בצד השרת.';
-$labels['activated'] = 'המסננים נוטרלו בהצלחה.';
-$labels['deactivated'] = 'המסננים הופעלו בהצלחה.';
-$labels['moved'] = 'המסנן הועבר בהצלחה.';
-$labels['moveerror'] = 'לא ניתן להעביר את המסנן הנבחר. אירעה שגיאה בצד השרת.';
-$labels['nametoolong'] = 'השם ארוך מדי.';
-$labels['namereserved'] = 'השם הזה שמור.';
-$labels['setexist'] = 'הערכה כבר קיימת.';
-$labels['nodata'] = 'חובה לבחור במיקום אחד לפחות!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'שגיאת שרת בלתי מוכרת.';
+$messages['filterconnerror'] = 'לא ניתן להתחבר לשרת.';
+$messages['filterdeleteerror'] = 'לא ניתן למחוק את המסנן. אירעה שגיאה בצד השרת.';
+$messages['filterdeleted'] = 'המסנן נמחק בהצלחה.';
+$messages['filtersaved'] = 'המסנן נשמר בהצלחה.';
+$messages['filtersaveerror'] = 'לא ניתן לשמור את המסנן. אירעה שגיאה בצד השרת.';
+$messages['filterdeleteconfirm'] = 'האם אכן ברצונך למחוק את המסנן הנבחר?';
+$messages['ruledeleteconfirm'] = 'האם אכן ברצונך למחוק את הכלל הנבחר?';
+$messages['actiondeleteconfirm'] = 'האם אכן ברצונך למחוק את הפעולה הנבחרת?';
+$messages['forbiddenchars'] = 'תווים אסורים בשדה.';
+$messages['cannotbeempty'] = 'השדה לא יכול להישאר ריק.';
+$messages['ruleexist'] = 'כבר קיים מסנן בשם כזה.';
+$messages['setactivateerror'] = 'לא ניתן להפעיל את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
+$messages['setdeactivateerror'] = 'לא ניתן לנטרל את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
+$messages['setdeleteerror'] = 'לא ניתן למחוק את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
+$messages['setactivated'] = 'ערכת המסננים הופעלה בהצלחה.';
+$messages['setdeactivated'] = 'ערכת המסננים נוטרלה בהצלחה.';
+$messages['setdeleted'] = 'ערכת המסננים נמחקה בהצלחה.';
+$messages['setdeleteconfirm'] = 'האם אכן ברצונך למחוק את ערכת המסננים הנבחרת?';
+$messages['setcreateerror'] = 'לא ניתן ליצור ערכת מסננים. אירעה שגיאה בצד השרת.';
+$messages['setcreated'] = 'ערכת המסננים נוצרה בהצלחה.';
+$messages['activateerror'] = 'לא ניתן להפעיל את המסננים הנבחרים. אירעה שגיאה בצד השרת.';
+$messages['deactivateerror'] = 'לא ניתן לנטרל את המסננים הנבחרים. אירעה שגיאה בצד השרת.';
+$messages['deactivated'] = 'המסננים הופעלו בהצלחה.';
+$messages['activated'] = 'המסננים נוטרלו בהצלחה.';
+$messages['moved'] = 'המסנן הועבר בהצלחה.';
+$messages['moveerror'] = 'לא ניתן להעביר את המסנן הנבחר. אירעה שגיאה בצד השרת.';
+$messages['nametoolong'] = 'השם ארוך מדי.';
+$messages['namereserved'] = 'השם הזה שמור.';
+$messages['setexist'] = 'הערכה כבר קיימת.';
+$messages['nodata'] = 'חובה לבחור במיקום אחד לפחות!';
+
+?>

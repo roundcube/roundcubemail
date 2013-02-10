@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/id_ID/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Atur filter email masuk';
 $labels['filtername'] = 'Nama filter';
@@ -52,6 +55,7 @@ $labels['add'] = 'Tambah';
 $labels['del'] = 'Hapus';
 $labels['sender'] = 'Pengirim';
 $labels['recipient'] = 'Penerima';
+$labels['vacationaddresses'] = 'My additional e-mail addresse(s) (comma-separated):';
 $labels['vacationdays'] = 'Seberapa sering mengirim pesan (dalam hari):';
 $labels['vacationreason'] = 'Badan pesan (alasan liburan):';
 $labels['vacationsubject'] = 'Judul pesan:';
@@ -91,6 +95,25 @@ $labels['flagdeleted'] = 'Terhapus';
 $labels['flaganswered'] = 'Terjawab';
 $labels['flagflagged'] = 'Ditandai';
 $labels['flagdraft'] = 'Konsep';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = 'Buat filter';
 $labels['usedata'] = 'Gunakan data berikut dalam filter:';
 $labels['nextstep'] = 'Langkah Selanjutnya';
@@ -114,35 +137,38 @@ $labels['default'] = 'standar';
 $labels['octet'] = 'ketat (oktet)';
 $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
-$labels['filterunknownerror'] = 'Galat pada server tak dikenali.';
-$labels['filterconnerror'] = 'Tidak dapat menyambung ke server.';
-$labels['filterdeleteerror'] = 'Tidak bisa menghapus penyaringan. Terjadi galat pada server.';
-$labels['filterdeleted'] = 'Penyaringan berhasil dihapus.';
-$labels['filtersaved'] = 'Penyaringan berhasil disimpan.';
-$labels['filtersaveerror'] = 'Tidak bisa menyimpan penyaringan. Terjadi galat pada server.';
-$labels['filterdeleteconfirm'] = 'Yakin untuk menghapus penyaringan terpilih?';
-$labels['ruledeleteconfirm'] = 'Yakin untuk menghapus aturan terpilih?';
-$labels['actiondeleteconfirm'] = 'Yakin untuk menghapus tindakan terpilih?';
-$labels['forbiddenchars'] = 'Karakter terlarang pada isian.';
-$labels['cannotbeempty'] = 'Isian tidak bisa kosong.';
-$labels['ruleexist'] = 'Penyaringan dengan nama tersebut sudah ada.';
-$labels['setactivateerror'] = 'Tidak bisa menghidupkan kumpulan penyaringan terpilih. Terjadi galat pada server.';
-$labels['setdeactivateerror'] = 'Tidak bisa mematikan kumpulan penyaringan terpilih. Terjadi galat pada server.';
-$labels['setdeleteerror'] = 'Tidak bisa menghapus kumpulan penyaringan terpilih. Terjadi galat pada server.';
-$labels['setactivated'] = 'Kumpulan penyaringan berhasil dihidupkan.';
-$labels['setdeactivated'] = 'Kumpulan penyaringan berhasil dimatikan.';
-$labels['setdeleted'] = 'Kumpulan penyaringan berhasil dihapus.';
-$labels['setdeleteconfirm'] = 'Yakin ingin menghapus kumpulan penyaringan terpilih?';
-$labels['setcreateerror'] = 'Tidak bisa membuat kumpulan penyaringan. Terjadi galat pada server.';
-$labels['setcreated'] = 'Kumpulan penyaringan berhasul dibuat.';
-$labels['activateerror'] = 'Tidak bisa menghidupkan penyaringan terpilih. terjadi galat pada server.';
-$labels['deactivateerror'] = 'Tidak bisa mematikan penyaringan terpilih. Terjadi galat pada server.';
-$labels['activated'] = 'Berhasil mematikan penyaringan.';
-$labels['deactivated'] = 'Berhasil menghidupkan penyaringan.';
-$labels['moved'] = 'Berhasil memindahkan penyaringan.';
-$labels['moveerror'] = 'Tidak bisa memindahkan penyaringan terpilih. Terjadi galat pada server.';
-$labels['nametoolong'] = 'Kepanjangan nama.';
-$labels['namereserved'] = 'Nama sudah ada.';
-$labels['setexist'] = 'Kumpulan sudah ada.';
-$labels['nodata'] = 'Setidaknya satu posisi harus dipilih!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Galat pada server tak dikenali.';
+$messages['filterconnerror'] = 'Tidak dapat menyambung ke server.';
+$messages['filterdeleteerror'] = 'Tidak bisa menghapus penyaringan. Terjadi galat pada server.';
+$messages['filterdeleted'] = 'Penyaringan berhasil dihapus.';
+$messages['filtersaved'] = 'Penyaringan berhasil disimpan.';
+$messages['filtersaveerror'] = 'Tidak bisa menyimpan penyaringan. Terjadi galat pada server.';
+$messages['filterdeleteconfirm'] = 'Yakin untuk menghapus penyaringan terpilih?';
+$messages['ruledeleteconfirm'] = 'Yakin untuk menghapus aturan terpilih?';
+$messages['actiondeleteconfirm'] = 'Yakin untuk menghapus tindakan terpilih?';
+$messages['forbiddenchars'] = 'Karakter terlarang pada isian.';
+$messages['cannotbeempty'] = 'Isian tidak bisa kosong.';
+$messages['ruleexist'] = 'Penyaringan dengan nama tersebut sudah ada.';
+$messages['setactivateerror'] = 'Tidak bisa menghidupkan kumpulan penyaringan terpilih. Terjadi galat pada server.';
+$messages['setdeactivateerror'] = 'Tidak bisa mematikan kumpulan penyaringan terpilih. Terjadi galat pada server.';
+$messages['setdeleteerror'] = 'Tidak bisa menghapus kumpulan penyaringan terpilih. Terjadi galat pada server.';
+$messages['setactivated'] = 'Kumpulan penyaringan berhasil dihidupkan.';
+$messages['setdeactivated'] = 'Kumpulan penyaringan berhasil dimatikan.';
+$messages['setdeleted'] = 'Kumpulan penyaringan berhasil dihapus.';
+$messages['setdeleteconfirm'] = 'Yakin ingin menghapus kumpulan penyaringan terpilih?';
+$messages['setcreateerror'] = 'Tidak bisa membuat kumpulan penyaringan. Terjadi galat pada server.';
+$messages['setcreated'] = 'Kumpulan penyaringan berhasul dibuat.';
+$messages['activateerror'] = 'Tidak bisa menghidupkan penyaringan terpilih. terjadi galat pada server.';
+$messages['deactivateerror'] = 'Tidak bisa mematikan penyaringan terpilih. Terjadi galat pada server.';
+$messages['deactivated'] = 'Berhasil menghidupkan penyaringan.';
+$messages['activated'] = 'Berhasil mematikan penyaringan.';
+$messages['moved'] = 'Berhasil memindahkan penyaringan.';
+$messages['moveerror'] = 'Tidak bisa memindahkan penyaringan terpilih. Terjadi galat pada server.';
+$messages['nametoolong'] = 'Kepanjangan nama.';
+$messages['namereserved'] = 'Nama sudah ada.';
+$messages['setexist'] = 'Kumpulan sudah ada.';
+$messages['nodata'] = 'Setidaknya satu posisi harus dipilih!';
+
+?>

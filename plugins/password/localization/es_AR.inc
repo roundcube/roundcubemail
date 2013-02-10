@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/es_AR/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Cambiar Contraseña';
-$labels['curpasswd'] = 'Contraseña Actual:';
-$labels['newpasswd'] = 'Contraseña Nueva:';
-$labels['confpasswd'] = 'Confirmar Contraseña:';
-$labels['nopassword'] = 'Por favor introduce una nueva contraseña.';
-$labels['nocurpassword'] = 'Por favor introduce la contraseña actual.';
-$labels['passwordincorrect'] = 'Contraseña actual incorrecta.';
-$labels['passwordinconsistency'] = 'Las contraseñas no coinciden, por favor inténtalo de nuevo.';
-$labels['crypterror'] = 'No se pudo guardar la contraseña nueva. Falta la función de cifrado.';
-$labels['connecterror'] = 'No se pudo guardar la contraseña nueva. Error de conexión';
-$labels['internalerror'] = 'No se pudo guardar la contraseña nueva.';
-$labels['passwordshort'] = 'Tu contraseña debe tener una longitud mínima de $length.';
-$labels['passwordweak'] = 'Tu nueva contraseña debe incluir al menos un número y un signo de puntuación.';
-$labels['passwordforbidden'] = 'La contraseña contiene caracteres inválidos.';
+$labels['changepasswd']  = 'Cambiar Contraseña';
+$labels['curpasswd']  = 'Contraseña Actual:';
+$labels['newpasswd']  = 'Contraseña Nueva:';
+$labels['confpasswd']  = 'Confirmar Contraseña:';
 
+$messages = array();
+$messages['nopassword'] = 'Por favor introduce una nueva contraseña.';
+$messages['nocurpassword'] = 'Por favor introduce la contraseña actual.';
+$messages['passwordincorrect'] = 'Contraseña actual incorrecta.';
+$messages['passwordinconsistency'] = 'Las contraseñas no coinciden, por favor inténtalo de nuevo.';
+$messages['crypterror'] = 'No se pudo guardar la contraseña nueva. Falta la función de cifrado.';
+$messages['connecterror'] = 'No se pudo guardar la contraseña nueva. Error de conexión';
+$messages['internalerror'] = 'No se pudo guardar la contraseña nueva.';
+$messages['passwordshort'] = 'Tu contraseña debe tener una longitud mínima de $length.';
+$messages['passwordweak'] = 'Tu nueva contraseña debe incluir al menos un número y un signo de puntuación.';
+$messages['passwordforbidden'] = 'La contraseña contiene caracteres inválidos.';
+
+?>

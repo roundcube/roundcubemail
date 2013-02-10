@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/sr_CS/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Saša Zejnilović <zejnils@gmail.com>                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Промијени лозинку';
-$labels['curpasswd'] = 'Тренутна лозинка:';
-$labels['newpasswd'] = 'Нова лозинка:';
-$labels['confpasswd'] = 'Поновите лозинку:';
-$labels['nopassword'] = 'Молимо унесите нову лозинку.';
-$labels['nocurpassword'] = 'Молимо унесите тренутну лозинку.';
-$labels['passwordincorrect'] = 'Тренутна лозинка је нетачна.';
-$labels['passwordinconsistency'] = 'Лозинке се не поклапају, молимо покушајте поново.';
-$labels['crypterror'] = 'Није могуће сачувати нову лозинку. Недостаје функција за кодирање.';
-$labels['connecterror'] = 'Није могуће сачувати нову лозинку. Грешка у Вези.';
-$labels['internalerror'] = 'Није могуће сачувати нову лозинку.';
-$labels['passwordshort'] = 'Лозинка мора имати најмање $lenght знакова.';
-$labels['passwordweak'] = 'Лозинка мора да садржи најмање један број и један интерпункцијски знак.';
-$labels['passwordforbidden'] = 'Лозинка садржи недозвољене знакове.';
+$labels['changepasswd']  = 'Промијени лозинку';
+$labels['curpasswd']  = 'Тренутна лозинка:';
+$labels['newpasswd']  = 'Нова лозинка:';
+$labels['confpasswd']  = 'Поновите лозинку:';
 
+$messages = array();
+$messages['nopassword'] = 'Молимо унесите нову лозинку.';
+$messages['nocurpassword'] = 'Молимо унесите тренутну лозинку.';
+$messages['passwordincorrect'] = 'Тренутна лозинка је нетачна.';
+$messages['passwordinconsistency'] = 'Лозинке се не поклапају, молимо покушајте поново.';
+$messages['crypterror'] = 'Није могуће сачувати нову лозинку. Недостаје функција за кодирање.';
+$messages['connecterror'] = 'Није могуће сачувати нову лозинку. Грешка у Вези.';
+$messages['internalerror'] = 'Није могуће сачувати нову лозинку.';
+$messages['passwordshort'] = 'Лозинка мора имати најмање $lenght знакова.';
+$messages['passwordweak'] = 'Лозинка мора да садржи најмање један број и један интерпункцијски знак.';
+$messages['passwordforbidden'] = 'Лозинка садржи недозвољене знакове.';
+
+?>
