@@ -442,8 +442,12 @@ function rcube_treelist_widget(node, p)
 	 */
 	function scroll_to_node(li)
 	{
-		var scroller = container.parent();
-		scroller.scrollTop(li.offset().top - scroller.offset().top + scroller.scrollTop());
+		var scroller = container.parent(),
+			current_offset = scroller.scrollTop(),
+			rel_offset = li.offset().top - scroller.offset().top;
+
+		if (rel_offset < 0 || rel_offset + li.height() > scroller.height())
+			scroller.scrollTop(rel_offset + current_offset);
 	}
 
 	///// drag & drop support
