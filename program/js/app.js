@@ -205,6 +205,7 @@ function rcube_webmail()
           this.message_list.addEventListener('dragend', function(e){ p.drag_end(e); });
           this.message_list.addEventListener('expandcollapse', function(e){ p.msglist_expand(e); });
           this.message_list.addEventListener('column_replace', function(e){ p.msglist_set_coltypes(e); });
+          this.message_list.addEventListener('listupdate', function(e){ p.triggerEvent('listupdate', e); });
 
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
           this.gui_objects.messagelist.parentNode.onmousedown = function(e){ return p.click_on_list(e); };
