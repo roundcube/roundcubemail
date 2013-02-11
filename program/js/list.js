@@ -3,7 +3,7 @@
  | Roundcube List Widget                                                 |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -434,6 +434,7 @@ collapse: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.triggerEvent('listupdate');
   return false;
 },
 
@@ -481,6 +482,7 @@ expand: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.triggerEvent('listupdate');
   return false;
 },
 
@@ -523,6 +525,7 @@ collapse_all: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.triggerEvent('listupdate');
   return false;
 },
 
@@ -559,6 +562,8 @@ expand_all: function(row)
     }
     new_row = new_row.nextSibling;
   }
+
+  this.triggerEvent('listupdate');
   return false;
 },
 

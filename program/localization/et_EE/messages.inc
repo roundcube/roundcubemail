@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/et_EE/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: yllar                                                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Ilmnes tõrge!';
-$messages['loginfailed'] = 'Sisselogimine ebaõnnestus';
+$messages['errortitle']  = 'Ilmnes tõrge!';
+$messages['loginfailed']  = 'Sisselogimine ebaõnnestus';
 $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';
 $messages['sessionerror'] = 'Sinu seanss on aegunud või vigane';
 $messages['storageerror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
@@ -30,6 +33,7 @@ $messages['invalidhost'] = 'Lubamatu serveri nimi.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
 $messages['loggedout'] = 'Sinu seanss on edukalt lõpetatud. Nägemiseni!';
 $messages['mailboxempty'] = 'Postkast on tühi';
+$messages['refreshing'] = 'Värskendamine…';
 $messages['loading'] = 'Laadin...';
 $messages['uploading'] = 'Laadin faili üles...';
 $messages['uploadingmany'] = 'Failide üleslaadimine...';
@@ -56,11 +60,11 @@ $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
 $messages['errorcopying'] = 'Kirju ei õnnestunud kopeerida';
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
 $messages['errormarking'] = 'Kirja märkimine nurjus';
-$messages['deletecontactconfirm'] = 'Soovid valitud kontaktid kustutada?';
-$messages['deletegroupconfirm'] = 'Soovid valitud grupi kustutada?';
+$messages['deletecontactconfirm']  = 'Soovid valitud kontaktid kustutada?';
+$messages['deletegroupconfirm']  = 'Soovid valitud grupi kustutada?';
 $messages['deletemessagesconfirm'] = 'Soovid valitud kirja(d) kustutada?';
-$messages['deletefolderconfirm'] = 'Soovid selle kataloogi kindlasti kustutada?';
-$messages['purgefolderconfirm'] = 'Soovid sellest kaustast kõik kirjad kustutada?';
+$messages['deletefolderconfirm']  = 'Soovid selle kataloogi kindlasti kustutada?';
+$messages['purgefolderconfirm']  = 'Soovid sellest kaustast kõik kirjad kustutada?';
 $messages['contactdeleting'] = 'Kontakti(de) kustutamine…';
 $messages['groupdeleting'] = 'Grupi kustutamine…';
 $messages['folderdeleting'] = 'Kustutan kausta...';
@@ -69,11 +73,11 @@ $messages['foldersubscribing'] = 'Tellin kausta...';
 $messages['folderunsubscribing'] = 'Peatan kausta tellimuse...';
 $messages['formincomplete'] = 'Vormi kõik väljad ei ole täidetud';
 $messages['noemailwarning'] = 'Palun sisesta toimiv e-posti aadress';
-$messages['nonamewarning'] = 'Palun sisesta nimi';
+$messages['nonamewarning']  = 'Palun sisesta nimi';
 $messages['nopagesizewarning'] = 'Palun sisesta lehekülje suurus';
 $messages['nosenderwarning'] = 'Palun sisesta saatja e-posti aadress';
 $messages['norecipientwarning'] = 'Palun sisesta vähemalt üks adressaat';
-$messages['nosubjectwarning'] = 'Väli „Pealkiri“ on tühi. Soovid selle ära täita?';
+$messages['nosubjectwarning']  = 'Väli „Pealkiri“ on tühi. Soovid selle ära täita?';
 $messages['nobodywarning'] = 'Saadan selle kirja ilma tekstita?';
 $messages['notsentwarning'] = 'Kirja saatmine nurjus. Soovid selle ära visata?';
 $messages['noldapserver'] = 'Palun vali otsinguks LDAPi server';
@@ -117,6 +121,7 @@ $messages['contactaddedtogroup'] = 'Kontaktide lisamine gruppi õnnestus';
 $messages['contactremovedfromgroup'] = 'Kontaktide eemaldamine grupist õnnestus';
 $messages['nogroupassignmentschanged'] = 'Gruppide ülesandeid ei muudetud';
 $messages['importwait'] = 'Impordin, palun oota...';
+$messages['importformaterror'] = 'Import nurjus! Laaditud fail ei sisalda sobilikke andmeid.';
 $messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped olemasolevat sissekannet vahele jäetud</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b> $skipped olemasolevat kirjet jäeti vahele</b>';
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';
@@ -158,4 +163,7 @@ $messages['invalidimageformat'] = 'Pole õige pildi formaat';
 $messages['mispellingsfound'] = 'Kiri sisaldab õigekirjavigu';
 $messages['parentnotwritable'] = 'Kasuta loomine/liigutamine valitud kausta nurjus. Pole õigusi.';
 $messages['messagetoobig'] = 'Kiri on töötlemiseks liiga suur.';
+$messages['attachmentvalidationerror'] = 'HOIATUS! See manus on kahtlane, sest selle tüüp ei ole vastavuses kirjas määratuga. Kui sa ei usalda kirja saatjat, siis ei tohiks seda brauseris avada, sest see võib sisaldada pahavara.<br/><br/><em>Oodati: $expected; leiti: $detected</em>';
+$messages['noscriptwarning'] = 'Hoiatus: see veebimaili teenus vajab Javascripti! Teenuse kasutamiseks luba Javascript oma brauseri seadetes.';
 
+?>

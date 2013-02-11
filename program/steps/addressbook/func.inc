@@ -187,7 +187,7 @@ function rcmail_directory_list($attrib)
     $jsdata = array();
 
     $line_templ = html::tag('li', array(
-        'id' => 'rcmli%s', 'class' => '%s'),
+        'id' => 'rcmli%s', 'class' => '%s', 'noclose' => true),
         html::a(array('href' => '%s',
             'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
@@ -213,7 +213,7 @@ function rcmail_directory_list($attrib)
 
         $name = !empty($source['name']) ? $source['name'] : $id;
         $out .= sprintf($line_templ,
-            html_identifier($id),
+            rcube_utils::html_identifier($id, true),
             $class_name,
             Q(rcmail_url(null, array('_source' => $id))),
             $source['id'],
@@ -224,10 +224,11 @@ function rcmail_directory_list($attrib)
             $groupdata = rcmail_contact_groups($groupdata);
         $jsdata = $groupdata['jsdata'];
         $out = $groupdata['out'];
+        $out .= '</li>';
     }
 
     $line_templ = html::tag('li', array(
-        'id' => 'rcmliS%s', 'class' => '%s'),
+        'id' => 'rcmli%s', 'class' => '%s'),
         html::a(array('href' => '#', 'rel' => 'S%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('listsearch', '%s', this)"), '%s'));
 
@@ -245,14 +246,17 @@ function rcmail_directory_list($attrib)
             $class_name .= ' ' . $source['class_name'];
 
         $out .= sprintf($line_templ,
-            html_identifier($id),
+            rcube_utils::html_identifier('S'.$id, true),
             $class_name,
             $id,
             $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
     }
 
     $OUTPUT->set_env('contactgroups', $jsdata);
+    $OUTPUT->set_env('collapsed_abooks', (string)$RCMAIL->config->get('collapsed_abooks',''));
     $OUTPUT->add_gui_object('folderlist', $attrib['id']);
+    $OUTPUT->include_script('treelist.js');
+
     // add some labels to client
     $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
 
@@ -264,19 +268,25 @@ function rcmail_contact_groups($args)
 {
     global $RCMAIL;
 
+    $groups_html = '';
     $groups = $RCMAIL->get_address_book($args['source'])->list_groups();
+    $js_id = $RCMAIL->JQ($args['source']);
 
     if (!empty($groups)) {
         $line_templ = html::tag('li', array(
-            'id' => 'rcmliG%s', 'class' => 'contactgroup'),
+            'id' => 'rcmli%s', 'class' => 'contactgroup'),
             html::a(array('href' => '#',
                 'rel' => '%s:%s',
                 'onclick' => "return ".JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)"), '%s'));
 
+        // append collapse/expand toggle and open a new <ul>
+        $is_collapsed = strpos($RCMAIL->config->get('collapsed_abooks',''), '&'.rawurlencode($args['source']).'&') !== false;
+        $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
+
         $jsdata = array();
         foreach ($groups as $group) {
-            $args['out'] .= sprintf($line_templ,
-                html_identifier($args['source'] . $group['ID']),
+            $groups_html .= sprintf($line_templ,
+                rcube_utils::html_identifier('G' . $args['source'] . $group['ID'], true),
                 $args['source'], $group['ID'],
                 $args['source'], $group['ID'], Q($group['name'])
             );
@@ -285,6 +295,10 @@ function rcmail_contact_groups($args)
                 'name' => $group['name'], 'type' => 'group');
         }
     }
+
+    $args['out'] .= html::tag('ul',
+      array('class' => 'groups', 'style' => ($is_collapsed ? "display:none;" : null)),
+      $groups_html);
 
     return $args;
 }
@@ -730,24 +744,6 @@ function rcmail_format_date_col($val)
 {
     global $RCMAIL;
     return format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'), false);
-}
-
-
-function rcmail_contact_key($row, $sort_col)
-{
-    $key = $row[$sort_col] . ':' . $row['sourceid'];
-
-    // add email to a key to not skip contacts with the same name (#1488375)
-    if (!empty($row['email'])) {
-         if (is_array($row['email'])) {
-             $key .= ':' . implode(':', $row['email']);
-         }
-         else {
-             $key .= ':' . $row['email'];
-         }
-     }
-
-     return $key;
 }
 
 

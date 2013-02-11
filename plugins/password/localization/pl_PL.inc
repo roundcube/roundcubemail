@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/pl_PL/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Zmiana hasła';
-$labels['curpasswd'] = 'Aktualne hasło:';
-$labels['newpasswd'] = 'Nowe hasło:';
-$labels['confpasswd'] = 'Potwierdź hasło:';
-$labels['nopassword'] = 'Wprowadź nowe hasło.';
-$labels['nocurpassword'] = 'Wprowadź aktualne hasło.';
-$labels['passwordincorrect'] = 'Błędne aktualne hasło, spróbuj ponownie.';
-$labels['passwordinconsistency'] = 'Hasła nie pasują, spróbuj ponownie.';
-$labels['crypterror'] = 'Nie udało się zapisać nowego hasła. Brak funkcji kodującej.';
-$labels['connecterror'] = 'Nie udało się zapisać nowego hasła. Błąd połączenia.';
-$labels['internalerror'] = 'Nie udało się zapisać nowego hasła.';
-$labels['passwordshort'] = 'Hasło musi posiadać co najmniej $length znaków.';
-$labels['passwordweak'] = 'Hasło musi zawierać co najmniej jedną cyfrę i znak interpunkcyjny.';
-$labels['passwordforbidden'] = 'Hasło zawiera niedozwolone znaki.';
+$labels['changepasswd']  = 'Zmiana hasła';
+$labels['curpasswd']  = 'Aktualne hasło:';
+$labels['newpasswd']  = 'Nowe hasło:';
+$labels['confpasswd']  = 'Potwierdź hasło:';
 
+$messages = array();
+$messages['nopassword'] = 'Wprowadź nowe hasło.';
+$messages['nocurpassword'] = 'Wprowadź aktualne hasło.';
+$messages['passwordincorrect'] = 'Błędne aktualne hasło, spróbuj ponownie.';
+$messages['passwordinconsistency'] = 'Hasła nie pasują, spróbuj ponownie.';
+$messages['crypterror'] = 'Nie udało się zapisać nowego hasła. Brak funkcji kodującej.';
+$messages['connecterror'] = 'Nie udało się zapisać nowego hasła. Błąd połączenia.';
+$messages['internalerror'] = 'Nie udało się zapisać nowego hasła.';
+$messages['passwordshort'] = 'Hasło musi posiadać co najmniej $length znaków.';
+$messages['passwordweak'] = 'Hasło musi zawierać co najmniej jedną cyfrę i znak interpunkcyjny.';
+$messages['passwordforbidden'] = 'Hasło zawiera niedozwolone znaki.';
+
+?>

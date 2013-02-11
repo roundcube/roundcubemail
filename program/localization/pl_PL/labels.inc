@@ -2,59 +2,77 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/pl_PL/labels.inc                                         |
+ | localization/<lang>/labels.inc                                        |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Aleksander Machniak <alec@alec.pl>                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
 $labels = array();
-$labels['welcome'] = 'Witamy w $product';
-$labels['username'] = 'Nazwa';
-$labels['password'] = 'Hasło';
-$labels['server'] = 'Serwer';
-$labels['login'] = 'Zaloguj';
-$labels['logout'] = 'Wyloguj';
-$labels['mail'] = 'Poczta';
+
+// login page
+$labels['welcome']   = 'Witamy w $product';
+$labels['username']  = 'Nazwa';
+$labels['password']  = 'Hasło';
+$labels['server']    = 'Serwer';
+$labels['login']     = 'Zaloguj';
+
+// taskbar
+$labels['logout']   = 'Wyloguj';
+$labels['mail']     = 'Poczta';
 $labels['settings'] = 'Ustawienia';
 $labels['addressbook'] = 'Książka adresowa';
-$labels['inbox'] = 'Odebrane';
+
+// mailbox names
+$labels['inbox']  = 'Odebrane';
 $labels['drafts'] = 'Kopie robocze';
-$labels['sent'] = 'Wysłane';
-$labels['trash'] = 'Kosz';
-$labels['junk'] = 'Spam';
+$labels['sent']   = 'Wysłane';
+$labels['trash']  = 'Kosz';
+$labels['junk']   = 'Spam';
+
+// message listing
 $labels['subject'] = 'Temat';
-$labels['from'] = 'Od';
-$labels['to'] = 'Do';
-$labels['cc'] = 'Kopia';
-$labels['bcc'] = 'Ukryta kopia';
+$labels['from']    = 'Od';
+$labels['sender']  = 'Nadawca';
+$labels['to']      = 'Do';
+$labels['cc']      = 'Kopia';
+$labels['bcc']     = 'Ukryta kopia';
 $labels['replyto'] = 'Odpowiedź do';
 $labels['followupto'] = 'Kontynuacja do';
-$labels['date'] = 'Data';
-$labels['size'] = 'Rozmiar';
+$labels['date']    = 'Data';
+$labels['size']    = 'Rozmiar';
 $labels['priority'] = 'Priorytet';
 $labels['organization'] = 'Organizacja';
 $labels['readstatus'] = 'Przeczytano';
 $labels['listoptions'] = 'Opcje listy...';
+
 $labels['mailboxlist'] = 'Foldery';
-$labels['folders'] = 'Foldery';
 $labels['messagesfromto'] = 'Wiadomości od $from do $to z $count';
 $labels['threadsfromto'] = 'Wątki od $from do $to z $count';
 $labels['messagenrof'] = 'Wiadomość $nr z $count';
 $labels['fromtoshort'] = '$from - $to z $count';
-$labels['copy'] = 'Kopiuj';
-$labels['move'] = 'Przenieś';
-$labels['moveto'] = 'Przenieś do...';
+
+$labels['copy']     = 'Kopiuj';
+$labels['move']     = 'Przenieś';
+$labels['moveto']   = 'Przenieś do...';
 $labels['download'] = 'Pobierz';
 $labels['showattachment'] = 'Pokaż';
+$labels['showanyway'] = 'Pokaż';
+
 $labels['filename'] = 'Nazwa pliku';
 $labels['filesize'] = 'Rozmiar pliku';
+
 $labels['addtoaddressbook'] = 'Dodaj do książki adresowej';
+
+// weekdays short
 $labels['sun'] = 'Nd';
 $labels['mon'] = 'Pn';
 $labels['tue'] = 'Wt';
@@ -62,74 +80,83 @@ $labels['wed'] = 'Śr';
 $labels['thu'] = 'Czw';
 $labels['fri'] = 'Pt';
 $labels['sat'] = 'Sb';
-$labels['sunday'] = 'Niedziela';
-$labels['monday'] = 'Poniedziałek';
-$labels['tuesday'] = 'Wtorek';
+
+// weekdays long
+$labels['sunday']    = 'Niedziela';
+$labels['monday']    = 'Poniedziałek';
+$labels['tuesday']   = 'Wtorek';
 $labels['wednesday'] = 'Środa';
-$labels['thursday'] = 'Czwartek';
-$labels['friday'] = 'Piątek';
-$labels['saturday'] = 'Sobota';
-$labels['jan'] = 'sty';
-$labels['feb'] = 'lut';
-$labels['mar'] = 'mar';
-$labels['apr'] = 'Kwi';
-$labels['may'] = 'Maj';
-$labels['longmay'] = 'Maj';
-$labels['jun'] = 'Cze';
-$labels['jul'] = 'Lip';
-$labels['aug'] = 'Sie';
-$labels['sep'] = 'Wrz';
-$labels['oct'] = 'Paź';
-$labels['nov'] = 'Lis';
-$labels['dec'] = 'Gru';
-$labels['longjan'] = 'styczeń';
-$labels['longfeb'] = 'luty';
-$labels['longmar'] = 'marzec';
-$labels['longapr'] = 'kwiecień';
-$labels['longjun'] = 'czerwiec';
-$labels['longjul'] = 'lipiec';
-$labels['longaug'] = 'sierpień';
-$labels['longsep'] = 'wrzesień';
-$labels['longoct'] = 'październik';
-$labels['longnov'] = 'listopad';
-$labels['longdec'] = 'grudzień';
+$labels['thursday']  = 'Czwartek';
+$labels['friday']    = 'Piątek';
+$labels['saturday']  = 'Sobota';
+
+// months short
+$labels['jan']	= 'sty';
+$labels['feb']	= 'lut';
+$labels['mar']	= 'mar';
+$labels['apr']	= 'Kwi';
+$labels['may']	= 'Maj';
+$labels['jun']	= 'Cze';
+$labels['jul'] 	= 'Lip';
+$labels['aug']	= 'Sie';
+$labels['sep']	= 'Wrz';
+$labels['oct']	= 'Paź';
+$labels['nov']	= 'Lis';
+$labels['dec']	= 'Gru';
+
+// months long
+$labels['longjan']	= 'styczeń';
+$labels['longfeb']	= 'luty';
+$labels['longmar']	= 'marzec';
+$labels['longapr']	= 'kwiecień';
+$labels['longmay']	= 'Maj';
+$labels['longjun']	= 'czerwiec';
+$labels['longjul']	= 'lipiec';
+$labels['longaug']	= 'sierpień';
+$labels['longsep']	= 'wrzesień';
+$labels['longoct']	= 'październik';
+$labels['longnov']	= 'listopad';
+$labels['longdec']	= 'grudzień';
+
 $labels['today'] = 'Dzisiaj';
-$labels['refresh'] = 'Odśwież';
-$labels['checkmail'] = 'Sprawdź skrzynkę';
-$labels['compose'] = 'Utwórz';
-$labels['writenewmessage'] = 'Utwórz nową wiadomość';
-$labels['reply'] = 'Odpowiedz';
-$labels['replytomessage'] = 'Odpowiedz nadawcy';
+
+// toolbar buttons
+$labels['refresh']          = 'Odśwież';
+$labels['checkmail']        = 'Sprawdź skrzynkę';
+$labels['compose']          = 'Utwórz';
+$labels['writenewmessage']  = 'Utwórz nową wiadomość';
+$labels['reply']            = 'Odpowiedz';
+$labels['replytomessage']   = 'Odpowiedz nadawcy';
 $labels['replytoallmessage'] = 'Odpowiedz wszystkim';
-$labels['replyall'] = 'Odpowiedz wszystkim';
-$labels['replylist'] = 'Odpowiedz na listę';
-$labels['forward'] = 'Przekaż';
-$labels['forwardinline'] = 'Prześlij w treści';
+$labels['replyall']         = 'Odpowiedz wszystkim';
+$labels['replylist']        = 'Odpowiedz na listę';
+$labels['forward']          = 'Przekaż';
+$labels['forwardinline']    = 'Prześlij w treści';
 $labels['forwardattachment'] = 'Prześlij jako załącznik';
-$labels['forwardmessage'] = 'Prześlij dalej';
-$labels['deletemessage'] = 'Usuń wiadomości';
+$labels['forwardmessage']   = 'Prześlij dalej';
+$labels['deletemessage']    = 'Usuń wiadomości';
 $labels['movemessagetotrash'] = 'Przenieś wiadomości do Kosza';
-$labels['printmessage'] = 'Drukuj wiadomość';
-$labels['previousmessage'] = 'Poprzednia wiadomość';
-$labels['firstmessage'] = 'Pierwsza wiadomość';
-$labels['nextmessage'] = 'Następna wiadomość';
-$labels['lastmessage'] = 'Ostatnia wiadomość';
-$labels['backtolist'] = 'Pokaż listę wiadomości';
-$labels['viewsource'] = 'Pokaż źródło';
-$labels['mark'] = 'Oznacz';
-$labels['markmessages'] = 'Oznacz wiadomości';
-$labels['markread'] = 'Jako przeczytane';
-$labels['markunread'] = 'Jako nieprzeczytane';
-$labels['markflagged'] = 'Jako oflagowane';
-$labels['markunflagged'] = 'Jako nieoflagowane';
-$labels['moreactions'] = 'Więcej akcji...';
-$labels['more'] = 'Więcej';
-$labels['back'] = 'Wstecz';
-$labels['options'] = 'Ustawienia';
+$labels['printmessage']     = 'Drukuj wiadomość';
+$labels['previousmessage']  = 'Poprzednia wiadomość';
+$labels['firstmessage']     = 'Pierwsza wiadomość';
+$labels['nextmessage']      = 'Następna wiadomość';
+$labels['lastmessage']      = 'Ostatnia wiadomość';
+$labels['backtolist']       = 'Pokaż listę wiadomości';
+$labels['viewsource']       = 'Pokaż źródło';
+$labels['mark']             = 'Oznacz';
+$labels['markmessages']     = 'Oznacz wiadomości';
+$labels['markread']         = 'Jako przeczytane';
+$labels['markunread']       = 'Jako nieprzeczytane';
+$labels['markflagged']      = 'Jako oflagowane';
+$labels['markunflagged']    = 'Jako nieoflagowane';
+$labels['moreactions']      = 'Więcej akcji...';
+$labels['more']             = 'Więcej';
+$labels['back']             = 'Wstecz';
+$labels['options']          = 'Ustawienia';
+
 $labels['select'] = 'Zaznacz';
 $labels['all'] = 'Wszystkie';
 $labels['none'] = 'Brak';
-$labels['nonesort'] = 'Brak';
 $labels['currpage'] = 'Bieżąca strona';
 $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
@@ -144,12 +171,14 @@ $labels['expand-all'] = 'Rozwiń wszystkie';
 $labels['expand-unread'] = 'Rozwiń nieprzeczytane';
 $labels['collapse-all'] = 'Zwiń wszystkie';
 $labels['threaded'] = 'Powątkowane';
+
 $labels['autoexpand_threads'] = 'Rozwijaj wątki';
 $labels['do_expand'] = 'wszystkie';
 $labels['expand_only_unread'] = 'tylko nieprzeczytane';
 $labels['fromto'] = 'Od/Do';
 $labels['flag'] = 'Flaga';
 $labels['attachment'] = 'Załącznik';
+$labels['nonesort'] = 'Brak';
 $labels['sentdate'] = 'Data wysyłki';
 $labels['arrival'] = 'Data odbioru';
 $labels['asc'] = 'rosnąco';
@@ -158,147 +187,174 @@ $labels['listcolumns'] = 'Kolumny';
 $labels['listsorting'] = 'Porządek sortowania';
 $labels['listorder'] = 'Kierunek sortowania';
 $labels['listmode'] = 'Typ listy';
+
 $labels['folderactions'] = 'Działania na folderach...';
 $labels['compact'] = 'Porządkuj';
 $labels['empty'] = 'Opróżnij';
+
 $labels['quota'] = 'Użyte miejsce';
-$labels['unknown'] = 'nieznane';
-$labels['unlimited'] = 'bez limitu';
-$labels['quicksearch'] = 'Szybkie wyszukiwanie';
-$labels['resetsearch'] = 'Wyczyść filtr';
-$labels['searchmod'] = 'Parametry wyszukiwania';
-$labels['msgtext'] = 'Cała wiadomość';
+$labels['unknown']  = 'nieznane';
+$labels['unlimited']  = 'bez limitu';
+
+$labels['quicksearch']  = 'Szybkie wyszukiwanie';
+$labels['resetsearch']  = 'Wyczyść filtr';
+$labels['searchmod']  = 'Parametry wyszukiwania';
+$labels['msgtext']  = 'Cała wiadomość';
+$labels['body']  = 'Treść';
+
 $labels['openinextwin'] = 'Otwórz w nowym oknie';
 $labels['emlsave'] = 'Pobierz (.eml)';
-$labels['editasnew'] = 'Edytuj jako nową';
-$labels['send'] = 'Wyślij';
-$labels['sendmessage'] = 'Wyślij teraz';
-$labels['savemessage'] = 'Zapisz kopię roboczą';
-$labels['addattachment'] = 'Dołącz plik';
-$labels['charset'] = 'Kodowanie znaków';
-$labels['editortype'] = 'Typ edytora';
-$labels['returnreceipt'] = 'Potwierdzenie odbioru';
-$labels['dsn'] = 'Status dostarczenia (DSN)';
+
+// message compose
+$labels['editasnew']      = 'Edytuj jako nową';
+$labels['send']           = 'Wyślij';
+$labels['sendmessage']    = 'Wyślij teraz';
+$labels['savemessage']    = 'Zapisz kopię roboczą';
+$labels['addattachment']  = 'Dołącz plik';
+$labels['charset']        = 'Kodowanie znaków';
+$labels['editortype']     = 'Typ edytora';
+$labels['returnreceipt']  = 'Potwierdzenie odbioru';
+$labels['dsn']            = 'Status dostarczenia (DSN)';
 $labels['mailreplyintro'] = 'W dniu $date, $sender napisał(a):';
 $labels['originalmessage'] = 'Wiadomość oryginalna';
-$labels['editidents'] = 'Edytuj tożsamości';
-$labels['spellcheck'] = 'Pisownia';
+
+$labels['editidents']    = 'Edytuj tożsamości';
+$labels['spellcheck']    = 'Pisownia';
 $labels['checkspelling'] = 'Sprawdź pisownię';
 $labels['resumeediting'] = 'Zakończ sprawdzanie pisowni';
-$labels['revertto'] = 'Powróć do';
+$labels['revertto']      = 'Powróć do';
+
 $labels['attach'] = 'Załącz';
 $labels['attachments'] = 'Załączniki';
 $labels['upload'] = 'Prześlij';
 $labels['uploadprogress'] = '$percent ($current z $total)';
-$labels['close'] = 'Zamknij';
-$labels['messageoptions'] = 'Opcje wiadomości...';
-$labels['low'] = 'Bardzo niski';
-$labels['lowest'] = 'Niski';
-$labels['normal'] = 'Normalny';
-$labels['high'] = 'Wysoki';
+$labels['close']  = 'Zamknij';
+$labels['messageoptions']  = 'Opcje wiadomości...';
+
+$labels['low']     = 'Bardzo niski';
+$labels['lowest']  = 'Niski';
+$labels['normal']  = 'Normalny';
+$labels['high']    = 'Wysoki';
 $labels['highest'] = 'Bardzo wysoki';
-$labels['nosubject'] = '(brak tematu)';
+
+$labels['nosubject']  = '(brak tematu)';
 $labels['showimages'] = 'Wyświetl obrazki';
 $labels['alwaysshow'] = 'Zawsze wyświetlaj obrazki od $sender';
-$labels['isdraft'] = 'To jest kopia robocza wiadomości.';
-$labels['andnmore'] = '$nr więcej...';
+$labels['isdraft']    = 'To jest kopia robocza wiadomości.';
+$labels['andnmore']   = '$nr więcej...';
 $labels['togglemoreheaders'] = 'Pokaż więcej nagłówków wiadomości';
 $labels['togglefullheaders'] = 'Przełącz podgląd nagłówków wiadomości';
+
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Zwykły tekst';
 $labels['savesentmessagein'] = 'Zapisz wiadomość w';
 $labels['dontsave'] = 'nie zapisuj';
 $labels['maxuploadsize'] = 'Maksymalny rozmiar pliku to $size';
+
 $labels['addcc'] = 'Dodaj Cc';
 $labels['addbcc'] = 'Dodaj Bcc';
 $labels['addreplyto'] = 'Dodaj Reply-To';
 $labels['addfollowupto'] = 'Dodaj Followup-To';
+
+// mdn
 $labels['mdnrequest'] = 'Nadawca zażądał potwierdzenia przeczytania tej wiadomości. Czy chcesz go powiadomić?';
 $labels['receiptread'] = 'Potwierdzenie otrzymania';
 $labels['yourmessage'] = 'To jest potwierdzenie dostarczenia Twojej wiadomości';
 $labels['receiptnote'] = 'Uwaga: To potwierdzenie dostarczenia wiadomości oznacza tylko, że wiadomość została wyświetlona na komputerze adresata. Nie ma żadnej gwarancji, że odbiorca przeczytał czy też zrozumiał treść wiadomości.';
-$labels['name'] = 'Nazwa';
-$labels['firstname'] = 'Imię';
-$labels['surname'] = 'Nazwisko';
-$labels['middlename'] = 'Drugie imię';
-$labels['nameprefix'] = 'Prefiks';
-$labels['namesuffix'] = 'Sufiks';
-$labels['nickname'] = 'Pseudonim';
-$labels['jobtitle'] = 'Zawód';
-$labels['department'] = 'Oddział';
-$labels['gender'] = 'Płeć';
-$labels['maidenname'] = 'N. panieńskie';
-$labels['email'] = 'E-Mail';
-$labels['phone'] = 'Telefon';
-$labels['address'] = 'Adres';
-$labels['street'] = 'Ulica';
-$labels['locality'] = 'Miasto';
-$labels['zipcode'] = 'Kod';
-$labels['region'] = 'Region';
-$labels['country'] = 'Kraj';
-$labels['birthday'] = 'Urodziny';
-$labels['anniversary'] = 'Jubileusz';
-$labels['website'] = 'Strona internetowa';
+
+// address boook
+$labels['name']         = 'Nazwa';
+$labels['firstname']    = 'Imię';
+$labels['surname']      = 'Nazwisko';
+$labels['middlename']   = 'Drugie imię';
+$labels['nameprefix']   = 'Prefiks';
+$labels['namesuffix']   = 'Sufiks';
+$labels['nickname']     = 'Pseudonim';
+$labels['jobtitle']     = 'Zawód';
+$labels['department']   = 'Oddział';
+$labels['gender']       = 'Płeć';
+$labels['maidenname']   = 'N. panieńskie';
+$labels['email']        = 'E-Mail';
+$labels['phone']        = 'Telefon';
+$labels['address']      = 'Adres';
+$labels['street']       = 'Ulica';
+$labels['locality']     = 'Miasto';
+$labels['zipcode']      = 'Kod';
+$labels['region']       = 'Region';
+$labels['country']      = 'Kraj';
+$labels['birthday']     = 'Urodziny';
+$labels['anniversary']  = 'Jubileusz';
+$labels['website']      = 'Strona internetowa';
 $labels['instantmessenger'] = 'Komunikator';
 $labels['notes'] = 'Notatki';
-$labels['male'] = 'mężczyzna';
+$labels['male']   = 'mężczyzna';
 $labels['female'] = 'kobieta';
 $labels['manager'] = 'Kierownik';
 $labels['assistant'] = 'Asystent';
-$labels['typeassistant'] = 'Asystent';
 $labels['spouse'] = 'Małżonek';
 $labels['allfields'] = 'Wszystkie pola';
 $labels['search'] = 'Szukaj';
 $labels['advsearch'] = 'Wyszukiwanie zaawansowane';
 $labels['advanced'] = 'Zaawansowane';
 $labels['other'] = 'Inne';
-$labels['typeother'] = 'Inne';
-$labels['typehome'] = 'Dom';
-$labels['typework'] = 'Praca';
-$labels['typemobile'] = 'Komórkowy';
-$labels['typemain'] = 'Główny';
-$labels['typehomefax'] = 'Fax domowy';
-$labels['typeworkfax'] = 'Fax firmowy';
-$labels['typecar'] = 'Samochód';
-$labels['typepager'] = 'Pager';
-$labels['typevideo'] = 'Wideo';
-$labels['typehomepage'] = 'Strona domowa';
+
+$labels['typehome']   = 'Dom';
+$labels['typework']   = 'Praca';
+$labels['typeother']  = 'Inne';
+$labels['typemobile']  = 'Komórkowy';
+$labels['typemain']  = 'Główny';
+$labels['typehomefax']  = 'Fax domowy';
+$labels['typeworkfax']  = 'Fax firmowy';
+$labels['typecar']  = 'Samochód';
+$labels['typepager']  = 'Pager';
+$labels['typevideo']  = 'Wideo';
+$labels['typeassistant']  = 'Asystent';
+$labels['typehomepage']  = 'Strona domowa';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profil';
+
 $labels['addfield'] = 'Dodaj pole...';
 $labels['addcontact'] = 'Dodaj nowy kontakt do książki adresowej';
 $labels['editcontact'] = 'Edytuj kontakt';
 $labels['contacts'] = 'Kontakty';
 $labels['contactproperties'] = 'Właściwości';
 $labels['personalinfo'] = 'Informacje osobiste';
-$labels['edit'] = 'Edytuj';
+
+$labels['edit']   = 'Edytuj';
 $labels['cancel'] = 'Anuluj';
-$labels['save'] = 'Zapisz';
+$labels['save']   = 'Zapisz';
 $labels['delete'] = 'Usuń';
 $labels['rename'] = 'Zmień nazwę';
 $labels['addphoto'] = 'Dodaj';
 $labels['replacephoto'] = 'Zamień';
 $labels['uploadphoto'] = 'Wyślij zdjęcie';
-$labels['newcontact'] = 'Dodaj nowy kontakt';
-$labels['deletecontact'] = 'Usuń zaznaczone kontakty';
-$labels['composeto'] = 'Utwórz wiadomość do wybranych kontaktów';
+
+$labels['newcontact']     = 'Dodaj nowy kontakt';
+$labels['deletecontact']  = 'Usuń zaznaczone kontakty';
+$labels['composeto']      = 'Utwórz wiadomość do wybranych kontaktów';
 $labels['contactsfromto'] = 'Kontakty od $from do $to z $count';
-$labels['print'] = 'Drukuj';
-$labels['export'] = 'Eksportuj';
-$labels['exportvcards'] = 'Eksport kontaktów w formacie vCard';
+$labels['print']          = 'Drukuj';
+$labels['export']         = 'Eksportuj';
+$labels['exportall']      = 'Eksportuj wszystkie';
+$labels['exportsel']      = 'Eksportuj zaznaczone';
+$labels['exportvcards']   = 'Eksport kontaktów w formacie vCard';
 $labels['newcontactgroup'] = 'Utwórz nową grupę';
-$labels['grouprename'] = 'Zmień nazwę grupy';
-$labels['groupdelete'] = 'Usuń grupę';
+$labels['grouprename']    = 'Zmień nazwę grupy';
+$labels['groupdelete']    = 'Usuń grupę';
 $labels['groupremoveselected'] = 'Usuń wybrane kontakty z grupy';
-$labels['previouspage'] = 'Poprzednia strona';
-$labels['firstpage'] = 'Pierwsza strona';
-$labels['nextpage'] = 'Następna strona';
-$labels['lastpage'] = 'Ostatnia strona';
+
+$labels['previouspage']   = 'Poprzednia strona';
+$labels['firstpage']      = 'Pierwsza strona';
+$labels['nextpage']       = 'Następna strona';
+$labels['lastpage']       = 'Ostatnia strona';
+
 $labels['group'] = 'Grupa';
 $labels['groups'] = 'Grupy';
 $labels['personaladrbook'] = 'Kontakty osobiste';
+
 $labels['searchsave'] = 'Zapisz wyszukiwanie';
 $labels['searchdelete'] = 'Usuń wyszukiwanie';
+
 $labels['import'] = 'Importuj';
 $labels['importcontacts'] = 'Import kontaktów';
 $labels['importfromfile'] = 'Import z pliku:';
@@ -306,29 +362,36 @@ $labels['importtarget'] = 'Dodaj nowe kontakty do książki adresowej:';
 $labels['importreplace'] = 'Zastąp całą książkę adresową';
 $labels['importdesc'] = 'Import kontaktów z isniejącej książki adresowej.<br/>Obecnie obsługiwany jest import w formacie <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> lub CSV (pola oddzielone przecinkiem).';
 $labels['done'] = 'Wykonane';
+
+// settings
 $labels['settingsfor'] = 'Ustawienia dla';
 $labels['about'] = 'O programie';
 $labels['preferences'] = 'Preferencje';
 $labels['userpreferences'] = 'Preferencje użytkownika';
 $labels['editpreferences'] = 'Edytuj preferencje';
+
 $labels['identities'] = 'Tożsamości';
 $labels['manageidentities'] = 'Zarządzaj tożsamościami';
 $labels['newidentity'] = 'Nowa tożsamość';
+
 $labels['newitem'] = 'Nowy';
 $labels['edititem'] = 'Edytuj';
+
 $labels['preferhtml'] = 'Domyślny HTML';
 $labels['defaultcharset'] = 'Domyślny zestaw znaków';
 $labels['htmlmessage'] = 'Wiadomość HTML';
+$labels['messagepart'] = 'Część';
+$labels['digitalsig'] = 'Podpis cyfrowy';
 $labels['dateformat'] = 'Format daty';
 $labels['timeformat'] = 'Format czasu';
 $labels['prettydate'] = 'Ładne daty';
-$labels['setdefault'] = 'Domyślna';
-$labels['autodetect'] = '- wybór automatyczny -';
-$labels['language'] = 'Język';
-$labels['timezone'] = 'Strefa czasowa';
-$labels['pagesize'] = 'Liczba wierszy na stronie';
+$labels['setdefault']  = 'Domyślna';
+$labels['autodetect']  = '- wybór automatyczny -';
+$labels['language']  = 'Język';
+$labels['timezone']  = 'Strefa czasowa';
+$labels['pagesize']  = 'Liczba wierszy na stronie';
 $labels['signature'] = 'Podpis';
-$labels['dstactive'] = 'Czas letni';
+$labels['dstactive']  = 'Czas letni';
 $labels['showinextwin'] = 'Otwórz wiadomość w nowym oknie';
 $labels['composeextwin'] = 'Twórz w nowym oknie';
 $labels['htmleditor'] = 'Twórz wiadomości HTML';
@@ -357,11 +420,11 @@ $labels['showremoteimages'] = 'Wyświetlaj obrazki w wiadomościach';
 $labels['fromknownsenders'] = 'od znanych nadawców';
 $labels['always'] = 'zawsze';
 $labels['showinlineimages'] = 'Wyświetlaj załączone obrazki pod treścią wiadomości';
-$labels['autosavedraft'] = 'Automatycznie zapisuj tworzoną wiadomość';
-$labels['everynminutes'] = 'co $n minut(y)';
-$labels['refreshinterval'] = 'Odświeżanie (sprawdzanie nowych wiadomości, etc.)';
-$labels['never'] = 'nigdy';
-$labels['immediately'] = 'natychmiast';
+$labels['autosavedraft']  = 'Automatycznie zapisuj tworzoną wiadomość';
+$labels['everynminutes']  = 'co $n minut(y)';
+$labels['refreshinterval']  = 'Odświeżanie (sprawdzanie nowych wiadomości, etc.)';
+$labels['never']  = 'nigdy';
+$labels['immediately']  = 'natychmiast';
 $labels['messagesdisplaying'] = 'Wyświetlanie wiadomości';
 $labels['messagescomposition'] = 'Tworzenie wiadomości';
 $labels['mimeparamfolding'] = 'Stosuj nazwy załączników zgodne z';
@@ -392,11 +455,12 @@ $labels['replysignaturepos'] = 'Podczas odpowiedzi wstaw podpis';
 $labels['belowquote'] = 'poniżej cytowanej treści';
 $labels['abovequote'] = 'ponad cytowaną treścią';
 $labels['insertsignature'] = 'Wstaw podpis';
-$labels['previewpanemarkread'] = 'Oznacz podglądane wiadomości jako przeczytane';
-$labels['afternseconds'] = 'po $n sekundach';
+$labels['previewpanemarkread']  = 'Oznacz podglądane wiadomości jako przeczytane';
+$labels['afternseconds']  = 'po $n sekundach';
 $labels['reqmdn'] = 'Zawsze żądaj potwierdzenia odbioru';
 $labels['reqdsn'] = 'Zawsze żądaj statusu dostarczenia (DSN)';
 $labels['replysamefolder'] = 'Umieszczaj odpowiedzi w folderze wiadomości, na którą odpowiadam';
+$labels['defaultabook'] = 'Domyślna książka adresowa';
 $labels['autocompletesingle'] = 'Nie pokazuj alternatywnych adresów przy autouzupełnianiu';
 $labels['listnamedisplay'] = 'Wyświetl kontakty jako';
 $labels['spellcheckbeforesend'] = 'Przed wysłaniem wiadomości sprawdzaj pisownię';
@@ -409,13 +473,15 @@ $labels['mailtoprotohandler'] = 'Zainstaluj obsługę linków mailto:';
 $labels['forwardmode'] = 'Przekazywanie wiadomości';
 $labels['inline'] = 'w treści';
 $labels['asattachment'] = 'jako załącznik';
-$labels['folder'] = 'Folder';
-$labels['foldername'] = 'Nazwa folderu';
-$labels['subscribed'] = 'Zasubskrybowany';
+
+$labels['folder']  = 'Folder';
+$labels['folders']  = 'Foldery';
+$labels['foldername']  = 'Nazwa folderu';
+$labels['subscribed']  = 'Zasubskrybowany';
 $labels['messagecount'] = 'Wiadomości';
-$labels['create'] = 'Utwórz';
-$labels['createfolder'] = 'Utwórz nowy folder';
-$labels['managefolders'] = 'Zarządzaj folderami';
+$labels['create']  = 'Utwórz';
+$labels['createfolder']  = 'Utwórz nowy folder';
+$labels['managefolders']  = 'Zarządzaj folderami';
 $labels['specialfolders'] = 'Foldery specjalne';
 $labels['properties'] = 'Właściwości';
 $labels['folderproperties'] = 'Właściwości folderu';
@@ -425,23 +491,29 @@ $labels['info'] = 'Informacje';
 $labels['getfoldersize'] = 'Kliknij aby pobrać rozmiar folderu';
 $labels['changesubscription'] = 'Kliknij aby zmienić subskrypcję';
 $labels['foldertype'] = 'Typ folderu';
-$labels['personalfolder'] = 'Folder prywatny';
-$labels['otherfolder'] = 'Folder innego użytkownika';
-$labels['sharedfolder'] = 'Folder współdzielony';
+$labels['personalfolder']  = 'Folder prywatny';
+$labels['otherfolder']  = 'Folder innego użytkownika';
+$labels['sharedfolder']  = 'Folder współdzielony';
+
 $labels['sortby'] = 'Sortuj wg';
-$labels['sortasc'] = 'Rosnąco';
+$labels['sortasc']  = 'Rosnąco';
 $labels['sortdesc'] = 'Malejąco';
 $labels['undo'] = 'Cofnij';
+
 $labels['installedplugins'] = 'Zainstalowane wtyczki';
 $labels['plugin'] = 'Wtyczka';
 $labels['version'] = 'Wersja';
 $labels['source'] = 'Źródła';
 $labels['license'] = 'Licencja';
 $labels['support'] = 'Wsparcie techniczne';
+
+// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
+
+// character sets
 $labels['unicode'] = 'uniwersalny';
 $labels['english'] = 'angielski';
 $labels['westerneuropean'] = 'zachodnioeuropejski';
@@ -461,3 +533,4 @@ $labels['japanese'] = 'japoński';
 $labels['korean'] = 'koreański';
 $labels['chinese'] = 'chiński';
 
+?>

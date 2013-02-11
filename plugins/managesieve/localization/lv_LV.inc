@@ -2,19 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/lv_LV/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Ivars Strazdiņš <Unknown>                                   |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Vēstuļu filtri';
 $labels['managefilters'] = 'Pārvaldīt ienākošo vēstuļu filtrus';
 $labels['filtername'] = 'Filtra nosaukums';
@@ -93,6 +95,25 @@ $labels['flagdeleted'] = 'Dzēstas';
 $labels['flaganswered'] = 'Atbildētas';
 $labels['flagflagged'] = 'Iezīmētās';
 $labels['flagdraft'] = 'Melnraksts';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = 'Izveidot filtru';
 $labels['usedata'] = 'Filtrā izmantot sekojošus datus';
 $labels['nextstep'] = 'Nākamais solis';
@@ -116,25 +137,38 @@ $labels['default'] = 'noklusējums';
 $labels['octet'] = 'strikti (oktets)';
 $labels['asciicasemap'] = 'reģistrnejutīgs (ascii tabula)';
 $labels['asciinumeric'] = 'skaitļu (ascii skaitļu)';
-$labels['filterunknownerror'] = 'Nezināma servera kļūda';
-$labels['filterconnerror'] = 'Neizdevās pieslēgties ManageSieve serverim';
-$labels['filterdeleteerror'] = 'Neizdevās dzēst filtru. Servera iekšējā kļūda';
-$labels['filterdeleted'] = 'Filtrs veiksmīgi izdzēsts';
-$labels['filtersaved'] = 'Filtrs veiksmīgi saglabāts';
-$labels['filtersaveerror'] = 'Neizdevās saglabāt filtru. Servera iekšējā kļūda';
-$labels['filterdeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto filtru?';
-$labels['ruledeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto nosacījumu?';
-$labels['actiondeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto darbību?';
-$labels['forbiddenchars'] = 'Lauks satur aizliegtus simbolus';
-$labels['cannotbeempty'] = 'Lauks nedrīkst būt tukšs';
-$labels['setactivateerror'] = 'Neizdevās aktivizēt atzīmēto filtru kopu. Servera iekšējā kļūda';
-$labels['setdeactivateerror'] = 'Neizdevās deaktivizēt atzīmēto filtru kopu. Servera iekšējā kļūda';
-$labels['setdeleteerror'] = 'Neizdevās izdzēst atzīmēto filtru kopu. Servera iekšējā kļūda';
-$labels['setactivated'] = 'Filtru kopa veiksmīgi aktivizēta';
-$labels['setdeactivated'] = 'Filtru kopa veiksmīgi deaktivizēta';
-$labels['setdeleted'] = 'Filtru kopa veiksmīgi izdzēsta';
-$labels['setdeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto filtru kopu?';
-$labels['setcreateerror'] = 'Neizdevās izveidot filtru kopu. Servera iekšējā kļūda';
-$labels['setcreated'] = 'Filtru kopa veiksmīgi izveidota';
-$labels['nametoolong'] = 'Neizdevās izveidot filtru kopu. Pārāk garš kopas nosaukums';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Nezināma servera kļūda';
+$messages['filterconnerror'] = 'Neizdevās pieslēgties ManageSieve serverim';
+$messages['filterdeleteerror'] = 'Neizdevās dzēst filtru. Servera iekšējā kļūda';
+$messages['filterdeleted'] = 'Filtrs veiksmīgi izdzēsts';
+$messages['filtersaved'] = 'Filtrs veiksmīgi saglabāts';
+$messages['filtersaveerror'] = 'Neizdevās saglabāt filtru. Servera iekšējā kļūda';
+$messages['filterdeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto filtru?';
+$messages['ruledeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto nosacījumu?';
+$messages['actiondeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto darbību?';
+$messages['forbiddenchars'] = 'Lauks satur aizliegtus simbolus';
+$messages['cannotbeempty'] = 'Lauks nedrīkst būt tukšs';
+$messages['ruleexist'] = 'Filter with specified name already exists.';
+$messages['setactivateerror'] = 'Neizdevās aktivizēt atzīmēto filtru kopu. Servera iekšējā kļūda';
+$messages['setdeactivateerror'] = 'Neizdevās deaktivizēt atzīmēto filtru kopu. Servera iekšējā kļūda';
+$messages['setdeleteerror'] = 'Neizdevās izdzēst atzīmēto filtru kopu. Servera iekšējā kļūda';
+$messages['setactivated'] = 'Filtru kopa veiksmīgi aktivizēta';
+$messages['setdeactivated'] = 'Filtru kopa veiksmīgi deaktivizēta';
+$messages['setdeleted'] = 'Filtru kopa veiksmīgi izdzēsta';
+$messages['setdeleteconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto filtru kopu?';
+$messages['setcreateerror'] = 'Neizdevās izveidot filtru kopu. Servera iekšējā kļūda';
+$messages['setcreated'] = 'Filtru kopa veiksmīgi izveidota';
+$messages['activateerror'] = 'Unable to enable selected filter(s). Server error occured.';
+$messages['deactivateerror'] = 'Unable to disable selected filter(s). Server error occured.';
+$messages['deactivated'] = 'Filter(s) disabled successfully.';
+$messages['activated'] = 'Filter(s) enabled successfully.';
+$messages['moved'] = 'Filter moved successfully.';
+$messages['moveerror'] = 'Unable to move selected filter. Server error occured.';
+$messages['nametoolong'] = 'Neizdevās izveidot filtru kopu. Pārāk garš kopas nosaukums';
+$messages['namereserved'] = 'Reserved name.';
+$messages['setexist'] = 'Set already exists.';
+$messages['nodata'] = 'At least one position must be selected!';
+
+?>

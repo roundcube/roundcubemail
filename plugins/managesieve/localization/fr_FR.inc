@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fr_FR/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtres';
 $labels['managefilters'] = 'Gestion des filtres sur les mails entrants';
 $labels['filtername'] = 'Nom du filtre';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Supprimé';
 $labels['flaganswered'] = 'Répondu';
 $labels['flagflagged'] = 'Marqué';
 $labels['flagdraft'] = 'Brouillon';
+$labels['setvariable'] = 'Définir une variable';
+$labels['setvarname'] = 'Nom de la variable :';
+$labels['setvarvalue'] = 'Valeur de la variable :';
+$labels['setvarmodifiers'] = 'Modifications :';
+$labels['varlower'] = 'minuscule';
+$labels['varupper'] = 'majuscule';
+$labels['varlowerfirst'] = 'premier caractère minuscule';
+$labels['varupperfirst'] = 'premier caractère majuscule';
+$labels['varquotewildcard'] = 'Échapper les caractères spéciaux';
+$labels['varlength'] = 'longueur';
+$labels['notify'] = 'Envoyer la notification';
+$labels['notifyaddress'] = 'A l\'adresse e-mail :';
+$labels['notifybody'] = 'Corps de la notification :';
+$labels['notifysubject'] = 'Objet de la notification :';
+$labels['notifyfrom'] = 'Expéditeur de la notification :';
+$labels['notifyimportance'] = 'Importance :';
+$labels['notifyimportancelow'] = 'faible';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'haute';
 $labels['filtercreate'] = 'Créer un filtre';
 $labels['usedata'] = 'Utiliser les informations suivantes dans le filtre';
 $labels['nextstep'] = 'Étape suivante';
@@ -115,35 +137,38 @@ $labels['default'] = 'par défaut';
 $labels['octet'] = 'strict (octet)';
 $labels['asciicasemap'] = 'insensible à la casse (ascii-casemap)';
 $labels['asciinumeric'] = 'numérique (ascii-numeric)';
-$labels['filterunknownerror'] = 'Erreur du serveur inconnue';
-$labels['filterconnerror'] = 'Connexion au serveur Managesieve impossible';
-$labels['filterdeleteerror'] = 'Suppression du filtre impossible. Le serveur à produit une erreur';
-$labels['filterdeleted'] = 'Le filtre a bien été supprimé';
-$labels['filtersaved'] = 'Le filtre a bien été enregistré';
-$labels['filtersaveerror'] = 'Enregistrement du filtre impossibe. Le serveur à produit une erreur';
-$labels['filterdeleteconfirm'] = 'Voulez-vous vraiment supprimer le filtre sélectionné?';
-$labels['ruledeleteconfirm'] = 'Voulez-vous vraiment supprimer la règle sélectionnée?';
-$labels['actiondeleteconfirm'] = 'Voulez-vous vraiment supprimer l\'action sélectionnée?';
-$labels['forbiddenchars'] = 'Caractères interdits dans le champ';
-$labels['cannotbeempty'] = 'Le champ ne peut pas être vide';
-$labels['ruleexist'] = 'Un filtre existe déjà avec ce nom.';
-$labels['setactivateerror'] = 'Impossible d\'aactiver le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
-$labels['setdeactivateerror'] = 'Impossible de désactiver le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
-$labels['setdeleteerror'] = 'Impossible de supprimer le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
-$labels['setactivated'] = 'Le groupe de filtres a bien été activé.';
-$labels['setdeactivated'] = 'Le groupe de filtres a bien été désactivé.';
-$labels['setdeleted'] = 'Le groupe de filtres a bien été supprimé.';
-$labels['setdeleteconfirm'] = 'Voulez vous vraiment supprimer le groupe de filtres sélectionné ?';
-$labels['setcreateerror'] = 'Impossible de créer le groupe de filtres. Le serveur a rencontré une erreur.';
-$labels['setcreated'] = 'Le groupe de filtres a bien été créé.';
-$labels['activateerror'] = 'Impossible d\'activer le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
-$labels['deactivateerror'] = 'Impossible de désactiver le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
-$labels['activated'] = 'Filtre(s) désactivé(s) avec succès';
-$labels['deactivated'] = 'Filtre(s) activé(s) avec succès';
-$labels['moved'] = 'Filtre déplacé avec succès.';
-$labels['moveerror'] = 'Déplacement du filtre sélectionné impossible. Le serveur a renvoyé une erreur.';
-$labels['nametoolong'] = 'Nom trop long.';
-$labels['namereserved'] = 'Nom réservé.';
-$labels['setexist'] = 'Ce groupe existe déjà.';
-$labels['nodata'] = 'Au moins un élément doit être selectionné !';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Erreur du serveur inconnue';
+$messages['filterconnerror'] = 'Connexion au serveur Managesieve impossible';
+$messages['filterdeleteerror'] = 'Suppression du filtre impossible. Le serveur à produit une erreur';
+$messages['filterdeleted'] = 'Le filtre a bien été supprimé';
+$messages['filtersaved'] = 'Le filtre a bien été enregistré';
+$messages['filtersaveerror'] = 'Enregistrement du filtre impossibe. Le serveur à produit une erreur';
+$messages['filterdeleteconfirm'] = 'Voulez-vous vraiment supprimer le filtre sélectionné?';
+$messages['ruledeleteconfirm'] = 'Voulez-vous vraiment supprimer la règle sélectionnée?';
+$messages['actiondeleteconfirm'] = 'Voulez-vous vraiment supprimer l\'action sélectionnée?';
+$messages['forbiddenchars'] = 'Caractères interdits dans le champ';
+$messages['cannotbeempty'] = 'Le champ ne peut pas être vide';
+$messages['ruleexist'] = 'Un filtre existe déjà avec ce nom.';
+$messages['setactivateerror'] = 'Impossible d\'aactiver le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
+$messages['setdeactivateerror'] = 'Impossible de désactiver le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
+$messages['setdeleteerror'] = 'Impossible de supprimer le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
+$messages['setactivated'] = 'Le groupe de filtres a bien été activé.';
+$messages['setdeactivated'] = 'Le groupe de filtres a bien été désactivé.';
+$messages['setdeleted'] = 'Le groupe de filtres a bien été supprimé.';
+$messages['setdeleteconfirm'] = 'Voulez vous vraiment supprimer le groupe de filtres sélectionné ?';
+$messages['setcreateerror'] = 'Impossible de créer le groupe de filtres. Le serveur a rencontré une erreur.';
+$messages['setcreated'] = 'Le groupe de filtres a bien été créé.';
+$messages['activateerror'] = 'Impossible d\'activer le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
+$messages['deactivateerror'] = 'Impossible de désactiver le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
+$messages['deactivated'] = 'Filtre(s) activé(s) avec succès';
+$messages['activated'] = 'Filtre(s) désactivé(s) avec succès';
+$messages['moved'] = 'Filtre déplacé avec succès.';
+$messages['moveerror'] = 'Déplacement du filtre sélectionné impossible. Le serveur a renvoyé une erreur.';
+$messages['nametoolong'] = 'Nom trop long.';
+$messages['namereserved'] = 'Nom réservé.';
+$messages['setexist'] = 'Ce groupe existe déjà.';
+$messages['nodata'] = 'Au moins un élément doit être selectionné !';
+
+?>

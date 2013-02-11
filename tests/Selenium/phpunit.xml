@@ -1,0 +1,21 @@
+<phpunit backupGlobals="false"
+    bootstrap="bootstrap.php"
+    colors="true">
+    <testsuites>
+        <testsuite name="All Tests">
+            <file>Login.php</file><!-- Login.php test must be first -->
+            <file>Addressbook/Addressbook.php</file>
+            <file>Addressbook/Import.php</file>
+            <file>Mail/Mail.php</file>
+            <file>Mail/CheckRecent.php</file>
+            <file>Mail/Compose.php</file>
+            <file>Mail/Getunread.php</file>
+            <file>Mail/List.php</file>
+            <file>Settings/About.php</file>
+            <file>Settings/Folders.php</file>
+            <file>Settings/Identities.php</file>
+            <file>Settings/Settings.php</file>
+            <file>Logout.php</file><!-- Logout.php test must be last -->
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -32,9 +32,38 @@
             <file>Framework/Washtml.php</file>
             <file>MailFunc.php</file>
         </testsuite>
-        <testsuite name="Managesieve Tests">
+        <testsuite name="Plugins Tests">
+            <file>./../plugins/acl/tests/Acl.php</file>
+            <file>./../plugins/additional_message_headers/tests/AdditionalMessageHeaders.php</file>
+            <file>./../plugins/archive/tests/Archive.php</file>
+            <file>./../plugins/autologon/tests/Autologon.php</file>
+            <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
+            <file>./../plugins/debug_logger/tests/DebugLogger.php</file>
+            <file>./../plugins/emoticons/tests/Emoticons.php</file>
+            <file>./../plugins/enigma/tests/Enigma.php</file>
+            <file>./../plugins/example_addressbook/tests/ExampleAddressbook.php</file>
+            <file>./../plugins/filesystem_attachments/tests/FilesystemAttachments.php</file>
+            <file>./../plugins/help/tests/Help.php</file>
+            <file>./../plugins/hide_blockquote/tests/HideBlockquote.php</file>
+            <file>./../plugins/http_authentication/tests/HttpAuthentication.php</file>
+            <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
+            <file>./../plugins/managesieve/tests/Managesieve.php</file>
             <file>./../plugins/managesieve/tests/Parser.php</file>
             <file>./../plugins/managesieve/tests/Tokenizer.php</file>
+            <file>./../plugins/markasjunk/tests/Markasjunk.php</file>
+            <file>./../plugins/new_user_dialog/tests/NewUserDialog.php</file>
+            <file>./../plugins/new_user_identity/tests/NewUserIdentity.php</file>
+            <file>./../plugins/newmail_notifier/tests/NewmailNotifier.php</file>
+            <file>./../plugins/password/tests/Password.php</file>
+            <file>./../plugins/redundant_attachments/tests/RedundantAttachments.php</file>
+            <file>./../plugins/show_additional_headers/tests/ShowAdditionalHeaders.php</file>
+            <file>./../plugins/squirrelmail_usercopy/tests/Squirrelmail_usercopy.php</file>
+            <file>./../plugins/subscriptions_option/tests/SubscriptionsOption.php</file>
+            <file>./../plugins/userinfo/tests/Userinfo.php</file>
+            <file>./../plugins/vcard_attachments/tests/VcardAttachments.php</file>
+            <file>./../plugins/virtuser_file/tests/VirtuserFile.php</file>
+            <file>./../plugins/virtuser_query/tests/VirtuserQuery.php</file>
+            <file>./../plugins/zipdownload/tests/Zipdownload.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

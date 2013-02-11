@@ -97,7 +97,6 @@ $OUTPUT->set_env('threading', $threading);
 $OUTPUT->set_env('current_page', $count ? $RCMAIL->storage->get_page() : 1);
 $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
-$OUTPUT->command('set_mailboxname', rcmail_get_mailbox_name_text());
 
 // add message rows
 rcmail_js_message_list($a_headers, FALSE, $cols);

@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/en_GB/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Vibhav Pant <vibhavp@gmail.com>                               |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filters';
 $labels['managefilters'] = 'Manage incoming mail filters';
 $labels['filtername'] = 'Filter name';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Deleted';
 $labels['flaganswered'] = 'Answered';
 $labels['flagflagged'] = 'Flagged';
 $labels['flagdraft'] = 'Draft';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = 'Create filter';
 $labels['usedata'] = 'Use following data in the filter:';
 $labels['nextstep'] = 'Next Step';
@@ -115,35 +137,38 @@ $labels['default'] = 'default';
 $labels['octet'] = 'strict (octet)';
 $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
-$labels['filterunknownerror'] = 'Unknown server error';
-$labels['filterconnerror'] = 'Unable to connect to managesieve server';
-$labels['filterdeleteerror'] = 'Unable to delete filter. Server error occured';
-$labels['filterdeleted'] = 'Filter deleted successfully';
-$labels['filtersaved'] = 'Filter saved successfully';
-$labels['filtersaveerror'] = 'Unable to save filter. Server error occured.';
-$labels['filterdeleteconfirm'] = 'Do you really want to delete selected filter?';
-$labels['ruledeleteconfirm'] = 'Are you sure, you want to delete selected rule?';
-$labels['actiondeleteconfirm'] = 'Are you sure, you want to delete selected action?';
-$labels['forbiddenchars'] = 'Forbidden characters in field';
-$labels['cannotbeempty'] = 'Field cannot be empty';
-$labels['ruleexist'] = 'Filter with specified name already exists.';
-$labels['setactivateerror'] = 'Unable to activate selected filters set. Server error occured.';
-$labels['setdeactivateerror'] = 'Unable to deactivate selected filters set. Server error occured.';
-$labels['setdeleteerror'] = 'Unable to delete selected filters set. Server error occured.';
-$labels['setactivated'] = 'Filters set activated successfully.';
-$labels['setdeactivated'] = 'Filters set deactivated successfully.';
-$labels['setdeleted'] = 'Filters set deleted successfully.';
-$labels['setdeleteconfirm'] = 'Are you sure, you want to delete selected filters set?';
-$labels['setcreateerror'] = 'Unable to create filters set. Server error occured.';
-$labels['setcreated'] = 'Filters set created successfully.';
-$labels['activateerror'] = 'Unable to enable selected filter(s). Server error occured.';
-$labels['deactivateerror'] = 'Unable to disable selected filter(s). Server error occured.';
-$labels['activated'] = 'Filter(s) enabled successfully.';
-$labels['deactivated'] = 'Filter(s) disabled successfully.';
-$labels['moved'] = 'Filter moved successfully.';
-$labels['moveerror'] = 'Unable to move selected filter. Server error occured.';
-$labels['nametoolong'] = 'Name too long.';
-$labels['namereserved'] = 'Reserved name.';
-$labels['setexist'] = 'Set already exists.';
-$labels['nodata'] = 'At least one position must be selected!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Unknown server error';
+$messages['filterconnerror'] = 'Unable to connect to managesieve server';
+$messages['filterdeleteerror'] = 'Unable to delete filter. Server error occured';
+$messages['filterdeleted'] = 'Filter deleted successfully';
+$messages['filtersaved'] = 'Filter saved successfully';
+$messages['filtersaveerror'] = 'Unable to save filter. Server error occured.';
+$messages['filterdeleteconfirm'] = 'Do you really want to delete selected filter?';
+$messages['ruledeleteconfirm'] = 'Are you sure, you want to delete selected rule?';
+$messages['actiondeleteconfirm'] = 'Are you sure, you want to delete selected action?';
+$messages['forbiddenchars'] = 'Forbidden characters in field';
+$messages['cannotbeempty'] = 'Field cannot be empty';
+$messages['ruleexist'] = 'Filter with specified name already exists.';
+$messages['setactivateerror'] = 'Unable to activate selected filters set. Server error occured.';
+$messages['setdeactivateerror'] = 'Unable to deactivate selected filters set. Server error occured.';
+$messages['setdeleteerror'] = 'Unable to delete selected filters set. Server error occured.';
+$messages['setactivated'] = 'Filters set activated successfully.';
+$messages['setdeactivated'] = 'Filters set deactivated successfully.';
+$messages['setdeleted'] = 'Filters set deleted successfully.';
+$messages['setdeleteconfirm'] = 'Are you sure, you want to delete selected filters set?';
+$messages['setcreateerror'] = 'Unable to create filters set. Server error occured.';
+$messages['setcreated'] = 'Filters set created successfully.';
+$messages['activateerror'] = 'Unable to enable selected filter(s). Server error occured.';
+$messages['deactivateerror'] = 'Unable to disable selected filter(s). Server error occured.';
+$messages['deactivated'] = 'Filter(s) disabled successfully.';
+$messages['activated'] = 'Filter(s) enabled successfully.';
+$messages['moved'] = 'Filter moved successfully.';
+$messages['moveerror'] = 'Unable to move selected filter. Server error occured.';
+$messages['nametoolong'] = 'Name too long.';
+$messages['namereserved'] = 'Reserved name.';
+$messages['setexist'] = 'Set already exists.';
+$messages['nodata'] = 'At least one position must be selected!';
+
+?>

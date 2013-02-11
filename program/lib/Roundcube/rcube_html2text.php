@@ -571,52 +571,62 @@ class rcube_html2text
      */
     protected function _convert_blockquotes(&$text)
     {
-        if (preg_match_all('/<\/*blockquote[^>]*>/i', $text, $matches, PREG_OFFSET_CAPTURE)) {
-            $level = 0;
-            $diff = 0;
-            foreach ($matches[0] as $m) {
-                if ($m[0][0] == '<' && $m[0][1] == '/') {
+        $level = 0;
+        $offset = 0;
+        while (($start = strpos($text, '<blockquote', $offset)) !== false) {
+            $offset = $start + 12;
+            do {
+                $end = strpos($text, '</blockquote>', $offset);
+                $next = strpos($text, '<blockquote', $offset);
+
+                // nested <blockquote>, skip
+                if ($next !== false && $next < $end) {
+                    $offset = $next + 12;
+                    $level++;
+                }
+                // nested </blockquote> tag
+                if ($end !== false && $level > 0) {
+                    $offset = $end + 12;
                     $level--;
-                    if ($level < 0) {
-                        $level = 0; // malformed HTML: go to next blockquote
-                    }
-                    else if ($level > 0) {
-                        // skip inner blockquote
-                    }
-                    else {
-                        $end  = $m[1];
-                        $len  = $end - $taglen - $start;
-                        // Get blockquote content
-                        $body = substr($text, $start + $taglen - $diff, $len);
-
-                        // Set text width
-                        $p_width = $this->width;
-                        if ($this->width > 0) $this->width -= 2;
-                        // Convert blockquote content
-                        $body = trim($body);
-                        $this->_converter($body);
-                        // Add citation markers and create PRE block
-                        $body = preg_replace('/((^|\n)>*)/', '\\1> ', trim($body));
-                        $body = '<pre>' . htmlspecialchars($body) . '</pre>';
-                        // Re-set text width
-                        $this->width = $p_width;
-                        // Replace content
-                        $text = substr($text, 0, $start - $diff)
-                            . $body . substr($text, $end + strlen($m[0]) - $diff);
-
-                        $diff = $len + $taglen + strlen($m[0]) - strlen($body);
-                        unset($body);
-                    }
                 }
-                else {
-                    if ($level == 0) {
-                        $start = $m[1];
-                        $taglen = strlen($m[0]);
-                    }
-                    $level ++;
+                // found matching end tag
+                else if ($end !== false && $level == 0) {
+                    $taglen = strpos($text, '>', $start) - $start;
+                    $startpos = $start + $taglen + 1;
+
+                    // get blockquote content
+                    $body = trim(substr($text, $startpos, $end - $startpos));
+
+                    // adjust text wrapping width
+                    $p_width = $this->width;
+                    if ($this->width > 0) $this->width -= 2;
+
+                    // replace content with inner blockquotes
+                    $this->_converter($body);
+
+                    // resore text width
+                    $this->width = $p_width;
+
+                    // Add citation markers and create <pre> block
+                    $body = preg_replace_callback('/((?:^|\n)>*)([^\n]*)/', array($this, 'blockquote_citation_ballback'), trim($body));
+                    $body = '<pre>' . htmlspecialchars($body) . '</pre>';
+
+                    $text = substr($text, 0, $start) . $body . "\n" . substr($text, $end + 13);
+                    $offset = 0;
+                    break;
                 }
-            }
+            } while ($end || $next);
         }
+    }
+
+    /**
+     * Callback function to correctly add citation markers for blockquote contents
+     */
+    public function blockquote_citation_ballback($m)
+    {
+        $line = ltrim($m[2]);
+        $space = $line[0] == '>' ? '' : ' ';
+        return $m[1] . '>' . $space . $line;
     }
 
     /**

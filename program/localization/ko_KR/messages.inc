@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ko_KR/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kim, Woohyun <woohyun.kim@gmail.com>                          |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = '에러가 발생!';
-$messages['loginfailed'] = '로그인이 실패하였습니다.';
+$messages['errortitle']  = '에러가 발생!';
+$messages['loginfailed']  = '로그인이 실패하였습니다.';
 $messages['cookiesdisabled'] = '브라우저가 쿠키를 지원하지 않습니다';
 $messages['sessionerror'] = '세션이 유효하지 않거나 종료되었습니다';
 $messages['storageerror'] = 'IMAP 서버 연결 실패';
@@ -26,9 +29,11 @@ $messages['requesttimedout'] = '요청 시간 초과';
 $messages['errorreadonly'] = '명령을 수행할 수 없습니다. 읽기전용 폴더.';
 $messages['errornoperm'] = '명령을 수행할 수 없습니다. 권한이 거부 됨.';
 $messages['invalidrequest'] = '잘못된 요청! 데이터는 저장되지 않았음.';
+$messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = '이 메일함에 메일이 없습니다';
 $messages['loggedout'] = '세션을 성공적으로 종료하였습니다. 안녕히 가십시오!';
 $messages['mailboxempty'] = '메일함이 비어있습니다';
+$messages['refreshing'] = 'Refreshing...';
 $messages['loading'] = '불러오는 중...';
 $messages['uploading'] = '하나의 파일 올리기...';
 $messages['uploadingmany'] = '여러 파일 올리기...';
@@ -55,11 +60,11 @@ $messages['errormoving'] = '메일을 옮길 수 없습니다';
 $messages['errorcopying'] = '메시지(들)를 복사할 수 없습니다.';
 $messages['errordeleting'] = '메일을 지울 수 없습니다';
 $messages['errormarking'] = '메시지(들)에 표시할 수 없습니다.';
-$messages['deletecontactconfirm'] = '정말 선택한 연락처들을 삭제하시겠습니까?';
-$messages['deletegroupconfirm'] = '정말로 선택한 그룹을 삭제하는 것을 원하십니까?';
+$messages['deletecontactconfirm']  = '정말 선택한 연락처들을 삭제하시겠습니까?';
+$messages['deletegroupconfirm']  = '정말로 선택한 그룹을 삭제하는 것을 원하십니까?';
 $messages['deletemessagesconfirm'] = '정말 선택한 메일들을 삭제하시겠습니까?';
-$messages['deletefolderconfirm'] = '정말 이 폴더를 삭제하시겠습니까?';
-$messages['purgefolderconfirm'] = '정말 이 폴더의 모든 메일을 삭제하시겠습니까?';
+$messages['deletefolderconfirm']  = '정말 이 폴더를 삭제하시겠습니까?';
+$messages['purgefolderconfirm']  = '정말 이 폴더의 모든 메일을 삭제하시겠습니까?';
 $messages['contactdeleting'] = '연락처(들) 삭제 중...';
 $messages['groupdeleting'] = '그룹 삭제 중...';
 $messages['folderdeleting'] = '폴더 지우는 중...';
@@ -68,11 +73,11 @@ $messages['foldersubscribing'] = '폴더의 구독을 활성화 하는 중...';
 $messages['folderunsubscribing'] = '폴더의 구독을 취소하는 중...';
 $messages['formincomplete'] = '양식을 완전히 채우지 않았습니다';
 $messages['noemailwarning'] = '유효한 이메일 주소를 넣어주십시오';
-$messages['nonamewarning'] = '이름을 넣어주십시오';
+$messages['nonamewarning']  = '이름을 넣어주십시오';
 $messages['nopagesizewarning'] = '페이지 크기를 넣어주십시오';
 $messages['nosenderwarning'] = '발신자 이메일 주소를 넣어주십시오';
 $messages['norecipientwarning'] = '적어도 한 개 이상의 수신 주소를 넣어주십시오';
-$messages['nosubjectwarning'] = '"제목"이 없습니다. 제목을 넣으시겠습니까?';
+$messages['nosubjectwarning']  = '"제목"이 없습니다. 제목을 넣으시겠습니까?';
 $messages['nobodywarning'] = '텍스트 없이 메일을 보낼까요?';
 $messages['notsentwarning'] = '메일을 보내지 않았습니다. 메일을 버리시겠습니까?';
 $messages['noldapserver'] = '검색할 LDAP 서버를 선택하세요';
@@ -107,15 +112,18 @@ $messages['addingmember'] = '그룹에 연락처(들)을 추가 중...';
 $messages['removingmember'] = '그룹으로 부터 연락처를 삭제 중...';
 $messages['receiptsent'] = '메일 읽음 확인을 보냈습니다';
 $messages['errorsendingreceipt'] = '읽음 확인을 보낼 수 없습니다';
+$messages['deleteidentityconfirm'] = 'Do you really want to delete this identity?';
 $messages['nodeletelastidentity'] = '이 정보는 마지막 남은 것이므로 지울 수 없습니다';
 $messages['forbiddencharacter'] = '폴더 이름에 쓸 수 없는 문자가 포함되어 있습니다';
 $messages['selectimportfile'] = '업로드할 파일을 선택하세요';
 $messages['addresswriterror'] = '선택한 주소록은 쓸 수 없습니다';
 $messages['contactaddedtogroup'] = '이 그룹에 연락처를 성공적으로 추가 함.';
 $messages['contactremovedfromgroup'] = '이 그룹으로 부터 연락처를 성공적으로 제거 함.';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = '가져오는 중, 기다리세요...';
-$messages['importerror'] = '가져오기 실패! 업로드한 파일이 유효한 vCard 파일이 아닙니다.';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>$inserted 연락처를 성공적으로 가져왔고, $skipped 존재하는 항목은 건너뛰었습니다.</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>Skipped $skipped existing entries</b>';
 $messages['opnotpermitted'] = '작업이 허가되지 않았습니다!';
 $messages['nofromaddress'] = '선택한 신원에 이메일 주소가 없음';
 $messages['editorwarning'] = '일반 텍스트 편집기로 바꾸면 모든 서식이 사라집니다. 계속할까요?';
@@ -137,11 +145,16 @@ $messages['contactrestored'] = '연락처(들)이 성공적으로 복구 됨.';
 $messages['groupdeleted'] = '그룹이 성공적으로 삭제 됨.';
 $messages['grouprenamed'] = '그룹명이 성공적으로 변경 됨.';
 $messages['groupcreated'] = '그룹이 성공적으로 생성 됨.';
+$messages['savedsearchdeleted'] = 'Saved search deleted successfully.';
+$messages['savedsearchdeleteerror'] = 'Could not delete saved search.';
+$messages['savedsearchcreated'] = 'Saved search created successfully.';
+$messages['savedsearchcreateerror'] = 'Could not create saved search.';
 $messages['messagedeleted'] = '메시지(들)이 성공적으로 삭제 됨.';
 $messages['messagemoved'] = '메시지(들)을 성공적으로 이동 함.';
 $messages['messagecopied'] = '메시지(들)을 성공적으로 복사 함.';
 $messages['messagemarked'] = '메시지(들)에 성공적으로 표시 함.';
 $messages['autocompletechars'] = '자동 완성을 위해서 적어도 $min 글자를 입력하세요.';
+$messages['autocompletemore'] = 'More matching entries found. Please type more characters.';
 $messages['namecannotbeempty'] = '이름이 비워져서는 안됩니다.';
 $messages['nametoolong'] = '이름이 너무 깁니다.';
 $messages['folderupdated'] = '폴더를 성공적으로 갱신 함.';
@@ -149,4 +162,8 @@ $messages['foldercreated'] = '폴더를 성공적으로 생성 함.';
 $messages['invalidimageformat'] = '올바른 이미지 포멧이 아님.';
 $messages['mispellingsfound'] = '메시지에서 맞춤법 오류를 감지 하였음.';
 $messages['parentnotwritable'] = '선택한 부모 폴더에 폴더를 생성하거나 이동할 수 없음. 접근 권한이 없음.';
+$messages['messagetoobig'] = 'The message part is too big to process it.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
+?>

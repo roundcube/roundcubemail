@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ca_ES/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtres';
 $labels['managefilters'] = 'Gestiona els filtres dels missatges d\'entrada';
 $labels['filtername'] = 'Nom del filtre';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Suprimit';
 $labels['flaganswered'] = 'Respost';
 $labels['flagflagged'] = 'Marcat';
 $labels['flagdraft'] = 'Esborrany';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = 'Crea filtre';
 $labels['usedata'] = 'Fes servir les següents dades al filtre:';
 $labels['nextstep'] = 'Següent pas';
@@ -115,35 +137,38 @@ $labels['default'] = 'per omissió';
 $labels['octet'] = 'estricte (octet)';
 $labels['asciicasemap'] = 'No distingeix entre majúscules i minúscules  (ascii-casemap)';
 $labels['asciinumeric'] = 'numèric (ascii-numeric)';
-$labels['filterunknownerror'] = 'Error desconegut al servidor.';
-$labels['filterconnerror'] = 'No s\'ha pogut connectar al servidor.';
-$labels['filterdeleteerror'] = 'No s\'ha pogut suprimir el filtre. Hi ha hagut un error al servidor.';
-$labels['filterdeleted'] = 'El filtre s\'ha suprimit correctament.';
-$labels['filtersaved'] = 'Filtre desat correctament.';
-$labels['filtersaveerror'] = 'No s\'ha pogut desar el filtre. Hi ha hagut un error al servidor.';
-$labels['filterdeleteconfirm'] = 'Realment voleu suprimit el filtre seleccionat?';
-$labels['ruledeleteconfirm'] = 'Esteu segur que voleu suprimir la norma seleccionada?';
-$labels['actiondeleteconfirm'] = 'Esteu segur que voleu suprimir l\'acció seleccionada?';
-$labels['forbiddenchars'] = 'El camp conté caràcters prohibits.';
-$labels['cannotbeempty'] = 'El camp no pot estar buit.';
-$labels['ruleexist'] = 'Ja existeix un filtre amb aquest nom';
-$labels['setactivateerror'] = 'No s\'ha pogut activar el fitlre seleccionat. Hi ha hagut un error al servidor.';
-$labels['setdeactivateerror'] = 'No s\'ha pogut desactivar el fitlre seleccionat. Hi ha hagut un error al servidor.';
-$labels['setdeleteerror'] = 'No s\'ha pogut suprimir el conjunt de filtres seleccionats. Hi ha hagut un error al servidor.';
-$labels['setactivated'] = 'El conjunt de filtres s\'ha activat correctament.';
-$labels['setdeactivated'] = 'El conjunt de filtres s\'ha desactivat correctament.';
-$labels['setdeleted'] = 'El conjunt de filtres s\'ha suprimit correctament.';
-$labels['setdeleteconfirm'] = 'Esteu segurs que voleu suprimir el conjunt de filtres seleccionats?';
-$labels['setcreateerror'] = 'No s\'ha pogut crear el conjunt de filtres. Hi ha hagut un error al servidor.';
-$labels['setcreated'] = 'S\'ha creat correctament el conjunt de filtres.';
-$labels['activateerror'] = 'No s\'ha pogut habilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
-$labels['deactivateerror'] = 'No s\'ha pogut deshabilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
-$labels['activated'] = 'Filtre(s) deshabilitat(s) correctament.';
-$labels['deactivated'] = 'Filtre(s) habilitat(s) correctament.';
-$labels['moved'] = 'S\'ha mogut correctament el filtre.';
-$labels['moveerror'] = 'No s\'ha pogut moure el filtre seleccionat. Hi ha hagut un error al servidor.';
-$labels['nametoolong'] = 'El nom és massa llarg.';
-$labels['namereserved'] = 'Nom reservat.';
-$labels['setexist'] = 'El conjunt ja existeix.';
-$labels['nodata'] = 'S\'ha de seleccionar com a mínim una posició!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Error desconegut al servidor.';
+$messages['filterconnerror'] = 'No s\'ha pogut connectar al servidor.';
+$messages['filterdeleteerror'] = 'No s\'ha pogut suprimir el filtre. Hi ha hagut un error al servidor.';
+$messages['filterdeleted'] = 'El filtre s\'ha suprimit correctament.';
+$messages['filtersaved'] = 'Filtre desat correctament.';
+$messages['filtersaveerror'] = 'No s\'ha pogut desar el filtre. Hi ha hagut un error al servidor.';
+$messages['filterdeleteconfirm'] = 'Realment voleu suprimit el filtre seleccionat?';
+$messages['ruledeleteconfirm'] = 'Esteu segur que voleu suprimir la norma seleccionada?';
+$messages['actiondeleteconfirm'] = 'Esteu segur que voleu suprimir l\'acció seleccionada?';
+$messages['forbiddenchars'] = 'El camp conté caràcters prohibits.';
+$messages['cannotbeempty'] = 'El camp no pot estar buit.';
+$messages['ruleexist'] = 'Ja existeix un filtre amb aquest nom';
+$messages['setactivateerror'] = 'No s\'ha pogut activar el fitlre seleccionat. Hi ha hagut un error al servidor.';
+$messages['setdeactivateerror'] = 'No s\'ha pogut desactivar el fitlre seleccionat. Hi ha hagut un error al servidor.';
+$messages['setdeleteerror'] = 'No s\'ha pogut suprimir el conjunt de filtres seleccionats. Hi ha hagut un error al servidor.';
+$messages['setactivated'] = 'El conjunt de filtres s\'ha activat correctament.';
+$messages['setdeactivated'] = 'El conjunt de filtres s\'ha desactivat correctament.';
+$messages['setdeleted'] = 'El conjunt de filtres s\'ha suprimit correctament.';
+$messages['setdeleteconfirm'] = 'Esteu segurs que voleu suprimir el conjunt de filtres seleccionats?';
+$messages['setcreateerror'] = 'No s\'ha pogut crear el conjunt de filtres. Hi ha hagut un error al servidor.';
+$messages['setcreated'] = 'S\'ha creat correctament el conjunt de filtres.';
+$messages['activateerror'] = 'No s\'ha pogut habilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
+$messages['deactivateerror'] = 'No s\'ha pogut deshabilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
+$messages['deactivated'] = 'Filtre(s) habilitat(s) correctament.';
+$messages['activated'] = 'Filtre(s) deshabilitat(s) correctament.';
+$messages['moved'] = 'S\'ha mogut correctament el filtre.';
+$messages['moveerror'] = 'No s\'ha pogut moure el filtre seleccionat. Hi ha hagut un error al servidor.';
+$messages['nametoolong'] = 'El nom és massa llarg.';
+$messages['namereserved'] = 'Nom reservat.';
+$messages['setexist'] = 'El conjunt ja existeix.';
+$messages['nodata'] = 'S\'ha de seleccionar com a mínim una posició!';
+
+?>

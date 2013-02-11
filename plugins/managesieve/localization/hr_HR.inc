@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hr_HR/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filteri';
 $labels['managefilters'] = 'Uredi filtere za pristiglu poštu';
 $labels['filtername'] = 'Naziv filtera';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Obrisana';
 $labels['flaganswered'] = 'Odgovorena';
 $labels['flagflagged'] = 'Označena';
 $labels['flagdraft'] = 'Predložak';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = 'Stvori filter';
 $labels['usedata'] = 'Koristi podatke za filter:';
 $labels['nextstep'] = 'Idući korak';
@@ -115,35 +137,38 @@ $labels['default'] = 'preddefinirano';
 $labels['octet'] = 'strogo (oktet)';
 $labels['asciicasemap'] = 'neosjetljivo na veličinu slova (ascii-casemap)';
 $labels['asciinumeric'] = 'numerički (ascii-numeric)';
-$labels['filterunknownerror'] = 'Nepoznata greška na poslužitelju';
-$labels['filterconnerror'] = 'Nemoguće spajanje na poslužitelj (managesieve)';
-$labels['filterdeleteerror'] = 'Nemoguće brisanje filtera. Greška na poslužitelju';
-$labels['filterdeleted'] = 'Filter je uspješno obrisan';
-$labels['filtersaved'] = 'Filter je uspješno spremljen';
-$labels['filtersaveerror'] = 'Nemoguće spremiti filter. Greška na poslužitelju';
-$labels['filterdeleteconfirm'] = 'Sigurno želite obrisati odabrani filter?';
-$labels['ruledeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrana pravila?';
-$labels['actiondeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrane akcije?';
-$labels['forbiddenchars'] = 'Nedozvoljeni znakovi u polju';
-$labels['cannotbeempty'] = 'Polje nesmije biti prazno';
-$labels['ruleexist'] = 'Filter sa zadanim imenom već postoji.';
-$labels['setactivateerror'] = 'Nemoguće aktivirati odabranu grupu filtera. Greška na poslužitelju';
-$labels['setdeactivateerror'] = 'Nemoguće deaktivirati odabranu grupu filtera. Greška na poslužitelju';
-$labels['setdeleteerror'] = 'Nemoguće obrisati odabranu grupu filtera. Greška na poslužitelju';
-$labels['setactivated'] = 'Grupa filtera je uspješno aktivirana';
-$labels['setdeactivated'] = 'Grupa filtera je uspješno deaktivirana';
-$labels['setdeleted'] = 'Grupa filtera je uspješno obrisana';
-$labels['setdeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabranu grupu filtera?';
-$labels['setcreateerror'] = 'Nemoguće stvoriti grupu filtera. Greška na poslužitelju';
-$labels['setcreated'] = 'Grupa filtera je uspješno stvorena';
-$labels['activateerror'] = 'Nije moguće omogućiti odabrani filter(e). Greška poslužitelja.';
-$labels['deactivateerror'] = 'Nije moguće onemogučiti odabrane filter(e). Greška poslužitelja.';
-$labels['activated'] = 'Filter(i) onemogućen(i) uspješno.';
-$labels['deactivated'] = 'Filter(i) omogućen(i) uspješno.';
-$labels['moved'] = 'Filter uspješno premješten.';
-$labels['moveerror'] = 'Nije moguće premjestiti odabrani filter. Greška poslužitelja.';
-$labels['nametoolong'] = 'Nemoguće napraviti grupu filtera. Naziv je predugačak';
-$labels['namereserved'] = 'Rezervirano ime.';
-$labels['setexist'] = 'Skup već postoji.';
-$labels['nodata'] = 'Barem jedan pozicija mora biti odabrana!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Nepoznata greška na poslužitelju';
+$messages['filterconnerror'] = 'Nemoguće spajanje na poslužitelj (managesieve)';
+$messages['filterdeleteerror'] = 'Nemoguće brisanje filtera. Greška na poslužitelju';
+$messages['filterdeleted'] = 'Filter je uspješno obrisan';
+$messages['filtersaved'] = 'Filter je uspješno spremljen';
+$messages['filtersaveerror'] = 'Nemoguće spremiti filter. Greška na poslužitelju';
+$messages['filterdeleteconfirm'] = 'Sigurno želite obrisati odabrani filter?';
+$messages['ruledeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrana pravila?';
+$messages['actiondeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabrane akcije?';
+$messages['forbiddenchars'] = 'Nedozvoljeni znakovi u polju';
+$messages['cannotbeempty'] = 'Polje nesmije biti prazno';
+$messages['ruleexist'] = 'Filter sa zadanim imenom već postoji.';
+$messages['setactivateerror'] = 'Nemoguće aktivirati odabranu grupu filtera. Greška na poslužitelju';
+$messages['setdeactivateerror'] = 'Nemoguće deaktivirati odabranu grupu filtera. Greška na poslužitelju';
+$messages['setdeleteerror'] = 'Nemoguće obrisati odabranu grupu filtera. Greška na poslužitelju';
+$messages['setactivated'] = 'Grupa filtera je uspješno aktivirana';
+$messages['setdeactivated'] = 'Grupa filtera je uspješno deaktivirana';
+$messages['setdeleted'] = 'Grupa filtera je uspješno obrisana';
+$messages['setdeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabranu grupu filtera?';
+$messages['setcreateerror'] = 'Nemoguće stvoriti grupu filtera. Greška na poslužitelju';
+$messages['setcreated'] = 'Grupa filtera je uspješno stvorena';
+$messages['activateerror'] = 'Nije moguće omogućiti odabrani filter(e). Greška poslužitelja.';
+$messages['deactivateerror'] = 'Nije moguće onemogučiti odabrane filter(e). Greška poslužitelja.';
+$messages['deactivated'] = 'Filter(i) omogućen(i) uspješno.';
+$messages['activated'] = 'Filter(i) onemogućen(i) uspješno.';
+$messages['moved'] = 'Filter uspješno premješten.';
+$messages['moveerror'] = 'Nije moguće premjestiti odabrani filter. Greška poslužitelja.';
+$messages['nametoolong'] = 'Nemoguće napraviti grupu filtera. Naziv je predugačak';
+$messages['namereserved'] = 'Rezervirano ime.';
+$messages['setexist'] = 'Skup već postoji.';
+$messages['nodata'] = 'Barem jedan pozicija mora biti odabrana!';
+
+?>

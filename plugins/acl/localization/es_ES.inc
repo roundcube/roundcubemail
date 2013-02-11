@@ -2,18 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/es_ES/labels.inc                                         |
+ | plugins/acl/localization/<lang>.inc                                   |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail ACL plugin                 |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: pompilos <ciordia@gmail.com>                                  |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 
-$labels = array();
 $labels['sharing'] = 'Compartir';
 $labels['myrights'] = 'Permisos de acceso';
 $labels['username'] = 'Usuario:';
@@ -23,44 +25,48 @@ $labels['actions'] = 'Acciones sobre los permisos de acceso…';
 $labels['anyone'] = 'Todos los usuarios (cualquiera)';
 $labels['anonymous'] = 'Invitados (anónimo)';
 $labels['identifier'] = 'Identificador';
+
 $labels['acll'] = 'Búsqueda';
-$labels['shortacll'] = 'Búsqueda';
 $labels['aclr'] = 'Leer mensajes';
 $labels['acls'] = 'Mantener como "Leído';
 $labels['aclw'] = 'Escribir etiquetas';
 $labels['acli'] = 'Insertar (Copiar dentro)';
 $labels['aclp'] = 'Enviar';
-$labels['shortaclp'] = 'Enviar';
 $labels['aclc'] = 'Crear subcarpetas';
 $labels['aclk'] = 'Crear subcarpetas';
 $labels['acld'] = 'Borrar mensajes';
 $labels['aclt'] = 'Borrar mensajes';
 $labels['acle'] = 'Expurgar';
-$labels['shortacle'] = 'Expurgar';
 $labels['aclx'] = 'Borrar carpeta';
 $labels['acla'] = 'Administrar';
-$labels['shortacla'] = 'Administrar';
+
 $labels['aclfull'] = 'Control total';
 $labels['aclother'] = 'Otro';
-$labels['shortaclother'] = 'Otro';
 $labels['aclread'] = 'Leer';
-$labels['shortaclr'] = 'Leer';
-$labels['shortaclread'] = 'Leer';
 $labels['aclwrite'] = 'Escribir';
-$labels['shortaclw'] = 'Escribir';
-$labels['shortaclwrite'] = 'Escribir';
 $labels['acldelete'] = 'Borrar';
-$labels['shortacld'] = 'Borrar';
-$labels['shortaclt'] = 'Borrar';
-$labels['shortacldelete'] = 'Borrar';
+
+$labels['shortacll'] = 'Búsqueda';
+$labels['shortaclr'] = 'Leer';
 $labels['shortacls'] = 'Conservar';
+$labels['shortaclw'] = 'Escribir';
 $labels['shortacli'] = 'Insertar';
+$labels['shortaclp'] = 'Enviar';
 $labels['shortaclc'] = 'Crear';
 $labels['shortaclk'] = 'Crear';
+$labels['shortacld'] = 'Borrar';
+$labels['shortaclt'] = 'Borrar';
+$labels['shortacle'] = 'Expurgar';
 $labels['shortaclx'] = 'Borrar carpeta';
+$labels['shortacla'] = 'Administrar';
+
+$labels['shortaclother'] = 'Otro';
+$labels['shortaclread'] = 'Leer';
+$labels['shortaclwrite'] = 'Escribir';
+$labels['shortacldelete'] = 'Borrar';
+
 $labels['longacll'] = 'La carpeta es visible en las listas y es posible suscribirse a ella';
 $labels['longaclr'] = 'Se puede abrir la carpeta para leer';
-$labels['longaclread'] = 'Se puede abrir la carpeta para leer';
 $labels['longacls'] = 'Se pueden cambiar los mensajes con la etiqueta "Leído';
 $labels['longaclw'] = 'Las etiquetas de mensaje y las palabras clave se pueden cambiar, excepto "Leído" y "Borrado';
 $labels['longacli'] = 'Se pueden escribir mensajes o copiarlos a la carpeta';
@@ -72,18 +78,22 @@ $labels['longaclt'] = 'No se pueden cambiar los mensajes etiquetados como "Borra
 $labels['longacle'] = 'No se pueden expurgar los mensajes';
 $labels['longaclx'] = 'La carpeta se puede borrar o renombrar';
 $labels['longacla'] = 'Se pueden cambiar los permisos de acceso';
+
 $labels['longaclfull'] = 'Control total, incluyendo la gestión de carpetas';
+$labels['longaclread'] = 'Se puede abrir la carpeta para leer';
 $labels['longaclwrite'] = 'Se pueden etiquetar, escribir o copiar mensajes a la carpeta';
 $labels['longacldelete'] = 'Los mensajes se pueden borrar';
-$labels['deleting'] = 'Borrando permisos de acceso…';
-$labels['saving'] = 'Guardando permisos de acceso…';
-$labels['updatesuccess'] = 'Se han cambiado los permisos de acceso';
-$labels['deletesuccess'] = 'Se han borrado los permisos de acceso';
-$labels['createsuccess'] = 'Se han añadido los permisos de acceso';
-$labels['updateerror'] = 'No se han podido actualizar los permisos de acceso';
-$labels['deleteerror'] = 'No se han podido borrar los permisos de acceso';
-$labels['createerror'] = 'No se han podido añadir los permisos de acceso';
-$labels['deleteconfirm'] = '¿Seguro que quiere borrar los permisos de acceso del usuairo seleccionado?';
-$labels['norights'] = 'No se han especificado los permisos de acceso';
-$labels['nouser'] = 'No se ha especificado un nombre de usuario';
 
+$messages['deleting'] = 'Borrando permisos de acceso…';
+$messages['saving'] = 'Guardando permisos de acceso…';
+$messages['updatesuccess'] = 'Se han cambiado los permisos de acceso';
+$messages['deletesuccess'] = 'Se han borrado los permisos de acceso';
+$messages['createsuccess'] = 'Se han añadido los permisos de acceso';
+$messages['updateerror'] = 'No se han podido actualizar los permisos de acceso';
+$messages['deleteerror'] = 'No se han podido borrar los permisos de acceso';
+$messages['createerror'] = 'No se han podido añadir los permisos de acceso';
+$messages['deleteconfirm'] = '¿Seguro que quiere borrar los permisos de acceso del usuairo seleccionado?';
+$messages['norights'] = 'No se han especificado los permisos de acceso';
+$messages['nouser'] = 'No se ha especificado un nombre de usuario';
+
+?>

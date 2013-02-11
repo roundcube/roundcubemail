@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/az_AZ/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Orkhan Guliyev <proger@box.az>                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Süzgəclər';
 $labels['managefilters'] = 'Gələn məktub üçün süzgəclərin idarəsi';
 $labels['filtername'] = 'Süzgəcin adı';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = 'Silindi';
 $labels['flaganswered'] = 'Cavab verilmiş';
 $labels['flagflagged'] = 'İşarəlilər';
 $labels['flagdraft'] = 'Qaralama';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifikatorlar';
+$labels['varlower'] = 'aşağı registr';
+$labels['varupper'] = 'yuxarı registr';
+$labels['varlowerfirst'] = 'aşağı registrdə birinci simvol';
+$labels['varupperfirst'] = 'yuxarı registrdə birinci simvol';
+$labels['varquotewildcard'] = 'dırnaq simvolu';
+$labels['varlength'] = 'uzunluq';
+$labels['notify'] = 'Bildiriş göndər';
+$labels['notifyaddress'] = 'Poçt ünvanı:';
+$labels['notifybody'] = 'Bildiriş mətni';
+$labels['notifysubject'] = 'Bildiriş mövzusu';
+$labels['notifyfrom'] = 'Bildirişi yolla:';
+$labels['notifyimportance'] = 'Vaciblik';
+$labels['notifyimportancelow'] = 'aşağı';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'yuxarı';
 $labels['filtercreate'] = 'Süzgəc yarat';
 $labels['usedata'] = 'Süzgəcdə bu məlumatları istifadə et:';
 $labels['nextstep'] = 'Sonrakı';
@@ -115,35 +137,38 @@ $labels['default'] = 'ön qurğulu';
 $labels['octet'] = 'ciddi (oktet)';
 $labels['asciicasemap'] = 'qeydiyyat üzrə müstəqil (ascii-casemap)';
 $labels['asciinumeric'] = 'ədədi (ascii-numeric)';
-$labels['filterunknownerror'] = 'Serverin naməlum xətası.';
-$labels['filterconnerror'] = 'Serverə qoşulmaq alınmır';
-$labels['filterdeleteerror'] = 'Süzgəci silmək mümkün deyil. Server xətası.';
-$labels['filterdeleted'] = 'Süzgəc uğurla silindi.';
-$labels['filtersaved'] = 'Süzgəc uğurla saxlanıldı.';
-$labels['filtersaveerror'] = 'Süzgəci saxlamaq mümkün deyil. Server xətası.';
-$labels['filterdeleteconfirm'] = 'Siz həqiqətən süzgəci silmək istəyirsiniz?';
-$labels['ruledeleteconfirm'] = 'Bu qaydanı silməkdə əminsiniz?';
-$labels['actiondeleteconfirm'] = 'Bu hərəkəti silməkdə əminsiniz?';
-$labels['forbiddenchars'] = 'Sahədə qadağan edilən işarələr.';
-$labels['cannotbeempty'] = 'Sahə boş ola bilməz.';
-$labels['ruleexist'] = 'Bu adla süzgəc artıq mövcuddur.';
-$labels['setactivateerror'] = 'Seçilmiş süzgəc dəstini yandırmaq mümkün deyil. Server xətası.';
-$labels['setdeactivateerror'] = 'Seçilmiş süzgəc dəstini söndürmək mümkün deyil. Server xətası.';
-$labels['setdeleteerror'] = 'Seçilmiş süzgəc dəstini silmək mümkün deyil. Server xətası.';
-$labels['setactivated'] = 'Süzgəc dəsti yandırıldı.';
-$labels['setdeactivated'] = 'Süzgəc dəsti söndürüldü.';
-$labels['setdeleted'] = 'Süzgəc dəsti silindi.';
-$labels['setdeleteconfirm'] = 'Bu süzgəc dəstini silməkdə əminsiniz?';
-$labels['setcreateerror'] = 'Süzgəc dəstini yaratmaq mümkün deyil. Server xərası.';
-$labels['setcreated'] = 'Süzgəc dəsti uğurla yaradıldı.';
-$labels['activateerror'] = 'Seçilmiş süzgəc(lər)i yandırmaq mümkün deyil. Server xətası.';
-$labels['deactivateerror'] = 'Seçilmiş süzgəc(lər)i söndürmək mümkün deyil. Server xətası.';
-$labels['activated'] = 'Süzgəc(lər) uğurla söndürüldü.';
-$labels['deactivated'] = 'Süzgəc(lər) uğurla yandırıldı.';
-$labels['moved'] = 'Süzgəc uğurla köçürüldü.';
-$labels['moveerror'] = 'Süzgəci köçürmək mümkün deyil. Server xətası.';
-$labels['nametoolong'] = 'Süzgəc dəstini yaratmaq mümkün deyil. Ad çox uzundur.';
-$labels['namereserved'] = 'Rezerv edilmiş ad.';
-$labels['setexist'] = 'Dəst artıq mövcuddur.';
-$labels['nodata'] = 'Heç olmasa bir mövqe tutmaq lazımdır!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Serverin naməlum xətası.';
+$messages['filterconnerror'] = 'Serverə qoşulmaq alınmır';
+$messages['filterdeleteerror'] = 'Süzgəci silmək mümkün deyil. Server xətası.';
+$messages['filterdeleted'] = 'Süzgəc uğurla silindi.';
+$messages['filtersaved'] = 'Süzgəc uğurla saxlanıldı.';
+$messages['filtersaveerror'] = 'Süzgəci saxlamaq mümkün deyil. Server xətası.';
+$messages['filterdeleteconfirm'] = 'Siz həqiqətən süzgəci silmək istəyirsiniz?';
+$messages['ruledeleteconfirm'] = 'Bu qaydanı silməkdə əminsiniz?';
+$messages['actiondeleteconfirm'] = 'Bu hərəkəti silməkdə əminsiniz?';
+$messages['forbiddenchars'] = 'Sahədə qadağan edilən işarələr.';
+$messages['cannotbeempty'] = 'Sahə boş ola bilməz.';
+$messages['ruleexist'] = 'Bu adla süzgəc artıq mövcuddur.';
+$messages['setactivateerror'] = 'Seçilmiş süzgəc dəstini yandırmaq mümkün deyil. Server xətası.';
+$messages['setdeactivateerror'] = 'Seçilmiş süzgəc dəstini söndürmək mümkün deyil. Server xətası.';
+$messages['setdeleteerror'] = 'Seçilmiş süzgəc dəstini silmək mümkün deyil. Server xətası.';
+$messages['setactivated'] = 'Süzgəc dəsti yandırıldı.';
+$messages['setdeactivated'] = 'Süzgəc dəsti söndürüldü.';
+$messages['setdeleted'] = 'Süzgəc dəsti silindi.';
+$messages['setdeleteconfirm'] = 'Bu süzgəc dəstini silməkdə əminsiniz?';
+$messages['setcreateerror'] = 'Süzgəc dəstini yaratmaq mümkün deyil. Server xərası.';
+$messages['setcreated'] = 'Süzgəc dəsti uğurla yaradıldı.';
+$messages['activateerror'] = 'Seçilmiş süzgəc(lər)i yandırmaq mümkün deyil. Server xətası.';
+$messages['deactivateerror'] = 'Seçilmiş süzgəc(lər)i söndürmək mümkün deyil. Server xətası.';
+$messages['deactivated'] = 'Süzgəc(lər) uğurla yandırıldı.';
+$messages['activated'] = 'Süzgəc(lər) uğurla söndürüldü.';
+$messages['moved'] = 'Süzgəc uğurla köçürüldü.';
+$messages['moveerror'] = 'Süzgəci köçürmək mümkün deyil. Server xətası.';
+$messages['nametoolong'] = 'Süzgəc dəstini yaratmaq mümkün deyil. Ad çox uzundur.';
+$messages['namereserved'] = 'Rezerv edilmiş ad.';
+$messages['setexist'] = 'Dəst artıq mövcuddur.';
+$messages['nodata'] = 'Heç olmasa bir mövqe tutmaq lazımdır!';
+
+?>

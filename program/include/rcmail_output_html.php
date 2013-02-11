@@ -80,6 +80,8 @@ class rcmail_output_html extends rcmail_output
 
         if (!empty($_REQUEST['_extwin']))
           $this->set_env('extwin', 1);
+        if ($this->framed || !empty($_REQUEST['_framed']))
+          $this->set_env('framed', 1);
 
         // add common javascripts
         $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
@@ -164,6 +166,7 @@ class rcmail_output_html extends rcmail_output
         }
 
         $this->config->set('skin_path', $skin_path);
+        $this->base_path = $skin_path;
 
         // register skin path(s)
         $this->skin_paths = array();
@@ -214,7 +217,7 @@ class rcmail_output_html extends rcmail_output
      * @param string Additional path to search in
      * @return mixed Relative path to the requested file or False if not found
      */
-    public function get_skin_file($file, &$skin_path, $add_path = null)
+    public function get_skin_file($file, &$skin_path = null, $add_path = null)
     {
         $skin_paths = $this->skin_paths;
         if ($add_path)
@@ -307,8 +310,12 @@ class rcmail_output_html extends rcmail_output
      */
     public function reset()
     {
+        $env = array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+
         parent::reset();
-        $this->js_env = array();
+
+        // let some env variables survive
+        $this->env = $this->js_env = $env;
         $this->js_labels = array();
         $this->js_commands = array();
         $this->script_files = array();
@@ -379,7 +386,7 @@ class rcmail_output_html extends rcmail_output
         // unlock interface after iframe load
         $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
         if ($this->framed) {
-            array_unshift($this->js_commands, array('set_busy', false, null, $unlock));
+            array_unshift($this->js_commands, array('iframe_loaded', $unlock));
         }
         else if ($unlock) {
             array_unshift($this->js_commands, array('hide_message', $unlock));
@@ -667,7 +674,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @param  string $input
      * @return string
-     * @uses   rcube_output_html::parse_xml()
+     * @uses   rcmail_output_html::parse_xml()
      * @since  0.1-rc1
      */
     public function just_parse($input)
@@ -1550,10 +1557,10 @@ class rcmail_output_html extends rcmail_output
                 }
             }
         }
-        else if (is_array($default_host) && ($host = array_pop($default_host))) {
+        else if (is_array($default_host) && ($host = key($default_host)) !== null) {
             $hide_host = true;
             $input_host = new html_hiddenfield(array(
-                'name' => '_host', 'id' => 'rcmloginhost', 'value' => $host) + $attrib);
+                'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host) + $attrib);
         }
         else if (empty($default_host)) {
             $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost')

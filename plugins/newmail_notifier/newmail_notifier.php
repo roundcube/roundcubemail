@@ -51,7 +51,7 @@ class newmail_notifier extends rcube_plugin
         else { // if ($this->rc->task == 'mail') {
             $this->add_hook('new_messages', array($this, 'notify'));
             // add script when not in ajax and not in frame
-            if (is_a($this->rc->output, 'rcube_output_html') && empty($_REQUEST['_framed'])) {
+            if ($this->rc->output->type == 'html' && empty($_REQUEST['_framed'])) {
                 $this->add_texts('localization/');
                 $this->rc->output->add_label('newmail_notifier.title', 'newmail_notifier.body');
                 $this->include_script('newmail_notifier.js');
@@ -93,7 +93,7 @@ class newmail_notifier extends rcube_plugin
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = array(
-                    'title' => html::label($field_id, Q($this->gettext($type))),
+                    'title' => html::label($field_id, rcube::Q($this->gettext($type))),
                     'content' => $content
                 );
             }
@@ -120,7 +120,7 @@ class newmail_notifier extends rcube_plugin
         foreach (array('basic', 'desktop', 'sound') as $type) {
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
-                $args['prefs'][$key] = get_input_value('_'.$key, RCUBE_INPUT_POST) ? true : false;
+                $args['prefs'][$key] = rcube_utils::get_input_value('_'.$key, rcube_utils::INPUT_POST) ? true : false;
             }
         }
 

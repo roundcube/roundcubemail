@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ko_KR/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kim, Woohyun <woohyun.kim@gmail.com>                          |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = '필터';
 $labels['managefilters'] = '수신 메일 필터 관리';
 $labels['filtername'] = '필터 이름';
@@ -35,6 +38,8 @@ $labels['filtermatches'] = '표현식과 일치합니다';
 $labels['filternotmatches'] = '표현식과 일치하지 않습니다';
 $labels['filterregex'] = '정규표현식과 일치합니다';
 $labels['filternotregex'] = '정규 표현식과 일치하지 않습니다';
+$labels['filterunder'] = 'under';
+$labels['filterover'] = 'over';
 $labels['addrule'] = '규칙 더하기';
 $labels['delrule'] = '규칙 삭제';
 $labels['messagemoveto'] = '메시지 이동';
@@ -43,11 +48,15 @@ $labels['messagecopyto'] = '메시지를 복사';
 $labels['messagesendcopy'] = '메시지의 복사본 보내기';
 $labels['messagereply'] = '메시지에 회신하기';
 $labels['messagedelete'] = '메시지 삭제';
+$labels['messagediscard'] = 'Discard with message';
+$labels['messagesrules'] = 'For incoming mail:';
+$labels['messagesactions'] = '...execute the following actions:';
 $labels['add'] = '추가';
 $labels['del'] = '삭제';
 $labels['sender'] = '보낸 사람';
 $labels['recipient'] = '수신자';
 $labels['vacationaddresses'] = '나의 추가 e-mail 주소(들) (콤마로 구분 됨):';
+$labels['vacationdays'] = 'How often send messages (in days):';
 $labels['vacationreason'] = '메시지 본문 (휴가 사유):';
 $labels['vacationsubject'] = '메시지 제목:';
 $labels['rulestop'] = '규칙의 실행을 멈춤';
@@ -86,6 +95,25 @@ $labels['flagdeleted'] = '삭제됨';
 $labels['flaganswered'] = '응답함';
 $labels['flagflagged'] = '표시함';
 $labels['flagdraft'] = '임시 보관함';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = '필터 생성';
 $labels['usedata'] = '필터에서 다음에 오는 데이터를 사용';
 $labels['nextstep'] = '다음 단계';
@@ -93,39 +121,54 @@ $labels['...'] = '...';
 $labels['advancedopts'] = '상세 설정';
 $labels['body'] = '본문';
 $labels['address'] = '주소';
+$labels['envelope'] = 'envelope';
+$labels['modifier'] = 'modifier:';
 $labels['text'] = '텍스트';
+$labels['undecoded'] = 'undecoded (raw)';
+$labels['contenttype'] = 'content type';
+$labels['modtype'] = 'type:';
+$labels['allparts'] = 'all';
 $labels['domain'] = '도메인';
+$labels['localpart'] = 'local part';
 $labels['user'] = '사용자';
+$labels['detail'] = 'detail';
+$labels['comparator'] = 'comparator:';
 $labels['default'] = '기본값';
-$labels['filterunknownerror'] = '알수 없는 서버 에러.';
-$labels['filterconnerror'] = '서버에 연결할 수 없습니다.';
-$labels['filterdeleteerror'] = '필터를 삭제할 수 없습니다. 서버 에러 발생 함.';
-$labels['filterdeleted'] = '필터를 성공적으로 삭제 함.';
-$labels['filtersaved'] = '필터를 성공적으로 저장 함.';
-$labels['filtersaveerror'] = '필터를 저장할 수 없음. 서버 에러 발생 함.';
-$labels['filterdeleteconfirm'] = '정말로 선택한 필터의 삭제를 원하십니까?';
-$labels['ruledeleteconfirm'] = '선택한 규칙을 삭제하고자 하는 것이 확실합니까?';
-$labels['actiondeleteconfirm'] = '선택한 동작을 삭제하고자 하는 것이 확실합니까?';
-$labels['forbiddenchars'] = '필드에 금지된 문자가 있음.';
-$labels['cannotbeempty'] = '필드는 비어있을 수 없음.';
-$labels['ruleexist'] = '지정한 이름의 필터가 이미 존재 함.';
-$labels['setactivateerror'] = '선택한 필터 묶음을 활성화 할 수 없음. 서버 에러 발생 함.';
-$labels['setdeactivateerror'] = '선택한 필터 묶음을 비활성화 할 수 없음. 서버 에러 발생 함.';
-$labels['setdeleteerror'] = '선택한 필터 묶음을 삭제할 수 없음. 서버 에러 발생 함.';
-$labels['setactivated'] = '필터 묶음을 성공적으로 활성화 하였음.';
-$labels['setdeactivated'] = '필터 묶음을 성공적으로 비활성화 하였음.';
-$labels['setdeleted'] = '필터 묶음을 성공적으로 삭제 함.';
-$labels['setdeleteconfirm'] = '선택한 필터 묶음을 지우고자 하는 것이 확실합니까?';
-$labels['setcreateerror'] = '필터 묶음을 생성할 수 없음. 서버 에러 발생 함.';
-$labels['setcreated'] = '필터 묶음을 성공적으로 생성 함.';
-$labels['activateerror'] = '선택한 필터(들)을 동작하게 할 수 없음. 서버 에러 발생 함.';
-$labels['deactivateerror'] = '선택한 필터(들)을 동작하지 않게 할 수 없음. 서버 에러 발생 함.';
-$labels['activated'] = '필터(들)을 동작하지 않게 하는데 성공하였음.';
-$labels['deactivated'] = '필터(들)을 동작하게 하는데 성공하였음.';
-$labels['moved'] = '필터를 이동하는 데 성공하였음.';
-$labels['moveerror'] = '선택한 필터를 이동할 수 없음. 서버 에러 발생 함.';
-$labels['nametoolong'] = '이름이 너무 김.';
-$labels['namereserved'] = '예약된 이름.';
-$labels['setexist'] = '묶음이 이미 존재 함.';
-$labels['nodata'] = '적어도 하나의 위치가 선택되어야 함!';
+$labels['octet'] = 'strict (octet)';
+$labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
+$labels['asciinumeric'] = 'numeric (ascii-numeric)';
 
+$messages = array();
+$messages['filterunknownerror'] = '알수 없는 서버 에러.';
+$messages['filterconnerror'] = '서버에 연결할 수 없습니다.';
+$messages['filterdeleteerror'] = '필터를 삭제할 수 없습니다. 서버 에러 발생 함.';
+$messages['filterdeleted'] = '필터를 성공적으로 삭제 함.';
+$messages['filtersaved'] = '필터를 성공적으로 저장 함.';
+$messages['filtersaveerror'] = '필터를 저장할 수 없음. 서버 에러 발생 함.';
+$messages['filterdeleteconfirm'] = '정말로 선택한 필터의 삭제를 원하십니까?';
+$messages['ruledeleteconfirm'] = '선택한 규칙을 삭제하고자 하는 것이 확실합니까?';
+$messages['actiondeleteconfirm'] = '선택한 동작을 삭제하고자 하는 것이 확실합니까?';
+$messages['forbiddenchars'] = '필드에 금지된 문자가 있음.';
+$messages['cannotbeempty'] = '필드는 비어있을 수 없음.';
+$messages['ruleexist'] = '지정한 이름의 필터가 이미 존재 함.';
+$messages['setactivateerror'] = '선택한 필터 묶음을 활성화 할 수 없음. 서버 에러 발생 함.';
+$messages['setdeactivateerror'] = '선택한 필터 묶음을 비활성화 할 수 없음. 서버 에러 발생 함.';
+$messages['setdeleteerror'] = '선택한 필터 묶음을 삭제할 수 없음. 서버 에러 발생 함.';
+$messages['setactivated'] = '필터 묶음을 성공적으로 활성화 하였음.';
+$messages['setdeactivated'] = '필터 묶음을 성공적으로 비활성화 하였음.';
+$messages['setdeleted'] = '필터 묶음을 성공적으로 삭제 함.';
+$messages['setdeleteconfirm'] = '선택한 필터 묶음을 지우고자 하는 것이 확실합니까?';
+$messages['setcreateerror'] = '필터 묶음을 생성할 수 없음. 서버 에러 발생 함.';
+$messages['setcreated'] = '필터 묶음을 성공적으로 생성 함.';
+$messages['activateerror'] = '선택한 필터(들)을 동작하게 할 수 없음. 서버 에러 발생 함.';
+$messages['deactivateerror'] = '선택한 필터(들)을 동작하지 않게 할 수 없음. 서버 에러 발생 함.';
+$messages['deactivated'] = '필터(들)을 동작하게 하는데 성공하였음.';
+$messages['activated'] = '필터(들)을 동작하지 않게 하는데 성공하였음.';
+$messages['moved'] = '필터를 이동하는 데 성공하였음.';
+$messages['moveerror'] = '선택한 필터를 이동할 수 없음. 서버 에러 발생 함.';
+$messages['nametoolong'] = '이름이 너무 김.';
+$messages['namereserved'] = '예약된 이름.';
+$messages['setexist'] = '묶음이 이미 존재 함.';
+$messages['nodata'] = '적어도 하나의 위치가 선택되어야 함!';
+
+?>

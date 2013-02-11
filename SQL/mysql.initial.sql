@@ -186,4 +186,14 @@ CREATE TABLE `searches` (
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
+-- Table structure for table `system`
+
+CREATE TABLE `system` (
+ `name` varchar(64) NOT NULL,
+ `value` mediumtext,
+ PRIMARY KEY(`name`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
+
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011700.sql');

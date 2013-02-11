@@ -8,8 +8,6 @@
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
- *
- * $Id$
  */
 
 body {
@@ -628,6 +626,17 @@ a.iconlink.upload {
 	opacity: 0.999;
 }
 
+.partwin #topline {
+	position: absolute;
+	right: 6px;
+	top: 18px;
+	width: auto;
+	z-index: 100;
+	background: transparent;
+	background: none;
+	border: 0;
+}
+
 .minimal #topline a.button-logout {
 	display: none;
 }
@@ -810,6 +819,10 @@ a.iconlink.upload {
 	top: 102px;
 }
 
+.partwin #mainscreen {
+	top: 60px
+}
+
 .extwin #mainscreen {
 	top: 40px;
 }
@@ -973,6 +986,10 @@ ul.listing li {
 	background-color: #d9ecf4;
 }
 
+ul.listing li ul {
+	border-top: 1px solid #bbd3da;
+}
+
 ul.listing li.droptarget,
 table.listing tr.droptarget td {
 	background-color: #e8e798;
@@ -987,6 +1004,32 @@ table.layout {
 
 table.layout td {
 	vertical-align: top;
+}
+
+ul.treelist li {
+	position: relative;
+}
+
+ul.treelist li div.treetoggle {
+	position: absolute;
+	top: 13px;
+	left: 19px;
+	width: 13px;
+	height: 13px;
+	background: url(images/listicons.png) -3px -144px no-repeat;
+	cursor: pointer;
+}
+
+ul.treelist li div.treetoggle.expanded {
+	background-position: -3px -168px;
+}
+
+ul.treelist li.selected > div.collapsed {
+	background-position: -23px -144px;
+}
+
+ul.treelist li.selected > div.expanded {
+	background-position: -23px -168px;
 }
 
 .listbox .boxfooter {
@@ -1231,6 +1274,10 @@ table.records-table {
 body.iframe {
 	background: #fff;
 	margin: 38px 0 10px 0;
+}
+
+body.iframe.error {
+	background: #ededed;
 }
 
 body.iframe.floatingbuttons {
@@ -1501,17 +1548,21 @@ ul.proplist li {
 
 /*** quicksearch **/
 
+.searchbox {
+	position: relative;
+}
+
 #quicksearchbar {
 	position: absolute;
 	right: 1px;
-	top: -5px;
+	top: 2px;
 	width: 240px;
 }
 
+.searchbox input,
 #quicksearchbar input {
 	width: 176px;
 	margin: 0;
-	margin-top: 7px;
 	padding: 3px 30px 3px 34px;
 	height: 18px;
 	background: #f1f1f1;
@@ -1520,15 +1571,17 @@ ul.proplist li {
 	font-size: 11px;
 }
 
+.searchbox #searchmenulink,
 #quicksearchbar #searchmenulink {
 	position: absolute;
-	top: 12px;
+	top: 5px;
 	left: 6px;
 }
 
+.searchbox #searchreset,
 #quicksearchbar #searchreset {
 	position: absolute;
-	top: 11px;
+	top: 4px;
 	right: 1px;
 }
 
@@ -2146,8 +2199,19 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -390px;
 }
 
-.attachmentslist li.html {
+.attachmentslist li.sig,
+.attachmentslist li.pgp-signature,
+.attachmentslist li.pkcs7-signature {
 	background-position: 0 -442px;
+}
+
+.attachmentslist li.html {
+	background-position: 0 -468px;
+}
+
+.attachmentslist li.eml,
+.attachmentslist li.rfc822 {
+	background-position: 0 -494px;
 }
 
 .attachmentslist li a,

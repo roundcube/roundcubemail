@@ -30,9 +30,9 @@ class zipdownload extends rcube_plugin
 		}
 
 		$rcmail = rcmail::get_instance();
-		$this->charset = $rcmail->config->get('zipdownload_charset', RCMAIL_CHARSET);
 
 		$this->load_config();
+		$this->charset = $rcmail->config->get('zipdownload_charset', RCUBE_CHARSET);
 		$this->add_texts('localization');
 
 		if ($rcmail->config->get('zipdownload_attachments', 1) > -1 && ($rcmail->action == 'show' || $rcmail->action == 'preview'))
@@ -62,11 +62,14 @@ class zipdownload extends rcube_plugin
 
 		// only show the link if there is more than the configured number of attachments
 		if (substr_count($p['content'], '<li') > $rcmail->config->get('zipdownload_attachments', 1)) {
-			$link = html::a(array(
-				'href' => rcmail_url('plugin.zipdownload.zip_attachments', array('_mbox' => $rcmail->output->env['mailbox'], '_uid' => $rcmail->output->env['uid'])),
-				'class' => 'button zipdownload',
-				),
-				Q($this->gettext('downloadall'))
+		    $href = $rcmail->url(array(
+		        '_action' => 'plugin.zipdownload.zip_attachments',
+		        '_mbox'   => $rcmail->output->env['mailbox'],
+		        '_uid'    => $rcmail->output->env['uid'],
+		    ));
+
+			$link = html::a(array('href' => $href, 'class' => 'button zipdownload'),
+				rcube::Q($this->gettext('downloadall'))
 			);
 
 			// append link to attachments list, slightly different in some skins
@@ -96,7 +99,7 @@ class zipdownload extends rcube_plugin
 		$temp_dir = $rcmail->config->get('temp_dir');
 		$tmpfname = tempnam($temp_dir, 'zipdownload');
 		$tempfiles = array($tmpfname);
-		$message = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
+		$message = new rcube_message(rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET));
 
 		// open zip file
 		$zip = new ZipArchive();
@@ -140,7 +143,7 @@ class zipdownload extends rcube_plugin
 	public function download_selection()
 	{
 		if (isset($_REQUEST['_uid'])) {
-			$uids = explode(",", get_input_value('_uid', RCUBE_INPUT_GPC));
+			$uids = explode(",", rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC));
 
 			if (sizeof($uids) > 0)
 				$this->_download_messages($uids);
@@ -157,7 +160,7 @@ class zipdownload extends rcube_plugin
 
 		// initialize searching result if search_filter is used
 		if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-			$imap->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET);
+			$imap->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET);
 		}
 
 		// fetch message headers for all pages
@@ -208,7 +211,7 @@ class zipdownload extends rcube_plugin
 				$disp_name = "message_rfc822.eml";
 
 			$disp_name = $uid . "_" . $disp_name;
-			
+
 			$tmpfn = tempnam($temp_dir, 'zipmessage');
 			$tmpfp = fopen($tmpfn, 'w');
 			$imap->get_raw_body($uid, $tmpfp);
@@ -234,7 +237,9 @@ class zipdownload extends rcube_plugin
 	private function _deliver_zipfile($tmpfname, $filename)
 	{
 		$browser = new rcube_browser;
-		send_nocacheing_headers();
+		$rcmail  = rcmail::get_instance();
+
+		$rcmail->output->nocacheing_headers();
 
 		if ($browser->ie && $browser->ver < 7)
 			$filename = rawurlencode(abbreviate_string($filename, 55));
@@ -258,10 +263,10 @@ class zipdownload extends rcube_plugin
 	/**
 	 * Helper function to convert filenames to the configured charset
 	 */
-	private function _convert_filename($str, $from = RCMAIL_CHARSET)
+	private function _convert_filename($str, $from = RCUBE_CHARSET)
 	{
-		return strtr(rcube_charset_convert($str, $from, $this->charset), array(':'=>'', '/'=>'-'));
+        $str = rcube_charset::convert($str, $from == '' ? RCUBE_CHARSET : $from, $this->charset);
+
+		return strtr($str, array(':'=>'', '/'=>'-'));
 	}
 }
-
-?>

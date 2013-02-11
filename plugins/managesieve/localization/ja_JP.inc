@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ja_JP/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe                                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'フィルター';
 $labels['managefilters'] = '受信メールのフィルターを管理';
 $labels['filtername'] = 'フィルター名';
@@ -92,6 +95,25 @@ $labels['flagdeleted'] = '削除済み';
 $labels['flaganswered'] = '返信済み';
 $labels['flagflagged'] = 'フラグ付き';
 $labels['flagdraft'] = '下書き';
+$labels['setvariable'] = '変数を設定';
+$labels['setvarname'] = '変数の名前:';
+$labels['setvarvalue'] = '変数の値:';
+$labels['setvarmodifiers'] = '修飾子:';
+$labels['varlower'] = '小文字';
+$labels['varupper'] = '大文字';
+$labels['varlowerfirst'] = '最初の文字を小文字';
+$labels['varupperfirst'] = '最初の文字を大文字';
+$labels['varquotewildcard'] = '特殊文字を引用処理';
+$labels['varlength'] = '長さ';
+$labels['notify'] = '通知を送信';
+$labels['notifyaddress'] = '送信先の電子メールアドレス:';
+$labels['notifybody'] = '通知の本文:';
+$labels['notifysubject'] = '通知の件名:';
+$labels['notifyfrom'] = '通知の送信者:';
+$labels['notifyimportance'] = '重要度:';
+$labels['notifyimportancelow'] = '低';
+$labels['notifyimportancenormal'] = '通常';
+$labels['notifyimportancehigh'] = '高';
 $labels['filtercreate'] = 'フィルターを作成';
 $labels['usedata'] = 'フィルターで次のデータを使用';
 $labels['nextstep'] = '次のステップ';
@@ -115,35 +137,38 @@ $labels['default'] = '初期値';
 $labels['octet'] = '厳密(オクテット)';
 $labels['asciicasemap'] = '大文字小文字を区別しない(ascii-casemap)';
 $labels['asciinumeric'] = '数値(ascii-numeric)';
-$labels['filterunknownerror'] = '不明なサーバーのエラーです。';
-$labels['filterconnerror'] = 'サーバに接続できません。';
-$labels['filterdeleteerror'] = 'フィルターを削除できませんでした。サーバーでエラーが発生しました。';
-$labels['filterdeleted'] = 'フィルターを削除しました。';
-$labels['filtersaved'] = 'フィルターを保存しました。';
-$labels['filtersaveerror'] = 'フィルターの保存できませんでした。サーバーでエラーが発生しました。';
-$labels['filterdeleteconfirm'] = '本当に選択したフィルターを削除しますか?';
-$labels['ruledeleteconfirm'] = '本当に選択したルールを削除しますか?';
-$labels['actiondeleteconfirm'] = '本当に選択した操作を削除しますか?';
-$labels['forbiddenchars'] = '項目に禁止している文字が含まれています。';
-$labels['cannotbeempty'] = '項目は空欄にできません。';
-$labels['ruleexist'] = '指定した名前のフィルターが既に存在します。';
-$labels['setactivateerror'] = '選択したフィルターセットを有効にできませんでした。サーバーでエラーが発生しました。';
-$labels['setdeactivateerror'] = '選択したフィルターセットを無効にできませんでした。サーバーでエラーが発生しました。';
-$labels['setdeleteerror'] = '選択したフィルターセットを削除できませんでした。サーバーでエラーが発生しました。';
-$labels['setactivated'] = 'フィルターセットを有効にしました。';
-$labels['setdeactivated'] = 'フィルターセットを無効にしました。';
-$labels['setdeleted'] = 'フィルターセットを削除しました。';
-$labels['setdeleteconfirm'] = '本当に選択したフィルターセットを削除しますか?';
-$labels['setcreateerror'] = 'フィルターセットを作成できませんでした。サーバーでエラーが発生しました。';
-$labels['setcreated'] = 'フィルターセットを作成しました。';
-$labels['activateerror'] = '選択したフィルターを有効にできませんでした。サーバーでエラーが発生しました。';
-$labels['deactivateerror'] = '選択したフィルターを無効にできませんでした。サーバーでエラーが発生しました。';
-$labels['activated'] = 'フィルターを無効にしました。';
-$labels['deactivated'] = 'フィルターを有効にしました。';
-$labels['moved'] = 'フィルターを移動しました。';
-$labels['moveerror'] = '選択したフィルターを移動できませんでした。サーバーでエラーが発生しました。';
-$labels['nametoolong'] = '名前が長すぎます。';
-$labels['namereserved'] = '予約されている名前です。';
-$labels['setexist'] = 'フィルターセットが既に存在します。';
-$labels['nodata'] = '少なくとも1つの場所を選択しなければなりません!';
 
+$messages = array();
+$messages['filterunknownerror'] = '不明なサーバーのエラーです。';
+$messages['filterconnerror'] = 'サーバに接続できません。';
+$messages['filterdeleteerror'] = 'フィルターを削除できませんでした。サーバーでエラーが発生しました。';
+$messages['filterdeleted'] = 'フィルターを削除しました。';
+$messages['filtersaved'] = 'フィルターを保存しました。';
+$messages['filtersaveerror'] = 'フィルターの保存できませんでした。サーバーでエラーが発生しました。';
+$messages['filterdeleteconfirm'] = '本当に選択したフィルターを削除しますか?';
+$messages['ruledeleteconfirm'] = '本当に選択したルールを削除しますか?';
+$messages['actiondeleteconfirm'] = '本当に選択した操作を削除しますか?';
+$messages['forbiddenchars'] = '項目に禁止している文字が含まれています。';
+$messages['cannotbeempty'] = '項目は空欄にできません。';
+$messages['ruleexist'] = '指定した名前のフィルターが既に存在します。';
+$messages['setactivateerror'] = '選択したフィルターセットを有効にできませんでした。サーバーでエラーが発生しました。';
+$messages['setdeactivateerror'] = '選択したフィルターセットを無効にできませんでした。サーバーでエラーが発生しました。';
+$messages['setdeleteerror'] = '選択したフィルターセットを削除できませんでした。サーバーでエラーが発生しました。';
+$messages['setactivated'] = 'フィルターセットを有効にしました。';
+$messages['setdeactivated'] = 'フィルターセットを無効にしました。';
+$messages['setdeleted'] = 'フィルターセットを削除しました。';
+$messages['setdeleteconfirm'] = '本当に選択したフィルターセットを削除しますか?';
+$messages['setcreateerror'] = 'フィルターセットを作成できませんでした。サーバーでエラーが発生しました。';
+$messages['setcreated'] = 'フィルターセットを作成しました。';
+$messages['activateerror'] = '選択したフィルターを有効にできませんでした。サーバーでエラーが発生しました。';
+$messages['deactivateerror'] = '選択したフィルターを無効にできませんでした。サーバーでエラーが発生しました。';
+$messages['deactivated'] = 'フィルターを有効にしました。';
+$messages['activated'] = 'フィルターを無効にしました。';
+$messages['moved'] = 'フィルターを移動しました。';
+$messages['moveerror'] = '選択したフィルターを移動できませんでした。サーバーでエラーが発生しました。';
+$messages['nametoolong'] = '名前が長すぎます。';
+$messages['namereserved'] = '予約されている名前です。';
+$messages['setexist'] = 'フィルターセットが既に存在します。';
+$messages['nodata'] = '少なくとも1つの場所を選択しなければなりません!';
+
+?>

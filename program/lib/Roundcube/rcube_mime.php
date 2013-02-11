@@ -476,13 +476,19 @@ class rcube_mime
         $q_level = 0;
 
         foreach ($text as $idx => $line) {
-            if ($line[0] == '>' && preg_match('/^(>+\s*)/', $line, $regs)) {
-                $q = strlen(str_replace(' ', '', $regs[0]));
-                $line = substr($line, strlen($regs[0]));
+            if ($line[0] == '>') {
+                // remove quote chars, store level in $q
+                $line = preg_replace('/^>+/', '', $line, -1, $q);
+                // remove (optional) space-staffing
+                $line = preg_replace('/^ /', '', $line);
 
-                if ($q == $q_level && $line
-                    && isset($text[$last])
-                    && $text[$last][strlen($text[$last])-1] == ' '
+                // The same paragraph (We join current line with the previous one) when:
+                // - the same level of quoting
+                // - previous line was flowed
+                // - previous line contains more than only one single space (and quote char(s))
+                if ($q == $q_level
+                    && isset($text[$last]) && $text[$last][strlen($text[$last])-1] == ' '
+                    && !preg_match('/^>+ {0,1}$/', $text[$last])
                 ) {
                     $text[$last] .= $line;
                     unset($text[$idx]);
@@ -535,10 +541,12 @@ class rcube_mime
 
         foreach ($text as $idx => $line) {
             if ($line != '-- ') {
-                if ($line[0] == '>' && preg_match('/^(>+ {0,1})+/', $line, $regs)) {
-                    $level  = substr_count($regs[0], '>');
+                if ($line[0] == '>') {
+                    // remove quote chars, store level in $level
+                    $line   = preg_replace('/^>+/', '', $line, -1, $level);
+                    // remove (optional) space-staffing and spaces before the line end
+                    $line   = preg_replace('/(^ | +$)/', '', $line);
                     $prefix = str_repeat('>', $level) . ' ';
-                    $line   = rtrim(substr($line, strlen($regs[0])));
                     $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
                 }
                 else if ($line) {
@@ -578,7 +586,7 @@ class rcube_mime
         while (count($para)) {
             $line = array_shift($para);
             if ($line[0] == '>') {
-                $string .= $line.$break;
+                $string .= $line . (count($para) ? $break : '');
                 continue;
             }
 

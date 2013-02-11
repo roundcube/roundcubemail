@@ -8,8 +8,6 @@
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
- *
- * $Id$
  */
 
 #mailview-left {
@@ -143,7 +141,7 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px 2px;
 }
 
-#mailboxlist li:first-child {
+#mailboxlist > li:first-child {
 	border-radius: 4px 4px 0 0;
 	border-top: 0;
 }
@@ -158,7 +156,7 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px 3px;
 }
 
-#mailboxlist li.mailbox.unread a {
+#mailboxlist li.mailbox.unread > a {
 	padding-right: 36px;
 }
 
@@ -226,6 +224,17 @@ a.iconbutton.threadmode.selected {
 	color: #017cb4;
 }
 
+#mailboxlist li.mailbox div.treetoggle {
+	top: 13px;
+	left: 19px;
+}
+
+#mailboxlist li.mailbox ul li:last-child {
+	border-bottom: 0;
+}
+
+/* nested mailboxes */
+
 #mailboxlist li.mailbox ul {
 	list-style: none;
 	margin: 0;
@@ -233,50 +242,57 @@ a.iconbutton.threadmode.selected {
 	border-top: 1px solid #bbd3da;
 }
 
-#mailboxlist li.mailbox ul li {
-	padding-left: 26px;
-}
-
 #mailboxlist li.mailbox ul li a {
-	background-position: 6px -93px;
+	padding-left: 52px;  /* 36 + 1 x 16 */
+	background-position: 22px -93px;  /* 6 + 1 x 16 */
 }
-
 #mailboxlist li.mailbox ul li.selected > a {
-	background-position: 6px -117px;
+	background-position: 22px -117px;
 }
-
-#mailboxlist li.mailbox ul li:last-child {
-	border-bottom: 0;
-}
-
-#mailboxlist li.mailbox div.collapsed,
-#mailboxlist li.mailbox div.expanded {
-	position: absolute;
-	top: 13px;
-	left: 19px;
-	width: 13px;
-	height: 13px;
-	background: url(images/listicons.png) -3px -144px no-repeat;
-	cursor: pointer;
-}
-
-#mailboxlist li.mailbox div.expanded {
-	background-position: -3px -168px;
-}
-
-#mailboxlist li.mailbox.selected > div.collapsed {
-	background-position: -23px -144px;
-}
-
-#mailboxlist li.mailbox.selected > div.expanded {
-	background-position: -23px -168px;
-}
-
-
-#mailboxlist li.mailbox ul li div.collapsed,
-#mailboxlist li.mailbox ul li div.expanded {
-	left: 43px;
+#mailboxlist li.mailbox ul li div.treetoggle {
+	left: 33px;
 	top: 14px;
+}
+
+#mailboxlist li.mailbox ul ul li.mailbox a {
+	padding-left: 68px;  /* 2x */
+	background-position: 38px -93px;
+}
+#mailboxlist li.mailbox ul ul li.selected > a {
+	background-position: 38px -117px;
+}
+#mailboxlist li.mailbox ul ul li div.treetoggle {
+	left: 48px;
+}
+
+#mailboxlist li.mailbox ul ul ul li.mailbox a {
+	padding-left: 84px;  /* 3x */
+	background-position: 54px -93px;
+}
+#mailboxlist li.mailbox ul ul ul li.selected > a {
+	background-position: 54px -117px;
+}
+#mailboxlist li.mailbox ul ul ul li div.treetoggle {
+	left: 64px;
+}
+
+#mailboxlist li.mailbox ul ul ul ul li.mailbox a {
+	padding-left: 100px;  /* 4x */
+	background-position: 70px -93px;
+}
+#mailboxlist li.mailbox ul ul ul ul li.selected > a {
+	background-position: 70px -117px;
+}
+#mailboxlist li.mailbox ul ul ul ul li div.treetoggle {
+	left: 80px;
+}
+
+/* indent folders on levels > 4 */
+#mailboxlist li.mailbox ul ul ul ul ul li {
+	padding-left: 16px;
+}
+#mailboxlist li.mailbox ul ul ul ul ul li div.treetoggle {
+	left: 96px;
 }
 
 #mailboxlist li.mailbox .unreadcount {
@@ -987,7 +1003,7 @@ div.hide-headers {
 	color: #960;
 	border: 1px solid #ffdf0e;
 	background-color: #fef893;
-	background-position: 5px -85px;
+	background-position: 5px -83px;
 	padding: 6px 12px 4px 30px;
 	white-space: normal;
 }
@@ -1154,6 +1170,23 @@ div.message-partheaders .headers-table td.header {
 	left: 0;
 	width: 100%;
 	bottom: 0;
+}
+
+#composequicksearch {
+	position: relative;
+	padding: 4px;
+	background: #c7e3ef;
+}
+
+#composequicksearch .searchbox input {
+	width: 100%;
+	height: 26px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#composequicksearch #searchmenulink {
+	width: 15px;
 }
 
 #compose-contacts #directorylist {

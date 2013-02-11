@@ -106,7 +106,7 @@ body.iframe div.messageheaderbox
 
 #quicksearchbar
 {
-  z-index: 250;
+  z-index: 240;
 }
 
 #addresslist,
@@ -116,6 +116,7 @@ body.iframe div.messageheaderbox
 #mailrightcontainer,
 #compose-container,
 #compose-attachments,
+#compose-contacts,
 #mailcontframe,
 #mailboxlist-container,
 #mailrightcontent,
@@ -201,11 +202,6 @@ div.message-part div.pre
   width: expression((parseInt(document.documentElement.clientWidth)-245)+'px');
 }
 
-#contacts-table
-{
-  width: expression(document.getElementById('addresslist').clientWidth);
-}
-
 #contacts-box,
 #prefs-box,
 #folder-box
@@ -288,8 +284,8 @@ table.records-table thead tr td
 
 .contactfieldgroup legend
 {
-	padding: 0 0 0.5em 0;
-	margin-left: -4px;
+  padding: 0 0 0.5em 0;
+  margin-left: -4px;
 }
 
 /* fix "jumping" login form in IE7 */

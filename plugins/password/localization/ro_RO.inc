@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ro_RO/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Raduta Alex <raduta.alex@gmail.com>                           |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Schimbați parola';
-$labels['curpasswd'] = 'Parola curentă:';
-$labels['newpasswd'] = 'Parola nouă:';
-$labels['confpasswd'] = 'Confirmați parola nouă:';
-$labels['nopassword'] = 'Te rog să introduci noua parolă.';
-$labels['nocurpassword'] = 'Te rog să introduci parola curentă';
-$labels['passwordincorrect'] = 'Parola curentă este incorectă.';
-$labels['passwordinconsistency'] = 'Parolele nu se potrivesc, vă rugăm să mai încercați';
-$labels['crypterror'] = 'Nu am reușit să salvez noua parolă. Lipsa funcției de criptare.';
-$labels['connecterror'] = 'Nu am reușit să salvez noua parolă. Eroare connexiune.';
-$labels['internalerror'] = 'Nu am reușit să salvez noua parolă.';
-$labels['passwordshort'] = 'Parola trebuie să aibă $length caractere.';
-$labels['passwordweak'] = 'Parola trebuie să conțina cel puțin un număr si un semn de punctuație';
-$labels['passwordforbidden'] = 'Parola conține caractere nepermise.';
+$labels['changepasswd']  = 'Schimbați parola';
+$labels['curpasswd']  = 'Parola curentă:';
+$labels['newpasswd']  = 'Parola nouă:';
+$labels['confpasswd']  = 'Confirmați parola nouă:';
 
+$messages = array();
+$messages['nopassword'] = 'Te rog să introduci noua parolă.';
+$messages['nocurpassword'] = 'Te rog să introduci parola curentă';
+$messages['passwordincorrect'] = 'Parola curentă este incorectă.';
+$messages['passwordinconsistency'] = 'Parolele nu se potrivesc, vă rugăm să mai încercați';
+$messages['crypterror'] = 'Nu am reușit să salvez noua parolă. Lipsa funcției de criptare.';
+$messages['connecterror'] = 'Nu am reușit să salvez noua parolă. Eroare connexiune.';
+$messages['internalerror'] = 'Nu am reușit să salvez noua parolă.';
+$messages['passwordshort'] = 'Parola trebuie să aibă $length caractere.';
+$messages['passwordweak'] = 'Parola trebuie să conțina cel puțin un număr si un semn de punctuație';
+$messages['passwordforbidden'] = 'Parola conține caractere nepermise.';
+
+?>

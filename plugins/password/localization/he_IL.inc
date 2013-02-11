@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/he_IL/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Moshe Leibovitch <moish@mln.co.il>                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'שינוי סיסמה';
-$labels['curpasswd'] = 'סיסמה נוכחית:';
-$labels['newpasswd'] = 'סיסמה חדשה:';
-$labels['confpasswd'] = 'אימות הסיסמה החדשה:';
-$labels['nopassword'] = 'נא להקליד סיסמה חדשה';
-$labels['nocurpassword'] = 'נא להקיש הסיסמה הנוכחית';
-$labels['passwordincorrect'] = 'הוקשה סיסמה נוכחית שגויה';
-$labels['passwordinconsistency'] = 'הסיסמאות שהוקשו אינן תואמות, נא לנסות שנית.';
-$labels['crypterror'] = 'לא נשמרה הסיסמה החדשה. חסר מנגנון הצפנה.';
-$labels['connecterror'] = 'לא נשמרה הסיסמה החדשה. שגיאת תקשורת.';
-$labels['internalerror'] = 'לא ניתן לשמור על הסיסמה החדשה.';
-$labels['passwordshort'] = 'הסיסמה צריכה להיות לפחות בעלת $length תווים';
-$labels['passwordweak'] = 'הסיסמה חייבת לכלול לפחות סיפרה אחת ולפחות סימן פיסוק אחד.';
-$labels['passwordforbidden'] = 'הסיסמה מכילה תווים אסורים.';
+$labels['changepasswd']  = 'שינוי סיסמה';
+$labels['curpasswd']  = 'סיסמה נוכחית:';
+$labels['newpasswd']  = 'סיסמה חדשה:';
+$labels['confpasswd']  = 'אימות הסיסמה החדשה:';
 
+$messages = array();
+$messages['nopassword'] = 'נא להקליד סיסמה חדשה';
+$messages['nocurpassword'] = 'נא להקיש הסיסמה הנוכחית';
+$messages['passwordincorrect'] = 'הוקשה סיסמה נוכחית שגויה';
+$messages['passwordinconsistency'] = 'הסיסמאות שהוקשו אינן תואמות, נא לנסות שנית.';
+$messages['crypterror'] = 'לא נשמרה הסיסמה החדשה. חסר מנגנון הצפנה.';
+$messages['connecterror'] = 'לא נשמרה הסיסמה החדשה. שגיאת תקשורת.';
+$messages['internalerror'] = 'לא ניתן לשמור על הסיסמה החדשה.';
+$messages['passwordshort'] = 'הסיסמה צריכה להיות לפחות בעלת $length תווים';
+$messages['passwordweak'] = 'הסיסמה חייבת לכלול לפחות סיפרה אחת ולפחות סימן פיסוק אחד.';
+$messages['passwordforbidden'] = 'הסיסמה מכילה תווים אסורים.';
+
+?>

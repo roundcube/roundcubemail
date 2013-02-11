@@ -53,7 +53,7 @@ class http_authentication extends rcube_plugin
 
         $host = rcmail::get_instance()->config->get('http_authentication_host');
         if (is_string($host) && trim($host) !== '')
-            $args['host'] = rcube_idn_to_ascii(rcube_parse_host($host));
+            $args['host'] = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
 
         // Allow entering other user data in login form,
         // e.g. after log out (#1487953)

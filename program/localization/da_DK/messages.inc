@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/da_DK/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Johannes Hessellund <osos@openeyes.dk>                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Der opstod en fejl!';
-$messages['loginfailed'] = 'Det lykkedes ikke at logge på.';
+$messages['errortitle']  = 'Der opstod en fejl!';
+$messages['loginfailed']  = 'Det lykkedes ikke at logge på.';
 $messages['cookiesdisabled'] = 'Din browser accepterer ikke cookies.';
 $messages['sessionerror'] = 'Din session er ugyldig eller udløbet.';
 $messages['storageerror'] = 'Forbindelse til e-mailserveren fejlede.';
@@ -26,9 +29,11 @@ $messages['requesttimedout'] = 'Forespørgselstiden udløb';
 $messages['errorreadonly'] = 'Kunne ikke udføre den ønskede handling. Mappen er skrivebeskyttet.';
 $messages['errornoperm'] = 'Kunne ikke udføre den ønskede handling. Adgang nægtet.';
 $messages['invalidrequest'] = 'Ugyldig forespørgsel! Ingen data blev gemt.';
+$messages['invalidhost'] = 'Ugyldigt servernavn.';
 $messages['nomessagesfound'] = 'Der blev ikke fundet nogen beskeder i denne postkasse.';
 $messages['loggedout'] = 'Du er nu logget af webmail. Farvel så længe!';
 $messages['mailboxempty'] = 'Postkassen er tom.';
+$messages['refreshing'] = 'Opdaterer...';
 $messages['loading'] = 'Indlæser...';
 $messages['uploading'] = 'Uploader fil...';
 $messages['uploadingmany'] = 'Uploader filer...';
@@ -55,11 +60,11 @@ $messages['errormoving'] = 'Beskeden kunne ikke flyttes.';
 $messages['errorcopying'] = 'Beskeden kunne ikke kopieres.';
 $messages['errordeleting'] = 'Beskeden kunne ikke slettes.';
 $messages['errormarking'] = 'Beskeden kunne ikke markeres.';
-$messages['deletecontactconfirm'] = 'Vil du virkelig slette den/de valgte kontakt(er)?';
-$messages['deletegroupconfirm'] = 'Vil du virkelig slette den/de valgte gruppe(r)?';
+$messages['deletecontactconfirm']  = 'Vil du virkelig slette den/de valgte kontakt(er)?';
+$messages['deletegroupconfirm']  = 'Vil du virkelig slette den/de valgte gruppe(r)?';
 $messages['deletemessagesconfirm'] = 'Vil du virkelig slette den/de valgte besked(er)?';
-$messages['deletefolderconfirm'] = 'Vil du virkelig slette den valgte mappe?';
-$messages['purgefolderconfirm'] = 'Vil du virkelig slette alle beskeder i denne mappe?';
+$messages['deletefolderconfirm']  = 'Vil du virkelig slette den valgte mappe?';
+$messages['purgefolderconfirm']  = 'Vil du virkelig slette alle beskeder i denne mappe?';
 $messages['contactdeleting'] = 'Sletter kontakt(er)...';
 $messages['groupdeleting'] = 'Sletter gruppe...';
 $messages['folderdeleting'] = 'Sletter mappen...';
@@ -68,11 +73,11 @@ $messages['foldersubscribing'] = 'Abonnere på mappen...';
 $messages['folderunsubscribing'] = 'Fjerner abonnement på mappen...';
 $messages['formincomplete'] = 'Formularen var ikke fuldstændig fyldt ud.';
 $messages['noemailwarning'] = 'Indtast venligst en gyldig e-mailadresse.';
-$messages['nonamewarning'] = 'Angiv venligst et navn.';
+$messages['nonamewarning']  = 'Angiv venligst et navn.';
 $messages['nopagesizewarning'] = 'Angiv sidestørrelsen.';
 $messages['nosenderwarning'] = 'Indtast venligst afsenders e-mailadresse.';
 $messages['norecipientwarning'] = 'Indtast mindst én modtager.';
-$messages['nosubjectwarning'] = '\'Emne\'-feltet er tomt. Kunne du tænke dig at skrive et nu?';
+$messages['nosubjectwarning']  = '\'Emne\'-feltet er tomt. Kunne du tænke dig at skrive et nu?';
 $messages['nobodywarning'] = 'Send denne besked uden tekst?';
 $messages['notsentwarning'] = 'Beskeden er ikke sendt. Vil du kassere din besked?';
 $messages['noldapserver'] = 'Vælg venligst hvilken LDAP-server der skal søges i.';
@@ -114,8 +119,9 @@ $messages['selectimportfile'] = 'Vælg venligst den fil der skal overføres.';
 $messages['addresswriterror'] = 'Der kan ikke skrives i den valgte adressebog.';
 $messages['contactaddedtogroup'] = 'Succesfuldt tilføjet kontakten til denne gruppe';
 $messages['contactremovedfromgroup'] = 'Kontakten fjernet fra denne gruppe';
+$messages['nogroupassignmentschanged'] = 'Ingen gruppetildelinger ændret.';
 $messages['importwait'] = 'Importerer, vent venligst...';
-$messages['importerror'] = 'Fejl i importen! Den uploadede fil er ikke en gyldig vCard fil.';
+$messages['importformaterror'] = 'Importering mislykkedes! Den uploadede fil indeholder ikke gyldige data til importering.';
 $messages['importconfirm'] = '<b>Importerede $inserted kontakter</b>';
 $messages['importconfirmskipped'] = '<b>Sprang over $skipped eksisterende kontakter</b>';
 $messages['opnotpermitted'] = 'Handlingen er ikke tilladt!';
@@ -157,4 +163,7 @@ $messages['invalidimageformat'] = 'Ikke et gyldigt billedformat.';
 $messages['mispellingsfound'] = 'Der er fundet stavefejl i beskeden.';
 $messages['parentnotwritable'] = 'Kan ikke oprette/flytte mappe ind i valgt mappe. Ingen adgangsrettigheder.';
 $messages['messagetoobig'] = 'Denne del af beskeden er for stor til at blive behandlet.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Advarsel: Denne webmailclient kræver Javascript! For at kunne bruge den slå venligst Javascripts til i din browserindstillinger.';
 
+?>

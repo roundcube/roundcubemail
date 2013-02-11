@@ -12,9 +12,9 @@
 <roundcube:exp expression="browser:ie ? ('height: expression((parseInt(this.parentNode.offsetHeight)-'.(!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+25 : 245).')+\\'px\\');') : ''" />
 }
 <roundcube:endif />
-#mailleftcontainer { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 175" />px; }
-#mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 185" />px;
-<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 180).')+\\'px\\');') : ''" />
+#mailleftcontainer { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 160" />px; }
+#mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px;
+<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 165).')+\\'px\\');') : ''" />
 }
 </style>
 </head>
@@ -28,7 +28,7 @@
 <div id="mailboxlist-container">
 <div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
 <div id="mailboxlist-content"  class="boxlistcontent">
-<roundcube:object name="mailboxlist" id="mailboxlist" folder_filter="mail" />
+<roundcube:object name="mailboxlist" id="mailboxlist" class="treelist" folder_filter="mail" />
 </div>
 <div id="mailboxlist-footer" class="boxfooter">
   <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />

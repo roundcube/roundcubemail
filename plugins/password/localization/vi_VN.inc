@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/vi_VN/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kenny Tran <kennethanh@gmail.com>                             |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Thay đổi mật khẩu';
-$labels['curpasswd'] = 'Mật khẩu hiện tại';
-$labels['newpasswd'] = 'Mật khẩu mới:';
-$labels['confpasswd'] = 'Xác nhận mật khẩu mới';
-$labels['nopassword'] = 'Mời nhập mật khẩu mới';
-$labels['nocurpassword'] = 'Mời nhập mật khẩu hiện tại';
-$labels['passwordincorrect'] = 'Mật khẩu hiện thời không đúng';
-$labels['passwordinconsistency'] = 'Mật khẩu không khớp, hãy thử lại';
-$labels['crypterror'] = 'Không thể lưu mật khẩu mới. Thiếu chức năng mã hóa';
-$labels['connecterror'] = 'Không thể lưu mật mã mới. Lổi kết nối';
-$labels['internalerror'] = 'Không thể lưu mật khẩu mới';
-$labels['passwordshort'] = 'Mật khẩu phải dài ít nhất $ ký tự';
-$labels['passwordweak'] = 'Mật khẩu phải bao gồm ít nhất 1 con số và 1 ký tự dấu câu';
-$labels['passwordforbidden'] = 'Mật khẩu bao gồm ký tự không hợp lệ';
+$labels['changepasswd']  = 'Thay đổi mật khẩu';
+$labels['curpasswd']  = 'Mật khẩu hiện tại';
+$labels['newpasswd']  = 'Mật khẩu mới:';
+$labels['confpasswd']  = 'Xác nhận mật khẩu mới';
 
+$messages = array();
+$messages['nopassword'] = 'Mời nhập mật khẩu mới';
+$messages['nocurpassword'] = 'Mời nhập mật khẩu hiện tại';
+$messages['passwordincorrect'] = 'Mật khẩu hiện thời không đúng';
+$messages['passwordinconsistency'] = 'Mật khẩu không khớp, hãy thử lại';
+$messages['crypterror'] = 'Không thể lưu mật khẩu mới. Thiếu chức năng mã hóa';
+$messages['connecterror'] = 'Không thể lưu mật mã mới. Lổi kết nối';
+$messages['internalerror'] = 'Không thể lưu mật khẩu mới';
+$messages['passwordshort'] = 'Mật khẩu phải dài ít nhất $ ký tự';
+$messages['passwordweak'] = 'Mật khẩu phải bao gồm ít nhất 1 con số và 1 ký tự dấu câu';
+$messages['passwordforbidden'] = 'Mật khẩu bao gồm ký tự không hợp lệ';
+
+?>

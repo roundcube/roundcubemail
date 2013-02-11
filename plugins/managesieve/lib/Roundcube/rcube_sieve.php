@@ -379,6 +379,6 @@ class rcube_sieve
      */
     public function debug_handler(&$sieve, $message)
     {
-        write_log('sieve', preg_replace('/\r\n$/', '', $message));
+        rcube::write_log('sieve', preg_replace('/\r\n$/', '', $message));
     }
 }

@@ -45,8 +45,8 @@ class markasjunk extends rcube_plugin
     $GLOBALS['IMAP_FLAGS']['JUNK'] = 'Junk';
     $GLOBALS['IMAP_FLAGS']['NONJUNK'] = 'NonJunk';
     
-    $uids = get_input_value('_uid', RCUBE_INPUT_POST);
-    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
+    $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
     
     $rcmail = rcmail::get_instance();
     $rcmail->storage->unset_flag($uids, 'NONJUNK');
