@@ -674,18 +674,19 @@ class rcube_ldap extends rcube_addressbook
         $list_fields = $rcube->config->get('contactlist_fields');
 
         if ($this->prop['vlv_search'] && $this->ready && join(',', (array)$fields) == join(',', $list_fields)) {
-            $entries = $this->ldap->search($this->base_dn, $this->prop['filter'], $this->prop['scope'], $this->prop['attributes'],
-                array('search' => $value, 'sort' => $this->prop['sort']));
             $this->result = new rcube_result_set(0);
 
-            if ($entries === false) {
+            $search_suffix = $this->prop['fuzzy_search'] && $mode != 1 ? '*' : '';
+            $ldap_data = $this->ldap->search($this->base_dn, $this->prop['filter'], $this->prop['scope'], $this->prop['attributes'],
+                array('search' => $value . $search_suffix /*, 'sort' => $this->prop['sort'] */));
+            if ($ldap_data === false) {
                 return $this->result;
             }
 
             // get all entries of this page and post-filter those that really match the query
-            $search  = mb_strtolower($value);
-            for ($i = 0; $i < $entries['count']; $i++) {
-                $rec = $this->_ldap2result($entries[$i]);
+            $search = mb_strtolower($value);
+            foreach ($ldap_data as $i => $entry) {
+                $rec = $this->_ldap2result($entry);
                 foreach ($fields as $f) {
                     foreach ((array)$rec[$f] as $val) {
                         if ($this->compare_search_value($f, $val, $search, $mode)) {
