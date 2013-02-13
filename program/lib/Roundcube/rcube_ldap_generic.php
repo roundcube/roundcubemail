@@ -36,7 +36,7 @@
       'auth_method'     => '',            // SASL authentication method (for proxy auth), e.g. DIGEST-MD5
       'attributes'      => array('dn'),   // List of attributes to read from the server
       'vlv'             => false,         // Enable Virtual List View to more efficiently fetch paginated data (if server supports it)
-      'sort'            => array('cn'),   // Sort attributes of the VLV index
+      'config_root_dn'  => 'cn=config',   // Root DN to read config (e.g. vlv indexes) from
       'numsub_filter'   => '(objectClass=organizationalUnit)',   // with VLV, we also use numSubOrdinates to query the total number of records. Set this filter to get all numSubOrdinates attributes for counting
       'sizelimit'       => '0',           // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
       'timelimit'       => '0',           // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
@@ -62,6 +62,7 @@ class rcube_ldap_generic
     public $vlv_active = false;
 
     /** private properties */
+    protected $cache = null;
     protected $config = array();
     protected $attributes = array('dn');
     protected $entries = null;
@@ -69,6 +70,7 @@ class rcube_ldap_generic
     protected $debug = false;
     protected $list_page = 1;
     protected $page_size = 10;
+    protected $vlv_config = null;
 
 
     /**
@@ -114,6 +116,15 @@ class rcube_ldap_generic
             $this->config[$opt] = $value;
     }
 
+    /**
+     * Enable caching by passing an instance of rcube_cache to be used by this object
+     *
+     * @param object rcube_cache Instance or False to disable caching
+     */
+    public function set_cache($cache_engine)
+    {
+        $this->cache = $cache_engine;
+    }
 
     /**
      * Set properties for VLV-based paging
@@ -350,7 +361,6 @@ class rcube_ldap_generic
      * @param string $scope    The LDAP scope (list|sub|base)
      * @param array  $attrs    List of entry attributes to read
      * @param array  $prop     Hash array with query configuration properties:
-     *   - vlv: true if VLV index should be used
      *   - sort: array of sort attributes (has to be in sync with the VLV index)
      *   - search: search string used for VLV controls
      * @param boolean $count_only Set to true if only entry count is requested
@@ -367,8 +377,9 @@ class rcube_ldap_generic
 
             $function = self::scope2func($scope, $ns_function);
 
-            // when using VLV, we get the total count by...
-            if (!$count_only && $function != 'ldap_read' && $prop['vlv']) {  // TODO: auto-detect VLV support for the given query
+            // find available VLV index for this query
+            if (!$count_only && ($vlv_sort = $this->_find_vlv($base_dn, $filter, $scope, $prop['sort']))) {
+                // when using VLV, we get the total count by...
                 // ...either reading numSubOrdinates attribute
                 if ($this->config['numsub_filter'] && ($result_count = @$ns_function($this->conn, $base_dn, $this->config['numsub_filter'], array('numSubOrdinates'), 0, 0, 0))) {
                     $counts = ldap_get_entries($this->conn, $result_count);
@@ -376,13 +387,16 @@ class rcube_ldap_generic
                         $vlv_count += $counts[$j]['numsubordinates'][0];
                     $this->_debug("D: total numsubordinates = " . $vlv_count);
                 }
-                else if (!function_exists('ldap_parse_virtuallist_control'))  // ...or by fetching all records dn and count them
+                // ...or by fetching all records dn and count them
+                else if (!function_exists('ldap_parse_virtuallist_control')) {
                     $vlv_count = $this->search($base_dn, $filter, $scope, array('dn'), $prop, true);
+                }
 
-                $this->vlv_active = $this->_vlv_set_controls($this->config, $this->list_page, $this->page_size, $vlv_search);
+                $this->vlv_active = $this->_vlv_set_controls($vlv_sort, $this->list_page, $this->page_size, $prop['search']);
             }
-            else
+            else {
                 $this->vlv_active = false;
+            }
 
             // only fetch dn for count (should keep the payload low)
             if ($ldap_result = $function($this->conn, $base_dn, $filter,
@@ -621,6 +635,21 @@ class rcube_ldap_generic
     }
 
     /**
+     * Convert the given scope integer value to a string representation
+     */
+    public static function scopeint2str($scope)
+    {
+        switch ($scope) {
+            case 2:  return 'sub';
+            case 1:  return 'one';
+            case 0:  return 'base';
+            default: $this->_debug("Scope $scope is not a valid scope integer");
+        }
+
+        return '';
+    }
+
+    /**
      * Escapes the given value according to RFC 2254 so that it can be safely used in LDAP filters.
      *
      * @param string $val Value to quote
@@ -700,12 +729,11 @@ class rcube_ldap_generic
     /**
      * Set server controls for Virtual List View (paginated listing)
      */
-    private function _vlv_set_controls($prop, $list_page, $page_size, $search = null)
+    private function _vlv_set_controls($sort, $list_page, $page_size, $search = null)
     {
-        $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => self::_sort_ber_encode((array)$prop['sort']));
+        $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => self::_sort_ber_encode((array)$sort));
         $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => self::_vlv_ber_encode(($offset = ($list_page-1) * $page_size + 1), $page_size, $search), 'iscritical' => true);
 
-        $sort = (array)$prop['sort'];
         $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ($sort[0]);"
             . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset/$page_size)");
 
@@ -741,17 +769,6 @@ class rcube_ldap_generic
 
 
     /**
-     * Prints debug info to the log
-     */
-    private function _debug($str)
-    {
-        if ($this->debug && class_exists('rcube')) {
-            rcube::write_log('ldap', $str);
-        }
-    }
-
-
-    /**
      * Quotes attribute value string
      *
      * @param string $str Attribute value
@@ -773,6 +790,135 @@ class rcube_ldap_generic
                 '/'=>'\2f');
 
         return strtr($str, $replace);
+    }
+
+
+    /**
+     * Prints debug info to the log
+     */
+    private function _debug($str)
+    {
+        if ($this->debug && class_exists('rcube')) {
+            rcube::write_log('ldap', $str);
+        }
+    }
+
+
+    /*****************  Virtual List View (VLV) related utility functions  **************** */
+
+    /**
+     * Return the search string value to be used in VLV controls
+     */
+    private function _vlv_search($sort, $search)
+    {
+        foreach ($search as $attr => $value) {
+            if (!in_array(strtolower($attr), $sort)) {
+                $this->_debug("d: Cannot use VLV search using attribute not indexed: $attr (not in " . var_export($sort, true) . ")");
+                return null;
+            } else {
+                return $value;
+            }
+        }
+    }
+
+    /**
+     * Find a VLV index matching the given query attributes
+     *
+     * @return string Sort attribute or False if no match
+     */
+    private function _find_vlv($base_dn, $filter, $scope, $sort_attrs = null)
+    {
+        if (!$this->config['vlv'] || $scope == 'base') {
+            return false;
+        }
+
+        // get vlv config
+        $vlv_config = $this->_read_vlv_config();
+
+        if ($vlv = $this->$vlv_config[$base_dn]) {
+            $this->_debug("D: Found a VLV for base_dn: " . $base_dn);
+
+            if ($vlv['filter'] == $filter) {
+                $this->_debug("D: Filter matches");
+                if ($vlv['scope'] == $scope) {
+                    // Not passing any sort attributes means you don't care
+                    if (empty($sort_attrs) || in_array($sort_attrs, $vlv['sort'])) {
+                        return $vlv['sort'];
+                    }
+                }
+                else {
+                    $this->_debug("D: Scope does not match");
+                }
+            }
+            else {
+                $this->_debug("D: Filter does not match");
+            }
+        }
+        else {
+            $this->_debug("D: No VLV for base dn " . $base_dn);
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Return VLV indexes and searches including necessary configuration
+     * details.
+     */
+    private function _read_vlv_config()
+    {
+        if (empty($this->config['vlv']) || empty($this->config['config_root_dn'])) {
+            return array();
+        }
+        // return hard-coded VLV config
+        else if (is_array($this->config['vlv'])) {
+            return $this->config['vlv'];
+        }
+
+        // return cached result
+        if (is_array($this->vlv_config)) {
+            return $this->vlv_config;
+        }
+        
+        if ($this->cache && ($cached_config = $this->cache->get('vlvconfig'))) {
+            $this->vlv_config = $cached_config;
+            return $this->vlv_config;
+        }
+
+        $this->vlv_config = array();
+
+        $ldap_result = ldap_search($this->conn, $this->config['config_root_dn'], '(objectclass=vlvsearch)', array('*'), 0, 0, 0);
+        $vlv_searches = new rcube_ldap_result($this->conn, $ldap_result, $this->config['config_root_dn'], '(objectclass=vlvsearch)');
+
+        if ($vlv_searches->count() < 1) {
+            $this->_debug("D: Empty result from search for '(objectclass=vlvsearch)' on '$config_root_dn'");
+            return array();
+        }
+
+        foreach ($vlv_searches->entries(true) as $vlv_search_dn => $vlv_search_attrs) {
+            // Multiple indexes may exist
+            $ldap_result = ldap_search($this->conn, $vlv_search_dn, '(objectclass=vlvindex)', array('*'), 0, 0, 0);
+            $vlv_indexes = new rcube_ldap_result($this->conn, $ldap_result, $vlv_search_dn, '(objectclass=vlvindex)');
+
+            // Reset this one for each VLV search.
+            $_vlv_sort = array();
+            foreach ($vlv_indexes->entries(true) as $vlv_index_dn => $vlv_index_attrs) {
+                $_vlv_sort[] = explode(' ', $vlv_index_attrs['vlvsort']);
+            }
+
+            $this->vlv_config[$vlv_search_attrs['vlvbase']] = array(
+                'scope'  => self::scopeint2str($vlv_search_attrs['vlvscope']),
+                'filter' => $vlv_search_attrs['vlvfilter'],
+                'sort'   => $_vlv_sort,
+            );
+        }
+
+        // cache this
+        if ($this->cache)
+            $this->cache->set('vlvconfig', $this->vlv_config);
+
+        $this->_debug("D: Refreshed VLV config: " . var_export($this->vlv_config, true));
     }
 
 

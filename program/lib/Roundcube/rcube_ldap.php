@@ -194,6 +194,7 @@ class rcube_ldap extends rcube_addressbook
         // initialize ldap wrapper object
         $this->prop['attributes'] = array_values($this->fieldmap);
         $this->ldap = new rcube_ldap_generic($this->prop, true);
+        $this->ldap->set_cache($this->cache);
 
         $this->_connect();
     }
@@ -673,7 +674,7 @@ class rcube_ldap extends rcube_addressbook
 
         if ($this->prop['vlv_search'] && $this->ready && join(',', (array)$fields) == join(',', $list_fields)) {
             $entries = $this->ldap->search($this->base_dn, $this->prop['filter'], $this->prop['scope'], $this->prop['attributes'],
-                array('vlv' => true, 'search' => $value, 'sort' => $this->prop['sort']));
+                array('search' => $value, 'sort' => $this->prop['sort']));
             $this->result = new rcube_result_set(0);
 
             if ($entries === false) {
