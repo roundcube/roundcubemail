@@ -659,28 +659,31 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed 
   // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
   ),
-  'sort'          => 'cn',    // The field to sort the listing by.
-  'scope'         => 'sub',   // search mode: sub|base|list
-  'filter'        => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
-  'fuzzy_search'  => true,    // server allows wildcard search
-  'vlv'           => false,   // Enable Virtual List View to more efficiently fetch paginated data (if server supports it)
-  'numsub_filter' => '(objectClass=organizationalUnit)',   // with VLV, we also use numSubOrdinates to query the total number of records. Set this filter to get all numSubOrdinates attributes for counting
-  'sizelimit'     => '0',     // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
-  'timelimit'     => '0',     // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
-  'referrals'     => true|false,  // Sets the LDAP_OPT_REFERRALS option. Mostly used in multi-domain Active Directory setups
+  'sort'           => 'cn',         // The field to sort the listing by.
+  'scope'          => 'sub',        // search mode: sub|base|list
+  'filter'         => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
+  'fuzzy_search'   => true,         // server allows wildcard search
+  'vlv'            => false,        // Enable Virtual List View to more efficiently fetch paginated data (if server supports it)
+  'vlv_search'     => false,        // Use Virtual List View functions for autocompletion searches (if server supports it)
+  'numsub_filter'  => '(objectClass=organizationalUnit)',   // with VLV, we also use numSubOrdinates to query the total number of records. Set this filter to get all numSubOrdinates attributes for counting
+  'config_root_dn' => 'cn=config',  // Root DN to search config entries (e.g. vlv indexes)
+  'sizelimit'      => '0',          // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
+  'timelimit'      => '0',          // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
+  'referrals'      => false,        // Sets the LDAP_OPT_REFERRALS option. Mostly used in multi-domain Active Directory setups
 
   // definition for contact groups (uncomment if no groups are supported)
   // for the groups base_dn, the user replacements %fu, %u, $d and %dc work as for base_dn (see above)
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
   // -> in this case, assure that groups and contacts are separated due to the concernig filters! 
-  'groups'        => array(
-    'base_dn'     => '',
-    'scope'       => 'sub',   // search mode: sub|base|list
-    'filter'      => '(objectClass=groupOfNames)',
+  'groups'  => array(
+    'base_dn'        => '',
+    'scope'          => 'sub',       // Search mode: sub|base|list
+    'filter'         => '(objectClass=groupOfNames)',
     'object_classes' => array("top", "groupOfNames"),
-    'member_attr'  => 'member',   // name of the member attribute, e.g. uniqueMember
-    'name_attr'    => 'cn',       // attribute to be used as group name
-    'member_filter' => '(objectclass=*)',  // optional filter to use when querying for group members
+    'member_attr'    => 'member',   // Name of the member attribute, e.g. uniqueMember
+    'name_attr'      => 'cn',       // Attribute to be used as group name
+    'member_filter'  => '(objectclass=*)',  // Optional filter to use when querying for group members
+    'vlv'            => false,      // Use VLV controls to list groups
   ),
   // this configuration replaces the regular groups listing in the directory tree with
   // a hard-coded list of groups, each listing entries with the configured base DN and filter.
