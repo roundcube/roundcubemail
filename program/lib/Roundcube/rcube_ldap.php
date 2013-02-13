@@ -38,7 +38,7 @@ class rcube_ldap extends rcube_addressbook
     /** private properties */
     protected $ldap;
     protected $prop = array();
-    protected $fieldmap = array('_objclass' => 'objectclass');
+    protected $fieldmap = array();
     protected $sub_filter;
     protected $filter = '';
     protected $result = null;
@@ -63,6 +63,8 @@ class rcube_ldap extends rcube_addressbook
     {
         $this->prop = $p;
 
+        $fetch_attributes = array('objectClass');
+
         if (isset($p['searchonly']))
             $this->searchonly = $p['searchonly'];
 
@@ -80,8 +82,8 @@ class rcube_ldap extends rcube_addressbook
             if (empty($this->prop['groups']['scope']))
                 $this->prop['groups']['scope'] = 'sub';
 
-            // add group name attrib to fieldmap in order to have it fetched
-            $this->fieldmap['_groupname'] = $this->prop['groups']['name_attr'];
+            // add group name attrib to the list of attributes to be fetched
+            $fetch_attributes[] = $this->prop['groups']['name_attr'];
         }
         else if (is_array($p['group_filters']) && count($p['group_filters'])) {
             $this->groups = true;
@@ -192,7 +194,7 @@ class rcube_ldap extends rcube_addressbook
         $this->cache = $rcube->get_cache('LDAP.' . asciiwords($this->prop['name']), 'db', 600);
 
         // initialize ldap wrapper object
-        $this->prop['attributes'] = array_values($this->fieldmap);
+        $this->prop['attributes'] = array_unique(array_merge(array_values($this->fieldmap), $fetch_attributes));
         $this->ldap = new rcube_ldap_generic($this->prop, true);
         $this->ldap->set_cache($this->cache);
 
@@ -565,8 +567,7 @@ class rcube_ldap extends rcube_addressbook
             return $group_members;
 
         // read these attributes for all members
-        $attrib = $count ? array('dn') : array_values($this->fieldmap);
-        $attrib[] = 'objectClass';
+        $attrib = $count ? array('dn') : $this->prop['attributes'];
         $attrib[] = 'member';
         $attrib[] = 'uniqueMember';
         $attrib[] = 'memberURL';
@@ -1288,7 +1289,7 @@ class rcube_ldap extends rcube_addressbook
         if (array_intersect(array('groupofuniquenames','kolabgroupofuniquenames'), array_map('strtolower', (array)$rec['objectclass']))) {
             $out['_type'] = 'group';
             $out['readonly'] = true;
-            $fieldmap['name'] = $fieldmap['_groupname'];
+            $fieldmap['name'] = $this->prop['groups']['name_attr'];
         }
 
         foreach ($fieldmap as $rf => $lf)
@@ -1353,8 +1354,10 @@ class rcube_ldap extends rcube_addressbook
             if (is_array($colprop['serialized'])) {
                foreach ($colprop['serialized'] as $subtype => $delim) {
                   $key = $col.':'.$subtype;
-                  foreach ((array)$save_cols[$key] as $i => $val)
-                     $save_cols[$key][$i] = join($delim, array($val['street'], $val['locality'], $val['zipcode'], $val['country']));
+                  foreach ((array)$save_cols[$key] as $i => $val) {
+                     $values = array($val['street'], $val['locality'], $val['zipcode'], $val['country']);
+                     $save_cols[$key][$i] = count(array_filter($values)) ? join($delim, $values) : null;
+                 }
                }
             }
         }
