@@ -835,15 +835,15 @@ class rcube_ldap_generic
         // get vlv config
         $vlv_config = $this->_read_vlv_config();
 
-        if ($vlv = $this->$vlv_config[$base_dn]) {
+        if ($vlv = $vlv_config[$base_dn]) {
             $this->_debug("D: Found a VLV for base_dn: " . $base_dn);
 
-            if ($vlv['filter'] == $filter) {
+            if ($vlv['filter'] == strtolower($filter)) {
                 $this->_debug("D: Filter matches");
                 if ($vlv['scope'] == $scope) {
                     // Not passing any sort attributes means you don't care
                     if (empty($sort_attrs) || in_array($sort_attrs, $vlv['sort'])) {
-                        return $vlv['sort'];
+                        return $vlv['sort'][0];
                     }
                 }
                 else {
@@ -909,7 +909,7 @@ class rcube_ldap_generic
 
             $this->vlv_config[$vlv_search_attrs['vlvbase']] = array(
                 'scope'  => self::scopeint2str($vlv_search_attrs['vlvscope']),
-                'filter' => $vlv_search_attrs['vlvfilter'],
+                'filter' => strtolower($vlv_search_attrs['vlvfilter']),
                 'sort'   => $_vlv_sort,
             );
         }
@@ -919,6 +919,8 @@ class rcube_ldap_generic
             $this->cache->set('vlvconfig', $this->vlv_config);
 
         $this->_debug("D: Refreshed VLV config: " . var_export($this->vlv_config, true));
+
+        return $this->vlv_config;
     }
 
 

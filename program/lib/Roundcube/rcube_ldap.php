@@ -194,7 +194,7 @@ class rcube_ldap extends rcube_addressbook
         $this->cache = $rcube->get_cache('LDAP.' . asciiwords($this->prop['name']), 'db', 600);
 
         // initialize ldap wrapper object
-        $this->prop['attributes'] = array_unique(array_merge(array_values($this->fieldmap), $fetch_attributes));
+        $this->prop['attributes'] = array_merge(array_values($this->fieldmap), $fetch_attributes);
         $this->ldap = new rcube_ldap_generic($this->prop, true);
         $this->ldap->set_cache($this->cache);
 
@@ -567,7 +567,7 @@ class rcube_ldap extends rcube_addressbook
             return $group_members;
 
         // read these attributes for all members
-        $attrib = $count ? array('dn') : $this->prop['attributes'];
+        $attrib = $count ? array('dn','objectClass') : $this->prop['attributes'];
         $attrib[] = 'member';
         $attrib[] = 'uniqueMember';
         $attrib[] = 'memberURL';
@@ -613,11 +613,11 @@ class rcube_ldap extends rcube_addressbook
 
             // add search filter if any
             $filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
-            $attrs = $count ? array('dn') : $this->prop['attributes'];
+            $attrs = $count ? array('dn','objectClass') : $this->prop['attributes'];
             if ($result = $this->ldap->search($m[1], $filter, $m[2], $attrs, $this->group_data)) {
                 $entries = $result->entries();
                 for ($j = 0; $j < $entries['count']; $j++) {
-                    if ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count))
+                    if (self::is_group_entry($entries[$j]) && ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count)))
                         $group_members = array_merge($group_members, $nested_group_members);
                     else
                         $group_members[] = $entries[$j];
@@ -1286,7 +1286,7 @@ class rcube_ldap extends rcube_addressbook
             $out[$this->primary_key] = self::dn_encode($rec['dn']);
 
         // determine record type
-        if (array_intersect(array('groupofuniquenames','kolabgroupofuniquenames'), array_map('strtolower', (array)$rec['objectclass']))) {
+        if (self::is_group_entry($rec)) {
             $out['_type'] = 'group';
             $out['readonly'] = true;
             $fieldmap['name'] = $this->prop['groups']['name_attr'];
@@ -1408,6 +1408,16 @@ class rcube_ldap extends rcube_addressbook
         return (isset($aliases[$name]) ? $aliases[$name] : $name) . $suffix;
     }
 
+    /**
+     * Determines whether the given LDAP entry is a group record
+     */
+    private static function is_group_entry($entry)
+    {
+        return array_intersect(
+            array('group', 'groupofnames', 'kolabgroupofnames', 'groupofuniquenames','kolabgroupofuniquenames','groupofurls'),
+            array_map('strtolower', (array)$entry['objectclass'])
+        );
+    }
 
     /**
      * Prints debug info to the log
