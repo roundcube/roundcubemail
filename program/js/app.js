@@ -4229,7 +4229,7 @@ function rcube_webmail()
   this.load_contact = function(cid, action, framed)
   {
     var win, url = {}, target = window,
-      rec = this.contact_list.data[cid];
+      rec = this.contact_list ? this.contact_list.data[cid] : null;
 
     if (win = this.get_frame_window(this.env.contentframe)) {
       url._framed = 1;
@@ -4240,8 +4240,8 @@ function rcube_webmail()
       if (!cid)
         this.contact_list.clear_selection();
 
-      this.enable_command('compose', rec.email);
-      this.enable_command('export-selected', rec._type != 'group');
+      this.enable_command('compose', rec && rec.email);
+      this.enable_command('export-selected', rec && rec._type != 'group');
     }
     else if (framed)
       return false;
@@ -4351,7 +4351,7 @@ function rcube_webmail()
   };
 
   // update a contact record in the list
-  this.update_contact_row = function(cid, cols_arr, newcid, source)
+  this.update_contact_row = function(cid, cols_arr, newcid, source, data)
   {
     var c, row, list = this.contact_list;
 
@@ -4378,6 +4378,8 @@ function rcube_webmail()
         list.selection[0] = newcid;
         row.style.display = '';
       }
+
+      list.data[cid] = data;
     }
   };
 
