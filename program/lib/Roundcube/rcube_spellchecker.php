@@ -354,7 +354,7 @@ class rcube_spellchecker
 
         $gtext = '<?xml version="1.0" encoding="utf-8" ?>'
             .'<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
-            .'<text>' . $gtext . '</text>'
+            .'<text>' . htmlspecialchars($gtext) . '</text>'
             .'</spellrequest>';
 
         $store = '';
