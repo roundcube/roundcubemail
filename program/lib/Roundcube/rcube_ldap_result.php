@@ -100,7 +100,9 @@ class rcube_ldap_result implements Iterator
 
     function current()
     {
-        return ldap_get_attributes($this->conn, $this->current);
+        $attrib = ldap_get_attributes($this->conn, $this->current);
+        $attrib['dn'] = ldap_get_dn($this->conn, $this->current);
+        return $attrib;
     }
 
     function key()

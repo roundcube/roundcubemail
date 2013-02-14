@@ -412,6 +412,9 @@ class rcube_ldap_generic
                         $this->_debug("S: ".($errmsg ? $errmsg : ldap_error($this->conn)));
                     }
                 }
+                else if ($this->debug) {
+                    $this->_debug("S: ".ldap_count_entries($this->conn, $ldap_result)." record(s) found");
+                }
 
                 $this->result = new rcube_ldap_result($this->conn, $ldap_result, $base_dn, $filter, $vlv_count);
 

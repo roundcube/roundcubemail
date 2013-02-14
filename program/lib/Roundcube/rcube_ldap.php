@@ -193,8 +193,14 @@ class rcube_ldap extends rcube_addressbook
         $rcube = rcube::get_instance();
         $this->cache = $rcube->get_cache('LDAP.' . asciiwords($this->prop['name']), 'db', 600);
 
-        // initialize ldap wrapper object
+        // determine which attributes to fetch
         $this->prop['attributes'] = array_merge(array_values($this->fieldmap), $fetch_attributes);
+        $this->prop['list_attributes'] = $fetch_attributes;
+        foreach ($rcube->config->get('contactlist_fields') as $col) {
+            $this->prop['list_attributes'] = array_merge($this->prop['list_attributes'], $this->_map_field($col));
+        }
+
+        // initialize ldap wrapper object
         $this->ldap = new rcube_ldap_generic($this->prop, true);
         $this->ldap->set_cache($this->cache);
 
@@ -567,7 +573,7 @@ class rcube_ldap extends rcube_addressbook
             return $group_members;
 
         // read these attributes for all members
-        $attrib = $count ? array('dn','objectClass') : $this->prop['attributes'];
+        $attrib = $count ? array('dn','objectClass') : $this->prop['list_attributes'];
         $attrib[] = 'member';
         $attrib[] = 'uniqueMember';
         $attrib[] = 'memberURL';
@@ -605,15 +611,14 @@ class rcube_ldap extends rcube_addressbook
     {
         $group_members = array();
 
-        for ($i=0; $i < $entry['memberurl']['count']; $i++)
-        {
+        for ($i=0; $i < $entry['memberurl']['count']; $i++) {
             // extract components from url
             if (!preg_match('!ldap:///([^\?]+)\?\?(\w+)\?(.*)$!', $entry['memberurl'][$i], $m))
                 continue;
 
             // add search filter if any
             $filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
-            $attrs = $count ? array('dn','objectClass') : $this->prop['attributes'];
+            $attrs = $count ? array('dn','objectClass') : $this->prop['list_attributes'];
             if ($result = $this->ldap->search($m[1], $filter, $m[2], $attrs, $this->group_data)) {
                 $entries = $result->entries();
                 for ($j = 0; $j < $entries['count']; $j++) {
