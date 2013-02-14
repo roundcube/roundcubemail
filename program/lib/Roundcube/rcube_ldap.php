@@ -721,7 +721,7 @@ class rcube_ldap extends rcube_addressbook
             }
             if (is_array($this->prop['search_fields'])) {
                 foreach ($this->prop['search_fields'] as $field) {
-                    $filter .= "($field=$wp" . $this->_quote_string($value) . "$ws)";
+                    $filter .= "($field=$wp" . self::_quote_string($value) . "$ws)";
                 }
             }
         }
@@ -732,7 +732,7 @@ class rcube_ldap extends rcube_addressbook
                     if (count($attrs) > 1)
                         $filter .= '(|';
                     foreach ($attrs as $f)
-                        $filter .= "($f=$wp" . $this->_quote_string($val) . "$ws)";
+                        $filter .= "($f=$wp" . self::_quote_string($val) . "$ws)";
                     if (count($attrs) > 1)
                         $filter .= ')';
                 }
@@ -962,7 +962,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // Build the new entries DN.
-        $dn = $this->prop['LDAP_rdn'].'='.$this->_quote_string($newentry[$this->prop['LDAP_rdn']], true).','.$this->base_dn;
+        $dn = $this->prop['LDAP_rdn'].'='.self::_quote_string($newentry[$this->prop['LDAP_rdn']], true).','.$this->base_dn;
 
         // Remove attributes that need to be added separately (child objects)
         $xfields = array();
@@ -981,7 +981,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         foreach ($xfields as $xidx => $xf) {
-            $xdn = $xidx.'='.$this->_quote_string($xf).','.$dn;
+            $xdn = $xidx.'='.self::_quote_string($xf).','.$dn;
             $xf = array(
                 $xidx => $xf,
                 'objectClass' => (array) $this->prop['sub_fields'][$xidx],
@@ -1103,11 +1103,11 @@ class rcube_ldap extends rcube_addressbook
             // Handle RDN change
             if ($replacedata[$this->prop['LDAP_rdn']]) {
                 $newdn = $this->prop['LDAP_rdn'].'='
-                    .$this->_quote_string($replacedata[$this->prop['LDAP_rdn']], true)
+                    .self::_quote_string($replacedata[$this->prop['LDAP_rdn']], true)
                     .','.$this->base_dn;
                 if ($dn != $newdn) {
                     $newrdn = $this->prop['LDAP_rdn'].'='
-                    .$this->_quote_string($replacedata[$this->prop['LDAP_rdn']], true);
+                    .self::_quote_string($replacedata[$this->prop['LDAP_rdn']], true);
                     unset($replacedata[$this->prop['LDAP_rdn']]);
                 }
             }
@@ -1129,7 +1129,7 @@ class rcube_ldap extends rcube_addressbook
         // remove sub-entries
         if (!empty($subdeldata)) {
             foreach ($subdeldata as $fld => $val) {
-                $subdn = $fld.'='.$this->_quote_string($val).','.$dn;
+                $subdn = $fld.'='.self::_quote_string($val).','.$dn;
                 if (!$this->ldap->delete($subdn)) {
                     return false;
                 }
@@ -1170,7 +1170,7 @@ class rcube_ldap extends rcube_addressbook
         // add sub-entries
         if (!empty($subnewdata)) {
             foreach ($subnewdata as $fld => $val) {
-                $subdn = $fld.'='.$this->_quote_string($val).','.$dn;
+                $subdn = $fld.'='.self::_quote_string($val).','.$dn;
                 $xf = array(
                     $fld => $val,
                     'objectClass' => (array) $this->prop['sub_fields'][$fld],
@@ -1659,9 +1659,8 @@ class rcube_ldap extends rcube_addressbook
      */
     function create_group($group_name)
     {
-        $base_dn = $this->groups_base_dn;
-        $new_dn = "cn=$group_name,$base_dn";
-        $new_gid = self::dn_encode($group_name);
+        $new_dn = 'cn=' . self::_quote_string($group_name, true) . ',' . $this->groups_base_dn;
+        $new_gid = self::dn_encode($new_dn);
         $member_attr = $this->get_group_member_attr();
         $name_attr = $this->prop['groups']['name_attr'] ? $this->prop['groups']['name_attr'] : 'cn';
 
@@ -1692,16 +1691,15 @@ class rcube_ldap extends rcube_addressbook
         if (($group_cache = $this->cache->get('groups')) === null)
             $group_cache = $this->_fetch_groups();
 
-        $base_dn = $this->groups_base_dn;
-        $group_name = $group_cache[$group_id]['name'];
-        $del_dn = "cn=$group_name,$base_dn";
+        $del_dn = $group_cache[$group_id]['dn'];
 
         if (!$this->ldap->delete($del_dn)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
             return false;
         }
 
-        $this->cache->remove('groups');
+        unset($group_cache[$group_id]);
+        $this->cache->set('groups', $group_cache);
 
         return true;
     }
@@ -1719,11 +1717,9 @@ class rcube_ldap extends rcube_addressbook
         if (($group_cache = $this->cache->get('groups')) === null)
             $group_cache = $this->_fetch_groups();
 
-        $base_dn = $this->groups_base_dn;
-        $group_name = $group_cache[$group_id]['name'];
-        $old_dn = "cn=$group_name,$base_dn";
-        $new_rdn = "cn=$new_name";
-        $new_gid = self::dn_encode($new_name);
+        $old_dn = $group_cache[$group_id]['dn'];
+        $new_rdn = "cn=" . self::_quote_string($new_name, true);
+        $new_gid = self::dn_encode($new_rdn . ',' . $this->groups_base_dn);
 
         if (!$this->ldap->rename($old_dn, $new_rdn, null, true)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
@@ -1750,10 +1746,8 @@ class rcube_ldap extends rcube_addressbook
         if (!is_array($contact_ids))
             $contact_ids = explode(',', $contact_ids);
 
-        $base_dn     = $this->groups_base_dn;
-        $group_name  = $group_cache[$group_id]['name'];
         $member_attr = $group_cache[$group_id]['member_attr'];
-        $group_dn    = "cn=$group_name,$base_dn";
+        $group_dn    = $group_cache[$group_id]['dn'];
 
         $new_attrs = array();
         foreach ($contact_ids as $id)
@@ -1766,7 +1760,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->cache->remove('groups');
 
-        return count($new_attrs['member']);
+        return count($new_attrs[$member_attr]);
     }
 
     /**
@@ -1781,13 +1775,11 @@ class rcube_ldap extends rcube_addressbook
         if (($group_cache = $this->cache->get('groups')) === null)
             $group_cache = $this->_fetch_groups();
 
-        $base_dn     = $this->groups_base_dn;
-        $group_name  = $group_cache[$group_id]['name'];
         $member_attr = $group_cache[$group_id]['member_attr'];
-        $group_dn    = "cn=$group_name,$base_dn";
+        $group_dn    = $group_cache[$group_id]['dn'];
 
         $del_attrs = array();
-        foreach (explode(",", $contact_ids) as $id)
+        foreach ($contact_ids as $id)
             $del_attrs[$member_attr][] = self::dn_decode($id);
 
         if (!$this->ldap->mod_del($group_dn, $del_attrs)) {
@@ -1797,7 +1789,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->cache->remove('groups');
 
-        return count($del_attrs['member']);
+        return count($del_attrs[$member_attr]);
     }
 
     /**

@@ -772,7 +772,7 @@ function rcube_webmail()
       case 'moveto':
         if (this.task == 'mail')
           this.move_messages(props);
-        else if (this.task == 'addressbook' && this.drag_active)
+        else if (this.task == 'addressbook')
           this.copy_contact(null, props);
         break;
 
@@ -4623,7 +4623,7 @@ function rcube_webmail()
       var newkey = 'G'+prop.source+prop.newid,
         newprop = $.extend({}, prop);;
 
-      li.id = 'rcmli' + this.html_identifier(newkey);
+      li.id = 'rcmli' + this.html_identifier(newkey,true);
       this.env.contactfolders[newkey] = this.env.contactfolders[key];
       this.env.contactfolders[newkey].id = prop.newid;
       this.env.group = prop.newid;
@@ -4641,10 +4641,11 @@ function rcube_webmail()
       $(li).children().replaceWith(link);
     }
     // update displayed group name
-    else if (li && (link = li.firstChild) && link.tagName.toLowerCase() == 'a')
+    else if (li && (link = li.firstChild) && link.tagName.toLowerCase() == 'a') {
       link.innerHTML = prop.name;
+      this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
+    }
 
-    this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
     this.add_contact_group_row(prop, $(li), true);
 
     this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:li[0], newid:prop.newid });
