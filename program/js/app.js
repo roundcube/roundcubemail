@@ -4290,7 +4290,7 @@ function rcube_webmail()
         this.group_member_change('add', cid, dest, to.id);
       else {
         var lock = this.display_message(this.get_label('copyingcontact'), 'loading'),
-          post_data = {_cid: cid, _source: source, _to: dest, _togid: to.id, _gid: group};
+          post_data = {_cid: cid, _source: this.env.source, _to: dest, _togid: to.id, _gid: group};
 
         this.http_post('copy', post_data, lock);
       }
@@ -4298,7 +4298,7 @@ function rcube_webmail()
     // target is an addressbook
     else if (to.id != source) {
       var lock = this.display_message(this.get_label('copyingcontact'), 'loading'),
-        post_data = {_cid: cid, _source: source, _to: to.id, _gid: group};
+        post_data = {_cid: cid, _source: this.env.source, _to: to.id, _gid: group};
 
       this.http_post('copy', post_data, lock);
     }

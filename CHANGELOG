@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix regression in handling LDAP contact identifiers (#1488959)
 - Updated translations from Transifex
 - Fix buggy error template in a frame (#1488938)
 - Add addressbook widget on compose page in classic skin

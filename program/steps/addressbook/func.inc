@@ -755,20 +755,27 @@ function rcmail_get_cids($filter = null)
         return array();
     }
 
-    $cid    = explode(',', $cid);
-    $result = array();
+    $cid        = explode(',', $cid);
+    $got_source = strlen($source);
+    $result     = array();
 
     // create per-source contact IDs array
     foreach ($cid as $id) {
-        // get source from decoded ID
-        if ($sep = strrpos($id, '-')) {
-            $contact_id = substr($id, 0, $sep);
-            $source_id  = substr($id, $sep+1);
-            if (strlen($source_id)) {
-                $result[(string)$source_id][] = $contact_id;
+        // extract source ID from contact ID (it's there in search mode)
+        // see #1488959 and #1488862 for reference
+        if (!$got_source) {
+            if ($sep = strrpos($id, '-')) {
+                $contact_id = substr($id, 0, $sep);
+                $source_id  = (string) substr($id, $sep+1);
+                if (strlen($source_id)) {
+                    $result[$source_id][] = $contact_id;
+                }
             }
         }
         else {
+            if (substr($id, -($got_source+1)) == "-$source") {
+                $id = substr($id, 0, -($got_source+1));
+            }
             $result[$source][] = $id;
         }
     }
