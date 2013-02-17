@@ -771,7 +771,7 @@ function rcube_webmail()
       case 'moveto':
         if (this.task == 'mail')
           this.move_messages(props);
-        else if (this.task == 'addressbook' && this.drag_active)
+        else if (this.task == 'addressbook')
           this.copy_contact(null, props);
         break;
 
