@@ -1,4 +1,6 @@
 - Support tls:// prefix in managesieve_host option
+- Removed depracated functions usage
+- Don't trim whitespace in folder names (#1488955)
 
 * version 6.1 [2012-12-21]
 -----------------------------------------------------------

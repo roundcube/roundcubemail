@@ -835,7 +835,7 @@ class managesieve extends rcube_plugin
 
                 case 'fileinto':
                 case 'fileinto_copy':
-                    $mailbox = $this->strip_value($mailboxes[$idx]);
+                    $mailbox = $this->strip_value($mailboxes[$idx], false, false);
                     $this->form['actions'][$i]['target'] = $this->mod_mailbox($mailbox, 'in');
                     if ($type == 'fileinto_copy') {
                         $type = 'fileinto';
@@ -1708,16 +1708,16 @@ class managesieve extends rcube_plugin
 
     private function genid()
     {
-        $result = preg_replace('/[^0-9]/', '', microtime(true));
-        return $result;
+        return preg_replace('/[^0-9]/', '', microtime(true));
     }
 
-    private function strip_value($str, $allow_html=false)
+    private function strip_value($str, $allow_html = false, $trim = true)
     {
-        if (!$allow_html)
+        if (!$allow_html) {
             $str = strip_tags($str);
+        }
 
-        return trim($str);
+        return $trim ? trim($str) : $str;
     }
 
     private function error_class($id, $type, $target, $elem_prefix='')
