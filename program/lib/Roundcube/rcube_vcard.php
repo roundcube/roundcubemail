@@ -513,7 +513,7 @@ class rcube_vcard
      *
      * @return string Cleaned vcard block
      */
-    private static function cleanup($vcard)
+    public static function cleanup($vcard)
     {
         // Convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
         $vcard = preg_replace(
