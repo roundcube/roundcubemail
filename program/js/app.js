@@ -771,7 +771,7 @@ function rcube_webmail()
       case 'moveto':
         if (this.task == 'mail')
           this.move_messages(props);
-        else if (this.task == 'addressbook' && this.drag_active)
+        else if (this.task == 'addressbook')
           this.copy_contact(null, props);
         break;
 
@@ -4225,7 +4225,7 @@ function rcube_webmail()
         this.group_member_change('add', cid, dest, to.id);
       else {
         var lock = this.display_message(this.get_label('copyingcontact'), 'loading'),
-          post_data = {_cid: cid, _source: source, _to: dest, _togid: to.id, _gid: group};
+          post_data = {_cid: cid, _source: this.env.source, _to: dest, _togid: to.id, _gid: group};
 
         this.http_post('copy', post_data, lock);
       }
@@ -4233,7 +4233,7 @@ function rcube_webmail()
     // target is an addressbook
     else if (to.id != source) {
       var lock = this.display_message(this.get_label('copyingcontact'), 'loading'),
-        post_data = {_cid: cid, _source: source, _to: to.id, _gid: group};
+        post_data = {_cid: cid, _source: this.env.source, _to: to.id, _gid: group};
 
       this.http_post('copy', post_data, lock);
     }

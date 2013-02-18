@@ -222,7 +222,7 @@ class rcube_db
         $this->db_connected = is_object($this->dbh);
 
         // use write-master when read-only fails
-        if (!$this->db_connected && $mode == 'r') {
+        if (!$this->db_connected && $mode == 'r' && $this->is_replicated()) {
             $mode = 'w';
             $this->dbh          = $this->dsn_connect($this->db_dsnw_array);
             $this->db_connected = is_object($this->dbh);

@@ -17,6 +17,9 @@
  * The email query can return more than one record to create more identities.
  * This requires identities_level option to be set to value less than 2.
  *
+ * By default Roundcube database is used. To use different database (or host)
+ * you can specify DSN string in $rcmail_config['virtuser_query_dsn'] option.
+ *
  * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  * @author Steffen Vogel
@@ -25,6 +28,7 @@ class virtuser_query extends rcube_plugin
 {
     private $config;
     private $app;
+    private $db;
 
     function init()
     {
@@ -53,7 +57,7 @@ class virtuser_query extends rcube_plugin
      */
     function user2email($p)
     {
-        $dbh = $this->app->get_dbh();
+        $dbh = $this->get_dbh();
 
         $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($p['user']), $this->config['email']));
 
@@ -89,7 +93,7 @@ class virtuser_query extends rcube_plugin
      */
     function email2user($p)
     {
-        $dbh = $this->app->get_dbh();
+        $dbh = $this->get_dbh();
 
         $sql_result = $dbh->query(preg_replace('/%m/', $dbh->escapeSimple($p['email']), $this->config['user']));
 
@@ -105,7 +109,7 @@ class virtuser_query extends rcube_plugin
      */
     function user2host($p)
     {
-        $dbh = $this->app->get_dbh();
+        $dbh = $this->get_dbh();
 
         $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escapeSimple($p['user']), $this->config['host']));
 
@@ -114,6 +118,26 @@ class virtuser_query extends rcube_plugin
         }
 
         return $p;
+    }
+
+    /**
+     * Initialize database handler
+     */
+    function get_dbh()
+    {
+        if (!$this->db) {
+            if ($dsn = $this->app->config->get('virtuser_query_dsn')) {
+                // connect to the virtuser database
+                $this->db = rcube_db::factory($dsn);
+                $this->db->set_debug((bool)$this->app->config->get('sql_debug'));
+                $this->db->db_connect('r'); // connect in read mode
+            }
+            else {
+                $this->db = $this->app->get_dbh();
+            }
+        }
+
+        return $this->db;
     }
 
 }
