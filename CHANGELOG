@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix NUL characters in content-type of ms-tnef attachment (#1488964)
 - Fix regression in handling LDAP contact identifiers (#1488959)
 - Updated translations from Transifex
 - Fix buggy error template in a frame (#1488938)
