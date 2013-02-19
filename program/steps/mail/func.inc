@@ -1854,7 +1854,7 @@ function rcmail_attachment_name($attachment, $display = false)
             $filename = rcube_label('htmlmessage');
         }
         else {
-            $ext      = rcube_mime::get_mime_extensions($attachment->mimetype);
+            $ext      = (array) rcube_mime::get_mime_extensions($attachment->mimetype);
             $ext      = array_shift($ext);
             $filename = rcube_label('messagepart') . ' ' . $attachment->mime_id;
             if ($ext) {
