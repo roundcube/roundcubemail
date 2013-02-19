@@ -470,17 +470,17 @@ function rcube_autoload($classname)
             '/Mail_(.+)/',
             '/Net_(.+)/',
             '/Auth_(.+)/',
-            '/^utf8$/',
             '/^html_.+/',
             '/^rcube(.*)/',
+            '/^utf8$/',
         ),
         array(
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',
+            'Roundcube/html',
+            'Roundcube/rcube\\1',
             'utf8.class',
-            RCUBE_LIB_DIR . '/html',
-            RCUBE_LIB_DIR . '/rcube\\1',
         ),
         $classname
     );
