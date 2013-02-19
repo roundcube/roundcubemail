@@ -63,7 +63,7 @@ if (in_array('system', (array)$DB->list_tables())) {
         $opts['package'] . '-version');
 
     $row     = $DB->fetch_array();
-    $version = $row[0];
+    $version = preg_replace('/[^0-9]/', '', $row[0]);
 }
 
 // DB version not found, but release version is specified

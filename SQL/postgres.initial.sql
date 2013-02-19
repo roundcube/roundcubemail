@@ -274,4 +274,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011700.sql');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011700');
