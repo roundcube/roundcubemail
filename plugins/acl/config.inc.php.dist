@@ -16,4 +16,6 @@ $rcmail_config['acl_users_field'] = 'mail';
 // The LDAP search filter will be &'d with search queries
 $rcmail_config['acl_users_filter'] = '';
 
+$rcmail_config['acl_specials'] = array();
+
 ?>
