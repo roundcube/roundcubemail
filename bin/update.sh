@@ -32,9 +32,11 @@ if (!$opts['version']) {
   echo "What version are you upgrading from? Type '?' if you don't know.\n";
   if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z-]*$/', $input))
     $opts['version'] = $input;
+  else
+    $opts['version'] = RCMAIL_VERSION;
 }
 
-if ($opts['version'] && version_compare(version_parse($opts['version']), version_parse(RCMAIL_VERSION), '>'))
+if ($opts['version'] && version_compare(version_parse($opts['version']), version_parse(RCMAIL_VERSION), '>='))
   die("Nothing to be done here. Bye!\n");
 
 
