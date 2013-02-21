@@ -115,7 +115,7 @@ function rcube_plugin_data($name, &$plugins = array())
       }
     }
   }
-  else {
+  else if (!file_exists( INSTALL_PATH . "/plugins/$name/$name.php")) {
     unset($plugins[$name]);
   }
 }
