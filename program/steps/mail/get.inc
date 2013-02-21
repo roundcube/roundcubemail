@@ -162,7 +162,10 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
           html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
             rcube_label(array(
               'name' => 'attachmentvalidationerror',
-              'vars' => array('expected' => "$mimetype (.$file_extension)", 'detected' => "$real_mimetype (.$extensions[0])")
+              'vars' => array(
+                'expected' => $mimetype . ($file_extension ? "(.$file_extension)" : ''),
+                'detected' => $real_mimetype . ($extensions[0] ? "(.$extensions[0])" : ''),
+              )
             )) .
             html::p(array('class' => 'rcmail-inline-buttons'),
               html::tag('button',
