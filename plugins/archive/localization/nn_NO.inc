@@ -28,7 +28,7 @@ $labels['archivetype'] = 'Del arkiv etter';
 $labels['archivetypeyear'] = 'År (f.eks. Arkiv/2012)';
 $labels['archivetypemonth'] = 'Månad (f.eks. Arkiv/2012/06)';
 $labels['archivetypefolder'] = 'Opprinneleg mappe';
-$labels['archivetypesender'] = 'Sender email';
+$labels['archivetypesender'] = 'Avsendar';
 $labels['unkownsender'] = 'ukjent';
 
 ?>

@@ -19,6 +19,6 @@
 $labels = array();
 $labels['hide'] = 'Piilota';
 $labels['show'] = 'Näytä';
-$labels['quotelimit'] = 'Hide citation when lines count is greater than';
+$labels['quotelimit'] = 'Piilota lainaus rivejä ollessa enemmän kuin';
 
 ?>

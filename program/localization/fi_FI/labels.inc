@@ -360,7 +360,7 @@ $labels['importcontacts'] = 'Tuo yhteystiedot';
 $labels['importfromfile'] = 'Tuo tiedostosta:';
 $labels['importtarget'] = 'Lisää uudet yhteystiedot osoitekirjaan:';
 $labels['importreplace'] = 'Korvaa koko osoitekirja';
-$labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
+$labels['importdesc'] = 'Voit tuoda yhteystietoja olemassa olevasta osoitekirjasta.<br/>Tuettuja muotoja ovat <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ja CSV (pilkuin erotetut arvot).';
 $labels['done'] = 'Valmis';
 
 // settings

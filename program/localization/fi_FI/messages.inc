@@ -163,7 +163,7 @@ $messages['invalidimageformat'] = 'Virheellinen kuvamuoto.';
 $messages['mispellingsfound'] = 'Viestissä havaittiin kielioppivirheitä.';
 $messages['parentnotwritable'] = 'Kansiota ei voitu siirtää tai luoda valittuun yläkansioon. Ei käyttöoikeutta.';
 $messages['messagetoobig'] = 'Viestiosa on liian suuri prosessoitavaksi.';
-$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['attachmentvalidationerror'] = 'Varoitus! Tämä liitetiedosto on epäilyttävä, koska se ei vastaa ilmoitettua tiedostotyyppiä. Jos et luoda lähettäjään, älä avaa liitetiedostoa välttääksesi mahdollista vahingollista aineistoa.<br/><br/><em>Odotettu: $expected; löydetty: $detected</em>';
 $messages['noscriptwarning'] = 'Varoitus: Tämä verkkopohjainen sähköpostipalvelu vaatii Javascriptin toimiakseen. Ota Javascript käyttöön selaimesi asetuksista.';
 
 ?>
