@@ -5567,14 +5567,15 @@ function rcube_webmail()
     if (!this.gui_objects.message)
       return;
 
-    var k, n, i, msg, m = this.messages;
+    var k, n, i, o, m = this.messages;
 
     // Hide message by object, don't use for 'loading'!
     if (typeof obj === 'object') {
-      $(obj)[fade?'fadeOut':'hide']();
-      msg = $(obj).data('key');
-      if (this.messages[msg])
-        delete this.messages[msg];
+      o = $(obj);
+      k = o.data('key');
+      this.hide_message_object(o, fade);
+      if (m[k])
+        delete m[k];
     }
     // Hide message by id
     else {
@@ -5584,7 +5585,7 @@ function rcube_webmail()
             m[k].elements.splice(n, 1);
             // hide DOM element if last instance is removed
             if (!m[k].elements.length) {
-              m[k].obj[fade?'fadeOut':'hide']();
+              this.hide_message_object(m[k].obj, fade);
               delete m[k];
             }
             // set pending action label for 'loading' message
@@ -5605,6 +5606,15 @@ function rcube_webmail()
     }
   };
 
+  // hide message object and remove from the DOM
+  this.hide_message_object = function(o, fade)
+  {
+    if (fade)
+      o.fadeOut(600, function() {$(this).remove(); });
+    else
+      o.hide().remove();
+  };
+
   // remove all messages immediately
   this.clear_messages = function()
   {
@@ -5617,7 +5627,7 @@ function rcube_webmail()
     for (k in m)
       for (n in m[k].elements)
         if (m[k].obj)
-          m[k].obj.hide();
+          this.hide_message_object(m[k].obj);
 
     this.messages = {};
   };
