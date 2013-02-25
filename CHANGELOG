@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
-========================a===
+===========================
 
+- Fix plain text spellchecker icorrect highlighting in non-ASCII text (#1488973)
 - Add workaround for invalid message charset detection by IMAP servers (#1488968)
 - Fix NUL characters in content-type of ms-tnef attachment (#1488964)
 - Fix regression in handling LDAP contact identifiers (#1488959)
