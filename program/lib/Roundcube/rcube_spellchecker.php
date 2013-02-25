@@ -31,7 +31,7 @@ class rcube_spellchecker
     private $lang;
     private $rc;
     private $error;
-    private $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.]([^\w]|$)/';
+    private $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.](?=\W|$)/';
     private $options = array();
     private $dict;
     private $have_dict;
