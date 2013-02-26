@@ -5595,9 +5595,9 @@ function rcube_webmail()
                   delete m[k].labels[i];
                 }
                 else {
-                  msg = m[k].labels[i].msg;
+                  o = m[k].labels[i].msg;
+                  m[k].obj.html(o);
                 }
-                m[k].obj.html(msg);
               }
             }
           }
