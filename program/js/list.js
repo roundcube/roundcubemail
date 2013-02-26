@@ -1155,29 +1155,31 @@ drag_mouse_move: function(e)
         subject = '';
 
         for (c=0, i=0; i<obj.childNodes.length; i++) {
-	      if (obj.childNodes[i].nodeName == 'TD') {
+          if (obj.childNodes[i].nodeName == 'TD') {
             if (n == 0)
-	          this.drag_start_pos = $(obj.childNodes[i]).offset();
+              this.drag_start_pos = $(obj.childNodes[i]).offset();
 
-	        if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)) {
-	          var entry, node, tmp_node, nodes = obj.childNodes[i].childNodes;
-	          // find text node
-	          for (m=0; m<nodes.length; m++) {
-	            if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType==3 || tmp_node.nodeName=='A'))
-	              node = tmp_node;
-	          }
+            if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)) {
+              var entry, node, tmp_node, nodes = obj.childNodes[i].childNodes;
+              // find text node
+              for (m=0; m<nodes.length; m++) {
+                if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType == 3 || tmp_node.nodeName == 'A')) {
+                  node = tmp_node;
+                  break;
+                }
+              }
 
-	          if (!node)
-	            break;
+              if (!node)
+                break;
 
               subject = $(node).text();
-	          // remove leading spaces
+              // remove leading spaces
               subject = $.trim(subject);
               // truncate line to 50 characters
               subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
 
               entry = $('<div>').text(subject);
-	          this.draglayer.append(entry);
+              this.draglayer.append(entry);
               break;
             }
             c++;
