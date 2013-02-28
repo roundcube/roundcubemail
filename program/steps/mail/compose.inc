@@ -982,7 +982,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   foreach ((array)$message->mime_parts as $pid => $part)
   {
     if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
-      if ($part->ctype_primary == 'message' || $part->ctype_primary == 'multipart') {
+      if (($part->ctype_primary == 'message' && $bodyIsHtml) || $part->ctype_primary == 'multipart') {
         continue;
       }
       if ($part->mimetype == 'application/ms-tnef') {
