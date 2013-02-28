@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['buttontext'] = 'Junk';
+$labels['buttontext'] = 'Sampah';
 $labels['buttontitle'] = 'Tandai sebagai sampah';
 $labels['reportedasjunk'] = 'Berhasil dilaporkan sebagai sampah';
 

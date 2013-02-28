@@ -344,9 +344,9 @@ $labels['groupdelete']    = 'Удалить группу';
 $labels['groupremoveselected'] = 'Удалить выбранные контакты из группы';
 
 $labels['previouspage']   = 'Показать предыдущий';
-$labels['firstpage']      = 'Показать первый';
-$labels['nextpage']       = 'Показать следующий';
-$labels['lastpage']       = 'Показать последний';
+$labels['firstpage']      = 'Показать первую страницу';
+$labels['nextpage']       = 'Показать следующую страницу';
+$labels['lastpage']       = 'Показать последнюю страницу';
 
 $labels['group'] = 'Группа';
 $labels['groups'] = 'Группы';

@@ -321,7 +321,7 @@ $labels['contactproperties'] = 'Կապորդի հատկանիշներ';
 $labels['personalinfo'] = 'Անձնական տվյալներ';
 
 $labels['edit']   = 'Խմբագրել';
-$labels['cancel'] = 'Թարգել';
+$labels['cancel'] = 'Չեղարկել';
 $labels['save']   = 'Հիշել';
 $labels['delete'] = 'Ջնջել';
 $labels['rename'] = 'Վերանվանել';
@@ -387,7 +387,7 @@ $labels['timeformat'] = 'Ժամանակի ձևաչափ';
 $labels['prettydate'] = 'Պարզ ամսաթվեր';
 $labels['setdefault']  = 'Հիմնական';
 $labels['autodetect']  = 'Ավտո';
-$labels['language']  = 'Լեզու';
+$labels['language']  = 'Լեզուն';
 $labels['timezone']  = 'Ժամային գոտի';
 $labels['pagesize']  = 'Տողեր առ էջ';
 $labels['signature'] = 'Ստորագրություն';

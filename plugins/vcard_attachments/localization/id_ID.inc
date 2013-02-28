@@ -18,6 +18,6 @@
 
 $labels = array();
 $labels['addvcardmsg'] = 'Tambahkan vCard ke buku alamat';
-$labels['vcardsavefailed'] = 'Tidak bisa menyimpan vCard';
+$labels['vcardsavefailed'] = 'Tidak dapat menyimpan vCard';
 
 ?>
