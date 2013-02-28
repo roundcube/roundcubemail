@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'بایگانی';
 $labels['buttontitle'] = 'بایگانی این پیغام';
 $labels['archived'] = 'با موفقیت بایگانی شد';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'با موفقیت بایگانی شد، بارگذاری مجدد صفحه برای دیدن پوشه‌های بایگانی جدید.';
+$labels['archiveerror'] = 'برخی پیغام‌ها بایگانی نخواهند شد';
 $labels['archivefolder'] = 'بایگانی';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'بایگانی';
+$labels['archivetype'] = 'جدا کردن بایگانی با';
+$labels['archivetypeyear'] = 'سال (به عنوان مثال بایگانی/۲۰۱۲)';
+$labels['archivetypemonth'] = 'ماه (به عنوان مثال بایگانی/۲۰۱۲/۰۶)';
+$labels['archivetypefolder'] = 'پوشه اصلی';
+$labels['archivetypesender'] = 'ایمیل فرستنده';
+$labels['unkownsender'] = 'ناشناخته';
 
 ?>

@@ -41,31 +41,31 @@ $labels['junk']   = '정크메일';
 // message listing
 $labels['subject'] = '제목';
 $labels['from']    = '보내는 사람';
-$labels['sender']  = 'Sender';
+$labels['sender']  = '보낸 사람';
 $labels['to']      = '받는 사람';
 $labels['cc']      = '참조';
 $labels['bcc']     = '숨은 참조';
 $labels['replyto'] = '회신 주소';
-$labels['followupto'] = 'Followup-To';
+$labels['followupto'] = '추가 답장';
 $labels['date']    = '날짜';
 $labels['size']    = '크기';
 $labels['priority'] = '우선순위';
 $labels['organization'] = '기관';
-$labels['readstatus'] = 'Read status';
-$labels['listoptions'] = 'List options...';
+$labels['readstatus'] = '보기 상태';
+$labels['listoptions'] = '목록 옵션...';
 
 $labels['mailboxlist'] = '폴더';
 $labels['messagesfromto'] = '$count 개 중 $from 에서 $to 번 메시지';
 $labels['threadsfromto'] = '$from 에서 $to 까지 $count 개의 쓰레드';
 $labels['messagenrof'] = '$count 개 중 $nr 번 메시지';
-$labels['fromtoshort'] = '$from – $to of $count';
+$labels['fromtoshort'] = '$from 에서 $to 까지 $count 개';
 
 $labels['copy']     = '참조';
 $labels['move']     = '이동';
 $labels['moveto']   = '이동...';
 $labels['download'] = '다운로드';
-$labels['showattachment'] = 'Show';
-$labels['showanyway'] = 'Show it anyway';
+$labels['showattachment'] = '표시';
+$labels['showanyway'] = '항상 표시';
 
 $labels['filename'] = '파일 이름';
 $labels['filesize'] = '파일 크기';

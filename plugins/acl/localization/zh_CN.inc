@@ -18,7 +18,7 @@
 
 $labels['sharing'] = '共享中';
 $labels['myrights'] = '访问权限';
-$labels['username'] = '用户名：';
+$labels['username'] = '用户：';
 $labels['advanced'] = '高级模式';
 $labels['newuser'] = '添加条目';
 $labels['actions'] = 'Access right actions...';
@@ -36,18 +36,18 @@ $labels['aclc'] = '创建子文件夹';
 $labels['aclk'] = '创建子文件夹';
 $labels['acld'] = '删除消息';
 $labels['aclt'] = '删除消息';
-$labels['acle'] = 'Expunge';
+$labels['acle'] = '清除';
 $labels['aclx'] = '删除文件夹';
 $labels['acla'] = '管理';
 
-$labels['aclfull'] = 'Full control';
+$labels['aclfull'] = '全部控制';
 $labels['aclother'] = '其他';
-$labels['aclread'] = 'Read';
+$labels['aclread'] = '阅读';
 $labels['aclwrite'] = '撰写';
 $labels['acldelete'] = '删除';
 
 $labels['shortacll'] = '查找';
-$labels['shortaclr'] = 'Read';
+$labels['shortaclr'] = '阅读';
 $labels['shortacls'] = '保留';
 $labels['shortaclw'] = '撰写';
 $labels['shortacli'] = '插入';
@@ -56,7 +56,7 @@ $labels['shortaclc'] = '新建';
 $labels['shortaclk'] = '新建';
 $labels['shortacld'] = '删除';
 $labels['shortaclt'] = '删除';
-$labels['shortacle'] = 'Expunge';
+$labels['shortacle'] = '清除';
 $labels['shortaclx'] = '删除文件夹';
 $labels['shortacla'] = '管理';
 
@@ -75,13 +75,13 @@ $labels['longaclc'] = 'Folders can be created (or renamed) directly under this f
 $labels['longaclk'] = 'Folders can be created (or renamed) directly under this folder';
 $labels['longacld'] = 'Messages Delete flag can be changed';
 $labels['longaclt'] = 'Messages Delete flag can be changed';
-$labels['longacle'] = 'Messages can be expunged';
+$labels['longacle'] = '消息可被清除';
 $labels['longaclx'] = '该文件夹可悲删除或重命名';
-$labels['longacla'] = 'The folder access rights can be changed';
+$labels['longacla'] = '文件夹访问权限可被修改';
 
 $labels['longaclfull'] = 'Full control including folder administration';
 $labels['longaclread'] = '该文件夹可被打开阅读';
-$labels['longaclwrite'] = 'Messages can be marked, written or copied to the folder';
+$labels['longaclwrite'] = '消息可被标记，撰写或复制至文件夹中';
 $labels['longacldelete'] = '信息可被删除';
 
 $messages['deleting'] = '删除访问权限中…';
