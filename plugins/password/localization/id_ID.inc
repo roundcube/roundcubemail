@@ -18,20 +18,20 @@
 
 $labels = array();
 $labels['changepasswd']  = 'Ubah Sandi';
-$labels['curpasswd']  = 'Sandi:';
+$labels['curpasswd']  = 'Sandi saat ini:';
 $labels['newpasswd']  = 'Sandi Baru:';
-$labels['confpasswd']  = 'Confirm New Password:';
+$labels['confpasswd']  = 'Konfirmasi Sandi Baru:';
 
 $messages = array();
-$messages['nopassword'] = 'Please input new password.';
-$messages['nocurpassword'] = 'Please input current password.';
-$messages['passwordincorrect'] = 'Current password incorrect.';
-$messages['passwordinconsistency'] = 'Passwords do not match, please try again.';
-$messages['crypterror'] = 'Could not save new password. Encryption function missing.';
-$messages['connecterror'] = 'Could not save new password. Connection error.';
-$messages['internalerror'] = 'Could not save new password.';
-$messages['passwordshort'] = 'Password must be at least $length characters long.';
-$messages['passwordweak'] = 'Password must include at least one number and one punctuation character.';
-$messages['passwordforbidden'] = 'Password contains forbidden characters.';
+$messages['nopassword'] = 'Masukkan sandi baru.';
+$messages['nocurpassword'] = 'Masukkan sandi saat ini.';
+$messages['passwordincorrect'] = 'Sandi saat ini salah.';
+$messages['passwordinconsistency'] = 'Sandi tidak cocok, harap coba lagi.';
+$messages['crypterror'] = 'Tidak dapat menyimpan sandi baru. Fungsi enkripsi tidak ditemukan.';
+$messages['connecterror'] = 'Tidak dapat menyimpan sandi baru. Koneksi error.';
+$messages['internalerror'] = 'Tidak dapat menyimpan sandi baru.';
+$messages['passwordshort'] = 'Panjang password minimal $length karakter';
+$messages['passwordweak'] = 'Sandi harus menyertakan setidaknya satu angka dan satu tanda baca.';
+$messages['passwordforbidden'] = 'Sandi mengandung karakter terlarang.';
 
 ?>

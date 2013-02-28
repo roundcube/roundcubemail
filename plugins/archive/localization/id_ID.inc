@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Arsip';
 $labels['buttontitle'] = 'Arsipkan pesan ini';
 $labels['archived'] = 'Berhasil mengarsipkan';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Berhasil diarsipkan. Reload halaman untuk melihat folder arsip baru.';
+$labels['archiveerror'] = 'Beberapa pesan tidak dapat diarsipkan';
 $labels['archivefolder'] = 'Arsip';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arsip';
+$labels['archivetype'] = 'Pisah arsip berdasarkan';
+$labels['archivetypeyear'] = 'Tahun (contoh: Arsip/2012)';
+$labels['archivetypemonth'] = 'Bulan (contoh: Arsip/2012/06)';
+$labels['archivetypefolder'] = 'Folder asli';
+$labels['archivetypesender'] = 'Email pengirim';
+$labels['unkownsender'] = 'Tidak dikenal';
 
 ?>

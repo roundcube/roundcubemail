@@ -18,7 +18,7 @@
 
 $labels = array();
 $labels['hide'] = 'Sembunyi';
-$labels['show'] = 'Tampak';
-$labels['quotelimit'] = 'Hide citation when lines count is greater than';
+$labels['show'] = 'Tampil';
+$labels['quotelimit'] = 'Sembunyikan kutipan ketika jumlah baris lebih besar dari';
 
 ?>
