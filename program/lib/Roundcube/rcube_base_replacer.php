@@ -21,7 +21,7 @@
  * using a predefined base
  *
  * @package    Framework
- * @subpackage Core
+ * @subpackage Utils
  * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_base_replacer
