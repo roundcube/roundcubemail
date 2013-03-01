@@ -32,6 +32,7 @@ class rcube_session
     private $ip;
     private $start;
     private $changed;
+    private $reloaded = false;
     private $unsets = array();
     private $gc_handlers = array();
     private $cookiename = 'roundcube_sessauth';
@@ -200,8 +201,13 @@ class rcube_session
         if ($oldvars !== null) {
             $a_oldvars = $this->unserialize($oldvars);
             if (is_array($a_oldvars)) {
-                foreach ((array)$this->unsets as $k)
-                    unset($a_oldvars[$k]);
+                // remove unset keys on oldvars
+                foreach ((array)$this->unsets as $var) {
+                    $path = explode('.', $var);
+                    $k = array_pop($path);
+                    $node = &$this->get_node($path, $a_oldvars);
+                    unset($node[$k]);
+                }
 
                 $newvars = $this->serialize(array_merge(
                     (array)$a_oldvars, (array)$this->unserialize($vars)));
@@ -371,9 +377,32 @@ class rcube_session
 
 
     /**
+     * Append the given value to the certain node in the session data array
+     *
+     * @param string Path denoting the session variable where to append the value
+     * @param string Key name under which to append the new value (use null for appending to an indexed list)
+     * @param mixed  Value to append to the session data array
+     */
+    public function append($path, $key, $value)
+    {
+        // re-read session data from DB because it might be outdated
+        if (!$this->reloaded && microtime(true) - $this->start > 0.5) {
+            $this->reload();
+            $this->reloaded = true;
+            $this->start = microtime(true);
+        }
+
+        $node = &$this->get_node(explode('.', $path), $_SESSION);
+
+        if ($key !== null) $node[$key] = $value;
+        else               $node[] = $value;
+    }
+
+
+    /**
      * Unset a session variable
      *
-     * @param string Varibale name
+     * @param string Varibale name (can be a path denoting a certain node in the session array, e.g. compose.attachments.5)
      * @return boolean True on success
      */
     public function remove($var=null)
@@ -383,7 +412,11 @@ class rcube_session
         }
 
         $this->unsets[] = $var;
-        unset($_SESSION[$var]);
+
+        $path = explode('.', $var);
+        $key = array_pop($path);
+        $node = &$this->get_node($path, $_SESSION);
+        unset($node[$key]);
 
         return true;
     }
@@ -415,6 +448,23 @@ class rcube_session
             session_decode($data);
     }
 
+    /**
+     * Returns a reference to the node in data array referenced by the given path.
+     * e.g. ['compose','attachments'] will return $_SESSION['compose']['attachments']
+     */
+    private function &get_node($path, &$data_arr)
+    {
+        $node = &$data_arr;
+        if (!empty($path)) {
+            foreach ((array)$path as $key) {
+                if (!isset($node[$key]))
+                    $node[$key] = array();
+                $node = &$node[$key];
+            }
+        }
+
+        return $node;
+    }
 
     /**
      * Serialize session data
