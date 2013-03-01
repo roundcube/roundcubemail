@@ -302,7 +302,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
         li_elements.map(function() {
             val = this.value;
             td = $('td.'+this.id, row);
-            if (td && td.hasClass('enabled'))
+            if (td.length && td.hasClass('enabled'))
                 this.checked = true;
         });
 
