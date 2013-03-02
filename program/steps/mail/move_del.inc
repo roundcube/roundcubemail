@@ -29,10 +29,11 @@ $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 
 // move messages
-if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-    $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
+if ($RCMAIL->action == 'moveto' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
+    $count  = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
-    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+    $mbox   = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+    $trash  = $RCMAIL->config->get('trash_mbox');
 
     $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
 
@@ -40,7 +41,7 @@ if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && strlen($_POST['_targe
         // send error message
         if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
-        rcmail_display_server_error('errormoving');
+        rcmail_display_server_error('errormoving', null, $target == $trash ? 'delete' : '');
         $OUTPUT->send();
         exit;
     }
