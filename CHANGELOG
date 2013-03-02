@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display notice that message is encrypted also for application/pkcs7-mime messages (#1488526)
+
 RELEASE 0.9-rc
 --------------
 - Fix plain text spellchecker icorrect highlighting in non-ASCII text (#1488973)
