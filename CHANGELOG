@@ -1,7 +1,13 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix plain text spellchecker icorrect highlighting in non-ASCII text (#1488973)
+- Extended archive plugin with user-configurable options to store messages into subfolders
+- Fix export of selected contacts from search result (#1488905)
+- Feature to export only selected contacts from addressbook (by Phil Weir)
+
+RELEASE 0.9-rc
+--------------
+- Fix plain text spellchecker incorrect highlighting in non-ASCII text (#1488973)
 - Add workaround for invalid message charset detection by IMAP servers (#1488968)
 - Fix NUL characters in content-type of ms-tnef attachment (#1488964)
 - Fix regression in handling LDAP contact identifiers (#1488959)
@@ -13,11 +19,8 @@ CHANGELOG Roundcube Webmail
 - Use LDAP fallback hosts on connect + bind instead of ldap_connect() only.
 - Add config option for LDAP bind timeout (sets LDAP_OPT_NETWORK_TIMEOUT option)
 - Submit Addressbook advanced search form with Enter key (#1488568)
-- Extended archive plugin with user-configurable options to store messages into subfolders
 - Also block remote images in HTML part view (#1488827)
 - Improved database schema upgrade procedure, added updatedb.sh script
-- Fix export of selected contacts from search result (#1488905)
-- Feature to export only selected contacts from addressbook (by Phil Weir)
 - Force autocommit mode in mysql database driver (#1488902)
 
 RELEASE 0.9-beta
