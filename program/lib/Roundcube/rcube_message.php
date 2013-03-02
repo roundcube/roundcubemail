@@ -468,6 +468,17 @@ class rcube_message
 
             $this->parts[] = $p;
         }
+        // this is an S/MIME ecrypted message -> create a plaintext body with the according message
+        else if ($mimetype == 'application/pkcs7-mime') {
+            $p = new stdClass;
+            $p->type            = 'content';
+            $p->ctype_primary   = 'text';
+            $p->ctype_secondary = 'plain';
+            $p->mimetype        = 'text/plain';
+            $p->realtype        = 'application/pkcs7-mime';
+
+            $this->parts[] = $p;
+        }
         // message contains multiple parts
         else if (is_array($structure->parts) && !empty($structure->parts)) {
             // iterate over parts

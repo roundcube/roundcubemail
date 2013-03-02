@@ -1083,9 +1083,9 @@ function rcmail_message_body($attrib)
         $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
       }
       else if ($part->type == 'content') {
-        // unsapported
+        // unsupported (e.g. encrypted)
         if ($part->realtype) {
-          if ($part->realtype == 'multipart/encrypted') {
+          if ($part->realtype == 'multipart/encrypted' || $part->realtype == 'application/pkcs7-mime') {
             $out .= html::span('part-notice', rcube_label('encryptedmessage'));
           }
           continue;
