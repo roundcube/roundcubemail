@@ -1810,10 +1810,17 @@ class rcmail extends rcube
         else if ($res_code == rcube_storage::READONLY) {
             $this->output->show_message('errorreadonly', 'error');
         }
+        else if ($res_code == rcube_storage::OVERQUOTA) {
+            $this->output->show_message('errorroverquota', 'error');
+        }
         else if ($err_code && ($err_str = $this->storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
             if (stripos($err_str, 'Permission denied') !== false) {
                 $this->output->show_message('errornoperm', 'error');
+            }
+            // try to detect full mailbox problem and display appropriate message
+            else if (stripos($err_str, 'Quota exceeded') !== false) {
+                $this->output->show_message('erroroverquota', 'error');
             }
             else {
                 $this->output->show_message('servererrormsg', 'error', array('msg' => $err_str));

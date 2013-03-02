@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display user-friendly message on IMAP "over quota" errors (#1484164)
 - Display notice that message is encrypted also for application/pkcs7-mime messages (#1488526)
 - Extended archive plugin with user-configurable options to store messages into subfolders
 - Fix export of selected contacts from search result (#1488905)

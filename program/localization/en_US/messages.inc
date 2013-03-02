@@ -28,6 +28,7 @@ $messages['dberror'] = 'Database Error!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
 $messages['errornoperm'] = 'Unable to perform operation. Permission denied.';
+$messages['erroroverquota'] = 'Unable to perform operation. No available disk space.';
 $messages['invalidrequest'] = 'Invalid request! No data was saved.';
 $messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'No messages found in this mailbox.';
