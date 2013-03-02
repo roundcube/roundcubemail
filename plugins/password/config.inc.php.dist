@@ -357,6 +357,10 @@ $rcmail_config['password_expect_params'] = '';
 // smb Driver options
 // ---------------------
 // Samba host (default: localhost)
+// Supported replacement variables:
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 $rcmail_config['password_smb_host'] = 'localhost';
 // Location of smbpasswd binary
 $rcmail_config['password_smb_cmd'] = '/usr/bin/smbpasswd';
