@@ -110,6 +110,10 @@ class rcube_db_mssql extends rcube_db
 
         $query = preg_replace('/^SELECT\s/i', 'SELECT TOP ' . ($limit + $offset) . ' ', $query);
 
+        if (!$offset) {
+            return $query;
+        }
+
         $query = 'SELECT * FROM (SELECT TOP ' . $limit . ' * FROM (' . $query . ') AS inner_tbl';
         if ($orderby !== false) {
             $query .= ' ORDER BY ' . $order . ' ';
