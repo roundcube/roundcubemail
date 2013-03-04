@@ -1821,7 +1821,7 @@ class rcmail extends rcube
                 $error = 'errornoperm';
             }
             // try to detect full mailbox problem and display appropriate message
-            else if (stripos($err_str, 'Quota exceeded') !== false) {
+            else if (stripos($err_str, 'quota') !== false && stripos($err_str, 'exceed') !== false) {
                 $error = 'erroroverquota';
             }
             else {
