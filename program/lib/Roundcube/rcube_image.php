@@ -77,7 +77,8 @@ class rcube_image
     }
 
     /**
-     * Resize image to a given size
+     * Resize image to a given size. Use only to shrink an image.
+     * If an image is smaller than specified size it will be not resized.
      *
      * @param int    $size      Max width/height size
      * @param string $filename  Output filename
@@ -131,19 +132,30 @@ class rcube_image
         if ($props['gd_type']) {
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
+                $type  = 'jpg';
             }
             else if($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
+                $type  = 'gid';
             }
             else if($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
+                $type  = 'png';
             }
             else {
                 // @TODO: print error to the log?
                 return false;
             }
 
-            $scale  = $size / max($props['width'], $props['height']);
+            $scale = $size / max($props['width'], $props['height']);
+
+            // Imagemagick resize is implemented in shrinking mode (see -resize argument above)
+            // we do the same here, if an image is smaller than specified size
+            // we do nothing but copy original file to destination file
+            if ($scale > 1) {
+                return $this->image_file == $filename || copy($this->image_file, $filename) ? $type : false;
+            }
+
             $width  = $props['width']  * $scale;
             $height = $props['height'] * $scale;
 
@@ -162,15 +174,12 @@ class rcube_image
 
             if ($props['gd_type'] == IMAGETYPE_JPEG) {
                 $result = imagejpeg($image, $filename, 75);
-                $type = 'jpg';
             }
             elseif($props['gd_type'] == IMAGETYPE_GIF) {
                 $result = imagegif($image, $filename);
-                $type = 'gid';
             }
             elseif($props['gd_type'] == IMAGETYPE_PNG) {
                 $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
-                $type = 'png';
             }
 
             if ($result) {
@@ -244,6 +253,10 @@ class rcube_image
             }
             else if ($type == self::TYPE_PNG) {
                 $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+            }
+
+            if ($result) {
+                return true;
             }
         }
 

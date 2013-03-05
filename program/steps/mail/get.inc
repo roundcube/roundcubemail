@@ -60,11 +60,11 @@ else if ($_GET['_thumb']) {
   $pid = get_input_value('_part', RCUBE_INPUT_GET);
   if ($part = $MESSAGE->mime_parts[$pid]) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
-    $temp_dir = $RCMAIL->config->get('temp_dir');
-    list(,$ext) = explode('/', $part->mimetype);
+    $temp_dir       = $RCMAIL->config->get('temp_dir');
+    list(,$ext)     = explode('/', $part->mimetype);
     $cache_basename = $temp_dir . '/' . md5($MESSAGE->headers->messageID . $part->mime_id . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
-    $cache_file = $cache_basename . '.' . $ext;
-    $mimetype = $part->mimetype;
+    $cache_file     = $cache_basename . '.' . $ext;
+    $mimetype       = $part->mimetype;
 
     // render thumbnail image if not done yet
     if (!is_file($cache_file)) {
@@ -73,7 +73,7 @@ else if ($_GET['_thumb']) {
       fclose($fp);
 
       $image = new rcube_image($orig_name);
-      if ($imgtype = $image->resize($RCMAIL->config->get('image_thumbnail_size', 240), $cache_file, true)) {
+      if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
         $mimetype = 'image/' . $imgtype;
         unlink($orig_name);
       }
