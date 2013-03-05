@@ -158,8 +158,8 @@ function rcmail_message_attachments($attrib)
       }
       else {
         if (mb_strlen($filename) > 50) {
+          $title    = $filename;
           $filename = abbreviate_string($filename, 50);
-          $title = $filename;
         }
         else {
           $title = '';
