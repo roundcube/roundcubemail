@@ -595,11 +595,12 @@ function rcube_webmail()
 
       case 'extwin':
         if (this.env.action == 'compose') {
-          var prevstate = this.env.compose_extwin;
-          $("input[name='_action']", this.gui_objects.messageform).val('compose');
-          this.gui_objects.messageform.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
-          this.gui_objects.messageform.target = this.open_window('', 1100, 900);
-          this.gui_objects.messageform.submit();
+          var form = this.gui_objects.messageform;
+
+          $("input[name='_action']", form).val('compose');
+          form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
+          form.target = this.open_window('', 1100, 900);
+          form.submit();
         }
         else {
           this.open_window(this.env.permaurl, 900, 900);
@@ -879,7 +880,7 @@ function rcube_webmail()
 
       case 'nextmessage':
         if (this.env.next_uid)
-          this.show_message(this.env.next_uid, false, this.env.action=='preview');
+          this.show_message(this.env.next_uid, false, this.env.action == 'preview');
         break;
 
       case 'lastmessage':
