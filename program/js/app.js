@@ -179,7 +179,8 @@ function rcube_webmail()
     }
 
     // enable general commands
-    this.enable_command('close', 'logout', 'mail', 'addressbook', 'settings', 'save-pref', 'compose', 'undo', 'about', 'switch-task', true);
+    this.enable_command('close', 'logout', 'mail', 'addressbook', 'settings', 'save-pref',
+      'compose', 'undo', 'about', 'switch-task', 'menu-open', 'menu-save', true);
 
     if (this.env.permaurl)
       this.enable_command('permaurl', 'extwin', true);
@@ -211,7 +212,7 @@ function rcube_webmail()
           this.gui_objects.messagelist.parentNode.onmousedown = function(e){ return p.click_on_list(e); };
 
           this.message_list.init();
-          this.enable_command('toggle_status', 'toggle_flag', 'menu-open', 'menu-save', 'sort', true);
+          this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
 
           // load messages
           this.command('list');
@@ -227,7 +228,7 @@ function rcube_webmail()
 
         this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list',
           'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource',
-          'print', 'load-attachment', 'show-headers', 'hide-headers', 'download',
+          'print', 'load-attachment', 'download-attachment', 'show-headers', 'hide-headers', 'download',
           'forward', 'forward-inline', 'forward-attachment'];
 
         if (this.env.action == 'show' || this.env.action == 'preview') {
@@ -608,6 +609,11 @@ function rcube_webmail()
         break;
 
       case 'menu-open':
+        if (props && props.menu == 'attachmentmenu') {
+          var mimetype = this.env.attachments[props.id];
+          this.enable_command('open-attachment', mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0);
+        }
+
       case 'menu-save':
         this.triggerEvent(command, {props:props});
         return false;
@@ -833,11 +839,14 @@ function rcube_webmail()
         break;
 
       case 'load-attachment':
-        var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props.part;
+      case 'open-attachment':
+      case 'download-attachment':
+        var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props,
+          mimetype = this.env.attachments[props];
 
         // open attachment in frame if it's of a supported mimetype
-        if (this.env.uid && props.mimetype && this.env.mimetypes && $.inArray(props.mimetype, this.env.mimetypes) >= 0) {
-          var attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment'+this.env.uid+props.part);
+        if (command != 'download-attachment' && mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0) {
+          var attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', 'rcubemailattachment'+this.env.uid+props);
           if (attachment_win) {
             setTimeout(function(){ attachment_win.focus(); }, 10);
             break;

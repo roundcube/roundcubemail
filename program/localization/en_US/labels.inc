@@ -64,6 +64,7 @@ $labels['copy']     = 'Copy';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'Move to...';
 $labels['download'] = 'Download';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 

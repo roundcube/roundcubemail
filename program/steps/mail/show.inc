@@ -147,6 +147,7 @@ function rcmail_message_attachments($attrib)
   global $PRINT_MODE, $MESSAGE, $RCMAIL;
 
   $out = $ol = '';
+  $attachments = array();
 
   if (sizeof($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
@@ -165,21 +166,23 @@ function rcmail_message_attachments($attrib)
           $title = '';
         }
 
-        $ol .= html::tag('li', rcmail_filetype2classname($attach_prop->mimetype, $filename),
-          html::a(array(
+        $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
+        $class    = rcmail_filetype2classname($mimetype, $filename);
+        $id       = 'attach' . $attach_prop->mime_id;
+        $link     = html::a(array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
-            'onclick' => sprintf(
-              'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
-              JS_OBJECT_NAME,
-              $attach_prop->mime_id,
-              rcmail_fix_mimetype($attach_prop->mimetype)),
-              'title' => Q($title),
-            ),
-            Q($filename)));
+            'onclick' => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
+              JS_OBJECT_NAME, $attach_prop->mime_id),
+            'title' => Q($title),
+            ), Q($filename));
+        $ol .= html::tag('li', array('class' => $class, 'id' => $id), $link);
+
+        $attachments[$attach_prop->mime_id] = $mimetype;
       }
     }
 
     $out = html::tag('ul', $attrib, $ol, html::$common_attrib);
+    $RCMAIL->output->set_env('attachments', $attachments);
   }
 
   return $out;

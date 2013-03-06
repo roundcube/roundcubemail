@@ -73,6 +73,14 @@
 
 </div><!-- end mainscreen -->
 
+<div id="attachmentmenu" class="popupmenu dropdown">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="open-attachment" id="attachmenuopen" type="link" label="open" class="icon" classAct="icon active" innerclass="icon extwin" /></li>
+		<li><roundcube:button command="download-attachment" id="attachmenudownload" type="link" label="download" class="icon" classAct="icon active" innerclass="icon download" /></li>
+		<roundcube:container name="attachmentmenu" id="attachmentmenu" />
+	</ul>
+</div>
+
 <roundcube:include file="/includes/footer.html" />
 
 </body>

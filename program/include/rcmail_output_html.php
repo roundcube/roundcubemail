@@ -1175,6 +1175,10 @@ class rcmail_output_html extends rcmail_output
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 
+        if ($attrib['wrapper']) {
+            $out = html::tag($attrib['wrapper'], null, $out);
+        }
+
         return $out;
     }
 
