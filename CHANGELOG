@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Increase maxlength to 254 chars for email input fields in addressbook (#1488987)
 - Fix thumbnail size when GD extension is used for image resize (#1488985)
 - Display notice that message is encrypted also for application/pkcs7-mime messages (#1488526)
 
