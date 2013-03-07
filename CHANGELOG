@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Mention SQLite database format change in UPGRADING file (#1488983)
 - Increase maxlength to 254 chars for email input fields in addressbook (#1488987)
 - Add attachment menu with Open and Download options (#1488975)
 - Fix thumbnail size when GD extension is used for image resize (#1488985)
