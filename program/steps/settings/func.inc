@@ -483,8 +483,8 @@ function rcmail_user_prefs($current=null)
 
     $blocks = array(
       'main'       => array('name' => Q(rcube_label('mainoptions'))),
-      'spellcheck' => array('name' => Q(rcube_label('spellcheckoptions'))),
       'sig'        => array('name' => Q(rcube_label('signatureoptions'))),
+      'spellcheck' => array('name' => Q(rcube_label('spellcheckoptions'))),
     );
 
     // show checkbox to compose messages in a new window
