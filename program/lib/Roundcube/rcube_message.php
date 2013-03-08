@@ -616,7 +616,7 @@ class rcube_message
 
                 foreach ($this->inline_parts as $inline_object) {
                     $part_url = $this->get_part_url($inline_object->mime_id, true);
-                    if ($inline_object->content_id)
+                    if (isset($inline_object->content_id))
                         $a_replaces['cid:'.$inline_object->content_id] = $part_url;
                     if ($inline_object->content_location) {
                         $a_replaces[$inline_object->content_location] = $part_url;
