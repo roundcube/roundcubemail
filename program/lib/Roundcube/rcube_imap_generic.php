@@ -1065,8 +1065,8 @@ class rcube_imap_generic
     /**
      * Executes EXPUNGE command
      *
-     * @param string $mailbox  Mailbox name
-     * @param string $messages Message UIDs to expunge
+     * @param string       $mailbox  Mailbox name
+     * @param string|array $messages Message UIDs to expunge
      *
      * @return boolean True on success, False on error
      */
@@ -1084,10 +1084,13 @@ class rcube_imap_generic
         // Clear internal status cache
         unset($this->data['STATUS:'.$mailbox]);
 
-        if ($messages)
-            $result = $this->execute('UID EXPUNGE', array($messages), self::COMMAND_NORESPONSE);
-        else
+        if (!empty($messages) && $messages != '*' && $this->hasCapability('UIDPLUS')) {
+            $messages = self::compressMessageSet($messages);
+            $result   = $this->execute('UID EXPUNGE', array($messages), self::COMMAND_NORESPONSE);
+        }
+        else {
             $result = $this->execute('EXPUNGE', null, self::COMMAND_NORESPONSE);
+        }
 
         if ($result == self::ERROR_OK) {
             $this->selected = null; // state has changed, need to reselect
@@ -1980,7 +1983,6 @@ class rcube_imap_generic
 
     /**
      * Moves message(s) from one folder to another.
-     * Original message(s) will be marked as deleted.
      *
      * @param string|array  $messages  Message UID(s)
      * @param string        $from      Mailbox name
@@ -1999,14 +2001,39 @@ class rcube_imap_generic
             return false;
         }
 
-        $r = $this->copy($messages, $from, $to);
+        // use MOVE command (RFC 6851)
+        if ($this->hasCapability('MOVE')) {
+            // Clear last COPYUID data
+            unset($this->data['COPYUID']);
 
-        if ($r) {
             // Clear internal status cache
+            unset($this->data['STATUS:'.$to]);
             unset($this->data['STATUS:'.$from]);
 
-            return $this->flag($from, $messages, 'DELETED');
+            $r = $this->execute('UID MOVE', array(
+                $this->compressMessageSet($messages), $this->escape($to)),
+                self::COMMAND_NORESPONSE);
         }
+        // use COPY + STORE +FLAGS.SILENT \Deleted + EXPUNGE
+        else {
+            $r = $this->copy($messages, $from, $to);
+
+            if ($r) {
+                // Clear internal status cache
+                unset($this->data['STATUS:'.$from]);
+
+                $r = $this->flag($from, $messages, 'DELETED');
+
+                if ($messages == '*') {
+                    // CLOSE+SELECT should be faster than EXPUNGE
+                    $this->close();
+                }
+                else {
+                    $this->expunge($from, $messages);
+                }
+            }
+        }
+
         return $r;
     }
 
@@ -3502,7 +3529,7 @@ class rcube_imap_generic
             // if less than 255 bytes long, let's not bother
             if (!$force && strlen($messages)<255) {
                 return $messages;
-           }
+            }
 
             // see if it's already been compressed
             if (strpos($messages, ':') !== false) {

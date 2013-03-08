@@ -2333,10 +2333,7 @@ class rcube_imap extends rcube_storage
         // move messages
         $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
 
-        // send expunge command in order to have the moved message
-        // really deleted from the source folder
         if ($moved) {
-            $this->expunge_message($uids, $from_mbox, false);
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
         }
