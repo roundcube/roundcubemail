@@ -2984,10 +2984,10 @@ function rcube_webmail()
       input_message = $("[name='_message']").get(0),
       html_mode = $("input[name='_is_html']").val() == '1',
       ac_fields = ['cc', 'bcc', 'replyto', 'followupto'],
-      ac_props;
+      ac_props, opener_rc = this.opener();
 
     // close compose step in opener
-    if (window.opener && !window.opener.closed && opener.rcmail && opener.rcmail.env.action == 'compose') {
+    if (opener_rc && opener_rc.env.action == 'compose') {
       setTimeout(function(){ opener.history.back(); }, 100);
       this.env.opened_extwin = true;
     }
@@ -3666,9 +3666,10 @@ function rcube_webmail()
     this.display_message(msg, type);
 
     if (this.env.extwin) {
+      var opener_rc = this.opener();
       this.lock_form(this.gui_objects.messageform);
-      if (window.opener && !window.opener.closed && opener.rcmail)
-        opener.rcmail.display_message(msg, type);
+      if (opener_rc)
+        opener_rc.display_message(msg, type);
       setTimeout(function(){ window.close() }, 1000);
     }
     else {
@@ -6499,6 +6500,17 @@ function rcube_webmail()
   /********************************************************/
   /*********            helper methods            *********/
   /********************************************************/
+
+  // get window.opener.rcmail if available
+  this.opener = function()
+  {
+    // catch Error: Permission denied to access property rcmail
+    try {
+      if (window.opener && !opener.closed && opener.rcmail)
+        return opener.rcmail;
+    }
+    catch (e) {}
+  };
 
   // check if we're in show mode or if we have a unique selection
   // and return the message uid
