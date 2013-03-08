@@ -117,7 +117,8 @@ function rcube_mail_ui()
         }).css('cursor', 'pointer');
 
         // toggle compose options if opened in new window and they were visible before
-        if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose' && $('#composeoptionstoggle', opener.document).hasClass('remove'))
+        var opener_rc = rcmail.opener();
+        if (opener_rc && opener_rc.env.action == 'compose' && $('#composeoptionstoggle', opener.document).hasClass('remove'))
           $('#composeoptionstoggle').click();
 
         new rcube_splitter({ id:'composesplitterv', p1:'#composeview-left', p2:'#composeview-right',
