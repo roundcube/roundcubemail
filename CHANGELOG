@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so task name can really contain all from a-z0-9_- characters (#1488941)
 - Support IMAP MOVE extension [RFC 6851]
 - Fix javascript errors when working in a page opened with taget="_blank"
 - Mention SQLite database format change in UPGRADING file (#1488983)

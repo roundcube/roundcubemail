@@ -123,7 +123,7 @@ class rcmail extends rcube
    */
   public function set_task($task)
   {
-    $task = asciiwords($task);
+    $task = asciiwords($task, true);
 
     if ($this->user && $this->user->ID)
       $task = !$task ? 'mail' : $task;

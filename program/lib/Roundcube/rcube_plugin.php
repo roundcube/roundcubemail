@@ -237,7 +237,7 @@ abstract class rcube_plugin
     /**
      * Register this plugin to be responsible for a specific task
      *
-     * @param string $task Task name (only characters [a-z0-9_.-] are allowed)
+     * @param string $task Task name (only characters [a-z0-9_-] are allowed)
      */
     public function register_task($task)
     {

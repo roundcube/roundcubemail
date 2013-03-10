@@ -1235,7 +1235,7 @@ function rcube_webmail()
     if (!url)
       url = this.env.comm_path;
 
-    return url.replace(/_task=[a-z]+/, '_task='+task);
+    return url.replace(/_task=[a-z0-9_-]+/i, '_task='+task);
   };
 
   this.reload = function(delay)
@@ -5970,9 +5970,9 @@ function rcube_webmail()
     var base = this.env.comm_path, k, param = {};
 
     // overwrite task name
-    if (query._action.match(/([a-z]+)\/([a-z0-9-_.]+)/)) {
+    if (query._action.match(/([a-z0-9_-]+)\/([a-z0-9-_.]+)/)) {
       query._action = RegExp.$2;
-      base = base.replace(/\_task=[a-z]+/, '_task='+RegExp.$1);
+      base = base.replace(/\_task=[a-z0-9_-]+/, '_task='+RegExp.$1);
     }
 
     // remove undefined values

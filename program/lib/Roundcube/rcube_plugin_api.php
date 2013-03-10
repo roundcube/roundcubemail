@@ -372,7 +372,7 @@ class rcube_plugin_api
     /**
      * Register this plugin to be responsible for a specific task
      *
-     * @param string $task Task name (only characters [a-z0-9_.-] are allowed)
+     * @param string $task Task name (only characters [a-z0-9_-] are allowed)
      * @param string $owner Plugin name that registers this action
      */
     public function register_task($task, $owner)
@@ -382,7 +382,7 @@ class rcube_plugin_api
             return true;
         }
 
-        if ($task != asciiwords($task)) {
+        if ($task != asciiwords($task, true)) {
             rcube::raise_error(array('code' => 526, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Invalid task name: $task."
