@@ -115,4 +115,7 @@ foreach ($a_mailboxes as $mbox_name) {
     }
 }
 
+// trigger refresh hook
+$RCMAIL->plugins->exec_hook('refresh', array());
+
 $OUTPUT->send();
