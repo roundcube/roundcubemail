@@ -509,7 +509,7 @@ function rcmail_compose_header_from($attrib)
 
 function rcmail_compose_editor_mode()
 {
-  global $RCMAIL, $MESSAGE, $compose_mode;
+  global $RCMAIL, $compose_mode;
   static $useHtml;
 
   if ($useHtml !== null)
@@ -521,13 +521,13 @@ function rcmail_compose_editor_mode()
     $useHtml = !empty($_POST['_is_html']);
   }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
-    $useHtml = $MESSAGE->has_html_part(false, true);
+    $useHtml = rcmail_message_is_html();
   }
   else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-    $useHtml = ($html_editor == 1 || ($html_editor >= 2 && $MESSAGE->has_html_part(false, true)));
+    $useHtml = ($html_editor == 1 || ($html_editor >= 2 && rcmail_message_is_html()));
   }
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
-    $useHtml = ($html_editor == 1 || ($html_editor == 3 && $MESSAGE->has_html_part(false, true)));
+    $useHtml = ($html_editor == 1 || ($html_editor == 3 && rcmail_message_is_html()));
   }
   else {
     $useHtml = ($html_editor == 1);
@@ -536,6 +536,11 @@ function rcmail_compose_editor_mode()
   return $useHtml;
 }
 
+function rcmail_message_is_html()
+{
+    global $MESSAGE;
+    return ($MESSAGE instanceof rcube_message) && $MESSAGE->has_html_part(false, true);
+}
 
 function rcmail_prepare_message_body()
 {
