@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix LIMIT/OFFSET queries handling on MS SQL Server (#1488984)
 - Fix javascript errors when working in a page opened with taget="_blank"
 - Mention SQLite database format change in UPGRADING file (#1488983)
 - Increase maxlength to 254 chars for email input fields in addressbook (#1488987)

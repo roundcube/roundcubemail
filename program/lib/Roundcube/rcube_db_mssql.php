@@ -100,25 +100,29 @@ class rcube_db_mssql extends rcube_db
     {
         $limit  = intval($limit);
         $offset = intval($offset);
+        $end    = $offset + $limit;
+
+        // query without OFFSET
+        if (!$offset) {
+            $query = preg_replace('/^SELECT\s/i', "SELECT TOP $limit ", $query);
+            return $query;
+        }
 
         $orderby = stristr($query, 'ORDER BY');
+        $offset += 1;
+
         if ($orderby !== false) {
-            $sort  = (stripos($orderby, ' desc') !== false) ? 'desc' : 'asc';
-            $order = str_ireplace('ORDER BY', '', $orderby);
-            $order = trim(preg_replace('/\bASC\b|\bDESC\b/i', '', $order));
+            $query = trim(substr($query, 0, -1 * strlen($orderby)));
+        }
+        else {
+            // it shouldn't happen, paging without sorting has not much sense
+            // @FIXME: I don't know how to build paging query without ORDER BY
+            $orderby = "ORDER BY 1";
         }
 
-        $query = preg_replace('/^SELECT\s/i', 'SELECT TOP ' . ($limit + $offset) . ' ', $query);
-
-        $query = 'SELECT * FROM (SELECT TOP ' . $limit . ' * FROM (' . $query . ') AS inner_tbl';
-        if ($orderby !== false) {
-            $query .= ' ORDER BY ' . $order . ' ';
-            $query .= (stripos($sort, 'asc') !== false) ? 'DESC' : 'ASC';
-        }
-        $query .= ') AS outer_tbl';
-        if ($orderby !== false) {
-            $query .= ' ORDER BY ' . $order . ' ' . $sort;
-        }
+        $query = preg_replace('/^SELECT\s/i', '', $query);
+        $query = "WITH paging AS (SELECT ROW_NUMBER() OVER ($orderby) AS [RowNumber], $query)"
+            . " SELECT * FROM paging WHERE [RowNumber] BETWEEN $offset AND $end ORDER BY [RowNumber]";
 
         return $query;
     }
