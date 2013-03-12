@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't show fake address - phishing prevention (#1488981)
 - Fix forward as attachment bug with editormode != 1 (#1488991)
 - Fix LIMIT/OFFSET queries handling on MS SQL Server (#1488984)
 - Fix so task name can really contain all from a-z0-9_- characters (#1488941)
