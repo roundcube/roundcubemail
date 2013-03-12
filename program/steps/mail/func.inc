@@ -1440,6 +1440,11 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     $mailto = $part['mailto'];
     $string = $part['string'];
 
+    // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
+    if ($name && $name != $mailto && strpos($name, '@')) {
+      $name = '';
+    }
+
     // IDNA ASCII to Unicode
     if ($name == $mailto)
       $name = rcube_idn_to_utf8($name);
