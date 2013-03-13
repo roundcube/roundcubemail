@@ -841,7 +841,7 @@ class rcube_ldap_generic
         if ($vlv = $vlv_config[$base_dn]) {
             $this->_debug("D: Found a VLV for base_dn: " . $base_dn);
 
-            if ($vlv['filter'] == strtolower($filter)) {
+            if ($vlv['filter'] == strtolower($filter) || stripos($filter, '(&'.$vlv['filter'].'(') === 0) {
                 $this->_debug("D: Filter matches");
                 if ($vlv['scope'] == $scope) {
                     // Not passing any sort attributes means you don't care
