@@ -439,6 +439,29 @@ class rcube_db
     }
 
     /**
+     * Get number of rows for a SQL query
+     * If no query handle is specified, the last query will be taken as reference
+     *
+     * @param mixed $result Optional query handle
+     * @return mixed   Number of rows or false on failure
+     */
+    public function num_rows($result = null)
+    {
+        if ($result || ($result === null && ($result = $this->last_result))) {
+            // repeat query with SELECT COUNT(*) ...
+            if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i', $result->queryString, $m)) {
+                $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
+                return $query ? intval($query->fetchColumn(0)) : false;
+            }
+            else {
+                return count($result->fetchAll());
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get last inserted record ID
      *
      * @param string $table Table name (to find the incremented sequence)
