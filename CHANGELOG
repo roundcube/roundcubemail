@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix HTML part detection for some specific message structures (#1488992)
 - Don't show fake address - phishing prevention (#1488981)
 - Fix forward as attachment bug with editormode != 1 (#1488991)
 - Fix LIMIT/OFFSET queries handling on MS SQL Server (#1488984)
