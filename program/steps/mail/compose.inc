@@ -675,9 +675,6 @@ function rcmail_compose_part_body($part, $isHtml = false)
             $txt = new rcube_html2text($body, false, true, $len);
             $body = $txt->get_text();
         }
-        else if ($part->ctype_secondary == 'enriched') {
-            $body = rcube_enriched::to_html($body);
-        }
         else {
             if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
                 $body = rcube_mime::unfold_flowed($body);

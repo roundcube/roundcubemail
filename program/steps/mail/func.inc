@@ -707,7 +707,10 @@ function rcmail_print_body($part, $p = array())
         + $p + array('safe' => false, 'plain' => false, 'inline_html' => true));
 
   // convert html to text/plain
-  if ($data['type'] == 'html' && $data['plain']) {
+  if ($data['plain'] && ($data['type'] == 'html' || $data['type'] == 'enriched')) {
+    if ($data['type'] == 'enriched') {
+      $data['body'] = rcube_enriched::to_html($data['body']);
+    }
     $txt = new rcube_html2text($data['body'], false, true);
     $body = $txt->get_text();
     $part->ctype_secondary = 'plain';
