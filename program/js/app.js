@@ -6249,6 +6249,14 @@ function rcube_webmail()
     if (location_url && this.env.action != 'compose')  // don't redirect on compose screen, contents might get lost (#1488926)
       this.redirect(location_url);
 
+    // 403 Forbidden response (CSRF prevention) - reload the page.
+    // In case there's a new valid session it will be used, otherwise
+    // login form will be presented (#1488960).
+    if (request.status == 403) {
+      (this.is_framed() ? parent : window).location.reload();
+      return;
+    }
+
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
       setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
