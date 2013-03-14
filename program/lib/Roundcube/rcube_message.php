@@ -206,7 +206,7 @@ class rcube_message
     function has_html_part($enriched = false)
     {
         // check all message parts
-        foreach ($this->parts as $part) {
+        foreach ($this->mime_parts as $part) {
             if ($part->mimetype == 'text/html' || ($enriched && $part->mimetype == 'text/enriched')) {
                 // Skip if part is an attachment
                 if ($this->is_attachment($part)) {
@@ -246,7 +246,7 @@ class rcube_message
     function has_text_part()
     {
         // check all message parts
-        foreach ($this->parts as $part) {
+        foreach ($this->mime_parts as $part) {
             if ($part->mimetype == 'text/plain') {
                 // Skip if part is an attachment
                 if ($this->is_attachment($part)) {
