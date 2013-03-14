@@ -539,7 +539,7 @@ function rcmail_compose_editor_mode()
 function rcmail_message_is_html()
 {
     global $MESSAGE;
-    return ($MESSAGE instanceof rcube_message) && $MESSAGE->has_html_part(false, true);
+    return ($MESSAGE instanceof rcube_message) && $MESSAGE->has_html_part(true);
 }
 
 function rcmail_prepare_message_body()

@@ -194,41 +194,82 @@ class rcube_message
 
 
     /**
-     * Determine if the message contains a HTML part
+     * Determine if the message contains a HTML part. This must to be
+     * a real part not an attachment (or its part)
+     * This must to be
+     * a real part not an attachment (or its part)
      *
-     * @param bool $recursive Enables checking in all levels of the structure
-     * @param bool $enriched  Enables checking for text/enriched parts too
+     * @param bool $enriched Enables checking for text/enriched parts too
      *
      * @return bool True if a HTML is available, False if not
      */
-    function has_html_part($recursive = true, $enriched = false)
+    function has_html_part($enriched = false)
     {
         // check all message parts
         foreach ($this->parts as $part) {
             if ($part->mimetype == 'text/html' || ($enriched && $part->mimetype == 'text/enriched')) {
-                // Level check, we'll skip e.g. HTML attachments
-                if (!$recursive) {
-                    $level = explode('.', $part->mime_id);
+                // Skip if part is an attachment
+                if ($this->is_attachment($part)) {
+                    continue;
+                }
 
-                    // Skip if part is an attachment
-                    if ($this->is_attachment($part)) {
-                        continue;
+                $level = explode('.', $part->mime_id);
+
+                // Check if the part belongs to higher-level's alternative/related
+                while (array_pop($level) !== null) {
+                    if (!count($level)) {
+                        return true;
                     }
 
-                    // Check if the part belongs to higher-level's alternative/related
-                    while (array_pop($level) !== null) {
-                        if (!count($level)) {
-                            return true;
-                        }
-
-                        $parent = $this->mime_parts[join('.', $level)];
-                        if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
-                            continue 2;
-                        }
+                    $parent = $this->mime_parts[join('.', $level)];
+                    if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
+                        continue 2;
                     }
                 }
 
-                return true;
+                if ($part->size) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Determine if the message contains a text/plain part. This must to be
+     * a real part not an attachment (or its part)
+     *
+     * @return bool True if a plain text part is available, False if not
+     */
+    function has_text_part()
+    {
+        // check all message parts
+        foreach ($this->parts as $part) {
+            if ($part->mimetype == 'text/plain') {
+                // Skip if part is an attachment
+                if ($this->is_attachment($part)) {
+                    continue;
+                }
+
+                $level = explode('.', $part->mime_id);
+
+                // Check if the part belongs to higher-level's alternative/related
+                while (array_pop($level) !== null) {
+                    if (!count($level)) {
+                        return true;
+                    }
+
+                    $parent = $this->mime_parts[join('.', $level)];
+                    if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
+                        continue 2;
+                    }
+                }
+
+                if ($part->size) {
+                    return true;
+                }
             }
         }
 
