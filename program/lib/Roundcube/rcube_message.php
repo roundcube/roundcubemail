@@ -208,8 +208,8 @@ class rcube_message
         // check all message parts
         foreach ($this->mime_parts as $part) {
             if ($part->mimetype == 'text/html' || ($enriched && $part->mimetype == 'text/enriched')) {
-                // Skip if part is an attachment
-                if ($this->is_attachment($part)) {
+                // Skip if part is an attachment, don't use is_attachment() here
+                if ($part->filename) {
                     continue;
                 }
 
@@ -248,8 +248,8 @@ class rcube_message
         // check all message parts
         foreach ($this->mime_parts as $part) {
             if ($part->mimetype == 'text/plain') {
-                // Skip if part is an attachment
-                if ($this->is_attachment($part)) {
+                // Skip if part is an attachment, don't use is_attachment() here
+                if ($part->filename) {
                     continue;
                 }
 
