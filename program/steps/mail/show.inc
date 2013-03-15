@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
+$PRINT_MODE = $RCMAIL->action == 'print' ? TRUE : FALSE;
 
 // Read browser capabilities and store them in session
 if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
@@ -31,8 +31,21 @@ if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
   $_SESSION['browser_caps'] = $browser_caps;
 }
 
+$uid       = get_input_value('_uid', RCUBE_INPUT_GET);
+$mbox_name = $RCMAIL->storage->get_folder();
+
 // similar code as in program/steps/mail/get.inc
-if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
+if ($uid) {
+  // set message format (need to be done before rcube_message construction)
+  if (!empty($_GET['_format'])) {
+    $prefer_html = $_GET['_format'] == 'html';
+    $RCMAIL->config->set('prefer_html', $prefer_html);
+    $_SESSION['msg_formats'][$mbox_name.':'.$uid] = $prefer_html;
+  }
+  else if (isset($_SESSION['msg_formats'][$mbox_name.':'.$uid])) {
+    $RCMAIL->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$uid]);
+  }
+
   $MESSAGE = new rcube_message($uid);
 
   // if message not found (wrong UID)...
@@ -40,7 +53,6 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     rcmail_message_error($uid);
   }
 
-  $mbox_name = $RCMAIL->storage->get_folder();
 
   // show images?
   rcmail_check_safe($MESSAGE);
@@ -105,6 +117,11 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
       'movingmessage', 'deletingmessage', 'markingmessage');
+
+  $prefer_html = $RCMAIL->config->get('prefer_html');
+  if ($MESSAGE->has_html_part()) {
+    $OUTPUT->set_env('optional_format', $prefer_html ? 'text' : 'html');
+  }
 
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to
@@ -288,9 +305,9 @@ $OUTPUT->add_handlers(array(
 ));
 
 
-if ($RCMAIL->action=='print' && $OUTPUT->template_exists('messageprint'))
+if ($RCMAIL->action == 'print' && $OUTPUT->template_exists('messageprint'))
   $OUTPUT->send('messageprint', false);
-else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
+else if ($RCMAIL->action == 'preview' && $OUTPUT->template_exists('messagepreview'))
   $OUTPUT->send('messagepreview', false);
 else
   $OUTPUT->send('message', false);

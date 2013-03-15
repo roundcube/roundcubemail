@@ -229,7 +229,7 @@ function rcube_webmail()
         this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list',
           'moveto', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource',
           'print', 'load-attachment', 'download-attachment', 'show-headers', 'hide-headers', 'download',
-          'forward', 'forward-inline', 'forward-attachment'];
+          'forward', 'forward-inline', 'forward-attachment', 'change-format'];
 
         if (this.env.action == 'show' || this.env.action == 'preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
@@ -606,6 +606,17 @@ function rcube_webmail()
         else {
           this.open_window(this.env.permaurl, 900, 900);
         }
+        break;
+
+      case 'change-format':
+        url = this.env.permaurl + '&_format=' + props;
+
+        if (this.env.action == 'preview')
+          url = url.replace(/_action=show/, '_action=preview') + '&_framed=1';
+        if (this.env.extwin)
+          url += '&_extwin=1';
+
+        location.href = url;
         break;
 
       case 'menu-open':

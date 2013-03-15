@@ -1312,20 +1312,27 @@ div.message-htmlpart div.rcmBody
   text-decoration: underline;
 }
 
-#openextwinlink
+#messagelinks
 {
   position: absolute;
   top: 8px;
   right: 10px;
-  width: 15px;
-  height: 15px;
-  border: 0;
+  height: 16px;
+  text-align: right;
+}
+
+#messageframe #messagelinks
+{
+  top: 2px;
+  right: 2px;
 }
 
 #compose-headers #openextwinlink
 {
-	top: 4px;
-	right: 2px;
+  position: absolute;
+  height: 15px;
+  top: 4px;
+  right: 2px;
 }
 
 #full-headers

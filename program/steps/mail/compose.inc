@@ -183,9 +183,18 @@ $LINE_LENGTH = $RCMAIL->config->get('line_length', 72);
 
 if (!empty($msg_uid) && empty($COMPOSE['as_attachment']))
 {
-  // similar as in program/steps/mail/show.inc
-  // re-set 'prefer_html' to have possibility to use html part for compose
-  $CONFIG['prefer_html'] = $CONFIG['prefer_html'] || $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
+  $mbox_name = $RCMAIL->storage->get_folder();
+
+  // set format before rcube_message construction
+  // use the same format as for the message view
+  if (isset($_SESSION['msg_formats'][$mbox_name.':'.$msg_uid])) {
+    $RCMAIL->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$msg_uid]);
+  }
+  else {
+    $prefer_html = $CONFIG['prefer_html'] || $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
+    $RCMAIL->config->set('prefer_html', $prefer_html);
+  }
+
   $MESSAGE = new rcube_message($msg_uid);
 
   // make sure message is marked as read
@@ -538,8 +547,8 @@ function rcmail_compose_editor_mode()
 
 function rcmail_message_is_html()
 {
-    global $MESSAGE;
-    return ($MESSAGE instanceof rcube_message) && $MESSAGE->has_html_part(true);
+    global $RCMAIL, $MESSAGE;
+    return $RCMAIL->config->get('prefer_html') && ($MESSAGE instanceof rcube_message) && $MESSAGE->has_html_part(true);
 }
 
 function rcmail_prepare_message_body()
