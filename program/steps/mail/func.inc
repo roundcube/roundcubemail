@@ -1185,10 +1185,9 @@ function rcmail_message_body($attrib)
           $show_link = array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
             'onclick' => sprintf(
-              'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
+              'return %s.command(\'load-attachment\',\'%s\',this)',
               JS_OBJECT_NAME,
-              $attach_prop->mime_id,
-              $mimetype)
+              $attach_prop->mime_id)
           );
           $out .= html::p('image-attachment',
              html::a($show_link + array('class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)),
