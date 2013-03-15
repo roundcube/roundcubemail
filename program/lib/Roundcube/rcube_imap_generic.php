@@ -2010,31 +2010,32 @@ class rcube_imap_generic
             unset($this->data['STATUS:'.$to]);
             unset($this->data['STATUS:'.$from]);
 
-            $r = $this->execute('UID MOVE', array(
+            $result = $this->execute('UID MOVE', array(
                 $this->compressMessageSet($messages), $this->escape($to)),
                 self::COMMAND_NORESPONSE);
+
+            return ($result == self::ERROR_OK);
         }
+
         // use COPY + STORE +FLAGS.SILENT \Deleted + EXPUNGE
-        else {
-            $r = $this->copy($messages, $from, $to);
+        $result = $this->copy($messages, $from, $to);
 
-            if ($r) {
-                // Clear internal status cache
-                unset($this->data['STATUS:'.$from]);
+        if ($result) {
+            // Clear internal status cache
+            unset($this->data['STATUS:'.$from]);
 
-                $r = $this->flag($from, $messages, 'DELETED');
+            $result = $this->flag($from, $messages, 'DELETED');
 
-                if ($messages == '*') {
-                    // CLOSE+SELECT should be faster than EXPUNGE
-                    $this->close();
-                }
-                else {
-                    $this->expunge($from, $messages);
-                }
+            if ($messages == '*') {
+                // CLOSE+SELECT should be faster than EXPUNGE
+                $this->close();
+            }
+            else {
+                $this->expunge($from, $messages);
             }
         }
 
-        return $r;
+        return $result;
     }
 
     /**
