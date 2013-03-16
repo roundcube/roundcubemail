@@ -807,13 +807,14 @@ abstract class rcube_storage
 
 
     /**
-     * Returns current status of a folder
+     * Returns current status of a folder (compared to the last time use)
      *
      * @param string $folder Folder name
+     * @param array  $diff   Difference data
      *
      * @return int Folder status
      */
-    abstract function folder_status($folder = null);
+    abstract function folder_status($folder = null, &$diff = array());
 
 
     /**

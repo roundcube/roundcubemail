@@ -1096,16 +1096,17 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * Returns current status of folder
+     * Returns current status of a folder (compared to the last time use)
      *
      * We compare the maximum UID to determine the number of
      * new messages because the RECENT flag is not reliable.
      *
      * @param string $folder Folder name
+     * @param array  $diff   Difference data
      *
-     * @return int   Folder status
+     * @return int Folder status
      */
-    public function folder_status($folder = null)
+    public function folder_status($folder = null, &$diff = array())
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
@@ -1126,6 +1127,9 @@ class rcube_imap extends rcube_storage
         // got new messages
         if ($new['maxuid'] > $old['maxuid']) {
             $result += 1;
+            // get new message UIDs range, that can be used for example
+            // to get the data of these messages
+            $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid']+1).':' : '') . $new['maxuid'];
         }
         // some messages has been deleted
         if ($new['cnt'] < $old['cnt']) {
