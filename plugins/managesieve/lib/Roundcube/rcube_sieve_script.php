@@ -33,6 +33,7 @@ class rcube_sieve_script
         'ereject',                  // RFC5429
         'copy',                     // RFC3894
         'vacation',                 // RFC5230
+        'vacation-seconds',         // RFC6131
         'relational',               // RFC3431
         'regex',                    // draft-ietf-sieve-regex-01
         'imapflags',                // draft-melnikov-sieve-imapflags-06
@@ -447,8 +448,13 @@ class rcube_sieve_script
                     case 'vacation':
                         array_push($exts, 'vacation');
                         $action_script .= 'vacation';
-                        if (!empty($action['days']))
-                            $action_script .= " :days " . $action['days'];
+                        if (isset($action['seconds'])) {
+                            array_push($exts, 'vacation-seconds');
+                            $action_script .= " :seconds " . intval($action['seconds']);
+                        }
+                        else if (!empty($action['days'])) {
+                            $action_script .= " :days " . intval($action['days']);
+                        }
                         if (!empty($action['addresses']))
                             $action_script .= " :addresses " . self::escape_string($action['addresses']);
                         if (!empty($action['subject']))
@@ -477,8 +483,15 @@ class rcube_sieve_script
         }
 
         // requires
-        if (!empty($exts))
-            $output = 'require ["' . implode('","', array_unique($exts)) . "\"];\n" . $output;
+        if (!empty($exts)) {
+            $exts = array_unique($exts);
+
+            if (in_array('vacation-seconds', $exts) && ($key = array_search('vacation', $exts)) !== false) {
+                unset($exts[$key]);
+            }
+
+            $output = 'require ["' . implode('","', $exts) . "\"];\n" . $output;
+        }
 
         if (!empty($this->prefix)) {
             $output = $this->prefix . "\n\n" . $output;
@@ -816,23 +829,11 @@ class rcube_sieve_script
 
                 for ($i=0, $len=count($tokens); $i<$len; $i++) {
                     $tok = strtolower($tokens[$i]);
-                    if ($tok == ':days') {
-                        $vacation['days'] = $tokens[++$i];
-                    }
-                    else if ($tok == ':subject') {
-                        $vacation['subject'] = $tokens[++$i];
-                    }
-                    else if ($tok == ':addresses') {
-                        $vacation['addresses'] = $tokens[++$i];
-                    }
-                    else if ($tok == ':handle') {
-                        $vacation['handle'] = $tokens[++$i];
-                    }
-                    else if ($tok == ':from') {
-                        $vacation['from'] = $tokens[++$i];
-                    }
-                    else if ($tok == ':mime') {
+                    if ($tok == ':mime') {
                         $vacation['mime'] = true;
+                    }
+                    else if ($tok[0] == ':') {
+                        $vacation[substr($tok, 1)] = $tokens[++$i];
                     }
                 }
 

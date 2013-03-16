@@ -197,6 +197,11 @@ input.radio
   margin-top: 0;
 }
 
+input.radio
+{
+  vertical-align: middle;
+}
+
 select.operator_selector
 {
   width: 200px;
@@ -208,6 +213,11 @@ span.label
   color: #666666;
   font-size: 10px;
   white-space: nowrap;
+}
+
+td.rowtargets label
+{
+  color: black;
 }
 
 #footer

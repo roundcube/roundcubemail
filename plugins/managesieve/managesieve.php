@@ -663,7 +663,8 @@ class managesieve extends rcube_plugin
             $area_targets   = rcube_utils::get_input_value('_action_target_area', rcube_utils::INPUT_POST, true);
             $reasons        = rcube_utils::get_input_value('_action_reason', rcube_utils::INPUT_POST, true);
             $addresses      = rcube_utils::get_input_value('_action_addresses', rcube_utils::INPUT_POST, true);
-            $days           = rcube_utils::get_input_value('_action_days', rcube_utils::INPUT_POST);
+            $intervals      = rcube_utils::get_input_value('_action_interval', rcube_utils::INPUT_POST);
+            $interval_types = rcube_utils::get_input_value('_action_interval_type', rcube_utils::INPUT_POST);
             $subject        = rcube_utils::get_input_value('_action_subject', rcube_utils::INPUT_POST, true);
             $flags          = rcube_utils::get_input_value('_action_flags', rcube_utils::INPUT_POST);
             $varnames       = rcube_utils::get_input_value('_action_varname', rcube_utils::INPUT_POST);
@@ -883,11 +884,12 @@ class managesieve extends rcube_plugin
                     break;
 
                 case 'vacation':
-                    $reason = $this->strip_value($reasons[$idx]);
+                    $reason        = $this->strip_value($reasons[$idx]);
+                    $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
-                    $this->form['actions'][$i]['days']      = $days[$idx];
                     $this->form['actions'][$i]['subject']   = $subject[$idx];
                     $this->form['actions'][$i]['addresses'] = explode(',', $addresses[$idx]);
+                    $this->form['actions'][$i][$interval_type] = $intervals[$idx];
 // @TODO: vacation :mime, :from, :handle
 
                     if ($this->form['actions'][$i]['addresses']) {
@@ -905,8 +907,8 @@ class managesieve extends rcube_plugin
 
                     if ($this->form['actions'][$i]['reason'] == '')
                         $this->errors['actions'][$i]['reason'] = $this->gettext('cannotbeempty');
-                    if ($this->form['actions'][$i]['days'] && !preg_match('/^[0-9]+$/', $this->form['actions'][$i]['days']))
-                        $this->errors['actions'][$i]['days'] = $this->gettext('forbiddenchars');
+                    if ($this->form['actions'][$i][$interval_type] && !preg_match('/^[0-9]+$/', $this->form['actions'][$i][$interval_type]))
+                        $this->errors['actions'][$i]['interval'] = $this->gettext('forbiddenchars');
                     break;
 
                 case 'set':
@@ -1411,14 +1413,14 @@ class managesieve extends rcube_plugin
         $tout .= $select_size_op->show($rule['test']=='size' ? $rule['type'] : '');
         $tout .= '<input type="text" name="_rule_size_target[]" id="rule_size_i'.$id.'" value="'.$sizetarget.'" size="10" ' 
             . $this->error_class($id, 'test', 'sizetarget', 'rule_size_i') .' />
-            <input type="radio" name="_rule_size_item['.$id.']" value=""'
-                . (!$sizeitem ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('B').'
-            <input type="radio" name="_rule_size_item['.$id.']" value="K"'
-                . ($sizeitem=='K' ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('KB').'
-            <input type="radio" name="_rule_size_item['.$id.']" value="M"'
-                . ($sizeitem=='M' ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('MB').'
-            <input type="radio" name="_rule_size_item['.$id.']" value="G"'
-                . ($sizeitem=='G' ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('GB');
+            <label><input type="radio" name="_rule_size_item['.$id.']" value=""'
+                . (!$sizeitem ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('B').'</label>
+            <label><input type="radio" name="_rule_size_item['.$id.']" value="K"'
+                . ($sizeitem=='K' ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('KB').'</label>
+            <label><input type="radio" name="_rule_size_item['.$id.']" value="M"'
+                . ($sizeitem=='M' ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('MB').'</label>
+            <label><input type="radio" name="_rule_size_item['.$id.']" value="G"'
+                . ($sizeitem=='G' ? ' checked="checked"' : '') .' class="radio" />'.$this->rc->gettext('GB').'</label>';
         $tout .= '</div>';
 
         // Advanced modifiers (address, envelope)
@@ -1572,6 +1574,7 @@ class managesieve extends rcube_plugin
             . "</textarea>\n";
 
         // vacation
+        $vsec = in_array('vacation-seconds', $this->exts);
         $out .= '<div id="action_vacation' .$id.'" style="display:' .($action['type']=='vacation' ? 'inline' : 'none') .'">';
         $out .= '<span class="label">'. rcube::Q($this->gettext('vacationreason')) .'</span><br />'
             .'<textarea name="_action_reason['.$id.']" id="action_reason' .$id. '" '
@@ -1585,10 +1588,16 @@ class managesieve extends rcube_plugin
             .'<input type="text" name="_action_addresses['.$id.']" id="action_addr'.$id.'" '
             .'value="' . (is_array($action['addresses']) ? rcube::Q(implode(', ', $action['addresses']), 'strict', false) : $action['addresses']) . '" size="35" '
             . $this->error_class($id, 'action', 'addresses', 'action_addr') .' />';
-        $out .= '<br /><span class="label">' . rcube::Q($this->gettext('vacationdays')) . '</span><br />'
-            .'<input type="text" name="_action_days['.$id.']" id="action_days'.$id.'" '
-            .'value="' .rcube::Q($action['days'], 'strict', false) . '" size="2" '
-            . $this->error_class($id, 'action', 'days', 'action_days') .' />';
+        $out .= '<br /><span class="label">' . rcube::Q($this->gettext($vsec ? 'vacationinterval' : 'vacationdays')) . '</span><br />'
+            .'<input type="text" name="_action_interval['.$id.']" id="action_interval'.$id.'" '
+            .'value="' .rcube::Q(isset($action['seconds']) ? $action['seconds'] : $action['days'], 'strict', false) . '" size="2" '
+            . $this->error_class($id, 'action', 'interval', 'action_interval') .' />';
+        if ($vsec) {
+            $out .= '&nbsp;<label><input type="radio" name="_action_interval_type['.$id.']" value="days"'
+                . (!isset($action['seconds']) ? ' checked="checked"' : '') .' class="radio" />'.$this->gettext('days').'</label>'
+                . '&nbsp;<label><input type="radio" name="_action_interval_type['.$id.']" value="seconds"'
+                . (isset($action['seconds']) ? ' checked="checked"' : '') .' class="radio" />'.$this->gettext('seconds').'</label>';
+        }
         $out .= '</div>';
 
         // flags
