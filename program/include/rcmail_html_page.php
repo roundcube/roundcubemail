@@ -30,7 +30,7 @@ class rcmail_html_page extends rcmail_output_html
 {
     public function write($contents = '')
     {
-        self::reset();
+        self::reset(true);
 
         // load embed.css from skin folder (if exists)
         if ($embed_css = $this->get_skin_file('/embed.css')) {

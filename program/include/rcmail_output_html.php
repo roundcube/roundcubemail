@@ -307,17 +307,19 @@ class rcmail_output_html extends rcmail_output
 
     /**
      * Delete all stored env variables and commands
+     *
+     * @param bool $all Reset all env variables (including internal)
      */
-    public function reset()
+    public function reset($all = false)
     {
-        $env = array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+        $env = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
 
         parent::reset();
 
         // let some env variables survive
         $this->env = $this->js_env = $env;
-        $this->js_labels = array();
-        $this->js_commands = array();
+        $this->js_labels    = array();
+        $this->js_commands  = array();
         $this->script_files = array();
         $this->scripts      = array();
         $this->header       = '';
@@ -362,7 +364,7 @@ class rcmail_output_html extends rcmail_output
             $this->parse($templ, false);
         }
         else {
-            $this->framed = $templ == 'iframe' ? true : $this->framed;
+            $this->framed = true;
             $this->write();
         }
 
@@ -396,9 +398,11 @@ class rcmail_output_html extends rcmail_output
           $this->set_env('request_token', $this->app->get_request_token());
 
         // write all env variables to client
-        $js = $this->framed ? "if(window.parent) {\n" : '';
-        $js .= $this->get_js_commands() . ($this->framed ? ' }' : '');
-        $this->add_script($js, 'head_top');
+        if ($commands = $this->get_js_commands()) {
+            $js = $this->framed ? "if (window.parent) {\n" : '';
+            $js .= $commands . ($this->framed ? ' }' : '');
+            $this->add_script($js, 'head_top');
+        }
 
         // send clickjacking protection headers
         $iframe = $this->framed || !empty($_REQUEST['_framed']);
