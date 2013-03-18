@@ -1,7 +1,7 @@
 I'm replying on this with a very long line which is then wrapped and 
 space-stuffed because the draft is saved as format=flowed.
- From what's specified in RFC 2646 some lines need to be space-stuffed to 
-avoid muning during transport.
+ From what's specified in RFC 2646 some lines need to be space-stuffed to avoid 
+muning during transport.
 
 X
 
