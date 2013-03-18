@@ -595,11 +595,12 @@ class rcube_mime
             while (count($list)) {
                 $line   = array_shift($list);
                 $l      = mb_strlen($line);
-                $newlen = $len + $l + ($len ? 1 : 0);
+                $space  = $len ? 1 : 0;
+                $newlen = $len + $l + $space;
 
                 if ($newlen <= $width) {
-                    $string .= ($len ? ' ' : '').$line;
-                    $len += (1 + $l);
+                    $string .= ($space ? ' ' : '').$line;
+                    $len += ($space + $l);
                 }
                 else {
                     if ($l > $width) {
