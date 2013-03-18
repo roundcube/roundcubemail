@@ -181,7 +181,11 @@ class newmail_notifier extends rcube_plugin
             $this->notified = true;
 
             $this->rc->output->command('plugin.newmail_notifier',
-                array('basic' => $basic, 'sound' => $sound, 'desktop' => $desktop));
+                array(
+                    'basic'   => $this->opt['basic'],
+                    'sound'   => $this->opt['sound'],
+                    'desktop' => $this->opt['desktop'],
+                ));
         }
 
         return $args;
