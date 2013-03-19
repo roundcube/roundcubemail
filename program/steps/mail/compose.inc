@@ -568,8 +568,7 @@ function rcmail_prepare_message_body()
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD && $COMPOSE['as_attachment']) {
     $isHtml = rcmail_compose_editor_mode();
     $body = '';
-    if (empty($COMPOSE['attachments']))
-      rcmail_write_forward_attachments();
+    rcmail_write_forward_attachments();
   }
   // reply/edit/draft/forward
   else if ($compose_mode && ($compose_mode != RCUBE_COMPOSE_REPLY || $RCMAIL->config->get('reply_mode') != -1)) {
@@ -1074,6 +1073,11 @@ function rcmail_write_forward_attachments()
   $curr_mem  = function_exists('memory_get_usage') ? memory_get_usage() : 16*1024*1024; // safe value: 16MB
   $names     = array();
 
+  $loaded_attachments = array();
+  foreach ((array)$COMPOSE['attachments'] as $id => $attachment) {
+      $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
+  }
+
   if ($COMPOSE['forward_uid'] == '*') {
     $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
     $COMPOSE['forward_uid'] = $index->get();
@@ -1107,6 +1111,10 @@ function rcmail_write_forward_attachments()
     $name .= '.eml';
 
     $data = $path = null;
+
+    if (!empty($loaded_attachments[$name . 'message/rfc822'])) {
+      continue;
+    }
 
     // don't load too big attachments into memory
     if ($mem_limit > 0 && $message->size > $mem_limit - $curr_mem) {

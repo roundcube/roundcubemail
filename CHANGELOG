@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so forward as attachment works if additional attachment is added by message_compose hook (#1489000)
 - Add ability to toggle between HTML and text while viewing a message (#1486939)
 - Better handling of session errors in ajax requests (#1488960)
 - Fix HTML part detection for some specific message structures (#1488992)
