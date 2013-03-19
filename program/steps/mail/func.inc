@@ -760,7 +760,8 @@ function rcmail_plain_body($body, $flowed=false)
   global $RCMAIL;
 
   // make links and email-addresses clickable
-  $replacer = new rcmail_string_replacer;
+  $attribs  = array('link_attribs' => array('rel' => 'noreferrer', 'target' => '_blank'));
+  $replacer = new rcmail_string_replacer($attribs);
 
   // search for patterns like links and e-mail addresses and replace with tokens
   $body = $replacer->replace($body);
@@ -1373,7 +1374,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
 
 
 /**
- * parse link attributes and set correct target
+ * parse link (a, link, area) attributes and set correct target
  */
 function rcmail_alter_html_link($matches)
 {
@@ -1382,9 +1383,9 @@ function rcmail_alter_html_link($matches)
   // Support unicode/punycode in top-level domain part
   $EMAIL_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[^&@"\'.][^@&"\']*\\.([^\\x00-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,}))';
 
-  $tag = $matches[1];
+  $tag    = strtolower($matches[1]);
   $attrib = parse_attrib_string($matches[2]);
-  $end = '>';
+  $end    = '>';
 
   // Remove non-printable characters in URL (#1487805)
   if ($attrib['href'])
@@ -1409,6 +1410,11 @@ function rcmail_alter_html_link($matches)
   }
   else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
     $attrib['target'] = '_blank';
+  }
+
+  // Better security by adding rel="noreferrer" (#1484686)
+  if (($tag == 'a' || $tag == 'area') && $attrib['href'] && $attrib['href'][0] != '#') {
+    $attrib['rel'] = 'noreferrer';
   }
 
   // allowed attributes for a|link|area tags

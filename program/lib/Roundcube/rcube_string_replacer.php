@@ -28,9 +28,10 @@ class rcube_string_replacer
     public $mailto_pattern;
     public $link_pattern;
     private $values = array();
+    private $options = array();
 
 
-    function __construct()
+    function __construct($options = array())
     {
         // Simplified domain expression for UTF8 characters handling
         // Support unicode/punycode in top-level domain part
@@ -44,6 +45,8 @@ class rcube_string_replacer
             ."@$utf_domain"                                                 // domain-part
             ."(\?[$url1$url2]+)?"                                           // e.g. ?subject=test...
             .")/";
+
+        $this->options = $options;
     }
 
     /**
@@ -89,10 +92,10 @@ class rcube_string_replacer
 
         if ($url) {
             $suffix = $this->parse_url_brackets($url);
-            $i = $this->add($prefix . html::a(array(
-                'href'   => $url_prefix . $url,
-                'target' => '_blank'
-            ), rcube::Q($url)) . $suffix);
+            $attrib = (array)$this->options['link_attribs'];
+            $attrib['href'] = $url_prefix . $url;
+
+            $i = $this->add($prefix . html::a($attrib, rcube::Q($url)) . $suffix);
         }
 
         // Return valid link for recognized schemes, otherwise
