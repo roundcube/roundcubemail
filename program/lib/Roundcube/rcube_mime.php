@@ -718,21 +718,27 @@ class rcube_mime
         // load mapping file
         $file_paths = array();
 
-        if ($mime_types = rcube::get_instance()->config->get('mime_types'))
+        if ($mime_types = rcube::get_instance()->config->get('mime_types')) {
             $file_paths[] = $mime_types;
+        }
 
         // try common locations
-        $file_paths[] = '/etc/mime.types';
-        $file_paths[] = '/etc/httpd/mime.types';
-        $file_paths[] = '/etc/httpd2/mime.types';
-        $file_paths[] = '/etc/apache/mime.types';
-        $file_paths[] = '/etc/apache2/mime.types';
-        $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
-        $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+            $file_paths[] = 'C:/xampp/apache/conf/mime.types.';
+        }
+        else {
+            $file_paths[] = '/etc/mime.types';
+            $file_paths[] = '/etc/httpd/mime.types';
+            $file_paths[] = '/etc/httpd2/mime.types';
+            $file_paths[] = '/etc/apache/mime.types';
+            $file_paths[] = '/etc/apache2/mime.types';
+            $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
+            $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
+        }
 
         foreach ($file_paths as $fp) {
             if (is_readable($fp)) {
-                $lines = file($fp, FILE_IGNORE_NEW_LINES);
+                $lines = file($fp, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                 break;
             }
         }
