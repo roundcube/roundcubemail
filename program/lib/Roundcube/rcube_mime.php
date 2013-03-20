@@ -672,7 +672,16 @@ class rcube_mime
 
         // try fileinfo extension if available
         if (!$mime_type && function_exists('finfo_open')) {
-            if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
+            // null as a 2nd argument should be the same as no argument
+            // this however is not true on all systems/versions
+            if ($mime_magic) {
+                $finfo = finfo_open(FILEINFO_MIME, $mime_magic);
+            }
+            else {
+                $finfo = finfo_open(FILEINFO_MIME);
+            }
+
+            if ($finfo) {
                 if ($is_stream)
                     $mime_type = finfo_buffer($finfo, $path);
                 else
