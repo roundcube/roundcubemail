@@ -1471,13 +1471,25 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     }
     else if (check_email($part['mailto'], false)) {
       if ($linked) {
-        $address = html::a(array(
+        if ($RCMAIL->config->get('message_show_email')) {
+          $address = html::a(array(
+              'href' => 'mailto:'.$mailto,
+              'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
+              'title' => $mailto,
+              'class' => "rcmContactAddress",
+            ),
+
+           Q($name? sprintf('"%s" %s',$name,$mailto): $mailto));
+        }
+        else {
+          $address = html::a(array(
             'href' => 'mailto:'.$mailto,
             'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
             'title' => $mailto,
             'class' => "rcmContactAddress",
           ),
         Q($name ? $name : $mailto));
+        }
       }
       else {
         $address = html::span(array('title' => $mailto, 'class' => "rcmContactAddress"),

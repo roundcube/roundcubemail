@@ -393,6 +393,7 @@ $labels['pagesize']  = 'Rows per page';
 $labels['signature'] = 'Signature';
 $labels['dstactive']  = 'Summer time';
 $labels['showinextwin'] = 'Open message in a new window';
+$labels['show_fullemail'] = 'Show full email along with display name';
 $labels['composeextwin'] = 'Compose in a new window';
 $labels['htmleditor'] = 'Compose HTML messages';
 $labels['htmlonreply'] = 'on reply to HTML message only';
