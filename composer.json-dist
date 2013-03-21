@@ -24,7 +24,7 @@
             }
         }
     ],
-    "require" : {
+    "require": {
         "pear-pear/Mail_Mime": ">=1.8.1",
         "pear-pear/Mail_mimeDecode": ">=1.5.5",
         "Net_SMTP": "dev-master",
