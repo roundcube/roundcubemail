@@ -950,12 +950,18 @@ div.hide-headers {
 	border-radius: 4px;
 }
 
-#messageheader #countcontrols {
+#messageheader #countcontrols,
+#messageheader #formatcontrols {
 	position: absolute;
 	top: 8px;
 	right: 8px;
 	text-align: right;
 	white-space: nowrap;
+}
+
+#messageheader #formatcontrols {
+	top: 38px;
+	right: 8px;
 }
 
 #messageheader .pagenav .countdisplay {
