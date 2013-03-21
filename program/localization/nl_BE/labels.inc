@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopieer';
 $labels['move']     = 'Verplaats';
 $labels['moveto']   = 'Verplaats naar...';
 $labels['download'] = 'Downloaden';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Weergeven';
 $labels['showanyway'] = 'Toch weergeven';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Als nieuw bewerken';

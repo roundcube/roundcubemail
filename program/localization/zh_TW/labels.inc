@@ -64,6 +64,7 @@ $labels['copy']     = '複製';
 $labels['move']     = '移動';
 $labels['moveto']   = '移至...';
 $labels['download'] = '下載';
+$labels['open']     = 'Open';
 $labels['showattachment'] = '顯示';
 $labels['showanyway'] = '總是顯示';
 
@@ -204,6 +205,8 @@ $labels['body']  = '內文';
 
 $labels['openinextwin'] = '在新視窗開啟';
 $labels['emlsave'] = '下載（.eml）';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = '以新郵件編輯';
@@ -241,7 +244,7 @@ $labels['nosubject']  = '（沒有主旨）';
 $labels['showimages'] = '顯示圖片';
 $labels['alwaysshow'] = '永遠顯示來自 $sender 的圖片';
 $labels['isdraft']    = '這是一封草稿';
-$labels['andnmore']   = '$nr more...';
+$labels['andnmore']   = '第$nr封或是更多...';
 $labels['togglemoreheaders'] = '顯示更多的訊息表頭';
 $labels['togglefullheaders'] = '切換原始訊息表頭';
 
@@ -335,8 +338,8 @@ $labels['composeto']      = '寄信至所選擇的聯絡人';
 $labels['contactsfromto'] = '聯絡人 $from 至 $to，共有 $count 人';
 $labels['print']          = '列印';
 $labels['export']         = '匯出通訊錄';
-$labels['exportall']      = 'Export all';
-$labels['exportsel']      = 'Export selected';
+$labels['exportall']      = '匯出全部';
+$labels['exportsel']      = '匯出選擇項目';
 $labels['exportvcards']   = '匯出通訊錄為 vCard 格式';
 $labels['newcontactgroup'] = '新增聯絡人群組';
 $labels['grouprename']    = '重新命名群組';
@@ -380,7 +383,7 @@ $labels['edititem'] = '編輯項目';
 $labels['preferhtml'] = '使用 HTML 顯示';
 $labels['defaultcharset'] = '預設編碼';
 $labels['htmlmessage'] = 'HTML 郵件';
-$labels['messagepart'] = 'Part';
+$labels['messagepart'] = '部分';
 $labels['digitalsig'] = '數位簽章';
 $labels['dateformat'] = '日期格式';
 $labels['timeformat'] = '時間格式';

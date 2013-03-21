@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopírovat';
 $labels['move']     = 'Přesunout';
 $labels['moveto']   = 'přesunout do...';
 $labels['download'] = 'stáhnout';
+$labels['open']     = 'Otevřít';
 $labels['showattachment'] = 'Zobrazit';
 $labels['showanyway'] = 'Přesto zobrazit';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Tělo';
 
 $labels['openinextwin'] = 'Otevřít v novém okně';
 $labels['emlsave'] = 'Stáhnout (.eml)';
+$labels['changeformattext'] = 'Zobrazit v textovém formátu';
+$labels['changeformathtml'] = 'Zobrazit v HTML formátu';
 
 // message compose
 $labels['editasnew']      = 'Upravit jako novou';
@@ -335,8 +338,8 @@ $labels['composeto']      = 'Poslat e-mail';
 $labels['contactsfromto'] = 'Kontakty $from až $to z celkem $count';
 $labels['print']          = 'Tisk';
 $labels['export']         = 'Export';
-$labels['exportall']      = 'Export all';
-$labels['exportsel']      = 'Export selected';
+$labels['exportall']      = 'Export všech';
+$labels['exportsel']      = 'Export vybraných';
 $labels['exportvcards']   = 'Exportovat kontakty ve formátu vCard';
 $labels['newcontactgroup'] = 'Vytvořit novou skupinu kontaktů';
 $labels['grouprename']    = 'Přejmenovat skupinu';

@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopiera';
 $labels['move']     = 'Flytta';
 $labels['moveto']   = 'Flytta till:';
 $labels['download'] = 'Ladda ner';
+$labels['open']     = 'Öppna';
 $labels['showattachment'] = 'Visa';
 $labels['showanyway'] = 'Visa det ändå';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Innehåll';
 
 $labels['openinextwin'] = 'Öppna i nytt fönster';
 $labels['emlsave'] = 'Spara (.eml)';
+$labels['changeformattext'] = 'Visa i text-format';
+$labels['changeformathtml'] = 'Visa i HTML-format';
 
 // message compose
 $labels['editasnew']      = 'Redigera som nytt';

@@ -64,6 +64,7 @@ $labels['copy']     = 'Копиране';
 $labels['move']     = 'Преместване';
 $labels['moveto']   = 'Премести в...';
 $labels['download'] = 'Изтегли';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Показване';
 $labels['showanyway'] = 'Показване въпреки това';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Основен текст';
 
 $labels['openinextwin'] = 'Отвори в нов прозорец';
 $labels['emlsave'] = 'Изтегли като .eml';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Промени като ново';

@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopyala';
 $labels['move']     = 'Köçür';
 $labels['moveto']   = 'Burada köçür...';
 $labels['download'] = 'Endir';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Göstər';
 $labels['showanyway'] = 'İstənilən halda göstər';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Mətn';
 
 $labels['openinextwin'] = 'Yeni pəncərədə aç';
 $labels['emlsave'] = 'Saxla (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Yeni kimi redaktə et';

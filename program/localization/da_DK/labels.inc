@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopiér';
 $labels['move']     = 'Flyt';
 $labels['moveto']   = 'Flyt til...';
 $labels['download'] = 'Download';
+$labels['open']     = 'Åben';
 $labels['showattachment'] = 'Vis';
 $labels['showanyway'] = 'Vis alligevel';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Åbn i nyt vindue';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Redigér som ny';
@@ -243,7 +246,7 @@ $labels['alwaysshow'] = 'Vis altid billeder fra $sender';
 $labels['isdraft']    = 'Dette er en kladde.';
 $labels['andnmore']   = '$nr yderligere...';
 $labels['togglemoreheaders'] = 'Vis yderligere headers';
-$labels['togglefullheaders'] = 'Toggle raw message headers';
+$labels['togglefullheaders'] = 'Ændre rå brevhoveder';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Almindelig tekst';
@@ -335,8 +338,8 @@ $labels['composeto']      = 'Skriv besked til';
 $labels['contactsfromto'] = 'Kontakter $from til $to af $count';
 $labels['print']          = 'Udskriv';
 $labels['export']         = 'Eksportér';
-$labels['exportall']      = 'Export all';
-$labels['exportsel']      = 'Export selected';
+$labels['exportall']      = 'Eksporter alt';
+$labels['exportsel']      = 'Eksporter udvalgte';
 $labels['exportvcards']   = 'Eksportér kontakter i vCard format';
 $labels['newcontactgroup'] = 'Opret ny kontaktgruppe';
 $labels['grouprename']    = 'Omdøb gruppe';

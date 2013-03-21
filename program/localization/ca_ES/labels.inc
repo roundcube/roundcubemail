@@ -41,7 +41,7 @@ $labels['junk']   = 'Correu brossa';
 // message listing
 $labels['subject'] = 'Assumpte';
 $labels['from']    = 'Remitent';
-$labels['sender']  = 'Sender';
+$labels['sender']  = 'Remitent';
 $labels['to']      = 'Destinatari';
 $labels['cc']      = 'Cc';
 $labels['bcc']     = 'Bcc';
@@ -64,7 +64,8 @@ $labels['copy']     = 'Copia';
 $labels['move']     = 'Mou';
 $labels['moveto']   = 'Mou a...';
 $labels['download'] = 'Descarrega';
-$labels['showattachment'] = 'Mostrar';
+$labels['open']     = 'Obre';
+$labels['showattachment'] = 'Mostra';
 $labels['showanyway'] = 'Mostra-ho de totes maneres';
 
 $labels['filename'] = 'Nom del fitxer';
@@ -200,10 +201,12 @@ $labels['quicksearch']  = 'Cerca ràpida';
 $labels['resetsearch']  = 'Neteja cerca';
 $labels['searchmod']  = 'Cerca modificadors';
 $labels['msgtext']  = 'Missatge sencer';
-$labels['body']  = 'Body';
+$labels['body']  = 'Cos';
 
 $labels['openinextwin'] = 'Obre a una nova finestra';
 $labels['emlsave'] = 'Descarrega (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edita com a nou';
@@ -243,7 +246,7 @@ $labels['alwaysshow'] = 'Mostra sempre les imatges de $sender';
 $labels['isdraft']    = 'Aquest és un missatge esborrany.';
 $labels['andnmore']   = '$nr més...';
 $labels['togglemoreheaders'] = 'Mostra més capçaleres del missatge';
-$labels['togglefullheaders'] = 'Toggle raw message headers';
+$labels['togglefullheaders'] = 'Conmuta les capçaleres de text cru';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Text net';
@@ -335,8 +338,8 @@ $labels['composeto']      = 'Redacta correu per a';
 $labels['contactsfromto'] = 'Contactes $from a $to de $count';
 $labels['print']          = 'Imprimeix';
 $labels['export']         = 'Exporta';
-$labels['exportall']      = 'Export all';
-$labels['exportsel']      = 'Export selected';
+$labels['exportall']      = 'Exporta\'ls tots';
+$labels['exportsel']      = 'Exporta els seleccionats';
 $labels['exportvcards']   = 'Exporta contactes en format vCard';
 $labels['newcontactgroup'] = 'Crea un nou grup de contactes';
 $labels['grouprename']    = 'Reanomena el grup';
@@ -360,7 +363,7 @@ $labels['importcontacts'] = 'Importa contactes';
 $labels['importfromfile'] = 'Importa des d\'un fitxer:';
 $labels['importtarget'] = 'Afegeix contactes nous a la llibreta d\'adreces:';
 $labels['importreplace'] = 'Reemplaça la llibreta d\'adreçes sencera';
-$labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
+$labels['importdesc'] = 'Podeu carregar contactes des d\'una llibreta de direccions.<br/>Actualment donem suport a la importació d\'adreces des de fitxers de tipus <a href="http://ca.wikipedia.org/wiki/VCard">vCard</a> o CSV (valors separats per comes).';
 $labels['done'] = 'Fet';
 
 // settings
@@ -381,7 +384,7 @@ $labels['preferhtml'] = 'Mostra HTML';
 $labels['defaultcharset'] = 'Joc de caràcters per defecte';
 $labels['htmlmessage'] = 'Missatge HTML';
 $labels['messagepart'] = 'Part';
-$labels['digitalsig'] = 'Digital Signature';
+$labels['digitalsig'] = 'Signatura digital';
 $labels['dateformat'] = 'Format de la data';
 $labels['timeformat'] = 'Format horari';
 $labels['prettydate'] = 'Dates curtes';
@@ -396,7 +399,7 @@ $labels['showinextwin'] = 'Obrir el missatge en una nova finestra';
 $labels['composeextwin'] = 'Redactar en una nova finestra';
 $labels['htmleditor'] = 'Escriu missatges en HTML';
 $labels['htmlonreply'] = 'només en resposta a missatges en HTML';
-$labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
+$labels['htmlonreplyandforward'] = 'en reenviament o resposta a missatge HTML';
 $labels['htmlsignature'] = 'Signatura en HTML';
 $labels['previewpane'] = 'Mostra el panell de previsualització';
 $labels['skin'] = 'Aparença d\'interfície';
@@ -470,7 +473,7 @@ $labels['spellcheckignorenums'] = 'Ignora paraules amb números';
 $labels['spellcheckignorecaps'] = 'Ignora paraules amb lletres capitalitzades';
 $labels['addtodict'] = 'Afegeix al diccionari';
 $labels['mailtoprotohandler'] = 'Registra controlador de protocol pels enllaços mailto:';
-$labels['forwardmode'] = 'Messages forwarding';
+$labels['forwardmode'] = 'Reenviament de missatges';
 $labels['inline'] = 'en línia';
 $labels['asattachment'] = 'com adjunt';
 

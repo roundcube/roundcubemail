@@ -64,6 +64,7 @@ $labels['copy']     = 'ასლი';
 $labels['move']     = 'გადატანა';
 $labels['moveto']   = 'გადატანა...';
 $labels['download'] = 'გადმოწერა';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'გახსნა ახალ ფანჯარაში';
 $labels['emlsave'] = 'გადმოწერა (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'რედაქტირება როგორც ახლის';

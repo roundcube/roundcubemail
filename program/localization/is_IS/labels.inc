@@ -64,6 +64,7 @@ $labels['copy']     = 'Afrit';
 $labels['move']     = 'Færa';
 $labels['moveto']   = 'Færa í...';
 $labels['download'] = 'Hlaða niður';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Opna í nýjum glugga';
 $labels['emlsave'] = 'Niðurhlaða (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Breyta sem nýju';

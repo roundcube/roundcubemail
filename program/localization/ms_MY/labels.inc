@@ -64,6 +64,7 @@ $labels['copy']     = 'Salin';
 $labels['move']     = 'Alih';
 $labels['moveto']   = 'Alih ke...';
 $labels['download'] = 'Muat Turun';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Buka dalam tetingkap baru';
 $labels['emlsave'] = 'Muat-turun (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Ubah seperti baharu';
