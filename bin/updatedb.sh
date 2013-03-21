@@ -56,7 +56,7 @@ if (!$DB->is_connected()) {
 }
 
 // Read DB schema version from database (if 'system' table exists)
-if (in_array('system', (array)$DB->list_tables())) {
+if (in_array($DB->table_name('system'), (array)$DB->list_tables())) {
     $DB->query("SELECT " . $DB->quote_identifier('value')
         ." FROM " . $DB->quote_identifier($DB->table_name('system'))
         ." WHERE " . $DB->quote_identifier('name') ." = ?",
@@ -150,7 +150,7 @@ function update_db_schema($package, $version, $file)
 
             $sql .= $line . "\n";
             if (preg_match('/(;|^GO)$/', trim($line))) {
-                @$DB->query($sql);
+                @$DB->query(fix_table_names($sql));
                 $sql = '';
                 if ($error = $DB->is_error()) {
                     return $error;
@@ -179,6 +179,20 @@ function update_db_schema($package, $version, $file)
     }
 
     return $DB->is_error();
+}
+
+function fix_table_names($sql)
+{
+    global $DB;
+
+    foreach (array('users','identities','contacts','contactgroups','contactgroupmembers','session','cache','cache_index','cache_index','cache_messages','dictionary','searches','system') as $table) {
+        $real_table = $DB->table_name($table);
+        if ($real_table != $table) {
+            $sql = preg_replace("/([^a-z0-9_])$table([^a-z0-9_])/i", "\\1$real_table\\2", $sql);
+        }
+    }
+
+    return $sql;
 }
 
 ?>
