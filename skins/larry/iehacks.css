@@ -29,7 +29,8 @@ input.button.mainaction:active {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2a2e31', endColorstr='#505050', GradientType=0);
 }
 
-a.button {
+a.button,
+.buttongroup {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
 }
 
@@ -45,6 +46,10 @@ input.button:active {
 
 .pagenav.dark a.button.pressed {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bababa', endColorstr='#d8d8d8', GradientType=0);
+}
+
+.buttongroup a.button.selected {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#909090', endColorstr='#858585', GradientType=0);
 }
 
 #message.statusbar {
