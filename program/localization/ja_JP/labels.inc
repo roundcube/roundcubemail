@@ -64,6 +64,7 @@ $labels['copy']     = 'コピー';
 $labels['move']     = '移動';
 $labels['moveto']   = 'フォルダーに移動';
 $labels['download'] = 'ダウンロード';
+$labels['open']     = '開く';
 $labels['showattachment'] = '表示';
 $labels['showanyway'] = 'とにかく表示';
 
@@ -204,6 +205,8 @@ $labels['body']  = '本文';
 
 $labels['openinextwin'] = '新しいウィンドウで開く';
 $labels['emlsave'] = 'ダウンロード(.eml形式)';
+$labels['changeformattext'] = 'テキスト形式で表示';
+$labels['changeformathtml'] = 'HTML形式で表示';
 
 // message compose
 $labels['editasnew']      = '新しいメッセージとして編集';

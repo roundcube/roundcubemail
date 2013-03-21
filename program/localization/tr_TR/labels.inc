@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopyala';
 $labels['move']     = 'Taşı';
 $labels['moveto']   = 'Şuraya taşı...';
 $labels['download'] = 'İndir';
+$labels['open']     = 'Aç';
 $labels['showattachment'] = 'Göster';
 $labels['showanyway'] = 'Yine de göster';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Gövde';
 
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
+$labels['changeformattext'] = 'Düz yazı formatında göster';
+$labels['changeformathtml'] = 'HTML formatında göster';
 
 // message compose
 $labels['editasnew']      = 'Postayı yeni olarak düzenle';
@@ -335,8 +338,8 @@ $labels['composeto']      = 'Seçili kişiye posta gönder';
 $labels['contactsfromto'] = 'Kişiler: $from - $to , Toplam: $count';
 $labels['print']          = 'Yazdır';
 $labels['export']         = 'Dışa aktar';
-$labels['exportall']      = 'Export all';
-$labels['exportsel']      = 'Export selected';
+$labels['exportall']      = 'Hepsini dışa aktar';
+$labels['exportsel']      = 'Seçileni dışa aktar';
 $labels['exportvcards']   = 'vCard olarak dışa aktar';
 $labels['newcontactgroup'] = 'Yeni kişi grubu oluştur';
 $labels['grouprename']    = 'Grubu yeniden adlandır';

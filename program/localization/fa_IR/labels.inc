@@ -20,7 +20,7 @@ $labels = array();
 
 // login page
 $labels['welcome']   = 'به $product خوش آمدید';
-$labels['username']  = 'نام‌کاربری';
+$labels['username']  = 'نام کاربری';
 $labels['password']  = 'گذرواژه';
 $labels['server']    = 'سرور';
 $labels['login']     = 'ورود';
@@ -64,6 +64,7 @@ $labels['copy']     = 'رونوشت';
 $labels['move']     = 'انتقال';
 $labels['moveto']   = 'انتقال به...';
 $labels['download'] = 'بارگیری';
+$labels['open']     = 'باز کردن';
 $labels['showattachment'] = 'نمایش';
 $labels['showanyway'] = 'نمایش آن در هر صورت';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'بدنه';
 
 $labels['openinextwin'] = 'باز کردن در پنجره‌ی جدید';
 $labels['emlsave'] = 'بارگیری (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'ویرایش به عنوان جدید';

@@ -64,6 +64,7 @@ $labels['copy']     = 'Copier';
 $labels['move']     = 'Déplacer';
 $labels['moveto']   = 'Déplacer vers...';
 $labels['download'] = 'Télécharger';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Afficher';
 $labels['showanyway'] = 'Afficher quand même';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Corps';
 
 $labels['openinextwin'] = 'Ouvrir dans une nouvelle fenêtre';
 $labels['emlsave'] = 'Télécharger (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Éditer en tant que nouveau message';

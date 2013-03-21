@@ -64,6 +64,7 @@ $labels['copy']     = 'പകര്‍ത്തുക';
 $labels['move']     = 'നീക്കുക';
 $labels['moveto']   = 'Move to...';
 $labels['download'] = 'ഡൗണ്‍ലോഡ്';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'പുതിയ വിന്‍ഡോയില്‍ തുറക്കുക';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'പുതിയതായി തിരുത്തുക';

@@ -64,6 +64,7 @@ $labels['copy']     = 'Másolás';
 $labels['move']     = 'Áthelyezés';
 $labels['moveto']   = 'Áthelyezés...';
 $labels['download'] = 'letöltés';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Megjelenítés';
 $labels['showanyway'] = 'Megjelnités mindenképpen';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Törzs';
 
 $labels['openinextwin'] = 'Megnyitás új ablakban';
 $labels['emlsave'] = 'Letöltés (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Szerkesztés újként';

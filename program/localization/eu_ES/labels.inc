@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopia';
 $labels['move']     = 'Mugitu';
 $labels['moveto']   = 'mugitu hona...';
 $labels['download'] = 'deskargatu';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Lehio berrian ireki';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';

@@ -64,6 +64,7 @@ $labels['copy']     = 'تکثیر';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'انتقال بدهید به ...';
 $labels['download'] = 'داونلود کردن';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'در پینجره ای جدید باز کنید';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';

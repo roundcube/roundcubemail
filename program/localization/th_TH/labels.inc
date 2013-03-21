@@ -64,6 +64,7 @@ $labels['copy']     = 'คัดลอก';
 $labels['move']     = 'เลื่อน';
 $labels['moveto']   = 'ย้ายไป...';
 $labels['download'] = 'ดาวน์โหลด';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'แสดง';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'เนื้อหา';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';

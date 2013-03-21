@@ -64,6 +64,7 @@ $labels['copy']     = 'नक्‍कल';
 $labels['move']     = 'हलवा';
 $labels['moveto']   = 'या फोल्डरमधे ठेवा';
 $labels['download'] = 'उतरवून घ्या';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'नवीन खिडकी उघडा';
 $labels['emlsave'] = 'इएमएल स्‍वरूपात उतरवून घ्या';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'नवीन आहे असा संपादित करा';

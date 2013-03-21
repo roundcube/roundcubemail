@@ -64,6 +64,7 @@ $labels['copy']     = 'Eilañ';
 $labels['move']     = 'Dilec\'hiañ';
 $labels['moveto']   = 'Dilec\'hiañ da...';
 $labels['download'] = 'Pellgargañ';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Diskouez';
 $labels['showanyway'] = 'Diskouez anezhañ memestra';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';

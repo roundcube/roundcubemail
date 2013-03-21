@@ -64,6 +64,7 @@ $labels['copy']     = 'Copiază';
 $labels['move']     = 'Mută';
 $labels['moveto']   = 'Mută in...';
 $labels['download'] = 'Descarcă';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Arată';
 $labels['showanyway'] = 'Arată oricum';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Corp';
 
 $labels['openinextwin'] = 'Deschide într-o fereastră nouă';
 $labels['emlsave'] = 'Salvează în format .eml';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Editează ca nou';

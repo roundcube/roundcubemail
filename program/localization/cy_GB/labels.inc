@@ -64,6 +64,7 @@ $labels['copy']     = 'Copio';
 $labels['move']     = 'Symud';
 $labels['moveto']   = 'Symud i...';
 $labels['download'] = 'Llwytho lawr';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Dangos';
 $labels['showanyway'] = 'Dangos beth bynnag';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Corff';
 
 $labels['openinextwin'] = 'Agor mewn ffenest newydd';
 $labels['emlsave'] = 'Llwytho lawr (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Golygu fel neges newydd';

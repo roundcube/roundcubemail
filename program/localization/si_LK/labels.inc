@@ -64,6 +64,7 @@ $labels['copy']     = 'පිටපත් කරන්න';
 $labels['move']     = 'ගෙනයන්න';
 $labels['moveto']   = 'ගෙන යන්න...';
 $labels['download'] = 'බාගත කරන්න';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'නව කවුළුවක විවෘත කරන්න';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';

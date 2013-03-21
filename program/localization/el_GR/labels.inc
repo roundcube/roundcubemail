@@ -64,6 +64,7 @@ $labels['copy']     = 'Αντιγραφή';
 $labels['move']     = 'Μετακίνηση';
 $labels['moveto']   = 'Μετακίνηση σε...';
 $labels['download'] = 'Λήψη';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Εμφάνιση';
 $labels['showanyway'] = 'Εμφάνιση';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Σώμα';
 
 $labels['openinextwin'] = 'Άνοιγμα σε νέο παράθυρο';
 $labels['emlsave'] = 'Λήψη αρχείου (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Επεξεργασία σαν νέο';

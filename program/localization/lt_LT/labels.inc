@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopijuoti';
 $labels['move']     = 'Perkelti';
 $labels['moveto']   = 'Perkelti į…';
 $labels['download'] = 'Parsisiųsti';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Rodyti';
 $labels['showanyway'] = 'Vistiek rodyti';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Atverti naujame lange';
 $labels['emlsave'] = 'Parsisiųsti (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Redaguoti kaip naują';

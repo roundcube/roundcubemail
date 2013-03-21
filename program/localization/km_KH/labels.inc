@@ -64,6 +64,7 @@ $labels['copy']     = 'ចំលង';
 $labels['move']     = 'ផ្ទេរ';
 $labels['moveto']   = 'ផ្ទេរទៅ';
 $labels['download'] = 'ទាញយក';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'បើកក្នុងវីនដូវថ្មី';
 $labels['emlsave'] = 'រក្សាទុកទិន្នន័យជាឯកសារប្រភេទ(.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'កែហើយរក្សាទុកដូចជាសំបុត្រថ្មី';

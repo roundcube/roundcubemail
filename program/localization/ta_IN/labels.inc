@@ -64,6 +64,7 @@ $labels['copy']     = 'நகல்';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'இதற்கு அனுப்பு...';
 $labels['download'] = 'பதிவிறக்கு';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'புது சாளரத்தில் திற';
 $labels['emlsave'] = 'பதிவிறக்கு (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'புதியதாக திருத்து';

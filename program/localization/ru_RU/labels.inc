@@ -64,6 +64,7 @@ $labels['copy']     = 'Копировать';
 $labels['move']     = 'Переместить';
 $labels['moveto']   = 'Переместить в...';
 $labels['download'] = 'Загрузить';
+$labels['open']     = 'Открыть';
 $labels['showattachment'] = 'Показать';
 $labels['showanyway'] = 'Все равно показать';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Тело письма';
 
 $labels['openinextwin'] = 'Открыть в новом окне';
 $labels['emlsave'] = 'Сохранить (.eml)';
+$labels['changeformattext'] = 'Показать в формате обычного текста';
+$labels['changeformathtml'] = 'Показать в HTML формате';
 
 // message compose
 $labels['editasnew']      = 'Редактировать как новое';

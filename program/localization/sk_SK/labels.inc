@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopírovať';
 $labels['move']     = 'Presunúť';
 $labels['moveto']   = 'presunúť do...';
 $labels['download'] = 'stiahnuť';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Otvoriť v novom okne';
 $labels['emlsave'] = 'Stiahnuť';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Upraviť ako novú';

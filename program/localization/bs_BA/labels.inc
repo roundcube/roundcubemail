@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopiraj';
 $labels['move']     = 'Premjesti';
 $labels['moveto']   = 'Premjesti u...';
 $labels['download'] = 'Preuzmi';
+$labels['open']     = 'Otvori';
 $labels['showattachment'] = 'Prikaži';
 $labels['showanyway'] = 'Ipak prikaži';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Tijelo';
 
 $labels['openinextwin'] = 'Otvori u novom prozoru';
 $labels['emlsave'] = 'Preuzmi (.eml)';
+$labels['changeformattext'] = 'Prikaži kao obični tekst';
+$labels['changeformathtml'] = 'Prikaži kao HTML';
 
 // message compose
 $labels['editasnew']      = 'Uredi kao novo';

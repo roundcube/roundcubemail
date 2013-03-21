@@ -64,6 +64,7 @@ $labels['copy']     = 'העתק';
 $labels['move']     = 'העבר';
 $labels['moveto']   = 'תיוק ב...';
 $labels['download'] = 'הורדה';
+$labels['open']     = 'לפתוח';
 $labels['showattachment'] = 'הצגה';
 $labels['showanyway'] = 'להציג בכל מקרה';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'גוף ההודעה';
 
 $labels['openinextwin'] = 'פתיחה בחלון חדש';
 $labels['emlsave'] = 'הורדת הודעה בפורמט  EML';
+$labels['changeformattext'] = 'הצגה בפורמט לא מעוצב';
+$labels['changeformathtml'] = 'הצגה בפורמט HTML';
 
 // message compose
 $labels['editasnew']      = 'עריכת ההודעה כחדשה';

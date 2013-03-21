@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopēt';
 $labels['move']     = 'Pārvietot';
 $labels['moveto']   = 'pārvietot uz...';
 $labels['download'] = 'lejupielādēt';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'atvērt jaunā logā';
 $labels['emlsave'] = 'lejupielādēt (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'rediģēt kā jaunu';

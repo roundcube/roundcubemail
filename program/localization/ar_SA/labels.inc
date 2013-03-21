@@ -64,6 +64,7 @@ $labels['copy']     = 'نسخ';
 $labels['move']     = 'نقل';
 $labels['moveto']   = 'نقل إلى...';
 $labels['download'] = 'تنزيل';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'افتح في نافذة جديدة';
 $labels['emlsave'] = 'تنزيل (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'تعديل كجديد';

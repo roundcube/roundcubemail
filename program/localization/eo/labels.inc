@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopii';
 $labels['move']     = 'Movi';
 $labels['moveto']   = 'transloku al...';
 $labels['download'] = 'elŝutu';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Malfermu en nova fenestro';
 $labels['emlsave'] = 'Elŝutu (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Redaktu kiel nova';

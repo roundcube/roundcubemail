@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopeeri';
 $labels['move']     = 'Liiguta';
 $labels['moveto']   = 'liiguta kausta...';
 $labels['download'] = 'laadi arvutisse';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Näita';
 $labels['showanyway'] = 'Näita ikka';
 
@@ -204,6 +205,8 @@ $labels['body']  = 'Keha';
 
 $labels['openinextwin'] = 'Ava uues aknas';
 $labels['emlsave'] = 'Salvesta (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Kasuta uue kirja põhjana';
