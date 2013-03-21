@@ -2,7 +2,7 @@
  * Roundcube webmail styles for the Email section
  *
  * Copyright (c) 2012, The Roundcube Dev Team
- * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
+ * Screendesign by FLINT / Bï¿½ro fï¿½r Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -456,7 +456,7 @@ a.iconbutton.threadmode.selected {
 }
 
 #messagelist tr td.date {
-	width: 125px;
+	width: 135px;
 }
 
 #messagelist tr.message {
@@ -1028,8 +1028,8 @@ div.message-partheaders {
 div.message-part pre,
 div.message-htmlpart pre,
 div.message-part div.pre {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	font-family: monospace;
 	font-size: 12px;
 	white-space: -moz-pre-wrap !important;
@@ -1038,7 +1038,7 @@ div.message-part div.pre {
 }
 
 div.message-part span.sig {
-	color: #666666;
+	color: #666;
 }
 
 div.message-part blockquote {
@@ -1046,7 +1046,7 @@ div.message-part blockquote {
 	border-left: 2px solid blue;
 	border-right: 2px solid blue;
 	background-color: #F6F6F6;
-	margin: 2px 0px 2px 0px;
+	margin: 2px 0 2px 0;
 	padding: 1px 8px 1px 10px;
 }
 
@@ -1057,9 +1057,9 @@ div.message-part blockquote blockquote {
 }
 
 div.message-part blockquote blockquote blockquote {
-	color: #990000;
-	border-left: 2px solid #bb0000;
-	border-right: 2px solid #bb0000;
+	color: #900;
+	border-left: 2px solid #b00;
+	border-right: 2px solid #b00;
 }
 
 div.message-partheaders {
@@ -1135,9 +1135,9 @@ div.message-partheaders .headers-table td.header {
 #messagepartcontainer {
 	position: absolute;
 	top: 60px;
-	left: 0px;
-	right: 0px;
-	bottom: 0px;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 #messagepartframe {
