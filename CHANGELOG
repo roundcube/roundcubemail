@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Call resize handler in intervals to prevent lags and double onresize calls in Chrome (#1489005)
 - Fix javascript error in IE9 when loading form with placeholders into an iframe (#1489008)
 - Fix handling of some conditional comment tags in HTML message (#1489004)
 - Add rel="noreferrer" for links in displayed messages (#1484686)

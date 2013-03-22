@@ -287,28 +287,36 @@ function rcube_mail_ui()
   /**
    * Update UI on window resize
    */
-  function resize()
+  function resize(e)
   {
-    if (rcmail.env.task == 'mail') {
-      if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
-        layout_messageview();
-      else if (rcmail.env.action == 'compose')
-        layout_composeview();
-    }
+    // resize in intervals to prevent lags and double onresize calls in Chrome (#1489005)
+    var interval = e ? 10 : 0;
 
-    // make iframe footer buttons float if scrolling is active
-    $('body.iframe .footerleft').each(function(){
-      var footer = $(this),
-        body = $(document.body),
-        floating = footer.hasClass('floating'),
-        overflow = body.outerHeight(true) > $(window).height();
+    if (rcmail.resize_timeout)
+      window.clearTimeout(rcmail.resize_timeout);
 
-      if (overflow != floating) {
-        var action = overflow ? 'addClass' : 'removeClass';
-        footer[action]('floating');
-        body[action]('floatingbuttons');
+    rcmail.resize_timeout = window.setTimeout(function() {
+      if (rcmail.env.task == 'mail') {
+        if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
+          layout_messageview();
+        else if (rcmail.env.action == 'compose')
+          layout_composeview();
       }
-    });
+
+      // make iframe footer buttons float if scrolling is active
+      $('body.iframe .footerleft').each(function(){
+        var footer = $(this),
+          body = $(document.body),
+          floating = footer.hasClass('floating'),
+          overflow = body.outerHeight(true) > $(window).height();
+
+        if (overflow != floating) {
+          var action = overflow ? 'addClass' : 'removeClass';
+          footer[action]('floating');
+          body[action]('floatingbuttons');
+        }
+      });
+    }, interval);
   }
 
   /**
