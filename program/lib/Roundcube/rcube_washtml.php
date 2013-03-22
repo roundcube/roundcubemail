@@ -413,7 +413,8 @@ class rcube_washtml
 
         // Remove invalid HTML comments (#1487759)
         // Don't remove valid conditional comments
-        $html = preg_replace('/<!--[^->[\n]*>/', '', $html);
+        // Don't remove MSOutlook (<!-->) conditional comments (#1489004)
+        $html = preg_replace('/<!--[^->\[\n]+>/', '', $html);
 
         // turn relative into absolute urls
         $html = self::resolve_base($html);
