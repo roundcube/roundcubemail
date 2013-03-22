@@ -18,7 +18,6 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
             .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
 
         $washer = new rcube_washtml;
-
         $washed = $washer->wash($html);
 
         $this->assertNotRegExp('/data:text/', $washed, "Remove data:text/html links");
@@ -33,10 +32,27 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $html = "<p><a href=\"\nhttp://test.com\n\">Firefox</a>";
 
         $washer = new rcube_washtml;
-
         $washed = $washer->wash($html);
 
         $this->assertRegExp('|href="http://test.com">|', $washed, "Link href with newlines (#1488940)");
+    }
+
+    /**
+     * Test handling HTML comments
+     */
+    function test_comments()
+    {
+        $washer = new rcube_washtml;
+
+        $html   = "<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>";
+        $washed = $washer->wash($html);
+
+        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>p2</p>', $washed, "HTML conditional comments (#1489004)");
+
+        $html   = "<!--TestCommentInvalid><p>test</p>";
+        $washed = $washer->wash($html);
+
+        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>test</p>', $washed, "HTML invalid comments (#1487759)");
     }
 
 }
