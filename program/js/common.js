@@ -743,12 +743,8 @@ jQuery.fn.placeholder = function(text) {
       });
 
       // Do not blur currently focused element
-      // Catch "unspecified error" in IE9 (#1489008)
-      try {
-        if (this != document.activeElement)
-          elem.blur();
-      }
-      catch(e) {}
+      if (this != document.activeElement)
+        elem.blur();
     }
   });
 };
