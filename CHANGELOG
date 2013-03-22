@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix javascript error in IE9 when loading form with placeholders into an iframe (#1489008)
 - Fix handling of some conditional comment tags in HTML message (#1489004)
 - Fix so forward as attachment works if additional attachment is added by message_compose hook (#1489000)
 - Better handling of session errors in ajax requests (#1488960)
