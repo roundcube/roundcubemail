@@ -284,11 +284,19 @@ function rcube_mail_ui()
     }
   }
 
+  var last_size = $(window).width();
   /**
    * Update UI on window resize
    */
-  function resize()
-  {
+  function resize(){
+    // Don't run the function if it's already been run for this size.
+    // Chrome bug causes it to be fired twice per resize: http://code.google.com/p/chromium/issues/detail\
+?id=133869.
+      if(last_size == $(window).width())    {
+	return;
+      }
+    last_size = $(window).width();
+
     if (rcmail.env.task == 'mail') {
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
         layout_messageview();
