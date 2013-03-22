@@ -45,7 +45,7 @@ foreach ($config as $optname => $optval) {
 }
 
 // framework constants
-define('RCUBE_VERSION', '0.9-git');
+define('RCUBE_VERSION', '1.0-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
