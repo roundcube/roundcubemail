@@ -444,6 +444,7 @@ class rcube_db
      *
      * @param mixed $result Optional query handle
      * @return mixed   Number of rows or false on failure
+     * @deprecated This method shows very poor performance and should be avoided.
      */
     public function num_rows($result = null)
     {
@@ -454,7 +455,9 @@ class rcube_db
                 return $query ? intval($query->fetchColumn(0)) : false;
             }
             else {
-                return count($result->fetchAll());
+                $num = count($result->fetchAll());
+                $result->execute();  // re-execute query because there's no seek(0)
+                return $num;
             }
         }
 
