@@ -209,6 +209,15 @@ if (is_array($_FILES['_file'])) {
         foreach ($vcards as $vcard) {
             $a_record = $vcard->get_assoc();
 
+            // Generate contact's display name (must be before validation), the same we do in save.inc
+            if (empty($a_record['name'])) {
+                $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
+                // Reset it if equals to email address (from compose_display_name())
+                if ($a_record['name'] == $a_record['email'][0]) {
+                    $a_record['name'] = '';
+                }
+            }
+
             // skip invalid (incomplete) entries
             if (!$CONTACTS->validate($a_record, true)) {
                 $IMPORT_STATS->invalid++;
@@ -250,7 +259,7 @@ if (is_array($_FILES['_file'])) {
 
             if ($success) {
                 $IMPORT_STATS->inserted++;
-                $IMPORT_STATS->names[] = $vcard->displayname ? $vcard->displayname : $email;
+                $IMPORT_STATS->names[] = $a_record['name'] ? $a_record['name'] : $email;
             }
             else {
                 $IMPORT_STATS->errors++;

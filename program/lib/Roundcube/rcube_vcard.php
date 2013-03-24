@@ -491,7 +491,9 @@ class rcube_vcard
             if (preg_match('/^END:VCARD$/i', $line)) {
                 // parse vcard
                 $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true, self::$fieldmap);
-                if (!empty($obj->displayname) || !empty($obj->email)) {
+                // FN and N is required by vCard format (RFC 2426)
+                // on import we can be less restrictive, let's addressbook decide
+                if (!empty($obj->displayname) || !empty($obj->surname) || !empty($obj->firstname) || !empty($obj->email)) {
                     $out[] = $obj;
                 }
 
