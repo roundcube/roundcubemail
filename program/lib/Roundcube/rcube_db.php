@@ -444,17 +444,20 @@ class rcube_db
      *
      * @param mixed $result Optional query handle
      * @return mixed   Number of rows or false on failure
+     * @deprecated This method shows very poor performance and should be avoided.
      */
     public function num_rows($result = null)
     {
         if ($result || ($result === null && ($result = $this->last_result))) {
             // repeat query with SELECT COUNT(*) ...
-            if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i', $result->queryString, $m)) {
+            if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/ims', $result->queryString, $m)) {
                 $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
                 return $query ? intval($query->fetchColumn(0)) : false;
             }
             else {
-                return count($result->fetchAll());
+                $num = count($result->fetchAll());
+                $result->execute();  // re-execute query because there's no seek(0)
+                return $num;
             }
         }
 
