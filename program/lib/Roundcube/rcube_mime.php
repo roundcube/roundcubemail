@@ -769,11 +769,35 @@ class rcube_mime
 
         // fallback to some well-known types most important for daily emails
         if (empty($mime_types)) {
-            $mime_extensions = @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
-            $mime_extensions += array('gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'tif' => 'image/tiff');
+            $mime_extensions = (array) @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
 
-            foreach ($mime_extensions as $ext => $mime)
+            foreach ($mime_extensions as $ext => $mime) {
                 $mime_types[$mime][] = $ext;
+            }
+        }
+
+        // Add some known aliases that aren't included by some mime.types (#1488891)
+        // the order is important here so standard extensions have higher prio
+        $aliases = array(
+            'image/gif'      => array('gif'),
+            'image/png'      => array('png'),
+            'image/x-png'    => array('png'),
+            'image/jpeg'     => array('jpg', 'jpeg', 'jpe'),
+            'image/jpg'      => array('jpg', 'jpeg', 'jpe'),
+            'image/pjpeg'    => array('jpg', 'jpeg', 'jpe'),
+            'image/tiff'     => array('tif'),
+            'message/rfc822' => array('eml'),
+            'text/x-mail'    => array('eml'),
+        );
+
+        foreach ($aliases as $mime => $exts) {
+            $mime_types[$mime] = array_unique(array_merge((array) $mime_types[$mime], $exts));
+
+            foreach ($exts as $ext) {
+                if (!isset($mime_extensions[$ext])) {
+                    $mime_extensions[$ext] = $mime;
+                }
+            }
         }
 
         return $mimetype ? $mime_types[$mimetype] : $mime_extensions;
