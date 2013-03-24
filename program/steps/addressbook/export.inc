@@ -138,7 +138,9 @@ header('Content-Disposition: attachment; filename="contacts.vcf"');
 while ($result && ($row = $result->next())) {
     // we already have a vcard record
     if ($row['vcard'] && $row['name']) {
-        $row['vcard'] = preg_replace('/\r?\n/', rcube_vcard::$eol, $row['vcard']);
+        // fix folding and end-of-line chars
+        $row['vcard'] = preg_replace('/\r|\n\s+/', '', $row['vcard']);
+        $row['vcard'] = preg_replace('/\n/', rcube_vcard::$eol, $row['vcard']);
         echo rcube_vcard::rfc2425_fold($row['vcard']) . rcube_vcard::$eol;
     }
     // copy values into vcard object
