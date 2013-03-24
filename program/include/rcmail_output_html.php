@@ -873,6 +873,7 @@ class rcmail_output_html extends rcmail_output
             // include a file
             case 'include':
                 $old_base_path = $this->base_path;
+                if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
                     $path = realpath($path);
