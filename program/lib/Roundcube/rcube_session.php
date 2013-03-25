@@ -203,10 +203,15 @@ class rcube_session
             if (is_array($a_oldvars)) {
                 // remove unset keys on oldvars
                 foreach ((array)$this->unsets as $var) {
-                    $path = explode('.', $var);
-                    $k = array_pop($path);
-                    $node = &$this->get_node($path, $a_oldvars);
-                    unset($node[$k]);
+                    if (isset($a_oldvars[$k])) {
+                        unset($a_oldvars[$k]);
+                    }
+                    else {
+                        $path = explode('.', $var);
+                        $k = array_pop($path);
+                        $node = &$this->get_node($path, $a_oldvars);
+                        unset($node[$k]);
+                    }
                 }
 
                 $newvars = $this->serialize(array_merge(
@@ -413,10 +418,15 @@ class rcube_session
 
         $this->unsets[] = $var;
 
-        $path = explode('.', $var);
-        $key = array_pop($path);
-        $node = &$this->get_node($path, $_SESSION);
-        unset($node[$key]);
+        if (isset($_SESSION[$var])) {
+            unset($_SESSION[$var])
+        }
+        else {
+            $path = explode('.', $var);
+            $key = array_pop($path);
+            $node = &$this->get_node($path, $_SESSION);
+            unset($node[$key]);
+        }
 
         return true;
     }
