@@ -419,7 +419,7 @@ class rcube_session
         $this->unsets[] = $var;
 
         if (isset($_SESSION[$var])) {
-            unset($_SESSION[$var])
+            unset($_SESSION[$var]);
         }
         else {
             $path = explode('.', $var);
