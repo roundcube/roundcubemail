@@ -655,30 +655,6 @@ a.iconlink.upload {
 	background-position: -2px -1829px;
 }
 
-
-/*** minimal version of the page header ***/
-
-.minimal #topline {
-	position: fixed;
-	top: -18px;
-	background: #444;
-	z-index: 5000;
-	width: 100%;
-	height: 22px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.minimal #topline:hover {
-	top: 0px;
-	opacity: 0.94;
-	filter: alpha(opacity=94);
-	-webkit-transition: top 0.3s ease-in-out;
-	-moz-transition: top 0.3s ease-in-out;
-	-o-transition: top 0.3s ease-in-out;
-	transition: top 0.3s ease-in-out;
-}
-
 .extwin #topline,
 .extwin #topline:hover {
 	position: static;
@@ -701,91 +677,9 @@ a.iconlink.upload {
 	border: 0;
 }
 
-.minimal #topline a.button-logout {
-	display: none;
-}
-
-.minimal #topline span.username {
-	display: inline-block;
-	padding-top: 2px;
-}
-
-.minimal #topnav {
-	position: relative;
-	top: 4px;
-	height: 42px;
-}
-
-.minimal #taskbar a {
-	position: relative;
-	padding: 10px 10px 0 6px;
-	height: 32px;
-}
-
-.minimal #taskbar .button-logout {
-	display: inline-block;
-}
-
-.minimal #taskbar .button-inner {
-	top: -4px;
-	padding: 0;
-	height: 24px !important;
-	width: 27px;
-	text-indent: -5000px;
-}
-
 #taskbar .tooltip {
 	display: none;
 }
-
-.minimal #taskbar .tooltip {
-	position: absolute;
-	top: -500px;
-	right: 2px;
-	display: inline-block;
-	padding: 2px 8px 3px 8px;
-	background: #444;
-	background: -moz-linear-gradient(top, #444 0%, #333 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#444), color-stop(100%,#333));
-	background: -o-linear-gradient(top, #444 0%, #333 100%);
-	background: -ms-linear-gradient(top, #444 0%, #333 100%);
-	background: linear-gradient(top, #444 0%, #333 100%);
-	color: #eee;
-	font-weight: bold;
-	white-space: nowrap;
-	border: 1px solid #777;
-	box-shadow: 0 1px 5px 0 #333;
-	-moz-box-shadow: 0 1px 5px 0 #333;
-	-webkit-box-shadow: 0 1px 5px 0 #333;
-	-o-box-shadow: 0 1px 5px 0 #333;
-	z-index: 200;
-	white-space: nowrap;
-	text-shadow: 0px 1px 1px #000;
-}
-
-.minimal #taskbar .tooltip:after {
-	content: "";
-	position: absolute;
-	top: -4px;
-	right: 15px;
-	border-style: solid;
-	border-width: 0 4px 4px;
-	border-color: #888 transparent;
-	/* reduce the damage in FF3.0 */
-	display: block; 
-	width: 0;
-	z-index: 251;
-}
-
-.ie8 .minimal #taskbar .tooltip:after {
-	top: -6px;
-}
-
-.minimal #taskbar a:hover .tooltip {
-	display: block;
-	top: 39px;
-}
-
 
 /*** taskbar ***/
 
@@ -862,25 +756,12 @@ a.iconlink.upload {
 	background: url(images/buttons.png) -35px -1778px no-repeat;
 }
 
-.minimal #taskbar .minmodetoggle {
-	height: 42px;
-	background-position: -35px -1820px;
-}
-
 #mainscreen {
 	position: absolute;
 	top: 88px;
 	left: 10px;
 	right: 10px;
 	bottom: 20px;
-}
-
-.minimal #mainscreen {
-	top: 62px;
-}
-
-.minimal #mainscreen.offset {
-	top: 102px;
 }
 
 .partwin #mainscreen {
@@ -892,7 +773,7 @@ a.iconlink.upload {
 }
 
 #mainscreen.offset {
-	top: 132px;
+	top: 90px;
 }
 
 #mainscreen .offset {
@@ -1651,7 +1532,6 @@ ul.proplist li {
 
 
 /*** toolbar ***/
-
 .toolbar .spacer {
 	display: inline-block;
 	width: 24px;
@@ -2388,4 +2268,205 @@ fieldset.tab {
 	border: 0;
 	padding: 0;
 	margin-left: 0;
+}
+
+/* 
+ * MINIMAL MODE TWEAKS
+ */
+
+/*** Page Header ***/
+.minimal #topline {
+	position: fixed;
+	top: -18px;
+	background: #444;
+	z-index: 5000;
+	width: 100%;
+	height: 22px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.minimal #topline:hover {
+	top: 0px;
+	opacity: 0.94;
+	filter: alpha(opacity=94);
+	-webkit-transition: top 0.3s ease-in-out;
+	-moz-transition: top 0.3s ease-in-out;
+	-o-transition: top 0.3s ease-in-out;
+	transition: top 0.3s ease-in-out;
+}
+
+.minimal #topline a.button-logout {
+	display: none;
+}
+
+.minimal #topline span.username {
+	display: inline-block;
+	padding-top: 2px;
+}
+
+.minimal #topnav {
+	position: relative;
+	top: 4px;
+	height: 42px;
+}
+
+.minimal #taskbar a {
+	position: relative;
+	padding: 10px 10px 0 6px;
+	height: 32px;
+}
+
+.minimal #taskbar .button-logout {
+	display: inline-block;
+}
+
+.minimal #taskbar .button-inner {
+	top: -4px;
+	padding: 0;
+	height: 24px !important;
+	width: 27px;
+	text-indent: -5000px;
+}
+
+.minimal #taskbar .tooltip {
+	position: absolute;
+	top: -500px;
+	right: 2px;
+	display: inline-block;
+	padding: 2px 8px 3px 8px;
+	background: #444;
+	background: -moz-linear-gradient(top, #444 0%, #333 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#444), color-stop(100%,#333));
+	background: -o-linear-gradient(top, #444 0%, #333 100%);
+	background: -ms-linear-gradient(top, #444 0%, #333 100%);
+	background: linear-gradient(top, #444 0%, #333 100%);
+	color: #eee;
+	font-weight: bold;
+	white-space: nowrap;
+	border: 1px solid #777;
+	box-shadow: 0 1px 5px 0 #333;
+	-moz-box-shadow: 0 1px 5px 0 #333;
+	-webkit-box-shadow: 0 1px 5px 0 #333;
+	-o-box-shadow: 0 1px 5px 0 #333;
+	z-index: 200;
+	white-space: nowrap;
+	text-shadow: 0px 1px 1px #000;
+}
+
+.minimal #taskbar .tooltip:after {
+	content: "";
+	position: absolute;
+	top: -4px;
+	right: 15px;
+	border-style: solid;
+	border-width: 0 4px 4px;
+	border-color: #888 transparent;
+	/* reduce the damage in FF3.0 */
+	display: block; 
+	width: 0;
+	z-index: 251;
+}
+
+.ie8 .minimal #taskbar .tooltip:after {
+	top: -6px;
+}
+
+.minimal #taskbar a:hover .tooltip {
+	display: block;
+	top: 39px;
+}
+
+.minimal #taskbar .minmodetoggle {
+	height: 42px;
+	background-position: -35px -1820px;
+}
+
+
+/*** Main Body ***/
+.minimal #mainscreen {
+	top: 47px;
+	bottom: 10px;
+}
+
+.minimal #mainscreen.offset {
+	top: 57px;
+}
+
+/*** Tool Bars ***/
+.minimal #messagetoolbar,
+.minimal #addressbooktoolbar  {
+	height: auto;
+	top: 8px;
+}
+
+.minimal .toolbar .dropbutton {
+	margin: auto 2px;
+	vertical-align: top;
+}
+
+.minimal .dropbutton .dropbuttontip {
+	background-position: -4px -1266px;
+	border-left: 1px solid #a5a5a5;
+	box-shadow: 1px 0 1px #e5e5e5 inset;
+	height: 24px;
+	right: 1px;
+	top: 1px;
+	vertical-align: top;
+	width: 12px;
+}
+
+.minimal .dropbutton .dropbuttontip:active {
+	background-position: -4px -1268px;
+	border-left: 1px solid #a5a5a5;
+	box-shadow: 1px 0 1px #a5a5a5 inset;
+}
+
+.minimal .dropbutton .dropbuttontip:hover,
+.minimal .dropbutton a.button.disabled + .dropbuttontip:hover {
+	background-position: -4px -1266px;
+}
+
+.minimal .toolbar .spacer,
+.minimal .toolbar .dropbuttontip {
+	height: 24px;
+}
+
+.minimal .toolbar a.button {
+	background-image: none;
+	background: #e5e5e5;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e5e5), color-stop(100%,#c1c1c1));
+	background: -webkit-linear-gradient(top,  #e5e5e5 0%,#c1c1c1 100%);
+	background: linear-gradient(to bottom,  #e5e5e5 0%,#c1c1c1 100%);
+	border: 1px solid #a5a5a5;
+	box-shadow: -1px 0 1px #e5e5e5 inset;
+	color: #333;
+	height: 24px;
+	line-height: 2.4em;
+	min-width: 40px;
+	padding: 0 5px;
+	text-shadow: 0 1px 1px #fff;
+	vertical-align: top;
+}
+
+.minimal .toolbar a.button:active {
+	background: #c1c1c1;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c1c1c1), color-stop(100%,#e5e5e5));
+	background: -webkit-linear-gradient(top,  #c1c1c1 0%,#e5e5e5 100%);
+	background: linear-gradient(to bottom,  #c1c1c1 0%,#e5e5e5 100%);
+	box-shadow: -1px 0 1px #afafaf inset;
+}
+
+.minimal .toolbar a.button.disabled {
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+
+.minimal .dropbutton a.button {
+    padding-right: 17px;
+}
+
+.minimal #searchfilter,
+.minimal #quicksearchbar {
+	top: 8px;
 }
