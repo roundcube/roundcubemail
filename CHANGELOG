@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remove sig_above configuration option, use reply_mode only (#1489001)
 - Refresh current folder in opener window after draft save or message sent (#1488997)
 - Fix saving draft just after entering compose window (#1489012)
 - Fix javascript error in IE9 when loading form with placeholders into an iframe (#1489008)

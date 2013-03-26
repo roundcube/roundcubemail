@@ -3419,7 +3419,7 @@ function rcube_webmail()
         sig = this.env.signatures[sig].text;
         sig = sig.replace(/\r\n/g, '\n');
 
-        p = this.env.sig_above ? message.indexOf(sig) : message.lastIndexOf(sig);
+        p = this.env.top_posting ? message.indexOf(sig) : message.lastIndexOf(sig);
         if (p >= 0)
           message = message.substring(0, p) + message.substring(p+sig.length, message.length);
       }
@@ -3428,7 +3428,7 @@ function rcube_webmail()
         sig = this.env.signatures[id].text;
         sig = sig.replace(/\r\n/g, '\n');
 
-        if (this.env.sig_above) {
+        if (this.env.top_posting) {
           if (p >= 0) { // in place of removed signature
             message = message.substring(0, p) + sig + message.substring(p, message.length);
             cursor_pos = p - 1;
@@ -3472,7 +3472,7 @@ function rcube_webmail()
         sigElem = doc.createElement('div');
         sigElem.setAttribute('id', '_rc_sig');
 
-        if (this.env.sig_above) {
+        if (this.env.top_posting) {
           // if no existing sig and top posting then insert at caret pos
           editor.getWin().focus(); // correct focus in IE & Chrome
 
