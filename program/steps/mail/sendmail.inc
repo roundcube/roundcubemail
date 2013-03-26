@@ -820,6 +820,6 @@ else {
   if ($store_folder && !$saved)
     $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'));
   else
-    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'));
+    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'), $store_target);
   $OUTPUT->send('iframe');
 }

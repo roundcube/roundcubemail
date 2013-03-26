@@ -3345,6 +3345,14 @@ function rcube_webmail()
 
   this.set_draft_id = function(id)
   {
+    var rc;
+
+    if (!this.env.draft_id && id && (rc = this.opener())) {
+      // refresh the drafts folder in opener window
+      if (rc.env.task == 'mail' && rc.env.action == '' && rc.env.mailbox == this.env.drafts_mailbox)
+        rc.command('checkmail');
+    }
+
     this.env.draft_id = id;
     $("input[name='_draft_saveid']").val(id);
   };
@@ -3721,15 +3729,19 @@ function rcube_webmail()
     this.env.search_id = null;
   };
 
-  this.sent_successfully = function(type, msg)
+  this.sent_successfully = function(type, msg, target)
   {
     this.display_message(msg, type);
 
     if (this.env.extwin) {
-      var opener_rc = this.opener();
+      var rc = this.opener();
       this.lock_form(this.gui_objects.messageform);
-      if (opener_rc)
-        opener_rc.display_message(msg, type);
+      if (rc) {
+        rc.display_message(msg, type);
+        // refresh the folder where sent message was saved
+        if (target && rc.env.task == 'mail' && rc.env.action == '' && rc.env.mailbox == target)
+          rc.command('checkmail');
+      }
       setTimeout(function(){ window.close() }, 1000);
     }
     else {
