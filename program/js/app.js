@@ -319,7 +319,7 @@ function rcube_webmail()
         }
 
         // detect browser capabilities
-        if (!this.is_framed())
+        if (!this.is_framed() && !this.env.extwin)
           this.browser_capabilities_check();
 
         break;
@@ -1642,7 +1642,7 @@ function rcube_webmail()
       l = (screen.width - w) / 2 + (screen.left || 0),
       t = Math.max(0, (screen.height - h) / 2 + (screen.top || 0) - 20),
       wname = 'rcmextwin' + new Date().getTime(),
-      extwin = window.open(url + '&_extwin=1', wname,
+      extwin = window.open(url + (url.match(/\?/) ? '&' : '?') + '_extwin=1', wname,
         'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
 
     // write loading... message to empty windows
