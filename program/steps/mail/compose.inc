@@ -152,6 +152,7 @@ if ($font && !is_array($font)) {
 // get reference message and set compose mode
 if ($msg_uid = $COMPOSE['param']['draft_uid']) {
   $compose_mode = RCUBE_COMPOSE_DRAFT;
+  $OUTPUT->set_env('draft_id', $msg_uid);
   $RCMAIL->storage->set_folder($CONFIG['drafts_mbox']);
 }
 else if ($msg_uid = $COMPOSE['param']['reply_uid']) {

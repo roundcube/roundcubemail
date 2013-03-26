@@ -986,7 +986,7 @@ function rcube_webmail()
         clearTimeout(this.save_timer);
 
         // compose form did not change (and draft wasn't saved already)
-        if (this.draft_saved && this.cmp_hash == this.compose_field_hash()) {
+        if (this.env.draft_id && this.cmp_hash == this.compose_field_hash()) {
           this.auto_save_start();
           break;
         }
@@ -3302,7 +3302,7 @@ function rcube_webmail()
 
   this.set_draft_id = function(id)
   {
-    this.draft_saved = id;
+    this.env.draft_id = id;
     $("input[name='_draft_saveid']").val(id);
   };
 
