@@ -21,6 +21,22 @@
 
 $name = get_input_value('_name', RCUBE_INPUT_POST);
 $value = get_input_value('_value', RCUBE_INPUT_POST);
+$whitelist = array(
+    'preview_pane',
+    'list_cols',
+    'collapsed_folders',
+    'collapsed_abooks',
+);
+
+if (!in_array($name, array_merge($whitelist, $RCMAIL->plugins->allowed_prefs))) {
+    raise_error(array('code' => 500, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => sprintf("Hack attempt detected (user: %s)", $RCMAIL->get_user_name())),
+        true, false);
+
+    $OUTPUT->reset();
+    $OUTPUT->send();
+}
 
 // save preference value
 $RCMAIL->user->save_prefs(array($name => $value));

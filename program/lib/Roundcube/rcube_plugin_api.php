@@ -36,6 +36,7 @@ class rcube_plugin_api
     public $task = '';
     public $output;
     public $handlers = array();
+    public $allowed_prefs = array();
 
     protected $plugins = array();
     protected $tasks = array();
@@ -202,6 +203,11 @@ class rcube_plugin_api
                         $plugin->init();
                         $this->plugins[$plugin_name] = $plugin;
                     }
+
+                    if (!empty($plugin->allowed_prefs)) {
+                        $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
+                    }
+
                     return true;
                 }
             }
