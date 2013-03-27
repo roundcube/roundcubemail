@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix security issue in save-pref command
+
+RELEASE 0.8.5
+-------------
 - Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
 - Fix unwanted horizontal scrollbar in message preview header (#1488866)
 - Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)

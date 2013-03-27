@@ -35,6 +35,7 @@ class rcube_plugin_api
   public $url = 'plugins/';
   public $output;
   public $config;
+  public $allowed_prefs = array();
   
   public $handlers = array();
   private $plugins = array();
@@ -187,6 +188,9 @@ class rcube_plugin_api
           ) {
             $plugin->init();
             $this->plugins[$plugin_name] = $plugin;
+          }
+          if (!empty($plugin->allowed_prefs)) {
+            $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
           }
           return true;
         }
