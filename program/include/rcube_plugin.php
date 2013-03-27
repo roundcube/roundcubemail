@@ -61,6 +61,14 @@ abstract class rcube_plugin
    */
   public $noframe = false;
 
+  /**
+   * A list of config option names that can be modified
+   * by the user via user interface (with save-pref command)
+   *
+   * @var array
+   */
+  public $allowed_prefs;
+
   protected $home;
   protected $urlbase;
   private $mytask;

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix security issue in save-pref command
 - Fix XSS vulnerability in handling of text/enriched messages (#1488806)
 - Fix compatybility with MDB2 2.5.0b4 (#1488779)
 - Fix lower-casing email address on replies (#1488598)
