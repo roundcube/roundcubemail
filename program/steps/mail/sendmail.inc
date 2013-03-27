@@ -213,6 +213,33 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
 }
 
 
+function rcmail_generic_message_footer($isHtml)
+{
+  global $CONFIG;
+
+  if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
+    $file = $CONFIG['generic_message_footer_html'];
+    $html_footer = true;
+  }
+  else {
+    $file = $CONFIG['generic_message_footer'];
+    $html_footer = false;
+  }
+
+  if ($file && realpath($file)) {
+    // sanity check
+    if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
+      $footer = file_get_contents($file);
+      if ($isHtml && !$html_footer)
+        $footer = '<pre>' . $footer . '</pre>';
+      return $footer;
+    }
+  }
+
+  return false;
+}
+
+
 /****** compose message ********/
 
 if (strlen($_POST['_draft_saveid']) > 3)
@@ -449,19 +476,10 @@ if (!$savedraft) {
   }
 
   // generic footer for all messages
-  if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
-      $footer = file_get_contents(realpath($CONFIG['generic_message_footer_html']));
-      $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
-  }
-  else if (!empty($CONFIG['generic_message_footer'])) {
-    $footer = file_get_contents(realpath($CONFIG['generic_message_footer']));
+  if ($footer = rcmail_generic_message_footer($isHtml)) {
     $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
-    if ($isHtml)
-      $footer = '<pre>'.$footer.'</pre>';
-  }
-
-  if ($footer)
     $message_body .= "\r\n" . $footer;
+  }
 }
 
 if ($isHtml) {
