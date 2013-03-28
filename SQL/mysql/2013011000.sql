@@ -1,6 +1,6 @@
 -- Upgrade from 0.9-beta
 
-CREATE TABLE `system` (
+CREATE TABLE IF NOT EXISTS `system` (
  `name` varchar(64) NOT NULL,
  `value` mediumtext,
  PRIMARY KEY(`name`)
