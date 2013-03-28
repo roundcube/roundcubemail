@@ -178,11 +178,6 @@ function rcube_webmail()
       parent.rcmail.env.frame_lock = null;
     }
 
-    // Makes that reference to document.activeElement do not throw
-    // "unspecified error" in IE9 (#1489008)
-    if (this.env.framed && bw.ie)
-      document.documentElement.focus();
-
     // enable general commands
     this.enable_command('close', 'logout', 'mail', 'addressbook', 'settings', 'save-pref',
       'compose', 'undo', 'about', 'switch-task', 'menu-open', 'menu-save', true);
