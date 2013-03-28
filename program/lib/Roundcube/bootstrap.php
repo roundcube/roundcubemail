@@ -31,12 +31,19 @@ $config = array(
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
     'mbstring.func_overload'  => 0,
-    'suhosin.session.encrypt' => 0,
-    'session.auto_start'      => 0,
-    'file_uploads'            => 1,
     'magic_quotes_runtime'    => 0,
     'magic_quotes_sybase'     => 0, // #1488506
 );
+
+// check these additional ini settings if not called via CLI
+if (php_sapi_name() != 'cli') {
+    $config += array(
+        'suhosin.session.encrypt' => 0,
+        'session.auto_start'      => 0,
+        'file_uploads'            => 1,
+    );
+}
+
 foreach ($config as $optname => $optval) {
     if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
         die("ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
