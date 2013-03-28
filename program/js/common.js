@@ -717,7 +717,7 @@ if (bw.ie) {
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements
 jQuery.fn.placeholder = function(text) {
   return this.each(function() {
-    var elem = $(this);
+    var active = false, elem = $(this);
     this.title = text;
 
     // Try HTML5 placeholder attribute first
@@ -742,8 +742,9 @@ jQuery.fn.placeholder = function(text) {
         elem[(active ? 'addClass' : 'removeClass')]('placeholder').attr('spellcheck', active);
       });
 
-      // Do not blur currently focused element
-      if (this != document.activeElement)
+      // Do not blur currently focused element (catch exception: #1489008)
+      try { active = this == document.activeElement; } catch(e) {}
+      if (!active)
         elem.blur();
     }
   });

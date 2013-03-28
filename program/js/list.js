@@ -687,6 +687,7 @@ select_row: function(id, mod_key, with_mouse)
     this.shift_start = null;
 
   this.last_selected = id;
+  this.list.focus();
 },
 
 
