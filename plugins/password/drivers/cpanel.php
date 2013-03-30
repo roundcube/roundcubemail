@@ -4,93 +4,41 @@
  * cPanel Password Driver
  *
  * Driver that adds functionality to change the users cPanel password.
- * The cPanel PHP API code has been taken from: http://www.phpclasses.org/browse/package/3534.html
+ * Originally written by Fulvio Venturelli <fulvio@venturelli.org>
  *
- * This driver has been tested with Hostmonster hosting and seems to work fine.
+ * Completely rewritten using the cPanel API2 call Email::passwdpop
+ * as opposed to the original coding against the UI, which is a fragile method that
+ * makes the driver to always return a failure message for any language other than English
+ * see http://trac.roundcube.net/ticket/1487015
  *
- * @version 2.0
- * @author Fulvio Venturelli <fulvio@venturelli.org>
+ * This driver has been tested with o2switch hosting and seems to work fine.
+ *
+ * @version 3.0
+ * @author Christian Chech <christian@chech.fr>
  */
 
 class rcube_cpanel_password
 {
     public function save($curpas, $newpass)
     {
+        require_once 'xmlapi.php';
+
         $rcmail = rcmail::get_instance();
 
-        // Create a cPanel email object
-        $cPanel = new emailAccount($rcmail->config->get('password_cpanel_host'),
-        $rcmail->config->get('password_cpanel_username'),
-        $rcmail->config->get('password_cpanel_password'),
-        $rcmail->config->get('password_cpanel_port'),
-        $rcmail->config->get('password_cpanel_ssl'),
-        $rcmail->config->get('password_cpanel_theme'),
-        $_SESSION['username'] );
+        $this->cuser = $rcmail->config->get('password_cpanel_username');
 
-        if ($cPanel->setPassword($newpass)) {
+        // Setup the xmlapi connection
+        $this->xmlapi = new xmlapi($rcmail->config->get('password_cpanel_host'));
+        $this->xmlapi->set_port($rcmail->config->get('password_cpanel_port'));
+        $this->xmlapi->password_auth($this->cuser, $rcmail->config->get('password_cpanel_password'));
+        $this->xmlapi->set_output('json');
+        $this->xmlapi->set_debug(0);
+
+        if ($this->setPassword($_SESSION['username'], $newpass)) {
             return PASSWORD_SUCCESS;
         }
         else {
             return PASSWORD_ERROR;
-        }
-    }
-}
-
-
-class HTTP
-{
-    function HTTP($host, $username, $password, $port, $ssl, $theme)
-    {
-        $this->ssl = $ssl ? 'ssl://' : '';
-        $this->username = $username;
-        $this->password = $password;
-        $this->theme = $theme;
-        $this->auth = base64_encode($username . ':' . $password);
-        $this->port = $port;
-        $this->host = $host;
-        $this->path = '/frontend/' . $theme . '/';
-    }
-
-    function getData($url, $data = '')
-    {
-        $url = $this->path . $url;
-        if (is_array($data)) {
-            $url = $url . '?';
-            foreach ($data as $key => $value) {
-                $url .= urlencode($key) . '=' . urlencode($value) . '&';
-            }
-            $url = substr($url, 0, -1);
-        }
-
-        $response = '';
-        $fp = fsockopen($this->ssl . $this->host, $this->port);
-        if (!$fp) {
-            return false;
-        }
-
-        $out = 'GET ' . $url . ' HTTP/1.0' . "\r\n";
-        $out .= 'Authorization: Basic ' . $this->auth . "\r\n";
-        $out .= 'Connection: Close' . "\r\n\r\n";
-        fwrite($fp, $out);
-        while (!feof($fp)) {
-            $response .= @fgets($fp);
-        }
-        fclose($fp);
-        return $response;
-    }
-}
-
-
-class emailAccount
-{
-    function emailAccount($host, $username, $password, $port, $ssl, $theme, $address)
-    {
-        $this->HTTP = new HTTP($host, $username, $password, $port, $ssl, $theme);
-        if (strpos($address, '@')) {
-            list($this->email, $this->domain) = explode('@', $address);
-        }
-        else {
-            list($this->email, $this->domain) = array($address, '');
         }
     }
 
@@ -101,16 +49,24 @@ class emailAccount
      * @param string $password email account password
      * @return bool
      */
-    function setPassword($password)
+    function setPassword($address, $password)
     {
-        $data['email'] = $this->email;
-        $data['domain'] = $this->domain;
-        $data['password'] = $password;
-        $response = $this->HTTP->getData('mail/dopasswdpop.html', $data);
+        if (strpos($address, '@')) {
+            list($data['email'], $data['domain']) = explode('@', $address);
+        }
+        else {
+            list($data['email'], $data['domain']) = array($address, '');
+        }
 
-        if (strpos($response, 'success') && !strpos($response, 'failure')) {
+        $data['password'] = $password;
+
+        $query = $this->xmlapi->api2_query($this->cuser, 'Email', 'passwdpop', $data);
+        $query = json_decode($query, true);
+
+        if ($query['cpanelresult']['data'][0]['result'] == 1) {
             return true;
         }
+
         return false;
     }
 }

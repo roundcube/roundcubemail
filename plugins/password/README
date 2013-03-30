@@ -192,8 +192,12 @@
  2.6. cPanel (cpanel)
  --------------------
 
- You can specify parameters for HTTP connection to cPanel's admin
- interface. See config.inc.php.dist file for more info.
+ Install cPanel XMLAPI Client Class into Roundcube program/lib directory
+ or any other place in PHP include path. You can get the class from
+ https://raw.github.com/CpanelInc/xmlapi-php/master/xmlapi.php
+
+ You can configure parameters for connection to cPanel's API interface.
+ See config.inc.php.dist file for more info.
 
 
  2.7. XIMSS/Communigate (ximms)
