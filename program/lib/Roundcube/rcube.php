@@ -405,6 +405,7 @@ class rcube
         $sess_domain = $this->config->get('session_domain');
         $sess_path   = $this->config->get('session_path');
         $lifetime    = $this->config->get('session_lifetime', 0) * 60;
+        $is_secure   = $this->config->get('use_https') || rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
@@ -419,7 +420,7 @@ class rcube
             ini_set('session.gc_maxlifetime', $lifetime * 2);
         }
 
-        ini_set('session.cookie_secure', rcube_utils::https_check());
+        ini_set('session.cookie_secure', $is_secure);
         ini_set('session.name', $sess_name ? $sess_name : 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);

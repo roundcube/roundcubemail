@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix session issues with use_https=true (#1488986)
 - Fix blockquote width in sent mail (#1489031)
 - Fix keyboard events on list widgets in Internet Explorer (#1489025)
 
