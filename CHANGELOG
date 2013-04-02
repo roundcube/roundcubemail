@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix blockquote width in sent mail (#1489031)
 - Fix keyboard events on list widgets in Internet Explorer (#1489025)
 - Call resize handler in intervals to prevent lags and double onresize calls in Chrome (#1489005)
 - Add rel="noreferrer" for links in displayed messages (#1484686)

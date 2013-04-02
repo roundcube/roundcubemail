@@ -493,7 +493,7 @@ if (!$savedraft) {
     $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
 
     // add inline css for blockquotes
-    $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%';
+    $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px';
     $message_body = preg_replace('/<blockquote>/',
       '<blockquote type="cite" style="'.$bstyle.'">', $message_body);
   }
