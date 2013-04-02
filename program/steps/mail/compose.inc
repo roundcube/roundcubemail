@@ -997,10 +997,12 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   foreach ((array)$message->mime_parts as $pid => $part)
   {
     if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
-      if (($part->ctype_primary == 'message' && $bodyIsHtml) || $part->ctype_primary == 'multipart') {
+      // skip parts that aren't valid attachments
+      if ($part->ctype_primary == 'multipart' || $part->mimetype == 'application/ms-tnef') {
         continue;
       }
-      if ($part->mimetype == 'application/ms-tnef') {
+      // skip message attachments in reply mode
+      if ($part->ctype_primary == 'message' && $compose_mode == RCUBE_COMPOSE_REPLY) {
         continue;
       }
       // skip inline images when forwarding in plain text
