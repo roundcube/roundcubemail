@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix blockquote width in sent mail (#1489031)
 - Fix keyboard events on list widgets in Internet Explorer (#1489025)
 
 RELEASE 0.9-rc2
