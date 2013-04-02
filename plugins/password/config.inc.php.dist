@@ -31,6 +31,10 @@ $rcmail_config['password_login_exceptions'] = null;
 //$rcmail_config['password_hosts'] = array('mail.example.com', 'mail2.example.org');
 $rcmail_config['password_hosts'] = null;
 
+// Enables saving the new password even if it matches the old password. Useful
+// for upgrading the stored passwords after the encryption scheme has changed.
+$rcmail_config['password_force_save'] = false;
+
 
 // SQL Driver options
 // ------------------
