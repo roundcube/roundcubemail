@@ -3371,7 +3371,6 @@ class rcube_imap extends rcube_storage
     {
         if (!empty($this->options['fetch_headers'])) {
             $headers = explode(' ', $this->options['fetch_headers']);
-            $headers = array_map('strtoupper', $headers);
         }
         else {
             $headers = array();
@@ -3381,7 +3380,7 @@ class rcube_imap extends rcube_storage
             $headers = array_merge($headers, $this->all_headers);
         }
 
-        return implode(' ', array_unique($headers));
+        return $headers;
     }
 
 
