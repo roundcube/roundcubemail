@@ -2265,24 +2265,53 @@ class rcube_imap_generic
         return $result;
     }
 
-    function fetchHeaders($mailbox, $message_set, $is_uid = false, $bodystr = false, $add = '')
+    /**
+     * Returns message(s) data (flags, headers, etc.)
+     *
+     * @param string $mailbox     Mailbox name
+     * @param mixed  $message_set Message(s) sequence identifier(s) or UID(s)
+     * @param bool   $is_uid      True if $message_set contains UIDs
+     * @param bool   $bodystr     Enable to add BODYSTRUCTURE data to the result
+     * @param array  $add_headers List of additional headers
+     *
+     * @return bool|array List of rcube_message_header elements, False on error
+     */
+    function fetchHeaders($mailbox, $message_set, $is_uid = false, $bodystr = false, $add_headers = array())
     {
         $query_items = array('UID', 'RFC822.SIZE', 'FLAGS', 'INTERNALDATE');
-        if ($bodystr)
+        $headers     = array('DATE', 'FROM', 'TO', 'SUBJECT', 'CONTENT-TYPE', 'CC', 'REPLY-TO',
+            'LIST-POST', 'DISPOSITION-NOTIFICATION-TO', 'X-PRIORITY');
+
+        if (!empty($add_headers)) {
+            $add_headers = array_map('strtoupper', $add_headers);
+            $headers     = array_unique(array_merge($headers, $add_headers));
+        }
+
+        if ($bodystr) {
             $query_items[] = 'BODYSTRUCTURE';
-        $query_items[] = 'BODY.PEEK[HEADER.FIELDS ('
-            . 'DATE FROM TO SUBJECT CONTENT-TYPE CC REPLY-TO LIST-POST DISPOSITION-NOTIFICATION-TO X-PRIORITY'
-            . ($add ? ' ' . trim($add) : '')
-            . ')]';
+        }
+
+        $query_items[] = 'BODY.PEEK[HEADER.FIELDS (' . implode(' ', $headers) . ')]';
 
         $result = $this->fetch($mailbox, $message_set, $is_uid, $query_items);
 
         return $result;
     }
 
-    function fetchHeader($mailbox, $id, $uidfetch=false, $bodystr=false, $add='')
+    /**
+     * Returns message data (flags, headers, etc.)
+     *
+     * @param string $mailbox     Mailbox name
+     * @param int    $id          Message sequence identifier or UID
+     * @param bool   $is_uid      True if $id is an UID
+     * @param bool   $bodystr     Enable to add BODYSTRUCTURE data to the result
+     * @param array  $add_headers List of additional headers
+     *
+     * @return bool|rcube_message_header Message data, False on error
+     */
+    function fetchHeader($mailbox, $id, $is_uid = false, $bodystr = false, $add_headers = array())
     {
-        $a = $this->fetchHeaders($mailbox, $id, $uidfetch, $bodystr, $add);
+        $a = $this->fetchHeaders($mailbox, $id, $is_uid, $bodystr, $add_headers);
         if (is_array($a)) {
             return array_shift($a);
         }
