@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Call resize handler in intervals to prevent lags and double onresize calls in Chrome (#1489005)
 - Add rel="noreferrer" for links in displayed messages (#1484686)
 - Add ability to toggle between HTML and text while viewing a message (#1486939)
+- Remove "HTML message" from attachments list while viewing a message in text mode (#1486939)
 - Support IMAP MOVE extension [RFC 6851]
 - Add attachment menu with Open and Download options (#1488975)
 - Display user-friendly message on IMAP "over quota" errors (#1484164)

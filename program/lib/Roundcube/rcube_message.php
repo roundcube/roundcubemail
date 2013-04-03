@@ -486,14 +486,6 @@ class rcube_message
                 $this->parts[] = $c;
             }
 
-            // add html part as attachment
-            if ($html_part !== null && $structure->parts[$html_part] !== $print_part) {
-                $html_part = $structure->parts[$html_part];
-                $html_part->mimetype = 'text/html';
-
-                $this->attachments[] = $html_part;
-            }
-
             // add unsupported/unrecognized parts to attachments list
             if ($attach_part) {
                 $this->attachments[] = $structure->parts[$attach_part];
@@ -576,10 +568,6 @@ class rcube_message
 
                     // list as attachment as well
                     if (!empty($mail_part->filename)) {
-                        $this->attachments[] = $mail_part;
-                    }
-                    // list html part as attachment (here the part is most likely inside a multipart/related part)
-                    else if ($this->parse_alternative && ($secondary_type == 'html' && !$this->opt['prefer_html'])) {
                         $this->attachments[] = $mail_part;
                     }
                 }
