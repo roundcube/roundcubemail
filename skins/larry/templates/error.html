@@ -4,9 +4,12 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
-<body>
-
+<roundcube:if condition="!env:framed" />
+<body class="error">
 <roundcube:include file="/includes/header.html" />
+<roundcube:else />
+<body class="error iframe">
+<roundcube:endif />
 
 <div class="uibox centerbox errorbox">
 $__page_content

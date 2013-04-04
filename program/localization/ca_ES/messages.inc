@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ca_ES/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jordi Sanfeliu <jordi@fibranet.cat>                           |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Hi ha hagut un error!';
-$messages['loginfailed'] = 'L\'accés ha fallat.';
+$messages['errortitle']  = 'Hi ha hagut un error!';
+$messages['loginfailed']  = 'L\'accés ha fallat.';
 $messages['cookiesdisabled'] = 'El vostre navegador no accepta cookies';
 $messages['sessionerror'] = 'La vostra sessió no existeix o ha expirat';
 $messages['storageerror'] = 'Error de conexió amb el servidor IMAP';
@@ -30,6 +33,7 @@ $messages['invalidhost'] = 'Nom de servidor no vàlid.';
 $messages['nomessagesfound'] = 'No s\'han trobat missatges en aquesta bústia.';
 $messages['loggedout'] = 'Heu tancat la sessió. A reveure!';
 $messages['mailboxempty'] = 'La bústia és buida.';
+$messages['refreshing'] = 'Refrescant...';
 $messages['loading'] = 'S\'està carregant…';
 $messages['uploading'] = 'S\'està pujant el fitxer...';
 $messages['uploadingmany'] = 'S\'està pujant els fitxers...';
@@ -56,11 +60,11 @@ $messages['errormoving'] = 'No s\'ha pogut moure el(s) missatge(s).';
 $messages['errorcopying'] = 'No s\'ha pogut copiar el(s) missatge(s).';
 $messages['errordeleting'] = 'No s\'ha pogut suprimir el missatge.';
 $messages['errormarking'] = 'No s\'ha pogut marcar el(s) missatge(s).';
-$messages['deletecontactconfirm'] = 'Esteu segurs de voler suprimir el(s) contacte(s) selecionat(s)?';
-$messages['deletegroupconfirm'] = 'Esteu segurs de voler suprimirr el grup seleccionat?';
+$messages['deletecontactconfirm']  = 'Esteu segurs de voler suprimir el(s) contacte(s) selecionat(s)?';
+$messages['deletegroupconfirm']  = 'Esteu segurs de voler suprimirr el grup seleccionat?';
 $messages['deletemessagesconfirm'] = 'Esteu segurs de voler suprimir el(s) missatge(s) selecionat(s)?';
-$messages['deletefolderconfirm'] = 'Esteu segurs de voler suprimir aquesta carpeta?';
-$messages['purgefolderconfirm'] = 'Esteu segurs de voler suprimir tots els missatges d\'aquesta carpeta?';
+$messages['deletefolderconfirm']  = 'Esteu segurs de voler suprimir aquesta carpeta?';
+$messages['purgefolderconfirm']  = 'Esteu segurs de voler suprimir tots els missatges d\'aquesta carpeta?';
 $messages['contactdeleting'] = 'S\'està suprimint els contacte(s)...';
 $messages['groupdeleting'] = 'S\'està suprimint el grup...';
 $messages['folderdeleting'] = 'S\'està suprimint la carpeta...';
@@ -69,11 +73,11 @@ $messages['foldersubscribing'] = 'S\'està subscribint la carpeta...';
 $messages['folderunsubscribing'] = 'S\'està cancelant la subscripció de la carpeta...';
 $messages['formincomplete'] = 'El formulari no ha estat emplenat totalment.';
 $messages['noemailwarning'] = 'Si us plau, introduïu una adreça de correu electrònic vàlida.';
-$messages['nonamewarning'] = 'Si us plau, introduïu un nom.';
+$messages['nonamewarning']  = 'Si us plau, introduïu un nom.';
 $messages['nopagesizewarning'] = 'Si us plau, introduïu una mida de pàgina.';
 $messages['nosenderwarning'] = 'Si us plau, entreu l\'adreça de correu del remitent.';
 $messages['norecipientwarning'] = 'Si us plau, introduïu com a mínim un destinatari.';
-$messages['nosubjectwarning'] = 'El camp "Assumpte" és buit. Voleu introduir-ne un ara?';
+$messages['nosubjectwarning']  = 'El camp "Assumpte" és buit. Voleu introduir-ne un ara?';
 $messages['nobodywarning'] = 'Voleu enviar aquest missatge sense text?';
 $messages['notsentwarning'] = 'El missatge no s\'ha enviat. Voleu descartar el vostre missatge?';
 $messages['noldapserver'] = 'Si us plau, seleccioneu un servidor LDAP per cercar.';
@@ -117,6 +121,7 @@ $messages['contactaddedtogroup'] = 'S\'han afegit correctament els contactes a a
 $messages['contactremovedfromgroup'] = 'S\'han suprimit correctament els contactes d\'aquest grup.';
 $messages['nogroupassignmentschanged'] = 'No s\'ha canviat cap assignació de grup.';
 $messages['importwait'] = 'S\'està important, espereu si us plau...';
+$messages['importformaterror'] = 'La importació ha fallat. El fitxer pujat no és un fitxer de dades vàlid.';
 $messages['importconfirm'] = '<b>S\'han importat $inserted contactes correctament</b>';
 $messages['importconfirmskipped'] = '<b>S\'han descartat $skipped entrades ja existents</b>';
 $messages['opnotpermitted'] = 'Operació no permesa!';
@@ -158,4 +163,7 @@ $messages['invalidimageformat'] = 'No és un format d\'imatge vàlid.';
 $messages['mispellingsfound'] = 'S\'han detectat errors d\'ortografia al misstage.';
 $messages['parentnotwritable'] = 'No s\'ha pogut crear/moure la carpeta dins de la carpeta ascendent seleccionada. No hi ha permisos d\'escriptura.';
 $messages['messagetoobig'] = 'La part del missatge és massa gran per processar-la.';
+$messages['attachmentvalidationerror'] = 'ATENCIÓ! Aquest adjunt és sospitós perquè el seu tipus no coincideix amb el tipus declarat al missatge. Si no confies en l\'emissor, no l\'hauries d\'obrir al navegador perquè pot contenir elements maliciosos. <br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Atenció: Aquest client de correu necessita Javascript! Per a poder fer-lo servir, has d\'activar Javascript a les opcions del navegador.';
 
+?>

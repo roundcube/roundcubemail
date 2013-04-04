@@ -25,8 +25,7 @@ $rcmail_config['managesieve_auth_cid'] = null;
 $rcmail_config['managesieve_auth_pw'] = null;
 
 // use or not TLS for managesieve server connection
-// it's because I've problems with TLS and dovecot's managesieve plugin
-// and it's not needed on localhost
+// Note: tls:// prefix in managesieve_host is also supported
 $rcmail_config['managesieve_usetls'] = false;
 
 // default contents of filters script (eg. default spam filter)

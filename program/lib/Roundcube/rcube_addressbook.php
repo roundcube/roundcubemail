@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_addressbook.php                                 |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,7 +11,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Interface to the local address book database                        |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -48,6 +45,7 @@ abstract class rcube_addressbook
     public $sort_col = 'name';
     public $sort_order = 'ASC';
     public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
+    public $date_cols = array();
 
     protected $error;
 
@@ -141,7 +139,7 @@ abstract class rcube_addressbook
      */
     function get_error()
     {
-      return $this->error;
+        return $this->error;
     }
 
     /**
@@ -152,7 +150,7 @@ abstract class rcube_addressbook
      */
     protected function set_error($type, $message)
     {
-      $this->error = array('type' => $type, 'message' => $message);
+        $this->error = array('type' => $type, 'message' => $message);
     }
 
     /**
@@ -209,13 +207,13 @@ abstract class rcube_addressbook
      */
     public function validate(&$save_data, $autofix = false)
     {
-        $rcmail = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
                 if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
-                    $error = $rcmail->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
+                    $error = $rcube->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
                     $this->set_error(self::ERROR_VALIDATE, $error);
                     return false;
                 }
@@ -224,7 +222,6 @@ abstract class rcube_addressbook
 
         return true;
     }
-
 
     /**
      * Create a new contact record
@@ -410,7 +407,6 @@ abstract class rcube_addressbook
         return array();
     }
 
-
     /**
      * Utility function to return all values of a certain data column
      * either as flat list or grouped by subtype
@@ -442,7 +438,6 @@ abstract class rcube_addressbook
 
         return $out;
     }
-
 
     /**
      * Normalize the given string for fulltext search.
@@ -491,7 +486,6 @@ abstract class rcube_addressbook
         return $fn;
     }
 
-
     /**
      * Compose the name to display in the contacts list for the given contact record.
      * This respects the settings parameter how to list conacts.
@@ -527,6 +521,67 @@ abstract class rcube_addressbook
             return $email;
 
         return $fn;
+    }
+
+    /**
+     * Create a unique key for sorting contacts
+     */
+    public static function compose_contact_key($contact, $sort_col)
+    {
+        $key = $contact[$sort_col] . ':' . $row['sourceid'];
+
+        // add email to a key to not skip contacts with the same name (#1488375)
+        if (!empty($contact['email'])) {
+             $key .= ':' . implode(':', (array)$contact['email']);
+         }
+
+         return $key;
+    }
+
+
+    /**
+     * Compare search value with contact data
+     *
+     * @param string       $colname Data name
+     * @param string|array $value   Data value
+     * @param string       $search  Search value
+     * @param int          $mode    Search mode
+     *
+     * @return bool Comparision result
+     */
+    protected function compare_search_value($colname, $value, $search, $mode)
+    {
+        // The value is a date string, for date we'll
+        // use only strict comparison (mode = 1)
+        // @TODO: partial search, e.g. match only day and month
+        if (in_array($colname, $this->date_cols)) {
+            return (($value = rcube_utils::strtotime($value))
+                && ($search = rcube_utils::strtotime($search))
+                && date('Ymd', $value) == date('Ymd', $search));
+        }
+
+        // composite field, e.g. address
+        foreach ((array)$value as $val) {
+            $val = mb_strtolower($val);
+            switch ($mode) {
+            case 1:
+                $got = ($val == $search);
+                break;
+
+            case 2:
+                $got = ($search == substr($val, 0, strlen($search)));
+                break;
+
+            default:
+                $got = (strpos($val, $search) !== false);
+            }
+
+            if ($got) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

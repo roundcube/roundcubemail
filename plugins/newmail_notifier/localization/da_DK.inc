@@ -2,19 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/da_DK/labels.inc                                         |
+ | plugins/newmail_notifier/localization/<lang>.inc                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail New Mail Notifier plugin   |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Johannes Hessellund <osos@openeyes.dk>                        |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
-$labels = array();
 $labels['basic'] = 'Vis browserbesked ved ny besked';
 $labels['desktop'] = 'Vis skrivebordsbesked ved ny besked';
 $labels['sound'] = 'Afspil en lyd ved ny besked';
@@ -25,3 +26,4 @@ $labels['testbody'] = 'Dette er en test meddelelse.';
 $labels['desktopdisabled'] = 'Skrivebordsbeskeder er deaktiveret i din browser.';
 $labels['desktopunsupported'] = 'Din browser understøtter ikke skrivebordsbeskeder.';
 
+?>

@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube.php                                             |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -36,7 +34,7 @@ class rcube
     /**
      * Singleton instace of rcube
      *
-     * @var rcmail
+     * @var rcube
      */
     static protected $instance;
 
@@ -407,6 +405,7 @@ class rcube
         $sess_domain = $this->config->get('session_domain');
         $sess_path   = $this->config->get('session_path');
         $lifetime    = $this->config->get('session_lifetime', 0) * 60;
+        $is_secure   = $this->config->get('use_https') || rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
@@ -421,7 +420,7 @@ class rcube
             ini_set('session.gc_maxlifetime', $lifetime * 2);
         }
 
-        ini_set('session.cookie_secure', rcube_utils::https_check());
+        ini_set('session.cookie_secure', $is_secure);
         ini_set('session.name', $sess_name ? $sess_name : 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
@@ -1075,14 +1074,17 @@ class rcube
     {
         // handle PHP exceptions
         if (is_object($arg) && is_a($arg, 'Exception')) {
-            $err = array(
+            $arg = array(
                 'type' => 'php',
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
                 'file' => $arg->getFile(),
                 'message' => $arg->getMessage(),
             );
-            $arg = $err;
+        }
+
+        if (empty($arg['code'])) {
+            $arg['code'] = 500;
         }
 
         // installer
@@ -1260,13 +1262,30 @@ class rcube
             return $this->decrypt($_SESSION['password']);
         }
     }
+
+
+    /**
+     * Getter for logged user language code.
+     *
+     * @return string User language code
+     */
+    public function get_user_language()
+    {
+        if (is_object($this->user)) {
+            return $this->user->language;
+        }
+        else if (isset($_SESSION['language'])) {
+            return $_SESSION['language'];
+        }
+    }
 }
 
 
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
  *
- * @package Core
+ * @package Framework
+ * @subpackage Core
  */
 class rcube_dummy_plugin_api
 {

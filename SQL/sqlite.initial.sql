@@ -197,3 +197,16 @@ CREATE TABLE cache_messages (
 );
 
 CREATE INDEX ix_cache_messages_changed ON cache_messages (changed);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table system
+--
+
+CREATE TABLE system (
+  name varchar(64) NOT NULL PRIMARY KEY,
+  value text NOT NULL
+);
+
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011700');

@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/html.php                                              |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,7 +11,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Helper class to create valid XHTML code                             |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -24,7 +21,7 @@
  * Class for HTML code creation
  *
  * @package    Framework
- * @subpackage HTML
+ * @subpackage View
  */
 class html
 {
@@ -172,7 +169,7 @@ class html
             $attr = array('href' => $attr);
         }
         return self::tag('a', $attr, $cont, array_merge(self::$common_attrib,
-        array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
+            array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
     }
 
     /**
@@ -290,7 +287,7 @@ class html
             }
 
             // attributes with no value
-            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected'))) {
+            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'autofocus'))) {
                 if ($value) {
                     $attrib_arr[] = $key . '="' . $key . '"';
                 }
@@ -343,7 +340,8 @@ class html
 /**
  * Class to create an HTML input field
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_inputfield extends html
 {
@@ -353,6 +351,7 @@ class html_inputfield extends html
         'type','name','value','size','tabindex','autocapitalize',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
         'spellcheck','results','maxlength','src','multiple','placeholder',
+        'autofocus',
     );
 
     /**
@@ -398,7 +397,8 @@ class html_inputfield extends html
 /**
  * Class to create an HTML password field
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_passwordfield extends html_inputfield
 {
@@ -408,9 +408,9 @@ class html_passwordfield extends html_inputfield
 /**
  * Class to create an hidden HTML input field
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
-
 class html_hiddenfield extends html
 {
     protected $tagname = 'input';
@@ -458,7 +458,8 @@ class html_hiddenfield extends html
 /**
  * Class to create HTML radio buttons
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_radiobutton extends html_inputfield
 {
@@ -488,7 +489,8 @@ class html_radiobutton extends html_inputfield
 /**
  * Class to create HTML checkboxes
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_checkbox extends html_inputfield
 {
@@ -518,7 +520,8 @@ class html_checkbox extends html_inputfield
 /**
  * Class to create an HTML textarea
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_textarea extends html
 {
@@ -576,7 +579,8 @@ class html_textarea extends html
  * print $select->show('CH');
  * </pre>
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_select extends html
 {
@@ -641,7 +645,8 @@ class html_select extends html
 /**
  * Class to build an HTML table
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_table extends html
 {
@@ -678,7 +683,7 @@ class html_table extends html
         }
 
         $cell = new stdClass;
-        $cell->attrib = $attr;
+        $cell->attrib  = $attr;
         $cell->content = $cont;
 
         $this->rows[$this->rowindex]->cells[$this->colindex] = $cell;
@@ -702,16 +707,16 @@ class html_table extends html
         }
 
         $cell = new stdClass;
-        $cell->attrib = $attr;
-        $cell->content = $cont;
+        $cell->attrib   = $attr;
+        $cell->content  = $cont;
         $this->header[] = $cell;
     }
 
-     /**
+    /**
      * Remove a column from a table
      * Useful for plugins making alterations
-     * 
-     * @param string $class 
+     *
+     * @param string $class
      */
     public function remove_column($class)
     {
@@ -791,8 +796,9 @@ class html_table extends html
      */
     public function show($attrib = null)
     {
-        if (is_array($attrib))
+        if (is_array($attrib)) {
             $this->attrib = array_merge($this->attrib, $attrib);
+        }
 
         $thead = $tbody = "";
 
@@ -834,7 +840,7 @@ class html_table extends html
      */
     public function size()
     {
-      return count($this->rows);
+        return count($this->rows);
     }
 
     /**

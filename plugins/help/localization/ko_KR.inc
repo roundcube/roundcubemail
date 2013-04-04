@@ -2,15 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ko_KR/labels.inc                                         |
+ | plugins/help/localization/<lang>.inc                                  |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Help plugin                |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kim, Woohyun <woohyun.kim@gmail.com>                          |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
 
 $labels = array();
@@ -18,3 +21,4 @@ $labels['help'] = '도움말';
 $labels['about'] = '정보';
 $labels['license'] = '라이센스';
 
+?>

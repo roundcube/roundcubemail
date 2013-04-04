@@ -2,15 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/zh_TW/labels.inc                                         |
+ | plugins/markasjunk/localization/<lang>.inc                            |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Mark-As-Junk plugin        |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nansen                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
 $labels = array();
@@ -18,3 +21,4 @@ $labels['buttontext'] = '垃圾郵件';
 $labels['buttontitle'] = '標示為垃圾信';
 $labels['reportedasjunk'] = '成功回報垃圾信';
 
+?>

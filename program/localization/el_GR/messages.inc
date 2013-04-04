@@ -2,33 +2,38 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/el_GR/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nikos Keramidis <info@torus.gr>                               |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Έχει προκύψει κάποιο σφάλμα!';
-$messages['loginfailed'] = 'Είσοδος απέτυχε';
+$messages['errortitle']  = 'Έχει προκύψει κάποιο σφάλμα!';
+$messages['loginfailed']  = 'Είσοδος απέτυχε';
 $messages['cookiesdisabled'] = 'Ο περιηγητής σας (browser) δεν αποδέχεται cookies';
 $messages['sessionerror'] = 'Η συνεδρία σας είναι άκυρη ή έχει λήξει';
 $messages['storageerror'] = 'Η σύνδεση με το διακομιστή IMAP απέτυχε';
 $messages['servererror'] = 'Σφάλμα του εξυπηρετητή!';
 $messages['servererrormsg'] = 'Σφάλμα εξυπηρετητή: $msg';
 $messages['dberror'] = 'Σφάλμα βάσης δεδομένων!';
+$messages['requesttimedout'] = 'Το αίτημα εξέπνευσε χρονικά';
 $messages['errorreadonly'] = 'Η διαδικασία δεν μπορεί να ολοκληρωθεί. Ο φάκελος είναι μόνο για ανάγνωση.';
 $messages['errornoperm'] = 'Η διαδικασία δεν μπορεί να ολοκληρωθεί. Άρνηση άδειας';
 $messages['invalidrequest'] = 'Λανθασμένο αίτημα! Δεν αποθηκεύτηκαν δεδομένα.';
+$messages['invalidhost'] = 'Άκυρο όνομα εξυπηρετητή.';
 $messages['nomessagesfound'] = 'Δε βρέθηκαν μηνύματα σε αυτή τη θυρίδα';
 $messages['loggedout'] = 'Έχετε τερματίσει επιτυχώς τη συνεδρία. Αντίο!';
 $messages['mailboxempty'] = 'Η θυρίδα είναι άδεια';
+$messages['refreshing'] = 'Ανανέωση....';
 $messages['loading'] = 'Φόρτωση...';
 $messages['uploading'] = 'Το αρχείο φορτώνεται...';
 $messages['uploadingmany'] = 'Φόρτωση αρχείων...';
@@ -55,22 +60,24 @@ $messages['errormoving'] = 'Το μήνυμα δε μπορούσε να μετ�
 $messages['errorcopying'] = 'Δεν είναι δυνατή η αντιγραφή του μηνύματος/των';
 $messages['errordeleting'] = 'Το μήνυμα δε μπορούσε να διαγραφεί';
 $messages['errormarking'] = 'Δεν έγινε επισήμανση στο μύνημα';
-$messages['deletecontactconfirm'] = 'Θέλετε να διαγράψετε τη συγκεκριμένη επαφή/ές;';
-$messages['deletegroupconfirm'] = 'Είστε βέβαιοι πως θέλετε να διαγράψετε την επιλεγμένη ομάδα;';
+$messages['deletecontactconfirm']  = 'Θέλετε να διαγράψετε τη συγκεκριμένη επαφή/ές;';
+$messages['deletegroupconfirm']  = 'Είστε βέβαιοι πως θέλετε να διαγράψετε την επιλεγμένη ομάδα;';
 $messages['deletemessagesconfirm'] = 'Θέλετε να διαγράψετε το συγκεκριμένο μήνυμα/τα;';
-$messages['deletefolderconfirm'] = 'Θέλετε να διαγράψετε το συγκεκριμένο φάκελο;';
-$messages['purgefolderconfirm'] = 'Θέλετε να διαγράψετε όλα τα μηνύματα στο συγκεκριμένο φάκελο;';
+$messages['deletefolderconfirm']  = 'Θέλετε να διαγράψετε το συγκεκριμένο φάκελο;';
+$messages['purgefolderconfirm']  = 'Θέλετε να διαγράψετε όλα τα μηνύματα στο συγκεκριμένο φάκελο;';
 $messages['contactdeleting'] = 'Διαγραφή επαφών...';
 $messages['groupdeleting'] = 'Διαγραφή ομάδας...';
 $messages['folderdeleting'] = 'Διαγραφή φακέλου';
 $messages['foldermoving'] = 'Μεταφορά φακέλου';
+$messages['foldersubscribing'] = 'Εγγραφή φακέλου...';
+$messages['folderunsubscribing'] = 'Απεγγραφή φακέλου...';
 $messages['formincomplete'] = 'Η φόρμα δεν έχει συμπληρωθεί πλήρως';
 $messages['noemailwarning'] = 'Παρακαλώ εισάγετε έγκυρη διεύθυνση email';
-$messages['nonamewarning'] = 'Παρακαλώ εισάγετε όνομα';
+$messages['nonamewarning']  = 'Παρακαλώ εισάγετε όνομα';
 $messages['nopagesizewarning'] = 'Παρακαλώ εισάγετε μέγεθος σελίδας';
 $messages['nosenderwarning'] = 'Παρακαλώ εισάγετε την email διεύθυνση αποστολέα';
 $messages['norecipientwarning'] = 'Παρακαλώ εισάγεται τουλάχιστον έναν παραλήπτη';
-$messages['nosubjectwarning'] = 'Το πεδίο "Θέμα" είναι άδειο. Θέλετε να εισάγεται ένα τώρα;';
+$messages['nosubjectwarning']  = 'Το πεδίο "Θέμα" είναι άδειο. Θέλετε να εισάγεται ένα τώρα;';
 $messages['nobodywarning'] = 'Αποστολή μηνύματος χωρίς κείμενο;';
 $messages['notsentwarning'] = 'Το μήνυμα δεν έχει σταλεί. Θέλετε να το απορρίψετε;';
 $messages['noldapserver'] = 'Παρακαλώ επιλέξτε έναν LDAP διακομιστή για αναζήτηση';
@@ -83,6 +90,8 @@ $messages['searching'] = 'Αναζήτηση...';
 $messages['checking'] = 'Έλεγχος...';
 $messages['nospellerrors'] = 'Δε βρέθηκαν ορθογραφικά λάθη';
 $messages['folderdeleted'] = 'Ο φάκελος διαγράφηκε επιτυχώς';
+$messages['foldersubscribed'] = 'Folder successfully subscribed.';
+$messages['folderunsubscribed'] = 'Folder successfully unsubscribed.';
 $messages['folderpurged'] = 'Ο φάκελος καθαρίστηκε με επιτυχία.';
 $messages['folderexpunged'] = 'Ο φάκελος συμπιέστηκε με επιτυχία.';
 $messages['deletedsuccessfully'] = 'Διαγραφή Επιτυχώς';
@@ -110,8 +119,9 @@ $messages['selectimportfile'] = 'Επιλέξτε αρχείο για ανέβα
 $messages['addresswriterror'] = 'Η επιλεγμένη ατζέντα διευθύνσεων δεν είνα εγγράψιμη';
 $messages['contactaddedtogroup'] = 'Οι επαφές προστέθηκαν στην ομάδα με επιτυχία.';
 $messages['contactremovedfromgroup'] = 'Οι επαφές αφαιρέθηκαν από την ομάδα με επιτυχία.';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Εισαγωγή, παρακαλώ περιμένετε...';
-$messages['importerror'] = 'Η εισαγωγή απέτυχε! Το αρχείο δεν είναι έγκυρο vcard αρχείο.';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>Εισήχθησαν $inserted επαφές με επιτυχία</b>';
 $messages['importconfirmskipped'] = '<b>Παραλήφθηκαν $skipped υπάρχοντα αντικείμενα</b>';
 $messages['opnotpermitted'] = 'Η λειτουργία δεν επιτρέπεται!';
@@ -130,4 +140,30 @@ $messages['maxgroupmembersreached'] = 'Ο αριθμός των μελών τη�
 $messages['internalerror'] = 'Προέκυψε ένα εσωτερικό σφάλμα. Παρακαλώ δοκιμάστε πάλι.';
 $messages['contactdelerror'] = 'Δεν είναι δυνατή η διαγραφή της επαφής/ων';
 $messages['contactdeleted'] = 'Η επαφή/ές διαγράφηκαν με επιτυχία.';
+$messages['contactrestoreerror'] = 'Could not restore deleted contact(s).';
+$messages['contactrestored'] = 'Contact(s) restored successfully.';
+$messages['groupdeleted'] = 'Group deleted successfully.';
+$messages['grouprenamed'] = 'Group renamed successfully.';
+$messages['groupcreated'] = 'Group created successfully.';
+$messages['savedsearchdeleted'] = 'Saved search deleted successfully.';
+$messages['savedsearchdeleteerror'] = 'Could not delete saved search.';
+$messages['savedsearchcreated'] = 'Saved search created successfully.';
+$messages['savedsearchcreateerror'] = 'Could not create saved search.';
+$messages['messagedeleted'] = 'Message(s) deleted successfully.';
+$messages['messagemoved'] = 'Message(s) moved successfully.';
+$messages['messagecopied'] = 'Message(s) copied successfully.';
+$messages['messagemarked'] = 'Message(s) marked successfully.';
+$messages['autocompletechars'] = 'Enter at least $min characters for autocompletion.';
+$messages['autocompletemore'] = 'More matching entries found. Please type more characters.';
+$messages['namecannotbeempty'] = 'Name cannot be empty.';
+$messages['nametoolong'] = 'Name is too long.';
+$messages['folderupdated'] = 'Folder updated successfully.';
+$messages['foldercreated'] = 'Folder created successfully.';
+$messages['invalidimageformat'] = 'Not a valid image format.';
+$messages['mispellingsfound'] = 'Spelling errors detected in the message.';
+$messages['parentnotwritable'] = 'Unable to create/move folder into selected parent folder. No access rights.';
+$messages['messagetoobig'] = 'The message part is too big to process it.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
+?>

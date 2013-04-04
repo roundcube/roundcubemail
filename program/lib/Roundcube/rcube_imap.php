@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_imap.php                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -14,13 +12,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   IMAP Storage Engine                                                 |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Interface class for accessing an IMAP server
@@ -151,7 +147,7 @@ class rcube_imap extends rcube_storage
 
         $attempt = 0;
         do {
-            $data = rcube::get_instance()->plugins->exec_hook('imap_connect',
+            $data = rcube::get_instance()->plugins->exec_hook('storage_connect',
                 array_merge($this->options, array('host' => $host, 'user' => $user,
                     'attempt' => ++$attempt)));
 
@@ -571,7 +567,7 @@ class rcube_imap extends rcube_storage
      * Get message count for a specific folder
      *
      * @param  string  $folder  Folder name
-     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param  string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
      * @param  boolean $force   Force reading from server and update cache
      * @param  boolean $status  Enables storing folder status info (max UID/count),
      *                          required for folder_status()
@@ -592,7 +588,7 @@ class rcube_imap extends rcube_storage
      * protected method for getting nr of messages
      *
      * @param string  $folder  Folder name
-     * @param string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT]
+     * @param string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
      * @param boolean $force   Force reading from server and update cache
      * @param boolean $status  Enables storing folder status info (max UID/count),
      *                         required for folder_status()
@@ -613,6 +609,10 @@ class rcube_imap extends rcube_storage
                 return $this->search_set->count();
             }
         }
+
+        // EXISTS is a special alias for ALL, it allows to get the number
+        // of all messages in a folder also when search is active and with
+        // any skip_deleted setting
 
         $a_folder_cache = $this->get_cache('messagecount');
 
@@ -644,7 +644,7 @@ class rcube_imap extends rcube_storage
             $count = $this->conn->countRecent($folder);
         }
         // use SEARCH for message counting
-        else if (!empty($this->options['skip_deleted'])) {
+        else if ($mode != 'EXISTS' && !empty($this->options['skip_deleted'])) {
             $search_str = "ALL UNDELETED";
             $keys       = array('COUNT');
 
@@ -683,8 +683,8 @@ class rcube_imap extends rcube_storage
             }
             else {
                 $count = $this->conn->countMessages($folder);
-                if ($status) {
-                    $this->set_folder_stats($folder,'cnt', $count);
+                if ($status && $mode == 'ALL') {
+                    $this->set_folder_stats($folder, 'cnt', $count);
                     $this->set_folder_stats($folder, 'maxuid', $count ? $this->id2uid($count, $folder) : 0);
                 }
             }
@@ -1096,16 +1096,17 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * Returns current status of folder
+     * Returns current status of a folder (compared to the last time use)
      *
      * We compare the maximum UID to determine the number of
      * new messages because the RECENT flag is not reliable.
      *
      * @param string $folder Folder name
+     * @param array  $diff   Difference data
      *
-     * @return int   Folder status
+     * @return int Folder status
      */
-    public function folder_status($folder = null)
+    public function folder_status($folder = null, &$diff = array())
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
@@ -1126,6 +1127,9 @@ class rcube_imap extends rcube_storage
         // got new messages
         if ($new['maxuid'] > $old['maxuid']) {
             $result += 1;
+            // get new message UIDs range, that can be used for example
+            // to get the data of these messages
+            $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid']+1).':' : '') . $new['maxuid'];
         }
         // some messages has been deleted
         if ($new['cnt'] < $old['cnt']) {
@@ -1634,9 +1638,15 @@ class rcube_imap extends rcube_storage
         // Example of structure for malformed MIME message:
         // ("text" "plain" NIL NIL NIL "7bit" 2154 70 NIL NIL NIL)
         if ($headers->ctype && !is_array($structure[0]) && $headers->ctype != 'text/plain'
-            && strtolower($structure[0].'/'.$structure[1]) == 'text/plain') {
+            && strtolower($structure[0].'/'.$structure[1]) == 'text/plain'
+        ) {
+            // A special known case "Content-type: text" (#1488968)
+            if ($headers->ctype == 'text') {
+                $structure[1]   = 'plain';
+                $headers->ctype = 'text/plain';
+            }
             // we can handle single-part messages, by simple fix in structure (#1486898)
-            if (preg_match('/^(text|application)\/(.*)/', $headers->ctype, $m)) {
+            else if (preg_match('/^(text|application)\/(.*)/', $headers->ctype, $m)) {
                 $structure[0] = $m[1];
                 $structure[1] = $m[2];
             }
@@ -1660,11 +1670,21 @@ class rcube_imap extends rcube_storage
             $struct = $this->structure_part($structure, 0, '', $headers);
         }
 
-        // don't trust given content-type
-        if (empty($struct->parts) && !empty($headers->ctype)) {
-            $struct->mime_id = '1';
-            $struct->mimetype = strtolower($headers->ctype);
-            list($struct->ctype_primary, $struct->ctype_secondary) = explode('/', $struct->mimetype);
+        // some workarounds on simple messages...
+        if (empty($struct->parts)) {
+            // ...don't trust given content-type
+            if (!empty($headers->ctype)) {
+                $struct->mime_id  = '1';
+                $struct->mimetype = strtolower($headers->ctype);
+                list($struct->ctype_primary, $struct->ctype_secondary) = explode('/', $struct->mimetype);
+            }
+
+            // ...and charset (there's a case described in #1488968 where invalid content-type
+            // results in invalid charset in BODYSTRUCTURE)
+            if (!empty($headers->charset) && $headers->charset != $struct->ctype_parameters['charset']) {
+                $struct->charset                     = $headers->charset;
+                $struct->ctype_parameters['charset'] = $headers->charset;
+            }
         }
 
         $headers->structure = $struct;
@@ -2226,10 +2246,11 @@ class rcube_imap extends rcube_storage
      * @param boolean $is_file True if $message is a filename
      * @param array   $flags   Message flags
      * @param mixed   $date    Message internal date
+     * @param bool    $binary  Enables BINARY append
      *
      * @return int|bool Appended message UID or True on success, False on error
      */
-    public function save_message($folder, &$message, $headers='', $is_file=false, $flags = array(), $date = null)
+    public function save_message($folder, &$message, $headers='', $is_file=false, $flags = array(), $date = null, $binary = false)
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
@@ -2247,10 +2268,10 @@ class rcube_imap extends rcube_storage
         $date = $this->date_format($date);
 
         if ($is_file) {
-            $saved = $this->conn->appendFromFile($folder, $message, $headers, $flags, $date);
+            $saved = $this->conn->appendFromFile($folder, $message, $headers, $flags, $date, $binary);
         }
         else {
-            $saved = $this->conn->append($folder, $message, $flags, $date);
+            $saved = $this->conn->append($folder, $message, $flags, $date, $binary);
         }
 
         if ($saved) {
@@ -2316,10 +2337,7 @@ class rcube_imap extends rcube_storage
         // move messages
         $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
 
-        // send expunge command in order to have the moved message
-        // really deleted from the source folder
         if ($moved) {
-            $this->expunge_message($uids, $from_mbox, false);
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
         }
@@ -3354,7 +3372,6 @@ class rcube_imap extends rcube_storage
     {
         if (!empty($this->options['fetch_headers'])) {
             $headers = explode(' ', $this->options['fetch_headers']);
-            $headers = array_map('strtoupper', $headers);
         }
         else {
             $headers = array();
@@ -3364,7 +3381,7 @@ class rcube_imap extends rcube_storage
             $headers = array_merge($headers, $this->all_headers);
         }
 
-        return implode(' ', array_unique($headers));
+        return $headers;
     }
 
 

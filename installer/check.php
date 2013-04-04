@@ -1,3 +1,10 @@
+<?php
+
+if (!class_exists('rcube_install') || !is_object($RCI)) {
+    die("Not allowed! Please open installer/index.php instead.");
+}
+
+?>
 <form action="index.php" method="get">
 <?php
 
@@ -130,7 +137,13 @@ foreach ($optional_php_exts as $name => $ext) {
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
 foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
-        $RCI->pass($database);
+        // MySQL driver requires PHP >= 5.3 (#1488875)
+        if ($ext == 'pdo_mysql' && version_compare(PHP_VERSION, '5.3.0', '<')) {
+            $RCI->fail($database, 'PHP >= 5.3 required');
+        }
+        else {
+            $RCI->pass($database);
+        }
     }
     else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;

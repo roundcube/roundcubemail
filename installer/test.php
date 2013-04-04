@@ -1,3 +1,10 @@
+<?php
+
+if (!class_exists('rcube_install') || !is_object($RCI)) {
+    die("Not allowed! Please open installer/index.php instead.");
+}
+
+?>
 <form action="index.php?_step=3" method="post">
 
 <h3>Check config files</h3>
@@ -157,11 +164,9 @@ if ($db_working && $_POST['initdb']) {
 }
 
 else if ($db_working && $_POST['updatedb']) {
-  if (!($success = $RCI->update_db($DB, $_POST['version']))) {
-      $updatefile = INSTALL_PATH . 'SQL/' . (isset($RCI->db_map[$DB->db_provider]) ? $RCI->db_map[$DB->db_provider] : $DB->db_provider) . '.update.sql';
-      echo '<p class="warning">Please manually execute the SQL statements from '.$updatefile.' on your database.<br/>';
-      echo 'See comments in the file and execute queries below the comment with the currently installed version number.</p>';
-  }
+    if (!($success = $RCI->update_db($_POST['version']))) {
+        echo '<p class="warning">Database schema update failed.</p>';
+    }
 }
 
 // test database
@@ -176,9 +181,8 @@ if ($db_working) {
         $RCI->fail('DB Schema', "Database schema differs");
         echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
         $select = $RCI->versions_select(array('name' => 'version'));
-        echo '<p class="suggestion">You should run the update queries to get the schmea fixed.<br/><br/>Version to update from: ' . $select->show() . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
-//        echo '<p class="warning">Please manually execute the SQL statements from '.$updatefile.' on your database.<br/>';
-//        echo 'See comments in the file and execute queries that are superscribed with the currently installed version number.</p>';
+        $select->add('0.9 or newer', '');
+        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show() . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
         $db_working = false;
     }
     else {

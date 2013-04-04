@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/sv_SE/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jonas Nasholm                                                 |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Ett fel uppstod!';
-$messages['loginfailed'] = 'Inloggningen misslyckades';
+$messages['errortitle']  = 'Ett fel uppstod!';
+$messages['loginfailed']  = 'Inloggningen misslyckades';
 $messages['cookiesdisabled'] = 'Din webbläsare accepterar inte cookies';
 $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
 $messages['storageerror'] = 'Anslutning till IMAP-servern misslyckades';
@@ -30,6 +33,7 @@ $messages['invalidhost'] = 'Ogiltigt servernamn.';
 $messages['nomessagesfound'] = 'Inga meddelanden';
 $messages['loggedout'] = 'Du är utloggad. Välkommen åter!';
 $messages['mailboxempty'] = 'Katalogen är tom';
+$messages['refreshing'] = 'Uppdaterar...';
 $messages['loading'] = 'Laddar...';
 $messages['uploading'] = 'Överför fil...';
 $messages['uploadingmany'] = 'Överför filer...';
@@ -56,11 +60,11 @@ $messages['errormoving'] = 'Meddelandet kunde inte flyttas';
 $messages['errorcopying'] = 'Meddelandet kunde inte kopieras';
 $messages['errordeleting'] = 'Meddelandet kunde inte tas bort';
 $messages['errormarking'] = 'Meddelandet kunde inte markeras';
-$messages['deletecontactconfirm'] = 'Vill du verkligen ta bort valda kontakter?';
-$messages['deletegroupconfirm'] = 'Vill du verkligen ta bort den valda gruppen?';
+$messages['deletecontactconfirm']  = 'Vill du verkligen ta bort valda kontakter?';
+$messages['deletegroupconfirm']  = 'Vill du verkligen ta bort den valda gruppen?';
 $messages['deletemessagesconfirm'] = 'Vill du verkligen ta bort valda meddelanden?';
-$messages['deletefolderconfirm'] = 'Vill du verkligen ta bort den här katalogen?';
-$messages['purgefolderconfirm'] = 'Vill du verkligen ta bort alla meddelanden i den här katalogen?';
+$messages['deletefolderconfirm']  = 'Vill du verkligen ta bort den här katalogen?';
+$messages['purgefolderconfirm']  = 'Vill du verkligen ta bort alla meddelanden i den här katalogen?';
 $messages['contactdeleting'] = 'Tar bort kontakt...';
 $messages['groupdeleting'] = 'Tar bort grupp...';
 $messages['folderdeleting'] = 'Tar bort katalog...';
@@ -69,16 +73,16 @@ $messages['foldersubscribing'] = 'Startar prenumeration på katalog...';
 $messages['folderunsubscribing'] = 'Avslutar prenumeration på katalog...';
 $messages['formincomplete'] = 'Formuläret var inte komplett ifyllt';
 $messages['noemailwarning'] = 'Ange en giltig adress';
-$messages['nonamewarning'] = 'Ange ett namn';
+$messages['nonamewarning']  = 'Ange ett namn';
 $messages['nopagesizewarning'] = 'Ange en sidstorlek';
 $messages['nosenderwarning'] = 'Ange en avsändaradress';
 $messages['norecipientwarning'] = 'Ange minst en mottagare';
-$messages['nosubjectwarning'] = 'Ämnesraden är tom. Vill du ange ämne nu?';
+$messages['nosubjectwarning']  = 'Ämnesraden är tom. Vill du ange ämne nu?';
 $messages['nobodywarning'] = 'Skicka det här meddelandet utan text?';
 $messages['notsentwarning'] = 'Meddelandet har inte skickats. Vill du avbryta meddelandet?';
 $messages['noldapserver'] = 'Ange en LDAP-server för att söka';
 $messages['nosearchname'] = 'Ange ett kontaktnamn eller en adress';
-$messages['notuploadedwarning'] = 'Alla bilagor har inte överförts ännu. Vänligen vänta eller avbryt överföringen.';
+$messages['notuploadedwarning'] = 'Alla bilagor har inte överförts ännu. Vänta eller avbryt överföringen.';
 $messages['searchsuccessful'] = '$nr meddelanden hittades';
 $messages['contactsearchsuccessful'] = '$nr kontakter hittades';
 $messages['searchnomatch'] = 'Sökningen gav inget resultat';
@@ -117,6 +121,7 @@ $messages['contactaddedtogroup'] = 'Kontakterna har lagts till i gruppen';
 $messages['contactremovedfromgroup'] = 'Kontakterna har tagits bort från gruppen';
 $messages['nogroupassignmentschanged'] = 'Ingen grupptillhörighet ändrades.';
 $messages['importwait'] = 'Importerar, var god vänta...';
+$messages['importformaterror'] = 'Importen misslyckades! Filen har inte korrekt dataformat.';
 $messages['importconfirm'] = '<b>Lyckad import av $inserted kontakter</b>';
 $messages['importconfirmskipped'] = '<b>Hoppade över $skipped befintliga poster</b>';
 $messages['opnotpermitted'] = 'Otillåten operation!';
@@ -158,4 +163,7 @@ $messages['invalidimageformat'] = 'Ogiltigt bildfilsformat';
 $messages['mispellingsfound'] = 'Stavfel hittades i meddelandet';
 $messages['parentnotwritable'] = 'Katalogen kunde inte skapas eller flyttas. Åtkomsträttighet saknas.';
 $messages['messagetoobig'] = 'Denna del av meddelandet är alltför stor för att hantera.';
+$messages['attachmentvalidationerror'] = 'VARNING! Bilagan misstänks vara av annan typ än vad som anges i meddelandet. Om du inte litar på avsändaren ska du inte öppna bilagan.<br/><br/><em>Angiven typ: $expected; funnen typ: $detected</em>';
+$messages['noscriptwarning'] = 'Varning: Denna webbmailtjänst fungerar inte utan Javascript! Aktivera Javascript i webbläsarens inställningar.';
 
+?>

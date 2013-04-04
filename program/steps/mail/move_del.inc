@@ -29,18 +29,19 @@ $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 
 // move messages
-if ($RCMAIL->action=='moveto' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-    $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
+if ($RCMAIL->action == 'moveto' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
+    $count  = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
-    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+    $mbox   = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+    $trash  = $RCMAIL->config->get('trash_mbox');
 
     $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
 
     if (!$moved) {
         // send error message
-	    if ($_POST['_from'] != 'show')
+        if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
-        rcmail_display_server_error('errormoving');
+        rcmail_display_server_error('errormoving', null, $target == $trash ? 'delete' : '');
         $OUTPUT->send();
         exit;
     }
@@ -59,7 +60,7 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
 
     if (!$del) {
         // send error message
-	    if ($_POST['_from'] != 'show')
+        if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
         rcmail_display_server_error('errordeleting');
         $OUTPUT->send();
@@ -111,6 +112,7 @@ else
   $OUTPUT->set_env('messagecount', $msg_count);
   $OUTPUT->set_env('current_page', $page);
   $OUTPUT->set_env('pagecount', $pages);
+  $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox, 'EXISTS', true));
 
   // update mailboxlist
   $mbox = $RCMAIL->storage->get_folder();
@@ -144,5 +146,3 @@ else
 
 // send response
 $OUTPUT->send();
-
-

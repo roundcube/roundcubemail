@@ -3,7 +3,7 @@
  | Roundcube List Widget                                                 |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -434,6 +434,7 @@ collapse: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.triggerEvent('listupdate');
   return false;
 },
 
@@ -481,6 +482,7 @@ expand: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.triggerEvent('listupdate');
   return false;
 },
 
@@ -523,6 +525,7 @@ collapse_all: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.triggerEvent('listupdate');
   return false;
 },
 
@@ -559,6 +562,8 @@ expand_all: function(row)
     }
     new_row = new_row.nextSibling;
   }
+
+  this.triggerEvent('listupdate');
   return false;
 },
 
@@ -687,6 +692,7 @@ select_row: function(id, mod_key, with_mouse)
     this.shift_start = null;
 
   this.last_selected = id;
+  this.list.focus();
 },
 
 
@@ -1138,7 +1144,7 @@ drag_mouse_move: function(e)
     this.draglayer.html('');
 
     // get subjects of selected messages
-    var c, i, n, subject, obj;
+    var i, n, obj;
     for (n=0; n<this.selection.length; n++) {
       // only show 12 lines
       if (n>12) {
@@ -1147,35 +1153,26 @@ drag_mouse_move: function(e)
       }
 
       if (obj = this.rows[this.selection[n]].obj) {
-        subject = '';
-
-        for (c=0, i=0; i<obj.childNodes.length; i++) {
-	      if (obj.childNodes[i].nodeName == 'TD') {
+        for (i=0; i<obj.childNodes.length; i++) {
+          if (obj.childNodes[i].nodeName == 'TD') {
             if (n == 0)
-	          this.drag_start_pos = $(obj.childNodes[i]).offset();
+              this.drag_start_pos = $(obj.childNodes[i]).offset();
 
-	        if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)) {
-	          var entry, node, tmp_node, nodes = obj.childNodes[i].childNodes;
-	          // find text node
-	          for (m=0; m<nodes.length; m++) {
-	            if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType==3 || tmp_node.nodeName=='A'))
-	              node = tmp_node;
-	          }
+            if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == i)) {
+              var subject = $(obj.childNodes[i]).text();
 
-	          if (!node)
-	            break;
+              if (!subject)
+                break;
 
-              subject = $(node).text();
-	          // remove leading spaces
+              // remove leading spaces
               subject = $.trim(subject);
               // truncate line to 50 characters
               subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
 
-              entry = $('<div>').text(subject);
-	          this.draglayer.append(entry);
+              var entry = $('<div>').text(subject);
+              this.draglayer.append(entry);
               break;
             }
-            c++;
           }
         }
       }
@@ -1232,7 +1229,7 @@ drag_mouse_up: function(e)
   // remove temp divs
   this.del_dragfix();
 
-  this.triggerEvent('dragend');
+  this.triggerEvent('dragend', e);
 
   return rcube_event.cancel(e);
 },
@@ -1345,7 +1342,7 @@ column_drag_mouse_up: function(e)
     }
   }
 
-  this.triggerEvent('column_dragend');
+  this.triggerEvent('column_dragend', e);
 
   return rcube_event.cancel(e);
 },

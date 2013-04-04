@@ -173,13 +173,15 @@
 }
 
 #messagemenu li a.active:hover,
+#attachmentmenu li a.active:hover,
 #markmessagemenu li a.active:hover
 {
   color: #fff;
   background-color: #c00;
 }
 
-#messagemenu li a
+#messagemenu li a,
+#attachmentmenu li a
 {
   background: url(images/messageactions.png) no-repeat 7px 0;
   background-position: 7px 20px;
@@ -190,7 +192,8 @@
   background-position: 7px 1px;
 }
 
-#messagemenu li a.downloadlink
+#messagemenu li a.downloadlink,
+#attachmentmenu li a.downloadlink
 {
   background-position: 7px -17px;
 }
@@ -200,7 +203,8 @@
   background-position: 7px -35px;
 }
 
-#messagemenu li a.openlink
+#messagemenu li a.openlink,
+#attachmentmenu li a.openlink
 {
   background-position: 7px -53px;
 }
@@ -255,7 +259,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 195px;
+  width: 160px;
 }
 
 #mailrightcontainer
@@ -391,32 +395,6 @@
 #mailboxlist li ul li:last-child
 {
   border-bottom: none;
-}
-
-#mailboxlist li div
-{
-  position: absolute;
-  left: 8px !important;
-  left: -16px;
-  top: 1px;
-  width: 14px;
-  height: 16px;
-}
-
-#mailboxlist li div.collapsed,
-#mailboxlist li div.expanded
-{
-  cursor: pointer;
-}
-
-#mailboxlist li div.collapsed
-{
-  background: url(images/icons/collapsed.png) bottom right no-repeat;
-}
-
-#mailboxlist li div.expanded
-{
-  background: url(images/icons/expanded.png) bottom right no-repeat;
 }
 
 #mailboxlist li.inbox
@@ -1070,6 +1048,17 @@ table.headers-table
   background-color: #F4F4F4;
 }
 
+#messagebody table.headers-table
+{
+  margin: 16px 6px 6px 6px;
+}
+
+div.message-partheaders + div.message-part
+{
+  border-top: 0;
+  padding-top: 4px;
+}
+
 table.headers-table tr td
 {
   font-size: 11px;
@@ -1148,6 +1137,16 @@ table.headers-table tr td.header span
 #attachment-list li a:hover
 {
   text-decoration: underline;
+}
+
+#attachment-list li a.drop {
+  background: url(images/icons/down_small.gif) no-repeat center 6px;
+  width: 12px;
+  height: 7px;
+  cursor: pointer;
+  padding: 5px 0 0;
+  margin-left: 3px;
+  display: inline-block;
 }
 
 #messagebody
@@ -1313,20 +1312,27 @@ div.message-htmlpart div.rcmBody
   text-decoration: underline;
 }
 
-#openextwinlink
+#messagelinks
 {
   position: absolute;
   top: 8px;
   right: 10px;
-  width: 15px;
-  height: 15px;
-  border: 0;
+  height: 16px;
+  text-align: right;
+}
+
+#messageframe #messagelinks
+{
+  top: 2px;
+  right: 2px;
 }
 
 #compose-headers #openextwinlink
 {
-	top: 4px;
-	right: 2px;
+  position: absolute;
+  height: 15px;
+  top: 4px;
+  right: 2px;
 }
 
 #full-headers
@@ -1381,7 +1387,7 @@ div.hide-headers
 {
   position: absolute;
   top: 0;
-  left: 185px;
+  left: 205px;
   right: 0;
   bottom: 0;
   margin: 0;
@@ -1391,16 +1397,20 @@ div.hide-headers
 {
   position: absolute;
   top: 85px;
+  right: 0;
+  left: 0;
   bottom: 0;
   margin: 0;
-  width: 100%;
 }
 
-#compose-div .boxfooter
+#compose-body-div
 {
-  height: 22px;
-  background: none;
-  border-top: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 175px;
+  border: 1px solid #999;
 }
 
 #compose-div .boxlistcontent
@@ -1418,15 +1428,12 @@ div.hide-headers
   margin: 0;
   font-size: 9pt;
   font-family: monospace;
-  border: 1px solid #999;
   resize: none;
+  border: none;
+  outline: none;
 }
 
-#compose-body_tbl
-{
-  border: 1px solid #999;
-}
-
+#compose-body_tbl,
 #compose-body_tbl td
 {
   border: none;
@@ -1493,9 +1500,10 @@ input.from_address
 #compose-editorfooter
 {
   position: absolute;
-  right: 0;
+  right: 5px;
   bottom: 0;
   text-align: right;
+  line-height: 20px;
 }
 
 #compose-editorfooter label
@@ -1508,9 +1516,20 @@ input.from_address
 #compose-buttons
 {
   position: absolute;
+  left: 5px;
+  bottom: 1px;
+  width: auto;
+}
+
+#compose-contacts
+{
+  position: absolute;
+  top: 0;
   left: 0;
   bottom: 0;
-  width: auto;
+  width: 195px;
+  border: 1px solid #999;
+  background-color: #F9F9F9;
 }
 
 #compose-attachments
@@ -1518,8 +1537,8 @@ input.from_address
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   bottom: 0;
-  width: 175px;
   border: 1px solid #999;
   background-color: #F9F9F9;
 }
@@ -1610,4 +1629,113 @@ input.from_address
   top: 3px;
   right: 6px;
   z-index: 101;
+}
+
+/* addressbook in compose - copy from addressbook.css */
+
+#directorylist
+{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+}
+
+#directorylist li
+{
+  display: block;
+  font-size: 11px;
+  background: url(images/icons/folders.png) 5px -108px no-repeat;
+  border-bottom: 1px solid #EBEBEB;
+  white-space: nowrap;
+}
+
+#directorylist li a
+{
+  cursor: default;
+  display: block;
+  padding-left: 25px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 15px;
+}
+
+#directorylist li.selected
+{
+  background-color: #929292;
+  border-bottom: 1px solid #898989;
+}
+
+#directorylist li.selected a
+{
+  color: #FFF;
+  font-weight: bold;
+}
+
+#contacts-table
+{
+  width: 100%;
+  table-layout: fixed;
+}
+
+#contacts-table tbody td
+{
+  cursor: default;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+
+#abookcountbar
+{
+  margin-top: 4px;
+  margin-left: 4px;
+  position: absolute;
+  margin-right: 5px;
+  right: 0;
+}
+
+#abookactions
+{
+  position: absolute;
+  text-underline: none;
+}
+
+#abookactions a
+{
+  font-weight: bold;
+  line-height: 22px;
+  height: 22px;
+  width: auto;
+  margin: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-shadow: 1px 1px white;
+  background: url("images/icons/groupactions.png") no-repeat right -70px;
+}
+
+#abookactions a.disabled
+{
+  color: #999;
+}
+
+#compose-contacts #quicksearchbar
+{
+  top: 2px;
+  left: 7px;
+}
+
+#compose-contacts #directorylist
+{
+  width: 100%;
+  top: 23px;
+  position: absolute;
+  border-top: 1px solid #eee;
+}
+
+#compose-contacts #contacts-table
+{
+  top: 45px;
+  position: absolute;
 }

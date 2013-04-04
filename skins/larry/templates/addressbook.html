@@ -13,7 +13,11 @@
 <!-- toolbar -->
 <div id="addressbooktoolbar" class="toolbar">
 	<roundcube:button command="import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="import" title="importcontacts" />
-	<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="export" title="exportvcards" />
+	<span class="dropbutton">
+		<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="export" title="exportvcards" />
+		<span class="dropbuttontip" id="exportmenulink" onclick="UI.show_popup('exportmenu');return false"></span>
+	</span>
+
 	<span class="spacer"></span>
 	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
 	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advanced" title="advsearch" />
@@ -26,7 +30,7 @@
 <div id="directorylistbox" class="uibox listbox">
 <h2 id="directorylist-header" class="boxtitle"><roundcube:label name="groups" /></h2>
 <div id="directorylist-content" class="scroller withfooter">
-	<roundcube:object name="directorylist" id="directorylist" class="listing" />
+	<roundcube:object name="directorylist" id="directorylist" class="treelist listing" />
 </div>
 <div id="directorylist-footer" class="boxfooter">
 	<roundcube:button command="group-create" type="link" title="newcontactgroup" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="groupoptions" id="groupoptionslink" type="link" title="moreactions" class="listbutton groupactions" onclick="UI.show_popup('groupoptions');return false" innerClass="inner" content="&#9881;" />
@@ -38,7 +42,7 @@
 <div id="addressview-right">
 
 <!-- search box -->
-<div id="quicksearchbar">
+<div id="quicksearchbar" class="searchbox">
 <roundcube:object name="searchform" id="quicksearchbox" />
 <roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
 <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
@@ -75,14 +79,20 @@
 
 </div><!-- end mainscreen -->
 
+<div id="exportmenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="export" label="exportall" prop="sub" class="exportalllink" classAct="exportalllink active" /></li>
+		<li><roundcube:button command="export-selected" label="exportsel" prop="sub" class="exportsellink" classAct="exportsellink active" /></li>
+	</ul>
+</div>
 
 <div id="searchmenu" class="popupmenu">
 	<ul class="toolbarmenu">
-		<li><label><input type="checkbox" name="s_mods[]" value="name" id="s_mod_name" onclick="UI.set_searchmod(this)" /> <roundcube:label name="name" /></label></li>
-		<li><label><input type="checkbox" name="s_mods[]" value="firstname" id="s_mod_firstname" onclick="UI.set_searchmod(this)" /> <roundcube:label name="firstname" /></label></li>
-		<li><label><input type="checkbox" name="s_mods[]" value="surname" id="s_mod_surname" onclick="UI.set_searchmod(this)" /> <roundcube:label name="surname" /></label></li>
-		<li><label><input type="checkbox" name="s_mods[]" value="email" id="s_mod_email" onclick="UI.set_searchmod(this)" /> <roundcube:label name="email" /></label></li>
-		<li><label><input type="checkbox" name="s_mods[]" value="*" id="s_mod_all" onclick="UI.set_searchmod(this)" /> <roundcube:label name="allfields" /></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="name" id="s_mod_name" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="name" /></span></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="firstname" id="s_mod_firstname" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="firstname" /></span></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="surname" id="s_mod_surname" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="surname" /></span></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="email" id="s_mod_email" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="email" /></span></label></li>
+		<li><label><input type="checkbox" name="s_mods[]" value="*" id="s_mod_all" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="allfields" /></span></label></li>
 	</ul>
 </div>
 

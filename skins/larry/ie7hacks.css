@@ -17,6 +17,18 @@
   height: expression((parseInt(document.documentElement.clientHeight)-150)+'px');
 }
 
+.minimal #mainscreen {
+  height: expression((parseInt(document.documentElement.clientHeight)-82)+'px');
+}
+
+.minimal #mainscreen.offset {
+  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
+}
+
+#messagepartframe {
+	height: expression((parseInt(this.parentNode.offsetHeight)-1)+'px');
+}
+
 input.button {
 	display: inline;
 	font-size: 90%;
@@ -29,7 +41,8 @@ a.deletebutton,
 .boxfooter .listbutton .inner,
 .attachmentslist li a.delete,
 .attachmentslist li a.cancelupload,
-.previewheader .iconlink {
+.previewheader .iconlink,
+.minimal #taskbar .button-inner {
 	/* workaround for text-indent which also offsets the background image */
 	text-indent: 0;
 	font-size: 0;
@@ -125,7 +138,7 @@ ul.toolbarmenu li label {
 	padding: 3px 8px;
 }
 
-#quicksearchbar input {
+.searchbox input {
 	padding-top: 4px;
 	padding-bottom: 2px;
 }
@@ -182,4 +195,17 @@ ul.toolbarmenu li label {
 .tabsbar .tablink {
 	padding: 0 1px 0 0;
 }
+
+.minimal #topline {
+	width: 100%;
+	height: 18px;
+	box-sizing: border-box;
+}
+
+
+.minimal #taskbar a:hover .tooltip {
+	right: 34px;
+	top: 1px;
+}
+
 

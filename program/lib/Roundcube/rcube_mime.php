@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_mime.php                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
@@ -14,13 +12,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   MIME message parsing utilities                                      |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Class for parsing MIME messages
@@ -480,13 +476,19 @@ class rcube_mime
         $q_level = 0;
 
         foreach ($text as $idx => $line) {
-            if ($line[0] == '>' && preg_match('/^(>+\s*)/', $line, $regs)) {
-                $q = strlen(str_replace(' ', '', $regs[0]));
-                $line = substr($line, strlen($regs[0]));
+            if ($line[0] == '>') {
+                // remove quote chars, store level in $q
+                $line = preg_replace('/^>+/', '', $line, -1, $q);
+                // remove (optional) space-staffing
+                $line = preg_replace('/^ /', '', $line);
 
-                if ($q == $q_level && $line
-                    && isset($text[$last])
-                    && $text[$last][strlen($text[$last])-1] == ' '
+                // The same paragraph (We join current line with the previous one) when:
+                // - the same level of quoting
+                // - previous line was flowed
+                // - previous line contains more than only one single space (and quote char(s))
+                if ($q == $q_level
+                    && isset($text[$last]) && $text[$last][strlen($text[$last])-1] == ' '
+                    && !preg_match('/^>+ {0,1}$/', $text[$last])
                 ) {
                     $text[$last] .= $line;
                     unset($text[$idx]);
@@ -539,10 +541,12 @@ class rcube_mime
 
         foreach ($text as $idx => $line) {
             if ($line != '-- ') {
-                if ($line[0] == '>' && preg_match('/^(>+ {0,1})+/', $line, $regs)) {
-                    $level  = substr_count($regs[0], '>');
+                if ($line[0] == '>') {
+                    // remove quote chars, store level in $level
+                    $line   = preg_replace('/^>+/', '', $line, -1, $level);
+                    // remove (optional) space-staffing and spaces before the line end
+                    $line   = preg_replace('/(^ | +$)/', '', $line);
                     $prefix = str_repeat('>', $level) . ' ';
-                    $line   = rtrim(substr($line, strlen($regs[0])));
                     $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
                 }
                 else if ($line) {
@@ -582,7 +586,7 @@ class rcube_mime
         while (count($para)) {
             $line = array_shift($para);
             if ($line[0] == '>') {
-                $string .= $line.$break;
+                $string .= $line . (count($para) ? $break : '');
                 continue;
             }
 
@@ -591,11 +595,12 @@ class rcube_mime
             while (count($list)) {
                 $line   = array_shift($list);
                 $l      = mb_strlen($line);
-                $newlen = $len + $l + ($len ? 1 : 0);
+                $space  = $len ? 1 : 0;
+                $newlen = $len + $l + $space;
 
                 if ($newlen <= $width) {
-                    $string .= ($len ? ' ' : '').$line;
-                    $len += (1 + $l);
+                    $string .= ($space ? ' ' : '').$line;
+                    $len += ($space + $l);
                 }
                 else {
                     if ($l > $width) {
@@ -667,7 +672,16 @@ class rcube_mime
 
         // try fileinfo extension if available
         if (!$mime_type && function_exists('finfo_open')) {
-            if ($finfo = finfo_open(FILEINFO_MIME, $mime_magic)) {
+            // null as a 2nd argument should be the same as no argument
+            // this however is not true on all systems/versions
+            if ($mime_magic) {
+                $finfo = finfo_open(FILEINFO_MIME, $mime_magic);
+            }
+            else {
+                $finfo = finfo_open(FILEINFO_MIME);
+            }
+
+            if ($finfo) {
                 if ($is_stream)
                     $mime_type = finfo_buffer($finfo, $path);
                 else
@@ -713,20 +727,27 @@ class rcube_mime
         // load mapping file
         $file_paths = array();
 
-        if ($mime_types = rcube::get_instance()->config->get('mime_types'))
+        if ($mime_types = rcube::get_instance()->config->get('mime_types')) {
             $file_paths[] = $mime_types;
+        }
 
         // try common locations
-        $file_paths[] = '/etc/httpd/mime.types';
-        $file_paths[] = '/etc/httpd2/mime.types';
-        $file_paths[] = '/etc/apache/mime.types';
-        $file_paths[] = '/etc/apache2/mime.types';
-        $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
-        $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+            $file_paths[] = 'C:/xampp/apache/conf/mime.types.';
+        }
+        else {
+            $file_paths[] = '/etc/mime.types';
+            $file_paths[] = '/etc/httpd/mime.types';
+            $file_paths[] = '/etc/httpd2/mime.types';
+            $file_paths[] = '/etc/apache/mime.types';
+            $file_paths[] = '/etc/apache2/mime.types';
+            $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
+            $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
+        }
 
         foreach ($file_paths as $fp) {
             if (is_readable($fp)) {
-                $lines = file($fp, FILE_IGNORE_NEW_LINES);
+                $lines = file($fp, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                 break;
             }
         }
@@ -748,11 +769,35 @@ class rcube_mime
 
         // fallback to some well-known types most important for daily emails
         if (empty($mime_types)) {
-            $mime_extensions = @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
-            $mime_extensions += array('gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpg', 'jpeg' => 'image/jpeg', 'tif' => 'image/tiff');
+            $mime_extensions = (array) @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
 
-            foreach ($mime_extensions as $ext => $mime)
+            foreach ($mime_extensions as $ext => $mime) {
                 $mime_types[$mime][] = $ext;
+            }
+        }
+
+        // Add some known aliases that aren't included by some mime.types (#1488891)
+        // the order is important here so standard extensions have higher prio
+        $aliases = array(
+            'image/gif'      => array('gif'),
+            'image/png'      => array('png'),
+            'image/x-png'    => array('png'),
+            'image/jpeg'     => array('jpg', 'jpeg', 'jpe'),
+            'image/jpg'      => array('jpg', 'jpeg', 'jpe'),
+            'image/pjpeg'    => array('jpg', 'jpeg', 'jpe'),
+            'image/tiff'     => array('tif'),
+            'message/rfc822' => array('eml'),
+            'text/x-mail'    => array('eml'),
+        );
+
+        foreach ($aliases as $mime => $exts) {
+            $mime_types[$mime] = array_unique(array_merge((array) $mime_types[$mime], $exts));
+
+            foreach ($exts as $ext) {
+                if (!isset($mime_extensions[$ext])) {
+                    $mime_extensions[$ext] = $mime;
+                }
+            }
         }
 
         return $mimetype ? $mime_types[$mimetype] : $mime_extensions;

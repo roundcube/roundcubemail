@@ -2,26 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ro_RO/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Raduta Alex <raduta.alex@gmail.com>                           |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'A avut loc o EROARE!';
-$messages['loginfailed'] = 'Autentificare eşuată';
+$messages['errortitle']  = 'A avut loc o EROARE!';
+$messages['loginfailed']  = 'Autentificare eşuată';
 $messages['cookiesdisabled'] = 'Browserul dumneavoastră nu acceptă cookies';
 $messages['sessionerror'] = 'Sesiunea dumneavoastră este invalidă sau a expirat';
 $messages['storageerror'] = 'Conectarea la serverul IMAP a eşuat';
 $messages['servererror'] = 'Eroare de server!';
 $messages['servererrormsg'] = 'Eroare Server: $msg';
 $messages['dberror'] = 'Eroare bază de date!';
+$messages['requesttimedout'] = 'Timpul alocat cereri a expirat';
 $messages['errorreadonly'] = 'Nu se poate efectua operaţia. Dosarul este doar-citire.';
 $messages['errornoperm'] = 'Nu se poate efectua operaţia. Acces interzis.';
 $messages['invalidrequest'] = 'Solicitare invalidă! Datele nu au fost salvate.';
@@ -29,6 +33,7 @@ $messages['invalidhost'] = 'Hosname invalid';
 $messages['nomessagesfound'] = 'Nu a fost găsit nici un mesaj în această căsuţă poştală';
 $messages['loggedout'] = 'Sesiune încheiată cu succes. La revedere!';
 $messages['mailboxempty'] = 'Căsuţa poştală este goală';
+$messages['refreshing'] = 'Reîmprospătare...';
 $messages['loading'] = 'Se încarcă...';
 $messages['uploading'] = 'Fişierul se încarcă...';
 $messages['uploadingmany'] = 'Încarc fişierele...';
@@ -55,11 +60,11 @@ $messages['errormoving'] = 'Mesajul(e) nu a(u) putut fi mutat(e)';
 $messages['errorcopying'] = 'Mesajul(e) nu a(u) putut fi copiat(e)';
 $messages['errordeleting'] = 'Mesajul(e) nu a(u) putut fi şters(e)';
 $messages['errormarking'] = 'Mesajul(e) nu a(u) putut fi marcat(e)';
-$messages['deletecontactconfirm'] = 'Sunteţi sigur că doriţi să ştergeţi contactul(ele) selectate?';
-$messages['deletegroupconfirm'] = 'Chiar vrei să ştergi grupul selectat?';
+$messages['deletecontactconfirm']  = 'Sunteţi sigur că doriţi să ştergeţi contactul(ele) selectate?';
+$messages['deletegroupconfirm']  = 'Chiar vrei să ştergi grupul selectat?';
 $messages['deletemessagesconfirm'] = 'Chiar doriţi să ştergeţi mesajele selectate ?';
-$messages['deletefolderconfirm'] = 'Sunteţi sigur că doriţi să ştergeţi acest dosar?';
-$messages['purgefolderconfirm'] = 'Sunteţi sigur că doriţi să ştergeţi toate mesajele din acest dosar?';
+$messages['deletefolderconfirm']  = 'Sunteţi sigur că doriţi să ştergeţi acest dosar?';
+$messages['purgefolderconfirm']  = 'Sunteţi sigur că doriţi să ştergeţi toate mesajele din acest dosar?';
 $messages['contactdeleting'] = 'Şterg contactul(ele)...';
 $messages['groupdeleting'] = 'Şterg grupul...';
 $messages['folderdeleting'] = 'Se şterge dosarul...';
@@ -68,11 +73,11 @@ $messages['foldersubscribing'] = 'Abonez dosarul...';
 $messages['folderunsubscribing'] = 'Dezabonez dosarul...';
 $messages['formincomplete'] = 'Formularul nu a fost completat corect';
 $messages['noemailwarning'] = 'Vă rugăm să introduceţi o adresă de e-mail validă';
-$messages['nonamewarning'] = 'Vă rugăm să introduceţi un nume';
+$messages['nonamewarning']  = 'Vă rugăm să introduceţi un nume';
 $messages['nopagesizewarning'] = 'Vă rugăm să introduceţi mărimea paginii';
 $messages['nosenderwarning'] = 'Vă rugăm să introduceţi adresa expeditorului';
 $messages['norecipientwarning'] = 'Vă rugăm să introduceţi cel puţin un destinatar';
-$messages['nosubjectwarning'] = 'Mesajul nu are subiect. Vreţi să introduceţi unul acum?';
+$messages['nosubjectwarning']  = 'Mesajul nu are subiect. Vreţi să introduceţi unul acum?';
 $messages['nobodywarning'] = 'Trimiteţi acest mesaj fără text?';
 $messages['notsentwarning'] = 'Mesajul nu a fost trimis. Vreţi să renunţaţi la el?';
 $messages['noldapserver'] = 'Vă rugăm să alegeţi un server ldap pentru căutare';
@@ -114,7 +119,9 @@ $messages['selectimportfile'] = 'Va rugăm să selectaţi fişierul pentru înc�
 $messages['addresswriterror'] = 'Agenda selectată nu poate fi actualizată';
 $messages['contactaddedtogroup'] = 'Contactele au fost adăugate cu succes la acest grup';
 $messages['contactremovedfromgroup'] = 'Contactele au fost şterse cu succes din acest grup';
+$messages['nogroupassignmentschanged'] = 'Atribuirile la grupuri nu au fost modificate.';
 $messages['importwait'] = 'Datele sunt importate, vă rugăm să aşteptaţi...';
+$messages['importformaterror'] = 'Importul a eșuat! Fișierul încărcat nu este un fișier valid pentru import de date.';
 $messages['importconfirm'] = 'Contactele $inserted au fost importate cu succes, $skipped intrări au fost ignorate deoarece ele există deja:$names';
 $messages['importconfirmskipped'] = '<b>Am sărit peste $skipped înregistrări</b>';
 $messages['opnotpermitted'] = 'Operaţia nu este permisă!';
@@ -156,4 +163,7 @@ $messages['invalidimageformat'] = 'Tip invalid de imagine.';
 $messages['mispellingsfound'] = 'Au fost găsite greşeli de ortografie în mesaj.';
 $messages['parentnotwritable'] = 'Nu pot crea/muta dosarul în dosarul părinte selectat. Fără drepturi de acces.';
 $messages['messagetoobig'] = 'Partea de mesaj este prea mare pentru a o procesa.';
+$messages['attachmentvalidationerror'] = 'ATENȚIE! Acest atașament este suspect, fiindcă tipul lui nu coincide cu tipul declarat în mesaj. Dacă nu aveți încredere în expeditor, nu vă recomandăm să deschideți fișierul, fiindcă poate avea conținut malițios. <br/><br/><em>Așteptat: $expected; găsit: $detected</em>';
+$messages['noscriptwarning'] = 'Atenție: Serviciul de webmail necesită Javascript! Pentru al utiliza vă rugăm activați Javascript în navigator.';
 
+?>

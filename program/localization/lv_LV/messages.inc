@@ -2,32 +2,38 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/lv_LV/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas <Unknown>                                              |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['loginfailed'] = 'Neizdevās pieslēgties';
+$messages['errortitle']  = 'An error occurred!';
+$messages['loginfailed']  = 'Neizdevās pieslēgties';
 $messages['cookiesdisabled'] = 'Jūsu pārlūkprogramma neatbalsta sīkdatnes (cookies)';
 $messages['sessionerror'] = 'Jūsu sessija ir beigusies';
 $messages['storageerror'] = 'Neizdevās pieslēgties IMAP serverim';
 $messages['servererror'] = 'Servera kļūme.';
 $messages['servererrormsg'] = 'Servera kļūda: $msg';
 $messages['dberror'] = 'Datubāzes kļūda!';
+$messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Neizdevās veikt darbību: Mape ir tikai lasāma (read only).';
 $messages['errornoperm'] = 'Neizdevās veikt darbību: Piekļuve liegta.';
 $messages['invalidrequest'] = 'Nederīgs pieprasījums. Dati netika saglabāti.';
+$messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'Šajā pastkastē nav vēstuļu';
 $messages['loggedout'] = 'Jūs esat veiksmīgi atslēdzies no sistēmas';
 $messages['mailboxempty'] = 'Pastkaste tukša';
+$messages['refreshing'] = 'Refreshing...';
 $messages['loading'] = 'Notiek ielāde...';
 $messages['uploading'] = 'Notiek faila augšupielāde...';
 $messages['uploadingmany'] = 'Augšupielādē failus...';
@@ -54,11 +60,11 @@ $messages['errormoving'] = 'Vēstule netika pārvietota';
 $messages['errorcopying'] = 'Neizdevās pārkopēt vēstules.';
 $messages['errordeleting'] = 'Vēstule netika dzēsta';
 $messages['errormarking'] = 'Nebija iespējams iezīmēt vēstuli';
-$messages['deletecontactconfirm'] = 'Vai tiešām vēlaties dzēst iezīmēto(ās) kontaktpersonas?';
-$messages['deletegroupconfirm'] = 'Vai tiešām vēlaties dzēst atzīmēto grupu?';
+$messages['deletecontactconfirm']  = 'Vai tiešām vēlaties dzēst iezīmēto(ās) kontaktpersonas?';
+$messages['deletegroupconfirm']  = 'Vai tiešām vēlaties dzēst atzīmēto grupu?';
 $messages['deletemessagesconfirm'] = 'Vai tiešām vēlaties dzēst iezīmēto(ās) vēstules?';
-$messages['deletefolderconfirm'] = 'Vai tiešām vēlaties dzēst šo mapi?';
-$messages['purgefolderconfirm'] = 'Vai tiešām vēlaties dzēst visas vēstules, kas atrodas šajā mapē?';
+$messages['deletefolderconfirm']  = 'Vai tiešām vēlaties dzēst šo mapi?';
+$messages['purgefolderconfirm']  = 'Vai tiešām vēlaties dzēst visas vēstules, kas atrodas šajā mapē?';
 $messages['contactdeleting'] = 'Kontakts(-i) tiek dzēsti...';
 $messages['groupdeleting'] = 'Dzēš grupu...';
 $messages['folderdeleting'] = 'Dzēš mapi...';
@@ -67,11 +73,11 @@ $messages['foldersubscribing'] = 'Pieslēdz mapi...';
 $messages['folderunsubscribing'] = 'Atslēdz mapi...';
 $messages['formincomplete'] = 'Formulārs nav pilnībā aizpildīts';
 $messages['noemailwarning'] = 'Lūdzu ievadiet pareizu e-pasta adresi';
-$messages['nonamewarning'] = 'Lūdzu ievadiet vārdu';
+$messages['nonamewarning']  = 'Lūdzu ievadiet vārdu';
 $messages['nopagesizewarning'] = 'Lūdzu ievadiet lapas izmēru';
 $messages['nosenderwarning'] = 'Lūdzu ievadiet saņēmēja e-pasta adresi';
 $messages['norecipientwarning'] = 'Lūdzu ievadiet vismaz vienu saņēmēju';
-$messages['nosubjectwarning'] = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
+$messages['nosubjectwarning']  = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
 $messages['nobodywarning'] = 'Sūtīt vēstuli bez satura teksta?';
 $messages['notsentwarning'] = 'Vēstule netika nosūtīta. Vai tiešām vēlaties atcelt vēstules rakstīsanu?';
 $messages['noldapserver'] = 'Lūdzu izvēlaties LDAP serveri';
@@ -113,8 +119,9 @@ $messages['selectimportfile'] = 'Lūdzu izvēlieties failu, ko vēlaties augšup
 $messages['addresswriterror'] = 'Izvēlētās adrešu grāmatas datus nevar labot';
 $messages['contactaddedtogroup'] = 'Kontakti tika veiksmīgi pievienoti šai grupai.';
 $messages['contactremovedfromgroup'] = 'Kontakti tika veiksmīgi atvienoti no šīs grupas.';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Importēju, lūdzu uzgaidiet...';
-$messages['importerror'] = 'Imports neizdevās! Augšupielādētais fails nav korekts vCard fails';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>Veiksmīgi ieimportēti $inserted kontakti, netika importēti $skipped esoši ieraksti</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Izlaida $skipped jau eksistējošus ierakstus</b>';
 $messages['opnotpermitted'] = 'Darbība nav atļauta!';
@@ -156,4 +163,7 @@ $messages['invalidimageformat'] = 'Nederīgs attēla formāts.';
 $messages['mispellingsfound'] = 'Vēstulē atrastas pareizrakstības kļūdas.';
 $messages['parentnotwritable'] = 'Neizdevās izveidot/pārvietot mapi uz atzīmēto virsmapi. Nav piekļuves tiesību.';
 $messages['messagetoobig'] = 'Vēstule ir pārāk liela, lai to varētu apstrādāt.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
+?>

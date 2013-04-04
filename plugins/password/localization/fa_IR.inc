@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fa_IR/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hamid <abbaszadeh.h@gmail.com>                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'تغییر رمزعبور';
-$labels['curpasswd'] = 'رمزعبور فعلی';
-$labels['newpasswd'] = 'رمزعبور جدید';
-$labels['confpasswd'] = 'تایید رمزعبور جدید';
-$labels['nopassword'] = 'رمزعبور جدید را وارد نمایید';
-$labels['nocurpassword'] = 'رمزعبور فعلی را وارد نمایید';
-$labels['passwordincorrect'] = 'رمزعبور فعلی اشتباه است';
-$labels['passwordinconsistency'] = 'رمزعبورها با هم مطابقت ندارند، دوباره سعی نمایید.';
-$labels['crypterror'] = 'رمزعبور جدید نمی‌توانست ذخیره شود. نبودن تابع رمزگذاری.';
-$labels['connecterror'] = 'رمزعبور جدید نمی‌توانست ذخیره شود. خطای ارتباط.';
-$labels['internalerror'] = 'رمزعبور جدید ذخیره نشد';
-$labels['passwordshort'] = 'رمزعبور باید حداقل $length کاراکتر طول داشته باشد.';
-$labels['passwordweak'] = 'رمزعبور باید شامل حداقل یک عدد و یک کاراکتر نشانه‌ای باشد.';
-$labels['passwordforbidden'] = 'رمزعبور شما کاراکترهای غیرمجاز است.';
+$labels['changepasswd']  = 'تغییر گذرواژه';
+$labels['curpasswd']  = 'گذرواژه فعلی';
+$labels['newpasswd']  = 'گذرواژه جدید';
+$labels['confpasswd']  = 'تایید گذرواژه جدید';
 
+$messages = array();
+$messages['nopassword'] = 'گذرواژه جدید را وارد نمایید';
+$messages['nocurpassword'] = 'گذرواژه فعلی را وارد نمایید';
+$messages['passwordincorrect'] = 'گذرواژه فعلی اشتباه است';
+$messages['passwordinconsistency'] = 'گذرواژه‌ها با هم مطابقت ندارند، دوباره سعی نمایید.';
+$messages['crypterror'] = 'گذرواژه جدید نمی‌توانست ذخیره شود. نبودن تابع رمزگذاری.';
+$messages['connecterror'] = 'گذرواژه جدید نمی‌توانست ذخیره شود. خطای ارتباط.';
+$messages['internalerror'] = 'گذرواژه جدید ذخیره نشد';
+$messages['passwordshort'] = 'گذرواژه باید حداقل $length کاراکتر طول داشته باشد.';
+$messages['passwordweak'] = 'گذرواژه باید شامل حداقل یک عدد و یک کاراکتر نشانه‌ای باشد.';
+$messages['passwordforbidden'] = 'گذرواژه شما کاراکترهای غیرمجاز است.';
+
+?>

@@ -243,16 +243,16 @@ class tnef_decoder
             /* Store any interesting attributes. */
             switch ($attr_name) {
             case self::MAPI_ATTACH_LONG_FILENAME:
+                $value = str_replace("\0", '', $value);
                 /* Used in preference to AFILENAME value. */
                 $attachment_data[0]['name'] = preg_replace('/.*[\/](.*)$/', '\1', $value);
-                $attachment_data[0]['name'] = str_replace("\0", '', $attachment_data[0]['name']);
                 break;
 
             case self::MAPI_ATTACH_MIME_TAG:
+                $value = str_replace("\0", '', $value);
                 /* Is this ever set, and what is format? */
-                $attachment_data[0]['type'] = preg_replace('/^(.*)\/.*/', '\1', $value);
+                $attachment_data[0]['type']    = preg_replace('/^(.*)\/.*/', '\1', $value);
                 $attachment_data[0]['subtype'] = preg_replace('/.*\/(.*)$/', '\1', $value);
-                $attachment_data[0]['subtype'] = str_replace("\0", '', $attachment_data[0]['subtype']);
                 break;
             }
         }
@@ -295,9 +295,10 @@ class tnef_decoder
             break;
 
         case self::AFILENAME:
+            $value = $this->_getx($data, $this->_geti($data, 32));
+            $value = str_replace("\0", '', $value);
             /* Strip path. */
-            $attachment_data[0]['name'] = preg_replace('/.*[\/](.*)$/', '\1', $this->_getx($data, $this->_geti($data, 32)));
-            $attachment_data[0]['name'] = str_replace("\0", '', $attachment_data[0]['name']);
+            $attachment_data[0]['name'] = preg_replace('/.*[\/](.*)$/', '\1', $value);
 
             /* Checksum */
             $this->_geti($data, 16);

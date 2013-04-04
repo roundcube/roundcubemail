@@ -20,7 +20,7 @@ target location and check and update the configuration and database schema.
 After all is done, the temporary folder with the new Roundcube files can be 
 removed again.
 
-Please also see Post-Upgrade Activities section.
+WARNING: See Post-Upgrade Activities section below.
 
 
 Updating manually
@@ -40,6 +40,7 @@ it on a unix system, you need to do the following operations by hand:
    open http://url-to-roundcube/installer/ in a browser and choose "3 Test config".
    To enable the latter one, you have to temporary set 'enable_installer'
    to true in your local config/main.inc.php file.
+   WARNING: See SQLite database upgrade below.
 4. Let the update script/installer check your configuration and
    update your config files and database schema as suggested by the updater.
 5. Make sure 'enable_installer' is set to false again.
@@ -53,3 +54,12 @@ Post-Upgrade Activities
 3. When upgrading from version older than 0.6-beta you should make sure
    your folder settings contain namespace prefix. For example Courier users
    should add INBOX. prefix to folder names in main configuration file.
+4. Check system requirements in INSTALL file.
+
+SQLite database upgrade
+-----------------------
+Versions older than 0.9 were supporting SQLite v2 only. Newer versions require
+database in v3 format. The best what you can do is to convert database file
+to the new format using command line tools:
+
+sqlite OLD.DB .dump | sqlite3 NEW.DB

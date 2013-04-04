@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hy_AM/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Vahan Yerkanian <vahan@yerkanian.com>                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Զտիչներ';
 $labels['managefilters'] = 'Կառավարել ստացվող նամակների զտիչները';
 $labels['filtername'] = 'Զտիչի անուն';
@@ -54,6 +57,9 @@ $labels['sender'] = 'Ուղարկող';
 $labels['recipient'] = 'Ստացող';
 $labels['vacationaddresses'] = 'Իմ հավելյալ էլփոստի հասցեներ (բաժանված ստորակետներով).';
 $labels['vacationdays'] = 'Ինչ հաճախությամբ ուղարկել հաղորդագրությունները (օրեր)`';
+$labels['vacationinterval'] = 'How often send messages:';
+$labels['days'] = 'days';
+$labels['seconds'] = 'seconds';
 $labels['vacationreason'] = 'Հաղորդագրության բովանդակություն (արձակուրդի պատճառ)`';
 $labels['vacationsubject'] = 'Հաղորդագրության վերնագիր`';
 $labels['rulestop'] = 'Դադարել պայմանների ստուգումը';
@@ -92,6 +98,25 @@ $labels['flagdeleted'] = 'Ջնջված';
 $labels['flaganswered'] = 'Պատասխանված';
 $labels['flagflagged'] = 'Նշված';
 $labels['flagdraft'] = 'Սևագիր';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = 'Ստեղծել զտիչ';
 $labels['usedata'] = 'Զտիչում օգտագործել հետևյալ տեղեկությունը.';
 $labels['nextstep'] = 'Հաջորդ քայլ';
@@ -115,35 +140,38 @@ $labels['default'] = 'լռակյաց';
 $labels['octet'] = 'անփոփոխ (օկտետ)';
 $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
-$labels['filterunknownerror'] = 'Սերվերի անհայտ սխալ';
-$labels['filterconnerror'] = 'Սերվերի հետ կապի խնդիր։';
-$labels['filterdeleteerror'] = 'Սերվերի սխալ, զտիչի ջնջումն ձախողվեց։';
-$labels['filterdeleted'] = 'Զտիչը ջնջվեց։';
-$labels['filtersaved'] = 'Զտիչը պահպանվեց։';
-$labels['filtersaveerror'] = 'Սերվերի սխալ, զտիչի պահպանման սխալ։';
-$labels['filterdeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված զտիչը։';
-$labels['ruledeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված պայմանը։';
-$labels['actiondeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված գործողությունը։';
-$labels['forbiddenchars'] = 'Դաշտում առկա են արգելված նիշեր։';
-$labels['cannotbeempty'] = 'Դաշտը դատարկ չի կարող լինել։';
-$labels['ruleexist'] = 'Տրված անունով զտիչ արդեն գոյություն ունի։';
-$labels['setactivateerror'] = 'Սերվերի սխալ։ Նշված զտիչների համալիրի միացման ձախողում։';
-$labels['setdeactivateerror'] = 'Սերվերի սխալ։ Նշված զտիչների համալիրի անջատման ձախողում։';
-$labels['setdeleteerror'] = 'Սերվերի սխալ։ Նշված զտիչների համալիրի ջնջման ձախողում։';
-$labels['setactivated'] = 'Զտիչների համալիրը միացված է։';
-$labels['setdeactivated'] = 'Զտիչների համալիրը անջատված է։';
-$labels['setdeleted'] = 'Զտիչների համալիրը ջնջված է։';
-$labels['setdeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված զտիչների համալիրը։';
-$labels['setcreateerror'] = 'Սերվերի սխալ։ Զտիչների համալիրի ստեղծումը ձախողվեց։';
-$labels['setcreated'] = 'Զտիչների համալիրը ստեղծված է։';
-$labels['activateerror'] = 'Սերվերի սխալ։ Նշված զտիչի միացման ձախողում։';
-$labels['deactivateerror'] = 'Սերվերի սխալ։ Նշված զտիչի անջատման ձախողում։';
-$labels['activated'] = 'Զտիչի անջատված է։';
-$labels['deactivated'] = 'Զտիչի միացված է։';
-$labels['moved'] = 'Զտիչի տեղափոխված է։';
-$labels['moveerror'] = 'Սերվերի սխալ։ Նշված զտիչի տեղափոխման ձախողում։';
-$labels['nametoolong'] = 'Անունը չափազանց երկար է։';
-$labels['namereserved'] = 'Անթույլատրելի անուն։';
-$labels['setexist'] = 'Համալիրը արդեն գոյություն ունի։';
-$labels['nodata'] = 'Պահանջվում է նշել գոնե մեկ դիրք։';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Սերվերի անհայտ սխալ';
+$messages['filterconnerror'] = 'Սերվերի հետ կապի խնդիր։';
+$messages['filterdeleteerror'] = 'Սերվերի սխալ, զտիչի ջնջումն ձախողվեց։';
+$messages['filterdeleted'] = 'Զտիչը ջնջվեց։';
+$messages['filtersaved'] = 'Զտիչը պահպանվեց։';
+$messages['filtersaveerror'] = 'Սերվերի սխալ, զտիչի պահպանման սխալ։';
+$messages['filterdeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված զտիչը։';
+$messages['ruledeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված պայմանը։';
+$messages['actiondeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված գործողությունը։';
+$messages['forbiddenchars'] = 'Դաշտում առկա են արգելված նիշեր։';
+$messages['cannotbeempty'] = 'Դաշտը դատարկ չի կարող լինել։';
+$messages['ruleexist'] = 'Տրված անունով զտիչ արդեն գոյություն ունի։';
+$messages['setactivateerror'] = 'Սերվերի սխալ։ Նշված զտիչների համալիրի միացման ձախողում։';
+$messages['setdeactivateerror'] = 'Սերվերի սխալ։ Նշված զտիչների համալիրի անջատման ձախողում։';
+$messages['setdeleteerror'] = 'Սերվերի սխալ։ Նշված զտիչների համալիրի ջնջման ձախողում։';
+$messages['setactivated'] = 'Զտիչների համալիրը միացված է։';
+$messages['setdeactivated'] = 'Զտիչների համալիրը անջատված է։';
+$messages['setdeleted'] = 'Զտիչների համալիրը ջնջված է։';
+$messages['setdeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված զտիչների համալիրը։';
+$messages['setcreateerror'] = 'Սերվերի սխալ։ Զտիչների համալիրի ստեղծումը ձախողվեց։';
+$messages['setcreated'] = 'Զտիչների համալիրը ստեղծված է։';
+$messages['activateerror'] = 'Սերվերի սխալ։ Նշված զտիչի միացման ձախողում։';
+$messages['deactivateerror'] = 'Սերվերի սխալ։ Նշված զտիչի անջատման ձախողում։';
+$messages['deactivated'] = 'Զտիչի միացված է։';
+$messages['activated'] = 'Զտիչի անջատված է։';
+$messages['moved'] = 'Զտիչի տեղափոխված է։';
+$messages['moveerror'] = 'Սերվերի սխալ։ Նշված զտիչի տեղափոխման ձախողում։';
+$messages['nametoolong'] = 'Անունը չափազանց երկար է։';
+$messages['namereserved'] = 'Անթույլատրելի անուն։';
+$messages['setexist'] = 'Համալիրը արդեն գոյություն ունի։';
+$messages['nodata'] = 'Պահանջվում է նշել գոնե մեկ դիրք։';
+
+?>

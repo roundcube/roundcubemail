@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/sv_SE/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Administrera filter';
 $labels['filtername'] = 'Filternamn';
@@ -54,6 +57,9 @@ $labels['sender'] = 'Avsändare';
 $labels['recipient'] = 'Mottagare';
 $labels['vacationaddresses'] = 'Ytterligare mottagaradresser (avdelade med kommatecken)';
 $labels['vacationdays'] = 'Antal dagar mellan auto-svar:';
+$labels['vacationinterval'] = 'Tid mellan auto-svar:';
+$labels['days'] = 'Dagar';
+$labels['seconds'] = 'Sekunder';
 $labels['vacationreason'] = 'Meddelande i auto-svar:';
 $labels['vacationsubject'] = 'Meddelandeämne:';
 $labels['rulestop'] = 'Avsluta filtrering';
@@ -92,6 +98,25 @@ $labels['flagdeleted'] = 'Borttaget';
 $labels['flaganswered'] = 'Besvarat';
 $labels['flagflagged'] = 'Flaggat';
 $labels['flagdraft'] = 'Utkast';
+$labels['setvariable'] = 'Sätt variabel';
+$labels['setvarname'] = 'Variabelnamn:';
+$labels['setvarvalue'] = 'Variabelvärde:';
+$labels['setvarmodifiers'] = 'Modifierare:';
+$labels['varlower'] = 'Gemener';
+$labels['varupper'] = 'Versaler';
+$labels['varlowerfirst'] = 'Första tecken gement';
+$labels['varupperfirst'] = 'Första tecken versalt';
+$labels['varquotewildcard'] = 'Koda specialtecken';
+$labels['varlength'] = 'Längd';
+$labels['notify'] = 'Skicka avisering';
+$labels['notifyaddress'] = 'Mottagaradress:';
+$labels['notifybody'] = 'Aviseringsmeddelande:';
+$labels['notifysubject'] = 'Aviseringsämne:';
+$labels['notifyfrom'] = 'Aviseringsavsändare:';
+$labels['notifyimportance'] = 'Prioritet:';
+$labels['notifyimportancelow'] = 'Låg';
+$labels['notifyimportancenormal'] = 'Normal';
+$labels['notifyimportancehigh'] = 'Hög';
 $labels['filtercreate'] = 'Skapa filter';
 $labels['usedata'] = 'Använd följande information i filtret:';
 $labels['nextstep'] = 'Nästa steg';
@@ -115,35 +140,38 @@ $labels['default'] = 'standard';
 $labels['octet'] = 'strikt (oktalt)';
 $labels['asciicasemap'] = 'teckenlägesokänslig (ascii-casemap)';
 $labels['asciinumeric'] = 'numerisk (ascii-numeric)';
-$labels['filterunknownerror'] = 'Okänt serverfel';
-$labels['filterconnerror'] = 'Anslutning till serverns filtertjänst misslyckades';
-$labels['filterdeleteerror'] = 'Filtret kunde inte tas bort på grund av serverfel';
-$labels['filterdeleted'] = 'Filtret är borttaget';
-$labels['filtersaved'] = 'Filtret har sparats';
-$labels['filtersaveerror'] = 'Filtret kunde inte sparas på grund av serverfel';
-$labels['filterdeleteconfirm'] = 'Vill du ta bort det markerade filtret?';
-$labels['ruledeleteconfirm'] = 'Vill du ta bort filterregeln?';
-$labels['actiondeleteconfirm'] = 'Vill du ta bort filteråtgärden?';
-$labels['forbiddenchars'] = 'Otillåtet tecken i fältet';
-$labels['cannotbeempty'] = 'Fältet kan inte lämnas tomt';
-$labels['ruleexist'] = 'Ett filter med angivet namn finns redan.';
-$labels['setactivateerror'] = 'Filtergruppen kunde inte aktiveras på grund av serverfel';
-$labels['setdeactivateerror'] = 'Filtergruppen kunde inte deaktiveras på grund av serverfel';
-$labels['setdeleteerror'] = 'Filtergruppen kunde inte tas bort på grund av serverfel';
-$labels['setactivated'] = 'Filtergruppen är aktiverad';
-$labels['setdeactivated'] = 'Filtergruppen är deaktiverad';
-$labels['setdeleted'] = 'Filtergruppen är borttagen';
-$labels['setdeleteconfirm'] = 'Vill du ta bort filtergruppen?';
-$labels['setcreateerror'] = 'Filtergruppen kunde inte läggas till på grund av serverfel';
-$labels['setcreated'] = 'Filtergruppen har lagts till';
-$labels['activateerror'] = 'Kunde inte aktivera filter på grund av serverfel.';
-$labels['deactivateerror'] = 'Kunde inte deaktivera filter på grund av serverfel.';
-$labels['activated'] = 'Filter deaktiverat.';
-$labels['deactivated'] = 'Filter aktiverat.';
-$labels['moved'] = 'Filter flyttat.';
-$labels['moveerror'] = 'Kunde inte flytta filter på grund av serverfel.';
-$labels['nametoolong'] = 'Filtergruppen kan inte läggas till med för långt namn';
-$labels['namereserved'] = 'Reserverat namn.';
-$labels['setexist'] = 'Filtergrupp finns redan.';
-$labels['nodata'] = 'Minst en position måste väljas!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Okänt serverfel';
+$messages['filterconnerror'] = 'Anslutning till serverns filtertjänst misslyckades';
+$messages['filterdeleteerror'] = 'Filtret kunde inte tas bort på grund av serverfel';
+$messages['filterdeleted'] = 'Filtret är borttaget';
+$messages['filtersaved'] = 'Filtret har sparats';
+$messages['filtersaveerror'] = 'Filtret kunde inte sparas på grund av serverfel';
+$messages['filterdeleteconfirm'] = 'Vill du ta bort det markerade filtret?';
+$messages['ruledeleteconfirm'] = 'Vill du ta bort filterregeln?';
+$messages['actiondeleteconfirm'] = 'Vill du ta bort filteråtgärden?';
+$messages['forbiddenchars'] = 'Otillåtet tecken i fältet';
+$messages['cannotbeempty'] = 'Fältet kan inte lämnas tomt';
+$messages['ruleexist'] = 'Ett filter med angivet namn finns redan.';
+$messages['setactivateerror'] = 'Filtergruppen kunde inte aktiveras på grund av serverfel';
+$messages['setdeactivateerror'] = 'Filtergruppen kunde inte deaktiveras på grund av serverfel';
+$messages['setdeleteerror'] = 'Filtergruppen kunde inte tas bort på grund av serverfel';
+$messages['setactivated'] = 'Filtergruppen är aktiverad';
+$messages['setdeactivated'] = 'Filtergruppen är deaktiverad';
+$messages['setdeleted'] = 'Filtergruppen är borttagen';
+$messages['setdeleteconfirm'] = 'Vill du ta bort filtergruppen?';
+$messages['setcreateerror'] = 'Filtergruppen kunde inte läggas till på grund av serverfel';
+$messages['setcreated'] = 'Filtergruppen har lagts till';
+$messages['activateerror'] = 'Kunde inte aktivera filter på grund av serverfel.';
+$messages['deactivateerror'] = 'Kunde inte deaktivera filter på grund av serverfel.';
+$messages['deactivated'] = 'Filter aktiverat.';
+$messages['activated'] = 'Filter deaktiverat.';
+$messages['moved'] = 'Filter flyttat.';
+$messages['moveerror'] = 'Kunde inte flytta filter på grund av serverfel.';
+$messages['nametoolong'] = 'Filtergruppen kan inte läggas till med för långt namn';
+$messages['namereserved'] = 'Reserverat namn.';
+$messages['setexist'] = 'Filtergrupp finns redan.';
+$messages['nodata'] = 'Minst en position måste väljas!';
+
+?>

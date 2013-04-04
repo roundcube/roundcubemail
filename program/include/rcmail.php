@@ -123,7 +123,7 @@ class rcmail extends rcube
    */
   public function set_task($task)
   {
-    $task = asciiwords($task);
+    $task = asciiwords($task, true);
 
     if ($this->user && $this->user->ID)
       $task = !$task ? 'mail' : $task;
@@ -934,15 +934,26 @@ class rcmail extends rcube
      * @param object $message    Reference to Mail_MIME object
      * @param string $from       Sender address string
      * @param array  $mailto     Array of recipient address strings
-     * @param array  $smtp_error SMTP error array (reference)
+     * @param array  $error      SMTP error array (reference)
      * @param string $body_file  Location of file with saved message body (reference),
      *                           used when delay_file_io is enabled
-     * @param array  $smtp_opts  SMTP options (e.g. DSN request)
+     * @param array  $options    SMTP options (e.g. DSN request)
      *
      * @return boolean Send status.
      */
-    public function deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file = null, $smtp_opts = null)
+    public function deliver_message(&$message, $from, $mailto, &$error, &$body_file = null, $options = null)
     {
+        $plugin = $this->plugins->exec_hook('message_before_send', array(
+            'message' => $message,
+            'from'    => $from,
+            'mailto'  => $mailto,
+            'options' => $options,
+        ));
+
+        $from    = $plugin['from'];
+        $mailto  = $plugin['mailto'];
+        $options = $plugin['options'];
+        $message = $plugin['message'];
         $headers = $message->headers();
 
         // send thru SMTP server using custom SMTP library
@@ -985,15 +996,15 @@ class rcmail extends rcube
                 $this->smtp_init(true);
             }
 
-            $sent = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $smtp_opts);
-            $smtp_response = $this->smtp->get_response();
-            $smtp_error = $this->smtp->get_error();
+            $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
+            $response = $this->smtp->get_response();
+            $error    = $this->smtp->get_error();
 
             // log error
             if (!$sent) {
                 self::raise_error(array('code' => 800, 'type' => 'smtp',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "SMTP error: ".join("\n", $smtp_response)), TRUE, FALSE);
+                    'message' => "SMTP error: ".join("\n", $response)), TRUE, FALSE);
             }
         }
         // send mail using PHP's mail() function
@@ -1061,7 +1072,7 @@ class rcmail extends rcube
                     $this->user->get_username(),
                     $_SERVER['REMOTE_ADDR'],
                     $mailto,
-                    !empty($smtp_response) ? join('; ', $smtp_response) : ''));
+                    !empty($response) ? join('; ', $response) : ''));
             }
         }
 
@@ -1395,6 +1406,7 @@ class rcmail extends rcube
             $js_mailboxlist = array();
             $out = html::tag('ul', $attrib, $rcmail->render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib), html::$common_attrib);
 
+            $rcmail->output->include_script('treelist.js');
             $rcmail->output->add_gui_object('mailboxlist', $attrib['id']);
             $rcmail->output->set_env('mailboxes', $js_mailboxlist);
             $rcmail->output->set_env('unreadwrap', $attrib['unreadwrap']);
@@ -1573,14 +1585,13 @@ class rcmail extends rcube
                 'id' => "rcmli".$folder_id,
                 'class' => join(' ', $classes),
                 'noclose' => true),
-                html::a($link_attrib, $html_name) .
-                (!empty($folder['folders']) ? html::div(array(
-                    'class' => ($is_collapsed ? 'collapsed' : 'expanded'),
-                    'style' => "position:absolute",
-                    'onclick' => sprintf("%s.command('collapse-folder', '%s')", rcmail_output::JS_OBJECT_NAME, $js_name)
-                ), '&nbsp;') : ''));
+                html::a($link_attrib, $html_name));
 
-            $jslist[$folder_id] = array(
+            if (!empty($folder['folders'])) {
+                $out .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
+            }
+
+            $jslist[$folder['id']] = array(
                 'id'      => $folder['id'],
                 'name'    => $foldername,
                 'virtual' => $folder['virtual']
@@ -1666,12 +1677,31 @@ class rcmail extends rcube
      * Try to localize the given IMAP folder name.
      * UTF-7 decode it in case no localized text was found
      *
-     * @param string $name  Folder name
+     * @param string $name      Folder name
+     * @param bool   $with_path Enable path localization
      *
      * @return string Localized folder name in UTF-8 encoding
      */
-    public function localize_foldername($name)
+    public function localize_foldername($name, $with_path = true)
     {
+        // try to localize path of the folder
+        if ($with_path) {
+            $storage   = $this->get_storage();
+            $delimiter = $storage->get_hierarchy_delimiter();
+            $path      = explode($delimiter, $name);
+            $count     = count($path);
+
+            if ($count > 1) {
+                for ($i = 0; $i < $count; $i++) {
+                    $folder = implode($delimiter, array_slice($path, 0, -$i));
+                    if ($folder_class = $this->folder_classname($folder)) {
+                        $name = implode($delimiter, array_slice($path, $count - $i));
+                        return $this->gettext($folder_class) . $delimiter . rcube_charset::convert($name, 'UTF7-IMAP');
+                    }
+                }
+            }
+        }
+
         if ($folder_class = $this->folder_classname($name)) {
             return $this->gettext($folder_class);
         }
@@ -1768,32 +1798,51 @@ class rcmail extends rcube
      *
      * @param string $fallback       Fallback message label
      * @param array  $fallback_args  Fallback message label arguments
+     * @param string $suffix         Message label suffix
      */
-    public function display_server_error($fallback = null, $fallback_args = null)
+    public function display_server_error($fallback = null, $fallback_args = null, $suffix = '')
     {
         $err_code = $this->storage->get_error_code();
         $res_code = $this->storage->get_response_code();
+        $args     = array();
 
         if ($res_code == rcube_storage::NOPERM) {
-            $this->output->show_message('errornoperm', 'error');
+            $error = 'errornoperm';
         }
         else if ($res_code == rcube_storage::READONLY) {
-            $this->output->show_message('errorreadonly', 'error');
+            $error = 'errorreadonly';
+        }
+        else if ($res_code == rcube_storage::OVERQUOTA) {
+            $error = 'errorroverquota';
         }
         else if ($err_code && ($err_str = $this->storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
             if (stripos($err_str, 'Permission denied') !== false) {
-                $this->output->show_message('errornoperm', 'error');
+                $error = 'errornoperm';
+            }
+            // try to detect full mailbox problem and display appropriate message
+            // there can be e.g. "Quota exceeded" or "quotum would exceed"
+            else if (stripos($err_str, 'quot') !== false && stripos($err_str, 'exceed') !== false) {
+                $error = 'erroroverquota';
             }
             else {
-                $this->output->show_message('servererrormsg', 'error', array('msg' => $err_str));
+                $error = 'servererrormsg';
+                $args  = array('msg' => $err_str);
             }
         }
         else if ($err_code < 0) {
-            $this->output->show_message('storageerror', 'error');
+            $error = 'storageerror';
         }
         else if ($fallback) {
-            $this->output->show_message($fallback, 'error', $fallback_args);
+            $error = $fallback;
+            $args  = $fallback_args;
+        }
+
+        if ($error) {
+            if ($suffix && $this->text_exists($error . $suffix)) {
+                $error .= $suffix;
+            }
+            $this->output->show_message($error, 'error', $args);
         }
     }
 

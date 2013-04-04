@@ -84,7 +84,7 @@ class rcube_sieve
             return $this->_set_error(SIEVE_ERROR_LOGIN);
         }
 
-        $this->exts     = $this->get_extensions();
+        $this->exts = $this->get_extensions();
 
         // disable features by config
         if (!empty($disabled)) {
@@ -325,7 +325,7 @@ class rcube_sieve
                         continue 2;
                     }
                 }
-                if (empty($script->content[$idx+1]) || $script->content[$idx+1]['type'] != 'if') {
+                if (!empty($script->content[$idx+1]) && $script->content[$idx+1]['type'] != 'if') {
                     $script->content[$idx]['actions'][] = array('type' => 'stop');
                 }
             }
@@ -379,6 +379,6 @@ class rcube_sieve
      */
     public function debug_handler(&$sieve, $message)
     {
-        write_log('sieve', preg_replace('/\r\n$/', '', $message));
+        rcube::write_log('sieve', preg_replace('/\r\n$/', '', $message));
     }
 }

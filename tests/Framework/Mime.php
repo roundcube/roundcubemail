@@ -120,4 +120,26 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             $this->assertEquals($item['out'], $res, "Header decoding for: " . $idx);
         }
     }
+
+    /**
+     * Test format=flowed unfolding
+     */
+    function test_format_flowed()
+    {
+        $raw = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
+        $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
+
+        $this->assertEquals($flowed, rcube_mime::format_flowed($raw, 80), "Test correct folding and space-stuffing");
+    }
+
+    /**
+     * Test format=flowed unfolding
+     */
+    function test_unfold_flowed()
+    {
+        $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
+        $unfolded = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
+
+        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines");
+    }
 }

@@ -29,7 +29,6 @@ class rcube_install
   var $config = array();
   var $configured = false;
   var $last_error = null;
-  var $db_map = array('pgsql' => 'postgres', 'mysqli' => 'mysql', 'sqlsrv' => 'mssql');
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
   var $bool_config_props = array();
 
@@ -65,7 +64,7 @@ class rcube_install
   /**
    * Constructor
    */
-  function rcube_install()
+  function __construct()
   {
     $this->step = intval($_REQUEST['_step']);
     $this->is_post = $_SERVER['REQUEST_METHOD'] == 'POST';
@@ -74,7 +73,7 @@ class rcube_install
   /**
    * Singleton getter
    */
-  function get_instance()
+  static function get_instance()
   {
     static $inst;
 
@@ -259,6 +258,11 @@ class rcube_install
         $out['obsolete'][] = array('prop' => $prop);
         $seen[$prop] = true;
       }
+    }
+
+    // the old default mime_magic reference is obsolete
+    if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
+        $out['obsolete'][] = array('prop' => 'mime_magic', 'explain' => "Set value to null in order to use system default");
     }
 
     // iterate over default config
@@ -448,10 +452,11 @@ class rcube_install
         '0.2-alpha', '0.2-beta', '0.2-stable',
         '0.3-stable', '0.3.1',
         '0.4-beta', '0.4.2',
-        '0.5-beta', '0.5', '0.5.1',
+        '0.5-beta', '0.5', '0.5.1', '0.5.2', '0.5.3', '0.5.4',
         '0.6-beta', '0.6',
-        '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3',
-        '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4',
+        '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3', '0.7.4',
+        '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4', '0.8.5', '0.8.6',
+        '0.9-beta', '0.9-rc', '0.9-rc2',
     ));
     return $select;
   }
@@ -603,7 +608,7 @@ class rcube_install
    */
   function init_db($DB)
   {
-    $engine = isset($this->db_map[$DB->db_provider]) ? $this->db_map[$DB->db_provider] : $DB->db_provider;
+    $engine = $DB->db_provider;
 
     // read schema file from /SQL/*
     $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
@@ -625,46 +630,18 @@ class rcube_install
 
 
   /**
-   * Update database with SQL statements from SQL/*.update.sql
+   * Update database schema
    *
-   * @param object rcube_db Database connection
    * @param string Version to update from
+   *
    * @return boolen True on success, False on error
    */
-  function update_db($DB, $version)
+  function update_db($version)
   {
-    $version = strtolower($version);
-    $engine = isset($this->db_map[$DB->db_provider]) ? $this->db_map[$DB->db_provider] : $DB->db_provider;
+    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube --version=" . $version
+      . " --dir=" . INSTALL_PATH . "SQL", $result);
 
-    // read schema file from /SQL/*
-    $fname = INSTALL_PATH . "SQL/$engine.update.sql";
-    if ($lines = @file($fname, FILE_SKIP_EMPTY_LINES)) {
-      $from = false; $sql = '';
-      foreach ($lines as $line) {
-        $is_comment = preg_match('/^--/', $line);
-        if (!$from && $is_comment && preg_match('/from version\s([0-9.]+[a-z-]*)/', $line, $m)) {
-          $v = strtolower($m[1]);
-          if ($v == $version || version_compare($version, $v, '<='))
-            $from = true;
-        }
-        if ($from && !$is_comment)
-          $sql .= $line. "\n";
-      }
-
-      if ($sql)
-        $this->exec_sql($sql, $DB);
-    }
-    else {
-      $this->fail('DB Schema', "Cannot read the update file: $fname");
-      return false;
-    }
-
-    if ($err = $this->get_error()) {
-      $this->fail('DB Schema', "Error updating database: $err");
-      return false;
-    }
-
-    return true;
+    return !$result;
   }
 
 

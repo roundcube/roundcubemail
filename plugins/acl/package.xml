@@ -13,9 +13,9 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-06-28</date>
+	<date>2013-03-01</date>
 	<version>
-		<release>1.0</release>
+		<release>1.2</release>
 		<api>0.7</api>
 	</version>
 	<stability>

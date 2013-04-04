@@ -2,8 +2,6 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/rcube_spellchecker.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011, Kolab Systems AG                                  |
  | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
@@ -14,13 +12,11 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Spellchecking using different backends                              |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Helper class for spellchecking with Googielspell and PSpell support.
@@ -35,7 +31,7 @@ class rcube_spellchecker
     private $lang;
     private $rc;
     private $error;
-    private $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.]([^\w]|$)/';
+    private $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.](?=\W|$)/';
     private $options = array();
     private $dict;
     private $have_dict;
@@ -447,7 +443,7 @@ class rcube_spellchecker
 
     private function html2text($text)
     {
-        $h2t = new html2text($text, false, true, 0);
+        $h2t = new rcube_html2text($text, false, true, 0);
         return $h2t->get_text();
     }
 

@@ -19,7 +19,7 @@ class rcube_vpopmaild_password
         $vpopmaild = new Net_Socket();
 
         if (PEAR::isError($vpopmaild->connect($rcmail->config->get('password_vpopmaild_host'),
-	        $rcmail->config->get('password_vpopmaild_port'), null))) {
+            $rcmail->config->get('password_vpopmaild_port'), null))) {
             return PASSWORD_CONNECT_ERROR;
         }
 

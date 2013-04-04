@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fi_FI/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jiri Grönroos                                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Virhe havaittu.';
-$messages['loginfailed'] = 'Sisäänkirjautuminen epäonnistui';
+$messages['errortitle']  = 'Virhe havaittu.';
+$messages['loginfailed']  = 'Sisäänkirjautuminen epäonnistui';
 $messages['cookiesdisabled'] = 'Selaimesi ei hyväksy evästeitä';
 $messages['sessionerror'] = 'Sessio ei kelpaa tai ei ole enää voimassa';
 $messages['storageerror'] = 'Yhteys IMAP-palvelimeen epäonnistui';
@@ -26,9 +29,11 @@ $messages['requesttimedout'] = 'Pyyntö aikakatkaistiin';
 $messages['errorreadonly'] = 'Toiminnon suoritus ei onnistu, koska hakemisto on vain lukutilassa.';
 $messages['errornoperm'] = 'Toimintoa ei voitu suorittaa. Ei oikeuksia.';
 $messages['invalidrequest'] = 'Virheellinen pyyntö! Tietoa ei tallennettu.';
+$messages['invalidhost'] = 'Virheellinen palvelinnimi.';
 $messages['nomessagesfound'] = 'Kansiossa ei ole sähköpostiviestejä';
 $messages['loggedout'] = 'Sinut on kirjattu ulos järjestelmästä.';
 $messages['mailboxempty'] = 'Kansio on tyhjä';
+$messages['refreshing'] = 'Päivitetään...';
 $messages['loading'] = 'Ladataan...';
 $messages['uploading'] = 'Ladataan tiedostoa palvelimelle...';
 $messages['uploadingmany'] = 'Ladataan tiedostoja...';
@@ -55,11 +60,11 @@ $messages['errormoving'] = 'Viestiä ei voitu siirtää';
 $messages['errorcopying'] = 'Viestiä ei voitu kopioida';
 $messages['errordeleting'] = 'Viestiä ei voitu poistaa';
 $messages['errormarking'] = 'Viestiä ei voitu merkiä';
-$messages['deletecontactconfirm'] = 'Haluatko varmasti poistaa valitut yhteystiedot?';
-$messages['deletegroupconfirm'] = 'Haluatko varmasti poistaa valitun ryhmän?';
+$messages['deletecontactconfirm']  = 'Haluatko varmasti poistaa valitut yhteystiedot?';
+$messages['deletegroupconfirm']  = 'Haluatko varmasti poistaa valitun ryhmän?';
 $messages['deletemessagesconfirm'] = 'Haluatko varmasti poistaa valitut viestit?';
-$messages['deletefolderconfirm'] = 'Haluatko varmasti poistaa kansion?';
-$messages['purgefolderconfirm'] = 'Haluatko varmasti poistaa kaikki viestit kansiosta?';
+$messages['deletefolderconfirm']  = 'Haluatko varmasti poistaa kansion?';
+$messages['purgefolderconfirm']  = 'Haluatko varmasti poistaa kaikki viestit kansiosta?';
 $messages['contactdeleting'] = 'Poistetaan yhteystietoja...';
 $messages['groupdeleting'] = 'Poistetaan ryhmää...';
 $messages['folderdeleting'] = 'Poistetaan kansiota...';
@@ -68,11 +73,11 @@ $messages['foldersubscribing'] = 'Tilataan kansio...';
 $messages['folderunsubscribing'] = 'Perutaan kansio tilaus...';
 $messages['formincomplete'] = 'Lomakkeen tiedot olivat puutteelliset';
 $messages['noemailwarning'] = 'Anna sähköpostiosoite';
-$messages['nonamewarning'] = 'Anna nimi';
+$messages['nonamewarning']  = 'Anna nimi';
 $messages['nopagesizewarning'] = 'Anna sivukoko';
 $messages['nosenderwarning'] = 'Anna lähettäjän sähköpostiosoite';
 $messages['norecipientwarning'] = 'Anna ainakin yksi vastaanottaja';
-$messages['nosubjectwarning'] = '"Otsikko"-kenttä on tyhjä. Haluatko kirjoittaa viestillesi otsikon?';
+$messages['nosubjectwarning']  = '"Otsikko"-kenttä on tyhjä. Haluatko kirjoittaa viestillesi otsikon?';
 $messages['nobodywarning'] = 'Lähetetäänkö viesti ilman tekstiä?';
 $messages['notsentwarning'] = 'Viestiä ei lähetetty. Haluatko poistaa viestin?';
 $messages['noldapserver'] = 'Valitse LDAP-palvelin';
@@ -114,8 +119,9 @@ $messages['selectimportfile'] = 'Valitse lähetettävä tiedosto';
 $messages['addresswriterror'] = 'Valittuun osoitekirjaan ei voi kirjoittaa';
 $messages['contactaddedtogroup'] = 'Yhteystiedot lisätty ryhmään';
 $messages['contactremovedfromgroup'] = 'Yhteystiedot poistettu ryhmästä';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Tuodaan, odota...';
-$messages['importerror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole vCard-muodossa.';
+$messages['importformaterror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole kelvollinen tuontitiedosto.';
 $messages['importconfirm'] = '<b>$inserted yhteystietoa tuotu onnistuneesti</b>';
 $messages['importconfirmskipped'] = '<b>Ohitettu $skipped  olemassa olevaa merkintää</b>';
 $messages['opnotpermitted'] = 'Toiminto ei ole sallittu!';
@@ -157,4 +163,7 @@ $messages['invalidimageformat'] = 'Virheellinen kuvamuoto.';
 $messages['mispellingsfound'] = 'Viestissä havaittiin kielioppivirheitä.';
 $messages['parentnotwritable'] = 'Kansiota ei voitu siirtää tai luoda valittuun yläkansioon. Ei käyttöoikeutta.';
 $messages['messagetoobig'] = 'Viestiosa on liian suuri prosessoitavaksi.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Varoitus: Tämä verkkopohjainen sähköpostipalvelu vaatii Javascriptin toimiakseen. Ota Javascript käyttöön selaimesi asetuksista.';
 
+?>

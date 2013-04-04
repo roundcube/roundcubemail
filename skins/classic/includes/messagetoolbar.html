@@ -5,8 +5,8 @@
 <roundcube:button command="list" type="link" class="button back" classAct="button back" classSel="button backSel" title="backtolist" content=" " />
 <roundcube:else />
 <roundcube:button command="checkmail" type="link" class="button checkmail" classAct="button checkmail" classSel="button checkmailSel" title="checkmail" content=" " />
-<roundcube:button command="compose" type="link" class="button compose" classAct="button compose" classSel="button composeSel" title="writenewmessage" content=" " />
 <roundcube:endif />
+<roundcube:button command="compose" type="link" class="button compose" classAct="button compose" classSel="button composeSel" title="writenewmessage" content=" " />
 <roundcube:button command="reply" type="link" class="buttonPas reply" classAct="button reply" classSel="button replySel" title="replytomessage" content=" " />
 <span class="dropbutton">
 <roundcube:button command="reply-all" type="link" class="buttonPas replyAll" classAct="button replyAll" classSel="button replyAllSel" title="replytoallmessage" content=" " />
@@ -27,7 +27,7 @@
 
 <div id="forwardmenu" class="popupmenu">
     <ul>
-        <li><roundcube:button command="forward" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" /></li>
+        <li><roundcube:button command="forward-inline" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" /></li>
         <li><roundcube:button command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" /></li>
         <roundcube:container name="forwardmenu" id="forwardmenu" />
     </ul>

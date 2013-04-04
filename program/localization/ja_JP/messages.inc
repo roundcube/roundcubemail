@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ja_JP/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Takahiro Kambe                                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'エラーが発生しました!';
-$messages['loginfailed'] = 'ログインできませんでした。';
+$messages['errortitle']  = 'エラーが発生しました!';
+$messages['loginfailed']  = 'ログインできませんでした。';
 $messages['cookiesdisabled'] = 'ブラウザーがCookieを受け付けません。';
 $messages['sessionerror'] = 'セッションが正しくないか期限が切れています。';
 $messages['storageerror'] = 'IMAP サーバーへの接続に失敗しました。';
@@ -30,6 +33,7 @@ $messages['invalidhost'] = '正しくないサーバー名です。';
 $messages['nomessagesfound'] = 'このフォルダーにはメッセージはありません。';
 $messages['loggedout'] = 'ログアウトしました。さようなら!';
 $messages['mailboxempty'] = 'メールボックスは空です。';
+$messages['refreshing'] = '再表示中...';
 $messages['loading'] = '読み込み中...';
 $messages['uploading'] = 'ファイルをアップロード中...';
 $messages['uploadingmany'] = 'ファイルをアップロード中...';
@@ -56,11 +60,11 @@ $messages['errormoving'] = 'メッセージを移動できません。';
 $messages['errorcopying'] = 'メッセージをコピーできません。';
 $messages['errordeleting'] = 'メッセージを削除できません。';
 $messages['errormarking'] = 'メッセージにマークを設定できません。';
-$messages['deletecontactconfirm'] = '選択した連絡先を本当に削除しますか?';
-$messages['deletegroupconfirm'] = 'このグループを本当に削除しますか?';
+$messages['deletecontactconfirm']  = '選択した連絡先を本当に削除しますか?';
+$messages['deletegroupconfirm']  = 'このグループを本当に削除しますか?';
 $messages['deletemessagesconfirm'] = '選択したメールを本当に削除しますか?';
-$messages['deletefolderconfirm'] = 'このフォルダーを本当に削除しますか?';
-$messages['purgefolderconfirm'] = 'このフォルダーのすべてのメールを本当に削除しますか?';
+$messages['deletefolderconfirm']  = 'このフォルダーを本当に削除しますか?';
+$messages['purgefolderconfirm']  = 'このフォルダーのすべてのメールを本当に削除しますか?';
 $messages['contactdeleting'] = '連絡先を削除中...';
 $messages['groupdeleting'] = 'グループを削除中...';
 $messages['folderdeleting'] = 'フォルダーを削除中...';
@@ -69,11 +73,11 @@ $messages['foldersubscribing'] = 'フォルダーを購読中...';
 $messages['folderunsubscribing'] = 'フォルダーの購読を解除中...';
 $messages['formincomplete'] = 'フォームに未記入の項目があります。';
 $messages['noemailwarning'] = '正しい電子メールアドレスを入力してください。';
-$messages['nonamewarning'] = '名前を入力してください。';
+$messages['nonamewarning']  = '名前を入力してください。';
 $messages['nopagesizewarning'] = 'ページのサイズを入力してください。';
 $messages['nosenderwarning'] = '送信者の電子メールアドレスを入力してください。';
 $messages['norecipientwarning'] = '少なくとも1つ宛先を入力してください。';
-$messages['nosubjectwarning'] = '件名(Subject)の欄が空です。今、入力しますか?';
+$messages['nosubjectwarning']  = '件名(Subject)の欄が空です。今、入力しますか?';
 $messages['nobodywarning'] = '本文の無いメッセージを送信しますか?';
 $messages['notsentwarning'] = 'メッセージを送信しませんでした。このメッセージを破棄しますか。';
 $messages['noldapserver'] = '検索するLDAPサーバーを選択してください。';
@@ -117,6 +121,7 @@ $messages['contactaddedtogroup'] = 'このグループに連絡先を追加し�
 $messages['contactremovedfromgroup'] = 'このグループから連絡先を削除しました。';
 $messages['nogroupassignmentschanged'] = 'グループの割り当てを変更しませんでした。';
 $messages['importwait'] = 'インポート中です。しばらくお待ちください...';
+$messages['importformaterror'] = 'インポートできませんでした!  アップロードしたファイルは正しいデータをインポートするファイルではありません。';
 $messages['importconfirm'] = '<b>$inserted件の連絡先をインポートしました。</b>';
 $messages['importconfirmskipped'] = '<b>$skipped件の既存する項目を飛ばした。</b>';
 $messages['opnotpermitted'] = '許可されていない操作です。';
@@ -158,4 +163,7 @@ $messages['invalidimageformat'] = '画像の形式が正しくありません。
 $messages['mispellingsfound'] = 'メッセージにスペルミスを見つけました。';
 $messages['parentnotwritable'] = '選択した親フォルダーに作成または移動をできませんでした。アクセス権限がありません。';
 $messages['messagetoobig'] = 'その処理をするにはメッセージ部分が大きすぎます。';
+$messages['attachmentvalidationerror'] = '警告!  この添付ファイルはメッセージの宣言と一致しない種類という理由のため疑わしいです。送信者を信頼できないなら、悪意のある内容を含んでいるかもしれないのでブラウザーで開いてはなりません。<br/><br/><em>予測した種類: $expected; 発見した種類: $found</em>';
+$messages['noscriptwarning'] = '警告: このウェブメールサービスにはJavascriptが必要です!  使用するにはJavascriptをブラウザーの設定で有効にしてください。';
 
+?>

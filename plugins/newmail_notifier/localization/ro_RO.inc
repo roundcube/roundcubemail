@@ -2,19 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ro_RO/labels.inc                                         |
+ | plugins/newmail_notifier/localization/<lang>.inc                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail New Mail Notifier plugin   |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: tudor <tudor@starnet-alba.ro>                                 |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
-$labels = array();
 $labels['basic'] = 'Afişează notificări în browser la mesaj nou.';
 $labels['desktop'] = 'Afişează notificări desktop la mesaj nou.';
 $labels['sound'] = 'Redă un sunet la mesaj nou.';
@@ -25,3 +26,4 @@ $labels['testbody'] = 'Aceasta este o notificare de test.';
 $labels['desktopdisabled'] = 'Notificările desktop sunt dezactivate în browser.';
 $labels['desktopunsupported'] = 'Browser-ul nu suportă notificări desktop.';
 
+?>

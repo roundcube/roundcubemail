@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/he_IL/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Moshe Leibovitch <moish@mln.co.il>                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'קרתה שגיאה !';
-$messages['loginfailed'] = 'הכניסה נכשלה';
+$messages['errortitle']  = 'קרתה שגיאה !';
+$messages['loginfailed']  = 'הכניסה נכשלה';
 $messages['cookiesdisabled'] = 'הדפדפן אינו מקבל עוגיות';
 $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או שפג תוקפה';
 $messages['storageerror'] = 'הקשר לשרת הדואר נכשל';
@@ -30,6 +33,7 @@ $messages['invalidhost'] = 'שם שרת לא חוקי';
 $messages['nomessagesfound'] = 'לא נמצאו הודעות בתיבה זו';
 $messages['loggedout'] = 'הקשר הסתיים. להתראות!';
 $messages['mailboxempty'] = 'רשימת ההודעות ריקה';
+$messages['refreshing'] = 'מרענן...';
 $messages['loading'] = 'טעינה...';
 $messages['uploading'] = 'קובץ עולה...';
 $messages['uploadingmany'] = 'מעלה קבצים...';
@@ -56,11 +60,11 @@ $messages['errormoving'] = 'לא ניתן לתייק את ההודעה';
 $messages['errorcopying'] = 'העתקת ההודעות נכשלה';
 $messages['errordeleting'] = 'לא ניתן למחוק את ההודעה';
 $messages['errormarking'] = 'לא ניתן לסמן ההודעה';
-$messages['deletecontactconfirm'] = 'האם למחוק את איש הקשר?';
-$messages['deletegroupconfirm'] = 'האם אכן ברצונך למחוק את הקבוצה שנבחרה?';
+$messages['deletecontactconfirm']  = 'האם למחוק את איש הקשר?';
+$messages['deletegroupconfirm']  = 'האם אכן ברצונך למחוק את הקבוצה שנבחרה?';
 $messages['deletemessagesconfirm'] = 'האם למחוק את ההודעות המסומנות?';
-$messages['deletefolderconfirm'] = 'האם למחוק תיק זה?';
-$messages['purgefolderconfirm'] = 'האם למחוק את כל ההודעות בתיק זה?';
+$messages['deletefolderconfirm']  = 'האם למחוק תיק זה?';
+$messages['purgefolderconfirm']  = 'האם למחוק את כל ההודעות בתיק זה?';
 $messages['contactdeleting'] = 'אנשי קשר נמחקים...';
 $messages['groupdeleting'] = 'מחיקת קבוצה...';
 $messages['folderdeleting'] = 'התיקיה נמחקת...';
@@ -69,11 +73,11 @@ $messages['foldersubscribing'] = 'התיק נרשם...';
 $messages['folderunsubscribing'] = 'רישום התיק בוטל...';
 $messages['formincomplete'] = 'לא הוזנו כל השדות בטופס זה';
 $messages['noemailwarning'] = 'נא להוסיף כתובת דוא"ל חוקית';
-$messages['nonamewarning'] = 'נא להוסיף שם';
+$messages['nonamewarning']  = 'נא להוסיף שם';
 $messages['nopagesizewarning'] = 'נא להוסיף גודל דף';
 $messages['nosenderwarning'] = 'נא להוסיף כתובת השולח';
 $messages['norecipientwarning'] = 'נא להוסיף לפחות נמען אחד';
-$messages['nosubjectwarning'] = 'שורת הנושא ריקה. האם ברצונך להוסיף נושא כעת?';
+$messages['nosubjectwarning']  = 'שורת הנושא ריקה. האם ברצונך להוסיף נושא כעת?';
 $messages['nobodywarning'] = 'האם לשלוח הודעה ללא תוכן?';
 $messages['notsentwarning'] = 'ההודעה לא נשלחה. האם לבטל?';
 $messages['noldapserver'] = 'נא לבחור שרת כתובות לחיפוש';
@@ -117,6 +121,7 @@ $messages['contactaddedtogroup'] = 'אנשי הקשר נוספו בהצלחה ל
 $messages['contactremovedfromgroup'] = 'אנשי הקשר הוסרו בהצלחה מהקבוצה';
 $messages['nogroupassignmentschanged'] = 'לא השתנו הגדרות קבוצה';
 $messages['importwait'] = 'ייבוא, נא להמתין..';
+$messages['importformaterror'] = 'היבוא נכשל ! הקובץ שהועלה אינו מתאים.';
 $messages['importconfirm'] = '<b>יובאו $inserted אנשי קשר, $skipped היו קיימים </b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>  דילוג של $skipped נתונים קיימים <b>';
 $messages['opnotpermitted'] = 'פעולה אסורה!';
@@ -158,4 +163,7 @@ $messages['invalidimageformat'] = 'פורמט תמונה לא חוקי';
 $messages['mispellingsfound'] = 'התגלו שגיאות כתיב בהודעה';
 $messages['parentnotwritable'] = 'לא ניתן ליצור/להעביר תיקיה לתוך תיקית האב שנבחרה. אין הרשאה לגישה.';
 $messages['messagetoobig'] = 'ההודעה גדולה מעבר ליכולת העיבוד של התוכנה';
+$messages['attachmentvalidationerror'] = 'זהירות ! הצרופה חשודה כי אינה מהסוג שצוין בהודעה. אם לא ניתן לבטוח בשולח אזי להמנע מלפתוח את הקובץ בדפדפן כי הקובץ יכול להכיל קוד זדוני.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'זהירות! תוכנה זו דורשת שימוש בג\'אווהסקריפט! כדי להשתמש בכלי, יש לבחור באפשרות זו בהגדרות הדפדפן.';
 
+?>

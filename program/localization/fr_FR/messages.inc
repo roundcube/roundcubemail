@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fr_FR/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Anthony Prades <toony.github@chezouam.net>                    |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Une erreur est survenue !';
-$messages['loginfailed'] = 'L\'authentification a échoué';
+$messages['errortitle']  = 'Une erreur est survenue !';
+$messages['loginfailed']  = 'L\'authentification a échoué';
 $messages['cookiesdisabled'] = 'Votre navigateur n\'accepte pas les cookies';
 $messages['sessionerror'] = 'Votre session est invalide ou a expiré';
 $messages['storageerror'] = 'Erreur de connexion au serveur IMAP';
@@ -30,6 +33,7 @@ $messages['invalidhost'] = 'Nom du serveur invalide.';
 $messages['nomessagesfound'] = 'Cette boîte aux lettres ne contient aucun message.';
 $messages['loggedout'] = 'Vous venez de vous déconnecter avec succès. Au revoir !';
 $messages['mailboxempty'] = 'La boîte aux lettres est vide.';
+$messages['refreshing'] = 'Rafraîchissement en cours...';
 $messages['loading'] = 'Chargement...';
 $messages['uploading'] = 'Envoi du fichier...';
 $messages['uploadingmany'] = 'Envoi des fichiers ...';
@@ -56,11 +60,11 @@ $messages['errormoving'] = 'Impossible de déplacer le message';
 $messages['errorcopying'] = 'La copie de ce(s) message(s) a échoué.';
 $messages['errordeleting'] = 'Impossible d\'effacer le message';
 $messages['errormarking'] = 'Impossible de marquer le message';
-$messages['deletecontactconfirm'] = 'Êtes-vous sûr de vouloir supprimer le(s) contact(s) sélectionné(s) ?';
-$messages['deletegroupconfirm'] = 'Êtes-vous sûr de vouloir supprimer le groupe sélectionné ?';
+$messages['deletecontactconfirm']  = 'Êtes-vous sûr de vouloir supprimer le(s) contact(s) sélectionné(s) ?';
+$messages['deletegroupconfirm']  = 'Êtes-vous sûr de vouloir supprimer le groupe sélectionné ?';
 $messages['deletemessagesconfirm'] = 'Êtes-vous sûr de vouloir supprimer le(s) message(s) sélectionné(s) ?';
-$messages['deletefolderconfirm'] = 'Êtes-vous sûr de vouloir supprimer ce dossier ?';
-$messages['purgefolderconfirm'] = 'Êtes-vous sûr de vouloir supprimer tous les messages de ce dossier ?';
+$messages['deletefolderconfirm']  = 'Êtes-vous sûr de vouloir supprimer ce dossier ?';
+$messages['purgefolderconfirm']  = 'Êtes-vous sûr de vouloir supprimer tous les messages de ce dossier ?';
 $messages['contactdeleting'] = 'Suppression de contact(s)...';
 $messages['groupdeleting'] = 'Suppression du groupe ...';
 $messages['folderdeleting'] = 'Suppression du dossier...';
@@ -69,11 +73,11 @@ $messages['foldersubscribing'] = 'Inscription du dossier...';
 $messages['folderunsubscribing'] = 'Désinscription du dossier...';
 $messages['formincomplete'] = 'Le formulaire n\'a pas été entièrement rempli';
 $messages['noemailwarning'] = 'Veuillez spécifier un courriel valide';
-$messages['nonamewarning'] = 'Veuillez fournir un nom';
+$messages['nonamewarning']  = 'Veuillez fournir un nom';
 $messages['nopagesizewarning'] = 'Veuillez indiquer une taille de page';
 $messages['nosenderwarning'] = 'Veuillez renseigner l\'adresse d\'expéditeur';
 $messages['norecipientwarning'] = 'Veuillez ajouter au moins un destinataire';
-$messages['nosubjectwarning'] = 'Le champ «Objet» est vide. Souhaitez-vous le renseigner maintenant ?';
+$messages['nosubjectwarning']  = 'Le champ «Objet» est vide. Souhaitez-vous le renseigner maintenant ?';
 $messages['nobodywarning'] = 'Envoyer ce message sans texte ?';
 $messages['notsentwarning'] = 'Le message n\'a pas été envoyé. Voulez-vous abandonner ce message ?';
 $messages['noldapserver'] = 'Choisissez un serveur LDAP pour la recherche';
@@ -117,6 +121,7 @@ $messages['contactaddedtogroup'] = 'Les contacts ont bien été ajoutés à ce g
 $messages['contactremovedfromgroup'] = 'Les contacts ont bien été supprimés de ce groupe';
 $messages['nogroupassignmentschanged'] = 'Appartenance aux groupes inchangée.';
 $messages['importwait'] = 'Importation, veuillez patienter...';
+$messages['importformaterror'] = 'Echec de l\'import ! Le fichier n\'est pas un fichier d\'import de données valide.';
 $messages['importconfirm'] = '<b>$inserted contacts importés avec succès, $skipped entrées existantes ignorées</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>$skipped entrée(s) déjà existante(s)</b>';
 $messages['opnotpermitted'] = 'Cette opération n\'est pas permise !';
@@ -158,4 +163,7 @@ $messages['invalidimageformat'] = 'Format d\'image invalide';
 $messages['mispellingsfound'] = 'Des fautes d\'orthographe ont été détectées dans le message.';
 $messages['parentnotwritable'] = 'Impossible de créer/déplacer le dossier dans le dossier parent sélectionné. Aucun droit d\'accès.';
 $messages['messagetoobig'] = 'Le message est trop gros pour être traité.';
+$messages['attachmentvalidationerror'] = 'ATTENTION ! Cette pièce jointe est suspecte car son type ne correspond pas au type déclaré dans ce message. Si vous ne faites pas confiance à l\'expéditeur, vous ne devriez pas l\'ouvrir dans le navigateur, car il peut contenir des contenus malveillants.<br/><br/><em>Attendu : $expected; trouvé : $detected</em>';
+$messages['noscriptwarning'] = 'Atention : Ce service de webmail nécessite Javascript ! Pour pouvoir l\'utiliser, merci d\'activer Javascript dans les préférences de votre navigateur.';
 
+?>

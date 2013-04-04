@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/az_AZ/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Orkhan Guliyev <proger@box.az>                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Xəta baş verib!';
-$messages['loginfailed'] = 'Giriş uğursuz oldu';
+$messages['errortitle']  = 'Xəta baş verib!';
+$messages['loginfailed']  = 'Giriş uğursuz oldu';
 $messages['cookiesdisabled'] = 'Sizin brauzer kukiləri qəbul etmir';
 $messages['sessionerror'] = 'Sizin sessiya köhnəlib';
 $messages['storageerror'] = 'IMAP serverlə bağlantı alınmadı';
@@ -30,6 +33,7 @@ $messages['invalidhost'] = 'Səhv server adı';
 $messages['nomessagesfound'] = 'Poçt qutusunda məktub tapılmadı';
 $messages['loggedout'] = 'Çıxış uğurlu oldu. Sağ olun!';
 $messages['mailboxempty'] = 'Poçt qutusu boşdur';
+$messages['refreshing'] = 'Yenilənmə...';
 $messages['loading'] = 'Yüklənir...';
 $messages['uploading'] = 'Fayl yüklənir...';
 $messages['uploadingmany'] = 'Fayllar yüklənir...';
@@ -56,11 +60,11 @@ $messages['errormoving'] = 'Məktubu (məktubları) köçürmək alnmadı';
 $messages['errorcopying'] = 'Məktubu (məktubları) kopyalamaq alınmadı';
 $messages['errordeleting'] = 'Məktubu (məktubları) silmək alınmadı';
 $messages['errormarking'] = 'Məktubu (məktubları) işarələmək mümkün deyil';
-$messages['deletecontactconfirm'] = 'Seçilən ünvanı (ünvanları) silməyə əminsiniz?';
-$messages['deletegroupconfirm'] = 'Qrupu silməkdə əminsiniz?';
+$messages['deletecontactconfirm']  = 'Seçilən ünvanı (ünvanları) silməyə əminsiniz?';
+$messages['deletegroupconfirm']  = 'Qrupu silməkdə əminsiniz?';
 $messages['deletemessagesconfirm'] = 'Seçilən məktubu (məktubları) silməyə əminsiniz?';
-$messages['deletefolderconfirm'] = 'Bu qovluğu silməyə əminsiniz?';
-$messages['purgefolderconfirm'] = 'Bu qovluqdakı bütün məktubları silməyə əminsiniz?';
+$messages['deletefolderconfirm']  = 'Bu qovluğu silməyə əminsiniz?';
+$messages['purgefolderconfirm']  = 'Bu qovluqdakı bütün məktubları silməyə əminsiniz?';
 $messages['contactdeleting'] = 'Kontak(lar)ın silinməsi...';
 $messages['groupdeleting'] = 'Qrupun silinməsi...';
 $messages['folderdeleting'] = 'Qovluğ silinir...';
@@ -69,11 +73,11 @@ $messages['foldersubscribing'] = 'Qovluğa abunə...';
 $messages['folderunsubscribing'] = 'Qovluğa abunədən çıx...';
 $messages['formincomplete'] = 'Bütün sətrlər doldurulmayıb';
 $messages['noemailwarning'] = 'Lütfən, düzgün e-poçt ünvanı daxil edin';
-$messages['nonamewarning'] = 'Lütfən, ad daxil edin';
+$messages['nonamewarning']  = 'Lütfən, ad daxil edin';
 $messages['nopagesizewarning'] = 'Lütfən, səhifənin ölçüsünü daxil edin';
 $messages['nosenderwarning'] = 'Lütfən, göndərənin elektron poçt ünvanını daxil edin';
 $messages['norecipientwarning'] = 'Lütfən, qəbul edənin ünvanını daxil edin';
-$messages['nosubjectwarning'] = '"Mövzu" sahəsi boşdur. Mövzu daxil etmək istəyirsiniz?';
+$messages['nosubjectwarning']  = '"Mövzu" sahəsi boşdur. Mövzu daxil etmək istəyirsiniz?';
 $messages['nobodywarning'] = 'Məktub boş göndərilsin?';
 $messages['notsentwarning'] = 'Məktub göndərilmədi. Göndərilmədən imtina etmək istəyirsiniz?';
 $messages['noldapserver'] = 'Lütfən, axtarış üçün LDAP server seçin';
@@ -117,6 +121,7 @@ $messages['contactaddedtogroup'] = 'Ünvanlar qrupa əlavə edildi';
 $messages['contactremovedfromgroup'] = 'Ünvanlar qrupdan silindi';
 $messages['nogroupassignmentschanged'] = 'Qruplar arası bölgü dəyişməyib.';
 $messages['importwait'] = 'İdxal gedir, lütfən gözləyin...';
+$messages['importformaterror'] = 'İdxal xətası. Yüklənilən fayl naməlum məlumat formatına malikdir.';
 $messages['importconfirm'] = '<b>$inserted ünvanlar müvəffəqiyyətlə idxal edildi, mövcud $skipped buraxılıb</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Buraxılmış $skipped mövcud daxillər</b>';
 $messages['opnotpermitted'] = 'Əməliyyat qadağandır!';
@@ -158,4 +163,7 @@ $messages['invalidimageformat'] = 'Şəkil formatı düzgün deyil';
 $messages['mispellingsfound'] = 'Məktubda orfoqrafik səhvlər tapılıb';
 $messages['parentnotwritable'] = 'Qovluğu seçilmiş ana qovluğa köçürmək/yaratmaq alınmır. Giriş hüququ yoxdur.';
 $messages['messagetoobig'] = 'Məktubun bir hissəsi emal üçün böyükdür.';
+$messages['attachmentvalidationerror'] = 'DİQQƏT! Bu qoşma şübhəlidir, çünki məktubda deyilən növlə eyni deyil. Əgər siz göndərə güvənmirsinizsə, brauzerdə bunu açmayın. Tərkibi təhlükəli ola bilər.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Xəbərdarlıq: Bu vebmeyl xidməti Javascript tələb edir! Funksiyanı istifadə etmək üçün lütfən, brauzerinizin ayarlarında Javascript-i yandırın.';
 
+?>

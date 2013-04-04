@@ -26,17 +26,14 @@ $a_boolean_cols = array('standard', 'html_signature');
 $updated = $default_id = false;
 
 // check input
-if (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))
-{
+if (IDENTITIES_LEVEL != 4 && (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))) {
   $OUTPUT->show_message('formincomplete', 'warning');
   rcmail_overwrite_action('edit-identity');
   return;
 }
 
-
 $save_data = array();
-foreach ($a_save_cols as $col)
-{
+foreach ($a_save_cols as $col) {
   $fname = '_'.$col;
   if (isset($_POST[$fname]))
     $save_data[$col] = get_input_value($fname, RCUBE_INPUT_POST, true);
@@ -44,16 +41,24 @@ foreach ($a_save_cols as $col)
 
 // set "off" values for checkboxes that were not checked, and therefore
 // not included in the POST body.
-foreach ($a_boolean_cols as $col)
-{
+foreach ($a_boolean_cols as $col) {
   $fname = '_' . $col;
   if (!isset($_POST[$fname]))
     $save_data[$col] = 0;
 }
 
 // unset email address if user has no rights to change it
-if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3)
+if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
   unset($save_data['email']);
+}
+// unset all fields except signature
+else if (IDENTITIES_LEVEL == 4) {
+  foreach ($save_data as $idx => $value) {
+    if ($idx != 'signature' && $idx != 'html_signature') {
+      unset($save_data[$idx]);
+    }
+  }
+}
 
 // Validate e-mail addresses
 $email_checks = array(rcube_idn_to_ascii($save_data['email']));
@@ -72,9 +77,16 @@ foreach ($email_checks as $email) {
 }
 
 // update an existing contact
-if ($_POST['_iid'])
-{
+if ($_POST['_iid']) {
   $iid = get_input_value('_iid', RCUBE_INPUT_POST);
+
+  if (in_array(IDENTITIES_LEVEL, array(1,3,4))) {
+    // merge with old identity data, fixes #1488834
+    $identity  = $RCMAIL->user->get_identity($iid);
+    $save_data = array_merge($identity, $save_data);
+    unset($save_data['changed'], $save_data['del'], $save_data['user_id'], $save_data['identity_id']);
+  }
+
   $plugin = $RCMAIL->plugins->exec_hook('identity_update', array('id' => $iid, 'record' => $save_data));
   $save_data = $plugin['record'];
 
@@ -88,8 +100,8 @@ if ($_POST['_iid'])
   if ($updated) {
     $OUTPUT->show_message('successfullysaved', 'confirmation');
 
-    if (!empty($_POST['_standard']))
-      $default_id = get_input_value('_iid', RCUBE_INPUT_POST);
+    if (!empty($save_data['standard']))
+      $default_id = $iid;
 
     if ($_POST['_framed']) {
       // update the changed col in list
@@ -105,8 +117,7 @@ if ($_POST['_iid'])
 }
 
 // insert a new identity record
-else if (IDENTITIES_LEVEL < 2)
-{
+else if (IDENTITIES_LEVEL < 2) {
   if (IDENTITIES_LEVEL == 1) {
     $save_data['email'] = $RCMAIL->get_user_email();
   }
@@ -127,7 +138,7 @@ else if (IDENTITIES_LEVEL < 2)
 
     $_GET['_iid'] = $insert_id;
 
-    if (!empty($_POST['_standard']))
+    if (!empty($save_data['standard']))
       $default_id = $insert_id;
 
     if ($_POST['_framed']) {

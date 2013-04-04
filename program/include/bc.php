@@ -23,6 +23,7 @@
  * Roundcube Webmail deprecated functions
  *
  * @package Core
+ * @subpackage Legacy
  * @author Thomas Bruederli <roundcube@gmail.com>
  */
 
@@ -204,9 +205,9 @@ function rcmail_quota_content($attrib = null)
     return rcmail::get_instance()->quota_content($attrib);
 }
 
-function rcmail_display_server_error($fallback=null, $fallback_args=null)
+function rcmail_display_server_error($fallback=null, $fallback_args=null, $suffix='')
 {
-    rcmail::get_instance()->display_server_error($fallback, $fallback_args);
+    rcmail::get_instance()->display_server_error($fallback, $fallback_args, $suffix);
 }
 
 function rcmail_filetype2classname($mimetype, $filename)
@@ -399,7 +400,19 @@ function get_boolean($str)
     return rcube_utils::get_boolean($str);
 }
 
+function enriched_to_html($data)
+{
+    return rcube_enriched::to_html($data);
+}
+
 class rcube_html_page extends rcmail_html_page
 {
-    
+}
+
+class washtml extends rcube_washtml
+{
+}
+
+class html2text extends rcube_html2text
+{
 }

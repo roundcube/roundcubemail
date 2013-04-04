@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/tr_TR/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Gökdeniz Karadağ                                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Parolayı Değiştir';
-$labels['curpasswd'] = 'Şimdiki Parola:';
-$labels['newpasswd'] = 'Yeni Parola:';
-$labels['confpasswd'] = 'Yeni Parolayı Onaylayın:';
-$labels['nopassword'] = 'Lütfen yeni parolayı girin.';
-$labels['nocurpassword'] = 'Lütfen şimdiki parolayı girin.';
-$labels['passwordincorrect'] = 'Şimdiki parolayı yanlış girdiniz.';
-$labels['passwordinconsistency'] = 'Girdiğiniz parolalar uyuşmuyor. Lütfen tekrar deneyin.';
-$labels['crypterror'] = 'Yeni parola kaydedilemedi. Şifreleme fonksiyonu mevcut değil.';
-$labels['connecterror'] = 'Yeni parola kaydedilemedi. Bağlantı hatası.';
-$labels['internalerror'] = 'Yeni parola kaydedilemedi.';
-$labels['passwordshort'] = 'Parola en az $length karakterden oluşmalı.';
-$labels['passwordweak'] = 'Parola en az bir sayı ve bir noktalama işareti içermeli.';
-$labels['passwordforbidden'] = 'Parola uygunsuz karakter(ler) içeriyor.';
+$labels['changepasswd']  = 'Parolayı Değiştir';
+$labels['curpasswd']  = 'Şimdiki Parola:';
+$labels['newpasswd']  = 'Yeni Parola:';
+$labels['confpasswd']  = 'Yeni Parolayı Onaylayın:';
 
+$messages = array();
+$messages['nopassword'] = 'Lütfen yeni parolayı girin.';
+$messages['nocurpassword'] = 'Lütfen şimdiki parolayı girin.';
+$messages['passwordincorrect'] = 'Şimdiki parolayı yanlış girdiniz.';
+$messages['passwordinconsistency'] = 'Girdiğiniz parolalar uyuşmuyor. Lütfen tekrar deneyin.';
+$messages['crypterror'] = 'Yeni parola kaydedilemedi. Şifreleme fonksiyonu mevcut değil.';
+$messages['connecterror'] = 'Yeni parola kaydedilemedi. Bağlantı hatası.';
+$messages['internalerror'] = 'Yeni parola kaydedilemedi.';
+$messages['passwordshort'] = 'Parola en az $length karakterden oluşmalı.';
+$messages['passwordweak'] = 'Parola en az bir sayı ve bir noktalama işareti içermeli.';
+$messages['passwordforbidden'] = 'Parola uygunsuz karakter(ler) içeriyor.';
+
+?>

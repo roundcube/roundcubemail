@@ -2,10 +2,8 @@
 
 /*
  +-----------------------------------------------------------------------+
- | program/include/bootstrap.php                                         |
- |                                                                       |
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +11,6 @@
  |                                                                       |
  | CONTENTS:                                                             |
  |   Roundcube Framework Initialization                                  |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -34,12 +31,19 @@ $config = array(
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
     'mbstring.func_overload'  => 0,
-    'suhosin.session.encrypt' => 0,
-    'session.auto_start'      => 0,
-    'file_uploads'            => 1,
     'magic_quotes_runtime'    => 0,
     'magic_quotes_sybase'     => 0, // #1488506
 );
+
+// check these additional ini settings if not called via CLI
+if (php_sapi_name() != 'cli') {
+    $config += array(
+        'suhosin.session.encrypt' => 0,
+        'session.auto_start'      => 0,
+        'file_uploads'            => 1,
+    );
+}
+
 foreach ($config as $optname => $optval) {
     if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
         die("ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
@@ -48,7 +52,7 @@ foreach ($config as $optname => $optval) {
 }
 
 // framework constants
-define('RCUBE_VERSION', '0.9-git');
+define('RCUBE_VERSION', '1.0-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
@@ -357,6 +361,22 @@ function format_email($email)
     }
 
     return $email;
+}
+
+
+/**
+ * Fix version number so it can be used correctly in version_compare()
+ *
+ * @param string $version Version number string
+ *
+ * @param return Version number string
+ */
+function version_parse($version)
+{
+    return str_replace(
+        array('-stable', '-git'),
+        array('.0', '.99'),
+        $version);
 }
 
 

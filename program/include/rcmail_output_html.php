@@ -80,6 +80,8 @@ class rcmail_output_html extends rcmail_output
 
         if (!empty($_REQUEST['_extwin']))
           $this->set_env('extwin', 1);
+        if ($this->framed || !empty($_REQUEST['_framed']))
+          $this->set_env('framed', 1);
 
         // add common javascripts
         $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
@@ -164,6 +166,7 @@ class rcmail_output_html extends rcmail_output
         }
 
         $this->config->set('skin_path', $skin_path);
+        $this->base_path = $skin_path;
 
         // register skin path(s)
         $this->skin_paths = array();
@@ -214,7 +217,7 @@ class rcmail_output_html extends rcmail_output
      * @param string Additional path to search in
      * @return mixed Relative path to the requested file or False if not found
      */
-    public function get_skin_file($file, &$skin_path, $add_path = null)
+    public function get_skin_file($file, &$skin_path = null, $add_path = null)
     {
         $skin_paths = $this->skin_paths;
         if ($add_path)
@@ -304,13 +307,19 @@ class rcmail_output_html extends rcmail_output
 
     /**
      * Delete all stored env variables and commands
+     *
+     * @param bool $all Reset all env variables (including internal)
      */
-    public function reset()
+    public function reset($all = false)
     {
+        $env = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+
         parent::reset();
-        $this->js_env = array();
-        $this->js_labels = array();
-        $this->js_commands = array();
+
+        // let some env variables survive
+        $this->env = $this->js_env = $env;
+        $this->js_labels    = array();
+        $this->js_commands  = array();
         $this->script_files = array();
         $this->scripts      = array();
         $this->header       = '';
@@ -355,7 +364,7 @@ class rcmail_output_html extends rcmail_output
             $this->parse($templ, false);
         }
         else {
-            $this->framed = $templ == 'iframe' ? true : $this->framed;
+            $this->framed = true;
             $this->write();
         }
 
@@ -379,7 +388,7 @@ class rcmail_output_html extends rcmail_output
         // unlock interface after iframe load
         $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
         if ($this->framed) {
-            array_unshift($this->js_commands, array('set_busy', false, null, $unlock));
+            array_unshift($this->js_commands, array('iframe_loaded', $unlock));
         }
         else if ($unlock) {
             array_unshift($this->js_commands, array('hide_message', $unlock));
@@ -389,9 +398,11 @@ class rcmail_output_html extends rcmail_output
           $this->set_env('request_token', $this->app->get_request_token());
 
         // write all env variables to client
-        $js = $this->framed ? "if(window.parent) {\n" : '';
-        $js .= $this->get_js_commands() . ($this->framed ? ' }' : '');
-        $this->add_script($js, 'head_top');
+        if ($commands = $this->get_js_commands()) {
+            $js = $this->framed ? "if (window.parent) {\n" : '';
+            $js .= $commands . ($this->framed ? ' }' : '');
+            $this->add_script($js, 'head_top');
+        }
 
         // send clickjacking protection headers
         $iframe = $this->framed || !empty($_REQUEST['_framed']);
@@ -462,6 +473,7 @@ class rcmail_output_html extends rcmail_output
             if (is_readable($path)) {
                 $this->config->set('skin_path', $skin_path);
                 $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
+                $skin_dir = preg_replace('!^plugins/!', '', $skin_path);
                 break;
             }
             else {
@@ -643,6 +655,7 @@ class rcmail_output_html extends rcmail_output
     protected function file_callback($matches)
     {
         $file = $matches[3];
+        $file[0] = preg_replace('!^/this/!', '/', $file[0]);
 
         // correct absolute paths
         if ($file[0] == '/') {
@@ -665,12 +678,15 @@ class rcmail_output_html extends rcmail_output
      *
      * @param  string $input
      * @return string
-     * @uses   rcube_output_html::parse_xml()
+     * @uses   rcmail_output_html::parse_xml()
      * @since  0.1-rc1
      */
     public function just_parse($input)
     {
-        return $this->parse_xml($input);
+        $input = $this->parse_conditions($input);
+        $input = $this->parse_xml($input);
+
+        return $input;
     }
 
 
@@ -888,6 +904,7 @@ class rcmail_output_html extends rcmail_output
             // include a file
             case 'include':
                 $old_base_path = $this->base_path;
+                if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
                     $path = realpath($path);
@@ -1192,6 +1209,10 @@ class rcmail_output_html extends rcmail_output
         if ($btn_content) {
             $attrib_str = html::attrib_string($attrib, $link_attrib);
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
+        }
+
+        if ($attrib['wrapper']) {
+            $out = html::tag($attrib['wrapper'], null, $out);
         }
 
         return $out;
@@ -1576,10 +1597,10 @@ class rcmail_output_html extends rcmail_output
                 }
             }
         }
-        else if (is_array($default_host) && ($host = array_pop($default_host))) {
+        else if (is_array($default_host) && ($host = key($default_host)) !== null) {
             $hide_host = true;
             $input_host = new html_hiddenfield(array(
-                'name' => '_host', 'id' => 'rcmloginhost', 'value' => $host) + $attrib);
+                'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host) + $attrib);
         }
         else if (empty($default_host)) {
             $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost')

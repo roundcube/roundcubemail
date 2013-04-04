@@ -43,7 +43,7 @@ class new_user_identity extends rcube_plugin
 
                 $args['user_name'] = $user_name;
                 if (!$args['user_email'] && strpos($user_email, '@')) {
-                    $args['user_email'] = rcube_idn_to_ascii($user_email);
+                    $args['user_email'] = rcube_utils::idn_to_ascii($user_email);
                 }
             }
         }

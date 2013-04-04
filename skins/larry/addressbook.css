@@ -8,8 +8,6 @@
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
- *
- * $Id$
  */
 
 #addressview-left {
@@ -85,8 +83,21 @@
 	background-position: 6px -766px;
 }
 
-#directorylist li.addressbook.selected a {
+#directorylist li.addressbook.selected > a {
 	background-position: 6px -791px;
+}
+
+#directorylist li.addressbook ul li:last-child {
+	border-bottom: 0;
+}
+
+#directorylist li.addressbook ul.groups {
+	margin: 0;
+	padding: 0;
+}
+
+#directorylist li.addressbook ul.groups li {
+	width: 100%;
 }
 
 #directorylist li.contactgroup a {
@@ -112,6 +123,12 @@
 
 #directorylist li.contactsearch input {
 	margin-left: 8px;
+}
+
+#directorylist li.addressbook div.collapsed,
+#directorylist li.addressbook div.expanded {
+	top: 15px;
+	left: 20px;
 }
 
 #contacts-table .contact td.name {
@@ -318,4 +335,14 @@ a.deletebutton {
 	text-decoration: none;
 	text-indent: -5000px;
 	background: url(images/buttons.png) -7px -377px no-repeat;
+}
+
+#import-box {
+	position: absolute;
+	bottom: 28px;
+	top: 34px;
+	left: 0;
+	right: 0;
+	overflow: auto;
+	padding: 10px;
 }

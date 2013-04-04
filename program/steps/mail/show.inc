@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$PRINT_MODE = $RCMAIL->action=='print' ? TRUE : FALSE;
+$PRINT_MODE = $RCMAIL->action == 'print' ? TRUE : FALSE;
 
 // Read browser capabilities and store them in session
 if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
@@ -31,8 +31,21 @@ if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
   $_SESSION['browser_caps'] = $browser_caps;
 }
 
+$uid       = get_input_value('_uid', RCUBE_INPUT_GET);
+$mbox_name = $RCMAIL->storage->get_folder();
+
 // similar code as in program/steps/mail/get.inc
-if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
+if ($uid) {
+  // set message format (need to be done before rcube_message construction)
+  if (!empty($_GET['_format'])) {
+    $prefer_html = $_GET['_format'] == 'html';
+    $RCMAIL->config->set('prefer_html', $prefer_html);
+    $_SESSION['msg_formats'][$mbox_name.':'.$uid] = $prefer_html;
+  }
+  else if (isset($_SESSION['msg_formats'][$mbox_name.':'.$uid])) {
+    $RCMAIL->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$uid]);
+  }
+
   $MESSAGE = new rcube_message($uid);
 
   // if message not found (wrong UID)...
@@ -40,7 +53,6 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     rcmail_message_error($uid);
   }
 
-  $mbox_name = $RCMAIL->storage->get_folder();
 
   // show images?
   rcmail_check_safe($MESSAGE);
@@ -79,7 +91,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
     }
   }
 
-  $OUTPUT->set_env('mimetypes', $mimetypes);
+  $OUTPUT->set_env('mimetypes', array_values($mimetypes));
 
   if ($CONFIG['drafts_mbox'])
     $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
@@ -105,6 +117,11 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET)) {
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
       'movingmessage', 'deletingmessage', 'markingmessage');
+
+  $prefer_html = $RCMAIL->config->get('prefer_html');
+  if ($MESSAGE->has_html_part()) {
+    $OUTPUT->set_env('optional_format', $prefer_html ? 'text' : 'html');
+  }
 
   // check for unset disposition notification
   if ($MESSAGE->headers->mdn_to
@@ -147,13 +164,11 @@ function rcmail_message_attachments($attrib)
   global $PRINT_MODE, $MESSAGE, $RCMAIL;
 
   $out = $ol = '';
+  $attachments = array();
 
   if (sizeof($MESSAGE->attachments)) {
     foreach ($MESSAGE->attachments as $attach_prop) {
-      $filename = $attach_prop->filename;
-      if (empty($filename) && $attach_prop->mimetype == 'text/html') {
-        $filename = rcube_label('htmlmessage');
-      }
+      $filename = rcmail_attachment_name($attach_prop, true);
 
       if ($PRINT_MODE) {
         $size = $RCMAIL->message_part_size($attach_prop);
@@ -161,28 +176,30 @@ function rcmail_message_attachments($attrib)
       }
       else {
         if (mb_strlen($filename) > 50) {
+          $title    = $filename;
           $filename = abbreviate_string($filename, 50);
-          $title = $filename;
         }
         else {
           $title = '';
         }
 
-        $ol .= html::tag('li', rcmail_filetype2classname($attach_prop->mimetype, $filename),
-          html::a(array(
+        $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
+        $class    = rcmail_filetype2classname($mimetype, $filename);
+        $id       = 'attach' . $attach_prop->mime_id;
+        $link     = html::a(array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
-            'onclick' => sprintf(
-              'return %s.command(\'load-attachment\',{part:\'%s\', mimetype:\'%s\'},this)',
-              JS_OBJECT_NAME,
-              $attach_prop->mime_id,
-              rcmail_fix_mimetype($attach_prop->mimetype)),
-              'title' => Q($title),
-            ),
-            Q($filename)));
+            'onclick' => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
+              JS_OBJECT_NAME, $attach_prop->mime_id),
+            'title' => Q($title),
+            ), Q($filename));
+        $ol .= html::tag('li', array('class' => $class, 'id' => $id), $link);
+
+        $attachments[$attach_prop->mime_id] = $mimetype;
       }
     }
 
     $out = html::tag('ul', $attrib, $ol, html::$common_attrib);
+    $RCMAIL->output->set_env('attachments', $attachments);
   }
 
   return $out;
@@ -288,9 +305,9 @@ $OUTPUT->add_handlers(array(
 ));
 
 
-if ($RCMAIL->action=='print' && $OUTPUT->template_exists('messageprint'))
+if ($RCMAIL->action == 'print' && $OUTPUT->template_exists('messageprint'))
   $OUTPUT->send('messageprint', false);
-else if ($RCMAIL->action=='preview' && $OUTPUT->template_exists('messagepreview'))
+else if ($RCMAIL->action == 'preview' && $OUTPUT->template_exists('messagepreview'))
   $OUTPUT->send('messagepreview', false);
 else
   $OUTPUT->send('message', false);

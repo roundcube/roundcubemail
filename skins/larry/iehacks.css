@@ -7,8 +7,6 @@
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
- *
- * $Id$
  */
 
 input.button {
@@ -31,7 +29,8 @@ input.button.mainaction:active {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2a2e31', endColorstr='#505050', GradientType=0);
 }
 
-a.button {
+a.button,
+.buttongroup {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
 }
 
@@ -49,6 +48,10 @@ input.button:active {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bababa', endColorstr='#d8d8d8', GradientType=0);
 }
 
+.buttongroup a.button.selected {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#909090', endColorstr='#858585', GradientType=0);
+}
+
 #message.statusbar {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eaeaea', endColorstr='#c8c8c8', GradientType=0);
 }
@@ -63,6 +66,12 @@ input.button:active {
 
 #topnav {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#404040', endColorstr='#060606', GradientType=0);
+}
+
+#toplogo {
+	position: absolute;
+	top: 0px;
+	left: 10px;
 }
 
 .records-table tr.selected td {

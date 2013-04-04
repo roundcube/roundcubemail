@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ml_IN/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'അരിപ്പകള്‍';
 $labels['managefilters'] = 'അകത്തോട്ടുള്ള ഇമെയില്‍ അരിപ്പകള്‍ ക്രമീകരിക്കുക';
 $labels['filtername'] = 'അരിപ്പയുടെ പേര്';
@@ -54,6 +57,9 @@ $labels['sender'] = 'അയചയാള്‍';
 $labels['recipient'] = 'സ്വീകര്‍ത്താവ്';
 $labels['vacationaddresses'] = 'സ്വീകര്‍ത്താവിന്റെ ഇമെയില്‍ വിലാസങ്ങളുടെ അധികമുള്ള പട്ടിക (കോമയിട്ട് തിരിച്ച)';
 $labels['vacationdays'] = 'എത്ര ഭിവസം കൂടുമ്പോള്‍ സന്ദേശം അയക്കണം:';
+$labels['vacationinterval'] = 'How often send messages:';
+$labels['days'] = 'days';
+$labels['seconds'] = 'seconds';
 $labels['vacationreason'] = 'സന്ദേശത്തിന്റെ ഉള്ളടക്കം (അവധിയുടെ കാരണം):';
 $labels['vacationsubject'] = 'സന്ദേശത്തിന്റെ വിഷയം:';
 $labels['rulestop'] = 'നിയമങ്ങള്‍ വിലയിരുത്തുന്നത് നിര്‍ത്തുക';
@@ -92,6 +98,25 @@ $labels['flagdeleted'] = 'നീക്കം ചെയ്തവ';
 $labels['flaganswered'] = 'മറുപടി നല്‍കിയവ';
 $labels['flagflagged'] = 'അടയാളപ്പെടുത്തിയവ';
 $labels['flagdraft'] = 'കരട്';
+$labels['setvariable'] = 'Set variable';
+$labels['setvarname'] = 'Variable name:';
+$labels['setvarvalue'] = 'Variable value:';
+$labels['setvarmodifiers'] = 'Modifiers:';
+$labels['varlower'] = 'lower-case';
+$labels['varupper'] = 'upper-case';
+$labels['varlowerfirst'] = 'first character lower-case';
+$labels['varupperfirst'] = 'first character upper-case';
+$labels['varquotewildcard'] = 'quote special characters';
+$labels['varlength'] = 'length';
+$labels['notify'] = 'Send notification';
+$labels['notifyaddress'] = 'To e-mail address:';
+$labels['notifybody'] = 'Notification body:';
+$labels['notifysubject'] = 'Notification subject:';
+$labels['notifyfrom'] = 'Notification sender:';
+$labels['notifyimportance'] = 'Importance:';
+$labels['notifyimportancelow'] = 'low';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'high';
 $labels['filtercreate'] = 'അരിപ്പ ഉണ്ടാക്കുക';
 $labels['usedata'] = 'ഈ വിവരങ്ങള്‍ അരിപ്പയില്‍ ഉപയോഗിക്കുക:';
 $labels['nextstep'] = 'അടുത്ത പടി';
@@ -115,35 +140,38 @@ $labels['default'] = 'സഹജമായ';
 $labels['octet'] = 'കര്‍ശനം (octet)';
 $labels['asciicasemap'] = 'വലിയ-ചെറിയക്ഷരങ്ങള്‍ തമ്മില്‍ വ്യത്യാസമില്ലാത്ത (ascii-casemap)';
 $labels['asciinumeric'] = 'സംഖ്യകള്‍ (ascii-numeric)';
-$labels['filterunknownerror'] = 'അജ്ഞാതമായ സെര്‍വ്വര്‍ പിശക്.';
-$labels['filterconnerror'] = 'സെര്‍വ്വറുമായി ബന്ധപ്പെടാന്‍ സാധിക്കുന്നില്ല.';
-$labels['filterdeleteerror'] = 'അരിപ്പ മായ്ക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
-$labels['filterdeleted'] = 'അരിപ്പ വിജകരമായി മായ്ച്ചു.';
-$labels['filtersaved'] = 'അരിപ്പ വിജകരമായി സൂക്ഷിച്ചു.';
-$labels['filtersaveerror'] = 'അരിപ്പ സൂക്ഷിക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
-$labels['filterdeleteconfirm'] = 'തെരഞ്ഞെടുത്ത അരിപ്പ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
-$labels['ruledeleteconfirm'] = 'തെരഞ്ഞെടുത്ത നിയമം നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
-$labels['actiondeleteconfirm'] = 'തെരഞ്ഞെടുത്ത പ്രവര്‍ത്തി നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
-$labels['forbiddenchars'] = 'ഫില്‍ഡില്‍ സാധുവല്ലാത്ത അക്ഷരങ്ങള്‍.';
-$labels['cannotbeempty'] = 'ഫീല്‍ഡ് ശൂന്യമാകാന്‍ പാടില്ല.';
-$labels['ruleexist'] = 'ഈ പേരിലുള്ള അരിപ്പ ഇപ്പോള്‍ തന്നെ ഉണ്ട്.';
-$labels['setactivateerror'] = 'അരിപ്പയുടെ കൂട്ടത്തെ പ്രവര്‍ത്തനസജ്ജമാക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
-$labels['setdeactivateerror'] = 'അരിപ്പയുടെ കൂട്ടത്തെ പ്രവര്‍ത്തനരഹിതമാക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
-$labels['setdeleteerror'] = 'തെരഞ്ഞെടുത്ത അരിപ്പയുടെ കൂട്ടത്തെ മായ്ക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
-$labels['setactivated'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി പ്രവര്‍ത്തനസജ്ജമാക്കി.';
-$labels['setdeactivated'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി പ്രവര്‍ത്തനരഹിതമാക്കി.';
-$labels['setdeleted'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി മായ്ച്ചു.';
-$labels['setdeleteconfirm'] = 'തെരഞ്ഞെടുത്ത അരിപ്പകളുടെ കൂട്ടത്തെ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
-$labels['setcreateerror'] = 'അരിപ്പയുടെ കൂട്ടത്തെ നിര്‍മ്മിക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
-$labels['setcreated'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി നിര്‍മ്മിച്ചു.';
-$labels['activateerror'] = 'അരിപ്പ (കള്‍) പ്രവര്‍ത്തനസജ്ജം ആക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം!';
-$labels['deactivateerror'] = 'അരിപ്പ (കള്‍) നിര്‍വീര്യം ആക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം!';
-$labels['activated'] = 'അരിപ്പകള്‍ നിര്‍വീര്യം ആക്കപ്പെട്ടിരിക്കുന്നു';
-$labels['deactivated'] = 'അരിപ്പ വിജകരമായി പ്രവര്‍ത്തനസജ്ജമാക്കി.';
-$labels['moved'] = 'അരിപ്പ വിജകരമായി മാറ്റി.';
-$labels['moveerror'] = 'തെരഞ്ഞെടുത്ത അരിപ്പ മാറ്റാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
-$labels['nametoolong'] = 'പേരിന് നീളം കൂടുതല്‍.';
-$labels['namereserved'] = 'നീക്കിവെച്ച വാക്ക്.';
-$labels['setexist'] = 'കൂട്ടം നേരത്തെ തന്നെ ഉണ്ട്.';
-$labels['nodata'] = 'ഒരു സ്ഥാനമെങ്കിലും തെരഞ്ഞെടുക്കണം!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'അജ്ഞാതമായ സെര്‍വ്വര്‍ പിശക്.';
+$messages['filterconnerror'] = 'സെര്‍വ്വറുമായി ബന്ധപ്പെടാന്‍ സാധിക്കുന്നില്ല.';
+$messages['filterdeleteerror'] = 'അരിപ്പ മായ്ക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
+$messages['filterdeleted'] = 'അരിപ്പ വിജകരമായി മായ്ച്ചു.';
+$messages['filtersaved'] = 'അരിപ്പ വിജകരമായി സൂക്ഷിച്ചു.';
+$messages['filtersaveerror'] = 'അരിപ്പ സൂക്ഷിക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
+$messages['filterdeleteconfirm'] = 'തെരഞ്ഞെടുത്ത അരിപ്പ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
+$messages['ruledeleteconfirm'] = 'തെരഞ്ഞെടുത്ത നിയമം നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
+$messages['actiondeleteconfirm'] = 'തെരഞ്ഞെടുത്ത പ്രവര്‍ത്തി നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
+$messages['forbiddenchars'] = 'ഫില്‍ഡില്‍ സാധുവല്ലാത്ത അക്ഷരങ്ങള്‍.';
+$messages['cannotbeempty'] = 'ഫീല്‍ഡ് ശൂന്യമാകാന്‍ പാടില്ല.';
+$messages['ruleexist'] = 'ഈ പേരിലുള്ള അരിപ്പ ഇപ്പോള്‍ തന്നെ ഉണ്ട്.';
+$messages['setactivateerror'] = 'അരിപ്പയുടെ കൂട്ടത്തെ പ്രവര്‍ത്തനസജ്ജമാക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
+$messages['setdeactivateerror'] = 'അരിപ്പയുടെ കൂട്ടത്തെ പ്രവര്‍ത്തനരഹിതമാക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
+$messages['setdeleteerror'] = 'തെരഞ്ഞെടുത്ത അരിപ്പയുടെ കൂട്ടത്തെ മായ്ക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
+$messages['setactivated'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി പ്രവര്‍ത്തനസജ്ജമാക്കി.';
+$messages['setdeactivated'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി പ്രവര്‍ത്തനരഹിതമാക്കി.';
+$messages['setdeleted'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി മായ്ച്ചു.';
+$messages['setdeleteconfirm'] = 'തെരഞ്ഞെടുത്ത അരിപ്പകളുടെ കൂട്ടത്തെ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
+$messages['setcreateerror'] = 'അരിപ്പയുടെ കൂട്ടത്തെ നിര്‍മ്മിക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
+$messages['setcreated'] = 'അരിപ്പകളുടെ കൂട്ടത്തെ വിജയകരമായി നിര്‍മ്മിച്ചു.';
+$messages['activateerror'] = 'അരിപ്പ (കള്‍) പ്രവര്‍ത്തനസജ്ജം ആക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം!';
+$messages['deactivateerror'] = 'അരിപ്പ (കള്‍) നിര്‍വീര്യം ആക്കാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം!';
+$messages['deactivated'] = 'അരിപ്പ വിജകരമായി പ്രവര്‍ത്തനസജ്ജമാക്കി.';
+$messages['activated'] = 'അരിപ്പകള്‍ നിര്‍വീര്യം ആക്കപ്പെട്ടിരിക്കുന്നു';
+$messages['moved'] = 'അരിപ്പ വിജകരമായി മാറ്റി.';
+$messages['moveerror'] = 'തെരഞ്ഞെടുത്ത അരിപ്പ മാറ്റാന്‍ സാധിച്ചില്ല. സേവകനില്‍ കുഴപ്പം.';
+$messages['nametoolong'] = 'പേരിന് നീളം കൂടുതല്‍.';
+$messages['namereserved'] = 'നീക്കിവെച്ച വാക്ക്.';
+$messages['setexist'] = 'കൂട്ടം നേരത്തെ തന്നെ ഉണ്ട്.';
+$messages['nodata'] = 'ഒരു സ്ഥാനമെങ്കിലും തെരഞ്ഞെടുക്കണം!';
+
+?>

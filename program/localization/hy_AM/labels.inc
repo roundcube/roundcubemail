@@ -2,61 +2,78 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hy_AM/labels.inc                                         |
+ | localization/<lang>/labels.inc                                        |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
 $labels = array();
-$labels['preferences'] = 'Նախընտրանքներ';
-$labels['userpreferences'] = 'Օգտվողի նախընտրանքներ';
-$labels['editpreferences'] = 'Խմբագրել օգտվողի նախընտրանքները';
-$labels['welcome'] = 'Բարի գալուստ $product';
-$labels['username'] = 'Օգտվող';
-$labels['password'] = 'Գաղտնաբառ';
-$labels['server'] = 'Սերվեր';
-$labels['login'] = 'Մուտք';
-$labels['logout'] = 'Ելք';
-$labels['mail'] = 'Էլ–փոստ';
+
+// login page
+$labels['welcome']   = 'Բարի գալուստ $product';
+$labels['username']  = 'Օգտվող';
+$labels['password']  = 'Գաղտնաբառ';
+$labels['server']    = 'Սերվեր';
+$labels['login']     = 'Մուտք';
+
+// taskbar
+$labels['logout']   = 'Ելք';
+$labels['mail']     = 'Էլ–փոստ';
 $labels['settings'] = 'Նախասիրություններ';
 $labels['addressbook'] = 'Հասցեներ';
-$labels['inbox'] = 'Փոստարկղ';
+
+// mailbox names
+$labels['inbox']  = 'Փոստարկղ';
 $labels['drafts'] = 'Սևագրեր';
-$labels['sent'] = 'Ուղարկված';
-$labels['trash'] = 'Աղբարկղ';
-$labels['junk'] = 'Թափոն';
+$labels['sent']   = 'Ուղարկված';
+$labels['trash']  = 'Աղբարկղ';
+$labels['junk']   = 'Թափոն';
+
+// message listing
 $labels['subject'] = 'Վերնագիր';
-$labels['from'] = 'Ուղարկող';
-$labels['to'] = 'Ստացող';
-$labels['cc'] = 'Cc';
-$labels['bcc'] = 'Bcc';
+$labels['from']    = 'Ուղարկող';
+$labels['sender']  = 'Sender';
+$labels['to']      = 'Ստացող';
+$labels['cc']      = 'Cc';
+$labels['bcc']     = 'Bcc';
 $labels['replyto'] = 'Reply-To';
 $labels['followupto'] = 'Ի հավելում';
-$labels['date'] = 'Ամսաթիվ';
-$labels['size'] = 'Չափ';
+$labels['date']    = 'Ամսաթիվ';
+$labels['size']    = 'Չափ';
 $labels['priority'] = 'Առավելություն';
 $labels['organization'] = 'Կազմակերպություն';
 $labels['readstatus'] = 'Ընթերցման կարգավիճակ';
 $labels['listoptions'] = 'Ցուցակի ընտրանքներ…';
+
 $labels['mailboxlist'] = 'Դարակներ';
-$labels['folders'] = 'Դարակներ';
 $labels['messagesfromto'] = 'Նամակներ $from–ից $to–ը եղած $count–ից';
 $labels['threadsfromto'] = 'Թեմաներ $from-ից $to ընդհանուր $count-ից';
 $labels['messagenrof'] = 'Նամակ $nr եղած $count–ից';
 $labels['fromtoshort'] = '$from-ից $to ընդհանուր $count-ից';
-$labels['copy'] = 'Cc';
-$labels['move'] = 'Տեղափոխել';
-$labels['moveto'] = 'Տեղափոխել...';
+
+$labels['copy']     = 'Cc';
+$labels['move']     = 'Տեղափոխել';
+$labels['moveto']   = 'Տեղափոխել...';
 $labels['download'] = 'Քաշել';
+$labels['open']     = 'Open';
+$labels['showattachment'] = 'Show';
+$labels['showanyway'] = 'Show it anyway';
+
 $labels['filename'] = 'Ֆայլի անուն';
 $labels['filesize'] = 'Ֆայլի չափ';
+
 $labels['addtoaddressbook'] = 'Հիշել հասցեն';
+
+// weekdays short
 $labels['sun'] = 'Կիր';
 $labels['mon'] = 'Երկ';
 $labels['tue'] = 'Երք';
@@ -64,79 +81,89 @@ $labels['wed'] = 'Չրք';
 $labels['thu'] = 'Հնգ';
 $labels['fri'] = 'Ուրբ';
 $labels['sat'] = 'Շբթ';
-$labels['sunday'] = 'Կիրակի';
-$labels['monday'] = 'Երկուշաբթի';
-$labels['tuesday'] = 'Երեքշաբթի';
+
+// weekdays long
+$labels['sunday']    = 'Կիրակի';
+$labels['monday']    = 'Երկուշաբթի';
+$labels['tuesday']   = 'Երեքշաբթի';
 $labels['wednesday'] = 'Չորեքշաբթի';
-$labels['thursday'] = 'Հինգշաբթի';
-$labels['friday'] = 'Ուրբաթ';
-$labels['saturday'] = 'Շաբաթ';
-$labels['jan'] = 'Հնվ';
-$labels['feb'] = 'Փետ';
-$labels['mar'] = 'Մար';
-$labels['apr'] = 'Ապր';
-$labels['may'] = 'Մայիս';
-$labels['longmay'] = 'Մայիս';
-$labels['jun'] = 'Հուս';
-$labels['jul'] = 'Հուլ';
-$labels['aug'] = 'Օգս';
-$labels['sep'] = 'Սեպ';
-$labels['oct'] = 'Հոկ';
-$labels['nov'] = 'Նոյ';
-$labels['dec'] = 'Դեկ';
-$labels['longjan'] = 'Հունվար';
-$labels['longfeb'] = 'Փետրվար';
-$labels['longmar'] = 'Մարտ';
-$labels['longapr'] = 'Ապրիլ';
-$labels['longjun'] = 'Հունիս';
-$labels['longjul'] = 'Հուլիս';
-$labels['longaug'] = 'Օգոստոս';
-$labels['longsep'] = 'Սեպտեմբեր';
-$labels['longoct'] = 'Հոկտեմբեր';
-$labels['longnov'] = 'Նոյեմբեր';
-$labels['longdec'] = 'Դեկտեմբեր';
+$labels['thursday']  = 'Հինգշաբթի';
+$labels['friday']    = 'Ուրբաթ';
+$labels['saturday']  = 'Շաբաթ';
+
+// months short
+$labels['jan']	= 'Հնվ';
+$labels['feb']	= 'Փետ';
+$labels['mar']	= 'Մար';
+$labels['apr']	= 'Ապր';
+$labels['may']	= 'Մայիս';
+$labels['jun']	= 'Հուս';
+$labels['jul'] 	= 'Հուլ';
+$labels['aug']	= 'Օգս';
+$labels['sep']	= 'Սեպ';
+$labels['oct']	= 'Հոկ';
+$labels['nov']	= 'Նոյ';
+$labels['dec']	= 'Դեկ';
+
+// months long
+$labels['longjan']	= 'Հունվար';
+$labels['longfeb']	= 'Փետրվար';
+$labels['longmar']	= 'Մարտ';
+$labels['longapr']	= 'Ապրիլ';
+$labels['longmay']	= 'Մայիս';
+$labels['longjun']	= 'Հունիս';
+$labels['longjul']	= 'Հուլիս';
+$labels['longaug']	= 'Օգոստոս';
+$labels['longsep']	= 'Սեպտեմբեր';
+$labels['longoct']	= 'Հոկտեմբեր';
+$labels['longnov']	= 'Նոյեմբեր';
+$labels['longdec']	= 'Դեկտեմբեր';
+
 $labels['today'] = 'Այսօր';
-$labels['refresh'] = 'Թարմացնել';
-$labels['checkmail'] = 'Ստուգել նոր նամակները';
-$labels['compose'] = 'Գրել նամակ';
-$labels['writenewmessage'] = 'Նոր նամակ';
-$labels['reply'] = 'Պատասխանել';
-$labels['replytomessage'] = 'Պատասխանել նամակին';
+
+// toolbar buttons
+$labels['refresh']          = 'Թարմացնել';
+$labels['checkmail']        = 'Ստուգել նոր նամակները';
+$labels['compose']          = 'Գրել նամակ';
+$labels['writenewmessage']  = 'Նոր նամակ';
+$labels['reply']            = 'Պատասխանել';
+$labels['replytomessage']   = 'Պատասխանել նամակին';
 $labels['replytoallmessage'] = 'Պատասխանել բոլորին';
-$labels['replyall'] = 'Պատասխանել բոլորին';
-$labels['replylist'] = 'Պատասխանել ցուցակին';
-$labels['forward'] = 'Առաջ';
-$labels['forwardinline'] = 'Փոխանցել նամակի մեջ';
+$labels['replyall']         = 'Պատասխանել բոլորին';
+$labels['replylist']        = 'Պատասխանել ցուցակին';
+$labels['forward']          = 'Առաջ';
+$labels['forwardinline']    = 'Փոխանցել նամակի մեջ';
 $labels['forwardattachment'] = 'Փոխանցել կցված';
-$labels['forwardmessage'] = 'Փոխանցել նամակը';
-$labels['deletemessage'] = 'Ջնջել նամակը';
+$labels['forwardmessage']   = 'Փոխանցել նամակը';
+$labels['deletemessage']    = 'Ջնջել նամակը';
 $labels['movemessagetotrash'] = 'Գցել աղբարկղը';
-$labels['printmessage'] = 'Տպել';
-$labels['previousmessage'] = 'Ցուցադրել նախորդ նամակը';
-$labels['firstmessage'] = 'Ցուցադրել առաջին նամակը';
-$labels['nextmessage'] = 'Ցուցադրել հաջորդ նամակը';
-$labels['lastmessage'] = 'Ցուցադրել վերջին նամակը';
-$labels['backtolist'] = 'Վերադառնալ նամակների ցուցակ';
-$labels['viewsource'] = 'Ցուցադրել նամակի կոդը';
-$labels['mark'] = 'Նշել';
-$labels['markmessages'] = 'Նշել նամակները';
-$labels['markread'] = 'որպես կարդացած';
-$labels['markunread'] = 'որպես չկարդացած';
-$labels['markflagged'] = 'որպես նշված';
-$labels['markunflagged'] = 'որպես չնշված';
-$labels['moreactions'] = 'Հավելյալ գործողություններ…';
-$labels['more'] = 'Ավելին';
-$labels['back'] = 'Ետ';
-$labels['options'] = 'Ընտրանքներ';
+$labels['printmessage']     = 'Տպել';
+$labels['previousmessage']  = 'Ցուցադրել նախորդ նամակը';
+$labels['firstmessage']     = 'Ցուցադրել առաջին նամակը';
+$labels['nextmessage']      = 'Ցուցադրել հաջորդ նամակը';
+$labels['lastmessage']      = 'Ցուցադրել վերջին նամակը';
+$labels['backtolist']       = 'Վերադառնալ նամակների ցուցակ';
+$labels['viewsource']       = 'Ցուցադրել նամակի կոդը';
+$labels['mark']             = 'Նշել';
+$labels['markmessages']     = 'Նշել նամակները';
+$labels['markread']         = 'որպես կարդացած';
+$labels['markunread']       = 'որպես չկարդացած';
+$labels['markflagged']      = 'որպես նշված';
+$labels['markunflagged']    = 'որպես չնշված';
+$labels['moreactions']      = 'Հավելյալ գործողություններ…';
+$labels['more']             = 'Ավելին';
+$labels['back']             = 'Ետ';
+$labels['options']          = 'Ընտրանքներ';
+
 $labels['select'] = 'Նշել';
 $labels['all'] = 'Բոլորը';
 $labels['none'] = 'Չնշել';
-$labels['nonesort'] = 'Չնշել';
 $labels['currpage'] = 'Առկա էջ';
 $labels['unread'] = 'Չկարդացածը';
 $labels['flagged'] = 'Նշված';
 $labels['unanswered'] = 'Անպատասխան';
 $labels['deleted'] = 'Ջնջված';
+$labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Փոխատեղել';
 $labels['filter'] = 'Զտիչ';
 $labels['list'] = 'Ցուցակ';
@@ -145,12 +172,14 @@ $labels['expand-all'] = 'Ընդլայնել բոլորը';
 $labels['expand-unread'] = 'Ընդլայնել չկարդացվածը';
 $labels['collapse-all'] = 'Փլչել բոլորը';
 $labels['threaded'] = 'Թեմավորված';
+
 $labels['autoexpand_threads'] = 'Բաց անել թեմաները';
 $labels['do_expand'] = 'բոլոր թեմաները';
 $labels['expand_only_unread'] = 'միայն չկարդացված հաղորդագրություններով';
 $labels['fromto'] = 'Ումից/Ում';
 $labels['flag'] = 'Նշան';
 $labels['attachment'] = 'Կցորդ';
+$labels['nonesort'] = 'Չնշել';
 $labels['sentdate'] = 'Ուղարկման ամսաթիվ';
 $labels['arrival'] = 'Ստացման Ամսաթիվ';
 $labels['asc'] = 'ըստ աճման';
@@ -159,171 +188,218 @@ $labels['listcolumns'] = 'Ցուցակի սյունյակներ';
 $labels['listsorting'] = 'Տեսակավորման սյունյակ';
 $labels['listorder'] = 'Տեսակավորման կարգը';
 $labels['listmode'] = 'Ցուցակով տեսքի տարբերակը';
+
 $labels['folderactions'] = 'Պանակի գործողություններ…';
 $labels['compact'] = 'Սեղմել';
 $labels['empty'] = 'Դատարկել';
+
 $labels['quota'] = 'Դիսկային տարածք';
-$labels['unknown'] = 'անհայտ';
-$labels['unlimited'] = 'անսահմանափակ';
-$labels['quicksearch'] = 'Արագ որոնում';
-$labels['resetsearch'] = 'Վերսկսել որոնումը';
-$labels['searchmod'] = 'Որոնման փոփոխիչներ';
-$labels['msgtext'] = 'Ողջ հաղորդագրությունը';
+$labels['unknown']  = 'անհայտ';
+$labels['unlimited']  = 'անսահմանափակ';
+
+$labels['quicksearch']  = 'Արագ որոնում';
+$labels['resetsearch']  = 'Վերսկսել որոնումը';
+$labels['searchmod']  = 'Որոնման փոփոխիչներ';
+$labels['msgtext']  = 'Ողջ հաղորդագրությունը';
+$labels['body']  = 'Body';
+
 $labels['openinextwin'] = 'Բացել նոր պատուհանում';
 $labels['emlsave'] = 'Ներբեռնել (.eml)';
-$labels['editasnew'] = 'Խմբագրել որպես նոր';
-$labels['sendmessage'] = 'Ուղարկել';
-$labels['savemessage'] = 'Հիշել որպես սևագիր';
-$labels['addattachment'] = 'Կցել ֆայլ';
-$labels['charset'] = 'Տառաշար';
-$labels['editortype'] = 'Խմբագրի տիպը';
-$labels['returnreceipt'] = 'Ստացման հավաստագիր';
-$labels['dsn'] = 'Առաքման կարգավիճակի ծանուցում';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
+
+// message compose
+$labels['editasnew']      = 'Խմբագրել որպես նոր';
+$labels['send']           = 'Send';
+$labels['sendmessage']    = 'Ուղարկել';
+$labels['savemessage']    = 'Հիշել որպես սևագիր';
+$labels['addattachment']  = 'Կցել ֆայլ';
+$labels['charset']        = 'Տառաշար';
+$labels['editortype']     = 'Խմբագրի տիպը';
+$labels['returnreceipt']  = 'Ստացման հավաստագիր';
+$labels['dsn']            = 'Առաքման կարգավիճակի ծանուցում';
 $labels['mailreplyintro'] = '$date-ին, $sender-ը գրեց.';
 $labels['originalmessage'] = 'Առաջին հաղորդագրությունը';
-$labels['editidents'] = 'Խմբագրել ինքնությունները';
-$labels['spellcheck'] = 'Տառասխալներ';
+
+$labels['editidents']    = 'Խմբագրել ինքնությունները';
+$labels['spellcheck']    = 'Տառասխալներ';
 $labels['checkspelling'] = 'Ստուգել ուղագրությունը';
 $labels['resumeediting'] = 'Շարունակել խմբագրումը';
-$labels['revertto'] = 'Վերականգնել';
+$labels['revertto']      = 'Վերականգնել';
+
 $labels['attach'] = 'Կցել';
 $labels['attachments'] = 'Կցումներ';
 $labels['upload'] = 'Բեռնել';
 $labels['uploadprogress'] = '$percent ($current $total-ից)';
-$labels['close'] = 'Փակել';
-$labels['messageoptions'] = 'Հաղորդագրության ընտրանքներ…';
-$labels['low'] = 'Ցածր';
-$labels['lowest'] = 'Նվազագույն';
-$labels['normal'] = 'Նորմալ';
-$labels['high'] = 'Կարևոր';
+$labels['close']  = 'Փակել';
+$labels['messageoptions']  = 'Հաղորդագրության ընտրանքներ…';
+
+$labels['low']     = 'Ցածր';
+$labels['lowest']  = 'Նվազագույն';
+$labels['normal']  = 'Նորմալ';
+$labels['high']    = 'Կարևոր';
 $labels['highest'] = 'Կարևորագույն';
-$labels['nosubject'] = '(առանց վերնագրի)';
+
+$labels['nosubject']  = '(առանց վերնագրի)';
 $labels['showimages'] = 'Ցուցադրել նկարները';
 $labels['alwaysshow'] = 'Միշտ ցուցադրել պատկերները $sender–ից';
-$labels['isdraft'] = 'Սա հաղորդագրության սևագիր է';
+$labels['isdraft']    = 'Սա հաղորդագրության սևագիր է';
+$labels['andnmore']   = '$nr more...';
+$labels['togglemoreheaders'] = 'Show more message headers';
+$labels['togglefullheaders'] = 'Toggle raw message headers';
+
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Պարզ տեքստ';
 $labels['savesentmessagein'] = 'Գրանցել ուղարկված նամակը';
 $labels['dontsave'] = 'Չ՛գրանցել';
 $labels['maxuploadsize'] = 'Առավելագույն թույլատրելի ֆայլի չափը $size է';
+
 $labels['addcc'] = 'Ավելացնել Cc';
 $labels['addbcc'] = 'Ավելացնել Bcc';
 $labels['addreplyto'] = 'Ավելացնել Reply-To';
 $labels['addfollowupto'] = 'Ավելացնել հավելում';
+
+// mdn
 $labels['mdnrequest'] = 'Նամակի հեղինակը խնդրել է նամակը կարդալուն պես տեղեկացնել իրեն։ Ցանկանում էք Տեղեկացնե՞լ։';
 $labels['receiptread'] = 'Նամակի ընթերցման ծանուցագիր';
 $labels['yourmessage'] = 'Սա Ձեր նամակի ընթերցման ծանուցագիրն է';
 $labels['receiptnote'] = 'Նշում՝ Այս ծանուցագիրը ընդամենը տեղեկացնում է, որ նամակը ցուցադրվել է հասցեատիրոջ համակարչով։ Չկա որևիցե երաշխիք, որ հասցեատերը իսկապես կարդացել է նամակը։';
-$labels['name'] = 'Մականուն';
-$labels['firstname'] = 'Անուն';
-$labels['surname'] = 'Ազգանուն';
-$labels['middlename'] = 'Միջին անուն';
-$labels['nameprefix'] = 'Նախածանց';
-$labels['namesuffix'] = 'Վերջածանց';
-$labels['nickname'] = 'Մականուն';
-$labels['jobtitle'] = 'Պաշտոն';
-$labels['department'] = 'Բաժանմունք';
-$labels['gender'] = 'Սեռ';
-$labels['maidenname'] = 'Մինչամուսնական ազգանուն';
-$labels['email'] = 'Էկ–փոստ';
-$labels['phone'] = 'Հեռախոս';
-$labels['address'] = 'Հասցե';
-$labels['street'] = 'Փողոց';
-$labels['locality'] = 'Քաղաք';
-$labels['zipcode'] = 'Փոստային կոդ';
-$labels['region'] = 'Մարզ';
-$labels['country'] = 'Երկիր';
-$labels['birthday'] = 'Ծննդյան օր';
-$labels['anniversary'] = 'Տարեդարձ';
-$labels['website'] = 'Կայք';
+
+// address boook
+$labels['name']         = 'Մականուն';
+$labels['firstname']    = 'Անուն';
+$labels['surname']      = 'Ազգանուն';
+$labels['middlename']   = 'Միջին անուն';
+$labels['nameprefix']   = 'Նախածանց';
+$labels['namesuffix']   = 'Վերջածանց';
+$labels['nickname']     = 'Մականուն';
+$labels['jobtitle']     = 'Պաշտոն';
+$labels['department']   = 'Բաժանմունք';
+$labels['gender']       = 'Սեռ';
+$labels['maidenname']   = 'Մինչամուսնական ազգանուն';
+$labels['email']        = 'Էկ–փոստ';
+$labels['phone']        = 'Հեռախոս';
+$labels['address']      = 'Հասցե';
+$labels['street']       = 'Փողոց';
+$labels['locality']     = 'Քաղաք';
+$labels['zipcode']      = 'Փոստային կոդ';
+$labels['region']       = 'Մարզ';
+$labels['country']      = 'Երկիր';
+$labels['birthday']     = 'Ծննդյան օր';
+$labels['anniversary']  = 'Տարեդարձ';
+$labels['website']      = 'Կայք';
 $labels['instantmessenger'] = 'IM';
 $labels['notes'] = 'Նշումներ';
-$labels['male'] = 'արական';
+$labels['male']   = 'արական';
 $labels['female'] = 'իգական';
 $labels['manager'] = 'Մենեջեր';
 $labels['assistant'] = 'Օգնական';
-$labels['typeassistant'] = 'Օգնական';
 $labels['spouse'] = 'ամուսին';
 $labels['allfields'] = 'Բոլոր դաշտերը';
 $labels['search'] = 'Որոնում';
 $labels['advsearch'] = 'Խորացված որոնում';
 $labels['advanced'] = 'Խորացված';
 $labels['other'] = 'Այլ';
-$labels['typeother'] = 'Այլ';
-$labels['typehome'] = 'Տուն';
-$labels['typework'] = 'Աշխատանք';
-$labels['typemobile'] = 'Բջջային';
-$labels['typemain'] = 'Գլխավոր';
-$labels['typehomefax'] = 'Տան ֆաքս';
-$labels['typeworkfax'] = 'Աշտանանքային ֆաքս';
-$labels['typecar'] = 'Մեքենա';
-$labels['typepager'] = 'Փեյջեր';
-$labels['typevideo'] = 'Տեսանյութ';
-$labels['typehomepage'] = 'Սկիզբ';
+
+$labels['typehome']   = 'Տուն';
+$labels['typework']   = 'Աշխատանք';
+$labels['typeother']  = 'Այլ';
+$labels['typemobile']  = 'Բջջային';
+$labels['typemain']  = 'Գլխավոր';
+$labels['typehomefax']  = 'Տան ֆաքս';
+$labels['typeworkfax']  = 'Աշտանանքային ֆաքս';
+$labels['typecar']  = 'Մեքենա';
+$labels['typepager']  = 'Փեյջեր';
+$labels['typevideo']  = 'Տեսանյութ';
+$labels['typeassistant']  = 'Օգնական';
+$labels['typehomepage']  = 'Սկիզբ';
 $labels['typeblog'] = 'Բլոգ';
 $labels['typeprofile'] = 'Պրոֆայլ';
+
 $labels['addfield'] = 'Ավելացնել դաշտ…';
 $labels['addcontact'] = 'Գրանցել նշած հասցեն';
 $labels['editcontact'] = 'Խմբագրել հասցեն';
 $labels['contacts'] = 'Կապորդներ';
 $labels['contactproperties'] = 'Կապորդի հատկանիշներ';
 $labels['personalinfo'] = 'Անձնական տվյալներ';
-$labels['edit'] = 'Խմբագրել';
-$labels['cancel'] = 'Թարգել';
-$labels['save'] = 'Հիշել';
+
+$labels['edit']   = 'Խմբագրել';
+$labels['cancel'] = 'Չեղարկել';
+$labels['save']   = 'Հիշել';
 $labels['delete'] = 'Ջնջել';
 $labels['rename'] = 'Վերանվանել';
 $labels['addphoto'] = 'Ավելացնել';
 $labels['replacephoto'] = 'Փոխարինել';
 $labels['uploadphoto'] = 'Վերբեռնել լուսանկար';
-$labels['newcontact'] = 'Ստեղծել նոր հասցեքարտ';
-$labels['deletecontact'] = 'Ջնջել նշած նամակները';
-$labels['composeto'] = 'Գրել նամակ';
+
+$labels['newcontact']     = 'Ստեղծել նոր հասցեքարտ';
+$labels['deletecontact']  = 'Ջնջել նշած նամակները';
+$labels['composeto']      = 'Գրել նամակ';
 $labels['contactsfromto'] = 'Հասցեներ $from–ից $to–ը եղած $count–ից';
-$labels['print'] = 'Տպել';
-$labels['export'] = 'Արտահանել';
-$labels['exportvcards'] = 'Արտահանել հասցեները vCard չափաձևով';
+$labels['print']          = 'Տպել';
+$labels['export']         = 'Արտահանել';
+$labels['exportall']      = 'Export all';
+$labels['exportsel']      = 'Export selected';
+$labels['exportvcards']   = 'Արտահանել հասցեները vCard չափաձևով';
 $labels['newcontactgroup'] = 'Ստեղծել կապորդների նոր խումբ';
-$labels['grouprename'] = 'Վերանվանել խումբը';
-$labels['groupdelete'] = 'Ջնջել խումբը';
+$labels['grouprename']    = 'Վերանվանել խումբը';
+$labels['groupdelete']    = 'Ջնջել խումբը';
 $labels['groupremoveselected'] = 'Հեռացնել նշված անձանց խմբից';
-$labels['previouspage'] = 'Ցուցադրել նախորդ էջը';
-$labels['firstpage'] = 'Ցուցադրել առաջին էջը';
-$labels['nextpage'] = 'Ցուցադրել հաջորդ էջը';
-$labels['lastpage'] = 'Ցուցադրել վերջին էջը';
+
+$labels['previouspage']   = 'Ցուցադրել նախորդ էջը';
+$labels['firstpage']      = 'Ցուցադրել առաջին էջը';
+$labels['nextpage']       = 'Ցուցադրել հաջորդ էջը';
+$labels['lastpage']       = 'Ցուցադրել վերջին էջը';
+
 $labels['group'] = 'Խումբ';
 $labels['groups'] = 'Խմբեր';
 $labels['personaladrbook'] = 'Անձնական հասցեներ';
+
 $labels['searchsave'] = 'Պահպանել որոնումը';
 $labels['searchdelete'] = 'Ջնջել որոնումը';
+
 $labels['import'] = 'Ներկրել';
 $labels['importcontacts'] = 'Ներկրել հասցեներ';
 $labels['importfromfile'] = 'Ներկրել ֆայլից';
 $labels['importtarget'] = 'Ավելացնել նոր կապորդներ հասցեագրքում';
 $labels['importreplace'] = 'Փոխել ողջ հասցեագիրքը';
+$labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Ավարտված է';
+
+// settings
 $labels['settingsfor'] = 'Նախասիրություններ';
 $labels['about'] = 'Նկարագիր';
+$labels['preferences'] = 'Նախընտրանքներ';
+$labels['userpreferences'] = 'Օգտվողի նախընտրանքներ';
+$labels['editpreferences'] = 'Խմբագրել օգտվողի նախընտրանքները';
+
 $labels['identities'] = 'Անձիք';
 $labels['manageidentities'] = 'Կարգավորել անձանց';
 $labels['newidentity'] = 'Նոր անձ';
+
 $labels['newitem'] = 'Նոր իր';
 $labels['edititem'] = 'Խմբագրել իրը';
+
 $labels['preferhtml'] = 'Գերադասել HTML';
 $labels['defaultcharset'] = 'Լռելյալ տառաշար';
 $labels['htmlmessage'] = 'HTML նամակ';
+$labels['messagepart'] = 'Part';
+$labels['digitalsig'] = 'Digital Signature';
 $labels['dateformat'] = 'Ամսաթվի ձևաչափ';
 $labels['timeformat'] = 'Ժամանակի ձևաչափ';
 $labels['prettydate'] = 'Պարզ ամսաթվեր';
-$labels['setdefault'] = 'Հիմնական';
-$labels['autodetect'] = 'Ավտո';
-$labels['language'] = 'Լեզու';
-$labels['timezone'] = 'Ժամային գոտի';
-$labels['pagesize'] = 'Տողեր առ էջ';
+$labels['setdefault']  = 'Հիմնական';
+$labels['autodetect']  = 'Ավտո';
+$labels['language']  = 'Լեզուն';
+$labels['timezone']  = 'Ժամային գոտի';
+$labels['pagesize']  = 'Տողեր առ էջ';
 $labels['signature'] = 'Ստորագրություն';
-$labels['dstactive'] = 'Ամառային ժամանակ';
+$labels['dstactive']  = 'Ամառային ժամանակ';
+$labels['showinextwin'] = 'Open message in a new window';
+$labels['composeextwin'] = 'Compose in a new window';
 $labels['htmleditor'] = 'Ստեղծել HTML նամակներ';
 $labels['htmlonreply'] = 'միայն HTML հաղորդագրությանը պատասխանելիս';
+$labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML ստորագրություն';
 $labels['previewpane'] = 'Ցուցադրել պատուհանը';
 $labels['skin'] = 'Տեսքի տարբերակ';
@@ -347,10 +423,11 @@ $labels['showremoteimages'] = 'Ցույց տալ հեռակա պատկերներ
 $labels['fromknownsenders'] = 'հայտնի հասցեատերերից';
 $labels['always'] = 'միշտ';
 $labels['showinlineimages'] = 'Ցուցադրել կցված պատկերները հաղորդագրության տակ';
-$labels['autosavedraft'] = 'Սևագրի ավտոմատ գրանցում';
-$labels['everynminutes'] = 'ամեն $n րոպեն';
-$labels['never'] = 'երբեք';
-$labels['immediately'] = 'անմիջապես';
+$labels['autosavedraft']  = 'Սևագրի ավտոմատ գրանցում';
+$labels['everynminutes']  = 'ամեն $n րոպեն';
+$labels['refreshinterval']  = 'Refresh (check for new messages, etc.)';
+$labels['never']  = 'երբեք';
+$labels['immediately']  = 'անմիջապես';
 $labels['messagesdisplaying'] = 'նամակները ցուցադրելիս';
 $labels['messagescomposition'] = 'նամակ գրելիս';
 $labels['mimeparamfolding'] = 'Կցորդների անուններ';
@@ -370,6 +447,7 @@ $labels['maintenance'] = 'Սպասարկում';
 $labels['newmessage'] = 'Նոր հաղորդագրություն';
 $labels['signatureoptions'] = 'Ստորագրության ընտրանքներ';
 $labels['whenreplying'] = 'Պատասխանելիս';
+$labels['replyempty'] = 'do not quote the original message';
 $labels['replytopposting'] = 'սկսել նոր հաղորդագրությունը վերևից';
 $labels['replybottomposting'] = 'սկսել նոր հաղորդագրությունը ներքևից';
 $labels['replyremovesignature'] = 'Պատասխանելիս հեռացնել հաղորդագրությունից նախորդ ստորագրությունը';
@@ -380,12 +458,12 @@ $labels['replysignaturepos'] = 'Ավելացնել ստորագրություն�
 $labels['belowquote'] = 'Մեջբերման ներքևում';
 $labels['abovequote'] = 'Մեջբերման վերևում';
 $labels['insertsignature'] = 'Ներդնել ստորագրությունը';
-$labels['previewpanemarkread'] = 'Նշել նախադիտված հաղորդագրությունները որպես ընթերցված';
-$labels['afternseconds'] = '$n վարկյան հետո';
+$labels['previewpanemarkread']  = 'Նշել նախադիտված հաղորդագրությունները որպես ընթերցված';
+$labels['afternseconds']  = '$n վարկյան հետո';
 $labels['reqmdn'] = 'Միշտ պատվիրել ստացական';
 $labels['reqdsn'] = 'Միշտ պատվիրել առաքման կարգավիճակի ծանուցում';
 $labels['replysamefolder'] = 'Հաղորդագրության պատասխանները պահել նույն պանակում';
-$labels['defaultaddressbook'] = 'Ավելացնել նոր կապորդներ նշված հասցեագրքին';
+$labels['defaultabook'] = 'Default address book';
 $labels['autocompletesingle'] = 'Ավտոլրացման ժամանակ բացառել այլընտրանքային էլփոստի հասցեները';
 $labels['listnamedisplay'] = 'Ցուցադրել կապորդները որպես';
 $labels['spellcheckbeforesend'] = 'Ստուգել տառասխալները հաղորդագրությունը ուղարկելուց առաջ';
@@ -395,13 +473,18 @@ $labels['spellcheckignorenums'] = 'Անտեսել թվերով բառերը';
 $labels['spellcheckignorecaps'] = 'Անտեսել լրիվ մեծատառ բառերը';
 $labels['addtodict'] = 'Ավելացնել բառարանում';
 $labels['mailtoprotohandler'] = 'mailto: հղումների սպասարկող';
-$labels['folder'] = 'Դարակ';
-$labels['foldername'] = 'Դարակի անուն';
-$labels['subscribed'] = 'Բաժանորդագրված';
+$labels['forwardmode'] = 'Messages forwarding';
+$labels['inline'] = 'inline';
+$labels['asattachment'] = 'as attachment';
+
+$labels['folder']  = 'Դարակ';
+$labels['folders']  = 'Դարակներ';
+$labels['foldername']  = 'Դարակի անուն';
+$labels['subscribed']  = 'Բաժանորդագրված';
 $labels['messagecount'] = 'Նամակներ';
-$labels['create'] = 'Ստեղծել';
-$labels['createfolder'] = 'Բացել նոր դարակ';
-$labels['managefolders'] = 'Կարգավորել դարակները';
+$labels['create']  = 'Ստեղծել';
+$labels['createfolder']  = 'Բացել նոր դարակ';
+$labels['managefolders']  = 'Կարգավորել դարակները';
 $labels['specialfolders'] = 'Հատուկ դարակներ';
 $labels['properties'] = 'Հատկանիշներ';
 $labels['folderproperties'] = 'Պանակի հատկանիշներ';
@@ -411,22 +494,29 @@ $labels['info'] = 'Տեղեկություն';
 $labels['getfoldersize'] = 'Հպել պանակի չափը իմանալու համար';
 $labels['changesubscription'] = 'Հպել բաժանորդագրությունը փոխելու համար';
 $labels['foldertype'] = 'Պանակի տեսակ';
-$labels['personalfolder'] = 'Անձնական պանակ';
-$labels['otherfolder'] = 'Այլ օգտվողի պանակ';
-$labels['sharedfolder'] = 'Հանրային պանակ';
+$labels['personalfolder']  = 'Անձնական պանակ';
+$labels['otherfolder']  = 'Այլ օգտվողի պանակ';
+$labels['sharedfolder']  = 'Հանրային պանակ';
+
 $labels['sortby'] = 'Դասավորել';
-$labels['sortasc'] = 'ըստ աճման';
+$labels['sortasc']  = 'ըստ աճման';
 $labels['sortdesc'] = 'ըստ նվազման';
 $labels['undo'] = 'Ետարկել';
+
+$labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Խրիչ';
 $labels['version'] = 'Տարբերակ';
 $labels['source'] = 'Աղբյուր';
 $labels['license'] = 'Արտոնագիր';
 $labels['support'] = 'Ստանալ օգնություն';
+
+// units
 $labels['B'] = 'Բ';
 $labels['KB'] = 'ԿԲ';
 $labels['MB'] = 'ՄԲ';
 $labels['GB'] = 'ԳԲ';
+
+// character sets
 $labels['unicode'] = 'Յունիկոդ';
 $labels['english'] = 'Անգլերեն';
 $labels['westerneuropean'] = 'Արևմտա-Եվրոպական';
@@ -446,3 +536,4 @@ $labels['japanese'] = 'Ճապոնական';
 $labels['korean'] = 'Կորեական';
 $labels['chinese'] = 'Չինական';
 
+?>

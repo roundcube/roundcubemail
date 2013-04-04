@@ -2,8 +2,6 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcube_db.php                                          |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -13,19 +11,17 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Database wrapper class that implements PHP PDO functions            |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Database independent query interface.
  * This is a wrapper for the PHP PDO.
  *
  * @package   Framework
- * @sbpackage Database
+ * @subpackage Database
  */
 class rcube_db
 {
@@ -37,12 +33,11 @@ class rcube_db
     protected $db_mode;               // Connection mode
     protected $dbh;                   // Connection handle
 
-    protected $db_error        = false;
-    protected $db_error_msg    = '';
-    protected $conn_failure    = false;
-    protected $a_query_results = array('dummy');
-    protected $last_res_id     = 0;
-    protected $db_index        = 0;
+    protected $db_error     = false;
+    protected $db_error_msg = '';
+    protected $conn_failure = false;
+    protected $db_index     = 0;
+    protected $last_result;
     protected $tables;
     protected $variables;
 
@@ -75,7 +70,7 @@ class rcube_db
         $driver = isset($driver_map[$driver]) ? $driver_map[$driver] : $driver;
         $class  = "rcube_db_$driver";
 
-        if (!class_exists($class)) {
+        if (!$driver || !class_exists($class)) {
             rcube::raise_error(array('code' => 600, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
                 'message' => "Configuration error. Unsupported database driver: $driver"),
@@ -227,7 +222,7 @@ class rcube_db
         $this->db_connected = is_object($this->dbh);
 
         // use write-master when read-only fails
-        if (!$this->db_connected && $mode == 'r') {
+        if (!$this->db_connected && $mode == 'r' && $this->is_replicated()) {
             $mode = 'w';
             $this->dbh          = $this->dsn_connect($this->db_dsnw_array);
             $this->db_connected = is_object($this->dbh);
@@ -267,14 +262,14 @@ class rcube_db
     /**
      * Getter for error state
      *
-     * @param int $res_id Optional query result identifier
+     * @param mixed $result Optional query result
      *
      * @return string Error message
      */
-    public function is_error($res_id = null)
+    public function is_error($result = null)
     {
-        if ($res_id !== null) {
-            return $this->_get_result($res_id) === false ? $this->db_error_msg : null;
+        if ($result !== null) {
+            return $result === false ? $this->db_error_msg : null;
         }
 
         return $this->db_error ? $this->db_error_msg : null;
@@ -343,7 +338,7 @@ class rcube_db
      * @param int    Number of rows for LIMIT statement
      * @param mixed  Values to be inserted in query
      *
-     * @return int Query handle identifier
+     * @return PDOStatement|bool Query handle or False on error
      */
     public function limitquery()
     {
@@ -363,7 +358,7 @@ class rcube_db
      * @param int    $numrows Number of rows for LIMIT statement
      * @param array  $params  Values to be inserted in query
      *
-     * @return int Query handle identifier
+     * @return PDOStatement|bool Query handle or False on error
      */
     protected function _query($query, $offset, $numrows, $params)
     {
@@ -374,7 +369,7 @@ class rcube_db
 
         // check connection before proceeding
         if (!$this->is_connected()) {
-            return null;
+            return $this->last_result = false;
         }
 
         if ($numrows || $offset) {
@@ -405,6 +400,11 @@ class rcube_db
 
         $this->debug($query);
 
+        // destroy reference to previous result, required for SQLite driver (#1488874)
+        $this->last_result = null;
+        $this->db_error_msg = null;
+
+        // send query
         $query = $this->dbh->query($query);
 
         if ($query === false) {
@@ -417,24 +417,51 @@ class rcube_db
                 'message' => $this->db_error_msg), true, false);
         }
 
-        // add result, even if it's an error
-        return $this->_add_result($query);
+        $this->last_result = $query;
+
+        return $query;
     }
 
     /**
      * Get number of affected rows for the last query
      *
-     * @param  number $res_id Optional query handle identifier
+     * @param mixed $result Optional query handle
      *
-     * @return int Number of rows or false on failure
+     * @return int Number of (matching) rows
      */
-    public function affected_rows($res_id = null)
+    public function affected_rows($result = null)
     {
-        if ($result = $this->_get_result($res_id)) {
+        if ($result || ($result === null && ($result = $this->last_result))) {
             return $result->rowCount();
         }
 
         return 0;
+    }
+
+    /**
+     * Get number of rows for a SQL query
+     * If no query handle is specified, the last query will be taken as reference
+     *
+     * @param mixed $result Optional query handle
+     * @return mixed   Number of rows or false on failure
+     * @deprecated This method shows very poor performance and should be avoided.
+     */
+    public function num_rows($result = null)
+    {
+        if ($result || ($result === null && ($result = $this->last_result))) {
+            // repeat query with SELECT COUNT(*) ...
+            if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/ims', $result->queryString, $m)) {
+                $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
+                return $query ? intval($query->fetchColumn(0)) : false;
+            }
+            else {
+                $num = count($result->fetchAll());
+                $result->execute();  // re-execute query because there's no seek(0)
+                return $num;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -464,13 +491,12 @@ class rcube_db
      * Get an associative array for one row
      * If no query handle is specified, the last query will be taken as reference
      *
-     * @param int $res_id Optional query handle identifier
+     * @param mixed $result Optional query handle
      *
      * @return mixed Array with col values or false on failure
      */
-    public function fetch_assoc($res_id = null)
+    public function fetch_assoc($result = null)
     {
-        $result = $this->_get_result($res_id);
         return $this->_fetch_row($result, PDO::FETCH_ASSOC);
     }
 
@@ -478,31 +504,30 @@ class rcube_db
      * Get an index array for one row
      * If no query handle is specified, the last query will be taken as reference
      *
-     * @param int $res_id Optional query handle identifier
+     * @param mixed $result Optional query handle
      *
      * @return mixed Array with col values or false on failure
      */
-    public function fetch_array($res_id = null)
+    public function fetch_array($result = null)
     {
-        $result = $this->_get_result($res_id);
         return $this->_fetch_row($result, PDO::FETCH_NUM);
     }
 
     /**
      * Get col values for a result row
      *
-     * @param PDOStatement $result Result handle
-     * @param int          $mode   Fetch mode identifier
+     * @param mixed $result Optional query handle
+     * @param int   $mode   Fetch mode identifier
      *
      * @return mixed Array with col values or false on failure
      */
     protected function _fetch_row($result, $mode)
     {
-        if (!is_object($result) || !$this->is_connected()) {
-            return false;
+        if ($result || ($result === null && ($result = $this->last_result))) {
+            return $result->fetch($mode);
         }
 
-        return $result->fetch($mode);
+        return false;
     }
 
     /**
@@ -538,8 +563,8 @@ class rcube_db
         if ($this->tables === null) {
             $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES ORDER BY TABLE_NAME');
 
-            if ($res = $this->_get_result($q)) {
-                $this->tables = $res->fetchAll(PDO::FETCH_COLUMN, 0);
+            if ($q) {
+                $this->tables = $q->fetchAll(PDO::FETCH_COLUMN, 0);
             }
             else {
                 $this->tables = array();
@@ -561,8 +586,8 @@ class rcube_db
         $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ?',
             array($table));
 
-        if ($res = $this->_get_result($q)) {
-            return $res->fetchAll(PDO::FETCH_COLUMN, 0);
+        if ($q) {
+            return $q->fetchAll(PDO::FETCH_COLUMN, 0);
         }
 
         return array();
@@ -572,7 +597,7 @@ class rcube_db
      * Formats input so it can be safely used in a query
      *
      * @param mixed  $input Value to quote
-     * @param string $type  Type of data
+     * @param string $type  Type of data (integer, bool, ident)
      *
      * @return string Quoted/converted string for use in query
      */
@@ -585,6 +610,10 @@ class rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($type == 'ident') {
+            return $this->quote_identifier($input);
         }
 
         // create DB handle if not available
@@ -636,7 +665,7 @@ class rcube_db
             $name[] = $start . $elem . $end;
         }
 
-        return  implode($name, '.');
+        return implode($name, '.');
     }
 
     /**
@@ -653,7 +682,7 @@ class rcube_db
      * Return list of elements for use with SQL's IN clause
      *
      * @param array  $arr  Input array
-     * @param string $type Type of data
+     * @param string $type Type of data (integer, bool, ident)
      *
      * @return string Comma-separated list of quoted values for use in query
      */
@@ -774,42 +803,6 @@ class rcube_db
         }
 
         return utf8_decode($input);
-    }
-
-    /**
-     * Adds a query result and returns a handle ID
-     *
-     * @param object $res Query handle
-     *
-     * @return int Handle ID
-     */
-    protected function _add_result($res)
-    {
-        $this->last_res_id = sizeof($this->a_query_results);
-        $this->a_query_results[$this->last_res_id] = $res;
-
-        return $this->last_res_id;
-    }
-
-    /**
-     * Resolves a given handle ID and returns the according query handle
-     * If no ID is specified, the last resource handle will be returned
-     *
-     * @param int $res_id Handle ID
-     *
-     * @return mixed Resource handle or false on failure
-     */
-    protected function _get_result($res_id = null)
-    {
-        if ($res_id == null) {
-            $res_id = $this->last_res_id;
-        }
-
-        if (!empty($this->a_query_results[$res_id])) {
-            return $this->a_query_results[$res_id];
-        }
-
-        return false;
     }
 
     /**

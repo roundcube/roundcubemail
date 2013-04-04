@@ -26,7 +26,7 @@ $CONTACT_COLTYPES = array(
   'name'         => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('name'), 'category' => 'main'),
   'firstname'    => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('firstname'), 'category' => 'main'),
   'surname'      => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('surname'), 'category' => 'main'),
-  'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => rcube_label('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
+  'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 254, 'label' => rcube_label('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
   'middlename'   => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('middlename'), 'category' => 'main'),
   'prefix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => rcube_label('nameprefix'), 'category' => 'main'),
   'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => rcube_label('namesuffix'), 'category' => 'main'),
@@ -187,7 +187,7 @@ function rcmail_directory_list($attrib)
     $jsdata = array();
 
     $line_templ = html::tag('li', array(
-        'id' => 'rcmli%s', 'class' => '%s'),
+        'id' => 'rcmli%s', 'class' => '%s', 'noclose' => true),
         html::a(array('href' => '%s',
             'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
@@ -213,7 +213,7 @@ function rcmail_directory_list($attrib)
 
         $name = !empty($source['name']) ? $source['name'] : $id;
         $out .= sprintf($line_templ,
-            html_identifier($id),
+            rcube_utils::html_identifier($id, true),
             $class_name,
             Q(rcmail_url(null, array('_source' => $id))),
             $source['id'],
@@ -224,10 +224,11 @@ function rcmail_directory_list($attrib)
             $groupdata = rcmail_contact_groups($groupdata);
         $jsdata = $groupdata['jsdata'];
         $out = $groupdata['out'];
+        $out .= '</li>';
     }
 
     $line_templ = html::tag('li', array(
-        'id' => 'rcmliS%s', 'class' => '%s'),
+        'id' => 'rcmli%s', 'class' => '%s'),
         html::a(array('href' => '#', 'rel' => 'S%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('listsearch', '%s', this)"), '%s'));
 
@@ -245,14 +246,17 @@ function rcmail_directory_list($attrib)
             $class_name .= ' ' . $source['class_name'];
 
         $out .= sprintf($line_templ,
-            html_identifier($id),
+            rcube_utils::html_identifier('S'.$id, true),
             $class_name,
             $id,
             $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
     }
 
     $OUTPUT->set_env('contactgroups', $jsdata);
+    $OUTPUT->set_env('collapsed_abooks', (string)$RCMAIL->config->get('collapsed_abooks',''));
     $OUTPUT->add_gui_object('folderlist', $attrib['id']);
+    $OUTPUT->include_script('treelist.js');
+
     // add some labels to client
     $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
 
@@ -264,19 +268,25 @@ function rcmail_contact_groups($args)
 {
     global $RCMAIL;
 
+    $groups_html = '';
     $groups = $RCMAIL->get_address_book($args['source'])->list_groups();
+    $js_id = $RCMAIL->JQ($args['source']);
 
     if (!empty($groups)) {
         $line_templ = html::tag('li', array(
-            'id' => 'rcmliG%s', 'class' => 'contactgroup'),
+            'id' => 'rcmli%s', 'class' => 'contactgroup'),
             html::a(array('href' => '#',
                 'rel' => '%s:%s',
                 'onclick' => "return ".JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)"), '%s'));
 
+        // append collapse/expand toggle and open a new <ul>
+        $is_collapsed = strpos($RCMAIL->config->get('collapsed_abooks',''), '&'.rawurlencode($args['source']).'&') !== false;
+        $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
+
         $jsdata = array();
         foreach ($groups as $group) {
-            $args['out'] .= sprintf($line_templ,
-                html_identifier($args['source'] . $group['ID']),
+            $groups_html .= sprintf($line_templ,
+                rcube_utils::html_identifier('G' . $args['source'] . $group['ID'], true),
                 $args['source'], $group['ID'],
                 $args['source'], $group['ID'], Q($group['name'])
             );
@@ -285,6 +295,10 @@ function rcmail_contact_groups($args)
                 'name' => $group['name'], 'type' => 'group');
         }
     }
+
+    $args['out'] .= html::tag('ul',
+      array('class' => 'groups', 'style' => ($is_collapsed ? "display:none;" : null)),
+      $groups_html);
 
     return $args;
 }
@@ -733,30 +747,12 @@ function rcmail_format_date_col($val)
 }
 
 
-function rcmail_contact_key($row, $sort_col)
-{
-    $key = $row[$sort_col] . ':' . $row['sourceid'];
-
-    // add email to a key to not skip contacts with the same name (#1488375)
-    if (!empty($row['email'])) {
-         if (is_array($row['email'])) {
-             $key .= ':' . implode(':', $row['email']);
-         }
-         else {
-             $key .= ':' . $row['email'];
-         }
-     }
-
-     return $key;
-}
-
-
 /**
  * Returns contact ID(s) and source(s) from GET/POST data
  *
  * @return array List of contact IDs per-source
  */
-function rcmail_get_cids()
+function rcmail_get_cids($filter = null)
 {
     // contact ID (or comma-separated list of IDs) is provided in two
     // forms. If _source is an empty string then the ID is a string
@@ -764,6 +760,10 @@ function rcmail_get_cids()
 
     $cid    = get_input_value('_cid', RCUBE_INPUT_GPC);
     $source = (string) get_input_value('_source', RCUBE_INPUT_GPC);
+
+    if (is_array($cid)) {
+        return $cid;
+    }
 
     if (!preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
         return array();
@@ -775,23 +775,28 @@ function rcmail_get_cids()
 
     // create per-source contact IDs array
     foreach ($cid as $id) {
-        // if _source is not specified we'll find it from decoded ID
+        // extract source ID from contact ID (it's there in search mode)
+        // see #1488959 and #1488862 for reference
         if (!$got_source) {
             if ($sep = strrpos($id, '-')) {
                 $contact_id = substr($id, 0, $sep);
-                $source_id  = substr($id, $sep+1);
+                $source_id  = (string) substr($id, $sep+1);
                 if (strlen($source_id)) {
-                    $result[(string)$source_id][] = $contact_id;
+                    $result[$source_id][] = $contact_id;
                 }
             }
         }
         else {
+            if (substr($id, -($got_source+1)) == "-$source") {
+                $id = substr($id, 0, -($got_source+1));
+            }
             $result[$source][] = $id;
         }
     }
 
-    return $result;
+    return $filter !== null ? $result[$filter] : $result;
 }
+
 
 // register UI objects
 $OUTPUT->add_handlers(array(

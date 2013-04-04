@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/tr_TR/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Gökdeniz Karadağ                                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Bir hata oluştu!';
-$messages['loginfailed'] = 'Giriş Başarısız';
+$messages['errortitle']  = 'Bir hata oluştu!';
+$messages['loginfailed']  = 'Giriş Başarısız';
 $messages['cookiesdisabled'] = 'Tarayıcınız çerezleri kabul etmiyor';
 $messages['sessionerror'] = 'Oturumunuz sona ermiş veya hatalı';
 $messages['storageerror'] = 'IMAP sunucusuna bağlanılamadı';
@@ -25,11 +28,14 @@ $messages['dberror'] = 'Veritabanı Hatası!';
 $messages['requesttimedout'] = 'İstek zaman aşımına uğradı';
 $messages['errorreadonly'] = 'İşlem gerçekleştirilemedi. Dizin salt okunabilir';
 $messages['errornoperm'] = 'İşlem gerçekleştirilemedi. İzin verilmedi.';
+$messages['erroroverquota'] = 'İşlem gerçekleştirilemedi. Boş alan yok.';
+$messages['erroroverquotadelete'] = 'Boş alan yok. SHIFT+DEL tuş kombinasyonunu kullanarak mesajı silin.';
 $messages['invalidrequest'] = 'Geçersiz İstek! Veri kaydedilmedi';
 $messages['invalidhost'] = 'Geçersiz sunucu adı.';
 $messages['nomessagesfound'] = 'Posta kutusunda ileti bulunamadı';
 $messages['loggedout'] = 'Oturumu başarılı bir şekilde kapattınız. Güle güle!';
 $messages['mailboxempty'] = 'Posta kutusu boş';
+$messages['refreshing'] = 'Yenileniyor...';
 $messages['loading'] = 'Yükleniyor...';
 $messages['uploading'] = 'Dosya yükleniyor...';
 $messages['uploadingmany'] = 'Dosyalar yükleniyor...';
@@ -56,11 +62,11 @@ $messages['errormoving'] = 'Posta taşınamadı';
 $messages['errorcopying'] = 'Posta kopyalanamadı';
 $messages['errordeleting'] = 'Posta silinemedi';
 $messages['errormarking'] = 'Posta işaretlenemedi';
-$messages['deletecontactconfirm'] = 'Seçili kişileri silmek istediğinizden emin misiniz?';
-$messages['deletegroupconfirm'] = 'Seçili grupları silmek istediğinizden emin misiniz?';
+$messages['deletecontactconfirm']  = 'Seçili kişileri silmek istediğinizden emin misiniz?';
+$messages['deletegroupconfirm']  = 'Seçili grupları silmek istediğinizden emin misiniz?';
 $messages['deletemessagesconfirm'] = 'Seçili postaları silmek istediğinizden emin misiniz?';
-$messages['deletefolderconfirm'] = 'Bu klasörü silmek istediğinizden emin misiniz?';
-$messages['purgefolderconfirm'] = 'Bu klasördeki tüm postaları silmek istediğinizden emin misiniz?';
+$messages['deletefolderconfirm']  = 'Bu klasörü silmek istediğinizden emin misiniz?';
+$messages['purgefolderconfirm']  = 'Bu klasördeki tüm postaları silmek istediğinizden emin misiniz?';
 $messages['contactdeleting'] = 'Kişi(er) siliniyor...';
 $messages['groupdeleting'] = 'Grup siliniyor...';
 $messages['folderdeleting'] = 'Klasör siliniyor...';
@@ -69,11 +75,11 @@ $messages['foldersubscribing'] = 'Klasöre abone olunuyor...';
 $messages['folderunsubscribing'] = 'Klasör aboneliği kaldırılıyor...';
 $messages['formincomplete'] = 'Form tam olarak doldurulmadı';
 $messages['noemailwarning'] = 'Lütfen geçerli bir e-posta adresi girin';
-$messages['nonamewarning'] = 'Lütfen bir isim girin';
+$messages['nonamewarning']  = 'Lütfen bir isim girin';
 $messages['nopagesizewarning'] = 'Lütfen bir sayfa boyutu girin';
 $messages['nosenderwarning'] = 'Lütfen gönderici e-posta adresini girin';
 $messages['norecipientwarning'] = 'Lütfen en az bir alıcı belirtin';
-$messages['nosubjectwarning'] = '"Konu" kutusu boş bırakılmış. Şimdi bir konu belirtmek ister misiniz?';
+$messages['nosubjectwarning']  = '"Konu" kutusu boş bırakılmış. Şimdi bir konu belirtmek ister misiniz?';
 $messages['nobodywarning'] = 'Postayı boş olarak gönder?';
 $messages['notsentwarning'] = 'Posta gönderilmedi. Postanızı iptal etmek istiyor musunuz?';
 $messages['noldapserver'] = 'Lütfen arama için bir LDAP sunucu seçin';
@@ -115,7 +121,9 @@ $messages['selectimportfile'] = 'Lütfen yüklenecek dosyayı seçin';
 $messages['addresswriterror'] = 'Seçili adres defterine yazılamaz';
 $messages['contactaddedtogroup'] = 'Kişiler bu gruba eklendi';
 $messages['contactremovedfromgroup'] = 'Kişiler bu gruptan çıkarıldı';
+$messages['nogroupassignmentschanged'] = 'Grup atamalarında bir değişiklik yapılmadı';
 $messages['importwait'] = 'Aktarılıyor, lütfen bekleyin...';
+$messages['importformaterror'] = 'İçe aktarım başarısız. Yüklenen dosya geçerli bir içe aktarım dosyası değil.';
 $messages['importconfirm'] = '<b>$inserted kişi başarıyla aktarıldı</b>';
 $messages['importconfirmskipped'] = '<b>Var olan $skipped girdi atlandı</b>';
 $messages['opnotpermitted'] = 'Bu işleme izin verilmedi!';
@@ -157,4 +165,7 @@ $messages['invalidimageformat'] = 'Geçerli bir resim biçimi değil.';
 $messages['mispellingsfound'] = 'Postada yazım hataları tespit edildi.';
 $messages['parentnotwritable'] = 'Klasör, seçilen üst klasöre taşınamıyor. Erişim izni yok.';
 $messages['messagetoobig'] = 'Bu ileti parçası işlenemeyecek kadar büyük.';
+$messages['attachmentvalidationerror'] = 'UYARI! Bu eklenti mesajda belirtilenden farklı olduğu için şüpheli bulundu. Eğer göndericiye güvenmiyorsanız eki web tarayıcısında açmayın. Şüpheli içerik bulunabilir.';
+$messages['noscriptwarning'] = 'Uyarı: Bu e-posta servisi Javascript gerektirmektedir! Servisi kullanabilmek için lütfen web tarayıcınızın ayarlarından Javascript\'i etkinleştiriniz.';
 
+?>

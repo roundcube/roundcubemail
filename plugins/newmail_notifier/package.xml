@@ -19,10 +19,10 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-02-07</date>
+	<date>2013-03-16</date>
 	<version>
-		<release>0.4</release>
-		<api>0.3</api>
+		<release>0.5</release>
+		<api>0.5</api>
 	</version>
 	<stability>
 		<release>stable</release>

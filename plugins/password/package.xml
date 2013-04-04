@@ -15,9 +15,9 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-11-15</date>
+	<date>2013-03-30</date>
 	<version>
-		<release>3.2</release>
+		<release>3.3</release>
 		<api>2.0</api>
 	</version>
 	<stability>
@@ -26,8 +26,7 @@
 	</stability>
 	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
 	<notes>
-- Fix wrong (non-specific) error message on crypt or connection error (#1488808)
-- Added option to define IMAP hosts that support password changes - password_hosts
+Added new cPanel driver - fixes localization related issues (#1487015)
     </notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -345,6 +344,22 @@
 - Helper files moved to helpers/ directory from drivers/
 - Added Expect driver (#1488363)
 - Added Samba password (#1488364)
+            </notes>
+        </release>
+        <release>
+            <date>2012-11-15</date>
+            <version>
+                <release>3.2</release>
+                <api>2.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+            <notes>
+- Fix wrong (non-specific) error message on crypt or connection error (#1488808)
+- Added option to define IMAP hosts that support password changes - password_hosts
             </notes>
         </release>
     </changelog>

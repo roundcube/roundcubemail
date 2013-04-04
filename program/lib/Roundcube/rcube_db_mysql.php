@@ -2,8 +2,6 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcube_db_mysql.php                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
  |                                                                       |
@@ -14,12 +12,10 @@
  | PURPOSE:                                                              |
  |   Database wrapper class that implements PHP PDO functions            |
  |   for MySQL database                                                  |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Database independent query interface
@@ -129,6 +125,9 @@ class rcube_db_mysql extends rcube_db
 
         // Always return matching (not affected only) rows count
         $result[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
+
+        // Enable AUTOCOMMIT mode (#1488902)
+        $dsn_options[PDO::ATTR_AUTOCOMMIT] = true;
 
         return $result;
     }

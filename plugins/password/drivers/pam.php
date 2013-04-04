@@ -13,14 +13,14 @@ class rcube_pam_password
     {
         $user = $_SESSION['username'];
 
-        if (extension_loaded('pam')) {
+        if (extension_loaded('pam') || extension_loaded('pam_auth')) {
             if (pam_auth($user, $currpass, $error, false)) {
                 if (pam_chpass($user, $currpass, $newpass)) {
                     return PASSWORD_SUCCESS;
                 }
             }
             else {
-                raise_error(array(
+                rcube::raise_error(array(
                     'code' => 600,
                     'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
@@ -29,7 +29,7 @@ class rcube_pam_password
             }
         }
         else {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,

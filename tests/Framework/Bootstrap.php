@@ -207,4 +207,12 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
         $this->assertFalse($result, "Invalid ASCII (UTF-8 character [2])");
     }
 
+    /**
+     * bootstrap.php: version_parse()
+     */
+    function test_version_parse()
+    {
+        $this->assertEquals('0.9.0', version_parse('0.9-stable'));
+        $this->assertEquals('0.9.99', version_parse('0.9-git'));
+    }
 }

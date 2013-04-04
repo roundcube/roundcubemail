@@ -35,6 +35,7 @@ if (!empty($_GET['_preload'])) {
 
 ob_end_clean();
 
+
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {
   $RCMAIL->config->set('prefer_html', true);
@@ -47,13 +48,7 @@ check_storage_status();
 // show part page
 if (!empty($_GET['_frame'])) {
   if (($part_id = get_input_value('_part', RCUBE_INPUT_GPC)) && ($part = $MESSAGE->mime_parts[$part_id])) {
-    $filename = $part->filename;
-    if (empty($filename) && $part->mimetype == 'text/html') {
-      $filename = rcube_label('htmlmessage');
-    }
-    if (!empty($filename)) {
-      $OUTPUT->set_pagetitle($filename);
-    }
+    $OUTPUT->set_pagetitle(rcmail_attachment_name($part));
   }
 
   $OUTPUT->send('messagepart');
@@ -65,11 +60,11 @@ else if ($_GET['_thumb']) {
   $pid = get_input_value('_part', RCUBE_INPUT_GET);
   if ($part = $MESSAGE->mime_parts[$pid]) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
-    $temp_dir = $RCMAIL->config->get('temp_dir');
-    list(,$ext) = explode('/', $part->mimetype);
+    $temp_dir       = $RCMAIL->config->get('temp_dir');
+    list(,$ext)     = explode('/', $part->mimetype);
     $cache_basename = $temp_dir . '/' . md5($MESSAGE->headers->messageID . $part->mime_id . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
-    $cache_file = $cache_basename . '.' . $ext;
-    $mimetype = $part->mimetype;
+    $cache_file     = $cache_basename . '.' . $ext;
+    $mimetype       = $part->mimetype;
 
     // render thumbnail image if not done yet
     if (!is_file($cache_file)) {
@@ -78,7 +73,7 @@ else if ($_GET['_thumb']) {
       fclose($fp);
 
       $image = new rcube_image($orig_name);
-      if ($imgtype = $image->resize($RCMAIL->config->get('image_thumbnail_size', 240), $cache_file, true)) {
+      if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
         $mimetype = 'image/' . $imgtype;
         unlink($orig_name);
       }
@@ -126,7 +121,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       $valid = $file_extension && in_array($file_extension, (array)$extensions);
 
       // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
-      if ($valid || !$file_extension || $mimetype == 'application/octet-stream') {
+      if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || $mimetype == 'text/plain') {
         if ($part->body)  // part body is already loaded
           $body = $part->body;
         else if ($part->size && $part->size < 1024*1024)   // load the entire part if it's small enough
@@ -137,6 +132,10 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         // detect message part mimetype
         $real_mimetype = rcube_mime::file_content_type($body, $part->filename, $mimetype, true, true);
         list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
+
+        // accept text/plain with any extension
+        if ($real_mimetype == 'text/plain' && $real_mimetype == $mimetype)
+          $file_extension = 'txt';
 
         // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
         if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0)
@@ -159,19 +158,20 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       // show warning if validity checks failed
       if (!$valid) {
         $OUTPUT = new rcmail_html_page();
-        $OUTPUT->write(html::tag('html', null, html::tag('body', array('style' => 'font-family:sans-serif; margin:1em'),
-          html::div(array('class' => 'warning', 'style' => 'border:2px solid #ffdf0e; background:#fef893; padding:1em 1em 0 1em;'),
+        $OUTPUT->write(html::tag('html', null, html::tag('body', 'embed',
+          html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
             rcube_label(array(
               'name' => 'attachmentvalidationerror',
-              'vars' => array('expected' => "$mimetype (.$file_extension)", 'detected' => "$real_mimetype (.$extensions[0])")
+              'vars' => array(
+                'expected' => $mimetype . ($file_extension ? "(.$file_extension)" : ''),
+                'detected' => $real_mimetype . ($extensions[0] ? "(.$extensions[0])" : ''),
+              )
             )) .
-            html::p('buttons',
-              html::tag('button', null,
-                html::a(array(
-                  'href' => $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))),
-                  'style' => 'text-decoration:none;color:#000',
-                ), rcube_label('showanyway')))
-            ))
+            html::p(array('class' => 'rcmail-inline-buttons'),
+              html::tag('button',
+                array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"),
+                rcube_label('showanyway')))
+            )
         )));
         exit;
       }
@@ -222,7 +222,27 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         if (!$part->body)
           $part->body = $MESSAGE->get_part_content($part->mime_id);
 
+        // show images?
+        rcmail_check_safe($MESSAGE);
+
+        // render HTML body
         $out = rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false));
+
+        // insert remote objects warning into HTML body
+        if ($REMOTE_OBJECTS) {
+          $body_start = 0;
+          if ($body_pos = strpos($out, '<body')) {
+            $body_start = strpos($out, '>', $body_pos) + 1;
+          }
+          $out = substr($out, 0, $body_start) .
+            html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
+              Q(rcube_label('blockedimages')) . '&nbsp;' .
+              html::tag('button',
+                array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_safe' => 1))) . "'"),
+                Q(rcube_label('showimages')))
+            ) .
+            substr($out, $body_start);
+        }
       }
 
       // check connection status
@@ -237,18 +257,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       // don't kill the connection if download takes more than 30 sec.
       @set_time_limit(0);
 
-      if ($part->filename) {
-        $filename = $part->filename;
-      }
-      else if ($part->mimetype == 'text/html') {
-        $filename = rcube_label('htmlmessage');
-      }
-      else {
-        $ext = '.' . ($mimetype == 'text/plain' ? 'txt' : $ctype_secondary);
-        $filename = ($MESSAGE->subject ? $MESSAGE->subject : 'roundcube') . $ext;
-      }
-
-      $filename = preg_replace('[\r\n]', '', $filename);
+      $filename = rcmail_attachment_name($part);
 
       if ($browser->ie && $browser->ver < 7)
         $filename = rawurlencode(abbreviate_string($filename, 55));
@@ -258,6 +267,18 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         $filename = addcslashes($filename, '"');
 
       $disposition = !empty($plugin['download']) ? 'attachment' : 'inline';
+
+      // Workaround for nasty IE bug (#1488844)
+      // If Content-Disposition header contains string "attachment" e.g. in filename
+      // IE handles data as attachment not inline
+      if ($disposition == 'inline' && $browser->ie && $browser->ver < 9) {
+        $filename = str_ireplace('attachment', 'attach', $filename);
+      }
+
+      // add filename extension if missing
+      if (!pathinfo($filename, PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
+        $filename .= '.' . $extensions[0];
+      }
 
       header("Content-Disposition: $disposition; filename=\"$filename\"");
 
@@ -302,7 +323,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       // send part as-it-is
       else {
         if ($part->body) {
-          header("Content-Length: " . sizeof($part->body));
+          header("Content-Length: " . strlen($part->body));
           echo $part->body;
           $sent = true;
         }

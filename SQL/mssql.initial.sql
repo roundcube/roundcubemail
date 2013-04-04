@@ -115,6 +115,12 @@ CREATE TABLE [dbo].[searches] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+CREATE TABLE [dbo].[system] (
+	[name] [varchar] (64) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[value] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
 ALTER TABLE [dbo].[cache_index] WITH NOCHECK ADD 
 	 PRIMARY KEY CLUSTERED 
 	(
@@ -182,6 +188,13 @@ ALTER TABLE [dbo].[searches] WITH NOCHECK ADD
 	CONSTRAINT [PK_searches_search_id] PRIMARY KEY CLUSTERED 
 	(
 		[search_id]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[system] WITH NOCHECK ADD 
+	CONSTRAINT [PK_system_name] PRIMARY KEY CLUSTERED 
+	(
+		[name]
 	) ON [PRIMARY] 
 GO
 
@@ -358,3 +371,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2013011700')
+GO
+

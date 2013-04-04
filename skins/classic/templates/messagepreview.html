@@ -3,11 +3,21 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
+<script type="text/javascript" src="/splitter.js"></script>
+<script type="text/javascript" src="/functions.js"></script>
 </head>
-<body class="iframe">
+<body class="iframe" onload="rcube_init_mail_ui()">
 
 <div class="messageheaderbox">
-<roundcube:button command="extwin" image="/images/icons/extwin.png" width="15" height="15" title="openinextwin" id="openextwinlink" />
+  <div id="messagelinks">
+    <roundcube:if condition="env:optional_format=='text'" />
+      <roundcube:button command="change-format" prop="text" image="/images/icons/text.png" width="15" height="15" title="changeformattext" id="changeformattext" />
+    <roundcube:endif />
+    <roundcube:if condition="env:optional_format=='html'" />
+      <roundcube:button command="change-format" prop="html" image="/images/icons/html.png" width="15" height="15" title="changeformathtml" id="changeformathtml" />
+    <roundcube:endif />
+    <roundcube:button command="extwin" image="/images/icons/extwin.png" width="15" height="15" title="openinextwin" id="openextwinlink" />
+  </div>
 <roundcube:object name="messageHeaders" class="headers-table" cellspacing="0" cellpadding="2" addicon="/images/icons/silhouette.png" summary="Message headers" />
 <roundcube:object name="messageFullHeaders" id="full-headers" />
 <roundcube:object name="messageAttachments" id="attachment-list" />
@@ -15,6 +25,14 @@
 
 <roundcube:object name="messageObjects" id="message-objects" />
 <roundcube:object name="messageBody" id="messagebody" />
+
+<div id="attachmentmenu" class="popupmenu">
+  <ul class="toolbarmenu">
+    <li><roundcube:button command="open-attachment" id="attachmenuopen" type="link" label="open" class="openlink" classAct="openlink active" innerclass="openlink" /></li>
+    <li><roundcube:button command="download-attachment" id="attachmenudownload" type="link" label="download" class="downloadlink" classAct="downloadlink active" innerclass="downloadlink" /></li>
+    <roundcube:container name="attachmentmenu" id="attachmentmenu" />
+  </ul>
+</div>
 
 </body>
 </html>
