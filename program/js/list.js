@@ -1229,7 +1229,7 @@ drag_mouse_up: function(e)
   // remove temp divs
   this.del_dragfix();
 
-  this.triggerEvent('dragend');
+  this.triggerEvent('dragend', e);
 
   return rcube_event.cancel(e);
 },
@@ -1342,7 +1342,7 @@ column_drag_mouse_up: function(e)
     }
   }
 
-  this.triggerEvent('column_dragend');
+  this.triggerEvent('column_dragend', e);
 
   return rcube_event.cancel(e);
 },
