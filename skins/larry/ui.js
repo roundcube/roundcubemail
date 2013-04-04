@@ -38,6 +38,7 @@ function rcube_mail_ui()
   this.init_tabs = init_tabs;
   this.show_about = show_about;
   this.show_popup = show_popup;
+  this.add_popup = add_popup;
   this.set_searchmod = set_searchmod;
   this.show_uploadform = show_uploadform;
   this.show_header_row = show_header_row;
@@ -430,13 +431,25 @@ function rcube_mail_ui()
 
 
   /**
+   * Register a popup menu
+   */
+  function add_popup(popup, config)
+  {
+    var obj = popups[popup] = $('#'+popup);
+    obj.appendTo(document.body);  // move it to top for proper absolute positioning
+
+    if (obj.length)
+      popupconfig[popup] = $.extend(popupconfig[popup] || {}, config || {});
+  }
+
+  /**
    * Trigger for popup menus
    */
   function show_popup(popup, show, config)
   {
     // auto-register menu object
     if (config || !popupconfig[popup])
-      popupconfig[popup] = $.extend(popupconfig[popup] || {}, config);
+      add_popup(popup, config);
 
     var visible = show_popupmenu(popup, show),
       config = popupconfig[popup];
