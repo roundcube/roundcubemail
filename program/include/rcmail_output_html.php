@@ -793,12 +793,6 @@ class rcmail_output_html extends rcmail_output
      * @param  string Expression statement
      */
     protected function eval_expression ($expression) {
-        // Prevent function calls in `expression`:
-        $expression = str_replace("\n", "", $expression);
-        if(preg_match('#\w+ \s* (/\* .* \*/)* \s* \(#ix', $expression))
-            return false;
-
-        // Evaluate expression:
         $expression = $this->parse_expression($expression);
         $fn = create_function('$app,$browser,$env', "return ($expression);");
         return $fn($this->app, $this->browser, $this->env);
@@ -854,7 +848,7 @@ class rcmail_output_html extends rcmail_output
             // show a label
             case 'label':
                 if ($attrib['expression'])
-                    $attrib['name'] = eval("return " . $this->parse_expression($attrib['expression']) .";");
+                    $attrib['name'] = $this->eval_expression($attrib['expression']);
 
                 if ($attrib['name'] || $attrib['command']) {
                     // @FIXME: 'noshow' is useless, remove?
