@@ -780,10 +780,16 @@ shift_select: function(id, control)
   if (!this.rows[this.shift_start] || !this.selection.length)
     this.shift_start = id;
 
-  var n, from_rowIndex = this.rows[this.shift_start].obj.rowIndex,
-    to_rowIndex = this.rows[id].obj.rowIndex,
-    i = ((from_rowIndex < to_rowIndex)? from_rowIndex : to_rowIndex),
-    j = ((from_rowIndex > to_rowIndex)? from_rowIndex : to_rowIndex);
+  var n, i, j, to_row = this.rows[id],
+    from_rowIndex = this.rows[this.shift_start].obj.rowIndex,
+    to_rowIndex = to_row.obj.rowIndex;
+
+  if (!to_row.expanded && to_row.has_children)
+    if (to_row = this.rows[(this.row_children(id)).pop()])
+      to_rowIndex = to_row.obj.rowIndex;
+
+  i = ((from_rowIndex < to_rowIndex) ? from_rowIndex : to_rowIndex),
+  j = ((from_rowIndex > to_rowIndex) ? from_rowIndex : to_rowIndex);
 
   // iterate through the entire message list
   for (n in this.rows) {
