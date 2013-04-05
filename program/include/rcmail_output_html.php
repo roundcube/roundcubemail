@@ -731,7 +731,6 @@ class rcmail_output_html extends rcmail_output
     /**
      * Determines if a given condition is met
      *
-     * @todo   Get rid off eval() once I understand what this does.
      * @todo   Extend this to allow real conditions, not just "set"
      * @param  string Condition statement
      * @return boolean True if condition is met, False if not
@@ -779,45 +778,30 @@ class rcmail_output_html extends rcmail_output
             ),
             array(
                 "\$_SESSION['\\1']",
-                "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
-                "\$this->env['\\1']",
+                "\$app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
+                "\$env['\\1']",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
                 "\$_COOKIE['\\1']",
-                "\$this->browser->{'\\1'}",
+                "\$browser->{'\\1'}",
                 $this->template_name,
             ),
             $expression);
     }
-
+    
+    /**
+     * Evaluate a given expression and return its result.
+     * @param  string Expression statement
+     */
     protected function eval_expression ($expression) {
-        return preg_replace_callback(
-            array(
-                '/session:([a-z0-9_]+)/i',
-                '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
-                '/env:([a-z0-9_]+)/i',
-                '/request:([a-z0-9_]+)/i',
-                '/cookie:([a-z0-9_]+)/i',
-                '/browser:([a-z0-9_]+)/i',
-                '/template:name/i',
-            ),
-            function($match) {
-                if(preg_match('/session:([a-z0-9_]+)/i', $match, $matches)) {
-                    return $_SESSION[$matches[1]];
-                } else if(preg_match('/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i', $match, $matches)) {
-                    return $this->app->config->get($matches[1],rcube_utils::get_boolean($matches[3]));
-                } else if(preg_match('/env:([a-z0-9_]+)/i', $match, $matches)) {
-                    return $this->env[$matches[1]];
-                } else if(preg_match('/request:([a-z0-9_]+)/i', $match, $matches)) {
-                    return rcube_utils::get_input_value($matches[1], rcube_utils::INPUT_GPC);
-                } else if(preg_match('/cookie:([a-z0-9_]+)/i', $match, $matches)) {
-                    return $_COOKIE[$matches[1]];
-                } else if(preg_match('/browser:([a-z0-9_]+)/i', $match, $matches)) {
-                    return $this->browser->{$matches[1]};
-                } else if(preg_match('/template:name/i', $match, $matches)) {
-                    return $this->template_name;
-                }
-            },
-            $expression);
+        // Prevent function calls in `expression`:
+        $expression = str_replace("\n", "", $expression);
+        if(preg_match('#\w+ \s* (/\* .* \*/)* \s* \(#ix', $expression))
+            return false;
+
+        // Evaluate expression:
+        $expression = $this->parse_expression($expression);
+        $fn = create_function('$app,$browser,$env', "return ($expression);");
+        return $fn($this->app, $this->browser, $this->env);
     }
 
 
@@ -1002,7 +986,6 @@ class rcmail_output_html extends rcmail_output
 
             // return code for a specified eval expression
             case 'exp':
-                $value = $this->parse_expression($attrib['expression']);
                 return html::quote( $this->eval_expression($attrib['expression']) );
 
             // return variable
