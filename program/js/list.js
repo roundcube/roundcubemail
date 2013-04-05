@@ -824,7 +824,7 @@ select_all: function(filter)
   for (n in this.rows) {
     if (!filter || this.rows[n][filter] == true) {
       this.last_selected = n;
-      this.highlight_row(n, true);
+      this.highlight_row(n, true, true);
     }
     else {
       $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
@@ -919,7 +919,7 @@ get_single_selection: function()
 /**
  * Highlight/unhighlight a row
  */
-highlight_row: function(id, multiple)
+highlight_row: function(id, multiple, norecur)
 {
   if (!this.rows[id])
     return;
@@ -935,7 +935,7 @@ highlight_row: function(id, multiple)
     if (!this.in_selection(id)) { // select row
       this.selection.push(id);
       $(this.rows[id].obj).addClass('selected');
-      if (!this.rows[id].expanded)
+      if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, true);
     }
     else { // unselect row
@@ -945,7 +945,7 @@ highlight_row: function(id, multiple)
 
       this.selection = a_pre.concat(a_post);
       $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
-      if (!this.rows[id].expanded)
+      if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, false);
     }
   }
@@ -963,7 +963,7 @@ highlight_children: function(id, status)
   for (i=0; i<len; i++) {
     selected = this.in_selection(children[i]);
     if ((status && !selected) || (!status && selected))
-      this.highlight_row(children[i], true);
+      this.highlight_row(children[i], true, true);
   }
 },
 
