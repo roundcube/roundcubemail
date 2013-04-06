@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of invalid characters in message headers and output (#1489032)
 - Fix selecting collapsed rows on select-all (#1489036)
 - Fix possible header duplicates when using additional headers (#1489033)
 - Fix session issues with use_https=true (#1488986)

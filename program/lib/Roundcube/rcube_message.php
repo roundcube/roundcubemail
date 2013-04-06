@@ -85,12 +85,13 @@ class rcube_message
 
         $this->headers = $this->storage->get_message($uid);
 
-        if (!$this->headers)
+        if (!$this->headers) {
             return;
+        }
 
         $this->mime = new rcube_mime($this->headers->charset);
 
-        $this->subject = $this->mime->decode_mime_string($this->headers->subject);
+        $this->subject = $this->headers->get('subject');
         list(, $this->sender) = each($this->mime->decode_address_list($this->headers->from, 1));
 
         $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$this->folder.':'.$uid]));
@@ -125,15 +126,11 @@ class rcube_message
      */
     public function get_header($name, $raw = false)
     {
-        if (empty($this->headers))
+        if (empty($this->headers)) {
             return null;
+        }
 
-        if ($this->headers->$name)
-            $value = $this->headers->$name;
-        else if ($this->headers->others[$name])
-            $value = $this->headers->others[$name];
-
-        return $raw ? $value : $this->mime->decode_header($value);
+        return $this->headers->get($name, !$raw);
     }
 
 
