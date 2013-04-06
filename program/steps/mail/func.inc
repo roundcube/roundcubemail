@@ -888,7 +888,7 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
  * return table with message headers
  */
 function rcmail_message_headers($attrib, $headers=null)
-  {
+{
   global $OUTPUT, $MESSAGE, $PRINT_MODE, $RCMAIL;
   static $sa_attrib;
 
