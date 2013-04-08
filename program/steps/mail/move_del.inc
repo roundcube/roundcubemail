@@ -74,6 +74,8 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
 }
 // unknown action or missing query param
 else {
+    $OUTPUT->show_message('internalerror', 'error');
+    $OUTPUT->send();
     exit;
 }
 

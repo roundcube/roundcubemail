@@ -109,7 +109,7 @@ if ($uid) {
     $OUTPUT->set_env('skip_deleted', true);
   if ($CONFIG['display_next'])
     $OUTPUT->set_env('display_next', true);
-  if ($MESSAGE->headers->others['list-post'])
+  if ($MESSAGE->headers->get('list-post', false))
     $OUTPUT->set_env('list_post', true);
   if ($CONFIG['forward_attachment'])
     $OUTPUT->set_env('forward_attachment', true);
