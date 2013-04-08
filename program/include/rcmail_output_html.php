@@ -759,14 +759,11 @@ class rcmail_output_html extends rcmail_output
 
 
     /**
-     * Parses expression and replaces variables
-     *
+     * Parse & evaluate a given expression and return its result.
      * @param  string Expression statement
-     * @return string Expression value
      */
-    protected function parse_expression($expression)
-    {
-        return preg_replace(
+    protected function eval_expression ($expression) {
+        $expression = preg_replace(
             array(
                 '/session:([a-z0-9_]+)/i',
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
@@ -785,16 +782,19 @@ class rcmail_output_html extends rcmail_output
                 "\$browser->{'\\1'}",
                 $this->template_name,
             ),
-            $expression);
-    }
-    
-    /**
-     * Evaluate a given expression and return its result.
-     * @param  string Expression statement
-     */
-    protected function eval_expression ($expression) {
-        $expression = $this->parse_expression($expression);
+            $expression
+        );
+        
         $fn = create_function('$app,$browser,$env', "return ($expression);");
+        if(!$fn) {
+            rcube::raise_error(array(
+                'code' => 505,
+                'type' => 'php',
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "Expression parse error on: ($expression)"), true, false);
+        }
+        
         return $fn($this->app, $this->browser, $this->env);
     }
 
