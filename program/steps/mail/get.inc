@@ -22,7 +22,7 @@
 
 // show loading page
 if (!empty($_GET['_preload'])) {
-  $url = preg_replace('/([&?]+)_preload=/', '\\1_embed=', $_SERVER['REQUEST_URI']);
+  $url = preg_replace('/([&?]+)_preload=/', '\\1_mimewarning=1&_embed=', $_SERVER['REQUEST_URI']);
   $message = rcube_label('loadingdata');
 
   header('Content-Type: text/html; charset=' . RCMAIL_CHARSET);
@@ -118,7 +118,7 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
       $file_extension = strtolower(pathinfo($part->filename, PATHINFO_EXTENSION));
 
       // 1. compare filename suffix with expected suffix derived from mimetype
-      $valid = $file_extension && in_array($file_extension, (array)$extensions);
+      $valid = $file_extension && in_array($file_extension, (array)$extensions) || !empty($_REQUEST['_mimeclass']);
 
       // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
       if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || $mimetype == 'text/plain') {
@@ -145,6 +145,10 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
         $extensions = rcube_mime::get_mime_extensions($real_mimetype);
         $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
 
+        // ignore filename extension if mimeclass matches (#1489029)
+        if (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass'])
+          $valid_extension = true;
+
         // fix mimetype for images wrongly declared as octet-stream
         if ($mimetype == 'application/octet-stream' && strpos($real_mimetype, 'image/') === 0 && $valid_extension)
           $mimetype = $real_mimetype;
@@ -157,22 +161,32 @@ else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
 
       // show warning if validity checks failed
       if (!$valid) {
-        $OUTPUT = new rcmail_html_page();
-        $OUTPUT->write(html::tag('html', null, html::tag('body', 'embed',
-          html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
-            rcube_label(array(
-              'name' => 'attachmentvalidationerror',
-              'vars' => array(
-                'expected' => $mimetype . ($file_extension ? "(.$file_extension)" : ''),
-                'detected' => $real_mimetype . ($extensions[0] ? "(.$extensions[0])" : ''),
+        // send blocked.gif for expected images
+        if (empty($_REQUEST['_mimewarning']) && strpos($mimetype, 'image/') === 0) {
+          // Do not cache. Failure might be the result of a misconfiguration, thus real content should be returned once fixed. 
+          $OUTPUT->nocacheing_headers();
+          header("Content-Type: image/gif");
+          header("Content-Transfer-Encoding: binary");
+          readfile(INSTALL_PATH . 'program/resources/blocked.gif');
+        }
+        else {  // html warning with a button to load the file anyway
+          $OUTPUT = new rcmail_html_page();
+          $OUTPUT->write(html::tag('html', null, html::tag('body', 'embed',
+            html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
+              rcube_label(array(
+                'name' => 'attachmentvalidationerror',
+                'vars' => array(
+                  'expected' => $mimetype . ($file_extension ? "(.$file_extension)" : ''),
+                  'detected' => $real_mimetype . ($extensions[0] ? "(.$extensions[0])" : ''),
+                )
+              )) .
+              html::p(array('class' => 'rcmail-inline-buttons'),
+                html::tag('button',
+                  array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"),
+                  rcube_label('showanyway')))
               )
-            )) .
-            html::p(array('class' => 'rcmail-inline-buttons'),
-              html::tag('button',
-                array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"),
-                rcube_label('showanyway')))
-            )
-        )));
+          )));
+        }
         exit;
       }
     }

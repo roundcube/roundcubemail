@@ -1194,7 +1194,7 @@ function rcmail_message_body($attrib)
              html::a($show_link + array('class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)),
                html::img(array(
                 'class' => 'image-thumbnail',
-                'src'   => $MESSAGE->get_part_url($attach_prop->mime_id, true) . '&_thumb=1',
+                'src'   => $MESSAGE->get_part_url($attach_prop->mime_id, 'image') . '&_thumb=1',
                 'title' => $attach_prop->filename,
                 'alt'   => $attach_prop->filename,
                 'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
@@ -1214,7 +1214,7 @@ function rcmail_message_body($attrib)
             html::tag('legend', 'image-filename', Q($attach_prop->filename)) .
             html::p(array('align' => "center"),
               html::img(array(
-                'src'   => $MESSAGE->get_part_url($attach_prop->mime_id, true),
+                'src'   => $MESSAGE->get_part_url($attach_prop->mime_id, 'image'),
                 'title' => $attach_prop->filename,
                 'alt'   => $attach_prop->filename,
               )))
