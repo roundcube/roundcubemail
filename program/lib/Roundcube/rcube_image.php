@@ -124,6 +124,7 @@ class rcube_image
             }
 
             if ($result === '') {
+                @chmod($filename, 0600);
                 return $type;
             }
         }
@@ -183,6 +184,7 @@ class rcube_image
             }
 
             if ($result) {
+                @chmod($filename, 0600);
                 return $type;
             }
         }
@@ -223,6 +225,7 @@ class rcube_image
             $result = rcube::exec($convert . ' 2>&1 -colorspace RGB -quality 75 {in} {type}:{out}', $p);
 
             if ($result === '') {
+                @chmod($filename, 0600);
                 return true;
             }
         }
@@ -256,6 +259,7 @@ class rcube_image
             }
 
             if ($result) {
+                @chmod($filename, 0600);
                 return true;
             }
         }
