@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Set minimal permissions to temp files (#148899)
+- Set minimal permissions to temp files (#1488996)
 - Improve content check for embedded images without filename (#1489029)
 - Fix handling of invalid characters in message headers and output (#1489032)
 - Fix selecting collapsed rows on select-all (#1489036)
