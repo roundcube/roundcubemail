@@ -162,6 +162,7 @@ $labels['currpage'] = 'Current page';
 $labels['unread'] = 'Unread';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Deleted';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Invert';

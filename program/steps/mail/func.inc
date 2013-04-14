@@ -1897,13 +1897,15 @@ function rcmail_search_filter($attrib)
 
   $attrib['onchange'] = JS_OBJECT_NAME.'.filter_mailbox(this.value)';
 
-  /*
-    RFC3501 (6.4.4): 'ALL', 'RECENT', 
-    'ANSWERED', 'DELETED', 'FLAGGED', 'SEEN',
-    'UNANSWERED', 'UNDELETED', 'UNFLAGGED', 'UNSEEN',
-    'NEW', // = (RECENT UNSEEN)
-    'OLD' // = NOT RECENT
-  */
+  // Content-Type values of messages with attachments
+  // the same as in app.js:add_message_row()
+  $ctypes = array('application/', 'multipart/m', 'multipart/signed', 'multipart/report');
+
+  // Build search string of "with attachment" filter
+  $attachment = str_repeat(' OR', count($ctypes)-1);
+  foreach ($ctypes as $type) {
+    $attachment .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
+  }
 
   $select_filter = new html_select($attrib);
   $select_filter->add(rcube_label('all'), 'ALL');
@@ -1914,6 +1916,7 @@ function rcmail_search_filter($attrib)
     $select_filter->add(rcube_label('deleted'), 'DELETED');
     $select_filter->add(rcube_label('undeleted'), 'UNDELETED');
   }
+  $select_filter->add(rcube_label('withattachment'), $attachment);
   $select_filter->add(rcube_label('priority').': '.rcube_label('highest'), 'HEADER X-PRIORITY 1');
   $select_filter->add(rcube_label('priority').': '.rcube_label('high'), 'HEADER X-PRIORITY 2');
   $select_filter->add(rcube_label('priority').': '.rcube_label('normal'), 'NOT HEADER X-PRIORITY 1 NOT HEADER X-PRIORITY 2 NOT HEADER X-PRIORITY 4 NOT HEADER X-PRIORITY 5');
