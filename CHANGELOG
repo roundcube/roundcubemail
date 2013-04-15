@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.9.0
+-------------
+- Fix display of HTML entities in protected folder name (#1489042)
 - Set minimal permissions to temp files (#1488996)
 - Improve content check for embedded images without filename (#1489029)
 - Fix handling of invalid characters in message headers and output (#1489032)
