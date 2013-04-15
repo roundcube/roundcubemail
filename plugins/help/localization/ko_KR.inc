@@ -19,6 +19,6 @@
 $labels = array();
 $labels['help'] = '도움말';
 $labels['about'] = '정보';
-$labels['license'] = '라이센스';
+$labels['license'] = '라이선스';
 
 ?>

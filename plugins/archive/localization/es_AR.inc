@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Archivo';
 $labels['buttontitle'] = 'Archivar este mensaje';
 $labels['archived'] = 'Mensaje Archivado';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Archivado satisfactoriamente. Recarga la página para ver las nuevas capetas archivadas.';
+$labels['archiveerror'] = 'Algunos mensajes no pudieron archivarse';
 $labels['archivefolder'] = 'Archivo';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Archivo';
+$labels['archivetype'] = 'Separar archivo por';
+$labels['archivetypeyear'] = 'Año (ej. Archivo/2012)';
+$labels['archivetypemonth'] = 'Mes (ej. Archivo/2012/06)';
+$labels['archivetypefolder'] = 'Carpeta original';
+$labels['archivetypesender'] = 'Remitente del correo';
+$labels['unkownsender'] = 'desconocido';
 
 ?>

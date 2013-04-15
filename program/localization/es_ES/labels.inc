@@ -64,7 +64,7 @@ $labels['copy']     = 'Copiar';
 $labels['move']     = 'Mover';
 $labels['moveto']   = 'Mover a…';
 $labels['download'] = 'Descargar';
-$labels['open']     = 'Open';
+$labels['open']     = 'Abrir';
 $labels['showattachment'] = 'Mostrar';
 $labels['showanyway'] = 'Mostrarlo de todos modos';
 
@@ -162,6 +162,7 @@ $labels['currpage'] = 'Página actual';
 $labels['unread'] = 'Sin leer';
 $labels['flagged'] = 'Señalado';
 $labels['unanswered'] = 'Sin respuesta';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Eliminado';
 $labels['undeleted'] = 'No eliminado';
 $labels['invert'] = 'Invertir';
@@ -205,8 +206,8 @@ $labels['body']  = 'Cuerpo';
 
 $labels['openinextwin'] = 'Abrir en nueva ventana';
 $labels['emlsave'] = 'Descargar (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Mostrar en formato de texto sencillo';
+$labels['changeformathtml'] = 'Mostrar en formato HTML';
 
 // message compose
 $labels['editasnew']      = 'Editar como nuevo';
@@ -454,9 +455,6 @@ $labels['replyremovesignature'] = 'Eliminar la firma original del mensaje al res
 $labels['autoaddsignature'] = 'Añadir firma automáticamente';
 $labels['newmessageonly'] = 'solamente mensaje nuevo';
 $labels['replyandforwardonly'] = 'respuestas y reenvíos solamente';
-$labels['replysignaturepos'] = 'Colocar firma al responder o reenviar';
-$labels['belowquote'] = 'abajo del texto seleccionado';
-$labels['abovequote'] = 'arriba del texto seleccionado';
 $labels['insertsignature'] = 'Insertar firma';
 $labels['previewpanemarkread']  = 'Marcar mensaje previsualizado como leído';
 $labels['afternseconds']  = 'después de $n segundos';

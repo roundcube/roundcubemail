@@ -17,21 +17,21 @@
 */
 
 $labels = array();
-$labels['changepasswd']  = 'Wijzig Wachtwoord';
-$labels['curpasswd']  = 'Huidig Wachtwoord:';
-$labels['newpasswd']  = 'Nieuw Wachtwoord:';
-$labels['confpasswd']  = 'Bevestig Nieuw Wachtwoord:';
+$labels['changepasswd']  = 'Wachtwoord wijzigen';
+$labels['curpasswd']  = 'Huidig wachtwoord:';
+$labels['newpasswd']  = 'Nieuw wachtwoord:';
+$labels['confpasswd']  = 'Bevestig nieuw wachtwoord:';
 
 $messages = array();
-$messages['nopassword'] = 'Vul een wachtwoord in.';
-$messages['nocurpassword'] = 'vul het huidige wachtwoord in.';
+$messages['nopassword'] = 'Vul uw nieuwe wachtwoord in.';
+$messages['nocurpassword'] = 'Vul uw huidige wachtwoord in.';
 $messages['passwordincorrect'] = 'Huidig wachtwoord is onjuist.';
 $messages['passwordinconsistency'] = 'Wachtwoorden komen niet overeen, probeer het opnieuw.';
-$messages['crypterror'] = 'De server mist een functie om uw wachtwoord et beveiligen.';
-$messages['connecterror'] = 'Kan het nieuwe wachtwoord niet opslaan. Verbindingsfout.';
-$messages['internalerror'] = 'Uw wachtwoord kan niet worden opgeslagen.';
+$messages['crypterror'] = 'Nieuwe wachtwoord kan niet opgeslagen worden; de server mist een versleutelfunctie.';
+$messages['connecterror'] = 'Nieuwe wachtwoord kan niet opgeslagen worden; verbindingsfout.';
+$messages['internalerror'] = 'Uw nieuwe wachtwoord kan niet worden opgeslagen.';
 $messages['passwordshort'] = 'Het wachtwoord moet minimaal $length tekens lang zijn.';
-$messages['passwordweak'] = 'Het wachtwoord moet minimaal één nummer en één leesteken bevatten.';
+$messages['passwordweak'] = 'Het wachtwoord moet minimaal één cijfer en één leesteken bevatten.';
 $messages['passwordforbidden'] = 'Het wachtwoord bevat tekens die niet toegestaan zijn.';
 
 ?>

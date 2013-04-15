@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopier';
 $labels['move']     = 'Flytt';
 $labels['moveto']   = 'flytt til …';
 $labels['download'] = 'Last ned';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Vis';
 $labels['showanyway'] = 'Vis likevel';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Gjeldande side';
 $labels['unread'] = 'Uleste';
 $labels['flagged'] = 'Flagga';
 $labels['unanswered'] = 'Ikkje svara';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Sletta';
 $labels['undeleted'] = 'Ikkje sletta';
 $labels['invert'] = 'Inverter';
@@ -204,6 +206,8 @@ $labels['body']  = 'Meldingstekst';
 
 $labels['openinextwin'] = 'Opna i nytt vindauga';
 $labels['emlsave'] = 'Last ned (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Rediger som ny';
@@ -335,8 +339,8 @@ $labels['composeto']      = 'Ny melding til';
 $labels['contactsfromto'] = 'Kontaktar $from til $to av $count';
 $labels['print']          = 'Skriv ut';
 $labels['export']         = 'Eksport';
-$labels['exportall']      = 'Export all';
-$labels['exportsel']      = 'Export selected';
+$labels['exportall']      = 'Eksporter alle';
+$labels['exportsel']      = 'Eksporter valde';
 $labels['exportvcards']   = 'Eksporter kontaktar i vCard-format';
 $labels['newcontactgroup'] = 'Lag ny kontaktgruppe';
 $labels['grouprename']    = 'Endre namn på gruppe';
@@ -451,9 +455,6 @@ $labels['replyremovesignature'] = 'Fjern den original signatur frå eposten når
 $labels['autoaddsignature'] = 'Legg signatur til automatisk';
 $labels['newmessageonly'] = 'berre på nye epostar';
 $labels['replyandforwardonly'] = 'berre på svar og vidaresending';
-$labels['replysignaturepos'] = 'Når du svarar eller sender vidare, plasser signaturen';
-$labels['belowquote'] = 'nedanfor siteringa';
-$labels['abovequote'] = 'oppanfor siteringa';
 $labels['insertsignature'] = 'Sett inn signatur';
 $labels['previewpanemarkread']  = 'Merk forehandsviste epostar som leste';
 $labels['afternseconds']  = 'etter $n sekund';

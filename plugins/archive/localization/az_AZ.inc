@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Arxiv';
 $labels['buttontitle'] = 'Mesajı arxivə göndər';
 $labels['archived'] = 'Arxivə göndərildi';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Müvəffəqiyyətlə arxivləşdirildi. Yeni arxiv qovluqlarını görmək üçün səhifəni yeniləyin.';
+$labels['archiveerror'] = 'Bəzi məktublar arxivləşdirilə bilinmirlər';
 $labels['archivefolder'] = 'Arxiv';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arxiv';
+$labels['archivetype'] = 'Arxivi böl: ';
+$labels['archivetypeyear'] = 'İl (məs. Arxiv/2012)';
+$labels['archivetypemonth'] = 'Ay (məs. Arxiv/2012/06)';
+$labels['archivetypefolder'] = 'Orijinal qovluq';
+$labels['archivetypesender'] = 'Göndərənin E-Poçtu';
+$labels['unkownsender'] = 'naməlum';
 
 ?>

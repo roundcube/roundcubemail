@@ -162,6 +162,7 @@ $labels['currpage'] = 'Pagina corrente';
 $labels['unread'] = 'Non letti';
 $labels['flagged'] = 'Contrassegnato';
 $labels['unanswered'] = 'Senza risposta';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Cancellato';
 $labels['undeleted'] = 'Non eliminato';
 $labels['invert'] = 'Inverti';
@@ -205,8 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Apri in una nuova finestra';
 $labels['emlsave'] = 'Scarica (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Visualizza nel formato testo semplice';
+$labels['changeformathtml'] = 'Visualizza nel formato HTML';
 
 // message compose
 $labels['editasnew']      = 'Modifica come nuovo';
@@ -454,9 +455,6 @@ $labels['replyremovesignature'] = 'Quando rispondi, rimuovi la firma dal messagg
 $labels['autoaddsignature'] = 'Aggiungi automaticamente la firma';
 $labels['newmessageonly'] = 'solo ai nuovi messaggi';
 $labels['replyandforwardonly'] = 'solo alle risposte e inoltri';
-$labels['replysignaturepos'] = 'In risposta o inoltro, posiziona la firma';
-$labels['belowquote'] = 'sotto la citazione';
-$labels['abovequote'] = 'sopra la citazione';
 $labels['insertsignature'] = 'Inserisci firma';
 $labels['previewpanemarkread']  = 'Segna i messagi in anteprima come letti';
 $labels['afternseconds']  = 'dopo $n secondi';
