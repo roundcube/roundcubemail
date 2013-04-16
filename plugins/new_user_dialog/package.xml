@@ -13,10 +13,9 @@
 		<email>roundcube@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-01-16</date>
-	<time>17:00</time>
+	<date>2013-04-16</date>
 	<version>
-		<release>1.5</release>
+		<release>1.6</release>
 		<api>1.0</api>
 	</version>
 	<stability>
@@ -25,8 +24,7 @@
 	</stability>
 	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
 	<notes>
-- Use jquery UI to render the dialog
-- Fixed IDNA encoding/decoding of e-mail addresses (#1487909)
+- Fix handling of identities_level=4
 	</notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
@@ -150,5 +148,22 @@
 			<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
 			<notes>- Use jquery UI to render the dialog</notes>
 		</release>
+        <release>
+            <date>2012-01-16</date>
+            <time>17:00</time>
+            <version>
+                <release>1.5</release>
+                <api>1.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
+            <notes>
+- Use jquery UI to render the dialog
+- Fixed IDNA encoding/decoding of e-mail addresses (#1487909)
+            </notes>
+        </release>
 	</changelog>
 </package>

@@ -126,7 +126,7 @@ class new_user_dialog extends rcube_plugin
     );
 
     // don't let the user alter the e-mail address if disabled by config
-    if ($identities_level == 1 || $identities_level == 3)
+    if (in_array($identities_level, array(1,3,4)))
       $save_data['email'] = $identity['email'];
     else
       $save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']);
@@ -141,5 +141,3 @@ class new_user_dialog extends rcube_plugin
   }
 
 }
-
-?>
