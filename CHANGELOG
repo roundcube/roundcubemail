@@ -3,15 +3,6 @@ CHANGELOG Roundcube Webmail
 
 - Fix parsing invalid date string (#1489035)
 - Add "with attachment" option to messages list filter (#1485382)
-- Set minimal permissions to temp files (#1488996)
-- Improve content check for embedded images without filename (#1489029)
-- Fix handling of invalid characters in message headers and output (#1489032)
-- Fix selecting collapsed rows on select-all (#1489036)
-- Avoid race-conditions with concurrent attachment uploads (#1488422)
-- Fix possible header duplicates when using additional headers (#1489033)
-- Fix session issues with use_https=true (#1488986)
-- Fix blockquote width in sent mail (#1489031)
-- Fix keyboard events on list widgets in Internet Explorer (#1489025)
 - Call resize handler in intervals to prevent lags and double onresize calls in Chrome (#1489005)
 - Add rel="noreferrer" for links in displayed messages (#1484686)
 - Add ability to toggle between HTML and text while viewing a message (#1486939)
@@ -22,6 +13,19 @@ CHANGELOG Roundcube Webmail
 - Extended archive plugin with user-configurable options to store messages into subfolders
 - Fix export of selected contacts from search result (#1488905)
 - Feature to export only selected contacts from addressbook (by Phil Weir)
+
+RELEASE 0.9.0
+-------------
+- Fix display of HTML entities in protected folder name (#1489042)
+- Set minimal permissions to temp files (#1488996)
+- Improve content check for embedded images without filename (#1489029)
+- Fix handling of invalid characters in message headers and output (#1489032)
+- Fix selecting collapsed rows on select-all (#1489036)
+- Avoid race-conditions with concurrent attachment uploads (#1488422)
+- Fix possible header duplicates when using additional headers (#1489033)
+- Fix session issues with use_https=true (#1488986)
+- Fix blockquote width in sent mail (#1489031)
+- Fix keyboard events on list widgets in Internet Explorer (#1489025)
 
 RELEASE 0.9-rc2
 ---------------
