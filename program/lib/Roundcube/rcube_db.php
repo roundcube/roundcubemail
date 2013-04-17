@@ -656,7 +656,7 @@ class rcube_db
      * @deprecated    Replaced by rcube_db::quote
      * @see           rcube_db::quote
      */
-    public function simpleEscape($str)
+    public function escapeSimple($str)
     {
         return $this->quote($str);
     }
