@@ -653,6 +653,20 @@ class rcube_db
      * @param string $str Value to quote
      *
      * @return string Quoted string for use in query
+     * @deprecated    Replaced by rcube_db::quote
+     * @see           rcube_db::quote
+     */
+    public function simpleEscape($str)
+    {
+        return $this->quote($str);
+    }
+
+    /**
+     * Quotes a string so it can be safely used as a table or column name
+     *
+     * @param string $str Value to quote
+     *
+     * @return string Quoted string for use in query
      */
     public function quote_identifier($str)
     {
