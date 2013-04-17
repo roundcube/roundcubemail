@@ -634,6 +634,22 @@ class rcube_db
     }
 
     /**
+     * Escapes a string so it can be safely used in a query
+     *
+     * @param string $str A string to escape
+     *
+     * @return string Escaped string for use in a query
+     */
+    public function escape($str)
+    {
+        if (is_null($str)) {
+            return 'NULL';
+        }
+
+        return substr($this->quote($str), 1, -1);
+    }
+
+    /**
      * Quotes a string so it can be safely used as a table or column name
      *
      * @param string $str Value to quote
@@ -648,17 +664,17 @@ class rcube_db
     }
 
     /**
-     * Quotes a string so it can be safely used as a table or column name
+     * Escapes a string so it can be safely used in a query
      *
-     * @param string $str Value to quote
+     * @param string $str A string to escape
      *
-     * @return string Quoted string for use in query
-     * @deprecated    Replaced by rcube_db::quote
-     * @see           rcube_db::quote
+     * @return string Escaped string for use in a query
+     * @deprecated    Replaced by rcube_db::escape
+     * @see           rcube_db::escape
      */
     public function escapeSimple($str)
     {
-        return $this->quote($str);
+        return $this->escape($str);
     }
 
     /**
