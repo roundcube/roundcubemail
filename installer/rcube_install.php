@@ -46,8 +46,7 @@ class rcube_install
 
   // these config options are required for a working system
   var $required_config = array(
-    'db_dsnw', 'db_table_contactgroups', 'db_table_contactgroupmembers',
-    'des_key', 'session_lifetime', 'support_url',
+    'db_dsnw', 'des_key', 'session_lifetime',
   );
 
   // list of supported database drivers

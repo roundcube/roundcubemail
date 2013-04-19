@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix list of required configuration options (#1489055)
 - Fix DB error when creating a new contact and a group is selected (#1489051)
 - Fix handling of deprecated boolean value of reply_mode option (#1489052)
 

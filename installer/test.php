@@ -38,13 +38,13 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
   
   if (is_array($messages['missing'])) {
     echo '<h3 class="warning">Missing config options</h3>';
-    echo '<p class="hint">The following config options are not present in the current configuration.<br/>';
-    echo 'Please check the default config files and add the missing properties to your local config files.</p>';
-    
-    echo '<ul class="configwarings">';
+    echo '<p class="hint">The following config options are not set (not present or empty) in the current configuration.<br/>';
+    echo 'Please check the default config files and set the missing properties in your local config files.</p>';
+
+    echo '<ul class="configwarnings">';
     foreach ($messages['missing'] as $msg) {
       echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
-    }    
+    }
     echo '</ul>';
   }
 
