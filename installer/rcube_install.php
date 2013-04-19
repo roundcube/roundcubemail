@@ -287,7 +287,7 @@ class rcube_install
     if ($this->config['log_driver'] == 'syslog') {
       if (!function_exists('openlog')) {
         $out['dependencies'][] = array('prop' => 'log_driver',
-          'explain' => 'This requires the <tt>sylog</tt> extension which could not be loaded.');
+          'explain' => 'This requires the <tt>syslog</tt> extension which could not be loaded.');
       }
       if (empty($this->config['syslog_id'])) {
         $out['dependencies'][] = array('prop' => 'syslog_id',
