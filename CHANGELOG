@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of deprecated boolean value of reply_mode option (#1489052)
+
 RELEASE 0.9.0
 -------------
 - Fix display of HTML entities in protected folder name (#1489042)
