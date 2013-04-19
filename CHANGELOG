@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of deprecated boolean value of reply_mode option (#1489052)
 - Fix parsing invalid date string (#1489035)
 - Add "with attachment" option to messages list filter (#1485382)
 - Call resize handler in intervals to prevent lags and double onresize calls in Chrome (#1489005)
