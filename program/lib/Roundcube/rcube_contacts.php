@@ -626,10 +626,6 @@ class rcube_contacts extends rcube_addressbook
             $insert_id = $this->db->insert_id($this->db_name);
         }
 
-        // also add the newly created contact to the active group
-        if ($insert_id && $this->group_id)
-            $this->add_to_group($this->group_id, $insert_id);
-
         $this->cache = null;
 
         return $insert_id;

@@ -192,7 +192,7 @@ else {
         if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($counts->count + 1 > $maxnum))
           $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
 
-        $CONTACTS->add_to_group($gid, $plugin['ids']);
+        $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
       }
     }
     else
