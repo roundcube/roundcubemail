@@ -96,7 +96,7 @@ function rcube_mail_ui()
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); });
         rcmail.addEventListener('afterhide-headers', function() { layout_messageview(); });
-        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false });
+        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(); return false });
 
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
@@ -574,7 +574,7 @@ function rcube_mail_ui()
   /**
    * Switch between short and full headers display in message preview
    */
-  function toggle_preview_headers(button)
+  function toggle_preview_headers()
   {
     $('#preview-shortheaders').toggle();
     var full = $('#preview-allheaders').toggle(),
