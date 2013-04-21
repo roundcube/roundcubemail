@@ -142,4 +142,50 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines");
     }
+
+    /**
+     * Test wordwrap()
+     */
+    function test_wordwrap()
+    {
+        $samples = array(
+            array(
+                array("aaaa aaaa\n           aaaa"),
+                "aaaa aaaa\n           aaaa",
+            ),
+            array(
+                array("123456789 123456789 123456789 123", 29),
+                "123456789 123456789 123456789\n123",
+            ),
+            array(
+                array("123456789   3456789 123456789", 29),
+                "123456789   3456789 123456789",
+            ),
+            array(
+                array("123456789 123456789 123456789   123", 29),
+                "123456789 123456789 123456789\n  123",
+            ),
+            array(
+                array("abc", 1, "\n", true),
+                "a\nb\nc",
+            ),
+            array(
+                array("ąść", 1, "\n", true, 'UTF-8'),
+                "ą\nś\nć",
+            ),
+            array(
+                array(">abc\n>def", 2, "\n", true),
+                ">abc\n>def",
+            ),
+            array(
+                array("abc def", 3, "-"),
+                "abc-def",
+            ),
+        );
+
+        foreach ($samples as $sample) {
+            $this->assertEquals($sample[1], call_user_func_array(array('rcube_mime', 'wordwrap'), $sample[0]), "Test text wrapping");
+        }
+    }
+
 }

@@ -564,82 +564,122 @@ class rcube_mime
 
 
     /**
-     * Improved wordwrap function.
+     * Improved wordwrap function with multibyte support.
+     * The code is based on Zend_Text_MultiByte::wordWrap().
      *
-     * @param string $string  Text to wrap
-     * @param int    $width   Line width
-     * @param string $break   Line separator
-     * @param bool   $cut     Enable to cut word
-     * @param string $charset Charset of $string
+     * @param string $string      Text to wrap
+     * @param int    $width       Line width
+     * @param string $break       Line separator
+     * @param bool   $cut         Enable to cut word
+     * @param string $charset     Charset of $string
+     * @param bool   $wrap_quoted When enabled quoted lines will not be wrapped
      *
      * @return string Text
      */
-    public static function wordwrap($string, $width=75, $break="\n", $cut=false, $charset=null)
+    public static function wordwrap($string, $width=75, $break="\n", $cut=false, $charset=null, $wrap_quoted=true)
     {
-        if ($charset && function_exists('mb_internal_encoding')) {
-            mb_internal_encoding($charset);
+        if (!$charset) {
+            $charset = RCUBE_CHARSET;
         }
 
-        $para   = preg_split('/\r?\n/', $string);
-        $string = '';
+        // detect available functions
+        $strlen_func  = function_exists('iconv_strlen') ? 'iconv_strlen' : 'mb_strlen';
+        $strpos_func  = function_exists('iconv_strpos') ? 'iconv_strpos' : 'mb_strpos';
+        $strrpos_func = function_exists('iconv_strrpos') ? 'iconv_strrpos' : 'mb_strrpos';
+        $substr_func  = function_exists('iconv_substr') ? 'iconv_substr' : 'mb_substr';
 
-        while (count($para)) {
-            $line = array_shift($para);
-            if ($line[0] == '>') {
-                $string .= $line . (count($para) ? $break : '');
-                continue;
-            }
+        // Convert \r\n to \n, this is our line-separator
+        $string       = str_replace("\r\n", "\n", $string);
+        $separator    = "\n"; // must be 1 character length
+        $result       = array();
 
-            $list = explode(' ', $line);
-            $len = 0;
-            while (count($list)) {
-                $line   = array_shift($list);
-                $l      = mb_strlen($line);
-                $space  = $len ? 1 : 0;
-                $newlen = $len + $l + $space;
+        while (($stringLength = $strlen_func($string, $charset)) > 0) {
+            $breakPos = $strpos_func($string, $separator, 0, $charset);
 
-                if ($newlen <= $width) {
-                    $string .= ($space ? ' ' : '').$line;
-                    $len += ($space + $l);
+            // quoted line (do not wrap)
+            if ($wrap_quoted && $string[0] == '>') {
+                if ($breakPos === $stringLength - 1 || $breakPos === false) {
+                    $subString = $string;
+                    $cutLength = null;
                 }
                 else {
-                    if ($l > $width) {
-                        if ($cut) {
-                            $start = 0;
-                            while ($l) {
-                                $str = mb_substr($line, $start, $width);
-                                $strlen = mb_strlen($str);
-                                $string .= ($len ? $break : '').$str;
-                                $start += $strlen;
-                                $l -= $strlen;
-                                $len = $strlen;
+                    $subString = $substr_func($string, 0, $breakPos, $charset);
+                    $cutLength = $breakPos + 1;
+                }
+            }
+            // next line found and current line is shorter than the limit
+            else if ($breakPos !== false && $breakPos < $width) {
+                if ($breakPos === $stringLength - 1) {
+                    $subString = $string;
+                    $cutLength = null;
+                }
+                else {
+                    $subString = $substr_func($string, 0, $breakPos, $charset);
+                    $cutLength = $breakPos + 1;
+                }
+            }
+            else {
+                $subString = $substr_func($string, 0, $width, $charset);
+
+                // last line
+                if ($subString === $string) {
+                    $cutLength = null;
+                }
+                else {
+                    $nextChar = $substr_func($string, $width, 1, $charset);
+
+                    if ($nextChar === ' ' || $nextChar === $separator) {
+                        $afterNextChar = $substr_func($string, $width + 1, 1, $charset);
+
+                        if ($afterNextChar === false) {
+                            $subString .= $nextChar;
+                        }
+
+                        $cutLength = $strlen_func($subString, $charset) + 1;
+                    }
+                    else {
+                        if ($strrpos_func[0] == 'm') {
+                            $spacePos = $strrpos_func($subString, ' ', 0, $charset);
+                        }
+                        else {
+                            $spacePos = $strrpos_func($subString, ' ', $charset);
+                        }
+
+                        if ($spacePos !== false) {
+                            $subString = $substr_func($subString, 0, $spacePos, $charset);
+                            $cutLength = $spacePos + 1;
+                        }
+                        else if ($cut === false) {
+                            $spacePos = $strpos_func($string, ' ', 0, $charset);
+
+                            if ($spacePos !== false) {
+                                $subString = $substr_func($string, 0, $spacePos, $charset);
+                                $cutLength = $spacePos + 1;
+                            }
+                            else {
+                                $subString = $string;
+                                $cutLength = null;
                             }
                         }
                         else {
-                            $string .= ($len ? $break : '').$line;
-                            if (count($list)) {
-                                $string .= $break;
-                            }
-                            $len = 0;
+                            $subString = $substr_func($subString, 0, $width, $charset);
+                            $cutLength = $width;
                         }
-                    }
-                    else {
-                        $string .= $break.$line;
-                        $len = $l;
                     }
                 }
             }
 
-            if (count($para)) {
-                $string .= $break;
+            $result[] = $subString;
+
+            if ($cutLength !== null) {
+                $string = $substr_func($string, $cutLength, ($stringLength - $cutLength), $charset);
+            }
+            else {
+                break;
             }
         }
 
-        if ($charset && function_exists('mb_internal_encoding')) {
-            mb_internal_encoding(RCUBE_CHARSET);
-        }
-
-        return $string;
+        return implode($break, $result);
     }
 
 
