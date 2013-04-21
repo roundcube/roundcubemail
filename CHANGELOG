@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix incorrect handling of leading spaces in text wrapping
 - Fix unintentional messages list jumps on click in Internet Explorer (#1489056)
 - Fix list of required configuration options (#1489055)
 - Fix DB error when creating a new contact and a group is selected (#1489051)
