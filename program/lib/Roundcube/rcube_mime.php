@@ -622,7 +622,7 @@ class rcube_mime
                 $subString = $substr_func($string, 0, $width, $charset);
 
                 // last line
-                if ($subString === $string) {
+                if ($breakPos === false && $subString === $string) {
                     $cutLength = null;
                 }
                 else {
@@ -652,7 +652,7 @@ class rcube_mime
                         else if ($cut === false) {
                             $spacePos = $strpos_func($string, ' ', 0, $charset);
 
-                            if ($spacePos !== false) {
+                            if ($spacePos !== false && $spacePos < $breakPos) {
                                 $subString = $substr_func($string, 0, $spacePos, $charset);
                                 $cutLength = $spacePos + 1;
                             }
