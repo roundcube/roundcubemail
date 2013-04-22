@@ -95,12 +95,12 @@ class rcube_string_replacer
             $attrib = (array)$this->options['link_attribs'];
             $attrib['href'] = $url_prefix . $url;
 
-            $i = $this->add($prefix . html::a($attrib, rcube::Q($url)) . $suffix);
+            $i = $this->add(html::a($attrib, rcube::Q($url)) . $suffix);
         }
 
         // Return valid link for recognized schemes, otherwise
         // return the unmodified string for unrecognized schemes.
-        return $i >= 0 ? $this->get_replacement($i) : $matches[0];
+        return $i >= 0 ? $prefix . $this->get_replacement($i) : $matches[0];
     }
 
     /**
