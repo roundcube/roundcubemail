@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix error when using check_referer=true
 - Fix incorrect handling of some specific links (#1489060)
 - Fix incorrect handling of leading spaces in text wrapping
 - Fix unintentional messages list jumps on click in Internet Explorer (#1489056)
