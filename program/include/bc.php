@@ -287,7 +287,7 @@ function rcmail_remote_ip()
 
 function rcube_check_referer()
 {
-    return rcmail::check_referer();
+    return rcube_utils::check_referer();
 }
 
 function rcube_timer()

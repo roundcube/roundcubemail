@@ -161,7 +161,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 }
 
 // end session (after optional referer check)
-else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcmail::check_referer())) {
+else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcube_utils::check_referer())) {
   $userdata = array(
     'user' => $_SESSION['username'],
     'host' => $_SESSION['storage_host'],
@@ -236,7 +236,7 @@ else {
     }
 
     // check referer if configured
-    if ($RCMAIL->config->get('referer_check') && !rcmail::check_referer()) {
+    if ($RCMAIL->config->get('referer_check') && !rcube_utils::check_referer()) {
       raise_error(array(
         'code' => 403, 'type' => 'php',
         'message' => "Referer check failed"), true, true);
