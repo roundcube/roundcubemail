@@ -129,9 +129,15 @@ versions don't have a -O option for the createdb, so if you are
 using that version you'll have to change ownership of the DB later.
 
 
+* Microsoft SQL Server
+----------------------
+Language/locale of the database must be set to us_english (1033). More info
+on this at http://trac.roundcube.net/ticket/1488918.
+
+
 Database cleaning
 -----------------
-Do keep your database slick and clean we recommend to periodically execute
+To keep your database slick and clean we recommend to periodically execute
 bin/cleandb.sh which finally removes all records that are marked as deleted.
 Best solution is to install a cronjob running this script daily.
 
