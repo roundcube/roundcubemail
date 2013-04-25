@@ -321,7 +321,7 @@ class rcube_message
 
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject'])) {
-                list($headers, $dump) = explode("\r\n\r\n", $this->get_part_content($structure->mime_id, null, true, 8192));
+                list($headers, $dump) = explode("\r\n\r\n", $this->get_part_content($structure->mime_id, null, true, 32768));
                 $structure->headers = rcube_mime::parse_headers($headers);
             }
         }
@@ -329,7 +329,8 @@ class rcube_message
             $mimetype = $structure->mimetype;
 
         // show message headers
-        if ($recursive && is_array($structure->headers) && isset($structure->headers['subject'])) {
+        if ($recursive && is_array($structure->headers) &&
+                ($structure->headers['subject'] || $structure->headers['from'] || $structure->headers['to'])) {
             $c = new stdClass;
             $c->type = 'headers';
             $c->headers = $structure->headers;
