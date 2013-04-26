@@ -31,18 +31,15 @@ $opts = rcube_utils::get_opt(array(
 ));
 
 if (empty($opts['dir'])) {
-  echo "ERROR: Database schema directory not specified (--dir).\n";
-  exit(1);
+    rcube::raise_error("Database schema directory not specified (--dir).", false, true);
 }
 if (empty($opts['package'])) {
-  echo "ERROR: Database schema package name not specified (--package).\n";
-  exit(1);
+    rcube::raise_error("Database schema package name not specified (--package).", false, true);
 }
 
 // Check if directory exists
 if (!file_exists($opts['dir'])) {
-  echo "ERROR: Specified database schema directory doesn't exist.\n";
-  exit(1);
+    rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
 }
 
 $RC = rcube::get_instance();
@@ -51,8 +48,7 @@ $DB = rcube_db::factory($RC->config->get('db_dsnw'));
 // Connect to database
 $DB->db_connect('w');
 if (!$DB->is_connected()) {
-    echo "Error connecting to database: " . $DB->is_error() . ".\n";
-    exit(1);
+    rcube::raise_error("Error connecting to database: " . $DB->is_error(), false, true);
 }
 
 // Read DB schema version from database (if 'system' table exists)
@@ -113,8 +109,7 @@ if (empty($version)) {
 
 $dir = $opts['dir'] . DIRECTORY_SEPARATOR . $DB->db_provider;
 if (!file_exists($dir)) {
-    echo "DDL Upgrade files for " . $DB->db_provider . " driver not found.\n";
-    exit(1);
+    rcube::raise_error("DDL Upgrade files for " . $DB->db_provider . " driver not found.", false, true);
 }
 
 $dh     = opendir($dir);
@@ -132,13 +127,12 @@ foreach ($result as $v) {
     $error = update_db_schema($opts['package'], $v, $dir . DIRECTORY_SEPARATOR . "$v.sql");
 
     if ($error) {
-        echo "\nError in DDL upgrade $v: $error\n";
-        exit(1);
+        echo "[FAILED]\n";
+        rcube::raise_error("Error in DDL upgrade $v: $error", false, true);
     }
     echo "[OK]\n";
 }
 
-exit(0);
 
 function update_db_schema($package, $version, $file)
 {

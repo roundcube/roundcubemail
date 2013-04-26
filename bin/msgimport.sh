@@ -33,8 +33,7 @@ else if (!($args['host'] && $args['file']))
 }
 else if (!is_file($args['file']))
 {
-	print "Cannot read message file\n";
-	exit;
+	rcube::raise_error("Cannot read message file.", false, true);
 }
 
 // prompt for username if not set
@@ -87,7 +86,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 				if ($IMAP->save_message($args['mbox'], rtrim($message)))
 					$count++;
 				else
-					die("Failed to save message to {$args['mbox']}\n");
+					rcube::raise_error("Failed to save message to {$args['mbox']}", false, true);
 				$message = '';
 			}
 			continue;
@@ -108,7 +107,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 }
 else
 {
-	print "IMAP login failed.\n";
+	rcube::raise_error("IMAP login failed.", false, true);
 }
 
 ?>
