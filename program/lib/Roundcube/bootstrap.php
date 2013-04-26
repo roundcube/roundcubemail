@@ -46,8 +46,10 @@ if (php_sapi_name() != 'cli') {
 
 foreach ($config as $optname => $optval) {
     if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
-        die("ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
-            ."Check your PHP configuration (including php_admin_flag).");
+        $error = "ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
+            . "Check your PHP configuration (including php_admin_flag).";
+        if (defined('STDERR')) fwrite(STDERR, $error); else echo $error;
+        exit(1);
     }
 }
 
