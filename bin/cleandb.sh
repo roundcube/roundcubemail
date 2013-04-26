@@ -34,8 +34,9 @@ $RCMAIL = rcmail::get_instance();
 $db = $RCMAIL->get_dbh();
 $db->db_connect('w');
 
-if (!$db->is_connected() || $db->is_error())
-    die("No DB connection\n");
+if (!$db->is_connected() || $db->is_error()) {
+    rcube::raise_error("No DB connection", false, true);
+}
 
 if (!empty($_SERVER['argv'][1]))
     $days = intval($_SERVER['argv'][1]);

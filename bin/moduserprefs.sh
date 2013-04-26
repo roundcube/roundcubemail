@@ -2,7 +2,7 @@
 <?php
 /*
  +-----------------------------------------------------------------------+
- | bin/moduserprefs.sh                                                      |
+ | bin/moduserprefs.sh                                                   |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2012, The Roundcube Dev Team                            |

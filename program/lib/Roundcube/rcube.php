@@ -1082,6 +1082,9 @@ class rcube
                 'message' => $arg->getMessage(),
             );
         }
+        else if (is_string($arg)) {
+            $arg = array('message' => $arg, 'type' => 'php');
+        }
 
         if (empty($arg['code'])) {
             $arg['code'] = 500;
@@ -1094,14 +1097,24 @@ class rcube
             return;
         }
 
-        if (($log || $terminate) && $arg['type'] && $arg['message']) {
+        $cli = php_sapi_name() == 'cli';
+
+        if (($log || $terminate) && !$cli && $arg['type'] && $arg['message']) {
             $arg['fatal'] = $terminate;
             self::log_bug($arg);
         }
 
-        // display error page and terminate script
-        if ($terminate && is_object(self::$instance->output)) {
-            self::$instance->output->raise_error($arg['code'], $arg['message']);
+        // terminate script
+        if ($terminate) {
+            // display error page
+            if (is_object(self::$instance->output)) {
+                self::$instance->output->raise_error($arg['code'], $arg['message']);
+            }
+            else if ($cli) {
+                fwrite(STDERR, 'ERROR: ' . $arg['message']);
+            }
+
+            exit(1);
         }
     }
 
@@ -1140,7 +1153,7 @@ class rcube
 
             if (!self::write_log('errors', $log_entry)) {
                 // send error to PHPs error handler if write_log didn't succeed
-                trigger_error($arg_arr['message']);
+                trigger_error($arg_arr['message'], E_USER_WARNING);
             }
         }
 
