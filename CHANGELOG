@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix possible collision in generated thumbnail cache key (#1489069)
 - Fix exit code on bootsrap errors in CLI mode (#1489044)
 - Fix error handling in CLI mode, use STDERR and non-empty exit code (#1489043)
 - Fix error when using check_referer=true
