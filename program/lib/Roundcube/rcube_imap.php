@@ -3029,22 +3029,24 @@ class rcube_imap extends rcube_storage
             $sub_mboxes = $this->list_folders();
         }
 
+        foreach ($sub_mboxes as $c_mbox) {
+            if (strpos($c_mbox, $folder.$delm) === 0) {
+                $this->conn->unsubscribe($c_mbox);
+                if ($this->conn->deleteFolder($c_mbox)) {
+                    $this->clear_message_cache($c_mbox);
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+
         // send delete command to server
         $result = $this->conn->deleteFolder($folder);
 
         if ($result) {
             // unsubscribe folder
             $this->conn->unsubscribe($folder);
-
-            foreach ($sub_mboxes as $c_mbox) {
-                if (strpos($c_mbox, $folder.$delm) === 0) {
-                    $this->conn->unsubscribe($c_mbox);
-                    if ($this->conn->deleteFolder($c_mbox)) {
-                        $this->clear_message_cache($c_mbox);
-                    }
-                }
-            }
-
             // clear folder-related cache
             $this->clear_message_cache($folder);
             $this->clear_cache('mailboxes', true);
