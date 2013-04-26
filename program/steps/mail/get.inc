@@ -62,9 +62,10 @@ else if ($_GET['_thumb']) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
     $temp_dir       = $RCMAIL->config->get('temp_dir');
     list(,$ext)     = explode('/', $part->mimetype);
-    $cache_basename = $temp_dir . '/' . md5($MESSAGE->headers->messageID . $part->mime_id . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
-    $cache_file     = $cache_basename . '.' . $ext;
     $mimetype       = $part->mimetype;
+    $file_ident     = $MESSAGE->headers->messageID . ':' . $part->mime_id . ':' . $part->size . ':' . $part->mimetype;
+    $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
+    $cache_file     = $cache_basename . '.' . $ext;
 
     // render thumbnail image if not done yet
     if (!is_file($cache_file)) {
