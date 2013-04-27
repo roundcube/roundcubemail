@@ -61,7 +61,7 @@ if ($args['user'])
 	$query = 'user_id=' . intval($args['user']);
 
 // iterate over all users
-$sql_result = $db->query("SELECT * FROM " . $rcmail->config->get('db_table_users', 'users')." WHERE $query");
+$sql_result = $db->query("SELECT * FROM " . $db->table_name('users') . " WHERE $query");
 while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
 	echo "Updating prefs for user " . $sql_arr['user_id'] . "...";
 

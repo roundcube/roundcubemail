@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add db_prefix configuration option in place of db_table_*/db_sequence_* options
+- Make possible to use db_prefix for schema initialization in Installer (#1489067)
+- Fix updatedb.sh script so it recognizes also table prefix for external DDL files
 - Fix possible collision in generated thumbnail cache key (#1489069)
 - Fix exit code on bootsrap errors in CLI mode (#1489044)
 - Fix error handling in CLI mode, use STDERR and non-empty exit code (#1489043)

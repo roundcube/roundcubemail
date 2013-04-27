@@ -846,11 +846,9 @@ class rcube_db
     {
         $rcube = rcube::get_instance();
 
-        // return table name if configured
-        $config_key = 'db_table_'.$table;
-
-        if ($name = $rcube->config->get($config_key)) {
-            return $name;
+        // add prefix to the table name if configured
+        if ($prefix = $rcube->config->get('db_prefix')) {
+            return $prefix . $table;
         }
 
         return $table;
