@@ -60,6 +60,11 @@ require_once 'Roundcube/bootstrap.php';
 // register autoloader for rcmail app classes
 spl_autoload_register('rcmail_autoload');
 
+// include composer autoloader (if available)
+if (file_exists('vendor/autoload.php')) {
+    require 'vendor/autoload.php';
+}
+
 // backward compatybility (to be removed)
 require_once INSTALL_PATH . 'program/include/bc.php';
 
