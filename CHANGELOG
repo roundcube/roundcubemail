@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix PDF support detection for Firefox PDF.js (#1488972)
 - Fix messages list focus issue in Internet Explorer (#1489058)
 - Fix possible collision in generated thumbnail cache key (#1489069)
 - Fix exit code on bootsrap errors in CLI mode (#1489044)

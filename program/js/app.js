@@ -6811,6 +6811,15 @@ function rcube_webmail()
         return 1;
     }
 
+    // this will detect any pdf plugin including PDF.js in Firefox
+    var obj = document.createElement('OBJECT');
+    obj.onload = function() { rcmail.env.browser_capabilities.pdf = 1; };
+    obj.onerror = function() { rcmail.env.browser_capabilities.pdf = 0; };
+    obj.style.display = 'none';
+    obj.type = 'application/pdf';
+    obj.data = 'program/resources/blank.pdf';
+    document.body.appendChild(obj);
+
     return 0;
   };
 
