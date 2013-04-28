@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix min_refresh_interval handling on preferences save (#1489073)
 - Fix PDF support detection for Firefox PDF.js (#1488972)
 - Fix messages list focus issue in Internet Explorer (#1489058)
 - Add db_prefix configuration option in place of db_table_*/db_sequence_* options
