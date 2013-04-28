@@ -24,8 +24,8 @@
  @author <see driver files for driver authors>
  -----------------------------------------------------------------------
 
- 1. 	Configuration
- 2.	Drivers
+ 1. Configuration
+ 2. Drivers
  2.1.  Database (sql)
  2.2.  Cyrus/SASL (sasl)
  2.3.  Poppassd/Courierpassd (poppassd)
@@ -44,7 +44,7 @@
  2.16. DBMail (dbmail)
  2.17. Expect (expect)
  2.18. Samba (smb)
- 3.	Driver API
+ 3. Driver API
 
 
  1. Configuration
@@ -72,33 +72,33 @@
 
  - This is for use with LMS (http://lms.org.pl) database and postgres:
 
-	CREATE OR REPLACE FUNCTION update_passwd(hash text, account text) RETURNS integer AS $$
-	DECLARE
-    	    res integer;
-	BEGIN
-    	    UPDATE passwd SET password = hash
-	    WHERE login = split_part(account, '@', 1)
-		AND domainid = (SELECT id FROM domains WHERE name = split_part(account, '@', 2))
-	    RETURNING id INTO res;
-	    RETURN res;
-	END;
-	$$ LANGUAGE plpgsql SECURITY DEFINER;
+    CREATE OR REPLACE FUNCTION update_passwd(hash text, account text) RETURNS integer AS $$
+    DECLARE
+            res integer;
+    BEGIN
+        UPDATE passwd SET password = hash
+        WHERE login = split_part(account, '@', 1)
+            AND domainid = (SELECT id FROM domains WHERE name = split_part(account, '@', 2))
+        RETURNING id INTO res;
+        RETURN res;
+    END;
+    $$ LANGUAGE plpgsql SECURITY DEFINER;
 
  - This is for use with a SELECT update_passwd(%o,%c,%u) query
-	Updates the password only when the old password matches the MD5 password
-	in the database
+   Updates the password only when the old password matches the MD5 password
+   in the database
 
-	CREATE FUNCTION update_password (oldpass text, cryptpass text, user text) RETURNS text
-    	    MODIFIES SQL DATA
-	BEGIN
-	    DECLARE currentsalt varchar(20);
-	    DECLARE error text;
-	    SET error = 'incorrect current password';
-	    SELECT substring_index(substr(user.password,4),_latin1'$',1) INTO currentsalt FROM users WHERE username=user;
-	    SELECT '' INTO error FROM users WHERE username=user AND password=ENCRYPT(oldpass,currentsalt);
-	    UPDATE users SET password=cryptpass WHERE username=user AND password=ENCRYPT(oldpass,currentsalt);
-	    RETURN error;
-	END
+    CREATE FUNCTION update_password (oldpass text, cryptpass text, user text) RETURNS text
+        MODIFIES SQL DATA
+    BEGIN
+        DECLARE currentsalt varchar(20);
+        DECLARE error text;
+        SET error = 'incorrect current password';
+        SELECT substring_index(substr(user.password,4),_latin1'$',1) INTO currentsalt FROM users WHERE username=user;
+        SELECT '' INTO error FROM users WHERE username=user AND password=ENCRYPT(oldpass,currentsalt);
+        UPDATE users SET password=cryptpass WHERE username=user AND password=ENCRYPT(oldpass,currentsalt);
+        RETURN error;
+    END
 
  Example SQL UPDATEs:
 
@@ -142,7 +142,7 @@
  documented within it.
 
  Compile the wrapper program:
-	gcc -o chgsaslpasswd chgsaslpasswd.c
+    gcc -o chgsaslpasswd chgsaslpasswd.c
 
  Chown the compiled chgsaslpasswd binary to the cyrus user and group
  that your browser runs as, then chmod them to 4550.
@@ -150,13 +150,13 @@
  For example, if your cyrus user is 'cyrus' and the apache server group is
  'nobody' (I've been told Redhat runs Apache as user 'apache'):
 
-	chown cyrus:nobody chgsaslpasswd
-	chmod 4550 chgsaslpasswd
+    chown cyrus:nobody chgsaslpasswd
+    chmod 4550 chgsaslpasswd
 
  Stephen Carr has suggested users should try to run the scripts on a test
  account as the cyrus user eg;
 
-	su cyrus -c "./chgsaslpasswd -p test_account"
+    su cyrus -c "./chgsaslpasswd -p test_account"
 
  This will allow you to make sure that the script will work for your setup.
  Should the script not work, make sure that:
