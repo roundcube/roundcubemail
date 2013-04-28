@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix messages list focus issue in Internet Explorer (#1489058)
 - Add db_prefix configuration option in place of db_table_*/db_sequence_* options
 - Make possible to use db_prefix for schema initialization in Installer (#1489067)
 - Fix updatedb.sh script so it recognizes also table prefix for external DDL files

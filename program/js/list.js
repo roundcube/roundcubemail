@@ -231,7 +231,8 @@ focus: function(e)
 
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
   $(':focus:not(body)').blur();
-  $('iframe').each(function() { this.blur(); });
+  // un-focus iframe bodies (#1489058), this doesn't work in Opera and Chrome
+  $('iframe').contents().find('body').blur();
 
   if (e || (e = window.event))
     rcube_event.cancel(e);
