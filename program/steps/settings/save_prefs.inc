@@ -157,7 +157,7 @@ switch ($CURR_SECTION)
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 
     if (isset($a_user_prefs['refresh_interval']) && !empty($CONFIG['min_refresh_interval'])) {
-      if ($a_user_prefs['refresh_interval'] > $CONFIG['min_refresh_interval']) {
+      if ($a_user_prefs['refresh_interval'] < $CONFIG['min_refresh_interval']) {
         $a_user_prefs['refresh_interval'] = $CONFIG['min_refresh_interval'];
       }
     }
