@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix messages list focus issue in Internet Explorer (#1489058)
 - Fix possible collision in generated thumbnail cache key (#1489069)
 - Fix exit code on bootsrap errors in CLI mode (#1489044)
 - Fix error handling in CLI mode, use STDERR and non-empty exit code (#1489043)
