@@ -92,6 +92,16 @@ abstract class rcube_plugin
     abstract function init();
 
     /**
+     * Provide information about this
+     *
+     * @return array Meta information about a plugin or false if not implemented
+     */
+    public static function info()
+    {
+        return false;
+    }
+
+    /**
      * Attempt to load the given plugin which is required for the current plugin
      *
      * @param string Plugin name

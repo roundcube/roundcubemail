@@ -228,6 +228,120 @@ class rcube_plugin_api
     }
 
     /**
+     * Get information about a specific plugin.
+     * This is either provided my a plugin's info() method or extracted from a package.xml or a composer.json file
+     *
+     * @param string Plugin name
+     * @return array Meta information about a plugin or False if plugin was not found
+     */
+    public function get_info($plugin_name)
+    {
+      static $composer_lock, $license_uris = array(
+        'Apache'     => 'http://www.apache.org/licenses/LICENSE-2.0.html',
+        'Apache-2'   => 'http://www.apache.org/licenses/LICENSE-2.0.html',
+        'Apache-1'   => 'http://www.apache.org/licenses/LICENSE-1.0',
+        'Apache-1.1' => 'http://www.apache.org/licenses/LICENSE-1.1',
+        'GPL'        => 'http://www.gnu.org/licenses/gpl.html',
+        'GPLv2'      => 'http://www.gnu.org/licenses/gpl-2.0.html',
+        'GPL-2.0'    => 'http://www.gnu.org/licenses/gpl-2.0.html',
+        'GPLv3'      => 'http://www.gnu.org/licenses/gpl-3.0.html',
+        'GPL-3.0'    => 'http://www.gnu.org/licenses/gpl-3.0.html',
+        'GPL-3.0+'   => 'http://www.gnu.org/licenses/gpl.html',
+        'GPL-2.0+'   => 'http://www.gnu.org/licenses/gpl.html',
+        'LGPL'       => 'http://www.gnu.org/licenses/lgpl.html',
+        'LGPLv2'     => 'http://www.gnu.org/licenses/lgpl-2.0.html',
+        'LGPLv2.1'   => 'http://www.gnu.org/licenses/lgpl-2.1.html',
+        'LGPLv3'     => 'http://www.gnu.org/licenses/lgpl.html',
+        'LGPL-2.0'   => 'http://www.gnu.org/licenses/lgpl-2.0.html',
+        'LGPL-2.1'   => 'http://www.gnu.org/licenses/lgpl-2.1.html',
+        'LGPL-3.0'   => 'http://www.gnu.org/licenses/lgpl.html',
+        'LGPL-3.0+'  => 'http://www.gnu.org/licenses/lgpl.html',
+        'BSD'          => 'http://opensource.org/licenses/bsd-license.html',
+        'BSD-2-Clause' => 'http://opensource.org/licenses/BSD-2-Clause',
+        'BSD-3-Clause' => 'http://opensource.org/licenses/BSD-3-Clause',
+        'FreeBSD'      => 'http://opensource.org/licenses/BSD-2-Clause',
+        'MIT'          => 'http://www.opensource.org/licenses/mit-license.php',
+        'PHP'          => 'http://opensource.org/licenses/PHP-3.0',
+        'PHP-3'        => 'http://www.php.net/license/3_01.txt',
+        'PHP-3.0'      => 'http://www.php.net/license/3_0.txt',
+        'PHP-3.01'     => 'http://www.php.net/license/3_01.txt',
+      );
+
+      $dir = dir($this->dir);
+      $fn = unslashify($dir->path) . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+      $info = false;
+
+      if (!class_exists($plugin_name))
+        include($fn);
+
+      if (class_exists($plugin_name))
+        $info = $plugin_name::info();
+
+      // fall back to composer.json file
+      if (!$info) {
+        $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
+        if (file_exists($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
+          list($info['vendor'], $info['name']) = explode('/', $json['name']);
+          $info['license'] = $json['license'];
+          if ($license_uri = $license_uris[$info['license']])
+            $info['license_uri'] = $license_uri;
+        }
+
+        // read local composer.lock file (once)
+        if (!isset($composer_lock)) {
+          $composer_lock = @json_decode(@file_get_contents(INSTALL_PATH . "/composer.lock"), true);
+          if ($composer_lock['packages']) {
+            foreach ($composer_lock['packages'] as $i => $package) {
+              $composer_lock['installed'][$package['name']] = $package;
+            }
+          }
+        }
+
+        // load additional information from local composer.lock file
+        if ($lock = $composer_lock['installed'][$json['name']]) {
+          $info['version'] = $lock['version'];
+          $info['uri']     = $lock['homepage'] ? $lock['homepage'] : $lock['source']['uri'];
+          $info['src_uri'] = $lock['dist']['uri'] ? $lock['dist']['uri'] : $lock['source']['uri'];
+        }
+      }
+
+      // fall back to package.xml file
+      if (!$info) {
+        $package = INSTALL_PATH . "/plugins/$plugin_name/package.xml";
+        if (file_exists($package) && ($file = file_get_contents($package))) {
+          $doc = new DOMDocument();
+          $doc->loadXML($file);
+          $xpath = new DOMXPath($doc);
+          $xpath->registerNamespace('rc', "http://pear.php.net/dtd/package-2.0");
+          $data = array();
+
+          // XPaths of plugin metadata elements
+          $metadata = array(
+            'name'    => 'string(//rc:package/rc:name)',
+            'version' => 'string(//rc:package/rc:version/rc:release)',
+            'license' => 'string(//rc:package/rc:license)',
+            'license_uri' => 'string(//rc:package/rc:license/@uri)',
+            'src_uri' => 'string(//rc:package/rc:srcuri)',
+            'uri' => 'string(//rc:package/rc:uri)',
+          );
+
+          foreach ($metadata as $key => $path) {
+            $info[$key] = $xpath->evaluate($path);
+          }
+
+          // dependent required plugins (can be used, but not included in config)
+          $deps = $xpath->evaluate('//rc:package/rc:dependencies/rc:required/rc:package/rc:name');
+          for ($i = 0; $i < $deps->length; $i++) {
+            $dn = $deps->item($i)->nodeValue;
+            $info['requires'][] = $dn;
+          }
+        }
+      }
+
+      return $info;
+    }
+
+    /**
      * Allows a plugin object to register a callback for a certain hook
      *
      * @param string $hook Hook name

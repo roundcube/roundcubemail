@@ -40,17 +40,28 @@ function rcmail_plugins_list($attrib)
     $attrib['id'] = 'rcmpluginlist';
 
   $plugins = array_filter((array) $RCMAIL->config->get('plugins'));
-  $plugins = array_flip($plugins);
+  $plugin_info = array();
 
-  foreach ($plugins as $name => $plugin) {
-    rcube_plugin_data($name, $plugins);
+  foreach ($plugins as $name) {
+    if ($info = $RCMAIL->plugins->get_info($name))
+      $plugin_info[$name] = $info;
   }
 
-  if (empty($plugins)) {
+  // load info from required plugins, too
+  foreach ($plugin_info as $name => $info) {
+    if (is_array($info['required']) && !empty($info['required'])) {
+      foreach ($info['required'] as $req_name) {
+        if (!isset($plugin_info[$req_name]) && ($req_info = $RCMAIL->plugins->get_info($req_name)))
+          $plugin_info[$req_name] = $req_info;
+      }
+    }
+  }
+
+  if (empty($plugin_info)) {
     return '';
   }
 
-  ksort($plugins, SORT_LOCALE_STRING);
+  ksort($plugin_info, SORT_LOCALE_STRING);
 
   $table = new html_table($attrib);
 
@@ -60,8 +71,8 @@ function rcmail_plugins_list($attrib)
   $table->add_header('license', rcube_label('license'));
   $table->add_header('source', rcube_label('source'));
 
-  foreach ($plugins as $name => $data) {
-    $uri = $data['srcuri'] ? $data['srcuri'] : $data['uri'];
+  foreach ($plugin_info as $name => $data) {
+    $uri = $data['src_uri'] ? $data['src_uri'] : $data['uri'];
     if ($uri && stripos($uri, 'http') !== 0) {
       $uri = 'http://' . $uri;
     }
@@ -76,48 +87,6 @@ function rcmail_plugins_list($attrib)
   }
 
   return $table->show();
-}
-
-function rcube_plugin_data($name, &$plugins = array())
-{
-  // XPaths of plugin metadata elements
-  $metadata = array(
-    'name'    => 'string(//rc:package/rc:name)',
-    'version' => 'string(//rc:package/rc:version/rc:release)',
-    'license' => 'string(//rc:package/rc:license)',
-    'license_uri' => 'string(//rc:package/rc:license/@uri)',
-    'srcuri' => 'string(//rc:package/rc:srcuri)',
-    'uri' => 'string(//rc:package/rc:uri)',
-  );
-
-  $package = INSTALL_PATH . "/plugins/$name/package.xml";
-  if (file_exists($package) && ($file = file_get_contents($package))) {
-    $doc = new DOMDocument();
-    $doc->loadXML($file);
-    $xpath = new DOMXPath($doc);
-    $xpath->registerNamespace('rc', "http://pear.php.net/dtd/package-2.0");
-    $data = array();
-
-    foreach ($metadata as $key => $path) {
-      $data[$key] = $xpath->evaluate($path);
-    }
-
-    $plugins[$name] = $data;
-
-    // dependent required plugins (can be used, but not included in config)
-    $deps = $xpath->evaluate('//rc:package/rc:dependencies/rc:required/rc:package/rc:name');
-    $cnt  = $deps->length;
-
-    for ($i=0; $i<$cnt; $i++) {
-      $dn = $deps->item($i)->nodeValue;
-      if (!array_key_exists($dn, $plugins)) {
-        rcube_plugin_data($dn, $plugins);
-      }
-    }
-  }
-  else {
-    unset($plugins[$name]);
-  }
 }
 
 
