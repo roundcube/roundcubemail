@@ -258,13 +258,13 @@ class rcmail extends rcube
    */
   public function get_address_sources($writeable = false, $skip_hidden = false)
   {
-    $abook_type = strtolower($this->config->get('address_book_type'));
-    $ldap_config = $this->config->get('ldap_public');
+    $abook_type   = (string) $this->config->get('address_book_type');
+    $ldap_config  = (array) $this->config->get('ldap_public');
     $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
-    $list = array();
+    $list         = array();
 
     // We are using the DB address book or a plugin address book
-    if ($abook_type != 'ldap' && $abook_type != '') {
+    if (!empty($abook_type) && strtolower($abook_type) != 'ldap') {
       if (!isset($this->address_books['0']))
         $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
       $list['0'] = array(
@@ -277,8 +277,7 @@ class rcmail extends rcube
       );
     }
 
-    if ($ldap_config) {
-      $ldap_config = (array) $ldap_config;
+    if (!empty($ldap_config)) {
       foreach ($ldap_config as $id => $prop) {
         // handle misconfiguration
         if (empty($prop) || !is_array($prop)) {
