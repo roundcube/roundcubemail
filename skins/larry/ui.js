@@ -244,8 +244,13 @@ function rcube_mail_ui()
 
     $('iframe').load(function(e){
       // this = iframe
-      var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-      $(doc).mouseup(body_mouseup);
+      try {
+        var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+        $(doc).mouseup(body_mouseup);
+      }
+      catch (e) {
+        // catch possible "Permission denied" error in IE
+      };
     })
     .contents().mouseup(body_mouseup);
 

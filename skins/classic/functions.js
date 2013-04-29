@@ -634,8 +634,13 @@ function rcmail_scroller(list, top, bottom)
 function iframe_events()
 {
   // this==iframe
-  var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-  rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+  try {
+    var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+    rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+  }
+  catch (e) {
+    // catch possible "Permission denied" error in IE
+  };
 };
 
 // Abbreviate mailbox names to fit width of the container
