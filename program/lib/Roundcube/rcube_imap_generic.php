@@ -2447,6 +2447,7 @@ class rcube_imap_generic
         $key     = $this->nextTag();
         $request = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
         $result  = false;
+        $found   = false;
 
         // send request
         if (!$this->putLine($request)) {
@@ -2466,18 +2467,25 @@ class rcube_imap_generic
                 break;
             }
 
-            if (!preg_match('/^\* ([0-9]+) FETCH (.*)$/', $line, $m)) {
+            // skip irrelevant untagged responses (we have a result already)
+            if ($found || !preg_match('/^\* ([0-9]+) FETCH (.*)$/', $line, $m)) {
                 continue;
             }
 
             $line = $m[2];
-            $last = substr($line, -1);
 
             // handle one line response
-            if ($line[0] == '(' && $last == ')') {
+            if ($line[0] == '(' && substr($line, -1) == ')') {
                 // tokenize content inside brackets
-                $tokens = $this->tokenizeResponse(preg_replace('/(^\(|\$)/', '', $line));
-                $result = count($tokens) == 1 ? $tokens[0] : false;
+                $tokens = $this->tokenizeResponse(preg_replace('/(^\(|\)$)/', '', $line));
+
+                for ($i=0; $i<count($tokens); $i+=2) {
+                    if (preg_match('/^(BODY|BINARY)/i', $token)) {
+                        $result = $tokens[$i+1];
+                        $found  = true;
+                        break;
+                    }
+                }
 
                 if ($result !== false) {
                     if ($mode == 1) {
@@ -2495,6 +2503,7 @@ class rcube_imap_generic
             else if (preg_match('/\{([0-9]+)\}$/', $line, $m)) {
                 $bytes = (int) $m[1];
                 $prev  = '';
+                $found = true;
 
                 while ($bytes > 0) {
                     $line = $this->readLine(8192);
