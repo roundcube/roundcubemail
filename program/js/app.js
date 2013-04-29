@@ -1690,8 +1690,6 @@ function rcube_webmail()
 
     // focus window, delayed to bring to front
     window.setTimeout(function() { extwin.focus(); }, 10);
-    // position window with setTimeout for Chrome (#1488931)
-    window.setTimeout(function() { extwin.moveTo(l,t); }, bw.chrome ? 100 : 10);
 
     return wname;
   };
