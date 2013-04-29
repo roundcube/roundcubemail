@@ -98,7 +98,10 @@ class rcmail extends rcube
 
     // reset some session parameters when changing task
     if ($this->task != 'utils') {
-      if ($this->session && $_SESSION['task'] != $this->task)
+      // we reset list page when switching to another task
+      // but only to the main task interface - empty action (#1489076)
+      // this will prevent from unintentional page reset on cross-task requests
+      if ($this->session && $_SESSION['task'] != $this->task && empty($this->action))
         $this->session->remove('page');
       // set current task to session
       $_SESSION['task'] = $this->task;
