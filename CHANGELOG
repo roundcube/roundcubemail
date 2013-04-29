@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling untagged responses in IMAP FETCH - "could not load message" error (#1489074)
 - Fix very small window size in Chrome (#1488931)
 - Fix list page reset when viewing a message in Larry skin (#1489076)
 - Fix min_refresh_interval handling on preferences save (#1489073)
