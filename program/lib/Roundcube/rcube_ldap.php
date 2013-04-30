@@ -1921,9 +1921,10 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Add the given contact records the a certain group
      *
-     * @param string  Group identifier
-     * @param array   List of contact identifiers to be added
-     * @return int    Number of contacts added
+     * @param string       Group identifier
+     * @param array|string List of contact identifiers to be added
+     *
+     * @return int Number of contacts added
      */
     function add_to_group($group_id, $contact_ids)
     {
@@ -1937,8 +1938,8 @@ class rcube_ldap extends rcube_addressbook
         $group_name  = $group_cache[$group_id]['name'];
         $member_attr = $group_cache[$group_id]['member_attr'];
         $group_dn    = "cn=$group_name,$base_dn";
+        $new_attrs   = array();
 
-        $new_attrs = array();
         foreach ($contact_ids as $id)
             $new_attrs[$member_attr][] = self::dn_decode($id);
 
@@ -1949,28 +1950,32 @@ class rcube_ldap extends rcube_addressbook
 
         $this->cache->remove('groups');
 
-        return count($new_attrs['member']);
+        return count($new_attrs[$member_attr]);
     }
 
     /**
      * Remove the given contact records from a certain group
      *
-     * @param string  Group identifier
-     * @param array   List of contact identifiers to be removed
-     * @return int    Number of deleted group members
+     * @param string       Group identifier
+     * @param array|string List of contact identifiers to be removed
+     *
+     * @return int Number of deleted group members
      */
     function remove_from_group($group_id, $contact_ids)
     {
         if (($group_cache = $this->cache->get('groups')) === null)
             $group_cache = $this->_fetch_groups();
 
+        if (!is_array($contact_ids))
+            $contact_ids = explode(',', $contact_ids);
+
         $base_dn     = $this->groups_base_dn;
         $group_name  = $group_cache[$group_id]['name'];
         $member_attr = $group_cache[$group_id]['member_attr'];
         $group_dn    = "cn=$group_name,$base_dn";
+        $del_attrs   = array();
 
-        $del_attrs = array();
-        foreach (explode(",", $contact_ids) as $id)
+        foreach ($contact_ids as $id)
             $del_attrs[$member_attr][] = self::dn_decode($id);
 
         if (!$this->ldap_mod_del($group_dn, $del_attrs)) {
@@ -1980,7 +1985,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->cache->remove('groups');
 
-        return count($del_attrs['member']);
+        return count($del_attrs[$member_attr]);
     }
 
     /**
