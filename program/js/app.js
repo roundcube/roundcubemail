@@ -936,16 +936,13 @@ function rcube_webmail()
             url._to = props;
           }
           else {
-            // use contact_id passed as command parameter
-            var n, len, a_cids = [];
+            var a_cids = [];
+            // use contact id passed as command parameter
             if (props)
               a_cids.push(props);
             // get selected contacts
-            else if (this.contact_list) {
-              var selection = this.contact_list.get_selection();
-              for (n=0, len=selection.length; n<len; n++)
-                a_cids.push(selection[n]);
-            }
+            else if (this.contact_list)
+              a_cids = this.contact_list.get_selection();
 
             if (a_cids.length)
               this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source }, true);
