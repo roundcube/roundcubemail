@@ -370,9 +370,10 @@ abstract class rcube_addressbook
     /**
      * Add the given contact records the a certain group
      *
-     * @param string  Group identifier
-     * @param array   List of contact identifiers to be added
-     * @return int    Number of contacts added
+     * @param string       Group identifier
+     * @param array|string List of contact identifiers to be added
+     *
+     * @return int Number of contacts added
      */
     function add_to_group($group_id, $ids)
     {
@@ -383,9 +384,10 @@ abstract class rcube_addressbook
     /**
      * Remove the given contact records from a certain group
      *
-     * @param string  Group identifier
-     * @param array   List of contact identifiers to be removed
-     * @return int    Number of deleted group members
+     * @param string       Group identifier
+     * @param array|string List of contact identifiers to be removed
+     *
+     * @return int Number of deleted group members
      */
     function remove_from_group($group_id, $ids)
     {

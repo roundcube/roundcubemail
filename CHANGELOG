@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix removal of a contact from a group in LDAP addressbook (#1489081)
 - Support CSV import from Atmail (#1489045)
 - Inlcude SQL query in the log on SQL error (#1489064)
 - Fix handling untagged responses in IMAP FETCH - "could not load message" error (#1489074)
