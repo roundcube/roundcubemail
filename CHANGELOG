@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to display email address together with a name in mail preview (#1488732)
 - Fix Reply-To header handling in Reply-All action (#1489037)
 - Fix so Sender: address is added to Cc: field on reply to all (#1489011)
 - Fix so addressbook_search_mode works also for group search (#1489079)
