@@ -760,9 +760,13 @@ class rcmail_output_html extends rcmail_output
 
     /**
      * Parse & evaluate a given expression and return its result.
-     * @param  string Expression statement
+     *
+     * @param string Expression statement
+     *
+     * @return mixed Expression result
      */
-    protected function eval_expression ($expression) {
+    protected function eval_expression ($expression)
+    {
         $expression = preg_replace(
             array(
                 '/session:([a-z0-9_]+)/i',
@@ -784,17 +788,19 @@ class rcmail_output_html extends rcmail_output
             ),
             $expression
         );
-        
+
         $fn = create_function('$app,$browser,$env', "return ($expression);");
-        if(!$fn) {
+        if (!$fn) {
             rcube::raise_error(array(
                 'code' => 505,
                 'type' => 'php',
                 'file' => __FILE__,
                 'line' => __LINE__,
                 'message' => "Expression parse error on: ($expression)"), true, false);
+
+            return null;
         }
-        
+
         return $fn($this->app, $this->browser, $this->env);
     }
 
@@ -980,7 +986,7 @@ class rcmail_output_html extends rcmail_output
 
             // return code for a specified eval expression
             case 'exp':
-                return html::quote( $this->eval_expression($attrib['expression']) );
+                return html::quote($this->eval_expression($attrib['expression']));
 
             // return variable
             case 'var':
