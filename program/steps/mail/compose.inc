@@ -327,6 +327,8 @@ foreach ($parts as $header) {
         $fvalue .= $v;
       if ($v = $MESSAGE->headers->cc)
         $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
+      if ($v = $MESSAGE->headers->get('Sender', false))
+        $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
     }
   }
   else if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
