@@ -1403,13 +1403,15 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ((array)$this->prop['autovalues'] as $lf => $templ) {
             if (empty($attrs[$lf])) {
-                // replace {attr} placeholders with concrete attribute values
-                $templ = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
-
-                if (strpos($templ, '(') !== false)
-                    $attrs[$lf] = eval("return ($templ);");
-                else
-                    $attrs[$lf] = $templ;
+                if (strpos($templ, '(') !== false) {
+                    // replace {attr} placeholders with (escaped!) attribute values to be safely eval'd
+                    $code = preg_replace('/\{\w+\}/', '', strtr($templ, array_map('addslashes', $attrvals)));
+                    $attrs[$lf] = eval("return ($code);");
+                }
+                else {
+                    // replace {attr} placeholders with concrete attribute values
+                    $attrs[$lf] = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
+                }
             }
         }
     }
