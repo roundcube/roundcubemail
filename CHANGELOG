@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so Sender: address is added to Cc: field on reply to all (#1489011)
 - Fix so addressbook_search_mode works also for group search (#1489079)
 - Fix removal of a contact from a group in LDAP addressbook (#1489081)
 - Inlcude SQL query in the log on SQL error (#1489064)
