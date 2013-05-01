@@ -139,12 +139,10 @@ class rcube_csv2vcard
         'info'                  => 'notes',
         'user_photo'            => 'photo',
         'url'                   => 'website:homepage',
-        'work_city'             => 'locality:work',
         'work_company'          => 'organization',
         'work_dept'             => 'departament',
         'work_fax'              => 'phone:work,fax',
         'work_mobile'           => 'phone:work,cell',
-        'work_state'            => 'region:work',
         'work_title'            => 'jobtitle',
         'work_zip'              => 'zipcode:work',
     );
@@ -247,7 +245,9 @@ class rcube_csv2vcard
         'work_phone'        => "Work Phone",
         'work_address'      => "Work Address",
         //'work_address_2'    => "Work Address 2",
+        'work_city'         => "Work City",
         'work_country'      => "Work Country",
+        'work_state'        => "Work State",
         'work_zipcode'      => "Work ZipCode",
 
         // Atmail
@@ -262,12 +262,10 @@ class rcube_csv2vcard
         'info'              => "Info",
         'user_photo'        => "User Photo",
         'url'               => "URL",
-        'work_city'         => "Work City",
         'work_company'      => "Work Company",
         'work_dept'         => "Work Dept",
         'work_fax'          => "Work Fax",
         'work_mobile'       => "Work Mobile",
-        'work_state'        => "Work State",
         'work_title'        => "Work Title",
         'work_zip'          => "Work Zip",
     );
