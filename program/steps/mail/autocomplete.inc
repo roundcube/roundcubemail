@@ -102,7 +102,7 @@ if (!empty($book_types) && strlen($search)) {
 
     // also list matching contact groups
     if ($abook->groups && count($contacts) < $MAXNUM) {
-      foreach ($abook->list_groups($search) as $group) {
+      foreach ($abook->list_groups($search, $mode) as $group) {
         $abook->reset();
         $abook->set_group($group['ID']);
         $group_prop = $abook->get_group($group['ID']);
