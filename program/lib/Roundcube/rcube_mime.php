@@ -127,10 +127,11 @@ class rcube_mime
      * @param int     $max      List only this number of addresses
      * @param boolean $decode   Decode address strings
      * @param string  $fallback Fallback charset if none specified
+     * @param boolean $addronly Return flat array with e-mail addresses only
      *
-     * @return array  Indexed list of addresses
+     * @return array Indexed list of addresses
      */
-    static function decode_address_list($input, $max = null, $decode = true, $fallback = null)
+    static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
     {
         $a   = self::parse_address_list($input, $decode, $fallback);
         $out = array();
@@ -145,20 +146,21 @@ class rcube_mime
         foreach ($a as $val) {
             $j++;
             $address = trim($val['address']);
-            $name    = trim($val['name']);
 
-            if ($name && $address && $name != $address)
-                $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
-            else if ($address)
-                $string = $address;
-            else if ($name)
-                $string = $name;
+            if ($addronly) {
+                $out[$j] = $address;
+            }
+            else {
+                $name = trim($val['name']);
+                if ($name && $address && $name != $address)
+                    $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
+                else if ($address)
+                    $string = $address;
+                else if ($name)
+                    $string = $name;
 
-            $out[$j] = array(
-                'name'   => $name,
-                'mailto' => $address,
-                'string' => $string
-            );
+                $out[$j] = array('name' => $name, 'mailto' => $address, 'string' => $string);
+            }
 
             if ($max && $j==$max)
                 break;

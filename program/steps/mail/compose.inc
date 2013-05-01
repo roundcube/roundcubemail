@@ -320,6 +320,17 @@ foreach ($parts as $header) {
         $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
       if ($v = $MESSAGE->headers->get('Sender', false))
         $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
+
+      // When To: and Reply-To: are the same we add From: address to the list (#1489037)
+      if ($v = $MESSAGE->headers->from) {
+        $from    = rcube_mime::decode_address_list($v, null, false, $MESSAGE->headers->charset, true);
+        $to      = rcube_mime::decode_address_list($MESSAGE->headers->to, null, false, $MESSAGE->headers->charset, true);
+        $replyto = rcube_mime::decode_address_list($MESSAGE->headers->replyto, null, false, $MESSAGE->headers->charset, true);
+
+        if (count($replyto) && !count(array_diff($to, $replyto)) && count(array_diff($from, $to))) {
+          $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
+        }
+      }
     }
   }
   else if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT))) {
