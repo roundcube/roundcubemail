@@ -4464,9 +4464,10 @@ function rcube_webmail()
       return;
 
     if (!this.name_input) {
-      this.name_input = $('<input>').attr('type', 'text').data('tt', type);
+      this.name_input = $('<input>').attr('type', 'text').attr('style', 'margin-left:5px;').data('tt', type);
+      this.cancel_button = $('<a>').attr('class', 'canceladd').attr('onclick', 'rcmail.reset_add_input()').attr('href', '#');
       this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
-      this.name_input_li = $('<li>').addClass(type).append(this.name_input);
+      this.name_input_li = $('<li>').addClass(type).append(this.cancel_button,this.name_input);
 
       var li = type == 'contactsearch' ? $('li:last', this.gui_objects.folderlist) : $('ul.groups li:last', this.get_folder_li(this.env.source,'',true));
       if (li.length)
