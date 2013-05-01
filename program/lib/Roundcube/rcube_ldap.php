@@ -1715,9 +1715,14 @@ class rcube_ldap extends rcube_addressbook
      * List all active contact groups of this source
      *
      * @param string  Optional search string to match group name
+     * @param int     Matching mode:
+     *                0 - partial (*abc*),
+     *                1 - strict (=),
+     *                2 - prefix (abc*)
+     *
      * @return array  Indexed list of contact groups, each a hash array
      */
-    function list_groups($search = null)
+    function list_groups($search = null, $mode = 0)
     {
         if (!$this->groups)
             return array();
@@ -1729,10 +1734,10 @@ class rcube_ldap extends rcube_addressbook
 
         $groups = array();
         if ($search) {
-            $search = mb_strtolower($search);
             foreach ($group_cache as $group) {
-                if (strpos(mb_strtolower($group['name']), $search) !== false)
+                if ($this->compare_search_value('name', $group['name'], $search, $mode)) {
                     $groups[] = $group;
+                }
             }
         }
         else

@@ -137,16 +137,34 @@ class rcube_contacts extends rcube_addressbook
      * List all active contact groups of this source
      *
      * @param string  Search string to match group name
+     * @param int     Matching mode:
+     *                0 - partial (*abc*),
+     *                1 - strict (=),
+     *                2 - prefix (abc*)
+     *
      * @return array  Indexed list of contact groups, each a hash array
      */
-    function list_groups($search = null)
+    function list_groups($search = null, $mode = 0)
     {
         $results = array();
 
         if (!$this->groups)
             return $results;
 
-        $sql_filter = $search ? " AND " . $this->db->ilike('name', '%'.$search.'%') : '';
+        if ($search) {
+            switch (intval($mode)) {
+            case 1:
+                $sql_filter = $this->db->ilike('name', $search);
+                break;
+            case 2:
+                $sql_filter = $this->db->ilike('name', $search . '%');
+                break;
+            default:
+                $sql_filter = $this->db->ilike('name', '%' . $search . '%');
+            }
+
+            $sql_filter = " AND $sql_filter";
+        }
 
         $sql_result = $this->db->query(
             "SELECT * FROM ".$this->db->table_name($this->db_groups).
