@@ -418,6 +418,17 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    // show checkbox to show email instead of name
+    if (!isset($no_override['message_showemail'])) {
+      $field_id = 'rcmfd_message_showemail';
+      $input_msgshowemail = new html_checkbox(array('name' => '_message_showemail', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['message_showemail'] = array(
+        'title' => html::label($field_id, Q(rcube_label('showemail'))),
+        'content' => $input_msgshowemail->show($config['message_showemail']?1:0),
+      );
+    }
+
     // show checkbox for HTML/plaintext messages
     if (!isset($no_override['prefer_html'])) {
       $field_id = 'rcmfd_htmlmsg';

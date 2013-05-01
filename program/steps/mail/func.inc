@@ -1453,9 +1453,12 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     $string = $part['string'];
 
     // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
-    if ($name && $name != $mailto && strpos($name, '@')) {
-      $name = '';
+    if (! $RCMAIL->config->get('message_show_email')) {
+      if ($name && $name != $mailto && strpos($name, '@')) {
+        $name = '';
+      }
     }
+
 
     // IDNA ASCII to Unicode
     if ($name == $mailto)
@@ -1471,13 +1474,18 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     }
     else if (check_email($part['mailto'], false)) {
       if ($linked) {
+        if ($RCMAIL->config->get('message_showemail')) {
+          $content = Q($name? sprintf('"%s" %s',$name,$mailto): $mailto);
+        }
+         else {
+          $content = Q($name ? $name : $mailto);
+        }
         $address = html::a(array(
-            'href' => 'mailto:'.$mailto,
-            'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
-            'title' => $mailto,
-            'class' => "rcmContactAddress",
-          ),
-        Q($name ? $name : $mailto));
+             'href' => 'mailto:'.$mailto,
+             'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
+             'title' => $mailto,
+             'class' => "rcmContactAddress",
+          ), $content );
       }
       else {
         $address = html::span(array('title' => $mailto, 'class' => "rcmContactAddress"),
