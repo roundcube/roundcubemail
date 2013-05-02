@@ -1629,13 +1629,17 @@ function rcube_webmail()
 
   this.open_window = function(url, width, height)
   {
-    var w = Math.min(width, screen.width - 10),
-      h = Math.min(height, screen.height - 100),
-      l = (screen.width - w) / 2 + (screen.left || 0),
-      t = Math.max(0, (screen.height - h) / 2 + (screen.top || 0) - 20),
+    var dh = (window.outerHeight || 0) - (window.innerHeight || 0),
+      dw = (window.outerWidth || 0) - (window.innerWidth || 0),
+      sh = screen.availHeight || screen.height,
+      sw = screen.availWidth || screen.width,
+      w = Math.min(width, sw),
+      h = Math.min(height, sh),
+      l = Math.max(0, (sw - w) / 2 + (screen.left || 0)),
+      t = Math.max(0, (sh - h) / 2 + (screen.top || 0)),
       wname = 'rcmextwin' + new Date().getTime(),
       extwin = window.open(url + (url.match(/\?/) ? '&' : '?') + '_extwin=1', wname,
-        'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
+        'width='+(w-dw)+',height='+(h-dh)+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
 
     // write loading... message to empty windows
     if (!url && extwin.document) {
