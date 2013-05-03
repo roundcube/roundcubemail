@@ -1579,7 +1579,7 @@ function rcube_webmail()
 
   this.msglist_set_coltypes = function(list)
   {
-    var i, found, name, cols = list.list.tHead.rows[0].cells;
+    var i, found, name, cols = list.thead.rows[0].cells;
 
     this.env.coltypes = [];
 
@@ -1733,10 +1733,7 @@ function rcube_webmail()
         + (flags.flagged ? ' flagged' : '')
         + (flags.unread_children && flags.seen && !this.env.autoexpand_threads ? ' unroot' : '')
         + (message.selected ? ' selected' : ''),
-      // for performance use DOM instead of jQuery here
-      row = document.createElement('tr');
-
-    row.id = 'rcmrow'+uid;
+      row = { cols:[], style:{}, id:'rcmrow'+uid };
 
     // message status icons
     css_class = 'msgicon';
@@ -1800,8 +1797,7 @@ function rcube_webmail()
     // add each submitted col
     for (n in this.env.coltypes) {
       c = this.env.coltypes[n];
-      col = document.createElement('td');
-      col.className = String(c).toLowerCase();
+      col = { className: String(c).toLowerCase() };
 
       if (c == 'flag') {
         css_class = (flags.flagged ? 'flagged' : 'unflagged');
@@ -1846,8 +1842,7 @@ function rcube_webmail()
         html = cols[c];
 
       col.innerHTML = html;
-
-      row.appendChild(col);
+      row.cols.push(col);
     }
 
     list.insert_row(row, attop);
@@ -2210,7 +2205,7 @@ function rcube_webmail()
     if (root)
       row = rows[root] ? rows[root].obj : null;
     else
-      row = this.message_list.list.tBodies[0].firstChild;
+      row = this.message_list.tbody.firstChild;
 
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
@@ -2386,7 +2381,7 @@ function rcube_webmail()
   this.delete_excessive_thread_rows = function()
   {
     var rows = this.message_list.rows,
-      tbody = this.message_list.list.tBodies[0],
+      tbody = this.message_list.tbody,
       row = tbody.firstChild,
       cnt = this.env.pagesize + 1;
 
@@ -4329,21 +4324,7 @@ function rcube_webmail()
         newcid = newcid+'-'+source;
     }
 
-    if (list.rows[cid] && (row = list.rows[cid].obj)) {
-      for (c=0; c<cols_arr.length; c++)
-        if (row.cells[c])
-          $(row.cells[c]).html(cols_arr[c]);
-
-      // cid change
-      if (newcid) {
-        newcid = this.html_identifier(newcid);
-        row.id = 'rcmrow' + newcid;
-        list.remove_row(cid);
-        list.init_row(row);
-        list.selection[0] = newcid;
-        row.style.display = '';
-      }
-    }
+    list.update_row(cid, cols_arr, newcid, true);
   };
 
   // add row to contacts list
@@ -4353,7 +4334,7 @@ function rcube_webmail()
       return false;
 
     var c, col, list = this.contact_list,
-      row = document.createElement('tr');
+      row = { cols:[] };
 
     row.id = 'rcmrow'+this.html_identifier(cid);
     row.className = 'contact ' + (classes || '');
@@ -4363,10 +4344,10 @@ function rcube_webmail()
 
     // add each submitted col
     for (c in cols) {
-      col = document.createElement('td');
+      col = {};
       col.className = String(c).toLowerCase();
       col.innerHTML = cols[c];
-      row.appendChild(col);
+      row.cols.push(col);
     }
 
     list.insert_row(row);
@@ -4965,17 +4946,15 @@ function rcube_webmail()
 
   this.update_identity_row = function(id, name, add)
   {
-    var row, col, list = this.identity_list,
+    var list = this.identity_list,
       rid = this.html_identifier(id);
 
-    if (list.rows[rid] && (row = list.rows[rid].obj)) {
-      $(row.cells[0]).html(name);
-    }
-    else if (add) {
-      row = $('<tr>').attr('id', 'rcmrow'+rid).get(0);
-      col = $('<td>').addClass('mail').html(name).appendTo(row);
-      list.insert_row(row);
+    if (add) {
+      list.insert_row({ id:'rcmrow'+rid, cols:[ { className:'mail', innerHTML:name } ] });
       list.select(rid);
+    }
+    else {
+      list.update_row(rid, [ name ]);
     }
   };
 
@@ -5751,7 +5730,7 @@ function rcube_webmail()
   this.set_message_coltypes = function(coltypes, repl, smart_col)
   {
     var list = this.message_list,
-      thead = list ? list.list.tHead : null,
+      thead = list ? list.thead : null,
       cell, col, n, len, th, tr;
 
     this.env.coltypes = coltypes;

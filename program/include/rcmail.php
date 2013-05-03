@@ -1167,7 +1167,7 @@ class rcmail extends rcube
      */
     public function table_output($attrib, $table_data, $a_show_cols, $id_col)
     {
-        $table = new html_table(/*array('cols' => count($a_show_cols))*/);
+        $table = new html_table($attrib);
 
         // add table header
         if (!$attrib['noheader']) {

@@ -236,15 +236,13 @@ function rcmail_message_list($attrib)
 
   $OUTPUT->include_script('list.js');
 
-  $thead = '';
-  foreach (rcmail_message_list_head($attrib, $a_show_cols) as $cell)
-    $thead .= html::tag('td', array('class' => $cell['className'], 'id' => $cell['id']), $cell['html']);
+  $table = new html_table($attrib);
+  if (!$attrib['noheader']) {
+    foreach (rcmail_message_list_head($attrib, $a_show_cols) as $cell)
+      $table->add_header(array('class' => $cell['className'], 'id' => $cell['id']), $cell['html']);
+  }
 
-  return html::tag('table',
-    $attrib,
-    html::tag('thead', null, html::tag('tr', null, $thead)) .
-      html::tag('tbody', null, ''),
-        array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
+  return $table->show();
 }
 
 
