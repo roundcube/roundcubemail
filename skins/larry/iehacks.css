@@ -126,6 +126,10 @@ ul.toolbarmenu li a.active:hover,
 	background-image: url(images/buttons.gif);
 }
 
+.minimal .toolbar a.button.disabled {
+	background-image: none;
+}
+
 /*** addressbook.css ***/
 
 .contactfieldgroup {
