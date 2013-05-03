@@ -43,7 +43,7 @@ else {
 }
 
 if ($err = $spellchecker->error()) {
-    raise_error(array('code' => 500, 'type' => 'php',
+    rcube::raise_error(array('code' => 500, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
         'message' => sprintf("Spell check engine error: " . $err)),
         true, false);
