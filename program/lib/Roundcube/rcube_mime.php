@@ -659,8 +659,8 @@ class rcube_mime
                                 $cutLength = $spacePos + 1;
                             }
                             else {
-                                $subString = $string;
-                                $cutLength = null;
+                                $subString = $substr_func($string, 0, $breakPos, $charset);
+                                $cutLength = $breakPos + 1;
                             }
                         }
                         else {
