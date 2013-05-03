@@ -314,11 +314,6 @@ class rcube_spellchecker
         if (!$this->plink) {
             if (!extension_loaded('pspell')) {
                 $this->error = "Pspell extension not available";
-                rcube::raise_error(array(
-                    'code' => 500, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => $this->error), true, false);
-
                 return;
             }
 
@@ -372,8 +367,18 @@ class rcube_spellchecker
             fclose($fp);
         }
 
+        // parse HTTP response
+        if (preg_match('!^HTTP/1.\d (\d+)(.+)!', $store, $m)) {
+            $http_status = $m[1];
+            if ($http_status != '200')
+                $this->error = 'HTTP ' . $m[1] . $m[2];
+        }
+
         if (!$store) {
             $this->error = "Empty result from spelling engine";
+        }
+        else if (preg_match('/<spellresult error="([^"]+)"/', $store, $m)) {
+            $this->error = "Error code $m[1] returned";
         }
 
         preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $store, $matches, PREG_SET_ORDER);
