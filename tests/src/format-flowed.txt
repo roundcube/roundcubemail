@@ -7,7 +7,7 @@ X
 
 On XX.YY.YYYY Y:YY, Somebody wrote:
 > This part is a reply wihtout any flowing lines. rcube_mime::unfold_flowed()
-> has to be careful with empty quoted lines because they might end with a
+>> has to be careful with empty quoted lines because they might end with a
 > space but still shouldn't be considered as flowed!
 > 
 > The above empty line should persist after unfolding.

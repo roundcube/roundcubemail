@@ -478,9 +478,10 @@ class rcube_mime
         $q_level = 0;
 
         foreach ($text as $idx => $line) {
-            if ($line[0] == '>') {
-                // remove quote chars, store level in $q
-                $line = preg_replace('/^>+/', '', $line, -1, $q);
+            if (preg_match('/^(>+)/', $line, $m)) {
+                // remove quote chars
+                $q    = strlen($m[1]);
+                $line = preg_replace('/^>+/', '', $line);
                 // remove (optional) space-staffing
                 $line = preg_replace('/^ /', '', $line);
 
@@ -543,9 +544,10 @@ class rcube_mime
 
         foreach ($text as $idx => $line) {
             if ($line != '-- ') {
-                if ($line[0] == '>') {
-                    // remove quote chars, store level in $level
-                    $line   = preg_replace('/^>+/', '', $line, -1, $level);
+                if (preg_match('/^(>+)/', $line, $m)) {
+                    // remove quote chars
+                    $level  = strlen($m[1]);
+                    $line   = preg_replace('/^>+/', '', $line);
                     // remove (optional) space-staffing and spaces before the line end
                     $line   = preg_replace('/(^ | +$)/', '', $line);
                     $prefix = str_repeat('>', $level) . ' ';
