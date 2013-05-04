@@ -162,7 +162,7 @@ abstract class rcube_output
             header("Cache-Control: private, must-revalidate");
         }
         else {
-            header("Cache-Control: private, no-cache, must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
             header("Pragma: no-cache");
         }
     }
