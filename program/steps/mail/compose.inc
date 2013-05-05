@@ -639,7 +639,7 @@ function rcmail_prepare_message_body()
 
 function rcmail_compose_part_body($part, $isHtml = false)
 {
-    global $RCMAIL, $MESSAGE, $compose_mode;
+    global $RCMAIL, $MESSAGE, $compose_mode, $LINE_LENGTH;
 
     // Check if we have enough memory to handle the message in it
     // #1487424: we need up to 10x more memory than the body
@@ -1224,10 +1224,11 @@ function rcmail_save_image($path, $mimetype='')
 
   // handle attachments in memory
   $data = file_get_contents($path);
+  $name = rcmail_basename($path);
 
   $attachment = array(
     'group' => $COMPOSE['id'],
-    'name' => rcmail_basename($path),
+    'name' => $name,
     'mimetype' => $mimetype ? $mimetype : rc_mime_content_type($path, $name),
     'data' => $data,
     'size' => strlen($data),
