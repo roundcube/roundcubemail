@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix csv import from Thunderbird with French localization (#1489059)
 - Fix messages list focus issue in Opera and Webkit (#1489058)
 - Make PHP code eval() free, use create_function()
 - Add option to display email address together with a name in mail preview (#1488732)
