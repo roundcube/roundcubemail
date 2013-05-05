@@ -353,6 +353,12 @@ class rcube_csv2vcard
         if (!empty($this->local_label_map)) {
             for ($i = 0; $i < $size; $i++) {
                 $label = $this->local_label_map[$elements[$i]];
+
+                // special localization label
+                if ($label && $label[0] == '_') {
+                    $label = substr($label, 1);
+                }
+
                 if ($label && !empty($this->csv2vcard_map[$label])) {
                     $map2[$i] = $this->csv2vcard_map[$label];
                 }

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix csv import from Thunderbird with French localization (#1489059)
 - Fix messages list focus issue in Opera and Webkit (#1489058)
 - Fix Reply-To header handling in Reply-All action (#1489037)
 - Fix so Sender: address is added to Cc: field on reply to all (#1489011)
