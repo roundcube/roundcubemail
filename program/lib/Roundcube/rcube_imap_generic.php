@@ -1077,7 +1077,7 @@ class rcube_imap_generic
         }
 
         if (!$this->data['READ-WRITE']) {
-            $this->setError(self::ERROR_READONLY, "Mailbox is read-only", 'EXPUNGE');
+            $this->setError(self::ERROR_READONLY, "Mailbox is read-only");
             return false;
         }
 
@@ -1936,7 +1936,7 @@ class rcube_imap_generic
         }
 
         if (!$this->data['READ-WRITE']) {
-            $this->setError(self::ERROR_READONLY, "Mailbox is read-only", 'STORE');
+            $this->setError(self::ERROR_READONLY, "Mailbox is read-only");
             return false;
         }
 
@@ -1997,7 +1997,7 @@ class rcube_imap_generic
         }
 
         if (!$this->data['READ-WRITE']) {
-            $this->setError(self::ERROR_READONLY, "Mailbox is read-only", 'STORE');
+            $this->setError(self::ERROR_READONLY, "Mailbox is read-only");
             return false;
         }
 
