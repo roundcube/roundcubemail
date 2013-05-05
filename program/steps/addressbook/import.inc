@@ -88,7 +88,7 @@ function rcmail_import_confirm($attrib)
 
   $content = html::p(null, rcube_label(array(
       'name' => 'importconfirm',
-      'nr' => $IMORT_STATS->inserted,
+      'nr' => $IMPORT_STATS->inserted,
       'vars' => $vars,
     )) . ($IMPORT_STATS->names ? ':' : '.'));
 
@@ -98,7 +98,7 @@ function rcmail_import_confirm($attrib)
   if ($IMPORT_STATS->skipped) {
       $content .= html::p(null, rcube_label(array(
           'name' => 'importconfirmskipped',
-          'nr' => $IMORT_STATS->skipped,
+          'nr' => $IMPORT_STATS->skipped,
           'vars' => $vars,
         )) . ':');
       $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->skipped_names)));

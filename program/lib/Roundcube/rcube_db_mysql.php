@@ -147,7 +147,7 @@ class rcube_db_mysql extends rcube_db
 
             $result = $this->query('SHOW VARIABLES');
 
-            while ($sql_arr = $this->fetch_array($result)) {
+            while ($row = $this->fetch_array($result)) {
                 $this->variables[$row[0]] = $row[1];
             }
         }

@@ -981,6 +981,7 @@ class rcube_imap extends rcube_storage
             // use memory less expensive (and quick) method for big result set
             $index = clone $this->index('', $this->sort_field, $this->sort_order);
             // get messages uids for one page...
+            start_msg = ($page-1) * $this->page_size + 1;
             $index->slice($start_msg, min($cnt-$from, $this->page_size));
 
             if ($slice) {
@@ -2727,7 +2728,7 @@ class rcube_imap extends rcube_storage
 
         // filter folders list according to rights requirements
         if ($rights && $this->get_capability('ACL')) {
-            $a_folders = $this->filter_rights($a_folders, $rights);
+            $a_folders = $this->filter_rights($a_mboxes, $rights);
         }
 
         // filter folders and sort them

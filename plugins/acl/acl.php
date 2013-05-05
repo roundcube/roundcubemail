@@ -435,7 +435,8 @@ class acl extends rcube_plugin
 
         $acl   = array_intersect(str_split($acl), $this->rights_supported());
         $users = $oldid ? array($user) : explode(',', $user);
-
+        $result = 0;
+        
         foreach ($users as $user) {
             $user = trim($user);
 
@@ -455,7 +456,7 @@ class acl extends rcube_plugin
 
             $user     = $this->mod_login($user);
             $username = $this->mod_login($username);
-
+            
             if ($user != $_SESSION['username'] && $username != $_SESSION['username']) {
                 if ($this->rc->storage->set_acl($mbox, $user, $acl)) {
                     $ret = array('id' => rcube_utils::html_identifier($user),
