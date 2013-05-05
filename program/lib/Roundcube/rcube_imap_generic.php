@@ -2508,7 +2508,7 @@ class rcube_imap_generic
                 $tokens = $this->tokenizeResponse(preg_replace('/(^\(|\)$)/', '', $line));
 
                 for ($i=0; $i<count($tokens); $i+=2) {
-                    if (preg_match('/^(BODY|BINARY)/i', $token)) {
+                    if (preg_match('/^(BODY|BINARY)/i', $tokens[$i+1])) {
                         $result = $tokens[$i+1];
                         $found  = true;
                         break;
