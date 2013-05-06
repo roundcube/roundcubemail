@@ -183,7 +183,7 @@ class rcube_sql_password
         $res = $db->query($sql, $sql_vars);
 
         if (!$db->is_error()) {
-            if (strtolower(substr(trim($query),0,6))=='select') {
+            if (strtolower(substr(trim($sql),0,6)) == 'select') {
                 if ($result = $db->fetch_array($res))
                     return PASSWORD_SUCCESS;
             } else {

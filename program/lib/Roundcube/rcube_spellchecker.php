@@ -588,7 +588,7 @@ class rcube_spellchecker
 
         if (empty($plugin['abort'])) {
             $dict = array();
-            $this->rc->db->query(
+            $sql_result = $this->rc->db->query(
                 "SELECT data FROM ".$this->rc->db->table_name('dictionary')
                 ." WHERE user_id ". ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
                     ." AND " . $this->rc->db->quoteIdentifier('language') . " = ?",

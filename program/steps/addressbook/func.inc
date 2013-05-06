@@ -167,7 +167,7 @@ function rcmail_set_sourcename($abook)
     // get address book name (for display)
     if ($abook && $_SESSION['addressbooks_count'] > 1) {
         $name = $abook->get_name();
-        if (!$name && $source == 0) {
+        if (!$name) {
             $name = rcube_label('personaladrbook');
         }
         $OUTPUT->set_env('sourcename', html_entity_decode($name, ENT_COMPAT, 'UTF-8'));

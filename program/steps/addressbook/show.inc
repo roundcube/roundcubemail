@@ -223,7 +223,7 @@ function rcmail_contact_record_groups($contact_id)
     }
 
     $hiddenfields = new html_hiddenfield(array('name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
-    $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
+    $hiddenfields->add(array('name' => '_cid', 'value' => $contact_id));
 
     $form_start = $RCMAIL->output->request_form(array(
         'name' => "form", 'method' => "post",

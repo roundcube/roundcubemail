@@ -433,8 +433,9 @@ class acl extends rcube_plugin
         $acl   = trim(get_input_value('_acl', RCUBE_INPUT_GPC));
         $oldid = trim(get_input_value('_old', RCUBE_INPUT_GPC));
 
-        $acl   = array_intersect(str_split($acl), $this->rights_supported());
-        $users = $oldid ? array($user) : explode(',', $user);
+        $acl    = array_intersect(str_split($acl), $this->rights_supported());
+        $users  = $oldid ? array($user) : explode(',', $user);
+        $result = 0;
 
         foreach ($users as $user) {
             $user = trim($user);
