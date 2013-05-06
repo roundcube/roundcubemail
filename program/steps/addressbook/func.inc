@@ -297,7 +297,7 @@ function rcmail_contact_groups($args)
     }
 
     $args['out'] .= html::tag('ul',
-      array('class' => 'groups', 'style' => ($is_collapsed ? "display:none;" : null)),
+      array('class' => 'groups', 'style' => ($is_collapsed || empty($groups) ? "display:none;" : null)),
       $groups_html);
 
     return $args;

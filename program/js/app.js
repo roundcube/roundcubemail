@@ -4453,11 +4453,22 @@ function rcube_webmail()
       this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
       this.name_input_li = $('<li>').addClass(type).append(this.name_input);
 
-      var li = type == 'contactsearch' ? $('li:last', this.gui_objects.folderlist) : $('ul.groups li:last', this.get_folder_li(this.env.source,'',true));
+      var ul, li;
+
+      // find list (UL) element
+      if (type == 'contactsearch')
+        ul = this.gui_objects.folderlist;
+      else
+        ul = $('ul.groups', this.get_folder_li(this.env.source,'',true));
+
+      // append to the list
+      li = $('li:last', ul);
       if (li.length)
         this.name_input_li.insertAfter(li);
-      else
-        this.name_input_li.appendTo(type == 'contactsearch' ? this.gui_objects.folderlist : $('ul.groups', this.get_folder_li(this.env.source,'',true)));
+      else {
+        this.name_input_li.appendTo(ul);
+        ul.show(); // make sure the list is visible
+      }
     }
 
     this.name_input.select().focus();
@@ -4514,11 +4525,13 @@ function rcube_webmail()
   this.reset_add_input = function()
   {
     if (this.name_input) {
+      var li = this.name_input.parent();
       if (this.env.group_renaming) {
-        var li = this.name_input.parent();
         li.children().last().show();
         this.env.group_renaming = false;
       }
+      else if ($('li', li.parent()).length == 1)
+        li.parent().hide();
 
       this.name_input.remove();
 
