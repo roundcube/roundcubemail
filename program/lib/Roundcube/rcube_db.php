@@ -128,7 +128,7 @@ class rcube_db
         $dsn_string  = $this->dsn_string($dsn);
         $dsn_options = $this->dsn_options($dsn);
 
-        if ($db_pconn) {
+        if ($this->db_pconn) {
             $dsn_options[PDO::ATTR_PERSISTENT] = true;
         }
 

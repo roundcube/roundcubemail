@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix various PHP code bugs found using static analysis (#1489086)
 - Fix backslash character handling on vCard import (#1489085)
 - Fix csv import from Thunderbird with French localization (#1489059)
 - Fix messages list focus issue in Opera and Webkit (#1489058)

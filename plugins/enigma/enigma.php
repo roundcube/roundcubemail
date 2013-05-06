@@ -47,6 +47,8 @@ class enigma extends rcube_plugin
         $rcmail = rcmail::get_instance();
         $this->rc = $rcmail;
 
+        $section = rcube_utils::get_input_value('_section', rcube_utils::INPUT_GET);
+
         if ($this->rc->task == 'mail') {
             // message parse/display hooks
             $this->add_hook('message_part_structure', array($this, 'parse_structure'));
@@ -79,7 +81,6 @@ class enigma extends rcube_plugin
             $this->register_action('plugin.enigma', array($this, 'preferences_ui'));
 
             // grab keys/certs management iframe requests
-            $section = get_input_value('_section', RCUBE_INPUT_GET);
             if ($this->rc->action == 'edit-prefs' && preg_match('/^enigma(certs|keys)/', $section)) {
                 $this->load_ui();
                 $this->ui->init($section);

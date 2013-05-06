@@ -374,17 +374,15 @@ class enigma_engine
     {
         // @TODO: Handle big bodies using (temp) files
         // @TODO: caching of verification result
-        
-         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
+        $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
-         if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::E_KEYNOTFOUND)
-             raise_error(array(
+        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::E_KEYNOTFOUND)
+            rcube::raise_error(array(
                 'code' => 600, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $error->getMessage()
+                'message' => "Enigma plugin: " . $sig->getMessage()
                 ), true, false);
 
-//print_r($sig);
         return $sig;
     }
 
@@ -399,10 +397,8 @@ class enigma_engine
     {
         // @TODO: Handle big bodies using (temp) files
         // @TODO: caching of verification result
-        
+        $key = ''; $pass = ''; // @TODO
         $result = $this->pgp_driver->decrypt($msg_body, $key, $pass);
-
-//print_r($result);
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
@@ -430,7 +426,7 @@ class enigma_engine
     {
         $this->load_pgp_driver();
         $result = $this->pgp_driver->list_keys($pattern);
-    
+
         if ($result instanceof enigma_error) {
             raise_error(array(
                 'code' => 600, 'type' => 'php',
@@ -438,7 +434,7 @@ class enigma_engine
                 'message' => "Enigma plugin: " . $result->getMessage()
                 ), true, false);
         }
-        
+
         return $result;
     }
 
