@@ -90,7 +90,7 @@ class rcube_vcard
      */
     public function __construct($vcard = null, $charset = RCUBE_CHARSET, $detect = false, $fieldmap = array())
     {
-        if (!empty($fielmap)) {
+        if (!empty($fieldmap)) {
             $this->extend_fieldmap($fieldmap);
         }
 
