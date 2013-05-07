@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix IMAP connection issue with default_socket_timeout < 0 and imap_timeout < 0 (#1489090)
 - Fix various PHP code bugs found using static analysis (#1489086)
 - Fix backslash character handling on vCard import (#1489085)
 - Fix csv import from Thunderbird with French localization (#1489059)
