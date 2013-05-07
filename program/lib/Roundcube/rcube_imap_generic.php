@@ -746,7 +746,7 @@ class rcube_imap_generic
         }
 
         if ($this->prefs['timeout'] <= 0) {
-            $this->prefs['timeout'] = ini_get('default_socket_timeout');
+            $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
         }
 
         // Connect
