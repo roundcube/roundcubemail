@@ -34,8 +34,9 @@ class rcube_sql_password
             $db = $rcmail->get_dbh();
         }
 
-        if ($err = $db->is_error())
+        if ($db->is_error()) {
             return PASSWORD_ERROR;
+        }
 
         // crypted password
         if (strpos($sql, '%c') !== FALSE) {
@@ -184,7 +185,7 @@ class rcube_sql_password
 
         if (!$db->is_error()) {
             if (strtolower(substr(trim($sql),0,6)) == 'select') {
-                if ($result = $db->fetch_array($res))
+                if ($db->fetch_array($res))
                     return PASSWORD_SUCCESS;
             } else {
                 // This is the good case: 1 row updated

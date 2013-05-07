@@ -63,7 +63,7 @@ class squirrelmail_usercopy extends rcube_plugin
 					if ($this->prefs['___sig'.$i.'___'])
 						$ident_data['signature'] = $this->prefs['___sig'.$i.'___'];
 					// insert identity
-					$identid = $rcmail->user->insert_identity($ident_data);
+					$rcmail->user->insert_identity($ident_data);
 				}
 			}
 

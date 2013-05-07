@@ -497,9 +497,11 @@ class enigma_engine
         $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
         $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
+        $storage = $this->rc->get_storage();
 
         if ($uid && $mime_id) {
-            $part = $this->rc->storage->get_message_part($uid, $mime_id);
+            $storage->set_folder($mbox);
+            $part = $storage->get_message_part($uid, $mime_id);
         }
 
         if ($part && is_array($result = $this->import_key($part))) {
@@ -527,17 +529,5 @@ class enigma_engine
             $part->body = $this->rc->storage->get_message_part(
                 $uid, $part->mime_id, $part);
         }
-    }
-
-    /**
-     * Adds CSS style file to the page header.
-     */
-    private function add_css()
-    {
-        $skin = $this->rc->config->get('skin');
-        if (!file_exists($this->home . "/skins/$skin/enigma.css"))
-            $skin = 'default';
-
-        $this->include_stylesheet("skins/$skin/enigma.css");                                                
     }
 }

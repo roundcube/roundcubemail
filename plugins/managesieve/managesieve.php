@@ -1640,7 +1640,7 @@ class managesieve extends rcube_plugin
             .'value="' . rcube::Q($action['value']) . '" size="35" '
             . $this->error_class($id, 'action', 'value', 'action_varvalue') .' />';
         $out .= '<br /><span class="label">' .rcube::Q($this->gettext('setvarmodifiers')) . '</span><br />';
-        foreach ($set_modifiers as $j => $s_m) {
+        foreach ($set_modifiers as $s_m) {
             $s_m_id = 'action_varmods' . $id . $s_m;
             $out .= sprintf('<input type="checkbox" name="_action_varmods[%s][]" value="%s" id="%s"%s />%s<br>',
                 $id, $s_m, $s_m_id,
@@ -1902,7 +1902,7 @@ class managesieve extends rcube_plugin
             $user_script = $_SESSION['managesieve_user_script'];
 
             // if the script is not active...
-            if ($user_script && ($key = array_search($name, $this->active)) === false) {
+            if ($user_script && array_search($name, $this->active) === false) {
                 // ...rewrite USER file adding appropriate include command
                 if ($this->sieve->load($user_script)) {
                     $script = $this->sieve->script->as_array();
@@ -1920,7 +1920,7 @@ class managesieve extends rcube_plugin
 
                     // get all active scripts for sorting
                     foreach ($script as $rid => $rules) {
-                        foreach ($rules['actions'] as $aid => $action) {
+                        foreach ($rules['actions'] as $action) {
                             if ($action['type'] == 'include' && empty($action['global'])) {
                                 $target = $extension ? preg_replace($regexp, '', $action['target']) : $action['target'];
                                 $list[] = $target;
@@ -1988,7 +1988,7 @@ class managesieve extends rcube_plugin
                     $name   = $name.$extension;
 
                     foreach ($script as $rid => $rules) {
-                        foreach ($rules['actions'] as $aid => $action) {
+                        foreach ($rules['actions'] as $action) {
                             if ($action['type'] == 'include' && empty($action['global'])
                                 && $action['target'] == $name
                             ) {

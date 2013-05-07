@@ -33,8 +33,6 @@ class new_user_identity extends rcube_plugin
 
     function lookup_user_name($args)
     {
-        $rcmail = rcmail::get_instance();
-
         if ($this->init_ldap($args['host'])) {
             $results = $this->ldap->search('*', $args['user'], true);
             if (count($results->records) == 1) {

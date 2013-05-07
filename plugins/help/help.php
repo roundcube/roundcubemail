@@ -21,8 +21,6 @@ class help extends rcube_plugin
 
     function init()
     {
-        $rcmail = rcmail::get_instance();
-
         $this->add_texts('localization/', false);
 
         // register task

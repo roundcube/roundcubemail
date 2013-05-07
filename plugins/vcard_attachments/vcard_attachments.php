@@ -45,7 +45,7 @@ class vcard_attachments extends rcube_plugin
             }
         }
         // the same with message bodies
-        foreach ((array)$this->message->parts as $idx => $part) {
+        foreach ((array)$this->message->parts as $part) {
             if ($this->is_vcard($part)) {
                 $this->vcard_parts[] = $part->mime_id;
                 $this->vcard_bodies[] = $part->mime_id;
@@ -63,7 +63,6 @@ class vcard_attachments extends rcube_plugin
     function html_output($p)
     {
         $attach_script = false;
-        $icon = 'plugins/vcard_attachments/' .$this->local_skin_path(). '/vcard_add_contact.png';
 
         foreach ($this->vcard_parts as $part) {
             $vcards = rcube_vcard::import($this->message->get_part_content($part, null, true));

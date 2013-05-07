@@ -206,7 +206,6 @@ class rcube_sieve_script
 
         // rules
         foreach ($this->content as $rule) {
-            $extension = '';
             $script    = '';
             $tests     = array();
             $i         = 0;
@@ -1015,11 +1014,10 @@ class rcube_sieve_script
      * @param mixed  $num     Number of tokens to return, 0 for all
      *                        or True for all tokens until separator is found.
      *                        Separator will be returned as last token.
-     * @param int    $in_list Enable to call recursively inside a list
      *
      * @return mixed Tokens array or string if $num=1
      */
-    static function tokenize(&$str, $num=0, $in_list=false)
+    static function tokenize(&$str, $num=0)
     {
         $result = array();
 
@@ -1054,7 +1052,7 @@ class rcube_sieve_script
             // Parenthesized list
             case '[':
                 $str = substr($str, 1);
-                $result[] = self::tokenize($str, 0, true);
+                $result[] = self::tokenize($str, 0);
                 break;
             case ']':
                 $str = substr($str, 1);
