@@ -404,7 +404,7 @@ class rcube_utils
         $out = array();
         $src = $mode == self::INPUT_GET ? $_GET : ($mode == self::INPUT_POST ? $_POST : $_REQUEST);
 
-        foreach ($src as $key => $value) {
+        foreach (array_keys($src) as $key) {
             $fname = $key[0] == '_' ? substr($key, 1) : $key;
             if ($ignore && !preg_match('/^(' . $ignore . ')$/', $fname)) {
                 $out[$fname] = self::get_input_value($key, $mode);

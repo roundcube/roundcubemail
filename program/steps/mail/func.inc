@@ -224,7 +224,7 @@ function rcmail_message_list($attrib)
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
 
-  $skin_path = $_SESSION['skin_path'] = $CONFIG['skin_path'];
+  $_SESSION['skin_path'] = $CONFIG['skin_path'];
 
   // set client env
   $OUTPUT->add_gui_object('messagelist', $attrib['id']);
@@ -289,7 +289,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
 
   // get name of smart From/To column in folder context
-  if (($f = array_search('fromto', $a_show_cols)) !== false) {
+  if (array_search('fromto', $a_show_cols) !== false) {
     $smart_col = rcmail_message_list_smart_column_name();
   }
 
@@ -305,7 +305,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   }
 
   // loop through message headers
-  foreach ($a_headers as $n => $header) {
+  foreach ($a_headers as $header) {
     if (empty($header))
       continue;
 
@@ -379,7 +379,6 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   global $RCMAIL;
 
   $skin_path = $_SESSION['skin_path'];
-  $image_tag = html::img(array('src' => "%s%s", 'alt' => "%s"));
 
   // check to see if we have some settings for sorting
   $sort_col   = $_SESSION['sort_col'];
@@ -415,7 +414,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   $cells = array();
 
   // get name of smart From/To column in folder context
-  if (($f = array_search('fromto', $a_show_cols)) !== false) {
+  if (array_search('fromto', $a_show_cols) !== false) {
     $smart_col = rcmail_message_list_smart_column_name();
   }
 
@@ -895,7 +894,7 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
  */
 function rcmail_message_headers($attrib, $headers=null)
 {
-  global $OUTPUT, $MESSAGE, $PRINT_MODE, $RCMAIL;
+  global $MESSAGE, $PRINT_MODE, $RCMAIL;
   static $sa_attrib;
 
   // keep header table attrib
@@ -1080,7 +1079,7 @@ function rcmail_message_body($attrib)
       $header_attrib[$regs[1]] = $value;
 
   if (!empty($MESSAGE->parts)) {
-    foreach ($MESSAGE->parts as $i => $part) {
+    foreach ($MESSAGE->parts as $part) {
       if ($part->type == 'headers') {
         $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
       }
@@ -1737,8 +1736,7 @@ function rcmail_send_mdn($message, &$smtp_error)
 
     $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
 
-    if ($sent)
-    {
+    if ($sent) {
       $RCMAIL->storage->set_flag($message->uid, 'MDNSENT');
       return true;
     }

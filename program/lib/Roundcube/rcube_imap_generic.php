@@ -1652,7 +1652,6 @@ class rcube_imap_generic
         }
 
         if (!empty($criteria)) {
-            $modseq = stripos($criteria, 'MODSEQ') !== false;
             $params .= ($params ? ' ' : '') . $criteria;
         }
         else {
@@ -1791,7 +1790,6 @@ class rcube_imap_generic
                 if ($skip_deleted && preg_match('/FLAGS \(([^)]+)\)/', $line, $matches)) {
                     $flags = explode(' ', strtoupper($matches[1]));
                     if (in_array('\\DELETED', $flags)) {
-                        $deleted[$id] = $id;
                         continue;
                     }
                 }
@@ -2172,7 +2170,7 @@ class rcube_imap_generic
                 // create array with header field:data
                 if (!empty($headers)) {
                     $headers = explode("\n", trim($headers));
-                    foreach ($headers as $hid => $resln) {
+                    foreach ($headers as $resln) {
                         if (ord($resln[0]) <= 32) {
                             $lines[$ln] .= (empty($lines[$ln]) ? '' : "\n") . trim($resln);
                         } else {
@@ -2180,7 +2178,7 @@ class rcube_imap_generic
                         }
                     }
 
-                    while (list($lines_key, $str) = each($lines)) {
+                    foreach ($lines as $str) {
                         list($field, $string) = explode(':', $str, 2);
 
                         $field  = strtolower($field);
@@ -3540,7 +3538,7 @@ class rcube_imap_generic
 
         if (is_array($element)) {
             reset($element);
-            while (list($key, $value) = each($element)) {
+            foreach ($element as $value) {
                 $string .= ' ' . self::r_implode($value);
             }
         }

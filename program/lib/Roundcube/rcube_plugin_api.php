@@ -313,7 +313,6 @@ class rcube_plugin_api
           $doc->loadXML($file);
           $xpath = new DOMXPath($doc);
           $xpath->registerNamespace('rc', "http://pear.php.net/dtd/package-2.0");
-          $data = array();
 
           // XPaths of plugin metadata elements
           $metadata = array(

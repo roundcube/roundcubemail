@@ -347,7 +347,7 @@ class rcube_install
 
     $this->config  = array_merge($this->config, $current);
 
-    foreach ((array)$current['ldap_public'] as $key => $values) {
+    foreach (array_keys((array)$current['ldap_public']) as $key) {
       $this->config['ldap_public'][$key] = $current['ldap_public'][$key];
     }
   }
@@ -356,10 +356,11 @@ class rcube_install
    * Compare the local database schema with the reference schema
    * required for this version of Roundcube
    *
-   * @param boolean True if the schema schould be updated
+   * @param rcube_db Database object
+   *
    * @return boolean True if the schema is up-to-date, false if not or an error occured
    */
-  function db_schema_check($DB, $update = false)
+  function db_schema_check($DB)
   {
     if (!$this->configured)
       return false;
@@ -583,7 +584,7 @@ class rcube_install
       }
       else {  // check if all keys are numeric
         $isnum = true;
-        foreach ($var as $key => $value) {
+        foreach (array_keys($var) as $key) {
           if (!is_numeric($key)) {
             $isnum = false;
             break;

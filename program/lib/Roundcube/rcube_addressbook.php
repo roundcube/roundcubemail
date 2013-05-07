@@ -432,7 +432,7 @@ abstract class rcube_addressbook
                     $out = array_merge($out, (array)$values);
                 }
                 else {
-                    list($f, $type) = explode(':', $c);
+                    list(, $type) = explode(':', $c);
                     $out[$type] = array_merge((array)$out[$type], (array)$values);
                 }
             }

@@ -183,7 +183,6 @@ function rcmail_directory_list($attrib)
         $attrib['id'] = 'rcmdirectorylist';
 
     $out = '';
-    $local_id = '0';
     $jsdata = array();
 
     $line_templ = html::tag('li', array(
@@ -270,7 +269,6 @@ function rcmail_contact_groups($args)
 
     $groups_html = '';
     $groups = $RCMAIL->get_address_book($args['source'])->list_groups();
-    $js_id = $RCMAIL->JQ($args['source']);
 
     if (!empty($groups)) {
         $line_templ = html::tag('li', array(
@@ -283,7 +281,6 @@ function rcmail_contact_groups($args)
         $is_collapsed = strpos($RCMAIL->config->get('collapsed_abooks',''), '&'.rawurlencode($args['source']).'&') !== false;
         $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
 
-        $jsdata = array();
         foreach ($groups as $group) {
             $groups_html .= sprintf($line_templ,
                 rcube_utils::html_identifier('G' . $args['source'] . $group['ID'], true),

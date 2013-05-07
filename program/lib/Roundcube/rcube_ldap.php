@@ -169,7 +169,7 @@ class rcube_ldap extends rcube_addressbook
         // Build sub_fields filter
         if (!empty($this->prop['sub_fields']) && is_array($this->prop['sub_fields'])) {
             $this->sub_filter = '';
-            foreach ($this->prop['sub_fields'] as $attr => $class) {
+            foreach ($this->prop['sub_fields'] as $class) {
                 if (!empty($class)) {
                     $class = is_array($class) ? array_pop($class) : $class;
                     $this->sub_filter .= '(objectClass=' . $class . ')';
@@ -1035,7 +1035,6 @@ class rcube_ldap extends rcube_addressbook
                 $mail_field  = $this->fieldmap['email'];
 
                 // try to extract surname and firstname from displayname
-                $reverse_map = array_flip($this->fieldmap);
                 $name_parts  = preg_split('/[\s,.]+/', $save_data['name']);
 
                 if ($sn_field && $missing[$sn_field]) {
@@ -1107,7 +1106,7 @@ class rcube_ldap extends rcube_addressbook
         // Remove attributes that need to be added separately (child objects)
         $xfields = array();
         if (!empty($this->prop['sub_fields']) && is_array($this->prop['sub_fields'])) {
-            foreach ($this->prop['sub_fields'] as $xf => $xclass) {
+            foreach (array_keys($this->prop['sub_fields']) as $xf) {
                 if (!empty($newentry[$xf])) {
                     $xfields[$xf] = $newentry[$xf];
                     unset($newentry[$xf]);
@@ -1170,7 +1169,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        foreach ($this->fieldmap as $col => $fld) {
+        foreach ($this->fieldmap as $fld) {
             if ($fld) {
                 $val = $ldap_data[$fld];
                 $old = $old_data[$fld];
@@ -1783,7 +1782,7 @@ class rcube_ldap extends rcube_addressbook
             $vlv_active = $this->_vlv_set_controls($this->prop['groups'], $vlv_page+1, $page_size);
         }
 
-        $function = $this->_scope2func($this->prop['groups']['scope'], $ns_function);
+        $function = $this->_scope2func($this->prop['groups']['scope']);
         $res = @$function($this->conn, $base_dn, $filter, array_unique(array('dn', 'objectClass', $name_attr, $email_attr, $sort_attr)));
         if ($res === false)
         {

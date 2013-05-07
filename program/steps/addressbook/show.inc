@@ -101,8 +101,6 @@ function rcmail_contact_head($attrib)
         return false;
     }
 
-    $microformats = array('name' => 'fn', 'email' => 'email');
-
     $form = array(
         'head' => array(  // section 'head' is magic!
             'content' => array(
@@ -177,7 +175,7 @@ function rcmail_contact_details($attrib)
 }
 
 
-function rcmail_render_email_value($email, $col)
+function rcmail_render_email_value($email)
 {
     return html::a(array(
         'href' => 'mailto:' . $email,
@@ -188,7 +186,7 @@ function rcmail_render_email_value($email, $col)
 }
 
 
-function rcmail_render_url_value($url, $col)
+function rcmail_render_url_value($url)
 {
     $prefix = preg_match('!^(http|ftp)s?://!', $url) ? '' : 'http://';
     return html::a(array(

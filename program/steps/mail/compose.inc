@@ -399,7 +399,7 @@ function rcmail_compose_headers($attrib)
 {
   global $MESSAGE;
 
-  list($form_start, $form_end) = get_form_tags($attrib);
+  list($form_start,) = get_form_tags($attrib);
 
   $out  = '';
   $part = strtolower($attrib['part']);
@@ -463,7 +463,7 @@ function rcmail_compose_headers($attrib)
 
 function rcmail_compose_header_from($attrib)
 {
-  global $MESSAGE, $OUTPUT, $RCMAIL, $compose_mode;
+  global $MESSAGE, $OUTPUT, $RCMAIL, $COMPOSE, $compose_mode;
 
   // pass the following attributes to the form class
   $field_attrib = array('name' => '_from');
@@ -566,7 +566,7 @@ function rcmail_message_is_html()
 
 function rcmail_prepare_message_body()
 {
-  global $RCMAIL, $MESSAGE, $COMPOSE, $compose_mode, $LINE_LENGTH, $HTML_MODE;
+  global $RCMAIL, $MESSAGE, $COMPOSE, $compose_mode, $HTML_MODE;
 
   // use posted message body
   if (!empty($_POST['_message'])) {
@@ -715,7 +715,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
 
 function rcmail_compose_body($attrib)
 {
-  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode, $LINE_LENGTH, $HTML_MODE, $MESSAGE_BODY;
+  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode, $HTML_MODE, $MESSAGE_BODY;
 
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -899,8 +899,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
   if (!isset($COMPOSE['forward_attachments']) && is_array($MESSAGE->mime_parts))
     $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
 
-  $date    = format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
-  $charset = $RCMAIL->output->get_charset();
+  $date = format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
 
   if (!$bodyIsHtml) {
     $prefix = "\n\n\n-------- " . rcube_label('originalmessage') . " --------\n";
@@ -954,7 +953,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
 function rcmail_create_draft_body($body, $bodyIsHtml)
 {
-  global $MESSAGE, $OUTPUT, $COMPOSE;
+  global $MESSAGE, $COMPOSE;
 
   /**
    * add attachments
@@ -1002,7 +1001,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
   global $RCMAIL, $COMPOSE, $compose_mode;
 
   $loaded_attachments = array();
-  foreach ((array)$COMPOSE['attachments'] as $id => $attachment) {
+  foreach ((array)$COMPOSE['attachments'] as $attachment) {
       $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
   }
 
@@ -1089,7 +1088,7 @@ function rcmail_write_forward_attachments()
   $names     = array();
 
   $loaded_attachments = array();
-  foreach ((array)$COMPOSE['attachments'] as $id => $attachment) {
+  foreach ((array)$COMPOSE['attachments'] as $attachment) {
       $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
   }
 
@@ -1498,7 +1497,7 @@ function rcmail_editor_selector($attrib)
   $select->add(Q(rcube_label('plaintoggle')), 'plain');
 
   return $select->show($useHtml ? 'html' : 'plain');
-
+/*
   foreach ($choices as $value => $text) {
     $attrib['id'] = '_' . $value;
     $attrib['value'] = $value;
@@ -1506,6 +1505,7 @@ function rcmail_editor_selector($attrib)
   }
 
   return $selector;
+*/
 }
 
 

@@ -481,7 +481,7 @@ class rcube_vcard
         $vcard_block    = '';
         $in_vcard_block = false;
 
-        foreach (preg_split("/[\r\n]+/", $data) as $i => $line) {
+        foreach (preg_split("/[\r\n]+/", $data) as $line) {
             if ($in_vcard_block && !empty($line)) {
                 $vcard_block .= $line . "\n";
             }
