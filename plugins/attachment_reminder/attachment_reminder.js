@@ -18,15 +18,12 @@ function rcmail_get_compose_message()
 
 function rcmail_check_message(msg)
 {
-  var i, rg, keywords = rcmail.gettext('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
+  var i, rx, keywords = rcmail.gettext('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
 
-  for (i=0; i<keywords.length; i++) {
-    rg = new RegExp(keywords[i],'i');
-    if (msg.search(rg) != -1)
-      return true;
-  }
+  $.each(keywords, function(n) { return RegExp.escape(n); });
+  rx = new RegExp('(' + keywords.join('|') + ')', 'i');
 
-  return false;
+  return msg.search(rx) != -1;
 }
 
 function rcmail_have_attachments()
