@@ -199,12 +199,12 @@ remove_row: function(uid, sel_next)
 /**
  * Add row to the list and initialize it
  */
-insert_row: function(row, attop)
+insert_row: function(row, before)
 {
   var tbody = this.list.tBodies[0];
 
-  if (attop && tbody.rows.length)
-    tbody.insertBefore(row, tbody.firstChild);
+  if (before && tbody.rows.length)
+    tbody.insertBefore(row, (typeof before == 'object' && before.parentNode == tbody) ? before : tbody.firstChild);
   else
     tbody.appendChild(row);
 
