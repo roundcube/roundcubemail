@@ -224,7 +224,7 @@ function rcmail_message_list($attrib)
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
 
-  $skin_path = $_SESSION['skin_path'] = $CONFIG['skin_path'];
+  $_SESSION['skin_path'] = $CONFIG['skin_path'];
 
   // set client env
   $OUTPUT->add_gui_object('messagelist', $attrib['id']);
@@ -236,15 +236,13 @@ function rcmail_message_list($attrib)
 
   $OUTPUT->include_script('list.js');
 
-  $thead = '';
-  foreach (rcmail_message_list_head($attrib, $a_show_cols) as $cell)
-    $thead .= html::tag('td', array('class' => $cell['className'], 'id' => $cell['id']), $cell['html']);
+  $table = new html_table($attrib);
+  if (!$attrib['noheader']) {
+    foreach (rcmail_message_list_head($attrib, $a_show_cols) as $cell)
+      $table->add_header(array('class' => $cell['className'], 'id' => $cell['id']), $cell['html']);
+  }
 
-  return html::tag('table',
-    $attrib,
-    html::tag('thead', null, html::tag('tr', null, $thead)) .
-      html::tag('tbody', null, ''),
-        array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
+  return $table->show();
 }
 
 
@@ -291,7 +289,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
 
   // get name of smart From/To column in folder context
-  if (($f = array_search('fromto', $a_show_cols)) !== false) {
+  if (array_search('fromto', $a_show_cols) !== false) {
     $smart_col = rcmail_message_list_smart_column_name();
   }
 
@@ -307,7 +305,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   }
 
   // loop through message headers
-  foreach ($a_headers as $n => $header) {
+  foreach ($a_headers as $header) {
     if (empty($header))
       continue;
 
@@ -381,7 +379,6 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   global $RCMAIL;
 
   $skin_path = $_SESSION['skin_path'];
-  $image_tag = html::img(array('src' => "%s%s", 'alt' => "%s"));
 
   // check to see if we have some settings for sorting
   $sort_col   = $_SESSION['sort_col'];
@@ -417,7 +414,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
   $cells = array();
 
   // get name of smart From/To column in folder context
-  if (($f = array_search('fromto', $a_show_cols)) !== false) {
+  if (array_search('fromto', $a_show_cols) !== false) {
     $smart_col = rcmail_message_list_smart_column_name();
   }
 
@@ -897,7 +894,7 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
  */
 function rcmail_message_headers($attrib, $headers=null)
 {
-  global $OUTPUT, $MESSAGE, $PRINT_MODE, $RCMAIL;
+  global $MESSAGE, $PRINT_MODE, $RCMAIL;
   static $sa_attrib;
 
   // keep header table attrib
@@ -1082,7 +1079,7 @@ function rcmail_message_body($attrib)
       $header_attrib[$regs[1]] = $value;
 
   if (!empty($MESSAGE->parts)) {
-    foreach ($MESSAGE->parts as $i => $part) {
+    foreach ($MESSAGE->parts as $part) {
       if ($part->type == 'headers') {
         $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
       }
@@ -1440,7 +1437,8 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
   $c = count($a_parts);
   $j = 0;
   $out = '';
-  $allvalues = array();
+  $allvalues  = array();
+  $show_email = $RCMAIL->config->get('message_show_email');
 
   if ($addicon && !isset($_SESSION['writeable_abook'])) {
     $_SESSION['writeable_abook'] = $RCMAIL->get_address_sources(true) ? true : false;
@@ -1453,7 +1451,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     $string = $part['string'];
 
     // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
-    if ($name && $name != $mailto && strpos($name, '@')) {
+    if (!$show_email && $name && $name != $mailto && strpos($name, '@')) {
       $name = '';
     }
 
@@ -1471,13 +1469,21 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     }
     else if (check_email($part['mailto'], false)) {
       if ($linked) {
-        $address = html::a(array(
-            'href' => 'mailto:'.$mailto,
-            'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
-            'title' => $mailto,
-            'class' => "rcmContactAddress",
-          ),
-        Q($name ? $name : $mailto));
+        $attrs = array(
+           'href' => 'mailto:' . $mailto,
+           'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
+           'class' => "rcmContactAddress",
+        );
+
+        if ($show_email && $name && $mailto) {
+          $content = Q($name ? sprintf('%s <%s>', $name, $mailto) : $mailto);
+        }
+        else {
+          $content = Q($name ? $name : $mailto);
+          $attrs['title'] = $mailto;
+        }
+
+        $address = html::a($attrs, $content);
       }
       else {
         $address = html::span(array('title' => $mailto, 'class' => "rcmContactAddress"),
@@ -1730,8 +1736,7 @@ function rcmail_send_mdn($message, &$smtp_error)
 
     $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
 
-    if ($sent)
-    {
+    if ($sent) {
       $RCMAIL->storage->set_flag($message->uid, 'MDNSENT');
       return true;
     }

@@ -936,16 +936,13 @@ function rcube_webmail()
             url._to = props;
           }
           else {
-            // use contact_id passed as command parameter
-            var n, len, a_cids = [];
+            var a_cids = [];
+            // use contact id passed as command parameter
             if (props)
               a_cids.push(props);
             // get selected contacts
-            else if (this.contact_list) {
-              var selection = this.contact_list.get_selection();
-              for (n=0, len=selection.length; n<len; n++)
-                a_cids.push(selection[n]);
-            }
+            else if (this.contact_list)
+              a_cids = this.contact_list.get_selection();
 
             if (a_cids.length)
               this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source }, true);
@@ -1582,7 +1579,7 @@ function rcube_webmail()
 
   this.msglist_set_coltypes = function(list)
   {
-    var i, found, name, cols = list.list.tHead.rows[0].cells;
+    var i, found, name, cols = list.thead.rows[0].cells;
 
     this.env.coltypes = [];
 
@@ -1632,13 +1629,17 @@ function rcube_webmail()
 
   this.open_window = function(url, width, height)
   {
-    var w = Math.min(width, screen.width - 10),
-      h = Math.min(height, screen.height - 100),
-      l = (screen.width - w) / 2 + (screen.left || 0),
-      t = Math.max(0, (screen.height - h) / 2 + (screen.top || 0) - 20),
+    var dh = (window.outerHeight || 0) - (window.innerHeight || 0),
+      dw = (window.outerWidth || 0) - (window.innerWidth || 0),
+      sh = screen.availHeight || screen.height,
+      sw = screen.availWidth || screen.width,
+      w = Math.min(width, sw),
+      h = Math.min(height, sh),
+      l = Math.max(0, (sw - w) / 2 + (screen.left || 0)),
+      t = Math.max(0, (sh - h) / 2 + (screen.top || 0)),
       wname = 'rcmextwin' + new Date().getTime(),
       extwin = window.open(url + (url.match(/\?/) ? '&' : '?') + '_extwin=1', wname,
-        'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
+        'width='+(w-dw)+',height='+(h-dh)+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
 
     // write loading... message to empty windows
     if (!url && extwin.document) {
@@ -1732,10 +1733,7 @@ function rcube_webmail()
         + (flags.flagged ? ' flagged' : '')
         + (flags.unread_children && flags.seen && !this.env.autoexpand_threads ? ' unroot' : '')
         + (message.selected ? ' selected' : ''),
-      // for performance use DOM instead of jQuery here
-      row = document.createElement('tr');
-
-    row.id = 'rcmrow'+uid;
+      row = { cols:[], style:{}, id:'rcmrow'+uid };
 
     // message status icons
     css_class = 'msgicon';
@@ -1799,8 +1797,7 @@ function rcube_webmail()
     // add each submitted col
     for (n in this.env.coltypes) {
       c = this.env.coltypes[n];
-      col = document.createElement('td');
-      col.className = String(c).toLowerCase();
+      col = { className: String(c).toLowerCase() };
 
       if (c == 'flag') {
         css_class = (flags.flagged ? 'flagged' : 'unflagged');
@@ -1845,8 +1842,7 @@ function rcube_webmail()
         html = cols[c];
 
       col.innerHTML = html;
-
-      row.appendChild(col);
+      row.cols.push(col);
     }
 
     list.insert_row(row, attop);
@@ -2209,7 +2205,7 @@ function rcube_webmail()
     if (root)
       row = rows[root] ? rows[root].obj : null;
     else
-      row = this.message_list.list.tBodies[0].firstChild;
+      row = this.message_list.tbody.firstChild;
 
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
@@ -2385,7 +2381,7 @@ function rcube_webmail()
   this.delete_excessive_thread_rows = function()
   {
     var rows = this.message_list.rows,
-      tbody = this.message_list.list.tBodies[0],
+      tbody = this.message_list.tbody,
       row = tbody.firstChild,
       cnt = this.env.pagesize + 1;
 
@@ -4328,21 +4324,7 @@ function rcube_webmail()
         newcid = newcid+'-'+source;
     }
 
-    if (list.rows[cid] && (row = list.rows[cid].obj)) {
-      for (c=0; c<cols_arr.length; c++)
-        if (row.cells[c])
-          $(row.cells[c]).html(cols_arr[c]);
-
-      // cid change
-      if (newcid) {
-        newcid = this.html_identifier(newcid);
-        row.id = 'rcmrow' + newcid;
-        list.remove_row(cid);
-        list.init_row(row);
-        list.selection[0] = newcid;
-        row.style.display = '';
-      }
-    }
+    list.update_row(cid, cols_arr, newcid, true);
   };
 
   // add row to contacts list
@@ -4352,7 +4334,7 @@ function rcube_webmail()
       return false;
 
     var c, col, list = this.contact_list,
-      row = document.createElement('tr');
+      row = { cols:[] };
 
     row.id = 'rcmrow'+this.html_identifier(cid);
     row.className = 'contact ' + (classes || '');
@@ -4362,10 +4344,10 @@ function rcube_webmail()
 
     // add each submitted col
     for (c in cols) {
-      col = document.createElement('td');
+      col = {};
       col.className = String(c).toLowerCase();
       col.innerHTML = cols[c];
-      row.appendChild(col);
+      row.cols.push(col);
     }
 
     list.insert_row(row);
@@ -4471,11 +4453,22 @@ function rcube_webmail()
       this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
       this.name_input_li = $('<li>').addClass(type).append(this.name_input);
 
-      var li = type == 'contactsearch' ? $('li:last', this.gui_objects.folderlist) : $('ul.groups li:last', this.get_folder_li(this.env.source,'',true));
+      var ul, li;
+
+      // find list (UL) element
+      if (type == 'contactsearch')
+        ul = this.gui_objects.folderlist;
+      else
+        ul = $('ul.groups', this.get_folder_li(this.env.source,'',true));
+
+      // append to the list
+      li = $('li:last', ul);
       if (li.length)
         this.name_input_li.insertAfter(li);
-      else
-        this.name_input_li.appendTo(type == 'contactsearch' ? this.gui_objects.folderlist : $('ul.groups', this.get_folder_li(this.env.source,'',true)));
+      else {
+        this.name_input_li.appendTo(ul);
+        ul.show(); // make sure the list is visible
+      }
     }
 
     this.name_input.select().focus();
@@ -4532,11 +4525,13 @@ function rcube_webmail()
   this.reset_add_input = function()
   {
     if (this.name_input) {
+      var li = this.name_input.parent();
       if (this.env.group_renaming) {
-        var li = this.name_input.parent();
         li.children().last().show();
         this.env.group_renaming = false;
       }
+      else if ($('li', li.parent()).length == 1)
+        li.parent().hide();
 
       this.name_input.remove();
 
@@ -4964,17 +4959,15 @@ function rcube_webmail()
 
   this.update_identity_row = function(id, name, add)
   {
-    var row, col, list = this.identity_list,
+    var list = this.identity_list,
       rid = this.html_identifier(id);
 
-    if (list.rows[rid] && (row = list.rows[rid].obj)) {
-      $(row.cells[0]).html(name);
-    }
-    else if (add) {
-      row = $('<tr>').attr('id', 'rcmrow'+rid).get(0);
-      col = $('<td>').addClass('mail').html(name).appendTo(row);
-      list.insert_row(row);
+    if (add) {
+      list.insert_row({ id:'rcmrow'+rid, cols:[ { className:'mail', innerHTML:name } ] });
       list.select(rid);
+    }
+    else {
+      list.update_row(rid, [ name ]);
     }
   };
 
@@ -5750,7 +5743,7 @@ function rcube_webmail()
   this.set_message_coltypes = function(coltypes, repl, smart_col)
   {
     var list = this.message_list,
-      thead = list ? list.list.tHead : null,
+      thead = list ? list.thead : null,
       cell, col, n, len, th, tr;
 
     this.env.coltypes = coltypes;

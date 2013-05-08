@@ -62,7 +62,7 @@ function rcmail_url($action, $p=array(), $task=null)
 
 function rcmail_temp_gc()
 {
-  $rcmail = rcmail::get_instance()->temp_gc();
+  rcmail::get_instance()->temp_gc();
 }
 
 function rcube_charset_convert($str, $from, $to=NULL)

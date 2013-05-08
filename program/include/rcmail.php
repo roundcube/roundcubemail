@@ -596,7 +596,7 @@ class rcmail extends rcube
       $post_host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
       $post_user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST);
 
-      list($user, $domain) = explode('@', $post_user);
+      list(, $domain) = explode('@', $post_user);
 
       // direct match in default_host array
       if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
@@ -696,28 +696,6 @@ class rcmail extends rcube
     $token = rcube_utils::get_input_value('_token', $mode);
     $sess_id = $_COOKIE[ini_get('session.name')];
     return !empty($sess_id) && $token == $this->get_request_token();
-  }
-
-
-  /**
-   * Create unique authorization hash
-   *
-   * @param string Session ID
-   * @param int Timestamp
-   * @return string The generated auth hash
-   */
-  private function get_auth_hash($sess_id, $ts)
-  {
-    $auth_string = sprintf('rcmail*sess%sR%s*Chk:%s;%s',
-      $sess_id,
-      $ts,
-      $this->config->get('ip_check') ? $_SERVER['REMOTE_ADDR'] : '***.***.***.***',
-      $_SERVER['HTTP_USER_AGENT']);
-
-    if (function_exists('sha1'))
-      return sha1($auth_string);
-    else
-      return md5($auth_string);
   }
 
 
@@ -1167,7 +1145,7 @@ class rcmail extends rcube
      */
     public function table_output($attrib, $table_data, $a_show_cols, $id_col)
     {
-        $table = new html_table(/*array('cols' => count($a_show_cols))*/);
+        $table = new html_table($attrib);
 
         // add table header
         if (!$attrib['noheader']) {
@@ -1532,7 +1510,7 @@ class rcmail extends rcube
         $collapsed = $this->config->get('collapsed_folders');
 
         $out = '';
-        foreach ($arrFolders as $key => $folder) {
+        foreach ($arrFolders as $folder) {
             $title        = null;
             $folder_class = $this->folder_classname($folder['id']);
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
@@ -1618,7 +1596,7 @@ class rcmail extends rcube
     {
         $out = '';
 
-        foreach ($arrFolders as $key => $folder) {
+        foreach ($arrFolders as $folder) {
             // skip exceptions (and its subfolders)
             if (!empty($opts['exceptions']) && in_array($folder['id'], $opts['exceptions'])) {
                 continue;

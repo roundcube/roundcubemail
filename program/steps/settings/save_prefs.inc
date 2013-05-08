@@ -60,6 +60,7 @@ switch ($CURR_SECTION)
   case 'mailview':
     $a_user_prefs = array(
       'message_extwin'  => intval($_POST['_message_extwin']),
+      'message_show_email' => isset($_POST['_message_show_email']) ? TRUE : FALSE,
       'prefer_html'     => isset($_POST['_prefer_html']) ? TRUE : FALSE,
       'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
       'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,

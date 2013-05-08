@@ -127,10 +127,11 @@ class rcube_mime
      * @param int     $max      List only this number of addresses
      * @param boolean $decode   Decode address strings
      * @param string  $fallback Fallback charset if none specified
+     * @param boolean $addronly Return flat array with e-mail addresses only
      *
-     * @return array  Indexed list of addresses
+     * @return array Indexed list of addresses
      */
-    static function decode_address_list($input, $max = null, $decode = true, $fallback = null)
+    static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
     {
         $a   = self::parse_address_list($input, $decode, $fallback);
         $out = array();
@@ -145,20 +146,21 @@ class rcube_mime
         foreach ($a as $val) {
             $j++;
             $address = trim($val['address']);
-            $name    = trim($val['name']);
 
-            if ($name && $address && $name != $address)
-                $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
-            else if ($address)
-                $string = $address;
-            else if ($name)
-                $string = $name;
+            if ($addronly) {
+                $out[$j] = $address;
+            }
+            else {
+                $name = trim($val['name']);
+                if ($name && $address && $name != $address)
+                    $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
+                else if ($address)
+                    $string = $address;
+                else if ($name)
+                    $string = $name;
 
-            $out[$j] = array(
-                'name'   => $name,
-                'mailto' => $address,
-                'string' => $string
-            );
+                $out[$j] = array('name' => $name, 'mailto' => $address, 'string' => $string);
+            }
 
             if ($max && $j==$max)
                 break;
@@ -476,9 +478,10 @@ class rcube_mime
         $q_level = 0;
 
         foreach ($text as $idx => $line) {
-            if ($line[0] == '>') {
-                // remove quote chars, store level in $q
-                $line = preg_replace('/^>+/', '', $line, -1, $q);
+            if (preg_match('/^(>+)/', $line, $m)) {
+                // remove quote chars
+                $q    = strlen($m[1]);
+                $line = preg_replace('/^>+/', '', $line);
                 // remove (optional) space-staffing
                 $line = preg_replace('/^ /', '', $line);
 
@@ -541,9 +544,10 @@ class rcube_mime
 
         foreach ($text as $idx => $line) {
             if ($line != '-- ') {
-                if ($line[0] == '>') {
-                    // remove quote chars, store level in $level
-                    $line   = preg_replace('/^>+/', '', $line, -1, $level);
+                if (preg_match('/^(>+)/', $line, $m)) {
+                    // remove quote chars
+                    $level  = strlen($m[1]);
+                    $line   = preg_replace('/^>+/', '', $line);
                     // remove (optional) space-staffing and spaces before the line end
                     $line   = preg_replace('/(^ | +$)/', '', $line);
                     $prefix = str_repeat('>', $level) . ' ';
@@ -657,8 +661,8 @@ class rcube_mime
                                 $cutLength = $spacePos + 1;
                             }
                             else {
-                                $subString = $string;
-                                $cutLength = null;
+                                $subString = $substr_func($string, 0, $breakPos, $charset);
+                                $cutLength = $breakPos + 1;
                             }
                         }
                         else {

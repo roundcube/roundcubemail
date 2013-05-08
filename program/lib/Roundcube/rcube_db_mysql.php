@@ -127,7 +127,7 @@ class rcube_db_mysql extends rcube_db
         $result[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
 
         // Enable AUTOCOMMIT mode (#1488902)
-        $dsn_options[PDO::ATTR_AUTOCOMMIT] = true;
+        $result[PDO::ATTR_AUTOCOMMIT] = true;
 
         return $result;
     }
@@ -147,7 +147,7 @@ class rcube_db_mysql extends rcube_db
 
             $result = $this->query('SHOW VARIABLES');
 
-            while ($sql_arr = $this->fetch_array($result)) {
+            while ($row = $this->fetch_array($result)) {
                 $this->variables[$row[0]] = $row[1];
             }
         }

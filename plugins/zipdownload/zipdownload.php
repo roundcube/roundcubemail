@@ -169,7 +169,7 @@ class zipdownload extends rcube_plugin
 			for ($i = 0; ($i * $imap->get_pagesize()) <= $count; $i++) {
 				$a_headers = $imap->list_messages($mbox_name, ($i + 1));
 
-				foreach ($a_headers as $n => $header) {
+				foreach ($a_headers as $header) {
 					if (empty($header))
 						continue;
 
@@ -199,7 +199,7 @@ class zipdownload extends rcube_plugin
 		$zip = new ZipArchive();
 		$zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
 
-		foreach ($uids as $key => $uid){
+		foreach ($uids as $uid){
 			$headers = $imap->get_message_headers($uid);
 			$subject = rcube_mime::decode_mime_string((string)$headers->subject);
 			$subject = $this->_convert_filename($subject);

@@ -1,12 +1,25 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added attachment_reminder plugin
+- Fix IMAP connection issue with default_socket_timeout < 0 and imap_timeout < 0 (#1489090)
+- Fix various PHP code bugs found using static analysis (#1489086)
+- Fix backslash character handling on vCard import (#1489085)
+- Fix csv import from Thunderbird with French localization (#1489059)
+- Fix messages list focus issue in Opera and Webkit (#1489058)
+- Make PHP code eval() free, use create_function()
+- Add option to display email address together with a name in mail preview (#1488732)
+- Fix Reply-To header handling in Reply-All action (#1489037)
+- Fix so Sender: address is added to Cc: field on reply to all (#1489011)
+- Fix so addressbook_search_mode works also for group search (#1489079)
+- Fix removal of a contact from a group in LDAP addressbook (#1489081)
+- Support CSV import from Atmail (#1489045)
+- Inlcude SQL query in the log on SQL error (#1489064)
 - Fix handling untagged responses in IMAP FETCH - "could not load message" error (#1489074)
 - Fix very small window size in Chrome (#1488931)
 - Fix list page reset when viewing a message in Larry skin (#1489076)
 - Fix min_refresh_interval handling on preferences save (#1489073)
 - Fix PDF support detection for Firefox PDF.js (#1488972)
-- Fix messages list focus issue in Internet Explorer (#1489058)
 - Add db_prefix configuration option in place of db_table_*/db_sequence_* options
 - Make possible to use db_prefix for schema initialization in Installer (#1489067)
 - Fix updatedb.sh script so it recognizes also table prefix for external DDL files

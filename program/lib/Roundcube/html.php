@@ -678,6 +678,11 @@ class html_table extends html
     {
         $default_attrib = self::$doctype == 'xhtml' ? array('summary' => '', 'border' => 0) : array();
         $this->attrib = array_merge($attrib, $default_attrib);
+
+        if (!empty($attrib['tagname']) && $attrib['tagname'] != 'table') {
+          $this->tagname = $attrib['tagname'];
+          $this->allowed = self::$common_attrib;
+        }
     }
 
     /**
@@ -816,19 +821,20 @@ class html_table extends html
         if (!empty($this->header)) {
             $rowcontent = '';
             foreach ($this->header as $c => $col) {
-                $rowcontent .= self::tag('td', $col->attrib, $col->content);
+                $rowcontent .= self::tag($this->_col_tagname(), $col->attrib, $col->content);
             }
-            $thead = self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib));
+            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib)) :
+                self::tag($this->_row_tagname(), array('class' => 'thead'), $rowcontent, parent::$common_attrib);
         }
 
         foreach ($this->rows as $r => $row) {
             $rowcontent = '';
             foreach ($row->cells as $c => $col) {
-                $rowcontent .= self::tag('td', $col->attrib, $col->content);
+                $rowcontent .= self::tag($this->_col_tagname(), $col->attrib, $col->content);
             }
 
             if ($r < $this->rowindex || count($row->cells)) {
-                $tbody .= self::tag('tr', $row->attrib, $rowcontent, parent::$common_attrib);
+                $tbody .= self::tag($this->_row_tagname(), $row->attrib, $rowcontent, parent::$common_attrib);
             }
         }
 
@@ -837,7 +843,7 @@ class html_table extends html
         }
 
         // add <tbody>
-        $this->content = $thead . self::tag('tbody', null, $tbody);
+        $this->content = $thead . ($this->tagname == 'table' ? self::tag('tbody', null, $tbody) : $tbody);
 
         unset($this->attrib['cols'], $this->attrib['rowsonly']);
         return parent::show();
@@ -860,6 +866,24 @@ class html_table extends html
     {
         $this->rows     = array();
         $this->rowindex = 0;
+    }
+
+    /**
+     * Getter for the corresponding tag name for table row elements
+     */
+    private function _row_tagname()
+    {
+        static $row_tagnames = array('table' => 'tr', 'ul' => 'li', '*' => 'div');
+        return $row_tagnames[$this->tagname] ?: $row_tagnames['*'];
+    }
+
+    /**
+     * Getter for the corresponding tag name for table cell elements
+     */
+    private function _col_tagname()
+    {
+        static $col_tagnames = array('table' => 'td', '*' => 'span');
+        return $col_tagnames[$this->tagname] ?: $col_tagnames['*'];
     }
 
 }

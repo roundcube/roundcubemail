@@ -119,7 +119,7 @@ class rcube_smtp
         }
 
         // try to connect to server and exit on failure
-        $result = $this->conn->connect($smtp_timeout);
+        $result = $this->conn->connect($CONFIG['smtp_timeout']);
 
         if (PEAR::isError($result)) {
             $this->response[] = "Connection failed: ".$result->getMessage();
@@ -433,9 +433,9 @@ class rcube_smtp
         $recipients = rcube_utils::explode_quoted_string(',', $recipients);
 
         reset($recipients);
-        while (list($k, $recipient) = each($recipients)) {
+        foreach ($recipients as $recipient) {
             $a = rcube_utils::explode_quoted_string(' ', $recipient);
-            while (list($k2, $word) = each($a)) {
+            foreach ($a as $word) {
                 if (strpos($word, "@") > 0 && $word[strlen($word)-1] != '"') {
                     $word = preg_replace('/^<|>$/', '', trim($word));
                     if (in_array($word, $addresses) === false) {

@@ -67,7 +67,7 @@ class XMail {
     function send($msg)
     {
         socket_write($this->socket,$msg);
-        if (substr($in = socket_read($this->socket, 512, PHP_BINARY_READ),0,1) != "+") {
+        if (substr(socket_read($this->socket, 512, PHP_BINARY_READ),0,1) != "+") {
             return false;
         }
         return true;
@@ -85,7 +85,7 @@ class XMail {
             return false;
         }
 
-        if (substr($in = socket_read($this->socket, 512, PHP_BINARY_READ),0,1) != "+") {
+        if (substr(socket_read($this->socket, 512, PHP_BINARY_READ),0,1) != "+") {
             socket_close($this->socket);
             return false;
         }

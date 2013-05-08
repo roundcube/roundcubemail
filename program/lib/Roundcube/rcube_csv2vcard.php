@@ -130,6 +130,21 @@ class rcube_csv2vcard
         'work_state'            => 'region:work',
         'home_city_short'       => 'locality:home',
         'home_state_short'      => 'region:home',
+
+        // Atmail
+        'date_of_birth'         => 'birthday',
+        'email'                 => 'email:pref',
+        'home_mobile'           => 'phone:cell',
+        'home_zip'              => 'zipcode:home',
+        'info'                  => 'notes',
+        'user_photo'            => 'photo',
+        'url'                   => 'website:homepage',
+        'work_company'          => 'organization',
+        'work_dept'             => 'departament',
+        'work_fax'              => 'phone:work,fax',
+        'work_mobile'           => 'phone:work,cell',
+        'work_title'            => 'jobtitle',
+        'work_zip'              => 'zipcode:work',
     );
 
     /**
@@ -230,8 +245,29 @@ class rcube_csv2vcard
         'work_phone'        => "Work Phone",
         'work_address'      => "Work Address",
         //'work_address_2'    => "Work Address 2",
+        'work_city'         => "Work City",
         'work_country'      => "Work Country",
+        'work_state'        => "Work State",
         'work_zipcode'      => "Work ZipCode",
+
+        // Atmail
+        'date_of_birth'     => "Date of Birth",
+        'email'             => "Email",
+        //'email_2'         => "Email2",
+        //'email_3'         => "Email3",
+        //'email_4'         => "Email4",
+        //'email_5'         => "Email5",
+        'home_mobile'       => "Home Mobile",
+        'home_zip'          => "Home Zip",
+        'info'              => "Info",
+        'user_photo'        => "User Photo",
+        'url'               => "URL",
+        'work_company'      => "Work Company",
+        'work_dept'         => "Work Dept",
+        'work_fax'          => "Work Fax",
+        'work_mobile'       => "Work Mobile",
+        'work_title'        => "Work Title",
+        'work_zip'          => "Work Zip",
     );
 
     protected $local_label_map = array();
@@ -268,7 +304,6 @@ class rcube_csv2vcard
     {
         // convert to UTF-8
         $head     = substr($csv, 0, 4096);
-        $fallback = rcube::get_instance()->config->get('default_charset', 'ISO-8859-1'); // fallback to Latin-1?
         $charset  = rcube_charset::detect($head, RCUBE_CHARSET);
         $csv      = rcube_charset::convert($csv, $charset);
         $head     = '';
@@ -276,7 +311,7 @@ class rcube_csv2vcard
         $this->map = array();
 
         // Parse file
-        foreach (preg_split("/[\r\n]+/", $csv) as $i => $line) {
+        foreach (preg_split("/[\r\n]+/", $csv) as $line) {
             $elements = $this->parse_line($line);
             if (empty($elements)) {
                 continue;
@@ -353,6 +388,12 @@ class rcube_csv2vcard
         if (!empty($this->local_label_map)) {
             for ($i = 0; $i < $size; $i++) {
                 $label = $this->local_label_map[$elements[$i]];
+
+                // special localization label
+                if ($label && $label[0] == '_') {
+                    $label = substr($label, 1);
+                }
+
                 if ($label && !empty($this->csv2vcard_map[$label])) {
                     $map2[$i] = $this->csv2vcard_map[$label];
                 }
@@ -384,9 +425,13 @@ class rcube_csv2vcard
             $contact['birthday'] = $contact['birthday-y'] .'-' .$contact['birthday-m'] . '-' . $contact['birthday-d'];
         }
 
+        // Empty dates, e.g. "0/0/00", "0000-00-00 00:00:00"
         foreach (array('birthday', 'anniversary') as $key) {
-            if (!empty($contact[$key]) && $contact[$key] == '0/0/00') { // @TODO: localization?
-                unset($contact[$key]);
+            if (!empty($contact[$key])) {
+                $date = preg_replace('/[0[:^word:]]/', '', $contact[$key]);
+                if (empty($date)) {
+                    unset($contact[$key]);
+                }
             }
         }
 

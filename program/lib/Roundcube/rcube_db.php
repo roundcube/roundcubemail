@@ -128,7 +128,7 @@ class rcube_db
         $dsn_string  = $this->dsn_string($dsn);
         $dsn_options = $this->dsn_options($dsn);
 
-        if ($db_pconn) {
+        if ($this->db_pconn) {
             $dsn_options[PDO::ATTR_PERSISTENT] = true;
         }
 
@@ -405,21 +405,22 @@ class rcube_db
         $this->db_error_msg = null;
 
         // send query
-        $query = $this->dbh->query($query);
+        $result = $this->dbh->query($query);
 
-        if ($query === false) {
+        if ($result === false) {
             $error = $this->dbh->errorInfo();
             $this->db_error = true;
             $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
             rcube::raise_error(array('code' => 500, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
-                'message' => $this->db_error_msg), true, false);
+                'message' => $this->db_error_msg . " (SQL Query: $query)"
+                ), true, false);
         }
 
-        $this->last_result = $query;
+        $this->last_result = $result;
 
-        return $query;
+        return $result;
     }
 
     /**

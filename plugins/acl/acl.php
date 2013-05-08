@@ -384,7 +384,6 @@ class acl extends rcube_plugin
             $table->add_header(array('class' => 'acl'.$key, 'title' => $label), $label);
         }
 
-        $i = 1;
         $js_table = array();
         foreach ($acl as $user => $rights) {
             if ($this->rc->storage->conn->user == $user) {
@@ -433,8 +432,9 @@ class acl extends rcube_plugin
         $acl   = trim(rcube_utils::get_input_value('_acl', rcube_utils::INPUT_GPC));
         $oldid = trim(rcube_utils::get_input_value('_old', rcube_utils::INPUT_GPC));
 
-        $acl   = array_intersect(str_split($acl), $this->rights_supported());
-        $users = $oldid ? array($user) : explode(',', $user);
+        $acl    = array_intersect(str_split($acl), $this->rights_supported());
+        $users  = $oldid ? array($user) : explode(',', $user);
+        $result = 0;
 
         foreach ($users as $user) {
             $user = trim($user);
