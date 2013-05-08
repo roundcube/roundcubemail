@@ -47,6 +47,7 @@ class rcube_db
         'identifier_end'   => '"',
     );
 
+    const DEBUG_LINE_LENGTH = 4096;
 
     /**
      * Factory, returns driver-specific instance of the class
@@ -255,6 +256,10 @@ class rcube_db
     protected function debug($query)
     {
         if ($this->options['debug_mode']) {
+            if (($len = strlen($query)) > self::DEBUG_LINE_LENGTH) {
+                $query = substr_replace($query, "\n-----[debug cut]-----\n",
+                    self::DEBUG_LINE_LENGTH/2 - 11, $len - self::DEBUG_LINE_LENGTH - 22);
+            }
             rcube::write_log('sql', '[' . (++$this->db_index) . '] ' . $query . ';');
         }
     }

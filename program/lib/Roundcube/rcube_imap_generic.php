@@ -72,6 +72,8 @@ class rcube_imap_generic
     const COMMAND_CAPABILITY = 2;
     const COMMAND_LASTLINE   = 4;
 
+    const DEBUG_LINE_LENGTH = 4096;
+
     /**
      * Object constructor
      */
@@ -3757,9 +3759,10 @@ class rcube_imap_generic
     /**
      * Set the value of the debugging flag.
      *
-     * @param   boolean $debug      New value for the debugging flag.
+     * @param boolean  $debug   New value for the debugging flag.
+     * @param callback $handler Logging handler function
      *
-     * @since   0.5-stable
+     * @since 0.5-stable
      */
     function setDebug($debug, $handler = null)
     {
@@ -3770,12 +3773,17 @@ class rcube_imap_generic
     /**
      * Write the given debug text to the current debug output handler.
      *
-     * @param   string  $message    Debug mesage text.
+     * @param string $message Debug mesage text.
      *
-     * @since   0.5-stable
+     * @since 0.5-stable
      */
     private function debug($message)
     {
+        if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
+            $message = substr_replace($message, "\n-----[debug cut]-----\n",
+                self::DEBUG_LINE_LENGTH/2 - 11, $len - self::DEBUG_LINE_LENGTH - 22);
+        }
+
         if ($this->resourceid) {
             $message = sprintf('[%s] %s', $this->resourceid, $message);
         }

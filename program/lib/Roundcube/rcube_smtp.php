@@ -33,6 +33,8 @@ class rcube_smtp
     // define headers delimiter
     const SMTP_MIME_CRLF = "\r\n";
 
+    const DEBUG_LINE_LENGTH = 4096;
+
 
     /**
      * SMTP Connection and authentication
@@ -327,6 +329,11 @@ class rcube_smtp
      */
     public function debug_handler(&$smtp, $message)
     {
+        if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
+            $message = substr_replace($message, "\n-----[debug cut]----\n",
+                self::DEBUG_LINE_LENGTH/2 - 11, $len - self::DEBUG_LINE_LENGTH - 22);
+        }
+
         rcube::write_log('smtp', preg_replace('/\r\n$/', '', $message));
     }
 
