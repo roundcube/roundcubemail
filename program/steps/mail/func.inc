@@ -733,8 +733,13 @@ function rcmail_print_body($part, $p = array())
   unset($data['body']);
 
   // plaintext postprocessing
-  if ($part->ctype_secondary == 'plain')
-    $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
+  if ($part->ctype_secondary == 'plain') {
+    if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
+      $body = rcube_mime::unfold_flowed($body);
+    }
+
+    $body = rcmail_plain_body($body);
+  }
 
   // allow post-processing of the message body
   $data = $RCMAIL->plugins->exec_hook('message_part_after',
@@ -748,11 +753,10 @@ function rcmail_print_body($part, $p = array())
  * Handle links and citation marks in plain text message
  *
  * @param string  Plain text string
- * @param boolean Text uses format=flowed
  *
  * @return string Formatted HTML string
  */
-function rcmail_plain_body($body, $flowed=false)
+function rcmail_plain_body($body)
 {
   global $RCMAIL;
 
@@ -784,48 +788,10 @@ function rcmail_plain_body($body, $flowed=false)
           str_repeat('</blockquote>', $quote_level - $q))) . $body[$n];
         $last = $n;
       }
-      else if ($flowed) {
-        // previous line is flowed
-        if (isset($body[$last]) && $body[$n]
-          && $body[$last][strlen($body[$last])-1] == ' ') {
-          // merge lines
-          $body[$last] .= $body[$n];
-          unset($body[$n]);
-        }
-        else {
-          $last = $n;
-        }
-      }
     }
     else {
       $q = 0;
-      if ($flowed) {
-        // sig separator - line is fixed
-        if ($body[$n] == '-- ') {
-          $last = $last_sig = $n;
-        }
-        else {
-          // remove space-stuffing
-          if ($body[$n][0] == ' ')
-            $body[$n] = substr($body[$n], 1);
-
-          // previous line is flowed?
-          if (isset($body[$last]) && $body[$n]
-            && $last !== $last_sig
-            && $body[$last][strlen($body[$last])-1] == ' '
-          ) {
-            $body[$last] .= $body[$n];
-            unset($body[$n]);
-          }
-          else {
-            $last = $n;
-          }
-        }
-        if ($quote_level > 0)
-          $body[$last] = $replacer->get_replacement($replacer->add(
-            str_repeat('</blockquote>', $quote_level))) . $body[$last];
-      }
-      else if ($quote_level > 0)
+      if ($quote_level > 0)
         $body[$n] = $replacer->get_replacement($replacer->add(
           str_repeat('</blockquote>', $quote_level))) . $body[$n];
     }

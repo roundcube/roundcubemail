@@ -676,6 +676,11 @@ function rcmail_compose_part_body($part, $isHtml = false)
                     $body = rcmail_remove_signature($body);
                 }
             }
+
+            if ($part->ctype_parameters['format'] == 'flowed') {
+                $body = rcube_mime::unfold_flowed($body);
+            }
+
             // add HTML formatting
             $body = rcmail_plain_body($body);
             if ($body) {
