@@ -109,6 +109,11 @@ class managesieve extends rcube_plugin
      */
     function mail_task_handler()
     {
+        // make sure we're not in ajax request
+        if ($this->rc->output->type != 'html') {
+            return;
+        }
+
         // use jQuery for popup window
         $this->require_plugin('jqueryui');
 
