@@ -777,10 +777,12 @@ function rcmail_plain_body($body, $flowed=false)
       if ($q > $quote_level) {
         $body[$n] = $replacer->get_replacement($replacer->add(
           str_repeat('<blockquote>', $q - $quote_level))) . $body[$n];
+        $last = $n;
       }
       else if ($q < $quote_level) {
         $body[$n] = $replacer->get_replacement($replacer->add(
           str_repeat('</blockquote>', $quote_level - $q))) . $body[$n];
+        $last = $n;
       }
       else if ($flowed) {
         // previous line is flowed
