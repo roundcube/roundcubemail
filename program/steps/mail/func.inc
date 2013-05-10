@@ -1417,9 +1417,10 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     $name   = $part['name'];
     $mailto = $part['mailto'];
     $string = $part['string'];
+    $valid  = check_email($mailto, false);
 
     // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
-    if (!$show_email && $name && $name != $mailto && strpos($name, '@')) {
+    if (!$show_email && $valid && $name && $name != $mailto && strpos($name, '@')) {
       $name = '';
     }
 
@@ -1435,7 +1436,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
       // for printing we display all addresses
       continue;
     }
-    else if (check_email($part['mailto'], false)) {
+    else if ($valid) {
       if ($linked) {
         $attrs = array(
            'href' => 'mailto:' . $mailto,
@@ -1476,7 +1477,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
       if ($name)
         $address .= Q($name);
       if ($mailto)
-        $address .= (strlen($address) ? ' ' : '') . sprintf('&lt;%s&gt;', Q($mailto));
+        $address = trim($address . ' ' . Q($name ? sprintf('<%s>', $mailto) : $mailto));
     }
 
     $address = html::span('adr', $address);
