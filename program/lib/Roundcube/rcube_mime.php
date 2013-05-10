@@ -361,6 +361,11 @@ class rcube_mime
                 $address = $m[1];
                 $name    = '';
             }
+            // special case (#1489092)
+            else if (preg_match('/(\s*<MAILER-DAEMON>)$/', $val, $m)) {
+                $address = 'MAILER-DAEMON';
+                $name    = substr($val, 0, -strlen($m[1]));
+            }
             else {
                 $name = $val;
             }
