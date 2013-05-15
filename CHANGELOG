@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix SMTP connection using IPv6 address in smtp_server option (#1489024)
 - Fix problem where security warning was displayed for valid images with image/jpg type (#1489097)
 - Fix handling of invalid email addresses in headers (#1489092)
 - Added attachment_reminder plugin
