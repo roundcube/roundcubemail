@@ -72,7 +72,7 @@ class rcube_imap_generic
     const COMMAND_CAPABILITY = 2;
     const COMMAND_LASTLINE   = 4;
 
-    const DEBUG_LINE_LENGTH = 4096;
+    const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
     /**
      * Object constructor
@@ -3780,8 +3780,9 @@ class rcube_imap_generic
     private function debug($message)
     {
         if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
-            $message = substr_replace($message, "\n-----[debug cut]-----\n",
-                self::DEBUG_LINE_LENGTH/2 - 11, $len - self::DEBUG_LINE_LENGTH - 22);
+            $diff    = $len - self::DEBUG_LINE_LENGTH;
+            $message = substr($message, 0, self::DEBUG_LINE_LENGTH)
+                . "... [truncated $diff bytes]";
         }
 
         if ($this->resourceid) {
