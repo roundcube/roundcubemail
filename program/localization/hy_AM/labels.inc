@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Ստեղծել HTML նամակներ';
 $labels['htmlonreply'] = 'միայն HTML հաղորդագրությանը պատասխանելիս';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML ստորագրություն';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Ցուցադրել պատուհանը';
 $labels['skin'] = 'Տեսքի տարբերակ';
 $labels['logoutclear'] = 'Դուրս գալուց դատարկել աղբարկղը';

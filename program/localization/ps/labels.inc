@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'ايچ ټي‌ام ايل استوزي وليکه';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'ايچ ټي ام ايل لاسليک';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'پخوانی چوکاټ وښييه';
 $labels['skin'] = 'انټرفيس بڼه';
 $labels['logoutclear'] = 'کثافت داني د وتنې په وخت کې پاکه کړه';

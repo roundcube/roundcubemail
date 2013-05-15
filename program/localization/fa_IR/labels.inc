@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML ‌نوشتن پیغام‌های';
 $labels['htmlonreply'] = 'فقط در پاسخ به پیغام HTML';
 $labels['htmlonreplyandforward'] = 'در بازگردانی یا پاسخ به پیغام‌های HTML';
 $labels['htmlsignature'] = 'HTML امضای';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'نمایش قاب پیش‌نمایش';
 $labels['skin'] = 'پوسته ظاهری';
 $labels['logoutclear'] = 'تمیز کردن زباله دان هنگام برون‌رفت';

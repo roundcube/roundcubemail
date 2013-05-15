@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML 메시지 작성';
 $labels['htmlonreply'] = 'HTML 메시지 회신 시';
 $labels['htmlonreplyandforward'] = '전달 또는 HTML 메시지 회신 시';
 $labels['htmlsignature'] = 'HTML 서명';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = '미리보기 창 보기';
 $labels['skin'] = '인터페이스 스킨';
 $labels['logoutclear'] = '로그아웃할 때 휴지통 비우기';

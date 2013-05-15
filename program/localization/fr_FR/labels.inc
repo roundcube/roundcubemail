@@ -64,7 +64,7 @@ $labels['copy']     = 'Copier';
 $labels['move']     = 'Déplacer';
 $labels['moveto']   = 'Déplacer vers...';
 $labels['download'] = 'Télécharger';
-$labels['open']     = 'Open';
+$labels['open']     = 'Ouvrir';
 $labels['showattachment'] = 'Afficher';
 $labels['showanyway'] = 'Afficher quand même';
 
@@ -143,7 +143,7 @@ $labels['firstmessage']     = 'Voir le premier message';
 $labels['nextmessage']      = 'Voir le message suivant';
 $labels['lastmessage']      = 'Voir le dernier message';
 $labels['backtolist']       = 'Retourner à la liste des messages';
-$labels['viewsource']       = 'Voir le source';
+$labels['viewsource']       = 'Voir la source';
 $labels['mark']             = 'Marquer';
 $labels['markmessages']     = 'Marquer les messages';
 $labels['markread']         = 'Comme lus';
@@ -162,7 +162,7 @@ $labels['currpage'] = 'Page courante';
 $labels['unread'] = 'Non lus';
 $labels['flagged'] = 'Marqué';
 $labels['unanswered'] = 'Non répondu';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Avec pièce jointe';
 $labels['deleted'] = 'Supprimé';
 $labels['undeleted'] = 'Non supprimé';
 $labels['invert'] = 'Inverser';
@@ -206,8 +206,8 @@ $labels['body']  = 'Corps';
 
 $labels['openinextwin'] = 'Ouvrir dans une nouvelle fenêtre';
 $labels['emlsave'] = 'Télécharger (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Afficher au format texte';
+$labels['changeformathtml'] = 'Afficher au format HTML';
 
 // message compose
 $labels['editasnew']      = 'Éditer en tant que nouveau message';
@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Composer un message au format HTML';
 $labels['htmlonreply'] = 'en réponse aux messages HTML uniquement';
 $labels['htmlonreplyandforward'] = 'Transférer ou répondre au message HTML';
 $labels['htmlsignature'] = 'Signature HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Afficher le panneau d\'aperçu';
 $labels['skin'] = 'Thème de l\'interface';
 $labels['logoutclear'] = 'Vider la corbeille à la déconnexion';

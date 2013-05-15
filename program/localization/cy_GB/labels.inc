@@ -64,7 +64,7 @@ $labels['copy']     = 'Copio';
 $labels['move']     = 'Symud';
 $labels['moveto']   = 'Symud i...';
 $labels['download'] = 'Llwytho lawr';
-$labels['open']     = 'Open';
+$labels['open']     = 'Agor';
 $labels['showattachment'] = 'Dangos';
 $labels['showanyway'] = 'Dangos beth bynnag';
 
@@ -162,7 +162,7 @@ $labels['currpage'] = 'Tudalen gyfredol';
 $labels['unread'] = 'Heb eu darllen';
 $labels['flagged'] = 'Nodwyd';
 $labels['unanswered'] = 'Heb ei ateb';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Gyda atodiad';
 $labels['deleted'] = 'Dilewyd';
 $labels['undeleted'] = 'Heb ei ddileu';
 $labels['invert'] = 'Gwrth-droi';
@@ -206,8 +206,8 @@ $labels['body']  = 'Corff';
 
 $labels['openinextwin'] = 'Agor mewn ffenest newydd';
 $labels['emlsave'] = 'Llwytho lawr (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Dangos mewn fformat testun plaen';
+$labels['changeformathtml'] = 'Dangos mewn fformat HTML';
 
 // message compose
 $labels['editasnew']      = 'Golygu fel neges newydd';
@@ -339,8 +339,8 @@ $labels['composeto']      = 'Ysgrifennu neges at';
 $labels['contactsfromto'] = 'Cysylltiadau $from i $to o $count';
 $labels['print']          = 'Argraffu';
 $labels['export']         = 'Allforio';
-$labels['exportall']      = 'Export all';
-$labels['exportsel']      = 'Export selected';
+$labels['exportall']      = 'Allforio popeth';
+$labels['exportsel']      = 'Allforio dewiswyd';
 $labels['exportvcards']   = 'Allforio cysylltiadau mewn fformat vCard';
 $labels['newcontactgroup'] = 'Creu grŵp cysylltiadau newydd';
 $labels['grouprename']    = 'Ail-enwi grŵp';
@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Ysgrifennu negeseuon HTML';
 $labels['htmlonreply'] = 'wrth ateb i neges HTML yn unig';
 $labels['htmlonreplyandforward'] = 'wrth ddanfon ymlaen neu ymateb i neges HTML';
 $labels['htmlsignature'] = 'Llofnod HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Dangos ffenest rhagolwg';
 $labels['skin'] = 'Croen rhyngwyneb';
 $labels['logoutclear'] = 'Clirio\'r Sbwriel wrth allgofnodi';

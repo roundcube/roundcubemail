@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML செய்திகளை எழுது';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML கையொப்பம்';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'முந்திய பாத்தியை காட்டு';
 $labels['skin'] = 'முகப்பு தோற்றம்';
 $labels['logoutclear'] = 'வெளியேறும் போது குப்பையை காலி செய்';

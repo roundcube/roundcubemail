@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML berichten opmaken';
 $labels['htmlonreply'] = 'enkel bij beantwoorden van een HTML bericht';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML handtekening';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Toon voorbeeldvenster';
 $labels['skin'] = 'Opmaakprofiel';
 $labels['logoutclear'] = 'Prullenbak legen bij uitloggen';

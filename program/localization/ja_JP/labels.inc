@@ -402,6 +402,7 @@ $labels['htmleditor'] = '作成時にHTMLメッセージを使用';
 $labels['htmlonreply'] = '返信時にHTMLメッセージを使用';
 $labels['htmlonreplyandforward'] = '転送またはHTMLメッセージへの返信';
 $labels['htmlsignature'] = 'HTMLの署名';
+$labels['showemail'] = '電子メールアドレスを表示名と共に表示';
 $labels['previewpane'] = 'プレビュー枠の表示';
 $labels['skin'] = 'インターフェイスのスキン';
 $labels['logoutclear'] = 'ログアウト時にごみ箱の内容を消去';

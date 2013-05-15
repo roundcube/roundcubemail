@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Kirjoita HTML-muodossa';
 $labels['htmlonreply'] = 'Vain vastatessa HTML-viesteihin';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML-allekirjoitus';
+$labels['showemail'] = 'Näytä sähköpostiosoite näyttönimen kanssa';
 $labels['previewpane'] = 'Näytä esikatselulehti';
 $labels['skin'] = 'Käyttöliittymän teema';
 $labels['logoutclear'] = 'Tyhjennä roskakori kirjautuessa ulos';

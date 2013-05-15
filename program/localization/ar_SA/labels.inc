@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'إنشاء رسائل بنسق HTML';
 $labels['htmlonreply'] = 'حال الرد على الرسائل بصيغة HTML فقط';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'توقيع HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'إظهار قسم المعاينة';
 $labels['skin'] = 'شكل الواجهة';
 $labels['logoutclear'] = 'إفراغ سلة المحذوفات عند الخروج';

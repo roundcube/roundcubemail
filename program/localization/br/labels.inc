@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Sevel ur c\'hemennad er furmad HTML';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'Sinadur HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Diskouez panel alberz';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';

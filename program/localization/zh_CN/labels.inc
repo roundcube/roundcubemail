@@ -402,6 +402,7 @@ $labels['htmleditor'] = '使用 HTML 编辑器';
 $labels['htmlonreply'] = '仅当回复 HTML 邮件';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = '使用 HTML 签名';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = '显示预览窗口';
 $labels['skin'] = '界面皮肤';
 $labels['logoutclear'] = '退出时清空回收站';

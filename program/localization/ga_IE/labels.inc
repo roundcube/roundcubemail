@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Scríobh teachtaireachta HTML';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'Mana clabhsúir HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Taispeáin an pána réamhamharc';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';

@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Facer el mensaxe n\'HTML';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'Firma HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Entever';
 $labels['skin'] = 'Estilu';
 $labels['logoutclear'] = 'Vaciar la papelera al zarrar la sesión';

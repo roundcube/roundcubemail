@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Kasuta HTML redaktorit';
 $labels['htmlonreply'] = 'vaid HTML-vormingus kirjale vastamisel';
 $labels['htmlonreplyandforward'] = 'edastamisel või HTML kirjale vastates';
 $labels['htmlsignature'] = 'HTML allkiri';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Näita eelvaate akent';
 $labels['skin'] = 'Kliendi välimus';
 $labels['logoutclear'] = 'Tühjenda väljumisel prügikast';

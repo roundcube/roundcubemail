@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML පණිවිඩයක් සෑදීම';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML අත්සන';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'පූර්වදර්ශන කොටස පෙන්නන්න';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';

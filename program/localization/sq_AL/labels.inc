@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Shkruaj mesazhe HTML';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'Nënshkrimi HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Shiko si duket';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';

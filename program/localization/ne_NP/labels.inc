@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'ऐच-टी-ऐम-एल (HTML) मेल लखन 
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'ऐच-टी-ऐम-एल (HTML) हस्ताक्षर';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'पूर्व दृष्य देखाउनुहोस';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';

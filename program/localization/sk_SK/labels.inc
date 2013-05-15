@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Vytvoriť HTML správu';
 $labels['htmlonreply'] = 'len v odpovedi na HTML správy';
 $labels['htmlonreplyandforward'] = 'pri preposielaní alebo odpovedi na HTML správu';
 $labels['htmlsignature'] = 'HTML podpis';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Ukázať náhľad';
 $labels['skin'] = 'Vzhľad';
 $labels['logoutclear'] = 'Vyprázdniť kôš pri odhlásení';

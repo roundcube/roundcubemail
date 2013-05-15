@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML mezuak sortu';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML sinadura';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Aurrebista panela ikusi';
 $labels['skin'] = 'Azal-interfazea';
 $labels['logoutclear'] = 'Garbitu Zakarronzia irtetean';

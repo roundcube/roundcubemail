@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Scrie mesaje HTML';
 $labels['htmlonreply'] = 'la răspunsul doar către un mesaj HTML';
 $labels['htmlonreplyandforward'] = 'la trimitere mai departe sau la răspuns la mesaj HTML';
 $labels['htmlsignature'] = 'Semnatură HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Previzualizare mail';
 $labels['skin'] = 'Temă interfaţă';
 $labels['logoutclear'] = 'Goleşte Coşul de Gunoi la deconectare';

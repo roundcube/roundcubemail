@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML এ মেইল/চিঠি লিখুন';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML এ স্বাক্ষর';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'ছোটোকরে দেখার জায়গা';
 $labels['skin'] = 'মেইলবক্স এর পুরোটার চেহারা';
 $labels['logoutclear'] = 'বেরহবার সময় ডাস্টবিন অটোমেটিক খালি হবে';

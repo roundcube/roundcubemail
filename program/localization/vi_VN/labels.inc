@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Soạn thư dạng HTML';
 $labels['htmlonreply'] = 'Chỉ trả lời lại bằng thư HTML';
 $labels['htmlonreplyandforward'] = 'Khi chuyển tiếp hoặc trả lời thư theo định dạng HTML';
 $labels['htmlsignature'] = 'Chữ ký HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Hiển thị ô Xem thử';
 $labels['skin'] = 'Bề mặt giao diện';
 $labels['logoutclear'] = 'Xóa sạch rác khi thoát';

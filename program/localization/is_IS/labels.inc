@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Skrifa HTML-skeyti';
 $labels['htmlonreply'] = 'sem svar við HTML-skeytum aðeins';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML-undirskrift';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Sýna forskoðunarglugga';
 $labels['skin'] = 'Sniðmát á viðmóti';
 $labels['logoutclear'] = 'Tæma rusl við útskráningu';

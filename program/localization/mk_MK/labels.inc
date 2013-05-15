@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Пиши HTML порака';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML потпис';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Прикажи прозорец за преглед';
 $labels['skin'] = 'Модел на изгледот';
 $labels['logoutclear'] = 'Исчисти ја Кантата при излез';

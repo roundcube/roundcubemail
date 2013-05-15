@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Peyameke HTML biafirîne';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'Şanenava HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Panela berê nîşan bide';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';

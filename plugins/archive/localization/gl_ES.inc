@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Arquivo';
 $labels['buttontitle'] = 'Arquivar esta mensaxe';
 $labels['archived'] = 'Aquivouse a mensaxe';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Arquivado correctamente. Recargue a páxina para ver os novos cartafoles de arquivado.';
+$labels['archiveerror'] = 'Non se puideron arquivar algunhas mensaxes';
 $labels['archivefolder'] = 'Arquivo';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arquivar';
+$labels['archivetype'] = 'Dividir o arquivo por';
+$labels['archivetypeyear'] = 'Ano (p.ex. Arquivo/2012)';
+$labels['archivetypemonth'] = 'Mes (p.ex. Arquivo/2012/06)';
+$labels['archivetypefolder'] = 'Cartafol orixe';
+$labels['archivetypesender'] = 'Enderezo do remitente';
+$labels['unkownsender'] = 'descoñecido';
 
 ?>

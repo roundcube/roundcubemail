@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Escrever mensagens em HTML';
 $labels['htmlonreply'] = 'apenas em resposta a mensagens HTML';
 $labels['htmlonreplyandforward'] = 'no reencaminhamento ou resposta de mensagem em HTML';
 $labels['htmlsignature'] = 'Assinatura em HTML';
+$labels['showemail'] = 'Mostrar endereço de e-mail com o nome a exibir';
 $labels['previewpane'] = 'Mostrar pré-visualização';
 $labels['skin'] = 'Aspecto [tema]';
 $labels['logoutclear'] = 'Esvaziar a Reciclagem ao sair';

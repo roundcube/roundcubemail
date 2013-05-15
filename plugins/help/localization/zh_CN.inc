@@ -19,6 +19,6 @@
 $labels = array();
 $labels['help'] = '帮助';
 $labels['about'] = '关于';
-$labels['license'] = '许可协议';
+$labels['license'] = '授权信息';
 
 ?>

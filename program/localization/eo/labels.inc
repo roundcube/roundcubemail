@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Uzado de HTML-redaktilo';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML subskribo';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Montru antaŭrigardejon';
 $labels['skin'] = 'Interfaco-etoso';
 $labels['logoutclear'] = 'Malplenigu rubujon je eliro';

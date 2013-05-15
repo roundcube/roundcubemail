@@ -64,7 +64,7 @@ $labels['copy']     = 'Копиране';
 $labels['move']     = 'Преместване';
 $labels['moveto']   = 'Премести в...';
 $labels['download'] = 'Изтегли';
-$labels['open']     = 'Open';
+$labels['open']     = 'Отвори';
 $labels['showattachment'] = 'Показване';
 $labels['showanyway'] = 'Показване въпреки това';
 
@@ -162,7 +162,7 @@ $labels['currpage'] = 'Страница';
 $labels['unread'] = 'Нови';
 $labels['flagged'] = 'Отбелязано';
 $labels['unanswered'] = 'Без отговор';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'С прикачен файл';
 $labels['deleted'] = 'Изтрито';
 $labels['undeleted'] = 'Не е изтрит';
 $labels['invert'] = 'Инвертирай';
@@ -206,8 +206,8 @@ $labels['body']  = 'Основен текст';
 
 $labels['openinextwin'] = 'Отвори в нов прозорец';
 $labels['emlsave'] = 'Изтегли като .eml';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Покажи в опростен текстов формат';
+$labels['changeformathtml'] = 'Покажи в HTML формат';
 
 // message compose
 $labels['editasnew']      = 'Промени като ново';
@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Писане на съобщениe като HTML';
 $labels['htmlonreply'] = 'само при отговор на HTML събощения';
 $labels['htmlonreplyandforward'] = 'само при препращане или отговор на HTML съобщение';
 $labels['htmlsignature'] = 'HTML подпис';
+$labels['showemail'] = 'Показва email адрес с екранното име';
 $labels['previewpane'] = 'Панел за преглед';
 $labels['skin'] = 'Смяна изгледа на интерфейса';
 $labels['logoutclear'] = 'Изчисти кошчето при изход';

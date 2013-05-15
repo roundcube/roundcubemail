@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'پيغام ايچ ټي ام ايل رانوشته کن�
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'امضای حساب ایمیل بشکل ایچ تی ام ال';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'چوکات پیشنما را نشان دهید';
 $labels['skin'] = 'تمپلیت محیط کاربری';
 $labels['logoutclear'] = 'Clear Trash on logout';

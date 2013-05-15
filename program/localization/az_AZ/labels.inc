@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML-də mesaj yaz';
 $labels['htmlonreply'] = 'yalnız HTML mesajlar ilə cavab';
 $labels['htmlonreplyandforward'] = 'HTML məktuba cavab və yönəltmə zamanı';
 $labels['htmlsignature'] = 'HTML imza';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Prevyu paneli göstər';
 $labels['skin'] = 'İnterfeys stili';
 $labels['logoutclear'] = 'Poçtdan çıxan zaman səbəti təmizlə';

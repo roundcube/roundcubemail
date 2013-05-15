@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Piši HTML poruke';
 $labels['htmlonreply'] = 'samo kao odgovor na HTML poruke';
 $labels['htmlonreplyandforward'] = 'prilikom prosljeđivanja ili odgovaranja na HTML poruku';
 $labels['htmlsignature'] = 'HTML potpis';
+$labels['showemail'] = 'Prikaži email adresu sa imenom';
 $labels['previewpane'] = 'Prikaži pregled poruke';
 $labels['skin'] = 'Skin interfejsa';
 $labels['logoutclear'] = 'Očisti smeće prilikom odjavljivanja';

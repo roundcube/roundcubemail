@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Lag HTML-meldingar';
 $labels['htmlonreply'] = 'ved svar på HTML-melding';
 $labels['htmlonreplyandforward'] = 'ved vidaresending av eller svar på HTML-melding';
 $labels['htmlsignature'] = 'HTML-signatur';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Vis førehandsvisningsboks';
 $labels['skin'] = 'Bunad';
 $labels['logoutclear'] = 'Fjern alt i «sletta element» ved utlogging';

@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Створювати листи в HTML';
 $labels['htmlonreply'] = 'тільки у відповідь на HTML повідомлення';
 $labels['htmlonreplyandforward'] = 'під час пересилання або відповіді на повідомлення HTML';
 $labels['htmlsignature'] = 'Підпис в HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Показати панель перегляду';
 $labels['skin'] = 'Тема';
 $labels['logoutclear'] = 'Очищати кошик при виході';

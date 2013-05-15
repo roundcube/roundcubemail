@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'เขียนจดหมายแบบ HTML';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'ลายมือชื่อแบบ HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'แสดงหน้าต่างตัวอย่างแสดงผล';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';

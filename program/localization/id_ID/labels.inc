@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Tulis pesan HTML';
 $labels['htmlonreply'] = 'balasan untuk pesan HTML saja';
 $labels['htmlonreplyandforward'] = 'ketika meneruskan atau membalas pesan HTML';
 $labels['htmlsignature'] = 'Tandatangan HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Unjuk pratinjau';
 $labels['skin'] = 'Tampilan antarmuka';
 $labels['logoutclear'] = 'Bersihkan Tong Sampah saat keluar';

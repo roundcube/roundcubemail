@@ -64,7 +64,7 @@ $labels['copy']     = 'Αντιγραφή';
 $labels['move']     = 'Μετακίνηση';
 $labels['moveto']   = 'Μετακίνηση σε...';
 $labels['download'] = 'Λήψη';
-$labels['open']     = 'Open';
+$labels['open']     = 'Ανοιγμα';
 $labels['showattachment'] = 'Εμφάνιση';
 $labels['showanyway'] = 'Εμφάνιση';
 
@@ -162,7 +162,7 @@ $labels['currpage'] = 'Τρέχουσα σελίδα';
 $labels['unread'] = 'Μη αναγνωσμένο';
 $labels['flagged'] = 'Σημειωμένο';
 $labels['unanswered'] = 'Αναπάντητο';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Με επισύναψη';
 $labels['deleted'] = 'Διεγραμμένο';
 $labels['undeleted'] = 'Μη διεγραμμένο';
 $labels['invert'] = 'Αναστροφή';
@@ -206,8 +206,8 @@ $labels['body']  = 'Σώμα';
 
 $labels['openinextwin'] = 'Άνοιγμα σε νέο παράθυρο';
 $labels['emlsave'] = 'Λήψη αρχείου (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Εμφάνιση σε μορφή απλού κειμένου';
+$labels['changeformathtml'] = 'Εμφάνιση σε μορφή HTML';
 
 // message compose
 $labels['editasnew']      = 'Επεξεργασία σαν νέο';
@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Δημιουργία μηνύματος σε μορφή
 $labels['htmlonreply'] = 'μόνο σε απάντηση μηνύματος μορφής HTML';
 $labels['htmlonreplyandforward'] = 'σε προώθηση ή σε απάντηση σε HTML μήνυμα';
 $labels['htmlsignature'] = 'Υπογραφή HTML';
+$labels['showemail'] = 'Εμφάνιση διεύθυνσης e-mail με το εμφανιζόμενο όνομα';
 $labels['previewpane'] = 'Εμφάνιση προεπισκόπησης';
 $labels['skin'] = 'Θέμα εμφάνισης';
 $labels['logoutclear'] = 'Άδειασμα του κάδου στην έξοδο';

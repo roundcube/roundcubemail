@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = '请填写发送者标识';
+$labels['identitydialogtitle'] = '请填写发送人身份';
 $labels['identitydialoghint'] = '本提示仅在第一次登录时显示。';
 
 ?>

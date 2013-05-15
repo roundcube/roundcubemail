@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'შეტყობინების შექმნა
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML ხელმოწერა';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'ჩვენება';
 $labels['skin'] = 'ინტერფეისი';
 $labels['logoutclear'] = 'წაშლილების გასუფთავება გამოსვლისას';

@@ -162,7 +162,7 @@ $labels['currpage'] = 'Aktuel side';
 $labels['unread'] = 'Ulæste';
 $labels['flagged'] = 'Markeret';
 $labels['unanswered'] = 'Ubesvaret';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Med vedhæftning';
 $labels['deleted'] = 'Slettede';
 $labels['undeleted'] = 'Ikke slettet';
 $labels['invert'] = 'Invertér';
@@ -206,8 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Åbn i nyt vindue';
 $labels['emlsave'] = 'Download (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Vis i ren tekst format';
+$labels['changeformathtml'] = 'Vis i HTML format';
 
 // message compose
 $labels['editasnew']      = 'Redigér som ny';
@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Skriv HTML-besked';
 $labels['htmlonreply'] = 'kun når jeg besvarer HTML-beskeder';
 $labels['htmlonreplyandforward'] = 'ved videresendelse eller besvarelse af HTML beskeder';
 $labels['htmlsignature'] = 'HTML-signatur';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Forhåndsvisning';
 $labels['skin'] = 'Brugerflade';
 $labels['logoutclear'] = 'Tøm Papirkurv når jeg logger af';

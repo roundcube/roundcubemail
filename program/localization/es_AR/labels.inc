@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Componer mensaje en HTML';
 $labels['htmlonreply'] = 'al responder un mensaje HTML';
 $labels['htmlonreplyandforward'] = 'al reenviar o responder un mensaje HTML';
 $labels['htmlsignature'] = 'Firma HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Mostrar vista preliminar';
 $labels['skin'] = 'Apariencia de la interfaz';
 $labels['logoutclear'] = 'Vaciar papelera al cerrar sesión';

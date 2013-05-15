@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'សរសេរសំបុត្រតាមបែប 
 $labels['htmlonreply'] = 'ឆ្លើយតបសំបុត្រតាមបែប HTML';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'ហត្ថលេខាតាមបែប HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'បង្ហាញប្រអប់សំរាប់មើលសំបុត្រ';
 $labels['skin'] = 'ការរចនាទំព័រ';
 $labels['logoutclear'] = 'សំអាតធុងសំរាមពេលពិនិត្យចេញ';

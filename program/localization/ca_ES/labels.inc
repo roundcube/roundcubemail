@@ -162,7 +162,7 @@ $labels['currpage'] = 'Pàgina actual';
 $labels['unread'] = 'No llegits';
 $labels['flagged'] = 'Marcat';
 $labels['unanswered'] = 'No respost';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Amb fitxer adjunt';
 $labels['deleted'] = 'Suprimit';
 $labels['undeleted'] = 'No s\'ha suprimit';
 $labels['invert'] = 'Inverteix';
@@ -206,8 +206,8 @@ $labels['body']  = 'Cos';
 
 $labels['openinextwin'] = 'Obre a una nova finestra';
 $labels['emlsave'] = 'Descarrega (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Mostra en format de text net';
+$labels['changeformathtml'] = 'Mostra en format HTML';
 
 // message compose
 $labels['editasnew']      = 'Edita com a nou';
@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Escriu missatges en HTML';
 $labels['htmlonreply'] = 'només en resposta a missatges en HTML';
 $labels['htmlonreplyandforward'] = 'en reenviament o resposta a missatge HTML';
 $labels['htmlsignature'] = 'Signatura en HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Mostra el panell de previsualització';
 $labels['skin'] = 'Aparença d\'interfície';
 $labels['logoutclear'] = 'Buida la paperera al tancar la sessió';

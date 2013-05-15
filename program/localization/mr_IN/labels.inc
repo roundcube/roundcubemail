@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'एच टी एम एल संदेश तया�
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'एच टी एम एल सही';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'प्रक्रियापूर्व तावदान दाखवा';
 $labels['skin'] = 'दृष्य गोष्टी';
 $labels['logoutclear'] = 'खात्यातून बाहेर पडतांना कचरा पेटी साफ करा';

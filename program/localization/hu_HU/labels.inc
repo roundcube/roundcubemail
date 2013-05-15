@@ -64,7 +64,7 @@ $labels['copy']     = 'Másolás';
 $labels['move']     = 'Áthelyezés';
 $labels['moveto']   = 'Áthelyezés...';
 $labels['download'] = 'letöltés';
-$labels['open']     = 'Open';
+$labels['open']     = 'Megnyítás';
 $labels['showattachment'] = 'Megjelenítés';
 $labels['showanyway'] = 'Megjelnités mindenképpen';
 
@@ -162,7 +162,7 @@ $labels['currpage'] = 'Aktuális oldal';
 $labels['unread'] = 'Olvasatlan';
 $labels['flagged'] = 'Megjelölt';
 $labels['unanswered'] = 'Megválaszolatlan';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Csatolmánnyal';
 $labels['deleted'] = 'Törölt';
 $labels['undeleted'] = 'Nem lett törölve';
 $labels['invert'] = 'Invertálás';
@@ -206,8 +206,8 @@ $labels['body']  = 'Törzs';
 
 $labels['openinextwin'] = 'Megnyitás új ablakban';
 $labels['emlsave'] = 'Letöltés (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Megjelenítés sima szöveges formátumban';
+$labels['changeformathtml'] = 'Megjelenítés HTML formátumban';
 
 // message compose
 $labels['editasnew']      = 'Szerkesztés újként';
@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'HTML üzenet írása';
 $labels['htmlonreply'] = 'csak HTML üzenetre válaszolva';
 $labels['htmlonreplyandforward'] = 'HTML üzenet továbbításakor vagy az arra való válaszoláskor';
 $labels['htmlsignature'] = 'HTML aláírás';
+$labels['showemail'] = 'Az email címek megjelenítése a partner nevével';
 $labels['previewpane'] = 'Előnézeti kép';
 $labels['skin'] = 'Kinézet';
 $labels['logoutclear'] = 'Törölt elemek mappa ürítése kilépéskor';

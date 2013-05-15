@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Rakstīt HTML vēstules';
 $labels['htmlonreply'] = 'tikai atbildot uz HTML formatētām vēstulēm';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML paraksts';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Rādīt priekšskatījuma paneli';
 $labels['skin'] = 'Interfeisa izskats';
 $labels['logoutclear'] = 'Izejot no sistēmas, iztīrīt miskasti';

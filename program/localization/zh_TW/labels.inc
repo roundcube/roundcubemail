@@ -402,6 +402,7 @@ $labels['htmleditor'] = '使用 HTML 撰寫郵件';
 $labels['htmlonreply'] = '只有在回覆HTML信件時';
 $labels['htmlonreplyandforward'] = '只有在轉寄或回覆HTML信件時';
 $labels['htmlsignature'] = 'HTML 簽名檔';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = '顯示預覽窗格';
 $labels['skin'] = '版面風格';
 $labels['logoutclear'] = '登出時清空垃圾桶';

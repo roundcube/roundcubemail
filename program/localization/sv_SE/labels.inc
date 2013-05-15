@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Skriv meddelanden i HTML-format';
 $labels['htmlonreply'] = 'Endast vid svar på meddelande i HTML-format';
 $labels['htmlonreplyandforward'] = 'Vid svar på eller vidarebefordran av meddelande i HTML-format';
 $labels['htmlsignature'] = 'HTML-signatur';
+$labels['showemail'] = 'Visa namn och adress';
 $labels['previewpane'] = 'Visa meddelandefältet';
 $labels['skin'] = 'Stilmall för användargränssnitt';
 $labels['logoutclear'] = 'Töm papperskorgen vid utloggning';

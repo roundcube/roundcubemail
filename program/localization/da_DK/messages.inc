@@ -28,6 +28,8 @@ $messages['dberror'] = 'Database fejl!';
 $messages['requesttimedout'] = 'Forespørgselstiden udløb';
 $messages['errorreadonly'] = 'Kunne ikke udføre den ønskede handling. Mappen er skrivebeskyttet.';
 $messages['errornoperm'] = 'Kunne ikke udføre den ønskede handling. Adgang nægtet.';
+$messages['erroroverquota'] = 'Kan ikke udføre handlingen. Der er ikke nok ledig diskplads.';
+$messages['erroroverquotadelete'] = 'Der er ikke nok ledig diskplads. Brug SHIFT+DEL til at slette en meddelelse.';
 $messages['invalidrequest'] = 'Ugyldig forespørgsel! Ingen data blev gemt.';
 $messages['invalidhost'] = 'Ugyldigt servernavn.';
 $messages['nomessagesfound'] = 'Der blev ikke fundet nogen beskeder i denne postkasse.';
@@ -163,7 +165,7 @@ $messages['invalidimageformat'] = 'Ikke et gyldigt billedformat.';
 $messages['mispellingsfound'] = 'Der er fundet stavefejl i beskeden.';
 $messages['parentnotwritable'] = 'Kan ikke oprette/flytte mappe ind i valgt mappe. Ingen adgangsrettigheder.';
 $messages['messagetoobig'] = 'Denne del af beskeden er for stor til at blive behandlet.';
-$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['attachmentvalidationerror'] = 'ADVARSEL! Den vedhæftede fil er mistænkelig - Typen stemmer ikke overens med den oplyste type. Hvis du ikke har tillid til afsender, skal du ikke åbne filen da den kan indholde onsindet indhold. <br/><br/><em>Forventet: $expected; Fundet: $detected</em>';
 $messages['noscriptwarning'] = 'Advarsel: Denne webmailclient kræver Javascript! For at kunne bruge den slå venligst Javascripts til i din browserindstillinger.';
 
 ?>

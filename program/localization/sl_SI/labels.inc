@@ -402,6 +402,7 @@ $labels['htmleditor'] = 'Sestavi sporočila z obogatenim besedilom';
 $labels['htmlonreply'] = 'le pri odgovoru na sporočila z obogatenim besedilom';
 $labels['htmlonreplyandforward'] = 'le pri posredovanju ali odgovoru na sporočila z obogatenim besedilom';
 $labels['htmlsignature'] = 'Podpis z obogatenim besedilom';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Prikaži predogled';
 $labels['skin'] = 'Tema uporabniškega vmesnika';
 $labels['logoutclear'] = 'Izprazni mapo Smeti ob odjavi';
