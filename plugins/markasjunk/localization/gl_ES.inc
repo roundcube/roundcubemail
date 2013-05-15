@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['buttontext'] = 'Junk';
+$labels['buttontext'] = 'Correo lixo';
 $labels['buttontitle'] = 'Marcar como correo lixo';
 $labels['reportedasjunk'] = 'Mensaxe marcada como correo lixo';
 

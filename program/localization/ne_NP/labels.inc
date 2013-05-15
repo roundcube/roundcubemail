@@ -64,6 +64,7 @@ $labels['copy']     = 'प्रतिलिपि गर्नुहोस्';
 $labels['move']     = 'सार्नुहोस';
 $labels['moveto']   = 'यहाँ सार्नुहोस';
 $labels['download'] = 'डाऊनलोड';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Current page';
 $labels['unread'] = 'नपढिएका |';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Deleted';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Invert';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'ऐच-टी-ऐम-एल (HTML) मेल लखन 
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'ऐच-टी-ऐम-एल (HTML) हस्ताक्षर';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'पूर्व दृष्य देखाउनुहोस';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'When replying remove original signature from 
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
-$labels['replysignaturepos'] = 'When replying or forwarding place signature';
-$labels['belowquote'] = 'below the quote';
-$labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';

@@ -64,6 +64,7 @@ $labels['copy']     = 'Копировать';
 $labels['move']     = 'Переместить';
 $labels['moveto']   = 'Переместить в...';
 $labels['download'] = 'Загрузить';
+$labels['open']     = 'Открыть';
 $labels['showattachment'] = 'Показать';
 $labels['showanyway'] = 'Все равно показать';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Текущая страница';
 $labels['unread'] = 'Непрочитанные';
 $labels['flagged'] = 'Помеченные';
 $labels['unanswered'] = 'Неотвеченные';
+$labels['withattachment'] = 'С вложением';
 $labels['deleted'] = 'Удаленное';
 $labels['undeleted'] = 'Не удалено';
 $labels['invert'] = 'Инвертное';
@@ -204,6 +206,8 @@ $labels['body']  = 'Тело письма';
 
 $labels['openinextwin'] = 'Открыть в новом окне';
 $labels['emlsave'] = 'Сохранить (.eml)';
+$labels['changeformattext'] = 'Показать в формате обычного текста';
+$labels['changeformathtml'] = 'Показать в HTML формате';
 
 // message compose
 $labels['editasnew']      = 'Редактировать как новое';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Создавать сообщения в HTML';
 $labels['htmlonreply'] = 'только в ответ на сообщение в HTML';
 $labels['htmlonreplyandforward'] = 'при пересылке или ответе на HTML сообщение';
 $labels['htmlsignature'] = 'Подпись в HTML';
+$labels['showemail'] = 'Показывать адрес электронной почты и имя адресата';
 $labels['previewpane'] = 'Показать панель превью';
 $labels['skin'] = 'Стиль оформления';
 $labels['logoutclear'] = 'Очищать корзину при выходе';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Удалить подпись при отве
 $labels['autoaddsignature'] = 'Автоматически добавлять подпись';
 $labels['newmessageonly'] = 'только в новых сообщениях';
 $labels['replyandforwardonly'] = 'только в ответах и пересылках';
-$labels['replysignaturepos'] = 'Прикрепить подпись при ответе и пересылке';
-$labels['belowquote'] = 'после цитаты';
-$labels['abovequote'] = 'до цитаты';
 $labels['insertsignature'] = 'Вставить подпись';
 $labels['previewpanemarkread']  = 'Отмечать просмотренные сообщения как прочитанные';
 $labels['afternseconds']  = 'через $n секунд';

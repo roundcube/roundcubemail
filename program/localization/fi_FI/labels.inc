@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopioi';
 $labels['move']     = 'Siirrä';
 $labels['moveto']   = 'siirrä kansioon...';
 $labels['download'] = 'lataa';
+$labels['open']     = 'Avaa';
 $labels['showattachment'] = 'Näytä';
 $labels['showanyway'] = 'Näytä silti';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Nykyinen sivu';
 $labels['unread'] = 'Lukemattomat';
 $labels['flagged'] = 'Korostettu';
 $labels['unanswered'] = 'Vastaamaton';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Poistettu';
 $labels['undeleted'] = 'Ei poistettu';
 $labels['invert'] = 'Käännä';
@@ -204,6 +206,8 @@ $labels['body']  = 'Runko';
 
 $labels['openinextwin'] = 'Avaa uudessa ikkunassa';
 $labels['emlsave'] = 'Tallenna (.eml)';
+$labels['changeformattext'] = 'Näytä raakatekstimuodossa';
+$labels['changeformathtml'] = 'Näytä HTML-muodossa';
 
 // message compose
 $labels['editasnew']      = 'Muokkaa uutena';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Kirjoita HTML-muodossa';
 $labels['htmlonreply'] = 'Vain vastatessa HTML-viesteihin';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML-allekirjoitus';
+$labels['showemail'] = 'Näytä sähköpostiosoite näyttönimen kanssa';
 $labels['previewpane'] = 'Näytä esikatselulehti';
 $labels['skin'] = 'Käyttöliittymän teema';
 $labels['logoutclear'] = 'Tyhjennä roskakori kirjautuessa ulos';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Vastattaessa poista alkuperäinen allekirjoit
 $labels['autoaddsignature'] = 'Lisää allekirjoitus automaattisesti';
 $labels['newmessageonly'] = 'vain uuteen viestiin';
 $labels['replyandforwardonly'] = 'vain vastauksiin ja välityksiin';
-$labels['replysignaturepos'] = 'Vastattaessa tai välitettäessä laita allekirjoitus';
-$labels['belowquote'] = 'lainauksen alle';
-$labels['abovequote'] = 'lainauksen ylle';
 $labels['insertsignature'] = 'Lisää allekirjoitus';
 $labels['previewpanemarkread']  = 'Merkitse esikatsellut viestit luetuiksi';
 $labels['afternseconds']  = '$n sekunnin jälkeen';

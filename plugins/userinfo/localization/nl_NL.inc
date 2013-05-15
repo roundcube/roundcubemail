@@ -19,7 +19,7 @@
 $labels = array();
 $labels['userinfo'] = 'Gebruikersinformatie';
 $labels['created'] = 'Aangemaakt';
-$labels['lastlogin'] = 'Laatste login';
+$labels['lastlogin'] = 'Laatste aanmelding';
 $labels['defaultidentity'] = 'Standaardidentiteit';
 
 ?>

@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopírovať';
 $labels['move']     = 'Presunúť';
 $labels['moveto']   = 'presunúť do...';
 $labels['download'] = 'stiahnuť';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Aktuálna stránka';
 $labels['unread'] = 'Neprečítané';
 $labels['flagged'] = 'Označené';
 $labels['unanswered'] = 'Neoznačené';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Zmazané';
 $labels['undeleted'] = 'Nevymazané';
 $labels['invert'] = 'Prevrátiť';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Otvoriť v novom okne';
 $labels['emlsave'] = 'Stiahnuť';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Upraviť ako novú';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Vytvoriť HTML správu';
 $labels['htmlonreply'] = 'len v odpovedi na HTML správy';
 $labels['htmlonreplyandforward'] = 'pri preposielaní alebo odpovedi na HTML správu';
 $labels['htmlsignature'] = 'HTML podpis';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Ukázať náhľad';
 $labels['skin'] = 'Vzhľad';
 $labels['logoutclear'] = 'Vyprázdniť kôš pri odhlásení';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Pri odpovedaní odstrániť zo správy pôvod
 $labels['autoaddsignature'] = 'Automaticky pridať podpis';
 $labels['newmessageonly'] = 'iba k novým správam';
 $labels['replyandforwardonly'] = 'len k odpovede a preposílanej správe';
-$labels['replysignaturepos'] = 'Pri odpovedaní alebo preposielanie správy vložiť podpis';
-$labels['belowquote'] = 'nad citáciu';
-$labels['abovequote'] = 'pod citáciu';
 $labels['insertsignature'] = 'Vložit podpis';
 $labels['previewpanemarkread']  = 'Označiť zobrazenej správy ako prečítané';
 $labels['afternseconds']  = 'po $n sekundách';

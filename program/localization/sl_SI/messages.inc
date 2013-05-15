@@ -28,6 +28,8 @@ $messages['dberror'] = 'Napaka v bazi';
 $messages['requesttimedout'] = 'Zahteva je potekla';
 $messages['errorreadonly'] = 'Operacije ni bilo mogoče izvršiti. Mapa je na voljo samo za branje.';
 $messages['errornoperm'] = 'Operacije ni bilo mogoče izvršiti. Dostop zavrnjen.';
+$messages['erroroverquota'] = 'Operacije ni mogoče izvršiti. Diskovni prostor je zaseden.';
+$messages['erroroverquotadelete'] = 'Zmanjkalo je diskovnega prostora. Za izbris sporočila porabite tipki SHIFT+DEL.';
 $messages['invalidrequest'] = 'Neveljavna zahteva. Podatki niso bili shranjeni.';
 $messages['invalidhost'] = 'Nepravilno ime strežnika';
 $messages['nomessagesfound'] = 'V poštnem predalu ni sporočil.';
@@ -119,7 +121,7 @@ $messages['selectimportfile'] = 'Izberite datoteko, ki jo želite prenesti';
 $messages['addresswriterror'] = 'Izbran imenik ni zapisljiv';
 $messages['contactaddedtogroup'] = 'Stik je bil uspešno dodan v skupino';
 $messages['contactremovedfromgroup'] = 'Stik je bil uspešno izbrisan iz skupine';
-$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
+$messages['nogroupassignmentschanged'] = 'Dodeljevanje skupini ni bilo spremenjeno.';
 $messages['importwait'] = 'Uvažanje poteka...';
 $messages['importformaterror'] = 'Uvoz ni uspel! Uvožena datoteka ni pravega formata.';
 $messages['importconfirm'] = '<b>Uspešno uvoženi $inserted stiki, $skipped stikov že obstaja v imeniku</b>:<p><em>$names</em></p>';
@@ -163,7 +165,7 @@ $messages['invalidimageformat'] = 'Neveljaven format slike';
 $messages['mispellingsfound'] = 'V sporočilu so bile najdene napake v črkovanju';
 $messages['parentnotwritable'] = 'Podmape v tej mapi ni bilo mogoče ustvariti/premakniti. Nimate pravic.';
 $messages['messagetoobig'] = 'Sporočilo je preveliko za obdelavo.';
-$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['attachmentvalidationerror'] = 'OPOZORILO! Priponka vsebuje sumljivo vsebino, saj tip priponke ne ustreza tipu, določenemu v sporočilu. Če ne zaupate pošiljatelju, priponke v brskalniku ne odpirajte, saj lahko vsebuje zlonamerno vsebino. <br/><br/><em>Pričakovano: $expected; Najdeno: $detected</em>';
 $messages['noscriptwarning'] = 'Opozorilo: Ta spletna stran zahteva Javascript! Za uporabo jo vključite v nastavitvah vašega brskalnika.';
 
 ?>

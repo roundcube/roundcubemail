@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopier';
 $labels['move']     = 'Flytt';
 $labels['moveto']   = 'flytt til...';
 $labels['download'] = 'last ned';
+$labels['open']     = 'Åpen';
 $labels['showattachment'] = 'Vis';
 $labels['showanyway'] = 'Vis likevel';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Gjeldende side';
 $labels['unread'] = 'Uleste';
 $labels['flagged'] = 'Flagget';
 $labels['unanswered'] = 'Ubesvarte';
+$labels['withattachment'] = 'Med vedlegg';
 $labels['deleted'] = 'Slettet';
 $labels['undeleted'] = 'Ikke slettet';
 $labels['invert'] = 'Inverter';
@@ -204,6 +206,8 @@ $labels['body']  = 'Meldingstekst';
 
 $labels['openinextwin'] = 'Åpne i nytt vindu';
 $labels['emlsave'] = 'Last ned (.eml)';
+$labels['changeformattext'] = 'Vis i ren tekst';
+$labels['changeformathtml'] = 'Vis i HTML';
 
 // message compose
 $labels['editasnew']      = 'Rediger som ny';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Bruk HTML-editor';
 $labels['htmlonreply'] = 'ved svar på HTML-melding';
 $labels['htmlonreplyandforward'] = 'ved videresending av eller svar på HTML-melding';
 $labels['htmlsignature'] = 'HTML-signatur';
+$labels['showemail'] = 'Vis e-postadresse sammen med visningsnavn';
 $labels['previewpane'] = 'Forhåndsvisning';
 $labels['skin'] = 'Utseende';
 $labels['logoutclear'] = 'Tøm søppel ved utlogging';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Fjern orginalsignaturen i svar på melding';
 $labels['autoaddsignature'] = 'Legg til signatur';
 $labels['newmessageonly'] = 'kun på nye meldinger';
 $labels['replyandforwardonly'] = 'kun i svar og videresendinger';
-$labels['replysignaturepos'] = 'Plassering av signatur ved svar eller videresending';
-$labels['belowquote'] = 'over sitert melding';
-$labels['abovequote'] = 'under sitert melding';
 $labels['insertsignature'] = 'Sett inn signatur';
 $labels['previewpanemarkread']  = 'Merk forhåndsviste meldinger som lest';
 $labels['afternseconds']  = 'etter $n sekunder';

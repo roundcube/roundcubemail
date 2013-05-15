@@ -57,6 +57,9 @@ $labels['sender'] = 'Siuntėjas';
 $labels['recipient'] = 'Gavėjas';
 $labels['vacationaddresses'] = 'Papildomas gavėjų adresų sąrašas (skirti kableliais):';
 $labels['vacationdays'] = 'Kaip dažnai išsiųsti laiškus (dienomis):';
+$labels['vacationinterval'] = 'Kaip dažnai siųsti laiškus:';
+$labels['days'] = 'd.';
+$labels['seconds'] = 'sek.';
 $labels['vacationreason'] = 'Laiško tekstas';
 $labels['vacationsubject'] = 'Laiško tema:';
 $labels['rulestop'] = 'Nutraukti taisyklių vykdymą';
@@ -169,6 +172,6 @@ $messages['moveerror'] = 'Pasirinkto filtro perkelti neįmanoma. Įvyko serverio
 $messages['nametoolong'] = 'Vardas per ilgas.';
 $messages['namereserved'] = 'Rezervuotas vardas.';
 $messages['setexist'] = 'Rinkinys jau yra sukurtas.';
-$messages['nodata'] = 'At least one position must be selected!';
+$messages['nodata'] = 'Būtina pasirinkti bent vieną poziciją!';
 
 ?>

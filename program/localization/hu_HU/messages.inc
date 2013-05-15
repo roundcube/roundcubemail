@@ -17,7 +17,7 @@
 */
 
 $messages = array();
-$messages['errortitle']  = 'Hiba történt';
+$messages['errortitle']  = 'Hiba történt!';
 $messages['loginfailed']  = 'Sikertelen bejelentkezés.';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
@@ -28,6 +28,8 @@ $messages['dberror'] = 'Adatbázishiba!';
 $messages['requesttimedout'] = 'A kérés túllépte az időkorlátot';
 $messages['errorreadonly'] = 'A műveletet nem sikerült végrehajtani. A mappa írásvédett.';
 $messages['errornoperm'] = 'A műveletet nem sikerült végrehajtani. Hozzáférés megtagadva.';
+$messages['erroroverquota'] = 'A műveletet nem lehetett végrehajtani mivel nincs elég szabad hely a merevlemezen.';
+$messages['erroroverquotadelete'] = 'Nincs elég szabad hely a merevlemezen. A SHIFT+DEL billenytyű kombinációt használd az üzenet törléséhez.';
 $messages['invalidrequest'] = 'Érvénytelen kérés! Az adatok nem lettek elmentve.';
 $messages['invalidhost'] = 'Hibás szerver hoszt név';
 $messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';

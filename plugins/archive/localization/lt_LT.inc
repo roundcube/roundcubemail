@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Archyvuoti';
 $labels['buttontitle'] = 'Perkelti šį laišką į archyvą';
 $labels['archived'] = 'Laiškas sėkmingai perkeltas į archyvą';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Sėkmingai perkelta į archyvą. Iš naujo įkelkite puslapį, kad pamatytumėt pasikeitimus.';
+$labels['archiveerror'] = 'Į archyvą nepavyko perkelti keleto laiškų.';
 $labels['archivefolder'] = 'Archyvuoti';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Archyvuoti';
+$labels['archivetype'] = 'Padalinti archyvą pagal';
+$labels['archivetypeyear'] = 'Metai (pvz. Archyvas/2012)';
+$labels['archivetypemonth'] = 'Mėnesis (pvz. Archyvas/2012/06)';
+$labels['archivetypefolder'] = 'Tikrasis aplankas';
+$labels['archivetypesender'] = 'Siuntėjo el. pašto adresas';
+$labels['unkownsender'] = 'nežinomas';
 
 ?>

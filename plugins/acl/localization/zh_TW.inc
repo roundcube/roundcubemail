@@ -65,10 +65,10 @@ $labels['shortaclread'] = '讀取';
 $labels['shortaclwrite'] = '寫入';
 $labels['shortacldelete'] = '刪除';
 
-$labels['longacll'] = 'The folder is visible on lists and can be subscribed to';
+$labels['longacll'] = '此資料夾權限可以訂閱和瀏覽';
 $labels['longaclr'] = '資料夾能被打開與讀取';
 $labels['longacls'] = '能修改訊息標幟';
-$labels['longaclw'] = 'Messages flags and keywords can be changed, except Seen and Deleted';
+$labels['longaclw'] = '內容旗標和關鍵字可以變更,不包含已檢視和刪除的';
 $labels['longacli'] = '訊息能寫入或複製到資料夾';
 $labels['longaclp'] = '訊息能被投遞到這個資料夾';
 $labels['longaclc'] = '這個資料夾之下可以建子資料夾(或重新命名）';

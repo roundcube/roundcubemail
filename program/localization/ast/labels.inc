@@ -64,6 +64,7 @@ $labels['copy']     = 'Copia';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'mover pa...';
 $labels['download'] = 'baxar';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Current page';
 $labels['unread'] = 'Ensin lleer';
 $labels['flagged'] = 'Marcáu';
 $labels['unanswered'] = 'Ensin contestar';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Desaniciáu';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Invertir';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Abrir en una ventana nueva';
 $labels['emlsave'] = 'Baxar (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Editar como nuevu';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Facer el mensaxe n\'HTML';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'Firma HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Entever';
 $labels['skin'] = 'Estilu';
 $labels['logoutclear'] = 'Vaciar la papelera al zarrar la sesión';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'When replying remove original signature from 
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
-$labels['replysignaturepos'] = 'When replying or forwarding place signature';
-$labels['belowquote'] = 'below the quote';
-$labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';

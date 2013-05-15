@@ -64,6 +64,7 @@ $labels['copy']     = 'Sao chép';
 $labels['move']     = 'Di Chuyển';
 $labels['moveto']   = 'Di chuyển tới...';
 $labels['download'] = 'Tải về';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Hiển thị';
 $labels['showanyway'] = 'Tiếp tục hiển thị';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Trang hiện tại';
 $labels['unread'] = 'Chưa đọc';
 $labels['flagged'] = 'Đã đánh dấu';
 $labels['unanswered'] = 'Chưa trả lời';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Đã xóa';
 $labels['undeleted'] = 'Chưa xóa được';
 $labels['invert'] = 'Đảo ngược';
@@ -204,6 +206,8 @@ $labels['body']  = 'Nội dung thư';
 
 $labels['openinextwin'] = 'Mở trong khung cửa mới';
 $labels['emlsave'] = 'Tải về theo định dạng .eml';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Sửa như một email mới';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Soạn thư dạng HTML';
 $labels['htmlonreply'] = 'Chỉ trả lời lại bằng thư HTML';
 $labels['htmlonreplyandforward'] = 'Khi chuyển tiếp hoặc trả lời thư theo định dạng HTML';
 $labels['htmlsignature'] = 'Chữ ký HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Hiển thị ô Xem thử';
 $labels['skin'] = 'Bề mặt giao diện';
 $labels['logoutclear'] = 'Xóa sạch rác khi thoát';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Khi trả lời bỏ chữ ký cũ khỏi n�
 $labels['autoaddsignature'] = 'Tự động thêm chữ ký';
 $labels['newmessageonly'] = 'chỉ thư mới';
 $labels['replyandforwardonly'] = 'chỉ trả lời và chuyển tiếp thư';
-$labels['replysignaturepos'] = 'Khi trả lời hoặc chuyển tiếp thư thêm vào chữ ký';
-$labels['belowquote'] = 'Dưới phần nội dung cũ';
-$labels['abovequote'] = 'trên phần nội dung cũ';
 $labels['insertsignature'] = 'Chèn chữ ký';
 $labels['previewpanemarkread']  = 'Đánh dẫu thư xem thử là đã đọc';
 $labels['afternseconds']  = 'sau $n giây';

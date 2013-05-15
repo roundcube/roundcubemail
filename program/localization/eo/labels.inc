@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopii';
 $labels['move']     = 'Movi';
 $labels['moveto']   = 'transloku al...';
 $labels['download'] = 'elŝutu';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Nuna paĝo';
 $labels['unread'] = 'Nelegitan';
 $labels['flagged'] = 'Markita';
 $labels['unanswered'] = 'Nerespondita';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Forigita';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Inversigu';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Malfermu en nova fenestro';
 $labels['emlsave'] = 'Elŝutu (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Redaktu kiel nova';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Uzado de HTML-redaktilo';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML subskribo';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Montru antaŭrigardejon';
 $labels['skin'] = 'Interfaco-etoso';
 $labels['logoutclear'] = 'Malplenigu rubujon je eliro';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'When replying remove original signature from 
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
-$labels['replysignaturepos'] = 'When replying or forwarding place signature';
-$labels['belowquote'] = 'below the quote';
-$labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';

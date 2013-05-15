@@ -64,6 +64,7 @@ $labels['copy']     = 'Copiar';
 $labels['move']     = 'Mover';
 $labels['moveto']   = 'mover para...';
 $labels['download'] = 'descarregar';
+$labels['open']     = 'Abrir';
 $labels['showattachment'] = 'Mostrar';
 $labels['showanyway'] = 'Mostrar na mesma';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Página actual';
 $labels['unread'] = 'Não lidas';
 $labels['flagged'] = 'Sinalizadas';
 $labels['unanswered'] = 'Não respondidas';
+$labels['withattachment'] = 'Com anexo';
 $labels['deleted'] = 'Eliminadas';
 $labels['undeleted'] = 'Não eliminada';
 $labels['invert'] = 'Inverter selecção';
@@ -204,6 +206,8 @@ $labels['body']  = 'Corpo';
 
 $labels['openinextwin'] = 'Abrir numa nova janela';
 $labels['emlsave'] = 'Guardar como (.eml)';
+$labels['changeformattext'] = 'Mostrar em formato de texto simples';
+$labels['changeformathtml'] = 'Mostrar em formato HTML';
 
 // message compose
 $labels['editasnew']      = 'Editar como nova';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Escrever mensagens em HTML';
 $labels['htmlonreply'] = 'apenas em resposta a mensagens HTML';
 $labels['htmlonreplyandforward'] = 'no reencaminhamento ou resposta de mensagem em HTML';
 $labels['htmlsignature'] = 'Assinatura em HTML';
+$labels['showemail'] = 'Mostrar endereço de e-mail com o nome a exibir';
 $labels['previewpane'] = 'Mostrar pré-visualização';
 $labels['skin'] = 'Aspecto [tema]';
 $labels['logoutclear'] = 'Esvaziar a Reciclagem ao sair';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Ao responder, remover a assinatura original d
 $labels['autoaddsignature'] = 'Adicionar assinatura automaticamente';
 $labels['newmessageonly'] = 'apenas em novas mensagens';
 $labels['replyandforwardonly'] = 'apenas em respostas e reenvios';
-$labels['replysignaturepos'] = 'Ao responder ou reencaminhar colocar assinatura';
-$labels['belowquote'] = 'depois da citação';
-$labels['abovequote'] = 'antes da citação';
 $labels['insertsignature'] = 'Inserir assinatura';
 $labels['previewpanemarkread']  = 'Marcar mensagem como lida';
 $labels['afternseconds']  = 'após $n segundos';

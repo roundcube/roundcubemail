@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Archiválás';
 $labels['buttontitle'] = 'Üzenet archiválása';
 $labels['archived'] = 'Sikeres archiválás';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Az arhiválás sikeres. Frissitsd az oldalt, hogy lásd a létrejött arhivum mappákat.';
+$labels['archiveerror'] = 'Néhány üzenetet nem sikerült arhiválni';
 $labels['archivefolder'] = 'Archiválás';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
+$labels['settingstitle'] = 'Archiválás';
+$labels['archivetype'] = 'Arhívum tovább bontása a következő szerint';
+$labels['archivetypeyear'] = 'Év ( pl Arhívum/2012)';
+$labels['archivetypemonth'] = 'Honap ( pl Arhívum/2012/06)';
+$labels['archivetypefolder'] = 'Eredeti mappa';
+$labels['archivetypesender'] = 'Feladó';
 $labels['unkownsender'] = 'ismeretlen';
 
 ?>

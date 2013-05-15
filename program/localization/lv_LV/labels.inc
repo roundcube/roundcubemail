@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopēt';
 $labels['move']     = 'Pārvietot';
 $labels['moveto']   = 'pārvietot uz...';
 $labels['download'] = 'lejupielādēt';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Pašreizējā lapa';
 $labels['unread'] = 'nelasītās';
 $labels['flagged'] = 'iezīmētās';
 $labels['unanswered'] = 'neatbildētās';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'dzēstās';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'invertēt';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'atvērt jaunā logā';
 $labels['emlsave'] = 'lejupielādēt (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'rediģēt kā jaunu';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Rakstīt HTML vēstules';
 $labels['htmlonreply'] = 'tikai atbildot uz HTML formatētām vēstulēm';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML paraksts';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Rādīt priekšskatījuma paneli';
 $labels['skin'] = 'Interfeisa izskats';
 $labels['logoutclear'] = 'Izejot no sistēmas, iztīrīt miskasti';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Atbildot izņemt oriģinālo parakstu no vēs
 $labels['autoaddsignature'] = 'Automātiski pievienot parakstu';
 $labels['newmessageonly'] = 'tikai jaunas vēstules';
 $labels['replyandforwardonly'] = 'tikai atbildes un pārsūtījumi';
-$labels['replysignaturepos'] = 'Atbildot vai pārsūtot ievietot parakstu';
-$labels['belowquote'] = 'zem citāta';
-$labels['abovequote'] = 'virs citāta';
 $labels['insertsignature'] = 'Ievietot parakstu';
 $labels['previewpanemarkread']  = 'Atzīmēt priekšskatītās vēstules kā lasītas';
 $labels['afternseconds']  = 'pēc $n sekundēm';

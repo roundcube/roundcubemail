@@ -64,6 +64,7 @@ $labels['copy']     = 'Salin';
 $labels['move']     = 'Pindahkan';
 $labels['moveto']   = 'Pindahkan ke...';
 $labels['download'] = 'Unduh';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Tampilkan';
 $labels['showanyway'] = 'Tampilkan saja';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Halaman sekarang';
 $labels['unread'] = 'Belum terbaca';
 $labels['flagged'] = 'Ditandai';
 $labels['unanswered'] = 'Belum terjawab';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Terhapus';
 $labels['undeleted'] = 'Tidak terhapus';
 $labels['invert'] = 'Sebaliknya';
@@ -204,6 +206,8 @@ $labels['body']  = 'Badan';
 
 $labels['openinextwin'] = 'Buka dalam jendela baru';
 $labels['emlsave'] = 'Unduh (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Sunting sebagai pesan baru';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Tulis pesan HTML';
 $labels['htmlonreply'] = 'balasan untuk pesan HTML saja';
 $labels['htmlonreplyandforward'] = 'ketika meneruskan atau membalas pesan HTML';
 $labels['htmlsignature'] = 'Tandatangan HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Unjuk pratinjau';
 $labels['skin'] = 'Tampilan antarmuka';
 $labels['logoutclear'] = 'Bersihkan Tong Sampah saat keluar';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'ketika membalas pesan hapus tanda tangan dari
 $labels['autoaddsignature'] = 'Otomatis tambahkan tanda tangan';
 $labels['newmessageonly'] = 'Hanya untuk pesan baru';
 $labels['replyandforwardonly'] = 'Hanya untuk dijawab dan diteruskan';
-$labels['replysignaturepos'] = 'ketika membalas atau meneruskan pesan tambahkan tanda tangan';
-$labels['belowquote'] = 'Dibawah kutipan';
-$labels['abovequote'] = 'Diatas kutipan';
 $labels['insertsignature'] = 'Isi tanda tangan';
 $labels['previewpanemarkread']  = 'Tandai pesan yang sudah dilihat';
 $labels['afternseconds']  = 'setelah $n detik';

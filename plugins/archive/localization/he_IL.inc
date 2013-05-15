@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'ארכיון';
 $labels['buttontitle'] = 'משלוח ההודעה לארכיב';
 $labels['archived'] = 'עדכון הארכיון הצליח';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'נשמר בהצלחה בארכיב. יש לרענו את הדף כדי לראות את התיקיות החדשות בארכיב.';
+$labels['archiveerror'] = 'לא ניתן היה להעביר לארכיב חלק מההודעות';
 $labels['archivefolder'] = 'ארכיון';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'ארכיב';
+$labels['archivetype'] = 'לחלק את הארכיב על ידי';
+$labels['archivetypeyear'] = 'שנה ( לדוגמה, ארכיב/2012/96 )';
+$labels['archivetypemonth'] = 'חודש ( לדוגמה, ארכיב/2012/96 )';
+$labels['archivetypefolder'] = 'תיקיה מקורית';
+$labels['archivetypesender'] = 'שולח ההודעה';
+$labels['unkownsender'] = 'לא ידוע';
 
 ?>

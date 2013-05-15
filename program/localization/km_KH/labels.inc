@@ -64,6 +64,7 @@ $labels['copy']     = 'ចំលង';
 $labels['move']     = 'ផ្ទេរ';
 $labels['moveto']   = 'ផ្ទេរទៅ';
 $labels['download'] = 'ទាញយក';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'ទំព័រនេះ';
 $labels['unread'] = 'មិនទាន់អាន';
 $labels['flagged'] = 'មានកំណត់សំគាល់ដោយផ្កាយ';
 $labels['unanswered'] = 'មិនទាន់ឆ្លើយតប';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'បានលុបរួច';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'បញ្ច្រស់';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'បើកក្នុងវីនដូវថ្មី';
 $labels['emlsave'] = 'រក្សាទុកទិន្នន័យជាឯកសារប្រភេទ(.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'កែហើយរក្សាទុកដូចជាសំបុត្រថ្មី';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'សរសេរសំបុត្រតាមបែប 
 $labels['htmlonreply'] = 'ឆ្លើយតបសំបុត្រតាមបែប HTML';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'ហត្ថលេខាតាមបែប HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'បង្ហាញប្រអប់សំរាប់មើលសំបុត្រ';
 $labels['skin'] = 'ការរចនាទំព័រ';
 $labels['logoutclear'] = 'សំអាតធុងសំរាមពេលពិនិត្យចេញ';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'នៅ​ពេល​ឆ្លើយ​តប
 $labels['autoaddsignature'] = 'បញ្ចូលហត្តលេខាដោយស្វ័យប្រវត្តិ';
 $labels['newmessageonly'] = 'សំរាប់សំបុត្រថ្មីតែប៉ុណ្ណោះ';
 $labels['replyandforwardonly'] = 'សំរាប់ឆើ្លយតប​និងផ្ញើបន្តតែ​ប៉ុណ្ណោះ';
-$labels['replysignaturepos'] = 'បញ្ចូលហត្តលេខានៅពេលឆើ្លយតប​និងផ្ញើបន្ត';
-$labels['belowquote'] = 'ពីក្រោមសម្រង់អត្ថបទ';
-$labels['abovequote'] = 'ពីលើសម្រង់អត្ថបទ';
 $labels['insertsignature'] = 'បញ្ចូលហត្តលេខា';
 $labels['previewpanemarkread']  = 'កំណត់សំបុត្រ​ដែល​បាន​បង្ហាញ​​ជា​សំបុត្របាន​អាន​រួច';
 $labels['afternseconds']  = 'ក្រោយពី $n វិនាទី';

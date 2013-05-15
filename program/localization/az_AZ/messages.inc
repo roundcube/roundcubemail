@@ -17,20 +17,22 @@
 */
 
 $messages = array();
-$messages['errortitle']  = 'Xəta baş verib!';
-$messages['loginfailed']  = 'Giriş uğursuz oldu';
-$messages['cookiesdisabled'] = 'Sizin brauzer kukiləri qəbul etmir';
-$messages['sessionerror'] = 'Sizin sessiya köhnəlib';
-$messages['storageerror'] = 'IMAP serverlə bağlantı alınmadı';
-$messages['servererror'] = 'Server xətası!';
-$messages['servererrormsg'] = 'Server xətası: $msg';
-$messages['dberror'] = 'Məlumatlar bazasında xəta!';
+$messages['errortitle']  = 'Xəta baş verdi!';
+$messages['loginfailed']  = 'Giriş uğursuz oldu.';
+$messages['cookiesdisabled'] = 'Sizin brauzer kukiləri qəbul etmir.';
+$messages['sessionerror'] = 'Sizin sessiya köhnəlib.';
+$messages['storageerror'] = 'IMAP serverlə bağlantı alınmadı.';
+$messages['servererror'] = 'Server Xətası!';
+$messages['servererrormsg'] = 'Server Xətası: $msg';
+$messages['dberror'] = 'Məlumatlar Bazasında Xəta!';
 $messages['requesttimedout'] = 'Sorğunun gözləmə müddəti bitdi';
-$messages['errorreadonly'] = 'Əməliyyatı etmək mümkün deyil. Qovluq yalnız oxunuş üçündür.';
+$messages['errorreadonly'] = 'Əməliyyatı icra etmək mümkün deyil. Qovluq yalnız oxunuş üçündür.';
 $messages['errornoperm'] = 'Əməliyyatı etmək mümkün deyil. Giriş qadağandır.';
+$messages['erroroverquota'] = 'Əməliyyat icra edilə bilinmir. Boş disk həcmi yoxdur.';
+$messages['erroroverquotadelete'] = 'Boş disk həcmi yoxdur. Məktubu silmək üçün SHIFT+DEL düyməsini istifadə edin.';
 $messages['invalidrequest'] = 'Səhv sorğu! Məlumat yaddaşda qalmadı.';
-$messages['invalidhost'] = 'Səhv server adı';
-$messages['nomessagesfound'] = 'Poçt qutusunda məktub tapılmadı';
+$messages['invalidhost'] = 'Səhv server adı.';
+$messages['nomessagesfound'] = 'Poçt qutusunda məktub tapılmadı.';
 $messages['loggedout'] = 'Çıxış uğurlu oldu. Sağ olun!';
 $messages['mailboxempty'] = 'Poçt qutusu boşdur';
 $messages['refreshing'] = 'Yenilənmə...';

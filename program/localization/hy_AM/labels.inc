@@ -64,6 +64,7 @@ $labels['copy']     = 'Cc';
 $labels['move']     = 'Տեղափոխել';
 $labels['moveto']   = 'Տեղափոխել...';
 $labels['download'] = 'Քաշել';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Առկա էջ';
 $labels['unread'] = 'Չկարդացածը';
 $labels['flagged'] = 'Նշված';
 $labels['unanswered'] = 'Անպատասխան';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Ջնջված';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Փոխատեղել';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Բացել նոր պատուհանում';
 $labels['emlsave'] = 'Ներբեռնել (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Խմբագրել որպես նոր';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Ստեղծել HTML նամակներ';
 $labels['htmlonreply'] = 'միայն HTML հաղորդագրությանը պատասխանելիս';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML ստորագրություն';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Ցուցադրել պատուհանը';
 $labels['skin'] = 'Տեսքի տարբերակ';
 $labels['logoutclear'] = 'Դուրս գալուց դատարկել աղբարկղը';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Պատասխանելիս հեռացնել հ�
 $labels['autoaddsignature'] = 'Ավելացնել ստորագրություն';
 $labels['newmessageonly'] = 'միայն նոր հաղորդագրություններում';
 $labels['replyandforwardonly'] = 'պատասխաններում և փոխանցումներում';
-$labels['replysignaturepos'] = 'Ավելացնել ստորագրությունը պատասխանելիս կամ փոխանցելիս';
-$labels['belowquote'] = 'Մեջբերման ներքևում';
-$labels['abovequote'] = 'Մեջբերման վերևում';
 $labels['insertsignature'] = 'Ներդնել ստորագրությունը';
 $labels['previewpanemarkread']  = 'Նշել նախադիտված հաղորդագրությունները որպես ընթերցված';
 $labels['afternseconds']  = '$n վարկյան հետո';

@@ -64,6 +64,7 @@ $labels['copy']     = 'පිටපත් කරන්න';
 $labels['move']     = 'ගෙනයන්න';
 $labels['moveto']   = 'ගෙන යන්න...';
 $labels['download'] = 'බාගත කරන්න';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'දැනට ඇති පිටුව';
 $labels['unread'] = 'නොකියවූ';
 $labels['flagged'] = 'Flagged';
 $labels['unanswered'] = 'Unanswered';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'මකා දැමූ';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Invert';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'නව කවුළුවක විවෘත කරන්න';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Edit as new';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'HTML පණිවිඩයක් සෑදීම';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML අත්සන';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'පූර්වදර්ශන කොටස පෙන්නන්න';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'When replying remove original signature from 
 $labels['autoaddsignature'] = 'ස්වයංක්‍රීයව අත්සන ඇතුලත් කරන්න';
 $labels['newmessageonly'] = 'අලුත් පණිවිඩය පමණක්';
 $labels['replyandforwardonly'] = 'replies and forwards only';
-$labels['replysignaturepos'] = 'When replying or forwarding place signature';
-$labels['belowquote'] = 'below the quote';
-$labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'අත්සන ඇතුලත් කරන්න';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'තත්පර $nකට පසු';

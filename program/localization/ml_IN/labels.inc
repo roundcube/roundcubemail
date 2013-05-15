@@ -64,6 +64,7 @@ $labels['copy']     = 'പകര്‍ത്തുക';
 $labels['move']     = 'നീക്കുക';
 $labels['moveto']   = 'Move to...';
 $labels['download'] = 'ഡൗണ്‍ലോഡ്';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'നിലവിലുളള പേജ്';
 $labels['unread'] = 'വായിക്കാത്തത്';
 $labels['flagged'] = 'അടയാളപ്പെടുത്തിയവ';
 $labels['unanswered'] = 'മറുപടി കൊടുക്കാത്ത';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'മായ്ച്ചവ';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'തലതിരിക്കുക';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'പുതിയ വിന്‍ഡോയില്‍ തുറക്കുക';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'പുതിയതായി തിരുത്തുക';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'HTML സന്ദേശങ്ങള്‍ രചിക�
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML signature';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Show preview pane';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'When replying remove original signature from 
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'പുതിയ സന്ദേശം മാത്രം';
 $labels['replyandforwardonly'] = 'replies and forwards only';
-$labels['replysignaturepos'] = 'When replying or forwarding place signature';
-$labels['belowquote'] = 'ഉദ്ധാരണത്തിനു താഴെ';
-$labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = '$n നിമിഷങ്ങള്‍ കഴിഞ്ഞു്';

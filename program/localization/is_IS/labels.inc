@@ -64,6 +64,7 @@ $labels['copy']     = 'Afrit';
 $labels['move']     = 'Færa';
 $labels['moveto']   = 'Færa í...';
 $labels['download'] = 'Hlaða niður';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Núverandi síða';
 $labels['unread'] = 'Ólesið';
 $labels['flagged'] = 'Flaggað';
 $labels['unanswered'] = 'Ósvarað';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Eytt';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Umhverfa';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Opna í nýjum glugga';
 $labels['emlsave'] = 'Niðurhlaða (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Breyta sem nýju';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Skrifa HTML-skeyti';
 $labels['htmlonreply'] = 'sem svar við HTML-skeytum aðeins';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML-undirskrift';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Sýna forskoðunarglugga';
 $labels['skin'] = 'Sniðmát á viðmóti';
 $labels['logoutclear'] = 'Tæma rusl við útskráningu';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Þegar svarað fjarlægja upphaflega undirskr
 $labels['autoaddsignature'] = 'Bæta undirskrift við sjálfkrafa';
 $labels['newmessageonly'] = 'ný skeyti eingöngu';
 $labels['replyandforwardonly'] = 'svör og áframsendingar eingöngu';
-$labels['replysignaturepos'] = 'Þegar skeytum er svarað eða áframsend setja undirskrift';
-$labels['belowquote'] = 'undir tilvitnun';
-$labels['abovequote'] = 'fyrir ofan tilvitnun';
 $labels['insertsignature'] = 'Bæta undirskrift við';
 $labels['previewpanemarkread']  = 'Merka forskoðuð skeyti sem lesin';
 $labels['afternseconds']  = 'eftir $n sekúndur';

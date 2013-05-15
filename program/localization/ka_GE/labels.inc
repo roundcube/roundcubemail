@@ -64,6 +64,7 @@ $labels['copy']     = 'ასლი';
 $labels['move']     = 'გადატანა';
 $labels['moveto']   = 'გადატანა...';
 $labels['download'] = 'გადმოწერა';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'მიმდინარე გვერდი';
 $labels['unread'] = 'წაუკითხავი';
 $labels['flagged'] = 'მონიშნული';
 $labels['unanswered'] = 'უპასუხო';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'წაშლილი';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'შებრუნებული';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'გახსნა ახალ ფანჯარაში';
 $labels['emlsave'] = 'გადმოწერა (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'რედაქტირება როგორც ახლის';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'შეტყობინების შექმნა
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML ხელმოწერა';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'ჩვენება';
 $labels['skin'] = 'ინტერფეისი';
 $labels['logoutclear'] = 'წაშლილების გასუფთავება გამოსვლისას';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'წაიშალოს ხელმოწ�
 $labels['autoaddsignature'] = 'ავტომატურად დაემატოს ხელმოწერა';
 $labels['newmessageonly'] = 'მხოლოდ ახალი შეტყობინება';
 $labels['replyandforwardonly'] = 'მხოლოდ გადაგზავნის და პასუხის შემთხვევაში';
-$labels['replysignaturepos'] = 'მხოლოდ პასუხის ან გადაგზავნის შემთხვევაში გაყვეს ხელმოწერა';
-$labels['belowquote'] = 'ციტატის შემდეგ';
-$labels['abovequote'] = 'ციტატამდე';
 $labels['insertsignature'] = 'ხელმოცერის ჩასმა';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = '$n წამის შემდეგ';

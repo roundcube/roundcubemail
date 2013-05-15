@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Arhiv';
 $labels['buttontitle'] = 'Arhiviraj to sporočilo';
 $labels['archived'] = 'Sporočilo je bilo uspešno arhivirano';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Uspešno  shranjeno v arhiv. Za pregled map v Arhivu ponovno naložite stran.';
+$labels['archiveerror'] = 'Nekaterih sporočil ni bilo mogoče arhivirati';
 $labels['archivefolder'] = 'Arhiv';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arhiv';
+$labels['archivetype'] = 'Razdeli arhiv glede na';
+$labels['archivetypeyear'] = 'Leto (npr. Arhiv/2012)';
+$labels['archivetypemonth'] = 'Mesec (npr. Arhiv/2012/06)';
+$labels['archivetypefolder'] = 'Izvorna mapa';
+$labels['archivetypesender'] = 'Naslov pošiljatelja';
+$labels['unkownsender'] = 'neznan';
 
 ?>

@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Archiv';
 $labels['buttontitle'] = 'Archivovat zprávu';
 $labels['archived'] = 'Úspěšně vloženo do archivu';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Úspěšně archivovány. Obnovte stránku, abyste uviděli nové složky v archivu.';
+$labels['archiveerror'] = 'Některé zprávy nelze archivovat';
 $labels['archivefolder'] = 'Archiv';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Archiv';
+$labels['archivetype'] = 'Rozdělit archiv podle';
+$labels['archivetypeyear'] = 'Rok (např.  Archiv/2012)';
+$labels['archivetypemonth'] = 'Měsíc (např. Archiv/2012/06)';
+$labels['archivetypefolder'] = 'Původní složka';
+$labels['archivetypesender'] = 'E-mail odesílatele';
+$labels['unkownsender'] = 'neznámý';
 
 ?>

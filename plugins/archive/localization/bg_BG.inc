@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Архивиране';
 $labels['buttontitle'] = 'Архивиране на съобщението';
 $labels['archived'] = 'Архивирането е успешно';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Успешно архивирано. Презаредете страницата за да видите архивираните папки.';
+$labels['archiveerror'] = 'Някои съобщения не бяха архивирани';
 $labels['archivefolder'] = 'Архивиране';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Архив';
+$labels['archivetype'] = 'Раздели архива по';
+$labels['archivetypeyear'] = 'Година (пр. Архив/2012)';
+$labels['archivetypemonth'] = 'Месец (пр. Архив/2012/06)';
+$labels['archivetypefolder'] = 'Оригинална папка';
+$labels['archivetypesender'] = 'Email адрес на изпращача';
+$labels['unkownsender'] = 'неизвестно';
 
 ?>

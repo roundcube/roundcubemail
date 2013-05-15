@@ -64,6 +64,7 @@ $labels['copy']     = 'நகல்';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'இதற்கு அனுப்பு...';
 $labels['download'] = 'பதிவிறக்கு';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Current page';
 $labels['unread'] = 'படிக்காதது';
 $labels['flagged'] = 'நட்சத்திரமிட்டது';
 $labels['unanswered'] = 'பதிலளிக்காதது';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'நீக்கியது';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'தலைகீழ்';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'புது சாளரத்தில் திற';
 $labels['emlsave'] = 'பதிவிறக்கு (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'புதியதாக திருத்து';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'HTML செய்திகளை எழுது';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML கையொப்பம்';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'முந்திய பாத்தியை காட்டு';
 $labels['skin'] = 'முகப்பு தோற்றம்';
 $labels['logoutclear'] = 'வெளியேறும் போது குப்பையை காலி செய்';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'பதிலளிக்கும் பே�
 $labels['autoaddsignature'] = 'தானாக கையொப்பத்தை சேர்';
 $labels['newmessageonly'] = 'புது செய்தி மட்டும்';
 $labels['replyandforwardonly'] = 'பதிலளிப்பு முன்அனுப்பு மட்டும்';
-$labels['replysignaturepos'] = 'பதிலளிக்கும் போதும் முன்அனுப்பும் போதும் கையோப்பமிடு';
-$labels['belowquote'] = 'மேற்கோளுக்கு கீழே';
-$labels['abovequote'] = 'மேற்கோளுக்கு மேலே';
 $labels['insertsignature'] = 'கையோப்பமிடு';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';

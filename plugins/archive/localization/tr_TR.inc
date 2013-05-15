@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Arşiv';
 $labels['buttontitle'] = 'Bu postayı arşivle';
 $labels['archived'] = 'Başarıyla arşivlendi';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Başarıyla arşivlendi. Yeni arşiv dosyalarını görmek için sayfayı yenileyin.';
+$labels['archiveerror'] = 'Bazı mesajlar arşivlenemedi.';
 $labels['archivefolder'] = 'Arşiv';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arşiv';
+$labels['archivetype'] = 'Arşivi bunla böl';
+$labels['archivetypeyear'] = 'Yıl (Arşiv/2012)';
+$labels['archivetypemonth'] = 'Ay(Arşiv/2012/06)';
+$labels['archivetypefolder'] = 'Özgün dosya';
+$labels['archivetypesender'] = 'E-Posta Göndericisi';
+$labels['unkownsender'] = 'bilinmeyen';
 
 ?>

@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopiuj';
 $labels['move']     = 'Przenieś';
 $labels['moveto']   = 'Przenieś do...';
 $labels['download'] = 'Pobierz';
+$labels['open']     = 'Otwórz';
 $labels['showattachment'] = 'Pokaż';
 $labels['showanyway'] = 'Pokaż';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Bieżąca strona';
 $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
 $labels['unanswered'] = 'Bez odpowiedzi';
+$labels['withattachment'] = 'Z załącznikiem';
 $labels['deleted'] = 'Usunięte';
 $labels['undeleted'] = 'Nieusunięte';
 $labels['invert'] = 'Odwróć';
@@ -204,6 +206,8 @@ $labels['body']  = 'Treść';
 
 $labels['openinextwin'] = 'Otwórz w nowym oknie';
 $labels['emlsave'] = 'Pobierz (.eml)';
+$labels['changeformattext'] = 'Wyświetl w formacie tekstowym';
+$labels['changeformathtml'] = 'Wyświetl w formacie HTML';
 
 // message compose
 $labels['editasnew']      = 'Edytuj jako nową';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Twórz wiadomości HTML';
 $labels['htmlonreply'] = 'tylko w odpowiedzi na wiadomość HTML';
 $labels['htmlonreplyandforward'] = 'podczas przesyłania dalej lub odpowiedzi na wiadomość HTML';
 $labels['htmlsignature'] = 'Podpis w HTML';
+$labels['showemail'] = 'Pokazuj adres e-mail wraz z nazwą/opisem';
 $labels['previewpane'] = 'Pokaż podgląd wiadomości';
 $labels['skin'] = 'Wygląd interfejsu';
 $labels['logoutclear'] = 'Przy wylogowaniu opróżnij Kosz';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Podczas odpowiedzi usuń podpis z cytowanej t
 $labels['autoaddsignature'] = 'Automatycznie wstaw podpis';
 $labels['newmessageonly'] = 'tylko dla nowych wiadomości';
 $labels['replyandforwardonly'] = 'tylko dla przekazywania i odpowiedzi';
-$labels['replysignaturepos'] = 'Podczas odpowiedzi wstaw podpis';
-$labels['belowquote'] = 'poniżej cytowanej treści';
-$labels['abovequote'] = 'ponad cytowaną treścią';
 $labels['insertsignature'] = 'Wstaw podpis';
 $labels['previewpanemarkread']  = 'Oznacz podglądane wiadomości jako przeczytane';
 $labels['afternseconds']  = 'po $n sekundach';

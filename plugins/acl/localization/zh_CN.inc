@@ -16,12 +16,12 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 
-$labels['sharing'] = '共享中';
+$labels['sharing'] = '共享';
 $labels['myrights'] = '访问权限';
 $labels['username'] = '用户：';
 $labels['advanced'] = '高级模式';
-$labels['newuser'] = '添加条目';
-$labels['actions'] = 'Access right actions...';
+$labels['newuser'] = '新增条目';
+$labels['actions'] = '权限设置...';
 $labels['anyone'] = '所有用户(任何人)';
 $labels['anonymous'] = '来宾(匿名)';
 $labels['identifier'] = '标识符';
@@ -29,7 +29,7 @@ $labels['identifier'] = '标识符';
 $labels['acll'] = '查找';
 $labels['aclr'] = '读取消息';
 $labels['acls'] = '保存已读状态';
-$labels['aclw'] = 'Write flags';
+$labels['aclw'] = '写入标志';
 $labels['acli'] = '插入(复制至)';
 $labels['aclp'] = '发送';
 $labels['aclc'] = '创建子文件夹';
@@ -41,15 +41,15 @@ $labels['aclx'] = '删除文件夹';
 $labels['acla'] = '管理';
 
 $labels['aclfull'] = '全部控制';
-$labels['aclother'] = '其他';
-$labels['aclread'] = '阅读';
-$labels['aclwrite'] = '撰写';
+$labels['aclother'] = '其它';
+$labels['aclread'] = '读取';
+$labels['aclwrite'] = '写入';
 $labels['acldelete'] = '删除';
 
 $labels['shortacll'] = '查找';
-$labels['shortaclr'] = '阅读';
-$labels['shortacls'] = '保留';
-$labels['shortaclw'] = '撰写';
+$labels['shortaclr'] = '读取';
+$labels['shortacls'] = '保存';
+$labels['shortaclw'] = '写入';
 $labels['shortacli'] = '插入';
 $labels['shortaclp'] = '发送';
 $labels['shortaclc'] = '新建';
@@ -61,22 +61,22 @@ $labels['shortaclx'] = '删除文件夹';
 $labels['shortacla'] = '管理';
 
 $labels['shortaclother'] = '其他';
-$labels['shortaclread'] = 'Read';
-$labels['shortaclwrite'] = '撰写';
+$labels['shortaclread'] = '读取';
+$labels['shortaclwrite'] = '写入';
 $labels['shortacldelete'] = '删除';
 
 $labels['longacll'] = '该文件夹在列表上可见且可被订阅';
 $labels['longaclr'] = '该文件夹可被打开阅读';
 $labels['longacls'] = 'Messages Seen flag can be changed';
 $labels['longaclw'] = 'Messages flags and keywords can be changed, except Seen and Deleted';
-$labels['longacli'] = 'Messages can be written or copied to the folder';
+$labels['longacli'] = '消息可写或可被复制至文件夹中';
 $labels['longaclp'] = 'Messages can be posted to this folder';
 $labels['longaclc'] = 'Folders can be created (or renamed) directly under this folder';
 $labels['longaclk'] = 'Folders can be created (or renamed) directly under this folder';
 $labels['longacld'] = 'Messages Delete flag can be changed';
 $labels['longaclt'] = 'Messages Delete flag can be changed';
 $labels['longacle'] = '消息可被清除';
-$labels['longaclx'] = '该文件夹可悲删除或重命名';
+$labels['longaclx'] = '该文件夹可被删除或重命名';
 $labels['longacla'] = '文件夹访问权限可被修改';
 
 $labels['longaclfull'] = 'Full control including folder administration';

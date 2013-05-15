@@ -64,6 +64,7 @@ $labels['copy']     = 'نسخ';
 $labels['move']     = 'نقل';
 $labels['moveto']   = 'نقل إلى...';
 $labels['download'] = 'تنزيل';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'الصفحة الحالية';
 $labels['unread'] = 'غير المقروءة';
 $labels['flagged'] = 'موسوم';
 $labels['unanswered'] = 'بلا رد';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'محذوف';
 $labels['undeleted'] = 'غير محذوفة';
 $labels['invert'] = 'عكس';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'افتح في نافذة جديدة';
 $labels['emlsave'] = 'تنزيل (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'تعديل كجديد';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'إنشاء رسائل بنسق HTML';
 $labels['htmlonreply'] = 'حال الرد على الرسائل بصيغة HTML فقط';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'توقيع HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'إظهار قسم المعاينة';
 $labels['skin'] = 'شكل الواجهة';
 $labels['logoutclear'] = 'إفراغ سلة المحذوفات عند الخروج';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'إزالة التوقيع من الرسالة
 $labels['autoaddsignature'] = 'إضافة التوقيع آلياً';
 $labels['newmessageonly'] = 'الرسالة الجديدة فقط';
 $labels['replyandforwardonly'] = 'الردود والتمريرات فقط';
-$labels['replysignaturepos'] = 'إضافة التوقيع عند الرد أو التمرير';
-$labels['belowquote'] = 'بعد الاقتباس';
-$labels['abovequote'] = 'قبل الاقتباس';
 $labels['insertsignature'] = 'إضافة التوقيع';
 $labels['previewpanemarkread']  = 'تحديد الرسائل المُعاينة كمقروءة';
 $labels['afternseconds']  = 'بعد $n ثواني';
