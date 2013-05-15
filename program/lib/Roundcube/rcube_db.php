@@ -257,8 +257,9 @@ class rcube_db
     {
         if ($this->options['debug_mode']) {
             if (($len = strlen($query)) > self::DEBUG_LINE_LENGTH) {
-                $query = substr_replace($query, "\n-----[debug cut]-----\n",
-                    self::DEBUG_LINE_LENGTH/2 - 11, $len - self::DEBUG_LINE_LENGTH - 22);
+                $diff  = $len - self::DEBUG_LINE_LENGTH;
+                $query = substr($query, 0, self::DEBUG_LINE_LENGTH)
+                    . "... [truncated $diff bytes]";
             }
             rcube::write_log('sql', '[' . (++$this->db_index) . '] ' . $query . ';');
         }
