@@ -267,7 +267,12 @@ class Net_Socket extends PEAR
             $this->timeout = $seconds + $microseconds/1000000;
         }
 
-        return stream_set_timeout($this->fp, (int) $seconds, (int) $microseconds);
+        if ($this->timeout > 0) {
+            return stream_set_timeout($this->fp, (int) $seconds, (int) $microseconds);
+        }
+        else {
+            return false;
+        }
     }
 
     /**
