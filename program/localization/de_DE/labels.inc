@@ -40,9 +40,9 @@ $labels['junk']   = 'Spam';
 
 // message listing
 $labels['subject'] = 'Betreff';
-$labels['from']    = 'Absender';
+$labels['from']    = 'Von';
 $labels['sender']  = 'Absender';
-$labels['to']      = 'Empfänger';
+$labels['to']      = 'An';
 $labels['cc']      = 'Kopie';
 $labels['bcc']     = 'Blindkopie';
 $labels['replyto'] = 'Antwort an';
@@ -177,7 +177,7 @@ $labels['threaded'] = 'Gruppiert';
 $labels['autoexpand_threads'] = 'Konversationen aufklappen';
 $labels['do_expand'] = 'alle';
 $labels['expand_only_unread'] = 'nur ungelesene';
-$labels['fromto'] = 'Sender/Empfänger';
+$labels['fromto'] = 'Von/An';
 $labels['flag'] = 'Markierung';
 $labels['attachment'] = 'Anhang';
 $labels['nonesort'] = 'Keine';

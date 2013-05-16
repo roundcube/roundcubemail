@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.9.1
+-------------
+- Better German labels for from/to to avoid conflicts with 'sender' (#1489084)
 - Fix problem where security warning was displayed for valid images with image/jpg type (#1489097)
 - Fix handling of invalid email addresses in headers (#1489092)
 - Fix IMAP connection issue with default_socket_timeout < 0 and imap_timeout < 0 (#1489090)
