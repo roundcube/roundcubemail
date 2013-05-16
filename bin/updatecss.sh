@@ -28,7 +28,7 @@ $opts = rcube_utils::get_opt(array(
 ));
 
 if (empty($opts['dir'])) {
-    print "Skin directory not specified (--dir). Using skins/ and plugins/skins/.\n";
+    print "Skin directory not specified (--dir). Using skins/ and plugins/*/skins/.\n";
 
     $dir     = INSTALL_PATH . 'skins';
     $dir_p   = INSTALL_PATH . 'plugins';
