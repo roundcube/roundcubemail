@@ -5,29 +5,24 @@
  | Configuration file for database access                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
-
 */
 
 $rcmail_config = array();
 
-// PEAR database DSN for read/write operations
-// format is db_provider://user:password@host/database 
+// Database connection string (DSN) for read+write operations
+// Format (compatible with PEAR MDB2): db_provider://user:password@host/database
+// Currently supported db_providers: mysql, pgsql, sqlite, mssql or sqlsrv
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-// currently supported db_providers: mysql, mysqli, pgsql, sqlite, mssql or sqlsrv
-
+// NOTE: for SQLite use absolute path: 'sqlite:////full/path/to/sqlite.db?mode=0646'
 $rcmail_config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
-// postgres example: 'pgsql://roundcube:pass@localhost/roundcubemail';
-// Warning: for SQLite use absolute path in DSN:
-// sqlite example: 'sqlite:////full/path/to/sqlite.db?mode=0646';
 
-// PEAR database DSN for read only operations (if empty write database will be used)
+// Database DSN for read-only operations (if empty write database will be used)
 // useful for database replication
 $rcmail_config['db_dsnr'] = '';
 
@@ -38,5 +33,3 @@ $rcmail_config['db_persistent'] = FALSE;
 
 // you can define specific table (and sequence) names prefix
 $rcmail_config['db_prefix'] = '';
-
-// end db config file
