@@ -5659,11 +5659,11 @@ function rcube_webmail()
   };
 
   // open a jquery UI dialog with the given content
-  this.show_popup_dialog = function(html, title)
+  this.show_popup_dialog = function(html, title, buttons)
   {
     // forward call to parent window
     if (this.is_framed()) {
-      parent.rcmail.show_popup_dialog(html, title);
+      parent.rcmail.show_popup_dialog(html, title, buttons);
       return;
     }
 
@@ -5671,17 +5671,21 @@ function rcube_webmail()
       .html(html)
       .dialog({
         title: title,
+        buttons: buttons,
         modal: true,
         resizable: true,
-        width: 580,
+        width: 500,
         close: function(event, ui) { $(this).remove() }
       });
 
-      // resize and center popup
-      var win = $(window), w = win.width(), h = win.height(),
-        width = popup.width(), height = popup.height();
-      popup.dialog('option', { height: Math.min(h-40, height+50), width: Math.min(w-20, width+50) })
-        .dialog('option', 'position', ['center', 'center']);  // only works in a separate call (!?)
+    // resize and center popup
+    var win = $(window), w = win.width(), h = win.height(),
+      width = popup.width(), height = popup.height();
+
+    popup.dialog('option', {
+      height: Math.min(h - 40, height + 75 + (buttons ? 50 : 0)),
+      width: Math.min(w - 20, width + 20)
+    });
   };
 
   // enable/disable buttons for page shifting

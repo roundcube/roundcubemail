@@ -15,9 +15,10 @@
 		<active>yes</active>
 	</lead>
 	<lead>
-		<name>Thomas Yu - Sian , Liu</name>
+		<name>Thomas Yu - Sian, Liu</name>
 		<active>yes</active>
 	</lead>
+    <date>2013-05-20</date>
 	<version>
 		<release>1.1</release>
 		<api>1.0</api>
