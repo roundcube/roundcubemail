@@ -116,7 +116,7 @@ if ($uid) {
 
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
-      'movingmessage', 'deletingmessage', 'markingmessage');
+      'movingmessage', 'deletingmessage', 'markingmessage', 'replyall', 'replylist');
 
   $prefer_html = $RCMAIL->config->get('prefer_html');
   if ($MESSAGE->has_html_part()) {

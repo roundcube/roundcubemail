@@ -298,8 +298,7 @@ addEventListener: function(evt, func, obj)
   if (!this._events[evt])
     this._events[evt] = [];
 
-  var e = {func:func, obj:obj ? obj : window};
-  this._events[evt][this._events[evt].length] = e;
+  this._events[evt].push({func:func, obj:obj ? obj : window});
 },
 
 /**

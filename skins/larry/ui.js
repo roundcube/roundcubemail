@@ -94,6 +94,7 @@ function rcube_mail_ui()
       }
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
+        rcmail.addEventListener('enable-command', enable_command);
         rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); });
         rcmail.addEventListener('afterhide-headers', function() { layout_messageview(); });
         $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(); return false });
@@ -145,6 +146,7 @@ function rcube_mail_ui()
         new rcube_scroller('#folderlist-content', '#folderlist-header', '#folderlist-footer');
 
         rcmail.addEventListener('setquota', update_quota);
+        rcmail.addEventListener('enable-command', enable_command);
       }
 
       if ($('#mailview-left').length) {
@@ -432,6 +434,18 @@ function rcube_mail_ui()
       y -= step;
 
     $('#quotadisplay').css('background-position', '0 -'+y+'px');
+  }
+
+
+  function enable_command(p)
+  {
+    if (p.command == 'reply-list') {
+      var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
+      if (rcmail.env.action == 'preview')
+        $('a.button.replyall').attr('title', label);
+      else
+        $('a.button.reply-all').text(label).attr('title', label);
+    }
   }
 
 

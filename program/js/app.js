@@ -1179,6 +1179,7 @@ function rcube_webmail()
       if (typeof cmd === 'string') {
         this.commands[cmd] = enable;
         this.set_button(cmd, (enable ? 'act' : 'pas'));
+        this.triggerEvent('enable-command', {command: cmd, status: enable});
       }
       // push array elements into commands array
       else {

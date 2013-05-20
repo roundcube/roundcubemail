@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Change Reply-All button label/title when mailing list is detected (#1488938)
 - Fix SMTP connection using IPv6 address in smtp_server option (#1489024)
 - Added attachment_reminder plugin
 - Make PHP code eval() free, use create_function()

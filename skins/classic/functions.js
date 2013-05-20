@@ -617,6 +617,14 @@ prev_sibling: function(elm)
   while (ps && ps.nodeType == 3)
     ps = ps.previousSibling;
   return ps;
+},
+
+enable_command: function(p)
+{
+  if (p.command == 'reply-list') {
+    var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
+    $('a.button.replyAll').attr('title', label);
+  }
 }
 
 };
@@ -792,7 +800,7 @@ function percent_indicator(obj, data)
   var bar2 = $('<div>');
   bar2.css({position: 'absolute', top: pos.top + 1, left: pos.left + 1,
       width: width + 'px', height: height + 'px', zIndex: 98})
-	.addClass('quota_bg');
+    .addClass('quota_bg');
 
   if (quota >= limit_high) {
     main.addClass(' quota_text_high');
@@ -835,6 +843,7 @@ function rcube_init_mail_ui()
     .contents().mouseup(function(e){rcmail_ui.body_mouseup(e)});
 
   if (rcmail.env.task == 'mail') {
+    rcmail.addEventListener('enable-command', 'enable_command', rcmail_ui);
     rcmail.addEventListener('menu-open', 'menu_open', rcmail_ui);
     rcmail.addEventListener('menu-save', 'menu_save', rcmail_ui);
     rcmail.addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui);
