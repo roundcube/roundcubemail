@@ -892,5 +892,3 @@ $rcmail_config['default_font'] = '';
 
 // Enables display of email address with name instead of a name (and address in title)
 $rcmail_config['message_show_email'] = false;
-
-// end of config file
