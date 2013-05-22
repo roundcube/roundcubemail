@@ -795,7 +795,7 @@ class rcube_mime
         }
 
         foreach ($file_paths as $fp) {
-            if (is_readable($fp)) {
+            if (@is_readable($fp)) {
                 $lines = file($fp, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                 break;
             }
