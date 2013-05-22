@@ -710,7 +710,7 @@ class rcube_mime
     {
         $mime_type = null;
         $mime_magic = rcube::get_instance()->config->get('mime_magic');
-        $mime_ext = $skip_suffix ? null : @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
+        $mime_ext = $skip_suffix ? null : @include(RCUBE_BASE_CONFIG_DIR . '/mimetypes.php');
 
         // use file name suffix with hard-coded mime-type map
         if (is_array($mime_ext) && $name) {
@@ -818,7 +818,7 @@ class rcube_mime
 
         // fallback to some well-known types most important for daily emails
         if (empty($mime_types)) {
-            $mime_extensions = (array) @include(RCUBE_CONFIG_DIR . '/mimetypes.php');
+            $mime_extensions = (array) @include(RCUBE_BASE_CONFIG_DIR . '/mimetypes.php');
 
             foreach ($mime_extensions as $ext => $mime) {
                 $mime_types[$mime][] = $ext;

@@ -1040,7 +1040,7 @@ class rcube
         $log_dir  = self::$instance ? self::$instance->config->get('log_dir') : null;
 
         if (empty($log_dir)) {
-            $log_dir = RCUBE_INSTALL_PATH . 'logs';
+            $log_dir = RCUBE_ROOT_PATH . 'logs';
         }
 
         // try to open specific log file for writing
