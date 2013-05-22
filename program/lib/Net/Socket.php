@@ -124,7 +124,7 @@ class Net_Socket extends PEAR
             return $this->raiseError('$addr cannot be empty');
         } elseif (strspn($addr, ':.0123456789') == strlen($addr) ||
                   strstr($addr, '/') !== false) {
-            $this->addr = substr($addr, ':') ? '['.$addr.']' : $addr;
+            $this->addr = strpos($addr, ':') !== false ? '['.$addr.']' : $addr;
         } else {
             $this->addr = @gethostbyname($addr);
         }
