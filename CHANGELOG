@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix browser warnings on PDF plugin detection (#1489118)
 - Fix fatal error when parsing UUencoded messages (#1489119)
 - Change Reply-All button label/title when mailing list is detected (#1488938)
 - Fix SMTP connection using IPv6 address in smtp_server option (#1489024)
