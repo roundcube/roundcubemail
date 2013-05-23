@@ -658,6 +658,10 @@ class rcube_mime
                             $subString = $substr_func($subString, 0, $spacePos, $charset);
                             $cutLength = $spacePos + 1;
                         }
+                        else if ($cut === false && $breakPos === false) {
+                            $subString = $string;
+                            $cutLength = null;
+                        }
                         else if ($cut === false) {
                             $spacePos = $strpos_func($string, ' ', 0, $charset);
 

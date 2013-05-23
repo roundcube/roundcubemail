@@ -193,6 +193,10 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
                 array("-------\nabc def", 5),
                 "-------\nabc\ndef",
             ),
+            array(
+                array("http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/", 70),
+                "http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/",
+            ),
         );
 
         foreach ($samples as $sample) {
