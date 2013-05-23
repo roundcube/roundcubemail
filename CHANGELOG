@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix displaying contact with ID divisible by 100 in sql addressbook (#1489121)
 - Fix browser warnings on PDF plugin detection (#1489118)
 - Fix fatal error when parsing UUencoded messages (#1489119)
 

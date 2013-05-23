@@ -773,7 +773,7 @@ function rcmail_get_cids($filter = null)
             }
         }
         else {
-            if (substr($id, -($got_source+1)) == "-$source") {
+            if (substr($id, -($got_source+1)) === "-$source") {
                 $id = substr($id, 0, -($got_source+1));
             }
             $result[$source][] = $id;
