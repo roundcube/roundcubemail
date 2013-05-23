@@ -756,7 +756,7 @@ class rcube_message
                 $uupart->size     = strlen($uupart->body);
                 $uupart->mime_id  = 'uu.' . $part->mime_id . '.' . $pid;
 
-                $ctype = rcube_mime::content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
+                $ctype = rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
                 $uupart->mimetype = $ctype;
                 list($uupart->ctype_primary, $uupart->ctype_secondary) = explode('/', $ctype);
 

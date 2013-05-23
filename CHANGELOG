@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix fatal error when parsing UUencoded messages (#1489119)
+
 RELEASE 0.9.1
 -------------
 - Better German labels for from/to to avoid conflicts with 'sender' (#1489084)
