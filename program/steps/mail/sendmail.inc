@@ -479,7 +479,7 @@ $isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
 if ($isHtml) {
-  $font   = rcube_fontdefs($RCMAIL->config->get('default_font', 'Verdana'));
+  $font   = rcube_fontdefs($RCMAIL->config->get('default_font'));
   $bstyle = $font && is_string($font) ? " style='font-family: $font'" : '';
 
   // append doctype and html/body wrappers

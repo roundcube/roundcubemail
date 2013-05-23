@@ -888,7 +888,7 @@ $rcmail_config['autocomplete_single'] = false;
 // Default font for composed HTML message.
 // Supported values: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
-$rcmail_config['default_font'] = '';
+$rcmail_config['default_font'] = 'Verdana';
 
 // Enables display of email address with name instead of a name (and address in title)
 $rcmail_config['message_show_email'] = false;
