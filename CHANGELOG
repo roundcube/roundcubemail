@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix browser warnings on PDF plugin detection (#1489118)
 - Fix fatal error when parsing UUencoded messages (#1489119)
 
 RELEASE 0.9.1
