@@ -1516,11 +1516,11 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
 /**
  * Wrap text to a given number of characters per line
  * but respect the mail quotation of replies messages (>).
- * Finally add another quotation level by prpending the lines
+ * Finally add another quotation level by prepending the lines
  * with >
  *
  * @param string Text to wrap
- * @param int The line width
+ * @param int    The line width
  * @return string The wrapped text
  */
 function rcmail_wrap_and_quote($text, $length = 72)
@@ -1536,7 +1536,7 @@ function rcmail_wrap_and_quote($text, $length = 72)
       $line = '>' . rtrim($line);
     else if (mb_strlen($line) > $max) {
       $newline = '';
-      foreach(explode("\n", rc_wordwrap($line, $length - 2)) as $l) {
+      foreach (explode("\n", rc_wordwrap($line, $length - 2)) as $l) {
         if (strlen($l))
           $newline .= '> ' . $l . "\n";
         else
