@@ -653,14 +653,15 @@ function rcmail_user_prefs($current=null)
     }
 
     if (!isset($no_override['default_font'])) {
-      $field_id     = 'rcmfd_default_font';
-      $fonts        = rcube_fontdefs();
-      $default_font = $config['default_font'] ? $config['default_font'] : 'Verdana';
+      $field_id = 'rcmfd_default_font';
+      $fonts    = rcube_fontdefs();
+      $selected = $config['default_font'];
 
       $select = '<select name="_default_font" id="'.$field_id.'">';
+      $select .= '<option value=""' . (!$selected ? ' selected="selected"' : '') . '>---</option>';
       foreach ($fonts as $fname => $font)
         $select .= '<option value="'.$fname.'"'
-          . ($fname == $default_font ? ' selected="selected"' : '')
+          . ($fname == $selected ? ' selected="selected"' : '')
           . ' style=\'font-family: ' . $font . '\'>'
           . Q($fname) . '</option>';
       $select .= '</select>';
