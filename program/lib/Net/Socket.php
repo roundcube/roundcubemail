@@ -4,7 +4,7 @@
  *
  * PHP Version 4
  *
- * Copyright (c) 1997-2003 The PHP Group
+ * Copyright (c) 1997-2013 The PHP Group
  *
  * This source file is subject to version 2.0 of the PHP license,
  * that is bundled with this package in the file LICENSE, and is
@@ -23,7 +23,6 @@
  * @author    Chuck Hagenbuch <chuck@horde.org>
  * @copyright 1997-2003 The PHP Group
  * @license   http://www.php.net/license/2_02.txt PHP 2.02
- * @version   CVS: $Id$
  * @link      http://pear.php.net/packages/Net_Socket
  */
 
@@ -100,7 +99,7 @@ class Net_Socket extends PEAR
      * Connect to the specified port. If called when the socket is
      * already connected, it disconnects and connects again.
      *
-     * @param string  $addr       IP address or host name.
+     * @param string  $addr       IP address or host name (may be with protocol prefix).
      * @param integer $port       TCP port number.
      * @param boolean $persistent (optional) Whether the connection is
      *                            persistent (kept open between requests
@@ -110,7 +109,7 @@ class Net_Socket extends PEAR
      *
      * @access public
      *
-     * @return boolean | PEAR_Error  True on success or a PEAR_Error on failure.
+     * @return boolean|PEAR_Error  True on success or a PEAR_Error on failure.
      */
     function connect($addr, $port = 0, $persistent = null,
                      $timeout = null, $options = null)
@@ -122,11 +121,10 @@ class Net_Socket extends PEAR
 
         if (!$addr) {
             return $this->raiseError('$addr cannot be empty');
-        } elseif (strspn($addr, ':.0123456789') == strlen($addr) ||
-                  strstr($addr, '/') !== false) {
+        } else if (strspn($addr, ':.0123456789') == strlen($addr)) {
             $this->addr = strpos($addr, ':') !== false ? '['.$addr.']' : $addr;
         } else {
-            $this->addr = @gethostbyname($addr);
+            $this->addr = $addr;
         }
 
         $this->port = $port % 65536;
