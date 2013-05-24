@@ -58,7 +58,7 @@ function rcube_list_widget(list, p)
   this.in_selection_before = false;
   this.focused = false;
   this.drag_mouse_start = null;
-  this.dblclick_time = 600;
+  this.dblclick_time = 500; // default value on MS Windows is 500
   this.row_init = function(){};  // @deprecated; use list.addEventListener('initrow') instead
 
   // overwrite default paramaters
