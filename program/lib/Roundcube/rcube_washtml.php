@@ -140,6 +140,9 @@ class rcube_washtml
     /* Allowed HTML attributes */
     private $_html_attribs = array();
 
+    /* Max nesting level */
+    private $max_nesting_level;
+
 
     /**
      * Class constructor
@@ -284,10 +287,24 @@ class rcube_washtml
      * It output only allowed tags with allowed attributes
      * and allowed inline styles
      */
-    private function dumpHtml($node)
+    private function dumpHtml($node, $level = 0)
     {
         if (!$node->hasChildNodes()) {
             return '';
+        }
+
+        $level++;
+
+        if ($this->max_nesting_level > 0 && $level == $this->max_nesting_level - 1) {
+            // log error message once
+            if (!$this->max_nesting_level_error) {
+                $this->max_nesting_level_error = true;
+                rcube::raise_error(array('code' => 500, 'type' => 'php',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})"),
+                    true, false);
+            }
+            return '<!-- ignored -->';
         }
 
         $node = $node->firstChild;
@@ -299,10 +316,10 @@ class rcube_washtml
                 $tagName = strtolower($node->tagName);
                 if ($callback = $this->handlers[$tagName]) {
                     $dump .= call_user_func($callback, $tagName,
-                        $this->wash_attribs($node), $this->dumpHtml($node), $this);
+                        $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                 }
                 else if (isset($this->_html_elements[$tagName])) {
-                    $content = $this->dumpHtml($node);
+                    $content = $this->dumpHtml($node, $level);
                     $dump .= '<' . $tagName . $this->wash_attribs($node) .
                         ($content != '' || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
                 }
@@ -311,7 +328,7 @@ class rcube_washtml
                 }
                 else {
                     $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' ignored -->';
-                    $dump .= $this->dumpHtml($node); // ignore tags not its content
+                    $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                 }
                 break;
 
@@ -324,14 +341,14 @@ class rcube_washtml
                 break;
 
             case XML_HTML_DOCUMENT_NODE:
-                $dump .= $this->dumpHtml($node);
+                $dump .= $this->dumpHtml($node, $level);
                 break;
 
             case XML_DOCUMENT_TYPE_NODE:
                 break;
 
             default:
-                $dump . '<!-- node type ' . $node->nodeType . ' -->';
+                $dump .= '<!-- node type ' . $node->nodeType . ' -->';
             }
         } while($node = $node->nextSibling);
 
@@ -357,6 +374,9 @@ class rcube_washtml
         else {
             $this->config['base_url'] = '';
         }
+
+        // Detect max nesting level (for dumpHTML) (#1489110)
+        $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         @$node->loadHTML($html);
         return $this->dumpHtml($node);
@@ -405,6 +425,7 @@ class rcube_washtml
             rcube::raise_error(array('code' => 620, 'type' => 'php',
                 'line' => __LINE__, 'file' => __FILE__,
                 'message' => $errstr), true, false);
+
             return '';
         }
 
