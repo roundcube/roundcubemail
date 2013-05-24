@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where a message was opened in both preview pane and new window on double-click (#1489122)
 - Fix fatal error when xdebug.max_nesting_level was exceeded in rcube_washtml (#1489110)
 - Fix PHP warning in html_table::set_row_attribs() in PHP 5.4 (#1489094)
 - Fix invalid option selected in default_font selector when font is unset (#1489112)

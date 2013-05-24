@@ -1507,7 +1507,7 @@ function rcube_webmail()
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select)
-      this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, 200);
+      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, this.dblclick_time);
     else if (this.env.contentframe)
       this.show_contentframe(false);
   };
@@ -1523,12 +1523,13 @@ function rcube_webmail()
 
     var win = this.get_frame_window(this.env.contentframe);
 
-    if (win && win.location.href.indexOf(this.env.blankpage)>=0) {
+    if (win && win.location.href.indexOf(this.env.blankpage) >= 0) {
       if (this.preview_timer)
         clearTimeout(this.preview_timer);
       if (this.preview_read_timer)
         clearTimeout(this.preview_read_timer);
-      this.preview_timer = setTimeout(function(){ ref.msglist_get_preview(); }, 200);
+
+      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, this.dblclick_time);
     }
   };
 
@@ -1536,11 +1537,11 @@ function rcube_webmail()
   {
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
-
     if (this.preview_read_timer)
       clearTimeout(this.preview_read_timer);
 
     var uid = list.get_single_selection();
+
     if (uid && this.env.mailbox == this.env.drafts_mailbox)
       this.open_compose_step({ _draft_uid: uid, _mbox: this.env.mailbox });
     else if (uid)
@@ -4063,6 +4064,7 @@ function rcube_webmail()
     var n, id, sid, ref = this, writable = false,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
+    // we don't have dblclick handler here, so use 200 instead of this.dblclick_time
     if (id = list.get_single_selection())
       this.preview_timer = setTimeout(function(){ ref.load_contact(id, 'show'); }, 200);
     else if (this.env.contentframe)
