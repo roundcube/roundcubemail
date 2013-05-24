@@ -3083,7 +3083,7 @@ function rcube_webmail()
 
   this.compose_add_recipient = function(field)
   {
-    var recipients = [], input = $('#_'+field);
+    var recipients = [], input = $('#_'+field), delim = this.env.recipients_delimiter;
 
     if (this.contact_list && this.contact_list.selection.length) {
       for (var id, n=0; n < this.contact_list.selection.length; n++) {
@@ -3102,8 +3102,10 @@ function rcube_webmail()
     }
 
     if (recipients.length && input.length) {
-      var oldval = input.val();
-      input.val((oldval ? oldval + this.env.recipients_delimiter : '') + recipients.join(this.env.recipients_delimiter));
+      var oldval = input.val(), rx = new RegExp(RegExp.escape(delim) + '\\s*$');
+      if (oldval && !rx.test(oldval))
+        oldval += delim + ' ';
+      input.val(oldval + recipients.join(delim + ' ') + delim + ' ');
       this.triggerEvent('add-recipient', { field:field, recipients:recipients });
     }
   };
