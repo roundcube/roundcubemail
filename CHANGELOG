@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix PHP warning in html_table::set_row_attribs() in PHP 5.4 (#1489094)
 - Fix invalid option selected in default_font selector when font is unset (#1489112)
 - Fix displaying contact with ID divisible by 100 in sql addressbook (#1489121)
 - Fix browser warnings on PDF plugin detection (#1489118)

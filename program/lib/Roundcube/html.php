@@ -771,6 +771,11 @@ class html_table extends html
             $index = $this->rowindex;
         }
 
+        // make sure row object exists (#1489094)
+        if (!$this->rows[$index]) {
+            $this->rows[$index] = new stdClass;
+        }
+
         $this->rows[$index]->attrib = $attr;
     }
 
