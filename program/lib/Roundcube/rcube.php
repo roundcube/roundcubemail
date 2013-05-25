@@ -897,6 +897,9 @@ class rcube
 
         foreach ($this->caches as $cache) {
             if (is_object($cache)) {
+                if ($this->expunge_cache) {
+                    $cache->expunge();
+                }
                 $cache->close();
             }
         }

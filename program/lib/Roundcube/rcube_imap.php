@@ -3749,9 +3749,12 @@ class rcube_imap extends rcube_storage
             $this->mcache->expunge($ttl);
         }
 
+/*
+        // this cache is expunged by rcube class
         if ($this->cache) {
             $this->cache->expunge();
         }
+*/
     }
 
 

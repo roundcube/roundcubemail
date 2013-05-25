@@ -192,7 +192,7 @@ class rcube_cache
      */
     function expunge()
     {
-        if ($this->type == 'db' && $this->db) {
+        if ($this->type == 'db' && $this->db && $this->ttl) {
             $this->db->query(
                 "DELETE FROM ".$this->db->table_name('cache').
                 " WHERE user_id = ?".
