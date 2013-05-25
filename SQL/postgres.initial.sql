@@ -174,6 +174,20 @@ CREATE INDEX cache_user_id_idx ON "cache" (user_id, cache_key);
 CREATE INDEX cache_created_idx ON "cache" (created);
 
 --
+-- Table "cache_shared"
+-- Name: cache_shared; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "cache_shared" (
+    cache_key varchar(255) NOT NULL,
+    created timestamp with time zone DEFAULT now() NOT NULL,
+    data text NOT NULL
+);
+
+CREATE INDEX cache_shared_cache_key_idx ON "cache_shared" (cache_key);
+CREATE INDEX cache_shared_created_idx ON "cache_shared" (created);
+
+--
 -- Table "cache_index"
 -- Name: cache_index; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -274,4 +288,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2013042700');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013052500');

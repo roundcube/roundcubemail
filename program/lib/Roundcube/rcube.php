@@ -258,6 +258,37 @@ class rcube
 
 
     /**
+     * Initialize and get shared cache object
+     *
+     * @param string $name   Cache identifier
+     * @param bool   $packed Enables/disables data serialization
+     *
+     * @return rcube_cache_shared Cache object
+     */
+    public function get_cache_shared($name, $packed=true)
+    {
+        $shared_name = "shared_$name";
+
+        if (!isset($this->caches[$shared_name])) {
+            $opt  = strtolower($name) . '_cache';
+            $type = $this->config->get($opt);
+            $ttl  = $this->config->get($opt . '_ttl');
+
+            if (!$type) {
+                $type = $this->config->get('shared_cache');
+            }
+            if ($ttl === null) {
+                $ttl = $this->config->get('shared_cache_ttl');
+            }
+
+            $this->caches[$shared_name] = new rcube_cache_shared($type, $name, $ttl, $packed);
+        }
+
+        return $this->caches[$shared_name];
+    }
+
+
+    /**
      * Create SMTP object and connect to server
      *
      * @param boolean True if connection should be established

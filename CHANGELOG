@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Implemented shared cache (rcube_cache_shared)
 - Fix handling of comma when adding contact from contacts widget (#1489107)
 - Fix bug where a message was opened in both preview pane and new window on double-click (#1489122)
 - Fix fatal error when xdebug.max_nesting_level was exceeded in rcube_washtml (#1489110)
