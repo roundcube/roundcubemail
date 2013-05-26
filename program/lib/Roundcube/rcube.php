@@ -269,16 +269,18 @@ class rcube
     {
         $shared_name = "shared_$name";
 
-        if (!isset($this->caches[$shared_name])) {
+        if (!array_key_exists($shared_name, $this->caches)) {
             $opt  = strtolower($name) . '_cache';
             $type = $this->config->get($opt);
             $ttl  = $this->config->get($opt . '_ttl');
 
             if (!$type) {
-                $type = $this->config->get('shared_cache');
+                // cache is disabled
+                return $this->caches[$shared_name] = null;
             }
+
             if ($ttl === null) {
-                $ttl = $this->config->get('shared_cache_ttl');
+                $ttl = $this->config->get('shared_cache_ttl', '10d');
             }
 
             $this->caches[$shared_name] = new rcube_cache_shared($type, $name, $ttl, $packed);
