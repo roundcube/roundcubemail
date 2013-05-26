@@ -551,22 +551,13 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     // iterate over possible subtypes and collect values with their subtype
                     if (is_array($colprop['subtypes'])) {
                         $values = $subtypes = array();
-                        foreach ($colprop['subtypes'] as $i => $st) {
-                            $newval = false;
-                            if ($record[$field.':'.$st]) {
-                                $subtypes[count($values)] = $st;
-                                $newval = $record[$field.':'.$st];
+                        foreach (rcube_addressbook::get_col_values($field, $record) as $st => $vals) {
+                            foreach((array)$vals as $value) {
+                                $i = count($values);
+                                $subtypes[$i] = $st;
+                                $values[$i] = $value;
                             }
-                            else if ($i == 0 && $record[$field]) {
-                                $subtypes[count($values)] = $st;
-                                $newval = $record[$field];
-                            }
-                            if ($newval !== false) {
-                                if (is_array($newval) && isset($newval[0]))
-                                    $values = array_merge($values, $newval);
-                                else
-                                    $values[] = $newval;
-                            }
+                            // TODO: add $st to $select_subtype if missing ?
                         }
                     }
                     else {
