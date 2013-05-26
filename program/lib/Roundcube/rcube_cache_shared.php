@@ -27,7 +27,7 @@
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
  */
-class rcube_cache
+class rcube_cache_shared
 {
     /**
      * Instance of database handler
