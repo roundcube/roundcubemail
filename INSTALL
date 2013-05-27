@@ -116,17 +116,12 @@ To use Roundcube with PostgreSQL support you have to follow these
 simple steps, which have to be done as the postgres system user (or
 which ever is the database superuser):
 
-$ createuser roundcube
+$ createuser -P roundcube
 $ createdb -O roundcube -E UNICODE roundcubemail
-$ psql roundcubemail
+$ psql -U roundcube -f SQL/postgres.initial.sql roundcubemail
 
-roundcubemail =# ALTER USER roundcube WITH PASSWORD 'the_new_password';
-roundcubemail =# \c - roundcube
-roundcubemail => \i SQL/postgres.initial.sql
-
-All this has been tested with PostgreSQL 8.x and 7.4.x. Older
-versions don't have a -O option for the createdb, so if you are
-using that version you'll have to change ownership of the DB later.
+Note: in some system configurations you might need to add '-U postgres' to
+createuser and createdb commands.
 
 
 * Microsoft SQL Server
