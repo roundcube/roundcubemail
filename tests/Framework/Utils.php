@@ -229,4 +229,20 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * rcube:utils::file2class()
+     */
+    function test_file2class()
+    {
+        $test = array(
+            array('', '', 'unknown'),
+            array('text', 'text', 'text'),
+            array('image/png', 'image.png', 'image png'),
+        );
+
+        foreach ($test as $v) {
+            $result = rcube_utils::file2class($v[0], $v[1]);
+            $this->assertSame($v[2], $result);
+        }
+    }
 }

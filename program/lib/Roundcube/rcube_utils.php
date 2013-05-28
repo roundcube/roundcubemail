@@ -510,17 +510,24 @@ class rcube_utils
      */
     public static function file2class($mimetype, $filename)
     {
+        $mimetype = strtolower($mimetype);
+        $filename = strtolower($filename);
+
         list($primary, $secondary) = explode('/', $mimetype);
 
         $classes = array($primary ? $primary : 'unknown');
+
         if ($secondary) {
             $classes[] = $secondary;
         }
-        if (preg_match('/\.([a-z0-9]+)$/i', $filename, $m)) {
-            $classes[] = $m[1];
+
+        if (preg_match('/\.([a-z0-9]+)$/', $filename, $m)) {
+            if (!in_array($m[1], $classes)) {
+                $classes[] = $m[1];
+            }
         }
 
-        return strtolower(join(" ", $classes));
+        return join(" ", $classes);
     }
 
 
