@@ -723,6 +723,9 @@ $rcmail_config['default_charset'] = 'ISO-8859-1';
 // skin name: folder from skins/
 $rcmail_config['skin'] = 'larry';
 
+// default skin, fallback. skin name: folder from skins/
+$rcmail_config['default_skin'] = 'larry';
+
 // show up to X items in messages list view
 $rcmail_config['mail_pagesize'] = 50;
 
