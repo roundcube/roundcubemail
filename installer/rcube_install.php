@@ -46,8 +46,7 @@ class rcube_install
 
   // these config options are required for a working system
   var $required_config = array(
-    'db_dsnw', 'db_table_contactgroups', 'db_table_contactgroupmembers',
-    'des_key', 'session_lifetime', 'support_url',
+    'db_dsnw', 'des_key', 'session_lifetime',
   );
 
   // list of supported database drivers
@@ -288,7 +287,7 @@ class rcube_install
     if ($this->config['log_driver'] == 'syslog') {
       if (!function_exists('openlog')) {
         $out['dependencies'][] = array('prop' => 'log_driver',
-          'explain' => 'This requires the <tt>sylog</tt> extension which could not be loaded.');
+          'explain' => 'This requires the <tt>syslog</tt> extension which could not be loaded.');
       }
       if (empty($this->config['syslog_id'])) {
         $out['dependencies'][] = array('prop' => 'syslog_id',
@@ -348,7 +347,7 @@ class rcube_install
 
     $this->config  = array_merge($this->config, $current);
 
-    foreach ((array)$current['ldap_public'] as $key => $values) {
+    foreach (array_keys((array)$current['ldap_public']) as $key) {
       $this->config['ldap_public'][$key] = $current['ldap_public'][$key];
     }
   }
@@ -357,10 +356,11 @@ class rcube_install
    * Compare the local database schema with the reference schema
    * required for this version of Roundcube
    *
-   * @param boolean True if the schema schould be updated
+   * @param rcube_db Database object
+   *
    * @return boolean True if the schema is up-to-date, false if not or an error occured
    */
-  function db_schema_check($DB, $update = false)
+  function db_schema_check($DB)
   {
     if (!$this->configured)
       return false;
@@ -373,7 +373,7 @@ class rcube_install
     $existing_tables = $DB->list_tables();
 
     foreach ($db_schema as $table => $cols) {
-      $table = !empty($this->config['db_table_'.$table]) ? $this->config['db_table_'.$table] : $table;
+      $table = $this->config['db_prefix'] . $table;
       if (!in_array($table, $existing_tables)) {
         $errors[] = "Missing table '".$table."'";
       }
@@ -452,11 +452,11 @@ class rcube_install
         '0.2-alpha', '0.2-beta', '0.2-stable',
         '0.3-stable', '0.3.1',
         '0.4-beta', '0.4.2',
-        '0.5-beta', '0.5', '0.5.1',
+        '0.5-beta', '0.5', '0.5.1', '0.5.2', '0.5.3', '0.5.4',
         '0.6-beta', '0.6',
-        '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3',
-        '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4', '0.8.5',
-        '0.9-beta',
+        '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3', '0.7.4',
+        '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4', '0.8.5', '0.8.6',
+        '0.9-beta', '0.9-rc', '0.9-rc2', '0.9.0', '0.9.1'
     ));
     return $select;
   }
@@ -584,7 +584,7 @@ class rcube_install
       }
       else {  // check if all keys are numeric
         $isnum = true;
-        foreach ($var as $key => $value) {
+        foreach (array_keys($var) as $key) {
           if (!is_numeric($key)) {
             $isnum = false;
             break;
@@ -638,8 +638,10 @@ class rcube_install
    */
   function update_db($version)
   {
-    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube --version=" . $version
-      . " --dir=" . INSTALL_PATH . "SQL", $result);
+    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube"
+      . " --version=" . escapeshellarg($version)
+      . " --dir=" . INSTALL_PATH . "SQL"
+      . " 2>&1", $result);
 
     return !$result;
   }
@@ -654,6 +656,7 @@ class rcube_install
    */
   function exec_sql($sql, $DB)
   {
+    $sql = $this->fix_table_names($sql, $DB);
     $buff = '';
     foreach (explode("\n", $sql) as $line) {
       if (preg_match('/^--/', $line) || trim($line) == '')
@@ -669,6 +672,35 @@ class rcube_install
     }
 
     return !$DB->is_error();
+  }
+
+
+  /**
+   * Parse SQL file and fix table names according to db_prefix
+   * Note: This need to be a complete database initial file
+   */
+  private function fix_table_names($sql, $DB)
+  {
+    if (empty($this->config['db_prefix'])) {
+        return $sql;
+    }
+
+    // replace table names
+    if (preg_match_all('/CREATE TABLE (\[dbo\]\.|IF NOT EXISTS )?[`"\[\]]*([^`"\[\] \r\n]+)/i', $sql, $matches)) {
+      foreach ($matches[2] as $table) {
+        $real_table = $this->config['db_prefix'] . $table;
+        $sql = preg_replace("/([^a-zA-Z0-9_])$table([^a-zA-Z0-9_])/", "\\1$real_table\\2", $sql);
+      }
+    }
+    // replace sequence names
+    if ($DB->db_provider == 'postgres' && preg_match_all('/CREATE SEQUENCE (IF NOT EXISTS )?"?([^" \n\r]+)/i', $sql, $matches)) {
+      foreach ($matches[2] as $sequence) {
+        $real_sequence = $this->config['db_prefix'] . $sequence;
+        $sql = preg_replace("/([^a-zA-Z0-9_])$sequence([^a-zA-Z0-9_])/", "\\1$real_sequence\\2", $sql);
+      }
+    }
+
+    return $sql;
   }
 
 

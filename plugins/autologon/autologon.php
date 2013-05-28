@@ -19,8 +19,6 @@ class autologon extends rcube_plugin
 
   function startup($args)
   {
-    $rcmail = rcmail::get_instance();
-
     // change action to login
     if (empty($_SESSION['user_id']) && !empty($_GET['_autologin']) && $this->is_localhost())
       $args['action'] = 'login';
@@ -37,7 +35,7 @@ class autologon extends rcube_plugin
       $args['cookiecheck'] = false;
       $args['valid'] = true;
     }
-  
+
     return $args;
   }
 

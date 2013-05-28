@@ -404,7 +404,7 @@ class rcube_utils
         $out = array();
         $src = $mode == self::INPUT_GET ? $_GET : ($mode == self::INPUT_POST ? $_POST : $_REQUEST);
 
-        foreach ($src as $key => $value) {
+        foreach (array_keys($src) as $key) {
             $fname = $key[0] == '_' ? substr($key, 1) : $key;
             if ($ignore && !preg_match('/^(' . $ignore . ')$/', $fname)) {
                 $out[$fname] = self::get_input_value($key, $mode);
@@ -729,8 +729,20 @@ class rcube_utils
             return $date;
         }
 
-        // support non-standard "GMTXXXX" literal
-        $date = preg_replace('/GMT\s*([+-][0-9]+)/', '\\1', $date);
+        // Clean malformed data
+        $date = preg_replace(
+            array(
+                '/GMT\s*([+-][0-9]+)/',                     // support non-standard "GMTXXXX" literal
+                '/[^a-z0-9\x20\x09:+-]/i',                  // remove any invalid characters
+                '/\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*/i',   // remove weekday names
+            ),
+            array(
+                '\\1',
+                '',
+                '',
+            ), $date);
+
+        $date = trim($date);
 
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again

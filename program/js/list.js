@@ -30,6 +30,9 @@ function rcube_list_widget(list, p)
   this.BACKSPACE_KEY = 8;
 
   this.list = list ? list : null;
+  this.tagname = this.list ? this.list.nodeName.toLowerCase() : 'table';
+  this.thead;
+  this.tbody;
   this.frame = null;
   this.rows = [];
   this.selection = [];
@@ -55,8 +58,8 @@ function rcube_list_widget(list, p)
   this.in_selection_before = false;
   this.focused = false;
   this.drag_mouse_start = null;
-  this.dblclick_time = 600;
-  this.row_init = function(){};
+  this.dblclick_time = 500; // default value on MS Windows is 500
+  this.row_init = function(){};  // @deprecated; use list.addEventListener('initrow') instead
 
   // overwrite default paramaters
   if (p && typeof p === 'object')
@@ -73,11 +76,19 @@ rcube_list_widget.prototype = {
  */
 init: function()
 {
-  if (this.list && this.list.tBodies[0]) {
+  if (this.tagname == 'table' && this.list && this.list.tBodies[0]) {
+    this.thead = this.list.tHead;
+    this.tbody = this.list.tBodies[0];
+  }
+  else if (this.tagname != 'table' && this.list) {
+    this.tbody = this.list;
+  }
+
+  if (this.tbody) {
     this.rows = [];
     this.rowcount = 0;
 
-    var r, len, rows = this.list.tBodies[0].rows;
+    var r, len, rows = this.tbody.childNodes;
 
     for (r=0, len=rows.length; r<len; r++) {
       this.init_row(rows[r]);
@@ -127,7 +138,8 @@ init_row: function(row)
     if (document.all)
       row.onselectstart = function() { return false; };
 
-    this.row_init(this.rows[uid]);
+    this.row_init(this.rows[uid]);  // legacy support
+    this.triggerEvent('initrow', this.rows[uid]);
   }
 },
 
@@ -137,16 +149,16 @@ init_row: function(row)
  */
 init_header: function()
 {
-  if (this.list && this.list.tHead) {
+  if (this.thead) {
     this.colcount = 0;
 
     var col, r, p = this;
     // add events for list columns moving
-    if (this.column_movable && this.list.tHead && this.list.tHead.rows) {
-      for (r=0; r<this.list.tHead.rows[0].cells.length; r++) {
+    if (this.column_movable && this.thead && this.thead.rows) {
+      for (r=0; r<this.thead.rows[0].cells.length; r++) {
         if (this.column_fixed == r)
           continue;
-        col = this.list.tHead.rows[0].cells[r];
+        col = this.thead.rows[0].cells[r];
         col.onmousedown = function(e){ return p.drag_column(e, this); };
         this.colcount++;
       }
@@ -160,10 +172,16 @@ init_header: function()
  */
 clear: function(sel)
 {
-  var tbody = document.createElement('tbody');
+  if (this.tagname == 'table') {
+    var tbody = document.createElement('tbody');
+    this.list.insertBefore(tbody, this.tbody);
+    this.list.removeChild(this.list.tBodies[1]);
+    this.tbody = tbody;
+  }
+  else {
+    $(this.row_tagname() + ':not(.thead)', this.tbody).remove();
+  }
 
-  this.list.insertBefore(tbody, this.list.tBodies[0]);
-  this.list.removeChild(this.list.tBodies[1]);
   this.rows = [];
   this.rowcount = 0;
 
@@ -181,12 +199,12 @@ clear: function(sel)
  */
 remove_row: function(uid, sel_next)
 {
-  var obj = this.rows[uid] ? this.rows[uid].obj : null;
+  var node = this.rows[uid] ? this.rows[uid].obj : null;
 
-  if (!obj)
+  if (!node)
     return;
 
-  obj.style.display = 'none';
+  node.style.display = 'none';
 
   if (sel_next)
     this.select_next();
@@ -199,12 +217,31 @@ remove_row: function(uid, sel_next)
 /**
  * Add row to the list and initialize it
  */
-insert_row: function(row, attop)
+insert_row: function(row, before)
 {
-  var tbody = this.list.tBodies[0];
+  var tbody = this.tbody;
 
-  if (attop && tbody.rows.length)
-    tbody.insertBefore(row, tbody.firstChild);
+  // create a real dom node first
+  if (row.nodeName === undefined) {
+    // for performance reasons use DOM instead of jQuery here
+    var domrow = document.createElement(this.row_tagname());
+    if (row.id) domrow.id = row.id;
+    if (row.className) domrow.className = row.className;
+    if (row.style) $.extend(domrow.style, row.style);
+
+    for (var domcell, col, i=0; row.cols && i < row.cols.length; i++) {
+      col = row.cols[i];
+      domcell = document.createElement(this.col_tagname());
+      if (col.className) domcell.className = col.className;
+      if (col.innerHTML) domcell.innerHTML = col.innerHTML;
+      domrow.appendChild(domcell);
+    }
+
+    row = domrow;
+  }
+
+  if (before && tbody.childNodes.length)
+    tbody.insertBefore(row, (typeof before == 'object' && before.parentNode == tbody) ? before : tbody.firstChild);
   else
     tbody.appendChild(row);
 
@@ -212,6 +249,28 @@ insert_row: function(row, attop)
   this.rowcount++;
 },
 
+/**
+ * 
+ */
+update_row: function(id, cols, newid, select)
+{
+  var row = this.rows[id];
+  if (!row) return false;
+
+  var domrow = row.obj;
+  for (var domcell, col, i=0; cols && i < cols.length; i++) {
+    this.get_cell(domrow, i).html(cols[i]);
+  }
+
+  if (newid) {
+    delete this.rows[id];
+    domrow.id = 'rcmrow' + newid;
+    this.init_row(domrow);
+
+    if (select)
+      this.selection[0] = newid;
+  }
+},
 
 
 /**
@@ -230,8 +289,9 @@ focus: function(e)
   }
 
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
+  // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
   $(':focus:not(body)').blur();
-  $('iframe').each(function() { this.blur(); });
+  window.focus();
 
   if (e || (e = window.event))
     rcube_event.cancel(e);
@@ -270,8 +330,8 @@ drag_column: function(e, col)
     this.add_dragfix();
 
     // find selected column number
-    for (var i=0; i<this.list.tHead.rows[0].cells.length; i++) {
-      if (col == this.list.tHead.rows[0].cells[i]) {
+    for (var i=0; i<this.thead.rows[0].cells.length; i++) {
+      if (col == this.thead.rows[0].cells[i]) {
         this.selected_column = i;
         break;
       }
@@ -450,7 +510,7 @@ expand: function(row)
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
-    var tbody = this.list.tBodies[0];
+    var tbody = this.tbody;
     new_row = tbody.firstChild;
     depth = 0;
     last_expanded_parent_depth = 0;
@@ -503,7 +563,7 @@ collapse_all: function(row)
       return false;
   }
   else {
-    new_row = this.list.tBodies[0].firstChild;
+    new_row = this.tbody.firstChild;
     depth = 0;
   }
 
@@ -542,7 +602,7 @@ expand_all: function(row)
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
-    new_row = this.list.tBodies[0].firstChild;
+    new_row = this.tbody.firstChild;
     depth = 0;
   }
 
@@ -610,7 +670,7 @@ get_prev_row: function()
 get_first_row: function()
 {
   if (this.rowcount) {
-    var i, len, rows = this.list.tBodies[0].rows;
+    var i, len, rows = this.tbody.childNodes;
 
     for (i=0, len=rows.length-1; i<len; i++)
       if (rows[i].id && String(rows[i].id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
@@ -623,7 +683,7 @@ get_first_row: function()
 get_last_row: function()
 {
   if (this.rowcount) {
-    var i, rows = this.list.tBodies[0].rows;
+    var i, rows = this.tbody.childNodes;
 
     for (i=rows.length-1; i>=0; i--)
       if (rows[i].id && String(rows[i].id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
@@ -633,6 +693,22 @@ get_last_row: function()
   return null;
 },
 
+row_tagname: function()
+{
+  var row_tagnames = { table:'tr', ul:'li', '*':'div' };
+  return row_tagnames[this.tagname] || row_tagnames['*'];
+},
+
+col_tagname: function()
+{
+  var col_tagnames = { table:'td', '*':'span' };
+  return col_tagnames[this.tagname] || col_tagnames['*'];
+},
+
+get_cell: function(row, index)
+{
+  return $(this.col_tagname(), row).eq(index);
+},
 
 /**
  * selects or unselects the proper row depending on the modifier key pressed
@@ -779,14 +855,20 @@ shift_select: function(id, control)
   if (!this.rows[this.shift_start] || !this.selection.length)
     this.shift_start = id;
 
-  var n, from_rowIndex = this.rows[this.shift_start].obj.rowIndex,
-    to_rowIndex = this.rows[id].obj.rowIndex,
-    i = ((from_rowIndex < to_rowIndex)? from_rowIndex : to_rowIndex),
-    j = ((from_rowIndex > to_rowIndex)? from_rowIndex : to_rowIndex);
+  var n, i, j, to_row = this.rows[id],
+    from_rowIndex = this._rowIndex(this.rows[this.shift_start].obj),
+    to_rowIndex = this._rowIndex(to_row.obj);
+
+  if (!to_row.expanded && to_row.has_children)
+    if (to_row = this.rows[(this.row_children(id)).pop()])
+      to_rowIndex = this._rowIndex(to_row.obj);
+
+  i = ((from_rowIndex < to_rowIndex) ? from_rowIndex : to_rowIndex),
+  j = ((from_rowIndex > to_rowIndex) ? from_rowIndex : to_rowIndex);
 
   // iterate through the entire message list
   for (n in this.rows) {
-    if (this.rows[n].obj.rowIndex >= i && this.rows[n].obj.rowIndex <= j) {
+    if (this._rowIndex(this.rows[n].obj) >= i && this._rowIndex(this.rows[n].obj) <= j) {
       if (!this.in_selection(n)) {
         this.highlight_row(n, true);
       }
@@ -799,6 +881,13 @@ shift_select: function(id, control)
   }
 },
 
+/**
+ * Helper method to emulate the rowIndex property of non-tr elements
+ */
+_rowIndex: function(obj)
+{
+  return (obj.rowIndex !== undefined) ? obj.rowIndex : $(obj).prevAll().length;
+},
 
 /**
  * Check if given id is part of the current selection
@@ -828,7 +917,7 @@ select_all: function(filter)
   for (n in this.rows) {
     if (!filter || this.rows[n][filter] == true) {
       this.last_selected = n;
-      this.highlight_row(n, true);
+      this.highlight_row(n, true, true);
     }
     else {
       $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
@@ -923,7 +1012,7 @@ get_single_selection: function()
 /**
  * Highlight/unhighlight a row
  */
-highlight_row: function(id, multiple)
+highlight_row: function(id, multiple, norecur)
 {
   if (!this.rows[id])
     return;
@@ -939,7 +1028,7 @@ highlight_row: function(id, multiple)
     if (!this.in_selection(id)) { // select row
       this.selection.push(id);
       $(this.rows[id].obj).addClass('selected');
-      if (!this.rows[id].expanded)
+      if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, true);
     }
     else { // unselect row
@@ -949,7 +1038,7 @@ highlight_row: function(id, multiple)
 
       this.selection = a_pre.concat(a_post);
       $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
-      if (!this.rows[id].expanded)
+      if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, false);
     }
   }
@@ -967,7 +1056,7 @@ highlight_children: function(id, status)
   for (i=0; i<len; i++) {
     selected = this.in_selection(children[i]);
     if ((status && !selected) || (!status && selected))
-      this.highlight_row(children[i], true);
+      this.highlight_row(children[i], true, true);
   }
 },
 
@@ -1143,7 +1232,7 @@ drag_mouse_move: function(e)
     this.draglayer.html('');
 
     // get subjects of selected messages
-    var c, i, n, subject, obj;
+    var i, n, obj, me;
     for (n=0; n<this.selection.length; n++) {
       // only show 12 lines
       if (n>12) {
@@ -1151,38 +1240,28 @@ drag_mouse_move: function(e)
         break;
       }
 
+      me = this;
       if (obj = this.rows[this.selection[n]].obj) {
-        subject = '';
+        $('> '+this.col_tagname(), obj).each(function(i,elem){
+          if (n == 0)
+            me.drag_start_pos = $(elem).offset();
 
-        for (c=0, i=0; i<obj.childNodes.length; i++) {
-	      if (obj.childNodes[i].nodeName == 'TD') {
-            if (n == 0)
-	          this.drag_start_pos = $(obj.childNodes[i]).offset();
+          if (me.subject_col < 0 || (me.subject_col >= 0 && me.subject_col == i)) {
+            var subject = $(elem).text();
 
-	        if (this.subject_col < 0 || (this.subject_col >= 0 && this.subject_col == c)) {
-	          var entry, node, tmp_node, nodes = obj.childNodes[i].childNodes;
-	          // find text node
-	          for (m=0; m<nodes.length; m++) {
-	            if ((tmp_node = obj.childNodes[i].childNodes[m]) && (tmp_node.nodeType==3 || tmp_node.nodeName=='A'))
-	              node = tmp_node;
-	          }
-
-	          if (!node)
-	            break;
-
-              subject = $(node).text();
-	          // remove leading spaces
+            if (subject) {
+              // remove leading spaces
               subject = $.trim(subject);
               // truncate line to 50 characters
               subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
 
-              entry = $('<div>').text(subject);
-	          this.draglayer.append(entry);
-              break;
+              var entry = $('<div>').text(subject);
+              me.draglayer.append(entry);
             }
-            c++;
+
+            return false;  // break
           }
-        }
+        });
       }
     }
 
@@ -1237,7 +1316,7 @@ drag_mouse_up: function(e)
   // remove temp divs
   this.del_dragfix();
 
-  this.triggerEvent('dragend');
+  this.triggerEvent('dragend', e);
 
   return rcube_event.cancel(e);
 },
@@ -1257,7 +1336,7 @@ column_drag_mouse_move: function(e)
 
     if (!this.col_draglayer) {
       var lpos = $(this.list).offset(),
-        cells = this.list.tHead.rows[0].cells;
+        cells = this.thead.rows[0].cells;
 
       // create dragging layer
       this.col_draglayer = $('<div>').attr('id', 'rcmcoldraglayer')
@@ -1350,7 +1429,7 @@ column_drag_mouse_up: function(e)
     }
   }
 
-  this.triggerEvent('column_dragend');
+  this.triggerEvent('column_dragend', e);
 
   return rcube_event.cancel(e);
 },
@@ -1413,7 +1492,11 @@ del_dragfix: function()
  */
 column_replace: function(from, to)
 {
-  var len, cells = this.list.tHead.rows[0].cells,
+  // only supported for <table> lists
+  if (!this.thead || !this.thead.rows)
+    return;
+
+  var len, cells = this.thead.rows[0].cells,
     elem = cells[from],
     before = cells[to],
     td = document.createElement('td');
@@ -1426,8 +1509,8 @@ column_replace: function(from, to)
   cells[0].parentNode.replaceChild(elem, td);
 
   // replace list cells
-  for (r=0, len=this.list.tBodies[0].rows.length; r<len; r++) {
-    row = this.list.tBodies[0].rows[r];
+  for (r=0, len=this.tbody.rows.length; r<len; r++) {
+    row = this.tbody.rows[r];
 
     elem = row.cells[from];
     before = row.cells[to];

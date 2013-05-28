@@ -20,7 +20,7 @@ body.extwin
   margin: 10px;
 }
 
-td, th, div, p, select, input, textarea
+select, input, textarea
 {
   font-size: 12px;
   font-family: inherit;

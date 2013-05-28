@@ -47,6 +47,7 @@ class rcube_db
         'identifier_end'   => '"',
     );
 
+    const DEBUG_LINE_LENGTH = 4096;
 
     /**
      * Factory, returns driver-specific instance of the class
@@ -128,7 +129,7 @@ class rcube_db
         $dsn_string  = $this->dsn_string($dsn);
         $dsn_options = $this->dsn_options($dsn);
 
-        if ($db_pconn) {
+        if ($this->db_pconn) {
             $dsn_options[PDO::ATTR_PERSISTENT] = true;
         }
 
@@ -255,6 +256,11 @@ class rcube_db
     protected function debug($query)
     {
         if ($this->options['debug_mode']) {
+            if (($len = strlen($query)) > self::DEBUG_LINE_LENGTH) {
+                $diff  = $len - self::DEBUG_LINE_LENGTH;
+                $query = substr($query, 0, self::DEBUG_LINE_LENGTH)
+                    . "... [truncated $diff bytes]";
+            }
             rcube::write_log('sql', '[' . (++$this->db_index) . '] ' . $query . ';');
         }
     }
@@ -405,21 +411,22 @@ class rcube_db
         $this->db_error_msg = null;
 
         // send query
-        $query = $this->dbh->query($query);
+        $result = $this->dbh->query($query);
 
-        if ($query === false) {
+        if ($result === false) {
             $error = $this->dbh->errorInfo();
             $this->db_error = true;
             $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
             rcube::raise_error(array('code' => 500, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
-                'message' => $this->db_error_msg), true, false);
+                'message' => $this->db_error_msg . " (SQL Query: $query)"
+                ), true, false);
         }
 
-        $this->last_result = $query;
+        $this->last_result = $result;
 
-        return $query;
+        return $result;
     }
 
     /**
@@ -436,6 +443,32 @@ class rcube_db
         }
 
         return 0;
+    }
+
+    /**
+     * Get number of rows for a SQL query
+     * If no query handle is specified, the last query will be taken as reference
+     *
+     * @param mixed $result Optional query handle
+     * @return mixed   Number of rows or false on failure
+     * @deprecated This method shows very poor performance and should be avoided.
+     */
+    public function num_rows($result = null)
+    {
+        if ($result || ($result === null && ($result = $this->last_result))) {
+            // repeat query with SELECT COUNT(*) ...
+            if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/ims', $result->queryString, $m)) {
+                $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
+                return $query ? intval($query->fetchColumn(0)) : false;
+            }
+            else {
+                $num = count($result->fetchAll());
+                $result->execute();  // re-execute query because there's no seek(0)
+                return $num;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -571,7 +604,7 @@ class rcube_db
      * Formats input so it can be safely used in a query
      *
      * @param mixed  $input Value to quote
-     * @param string $type  Type of data
+     * @param string $type  Type of data (integer, bool, ident)
      *
      * @return string Quoted/converted string for use in query
      */
@@ -584,6 +617,10 @@ class rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($type == 'ident') {
+            return $this->quote_identifier($input);
         }
 
         // create DB handle if not available
@@ -604,6 +641,22 @@ class rcube_db
     }
 
     /**
+     * Escapes a string so it can be safely used in a query
+     *
+     * @param string $str A string to escape
+     *
+     * @return string Escaped string for use in a query
+     */
+    public function escape($str)
+    {
+        if (is_null($str)) {
+            return 'NULL';
+        }
+
+        return substr($this->quote($str), 1, -1);
+    }
+
+    /**
      * Quotes a string so it can be safely used as a table or column name
      *
      * @param string $str Value to quote
@@ -615,6 +668,20 @@ class rcube_db
     public function quoteIdentifier($str)
     {
         return $this->quote_identifier($str);
+    }
+
+    /**
+     * Escapes a string so it can be safely used in a query
+     *
+     * @param string $str A string to escape
+     *
+     * @return string Escaped string for use in a query
+     * @deprecated    Replaced by rcube_db::escape
+     * @see           rcube_db::escape
+     */
+    public function escapeSimple($str)
+    {
+        return $this->escape($str);
     }
 
     /**
@@ -635,7 +702,7 @@ class rcube_db
             $name[] = $start . $elem . $end;
         }
 
-        return  implode($name, '.');
+        return implode($name, '.');
     }
 
     /**
@@ -652,7 +719,7 @@ class rcube_db
      * Return list of elements for use with SQL's IN clause
      *
      * @param array  $arr  Input array
-     * @param string $type Type of data
+     * @param string $type Type of data (integer, bool, ident)
      *
      * @return string Comma-separated list of quoted values for use in query
      */
@@ -786,11 +853,9 @@ class rcube_db
     {
         $rcube = rcube::get_instance();
 
-        // return table name if configured
-        $config_key = 'db_table_'.$table;
-
-        if ($name = $rcube->config->get($config_key)) {
-            return $name;
+        // add prefix to the table name if configured
+        if ($prefix = $rcube->config->get('db_prefix')) {
+            return $prefix . $table;
         }
 
         return $table;

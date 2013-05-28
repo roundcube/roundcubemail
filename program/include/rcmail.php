@@ -98,7 +98,10 @@ class rcmail extends rcube
 
     // reset some session parameters when changing task
     if ($this->task != 'utils') {
-      if ($this->session && $_SESSION['task'] != $this->task)
+      // we reset list page when switching to another task
+      // but only to the main task interface - empty action (#1489076)
+      // this will prevent from unintentional page reset on cross-task requests
+      if ($this->session && $_SESSION['task'] != $this->task && empty($this->action))
         $this->session->remove('page');
       // set current task to session
       $_SESSION['task'] = $this->task;
@@ -123,7 +126,7 @@ class rcmail extends rcube
    */
   public function set_task($task)
   {
-    $task = asciiwords($task);
+    $task = asciiwords($task, true);
 
     if ($this->user && $this->user->ID)
       $task = !$task ? 'mail' : $task;
@@ -258,13 +261,13 @@ class rcmail extends rcube
    */
   public function get_address_sources($writeable = false, $skip_hidden = false)
   {
-    $abook_type = strtolower($this->config->get('address_book_type'));
-    $ldap_config = $this->config->get('ldap_public');
+    $abook_type   = (string) $this->config->get('address_book_type');
+    $ldap_config  = (array) $this->config->get('ldap_public');
     $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
-    $list = array();
+    $list         = array();
 
     // We are using the DB address book or a plugin address book
-    if ($abook_type != 'ldap' && $abook_type != '') {
+    if (!empty($abook_type) && strtolower($abook_type) != 'ldap') {
       if (!isset($this->address_books['0']))
         $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
       $list['0'] = array(
@@ -277,8 +280,7 @@ class rcmail extends rcube
       );
     }
 
-    if ($ldap_config) {
-      $ldap_config = (array) $ldap_config;
+    if (!empty($ldap_config)) {
       foreach ($ldap_config as $id => $prop) {
         // handle misconfiguration
         if (empty($prop) || !is_array($prop)) {
@@ -594,7 +596,7 @@ class rcmail extends rcube
       $post_host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
       $post_user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST);
 
-      list($user, $domain) = explode('@', $post_user);
+      list(, $domain) = explode('@', $post_user);
 
       // direct match in default_host array
       if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
@@ -694,28 +696,6 @@ class rcmail extends rcube
     $token = rcube_utils::get_input_value('_token', $mode);
     $sess_id = $_COOKIE[ini_get('session.name')];
     return !empty($sess_id) && $token == $this->get_request_token();
-  }
-
-
-  /**
-   * Create unique authorization hash
-   *
-   * @param string Session ID
-   * @param int Timestamp
-   * @return string The generated auth hash
-   */
-  private function get_auth_hash($sess_id, $ts)
-  {
-    $auth_string = sprintf('rcmail*sess%sR%s*Chk:%s;%s',
-      $sess_id,
-      $ts,
-      $this->config->get('ip_check') ? $_SERVER['REMOTE_ADDR'] : '***.***.***.***',
-      $_SERVER['HTTP_USER_AGENT']);
-
-    if (function_exists('sha1'))
-      return sha1($auth_string);
-    else
-      return md5($auth_string);
   }
 
 
@@ -929,189 +909,6 @@ class rcmail extends rcube
 
 
     /**
-     * Send the given message using the configured method.
-     *
-     * @param object $message    Reference to Mail_MIME object
-     * @param string $from       Sender address string
-     * @param array  $mailto     Array of recipient address strings
-     * @param array  $error      SMTP error array (reference)
-     * @param string $body_file  Location of file with saved message body (reference),
-     *                           used when delay_file_io is enabled
-     * @param array  $options    SMTP options (e.g. DSN request)
-     *
-     * @return boolean Send status.
-     */
-    public function deliver_message(&$message, $from, $mailto, &$error, &$body_file = null, $options = null)
-    {
-        $plugin = $this->plugins->exec_hook('message_before_send', array(
-            'message' => $message,
-            'from'    => $from,
-            'mailto'  => $mailto,
-            'options' => $options,
-        ));
-
-        $from    = $plugin['from'];
-        $mailto  = $plugin['mailto'];
-        $options = $plugin['options'];
-        $message = $plugin['message'];
-        $headers = $message->headers();
-
-        // send thru SMTP server using custom SMTP library
-        if ($this->config->get('smtp_server')) {
-            // generate list of recipients
-            $a_recipients = array($mailto);
-
-            if (strlen($headers['Cc']))
-                $a_recipients[] = $headers['Cc'];
-            if (strlen($headers['Bcc']))
-                $a_recipients[] = $headers['Bcc'];
-
-            // clean Bcc from header for recipients
-            $send_headers = $headers;
-            unset($send_headers['Bcc']);
-            // here too, it because txtHeaders() below use $message->_headers not only $send_headers
-            unset($message->_headers['Bcc']);
-
-            $smtp_headers = $message->txtHeaders($send_headers, true);
-
-            if ($message->getParam('delay_file_io')) {
-                // use common temp dir
-                $temp_dir = $this->config->get('temp_dir');
-                $body_file = tempnam($temp_dir, 'rcmMsg');
-                if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
-                    self::raise_error(array('code' => 650, 'type' => 'php',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: ".$mime_result->getMessage()),
-                        TRUE, FALSE);
-                    return false;
-                }
-                $msg_body = fopen($body_file, 'r');
-            }
-            else {
-                $msg_body = $message->get();
-            }
-
-            // send message
-            if (!is_object($this->smtp)) {
-                $this->smtp_init(true);
-            }
-
-            $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
-            $response = $this->smtp->get_response();
-            $error    = $this->smtp->get_error();
-
-            // log error
-            if (!$sent) {
-                self::raise_error(array('code' => 800, 'type' => 'smtp',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "SMTP error: ".join("\n", $response)), TRUE, FALSE);
-            }
-        }
-        // send mail using PHP's mail() function
-        else {
-            // unset some headers because they will be added by the mail() function
-            $headers_enc = $message->headers($headers);
-            $headers_php = $message->_headers;
-            unset($headers_php['To'], $headers_php['Subject']);
-
-            // reset stored headers and overwrite
-            $message->_headers = array();
-            $header_str = $message->txtHeaders($headers_php);
-
-            // #1485779
-            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
-                    $headers_enc['To'] = implode(', ', $m[1]);
-                }
-            }
-
-            $msg_body = $message->get();
-
-            if (PEAR::isError($msg_body)) {
-                self::raise_error(array('code' => 650, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not create message: ".$msg_body->getMessage()),
-                    TRUE, FALSE);
-            }
-            else {
-                $delim   = $this->config->header_delimiter();
-                $to      = $headers_enc['To'];
-                $subject = $headers_enc['Subject'];
-                $header_str = rtrim($header_str);
-
-                if ($delim != "\r\n") {
-                    $header_str = str_replace("\r\n", $delim, $header_str);
-                    $msg_body   = str_replace("\r\n", $delim, $msg_body);
-                    $to         = str_replace("\r\n", $delim, $to);
-                    $subject    = str_replace("\r\n", $delim, $subject);
-                }
-
-                if (ini_get('safe_mode'))
-                    $sent = mail($to, $subject, $msg_body, $header_str);
-                else
-                    $sent = mail($to, $subject, $msg_body, $header_str, "-f$from");
-            }
-        }
-
-        if ($sent) {
-            $this->plugins->exec_hook('message_sent', array('headers' => $headers, 'body' => $msg_body));
-
-            // remove MDN headers after sending
-            unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
-
-            // get all recipients
-            if ($headers['Cc'])
-                $mailto .= $headers['Cc'];
-            if ($headers['Bcc'])
-                $mailto .= $headers['Bcc'];
-            if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m))
-                $mailto = implode(', ', array_unique($m[1]));
-
-            if ($this->config->get('smtp_log')) {
-                self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
-                    $this->user->get_username(),
-                    $_SERVER['REMOTE_ADDR'],
-                    $mailto,
-                    !empty($response) ? join('; ', $response) : ''));
-            }
-        }
-
-        if (is_resource($msg_body)) {
-            fclose($msg_body);
-        }
-
-        $message->_headers = array();
-        $message->headers($headers);
-
-        return $sent;
-    }
-
-
-    /**
-     * Unique Message-ID generator.
-     *
-     * @return string Message-ID
-     */
-    public function gen_message_id()
-    {
-        $local_part  = md5(uniqid('rcmail'.mt_rand(),true));
-        $domain_part = $this->user->get_username('domain');
-
-        // Try to find FQDN, some spamfilters doesn't like 'localhost' (#1486924)
-        if (!preg_match('/\.[a-z]+$/i', $domain_part)) {
-            foreach (array($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME']) as $host) {
-                $host = preg_replace('/:[0-9]+$/', '', $host);
-                if ($host && preg_match('/\.[a-z]+$/i', $host)) {
-                    $domain_part = $host;
-                }
-            }
-        }
-
-        return sprintf('<%s@%s>', $local_part, $domain_part);
-    }
-
-
-    /**
      * Returns RFC2822 formatted current date in user's timezone
      *
      * @return string Date
@@ -1165,7 +962,7 @@ class rcmail extends rcube
      */
     public function table_output($attrib, $table_data, $a_show_cols, $id_col)
     {
-        $table = new html_table(/*array('cols' => count($a_show_cols))*/);
+        $table = new html_table($attrib);
 
         // add table header
         if (!$attrib['noheader']) {
@@ -1530,7 +1327,7 @@ class rcmail extends rcube
         $collapsed = $this->config->get('collapsed_folders');
 
         $out = '';
-        foreach ($arrFolders as $key => $folder) {
+        foreach ($arrFolders as $folder) {
             $title        = null;
             $folder_class = $this->folder_classname($folder['id']);
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
@@ -1616,7 +1413,7 @@ class rcmail extends rcube
     {
         $out = '';
 
-        foreach ($arrFolders as $key => $folder) {
+        foreach ($arrFolders as $folder) {
             // skip exceptions (and its subfolders)
             if (!empty($opts['exceptions']) && in_array($folder['id'], $opts['exceptions'])) {
                 continue;
@@ -1798,32 +1595,51 @@ class rcmail extends rcube
      *
      * @param string $fallback       Fallback message label
      * @param array  $fallback_args  Fallback message label arguments
+     * @param string $suffix         Message label suffix
      */
-    public function display_server_error($fallback = null, $fallback_args = null)
+    public function display_server_error($fallback = null, $fallback_args = null, $suffix = '')
     {
         $err_code = $this->storage->get_error_code();
         $res_code = $this->storage->get_response_code();
+        $args     = array();
 
         if ($res_code == rcube_storage::NOPERM) {
-            $this->output->show_message('errornoperm', 'error');
+            $error = 'errornoperm';
         }
         else if ($res_code == rcube_storage::READONLY) {
-            $this->output->show_message('errorreadonly', 'error');
+            $error = 'errorreadonly';
+        }
+        else if ($res_code == rcube_storage::OVERQUOTA) {
+            $error = 'errorroverquota';
         }
         else if ($err_code && ($err_str = $this->storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
             if (stripos($err_str, 'Permission denied') !== false) {
-                $this->output->show_message('errornoperm', 'error');
+                $error = 'errornoperm';
+            }
+            // try to detect full mailbox problem and display appropriate message
+            // there can be e.g. "Quota exceeded" or "quotum would exceed"
+            else if (stripos($err_str, 'quot') !== false && stripos($err_str, 'exceed') !== false) {
+                $error = 'erroroverquota';
             }
             else {
-                $this->output->show_message('servererrormsg', 'error', array('msg' => $err_str));
+                $error = 'servererrormsg';
+                $args  = array('msg' => $err_str);
             }
         }
         else if ($err_code < 0) {
-            $this->output->show_message('storageerror', 'error');
+            $error = 'storageerror';
         }
         else if ($fallback) {
-            $this->output->show_message($fallback, 'error', $fallback_args);
+            $error = $fallback;
+            $args  = $fallback_args;
+        }
+
+        if ($error) {
+            if ($suffix && $this->text_exists($error . $suffix)) {
+                $error .= $suffix;
+            }
+            $this->output->show_message($error, 'error', $args);
         }
     }
 

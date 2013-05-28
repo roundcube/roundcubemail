@@ -147,7 +147,7 @@ class password extends rcube_plugin
                 $rcmail->output->command('display_message', $this->gettext('passwordweak'), 'error');
             }
             // password is the same as the old one, do nothing, return success
-            else if ($sespwd == $newpwd) {
+            else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
                 $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
             }
             // try to save the password

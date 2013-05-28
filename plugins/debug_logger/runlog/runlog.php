@@ -194,7 +194,7 @@ class runlog {
 
     public function print_totals(){
         $totals = array();
-        foreach ( $this->run_log as $k => $entry ) {
+        foreach ($this->run_log as $entry) {
             if ( $entry['type'] == 'start'  && $entry['ended'] == true) {
                 $totals[$entry['value']]['duration'] += $entry['duration'];
                 $totals[$entry['value']]['count'] += 1;

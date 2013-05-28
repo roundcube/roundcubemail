@@ -64,6 +64,7 @@ $labels['copy']     = 'コピー';
 $labels['move']     = '移動';
 $labels['moveto']   = 'フォルダーに移動';
 $labels['download'] = 'ダウンロード';
+$labels['open']     = '開く';
 $labels['showattachment'] = '表示';
 $labels['showanyway'] = 'とにかく表示';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = '現在のページ';
 $labels['unread'] = '未読';
 $labels['flagged'] = 'フラグ付き';
 $labels['unanswered'] = '未返信';
+$labels['withattachment'] = '添付ファイルあり';
 $labels['deleted'] = '削除済み';
 $labels['undeleted'] = '削除済みでない';
 $labels['invert'] = '反転';
@@ -204,6 +206,8 @@ $labels['body']  = '本文';
 
 $labels['openinextwin'] = '新しいウィンドウで開く';
 $labels['emlsave'] = 'ダウンロード(.eml形式)';
+$labels['changeformattext'] = 'テキスト形式で表示';
+$labels['changeformathtml'] = 'HTML形式で表示';
 
 // message compose
 $labels['editasnew']      = '新しいメッセージとして編集';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = '作成時にHTMLメッセージを使用';
 $labels['htmlonreply'] = '返信時にHTMLメッセージを使用';
 $labels['htmlonreplyandforward'] = '転送またはHTMLメッセージへの返信';
 $labels['htmlsignature'] = 'HTMLの署名';
+$labels['showemail'] = '電子メールアドレスを表示名と共に表示';
 $labels['previewpane'] = 'プレビュー枠の表示';
 $labels['skin'] = 'インターフェイスのスキン';
 $labels['logoutclear'] = 'ログアウト時にごみ箱の内容を消去';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = '返信時に元の署名をメッセージか
 $labels['autoaddsignature'] = '自動的に署名を付加';
 $labels['newmessageonly'] = '新しいメッセージだけ';
 $labels['replyandforwardonly'] = '返信と転送だけ';
-$labels['replysignaturepos'] = '返信や転送で署名を挿入する位置';
-$labels['belowquote'] = '引用の後';
-$labels['abovequote'] = '引用の前';
 $labels['insertsignature'] = '署名を挿入';
 $labels['previewpanemarkread']  = 'プレビューしたメッセージを既読に設定';
 $labels['afternseconds']  = '$n秒後';

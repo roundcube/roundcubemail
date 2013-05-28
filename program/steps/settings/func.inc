@@ -418,6 +418,17 @@ function rcmail_user_prefs($current=null)
       );
     }
 
+    // show checkbox to show email instead of name
+    if (!isset($no_override['message_show_email'])) {
+      $field_id = 'rcmfd_message_show_email';
+      $input_msgshowemail = new html_checkbox(array('name' => '_message_show_email', 'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['message_show_email'] = array(
+        'title' => html::label($field_id, Q(rcube_label('showemail'))),
+        'content' => $input_msgshowemail->show($config['message_show_email']?1:0),
+      );
+    }
+
     // show checkbox for HTML/plaintext messages
     if (!isset($no_override['prefer_html'])) {
       $field_id = 'rcmfd_htmlmsg';
@@ -483,8 +494,8 @@ function rcmail_user_prefs($current=null)
 
     $blocks = array(
       'main'       => array('name' => Q(rcube_label('mainoptions'))),
-      'spellcheck' => array('name' => Q(rcube_label('spellcheckoptions'))),
       'sig'        => array('name' => Q(rcube_label('signatureoptions'))),
+      'spellcheck' => array('name' => Q(rcube_label('spellcheckoptions'))),
     );
 
     // show checkbox to compose messages in a new window
@@ -581,8 +592,7 @@ function rcmail_user_prefs($current=null)
 
     if (!isset($no_override['reply_mode'])) {
       $field_id = 'rcmfd_reply_mode';
-      $select_replymode = new html_select(array('name' => '_reply_mode', 'id' => $field_id,
-        'onchange' => "\$('#rcmfd_sig_above').attr('disabled',this.selectedIndex<2)"));
+      $select_replymode = new html_select(array('name' => '_reply_mode', 'id' => $field_id));
       $select_replymode->add(rcube_label('replyempty'), -1);
       $select_replymode->add(rcube_label('replybottomposting'), 0);
       $select_replymode->add(rcube_label('replytopposting'), 1);
@@ -631,18 +641,6 @@ function rcmail_user_prefs($current=null)
       );
     }
 
-    if (!isset($no_override['sig_above'])) {
-      $field_id = 'rcmfd_sig_above';
-      $select_sigabove = new html_select(array('name' => '_sig_above', 'id' => $field_id, 'disabled' => $config['reply_mode'] < 1));
-      $select_sigabove->add(rcube_label('belowquote'), 0);
-      $select_sigabove->add(rcube_label('abovequote'), 1);
-
-      $blocks['sig']['options']['sig_above'] = array(
-        'title' => html::label($field_id, Q(rcube_label('replysignaturepos'))),
-        'content' => $select_sigabove->show($config['sig_above']?1:0),
-      );
-    }
-
     if (!isset($no_override['strip_existing_sig'])) {
       $field_id = 'rcmfd_strip_existing_sig';
       $input_stripexistingsig = new html_checkbox(array('name' => '_strip_existing_sig', 'id' => $field_id, 'value' => 1));
@@ -666,14 +664,15 @@ function rcmail_user_prefs($current=null)
     }
 
     if (!isset($no_override['default_font'])) {
-      $field_id     = 'rcmfd_default_font';
-      $fonts        = rcube_fontdefs();
-      $default_font = $config['default_font'] ? $config['default_font'] : 'Verdana';
+      $field_id = 'rcmfd_default_font';
+      $fonts    = rcube_fontdefs();
+      $selected = $config['default_font'];
 
       $select = '<select name="_default_font" id="'.$field_id.'">';
+      $select .= '<option value=""' . (!$selected ? ' selected="selected"' : '') . '>---</option>';
       foreach ($fonts as $fname => $font)
         $select .= '<option value="'.$fname.'"'
-          . ($fname == $default_font ? ' selected="selected"' : '')
+          . ($fname == $selected ? ' selected="selected"' : '')
           . ' style=\'font-family: ' . $font . '\'>'
           . Q($fname) . '</option>';
       $select .= '</select>';

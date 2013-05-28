@@ -54,6 +54,21 @@
 	<roundcube:button command="nextmessage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextmessage" content="&amp;gt;" />
 </div>
 
+<roundcube:if condition="env:optional_format=='text'" />
+<div class="pagenav" id="formatcontrols">
+	<span class="buttongroup">
+		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html selected" innerClass="inner" title="changeformathtml" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text" classSel="button last changeformat text pressed" innerClass="inner" title="changeformattext" />
+	</span>
+</div>
+<roundcube:elseif condition="env:optional_format=='html'" />
+<div class="pagenav" id="formatcontrols">
+	<span class="buttongroup">
+		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html" classSel="button first changeformat html pressed" innerClass="inner" title="changeformathtml" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text selected" innerClass="inner" title="changeformattext" />
+	</span>
+</div>
+<roundcube:endif />
+
+
 <div id="contactphoto"><roundcube:object name="contactphoto" /></div>
 </div>
 
@@ -72,6 +87,14 @@
 </div><!-- end mailview-right -->
 
 </div><!-- end mainscreen -->
+
+<div id="attachmentmenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="open-attachment" id="attachmenuopen" type="link" label="open" class="icon" classAct="icon active" innerclass="icon extwin" /></li>
+		<li><roundcube:button command="download-attachment" id="attachmenudownload" type="link" label="download" class="icon" classAct="icon active" innerclass="icon download" /></li>
+		<roundcube:container name="attachmentmenu" id="attachmentmenu" />
+	</ul>
+</div>
 
 <roundcube:include file="/includes/footer.html" />
 

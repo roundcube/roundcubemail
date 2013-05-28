@@ -84,7 +84,7 @@ class rcube_sieve
             return $this->_set_error(SIEVE_ERROR_LOGIN);
         }
 
-        $this->exts     = $this->get_extensions();
+        $this->exts = $this->get_extensions();
 
         // disable features by config
         if (!empty($disabled)) {

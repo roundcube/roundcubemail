@@ -118,7 +118,7 @@ class rcube_enriched
             $quoted = '';
             $lines  = explode('<br>', $a[2]);
 
-            foreach ($lines as $n => $line)
+            foreach ($lines as $line)
                 $quoted .= '&gt;'.$line.'<br>';
 
             $body = $a[1].'<span class="quotes">'.$quoted.'</span>'.$a[3];

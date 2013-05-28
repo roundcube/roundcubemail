@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Arkiv';
 $labels['buttontitle'] = 'Arkivér denne besked';
 $labels['archived'] = 'Succesfuldt arkiveret.';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Arkivering lykkedes. Genindlæs siden for at se den nye arkiv mappe.';
+$labels['archiveerror'] = 'Nogle meddelelser kunne ikke arkiveres';
 $labels['archivefolder'] = 'Arkiv';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arkiver';
+$labels['archivetype'] = 'Del arkiv med';
+$labels['archivetypeyear'] = 'År (f.eks. Arkiv/2012)';
+$labels['archivetypemonth'] = 'Måned (f.eks. Arkiv/2012/06)';
+$labels['archivetypefolder'] = 'Original mappe';
+$labels['archivetypesender'] = 'Afsenders email';
+$labels['unkownsender'] = 'ukendt';
 
 ?>

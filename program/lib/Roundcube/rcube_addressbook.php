@@ -309,9 +309,14 @@ abstract class rcube_addressbook
      * List all active contact groups of this source
      *
      * @param string  Optional search string to match group name
+     * @param int     Matching mode:
+     *                0 - partial (*abc*),
+     *                1 - strict (=),
+     *                2 - prefix (abc*)
+     *
      * @return array  Indexed list of contact groups, each a hash array
      */
-    function list_groups($search = null)
+    function list_groups($search = null, $mode = 0)
     {
         /* empty for address books don't supporting groups */
         return array();
@@ -370,9 +375,10 @@ abstract class rcube_addressbook
     /**
      * Add the given contact records the a certain group
      *
-     * @param string  Group identifier
-     * @param array   List of contact identifiers to be added
-     * @return int    Number of contacts added
+     * @param string       Group identifier
+     * @param array|string List of contact identifiers to be added
+     *
+     * @return int Number of contacts added
      */
     function add_to_group($group_id, $ids)
     {
@@ -383,9 +389,10 @@ abstract class rcube_addressbook
     /**
      * Remove the given contact records from a certain group
      *
-     * @param string  Group identifier
-     * @param array   List of contact identifiers to be removed
-     * @return int    Number of deleted group members
+     * @param string       Group identifier
+     * @param array|string List of contact identifiers to be removed
+     *
+     * @return int Number of deleted group members
      */
     function remove_from_group($group_id, $ids)
     {
@@ -425,7 +432,7 @@ abstract class rcube_addressbook
                     $out = array_merge($out, (array)$values);
                 }
                 else {
-                    list($f, $type) = explode(':', $c);
+                    list(, $type) = explode(':', $c);
                     $out[$type] = array_merge((array)$out[$type], (array)$values);
                 }
             }
@@ -528,7 +535,7 @@ abstract class rcube_addressbook
      */
     public static function compose_contact_key($contact, $sort_col)
     {
-        $key = $contact[$sort_col] . ':' . $row['sourceid'];
+        $key = $contact[$sort_col] . ':' . $contact['sourceid'];
 
         // add email to a key to not skip contacts with the same name (#1488375)
         if (!empty($contact['email'])) {
@@ -537,7 +544,6 @@ abstract class rcube_addressbook
 
          return $key;
     }
-
 
     /**
      * Compare search value with contact data

@@ -18,7 +18,7 @@
 
 
 $labels['filters'] = 'Filters';
-$labels['managefilters'] = 'Beheer inkomende mail filters';
+$labels['managefilters'] = 'Beheer filters voor inkomende e-mail';
 $labels['filtername'] = 'Filternaam';
 $labels['newfilter'] = 'Nieuw filter';
 $labels['filteradd'] = 'Filter toevoegen';
@@ -43,7 +43,7 @@ $labels['filterover'] = 'over';
 $labels['addrule'] = 'Regel toevoegen';
 $labels['delrule'] = 'Regel verwijderen';
 $labels['messagemoveto'] = 'Verplaats bericht naar';
-$labels['messageredirect'] = 'Redirect bericht naar';
+$labels['messageredirect'] = 'Bericht doorsturen naar';
 $labels['messagecopyto'] = 'Kopieer bericht naar';
 $labels['messagesendcopy'] = 'Verstuur een kopie naar';
 $labels['messagereply'] = 'Beantwoord met bericht';
@@ -57,6 +57,9 @@ $labels['sender'] = 'Afzender';
 $labels['recipient'] = 'Ontvanger';
 $labels['vacationaddresses'] = 'Aanvullende lijst van geadresseerden (gescheiden met komma\'s):';
 $labels['vacationdays'] = 'Hoe vaak moet een bericht verstuurd worden (in dagen):';
+$labels['vacationinterval'] = 'Hoe vaak moet een bericht verstuurd worden:';
+$labels['days'] = 'dagen';
+$labels['seconds'] = 'seconden';
 $labels['vacationreason'] = 'Bericht (vakantiereden):';
 $labels['vacationsubject'] = 'Onderwerp:';
 $labels['rulestop'] = 'Stop met regels uitvoeren';

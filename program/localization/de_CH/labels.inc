@@ -40,9 +40,9 @@ $labels['junk']   = 'Spam';
 
 // message listing
 $labels['subject'] = 'Betreff';
-$labels['from']    = 'Absender';
+$labels['from']    = 'Von';
 $labels['sender']  = 'Absender';
-$labels['to']      = 'Empfänger';
+$labels['to']      = 'An';
 $labels['cc']      = 'Kopie (CC)';
 $labels['bcc']     = 'Blind-Kopie';
 $labels['replyto'] = 'Antwort an';
@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopieren';
 $labels['move']     = 'Verschieben';
 $labels['moveto']   = 'Verschieben nach...';
 $labels['download'] = 'Download';
+$labels['open']     = 'Öffnen';
 $labels['showattachment'] = 'Anzeigen';
 $labels['showanyway'] = 'Trotzdem anzeigen';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Aktuelle Seite';
 $labels['unread'] = 'Ungelesene';
 $labels['flagged'] = 'Markierte';
 $labels['unanswered'] = 'Unbeantwortete';
+$labels['withattachment'] = 'Mit Anhang';
 $labels['deleted'] = 'Gelöschte';
 $labels['undeleted'] = 'Nicht gelöscht';
 $labels['invert'] = 'Umkehren';
@@ -175,7 +177,7 @@ $labels['threaded'] = 'Gruppiert';
 $labels['autoexpand_threads'] = 'Konversationen aufklappen';
 $labels['do_expand'] = 'alle';
 $labels['expand_only_unread'] = 'nur ungelesene';
-$labels['fromto'] = 'Sender/Empfänger';
+$labels['fromto'] = 'Von/An';
 $labels['flag'] = 'Markierung';
 $labels['attachment'] = 'Anhang';
 $labels['nonesort'] = 'Keine';
@@ -204,6 +206,8 @@ $labels['body']  = 'Inhalt';
 
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Herunterladen (.eml)';
+$labels['changeformattext'] = 'Als reiner Text anzeigen';
+$labels['changeformathtml'] = 'Als original HTML anzeigen';
 
 // message compose
 $labels['editasnew']      = 'Als neue Nachricht öffnen';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'HTML-Nachrichten verfassen';
 $labels['htmlonreply'] = 'nur Antworten auf HTML-Nachrichten';
 $labels['htmlonreplyandforward'] = 'Antworten oder Weiterleiten einer HTML-Nachricht';
 $labels['htmlsignature'] = 'HTML-Signatur';
+$labels['showemail'] = 'E-Mail-Adresse und Namen anzeigen';
 $labels['previewpane'] = 'Nachrichtenvorschau anzeigen';
 $labels['skin'] = 'Oberflächendesign';
 $labels['logoutclear'] = 'Papierkorb beim Abmelden leeren';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Beim Antworten die Signatur der Originalnachr
 $labels['autoaddsignature'] = 'Signatur automatisch einfügen';
 $labels['newmessageonly'] = 'nur bei neuen Nachrichten';
 $labels['replyandforwardonly'] = 'nur bei Antworten und Weiterleitungen';
-$labels['replysignaturepos'] = 'Beim Antworten oder Weiterleiten die Signatur';
-$labels['belowquote'] = 'unter der Originalnachricht einfügen';
-$labels['abovequote'] = 'über der Originalnachricht einfügen';
 $labels['insertsignature'] = 'Signatur einfügen';
 $labels['previewpanemarkread']  = 'Nachricht in Vorschau als gelesen markieren';
 $labels['afternseconds']  = 'nach $n Sekunden';

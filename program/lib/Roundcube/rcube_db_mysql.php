@@ -34,6 +34,13 @@ class rcube_db_mysql extends rcube_db
      */
     protected function init()
     {
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+            rcube::raise_error(array('code' => 600, 'type' => 'db',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => "MySQL driver requires PHP >= 5.3, current version is " . PHP_VERSION),
+                true, true);
+        }
+
         // SQL identifiers quoting
         $this->options['identifier_start'] = '`';
         $this->options['identifier_end'] = '`';
@@ -127,7 +134,7 @@ class rcube_db_mysql extends rcube_db
         $result[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
 
         // Enable AUTOCOMMIT mode (#1488902)
-        $dsn_options[PDO::ATTR_AUTOCOMMIT] = true;
+        $result[PDO::ATTR_AUTOCOMMIT] = true;
 
         return $result;
     }
@@ -147,7 +154,7 @@ class rcube_db_mysql extends rcube_db
 
             $result = $this->query('SHOW VARIABLES');
 
-            while ($sql_arr = $this->fetch_array($result)) {
+            while ($row = $this->fetch_array($result)) {
                 $this->variables[$row[0]] = $row[1];
             }
         }

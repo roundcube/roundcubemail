@@ -1,3 +1,6 @@
+- Add vacation-seconds extension support (RFC 6131)
+- Several script parser code improvements
+
 * version 6.2 [2013-02-17]
 -----------------------------------------------------------
 - Support tls:// prefix in managesieve_host option

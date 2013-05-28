@@ -60,6 +60,7 @@ switch ($CURR_SECTION)
   case 'mailview':
     $a_user_prefs = array(
       'message_extwin'  => intval($_POST['_message_extwin']),
+      'message_show_email' => isset($_POST['_message_show_email']) ? TRUE : FALSE,
       'prefer_html'     => isset($_POST['_prefer_html']) ? TRUE : FALSE,
       'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
       'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
@@ -86,7 +87,6 @@ switch ($CURR_SECTION)
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
       'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
-      'sig_above'          => !empty($_POST['_sig_above']) && $_POST['_reply_mode'] > 0,
       'default_font'       => get_input_value('_default_font', RCUBE_INPUT_POST),
       'forward_attachment' => !empty($_POST['_forward_attachment']),
     );
@@ -158,7 +158,7 @@ switch ($CURR_SECTION)
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 
     if (isset($a_user_prefs['refresh_interval']) && !empty($CONFIG['min_refresh_interval'])) {
-      if ($a_user_prefs['refresh_interval'] > $CONFIG['min_refresh_interval']) {
+      if ($a_user_prefs['refresh_interval'] < $CONFIG['min_refresh_interval']) {
         $a_user_prefs['refresh_interval'] = $CONFIG['min_refresh_interval'];
       }
     }

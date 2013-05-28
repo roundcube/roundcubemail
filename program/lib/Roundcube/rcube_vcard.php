@@ -90,7 +90,7 @@ class rcube_vcard
      */
     public function __construct($vcard = null, $charset = RCUBE_CHARSET, $detect = false, $fieldmap = array())
     {
-        if (!empty($fielmap)) {
+        if (!empty($fieldmap)) {
             $this->extend_fieldmap($fieldmap);
         }
 
@@ -481,7 +481,7 @@ class rcube_vcard
         $vcard_block    = '';
         $in_vcard_block = false;
 
-        foreach (preg_split("/[\r\n]+/", $data) as $i => $line) {
+        foreach (preg_split("/[\r\n]+/", $data) as $line) {
             if ($in_vcard_block && !empty($line)) {
                 $vcard_block .= $line . "\n";
             }
@@ -491,7 +491,9 @@ class rcube_vcard
             if (preg_match('/^END:VCARD$/i', $line)) {
                 // parse vcard
                 $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true, self::$fieldmap);
-                if (!empty($obj->displayname) || !empty($obj->email)) {
+                // FN and N is required by vCard format (RFC 2426)
+                // on import we can be less restrictive, let's addressbook decide
+                if (!empty($obj->displayname) || !empty($obj->surname) || !empty($obj->firstname) || !empty($obj->email)) {
                     $out[] = $obj;
                 }
 
@@ -782,9 +784,30 @@ class rcube_vcard
                 }
                 return $result;
             }
+
+            $s = strtr($s, $rep2);
         }
 
-        return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';'));
+        // some implementations (GMail) use non-standard backslash before colon (#1489085)
+        // we will handle properly any backslashed character - removing dummy backslahes
+        // return strtr($s, array("\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';'));
+
+        $s   = str_replace("\r", '', $s);
+        $pos = 0;
+
+        while (($pos = strpos($s, '\\', $pos)) !== false) {
+            $next = substr($s, $pos + 1, 1);
+            if ($next == 'n' || $next == 'N') {
+                $s = substr_replace($s, "\n", $pos, 2);
+            }
+            else {
+                $s = substr_replace($s, '', $pos, 1);
+            }
+
+            $pos += 1;
+        }
+
+        return $s;
     }
 
     /**

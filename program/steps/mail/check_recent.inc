@@ -52,12 +52,12 @@ foreach ($a_mailboxes as $mbox_name) {
     }
 
     // Get mailbox status
-    $status = $RCMAIL->storage->folder_status($mbox_name);
+    $status = $RCMAIL->storage->folder_status($mbox_name, $diff);
 
     if ($status & 1) {
         // trigger plugin hook
         $RCMAIL->plugins->exec_hook('new_messages',
-            array('mailbox' => $mbox_name, 'is_current' => $is_current));
+            array('mailbox' => $mbox_name, 'is_current' => $is_current, 'diff' => $diff));
     }
 
     rcmail_send_unread_count($mbox_name, true, null,
@@ -114,5 +114,8 @@ foreach ($a_mailboxes as $mbox_name) {
         }
     }
 }
+
+// trigger refresh hook
+$RCMAIL->plugins->exec_hook('refresh', array());
 
 $OUTPUT->send();

@@ -45,6 +45,17 @@ CREATE TABLE `cache` (
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
+-- Table structure for table `cache_shared`
+
+CREATE TABLE `cache_shared` (
+ `cache_key` varchar(255) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL ,
+ `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `data` longtext NOT NULL,
+ INDEX `created_index` (`created`),
+ INDEX `cache_key_index` (`cache_key`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
+
 -- Table structure for table `cache_index`
 
 CREATE TABLE `cache_index` (
@@ -196,4 +207,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011700');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013052500');

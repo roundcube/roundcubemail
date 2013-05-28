@@ -60,6 +60,14 @@ abstract class rcube_plugin
      */
     public $noframe = false;
 
+    /**
+     * A list of config option names that can be modified
+     * by the user via user interface (with save-prefs command)
+     *
+     * @var array
+     */
+    public $allowed_prefs;
+
     protected $home;
     protected $urlbase;
     private $mytask;
@@ -82,6 +90,16 @@ abstract class rcube_plugin
      * Initialization method, needs to be implemented by the plugin itself
      */
     abstract function init();
+
+    /**
+     * Provide information about this
+     *
+     * @return array Meta information about a plugin or false if not implemented
+     */
+    public static function info()
+    {
+        return false;
+    }
 
     /**
      * Attempt to load the given plugin which is required for the current plugin
@@ -209,7 +227,7 @@ abstract class rcube_plugin
             $rcube->load_language($lang, $add);
 
             // add labels to client
-            if ($add2client) {
+            if ($add2client && method_exists($rcube->output, 'add_label')) {
                 if (is_array($add2client)) {
                     $js_labels = array_map(array($this, 'label_map_callback'), $add2client);
                 }
@@ -218,6 +236,24 @@ abstract class rcube_plugin
                 }
                 $rcube->output->add_label($js_labels);
             }
+        }
+    }
+
+    /**
+     * Wrapper for add_label() adding the plugin ID as domain
+     */
+    public function add_label()
+    {
+        $rcube = rcube::get_instance();
+
+        if (method_exists($rcube->output, 'add_label')) {
+            $args = func_get_args();
+            if (count($args) == 1 && is_array($args[0])) {
+                $args = $args[0];
+            }
+
+            $args = array_map(array($this, 'label_map_callback'), $args);
+            $rcube->output->add_label($args);
         }
     }
 
@@ -237,7 +273,7 @@ abstract class rcube_plugin
     /**
      * Register this plugin to be responsible for a specific task
      *
-     * @param string $task Task name (only characters [a-z0-9_.-] are allowed)
+     * @param string $task Task name (only characters [a-z0-9_-] are allowed)
      */
     public function register_task($task)
     {
@@ -372,6 +408,10 @@ abstract class rcube_plugin
      */
     private function label_map_callback($key)
     {
+        if (strpos($key, $this->ID.'.') === 0) {
+            return $key;
+        }
+
         return $this->ID.'.'.$key;
     }
 }

@@ -173,13 +173,15 @@
 }
 
 #messagemenu li a.active:hover,
+#attachmentmenu li a.active:hover,
 #markmessagemenu li a.active:hover
 {
   color: #fff;
   background-color: #c00;
 }
 
-#messagemenu li a
+#messagemenu li a,
+#attachmentmenu li a
 {
   background: url(images/messageactions.png) no-repeat 7px 0;
   background-position: 7px 20px;
@@ -190,7 +192,8 @@
   background-position: 7px 1px;
 }
 
-#messagemenu li a.downloadlink
+#messagemenu li a.downloadlink,
+#attachmentmenu li a.downloadlink
 {
   background-position: 7px -17px;
 }
@@ -200,7 +203,8 @@
   background-position: 7px -35px;
 }
 
-#messagemenu li a.openlink
+#messagemenu li a.openlink,
+#attachmentmenu li a.openlink
 {
   background-position: 7px -53px;
 }
@@ -1135,6 +1139,16 @@ table.headers-table tr td.header span
   text-decoration: underline;
 }
 
+#attachment-list li a.drop {
+  background: url(images/icons/down_small.gif) no-repeat center 6px;
+  width: 12px;
+  height: 7px;
+  cursor: pointer;
+  padding: 5px 0 0;
+  margin-left: 3px;
+  display: inline-block;
+}
+
 #messagebody
 {
   position:relative;
@@ -1298,20 +1312,27 @@ div.message-htmlpart div.rcmBody
   text-decoration: underline;
 }
 
-#openextwinlink
+#messagelinks
 {
   position: absolute;
   top: 8px;
   right: 10px;
-  width: 15px;
-  height: 15px;
-  border: 0;
+  height: 16px;
+  text-align: right;
+}
+
+#messageframe #messagelinks
+{
+  top: 2px;
+  right: 2px;
 }
 
 #compose-headers #openextwinlink
 {
-	top: 4px;
-	right: 2px;
+  position: absolute;
+  height: 15px;
+  top: 4px;
+  right: 2px;
 }
 
 #full-headers

@@ -16,14 +16,14 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
-$labels['basic'] = 'Toon browsermelding bij nieuw bericht';
-$labels['desktop'] = 'Toon desktopmelding bij nieuw bericht';
-$labels['sound'] = 'Speel geluid bij nieuw bericht';
+$labels['basic'] = 'Toon melding in browser bij nieuw bericht';
+$labels['desktop'] = 'Toon melding op bureaublad bij nieuw bericht';
+$labels['sound'] = 'Geluid afspelen bij nieuw bericht';
 $labels['test'] = 'Test';
 $labels['title'] = 'Nieuwe e-mail!';
 $labels['body'] = 'U heeft een nieuw bericht ontvangen.';
 $labels['testbody'] = 'Dit is een testmelding.';
-$labels['desktopdisabled'] = 'Desktopmeldingen zijn uitgeschakeld in uw browser.';
-$labels['desktopunsupported'] = 'Uw browser ondersteunt geen desktopmeldingen.';
+$labels['desktopdisabled'] = 'Bureaubladmeldingen zijn uitgeschakeld in uw browser.';
+$labels['desktopunsupported'] = 'Uw browser ondersteunt geen bureaubladmeldingen.';
 
 ?>

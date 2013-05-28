@@ -1,4 +1,4 @@
-require ["envelope","subaddress","fileinto"];
+require ["envelope","fileinto","subaddress"];
 if envelope :user "To" "postmaster"
 {
 	fileinto "postmaster";

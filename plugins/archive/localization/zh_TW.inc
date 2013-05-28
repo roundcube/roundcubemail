@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = '封存';
 $labels['buttontitle'] = '封存此信件';
 $labels['archived'] = '已成功封存';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = '封存動作完成.重新載入頁面瀏覽新的封存資料夾';
+$labels['archiveerror'] = '部分資訊無法完成封存';
 $labels['archivefolder'] = '封存';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = '封存';
+$labels['archivetype'] = '封存檔案切割方式';
+$labels['archivetypeyear'] = '年分(例如: 封存/2012)';
+$labels['archivetypemonth'] = '月份(例如: 封存/2012/06)';
+$labels['archivetypefolder'] = '原始資料夾';
+$labels['archivetypesender'] = '寄件者電子信箱';
+$labels['unkownsender'] = '未知';
 
 ?>

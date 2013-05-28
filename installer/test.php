@@ -24,7 +24,7 @@ else if (!$read_main) {
 }
 echo '<br />';
 
-if ($read_db && !empty($RCI->config['db_table_users'])) {
+if ($read_db && !empty($RCI->config['db_dsnw'])) {
   $RCI->pass('db.inc.php');
 }
 else if ($read_db) {
@@ -38,13 +38,13 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
   
   if (is_array($messages['missing'])) {
     echo '<h3 class="warning">Missing config options</h3>';
-    echo '<p class="hint">The following config options are not present in the current configuration.<br/>';
-    echo 'Please check the default config files and add the missing properties to your local config files.</p>';
-    
-    echo '<ul class="configwarings">';
+    echo '<p class="hint">The following config options are not set (not present or empty) in the current configuration.<br/>';
+    echo 'Please check the default config files and set the missing properties in your local config files.</p>';
+
+    echo '<ul class="configwarnings">';
     foreach ($messages['missing'] as $msg) {
       echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
-    }    
+    }
     echo '</ul>';
   }
 
@@ -171,7 +171,7 @@ else if ($db_working && $_POST['updatedb']) {
 
 // test database
 if ($db_working) {
-    $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_table_users']}");
+    $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_prefix']}users");
     if ($DB->is_error()) {
         $RCI->fail('DB Schema', "Database not initialized");
         echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
@@ -195,11 +195,11 @@ if ($db_working) {
 if ($db_working) {
     // write test
     $insert_id = md5(uniqid());
-    $db_write = $DB->query("INSERT INTO {$RCI->config['db_table_session']} (sess_id, created, ip, vars) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
+    $db_write = $DB->query("INSERT INTO {$RCI->config['db_prefix']}session (sess_id, created, ip, vars) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
       $RCI->pass('DB Write');
-      $DB->query("DELETE FROM {$RCI->config['db_table_session']} WHERE sess_id=?", $insert_id);
+      $DB->query("DELETE FROM {$RCI->config['db_prefix']}session WHERE sess_id=?", $insert_id);
     }
     else {
       $RCI->fail('DB Write', $RCI->get_error());

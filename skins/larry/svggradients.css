@@ -29,7 +29,8 @@ input.button.mainaction:active {
 	background-image: url(svggradient.php?c=2a2e31;505050);
 }
 
-a.button {
+a.button,
+.buttongroup {
 	background-image: url(svggradient.php?c=f9f9f9;e6e6e6);
 }
 
@@ -45,6 +46,10 @@ input.button:active {
 
 .pagenav.dark a.button.pressed {
 	background-image: url(svggradient.php?c=bababa;d8d8d8);
+}
+
+.buttongroup a.button.selected {
+	background-image: url(svggradient.php?c=909090;858585);
 }
 
 #message.statusbar {

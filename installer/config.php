@@ -301,6 +301,18 @@ echo '<label for="cfgdbpass">Database password (omit for sqlite)</label><br />';
 
 ?>
 </dd>
+
+<dt class="propname">db_prefix</dt>
+<dd>
+<?php
+
+$input_prefix = new html_inputfield(array('name' => '_db_prefix', 'size' => 20, 'id' => "cfgdbprefix"));
+echo $input_prefix->show($RCI->getprop('db_prefix'));
+
+?>
+<div>Optional prefix that will be added to database object names (tables and sequences).</div>
+</dd>
+
 </dl>
 </fieldset>
 

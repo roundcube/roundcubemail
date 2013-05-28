@@ -64,6 +64,7 @@ $labels['copy']     = 'Copia';
 $labels['move']     = 'Sposta';
 $labels['moveto']   = 'Sposta in...';
 $labels['download'] = 'Download';
+$labels['open']     = 'Apri';
 $labels['showattachment'] = 'Visualizza';
 $labels['showanyway'] = 'Visualizza comunque';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Pagina corrente';
 $labels['unread'] = 'Non letti';
 $labels['flagged'] = 'Contrassegnato';
 $labels['unanswered'] = 'Senza risposta';
+$labels['withattachment'] = 'Con allegato';
 $labels['deleted'] = 'Cancellato';
 $labels['undeleted'] = 'Non eliminato';
 $labels['invert'] = 'Inverti';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Apri in una nuova finestra';
 $labels['emlsave'] = 'Scarica (.eml)';
+$labels['changeformattext'] = 'Visualizza nel formato testo semplice';
+$labels['changeformathtml'] = 'Visualizza nel formato HTML';
 
 // message compose
 $labels['editasnew']      = 'Modifica come nuovo';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Scrivi i messaggi in HTML';
 $labels['htmlonreply'] = 'solo in risposta a messaggi HTML';
 $labels['htmlonreplyandforward'] = 'su inoltro o risposta a messaggi HTML';
 $labels['htmlsignature'] = 'Firma in HTML';
+$labels['showemail'] = 'Visualizza indirizzi email con il nome visualizzato';
 $labels['previewpane'] = 'Mostra l\'anteprima';
 $labels['skin'] = 'Tema interfaccia';
 $labels['logoutclear'] = 'Svuota il Cestino all\'uscita';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Quando rispondi, rimuovi la firma dal messagg
 $labels['autoaddsignature'] = 'Aggiungi automaticamente la firma';
 $labels['newmessageonly'] = 'solo ai nuovi messaggi';
 $labels['replyandforwardonly'] = 'solo alle risposte e inoltri';
-$labels['replysignaturepos'] = 'In risposta o inoltro, posiziona la firma';
-$labels['belowquote'] = 'sotto la citazione';
-$labels['abovequote'] = 'sopra la citazione';
 $labels['insertsignature'] = 'Inserisci firma';
 $labels['previewpanemarkread']  = 'Segna i messagi in anteprima come letti';
 $labels['afternseconds']  = 'dopo $n secondi';

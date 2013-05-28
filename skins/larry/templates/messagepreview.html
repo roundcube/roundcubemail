@@ -30,6 +30,17 @@
 
 <!-- record navigation -->
 <div id="countcontrols" class="pagenav">
+<roundcube:if condition="env:optional_format=='text'" />
+	<span class="buttongroup">
+		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html selected" innerClass="inner" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text" classSel="button changeformat text pressed" innerClass="inner" title="changeformattext" content="Text" />
+	</span>
+	&nbsp;
+<roundcube:elseif condition="env:optional_format=='html'" />
+	<span class="buttongroup">
+		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html" classSel="button changeformat html pressed" innerClass="inner" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text selected" innerClass="inner" title="changeformattext" content="Text" />
+	</span>
+	&nbsp;
+<roundcube:endif />
 <roundcube:if condition="env:mailbox != config:drafts_mbox">
 	<roundcube:button command="reply" type="link" class="button reply" classSel="button reply pressed" innerClass="inner" title="replytomessage" content="&lt;-" />
 	<roundcube:button command="reply-all" type="link" class="button replyall" classSel="button replyall pressed" innerClass="inner" title="replytoallmessage" content="&lt;&lt;-" />
@@ -49,6 +60,14 @@
 <roundcube:object name="messageObjects" id="message-objects" />
 <roundcube:object name="messageBody" id="messagebody" headertableclass="message-partheaders headers-table" />
 </div>
+</div>
+
+<div id="attachmentmenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<li><roundcube:button command="open-attachment" id="attachmenuopen" type="link" label="open" class="icon" classAct="icon active" innerclass="icon extwin" /></li>
+		<li><roundcube:button command="download-attachment" id="attachmenudownload" type="link" label="download" class="icon" classAct="icon active" innerclass="icon download" /></li>
+		<roundcube:container name="attachmentmenu" id="attachmentmenu" />
+	</ul>
 </div>
 
 <roundcube:include file="/includes/footer.html" />

@@ -17,6 +17,7 @@ function rcube_mail_ui()
   var popupconfig = {
     forwardmenu:        { editable:1 },
     searchmenu:         { editable:1, callback:searchmenu },
+    attachmentmenu:     { },
     listoptions:        { editable:1 },
     dragmessagemenu:    { sticky:1 },
     groupmenu:          { above:1 },
@@ -37,6 +38,7 @@ function rcube_mail_ui()
   this.init_tabs = init_tabs;
   this.show_about = show_about;
   this.show_popup = show_popup;
+  this.add_popup = add_popup;
   this.set_searchmod = set_searchmod;
   this.show_uploadform = show_uploadform;
   this.show_header_row = show_header_row;
@@ -81,8 +83,8 @@ function rcube_mail_ui()
 
     /***  mail task  ***/
     if (rcmail.env.task == 'mail') {
-      rcmail.addEventListener('menu-open', show_listoptions);
-      rcmail.addEventListener('menu-save', save_listoptions);
+      rcmail.addEventListener('menu-open', menu_open);
+      rcmail.addEventListener('menu-save', menu_save);
       rcmail.addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list') });
 
       var dragmenu = $('#dragmessagemenu');
@@ -92,9 +94,15 @@ function rcube_mail_ui()
       }
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
+        rcmail.addEventListener('enable-command', enable_command);
         rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); });
         rcmail.addEventListener('afterhide-headers', function() { layout_messageview(); });
-        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(this); return false });
+        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(); return false });
+
+        // add menu link for each attachment
+        $('#attachment-list > li').each(function() {
+          $(this).append($('<a class="drop">').click(function() { attachmentmenu(this); }));
+        });
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 200); });
@@ -117,7 +125,8 @@ function rcube_mail_ui()
         }).css('cursor', 'pointer');
 
         // toggle compose options if opened in new window and they were visible before
-        if (window.opener && opener.rcmail && opener.rcmail.env.action == 'compose' && $('#composeoptionstoggle', opener.document).hasClass('remove'))
+        var opener_rc = rcmail.opener();
+        if (opener_rc && opener_rc.env.action == 'compose' && $('#composeoptionstoggle', opener.document).hasClass('remove'))
           $('#composeoptionstoggle').click();
 
         new rcube_splitter({ id:'composesplitterv', p1:'#composeview-left', p2:'#composeview-right',
@@ -137,6 +146,7 @@ function rcube_mail_ui()
         new rcube_scroller('#folderlist-content', '#folderlist-header', '#folderlist-footer');
 
         rcmail.addEventListener('setquota', update_quota);
+        rcmail.addEventListener('enable-command', enable_command);
       }
 
       if ($('#mailview-left').length) {
@@ -243,8 +253,13 @@ function rcube_mail_ui()
 
     $('iframe').load(function(e){
       // this = iframe
-      var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-      $(doc).mouseup(body_mouseup);
+      try {
+        var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+        $(doc).mouseup(body_mouseup);
+      }
+      catch (e) {
+        // catch possible "Permission denied" error in IE
+      };
     })
     .contents().mouseup(body_mouseup);
 
@@ -280,28 +295,36 @@ function rcube_mail_ui()
   /**
    * Update UI on window resize
    */
-  function resize()
+  function resize(e)
   {
-    if (rcmail.env.task == 'mail') {
-      if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
-        layout_messageview();
-      else if (rcmail.env.action == 'compose')
-        layout_composeview();
-    }
+    // resize in intervals to prevent lags and double onresize calls in Chrome (#1489005)
+    var interval = e ? 10 : 0;
 
-    // make iframe footer buttons float if scrolling is active
-    $('body.iframe .footerleft').each(function(){
-      var footer = $(this),
-        body = $(document.body),
-        floating = footer.hasClass('floating'),
-        overflow = body.outerHeight(true) > $(window).height();
+    if (rcmail.resize_timeout)
+      window.clearTimeout(rcmail.resize_timeout);
 
-      if (overflow != floating) {
-        var action = overflow ? 'addClass' : 'removeClass';
-        footer[action]('floating');
-        body[action]('floatingbuttons');
+    rcmail.resize_timeout = window.setTimeout(function() {
+      if (rcmail.env.task == 'mail') {
+        if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
+          layout_messageview();
+        else if (rcmail.env.action == 'compose')
+          layout_composeview();
       }
-    });
+
+      // make iframe footer buttons float if scrolling is active
+      $('body.iframe .footerleft').each(function(){
+        var footer = $(this),
+          body = $(document.body),
+          floating = footer.hasClass('floating'),
+          overflow = body.outerHeight(true) > $(window).height();
+
+        if (overflow != floating) {
+          var action = overflow ? 'addClass' : 'removeClass';
+          footer[action]('floating');
+          body[action]('floatingbuttons');
+        }
+      });
+    }, interval);
   }
 
   /**
@@ -414,6 +437,30 @@ function rcube_mail_ui()
   }
 
 
+  function enable_command(p)
+  {
+    if (p.command == 'reply-list') {
+      var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
+      if (rcmail.env.action == 'preview')
+        $('a.button.replyall').attr('title', label);
+      else
+        $('a.button.reply-all').text(label).attr('title', label);
+    }
+  }
+
+
+  /**
+   * Register a popup menu
+   */
+  function add_popup(popup, config)
+  {
+    var obj = popups[popup] = $('#'+popup);
+    obj.appendTo(document.body);  // move it to top for proper absolute positioning
+
+    if (obj.length)
+      popupconfig[popup] = $.extend(popupconfig[popup] || {}, config || {});
+  }
+
   /**
    * Trigger for popup menus
    */
@@ -421,7 +468,7 @@ function rcube_mail_ui()
   {
     // auto-register menu object
     if (config || !popupconfig[popup])
-      popupconfig[popup] = $.extend(popupconfig[popup] || {}, config);
+      add_popup(popup, config);
 
     var visible = show_popupmenu(popup, show),
       config = popupconfig[popup];
@@ -436,7 +483,7 @@ function rcube_mail_ui()
   {
     var obj = popups[popup],
       config = popupconfig[popup],
-      ref = $('#'+popup+'link'),
+      ref = $(config.link ? config.link : '#'+popup+'link'),
       above = config.above;
 
     if (!obj) {
@@ -452,7 +499,7 @@ function rcube_mail_ui()
     else if (config.toggle && show && obj.is(':visible'))
       show = false;
 
-    if (show && ref) {
+    if (show && ref.length) {
       var parent = ref.parent(),
         win = $(window),
         pos;
@@ -546,7 +593,7 @@ function rcube_mail_ui()
   /**
    * Switch between short and full headers display in message preview
    */
-  function toggle_preview_headers(button)
+  function toggle_preview_headers()
   {
     $('#preview-shortheaders').toggle();
     var full = $('#preview-allheaders').toggle(),
@@ -574,6 +621,19 @@ function rcube_mail_ui()
 
 
   /**** popup callbacks ****/
+
+  function menu_open(p)
+  {
+    if (p && p.props && p.props.menu == 'attachmentmenu')
+      show_popupmenu('attachmentmenu');
+    else
+      show_listoptions();
+  }
+
+  function menu_save(prop)
+  {
+    save_listoptions();
+  }
 
   function searchmenu(show)
   {
@@ -605,6 +665,21 @@ function rcube_mail_ui()
     }
   }
 
+  function attachmentmenu(elem)
+  {
+    var id = elem.parentNode.id.replace(/^attach/, '');
+
+    $('#attachmenuopen').unbind('click').attr('onclick', '').click(function(e) {
+      return rcmail.command('open-attachment', id, this);
+    });
+
+    $('#attachmenudownload').unbind('click').attr('onclick', '').click(function() {
+      rcmail.command('download-attachment', id, this);
+    });
+
+    popupconfig.attachmentmenu.link = elem;
+    rcmail.command('menu-open', {menu: 'attachmentmenu', id: id});
+  }
 
   function spellmenu(show)
   {

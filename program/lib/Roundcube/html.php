@@ -21,7 +21,7 @@
  * Class for HTML code creation
  *
  * @package    Framework
- * @subpackage HTML
+ * @subpackage View
  */
 class html
 {
@@ -34,6 +34,7 @@ class html
     public static $lc_tags = true;
     public static $common_attrib = array('id','class','style','title','align');
     public static $containers = array('iframe','div','span','p','h1','h2','h3','form','textarea','table','thead','tbody','tr','th','td','style','script');
+
 
     /**
      * Constructor
@@ -217,7 +218,7 @@ class html
             $attr = array('src' => $attr);
         }
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib,
-            array('src','name','width','height','border','frameborder')));
+            array('src','name','width','height','border','frameborder','onload')));
     }
 
     /**
@@ -332,7 +333,16 @@ class html
      */
     public static function quote($str)
     {
-        return @htmlspecialchars($str, ENT_COMPAT, RCUBE_CHARSET);
+        static $flags;
+
+        if (!$flags) {
+            $flags = ENT_COMPAT;
+            if (defined('ENT_SUBSTITUTE')) {
+                $flags |= ENT_SUBSTITUTE;
+            }
+        }
+
+        return @htmlspecialchars($str, $flags, RCUBE_CHARSET);
     }
 }
 
@@ -340,7 +350,8 @@ class html
 /**
  * Class to create an HTML input field
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_inputfield extends html
 {
@@ -396,7 +407,8 @@ class html_inputfield extends html
 /**
  * Class to create an HTML password field
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_passwordfield extends html_inputfield
 {
@@ -406,9 +418,9 @@ class html_passwordfield extends html_inputfield
 /**
  * Class to create an hidden HTML input field
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
-
 class html_hiddenfield extends html
 {
     protected $tagname = 'input';
@@ -456,7 +468,8 @@ class html_hiddenfield extends html
 /**
  * Class to create HTML radio buttons
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_radiobutton extends html_inputfield
 {
@@ -486,7 +499,8 @@ class html_radiobutton extends html_inputfield
 /**
  * Class to create HTML checkboxes
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_checkbox extends html_inputfield
 {
@@ -516,7 +530,8 @@ class html_checkbox extends html_inputfield
 /**
  * Class to create an HTML textarea
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_textarea extends html
 {
@@ -574,7 +589,8 @@ class html_textarea extends html
  * print $select->show('CH');
  * </pre>
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_select extends html
 {
@@ -639,7 +655,8 @@ class html_select extends html
 /**
  * Class to build an HTML table
  *
- * @package HTML
+ * @package    Framework
+ * @subpackage View
  */
 class html_table extends html
 {
@@ -661,6 +678,11 @@ class html_table extends html
     {
         $default_attrib = self::$doctype == 'xhtml' ? array('summary' => '', 'border' => 0) : array();
         $this->attrib = array_merge($attrib, $default_attrib);
+
+        if (!empty($attrib['tagname']) && $attrib['tagname'] != 'table') {
+          $this->tagname = $attrib['tagname'];
+          $this->allowed = self::$common_attrib;
+        }
     }
 
     /**
@@ -762,6 +784,11 @@ class html_table extends html
             $index = $this->rowindex;
         }
 
+        // make sure row object exists (#1489094)
+        if (!$this->rows[$index]) {
+            $this->rows[$index] = new stdClass;
+        }
+
         $this->rows[$index]->attrib = $attr;
     }
 
@@ -799,19 +826,20 @@ class html_table extends html
         if (!empty($this->header)) {
             $rowcontent = '';
             foreach ($this->header as $c => $col) {
-                $rowcontent .= self::tag('td', $col->attrib, $col->content);
+                $rowcontent .= self::tag($this->_col_tagname(), $col->attrib, $col->content);
             }
-            $thead = self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib));
+            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib)) :
+                self::tag($this->_row_tagname(), array('class' => 'thead'), $rowcontent, parent::$common_attrib);
         }
 
         foreach ($this->rows as $r => $row) {
             $rowcontent = '';
             foreach ($row->cells as $c => $col) {
-                $rowcontent .= self::tag('td', $col->attrib, $col->content);
+                $rowcontent .= self::tag($this->_col_tagname(), $col->attrib, $col->content);
             }
 
             if ($r < $this->rowindex || count($row->cells)) {
-                $tbody .= self::tag('tr', $row->attrib, $rowcontent, parent::$common_attrib);
+                $tbody .= self::tag($this->_row_tagname(), $row->attrib, $rowcontent, parent::$common_attrib);
             }
         }
 
@@ -820,7 +848,7 @@ class html_table extends html
         }
 
         // add <tbody>
-        $this->content = $thead . self::tag('tbody', null, $tbody);
+        $this->content = $thead . ($this->tagname == 'table' ? self::tag('tbody', null, $tbody) : $tbody);
 
         unset($this->attrib['cols'], $this->attrib['rowsonly']);
         return parent::show();
@@ -843,6 +871,24 @@ class html_table extends html
     {
         $this->rows     = array();
         $this->rowindex = 0;
+    }
+
+    /**
+     * Getter for the corresponding tag name for table row elements
+     */
+    private function _row_tagname()
+    {
+        static $row_tagnames = array('table' => 'tr', 'ul' => 'li', '*' => 'div');
+        return $row_tagnames[$this->tagname] ?: $row_tagnames['*'];
+    }
+
+    /**
+     * Getter for the corresponding tag name for table cell elements
+     */
+    private function _col_tagname()
+    {
+        static $col_tagnames = array('table' => 'td', '*' => 'span');
+        return $col_tagnames[$this->tagname] ?: $col_tagnames['*'];
     }
 
 }

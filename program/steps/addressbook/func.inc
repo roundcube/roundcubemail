@@ -26,7 +26,7 @@ $CONTACT_COLTYPES = array(
   'name'         => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('name'), 'category' => 'main'),
   'firstname'    => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('firstname'), 'category' => 'main'),
   'surname'      => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('surname'), 'category' => 'main'),
-  'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => rcube_label('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
+  'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 254, 'label' => rcube_label('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
   'middlename'   => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('middlename'), 'category' => 'main'),
   'prefix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => rcube_label('nameprefix'), 'category' => 'main'),
   'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => rcube_label('namesuffix'), 'category' => 'main'),
@@ -167,7 +167,7 @@ function rcmail_set_sourcename($abook)
     // get address book name (for display)
     if ($abook && $_SESSION['addressbooks_count'] > 1) {
         $name = $abook->get_name();
-        if (!$name && $source == 0) {
+        if (!$name) {
             $name = rcube_label('personaladrbook');
         }
         $OUTPUT->set_env('sourcename', html_entity_decode($name, ENT_COMPAT, 'UTF-8'));
@@ -183,7 +183,6 @@ function rcmail_directory_list($attrib)
         $attrib['id'] = 'rcmdirectorylist';
 
     $out = '';
-    $local_id = '0';
     $jsdata = array();
 
     $line_templ = html::tag('li', array(
@@ -270,7 +269,6 @@ function rcmail_contact_groups($args)
 
     $groups_html = '';
     $groups = $RCMAIL->get_address_book($args['source'])->list_groups();
-    $js_id = $RCMAIL->JQ($args['source']);
 
     if (!empty($groups)) {
         $line_templ = html::tag('li', array(
@@ -283,7 +281,6 @@ function rcmail_contact_groups($args)
         $is_collapsed = strpos($RCMAIL->config->get('collapsed_abooks',''), '&'.rawurlencode($args['source']).'&') !== false;
         $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
 
-        $jsdata = array();
         foreach ($groups as $group) {
             $groups_html .= sprintf($line_templ,
                 rcube_utils::html_identifier('G' . $args['source'] . $group['ID'], true),
@@ -297,7 +294,7 @@ function rcmail_contact_groups($args)
     }
 
     $args['out'] .= html::tag('ul',
-      array('class' => 'groups', 'style' => ($is_collapsed ? "display:none;" : null)),
+      array('class' => 'groups', 'style' => ($is_collapsed || empty($groups) ? "display:none;" : null)),
       $groups_html);
 
     return $args;
@@ -554,22 +551,13 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     // iterate over possible subtypes and collect values with their subtype
                     if (is_array($colprop['subtypes'])) {
                         $values = $subtypes = array();
-                        foreach ($colprop['subtypes'] as $i => $st) {
-                            $newval = false;
-                            if ($record[$field.':'.$st]) {
-                                $subtypes[count($values)] = $st;
-                                $newval = $record[$field.':'.$st];
+                        foreach (rcube_addressbook::get_col_values($field, $record) as $st => $vals) {
+                            foreach((array)$vals as $value) {
+                                $i = count($values);
+                                $subtypes[$i] = $st;
+                                $values[$i] = $value;
                             }
-                            else if ($i == 0 && $record[$field]) {
-                                $subtypes[count($values)] = $st;
-                                $newval = $record[$field];
-                            }
-                            if ($newval !== false) {
-                                if (is_array($newval) && isset($newval[0]))
-                                    $values = array_merge($values, $newval);
-                                else
-                                    $values[] = $newval;
-                            }
+                            // TODO: add $st to $select_subtype if missing ?
                         }
                     }
                     else {
@@ -787,7 +775,7 @@ function rcmail_get_cids($filter = null)
             }
         }
         else {
-            if (substr($id, -($got_source+1)) == "-$source") {
+            if (substr($id, -($got_source+1)) === "-$source") {
                 $id = substr($id, 0, -($got_source+1));
             }
             $result[$source][] = $id;

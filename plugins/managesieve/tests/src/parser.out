@@ -1,4 +1,4 @@
-require ["fileinto","reject","envelope"];
+require ["envelope","fileinto","reject"];
 # rule:[spam]
 if header :contains "X-DSPAM-Result" "Spam"
 {

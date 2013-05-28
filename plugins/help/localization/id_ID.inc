@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['help'] = 'Panduan';
+$labels['help'] = 'Bantuan';
 $labels['about'] = 'Tentang';
 $labels['license'] = 'Lisensi';
 

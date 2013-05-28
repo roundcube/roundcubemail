@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['buttontext'] = 'Junk';
+$labels['buttontext'] = 'Ανεπιθύμητα';
 $labels['buttontitle'] = 'Σήμανση ως Ανεπιθύμητου';
 $labels['reportedasjunk'] = 'Αναφέρθηκε ως Ανεπιθήμητο';
 

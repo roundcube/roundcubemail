@@ -65,6 +65,20 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $this->assertEquals("prefix", $vcard['prefix'], "Decode backslash character");
     }
 
+    /**
+     * Backslash parsing test (#1489085)
+     */
+    function test_parse_five()
+    {
+        $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\\\\\a;fir\\nst\nURL:http\\://domain.tld\nEND:VCARD";
+        $vcard = new rcube_vcard($vcard, null);
+        $vcard = $vcard->get_assoc();
+
+        $this->assertEquals("last\\a", $vcard['surname'], "Decode dummy backslash character");
+        $this->assertEquals("fir\nst", $vcard['firstname'], "Decode backslash character");
+        $this->assertEquals("http://domain.tld", $vcard['website:other'][0], "Decode dummy backslash character");
+    }
+
     function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));

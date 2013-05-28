@@ -34,7 +34,7 @@ REQUIREMENTS
    - magic_quotes_runtime disabled
    - magic_quotes_sybase disabled
 * PHP compiled with OpenSSL to connect to IMAPS and to use the spell checker
-* A MySQL (4.0.8 or newer), PostgreSQL, MSSQL database engine
+* A MySQL (4.0.8 or newer), PostgreSQL, MS SQL Server (2005 or newer) database engine
   or SQLite support in PHP
 * One of the above databases with permission to create tables
 * An SMTP server (recommended) or PHP configured for mail delivery
@@ -116,22 +116,23 @@ To use Roundcube with PostgreSQL support you have to follow these
 simple steps, which have to be done as the postgres system user (or
 which ever is the database superuser):
 
-$ createuser roundcube
+$ createuser -P roundcube
 $ createdb -O roundcube -E UNICODE roundcubemail
-$ psql roundcubemail
+$ psql -U roundcube -f SQL/postgres.initial.sql roundcubemail
 
-roundcubemail =# ALTER USER roundcube WITH PASSWORD 'the_new_password';
-roundcubemail =# \c - roundcube
-roundcubemail => \i SQL/postgres.initial.sql
+Note: in some system configurations you might need to add '-U postgres' to
+createuser and createdb commands.
 
-All this has been tested with PostgreSQL 8.x and 7.4.x. Older
-versions don't have a -O option for the createdb, so if you are
-using that version you'll have to change ownership of the DB later.
+
+* Microsoft SQL Server
+----------------------
+Language/locale of the database must be set to us_english (1033). More info
+on this at http://trac.roundcube.net/ticket/1488918.
 
 
 Database cleaning
 -----------------
-Do keep your database slick and clean we recommend to periodically execute
+To keep your database slick and clean we recommend to periodically execute
 bin/cleandb.sh which finally removes all records that are marked as deleted.
 Best solution is to install a cronjob running this script daily.
 
@@ -232,5 +233,3 @@ $HTTP["host"] == "www.example.com" {
 
     compress.filetype = ("text/plain", "text/html", "text/javascript", "text/css", "text/xml", "image/gif", "image/png")
 }
-
-

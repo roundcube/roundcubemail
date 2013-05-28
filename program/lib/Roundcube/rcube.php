@@ -258,6 +258,39 @@ class rcube
 
 
     /**
+     * Initialize and get shared cache object
+     *
+     * @param string $name   Cache identifier
+     * @param bool   $packed Enables/disables data serialization
+     *
+     * @return rcube_cache_shared Cache object
+     */
+    public function get_cache_shared($name, $packed=true)
+    {
+        $shared_name = "shared_$name";
+
+        if (!array_key_exists($shared_name, $this->caches)) {
+            $opt  = strtolower($name) . '_cache';
+            $type = $this->config->get($opt);
+            $ttl  = $this->config->get($opt . '_ttl');
+
+            if (!$type) {
+                // cache is disabled
+                return $this->caches[$shared_name] = null;
+            }
+
+            if ($ttl === null) {
+                $ttl = $this->config->get('shared_cache_ttl', '10d');
+            }
+
+            $this->caches[$shared_name] = new rcube_cache_shared($type, $name, $ttl, $packed);
+        }
+
+        return $this->caches[$shared_name];
+    }
+
+
+    /**
      * Create SMTP object and connect to server
      *
      * @param boolean True if connection should be established
@@ -405,6 +438,7 @@ class rcube
         $sess_domain = $this->config->get('session_domain');
         $sess_path   = $this->config->get('session_path');
         $lifetime    = $this->config->get('session_lifetime', 0) * 60;
+        $is_secure   = $this->config->get('use_https') || rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
@@ -419,7 +453,7 @@ class rcube
             ini_set('session.gc_maxlifetime', $lifetime * 2);
         }
 
-        ini_set('session.cookie_secure', rcube_utils::https_check());
+        ini_set('session.cookie_secure', $is_secure);
         ini_set('session.name', $sess_name ? $sess_name : 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
@@ -865,6 +899,9 @@ class rcube
 
         foreach ($this->caches as $cache) {
             if (is_object($cache)) {
+                if ($this->expunge_cache) {
+                    $cache->expunge();
+                }
                 $cache->close();
             }
         }
@@ -1081,6 +1118,9 @@ class rcube
                 'message' => $arg->getMessage(),
             );
         }
+        else if (is_string($arg)) {
+            $arg = array('message' => $arg, 'type' => 'php');
+        }
 
         if (empty($arg['code'])) {
             $arg['code'] = 500;
@@ -1093,14 +1133,24 @@ class rcube
             return;
         }
 
-        if (($log || $terminate) && $arg['type'] && $arg['message']) {
+        $cli = php_sapi_name() == 'cli';
+
+        if (($log || $terminate) && !$cli && $arg['type'] && $arg['message']) {
             $arg['fatal'] = $terminate;
             self::log_bug($arg);
         }
 
-        // display error page and terminate script
-        if ($terminate && is_object(self::$instance->output)) {
-            self::$instance->output->raise_error($arg['code'], $arg['message']);
+        // terminate script
+        if ($terminate) {
+            // display error page
+            if (is_object(self::$instance->output)) {
+                self::$instance->output->raise_error($arg['code'], $arg['message']);
+            }
+            else if ($cli) {
+                fwrite(STDERR, 'ERROR: ' . $arg['message']);
+            }
+
+            exit(1);
         }
     }
 
@@ -1139,7 +1189,7 @@ class rcube
 
             if (!self::write_log('errors', $log_entry)) {
                 // send error to PHPs error handler if write_log didn't succeed
-                trigger_error($arg_arr['message']);
+                trigger_error($arg_arr['message'], E_USER_WARNING);
             }
         }
 
@@ -1277,6 +1327,188 @@ class rcube
             return $_SESSION['language'];
         }
     }
+
+    /**
+     * Unique Message-ID generator.
+     *
+     * @return string Message-ID
+     */
+    public function gen_message_id()
+    {
+        $local_part  = md5(uniqid('rcube'.mt_rand(), true));
+        $domain_part = $this->user->get_username('domain');
+
+        // Try to find FQDN, some spamfilters doesn't like 'localhost' (#1486924)
+        if (!preg_match('/\.[a-z]+$/i', $domain_part)) {
+            foreach (array($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME']) as $host) {
+                $host = preg_replace('/:[0-9]+$/', '', $host);
+                if ($host && preg_match('/\.[a-z]+$/i', $host)) {
+                    $domain_part = $host;
+                }
+            }
+        }
+
+        return sprintf('<%s@%s>', $local_part, $domain_part);
+    }
+
+    /**
+     * Send the given message using the configured method.
+     *
+     * @param object $message    Reference to Mail_MIME object
+     * @param string $from       Sender address string
+     * @param array  $mailto     Array of recipient address strings
+     * @param array  $error      SMTP error array (reference)
+     * @param string $body_file  Location of file with saved message body (reference),
+     *                           used when delay_file_io is enabled
+     * @param array  $options    SMTP options (e.g. DSN request)
+     *
+     * @return boolean Send status.
+     */
+    public function deliver_message(&$message, $from, $mailto, &$error, &$body_file = null, $options = null)
+    {
+        $plugin = $this->plugins->exec_hook('message_before_send', array(
+            'message' => $message,
+            'from'    => $from,
+            'mailto'  => $mailto,
+            'options' => $options,
+        ));
+
+        $from    = $plugin['from'];
+        $mailto  = $plugin['mailto'];
+        $options = $plugin['options'];
+        $message = $plugin['message'];
+        $headers = $message->headers();
+
+        // send thru SMTP server using custom SMTP library
+        if ($this->config->get('smtp_server')) {
+            // generate list of recipients
+            $a_recipients = array($mailto);
+
+            if (strlen($headers['Cc']))
+                $a_recipients[] = $headers['Cc'];
+            if (strlen($headers['Bcc']))
+                $a_recipients[] = $headers['Bcc'];
+
+            // clean Bcc from header for recipients
+            $send_headers = $headers;
+            unset($send_headers['Bcc']);
+            // here too, it because txtHeaders() below use $message->_headers not only $send_headers
+            unset($message->_headers['Bcc']);
+
+            $smtp_headers = $message->txtHeaders($send_headers, true);
+
+            if ($message->getParam('delay_file_io')) {
+                // use common temp dir
+                $temp_dir = $this->config->get('temp_dir');
+                $body_file = tempnam($temp_dir, 'rcmMsg');
+                if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
+                    self::raise_error(array('code' => 650, 'type' => 'php',
+                        'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Could not create message: ".$mime_result->getMessage()),
+                        TRUE, FALSE);
+                    return false;
+                }
+                $msg_body = fopen($body_file, 'r');
+            }
+            else {
+                $msg_body = $message->get();
+            }
+
+            // send message
+            if (!is_object($this->smtp)) {
+                $this->smtp_init(true);
+            }
+
+            $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
+            $response = $this->smtp->get_response();
+            $error    = $this->smtp->get_error();
+
+            // log error
+            if (!$sent) {
+                self::raise_error(array('code' => 800, 'type' => 'smtp',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "SMTP error: ".join("\n", $response)), TRUE, FALSE);
+            }
+        }
+        // send mail using PHP's mail() function
+        else {
+            // unset some headers because they will be added by the mail() function
+            $headers_enc = $message->headers($headers);
+            $headers_php = $message->_headers;
+            unset($headers_php['To'], $headers_php['Subject']);
+
+            // reset stored headers and overwrite
+            $message->_headers = array();
+            $header_str = $message->txtHeaders($headers_php);
+
+            // #1485779
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
+                    $headers_enc['To'] = implode(', ', $m[1]);
+                }
+            }
+
+            $msg_body = $message->get();
+
+            if (PEAR::isError($msg_body)) {
+                self::raise_error(array('code' => 650, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Could not create message: ".$msg_body->getMessage()),
+                    TRUE, FALSE);
+            }
+            else {
+                $delim   = $this->config->header_delimiter();
+                $to      = $headers_enc['To'];
+                $subject = $headers_enc['Subject'];
+                $header_str = rtrim($header_str);
+
+                if ($delim != "\r\n") {
+                    $header_str = str_replace("\r\n", $delim, $header_str);
+                    $msg_body   = str_replace("\r\n", $delim, $msg_body);
+                    $to         = str_replace("\r\n", $delim, $to);
+                    $subject    = str_replace("\r\n", $delim, $subject);
+                }
+
+                if (ini_get('safe_mode'))
+                    $sent = mail($to, $subject, $msg_body, $header_str);
+                else
+                    $sent = mail($to, $subject, $msg_body, $header_str, "-f$from");
+            }
+        }
+
+        if ($sent) {
+            $this->plugins->exec_hook('message_sent', array('headers' => $headers, 'body' => $msg_body));
+
+            // remove MDN headers after sending
+            unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
+
+            // get all recipients
+            if ($headers['Cc'])
+                $mailto .= $headers['Cc'];
+            if ($headers['Bcc'])
+                $mailto .= $headers['Bcc'];
+            if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m))
+                $mailto = implode(', ', array_unique($m[1]));
+
+            if ($this->config->get('smtp_log')) {
+                self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
+                    $this->user->get_username(),
+                    $_SERVER['REMOTE_ADDR'],
+                    $mailto,
+                    !empty($response) ? join('; ', $response) : ''));
+            }
+        }
+
+        if (is_resource($msg_body)) {
+            fclose($msg_body);
+        }
+
+        $message->_headers = array();
+        $message->headers($headers);
+
+        return $sent;
+    }
+
 }
 
 

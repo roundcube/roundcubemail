@@ -215,7 +215,12 @@ class rcube_message_header
             $value = $this->others[$name];
         }
 
-        return $decode ? rcube_mime::decode_header($value, $this->charset) : $value;
+        if ($decode) {
+            $value = rcube_mime::decode_header($value, $this->charset);
+            $value = rcube_charset::clean($value);
+        }
+
+        return $value;
     }
 
     /**

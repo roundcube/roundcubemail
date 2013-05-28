@@ -31,18 +31,15 @@ $opts = rcube_utils::get_opt(array(
 ));
 
 if (empty($opts['dir'])) {
-  echo "ERROR: Database schema directory not specified (--dir).\n";
-  exit(1);
+    rcube::raise_error("Database schema directory not specified (--dir).", false, true);
 }
 if (empty($opts['package'])) {
-  echo "ERROR: Database schema package name not specified (--package).\n";
-  exit(1);
+    rcube::raise_error("Database schema package name not specified (--package).", false, true);
 }
 
 // Check if directory exists
 if (!file_exists($opts['dir'])) {
-  echo "ERROR: Specified database schema directory doesn't exist.\n";
-  exit(1);
+    rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
 }
 
 $RC = rcube::get_instance();
@@ -51,12 +48,11 @@ $DB = rcube_db::factory($RC->config->get('db_dsnw'));
 // Connect to database
 $DB->db_connect('w');
 if (!$DB->is_connected()) {
-    echo "Error connecting to database: " . $DB->is_error() . ".\n";
-    exit(1);
+    rcube::raise_error("Error connecting to database: " . $DB->is_error(), false, true);
 }
 
 // Read DB schema version from database (if 'system' table exists)
-if (in_array('system', (array)$DB->list_tables())) {
+if (in_array($DB->table_name('system'), (array)$DB->list_tables())) {
     $DB->query("SELECT " . $DB->quote_identifier('value')
         ." FROM " . $DB->quote_identifier($DB->table_name('system'))
         ." WHERE " . $DB->quote_identifier('name') ." = ?",
@@ -90,6 +86,7 @@ if (!$version && $opts['version']) {
         '0.7.1'      => 2011111600,
         '0.7.2'      => 2011111600,
         '0.7.3'      => 2011111600,
+        '0.7.4'      => 2011111600,
         '0.8-beta'   => 2011121400,
         '0.8-rc'     => 2011121400,
         '0.8.0'      => 2011121400,
@@ -97,6 +94,8 @@ if (!$version && $opts['version']) {
         '0.8.2'      => 2011121400,
         '0.8.3'      => 2011121400,
         '0.8.4'      => 2011121400,
+        '0.8.5'      => 2011121400,
+        '0.8.6'      => 2011121400,
         '0.9-beta'   => 2012080700,
     );
 
@@ -110,8 +109,7 @@ if (empty($version)) {
 
 $dir = $opts['dir'] . DIRECTORY_SEPARATOR . $DB->db_provider;
 if (!file_exists($dir)) {
-    echo "DDL Upgrade files for " . $DB->db_provider . " driver not found.\n";
-    exit(1);
+    rcube::raise_error("DDL Upgrade files for " . $DB->db_provider . " driver not found.", false, true);
 }
 
 $dh     = opendir($dir);
@@ -129,13 +127,12 @@ foreach ($result as $v) {
     $error = update_db_schema($opts['package'], $v, $dir . DIRECTORY_SEPARATOR . "$v.sql");
 
     if ($error) {
-        echo "\nError in DDL upgrade $v: $error\n";
-        exit(1);
+        echo "[FAILED]\n";
+        rcube::raise_error("Error in DDL upgrade $v: $error", false, true);
     }
     echo "[OK]\n";
 }
 
-exit(0);
 
 function update_db_schema($package, $version, $file)
 {
@@ -150,7 +147,7 @@ function update_db_schema($package, $version, $file)
 
             $sql .= $line . "\n";
             if (preg_match('/(;|^GO)$/', trim($line))) {
-                @$DB->query($sql);
+                @$DB->query(fix_table_names($sql));
                 $sql = '';
                 if ($error = $DB->is_error()) {
                     return $error;
@@ -179,6 +176,53 @@ function update_db_schema($package, $version, $file)
     }
 
     return $DB->is_error();
+}
+
+function fix_table_names($sql)
+{
+    global $DB, $RC, $dir;
+    static $tables;
+    static $sequences;
+
+    $prefix = $RC->config->get('db_prefix');
+    $engine = $DB->db_provider;
+
+    if (empty($prefix)) {
+        return $sql;
+    }
+
+    if ($tables === null) {
+        $tables    = array();
+        $sequences = array();
+
+        // read complete schema (initial) file
+        $filename = "$dir/../$engine.initial.sql";
+        $schema    = @file_get_contents($filename);
+
+        // find table names
+        if (preg_match_all('/CREATE TABLE (\[dbo\]\.|IF NOT EXISTS )?[`"\[\]]*([^`"\[\] \r\n]+)/i', $schema, $matches)) {
+            foreach ($matches[2] as $table) {
+                $tables[$table] = $prefix . $table;
+            }
+        }
+        // find sequence names
+        if ($engine == 'postgres' && preg_match_all('/CREATE SEQUENCE (IF NOT EXISTS )?"?([^" \n\r]+)/i', $schema, $matches)) {
+            foreach ($matches[2] as $sequence) {
+                $sequences[$sequence] = $prefix . $sequence;
+            }
+        }
+    }
+
+    // replace table names
+    foreach ($tables as $table => $real_table) {
+        $sql = preg_replace("/([^a-zA-Z0-9_])$table([^a-zA-Z0-9_])/", "\\1$real_table\\2", $sql);
+    }
+    // replace sequence names
+    foreach ($sequences as $sequence => $real_sequence) {
+        $sql = preg_replace("/([^a-zA-Z0-9_])$sequence([^a-zA-Z0-9_])/", "\\1$real_sequence\\2", $sql);
+    }
+
+    return $sql;
 }
 
 ?>

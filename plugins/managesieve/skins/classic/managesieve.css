@@ -236,6 +236,11 @@ span.label
   white-space: nowrap;
 }
 
+td.rowtargets label
+{
+  color: black;
+}
+
 #footer
 {
   padding-top: 5px;

@@ -835,9 +835,6 @@ $rcmail_config['strip_existing_sig'] = true;
 // 3 - Forwards and Replies only
 $rcmail_config['show_sig'] = 1;
 
-// When replying or forwarding place sender's signature above existing message
-$rcmail_config['sig_above'] = false;
-
 // Use MIME encoding (quoted-printable) for 8bit characters in message body
 $rcmail_config['force_7bit'] = false;
 
@@ -891,6 +888,7 @@ $rcmail_config['autocomplete_single'] = false;
 // Default font for composed HTML message.
 // Supported values: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
-$rcmail_config['default_font'] = '';
+$rcmail_config['default_font'] = 'Verdana';
 
-// end of config file
+// Enables display of email address with name instead of a name (and address in title)
+$rcmail_config['message_show_email'] = false;

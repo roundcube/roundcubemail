@@ -1,11 +1,11 @@
 -- Roundcube Webmail initial database structure
 
 --
--- Sequence "user_ids"
--- Name: user_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Sequence "users_seq"
+-- Name: users_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE user_ids
+CREATE SEQUENCE users_seq
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -17,7 +17,7 @@ CREATE SEQUENCE user_ids
 --
 
 CREATE TABLE users (
-    user_id integer DEFAULT nextval('user_ids'::text) PRIMARY KEY,
+    user_id integer DEFAULT nextval('users_seq'::text) PRIMARY KEY,
     username varchar(128) DEFAULT '' NOT NULL,
     mail_host varchar(128) DEFAULT '' NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
@@ -45,11 +45,11 @@ CREATE INDEX session_changed_idx ON session (changed);
 
 
 --
--- Sequence "identity_ids"
--- Name: identity_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Sequence "identities_seq"
+-- Name: identities_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE identity_ids
+CREATE SEQUENCE identities_seq
     START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
@@ -62,7 +62,7 @@ CREATE SEQUENCE identity_ids
 --
 
 CREATE TABLE identities (
-    identity_id integer DEFAULT nextval('identity_ids'::text) PRIMARY KEY,
+    identity_id integer DEFAULT nextval('identities_seq'::text) PRIMARY KEY,
     user_id integer NOT NULL
         REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     changed timestamp with time zone DEFAULT now() NOT NULL,
@@ -82,11 +82,11 @@ CREATE INDEX identities_email_idx ON identities (email, del);
 
 
 --
--- Sequence "contact_ids"
--- Name: contact_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Sequence "contacts_seq"
+-- Name: contacts_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE contact_ids
+CREATE SEQUENCE contacts_seq
     START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
@@ -99,7 +99,7 @@ CREATE SEQUENCE contact_ids
 --
 
 CREATE TABLE contacts (
-    contact_id integer DEFAULT nextval('contact_ids'::text) PRIMARY KEY,
+    contact_id integer DEFAULT nextval('contacts_seq'::text) PRIMARY KEY,
     user_id integer NOT NULL
         REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     changed timestamp with time zone DEFAULT now() NOT NULL,
@@ -115,11 +115,11 @@ CREATE TABLE contacts (
 CREATE INDEX contacts_user_id_idx ON contacts (user_id, del);
 
 --
--- Sequence "contactgroups_ids"
--- Name: contactgroups_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Sequence "contactgroups_seq"
+-- Name: contactgroups_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE contactgroups_ids
+CREATE SEQUENCE contactgroups_seq
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -131,7 +131,7 @@ CREATE SEQUENCE contactgroups_ids
 --
 
 CREATE TABLE contactgroups (
-    contactgroup_id integer DEFAULT nextval('contactgroups_ids'::text) PRIMARY KEY,
+    contactgroup_id integer DEFAULT nextval('contactgroups_seq'::text) PRIMARY KEY,
     user_id integer NOT NULL
         REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     changed timestamp with time zone DEFAULT now() NOT NULL,
@@ -172,6 +172,20 @@ CREATE TABLE "cache" (
 
 CREATE INDEX cache_user_id_idx ON "cache" (user_id, cache_key);
 CREATE INDEX cache_created_idx ON "cache" (created);
+
+--
+-- Table "cache_shared"
+-- Name: cache_shared; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "cache_shared" (
+    cache_key varchar(255) NOT NULL,
+    created timestamp with time zone DEFAULT now() NOT NULL,
+    data text NOT NULL
+);
+
+CREATE INDEX cache_shared_cache_key_idx ON "cache_shared" (cache_key);
+CREATE INDEX cache_shared_created_idx ON "cache_shared" (created);
 
 --
 -- Table "cache_index"
@@ -238,11 +252,11 @@ CREATE TABLE dictionary (
 );
 
 --
--- Sequence "searches_ids"
--- Name: searches_ids; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Sequence "searches_seq"
+-- Name: searches_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE search_ids
+CREATE SEQUENCE searches_seq
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -254,7 +268,7 @@ CREATE SEQUENCE search_ids
 --
 
 CREATE TABLE searches (
-    search_id integer DEFAULT nextval('search_ids'::text) PRIMARY KEY,
+    search_id integer DEFAULT nextval('searches_seq'::text) PRIMARY KEY,
     user_id integer NOT NULL
         REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     "type" smallint DEFAULT 0 NOT NULL,
@@ -274,4 +288,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2013011700');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013052500');

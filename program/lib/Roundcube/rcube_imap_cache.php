@@ -430,7 +430,7 @@ class rcube_imap_cache
                     ." AND uid = ?",
                 $flags, $msg, $this->userid, $mailbox, (int) $message->uid);
 
-            if ($this->db->affected_rows()) {
+            if ($this->db->affected_rows($res)) {
                 return;
             }
         }
@@ -485,7 +485,7 @@ class rcube_imap_cache
             .", flags = flags ".($enabled ? "+ $idx" : "- $idx")
             ." WHERE user_id = ?"
                 ." AND mailbox = ?"
-                .($uids !== null ? " AND uid IN (".$this->db->array2list($uids, 'integer').")" : "")
+                .(!empty($uids) ? " AND uid IN (".$this->db->array2list($uids, 'integer').")" : "")
                 ." AND (flags & $idx) ".($enabled ? "= 0" : "= $idx"),
             $this->userid, $mailbox);
     }
@@ -983,7 +983,7 @@ class rcube_imap_cache
                 $uids, true, array('FLAGS'), $index['modseq'], $qresync);
 
             if (!empty($result)) {
-                foreach ($result as $id => $msg) {
+                foreach ($result as $msg) {
                     $uid = $msg->uid;
                     // Remove deleted message
                     if ($this->skip_deleted && !empty($msg->flags['DELETED'])) {

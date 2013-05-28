@@ -113,7 +113,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
       if ($threading) {
-	    $count = get_input_value('_count', RCUBE_INPUT_POST);
+        $count = get_input_value('_count', RCUBE_INPUT_POST);
       }
 
       // add new rows from next page (if any)
@@ -125,9 +125,9 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       }
     }
   }
-
-  $OUTPUT->send();
+}
+else {
+    $OUTPUT->show_message('internalerror', 'error');
 }
 
-exit;
-
+$OUTPUT->send();

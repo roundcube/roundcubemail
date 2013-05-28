@@ -297,7 +297,6 @@ class HTTPSocket {
             $status = socket_get_status($socket);
             $startTime = time();
             $length = 0;
-            $prevSecond = 0;
             while ( !feof($socket) && !$status['timed_out'] )
             {
                 $chunk = fgets($socket,1024);

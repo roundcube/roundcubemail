@@ -307,17 +307,19 @@ class rcmail_output_html extends rcmail_output
 
     /**
      * Delete all stored env variables and commands
+     *
+     * @param bool $all Reset all env variables (including internal)
      */
-    public function reset()
+    public function reset($all = false)
     {
-        $env = array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+        $env = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
 
         parent::reset();
 
         // let some env variables survive
         $this->env = $this->js_env = $env;
-        $this->js_labels = array();
-        $this->js_commands = array();
+        $this->js_labels    = array();
+        $this->js_commands  = array();
         $this->script_files = array();
         $this->scripts      = array();
         $this->header       = '';
@@ -362,7 +364,7 @@ class rcmail_output_html extends rcmail_output
             $this->parse($templ, false);
         }
         else {
-            $this->framed = $templ == 'iframe' ? true : $this->framed;
+            $this->framed = true;
             $this->write();
         }
 
@@ -396,9 +398,11 @@ class rcmail_output_html extends rcmail_output
           $this->set_env('request_token', $this->app->get_request_token());
 
         // write all env variables to client
-        $js = $this->framed ? "if(window.parent) {\n" : '';
-        $js .= $this->get_js_commands() . ($this->framed ? ' }' : '');
-        $this->add_script($js, 'head_top');
+        if ($commands = $this->get_js_commands()) {
+            $js = $this->framed ? "if (window.parent) {\n" : '';
+            $js .= $commands . ($this->framed ? ' }' : '');
+            $this->add_script($js, 'head_top');
+        }
 
         // send clickjacking protection headers
         $iframe = $this->framed || !empty($_REQUEST['_framed']);
@@ -727,14 +731,13 @@ class rcmail_output_html extends rcmail_output
     /**
      * Determines if a given condition is met
      *
-     * @todo   Get rid off eval() once I understand what this does.
      * @todo   Extend this to allow real conditions, not just "set"
      * @param  string Condition statement
      * @return boolean True if condition is met, False if not
      */
     protected function check_condition($condition)
     {
-        return eval("return (".$this->parse_expression($condition).");");
+        return $this->eval_expression($condition);
     }
 
 
@@ -756,14 +759,15 @@ class rcmail_output_html extends rcmail_output
 
 
     /**
-     * Parses expression and replaces variables
+     * Parse & evaluate a given expression and return its result.
      *
-     * @param  string Expression statement
-     * @return string Expression value
+     * @param string Expression statement
+     *
+     * @return mixed Expression result
      */
-    protected function parse_expression($expression)
+    protected function eval_expression ($expression)
     {
-        return preg_replace(
+        $expression = preg_replace(
             array(
                 '/session:([a-z0-9_]+)/i',
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
@@ -775,14 +779,29 @@ class rcmail_output_html extends rcmail_output
             ),
             array(
                 "\$_SESSION['\\1']",
-                "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
-                "\$this->env['\\1']",
+                "\$app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
+                "\$env['\\1']",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
                 "\$_COOKIE['\\1']",
-                "\$this->browser->{'\\1'}",
+                "\$browser->{'\\1'}",
                 $this->template_name,
             ),
-            $expression);
+            $expression
+        );
+
+        $fn = create_function('$app,$browser,$env', "return ($expression);");
+        if (!$fn) {
+            rcube::raise_error(array(
+                'code' => 505,
+                'type' => 'php',
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "Expression parse error on: ($expression)"), true, false);
+
+            return null;
+        }
+
+        return $fn($this->app, $this->browser, $this->env);
     }
 
 
@@ -835,7 +854,7 @@ class rcmail_output_html extends rcmail_output
             // show a label
             case 'label':
                 if ($attrib['expression'])
-                    $attrib['name'] = eval("return " . $this->parse_expression($attrib['expression']) .";");
+                    $attrib['name'] = $this->eval_expression($attrib['expression']);
 
                 if ($attrib['name'] || $attrib['command']) {
                     // @FIXME: 'noshow' is useless, remove?
@@ -869,6 +888,7 @@ class rcmail_output_html extends rcmail_output
             // include a file
             case 'include':
                 $old_base_path = $this->base_path;
+                if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
                     $path = realpath($path);
@@ -966,8 +986,7 @@ class rcmail_output_html extends rcmail_output
 
             // return code for a specified eval expression
             case 'exp':
-                $value = $this->parse_expression($attrib['expression']);
-                return eval("return html::quote($value);");
+                return html::quote($this->eval_expression($attrib['expression']));
 
             // return variable
             case 'var':
@@ -1173,6 +1192,10 @@ class rcmail_output_html extends rcmail_output
         if ($btn_content) {
             $attrib_str = html::attrib_string($attrib, $link_attrib);
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
+        }
+
+        if ($attrib['wrapper']) {
+            $out = html::tag($attrib['wrapper'], null, $out);
         }
 
         return $out;

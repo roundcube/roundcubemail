@@ -255,6 +255,33 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
 }
 
 
+function rcmail_generic_message_footer($isHtml)
+{
+  global $CONFIG;
+
+  if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
+    $file = $CONFIG['generic_message_footer_html'];
+    $html_footer = true;
+  }
+  else {
+    $file = $CONFIG['generic_message_footer'];
+    $html_footer = false;
+  }
+
+  if ($file && realpath($file)) {
+    // sanity check
+    if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
+      $footer = file_get_contents($file);
+      if ($isHtml && !$html_footer)
+        $footer = '<pre>' . $footer . '</pre>';
+      return $footer;
+    }
+  }
+
+  return false;
+}
+
+
 /****** compose message ********/
 
 if (strlen($_POST['_draft_saveid']) > 3)
@@ -452,7 +479,7 @@ $isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
 if ($isHtml) {
-  $font   = rcube_fontdefs($RCMAIL->config->get('default_font', 'Verdana'));
+  $font   = rcube_fontdefs($RCMAIL->config->get('default_font'));
   $bstyle = $font && is_string($font) ? " style='font-family: $font'" : '';
 
   // append doctype and html/body wrappers
@@ -466,7 +493,7 @@ if (!$savedraft) {
     $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
 
     // add inline css for blockquotes
-    $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%';
+    $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px';
     $message_body = preg_replace('/<blockquote>/',
       '<blockquote type="cite" style="'.$bstyle.'">', $message_body);
   }
@@ -490,19 +517,10 @@ if (!$savedraft) {
   }
 
   // generic footer for all messages
-  if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
-      $footer = file_get_contents(realpath($CONFIG['generic_message_footer_html']));
-      $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
-  }
-  else if (!empty($CONFIG['generic_message_footer'])) {
-    $footer = file_get_contents(realpath($CONFIG['generic_message_footer']));
+  if ($footer = rcmail_generic_message_footer($isHtml)) {
     $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
-    if ($isHtml)
-      $footer = '<pre>'.$footer.'</pre>';
-  }
-
-  if ($footer)
     $message_body .= "\r\n" . $footer;
+  }
 }
 
 if ($isHtml) {
@@ -820,6 +838,6 @@ else {
   if ($store_folder && !$saved)
     $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'));
   else
-    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'));
+    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'), $store_target);
   $OUTPUT->send('iframe');
 }

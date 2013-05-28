@@ -21,23 +21,8 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '0.9-git');
+define('RCMAIL_VERSION', '1.0-git');
 define('RCMAIL_START', microtime(true));
-
-$config = array(
-    // Some users are not using Installer, so we'll check some
-    // critical PHP settings here. Only these, which doesn't provide
-    // an error/warning in the logs later. See (#1486307).
-    'suhosin.session.encrypt' => 0,
-    'session.auto_start'      => 0,
-    'file_uploads'            => 1,
-);
-foreach ($config as $optname => $optval) {
-    if ($optval != ini_get($optname) && @ini_set($optname, $optval) === false) {
-        die("ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
-            ."Check your PHP configuration (including php_admin_flag).");
-    }
-}
 
 if (!defined('INSTALL_PATH')) {
     define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
@@ -74,6 +59,11 @@ require_once 'Roundcube/bootstrap.php';
 
 // register autoloader for rcmail app classes
 spl_autoload_register('rcmail_autoload');
+
+// include composer autoloader (if available)
+if (file_exists('vendor/autoload.php')) {
+    require 'vendor/autoload.php';
+}
 
 // backward compatybility (to be removed)
 require_once INSTALL_PATH . 'program/include/bc.php';

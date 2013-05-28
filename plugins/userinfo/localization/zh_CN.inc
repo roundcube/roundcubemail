@@ -18,8 +18,8 @@
 
 $labels = array();
 $labels['userinfo'] = '用户信息';
-$labels['created'] = '创建';
-$labels['lastlogin'] = '最后登录';
+$labels['created'] = '创建于';
+$labels['lastlogin'] = '最近登录';
 $labels['defaultidentity'] = '默认身份';
 
 ?>

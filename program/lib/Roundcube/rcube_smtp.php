@@ -33,6 +33,8 @@ class rcube_smtp
     // define headers delimiter
     const SMTP_MIME_CRLF = "\r\n";
 
+    const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
+
 
     /**
      * SMTP Connection and authentication
@@ -119,7 +121,7 @@ class rcube_smtp
         }
 
         // try to connect to server and exit on failure
-        $result = $this->conn->connect($smtp_timeout);
+        $result = $this->conn->connect($CONFIG['smtp_timeout']);
 
         if (PEAR::isError($result)) {
             $this->response[] = "Connection failed: ".$result->getMessage();
@@ -327,6 +329,12 @@ class rcube_smtp
      */
     public function debug_handler(&$smtp, $message)
     {
+        if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
+            $diff    = $len - self::DEBUG_LINE_LENGTH;
+            $message = substr($message, 0, self::DEBUG_LINE_LENGTH)
+                . "... [truncated $diff bytes]";
+        }
+
         rcube::write_log('smtp', preg_replace('/\r\n$/', '', $message));
     }
 
@@ -433,9 +441,9 @@ class rcube_smtp
         $recipients = rcube_utils::explode_quoted_string(',', $recipients);
 
         reset($recipients);
-        while (list($k, $recipient) = each($recipients)) {
+        foreach ($recipients as $recipient) {
             $a = rcube_utils::explode_quoted_string(' ', $recipient);
-            while (list($k2, $word) = each($a)) {
+            foreach ($a as $word) {
                 if (strpos($word, "@") > 0 && $word[strlen($word)-1] != '"') {
                     $word = preg_replace('/^<|>$/', '', trim($word));
                     if (in_array($word, $addresses) === false) {

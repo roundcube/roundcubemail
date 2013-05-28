@@ -20,9 +20,9 @@ $labels = array();
 
 // login page
 $labels['welcome']   = 'به $product خوش آمدید';
-$labels['username']  = 'نام‌کاربری';
+$labels['username']  = 'نام کاربری';
 $labels['password']  = 'گذرواژه';
-$labels['server']    = 'سرور';
+$labels['server']    = 'سرویس‌دهنده';
 $labels['login']     = 'ورود';
 
 // taskbar
@@ -34,8 +34,8 @@ $labels['addressbook'] = 'دفتر نشانی';
 // mailbox names
 $labels['inbox']  = 'صندوق ورودی';
 $labels['drafts'] = 'پیش‌نویس‌ها';
-$labels['sent']   = 'ارسال شده';
-$labels['trash']  = 'زباله‌دان';
+$labels['sent']   = 'فرستاده شده';
+$labels['trash']  = 'سطل آشغال';
 $labels['junk']   = 'بنجل';
 
 // message listing
@@ -64,6 +64,7 @@ $labels['copy']     = 'رونوشت';
 $labels['move']     = 'انتقال';
 $labels['moveto']   = 'انتقال به...';
 $labels['download'] = 'بارگیری';
+$labels['open']     = 'باز کردن';
 $labels['showattachment'] = 'نمایش';
 $labels['showanyway'] = 'نمایش آن در هر صورت';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'صفحه جاری';
 $labels['unread'] = 'خوانده‌نشده';
 $labels['flagged'] = 'پرچم‌دار';
 $labels['unanswered'] = 'پاسخ داده نشده';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'حذف شده';
 $labels['undeleted'] = 'حذف نشده';
 $labels['invert'] = 'وارونه';
@@ -204,6 +206,8 @@ $labels['body']  = 'بدنه';
 
 $labels['openinextwin'] = 'باز کردن در پنجره‌ی جدید';
 $labels['emlsave'] = 'بارگیری (.eml)';
+$labels['changeformattext'] = 'نمایش در قالب متنی';
+$labels['changeformathtml'] = 'نمایش در قالب اچ‌تی‌ام‌ال';
 
 // message compose
 $labels['editasnew']      = 'ویرایش به عنوان جدید';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'HTML ‌نوشتن پیغام‌های';
 $labels['htmlonreply'] = 'فقط در پاسخ به پیغام HTML';
 $labels['htmlonreplyandforward'] = 'در بازگردانی یا پاسخ به پیغام‌های HTML';
 $labels['htmlsignature'] = 'HTML امضای';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'نمایش قاب پیش‌نمایش';
 $labels['skin'] = 'پوسته ظاهری';
 $labels['logoutclear'] = 'تمیز کردن زباله دان هنگام برون‌رفت';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'هنگام پاسخ امضاء اصلی را 
 $labels['autoaddsignature'] = 'اضافه کردن خودکار امضاء';
 $labels['newmessageonly'] = 'فقط پیغام جدید';
 $labels['replyandforwardonly'] = 'فقط پاسخ‌ها و ارجاع‌ها';
-$labels['replysignaturepos'] = 'هنگام پاسخ یا ارجاع امضاء را قرار داده شود';
-$labels['belowquote'] = 'زیر نقل‌قول';
-$labels['abovequote'] = 'بالای نقل‌قول';
 $labels['insertsignature'] = 'درج امضاء';
 $labels['previewpanemarkread']  = 'نشانه‌گذاری پیغام‌های پیش مرور شده به عنوان خوانده شده';
 $labels['afternseconds']  = 'بعد از $s ثانیه';

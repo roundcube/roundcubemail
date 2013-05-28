@@ -176,8 +176,7 @@ class enigma_ui
         $search   = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GPC);
 
         // define list of cols to be displayed
-        $a_show_cols = array('name');
-        $result = array();
+//        $a_show_cols = array('name');
 
         // Get the list
         $list = $this->enigma->engine->list_keys($search);
@@ -200,7 +199,7 @@ class enigma_ui
                 $size = count($list);
 
                 // Add rows
-                foreach($list as $idx => $key) {
+                foreach ($list as $key) {
                     $this->rc->output->command('enigma_add_list_row',
                         array('name' => rcube::Q($key->name), 'id' => $key->id));
                 }

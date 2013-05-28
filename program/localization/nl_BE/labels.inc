@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopieer';
 $labels['move']     = 'Verplaats';
 $labels['moveto']   = 'Verplaats naar...';
 $labels['download'] = 'Downloaden';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Weergeven';
 $labels['showanyway'] = 'Toch weergeven';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Huidige pagina';
 $labels['unread'] = 'Ongelezen';
 $labels['flagged'] = 'Geselecteerd';
 $labels['unanswered'] = 'Onbeantwoord';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Verwijderd';
 $labels['undeleted'] = 'Niet verwijderd';
 $labels['invert'] = 'Selectie omkeren';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Als nieuw bewerken';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'HTML berichten opmaken';
 $labels['htmlonreply'] = 'enkel bij beantwoorden van een HTML bericht';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML handtekening';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Toon voorbeeldvenster';
 $labels['skin'] = 'Opmaakprofiel';
 $labels['logoutclear'] = 'Prullenbak legen bij uitloggen';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Verwijder handtekening uit het origneel bij b
 $labels['autoaddsignature'] = 'Handtekening automatisch toevoegen';
 $labels['newmessageonly'] = 'alleen bij nieuwe berichten';
 $labels['replyandforwardonly'] = 'alleen bij beantwoorden en doorsturen';
-$labels['replysignaturepos'] = 'Ondertekening plaatsen bij beantwoorden of doorsturen';
-$labels['belowquote'] = 'onder het citaat';
-$labels['abovequote'] = 'boven het citaat';
 $labels['insertsignature'] = 'Handtekening invoegen';
 $labels['previewpanemarkread']  = 'Markeer voorbeeldbericht als gelezen';
 $labels['afternseconds']  = 'Na $n seconden';

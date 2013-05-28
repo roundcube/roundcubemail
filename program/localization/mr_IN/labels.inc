@@ -64,6 +64,7 @@ $labels['copy']     = 'नक्‍कल';
 $labels['move']     = 'हलवा';
 $labels['moveto']   = 'या फोल्डरमधे ठेवा';
 $labels['download'] = 'उतरवून घ्या';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'सध्‍याचे पान';
 $labels['unread'] = 'न वाचलेले';
 $labels['flagged'] = 'खूण लावलेले';
 $labels['unanswered'] = 'उत्तर न दिलेले';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'काढून टाकलेला(ले)';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'उलट करा';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'नवीन खिडकी उघडा';
 $labels['emlsave'] = 'इएमएल स्‍वरूपात उतरवून घ्या';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'नवीन आहे असा संपादित करा';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'एच टी एम एल संदेश तया�
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'एच टी एम एल सही';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'प्रक्रियापूर्व तावदान दाखवा';
 $labels['skin'] = 'दृष्य गोष्टी';
 $labels['logoutclear'] = 'खात्यातून बाहेर पडतांना कचरा पेटी साफ करा';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'उत्‍तर देताना मु�
 $labels['autoaddsignature'] = 'आपोआप सही करा';
 $labels['newmessageonly'] = 'फक्‍त नवीन संदेश';
 $labels['replyandforwardonly'] = 'फक्‍त उत्‍तरे आ‍णी पुढे पाठवलेले संदेश';
-$labels['replysignaturepos'] = 'उत्‍तर देताना किंवा पुढे पाठवताना सही करा';
-$labels['belowquote'] = 'उतारया खाली';
-$labels['abovequote'] = 'उतारयाच्‍या वर';
 $labels['insertsignature'] = 'सही मध्‍ये टाका';
 $labels['previewpanemarkread']  = 'प्रदर्शित संदेश पाहीले अशी खुण करा';
 $labels['afternseconds']  = '$n क्षणानंतर';

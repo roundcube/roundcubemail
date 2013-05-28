@@ -981,7 +981,7 @@ class rcube_imap extends rcube_storage
             // use memory less expensive (and quick) method for big result set
             $index = clone $this->index('', $this->sort_field, $this->sort_order);
             // get messages uids for one page...
-            $index->slice($start_msg, min($cnt-$from, $this->page_size));
+            $index->slice($from, min($cnt-$from, $this->page_size));
 
             if ($slice) {
                 $index->slice(-$slice, $slice);
@@ -1096,16 +1096,17 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * Returns current status of folder
+     * Returns current status of a folder (compared to the last time use)
      *
      * We compare the maximum UID to determine the number of
      * new messages because the RECENT flag is not reliable.
      *
      * @param string $folder Folder name
+     * @param array  $diff   Difference data
      *
-     * @return int   Folder status
+     * @return int Folder status
      */
-    public function folder_status($folder = null)
+    public function folder_status($folder = null, &$diff = array())
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
@@ -1126,6 +1127,9 @@ class rcube_imap extends rcube_storage
         // got new messages
         if ($new['maxuid'] > $old['maxuid']) {
             $result += 1;
+            // get new message UIDs range, that can be used for example
+            // to get the data of these messages
+            $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid']+1).':' : '') . $new['maxuid'];
         }
         // some messages has been deleted
         if ($new['cnt'] < $old['cnt']) {
@@ -1419,8 +1423,6 @@ class rcube_imap extends rcube_storage
      */
     protected function search_index($folder, $criteria='ALL', $charset=NULL, $sort_field=NULL)
     {
-        $orig_criteria = $criteria;
-
         if (!$this->check_connection()) {
             if ($this->threading) {
                 return new rcube_result_thread();
@@ -2333,10 +2335,7 @@ class rcube_imap extends rcube_storage
         // move messages
         $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
 
-        // send expunge command in order to have the moved message
-        // really deleted from the source folder
         if ($moved) {
-            $this->expunge_message($uids, $from_mbox, false);
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
         }
@@ -2726,7 +2725,7 @@ class rcube_imap extends rcube_storage
 
         // filter folders list according to rights requirements
         if ($rights && $this->get_capability('ACL')) {
-            $a_folders = $this->filter_rights($a_folders, $rights);
+            $a_mboxes = $this->filter_rights($a_mboxes, $rights);
         }
 
         // filter folders and sort them
@@ -2782,7 +2781,6 @@ class rcube_imap extends rcube_storage
      */
     private function list_folders_update(&$result, $type = null)
     {
-        $delim     = $this->get_hierarchy_delimiter();
         $namespace = $this->get_namespace();
         $search    = array();
 
@@ -3371,7 +3369,6 @@ class rcube_imap extends rcube_storage
     {
         if (!empty($this->options['fetch_headers'])) {
             $headers = explode(' ', $this->options['fetch_headers']);
-            $headers = array_map('strtoupper', $headers);
         }
         else {
             $headers = array();
@@ -3381,7 +3378,7 @@ class rcube_imap extends rcube_storage
             $headers = array_merge($headers, $this->all_headers);
         }
 
-        return implode(' ', array_unique($headers));
+        return $headers;
     }
 
 
@@ -3752,9 +3749,12 @@ class rcube_imap extends rcube_storage
             $this->mcache->expunge($ttl);
         }
 
+/*
+        // this cache is expunged by rcube class
         if ($this->cache) {
             $this->cache->expunge();
         }
+*/
     }
 
 
@@ -3846,7 +3846,7 @@ class rcube_imap extends rcube_storage
         $delimiter = $this->get_hierarchy_delimiter();
 
         // find default folders and skip folders starting with '.'
-        foreach ($a_folders as $i => $folder) {
+        foreach ($a_folders as $folder) {
             if ($folder[0] == '.') {
                 continue;
             }

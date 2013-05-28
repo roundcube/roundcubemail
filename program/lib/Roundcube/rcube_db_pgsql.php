@@ -53,19 +53,20 @@ class rcube_db_pgsql extends rcube_db
     /**
      * Return correct name for a specific database sequence
      *
-     * @param string $sequence Secuence name
+     * @param string $table Table name
      *
      * @return string Translated sequence name
      */
-    protected function sequence_name($sequence)
+    protected function sequence_name($table)
     {
-        $rcube = rcube::get_instance();
+        // Note: we support only one sequence per table
+        // Note: The sequence name must be <table_name>_seq
+        $sequence = $table . '_seq';
+        $rcube    = rcube::get_instance();
 
         // return sequence name if configured
-        $config_key = 'db_sequence_'.$sequence;
-
-        if ($name = $rcube->config->get($config_key)) {
-            return $name;
+        if ($prefix = $rcube->config->get('db_prefix')) {
+            return $prefix . $sequence;
         }
 
         return $sequence;

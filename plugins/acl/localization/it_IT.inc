@@ -41,7 +41,7 @@ $labels['aclx'] = 'Elimina cartella';
 $labels['acla'] = 'Amministra';
 
 $labels['aclfull'] = 'Controllo completo';
-$labels['aclother'] = 'Altri';
+$labels['aclother'] = 'Altro';
 $labels['aclread'] = 'Lettura';
 $labels['aclwrite'] = 'Scrittura';
 $labels['acldelete'] = 'Elimina';
@@ -57,10 +57,10 @@ $labels['shortaclk'] = 'Crea';
 $labels['shortacld'] = 'Elimina';
 $labels['shortaclt'] = 'Elimina';
 $labels['shortacle'] = 'Elimina';
-$labels['shortaclx'] = 'Cancella cartella';
+$labels['shortaclx'] = 'Elimina cartella';
 $labels['shortacla'] = 'Amministra';
 
-$labels['shortaclother'] = 'Altri';
+$labels['shortaclother'] = 'Altro';
 $labels['shortaclread'] = 'Lettura';
 $labels['shortaclwrite'] = 'Scrittura';
 $labels['shortacldelete'] = 'Elimina';

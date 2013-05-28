@@ -40,7 +40,7 @@ function rcmail_user_prefs_form($attrib)
 
   $out = $form_start;
 
-  foreach ($SECTIONS[$CURR_SECTION]['blocks'] as $idx => $block) {
+  foreach ($SECTIONS[$CURR_SECTION]['blocks'] as $block) {
     if (!empty($block['options'])) {
       $table = new html_table(array('cols' => 2));
 

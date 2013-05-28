@@ -26,13 +26,15 @@ class rcube_smb_password
 
     public function save($currpass, $newpass)
     {
-        $host = rcmail::get_instance()->config->get('password_smb_host','localhost');
-        $bin = rcmail::get_instance()->config->get('password_smb_cmd','/usr/bin/smbpasswd');
+        $host     = rcmail::get_instance()->config->get('password_smb_host','localhost');
+        $bin      = rcmail::get_instance()->config->get('password_smb_cmd','/usr/bin/smbpasswd');
         $username = $_SESSION['username'];
 
-        $tmpfile = tempnam(sys_get_temp_dir(),'smb');
-        $cmd = $bin . ' -r ' . $host . ' -s -U "' . $username . '" > ' . $tmpfile . ' 2>&1';
-        $handle = @popen($cmd, 'w');
+        $host     = rcube_utils::parse_host($host);
+        $tmpfile  = tempnam(sys_get_temp_dir(),'smb');
+        $cmd      = $bin . ' -r ' . $host . ' -s -U "' . $username . '" > ' . $tmpfile . ' 2>&1';
+        $handle   = @popen($cmd, 'w');
+
         fputs($handle, $currpass."\n");
         fputs($handle, $newpass."\n");
         fputs($handle, $newpass."\n");

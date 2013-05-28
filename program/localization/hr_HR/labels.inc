@@ -64,6 +64,7 @@ $labels['copy']     = 'Kopiraj';
 $labels['move']     = 'Premjesti';
 $labels['moveto']   = 'Premjesti u...';
 $labels['download'] = 'Preuzmi (download)';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Trenutna stranica';
 $labels['unread'] = 'Nepročitane';
 $labels['flagged'] = 'Označene';
 $labels['unanswered'] = 'Neodgovrene';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Obrisano';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Obrni';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Otvori u novom prozoru';
 $labels['emlsave'] = 'Download (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Uredi kao novo';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Sastavi HTML poruke';
 $labels['htmlonreply'] = 'odgovor samo na HTML poruke';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML potpis';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Prikaži područje pregleda';
 $labels['skin'] = 'Tema izgleda';
 $labels['logoutclear'] = 'Očisti smeće pri izlazu';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'Kod odgovaranja, makni originalni potpis iz p
 $labels['autoaddsignature'] = 'Automatski dodaj potpis';
 $labels['newmessageonly'] = 'samo nova poruka';
 $labels['replyandforwardonly'] = 'samo odgovori i proslijeđivanja';
-$labels['replysignaturepos'] = 'Kod downloada ili proslijeđivanja postavi potpis';
-$labels['belowquote'] = 'ispod citata';
-$labels['abovequote'] = 'iznad citata';
 $labels['insertsignature'] = 'Umetni potpis';
 $labels['previewpanemarkread']  = 'Obilježi pregledane poruke kao pročitane';
 $labels['afternseconds']  = 'nakon $n sekundi';

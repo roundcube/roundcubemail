@@ -35,6 +35,9 @@ class newmail_notifier extends rcube_plugin
 
     private $rc;
     private $notified;
+    private $opt = array();
+    private $exceptions = array();
+
 
     /**
      * Plugin initialization
@@ -49,13 +52,34 @@ class newmail_notifier extends rcube_plugin
             $this->add_hook('preferences_save', array($this, 'prefs_save'));
         }
         else { // if ($this->rc->task == 'mail') {
-            $this->add_hook('new_messages', array($this, 'notify'));
             // add script when not in ajax and not in frame
             if ($this->rc->output->type == 'html' && empty($_REQUEST['_framed'])) {
                 $this->add_texts('localization/');
                 $this->rc->output->add_label('newmail_notifier.title', 'newmail_notifier.body');
                 $this->include_script('newmail_notifier.js');
             }
+
+            if ($this->rc->action == 'refresh') {
+                // Load configuration
+                $this->load_config();
+
+                $this->opt['basic']   = $this->rc->config->get('newmail_notifier_basic');
+                $this->opt['sound']   = $this->rc->config->get('newmail_notifier_sound');
+                $this->opt['desktop'] = $this->rc->config->get('newmail_notifier_desktop');
+
+                if (!empty($this->opt)) {
+                    // Get folders to skip checking for
+                    $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox');
+                    foreach ($exceptions as $folder) {
+                        $folder = $this->rc->config->get($folder);
+                        if (strlen($folder) && $folder != 'INBOX') {
+                            $this->exceptions[] = $folder;
+                        }
+                    }
+
+                    $this->add_hook('new_messages', array($this, 'notify'));
+                }
+             }
         }
     }
 
@@ -132,45 +156,36 @@ class newmail_notifier extends rcube_plugin
      */
     function notify($args)
     {
-        // Already notified or non-automatic check
-        if ($this->notified || !empty($_GET['_refresh'])) {
+        // Already notified or unexpected input
+        if ($this->notified || empty($args['diff']['new'])) {
             return $args;
         }
 
-        // Get folders to skip checking for
-        if (empty($this->exceptions)) {
-            $this->delimiter = $this->rc->storage->get_hierarchy_delimiter();
-
-            $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox');
-            foreach ($exceptions as $folder) {
-                $folder = $this->rc->config->get($folder);
-                if (strlen($folder) && $folder != 'INBOX') {
-                    $this->exceptions[] = $folder;
-                }
-            }
-        }
-
-        $mbox = $args['mailbox'];
+        $mbox      = $args['mailbox'];
+        $storage   = $this->rc->get_storage();
+        $delimiter = $storage->get_hierarchy_delimiter();
 
         // Skip exception (sent/drafts) folders (and their subfolders)
         foreach ($this->exceptions as $folder) {
-            if (strpos($mbox.$this->delimiter, $folder.$this->delimiter) === 0) {
+            if (strpos($mbox.$delimiter, $folder.$delimiter) === 0) {
                 return $args;
             }
         }
 
-        $this->notified = true;
+        // Check if any of new messages is UNSEEN
+        $deleted = $this->rc->config->get('skip_deleted') ? 'UNDELETED ' : '';
+        $search  = $deleted . 'UNSEEN UID ' . $args['diff']['new'];
+        $unseen  = $storage->search_once($mbox, $search);
 
-        // Load configuration
-        $this->load_config();
+        if ($unseen->count()) {
+            $this->notified = true;
 
-        $basic   = $this->rc->config->get('newmail_notifier_basic');
-        $sound   = $this->rc->config->get('newmail_notifier_sound');
-        $desktop = $this->rc->config->get('newmail_notifier_desktop');
-
-        if ($basic || $sound || $desktop) {
             $this->rc->output->command('plugin.newmail_notifier',
-                array('basic' => $basic, 'sound' => $sound, 'desktop' => $desktop));
+                array(
+                    'basic'   => $this->opt['basic'],
+                    'sound'   => $this->opt['sound'],
+                    'desktop' => $this->opt['desktop'],
+                ));
         }
 
         return $args;

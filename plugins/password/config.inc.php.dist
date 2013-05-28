@@ -31,6 +31,10 @@ $rcmail_config['password_login_exceptions'] = null;
 //$rcmail_config['password_hosts'] = array('mail.example.com', 'mail2.example.org');
 $rcmail_config['password_hosts'] = null;
 
+// Enables saving the new password even if it matches the old password. Useful
+// for upgrading the stored passwords after the encryption scheme has changed.
+$rcmail_config['password_force_save'] = false;
+
 
 // SQL Driver options
 // ------------------
@@ -265,13 +269,7 @@ $rcmail_config['password_cpanel_username'] = 'username';
 $rcmail_config['password_cpanel_password'] = 'password';
 
 // The cPanel port to use
-$rcmail_config['password_cpanel_port'] = 2082;
-
-// Using ssl for cPanel connections?
-$rcmail_config['password_cpanel_ssl'] = true;
-
-// The cPanel theme in use
-$rcmail_config['password_cpanel_theme'] = 'x';
+$rcmail_config['password_cpanel_port'] = 2087;
 
 
 // XIMSS (Communigate server) Driver options
@@ -357,6 +355,10 @@ $rcmail_config['password_expect_params'] = '';
 // smb Driver options
 // ---------------------
 // Samba host (default: localhost)
+// Supported replacement variables:
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 $rcmail_config['password_smb_host'] = 'localhost';
 // Location of smbpasswd binary
 $rcmail_config['password_smb_cmd'] = '/usr/bin/smbpasswd';

@@ -177,7 +177,8 @@ input.mainaction {
 
 /** link buttons **/
 
-a.button {
+a.button,
+.buttongroup {
 	display: inline-block;
 	margin: 0 2px;
 	padding: 2px 5px;
@@ -196,6 +197,11 @@ a.button {
 	-webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	-moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	text-decoration: none;
+}
+
+.buttongroup {
+	padding: 0;
+	white-space: nowrap;
 }
 
 a.button:focus,
@@ -229,6 +235,29 @@ input.button[disabled]:hover {
 a.button.disabled span.inner {
 	opacity: 0.4;
 	filter: alpha(opacity=40);
+}
+
+.buttongroup a.button {
+	margin: 0;
+	border-width: 0 1px 0 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+.buttongroup a.button.first,
+.buttongroup a.button:first-child {
+	border-radius: 4px 0 0 4px;
+	border-left: 0;
+}
+
+.buttongroup a.button.last,
+.buttongroup a.button:last-child {
+	border-radius: 0 4px 4px 0;
+	border-right: 0;
 }
 
 a.button.pressed,
@@ -266,11 +295,32 @@ input.button:active {
 	background: linear-gradient(top, #bababa 0%, #d8d8d8 100%);
 }
 
+.buttongroup a.button.selected,
+.buttongroup a.button.selected:hover {
+	background: #8a8a8a;
+	background: -moz-linear-gradient(top, #909090 0%, #858585 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#909090), color-stop(100%,#858585));
+	background: -o-linear-gradient(top, #909090 0%, #858585 100%);
+	background: -ms-linear-gradient(top, #909090 0%, #858585 100%);
+	background: linear-gradient(top, #909090 0%, #858585 100%);
+	-webkit-box-shadow: inset 0 1px 2px 0 #555;
+	-moz-box-shadow: inset 0 1px 2px 0 #555;
+	box-shadow: inset 0 1px 2px 0 #555;
+	border-right-color: #555;
+	border-left-color: #555;
+}
+
 .pagenav a.button {
 	padding: 1px 3px;
 	height: 16px;
 	vertical-align: middle;
 	margin-bottom: 1px;
+}
+
+.pagenav .buttongroup a.button,
+.pagenav .buttongroup a.button:hover {
+	padding: 1px 5px;
+	margin-bottom: 0;
 }
 
 .pagenav a.button span.inner {
@@ -316,6 +366,20 @@ input.button:active {
 
 .pagenav a.extwin span.inner {
 	background-position: -29px -271px;
+}
+
+.pagenav a.changeformat.html span.inner {
+	background-position: -7px -1859px;
+}
+.pagenav a.changeformat.html.selected span.inner {
+	background-position: -29px -1859px;
+}
+
+.pagenav a.changeformat.text span.inner {
+	background-position: -7px -1874px;
+}
+.pagenav a.changeformat.text.selected span.inner {
+	background-position: -29px -1874px;
 }
 
 .pagenav .countdisplay {
@@ -2219,12 +2283,23 @@ ul.toolbarmenu li span.conversation {
 	display: block;
 	color: #333;
 	font-weight: bold;
-	padding: 8px 4px 3px 30px;
+	padding: 8px 15px 3px 30px;
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.attachmentslist li a.drop {
+	background: url(images/buttons.png) no-repeat scroll center -1570px;
+	width: 14px;
+	height: 20px;
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0;
 }
 
 #compose-attachments ul li {

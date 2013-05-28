@@ -60,6 +60,7 @@ class filesystem_attachments extends rcube_plugin
             $args['id'] = $this->file_id();
             $args['path'] = $tmpfname;
             $args['status'] = true;
+            @chmod($tmpfname, 0600);  // set correct permissions (#1488996)
 
             // Note the file for later cleanup
             $_SESSION['plugins']['filesystem_attachments'][$group][] = $tmpfname;

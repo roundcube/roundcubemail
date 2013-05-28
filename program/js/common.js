@@ -298,8 +298,7 @@ addEventListener: function(evt, func, obj)
   if (!this._events[evt])
     this._events[evt] = [];
 
-  var e = {func:func, obj:obj ? obj : window};
-  this._events[evt][this._events[evt].length] = e;
+  this._events[evt].push({func:func, obj:obj ? obj : window});
 },
 
 /**
@@ -717,13 +716,15 @@ if (bw.ie) {
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements
 jQuery.fn.placeholder = function(text) {
   return this.each(function() {
-    var elem = $(this);
+    var active = false, elem = $(this);
     this.title = text;
 
+    // Try HTML5 placeholder attribute first
     if ('placeholder' in this) {
-      elem.attr('placeholder', text);  // Try HTML5 placeholder attribute first
+      elem.attr('placeholder', text);
     }
-    else {  // Fallback to Javascript emulation of placeholder
+    // Fallback to Javascript emulation of placeholder
+    else {
       this._placeholder = text;
       elem.blur(function(e) {
         if ($.trim(elem.val()) == "")
@@ -740,7 +741,9 @@ jQuery.fn.placeholder = function(text) {
         elem[(active ? 'addClass' : 'removeClass')]('placeholder').attr('spellcheck', active);
       });
 
-      if (this != document.activeElement) // Do not blur currently focused element
+      // Do not blur currently focused element (catch exception: #1489008)
+      try { active = this == document.activeElement; } catch(e) {}
+      if (!active)
         elem.blur();
     }
   });

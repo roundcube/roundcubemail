@@ -1,4 +1,4 @@
-require ["relational","comparator-i;ascii-numeric"];
+require ["comparator-i;ascii-numeric","relational"];
 # rule:[redirect]
 if header :value "ge" :comparator "i;ascii-numeric" "X-Spam-score" "14"
 {

@@ -374,17 +374,15 @@ class enigma_engine
     {
         // @TODO: Handle big bodies using (temp) files
         // @TODO: caching of verification result
-        
-         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
+        $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
-         if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::E_KEYNOTFOUND)
-             rcube::raise_error(array(
+        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::E_KEYNOTFOUND)
+            rcube::raise_error(array(
                 'code' => 600, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $error->getMessage()
+                'message' => "Enigma plugin: " . $sig->getMessage()
                 ), true, false);
 
-//print_r($sig);
         return $sig;
     }
 
@@ -399,10 +397,8 @@ class enigma_engine
     {
         // @TODO: Handle big bodies using (temp) files
         // @TODO: caching of verification result
-        
+        $key = ''; $pass = ''; // @TODO
         $result = $this->pgp_driver->decrypt($msg_body, $key, $pass);
-
-//print_r($result);
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
@@ -430,7 +426,7 @@ class enigma_engine
     {
         $this->load_pgp_driver();
         $result = $this->pgp_driver->list_keys($pattern);
-    
+
         if ($result instanceof enigma_error) {
             rcube::raise_error(array(
                 'code' => 600, 'type' => 'php',
@@ -438,7 +434,7 @@ class enigma_engine
                 'message' => "Enigma plugin: " . $result->getMessage()
                 ), true, false);
         }
-        
+
         return $result;
     }
 
@@ -501,9 +497,11 @@ class enigma_engine
         $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
         $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
+        $storage = $this->rc->get_storage();
 
         if ($uid && $mime_id) {
-            $part = $this->rc->storage->get_message_part($uid, $mime_id);
+            $storage->set_folder($mbox);
+            $part = $storage->get_message_part($uid, $mime_id);
         }
 
         if ($part && is_array($result = $this->import_key($part))) {
@@ -531,17 +529,5 @@ class enigma_engine
             $part->body = $this->rc->storage->get_message_part(
                 $uid, $part->mime_id, $part);
         }
-    }
-
-    /**
-     * Adds CSS style file to the page header.
-     */
-    private function add_css()
-    {
-        $skin = $this->rc->config->get('skin');
-        if (!file_exists($this->home . "/skins/$skin/enigma.css"))
-            $skin = 'default';
-
-        $this->include_stylesheet("skins/$skin/enigma.css");                                                
     }
 }

@@ -64,6 +64,7 @@ $labels['copy']     = 'Salin';
 $labels['move']     = 'Alih';
 $labels['moveto']   = 'Alih ke...';
 $labels['download'] = 'Muat Turun';
+$labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
 
@@ -161,6 +162,7 @@ $labels['currpage'] = 'Muka terkini';
 $labels['unread'] = 'Belum dibaca';
 $labels['flagged'] = 'Ditanda';
 $labels['unanswered'] = 'Belum dijawab';
+$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Telah dipadam';
 $labels['undeleted'] = 'Not deleted';
 $labels['invert'] = 'Songsangkan';
@@ -204,6 +206,8 @@ $labels['body']  = 'Body';
 
 $labels['openinextwin'] = 'Buka dalam tetingkap baru';
 $labels['emlsave'] = 'Muat-turun (.eml)';
+$labels['changeformattext'] = 'Display in plain text format';
+$labels['changeformathtml'] = 'Display in HTML format';
 
 // message compose
 $labels['editasnew']      = 'Ubah seperti baharu';
@@ -398,6 +402,7 @@ $labels['htmleditor'] = 'Karang mesej HTML';
 $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'Tandatangan HTML';
+$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Pamer ruang previu';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Kosongkan Tong sampah ketika keluar';
@@ -451,9 +456,6 @@ $labels['replyremovesignature'] = 'When replying remove original signature from 
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
-$labels['replysignaturepos'] = 'When replying or forwarding place signature';
-$labels['belowquote'] = 'below the quote';
-$labels['abovequote'] = 'above the quote';
 $labels['insertsignature'] = 'Insert signature';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';

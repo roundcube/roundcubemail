@@ -91,3 +91,20 @@ $map['work_phone'] = "Work Phone";
 $map['work_address'] = "Work Address";
 $map['work_country'] = "Work Country";
 $map['work_zipcode'] = "Work ZipCode";
+
+// Atmail
+$map['date_of_birth'] = "Date of Birth";
+$map['email'] = "Email";
+$map['home_mobile'] = "Home Mobile";
+$map['home_zip'] = "Home Zip";
+$map['info'] = "Info";
+$map['user_photo'] = "User Photo";
+$map['url'] = "URL";
+$map['work_city'] = "Work City";
+$map['work_company'] = "Work Company";
+$map['work_dept'] = "Work Dept";
+$map['work_fax'] = "Work Fax";
+$map['work_mobile'] = "Work Mobile";
+$map['work_state'] = "Work State";
+$map['work_title'] = "Work Title";
+$map['work_zip'] = "Work Zip";
