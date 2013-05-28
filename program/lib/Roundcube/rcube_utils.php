@@ -733,7 +733,7 @@ class rcube_utils
             return mktime(0,0,0, intval($matches[2]), intval($matches[3]), intval($matches[1]));
         }
         else if (is_numeric($date)) {
-            return $date;
+            return (int) $date;
         }
 
         // Clean malformed data
@@ -762,7 +762,7 @@ class rcube_utils
             $date = implode(' ', $d);
         }
 
-        return $ts;
+        return (int) $ts;
     }
 
 

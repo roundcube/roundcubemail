@@ -262,4 +262,36 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             $this->assertSame($v[2], $result);
         }
     }
+
+    /**
+     * rcube:utils::strtotime()
+     */
+    function test_strtotime()
+    {
+        $test = array(
+            '1' => 1,
+            '' => 0,
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::strtotime($datetime);
+            $this->assertSame($ts, $result);
+        }
+    }
+
+    /**
+     * rcube:utils::normalize _string()
+     */
+    function test_normalize_string()
+    {
+        $test = array(
+            '' => '',
+            'abc def' => 'abc def',
+        );
+
+        foreach ($test as $input => $output) {
+            $result = rcube_utils::normalize_string($input);
+            $this->assertSame($output, $result);
+        }
+    }
 }
