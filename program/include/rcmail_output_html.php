@@ -158,11 +158,20 @@ class rcmail_output_html extends rcmail_output
             $valid = true;
         }
         else {
-            $skin_path = $this->config->get('skin_path');
-            if (!$skin_path) {
-                $skin_path = 'skins/' . rcube_config::DEFAULT_SKIN;
+            $rcube = rcube::get_instance();
+            $default_skin = $rcube->config->get('default_skin');
+
+            if (!empty($default_skin) && is_dir('skins/'.$default_skin) && is_readable('skins/'.$default_skin)) {
+                $skin_path = 'skins/'.$default_skin;
+                $valid = !$skin;
             }
-            $valid = !$skin;
+            else {
+              $skin_path = $this->config->get('skin_path');
+              if (!$skin_path) {
+                  $skin_path = 'skins/' . rcube_config::DEFAULT_SKIN;
+              }
+              $valid = !$skin;
+            }
         }
 
         $this->config->set('skin_path', $skin_path);
