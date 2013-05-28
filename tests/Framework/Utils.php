@@ -195,6 +195,23 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check rcube_utils::explode_quoted_string()
+     */
+    function test_explode_quoted_string()
+    {
+        $data = array(
+            '"a,b"' => array('"a,b"'),
+            '"a,b","c,d"' => array('"a,b"','"c,d"'),
+            '"a,\\"b",d' => array('"a,\\"b"', 'd'),
+        );
+
+        foreach ($data as $text => $res) {
+            $result = rcube_utils::explode_quoted_string(',', $text);
+            $this->assertSame($res, $result);
+        }
+    }
+
+    /**
      * Check rcube_utils::explode_quoted_string() compat. with explode()
      */
     function test_explode_quoted_string_compat()
