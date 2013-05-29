@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix connection to posgtres db using unix socket (#1489132)
 - Implemented shared cache (rcube_cache_shared)
 - Fix handling of comma when adding contact from contacts widget (#1489107)
 - Fix bug where a message was opened in both preview pane and new window on double-click (#1489122)
