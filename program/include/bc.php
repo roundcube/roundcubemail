@@ -405,6 +405,16 @@ function enriched_to_html($data)
     return rcube_enriched::to_html($data);
 }
 
+function strip_quotes($str)
+{
+    return str_replace(array("'", '"'), '', $str);
+}
+
+function strip_newlines($str)
+{
+    return preg_replace('/[\r\n]/', '', $str);
+}
+
 class rcube_html_page extends rcmail_html_page
 {
 }

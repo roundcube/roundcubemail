@@ -495,9 +495,9 @@ class rcube_user
             "INSERT INTO ".$dbh->table_name('users').
             " (created, last_login, username, mail_host, language)".
             " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
-            strip_newlines($data['user']),
-            strip_newlines($data['host']),
-            strip_newlines($data['language']));
+            $data['user'],
+            $data['host'],
+            $data['language']);
 
         if ($user_id = $dbh->insert_id('users')) {
             // create rcube_user instance to make plugin hooks work
@@ -517,7 +517,7 @@ class rcube_user
                 if (empty($user_email)) {
                     $user_email = strpos($data['user'], '@') ? $user : sprintf('%s@%s', $data['user'], $mail_domain);
                 }
-                $email_list[] = strip_newlines($user_email);
+                $email_list[] = $user_email;
             }
             // identities_level check
             else if (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1) {
@@ -547,7 +547,6 @@ class rcube_user
                     $record['name'] = $user_name != $record['email'] ? $user_name : '';
                 }
 
-                $record['name']     = strip_newlines($record['name']);
                 $record['user_id']  = $user_id;
                 $record['standard'] = $standard;
 

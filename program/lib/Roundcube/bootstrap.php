@@ -293,32 +293,6 @@ function is_ascii($str, $control_chars = true)
 
 
 /**
- * Remove single and double quotes from a given string
- *
- * @param string Input value
- *
- * @return string Dequoted string
- */
-function strip_quotes($str)
-{
-    return str_replace(array("'", '"'), '', $str);
-}
-
-
-/**
- * Remove new lines characters from given string
- *
- * @param string $str  Input value
- *
- * @return string Stripped string
- */
-function strip_newlines($str)
-{
-    return preg_replace('/[\r\n]/', '', $str);
-}
-
-
-/**
  * Compose a valid representation of name and e-mail address
  *
  * @param string $email  E-mail address
