@@ -1326,6 +1326,9 @@ class rcmail extends rcube
         $msgcounts = $this->storage->get_cache('messagecount');
         $collapsed = $this->config->get('collapsed_folders');
 
+        if ($this->config->get('show_actual_foldernames'))
+            $realnames = true;
+
         $out = '';
         foreach ($arrFolders as $folder) {
             $title        = null;
@@ -1491,7 +1494,8 @@ class rcmail extends rcube
             if ($count > 1) {
                 for ($i = 0; $i < $count; $i++) {
                     $folder = implode($delimiter, array_slice($path, 0, -$i));
-                    if ($folder_class = $this->folder_classname($folder)) {
+                    if (!$this->config->get('show_actual_foldernames') &&
+                        ($folder_class = $this->folder_classname($folder))) {
                         $name = implode($delimiter, array_slice($path, $count - $i));
                         return $this->gettext($folder_class) . $delimiter . rcube_charset::convert($name, 'UTF7-IMAP');
                     }
@@ -1499,7 +1503,8 @@ class rcmail extends rcube
             }
         }
 
-        if ($folder_class = $this->folder_classname($name)) {
+        if (!$this->config->get('show_actual_foldernames') &&
+            ($folder_class = $this->folder_classname($name))) {
             return $this->gettext($folder_class);
         }
         else {

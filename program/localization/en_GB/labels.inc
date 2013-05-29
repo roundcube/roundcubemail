@@ -37,6 +37,7 @@ $labels['drafts'] = 'Drafts';
 $labels['sent']   = 'Sent';
 $labels['trash']  = 'Deleted Items';
 $labels['junk']   = 'Junk';
+$labels['show_actual_foldernames'] = 'Show actual names for special folders';
 
 // message listing
 $labels['subject'] = 'Subject';
