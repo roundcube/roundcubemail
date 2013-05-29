@@ -129,4 +129,38 @@ class rcube_db_pgsql extends rcube_db
         return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
     }
 
+    /**
+     * Returns PDO DSN string from DSN array
+     *
+     * @param array $dsn DSN parameters
+     *
+     * @return string DSN string
+     */
+    protected function dsn_string($dsn)
+    {
+        $params = array();
+        $result = 'pgsql:';
+
+        if ($dsn['hostspec']) {
+            $params[] = 'host=' . $dsn['hostspec'];
+        }
+        else if ($dsn['socket']) {
+            $params[] = 'host=' . $dsn['socket'];
+        }
+
+        if ($dsn['port']) {
+            $params[] = 'port=' . $dsn['port'];
+        }
+
+        if ($dsn['database']) {
+            $params[] = 'dbname=' . $dsn['database'];
+        }
+
+        if (!empty($params)) {
+            $result .= implode(';', $params);
+        }
+
+        return $result;
+    }
+
 }
