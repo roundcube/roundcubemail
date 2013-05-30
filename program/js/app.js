@@ -583,11 +583,11 @@ function rcube_webmail()
           var prevstate = this.env.compose_extwin;
           $("input[name='_action']", this.gui_objects.messageform).val('compose');
           this.gui_objects.messageform.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
-          this.gui_objects.messageform.target = this.open_window('', 1100, 900);
+          this.gui_objects.messageform.target = this.open_window('', 1100);
           this.gui_objects.messageform.submit();
         }
         else {
-          this.open_window(this.env.permaurl, 900, 900);
+          this.open_window(this.env.permaurl, 900);
         }
         break;
 
@@ -1674,12 +1674,16 @@ function rcube_webmail()
     return 0;
   };
 
-  this.open_window = function(url, width, height)
+  this.open_window = function(url, width)
   {
-    var w = Math.min(width, screen.width - 10),
-      h = Math.min(height, screen.height - 100),
-      l = (screen.width - w) / 2 + (screen.left || 0),
-      t = Math.max(0, (screen.height - h) / 2 + (screen.top || 0) - 20),
+    var win = this.is_framed() ? parent.window : window,
+      page = $(win),
+      page_width = page.width(),
+      page_height = bw.mz ? $('body', win).height() : page.height(),
+      w = Math.min(width, page_width),
+      h = page_height, // always use same height
+      l = (win.screenLeft || win.screenX) + 20,
+      t = (win.screenTop || win.screenY) + 20,
       wname = 'rcmextwin' + new Date().getTime(),
       extwin = window.open(url + (url.match(/\?/) ? '&' : '?') + '_extwin=1', wname,
         'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
@@ -1991,7 +1995,7 @@ function rcube_webmail()
     }
     else {
       if (!preview && this.env.message_extwin && !this.env.extwin)
-        this.open_window(this.env.comm_path+url, 1000, 1200);
+        this.open_window(this.env.comm_path+url, 1000);
       else
         this.location_href(this.env.comm_path+url, target, true);
 
@@ -3017,12 +3021,12 @@ function rcube_webmail()
 
     // open new compose window
     if (this.env.compose_extwin && !this.env.extwin) {
-      this.open_window(url, 1150, 900);
+      this.open_window(url, 1150);
     }
     else {
       this.redirect(url);
       if (this.env.extwin)
-        window.resizeTo(Math.max(1150, $(window).width()), Math.max(900, $(window).height()));
+        window.resizeTo(Math.max(1150, $(window).width()), $(window).height()+24);
     }
   };
 
