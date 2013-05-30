@@ -3021,7 +3021,8 @@ function rcube_webmail()
     }
     else {
       this.redirect(url);
-      window.resizeTo(Math.max(1150, $(window).width()), Math.max(900, $(window).height()));
+      if (this.env.extwin)
+        window.resizeTo(Math.max(1150, $(window).width()), Math.max(900, $(window).height()));
     }
   };
 

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix unintentional compose window resize (#1489114)
 - Fix performance regression in text wrapping function (#1489133)
 - Fix connection to posgtres db using unix socket (#1489132)
 - Fix handling of comma when adding contact from contacts widget (#1489107)
