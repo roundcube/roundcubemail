@@ -598,11 +598,12 @@ function rcube_webmail()
 
       case 'extwin':
         if (this.env.action == 'compose') {
-          var form = this.gui_objects.messageform;
+          var form = this.gui_objects.messageform,
+            win = this.open_window('');
 
           $("input[name='_action']", form).val('compose');
           form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
-          form.target = this.open_window('');
+          form.target = win.name;
           form.submit();
         }
         else {
@@ -859,11 +860,8 @@ function rcube_webmail()
 
         // open attachment in frame if it's of a supported mimetype
         if (command != 'download-attachment' && mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0) {
-          var attachment_win = window.open(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', this.html_identifier('rcubemailattachment'+this.env.uid+props));
-          if (attachment_win) {
-            setTimeout(function(){ attachment_win.focus(); }, 10);
+          if (this.open_window(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', true, true))
             break;
-          }
         }
 
         this.goto_url('get', qstring+'&_download=1', false);
@@ -1047,7 +1045,7 @@ function rcube_webmail()
 
       case 'print':
         if (uid = this.get_single_uid()) {
-          ref.printwin = window.open(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''));
+          ref.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''), true, true);
           if (this.printwin) {
             setTimeout(function(){ ref.printwin.focus(); }, 20);
             if (this.env.action != 'show')
@@ -1057,11 +1055,8 @@ function rcube_webmail()
         break;
 
       case 'viewsource':
-        if (uid = this.get_single_uid()) {
-          ref.sourcewin = window.open(this.env.comm_path+'&_action=viewsource&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox));
-          if (this.sourcewin)
-            setTimeout(function(){ ref.sourcewin.focus(); }, 20);
-          }
+        if (uid = this.get_single_uid())
+          this.open_window(this.env.comm_path+'&_action=viewsource&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true, true);
         break;
 
       case 'download':
@@ -1632,7 +1627,7 @@ function rcube_webmail()
   };
 
   // open popup window
-  this.open_window = function(url, small)
+  this.open_window = function(url, small, toolbar)
   {
     var win = this.is_framed() ? parent.window : window,
       page = $(win),
@@ -1644,7 +1639,8 @@ function rcube_webmail()
       t = (win.screenTop || win.screenY) + 20,
       wname = 'rcmextwin' + new Date().getTime(),
       extwin = window.open(url + (url.match(/\?/) ? '&' : '?') + '_extwin=1', wname,
-        'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
+        'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,location=no,scrollbars=yes'
+        +(toolbar ? ',toolbar=yes,menubar=yes,status=yes' : ',toolbar=no,menubar=no,status=no'));
 
     // write loading... message to empty windows
     if (!url && extwin.document) {
@@ -1654,7 +1650,7 @@ function rcube_webmail()
     // focus window, delayed to bring to front
     window.setTimeout(function() { extwin.focus(); }, 10);
 
-    return wname;
+    return extwin;
   };
 
 
