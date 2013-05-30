@@ -587,23 +587,20 @@ class rcube_mime
      */
     public static function wordwrap($string, $width=75, $break="\n", $cut=false, $charset=null, $wrap_quoted=true)
     {
-        if (!$charset) {
-            $charset = RCUBE_CHARSET;
-        }
+        // Note: Never try to use iconv instead of mbstring functions here
+        //       Iconv's substr/strlen are 100x slower (#1489113)
 
-        // detect available functions
-        $strlen_func  = function_exists('iconv_strlen') ? 'iconv_strlen' : 'mb_strlen';
-        $strpos_func  = function_exists('iconv_strpos') ? 'iconv_strpos' : 'mb_strpos';
-        $strrpos_func = function_exists('iconv_strrpos') ? 'iconv_strrpos' : 'mb_strrpos';
-        $substr_func  = function_exists('iconv_substr') ? 'iconv_substr' : 'mb_substr';
+        if ($charset && $charset != RCUBE_CHARSET && function_exists('mb_internal_encoding')) {
+            mb_internal_encoding($charset);
+        }
 
         // Convert \r\n to \n, this is our line-separator
         $string       = str_replace("\r\n", "\n", $string);
         $separator    = "\n"; // must be 1 character length
         $result       = array();
 
-        while (($stringLength = $strlen_func($string, $charset)) > 0) {
-            $breakPos = $strpos_func($string, $separator, 0, $charset);
+        while (($stringLength = mb_strlen($string)) > 0) {
+            $breakPos = mb_strpos($string, $separator, 0);
 
             // quoted line (do not wrap)
             if ($wrap_quoted && $string[0] == '>') {
@@ -612,7 +609,7 @@ class rcube_mime
                     $cutLength = null;
                 }
                 else {
-                    $subString = $substr_func($string, 0, $breakPos, $charset);
+                    $subString = mb_substr($string, 0, $breakPos);
                     $cutLength = $breakPos + 1;
                 }
             }
@@ -623,39 +620,34 @@ class rcube_mime
                     $cutLength = null;
                 }
                 else {
-                    $subString = $substr_func($string, 0, $breakPos, $charset);
+                    $subString = mb_substr($string, 0, $breakPos);
                     $cutLength = $breakPos + 1;
                 }
             }
             else {
-                $subString = $substr_func($string, 0, $width, $charset);
+                $subString = mb_substr($string, 0, $width);
 
                 // last line
                 if ($breakPos === false && $subString === $string) {
                     $cutLength = null;
                 }
                 else {
-                    $nextChar = $substr_func($string, $width, 1, $charset);
+                    $nextChar = mb_substr($string, $width, 1);
 
                     if ($nextChar === ' ' || $nextChar === $separator) {
-                        $afterNextChar = $substr_func($string, $width + 1, 1, $charset);
+                        $afterNextChar = mb_substr($string, $width + 1, 1);
 
                         if ($afterNextChar === false) {
                             $subString .= $nextChar;
                         }
 
-                        $cutLength = $strlen_func($subString, $charset) + 1;
+                        $cutLength = mb_strlen($subString) + 1;
                     }
                     else {
-                        if ($strrpos_func[0] == 'm') {
-                            $spacePos = $strrpos_func($subString, ' ', 0, $charset);
-                        }
-                        else {
-                            $spacePos = $strrpos_func($subString, ' ', $charset);
-                        }
+                        $spacePos = mb_strrpos($subString, ' ', 0);
 
                         if ($spacePos !== false) {
-                            $subString = $substr_func($subString, 0, $spacePos, $charset);
+                            $subString = mb_substr($subString, 0, $spacePos);
                             $cutLength = $spacePos + 1;
                         }
                         else if ($cut === false && $breakPos === false) {
@@ -663,19 +655,19 @@ class rcube_mime
                             $cutLength = null;
                         }
                         else if ($cut === false) {
-                            $spacePos = $strpos_func($string, ' ', 0, $charset);
+                            $spacePos = mb_strpos($string, ' ', 0);
 
                             if ($spacePos !== false && $spacePos < $breakPos) {
-                                $subString = $substr_func($string, 0, $spacePos, $charset);
+                                $subString = mb_substr($string, 0, $spacePos);
                                 $cutLength = $spacePos + 1;
                             }
                             else {
-                                $subString = $substr_func($string, 0, $breakPos, $charset);
+                                $subString = mb_substr($string, 0, $breakPos);
                                 $cutLength = $breakPos + 1;
                             }
                         }
                         else {
-                            $subString = $substr_func($subString, 0, $width, $charset);
+                            $subString = mb_substr($subString, 0, $width);
                             $cutLength = $width;
                         }
                     }
@@ -685,11 +677,15 @@ class rcube_mime
             $result[] = $subString;
 
             if ($cutLength !== null) {
-                $string = $substr_func($string, $cutLength, ($stringLength - $cutLength), $charset);
+                $string = mb_substr($string, $cutLength, ($stringLength - $cutLength));
             }
             else {
                 break;
             }
+        }
+
+        if ($charset && $charset != RCUBE_CHARSET && function_exists('mb_internal_encoding')) {
+            mb_internal_encoding(RCUBE_CHARSET);
         }
 
         return implode($break, $result);

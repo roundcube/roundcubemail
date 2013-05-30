@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix performance regression in text wrapping function (#1489133)
 - Fix connection to posgtres db using unix socket (#1489132)
 - Implemented shared cache (rcube_cache_shared)
 - Fix handling of comma when adding contact from contacts widget (#1489107)
