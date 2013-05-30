@@ -44,7 +44,9 @@ function rcube_webmail()
     comm_path: './',
     blankpage: 'program/resources/blank.gif',
     recipients_separator: ',',
-    recipients_delimiter: ', '
+    recipients_delimiter: ', ',
+    popup_width: 1150,
+    popup_width_small: 900
   };
 
   // create protected reference to myself
@@ -600,11 +602,11 @@ function rcube_webmail()
 
           $("input[name='_action']", form).val('compose');
           form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
-          form.target = this.open_window('', 1100, 900);
+          form.target = this.open_window('');
           form.submit();
         }
         else {
-          this.open_window(this.env.permaurl, 900, 900);
+          this.open_window(this.env.permaurl, true);
         }
         break;
 
@@ -1629,19 +1631,20 @@ function rcube_webmail()
     return 0;
   };
 
-  this.open_window = function(url, width, height)
+  // open popup window
+  this.open_window = function(url, small)
   {
-    var dh = (window.outerHeight || 0) - (window.innerHeight || 0),
-      dw = (window.outerWidth || 0) - (window.innerWidth || 0),
-      sh = screen.availHeight || screen.height,
-      sw = screen.availWidth || screen.width,
-      w = Math.min(width, sw),
-      h = Math.min(height, sh),
-      l = Math.max(0, (sw - w) / 2 + (screen.left || 0)),
-      t = Math.max(0, (sh - h) / 2 + (screen.top || 0)),
+    var win = this.is_framed() ? parent.window : window,
+      page = $(win),
+      page_width = page.width(),
+      page_height = bw.mz ? $('body', win).height() : page.height(),
+      w = Math.min(small ? this.env.popup_width_small : this.env.popup_width, page_width),
+      h = page_height, // always use same height
+      l = (win.screenLeft || win.screenX) + 20,
+      t = (win.screenTop || win.screenY) + 20,
       wname = 'rcmextwin' + new Date().getTime(),
       extwin = window.open(url + (url.match(/\?/) ? '&' : '?') + '_extwin=1', wname,
-        'width='+(w-dw)+',height='+(h-dh)+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
+        'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,toolbar=no,status=no,location=no');
 
     // write loading... message to empty windows
     if (!url && extwin.document) {
@@ -1945,7 +1948,7 @@ function rcube_webmail()
     }
     else {
       if (!preview && this.env.message_extwin && !this.env.extwin)
-        this.open_window(this.env.comm_path+url, 1000, 1200);
+        this.open_window(this.env.comm_path+url, true);
       else
         this.location_href(this.env.comm_path+url, target, true);
 
@@ -2971,11 +2974,11 @@ function rcube_webmail()
 
     // open new compose window
     if (this.env.compose_extwin && !this.env.extwin) {
-      this.open_window(url, 1150, 900);
+      this.open_window(url);
     }
     else {
       this.redirect(url);
-      window.resizeTo(Math.max(1150, $(window).width()), Math.max(900, $(window).height()));
+      window.resizeTo(Math.max(this.env.popup_width, $(window).width()), $(window).height() + 24);
     }
   };
 
