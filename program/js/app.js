@@ -2974,7 +2974,8 @@ function rcube_webmail()
     }
     else {
       this.redirect(url);
-      window.resizeTo(Math.max(this.env.popup_width, $(window).width()), $(window).height() + 24);
+      if (this.env.extwin)
+        window.resizeTo(Math.max(this.env.popup_width, $(window).width()), $(window).height() + 24);
     }
   };
 
