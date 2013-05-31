@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix displaying messages with invalid self-closing HTML tags (#1489137)
 - Fix PHP warning when responding to a message with many Return-Path headers (#1489136)
 - Added user preference to open all popups as standard windows
 - Fix unintentional compose window resize (#1489114)

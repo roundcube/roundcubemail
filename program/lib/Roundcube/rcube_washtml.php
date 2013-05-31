@@ -113,10 +113,9 @@ class rcube_washtml
         'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value'
     );
 
-    /* Block elements which could be empty but cannot be returned in short form (<tag />) */
-    static $block_elements = array('div', 'p', 'pre', 'blockquote', 'a', 'font', 'center',
-        'table', 'ul', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'dl', 'strong',
-        'i', 'b', 'u', 'span',
+    /* Elements which could be empty and be returned in short form (<tag />) */
+    static $void_elements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
+        'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'
     );
 
     /* State for linked objects in HTML */
@@ -134,8 +133,8 @@ class rcube_washtml
     /* Ignore these HTML tags but process their content */
     private $_ignore_elements = array();
 
-    /* Block elements which could be empty but cannot be returned in short form (<tag />) */
-    private $_block_elements = array();
+    /* Elements which could be empty and be returned in short form (<tag />) */
+    private $_void_elements = array();
 
     /* Allowed HTML attributes */
     private $_html_attribs = array();
@@ -152,9 +151,9 @@ class rcube_washtml
         $this->_html_elements   = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements) ;
         $this->_html_attribs    = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
         $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
-        $this->_block_elements  = array_flip((array)$p['block_elements']) + array_flip(self::$block_elements);
+        $this->_void_elements   = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
 
-        unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['block_elements']);
+        unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements']);
 
         $this->config = $p + array('show_washed' => true, 'allow_remote' => false, 'cid_map' => array());
     }
@@ -321,7 +320,7 @@ class rcube_washtml
                 else if (isset($this->_html_elements[$tagName])) {
                     $content = $this->dumpHtml($node, $level);
                     $dump .= '<' . $tagName . $this->wash_attribs($node) .
-                        ($content != '' || isset($this->_block_elements[$tagName]) ? ">$content</$tagName>" : ' />');
+                        ($content === '' && isset($this->_void_elements[$tagName]) ? ' />' : ">$content</$tagName>");
                 }
                 else if (isset($this->_ignore_elements[$tagName])) {
                     $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
