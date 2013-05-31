@@ -1629,18 +1629,25 @@ function rcube_webmail()
   // open popup window
   this.open_window = function(url, small, toolbar)
   {
-    var win = this.is_framed() ? parent.window : window,
-      page = $(win),
-      page_width = page.width(),
-      page_height = bw.mz ? $('body', win).height() : page.height(),
-      w = Math.min(small ? this.env.popup_width_small : this.env.popup_width, page_width),
-      h = page_height, // always use same height
-      l = (win.screenLeft || win.screenX) + 20,
-      t = (win.screenTop || win.screenY) + 20,
-      wname = 'rcmextwin' + new Date().getTime(),
-      extwin = window.open(url + (url.match(/\?/) ? '&' : '?') + '_extwin=1', wname,
-        'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,location=no,scrollbars=yes'
-        +(toolbar ? ',toolbar=yes,menubar=yes,status=yes' : ',toolbar=no,menubar=no,status=no'));
+    var wname = 'rcmextwin' + new Date().getTime();
+
+    url += (url.match(/\?/) ? '&' : '?') + '_extwin=1';
+
+    if (this.env.standard_windows)
+      extwin = window.open(url, wname);
+    else {
+      var win = this.is_framed() ? parent.window : window,
+        page = $(win),
+        page_width = page.width(),
+        page_height = bw.mz ? $('body', win).height() : page.height(),
+        w = Math.min(small ? this.env.popup_width_small : this.env.popup_width, page_width),
+        h = page_height, // always use same height
+        l = (win.screenLeft || win.screenX) + 20,
+        t = (win.screenTop || win.screenY) + 20,
+        extwin = window.open(url, wname,
+          'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,location=no,scrollbars=yes'
+          +(toolbar ? ',toolbar=yes,menubar=yes,status=yes' : ',toolbar=no,menubar=no,status=no'));
+    }
 
     // write loading... message to empty windows
     if (!url && extwin.document) {

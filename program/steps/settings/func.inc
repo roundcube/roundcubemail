@@ -95,13 +95,13 @@ function get_form_tags($attrib, $action, $id = null, $hidden = null)
   if (empty($EDIT_FORM)) {
     $request_key = $action . (isset($id) ? '.'.$id : '');
     $form_start = $RCMAIL->output->request_form(array(
-	  'name'    => 'form',
-	  'method'  => 'post',
-	  'task'    => $RCMAIL->task,
-	  'action'  => $action,
-	  'request' => $request_key,
-	  'noclose' => true
-	) + $attrib);
+      'name'    => 'form',
+      'method'  => 'post',
+      'task'    => $RCMAIL->task,
+      'action'  => $action,
+      'request' => $request_key,
+      'noclose' => true
+    ) + $attrib);
 
     if (is_array($hidden)) {
       $hiddenfields = new html_hiddenfield($hidden);
@@ -152,6 +152,8 @@ function rcmail_user_prefs($current=null)
 
     $blocks = array(
       'main'    => array('name' => Q(rcube_label('mainoptions'))),
+      'skin'    => array('name' => Q(rcube_label('skin'))),
+      'browser' => array('name' => Q(rcube_label('browseroptions'))),
     );
 
     // language selection
@@ -263,8 +265,6 @@ function rcmail_user_prefs($current=null)
         $field_id = 'rcmfd_skin';
         $input_skin = new html_radiobutton(array('name'=>'_skin'));
 
-        $blocks['skin'] = array('name' => Q(rcube_label('skin')),);
-
         foreach($skins as $skin) {
           $thumbnail = "./skins/$skin/thumbnail.png";
           if (!is_file($thumbnail))
@@ -290,17 +290,27 @@ function rcmail_user_prefs($current=null)
       }
     }
 
+    // standard_windows option decides if new windows should be
+    // opened as popups or standard windows (which can be handled by browsers as tabs)
+    if (!isset($no_override['standard_windows'])) {
+      $field_id = 'rcmfd_standard_windows';
+      $checkbox = new html_checkbox(array('name' => '_standard_windows', 'id' => $field_id, 'value' => 1));
+
+      $blocks['browser']['options']['standard_windows'] = array(
+        'title' => html::label($field_id, Q(rcube_label('standardwindows'))),
+        'content' => $checkbox->show($config['standard_windows']?1:0),
+      );
+    }
+
+
     $product_name = $RCMAIL->config->get('product_name', 'Roundcube Webmail');
     $RCMAIL->output->add_script(sprintf("%s.check_protocol_handler('%s', '#mailtoprotohandler');",
       JS_OBJECT_NAME, JQ($product_name)), 'foot');
 
-    $blocks['browser'] = array(
-      'name' => Q(rcube_label('browseroptions')),
-      'options' => array('mailtoprotohandler' => array(
-        'content' => html::a(array(
-          'href' => '#',
-          'id' => 'mailtoprotohandler'), Q(rcube_label('mailtoprotohandler'))),
-        )),
+    $blocks['browser']['options']['mailtoprotohandler'] = array(
+      'content' => html::a(array(
+        'href' => '#',
+        'id' => 'mailtoprotohandler'), Q(rcube_label('mailtoprotohandler'))),
     );
 
     break;
@@ -797,13 +807,13 @@ function rcmail_user_prefs($current=null)
         $blocks['main']['options']['sent_mbox'] = array(
           'title' => Q(rcube_label('sent')),
           'content' => $select->show($config['sent_mbox'], array('name' => "_sent_mbox")),
-	);
+        );
 
       if (!isset($no_override['junk_mbox']))
         $blocks['main']['options']['junk_mbox'] = array(
           'title' => Q(rcube_label('junk')),
           'content' => $select->show($config['junk_mbox'], array('name' => "_junk_mbox")),
-	);
+        );
 
       if (!isset($no_override['trash_mbox']))
         $blocks['main']['options']['trash_mbox'] = array(
@@ -905,7 +915,7 @@ function rcmail_user_prefs($current=null)
     foreach ($data['blocks'] as $block) {
       if (!empty($block['content']) || !empty($block['options'])) {
         $found = true;
-	    break;
+        break;
       }
     }
 
@@ -927,7 +937,7 @@ function rcmail_get_skins()
   $dir = opendir($path);
 
   if (!$dir)
-	return false;
+    return false;
 
   while (($file = readdir($dir)) !== false)
   {

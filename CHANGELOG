@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added user preference to open all popups as standard windows
 - Fix unintentional compose window resize (#1489114)
 - Fix performance regression in text wrapping function (#1489133)
 - Fix connection to posgtres db using unix socket (#1489132)

@@ -34,6 +34,7 @@ switch ($CURR_SECTION)
       'time_format'  => isset($_POST['_time_format']) ? get_input_value('_time_format', RCUBE_INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
       'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
       'refresh_interval' => isset($_POST['_refresh_interval']) ? intval($_POST['_refresh_interval'])*60 : $CONFIG['refresh_interval'],
+      'standard_windows' => isset($_POST['_standard_windows']) ? TRUE : FALSE,
       'skin'         => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
     );
 
