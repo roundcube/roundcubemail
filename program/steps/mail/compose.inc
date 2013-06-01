@@ -474,6 +474,7 @@ function rcmail_compose_header_from($attrib)
   if (count($MESSAGE->identities))
   {
     $a_signatures = array();
+    $identities   = array();
     $separator    = intval($RCMAIL->config->get('reply_mode')) > 0
       && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD) ? '---' : '-- ';
 
@@ -511,12 +512,21 @@ function rcmail_compose_header_from($attrib)
         $a_signatures[$identity_id]['text'] = $text;
         $a_signatures[$identity_id]['html'] = $html;
       }
+
+      // add bcc and reply-to
+      if (!empty($sql_arr['reply-to'])) {
+        $identities[$identity_id]['replyto'] = $sql_arr['reply-to'];
+      }
+      if (!empty($sql_arr['bcc'])) {
+        $identities[$identity_id]['bcc'] = $sql_arr['bcc'];
+      }
     }
 
     $out = $select_from->show($MESSAGE->compose['from']);
 
     // add signatures to client
     $OUTPUT->set_env('signatures', $a_signatures);
+    $OUTPUT->set_env('identities', $identities);
   }
   // no identities, display text input field
   else {

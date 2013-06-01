@@ -3355,12 +3355,45 @@ function rcube_webmail()
     if (!show_sig)
       show_sig = this.env.show_sig;
 
-    var cursor_pos, p = -1,
+    var i, rx, cursor_pos, p = -1,
       id = obj.options[obj.selectedIndex].value,
       input_message = $("[name='_message']"),
       message = input_message.val(),
       is_html = ($("input[name='_is_html']").val() == '1'),
-      sig = this.env.identity;
+      sig = this.env.identity,
+      delim = this.env.recipients_delimiter,
+      headers = ['replyto', 'bcc'];
+
+    // update reply-to/bcc fields with addresses defined in identities
+    for (i in headers) {
+      var key = headers[i],
+        old_val = sig && this.env.identities[sig] ? this.env.identities[sig][key] : '',
+        new_val = id && this.env.identities[id] ? this.env.identities[id][key] : '',
+        input = $('[name="_'+key+'"]'), input_val = input.val();
+
+      // remove old address(es)
+      if (old_val && input_val) {
+        rx = new RegExp('\\s*' + RegExp.escape(old_val) + '\\s*');
+        input_val = input_val.replace(rx, '');
+      }
+
+      // cleanup
+      rx = new RegExp(RegExp.escape(delim) + '\\s*' + RegExp(delim), 'g');
+      input_val = input_val.replace(rx, delim)
+      rx = new RegExp('^\\s*' + RegExp.escape(delim) + '\\s*$');
+      input_val = input_val.replace(rx, '')
+
+      // add new address(es)
+      if (new_val) {
+        rx = new RegExp(RegExp.escape(delim) + '\\s*$');
+        if (input_val && !rx.test(input_val))
+          input_val += delim + ' ';
+        input_val += new_val + delim + ' ';
+      }
+
+      if (old_val || new_val)
+        input.val(input_val).change();
+    }
 
     // enable manual signature insert
     if (this.env.signatures && this.env.signatures[id]) {

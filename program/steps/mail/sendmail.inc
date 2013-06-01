@@ -391,10 +391,6 @@ if (!empty($mailcc)) {
 if (!empty($mailbcc)) {
   $headers['Bcc'] = $mailbcc;
 }
-if (!empty($identity_arr['bcc']) && stripos($headers['Bcc'], $identity_arr['bcc']) === false) {
-  $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
-  $RECIPIENT_COUNT ++;
-}
 
 if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
   if ($RECIPIENT_COUNT > $max_recipients) {
@@ -411,9 +407,6 @@ if (!empty($identity_arr['organization'])) {
 }
 if (!empty($_POST['_replyto'])) {
   $headers['Reply-To'] = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
-}
-else if (!empty($identity_arr['reply-to'])) {
-  $headers['Reply-To'] = rcmail_email_input_format($identity_arr['reply-to'], false, true);
 }
 if (!empty($headers['Reply-To'])) {
   $headers['Mail-Reply-To'] = $headers['Reply-To'];

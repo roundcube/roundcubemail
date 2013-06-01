@@ -111,10 +111,14 @@ function rcube_mail_ui()
         layout_composeview();
 
         // Show input elements with non-empty value
-        var field, fields = ['cc', 'bcc', 'replyto', 'followupto'];
-        for (var f=0; f < fields.length; f++) {
-          if ((field = $('#_'+fields[f])) && field.length && field.val() != '')
-            show_header_row(fields[f], true);
+        var f, v, field, fields = ['cc', 'bcc', 'replyto', 'followupto'];
+        for (f=0; f < fields.length; f++) {
+          v = fields[f]; field = $('#_'+v);
+          if (field.length) {
+            field.on('change', {v: v}, function(e) { if (this.value) show_header_row(e.data.v, true); });
+            if (field.val() != '')
+              show_header_row(v, true);
+          }
         }
 
         $('#composeoptionstoggle').click(function(){

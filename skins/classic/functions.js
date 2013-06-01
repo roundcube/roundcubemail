@@ -492,14 +492,18 @@ switch_preview_pane: function(elem)
 /* Message composing */
 init_compose_form: function()
 {
-  var f, field, fields = ['cc', 'bcc', 'replyto', 'followupto'],
+  var f, v, field, fields = ['cc', 'bcc', 'replyto', 'followupto'],
     div = document.getElementById('compose-div'),
     headers_div = document.getElementById('compose-headers-div');
 
   // Show input elements with non-empty value
   for (f=0; f<fields.length; f++) {
-    if ((field = $('#_'+fields[f])) && field.length && field.val() != '')
-      rcmail_ui.show_header_form(fields[f]);
+    v = fields[f]; field = $('#_'+v);
+    if (field.length) {
+      field.on('change', {v:v}, function(e) { if (this.value) rcmail_ui.show_header_form(e.data.v); });
+      if (field.val() != '')
+        rcmail_ui.show_header_form(v);
+    }
   }
 
   // prevent from form data loss when pressing ESC key in IE
