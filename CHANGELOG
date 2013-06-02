@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where serialized strings were truncated in PDO::quote() (#1489142)
 - Improved handling of Reply-To/Bcc addresses of identity in compose form (#1489016)
 - Fix displaying messages with invalid self-closing HTML tags (#1489137)
 - Fix PHP warning when responding to a message with many Return-Path headers (#1489136)

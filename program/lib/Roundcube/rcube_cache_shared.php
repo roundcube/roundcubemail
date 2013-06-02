@@ -144,7 +144,7 @@ class rcube_cache_shared
      */
     function write($key, $data)
     {
-        return $this->write_record($key, $this->packed ? serialize($data) : $data);
+        return $this->write_record($key, $this->serialize($data));
     }
 
 
@@ -216,7 +216,7 @@ class rcube_cache_shared
             if ($this->cache_changes[$key]) {
                 // Make sure we're not going to write unchanged data
                 // by comparing current md5 sum with the sum calculated on DB read
-                $data = $this->packed ? serialize($data) : $data;
+                $data = $this->serialize($data);
 
                 if (!$this->cache_sums[$key] || $this->cache_sums[$key] != md5($data)) {
                     $this->write_record($key, $data);
@@ -252,7 +252,7 @@ class rcube_cache_shared
 
             if ($data) {
                 $md5sum = md5($data);
-                $data   = $this->packed ? unserialize($data) : $data;
+                $data   = $this->unserialize($data);
 
                 if ($nostore) {
                     return $data;
@@ -278,7 +278,7 @@ class rcube_cache_shared
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
                 $md5sum = $sql_arr['data'] ? md5($sql_arr['data']) : null;
                 if ($sql_arr['data']) {
-                    $data = $this->packed ? unserialize($sql_arr['data']) : $sql_arr['data'];
+                    $data = $this->unserialize($sql_arr['data']);
                 }
 
                 if ($nostore) {
@@ -540,5 +540,29 @@ class rcube_cache_shared
     {
         // This way each cache will have its own index
         return $this->prefix . 'INDEX';
+    }
+
+    /**
+     * Serializes data for storing
+     */
+    private function serialize($data)
+    {
+        if ($this->type == 'db') {
+            return $this->db->encode($data, $this->packed);
+        }
+
+        return $this->packed ? serialize($data) : $data;
+    }
+
+    /**
+     * Unserializes serialized data
+     */
+    private function unserialize($data)
+    {
+        if ($this->type == 'db') {
+            return $this->db->decode($data, $this->packed);
+        }
+
+        return $this->packed ? @unserialize($data) : $data;
     }
 }
