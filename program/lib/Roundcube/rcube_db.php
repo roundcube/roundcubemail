@@ -789,12 +789,19 @@ class rcube_db
     /**
      * Encodes non-UTF-8 characters in string/array/object (recursive)
      *
-     * @param mixed $input Data to fix
+     * @param mixed $input      Data to fix
+     * @param bool  $serialized Enable serialization
      *
      * @return mixed Properly UTF-8 encoded data
      */
-    public static function encode($input)
+    public static function encode($input, $serialized = false)
     {
+        // use Base64 encoding to workaround issues with invalid
+        // or null characters in serialized string (#1489142)
+        if ($serialized) {
+            return base64_encode(serialize($input));
+        }
+
         if (is_object($input)) {
             foreach (get_object_vars($input) as $idx => $value) {
                 $input->$idx = self::encode($value);
@@ -805,6 +812,7 @@ class rcube_db
             foreach ($input as $idx => $value) {
                 $input[$idx] = self::encode($value);
             }
+
             return $input;
         }
 
@@ -814,12 +822,19 @@ class rcube_db
     /**
      * Decodes encoded UTF-8 string/object/array (recursive)
      *
-     * @param mixed $input Input data
+     * @param mixed $input      Input data
+     * @param bool  $serialized Enable serialization
      *
      * @return mixed Decoded data
      */
-    public static function decode($input)
+    public static function decode($input, $serialized = false)
     {
+        if ($serialized) {
+            // use Base64 encoding to workaround issues with invalid
+            // or null characters in serialized string (#1489142)
+            return @unserialize(base64_decode($input));
+        }
+
         if (is_object($input)) {
             foreach (get_object_vars($input) as $idx => $value) {
                 $input->$idx = self::decode($value);

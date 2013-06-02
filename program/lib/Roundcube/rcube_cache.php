@@ -145,7 +145,7 @@ class rcube_cache
      */
     function write($key, $data)
     {
-        return $this->write_record($key, $this->packed ? serialize($data) : $data);
+        return $this->write_record($key, $this->serialize($data));
     }
 
 
@@ -219,7 +219,7 @@ class rcube_cache
             if ($this->cache_changes[$key]) {
                 // Make sure we're not going to write unchanged data
                 // by comparing current md5 sum with the sum calculated on DB read
-                $data = $this->packed ? serialize($data) : $data;
+                $data = $this->serialize($data);
 
                 if (!$this->cache_sums[$key] || $this->cache_sums[$key] != md5($data)) {
                     $this->write_record($key, $data);
@@ -255,7 +255,7 @@ class rcube_cache
 
             if ($data) {
                 $md5sum = md5($data);
-                $data   = $this->packed ? unserialize($data) : $data;
+                $data   = $this->unserialize($data);
 
                 if ($nostore) {
                     return $data;
@@ -283,7 +283,7 @@ class rcube_cache
                 $key = substr($sql_arr['cache_key'], strlen($this->prefix)+1);
                 $md5sum = $sql_arr['data'] ? md5($sql_arr['data']) : null;
                 if ($sql_arr['data']) {
-                    $data = $this->packed ? unserialize($sql_arr['data']) : $sql_arr['data'];
+                    $data = $this->unserialize($sql_arr['data']);
                 }
 
                 if ($nostore) {
@@ -364,7 +364,6 @@ class rcube_cache
      * @param string  $key         Cache key name or pattern
      * @param boolean $prefix_mode Enable it to clear all keys starting
      *                             with prefix specified in $key
-     *
      */
     private function remove_record($key=null, $prefix_mode=false)
     {
@@ -552,5 +551,29 @@ class rcube_cache
     {
         // This way each cache will have its own index
         return sprintf('%d:%s%s', $this->userid, $this->prefix, 'INDEX');
+    }
+
+    /**
+     * Serializes data for storing
+     */
+    private function serialize($data)
+    {
+        if ($this->type == 'db') {
+            return $this->db->encode($data, $this->packed);
+        }
+
+        return $this->packed ? serialize($data) : $data;
+    }
+
+    /**
+     * Unserializes serialized data
+     */
+    private function unserialize($data)
+    {
+        if ($this->type == 'db') {
+            return $this->db->decode($data, $this->packed);
+        }
+
+        return $this->packed ? @unserialize($data) : $data;
     }
 }
