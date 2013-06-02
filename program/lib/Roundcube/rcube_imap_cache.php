@@ -407,8 +407,8 @@ class rcube_imap_cache
             return;
         }
 
-        $msg   = serialize($this->db->encode(clone $message));
         $flags = 0;
+        $msg   = clone $message;
 
         if (!empty($message->flags)) {
             foreach ($this->flags as $idx => $flag) {
@@ -417,7 +417,9 @@ class rcube_imap_cache
                 }
             }
         }
+
         unset($msg->flags);
+        $msg = serialize($this->db->encode($msg));
 
         // update cache record (even if it exists, the update
         // here will work as select, assume row exist if affected_rows=0)
