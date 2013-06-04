@@ -425,7 +425,7 @@ function rcube_clone_object(obj)
 
   for (var key in obj) {
     if (obj[key] && typeof obj[key] === 'object')
-      out[key] = clone_object(obj[key]);
+      out[key] = rcube_clone_object(obj[key]);
     else
       out[key] = obj[key];
   }
