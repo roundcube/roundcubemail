@@ -5805,7 +5805,7 @@ function rcube_webmail()
 
         for (c=0, len=repl.length; c < len; c++) {
           cell = document.createElement('td');
-          cell.innerHTML = repl[c].html;
+          cell.innerHTML = repl[c].html || '';
           if (repl[c].id) cell.id = repl[c].id;
           if (repl[c].className) cell.className = repl[c].className;
           tr.appendChild(cell);
