@@ -1892,7 +1892,8 @@ function rcube_webmail()
       else
         html = cols[c];
 
-      col.innerHTML = html;
+      if (html)
+        col.innerHTML = html;
 
       row.appendChild(col);
     }
@@ -4417,7 +4418,8 @@ function rcube_webmail()
     for (c in cols) {
       col = document.createElement('td');
       col.className = String(c).toLowerCase();
-      col.innerHTML = cols[c];
+      if (cols[c])
+        col.innerHTML = cols[c];
       row.appendChild(col);
     }
 
@@ -5863,7 +5865,7 @@ function rcube_webmail()
 
         for (c=0, len=repl.length; c < len; c++) {
           cell = document.createElement('td');
-          cell.innerHTML = repl[c].html;
+          cell.innerHTML = repl[c].html || '';
           if (repl[c].id) cell.id = repl[c].id;
           if (repl[c].className) cell.className = repl[c].className;
           tr.appendChild(cell);

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix "null" instead of empty string on messages list in IE10 (#1489145)
 - Fix so bounces addresses in Sender headers are skipped on Reply-All (#1489011)
 - Fix bug where serialized strings were truncated in PDO::quote() (#1489142)
 - Fix displaying messages with invalid self-closing HTML tags (#1489137)
