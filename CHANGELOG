@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix "duplicate entry" errors on inserts to imap cache tables (#1489146)
 - Fix so bounces addresses in Sender headers are skipped on Reply-All (#1489011)
 - Fix bug where serialized strings were truncated in PDO::quote() (#1489142)
 - Improved handling of Reply-To/Bcc addresses of identity in compose form (#1489016)

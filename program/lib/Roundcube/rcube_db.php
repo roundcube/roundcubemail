@@ -415,13 +415,16 @@ class rcube_db
 
         if ($result === false) {
             $error = $this->dbh->errorInfo();
-            $this->db_error = true;
-            $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
-            rcube::raise_error(array('code' => 500, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => $this->db_error_msg . " (SQL Query: $query)"
-                ), true, false);
+            if (empty($this->options['ignore_key_errors']) || $error[0] != '23000') {
+                $this->db_error = true;
+                $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
+
+                rcube::raise_error(array('code' => 500, 'type' => 'db',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => $this->db_error_msg . " (SQL Query: $query)"
+                    ), true, false);
+            }
         }
 
         $this->last_result = $result;
@@ -879,6 +882,17 @@ class rcube_db
         }
 
         return $table;
+    }
+
+    /**
+     * Set class option value
+     *
+     * @param string $name  Option name
+     * @param mixed  $value Option value
+     */
+    public function set_option($name, $value)
+    {
+        $this->options[$name] = $value;
     }
 
     /**

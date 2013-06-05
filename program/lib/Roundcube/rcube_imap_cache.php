@@ -437,12 +437,28 @@ class rcube_imap_cache
             }
         }
 
+        $this->db->set_option('ignore_key_errors', true);
+
         // insert new record
-        $this->db->query(
+        $res = $this->db->query(
             "INSERT INTO ".$this->db->table_name('cache_messages')
             ." (user_id, mailbox, uid, flags, changed, data)"
             ." VALUES (?, ?, ?, ?, ".$this->db->now().", ?)",
             $this->userid, $mailbox, (int) $message->uid, $flags, $msg);
+
+        // race-condition, insert failed so try update (#1489146)
+        // thanks to ignore_key_errors "duplicate row" errors will be ignored
+        if ($force && !$res && !$this->db->is_error($res)) {
+            $this->db->query(
+                "UPDATE ".$this->db->table_name('cache_messages')
+                ." SET flags = ?, data = ?, changed = ".$this->db->now()
+                ." WHERE user_id = ?"
+                    ." AND mailbox = ?"
+                    ." AND uid = ?",
+                $flags, $msg, $this->userid, $mailbox, (int) $message->uid);
+        }
+
+        $this->db->set_option('ignore_key_errors', false);
     }
 
 
@@ -714,20 +730,38 @@ class rcube_imap_cache
         $data = implode('@', $data);
 
         if ($exists) {
-            $sql_result = $this->db->query(
+            $res = $this->db->query(
+                "UPDATE ".$this->db->table_name('cache_index')
+                ." SET data = ?, valid = 1, changed = ".$this->db->now()
+                ." WHERE user_id = ?"
+                    ." AND mailbox = ?",
+                $data, $this->userid, $mailbox);
+
+            if ($this->db->affected_rows($res)) {
+                return;
+            }
+        }
+
+        $this->db->set_option('ignore_key_errors', true);
+
+        $res = $this->db->query(
+            "INSERT INTO ".$this->db->table_name('cache_index')
+            ." (user_id, mailbox, data, valid, changed)"
+            ." VALUES (?, ?, ?, 1, ".$this->db->now().")",
+            $this->userid, $mailbox, $data);
+
+        // race-condition, insert failed so try update (#1489146)
+        // thanks to ignore_key_errors "duplicate row" errors will be ignored
+        if (!$exists && !$res && !$this->db->is_error($res)) {
+            $res = $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_index')
                 ." SET data = ?, valid = 1, changed = ".$this->db->now()
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?",
                 $data, $this->userid, $mailbox);
         }
-        else {
-            $sql_result = $this->db->query(
-                "INSERT INTO ".$this->db->table_name('cache_index')
-                ." (user_id, mailbox, data, valid, changed)"
-                ." VALUES (?, ?, ?, 1, ".$this->db->now().")",
-                $this->userid, $mailbox, $data);
-        }
+
+        $this->db->set_option('ignore_key_errors', false);
     }
 
 
@@ -745,20 +779,38 @@ class rcube_imap_cache
         $data = implode('@', $data);
 
         if ($exists) {
-            $sql_result = $this->db->query(
+            $res = $this->db->query(
+                "UPDATE ".$this->db->table_name('cache_thread')
+                ." SET data = ?, changed = ".$this->db->now()
+                ." WHERE user_id = ?"
+                    ." AND mailbox = ?",
+                $data, $this->userid, $mailbox);
+
+            if ($this->db->affected_rows($res)) {
+                return;
+            }
+        }
+
+        $this->db->set_option('ignore_key_errors', true);
+
+        $res = $this->db->query(
+            "INSERT INTO ".$this->db->table_name('cache_thread')
+            ." (user_id, mailbox, data, changed)"
+            ." VALUES (?, ?, ?, ".$this->db->now().")",
+            $this->userid, $mailbox, $data);
+
+        // race-condition, insert failed so try update (#1489146)
+        // thanks to ignore_key_errors "duplicate row" errors will be ignored
+        if (!$exists && !$res && !$this->db->is_error($res)) {
+            $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_thread')
                 ." SET data = ?, changed = ".$this->db->now()
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?",
                 $data, $this->userid, $mailbox);
         }
-        else {
-            $sql_result = $this->db->query(
-                "INSERT INTO ".$this->db->table_name('cache_thread')
-                ." (user_id, mailbox, data, changed)"
-                ." VALUES (?, ?, ?, ".$this->db->now().")",
-                $this->userid, $mailbox, $data);
-        }
+
+        $this->db->set_option('ignore_key_errors', false);
     }
 
 
