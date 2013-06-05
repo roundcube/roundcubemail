@@ -24,5 +24,4 @@ define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 require INSTALL_PATH.'program/include/clisetup.php';
 
 $rcmail = rcube::get_instance();
-$rcmail->temp_gc();
-$rcmail->cache_gc();
+$rcmail->gc();

@@ -462,9 +462,7 @@ class rcube
         // use database for storing session data
         $this->session = new rcube_session($this->get_dbh(), $this->config);
 
-        $this->session->register_gc_handler(array($this, 'temp_gc'));
-        $this->session->register_gc_handler(array($this, 'cache_gc'));
-
+        $this->session->register_gc_handler(array($this, 'gc_handler'));
         $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
         $this->session->set_ip_check($this->config->get('ip_check'));
 
@@ -476,10 +474,29 @@ class rcube
 
 
     /**
+     * Garbage collector - cache/temp cleaner
+     */
+    public function gc()
+    {
+        foreach ($this->caches as $cache) {
+            if (is_object($cache)) {
+                $cache->expunge();
+            }
+        }
+
+        if (is_object($this->storage)) {
+            $this->storage->expunge_cache();
+        }
+
+        $this->gc_temp();
+    }
+
+
+    /**
      * Garbage collector function for temp files.
      * Remove temp files older than two days
      */
-    public function temp_gc()
+    public function gc_temp()
     {
         $tmp = unslashify($this->config->get('temp_dir'));
         $expire = time() - 172800;  // expire in 48 hours
@@ -504,11 +521,30 @@ class rcube
      * Garbage collector for cache entries.
      * Set flag to expunge caches on shutdown
      */
-    public function cache_gc()
+    public function gc_handler()
     {
         // because this gc function is called before storage is initialized,
         // we just set a flag to expunge storage cache on shutdown.
         $this->expunge_cache = true;
+    }
+
+
+    /**
+     * Runs garbage collector with probability based on
+     * session settings. This is intended for environments
+     * without a session.
+     */
+    public function gc_run()
+    {
+        $probability = (int) ini_get('session.gc_probability');
+        $divisor     = (int) ini_get('session.gc_divisor');
+
+        if ($divisor > 0 && $probability > 0) {
+            $random = mt_rand(1, $divisor);
+            if ($random <= $probability) {
+                $this->gc();
+            }
+        }
     }
 
 
@@ -896,19 +932,17 @@ class rcube
             $this->smtp->disconnect();
         }
 
+        if ($this->expunge_cache) {
+            $this->gc();
+        }
+
         foreach ($this->caches as $cache) {
             if (is_object($cache)) {
-                if ($this->expunge_cache) {
-                    $cache->expunge();
-                }
                 $cache->close();
             }
         }
 
         if (is_object($this->storage)) {
-            if ($this->expunge_cache) {
-                $this->storage->expunge_cache();
-            }
             $this->storage->close();
         }
     }
