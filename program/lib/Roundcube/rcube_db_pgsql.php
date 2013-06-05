@@ -75,9 +75,6 @@ class rcube_db_pgsql extends rcube_db
     /**
      * Return SQL statement to convert a field value into a unix timestamp
      *
-     * This method is deprecated and should not be used anymore due to limitations
-     * of timestamp functions in Mysql (year 2038 problem)
-     *
      * @param string $field Field name
      *
      * @return string SQL statement to use in query
@@ -86,6 +83,24 @@ class rcube_db_pgsql extends rcube_db
     public function unixtimestamp($field)
     {
         return "EXTRACT (EPOCH FROM $field)";
+    }
+
+    /**
+     * Return SQL function for current time and date
+     *
+     * @param int $interval Optional interval (in seconds) to add/subtract
+     *
+     * @return string SQL function to use in query
+     */
+    public function now($interval = 0)
+    {
+        if ($interval) {
+            $add = ' ' . ($interval > 0 ? '+' : '-') . " interval '";
+            $add .= $interval > 0 ? intval($interval) : intval($interval) * -1;
+            $add .= " seconds'";
+        }
+
+        return "now()" . $add;
     }
 
     /**

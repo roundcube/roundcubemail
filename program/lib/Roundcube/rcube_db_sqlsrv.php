@@ -48,10 +48,17 @@ class rcube_db_sqlsrv extends rcube_db
     /**
      * Return SQL function for current time and date
      *
+     * @param int $interval Optional interval (in seconds) to add/subtract
+     *
      * @return string SQL function to use in query
      */
-    public function now()
+    public function now($interval = 0)
     {
+        if ($interval) {
+            $interval = intval($interval);
+            return "dateadd(second, $interval, getdate())";
+        }
+
         return "getdate()";
     }
 

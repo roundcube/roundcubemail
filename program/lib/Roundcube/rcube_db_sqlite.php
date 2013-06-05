@@ -94,11 +94,17 @@ class rcube_db_sqlite extends rcube_db
     /**
      * Return SQL function for current time and date
      *
+     * @param int $interval Optional interval (in seconds) to add/subtract
+     *
      * @return string SQL function to use in query
      */
-    public function now()
+    public function now($interval = 0)
     {
-        return "datetime('now')";
+        if ($interval) {
+            $add = ($interval > 0 ? '+' : '') . intval($interval) . ' seconds';
+        }
+
+        return "datetime('now'" . ($add ? ",'$add'" : "") . ")";
     }
 
     /**

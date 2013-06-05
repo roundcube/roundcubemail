@@ -711,11 +711,19 @@ class rcube_db
     /**
      * Return SQL function for current time and date
      *
+     * @param int $interval Optional interval (in seconds) to add/subtract
+     *
      * @return string SQL function to use in query
      */
-    public function now()
+    public function now($interval = 0)
     {
-        return "now()";
+        if ($interval) {
+            $add = ' ' . ($interval > 0 ? '+' : '-') . ' INTERVAL ';
+            $add .= $interval > 0 ? intval($interval) : intval($interval) * -1;
+            $add .= ' SECONDS';
+        }
+
+        return "now()" . $add;
     }
 
     /**

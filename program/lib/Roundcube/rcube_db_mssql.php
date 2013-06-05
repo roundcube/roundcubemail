@@ -48,18 +48,22 @@ class rcube_db_mssql extends rcube_db
     /**
      * Return SQL function for current time and date
      *
+     * @param int $interval Optional interval (in seconds) to add/subtract
+     *
      * @return string SQL function to use in query
      */
-    public function now()
+    public function now($interval = 0)
     {
+        if ($interval) {
+            $interval = intval($interval);
+            return "dateadd(second, $interval, getdate())";
+        }
+
         return "getdate()";
     }
 
     /**
      * Return SQL statement to convert a field value into a unix timestamp
-     *
-     * This method is deprecated and should not be used anymore due to limitations
-     * of timestamp functions in Mysql (year 2038 problem)
      *
      * @param string $field Field name
      *
