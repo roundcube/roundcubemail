@@ -43,6 +43,7 @@ function rcube_mail_ui()
   this.show_uploadform = show_uploadform;
   this.show_header_row = show_header_row;
   this.hide_header_row = hide_header_row;
+  this.update_quota = update_quota;
 
 
   // set minimal mode on small screens (don't wait for document.ready)
