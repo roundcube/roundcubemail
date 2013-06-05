@@ -56,10 +56,6 @@ class rcube_db_sqlite extends rcube_db
      */
     protected function conn_configure($dsn, $dbh)
     {
-        // we emulate via callback some missing functions
-        $dbh->sqliteCreateFunction('unix_timestamp', array('rcube_db_sqlite', 'sqlite_unix_timestamp'), 1);
-        $dbh->sqliteCreateFunction('now', array('rcube_db_sqlite', 'sqlite_now'), 0);
-
         // Initialize database structure in file is empty
         if (!empty($dsn['database']) && !filesize($dsn['database'])) {
             $data = file_get_contents(RCUBE_INSTALL_PATH . 'SQL/sqlite.initial.sql');
@@ -83,30 +79,26 @@ class rcube_db_sqlite extends rcube_db
     }
 
     /**
-     * Callback for sqlite: unix_timestamp()
+     * Return SQL statement to convert a field value into a unix timestamp
+     *
+     * @param string $field Field name
+     *
+     * @return string  SQL statement to use in query
+     * @deprecated
      */
-    public static function sqlite_unix_timestamp($timestamp = '')
+    public function unixtimestamp($field)
     {
-        $timestamp = trim($timestamp);
-        if (!$timestamp) {
-            $ret = time();
-        }
-        else if (!preg_match('/^[0-9]+$/s', $timestamp)) {
-            $ret = strtotime($timestamp);
-        }
-        else {
-            $ret = $timestamp;
-        }
-
-        return $ret;
+        return "strftime('%s', $field)";
     }
 
     /**
-     * Callback for sqlite: now()
+     * Return SQL function for current time and date
+     *
+     * @return string SQL function to use in query
      */
-    public static function sqlite_now()
+    public function now()
     {
-        return date("Y-m-d H:i:s");
+        return "datetime('now')";
     }
 
     /**
