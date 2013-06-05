@@ -1559,11 +1559,7 @@ class rcmail extends rcube
         $quota_result = (array) $quota;
         $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 
-        if (!$quota['total'] && $this->config->get('quota_zero_as_unlimited')) {
-            $quota_result['title']   = $this->gettext('unlimited');
-            $quota_result['percent'] = 0;
-        }
-        else if ($quota['total']) {
+        if ($quota['total'] > 0) {
             if (!isset($quota['percent'])) {
                 $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
             }
@@ -1582,7 +1578,8 @@ class rcmail extends rcube
             }
         }
         else {
-            $quota_result['title']   = $this->gettext('unknown');
+            $unlimited               = $this->config->get('quota_zero_as_unlimited');
+            $quota_result['title']   = $this->gettext($unlimited ? 'unlimited' : 'unknown');
             $quota_result['percent'] = 0;
         }
 
