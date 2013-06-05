@@ -42,6 +42,7 @@ class rcube_session
     private $secret = '';
     private $ip_check = false;
     private $logging = false;
+    private $storage;
     private $memcache;
 
 
@@ -59,11 +60,14 @@ class rcube_session
         $this->set_lifetime($lifetime);
 
         // use memcache backend
-        if ($config->get('session_storage', 'db') == 'memcache') {
+        $this->storage = $config->get('session_storage', 'db');
+        if ($this->storage == 'memcache') {
             $this->memcache = rcube::get_instance()->get_memcache();
 
             // set custom functions for PHP session management if memcache is available
             if ($this->memcache) {
+                ini_set('session.serialize_handler', 'php');
+
                 session_set_save_handler(
                     array($this, 'open'),
                     array($this, 'close'),
@@ -79,7 +83,9 @@ class rcube_session
                 true, true);
             }
         }
-        else {
+        else if ($this->storage != 'php') {
+            ini_set('session.serialize_handler', 'php');
+
             // set custom functions for PHP session management
             session_set_save_handler(
                 array($this, 'open'),
@@ -88,6 +94,22 @@ class rcube_session
                 array($this, 'db_write'),
                 array($this, 'db_destroy'),
                 array($this, 'db_gc'));
+        }
+    }
+
+
+    /**
+     * Wrapper for session_start()
+     */
+    public function start()
+    {
+        session_start();
+
+        // copy some session properties to object vars
+        if ($this->storage == 'php') {
+            $this->key     = session_id();
+            $this->ip      = $_SESSION['__IP'];
+            $this->changed = $_SESSION['__MTIME'];
         }
     }
 
@@ -112,6 +134,20 @@ class rcube_session
     public function destroy($key)
     {
         return $this->memcache ? $this->mc_destroy($key) : $this->db_destroy($key);
+    }
+
+
+    /**
+     * Wrapper for session_write_close()
+     */
+    public function write_close()
+    {
+        if ($this->storage == 'php') {
+            $_SESSION['__IP'] = $this->ip;
+            $_SESSION['__MTIME'] = time();
+        }
+
+        session_write_close();
     }
 
 

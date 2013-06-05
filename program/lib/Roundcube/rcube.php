@@ -457,7 +457,6 @@ class rcube
         ini_set('session.name', $sess_name ? $sess_name : 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
-        ini_set('session.serialize_handler', 'php');
         ini_set('session.cookie_httponly', 1);
 
         // use database for storing session data
@@ -471,7 +470,7 @@ class rcube
 
         // start PHP session (if not in CLI mode)
         if ($_SERVER['REMOTE_ADDR']) {
-            session_start();
+            $this->session->start();
         }
     }
 

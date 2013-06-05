@@ -746,7 +746,7 @@ class rcmail extends rcube
 
     // before closing the database connection, write session data
     if ($_SERVER['REMOTE_ADDR'] && is_object($this->session)) {
-      session_write_close();
+      $this->session->write_close();
     }
 
     // write performance stats to logs/console
