@@ -128,6 +128,9 @@ $rcmail_config['imap_cache'] = null;
 // Enables messages cache. Only 'db' cache is supported.
 $rcmail_config['messages_cache'] = false;
 
+// Lifetime of IMAP indexes cache. Possible units: s, m, h, d, w
+$rcmail_config['imap_cache_ttl'] = '10d';
+
 // Lifetime of messages cache. Possible units: s, m, h, d, w
 $rcmail_config['messages_cache_ttl'] = '10d';
 

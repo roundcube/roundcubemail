@@ -3691,7 +3691,7 @@ class rcube_imap extends rcube_storage
     {
         if ($this->caching && !$this->cache) {
             $rcube = rcube::get_instance();
-            $ttl = $rcube->config->get('messages_cache_ttl', '10d');
+            $ttl = $rcube->config->get('imap_cache_ttl', '10d');
             $this->cache = $rcube->get_cache('IMAP', $this->caching, $ttl);
         }
 
