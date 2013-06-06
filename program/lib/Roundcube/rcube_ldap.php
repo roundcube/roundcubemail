@@ -185,8 +185,12 @@ class rcube_ldap extends rcube_addressbook
         $this->mail_domain = $mail_domain;
 
         // initialize cache
-        $rcube = rcube::get_instance();
-        $this->cache = $rcube->get_cache('LDAP.' . asciiwords($this->prop['name']), 'db', 600);
+        $rcube      = rcube::get_instance();
+        $cache_type = $rcube->config->get('ldap_cache', 'db');
+        $cache_ttl  = $rcube->config->get('ldap_cache_ttl', '10m');
+        $cache_name = 'LDAP.' . asciiwords($this->prop['name']);
+
+        $this->cache = $rcube->get_cache($cache_name, $cache_type, $cache_ttl);
 
         $this->_connect();
     }

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make LDAP cache engine configurable via ldap_cache and ldap_cache_ttl options
 - Fix legacy options handling
 - Fix "duplicate entry" errors on inserts to imap cache tables (#1489146)
 - Fix so bounces addresses in Sender headers are skipped on Reply-All (#1489011)

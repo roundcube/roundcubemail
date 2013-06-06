@@ -128,6 +128,9 @@ $rcmail_config['imap_cache'] = null;
 // Enables messages cache. Only 'db' cache is supported.
 $rcmail_config['messages_cache'] = false;
 
+// lifetime of message cache
+// possible units: s, m, h, d, w
+$rcmail_config['message_cache_lifetime'] = '10d';
 
 // ----------------------------------
 // SMTP
@@ -170,11 +173,21 @@ $rcmail_config['smtp_auth_pw'] = null;
 // SMTP HELO host 
 // Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages 
 // Leave this blank and you will get the server variable 'server_name' or 
-// localhost if that isn't defined. 
+// localhost if that isn't defined.
 $rcmail_config['smtp_helo_host'] = '';
 
 // SMTP connection timeout, in seconds. Default: 0 (no limit)
 $rcmail_config['smtp_timeout'] = 0;
+
+// ----------------------------------
+// LDAP
+// ----------------------------------
+
+// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache'.
+$rcmail_config['ldap_cache'] = 'db';
+
+// Lifetime of LDAP cache. Possible units: s, m, h, d, w
+$rcmail_config['ldap_cache_ttl'] = '10m';
 
 // ----------------------------------
 // SYSTEM
@@ -209,10 +222,6 @@ $rcmail_config['log_dir'] = 'logs/';
 
 // use this folder to store temp files (must be writeable for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
-
-// lifetime of message cache
-// possible units: s, m, h, d, w
-$rcmail_config['message_cache_lifetime'] = '10d';
 
 // enforce connections over https
 // with this option enabled, all non-secure connections will be redirected.
