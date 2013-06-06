@@ -43,6 +43,7 @@ class rcube_config
         'reply_mode'           => 'top_posting',
         'refresh_interval'     => 'keep_alive',
         'min_refresh_interval' => 'min_keep_alive',
+        'messages_cache_ttl'   => 'message_cache_lifetime',
     );
 
 
