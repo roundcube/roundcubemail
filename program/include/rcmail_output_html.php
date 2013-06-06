@@ -656,7 +656,7 @@ class rcmail_output_html extends rcmail_output
     protected function file_callback($matches)
     {
         $file = $matches[3];
-        $file[0] = preg_replace('!^/this/!', '/', $file[0]);
+        $file = preg_replace('!^/this/!', '/', $file);
 
         // correct absolute paths
         if ($file[0] == '/') {
