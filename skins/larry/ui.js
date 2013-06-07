@@ -242,7 +242,8 @@ function rcube_mail_ui()
         parent.css('position', 'relative');
 
       // re-set original select width to fix click action and options width in some browsers
-      select.width(overlay.width());
+      if (!bw.mz)
+        select.width(overlay.width());
     });
 
     $(document.body)
