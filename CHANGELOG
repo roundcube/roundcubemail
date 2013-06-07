@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so non-inline images aren't skipped on forward (#1489150)
 - Add imap_cache_ttl option to configure TTL of imap_cache
 - Make LDAP cache engine configurable via ldap_cache and ldap_cache_ttl options
 - Fix legacy options handling
