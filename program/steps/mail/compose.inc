@@ -1008,8 +1008,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
       if ($part->ctype_primary == 'message' && $compose_mode == RCUBE_COMPOSE_REPLY) {
         continue;
       }
-      // skip inline images when forwarding in plain text
-      if ($part->content_id && !$bodyIsHtml && $compose_mode == RCUBE_COMPOSE_FORWARD) {
+      // skip inline images when forwarding
+      if ($part->content_id && $part->disposition == 'inline' && $compose_mode == RCUBE_COMPOSE_FORWARD) {
         continue;
       }
 
