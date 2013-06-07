@@ -93,6 +93,10 @@ class rcube_image
         $convert = $rcube->config->get('im_convert_path', false);
         $props   = $this->props();
 
+        if (empty($props)) {
+            return false;
+        }
+
         if (!$filename) {
             $filename = $this->image_file;
         }
@@ -145,6 +149,10 @@ class rcube_image
             }
             else {
                 // @TODO: print error to the log?
+                return false;
+            }
+
+            if ($image === false) {
                 return false;
             }
 
