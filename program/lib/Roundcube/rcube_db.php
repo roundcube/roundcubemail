@@ -368,8 +368,10 @@ class rcube_db
      */
     protected function _query($query, $offset, $numrows, $params)
     {
+        $query = trim($query);
+
         // Read or write ?
-        $mode = preg_match('/^(select|show)/i', ltrim($query)) ? 'r' : 'w';
+        $mode = preg_match('/^(select|show|set)/i', $query) ? 'r' : 'w';
 
         $this->db_connect($mode);
 

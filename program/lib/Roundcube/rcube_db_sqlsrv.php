@@ -46,6 +46,18 @@ class rcube_db_sqlsrv extends rcube_db
     }
 
     /**
+     * Driver-specific configuration of database connection
+     *
+     * @param array $dsn DSN for DB connections
+     * @param PDO   $dbh Connection handler
+     */
+    protected function conn_configure($dsn, $dbh)
+    {
+        // Set date format in case of non-default language (#1488918)
+        $this->query("SET DATEFORMAT ymd");
+    }
+
+    /**
      * Return SQL function for current time and date
      *
      * @param int $interval Optional interval (in seconds) to add/subtract
