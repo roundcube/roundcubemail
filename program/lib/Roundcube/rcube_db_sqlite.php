@@ -29,13 +29,6 @@ class rcube_db_sqlite extends rcube_db
     public $db_provider = 'sqlite';
 
     /**
-     * Database character set
-     */
-    protected function set_charset($charset)
-    {
-    }
-
-    /**
      * Prepare connection
      */
     protected function conn_prepare($dsn)

@@ -30,9 +30,13 @@ class rcube_db_mysql extends rcube_db
     public $db_provider = 'mysql';
 
     /**
-     * Driver initialization/configuration
+     * Object constructor
+     *
+     * @param string $db_dsnw DSN for read/write operations
+     * @param string $db_dsnr Optional DSN for read only operations
+     * @param bool   $pconn   Enables persistent connections
      */
-    protected function init()
+    public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             rcube::raise_error(array('code' => 600, 'type' => 'db',
@@ -41,9 +45,22 @@ class rcube_db_mysql extends rcube_db
                 true, true);
         }
 
+        parent::__construct($db_dsnw, $db_dsnr, $pconn);
+
         // SQL identifiers quoting
         $this->options['identifier_start'] = '`';
         $this->options['identifier_end'] = '`';
+    }
+
+    /**
+     * Driver-specific configuration of database connection
+     *
+     * @param array $dsn DSN for DB connections
+     * @param PDO   $dbh Connection handler
+     */
+    protected function conn_configure($dsn, $dbh)
+    {
+        $this->query("SET NAMES 'utf8'");
     }
 
     /**

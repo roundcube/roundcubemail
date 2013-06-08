@@ -29,6 +29,17 @@ class rcube_db_pgsql extends rcube_db
     public $db_provider = 'postgres';
 
     /**
+     * Driver-specific configuration of database connection
+     *
+     * @param array $dsn DSN for DB connections
+     * @param PDO   $dbh Connection handler
+     */
+    protected function conn_configure($dsn, $dbh)
+    {
+        $this->query("SET NAMES 'utf8'");
+    }
+
+    /**
      * Get last inserted record ID
      *
      * @param string $table Table name (to find the incremented sequence)

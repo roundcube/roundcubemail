@@ -100,27 +100,15 @@ class rcube_db
 
         $this->db_dsnw_array = self::parse_dsn($db_dsnw);
         $this->db_dsnr_array = self::parse_dsn($db_dsnr);
-
-        // Initialize driver class
-        $this->init();
-    }
-
-    /**
-     * Initialization of the object with driver specific code
-     */
-    protected function init()
-    {
-        // To be used by driver classes
     }
 
     /**
      * Connect to specific database
      *
-     * @param array $dsn DSN for DB connections
-     *
-     * @return PDO database handle
+     * @param array  $dsn  DSN for DB connections
+     * @param string $mode Connection mode (r|w)
      */
-    protected function dsn_connect($dsn)
+    protected function dsn_connect($dsn, $mode)
     {
         $this->db_error     = false;
         $this->db_error_msg = null;
@@ -158,9 +146,10 @@ class rcube_db
             return null;
         }
 
+        $this->dbh          = $dbh;
+        $this->db_mode      = $mode;
+        $this->db_connected = true;
         $this->conn_configure($dsn, $dbh);
-
-        return $dbh;
     }
 
     /**
@@ -180,16 +169,6 @@ class rcube_db
      */
     protected function conn_configure($dsn, $dbh)
     {
-    }
-
-    /**
-     * Driver-specific database character set setting
-     *
-     * @param string $charset Character set name
-     */
-    protected function set_charset($charset)
-    {
-        $this->query("SET NAMES 'utf8'");
     }
 
     /**
@@ -219,23 +198,14 @@ class rcube_db
 
         $dsn = ($mode == 'r') ? $this->db_dsnr_array : $this->db_dsnw_array;
 
-        $this->dbh          = $this->dsn_connect($dsn);
-        $this->db_connected = is_object($this->dbh);
+        $this->dsn_connect($dsn, $mode);
 
         // use write-master when read-only fails
         if (!$this->db_connected && $mode == 'r' && $this->is_replicated()) {
-            $mode = 'w';
-            $this->dbh          = $this->dsn_connect($this->db_dsnw_array);
-            $this->db_connected = is_object($this->dbh);
+            $this->dsn_connect($this->db_dsnw_array, 'w');
         }
 
-        if ($this->db_connected) {
-            $this->db_mode = $mode;
-            $this->set_charset('utf8');
-        }
-        else {
-            $this->conn_failure = true;
-        }
+        $this->conn_failure = !$this->db_connected;
     }
 
     /**

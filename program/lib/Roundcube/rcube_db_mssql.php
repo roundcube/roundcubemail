@@ -29,20 +29,18 @@ class rcube_db_mssql extends rcube_db
     public $db_provider = 'mssql';
 
     /**
-     * Driver initialization
+     * Object constructor
+     *
+     * @param string $db_dsnw DSN for read/write operations
+     * @param string $db_dsnr Optional DSN for read only operations
+     * @param bool   $pconn   Enables persistent connections
      */
-    protected function init()
+    public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
+        parent::__construct($db_dsnw, $db_dsnr, $pconn);
+
         $this->options['identifier_start'] = '[';
         $this->options['identifier_end'] = ']';
-    }
-
-    /**
-     * Character setting
-     */
-    protected function set_charset($charset)
-    {
-        // UTF-8 is default
     }
 
     /**
