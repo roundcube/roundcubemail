@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix zipdownload plugin issue with filenames charset (#1489156)
 - Fix database cache expunge issues (#1489149)
 - Fix date format issues on MS SQL Server (#1488918)
 - Fix so non-inline images aren't skipped on forward (#1489150)

@@ -108,7 +108,7 @@ class zipdownload extends rcube_plugin
 		foreach ($message->attachments as $part) {
 			$pid = $part->mime_id;
 			$part = $message->mime_parts[$pid];
-			$disp_name = $this->_convert_filename($part->filename, $part->charset);
+			$disp_name = $this->_convert_filename($part->filename);
 
 			if ($part->body) {
 				$orig_message_raw = $part->body;
@@ -263,9 +263,9 @@ class zipdownload extends rcube_plugin
 	/**
 	 * Helper function to convert filenames to the configured charset
 	 */
-	private function _convert_filename($str, $from = RCUBE_CHARSET)
+	private function _convert_filename($str)
 	{
-        $str = rcube_charset::convert($str, $from == '' ? RCUBE_CHARSET : $from, $this->charset);
+        $str = rcube_charset::convert($str, RCUBE_CHARSET, $this->charset);
 
 		return strtr($str, array(':'=>'', '/'=>'-'));
 	}
