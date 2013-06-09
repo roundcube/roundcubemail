@@ -3691,7 +3691,7 @@ class rcube_imap extends rcube_storage
     {
         if ($this->caching && !$this->cache) {
             $rcube = rcube::get_instance();
-            $ttl = $rcube->config->get('imap_cache_ttl', '10d');
+            $ttl   = $rcube->config->get('imap_cache_ttl', '10d');
             $this->cache = $rcube->get_cache('IMAP', $this->caching, $ttl);
         }
 
@@ -3739,24 +3739,6 @@ class rcube_imap extends rcube_storage
         }
     }
 
-    /**
-     * Delete outdated cache entries
-     */
-    public function expunge_cache()
-    {
-        if ($this->mcache) {
-            $ttl = rcube::get_instance()->config->get('messages_cache_ttl', '10d');
-            $this->mcache->expunge($ttl);
-        }
-
-/*
-        // this cache is expunged by rcube class
-        if ($this->cache) {
-            $this->cache->expunge();
-        }
-*/
-    }
-
 
     /* --------------------------------
      *   message caching methods
@@ -3790,8 +3772,9 @@ class rcube_imap extends rcube_storage
         if ($this->messages_caching && !$this->mcache) {
             $rcube = rcube::get_instance();
             if (($dbh = $rcube->get_dbh()) && ($userid = $rcube->get_user_id())) {
+                $ttl = $rcube->config->get('messages_cache_ttl', '10d');
                 $this->mcache = new rcube_imap_cache(
-                    $dbh, $this, $userid, $this->options['skip_deleted']);
+                    $dbh, $this, $userid, $this->options['skip_deleted'], $ttl);
             }
         }
 
@@ -3810,6 +3793,15 @@ class rcube_imap extends rcube_storage
         if ($mcache = $this->get_mcache_engine()) {
             $mcache->clear($folder, $uids);
         }
+    }
+
+
+    /**
+     * Delete outdated cache entries
+     */
+    function cache_gc()
+    {
+        rcube_imap_cache::gc();
     }
 
 

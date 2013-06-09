@@ -692,7 +692,7 @@ class rcube_db
         if ($interval) {
             $add = ' ' . ($interval > 0 ? '+' : '-') . ' INTERVAL ';
             $add .= $interval > 0 ? intval($interval) : intval($interval) * -1;
-            $add .= ' SECONDS';
+            $add .= ' SECOND';
         }
 
         return "now()" . $add;

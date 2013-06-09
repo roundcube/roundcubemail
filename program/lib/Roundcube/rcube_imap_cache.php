@@ -49,6 +49,13 @@ class rcube_imap_cache
     private $userid;
 
     /**
+     * Expiration time in seconds
+     *
+     * @var int
+     */
+    private $ttl;
+
+    /**
      * Internal (in-memory) cache
      *
      * @var array
@@ -83,13 +90,25 @@ class rcube_imap_cache
 
     /**
      * Object constructor.
+     *
+     * @param rcube_db   $db           DB handler
+     * @param rcube_imap $imap         IMAP handler
+     * @param int        $userid       User identifier
+     * @param bool       $skip_deleted skip_deleted flag
+     * @param string     $ttl          Expiration time of memcache/apc items
+     *
      */
-    function __construct($db, $imap, $userid, $skip_deleted)
+    function __construct($db, $imap, $userid, $skip_deleted, $ttl=0)
     {
+        // convert ttl string to seconds
+        $ttl = get_offset_sec($ttl);
+        if ($ttl > 2592000) $ttl = 2592000;
+
         $this->db           = $db;
         $this->imap         = $imap;
         $this->userid       = $userid;
         $this->skip_deleted = $skip_deleted;
+        $this->ttl          = $ttl;
     }
 
 
@@ -426,7 +445,7 @@ class rcube_imap_cache
         if (!$force) {
             $res = $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_messages')
-                ." SET flags = ?, data = ?, changed = ".$this->db->now()
+                ." SET flags = ?, data = ?, expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?"
                     ." AND uid = ?",
@@ -442,8 +461,8 @@ class rcube_imap_cache
         // insert new record
         $res = $this->db->query(
             "INSERT INTO ".$this->db->table_name('cache_messages')
-            ." (user_id, mailbox, uid, flags, changed, data)"
-            ." VALUES (?, ?, ?, ?, ".$this->db->now().", ?)",
+            ." (user_id, mailbox, uid, flags, expires, data)"
+            ." VALUES (?, ?, ?, ?, ". ($this->ttl ? $this->db->now($this->ttl) : 'NULL') . ", ?)",
             $this->userid, $mailbox, (int) $message->uid, $flags, $msg);
 
         // race-condition, insert failed so try update (#1489146)
@@ -451,7 +470,8 @@ class rcube_imap_cache
         if ($force && !$res && !$this->db->is_error($res)) {
             $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_messages')
-                ." SET flags = ?, data = ?, changed = ".$this->db->now()
+                ." SET expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
+                    .", flags = ?, data = ?"
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?"
                     ." AND uid = ?",
@@ -499,7 +519,7 @@ class rcube_imap_cache
 
         $this->db->query(
             "UPDATE ".$this->db->table_name('cache_messages')
-            ." SET changed = ".$this->db->now()
+            ." SET expires = ". ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
             .", flags = flags ".($enabled ? "+ $idx" : "- $idx")
             ." WHERE user_id = ?"
                 ." AND mailbox = ?"
@@ -622,23 +642,21 @@ class rcube_imap_cache
 
 
     /**
-     * Delete cache entries older than TTL
-     *
-     * @param string $ttl  Lifetime of message cache entries
+     * Delete expired cache entries
      */
-    function expunge($ttl)
+    static function gc()
     {
-        // get expiration timestamp
-        $ts = get_offset_time($ttl, -1);
+        $rcube = rcube::get_instance();
+        $db    = $rcube->get_dbh();
 
-        $this->db->query("DELETE FROM ".$this->db->table_name('cache_messages')
-              ." WHERE changed < " . $this->db->fromunixtime($ts));
+        $db->query("DELETE FROM ".$db->table_name('cache_messages')
+              ." WHERE expired < " . $db->now());
 
-        $this->db->query("DELETE FROM ".$this->db->table_name('cache_index')
-              ." WHERE changed < " . $this->db->fromunixtime($ts));
+        $db->query("DELETE FROM ".$db->table_name('cache_index')
+              ." WHERE expired < " . $db->now());
 
-        $this->db->query("DELETE FROM ".$this->db->table_name('cache_thread')
-              ." WHERE changed < " . $this->db->fromunixtime($ts));
+        $db->query("DELETE FROM ".$db->table_name('cache_thread')
+              ." WHERE expired < " . $db->now());
     }
 
 
@@ -732,7 +750,7 @@ class rcube_imap_cache
         if ($exists) {
             $res = $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_index')
-                ." SET data = ?, valid = 1, changed = ".$this->db->now()
+                ." SET data = ?, valid = 1, expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?",
                 $data, $this->userid, $mailbox);
@@ -746,8 +764,8 @@ class rcube_imap_cache
 
         $res = $this->db->query(
             "INSERT INTO ".$this->db->table_name('cache_index')
-            ." (user_id, mailbox, data, valid, changed)"
-            ." VALUES (?, ?, ?, 1, ".$this->db->now().")",
+            ." (user_id, mailbox, valid, expires, data)"
+            ." VALUES (?, ?, 1, ". ($this->ttl ? $this->db->now($this->ttl) : 'NULL') .", ?)",
             $this->userid, $mailbox, $data);
 
         // race-condition, insert failed so try update (#1489146)
@@ -755,7 +773,7 @@ class rcube_imap_cache
         if (!$exists && !$res && !$this->db->is_error($res)) {
             $res = $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_index')
-                ." SET data = ?, valid = 1, changed = ".$this->db->now()
+                ." SET data = ?, valid = 1, expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?",
                 $data, $this->userid, $mailbox);
@@ -778,10 +796,12 @@ class rcube_imap_cache
         );
         $data = implode('@', $data);
 
+        $expires = ($this->ttl ? $this->db->now($this->ttl) : 'NULL');
+
         if ($exists) {
             $res = $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_thread')
-                ." SET data = ?, changed = ".$this->db->now()
+                ." SET data = ?, expires = $expires"
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?",
                 $data, $this->userid, $mailbox);
@@ -795,8 +815,8 @@ class rcube_imap_cache
 
         $res = $this->db->query(
             "INSERT INTO ".$this->db->table_name('cache_thread')
-            ." (user_id, mailbox, data, changed)"
-            ." VALUES (?, ?, ?, ".$this->db->now().")",
+            ." (user_id, mailbox, expires, data)"
+            ." VALUES (?, ?, $expires, ?)",
             $this->userid, $mailbox, $data);
 
         // race-condition, insert failed so try update (#1489146)
@@ -804,7 +824,7 @@ class rcube_imap_cache
         if (!$exists && !$res && !$this->db->is_error($res)) {
             $this->db->query(
                 "UPDATE ".$this->db->table_name('cache_thread')
-                ." SET data = ?, changed = ".$this->db->now()
+                ." SET expires = $expires, data = ?"
                 ." WHERE user_id = ?"
                     ." AND mailbox = ?",
                 $data, $this->userid, $mailbox);
@@ -1058,7 +1078,7 @@ class rcube_imap_cache
 
                     $this->db->query(
                         "UPDATE ".$this->db->table_name('cache_messages')
-                        ." SET flags = ?, changed = ".$this->db->now()
+                        ." SET flags = ?, expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
                         ." WHERE user_id = ?"
                             ." AND mailbox = ?"
                             ." AND uid = ?"

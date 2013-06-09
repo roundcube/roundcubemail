@@ -195,10 +195,21 @@ class rcube_cache_shared
             $this->db->query(
                 "DELETE FROM " . $this->table
                 . " WHERE cache_key LIKE ?"
-                . " AND " . $this->db->unixtimestamp('created') . " < ?",
-                $this->prefix . '.%',
-                time() - $this->ttl);
+                . " AND expires < " . $this->db->now(),
+                $this->prefix . '.%');
         }
+    }
+
+
+    /**
+     * Remove expired records of all caches
+     */
+    static function gc()
+    {
+        $rcube = rcube::get_instance();
+        $db    = $rcube->get_dbh();
+
+        $db->query("DELETE FROM " . $db->table_name('cache_shared') . " WHERE expires < " . $db->now());
     }
 
 
@@ -328,7 +339,9 @@ class rcube_cache_shared
         if ($key_exists) {
             $result = $this->db->query(
                 "UPDATE " . $this->table .
-                " SET created = " . $this->db->now() . ", data = ?" .
+                " SET created = " . $this->db->now() .
+                    ", expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') .
+                    ", data = ?".
                 " WHERE cache_key = ?",
                 $data, $key);
         }
@@ -338,8 +351,8 @@ class rcube_cache_shared
             // so, no need to check if record exist (see rcube_cache::read_record())
             $result = $this->db->query(
                 "INSERT INTO ".$this->table.
-                " (created, cache_key, data)".
-                " VALUES (".$this->db->now().", ?, ?)",
+                " (created, expires, cache_key, data)".
+                " VALUES (".$this->db->now().", " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') . ", ?, ?)",
                 $key, $data);
         }
 

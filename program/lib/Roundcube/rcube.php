@@ -478,15 +478,9 @@ class rcube
      */
     public function gc()
     {
-        foreach ($this->caches as $cache) {
-            if (is_object($cache)) {
-                $cache->expunge();
-            }
-        }
-
-        if (is_object($this->storage)) {
-            $this->storage->expunge_cache();
-        }
+        rcube_cache::gc();
+        rcube_cache_shared::gc();
+        $this->get_storage()->cache_gc();
 
         $this->gc_temp();
     }

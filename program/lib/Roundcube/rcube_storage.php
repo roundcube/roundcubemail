@@ -986,6 +986,6 @@ abstract class rcube_storage
     /**
      * Delete outdated cache entries
      */
-    abstract function expunge_cache();
+    abstract function cache_gc();
 
 }  // end class rcube_storage

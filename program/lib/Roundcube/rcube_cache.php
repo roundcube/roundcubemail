@@ -38,6 +38,7 @@ class rcube_cache
     private $type;
     private $userid;
     private $prefix;
+    private $table;
     private $ttl;
     private $packed;
     private $index;
@@ -71,8 +72,9 @@ class rcube_cache
             $this->db   = function_exists('apc_exists'); // APC 3.1.4 required
         }
         else {
-            $this->type = 'db';
-            $this->db   = $rcube->get_dbh();
+            $this->type  = 'db';
+            $this->db    = $rcube->get_dbh();
+            $this->table = $this->db->table_name('cache');
         }
 
         // convert ttl string to seconds
@@ -194,14 +196,25 @@ class rcube_cache
     {
         if ($this->type == 'db' && $this->db && $this->ttl) {
             $this->db->query(
-                "DELETE FROM ".$this->db->table_name('cache').
+                "DELETE FROM ".$this->table.
                 " WHERE user_id = ?".
                 " AND cache_key LIKE ?".
-                " AND " . $this->db->unixtimestamp('created')." < ?",
+                " AND expires < " . $this->db->now(),
                 $this->userid,
-                $this->prefix.'.%',
-                time() - $this->ttl);
+                $this->prefix.'.%');
         }
+    }
+
+
+    /**
+     * Remove expired records of all caches
+     */
+    static function gc()
+    {
+        $rcube = rcube::get_instance();
+        $db    = $rcube->get_dbh();
+
+        $db->query("DELETE FROM " . $db->table_name('cache') . " WHERE expires < " . $db->now());
     }
 
 
@@ -271,7 +284,7 @@ class rcube_cache
         else {
             $sql_result = $this->db->limitquery(
                 "SELECT data, cache_key".
-                " FROM ".$this->db->table_name('cache').
+                " FROM " . $this->table.
                 " WHERE user_id = ?".
                 " AND cache_key = ?".
                 // for better performance we allow more records for one key
@@ -326,7 +339,7 @@ class rcube_cache
         // Remove NULL rows (here we don't need to check if the record exist)
         if ($data == 'N;') {
             $this->db->query(
-                "DELETE FROM ".$this->db->table_name('cache').
+                "DELETE FROM " . $this->table.
                 " WHERE user_id = ?".
                 " AND cache_key = ?",
                 $this->userid, $key);
@@ -337,8 +350,10 @@ class rcube_cache
         // update existing cache record
         if ($key_exists) {
             $result = $this->db->query(
-                "UPDATE ".$this->db->table_name('cache').
-                " SET created = ". $this->db->now().", data = ?".
+                "UPDATE " . $this->table.
+                " SET created = " . $this->db->now().
+                    ", expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL').
+                    ", data = ?".
                 " WHERE user_id = ?".
                 " AND cache_key = ?",
                 $data, $this->userid, $key);
@@ -348,9 +363,9 @@ class rcube_cache
             // for better performance we allow more records for one key
             // so, no need to check if record exist (see rcube_cache::read_record())
             $result = $this->db->query(
-                "INSERT INTO ".$this->db->table_name('cache').
-                " (created, user_id, cache_key, data)".
-                " VALUES (".$this->db->now().", ?, ?, ?)",
+                "INSERT INTO " . $this->table.
+                " (created, expires, user_id, cache_key, data)".
+                " VALUES (" . $this->db->now() . ", " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') . ", ?, ?, ?)",
                 $this->userid, $key, $data);
         }
 
@@ -411,7 +426,7 @@ class rcube_cache
         }
 
         $this->db->query(
-            "DELETE FROM ".$this->db->table_name('cache').
+            "DELETE FROM " . $this->table.
             " WHERE user_id = ?" . $where,
             $this->userid);
     }

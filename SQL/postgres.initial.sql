@@ -164,14 +164,15 @@ CREATE INDEX contactgroupmembers_contact_id_idx ON contactgroupmembers (contact_
 
 CREATE TABLE "cache" (
     user_id integer NOT NULL
-    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     cache_key varchar(128) DEFAULT '' NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
+    expires timestamp with time zone DEFAULT NULL,
     data text NOT NULL
 );
 
 CREATE INDEX cache_user_id_idx ON "cache" (user_id, cache_key);
-CREATE INDEX cache_created_idx ON "cache" (created);
+CREATE INDEX cache_expires_idx ON "cache" (expires);
 
 --
 -- Table "cache_shared"
@@ -181,11 +182,12 @@ CREATE INDEX cache_created_idx ON "cache" (created);
 CREATE TABLE "cache_shared" (
     cache_key varchar(255) NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
+    expires timestamp with time zone DEFAULT NULL,
     data text NOT NULL
 );
 
 CREATE INDEX cache_shared_cache_key_idx ON "cache_shared" (cache_key);
-CREATE INDEX cache_shared_created_idx ON "cache_shared" (created);
+CREATE INDEX cache_shared_expires_idx ON "cache_shared" (expires);
 
 --
 -- Table "cache_index"
@@ -194,15 +196,15 @@ CREATE INDEX cache_shared_created_idx ON "cache_shared" (created);
 
 CREATE TABLE cache_index (
     user_id integer NOT NULL
-    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
-    changed timestamp with time zone DEFAULT now() NOT NULL,
+    expires timestamp with time zone DEFAULT NULL,
     valid smallint NOT NULL DEFAULT 0,
     data text NOT NULL,
     PRIMARY KEY (user_id, mailbox)
 );
 
-CREATE INDEX cache_index_changed_idx ON cache_index (changed);
+CREATE INDEX cache_index_expires_idx ON cache_index (expires);
 
 --
 -- Table "cache_thread"
@@ -211,14 +213,14 @@ CREATE INDEX cache_index_changed_idx ON cache_index (changed);
 
 CREATE TABLE cache_thread (
     user_id integer NOT NULL
-    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
-    changed timestamp with time zone DEFAULT now() NOT NULL,
+    expires timestamp with time zone DEFAULT NULL,
     data text NOT NULL,
     PRIMARY KEY (user_id, mailbox)
 );
 
-CREATE INDEX cache_thread_changed_idx ON cache_thread (changed);
+CREATE INDEX cache_thread_expires_idx ON cache_thread (expires);
 
 --
 -- Table "cache_messages"
@@ -227,16 +229,16 @@ CREATE INDEX cache_thread_changed_idx ON cache_thread (changed);
 
 CREATE TABLE cache_messages (
     user_id integer NOT NULL
-    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
     uid integer NOT NULL,
-    changed timestamp with time zone DEFAULT now() NOT NULL,
+    expires timestamp with time zone DEFAULT NULL,
     data text NOT NULL,
     flags integer NOT NULL DEFAULT 0,
     PRIMARY KEY (user_id, mailbox, uid)
 );
 
-CREATE INDEX cache_messages_changed_idx ON cache_messages (changed);
+CREATE INDEX cache_messages_expires_idx ON cache_messages (expires);
 
 --
 -- Table "dictionary"
@@ -245,7 +247,7 @@ CREATE INDEX cache_messages_changed_idx ON cache_messages (changed);
 
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL
-    	REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
    "language" varchar(5) NOT NULL,
     data text NOT NULL,
     CONSTRAINT dictionary_user_id_language_key UNIQUE (user_id, "language")
@@ -288,4 +290,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2013052500');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013061000');
