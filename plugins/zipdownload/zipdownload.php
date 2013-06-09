@@ -258,11 +258,7 @@ class zipdownload extends rcube_plugin
 	/**
 	 * Helper function to convert filenames to the configured charset
 	 */
-<<<<<<< HEAD
-	private function _convert_filename($str, $from = RCMAIL_CHARSET)
-=======
 	private function _convert_filename($str)
->>>>>>> 4922472... Fix zipdownload plugin issue with filenames charset (#1489156)
 	{
         $str = rcube_charset::convert($str, RCUBE_CHARSET, $this->charset);
 
