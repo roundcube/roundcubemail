@@ -335,6 +335,12 @@ fieldset
   overflow-y: auto;
 }
 
+td.rowtargets > span.listarea
+{
+  vertical-align: top;
+  margin-top: 2px;
+}
+
 .listelement
 {
   display: block;

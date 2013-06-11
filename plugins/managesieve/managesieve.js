@@ -575,7 +575,7 @@ function rule_header_select(id)
   var obj = document.getElementById('header' + id),
     size = document.getElementById('rule_size' + id),
     op = document.getElementById('rule_op' + id),
-    header = document.getElementById('custom_header' + id),
+    header = document.getElementById('custom_header' + id + '_list'),
     mod = document.getElementById('rule_mod' + id),
     trans = document.getElementById('rule_trans' + id),
     comp = document.getElementById('rule_comp' + id);

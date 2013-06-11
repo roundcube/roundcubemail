@@ -765,7 +765,7 @@ class managesieve extends rcube_plugin
                         }
                     }
                     else {
-                        $cust_header = $headers = $this->strip_value($cust_headers[$idx]);
+                        $cust_header = $headers = $this->strip_value(array_shift($cust_headers));
                         $mod      = $this->strip_value($mods[$idx]);
                         $mod_type = $this->strip_value($mod_types[$idx]);
 
@@ -774,8 +774,6 @@ class managesieve extends rcube_plugin
                         $type = preg_replace('/^not/', '', $operator);
 
                         if ($header == '...') {
-                            $headers = preg_split('/[\s,]+/', $cust_header, -1, PREG_SPLIT_NO_EMPTY);
-
                             if (!count($headers))
                                 $this->errors['tests'][$i]['header'] = $this->gettext('cannotbeempty');
                             else {
@@ -1336,22 +1334,20 @@ class managesieve extends rcube_plugin
             $aout .= $select_header->show();
 
         if (isset($rule['test']) && in_array($rule['test'], array('header', 'address', 'envelope'))) {
-            if (is_array($rule['arg1']))
-                $custom = implode(', ', $rule['arg1']);
-            else if (!in_array($rule['arg1'], $this->headers))
-                $custom = $rule['arg1'];
+            $custom = (array) $rule['arg1'];
+            if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
+                unset($custom);
+            }
         }
         else if (isset($rule['test']) && $rule['test'] == 'exists') {
-            if (is_array($rule['arg']))
-                $custom = implode(', ', $rule['arg']);
-            else if (!in_array($rule['arg'], $this->headers))
-                $custom = $rule['arg'];
+            $custom = (array) $rule['arg'];
+            if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
+                unset($custom);
+            }
         }
 
-        $tout = '<div id="custom_header' .$id. '" style="display:' .(isset($custom) ? 'inline' : 'none'). '">
-            <input type="text" name="_custom_header[]" id="custom_header_i'.$id.'" '
-            . $this->error_class($id, 'test', 'header', 'custom_header_i')
-            .' value="' .rcube::Q($custom). '" size="15" />&nbsp;</div>' . "\n";
+        $tout = $this->list_input($id, 'custom_header', $custom, isset($custom),
+            $this->error_class($id, 'test', 'header', 'custom_header'), 15) . "\n";
 
         // matching type select (operator)
         $select_op = new html_select(array('name' => "_rule_op[]", 'id' => 'rule_op'.$id,
