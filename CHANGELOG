@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix list mode switch to 'List' after saving list settings in Larry skin (#1489164)
 - Fix error when there's no writeable addressbook source (#1489162)
 - Fix zipdownload plugin issue with filenames charset (#1489156)
 - Fix so non-inline images aren't skipped on forward (#1489150)

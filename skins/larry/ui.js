@@ -665,8 +665,6 @@ function rcube_mail_ui()
     $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]').prop('checked', true);
     $('input[name="sort_ord"][value="DESC"]').prop('checked', rcmail.env.sort_order == 'DESC');
     $('input[name="sort_ord"][value="ASC"]').prop('checked', rcmail.env.sort_order != 'DESC');
-    $('input[name="view"][value="thread"]').prop('checked', rcmail.env.threading ? true : false);
-    $('input[name="view"][value="list"]').prop('checked', rcmail.env.threading ? false : true);
 
     // set checkboxes
     $('input[name="list_col[]"]').each(function() {
@@ -695,11 +693,10 @@ function rcube_mail_ui()
 
     var sort = $('input[name="sort_col"]:checked').val(),
       ord = $('input[name="sort_ord"]:checked').val(),
-      thread = $('input[name="view"]:checked').val(),
       cols = $('input[name="list_col[]"]:checked')
         .map(function(){ return this.value; }).get();
 
-    rcmail.set_list_options(cols, sort, ord, thread == 'thread' ? 1 : 0);
+    rcmail.set_list_options(cols, sort, ord, rcmail.env.threading);
   }
 
 
