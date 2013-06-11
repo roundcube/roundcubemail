@@ -1325,9 +1325,7 @@ class rcmail extends rcube
         $realnames = (bool)$attrib['realnames'];
         $msgcounts = $this->storage->get_cache('messagecount');
         $collapsed = $this->config->get('collapsed_folders');
-
-        if ($this->config->get('show_real_foldernames'))
-            $realnames = true;
+        $realnames = $this->config->get('show_real_foldernames');
 
         $out = '';
         foreach ($arrFolders as $folder) {
@@ -1484,8 +1482,10 @@ class rcmail extends rcube
      */
     public function localize_foldername($name, $with_path = true)
     {
+        $realnames = $this->config->get('show_real_foldernames');
+
         // try to localize path of the folder
-        if ($with_path) {
+        if ($with_path && !$realnames) {
             $storage   = $this->get_storage();
             $delimiter = $storage->get_hierarchy_delimiter();
             $path      = explode($delimiter, $name);
@@ -1494,8 +1494,7 @@ class rcmail extends rcube
             if ($count > 1) {
                 for ($i = 0; $i < $count; $i++) {
                     $folder = implode($delimiter, array_slice($path, 0, -$i));
-                    if (!$this->config->get('show_real_foldernames') &&
-                        ($folder_class = $this->folder_classname($folder))) {
+                    if ($folder_class = $this->folder_classname($folder)) {
                         $name = implode($delimiter, array_slice($path, $count - $i));
                         return $this->gettext($folder_class) . $delimiter . rcube_charset::convert($name, 'UTF7-IMAP');
                     }
@@ -1503,13 +1502,11 @@ class rcmail extends rcube
             }
         }
 
-        if (!$this->config->get('show_real_foldernames') &&
-            ($folder_class = $this->folder_classname($name))) {
+        if (!$realnames && ($folder_class = $this->folder_classname($name))) {
             return $this->gettext($folder_class);
         }
-        else {
-            return rcube_charset::convert($name, 'UTF7-IMAP');
-        }
+
+        return rcube_charset::convert($name, 'UTF7-IMAP');
     }
 
 
