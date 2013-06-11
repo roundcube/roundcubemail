@@ -812,20 +812,22 @@ class rcube_imap extends rcube_storage
             return $mcache->get_thread($folder);
         }
 
-        if (empty($this->icache['threads'])) {
-            if (!$this->check_connection()) {
-                return new rcube_result_thread();
+        if (!empty($this->icache['threads'])) {
+            if ($this->icache['threads']->get_parameters('MAILBOX') == $folder) {
+                return $this->icache['threads'];
             }
-
-            // get all threads
-            $result = $this->conn->thread($folder, $this->threading,
-                $this->options['skip_deleted'] ? 'UNDELETED' : '', true);
-
-            // add to internal (fast) cache
-            $this->icache['threads'] = $result;
         }
 
-        return $this->icache['threads'];
+        if (!$this->check_connection()) {
+            return new rcube_result_thread();
+        }
+
+        // get all threads
+        $result = $this->conn->thread($folder, $this->threading,
+            $this->options['skip_deleted'] ? 'UNDELETED' : '', true);
+
+        // add to internal (fast) cache
+        return $this->icache['threads'] = $result;
     }
 
 
