@@ -780,6 +780,19 @@ function rcmail_user_prefs($current=null)
       'main' => array('name' => Q(rcube_label('mainoptions'))),
     );
 
+
+    if (!isset($no_override['show_real_foldernames'])) {
+      $field_id = 'show_real_foldernames';
+      $input_show_real_foldernames =
+          new html_checkbox(array('name' => '_show_real_foldernames',
+                                  'id' => $field_id, 'value' => 1));
+
+      $blocks['main']['options']['show_real_foldernames'] = array(
+        'title' => html::label($field_id,
+                               Q(rcube_label('show_real_foldernames'))),
+        'content' => $input_show_real_foldernames->show($config['show_real_foldernames']?1:0),
+      );
+    }
     // Configure special folders
     if (!isset($no_override['default_folders'])) {
       // load folders list only when needed

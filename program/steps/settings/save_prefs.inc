@@ -120,6 +120,8 @@ switch ($CURR_SECTION)
 
   case 'folders':
     $a_user_prefs = array(
+      'show_real_foldernames'  =>
+      isset($_POST['_show_real_foldernames']) ? TRUE : FALSE,
       'drafts_mbox' => get_input_value('_drafts_mbox', RCUBE_INPUT_POST, true),
       'sent_mbox'   => get_input_value('_sent_mbox', RCUBE_INPUT_POST, true),
       'junk_mbox'   => get_input_value('_junk_mbox', RCUBE_INPUT_POST, true),
