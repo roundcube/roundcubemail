@@ -55,7 +55,6 @@ $labels['add'] = 'افزودن';
 $labels['del'] = 'حذف';
 $labels['sender'] = 'فرستنده';
 $labels['recipient'] = 'گیرنده';
-$labels['vacationaddresses'] = 'آدرس‌های ایمیل دیگر من (جدا شده با ویرگول):';
 $labels['vacationdays'] = 'پیغام ها در چه مواقعی فرستاده شدند (در روزهای):';
 $labels['vacationinterval'] = 'How often send messages:';
 $labels['days'] = 'days';

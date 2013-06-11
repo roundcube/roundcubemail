@@ -55,7 +55,6 @@ $labels['add'] = 'එක් කරන්න';
 $labels['del'] = 'මකන්න';
 $labels['sender'] = 'යවන්නා';
 $labels['recipient'] = 'ලබන්නා';
-$labels['vacationaddresses'] = 'My additional e-mail addresse(s) (comma-separated):';
 $labels['vacationdays'] = 'How often send messages (in days):';
 $labels['vacationinterval'] = 'How often send messages:';
 $labels['days'] = 'days';

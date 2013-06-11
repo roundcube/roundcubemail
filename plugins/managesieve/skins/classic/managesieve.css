@@ -226,6 +226,7 @@ input.radio
 select.operator_selector
 {
   width: 200px;
+  vertical-align: top;
 }
 
 td.rowtargets span,
@@ -307,6 +308,77 @@ a.button.disabled
 {
   font-size: 11px;
 }
+
+/* smart multi-row input field */
+.listarea
+{
+  border: 1px solid #666;
+  margin: 0;
+  padding: 1px;
+  display: inline-block;
+  max-height: 67px;
+  overflow-y: auto;
+}
+
+.listelement
+{
+  display: block;
+  white-space: nowrap;
+  background-color: #fff;
+  border-top: 1px solid #e2e2e2;
+  height: 16px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  line-height: 16px;
+}
+
+.listarea.error .listelement
+{
+  background-color: #FFFFC4;
+}
+
+.listelement:first-child
+{
+  border-top: none;
+}
+
+#filter-form .listelement input
+{
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  vertical-align: top;
+  height: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 16px;
+  background-color: transparent;
+}
+
+.listelement input:focus
+{
+  box-shadow: none;
+}
+
+.listelement .actions
+{
+  display: inline-block;
+  width: 32px;
+  height: 16px;
+  background: url(images/plus_minus.png) -1px 0 no-repeat #eee;
+}
+
+.actions .add,
+.actions .reset
+{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 
 /* fixes for popup window */
 

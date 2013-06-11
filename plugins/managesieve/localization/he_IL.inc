@@ -55,7 +55,6 @@ $labels['add'] = 'הוספה';
 $labels['del'] = 'מחיקה';
 $labels['sender'] = 'השולח';
 $labels['recipient'] = 'הנמען';
-$labels['vacationaddresses'] = 'כתובות דוא"ל נוספות שלי (מופרדות ע"י פסיקים)';
 $labels['vacationdays'] = 'באיזו תדירות ( בימים ) לשלוח הודעות:';
 $labels['vacationinterval'] = 'How often send messages:';
 $labels['days'] = 'days';

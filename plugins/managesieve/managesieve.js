@@ -55,6 +55,11 @@ if (window.rcmail) {
         }
 
         $('input[type="text"]:first', rcmail.gui_objects.sieveform).focus();
+
+        // initialize smart list inputs
+        $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
+          smart_field_init(this);
+        });
       }
       else {
         rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
@@ -469,6 +474,11 @@ rcube_webmail.prototype.managesieve_rulefill = function(content, id, after)
     row.className = 'rulerow';
     row.innerHTML = content;
 
+    // initialize smart list inputs
+    $('textarea[data-type="list"]', row).each(function() {
+      smart_field_init(this);
+    });
+
     this.managesieve_formbuttons(div);
   }
 };
@@ -565,7 +575,6 @@ function rule_header_select(id)
   var obj = document.getElementById('header' + id),
     size = document.getElementById('rule_size' + id),
     op = document.getElementById('rule_op' + id),
-    target = document.getElementById('rule_target' + id),
     header = document.getElementById('custom_header' + id),
     mod = document.getElementById('rule_mod' + id),
     trans = document.getElementById('rule_trans' + id),
@@ -574,31 +583,30 @@ function rule_header_select(id)
   if (obj.value == 'size') {
     size.style.display = 'inline';
     op.style.display = 'none';
-    target.style.display = 'none';
     header.style.display = 'none';
     mod.style.display = 'none';
     trans.style.display = 'none';
     comp.style.display = 'none';
   }
   else {
-    header.style.display = obj.value != '...' ? 'none' : 'inline';
+    header.style.display = obj.value != '...' ? 'none' : 'inline-block';
     size.style.display = 'none';
     op.style.display = 'inline';
     comp.style.display = '';
-    rule_op_select(id);
     mod.style.display = obj.value == 'body' ? 'none' : 'block';
     trans.style.display = obj.value == 'body' ? 'block' : 'none';
   }
 
+  rule_op_select(op, id, obj.value);
   obj.style.width = obj.value == '...' ? '40px' : '';
 };
 
-function rule_op_select(id)
+function rule_op_select(obj, id, header)
 {
-  var obj = document.getElementById('rule_op' + id),
-    target = document.getElementById('rule_target' + id);
+  var target = document.getElementById('rule_target' + id + '_list'),
+    style = obj.value == 'exists' || obj.value == 'notexists' || header == 'size' ? 'none' : 'inline-block';
 
-  target.style.display = obj.value == 'exists' || obj.value == 'notexists' ? 'none' : 'inline';
+  target.style.display = style;
 };
 
 function rule_trans_select(id)
@@ -677,6 +685,75 @@ function action_type_select(id)
   }
 };
 
+// Inititalizes smart list input
+function smart_field_init(field)
+{
+  var id = field.id + '_list',
+    area = $('<span class="listarea"></span>'),
+    list = field.value ? field.value.split("\n") : [''];
+
+  if ($('#'+id).length)
+    return;
+
+  // add input rows
+  $.each(list, function(i, v) {
+    area.append(smart_field_row(v, field.name, i, $(field).data('size')));
+  });
+
+  area.attr('id', id);
+  field = $(field);
+
+  if (field.attr('disabled'))
+    area.hide();
+
+  field.after(area);
+
+  if (field.hasClass('error')) {
+    area.addClass('error');
+    rcmail.managesieve_tip_register([[id, field.data('tip')]]);
+  }
+};
+
+function smart_field_row(value, name, idx, size)
+{
+  // build row element content
+  var input, content = '<span class="listelement">'
+      + '<span class="actions"><span class="add"></span><span class="reset"></span></span>'
+      + '<input type="text"></span>',
+    elem = $(content),
+    attrs = {value: value, name: name + '[]'};
+
+  if (size)
+    attrs.size = size;
+
+  input = $('input', elem).attr(attrs)
+    .keydown(function(e) { if (e.which == 13) $('span[class="add"]', elem).click(); });
+
+  // element creation event
+  $('span[class="add"]', elem).click(function() {
+    var span = $(this.parentNode.parentNode),
+      input = $('input', span),
+      name = input.attr('name').replace(/\[\]$/, ''),
+      dt = (new Date()).getTime(),
+      elem = smart_field_row('', name, dt, size);
+
+    span.after(elem);
+    $('input', elem).focus();
+  });
+
+  // element deletion event
+  $('span[class="reset"]', elem).click(function() {
+    var span = $(this.parentNode.parentNode);
+
+    if (span.parent().children().length > 1)
+      span.remove();
+    else
+      $('input', span).val('').focus();
+  });
+
+  return elem;
+}
+
 // Register onmouse(leave/enter) events for tips on specified form element
 rcube_webmail.prototype.managesieve_tip_register = function(tips)
 {
@@ -685,25 +762,26 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
 
   for (var n in tips) {
     $('#'+tips[n][0])
-      .bind('mouseenter', {str: tips[n][1]},
-        function(e) {
-          var offset = $(this).offset(),
-            left = offset.left,
-            top = offset.top - 12,
-            minwidth = $(this).width();
+      .data('tip', tips[n][1])
+      .bind('mouseenter', function(e) {
+        var elem = $(this),
+          offset = elem.offset(),
+          left = offset.left,
+          top = offset.top - 12,
+          minwidth = elem.width();
 
-          if (framed) {
-            offset = $((rcmail.env.task == 'mail'  ? '#sievefilterform > iframe' : '#filter-box'), parent.document).offset();
-            top  += offset.top;
-            left += offset.left;
-          }
+        if (framed) {
+          offset = $((rcmail.env.task == 'mail'  ? '#sievefilterform > iframe' : '#filter-box'), parent.document).offset();
+          top  += offset.top;
+          left += offset.left;
+        }
 
-          tip.html(e.data.str)
-          top -= tip.height();
+        tip.html(elem.data('tip'));
+        top -= tip.height();
 
-          tip.css({left: left, top: top, minWidth: (minwidth-2) + 'px'}).show();
-        })
-      .bind('mouseleave', function(e) { tip.hide(); });
+        tip.css({left: left, top: top, minWidth: (minwidth-2) + 'px'}).show();
+      })
+    .bind('mouseleave', function(e) { tip.hide(); });
   }
 };
 

@@ -55,7 +55,6 @@ $labels['add'] = 'ചേര്‍ക്കു';
 $labels['del'] = 'നീക്കം ചെയ്യുക';
 $labels['sender'] = 'അയചയാള്‍';
 $labels['recipient'] = 'സ്വീകര്‍ത്താവ്';
-$labels['vacationaddresses'] = 'സ്വീകര്‍ത്താവിന്റെ ഇമെയില്‍ വിലാസങ്ങളുടെ അധികമുള്ള പട്ടിക (കോമയിട്ട് തിരിച്ച)';
 $labels['vacationdays'] = 'എത്ര ഭിവസം കൂടുമ്പോള്‍ സന്ദേശം അയക്കണം:';
 $labels['vacationinterval'] = 'How often send messages:';
 $labels['days'] = 'days';

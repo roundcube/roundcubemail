@@ -175,6 +175,12 @@ td.rowtargets
   padding-top: 2px;
 }
 
+td.rowtargets > div
+{
+  vertical-align: top;
+  margin-top: 2px;
+}
+
 td.rowtargets div.adv
 {
   padding-top: 3px;
@@ -205,6 +211,7 @@ input.radio
 select.operator_selector
 {
   width: 200px;
+  vertical-align: top;
 }
 
 td.rowtargets span,
@@ -292,6 +299,12 @@ a.button.disabled
   padding: 1px;
 }
 
+html.mozilla #filter-form select
+{
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
 /* revert larry style button */
 #filter-form input.button
 {
@@ -305,6 +318,82 @@ fieldset
 {
   border-radius: 4px;
 }
+
+/* smart multi-row input field */
+.listarea
+{
+  border: 1px solid #B2B2B2;
+  border-radius: 4px;
+  box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+  -moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+  -webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+  -o-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+  margin: 0;
+  padding: 2px;
+  display: inline-block;
+  max-height: 59px;
+  overflow-y: auto;
+}
+
+.listelement
+{
+  display: block;
+  white-space: nowrap;
+  background-color: #fff;
+  border-top: 1px solid #e2e2e2;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  line-height: 14px;
+}
+
+.listarea.error .listelement
+{
+  background-color: #FFFFC4;
+}
+
+.listelement:first-child
+{
+  border-top: none;
+}
+
+#filter-form .listelement input
+{
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  vertical-align: top;
+  height: 14px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 14px;
+  background-color: transparent;
+}
+
+.listelement input:focus
+{
+  box-shadow: none;
+}
+
+.listelement .actions
+{
+  display: inline-block;
+  width: 32px;
+  height: 16px;
+  background: url(images/plus_minus.png) -1px -1px no-repeat #eee;
+}
+
+.actions .add,
+.actions .reset
+{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 
 /* fixes for popup window */
 

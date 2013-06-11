@@ -708,8 +708,9 @@ class managesieve extends rcube_plugin
             }
             else {
                 foreach ($headers as $idx => $header) {
+                    // targets are indexed differently (assume form order)
+                    $target     = $this->strip_value(array_shift($targets), true);
                     $header     = $this->strip_value($header);
-                    $target     = $this->strip_value($targets[$idx], true);
                     $operator   = $this->strip_value($ops[$idx]);
                     $comparator = $this->strip_value($comparators[$idx]);
 
@@ -747,10 +748,16 @@ class managesieve extends rcube_plugin
                         $this->form['tests'][$i]['type'] = $type;
                         $this->form['tests'][$i]['arg']  = $target;
 
-                        if ($target == '' && $type != 'exists')
+                        if (empty($target) && $type != 'exists') {
                             $this->errors['tests'][$i]['target'] = $this->gettext('cannotbeempty');
-                        else if (preg_match('/^(value|count)-/', $type) && !preg_match('/[0-9]+/', $target))
-                            $this->errors['tests'][$i]['target'] = $this->gettext('forbiddenchars');
+                        }
+                        else if (preg_match('/^(value|count)-/', $type)) {
+                            foreach ($target as $target_value) {
+                                if (!preg_match('/[0-9]+/', $target_value)) {
+                                    $this->errors['tests'][$i]['target'] = $this->gettext('forbiddenchars');
+                                }
+                            }
+                        }
 
                         $this->form['tests'][$i]['part'] = $trans;
                         if ($trans == 'content') {
@@ -809,10 +816,16 @@ class managesieve extends rcube_plugin
                             $this->form['tests'][$i]['arg1'] = $header;
                             $this->form['tests'][$i]['arg2'] = $target;
 
-                            if ($target == '')
+                            if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->gettext('cannotbeempty');
-                            else if (preg_match('/^(value|count)-/', $type) && !preg_match('/[0-9]+/', $target))
-                                $this->errors['tests'][$i]['target'] = $this->gettext('forbiddenchars');
+                            }
+                            else if (preg_match('/^(value|count)-/', $type)) {
+                                foreach ($target as $target_value) {
+                                    if (!preg_match('/[0-9]+/', $target_value)) {
+                                        $this->errors['tests'][$i]['target'] = $this->gettext('forbiddenchars');
+                                    }
+                                }
+                            }
 
                             if ($mod) {
                                 $this->form['tests'][$i]['part'] = $mod_type;
@@ -893,20 +906,14 @@ class managesieve extends rcube_plugin
                     $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
                     $this->form['actions'][$i]['subject']   = $subject[$idx];
-                    $this->form['actions'][$i]['addresses'] = explode(',', $addresses[$idx]);
+                    $this->form['actions'][$i]['addresses'] = array_shift($addresses);
                     $this->form['actions'][$i][$interval_type] = $intervals[$idx];
 // @TODO: vacation :mime, :from, :handle
 
-                    if ($this->form['actions'][$i]['addresses']) {
-                        foreach($this->form['actions'][$i]['addresses'] as $aidx => $address) {
-                            $address = trim($address);
-                            if (!$address)
-                                unset($this->form['actions'][$i]['addresses'][$aidx]);
-                            else if(!rcube_utils::check_email($address)) {
-                                $this->errors['actions'][$i]['addresses'] = $this->gettext('noemailwarning');
-                                break;
-                            } else
-                                $this->form['actions'][$i]['addresses'][$aidx] = $address;
+                    foreach ((array)$this->form['actions'][$i]['addresses'] as $aidx => $address) {
+                        if (!rcube_utils::check_email($address)) {
+                            $this->errors['actions'][$i]['addresses'] = $this->gettext('noemailwarning');
+                            break;
                         }
                     }
 
@@ -1406,9 +1413,9 @@ class managesieve extends rcube_plugin
         }
 
         $tout .= $select_op->show($test);
-        $tout .= '<input type="text" name="_rule_target[]" id="rule_target' .$id. '"
-            value="' .rcube::Q($target). '" size="20" ' . $this->error_class($id, 'test', 'target', 'rule_target')
-            . ' style="display:' . ($rule['test']!='size' && $rule['test'] != 'exists' ? 'inline' : 'none') . '" />'."\n";
+        $tout .= $this->list_input($id, 'rule_target', $target,
+            $rule['test'] != 'size' && $rule['test'] != 'exists',
+            $this->error_class($id, 'test', 'target', 'rule_target')) . "\n";
 
         $select_size_op = new html_select(array('name' => "_rule_size_op[]", 'id' => 'rule_size_op'.$id));
         $select_size_op->add(rcube::Q($this->gettext('filterover')), 'over');
@@ -1589,10 +1596,9 @@ class managesieve extends rcube_plugin
             .'<input type="text" name="_action_subject['.$id.']" id="action_subject'.$id.'" '
             .'value="' . (is_array($action['subject']) ? rcube::Q(implode(', ', $action['subject']), 'strict', false) : $action['subject']) . '" size="35" '
             . $this->error_class($id, 'action', 'subject', 'action_subject') .' />';
-        $out .= '<br /><span class="label">' .rcube::Q($this->gettext('vacationaddresses')) . '</span><br />'
-            .'<input type="text" name="_action_addresses['.$id.']" id="action_addr'.$id.'" '
-            .'value="' . (is_array($action['addresses']) ? rcube::Q(implode(', ', $action['addresses']), 'strict', false) : $action['addresses']) . '" size="35" '
-            . $this->error_class($id, 'action', 'addresses', 'action_addr') .' />';
+        $out .= '<br /><span class="label">' .rcube::Q($this->gettext('vacationaddr')) . '</span><br />'
+            . $this->list_input($id, 'action_addresses', $action['addresses'], true,
+                $this->error_class($id, 'action', 'addresses', 'action_addresses'), 30);
         $out .= '<br /><span class="label">' . rcube::Q($this->gettext($vsec ? 'vacationinterval' : 'vacationdays')) . '</span><br />'
             .'<input type="text" name="_action_interval['.$id.']" id="action_interval'.$id.'" '
             .'value="' .rcube::Q(isset($action['seconds']) ? $action['seconds'] : $action['days'], 'strict', false) . '" size="2" '
@@ -1727,6 +1733,18 @@ class managesieve extends rcube_plugin
 
     private function strip_value($str, $allow_html = false, $trim = true)
     {
+        if (is_array($str)) {
+            foreach ($str as $idx => $val) {
+                $val = $this->strip_value($val, $allow_html, $trim);
+
+                if ($val === '') {
+                    unset($str[$idx]);
+                }
+            }
+
+            return $str;
+        }
+
         if (!$allow_html) {
             $str = strip_tags($str);
         }
@@ -1762,6 +1780,19 @@ class managesieve extends rcube_plugin
 
         $script = rcmail_output::JS_OBJECT_NAME.'.managesieve_tip_register('.json_encode($this->tips).');';
         $this->rc->output->add_script($script, 'foot');
+    }
+
+    private function list_input($id, $name, $value, $enabled, $class, $size=null)
+    {
+        $value = (array) $value;
+        $value = array_map(array('rcube', 'Q'), $value);
+        $value = implode("\n", $value);
+
+        return '<textarea data-type="list" name="_' . $name . '['.$id.']" id="' . $name.$id . '"'
+            . ($enabled ? '' : ' disabled="disabled"')
+            . ($size ? ' data-size="'.$size.'"' : '')
+            . $class
+            . ' style="display:none">' . $value . '</textarea>';
     }
 
     /**
