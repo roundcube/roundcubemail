@@ -228,6 +228,11 @@ class rcmail extends rcube
     }
 
     if (!$contacts) {
+      // there's no default, just return
+      if ($default) {
+        return null;
+      }
+
       self::raise_error(array(
         'code' => 700, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,

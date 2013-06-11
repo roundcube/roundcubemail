@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix error when there's no writeable addressbook source (#1489162)
 - Add option show_real_foldernames to disable localization of special folders
 - Fix zipdownload plugin issue with filenames charset (#1489156)
 - Fix database cache expunge issues (#1489149)
