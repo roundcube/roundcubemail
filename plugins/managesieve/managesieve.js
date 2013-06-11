@@ -718,32 +718,29 @@ function smart_field_row(value, name, idx, size)
 {
   // build row element content
   var input, content = '<span class="listelement">'
-      + '<span class="actions"><span class="add"></span><span class="reset"></span></span>'
-      + '<input type="text"></span>',
+      + '<span class="reset"></span><input type="text"></span>',
     elem = $(content),
     attrs = {value: value, name: name + '[]'};
 
   if (size)
     attrs.size = size;
 
-  input = $('input', elem).attr(attrs)
-    .keydown(function(e) { if (e.which == 13) $('span[class="add"]', elem).click(); });
+  input = $('input', elem).attr(attrs).keydown(function(e) {
+    var input = $(this);
+    // element creation event (on Enter)
+    if (e.which == 13) {
+      var name = input.attr('name').replace(/\[\]$/, ''),
+        dt = (new Date()).getTime(),
+        elem = smart_field_row('', name, dt, size);
 
-  // element creation event
-  $('span[class="add"]', elem).click(function() {
-    var span = $(this.parentNode.parentNode),
-      input = $('input', span),
-      name = input.attr('name').replace(/\[\]$/, ''),
-      dt = (new Date()).getTime(),
-      elem = smart_field_row('', name, dt, size);
-
-    span.after(elem);
-    $('input', elem).focus();
+      input.parent().after(elem);
+      $('input', elem).focus();
+    }
   });
 
   // element deletion event
   $('span[class="reset"]', elem).click(function() {
-    var span = $(this.parentNode.parentNode);
+    var span = $(this.parentNode);
 
     if (span.parent().children().length > 1)
       span.remove();

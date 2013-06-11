@@ -362,20 +362,12 @@ a.button.disabled
   box-shadow: none;
 }
 
-.listelement .actions
-{
-  display: inline-block;
-  width: 32px;
-  height: 16px;
-  background: url(images/plus_minus.png) -1px 0 no-repeat #eee;
-}
-
-.actions .add,
-.actions .reset
+.listelement .reset
 {
   display: inline-block;
   width: 16px;
   height: 16px;
+  background: url(images/erase.png) -1px -1px no-repeat #eee;
   cursor: pointer;
 }
 
