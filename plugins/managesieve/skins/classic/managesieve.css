@@ -201,9 +201,21 @@ td.rowtargets
   padding-top: 2px;
 }
 
+td.rowtargets > div
+{
+  vertical-align: top;
+  margin-top: 2px;
+}
+
 td.rowtargets div.adv
 {
   padding-top: 3px;
+}
+
+html.mozilla #filter-form select
+{
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 input.disabled, input.disabled:hover
