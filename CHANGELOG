@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix list mode switch to 'List' after saving list settings in Larry skin (#1489164)
 - Fix error when there's no writeable addressbook source (#1489162)
 - Add option show_real_foldernames to disable localization of special folders
 - Fix zipdownload plugin issue with filenames charset (#1489156)
