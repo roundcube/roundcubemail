@@ -81,9 +81,10 @@ foreach ($a_mailboxes as $mbox_name) {
         if (empty($_GET['_list']))
             continue;
 
-        // get overall message count; allow caching because rcube_storage::folder_status() did a refresh
+        // get overall message count; allow caching because rcube_storage::folder_status()
+        // did a refresh but only in list mode
         $list_mode = $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL';
-        $all_count = $RCMAIL->storage->count($mbox_name, $list_mode, false, false);
+        $all_count = $RCMAIL->storage->count($mbox_name, $list_mode, $list_mode == 'THREADS', false);
         $page      = $RCMAIL->storage->get_page();
         $page_size = $RCMAIL->storage->get_pagesize();
 

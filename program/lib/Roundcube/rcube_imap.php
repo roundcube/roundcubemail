@@ -308,14 +308,7 @@ class rcube_imap extends rcube_storage
      */
     public function set_folder($folder)
     {
-        if ($this->folder == $folder) {
-            return;
-        }
-
         $this->folder = $folder;
-
-        // clear messagecount cache for this folder
-        $this->clear_messagecount($folder);
     }
 
 
