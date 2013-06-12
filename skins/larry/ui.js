@@ -754,7 +754,8 @@ function rcube_mail_ui()
       close: function() {
         $dialog.dialog('destroy').hide();
       },
-      width: 650
+      minWidth: 500,
+      width: $dialog.width()+25
     }).show();
   }
 
