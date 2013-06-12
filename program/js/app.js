@@ -1047,7 +1047,6 @@ function rcube_webmail()
         if (uid = this.get_single_uid()) {
           ref.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''), true, true);
           if (this.printwin) {
-            setTimeout(function(){ ref.printwin.focus(); }, 20);
             if (this.env.action != 'show')
               this.mark_message('read', uid);
           }
