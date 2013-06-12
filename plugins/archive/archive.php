@@ -41,7 +41,7 @@ class archive extends rcube_plugin
             'domain' => $this->ID,
         ),
         'toolbar');
-      
+
       // register hook to localize the archive folder
       $this->add_hook('render_mailboxlist', array($this, 'render_mailboxlist'));
 
@@ -75,10 +75,10 @@ class archive extends rcube_plugin
   {
     $rcmail = rcmail::get_instance();
     $archive_folder = $rcmail->config->get('archive_mbox');
-    $localize_name = $rcmail->config->get('archive_localize_name', true);
+    $show_real_name = $rcmail->config->get('show_real_foldernames');
 
     // set localized name for the configured archive folder
-    if ($archive_folder && $localize_name) {
+    if ($archive_folder && !$show_real_name) {
       if (isset($p['list'][$archive_folder]))
         $p['list'][$archive_folder]['name'] = $this->gettext('archivefolder');
       else // search in subfolders
