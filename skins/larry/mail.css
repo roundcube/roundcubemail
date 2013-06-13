@@ -2,7 +2,7 @@
  * Roundcube webmail styles for the Email section
  *
  * Copyright (c) 2012, The Roundcube Dev Team
- * Screendesign by FLINT / B�ro f�r Gestaltung, bueroflint.com
+ * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -933,6 +933,10 @@ div.hide-headers {
 	width: 32px;
 	height: auto;
 	border-radius: 3px;
+}
+
+#messageheader .message-headers {
+	min-height: 60px;
 }
 
 #messageheader #contactphoto {
