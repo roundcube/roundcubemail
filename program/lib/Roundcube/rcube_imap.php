@@ -1336,17 +1336,16 @@ class rcube_imap extends rcube_storage
         // THREAD=REFERENCES:     sorting by sent date of root message
         // THREAD=REFS:           sorting by the most recent date in each thread
 
-        if ($this->sort_field && ($this->sort_field != 'date' || $this->get_capability('THREAD') != 'REFS')) {
-            $index = $this->index_direct($this->folder, $this->sort_field, $this->sort_order, false);
+        if ($this->get_capability('THREAD') != 'REFS') {
+            $sortby = $this->sort_field ? $this->sort_field : 'date';
+            $index  = $this->index_direct($this->folder, $sortby, $this->sort_order, false);
 
             if (!$index->is_empty()) {
                 $threads->sort($index);
             }
         }
-        else {
-            if ($this->sort_order != $threads->get_parameters('ORDER')) {
-                $threads->revert();
-            }
+        else if ($this->sort_order != $threads->get_parameters('ORDER')) {
+            $threads->revert();
         }
     }
 
