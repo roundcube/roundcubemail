@@ -1,38 +1,16 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix timeout issue on drag&drop uploads (#1489170)
 - Fix thread cache syncronization/validation (#1489028)
-- Fix default sorting of threaded list when THREAD=REFS isn't supported
-- Fix list mode switch to 'List' after saving list settings in Larry skin (#1489164)
-- Fix error when there's no writeable addressbook source (#1489162)
 - Add option show_real_foldernames to disable localization of special folders
-- Fix zipdownload plugin issue with filenames charset (#1489156)
 - Fix database cache expunge issues (#1489149)
 - Fix date format issues on MS SQL Server (#1488918)
-- Fix so non-inline images aren't skipped on forward (#1489150)
 - Add imap_cache_ttl option to configure TTL of imap_cache
 - Make LDAP cache engine configurable via ldap_cache and ldap_cache_ttl options
-- Fix legacy options handling
 - Fix "duplicate entry" errors on inserts to imap cache tables (#1489146)
-- Fix so bounces addresses in Sender headers are skipped on Reply-All (#1489011)
-- Fix bug where serialized strings were truncated in PDO::quote() (#1489142)
 - Improved handling of Reply-To/Bcc addresses of identity in compose form (#1489016)
-- Fix displaying messages with invalid self-closing HTML tags (#1489137)
-- Fix PHP warning when responding to a message with many Return-Path headers (#1489136)
 - Added user preference to open all popups as standard windows
-- Fix unintentional compose window resize (#1489114)
-- Fix performance regression in text wrapping function (#1489133)
-- Fix connection to posgtres db using unix socket (#1489132)
 - Implemented shared cache (rcube_cache_shared)
-- Fix handling of comma when adding contact from contacts widget (#1489107)
-- Fix bug where a message was opened in both preview pane and new window on double-click (#1489122)
-- Fix fatal error when xdebug.max_nesting_level was exceeded in rcube_washtml (#1489110)
-- Fix PHP warning in html_table::set_row_attribs() in PHP 5.4 (#1489094)
-- Fix invalid option selected in default_font selector when font is unset (#1489112)
-- Fix displaying contact with ID divisible by 100 in sql addressbook (#1489121)
-- Fix browser warnings on PDF plugin detection (#1489118)
-- Fix fatal error when parsing UUencoded messages (#1489119)
 - Change Reply-All button label/title when mailing list is detected (#1488938)
 - Fix SMTP connection using IPv6 address in smtp_server option (#1489024)
 - Added attachment_reminder plugin
@@ -54,6 +32,34 @@ CHANGELOG Roundcube Webmail
 - Extended archive plugin with user-configurable options to store messages into subfolders
 - Fix export of selected contacts from search result (#1488905)
 - Feature to export only selected contacts from addressbook (by Phil Weir)
+
+RELEASE 0.9.2
+-------------
+- Fix image thumbnails display in print mode (#1489134)
+- Fix height of message headers block (#1489108)
+- Fix timeout issue on drag&drop uploads (#1489170)
+- Fix default sorting of threaded list when THREAD=REFS isn't supported
+- Fix list mode switch to 'List' after saving list settings in Larry skin (#1489164)
+- Fix error when there's no writeable addressbook source (#1489162)
+- Fix zipdownload plugin issue with filenames charset (#1489156)
+- Fix so non-inline images aren't skipped on forward (#1489150)
+- Fix "null" instead of empty string on messages list in IE10 (#1489145)
+- Fix legacy options handling
+- Fix so bounces addresses in Sender headers are skipped on Reply-All (#1489011)
+- Fix bug where serialized strings were truncated in PDO::quote() (#1489142)
+- Fix displaying messages with invalid self-closing HTML tags (#1489137)
+- Fix PHP warning when responding to a message with many Return-Path headers (#1489136)
+- Fix unintentional compose window resize (#1489114)
+- Fix performance regression in text wrapping function (#1489133)
+- Fix connection to posgtres db using unix socket (#1489132)
+- Fix handling of comma when adding contact from contacts widget (#1489107)
+- Fix bug where a message was opened in both preview pane and new window on double-click (#1489122)
+- Fix fatal error when xdebug.max_nesting_level was exceeded in rcube_washtml (#1489110)
+- Fix PHP warning in html_table::set_row_attribs() in PHP 5.4 (#1489094)
+- Fix invalid option selected in default_font selector when font is unset (#1489112)
+- Fix displaying contact with ID divisible by 100 in sql addressbook (#1489121)
+- Fix browser warnings on PDF plugin detection (#1489118)
+- Fix fatal error when parsing UUencoded messages (#1489119)
 
 RELEASE 0.9.1
 -------------
