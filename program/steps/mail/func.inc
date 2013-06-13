@@ -120,7 +120,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   if (!$OUTPUT->ajax_call)
     $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
       'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
-      'copy', 'move', 'quota', 'replyall', 'replylist');
+      'copy', 'move', 'quota', 'replyall', 'replylist', 'importwait');
 
   $pagetitle = $RCMAIL->localize_foldername($RCMAIL->storage->mod_folder($mbox_name), true);
   $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
@@ -1922,6 +1922,42 @@ function rcmail_message_error($uid=null)
   $RCMAIL->output->send('messageerror');
 }
 
+function rcmail_message_import_form($attrib = array())
+{
+  global $OUTPUT;
+
+  // set defaults
+  $attrib += array('id' => 'rcmImportform', 'buttons' => 'yes');
+
+  // Get filesize, enable upload progress bar
+  $max_filesize = rcube_upload_init();
+
+  $button = new html_inputfield(array('type' => 'button'));
+  $fileinput = new html_inputfield(array(
+      'type' => 'file',
+      'name' => '_file[]',
+      'size' => $attrib['attachmentfieldsize'],
+      'multiple' => 'multiple',
+      'accept' => ".eml, .mbox, message/rfc822, text/*",
+  ));
+
+  $out = html::div($attrib,
+    $OUTPUT->form_tag(array('id' => $attrib['id'].'Frm', 'method' => 'post', 'enctype' => 'multipart/form-data'),
+      html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => '')) .
+      html::div(null, $fileinput->show()) .
+      html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
+      (get_boolean($attrib['buttons']) ? html::div('buttons',
+        $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
+        $button->show(rcube_label('upload'), array('class' => 'button mainaction', 'onclick' => JS_OBJECT_NAME . ".command('import-messages', this.form)"))
+      ) : '')
+    )
+  );
+
+  $OUTPUT->add_gui_object('importform', $attrib['id'].'Frm');
+  return $out;
+}
+
+
 // register UI objects
 $OUTPUT->add_handlers(array(
   'mailboxlist' => 'rcmail_mailbox_list',
@@ -1935,6 +1971,7 @@ $OUTPUT->add_handlers(array(
   'messagecontentframe' => 'rcmail_messagecontent_frame',
   'messagepartframe' => 'rcmail_message_part_frame',
   'messagepartcontrols' => 'rcmail_message_part_controls',
+  'messageimportform' => 'rcmail_message_import_form',
   'searchfilter' => 'rcmail_search_filter',
   'searchform' => array($OUTPUT, 'search_form'),
 ));

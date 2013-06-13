@@ -194,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Disk usage';
 $labels['unknown']  = 'unknown';

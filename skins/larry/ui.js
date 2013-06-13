@@ -152,6 +152,7 @@ function rcube_mail_ui()
 
         rcmail.addEventListener('setquota', update_quota);
         rcmail.addEventListener('enable-command', enable_command);
+        rcmail.addEventListener('afterimport-messages', show_uploadform);
       }
 
       if ($('#mailview-left').length) {

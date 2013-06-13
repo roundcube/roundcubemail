@@ -191,7 +191,7 @@ function rcube_webmail()
 
       case 'mail':
         // enable mail commands
-        this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', true);
+        this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', 'import-messages', true);
 
         if (this.gui_objects.messagelist) {
           this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
@@ -277,11 +277,12 @@ function rcube_webmail()
           this.init_messageform();
         }
         // show printing dialog
-        else if (this.env.action == 'print' && this.env.uid)
+        else if (this.env.action == 'print' && this.env.uid) {
           if (bw.safari)
             setTimeout('window.print()', 10);
           else
             window.print();
+        }
 
         // get unread count for each mailbox
         if (this.gui_objects.mailboxlist) {
@@ -1000,7 +1001,7 @@ function rcube_webmail()
         // Reset the auto-save timer
         clearTimeout(this.save_timer);
 
-        this.upload_file(props || this.gui_objects.uploadform);
+        this.upload_file(props || this.gui_objects.uploadform, 'upload');
         break;
 
       case 'insert-sig':
@@ -1099,6 +1100,12 @@ function rcube_webmail()
       case 'listgroup':
         this.reset_qsearch();
         this.list_contacts(props.source, props.id);
+        break;
+
+      case 'import-messages':
+        var form = props || this.gui_objects.importform;
+        $('input[name="_unlock"]', form).val(this.set_busy(true, 'importwait'));
+        this.upload_file(form, 'import');
         break;
 
       case 'import':
@@ -3492,8 +3499,8 @@ function rcube_webmail()
     return true;
   };
 
-  // upload attachment file
-  this.upload_file = function(form)
+  // upload (attachment) file
+  this.upload_file = function(form, action)
   {
     if (!form)
       return false;
@@ -3520,7 +3527,7 @@ function rcube_webmail()
         return;
       }
 
-      var frame_name = this.async_upload_form(form, 'upload', function(e) {
+      var frame_name = this.async_upload_form(form, action || 'upload', function(e) {
         var d, content = '';
         try {
           if (this.contentDocument) {
