@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix timeout issue on drag&drop uploads (#1489170)
 - Fix thread cache syncronization/validation (#1489028)
 - Fix default sorting of threaded list when THREAD=REFS isn't supported
 - Fix list mode switch to 'List' after saving list settings in Larry skin (#1489164)
