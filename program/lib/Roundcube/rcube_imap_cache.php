@@ -640,13 +640,13 @@ class rcube_imap_cache
         $db    = $rcube->get_dbh();
 
         $db->query("DELETE FROM ".$db->table_name('cache_messages')
-              ." WHERE expired < " . $db->now());
+              ." WHERE expires < " . $db->now());
 
         $db->query("DELETE FROM ".$db->table_name('cache_index')
-              ." WHERE expired < " . $db->now());
+              ." WHERE expires < " . $db->now());
 
         $db->query("DELETE FROM ".$db->table_name('cache_thread')
-              ." WHERE expired < " . $db->now());
+              ." WHERE expires < " . $db->now());
     }
 
 
