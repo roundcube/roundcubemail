@@ -913,6 +913,10 @@ div.hide-headers {
 	border-radius: 3px;
 }
 
+#messageheader .message-headers {
+	min-height: 60px;
+}
+
 #messageheader #contactphoto {
 	display: block;
 	position: absolute;
