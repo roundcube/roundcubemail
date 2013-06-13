@@ -1,6 +1,6 @@
 <?php
 /**
- * Filesystem Attachments
+ * Database Attachments
  *
  * This plugin which provides database backed storage for temporary
  * attachment file handling.  The primary advantage of this plugin
@@ -16,18 +16,11 @@
 require_once('plugins/filesystem_attachments/filesystem_attachments.php');
 class database_attachments extends filesystem_attachments
 {
+    // Cache object
+    protected $cache;
 
     // A prefix for the cache key used in the session and in the key field of the cache table
-    private $cache_prefix = "db_attach";
-
-    /**
-     * Helper method to generate a unique key for the given attachment file
-     */
-    private function _key($args)
-    {
-        $uname = $args['path'] ? $args['path'] : $args['name'];
-        return  $this->cache_prefix . $args['group'] . md5(mktime() . $uname . $_SESSION['user_id']);
-    }
+    protected $prefix = "db_attach";
 
     /**
      * Save a newly uploaded attachment
@@ -35,23 +28,17 @@ class database_attachments extends filesystem_attachments
     function upload($args)
     {
         $args['status'] = false;
-        $rcmail = rcmail::get_instance();
-        $key = $this->_key($args);
 
-        $data = file_get_contents($args['path']);
+        $cache = $this->get_cache();
+        $key   = $this->_key($args);
+        $data  = file_get_contents($args['path']);
 
-        if ($data === false)
+        if ($data === false) {
             return $args;
+        }
 
-        $data = base64_encode($data);
-
-        $status = $rcmail->db->query(
-            "INSERT INTO ".$rcmail->db->table_name('cache')
-             ." (created, user_id, cache_key, data)"
-             ." VALUES (".$rcmail->db->now().", ?, ?, ?)",
-            $_SESSION['user_id'],
-            $key,
-            $data);
+        $data   = base64_encode($data);
+        $status = $cache->write($key, $data);
 
         if ($status) {
             $args['id'] = $key;
@@ -68,26 +55,20 @@ class database_attachments extends filesystem_attachments
     function save($args)
     {
         $args['status'] = false;
-        $rcmail = rcmail::get_instance();
 
-        $key = $this->_key($args);
+        $cache = $this->get_cache();
+        $key   = $this->_key($args);
 
         if ($args['path']) {
             $args['data'] = file_get_contents($args['path']);
 
-            if ($args['data'] === false)
+            if ($args['data'] === false) {
                 return $args;
+            }
         }
 
-        $data = base64_encode($args['data']);
-
-        $status = $rcmail->db->query(
-            "INSERT INTO ".$rcmail->db->table_name('cache')
-             ." (created, user_id, cache_key, data)"
-             ." VALUES (".$rcmail->db->now().", ?, ?, ?)",
-            $_SESSION['user_id'],
-            $key,
-            $data);
+        $data   = base64_encode($args['data']);
+        $status = $cache->write($key, $data);
 
         if ($status) {
             $args['id'] = $key;
@@ -104,13 +85,9 @@ class database_attachments extends filesystem_attachments
     function remove($args)
     {
         $args['status'] = false;
-        $rcmail = rcmail::get_instance();
-        $status = $rcmail->db->query(
-            "DELETE FROM ".$rcmail->db->table_name('cache')
-             ." WHERE user_id = ?"
-                ." AND cache_key = ?",
-            $_SESSION['user_id'],
-            $args['id']);
+
+        $cache  = $this->get_cache();
+        $status = $cache->remove($args['id']);
 
         if ($status) {
             $args['status'] = true;
@@ -135,18 +112,11 @@ class database_attachments extends filesystem_attachments
      */
     function get($args)
     {
-        $rcmail = rcmail::get_instance();
+        $cache = $this->get_cache();
+        $data  = $cache->read($args['id']);
 
-        $sql_result = $rcmail->db->query(
-            "SELECT data"
-             ." FROM ".$rcmail->db->table_name('cache')
-             ." WHERE user_id=?"
-                ." AND cache_key=?",
-            $_SESSION['user_id'],
-            $args['id']);
-
-        if ($sql_arr = $rcmail->db->fetch_assoc($sql_result)) {
-            $args['data'] = base64_decode($sql_arr['data']);
+        if ($data) {
+            $args['data'] = base64_decode($data);
             $args['status'] = true;
         }
 
@@ -158,12 +128,36 @@ class database_attachments extends filesystem_attachments
      */
     function cleanup($args)
     {
-        $prefix = $this->cache_prefix . $args['group'];
-        $rcmail = rcmail::get_instance();
-        $rcmail->db->query(
-            "DELETE FROM ".$rcmail->db->table_name('cache')
-            ." WHERE user_id = ?"
-                ." AND cache_key LIKE '{$prefix}%'",
-            $_SESSION['user_id']);
+        $cache = $this->get_cache();
+        $cache->remove($args['group'], true);
+    }
+
+    /**
+     * Helper method to generate a unique key for the given attachment file
+     */
+    protected function _key($args)
+    {
+        $uname = $args['path'] ? $args['path'] : $args['name'];
+        return $args['group'] . md5(mktime() . $uname . $_SESSION['user_id']);
+    }
+
+    /**
+     * Initialize and return cache object
+     */
+    protected function get_cache()
+    {
+        if (!$this->cache) {
+            $this->load_config();
+
+            $rcmail = rcube::get_instance();
+            $ttl    = 12 * 60 * 60; // default: 12 hours
+            $ttl    = $rcmail->config->get('database_attachments_cache_ttl', $ttl);
+            $type   = $rcmail->config->get('database_attachments_cache', 'db');
+
+            // Init SQL cache (disable cache data serialization)
+            $this->cache = $rcmail->get_cache($this->prefix, 'db', $ttl, false);
+        }
+
+        return $this->cache;
     }
 }
