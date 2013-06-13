@@ -234,9 +234,7 @@ class rcube_imap_cache
      * Return messages thread.
      * If threaded index doesn't exist or is invalid, will be updated.
      *
-     * @param string  $mailbox     Folder name
-     * @param string  $sort_field  Sorting column
-     * @param string  $sort_order  Sorting order (ASC|DESC)
+     * @param string $mailbox Folder name
      *
      * @return array Messages threaded index
      */
@@ -275,19 +273,11 @@ class rcube_imap_cache
         if ($index === null) {
             // Get mailbox data (UIDVALIDITY, counters, etc.) for status check
             $mbox_data = $this->imap->folder_data($mailbox);
-
-            if ($mbox_data['EXISTS']) {
-                // get all threads (default sort order)
-                $threads = $this->imap->fetch_threads($mailbox, true);
-            }
-            else {
-                $threads = new rcube_result_thread($mailbox, '* THREAD');
-            }
-
-            $index['object'] = $threads;
+            // Get THREADS result
+            $index['object'] = $this->get_thread_data($mailbox, $mbox_data);
 
             // insert/update
-            $this->add_thread_row($mailbox, $threads, $mbox_data, $exists);
+            $this->add_thread_row($mailbox, $index['object'], $mbox_data, $exists);
         }
 
         $this->icache[$mailbox]['thread'] = $index;
@@ -1106,17 +1096,18 @@ class rcube_imap_cache
             }
         }
 
-        // Invalidate thread index (?)
-        if (!$index['valid']) {
-            $this->remove_thread($mailbox);
-        }
-
         $sort_field = $index['sort_field'];
         $sort_order = $index['object']->get_parameters('ORDER');
         $exists     = true;
 
         // Validate index
         if (!$this->validate($mailbox, $index, $exists)) {
+            // Invalidate (remove) thread index
+            // if $exists=false it was already removed in validate()
+            if ($exists) {
+                $this->remove_thread($mailbox);
+            }
+
             // Update index
             $data = $this->get_index_data($mailbox, $sort_field, $sort_order, $mbox_data);
         }
@@ -1224,6 +1215,25 @@ class rcube_imap_cache
 
         return $index;
     }
+
+
+    /**
+     * Fetches thread data from IMAP server
+     */
+    private function get_thread_data($mailbox, $mbox_data = array())
+    {
+        if (empty($mbox_data)) {
+            $mbox_data = $this->imap->folder_data($mailbox);
+        }
+
+        if ($mbox_data['EXISTS']) {
+            // get all threads (default sort order)
+            return $this->imap->threads_direct($mailbox);
+        }
+
+        return new rcube_result_thread($mailbox, '* THREAD');
+    }
+
 }
 
 // for backward compat.

@@ -619,7 +619,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($mode == 'THREADS') {
-            $res   = $this->fetch_threads($folder, $force);
+            $res   = $this->threads($folder);
             $count = $res->count();
 
             if ($status) {
@@ -649,11 +649,11 @@ class rcube_imap extends rcube_storage
                     $keys[] = 'ALL';
                 }
                 if ($status) {
-                    $keys[]   = 'MAX';
+                    $keys[] = 'MAX';
                 }
             }
 
-            // @TODO: if $force==false && $mode == 'ALL' we could try to use cache index here
+            // @TODO: if $mode == 'ALL' we could try to use cache index here
 
             // get message count using (E)SEARCH
             // not very performant but more precise (using UNDELETED)
@@ -784,7 +784,7 @@ class rcube_imap extends rcube_storage
             $threads = $mcache->get_thread($folder);
         }
         else {
-            $threads = $this->fetch_threads($folder);
+            $threads = $this->threads($folder);
         }
 
         return $this->fetch_thread_headers($folder, $threads, $page, $slice);
@@ -793,14 +793,13 @@ class rcube_imap extends rcube_storage
     /**
      * Method for fetching threads data
      *
-     * @param  string $folder  Folder name
-     * @param  bool   $force   Use IMAP server, no cache
+     * @param  string $folder Folder name
      *
      * @return rcube_imap_thread Thread data object
      */
-    function fetch_threads($folder, $force = false)
+    function threads($folder)
     {
-        if (!$force && ($mcache = $this->get_mcache_engine())) {
+        if ($mcache = $this->get_mcache_engine()) {
             // don't store in self's internal cache, cache has it's own internal cache
             return $mcache->get_thread($folder);
         }
@@ -811,16 +810,30 @@ class rcube_imap extends rcube_storage
             }
         }
 
+        // get all threads
+        $result = $this->threads_direct($folder);
+
+        // add to internal (fast) cache
+        return $this->icache['threads'] = $result;
+    }
+
+
+    /**
+     * Method for direct fetching of threads data
+     *
+     * @param  string $folder Folder name
+     *
+     * @return rcube_imap_thread Thread data object
+     */
+    function threads_direct($folder)
+    {
         if (!$this->check_connection()) {
             return new rcube_result_thread();
         }
 
         // get all threads
-        $result = $this->conn->thread($folder, $this->threading,
+        return $this->conn->thread($folder, $this->threading,
             $this->options['skip_deleted'] ? 'UNDELETED' : '', true);
-
-        // add to internal (fast) cache
-        return $this->icache['threads'] = $result;
     }
 
 
@@ -1175,12 +1188,13 @@ class rcube_imap extends rcube_storage
      * @param string $folder     Folder to get index from
      * @param string $sort_field Sort column
      * @param string $sort_order Sort order [ASC, DESC]
+     * @param bool   $no_threads Get not threaded index
      *
      * @return rcube_result_index|rcube_result_thread List of messages (UIDs)
      */
-    public function index($folder = '', $sort_field = NULL, $sort_order = NULL)
+    public function index($folder = '', $sort_field = NULL, $sort_order = NULL, $no_threads = false)
     {
-        if ($this->threading) {
+        if (!$no_threads && $this->threading) {
             return $this->thread_index($folder, $sort_field, $sort_order);
         }
 
@@ -1239,17 +1253,13 @@ class rcube_imap extends rcube_storage
      * @param string $folder     Folder to get index from
      * @param string $sort_field Sort column
      * @param string $sort_order Sort order [ASC, DESC]
-     * @param bool   $skip_cache Disables cache usage
      *
      * @return rcube_result_index Sorted list of message UIDs
      */
-    public function index_direct($folder, $sort_field = null, $sort_order = null, $skip_cache = true)
+    public function index_direct($folder, $sort_field = null, $sort_order = null)
     {
-        if (!$skip_cache && ($mcache = $this->get_mcache_engine())) {
-            $index = $mcache->get_index($folder, $sort_field, $sort_order);
-        }
         // use message index sort as default sorting
-        else if (!$sort_field) {
+        if (!$sort_field) {
             // use search result from count() if possible
             if ($this->options['skip_deleted'] && !empty($this->icache['undeleted_idx'])
                 && $this->icache['undeleted_idx']->get_parameters('ALL') !== null
@@ -1310,7 +1320,7 @@ class rcube_imap extends rcube_storage
         }
         else {
             // get all threads (default sort order)
-            $threads = $this->fetch_threads($folder);
+            $threads = $this->threads($folder);
         }
 
         $this->set_sort_order($sort_field, $sort_order);
@@ -1321,9 +1331,10 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * Sort threaded result, using THREAD=REFS method
+     * Sort threaded result, using THREAD=REFS method if available.
+     * If not, use any method and re-sort the result in THREAD=REFS way.
      *
-     * @param rcube_result_thread $threads  Threads result set
+     * @param rcube_result_thread $threads Threads result set
      */
     protected function sort_threads($threads)
     {
@@ -1337,7 +1348,7 @@ class rcube_imap extends rcube_storage
 
         if ($this->get_capability('THREAD') != 'REFS') {
             $sortby = $this->sort_field ? $this->sort_field : 'date';
-            $index  = $this->index_direct($this->folder, $sortby, $this->sort_order, false);
+            $index  = $this->index($this->folder, $sortby, $this->sort_order, true);
 
             if (!$index->is_empty()) {
                 $threads->sort($index);
@@ -4092,9 +4103,9 @@ class rcube_imap extends rcube_storage
         return $this->index($folder, $sort_field, $sort_order);
     }
 
-    public function message_index_direct($folder, $sort_field = null, $sort_order = null, $skip_cache = true)
+    public function message_index_direct($folder, $sort_field = null, $sort_order = null)
     {
-        return $this->index_direct($folder, $sort_field, $sort_order, $skip_cache);
+        return $this->index_direct($folder, $sort_field, $sort_order);
     }
 
     public function list_mailboxes($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
