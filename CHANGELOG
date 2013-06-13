@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.9.2
+-------------
+- Fix image thumbnails display in print mode (#1489134)
+- Fix height of message headers block (#1489108)
 - Fix timeout issue on drag&drop uploads (#1489170)
 - Fix default sorting of threaded list when THREAD=REFS isn't supported
 - Fix list mode switch to 'List' after saving list settings in Larry skin (#1489164)
