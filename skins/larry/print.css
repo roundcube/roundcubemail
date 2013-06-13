@@ -123,3 +123,28 @@ div.message-part blockquote blockquote blockquote {
 	border-left: 2px solid #b00;
 	border-right: 2px solid #b00;
 }
+
+p.image-attachment {
+	position: relative;
+	padding: 1em;
+	border-top: 1px solid #ccc;
+}
+
+p.image-attachment a.image-link {
+	float: left;
+	display: block;
+	margin-right: 2em;
+	min-width: 160px;
+	min-height: 60px;
+	text-align: center;
+}
+
+p.image-attachment .image-filename {
+	display: block;
+	line-height: 1.6em;
+}
+
+p.image-attachment .attachment-links {
+	display: none;
+}
+
