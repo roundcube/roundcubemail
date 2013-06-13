@@ -18,7 +18,7 @@
 
 
 $labels['filters'] = 'Filtres';
-$labels['managefilters'] = 'Gestion des filtres sur les mails entrants';
+$labels['managefilters'] = 'Gérer les filtres sur les courriels entrants';
 $labels['filtername'] = 'Nom du filtre';
 $labels['newfilter'] = 'Nouveau filtre';
 $labels['filteradd'] = 'Ajouter un filtre';
@@ -49,13 +49,13 @@ $labels['messagesendcopy'] = 'Envoyer une copie du message à';
 $labels['messagereply'] = 'Répondre avec le message';
 $labels['messagedelete'] = 'Supprimer le message';
 $labels['messagediscard'] = 'Rejeter avec le message';
-$labels['messagesrules'] = 'Pour les mails entrants:';
+$labels['messagesrules'] = 'Pour les courriels entrants :';
 $labels['messagesactions'] = '...exécuter les actions suivantes:';
 $labels['add'] = 'Ajouter';
 $labels['del'] = 'Supprimer';
 $labels['sender'] = 'Expéditeur';
 $labels['recipient'] = 'Destinataire';
-$labels['vacationaddresses'] = 'Liste des destinataires (séparés par une virgule) :';
+$labels['vacationaddr'] = 'My additional e-mail addresse(s):';
 $labels['vacationdays'] = 'Ne pas renvoyer un message avant (jours) :';
 $labels['vacationinterval'] = 'Comment envoyer les messages :';
 $labels['days'] = 'jours';
@@ -165,8 +165,8 @@ $messages['setcreateerror'] = 'Impossible de créer le groupe de filtres. Le ser
 $messages['setcreated'] = 'Le groupe de filtres a bien été créé.';
 $messages['activateerror'] = 'Impossible d\'activer le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
 $messages['deactivateerror'] = 'Impossible de désactiver le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
-$messages['deactivated'] = 'Filtre(s) activé(s) avec succès';
-$messages['activated'] = 'Filtre(s) désactivé(s) avec succès';
+$messages['deactivated'] = 'Filtre(s) désactivé(s) avec succès.';
+$messages['activated'] = 'Filtre(s) activé(s) avec succès.';
 $messages['moved'] = 'Filtre déplacé avec succès.';
 $messages['moveerror'] = 'Déplacement du filtre sélectionné impossible. Le serveur a renvoyé une erreur.';
 $messages['nametoolong'] = 'Nom trop long.';

@@ -18,13 +18,13 @@
 
 $labels = array();
 $labels['buttontext'] = 'Arhivă';
-$labels['buttontitle'] = 'Arhivează acest mesaj.';
+$labels['buttontitle'] = 'Arhivează mesajul.';
 $labels['archived'] = 'Arhivare reuşită.';
 $labels['archivedreload'] = 'Arhivat cu succes. Reîncărcați pagina pentru a vedea noul dosar de arhivare.';
-$labels['archiveerror'] = 'Câteva mesaje nu au putut fi arhivate';
+$labels['archiveerror'] = 'Unele mesaje nu au putut fi arhivate';
 $labels['archivefolder'] = 'Arhivă';
 $labels['settingstitle'] = 'Arhivă';
-$labels['archivetype'] = 'Divide arhiva pe';
+$labels['archivetype'] = 'Împarte arhiva pe';
 $labels['archivetypeyear'] = 'Ani (ex. Arhiva/2013)';
 $labels['archivetypemonth'] = 'Luni (ex. Arhiva/2013/06)';
 $labels['archivetypefolder'] = 'Dosar original';

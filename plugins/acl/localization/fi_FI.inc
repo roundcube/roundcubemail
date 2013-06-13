@@ -89,11 +89,11 @@ $messages['saving'] = 'Tallennetaan käyttöoikeuksia...';
 $messages['updatesuccess'] = 'Käyttöoikeuksia muutettiin onnistuneesti';
 $messages['deletesuccess'] = 'Käyttöoikeuksia poistettiin onnistuneesti';
 $messages['createsuccess'] = 'Käyttöoikeuksia lisättiin onnistuneesti';
-$messages['updateerror'] = 'Ubable to update access rights';
+$messages['updateerror'] = 'Käyttöoikeuksien päivitys epäonnistui';
 $messages['deleteerror'] = 'Käyttöoikeuksien poistaminen epäonnistui';
 $messages['createerror'] = 'Käyttöoikeuksien lisääminen epäonnistui';
 $messages['deleteconfirm'] = 'Are you sure, you want to remove access rights of selected user(s)?';
-$messages['norights'] = 'No rights has been specified!';
-$messages['nouser'] = 'No username has been specified!';
+$messages['norights'] = 'Oikeuksia ei ole määritelty!';
+$messages['nouser'] = 'Käyttäjänimeä ei ole määritelty!';
 
 ?>

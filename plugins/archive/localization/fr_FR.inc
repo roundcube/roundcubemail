@@ -19,16 +19,16 @@
 $labels = array();
 $labels['buttontext'] = 'Archive';
 $labels['buttontitle'] = 'Archiver ce message';
-$labels['archived'] = 'Message archivé avec success';
+$labels['archived'] = 'Message archivé avec succès';
 $labels['archivedreload'] = 'Archivé avec succès. Rechargez la page pour voir les nouveaux dossiers d\'archivage.';
 $labels['archiveerror'] = 'Certains messages n\'ont pas pu être archivés.';
 $labels['archivefolder'] = 'Archive';
 $labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Diviser l\'archive en';
+$labels['archivetype'] = 'Diviser l\'archive par';
 $labels['archivetypeyear'] = 'Année (ex Archives/2012)';
 $labels['archivetypemonth'] = 'Mois (ex Archives/2012/06)';
 $labels['archivetypefolder'] = 'Dossier original';
-$labels['archivetypesender'] = 'Email de l\'émetteur';
+$labels['archivetypesender'] = 'Courriel de l\'émetteur';
 $labels['unkownsender'] = 'inconnu';
 
 ?>

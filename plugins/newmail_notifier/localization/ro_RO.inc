@@ -19,11 +19,11 @@
 $labels['basic'] = 'Afişează notificări în browser la mesaj nou.';
 $labels['desktop'] = 'Afişează notificări desktop la mesaj nou.';
 $labels['sound'] = 'Redă un sunet la mesaj nou.';
-$labels['test'] = 'Test';
+$labels['test'] = 'Testează';
 $labels['title'] = 'E-mail nou!';
 $labels['body'] = 'Ai primit un mesaj nou.';
 $labels['testbody'] = 'Aceasta este o notificare de test.';
 $labels['desktopdisabled'] = 'Notificările desktop sunt dezactivate în browser.';
-$labels['desktopunsupported'] = 'Browser-ul nu suportă notificări desktop.';
+$labels['desktopunsupported'] = 'Browser-ul dumneavoastră nu suportă notificări desktop.';
 
 ?>
