@@ -68,13 +68,14 @@ class redundant_attachments extends filesystem_attachments
         // load configuration
         $this->load_config();
 
+        $ttl = 12 * 60 * 60; // 12 hours
+        $ttl = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
+
         // Init SQL cache (disable cache data serialization)
-        $this->cache = $rcmail->get_cache($this->prefix, 'db', 0, false);
+        $this->cache = $rcmail->get_cache($this->prefix, 'db', $ttl, false);
 
         // Init memcache (fallback) cache
         if ($rcmail->config->get('redundant_attachments_memcache')) {
-            $ttl = 12 * 60 * 60; // 12 hours
-            $ttl = (int) $rcmail->config->get('redundant_attachments_memcache_ttl', $ttl);
             $this->mem_cache = $rcmail->get_cache($this->prefix, 'memcache', $ttl, false);
         }
 
