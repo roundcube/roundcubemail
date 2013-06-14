@@ -3,7 +3,7 @@
 /**
  * DB based User-to-Email and Email-to-User lookup
  *
- * Add it to the plugins list in config/main.inc.php and set
+ * Add it to the plugins list in config.inc.php and set
  * SQL queries to resolve usernames, e-mail addresses and hostnames from the database
  * %u will be replaced with the current username for login.
  * %m will be replaced with the current e-mail address for login.

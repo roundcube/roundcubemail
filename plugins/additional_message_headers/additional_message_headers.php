@@ -6,7 +6,7 @@
  * Very simple plugin which will add additional headers
  * to or remove them from outgoing messages.
  *
- * Enable the plugin in config/main.inc.php and add your desired headers:
+ * Enable the plugin in config.inc.php and add your desired headers:
  * $rcmail_config['additional_message_headers'] = array('User-Agent');
  *
  * @version @package_version@
@@ -24,7 +24,7 @@ class additional_message_headers extends rcube_plugin
 
     function message_headers($args)
     {
-	$this->load_config();
+    	$this->load_config();
 
         // additional email headers
         $additional_headers = rcmail::get_instance()->config->get('additional_message_headers',array());
@@ -39,5 +39,3 @@ class additional_message_headers extends rcube_plugin
         return $args;
     }
 }
-
-?>

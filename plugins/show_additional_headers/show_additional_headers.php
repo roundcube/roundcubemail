@@ -6,7 +6,7 @@
  * Proof-of-concept plugin which will fetch additional headers
  * and display them in the message view.
  *
- * Enable the plugin in config/main.inc.php and add your desired headers:
+ * Enable the plugin in config.inc.php and add your desired headers:
  *   $rcmail_config['show_additional_headers'] = array('User-Agent');
  *
  * @version @package_version@

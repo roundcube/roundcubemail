@@ -65,7 +65,7 @@
  -------------------
 
  You can specify which database to connect by 'password_db_dsn' option and
- what SQL query to execute by 'password_query'. See main.inc.php.dist file for
+ what SQL query to execute by 'password_query'. See config.inc.php.dist file for
  more info.
 
  Example implementations of an update_passwd function:

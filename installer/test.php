@@ -7,52 +7,44 @@ if (!class_exists('rcube_install') || !is_object($RCI)) {
 ?>
 <form action="index.php?_step=3" method="post">
 
-<h3>Check config files</h3>
+<h3>Check config file</h3>
 <?php
 
-$read_main = is_readable(RCUBE_CONFIG_DIR . 'main.inc.php');
-$read_db = is_readable(RCUBE_CONFIG_DIR . 'db.inc.php');
-
-if ($read_main && !empty($RCI->config)) {
-  $RCI->pass('main.inc.php');
+if ($read_config = is_readable(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
+  $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php');
+  if (!empty($config)) {
+    $RCI->pass('defaults.inc.php');
+  }
+  else {
+    $RCI->fail('defaults.inc.php', 'Syntax error');
+  }
 }
-else if ($read_main) {
-  $RCI->fail('main.inc.php', 'Syntax error');
-}
-else if (!$read_main) {
-  $RCI->fail('main.inc.php', 'Unable to read file. Did you create the config files?');
+else {
+  $RCI->fail('defaults.inc.php', 'Unable to read default config file?');
 }
 echo '<br />';
 
-if ($read_db && !empty($RCI->config['db_dsnw'])) {
-  $RCI->pass('db.inc.php');
+if ($read_config = is_readable(RCUBE_CONFIG_DIR . 'config.inc.php')) {
+  $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'config.inc.php');
+  if (!empty($config)) {
+    $RCI->pass('config.inc.php');
+  }
+  else {
+    $RCI->fail('config.inc.php', 'Syntax error');
+  }
 }
-else if ($read_db) {
-  $RCI->fail('db.inc.php', 'Syntax error');
+else {
+  $RCI->fail('config.inc.php', 'Unable to read file. Did you create the config file?');
 }
-else if (!$read_db) {
-  $RCI->fail('db.inc.php', 'Unable to read file. Did you create the config files?');
-}
+echo '<br />';
+
 
 if ($RCI->configured && ($messages = $RCI->check_config())) {
-  
-  if (is_array($messages['missing'])) {
-    echo '<h3 class="warning">Missing config options</h3>';
-    echo '<p class="hint">The following config options are not set (not present or empty) in the current configuration.<br/>';
-    echo 'Please check the default config files and set the missing properties in your local config files.</p>';
-
-    echo '<ul class="configwarnings">';
-    foreach ($messages['missing'] as $msg) {
-      echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
-    }
-    echo '</ul>';
-  }
-
   if (is_array($messages['replaced'])) {
     echo '<h3 class="warning">Replaced config options</h3>';
     echo '<p class="hint">The following config options have been replaced or renamed. ';
     echo 'Please update them accordingly in your config files.</p>';
-    
+
     echo '<ul class="configwarings">';
     foreach ($messages['replaced'] as $msg) {
       echo html::tag('li', null, html::span('propname', $msg['prop']) .
@@ -64,32 +56,28 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
   if (is_array($messages['obsolete'])) {
     echo '<h3>Obsolete config options</h3>';
     echo '<p class="hint">You still have some obsolete or inexistent properties set. This isn\'t a problem but should be noticed.</p>';
-    
+
     echo '<ul class="configwarings">';
     foreach ($messages['obsolete'] as $msg) {
       echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
     }
     echo '</ul>';
   }
-  
-  echo '<p class="suggestion">OK, lazy people can download the updated config files here: ';
-  echo html::a(array('href' => './?_mergeconfig=main'), 'main.inc.php') . ' &nbsp;';
-  echo html::a(array('href' => './?_mergeconfig=db'), 'db.inc.php');
+
+  echo '<p class="suggestion">OK, lazy people can download the updated config file here: ';
+  echo html::a(array('href' => './?_mergeconfig=1'), 'config.inc.php') . ' &nbsp;';
   echo "</p>";
-  
-  
+
   if (is_array($messages['dependencies'])) {
     echo '<h3 class="warning">Dependency check failed</h3>';
     echo '<p class="hint">Some of your configuration settings require other options to be configured or additional PHP modules to be installed</p>';
-    
+
     echo '<ul class="configwarings">';
     foreach ($messages['dependencies'] as $msg) {
       echo html::tag('li', null, html::span('propname', $msg['prop']) . ': ' . $msg['explain']);
     }
     echo '</ul>';
   }
-
-  
 }
 
 ?>
@@ -98,30 +86,24 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 <p>Roundcube may need to write/save files into these directories</p>
 <?php
 
-if ($RCI->configured) {
-    $pass = false;
+$dirs[] = $RCI->config['temp_dir'] ? $RCI->config['temp_dir'] : 'temp';
+if ($RCI->config['log_driver'] != 'syslog')
+    $dirs[] = $RCI->config['log_dir'] ? $RCI->config['log_dir'] : 'logs';
 
-    $dirs[] = $RCI->config['temp_dir'] ? $RCI->config['temp_dir'] : 'temp';
-    if($RCI->config['log_driver'] != 'syslog')
-      $dirs[] = $RCI->config['log_dir'] ? $RCI->config['log_dir'] : 'logs';
-
-    foreach ($dirs as $dir) {
-        $dirpath = $dir[0] == '/' ? $dir : INSTALL_PATH . $dir;
-        if (is_writable(realpath($dirpath))) {
-            $RCI->pass($dir);
-            $pass = true;
-        }
-        else {
-            $RCI->fail($dir, 'not writeable for the webserver');
-        }
-        echo '<br />';
+foreach ($dirs as $dir) {
+    $dirpath = $dir[0] == '/' ? $dir : INSTALL_PATH . $dir;
+    if (is_writable(realpath($dirpath))) {
+        $RCI->pass($dir);
+        $pass = true;
     }
-    
-    if (!$pass)
-        echo '<p class="hint">Use <tt>chmod</tt> or <tt>chown</tt> to grant write privileges to the webserver</p>';
+    else {
+        $RCI->fail($dir, 'not writeable for the webserver');
+    }
+    echo '<br />';
 }
-else {
-    $RCI->fail('Config', 'Could not read config files');
+
+if (!$pass) {
+    echo '<p class="hint">Use <tt>chmod</tt> or <tt>chown</tt> to grant write privileges to the webserver</p>';
 }
 
 ?>
@@ -151,7 +133,7 @@ if ($RCI->configured) {
     }
 }
 else {
-    $RCI->fail('Config', 'Could not read config files');
+    $RCI->fail('DSN (write)', 'Could not read config file');
 }
 
 // initialize db with schema found in /SQL/*
@@ -427,7 +409,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 
 After completing the installation and the final tests please <b>remove</b> the whole
 installer folder from the document root of the webserver or make sure that
-<tt>enable_installer</tt> option in config/main.inc.php is disabled.<br />
+<tt>enable_installer</tt> option in <tt>config.inc.php</tt> is disabled.<br />
 <br />
 
 These files may expose sensitive configuration data like server passwords and encryption keys

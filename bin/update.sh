@@ -45,22 +45,10 @@ $RCI->load_config();
 
 if ($RCI->configured) {
   $success = true;
-  
+
   if ($messages = $RCI->check_config()) {
     $success = false;
     $err = 0;
-
-    // list missing config options
-    if (is_array($messages['missing'])) {
-      echo "WARNING: Missing config options:\n";
-      echo "(These config options should be present in the current configuration)\n";
-
-      foreach ($messages['missing'] as $msg) {
-        echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
-        $err++;
-      }
-      echo "\n";
-    }
 
     // list old/replaced config options
     if (is_array($messages['replaced'])) {
@@ -93,24 +81,27 @@ if ($RCI->configured) {
 
       // positive: let's merge the local config with the defaults
       if (strtolower($input) == 'y') {
-        $copy1 = $copy2 = $write1 = $write2 = false;
-        
+        $error = $writed = false;
+
         // backup current config
-        echo ". backing up the current config files...\n";
-        $copy1 = copy(RCMAIL_CONFIG_DIR . '/main.inc.php', RCMAIL_CONFIG_DIR . '/main.old.php');
-        $copy2 = copy(RCMAIL_CONFIG_DIR . '/db.inc.php', RCMAIL_CONFIG_DIR . '/db.old.php');
-        
-        if ($copy1 && $copy2) {
-          $RCI->merge_config();
-        
-          echo ". writing " . RCMAIL_CONFIG_DIR . "/main.inc.php...\n";
-          $write1 = file_put_contents(RCMAIL_CONFIG_DIR . '/main.inc.php', $RCI->create_config('main', true));
-          echo ". writing " . RCMAIL_CONFIG_DIR . "/main.db.php...\n";
-          $write2 = file_put_contents(RCMAIL_CONFIG_DIR . '/db.inc.php', $RCI->create_config('db', true));
+        echo ". backing up the current config file(s)...\n";
+
+        foreach (array('config', 'main', 'db') as $file) {
+          if (file_exists(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php'))
+            if (!copy(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php', RCMAIL_CONFIG_DIR . '/' . $file . '.old.php')) {
+              $error = true;
+            }
+          }
         }
-        
+
+        if (!$error) {
+          $RCI->merge_config();
+          echo ". writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
+          $writed = file_put_contents(RCMAIL_CONFIG_DIR . '/config.inc.php', $RCI->create_config());
+        }
+
         // Success!
-        if ($write1 && $write2) {
+        if ($writed) {
           echo "Done.\n";
           echo "Your configuration files are now up-to-date!\n";
 
@@ -121,7 +112,7 @@ if ($RCI->configured) {
           }
         }
         else {
-          echo "Failed to write config files!\n";
+          echo "Failed to write config file(s)!\n";
           echo "Grant write privileges to the current user or update the files manually according to the above messages.\n";
         }
       }

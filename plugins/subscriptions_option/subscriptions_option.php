@@ -7,7 +7,7 @@
  * It includes a toggle on the settings page under "Server Settings".
  * The preference can also be locked
  *
- * Add it to the plugins list in config/main.inc.php to enable the user option
+ * Add it to the plugins list in config.inc.php to enable the user option
  * The user option can be hidden and set globally by adding 'use_subscriptions'
  * to the 'dont_override' configure line:
  * $rcmail_config['dont_override'] = array('use_subscriptions');
