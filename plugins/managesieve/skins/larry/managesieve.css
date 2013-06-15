@@ -43,7 +43,7 @@
 #filtersetslist
 {
   width: 100%;
-  table-layout: fixed; 
+  table-layout: fixed;
 }
 
 #filterslist tbody td,
@@ -184,6 +184,14 @@ td.rowtargets > div
 td.rowtargets div.adv
 {
   padding-top: 3px;
+  font-size: 10px;
+}
+
+td.rowtargets div.adv span.label
+{
+  display: inline-block;
+  padding-right: 5px;
+  min-width: 70px;
 }
 
 input.disabled, input.disabled:hover
@@ -297,6 +305,7 @@ a.button.disabled
 {
   font-size: 11px;
   padding: 1px;
+  vertical-align: middle;
 }
 
 html.mozilla #filter-form select

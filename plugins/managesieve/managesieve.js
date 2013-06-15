@@ -578,27 +578,32 @@ function rule_header_select(id)
     header = document.getElementById('custom_header' + id + '_list'),
     mod = document.getElementById('rule_mod' + id),
     trans = document.getElementById('rule_trans' + id),
-    comp = document.getElementById('rule_comp' + id);
+    comp = document.getElementById('rule_comp' + id),
+    datepart = document.getElementById('rule_date_part' + id),
+    dateheader = document.getElementById('rule_date_header_div' + id),
+    h = obj.value;
 
-  if (obj.value == 'size') {
+  if (h == 'size') {
     size.style.display = 'inline';
-    op.style.display = 'none';
-    header.style.display = 'none';
-    mod.style.display = 'none';
-    trans.style.display = 'none';
-    comp.style.display = 'none';
+    $.each([op, header, mod, trans, comp], function() { this.style.display = 'none'; });
   }
   else {
-    header.style.display = obj.value != '...' ? 'none' : 'inline-block';
+    header.style.display = h != '...' ? 'none' : 'inline-block';
     size.style.display = 'none';
     op.style.display = 'inline';
     comp.style.display = '';
-    mod.style.display = obj.value == 'body' ? 'none' : 'block';
-    trans.style.display = obj.value == 'body' ? 'block' : 'none';
+    mod.style.display = h == 'body' || h == 'currentdate' || h == 'date' ? 'none' : 'block';
+    trans.style.display = h == 'body' ? 'block' : 'none';
   }
 
-  rule_op_select(op, id, obj.value);
-  obj.style.width = obj.value == '...' ? '40px' : '';
+  if (datepart)
+    datepart.style.display = h == 'currentdate' || h == 'date' ? 'inline' : 'none';
+  if (dateheader)
+    dateheader.style.display = h == 'date' ? '' : 'none';
+
+  rule_op_select(op, id, h);
+  rule_mod_select(id, h);
+  obj.style.width = h == '...' ? '40px' : '';
 };
 
 function rule_op_select(obj, id, header)
@@ -619,12 +624,19 @@ function rule_trans_select(id)
   target.style.display = obj.value != 'content' ? 'none' : 'inline';
 };
 
-function rule_mod_select(id)
+function rule_mod_select(id, header)
 {
   var obj = document.getElementById('rule_mod_op' + id),
-    target = document.getElementById('rule_mod_type' + id);
+    target = document.getElementById('rule_mod_type' + id),
+    index = document.getElementById('rule_index_div' + id);
+
+  if (!header)
+    header = document.getElementById('header' + id).value;
 
   target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : 'inline';
+
+  if (index)
+    index.style.display = header != 'body' && header != 'currentdate' && header != 'size' && obj.value != 'envelope'  ? '' : 'none';
 };
 
 function rule_join_radio(value)
@@ -649,7 +661,7 @@ function rule_adv_switch(id, elem)
 function action_type_select(id)
 {
   var obj = document.getElementById('action_type' + id),
-    enabled = {},
+    v = obj.value(), enabled = {},
     elems = {
       mailbox: document.getElementById('action_mailbox' + id),
       target: document.getElementById('action_target' + id),
@@ -660,25 +672,25 @@ function action_type_select(id)
       notify: document.getElementById('action_notify' + id)
     };
 
-  if (obj.value == 'fileinto' || obj.value == 'fileinto_copy') {
+  if (v == 'fileinto' || v == 'fileinto_copy') {
     enabled.mailbox = 1;
   }
-  else if (obj.value == 'redirect' || obj.value == 'redirect_copy') {
+  else if (v == 'redirect' || v == 'redirect_copy') {
     enabled.target = 1;
   }
-  else if (obj.value.match(/^reject|ereject$/)) {
+  else if (v.match(/^reject|ereject$/)) {
     enabled.target_area = 1;
   }
-  else if (obj.value.match(/^(add|set|remove)flag$/)) {
+  else if (v.match(/^(add|set|remove)flag$/)) {
     enabled.flags = 1;
   }
-  else if (obj.value == 'vacation') {
+  else if (v == 'vacation') {
     enabled.vacation = 1;
   }
-  else if (obj.value == 'set') {
+  else if (v == 'set') {
     enabled.set = 1;
   }
-  else if (obj.value == 'notify') {
+  else if (v == 'notify') {
     enabled.notify = 1;
   }
 

@@ -1,6 +1,7 @@
 - Add vacation-seconds extension support (RFC 6131)
 - Several script parser code improvements
 - Support string list arguments in filter form (#1489018)
+- Support date, currendate and index tests - RFC5260 (#1488120)
 
 * version 6.2 [2013-02-17]
 -----------------------------------------------------------

@@ -212,6 +212,13 @@ td.rowtargets div.adv
   padding-top: 3px;
 }
 
+td.rowtargets div.adv span.label
+{
+  display: inline-block;
+  padding-right: 10px;
+  min-width: 65px;
+}
+
 html.mozilla #filter-form select
 {
   padding-top: 3px;
@@ -319,6 +326,7 @@ a.button.disabled
 #filter-form textarea
 {
   font-size: 11px;
+  vertical-align: middle;
 }
 
 /* smart multi-row input field */

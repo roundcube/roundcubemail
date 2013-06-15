@@ -12,8 +12,8 @@
  *
  * Configuration (see config.inc.php.dist)
  *
- * Copyright (C) 2008-2012, The Roundcube Dev Team
- * Copyright (C) 2011-2012, Kolab Systems AG
+ * Copyright (C) 2008-2013, The Roundcube Dev Team
+ * Copyright (C) 2011-2013, Kolab Systems AG
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -662,6 +662,10 @@ class managesieve extends rcube_plugin
             $body_trans     = rcube_utils::get_input_value('_rule_trans', rcube_utils::INPUT_POST);
             $body_types     = rcube_utils::get_input_value('_rule_trans_type', rcube_utils::INPUT_POST, true);
             $comparators    = rcube_utils::get_input_value('_rule_comp', rcube_utils::INPUT_POST);
+            $indexes        = rcube_utils::get_input_value('_rule_index', rcube_utils::INPUT_POST);
+            $lastindexes    = rcube_utils::get_input_value('_rule_index_last', rcube_utils::INPUT_POST);
+            $dateheaders    = rcube_utils::get_input_value('_rule_date_header', rcube_utils::INPUT_POST);
+            $dateparts      = rcube_utils::get_input_value('_rule_date_part', rcube_utils::INPUT_POST);
             $act_types      = rcube_utils::get_input_value('_action_type', rcube_utils::INPUT_POST, true);
             $mailboxes      = rcube_utils::get_input_value('_action_mailbox', rcube_utils::INPUT_POST, true);
             $act_targets    = rcube_utils::get_input_value('_action_target', rcube_utils::INPUT_POST, true);
@@ -732,6 +736,82 @@ class managesieve extends rcube_plugin
                         else
                             $this->form['tests'][$i]['arg'] .= $m[1];
                     }
+                    else if ($header == 'currentdate') {
+                        $datepart = $this->strip_value($dateparts[$idx]);
+
+                        if (preg_match('/^not/', $operator))
+                            $this->form['tests'][$i]['not'] = true;
+                        $type = preg_replace('/^not/', '', $operator);
+
+                        if ($type == 'exists') {
+                            $this->errors['tests'][$i]['op'] = true;
+                        }
+
+                        $this->form['tests'][$i]['test'] = 'currentdate';
+                        $this->form['tests'][$i]['type'] = $type;
+                        $this->form['tests'][$i]['part'] = $datepart;
+                        $this->form['tests'][$i]['arg']  = $target;
+
+                        if ($type != 'exists') {
+                            if (!count($target)) {
+                                $this->errors['tests'][$i]['target'] = $this->gettext('cannotbeempty');
+                            }
+                            else if ($type != 'regex' && $type != 'matches') {
+                                foreach ($target as $arg) {
+                                    if (!$this->validate_date_part($datepart, $arg)) {
+                                        $this->errors['tests'][$i]['target'] = $this->gettext('invaliddateformat');
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if ($header == 'date') {
+                        $datepart    = $this->strip_value($dateparts[$idx]);
+                        $dateheader  = $this->strip_value($dateheaders[$idx]);
+                        $index       = $this->strip_value($indexes[$idx]);
+                        $indexlast   = $this->strip_value($lastindexes[$idx]);
+
+                        if (preg_match('/^not/', $operator))
+                            $this->form['tests'][$i]['not'] = true;
+                        $type = preg_replace('/^not/', '', $operator);
+
+                        if ($type == 'exists') {
+                            $this->errors['tests'][$i]['op'] = true;
+                        }
+
+                        if (!empty($index) && $mod != 'envelope') {
+                            $this->form['tests'][$i]['index'] = intval($index);
+                            $this->form['tests'][$i]['last']  = !empty($indexlast);
+                        }
+
+                        if (empty($dateheader)) {
+                            $dateheader = 'Date';
+                        }
+                        else if (!preg_match('/^[\x21-\x39\x41-\x7E]+$/i', $dateheader)) {
+                            $this->errors['tests'][$i]['dateheader'] = $this->gettext('forbiddenchars');
+                        }
+
+                        $this->form['tests'][$i]['test']   = 'date';
+                        $this->form['tests'][$i]['type']   = $type;
+                        $this->form['tests'][$i]['part']   = $datepart;
+                        $this->form['tests'][$i]['arg']    = $target;
+                        $this->form['tests'][$i]['header'] = $dateheader;
+
+                        if ($type != 'exists') {
+                            if (!count($target)) {
+                                $this->errors['tests'][$i]['target'] = $this->gettext('cannotbeempty');
+                            }
+                            else if ($type != 'regex' && $type != 'matches') {
+                                foreach ($target as $arg) {
+                                    if (!$this->validate_date_part($datepart, $arg)) {
+                                        $this->errors['tests'][$i]['target'] = $this->gettext('invaliddateformat');
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     else if ($header == 'body') {
                         $trans      = $this->strip_value($body_trans[$idx]);
                         $trans_type = $this->strip_value($body_types[$idx], true);
@@ -766,12 +846,19 @@ class managesieve extends rcube_plugin
                     }
                     else {
                         $cust_header = $headers = $this->strip_value(array_shift($cust_headers));
-                        $mod      = $this->strip_value($mods[$idx]);
-                        $mod_type = $this->strip_value($mod_types[$idx]);
+                        $mod         = $this->strip_value($mods[$idx]);
+                        $mod_type    = $this->strip_value($mod_types[$idx]);
+                        $index       = $this->strip_value($indexes[$idx]);
+                        $indexlast   = $this->strip_value($lastindexes[$idx]);
 
                         if (preg_match('/^not/', $operator))
                             $this->form['tests'][$i]['not'] = true;
                         $type = preg_replace('/^not/', '', $operator);
+
+                        if (!empty($index) && $mod != 'envelope') {
+                            $this->form['tests'][$i]['index'] = intval($index);
+                            $this->form['tests'][$i]['last']  = !empty($indexlast);
+                        }
 
                         if ($header == '...') {
                             if (!count($headers))
@@ -1304,35 +1391,40 @@ class managesieve extends rcube_plugin
         // headers select
         $select_header = new html_select(array('name' => "_header[]", 'id' => 'header'.$id,
             'onchange' => 'rule_header_select(' .$id .')'));
-        foreach($this->headers as $name => $val)
+
+        foreach ($this->headers as $name => $val)
             $select_header->add(rcube::Q($this->gettext($name)), Q($val));
+        $select_header->add(rcube::Q($this->gettext('...')), '...');
         if (in_array('body', $this->exts))
             $select_header->add(rcube::Q($this->gettext('body')), 'body');
         $select_header->add(rcube::Q($this->gettext('size')), 'size');
-        $select_header->add(rcube::Q($this->gettext('...')), '...');
-
-        // TODO: list arguments
-        $aout = '';
-
-        if ((isset($rule['test']) && in_array($rule['test'], array('header', 'address', 'envelope')))
-            && !is_array($rule['arg1']) && in_array($rule['arg1'], $this->headers)
-        ) {
-            $aout .= $select_header->show($rule['arg1']);
+        if (in_array('date', $this->exts)) {
+            $select_header->add(rcube::Q($this->gettext('datetest')), 'date');
+            $select_header->add(rcube::Q($this->gettext('currdate')), 'currentdate');
         }
-        else if ((isset($rule['test']) && $rule['test'] == 'exists')
-            && !is_array($rule['arg']) && in_array($rule['arg'], $this->headers)
-        ) {
-            $aout .= $select_header->show($rule['arg']);
-        }
-        else if (isset($rule['test']) && $rule['test'] == 'size')
-            $aout .= $select_header->show('size');
-        else if (isset($rule['test']) && $rule['test'] == 'body')
-            $aout .= $select_header->show('body');
-        else if (isset($rule['test']) && $rule['test'] != 'true')
-            $aout .= $select_header->show('...');
-        else
-            $aout .= $select_header->show();
 
+        if (isset($rule['test'])) {
+            if (in_array($rule['test'], array('header', 'address', 'envelope'))
+                && !is_array($rule['arg1']) && in_array($rule['arg1'], $this->headers)
+            ) {
+                $test = $rule['arg1'];
+            }
+            else if ($rule['test'] == 'exists'
+                && !is_array($rule['arg']) && in_array($rule['arg'], $this->headers)
+            ) {
+                $test = $rule['arg'];
+            }
+            else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate'))) {
+                $test = $rule['test'];
+            }
+            else if ($rule['test'] != 'true') {
+                $test = '...';
+            }
+        }
+
+        $aout = $select_header->show($test);
+
+        // custom headers input
         if (isset($rule['test']) && in_array($rule['test'], array('header', 'address', 'envelope'))) {
             $custom = (array) $rule['arg1'];
             if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
@@ -1381,13 +1473,28 @@ class managesieve extends rcube_plugin
             $select_op->add(rcube::Q($this->gettext('valuenotequals')), 'value-ne');
         }
 
-        // target input (TODO: lists)
+        // (current)date part select
+        if (in_array('date', $this->exts) || in_array('currentdate', $this->exts)) {
+            $date_parts = array('date', 'iso8601', 'std11', 'julian', 'time',
+                'year', 'month', 'day', 'hour', 'minute', 'second', 'weekday', 'zone');
+            $select_dp = new html_select(array('name' => "_rule_date_part[]", 'id' => 'rule_date_part'.$id,
+                'style' => $rule['test'] == 'currentdate' || $rule['test'] == 'date' ? '' : 'display:none',
+                'class' => 'datepart_selector',
+            ));
 
+            foreach ($date_parts as $part) {
+                $select_dp->add(rcube::Q($this->gettext($part)), $part);
+            }
+
+            $tout .= $select_dp->show($rule['test'] == 'currentdate' || $rule['test'] == 'date' ? $rule['part'] : '');
+        }
+
+        // target(s) input
         if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
             $test   = ($rule['not'] ? 'not' : '').($rule['type'] ? $rule['type'] : 'is');
             $target = $rule['arg2'];
         }
-        else if ($rule['test'] == 'body') {
+        else if (in_array($rule['test'], array('body', 'date', 'currentdate'))) {
             $test   = ($rule['not'] ? 'not' : '').($rule['type'] ? $rule['type'] : 'is');
             $target = $rule['arg'];
         }
@@ -1449,11 +1556,9 @@ class managesieve extends rcube_plugin
         }
 
         $need_mod = $rule['test'] != 'size' && $rule['test'] != 'body';
-        $mout = '<div id="rule_mod' .$id. '" class="adv" style="display:' . ($need_mod ? 'block' : 'none') .'">';
-        $mout .= ' <span>';
-        $mout .= rcube::Q($this->gettext('modifier')) . ' ';
+        $mout = '<div id="rule_mod' .$id. '" class="adv"' . (!$need_mod ? ' style="display:none"' : '') . '>';
+        $mout .= ' <span class="label">' . rcube::Q($this->gettext('modifier')) . ' </span>';
         $mout .= $select_mod->show($rule['test']);
-        $mout .= '</span>';
         $mout .= ' <span id="rule_mod_type' . $id . '"';
         $mout .= ' style="display:' . (in_array($rule['test'], array('address', 'envelope')) ? 'inline' : 'none') .'">';
         $mout .= rcube::Q($this->gettext('modtype')) . ' ';
@@ -1468,15 +1573,13 @@ class managesieve extends rcube_plugin
         $select_mod->add(rcube::Q($this->gettext('undecoded')), 'raw');
         $select_mod->add(rcube::Q($this->gettext('contenttype')), 'content');
 
-        $mout .= '<div id="rule_trans' .$id. '" class="adv" style="display:' . ($rule['test'] == 'body' ? 'block' : 'none') .'">';
-        $mout .= ' <span>';
-        $mout .= rcube::Q($this->gettext('modifier')) . ' ';
+        $mout .= '<div id="rule_trans' .$id. '" class="adv"' . ($rule['test'] != 'body' ? ' style="display:none"' : '') . '>';
+        $mout .= '<span class="label">' . rcube::Q($this->gettext('modifier')) . '</span>';
         $mout .= $select_mod->show($rule['part']);
         $mout .= '<input type="text" name="_rule_trans_type[]" id="rule_trans_type'.$id
             . '" value="'.(is_array($rule['content']) ? implode(',', $rule['content']) : $rule['content'])
-            .'" size="20" style="display:' . ($rule['part'] == 'content' ? 'inline' : 'none') .'"'
+            .'" size="20"' . ($rule['part'] != 'content' ? ' style="display:none"' : '')
             . $this->error_class($id, 'test', 'part', 'rule_trans_type') .' />';
-        $mout .= '</span>';
         $mout .= '</div>';
 
         // Advanced modifiers (body transformations)
@@ -1488,12 +1591,35 @@ class managesieve extends rcube_plugin
             $select_comp->add(rcube::Q($this->gettext('asciinumeric')), 'i;ascii-numeric');
         }
 
-        $mout .= '<div id="rule_comp' .$id. '" class="adv" style="display:' . ($rule['test'] != 'size' ? 'block' : 'none') .'">';
-        $mout .= ' <span>';
-        $mout .= rcube::Q($this->gettext('comparator')) . ' ';
+        // Comparators
+        $mout .= '<div id="rule_comp' .$id. '" class="adv"' . ($rule['test'] == 'size' ? ' style="display:none"' : '') . '>';
+        $mout .= '<span class="label">' . rcube::Q($this->gettext('comparator')) . '</span>';
         $mout .= $select_comp->show($rule['comparator']);
-        $mout .= '</span>';
         $mout .= '</div>';
+
+        // Date header
+        if (in_array('date', $this->exts)) {
+            $mout .= '<div id="rule_date_header_div' .$id. '" class="adv"'. ($rule['test'] != 'date' ? ' style="display:none"' : '') .'>';
+            $mout .= '<span class="label">' . rcube::Q($this->gettext('dateheader')) . '</span>';
+            $mout .= '<input type="text" name="_rule_date_header[]" id="rule_date_header'.$id
+                . '" value="'. Q($rule['test'] == 'date' ? $rule['header'] : '')
+                . '" size="15"' . $this->error_class($id, 'test', 'dateheader', 'rule_date_header') .' />';
+            $mout .= '</div>';
+        }
+
+        // Index
+        if (in_array('index', $this->exts)) {
+            $need_index = in_array($rule['test'], array('header', ', address', 'date'));
+            $mout .= '<div id="rule_index_div' .$id. '" class="adv"'. (!$need_index ? ' style="display:none"' : '') .'>';
+            $mout .= '<span class="label">' . rcube::Q($this->gettext('index')) . '</span>';
+            $mout .= '<input type="text" name="_rule_index[]" id="rule_index'.$id
+                . '" value="'. ($rule['index'] ? intval($rule['index']) : '')
+                . '" size="3"' . $this->error_class($id, 'test', 'index', 'rule_index') .' />';
+            $mout .= '&nbsp;<input type="checkbox" name="_rule_index_last[]" id="rule_index_last'.$id
+                . '" value="1"' . (!empty($rule['last']) ? ' checked="checked"' : '') . ' />'
+                . '<label for="rule_index_last'.$id.'">'.rcube::Q($this->gettext('indexlast')).'</label>';
+            $mout .= '</div>';
+        }
 
         // Build output table
         $out = $div ? '<div class="rulerow" id="rulerow' .$id .'">'."\n" : '';
@@ -1789,6 +1915,45 @@ class managesieve extends rcube_plugin
             . ($size ? ' data-size="'.$size.'"' : '')
             . $class
             . ' style="display:none">' . $value . '</textarea>';
+    }
+
+    /**
+     * Validate input for date part elements
+     */
+    private function validate_date_part($type, $value)
+    {
+        // we do simple validation of date/part format
+        switch ($type) {
+            case 'date': // yyyy-mm-dd
+                return preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $value);
+            case 'iso8601':
+                return preg_match('/^[0-9: .,ZWT+-]+$/', $value);
+            case 'std11':
+                return preg_match('/^((Sun|Mon|Tue|Wed|Thu|Fri|Sat),\s+)?[0-9]{1,2}\s+'
+                    . '(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+[0-9]{2,4}\s+'
+                    . '[0-9]{2}:[0-9]{2}(:[0-9]{2})?\s+([+-]*[0-9]{4}|[A-Z]{1,3})$', $value);
+            case 'julian':
+                return preg_match('/^[0-9]+$/', $value);
+            case 'time': // hh:mm:ss
+                return preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $value);
+            case 'year':
+                return preg_match('/^[0-9]{4}$/', $value);
+            case 'month':
+                return preg_match('/^[0-9]{2}$/', $value) && $value > 0 && $value < 13;
+            case 'day':
+                return preg_match('/^[0-9]{2}$/', $value) && $value > 0 && $value < 32;
+            case 'hour':
+                return preg_match('/^[0-9]{2}$/', $value) && $value < 24;
+            case 'minute':
+                return preg_match('/^[0-9]{2}$/', $value) && $value < 60;
+            case 'second':
+                // According to RFC5260, seconds can be from 00 to 60
+                return preg_match('/^[0-9]{2}$/', $value) && $value < 61;
+            case 'weekday':
+                return preg_match('/^[0-9]$/', $value) && $value < 7;
+            case 'zone':
+                return preg_match('/^[+-][0-9]{4}$/', $value);
+        }
     }
 
     /**
