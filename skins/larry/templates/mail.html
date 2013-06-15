@@ -148,7 +148,8 @@
 <div id="mailboxmenu" class="popupmenu">
 	<ul class="toolbarmenu" id="mailboxoptionsmenu">
 		<li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
-		<li class="separator_below"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+		<li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+		<li><roundcube:button name="messageimport" type="link" class="active" label="importmessages" onclick="UI.show_uploadform()" /></li>
 		<li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
@@ -223,6 +224,14 @@
 	<div class="formbuttons">
 		<roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
 		<roundcube:button command="menu-open" id="listmenucancel" type="input" class="button" label="cancel" />
+	</div>
+</div>
+
+<div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='importmessages' />">
+	<roundcube:object name="messageimportform" id="uploadform" attachmentFieldSize="40" buttons="no" />
+	<div class="formbuttons">
+		<roundcube:button command="import-messages" type="input" class="button mainaction" label="upload" />
+		<roundcube:button name="close" type="input" class="button" label="cancel" onclick="UI.show_uploadform()" />
 	</div>
 </div>
 

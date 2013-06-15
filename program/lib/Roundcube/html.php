@@ -360,8 +360,8 @@ class html_inputfield extends html
     protected $allowed = array(
         'type','name','value','size','tabindex','autocapitalize',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
-        'spellcheck','results','maxlength','src','multiple','placeholder',
-        'autofocus',
+        'spellcheck','results','maxlength','src','multiple','accept',
+        'placeholder','autofocus',
     );
 
     /**
