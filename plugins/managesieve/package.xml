@@ -93,6 +93,7 @@
 			<file name="skins/classic/images/add.png" role="data"></file>
 			<file name="skins/classic/images/del.png" role="data"></file>
 			<file name="skins/classic/images/down_small.gif" role="data"></file>
+			<file name="skins/classic/images/erase.png" role="data"></file>
 			<file name="skins/classic/images/filter.png" role="data"></file>
 			<file name="skins/classic/images/up_small.gif" role="data"></file>
 			<file name="skins/larry/managesieve.css" role="data"></file>
@@ -103,10 +104,11 @@
 			<file name="skins/larry/images/add.png" role="data"></file>
 			<file name="skins/larry/images/del.png" role="data"></file>
 			<file name="skins/larry/images/down_small.gif" role="data"></file>
+			<file name="skins/larry/images/erase.png" role="data"></file>
 			<file name="skins/larry/images/up_small.gif" role="data"></file>
-			<file name="managesieve.php" role="php"></file>
-			<file name="lib/rcube_sieve.php" role="php"></file>
-			<file name="lib/rcube_sieve_script.php" role="php"></file>
+			<file name="lib/Roundcube/rcube_sieve.php" role="php"></file>
+			<file name="lib/Roundcube/rcube_sieve_engine.php" role="php"></file>
+			<file name="lib/Roundcube/rcube_sieve_script.php" role="php"></file>
 			<file name="lib/Net/Sieve.php" role="php"></file>
 			<file name="config.inc.php.dist" role="data"></file>
 		</dir>

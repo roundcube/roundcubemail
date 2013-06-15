@@ -2,6 +2,7 @@
 - Several script parser code improvements
 - Support string list arguments in filter form (#1489018)
 - Support date, currendate and index tests - RFC5260 (#1488120)
+- Split plugin file into two files
 
 * version 6.2 [2013-02-17]
 -----------------------------------------------------------
