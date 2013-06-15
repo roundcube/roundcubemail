@@ -603,10 +603,12 @@ function rule_header_select(id)
 
 function rule_op_select(obj, id, header)
 {
-  var target = document.getElementById('rule_target' + id + '_list'),
-    style = obj.value == 'exists' || obj.value == 'notexists' || header == 'size' ? 'none' : 'inline-block';
+  var target = document.getElementById('rule_target' + id + '_list');
 
-  target.style.display = style;
+  if (!header)
+    header = document.getElementById('header' + id).value;
+
+  target.style.display = obj.value == 'exists' || obj.value == 'notexists' || header == 'size' ? 'none' : 'inline-block';
 };
 
 function rule_trans_select(id)

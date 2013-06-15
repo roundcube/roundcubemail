@@ -1353,7 +1353,7 @@ class managesieve extends rcube_plugin
         $select_op = new html_select(array('name' => "_rule_op[]", 'id' => 'rule_op'.$id,
             'style' => 'display:' .($rule['test']!='size' ? 'inline' : 'none'),
             'class' => 'operator_selector',
-            'onchange' => 'rule_op_select('.$id.')'));
+            'onchange' => 'rule_op_select(this, '.$id.')'));
         $select_op->add(rcube::Q($this->gettext('filtercontains')), 'contains');
         $select_op->add(rcube::Q($this->gettext('filternotcontains')), 'notcontains');
         $select_op->add(rcube::Q($this->gettext('filteris')), 'is');
