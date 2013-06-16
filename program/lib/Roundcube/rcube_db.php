@@ -362,7 +362,8 @@ class rcube_db
         $idx = 0;
 
         while ($pos = strpos($query, '?', $pos)) {
-            if ($query[$pos+1] == '?') {  // skip escaped ?
+            if ((($pos + 1) < strlen($query)) && ($query[$pos+1] == '?')) {
+	        // skip escaped ?
                 $pos += 2;
             }
             else {
