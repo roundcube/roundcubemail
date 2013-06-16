@@ -900,7 +900,7 @@ function rcmail_message_headers($attrib, $headers=null)
       $value = $headers[$hkey];
     else if ($headers['others'][$hkey])
       $value = $headers['others'][$hkey];
-    else
+    else if (!$attrib['valueof'])
       continue;
 
     if (in_array($hkey, $exclude_headers))
