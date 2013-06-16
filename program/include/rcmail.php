@@ -749,11 +749,6 @@ class rcmail extends rcube
         $book->close();
     }
 
-    // before closing the database connection, write session data
-    if ($_SERVER['REMOTE_ADDR'] && is_object($this->session)) {
-      $this->session->write_close();
-    }
-
     // write performance stats to logs/console
     if ($this->config->get('devel_mode')) {
       if (function_exists('memory_get_usage'))

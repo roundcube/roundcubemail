@@ -99,7 +99,6 @@ class rcube
     protected $texts;
     protected $caches = array();
     protected $shutdown_functions = array();
-    protected $expunge_cache = false;
 
 
     /**
@@ -462,7 +461,7 @@ class rcube
         // use database for storing session data
         $this->session = new rcube_session($this->get_dbh(), $this->config);
 
-        $this->session->register_gc_handler(array($this, 'gc_handler'));
+        $this->session->register_gc_handler(array($this, 'gc'));
         $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
         $this->session->set_ip_check($this->config->get('ip_check'));
 
@@ -508,18 +507,6 @@ class rcube
 
             closedir($dir);
         }
-    }
-
-
-    /**
-     * Garbage collector for cache entries.
-     * Set flag to expunge caches on shutdown
-     */
-    public function gc_handler()
-    {
-        // because this gc function is called before storage is initialized,
-        // we just set a flag to expunge storage cache on shutdown.
-        $this->expunge_cache = true;
     }
 
 
@@ -922,12 +909,16 @@ class rcube
             call_user_func($function);
         }
 
-        if (is_object($this->smtp)) {
-            $this->smtp->disconnect();
+        // write session data as soon as possible and before
+        // closing database connection, don't do this before
+        // registered shutdown functions, they may need the session
+        // Note: this will run registered gc handlers (ie. cache gc)
+        if ($_SERVER['REMOTE_ADDR'] && is_object($this->session)) {
+            $this->session->write_close();
         }
 
-        if ($this->expunge_cache) {
-            $this->gc();
+        if (is_object($this->smtp)) {
+            $this->smtp->disconnect();
         }
 
         foreach ($this->caches as $cache) {

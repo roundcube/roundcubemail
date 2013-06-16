@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix session issues when local and database time differs (#1486132)
 - Fix thread cache syncronization/validation (#1489028)
 - Add option show_real_foldernames to disable localization of special folders
 - Fix database cache expunge issues (#1489149)
