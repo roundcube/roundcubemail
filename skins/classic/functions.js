@@ -967,6 +967,7 @@ function rcube_init_mail_ui()
       rcmail.addEventListener('responseaftergetunread', rcube_render_mailboxlist);
       rcmail.addEventListener('responseaftercheck-recent', rcube_render_mailboxlist);
       rcmail.addEventListener('aftercollapse-folder', rcube_render_mailboxlist);
+      rcmail.addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
 
       new rcmail_scroller('#mailboxlist-content', '#mailboxlist-title', '#mailboxlist-footer');
     }

@@ -1600,16 +1600,19 @@ input.from_address
   vertical-align: middle;
 }
 
+#upload-form,
 #attachment-form
 {
   padding: 6px;
 }
 
+#upload-form div,
 #attachment-form div
 {
   padding: 2px;
 }
 
+#upload-form div.buttons,
 #attachment-form div.buttons
 {
   margin-top: 4px;
