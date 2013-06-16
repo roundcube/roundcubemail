@@ -116,7 +116,7 @@ class rcube_charset
         }
         // UTF
         else if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m)) {
-            $result = 'UTF-' . $m[1] . $m[2];
+            $result = 'UTF-' . $m[1] . (isset ($m[2]) ? $m[2] : '');
         }
         // ISO-8859
         else if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
@@ -234,8 +234,8 @@ class rcube_charset
                 $aliases['US-ASCII'] = 'ASCII';
             }
 
-            $mb_from = $aliases[$from] ? $aliases[$from] : $from;
-            $mb_to   = $aliases[$to] ? $aliases[$to] : $to;
+            $mb_from = isset($aliases[$from]) ? $aliases[$from] : $from;
+            $mb_to   = isset($aliases[$to]) ? $aliases[$to] : $to;
 
             // return if encoding found, string matches encoding and convert succeeded
             if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {

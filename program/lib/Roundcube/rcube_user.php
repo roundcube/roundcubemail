@@ -125,8 +125,9 @@ class rcube_user
      */
     function get_prefs()
     {
+        $prefs = array();
         if (!empty($this->language))
-            $prefs = array('language' => $this->language);
+            $prefs['language'] = $this->language;
 
         if ($this->ID) {
             // Preferences from session (write-master is unavailable)

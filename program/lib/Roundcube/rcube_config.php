@@ -261,12 +261,12 @@ class rcube_config
         }
 
         // convert user's timezone into the new format
-        if (is_numeric($prefs['timezone']) && ($tz = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0))) {
+        if (isset($prefs['timezone']) && is_numeric($prefs['timezone']) && ($tz = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0))) {
             $prefs['timezone'] = $tz;
         }
 
         // larry is the new default skin :-)
-        if ($prefs['skin'] == 'default') {
+        if (isset($prefs['skin']) && ($prefs['skin'] == 'default')) {
             $prefs['skin'] = self::DEFAULT_SKIN;
         }
 

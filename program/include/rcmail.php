@@ -89,8 +89,9 @@ class rcmail extends rcube
     // start session
     $this->session_init();
 
+    $userid = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
     // create user object
-    $this->set_user(new rcube_user($_SESSION['user_id']));
+    $this->set_user(new rcube_user($userid));
 
     // set task and action properties
     $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
@@ -381,7 +382,7 @@ class rcmail extends rcube
     parent::session_init();
 
     // set initial session vars
-    if (!$_SESSION['user_id'])
+    if (! isset($_SESSION['user_id']))
       $_SESSION['temp'] = true;
 
     // restore skin selection after logout
@@ -720,7 +721,7 @@ class rcmail extends rcube
       $p = array('_action' => @func_get_arg(0));
     }
 
-    $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
+    $task = isset($p['_task']) ? $p['_task'] : (isset($p['task']) ? $p['task'] : $this->task);
     $p['_task'] = $task;
     unset($p['task']);
 
