@@ -39,7 +39,6 @@ $config = array(
 if (php_sapi_name() != 'cli') {
     $config += array(
         'suhosin.session.encrypt' => 0,
-        'session.auto_start'      => 0,
         'file_uploads'            => 1,
     );
 }
