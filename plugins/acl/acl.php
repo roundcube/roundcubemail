@@ -148,6 +148,7 @@ class acl extends rcube_plugin
 
         // Load localization and include scripts
         $this->load_config();
+        $this->specials = $this->rc->config->get('acl_specials', $this->specials);
         $this->add_texts('localization/', array('deleteconfirm', 'norights',
             'nouser', 'deleting', 'saving'));
         $this->include_script('acl.js');
