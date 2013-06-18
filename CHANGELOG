@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Fix so exported vCard specifies encoding in v3-compatible format (#1489183)
 - Fix session issues when local and database time differs (#1486132)
 - Fix thread cache syncronization/validation (#1489028)
+- Added feature to import messages to the currently selected folder
 - Add option show_real_foldernames to disable localization of special folders
 - Fix database cache expunge issues (#1489149)
 - Fix date format issues on MS SQL Server (#1488918)
