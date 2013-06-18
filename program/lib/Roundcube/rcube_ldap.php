@@ -55,7 +55,7 @@ class rcube_ldap extends rcube_addressbook
     /**
     * Object constructor
     *
-    * @param array 	 $p            LDAP connection properties
+    * @param array   $p            LDAP connection properties
     * @param boolean $debug        Enables debug mode
     * @param string  $mail_domain  Current user mail domain name
     */
@@ -274,7 +274,7 @@ class rcube_ldap extends rcube_addressbook
                     $this->prop['search_base_dn'] = strtr($this->prop['search_base_dn'], $replaces);
                     $this->prop['search_filter'] = strtr($this->prop['search_filter'], $replaces);
 
-                    $this->_debug("S: searching with base {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
+                    $this->_debug("S: Search {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
 
                     // TODO: use $this->ldap->search() here
                     $res = @ldap_search($this->ldap->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
@@ -282,7 +282,7 @@ class rcube_ldap extends rcube_addressbook
                         if (($entry = ldap_first_entry($this->ldap->conn, $res))
                             && ($bind_dn = ldap_get_dn($this->ldap->conn, $entry))
                         ) {
-                            $this->_debug("S: search returned dn: $bind_dn");
+                            $this->_debug("S: OK. Found $bind_dn");
                             $dn = ldap_explode_dn($bind_dn, 1);
                             $replaces['%dn'] = $dn[0];
                         }
@@ -523,7 +523,6 @@ class rcube_ldap extends rcube_addressbook
 
         // fetch group object
         if (empty($entries)) {
-            $this->_debug("C: Read Group [dn: $dn]");
             $entries = $this->ldap->read_entries($dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL'));
             if ($entries === false) {
                 return $group_members;
@@ -1623,7 +1622,6 @@ class rcube_ldap extends rcube_addressbook
             $name_attr = $this->prop['groups']['name_attr'];
             $dn = self::dn_decode($group_id);
 
-            $this->_debug("C: Read Group [dn: $dn]");
             if ($list = $this->ldap->read_entries($dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL',$name_attr,$this->fieldmap['email']))) {
                 $entry = $list[0];
                 $group_name = is_array($entry[$name_attr]) ? $entry[$name_attr][0] : $entry[$name_attr];

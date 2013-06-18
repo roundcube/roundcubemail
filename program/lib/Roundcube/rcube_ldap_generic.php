@@ -176,7 +176,7 @@ class rcube_ldap_generic
         $host     = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
         $hostname = $host . ($this->config['port'] ? ':'.$this->config['port'] : '');
 
-        $this->_debug("C: Connect [$hostname] [{$this->config['name']}]");
+        $this->_debug("C: Connect to $hostname [{$this->config['name']}]");
 
         if ($lc = @ldap_connect($host, $this->config['port'])) {
             if ($this->config['use_tls'] === true)
@@ -245,7 +245,7 @@ class rcube_ldap_generic
             $method = 'DIGEST-MD5';
         }
 
-        $this->_debug("C: Bind [mech: $method, authc: $authc, authz: $authz] [pass: $pass]");
+        $this->_debug("C: SASL Bind [mech: $method, authc: $authc, authz: $authz, pass: $pass]");
 
         if (ldap_sasl_bind($this->conn, NULL, $pass, $method, NULL, $authc, $authz)) {
             $this->_debug("S: OK");
@@ -277,7 +277,7 @@ class rcube_ldap_generic
             return false;
         }
 
-        $this->_debug("C: Bind [dn: $dn] [pass: $pass]");
+        $this->_debug("C: Bind $dn [pass: $pass]");
 
         if (@ldap_bind($this->conn, $dn, $pass)) {
             $this->_debug("S: OK");
@@ -331,7 +331,7 @@ class rcube_ldap_generic
         $rec = null;
 
         if ($this->conn && $dn) {
-            $this->_debug("C: Read [dn: $dn] [(objectclass=*)]");
+            $this->_debug("C: Read $dn [(objectclass=*)]");
 
             if ($ldap_result = @ldap_read($this->conn, $dn, '(objectclass=*)', $this->attributes)) {
                 $this->_debug("S: OK");
@@ -373,7 +373,7 @@ class rcube_ldap_generic
             if (empty($filter))
                 $filter = $filter = '(objectclass=*)';
 
-            $this->_debug("C: Search [$filter][dn: $base_dn]");
+            $this->_debug("C: Search $base_dn for $filter");
 
             $function = self::scope2func($scope, $ns_function);
 
@@ -450,7 +450,7 @@ class rcube_ldap_generic
      */
     public function add($dn, $entry)
     {
-        $this->_debug("C: Add [dn: $dn]: ".print_r($entry, true));
+        $this->_debug("C: Add $dn: ".print_r($entry, true));
 
         $res = ldap_add($this->conn, $dn, $entry);
         if ($res === false) {
@@ -469,7 +469,7 @@ class rcube_ldap_generic
      */
     public function delete($dn)
     {
-        $this->_debug("C: Delete [dn: $dn]");
+        $this->_debug("C: Delete $dn");
 
         $res = ldap_delete($this->conn, $dn);
         if ($res === false) {
@@ -488,7 +488,7 @@ class rcube_ldap_generic
      */
     public function mod_replace($dn, $entry)
     {
-        $this->_debug("C: Replace [dn: $dn]: ".print_r($entry, true));
+        $this->_debug("C: Replace $dn: ".print_r($entry, true));
 
         if (!ldap_mod_replace($this->conn, $dn, $entry)) {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -506,7 +506,7 @@ class rcube_ldap_generic
      */
     public function mod_add($dn, $entry)
     {
-        $this->_debug("C: Add [dn: $dn]: ".print_r($entry, true));
+        $this->_debug("C: Add $dn: ".print_r($entry, true));
 
         if (!ldap_mod_add($this->conn, $dn, $entry)) {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -524,7 +524,7 @@ class rcube_ldap_generic
      */
     public function mod_del($dn, $entry)
     {
-        $this->_debug("C: Delete [dn: $dn]: ".print_r($entry, true));
+        $this->_debug("C: Delete $dn: ".print_r($entry, true));
 
         if (!ldap_mod_del($this->conn, $dn, $entry)) {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -542,7 +542,7 @@ class rcube_ldap_generic
      */
     public function rename($dn, $newrdn, $newparent = null, $deleteoldrdn = true)
     {
-        $this->_debug("C: Rename [dn: $dn] [dn: $newrdn]");
+        $this->_debug("C: Rename $dn to $newrdn");
 
         if (!ldap_rename($this->conn, $dn, $newrdn, $newparent, $deleteoldrdn)) {
             $this->_debug("S: ".ldap_error($this->conn));
@@ -562,7 +562,7 @@ class rcube_ldap_generic
     public function list_entries($dn, $filter, $attributes = array('dn'))
     {
         $list = array();
-        $this->_debug("C: List [dn: $dn] [{$filter}]");
+        $this->_debug("C: List $dn [{$filter}]");
 
         if ($result = ldap_list($this->conn, $dn, $filter, $attributes)) {
             $list = ldap_get_entries($this->conn, $result);
@@ -592,7 +592,7 @@ class rcube_ldap_generic
      */
     public function read_entries($dn, $filter, $attributes = null)
     {
-        $this->_debug("C: Read [dn: $dn] [{$filter}]");
+        $this->_debug("C: Read $dn [{$filter}]");
 
         if ($this->conn && $dn) {
             if (!$attributes)
@@ -737,7 +737,7 @@ class rcube_ldap_generic
         $sort_ctrl = array('oid' => "1.2.840.113556.1.4.473",  'value' => self::_sort_ber_encode((array)$sort));
         $vlv_ctrl  = array('oid' => "2.16.840.1.113730.3.4.9", 'value' => self::_vlv_ber_encode(($offset = ($list_page-1) * $page_size + 1), $page_size, $search), 'iscritical' => true);
 
-        $this->_debug("C: set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ($sort[0]);"
+        $this->_debug("C: Set controls sort=" . join(' ', unpack('H'.(strlen($sort_ctrl['value'])*2), $sort_ctrl['value'])) . " ($sort[0]);"
             . " vlv=" . join(' ', (unpack('H'.(strlen($vlv_ctrl['value'])*2), $vlv_ctrl['value']))) . " ($offset/$page_size; $search)");
 
         if (!ldap_set_option($this->conn, LDAP_OPT_SERVER_CONTROLS, array($sort_ctrl, $vlv_ctrl))) {
@@ -839,7 +839,7 @@ class rcube_ldap_generic
         $vlv_config = $this->_read_vlv_config();
 
         if ($vlv = $vlv_config[$base_dn]) {
-            $this->_debug("D: Found a VLV for base_dn: " . $base_dn);
+            $this->_debug("D: Found a VLV for $base_dn");
 
             if ($vlv['filter'] == strtolower($filter) || stripos($filter, '(&'.$vlv['filter'].'(') === 0) {
                 $this->_debug("D: Filter matches");
@@ -858,7 +858,7 @@ class rcube_ldap_generic
             }
         }
         else {
-            $this->_debug("D: No VLV for base dn " . $base_dn);
+            $this->_debug("D: No VLV for $base_dn");
         }
 
         return false;
@@ -883,7 +883,7 @@ class rcube_ldap_generic
         if (is_array($this->vlv_config)) {
             return $this->vlv_config;
         }
-        
+
         if ($this->cache && ($cached_config = $this->cache->get('vlvconfig'))) {
             $this->vlv_config = $cached_config;
             return $this->vlv_config;

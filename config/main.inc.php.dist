@@ -590,7 +590,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // For example %n = mail.domain.tld, %t = domain.tld
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
-  'use_tls'	      => false,
+  'use_tls'       => false,
   'ldap_version'  => 3,       // using LDAPv3
   'network_timeout' => 10,    // The timeout (in seconds) for connect + bind arrempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
