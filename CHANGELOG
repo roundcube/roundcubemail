@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- LDAP: auto-detect and use VLV indices for all search operations
+- LDAP: additional group configuration options for  address books
+- LDAP: separated address book implementation from a generic LDAP wrapper class
+- Allow address books to browse a multi-level group hierarchy in the contacts list
 - Fix so install do not fail when one of DB driver checks fails but other drivers exist (#1489178)
 - Fix so exported vCard specifies encoding in v3-compatible format (#1489183)
 - Fix session issues when local and database time differs (#1486132)
