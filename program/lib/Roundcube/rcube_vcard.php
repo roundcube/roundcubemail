@@ -714,9 +714,15 @@ class rcube_vcard
                             $value[] = $attrvalues;
                         }
                         else if (is_bool($attrvalues)) {
-                            // true means just tag, not tag=value, as in PHOTO;BASE64:...
+                            // true means just a tag, not tag=value, as in PHOTO;BASE64:...
                             if ($attrvalues) {
-                                $attr .= strtoupper(";$attrname");
+                                // vCard v3 uses ENCODING=B (#1489183)
+                                if ($attrname == 'base64') {
+                                    $attr .= ";ENCODING=B";
+                                }
+                                else {
+                                    $attr .= strtoupper(";$attrname");
+                                }
                             }
                         }
                         else {
