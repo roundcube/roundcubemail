@@ -496,10 +496,13 @@ class rcube_install
    * @param string Test name
    * @param string Error message
    * @param string URL for details
+   * @param bool   Do not count this failure
    */
-  function fail($name, $message = '', $url = '')
+  function fail($name, $message = '', $url = '', $optional=false)
   {
-    $this->failures++;
+    if (!$optional) {
+      $this->failures++;
+    }
 
     echo Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
     $this->_showhint($message, $url);
