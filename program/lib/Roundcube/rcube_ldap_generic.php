@@ -779,7 +779,7 @@ class rcube_ldap_generic
      *
      * @return string Quoted string
      */
-    private static function _quote_string($str, $dn=false)
+    public static function quote_string($str, $dn=false)
     {
         // take firt entry if array given
         if (is_array($str))
