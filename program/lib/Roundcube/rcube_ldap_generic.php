@@ -399,7 +399,7 @@ class rcube_ldap_generic
             }
 
             // only fetch dn for count (should keep the payload low)
-            if ($ldap_result = $function($this->conn, $base_dn, $filter,
+            if ($ldap_result = @$function($this->conn, $base_dn, $filter,
                 $attrs, 0, (int)$this->config['sizelimit'], (int)$this->config['timelimit'])
             ) {
                 // when running on a patched PHP we can use the extended functions to retrieve the total count from the LDAP search result
