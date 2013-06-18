@@ -224,6 +224,37 @@
   -o-text-overflow: ellipsis;
 }
 
+#contacts-table .contact.readonly td
+{
+  font-style: italic;
+}
+
+#contacts-table td.name
+{
+  width: 95%;
+}
+
+#contacts-table td.action
+{
+  width: 12px;
+  padding: 0px 6px 0 4px;
+  text-align: right;
+}
+
+#contacts-table td.action a
+{
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  text-decoration: none;
+  color: #333;
+}
+
+#contacts-table .selected td.action a
+{
+  color: #fff;
+}
+
 #contacts-box
 {
   position: absolute;

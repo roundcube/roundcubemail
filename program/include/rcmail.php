@@ -294,7 +294,7 @@ class rcmail extends rcube
         $list[$id] = array(
           'id'       => $id,
           'name'     => html::quote($prop['name']),
-          'groups'   => is_array($prop['groups']),
+          'groups'   => !empty($prop['groups']) || !empty($prop['group_filters']),
           'readonly' => !$prop['writable'],
           'hidden'   => $prop['hidden'],
           'autocomplete' => in_array($id, $autocomplete)

@@ -73,8 +73,11 @@ else {
         $CONTACTS->set_pagesize($page_size);
         $CONTACTS->set_page($page);
 
+        if ($group_id = get_input_value('_gid', RCUBE_INPUT_GPC)) {
+            $CONTACTS->set_group($group_id);
+        }
         // list groups of this source (on page one)
-        if ($CONTACTS->groups && $CONTACTS->list_page == 1) {
+        else if ($CONTACTS->groups && $CONTACTS->list_page == 1) {
             foreach ($CONTACTS->list_groups() as $group) {
                 $CONTACTS->reset();
                 $CONTACTS->set_group($group['ID']);
@@ -89,6 +92,19 @@ else {
                             'contactgroup' => html::span(array('title' => $email), Q($group['name']))), 'group');
                     }
                 }
+                // make virtual groups clickable to list their members
+                else if ($group_prop['virtual']) {
+                    $row_id = 'G'.$group['ID'];
+                    $OUTPUT->command('add_contact_row', $row_id, array(
+                        'contactgroup' => html::a(array(
+                            'href' => '#list',
+                            'rel' => $row['ID'],
+                            'title' => rcube_label('listgroup'),
+                            'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", JS_OBJECT_NAME, $source, $group['ID']),
+                        ), Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;'))),
+                        'group',
+                        array('ID' => $group['ID'], 'name' => $group['name'], 'virtual' => true));
+                }
                 // show group with count
                 else if (($result = $CONTACTS->count()) && $result->count) {
                     $row_id = 'E'.$group['ID'];
@@ -97,10 +113,12 @@ else {
                         'contactgroup' => Q($group['name'] . ' (' . intval($result->count) . ')')), 'group');
                 }
             }
+
+            $CONTACTS->reset();
+            $CONTACTS->set_group(0);
         }
 
         // get contacts for this user
-        $CONTACTS->set_group(0);
         $result = $CONTACTS->list_records($afields);
     }
 }
@@ -118,10 +136,13 @@ else if (!empty($result) && $result->count > 0) {
         foreach ($emails as $i => $email) {
             $row_id = $row['ID'].$i;
             $jsresult[$row_id] = format_email_recipient($email, $name);
+            $classname = $row['_type'] == 'group' ? 'group' : 'person';
+            $keyname = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
+
             $OUTPUT->command('add_contact_row', $row_id, array(
-                'contact' => html::span(array('title' => $email), Q($name ? $name : $email) .
+                $keyname => html::span(array('title' => $email), Q($name ? $name : $email) .
                     ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', Q($email)) : '')
-                )), 'person');
+                )), $classname);
         }
     }
 }

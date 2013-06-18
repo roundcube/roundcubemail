@@ -41,6 +41,7 @@ a.deletebutton,
 .boxfooter .listbutton .inner,
 .attachmentslist li a.delete,
 .attachmentslist li a.cancelupload,
+#contacts-table td.action a,
 .previewheader .iconlink,
 .minimal #taskbar .button-inner {
 	/* workaround for text-indent which also offsets the background image */
