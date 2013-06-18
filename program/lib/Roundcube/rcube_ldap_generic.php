@@ -31,7 +31,7 @@
       // or
       'hosts'           => array('directory.verisign.com'),
       'port'            => 389,
-      'use_tls'	        => true|false,
+      'use_tls'         => true|false,
       'ldap_version'    => 3,             // using LDAPv3
       'auth_method'     => '',            // SASL authentication method (for proxy auth), e.g. DIGEST-MD5
       'attributes'      => array('dn'),   // List of attributes to read from the server
@@ -138,7 +138,6 @@ class rcube_ldap_generic
         $this->page_size = $size;
     }
 
-
     /**
     * Establish a connection to the LDAP server
     */
@@ -210,7 +209,6 @@ class rcube_ldap_generic
         return true;
     }
 
-
     /**
      * Bind connection with (SASL-) user and password
      *
@@ -262,7 +260,6 @@ class rcube_ldap_generic
         return false;
     }
 
-
     /**
      * Bind connection with DN and password
      *
@@ -295,7 +292,6 @@ class rcube_ldap_generic
         return false;
     }
 
-
     /**
      * Close connection to LDAP server
      */
@@ -308,7 +304,6 @@ class rcube_ldap_generic
         }
     }
 
-
     /**
      * Return the last result set
      *
@@ -318,7 +313,6 @@ class rcube_ldap_generic
     {
         return $this->result;
     }
-
 
     /**
      * Get a specific LDAP entry, identified by its DN
@@ -351,7 +345,6 @@ class rcube_ldap_generic
 
         return $rec;
     }
-
 
     /**
      * Execute the LDAP search based on the stored credentials
@@ -427,7 +420,6 @@ class rcube_ldap_generic
 
         return false;
     }
-
 
     /**
      * Modify an LDAP entry on the server
@@ -611,7 +603,6 @@ class rcube_ldap_generic
         return false;
     }
 
-
     /**
      * Choose the right PHP function according to scope property
      *
@@ -697,7 +688,7 @@ class rcube_ldap_generic
 
         return $entries;
     }
-    
+
     /**
      * Turn an LDAP entry into a regular PHP array with attributes as keys.
      *
@@ -749,7 +740,6 @@ class rcube_ldap_generic
         return true;
     }
 
-
     /**
      * Returns unified attribute name (resolving aliases)
      */
@@ -769,7 +759,6 @@ class rcube_ldap_generic
 
         return (isset($aliases[$name]) ? $aliases[$name] : $name) . $suffix;
     }
-
 
     /**
      * Quotes attribute value string
@@ -794,7 +783,6 @@ class rcube_ldap_generic
 
         return strtr($str, $replace);
     }
-
 
     /**
      * Prints debug info to the log
@@ -864,7 +852,6 @@ class rcube_ldap_generic
         return false;
     }
 
-
     /**
      * Return VLV indexes and searches including necessary configuration
      * details.
@@ -926,50 +913,50 @@ class rcube_ldap_generic
         return $this->vlv_config;
     }
 
-
     /**
      * Generate BER encoded string for Virtual List View option
      *
      * @param integer List offset (first record)
      * @param integer Records per page
+     *
      * @return string BER encoded option value
      */
     private static function _vlv_ber_encode($offset, $rpp, $search = '')
     {
-        # this string is ber-encoded, php will prefix this value with:
-        # 04 (octet string) and 10 (length of 16 bytes)
-        # the code behind this string is broken down as follows:
-        # 30 = ber sequence with a length of 0e (14) bytes following
-        # 02 = type integer (in two's complement form) with 2 bytes following (beforeCount): 01 00 (ie 0)
-        # 02 = type integer (in two's complement form) with 2 bytes following (afterCount):  01 18 (ie 25-1=24)
-        # a0 = type context-specific/constructed with a length of 06 (6) bytes following
-        # 02 = type integer with 2 bytes following (offset): 01 01 (ie 1)
-        # 02 = type integer with 2 bytes following (contentCount):  01 00
-        
-        # whith a search string present:
-        # 81 = type context-specific/constructed with a length of 04 (4) bytes following (the length will change here)
-        # 81 indicates a user string is present where as a a0 indicates just a offset search
-        # 81 = type context-specific/constructed with a length of 06 (6) bytes following
-        
-        # the following info was taken from the ISO/IEC 8825-1:2003 x.690 standard re: the
-        # encoding of integer values (note: these values are in
-        # two-complement form so since offset will never be negative bit 8 of the
-        # leftmost octet should never by set to 1):
-        # 8.3.2: If the contents octets of an integer value encoding consist
-        # of more than one octet, then the bits of the first octet (rightmost) and bit 8
-        # of the second (to the left of first octet) octet:
-        # a) shall not all be ones; and
-        # b) shall not all be zero
-        
-        if ($search)
-        {
+        /*
+            this string is ber-encoded, php will prefix this value with:
+            04 (octet string) and 10 (length of 16 bytes)
+            the code behind this string is broken down as follows:
+            30 = ber sequence with a length of 0e (14) bytes following
+            02 = type integer (in two's complement form) with 2 bytes following (beforeCount): 01 00 (ie 0)
+            02 = type integer (in two's complement form) with 2 bytes following (afterCount):  01 18 (ie 25-1=24)
+            a0 = type context-specific/constructed with a length of 06 (6) bytes following
+            02 = type integer with 2 bytes following (offset): 01 01 (ie 1)
+            02 = type integer with 2 bytes following (contentCount):  01 00
+
+            with a search string present:
+            81 = type context-specific/constructed with a length of 04 (4) bytes following (the length will change here)
+            81 indicates a user string is present where as a a0 indicates just a offset search
+            81 = type context-specific/constructed with a length of 06 (6) bytes following
+
+            The following info was taken from the ISO/IEC 8825-1:2003 x.690 standard re: the
+            encoding of integer values (note: these values are in
+            two-complement form so since offset will never be negative bit 8 of the
+            leftmost octet should never by set to 1):
+            8.3.2: If the contents octets of an integer value encoding consist
+            of more than one octet, then the bits of the first octet (rightmost)
+            and bit 8 of the second (to the left of first octet) octet:
+                a) shall not all be ones; and
+                b) shall not all be zero
+        */
+
+        if ($search) {
             $search = preg_replace('/[^-[:alpha:] ,.()0-9]+/', '', $search);
             $ber_val = self::_string2hex($search);
             $str = self::_ber_addseq($ber_val, '81');
         }
-        else
-        {
-            # construct the string from right to left
+        else {
+            // construct the string from right to left
             $str = "020100"; # contentCount
 
             $ber_val = self::_ber_encode_int($offset);  // returns encoded integer value in hex format
@@ -980,7 +967,7 @@ class rcube_ldap_generic
             // now compute length over $str
             $str = self::_ber_addseq($str, 'a0');
         }
-        
+
         // now tack on records per page
         $str = "020100" . self::_ber_addseq(self::_ber_encode_int($rpp-1), '02') . $str;
 
@@ -989,7 +976,6 @@ class rcube_ldap_generic
 
         return pack('H'.strlen($str), $str);
     }
-
 
     /**
      * create ber encoding for sort control
@@ -1003,8 +989,8 @@ class rcube_ldap_generic
         foreach (array_reverse((array)$sortcols) as $col) {
             $ber_val = self::_string2hex($col);
 
-            # 30 = ber sequence with a length of octet value
-            # 04 = octet string with a length of the ascii value
+            // 30 = ber sequence with a length of octet value
+            // 04 = octet string with a length of the ascii value
             $oct = self::_ber_addseq($ber_val, '04');
             $str = self::_ber_addseq($oct, '30') . $str;
         }
@@ -1051,8 +1037,9 @@ class rcube_ldap_generic
     private static function _string2hex($str)
     {
         $hex = '';
-        for ($i=0; $i < strlen($str); $i++)
+        for ($i=0; $i < strlen($str); $i++) {
             $hex .= dechex(ord($str[$i]));
+        }
         return $hex;
     }
 
