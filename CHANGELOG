@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so install do not fail when one of DB driver checks fails but other drivers exist (#1489178)
 - Fix so exported vCard specifies encoding in v3-compatible format (#1489183)
 - Fix session issues when local and database time differs (#1486132)
 - Fix thread cache syncronization/validation (#1489028)
