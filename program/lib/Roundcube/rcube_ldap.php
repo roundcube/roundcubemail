@@ -265,31 +265,46 @@ class rcube_ldap extends rcube_addressbook
 
                 $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
 
+                // Search for the dn to use to authenticate
                 if ($this->prop['search_base_dn'] && $this->prop['search_filter']) {
-                    if (!empty($this->prop['search_bind_dn']) && !empty($this->prop['search_bind_pw'])) {
-                        if (!$this->ldap->bind($this->prop['search_bind_dn'], $this->prop['search_bind_pw']))
-                            continue;  // bind failed, try neyt host
-                    }
+                    $search_bind_dn = strtr($this->prop['search_bind_dn'], $replaces);
+                    $search_base_dn = strtr($this->prop['search_base_dn'], $replaces);
+                    $search_filter  = strtr($this->prop['search_filter'], $replaces);
 
-                    // Search for the dn to use to authenticate
-                    $this->prop['search_base_dn'] = strtr($this->prop['search_base_dn'], $replaces);
-                    $this->prop['search_filter'] = strtr($this->prop['search_filter'], $replaces);
+                    $cache_key = 'DN.' . md5("$host:$search_bind_dn:$search_base_dn:$search_filter:"
+                        .$this->prop['search_bind_pw']);
 
-                    $this->_debug("S: Search {$this->prop['search_base_dn']} for {$this->prop['search_filter']}");
-
-                    // TODO: use $this->ldap->search() here
-                    $res = @ldap_search($this->ldap->conn, $this->prop['search_base_dn'], $this->prop['search_filter'], array('uid'));
-                    if ($res) {
-                        if (($entry = ldap_first_entry($this->ldap->conn, $res))
-                            && ($bind_dn = ldap_get_dn($this->ldap->conn, $entry))
-                        ) {
-                            $this->_debug("S: OK. Found $bind_dn");
-                            $dn = ldap_explode_dn($bind_dn, 1);
-                            $replaces['%dn'] = $dn[0];
-                        }
+                    if ($dn = $this->cache->get($cache_key)) {
+                        $replaces['%dn'] = $dn;
                     }
                     else {
-                        $this->_debug("S: ".ldap_error($this->ldap->conn));
+                        $ldap = $this->ldap;
+                        if (!empty($search_bind_dn) && !empty($this->prop['search_bind_pw'])) {
+                            // To protect from "Critical extension is unavailable" error
+                            // we need to use a separate LDAP connection
+                            if (!empty($this->prop['vlv'])) {
+                                $ldap = new rcube_ldap_generic($this->prop);
+                                $ldap->set_debug($this->debug);
+                                $ldap->set_cache($this->cache);
+                                if (!$ldap->connect($host)) {
+                                    continue;
+                                }
+                            }
+
+                            if (!$ldap->bind($search_bind_dn, $this->prop['search_bind_pw'])) {
+                                continue;  // bind failed, try next host
+                            }
+                        }
+
+                        $res = $ldap->search($search_base_dn, $search_filter, 'sub', array('uid'));
+                        if ($res) {
+                            $res->rewind();
+                            $replaces['%dn'] = $res->get_dn();
+                        }
+
+                        if ($ldap != $this->ldap) {
+                            $ldap->close();
+                        }
                     }
 
                     // DN not found
@@ -301,8 +316,12 @@ class rcube_ldap extends rcube_addressbook
                                 'code' => 100, 'type' => 'ldap',
                                 'file' => __FILE__, 'line' => __LINE__,
                                 'message' => "DN not found using LDAP search."), true);
-                            return false;
+                            continue;
                         }
+                    }
+
+                    if (!empty($replaces['%dn'])) {
+                        $this->cache->set($cache_key, $replaces['%dn']);
                     }
                 }
 

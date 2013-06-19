@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Cache LDAP's user_specific search and use vlv for better performance (#1489186)
 - LDAP: auto-detect and use VLV indices for all search operations
 - LDAP: additional group configuration options for  address books
 - LDAP: separated address book implementation from a generic LDAP wrapper class
