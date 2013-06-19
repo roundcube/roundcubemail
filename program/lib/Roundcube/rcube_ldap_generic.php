@@ -359,60 +359,66 @@ class rcube_ldap_generic
      */
     public function search($base_dn, $filter = '', $scope = 'sub', $attrs = array('dn'), $prop = array(), $count_only = false)
     {
-        if ($this->conn) {
-            if (empty($filter))
-                $filter = $filter = '(objectclass=*)';
+        if (!$this->conn) {
+            return false;
+        }
 
-            $this->_debug("C: Search $base_dn for $filter");
+        if (empty($filter)) {
+            $filter = '(objectclass=*)';
+        }
 
-            $function = self::scope2func($scope, $ns_function);
+        $this->_debug("C: Search $base_dn for $filter");
 
-            // find available VLV index for this query
-            if (!$count_only && ($vlv_sort = $this->_find_vlv($base_dn, $filter, $scope, $prop['sort']))) {
-                // when using VLV, we get the total count by...
-                // ...either reading numSubOrdinates attribute
-                if ($this->config['numsub_filter'] && ($result_count = @$ns_function($this->conn, $base_dn, $this->config['numsub_filter'], array('numSubOrdinates'), 0, 0, 0))) {
-                    $counts = ldap_get_entries($this->conn, $result_count);
-                    for ($vlv_count = $j = 0; $j < $counts['count']; $j++)
-                        $vlv_count += $counts[$j]['numsubordinates'][0];
-                    $this->_debug("D: total numsubordinates = " . $vlv_count);
-                }
-                // ...or by fetching all records dn and count them
-                else if (!function_exists('ldap_parse_virtuallist_control')) {
-                    $vlv_count = $this->search($base_dn, $filter, $scope, array('dn'), $prop, true);
-                }
+        $function = self::scope2func($scope, $ns_function);
 
-                $this->vlv_active = $this->_vlv_set_controls($vlv_sort, $this->list_page, $this->page_size, $prop['search']);
-            }
-            else {
-                $this->vlv_active = false;
-            }
-
-            // only fetch dn for count (should keep the payload low)
-            if ($ldap_result = @$function($this->conn, $base_dn, $filter,
-                $attrs, 0, (int)$this->config['sizelimit'], (int)$this->config['timelimit'])
+        // find available VLV index for this query
+        if (!$count_only && ($vlv_sort = $this->_find_vlv($base_dn, $filter, $scope, $prop['sort']))) {
+            // when using VLV, we get the total count by...
+            // ...either reading numSubOrdinates attribute
+            if (($sub_filter = $this->config['numsub_filter']) &&
+                ($result_count = @$ns_function($this->conn, $base_dn, $sub_filter, array('numSubOrdinates'), 0, 0, 0))
             ) {
-                // when running on a patched PHP we can use the extended functions to retrieve the total count from the LDAP search result
-                if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control')) {
-                    if (ldap_parse_result($this->conn, $ldap_result, $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)) {
-                        ldap_parse_virtuallist_control($this->conn, $serverctrls, $last_offset, $vlv_count, $vresult);
-                        $this->_debug("S: VLV result: last_offset=$last_offset; content_count=$vlv_count");
-                    }
-                    else {
-                        $this->_debug("S: ".($errmsg ? $errmsg : ldap_error($this->conn)));
-                    }
-                }
-                else if ($this->debug) {
-                    $this->_debug("S: ".ldap_count_entries($this->conn, $ldap_result)." record(s) found");
-                }
-
-                $this->result = new rcube_ldap_result($this->conn, $ldap_result, $base_dn, $filter, $vlv_count);
-
-                return $count_only ? $this->result->count() : $this->result;
+                $counts = ldap_get_entries($this->conn, $result_count);
+                for ($vlv_count = $j = 0; $j < $counts['count']; $j++)
+                    $vlv_count += $counts[$j]['numsubordinates'][0];
+                $this->_debug("D: total numsubordinates = " . $vlv_count);
             }
-            else {
-                $this->_debug("S: ".ldap_error($this->conn));
+            // ...or by fetching all records dn and count them
+            else if (!function_exists('ldap_parse_virtuallist_control')) {
+                $vlv_count = $this->search($base_dn, $filter, $scope, array('dn'), $prop, true);
             }
+
+            $this->vlv_active = $this->_vlv_set_controls($vlv_sort, $this->list_page, $this->page_size, $prop['search']);
+        }
+        else {
+            $this->vlv_active = false;
+        }
+
+        // only fetch dn for count (should keep the payload low)
+        if ($ldap_result = @$function($this->conn, $base_dn, $filter,
+            $attrs, 0, (int)$this->config['sizelimit'], (int)$this->config['timelimit'])
+        ) {
+            // when running on a patched PHP we can use the extended functions
+            // to retrieve the total count from the LDAP search result
+            if ($this->vlv_active && function_exists('ldap_parse_virtuallist_control')) {
+                if (ldap_parse_result($this->conn, $ldap_result, $errcode, $matcheddn, $errmsg, $referrals, $serverctrls)) {
+                    ldap_parse_virtuallist_control($this->conn, $serverctrls, $last_offset, $vlv_count, $vresult);
+                    $this->_debug("S: VLV result: last_offset=$last_offset; content_count=$vlv_count");
+                }
+                else {
+                    $this->_debug("S: ".($errmsg ? $errmsg : ldap_error($this->conn)));
+                }
+            }
+            else if ($this->debug) {
+                $this->_debug("S: ".ldap_count_entries($this->conn, $ldap_result)." record(s) found");
+            }
+
+            $this->result = new rcube_ldap_result($this->conn, $ldap_result, $base_dn, $filter, $vlv_count);
+
+            return $count_only ? $this->result->count() : $this->result;
+        }
+        else {
+            $this->_debug("S: ".ldap_error($this->conn));
         }
 
         return false;
