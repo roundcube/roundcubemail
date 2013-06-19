@@ -174,6 +174,8 @@ $rcmail_config['smtp_auth_pw'] = null;
 $rcmail_config['smtp_helo_host'] = '';
 
 // SMTP connection timeout, in seconds. Default: 0 (no limit)
+// Note: There's a known issue where using ssl connection with
+// timeout > 0 causes connection errors (https://bugs.php.net/bug.php?id=54511)
 $rcmail_config['smtp_timeout'] = 0;
 
 // ----------------------------------
