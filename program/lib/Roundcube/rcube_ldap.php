@@ -85,8 +85,13 @@ class rcube_ldap extends rcube_addressbook
             // add group name attrib to the list of attributes to be fetched
             $fetch_attributes[] = $this->prop['groups']['name_attr'];
         }
-        else if (is_array($p['group_filters']) && count($p['group_filters'])) {
+        if (is_array($p['group_filters']) && count($p['group_filters'])) {
             $this->groups = true;
+
+            foreach ($p['group_filters'] as $group_filter) {
+                if ($group_filter['name_attr'])
+                    $fetch_attributes[] = $group_filter['name_attr'];
+            }
         }
 
         // fieldmap property is given
@@ -198,8 +203,8 @@ class rcube_ldap extends rcube_addressbook
         $this->cache = $rcube->get_cache($cache_name, $cache_type, $cache_ttl);
 
         // determine which attributes to fetch
+        $this->prop['list_attributes'] = array_unique($fetch_attributes);
         $this->prop['attributes'] = array_merge(array_values($this->fieldmap), $fetch_attributes);
-        $this->prop['list_attributes'] = $fetch_attributes;
         foreach ($rcube->config->get('contactlist_fields') as $col) {
             $this->prop['list_attributes'] = array_merge($this->prop['list_attributes'], $this->_map_field($col));
         }
@@ -1334,7 +1339,7 @@ class rcube_ldap extends rcube_addressbook
         if (self::is_group_entry($rec)) {
             $out['_type'] = 'group';
             $out['readonly'] = true;
-            $fieldmap['name'] = $this->prop['groups']['name_attr'];
+            $fieldmap['name'] = $this->group_data['name_attr'] ? $this->group_data['name_attr'] : $this->prop['groups']['name_attr'];
         }
 
         foreach ($fieldmap as $rf => $lf)
