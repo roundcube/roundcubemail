@@ -307,7 +307,7 @@ function rcmail_contacts_list($attrib)
     global $CONTACTS, $OUTPUT;
 
     // define list of cols to be displayed
-    $a_show_cols = array('name');
+    $a_show_cols = array('name','action');
 
     // add id to message list table if not specified
     if (!strlen($attrib['id']))
@@ -336,28 +336,70 @@ function rcmail_js_contacts_list($result, $prefix='')
         return;
 
     // define list of cols to be displayed
-    $a_show_cols = array('name');
+    $a_show_cols = array('name','action');
 
     while ($row = $result->next()) {
+        $row['CID'] = $row['ID'];
+        $row['email'] = reset(rcube_addressbook::get_col_values('email', $row, true));
+
+        $source_id = $OUTPUT->get_env('source');
         $a_row_cols = array();
-        $classes = array('person');  // org records will follow some day
+        $classes = array($row['_type'] ? $row['_type'] : 'person');
 
         // build contact ID with source ID
         if (isset($row['sourceid'])) {
             $row['ID'] = $row['ID'].'-'.$row['sourceid'];
+            $source_id = $row['sourceid'];
         }
 
         // format each col
         foreach ($a_show_cols as $col) {
-            $val = $col == 'name' ? rcube_addressbook::compose_list_name($row) : $row[$col];
-            $a_row_cols[$col] = Q($val);
+            $val = '';
+            switch ($col) {
+                case 'name':
+                    $val = Q(rcube_addressbook::compose_list_name($row));
+                    break;
+
+                case 'action':
+                    if ($row['_type'] == 'group') {
+                        $val = html::a(array(
+                            'href' => '#list',
+                            'rel' => $row['ID'],
+                            'title' => rcube_label('listgroup'),
+                            'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", JS_OBJECT_NAME, $source_id, $row['CID']),
+                        ), '&raquo;');
+                    }
+                    else
+                        $val = '&nbsp;';
+                    break;
+
+                default:
+                    $val = Q($row[$col]);
+                    break;
+            }
+
+            $a_row_cols[$col] = $val;
         }
 
         if ($row['readonly'])
             $classes[] = 'readonly';
 
-        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes));
+        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes), array_intersect_key($row, array('ID'=>1,'readonly'=>1,'_type'=>1,'email'=>1,'name'=>1)));
     }
+}
+
+
+function rcmail_contacts_list_title($attrib)
+{
+    global $OUTPUT;
+
+    $attrib += array('label' => 'contacts', 'id' => 'rcmabooklisttitle', 'tag' => 'span');
+    unset($attrib['name']);
+
+    $OUTPUT->add_gui_object('addresslist_title', $attrib['id']);
+    $OUTPUT->add_label('contacts');
+
+    return html::tag($attrib['tag'], $attrib, rcube_label($attrib['label']), html::$common_attrib);
 }
 
 
@@ -429,7 +471,7 @@ function rcmail_get_type_label($type)
 
 function rcmail_contact_form($form, $record, $attrib = null)
 {
-    global $RCMAIL, $CONFIG;
+    global $RCMAIL;
 
     // Allow plugins to modify contact form content
     $plugin = $RCMAIL->plugins->exec_hook('contact_form', array(
@@ -438,7 +480,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
     $form = $plugin['form'];
     $record = $plugin['record'];
     $edit_mode = $RCMAIL->action != 'show';
-    $del_button = $attrib['deleteicon'] ? html::img(array('src' => $CONFIG['skin_path'] . $attrib['deleteicon'], 'alt' => rcube_label('delete'))) : rcube_label('delete');
+    $del_button = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => rcube_label('delete'))) : rcube_label('delete');
     unset($attrib['deleteicon']);
     $out = '';
 
@@ -695,12 +737,15 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
 function rcmail_contact_photo($attrib)
 {
-    global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL, $CONFIG;
+    global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL;
 
     if ($result = $CONTACTS->get_result())
         $record = $result->first();
 
-    $photo_img = $attrib['placeholder'] ? $CONFIG['skin_path'] . $attrib['placeholder'] : 'program/resources/blank.gif';
+    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->get_skin_file($attrib['placeholder']) : 'program/resources/blank.gif';
+    if ($record['_type'] == 'group' && $attrib['placeholdergroup'])
+        $photo_img = $RCMAIL->output->get_skin_file($attrib['placeholdergroup']);
+
     $RCMAIL->output->set_env('photo_placeholder', $photo_img);
     unset($attrib['placeholder']);
 
@@ -791,6 +836,7 @@ $OUTPUT->add_handlers(array(
     'directorylist' => 'rcmail_directory_list',
 //  'groupslist' => 'rcmail_contact_groups',
     'addresslist' => 'rcmail_contacts_list',
+    'addresslisttitle' => 'rcmail_contacts_list_title',
     'addressframe' => 'rcmail_contact_frame',
     'recordscountdisplay' => 'rcmail_rowcount_display',
     'searchform' => array($OUTPUT, 'search_form')

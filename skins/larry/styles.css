@@ -1059,6 +1059,10 @@ table.listing tr.droptarget td {
 	background-color: #e8e798;
 }
 
+.listbox table.listing {
+	background-color: #d9ecf4;
+}
+
 table.listing,
 table.layout {
 	border: 0;

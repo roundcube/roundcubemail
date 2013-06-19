@@ -191,6 +191,8 @@ function rcube_mail_ui()
     /***  addressbook task  ***/
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', show_uploadform);
+      rcmail.addEventListener('beforepushgroup', push_contactgroup);
+      rcmail.addEventListener('beforepopgroup', pop_contactgroup);
 
       if (rcmail.env.action == '') {
         new rcube_splitter({ id:'addressviewsplitterd', p1:'#addressview-left', p2:'#addressview-right',
@@ -825,6 +827,35 @@ function rcube_mail_ui()
     });
   }
 
+  function push_contactgroup(p)
+  {
+    // lets the contacts list swipe to the left, nice!
+    var table = $('#contacts-table'),
+      scroller = table.parent().css('overflow', 'hidden');
+
+    table.clone()
+      .css({ position:'absolute', top:'0', left:'0', width:table.width()+'px', 'z-index':10 })
+      .appendTo(scroller)
+      .animate({ left: -(table.width()+5) + 'px' }, 300, 'swing', function(){
+        $(this).remove();
+        scroller.css('overflow', 'auto')
+      });
+  }
+
+  function pop_contactgroup(p)
+  {
+    // lets the contacts list swipe to the left, nice!
+    var table = $('#contacts-table'),
+      scroller = table.parent().css('overflow', 'hidden'),
+      clone = table.clone().appendTo(scroller);
+
+      table.css({ position:'absolute', top:'0', left:-(table.width()+5) + 'px', width:table.width()+'px', height:table.height()+'px', 'z-index':10 })
+        .animate({ left:'0' }, 300, 'linear', function(){
+        clone.remove();
+        $(this).css({ position:'relative', left:'0', width:'100%', height:'auto', 'z-index':1 });
+        scroller.css('overflow', 'auto')
+      });
+  }
 
   function show_uploadform()
   {
@@ -835,7 +866,7 @@ function rcube_mail_ui()
       $dialog.dialog('close');
       return;
     }
-    
+
     // add icons to clone file input field
     if (rcmail.env.action == 'compose' && !$dialog.data('extended')) {
       $('<a>')

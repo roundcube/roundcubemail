@@ -194,7 +194,7 @@ class rcube_config
      */
     public function get($name, $def = null)
     {
-        if (isset($this->prop[$name])) {
+        if (array_key_exists($name, $this->prop)) {
             $result = $this->prop[$name];
         }
         else {

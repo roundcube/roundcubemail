@@ -140,7 +140,8 @@
 <div id="mailboxoptionsmenu" class="popupmenu">
   <ul>
     <li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
-    <li class="separator_below"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+    <li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+    <li class="separator_below"><roundcube:button name="messageimport" type="link" class="active" label="importmessages" id="uploadformlink" onclick="rcmail_ui.show_popup('uploadform', true); return false" /></li>
     <li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
     <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
   </ul>
@@ -203,6 +204,8 @@
   <roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
 </div>
 </div>
+
+<roundcube:object name="messageimportform" id="upload-form" attachmentFieldSize="40" class="popupmenu" />
 
 </body>
 </html>

@@ -255,7 +255,8 @@ function rcube_webmail()
           }
         }
         else if (this.env.action == 'compose') {
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'search', 'reset-search', 'extwin'];
+          this.env.address_group_stack = [];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -323,11 +324,13 @@ function rcube_webmail()
         break;
 
       case 'addressbook':
+        this.env.address_group_stack = [];
+
         if (this.gui_objects.folderlist)
           this.env.contactfolders = $.extend($.extend({}, this.env.address_sources), this.env.contactgroups);
 
         this.enable_command('add', 'import', this.env.writable_source);
-        this.enable_command('list', 'listgroup', 'listsearch', 'advanced-search', true);
+        this.enable_command('list', 'listgroup', 'pushgroup', 'popgroup', 'listsearch', 'advanced-search', true);
 
         if (this.gui_objects.contactslist) {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
@@ -1097,9 +1100,23 @@ function rcube_webmail()
         }
         break;
 
+      case 'pushgroup':
+        // add group ID to stack
+        this.env.address_group_stack.push(props.id);
+        if (obj && event)
+          rcube_event.cancel(event);
+
       case 'listgroup':
         this.reset_qsearch();
         this.list_contacts(props.source, props.id);
+        break;
+
+      case 'popgroup':
+        if (this.env.address_group_stack.length > 1) {
+          this.env.address_group_stack.pop();
+          this.reset_qsearch();
+          this.list_contacts(props.source, this.env.address_group_stack[this.env.address_group_stack.length-1]);
+        }
         break;
 
       case 'import-messages':
@@ -3091,7 +3108,13 @@ function rcube_webmail()
 
   this.compose_recipient_select = function(list)
   {
-    this.enable_command('add-recipient', list.selection.length > 0);
+    var id, n, recipients = 0;
+    for (n=0; n < list.selection.length; n++) {
+      id = list.selection[n];
+      if (this.env.contactdata[id])
+        recipients++;
+    }
+    this.enable_command('add-recipient', recipients);
   };
 
   this.compose_add_recipient = function(field)
@@ -4109,7 +4132,7 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var n, id, sid, ref = this, writable = false,
+    var n, id, sid, contact, ref = this, writable = false,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
     // we don't have dblclick handler here, so use 200 instead of this.dblclick_time
@@ -4124,29 +4147,35 @@ function rcube_webmail()
       // we'll also need to know sources used in selection for copy
       // and group-addmember operations (drag&drop)
       this.env.selection_sources = [];
-      if (!source) {
-        for (n in list.selection) {
+
+      if (source) {
+        this.env.selection_sources.push(this.env.source);
+      }
+
+      for (n in list.selection) {
+        contact = list.data[list.selection[n]];
+        if (!source) {
           sid = String(list.selection[n]).replace(/^[^-]+-/, '');
           if (sid && this.env.address_sources[sid]) {
-            writable = writable || !this.env.address_sources[sid].readonly;
+            writable = writable || (!this.env.address_sources[sid].readonly && !contact.readonly);
             this.env.selection_sources.push(sid);
           }
         }
-        this.env.selection_sources = $.unique(this.env.selection_sources);
+        else {
+          writable = writable || (!source.readonly && !contact.readonly);
+        }
       }
-      else {
-        this.env.selection_sources.push(this.env.source);
-        writable = !source.readonly;
-      }
+
+      this.env.selection_sources = $.unique(this.env.selection_sources);
     }
 
     // if a group is currently selected, and there is at least one contact selected
     // thend we can enable the group-remove-selected command
-    this.enable_command('group-remove-selected', this.env.group && list.selection.length > 0);
+    this.enable_command('group-remove-selected', this.env.group && list.selection.length > 0 && writable);
     this.enable_command('compose', this.env.group || list.selection.length > 0);
     this.enable_command('export-selected', list.selection.length > 0);
     this.enable_command('edit', id && writable);
-    this.enable_command('delete', list.selection.length && writable);
+    this.enable_command('delete', list.selection.length > 0 && writable);
 
     return false;
   };
@@ -4174,10 +4203,28 @@ function rcube_webmail()
     else if (!this.env.search_request)
       folder = group ? 'G'+src+group : src;
 
-    this.select_folder(folder, '', true);
-
     this.env.source = src;
     this.env.group = group;
+
+    // truncate groups listing stack
+    var index = $.inArray(this.env.group, this.env.address_group_stack);
+    if (index < 0)
+      this.env.address_group_stack = [];
+    else
+      this.env.address_group_stack = this.env.address_group_stack.slice(0,index);
+
+    // make sure the current group is on top of the stack
+    if (this.env.group) {
+      this.env.address_group_stack.push(this.env.group);
+
+      // mark the first group on the stack as selected in the directory list
+      folder = 'G'+src+this.env.address_group_stack[0];
+    }
+    else if (this.gui_objects.addresslist_title) {
+        $(this.gui_objects.addresslist_title).html(this.get_label('contacts'));
+    }
+
+    this.select_folder(folder, '', true);
 
     // load contacts remotely
     if (this.gui_objects.contactslist) {
@@ -4233,16 +4280,38 @@ function rcube_webmail()
 
   this.list_contacts_clear = function()
   {
+    this.contact_list.data = {};
     this.contact_list.clear(true);
     this.show_contentframe(false);
     this.enable_command('delete', false);
     this.enable_command('compose', this.env.group ? true : false);
   };
 
+  this.set_group_prop = function(prop)
+  {
+    if (this.gui_objects.addresslist_title) {
+      var boxtitle = $(this.gui_objects.addresslist_title).html('');  // clear contents
+
+      // add link to pop back to parent group
+      if (this.env.address_group_stack.length > 1) {
+        $('<a href="#list">...</a>')
+          .addClass('poplink')
+          .appendTo(boxtitle)
+          .click(function(e){ return ref.command('popgroup','',this); });
+        boxtitle.append('&nbsp;&raquo;&nbsp;');
+      }
+
+      boxtitle.append($('<span>'+prop.name+'</span>'));
+    }
+
+    this.triggerEvent('groupupdate', prop);
+  };
+
   // load contact record
   this.load_contact = function(cid, action, framed)
   {
-    var win, url = {}, target = window;
+    var win, url = {}, target = window,
+      rec = this.contact_list ? this.contact_list.data[cid] : null;
 
     if (win = this.get_frame_window(this.env.contentframe)) {
       url._framed = 1;
@@ -4252,7 +4321,9 @@ function rcube_webmail()
       // load dummy content, unselect selected row(s)
       if (!cid)
         this.contact_list.clear_selection();
-      this.enable_command('delete', 'compose', 'export-selected', cid);
+
+      this.enable_command('compose', rec && rec.email);
+      this.enable_command('export-selected', rec && rec._type != 'group');
     }
     else if (framed)
       return false;
@@ -4362,7 +4433,7 @@ function rcube_webmail()
   };
 
   // update a contact record in the list
-  this.update_contact_row = function(cid, cols_arr, newcid, source)
+  this.update_contact_row = function(cid, cols_arr, newcid, source, data)
   {
     var c, row, list = this.contact_list;
 
@@ -4376,10 +4447,11 @@ function rcube_webmail()
     }
 
     list.update_row(cid, cols_arr, newcid, true);
+    list.data[cid] = data;
   };
 
   // add row to contacts list
-  this.add_contact_row = function(cid, cols, classes)
+  this.add_contact_row = function(cid, cols, classes, data)
   {
     if (!this.gui_objects.contactslist)
       return false;
@@ -4401,6 +4473,8 @@ function rcube_webmail()
       row.cols.push(col);
     }
 
+    // store data in list member
+    list.data[cid] = data;
     list.insert_row(row);
 
     this.enable_command('export', list.rowcount > 0);

@@ -139,10 +139,11 @@ foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         // MySQL driver requires PHP >= 5.3 (#1488875)
         if ($ext == 'pdo_mysql' && version_compare(PHP_VERSION, '5.3.0', '<')) {
-            $RCI->fail($database, 'PHP >= 5.3 required');
+            $RCI->fail($database, 'PHP >= 5.3 required', null, true);
         }
         else {
             $RCI->pass($database);
+            $found_db_driver = true;
         }
     }
     else {
@@ -151,6 +152,9 @@ foreach ($RCI->supported_dbs as $database => $ext) {
         $RCI->na($database, $msg, $source_urls[$ext]);
     }
     echo '<br />';
+}
+if (empty($found_db_driver)) {
+  $RCI->failures++;
 }
 
 ?>
