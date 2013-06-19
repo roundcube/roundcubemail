@@ -76,10 +76,9 @@ class rcube_ldap_generic
     /**
     * Object constructor
     *
-    * @param array   $p       LDAP connection properties
-    * @param boolean $debug   Enables debug mode
+    * @param array $p LDAP connection properties
     */
-    function __construct($p, $debug = false)
+    function __construct($p)
     {
         $this->config = $p;
 
@@ -88,8 +87,6 @@ class rcube_ldap_generic
 
         if (!is_array($p['hosts']) && !empty($p['host']))
             $this->config['hosts'] = array($p['host']);
-
-        $this->debug = $debug;
     }
 
     /**

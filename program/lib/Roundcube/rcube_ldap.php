@@ -205,8 +205,9 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // initialize ldap wrapper object
-        $this->ldap = new rcube_ldap_generic($this->prop, true);
+        $this->ldap = new rcube_ldap_generic($this->prop);
         $this->ldap->set_cache($this->cache);
+        $this->ldap->set_debug($this->debug);
 
         $this->_connect();
     }
@@ -1459,11 +1460,14 @@ class rcube_ldap extends rcube_addressbook
      * Activate/deactivate debug mode
      *
      * @param boolean $dbg True if LDAP commands should be logged
-     * @access public
      */
     function set_debug($dbg = true)
     {
         $this->debug = $dbg;
+
+        if ($this->ldap) {
+            $this->ldap->set_debug($dbg);
+        }
     }
 
 
