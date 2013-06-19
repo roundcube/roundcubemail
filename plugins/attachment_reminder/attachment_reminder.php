@@ -36,9 +36,11 @@ class attachment_reminder extends rcube_plugin
         $rcmail = rcube::get_instance();
 
         if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
-            $this->include_script('attachment_reminder.js');
-            $this->add_texts('localization/', array('keywords', 'forgotattachment'));
-            $rcmail->output->add_label('addattachment', 'send');
+            if ($rcmail->config->get('attachment_reminder')) {
+                $this->include_script('attachment_reminder.js');
+                $this->add_texts('localization/', array('keywords', 'forgotattachment'));
+                $rcmail->output->add_label('addattachment', 'send');
+            }
         }
 
         if ($rcmail->task == 'settings') {
