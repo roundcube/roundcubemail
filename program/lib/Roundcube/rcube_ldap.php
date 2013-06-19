@@ -195,12 +195,13 @@ class rcube_ldap extends rcube_addressbook
         $this->mail_domain = $mail_domain;
 
         // initialize cache
-        $rcube      = rcube::get_instance();
-        $cache_type = $rcube->config->get('ldap_cache', 'db');
-        $cache_ttl  = $rcube->config->get('ldap_cache_ttl', '10m');
-        $cache_name = 'LDAP.' . asciiwords($this->prop['name']);
+        $rcube = rcube::get_instance();
+        if ($cache_type = $rcube->config->get('ldap_cache', 'db')) {
+            $cache_ttl  = $rcube->config->get('ldap_cache_ttl', '10m');
+            $cache_name = 'LDAP.' . asciiwords($this->prop['name']);
 
-        $this->cache = $rcube->get_cache($cache_name, $cache_type, $cache_ttl);
+            $this->cache = $rcube->get_cache($cache_name, $cache_type, $cache_ttl);
+        }
 
         // determine which attributes to fetch
         $this->prop['list_attributes'] = array_unique($fetch_attributes);
@@ -279,7 +280,7 @@ class rcube_ldap extends rcube_addressbook
                     $cache_key = 'DN.' . md5("$host:$search_bind_dn:$search_base_dn:$search_filter:"
                         .$this->prop['search_bind_pw']);
 
-                    if ($dn = $this->cache->get($cache_key)) {
+                    if ($this->cache && ($dn = $this->cache->get($cache_key))) {
                         $replaces['%dn'] = $dn;
                     }
                     else {
@@ -325,7 +326,7 @@ class rcube_ldap extends rcube_addressbook
                         }
                     }
 
-                    if (!empty($replaces['%dn'])) {
+                    if ($this->cache && !empty($replaces['%dn'])) {
                         $this->cache->set($cache_key, $replaces['%dn']);
                     }
                 }
@@ -1527,9 +1528,9 @@ class rcube_ldap extends rcube_addressbook
             return array();
 
         // use cached list for searching
-        $this->cache->expunge();
-        if (!$search || ($group_cache = $this->cache->get('groups')) === null)
+        if (!$this->cache || ($group_cache = $this->cache->get('groups')) === null) {
             $group_cache = $this->_fetch_groups();
+        }
 
         $groups = array();
         if ($search) {
@@ -1632,7 +1633,9 @@ class rcube_ldap extends rcube_addressbook
             array_multisort($group_sortnames, SORT_ASC, SORT_STRING, $groups);
 
         // cache this
-        $this->cache->set('groups', $groups);
+        if ($this->cache) {
+            $this->cache->set('groups', $groups);
+        }
 
         return $groups;
     }
@@ -1642,8 +1645,9 @@ class rcube_ldap extends rcube_addressbook
      */
     private function get_group_entry($group_id)
     {
-        if (($group_cache = $this->cache->get('groups')) === null)
+        if (!$this->cache || ($group_cache = $this->cache->get('groups')) === null) {
             $group_cache = $this->_fetch_groups();
+        }
 
         // add group record to cache if it isn't yet there
         if (!isset($group_cache[$group_id])) {
@@ -1662,7 +1666,9 @@ class rcube_ldap extends rcube_addressbook
                 $group_cache[$group_id] = false;
             }
 
-            $this->cache->set('groups', $group_cache);
+            if ($this->cache) {
+                $this->cache->set('groups', $group_cache);
+            }
         }
 
         return $group_cache[$group_id];
@@ -1706,7 +1712,9 @@ class rcube_ldap extends rcube_addressbook
             return false;
         }
 
-        $this->cache->remove('groups');
+        if ($this->cache) {
+            $this->cache->remove('groups');
+        }
 
         return array('id' => $new_gid, 'name' => $group_name);
     }
@@ -1719,8 +1727,9 @@ class rcube_ldap extends rcube_addressbook
      */
     function delete_group($group_id)
     {
-        if (($group_cache = $this->cache->get('groups')) === null)
+        if (!$this->cache || ($group_cache = $this->cache->get('groups')) === null) {
             $group_cache = $this->_fetch_groups();
+        }
 
         $del_dn = $group_cache[$group_id]['dn'];
 
@@ -1729,8 +1738,10 @@ class rcube_ldap extends rcube_addressbook
             return false;
         }
 
-        unset($group_cache[$group_id]);
-        $this->cache->set('groups', $group_cache);
+        if ($this->cache) {
+            unset($group_cache[$group_id]);
+            $this->cache->set('groups', $group_cache);
+        }
 
         return true;
     }
@@ -1745,8 +1756,9 @@ class rcube_ldap extends rcube_addressbook
      */
     function rename_group($group_id, $new_name, &$new_gid)
     {
-        if (($group_cache = $this->cache->get('groups')) === null)
+        if (!$this->cache || ($group_cache = $this->cache->get('groups')) === null) {
             $group_cache = $this->_fetch_groups();
+        }
 
         $old_dn = $group_cache[$group_id]['dn'];
         $new_rdn = "cn=" . rcube_ldap_generic::quote_string($new_name, true);
@@ -1757,7 +1769,9 @@ class rcube_ldap extends rcube_addressbook
             return false;
         }
 
-        $this->cache->remove('groups');
+        if ($this->cache) {
+            $this->cache->remove('groups');
+        }
 
         return $new_name;
     }
@@ -1772,8 +1786,9 @@ class rcube_ldap extends rcube_addressbook
      */
     function add_to_group($group_id, $contact_ids)
     {
-        if (($group_cache = $this->cache->get('groups')) === null)
+        if (!$this->cache || ($group_cache = $this->cache->get('groups')) === null) {
             $group_cache = $this->_fetch_groups();
+        }
 
         if (!is_array($contact_ids))
             $contact_ids = explode(',', $contact_ids);
@@ -1790,7 +1805,9 @@ class rcube_ldap extends rcube_addressbook
             return 0;
         }
 
-        $this->cache->remove('groups');
+        if ($this->cache) {
+            $this->cache->remove('groups');
+        }
 
         return count($new_attrs[$member_attr]);
     }
@@ -1805,8 +1822,9 @@ class rcube_ldap extends rcube_addressbook
      */
     function remove_from_group($group_id, $contact_ids)
     {
-        if (($group_cache = $this->cache->get('groups')) === null)
+        if (!$this->cache || ($group_cache = $this->cache->get('groups')) === null) {
             $group_cache = $this->_fetch_groups();
+        }
 
         if (!is_array($contact_ids))
             $contact_ids = explode(',', $contact_ids);
@@ -1823,7 +1841,9 @@ class rcube_ldap extends rcube_addressbook
             return 0;
         }
 
-        $this->cache->remove('groups');
+        if ($this->cache) {
+            $this->cache->remove('groups');
+        }
 
         return count($del_attrs[$member_attr]);
     }
