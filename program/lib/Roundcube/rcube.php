@@ -1487,7 +1487,7 @@ class rcube
                     $subject    = str_replace("\r\n", $delim, $subject);
                 }
 
-                if (ini_get('safe_mode'))
+                if (filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN))
                     $sent = mail($to, $subject, $msg_body, $header_str);
                 else
                     $sent = mail($to, $subject, $msg_body, $header_str, "-f$from");
