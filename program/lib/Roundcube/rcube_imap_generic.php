@@ -2615,11 +2615,11 @@ class rcube_imap_generic
     /**
      * Handler for IMAP APPEND command
      *
-     * @param string $mailbox Mailbox name
-     * @param string $message Message content
-     * @param array  $flags   Message flags
-     * @param string $date    Message internal date
-     * @param bool   $binary  Enable BINARY append (RFC3516)
+     * @param string       $mailbox Mailbox name
+     * @param string|array $message The message source string or array (of strings and file pointers)
+     * @param array        $flags   Message flags
+     * @param string       $date    Message internal date
+     * @param bool         $binary  Enable BINARY append (RFC3516)
      *
      * @return string|bool On success APPENDUID response (if available) or True, False on failure
      */
@@ -2633,13 +2633,28 @@ class rcube_imap_generic
 
         $binary       = $binary && $this->getCapability('BINARY');
         $literal_plus = !$binary && $this->prefs['literal+'];
+        $len          = 0;
+        $msg          = is_array($message) ? $message : array(&$message);
+        $chunk_size   = 512000;
 
-        if (!$binary) {
-            $message = str_replace("\r", '', $message);
-            $message = str_replace("\n", "\r\n", $message);
+        for ($i=0, $cnt=count($msg); $i<$cnt; $i++) {
+            if (is_resource($msg[$i])) {
+                $stat = fstat($msg[$i]);
+                if ($stat === false) {
+                    return false;
+                }
+                $len += $stat['size'];
+            }
+            else {
+                if (!$binary) {
+                    $msg[$i] = str_replace("\r", '', $msg[$i]);
+                    $msg[$i] = str_replace("\n", "\r\n", $msg[$i]);
+                }
+
+                $len += strlen($msg[$i]);
+            }
         }
 
-        $len = strlen($message);
         if (!$len) {
             return false;
         }
@@ -2664,7 +2679,32 @@ class rcube_imap_generic
                 }
             }
 
-            if (!$this->putLine($message)) {
+            foreach ($msg as $msg_part) {
+                // file pointer
+                if (is_resource($msg_part)) {
+                    rewind($msg_part);
+                    while (!feof($msg_part) && $this->fp) {
+                        $buffer = fread($msg_part, $chunk_size);
+                        $this->putLine($buffer, false);
+                    }
+                    fclose($msg_part);
+                }
+                // string
+                else {
+                    $size = strlen($msg_part);
+
+                    // Break up the data by sending one chunk (up to 512k) at a time.
+                    // This approach reduces our peak memory usage
+                    for ($offset = 0; $offset < $size; $offset += $chunk_size) {
+                        $chunk = substr($msg_part, $offset, $chunk_size);
+                        if (!$this->putLine($chunk, false)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            if (!$this->putLine('')) { // \r\n
                 return false;
             }
 
@@ -2703,94 +2743,23 @@ class rcube_imap_generic
      */
     function appendFromFile($mailbox, $path, $headers=null, $flags = array(), $date = null, $binary = false)
     {
-        unset($this->data['APPENDUID']);
-
-        if ($mailbox === null || $mailbox === '') {
-            return false;
-        }
-
         // open message file
-        $in_fp = false;
         if (file_exists(realpath($path))) {
-            $in_fp = fopen($path, 'r');
+            $fp = fopen($path, 'r');
         }
 
-        if (!$in_fp) {
+        if (!$fp) {
             $this->setError(self::ERROR_UNKNOWN, "Couldn't open $path for reading");
             return false;
         }
 
-        $body_separator = "\r\n\r\n";
-        $len = filesize($path);
-
-        if (!$len) {
-            return false;
-        }
-
+        $message = array();
         if ($headers) {
-            $headers = preg_replace('/[\r\n]+$/', '', $headers);
-            $len += strlen($headers) + strlen($body_separator);
+            $message[] = trim($headers, "\r\n") . "\r\n\r\n";
         }
+        $message[] = $fp;
 
-        $binary       = $binary && $this->getCapability('BINARY');
-        $literal_plus = !$binary && $this->prefs['literal+'];
-
-        // build APPEND command
-        $key = $this->nextTag();
-        $request = "$key APPEND " . $this->escape($mailbox) . ' (' . $this->flagsToStr($flags) . ')';
-        if (!empty($date)) {
-            $request .= ' ' . $this->escape($date);
-        }
-        $request .= ' ' . ($binary ? '~' : '') . '{' . $len . ($literal_plus ? '+' : '') . '}';
-
-        // send APPEND command
-        if ($this->putLine($request)) {
-            // Don't wait when LITERAL+ is supported
-            if (!$literal_plus) {
-                $line = $this->readReply();
-
-                if ($line[0] != '+') {
-                    $this->parseResult($line, 'APPEND: ');
-                    return false;
-                }
-            }
-
-            // send headers with body separator
-            if ($headers) {
-                $this->putLine($headers . $body_separator, false);
-            }
-
-            // send file
-            while (!feof($in_fp) && $this->fp) {
-                $buffer = fgets($in_fp, 4096);
-                $this->putLine($buffer, false);
-            }
-            fclose($in_fp);
-
-            if (!$this->putLine('')) { // \r\n
-                return false;
-            }
-
-            // read response
-            do {
-                $line = $this->readLine();
-            } while (!$this->startsWith($line, $key, true, true));
-
-            // Clear internal status cache
-            unset($this->data['STATUS:'.$mailbox]);
-
-            if ($this->parseResult($line, 'APPEND: ') != self::ERROR_OK)
-                return false;
-            else if (!empty($this->data['APPENDUID']))
-                return $this->data['APPENDUID'];
-            else
-                return true;
-        }
-        else {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
-        }
-
-        return false;
+        return $this->append($mailbox, $message, $flags, $date, $binary);
     }
 
     /**

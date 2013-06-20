@@ -2243,13 +2243,14 @@ class rcube_imap extends rcube_storage
     /**
      * Append a mail message (source) to a specific folder
      *
-     * @param string  $folder  Target folder
-     * @param string  $message The message source string or filename
-     * @param string  $headers Headers string if $message contains only the body
-     * @param boolean $is_file True if $message is a filename
-     * @param array   $flags   Message flags
-     * @param mixed   $date    Message internal date
-     * @param bool    $binary  Enables BINARY append
+     * @param string       $folder  Target folder
+     * @param string|array $message The message source string or filename
+     *                              or array (of strings and file pointers)
+     * @param string       $headers Headers string if $message contains only the body
+     * @param boolean      $is_file True if $message is a filename
+     * @param array        $flags   Message flags
+     * @param mixed        $date    Message internal date
+     * @param bool         $binary  Enables BINARY append
      *
      * @return int|bool Appended message UID or True on success, False on error
      */
