@@ -1,32 +1,26 @@
 <?php
 
-/*
- +-------------------------------------------------------------------------+
- | Password Plugin for Roundcube                                           |
- | @version @package_version@                                                             |
- |                                                                         |
- | Copyright (C) 2009-2010, Roundcube Dev.                                 |
- |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
- |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
- |                                                                         |
- +-------------------------------------------------------------------------+
- | Author: Aleksander Machniak <alec@alec.pl>                              |
- +-------------------------------------------------------------------------+
-
- $Id: index.php 2645 2009-06-15 07:01:36Z alec $
-
-*/
+/**
+ * Password Plugin for Roundcube
+ *
+ * @version @package_version@
+ * @author Aleksander Machniak <alec@alec.pl>
+ *
+ * Copyright (C) 2005-2013, The Roundcube Dev Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses/.
+ */
 
 define('PASSWORD_CRYPT_ERROR', 1);
 define('PASSWORD_ERROR', 2);
@@ -62,7 +56,13 @@ class password extends rcube_plugin
             return;
         }
 
-        // Exceptions list
+        // Host exceptions
+        $hosts = $rcmail->config->get('password_hosts');
+        if (!empty($hosts) && !in_array($_SESSION['storage_host'], $hosts)) {
+            return;
+        }
+
+        // Login exceptions
         if ($exceptions = $rcmail->config->get('password_login_exceptions')) {
             $exceptions = array_map('trim', (array) $exceptions);
             $exceptions = array_filter($exceptions);
@@ -112,22 +112,22 @@ class password extends rcube_plugin
             $rc_charset = strtoupper($rcmail->output->get_charset());
 
             $sespwd = $rcmail->decrypt($_SESSION['password']);
-            $curpwd = $confirm ? get_input_value('_curpasswd', RCUBE_INPUT_POST, true, $charset) : $sespwd;
-            $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST, true);
-            $conpwd = get_input_value('_confpasswd', RCUBE_INPUT_POST, true);
+            $curpwd = $confirm ? rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sespwd;
+            $newpwd = rcube_utils::get_input_value('_newpasswd', rcube_utils::INPUT_POST, true);
+            $conpwd = rcube_utils::get_input_value('_confpasswd', rcube_utils::INPUT_POST, true);
 
             // check allowed characters according to the configured 'password_charset' option
             // by converting the password entered by the user to this charset and back to UTF-8
             $orig_pwd = $newpwd;
-            $chk_pwd = rcube_charset_convert($orig_pwd, $rc_charset, $charset);
-            $chk_pwd = rcube_charset_convert($chk_pwd, $charset, $rc_charset);
+            $chk_pwd = rcube_charset::convert($orig_pwd, $rc_charset, $charset);
+            $chk_pwd = rcube_charset::convert($chk_pwd, $charset, $rc_charset);
 
             // WARNING: Default password_charset is ISO-8859-1, so conversion will
             // change national characters. This may disable possibility of using
             // the same password in other MUA's.
             // We're doing this for consistence with Roundcube core
-            $newpwd = rcube_charset_convert($newpwd, $rc_charset, $charset);
-            $conpwd = rcube_charset_convert($conpwd, $rc_charset, $charset);
+            $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
+            $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
 
             if ($chk_pwd != $orig_pwd) {
                 $rcmail->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
@@ -141,13 +141,13 @@ class password extends rcube_plugin
             }
             else if ($required_length && strlen($newpwd) < $required_length) {
                 $rcmail->output->command('display_message', $this->gettext(
-	                array('name' => 'passwordshort', 'vars' => array('length' => $required_length))), 'error');
+                    array('name' => 'passwordshort', 'vars' => array('length' => $required_length))), 'error');
             }
             else if ($check_strength && (!preg_match("/[0-9]/", $newpwd) || !preg_match("/[^A-Za-z0-9]/", $newpwd))) {
                 $rcmail->output->command('display_message', $this->gettext('passwordweak'), 'error');
             }
             // password is the same as the old one, do nothing, return success
-            else if ($sespwd == $newpwd) {
+            else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
                 $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
             }
             // try to save the password
@@ -163,8 +163,8 @@ class password extends rcube_plugin
 
                 // Log password change
                 if ($rcmail->config->get('password_log')) {
-                    write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
-                        $rcmail->user->get_username(), $rcmail->user->ID, rcmail_remote_ip()));
+                    rcube::write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
+                        $rcmail->get_user_name(), $rcmail->user->ID, rcube_utils::remote_ip()));
                 }
             }
             else {
@@ -172,7 +172,7 @@ class password extends rcube_plugin
             }
         }
 
-        rcmail_overwrite_action('plugin.password');
+        $rcmail->overwrite_action('plugin.password');
         $rcmail->output->send('plugin');
     }
 
@@ -197,7 +197,7 @@ class password extends rcube_plugin
             $input_curpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => $field_id,
                 'size' => 20, 'autocomplete' => 'off'));
 
-            $table->add('title', html::label($field_id, Q($this->gettext('curpasswd'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('curpasswd'))));
             $table->add(null, $input_curpasswd->show());
         }
 
@@ -206,7 +206,7 @@ class password extends rcube_plugin
         $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => $field_id,
             'size' => 20, 'autocomplete' => 'off'));
 
-        $table->add('title', html::label($field_id, Q($this->gettext('newpasswd'))));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('newpasswd'))));
         $table->add(null, $input_newpasswd->show());
 
         // show confirm password selection
@@ -214,7 +214,7 @@ class password extends rcube_plugin
         $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => $field_id,
             'size' => 20, 'autocomplete' => 'off'));
 
-        $table->add('title', html::label($field_id, Q($this->gettext('confpasswd'))));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('confpasswd'))));
         $table->add(null, $input_confpasswd->show());
 
         $out = html::div(array('class' => 'box'),
@@ -246,7 +246,7 @@ class password extends rcube_plugin
         $file   = $this->home . "/drivers/$driver.php";
 
         if (!file_exists($file)) {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
@@ -258,7 +258,7 @@ class password extends rcube_plugin
         include_once $file;
 
         if (!class_exists($class, false) || !method_exists($class, 'save')) {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
@@ -280,8 +280,10 @@ class password extends rcube_plugin
                 return;
             case PASSWORD_CRYPT_ERROR;
                 $reason = $this->gettext('crypterror');
+                break;
             case PASSWORD_CONNECT_ERROR;
                 $reason = $this->gettext('connecterror');
+                break;
             case PASSWORD_ERROR:
             default:
                 $reason = $this->gettext('internalerror');

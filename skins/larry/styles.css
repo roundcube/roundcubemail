@@ -8,8 +8,6 @@
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
- *
- * $Id$
  */
 
 body {
@@ -69,6 +67,12 @@ textarea.placeholder {
 
 .bold {
 	font-weight: bold;
+}
+
+/* fixes vertical alignment of checkboxes and labels */
+label input,
+label span {
+	vertical-align: middle;
 }
 
 /*** buttons ***/
@@ -173,7 +177,8 @@ input.mainaction {
 
 /** link buttons **/
 
-a.button {
+a.button,
+.buttongroup {
 	display: inline-block;
 	margin: 0 2px;
 	padding: 2px 5px;
@@ -192,6 +197,11 @@ a.button {
 	-webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	-moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	text-decoration: none;
+}
+
+.buttongroup {
+	padding: 0;
+	white-space: nowrap;
 }
 
 a.button:focus,
@@ -225,6 +235,29 @@ input.button[disabled]:hover {
 a.button.disabled span.inner {
 	opacity: 0.4;
 	filter: alpha(opacity=40);
+}
+
+.buttongroup a.button {
+	margin: 0;
+	border-width: 0 1px 0 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+.buttongroup a.button.first,
+.buttongroup a.button:first-child {
+	border-radius: 4px 0 0 4px;
+	border-left: 0;
+}
+
+.buttongroup a.button.last,
+.buttongroup a.button:last-child {
+	border-radius: 0 4px 4px 0;
+	border-right: 0;
 }
 
 a.button.pressed,
@@ -262,11 +295,32 @@ input.button:active {
 	background: linear-gradient(top, #bababa 0%, #d8d8d8 100%);
 }
 
+.buttongroup a.button.selected,
+.buttongroup a.button.selected:hover {
+	background: #8a8a8a;
+	background: -moz-linear-gradient(top, #909090 0%, #858585 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#909090), color-stop(100%,#858585));
+	background: -o-linear-gradient(top, #909090 0%, #858585 100%);
+	background: -ms-linear-gradient(top, #909090 0%, #858585 100%);
+	background: linear-gradient(top, #909090 0%, #858585 100%);
+	-webkit-box-shadow: inset 0 1px 2px 0 #555;
+	-moz-box-shadow: inset 0 1px 2px 0 #555;
+	box-shadow: inset 0 1px 2px 0 #555;
+	border-right-color: #555;
+	border-left-color: #555;
+}
+
 .pagenav a.button {
 	padding: 1px 3px;
 	height: 16px;
 	vertical-align: middle;
 	margin-bottom: 1px;
+}
+
+.pagenav .buttongroup a.button,
+.pagenav .buttongroup a.button:hover {
+	padding: 1px 5px;
+	margin-bottom: 0;
 }
 
 .pagenav a.button span.inner {
@@ -312,6 +366,20 @@ input.button:active {
 
 .pagenav a.extwin span.inner {
 	background-position: -29px -271px;
+}
+
+.pagenav a.changeformat.html span.inner {
+	background-position: -7px -1859px;
+}
+.pagenav a.changeformat.html.selected span.inner {
+	background-position: -29px -1859px;
+}
+
+.pagenav a.changeformat.text span.inner {
+	background-position: -7px -1874px;
+}
+.pagenav a.changeformat.text.selected span.inner {
+	background-position: -29px -1874px;
 }
 
 .pagenav .countdisplay {
@@ -504,15 +572,21 @@ a.iconlink.upload {
 
 /*** basic page layout ***/
 
+#header {
+	overflow-x: hidden; /* Chrome bug #1488851 */
+}
+
 #topline {
 	height: 18px;
 	background: url(images/linen_header.jpg) repeat #666;
 	border-bottom: 1px solid #4f4f4f;
 	padding: 2px 0 2px 10px;
 	color: #aaa;
+	text-align: center;
 }
 
 #topnav {
+	position: relative;
 	height: 46px;
 	margin-bottom: 10px;
 	padding: 0 0 0 10px;
@@ -569,8 +643,156 @@ a.iconlink.upload {
 	color: #fff;
 }
 
+#taskbar .button-logout {
+	display: none;
+}
+
+#taskbar a.button-logout span.button-inner {
+	background-position: -2px -1791px;
+}
+
+#taskbar a.button-logout:hover span.button-inner {
+	background-position: -2px -1829px;
+}
+
+
+/*** minimal version of the page header ***/
+
+.minimal #topline {
+	position: fixed;
+	top: -18px;
+	background: #444;
+	z-index: 5000;
+	width: 100%;
+	height: 22px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.minimal #topline:hover {
+	top: 0px;
+	opacity: 0.94;
+	filter: alpha(opacity=94);
+	-webkit-transition: top 0.3s ease-in-out;
+	-moz-transition: top 0.3s ease-in-out;
+	-o-transition: top 0.3s ease-in-out;
+	transition: top 0.3s ease-in-out;
+}
+
+.extwin #topline,
+.extwin #topline:hover {
+	position: static;
+	top: 0px;
+	height: 18px;
+	width: auto;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	opacity: 0.999;
+}
+
+.partwin #topline {
+	position: absolute;
+	right: 6px;
+	top: 18px;
+	width: auto;
+	z-index: 100;
+	background: transparent;
+	background: none;
+	border: 0;
+}
+
+.minimal #topline a.button-logout {
+	display: none;
+}
+
+.minimal #topline span.username {
+	display: inline-block;
+	padding-top: 2px;
+}
+
+.minimal #topnav {
+	position: relative;
+	top: 4px;
+	height: 42px;
+}
+
+.minimal #taskbar a {
+	position: relative;
+	padding: 10px 10px 0 6px;
+	height: 32px;
+}
+
+.minimal #taskbar .button-logout {
+	display: inline-block;
+}
+
+.minimal #taskbar .button-inner {
+	top: -4px;
+	padding: 0;
+	height: 24px !important;
+	width: 27px;
+	text-indent: -5000px;
+}
+
+#taskbar .tooltip {
+	display: none;
+}
+
+.minimal #taskbar .tooltip {
+	position: absolute;
+	top: -500px;
+	right: 2px;
+	display: inline-block;
+	padding: 2px 8px 3px 8px;
+	background: #444;
+	background: -moz-linear-gradient(top, #444 0%, #333 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#444), color-stop(100%,#333));
+	background: -o-linear-gradient(top, #444 0%, #333 100%);
+	background: -ms-linear-gradient(top, #444 0%, #333 100%);
+	background: linear-gradient(top, #444 0%, #333 100%);
+	color: #eee;
+	font-weight: bold;
+	white-space: nowrap;
+	border: 1px solid #777;
+	box-shadow: 0 1px 5px 0 #333;
+	-moz-box-shadow: 0 1px 5px 0 #333;
+	-webkit-box-shadow: 0 1px 5px 0 #333;
+	-o-box-shadow: 0 1px 5px 0 #333;
+	z-index: 200;
+	white-space: nowrap;
+	text-shadow: 0px 1px 1px #000;
+}
+
+.minimal #taskbar .tooltip:after {
+	content: "";
+	position: absolute;
+	top: -4px;
+	right: 15px;
+	border-style: solid;
+	border-width: 0 4px 4px;
+	border-color: #888 transparent;
+	/* reduce the damage in FF3.0 */
+	display: block; 
+	width: 0;
+	z-index: 251;
+}
+
+.ie8 .minimal #taskbar .tooltip:after {
+	top: -6px;
+}
+
+.minimal #taskbar a:hover .tooltip {
+	display: block;
+	top: 39px;
+}
+
 
 /*** taskbar ***/
+
+#taskbar {
+	position: relative;
+	padding-right: 18px;
+}
 
 #taskbar a {
 	display: inline-block;
@@ -629,6 +851,22 @@ a.iconlink.upload {
 	background-position: 0 -168px;
 }
 
+#taskbar .minmodetoggle {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: block;
+	width: 19px;
+	height: 46px;
+	cursor: pointer;
+	background: url(images/buttons.png) -35px -1778px no-repeat;
+}
+
+.minimal #taskbar .minmodetoggle {
+	height: 42px;
+	background-position: -35px -1820px;
+}
+
 #mainscreen {
 	position: absolute;
 	top: 88px;
@@ -637,12 +875,24 @@ a.iconlink.upload {
 	bottom: 20px;
 }
 
+.minimal #mainscreen {
+	top: 62px;
+}
+
+.minimal #mainscreen.offset {
+	top: 102px;
+}
+
+.partwin #mainscreen {
+	top: 60px
+}
+
 .extwin #mainscreen {
 	top: 40px;
 }
 
 #mainscreen.offset {
-	top: 130px;
+	top: 132px;
 }
 
 #mainscreen .offset {
@@ -800,9 +1050,17 @@ ul.listing li {
 	background-color: #d9ecf4;
 }
 
+ul.listing li ul {
+	border-top: 1px solid #bbd3da;
+}
+
 ul.listing li.droptarget,
 table.listing tr.droptarget td {
 	background-color: #e8e798;
+}
+
+.listbox table.listing {
+	background-color: #d9ecf4;
 }
 
 table.listing,
@@ -814,6 +1072,32 @@ table.layout {
 
 table.layout td {
 	vertical-align: top;
+}
+
+ul.treelist li {
+	position: relative;
+}
+
+ul.treelist li div.treetoggle {
+	position: absolute;
+	top: 13px;
+	left: 19px;
+	width: 13px;
+	height: 13px;
+	background: url(images/listicons.png) -3px -144px no-repeat;
+	cursor: pointer;
+}
+
+ul.treelist li div.treetoggle.expanded {
+	background-position: -3px -168px;
+}
+
+ul.treelist li.selected > div.collapsed {
+	background-position: -23px -144px;
+}
+
+ul.treelist li.selected > div.expanded {
+	background-position: -23px -168px;
 }
 
 .listbox .boxfooter {
@@ -1060,6 +1344,10 @@ body.iframe {
 	margin: 38px 0 10px 0;
 }
 
+body.iframe.error {
+	background: #ededed;
+}
+
 body.iframe.floatingbuttons {
 	margin-bottom: 40px;
 }
@@ -1233,6 +1521,14 @@ ul.proplist li {
 	padding-top: 10px;
 }
 
+#login-form .noscriptwarning {
+	margin: 0 auto;
+	width: 430px;
+	color: #cf2734;
+	font-size: 110%;
+	font-weight: bold;
+}
+
 #login-form td.input {
 	width: 80%;
 	padding: 8px;
@@ -1320,17 +1616,21 @@ ul.proplist li {
 
 /*** quicksearch **/
 
+.searchbox {
+	position: relative;
+}
+
 #quicksearchbar {
 	position: absolute;
 	right: 1px;
-	top: 0;
+	top: 2px;
 	width: 240px;
 }
 
+.searchbox input,
 #quicksearchbar input {
 	width: 176px;
 	margin: 0;
-	margin-top: 7px;
 	padding: 3px 30px 3px 34px;
 	height: 18px;
 	background: #f1f1f1;
@@ -1339,15 +1639,17 @@ ul.proplist li {
 	font-size: 11px;
 }
 
+.searchbox #searchmenulink,
 #quicksearchbar #searchmenulink {
 	position: absolute;
-	top: 12px;
+	top: 5px;
 	left: 6px;
 }
 
+.searchbox #searchreset,
 #quicksearchbar #searchreset {
 	position: absolute;
-	top: 11px;
+	top: 4px;
 	right: 1px;
 }
 
@@ -1499,6 +1801,7 @@ ul.proplist li {
 }
 
 .toolbar a.button.export {
+	min-width: 74px;
 	background-position: center -1054px;
 }
 
@@ -1513,7 +1816,6 @@ ul.proplist li {
 .toolbar a.button.close {
 	background-position: 0 -1745px;
 }
-
 
 a.menuselector {
 	display: inline-block;
@@ -1965,8 +2267,19 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -390px;
 }
 
-.attachmentslist li.html {
+.attachmentslist li.sig,
+.attachmentslist li.pgp-signature,
+.attachmentslist li.pkcs7-signature {
 	background-position: 0 -442px;
+}
+
+.attachmentslist li.html {
+	background-position: 0 -468px;
+}
+
+.attachmentslist li.eml,
+.attachmentslist li.rfc822 {
+	background-position: 0 -494px;
 }
 
 .attachmentslist li a,
@@ -1974,12 +2287,23 @@ ul.toolbarmenu li span.conversation {
 	display: block;
 	color: #333;
 	font-weight: bold;
-	padding: 8px 4px 3px 30px;
+	padding: 8px 15px 3px 30px;
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.attachmentslist li a.drop {
+	background: url(images/buttons.png) no-repeat scroll center -1570px;
+	width: 14px;
+	height: 20px;
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0;
 }
 
 #compose-attachments ul li {

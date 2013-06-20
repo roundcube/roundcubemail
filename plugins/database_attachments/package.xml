@@ -5,7 +5,7 @@
     http://pear.php.net/dtd/package-2.0.xsd">
 	<name>database_attachments</name>
 	<channel>pear.roundcube.net</channel>
-	<summary>SQL database storage for uploaded attachments</summary>
+	<summary>Database storage for uploaded attachments</summary>
 	<description>
 	    This plugin which provides database backed storage for temporary
         attachment file handling. The primary advantage of this plugin
@@ -24,9 +24,9 @@
 		<email>ziba@umich.edu</email>
 		<active>yes</active>
 	</developer>
-	<date>2011-11-21</date>
+	<date>2013-06-13</date>
 	<version>
-		<release>1.0</release>
+		<release>1.1</release>
 		<api>1.0</api>
 	</version>
 	<stability>

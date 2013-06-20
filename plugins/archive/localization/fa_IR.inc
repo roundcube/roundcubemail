@@ -2,20 +2,33 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fa_IR/labels.inc                                         |
+ | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Archive plugin             |
+ | Copyright (C) 2013, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Hamid <abbaszadeh.h@gmail.com>                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
 $labels = array();
 $labels['buttontext'] = 'بایگانی';
-$labels['archivefolder'] = 'بایگانی';
 $labels['buttontitle'] = 'بایگانی این پیغام';
 $labels['archived'] = 'با موفقیت بایگانی شد';
+$labels['archivedreload'] = 'با موفقیت بایگانی شد، بارگذاری مجدد صفحه برای دیدن پوشه‌های بایگانی جدید.';
+$labels['archiveerror'] = 'برخی پیغام‌ها بایگانی نخواهند شد';
+$labels['archivefolder'] = 'بایگانی';
+$labels['settingstitle'] = 'بایگانی';
+$labels['archivetype'] = 'جدا کردن بایگانی با';
+$labels['archivetypeyear'] = 'سال (به عنوان مثال بایگانی/۲۰۱۲)';
+$labels['archivetypemonth'] = 'ماه (به عنوان مثال بایگانی/۲۰۱۲/۰۶)';
+$labels['archivetypefolder'] = 'پوشه اصلی';
+$labels['archivetypesender'] = 'ایمیل فرستنده';
+$labels['unkownsender'] = 'ناشناخته';
 
+?>

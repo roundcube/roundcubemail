@@ -19,7 +19,7 @@ class rcube_dbmail_password
 {
     function password_save($currpass, $newpass)
     {
-        $curdir   = INSTALL_PATH . 'plugins/password/helpers';
+        $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellcmd($_SESSION['username']);
         $args     = rcmail::get_instance()->config->get('password_dbmail_args', '');
 
@@ -29,7 +29,7 @@ class rcube_dbmail_password
             return PASSWORD_SUCCESS;
         }
         else {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,

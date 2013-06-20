@@ -45,7 +45,7 @@ class vcard_attachments extends rcube_plugin
             }
         }
         // the same with message bodies
-        foreach ((array)$this->message->parts as $idx => $part) {
+        foreach ((array)$this->message->parts as $part) {
             if ($this->is_vcard($part)) {
                 $this->vcard_parts[] = $part->mime_id;
                 $this->vcard_bodies[] = $part->mime_id;
@@ -63,32 +63,36 @@ class vcard_attachments extends rcube_plugin
     function html_output($p)
     {
         $attach_script = false;
-        $icon = 'plugins/vcard_attachments/' .$this->local_skin_path(). '/vcard_add_contact.png';
 
         foreach ($this->vcard_parts as $part) {
             $vcards = rcube_vcard::import($this->message->get_part_content($part, null, true));
 
             // successfully parsed vcards?
-            if (empty($vcards))
+            if (empty($vcards)) {
                 continue;
+            }
 
             // remove part's body
-            if (in_array($part, $this->vcard_bodies))
+            if (in_array($part, $this->vcard_bodies)) {
                 $p['content'] = '';
+            }
 
             foreach ($vcards as $idx => $vcard) {
-                $display = $vcard->displayname;
-                if ($vcard->email[0])
-                    $display .= ' <'.$vcard->email[0].'>';
+                // skip invalid vCards
+                if (empty($vcard->email) || empty($vcard->email[0])) {
+                    continue;
+                }
+
+                $display = $vcard->displayname . ' <'.$vcard->email[0].'>';
 
                 // add box below message body
                 $p['content'] .= html::p(array('class' => 'vcardattachment'),
                     html::a(array(
                         'href' => "#",
-                        'onclick' => "return plugin_vcard_save_contact('" . JQ($part.':'.$idx) . "')",
+                        'onclick' => "return plugin_vcard_save_contact('" . rcube::JQ($part.':'.$idx) . "')",
                         'title' => $this->gettext('addvcardmsg'),
                         ),
-                        html::span(null, Q($display)))
+                        html::span(null, rcube::Q($display)))
                     );
             }
 
@@ -108,11 +112,11 @@ class vcard_attachments extends rcube_plugin
      */
     function save_vcard()
     {
-	    $this->add_texts('localization', true);
+        $this->add_texts('localization', true);
 
-        $uid = get_input_value('_uid', RCUBE_INPUT_POST);
-        $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
-        $mime_id = get_input_value('_part', RCUBE_INPUT_POST);
+        $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+        $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
 
         $rcmail  = rcmail::get_instance();
         $storage = $rcmail->get_storage();
@@ -139,7 +143,7 @@ class vcard_attachments extends rcube_plugin
             }
             else {
                 // We're using UTF8 internally
-                $email = rcube_idn_to_utf8($email);
+                $email = rcube_utils::idn_to_utf8($email);
 
                 // compare e-mail address
                 $existing = $CONTACTS->search('email', $email, 1, false);

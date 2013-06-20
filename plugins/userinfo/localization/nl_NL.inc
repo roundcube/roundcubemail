@@ -2,21 +2,24 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/nl_NL/labels.inc                                         |
+ | plugins/userinfo/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Userinfo plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Geert Wirken <Unknown>                                        |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
 
 $labels = array();
 $labels['userinfo'] = 'Gebruikersinformatie';
 $labels['created'] = 'Aangemaakt';
-$labels['lastlogin'] = 'Laatste login';
+$labels['lastlogin'] = 'Laatste aanmelding';
 $labels['defaultidentity'] = 'Standaardidentiteit';
 
+?>

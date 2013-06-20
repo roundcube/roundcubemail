@@ -2,19 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/et_EE/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: yllar <Unknown>                                               |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtrid';
 $labels['managefilters'] = 'Halda sisenevate kirjade filtreid';
 $labels['filtername'] = 'Filtri nimi';
@@ -53,8 +55,11 @@ $labels['add'] = 'Lisa';
 $labels['del'] = 'Kustuta';
 $labels['sender'] = 'Saatja';
 $labels['recipient'] = 'Saaja';
-$labels['vacationaddresses'] = 'Lisanimekiri saaja e-posti aadressidest (komadega eraldatud):';
+$labels['vacationaddr'] = 'Lisanimekiri saaja e-posti aadressidest:';
 $labels['vacationdays'] = 'Kui tihti kirju saata (päevades):';
+$labels['vacationinterval'] = 'How often send messages:';
+$labels['days'] = 'days';
+$labels['seconds'] = 'seconds';
 $labels['vacationreason'] = 'Kirja sisu (puhkuse põhjus):';
 $labels['vacationsubject'] = 'Kirja teema:';
 $labels['rulestop'] = 'Peata reeglite otsimine';
@@ -93,6 +98,25 @@ $labels['flagdeleted'] = 'Kustutatud';
 $labels['flaganswered'] = 'Vastatud';
 $labels['flagflagged'] = 'Märgistatud';
 $labels['flagdraft'] = 'Mustand';
+$labels['setvariable'] = 'Määra muutuja';
+$labels['setvarname'] = 'Muutuja nimi:';
+$labels['setvarvalue'] = 'Muutuja väärtus:';
+$labels['setvarmodifiers'] = 'Muutjad:';
+$labels['varlower'] = 'väiketähed';
+$labels['varupper'] = 'suurtähed';
+$labels['varlowerfirst'] = 'esimene märk on väiketäht';
+$labels['varupperfirst'] = 'esimene märk on suurtäht';
+$labels['varquotewildcard'] = 'tsiteeri erimärke';
+$labels['varlength'] = 'pikkus';
+$labels['notify'] = 'Saada teavitus';
+$labels['notifyaddress'] = 'Saaja e-posti aadress:';
+$labels['notifybody'] = 'Teavituse sisu:';
+$labels['notifysubject'] = 'Teavituse pealkiri:';
+$labels['notifyfrom'] = 'Teavituse saatja:';
+$labels['notifyimportance'] = 'Tähtsus:';
+$labels['notifyimportancelow'] = 'madal';
+$labels['notifyimportancenormal'] = 'tavaline';
+$labels['notifyimportancehigh'] = 'kõrge';
 $labels['filtercreate'] = 'Loo filter';
 $labels['usedata'] = 'Kasuta filtris järgmisi andmeid:';
 $labels['nextstep'] = 'Järgmine samm';
@@ -116,25 +140,38 @@ $labels['default'] = 'vaikimisi';
 $labels['octet'] = 'range (octet)';
 $labels['asciicasemap'] = 'tõstutundetu (ascii-casemap)';
 $labels['asciinumeric'] = 'numbriline (ascii-numeric)';
-$labels['filterunknownerror'] = 'Tundmatu serveri tõrge';
-$labels['filterconnerror'] = 'Managesieve serveriga ühendumine nurjus';
-$labels['filterdeleteerror'] = 'Filtri kustutamine nurjus. Ilmnes serveri tõrge.';
-$labels['filterdeleted'] = 'Filter edukalt kustutatud';
-$labels['filtersaved'] = 'Filter edukalt salvestatud';
-$labels['filtersaveerror'] = 'Filtri salvestamine nurjus. Ilmnes serveri tõrge.';
-$labels['filterdeleteconfirm'] = 'Soovid valitud filtri kustutada?';
-$labels['ruledeleteconfirm'] = 'Soovid valitud reegli kustutada?';
-$labels['actiondeleteconfirm'] = 'Soovid valitud tegevuse kustutada?';
-$labels['forbiddenchars'] = 'Väljal on lubamatu märk';
-$labels['cannotbeempty'] = 'Väli ei või tühi olla';
-$labels['ruleexist'] = 'Määratud nimega filter on juba olemas';
-$labels['activateerror'] = 'Valitud filtrite lubamine nurjus. Ilmnes serveri tõrge.';
-$labels['deactivateerror'] = 'Valitud filtrite keelamine nurjus. Ilmnes serveri tõrge.';
-$labels['deactivated'] = 'Filter edukalt keelatud.';
-$labels['activated'] = 'Filter edukalt lubatud.';
-$labels['moved'] = 'Filter edukalt liigutatud.';
-$labels['moveerror'] = 'Valitud filtri liigutamine nurjus. Ilmnes serveri tõrge.';
-$labels['nametoolong'] = 'Nimi on liiga pikk.';
-$labels['namereserved'] = 'Nimi on reserveeritud.';
-$labels['nodata'] = 'Valitud peab olema vähemalt üks asukoht!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Tundmatu serveri tõrge';
+$messages['filterconnerror'] = 'Managesieve serveriga ühendumine nurjus';
+$messages['filterdeleteerror'] = 'Filtri kustutamine nurjus. Ilmnes serveri tõrge.';
+$messages['filterdeleted'] = 'Filter edukalt kustutatud';
+$messages['filtersaved'] = 'Filter edukalt salvestatud';
+$messages['filtersaveerror'] = 'Filtri salvestamine nurjus. Ilmnes serveri tõrge.';
+$messages['filterdeleteconfirm'] = 'Soovid valitud filtri kustutada?';
+$messages['ruledeleteconfirm'] = 'Soovid valitud reegli kustutada?';
+$messages['actiondeleteconfirm'] = 'Soovid valitud tegevuse kustutada?';
+$messages['forbiddenchars'] = 'Väljal on lubamatu märk';
+$messages['cannotbeempty'] = 'Väli ei või tühi olla';
+$messages['ruleexist'] = 'Määratud nimega filter on juba olemas';
+$messages['setactivateerror'] = 'Valitud filtrite kogumi aktiveerimine nurjus. Ilmnes serveri tõrge.';
+$messages['setdeactivateerror'] = 'Valitud filtrite kogumi deaktiveerimine nurjus. Ilmnes serveri tõrge.';
+$messages['setdeleteerror'] = 'Valitud filtrite kogumi kustutamine nurjus. Ilmnes serveri tõrge.';
+$messages['setactivated'] = 'Filtrite kogumi aktiveerimine õnnestus.';
+$messages['setdeactivated'] = 'Filtrite kogumi deaktiveerimine õnnestus.';
+$messages['setdeleted'] = 'Filtrite kogumi kustutamine õnnestus.';
+$messages['setdeleteconfirm'] = 'Oled kindel, et soovid valitud filtrite kogumi kustutada?';
+$messages['setcreateerror'] = 'Filtrite kogumi loomine nurjus. Ilmnes serveri tõrge.';
+$messages['setcreated'] = 'Filtrite kogumi loomine õnnestus.';
+$messages['activateerror'] = 'Valitud filtrite lubamine nurjus. Ilmnes serveri tõrge.';
+$messages['deactivateerror'] = 'Valitud filtrite keelamine nurjus. Ilmnes serveri tõrge.';
+$messages['deactivated'] = 'Filter edukalt lubatud.';
+$messages['activated'] = 'Filter edukalt keelatud.';
+$messages['moved'] = 'Filter edukalt liigutatud.';
+$messages['moveerror'] = 'Valitud filtri liigutamine nurjus. Ilmnes serveri tõrge.';
+$messages['nametoolong'] = 'Nimi on liiga pikk.';
+$messages['namereserved'] = 'Nimi on reserveeritud.';
+$messages['setexist'] = 'Kogum on juba olemas.';
+$messages['nodata'] = 'Valitud peab olema vähemalt üks asukoht!';
+
+?>

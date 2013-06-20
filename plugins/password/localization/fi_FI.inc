@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/fi_FI/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Jiri Grönroos                                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Vaihda salasana';
-$labels['curpasswd'] = 'Nykyinen salasana:';
-$labels['newpasswd'] = 'Uusi salasana:';
-$labels['confpasswd'] = 'Uusi salasana uudestaan:';
-$labels['nopassword'] = 'Syötä uusi salasana.';
-$labels['nocurpassword'] = 'Syötä nykyinen salasana.';
-$labels['passwordincorrect'] = 'Syöttämäsi nykyinen salasana on väärin.';
-$labels['passwordinconsistency'] = 'Syöttämäsi salasanat eivät täsmää, yritä uudelleen.';
-$labels['crypterror'] = 'Salasanaa ei voitu vaihtaa. Kryptausfunktio puuttuu.';
-$labels['connecterror'] = 'Salasanaa ei voitu vaihtaa. Yhteysongelma.';
-$labels['internalerror'] = 'Salasanaa ei voitu vaihtaa.';
-$labels['passwordshort'] = 'Salasanan täytyy olla vähintään $length merkkiä pitkä.';
-$labels['passwordweak'] = 'Salasanan täytyy sisältää vähintään yksi numero ja yksi välimerkki.';
-$labels['passwordforbidden'] = 'Salasana sisältää kiellettyjä merkkejä.';
+$labels['changepasswd']  = 'Vaihda salasana';
+$labels['curpasswd']  = 'Nykyinen salasana:';
+$labels['newpasswd']  = 'Uusi salasana:';
+$labels['confpasswd']  = 'Vahvista uusi salasana:';
 
+$messages = array();
+$messages['nopassword'] = 'Syötä uusi salasana.';
+$messages['nocurpassword'] = 'Syötä nykyinen salasana.';
+$messages['passwordincorrect'] = 'Nykyinen salasana on väärin.';
+$messages['passwordinconsistency'] = 'Salasanat eivät täsmää, yritä uudelleen.';
+$messages['crypterror'] = 'Uuden salasanan tallennus epäonnistui. Kryptausfunktio puuttuu.';
+$messages['connecterror'] = 'Uuden salasanan tallennus epäonnistui. Yhteysongelma.';
+$messages['internalerror'] = 'Uuden salasanan tallennus epäonnistui.';
+$messages['passwordshort'] = 'Salasanassa täytyy olla vähintään $length merkkiä.';
+$messages['passwordweak'] = 'Salasanan täytyy sisältää vähintään yksi numero ja yksi välimerkki.';
+$messages['passwordforbidden'] = 'Salasana sisältää virheellisiä merkkejä.';
+
+?>

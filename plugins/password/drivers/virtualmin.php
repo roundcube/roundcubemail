@@ -48,10 +48,10 @@ class rcube_virtualmin_password
             $pieces = explode("_", $username);
             $domain = $pieces[0];
             break;
-		case 8: // domain taken from alias, username left as it was
-			$email = $rcmail->user->data['alias'];
-			$domain = substr(strrchr($email, "@"), 1);
-			break;
+        case 8: // domain taken from alias, username left as it was
+            $email = $rcmail->user->data['alias'];
+            $domain = substr(strrchr($email, "@"), 1);
+            break;
         default: // username@domain
             $domain = substr(strrchr($username, "@"), 1);
         }
@@ -59,7 +59,7 @@ class rcube_virtualmin_password
         $username = escapeshellcmd($username);
         $domain   = escapeshellcmd($domain);
         $newpass  = escapeshellcmd($newpass);
-        $curdir   = INSTALL_PATH . 'plugins/password/helpers';
+        $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
 
         exec("$curdir/chgvirtualminpasswd modify-user --domain $domain --user $username --pass $newpass", $output, $returnvalue);
 
@@ -67,7 +67,7 @@ class rcube_virtualmin_password
             return PASSWORD_SUCCESS;
         }
         else {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,

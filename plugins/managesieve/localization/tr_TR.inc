@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/tr_TR/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: ismail yenigul                                                |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtreler';
 $labels['managefilters'] = 'Gelen e-posta filtrelerini yönet';
 $labels['filtername'] = 'Filtre adı';
@@ -52,8 +55,11 @@ $labels['add'] = 'Ekle';
 $labels['del'] = 'Sil';
 $labels['sender'] = 'Gönderici';
 $labels['recipient'] = 'Alıcı';
-$labels['vacationaddresses'] = 'İlave e-posta adreslerim(virgül ile ayrılmış)';
-$labels['vacationdays'] = 'Ne sıklıkla mesajlar gönderilir(gün)';
+$labels['vacationaddr'] = 'İlave e-posta adreslerim:';
+$labels['vacationdays'] = 'Ne sıklıkla mesajlar gönderilir(gün):';
+$labels['vacationinterval'] = 'Ne kadar sıklıkla mesaj gönderirsiniz:';
+$labels['days'] = 'günler';
+$labels['seconds'] = 'saniyeler';
 $labels['vacationreason'] = 'Mesaj gövdesi(tatil sebebi):';
 $labels['vacationsubject'] = 'Mesaj konusu:';
 $labels['rulestop'] = 'Kuralları değerlendirmeyi bitir';
@@ -92,6 +98,25 @@ $labels['flagdeleted'] = 'Silindi';
 $labels['flaganswered'] = 'Cevaplanmış';
 $labels['flagflagged'] = 'İşaretli';
 $labels['flagdraft'] = 'Taslak';
+$labels['setvariable'] = 'Değişken tanımla';
+$labels['setvarname'] = 'Değişken adı';
+$labels['setvarvalue'] = 'Değişken değeri:';
+$labels['setvarmodifiers'] = 'Değiştiriciler:';
+$labels['varlower'] = 'küçük harf';
+$labels['varupper'] = 'büyük harf';
+$labels['varlowerfirst'] = 'İlk karakter küçük harf';
+$labels['varupperfirst'] = 'İlk karakter büyük harf';
+$labels['varquotewildcard'] = 'özel karakterleri tırnak içine al';
+$labels['varlength'] = 'uzunluk';
+$labels['notify'] = 'Bildirim gönder';
+$labels['notifyaddress'] = 'Alıcı e-posta adresi';
+$labels['notifybody'] = 'Bildirim gövdesi:';
+$labels['notifysubject'] = 'Bildirim konusu:';
+$labels['notifyfrom'] = 'Bildirim göndericisi:';
+$labels['notifyimportance'] = 'Önem derecesi';
+$labels['notifyimportancelow'] = 'düşük';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'yüksek';
 $labels['filtercreate'] = 'Süzgeç oluştur';
 $labels['usedata'] = 'Aşağıdaki verileri süzgeçte kullan';
 $labels['nextstep'] = 'Sonraki adım';
@@ -115,35 +140,38 @@ $labels['default'] = 'öntanımlı';
 $labels['octet'] = 'sıkı(oktet)';
 $labels['asciicasemap'] = 'büyük küçük harf duyarsız(ascii-casemap)';
 $labels['asciinumeric'] = 'sayı (ascii-numeric)';
-$labels['filterunknownerror'] = 'Bilinmeyen sunucu hatası.';
-$labels['filterconnerror'] = 'Sunucuya bağlanamıyor.';
-$labels['filterdeleteerror'] = 'Filtre silinemedi. Sunucuda hata oluştu.';
-$labels['filterdeleted'] = 'Filtre başarıyla silindi.';
-$labels['filtersaved'] = 'Filter başarıyla kaydedildi.';
-$labels['filtersaveerror'] = 'Filtre kaydedilemedi. Sunucuda hata oluştu.';
-$labels['filterdeleteconfirm'] = 'Seçilen filtreleri  gerçekten silmek istiyor musun?';
-$labels['ruledeleteconfirm'] = 'Seçili kuralları silmek istediğinizden emin misiniz?';
-$labels['actiondeleteconfirm'] = 'Seçili aksiyonları silmek istediğinizden emin misiniz?';
-$labels['forbiddenchars'] = 'Alanda izin verilmeyen karakterler var.';
-$labels['cannotbeempty'] = 'Alan boş olmaz';
-$labels['ruleexist'] = 'Belirtilen isimde bir filtre zaten var.';
-$labels['setactivateerror'] = 'Seçilen filtreler etkinleştirilemedi. Sunucuda hata oluştu.';
-$labels['setdeactivateerror'] = 'Seçilen filtreler pasifleştirilemedi. Sunucuda hata oluştu.';
-$labels['setdeleteerror'] = 'Seçilen filtreler silinemedi. Sunucuda hata oluştu.';
-$labels['setactivated'] = 'Filtreler başarıyla etkinleştirilemedi.';
-$labels['setdeactivated'] = 'Filtreler başarıyla pasifleştirildi.';
-$labels['setdeleted'] = 'Filtre seti başarıyla silindi.';
-$labels['setdeleteconfirm'] = 'Seçilen filtre setlerini silmek istediğinizden emin misiniz?';
-$labels['setcreateerror'] = 'Filtre setleri oluşturulamadı. Sunucuda hata oluştu.';
-$labels['setcreated'] = 'Filtre setleri başarıyla oluşturuldu.';
-$labels['activateerror'] = 'Seçilen filtre(ler) etkinleştirilemedi. Sunucuda hata oluştu.';
-$labels['deactivateerror'] = 'Seçilen filtre(ler) pasifleştirilemedi. Sunucuda hata oluştu.';
-$labels['deactivated'] = 'Filtre(ler) başarıyla iptal edildi.';
-$labels['activated'] = 'Filtre(ler) başarıyla etkinleştirildi.';
-$labels['moved'] = 'Filtre başarıyla taşındı.';
-$labels['moveerror'] = 'Seçilen filtre(ler) taşınamadı. Sunucuda hata oluştu.';
-$labels['nametoolong'] = 'İsim çok uzun.';
-$labels['namereserved'] = 'rezerve edilmiş isim.';
-$labels['setexist'] = 'Set zaten var.';
-$labels['nodata'] = 'En az bir pozisyon seçilmelidir.';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Bilinmeyen sunucu hatası.';
+$messages['filterconnerror'] = 'Sunucuya bağlanamıyor.';
+$messages['filterdeleteerror'] = 'Filtre silinemedi. Sunucuda hata oluştu.';
+$messages['filterdeleted'] = 'Filtre başarıyla silindi.';
+$messages['filtersaved'] = 'Filter başarıyla kaydedildi.';
+$messages['filtersaveerror'] = 'Filtre kaydedilemedi. Sunucuda hata oluştu.';
+$messages['filterdeleteconfirm'] = 'Seçilen filtreleri  gerçekten silmek istiyor musun?';
+$messages['ruledeleteconfirm'] = 'Seçili kuralları silmek istediğinizden emin misiniz?';
+$messages['actiondeleteconfirm'] = 'Seçili aksiyonları silmek istediğinizden emin misiniz?';
+$messages['forbiddenchars'] = 'Alanda izin verilmeyen karakterler var.';
+$messages['cannotbeempty'] = 'Alan boş olmaz';
+$messages['ruleexist'] = 'Belirtilen isimde bir filtre zaten var.';
+$messages['setactivateerror'] = 'Seçilen filtreler etkinleştirilemedi. Sunucuda hata oluştu.';
+$messages['setdeactivateerror'] = 'Seçilen filtreler pasifleştirilemedi. Sunucuda hata oluştu.';
+$messages['setdeleteerror'] = 'Seçilen filtreler silinemedi. Sunucuda hata oluştu.';
+$messages['setactivated'] = 'Filtreler başarıyla etkinleştirilemedi.';
+$messages['setdeactivated'] = 'Filtreler başarıyla pasifleştirildi.';
+$messages['setdeleted'] = 'Filtre seti başarıyla silindi.';
+$messages['setdeleteconfirm'] = 'Seçilen filtre setlerini silmek istediğinizden emin misiniz?';
+$messages['setcreateerror'] = 'Filtre setleri oluşturulamadı. Sunucuda hata oluştu.';
+$messages['setcreated'] = 'Filtre setleri başarıyla oluşturuldu.';
+$messages['activateerror'] = 'Seçilen filtre(ler) etkinleştirilemedi. Sunucuda hata oluştu.';
+$messages['deactivateerror'] = 'Seçilen filtre(ler) pasifleştirilemedi. Sunucuda hata oluştu.';
+$messages['deactivated'] = 'Filtre(ler) başarıyla iptal edildi.';
+$messages['activated'] = 'Filtre(ler) başarıyla etkinleştirildi.';
+$messages['moved'] = 'Filtre başarıyla taşındı.';
+$messages['moveerror'] = 'Seçilen filtre(ler) taşınamadı. Sunucuda hata oluştu.';
+$messages['nametoolong'] = 'İsim çok uzun.';
+$messages['namereserved'] = 'rezerve edilmiş isim.';
+$messages['setexist'] = 'Set zaten var.';
+$messages['nodata'] = 'En az bir pozisyon seçilmelidir.';
+
+?>

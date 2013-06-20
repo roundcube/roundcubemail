@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/az_AZ/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Şifrəni dəyiş';
-$labels['curpasswd'] = 'Hal-hazırki şifrə:';
-$labels['newpasswd'] = 'Yeni şifrə:';
-$labels['confpasswd'] = 'Yeni şifrə: (təkrar)';
-$labels['nopassword'] = 'Yeni şifrəni daxil edin.';
-$labels['nocurpassword'] = 'Hal-hazırda istifadə etdiyiniz şifrəni daxil edin.';
-$labels['passwordincorrect'] = 'Yalnış şifrə daxil etdiniz.';
-$labels['passwordinconsistency'] = 'Yeni daxil etdiyiniz şifrələr bir-birinə uyğun deyildir.';
-$labels['crypterror'] = 'Yeni şifrənin saxlanılması mümkün olmadı. Şifrələmə metodu tapılmadı.';
-$labels['connecterror'] = 'Yeni şifrənin saxlanılması mümkün olmadı. Qoşulma səhvi.';
-$labels['internalerror'] = 'Yeni şifrənin saxlanılması mümkün olmadı.';
-$labels['passwordshort'] = 'Yeni şifrə $length simvoldan uzun olmalıdır.';
-$labels['passwordweak'] = 'Şifrədə heç olmasa minimum bir rəqəm və simvol olmalıdır.';
-$labels['passwordforbidden'] = 'Şifrədə icazə verilməyən simvollar vardır.';
+$labels['changepasswd']  = 'Şifrəni dəyiş';
+$labels['curpasswd']  = 'Hal-hazırki şifrə:';
+$labels['newpasswd']  = 'Yeni şifrə:';
+$labels['confpasswd']  = 'Yeni şifrə: (təkrar)';
 
+$messages = array();
+$messages['nopassword'] = 'Yeni şifrəni daxil edin.';
+$messages['nocurpassword'] = 'Hal-hazırda istifadə etdiyiniz şifrəni daxil edin.';
+$messages['passwordincorrect'] = 'Yalnış şifrə daxil etdiniz.';
+$messages['passwordinconsistency'] = 'Yeni daxil etdiyiniz şifrələr bir-birinə uyğun deyildir.';
+$messages['crypterror'] = 'Yeni şifrənin saxlanılması mümkün olmadı. Şifrələmə metodu tapılmadı.';
+$messages['connecterror'] = 'Yeni şifrənin saxlanılması mümkün olmadı. Qoşulma səhvi.';
+$messages['internalerror'] = 'Yeni şifrənin saxlanılması mümkün olmadı.';
+$messages['passwordshort'] = 'Yeni şifrə $length simvoldan uzun olmalıdır.';
+$messages['passwordweak'] = 'Şifrədə heç olmasa minimum bir rəqəm və simvol olmalıdır.';
+$messages['passwordforbidden'] = 'Şifrədə icazə verilməyən simvollar vardır.';
+
+?>

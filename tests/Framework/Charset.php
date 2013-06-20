@@ -159,4 +159,22 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
         $this->assertEquals($output, rcube_charset::detect($input, $fallback));
     }
 
+    /**
+     * Data for test_detect()
+     */
+    function data_detect_with_lang()
+    {
+        return array(
+            array('顯示名稱,主要', 'zh_TW', 'BIG-5'),
+        );
+    }
+
+    /**
+     * @dataProvider data_detect_with_lang
+     */
+    function test_detect_with_lang($input, $lang, $output)
+    {
+        $this->assertEquals($output, rcube_charset::detect($input, $output, $lang));
+    }
+
 }

@@ -2,6 +2,15 @@ CREATE TABLE [dbo].[cache] (
 	[user_id] [int] NOT NULL ,
 	[cache_key] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
+	[expires] [datetime] NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[cache_shared] (
+	[cache_key] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[created] [datetime] NOT NULL ,
+	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
@@ -9,7 +18,7 @@ GO
 CREATE TABLE [dbo].[cache_index] (
 	[user_id] [int] NOT NULL ,
 	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[changed] [datetime] NOT NULL ,
+	[expires] [datetime] NULL ,
 	[valid] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
@@ -18,7 +27,7 @@ GO
 CREATE TABLE [dbo].[cache_thread] (
 	[user_id] [int] NOT NULL ,
 	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[changed] [datetime] NOT NULL ,
+	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
@@ -27,7 +36,7 @@ CREATE TABLE [dbo].[cache_messages] (
 	[user_id] [int] NOT NULL ,
 	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[uid] [int] NOT NULL ,
-	[changed] [datetime] NOT NULL ,
+	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL ,
 	[flags] [int] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
@@ -115,6 +124,12 @@ CREATE TABLE [dbo].[searches] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+CREATE TABLE [dbo].[system] (
+	[name] [varchar] (64) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[value] [text] COLLATE Latin1_General_CI_AI NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
 ALTER TABLE [dbo].[cache_index] WITH NOCHECK ADD 
 	 PRIMARY KEY CLUSTERED 
 	(
@@ -185,10 +200,29 @@ ALTER TABLE [dbo].[searches] WITH NOCHECK ADD
 	) ON [PRIMARY] 
 GO
 
+ALTER TABLE [dbo].[system] WITH NOCHECK ADD 
+	CONSTRAINT [PK_system_name] PRIMARY KEY CLUSTERED 
+	(
+		[name]
+	) ON [PRIMARY] 
+GO
+
 ALTER TABLE [dbo].[cache] ADD 
 	CONSTRAINT [DF_cache_user_id] DEFAULT ('0') FOR [user_id],
 	CONSTRAINT [DF_cache_cache_key] DEFAULT ('') FOR [cache_key],
 	CONSTRAINT [DF_cache_created] DEFAULT (getdate()) FOR [created]
+GO
+
+ALTER TABLE [dbo].[cache_shared] ADD 
+	CONSTRAINT [DF_cache_shared_created] DEFAULT (getdate()) FOR [created]
+GO
+
+ALTER TABLE [dbo].[cache_index] ADD 
+	CONSTRAINT [DF_cache_index_valid] DEFAULT ('0') FOR [valid]
+GO
+
+ALTER TABLE [dbo].[cache_messages] ADD 
+	CONSTRAINT [DF_cache_messages_flags] DEFAULT (0) FOR [flags]
 GO
 
 CREATE  INDEX [IX_cache_user_id] ON [dbo].[cache]([user_id]) ON [PRIMARY]
@@ -197,30 +231,31 @@ GO
 CREATE  INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
 GO
 
-CREATE  INDEX [IX_cache_created] ON [dbo].[cache]([created]) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[cache_index] ADD 
-	CONSTRAINT [DF_cache_index_changed] DEFAULT (getdate()) FOR [changed],
-	CONSTRAINT [DF_cache_index_valid] DEFAULT ('0') FOR [valid]
+CREATE  INDEX [IX_cache_shared_cache_key] ON [dbo].[cache_shared]([cache_key]) ON [PRIMARY]
 GO
 
 CREATE  INDEX [IX_cache_index_user_id] ON [dbo].[cache_index]([user_id]) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[cache_thread] ADD 
-	CONSTRAINT [DF_cache_thread_changed] DEFAULT (getdate()) FOR [changed]
-GO
-
 CREATE  INDEX [IX_cache_thread_user_id] ON [dbo].[cache_thread]([user_id]) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[cache_messages] ADD 
-	CONSTRAINT [DF_cache_messages_changed] DEFAULT (getdate()) FOR [changed],
-	CONSTRAINT [DF_cache_messages_flags] DEFAULT (0) FOR [flags]
+CREATE  INDEX [IX_cache_messages_user_id] ON [dbo].[cache_messages]([user_id]) ON [PRIMARY]
 GO
 
-CREATE  INDEX [IX_cache_messages_user_id] ON [dbo].[cache_messages]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_cache_expires] ON [dbo].[cache]([expires]) ON [PRIMARY]
+GO
+
+CREATE INDEX [IX_cache_shared_expires] ON [dbo].[cache_shared]([expires]) ON [PRIMARY]
+GO
+
+CREATE INDEX [IX_cache_index_expires] ON [dbo].[cache_index]([expires]) ON [PRIMARY]
+GO
+
+CREATE INDEX [IX_cache_thread_expires] ON [dbo].[cache_thread]([expires]) ON [PRIMARY]
+GO
+
+CREATE INDEX [IX_cache_messages_expires] ON [dbo].[cache_messages]([expires]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[contacts] ADD 
@@ -358,3 +393,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2013061000')
+GO
+

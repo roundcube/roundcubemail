@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/da_DK/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Johannes Hessellund <osos@openeyes.dk>                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Skift adgangskode';
-$labels['curpasswd'] = 'Nuværende adgangskode:';
-$labels['newpasswd'] = 'Ny adgangskode:';
-$labels['confpasswd'] = 'Bekræft ny adgangskode:';
-$labels['nopassword'] = 'Indtast venligst en ny adgangskode.';
-$labels['nocurpassword'] = 'Indtast venligst nuværende adgangskode.';
-$labels['passwordincorrect'] = 'Nuværende adgangskode er forkert.';
-$labels['passwordinconsistency'] = 'Adgangskoderne er ikke ens, prøv igen.';
-$labels['crypterror'] = 'Kunne ikke gemme den nye adgangskode. Krypteringsfunktion mangler.';
-$labels['connecterror'] = 'Kunne ikke gemme den nye adgangskode. Fejl ved forbindelsen.';
-$labels['internalerror'] = 'Kunne ikke gemme den nye adgangskode.';
-$labels['passwordshort'] = 'Adgangskoden skal være mindst $length tegn lang.';
-$labels['passwordweak'] = 'Adgangskoden skal indeholde mindst et tal og et tegnsætningstegn (-.,)';
-$labels['passwordforbidden'] = 'Adgangskoden indeholder forbudte tegn.';
+$labels['changepasswd']  = 'Skift adgangskode';
+$labels['curpasswd']  = 'Nuværende adgangskode:';
+$labels['newpasswd']  = 'Ny adgangskode:';
+$labels['confpasswd']  = 'Bekræft ny adgangskode:';
 
+$messages = array();
+$messages['nopassword'] = 'Indtast venligst en ny adgangskode.';
+$messages['nocurpassword'] = 'Indtast venligst nuværende adgangskode.';
+$messages['passwordincorrect'] = 'Nuværende adgangskode er forkert.';
+$messages['passwordinconsistency'] = 'Adgangskoderne er ikke ens, prøv igen.';
+$messages['crypterror'] = 'Kunne ikke gemme den nye adgangskode. Krypteringsfunktion mangler.';
+$messages['connecterror'] = 'Kunne ikke gemme den nye adgangskode. Fejl ved forbindelsen.';
+$messages['internalerror'] = 'Kunne ikke gemme den nye adgangskode.';
+$messages['passwordshort'] = 'Adgangskoden skal være mindst $length tegn lang.';
+$messages['passwordweak'] = 'Adgangskoden skal indeholde mindst et tal og et tegnsætningstegn (-.,)';
+$messages['passwordforbidden'] = 'Adgangskoden indeholder forbudte tegn.';
+
+?>

@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/pl_PL/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Aleksander Machniak <alec@alec.pl>                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Wystąpił błąd!';
-$messages['loginfailed'] = 'Błąd logowania!';
+$messages['errortitle']  = 'Wystąpił błąd!';
+$messages['loginfailed']  = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
 $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
 $messages['storageerror'] = 'Błąd połączenia z serwerem!';
@@ -25,10 +28,14 @@ $messages['dberror'] = 'Błąd bazy danych!';
 $messages['requesttimedout'] = 'Upłynął limit czasu żądania';
 $messages['errorreadonly'] = 'Nie można wykonać operacji. Folder tylko do odczytu.';
 $messages['errornoperm'] = 'Nie można wykonać operacji. Brak uprawnień.';
+$messages['erroroverquota'] = 'Nie można wykonać operacji. Brak miejsca na dysku.';
+$messages['erroroverquotadelete'] = 'Brak miejsca na dysku. Użyj SHIFT+DEL aby usunąć wiadomość.';
 $messages['invalidrequest'] = 'Błędne żądanie! Nie zapisano danych.';
+$messages['invalidhost'] = 'Błędna nazwa serwera.';
 $messages['nomessagesfound'] = 'Brak wiadomości w skrzynce.';
 $messages['loggedout'] = 'Użytkownik wylogował się poprawnie.';
 $messages['mailboxempty'] = 'Skrzynka jest pusta!';
+$messages['refreshing'] = 'Odświeżanie...';
 $messages['loading'] = 'Ładowanie...';
 $messages['uploading'] = 'Zapisywanie pliku...';
 $messages['uploadingmany'] = 'Zapisywanie plików...';
@@ -38,7 +45,7 @@ $messages['sendingmessage'] = 'Wysyłanie wiadomości...';
 $messages['messagesent'] = 'Wiadomość została wysłana.';
 $messages['savingmessage'] = 'Zapisywanie wiadomości...';
 $messages['messagesaved'] = 'Wiadomość została zapisana w folderze Kopie robocze.';
-$messages['successfullysaved'] = 'Zapisano.';
+$messages['successfullysaved'] = 'Zapisano pomyślnie.';
 $messages['addedsuccessfully'] = 'Kontakt został dodany.';
 $messages['contactexists'] = 'Kontakt o podanym adresie e-mail już istnieje!';
 $messages['contactnameexists'] = 'Kontakt z podaną nazwą już istnieje!';
@@ -55,11 +62,11 @@ $messages['errormoving'] = 'Nie można przenieść wiadomości!';
 $messages['errorcopying'] = 'Nie można skopiować wiadomości!';
 $messages['errordeleting'] = 'Nie można usunąć wiadomości!';
 $messages['errormarking'] = 'Nie można oznaczyć wiadomości!';
-$messages['deletecontactconfirm'] = 'Czy na pewno chcesz usunąć wybrane kontakty?';
-$messages['deletegroupconfirm'] = 'Czy na pewno chcesz usunąć wybraną grupę?';
+$messages['deletecontactconfirm']  = 'Czy na pewno chcesz usunąć wybrane kontakty?';
+$messages['deletegroupconfirm']  = 'Czy na pewno chcesz usunąć wybraną grupę?';
 $messages['deletemessagesconfirm'] = 'Czy na pewno chcesz usunąć wybrane wiadomości?';
-$messages['deletefolderconfirm'] = 'Czy na pewno chcesz usunąć wybrany folder?';
-$messages['purgefolderconfirm'] = 'Czy na pewno chcesz usunąć wszystkie wiadomości w tym folderze?';
+$messages['deletefolderconfirm']  = 'Czy na pewno chcesz usunąć wybrany folder?';
+$messages['purgefolderconfirm']  = 'Czy na pewno chcesz usunąć wszystkie wiadomości w tym folderze?';
 $messages['contactdeleting'] = 'Usuwanie kontaktów...';
 $messages['groupdeleting'] = 'Usuwanie grupy...';
 $messages['folderdeleting'] = 'Usuwanie folderu...';
@@ -68,11 +75,11 @@ $messages['foldersubscribing'] = 'Subskrybowanie folderu...';
 $messages['folderunsubscribing'] = 'Odsubskrybowanie folderu...';
 $messages['formincomplete'] = 'Uzupełnij formularz!';
 $messages['noemailwarning'] = 'Podaj poprawny adres e-mail!';
-$messages['nonamewarning'] = 'Podaj nazwę!';
+$messages['nonamewarning']  = 'Podaj nazwę!';
 $messages['nopagesizewarning'] = 'Podaj poprawną wartość!';
 $messages['nosenderwarning'] = 'Podaj adres nadawcy!';
 $messages['norecipientwarning'] = 'Podaj co najmniej jednego odbiorcę!';
-$messages['nosubjectwarning'] = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
+$messages['nosubjectwarning']  = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
 $messages['nobodywarning'] = 'Ta wiadomość jest pusta, czy mimo to chcesz ją wysłać?';
 $messages['notsentwarning'] = 'Wiadomość nie została wysłana. Czy chcesz usunąć tę wiadomość?';
 $messages['noldapserver'] = 'Wybierz serwer LDAP!';
@@ -114,8 +121,9 @@ $messages['selectimportfile'] = 'Proszę wybrać plik do wysłania.';
 $messages['addresswriterror'] = 'Wybrana książka adresowa jest tylko-do-odczytu.';
 $messages['contactaddedtogroup'] = 'Kontakty zostały pomyślnie dodane do grupy.';
 $messages['contactremovedfromgroup'] = 'Kontakty zostały pomyślnie usunięte z grupy.';
+$messages['nogroupassignmentschanged'] = 'Nie zmieniono żadnych powiązań z grupą.';
 $messages['importwait'] = 'Importowanie, proszę czekać...';
-$messages['importerror'] = 'Błąd! Pobrany plik nie jest poprawnym plikiem vCard.';
+$messages['importformaterror'] = 'Import nieudany! Użyty plik nie jest poprawnym plikiem importu danych.';
 $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pominięto $skipped istniejących wpisów</b>:<p><em>$names</em></p>.';
 $messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów.</b>';
 $messages['opnotpermitted'] = 'Niedozwolona operacja!';
@@ -157,4 +165,7 @@ $messages['invalidimageformat'] = 'Niepoprawny format obrazka.';
 $messages['mispellingsfound'] = 'Wykryto błędy pisowni w tej wiadomości.';
 $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wybrane miejsce. Brak upranień.';
 $messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
+$messages['attachmentvalidationerror'] = 'UWAGA! Ten załącznik jest podejrzany ponieważ jego typ nie jest zgodny z typem zadeklarownym w wiadomości. Jeśli nie ufasz temu nadawcy nie powinieneś otwierać go w przeglądarce, bo może zawierać złośliwe oprogramowanie.<br/><br/><em>Spodziwany: $expected; znaleziono: $detected</em>';
+$messages['noscriptwarning'] = 'Uwaga: Usługa wymaga Javascriptu! Aby z niej skorzystać proszę włączyć obsługę języka Javascript w ustawieniach przeglądarki.';
 
+?>

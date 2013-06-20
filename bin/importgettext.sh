@@ -56,11 +56,11 @@ $%s = array();
 
 EOF;
 
-    $author = preg_replace('/\s*<Unknown>/i', '', $texts['_translator']);
+	$author = preg_replace('/\s*<Unknown>/i', '', $texts['_translator']);
 	$output = sprintf($header, $lang, $varname.'.inc', date('Y'), $author, $varname);
 
 	foreach ($texts as $label => $value) {
-	    if (is_array($value)) { var_dump($outfn, $label, $value); exit; }
+		if (is_array($value)) { var_dump($outfn, $label, $value); exit; }
 		if ($label[0] != '_' && strlen($value))
 			$output .= sprintf("\$%s['%s'] = '%s';\n", $varname, $label, strtr(addcslashes($value, "'"), array("\r" => '', "\n" => '\n')));
 	}
@@ -125,6 +125,7 @@ function import_file($fn)
 				foreach ($dests as $dest) {
 					list($file, $label) = explode(':', $dest);
 					$out[$file][$label] = $msgstr;
+					$out[$file]['_translator'] = $translator;
 				}
 			}
 

@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/zh_TW/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Nansen                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = '篩選器';
 $labels['managefilters'] = '設定篩選器';
 $labels['filtername'] = '篩選器名稱';
@@ -52,13 +55,17 @@ $labels['add'] = '新增';
 $labels['del'] = '刪除';
 $labels['sender'] = '寄件者';
 $labels['recipient'] = '收件者';
-$labels['vacationaddresses'] = '其他收件者（用半形逗號隔開）：';
+$labels['vacationaddr'] = '其他收件者：';
 $labels['vacationdays'] = '多久回覆一次（單位：天）：';
+$labels['vacationinterval'] = 'How often send messages:';
+$labels['days'] = 'days';
+$labels['seconds'] = 'seconds';
 $labels['vacationreason'] = '信件內容（休假原因）：';
 $labels['vacationsubject'] = '訊息主旨:';
 $labels['rulestop'] = '停止評估規則';
 $labels['enable'] = '啟用/停用';
 $labels['filterset'] = '篩選器集合';
+$labels['filtersets'] = '篩選器集合';
 $labels['filtersetadd'] = '加入篩選器集合';
 $labels['filtersetdel'] = '刪除目前的篩選器集合';
 $labels['filtersetact'] = '啟用目前的篩選器集合';
@@ -71,6 +78,9 @@ $labels['none'] = '無';
 $labels['fromset'] = '從集合';
 $labels['fromfile'] = '重檔案';
 $labels['filterdisabled'] = '篩選器已停用';
+$labels['countisgreaterthan'] = '計數大於';
+$labels['countisgreaterthanequal'] = '計數大於或等於';
+$labels['countislessthan'] = '計數小於';
 $labels['countislessthanequal'] = '數量小於或等於';
 $labels['countequals'] = '數量等於';
 $labels['countnotequals'] = '數量不等於';
@@ -85,8 +95,28 @@ $labels['addflags'] = '新增標記到訊息';
 $labels['removeflags'] = '移除訊息標記';
 $labels['flagread'] = '讀取';
 $labels['flagdeleted'] = '刪除';
+$labels['flaganswered'] = '已經回覆';
 $labels['flagflagged'] = '已加標記的郵件';
 $labels['flagdraft'] = '草稿';
+$labels['setvariable'] = '設定變數';
+$labels['setvarname'] = '變數名稱:';
+$labels['setvarvalue'] = '變數值:';
+$labels['setvarmodifiers'] = '修改:';
+$labels['varlower'] = '低於';
+$labels['varupper'] = '高於';
+$labels['varlowerfirst'] = '第一個字低於';
+$labels['varupperfirst'] = '第一個字高於';
+$labels['varquotewildcard'] = '跳脫字元';
+$labels['varlength'] = '長度';
+$labels['notify'] = '寄送通知';
+$labels['notifyaddress'] = '寄到電子郵件位址:';
+$labels['notifybody'] = '通知內容:';
+$labels['notifysubject'] = '通知主旨:';
+$labels['notifyfrom'] = '通知寄件者:';
+$labels['notifyimportance'] = '重要性:';
+$labels['notifyimportancelow'] = '低';
+$labels['notifyimportancenormal'] = '一般';
+$labels['notifyimportancehigh'] = '高';
 $labels['filtercreate'] = '建立郵件規則';
 $labels['usedata'] = '於規則中使用轉寄時間';
 $labels['nextstep'] = '下一步';
@@ -94,41 +124,54 @@ $labels['...'] = '…';
 $labels['advancedopts'] = '進階選項';
 $labels['body'] = '內文';
 $labels['address'] = '郵件位址';
+$labels['envelope'] = '信封';
+$labels['modifier'] = '修改:';
 $labels['text'] = '文字';
 $labels['undecoded'] = '未解碼(raw)';
+$labels['contenttype'] = '內容類型';
 $labels['modtype'] = '型態：';
 $labels['allparts'] = '全部';
 $labels['domain'] = '網域';
 $labels['localpart'] = '本機連接埠';
 $labels['user'] = '使用者';
 $labels['detail'] = '細節';
+$labels['comparator'] = '比較:';
 $labels['default'] = '預設';
-$labels['filterunknownerror'] = '未知的伺服器錯誤';
-$labels['filterconnerror'] = '無法與伺服器連線';
-$labels['filterdeleteerror'] = '無法刪除篩選器。發生伺服器錯誤';
-$labels['filterdeleted'] = '成功刪除篩選器';
-$labels['filtersaved'] = '成功儲存篩選器。';
-$labels['filtersaveerror'] = '無法儲存篩選器。發生伺服器錯誤';
-$labels['filterdeleteconfirm'] = '您確定要刪除選擇的郵件規則嗎?';
-$labels['ruledeleteconfirm'] = '您確定要刪除選的規則嗎？';
-$labels['actiondeleteconfirm'] = '您確定要刪除選擇的動作嗎？';
-$labels['forbiddenchars'] = '內容包含禁用字元';
-$labels['cannotbeempty'] = '內容不能為空白';
-$labels['ruleexist'] = '規則名稱重複';
-$labels['setactivateerror'] = '無法啟用選擇的篩選器集合。 伺服器發生錯誤';
-$labels['setdeactivateerror'] = '無法停用選擇的篩選器集合。 伺服器發生錯誤';
-$labels['setdeleteerror'] = '無法刪除選擇的篩選器集合。 伺服器發生錯誤';
-$labels['setactivated'] = '篩選器集合成功啟用';
-$labels['setdeactivated'] = '篩選器集合成功停用';
-$labels['setdeleted'] = '篩選器集合成功刪除';
-$labels['setdeleteconfirm'] = '你確定要刪除選擇的篩選器集合嗎？';
-$labels['setcreateerror'] = '無法建立篩選器集合。 伺服器發生錯誤';
-$labels['setcreated'] = '篩選器集合成功建立';
-$labels['activateerror'] = '無法啟用選擇的篩選器。伺服器錯誤';
-$labels['deactivateerror'] = '無法停用選擇的篩選器。伺服器錯誤';
-$labels['deactivated'] = '篩選器已停用';
-$labels['activated'] = '篩選器已啟用';
-$labels['moved'] = '篩選器已移動';
-$labels['moveerror'] = '無法移動選擇的篩選器。伺服器錯誤';
-$labels['nametoolong'] = '無法建立篩選器集合。 名稱太長';
+$labels['octet'] = '嚴謹模式(八位元組)';
+$labels['asciicasemap'] = '不區分大小寫(採用ASCII-Casemap)';
+$labels['asciinumeric'] = '數字類型(ascii-numeric)';
 
+$messages = array();
+$messages['filterunknownerror'] = '未知的伺服器錯誤';
+$messages['filterconnerror'] = '無法與伺服器連線';
+$messages['filterdeleteerror'] = '無法刪除篩選器。發生伺服器錯誤';
+$messages['filterdeleted'] = '成功刪除篩選器';
+$messages['filtersaved'] = '成功儲存篩選器。';
+$messages['filtersaveerror'] = '無法儲存篩選器。發生伺服器錯誤';
+$messages['filterdeleteconfirm'] = '您確定要刪除選擇的郵件規則嗎?';
+$messages['ruledeleteconfirm'] = '您確定要刪除選的規則嗎？';
+$messages['actiondeleteconfirm'] = '您確定要刪除選擇的動作嗎？';
+$messages['forbiddenchars'] = '內容包含禁用字元';
+$messages['cannotbeempty'] = '內容不能為空白';
+$messages['ruleexist'] = '規則名稱重複';
+$messages['setactivateerror'] = '無法啟用選擇的篩選器集合。 伺服器發生錯誤';
+$messages['setdeactivateerror'] = '無法停用選擇的篩選器集合。 伺服器發生錯誤';
+$messages['setdeleteerror'] = '無法刪除選擇的篩選器集合。 伺服器發生錯誤';
+$messages['setactivated'] = '篩選器集合成功啟用';
+$messages['setdeactivated'] = '篩選器集合成功停用';
+$messages['setdeleted'] = '篩選器集合成功刪除';
+$messages['setdeleteconfirm'] = '你確定要刪除選擇的篩選器集合嗎？';
+$messages['setcreateerror'] = '無法建立篩選器集合。 伺服器發生錯誤';
+$messages['setcreated'] = '篩選器集合成功建立';
+$messages['activateerror'] = '無法啟用選擇的篩選器。伺服器錯誤';
+$messages['deactivateerror'] = '無法停用選擇的篩選器。伺服器錯誤';
+$messages['deactivated'] = '篩選器已啟用';
+$messages['activated'] = '篩選器已停用';
+$messages['moved'] = '篩選器已移動';
+$messages['moveerror'] = '無法移動選擇的篩選器。伺服器錯誤';
+$messages['nametoolong'] = '無法建立篩選器集合。 名稱太長';
+$messages['namereserved'] = '保留名稱.';
+$messages['setexist'] = '設定已存在';
+$messages['nodata'] = '至少要選擇一個位置';
+
+?>

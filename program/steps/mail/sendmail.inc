@@ -219,11 +219,11 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
     // address in brackets without name (do nothing)
     if (preg_match('/^<'.$email_regexp.'>$/', $item)) {
       $item = rcube_idn_to_ascii(trim($item, '<>'));
-      $result[] = '<' . $item . '>';
+      $result[] = $item;
     // address without brackets and without name (add brackets)
     } else if (preg_match('/^'.$email_regexp.'$/', $item)) {
       $item = rcube_idn_to_ascii($item);
-      $result[] = '<' . $item . '>';
+      $result[] = $item;
     // address with name (handle name)
     } else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
       $address = $matches[0];
@@ -252,6 +252,33 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
   }
 
   return implode(', ', $result);
+}
+
+
+function rcmail_generic_message_footer($isHtml)
+{
+  global $CONFIG;
+
+  if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
+    $file = $CONFIG['generic_message_footer_html'];
+    $html_footer = true;
+  }
+  else {
+    $file = $CONFIG['generic_message_footer'];
+    $html_footer = false;
+  }
+
+  if ($file && realpath($file)) {
+    // sanity check
+    if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
+      $footer = file_get_contents($file);
+      if ($isHtml && !$html_footer)
+        $footer = '<pre>' . $footer . '</pre>';
+      return $footer;
+    }
+  }
+
+  return false;
 }
 
 
@@ -364,10 +391,6 @@ if (!empty($mailcc)) {
 if (!empty($mailbcc)) {
   $headers['Bcc'] = $mailbcc;
 }
-if (!empty($identity_arr['bcc']) && stripos($headers['Bcc'], $identity_arr['bcc']) === false) {
-  $headers['Bcc'] = ($headers['Bcc'] ? $headers['Bcc'].', ' : '') . $identity_arr['bcc'];
-  $RECIPIENT_COUNT ++;
-}
 
 if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
   if ($RECIPIENT_COUNT > $max_recipients) {
@@ -384,9 +407,6 @@ if (!empty($identity_arr['organization'])) {
 }
 if (!empty($_POST['_replyto'])) {
   $headers['Reply-To'] = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
-}
-else if (!empty($identity_arr['reply-to'])) {
-  $headers['Reply-To'] = rcmail_email_input_format($identity_arr['reply-to'], false, true);
 }
 if (!empty($headers['Reply-To'])) {
   $headers['Mail-Reply-To'] = $headers['Reply-To'];
@@ -452,7 +472,7 @@ $isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
 if ($isHtml) {
-  $font   = rcube_fontdefs($RCMAIL->config->get('default_font', 'Verdana'));
+  $font   = rcube_fontdefs($RCMAIL->config->get('default_font'));
   $bstyle = $font && is_string($font) ? " style='font-family: $font'" : '';
 
   // append doctype and html/body wrappers
@@ -466,7 +486,7 @@ if (!$savedraft) {
     $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
 
     // add inline css for blockquotes
-    $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px; width:100%';
+    $bstyle = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px';
     $message_body = preg_replace('/<blockquote>/',
       '<blockquote type="cite" style="'.$bstyle.'">', $message_body);
   }
@@ -490,19 +510,10 @@ if (!$savedraft) {
   }
 
   // generic footer for all messages
-  if ($isHtml && !empty($CONFIG['generic_message_footer_html'])) {
-      $footer = file_get_contents(realpath($CONFIG['generic_message_footer_html']));
-      $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
-  }
-  else if (!empty($CONFIG['generic_message_footer'])) {
-    $footer = file_get_contents(realpath($CONFIG['generic_message_footer']));
+  if ($footer = rcmail_generic_message_footer($isHtml)) {
     $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
-    if ($isHtml)
-      $footer = '<pre>'.$footer.'</pre>';
-  }
-
-  if ($footer)
     $message_body .= "\r\n" . $footer;
+  }
 }
 
 if ($isHtml) {
@@ -559,8 +570,8 @@ if ($isHtml) {
   $plugin['body'] = rcmail_replace_emoticons($plugin['body']);
 
   // add a plain text version of the e-mail as an alternative part.
-  $h2t = new html2text($plugin['body'], false, true, 0);
-  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n");
+  $h2t = new rcube_html2text($plugin['body'], false, true, 0, $message_charset);
+  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
   // make sure all line endings are CRLF (#1486712)
@@ -585,10 +596,10 @@ else {
   $message_body = $plugin['body'];
 
   // compose format=flowed content if enabled
-  if ($flowed = $RCMAIL->config->get('send_format_flowed', true))
-    $message_body = rcube_mime::format_flowed($message_body, min($LINE_LENGTH+2, 79));
+  if ($flowed = ($savedraft || $RCMAIL->config->get('send_format_flowed', true)))
+    $message_body = rcube_mime::format_flowed($message_body, min($LINE_LENGTH+2, 79), $message_charset);
   else
-    $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n");
+    $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n", false, $message_charset);
 
   $message_body = wordwrap($message_body, 998, "\r\n", true);
 
@@ -617,13 +628,12 @@ if (is_array($COMPOSE['attachments']))
       $ctype = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
       $file = $attachment['data'] ? $attachment['data'] : $attachment['path'];
 
-      // .eml attachments send inline
       $MAIL_MIME->addAttachment($file,
         $ctype,
         $attachment['name'],
         ($attachment['data'] ? false : true),
         ($ctype == 'message/rfc822' ? '8bit' : 'base64'),
-        ($ctype == 'message/rfc822' ? 'inline' : 'attachment'),
+        'attachment',
         '', '', '',
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
         $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL,
@@ -821,6 +831,6 @@ else {
   if ($store_folder && !$saved)
     $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'));
   else
-    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'));
+    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'), $store_target);
   $OUTPUT->send('iframe');
 }

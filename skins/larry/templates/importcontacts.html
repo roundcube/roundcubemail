@@ -14,19 +14,18 @@
 	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
 </div>
 
-<div class="offset uibox contentbox">
+<div id="pluginbody" class="offset uibox contentbox">
 <h2 class="boxtitle"><roundcube:label name="importcontacts" /></h2>
 
-<div class="boxcontent readtext">
+<div id="import-box" class="boxcontent">
 <roundcube:object name="importstep" />
-
 <br/>
-
 <p class="formbuttons">
 	<roundcube:object name="importnav" class="button" />
 </p>
-
 </div>
+
+<roundcube:object name="message" id="message" class="statusbar" />
 
 </div>
 

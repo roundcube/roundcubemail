@@ -13,16 +13,16 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2011-11-21</date>
+	<date>2012-02-17</date>
 	<version>
-		<release>1.1</release>
-		<api>1.1</api>
+		<release>2.0</release>
+		<api>2.0</api>
 	</version>
 	<stability>
 		<release>stable</release>
 		<api>stable</api>
 	</stability>
-	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
 	<notes>-</notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">

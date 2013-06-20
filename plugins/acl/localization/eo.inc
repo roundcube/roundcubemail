@@ -2,18 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/eo/labels.inc                                         |
+ | plugins/acl/localization/<lang>.inc                                   |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail ACL plugin                 |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Michael Moroni <michael.moroni@mailoo.org>                    |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 
-$labels = array();
 $labels['sharing'] = 'Kunhavigado';
 $labels['myrights'] = 'Atingrajtoj';
 $labels['username'] = 'Uzanto:';
@@ -23,41 +25,75 @@ $labels['actions'] = 'Agoj de atingrajtoj...';
 $labels['anyone'] = 'Ĉiuj uzantoj (iu ajn)';
 $labels['anonymous'] = 'Gasto (sennome)';
 $labels['identifier'] = 'Identigilo';
+
 $labels['acll'] = 'Elserĉo';
-$labels['shortacll'] = 'Elserĉo';
 $labels['aclr'] = 'Legi mesaĝojn';
 $labels['acls'] = 'Manteni legitan staton';
+$labels['aclw'] = 'Write flags';
 $labels['acli'] = 'Enmeti (alglui)';
 $labels['aclp'] = 'Afiŝi';
-$labels['shortaclp'] = 'Afiŝi';
 $labels['aclc'] = 'Krei subdosierujojn';
 $labels['aclk'] = 'Krei subdosierujojn';
 $labels['acld'] = 'Forigi mesaĝojn';
 $labels['aclt'] = 'Forigi mesaĝojn';
+$labels['acle'] = 'Expunge';
 $labels['aclx'] = 'Forigi dosierujon';
 $labels['acla'] = 'Administri';
-$labels['shortacla'] = 'Administri';
+
 $labels['aclfull'] = 'Plena kontrolo';
 $labels['aclother'] = 'Alia';
-$labels['shortaclother'] = 'Alia';
 $labels['aclread'] = 'Legi';
-$labels['shortaclr'] = 'Legi';
-$labels['shortaclread'] = 'Legi';
 $labels['aclwrite'] = 'Skribi';
-$labels['shortaclw'] = 'Skribi';
-$labels['shortaclwrite'] = 'Skribi';
 $labels['acldelete'] = 'Forigi';
-$labels['shortacld'] = 'Forigi';
-$labels['shortaclt'] = 'Forigi';
-$labels['shortacldelete'] = 'Forigi';
+
+$labels['shortacll'] = 'Elserĉo';
+$labels['shortaclr'] = 'Legi';
 $labels['shortacls'] = 'Manteni';
+$labels['shortaclw'] = 'Skribi';
 $labels['shortacli'] = 'Enmeti';
+$labels['shortaclp'] = 'Afiŝi';
 $labels['shortaclc'] = 'Krei';
 $labels['shortaclk'] = 'Krei';
+$labels['shortacld'] = 'Forigi';
+$labels['shortaclt'] = 'Forigi';
+$labels['shortacle'] = 'Expunge';
 $labels['shortaclx'] = 'Forigo de dosierujo';
+$labels['shortacla'] = 'Administri';
+
+$labels['shortaclother'] = 'Alia';
+$labels['shortaclread'] = 'Legi';
+$labels['shortaclwrite'] = 'Skribi';
+$labels['shortacldelete'] = 'Forigi';
+
 $labels['longacll'] = 'La dosierujo videblas en listoj kaj oni povas aboni al ĝi';
 $labels['longaclr'] = 'La dosierujo malfermeblas por legado';
-$labels['longaclread'] = 'La dosierujo malfermeblas por legado';
+$labels['longacls'] = 'Messages Seen flag can be changed';
+$labels['longaclw'] = 'Messages flags and keywords can be changed, except Seen and Deleted';
 $labels['longacli'] = 'Mesaĝoj skribeblas aŭ kopieblas en la dosierujo';
 $labels['longaclp'] = 'Mesaĝoj afiŝeblas en ĉi tiu dosierujo';
+$labels['longaclc'] = 'Folders can be created (or renamed) directly under this folder';
+$labels['longaclk'] = 'Folders can be created (or renamed) directly under this folder';
+$labels['longacld'] = 'Messages Delete flag can be changed';
+$labels['longaclt'] = 'Messages Delete flag can be changed';
+$labels['longacle'] = 'Messages can be expunged';
+$labels['longaclx'] = 'The folder can be deleted or renamed';
+$labels['longacla'] = 'The folder access rights can be changed';
 
+$labels['longaclfull'] = 'Full control including folder administration';
+$labels['longaclread'] = 'La dosierujo malfermeblas por legado';
+$labels['longaclwrite'] = 'Messages can be marked, written or copied to the folder';
+$labels['longacldelete'] = 'Messages can be deleted';
+
+$messages['deleting'] = 'Deleting access rights...';
+$messages['saving'] = 'Saving access rights...';
+$messages['updatesuccess'] = 'Successfully changed access rights';
+$messages['deletesuccess'] = 'Successfully deleted access rights';
+$messages['createsuccess'] = 'Successfully added access rights';
+$messages['updateerror'] = 'Ubable to update access rights';
+$messages['deleteerror'] = 'Unable to delete access rights';
+$messages['createerror'] = 'Unable to add access rights';
+$messages['deleteconfirm'] = 'Are you sure, you want to remove access rights of selected user(s)?';
+$messages['norights'] = 'No rights has been specified!';
+$messages['nouser'] = 'No username has been specified!';
+
+?>

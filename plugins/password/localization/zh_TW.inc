@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/zh_TW/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = '更改密碼';
-$labels['curpasswd'] = '目前的密碼';
-$labels['newpasswd'] = '新密碼';
-$labels['confpasswd'] = '確認新密碼';
-$labels['nopassword'] = '請輸入新密碼';
-$labels['nocurpassword'] = '請輸入目前的密碼';
-$labels['passwordincorrect'] = '目前的密碼錯誤';
-$labels['passwordinconsistency'] = '密碼不相符，請重新輸入';
-$labels['crypterror'] = '無法更新密碼：無加密機制';
-$labels['connecterror'] = '無法更新密碼：連線失敗';
-$labels['internalerror'] = '無法更新密碼';
-$labels['passwordshort'] = '您的密碼至少需 $length 個字元長';
-$labels['passwordweak'] = '您的新密碼至少需含有一個數字與一個標點符號';
-$labels['passwordforbidden'] = '您的密碼含有禁用字元';
+$labels['changepasswd']  = '更改密碼';
+$labels['curpasswd']  = '目前的密碼';
+$labels['newpasswd']  = '新密碼';
+$labels['confpasswd']  = '確認新密碼';
 
+$messages = array();
+$messages['nopassword'] = '請輸入新密碼';
+$messages['nocurpassword'] = '請輸入目前的密碼';
+$messages['passwordincorrect'] = '目前的密碼錯誤';
+$messages['passwordinconsistency'] = '密碼不相符，請重新輸入';
+$messages['crypterror'] = '無法更新密碼：無加密機制';
+$messages['connecterror'] = '無法更新密碼：連線失敗';
+$messages['internalerror'] = '無法更新密碼';
+$messages['passwordshort'] = '您的密碼至少需 $length 個字元長';
+$messages['passwordweak'] = '您的新密碼至少需含有一個數字與一個標點符號';
+$messages['passwordforbidden'] = '您的密碼含有禁用字元';
+
+?>

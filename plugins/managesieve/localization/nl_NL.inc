@@ -2,21 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/nl_NL/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Geert Wirken <Unknown>                                        |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filters';
-$labels['managefilters'] = 'Beheer inkomende mail filters';
+$labels['managefilters'] = 'Beheer filters voor inkomende e-mail';
 $labels['filtername'] = 'Filternaam';
 $labels['newfilter'] = 'Nieuw filter';
 $labels['filteradd'] = 'Filter toevoegen';
@@ -41,7 +43,7 @@ $labels['filterover'] = 'over';
 $labels['addrule'] = 'Regel toevoegen';
 $labels['delrule'] = 'Regel verwijderen';
 $labels['messagemoveto'] = 'Verplaats bericht naar';
-$labels['messageredirect'] = 'Redirect bericht naar';
+$labels['messageredirect'] = 'Bericht doorsturen naar';
 $labels['messagecopyto'] = 'Kopieer bericht naar';
 $labels['messagesendcopy'] = 'Verstuur een kopie naar';
 $labels['messagereply'] = 'Beantwoord met bericht';
@@ -53,8 +55,11 @@ $labels['add'] = 'Toevoegen';
 $labels['del'] = 'Verwijderen';
 $labels['sender'] = 'Afzender';
 $labels['recipient'] = 'Ontvanger';
-$labels['vacationaddresses'] = 'Aanvullende lijst van geadresseerden (gescheiden met komma\'s):';
+$labels['vacationaddr'] = 'Aanvullende lijst van geadresseerden:';
 $labels['vacationdays'] = 'Hoe vaak moet een bericht verstuurd worden (in dagen):';
+$labels['vacationinterval'] = 'Hoe vaak moet een bericht verstuurd worden:';
+$labels['days'] = 'dagen';
+$labels['seconds'] = 'seconden';
 $labels['vacationreason'] = 'Bericht (vakantiereden):';
 $labels['vacationsubject'] = 'Onderwerp:';
 $labels['rulestop'] = 'Stop met regels uitvoeren';
@@ -93,6 +98,25 @@ $labels['flagdeleted'] = 'Verwijderd';
 $labels['flaganswered'] = 'Beantwoord';
 $labels['flagflagged'] = 'Gemarkeerd';
 $labels['flagdraft'] = 'Concept';
+$labels['setvariable'] = 'Variabele instellen';
+$labels['setvarname'] = 'Naam variabele:';
+$labels['setvarvalue'] = 'Waarde:';
+$labels['setvarmodifiers'] = 'Waarde wijzigen:';
+$labels['varlower'] = 'kleine letters';
+$labels['varupper'] = 'hoofdletters';
+$labels['varlowerfirst'] = 'eerste karakter als kleine letter';
+$labels['varupperfirst'] = 'eerste karakter als hoofdletter';
+$labels['varquotewildcard'] = 'speciale karakters quoten';
+$labels['varlength'] = 'lengte';
+$labels['notify'] = 'Stuur melding';
+$labels['notifyaddress'] = 'Naar e-mailadres:';
+$labels['notifybody'] = 'Meldingsbericht:';
+$labels['notifysubject'] = 'Onderwerp van melding:';
+$labels['notifyfrom'] = 'Afzender:';
+$labels['notifyimportance'] = 'Prioriteit:';
+$labels['notifyimportancelow'] = 'laag';
+$labels['notifyimportancenormal'] = 'normaal';
+$labels['notifyimportancehigh'] = 'hoog';
 $labels['filtercreate'] = 'Filter aanmaken';
 $labels['usedata'] = 'Gebruik de volgende gegevens in het filter:';
 $labels['nextstep'] = 'Volgende stap';
@@ -116,35 +140,38 @@ $labels['default'] = 'standaard';
 $labels['octet'] = 'strikt (octet)';
 $labels['asciicasemap'] = 'hoofdletterongevoelig (ascii-casemap)';
 $labels['asciinumeric'] = 'numeriek (ascii-numeriek)';
-$labels['filterunknownerror'] = 'Onbekende fout';
-$labels['filterconnerror'] = 'Kan geen verbinding maken met de managesieve server';
-$labels['filterdeleteerror'] = 'Kan filter niet verwijderen. Er is een fout opgetreden';
-$labels['filterdeleted'] = 'Filter succesvol verwijderd';
-$labels['filtersaved'] = 'Filter succesvol opgeslagen';
-$labels['filtersaveerror'] = 'Kan filter niet opslaan. Er is een fout opgetreden.';
-$labels['filterdeleteconfirm'] = 'Weet je zeker dat je het geselecteerde filter wilt verwijderen?';
-$labels['ruledeleteconfirm'] = 'Weet je zeker dat je de geselecteerde regel wilt verwijderen?';
-$labels['actiondeleteconfirm'] = 'Weet je zeker dat je de geselecteerde actie wilt verwijderen?';
-$labels['forbiddenchars'] = 'Verboden karakters in het veld';
-$labels['cannotbeempty'] = 'Veld mag niet leeg zijn';
-$labels['ruleexist'] = 'Er bestaat al een filter met deze naam.';
-$labels['setactivateerror'] = 'Filterverzameling kon niet geactiveerd worden. Er trad een serverfout op.';
-$labels['setdeactivateerror'] = 'Filterverzameling kon niet gedeactiveerd worden. Er trad een serverfout op.';
-$labels['setdeleteerror'] = 'Filterverzameling kon niet verwijderd worden. Er trad een serverfout op.';
-$labels['setactivated'] = 'Filterset succesvol geactiveerd.';
-$labels['setdeactivated'] = 'Filterverzameling succesvol gedeactiveerd.';
-$labels['setdeleted'] = 'Filterverzameling succesvol verwijderd.';
-$labels['setdeleteconfirm'] = 'Weet u zeker dat u de geselecteerde filterset wilt verwijderen?';
-$labels['setcreateerror'] = 'Filterverzameling kon niet aangemaakt worden. Er trad een serverfout op.';
-$labels['setcreated'] = 'Filterverzameling succesvol aangemaakt.';
-$labels['activateerror'] = 'Geselecteerde filter(s) konden niet ingeschakeld worden. Er trad een serverfout op.';
-$labels['deactivateerror'] = 'Geselecteerde filter(s) konden niet uitgeschakeld worden. Er trad een serverfout op.';
-$labels['deactivated'] = 'Filter(s) succesvol uitgeschakeld.';
-$labels['activated'] = 'Filter(s) succesvol ingeschakeld.';
-$labels['moved'] = 'Filter succesvol verplaatst.';
-$labels['moveerror'] = 'Geselecteerde filter(s) konden niet verplaatst worden. Er trad een serverfout op.';
-$labels['nametoolong'] = 'Naam is te lang.';
-$labels['namereserved'] = 'Gereserveerde naam.';
-$labels['setexist'] = 'Set bestaat al.';
-$labels['nodata'] = 'Tenminste één positie moet geselecteerd worden!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Onbekende fout';
+$messages['filterconnerror'] = 'Kan geen verbinding maken met de managesieve server';
+$messages['filterdeleteerror'] = 'Kan filter niet verwijderen. Er is een fout opgetreden';
+$messages['filterdeleted'] = 'Filter succesvol verwijderd';
+$messages['filtersaved'] = 'Filter succesvol opgeslagen';
+$messages['filtersaveerror'] = 'Kan filter niet opslaan. Er is een fout opgetreden.';
+$messages['filterdeleteconfirm'] = 'Weet je zeker dat je het geselecteerde filter wilt verwijderen?';
+$messages['ruledeleteconfirm'] = 'Weet je zeker dat je de geselecteerde regel wilt verwijderen?';
+$messages['actiondeleteconfirm'] = 'Weet je zeker dat je de geselecteerde actie wilt verwijderen?';
+$messages['forbiddenchars'] = 'Verboden karakters in het veld';
+$messages['cannotbeempty'] = 'Veld mag niet leeg zijn';
+$messages['ruleexist'] = 'Er bestaat al een filter met deze naam.';
+$messages['setactivateerror'] = 'Filterverzameling kon niet geactiveerd worden. Er trad een serverfout op.';
+$messages['setdeactivateerror'] = 'Filterverzameling kon niet gedeactiveerd worden. Er trad een serverfout op.';
+$messages['setdeleteerror'] = 'Filterverzameling kon niet verwijderd worden. Er trad een serverfout op.';
+$messages['setactivated'] = 'Filterset succesvol geactiveerd.';
+$messages['setdeactivated'] = 'Filterverzameling succesvol gedeactiveerd.';
+$messages['setdeleted'] = 'Filterverzameling succesvol verwijderd.';
+$messages['setdeleteconfirm'] = 'Weet u zeker dat u de geselecteerde filterset wilt verwijderen?';
+$messages['setcreateerror'] = 'Filterverzameling kon niet aangemaakt worden. Er trad een serverfout op.';
+$messages['setcreated'] = 'Filterverzameling succesvol aangemaakt.';
+$messages['activateerror'] = 'Geselecteerde filter(s) konden niet ingeschakeld worden. Er trad een serverfout op.';
+$messages['deactivateerror'] = 'Geselecteerde filter(s) konden niet uitgeschakeld worden. Er trad een serverfout op.';
+$messages['deactivated'] = 'Filter(s) succesvol ingeschakeld.';
+$messages['activated'] = 'Filter(s) succesvol uitgeschakeld.';
+$messages['moved'] = 'Filter succesvol verplaatst.';
+$messages['moveerror'] = 'Geselecteerde filter(s) konden niet verplaatst worden. Er trad een serverfout op.';
+$messages['nametoolong'] = 'Naam is te lang.';
+$messages['namereserved'] = 'Gereserveerde naam.';
+$messages['setexist'] = 'Set bestaat al.';
+$messages['nodata'] = 'Tenminste één positie moet geselecteerd worden!';
+
+?>

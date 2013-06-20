@@ -8,6 +8,7 @@
  * @version 1.9.1
  * @author Cor Bosman <roundcube@wa.ter.net>
  * @author Thomas Bruederli <roundcube@gmail.com>
+ * @license GNU GPLv3+
  */
 class jqueryui extends rcube_plugin
 {

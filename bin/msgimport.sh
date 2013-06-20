@@ -17,7 +17,8 @@ function print_usage()
 
 
 // get arguments
-$args = get_opt(array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file')) + array('host' => 'localhost', 'mbox' => 'INBOX');
+$opts = array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file');
+$args = rcube_utils::get_opt($opts) + array('host' => 'localhost', 'mbox' => 'INBOX');
 
 if ($_SERVER['argv'][1] == 'help')
 {
@@ -32,8 +33,7 @@ else if (!($args['host'] && $args['file']))
 }
 else if (!is_file($args['file']))
 {
-	print "Cannot read message file\n";
-	exit;
+	rcube::raise_error("Cannot read message file.", false, true);
 }
 
 // prompt for username if not set
@@ -47,7 +47,7 @@ if (empty($args['user']))
 // prompt for password
 if (empty($args['pass']))
 {
-	$args['pass'] = prompt_silent("Password: ");
+	$args['pass'] = rcube_utils::prompt_silent("Password: ");
 }
 
 // parse $host URL
@@ -86,7 +86,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 				if ($IMAP->save_message($args['mbox'], rtrim($message)))
 					$count++;
 				else
-					die("Failed to save message to {$args['mbox']}\n");
+					rcube::raise_error("Failed to save message to {$args['mbox']}", false, true);
 				$message = '';
 			}
 			continue;
@@ -107,7 +107,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl))
 }
 else
 {
-	print "IMAP login failed.\n";
+	rcube::raise_error("IMAP login failed.", false, true);
 }
 
 ?>

@@ -1,3 +1,10 @@
+<?php
+
+if (!class_exists('rcube_install') || !is_object($RCI)) {
+    die("Not allowed! Please open installer/index.php instead.");
+}
+
+?>
 <form action="index.php" method="get">
 <?php
 
@@ -57,12 +64,12 @@ $source_urls = array(
     'Intl'      => 'http://www.php.net/manual/en/book.intl.php',
     'Exif'      => 'http://www.php.net/manual/en/book.exif.php',
     'PDO'       => 'http://www.php.net/manual/en/book.pdo.php',
-    'pdo_mysql'   => 'http://www.php.net/manual/en/book.pdo-mysql.php',
-    'pdo_pgsql'   => 'http://www.php.net/manual/en/book.pdo-pgsql.php',
-    'pdo_sqlite'  => 'http://www.php.net/manual/en/book.pdo-sqlite.php',
-    'pdo_sqlite2' => 'http://www.php.net/manual/en/book.pdo-sqlite.php',
-    'pdo_sqlsrv'  => 'http://www.php.net/manual/en/book.pdo-sqlsrv.php',
-    'pdo_dblib'   => 'http://www.php.net/manual/en/book.pdo-dblib.php',
+    'pdo_mysql'   => 'http://www.php.net/manual/en/ref.pdo-mysql.php',
+    'pdo_pgsql'   => 'http://www.php.net/manual/en/ref.pdo-pgsql.php',
+    'pdo_sqlite'  => 'http://www.php.net/manual/en/ref.pdo-sqlite.php',
+    'pdo_sqlite2' => 'http://www.php.net/manual/en/ref.pdo-sqlite.php',
+    'pdo_sqlsrv'  => 'http://www.php.net/manual/en/ref.pdo-sqlsrv.php',
+    'pdo_dblib'   => 'http://www.php.net/manual/en/ref.pdo-dblib.php',
     'PEAR'      => 'http://pear.php.net',
     'Net_SMTP'  => 'http://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
@@ -130,7 +137,14 @@ foreach ($optional_php_exts as $name => $ext) {
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
 foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
-        $RCI->pass($database);
+        // MySQL driver requires PHP >= 5.3 (#1488875)
+        if ($ext == 'pdo_mysql' && version_compare(PHP_VERSION, '5.3.0', '<')) {
+            $RCI->fail($database, 'PHP >= 5.3 required', null, true);
+        }
+        else {
+            $RCI->pass($database);
+            $found_db_driver = true;
+        }
     }
     else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
@@ -138,6 +152,9 @@ foreach ($RCI->supported_dbs as $database => $ext) {
         $RCI->na($database, $msg, $source_urls[$ext]);
     }
     echo '<br />';
+}
+if (empty($found_db_driver)) {
+  $RCI->failures++;
 }
 
 ?>
@@ -186,7 +203,7 @@ foreach ($ini_checks as $var => $val) {
         echo '<br />';
         continue;
     }
-    if ($status == $val) {
+    if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     } else {
       $RCI->fail($var, "is '$status', should be '$val'");
@@ -210,7 +227,7 @@ foreach ($optional_checks as $var => $val) {
         echo '<br />';
         continue;
     }
-    if ($status == $val) {
+    if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     } else {
       $RCI->optfail($var, "is '$status', could be '$val'");

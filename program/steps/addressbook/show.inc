@@ -101,8 +101,6 @@ function rcmail_contact_head($attrib)
         return false;
     }
 
-    $microformats = array('name' => 'fn', 'email' => 'email');
-
     $form = array(
         'head' => array(  // section 'head' is magic!
             'content' => array(
@@ -177,7 +175,7 @@ function rcmail_contact_details($attrib)
 }
 
 
-function rcmail_render_email_value($email, $col)
+function rcmail_render_email_value($email)
 {
     return html::a(array(
         'href' => 'mailto:' . $email,
@@ -188,7 +186,7 @@ function rcmail_render_email_value($email, $col)
 }
 
 
-function rcmail_render_url_value($url, $col)
+function rcmail_render_url_value($url)
 {
     $prefix = preg_match('!^(http|ftp)s?://!', $url) ? '' : 'http://';
     return html::a(array(
@@ -215,15 +213,18 @@ function rcmail_contact_record_groups($contact_id)
     $checkbox = new html_checkbox(array('name' => '_gid[]',
         'class' => 'groupmember', 'disabled' => $CONTACTS->readonly));
 
-    foreach ($GROUPS as $group) {
+    foreach (array_merge($GROUPS, $members) as $group) {
         $gid = $group['ID'];
+        if ($seen[$gid]++)
+            continue;
+
         $table->add(null, $checkbox->show($members[$gid] ? $gid : null,
             array('value' => $gid, 'id' => 'ff_gid' . $gid)));
         $table->add(null, html::label('ff_gid' . $gid, Q($group['name'])));
     }
 
     $hiddenfields = new html_hiddenfield(array('name' => '_source', 'value' => get_input_value('_source', RCUBE_INPUT_GPC)));
-    $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
+    $hiddenfields->add(array('name' => '_cid', 'value' => $contact_id));
 
     $form_start = $RCMAIL->output->request_form(array(
         'name' => "form", 'method' => "post",

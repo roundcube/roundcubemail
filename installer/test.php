@@ -1,10 +1,17 @@
+<?php
+
+if (!class_exists('rcube_install') || !is_object($RCI)) {
+    die("Not allowed! Please open installer/index.php instead.");
+}
+
+?>
 <form action="index.php?_step=3" method="post">
 
 <h3>Check config files</h3>
 <?php
 
-$read_main = is_readable(RCMAIL_CONFIG_DIR.'/main.inc.php');
-$read_db = is_readable(RCMAIL_CONFIG_DIR.'/db.inc.php');
+$read_main = is_readable(RCUBE_CONFIG_DIR . 'main.inc.php');
+$read_db = is_readable(RCUBE_CONFIG_DIR . 'db.inc.php');
 
 if ($read_main && !empty($RCI->config)) {
   $RCI->pass('main.inc.php');
@@ -17,7 +24,7 @@ else if (!$read_main) {
 }
 echo '<br />';
 
-if ($read_db && !empty($RCI->config['db_table_users'])) {
+if ($read_db && !empty($RCI->config['db_dsnw'])) {
   $RCI->pass('db.inc.php');
 }
 else if ($read_db) {
@@ -31,13 +38,13 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
   
   if (is_array($messages['missing'])) {
     echo '<h3 class="warning">Missing config options</h3>';
-    echo '<p class="hint">The following config options are not present in the current configuration.<br/>';
-    echo 'Please check the default config files and add the missing properties to your local config files.</p>';
-    
-    echo '<ul class="configwarings">';
+    echo '<p class="hint">The following config options are not set (not present or empty) in the current configuration.<br/>';
+    echo 'Please check the default config files and set the missing properties in your local config files.</p>';
+
+    echo '<ul class="configwarnings">';
     foreach ($messages['missing'] as $msg) {
       echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
-    }    
+    }
     echo '</ul>';
   }
 
@@ -157,16 +164,14 @@ if ($db_working && $_POST['initdb']) {
 }
 
 else if ($db_working && $_POST['updatedb']) {
-  if (!($success = $RCI->update_db($DB, $_POST['version']))) {
-      $updatefile = INSTALL_PATH . 'SQL/' . (isset($RCI->db_map[$DB->db_provider]) ? $RCI->db_map[$DB->db_provider] : $DB->db_provider) . '.update.sql';
-      echo '<p class="warning">Please manually execute the SQL statements from '.$updatefile.' on your database.<br/>';
-      echo 'See comments in the file and execute queries below the comment with the currently installed version number.</p>';
-  }
+    if (!($success = $RCI->update_db($_POST['version']))) {
+        echo '<p class="warning">Database schema update failed.</p>';
+    }
 }
 
 // test database
 if ($db_working) {
-    $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_table_users']}");
+    $db_read = $DB->query("SELECT count(*) FROM {$RCI->config['db_prefix']}users");
     if ($DB->is_error()) {
         $RCI->fail('DB Schema', "Database not initialized");
         echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
@@ -176,9 +181,8 @@ if ($db_working) {
         $RCI->fail('DB Schema', "Database schema differs");
         echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
         $select = $RCI->versions_select(array('name' => 'version'));
-        echo '<p class="suggestion">You should run the update queries to get the schmea fixed.<br/><br/>Version to update from: ' . $select->show() . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
-//        echo '<p class="warning">Please manually execute the SQL statements from '.$updatefile.' on your database.<br/>';
-//        echo 'See comments in the file and execute queries that are superscribed with the currently installed version number.</p>';
+        $select->add('0.9 or newer', '');
+        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show() . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
         $db_working = false;
     }
     else {
@@ -191,11 +195,11 @@ if ($db_working) {
 if ($db_working) {
     // write test
     $insert_id = md5(uniqid());
-    $db_write = $DB->query("INSERT INTO {$RCI->config['db_table_session']} (sess_id, created, ip, vars) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
+    $db_write = $DB->query("INSERT INTO {$RCI->config['db_prefix']}session (sess_id, created, ip, vars) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
       $RCI->pass('DB Write');
-      $DB->query("DELETE FROM {$RCI->config['db_table_session']} WHERE sess_id=?", $insert_id);
+      $DB->query("DELETE FROM {$RCI->config['db_prefix']}session WHERE sess_id=?", $insert_id);
     }
     else {
       $RCI->fail('DB Write', $RCI->get_error());

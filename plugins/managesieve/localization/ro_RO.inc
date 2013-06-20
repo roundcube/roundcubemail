@@ -2,19 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/ro_RO/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: tudor <tudor@starnet-alba.ro>                                 |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Administrează filtrele pentru mesaje primite.';
 $labels['filtername'] = 'Nume filtru';
@@ -53,8 +55,11 @@ $labels['add'] = 'Adaugă';
 $labels['del'] = 'Șterge';
 $labels['sender'] = 'Expeditor';
 $labels['recipient'] = 'Destinatar';
-$labels['vacationaddresses'] = 'Listă adiţională cu email-urile destinatarilor (separate prin virgulă):';
+$labels['vacationaddr'] = 'Adresele mele de e-mail adiționale:';
 $labels['vacationdays'] = 'Cât de des să trimit mesajele (în zile):';
+$labels['vacationinterval'] = 'How often send messages:';
+$labels['days'] = 'days';
+$labels['seconds'] = 'seconds';
 $labels['vacationreason'] = 'Corpul mesajului (motivul vacanţei):';
 $labels['vacationsubject'] = 'Subiectul mesajului:';
 $labels['rulestop'] = 'Nu mai evalua reguli';
@@ -93,6 +98,25 @@ $labels['flagdeleted'] = 'Șters';
 $labels['flaganswered'] = 'Răspuns';
 $labels['flagflagged'] = 'Marcat';
 $labels['flagdraft'] = 'Schiță';
+$labels['setvariable'] = 'Setare variabilă';
+$labels['setvarname'] = 'Nume variabilă:';
+$labels['setvarvalue'] = 'Valoare variabilă:';
+$labels['setvarmodifiers'] = 'Modificatori:';
+$labels['varlower'] = 'cu litere mici';
+$labels['varupper'] = 'cu litere mari';
+$labels['varlowerfirst'] = 'primul caracter cu litre mici';
+$labels['varupperfirst'] = 'primul caracter cu litre mari';
+$labels['varquotewildcard'] = 'caracterele speciale în citat';
+$labels['varlength'] = 'lungime';
+$labels['notify'] = 'Notificare trimitere';
+$labels['notifyaddress'] = 'La adresa de e-mail';
+$labels['notifybody'] = 'Mesajul de notificare:';
+$labels['notifysubject'] = 'Subiectul notificării:';
+$labels['notifyfrom'] = 'Expeditorul notificării:';
+$labels['notifyimportance'] = 'Importanța:';
+$labels['notifyimportancelow'] = 'mică';
+$labels['notifyimportancenormal'] = 'normală';
+$labels['notifyimportancehigh'] = 'mare';
 $labels['filtercreate'] = 'Crează filtru';
 $labels['usedata'] = 'Foloseşte următoarele date în filtru:';
 $labels['nextstep'] = 'Următorul Pas';
@@ -116,35 +140,38 @@ $labels['default'] = 'implicit';
 $labels['octet'] = 'strict (octet)';
 $labels['asciicasemap'] = 'ignoră majusculele (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
-$labels['filterunknownerror'] = 'Eroare necunoscută la server:';
-$labels['filterconnerror'] = 'Nu mă pot conecta la server.';
-$labels['filterdeleteerror'] = 'Nu pot şterge filtrul. S-a produs o eroare la server.';
-$labels['filterdeleted'] = 'Filtrul a fost şters cu succes.';
-$labels['filtersaved'] = 'Filtrul a fost salvat cu succes.';
-$labels['filtersaveerror'] = 'Nu am putut salva filtrul. S-a produs o eroare la server.';
-$labels['filterdeleteconfirm'] = 'Chiar vrei să ştergi filtrul selectat?';
-$labels['ruledeleteconfirm'] = 'Eşti sigur că vrei să ştergi regula selectată?';
-$labels['actiondeleteconfirm'] = 'Eşti sigur că vrei să ştergi acţiunea selectată?';
-$labels['forbiddenchars'] = 'Caractere nepermise în câmp.';
-$labels['cannotbeempty'] = 'Câmpul nu poate fi gol.';
-$labels['ruleexist'] = 'Filtrul cu numele specificat există deja.';
-$labels['setactivateerror'] = 'Nu pot activa setul de filtre selectat. S-a produs o eroare la server.';
-$labels['setdeactivateerror'] = 'Nu pot dezactiva setul de filtre selectat. S-a produs o eroare la server.';
-$labels['setdeleteerror'] = 'Nu pot şterge setul de filtre selectat. S-a produs o eroare la server.';
-$labels['setactivated'] = 'Setul de filtre activat cu succes.';
-$labels['setdeactivated'] = 'Setul de filtre dezactivat cu succes.';
-$labels['setdeleted'] = 'Setul de filtre şters cu succes.';
-$labels['setdeleteconfirm'] = 'Eşti sigur(ă) că vrei să ştergi setul de filtre selectat?';
-$labels['setcreateerror'] = 'Nu am putut crea setul de filtre. S-a produs o eroare la server.';
-$labels['setcreated'] = 'Setul de filtre creat cu succes.';
-$labels['activateerror'] = 'Nu am putut activa filtrele selectate. S-a produs o eroare la server.';
-$labels['deactivateerror'] = 'Nu am putut dezactiva filtrele selectate. S-a produs o eroare la server.';
-$labels['deactivated'] = 'Filtrele au fost dezactivate cu succes.';
-$labels['activated'] = 'Filtrele au fost activate cu succes.';
-$labels['moved'] = 'Filtrele au fost mutate cu succes.';
-$labels['moveerror'] = 'Nu am putut muta filtreele selectate. S-a produs o eroare la server.';
-$labels['nametoolong'] = 'Numele este prea lung.';
-$labels['namereserved'] = 'Nume rezervat.';
-$labels['setexist'] = 'Setul există deja.';
-$labels['nodata'] = 'Trebuie selectată cel putin o poziţie!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Eroare necunoscută la server:';
+$messages['filterconnerror'] = 'Nu mă pot conecta la server.';
+$messages['filterdeleteerror'] = 'Nu pot şterge filtrul. S-a produs o eroare la server.';
+$messages['filterdeleted'] = 'Filtrul a fost şters cu succes.';
+$messages['filtersaved'] = 'Filtrul a fost salvat cu succes.';
+$messages['filtersaveerror'] = 'Nu am putut salva filtrul. S-a produs o eroare la server.';
+$messages['filterdeleteconfirm'] = 'Chiar vrei să ştergi filtrul selectat?';
+$messages['ruledeleteconfirm'] = 'Eşti sigur că vrei să ştergi regula selectată?';
+$messages['actiondeleteconfirm'] = 'Eşti sigur că vrei să ştergi acţiunea selectată?';
+$messages['forbiddenchars'] = 'Caractere nepermise în câmp.';
+$messages['cannotbeempty'] = 'Câmpul nu poate fi gol.';
+$messages['ruleexist'] = 'Filtrul cu numele specificat există deja.';
+$messages['setactivateerror'] = 'Nu pot activa setul de filtre selectat. S-a produs o eroare la server.';
+$messages['setdeactivateerror'] = 'Nu pot dezactiva setul de filtre selectat. S-a produs o eroare la server.';
+$messages['setdeleteerror'] = 'Nu pot şterge setul de filtre selectat. S-a produs o eroare la server.';
+$messages['setactivated'] = 'Setul de filtre activat cu succes.';
+$messages['setdeactivated'] = 'Setul de filtre dezactivat cu succes.';
+$messages['setdeleted'] = 'Setul de filtre şters cu succes.';
+$messages['setdeleteconfirm'] = 'Eşti sigur(ă) că vrei să ştergi setul de filtre selectat?';
+$messages['setcreateerror'] = 'Nu am putut crea setul de filtre. S-a produs o eroare la server.';
+$messages['setcreated'] = 'Setul de filtre creat cu succes.';
+$messages['activateerror'] = 'Nu am putut activa filtrele selectate. S-a produs o eroare la server.';
+$messages['deactivateerror'] = 'Nu am putut dezactiva filtrele selectate. S-a produs o eroare la server.';
+$messages['deactivated'] = 'Filtrele au fost activate cu succes.';
+$messages['activated'] = 'Filtrele au fost dezactivate cu succes.';
+$messages['moved'] = 'Filtrele au fost mutate cu succes.';
+$messages['moveerror'] = 'Nu am putut muta filtreele selectate. S-a produs o eroare la server.';
+$messages['nametoolong'] = 'Numele este prea lung.';
+$messages['namereserved'] = 'Nume rezervat.';
+$messages['setexist'] = 'Setul există deja.';
+$messages['nodata'] = 'Trebuie selectată cel putin o poziţie!';
+
+?>

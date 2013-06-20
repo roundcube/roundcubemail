@@ -2,20 +2,33 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/gl_ES/labels.inc                                         |
+ | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Archive plugin             |
+ | Copyright (C) 2013, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas                                                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
 $labels = array();
 $labels['buttontext'] = 'Arquivo';
-$labels['archivefolder'] = 'Arquivo';
 $labels['buttontitle'] = 'Arquivar esta mensaxe';
 $labels['archived'] = 'Aquivouse a mensaxe';
+$labels['archivedreload'] = 'Arquivado correctamente. Recargue a páxina para ver os novos cartafoles de arquivado.';
+$labels['archiveerror'] = 'Non se puideron arquivar algunhas mensaxes';
+$labels['archivefolder'] = 'Arquivo';
+$labels['settingstitle'] = 'Arquivar';
+$labels['archivetype'] = 'Dividir o arquivo por';
+$labels['archivetypeyear'] = 'Ano (p.ex. Arquivo/2012)';
+$labels['archivetypemonth'] = 'Mes (p.ex. Arquivo/2012/06)';
+$labels['archivetypefolder'] = 'Cartafol orixe';
+$labels['archivetypesender'] = 'Enderezo do remitente';
+$labels['unkownsender'] = 'descoñecido';
 
+?>

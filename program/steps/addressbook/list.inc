@@ -49,7 +49,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s;
-            $key = rcmail_contact_key($row, $sort_col);
+            $key = rcube_addressbook::compose_contact_key($row, $sort_col);
             $records[$key] = $row;
         }
         unset($result);
@@ -80,6 +80,11 @@ else {
     if (!$result->count && $result->searchonly) {
         $OUTPUT->show_message('contactsearchonly', 'notice');
         $OUTPUT->command('command', 'advanced-search');
+    }
+
+    if ($CONTACTS->group_id) {
+        $OUTPUT->command('set_group_prop', array('ID' => $CONTACTS->group_id)
+            + array_intersect_key((array)$CONTACTS->get_group($CONTACTS->group_id), array('name'=>1,'email'=>1)));
     }
 }
 

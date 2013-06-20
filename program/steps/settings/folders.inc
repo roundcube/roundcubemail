@@ -283,7 +283,6 @@ function rcube_subscription_form($attrib)
         $noselect   = false;
         $classes    = array($i%2 ? 'even' : 'odd');
 
-        $folder_js      = Q($folder['id']);
         $folder_utf8    = rcube_charset_convert($folder['id'], 'UTF7-IMAP');
         $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level'])
             . Q($protected ? rcmail_localize_foldername($folder['id']) : $folder['name']);
@@ -394,7 +393,7 @@ function rcmail_rename_folder($oldname, $newname)
         $a_threaded = (array) $RCMAIL->config->get('message_threading', array());
         $oldprefix  = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
 
-        foreach ($a_threaded as $key => $val) {
+        foreach (array_keys($a_threaded) as $key) {
             if ($key == $oldname) {
                 unset($a_threaded[$key]);
                 $a_threaded[$newname] = true;

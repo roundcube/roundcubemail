@@ -47,6 +47,8 @@ class enigma extends rcube_plugin
         $rcmail = rcmail::get_instance();
         $this->rc = $rcmail;
 
+        $section = rcube_utils::get_input_value('_section', rcube_utils::INPUT_GET);
+
         if ($this->rc->task == 'mail') {
             // message parse/display hooks
             $this->add_hook('message_part_structure', array($this, 'parse_structure'));
@@ -79,7 +81,6 @@ class enigma extends rcube_plugin
             $this->register_action('plugin.enigma', array($this, 'preferences_ui'));
 
             // grab keys/certs management iframe requests
-            $section = get_input_value('_section', RCUBE_INPUT_GET);
             if ($this->rc->action == 'edit-prefs' && preg_match('/^enigma(certs|keys)/', $section)) {
                 $this->load_ui();
                 $this->ui->init($section);
@@ -148,7 +149,7 @@ class enigma extends rcube_plugin
      */
     function parse_structure($p)
     {
-        $struct = $p['structure'];
+//        $struct = $p['structure'];
 
         if ($p['mimetype'] == 'text/plain' || $p['mimetype'] == 'application/pgp') {
             $this->parse_plain($p);
@@ -230,7 +231,7 @@ class enigma extends rcube_plugin
     {
         if ($p['section'] == 'enigmasettings') {
             $a['prefs'] = array(
-//                'dummy' => get_input_value('_dummy', RCUBE_INPUT_POST),
+//                'dummy' => rcube_utils::get_input_value('_dummy', rcube_utils::INPUT_POST),
             );
         }
 
@@ -285,16 +286,16 @@ class enigma extends rcube_plugin
                 $attrib['class'] = 'enigmaerror';
                 $code = $status->getCode();
                 if ($code == enigma_error::E_KEYNOTFOUND)
-                    $msg = Q(str_replace('$keyid', enigma_key::format_id($status->getData('id')),
+                    $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($status->getData('id')),
                         $this->gettext('decryptnokey')));
                 else if ($code == enigma_error::E_BADPASS)
-                    $msg = Q($this->gettext('decryptbadpass'));
+                    $msg = rcube::Q($this->gettext('decryptbadpass'));
                 else
-                    $msg = Q($this->gettext('decrypterror'));
+                    $msg = rcube::Q($this->gettext('decrypterror'));
             }
             else {
                 $attrib['class'] = 'enigmanotice';
-                $msg = Q($this->gettext('decryptok'));
+                $msg = rcube::Q($this->gettext('decryptok'));
             }
 
             $p['prefix'] .= html::div($attrib, $msg);
@@ -315,27 +316,27 @@ class enigma extends rcube_plugin
                 if ($sig->valid) {
                     $attrib['class'] = 'enigmanotice';
                     $sender = ($sig->name ? $sig->name . ' ' : '') . '<' . $sig->email . '>';
-                    $msg = Q(str_replace('$sender', $sender, $this->gettext('sigvalid')));
+                    $msg = rcube::Q(str_replace('$sender', $sender, $this->gettext('sigvalid')));
                 }
                 else {
                     $attrib['class'] = 'enigmawarning';
                     $sender = ($sig->name ? $sig->name . ' ' : '') . '<' . $sig->email . '>';
-                    $msg = Q(str_replace('$sender', $sender, $this->gettext('siginvalid')));
+                    $msg = rcube::Q(str_replace('$sender', $sender, $this->gettext('siginvalid')));
                 }
             }
             else if ($sig->getCode() == enigma_error::E_KEYNOTFOUND) {
                 $attrib['class'] = 'enigmawarning';
-                $msg = Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
+                $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
                     $this->gettext('signokey')));
             }
             else {
                 $attrib['class'] = 'enigmaerror';
-                $msg = Q($this->gettext('sigerror'));
+                $msg = rcube::Q($this->gettext('sigerror'));
             }
 /*
             $msg .= '&nbsp;' . html::a(array('href' => "#sigdetails",
-                'onclick' => JS_OBJECT_NAME.".command('enigma-sig-details')"),
-                Q($this->gettext('showdetails')));
+                'onclick' => rcmail_output::JS_OBJECT_NAME.".command('enigma-sig-details')"),
+                rcube::Q($this->gettext('showdetails')));
 */
             // test
 //            $msg .= '<br /><pre>'.$sig->body.'</pre>';
@@ -390,7 +391,7 @@ class enigma extends rcube_plugin
     function message_load($p)
     {
         $this->message = $p['object'];
-    
+
         // handle attachments vcard attachments
         foreach ((array)$this->message->attachments as $attachment) {
             if ($this->is_keys_part($attachment)) {
@@ -398,7 +399,7 @@ class enigma extends rcube_plugin
             }
         }
         // the same with message bodies
-        foreach ((array)$this->message->parts as $idx => $part) {
+        foreach ((array)$this->message->parts as $part) {
             if ($this->is_keys_part($part)) {
                 $this->keys_parts[] = $part->mime_id;
                 $this->keys_bodies[] = $part->mime_id;
@@ -433,7 +434,7 @@ class enigma extends rcube_plugin
             $p['content'] .= html::p(array('style' => $style),
                 html::a(array(
                     'href' => "#",
-                    'onclick' => "return ".JS_OBJECT_NAME.".enigma_import_attachment('".JQ($part)."')",
+                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".enigma_import_attachment('".rcube::JQ($part)."')",
                     'title' => $this->gettext('keyattimport')),
                     html::img(array('src' => $this->url('skins/classic/key_add.png'), 'style' => "vertical-align:middle")))
                 . ' ' . html::span(null, $this->gettext('keyattfound')));

@@ -13,6 +13,7 @@
  *   require_once('plugins/filesystem_attachments/filesystem_attachments.php');
  *   class myCustom_attachments extends filesystem_attachments
  *
+ * @license GNU GPLv3+
  * @author Ziba Scott <ziba@umich.edu>
  * @author Thomas Bruederli <roundcube@gmail.com>
  *
@@ -60,6 +61,7 @@ class filesystem_attachments extends rcube_plugin
             $args['id'] = $this->file_id();
             $args['path'] = $tmpfname;
             $args['status'] = true;
+            @chmod($tmpfname, 0600);  // set correct permissions (#1488996)
 
             // Note the file for later cleanup
             $_SESSION['plugins']['filesystem_attachments'][$group][] = $tmpfname;

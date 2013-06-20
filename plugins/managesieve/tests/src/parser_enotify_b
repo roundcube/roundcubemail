@@ -1,4 +1,4 @@
-require ["envelope","variables","enotify"];
+require ["enotify","envelope","variables"];
 # rule:[from]
 if envelope :all :matches "from" "*"
 {

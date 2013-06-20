@@ -11,7 +11,7 @@
  *
  * @version @package_version@
  * @author Thomas Bruederli
- * @website http://roundcube.net
+ * @license GNU GPLv3+
  */
 class show_additional_headers extends rcube_plugin
 {
@@ -43,7 +43,7 @@ class show_additional_headers extends rcube_plugin
     $rcmail = rcmail::get_instance();
     foreach ((array)$rcmail->config->get('show_additional_headers', array()) as $header) {
       if ($value = $p['headers']->get($header))
-        $p['output'][$header] = array('title' => $header, 'value' => Q($value));
+        $p['output'][$header] = array('title' => $header, 'value' => $value);
     }
 
     return $p;

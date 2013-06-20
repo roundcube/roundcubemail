@@ -2,30 +2,36 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/et_EE/labels.inc                                         |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Password plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: yllar                                                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
 $labels = array();
-$labels['changepasswd'] = 'Muuda parooli';
-$labels['curpasswd'] = 'Vana parool:';
-$labels['newpasswd'] = 'Uus parool:';
-$labels['confpasswd'] = 'Uus parool uuesti:';
-$labels['nopassword'] = 'Palun sisesta uus parool.';
-$labels['nocurpassword'] = 'Palun sisesta vana parool.';
-$labels['passwordincorrect'] = 'Vana parool on vale.';
-$labels['passwordinconsistency'] = 'Paroolid ei kattu, palun proovi uuesti.';
-$labels['crypterror'] = 'Serveris ei ole parooli krüpteerimiseks vajalikku funktsiooni.';
-$labels['connecterror'] = 'Parooli salvestamine nurjus. Ühenduse tõrge.';
-$labels['internalerror'] = 'Uue parooli andmebaasi salvestamine nurjus.';
-$labels['passwordshort'] = 'Parool peab olema vähemalt $length märki pikk.';
-$labels['passwordweak'] = 'Parool peab sisaldama vähemalt üht numbrit ja märki.';
-$labels['passwordforbidden'] = 'Parool sisaldab keelatud märki.';
+$labels['changepasswd']  = 'Muuda parooli';
+$labels['curpasswd']  = 'Vana parool:';
+$labels['newpasswd']  = 'Uus parool:';
+$labels['confpasswd']  = 'Uus parool uuesti:';
 
+$messages = array();
+$messages['nopassword'] = 'Palun sisesta uus parool.';
+$messages['nocurpassword'] = 'Palun sisesta vana parool.';
+$messages['passwordincorrect'] = 'Vana parool on vale.';
+$messages['passwordinconsistency'] = 'Paroolid ei kattu, palun proovi uuesti.';
+$messages['crypterror'] = 'Serveris ei ole parooli krüpteerimiseks vajalikku funktsiooni.';
+$messages['connecterror'] = 'Parooli salvestamine nurjus. Ühenduse tõrge.';
+$messages['internalerror'] = 'Uue parooli andmebaasi salvestamine nurjus.';
+$messages['passwordshort'] = 'Parool peab olema vähemalt $length märki pikk.';
+$messages['passwordweak'] = 'Parool peab sisaldama vähemalt üht numbrit ja märki.';
+$messages['passwordforbidden'] = 'Parool sisaldab keelatud märki.';
+
+?>

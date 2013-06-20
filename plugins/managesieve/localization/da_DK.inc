@@ -2,18 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/da_DK/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Johannes Hessellund <osos@openeyes.dk>                        |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Ændre indgående mail filtreing';
 $labels['filtername'] = 'Filter navn';
@@ -52,8 +55,11 @@ $labels['add'] = 'Tilføje';
 $labels['del'] = 'Fjern';
 $labels['sender'] = 'Afsender';
 $labels['recipient'] = 'Modtager';
-$labels['vacationaddresses'] = 'Mine alternative e-mailadresser (kommasepareret):';
+$labels['vacationaddr'] = 'Mine alternative e-mailadresser:';
 $labels['vacationdays'] = 'Hvor tit skal besked sendes (i dage):';
+$labels['vacationinterval'] = 'How often send messages:';
+$labels['days'] = 'days';
+$labels['seconds'] = 'seconds';
 $labels['vacationreason'] = 'Besked (ved ferie):';
 $labels['vacationsubject'] = 'Besked emne:';
 $labels['rulestop'] = 'Stop behandling af regler';
@@ -92,6 +98,25 @@ $labels['flagdeleted'] = 'Slettede';
 $labels['flaganswered'] = 'Besvaret';
 $labels['flagflagged'] = 'Markeret';
 $labels['flagdraft'] = 'Kladde';
+$labels['setvariable'] = 'Skriv variablen';
+$labels['setvarname'] = 'Variabel navn:';
+$labels['setvarvalue'] = 'Variabel værdi:';
+$labels['setvarmodifiers'] = 'Modifikator';
+$labels['varlower'] = 'små bogstaver';
+$labels['varupper'] = 'store bogstaver';
+$labels['varlowerfirst'] = 'første bogstav lille';
+$labels['varupperfirst'] = 'Første bogstav stort';
+$labels['varquotewildcard'] = 'Sæt specialle tegn i citationstegn ';
+$labels['varlength'] = 'længde';
+$labels['notify'] = 'Send meddelelse';
+$labels['notifyaddress'] = 'Til e-mail adresse:';
+$labels['notifybody'] = 'meddelelses indhold:';
+$labels['notifysubject'] = 'Meddelelses emne:';
+$labels['notifyfrom'] = 'Meddelelses afsender:';
+$labels['notifyimportance'] = 'Vigtighed:';
+$labels['notifyimportancelow'] = 'lav';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'høj';
 $labels['filtercreate'] = 'Opret filter';
 $labels['usedata'] = 'Brug følgende data i filteret:';
 $labels['nextstep'] = 'Næste trin';
@@ -115,35 +140,38 @@ $labels['default'] = 'standard';
 $labels['octet'] = 'præcis (oktet)';
 $labels['asciicasemap'] = 'store og små bogstaver (ascii-bogstaver)';
 $labels['asciinumeric'] = 'numerisk (ascii-numerisk)';
-$labels['filterunknownerror'] = 'Ukendt server fejl.';
-$labels['filterconnerror'] = 'Kan ikke forbinde til server.';
-$labels['filterdeleteerror'] = 'Kan ikke slette filter. Server fejl.';
-$labels['filterdeleted'] = 'Filter slettet.';
-$labels['filtersaved'] = 'Filter gemt.';
-$labels['filtersaveerror'] = 'Kan ikke gemme filter. Server fejl.';
-$labels['filterdeleteconfirm'] = 'Vil du slette det valgte filter?';
-$labels['ruledeleteconfirm'] = 'Er du sikker på at du vil slette den valgte regel?';
-$labels['actiondeleteconfirm'] = 'Er du sikker på du vil slette den valgte handling?';
-$labels['forbiddenchars'] = 'Ulovlige tegn i feltet';
-$labels['cannotbeempty'] = 'Feltet kan ikke være tomt.';
-$labels['ruleexist'] = 'Filter med dette navn eksisterer allerede.';
-$labels['setactivateerror'] = 'Kan ikke aktiverer valgt filter sæt. Server fejl.';
-$labels['setdeactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
-$labels['setdeleteerror'] = 'Kan ikke slette valgt filter sæt. Server fejl.';
-$labels['setactivated'] = 'Filter sæt aktiveret.';
-$labels['setdeactivated'] = 'Filter sæt deaktiveret.';
-$labels['setdeleted'] = 'Filter sæt slettet.';
-$labels['setdeleteconfirm'] = 'Er du sikker på du vil slette valgt filter sæt?';
-$labels['setcreateerror'] = 'Kan ikke oprette filter sæt. Server fejl.';
-$labels['setcreated'] = 'Filter sæt oprettet.';
-$labels['activateerror'] = 'Kan ikek aktivere valgt filter sæt. Server fejl.';
-$labels['deactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
-$labels['deactivated'] = 'Filter(filtre) deaktiveret.';
-$labels['activated'] = 'Filter(filtre) aktiveret.';
-$labels['moved'] = 'Filter flyttet.';
-$labels['moveerror'] = 'Kan ikke flytte valgt filter. Server fejl.';
-$labels['nametoolong'] = 'Navn er for langt.';
-$labels['namereserved'] = 'Reserveret navn.';
-$labels['setexist'] = 'Filterv sæt eksisterer allerede';
-$labels['nodata'] = 'Mindst en position skal vælges!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Ukendt server fejl.';
+$messages['filterconnerror'] = 'Kan ikke forbinde til server.';
+$messages['filterdeleteerror'] = 'Kan ikke slette filter. Server fejl.';
+$messages['filterdeleted'] = 'Filter slettet.';
+$messages['filtersaved'] = 'Filter gemt.';
+$messages['filtersaveerror'] = 'Kan ikke gemme filter. Server fejl.';
+$messages['filterdeleteconfirm'] = 'Vil du slette det valgte filter?';
+$messages['ruledeleteconfirm'] = 'Er du sikker på at du vil slette den valgte regel?';
+$messages['actiondeleteconfirm'] = 'Er du sikker på du vil slette den valgte handling?';
+$messages['forbiddenchars'] = 'Ulovlige tegn i feltet';
+$messages['cannotbeempty'] = 'Feltet kan ikke være tomt.';
+$messages['ruleexist'] = 'Filter med dette navn eksisterer allerede.';
+$messages['setactivateerror'] = 'Kan ikke aktiverer valgt filter sæt. Server fejl.';
+$messages['setdeactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
+$messages['setdeleteerror'] = 'Kan ikke slette valgt filter sæt. Server fejl.';
+$messages['setactivated'] = 'Filter sæt aktiveret.';
+$messages['setdeactivated'] = 'Filter sæt deaktiveret.';
+$messages['setdeleted'] = 'Filter sæt slettet.';
+$messages['setdeleteconfirm'] = 'Er du sikker på du vil slette valgt filter sæt?';
+$messages['setcreateerror'] = 'Kan ikke oprette filter sæt. Server fejl.';
+$messages['setcreated'] = 'Filter sæt oprettet.';
+$messages['activateerror'] = 'Kan ikek aktivere valgt filter sæt. Server fejl.';
+$messages['deactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
+$messages['deactivated'] = 'Filter(filtre) aktiveret.';
+$messages['activated'] = 'Filter(filtre) deaktiveret.';
+$messages['moved'] = 'Filter flyttet.';
+$messages['moveerror'] = 'Kan ikke flytte valgt filter. Server fejl.';
+$messages['nametoolong'] = 'Navn er for langt.';
+$messages['namereserved'] = 'Reserveret navn.';
+$messages['setexist'] = 'Filterv sæt eksisterer allerede';
+$messages['nodata'] = 'Mindst en position skal vælges!';
+
+?>

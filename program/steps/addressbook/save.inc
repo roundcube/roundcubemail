@@ -82,7 +82,7 @@ if (empty($a_record['name'])) {
 // do input checks (delegated to $CONTACTS instance)
 if (!$CONTACTS->validate($a_record)) {
     $err = (array)$CONTACTS->get_error();
-    $OUTPUT->show_message($err['message'] ? $err['message'] : 'formincomplete', 'warning');
+    $OUTPUT->show_message($err['message'] ? Q($err['message']) : 'formincomplete', 'warning');
     $GLOBALS['EDIT_RECORD'] = $a_record;  // store submitted data to be used in edit form
     rcmail_overwrite_action($return_action);
     return;
@@ -134,11 +134,11 @@ if (!empty($cid))
     $record['email'] = reset($CONTACTS->get_col_values('email', $record, true));
     $record['name']  = rcube_addressbook::compose_list_name($record);
 
-    foreach (array('name', 'email') as $col)
+    foreach (array('name') as $col)
       $a_js_cols[] = Q((string)$record[$col]);
 
     // update the changed col in list
-    $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source);
+    $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
@@ -192,7 +192,7 @@ else {
         if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($counts->count + 1 > $maxnum))
           $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
 
-        $CONTACTS->add_to_group($gid, $plugin['ids']);
+        $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
       }
     }
     else

@@ -251,7 +251,7 @@ remove_listener: function(p)
 },
 
 /**
- * Prevent event propagation and bubbeling
+ * Prevent event propagation and bubbling
  */
 cancel: function(evt)
 {
@@ -298,8 +298,7 @@ addEventListener: function(evt, func, obj)
   if (!this._events[evt])
     this._events[evt] = [];
 
-  var e = {func:func, obj:obj ? obj : window};
-  this._events[evt][this._events[evt].length] = e;
+  this._events[evt].push({func:func, obj:obj ? obj : window});
 },
 
 /**
@@ -372,117 +371,6 @@ triggerEvent: function(evt, e)
 };  // end rcube_event_engine.prototype
 
 
-
-/**
- * Roundcube generic layer (floating box) class
- *
- * @constructor
- */
-function rcube_layer(id, attributes)
-{
-  this.name = id;
-
-  // create a new layer in the current document
-  this.create = function(arg)
-  {
-    var l = (arg.x) ? arg.x : 0,
-      t = (arg.y) ? arg.y : 0,
-      w = arg.width,
-      h = arg.height,
-      z = arg.zindex,
-      vis = arg.vis,
-      parent = arg.parent,
-      obj = document.createElement('DIV');
-
-    obj.id = this.name;
-    obj.style.position = 'absolute';
-    obj.style.visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
-    obj.style.left = l+'px';
-    obj.style.top = t+'px';
-    if (w)
-	  obj.style.width = w.toString().match(/\%$/) ? w : w+'px';
-    if (h)
-	  obj.style.height = h.toString().match(/\%$/) ? h : h+'px';
-    if (z)
-      obj.style.zIndex = z;
-
-    if (parent)
-      parent.appendChild(obj);
-    else
-      document.body.appendChild(obj);
-
-    this.elm = obj;
-  };
-
-  // create new layer
-  if (attributes != null) {
-    this.create(attributes);
-    this.name = this.elm.id;
-  }
-  else  // just refer to the object
-    this.elm = document.getElementById(id);
-
-  if (!this.elm)
-    return false;
-
-
-  // ********* layer object properties *********
-
-  this.css = this.elm.style;
-  this.event = this.elm;
-  this.width = this.elm.offsetWidth;
-  this.height = this.elm.offsetHeight;
-  this.x = parseInt(this.elm.offsetLeft);
-  this.y = parseInt(this.elm.offsetTop);
-  this.visible = (this.css.visibility=='visible' || this.css.visibility=='show' || this.css.visibility=='inherit') ? true : false;
-
-
-  // ********* layer object methods *********
-
-  // move the layer to a specific position
-  this.move = function(x, y)
-  {
-    this.x = x;
-    this.y = y;
-    this.css.left = Math.round(this.x)+'px';
-    this.css.top = Math.round(this.y)+'px';
-  };
-
-  // change the layers width and height
-  this.resize = function(w,h)
-  {
-    this.css.width  = w+'px';
-    this.css.height = h+'px';
-    this.width = w;
-    this.height = h;
-  };
-
-  // show or hide the layer
-  this.show = function(a)
-  {
-    if(a == 1) {
-      this.css.visibility = 'visible';
-      this.visible = true;
-    }
-    else if(a == 2) {
-      this.css.visibility = 'inherit';
-      this.visible = true;
-    }
-    else {
-      this.css.visibility = 'hidden';
-      this.visible = false;
-    }
-  };
-
-  // write new content into a Layer
-  this.write = function(cont)
-  {
-    this.elm.innerHTML = cont;
-  };
-
-};
-
-
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
@@ -537,7 +425,7 @@ function rcube_clone_object(obj)
 
   for (var key in obj) {
     if (obj[key] && typeof obj[key] === 'object')
-      out[key] = clone_object(obj[key]);
+      out[key] = rcube_clone_object(obj[key]);
     else
       out[key] = obj[key];
   }
@@ -717,13 +605,15 @@ if (bw.ie) {
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements
 jQuery.fn.placeholder = function(text) {
   return this.each(function() {
-    var elem = $(this);
+    var active = false, elem = $(this);
     this.title = text;
 
+    // Try HTML5 placeholder attribute first
     if ('placeholder' in this) {
-      elem.attr('placeholder', text);  // Try HTML5 placeholder attribute first
+      elem.attr('placeholder', text);
     }
-    else {  // Fallback to Javascript emulation of placeholder
+    // Fallback to Javascript emulation of placeholder
+    else {
       this._placeholder = text;
       elem.blur(function(e) {
         if ($.trim(elem.val()) == "")
@@ -740,7 +630,9 @@ jQuery.fn.placeholder = function(text) {
         elem[(active ? 'addClass' : 'removeClass')]('placeholder').attr('spellcheck', active);
       });
 
-      if (this != document.activeElement) // Do not blur currently focused element
+      // Do not blur currently focused element (catch exception: #1489008)
+      try { active = this == document.activeElement; } catch(e) {}
+      if (!active)
         elem.blur();
     }
   });

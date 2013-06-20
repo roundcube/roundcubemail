@@ -35,13 +35,26 @@ CREATE TABLE `users` (
 
 CREATE TABLE `cache` (
  `user_id` int(10) UNSIGNED NOT NULL,
- `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL ,
+ `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `expires` datetime DEFAULT NULL,
  `data` longtext NOT NULL,
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
- INDEX `created_index` (`created`),
+ INDEX `expires_index` (`expires`),
  INDEX `user_cache_index` (`user_id`,`cache_key`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
+
+-- Table structure for table `cache_shared`
+
+CREATE TABLE `cache_shared` (
+ `cache_key` varchar(255) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL,
+ `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `expires` datetime DEFAULT NULL,
+ `data` longtext NOT NULL,
+ INDEX `expires_index` (`expires`),
+ INDEX `cache_key_index` (`cache_key`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
@@ -50,12 +63,12 @@ CREATE TABLE `cache` (
 CREATE TABLE `cache_index` (
  `user_id` int(10) UNSIGNED NOT NULL,
  `mailbox` varchar(255) BINARY NOT NULL,
- `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `expires` datetime DEFAULT NULL,
  `valid` tinyint(1) NOT NULL DEFAULT '0',
  `data` longtext NOT NULL,
  CONSTRAINT `user_id_fk_cache_index` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
- INDEX `changed_index` (`changed`),
+ INDEX `expires_index` (`expires`),
  PRIMARY KEY (`user_id`, `mailbox`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
@@ -65,11 +78,11 @@ CREATE TABLE `cache_index` (
 CREATE TABLE `cache_thread` (
  `user_id` int(10) UNSIGNED NOT NULL,
  `mailbox` varchar(255) BINARY NOT NULL,
- `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `expires` datetime DEFAULT NULL,
  `data` longtext NOT NULL,
  CONSTRAINT `user_id_fk_cache_thread` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
- INDEX `changed_index` (`changed`),
+ INDEX `expires_index` (`expires`),
  PRIMARY KEY (`user_id`, `mailbox`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
@@ -80,12 +93,12 @@ CREATE TABLE `cache_messages` (
  `user_id` int(10) UNSIGNED NOT NULL,
  `mailbox` varchar(255) BINARY NOT NULL,
  `uid` int(11) UNSIGNED NOT NULL DEFAULT '0',
- `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `expires` datetime DEFAULT NULL,
  `data` longtext NOT NULL,
  `flags` int(11) NOT NULL DEFAULT '0',
  CONSTRAINT `user_id_fk_cache_messages` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
- INDEX `changed_index` (`changed`),
+ INDEX `expires_index` (`expires`),
  PRIMARY KEY (`user_id`, `mailbox`, `uid`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
@@ -186,4 +199,14 @@ CREATE TABLE `searches` (
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
+-- Table structure for table `system`
+
+CREATE TABLE `system` (
+ `name` varchar(64) NOT NULL,
+ `value` mediumtext,
+ PRIMARY KEY(`name`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
+
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2013061000');

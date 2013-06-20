@@ -1,18 +1,202 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix AREA links handling (#1488792)
+- Canonize boolean ini_get() results (#1489189)
+- Cache LDAP's user_specific search and use vlv for better performance (#1489186)
+- LDAP: auto-detect and use VLV indices for all search operations
+- LDAP: additional group configuration options for  address books
+- LDAP: separated address book implementation from a generic LDAP wrapper class
+- Allow address books to browse a multi-level group hierarchy in the contacts list
+- Fix so install do not fail when one of DB driver checks fails but other drivers exist (#1489178)
+- Fix so exported vCard specifies encoding in v3-compatible format (#1489183)
+- Fix session issues when local and database time differs (#1486132)
+- Fix thread cache syncronization/validation (#1489028)
+- Added feature to import messages to the currently selected folder
+- Add option show_real_foldernames to disable localization of special folders
+- Fix database cache expunge issues (#1489149)
+- Fix date format issues on MS SQL Server (#1488918)
+- Add imap_cache_ttl option to configure TTL of imap_cache
+- Make LDAP cache engine configurable via ldap_cache and ldap_cache_ttl options
+- Fix "duplicate entry" errors on inserts to imap cache tables (#1489146)
+- Improved handling of Reply-To/Bcc addresses of identity in compose form (#1489016)
+- Added user preference to open all popups as standard windows
+- Implemented shared cache (rcube_cache_shared)
+- Change Reply-All button label/title when mailing list is detected (#1488938)
+- Fix SMTP connection using IPv6 address in smtp_server option (#1489024)
+- Added attachment_reminder plugin
+- Make PHP code eval() free, use create_function()
+- Add option to display email address together with a name in mail preview (#1488732)
+- Support CSV import from Atmail (#1489045)
+- Add db_prefix configuration option in place of db_table_*/db_sequence_* options
+- Make possible to use db_prefix for schema initialization in Installer (#1489067)
+- Fix updatedb.sh script so it recognizes also table prefix for external DDL files
+- Fix parsing invalid date string (#1489035)
+- Add "with attachment" option to messages list filter (#1485382)
+- Call resize handler in intervals to prevent lags and double onresize calls in Chrome (#1489005)
+- Add rel="noreferrer" for links in displayed messages (#1484686)
+- Add ability to toggle between HTML and text while viewing a message (#1486939)
+- Remove "HTML message" from attachments list while viewing a message in text mode (#1486939)
+- Support IMAP MOVE extension [RFC 6851]
+- Add attachment menu with Open and Download options (#1488975)
+- Display user-friendly message on IMAP "over quota" errors (#1484164)
+- Extended archive plugin with user-configurable options to store messages into subfolders
+- Fix export of selected contacts from search result (#1488905)
+- Feature to export only selected contacts from addressbook (by Phil Weir)
+
+RELEASE 0.9.2
+-------------
+- Fix image thumbnails display in print mode (#1489134)
+- Fix height of message headers block (#1489108)
+- Fix timeout issue on drag&drop uploads (#1489170)
+- Fix default sorting of threaded list when THREAD=REFS isn't supported
+- Fix list mode switch to 'List' after saving list settings in Larry skin (#1489164)
+- Fix error when there's no writeable addressbook source (#1489162)
+- Fix zipdownload plugin issue with filenames charset (#1489156)
+- Fix so non-inline images aren't skipped on forward (#1489150)
+- Fix "null" instead of empty string on messages list in IE10 (#1489145)
+- Fix legacy options handling
+- Fix so bounces addresses in Sender headers are skipped on Reply-All (#1489011)
+- Fix bug where serialized strings were truncated in PDO::quote() (#1489142)
+- Fix displaying messages with invalid self-closing HTML tags (#1489137)
+- Fix PHP warning when responding to a message with many Return-Path headers (#1489136)
+- Fix unintentional compose window resize (#1489114)
+- Fix performance regression in text wrapping function (#1489133)
+- Fix connection to posgtres db using unix socket (#1489132)
+- Fix handling of comma when adding contact from contacts widget (#1489107)
+- Fix bug where a message was opened in both preview pane and new window on double-click (#1489122)
+- Fix fatal error when xdebug.max_nesting_level was exceeded in rcube_washtml (#1489110)
+- Fix PHP warning in html_table::set_row_attribs() in PHP 5.4 (#1489094)
+- Fix invalid option selected in default_font selector when font is unset (#1489112)
+- Fix displaying contact with ID divisible by 100 in sql addressbook (#1489121)
+- Fix browser warnings on PDF plugin detection (#1489118)
+- Fix fatal error when parsing UUencoded messages (#1489119)
+
+RELEASE 0.9.1
+-------------
+- Better German labels for from/to to avoid conflicts with 'sender' (#1489084)
+- Fix problem where security warning was displayed for valid images with image/jpg type (#1489097)
+- Fix handling of invalid email addresses in headers (#1489092)
+- Fix IMAP connection issue with default_socket_timeout < 0 and imap_timeout < 0 (#1489090)
+- Fix various PHP code bugs found using static analysis (#1489086)
+- Fix backslash character handling on vCard import (#1489085)
+- Fix csv import from Thunderbird with French localization (#1489059)
+- Fix messages list focus issue in Opera and Webkit (#1489058)
+- Fix Reply-To header handling in Reply-All action (#1489037)
+- Fix so Sender: address is added to Cc: field on reply to all (#1489011)
+- Fix so addressbook_search_mode works also for group search (#1489079)
+- Fix removal of a contact from a group in LDAP addressbook (#1489081)
+- Inlcude SQL query in the log on SQL error (#1489064)
+- Fix handling untagged responses in IMAP FETCH - "could not load message" error (#1489074)
+- Fix very small window size in Chrome (#1488931)
+- Fix list page reset when viewing a message in Larry skin (#1489076)
+- Fix min_refresh_interval handling on preferences save (#1489073)
+- Fix PDF support detection for Firefox PDF.js (#1488972)
+- Fix possible collision in generated thumbnail cache key (#1489069)
+- Fix exit code on bootsrap errors in CLI mode (#1489044)
+- Fix error handling in CLI mode, use STDERR and non-empty exit code (#1489043)
+- Fix error when using check_referer=true
+- Fix incorrect handling of some specific links (#1489060)
+- Fix incorrect handling of leading spaces in text wrapping
+- Fix unintentional messages list jumps on click in Internet Explorer (#1489056)
+- Fix list of required configuration options (#1489055)
+- Fix DB error when creating a new contact and a group is selected (#1489051)
+- Fix handling of deprecated boolean value of reply_mode option (#1489052)
+
+RELEASE 0.9.0
+-------------
+- Fix display of HTML entities in protected folder name (#1489042)
+- Set minimal permissions to temp files (#1488996)
+- Improve content check for embedded images without filename (#1489029)
+- Fix handling of invalid characters in message headers and output (#1489032)
+- Fix selecting collapsed rows on select-all (#1489036)
+- Avoid race-conditions with concurrent attachment uploads (#1488422)
+- Fix possible header duplicates when using additional headers (#1489033)
+- Fix session issues with use_https=true (#1488986)
+- Fix blockquote width in sent mail (#1489031)
+- Fix keyboard events on list widgets in Internet Explorer (#1489025)
+
+RELEASE 0.9-rc2
+---------------
+- Fix security issue in save-pref command
+- Remove sig_above configuration option, use reply_mode only (#1489001)
+- Refresh current folder in opener window after draft save or message sent (#1488997)
+- Fix saving draft just after entering compose window (#1489012)
+- Fix javascript error in IE9 when loading form with placeholders into an iframe (#1489008)
+- Fix handling of some conditional comment tags in HTML message (#1489004)
+- Fix so forward as attachment works if additional attachment is added by message_compose hook (#1489000)
+- Better handling of session errors in ajax requests (#1488960)
+- Fix HTML part detection for some specific message structures (#1488992)
+- Don't show fake address - phishing prevention (#1488981)
+- Fix forward as attachment bug with editormode != 1 (#1488991)
+- Fix LIMIT/OFFSET queries handling on MS SQL Server (#1488984)
+- Fix so task name can really contain all from a-z0-9_- characters (#1488941)
+- Fix javascript errors when working in a page opened with taget="_blank"
+- Mention SQLite database format change in UPGRADING file (#1488983)
+- Increase maxlength to 254 chars for email input fields in addressbook (#1488987)
+- Fix thumbnail size when GD extension is used for image resize (#1488985)
+- Display notice that message is encrypted also for application/pkcs7-mime messages (#1488526)
+
+RELEASE 0.9-rc
+--------------
+- Fix plain text spellchecker incorrect highlighting in non-ASCII text (#1488973)
+- Add workaround for invalid message charset detection by IMAP servers (#1488968)
+- Fix NUL characters in content-type of ms-tnef attachment (#1488964)
+- Fix regression in handling LDAP contact identifiers (#1488959)
+- Updated translations from Transifex
+- Fix buggy error template in a frame (#1488938)
+- Add addressbook widget on compose page in classic skin
+- Add search box to compose address book widget (#1488381)
+- Fix login in case when default_host is an array with one element (#1488928)
+- Use LDAP fallback hosts on connect + bind instead of ldap_connect() only.
+- Add config option for LDAP bind timeout (sets LDAP_OPT_NETWORK_TIMEOUT option)
+- Submit Addressbook advanced search form with Enter key (#1488568)
+- Also block remote images in HTML part view (#1488827)
+- Improved database schema upgrade procedure, added updatedb.sh script
+- Force autocommit mode in mysql database driver (#1488902)
+
+RELEASE 0.9-beta
+----------------
+- Fix searching by date in address book (#1488888)
+- Improve charset detection by prioritizing charset according to user language (#1485669)
+- Fix handling of escaped separator in vCard file (#1488896)
+- Add option to use envelope From address for MDN responses (#1488880)
+- Add possibility to search in message body only (#1488770)
+- Support "multipart/relative" as an alias for "multipart/related" type (#1488886)
+- Display PGP/MIME signature attachments as "Digital Signature" (#1488570)
+- Workaround UW-IMAP bug where hierarchy separator is added to the shared folder name (#1488879)
+- Fix version comparisons with -stable suffix (#1488876)
+- Add unsupported alternative parts to attachments list (#1488870)
+- Add Compose button on message view page (#1488747)
+- Display 'Sender' header in message preview
+- Plugin API: Added message_before_send hook
+- Fix contact copy/add-to-group operations on search result (#1488862)
+- Use matching identity in MDN response (#1488864)
+- Fix handling of signatures on draft edit (#1488798)
+- Fix so compacting of non-empty folder is possible also when messages list is empty (#1488858)
+- Allow forwarding of multiple emails (#1486854)
+- Fix big memory consumption of DB layer (#1488856)
+- Fix broken message/part bodies when FETCH response contains more untagged lines (#1488836)
+- Fix empty email on identities list after identity update (#1488834)
+- Add new identities_level: (4) one identity with possibility to edit only signature
+- Use Delivered-To and Envelope-To headers for identity selection (#1488840, #1488553)
+- Fix XSS vulnerability using Flash files (#1488828)
+- Always save drafts with format=flowed in order to keep original line wraps (#1488799)
+- Select default_addressbook on the list in Address Book (#1488280)
+- Fix so mobile phone has TYPE=CELL in exported vCard (#1488812)
+- Support contacts import from CSV file (#1486399)
+- Improved keep-alive action. Now the interval is based on session_lifetime (#1488507)
+- Added cross-task 'refresh' request for system state updates (#1488507)
+- Renamed config options: keep_alive to refresh_interval, min_keep_alive to min_refresh_interval
+- Fix handling of text/enriched content on message reply/forward/edit
+- Option to display attached images as thumbnails below message body
+- Upgraded to jQuery 1.8.3 and jQuery UI 1.9.1
+- Add config option to automatically generate LDAP attributes for new entries
+- Add user settings to open message view and compose form in new windows (#1485486)
 - Better client-side timezone detection using the jsTimezoneDetect library (#1488725)
-- Fix possible HTTP DoS on error in keep-alive requests (#1488782)
 - Add option to disable saving sent mail in Sent folder - no_save_sent_messages (#1488686)
 - Fix handling dont_override with message_sort_col and message_sort_order settings (#1488760)
-- Fix HTML part detection in messages with attachments (#1488769)
-- Fix bug where wrong words were highlighted on spell-before-send check
 - Fix handling of URLs with asterisk characters (#1488759)
 - Remove automatic to-lowercase conversion of usernames (#1488715)
-- Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
-- Fix displaying of multipart/alternative messages with empty parts (#1488750)
-- Fix threaded list sorting on PHP < 5.2.9 (#1488748)
 - Plugin API: Add 'email_list' argument for identities data in user_create hook
 - Integrated zipdownload plugin to download all attachments (#1445509)
 - Fix HTML special characters handling in message list/header display (#1488523)
@@ -51,8 +235,41 @@ CHANGELOG Roundcube Webmail
     Replace imap_init hook with storage_init (with additional 'driver' argument)
     Improved performance by caching IMAP server's capabilities in session
     Unified global functions naming (rcube_ prefix)
-    Move global functions from main.inc and rcube_shared.inc into classes
     Better classes separation
+    Framework files moved to lib/Roundcube
+
+RELEASE 0.8.5
+-------------
+- Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
+- Fix unwanted horizontal scrollbar in message preview header (#1488866)
+- Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
+- Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
+- Fix absolute positioning in HTML messages (#1488819)
+- Fix cache (in)validation after setting \Deleted flag
+- Fix keybord events on messages list in opera browser (#1488823)
+- Fix selection of collapsed thread rows (#1488772)
+- Fix wrapping of quoted text with format=flowed (#1488177)
+
+RELEASE 0.8.4
+-------------
+- Fix regression where unintentional page reload was done after request abort (#1488802)
+- Fix XSS vulnerability in handling of text/enriched messages (#1488806)
+- Fix handling of 'media' attribute on linked css (#1488789)
+- Fix excessive LFs at the end of composed message with top_posting=true (#1488797)
+- Fix bug where leading blanks were stripped from quoted lines (#1488795)
+
+RELEASE 0.8.3
+-------------
+- Fix AREA links handling (#1488792)
+- Fix possible HTTP DoS on error in keep-alive requests (#1488782)
+- Fix compatybility with MDB2 2.5.0b4 (#1488779)
+- Fix a bug where saving a message in INBOX wasn't possible
+- Fix HTML part detection in messages with attachments (#1488769)
+- Fix bug where wrong words were highlighted on spell-before-send check
+- Fix scrolling quirk in email preview frame using Opera 12 (#1488763)
+- Fix displaying of multipart/alternative messages with empty parts (#1488750)
+- Fix threaded list sorting on PHP < 5.2.9 (#1488748)
+- Fix Warning: htmlspecialchars(): charset `RCMAIL_CHARSET' not supported warning in Installer (#1488744)
 
 RELEASE 0.8.2
 -------------

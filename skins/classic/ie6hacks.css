@@ -3,6 +3,7 @@
 #taskbar
 {
   background: url(images/taskbar.gif) top right no-repeat;
+  width: expression((parseInt(document.documentElement.clientWidth)-250)+'px');
 }
 
 img
@@ -36,11 +37,6 @@ body > #message div.confirmation,
 #mailboxlist li
 {
   background-image: url(images/icons/folders.gif);
-}
-
-#attachment-list
-{
-  height: expression(Math.min(16, parseInt(document.documentElement.clientHeight))+'px');
 }
 
 #messagetoolbar a
@@ -124,6 +120,11 @@ ul.toolbarmenu li.separator_below
   height: expression((parseInt(this.parentNode.offsetHeight)-23-parseInt(this.style.top?this.style.top:21))+'px');
 }
 
+#compose-body-div
+{
+  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
+}
+
 #folder-manager
 {
   height: expression((parseInt(document.documentElement.clientHeight)-105)+'px');
@@ -175,4 +176,9 @@ body.iframe .boxtitle
 #sourcename
 {
   zoom: 1;
+}
+
+#abookactions a
+{
+  background-image: url("images/icons/groupactions.gif");
 }

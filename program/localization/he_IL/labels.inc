@@ -2,58 +2,78 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/he_IL/labels.inc                                         |
+ | localization/<lang>/labels.inc                                        |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Moshe Leibovitch <moish@mln.co.il>                            |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
 $labels = array();
-$labels['welcome'] = 'ברוך בואך אל $product';
-$labels['username'] = 'שם משתמש';
-$labels['password'] = 'סיסמה';
-$labels['server'] = 'שרת';
-$labels['login'] = 'כניסה';
-$labels['logout'] = 'יציאה';
-$labels['mail'] = 'רשימת הודעות';
+
+// login page
+$labels['welcome']   = 'ברוך בואך אל $product';
+$labels['username']  = 'שם משתמש';
+$labels['password']  = 'סיסמה';
+$labels['server']    = 'שרת';
+$labels['login']     = 'כניסה';
+
+// taskbar
+$labels['logout']   = 'יציאה';
+$labels['mail']     = 'רשימת הודעות';
 $labels['settings'] = 'הגדרות אישיות';
 $labels['addressbook'] = 'פנקס כתובות';
-$labels['inbox'] = 'נכנס';
+
+// mailbox names
+$labels['inbox']  = 'נכנס';
 $labels['drafts'] = 'טיוטות';
-$labels['sent'] = 'נשלח';
-$labels['trash'] = 'אשפה';
-$labels['junk'] = 'זבל';
+$labels['sent']   = 'נשלח';
+$labels['trash']  = 'אשפה';
+$labels['junk']   = 'זבל';
+
+// message listing
 $labels['subject'] = 'נושא';
-$labels['from'] = 'מאת';
-$labels['to'] = 'אל';
-$labels['cc'] = 'לידיעה';
-$labels['bcc'] = 'מכותב מוסתר';
+$labels['from']    = 'מאת';
+$labels['sender']  = 'השולח';
+$labels['to']      = 'אל';
+$labels['cc']      = 'לידיעה';
+$labels['bcc']     = 'מכותב מוסתר';
 $labels['replyto'] = 'כתובת למענה';
 $labels['followupto'] = 'כתובת להעברת הודעה';
-$labels['date'] = 'תאריך';
-$labels['size'] = 'גודל';
+$labels['date']    = 'תאריך';
+$labels['size']    = 'גודל';
 $labels['priority'] = 'עדיפות';
 $labels['organization'] = 'ארגון';
 $labels['readstatus'] = 'נקרא';
 $labels['listoptions'] = 'הצגת אפשרויות...';
+
 $labels['mailboxlist'] = 'תיקיות';
-$labels['folders'] = 'תיקיות';
 $labels['messagesfromto'] = 'הודעות $from עד $to מתוך $count';
 $labels['threadsfromto'] = 'שרשור $from עד $to מתוך $count';
 $labels['messagenrof'] = 'הודעה $nr מתוך $count';
 $labels['fromtoshort'] = '$from – $to מתוך $count';
-$labels['copy'] = 'העתק';
-$labels['move'] = 'העבר';
-$labels['moveto'] = 'תיוק ב...';
+
+$labels['copy']     = 'העתק';
+$labels['move']     = 'העבר';
+$labels['moveto']   = 'תיוק ב...';
 $labels['download'] = 'הורדה';
+$labels['open']     = 'לפתוח';
+$labels['showattachment'] = 'הצגה';
+$labels['showanyway'] = 'להציג בכל מקרה';
+
 $labels['filename'] = 'שם קובץ';
 $labels['filesize'] = 'גודל קובץ';
+
 $labels['addtoaddressbook'] = 'הוספה לפנקס כתובות';
+
+// weekdays short
 $labels['sun'] = 'יום א';
 $labels['mon'] = 'יום ב';
 $labels['tue'] = 'יום ג';
@@ -61,79 +81,90 @@ $labels['wed'] = 'יום ד';
 $labels['thu'] = 'יום ה';
 $labels['fri'] = 'יום ו';
 $labels['sat'] = 'יום ש';
-$labels['sunday'] = 'ראשון';
-$labels['monday'] = 'שני';
-$labels['tuesday'] = 'שלישי';
+
+// weekdays long
+$labels['sunday']    = 'ראשון';
+$labels['monday']    = 'שני';
+$labels['tuesday']   = 'שלישי';
 $labels['wednesday'] = 'רביעי';
-$labels['thursday'] = 'חמישי';
-$labels['friday'] = 'ששי';
-$labels['saturday'] = 'שבת';
-$labels['jan'] = 'ינו';
-$labels['feb'] = 'פבר';
-$labels['mar'] = 'מרץ';
-$labels['apr'] = 'אפר';
-$labels['may'] = 'מאי';
-$labels['longmay'] = 'מאי';
-$labels['jun'] = 'יונ';
-$labels['jul'] = 'יול';
-$labels['aug'] = 'אוג';
-$labels['sep'] = 'ספט';
-$labels['oct'] = 'אוק';
-$labels['nov'] = 'נוב';
-$labels['dec'] = 'דצמ';
-$labels['longjan'] = 'ינואר';
-$labels['longfeb'] = 'פברואר';
-$labels['longmar'] = 'מרץ';
-$labels['longapr'] = 'אפריל';
-$labels['longjun'] = 'יוני';
-$labels['longjul'] = 'יולי';
-$labels['longaug'] = 'אוגוסט';
-$labels['longsep'] = 'ספטמבר';
-$labels['longoct'] = 'אוקטובר';
-$labels['longnov'] = 'נובמבר';
-$labels['longdec'] = 'דצמבר';
+$labels['thursday']  = 'חמישי';
+$labels['friday']    = 'ששי';
+$labels['saturday']  = 'שבת';
+
+// months short
+$labels['jan']	= 'ינו';
+$labels['feb']	= 'פבר';
+$labels['mar']	= 'מרץ';
+$labels['apr']	= 'אפר';
+$labels['may']	= 'מאי';
+$labels['jun']	= 'יונ';
+$labels['jul'] 	= 'יול';
+$labels['aug']	= 'אוג';
+$labels['sep']	= 'ספט';
+$labels['oct']	= 'אוק';
+$labels['nov']	= 'נוב';
+$labels['dec']	= 'דצמ';
+
+// months long
+$labels['longjan']	= 'ינואר';
+$labels['longfeb']	= 'פברואר';
+$labels['longmar']	= 'מרץ';
+$labels['longapr']	= 'אפריל';
+$labels['longmay']	= 'מאי';
+$labels['longjun']	= 'יוני';
+$labels['longjul']	= 'יולי';
+$labels['longaug']	= 'אוגוסט';
+$labels['longsep']	= 'ספטמבר';
+$labels['longoct']	= 'אוקטובר';
+$labels['longnov']	= 'נובמבר';
+$labels['longdec']	= 'דצמבר';
+
 $labels['today'] = 'היום';
-$labels['refresh'] = 'רענון';
-$labels['checkmail'] = 'משיכת הודעות חדשות';
-$labels['compose'] = 'כתיבת הודעה';
-$labels['writenewmessage'] = 'יצירת הודעה חדשה';
-$labels['reply'] = 'תגובה';
-$labels['replytomessage'] = 'מענה לשולח';
+
+// toolbar buttons
+$labels['refresh']          = 'רענון';
+$labels['checkmail']        = 'משיכת הודעות חדשות';
+$labels['compose']          = 'כתיבת הודעה';
+$labels['writenewmessage']  = 'יצירת הודעה חדשה';
+$labels['reply']            = 'תגובה';
+$labels['replytomessage']   = 'מענה לשולח';
 $labels['replytoallmessage'] = 'מענה לשולח ולכל הנמענים';
-$labels['replyall'] = 'מענה לכולם';
-$labels['replylist'] = 'מענה לרשימת תפוצה';
-$labels['forward'] = 'העברה';
-$labels['forwardinline'] = 'העבר בגוף ההודעה';
-$labels['forwardattachment'] = 'העבר כקובץ מצורף';
-$labels['forwardmessage'] = 'העבר הודעה';
-$labels['deletemessage'] = 'מחיקה';
+$labels['replyall']         = 'מענה לכולם';
+$labels['replylist']        = 'מענה לרשימת תפוצה';
+$labels['forward']          = 'העברה';
+$labels['forwardinline']    = 'העבר בגוף ההודעה';
+$labels['forwardattachment'] = 'העבר כצרופה';
+$labels['forwardmessage']   = 'העבר הודעה';
+$labels['deletemessage']    = 'מחיקה';
 $labels['movemessagetotrash'] = 'השלכה לאשפה';
-$labels['printmessage'] = 'הדפסה';
-$labels['previousmessage'] = 'הצגת הודעה קודמת';
-$labels['firstmessage'] = 'הצגת ההודעה הראשונה';
-$labels['nextmessage'] = 'הצגת ההודעה הבאה';
-$labels['lastmessage'] = 'הצגת ההודעה האחרונה';
-$labels['backtolist'] = 'חזרה אל רשימת ההודעות';
-$labels['viewsource'] = 'הצגת קוד מקור';
-$labels['mark'] = 'סימון';
-$labels['markmessages'] = 'סימון הודעות';
-$labels['markread'] = 'כנקראו';
-$labels['markunread'] = 'כלא נקראו';
-$labels['markflagged'] = 'כמסומן';
-$labels['markunflagged'] = 'כלא מסומן';
-$labels['moreactions'] = 'פעולות נוספות...';
-$labels['more'] = 'עוד';
-$labels['back'] = 'חזרה';
-$labels['options'] = 'אפשרויות';
+$labels['printmessage']     = 'הדפסה';
+$labels['previousmessage']  = 'הצגת הודעה קודמת';
+$labels['firstmessage']     = 'הצגת ההודעה הראשונה';
+$labels['nextmessage']      = 'הצגת ההודעה הבאה';
+$labels['lastmessage']      = 'הצגת ההודעה האחרונה';
+$labels['backtolist']       = 'חזרה אל רשימת ההודעות';
+$labels['viewsource']       = 'הצגת קוד מקור';
+$labels['mark']             = 'סימון';
+$labels['markmessages']     = 'סימון הודעות';
+$labels['markread']         = 'כנקראו';
+$labels['markunread']       = 'כלא נקראו';
+$labels['markflagged']      = 'כמסומן';
+$labels['markunflagged']    = 'כלא מסומן';
+$labels['moreactions']      = 'פעולות נוספות...';
+$labels['more']             = 'עוד';
+$labels['back']             = 'חזרה';
+$labels['options']          = 'אפשרויות';
+
 $labels['select'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
-$labels['nonesort'] = 'כלום';
 $labels['currpage'] = 'דף נוכחי';
 $labels['unread'] = 'לא נקראו';
 $labels['flagged'] = 'מסומן';
 $labels['unanswered'] = 'לא נענה';
+$labels['withattachment'] = 'עם צרופה';
 $labels['deleted'] = 'נמחק';
+$labels['undeleted'] = 'לא נמחק';
 $labels['invert'] = 'היפוך הסימון';
 $labels['filter'] = 'סינון';
 $labels['list'] = 'רשימה';
@@ -142,12 +173,14 @@ $labels['expand-all'] = 'הרחבה כלית';
 $labels['expand-unread'] = 'הרחבה טרם נקרא';
 $labels['collapse-all'] = 'כינוס כללי';
 $labels['threaded'] = 'משורשר';
+
 $labels['autoexpand_threads'] = 'הרחבת הודעות משורשרות';
 $labels['do_expand'] = 'כל השרשורים';
 $labels['expand_only_unread'] = 'רק עם הודעות שטרם נקראו';
 $labels['fromto'] = 'שולח/נמען';
 $labels['flag'] = 'דגל';
 $labels['attachment'] = 'צרופה';
+$labels['nonesort'] = 'כלום';
 $labels['sentdate'] = 'תאריך משלוח';
 $labels['arrival'] = 'תאריך הגעה';
 $labels['asc'] = 'בסדר עולה';
@@ -156,176 +189,222 @@ $labels['listcolumns'] = 'רשימת עמודות';
 $labels['listsorting'] = 'המיון לפי העמודה';
 $labels['listorder'] = 'סדר מיון';
 $labels['listmode'] = 'אופן הצגת רשימה';
+
 $labels['folderactions'] = 'פעולות על תיקים';
 $labels['compact'] = 'פינוי שטח לא מנוצל';
 $labels['empty'] = 'ריקון';
+
 $labels['quota'] = 'ניצול קיבולת';
-$labels['unknown'] = 'לא ידוע';
-$labels['unlimited'] = 'ללא הגבלה';
-$labels['quicksearch'] = 'חיפוש מהיר';
-$labels['resetsearch'] = 'ניקוי תיבת החיפוש';
-$labels['searchmod'] = 'מאפייני חיפוש';
-$labels['msgtext'] = 'כל ההודעה';
+$labels['unknown']  = 'לא ידוע';
+$labels['unlimited']  = 'ללא הגבלה';
+
+$labels['quicksearch']  = 'חיפוש מהיר';
+$labels['resetsearch']  = 'ניקוי תיבת החיפוש';
+$labels['searchmod']  = 'מאפייני חיפוש';
+$labels['msgtext']  = 'כל ההודעה';
+$labels['body']  = 'גוף ההודעה';
+
 $labels['openinextwin'] = 'פתיחה בחלון חדש';
 $labels['emlsave'] = 'הורדת הודעה בפורמט  EML';
-$labels['editasnew'] = 'עריכת ההודעה כחדשה';
-$labels['savemessage'] = 'שמירת טיוטה';
-$labels['sendmessage'] = 'משלוח מיידי';
-$labels['addattachment'] = 'צירוף קובץ';
-$labels['charset'] = 'קידוד';
-$labels['editortype'] = 'סוג עורך';
-$labels['returnreceipt'] = 'אישור קבלה';
-$labels['dsn'] = 'הודעה על מצב המסירה';
+$labels['changeformattext'] = 'הצגה בפורמט לא מעוצב';
+$labels['changeformathtml'] = 'הצגה בפורמט HTML';
+
+// message compose
+$labels['editasnew']      = 'עריכת ההודעה כחדשה';
+$labels['send']           = 'שלח';
+$labels['sendmessage']    = 'משלוח מיידי';
+$labels['savemessage']    = 'שמירת טיוטה';
+$labels['addattachment']  = 'צירוף קובץ';
+$labels['charset']        = 'קידוד';
+$labels['editortype']     = 'סוג עורך';
+$labels['returnreceipt']  = 'אישור קבלה';
+$labels['dsn']            = 'הודעה על מצב המסירה';
 $labels['mailreplyintro'] = ':כתב $sender, $date בתאריך';
 $labels['originalmessage'] = 'הודעה מקורית';
-$labels['editidents'] = 'עריכת זהויות';
-$labels['spellcheck'] = 'איות';
+
+$labels['editidents']    = 'עריכת זהויות';
+$labels['spellcheck']    = 'איות';
 $labels['checkspelling'] = 'בדיקת איות';
 $labels['resumeediting'] = 'המשך עריכה';
-$labels['revertto'] = 'חזור למצב קודם';
+$labels['revertto']      = 'חזור למצב קודם';
+
 $labels['attach'] = 'צירוף';
-$labels['attachments'] = 'קבצים מצורפים';
+$labels['attachments'] = 'צרופות';
 $labels['upload'] = 'העלאה';
 $labels['uploadprogress'] = '( $total  מתוך  $current )  $percent';
-$labels['close'] = 'סגירה';
-$labels['messageoptions'] = 'אפשרויות הודעה...';
-$labels['low'] = 'נמוך';
-$labels['lowest'] = 'נמוך ביותר';
-$labels['normal'] = 'רגיל';
-$labels['high'] = 'גבוה';
+$labels['close']  = 'סגירה';
+$labels['messageoptions']  = 'אפשרויות הודעה...';
+
+$labels['low']     = 'נמוך';
+$labels['lowest']  = 'נמוך ביותר';
+$labels['normal']  = 'רגיל';
+$labels['high']    = 'גבוה';
 $labels['highest'] = 'גבוה ביותר';
-$labels['nosubject'] = '(ללא נושא)';
+
+$labels['nosubject']  = '(ללא נושא)';
 $labels['showimages'] = 'הצגת תמונות';
 $labels['alwaysshow'] = '$sender תמיד להציג תמונות מאת';
-$labels['isdraft'] = 'זו טיוטה של הודעה';
+$labels['isdraft']    = 'זו טיוטה של הודעה';
+$labels['andnmore']   = 'עוד  $nr';
+$labels['togglemoreheaders'] = 'הראה נתוני מערכת נוספים של ההודעה';
+$labels['togglefullheaders'] = 'הראה / בטל צפיה בנתוני מערכת של ההודעה';
+
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'ללא עיצוב';
 $labels['savesentmessagein'] = 'היכן לשמור ההודעה?';
 $labels['dontsave'] = 'ללא שמירה';
 $labels['maxuploadsize'] = 'גודל מקסימלי לקובץ הוא  $size';
+
 $labels['addcc'] = 'הוספת מכותב לידיעה';
 $labels['addbcc'] = 'הוספת מכותב נסתר';
 $labels['addreplyto'] = 'הוספת כתובת למענה';
 $labels['addfollowupto'] = 'הוספת כתובת להעברת הודעה';
+
+// mdn
 $labels['mdnrequest'] = 'השולח ביקש לדעת אם ההודעה נקראה. האם להודיע לשולח?';
 $labels['receiptread'] = 'אישור קבלה (נקרא)';
 $labels['yourmessage'] = 'אישור קבלה להודעתך';
 $labels['receiptnote'] = 'הערה: האישור אינו מבטיח שהנמען קרא או הבין את תוכן ההודעה.';
-$labels['name'] = 'שם להצגה';
-$labels['firstname'] = 'שם פרטי';
-$labels['surname'] = 'שם משפחה';
-$labels['middlename'] = 'שם אמצעי';
-$labels['nameprefix'] = 'קידומת';
-$labels['namesuffix'] = 'סיומת';
-$labels['nickname'] = 'שם חיבה';
-$labels['jobtitle'] = 'תפקיד באירגון';
-$labels['department'] = 'מחלקה';
-$labels['gender'] = 'מגדר';
-$labels['maidenname'] = 'שם משפחה לפני נישואין';
-$labels['email'] = 'כתובת דוא"ל';
-$labels['phone'] = 'מספר טלפון';
-$labels['address'] = 'כתובת';
-$labels['street'] = 'רחוב';
-$labels['locality'] = 'עיר';
-$labels['zipcode'] = 'מיקוד';
-$labels['region'] = 'אישור';
-$labels['country'] = 'מדינה';
-$labels['birthday'] = 'יום הולדת';
-$labels['anniversary'] = 'יום נישואין';
-$labels['website'] = 'אתר אינטרנט';
+
+// address boook
+$labels['name']         = 'שם להצגה';
+$labels['firstname']    = 'שם פרטי';
+$labels['surname']      = 'שם משפחה';
+$labels['middlename']   = 'שם אמצעי';
+$labels['nameprefix']   = 'קידומת';
+$labels['namesuffix']   = 'סיומת';
+$labels['nickname']     = 'שם חיבה';
+$labels['jobtitle']     = 'תפקיד באירגון';
+$labels['department']   = 'מחלקה';
+$labels['gender']       = 'מגדר';
+$labels['maidenname']   = 'שם משפחה לפני נישואין';
+$labels['email']        = 'כתובת דוא"ל';
+$labels['phone']        = 'מספר טלפון';
+$labels['address']      = 'כתובת';
+$labels['street']       = 'רחוב';
+$labels['locality']     = 'עיר';
+$labels['zipcode']      = 'מיקוד';
+$labels['region']       = 'אישור';
+$labels['country']      = 'מדינה';
+$labels['birthday']     = 'יום הולדת';
+$labels['anniversary']  = 'יום נישואין';
+$labels['website']      = 'אתר אינטרנט';
 $labels['instantmessenger'] = 'כינוי בצ\'ט';
 $labels['notes'] = 'הערות';
-$labels['male'] = 'זכר';
+$labels['male']   = 'זכר';
 $labels['female'] = 'נקבה';
 $labels['manager'] = 'מנהל/ת';
 $labels['assistant'] = 'עוזר/ת';
-$labels['typeassistant'] = 'עוזר/ת';
 $labels['spouse'] = 'בן/בת זוג';
 $labels['allfields'] = 'כל השדות';
 $labels['search'] = 'חיפוש';
 $labels['advsearch'] = 'חיםוש מתקדם';
 $labels['advanced'] = 'מתקדם';
 $labels['other'] = 'אחר';
-$labels['typeother'] = 'אחר';
-$labels['typehome'] = 'בית';
-$labels['typework'] = 'עבודה';
-$labels['typemobile'] = 'נייד';
-$labels['typemain'] = 'עיקרי';
-$labels['typehomefax'] = 'פקס בית';
-$labels['typeworkfax'] = 'פקס עבודה';
-$labels['typecar'] = 'מכונית';
-$labels['typepager'] = 'זימונית';
-$labels['typevideo'] = 'וידאו';
-$labels['typehomepage'] = 'דף הבית';
+
+$labels['typehome']   = 'בית';
+$labels['typework']   = 'עבודה';
+$labels['typeother']  = 'אחר';
+$labels['typemobile']  = 'נייד';
+$labels['typemain']  = 'עיקרי';
+$labels['typehomefax']  = 'פקס בית';
+$labels['typeworkfax']  = 'פקס עבודה';
+$labels['typecar']  = 'מכונית';
+$labels['typepager']  = 'זימונית';
+$labels['typevideo']  = 'וידאו';
+$labels['typeassistant']  = 'עוזר/ת';
+$labels['typehomepage']  = 'דף הבית';
 $labels['typeblog'] = 'יומן רשת';
 $labels['typeprofile'] = 'פרופיל';
+
 $labels['addfield'] = 'הוסף שדה';
 $labels['addcontact'] = 'הוספת איש קשר';
 $labels['editcontact'] = 'עריכת איש קשר';
 $labels['contacts'] = 'אנשי קשר';
 $labels['contactproperties'] = 'מאפייני איש קשר';
 $labels['personalinfo'] = 'מידע אישי';
-$labels['edit'] = 'עריכה';
+
+$labels['edit']   = 'עריכה';
 $labels['cancel'] = 'ביטול';
-$labels['save'] = 'שמירה';
+$labels['save']   = 'שמירה';
 $labels['delete'] = 'מחיקה';
 $labels['rename'] = 'שינוי שם';
 $labels['addphoto'] = 'הוספה';
 $labels['replacephoto'] = 'החלפה';
 $labels['uploadphoto'] = 'העלאת תמונה';
-$labels['newcontact'] = 'איש קשר חדש';
-$labels['deletecontact'] = 'מחיקת אנשי קשר מסומנים';
-$labels['composeto'] = 'יצירת הודעה אל';
+
+$labels['newcontact']     = 'איש קשר חדש';
+$labels['deletecontact']  = 'מחיקת אנשי קשר מסומנים';
+$labels['composeto']      = 'יצירת הודעה אל';
 $labels['contactsfromto'] = 'אנשי קשר $from עד $to מתוך $count';
-$labels['print'] = 'הדפסה';
-$labels['export'] = 'ייצוא';
-$labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard';
+$labels['print']          = 'הדפסה';
+$labels['export']         = 'ייצוא';
+$labels['exportall']      = 'יצוא של כל הרשומות';
+$labels['exportsel']      = 'צוא של רשומות נבחרות';
+$labels['exportvcards']   = 'ייצוא אנשי קשר בפורמט  vCard';
 $labels['newcontactgroup'] = 'יצירת קבוצה חדשה של אנשי קשר';
-$labels['grouprename'] = 'שינוי שם קבוצה';
-$labels['groupdelete'] = 'מחיקת קבוצה';
+$labels['grouprename']    = 'שינוי שם קבוצה';
+$labels['groupdelete']    = 'מחיקת קבוצה';
 $labels['groupremoveselected'] = 'אנשי הקשר שנבחרו יוסרו מהקבוצה';
-$labels['previouspage'] = 'הצגת הקבוצה הקודמת';
-$labels['firstpage'] = 'הצגת הקבוצה הראשונה';
-$labels['nextpage'] = 'הצגת הקבוצה הבאה';
-$labels['lastpage'] = 'הצגת הקבוצה האחרונה';
+
+$labels['previouspage']   = 'הצגת הקבוצה הקודמת';
+$labels['firstpage']      = 'הצגת הקבוצה הראשונה';
+$labels['nextpage']       = 'הצגת הקבוצה הבאה';
+$labels['lastpage']       = 'הצגת הקבוצה האחרונה';
+
 $labels['group'] = 'קבוצה';
 $labels['groups'] = 'קבוצות';
 $labels['personaladrbook'] = 'כתובות פרטיות';
+
 $labels['searchsave'] = 'שמירת החיפוש';
 $labels['searchdelete'] = 'מחיקת החיפוש';
+
 $labels['import'] = 'ייבוא';
 $labels['importcontacts'] = 'ייבוא אנשי קשר';
 $labels['importfromfile'] = 'ייבוא מקובץ';
 $labels['importtarget'] = 'הוספת אנשי קשר לספר הכתובות';
 $labels['importreplace'] = 'החלפת כל פנקס הכתובות';
-$labels['importtext'] = '<a href="http://en.wikipedia.org/wiki/VCard">vCard</a>  ניתן לייבא אנשי קשר מפנקס כתובות קיים.  אנו תומכים בפורמט';
+$labels['importdesc'] = 'ניתן לטעון אנשי קשר מקובץ חיצוני. אנו תומכים בקבצים הערוכים בצורה של 
+ <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>  או 
+ CSV המופרד על ידי פסיקים.';
 $labels['done'] = 'בוצע';
+
+// settings
 $labels['settingsfor'] = 'הגדרות עבור';
 $labels['about'] = 'אודות';
 $labels['preferences'] = 'העדפות';
 $labels['userpreferences'] = 'העדפות משתמש';
 $labels['editpreferences'] = 'עריכה של העדפות משתמש';
+
 $labels['identities'] = 'זהויות';
 $labels['manageidentities'] = 'ניהול זהויות לחשבון זה';
 $labels['newidentity'] = 'זהות חדשה';
+
 $labels['newitem'] = 'רשומה חדשה';
 $labels['edititem'] = 'עריכת רשומה';
+
 $labels['preferhtml'] = 'הצגת HTML';
 $labels['defaultcharset'] = 'ברירת מחדל של תווים';
 $labels['htmlmessage'] = 'תוכן HTML';
+$labels['messagepart'] = 'גוף ההודעה';
+$labels['digitalsig'] = 'חתימה דיגיטלית';
 $labels['dateformat'] = 'פורמט התאריך';
 $labels['timeformat'] = 'פורמט השעה';
 $labels['prettydate'] = 'תאריכים מעוצבים';
-$labels['setdefault'] = 'קביעה כברירת מחדל';
-$labels['autodetect'] = 'אוטומטי';
-$labels['language'] = 'שפה';
-$labels['timezone'] = 'איזור זמן';
-$labels['pagesize'] = 'מספר שורות בדף';
+$labels['setdefault']  = 'קביעה כברירת מחדל';
+$labels['autodetect']  = 'אוטומטי';
+$labels['language']  = 'שפה';
+$labels['timezone']  = 'איזור זמן';
+$labels['pagesize']  = 'מספר שורות בדף';
 $labels['signature'] = 'חתימה';
-$labels['dstactive'] = 'שעון קיץ';
+$labels['dstactive']  = 'שעון קיץ';
+$labels['showinextwin'] = 'צפיה בהודעה בחלון חדש';
+$labels['composeextwin'] = 'יצירת הודעה בחלון חדש';
 $labels['htmleditor'] = 'יצירת הודעה מעוצבת';
 $labels['htmlonreply'] = 'רק במענה להודעת HTML';
+$labels['htmlonreplyandforward'] = 'להעביר או להשיב להודעה שהגיעה בפורמט HTML';
 $labels['htmlsignature'] = 'חתימה מעוצבת';
+$labels['showemail'] = 'הצגת כתובת דוא"ל עם שם השולח';
 $labels['previewpane'] = 'תצוגה מוקדמת';
 $labels['skin'] = 'ערכת מראה';
 $labels['logoutclear'] = 'ריקון סל אשפה ביציאה';
@@ -348,11 +427,11 @@ $labels['showremoteimages'] = 'הצגת תמונות משרת מרוחק בגו�
 $labels['fromknownsenders'] = 'משולחים מוכרים';
 $labels['always'] = 'תמיד';
 $labels['showinlineimages'] = 'הצגת תמונות מצורפות בתחתית ההודעה';
-$labels['autosavedraft'] = 'שמירה אוטומטית של טיוטה';
-$labels['everynminutes'] = 'כל $n דקות';
-$labels['keepalive'] = 'בדיקת הגעה של הודעות חדשות';
-$labels['never'] = 'אף פעם';
-$labels['immediately'] = 'מיידית';
+$labels['autosavedraft']  = 'שמירה אוטומטית של טיוטה';
+$labels['everynminutes']  = 'כל $n דקות';
+$labels['refreshinterval']  = 'רענון (בדיקת קיום של הודעות חדשות וכו\')';
+$labels['never']  = 'אף פעם';
+$labels['immediately']  = 'מיידית';
 $labels['messagesdisplaying'] = 'הצגת הודעות';
 $labels['messagescomposition'] = 'כתיבת הודעות';
 $labels['mimeparamfolding'] = 'שמות קבצים מצורפים';
@@ -372,22 +451,20 @@ $labels['maintenance'] = 'תחזוקה';
 $labels['newmessage'] = 'הודעה חדשה';
 $labels['signatureoptions'] = 'אפשרויות לשיבוץ חתימה';
 $labels['whenreplying'] = 'כאשר עונים';
+$labels['replyempty'] = 'לא לצטט הודעה מקורית';
 $labels['replytopposting'] = 'הודעה חדשה תתחיל מעל ההודעה המקורית';
 $labels['replybottomposting'] = 'הודעה חדשה תתחיל מתחת להודעה המקורית';
 $labels['replyremovesignature'] = 'החתימה תוסר מההודעה המקורית במענה להודעה';
 $labels['autoaddsignature'] = 'הוספה אוטומטית של חתימה';
 $labels['newmessageonly'] = 'הודעה חדשה בלבד';
 $labels['replyandforwardonly'] = 'מענה והעברת הודעה בלבד';
-$labels['replysignaturepos'] = 'במענה או בהעברת הודעה, החתימה תופיע';
-$labels['belowquote'] = 'בסוף ההודעה המקורית';
-$labels['abovequote'] = 'בתחילת ההודעה המקורית';
 $labels['insertsignature'] = 'שיבוץ חתימה';
-$labels['previewpanemarkread'] = 'סימון הודעה שנצפתה כנקראה';
-$labels['afternseconds'] = 'לאחר $n שניות';
+$labels['previewpanemarkread']  = 'סימון הודעה שנצפתה כנקראה';
+$labels['afternseconds']  = 'לאחר $n שניות';
 $labels['reqmdn'] = 'תמיד יש לדרוש אישור קבלה';
 $labels['reqdsn'] = 'תמיד לבקש הודעה על מצב המסירה';
 $labels['replysamefolder'] = 'המענה ישמר בתיקיה של ההודעה המקורית';
-$labels['defaultaddressbook'] = 'הוספת אנשי קשר לספר הכתובות שנבחר';
+$labels['defaultabook'] = 'ברירת המחדל של רשימת כתובות';
 $labels['autocompletesingle'] = 'לדלג על כתובת דואר חילופית בעת שימוש בהשלמה אוטומטית של הקלדה';
 $labels['listnamedisplay'] = 'הצגת איש הקשר בתור';
 $labels['spellcheckbeforesend'] = 'בדיקת איות לפני המשלוח';
@@ -397,13 +474,18 @@ $labels['spellcheckignorenums'] = 'התעלמות ממילים המכילות מ
 $labels['spellcheckignorecaps'] = 'התעלמות ממילים עם אותציות ראשיות';
 $labels['addtodict'] = 'הוספה למילון';
 $labels['mailtoprotohandler'] = 'קביעת הפרוטוקול לטיפול בקישור מסוג  mailto:links';
-$labels['folder'] = 'תיק';
-$labels['foldername'] = 'שם תיק';
-$labels['subscribed'] = 'מנוי';
+$labels['forwardmode'] = 'הפנית הודעות';
+$labels['inline'] = 'חלק מההודעה';
+$labels['asattachment'] = 'כצרופה';
+
+$labels['folder']  = 'תיק';
+$labels['folders']  = 'תיקיות';
+$labels['foldername']  = 'שם תיק';
+$labels['subscribed']  = 'מנוי';
 $labels['messagecount'] = 'הודעות';
-$labels['create'] = 'יצירה';
-$labels['createfolder'] = 'יצירת תיק חדש';
-$labels['managefolders'] = 'ניהול תיקים';
+$labels['create']  = 'יצירה';
+$labels['createfolder']  = 'יצירת תיק חדש';
+$labels['managefolders']  = 'ניהול תיקים';
 $labels['specialfolders'] = 'תיקים מיוחדים';
 $labels['properties'] = 'מאפיינים';
 $labels['folderproperties'] = 'מאפייני תיק';
@@ -413,22 +495,29 @@ $labels['info'] = 'מידע';
 $labels['getfoldersize'] = 'הקשה להצגה של גודל תיק';
 $labels['changesubscription'] = 'הקשה לשינוי הרשמה';
 $labels['foldertype'] = 'סוג תיקיה';
-$labels['personalfolder'] = 'תיקיה פרטית';
-$labels['otherfolder'] = 'תיקית משתמש נוספת';
-$labels['sharedfolder'] = 'תיקיה ציבורית';
+$labels['personalfolder']  = 'תיקיה פרטית';
+$labels['otherfolder']  = 'תיקית משתמש נוספת';
+$labels['sharedfolder']  = 'תיקיה ציבורית';
+
 $labels['sortby'] = 'מיון לפי';
-$labels['sortasc'] = 'מיון בסדר עולה';
+$labels['sortasc']  = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';
 $labels['undo'] = 'ביטול שינוי';
+
+$labels['installedplugins'] = 'תוספים מותקנים';
 $labels['plugin'] = 'תוסף תוכנה';
 $labels['version'] = 'גירסה';
 $labels['source'] = 'מקור';
 $labels['license'] = 'רשיון';
 $labels['support'] = 'קבלת תמיכה';
+
+// units
 $labels['B'] = 'בייט';
 $labels['KB'] = 'ק"ב';
 $labels['MB'] = 'מ"ב';
 $labels['GB'] = 'ג"ב';
+
+// character sets
 $labels['unicode'] = 'יוניקוד';
 $labels['english'] = 'אנגלית';
 $labels['westerneuropean'] = 'מערב אירופי';
@@ -448,3 +537,4 @@ $labels['japanese'] = 'יפני';
 $labels['korean'] = 'קוריאני';
 $labels['chinese'] = 'סיני';
 
+?>

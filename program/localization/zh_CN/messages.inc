@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/zh_CN/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Christopher Meng <cickumqt@gmail.com>                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = '发生错误！';
-$messages['loginfailed'] = '登录失败。';
+$messages['errortitle']  = '发生错误！';
+$messages['loginfailed']  = '登录失败。';
 $messages['cookiesdisabled'] = '您的浏览器不接受 cookies。';
 $messages['sessionerror'] = '会话已过期。';
 $messages['storageerror'] = '连接到邮件服务器失败。';
@@ -26,9 +29,11 @@ $messages['requesttimedout'] = '请求超时';
 $messages['errorreadonly'] = '不可对只读文件夹进行操作。';
 $messages['errornoperm'] = '无权限操作';
 $messages['invalidrequest'] = '无效的请求！数据保存失败。';
+$messages['invalidhost'] = '非法主机名。';
 $messages['nomessagesfound'] = '此邮件夹内无邮件。';
 $messages['loggedout'] = '您已成功注销，再见！';
 $messages['mailboxempty'] = '邮件夹为空';
+$messages['refreshing'] = '刷新中...';
 $messages['loading'] = '正在载入...';
 $messages['uploading'] = '正在上传文件...';
 $messages['uploadingmany'] = '正在上传文件...';
@@ -55,11 +60,11 @@ $messages['errormoving'] = '无法移动邮件。';
 $messages['errorcopying'] = '无法复制邮件。';
 $messages['errordeleting'] = '无法删除邮件。';
 $messages['errormarking'] = '无法标记邮件。';
-$messages['deletecontactconfirm'] = '确定要删除已选中的联系人？';
-$messages['deletegroupconfirm'] = '确定要删除以选中的组?';
+$messages['deletecontactconfirm']  = '确定要删除已选中的联系人？';
+$messages['deletegroupconfirm']  = '确定要删除以选中的组?';
 $messages['deletemessagesconfirm'] = '确定要删除已选中的邮件？';
-$messages['deletefolderconfirm'] = '确定要删除已选中的邮件夹？';
-$messages['purgefolderconfirm'] = '是否确认要删除当前邮件夹中的所有邮件？';
+$messages['deletefolderconfirm']  = '确定要删除已选中的邮件夹？';
+$messages['purgefolderconfirm']  = '是否确认要删除当前邮件夹中的所有邮件？';
 $messages['contactdeleting'] = '正在删除联系人...';
 $messages['groupdeleting'] = '正在删除组...';
 $messages['folderdeleting'] = '正在删除文件夹...';
@@ -68,11 +73,11 @@ $messages['foldersubscribing'] = '订阅文件夹中...';
 $messages['folderunsubscribing'] = '退订中...';
 $messages['formincomplete'] = '当前表单未填写完整，请完整填写。';
 $messages['noemailwarning'] = '请输入一个有效的邮件地址。';
-$messages['nonamewarning'] = '请输入名字。';
+$messages['nonamewarning']  = '请输入名字。';
 $messages['nopagesizewarning'] = '请输入每页显示的邮件数量';
 $messages['nosenderwarning'] = '请输入发件人地址。';
 $messages['norecipientwarning'] = '至少需要一个收件人。';
-$messages['nosubjectwarning'] = '主题为空。您要输入一个主题吗？';
+$messages['nosubjectwarning']  = '主题为空。您要输入一个主题吗？';
 $messages['nobodywarning'] = '要发送无正文的邮件吗？';
 $messages['notsentwarning'] = '邮件未发送。您确定要离开并舍弃当前邮件吗？';
 $messages['noldapserver'] = '请选择一个LDAP服务器进行查找。';
@@ -114,8 +119,9 @@ $messages['selectimportfile'] = '请选择要上传的文件。';
 $messages['addresswriterror'] = '已选择的地址簿不可写。';
 $messages['contactaddedtogroup'] = '成功添加联系人至该分组。';
 $messages['contactremovedfromgroup'] = '成功从该分组移除联系人。';
+$messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = '正在导入，请稍后...';
-$messages['importerror'] = '导入失败！所上传的文件不是有效的 vCard 文件。';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>成功导入 $inserted 联系人</b>';
 $messages['importconfirmskipped'] = '<b>跳过已存在的 $skipped 项目</b>';
 $messages['opnotpermitted'] = '不允许的操作!';
@@ -157,4 +163,7 @@ $messages['invalidimageformat'] = '非法的图像类型。';
 $messages['mispellingsfound'] = '检查到拼写错误。';
 $messages['parentnotwritable'] = '无法创建和转移到所选的目录,权限不足。';
 $messages['messagetoobig'] = '由于邮件部分过大无法处理。';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
+?>

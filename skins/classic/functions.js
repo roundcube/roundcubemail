@@ -92,6 +92,7 @@ function rcube_mail_ui()
     forwardmenu:    {id:'forwardmenu', editable:1},
     searchmenu:     {id:'searchmenu', editable:1},
     messagemenu:    {id:'messagemenu'},
+    attachmentmenu: {id:'attachmentmenu'},
     listmenu:       {id:'listmenu', editable:1},
     dragmessagemenu:{id:'dragmessagemenu', sticky:1},
     groupmenu:      {id:'groupoptionsmenu', above:1},
@@ -133,24 +134,24 @@ show_popupmenu: function(popup, show)
 {
   var obj = this.popups[popup].obj,
     above = this.popups[popup].above,
-    ref = rcube_find_object(popup+'link');
+    ref = $(this.popups[popup].link ? this.popups[popup].link : rcube_find_object(popup+'link'));
 
   if (typeof show == 'undefined')
     show = obj.is(':visible') ? false : true;
   else if (this.popups[popup].toggle && show && this.popups[popup].obj.is(':visible') )
     show = false;
 
-  if (show && ref) {
-    var parent = $(ref).parent(),
+  if (show && ref.length) {
+    var parent = ref.parent(),
       win = $(window),
-      pos = parent.hasClass('dropbutton') ? parent.offset() : $(ref).offset();
+      pos = parent.hasClass('dropbutton') ? parent.offset() : ref.offset();
 
-    if (!above && pos.top + ref.offsetHeight + obj.height() > win.height())
+    if (!above && pos.top + ref.height() + obj.height() > win.height())
       above = true;
     if (pos.left + obj.width() > win.width())
       pos.left = win.width() - obj.width() - 30;
 
-    obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
+    obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.height())) });
   }
 
   obj[show?'show':'hide']();
@@ -325,7 +326,7 @@ listmenu: function(show)
   };
 },
 
-open_listmenu: function(e)
+open_listmenu: function()
 {
   this.listmenu();
 },
@@ -355,7 +356,7 @@ spellmenu: function(show)
 
     for (i in rcmail.env.spell_langs) {
       li = $('<li>');
-      link = $('<a href="#">').text(rcmail.env.spell_langs[i])
+      link = $('<a href="#"></a>').text(rcmail.env.spell_langs[i])
         .addClass('active').data('lang', i)
         .click(function() {
           rcmail.spellcheck_lang_set($(this).data('lang'));
@@ -378,6 +379,35 @@ spellmenu: function(show)
   });
 
   this.show_popupmenu('spellmenu', show);
+},
+
+show_attachmentmenu: function(elem)
+{
+  var id = elem.parentNode.id.replace(/^attach/, '');
+
+  $('#attachmenuopen').unbind('click').attr('onclick', '').click(function(e) {
+    return rcmail.command('open-attachment', id, this);
+  });
+
+  $('#attachmenudownload').unbind('click').attr('onclick', '').click(function() {
+    rcmail.command('download-attachment', id, this);
+  });
+
+  this.popups.attachmentmenu.link = elem;
+  rcmail.command('menu-open', {menu: 'attachmentmenu', id: id});
+},
+
+menu_open: function(p)
+{
+  if (p && p.props && p.props.menu == 'attachmentmenu')
+    this.show_popup('attachmentmenu');
+  else
+    this.open_listmenu();
+},
+
+menu_save: function(prop)
+{
+  this.save_listmenu();
 },
 
 body_mouseup: function(evt, p)
@@ -462,14 +492,18 @@ switch_preview_pane: function(elem)
 /* Message composing */
 init_compose_form: function()
 {
-  var f, field, fields = ['cc', 'bcc', 'replyto', 'followupto'],
+  var f, v, field, fields = ['cc', 'bcc', 'replyto', 'followupto'],
     div = document.getElementById('compose-div'),
     headers_div = document.getElementById('compose-headers-div');
 
   // Show input elements with non-empty value
   for (f=0; f<fields.length; f++) {
-    if ((field = $('#_'+fields[f])) && field.length && field.val() != '')
-      rcmail_ui.show_header_form(fields[f]);
+    v = fields[f]; field = $('#_'+v);
+    if (field.length) {
+      field.on('change', {v:v}, function(e) { if (this.value) rcmail_ui.show_header_form(e.data.v); });
+      if (field.val() != '')
+        rcmail_ui.show_header_form(v);
+    }
   }
 
   // prevent from form data loss when pressing ESC key in IE
@@ -491,17 +525,26 @@ init_compose_form: function()
 
   div.style.top = (parseInt(headers_div.offsetHeight, 10) + 3) + 'px';
   $(window).resize();
+
+  // fixes contacts-table position when there's more than one addressbook
+  $('#contacts-table').css('top', $('#directorylist').height() + 24 + 'px');
+
+  // contacts search submit
+  $('#quicksearchbox').keydown(function(e) {
+    if (rcube_event.get_keycode(e) == 13)
+      rcmail.command('search');
+  });
 },
 
 resize_compose_body: function()
 {
-  var div = $('#compose-div .boxlistcontent'), w = div.width(), h = div.height();
-  w -= 8;  // 2 x 3px padding + 2 x 1px border
-  h -= 4;
+  var div = $('#compose-div .boxlistcontent'),
+    w = div.width() - 2, h = div.height(),
+    x = bw.ie || bw.opera ? 4 : 0;
 
-  $('#compose-body_tbl').width((w+6)+'px').height('');
-  $('#compose-body_ifr').width((w+6)+'px').height((h-54)+'px');
-  $('#compose-body').width(w+'px').height(h+'px');
+  $('#compose-body_tbl').width((w+3)+'px').height('');
+  $('#compose-body_ifr').width((w+3)+'px').height((h-54)+'px');
+  $('#compose-body').width((w-x)+'px').height(h+'px');
   $('#googie_edit_layer').height(h+'px');
 },
 
@@ -578,14 +621,130 @@ prev_sibling: function(elm)
   while (ps && ps.nodeType == 3)
     ps = ps.previousSibling;
   return ps;
+},
+
+enable_command: function(p)
+{
+  if (p.command == 'reply-list') {
+    var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
+    $('a.button.replyAll').attr('title', label);
+  }
 }
+
+};
+
+/**
+ * Roundcube generic layer (floating box) class
+ *
+ * @constructor
+ */
+function rcube_layer(id, attributes)
+{
+  this.name = id;
+
+  // create a new layer in the current document
+  this.create = function(arg)
+  {
+    var l = (arg.x) ? arg.x : 0,
+      t = (arg.y) ? arg.y : 0,
+      w = arg.width,
+      h = arg.height,
+      z = arg.zindex,
+      vis = arg.vis,
+      parent = arg.parent,
+      obj = document.createElement('DIV');
+
+    obj.id = this.name;
+    obj.style.position = 'absolute';
+    obj.style.visibility = (vis) ? (vis==2) ? 'inherit' : 'visible' : 'hidden';
+    obj.style.left = l+'px';
+    obj.style.top = t+'px';
+    if (w)
+      obj.style.width = w.toString().match(/\%$/) ? w : w+'px';
+    if (h)
+      obj.style.height = h.toString().match(/\%$/) ? h : h+'px';
+    if (z)
+      obj.style.zIndex = z;
+
+    if (parent)
+      parent.appendChild(obj);
+    else
+      document.body.appendChild(obj);
+
+    this.elm = obj;
+  };
+
+  // create new layer
+  if (attributes != null) {
+    this.create(attributes);
+    this.name = this.elm.id;
+  }
+  else  // just refer to the object
+    this.elm = document.getElementById(id);
+
+  if (!this.elm)
+    return false;
+
+
+  // ********* layer object properties *********
+
+  this.css = this.elm.style;
+  this.event = this.elm;
+  this.width = this.elm.offsetWidth;
+  this.height = this.elm.offsetHeight;
+  this.x = parseInt(this.elm.offsetLeft);
+  this.y = parseInt(this.elm.offsetTop);
+  this.visible = (this.css.visibility=='visible' || this.css.visibility=='show' || this.css.visibility=='inherit') ? true : false;
+
+
+  // ********* layer object methods *********
+
+  // move the layer to a specific position
+  this.move = function(x, y)
+  {
+    this.x = x;
+    this.y = y;
+    this.css.left = Math.round(this.x)+'px';
+    this.css.top = Math.round(this.y)+'px';
+  };
+
+  // change the layers width and height
+  this.resize = function(w,h)
+  {
+    this.css.width  = w+'px';
+    this.css.height = h+'px';
+    this.width = w;
+    this.height = h;
+  };
+
+  // show or hide the layer
+  this.show = function(a)
+  {
+    if(a == 1) {
+      this.css.visibility = 'visible';
+      this.visible = true;
+    }
+    else if(a == 2) {
+      this.css.visibility = 'inherit';
+      this.visible = true;
+    }
+    else {
+      this.css.visibility = 'hidden';
+      this.visible = false;
+    }
+  };
+
+  // write new content into a Layer
+  this.write = function(cont)
+  {
+    this.elm.innerHTML = cont;
+  };
 
 };
 
 /**
  * Scroller
  */
-
 function rcmail_scroller(list, top, bottom)
 {
   var ref = this;
@@ -625,8 +784,13 @@ function rcmail_scroller(list, top, bottom)
 function iframe_events()
 {
   // this==iframe
-  var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-  rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+  try {
+    var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+    rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+  }
+  catch (e) {
+    // catch possible "Permission denied" error in IE
+  };
 };
 
 // Abbreviate mailbox names to fit width of the container
@@ -748,7 +912,7 @@ function percent_indicator(obj, data)
   var bar2 = $('<div>');
   bar2.css({position: 'absolute', top: pos.top + 1, left: pos.left + 1,
       width: width + 'px', height: height + 'px', zIndex: 98})
-	.addClass('quota_bg');
+    .addClass('quota_bg');
 
   if (quota >= limit_high) {
     main.addClass(' quota_text_high');
@@ -791,8 +955,9 @@ function rcube_init_mail_ui()
     .contents().mouseup(function(e){rcmail_ui.body_mouseup(e)});
 
   if (rcmail.env.task == 'mail') {
-    rcmail.addEventListener('menu-open', 'open_listmenu', rcmail_ui);
-    rcmail.addEventListener('menu-save', 'save_listmenu', rcmail_ui);
+    rcmail.addEventListener('enable-command', 'enable_command', rcmail_ui);
+    rcmail.addEventListener('menu-open', 'menu_open', rcmail_ui);
+    rcmail.addEventListener('menu-save', 'menu_save', rcmail_ui);
     rcmail.addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui);
     rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
     rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
@@ -802,12 +967,18 @@ function rcube_init_mail_ui()
       rcmail.addEventListener('responseaftergetunread', rcube_render_mailboxlist);
       rcmail.addEventListener('responseaftercheck-recent', rcube_render_mailboxlist);
       rcmail.addEventListener('aftercollapse-folder', rcube_render_mailboxlist);
+      rcmail.addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
 
       new rcmail_scroller('#mailboxlist-content', '#mailboxlist-title', '#mailboxlist-footer');
     }
 
     if (rcmail.env.action == 'compose')
       rcmail_ui.init_compose_form();
+    else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
+      // add menu link for each attachment
+      $('#attachment-list > li[id^="attach"]').each(function() {
+        $(this).append($('<a class="drop">').click(function() { rcmail_ui.show_attachmentmenu(this); }));
+      });
   }
   else if (rcmail.env.task == 'addressbook') {
     rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); });

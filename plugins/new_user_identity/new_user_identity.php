@@ -8,6 +8,7 @@
  *
  * @version @package_version@
  * @author Kris Steinhoff
+ * @license GNU GPLv3+
  *
  * Example configuration:
  *
@@ -33,8 +34,6 @@ class new_user_identity extends rcube_plugin
 
     function lookup_user_name($args)
     {
-        $rcmail = rcmail::get_instance();
-
         if ($this->init_ldap($args['host'])) {
             $results = $this->ldap->search('*', $args['user'], true);
             if (count($results->records) == 1) {
@@ -43,7 +42,7 @@ class new_user_identity extends rcube_plugin
 
                 $args['user_name'] = $user_name;
                 if (!$args['user_email'] && strpos($user_email, '@')) {
-                    $args['user_email'] = rcube_idn_to_ascii($user_email);
+                    $args['user_email'] = rcube_utils::idn_to_ascii($user_email);
                 }
             }
         }

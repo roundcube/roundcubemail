@@ -63,8 +63,8 @@ $rcmail_config['smtp_debug'] = false;
 // IMAP
 // ----------------------------------
 
-// the mail host chosen to perform the log-in
-// leave blank to show a textbox at login, give a list of hosts
+// The mail host chosen to perform the log-in.
+// Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
 // To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
 // Supported replacement variables:
@@ -73,6 +73,8 @@ $rcmail_config['smtp_debug'] = false;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %s - domain name after the '@' from e-mail address provided at login screen
 // For example %n = mail.domain.tld, %t = domain.tld
+// WARNING: After hostname change update of mail_host column in users table is
+//          required to match old user data records with the new host.
 $rcmail_config['default_host'] = '';
 
 // TCP port used for IMAP connections
@@ -126,6 +128,11 @@ $rcmail_config['imap_cache'] = null;
 // Enables messages cache. Only 'db' cache is supported.
 $rcmail_config['messages_cache'] = false;
 
+// Lifetime of IMAP indexes cache. Possible units: s, m, h, d, w
+$rcmail_config['imap_cache_ttl'] = '10d';
+
+// Lifetime of messages cache. Possible units: s, m, h, d, w
+$rcmail_config['messages_cache_ttl'] = '10d';
 
 // ----------------------------------
 // SMTP
@@ -168,11 +175,23 @@ $rcmail_config['smtp_auth_pw'] = null;
 // SMTP HELO host 
 // Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages 
 // Leave this blank and you will get the server variable 'server_name' or 
-// localhost if that isn't defined. 
+// localhost if that isn't defined.
 $rcmail_config['smtp_helo_host'] = '';
 
 // SMTP connection timeout, in seconds. Default: 0 (no limit)
+// Note: There's a known issue where using ssl connection with
+// timeout > 0 causes connection errors (https://bugs.php.net/bug.php?id=54511)
 $rcmail_config['smtp_timeout'] = 0;
+
+// ----------------------------------
+// LDAP
+// ----------------------------------
+
+// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache'.
+$rcmail_config['ldap_cache'] = 'db';
+
+// Lifetime of LDAP cache. Possible units: s, m, h, d, w
+$rcmail_config['ldap_cache_ttl'] = '10m';
 
 // ----------------------------------
 // SYSTEM
@@ -208,10 +227,6 @@ $rcmail_config['log_dir'] = 'logs/';
 // use this folder to store temp files (must be writeable for apache user)
 $rcmail_config['temp_dir'] = 'temp/';
 
-// lifetime of message cache
-// possible units: s, m, h, d, w
-$rcmail_config['message_cache_lifetime'] = '10d';
-
 // enforce connections over https
 // with this option enabled, all non-secure connections will be redirected.
 // set the port for the ssl connection as value of this option if it differs from the default 443
@@ -241,7 +256,6 @@ $rcmail_config['skin_include_php'] = false;
 $rcmail_config['display_version'] = false;
 
 // Session lifetime in minutes
-// must be greater than 'keep_alive'/60
 $rcmail_config['session_lifetime'] = 10;
 
 // Session domain: .example.org
@@ -253,9 +267,10 @@ $rcmail_config['session_name'] = null;
 // Session path. Defaults to PHP session.cookie_path setting.
 $rcmail_config['session_path'] = null;
 
-// Backend to use for session storage. Can either be 'db' (default) or 'memcache'
-// If set to memcache, a list of servers need to be specified in 'memcache_hosts'
+// Backend to use for session storage. Can either be 'db' (default), 'memcache' or 'php'
+// If set to 'memcache', a list of servers need to be specified in 'memcache_hosts'
 // Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
+// Setting this value to 'php' will use the default session save handler configured in PHP
 $rcmail_config['session_storage'] = 'db';
 
 // Use these hosts for accessing memcached
@@ -352,11 +367,16 @@ $rcmail_config['line_length'] = 72;
 // send plaintext messages as format=flowed
 $rcmail_config['send_format_flowed'] = true;
 
+// According to RFC2298, return receipt envelope sender address must be empty.
+// If this option is true, Roundcube will use user's identity as envelope sender for MDN responses.
+$rcmail_config['mdn_use_from'] = false;
+
 // Set identities access level:
 // 0 - many identities with possibility to edit all params
 // 1 - many identities with possibility to edit all params but not email address
 // 2 - one identity with possibility to edit all params
 // 3 - one identity with possibility to edit all params but not email address
+// 4 - one identity with possibility to edit only signature
 $rcmail_config['identities_level'] = 0;
 
 // Mimetypes supported by the browser.
@@ -364,14 +384,26 @@ $rcmail_config['identities_level'] = 0;
 // either a comma-separated list or an array: 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/pdf'
 $rcmail_config['client_mimetypes'] = null;  # null == default
 
-// mime magic database
-$rcmail_config['mime_magic'] = '/usr/share/misc/magic';
+// Path to a local mime magic database file for PHPs finfo extension.
+// Set to null if the default path should be used.
+$rcmail_config['mime_magic'] = null;
+
+// Absolute path to a local mime.types mapping table file.
+// This is used to derive mime-types from the filename extension or vice versa.
+// Such a file is usually part of the apache webserver. If you don't find a file named mime.types on your system,
+// download it from http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+$rcmail_config['mime_types'] = null;
 
 // path to imagemagick identify binary
 $rcmail_config['im_identify_path'] = null;
 
 // path to imagemagick convert binary
 $rcmail_config['im_convert_path'] = null;
+
+// Size of thumbnails from image attachments displayed below the message content.
+// Note: whether images are displayed at all depends on the 'inline_images' option.
+// Set to 0 to display images in full size.
+$rcmail_config['image_thumbnail_size'] = 240;
 
 // maximum size of uploaded contact photos in pixel
 $rcmail_config['contact_photo_size'] = 160;
@@ -451,6 +483,9 @@ $rcmail_config['trash_mbox'] = 'Trash';
 // NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $rcmail_config['default_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
 
+// Disable localization of the default folder names listed above
+$rcmail_config['show_real_foldernames'] = false;
+
 // automatically create the above listed default folders on first login
 $rcmail_config['create_default_folders'] = false;
 
@@ -499,9 +534,8 @@ $rcmail_config['recipients_separator'] = ',';
 // don't let users set pagesize to more than this value if set
 $rcmail_config['max_pagesize'] = 200;
 
-// Minimal value of user's 'keep_alive' setting (in seconds)
-// Must be less than 'session_lifetime'
-$rcmail_config['min_keep_alive'] = 60;
+// Minimal value of user's 'refresh_interval' setting (in seconds)
+$rcmail_config['min_refresh_interval'] = 60;
 
 // Enables files upload indicator. Requires APC installed and enabled apc.rfc1867 option.
 // By default refresh time is set to 1 second. You can set this value to true
@@ -558,8 +592,9 @@ $rcmail_config['ldap_public']['Verisign'] = array(
   // For example %n = mail.domain.tld, %t = domain.tld
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
-  'use_tls'	      => false,
+  'use_tls'       => false,
   'ldap_version'  => 3,       // using LDAPv3
+  'network_timeout' => 10,    // The timeout (in seconds) for connect + bind arrempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
   // %fu - The full username provided, assumes the username is an email
   //       address, uses the username_domain value if not an email address.
@@ -618,6 +653,7 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'phone:work'  => 'telephoneNumber',
     'phone:mobile' => 'mobile',
     'phone:pager' => 'pager',
+    'phone:workfax' => 'facsimileTelephoneNumber',
     'street'      => 'street',
     'zipcode'     => 'postalCode',
     'region'      => 'st',
@@ -628,35 +664,60 @@ $rcmail_config['ldap_public']['Verisign'] = array(
     'department'   => 'ou',
     'jobtitle'     => 'title',
     'notes'        => 'description',
+    'photo'        => 'jpegPhoto',
     // these currently don't work:
-    // 'phone:workfax' => 'facsimileTelephoneNumber',
-    // 'photo'         => 'jpegPhoto',
     // 'manager'       => 'manager',
     // 'assistant'     => 'secretary',
   ),
   // Map of contact sub-objects (attribute name => objectClass(es)), e.g. 'c' => 'country'
   'sub_fields' => array(),
-  'sort'          => 'cn',    // The field to sort the listing by.
-  'scope'         => 'sub',   // search mode: sub|base|list
-  'filter'        => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
-  'fuzzy_search'  => true,    // server allows wildcard search
-  'vlv'           => false,   // Enable Virtual List View to more efficiently fetch paginated data (if server supports it)
-  'numsub_filter' => '(objectClass=organizationalUnit)',   // with VLV, we also use numSubOrdinates to query the total number of records. Set this filter to get all numSubOrdinates attributes for counting
-  'sizelimit'     => '0',     // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
-  'timelimit'     => '0',     // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
-  'referrals'     => true|false,  // Sets the LDAP_OPT_REFERRALS option. Mostly used in multi-domain Active Directory setups
+  // Generate values for the following LDAP attributes automatically when creating a new record
+  'autovalues' => array(
+  // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed 
+  // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
+  ),
+  'sort'           => 'cn',         // The field to sort the listing by.
+  'scope'          => 'sub',        // search mode: sub|base|list
+  'filter'         => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
+  'fuzzy_search'   => true,         // server allows wildcard search
+  'vlv'            => false,        // Enable Virtual List View to more efficiently fetch paginated data (if server supports it)
+  'vlv_search'     => false,        // Use Virtual List View functions for autocompletion searches (if server supports it)
+  'numsub_filter'  => '(objectClass=organizationalUnit)',   // with VLV, we also use numSubOrdinates to query the total number of records. Set this filter to get all numSubOrdinates attributes for counting
+  'config_root_dn' => 'cn=config',  // Root DN to search config entries (e.g. vlv indexes)
+  'sizelimit'      => '0',          // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
+  'timelimit'      => '0',          // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
+  'referrals'      => false,        // Sets the LDAP_OPT_REFERRALS option. Mostly used in multi-domain Active Directory setups
 
   // definition for contact groups (uncomment if no groups are supported)
   // for the groups base_dn, the user replacements %fu, %u, $d and %dc work as for base_dn (see above)
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
   // -> in this case, assure that groups and contacts are separated due to the concernig filters! 
-  'groups'        => array(
-    'base_dn'     => '',
-    'scope'       => 'sub',   // search mode: sub|base|list
-    'filter'      => '(objectClass=groupOfNames)',
+  'groups'  => array(
+    'base_dn'        => '',
+    'scope'          => 'sub',       // Search mode: sub|base|list
+    'filter'         => '(objectClass=groupOfNames)',
     'object_classes' => array("top", "groupOfNames"),
-    'member_attr'  => 'member',   // name of the member attribute, e.g. uniqueMember
-    'name_attr'    => 'cn',       // attribute to be used as group name
+    'member_attr'    => 'member',   // Name of the member attribute, e.g. uniqueMember
+    'name_attr'      => 'cn',       // Attribute to be used as group name
+    'member_filter'  => '(objectclass=*)',  // Optional filter to use when querying for group members
+    'vlv'            => false,      // Use VLV controls to list groups
+  ),
+  // this configuration replaces the regular groups listing in the directory tree with
+  // a hard-coded list of groups, each listing entries with the configured base DN and filter.
+  // if the 'groups' option from above is set, it'll be shown as the first entry with the name 'Groups'
+  'group_filters' => array(
+    'departments' => array(
+      'name'    => 'Company Departments',
+      'scope'   => 'list',
+      'base_dn' => 'ou=Groups,dc=mydomain,dc=com',
+      'filter'  => '(|(objectclass=groupofuniquenames)(objectclass=groupofurls))',
+    ),
+    'customers' => array(
+      'name'    => 'Customers',
+      'scope'   => 'sub',
+      'base_dn' => 'ou=Customers,dc=mydomain,dc=com',
+      'filter'  => '(objectClass=inetOrgPerson)',
+    ),
   ),
 );
 */
@@ -699,6 +760,10 @@ $rcmail_config['default_charset'] = 'ISO-8859-1';
 
 // skin name: folder from skins/
 $rcmail_config['skin'] = 'larry';
+
+// Enables using standard browser windows (that can be handled as tabs)
+// instead of popup windows
+$rcmail_config['standard_windows'] = false;
 
 // show up to X items in messages list view
 $rcmail_config['mail_pagesize'] = 50;
@@ -780,9 +845,10 @@ $rcmail_config['read_when_deleted'] = true;
 // Use 'Purge' to remove messages marked as deleted
 $rcmail_config['flag_for_deletion'] = false;
 
-// Default interval for keep-alive/check-recent requests (in seconds)
-// Must be greater than or equal to 'min_keep_alive' and less than 'session_lifetime'
-$rcmail_config['keep_alive'] = 60;
+// Default interval for auto-refresh requests (in seconds)
+// These are requests for system state updates e.g. checking for new messages, etc.
+// Setting it to 0 disables the feature.
+$rcmail_config['refresh_interval'] = 60;
 
 // If true all folders will be checked for recent messages
 $rcmail_config['check_all_folders'] = false;
@@ -810,9 +876,6 @@ $rcmail_config['strip_existing_sig'] = true;
 // 2 - New messages only
 // 3 - Forwards and Replies only
 $rcmail_config['show_sig'] = 1;
-
-// When replying or forwarding place sender's signature above existing message
-$rcmail_config['sig_above'] = false;
 
 // Use MIME encoding (quoted-printable) for 8bit characters in message body
 $rcmail_config['force_7bit'] = false;
@@ -867,6 +930,7 @@ $rcmail_config['autocomplete_single'] = false;
 // Default font for composed HTML message.
 // Supported values: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
-$rcmail_config['default_font'] = '';
+$rcmail_config['default_font'] = 'Verdana';
 
-// end of config file
+// Enables display of email address with name instead of a name (and address in title)
+$rcmail_config['message_show_email'] = false;

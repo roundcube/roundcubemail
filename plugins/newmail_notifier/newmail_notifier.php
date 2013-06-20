@@ -15,18 +15,18 @@
  *
  * Copyright (C) 2011, Kolab Systems AG
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
 class newmail_notifier extends rcube_plugin
@@ -35,6 +35,9 @@ class newmail_notifier extends rcube_plugin
 
     private $rc;
     private $notified;
+    private $opt = array();
+    private $exceptions = array();
+
 
     /**
      * Plugin initialization
@@ -49,13 +52,34 @@ class newmail_notifier extends rcube_plugin
             $this->add_hook('preferences_save', array($this, 'prefs_save'));
         }
         else { // if ($this->rc->task == 'mail') {
-            $this->add_hook('new_messages', array($this, 'notify'));
             // add script when not in ajax and not in frame
-            if (is_a($this->rc->output, 'rcube_output_html') && empty($_REQUEST['_framed'])) {
+            if ($this->rc->output->type == 'html' && empty($_REQUEST['_framed'])) {
                 $this->add_texts('localization/');
                 $this->rc->output->add_label('newmail_notifier.title', 'newmail_notifier.body');
                 $this->include_script('newmail_notifier.js');
             }
+
+            if ($this->rc->action == 'refresh') {
+                // Load configuration
+                $this->load_config();
+
+                $this->opt['basic']   = $this->rc->config->get('newmail_notifier_basic');
+                $this->opt['sound']   = $this->rc->config->get('newmail_notifier_sound');
+                $this->opt['desktop'] = $this->rc->config->get('newmail_notifier_desktop');
+
+                if (!empty($this->opt)) {
+                    // Get folders to skip checking for
+                    $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox');
+                    foreach ($exceptions as $folder) {
+                        $folder = $this->rc->config->get($folder);
+                        if (strlen($folder) && $folder != 'INBOX') {
+                            $this->exceptions[] = $folder;
+                        }
+                    }
+
+                    $this->add_hook('new_messages', array($this, 'notify'));
+                }
+             }
         }
     }
 
@@ -93,7 +117,7 @@ class newmail_notifier extends rcube_plugin
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = array(
-                    'title' => html::label($field_id, Q($this->gettext($type))),
+                    'title' => html::label($field_id, rcube::Q($this->gettext($type))),
                     'content' => $content
                 );
             }
@@ -120,7 +144,7 @@ class newmail_notifier extends rcube_plugin
         foreach (array('basic', 'desktop', 'sound') as $type) {
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
-                $args['prefs'][$key] = get_input_value('_'.$key, RCUBE_INPUT_POST) ? true : false;
+                $args['prefs'][$key] = rcube_utils::get_input_value('_'.$key, rcube_utils::INPUT_POST) ? true : false;
             }
         }
 
@@ -132,45 +156,36 @@ class newmail_notifier extends rcube_plugin
      */
     function notify($args)
     {
-        // Already notified or non-automatic check
-        if ($this->notified || !empty($_GET['_refresh'])) {
+        // Already notified or unexpected input
+        if ($this->notified || empty($args['diff']['new'])) {
             return $args;
         }
 
-        // Get folders to skip checking for
-        if (empty($this->exceptions)) {
-            $this->delimiter = $this->rc->storage->get_hierarchy_delimiter();
-
-            $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox');
-            foreach ($exceptions as $folder) {
-                $folder = $this->rc->config->get($folder);
-                if (strlen($folder) && $folder != 'INBOX') {
-                    $this->exceptions[] = $folder;
-                }
-            }
-        }
-
-        $mbox = $args['mailbox'];
+        $mbox      = $args['mailbox'];
+        $storage   = $this->rc->get_storage();
+        $delimiter = $storage->get_hierarchy_delimiter();
 
         // Skip exception (sent/drafts) folders (and their subfolders)
         foreach ($this->exceptions as $folder) {
-            if (strpos($mbox.$this->delimiter, $folder.$this->delimiter) === 0) {
+            if (strpos($mbox.$delimiter, $folder.$delimiter) === 0) {
                 return $args;
             }
         }
 
-        $this->notified = true;
+        // Check if any of new messages is UNSEEN
+        $deleted = $this->rc->config->get('skip_deleted') ? 'UNDELETED ' : '';
+        $search  = $deleted . 'UNSEEN UID ' . $args['diff']['new'];
+        $unseen  = $storage->search_once($mbox, $search);
 
-        // Load configuration
-        $this->load_config();
+        if ($unseen->count()) {
+            $this->notified = true;
 
-        $basic   = $this->rc->config->get('newmail_notifier_basic');
-        $sound   = $this->rc->config->get('newmail_notifier_sound');
-        $desktop = $this->rc->config->get('newmail_notifier_desktop');
-
-        if ($basic || $sound || $desktop) {
             $this->rc->output->command('plugin.newmail_notifier',
-                array('basic' => $basic, 'sound' => $sound, 'desktop' => $desktop));
+                array(
+                    'basic'   => $this->opt['basic'],
+                    'sound'   => $this->opt['sound'],
+                    'desktop' => $this->opt['desktop'],
+                ));
         }
 
         return $args;

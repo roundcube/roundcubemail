@@ -33,7 +33,9 @@ switch ($CURR_SECTION)
       'date_format'  => isset($_POST['_date_format']) ? get_input_value('_date_format', RCUBE_INPUT_POST) : $CONFIG['date_format'],
       'time_format'  => isset($_POST['_time_format']) ? get_input_value('_time_format', RCUBE_INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
       'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
-      'skin' 	     => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
+      'refresh_interval' => isset($_POST['_refresh_interval']) ? intval($_POST['_refresh_interval'])*60 : $CONFIG['refresh_interval'],
+      'standard_windows' => isset($_POST['_standard_windows']) ? TRUE : FALSE,
+      'skin'         => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
     );
 
     // compose derived date/time format strings
@@ -50,7 +52,6 @@ switch ($CURR_SECTION)
       'preview_pane_mark_read' => isset($_POST['_preview_pane_mark_read']) ? intval($_POST['_preview_pane_mark_read']) : $CONFIG['preview_pane_mark_read'],
       'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
       'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
-      'keep_alive'           => isset($_POST['_keep_alive']) ? intval($_POST['_keep_alive'])*60 : $CONFIG['keep_alive'],
       'check_all_folders'    => isset($_POST['_check_all_folders']) ? TRUE : FALSE,
       'mail_pagesize'        => is_numeric($_POST['_mail_pagesize']) ? max(2, intval($_POST['_mail_pagesize'])) : $CONFIG['mail_pagesize'],
     );
@@ -60,6 +61,7 @@ switch ($CURR_SECTION)
   case 'mailview':
     $a_user_prefs = array(
       'message_extwin'  => intval($_POST['_message_extwin']),
+      'message_show_email' => isset($_POST['_message_show_email']) ? TRUE : FALSE,
       'prefer_html'     => isset($_POST['_prefer_html']) ? TRUE : FALSE,
       'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
       'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
@@ -86,7 +88,6 @@ switch ($CURR_SECTION)
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
       'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
-      'sig_above'          => !empty($_POST['_sig_above']) && $_POST['_reply_mode'] > 0,
       'default_font'       => get_input_value('_default_font', RCUBE_INPUT_POST),
       'forward_attachment' => !empty($_POST['_forward_attachment']),
     );
@@ -119,6 +120,8 @@ switch ($CURR_SECTION)
 
   case 'folders':
     $a_user_prefs = array(
+      'show_real_foldernames'  =>
+      isset($_POST['_show_real_foldernames']) ? TRUE : FALSE,
       'drafts_mbox' => get_input_value('_drafts_mbox', RCUBE_INPUT_POST, true),
       'sent_mbox'   => get_input_value('_sent_mbox', RCUBE_INPUT_POST, true),
       'junk_mbox'   => get_input_value('_junk_mbox', RCUBE_INPUT_POST, true),
@@ -157,15 +160,15 @@ switch ($CURR_SECTION)
 
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 
-  break;
-  case 'mailbox':
-
-    // force keep_alive
-    if (isset($a_user_prefs['keep_alive'])) {
-      $a_user_prefs['keep_alive'] = max(60, $CONFIG['min_keep_alive'], $a_user_prefs['keep_alive']);
-      if (!empty($CONFIG['session_lifetime']))
-        $a_user_prefs['keep_alive'] = min($CONFIG['session_lifetime']*60, $a_user_prefs['keep_alive']);
+    if (isset($a_user_prefs['refresh_interval']) && !empty($CONFIG['min_refresh_interval'])) {
+      if ($a_user_prefs['refresh_interval'] < $CONFIG['min_refresh_interval']) {
+        $a_user_prefs['refresh_interval'] = $CONFIG['min_refresh_interval'];
+      }
     }
+
+    break;
+
+  case 'mailbox':
 
     // force min size
     if ($a_user_prefs['mail_pagesize'] < 1)
@@ -174,7 +177,8 @@ switch ($CURR_SECTION)
     if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['mail_pagesize'] > $CONFIG['max_pagesize']))
       $a_user_prefs['mail_pagesize'] = (int) $CONFIG['max_pagesize'];
 
-  break;
+    break;
+
   case 'addressbook':
 
     // force min size
@@ -184,7 +188,8 @@ switch ($CURR_SECTION)
     if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['addressbook_pagesize'] > $CONFIG['max_pagesize']))
       $a_user_prefs['addressbook_pagesize'] = (int) $CONFIG['max_pagesize'];
 
-  break;
+    break;
+
   case 'folders':
 
     // special handling for 'default_folders'
@@ -199,7 +204,7 @@ switch ($CURR_SECTION)
       }
     }
 
-  break;
+    break;
 }
 
 // Save preferences

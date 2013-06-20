@@ -60,8 +60,8 @@ Class utf8 {
   function loadCharset($charset) {
     
     $charset = preg_replace(array('/^WINDOWS-*125([0-8])$/', '/^CP-/'), array('CP125\\1', 'CP'), $charset);
-    if (isset($aliases[$charset]))
-      $charset = $aliases[$charset];
+    if (isset($this->aliases[$charset]))
+      $charset = $this->aliases[$charset];
     
     $this->charset = $charset;
 

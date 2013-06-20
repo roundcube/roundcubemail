@@ -54,7 +54,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $this->assertNotRegExp('/<form [^>]+>/', $html, "No form tags allowed");
         $this->assertRegExp('/Subscription form/', $html, "Include <form> contents");
         $this->assertRegExp('/<!-- link ignored -->/', $html, "No external links allowed");
-        $this->assertRegExp('/<a[^>]+ target="_blank">/', $html, "Set target to _blank");
+        $this->assertRegExp('/<a[^>]+ target="_blank"/', $html, "Set target to _blank");
         $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
@@ -97,6 +97,20 @@ class MailFunc extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test the elimination of some XSS vulnerabilities
+     */
+    function test_html_xss3()
+    {
+        // #1488850
+        $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+            .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
+        $washed = rcmail_wash_html($html, array('safe' => true), array());
+
+        $this->assertNotRegExp('/data:text/', $washed, "Remove data:text/html links");
+        $this->assertNotRegExp('/vbscript:/', $washed, "Remove vbscript: links");
+    }
+
+    /**
      * Test washtml class on non-unicode characters (#1487813)
      */
     function test_washtml_utf8()
@@ -119,8 +133,8 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $html = rcmail_print_body($part, array('safe' => true));
 
         $this->assertRegExp('/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/', $html, "Mailto links with onclick");
-        $this->assertRegExp('#<a href="http://www.apple.com/legal/privacy" target="_blank">http://www.apple.com/legal/privacy</a>#', $html, "Links with target=_blank");
-        $this->assertRegExp('#\\[<a href="http://example.com/\\?tx\\[a\\]=5" target="_blank">http://example.com/\\?tx\\[a\\]=5</a>\\]#', $html, "Links with square brackets");
+        $this->assertRegExp('#<a rel="noreferrer" target="_blank" href="http://www.apple.com/legal/privacy">http://www.apple.com/legal/privacy</a>#', $html, "Links with target=_blank");
+        $this->assertRegExp('#\\[<a rel="noreferrer" target="_blank" href="http://example.com/\\?tx\\[a\\]=5">http://example.com/\\?tx\\[a\\]=5</a>\\]#', $html, "Links with square brackets");
     }
 
     /**
@@ -134,7 +148,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $html = rcmail_html4inline(rcmail_print_body($part, array('safe' => false)), 'foo');
 
         $mailto = '<a href="mailto:me@me.com?subject=this is the subject&amp;body=this is the body"'
-            .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)">e-mail</a>';
+            .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
 
         $this->assertRegExp('|'.preg_quote($mailto, '|').'|', $html, "Extended mailto links");
     }
@@ -159,7 +173,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
     function test_resolve_base()
     {
         $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
-        $html = rcmail_resolve_base($html);
+        $html = rcube_washtml::resolve_base($html);
 
         $this->assertRegExp('|src="http://alec\.pl/dir/img1\.gif"|', $html, "URI base resolving [1]");
         $this->assertRegExp('|src="http://alec\.pl/dir/img2\.gif"|', $html, "URI base resolving [2]");

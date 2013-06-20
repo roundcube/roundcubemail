@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/de_DE/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: akn                                                           |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Ein Fehler ist aufgetreten!';
-$messages['loginfailed'] = 'Die Anmeldung ist fehlgeschlagen.';
+$messages['errortitle']  = 'Ein Fehler ist aufgetreten!';
+$messages['loginfailed']  = 'Die Anmeldung ist fehlgeschlagen.';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies.';
 $messages['sessionerror'] = 'Ihre Sitzung ist ungültig oder abgelaufen.';
 $messages['storageerror'] = 'Verbindung zum Speicherserver fehlgeschlagen.';
@@ -25,11 +28,15 @@ $messages['dberror'] = 'Datenbankfehler!';
 $messages['requesttimedout'] = 'Zeitüberschreitung der Anforderung';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';
+$messages['erroroverquota'] = 'Die Aktion kann nicht ausgeführt werden. Nicht genug freier Speicherplatz.';
+$messages['erroroverquotadelete'] = 'Nicht genug freier Speicherplatz. Verwenden sie SHIFT+ENTF um Nachrichten zu löschen.';
 $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';
+$messages['invalidhost'] = 'Ungültiger Server Name';
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner.';
 $messages['loggedout'] = 'Sie haben Ihre Sitzung erfolgreich beendet. Auf Wiedersehen!';
-$messages['mailboxempty'] = 'Ordner ist leer.';
-$messages['loading'] = 'Lädt…';
+$messages['mailboxempty'] = 'Mailbox ist leer.';
+$messages['refreshing'] = 'Aktualisieren…';
+$messages['loading'] = 'Wird geladen...';
 $messages['uploading'] = 'Datei wird hochgeladen...';
 $messages['uploadingmany'] = 'Dateien werden hochgeladen...';
 $messages['loadingdata'] = 'Daten werden geladen...';
@@ -55,11 +62,11 @@ $messages['errormoving'] = 'Nachricht(en) konnte(n) nicht verschoben werden.';
 $messages['errorcopying'] = 'Nachticht(en) konnte(n) nicht kopiert werden.';
 $messages['errordeleting'] = 'Nachricht(en) konnte(n) nicht gelöscht werden.';
 $messages['errormarking'] = 'Nachricht(en) konnte(n) nicht markiert werden.';
-$messages['deletecontactconfirm'] = 'Wollen Sie die ausgewählten Kontakte wirklich löschen?';
-$messages['deletegroupconfirm'] = 'Wollen Sie die gewählte Gruppe wirklich löschen?';
+$messages['deletecontactconfirm']  = 'Wollen Sie die ausgewählten Kontakte wirklich löschen?';
+$messages['deletegroupconfirm']  = 'Wollen Sie die gewählte Gruppe wirklich löschen?';
 $messages['deletemessagesconfirm'] = 'Wollen Sie die ausgewählten Nachrichten wirklich löschen?';
-$messages['deletefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich löschen?';
-$messages['purgefolderconfirm'] = 'Wollen Sie diesen Ordner wirklich leeren?';
+$messages['deletefolderconfirm']  = 'Wollen Sie diesen Ordner wirklich löschen?';
+$messages['purgefolderconfirm']  = 'Wollen Sie diesen Ordner wirklich leeren?';
 $messages['contactdeleting'] = 'Lösche Kontakt(e)...';
 $messages['groupdeleting'] = 'Gruppe wird gelöscht...';
 $messages['folderdeleting'] = 'Lösche Ordner...';
@@ -68,11 +75,11 @@ $messages['foldersubscribing'] = 'Abonniere Ordner...';
 $messages['folderunsubscribing'] = 'Ordner abbstellen...';
 $messages['formincomplete'] = 'Das Formular wurde nicht vollständig ausgefüllt.';
 $messages['noemailwarning'] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
-$messages['nonamewarning'] = 'Bitte geben Sie einen Namen ein.';
+$messages['nonamewarning']  = 'Bitte geben Sie einen Namen ein.';
 $messages['nopagesizewarning'] = 'Bitte geben Sie die Einträge pro Seite an.';
 $messages['nosenderwarning'] = 'Bitte geben Sie die E-Mail-Adresse des Senders an.';
 $messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen Empfänger an.';
-$messages['nosubjectwarning'] = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
+$messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
 $messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
 $messages['notsentwarning'] = 'Ihre Nachricht wurde nicht gesendet. Wollen Sie die Nachricht verwerfen?';
 $messages['noldapserver'] = 'Bitte wählen Sie einen LDAP-Server aus.';
@@ -114,8 +121,9 @@ $messages['selectimportfile'] = 'Bitte wählen Sie eine Datei zum Importieren au
 $messages['addresswriterror'] = 'Das gewählte Adressbuch kann nicht verändert werden.';
 $messages['contactaddedtogroup'] = 'Kontakte wurden dieser Gruppe hinzugefügt.';
 $messages['contactremovedfromgroup'] = 'Kontakte wurden aus dieser Gruppe entfernt.';
+$messages['nogroupassignmentschanged'] = 'Es wurden keine Gruppenzuordnungen geändert.';
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
-$messages['importerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist nicht im vCard-Format.';
+$messages['importformaterror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist keine gültige Importdatei.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert.</b>';
 $messages['importconfirmskipped'] = '<b>$skipped bestehende Einträge wurden übersprungen.</b>';
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';
@@ -157,4 +165,7 @@ $messages['invalidimageformat'] = 'Kein gültiges Bildformat.';
 $messages['mispellingsfound'] = 'Es wurden noch Rechtschreibfehler in der Nachricht gefunden.';
 $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben. Keine Berechtigung.';
 $messages['messagetoobig'] = 'Die Nachricht ist zu gross und kann nicht verarbeitet werden.';
+$messages['attachmentvalidationerror'] = 'WARNUNG! Dieser Anhang ist verdächtig, weil sein Typ nicht dem in der Nachricht deklarierten Typ entspricht. Wenn Sie dem Sender nicht trauen, sollten Sie den Anhang nicht öffnen, weil er schadhaften Inhalte beinhalten könnte.<br/><br/><em>Erwartet: $expected; gefunden: $detected</em>';
+$messages['noscriptwarning'] = 'Warnung: Dieser Webmail-Service erfordert Javascript. Um ihn zu benutzten aktivieren Sie Javascript in ihren Browser-Einstellungen.';
 
+?>

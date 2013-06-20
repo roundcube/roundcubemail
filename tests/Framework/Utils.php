@@ -193,4 +193,105 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
     }
+
+    /**
+     * Check rcube_utils::explode_quoted_string()
+     */
+    function test_explode_quoted_string()
+    {
+        $data = array(
+            '"a,b"' => array('"a,b"'),
+            '"a,b","c,d"' => array('"a,b"','"c,d"'),
+            '"a,\\"b",d' => array('"a,\\"b"', 'd'),
+        );
+
+        foreach ($data as $text => $res) {
+            $result = rcube_utils::explode_quoted_string(',', $text);
+            $this->assertSame($res, $result);
+        }
+    }
+
+    /**
+     * Check rcube_utils::explode_quoted_string() compat. with explode()
+     */
+    function test_explode_quoted_string_compat()
+    {
+        $data = array('', 'a,b,c', 'a', ',', ',a');
+
+        foreach ($data as $text) {
+            $result = rcube_utils::explode_quoted_string(',', $text);
+            $this->assertSame(explode(',', $text), $result);
+        }
+    }
+
+    /**
+     * rcube_utils::get_boolean()
+     */
+    function test_get_boolean()
+    {
+        $input = array(
+            false, 'false', '0', 'no', 'off', 'nein', 'FALSE', '', null,
+        );
+
+        foreach ($input as $idx => $value) {
+            $this->assertFalse(get_boolean($value), "Invalid result for $idx test item");
+        }
+
+        $input = array(
+            true, 'true', '1', 1, 'yes', 'anything', 1000,
+        );
+
+        foreach ($input as $idx => $value) {
+            $this->assertTrue(get_boolean($value), "Invalid result for $idx test item");
+        }
+    }
+
+    /**
+     * rcube:utils::file2class()
+     */
+    function test_file2class()
+    {
+        $test = array(
+            array('', '', 'unknown'),
+            array('text', 'text', 'text'),
+            array('image/png', 'image.png', 'image png'),
+        );
+
+        foreach ($test as $v) {
+            $result = rcube_utils::file2class($v[0], $v[1]);
+            $this->assertSame($v[2], $result);
+        }
+    }
+
+    /**
+     * rcube:utils::strtotime()
+     */
+    function test_strtotime()
+    {
+        $test = array(
+            '1' => 1,
+            '' => 0,
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::strtotime($datetime);
+            $this->assertSame($ts, $result);
+        }
+    }
+
+    /**
+     * rcube:utils::normalize _string()
+     */
+    function test_normalize_string()
+    {
+        $test = array(
+            '' => '',
+            'abc def' => 'abc def',
+        );
+
+        foreach ($test as $input => $output) {
+            $result = rcube_utils::normalize_string($input);
+            $this->assertSame($output, $result);
+        }
+    }
 }

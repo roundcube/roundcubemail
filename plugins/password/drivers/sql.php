@@ -20,11 +20,11 @@ class rcube_sql_password
             $sql = 'SELECT update_passwd(%c, %u)';
 
         if ($dsn = $rcmail->config->get('password_db_dsn')) {
-	        // #1486067: enable new_link option
-	        if (is_array($dsn) && empty($dsn['new_link']))
-	            $dsn['new_link'] = true;
-    	    else if (!is_array($dsn) && !preg_match('/\?new_link=true/', $dsn))
-	            $dsn .= '?new_link=true';
+            // #1486067: enable new_link option
+            if (is_array($dsn) && empty($dsn['new_link']))
+                $dsn['new_link'] = true;
+            else if (!is_array($dsn) && !preg_match('/\?new_link=true/', $dsn))
+                $dsn .= '?new_link=true';
 
             $db = rcube_db::factory($dsn, '', false);
             $db->set_debug((bool)$rcmail->config->get('sql_debug'));
@@ -34,8 +34,9 @@ class rcube_sql_password
             $db = $rcmail->get_dbh();
         }
 
-        if ($err = $db->is_error())
+        if ($db->is_error()) {
             return PASSWORD_ERROR;
+        }
 
         // crypted password
         if (strpos($sql, '%c') !== FALSE) {
@@ -48,7 +49,7 @@ class rcube_sql_password
                 else if (CRYPT_STD_DES)
                     $crypt_hash = 'des';
             }
-            
+
             switch ($crypt_hash)
             {
             case 'md5':
@@ -77,7 +78,7 @@ class rcube_sql_password
             //Restrict the character set used as salt (#1488136)
             $seedchars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
             for ($i = 0; $i < $len ; $i++) {
-    	        $salt .= $seedchars[rand(0, 63)];
+                $salt .= $seedchars[rand(0, 63)];
             }
 
             $sql = str_replace('%c',  $db->quote(crypt($passwd, $salt_hashindicator ? $salt_hashindicator .$salt.'$' : $salt)), $sql);
@@ -116,30 +117,30 @@ class rcube_sql_password
 
         // hashed passwords
         if (preg_match('/%[n|q]/', $sql)) {
-    	    if (!extension_loaded('hash')) {
-	            raise_error(array(
-	                'code' => 600,
-		            'type' => 'php',
-		            'file' => __FILE__, 'line' => __LINE__,
-    		        'message' => "Password plugin: 'hash' extension not loaded!"
-	    	    ), true, false);
+            if (!extension_loaded('hash')) {
+                rcube::raise_error(array(
+                    'code' => 600,
+                    'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: 'hash' extension not loaded!"
+                ), true, false);
 
-	            return PASSWORD_ERROR;
-    	    }
+                return PASSWORD_ERROR;
+            }
 
-	        if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm'))))
+            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm'))))
                 $hash_algo = 'sha1';
 
-    	    $hash_passwd = hash($hash_algo, $passwd);
+            $hash_passwd = hash($hash_algo, $passwd);
             $hash_curpass = hash($hash_algo, $curpass);
 
-	        if ($rcmail->config->get('password_hash_base64')) {
+            if ($rcmail->config->get('password_hash_base64')) {
                 $hash_passwd = base64_encode(pack('H*', $hash_passwd));
                 $hash_curpass = base64_encode(pack('H*', $hash_curpass));
             }
 
-    	    $sql = str_replace('%n', $db->quote($hash_passwd, 'text'), $sql);
-	        $sql = str_replace('%q', $db->quote($hash_curpass, 'text'), $sql);
+            $sql = str_replace('%n', $db->quote($hash_passwd, 'text'), $sql);
+            $sql = str_replace('%q', $db->quote($hash_curpass, 'text'), $sql);
         }
 
         // Handle clear text passwords securely (#1487034)
@@ -164,14 +165,14 @@ class rcube_sql_password
 
         // convert domains to/from punnycode
         if ($rcmail->config->get('password_idn_ascii')) {
-            $domain_part = rcube_idn_to_ascii($domain_part);
-            $username    = rcube_idn_to_ascii($username);
-            $host        = rcube_idn_to_ascii($host);
+            $domain_part = rcube_utils::idn_to_ascii($domain_part);
+            $username    = rcube_utils::idn_to_ascii($username);
+            $host        = rcube_utils::idn_to_ascii($host);
         }
         else {
-            $domain_part = rcube_idn_to_utf8($domain_part);
-            $username    = rcube_idn_to_utf8($username);
-            $host        = rcube_idn_to_utf8($host);
+            $domain_part = rcube_utils::idn_to_utf8($domain_part);
+            $username    = rcube_utils::idn_to_utf8($username);
+            $host        = rcube_utils::idn_to_utf8($host);
         }
 
         // at least we should always have the local part
@@ -183,16 +184,16 @@ class rcube_sql_password
         $res = $db->query($sql, $sql_vars);
 
         if (!$db->is_error()) {
-	        if (strtolower(substr(trim($query),0,6))=='select') {
-    	        if ($result = $db->fetch_array($res))
-		            return PASSWORD_SUCCESS;
-    	    } else {
+            if (strtolower(substr(trim($sql),0,6)) == 'select') {
+                if ($db->fetch_array($res))
+                    return PASSWORD_SUCCESS;
+            } else {
                 // This is the good case: 1 row updated
-    	        if ($db->affected_rows($res) == 1)
-	                return PASSWORD_SUCCESS;
+                if ($db->affected_rows($res) == 1)
+                    return PASSWORD_SUCCESS;
                 // @TODO: Some queries don't affect any rows
                 // Should we assume a success if there was no error?
-	        }
+            }
         }
 
         return PASSWORD_ERROR;

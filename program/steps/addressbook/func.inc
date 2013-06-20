@@ -26,7 +26,7 @@ $CONTACT_COLTYPES = array(
   'name'         => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('name'), 'category' => 'main'),
   'firstname'    => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('firstname'), 'category' => 'main'),
   'surname'      => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('surname'), 'category' => 'main'),
-  'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => rcube_label('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
+  'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 254, 'label' => rcube_label('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
   'middlename'   => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => rcube_label('middlename'), 'category' => 'main'),
   'prefix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => rcube_label('nameprefix'), 'category' => 'main'),
   'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => rcube_label('namesuffix'), 'category' => 'main'),
@@ -63,12 +63,6 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     // add list of address sources to client env
     $js_list = $RCMAIL->get_address_sources();
 
-    $source = get_input_value('_source', RCUBE_INPUT_GPC);
-
-    // use first directory by default
-    if (!strlen($source) || !isset($js_list[$source]))
-        $source = $js_list[key($js_list)]['id'];
-
     // count all/writeable sources
     $writeable = 0;
     $count = 0;
@@ -93,8 +87,16 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
-    if (!strlen($source))
-      $source = strval(key($js_list));
+    // select address book
+    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+
+    // use first directory by default
+    if (!strlen($source) || !isset($js_list[$source])) {
+        $source = $RCMAIL->config->get('default_addressbook');
+        if (!strlen($source) || !isset($js_list[$source])) {
+            $source = strval(key($js_list));
+        }
+    }
 
     $CONTACTS = rcmail_contact_source($source, true);
 }
@@ -158,17 +160,6 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
 }
 
 
-function rcmail_default_source($writable=false)
-{
-    global $RCMAIL;
-
-    // get list of address sources
-    $first = reset($RCMAIL->get_address_sources($writable));
-
-    // use first directory by default
-    return $first['id'];
-}
-
 function rcmail_set_sourcename($abook)
 {
     global $OUTPUT;
@@ -176,7 +167,7 @@ function rcmail_set_sourcename($abook)
     // get address book name (for display)
     if ($abook && $_SESSION['addressbooks_count'] > 1) {
         $name = $abook->get_name();
-        if (!$name && $source == 0) {
+        if (!$name) {
             $name = rcube_label('personaladrbook');
         }
         $OUTPUT->set_env('sourcename', html_entity_decode($name, ENT_COMPAT, 'UTF-8'));
@@ -192,11 +183,10 @@ function rcmail_directory_list($attrib)
         $attrib['id'] = 'rcmdirectorylist';
 
     $out = '';
-    $local_id = '0';
     $jsdata = array();
 
     $line_templ = html::tag('li', array(
-        'id' => 'rcmli%s', 'class' => '%s'),
+        'id' => 'rcmli%s', 'class' => '%s', 'noclose' => true),
         html::a(array('href' => '%s',
             'rel' => '%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('list','%s',this)"), '%s'));
@@ -222,7 +212,7 @@ function rcmail_directory_list($attrib)
 
         $name = !empty($source['name']) ? $source['name'] : $id;
         $out .= sprintf($line_templ,
-            html_identifier($id),
+            rcube_utils::html_identifier($id, true),
             $class_name,
             Q(rcmail_url(null, array('_source' => $id))),
             $source['id'],
@@ -233,10 +223,11 @@ function rcmail_directory_list($attrib)
             $groupdata = rcmail_contact_groups($groupdata);
         $jsdata = $groupdata['jsdata'];
         $out = $groupdata['out'];
+        $out .= '</li>';
     }
 
     $line_templ = html::tag('li', array(
-        'id' => 'rcmliS%s', 'class' => '%s'),
+        'id' => 'rcmli%s', 'class' => '%s'),
         html::a(array('href' => '#', 'rel' => 'S%s',
             'onclick' => "return ".JS_OBJECT_NAME.".command('listsearch', '%s', this)"), '%s'));
 
@@ -254,14 +245,17 @@ function rcmail_directory_list($attrib)
             $class_name .= ' ' . $source['class_name'];
 
         $out .= sprintf($line_templ,
-            html_identifier($id),
+            rcube_utils::html_identifier('S'.$id, true),
             $class_name,
             $id,
             $js_id, (!empty($source['name']) ? Q($source['name']) : Q($id)));
     }
 
     $OUTPUT->set_env('contactgroups', $jsdata);
+    $OUTPUT->set_env('collapsed_abooks', (string)$RCMAIL->config->get('collapsed_abooks',''));
     $OUTPUT->add_gui_object('folderlist', $attrib['id']);
+    $OUTPUT->include_script('treelist.js');
+
     // add some labels to client
     $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
 
@@ -273,19 +267,23 @@ function rcmail_contact_groups($args)
 {
     global $RCMAIL;
 
+    $groups_html = '';
     $groups = $RCMAIL->get_address_book($args['source'])->list_groups();
 
     if (!empty($groups)) {
         $line_templ = html::tag('li', array(
-            'id' => 'rcmliG%s', 'class' => 'contactgroup'),
+            'id' => 'rcmli%s', 'class' => 'contactgroup'),
             html::a(array('href' => '#',
                 'rel' => '%s:%s',
                 'onclick' => "return ".JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)"), '%s'));
 
-        $jsdata = array();
+        // append collapse/expand toggle and open a new <ul>
+        $is_collapsed = strpos($RCMAIL->config->get('collapsed_abooks',''), '&'.rawurlencode($args['source']).'&') !== false;
+        $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
+
         foreach ($groups as $group) {
-            $args['out'] .= sprintf($line_templ,
-                html_identifier($args['source'] . $group['ID']),
+            $groups_html .= sprintf($line_templ,
+                rcube_utils::html_identifier('G' . $args['source'] . $group['ID'], true),
                 $args['source'], $group['ID'],
                 $args['source'], $group['ID'], Q($group['name'])
             );
@@ -294,6 +292,10 @@ function rcmail_contact_groups($args)
                 'name' => $group['name'], 'type' => 'group');
         }
     }
+
+    $args['out'] .= html::tag('ul',
+      array('class' => 'groups', 'style' => ($is_collapsed || empty($groups) ? "display:none;" : null)),
+      $groups_html);
 
     return $args;
 }
@@ -305,7 +307,7 @@ function rcmail_contacts_list($attrib)
     global $CONTACTS, $OUTPUT;
 
     // define list of cols to be displayed
-    $a_show_cols = array('name');
+    $a_show_cols = array('name','action');
 
     // add id to message list table if not specified
     if (!strlen($attrib['id']))
@@ -334,28 +336,70 @@ function rcmail_js_contacts_list($result, $prefix='')
         return;
 
     // define list of cols to be displayed
-    $a_show_cols = array('name');
+    $a_show_cols = array('name','action');
 
     while ($row = $result->next()) {
+        $row['CID'] = $row['ID'];
+        $row['email'] = reset(rcube_addressbook::get_col_values('email', $row, true));
+
+        $source_id = $OUTPUT->get_env('source');
         $a_row_cols = array();
-        $classes = array('person');  // org records will follow some day
+        $classes = array($row['_type'] ? $row['_type'] : 'person');
 
         // build contact ID with source ID
         if (isset($row['sourceid'])) {
             $row['ID'] = $row['ID'].'-'.$row['sourceid'];
+            $source_id = $row['sourceid'];
         }
 
         // format each col
         foreach ($a_show_cols as $col) {
-            $val = $col == 'name' ? rcube_addressbook::compose_list_name($row) : $row[$col];
-            $a_row_cols[$col] = Q($val);
+            $val = '';
+            switch ($col) {
+                case 'name':
+                    $val = Q(rcube_addressbook::compose_list_name($row));
+                    break;
+
+                case 'action':
+                    if ($row['_type'] == 'group') {
+                        $val = html::a(array(
+                            'href' => '#list',
+                            'rel' => $row['ID'],
+                            'title' => rcube_label('listgroup'),
+                            'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", JS_OBJECT_NAME, $source_id, $row['CID']),
+                        ), '&raquo;');
+                    }
+                    else
+                        $val = '&nbsp;';
+                    break;
+
+                default:
+                    $val = Q($row[$col]);
+                    break;
+            }
+
+            $a_row_cols[$col] = $val;
         }
 
         if ($row['readonly'])
             $classes[] = 'readonly';
 
-        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes));
+        $OUTPUT->command($prefix.'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes), array_intersect_key($row, array('ID'=>1,'readonly'=>1,'_type'=>1,'email'=>1,'name'=>1)));
     }
+}
+
+
+function rcmail_contacts_list_title($attrib)
+{
+    global $OUTPUT;
+
+    $attrib += array('label' => 'contacts', 'id' => 'rcmabooklisttitle', 'tag' => 'span');
+    unset($attrib['name']);
+
+    $OUTPUT->add_gui_object('addresslist_title', $attrib['id']);
+    $OUTPUT->add_label('contacts');
+
+    return html::tag($attrib['tag'], $attrib, rcube_label($attrib['label']), html::$common_attrib);
 }
 
 
@@ -427,7 +471,7 @@ function rcmail_get_type_label($type)
 
 function rcmail_contact_form($form, $record, $attrib = null)
 {
-    global $RCMAIL, $CONFIG;
+    global $RCMAIL;
 
     // Allow plugins to modify contact form content
     $plugin = $RCMAIL->plugins->exec_hook('contact_form', array(
@@ -436,7 +480,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
     $form = $plugin['form'];
     $record = $plugin['record'];
     $edit_mode = $RCMAIL->action != 'show';
-    $del_button = $attrib['deleteicon'] ? html::img(array('src' => $CONFIG['skin_path'] . $attrib['deleteicon'], 'alt' => rcube_label('delete'))) : rcube_label('delete');
+    $del_button = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => rcube_label('delete'))) : rcube_label('delete');
     unset($attrib['deleteicon']);
     $out = '';
 
@@ -549,22 +593,13 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     // iterate over possible subtypes and collect values with their subtype
                     if (is_array($colprop['subtypes'])) {
                         $values = $subtypes = array();
-                        foreach ($colprop['subtypes'] as $i => $st) {
-                            $newval = false;
-                            if ($record[$field.':'.$st]) {
-                                $subtypes[count($values)] = $st;
-                                $newval = $record[$field.':'.$st];
+                        foreach (rcube_addressbook::get_col_values($field, $record) as $st => $vals) {
+                            foreach((array)$vals as $value) {
+                                $i = count($values);
+                                $subtypes[$i] = $st;
+                                $values[$i] = $value;
                             }
-                            else if ($i == 0 && $record[$field]) {
-                                $subtypes[count($values)] = $st;
-                                $newval = $record[$field];
-                            }
-                            if ($newval !== false) {
-                                if (is_array($newval) && isset($newval[0]))
-                                    $values = array_merge($values, $newval);
-                                else
-                                    $values[] = $newval;
-                            }
+                            // TODO: add $st to $select_subtype if missing ?
                         }
                     }
                     else {
@@ -702,12 +737,15 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
 function rcmail_contact_photo($attrib)
 {
-    global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL, $CONFIG;
+    global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL;
 
     if ($result = $CONTACTS->get_result())
         $record = $result->first();
 
-    $photo_img = $attrib['placeholder'] ? $CONFIG['skin_path'] . $attrib['placeholder'] : 'program/resources/blank.gif';
+    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->get_skin_file($attrib['placeholder']) : 'program/resources/blank.gif';
+    if ($record['_type'] == 'group' && $attrib['placeholdergroup'])
+        $photo_img = $RCMAIL->output->get_skin_file($attrib['placeholdergroup']);
+
     $RCMAIL->output->set_env('photo_placeholder', $photo_img);
     unset($attrib['placeholder']);
 
@@ -742,30 +780,12 @@ function rcmail_format_date_col($val)
 }
 
 
-function rcmail_contact_key($row, $sort_col)
-{
-    $key = $row[$sort_col] . ':' . $row['sourceid'];
-
-    // add email to a key to not skip contacts with the same name (#1488375)
-    if (!empty($row['email'])) {
-         if (is_array($row['email'])) {
-             $key .= ':' . implode(':', $row['email']);
-         }
-         else {
-             $key .= ':' . $row['email'];
-         }
-     }
-
-     return $key;
-}
-
-
 /**
  * Returns contact ID(s) and source(s) from GET/POST data
  *
  * @return array List of contact IDs per-source
  */
-function rcmail_get_cids()
+function rcmail_get_cids($filter = null)
 {
     // contact ID (or comma-separated list of IDs) is provided in two
     // forms. If _source is an empty string then the ID is a string
@@ -773,6 +793,10 @@ function rcmail_get_cids()
 
     $cid    = get_input_value('_cid', RCUBE_INPUT_GPC);
     $source = (string) get_input_value('_source', RCUBE_INPUT_GPC);
+
+    if (is_array($cid)) {
+        return $cid;
+    }
 
     if (!preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
         return array();
@@ -784,29 +808,35 @@ function rcmail_get_cids()
 
     // create per-source contact IDs array
     foreach ($cid as $id) {
-        // if _source is not specified we'll find it from decoded ID
+        // extract source ID from contact ID (it's there in search mode)
+        // see #1488959 and #1488862 for reference
         if (!$got_source) {
             if ($sep = strrpos($id, '-')) {
                 $contact_id = substr($id, 0, $sep);
-                $source_id  = substr($id, $sep+1);
+                $source_id  = (string) substr($id, $sep+1);
                 if (strlen($source_id)) {
-                    $result[(string)$source_id][] = $contact_id;
+                    $result[$source_id][] = $contact_id;
                 }
             }
         }
         else {
+            if (substr($id, -($got_source+1)) === "-$source") {
+                $id = substr($id, 0, -($got_source+1));
+            }
             $result[$source][] = $id;
         }
     }
 
-    return $result;
+    return $filter !== null ? $result[$filter] : $result;
 }
+
 
 // register UI objects
 $OUTPUT->add_handlers(array(
     'directorylist' => 'rcmail_directory_list',
 //  'groupslist' => 'rcmail_contact_groups',
     'addresslist' => 'rcmail_contacts_list',
+    'addresslisttitle' => 'rcmail_contacts_list_title',
     'addressframe' => 'rcmail_contact_frame',
     'recordscountdisplay' => 'rcmail_rowcount_display',
     'searchform' => array($OUTPUT, 'search_form')

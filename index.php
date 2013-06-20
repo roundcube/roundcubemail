@@ -2,9 +2,9 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 0.9-git                                                         |
+ | Version 1.0-git                                                         |
  |                                                                         |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                         |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -161,7 +161,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 }
 
 // end session (after optional referer check)
-else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcmail::check_referer())) {
+else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && (!$RCMAIL->config->get('referer_check') || rcube_utils::check_referer())) {
   $userdata = array(
     'user' => $_SESSION['username'],
     'host' => $_SESSION['storage_host'],
@@ -236,7 +236,7 @@ else {
     }
 
     // check referer if configured
-    if ($RCMAIL->config->get('referer_check') && !rcmail::check_referer()) {
+    if ($RCMAIL->config->get('referer_check') && !rcube_utils::check_referer()) {
       raise_error(array(
         'code' => 403, 'type' => 'php',
         'message' => "Referer check failed"), true, true);
@@ -248,7 +248,6 @@ else {
 $plugin = $RCMAIL->plugins->exec_hook('ready', array('task' => $RCMAIL->task, 'action' => $RCMAIL->action));
 $RCMAIL->set_task($plugin['task']);
 $RCMAIL->action = $plugin['action'];
-
 
 // handle special actions
 if ($RCMAIL->action == 'keep-alive') {
@@ -282,7 +281,8 @@ while ($redirects < 5) {
   else if (($stepfile = $RCMAIL->get_action_file())
     && is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/'.$stepfile)
   ) {
-    include $incfile;
+    // include action file only once (in case it don't exit)
+    include_once $incfile;
     $redirects++;
   }
   else {
@@ -290,6 +290,9 @@ while ($redirects < 5) {
   }
 }
 
+if ($RCMAIL->action == 'refresh') {
+  $RCMAIL->plugins->exec_hook('refresh', array());
+}
 
 // parse main template (default)
 $OUTPUT->send($RCMAIL->task);

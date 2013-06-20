@@ -19,8 +19,14 @@
  +-----------------------------------------------------------------------+
 */
 
-$current = $RCMAIL->storage->get_folder();
-$check_all = !empty($_GET['_refresh']) || (bool)$RCMAIL->config->get('check_all_folders');
+// If there's no folder or messages list, there's nothing to update
+// This can happen on 'refresh' request
+if (empty($_REQUEST['_folderlist']) && empty($_REQUEST['_list'])) {
+    return;
+}
+
+$current   = $RCMAIL->storage->get_folder();
+$check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
 
 // list of folders to check
 if ($check_all) {
@@ -28,9 +34,14 @@ if ($check_all) {
 }
 else {
     $a_mailboxes = (array) $current;
-    if ($a_mailboxes[0] != 'INBOX')
+    if ($current != 'INBOX') {
         $a_mailboxes[] = 'INBOX';
+    }
 }
+
+// Control folders list from a plugin
+$plugin      = $RCMAIL->plugins->exec_hook('check_recent', array('folders' => $a_mailboxes, 'all' => $check_all));
+$a_mailboxes = $plugin['folders'];
 
 // check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
@@ -41,12 +52,12 @@ foreach ($a_mailboxes as $mbox_name) {
     }
 
     // Get mailbox status
-    $status = $RCMAIL->storage->folder_status($mbox_name);
+    $status = $RCMAIL->storage->folder_status($mbox_name, $diff);
 
     if ($status & 1) {
         // trigger plugin hook
         $RCMAIL->plugins->exec_hook('new_messages',
-            array('mailbox' => $mbox_name, 'is_current' => $is_current));
+            array('mailbox' => $mbox_name, 'is_current' => $is_current, 'diff' => $diff));
     }
 
     rcmail_send_unread_count($mbox_name, true, null,
@@ -64,13 +75,16 @@ foreach ($a_mailboxes as $mbox_name) {
         if (!empty($_GET['_quota']))
             $OUTPUT->command('set_quota', rcmail_quota_content());
 
+        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+
         // "No-list" mode, don't get messages
         if (empty($_GET['_list']))
             continue;
 
-        // get overall message count; allow caching because rcube_storage::folder_status() did a refresh
+        // get overall message count; allow caching because rcube_storage::folder_status()
+        // did a refresh but only in list mode
         $list_mode = $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL';
-        $all_count = $RCMAIL->storage->count(null, $list_mode, false, false);
+        $all_count = $RCMAIL->storage->count($mbox_name, $list_mode, $list_mode == 'THREADS', false);
         $page      = $RCMAIL->storage->get_page();
         $page_size = $RCMAIL->storage->get_pagesize();
 
@@ -102,6 +116,7 @@ foreach ($a_mailboxes as $mbox_name) {
     }
 }
 
-$RCMAIL->plugins->exec_hook('keep_alive', array());
+// trigger refresh hook
+$RCMAIL->plugins->exec_hook('refresh', array());
 
 $OUTPUT->send();

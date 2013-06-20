@@ -6,6 +6,7 @@ ORG:roundcube.net;
 EMAIL;INTERNET;WORK:inbox@roundcube.net
 EMAIL;INTERNET;HOME;TYPE=pref:roundcube@gmail.com
 TEL;WORK:+123456789
+TEL;CELL:+987654321
 ADR;WORK:;;The street;Hometown;;5555;Cayman Islands
 NOTE:The notes...
 END:VCARD

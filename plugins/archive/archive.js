@@ -1,6 +1,6 @@
 /*
  * Archive plugin script
- * @version @package_version@
+ * @version 2.0
  */
 
 function rcmail_archive(prop)
@@ -8,8 +8,19 @@ function rcmail_archive(prop)
   if (!rcmail.env.uid && (!rcmail.message_list || !rcmail.message_list.get_selection().length))
     return;
   
-  if (rcmail.env.mailbox != rcmail.env.archive_folder)
-    rcmail.command('moveto', rcmail.env.archive_folder);
+  if (rcmail.env.mailbox.indexOf(rcmail.env.archive_folder) != 0) {
+    if (!rcmail.env.archive_type) {
+      // simply move to archive folder (if no partition type is set)
+      rcmail.command('moveto', rcmail.env.archive_folder);
+    }
+    else {
+      // let the server sort the messages to the according subfolders
+      rcmail.http_post(
+        'plugin.move2archive',
+        { _uid: rcmail.message_list.get_selection().join(','), _mbox: rcmail.env.mailbox }
+      );
+    }
+  }
 }
 
 // callback for app-onload event
@@ -29,6 +40,12 @@ if (window.rcmail) {
     var li;
     if (rcmail.env.archive_folder && (li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true)))
       $(li).addClass('archive');
+
+    // callback for server response
+    rcmail.addEventListener('plugin.move2archive_response', function(result) {
+      if (result.update)
+        rcmail.command('checkmail');  // refresh list
+    });
   })
 }
 

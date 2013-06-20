@@ -42,6 +42,13 @@ else {
     $result = $spellchecker->get_xml();
 }
 
+if ($err = $spellchecker->error()) {
+    rcube::raise_error(array('code' => 500, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => sprintf("Spell check engine error: " . $err)),
+        true, false);
+}
+
 // set response length
 header("Content-Length: " . strlen($result));
 

@@ -46,6 +46,11 @@ else if ($request['method'] == 'learnWord') {
 }
 
 if ($error = $spellchecker->error()) {
+    rcube::raise_error(array('code' => 500, 'type' => 'php',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => sprintf("Spell check engine error: " . $error)),
+        true, false);
+
     echo '{"error":{"errstr":"' . addslashes($error) . '","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}';
     exit;
 }

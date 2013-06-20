@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/hu_HU/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Németh András <narzym@hotmail.com>                          |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Hiba történt';
-$messages['loginfailed'] = 'Sikertelen bejelentkezés.';
+$messages['errortitle']  = 'Hiba történt!';
+$messages['loginfailed']  = 'Sikertelen bejelentkezés.';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
 $messages['storageerror'] = 'Nem sikerült csatlakozni az IMAP szerverhez';
@@ -25,10 +28,14 @@ $messages['dberror'] = 'Adatbázishiba!';
 $messages['requesttimedout'] = 'A kérés túllépte az időkorlátot';
 $messages['errorreadonly'] = 'A műveletet nem sikerült végrehajtani. A mappa írásvédett.';
 $messages['errornoperm'] = 'A műveletet nem sikerült végrehajtani. Hozzáférés megtagadva.';
+$messages['erroroverquota'] = 'A műveletet nem lehetett végrehajtani mivel nincs elég szabad hely a merevlemezen.';
+$messages['erroroverquotadelete'] = 'Nincs elég szabad hely a merevlemezen. A SHIFT+DEL billenytyű kombinációt használd az üzenet törléséhez.';
 $messages['invalidrequest'] = 'Érvénytelen kérés! Az adatok nem lettek elmentve.';
+$messages['invalidhost'] = 'Hibás szerver hoszt név';
 $messages['nomessagesfound'] = 'A fiók nem tartalmaz leveleket';
 $messages['loggedout'] = 'Sikeres kijelentkezés. Viszontlátásra!';
 $messages['mailboxempty'] = 'A fiók üres';
+$messages['refreshing'] = 'Frissítés...';
 $messages['loading'] = 'Betöltés...';
 $messages['uploading'] = 'Fájl feltöltése...';
 $messages['uploadingmany'] = 'Fájlok feltöltése...';
@@ -55,11 +62,11 @@ $messages['errormoving'] = 'Az üzenet(ek)et nem sikerült áthelyezni';
 $messages['errorcopying'] = 'Az üzenet(ek)et nem sikerült másolni';
 $messages['errordeleting'] = 'Az üzenet(ek)et nem sikerült törölni';
 $messages['errormarking'] = 'Az üzenet(ek)et nem sikerült megjelölni';
-$messages['deletecontactconfirm'] = 'Biztos, hogy törölni szeretné a kijelölt kapcsolato(ka)t?';
-$messages['deletegroupconfirm'] = 'Biztos, hogy törölni szeretné a kijelölt csoportot?';
+$messages['deletecontactconfirm']  = 'Biztos, hogy törölni szeretné a kijelölt kapcsolato(ka)t?';
+$messages['deletegroupconfirm']  = 'Biztos, hogy törölni szeretné a kijelölt csoportot?';
 $messages['deletemessagesconfirm'] = 'Biztos, hogy törölni szeretné a kijelölt üzenete(ke)t?';
-$messages['deletefolderconfirm'] = 'Biztos, hogy törölni szeretné ezt a mappát?';
-$messages['purgefolderconfirm'] = 'Biztos benne, hogy az összes üzenet törölhető?';
+$messages['deletefolderconfirm']  = 'Biztos, hogy törölni szeretné ezt a mappát?';
+$messages['purgefolderconfirm']  = 'Biztos benne, hogy az összes üzenet törölhető?';
 $messages['contactdeleting'] = 'Kapcsolat(ok) törlése...';
 $messages['groupdeleting'] = 'Csoport törlése...';
 $messages['folderdeleting'] = 'Mappa törlése...';
@@ -68,11 +75,11 @@ $messages['foldersubscribing'] = 'Feliratkozás a mappára...';
 $messages['folderunsubscribing'] = 'Leiratkozás a mappáról...';
 $messages['formincomplete'] = 'Az űrlap hiányosan lett kitöltve';
 $messages['noemailwarning'] = 'Adjon meg egy valós e-mail címet';
-$messages['nonamewarning'] = 'Adjon meg egy nevet';
+$messages['nonamewarning']  = 'Adjon meg egy nevet';
 $messages['nopagesizewarning'] = 'Adja meg a papír méretét';
 $messages['nosenderwarning'] = 'Kérem adja meg a feladó e-mail címét';
 $messages['norecipientwarning'] = 'Legalább egy címzettet adjon meg';
-$messages['nosubjectwarning'] = 'A Tárgy mező üres. Szeretné most kitölteni?';
+$messages['nosubjectwarning']  = 'A Tárgy mező üres. Szeretné most kitölteni?';
 $messages['nobodywarning'] = 'Elküldi az üzenetet üresen?';
 $messages['notsentwarning'] = 'Az üzenet még nem lett elküldve. Eldobja az üzenetet?';
 $messages['noldapserver'] = 'Adjon meg egy LDAP szervert a kereséshez';
@@ -114,8 +121,9 @@ $messages['selectimportfile'] = 'Kérjük válassza ki a feltölteni kívánt f�
 $messages['addresswriterror'] = 'A kiválasztott címjegyzék nem írható';
 $messages['contactaddedtogroup'] = 'A kapcsolat hozzáadása a csoporthoz sikeresen megtörtént';
 $messages['contactremovedfromgroup'] = 'A kapcsolat törlése a csoportból sikeresen megtörtént';
+$messages['nogroupassignmentschanged'] = 'A csoport hozzárendelések nem változtak.';
 $messages['importwait'] = 'Importálás folyamatban, kérem várjon...';
-$messages['importerror'] = 'Az importálás sikertelen! A feltöltött állomány nem egy érvényes vCard fájl.';
+$messages['importformaterror'] = 'Az importálás sikertelen! A feltöltött fájl ismeretlen formátumú.';
 $messages['importconfirm'] = '<b>Sikeresen importálásra került $inserted kapcsolat, kihagyva $skipped már létező bejegyzés</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Kihagyva $skipped már létező bejegyzés</b>';
 $messages['opnotpermitted'] = 'A művelet nem megengedett!';
@@ -157,4 +165,7 @@ $messages['invalidimageformat'] = 'Érvénytelen képformátum';
 $messages['mispellingsfound'] = 'Az üzenetben helyesírási hibák találhatók';
 $messages['parentnotwritable'] = 'Nem sikerült a mappa létrehozása/mozgatása a kijelölt mappába. Nincs jogosultsága a művelethez!';
 $messages['messagetoobig'] = 'Az üzenetrész túl nagy a feldolgozáshoz.';
+$messages['attachmentvalidationerror'] = 'FIGYELEM! A csatalmány veszélyes lehet, mert a típusa nem egyezik az üzenetben beállított típussal. Amennyiben nem megbizható az üzenet küldője, ne nyissa meg a csatolmányt a böngészőben mert ártalmas lehet a tartalma.<br/><br/><em>Üzenetben beállított tipus: $expected; az érzékelt típus: $detected</em>';
+$messages['noscriptwarning'] = 'FIGYELEM: Ez webmail szolgáltatása igényli a Javascript futtatásának a lehetőségét! Amennyiben használni szeretné, engedélyezze a JavaScript futtatását a böngészőjének a beállatásaiban.';
 
+?>

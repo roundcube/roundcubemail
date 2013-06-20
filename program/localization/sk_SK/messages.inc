@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/sk_SK/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: panda                                                         |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Vyskytla sa chyba!';
-$messages['loginfailed'] = 'Chybné prihlásenie';
+$messages['errortitle']  = 'Vyskytla sa chyba!';
+$messages['loginfailed']  = 'Chybné prihlásenie';
 $messages['cookiesdisabled'] = 'Váš internetový prehliadač nepodporuje cookies, ktoré sú potrebné pre prihlásenie';
 $messages['sessionerror'] = 'Vaše prihlásenie je neplatné alebo vypršala jeho platnosť';
 $messages['storageerror'] = 'Nepodarilo sa spojiť s IMAP serverom';
@@ -25,10 +28,14 @@ $messages['dberror'] = 'Databázová chyba!';
 $messages['requesttimedout'] = 'Čas požiadavky vypršal';
 $messages['errorreadonly'] = 'Nemožno vykonať operáciu. Adresár je len na čítanie';
 $messages['errornoperm'] = 'Nemožno vykonať operáciu. Prístup odmietnutý';
+$messages['erroroverquota'] = 'Unable to perform operation. No free disk space.';
+$messages['erroroverquotadelete'] = 'No free disk space. Use SHIFT+DEL to delete a message.';
 $messages['invalidrequest'] = 'Chybný požiadavek. Žiadne údaje neboli uložené.';
+$messages['invalidhost'] = 'Neplatný názov servera';
 $messages['nomessagesfound'] = 'Vo Vašej schránke nie je žiadna správa';
 $messages['loggedout'] = 'Odhlásenie prebehlo úspešne. Dovidenia.';
 $messages['mailboxempty'] = 'Schránka je prázdna';
+$messages['refreshing'] = 'Refreshing...';
 $messages['loading'] = 'Načítava sa...';
 $messages['uploading'] = 'Nahrávám súbor...';
 $messages['uploadingmany'] = 'Nahrávam súbory...';
@@ -55,11 +62,11 @@ $messages['errormoving'] = 'Správa sa nedá presunúť';
 $messages['errorcopying'] = 'Správa sa nedá skopírovať';
 $messages['errordeleting'] = 'Správa sa nedá zmazať';
 $messages['errormarking'] = 'Správa sa nedá označiť';
-$messages['deletecontactconfirm'] = 'Ste si istý, že chcete zmazať zvolený(é) kontakt(y)?';
-$messages['deletegroupconfirm'] = 'Skutočne chceš zmazať vybranú skupinu?';
+$messages['deletecontactconfirm']  = 'Ste si istý, že chcete zmazať zvolený(é) kontakt(y)?';
+$messages['deletegroupconfirm']  = 'Skutočne chceš zmazať vybranú skupinu?';
 $messages['deletemessagesconfirm'] = 'Ste si istý, že chcete zmazať zvolenú(é) správu(y)?';
-$messages['deletefolderconfirm'] = 'Ste si istý, že chcete zmazať tento priečinok?';
-$messages['purgefolderconfirm'] = 'Ste si istý, že chcete zmazať všetky správy v tomto priečinku?';
+$messages['deletefolderconfirm']  = 'Ste si istý, že chcete zmazať tento priečinok?';
+$messages['purgefolderconfirm']  = 'Ste si istý, že chcete zmazať všetky správy v tomto priečinku?';
 $messages['contactdeleting'] = 'Mažem kontakt(y)...';
 $messages['groupdeleting'] = 'Mažem skupinu...';
 $messages['folderdeleting'] = 'Odstraňuje sa priečinok ...';
@@ -68,11 +75,11 @@ $messages['foldersubscribing'] = 'Prihlasujem sa k adresáru...';
 $messages['folderunsubscribing'] = 'Odhlasujem sa z adresára...';
 $messages['formincomplete'] = 'Formulár nie je kompletne vyplnený';
 $messages['noemailwarning'] = 'Prosím, vložte platnú emailovú adresu';
-$messages['nonamewarning'] = 'Prosím, zadajte meno';
+$messages['nonamewarning']  = 'Prosím, zadajte meno';
 $messages['nopagesizewarning'] = 'Prosím, zadajte veľkosť strany';
 $messages['nosenderwarning'] = 'Prosím, zadajte adresu odosielateľa';
 $messages['norecipientwarning'] = 'Prosím, vložte aspoň jedného príjemcu';
-$messages['nosubjectwarning'] = 'Predmet správy je prázdny. Chcete ho teraz zadať?';
+$messages['nosubjectwarning']  = 'Predmet správy je prázdny. Chcete ho teraz zadať?';
 $messages['nobodywarning'] = 'Chcete odoslať správu bez textu?';
 $messages['notsentwarning'] = 'Správa nebola odoslaná, chcete ju zrušiť?';
 $messages['noldapserver'] = 'Prosím, zvoľte LDAP server na vyhľadávanie';
@@ -114,8 +121,9 @@ $messages['selectimportfile'] = 'Zvoľte súbor, ktorý chcete načítať';
 $messages['addresswriterror'] = 'Zvolený adresár kontaktov je iba na čítanie';
 $messages['contactaddedtogroup'] = 'Kontakty boli úspešne presunuty do tejto skupiny';
 $messages['contactremovedfromgroup'] = 'Kontakty boli úspešne odstráneny z tejto skupiny';
+$messages['nogroupassignmentschanged'] = 'Priradenia do skupín neboli zmenené.';
 $messages['importwait'] = 'Prebieha import, počkajte ...';
-$messages['importerror'] = 'Import zlyhal. Načítavaný súbor nie je platným vCard súborom.';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>Úspešne sa načítalo $inserted kontaktov, preskočilo sa $skipped existujúcich záznamov</b>:<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>Preskočených $skipped existujúcich záznamov</b>';
 $messages['opnotpermitted'] = 'Operácia nie je povolená!';
@@ -157,4 +165,7 @@ $messages['invalidimageformat'] = 'Zlý formát obrázku';
 $messages['mispellingsfound'] = 'V správe boli nájdené pravopisné chyby';
 $messages['parentnotwritable'] = 'Nemôžem vytvoriť/presunúť adresár do zvoleného nadradeného adresára. Nemáte oprávnenia na zmenu.';
 $messages['messagetoobig'] = 'Časť správy je príliš veľká na spracovanie.';
+$messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
+$messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 
+?>

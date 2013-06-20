@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Local mapping file to specify mime-types based on common file-name extensions
+ *
+ * Please note that this mapping takes precedence over the content-based mime-type detection
+ * and should only contain mappings which cannot be detected properly from the file contents.
+ */
+
 return array(
   'xls' => 'application/vnd.ms-excel',
   'xlm' => 'application/vnd.ms-excel',

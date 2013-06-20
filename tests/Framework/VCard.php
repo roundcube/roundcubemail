@@ -33,6 +33,52 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $this->assertEquals("roundcube@gmail.com", $vcard->email[0], "Use PREF e-mail as primary");
     }
 
+    /**
+     * Make sure MOBILE phone is returned as CELL (as specified in standard)
+     */
+    function test_parse_three()
+    {
+        $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
+
+        $vcf = $vcard->export();
+        $this->assertRegExp('/TEL;CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (import)");
+
+        $vcard = new rcube_vcard();
+        $vcard->set('phone', '+987654321', 'MOBILE');
+
+        $vcf = $vcard->export();
+        $this->assertRegExp('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
+    }
+
+    /**
+     * Backslash escaping test (#1488896)
+     */
+    function test_parse_four()
+    {
+        $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\;;first\\\\;middle\\\\\\;\\\\;prefix;\nFN:test\nEND:VCARD";
+        $vcard = new rcube_vcard($vcard, null);
+        $vcard = $vcard->get_assoc();
+
+        $this->assertEquals("last;", $vcard['surname'], "Decode backslash character");
+        $this->assertEquals("first\\", $vcard['firstname'], "Decode backslash character");
+        $this->assertEquals("middle\\;\\", $vcard['middlename'], "Decode backslash character");
+        $this->assertEquals("prefix", $vcard['prefix'], "Decode backslash character");
+    }
+
+    /**
+     * Backslash parsing test (#1489085)
+     */
+    function test_parse_five()
+    {
+        $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\\\\\a;fir\\nst\nURL:http\\://domain.tld\nEND:VCARD";
+        $vcard = new rcube_vcard($vcard, null);
+        $vcard = $vcard->get_assoc();
+
+        $this->assertEquals("last\\a", $vcard['surname'], "Decode dummy backslash character");
+        $this->assertEquals("fir\nst", $vcard['firstname'], "Decode backslash character");
+        $this->assertEquals("http://domain.tld", $vcard['website:other'][0], "Decode dummy backslash character");
+    }
+
     function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));

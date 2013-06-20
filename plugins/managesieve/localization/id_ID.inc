@@ -2,19 +2,21 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/id_ID/labels.inc                                         |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Putu Arya Sabda Wijaya <Unknown>                              |
- +-----------------------------------------------------------------------+
- @version $Id$
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 
-$labels = array();
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Atur filter email masuk';
 $labels['filtername'] = 'Nama filter';
@@ -47,15 +49,18 @@ $labels['messagesendcopy'] = 'Kirim salinan pesan ke';
 $labels['messagereply'] = 'balas dengan pesan';
 $labels['messagedelete'] = 'Hapus pesan';
 $labels['messagediscard'] = 'Buang dengan pesan';
-$labels['messagesrules'] = 'Unutk email masuk:';
-$labels['messagesactions'] = '...mengeksekusi tindakan berikut';
+$labels['messagesrules'] = 'Untuk email masuk:';
+$labels['messagesactions'] = '...lakukan tindakan berikut';
 $labels['add'] = 'Tambah';
 $labels['del'] = 'Hapus';
 $labels['sender'] = 'Pengirim';
 $labels['recipient'] = 'Penerima';
-$labels['vacationaddresses'] = 'Daftar tambahan penerima email (terpisah koma):';
+$labels['vacationaddr'] = 'Alamat email tambahan saya:';
 $labels['vacationdays'] = 'Seberapa sering mengirim pesan (dalam hari):';
-$labels['vacationreason'] = 'Badan pesan (alasan liburan):';
+$labels['vacationinterval'] = 'How often send messages:';
+$labels['days'] = 'days';
+$labels['seconds'] = 'seconds';
+$labels['vacationreason'] = 'Isi pesan (alasan liburan):';
 $labels['vacationsubject'] = 'Judul pesan:';
 $labels['rulestop'] = 'Berhenti mengevaluasi aturan';
 $labels['enable'] = 'Aktifkan/Non-Aktifkan';
@@ -85,14 +90,33 @@ $labels['valueislessthan'] = 'nilai lebih kecil dari';
 $labels['valueislessthanequal'] = 'nilai lebih kecil dari atau sama dengan';
 $labels['valueequals'] = 'nilai sama dengan';
 $labels['valuenotequals'] = 'nilai tidak sama dengan';
-$labels['setflags'] = 'Tandai pesan';
-$labels['addflags'] = 'Tambah tandai pada pesan';
+$labels['setflags'] = 'Atur tanda pada pesan';
+$labels['addflags'] = 'Berikan tanda pada pesan';
 $labels['removeflags'] = 'Cabut tanda dari pesan';
 $labels['flagread'] = 'Baca';
 $labels['flagdeleted'] = 'Terhapus';
 $labels['flaganswered'] = 'Terjawab';
 $labels['flagflagged'] = 'Ditandai';
 $labels['flagdraft'] = 'Konsep';
+$labels['setvariable'] = 'Set variabel';
+$labels['setvarname'] = 'Nama variabel:';
+$labels['setvarvalue'] = 'Nilai variabel';
+$labels['setvarmodifiers'] = 'Pengubah';
+$labels['varlower'] = 'huruf kecil';
+$labels['varupper'] = 'huruf besar';
+$labels['varlowerfirst'] = 'karakter pertama huruf kecil';
+$labels['varupperfirst'] = 'karakter pertama huruf besar';
+$labels['varquotewildcard'] = 'kutip karakter khusus';
+$labels['varlength'] = 'panjang';
+$labels['notify'] = 'Kirim pemberitahuan';
+$labels['notifyaddress'] = 'Ke alamat email:';
+$labels['notifybody'] = 'Isi pemberitahuan:';
+$labels['notifysubject'] = 'Judul pemberitahuan';
+$labels['notifyfrom'] = 'Pengirim pemberitahuan.';
+$labels['notifyimportance'] = 'Tingkat kepentingan:';
+$labels['notifyimportancelow'] = 'rendah';
+$labels['notifyimportancenormal'] = 'normal';
+$labels['notifyimportancehigh'] = 'tinggi';
 $labels['filtercreate'] = 'Buat filter';
 $labels['usedata'] = 'Gunakan data berikut dalam filter:';
 $labels['nextstep'] = 'Langkah Selanjutnya';
@@ -116,35 +140,38 @@ $labels['default'] = 'standar';
 $labels['octet'] = 'ketat (oktet)';
 $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
-$labels['filterunknownerror'] = 'Galat pada server tak dikenali.';
-$labels['filterconnerror'] = 'Tidak dapat menyambung ke server.';
-$labels['filterdeleteerror'] = 'Tidak bisa menghapus penyaringan. Terjadi galat pada server.';
-$labels['filterdeleted'] = 'Penyaringan berhasil dihapus.';
-$labels['filtersaved'] = 'Penyaringan berhasil disimpan.';
-$labels['filtersaveerror'] = 'Tidak bisa menyimpan penyaringan. Terjadi galat pada server.';
-$labels['filterdeleteconfirm'] = 'Yakin untuk menghapus penyaringan terpilih?';
-$labels['ruledeleteconfirm'] = 'Yakin untuk menghapus aturan terpilih?';
-$labels['actiondeleteconfirm'] = 'Yakin untuk menghapus tindakan terpilih?';
-$labels['forbiddenchars'] = 'Karakter terlarang pada isian.';
-$labels['cannotbeempty'] = 'Isian tidak bisa kosong.';
-$labels['ruleexist'] = 'Penyaringan dengan nama tersebut sudah ada.';
-$labels['setactivateerror'] = 'Tidak bisa menghidupkan kumpulan penyaringan terpilih. Terjadi galat pada server.';
-$labels['setdeactivateerror'] = 'Tidak bisa mematikan kumpulan penyaringan terpilih. Terjadi galat pada server.';
-$labels['setdeleteerror'] = 'Tidak bisa menghapus kumpulan penyaringan terpilih. Terjadi galat pada server.';
-$labels['setactivated'] = 'Kumpulan penyaringan berhasil dihidupkan.';
-$labels['setdeactivated'] = 'Kumpulan penyaringan berhasil dimatikan.';
-$labels['setdeleted'] = 'Kumpulan penyaringan berhasil dihapus.';
-$labels['setdeleteconfirm'] = 'Yakin ingin menghapus kumpulan penyaringan terpilih?';
-$labels['setcreateerror'] = 'Tidak bisa membuat kumpulan penyaringan. Terjadi galat pada server.';
-$labels['setcreated'] = 'Kumpulan penyaringan berhasul dibuat.';
-$labels['activateerror'] = 'Tidak bisa menghidupkan penyaringan terpilih. terjadi galat pada server.';
-$labels['deactivateerror'] = 'Tidak bisa mematikan penyaringan terpilih. Terjadi galat pada server.';
-$labels['deactivated'] = 'Berhasil mematikan penyaringan.';
-$labels['activated'] = 'Berhasil menghidupkan penyaringan.';
-$labels['moved'] = 'Berhasil memindahkan penyaringan.';
-$labels['moveerror'] = 'Tidak bisa memindahkan penyaringan terpilih. Terjadi galat pada server.';
-$labels['nametoolong'] = 'Kepanjangan nama.';
-$labels['namereserved'] = 'Nama sudah ada.';
-$labels['setexist'] = 'Kumpulan sudah ada.';
-$labels['nodata'] = 'Setidaknya satu posisi harus dipilih!';
 
+$messages = array();
+$messages['filterunknownerror'] = 'Error pada server tak dikenali.';
+$messages['filterconnerror'] = 'Tidak dapat menyambung ke server.';
+$messages['filterdeleteerror'] = 'Tidak bisa menghapus penyaringan. Terjadi error pada server.';
+$messages['filterdeleted'] = 'Penyaringan berhasil dihapus.';
+$messages['filtersaved'] = 'Penyaringan berhasil disimpan.';
+$messages['filtersaveerror'] = 'Tidak bisa menyimpan penyaringan. Terjadi error pada server.';
+$messages['filterdeleteconfirm'] = 'Yakin untuk menghapus penyaringan terpilih?';
+$messages['ruledeleteconfirm'] = 'Yakin untuk menghapus aturan terpilih?';
+$messages['actiondeleteconfirm'] = 'Yakin untuk menghapus tindakan terpilih?';
+$messages['forbiddenchars'] = 'Karakter terlarang pada isian.';
+$messages['cannotbeempty'] = 'Isian tidak bisa kosong.';
+$messages['ruleexist'] = 'Penyaringan dengan nama tersebut sudah ada.';
+$messages['setactivateerror'] = 'Tidak bisa menghidupkan kumpulan penyaringan terpilih. Terjadi error pada server.';
+$messages['setdeactivateerror'] = 'Tidak bisa mematikan kumpulan penyaringan terpilih. Terjadi error pada server.';
+$messages['setdeleteerror'] = 'Tidak bisa menghapus kumpulan penyaringan terpilih. Terjadi error pada server.';
+$messages['setactivated'] = 'Kumpulan penyaringan berhasil dihidupkan.';
+$messages['setdeactivated'] = 'Kumpulan penyaringan berhasil dimatikan.';
+$messages['setdeleted'] = 'Kumpulan penyaringan berhasil dihapus.';
+$messages['setdeleteconfirm'] = 'Yakin ingin menghapus kumpulan penyaringan terpilih?';
+$messages['setcreateerror'] = 'Tidak bisa membuat kumpulan penyaringan. Terjadi galat pada server.';
+$messages['setcreated'] = 'Kumpulan penyaringan berhasul dibuat.';
+$messages['activateerror'] = 'Tidak bisa menghidupkan penyaringan terpilih. terjadi galat pada server.';
+$messages['deactivateerror'] = 'Tidak bisa mematikan penyaringan terpilih. Terjadi galat pada server.';
+$messages['deactivated'] = 'Berhasil menghidupkan penyaringan.';
+$messages['activated'] = 'Berhasil mematikan penyaringan.';
+$messages['moved'] = 'Berhasil memindahkan penyaringan.';
+$messages['moveerror'] = 'Tidak bisa memindahkan penyaringan terpilih. Terjadi error pada server.';
+$messages['nametoolong'] = 'Nama terlalu panjang.';
+$messages['namereserved'] = 'Nama sudah terpesan.';
+$messages['setexist'] = 'Kumpulan sudah ada.';
+$messages['nodata'] = 'Setidaknya satu posisi harus dipilih!';
+
+?>

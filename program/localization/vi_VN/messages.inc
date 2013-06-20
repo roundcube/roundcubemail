@@ -2,20 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/vi_VN/messages.inc                                       |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Language file of the Roundcube Webmail client                         |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
- | Licensed under the GNU General Public License                         |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
  |                                                                       |
  +-----------------------------------------------------------------------+
- | Author: Kenny Tran <kennethanh@gmail.com>                             |
- +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages = array();
-$messages['errortitle'] = 'Xuất hiện 1 lỗi';
-$messages['loginfailed'] = 'Không đăng nhập được';
+$messages['errortitle']  = 'Xuất hiện 1 lỗi';
+$messages['loginfailed']  = 'Không đăng nhập được';
 $messages['cookiesdisabled'] = 'Trình duyệt không hỗ trợ cookies';
 $messages['sessionerror'] = 'Phiên làm việc không hợp lệ hoặc đã hết hạn';
 $messages['storageerror'] = 'Không kết nối được với máy chủ IMAP';
@@ -23,12 +26,16 @@ $messages['servererror'] = 'Lỗi máy chủ';
 $messages['servererrormsg'] = 'Lỗi máy chủ';
 $messages['dberror'] = 'Lỗi cơ sở dữ liệu';
 $messages['requesttimedout'] = 'Yêu cầu hết  hạn';
-$messages['errorreadonly'] = 'Không thể thực hiện thao tác. Giữ liệu chỉ cho phép đọc.';
-$messages['errornoperm'] = 'Không thể thực hiện thao tác. Sự cho phép bị từ chối.';
+$messages['errorreadonly'] = 'Không thể thực hiện thao tác. Thư mục chỉ cho phép đọc.';
+$messages['errornoperm'] = 'Bạn không đủ quyền hạn để thực hiện thao tác này.';
+$messages['erroroverquota'] = 'Unable to perform operation. No free disk space.';
+$messages['erroroverquotadelete'] = 'No free disk space. Use SHIFT+DEL to delete a message.';
 $messages['invalidrequest'] = 'Yêu cầu không hợp lệ! Không có dữ liệu nào được lưu.';
+$messages['invalidhost'] = 'Sai thông tin máy chủ';
 $messages['nomessagesfound'] = 'Không thấy có thư nào trong hộp thư này.';
 $messages['loggedout'] = 'Phiên làm việc đã kết thúc thành công. Hẹn gặp lại!';
 $messages['mailboxempty'] = 'Hộp thư rỗng';
+$messages['refreshing'] = 'Đang tải xuống bản cập nhật mới...';
 $messages['loading'] = 'Đang tải...';
 $messages['uploading'] = 'Đang tải lên tập tin...';
 $messages['uploadingmany'] = 'Đang tải lên các tập tin';
@@ -55,11 +62,11 @@ $messages['errormoving'] = 'Không thể chuyển được thư';
 $messages['errorcopying'] = 'Không thể sao chép thư';
 $messages['errordeleting'] = 'Không thể xóa được thư';
 $messages['errormarking'] = 'Không thể đánh dấu (các) thư';
-$messages['deletecontactconfirm'] = 'Bạn có thực sự muốn xoá liên hệ đã chọn?';
-$messages['deletegroupconfirm'] = 'Bạn có thực sự muốn xóa nhóm đã chọn?';
+$messages['deletecontactconfirm']  = 'Bạn có thực sự muốn xoá liên hệ đã chọn?';
+$messages['deletegroupconfirm']  = 'Bạn có thực sự muốn xóa nhóm đã chọn?';
 $messages['deletemessagesconfirm'] = 'Bạn thực sự có muốn xóa (các) thư đã chọn?';
-$messages['deletefolderconfirm'] = 'Bạn có thực sự muốn xóa giữ liệu này?';
-$messages['purgefolderconfirm'] = 'Bạn có thực sự muốn xóa toàn bộ thư trong giữ liệu này?';
+$messages['deletefolderconfirm']  = 'Bạn có thực sự muốn xóa giữ liệu này?';
+$messages['purgefolderconfirm']  = 'Bạn có thực sự muốn xóa toàn bộ thư trong giữ liệu này?';
 $messages['contactdeleting'] = 'Đang xóa (các) liên lạc...';
 $messages['groupdeleting'] = 'Đang xóa nhóm...';
 $messages['folderdeleting'] = 'Đang xóa giữ liệu...';
@@ -68,11 +75,11 @@ $messages['foldersubscribing'] = 'Nhập vào giữ liệu...';
 $messages['folderunsubscribing'] = 'Không nhập giữ liệu...';
 $messages['formincomplete'] = 'Mẫu đơn chưa được hoàn toàn điền xong.';
 $messages['noemailwarning'] = 'Xin nhập địa chỉ email hợp lệ.';
-$messages['nonamewarning'] = 'Xin nhập tên.';
+$messages['nonamewarning']  = 'Xin nhập tên.';
 $messages['nopagesizewarning'] = 'Xin nhập kích cỡ của trang.';
 $messages['nosenderwarning'] = 'Xin nhập địa chỉ email người gửi';
 $messages['norecipientwarning'] = 'Xin nhập it nhất 1 người nhận.';
-$messages['nosubjectwarning'] = 'Mục "Tiêu đề" vẫn còn trống. Bạn có muốn nhập tiêu đề bây giờ không?';
+$messages['nosubjectwarning']  = 'Mục "Tiêu đề" vẫn còn trống. Bạn có muốn nhập tiêu đề bây giờ không?';
 $messages['nobodywarning'] = 'Gửi thư không có nội dung?';
 $messages['notsentwarning'] = 'Thư chưa được gửi. Bỏ qua thư đang soạn?';
 $messages['noldapserver'] = 'Chọn máy chủ ldap server để tìm';
@@ -105,7 +112,7 @@ $messages['deletingmessage'] = 'Đang xóa thư...';
 $messages['markingmessage'] = 'Đánh dấu thư...';
 $messages['addingmember'] = 'Đang thêm liên lạc vào nhóm...';
 $messages['removingmember'] = 'Đang xóa liên lạc từ nhóm...';
-$messages['receiptsent'] = 'Gửi thành công ghi nhận đã đọc';
+$messages['receiptsent'] = 'Biên nhận đọc đã được gửi thành công.';
 $messages['errorsendingreceipt'] = 'Không thể gửi ghi nhận';
 $messages['deleteidentityconfirm'] = 'Bạn có thực sự muốn xóa nhận diện này?';
 $messages['nodeletelastidentity'] = 'Bạn không thể xóa nhận diện này, đó là cái cuối cùng của bạn.';
@@ -114,14 +121,15 @@ $messages['selectimportfile'] = 'Xin chọn hồ sơ để tải lên.';
 $messages['addresswriterror'] = 'Sổ địa chỉ đã chọn không thể viết lại được';
 $messages['contactaddedtogroup'] = 'Thêm liên lạc vào nhóm này thành công';
 $messages['contactremovedfromgroup'] = 'Xóa liên lạc khỏi nhóm này thành công';
+$messages['nogroupassignmentschanged'] = 'Không quy nhóm nào đả được thay đổi';
 $messages['importwait'] = 'Đang nhập, xin chờ...';
-$messages['importerror'] = 'Nhập thất bại! Tập tin tải lên không phải là tập tin vCard hợp lệ.';
+$messages['importformaterror'] = 'Nhập dữ liệu lỗi. Tệp tin vừa tải lên không phải tệp dữ liệu chính xác.';
 $messages['importconfirm'] = 'Đã nhập $inserted liên hệ đã chèn vào thành công.';
 $messages['importconfirmskipped'] = 'Đã bỏ qua được $skipped mục tồn tại.';
 $messages['opnotpermitted'] = 'Thao tác không được cho phép!';
 $messages['nofromaddress'] = 'Địa chỉ email mất ở trong nhận dạng đã chọn';
-$messages['editorwarning'] = 'Việc chuyển soạn thảo text gốc sẽ gây ra toàn bộ định diện text đã có bị mất. Bạn có muốn tiếp tục không?';
-$messages['httpreceivedencrypterror'] = 'Xuất hiện một lỗi cấu hình  tai hại. Hãy liên hệ với ngừoi quản trị ngay. <b> Thư của bạn không thể gửi được </b>';
+$messages['editorwarning'] = 'Việc chuyển soạn thảo text gốc sẽ gây ra toàn bộ định dạng text đã có bị mất. Bạn có muốn tiếp tục không?';
+$messages['httpreceivedencrypterror'] = 'Xuất hiện một lỗi cấu hình  tai hại. Hãy liên hệ với người quản trị ngay. <b> Thư của bạn không thể gửi được </b>';
 $messages['smtpconnerror'] = 'Lỗi SMTP ($code): Kết nỗi tới máy chủ bị lỗi.';
 $messages['smtpautherror'] = 'Lỗi SMTP ($code): Xác thực thất bại.';
 $messages['smtpfromerror'] = 'Lỗi SMTP ($code):  Không thể bố trí người gửi "$from" ($msg).';
@@ -157,4 +165,7 @@ $messages['invalidimageformat'] = 'Không phải là định dạng ảnh hợp 
 $messages['mispellingsfound'] = 'Lỗi chính tả được phát hiện trong thư';
 $messages['parentnotwritable'] = 'Không thể tạo/chuyển folder vào folder gốc đã chọn. Không có quyền truy cập.';
 $messages['messagetoobig'] = 'Một phần thư quá lớn để xử lý nó.';
+$messages['attachmentvalidationerror'] = 'Cảnh báo: Tệp tin đính kèm có dấu hiệu nguy hiểm, vì kiểu tệp tin không trùng với kiểu được khai báo sử dụng trong thư. Nếu bạn không biết người gửi, bạn không nên mở thư vì nó có thể có các dữ liệu gây hại. <br/><br/><em>Dự kiến: $expected; được tìm thấy: $detected</em>';
+$messages['noscriptwarning'] = 'Cảnh báo: Dịch vụ webmail này yêu cầu sử dụng Javascript. Để sử dụng, bạn cần kích hoạt hỗ trợ Javascript trong cấu hình trình duyệt Internet đang sử dụng.';
 
+?>

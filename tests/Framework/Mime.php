@@ -39,6 +39,8 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             19 => 'Test <"test test"@domain.tld>',
             20 => '<"test test"@domain.tld>',
             21 => '"test test"@domain.tld',
+            // invalid (#1489092)
+            22 => '"John Doe @ SomeBusinessName" <MAILER-DAEMON>',
         );
 
         $results = array(
@@ -64,6 +66,8 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             19 => array(1, 'Test', '"test test"@domain.tld'),
             20 => array(1, '', '"test test"@domain.tld'),
             21 => array(1, '', '"test test"@domain.tld'),
+            // invalid (#1489092)
+            22 => array(1, 'John Doe @ SomeBusinessName', 'MAILER-DAEMON'),
         );
 
         foreach ($headers as $idx => $header) {
@@ -120,4 +124,84 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             $this->assertEquals($item['out'], $res, "Header decoding for: " . $idx);
         }
     }
+
+    /**
+     * Test format=flowed unfolding
+     */
+    function test_format_flowed()
+    {
+        $raw = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
+        $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
+
+        $this->assertEquals($flowed, rcube_mime::format_flowed($raw, 80), "Test correct folding and space-stuffing");
+    }
+
+    /**
+     * Test format=flowed unfolding
+     */
+    function test_unfold_flowed()
+    {
+        $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
+        $unfolded = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
+
+        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines");
+    }
+
+    /**
+     * Test wordwrap()
+     */
+    function test_wordwrap()
+    {
+        $samples = array(
+            array(
+                array("aaaa aaaa\n           aaaa"),
+                "aaaa aaaa\n           aaaa",
+            ),
+            array(
+                array("123456789 123456789 123456789 123", 29),
+                "123456789 123456789 123456789\n123",
+            ),
+            array(
+                array("123456789   3456789 123456789", 29),
+                "123456789   3456789 123456789",
+            ),
+            array(
+                array("123456789 123456789 123456789   123", 29),
+                "123456789 123456789 123456789\n  123",
+            ),
+            array(
+                array("abc", 1, "\n", true),
+                "a\nb\nc",
+            ),
+            array(
+                array("ąść", 1, "\n", true, 'UTF-8'),
+                "ą\nś\nć",
+            ),
+            array(
+                array(">abc\n>def", 2, "\n", true),
+                ">abc\n>def",
+            ),
+            array(
+                array("abc def", 3, "-"),
+                "abc-def",
+            ),
+            array(
+                array("----------------------------------------------------------------------------------------\nabc                        def123456789012345", 76),
+                "----------------------------------------------------------------------------------------\nabc                        def123456789012345",
+            ),
+            array(
+                array("-------\nabc def", 5),
+                "-------\nabc\ndef",
+            ),
+            array(
+                array("http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/", 70),
+                "http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/",
+            ),
+        );
+
+        foreach ($samples as $sample) {
+            $this->assertEquals($sample[1], call_user_func_array(array('rcube_mime', 'wordwrap'), $sample[0]), "Test text wrapping");
+        }
+    }
+
 }

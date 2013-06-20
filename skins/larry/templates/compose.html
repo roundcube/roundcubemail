@@ -39,6 +39,13 @@
 <!-- inline address book -->
 <div id="compose-contacts" class="uibox listbox">
 <h2 class="boxtitle"><roundcube:label name="contacts" /></h2>
+	<div id="composequicksearch">
+		<div class="searchbox">
+			<roundcube:object name="searchform" id="contactsearchbox" />
+			<a id="searchmenulink" class="iconbutton searchoptions"> </a>
+			<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
+		</div>
+	</div>
 	<roundcube:object name="addressbooks" id="directorylist" class="listing" />
 	<div class="scroller withfooter">
 		<roundcube:object name="addresslist" id="contacts-table" class="listing" noheader="true" />
