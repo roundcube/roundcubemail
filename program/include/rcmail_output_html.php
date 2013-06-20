@@ -71,7 +71,7 @@ class rcmail_output_html extends rcmail_output
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
         $this->set_env('cookie_path', ini_get('session.cookie_path'));
-        $this->set_env('cookie_secure', ini_get('session.cookie_secure'));
+        $this->set_env('cookie_secure', filter_var(ini_get('session.cookie_secure'), FILTER_VALIDATE_BOOLEAN));
 
         // load the correct skin (in case user-defined)
         $skin = $this->config->get('skin');

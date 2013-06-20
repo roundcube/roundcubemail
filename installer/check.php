@@ -203,7 +203,7 @@ foreach ($ini_checks as $var => $val) {
         echo '<br />';
         continue;
     }
-    if ($status == $val) {
+    if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     } else {
       $RCI->fail($var, "is '$status', should be '$val'");
@@ -227,7 +227,7 @@ foreach ($optional_checks as $var => $val) {
         echo '<br />';
         continue;
     }
-    if ($status == $val) {
+    if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     } else {
       $RCI->optfail($var, "is '$status', could be '$val'");
