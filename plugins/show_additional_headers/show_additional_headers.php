@@ -11,7 +11,7 @@
  *
  * @version @package_version@
  * @author Thomas Bruederli
- * @website http://roundcube.net
+ * @license GNU GPLv3+
  */
 class show_additional_headers extends rcube_plugin
 {

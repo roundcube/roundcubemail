@@ -13,6 +13,7 @@
  *   require_once('plugins/filesystem_attachments/filesystem_attachments.php');
  *   class myCustom_attachments extends filesystem_attachments
  *
+ * @license GNU GPLv3+
  * @author Ziba Scott <ziba@umich.edu>
  * @author Thomas Bruederli <roundcube@gmail.com>
  *

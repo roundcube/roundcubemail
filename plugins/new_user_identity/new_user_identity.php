@@ -8,6 +8,7 @@
  *
  * @version @package_version@
  * @author Kris Steinhoff
+ * @license GNU GPLv3+
  *
  * Example configuration:
  *

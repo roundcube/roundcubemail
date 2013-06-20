@@ -21,6 +21,7 @@
  *
  * @version @package_version@
  * @author Ziba Scott
+ * @license GNU GPLv3+
  */
 class subscriptions_option extends rcube_plugin
 {

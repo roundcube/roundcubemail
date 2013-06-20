@@ -23,6 +23,7 @@
  * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  * @author Steffen Vogel
+ * @license GNU GPLv3+
  */
 class virtuser_query extends rcube_plugin
 {

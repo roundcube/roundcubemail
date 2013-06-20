@@ -5,6 +5,9 @@ require_once(dirname(__FILE__) . '/example_addressbook_backend.php');
 /**
  * Sample plugin to add a new address book
  * with just a static list of contacts
+ *
+ * @license GNU GPLv3+
+ * @author Thomas Bruederli
  */
 class example_addressbook extends rcube_plugin
 {
