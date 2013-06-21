@@ -2135,12 +2135,12 @@ function rcube_webmail()
 
   this.clear_message_list = function()
   {
-      this.env.messages = {};
-      this.last_selected = 0;
+    this.env.messages = {};
+    this.last_selected = 0;
 
-      this.show_contentframe(false);
-      if (this.message_list)
-        this.message_list.clear(true);
+    this.show_contentframe(false);
+    if (this.message_list)
+      this.message_list.clear(true);
   };
 
   // send remote request to load message list

@@ -539,10 +539,10 @@ abstract class rcube_addressbook
 
         // add email to a key to not skip contacts with the same name (#1488375)
         if (!empty($contact['email'])) {
-             $key .= ':' . implode(':', (array)$contact['email']);
-         }
+            $key .= ':' . implode(':', (array)$contact['email']);
+        }
 
-         return $key;
+        return $key;
     }
 
     /**
