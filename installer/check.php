@@ -42,12 +42,12 @@ $ini_checks = array(
     'suhosin.session.encrypt'       => 0,
     'magic_quotes_runtime'          => 0,
     'magic_quotes_sybase'           => 0,
-    'date.timezone'                 => '-NOTEMPTY-',
 );
 
 $optional_checks = array(
     // required for utils/modcss.inc, should we require this?
     'allow_url_fopen'  => 1,
+    'date.timezone'    => '-VALID-',
 );
 
 $source_urls = array(
@@ -189,23 +189,15 @@ foreach ($ini_checks as $var => $val) {
     if ($val === '-NOTEMPTY-') {
         if (empty($status)) {
             $RCI->fail($var, "empty value detected");
-        } else if ($var == 'date.timezone') {
-            try {
-                $tz = new DateTimeZone($status);
-                $RCI->pass($var);
-            }
-            catch (Exception $e) {
-                $RCI->fail($var, "invalid value detected: $status");
-            }
-        } else {
+        }
+        else {
             $RCI->pass($var);
         }
-        echo '<br />';
-        continue;
     }
-    if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    else if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
-    } else {
+    }
+    else {
       $RCI->fail($var, "is '$status', should be '$val'");
     }
     echo '<br />';
@@ -227,9 +219,24 @@ foreach ($optional_checks as $var => $val) {
         echo '<br />';
         continue;
     }
-    if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    if ($val === '-VALID-') {
+        if ($var == 'date.timezone') {
+            try {
+                $tz = new DateTimeZone($status);
+                $RCI->pass($var);
+            }
+            catch (Exception $e) {
+                $RCI->optfail($var, empty($status) ? "not set" : "invalid value detected: $status");
+            }
+        }
+        else {
+            $RCI->pass($var);
+        }
+    }
+    else if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
-    } else {
+    }
+    else {
       $RCI->optfail($var, "is '$status', could be '$val'");
     }
     echo '<br />';
