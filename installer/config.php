@@ -29,8 +29,8 @@ $_SESSION['allowinstaller'] = true;
 if (!empty($_POST['submit'])) {
   
   echo '<p class="notice">Copy or download the following configurations and save them in two files';
-  echo ' (names above the text box) within the <tt>'.RCMAIL_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
-  echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the files.</p>';
+  echo ' (names above the text box) within the <tt>'.RCMAIL_CONFIG_DIR.'</tt> directory of your Roundcube installation.';
+  echo '</p>';
   
   $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
   
