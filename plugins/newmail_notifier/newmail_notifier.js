@@ -69,25 +69,50 @@ function newmail_notifier_sound()
     }
 }
 
-// Desktop notification (need Chrome or Firefox with a plugin)
+// Desktop notification
+// - Require Chrome or Firefox latest version (22+) / 21.0 or older with a plugin
 function newmail_notifier_desktop(body)
 {
-    var dn = window.webkitNotifications;
 
-    if (dn && !dn.checkPermission()) {
-        if (rcmail.newmail_popup)
-            rcmail.newmail_popup.cancel();
-        var popup = window.webkitNotifications.createNotification('plugins/newmail_notifier/mail.png',
-            rcmail.gettext('title', 'newmail_notifier'), body);
-        popup.onclick = function() {
-            this.cancel();
+/**
+ * Fix: As of 17 June 2013, Chrome/Chromium does not implement Notification.permission correctly that
+ *      it gives 'undefined' until an object has been created:
+ *      https://code.google.com/p/chromium/issues/detail?id=163226
+ *
+ */
+    try {
+        if (Notification.permission == 'granted' || Notification.permission == undefined) {
+            var popup = new Notification(rcmail.gettext('title', 'newmail_notifier'), {
+                dir: "auto",
+                lang: "",
+                body: body,
+                tag: "newmail_notifier",
+                icon: "plugins/newmail_notifier/mail.png",
+            });
+            popup.onclick = function() {
+                this.close();
+            }
+            setTimeout(function() { popup.close(); }, 10000); // close after 10 seconds
+            if (popup.permission == 'granted') return true;
         }
-        popup.show();
-        setTimeout(function() { popup.cancel(); }, 10000); // close after 10 seconds
-        rcmail.newmail_popup = popup;
-        return true;
     }
+    catch (e) {
+        var dn = window.webkitNotifications;
 
+        if (dn && !dn.checkPermission()) {
+            if (rcmail.newmail_popup)
+                rcmail.newmail_popup.cancel();
+            var popup = window.webkitNotifications.createNotification('plugins/newmail_notifier/mail.png',
+                rcmail.gettext('title', 'newmail_notifier'), body);
+            popup.onclick = function() {
+                this.cancel();
+            }
+            popup.show();
+            setTimeout(function() { popup.cancel(); }, 10000); // close after 10 seconds
+            rcmail.newmail_popup = popup;
+            return true;
+        }
+    }
     return false;
 }
 
@@ -96,17 +121,27 @@ function newmail_notifier_test_desktop()
     var dn = window.webkitNotifications,
         txt = rcmail.gettext('testbody', 'newmail_notifier');
 
-    if (dn) {
-        if (!dn.checkPermission())
-            newmail_notifier_desktop(txt);
-        else
-            dn.requestPermission(function() {
-                if (!newmail_notifier_desktop(txt))
-                    rcmail.display_message(rcmail.gettext('desktopdisabled', 'newmail_notifier'), 'error');
-            });
+    // W3C draft implementation (with fix for Chrome/Chromium)
+    try {
+        var testNotification = new window.Notification(txt, {tag: "newmail_notifier"});  // Try to show a test message
+        if (Notification.permission !== 'granted' || (testNotification.permission && testNotification.permission !== 'granted'))
+            newmail_notifier_desktop_authorize();
     }
-    else
-        rcmail.display_message(rcmail.gettext('desktopunsupported', 'newmail_notifier'), 'error');
+    // webkit implementation
+    catch (e) {
+        if (dn) {
+            if (!dn.checkPermission())
+                newmail_notifier_desktop(txt);
+            else
+                dn.requestPermission(function() {
+                    if (!newmail_notifier_desktop(txt))
+                        rcmail.display_message(rcmail.gettext('desktopdisabled', 'newmail_notifier'), 'error');
+                });
+        }
+        else
+            // Everything fails, means the browser has no support
+            rcmail.display_message(rcmail.gettext('desktopunsupported', 'newmail_notifier'), 'error');
+    }
 }
 
 function newmail_notifier_test_basic()
@@ -117,4 +152,13 @@ function newmail_notifier_test_basic()
 function newmail_notifier_test_sound()
 {
     newmail_notifier_sound();
+}
+
+function newmail_notifier_desktop_authorize() {
+        Notification.requestPermission(function(perm) {
+                if (perm == 'denied')
+                        rcmail.display_message(rcmail.gettext('desktopdisabled', 'newmail_notifier'), 'error');
+                if (perm == 'granted')
+                        newmail_notifier_test_desktop();  // Test again, which should show test message
+        });
 }
