@@ -1206,28 +1206,32 @@ class rcube_imap extends rcube_storage
 
         // we have a saved search result, get index from there
         if ($this->search_string) {
-            if ($this->search_threads) {
-                $this->search($folder, $this->search_string, $this->search_charset, $this->sort_field);
-            }
-
-            // use message index sort as default sorting
-            if (!$this->sort_field || $this->search_sorted) {
-                if ($this->sort_field && $this->search_sort_field != $this->sort_field) {
-                    $this->search($folder, $this->search_string, $this->search_charset, $this->sort_field);
-                }
-                $index = $this->search_set;
-            }
-            else if (!$this->check_connection()) {
+            if ($this->search_set->is_empty()) {
                 return new rcube_result_index();
             }
+
+            // disable threading temporarily
+            $threading = $this->threading;
+            $this->threading = false;
+
+            if ($this->search_threads) {
+                $index = $this->search_index($folder, $this->search_string, $this->search_charset, $this->sort_field);
+            }
+            else if ((!$this->sort_field && !$this->search_sorted) ||
+                ($this->search_sorted && $this->search_sort_field == $this->sort_field)
+            ) {
+                $index = $this->search_set;
+            }
             else {
-                $index = $this->conn->index($folder, $this->search_set->get(),
-                    $this->sort_field, $this->options['skip_deleted'], true, true);
+                $search = 'UID ' . $this->search_set->get_compressed();
+                $index  = $this->search_index($folder, $search, $this->search_charset, $this->sort_field);
             }
 
             if ($this->sort_order != $index->get_parameters('ORDER')) {
                 $index->revert();
             }
+
+            $this->threading = $threading;
 
             return $index;
         }
