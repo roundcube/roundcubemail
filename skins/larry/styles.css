@@ -1862,6 +1862,7 @@ select.decorated {
 	filter: alpha(opacity=0);
 	-khtml-appearance: none;
 	-webkit-appearance: none;
+	border: 0;
 }
 
 html.opera select.decorated {
@@ -1877,6 +1878,7 @@ select.decorated option {
 	text-shadow: 0px 1px 1px #333;
 	padding: 4px 6px;
 	outline: none;
+	cursor: default;
 }
 
 

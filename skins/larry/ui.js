@@ -221,6 +221,7 @@ function rcube_mail_ui()
       }
 
       var select = $(this),
+        parent = select.parent(),
         height = Math.max(select.height(), 26) - 2,
         width = select.width() - 22,
         title = $('option', this).first().text();
@@ -235,18 +236,15 @@ function rcube_mail_ui()
 
       overlay.children().width(width).height(height).css('line-height', (height - 1) + 'px');
 
-      select.change(function() {
-          var val = $('option:selected', this).text();
-          $(this).next().children().html(val);
-        });
-
-      var parent = select.parent();
       if (parent.css('position') != 'absolute')
         parent.css('position', 'relative');
 
       // re-set original select width to fix click action and options width in some browsers
-      if (!bw.mz)
-        select.width(overlay.width());
+      select.width(overlay.width())
+        .change(function() {
+          var val = $('option:selected', this).text();
+          $(this).next().children().text(val);
+        });
     });
 
     $(document.body)
