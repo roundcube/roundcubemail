@@ -896,7 +896,7 @@ a.iconlink.upload {
 }
 
 #mainscreen .offset {
-	margin-top: 42px;
+	top: 42px;
 }
 
 .uibox {
