@@ -107,6 +107,14 @@
   background-position: -192px -32px;
 }
 
+#messagetoolbar a.print {
+  background-position: -224px 0;
+}
+
+#messagetoolbar a.printSel {
+  background-position: -224px -32px;
+}
+
 #messagetoolbar a.markmessage {
   background-position: -256px 0;
 }
@@ -153,6 +161,14 @@
 
 #messagetoolbar a.sendSel {
   background-position: -416px -32px;
+}
+
+#messagetoolbar a.download {
+  background-position: -480px 0;
+}
+
+#messagetoolbar a.downloadSel {
+  background-position: -480px -32px;
 }
 
 #messagetoolbar select.mboxlist
@@ -284,10 +300,38 @@
 #messagepartcontainer
 {
   position: absolute;
-  top: 80px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
+  top: 0;
+  left: 170px;
+  right: 0;
+  bottom: 0;
+}
+
+#messagepartheader
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 160px;
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  overflow: hidden;
+}
+
+#messagepartheader table
+{
+  width: 100%;
+  table-layout: fixed;
+}
+
+#messagepartheader table td
+{
+  text-overflow: ellipsis;
+}
+
+#messagepartheader table td.title
+{
+  width: 60px;
 }
 
 #mailcontframe
@@ -329,31 +373,7 @@
   height: 100%;
   min-height: 100%; /* Chrome 14 bug */
   border: 1px solid #999999;
-  background-color: #F9F9F9;
-}
-
-
-#partheader
-{
-  position: absolute;
-  top: 10px;
-  left: 220px;
-  right: 20px;
-  height: 40px;
-}
-
-#partheader table td
-{
-  padding-left: 2px;
-  padding-right: 4px;
-  vertical-align: middle;
-  font-size: 11px;
-}
-
-#partheader table td.title
-{
-  color: #666666;
-  font-weight: bold;
+  background-color: #fff;
 }
 
 

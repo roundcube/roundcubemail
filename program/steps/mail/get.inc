@@ -51,6 +51,12 @@ if (!empty($_GET['_frame'])) {
     $OUTPUT->set_pagetitle(rcmail_attachment_name($part));
   }
 
+  // register UI objects
+  $OUTPUT->add_handlers(array(
+    'messagepartframe'    => 'rcmail_message_part_frame',
+    'messagepartcontrols' => 'rcmail_message_part_controls',
+  ));
+
   $OUTPUT->send('messagepart');
   exit;
 }
@@ -409,4 +415,46 @@ function check_storage_status()
         // Don't kill session, just quit (#1486995)
         exit;
     }
+}
+
+
+function rcmail_message_part_controls($attrib)
+{
+    global $MESSAGE, $RCMAIL;
+
+    $part = asciiwords(get_input_value('_part', RCUBE_INPUT_GPC));
+    if (!is_object($MESSAGE) || !is_array($MESSAGE->parts)
+        || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE->mime_parts[$part]
+    ) {
+        return '';
+    }
+
+    $part  = $MESSAGE->mime_parts[$part];
+    $table = new html_table(array('cols' => 2));
+
+    $table->add('title', Q(rcube_label('name')).':');
+    $table->add('header', Q(rcmail_attachment_name($part)));
+
+    $table->add('title', Q(rcube_label('type')).':');
+    $table->add('header', Q($part->mimetype));
+
+    $table->add('title', Q(rcube_label('size')).':');
+    $table->add('header', Q($RCMAIL->message_part_size($part)));
+
+    return $table->show($attrib);
+}
+
+
+function rcmail_message_part_frame($attrib)
+{
+    global $MESSAGE, $RCMAIL;
+
+    $part = $MESSAGE->mime_parts[asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
+    $ctype_primary = strtolower($part->ctype_primary);
+
+    $attrib['src'] = './?' . str_replace('_frame=', ($ctype_primary=='text' ? '_embed=' : '_preload='), $_SERVER['QUERY_STRING']);
+
+    $RCMAIL->output->add_gui_object('messagepartframe', $attrib['id']);
+
+    return html::iframe($attrib);
 }

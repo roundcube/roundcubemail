@@ -283,6 +283,15 @@ body > #message a
   text-decoration: underline;
 }
 
+body.extwin #closelink
+{
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  text-align: right;
+  z-index:100;
+}
+
 .box
 {
   border: 1px solid #999;

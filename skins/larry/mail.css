@@ -712,7 +712,6 @@ a.iconbutton.threadmode.selected {
 }
 
 #messageheader,
-#partheader,
 #composeheaders {
 	position: relative;
 	padding: 3px 0;
@@ -1147,8 +1146,8 @@ div.message-partheaders .headers-table td.header {
 
 #messagepartcontainer {
 	position: absolute;
-	top: 60px;
-	left: 0;
+	top: 42px;
+	left: 232px;
 	right: 0;
 	bottom: 0;
 }
@@ -1158,6 +1157,28 @@ div.message-partheaders .headers-table td.header {
 	width: 100%;
 	height: 100%;
 }
+
+#messagepartheader {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 220px;
+	bottom: 0;
+}
+
+#messagepartheader table {
+	table-layout: fixed;
+	overflow: hidden;
+}
+
+#messagepartheader table td {
+	text-overflow: ellipsis;
+}
+
+#messagepartheader table td.title {
+	width: 60px;
+}
+
 
 /*** message composition ***/
 
