@@ -377,7 +377,7 @@ class rcube_spellchecker
         if (!$store) {
             $this->error = "Empty result from spelling engine";
         }
-        else if (preg_match('/<spellresult error="([^"]+)"/', $store, $m)) {
+        else if (preg_match('/<spellresult error="((?!0")[^"]+)"/', $store, $m)) {
             $this->error = "Error code $m[1] returned";
         }
 
