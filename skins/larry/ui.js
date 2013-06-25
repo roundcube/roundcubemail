@@ -154,6 +154,10 @@ function rcube_mail_ui()
         rcmail.addEventListener('enable-command', enable_command);
         rcmail.addEventListener('afterimport-messages', show_uploadform);
       }
+      else if (rcmail.env.action == 'get') {
+        new rcube_splitter({ id:'mailpartsplitterv', p1:'#messagepartheader', p2:'#messagepartcontainer',
+          orientation:'v', relative:true, start:226, min:150, size:12}).init();
+      }
 
       if ($('#mailview-left').length) {
         new rcube_splitter({ id:'mailviewsplitterv', p1:'#mailview-left', p2:'#mailview-right',

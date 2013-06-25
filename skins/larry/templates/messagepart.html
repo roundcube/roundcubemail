@@ -4,33 +4,38 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
-<body class="partwin">
+<body class="extwin noscroll">
 
-<div id="header">
 <div id="topline">
 	<div class="topright">
 		<a href="#close" class="closelink" onclick="self.close()"><roundcube:label name="close" /></a>
 	</div>
 </div>
 
-<div id="topnav">
-	<roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" border="0" alt="Logo" />
-</div>
-
-<br style="clear:both" />
-</div>
-
 <div id="mainscreen">
 
-<div id="partheader" class="uibox">
-<roundcube:object name="messagePartControls" class="headers-table" />
+<div id="messagetoolbar" class="toolbar fullwidth">
+	<roundcube:button command="download" type="link" class="button download disabled" classAct="button download" classSel="button download pressed" label="download" />
+	<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" />
+</div>
+
+<div id="messagepartheader" class="uibox listbox">
+	<h2 class="boxtitle"><roundcube:label name="properties" /></h2>
+	<div class="scroller">
+		<roundcube:object name="messagePartControls" class="listing" />
+	</div>
 </div>
 
 <div id="messagepartcontainer" class="uibox">
-<roundcube:object name="messagePartFrame" id="messagepartframe" frameborder="0" />
+	<div class="iframebox">
+	<roundcube:object name="messagePartFrame" id="messagepartframe" frameborder="0" />
+	</div>
+	<roundcube:object name="message" id="message" class="statusbar" />
 </div>
 
 </div>
+
+<roundcube:include file="/includes/footer.html" />
 
 </body>
 </html>

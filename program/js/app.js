@@ -277,6 +277,8 @@ function rcube_webmail()
           // init message compose form
           this.init_messageform();
         }
+        else if (this.env.action == 'get')
+          this.enable_command('download', 'print', true);
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid) {
           if (bw.safari)
@@ -864,7 +866,7 @@ function rcube_webmail()
 
         // open attachment in frame if it's of a supported mimetype
         if (command != 'download-attachment' && mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0) {
-          if (this.open_window(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1', true, true))
+          if (this.open_window(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1'))
             break;
         }
 
@@ -1048,7 +1050,10 @@ function rcube_webmail()
         break;
 
       case 'print':
-        if (uid = this.get_single_uid()) {
+        if (this.env.action == 'get') {
+          this.gui_objects.messagepartframe.contentWindow.print();
+        }
+        else if (uid = this.get_single_uid()) {
           ref.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''), true, true);
           if (this.printwin) {
             if (this.env.action != 'show')
@@ -1063,7 +1068,10 @@ function rcube_webmail()
         break;
 
       case 'download':
-        if (uid = this.get_single_uid())
+        if (this.env.action == 'get') {
+          location.href = location.href.replace(/_frame=/, '_download=');
+        }
+        else if (uid = this.get_single_uid())
           this.goto_url('viewsource', { _uid: uid, _mbox: this.env.mailbox, _save: 1 });
         break;
 

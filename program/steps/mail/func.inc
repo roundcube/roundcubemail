@@ -128,6 +128,40 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   $OUTPUT->set_pagetitle($pagetitle);
 }
 
+// register UI objects
+$OUTPUT->add_handlers(array(
+  'mailboxlist'         => 'rcmail_mailbox_list',
+  'messages'            => 'rcmail_message_list',
+  'messagecountdisplay' => 'rcmail_messagecount_display',
+  'quotadisplay'        => 'rcmail_quota_display',
+  'mailboxname'         => 'rcmail_mailbox_name_display',
+  'messageheaders'      => 'rcmail_message_headers',
+  'messagefullheaders'  => 'rcmail_message_full_headers',
+  'messagebody'         => 'rcmail_message_body',
+  'messagecontentframe' => 'rcmail_messagecontent_frame',
+  'messageimportform'   => 'rcmail_message_import_form',
+  'searchfilter'        => 'rcmail_search_filter',
+  'searchform'          => array($OUTPUT, 'search_form'),
+));
+
+// register action aliases
+$RCMAIL->register_action_map(array(
+    'refresh' => 'check_recent.inc',
+    'preview' => 'show.inc',
+    'print'   => 'show.inc',
+    'moveto'  => 'move_del.inc',
+    'delete'  => 'move_del.inc',
+    'send'    => 'sendmail.inc',
+    'expunge' => 'folders.inc',
+    'purge'   => 'folders.inc',
+    'remove-attachment'  => 'attachments.inc',
+    'display-attachment' => 'attachments.inc',
+    'upload'             => 'attachments.inc',
+    'group-expand'       => 'autocomplete.inc',
+));
+
+
+
 /**
  * Returns 'to' if current folder is configured Sent or Drafts
  * or their subfolders, otherwise returns 'from'.
@@ -1579,45 +1613,6 @@ function rcmail_draftinfo_decode($str)
 }
 
 
-function rcmail_message_part_controls($attrib)
-{
-  global $MESSAGE, $RCMAIL;
-
-  $part = asciiwords(get_input_value('_part', RCUBE_INPUT_GPC));
-  if (!is_object($MESSAGE) || !is_array($MESSAGE->parts) || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE->mime_parts[$part])
-    return '';
-
-  $part  = $MESSAGE->mime_parts[$part];
-  $table = new html_table(array('cols' => 3));
-
-  $filename = rcmail_attachment_name($part);
-
-  if (!empty($filename)) {
-    $table->add('title', Q(rcube_label('filename')));
-    $table->add('header', Q($filename));
-    $table->add('download-link', html::a(array('href' => './?'.str_replace('_frame=', '_download=', $_SERVER['QUERY_STRING'])), Q(rcube_label('download'))));
-  }
-
-  $table->add('title', Q(rcube_label('filesize')));
-  $table->add('header', Q($RCMAIL->message_part_size($part)));
-
-  return $table->show($attrib);
-}
-
-
-function rcmail_message_part_frame($attrib)
-{
-  global $MESSAGE;
-
-  $part = $MESSAGE->mime_parts[asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
-  $ctype_primary = strtolower($part->ctype_primary);
-
-  $attrib['src'] = './?' . str_replace('_frame=', ($ctype_primary=='text' ? '_embed=' : '_preload='), $_SERVER['QUERY_STRING']);
-
-  return html::iframe($attrib);
-}
-
-
 /**
  * clear message composing settings
  */
@@ -1956,38 +1951,3 @@ function rcmail_message_import_form($attrib = array())
   $OUTPUT->add_gui_object('importform', $attrib['id'].'Frm');
   return $out;
 }
-
-
-// register UI objects
-$OUTPUT->add_handlers(array(
-  'mailboxlist' => 'rcmail_mailbox_list',
-  'messages' => 'rcmail_message_list',
-  'messagecountdisplay' => 'rcmail_messagecount_display',
-  'quotadisplay' => 'rcmail_quota_display',
-  'mailboxname' => 'rcmail_mailbox_name_display',
-  'messageheaders' => 'rcmail_message_headers',
-  'messagefullheaders' => 'rcmail_message_full_headers',
-  'messagebody' => 'rcmail_message_body',
-  'messagecontentframe' => 'rcmail_messagecontent_frame',
-  'messagepartframe' => 'rcmail_message_part_frame',
-  'messagepartcontrols' => 'rcmail_message_part_controls',
-  'messageimportform' => 'rcmail_message_import_form',
-  'searchfilter' => 'rcmail_search_filter',
-  'searchform' => array($OUTPUT, 'search_form'),
-));
-
-// register action aliases
-$RCMAIL->register_action_map(array(
-    'refresh' => 'check_recent.inc',
-    'preview' => 'show.inc',
-    'print'   => 'show.inc',
-    'moveto'  => 'move_del.inc',
-    'delete'  => 'move_del.inc',
-    'send'    => 'sendmail.inc',
-    'expunge' => 'folders.inc',
-    'purge'   => 'folders.inc',
-    'remove-attachment'  => 'attachments.inc',
-    'display-attachment' => 'attachments.inc',
-    'upload'             => 'attachments.inc',
-    'group-expand'       => 'autocomplete.inc',
-));
