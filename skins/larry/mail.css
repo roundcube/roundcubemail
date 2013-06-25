@@ -2,7 +2,7 @@
  * Roundcube webmail styles for the Email section
  *
  * Copyright (c) 2012, The Roundcube Dev Team
- * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
+ * Screendesign by FLINT / Bï¿½ro fï¿½r Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -191,9 +191,15 @@ a.iconbutton.threadmode.selected {
 #mailboxlist li.mailbox.junk > a {
 	background-position: 6px -334px;
 }
+#mailboxlist li.mailbox ul li.junk > a {
+	background-position: 22px -334px;
+}
 
 #mailboxlist li.mailbox.junk.selected > a {
 	background-position: 6px -358px;
+}
+#mailboxlist li.mailbox ul li.junk.selected > a {
+	background-position: 22px -358px;
 }
 
 #mailboxlist li.mailbox.trash > a {
