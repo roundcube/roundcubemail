@@ -19,10 +19,10 @@
  +-----------------------------------------------------------------------+
 */
 
-$afields = $RCMAIL->config->get('contactlist_fields');
-$sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
-$page_size = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));
-$page = max(1, intval($_GET['_page']));
+$afields       = $RCMAIL->config->get('contactlist_fields');
+$addr_sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
+$page_size     = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));
+$list_page     = max(1, intval($_GET['_page']));
 
 // Use search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
@@ -42,7 +42,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 
         while ($row = $result->next()) {
             $row['sourceid'] = $s;
-            $key = rcube_addressbook::compose_contact_key($row, $sort_col);
+            $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
             $records[$key] = $row;
         }
         unset($result);
@@ -53,7 +53,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 
     // create resultset object
     $count  = count($records);
-    $first  = ($page-1) * $page_size;
+    $first  = ($list_page-1) * $page_size;
     $result = new rcube_result_set($count, $first);
 
     // we need only records for current page
@@ -71,7 +71,7 @@ else {
     if ($CONTACTS && $CONTACTS->ready) {
         // set list properties
         $CONTACTS->set_pagesize($page_size);
-        $CONTACTS->set_page($page);
+        $CONTACTS->set_page($list_page);
 
         // list groups of this source (on page one)
         if ($CONTACTS->groups && $CONTACTS->list_page == 1) {
