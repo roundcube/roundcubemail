@@ -48,6 +48,7 @@ $optional_checks = array(
     // required for utils/modcss.inc, should we require this?
     'allow_url_fopen'  => 1,
     'date.timezone'    => '-VALID-',
+    'register_globals' => 0, // #1489157
 );
 
 $source_urls = array(

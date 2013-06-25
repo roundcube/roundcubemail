@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix empty messages list when register_globals is enabled (#1489157)
 - Improved/unified attachment preview screen, added print button
 - Fix lack of space between searchfiler and quicksearchbar in Larry skin (#1489158)
 - Fix so valid and set date.timezone is not required by installer checks (#1489180)

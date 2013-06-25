@@ -19,16 +19,15 @@
  +-----------------------------------------------------------------------+
 */
 
-$search  = get_input_value('_q', RCUBE_INPUT_GPC, true);
-$sources = $RCMAIL->get_address_sources();
-$search_mode = (int) $RCMAIL->config->get('addressbook_search_mode');
-$sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
-$afields = $RCMAIL->config->get('contactlist_fields');
+$search        = get_input_value('_q', RCUBE_INPUT_GPC, true);
+$sources       = $RCMAIL->get_address_sources();
+$search_mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
+$addr_sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
+$afields       = $RCMAIL->config->get('contactlist_fields');
+$page_size     = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));
+$records       = array();
+$search_set    = array();
 
-$page = 1;
-$page_size = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));
-
-$records = $search_set = array();
 foreach ($sources as $s) {
     $source = $RCMAIL->get_address_book($s['id']);
     $source->set_page(1);
@@ -46,7 +45,7 @@ foreach ($sources as $s) {
 
     while ($row = $result->next()) {
         $row['sourceid'] = $s['id'];
-        $key = rcube_addressbook::compose_contact_key($row, $sort_col);
+        $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
         $records[$key] = $row;
     }
 
