@@ -1563,11 +1563,12 @@ class rcube_imap_generic
         }
 
         // message IDs
-        if (!empty($add))
+        if (!empty($add)) {
             $add = $this->compressMessageSet($add);
+        }
 
         list($code, $response) = $this->execute($return_uid ? 'UID SORT' : 'SORT',
-            array("($field)", $encoding, 'ALL' . (!empty($add) ? ' '.$add : '')));
+            array("($field)", $encoding, !empty($add) ? $add : 'ALL'));
 
         if ($code != self::ERROR_OK) {
             $response = null;

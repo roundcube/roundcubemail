@@ -1189,11 +1189,13 @@ class rcube_imap extends rcube_storage
      * @param string $sort_field Sort column
      * @param string $sort_order Sort order [ASC, DESC]
      * @param bool   $no_threads Get not threaded index
+     * @param bool   $no_search  Get index not limited to search result (optionally)
      *
      * @return rcube_result_index|rcube_result_thread List of messages (UIDs)
      */
-    public function index($folder = '', $sort_field = NULL, $sort_order = NULL, $no_threads = false)
-    {
+    public function index($folder = '', $sort_field = NULL, $sort_order = NULL,
+        $no_threads = false, $no_search = false
+    ) {
         if (!$no_threads && $this->threading) {
             return $this->thread_index($folder, $sort_field, $sort_order);
         }
@@ -1207,46 +1209,49 @@ class rcube_imap extends rcube_storage
         // we have a saved search result, get index from there
         if ($this->search_string) {
             if ($this->search_set->is_empty()) {
-                return new rcube_result_index();
+                return new rcube_result_index($folder, '* SORT');
             }
 
-            // disable threading temporarily
-            $threading = $this->threading;
-            $this->threading = false;
-
-            if ($this->search_threads) {
-                $index = $this->search_index($folder, $this->search_string, $this->search_charset, $this->sort_field);
-            }
-            else if ((!$this->sort_field && !$this->search_sorted) ||
-                ($this->search_sorted && $this->search_sort_field == $this->sort_field)
+            // search result is an index with the same sorting?
+            if (($this->search_set instanceof rcube_result_index)
+                && ((!$this->sort_field && !$this->search_sorted) ||
+                    ($this->search_sorted && $this->search_sort_field == $this->sort_field))
             ) {
                 $index = $this->search_set;
             }
-            else {
-                $search = 'UID ' . $this->search_set->get_compressed();
-                $index  = $this->search_index($folder, $search, $this->search_charset, $this->sort_field);
+            // $no_search is enabled when we are not interested in
+            // fetching index for search result, e.g. to sort
+            // threaded search result we can use full mailbox index.
+            // This makes possible to use index from cache
+            else if (!$no_search) {
+                if (!$this->sort_field) {
+                    // No sorting needed, just build index from the search result
+                    // @TODO: do we need to sort by UID here?
+                    $search = $this->search_set->get_compressed();
+                    $index  = new rcube_result_index($folder, '* ESEARCH ALL ' . $search);
+                }
+                else {
+                    $index = $this->index_direct($folder, $this->search_charset,
+                        $this->sort_field, $this->search_set);
+                }
             }
 
-            if ($this->sort_order != $index->get_parameters('ORDER')) {
-                $index->revert();
+            if (isset($index)) {
+                if ($this->sort_order != $index->get_parameters('ORDER')) {
+                    $index->revert();
+                }
+
+                return $index;
             }
-
-            $this->threading = $threading;
-
-            return $index;
         }
 
         // check local cache
         if ($mcache = $this->get_mcache_engine()) {
-            $index = $mcache->get_index($folder, $this->sort_field, $this->sort_order);
-        }
-        // fetch from IMAP server
-        else {
-            $index = $this->index_direct(
-                $folder, $this->sort_field, $this->sort_order);
+            return $mcache->get_index($folder, $this->sort_field, $this->sort_order);
         }
 
-        return $index;
+        // fetch from IMAP server
+        return $this->index_direct($folder, $this->sort_field, $this->sort_order);
     }
 
 
@@ -1254,18 +1259,24 @@ class rcube_imap extends rcube_storage
      * Return sorted list of message UIDs ignoring current search settings.
      * Doesn't uses cache by default.
      *
-     * @param string $folder     Folder to get index from
-     * @param string $sort_field Sort column
-     * @param string $sort_order Sort order [ASC, DESC]
+     * @param string         $folder     Folder to get index from
+     * @param string         $sort_field Sort column
+     * @param string         $sort_order Sort order [ASC, DESC]
+     * @param rcube_result_* $search     Optional messages set to limit the result
      *
      * @return rcube_result_index Sorted list of message UIDs
      */
-    public function index_direct($folder, $sort_field = null, $sort_order = null)
+    public function index_direct($folder, $sort_field = null, $sort_order = null, $search = null)
     {
+        if (!empty($search)) {
+            $search = $this->search_set->get_compressed();
+        }
+
         // use message index sort as default sorting
         if (!$sort_field) {
             // use search result from count() if possible
-            if ($this->options['skip_deleted'] && !empty($this->icache['undeleted_idx'])
+            if (empty($search) && $this->options['skip_deleted']
+                && !empty($this->icache['undeleted_idx'])
                 && $this->icache['undeleted_idx']->get_parameters('ALL') !== null
                 && $this->icache['undeleted_idx']->get_parameters('MAILBOX') == $folder
             ) {
@@ -1275,8 +1286,12 @@ class rcube_imap extends rcube_storage
                 return new rcube_result_index();
             }
             else {
-                $index = $this->conn->search($folder,
-                    'ALL' .($this->options['skip_deleted'] ? ' UNDELETED' : ''), true);
+                $query = $this->options['skip_deleted'] ? 'UNDELETED' : '';
+                if ($search) {
+                    $query = trim($query . ' UID ' . $search);
+                }
+
+                $index = $this->conn->search($folder, $query, true);
             }
         }
         else if (!$this->check_connection()) {
@@ -1285,13 +1300,18 @@ class rcube_imap extends rcube_storage
         // fetch complete message index
         else {
             if ($this->get_capability('SORT')) {
-                $index = $this->conn->sort($folder, $sort_field,
-                    $this->options['skip_deleted'] ? 'UNDELETED' : '', true);
+                $query = $this->options['skip_deleted'] ? 'UNDELETED' : '';
+                if ($search) {
+                    $query = trim($query . ' UID ' . $search);
+                }
+
+                $index = $this->conn->sort($folder, $sort_field, $query, true);
             }
 
             if (empty($index) || $index->is_error()) {
-                $index = $this->conn->index($folder, "1:*", $sort_field,
-                    $this->options['skip_deleted'], false, true);
+                $index = $this->conn->index($folder, $search ? $search : "1:*",
+                    $sort_field, $this->options['skip_deleted'],
+                    $search ? true : false, true);
             }
         }
 
@@ -1352,7 +1372,7 @@ class rcube_imap extends rcube_storage
 
         if ($this->get_capability('THREAD') != 'REFS') {
             $sortby = $this->sort_field ? $this->sort_field : 'date';
-            $index  = $this->index($this->folder, $sortby, $this->sort_order, true);
+            $index  = $this->index($this->folder, $sortby, $this->sort_order, true, true);
 
             if (!$index->is_empty()) {
                 $threads->sort($index);
