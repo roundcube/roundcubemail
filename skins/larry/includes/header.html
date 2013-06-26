@@ -2,7 +2,7 @@
 <div id="topline">
 	<div class="topleft">
 		<roundcube:container name="topline-left" id="topline-left" />
-		<roundcube:button name="about" type="link" label="about" class="about-link" onclick="UI.show_about(this);return false" />
+		<roundcube:button name="about" type="link" label="about" class="about-link" onclick="UI.show_about(this);return false" condition="!env:extwin" />
 		<roundcube:if condition="config:support_url" />
 		<a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link" id="supportlink"><roundcube:label name="support" /></a>
 		<roundcube:endif />
@@ -14,7 +14,7 @@
 		<span class="username"><roundcube:object name="username" /></span>
 		<roundcube:button command="logout" label="logout" class="button-logout" />
 	<roundcube:elseif condition="env:extwin" />
-		<roundcube:button command="close" label="close" class="closelink" />
+		<roundcube:button name="close" type="link" label="close" class="closelink" onclick="self.close()" />
 	<roundcube:endif />
 	</div>
 </div>
@@ -35,5 +35,3 @@
 
 <br style="clear:both" />
 </div>
-
-
