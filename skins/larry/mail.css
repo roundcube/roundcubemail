@@ -195,15 +195,9 @@ a.iconbutton.threadmode.selected {
 #mailboxlist li.mailbox.junk > a {
 	background-position: 6px -334px;
 }
-#mailboxlist li.mailbox ul li.junk > a {
-	background-position: 22px -334px;
-}
 
 #mailboxlist li.mailbox.junk.selected > a {
 	background-position: 6px -358px;
-}
-#mailboxlist li.mailbox ul li.junk.selected > a {
-	background-position: 22px -358px;
 }
 
 #mailboxlist li.mailbox.trash > a {
@@ -220,6 +214,46 @@ a.iconbutton.threadmode.selected {
 
 #mailboxlist li.mailbox.archive.selected > a {
 	background-position: 6px -1723px;
+}
+
+#mailboxlist li.mailbox ul li.drafts > a {
+	background-position: 23px -238px;
+}
+
+#mailboxlist li.mailbox ul li.drafts.selected > a {
+	background-position: 23px -262px;
+}
+
+#mailboxlist li.mailbox ul li.sent > a {
+	background-position: 23px -286px;
+}
+
+#mailboxlist li.mailbox ul li.sent.selected > a {
+	background-position: 23px -310px;
+}
+
+#mailboxlist li.mailbox ul li.junk > a {
+	background-position: 23px -334px;
+}
+
+#mailboxlist li.mailbox ul li.junk.selected > a {
+	background-position: 23px -358px;
+}
+
+#mailboxlist li.mailbox ul li.trash > a {
+	background-position: 23px -382px;
+}
+
+#mailboxlist li.mailbox ul li.trash.selected > a {
+	background-position: 23px -406px;
+}
+
+#mailboxlist li.mailbox ul li.archive > a {
+	background-position: 23px -1699px;
+}
+
+#mailboxlist li.mailbox ul li.archive.selected > a {
+	background-position: 23px -1723px;
 }
 
 #mailboxlist li.unread {
