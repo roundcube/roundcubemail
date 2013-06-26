@@ -550,7 +550,8 @@ class rcube_ldap extends rcube_addressbook
 
         // fetch group object
         if (empty($entries)) {
-            $entries = $this->ldap->read_entries($dn, '(objectClass=*)', array('dn','objectClass','member','uniqueMember','memberURL'));
+            $attribs = array('dn','objectClass','member','uniqueMember','memberURL');
+            $entries = $this->ldap->read_entries($dn, '(objectClass=*)', $attribs);
             if ($entries === false) {
                 return $group_members;
             }
@@ -558,29 +559,25 @@ class rcube_ldap extends rcube_addressbook
 
         for ($i=0; $i < $entries['count']; $i++) {
             $entry = $entries[$i];
-
-            if (empty($entry['objectclass']))
-                continue;
+            $attrs = array();
 
             foreach ((array)$entry['objectclass'] as $objectclass) {
-                switch (strtolower($objectclass)) {
-                    case "group":
-                    case "groupofnames":
-                    case "kolabgroupofnames":
-                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'member', $count));
-                        break;
-                    case "groupofuniquenames":
-                    case "kolabgroupofuniquenames":
-                        $group_members = array_merge($group_members, $this->_list_group_members($dn, $entry, 'uniquemember', $count));
-                        break;
-                    case "groupofurls":
-                        $group_members = array_merge($group_members, $this->_list_group_memberurl($dn, $entry, $count));
-                        break;
+                if (strtolower($objectclass) == 'groupofurls') {
+                    $members       = $this->_list_group_memberurl($dn, $entry, $count);
+                    $group_members = array_merge($group_members, $members);
+                }
+                else if (($member_attr = $this->get_group_member_attr(array($objectclass), ''))
+                    && ($member_attr = strtolower($member_attr)) && !in_array($member_attr, $attrs)
+                ) {
+                    $members       = $this->_list_group_members($dn, $entry, $member_attr, $count);
+                    $group_members = array_merge($group_members, $members);
+                    $attrs[]       = $member_attr;
+                }
+
+                if ($this->prop['sizelimit'] && count($group_members) > $this->prop['sizelimit']) {
+                    break 2;
                 }
             }
-
-            if ($this->prop['sizelimit'] && count($group_members) > $this->prop['sizelimit'])
-              break;
         }
 
         return array_filter($group_members);
@@ -599,8 +596,9 @@ class rcube_ldap extends rcube_addressbook
         // Use the member attributes to return an array of member ldap objects
         // NOTE that the member attribute is supposed to contain a DN
         $group_members = array();
-        if (empty($entry[$attr]))
+        if (empty($entry[$attr])) {
             return $group_members;
+        }
 
         // read these attributes for all members
         $attrib = $count ? array('dn','objectClass') : $this->prop['list_attributes'];
@@ -1466,7 +1464,8 @@ class rcube_ldap extends rcube_addressbook
     private static function is_group_entry($entry)
     {
         return array_intersect(
-            array('group', 'groupofnames', 'kolabgroupofnames', 'groupofuniquenames','kolabgroupofuniquenames','groupofurls'),
+            array('group', 'groupofnames', 'kolabgroupofnames', 'groupofuniquenames',
+                'kolabgroupofuniquenames', 'groupofurls', 'univentiongroup'),
             array_map('strtolower', (array)$entry['objectclass'])
         );
     }
@@ -1888,37 +1887,33 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Detects group member attribute name
      */
-    private function get_group_member_attr($object_classes = array())
+    private function get_group_member_attr($object_classes = array(), $default = 'member')
     {
         if (empty($object_classes)) {
             $object_classes = $this->prop['groups']['object_classes'];
         }
+
         if (!empty($object_classes)) {
             foreach ((array)$object_classes as $oc) {
                 switch (strtolower($oc)) {
                     case 'group':
                     case 'groupofnames':
                     case 'kolabgroupofnames':
-                        $member_attr = 'member';
-                        break;
+                        return 'member';
 
                     case 'groupofuniquenames':
                     case 'kolabgroupofuniquenames':
-                        $member_attr = 'uniqueMember';
-                        break;
+                    case 'univentiongroup':
+                        return 'uniqueMember';
                 }
             }
-        }
-
-        if (!empty($member_attr)) {
-            return $member_attr;
         }
 
         if (!empty($this->prop['groups']['member_attr'])) {
             return $this->prop['groups']['member_attr'];
         }
 
-        return 'member';
+        return $default;
     }
 
 
