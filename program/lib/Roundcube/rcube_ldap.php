@@ -88,7 +88,11 @@ class rcube_ldap extends rcube_addressbook
         if (is_array($p['group_filters']) && count($p['group_filters'])) {
             $this->groups = true;
 
-            foreach ($p['group_filters'] as $group_filter) {
+            foreach ($p['group_filters'] as $k => $group_filter) {
+                // set default name attribute to cn
+                if (empty($group_filter['name_attr']) && empty($this->prop['groups']['name_attr']))
+                    $this->prop['group_filters'][$k]['name_attr'] = $group_filter['name_attr'] = 'cn';
+
                 if ($group_filter['name_attr'])
                     $fetch_attributes[] = $group_filter['name_attr'];
             }

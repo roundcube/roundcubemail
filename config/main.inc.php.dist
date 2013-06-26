@@ -711,12 +711,14 @@ $rcmail_config['ldap_public']['Verisign'] = array(
       'scope'   => 'list',
       'base_dn' => 'ou=Groups,dc=mydomain,dc=com',
       'filter'  => '(|(objectclass=groupofuniquenames)(objectclass=groupofurls))',
+      'name_attr' => 'cn',
     ),
     'customers' => array(
       'name'    => 'Customers',
       'scope'   => 'sub',
       'base_dn' => 'ou=Customers,dc=mydomain,dc=com',
       'filter'  => '(objectClass=inetOrgPerson)',
+      'name_attr' => 'sn',
     ),
   ),
 );
