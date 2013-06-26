@@ -258,7 +258,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       var i, row = $('#rcmrow'+this.managesieve_rowid(o.id));
 
       if (o.name)
-        $('td', row).html(o.name);
+        $('td', row).text(o.name);
       if (o.disabled)
         row.addClass('disabled');
       else
@@ -273,7 +273,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       var list = this.filters_list,
         row = $('<tr><td class="name"></td></tr>');
 
-      $('td', row).html(o.name);
+      $('td', row).text(o.name);
       row.attr('id', 'rcmrow'+o.id);
       if (o.disabled)
         row.addClass('disabled');
@@ -297,7 +297,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
         tr = document.createElement('TR');
         td = document.createElement('TD');
 
-        td.innerHTML = el.name;
+        $(td).text(el.name);
         td.className = 'name';
         tr.id = 'rcmrow' + el.id;
         if (el['class'])
@@ -346,7 +346,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
         list = this.filtersets_list,
         row = $('<tr class="disabled"><td class="name"></td></tr>');
 
-      $('td', row).html(o.name);
+      $('td', row).text(o.name);
       row.attr('id', 'rcmrow'+id);
 
       this.env.filtersets[id] = o.name;

@@ -1,3 +1,5 @@
+- Fix handling of &, <, > characters in scripts/filter names (#1489208)
+
 * version 6.2 [2013-02-17]
 -----------------------------------------------------------
 - Support tls:// prefix in managesieve_host option

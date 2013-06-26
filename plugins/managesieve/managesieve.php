@@ -967,7 +967,7 @@ class managesieve extends rcube_plugin
                         $this->rc->output->command('parent.managesieve_updatelist',
                             isset($new) ? 'add' : 'update',
                             array(
-                                'name' => Q($this->form['name']),
+                                'name' => $this->form['name'],
                                 'id' => $fid,
                                 'disabled' => $this->form['disabled']
                         ));
@@ -1049,7 +1049,7 @@ class managesieve extends rcube_plugin
                 foreach ($list as $idx => $set) {
                     $scripts['S'.$idx] = $set;
                     $result[] = array(
-                        'name' => Q($set),
+                        'name' => $set,
                         'id' => 'S'.$idx,
                         'class' => !in_array($set, $this->active) ? 'disabled' : '',
                     );
@@ -2039,7 +2039,7 @@ class managesieve extends rcube_plugin
             $fname = $filter['name'] ? $filter['name'] : "#$i";
             $result[] = array(
                 'id'    => $idx,
-                'name'  => Q($fname),
+                'name'  => $fname,
                 'class' => $filter['disabled'] ? 'disabled' : '',
             );
             $i++;
