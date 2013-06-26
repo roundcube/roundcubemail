@@ -85,6 +85,8 @@
 {
   font-weight: bold;
   text-align: right;
+  width: 1%;
+  white-space: nowrap;
 }
 
 #bottomboxes
@@ -252,4 +254,16 @@ img.skinthumbnail
 div.crop
 {
   overflow: auto;
+}
+
+#rcmfd_signature
+{
+  width: 99%;
+  min-width: 390px;
+}
+
+#rcmfd_signature_toolbar1 td,
+#rcmfd_signature_toolbar2 td
+{
+  width: auto;
 }

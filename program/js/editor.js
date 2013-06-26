@@ -41,7 +41,7 @@ function rcmail_editor_init(config)
     $.extend(conf, {
       plugins: 'paste,tabfocus',
       theme_advanced_buttons1: 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr,link,unlink,code,forecolor',
-      theme_advanced_buttons2: ',fontselect,fontsizeselect'
+      theme_advanced_buttons2: 'fontselect,fontsizeselect'
     });
   else { // mail compose
     $.extend(conf, {

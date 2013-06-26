@@ -267,3 +267,13 @@ img.skinthumbnail {
 .webkit #pluginlist td.source {
 	width: 9em;
 }
+
+#rcmfd_signature {
+	width: 99%;
+	min-width: 390px;
+}
+
+#rcmfd_signature_toolbar1 td,
+#rcmfd_signature_toolbar2 td {
+	width: auto;
+}
