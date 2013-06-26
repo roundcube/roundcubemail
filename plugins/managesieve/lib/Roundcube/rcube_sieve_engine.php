@@ -1014,7 +1014,7 @@ class rcube_sieve_engine
                 foreach ($list as $idx => $set) {
                     $scripts['S'.$idx] = $set;
                     $result[] = array(
-                        'name' => rcube::Q($set),
+                        'name' => $set,
                         'id' => 'S'.$idx,
                         'class' => !in_array($set, $this->active) ? 'disabled' : '',
                     );
@@ -2111,7 +2111,7 @@ class rcube_sieve_engine
             $fname = $filter['name'] ? $filter['name'] : "#$i";
             $result[] = array(
                 'id'    => $idx,
-                'name'  => rcube::Q($fname),
+                'name'  => $fname,
                 'class' => $filter['disabled'] ? 'disabled' : '',
             );
             $i++;
