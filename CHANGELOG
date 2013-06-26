@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remove deprecated (in PHP 5.5) PREG /e modifier usage (#1489174)
 - Fix empty messages list when register_globals is enabled (#1489157)
 - Fix so valid and set date.timezone is not required by installer checks (#1489180)
 - Canonize boolean ini_get() results (#1489189)

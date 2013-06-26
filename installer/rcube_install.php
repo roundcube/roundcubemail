@@ -217,10 +217,12 @@ class rcube_install
       // save change
       $this->config[$prop] = $value;
 
+      $dump = self::_dump_var($value, $prop);
+
       // replace the matching line in config file
       $out = preg_replace(
-        '/(\$rcmail_config\[\''.preg_quote($prop).'\'\])\s+=\s+(.+);/Uie',
-        "'\\1 = ' . rcube_install::_dump_var(\$value, \$prop) . ';'",
+        '/(\$rcmail_config\[\''.preg_quote($prop).'\'\])\s+=\s+(.+);/Ui',
+        "\\1 = $dump;",
         $out);
     }
 
