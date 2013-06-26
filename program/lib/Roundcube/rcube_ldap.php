@@ -1532,7 +1532,7 @@ class rcube_ldap extends rcube_addressbook
             return array();
 
         // use cached list for searching
-        if (!$this->cache || ($group_cache = $this->cache->get('groups')) === null) {
+        if (!$this->cache || !empty($this->prop['group_filters']) || ($group_cache = $this->cache->get('groups')) === null) {
             $group_cache = $this->_fetch_groups();
         }
 
