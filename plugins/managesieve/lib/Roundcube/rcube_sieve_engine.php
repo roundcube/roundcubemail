@@ -932,7 +932,7 @@ class rcube_sieve_engine
                         $this->rc->output->command('parent.managesieve_updatelist',
                             isset($new) ? 'add' : 'update',
                             array(
-                                'name' => rcube::Q($this->form['name']),
+                                'name' => $this->form['name'],
                                 'id' => $fid,
                                 'disabled' => $this->form['disabled']
                         ));
