@@ -57,6 +57,10 @@ foreach ($cids as $source => $cid)
     foreach ($cid as $cid) {
         $a_record = $CONTACTS->get_record($cid, true);
 
+        // avoid copying groups
+        if ($a_record['_type'] == 'group')
+            continue;
+
         // Check if contact exists, if so, we'll need it's ID
         // Note: Some addressbooks allows empty email address field
         if (!empty($a_record['email']))

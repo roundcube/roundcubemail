@@ -4150,6 +4150,8 @@ function rcube_webmail()
       this.show_contentframe(false);
 
     if (list.selection.length) {
+      list.draggable = false;
+
       // no source = search result, we'll need to detect if any of
       // selected contacts are in writable addressbook to enable edit/delete
       // we'll also need to know sources used in selection for copy
@@ -4172,6 +4174,9 @@ function rcube_webmail()
         else {
           writable = writable || (!source.readonly && !contact.readonly);
         }
+
+        if (contact._type != 'group')
+          list.draggable = true;
       }
 
       this.env.selection_sources = $.unique(this.env.selection_sources);
