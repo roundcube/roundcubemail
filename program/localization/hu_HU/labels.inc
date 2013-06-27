@@ -37,6 +37,7 @@ $labels['drafts'] = 'Piszkozatok';
 $labels['sent']   = 'Küldött levelek';
 $labels['trash']  = 'Törölt elemek';
 $labels['junk']   = 'Kéretlen levelek';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Tárgy';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Megjelenítési mód';
 $labels['folderactions'] = 'Mappaműveletek...';
 $labels['compact'] = 'Tömörítés';
 $labels['empty'] = 'Kiürítés';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Helyfoglalás';
 $labels['unknown']  = 'ismeretlen';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Alapállapot';
 $labels['searchmod']  = 'Keresési opciók';
 $labels['msgtext']  = 'Teljes üzenet';
 $labels['body']  = 'Törzs';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Megnyitás új ablakban';
 $labels['emlsave'] = 'Letöltés (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Utolsó oldal';
 
 $labels['group'] = 'Csoport';
 $labels['groups'] = 'Csoportok';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Személyes címjegyzék';
 
 $labels['searchsave'] = 'Keresés mentése';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Számot tartalmazó szavak kihagyása';
 $labels['spellcheckignorecaps'] = 'Csak nagybetűt tartalmazó szavak kihagyása';
 $labels['addtodict'] = 'Hozzáadás a szótárhoz';
 $labels['mailtoprotohandler'] = 'Beállítás a mailto: linkek kezelőjeként';
+$labels['standardwindows'] = 'A felugró ablakok használata szokásos ablakként';
 $labels['forwardmode'] = 'Üzenet továbbítás';
 $labels['inline'] = 'beágyazott';
 $labels['asattachment'] = 'csatolmányként';

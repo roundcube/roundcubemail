@@ -37,6 +37,7 @@ $labels['drafts'] = 'Utkast';
 $labels['sent']   = 'Skickat';
 $labels['trash']  = 'Papperskorg';
 $labels['junk']   = 'Skräp';
+$labels['show_real_foldernames'] = 'Visa verkliga namn på särskilda kataloger';
 
 // message listing
 $labels['subject'] = 'Ämne';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Visningsläge';
 $labels['folderactions'] = 'Hantera kataloger';
 $labels['compact'] = 'Packa';
 $labels['empty'] = 'Töm';
+$labels['importmessages'] = 'Importera meddelanden';
 
 $labels['quota'] = 'Diskutrymme';
 $labels['unknown']  = 'okänt';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Återställ sökning';
 $labels['searchmod']  = 'Sökalternativ';
 $labels['msgtext']  = 'Hela meddelandet';
 $labels['body']  = 'Innehåll';
+$labels['type'] = 'Typ';
 
 $labels['openinextwin'] = 'Öppna i nytt fönster';
 $labels['emlsave'] = 'Spara (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Visa sista sidan';
 
 $labels['group'] = 'Grupp';
 $labels['groups'] = 'Kontaktgrupper';
+$labels['listgroup'] = 'Visa gruppmedlemmar';
 $labels['personaladrbook'] = 'Personliga adresser';
 
 $labels['searchsave'] = 'Lägg till sökning';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorera ord med siffror';
 $labels['spellcheckignorecaps'] = 'Ignorera ord med enbart stora bokstäver';
 $labels['addtodict'] = 'Lägg till i ordlista';
 $labels['mailtoprotohandler'] = 'Ange program för hantering av mailto-länkar';
+$labels['standardwindows'] = 'Hantera popup-rutor som standardfönster';
 $labels['forwardmode'] = 'Vidarebefordra meddelande';
 $labels['inline'] = 'Infogat';
 $labels['asattachment'] = 'Bilaga';

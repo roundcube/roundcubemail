@@ -37,6 +37,7 @@ $labels['drafts'] = 'வரைவுகள்';
 $labels['sent']   = 'அனுப்பிய அஞ்சல்';
 $labels['trash']  = 'குப்பை';
 $labels['junk']   = 'எரிதம்';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'தலைப்பு';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'குறுகிய';
 $labels['empty'] = 'காலி';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'பயன்பாட்டு அளவு';
 $labels['unknown']  = 'தெரியாத';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'தேடலை மறுஅமை';
 $labels['searchmod']  = 'மாற்றிகளை தேடு';
 $labels['msgtext']  = 'முழு செய்தி';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'புது சாளரத்தில் திற';
 $labels['emlsave'] = 'பதிவிறக்கு (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'கடைசி குழுவை காட்ட�
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'குழுக்கள்';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'சுய முகவரி';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

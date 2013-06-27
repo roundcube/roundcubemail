@@ -37,6 +37,7 @@ $labels['drafts'] = 'Skice';
 $labels['sent']   = 'Poslano';
 $labels['trash']  = 'Smeće';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Prikaži prava imena specijalnih foldera';
 
 // message listing
 $labels['subject'] = 'Naslov';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Način prikaza liste';
 $labels['folderactions'] = 'Akcije za foldere...';
 $labels['compact'] = 'Optimiziraj';
 $labels['empty'] = 'Isprazni';
+$labels['importmessages'] = 'Uvezi poruke';
 
 $labels['quota'] = 'Zauzeće diska';
 $labels['unknown']  = 'nepoznato';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Resetuj pretragu';
 $labels['searchmod']  = 'Modifikacija pretrage';
 $labels['msgtext']  = 'Cijela poruka';
 $labels['body']  = 'Tijelo';
+$labels['type'] = 'Vrsta';
 
 $labels['openinextwin'] = 'Otvori u novom prozoru';
 $labels['emlsave'] = 'Preuzmi (.eml)';
@@ -223,7 +226,7 @@ $labels['mailreplyintro'] = '$date, $sender je napisao/la:';
 $labels['originalmessage'] = 'Originalna poruka';
 
 $labels['editidents']    = 'Uredi identitete';
-$labels['spellcheck']    = 'Spelovanje';
+$labels['spellcheck']    = 'Pravopis';
 $labels['checkspelling'] = 'Provjera pravopisa';
 $labels['resumeediting'] = 'Nastavi uređivanje';
 $labels['revertto']      = 'Vrati na';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Prikaži zadnju stranicu';
 
 $labels['group'] = 'Grupa';
 $labels['groups'] = 'Grupe';
+$labels['listgroup'] = 'Izlistaj članove grupe';
 $labels['personaladrbook'] = 'Lične adrese';
 
 $labels['searchsave'] = 'Sačuvaj pretragu';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Zanemari riječi sa brojevima';
 $labels['spellcheckignorecaps'] = 'Zanemari riječi napisane velikim slovima';
 $labels['addtodict'] = 'Dodaj u rječnik';
 $labels['mailtoprotohandler'] = 'Registruj upravljač protokola za mailto: linkovi';
+$labels['standardwindows'] = 'Tretiraj popup-ove kao standardne prozore';
 $labels['forwardmode'] = 'Prosljeđivanje poruka';
 $labels['inline'] = 'u istom redu';
 $labels['asattachment'] = 'kao prilog';

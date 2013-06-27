@@ -37,6 +37,7 @@ $labels['drafts'] = 'Entwürfe';
 $labels['sent']   = 'Gesendet';
 $labels['trash']  = 'Gelöscht';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Echte Namen für Spezialordner anzeigen';
 
 // message listing
 $labels['subject'] = 'Betreff';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Anzeigemodus';
 $labels['folderactions'] = 'Ordneraktionen...';
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
+$labels['importmessages'] = 'Nachrichten importieren';
 
 $labels['quota'] = 'Speicherplatz';
 $labels['unknown']  = 'unbekannt';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Suche zurücksetzen';
 $labels['searchmod']  = 'Suchkriterien ändern';
 $labels['msgtext']  = 'Nachricht';
 $labels['body']  = 'Inhalt';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Lokal speichern (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Letzte Seite';
 
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Gruppen';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Persönliches Adressbuch';
 
 $labels['searchsave'] = 'Suchergebnisse speichern';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'HTML-Nachrichten verfassen';
 $labels['htmlonreply'] = 'nur Antworten auf HTML-Nachrichten';
 $labels['htmlonreplyandforward'] = 'beim Weiterleiten und  Beantworten auf HTML-Nachrichten';
 $labels['htmlsignature'] = 'HTML-Signatur';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'E-Mail-Adresse mit dem Display Namen anzeigen';
 $labels['previewpane'] = 'Nachrichtenvorschau anzeigen';
 $labels['skin'] = 'Oberflächendesign';
 $labels['logoutclear'] = 'Papierkorb beim Abmelden leeren';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Wörter mit Ziffern überspringen';
 $labels['spellcheckignorecaps'] = 'Wörter überspringen, die nur aus Großbuchstaben bestehen';
 $labels['addtodict'] = 'Zum Wörterbuch hinzufügen';
 $labels['mailtoprotohandler'] = 'Als Empfänger für mailto: Links einrichten';
+$labels['standardwindows'] = 'Popups als Standard Windows behandeln';
 $labels['forwardmode'] = 'Nachrichtenweiterleitung';
 $labels['inline'] = 'eingebettet';
 $labels['asattachment'] = 'als Anhang';

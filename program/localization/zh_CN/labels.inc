@@ -37,6 +37,7 @@ $labels['drafts'] = '草稿箱';
 $labels['sent']   = '已发送邮件';
 $labels['trash']  = '已删除邮件';
 $labels['junk']   = '垃圾邮件';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = '主题';
@@ -193,6 +194,7 @@ $labels['listmode'] = '列表视图样式';
 $labels['folderactions'] = '文件夹操作...';
 $labels['compact'] = '压缩';
 $labels['empty'] = '清空';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = '邮箱容量';
 $labels['unknown']  = '未知';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = '清空';
 $labels['searchmod']  = '修改搜索';
 $labels['msgtext']  = '整封邮件';
 $labels['body']  = '正文';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = '在新窗口中打开';
 $labels['emlsave'] = '下载(.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = '最后一页';
 
 $labels['group'] = '分组';
 $labels['groups'] = '分组';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = '个人通讯录';
 
 $labels['searchsave'] = '保存搜索';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = '忽略带数字的单词';
 $labels['spellcheckignorecaps'] = '忽略所有大写字母的单词';
 $labels['addtodict'] = '添加到字典中';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = '邮件转发方式';
 $labels['inline'] = '内嵌';
 $labels['asattachment'] = '作为附件';

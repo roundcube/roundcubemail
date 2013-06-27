@@ -37,6 +37,7 @@ $labels['drafts'] = 'نامه های ناتکمیل';
 $labels['sent']   = 'ارسال شده';
 $labels['trash']  = 'اشغال دانی';
 $labels['junk']   = 'بیکاره';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'مضمون';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'خلاصه';
 $labels['empty'] = 'خالي';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = '‌طريقه استعمال ديسک';
 $labels['unknown']  = 'نامعلوم';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'بازنشاندن جستجو';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'در پینجره ای جدید باز کنید';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'بسته اخير را نشان دهيد';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'گروه ها';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'ادرس های شخصي';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

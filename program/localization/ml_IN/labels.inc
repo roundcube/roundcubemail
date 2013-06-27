@@ -37,6 +37,7 @@ $labels['drafts'] = 'പൂര്‍ത്തിയാകാത്തവ';
 $labels['sent']   = 'അയച്ചവ';
 $labels['trash']  = 'ചവറ്റുകുട്ട';
 $labels['junk']   = 'ആവശ്യമില്ലാത്തവ';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'വിഷയം';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'ചുരുക്കു';
 $labels['empty'] = 'ശൂന്യം';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'ഡിസ്ക്ക് ഉപയോഗം';
 $labels['unknown']  = 'അറിയാത്ത';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Reset search';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'മുഴുവന്‍ സന്ദേശവും';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'പുതിയ വിന്‍ഡോയില്‍ തുറക്കുക';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Show last page';
 
 $labels['group'] = 'കൂട്ടം';
 $labels['groups'] = 'കൂട്ടങ്ങള്‍';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'സ്വകാര്യ വിലാസങ്ങള്‍';
 
 $labels['searchsave'] = 'തിരയല്‍ സൂക്ഷിക്കുക';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'അക്കങ്ങള്‍ ഉള്ള �
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'നിഘണ്ടുവില്‍ ചേര്‍ക്കുക';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

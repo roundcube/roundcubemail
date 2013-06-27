@@ -37,6 +37,7 @@ $labels['drafts'] = 'Malnetujo';
 $labels['sent']   = 'Senditujo';
 $labels['trash']  = 'Rubujo';
 $labels['junk']   = 'Spamujo';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Temo';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Dosierujo-agoj';
 $labels['compact'] = 'Kompakta';
 $labels['empty'] = 'Malplena';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Diskuzo';
 $labels['unknown']  = 'nekonata';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Vakigu serĉon';
 $labels['searchmod']  = 'Serĉ-opcioj';
 $labels['msgtext']  = 'Tuta mesaĝo';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Malfermu en nova fenestro';
 $labels['emlsave'] = 'Elŝutu (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Montru lastan';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Grupoj';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Persona Adresoj';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

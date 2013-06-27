@@ -37,6 +37,7 @@ $labels['drafts'] = 'Qaralamalar';
 $labels['sent']   = 'Göndərilənlər';
 $labels['trash']  = 'Səbət';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Mövzu';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Görünüş rejimi';
 $labels['folderactions'] = 'Qovluq işləri...';
 $labels['compact'] = 'Sıx';
 $labels['empty'] = 'Boşalt';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Disk istifadəsi';
 $labels['unknown']  = 'naməlum';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Axtarışı yenilə';
 $labels['searchmod']  = 'Axtarış variantları';
 $labels['msgtext']  = 'Bütün məktub';
 $labels['body']  = 'Mətn';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Yeni pəncərədə aç';
 $labels['emlsave'] = 'Saxla (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Sonuncunu göstər';
 
 $labels['group'] = 'Qrup';
 $labels['groups'] = 'Qruplar';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Şəxsi ünvanlar';
 
 $labels['searchsave'] = 'Sorğunu saxla';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Rəqəmlər ilə sözləri keç';
 $labels['spellcheckignorecaps'] = 'Böyük hərfləri olan sözlərdən keç';
 $labels['addtodict'] = 'Lüğətə əlavə et';
 $labels['mailtoprotohandler'] = 'mailto: keçid üçün protokol qeyd et';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Məktubların yönəldilməsi';
 $labels['inline'] = 'mətndə';
 $labels['asattachment'] = 'fayl kimi';

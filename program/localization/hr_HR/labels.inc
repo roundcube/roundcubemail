@@ -37,6 +37,7 @@ $labels['drafts'] = 'Predlošci';
 $labels['sent']   = 'Poslano';
 $labels['trash']  = 'Smeće';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Naslov';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Model pregleda listi';
 $labels['folderactions'] = 'Akcije mapa';
 $labels['compact'] = 'Kompresiranje';
 $labels['empty'] = 'Isprazni';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Kvota';
 $labels['unknown']  = 'nepoznato';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Prikaži sve poruke';
 $labels['searchmod']  = 'Postavke pretrage';
 $labels['msgtext']  = 'Cijela poruka';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Otvori u novom prozoru';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Zadnja strana';
 
 $labels['group'] = 'Grupa';
 $labels['groups'] = 'Grupe';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Privatna adresa';
 
 $labels['searchsave'] = 'Pohrani pretragu';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignoriraj riječi koje sadrže brojeve';
 $labels['spellcheckignorecaps'] = 'Ignoriraj riječi sa sa svim velikim slovima';
 $labels['addtodict'] = 'Dodaj u rječnik';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

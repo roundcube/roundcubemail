@@ -37,6 +37,7 @@ $labels['drafts'] = 'Mustandid';
 $labels['sent']   = 'Saadetud';
 $labels['trash']  = 'Prügikast';
 $labels['junk']   = 'Rämps';
+$labels['show_real_foldernames'] = 'Näita eriliste kaustade päris nimesid';
 
 // message listing
 $labels['subject'] = 'Pealkiri';
@@ -64,7 +65,7 @@ $labels['copy']     = 'Kopeeri';
 $labels['move']     = 'Liiguta';
 $labels['moveto']   = 'liiguta kausta...';
 $labels['download'] = 'laadi arvutisse';
-$labels['open']     = 'Open';
+$labels['open']     = 'Ava';
 $labels['showattachment'] = 'Näita';
 $labels['showanyway'] = 'Näita ikka';
 
@@ -162,7 +163,7 @@ $labels['currpage'] = 'Praegune leht';
 $labels['unread'] = 'Lugemata';
 $labels['flagged'] = 'Märgistatud';
 $labels['unanswered'] = 'Vastamata';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Koos manusega';
 $labels['deleted'] = 'Kustutatud';
 $labels['undeleted'] = 'Pole kustutatud';
 $labels['invert'] = 'Vaheta';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Nimekirja vaatamise režiim';
 $labels['folderactions'] = 'Kausta tegevused...';
 $labels['compact'] = 'Tihenda';
 $labels['empty'] = 'Tühjenda';
+$labels['importmessages'] = 'Impordi kirju';
 
 $labels['quota'] = 'Kettakasutus';
 $labels['unknown']  = 'teadmata';
@@ -203,11 +205,12 @@ $labels['resetsearch']  = 'Lähtesta otsing';
 $labels['searchmod']  = 'Otsingu laiendid';
 $labels['msgtext']  = 'Kogu kirjast';
 $labels['body']  = 'Keha';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Ava uues aknas';
 $labels['emlsave'] = 'Salvesta (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Näita lihttekstina';
+$labels['changeformathtml'] = 'Näita HTMLis';
 
 // message compose
 $labels['editasnew']      = 'Kasuta uue kirja põhjana';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Näita viimast komplekti';
 
 $labels['group'] = 'Grupp';
 $labels['groups'] = 'Grupid';
+$labels['listgroup'] = 'Näita grupi liikmeid';
 $labels['personaladrbook'] = 'Isiklikud aadressid';
 
 $labels['searchsave'] = 'Salvesta otsing';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'Kasuta HTML redaktorit';
 $labels['htmlonreply'] = 'vaid HTML-vormingus kirjale vastamisel';
 $labels['htmlonreplyandforward'] = 'edastamisel või HTML kirjale vastates';
 $labels['htmlsignature'] = 'HTML allkiri';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Näita nime juures e-posti aadressi';
 $labels['previewpane'] = 'Näita eelvaate akent';
 $labels['skin'] = 'Kliendi välimus';
 $labels['logoutclear'] = 'Tühjenda väljumisel prügikast';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignoreeri sõnu, milles on numbreid';
 $labels['spellcheckignorecaps'] = 'Ignoreeri suurte tähtedega kirjutatud sõnu';
 $labels['addtodict'] = 'Lisa sõnastikku';
 $labels['mailtoprotohandler'] = 'Kasuta mailto: linkide avamisel';
+$labels['standardwindows'] = 'Käsitle hüpikaknaid tavaliste akendena';
 $labels['forwardmode'] = 'Kirja edastamine';
 $labels['inline'] = 'kirja sees';
 $labels['asattachment'] = 'manusena';

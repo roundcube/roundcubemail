@@ -37,6 +37,7 @@ $labels['drafts'] = 'Borradores';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Papelera';
 $labels['junk']   = 'SPAM';
+$labels['show_real_foldernames'] = 'Mostrar nombres reales para carpetas especiales';
 
 // message listing
 $labels['subject'] = 'Asunto';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Modo de vista de lista';
 $labels['folderactions'] = 'Acciones de bandeja...';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Vaciar';
+$labels['importmessages'] = 'Importar mensajes';
 
 $labels['quota'] = 'Uso de disco';
 $labels['unknown']  = 'desconocido';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Reiniciar la búsqueda';
 $labels['searchmod']  = 'Opciones de búsqueda';
 $labels['msgtext']  = 'Mensaje completo';
 $labels['body']  = 'Cuerpo';
+$labels['type'] = 'Tipo';
 
 $labels['openinextwin'] = 'Abrir en nueva ventana';
 $labels['emlsave'] = 'Descargar (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Mostrar último grupo';
 
 $labels['group'] = 'Grupo';
 $labels['groups'] = 'Grupos';
+$labels['listgroup'] = 'Listar miembros del grupo';
 $labels['personaladrbook'] = 'Direcciones personales';
 
 $labels['searchsave'] = 'Guardar búsqueda';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'Componer mensaje en HTML';
 $labels['htmlonreply'] = 'sólo en respuesta a un mensaje HTML';
 $labels['htmlonreplyandforward'] = 'en reenvío o respuesta al mensaje HTML';
 $labels['htmlsignature'] = 'Firma HTML';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Mostrar dirección de correo electrónico al visualizar el nombre';
 $labels['previewpane'] = 'Mostrar vista preliminar';
 $labels['skin'] = 'Apariencia de la interfaz';
 $labels['logoutclear'] = 'Vaciar papelera al cerrar sesión';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorar palabras con números';
 $labels['spellcheckignorecaps'] = 'Ignorar palabras con todo mayúsculas';
 $labels['addtodict'] = 'Añadir al diccionario';
 $labels['mailtoprotohandler'] = 'Registrar controlador de protocolo para enlaces mailto:';
+$labels['standardwindows'] = 'Gestionar ventanas emergentes como ventanas estándar';
 $labels['forwardmode'] = 'Reenvío de mensajes';
 $labels['inline'] = 'en línea';
 $labels['asattachment'] = 'como adjunto';

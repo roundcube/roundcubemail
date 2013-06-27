@@ -37,6 +37,7 @@ $labels['drafts'] = 'Esborranys';
 $labels['sent']   = 'Enviats';
 $labels['trash']  = 'Paperera';
 $labels['junk']   = 'Correu brossa';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Assumpte';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Mode de vista de llista';
 $labels['folderactions'] = 'Accions de carpeta';
 $labels['compact'] = 'Compacta';
 $labels['empty'] = 'Buida';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Ús del disc';
 $labels['unknown']  = 'desconegut';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Neteja cerca';
 $labels['searchmod']  = 'Cerca modificadors';
 $labels['msgtext']  = 'Missatge sencer';
 $labels['body']  = 'Cos';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Obre a una nova finestra';
 $labels['emlsave'] = 'Descarrega (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Mostra la darrera pàgina';
 
 $labels['group'] = 'Grup';
 $labels['groups'] = 'Grups';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Llibreta d\'adreces';
 
 $labels['searchsave'] = 'Desa la cerca';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignora paraules amb números';
 $labels['spellcheckignorecaps'] = 'Ignora paraules amb lletres capitalitzades';
 $labels['addtodict'] = 'Afegeix al diccionari';
 $labels['mailtoprotohandler'] = 'Registra controlador de protocol pels enllaços mailto:';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Reenviament de missatges';
 $labels['inline'] = 'en línia';
 $labels['asattachment'] = 'com adjunt';

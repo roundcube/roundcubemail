@@ -17,6 +17,6 @@
 */
 
 $labels = array();
-$labels['useimapsubscriptions']  = 'Usar suscripcións IMAP';
+$labels['useimapsubscriptions']  = 'Usar subscricións IMAP';
 
 ?>

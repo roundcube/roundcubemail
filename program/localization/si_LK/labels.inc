@@ -37,6 +37,7 @@ $labels['drafts'] = 'කටු සටහන්';
 $labels['sent']   = 'යැවූ';
 $labels['trash']  = 'ඉවතලන බඳුන';
 $labels['junk']   = 'සුන්බුන්';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'මාතෘකාව';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'බහාලුම් ක්‍රියා...';
 $labels['compact'] = 'සංයුක්ත';
 $labels['empty'] = 'හිස්';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Disk usage';
 $labels['unknown']  = 'නොදනී';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'සෙවුම යලි පිහිටවීම';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'සම්පූර්ණ පණිවිඩය';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'නව කවුළුවක විවෘත කරන්න';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'අවසාන පිටුව පෙන්වන�
 
 $labels['group'] = 'කණ්ඩායම';
 $labels['groups'] = 'කණ්ඩායම්';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'පුද්ගලික ලිපිනය';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'අංක සහිත වචන නොසල
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'ශබ්ද කෝෂයට එක් කරන්න';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

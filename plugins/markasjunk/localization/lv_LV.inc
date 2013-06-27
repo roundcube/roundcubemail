@@ -17,8 +17,8 @@
 */
 
 $labels = array();
-$labels['buttontext'] = 'Junk';
-$labels['buttontitle'] = 'Iezīmēt kā mēstuli';
-$labels['reportedasjunk'] = 'Sekmīgi iezīmēta kā mēstule';
+$labels['buttontext'] = 'Mēstules';
+$labels['buttontitle'] = 'Atzīmēt kā mēstuli';
+$labels['reportedasjunk'] = 'Sekmīgi iatzīmēta kā mēstule';
 
 ?>

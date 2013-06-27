@@ -37,6 +37,7 @@ $labels['drafts'] = 'Чернетки';
 $labels['sent']   = 'Надіслані';
 $labels['trash']  = 'Кошик';
 $labels['junk']   = 'Спам';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Тема';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Режим перегляду';
 $labels['folderactions'] = 'Операції з папкою...';
 $labels['compact'] = 'Стиснути';
 $labels['empty'] = 'Спорожнити';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Використано';
 $labels['unknown']  = 'невідомо';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Очистити пошук';
 $labels['searchmod']  = 'Де шукати';
 $labels['msgtext']  = 'В усьому листі';
 $labels['body']  = 'Тіло повідомлення';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Відкрити в новому вікні';
 $labels['emlsave'] = 'Зберегти (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Остання сторінка';
 
 $labels['group'] = 'Група';
 $labels['groups'] = 'Групи';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Персональні адреси';
 
 $labels['searchsave'] = 'Зберегти пошук';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ігнорувати слова із числ
 $labels['spellcheckignorecaps'] = 'Ігнорувати слова із великими буквами';
 $labels['addtodict'] = 'Додати до словника';
 $labels['mailtoprotohandler'] = 'Зареєструвати обробник для посилань mailto';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Пересилання повідомлень';
 $labels['inline'] = 'у тексті';
 $labels['asattachment'] = 'як вкладення';

@@ -37,6 +37,7 @@ $labels['drafts'] = 'დროებითი';
 $labels['sent']   = 'გაგზავნილი';
 $labels['trash']  = 'წაშლილი';
 $labels['junk']   = 'სპამი';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'სათაური';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'შეკუმშვა';
 $labels['empty'] = 'გაცარიელება';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'შეზღუდვა';
 $labels['unknown']  = 'უცნობი';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'ძიების გასუფთავება'
 $labels['searchmod']  = 'ძებნის ვარიანტები';
 $labels['msgtext']  = 'ყველა შეტყობინება';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'გახსნა ახალ ფანჯარაში';
 $labels['emlsave'] = 'გადმოწერა (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'ბოლოს ჩვენება';
 
 $labels['group'] = 'ჯგუფი';
 $labels['groups'] = 'ჯგუფები';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'პერსონალური მისამართები';
 
 $labels['searchsave'] = 'ძებნის შენახვა';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'ლექსიკონში დამატება';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

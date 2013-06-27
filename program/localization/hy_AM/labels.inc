@@ -37,6 +37,7 @@ $labels['drafts'] = 'Սևագրեր';
 $labels['sent']   = 'Ուղարկված';
 $labels['trash']  = 'Աղբարկղ';
 $labels['junk']   = 'Թափոն';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Վերնագիր';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Ցուցակով տեսքի տարբերակը';
 $labels['folderactions'] = 'Պանակի գործողություններ…';
 $labels['compact'] = 'Սեղմել';
 $labels['empty'] = 'Դատարկել';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Դիսկային տարածք';
 $labels['unknown']  = 'անհայտ';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Վերսկսել որոնումը';
 $labels['searchmod']  = 'Որոնման փոփոխիչներ';
 $labels['msgtext']  = 'Ողջ հաղորդագրությունը';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Բացել նոր պատուհանում';
 $labels['emlsave'] = 'Ներբեռնել (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Ցուցադրել վերջին էջը';
 
 $labels['group'] = 'Խումբ';
 $labels['groups'] = 'Խմբեր';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Անձնական հասցեներ';
 
 $labels['searchsave'] = 'Պահպանել որոնումը';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Անտեսել թվերով բառերը';
 $labels['spellcheckignorecaps'] = 'Անտեսել լրիվ մեծատառ բառերը';
 $labels['addtodict'] = 'Ավելացնել բառարանում';
 $labels['mailtoprotohandler'] = 'mailto: հղումների սպասարկող';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

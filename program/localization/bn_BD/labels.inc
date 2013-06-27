@@ -37,6 +37,7 @@ $labels['drafts'] = 'খসড়া';
 $labels['sent']   = 'প্রেরিত(পাঠানো মেইল)';
 $labels['trash']  = 'ডাস্টবিন';
 $labels['junk']   = 'আজেবাজে মেইল';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'বিষয়';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'টাইটকরুন';
 $labels['empty'] = 'খালিকরুন';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'ডিস্ক এ খালি যায়গা';
 $labels['unknown']  = 'অজানা';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'নতুনকরে খুজুন';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'নতুন উইন্ডো তে দেখুন';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'শেষের গুলো দেখান';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'গ্রুপ';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'নিজের ঠিকানা';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

@@ -37,6 +37,7 @@ $labels['drafts'] = 'Concepten';
 $labels['sent']   = 'Verzonden';
 $labels['trash']  = 'Prullenbak';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Toon echte namen voor speciale mappen';
 
 // message listing
 $labels['subject'] = 'Onderwerp';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Lijstweergave';
 $labels['folderactions'] = 'Mapacties...';
 $labels['compact'] = 'Opschonen';
 $labels['empty'] = 'Legen';
+$labels['importmessages'] = 'Berichten importeren';
 
 $labels['quota'] = 'Opslagverbruik';
 $labels['unknown']  = 'onbekend';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Wis zoekopdracht';
 $labels['searchmod']  = 'Zoekopties';
 $labels['msgtext']  = 'Gehele bericht';
 $labels['body']  = 'Inhoud';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Laatste pagina';
 
 $labels['group'] = 'Groep';
 $labels['groups'] = 'Groepen';
+$labels['listgroup'] = 'Toon groepsleden';
 $labels['personaladrbook'] = 'Persoonlijk adresboek';
 
 $labels['searchsave'] = 'Zoekopdracht opslaan';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Negeer woorden met cijfers';
 $labels['spellcheckignorecaps'] = 'Negeer woorden welke volledig uit hoofdletters bestaan';
 $labels['addtodict'] = 'Voeg toe aan woordenboek';
 $labels['mailtoprotohandler'] = 'Registreer protocolhandler voor mailto: links';
+$labels['standardwindows'] = 'Behandel pop-ups als normale vensters';
 $labels['forwardmode'] = 'Berichten doorsturen';
 $labels['inline'] = 'invoegen';
 $labels['asattachment'] = 'als bijlage';

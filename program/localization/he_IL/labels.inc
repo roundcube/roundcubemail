@@ -37,6 +37,7 @@ $labels['drafts'] = 'טיוטות';
 $labels['sent']   = 'נשלח';
 $labels['trash']  = 'אשפה';
 $labels['junk']   = 'זבל';
+$labels['show_real_foldernames'] = 'הצגת שמות אמיתיים של תיקיות מיוחדות';
 
 // message listing
 $labels['subject'] = 'נושא';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'אופן הצגת רשימה';
 $labels['folderactions'] = 'פעולות על תיקים';
 $labels['compact'] = 'פינוי שטח לא מנוצל';
 $labels['empty'] = 'ריקון';
+$labels['importmessages'] = 'ייבוא הודעות';
 
 $labels['quota'] = 'ניצול קיבולת';
 $labels['unknown']  = 'לא ידוע';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'ניקוי תיבת החיפוש';
 $labels['searchmod']  = 'מאפייני חיפוש';
 $labels['msgtext']  = 'כל ההודעה';
 $labels['body']  = 'גוף ההודעה';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'פתיחה בחלון חדש';
 $labels['emlsave'] = 'הורדת הודעה בפורמט  EML';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'הצגת הקבוצה האחרונה';
 
 $labels['group'] = 'קבוצה';
 $labels['groups'] = 'קבוצות';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'כתובות פרטיות';
 
 $labels['searchsave'] = 'שמירת החיפוש';
@@ -474,6 +478,7 @@ $labels['spellcheckignorenums'] = 'התעלמות ממילים המכילות מ
 $labels['spellcheckignorecaps'] = 'התעלמות ממילים עם אותציות ראשיות';
 $labels['addtodict'] = 'הוספה למילון';
 $labels['mailtoprotohandler'] = 'קביעת הפרוטוקול לטיפול בקישור מסוג  mailto:links';
+$labels['standardwindows'] = 'חלונות קופצים יטופלו כחלונות רגילים';
 $labels['forwardmode'] = 'הפנית הודעות';
 $labels['inline'] = 'חלק מההודעה';
 $labels['asattachment'] = 'כצרופה';

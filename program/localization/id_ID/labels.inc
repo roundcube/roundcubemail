@@ -37,6 +37,7 @@ $labels['drafts'] = 'Daftar tunggu';
 $labels['sent']   = 'Terkirim';
 $labels['trash']  = 'Surat Terhapus';
 $labels['junk']   = 'Sampah';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Judul';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Perlihatkan mode tinjauan';
 $labels['folderactions'] = 'Tindakan pada folder...';
 $labels['compact'] = 'Rampingkan';
 $labels['empty'] = 'Kosong';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Penggunaan ruang';
 $labels['unknown']  = 'Tidak dikenal';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Atur ulang pencarian';
 $labels['searchmod']  = 'Peubah pencarian';
 $labels['msgtext']  = 'Seluruh pesan';
 $labels['body']  = 'Badan';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Buka dalam jendela baru';
 $labels['emlsave'] = 'Unduh (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Perlihatkan himpunan terakhir';
 
 $labels['group'] = 'Kelompok';
 $labels['groups'] = 'Kelompok';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Alamat pribadi';
 
 $labels['searchsave'] = 'Simpan pencarian';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Abaikan kata-kata yang bernomor';
 $labels['spellcheckignorecaps'] = 'Abaikan kata-kata dengan huruf besar semua';
 $labels['addtodict'] = 'Tambahkan ke kamus';
 $labels['mailtoprotohandler'] = 'Daftarkan pengampu protokol untuk link mailto:';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Meneruskan pesan';
 $labels['inline'] = 'dalam surat';
 $labels['asattachment'] = 'sebagai sisipan';

@@ -37,6 +37,7 @@ $labels['drafts'] = 'Osnutki';
 $labels['sent']   = 'Poslano';
 $labels['trash']  = 'Smeti';
 $labels['junk']   = 'Nezaželena sporočila';
+$labels['show_real_foldernames'] = 'Prikaži prava imena za posebne mape';
 
 // message listing
 $labels['subject'] = 'Zadeva';
@@ -162,7 +163,7 @@ $labels['currpage'] = 'Trenutna stran';
 $labels['unread'] = 'Neprebrano';
 $labels['flagged'] = 'Označeno';
 $labels['unanswered'] = 'Neoznačeno';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'S priponko';
 $labels['deleted'] = 'Izbrisano';
 $labels['undeleted'] = 'Ni izbrisano';
 $labels['invert'] = 'Zamenjaj';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Način prikaza seznama';
 $labels['folderactions'] = 'Upravljanje map...';
 $labels['compact'] = 'Stisni';
 $labels['empty'] = 'Izprazni';
+$labels['importmessages'] = 'Uvozi sporočila';
 
 $labels['quota'] = 'Poraba prostora';
 $labels['unknown']  = 'neznana';
@@ -203,11 +205,12 @@ $labels['resetsearch']  = 'Prekliči iskanje';
 $labels['searchmod']  = 'Spremembe iskanja';
 $labels['msgtext']  = 'Celotno sporočilo';
 $labels['body']  = 'Vsebina sporočila';
+$labels['type'] = 'Tip';
 
 $labels['openinextwin'] = 'Odpri v novem oknu';
 $labels['emlsave'] = 'Prenos datoteke (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Prikaži kot golo besedilo';
+$labels['changeformathtml'] = 'Prikaži v formatu HTML';
 
 // message compose
 $labels['editasnew']      = 'Uredi kot novo';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Zadnja stran';
 
 $labels['group'] = 'Skupina';
 $labels['groups'] = 'Skupine';
+$labels['listgroup'] = 'Izpiši seznam članov skupine';
 $labels['personaladrbook'] = 'Stiki';
 
 $labels['searchsave'] = 'Shrani iskanje';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'Sestavi sporočila z obogatenim besedilom';
 $labels['htmlonreply'] = 'le pri odgovoru na sporočila z obogatenim besedilom';
 $labels['htmlonreplyandforward'] = 'le pri posredovanju ali odgovoru na sporočila z obogatenim besedilom';
 $labels['htmlsignature'] = 'Podpis z obogatenim besedilom';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Prikaži e-naslove poleg imen';
 $labels['previewpane'] = 'Prikaži predogled';
 $labels['skin'] = 'Tema uporabniškega vmesnika';
 $labels['logoutclear'] = 'Izprazni mapo Smeti ob odjavi';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ne upoštevaj besed, ki vsebujejo številke';
 $labels['spellcheckignorecaps'] = 'Ne upoštevaj besed, ki vsebujejo samo velike črke';
 $labels['addtodict'] = 'Dodaj v slovar';
 $labels['mailtoprotohandler'] = 'Registriraj upravljavca protokola za e-naslov: povezave';
+$labels['standardwindows'] = 'Prikaži pojavna okna kot običajna';
 $labels['forwardmode'] = 'Posredovanje sporočil';
 $labels['inline'] = 'medvrstično';
 $labels['asattachment'] = 'Kot priponka';

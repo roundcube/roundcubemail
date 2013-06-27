@@ -37,6 +37,7 @@ $labels['drafts'] = 'Zirriborroak';
 $labels['sent']   = 'Bidalitakoak';
 $labels['trash']  = 'Zakarrontzia';
 $labels['junk']   = 'Zabor-posta';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Gaia';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Trinkotu';
 $labels['empty'] = 'Hustu';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Disko erabilera';
 $labels['unknown']  = 'ezezaguna';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Bilaketa berrabiarazi';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Lehio berrian ireki';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Azken sorta ikusi';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Taldeak';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Helbide pertsonalak';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

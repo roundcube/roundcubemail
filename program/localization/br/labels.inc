@@ -37,6 +37,7 @@ $labels['drafts'] = 'Brouilhedoù';
 $labels['sent']   = 'Kaset';
 $labels['trash']  = 'Pod-lastez';
 $labels['junk']   = 'Stroboù';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Sujed';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Stummaat';
 $labels['empty'] = 'Skarzhañ';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Implijadur pladenn';
 $labels['unknown']  = 'Dianav';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Aderaouekaat ar glask';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Gwelout ar bajenn diwezhañ';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Strolladoù';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Chomlec\'h personel';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

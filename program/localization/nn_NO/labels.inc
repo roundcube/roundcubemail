@@ -37,6 +37,7 @@ $labels['drafts'] = 'Kladd';
 $labels['sent']   = 'Sendt';
 $labels['trash']  = 'Sletta';
 $labels['junk']   = 'Søppel';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Emne';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Listevisningmodus';
 $labels['folderactions'] = 'Mappehandlingar';
 $labels['compact'] = 'Kompakt';
 $labels['empty'] = 'Tom';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Plassbruk';
 $labels['unknown']  = 'ukjend';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Tilbakestill søk';
 $labels['searchmod']  = 'Søkeutsagn';
 $labels['msgtext']  = 'Heile eposten';
 $labels['body']  = 'Meldingstekst';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Opna i nytt vindauga';
 $labels['emlsave'] = 'Last ned (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Siste side';
 
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Gruppar';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Personlege adresser';
 
 $labels['searchsave'] = 'Lagre søk';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorer ord med tal';
 $labels['spellcheckignorecaps'] = 'Ignorer ord med berre store bokstavar';
 $labels['addtodict'] = 'Legg til i ordliste';
 $labels['mailtoprotohandler'] = 'Registrer protokollhandsaming for mailto-lenkjer';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Meldingar vidaresendast';
 $labels['inline'] = 'i teksten';
 $labels['asattachment'] = 'som vedlegg';

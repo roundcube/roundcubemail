@@ -37,6 +37,7 @@ $labels['drafts'] = '草稿匣';
 $labels['sent']   = '寄件備份';
 $labels['trash']  = '垃圾桶';
 $labels['junk']   = '垃圾郵件';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = '主旨';
@@ -193,6 +194,7 @@ $labels['listmode'] = '清單檢視模式';
 $labels['folderactions'] = '資料夾動作...';
 $labels['compact'] = '壓縮';
 $labels['empty'] = '清空';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = '磁碟使用量';
 $labels['unknown']  = '未知';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = '重設搜尋';
 $labels['searchmod']  = '修改搜尋';
 $labels['msgtext']  = '整封郵件';
 $labels['body']  = '內文';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = '在新視窗開啟';
 $labels['emlsave'] = '下載（.eml）';
@@ -354,6 +357,7 @@ $labels['lastpage']       = '顯示最後一頁';
 
 $labels['group'] = '群組';
 $labels['groups'] = '群組';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = '個人通訊錄';
 
 $labels['searchsave'] = '儲存搜尋結果';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = '忽略數字';
 $labels['spellcheckignorecaps'] = '忽略大寫字母';
 $labels['addtodict'] = '加入詞典';
 $labels['mailtoprotohandler'] = '註冊mailto:協定處理程式';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = '郵件轉寄方式';
 $labels['inline'] = '放入內文';
 $labels['asattachment'] = '當成附件';

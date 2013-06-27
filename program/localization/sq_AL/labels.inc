@@ -37,6 +37,7 @@ $labels['drafts'] = 'Drafte';
 $labels['sent']   = 'Dërguar';
 $labels['trash']  = 'Fshirë';
 $labels['junk']   = 'Reklama';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Tema';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Zvogëlo';
 $labels['empty'] = 'Boshatis';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Përdorimi i diskut';
 $labels['unknown']  = 'i panjohur';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Pastro kërkimin';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Shfaq grupin e fundit';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Grupet';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Adresat Personale';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

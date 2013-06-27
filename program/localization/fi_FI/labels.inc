@@ -37,6 +37,7 @@ $labels['drafts'] = 'Luonnokset';
 $labels['sent']   = 'Lähetetyt';
 $labels['trash']  = 'Roskakori';
 $labels['junk']   = 'Roskaposti';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Aihe';
@@ -162,7 +163,7 @@ $labels['currpage'] = 'Nykyinen sivu';
 $labels['unread'] = 'Lukemattomat';
 $labels['flagged'] = 'Korostettu';
 $labels['unanswered'] = 'Vastaamaton';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Liitteen kera';
 $labels['deleted'] = 'Poistettu';
 $labels['undeleted'] = 'Ei poistettu';
 $labels['invert'] = 'Käännä';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Listausnäkymä';
 $labels['folderactions'] = 'Kansiotoiminnot...';
 $labels['compact'] = 'Tiivistä';
 $labels['empty'] = 'Tyhjennä';
+$labels['importmessages'] = 'Tuo viestejä';
 
 $labels['quota'] = 'Levytila';
 $labels['unknown']  = 'tuntematon';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Nollaa haku';
 $labels['searchmod']  = 'Hakukriteerit';
 $labels['msgtext']  = 'Koko viesti';
 $labels['body']  = 'Runko';
+$labels['type'] = 'Tyyppi';
 
 $labels['openinextwin'] = 'Avaa uudessa ikkunassa';
 $labels['emlsave'] = 'Tallenna (.eml)';
@@ -245,9 +248,9 @@ $labels['nosubject']  = '(ei otsikkoa)';
 $labels['showimages'] = 'Näytä kuvat';
 $labels['alwaysshow'] = 'Näytä aina lähettäjältä $sender saapuneet kuvat';
 $labels['isdraft']    = 'Tämä on luonnosviesti.';
-$labels['andnmore']   = '$nr more...';
+$labels['andnmore']   = '$nr lisää...';
 $labels['togglemoreheaders'] = 'Näytä lisää viestiotsakkeita';
-$labels['togglefullheaders'] = 'Toggle raw message headers';
+$labels['togglefullheaders'] = 'Viestin otsakkeet päällä/pois';
 
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Tavallinen teksti';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Näytä viimeinen luettelo';
 
 $labels['group'] = 'Ryhmä';
 $labels['groups'] = 'Ryhmät';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Henkilökohtaiset osoitteet';
 
 $labels['searchsave'] = 'Tallenna haku';
@@ -400,7 +404,7 @@ $labels['showinextwin'] = 'Avaa viesti uudessa ikkunassa';
 $labels['composeextwin'] = 'Lähetä viesti uudessa ikkunassa';
 $labels['htmleditor'] = 'Kirjoita HTML-muodossa';
 $labels['htmlonreply'] = 'Vain vastatessa HTML-viesteihin';
-$labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
+$labels['htmlonreplyandforward'] = 'välittäessä tai vastatessa HTML-viestiin';
 $labels['htmlsignature'] = 'HTML-allekirjoitus';
 $labels['showemail'] = 'Näytä sähköpostiosoite näyttönimen kanssa';
 $labels['previewpane'] = 'Näytä esikatselulehti';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Jätä huomiotta sanat, joissa on numeroita';
 $labels['spellcheckignorecaps'] = 'Jätä huomiotta sanat, joissa kaikki kirjaimet on isoja';
 $labels['addtodict'] = 'Lisää sanakirjaan';
 $labels['mailtoprotohandler'] = 'Rekisteröi mailto:-linkkien protokollakäsitteljä';
+$labels['standardwindows'] = 'Käsittele popup-ikkunoita tavallisina ikkunoina';
 $labels['forwardmode'] = 'Viestin välitys';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'liitteenä';

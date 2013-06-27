@@ -37,6 +37,7 @@ $labels['drafts'] = '下書き';
 $labels['sent']   = '送信済み';
 $labels['trash']  = 'ごみ箱';
 $labels['junk']   = '迷惑メール';
+$labels['show_real_foldernames'] = '特殊フォルダーの実際の名前を表示';
 
 // message listing
 $labels['subject'] = '件名';
@@ -193,6 +194,7 @@ $labels['listmode'] = '一覧表示モード';
 $labels['folderactions'] = 'フォルダーの操作...';
 $labels['compact'] = '圧縮';
 $labels['empty'] = '空';
+$labels['importmessages'] = 'メッセージをインポート';
 
 $labels['quota'] = 'ディスクの使用状況';
 $labels['unknown']  = '不明';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = '検索を解除';
 $labels['searchmod']  = '検索の条件';
 $labels['msgtext']  = 'メッセージ全体';
 $labels['body']  = '本文';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = '新しいウィンドウで開く';
 $labels['emlsave'] = 'ダウンロード(.eml形式)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = '最後のページを表示';
 
 $labels['group'] = 'グループ';
 $labels['groups'] = 'グループ';
+$labels['listgroup'] = 'グループのメンバーを一覧';
 $labels['personaladrbook'] = '個人の住所';
 
 $labels['searchsave'] = '検索情報を保存';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = '数字を含む単語を無視';
 $labels['spellcheckignorecaps'] = 'すべて大文字の単語を無視';
 $labels['addtodict'] = '辞書に追加';
 $labels['mailtoprotohandler'] = 'mailto: のリンクを扱うプロトコル処理の登録';
+$labels['standardwindows'] = 'ポップアップを通常のウィンドウとして処理';
 $labels['forwardmode'] = 'メッセージの転送形式';
 $labels['inline'] = 'インライン';
 $labels['asattachment'] = '添付ファイル';

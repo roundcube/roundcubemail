@@ -37,6 +37,7 @@ $labels['drafts'] = 'ड्राफ्टहरू';
 $labels['sent']   = 'पठईएका मेलहरु';
 $labels['trash']  = 'रद्दी टोकरी';
 $labels['junk']   = 'स्पाम';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'विषय';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'छोटो गर्नुहोस';
 $labels['empty'] = 'खाली गर्ने';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'डिस्कको उपभोग';
 $labels['unknown']  = 'अज्ञात';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'पन: खोज';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'अन्तिम सेट देखाउनु�
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'समूहहरु';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'व्यक्तिगत ठेगानाहरु';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

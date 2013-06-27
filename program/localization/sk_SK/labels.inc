@@ -37,6 +37,7 @@ $labels['drafts'] = 'Rozpísané';
 $labels['sent']   = 'Odoslané';
 $labels['trash']  = 'Kôš';
 $labels['junk']   = 'Nevyžiadaná pošta';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Predmet';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Režim zobrazenia zoznamu';
 $labels['folderactions'] = 'Akcie so zložkou...';
 $labels['compact'] = 'Zhustiť priečinok';
 $labels['empty'] = 'Vyprázdniť';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Zaplnenie schránky';
 $labels['unknown']  = 'neznáme';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Vyčistiť vyhľadávanie';
 $labels['searchmod']  = 'Parametre hľadanie';
 $labels['msgtext']  = 'Celá správa';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Otvoriť v novom okne';
 $labels['emlsave'] = 'Stiahnuť';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Posledná stránka';
 
 $labels['group'] = 'Skupina';
 $labels['groups'] = 'Skupiny';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Osobné adresy';
 
 $labels['searchsave'] = 'Uložiť vyhľadávanie';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorovať slová s číslami';
 $labels['spellcheckignorecaps'] = 'Ignorovať slová písané veľkými písmenami';
 $labels['addtodict'] = 'Pridať do slovníka';
 $labels['mailtoprotohandler'] = 'Zaregistrovať handler pre odkazy „mailto:“';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Preposielanie správ';
 $labels['inline'] = 'v tele spávy';
 $labels['asattachment'] = 'ako príloha';

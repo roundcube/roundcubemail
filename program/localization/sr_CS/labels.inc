@@ -37,6 +37,7 @@ $labels['drafts'] = 'U pripremi';
 $labels['sent']   = 'Послате';
 $labels['trash']  = 'Канта';
 $labels['junk']   = 'Смеће';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Наслов';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Лист режим приказивања';
 $labels['folderactions'] = 'Поставке фасцикле';
 $labels['compact'] = 'Компакција';
 $labels['empty'] = 'Испразни';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Квота';
 $labels['unknown']  = 'непозната';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Прикажи све поруке';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Цела порука';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Отвори у новом прозору';
 $labels['emlsave'] = 'Довнлоад (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Прикажи последњи скуп';
 
 $labels['group'] = 'Група';
 $labels['groups'] = 'Групе';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Личне адресе';
 
 $labels['searchsave'] = 'Сачувај претрагу';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'игнориши  речи са бројев�
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Додај у речник';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

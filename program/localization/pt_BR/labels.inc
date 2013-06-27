@@ -37,6 +37,7 @@ $labels['drafts'] = 'Rascunhos';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Lixeira';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Exibir o nome real das pastas de sistema';
 
 // message listing
 $labels['subject'] = 'Assunto';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Visualização em lista';
 $labels['folderactions'] = 'Ações para as pastas...';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Esvaziar';
+$labels['importmessages'] = 'Importar mensagens';
 
 $labels['quota'] = 'Uso de disco';
 $labels['unknown']  = 'desconhecido';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Limpar pesquisa';
 $labels['searchmod']  = 'Opções da pesquisa';
 $labels['msgtext']  = 'Mensagem inteira';
 $labels['body']  = 'Conteúdo';
+$labels['type'] = 'Tipo';
 
 $labels['openinextwin'] = 'Abrir em nova janela';
 $labels['emlsave'] = 'Baixar (formato .eml)';
@@ -267,7 +270,7 @@ $labels['yourmessage'] = 'Esta é uma confirmação de leitura da sua mensagem';
 $labels['receiptnote'] = 'Nota: Esta confirmação de leitura somente informa que a mensagem foi aberta no computador do destinatário. Não há garantia que o destinatário tenha lido ou compreendido o conteúdo da mensagem.';
 
 // address boook
-$labels['name']         = 'Nome de exibição';
+$labels['name']         = 'Nome';
 $labels['firstname']    = 'Primeiro Nome';
 $labels['surname']      = 'Sobrenome';
 $labels['middlename']   = 'Segundo Nome';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Última Página';
 
 $labels['group'] = 'Grupo';
 $labels['groups'] = 'Grupos';
+$labels['listgroup'] = 'Listar membros do grupo';
 $labels['personaladrbook'] = 'Endereços pessoais';
 
 $labels['searchsave'] = 'Salvar pesquisa';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorar palavras com números';
 $labels['spellcheckignorecaps'] = 'Ignorar palavras com todas letras maiúsculas';
 $labels['addtodict'] = 'Adicionar ao dicionário';
 $labels['mailtoprotohandler'] = 'Associar links de e-mail (mailto:) para envio de mensagem através do webmail';
+$labels['standardwindows'] = 'Usar popups como janelas do navegador';
 $labels['forwardmode'] = 'Encaminhamento de mensagens';
 $labels['inline'] = 'Em linha (no corpo da mensagem)';
 $labels['asattachment'] = 'como anexo';
@@ -484,7 +489,7 @@ $labels['messagecount'] = 'Mensagens';
 $labels['create']  = 'Criar';
 $labels['createfolder']  = 'Criar nova pasta';
 $labels['managefolders']  = 'Gerenciar pastas';
-$labels['specialfolders'] = 'Pastas especiais';
+$labels['specialfolders'] = 'Pastas de sistema';
 $labels['properties'] = 'Propriedades';
 $labels['folderproperties'] = 'Propriedades da pasta';
 $labels['parentfolder'] = 'Pasta pai';

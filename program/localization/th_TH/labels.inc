@@ -37,6 +37,7 @@ $labels['drafts'] = 'กล่องจดหมายร่าง';
 $labels['sent']   = 'กล่องขาออก';
 $labels['trash']  = 'ถังขยะ';
 $labels['junk']   = 'กล่องจดหมายขยะ';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'หัวจดหมาย';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'แบบย่อ';
 $labels['empty'] = 'ว่างเปล่า';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'พื้นที่ใช้งาน';
 $labels['unknown']  = 'ไม่ทราบ';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'ล้างการค้นหา';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'เนื้อหา';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Show last page';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Groups';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Personal Addresses';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'เป็นไฟล์แนบ';

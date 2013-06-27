@@ -37,6 +37,7 @@ $labels['drafts'] = 'Kladder';
 $labels['sent']   = 'Sendt post';
 $labels['trash']  = 'Papirkurv';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Emne';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Listevisningsmode';
 $labels['folderactions'] = 'Mappehandlinger...';
 $labels['compact'] = 'Ryd op';
 $labels['empty'] = 'Tøm';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Diskforbrug';
 $labels['unknown']  = 'ukendt';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Nulstil søgning';
 $labels['searchmod']  = 'Søgeparametre';
 $labels['msgtext']  = 'Hele beskeden';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Åbn i nyt vindue';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Vis sidste side';
 
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Grupper';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Personlige adresser';
 
 $labels['searchsave'] = 'Gem søgning';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'Skriv HTML-besked';
 $labels['htmlonreply'] = 'kun når jeg besvarer HTML-beskeder';
 $labels['htmlonreplyandforward'] = 'ved videresendelse eller besvarelse af HTML beskeder';
 $labels['htmlsignature'] = 'HTML-signatur';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Vis email-adresse med vist navn';
 $labels['previewpane'] = 'Forhåndsvisning';
 $labels['skin'] = 'Brugerflade';
 $labels['logoutclear'] = 'Tøm Papirkurv når jeg logger af';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorer ord med tal';
 $labels['spellcheckignorecaps'] = 'Ignorer ord hvor alle bogstaver er versaler';
 $labels['addtodict'] = 'Tilføj til ordbog';
 $labels['mailtoprotohandler'] = 'Registrer håndtering af \'mailto:\' links';
+$labels['standardwindows'] = 'Behandl popups som standardvinduer';
 $labels['forwardmode'] = 'Videresendelse af besked';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'som vedhæftning';

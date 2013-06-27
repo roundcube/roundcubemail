@@ -18,17 +18,17 @@
 
 $labels = array();
 $labels['buttontext'] = 'Arhīvs';
-$labels['buttontitle'] = 'Arhivēt vēstuli';
-$labels['archived'] = 'Vēstule sekmīgi arhivēta';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['buttontitle'] = 'Arhivēt šo vēstuli';
+$labels['archived'] = 'Vēstule veiksmīgi arhivēta';
+$labels['archivedreload'] = 'Arhīvs veiksmīgi izveidots. Lai redzētu jaunās arhīva mapes, pārlādējiet lapu.';
+$labels['archiveerror'] = 'Dažas vēstules nebija iespējams arhivēt';
 $labels['archivefolder'] = 'Arhīvs';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arhīvs';
+$labels['archivetype'] = 'Sadalīt arhīvu pa';
+$labels['archivetypeyear'] = 'Gadiem (piem. Arhīvs/2012)';
+$labels['archivetypemonth'] = 'Mēnešiem (piem. Arhīvs/2012/06)';
+$labels['archivetypefolder'] = 'Sākotnējā mape';
+$labels['archivetypesender'] = 'Sūtītāja e-pasts';
+$labels['unkownsender'] = 'nezināms';
 
 ?>

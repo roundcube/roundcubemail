@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = 'Lūdzu, aizpildiet nosūtītāja identifikācijas informāciju';
-$labels['identitydialoghint'] = 'Šis logs parādīsies tikai pirmajā pieteikšanās reizē';
+$labels['identitydialogtitle'] = 'Lūdzu aizpildiet Jūsu, kā sūtītāja, identitātes informāciju';
+$labels['identitydialoghint'] = 'Šis logs parādīsies tikai pirmajā autorizācijas reizē.';
 
 ?>

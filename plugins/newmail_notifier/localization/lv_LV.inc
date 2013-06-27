@@ -16,14 +16,14 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
-$labels['basic'] = 'Attēlot paziņojumu pie jaunas vēstules saņemšanas';
-$labels['desktop'] = 'Attēlot darbvirsmas paziņojumu pie jaunas vēstules saņemšanas';
-$labels['sound'] = 'Atskaņot skaņas signālu pie jaunas vēstules saņemšanas';
-$labels['test'] = 'Test';
-$labels['title'] = 'Jauns E-pasts!';
-$labels['body'] = 'Jūs esat saņēmis jaunu e-pastu.';
+$labels['basic'] = 'Saņemot jaunu vēstuli, parādīt paziņojumu';
+$labels['desktop'] = 'Saņemot jaunu vēstuli, parādīt darbavirsmas paziņojumu';
+$labels['sound'] = 'Saņemot jaunu vēstuli, atskaņot skaņas signālu';
+$labels['test'] = 'Pārbaudīt';
+$labels['title'] = 'Jauns e-pasts!';
+$labels['body'] = 'Jūs esat saņēmis jaunu vēstuli.';
 $labels['testbody'] = 'Šis ir testa paziņojums.';
-$labels['desktopdisabled'] = 'Darbvirsmas paziņojumi ir atslēgti Jūsu pārlūkprogrammā.';
-$labels['desktopunsupported'] = 'Jūsu pārlūkprogramma neatbalsta darbvirsmas paziņojumus.';
+$labels['desktopdisabled'] = 'Darbavirsmas paziņojumi Jūsu pārlūkprogrammā ir atslēgti.';
+$labels['desktopunsupported'] = 'Jūsu pārlūkprogramma neatbalsta darbavirsmas paziņojumus.';
 
 ?>

@@ -37,6 +37,7 @@ $labels['drafts'] = 'Entwürfe';
 $labels['sent']   = 'Gesendet';
 $labels['trash']  = 'Gelöscht';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Spezialordner nicht übersetzen';
 
 // message listing
 $labels['subject'] = 'Betreff';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Anzeigemodus';
 $labels['folderactions'] = 'Ordneraktionen...';
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
+$labels['importmessages'] = 'Nachrichten importieren';
 
 $labels['quota'] = 'Verwendeter Speicherplatz';
 $labels['unknown']  = 'unbekannt';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Löschen';
 $labels['searchmod']  = 'Suchkriterien ändern';
 $labels['msgtext']  = 'Ganze Nachricht';
 $labels['body']  = 'Inhalt';
+$labels['type'] = 'Typ';
 
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Herunterladen (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Letzte Seite';
 
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Gruppen';
+$labels['listgroup'] = 'Gruppenmitglieder anzeigen';
 $labels['personaladrbook'] = 'Persönliches Adressbuch';
 
 $labels['searchsave'] = 'Suche speichern';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Wörter mit Ziffern überspringen';
 $labels['spellcheckignorecaps'] = 'Wörter überspringen, die nur aus Grossbuchstaben bestehen';
 $labels['addtodict'] = 'Zum Wörterbuch hinzufügen';
 $labels['mailtoprotohandler'] = 'Als Empfänger für mailto: Links einrichten';
+$labels['standardwindows'] = 'Popups als normale Browserfenster öffnen';
 $labels['forwardmode'] = 'Weiterleiten einer Nachricht';
 $labels['inline'] = 'eingebettet';
 $labels['asattachment'] = 'als Anhang';

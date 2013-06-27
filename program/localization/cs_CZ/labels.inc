@@ -37,6 +37,7 @@ $labels['drafts'] = 'Rozepsané';
 $labels['sent']   = 'Odeslané';
 $labels['trash']  = 'Koš';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Zobrazit skutečná jména speciálních složek';
 
 // message listing
 $labels['subject'] = 'Předmět';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Režim zobrazení seznamu';
 $labels['folderactions'] = 'Akce se složkou...';
 $labels['compact'] = 'Zmenšit';
 $labels['empty'] = 'Vymazat';
+$labels['importmessages'] = 'Import zpráv';
 
 $labels['quota'] = 'Využití schránky';
 $labels['unknown']  = 'neznámý';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Zrušit vyhledávání';
 $labels['searchmod']  = 'Parametry hledání';
 $labels['msgtext']  = 'Celá zpráva';
 $labels['body']  = 'Tělo';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Otevřít v novém okně';
 $labels['emlsave'] = 'Stáhnout (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Zobrazit poslední zprávy';
 
 $labels['group'] = 'Skupina';
 $labels['groups'] = 'Skupiny';
+$labels['listgroup'] = ' Seznam členů skupiny';
 $labels['personaladrbook'] = 'Osobní kontakty';
 
 $labels['searchsave'] = 'Uložit hledání';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'Vytvářet HTML zprávy';
 $labels['htmlonreply'] = 'jen při odpovědi na HTML zprávy';
 $labels['htmlonreplyandforward'] = 'při přeposlání nebo odpovědi na HTML zprávu';
 $labels['htmlsignature'] = 'HTML podpis';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Zobrazit e-mailovou adresu se skutečným jménem';
 $labels['previewpane'] = 'Zobrazit panel náhledu';
 $labels['skin'] = 'Vzhled';
 $labels['logoutclear'] = 'Vyprázdnit koš při odhlášení';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorovat slova obsahující čísla';
 $labels['spellcheckignorecaps'] = 'Ignorovat slova psaná velkými písmeny';
 $labels['addtodict'] = 'Přidat do slovníku';
 $labels['mailtoprotohandler'] = 'Zaregistrovat handler pro odkazy „mailto:“';
+$labels['standardwindows'] = 'Zacházet s vyskakovacími okny jako se standardními okny';
 $labels['forwardmode'] = 'Přeposlat zprávu';
 $labels['inline'] = 'vloženě';
 $labels['asattachment'] = 'jako přílohu';

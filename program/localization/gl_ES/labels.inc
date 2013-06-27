@@ -37,6 +37,7 @@ $labels['drafts'] = 'Borradores';
 $labels['sent']   = 'Enviados';
 $labels['trash']  = 'Cubo do lixo';
 $labels['junk']   = 'Correo lixo';
+$labels['show_real_foldernames'] = 'Amosar nomes reáis para cartafois especiáis';
 
 // message listing
 $labels['subject'] = 'Asunto';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Modo de vista da lista';
 $labels['folderactions'] = 'Accións cos cartafoles';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Baleirar';
+$labels['importmessages'] = 'Importar mensaxes';
 
 $labels['quota'] = 'Uso de disco';
 $labels['unknown']  = 'descoñecido';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Restablecer a busca';
 $labels['searchmod']  = 'Modificadores de busca';
 $labels['msgtext']  = 'Mensaxe enteira';
 $labels['body']  = 'Corpo';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Abrir nunha nova fiestra';
 $labels['emlsave'] = 'Gardar (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Amosar o último grupo';
 
 $labels['group'] = 'Grupo';
 $labels['groups'] = 'Grupos';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Enderezos persoais';
 
 $labels['searchsave'] = 'Gardar procura';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'Redactar mensaxes HTML';
 $labels['htmlonreply'] = 'só cando se resposte a unha mensaxe HTML';
 $labels['htmlonreplyandforward'] = 'ao reenviar ou respostar a unha mensaxe HTML';
 $labels['htmlsignature'] = 'Sinatura HTML';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Amosar enderezo de correo co nome en pantalla';
 $labels['previewpane'] = 'Amosar previsualización';
 $labels['skin'] = 'Aspecto da interface';
 $labels['logoutclear'] = 'Baleirar o cubo do lixo ao saír';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorar as palabras con números';
 $labels['spellcheckignorecaps'] = 'Ignorar as palabras escritas en maiúsculas';
 $labels['addtodict'] = 'Engadir ao diccionario';
 $labels['mailtoprotohandler'] = 'Rexistrar o manexador de protocolo para as ligazóns "mailto:"';
+$labels['standardwindows'] = 'Manexar avisos emerxentes como xanelas estándar';
 $labels['forwardmode'] = 'Reenvio de mensaxes';
 $labels['inline'] = 'inserido';
 $labels['asattachment'] = 'coma anexo';

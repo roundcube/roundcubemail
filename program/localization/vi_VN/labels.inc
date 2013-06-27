@@ -37,6 +37,7 @@ $labels['drafts'] = 'Thư nháp';
 $labels['sent']   = 'Đã gửi';
 $labels['trash']  = 'Sọt rác';
 $labels['junk']   = 'Thư rác';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Tiêu đề';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Xem dạng danh sách';
 $labels['folderactions'] = 'Thao tác với thư mục';
 $labels['compact'] = 'Nén';
 $labels['empty'] = 'Trống';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Lượng đĩa sử dụng';
 $labels['unknown']  = 'Không rõ';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Thiết lập lại tìm kiếm';
 $labels['searchmod']  = 'Tìm kiếm với từ khóa và ký tự đặc biệt [() : " - ]';
 $labels['msgtext']  = 'Toàn bộ thư';
 $labels['body']  = 'Nội dung thư';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Mở trong khung cửa mới';
 $labels['emlsave'] = 'Tải về theo định dạng .eml';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Hiển thị trang cuối';
 
 $labels['group'] = 'Nhóm';
 $labels['groups'] = 'Các nhóm';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Các địa chỉ cá nhân';
 
 $labels['searchsave'] = 'Lưu tìm kiếm';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Bỏ qua các từ kèm số';
 $labels['spellcheckignorecaps'] = 'Bỏ qua các từ được viết hoa';
 $labels['addtodict'] = 'Thêm vào từ điển';
 $labels['mailtoprotohandler'] = 'Xác định cách xử lý giao thức mailto: liên kết';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Chuyển tiếp thư';
 $labels['inline'] = 'nội tuyến';
 $labels['asattachment'] = 'dạng gửi kèm';

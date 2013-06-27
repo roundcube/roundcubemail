@@ -37,6 +37,7 @@ $labels['drafts'] = 'Rascunhos';
 $labels['sent']   = 'Itens Enviados';
 $labels['trash']  = 'Reciclagem';
 $labels['junk']   = 'Spam';
+$labels['show_real_foldernames'] = 'Mostrar nomes reais para as pastas especiais';
 
 // message listing
 $labels['subject'] = 'Assunto';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Modo de visualização';
 $labels['folderactions'] = 'Acções para pastas...';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Esvaziar';
+$labels['importmessages'] = 'Importar mensagens';
 
 $labels['quota'] = 'Espaço utilizado';
 $labels['unknown']  = 'desconhecido';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Limpar pesquisa';
 $labels['searchmod']  = 'Pesquisar em';
 $labels['msgtext']  = 'Mensagem completa';
 $labels['body']  = 'Corpo';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Abrir numa nova janela';
 $labels['emlsave'] = 'Guardar como (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Última página';
 
 $labels['group'] = 'Grupo';
 $labels['groups'] = 'Grupos';
+$labels['listgroup'] = 'Lista de membros do grupo';
 $labels['personaladrbook'] = 'Endereços pessoais';
 
 $labels['searchsave'] = 'Guardar pesquisa';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignorar palavras com números';
 $labels['spellcheckignorecaps'] = 'Ignorar palavras em maiúsculas';
 $labels['addtodict'] = 'Adicionar ao dicionário';
 $labels['mailtoprotohandler'] = 'Registar manipulador de protocolo para mailto: links';
+$labels['standardwindows'] = 'Lidar com popups como janelas padrão';
 $labels['forwardmode'] = 'Reencaminhamento de mensagens';
 $labels['inline'] = 'em linha';
 $labels['asattachment'] = 'como anexo';

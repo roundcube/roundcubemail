@@ -37,6 +37,7 @@ $labels['drafts'] = 'المسودات';
 $labels['sent']   = 'المرسل';
 $labels['trash']  = 'المهملات';
 $labels['junk']   = 'غير المرغوب';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'الموضوع';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'وضع طريقة السرد';
 $labels['folderactions'] = 'إجراءات المجلد...';
 $labels['compact'] = 'ضغط';
 $labels['empty'] = 'تفريغ';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'المساحة المستخدمة';
 $labels['unknown']  = 'مجهول';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'استعادة البحث للافتراضي';
 $labels['searchmod']  = 'أماكن البحث';
 $labels['msgtext']  = 'كامل الرسالة';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'افتح في نافذة جديدة';
 $labels['emlsave'] = 'تنزيل (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'عرض المجموعة الأخيرة';
 
 $labels['group'] = 'مجموعة';
 $labels['groups'] = 'المجموعات';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'العناوين الشخصية';
 
 $labels['searchsave'] = 'حفظ البحث';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'تجاهل الكلمات التي تحتوي
 $labels['spellcheckignorecaps'] = 'تجاهل الكلمات التي بها أحرف كبيرة';
 $labels['addtodict'] = 'إضافة إلى القامس';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

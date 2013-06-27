@@ -37,6 +37,7 @@ $labels['drafts'] = 'Dréachtaí';
 $labels['sent']   = 'Amach';
 $labels['trash']  = 'Bosca bruscair';
 $labels['junk']   = 'Dramhaíl';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Ábhair';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Comhbhrúigh';
 $labels['empty'] = 'Folmhaigh';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Toilleadh diosca atá athláimhe';
 $labels['unknown']  = 'gan aithne';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Athshocraigh an cuardach';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Taispeáin an foireann deireanach';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Grúpaí';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Seoltaí Pearsanta';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

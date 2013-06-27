@@ -37,6 +37,7 @@ $labels['drafts'] = 'សំបុត្រពង្រៀង';
 $labels['sent']   = 'សំបុត្រដែលបានបញ្ជូន';
 $labels['trash']  = 'ធុងសំរាម';
 $labels['junk']   = 'សំបុត្រមិនល្អ';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'ចំណងជើង';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'បង្ហាញជាតារាង';
 $labels['folderactions'] = 'មុខងារថត';
 $labels['compact'] = 'បង្រួម';
 $labels['empty'] = 'ទទេរ';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'ទំហំសំបុត្រទាំងអស់ដែលមាន';
 $labels['unknown']  = 'មិនស្គាល់';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'កំណត់លក្ខខ័ណ្ឌស្វ�
 $labels['searchmod']  = 'កែសំរួលលក្ខខ័ណ្ឌស្វែងរក';
 $labels['msgtext']  = 'សំបុត្រទាំងមូល';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'បើកក្នុងវីនដូវថ្មី';
 $labels['emlsave'] = 'រក្សាទុកទិន្នន័យជាឯកសារប្រភេទ(.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'ទំព័រចុងក្រោយ';
 
 $labels['group'] = 'ក្រុម';
 $labels['groups'] = 'ក្រុម';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'អាសយដ្ឋានផ្ទាល់ខ្លួន';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

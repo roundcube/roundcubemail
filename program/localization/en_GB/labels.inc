@@ -194,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';
 $labels['empty'] = 'Empty';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Disk usage';
 $labels['unknown']  = 'unknown';
@@ -204,6 +205,7 @@ $labels['resetsearch']  = 'Reset search';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -355,6 +357,7 @@ $labels['lastpage']       = 'Show last set';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Groups';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Personal Addresses';
 
 $labels['searchsave'] = 'Save search';
@@ -473,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalised';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

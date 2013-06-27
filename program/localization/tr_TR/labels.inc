@@ -37,6 +37,7 @@ $labels['drafts'] = 'Taslaklar';
 $labels['sent']   = 'Giden';
 $labels['trash']  = 'Çöp';
 $labels['junk']   = 'İstenmeyen';
+$labels['show_real_foldernames'] = 'Özel klasörler için gerçek isimleri göster';
 
 // message listing
 $labels['subject'] = 'Konu';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Liste görünümü';
 $labels['folderactions'] = 'Klasör eylemleri...';
 $labels['compact'] = 'Sıklaştır';
 $labels['empty'] = 'Boşalt';
+$labels['importmessages'] = 'Mesajları içe aktar';
 
 $labels['quota'] = 'Disk kullanımı';
 $labels['unknown']  = 'bilinmeyen';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Aramayı bitir';
 $labels['searchmod']  = 'Arama detayları';
 $labels['msgtext']  = 'Tüm posta gövdesi';
 $labels['body']  = 'Gövde';
+$labels['type'] = 'Tip';
 
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Sonuncuyu göster';
 
 $labels['group'] = 'Grup';
 $labels['groups'] = 'Gruplar';
+$labels['listgroup'] = 'Grup üyelerini listele';
 $labels['personaladrbook'] = 'Adresler';
 
 $labels['searchsave'] = 'Aramayı kaydet';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'HTML postaları oluştur';
 $labels['htmlonreply'] = 'sadece HTML postaları yanıtlarken';
 $labels['htmlonreplyandforward'] = 'HTML biçimindeki posta yanıtlandığında veye iletildiğinde';
 $labels['htmlsignature'] = 'HTML imza';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Eposta adresini görünüm ismi ile görüntüle';
 $labels['previewpane'] = 'Önizleme panelini göster';
 $labels['skin'] = 'Arayüz görünümü';
 $labels['logoutclear'] = 'Oturumu kapatınca Çöpü temizle';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'İçinde rakam geçen kelimleri göz ardı et
 $labels['spellcheckignorecaps'] = 'Tümü büyük harf olan kelimleri göz ardı et';
 $labels['addtodict'] = 'Sözlüğe Ekle';
 $labels['mailtoprotohandler'] = 'mailto: bağlantıları için protokol işleyici kayıt et';
+$labels['standardwindows'] = 'Popup pencerelerini standart pencere olarak yönet';
 $labels['forwardmode'] = 'Posta yönlendirme';
 $labels['inline'] = 'postanın içinde';
 $labels['asattachment'] = 'ek olarak';

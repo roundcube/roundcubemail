@@ -37,6 +37,7 @@ $labels['drafts'] = 'Drög';
 $labels['sent']   = 'Sent';
 $labels['trash']  = 'Rusl';
 $labels['junk']   = 'Ruslpóstur';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Titill';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Listayfirlit';
 $labels['folderactions'] = 'Möppuaðgerðir...';
 $labels['compact'] = 'Pakka';
 $labels['empty'] = 'Tæma';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Gagnamagn';
 $labels['unknown']  = 'óþekkt';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Tæma leit';
 $labels['searchmod']  = 'Leitarskilyrði';
 $labels['msgtext']  = 'Allt skeytið';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Opna í nýjum glugga';
 $labels['emlsave'] = 'Niðurhlaða (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Sýna síðustu síðu';
 
 $labels['group'] = 'Hópur';
 $labels['groups'] = 'Hópar';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Persónuleg heimilisföng';
 
 $labels['searchsave'] = 'Vista leit';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Hunsa orð með tölum';
 $labels['spellcheckignorecaps'] = 'Hunsa orð sem eru í hástöfum';
 $labels['addtodict'] = 'Bæta við orðalista';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

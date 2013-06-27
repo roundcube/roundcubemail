@@ -37,6 +37,7 @@ $labels['drafts'] = 'Juodraščiai';
 $labels['sent']   = 'Išsiųsti laiškai';
 $labels['trash']  = 'Šiukšlinė';
 $labels['junk']   = 'Brukalas';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Tema';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Sąrašo rodymo veiksena';
 $labels['folderactions'] = 'Veiksmai su aplankais…';
 $labels['compact'] = 'Suglaudinti';
 $labels['empty'] = 'Ištuštinti';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Disko naudojimas';
 $labels['unknown']  = 'nežinomas';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Atšaukti paiešką';
 $labels['searchmod']  = 'Paieškos modifikatoriai';
 $labels['msgtext']  = 'Visas laiškas';
 $labels['body']  = 'Laiško tekstas';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Atverti naujame lange';
 $labels['emlsave'] = 'Parsisiųsti (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Rodyti paskutinį puslapį';
 
 $labels['group'] = 'Grupė';
 $labels['groups'] = 'Grupės';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Asmeniniai adresai';
 
 $labels['searchsave'] = 'Įrašyti kaip radinių aplanką';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Nepaisyti žodžių su skaitmenimis';
 $labels['spellcheckignorecaps'] = 'Nepaisyti žodžių vien iš didžiųjų raidžių';
 $labels['addtodict'] = 'Įtraukti į žodyną';
 $labels['mailtoprotohandler'] = 'Užregistruoti svetainę kaip dirbančią su „mailto:“ saitais';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Laiškų persiuntimo būdas';
 $labels['inline'] = 'kaip citatą';
 $labels['asattachment'] = 'kaip priedas';

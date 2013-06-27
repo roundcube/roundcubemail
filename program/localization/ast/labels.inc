@@ -37,6 +37,7 @@ $labels['drafts'] = 'Borradores';
 $labels['sent']   = 'Unviaos';
 $labels['trash']  = 'Papelera';
 $labels['junk']   = 'Puxarra';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = 'Asuntu';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'List view mode';
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compautar';
 $labels['empty'] = 'Vaciar';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Espaciu en discu';
 $labels['unknown']  = 'desconocíu';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Anovar la búsqueda';
 $labels['searchmod']  = 'Guetar modificadores';
 $labels['msgtext']  = 'Mensax completu';
 $labels['body']  = 'Body';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Abrir en una ventana nueva';
 $labels['emlsave'] = 'Baxar (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Amosar l\'últimu grupu';
 
 $labels['group'] = 'Group';
 $labels['groups'] = 'Grupos';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Direiciones personales';
 
 $labels['searchsave'] = 'Save search';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Ignore words with numbers';
 $labels['spellcheckignorecaps'] = 'Ignore words with all letters capitalized';
 $labels['addtodict'] = 'Add to dictionary';
 $labels['mailtoprotohandler'] = 'Register protocol handler for mailto: links';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';

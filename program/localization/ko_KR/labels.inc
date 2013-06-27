@@ -37,6 +37,7 @@ $labels['drafts'] = '임시 보관함';
 $labels['sent']   = '보낸 편지함';
 $labels['trash']  = '휴지통';
 $labels['junk']   = '스팸 편지함';
+$labels['show_real_foldernames'] = 'Show real names for special folders';
 
 // message listing
 $labels['subject'] = '제목';
@@ -193,6 +194,7 @@ $labels['listmode'] = '화면 모드 목록 보기';
 $labels['folderactions'] = '폴더 명령';
 $labels['compact'] = '간단하게';
 $labels['empty'] = '비어 있음';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = '디스크 사용량';
 $labels['unknown']  = '알 수 없음';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = '검색 재설정';
 $labels['searchmod']  = '수정자 검색';
 $labels['msgtext']  = '전체 메시지';
 $labels['body']  = '본문';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = '새 창에서 열기';
 $labels['emlsave'] = '다운로드(.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = '마지막 페이지 보기';
 
 $labels['group'] = '그룹';
 $labels['groups'] = '그룹';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = '개인 주소';
 
 $labels['searchsave'] = '검색 저장';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = '숫자가 포함된 단어 무시';
 $labels['spellcheckignorecaps'] = '모두 대문자로 표기된 단어 무시';
 $labels['addtodict'] = '사전에 추가';
 $labels['mailtoprotohandler'] = 'mailto: 링크의 프로토콜 처리자 등록';
+$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = '메시지 전달';
 $labels['inline'] = '본문 내용으로';
 $labels['asattachment'] = '첨부파일로';

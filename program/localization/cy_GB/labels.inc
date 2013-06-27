@@ -37,6 +37,7 @@ $labels['drafts'] = 'Drafftiau';
 $labels['sent']   = 'Danfonwyd';
 $labels['trash']  = 'Sbwriel';
 $labels['junk']   = 'Sothach';
+$labels['show_real_foldernames'] = 'Dangos enwau go-iawn ar gyfer ffolderi arbennig';
 
 // message listing
 $labels['subject'] = 'Pwnc';
@@ -193,6 +194,7 @@ $labels['listmode'] = 'Golwg rhestr';
 $labels['folderactions'] = 'Gweithredoedd ffolder...';
 $labels['compact'] = 'Crynhoi';
 $labels['empty'] = 'Gwagio';
+$labels['importmessages'] = 'Import messages';
 
 $labels['quota'] = 'Defnydd';
 $labels['unknown']  = 'anhysbys';
@@ -203,6 +205,7 @@ $labels['resetsearch']  = 'Ail-osod chwiliad';
 $labels['searchmod']  = 'Addasyddion chwilio';
 $labels['msgtext']  = 'Y neges yn llawn';
 $labels['body']  = 'Corff';
+$labels['type'] = 'Type';
 
 $labels['openinextwin'] = 'Agor mewn ffenest newydd';
 $labels['emlsave'] = 'Llwytho lawr (.eml)';
@@ -354,6 +357,7 @@ $labels['lastpage']       = 'Dangos y set olaf';
 
 $labels['group'] = 'Grŵp';
 $labels['groups'] = 'Grwpiau';
+$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Cyfeiriadau Personol';
 
 $labels['searchsave'] = 'Cadw chwiliad';
@@ -402,7 +406,7 @@ $labels['htmleditor'] = 'Ysgrifennu negeseuon HTML';
 $labels['htmlonreply'] = 'wrth ateb i neges HTML yn unig';
 $labels['htmlonreplyandforward'] = 'wrth ddanfon ymlaen neu ymateb i neges HTML';
 $labels['htmlsignature'] = 'Llofnod HTML';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Dangos cyfeiriad ebost gyda\'r enw gweledig';
 $labels['previewpane'] = 'Dangos ffenest rhagolwg';
 $labels['skin'] = 'Croen rhyngwyneb';
 $labels['logoutclear'] = 'Clirio\'r Sbwriel wrth allgofnodi';
@@ -472,6 +476,7 @@ $labels['spellcheckignorenums'] = 'Anwybyddu geiriau gyda rhifau';
 $labels['spellcheckignorecaps'] = 'Anwybyddu geiriau sy\'n briflythrennau yn gyfangwbl';
 $labels['addtodict'] = 'Ychwanegu i\'r geiriadur';
 $labels['mailtoprotohandler'] = 'Cofrestru trafodwr protocol ar gyfer dolenni mailto:';
+$labels['standardwindows'] = 'Trin ffenestri naid fel ffenestri arferol';
 $labels['forwardmode'] = 'Danfon neges ymlaen';
 $labels['inline'] = 'mewnlin';
 $labels['asattachment'] = 'fel atodiad';
