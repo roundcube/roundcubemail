@@ -38,17 +38,21 @@ ob_end_clean();
 
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {
+  $uid = get_input_value('_uid', RCUBE_INPUT_GET);
   $RCMAIL->config->set('prefer_html', true);
-  $MESSAGE = new rcube_message(get_input_value('_uid', RCUBE_INPUT_GET));
+  $MESSAGE = new rcube_message($uid);
 }
 
 // check connection status
 check_storage_status();
 
+$part_id = get_input_value('_part', RCUBE_INPUT_GPC);
+
 // show part page
 if (!empty($_GET['_frame'])) {
-  if (($part_id = get_input_value('_part', RCUBE_INPUT_GPC)) && ($part = $MESSAGE->mime_parts[$part_id])) {
-    $OUTPUT->set_pagetitle(rcmail_attachment_name($part));
+  if ($part_id && ($part = $MESSAGE->mime_parts[$part_id])) {
+    $filename = rcmail_attachment_name($part);
+    $OUTPUT->set_pagetitle($filename);
   }
 
   // register UI objects
@@ -56,6 +60,11 @@ if (!empty($_GET['_frame'])) {
     'messagepartframe'    => 'rcmail_message_part_frame',
     'messagepartcontrols' => 'rcmail_message_part_controls',
   ));
+
+  $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
+  $OUTPUT->set_env('uid', $uid);
+  $OUTPUT->set_env('part', $part_id);
+  $OUTPUT->set_env('filename', $filename);
 
   $OUTPUT->send('messagepart');
   exit;
@@ -98,9 +107,8 @@ else if ($_GET['_thumb']) {
   exit;
 }
 
-else if (strlen($pid = get_input_value('_part', RCUBE_INPUT_GET))) {
-
-  if ($part = $MESSAGE->mime_parts[$pid]) {
+else if (strlen($part_id)) {
+  if ($part = $MESSAGE->mime_parts[$part_id]) {
     $mimetype = rcmail_fix_mimetype($part->mimetype);
 
     // allow post-processing of the message body
@@ -384,7 +392,9 @@ else {
 header('HTTP/1.1 404 Not Found');
 exit;
 
-
+/**
+ * Handles nicely storage connection errors
+ */
 function check_storage_status()
 {
     $error = rcmail::get_instance()->storage->get_error_code();
@@ -417,7 +427,9 @@ function check_storage_status()
     }
 }
 
-
+/**
+ * Attachment properties table
+ */
 function rcmail_message_part_controls($attrib)
 {
     global $MESSAGE, $RCMAIL;
@@ -444,7 +456,9 @@ function rcmail_message_part_controls($attrib)
     return $table->show($attrib);
 }
 
-
+/**
+ * Attachment preview frame
+ */
 function rcmail_message_part_frame($attrib)
 {
     global $MESSAGE, $RCMAIL;
