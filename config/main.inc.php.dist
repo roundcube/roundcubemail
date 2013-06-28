@@ -201,6 +201,19 @@ $rcmail_config['ldap_cache_ttl'] = '10m';
 // ONLY ENABLE IT IF YOU'RE REALLY SURE WHAT YOU'RE DOING!
 $rcmail_config['enable_installer'] = false;
 
+// If this option set, all directories (log_dir, temp_dir, config dir for DB
+// and host configs and others) will be relative to $_SERVER['DOCUMENT_ROOT']
+// with this option appended.
+//
+// For example, when this option is set to '../rcube/', all additional
+// configuration files and all created files (logs, temp files, etc.) will be
+// placed into '$_SERVER['DOCUMENT_ROOT']/../rcube/'
+//
+// Also, if this set, main.inc.php will be loaded second time from
+// specified directory. It allows have global config
+// with only this option set.
+$rcmail_config['use_document_root'] = null;
+
 // don't allow these settings to be overriden by the user
 $rcmail_config['dont_override'] = array();
 

@@ -65,8 +65,8 @@ if (!defined('RCUBE_INSTALL_PATH')) {
     define('RCUBE_INSTALL_PATH', RCUBE_LIB_DIR);
 }
 
-if (!defined('RCUBE_CONFIG_DIR')) {
-    define('RCUBE_CONFIG_DIR', RCUBE_INSTALL_PATH . 'config/');
+if (!defined('RCUBE_BASE_CONFIG_DIR')) {
+    define('RCUBE_BASE_CONFIG_DIR', RCUBE_INSTALL_PATH . 'config/');
 }
 
 if (!defined('RCUBE_PLUGINS_DIR')) {

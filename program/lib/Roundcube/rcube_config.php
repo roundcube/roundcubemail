@@ -70,8 +70,22 @@ class rcube_config
     private function load()
     {
         // load main config file
-        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php'))
+        if (!$this->load_from_file(RCUBE_BASE_CONFIG_DIR . 'main.inc.php'))
             $this->errors[] = 'main.inc.php was not found.';
+
+	// Set "root" path and everything, what depends on it
+	if ($this->prop['use_document_root']) {
+	    define('RCUBE_ROOT_PATH', realpath($_SERVER['DOCUMENT_ROOT'] . '/' . $this->prop['use_document_root']) . '/');
+	    define('RCUBE_CONFIG_DIR', RCUBE_ROOT_PATH . '/config/' );
+
+	    // Load local config file
+            if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php'))
+                $this->errors[] = 'local main.inc.php was not found.';
+	}
+	else {
+	    define('RCUBE_ROOT_PATH', RCUBE_INSTALL_PATH);
+	    define('RCUBE_CONFIG_DIR', RCUBE_BASE_CONFIG_DIR);
+	}
 
         // load database config
         if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'db.inc.php'))
@@ -95,8 +109,8 @@ class rcube_config
             $this->prop['skin'] = self::DEFAULT_SKIN;
 
         // fix paths
-        $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : RCUBE_INSTALL_PATH . 'logs';
-        $this->prop['temp_dir'] = $this->prop['temp_dir'] ? realpath(unslashify($this->prop['temp_dir'])) : RCUBE_INSTALL_PATH . 'temp';
+        $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : RCUBE_ROOT_PATH . 'logs';
+        $this->prop['temp_dir'] = $this->prop['temp_dir'] ? realpath(unslashify($this->prop['temp_dir'])) : RCUBE_ROOT_PATH . 'temp';
 
         // fix default imap folders encoding
         foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
