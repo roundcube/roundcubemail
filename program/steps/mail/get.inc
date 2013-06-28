@@ -444,7 +444,7 @@ function rcmail_message_part_controls($attrib)
     $part  = $MESSAGE->mime_parts[$part];
     $table = new html_table(array('cols' => 2));
 
-    $table->add('title', Q(rcube_label('name')).':');
+    $table->add('title', Q(rcube_label('namex')).':');
     $table->add('header', Q(rcmail_attachment_name($part)));
 
     $table->add('title', Q(rcube_label('type')).':');

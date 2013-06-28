@@ -206,6 +206,7 @@ $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
+$labels['namex'] = 'Name';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
