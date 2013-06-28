@@ -141,10 +141,13 @@ Best solution is to install a cronjob running this script daily.
 MANUAL CONFIGURATION
 ====================
 
-First of all, rename the files config/*.inc.php.dist to config/*.inc.php.
-You can then change these files according to your environment and your needs.
-Details about the config parameters can be found in the config files.
-See http://trac.roundcube.net/wiki/Howto_Install for even more guidance.
+First of all, copy the sample configuration file config/config.inc.php.sample
+to config/config.inc.php and make the necessary adjustments according to your
+environment and your needs. More configuration options can be copied from the
+config/defaults.inc.php file into your local config.inc.php file as needed.
+Read the comments above the individual configuration options to find out what
+they do or read http://trac.roundcube.net/wiki/Howto_Install for even more
+guidance.
 
 You can also modify the default .htaccess file. This is necessary to
 increase the allowed size of file attachments, for example:

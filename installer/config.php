@@ -24,10 +24,15 @@ $RCI->bool_config_props = array(
 $_SESSION['allowinstaller'] = true;
 
 if (!empty($_POST['submit'])) {
-  echo '<p class="notice">Copy or download the following configuration and save';
-  echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCMAIL_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
+  echo '<p class="notice">Copy or download the following configuration and save it';
+  echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
   echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
-  echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" /></p>';
+  echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
+  if ($RCI->legacy_config) {
+      echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt>';
+      echo ' from the config directory.';
+  }
+  echo '</p>';
 
   $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
   echo $textbox->show(($_SESSION['config'] = $RCI->create_config()));
@@ -640,7 +645,7 @@ $select_param_folding->add('Full RFC 2231 (Roundcube, Thunderbird)', '0');
 $select_param_folding->add('RFC 2047/2231 (MS Outlook, OE)', '1');
 $select_param_folding->add('Full RFC 2047 (deprecated)', '2');
 
-echo $select_param_folding->show(intval($RCI->getprop('mime_param_folding')));
+echo $select_param_folding->show(strval($RCI->getprop('mime_param_folding')));
 
 ?>
 <div>How to encode attachment long/non-ascii names</div>

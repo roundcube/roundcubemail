@@ -28,10 +28,12 @@ class rcube_install
   var $failures = 0;
   var $config = array();
   var $configured = false;
+  var $legacy_config = false;
   var $last_error = null;
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
   var $bool_config_props = array();
 
+  var $local_config = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
   var $obsolete_config = array('db_backend', 'double_auth');
   var $replaced_config = array(
     'skin_path'            => 'skin',
@@ -157,6 +159,9 @@ class rcube_install
       $is_default = !isset($_POST["_$prop"]);
       $value      = !$is_default || $this->bool_config_props[$prop] ? $_POST["_$prop"] : $default;
 
+      if ($prop == 'enable_installer')
+        $value = false;
+
       // convert some form data
       if ($prop == 'debug_level' && !$is_default) {
         if (is_array($value)) {
@@ -211,7 +216,7 @@ class rcube_install
       }
 
       // skip this property
-      if (!array_key_exists($prop, $this->defaults) || ($value == $this->defaults[$prop])) {
+      if ((!array_key_exists($prop, $this->defaults) || ($value == $this->defaults[$prop])) && !in_array($prop, $this->local_config)) {
         continue;
       }
 

@@ -36,17 +36,17 @@ if (!$opts['version']) {
     $opts['version'] = RCMAIL_VERSION;
 }
 
-if ($opts['version'] && version_compare(version_parse($opts['version']), version_parse(RCMAIL_VERSION), '>='))
-  die("Nothing to be done here. Bye!\n");
-
-
 $RCI = rcube_install::get_instance();
 $RCI->load_config();
+
+if ($opts['version'] && version_compare(version_parse($opts['version']), version_parse(RCMAIL_VERSION), '>=') && !$RCI->legacy_config)
+  die("Nothing to be done here. Bye!\n");
+
 
 if ($RCI->configured) {
   $success = true;
 
-  if ($messages = $RCI->check_config()) {
+  if (($messages = $RCI->check_config()) || $RCI->legacy_config) {
     $success = false;
     $err = 0;
 
@@ -74,6 +74,12 @@ if ($RCI->configured) {
       echo "\n";
     }
 
+    if (!$err && $RCI->legacy_config) {
+      echo "WARNING: Your configuration needs to be migrated!\n";
+      echo "We changed the configuration files structure and your two config files main.inc.php and db.inc.php have to be merged into one single file.\n";
+      $err++;
+    }
+
     // ask user to update config files
     if ($err) {
       echo "Do you want me to fix your local configuration? (y/N)\n";
@@ -81,13 +87,13 @@ if ($RCI->configured) {
 
       // positive: let's merge the local config with the defaults
       if (strtolower($input) == 'y') {
-        $error = $writed = false;
+        $error = $written = false;
 
         // backup current config
         echo ". backing up the current config file(s)...\n";
 
         foreach (array('config', 'main', 'db') as $file) {
-          if (file_exists(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php'))
+          if (file_exists(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php')) {
             if (!copy(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php', RCMAIL_CONFIG_DIR . '/' . $file . '.old.php')) {
               $error = true;
             }
@@ -97,11 +103,11 @@ if ($RCI->configured) {
         if (!$error) {
           $RCI->merge_config();
           echo ". writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
-          $writed = file_put_contents(RCMAIL_CONFIG_DIR . '/config.inc.php', $RCI->create_config());
+          $written = file_put_contents(RCMAIL_CONFIG_DIR . '/config.inc.php', $RCI->create_config());
         }
 
         // Success!
-        if ($writed) {
+        if ($written) {
           echo "Done.\n";
           echo "Your configuration files are now up-to-date!\n";
 
@@ -109,6 +115,12 @@ if ($RCI->configured) {
             echo "But you still need to add the following missing options:\n";
             foreach ($messages['missing'] as $msg)
               echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
+          }
+
+          if ($RCI->legacy_config) {
+            foreach (array('main', 'db') as $file) {
+              @unlink(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php');
+            }
           }
         }
         else {

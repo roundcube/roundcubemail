@@ -24,7 +24,7 @@ $config = array();
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql or sqlsrv
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
 // NOTE: for SQLite use absolute path: 'sqlite:////full/path/to/sqlite.db?mode=0646'
-$config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
+$config['db_dsnw'] = 'mysql://roundcube:@localhost/roundcubemail';
 
 // Database DSN for read-only operations (if empty write database will be used)
 // useful for database replication
@@ -97,7 +97,7 @@ $config['smtp_debug'] = false;
 // For example %n = mail.domain.tld, %t = domain.tld
 // WARNING: After hostname change update of mail_host column in users table is
 //          required to match old user data records with the new host.
-$config['default_host'] = '';
+$config['default_host'] = 'localhost';
 
 // TCP port used for IMAP connections
 $config['default_port'] = 143;
@@ -349,11 +349,11 @@ $config['max_recipients'] = 0;
 // If 'max_recipients' is set this value should be less or equal
 $config['max_group_members'] = 0; 
 
-// add this user-agent to message headers when sending
-$config['useragent'] = 'Roundcube Webmail/'.RCMAIL_VERSION;
-
-// use this name to compose page titles
+// Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = 'Roundcube Webmail';
+
+// Add this user-agent to message headers when sending
+$config['useragent'] = 'Roundcube Webmail/'.RCMAIL_VERSION;
 
 // try to load host-specific configuration
 // see http://trac.roundcube.net/wiki/Howto_Config for more details
