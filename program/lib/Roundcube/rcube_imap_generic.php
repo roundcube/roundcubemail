@@ -2506,11 +2506,13 @@ class rcube_imap_generic
             // handle one line response
             if ($line[0] == '(' && substr($line, -1) == ')') {
                 // tokenize content inside brackets
+                // the content can be e.g.: (UID 9844 BODY[2.4] NIL)
                 $tokens = $this->tokenizeResponse(preg_replace('/(^\(|\)$)/', '', $line));
 
                 for ($i=0; $i<count($tokens); $i+=2) {
                     if (preg_match('/^(BODY|BINARY)/i', $tokens[$i])) {
-                        $result = $tokens[$i+1];
+                        $i += 2; // skip BODY|BINARY and part number
+                        $result = $tokens[$i];
                         $found  = true;
                         break;
                     }
@@ -3492,7 +3494,7 @@ class rcube_imap_generic
                     break 2;
                 }
 
-                // excluded chars: SP, CTL, ), [, ]
+                // excluded chars: SP, CTL, ), [, ], DEL
                 if (preg_match('/^([^\x00-\x20\x29\x5B\x5D\x7F]+)/', $str, $m)) {
                     $result[] = $m[1] == 'NIL' ? NULL : $m[1];
                     $str = substr($str, strlen($m[1]));
