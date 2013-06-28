@@ -76,11 +76,14 @@ class rcube_config
 
         // load main config file
         if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'config.inc.php')) {
-            $this->errors[] = 'config.inc.php was not found.';
-
             // Old configuration files
-            $this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php');
-            $this->load_from_file(RCUBE_CONFIG_DIR . 'db.inc.php');
+            if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php') ||
+                !$this->load_from_file(RCUBE_CONFIG_DIR . 'db.inc.php')) {
+                $this->errors[] = 'config.inc.php was not found.';
+            }
+            else if (rand(1,100) == 10) {  // log warning on every 100th request (average)
+                trigger_error("config.inc.php was not found. Please migrate your config by running bin/update.sh", E_USER_WARNING);
+            }
         }
 
         // load host-specific configuration
