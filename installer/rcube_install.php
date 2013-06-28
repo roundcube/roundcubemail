@@ -118,6 +118,28 @@ class rcube_install
     if (is_readable($file)) {
       include $file;
 
+      // read comments from config file
+      if (function_exists('token_get_all')) {
+        $tokens = token_get_all(file_get_contents($file));
+        $in_config = false;
+        $buffer = '';
+        for ($i=0; $i < count($tokens); $i++) {
+          $token = $tokens[$i];
+          if ($token[0] == T_VARIABLE && $token[1] == '$config' || $token[1] == '$rcmail_config') {
+            $in_config = true;
+            if ($buffer && $tokens[$i+1] == '[' && $tokens[$i+2][0] == T_CONSTANT_ENCAPSED_STRING) {
+              $propname = trim($tokens[$i+2][1], "'\"");
+              $this->comments[$propname] = $buffer;
+              $buffer = '';
+              $i += 3;
+            }
+          }
+          else if ($in_config && $token[0] == T_COMMENT) {
+            $buffer .= strtr($token[1], array('\n' => "\n"));
+          }
+        }
+      }
+
       // deprecated name of config variable
       if (is_array($rcmail_config)) {
         return $rcmail_config;
@@ -225,15 +247,13 @@ class rcube_install
       $config[$prop] = $value;
     }
 
-    // sort by option name
-    ksort($config);
-
     $out = "<?php\n\n";
+    $out .= "/* Local configuration for Roundcube Webmail */\n\n";
     foreach ($config as $prop => $value) {
-      // @TODO: copy option descriptions from defaults.inc.php file?
-      $out .= "\$config['$prop'] = " . rcube_install::_dump_var($value, $prop) . ";\n";
+      // copy option descriptions from existing config or defaults.inc.php
+      $out .= $this->comments[$prop];
+      $out .= "\$config['$prop'] = " . rcube_install::_dump_var($value, $prop) . ";\n\n";
     }
-    $out .= "\n?>";
 
     return $out;
   }
