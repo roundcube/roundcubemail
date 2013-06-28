@@ -97,9 +97,11 @@ class rcube_install
     else {
       if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'main.inc.php')) {
         $this->config = array_merge($this->config, $config);
+        $this->legacy_config = true;
       }
       if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'db.inc.php')) {
         $this->config = array_merge($this->config, $config);
+        $this->legacy_config = true;
       }
     }
 
@@ -164,7 +166,7 @@ class rcube_install
           $value = $val;
         }
       }
-      else if ($which == 'db' && $prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
+      else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
         if ($_POST['_dbtype'] == 'sqlite')
           $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'], $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
         else if ($_POST['_dbtype'])
