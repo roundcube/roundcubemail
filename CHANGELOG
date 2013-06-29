@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix messages list sorting with THREAD=REFS
 - Fix Close link and remove About link on error pages (#1489109)
 - Remove deprecated (in PHP 5.5) PREG /e modifier usage (#1489174)
 - Fix empty messages list when register_globals is enabled (#1489157)
