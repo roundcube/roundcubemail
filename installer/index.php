@@ -54,7 +54,8 @@ require_once 'rcube_install.php';
 // deprecated aliases (to be removed)
 require_once 'bc.php';
 
-session_start();
+if (function_exists('session_start'))
+  session_start();
 
 $RCI = rcube_install::get_instance();
 $RCI->load_config();
