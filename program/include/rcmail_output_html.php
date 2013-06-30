@@ -106,7 +106,6 @@ class rcmail_output_html extends rcmail_output
         ));
     }
 
-
     /**
      * Set environment variable
      *
@@ -121,7 +120,6 @@ class rcmail_output_html extends rcmail_output
             $this->js_env[$name] = $value;
         }
     }
-
 
     /**
      * Getter for the current page title
@@ -146,17 +144,17 @@ class rcmail_output_html extends rcmail_output
         return $title;
     }
 
-
     /**
      * Set skin
      */
     public function set_skin($skin)
     {
         $valid = false;
+        $path  = RCUBE_INSTALL_PATH . 'skins/';
 
-        if (!empty($skin) && is_dir('skins/'.$skin) && is_readable('skins/'.$skin)) {
-            $skin_path = 'skins/'.$skin;
-            $valid = true;
+        if (!empty($skin) && is_dir($path . $skin) && is_readable($path . $skin)) {
+            $skin_path = 'skins/' . $skin;
+            $valid     = true;
         }
         else {
             $skin_path = $this->config->get('skin_path');
@@ -184,12 +182,15 @@ class rcmail_output_html extends rcmail_output
         $this->skin_paths[] = $skin_path;
 
         // read meta file and check for dependecies
-        $meta = @json_decode(@file_get_contents($skin_path.'/meta.json'), true);
-        if ($meta['extends'] && is_dir('skins/' . $meta['extends'])) {
-            $this->load_skin('skins/' . $meta['extends']);
+        $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
+        $meta = @json_decode($meta, true);
+        if ($meta['extends']) {
+            $path = RCUBE_INSTALL_PATH . 'skins/';
+            if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
+                $this->load_skin('skins/' . $meta['extends']);
+            }
         }
     }
-
 
     /**
      * Check if a specific template exists
@@ -199,16 +200,17 @@ class rcmail_output_html extends rcmail_output
      */
     public function template_exists($name)
     {
-        $found = false;
         foreach ($this->skin_paths as $skin_path) {
-            $filename = $skin_path . '/templates/' . $name . '.html';
-            $found = (is_file($filename) && is_readable($filename)) || ($this->deprecated_templates[$name] && $this->template_exists($this->deprecated_templates[$name]));
-            if ($found)
-                break;
+            $filename = RCUBE_INSTALL_PATH . $skin_path . '/templates/' . $name . '.html';
+            if ((is_file($filename) && is_readable($filename))
+                || ($this->deprecated_templates[$name] && $this->template_exists($this->deprecated_templates[$name]))
+            ) {
+                return true;
+            }
         }
-        return $found;
-    }
 
+        return false;
+    }
 
     /**
      * Find the given file in the current skin path stack
@@ -234,7 +236,6 @@ class rcmail_output_html extends rcmail_output
         return false;
     }
 
-
     /**
      * Register a GUI object to the client script
      *
@@ -246,7 +247,6 @@ class rcmail_output_html extends rcmail_output
     {
         $this->add_script(self::JS_OBJECT_NAME.".gui_object('$obj', '$id');");
     }
-
 
     /**
      * Call a client method
@@ -263,7 +263,6 @@ class rcmail_output_html extends rcmail_output
           $this->js_commands[] = $cmd;
     }
 
-
     /**
      * Add a localized label to the client environment
      */
@@ -277,7 +276,6 @@ class rcmail_output_html extends rcmail_output
             $this->js_labels[$name] = $this->app->gettext($name);
         }
     }
-
 
     /**
      * Invoke display_message command
@@ -305,7 +303,6 @@ class rcmail_output_html extends rcmail_output
         }
     }
 
-
     /**
      * Delete all stored env variables and commands
      *
@@ -328,7 +325,6 @@ class rcmail_output_html extends rcmail_output
         $this->body         = '';
     }
 
-
     /**
      * Redirect to a certain url
      *
@@ -343,7 +339,6 @@ class rcmail_output_html extends rcmail_output
         header('Location: ' . $location);
         exit;
     }
-
 
     /**
      * Send the request output to the client.
@@ -377,7 +372,6 @@ class rcmail_output_html extends rcmail_output
             exit;
         }
     }
-
 
     /**
      * Process template and write to stdOut
@@ -413,7 +407,6 @@ class rcmail_output_html extends rcmail_output
         // call super method
         $this->_write($template, $this->config->get('skin_path'));
     }
-
 
     /**
      * Parse a specific skin template and deliver to stdout (or return)
@@ -539,7 +532,6 @@ class rcmail_output_html extends rcmail_output
         }
     }
 
-
     /**
      * Return executable javascript code for all registered commands
      *
@@ -571,7 +563,6 @@ class rcmail_output_html extends rcmail_output
         return $out;
     }
 
-
     /**
      * Make URLs starting with a slash point to skin directory
      *
@@ -590,7 +581,6 @@ class rcmail_output_html extends rcmail_output
         else
             return $str;
     }
-
 
     /**
      * Show error page and terminate script execution
@@ -626,7 +616,6 @@ class rcmail_output_html extends rcmail_output
             array($this, 'globals_callback'), $input);
     }
 
-
     /**
      * Callback funtion for preg_replace_callback() in parse_with_globals()
      */
@@ -634,7 +623,6 @@ class rcmail_output_html extends rcmail_output
     {
         return $GLOBALS[$matches[1]];
     }
-
 
     /**
      * Correct absolute paths in images and other tags
@@ -646,7 +634,6 @@ class rcmail_output_html extends rcmail_output
             '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
             array($this, 'file_callback'), $output);
     }
-
 
     /**
      * Callback function for preg_replace_callback in write()
@@ -673,7 +660,6 @@ class rcmail_output_html extends rcmail_output
         return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
 
-
     /**
      * Public wrapper to dipp into template parsing.
      *
@@ -689,7 +675,6 @@ class rcmail_output_html extends rcmail_output
 
         return $input;
     }
-
 
     /**
      * Parse for conditional tags
@@ -728,7 +713,6 @@ class rcmail_output_html extends rcmail_output
         return $input;
     }
 
-
     /**
      * Determines if a given condition is met
      *
@@ -740,7 +724,6 @@ class rcmail_output_html extends rcmail_output
     {
         return $this->eval_expression($condition);
     }
-
 
     /**
      * Inserts hidden field with CSRF-prevention-token into POST forms
@@ -757,7 +740,6 @@ class rcmail_output_html extends rcmail_output
 
         return $out;
     }
-
 
     /**
      * Parse & evaluate a given expression and return its result.
@@ -805,7 +787,6 @@ class rcmail_output_html extends rcmail_output
         return $fn($this->app, $this->browser, $this->env);
     }
 
-
     /**
      * Search for special tags in input and replace them
      * with the appropriate content
@@ -819,7 +800,6 @@ class rcmail_output_html extends rcmail_output
     {
         return preg_replace_callback('/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\\>)+)(?<!\\\\)>/Ui', array($this, 'xml_command'), $input);
     }
-
 
     /**
      * Callback function for parsing an xml command tag
@@ -1029,7 +1009,6 @@ class rcmail_output_html extends rcmail_output
         return '';
     }
 
-
     /**
      * Include a specific file and return it's contents
      *
@@ -1045,7 +1024,6 @@ class rcmail_output_html extends rcmail_output
 
         return $out;
     }
-
 
     /**
      * Create and register a button
@@ -1202,7 +1180,6 @@ class rcmail_output_html extends rcmail_output
         return $out;
     }
 
-
     /**
      * Link an external script file
      *
@@ -1233,7 +1210,6 @@ class rcmail_output_html extends rcmail_output
         $this->script_files[$position][] = $file;
     }
 
-
     /**
      * Add inline javascript code
      *
@@ -1250,7 +1226,6 @@ class rcmail_output_html extends rcmail_output
         }
     }
 
-
     /**
      * Link an external css file
      *
@@ -1260,7 +1235,6 @@ class rcmail_output_html extends rcmail_output
     {
         $this->css_files[] = $file;
     }
-
 
     /**
      * Add HTML code to the page header
@@ -1272,7 +1246,6 @@ class rcmail_output_html extends rcmail_output
         $this->header .= "\n" . $str;
     }
 
-
     /**
      * Add HTML code to the page footer
      * To be added right befor </body>
@@ -1283,7 +1256,6 @@ class rcmail_output_html extends rcmail_output
     {
         $this->footer .= "\n" . $str;
     }
-
 
     /**
      * Process template and write to stdOut
@@ -1409,7 +1381,6 @@ class rcmail_output_html extends rcmail_output
         }
     }
 
-
     /**
      * Returns iframe object, registers some related env variables
      *
@@ -1440,7 +1411,6 @@ class rcmail_output_html extends rcmail_output
 
     /*  ************* common functions delivering gui objects **************  */
 
-
     /**
      * Create a form tag with the necessary hidden fields
      *
@@ -1466,7 +1436,6 @@ class rcmail_output_html extends rcmail_output
         $hidden . $content,
         array('id','class','style','name','method','action','enctype','onsubmit'));
     }
-
 
     /**
      * Build a form tag with a unique request token
@@ -1498,7 +1467,6 @@ class rcmail_output_html extends rcmail_output
             return $this->form_tag($attrib, $hidden->show() . $content);
     }
 
-
     /**
      * GUI object 'username'
      * Showing IMAP username of the current session
@@ -1529,7 +1497,6 @@ class rcmail_output_html extends rcmail_output
 
         return rcube_utils::idn_to_utf8($username);
     }
-
 
     /**
      * GUI object 'loginform'
@@ -1630,7 +1597,6 @@ class rcmail_output_html extends rcmail_output
         return $out;
     }
 
-
     /**
      * GUI object 'preloader'
      * Loads javascript code for images preloading
@@ -1652,7 +1618,6 @@ class rcmail_output_html extends rcmail_output
                 img.src = images[i];
             }', 'docready');
     }
-
 
     /**
      * GUI object 'searchform'
@@ -1692,7 +1657,6 @@ class rcmail_output_html extends rcmail_output
         return $out;
     }
 
-
     /**
      * Builder for GUI object 'message'
      *
@@ -1709,7 +1673,6 @@ class rcmail_output_html extends rcmail_output
 
         return html::div($attrib, '');
     }
-
 
     /**
      * GUI object 'charsetselector'

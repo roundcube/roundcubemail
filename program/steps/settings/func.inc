@@ -1170,7 +1170,7 @@ function rcmail_user_prefs($current = null)
 
 function rcmail_get_skins()
 {
-    $path  = 'skins';
+    $path  = RCUBE_INSTALL_PATH . 'skins';
     $skins = array();
     $dir   = opendir($path);
 
