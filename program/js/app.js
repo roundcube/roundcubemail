@@ -2014,14 +2014,18 @@ function rcube_webmail()
 
     if (name && (frame = this.get_frame_element(name))) {
       if (!show && (win = this.get_frame_window(name))) {
-        if (win.location && win.location.href.indexOf(this.env.blankpage)<0)
-          win.location.href = this.env.blankpage;
+        if (win.stop)
+          win.stop();
+        else // IE
+          win.document.execCommand('Stop');
+
+        win.location.href = this.env.blankpage;
       }
       else if (!bw.safari && !bw.konq)
         $(frame)[show ? 'show' : 'hide']();
     }
 
-    if (!show && this.busy)
+    if (!show && this.env.frame_lock)
       this.set_busy(false, null, this.env.frame_lock);
   };
 

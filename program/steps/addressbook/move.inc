@@ -146,8 +146,6 @@ if (!$deleted || $deleted != $all) {
     if ($deleted) {
         rcmail_search_update();
     }
-
-    $OUTPUT->command('list_contacts_clear');
     $OUTPUT->command('list_contacts');
 }
 else {
