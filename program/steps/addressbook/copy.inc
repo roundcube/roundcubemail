@@ -63,8 +63,10 @@ foreach ($cids as $source => $cid)
 
         // Check if contact exists, if so, we'll need it's ID
         // Note: Some addressbooks allows empty email address field
-        if (!empty($a_record['email']))
-            $result = $TARGET->search('email', $a_record['email'], 1, true, true);
+        // @TODO: should we check all email addresses?
+        $email = $CONTACTS->get_col_values('email', $a_record, true);
+        if (!empty($email))
+            $result = $TARGET->search('email', $email[0], 1, true, true);
         else if (!empty($a_record['name']))
             $result = $TARGET->search('name', $a_record['name'], 1, true, true);
         else
