@@ -149,7 +149,7 @@ $RCMAIL->register_action_map(array(
     'refresh' => 'check_recent.inc',
     'preview' => 'show.inc',
     'print'   => 'show.inc',
-    'moveto'  => 'move_del.inc',
+    'move'    => 'move_del.inc',
     'delete'  => 'move_del.inc',
     'send'    => 'sendmail.inc',
     'expunge' => 'folders.inc',

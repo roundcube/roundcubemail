@@ -46,30 +46,7 @@ foreach ((array)$undo['data'] as $source => $cid)
 }
 
 // update saved search after data changed
-if ($delcnt && ($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request])) {
-    $search  = (array)$_SESSION['search'][$search_request];
-
-    foreach ($search as $s => $set) {
-        $source = $RCMAIL->get_address_book($s);
-
-        // reset page
-        $source->set_page(1);
-        $source->set_pagesize(9999);
-        $source->set_search_set($set);
-
-        // get records
-        $result = $source->list_records(array('name', 'email'));
-
-        if (!$result->count) {
-            unset($search[$s]);
-            continue;
-        }
-
-        $search[$s] = $source->get_search_set();
-    }
-
-    $_SESSION['search'][$search_request] = $search;
-}
+rcmail_search_update();
 
 $RCMAIL->session->remove('contact_undo');
 

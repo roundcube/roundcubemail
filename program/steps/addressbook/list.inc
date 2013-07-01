@@ -19,47 +19,20 @@
  +-----------------------------------------------------------------------+
 */
 
-$afields = $RCMAIL->config->get('contactlist_fields');
+if (!empty($_GET['_page']))
+    $page = intval($_GET['_page']);
+else
+    $page = !empty($_SESSION['page']) ? $_SESSION['page'] : 1;
+
+$_SESSION['page'] = $page;
 
 // Use search result
-if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
-{
-    $search  = (array)$_SESSION['search'][$_REQUEST['_search']];
-    $records = array();
-
-    if (!empty($_GET['_page']))
-        $page = intval($_GET['_page']);
-    else
-        $page = isset($_SESSION['page']) ? $_SESSION['page'] : 1;
-
-    $_SESSION['page'] = $page;
-    $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
-
-    // Get records from all sources
-    foreach ($search as $s => $set) {
-        $source = $RCMAIL->get_address_book($s);
-
-        // reset page
-        $source->set_page(1);
-        $source->set_pagesize(9999);
-        $source->set_search_set($set);
-
-        // get records
-        $result = $source->list_records($afields);
-
-        while ($row = $result->next()) {
-            $row['sourceid'] = $s;
-            $key = rcube_addressbook::compose_contact_key($row, $sort_col);
-            $records[$key] = $row;
-        }
-        unset($result);
-    }
-
+if (($records = rcmail_search_update(true)) !== false) {
     // sort the records
     ksort($records, SORT_LOCALE_STRING);
 
     // create resultset object
-    $count    = count($records);
+    $count  = count($records);
     $first  = ($page-1) * $PAGE_SIZE;
     $result = new rcube_result_set($count, $first);
 
@@ -72,6 +45,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 }
 // List selected directory
 else {
+    $afields  = $RCMAIL->config->get('contactlist_fields');
     $CONTACTS = rcmail_contact_source(null, true);
 
     // get contacts for this user

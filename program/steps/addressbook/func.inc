@@ -322,7 +322,7 @@ function rcmail_contacts_list($attrib)
     $OUTPUT->include_script('list.js');
 
     // add some labels to client
-    $OUTPUT->add_label('deletecontactconfirm', 'copyingcontact', 'contactdeleting');
+    $OUTPUT->add_label('deletecontactconfirm', 'copyingcontact', 'movingcontact', 'contactdeleting');
 
     return $out;
 }
@@ -779,6 +779,54 @@ function rcmail_format_date_col($val)
     return format_date($val, $RCMAIL->config->get('date_format', 'Y-m-d'), false);
 }
 
+/**
+ * Updates saved search after data changed
+ */
+function rcmail_search_update($return = false)
+{
+    global $RCMAIL;
+
+    if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request])) {
+        $search   = (array)$_SESSION['search'][$search_request];
+        $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
+        $afields  = $return ? $RCMAIL->config->get('contactlist_fields') : array('name', 'email');
+        $records  = array();
+
+        foreach ($search as $s => $set) {
+            $source = $RCMAIL->get_address_book($s);
+
+            // reset page
+            $source->set_page(1);
+            $source->set_pagesize(9999);
+            $source->set_search_set($set);
+
+            // get records
+            $result = $source->list_records($afields);
+
+            if (!$result->count) {
+                unset($search[$s]);
+                continue;
+            }
+
+            if ($return) {
+                while ($row = $result->next()) {
+                    $row['sourceid'] = $s;
+                    $key = rcube_addressbook::compose_contact_key($row, $sort_col);
+                    $records[$key] = $row;
+                }
+                unset($result);
+            }
+
+            $search[$s] = $source->get_search_set();
+        }
+
+        $_SESSION['search'][$search_request] = $search;
+
+        return $records;
+    }
+
+    return false;
+}
 
 /**
  * Returns contact ID(s) and source(s) from GET/POST data

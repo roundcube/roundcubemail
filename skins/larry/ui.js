@@ -19,7 +19,7 @@ function rcube_mail_ui()
     searchmenu:         { editable:1, callback:searchmenu },
     attachmentmenu:     { },
     listoptions:        { editable:1 },
-    dragmessagemenu:    { sticky:1 },
+    dragmenu:           { sticky:1 },
     groupmenu:          { above:1 },
     mailboxmenu:        { above:1 },
     spellmenu:          { callback: spellmenu },
@@ -90,8 +90,8 @@ function rcube_mail_ui()
 
       var dragmenu = $('#dragmessagemenu');
       if (dragmenu.length) {
-        rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
-        popups.dragmessagemenu = dragmenu;
+        rcmail.gui_object('dragmenu', 'dragmessagemenu');
+        popups.dragmenu = dragmenu;
       }
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
@@ -205,6 +205,12 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:286, min:270, size:12 }).init();
 
         new rcube_scroller('#directorylist-content', '#directorylist-header', '#directorylist-footer');
+      }
+
+      var dragmenu = $('#dragcontactmenu');
+      if (dragmenu.length) {
+        rcmail.gui_object('dragmenu', 'dragcontactmenu');
+        popups.dragmenu = dragmenu;
       }
     }
 

@@ -94,7 +94,7 @@ function rcube_mail_ui()
     messagemenu:    {id:'messagemenu'},
     attachmentmenu: {id:'attachmentmenu'},
     listmenu:       {id:'listmenu', editable:1},
-    dragmessagemenu:{id:'dragmessagemenu', sticky:1},
+    dragmenu:       {id:'dragmenu', sticky:1},
     groupmenu:      {id:'groupoptionsmenu', above:1},
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
     composemenu:    {id:'composeoptionsmenu', editable:1, overlap:1},
@@ -162,9 +162,9 @@ show_popupmenu: function(popup, show)
   }
 },
 
-dragmessagemenu: function(show)
+dragmenu: function(show)
 {
-  this.popups.dragmessagemenu.obj[show?'show':'hide']();
+  this.popups.dragmenu.obj[show?'show':'hide']();
 },
 
 forwardmenu: function(show)
@@ -960,7 +960,7 @@ function rcube_init_mail_ui()
     rcmail.addEventListener('menu-save', 'menu_save', rcmail_ui);
     rcmail.addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui);
     rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
-    rcmail.gui_object('message_dragmenu', 'dragmessagemenu');
+    rcmail.gui_object('dragmenu', 'dragmenu');
 
     if (rcmail.gui_objects.mailboxlist) {
       rcmail.addEventListener('responseaftermark', rcube_render_mailboxlist);
@@ -985,6 +985,8 @@ function rcube_init_mail_ui()
 
     if (rcmail.gui_objects.folderlist)
       new rcmail_scroller('#directorylist-content', '#directorylist-title', '#directorylist-footer');
+
+    rcmail.gui_object('dragmenu', 'dragmenu');
   }
   else if (rcmail.env.task == 'settings') {
     if (rcmail.gui_objects.subscriptionlist)

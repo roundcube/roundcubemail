@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Contacts drag-n-drop default action is to move contacts (#1488751)
+- Added possibility to choose to move or copy contacts from drag-n-drop menu (#1488751)
 - Fix messages list sorting with THREAD=REFS
 - Fix Close link and remove About link on error pages (#1489109)
 - Remove deprecated (in PHP 5.5) PREG /e modifier usage (#1489174)

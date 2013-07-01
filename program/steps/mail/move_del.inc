@@ -29,7 +29,7 @@ $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 
 // move messages
-if ($RCMAIL->action == 'moveto' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
+if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
     $count  = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
     $mbox   = get_input_value('_mbox', RCUBE_INPUT_POST, true);
@@ -126,7 +126,7 @@ else
     rcmail_set_unseen_count($mbox, $unseen_count);
   }
 
-  if ($RCMAIL->action == 'moveto' && strlen($target)) {
+  if ($RCMAIL->action == 'move' && strlen($target)) {
     rcmail_send_unread_count($target, true);
   }
 
