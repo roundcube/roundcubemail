@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't clear References and in-Reply-To when a message is "edited as new" (#1489216)
 - Make possible to disable some (broken) IMAP extensions with imap_disable_caps option (#1489184)
 - Contacts drag-n-drop default action is to move contacts (#1488751)
 - Added possibility to choose to move or copy contacts from drag-n-drop menu (#1488751)

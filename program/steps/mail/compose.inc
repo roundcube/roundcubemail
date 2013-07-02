@@ -219,8 +219,8 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment']))
       $COMPOSE['param']['sent_mbox'] = $sent_folder;
     }
   }
-  else if ($compose_mode == RCUBE_COMPOSE_DRAFT) {
-    if ($draft_info = $MESSAGE->headers->get('x-draft-info')) {
+  else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
+    if ($compose_mode == RCUBE_COMPOSE_DRAFT && ($draft_info = $MESSAGE->headers->get('x-draft-info'))) {
       // get reply_uid/forward_uid to flag the original message when sending
       $info = rcmail_draftinfo_decode($draft_info);
 
@@ -242,7 +242,7 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment']))
     if ($in_reply_to = $MESSAGE->headers->get('in-reply-to'))
       $COMPOSE['reply_msgid'] = '<' . $in_reply_to . '>';
 
-    $COMPOSE['references']  = $MESSAGE->headers->references;
+    $COMPOSE['references'] = $MESSAGE->headers->references;
   }
 }
 else {
