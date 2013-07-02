@@ -107,11 +107,19 @@ $rcmail_config['imap_force_caps'] = false;
 // extension if available. Some servers (dovecot 1.x) returns wrong results
 // for shared namespaces in this case. http://trac.roundcube.net/ticket/1486225
 // Enable this option to force LSUB command usage instead.
+// Deprecated: Use imap_disabled_caps = array('LIST-EXTENDED')
 $rcmail_config['imap_force_lsub'] = false;
 
 // Some server configurations (e.g. Courier) doesn't list folders in all namespaces
 // Enable this option to force listing of folders in all namespaces
 $rcmail_config['imap_force_ns'] = false;
+
+// List of disabled imap extensions.
+// Use if your IMAP server has broken implementation of some feature
+// and you can't remove it from CAPABILITY string on server-side.
+// For example UW-IMAP server has broken ESEARCH.
+// Note: Because the list is cached, re-login is required after change.
+$rcmail_config['imap_disabled_caps'] = array();
 
 // IMAP connection timeout, in seconds. Default: 0 (no limit)
 $rcmail_config['imap_timeout'] = 0;

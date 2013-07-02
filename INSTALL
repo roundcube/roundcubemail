@@ -52,7 +52,8 @@ INSTALLATION
 4. Point your browser to http://url-to-roundcube/installer/
 5. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
 6. After creating and testing the configuration, remove the installer directory
-7. Done!
+7. Check Known Issues section of this file
+8. Done!
 
 
 CONFIGURATION HINTS
@@ -135,7 +136,6 @@ Database cleaning
 To keep your database slick and clean we recommend to periodically execute
 bin/cleandb.sh which finally removes all records that are marked as deleted.
 Best solution is to install a cronjob running this script daily.
-
 
 
 MANUAL CONFIGURATION
@@ -233,3 +233,10 @@ $HTTP["host"] == "www.example.com" {
 
     compress.filetype = ("text/plain", "text/html", "text/javascript", "text/css", "text/xml", "image/gif", "image/png")
 }
+
+
+KNOWN ISSUES
+============
+
+Installations with uw-imap server should set imap_disabled_caps = array('ESEARCH')
+in main configuration file. ESEARCH implementation in this server is broken (#1489184).

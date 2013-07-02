@@ -715,6 +715,10 @@ class rcube_imap_generic
             $auth_method = 'CHECK';
         }
 
+        if (!empty($this->prefs['disabled_caps'])) {
+            $this->prefs['disabled_caps'] = array_map('strtoupper', (array)$this->prefs['disabled_caps']);
+        }
+
         $result = false;
 
         // initialize connection
@@ -3685,6 +3689,10 @@ class rcube_imap_generic
         $str = preg_replace('/^\* CAPABILITY /i', '', $str);
 
         $this->capability = explode(' ', strtoupper($str));
+
+        if (!empty($this->prefs['disabled_caps'])) {
+            $this->capability = array_diff($this->capability, $this->prefs['disabled_caps']);
+        }
 
         if (!isset($this->prefs['literal+']) && in_array('LITERAL+', $this->capability)) {
             $this->prefs['literal+'] = true;

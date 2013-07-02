@@ -377,6 +377,7 @@ class rcube
             'auth_pw'     => $this->config->get("{$driver}_auth_pw"),
             'debug'       => (bool) $this->config->get("{$driver}_debug"),
             'force_caps'  => (bool) $this->config->get("{$driver}_force_caps"),
+            'disabled_caps' => $this->config->get("{$driver}_disabled_caps"),
             'timeout'     => (int) $this->config->get("{$driver}_timeout"),
             'skip_deleted' => (bool) $this->config->get('skip_deleted'),
             'driver'      => $driver,
