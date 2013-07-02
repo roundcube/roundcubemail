@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't clear References and in-Reply-To when a message is "edited as new" (#1489216)
 - Fix messages list sorting with THREAD=REFS
 - Remove deprecated (in PHP 5.5) PREG /e modifier usage (#1489174)
 - Fix empty messages list when register_globals is enabled (#1489157)
