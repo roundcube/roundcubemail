@@ -6602,7 +6602,7 @@ function rcube_webmail()
         timeout: 0, // disable default timeout set in ajaxSetup()
         data: formdata || multipart,
         headers: {'X-Roundcube-Request': ref.env.request_token},
-        beforeSend: function(xhr, s) { if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; },
+        xhr: function() { var xhr = jQuery.ajaxSettings.xhr(); if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; return xhr; },
         success: function(data){ ref.http_response(data); },
         error: function(o, status, err) { ref.http_error(o, status, err, null, 'attachment'); }
       });
@@ -6642,7 +6642,7 @@ function rcube_webmail()
             multipart += '; filename="' + (f.name_bin || file.name) + '"' + crlf;
             multipart += 'Content-Length: ' + file.size + crlf;
             multipart += 'Content-Type: ' + file.type + crlf + crlf;
-            multipart += e.target.result + crlf;
+            multipart += reader.result + crlf;
             multipart += dashdash + boundary + crlf;
 
             if (j == last)  // we're done, submit the data
