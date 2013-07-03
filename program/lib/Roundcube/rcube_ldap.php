@@ -1191,8 +1191,7 @@ class rcube_ldap extends rcube_addressbook
             // change the group membership of the contact
             if ($this->groups) {
                 $group_ids = $this->get_record_groups($dn);
-                foreach ($group_ids as $group_id => $group_prop)
-                {
+                foreach (array_keys($group_ids) as $group_id) {
                     $this->remove_from_group($group_id, $dn);
                     $this->add_to_group($group_id, $newdn);
                 }
@@ -1257,7 +1256,7 @@ class rcube_ldap extends rcube_addressbook
             if ($this->groups) {
                 $dn = self::dn_encode($dn);
                 $group_ids = $this->get_record_groups($dn);
-                foreach ($group_ids as $group_id => $group_prop) {
+                foreach (array_keys($group_ids) as $group_id) {
                     $this->remove_from_group($group_id, $dn);
                 }
             }
@@ -1879,8 +1878,9 @@ class rcube_ldap extends rcube_addressbook
                 $entry['dn'] = $ldap_data->get_dn();
             $group_name = $entry[$name_attr][0];
             $group_id = self::dn_encode($entry['dn']);
-            $groups[$group_id] = array('ID' => $group_id, 'name' => $group_name, 'dn' => $entry['dn']);
+            $groups[$group_id] = $group_name;
         }
+
         return $groups;
     }
 

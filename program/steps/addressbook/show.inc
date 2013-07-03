@@ -207,17 +207,13 @@ function rcmail_contact_record_groups($contact_id)
         return '';
     }
 
-    $table = new html_table(array('cols' => 2, 'cellspacing' => 0, 'border' => 0));
-
-    $members = $CONTACTS->get_record_groups($contact_id);
+    $members  = $CONTACTS->get_record_groups($contact_id);
+    $table    = new html_table(array('cols' => 2, 'cellspacing' => 0, 'border' => 0));
     $checkbox = new html_checkbox(array('name' => '_gid[]',
         'class' => 'groupmember', 'disabled' => $CONTACTS->readonly));
 
-    foreach (array_merge($GROUPS, $members) as $group) {
+    foreach ($GROUPS as $group) {
         $gid = $group['ID'];
-        if ($seen[$gid]++)
-            continue;
-
         $table->add(null, $checkbox->show($members[$gid] ? $gid : null,
             array('value' => $gid, 'id' => 'ff_gid' . $gid)));
         $table->add(null, html::label('ff_gid' . $gid, Q($group['name'])));
