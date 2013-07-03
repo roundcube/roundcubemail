@@ -27,7 +27,7 @@
  */
 class rcube_ldap extends rcube_addressbook
 {
-    /** public properties */
+    // public properties
     public $primary_key = 'ID';
     public $groups      = false;
     public $readonly    = true;
@@ -35,7 +35,7 @@ class rcube_ldap extends rcube_addressbook
     public $group_id    = 0;
     public $coltypes    = array();
 
-    /** private properties */
+    // private properties
     protected $ldap;
     protected $prop     = array();
     protected $fieldmap = array();
@@ -45,6 +45,21 @@ class rcube_ldap extends rcube_addressbook
     protected $ldap_result;
     protected $mail_domain = '';
     protected $debug = false;
+
+    /**
+     * Group objectclass (lowercase) to member attribute mapping
+     *
+     * @var array
+     */
+    private static $group_types = array(
+        'group'                   => 'member',
+        'groupofnames'            => 'member',
+        'kolabgroupofnames'       => 'member',
+        'groupofuniquenames'      => 'uniqueMember',
+        'kolabgroupofuniquenames' => 'uniqueMember',
+        'univentiongroup'         => 'uniqueMember',
+        'groupofurls'             => null,
+    );
 
     private $base_dn        = '';
     private $groups_base_dn = '';
@@ -831,7 +846,6 @@ class rcube_ldap extends rcube_addressbook
             if (!empty($this->filter)) {  // Use global search filter
                 $prop['filter'] = $this->filter;
             }
-
             $count = $this->ldap->search($prop['base_dn'], $prop['filter'], $prop['scope'], array('dn'), $prop, true);
         }
 
@@ -1444,11 +1458,11 @@ class rcube_ldap extends rcube_addressbook
     {
         // list of known attribute aliases
         static $aliases = array(
-            'gn' => 'givenname',
+            'gn'            => 'givenname',
             'rfc822mailbox' => 'email',
-            'userid' => 'uid',
-            'emailaddress' => 'email',
-            'pkcs9email' => 'email',
+            'userid'        => 'uid',
+            'emailaddress'  => 'email',
+            'pkcs9email'    => 'email',
         );
 
         list($name, $limit) = explode(':', $namev, 2);
@@ -1462,11 +1476,9 @@ class rcube_ldap extends rcube_addressbook
      */
     private static function is_group_entry($entry)
     {
-        return array_intersect(
-            array('group', 'groupofnames', 'kolabgroupofnames', 'groupofuniquenames',
-                'kolabgroupofuniquenames', 'groupofurls', 'univentiongroup'),
-            array_map('strtolower', (array)$entry['objectclass'])
-        );
+        $classes = array_map('strtolower', (array)$entry['objectclass']);
+
+        return count(array_intersect(array_keys(self::$group_types), $classes)) > 0;
     }
 
     /**
@@ -1863,6 +1875,7 @@ class rcube_ldap extends rcube_addressbook
         $name_attr   = $this->prop['groups']['name_attr'] ? $this->prop['groups']['name_attr'] : 'cn';
         $member_attr = $this->get_group_member_attr();
         $add_filter  = '';
+
         if ($member_attr != 'member' && $member_attr != 'uniqueMember')
             $add_filter = "($member_attr=$contact_dn)";
         $filter = strtr("(|(member=$contact_dn)(uniqueMember=$contact_dn)$add_filter)", array('\\' => '\\\\'));
@@ -1895,16 +1908,8 @@ class rcube_ldap extends rcube_addressbook
 
         if (!empty($object_classes)) {
             foreach ((array)$object_classes as $oc) {
-                switch (strtolower($oc)) {
-                    case 'group':
-                    case 'groupofnames':
-                    case 'kolabgroupofnames':
-                        return 'member';
-
-                    case 'groupofuniquenames':
-                    case 'kolabgroupofuniquenames':
-                    case 'univentiongroup':
-                        return 'uniqueMember';
+                if ($attr = self::$group_types[strtolower($oc)]) {
+                    return $attr;
                 }
             }
         }
