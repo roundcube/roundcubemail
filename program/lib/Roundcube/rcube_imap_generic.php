@@ -2130,14 +2130,18 @@ class rcube_imap_generic
                     else if ($name == 'RFC822') {
                         $result[$id]->body = $value;
                     }
-                    else if ($name == 'BODY') {
-                        $body = $this->tokenizeResponse($line, 1);
-                        if ($value[0] == 'HEADER.FIELDS')
-                            $headers = $body;
-                        else if (!empty($value))
-                            $result[$id]->bodypart[$value[0]] = $body;
+                    else if (stripos($name, 'BODY[') === 0) {
+                        $name = str_replace(']', '', substr($name, 5));
+
+                        if ($name == 'HEADER.FIELDS') {
+                            // skip ']' after headers list
+                            $this->tokenizeResponse($line, 1);
+                            $headers = $this->tokenizeResponse($line, 1);
+                        }
+                        else if (strlen($name))
+                            $result[$id]->bodypart[$name] = $value;
                         else
-                            $result[$id]->body = $body;
+                            $result[$id]->body = $value;
                     }
                 }
 
@@ -3477,25 +3481,24 @@ class rcube_imap_generic
 
             // Parenthesized list
             case '(':
-            case '[':
                 $str = substr($str, 1);
                 $result[] = self::tokenizeResponse($str);
                 break;
             case ')':
-            case ']':
                 $str = substr($str, 1);
                 return $result;
                 break;
 
-            // String atom, number, NIL, *, %
+            // String atom, number, astring, NIL, *, %
             default:
                 // empty string
                 if ($str === '' || $str === null) {
                     break 2;
                 }
 
-                // excluded chars: SP, CTL, ), [, ]
-                if (preg_match('/^([^\x00-\x20\x29\x5B\x5D\x7F]+)/', $str, $m)) {
+                // excluded chars: SP, CTL, ), DEL
+                // we do not exclude [ and ] (#1489223)
+                if (preg_match('/^([^\x00-\x20\x29\x7F]+)/', $str, $m)) {
                     $result[] = $m[1] == 'NIL' ? NULL : $m[1];
                     $str = substr($str, strlen($m[1]));
                 }
