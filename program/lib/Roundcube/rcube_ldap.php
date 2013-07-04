@@ -871,6 +871,8 @@ class rcube_ldap extends rcube_addressbook
         // add required (non empty) fields filter
         $req_filter = '';
         foreach ((array)$required as $field) {
+            if (in_array($field, (array)$fields))  // required field is already in search filter
+                continue;
             if ($attrs = $this->_map_field($field)) {
                 if (count($attrs) > 1)
                     $req_filter .= '(|';
