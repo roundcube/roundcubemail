@@ -6,7 +6,7 @@
 <script type="text/javascript" src="/splitter.js"></script>
 <script type="text/javascript" src="/functions.js"></script>
 </head>
-<body class="iframe" onload="rcube_init_mail_ui()">
+<body class="iframe">
 
 <div class="messageheaderbox">
   <div id="messagelinks">
@@ -33,6 +33,10 @@
     <roundcube:container name="attachmentmenu" id="attachmentmenu" />
   </ul>
 </div>
+
+<script type="text/javascript">
+rcube_init_mail_ui();
+</script>
 
 </body>
 </html>

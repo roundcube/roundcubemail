@@ -5,7 +5,7 @@
 <roundcube:include file="/includes/links.html" />
 <script type="text/javascript" src="/functions.js"></script>
 </head>
-<body class="iframe" onload="rcube_init_mail_ui()">
+<body class="iframe">
 
 <div id="contact-title" class="boxtitle"><roundcube:label name="addcontact" /></div>
 <div id="contact-details" class="boxcontent">
@@ -35,7 +35,10 @@
 <roundcube:object name="photoUploadForm" id="upload-form" size="30" class="popupmenu" />
 <roundcube:object name="fileDropArea" id="contactpic" />
 
-<script type="text/javascript">rcube_init_tabs('contacttabs')</script>
+<script type="text/javascript">
+rcube_init_tabs('contacttabs');
+rcube_init_mail_ui();
+</script>
 
 </body>
 </html>

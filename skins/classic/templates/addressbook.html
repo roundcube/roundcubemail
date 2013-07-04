@@ -17,7 +17,7 @@
 </style>
 
 </head>
-<body onload="rcube_init_mail_ui()">
+<body>
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -122,6 +122,10 @@
     <li><roundcube:button command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" /></li>
   </ul>
 </div>
+
+<script type="text/javascript">
+rcube_init_mail_ui();
+</script>
 
 </body>
 </html>

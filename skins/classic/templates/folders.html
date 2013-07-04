@@ -12,7 +12,7 @@
 }
 </style>
 </head>
-<body onload="rcube_init_mail_ui()">
+<body>
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -57,6 +57,10 @@
     <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
   </ul>
 </div>
+
+<script type="text/javascript">
+rcube_init_mail_ui();
+</script>
 
 </body>
 </html>

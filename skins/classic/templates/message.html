@@ -13,10 +13,10 @@
 </style>
 </head>
 <roundcube:if condition="env:extwin" />
-<body class="extwin" onload="rcube_init_mail_ui()">
+<body class="extwin">
 <roundcube:object name="message" id="message" />
 <roundcube:else />
-<body onload="rcube_init_mail_ui()">
+<body>
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
@@ -80,6 +80,10 @@
     <roundcube:container name="attachmentmenu" id="attachmentmenu" />
   </ul>
 </div>
+
+<script type="text/javascript">
+rcube_init_mail_ui();
+</script>
 
 </body>
 </html>

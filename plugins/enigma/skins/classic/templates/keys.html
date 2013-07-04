@@ -13,7 +13,7 @@
 }
 </style>
 </head>
-<body class="iframe" onload="rcube_init_mail_ui()">
+<body class="iframe">
 
 <div id="prefs-title" class="boxtitle"><roundcube:label name="enigma.enigmakeys" /></div>
 <div id="prefs-details" class="boxcontent">
@@ -71,6 +71,10 @@
         <li><roundcube:button class="chpasslink" command="enigma.key-chpass" label="enigma.keychpass" classAct="chpasslink active" /></li>
     </ul>
 </div>
+
+<script type="text/javascript">
+rcube_init_mail_ui();
+</script>
 
 </body>
 </html>
