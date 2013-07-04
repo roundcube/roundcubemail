@@ -1013,18 +1013,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
   global $RCMAIL, $COMPOSE, $compose_mode;
 
-<<<<<<< HEAD
   $cid_map = $messages = array();
-=======
-  $loaded_attachments = array();
-  foreach ((array)$COMPOSE['attachments'] as $attachment) {
-      $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
-  }
-
-  $cid_map  = array();
-  $messages = array();
-
->>>>>>> cb1715c... Fix handling of message/rfc822 attachments on message forward and edit (#1489214)
   foreach ((array)$message->mime_parts as $pid => $part)
   {
     if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
@@ -1060,12 +1049,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
           }
       }
 
-<<<<<<< HEAD
-      if (!$skip && ($attachment = rcmail_save_attachment($message, $pid))) {
-=======
-      if (($attachment = $loaded_attachments[rcmail_attachment_name($part) . $part->mimetype])
-          || ($attachment = rcmail_save_attachment($message, $pid))) {
->>>>>>> cb1715c... Fix handling of message/rfc822 attachments on message forward and edit (#1489214)
+      if ($attachment = rcmail_save_attachment($message, $pid)) {
         $COMPOSE['attachments'][$attachment['id']] = $attachment;
         if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
           $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
