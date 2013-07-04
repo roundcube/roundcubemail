@@ -413,6 +413,51 @@ class rcube_install
     return $schema;
   }
 
+  /**
+   * Try to detect some file's mimetypes to test the correct behavior of fileinfo
+   */
+  function check_mime_detection()
+  {
+    $files = array(
+      'installer/images/roundcube_logo.png' => 'image/png',
+      'program/resources/blank.tif' => 'image/tiff',
+      'skins/larry/templates/login.html' => 'text/html',
+    );
+
+    $errors = array();
+    foreach ($files as $path => $expected) {
+      $mimetype = rcube_mime::file_content_type(INSTALL_PATH . $path, basename($path));
+      if ($mimetype != $expected) {
+        $errors[] = array($path, $mimetype, $expected);
+      }
+    }
+
+    return $errors;
+  }
+
+  /**
+   * Check the correct configuration of the 'mime_types' mapping option
+   */
+  function check_mime_extensions()
+  {
+    $types = array(
+      'application/zip'   => 'zip',
+      'application/x-tar' => 'tar',
+      'application/java-archive' => 'jar',
+      'image/bmp'     => 'bmp',
+      'image/svg+xml' => 'svg',
+    );
+
+    $errors = array();
+    foreach ($types as $mimetype => $expected) {
+      $ext = rcube_mime::get_mime_extensions($mimetype);
+      if ($ext[0] != $expected) {
+        $errors[] = array($mimetype, $ext, $expected);
+      }
+    }
+
+    return $errors;
+  }
 
   /**
    * Getter for the last error message

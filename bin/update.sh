@@ -143,6 +143,16 @@ if ($RCI->configured) {
     }
   }
 
+  // check file type detection
+  if ($RCI->check_mime_detection()) {
+    echo "WARNING: File type detection doesn't work properly!\n";
+    echo "Please check the 'mime_magic' config option or the finfo functions of PHP andrun this script again.\n";
+  }
+  if ($RCI->check_mime_extensions()) {
+    echo "WARNING: Mimetype to file extension mapping doesn't work properly!\n";
+    echo "Please check the 'mime_types' config option and run this script again.\n";
+  }
+
   // check database schema
   if ($RCI->config['db_dsnw']) {
     echo "Executing database schema update.\n";
