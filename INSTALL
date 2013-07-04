@@ -95,18 +95,9 @@ mind: You need to specify this password later in 'config/db.inc.php'.
 
 * SQLite
 --------
-You need sqlite 2 (preferably 2.8) to setup the sqlite db 
-(sqlite 3.x also doesn't work at the moment). Here is
-an example how you can setup the sqlite.db for roundcube:
-
-# sqlite -init SQL/sqlite.initial.sql sqlite.db
-Loading resources from SQL/sqlite.initial.sql
-SQLite version 2.8.16
-Enter ".help" for instructions
-sqlite> .exit
-# chmod o+rw sqlite.db
-
-Make sure your configuration points to the sqlite.db file and that the
+Versions of sqlite database engine older than 3 aren't supported.
+Database file and structure is created automatically by Roundcube.
+Make sure your configuration points to some file location and that the
 webserver can write to the file and the directory containing the file.
 
 
