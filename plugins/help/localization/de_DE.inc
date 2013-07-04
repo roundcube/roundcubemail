@@ -18,7 +18,7 @@
 
 $labels = array();
 $labels['help'] = 'Hilfe';
-$labels['about'] = '&Uuml;ber';
+$labels['about'] = 'Über';
 $labels['license'] = 'Lizenz';
 
 ?>

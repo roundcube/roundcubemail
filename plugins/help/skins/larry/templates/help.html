@@ -4,7 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
-<body>
+<roundcube:if condition="env:extwin" /><body class="extwin"><roundcube:else /><body><roundcube:endif />
 
 <roundcube:include file="/includes/header.html" />
 

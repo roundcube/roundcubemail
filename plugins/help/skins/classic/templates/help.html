@@ -9,21 +9,21 @@ function help_init_settings_tabs()
 {
     var action, tab = '#helptabdefault';
     if (window.rcmail && (action = rcmail.env.action)) {
-	    tab = '#helptab' + (action ? action : 'default');
+        tab = '#helptab' + (action ? action : 'default');
     }
     $(tab).addClass('tablink-selected');
 }
 </script>
 </head>
-<body>
+<roundcube:if condition="env:extwin" /><body class="extwin"><roundcube:else /><body><roundcube:endif />
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 
 <div id="tabsbar">
 <span id="helptabdefault" class="tablink"><roundcube:button name="helpdefault" href="?_task=help" type="link" label="help.help" title="help.help" /></span>
-<span id="helptababout" class="tablink"><roundcube:button name="helpabout" href="?_task=help&_action=about" type="link" label="help.about" title="help.about" class="tablink" /></span>
-<span id="helptablicense" class="tablink"><roundcube:button name="helplicense" href="?_task=help&_action=license" type="link" label="help.license" title="help.license" class="tablink" /></span>
+<span id="helptababout" class="tablink"><roundcube:button name="helpabout" href="?_task=help&amp;_action=about" type="link" label="help.about" title="help.about" class="tablink" /></span>
+<span id="helptablicense" class="tablink"><roundcube:button name="helplicense" href="?_task=help&amp;_action=license" type="link" label="help.license" title="help.license" class="tablink" /></span>
 <roundcube:container name="helptabs" id="helptabsbar" />
 <script type="text/javascript"> if (window.rcmail) rcmail.add_onload(help_init_settings_tabs);</script>
 </div>
