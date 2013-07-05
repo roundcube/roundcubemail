@@ -48,7 +48,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   Release: 1.8.7
+ * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Mail_mime
  */
 
@@ -70,7 +70,7 @@
  * @author    Aleksander Machniak <alec@php.net>
  * @copyright 2003-2006 PEAR <pear-group@php.net>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version   Release: 1.8.7
+ * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Mail_mime
  */
 class Mail_mimePart
@@ -368,12 +368,12 @@ class Mail_mimePart
     function encodeToFile($filename, $boundary=null, $skip_head=false)
     {
         if (file_exists($filename) && !is_writable($filename)) {
-            $err = PEAR::raiseError('File is not writeable: ' . $filename);
+            $err = $this->_raiseError('File is not writeable: ' . $filename);
             return $err;
         }
 
         if (!($fh = fopen($filename, 'ab'))) {
-            $err = PEAR::raiseError('Unable to open file: ' . $filename);
+            $err = $this->_raiseError('Unable to open file: ' . $filename);
             return $err;
         }
 
@@ -456,7 +456,7 @@ class Mail_mimePart
      * @param array  $params The parameters for the subpart, same
      *                       as the $params argument for constructor.
      *
-     * @return Mail_mimePart A reference to the part you just added. It is
+     * @return Mail_mimePart A reference to the part you just added. In PHP4, it is
      *                       crucial if using multipart/* in your subparts that
      *                       you use =& in your script when calling this function,
      *                       otherwise you will not be able to add further subparts.
@@ -464,8 +464,8 @@ class Mail_mimePart
      */
     function &addSubpart($body, $params)
     {
-        $this->_subparts[] = new Mail_mimePart($body, $params);
-        return $this->_subparts[count($this->_subparts) - 1];
+        $this->_subparts[] = $part = new Mail_mimePart($body, $params);
+        return $part;
     }
 
     /**
@@ -511,12 +511,12 @@ class Mail_mimePart
     function _getEncodedDataFromFile($filename, $encoding, $fh=null)
     {
         if (!is_readable($filename)) {
-            $err = PEAR::raiseError('Unable to read file: ' . $filename);
+            $err = $this->_raiseError('Unable to read file: ' . $filename);
             return $err;
         }
 
         if (!($fd = fopen($filename, 'rb'))) {
-            $err = PEAR::raiseError('Could not open file: ' . $filename);
+            $err = $this->_raiseError('Could not open file: ' . $filename);
             return $err;
         }
 
@@ -648,7 +648,7 @@ class Mail_mimePart
     }
 
     /**
-     * Encodes the paramater of a header.
+     * Encodes the parameter of a header.
      *
      * @param string $name      The name of the header-parameter
      * @param string $value     The value of the paramter
@@ -1013,7 +1013,7 @@ class Mail_mimePart
                 $value = substr($value, $cutpoint);
                 $cutpoint = $maxLength;
                 // RFC 2047 specifies that any split header should
-                // be seperated by a CRLF SPACE.
+                // be separated by a CRLF SPACE.
                 if ($output) {
                     $output .= $eol . ' ';
                 }
@@ -1055,7 +1055,7 @@ class Mail_mimePart
                     }
 
                     // RFC 2047 specifies that any split header should
-                    // be seperated by a CRLF SPACE
+                    // be separated by a CRLF SPACE
                     if ($output) {
                         $output .= $eol . ' ';
                     }
@@ -1227,7 +1227,7 @@ class Mail_mimePart
     }
 
     /**
-     * PEAR::isError wrapper
+     * PEAR::isError implementation
      *
      * @param mixed $data Object
      *
@@ -1242,6 +1242,20 @@ class Mail_mimePart
         }
 
         return false;
+    }
+
+    /**
+     * PEAR::raiseError implementation
+     *
+     * @param $message A text error message
+     *
+     * @return PEAR_Error Instance of PEAR_Error
+     * @access private
+     */
+    function _raiseError($message)
+    {
+        // PEAR::raiseError() is not PHP 5.4 compatible
+        return new PEAR_Error($message);
     }
 
 } // End of class
