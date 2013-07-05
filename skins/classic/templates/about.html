@@ -7,11 +7,15 @@
 </head>
 <body>
 
+<roundcube:if condition="!request:_framed" />
+
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 <roundcube:include file="/includes/settingstabs.html" />
 
 <div id="mainscreen" class="box darkbg crop">
+<roundcube:endif />
+
 <div class="readtext">
 <div id="license">
 <roundcube:object name="aboutcontent" />
@@ -29,7 +33,10 @@ Some <a href="http://roundcube.net/license">exceptions</a> for skins &amp; plugi
 <roundcube:object name="pluginlist" id="pluginlist" class="records-table" cellspacing="0" />
 
 </div>
+
+<roundcube:if condition="!request:_framed" />
 </div>
+<roundcube:endif />
 
 </body>
 </html>

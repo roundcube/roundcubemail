@@ -7,9 +7,9 @@
 <script type="text/javascript">
 function help_init_settings_tabs()
 {
-    var action, tab = '#helptabdefault';
+    var action, tab = '#helptabindex';
     if (window.rcmail && (action = rcmail.env.action)) {
-        tab = '#helptab' + (action ? action : 'default');
+        tab = '#helptab' + (action ? action : 'index');
     }
     $(tab).addClass('tablink-selected');
 }
@@ -21,7 +21,7 @@ function help_init_settings_tabs()
 <roundcube:include file="/includes/header.html" />
 
 <div id="tabsbar">
-<span id="helptabdefault" class="tablink"><roundcube:button name="helpdefault" href="?_task=help" type="link" label="help.help" title="help.help" /></span>
+<span id="helptabindex" class="tablink"><roundcube:button name="helpindex" href="?_task=help" type="link" label="help.help" title="help.help" /></span>
 <span id="helptababout" class="tablink"><roundcube:button name="helpabout" href="?_task=help&amp;_action=about" type="link" label="help.about" title="help.about" class="tablink" /></span>
 <span id="helptablicense" class="tablink"><roundcube:button name="helplicense" href="?_task=help&amp;_action=license" type="link" label="help.license" title="help.license" class="tablink" /></span>
 <roundcube:container name="helptabs" id="helptabsbar" />

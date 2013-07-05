@@ -82,7 +82,8 @@ class help extends rcube_plugin
                 if (is_readable($this->home . '/content/about.html')) {
                     return @file_get_contents($this->home . '/content/about.html');
                 }
-                $src = $rcmail->config->get('help_about_url', $rcmail->url(array('_task' => 'settings', '_action' => 'about')));
+                $default = $rcmail->url(array('_task' => 'settings', '_action' => 'about', '_framed' => 1));
+                $src     = $rcmail->config->get('help_about_url', $default);
                 break;
 
             case 'license':

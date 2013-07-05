@@ -39,7 +39,6 @@
 	background: url(help.png) center -130px no-repeat;
 }
 
-.iframebox.help_about,
 .iframebox.help_license {
 	overflow: auto;
 }
