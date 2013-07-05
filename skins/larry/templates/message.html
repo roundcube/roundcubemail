@@ -17,7 +17,7 @@
 <roundcube:endif />
 	<roundcube:include file="/includes/mailtoolbar.html" />
 	<div class="toolbarselect">
-		<roundcube:object name="mailboxlist" type="select" noSelection="move" maxlength="25" onchange="rcmail.command('move', this.options[this.selectedIndex].value)" class="mailboxlist decorated" folder_filter="mail" />
+		<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('move', this.options[this.selectedIndex].value)" class="mailboxlist decorated" folder_filter="mail" />
 	</div>
 </div>
 
