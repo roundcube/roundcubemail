@@ -70,6 +70,7 @@ $rcube_languages = array(
   'ku'    => 'Kurdish (Kurmancî)',
   'lv_LV' => 'Latvian (Latviešu)',
   'lt_LT' => 'Lithuanian (Lietuviškai)',
+  'lb'    => 'Luxembourgish (Lëtzebuergesch)',
   'mk_MK' => 'Macedonian (Македонски)',
   'ms_MY' => 'Malay (Bahasa Melayu)',
   'ml_IN' => 'Malayalam (മലയാളം)',
