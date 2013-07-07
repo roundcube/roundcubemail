@@ -84,6 +84,9 @@ class rcube_spellchecker
         if ($this->engine == 'pspell') {
             $this->matches = $this->_pspell_check($this->content);
         }
+        else if ($this->engine == 'enchant') {
+            $this->matches = $this->_enchant_check($this->content);
+        }
         else {
             $this->matches = $this->_googie_check($this->content);
         }
@@ -115,6 +118,9 @@ class rcube_spellchecker
         if ($this->engine == 'pspell') {
             return $this->_pspell_suggestions($word);
         }
+        else if ($this->engine == 'enchant') {
+            return $this->_enchant_suggestions($word);
+        }
 
         return $this->_googie_suggestions($word);
     }
@@ -132,6 +138,9 @@ class rcube_spellchecker
     {
         if ($this->engine == 'pspell') {
             return $this->_pspell_words($text, $is_html);
+        }
+        else if ($this->engine == 'enchant') {
+            return $this->_enchant_words($text, $is_html);
         }
 
         return $this->_googie_words($text, $is_html);
@@ -323,6 +332,141 @@ class rcube_spellchecker
         if (!$this->plink) {
             $this->error = "Unable to load Pspell engine for selected language";
         }
+    }
+
+
+    /**
+     * Checks the text using enchant
+     *
+     * @param string $text Text content for spellchecking
+     */
+    private function _enchant_check($text)
+    {
+        // init spellchecker
+        $this->_enchant_init();
+
+        if (!$this->enchant_dictionary) {
+            return array();
+        }
+
+        // tokenize
+        $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
+
+        $diff       = 0;
+        $matches    = array();
+
+        foreach ($text as $w) {
+            $word = trim($w[0]);
+            $pos  = $w[1] - $diff;
+            $len  = mb_strlen($word);
+
+            // skip exceptions
+            if ($this->is_exception($word)) {
+            }
+            else if (!enchant_dict_check($this->enchant_dictionary, $word)) {
+                $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
+
+                if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
+                    $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
+                }
+
+                $matches[] = array($word, $pos, $len, null, $suggestions);
+            }
+
+            $diff += (strlen($word) - $len);
+        }
+
+        return $matches;
+    }
+
+
+    /**
+     * Returns the misspelled words
+     */
+    private function _enchant_words($text = null, $is_html=false)
+    {
+        $result = array();
+
+        if ($text) {
+            // init spellchecker
+            $this->_enchant_init();
+
+            if (!$this->enchant_dictionary) {
+                return array();
+            }
+
+            // With Enchant we don't need to get suggestions to return misspelled words
+            if ($is_html) {
+                $text = $this->html2text($text);
+            }
+
+            $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
+
+            foreach ($text as $w) {
+                $word = trim($w[0]);
+
+                // skip exceptions
+                if ($this->is_exception($word)) {
+                    continue;
+                }
+
+                if (!enchant_dict_check($this->enchant_dictionary, $word)) {
+                    $result[] = $word;
+                }
+            }
+
+            return $result;
+        }
+
+        foreach ($this->matches as $m) {
+            $result[] = $m[0];
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * Returns suggestions for misspelled word
+     */
+    private function _enchant_suggestions($word)
+    {
+        // init spellchecker
+        $this->_enchant_init();
+
+        if (!$this->enchant_dictionary) {
+            return array();
+        }
+
+        $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
+
+        if (sizeof($suggestions) > self::MAX_SUGGESTIONS)
+            $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
+
+        return is_array($suggestions) ? $suggestions : array();
+    }
+
+
+    /**
+     * Initializes PSpell dictionary
+     */
+    private function _enchant_init()
+    {
+        if (!$this->enchant_broker) {
+            if (!extension_loaded('enchant')) {
+                $this->error = "Enchant extension not available";
+                return;
+            }
+
+            $this->enchant_broker = enchant_broker_init();
+        }
+
+        if (!enchant_broker_dict_exists($this->enchant_broker, $this->lang)) {
+            $this->error = "Unable to load dictionary for selected language using Enchant";
+            return;
+        }
+
+        $this->enchant_dictionary = enchant_broker_request_dict($this->enchant_broker, $this->lang);
     }
 
 
