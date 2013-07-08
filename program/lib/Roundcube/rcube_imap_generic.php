@@ -2988,7 +2988,7 @@ class rcube_imap_generic
         }
 
         foreach ($entries as $name => $value) {
-            $entries[$name] = $this->escape($name) . ' ' . $this->escape($value);
+            $entries[$name] = $this->escape($name) . ' ' . $this->escape($value, true);
         }
 
         $entries = implode(' ', $entries);
