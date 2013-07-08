@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add support for 'enchant' spellcheck engine
 - Fix "could not load message" error on valid empty message body (#1489228)
 - Check filetype detection in installer and update script (#1489193)
 - Fix handling of message/rfc822 attachments on message forward and edit (#1489214)

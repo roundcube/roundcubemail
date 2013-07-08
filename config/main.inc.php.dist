@@ -512,8 +512,9 @@ $rcmail_config['enable_spellcheck'] = true;
 // Setting it to 'shared' will make the dictionary shared by all users.
 $rcmail_config['spellcheck_dictionary'] = false;
 
-// Set the spell checking engine. 'googie' is the default. 'pspell' is also available,
-// but requires the Pspell extensions. When using Nox Spell Server, also set 'googie' here.
+// Set the spell checking engine. 'googie' is the default.
+// 'pspell' and 'enchant' are also available, but they require
+// PHP Pspell or Enchant extensions. When using Nox Spell Server, also set 'googie' here.
 $rcmail_config['spellcheck_engine'] = 'googie';
 
 // For a locally installed Nox Spell Server, please specify the URI to call it.
