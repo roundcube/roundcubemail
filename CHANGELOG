@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where signature wasn't changed on identity selection when editing a draft (#1489229)
 - Fix IMAP SETMETADATA parameters quoting (#1489231)
 - Add support for 'enchant' spellcheck engine
 - Fix "could not load message" error on valid empty message body (#1489228)

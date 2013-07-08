@@ -170,6 +170,9 @@ $OUTPUT->set_env('compose_mode', $compose_mode);
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
 if ($compose_mode == RCUBE_COMPOSE_EDIT || $compose_mode == RCUBE_COMPOSE_DRAFT) {
   // don't add signature in draft/edit mode, we'll also not remove the old-one
+  // but only on page display, later we should be able to change identity/sig (#1489229)
+  if ($config_show_sig == 1 || $config_show_sig == 2)
+    $OUTPUT->set_env('show_sig_later', true);
 }
 else if ($config_show_sig == 1)
   $OUTPUT->set_env('show_sig', true);

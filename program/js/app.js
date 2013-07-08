@@ -3065,7 +3065,7 @@ function rcube_webmail()
       this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
       // add signature according to selected identity
       // if we have HTML editor, signature is added in callback
-      if (input_from.prop('type') == 'select-one' && !this.env.opened_extwin) {
+      if (input_from.prop('type') == 'select-one') {
         this.change_identity(input_from[0]);
       }
     }
@@ -3401,6 +3401,15 @@ function rcube_webmail()
 
     if (!show_sig)
       show_sig = this.env.show_sig;
+
+    // first function execution
+    if (!this.env.identities_initialized) {
+      this.env.identities_initialized = true;
+      if (this.env.show_sig_later)
+        this.env.show_sig = true;
+      if (this.env.opened_extwin)
+        return;
+    }
 
     var i, rx, cursor_pos, p = -1,
       id = obj.options[obj.selectedIndex].value,
