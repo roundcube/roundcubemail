@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where signature wasn't changed on identity selection when editing a draft (#1489229)
 - Fix IMAP SETMETADATA parameters quoting (#1489231)
 - Fix "could not load message" error on valid empty message body (#1489228)
 - Fix handling of message/rfc822 attachments on message forward and edit (#1489214)
