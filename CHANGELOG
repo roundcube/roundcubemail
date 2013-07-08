@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix "could not load message" error on valid empty message body (#1489228)
 - Fix handling of message/rfc822 attachments on message forward and edit (#1489214)
 - Fix parsing of square bracket characters in IMAP response strings (#1489223)
 - Don't clear References and in-Reply-To when a message is "edited as new" (#1489216)

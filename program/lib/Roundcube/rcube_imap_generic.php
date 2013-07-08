@@ -2509,7 +2509,11 @@ class rcube_imap_generic
                 $prev  = '';
                 $found = true;
 
-                while ($bytes > 0) {
+                // empty body
+                if (!$bytes) {
+                    $result = '';
+                }
+                else while ($bytes > 0) {
                     $line = $this->readLine(8192);
 
                     if ($line === NULL) {
