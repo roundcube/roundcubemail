@@ -126,7 +126,7 @@ CREATE TABLE cache (
   user_id integer NOT NULL default 0,
   cache_key varchar(128) NOT NULL default '',
   created datetime NOT NULL default '0000-00-00 00:00:00',
-  expires datetime DEFAULT NOT,
+  expires datetime DEFAULT NULL,
   data text NOT NULL
 );
 
