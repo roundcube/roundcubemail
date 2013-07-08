@@ -8,9 +8,14 @@ $rcmail_config['help_source'] = 'http://roundcube.net/doc/help/0.9/%l/';
 // Use '<task>/<action>' or only '<task>' strings as keys
 // The values will be appended to the 'help_source' URL
 $rcmail_config['help_index_map'] = array(
-    'login' => 'login.html',
-    'mail'  => 'mail/index.html',
-    'mail/compose' => 'mail/compose.html',
+    'login'                => 'login.html',
+    'mail'                 => 'mail/index.html',
+    'mail/compose'         => 'mail/compose.html',
+    'addressbook'          => 'addressbook/index.html',
+    'settings'             => 'settings/index.html',
+    'settings/preferences' => 'settings/preferences.html',
+    'settings/folders'     => 'settings/folders.html',
+    'settings/identities'  => 'settings/identities.html',
 );
 
 // Map to translate Roundcube language codes into help document languages

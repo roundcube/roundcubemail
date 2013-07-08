@@ -13,7 +13,7 @@ if (window.rcmail) {
 
             var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/'+rcmail.env.action : '') });
             if (rcmail.env.help_open_extwin) {
-                rcmail.open_window(url, false, false);
+                rcmail.open_window(url, true, false);
             }
             else {
                 rcmail.redirect(url, false);
