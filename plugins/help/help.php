@@ -61,6 +61,7 @@ class help extends rcube_plugin
         // register UI objects
         $rcmail->output->add_handlers(array(
             'helpcontent' => array($this, 'content'),
+            'tablink' => array($this, 'tablink'),
         ));
 
         if ($rcmail->action == 'about')
@@ -71,6 +72,14 @@ class help extends rcube_plugin
             $rcmail->output->set_pagetitle($this->gettext('help'));
 
         $rcmail->output->send('help.help');
+    }
+
+    function tablink($attrib)
+    {
+        $rcmail = rcmail::get_instance();
+        $attrib['name'] = 'helplink' . $attrib['action'];
+        $attrib['href'] = $rcmail->url(array('_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null));
+        return $rcmail->output->button($attrib);
     }
 
     function content($attrib)
