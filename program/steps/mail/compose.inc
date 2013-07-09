@@ -526,7 +526,7 @@ function rcmail_compose_header_from($attrib)
       }
     }
 
-    $out = $select_from->show($MESSAGE->compose['from']);
+    $out = $select_from->show((int)$MESSAGE->compose['from']);
 
     // add signatures to client
     $OUTPUT->set_env('signatures', $a_signatures);
