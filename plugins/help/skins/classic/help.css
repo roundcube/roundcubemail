@@ -5,6 +5,20 @@
   background-image: url('help.gif');
 }
 
+.extwin #tabsbar
+{
+  top: 21px;
+  left: 20px;
+  right: 100px;
+  border-bottom: 0;
+}
+
+.closelink {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
 .help-box
 {
   overflow: auto;
