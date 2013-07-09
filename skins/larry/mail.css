@@ -79,6 +79,25 @@
 	overflow: auto;
 }
 
+/* Real browsers accept this (not IE) */
+html>/**/body #messagelist>tbody {
+	overflow: auto;
+	overflow-x: hidden;
+}
+/*
+#messagelistcontainer::-webkit-scrollbar {
+	-webkit-appearance: none;
+	width: 14px;
+	border-left: 1px solid #e4e4e4;
+	background: #fafafa;
+}
+#messagelistcontainer::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	border: 3px solid #f2f2f2;
+	background-color: #c2c2c2;
+	-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+*/
 #messagelistfooter {
 	position: absolute;
 	bottom: 0;
@@ -447,141 +466,146 @@ a.iconbutton.threadmode.selected {
 
 /*** message list ***/
 
-#messagelist thead td:first-child {
+/* this is necessary to make FF3 display borders */
+body:-moz-last-node #messagelist {
+	border-collapse: separate;
+}
+
+.messagelist thead td:first-child {
 	border-radius: 4px 0 0 0; /* for Chrome */
 }
 
-#messagelist tr td.attachment,
-#messagelist tr td.threads,
-#messagelist tr td.status,
-#messagelist tr td.flag,
-#messagelist tr td.priority {
+.messagelist tr td.attachment,
+.messagelist tr td.threads,
+.messagelist tr td.status,
+.messagelist tr td.flag,
+.messagelist tr td.priority {
 	width: 20px;
 	padding: 2px 3px;
 }
 
-.webkit #messagelist tr td.attachment,
-.webkit #messagelist tr td.threads,
-.webkit #messagelist tr td.status,
-.webkit #messagelist tr td.flag,
-.webkit #messagelist tr td.priority {
+.webkit .messagelist tr td.attachment,
+.webkit .messagelist tr td.threads,
+.webkit .messagelist tr td.status,
+.webkit .messagelist tr td.flag,
+.webkit .messagelist tr td.priority {
 	width: 26px;
 }
 
-#messagelist tr td.threads {
+.messagelist tr td.threads {
 	width: 26px;
 }
 
-.webkit #messagelist tr td.threads {
+.webkit .messagelist tr td.threads {
 	width: 30px;
 }
 
-#messagelist tr td.threads,
-#messagelist tr td.threads + td {
+.messagelist tr td.threads,
+.messagelist tr td.threads + td {
 	border-left: 0;
 }
 
-#messagelist tr td.size {
+.messagelist tr td.size {
 	width: 60px;
 	text-align: right;
 }
 
-#messagelist thead tr td.size {
+.messagelist thead tr td.size {
 	text-align: left;
 }
 
-#messagelist tr td.fromto,
-#messagelist tr td.from,
-#messagelist tr td.to,
-#messagelist tr td.cc,
-#messagelist tr td.replyto {
+.messagelist tr td.fromto,
+.messagelist tr td.from,
+.messagelist tr td.to,
+.messagelist tr td.cc,
+.messagelist tr td.replyto {
 	width: 200px;
 }
 
-#messagelist tr td.date {
+.messagelist tr td.date {
 	width: 135px;
 }
 
-#messagelist tr.message {
+.messagelist tr.message {
 /*	background-color: #fff; */
 }
 
-#messagelist tr.thread.expanded td {
+.messagelist tr.thread.expanded td {
 	background-color: #ededed;
 }
 
-#messagelist tr.unread {
+.messagelist tr.unread {
 	font-weight: bold;
 /*	background-color: #fff; */
 }
 
-#messagelist tr.flagged td,
-#messagelist tr.flagged td a {
+.messagelist tr.flagged td,
+.messagelist tr.flagged td a {
 	color: #f30;
 }
 
-#messagelist thead tr td.sortedASC a,
-#messagelist thead tr td.sortedDESC a {
+.messagelist thead tr td.sortedASC a,
+.messagelist thead tr td.sortedDESC a {
 	color: #004458;
 	text-decoration: underline;
 	background: url(images/listicons.png) right -912px no-repeat;
 }
 
-#messagelist thead tr td.sortedASC a {
+.messagelist thead tr td.sortedASC a {
 	background-position: right -944px;
 }
 
-#messagelist td img {
+.messagelist td img {
 	vertical-align: middle;
 	display: inline-block;
 }
 
-#messagelist tbody td a {
+.messagelist tbody td a {
 	color: #333;
 	text-decoration: none;
 	white-space: nowrap;
 	cursor: default;
 }
 
-#messagelist tbody tr td.flag,
-#messagelist tbody tr td.status,
-#messagelist tbody tr td.subject span.status {
+.messagelist tbody tr td.flag,
+.messagelist tbody tr td.status,
+.messagelist tbody tr td.subject span.status {
 	cursor: pointer;
 }
 
-#messagelist tr td.flag span,
-#messagelist tr td.status span,
-#messagelist tr td.attachment span,
-#messagelist tr td.priority span {
+.messagelist tr td.flag span,
+.messagelist tr td.status span,
+.messagelist tr td.attachment span,
+.messagelist tr td.priority span {
 	display: block;
 	width: 20px;
 }
 
-#messagelist tr td div.collapsed,
-#messagelist tr td div.expanded,
-#messagelist tr td.threads div.listmenu,
-#messagelist tr td.attachment span.attachment,
-#messagelist tr td.attachment span.report,
-#messagelist tr td.priority span.priority,
-#messagelist tr td.priority span.prio1,
-#messagelist tr td.priority span.prio2,
-#messagelist tr td.priority span.prio3,
-#messagelist tr td.priority span.prio4,
-#messagelist tr td.priority span.prio5,
-#messagelist tr td.flag span.flagged,
-#messagelist tr td.flag span.unflagged,
-#messagelist tr td.flag span.unflagged:hover,
-#messagelist tr td.status span.status,
-#messagelist tr td.status span.msgicon,
-#messagelist tr td.status span.deleted,
-#messagelist tr td.status span.unread,
-#messagelist tr td.status span.unreadchildren,
-#messagelist tr td.subject span.msgicon,
-#messagelist tr td.subject span.deleted,
-#messagelist tr td.subject span.unread,
-#messagelist tr td.subject span.replied,
-#messagelist tr td.subject span.forwarded,
-#messagelist tr td.subject span.unreadchildren {
+.messagelist tr td div.collapsed,
+.messagelist tr td div.expanded,
+.messagelist tr td.threads div.listmenu,
+.messagelist tr td.attachment span.attachment,
+.messagelist tr td.attachment span.report,
+.messagelist tr td.priority span.priority,
+.messagelist tr td.priority span.prio1,
+.messagelist tr td.priority span.prio2,
+.messagelist tr td.priority span.prio3,
+.messagelist tr td.priority span.prio4,
+.messagelist tr td.priority span.prio5,
+.messagelist tr td.flag span.flagged,
+.messagelist tr td.flag span.unflagged,
+.messagelist tr td.flag span.unflagged:hover,
+.messagelist tr td.status span.status,
+.messagelist tr td.status span.msgicon,
+.messagelist tr td.status span.deleted,
+.messagelist tr td.status span.unread,
+.messagelist tr td.status span.unreadchildren,
+.messagelist tr td.subject span.msgicon,
+.messagelist tr td.subject span.deleted,
+.messagelist tr td.subject span.unread,
+.messagelist tr td.subject span.replied,
+.messagelist tr td.subject span.forwarded,
+.messagelist tr td.subject span.unreadchildren {
 	display: inline-block;
 	vertical-align: middle;
 	height: 18px;
@@ -590,135 +614,135 @@ a.iconbutton.threadmode.selected {
 	background: url(images/listicons.png) -100px 0 no-repeat;
 }
 
-#messagelist tbody tr td.attachment span.attachment {
+.messagelist tbody tr td.attachment span.attachment {
 	background-position: 0 -996px;
 }
 
-#messagelist thead tr td.attachment span.attachment {
+.messagelist thead tr td.attachment span.attachment {
 	background-position: -24px -997px;
 }
 
-#messagelist tbody tr td.attachment span.report {
+.messagelist tbody tr td.attachment span.report {
 	background-position: -24px -1116px;
 }
 
-#messagelist tr td.priority span.prio5 {
+.messagelist tr td.priority span.prio5 {
 	background-position: 0 -1905px;
 }
 
-#messagelist tr td.priority span.prio4 {
+.messagelist tr td.priority span.prio4 {
 	background-position: 0 -1885px;
 }
 
-#messagelist tr td.priority span.prio2 {
+.messagelist tr td.priority span.prio2 {
 	background-position: 0 -1865px;
 }
 
-#messagelist tr td.priority span.prio1 {
+.messagelist tr td.priority span.prio1 {
 	background-position: 0 -1845px;
 }
 
-#messagelist tbody tr td.flag span.flagged {
+.messagelist tbody tr td.flag span.flagged {
 	background-position: 0 -1036px;
 }
 
-#messagelist thead tr td.flag span.flagged {
+.messagelist thead tr td.flag span.flagged {
 	background-position: -24px -1036px;
 }
 
-#messagelist tr td.status span.msgicon:hover {
+.messagelist tr td.status span.msgicon:hover {
 	background-position: -23px -1056px;
 }
 
-#messagelist tr td.flag span.unflagged:hover {
+.messagelist tr td.flag span.unflagged:hover {
 	background-position: -23px -1076px;
 }
 
-#messagelist tr td.subject span.msgicon,
-#messagelist tr td.subject span.unreadchildren {
+.messagelist tr td.subject span.msgicon,
+.messagelist tr td.subject span.unreadchildren {
 	background-position: 0 -1056px;
 	margin: 0 1px 0 0;
 	width: 24px;
 }
 
-#messagelist tr td.subject span.replied {
+.messagelist tr td.subject span.replied {
 	background-position: 0 -1076px;
 }
 
-#messagelist tr td.subject span.forwarded {
+.messagelist tr td.subject span.forwarded {
 	background-position: 0 -1096px;
 }
 
-#messagelist tr td.subject span.replied.forwarded {
+.messagelist tr td.subject span.replied.forwarded {
 	background-position: 0 -1116px;
 }
 
-#messagelist tr td.status span.msgicon,
-#messagelist tr td.flag span.unflagged,
-#messagelist tr td.status span.unreadchildren {
+.messagelist tr td.status span.msgicon,
+.messagelist tr td.flag span.unflagged,
+.messagelist tr td.status span.unreadchildren {
 	background-position: 0 1056px; /* no icon */
 }
 /*
-#messagelist tr td.status span.msgicon:hover {
+.messagelist tr td.status span.msgicon:hover {
 	background-position: 0 -272px;
 }
 */
-#messagelist tr td.status span.deleted,
-#messagelist tr td.status span.deleted:hover,
-#messagelist tr td.subject span.deleted {
+.messagelist tr td.status span.deleted,
+.messagelist tr td.status span.deleted:hover,
+.messagelist tr td.subject span.deleted {
 	background-position: -22px -1096px;
 }
 
-#messagelist tr td.status span.status,
-#messagelist tr td.status span.unread,
-#messagelist tr td.subject span.unread,
-#messagelist tr td.status span.unread:hover {
+.messagelist tr td.status span.status,
+.messagelist tr td.status span.unread,
+.messagelist tr td.subject span.unread,
+.messagelist tr td.status span.unread:hover {
 	background-position: 0 -1016px;
 }
 
-#messagelist thead tr td.status span.status {
+.messagelist thead tr td.status span.status {
 	background-position: -24px -1016px;
 }
 
-#messagelist tr td div.collapsed {
+.messagelist tr td div.collapsed {
 	background-position: 0 -1137px;
 	cursor: pointer;
 }
 
-#messagelist tr td div.expanded {
+.messagelist tr td div.expanded {
 	background-position: 0 -1157px;
 	cursor: pointer;
 }
 
-#messagelist tr td.threads div.listmenu {
+.messagelist tr td.threads div.listmenu {
 	background-position: 0 -976px;
 	cursor: pointer;
 	width: 26px;
 }
 
-#messagelist thead tr td.subject,
-#messagelist tbody tr td.subject {
+.messagelist thead tr td.subject,
+.messagelist tbody tr td.subject {
 	width: 99%;
 	white-space: nowrap;
 }
 
-#messagelist tbody tr td.subject a {
+.messagelist tbody tr td.subject a {
 	cursor: default;
 	vertical-align: middle; /* #1487091 */
 }
 
 /* thread parent message with unread children */
-#messagelist tbody tr.unroot td.subject a {
+.messagelist tbody tr.unroot td.subject a {
 	text-decoration: underline;
 }
 
 /**** tree indicators ****/
 
-#messagelist tbody tr td span.branch div {
+.messagelist tbody tr td span.branch div {
 	display: inline-block;
 }
 
-#messagelist tbody tr td span.branch div.tree {
+.messagelist tbody tr td span.branch div.tree {
 	width: 15px;
 }
 

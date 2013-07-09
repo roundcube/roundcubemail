@@ -6437,6 +6437,7 @@ function rcube_webmail()
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
             this.msglist_select(this.message_list);
+            this.message_list.resize();
             this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
           }
         }
@@ -6447,6 +6448,7 @@ function rcube_webmail()
             this.enable_command('search-create', this.env.source == '');
             this.enable_command('search-delete', this.env.search_id);
             this.update_group_commands();
+            this.contact_list.resize();
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }
         }

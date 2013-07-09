@@ -600,8 +600,11 @@ function rcube_mail_ui()
         mailviewsplit.handle.hide();
     }
 
-    if (visible && uid && rcmail.message_list)
-      rcmail.message_list.scrollto(uid);
+    if (rcmail.message_list) {
+      if (visible && uid)
+          rcmail.message_list.scrollto(uid);
+      rcmail.message_list.resize();
+    }
 
     rcmail.command('save-pref', { name:'preview_pane', value:(visible?1:0) });
   }

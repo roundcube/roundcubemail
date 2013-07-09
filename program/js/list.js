@@ -33,6 +33,7 @@ function rcube_list_widget(list, p)
   this.tagname = this.list ? this.list.nodeName.toLowerCase() : 'table';
   this.thead;
   this.tbody;
+  this.fixed_header;
   this.frame = null;
   this.rows = [];
   this.selection = [];
@@ -152,6 +153,14 @@ init_header: function()
   if (this.thead) {
     this.colcount = 0;
 
+    if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
+      $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
+      $(this.list.tHead).find('tr td').attr('style', '');  // remove fixed widths
+    }
+    else if (!bw.ie7 && this.list.className.indexOf('fixedheader') >= 0) {
+      this.init_fixed_header();
+    }
+
     var col, r, p = this;
     // add events for list columns moving
     if (this.column_movable && this.thead && this.thead.rows) {
@@ -166,6 +175,47 @@ init_header: function()
   }
 },
 
+init_fixed_header: function()
+{
+  var clone = $(this.list.tHead).clone();
+
+  if (!this.fixed_header) {
+    this.fixed_header = $('<table>')
+      .attr('class', this.list.className)
+      .css({ position:'fixed' })
+      .append(clone)
+      .append('<tbody></tbody>');
+    $(this.list).before(this.fixed_header);
+
+    var me = this;
+    $(window).resize(function(){ me.resize() });
+  }
+  else {
+    $(this.fixed_header).find('thead').replaceWith(clone);
+  }
+
+  this.thead = clone.get(0);
+  this.resize();
+},
+
+resize: function()
+{
+    if (!this.fixed_header)
+      return;
+
+    var column_widths = [];
+
+    // get column widths from original thead
+    $(this.tbody).parent().find('thead tr td').each(function(index) {
+      column_widths[index] = $(this).width();
+    });
+
+    // apply fixed widths to fixed table header
+    $(this.thead).parent().width($(this.tbody).parent().width());
+    $(this.thead).find('tr td').each(function(index) {
+      $(this).css('width', column_widths[index]);
+    });
+},
 
 /**
  * Remove all list rows
@@ -494,6 +544,7 @@ collapse: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.resize();
   this.triggerEvent('listupdate');
   return false;
 },
@@ -542,6 +593,7 @@ expand: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.resize();
   this.triggerEvent('listupdate');
   return false;
 },
@@ -585,6 +637,7 @@ collapse_all: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.resize();
   this.triggerEvent('listupdate');
   return false;
 },
@@ -623,6 +676,7 @@ expand_all: function(row)
     new_row = new_row.nextSibling;
   }
 
+  this.resize();
   this.triggerEvent('listupdate');
   return false;
 },
@@ -1530,6 +1584,9 @@ column_replace: function(from, to)
     this.subject_col++;
   else if (this.subject_col > from && to >= this.subject_col)
     this.subject_col--;
+
+  if (this.fixed_header)
+    this.init_header();
 
   this.triggerEvent('column_replace');
 }
