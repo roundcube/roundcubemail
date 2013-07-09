@@ -232,16 +232,16 @@ function rcube_subscription_form($attrib)
         // add any necessary "virtual" parent folders
         if ($parent_folder && !isset($seen[$parent_folder])) {
             for ($i=1; $i<=$level; $i++) {
-	            $ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
-	            if ($ancestor_folder && !$seen[$ancestor_folder]++) {
-	                $ancestor_name = rcube_charset_convert($foldersplit[$i-1], 'UTF7-IMAP');
-	                $list_folders[] = array(
+                $ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
+                if ($ancestor_folder && !$seen[$ancestor_folder]++) {
+                    $ancestor_name = rcube_charset_convert($foldersplit[$i-1], 'UTF7-IMAP');
+                    $list_folders[] = array(
                         'id'      => $ancestor_folder,
                         'name'    => $ancestor_name,
                         'level'   => $i-1,
                         'virtual' => true,
                     );
-	            }
+                }
             }
         }
 
@@ -291,9 +291,11 @@ function rcube_subscription_form($attrib)
             $classes[] = 'virtual';
         }
 
-        if (!$protected) {
-            $attrs = $STORAGE->folder_attributes($folder['id']);
-            $noselect = in_array('\\Noselect', $attrs);
+        // Check \Noselect flag (of existing folder)
+        if (!$protected && in_array($folder['id'], $a_unsubscribed)) {
+                $attrs = $STORAGE->folder_attributes($folder['id']);
+                $noselect = in_array('\\Noselect', $attrs);
+            }
         }
 
         $disabled = (($protected && $subscribed) || $noselect);
