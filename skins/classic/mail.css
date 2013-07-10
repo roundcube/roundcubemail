@@ -683,9 +683,10 @@ table.messagelist.fixedcopy
   text-decoration: none;
 }
 
-.messagelist thead tr td.size
+.messagelist thead tr td.size.sortedASC a,
+.messagelist thead tr td.size.sortedDESC a
 {
-  text-align: left;
+  padding-right: 18px;
 }
 
 .messagelist thead tr td.subject
