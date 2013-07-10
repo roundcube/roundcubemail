@@ -80,24 +80,11 @@
 }
 
 /* Real browsers accept this (not IE) */
-html>/**/body #messagelist>tbody {
+html>/**/body #messagelist {
 	overflow: auto;
 	overflow-x: hidden;
 }
-/*
-#messagelistcontainer::-webkit-scrollbar {
-	-webkit-appearance: none;
-	width: 14px;
-	border-left: 1px solid #e4e4e4;
-	background: #fafafa;
-}
-#messagelistcontainer::-webkit-scrollbar-thumb {
-	border-radius: 10px;
-	border: 3px solid #f2f2f2;
-	background-color: #c2c2c2;
-	-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-}
-*/
+
 #messagelistfooter {
 	position: absolute;
 	bottom: 0;
@@ -469,6 +456,14 @@ a.iconbutton.threadmode.selected {
 /* this is necessary to make FF3 display borders */
 body:-moz-last-node #messagelist {
 	border-collapse: separate;
+}
+
+table.messagelist {
+	z-index: 1;
+}
+
+table.messagelist.fixedcopy {
+	z-index: 2;
 }
 
 .messagelist thead td:first-child {
