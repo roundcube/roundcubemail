@@ -2667,7 +2667,6 @@ class rcube_imap extends rcube_storage
 
         if ($list_extended) {
             // unsubscribe non-existent folders, remove from the list
-            // we can do this only when LIST response is available
             if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
                 foreach ($a_folders as $idx => $folder) {
                     if (($opts = $this->conn->data['LIST'][$folder])
@@ -2680,19 +2679,14 @@ class rcube_imap extends rcube_storage
             }
         }
         else {
-            // unsubscribe non-existent folders, remove them from the list,
-            // we can do this only when LIST response is available
-            if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
-                foreach ($a_folders as $idx => $folder) {
-                    if (!isset($this->conn->data['LIST'][$folder])
-                        || in_array('\\Noselect', $this->conn->data['LIST'][$folder])
-                    ) {
-                        // Some servers returns \Noselect for existing folders
-                        if (!$this->folder_exists($folder)) {
-                            $this->conn->unsubscribe($folder);
-                            unset($a_folders[$idx]);
-                        }
-                    }
+            // unsubscribe non-existent folders, remove them from the list
+            if (is_array($a_folders) && !empty($a_folders) && $name == '*') {
+                $existing    = $this->list_folders($root, $name);
+                $nonexisting = array_diff($a_folders, $existing);
+                $a_folders   = array_diff($a_folders, $nonexisting);
+
+                foreach ($nonexisting as $folder) {
+                    $this->conn->unsubscribe($folder);
                 }
             }
         }

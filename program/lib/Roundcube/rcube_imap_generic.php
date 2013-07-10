@@ -1333,9 +1333,8 @@ class rcube_imap_generic
                         $folders[$mailbox] = array();
                     }
 
-                    // store LSUB options only if not empty, this way
-                    // we can detect a situation when LIST doesn't return specified folder
-                    if (!empty($opts) || $cmd == 'LIST') {
+                    // store folder options
+                    if ($cmd == 'LIST') {
                         // Add to options array
                         if (empty($this->data['LIST'][$mailbox]))
                             $this->data['LIST'][$mailbox] = $opts;
