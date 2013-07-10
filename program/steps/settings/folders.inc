@@ -293,9 +293,8 @@ function rcube_subscription_form($attrib)
 
         // Check \Noselect flag (of existing folder)
         if (!$protected && in_array($folder['id'], $a_unsubscribed)) {
-                $attrs = $STORAGE->folder_attributes($folder['id']);
-                $noselect = in_array('\\Noselect', $attrs);
-            }
+            $attrs = $STORAGE->folder_attributes($folder['id']);
+            $noselect = in_array('\\Noselect', $attrs);
         }
 
         $disabled = (($protected && $subscribed) || $noselect);
