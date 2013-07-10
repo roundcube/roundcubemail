@@ -3,7 +3,7 @@
 /**
  * File based User-to-Email and Email-to-User lookup
  *
- * Add it to the plugins list in config/main.inc.php and set
+ * Add it to the plugins list in config.inc.php and set
  * path to a virtuser table file to resolve user names and e-mail
  * addresses
  * $rcmail_config['virtuser_file'] = '';

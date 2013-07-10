@@ -28,10 +28,12 @@ class rcube_install
   var $failures = 0;
   var $config = array();
   var $configured = false;
+  var $legacy_config = false;
   var $last_error = null;
   var $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
   var $bool_config_props = array();
 
+  var $local_config = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
   var $obsolete_config = array('db_backend', 'double_auth');
   var $replaced_config = array(
     'skin_path'            => 'skin',
@@ -42,11 +44,6 @@ class rcube_install
     'pagesize'             => 'mail_pagesize',
     'default_imap_folders' => 'default_folders',
     'top_posting'          => 'reply_mode',
-  );
-
-  // these config options are required for a working system
-  var $required_config = array(
-    'db_dsnw', 'des_key', 'session_lifetime',
   );
 
   // list of supported database drivers
@@ -83,42 +80,74 @@ class rcube_install
   }
 
   /**
-   * Read the default config files and store properties
-   */
-  function load_defaults()
-  {
-    $this->_load_config('.php.dist');
-  }
-
-
-  /**
    * Read the local config files and store properties
    */
   function load_config()
   {
-    $this->config = array();
-    $this->_load_config('.php');
-    $this->configured = !empty($this->config);
+    // defaults
+    if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
+        $this->config = (array) $config;
+        $this->defaults = $this->config;
+    }
+
+    $config = null;
+
+    // config
+    if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'config.inc.php')) {
+        $this->config = array_merge($this->config, $config);
+    }
+    else {
+      if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'main.inc.php')) {
+        $this->config = array_merge($this->config, $config);
+        $this->legacy_config = true;
+      }
+      if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'db.inc.php')) {
+        $this->config = array_merge($this->config, $config);
+        $this->legacy_config = true;
+      }
+    }
+
+    $this->configured = !empty($config);
   }
 
   /**
    * Read the default config file and store properties
-   * @access private
    */
-  function _load_config($suffix)
+  public function load_config_file($file)
   {
-    if (is_readable($main_inc = RCUBE_CONFIG_DIR . 'main.inc' . $suffix)) {
-      include($main_inc);
-      if (is_array($rcmail_config))
-        $this->config += $rcmail_config;
-    }
-    if (is_readable($db_inc = RCUBE_CONFIG_DIR . 'db.inc'. $suffix)) {
-      include($db_inc);
-      if (is_array($rcmail_config))
-        $this->config += $rcmail_config;
+    if (is_readable($file)) {
+      include $file;
+
+      // read comments from config file
+      if (function_exists('token_get_all')) {
+        $tokens = token_get_all(file_get_contents($file));
+        $in_config = false;
+        $buffer = '';
+        for ($i=0; $i < count($tokens); $i++) {
+          $token = $tokens[$i];
+          if ($token[0] == T_VARIABLE && $token[1] == '$config' || $token[1] == '$rcmail_config') {
+            $in_config = true;
+            if ($buffer && $tokens[$i+1] == '[' && $tokens[$i+2][0] == T_CONSTANT_ENCAPSED_STRING) {
+              $propname = trim($tokens[$i+2][1], "'\"");
+              $this->comments[$propname] = $buffer;
+              $buffer = '';
+              $i += 3;
+            }
+          }
+          else if ($in_config && $token[0] == T_COMMENT) {
+            $buffer .= strtr($token[1], array('\n' => "\n"));
+          }
+        }
+      }
+
+      // deprecated name of config variable
+      if (is_array($rcmail_config)) {
+        return $rcmail_config;
+      }
+
+      return $config;
     }
   }
-
 
   /**
    * Getter for a certain config property
@@ -139,23 +168,21 @@ class rcube_install
 
 
   /**
-   * Take the default config file and replace the parameters
-   * with the submitted form data
+   * Create configuration file that contains parameters
+   * that differ from default values.
    *
-   * @param string Which config file (either 'main' or 'db')
    * @return string The complete config file content
    */
-  function create_config($which, $force = false)
+  function create_config()
   {
-    $out = @file_get_contents(RCUBE_CONFIG_DIR . $which . '.inc.php.dist');
-
-    if (!$out)
-      return '[Warning: could not read the config template file]';
+    $config = array();
 
     foreach ($this->config as $prop => $default) {
-
       $is_default = !isset($_POST["_$prop"]);
       $value      = !$is_default || $this->bool_config_props[$prop] ? $_POST["_$prop"] : $default;
+
+      if ($prop == 'enable_installer')
+        $value = false;
 
       // convert some form data
       if ($prop == 'debug_level' && !$is_default) {
@@ -166,7 +193,7 @@ class rcube_install
           $value = $val;
         }
       }
-      else if ($which == 'db' && $prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
+      else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
         if ($_POST['_dbtype'] == 'sqlite')
           $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'], $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
         else if ($_POST['_dbtype'])
@@ -211,22 +238,24 @@ class rcube_install
       }
 
       // skip this property
-      if (!$force && !$this->configured && ($value == $default))
+      if ((!array_key_exists($prop, $this->defaults) || ($value == $this->defaults[$prop])) && !in_array($prop, $this->local_config)) {
         continue;
+      }
 
       // save change
       $this->config[$prop] = $value;
-
-      $dump = self::_dump_var($value, $prop);
-
-      // replace the matching line in config file
-      $out = preg_replace(
-        '/(\$rcmail_config\[\''.preg_quote($prop).'\'\])\s+=\s+(.+);/Ui',
-        "\\1 = $dump;",
-        $out);
+      $config[$prop] = $value;
     }
 
-    return trim($out);
+    $out = "<?php\n\n";
+    $out .= "/* Local configuration for Roundcube Webmail */\n\n";
+    foreach ($config as $prop => $value) {
+      // copy option descriptions from existing config or defaults.inc.php
+      $out .= $this->comments[$prop];
+      $out .= "\$config['$prop'] = " . rcube_install::_dump_var($value, $prop) . ";\n\n";
+    }
+
+    return $out;
   }
 
 
@@ -238,16 +267,13 @@ class rcube_install
    */
   function check_config()
   {
-    $this->config = array();
-    $this->load_defaults();
-    $defaults = $this->config;
-
     $this->load_config();
-    if (!$this->configured)
+
+    if (!$this->configured) {
       return null;
+    }
 
     $out = $seen = array();
-    $required = array_flip($this->required_config);
 
     // iterate over the current configuration
     foreach ($this->config as $prop => $value) {
@@ -264,12 +290,6 @@ class rcube_install
     // the old default mime_magic reference is obsolete
     if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
         $out['obsolete'][] = array('prop' => 'mime_magic', 'explain' => "Set value to null in order to use system default");
-    }
-
-    // iterate over default config
-    foreach ($defaults as $prop => $value) {
-      if (!isset($seen[$prop]) && isset($required[$prop]) && !(is_bool($this->config[$prop]) || strlen($this->config[$prop])))
-        $out['missing'][] = array('prop' => $prop);
     }
 
     // check config dependencies and contradictions
@@ -319,7 +339,6 @@ class rcube_install
   {
     $current = $this->config;
     $this->config = array();
-    $this->load_defaults();
 
     foreach ($this->replaced_config as $prop => $replacement) {
       if (isset($current[$prop])) {
@@ -347,7 +366,7 @@ class rcube_install
       }
     }
 
-    $this->config  = array_merge($this->config, $current);
+    $this->config = array_merge($this->config, $current);
 
     foreach (array_keys((array)$current['ldap_public']) as $key) {
       $this->config['ldap_public'][$key] = $current['ldap_public'][$key];
@@ -613,7 +632,8 @@ class rcube_install
   }
 
 
-  static function _dump_var($var, $name=null) {
+  static function _dump_var($var, $name=null)
+  {
     // special values
     switch ($name) {
     case 'syslog_facility':
@@ -626,8 +646,20 @@ class rcube_install
       if ($val = $list[$var])
         return $val;
       break;
-    }
 
+    case 'mail_header_delimiter':
+      $var = str_replace(array("\r", "\n"), array('\r', '\n'), $var);
+      return '"' . $var. '"';
+      break;
+/*
+    // RCMAIL_VERSION is undefined here
+    case 'useragent':
+      if (preg_match('|^(.*)/('.preg_quote(RCMAIL_VERSION, '|').')$|i', $var, $m)) {
+        return '"' . addcslashes($var, '"') . '/" . RCMAIL_VERSION';
+      }
+      break;
+*/
+    }
 
     if (is_array($var)) {
       if (empty($var)) {

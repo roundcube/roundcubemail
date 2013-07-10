@@ -69,13 +69,22 @@ class rcube_config
      */
     private function load()
     {
-        // load main config file
-        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php'))
-            $this->errors[] = 'main.inc.php was not found.';
+        // Load default settings
+        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
+            $this->errors[] = 'defaults.inc.php was not found.';
+        }
 
-        // load database config
-        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'db.inc.php'))
-            $this->errors[] = 'db.inc.php was not found.';
+        // load main config file
+        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'config.inc.php')) {
+            // Old configuration files
+            if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php') ||
+                !$this->load_from_file(RCUBE_CONFIG_DIR . 'db.inc.php')) {
+                $this->errors[] = 'config.inc.php was not found.';
+            }
+            else if (rand(1,100) == 10) {  // log warning on every 100th request (average)
+                trigger_error("config.inc.php was not found. Please migrate your config by running bin/update.sh", E_USER_WARNING);
+            }
+        }
 
         // load host-specific configuration
         $this->load_host_config();
@@ -175,7 +184,12 @@ class rcube_config
             include($fpath);
             ob_end_clean();
 
-            if (is_array($rcmail_config)) {
+            if (is_array($config)) {
+                $this->merge($config);
+                return true;
+            }
+            // deprecated name of config variable
+            else if (is_array($rcmail_config)) {
                 $this->merge($rcmail_config);
                 return true;
             }

@@ -12,7 +12,7 @@
  * which can redirect messages to files.  The resulting log files
  * provide timing and tag quantity results.
  *
- * Enable the plugin in config/main.inc.php and add your desired
+ * Enable the plugin in config.inc.php and add your desired
  * log types and files.
  *
  * @version @package_version@
@@ -21,7 +21,7 @@
  * 
  * Example:
  *
- * config/main.inc.php:
+ * config.inc.php:
  *
  *   // $rcmail_config['debug_logger'][type of logging] = name of file in log_dir
  *   // The 'master' log includes timing information

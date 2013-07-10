@@ -50,7 +50,7 @@ if (strtolower($input) == 'y') {
       break;
     }
   }
-  foreach (array('index.php','.htaccess','config/main.inc.php.dist','config/db.inc.php.dist','CHANGELOG','README.md','UPGRADING','LICENSE') as $file) {
+  foreach (array('index.php','.htaccess','config/defaults.inc.php','CHANGELOG','README.md','UPGRADING','LICENSE') as $file) {
     if (!system("rsync -av " . INSTALL_PATH . "$file $target_dir/$file")) {
       $err = true;
       break;

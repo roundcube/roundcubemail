@@ -5,7 +5,7 @@
  | Roundcube Webmail setup tool                                            |
  | Version 0.9-git                                                         |
  |                                                                         |
- | Copyright (C) 2009-2012, The Roundcube Dev Team                         |
+ | Copyright (C) 2009-2013, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -54,17 +54,18 @@ require_once 'rcube_install.php';
 // deprecated aliases (to be removed)
 require_once 'bc.php';
 
-session_start();
+if (function_exists('session_start'))
+  session_start();
 
 $RCI = rcube_install::get_instance();
 $RCI->load_config();
 
-if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db'))) {
-  $filename = $_GET['_getfile'] . '.inc.php';
-  if (!empty($_SESSION[$filename])) {
+if (isset($_GET['_getconfig'])) {
+  $filename = 'config.inc.php';
+  if (!empty($_SESSION['config'])) {
     header('Content-type: text/plain');
     header('Content-Disposition: attachment; filename="'.$filename.'"');
-    echo $_SESSION[$filename];
+    echo $_SESSION['config'];
     exit;
   }
   else {
@@ -74,14 +75,14 @@ if (isset($_GET['_getfile']) && in_array($_GET['_getfile'], array('main', 'db'))
 }
 
 if ($RCI->configured && ($RCI->getprop('enable_installer') || $_SESSION['allowinstaller']) &&
-    isset($_GET['_mergeconfig']) && in_array($_GET['_mergeconfig'], array('main', 'db'))) {
-  $filename = $_GET['_mergeconfig'] . '.inc.php';
+    !empty($_GET['_mergeconfig'])) {
+  $filename = 'config.inc.php';
 
   header('Content-type: text/plain');
   header('Content-Disposition: attachment; filename="'.$filename.'"');
 
   $RCI->merge_config();
-  echo $RCI->create_config($_GET['_mergeconfig'], true);
+  echo $RCI->create_config();
   exit;
 }
 
@@ -121,8 +122,16 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
   // exit if installation is complete
   if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
     // header("HTTP/1.0 404 Not Found");
-    echo '<h2 class="error">The installer is disabled!</h2>';
-    echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/main.inc.php</p>';
+    if ($RCI->configured && $RCI->legacy_config) {
+      echo '<h2 class="error">Your configuration needs to be migrated!</h2>';
+      echo '<p>We changed the configuration files structure and your installation needs to be updated accordingly.</p>';
+      echo '<p>Please run the <tt>bin/update.sh</tt> script from the command line or set <p>&nbsp; <tt>$rcmail_config[\'enable_installer\'] = true;</tt></p>';
+      echo ' in your RCUBE_CONFIG_DIR/main.inc.php to let the installer help you migrating it.</p>';
+    }
+    else {
+      echo '<h2 class="error">The installer is disabled!</h2>';
+      echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/config.inc.php</p>';
+    }
     echo '</div></body></html>';
     exit;
   }
