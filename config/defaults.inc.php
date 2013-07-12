@@ -141,7 +141,7 @@ $config['imap_force_ns'] = false;
 // and you can't remove it from CAPABILITY string on server-side.
 // For example UW-IMAP server has broken ESEARCH.
 // Note: Because the list is cached, re-login is required after change.
-$rcmail_config['imap_disabled_caps'] = array();
+$config['imap_disabled_caps'] = array();
 
 // IMAP connection timeout, in seconds. Default: 0 (no limit)
 $config['imap_timeout'] = 0;
