@@ -105,13 +105,14 @@ class rcube
      * This implements the 'singleton' design pattern
      *
      * @param integer Options to initialize with this instance. See rcube::INIT_WITH_* constants
+     * @param string Environment name to run (e.g. live, dev, test)
      *
      * @return rcube The one and only instance
      */
-    static function get_instance($mode = 0)
+    static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance) {
-            self::$instance = new rcube();
+            self::$instance = new rcube($env);
             self::$instance->init($mode);
         }
 
@@ -122,10 +123,10 @@ class rcube
     /**
      * Private constructor
      */
-    protected function __construct()
+    protected function __construct($env = '')
     {
         // load configuration
-        $this->config  = new rcube_config;
+        $this->config  = new rcube_config($env);
         $this->plugins = new rcube_dummy_plugin_api;
 
         register_shutdown_function(array($this, 'shutdown'));

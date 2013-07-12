@@ -27,7 +27,7 @@ if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(dirname(__FILE__) 
 define('TESTS_DIR', dirname(__FILE__) . '/');
 
 if (@is_dir(TESTS_DIR . 'config')) {
-    define('RCMAIL_CONFIG_DIR', TESTS_DIR . 'config');
+    define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');
 }
 
 require_once(INSTALL_PATH . 'program/include/iniset.php');
@@ -38,7 +38,7 @@ if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
 }
 
-$rcmail = rcube::get_instance();
+$rcmail = rcube::get_instance('test');
 
 define('TESTS_URL',     $rcmail->config->get('tests_url'));
 define('TESTS_BROWSER', $rcmail->config->get('tests_browser', 'firefox'));

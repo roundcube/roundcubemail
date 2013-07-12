@@ -9,7 +9,7 @@
 
 <div id="contact-title" class="boxtitle"><roundcube:label name="addcontact" /></div>
 <div id="contact-details" class="boxcontent">
-<form name="editform" method="post" action="./">
+<roundcube:form name="editform" method="post">
   <roundcube:if condition="strlen(env:sourcename)" />
     <div id="sourcename"><roundcube:label name="addressbook" />: <roundcube:object name="sourceselector" class="hint" id="sourceselect" /></div>
   <roundcube:endif />

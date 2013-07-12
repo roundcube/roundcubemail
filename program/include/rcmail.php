@@ -51,6 +51,7 @@ class rcmail extends rcube
    */
   public $action = '';
   public $comm_path = './';
+  public $filename = '';
 
   private $address_books = array();
   private $action_map = array();
@@ -65,12 +66,13 @@ class rcmail extends rcube
   /**
    * This implements the 'singleton' design pattern
    *
+   * @param string Environment name to run (e.g. live, dev, test)
    * @return rcmail The one and only instance
    */
-  static function get_instance()
+  static function get_instance($env = '')
   {
     if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
-      self::$instance = new rcmail();
+      self::$instance = new rcmail($env);
       self::$instance->startup();  // init AFTER object was linked with self::$instance
     }
 
@@ -85,6 +87,10 @@ class rcmail extends rcube
   protected function startup()
   {
     $this->init(self::INIT_WITH_DB | self::INIT_WITH_PLUGINS);
+
+    // set filename if not index.php
+    if (($basename = basename($_SERVER['SCRIPT_FILENAME'])) && $basename != 'index.php')
+      $this->filename = $basename;
 
     // start session
     $this->session_init();
@@ -724,7 +730,7 @@ class rcmail extends rcube
     $p['_task'] = $task;
     unset($p['task']);
 
-    $url = './';
+    $url = './' . $this->filename;
     $delm = '?';
     foreach (array_reverse($p) as $key => $val) {
       if ($val !== '' && $val !== null) {

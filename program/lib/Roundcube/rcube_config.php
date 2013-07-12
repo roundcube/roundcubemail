@@ -26,6 +26,8 @@ class rcube_config
 {
     const DEFAULT_SKIN = 'larry';
 
+    private $env = '';
+    private $basedir = 'config/';
     private $prop = array();
     private $errors = array();
     private $userprefs = array();
@@ -50,9 +52,14 @@ class rcube_config
 
     /**
      * Object constructor
+     *
+     * @param string Environment suffix for config files to load
      */
-    public function __construct()
+    public function __construct($env = '')
     {
+        $this->env = $env;
+        $this->basedir = RCUBE_CONFIG_DIR;
+
         $this->load();
 
         // Defaults, that we do not require you to configure,
@@ -70,15 +77,15 @@ class rcube_config
     private function load()
     {
         // Load default settings
-        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
+        if (!$this->load_from_file('defaults.inc.php')) {
             $this->errors[] = 'defaults.inc.php was not found.';
         }
 
         // load main config file
-        if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'config.inc.php')) {
+        if (!$this->load_from_file('config.inc.php')) {
             // Old configuration files
-            if (!$this->load_from_file(RCUBE_CONFIG_DIR . 'main.inc.php') ||
-                !$this->load_from_file(RCUBE_CONFIG_DIR . 'db.inc.php')) {
+            if (!$this->load_from_file('main.inc.php') ||
+                !$this->load_from_file('db.inc.php')) {
                 $this->errors[] = 'config.inc.php was not found.';
             }
             else if (rand(1,100) == 10) {  // log warning on every 100th request (average)
@@ -87,7 +94,8 @@ class rcube_config
         }
 
         // load host-specific configuration
-        $this->load_host_config();
+        if (!empty($_SERVER['HTTP_HOST']))
+            $this->load_host_config();
 
         // set skin (with fallback to old 'skin_path' property)
         if (empty($this->prop['skin'])) {
@@ -164,7 +172,7 @@ class rcube_config
         }
 
         if ($fname) {
-            $this->load_from_file(RCUBE_CONFIG_DIR . $fname);
+            $this->load_from_file($fname);
         }
     }
 
@@ -173,12 +181,13 @@ class rcube_config
      * Read configuration from a file
      * and merge with the already stored config values
      *
-     * @param string $fpath Full path to the config file to be loaded
+     * @param string $file Name of the config file to be loaded
      * @return booelan True on success, false on failure
      */
-    public function load_from_file($fpath)
+    public function load_from_file($file)
     {
-        if (is_file($fpath) && is_readable($fpath)) {
+        $fpath = $this->resolve_path($file);
+        if ($fpath && is_file($fpath) && is_readable($fpath)) {
             // use output buffering, we don't need any output here 
             ob_start();
             include($fpath);
@@ -196,6 +205,26 @@ class rcube_config
         }
 
         return false;
+    }
+
+    /**
+     * Helper method to resolve the absolute path to the given config file.
+     * This also takes the 'env' property into account.
+     */
+    public function resolve_path($file, $use_env = true)
+    {
+        if (strpos($file, '/') === false) {
+            $file = realpath($this->basedir . '/' . $file);
+        }
+
+        // check if <file>-env.ini exists
+        if ($file && $use_env && !empty($this->env)) {
+            $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $file);
+            if (is_file($envfile))
+                return $envfile;
+        }
+
+        return $file;
     }
 
 

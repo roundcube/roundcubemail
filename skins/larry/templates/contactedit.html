@@ -11,7 +11,7 @@
 	<roundcube:else /><roundcube:label name="editcontact" />
 <roundcube:endif /></h1>
 
-<form name="editform" method="post" action="./" id="contact-details" class="boxcontent">
+<roundcube:form name="editform" method="post" id="contact-details" class="boxcontent">
 	<roundcube:if condition="strlen(env:sourcename)" />
 		<div id="sourcename"><roundcube:label name="addressbook" />: <roundcube:var name="env:sourcename" condition="env:action!='add'" /><roundcube:object name="sourceselector" id="sourceselect" condition="env:action=='add'" /></div>
 	<roundcube:endif />

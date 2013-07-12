@@ -1004,7 +1004,9 @@ class rcmail_output_html extends rcmail_output
                 }
 
                 return html::quote($value);
-                break;
+
+            case 'form':
+                return $this->form_tag($attrib);
         }
         return '';
     }
@@ -1432,7 +1434,7 @@ class rcmail_output_html extends rcmail_output
         $attrib['noclose'] = true;
 
       return html::tag('form',
-        $attrib + array('action' => "./", 'method' => "get"),
+        $attrib + array('action' => $this->app->comm_path, 'method' => "get"),
         $hidden . $content,
         array('id','class','style','name','method','action','enctype','onsubmit'));
     }
