@@ -181,8 +181,17 @@ class rcube_install
       $is_default = !isset($_POST["_$prop"]);
       $value      = !$is_default || $this->bool_config_props[$prop] ? $_POST["_$prop"] : $default;
 
+      // always disable installer
       if ($prop == 'enable_installer')
         $value = false;
+
+      // reset useragent to default (keeps version up-to-date)
+      if ($prop == 'useragent' && stripos($value, 'Roundcube Webmail/') !== false)
+        $value = $this->defaults[$prop];
+
+      // generate new encryption key, never use the default value
+      if ($prop == 'des_key' && $value == $this->defaults[$prop])
+        $value = $this->random_key(24);
 
       // convert some form data
       if ($prop == 'debug_level' && !$is_default) {
