@@ -157,7 +157,7 @@ init_header: function()
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
       $(this.list.tHead).find('tr td').attr('style', '');  // remove fixed widths
     }
-    else if (!bw.ie7 && this.list.className.indexOf('fixedheader') >= 0) {
+    else if (this.list.className.indexOf('fixedheader') >= 0) {
       this.init_fixed_header();
     }
 
