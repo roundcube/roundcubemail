@@ -118,8 +118,7 @@ function newmail_notifier_desktop(body)
 
 function newmail_notifier_test_desktop()
 {
-    var dn = window.webkitNotifications,
-        txt = rcmail.gettext('testbody', 'newmail_notifier');
+    var txt = rcmail.gettext('testbody', 'newmail_notifier');
 
     // W3C draft implementation (with fix for Chrome/Chromium)
     try {
@@ -129,6 +128,7 @@ function newmail_notifier_test_desktop()
     }
     // webkit implementation
     catch (e) {
+        var dn = window.webkitNotifications;
         if (dn) {
             if (!dn.checkPermission())
                 newmail_notifier_desktop(txt);
