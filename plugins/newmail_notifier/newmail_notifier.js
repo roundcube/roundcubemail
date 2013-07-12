@@ -34,6 +34,13 @@ function newmail_notifier_stop(prop)
         $('<link rel="shortcut icon" href="'+rcmail.env.favicon_href+'"/>').replaceAll('link[rel="shortcut icon"]');
         rcmail.env.favicon_href = null;
     }
+
+    // Remove IE icon overlay if we're pinned to Taskbar
+    try {
+        if(window.external.msIsSiteMode()) {
+            window.external.msSiteModeClearIconOverlay();
+        }
+    } catch(e) {}
 }
 
 // Basic notification: window.focus and favicon change
@@ -49,6 +56,13 @@ function newmail_notifier_basic()
 
     rcmail.env.favicon_href = oldlink.attr('href');
     link.replaceAll(oldlink);
+
+    // Add IE icon overlay if we're pinned to Taskbar
+    try {
+        if (window.external.msIsSiteMode()) {
+            window.external.msSiteModeSetIconOverlay('plugins/newmail_notifier/overlay.ico', rcmail.gettext('title', 'newmail_notifier'));
+        }
+    } catch(e) {}
 }
 
 // Sound notification
