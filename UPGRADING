@@ -32,19 +32,23 @@ it on a unix system, you need to do the following operations by hand:
    - ./bin/
    - ./SQL/
    - ./program/
-2. rsync the contents of the following folders from your installation
+   - ./installer/
+2. Replace the configuration defaults files:
+   - config/defaults.inc.php
+   - config/mimetypes.php
+3. rsync the contents of the following folders from your installation
    directory into the target folder:
    ./skins/
    ./plugins/
-3. Run ./bin/update.sh from the commandline OR
+4. Run ./bin/update.sh from the commandline OR
    open http://url-to-roundcube/installer/ in a browser and choose "3 Test config".
    To enable the latter one, you have to temporary set 'enable_installer'
    to true in your local config/config.inc.php file.
    WARNING: See SQLite database upgrade below.
-4. Let the update script/installer check your configuration and
+5. Let the update script/installer check your configuration and
    update your config files and database schema as suggested by the updater.
-5. Make sure 'enable_installer' is set to false again.
-6. See Post-Upgrade Activities section.
+6. Make sure 'enable_installer' is set to false again.
+7. See Post-Upgrade Activities section.
 
 
 Post-Upgrade Activities
