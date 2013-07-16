@@ -269,6 +269,21 @@ class rcube_install
 
 
   /**
+   * save generated config file in RCUBE_CONFIG_DIR
+   *
+   * @return boolean True if the file was saved successfully, false if not
+   */
+  function save_configfile()
+  {
+    if(is_writable(RCUBE_CONFIG_DIR))
+	   {
+	     	return file_put_contents(RCUBE_CONFIG_DIR . 'config.inc.php', $_SESSION['config']);
+   	}
+
+	   return false;
+  }
+
+  /**
    * Check the current configuration for missing properties
    * and deprecated or obsolete settings
    *
