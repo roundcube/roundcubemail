@@ -639,6 +639,8 @@ function rcmail_check_safe(&$message)
             $message->set_safe(true);
           }
         }
+
+        $RCMAIL->plugins->exec_hook('message_check_safe', array('message' => $message));
         break;
 
       case 2: // always
