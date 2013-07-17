@@ -54,7 +54,7 @@ class rcube_session
     {
         $this->db      = $db;
         $this->start   = microtime(true);
-        $this->ip      = $_SERVER['REMOTE_ADDR'];
+        $this->ip      = rcube_utils::remote_addr();
         $this->logging = $config->get('log_session', false);
 
         $lifetime = $config->get('session_lifetime', 1) * 60;
@@ -480,7 +480,7 @@ class rcube_session
     public function kill()
     {
         $this->vars = null;
-        $this->ip = $_SERVER['REMOTE_ADDR']; // update IP (might have changed)
+        $this->ip = rcube_utils::remote_addr(); // update IP (might have changed)
         $this->destroy(session_id());
         rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
     }
@@ -694,10 +694,10 @@ class rcube_session
     function check_auth()
     {
         $this->cookie = $_COOKIE[$this->cookiename];
-        $result = $this->ip_check ? $_SERVER['REMOTE_ADDR'] == $this->ip : true;
+        $result = $this->ip_check ? rcube_utils::remote_addr() == $this->ip : true;
 
         if (!$result) {
-            $this->log("IP check failed for " . $this->key . "; expected " . $this->ip . "; got " . $_SERVER['REMOTE_ADDR']);
+            $this->log("IP check failed for " . $this->key . "; expected " . $this->ip . "; got " . rcube_utils::remote_addr());
         }
 
         if ($result && $this->_mkcookie($this->now) != $this->cookie) {

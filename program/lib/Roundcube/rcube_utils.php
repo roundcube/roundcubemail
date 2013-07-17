@@ -666,6 +666,21 @@ class rcube_utils
 
 
     /**
+     * Returns the real remote IP address
+     *
+     * @return string Remote IP address
+     */
+    public static function remote_addr()
+    {
+        foreach (array('HTTP_X_FORWARDED_FOR','HTTP_X_REAL_IP','REMOTE_ADDR') as $prop) {
+            if (!empty($_SERVER[$prop]))
+                return $_SERVER[$prop];
+        }
+
+        return '';
+    }
+
+    /**
      * Read a specific HTTP request header.
      *
      * @param  string $name Header name
