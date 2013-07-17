@@ -26,31 +26,29 @@ $_SESSION['allowinstaller'] = true;
 if (!empty($_POST['submit'])) {
   $_SESSION['config'] = $RCI->create_config();
 
-  if($RCI->save_configfile())
-  {
+  if ($RCI->save_configfile($_SESSION['config'])) {
      echo '<p class="notice">The config file was saved successfully into <tt>'.RCMAIL_CONFIG_DIR.'</tt> directory of your Roundcube installation.';
 
-     if($RCI->legacy_config) {
+     if ($RCI->legacy_config) {
         echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
      }
 
      echo '</p>';
   }
-  else
-  {
-      echo '<p class="notice">Copy or download the following configuration and save it';
-      echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
-      echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
-      echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
+  else {
+    echo '<p class="notice">Copy or download the following configuration and save it';
+    echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
+    echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
+    echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
 
-      if($RCI->legacy_config) {
-         echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
-      }
+    if ($RCI->legacy_config) {
+       echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
+    }
 
-      echo '</p>';
+    echo '</p>';
 
-      $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
-      echo $textbox->show(($_SESSION['config']));
+    $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
+    echo $textbox->show(($_SESSION['config']));
   }
 
   echo '<p class="hint">Of course there are more options to configure.

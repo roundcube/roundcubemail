@@ -277,14 +277,13 @@ class rcube_install
    *
    * @return boolean True if the file was saved successfully, false if not
    */
-  function save_configfile()
+  function save_configfile($config)
   {
-    if(is_writable(RCUBE_CONFIG_DIR))
-	   {
-	     	return file_put_contents(RCUBE_CONFIG_DIR . 'config.inc.php', $_SESSION['config']);
-   	}
+    if (is_writable(RCUBE_CONFIG_DIR)) {
+      return file_put_contents(RCUBE_CONFIG_DIR . 'config.inc.php', $config);
+    }
 
-	   return false;
+    return false;
   }
 
   /**
