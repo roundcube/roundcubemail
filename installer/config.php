@@ -24,21 +24,37 @@ $RCI->bool_config_props = array(
 $_SESSION['allowinstaller'] = true;
 
 if (!empty($_POST['submit'])) {
-  echo '<p class="notice">Copy or download the following configuration and save it';
-  echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
-  echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
-  echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
-  if ($RCI->legacy_config) {
-      echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt>';
-      echo ' from the config directory.';
-  }
-  echo '</p>';
+  $_SESSION['config'] = $RCI->create_config();
 
-  $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
-  echo $textbox->show(($_SESSION['config'] = $RCI->create_config()));
+  if($RCI->save_configfile())
+  {
+     echo '<p class="notice">The config file was saved successfully into <tt>'.RCMAIL_CONFIG_DIR.'</tt> directory of your Roundcube installation.';
+
+     if($RCI->legacy_config) {
+        echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
+     }
+
+     echo '</p>';
+  }
+  else
+  {
+      echo '<p class="notice">Copy or download the following configuration and save it';
+      echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
+      echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
+      echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
+
+      if($RCI->legacy_config) {
+         echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
+      }
+
+      echo '</p>';
+
+      $textbox = new html_textarea(array('rows' => 16, 'cols' => 60, 'class' => "configfile"));
+      echo $textbox->show(($_SESSION['config']));
+  }
 
   echo '<p class="hint">Of course there are more options to configure.
-    Have a look at the defaults.inc.php file or visit <a href="http://trac.roundcube.net/wiki/Howto_Config">Howto_Config</a> to find out.</p>';
+    Have a look at the defaults.inc.php file or visit <a href="http://trac.roundcube.net/wiki/Howto_Config" target="_blank">Howto_Config</a> to find out.</p>';
 
   echo '<p><input type="button" onclick="location.href=\'./index.php?_step=3\'" value="CONTINUE" /></p>';
 
