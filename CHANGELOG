@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Respect HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP variables for session IP check
 - Simplified configuration by merging it into one file + defaults (#1487311)
 - Make message list header stay on top when scrolling (#1295420)
 - Fix bug where signature wasn't changed on identity selection when editing a draft (#1489229)
