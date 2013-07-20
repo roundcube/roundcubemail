@@ -130,7 +130,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
     }
     else {
       echo '<h2 class="error">The installer is disabled!</h2>';
-      echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/config.inc.php</p>';
+      echo '<p>To enable it again, set <tt>$rcmail_config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/defaults.inc.php</p>';
     }
     echo '</div></body></html>';
     exit;
