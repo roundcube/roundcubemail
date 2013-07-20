@@ -965,8 +965,5 @@ $config['autocomplete_single'] = false;
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
 $config['default_font'] = 'Verdana';
 
-// Default font size for composed HTML message.
-$config['default_font_size'] = '12px';
-
 // Enables display of email address with name instead of a name (and address in title)
 $config['message_show_email'] = false;
