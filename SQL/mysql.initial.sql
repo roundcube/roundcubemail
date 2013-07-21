@@ -146,7 +146,7 @@ CREATE TABLE `contactgroupmembers` (
   CONSTRAINT `contact_id_fk_contacts` FOREIGN KEY (`contact_id`)
     REFERENCES `contacts`(`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   INDEX `contactgroupmembers_contact_index` (`contact_id`)
-) /*!40000 ENGINE=INNODB */;
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
 -- Table structure for table `identities`
