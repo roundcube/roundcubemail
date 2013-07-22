@@ -960,13 +960,10 @@ $config['spellcheck_before_send'] = false;
 // Skip alternative email addresses in autocompletion (show one address per contact)
 $config['autocomplete_single'] = false;
 
-// Default font for composed HTML message.
-// Supported values: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
+// Default font and size for composed HTML message.
+// Supported fonts: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
-$config['default_font'] = 'Verdana';
-
-// Default font size for composed HTML message.
-$config['default_font_size'] = '12px';
+$config['default_font'] = '12px Verdana';
 
 // Enables display of email address with name instead of a name (and address in title)
 $config['message_show_email'] = false;
