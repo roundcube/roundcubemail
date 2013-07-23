@@ -42,6 +42,7 @@
  2.16. DBMail (dbmail)
  2.17. Expect (expect)
  2.18. Samba (smb)
+ 2.19. ALL-INKL.COM (allinkl)
  3. Driver API
 
 
@@ -298,6 +299,19 @@
 
  Driver to change Samba user password via the 'smbpasswd' command.
  See config.inc.php.dist file for configuration description.
+
+
+ 2.19.  ALL-INK.COM (allinkl)
+ -----------------------------------
+
+ Driver to change user password via KAS API.
+ It's important to set the following settings in the config.inc.php!
+
+ $rcmail_config['password_driver'] = 'allinkl';
+ $rcmail_config['password_minimum_length'] = 6;
+
+ $rcmail_config['password_allinkl_user'] = 'YOUR-LOGIN';
+ $rcmail_config['password_allinkl_passwd'] = 'YOUR-PASSWORD';
 
 
  3. Driver API
