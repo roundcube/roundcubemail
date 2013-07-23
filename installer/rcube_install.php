@@ -34,7 +34,7 @@ class rcube_install
   var $bool_config_props = array();
 
   var $local_config = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
-  var $obsolete_config = array('db_backend', 'double_auth');
+  var $obsolete_config = array('db_backend', 'db_max_length', 'double_auth');
   var $replaced_config = array(
     'skin_path'            => 'skin',
     'locale_string'        => 'language',
@@ -44,6 +44,8 @@ class rcube_install
     'pagesize'             => 'mail_pagesize',
     'default_imap_folders' => 'default_folders',
     'top_posting'          => 'reply_mode',
+    'keep_alive'           => 'refresh_interval',
+    'min_keep_alive'       => 'min_refresh_interval',
   );
 
   // list of supported database drivers
@@ -247,7 +249,9 @@ class rcube_install
       }
 
       // skip this property
-      if ((!array_key_exists($prop, $this->defaults) || ($value == $this->defaults[$prop])) && !in_array($prop, $this->local_config)) {
+      if (($value == $this->defaults[$prop]) && !in_array($prop, $this->local_config)
+          || in_array($prop, array_merge($this->obsolete_config, array_keys($this->replaced_config)))
+          || preg_match('/^db_(table|sequence)_/', $prop)) {
         continue;
       }
 
@@ -267,6 +271,20 @@ class rcube_install
     return $out;
   }
 
+
+  /**
+   * save generated config file in RCUBE_CONFIG_DIR
+   *
+   * @return boolean True if the file was saved successfully, false if not
+   */
+  function save_configfile($config)
+  {
+    if (is_writable(RCUBE_CONFIG_DIR)) {
+      return file_put_contents(RCUBE_CONFIG_DIR . 'config.inc.php', $config);
+    }
+
+    return false;
+  }
 
   /**
    * Check the current configuration for missing properties
