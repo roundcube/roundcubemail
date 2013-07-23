@@ -310,9 +310,9 @@ class rcube_session
 
         $newvars = $oldvars !== null ? $this->_fixvars($vars, $oldvars) : $vars;
 
-        if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 2) {
+        if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
             return $this->memcache->set($key, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars)),
-                MEMCACHE_COMPRESSED, $this->lifetime);
+                MEMCACHE_COMPRESSED, $this->lifetime + 60);
         }
 
         return true;
