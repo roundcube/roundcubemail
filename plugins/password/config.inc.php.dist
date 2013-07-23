@@ -362,3 +362,11 @@ $rcmail_config['password_expect_params'] = '';
 $rcmail_config['password_smb_host'] = 'localhost';
 // Location of smbpasswd binary
 $rcmail_config['password_smb_cmd'] = '/usr/bin/smbpasswd';
+
+
+// allinkl Driver options
+// ---------------------
+// KAS username which manage the mail accounts (beginning with w)
+$rcmail_config['password_allinkl_user'] = 'w0123456';
+// KAS password (password for the KAS user)
+$rcmail_config['password_allinkl_passwd'] = '';
