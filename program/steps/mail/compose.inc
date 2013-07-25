@@ -1450,17 +1450,17 @@ function rcmail_priority_selector($attrib)
                        rcube_label('normal'),
                        rcube_label('high'),
                        rcube_label('highest')),
-                 array(5, 4, 0, 2, 1));
+                 array('5', '4', '0', '2', '1'));
 
   if (isset($_POST['_priority']))
     $sel = $_POST['_priority'];
-  else if (intval($MESSAGE->headers->priority) != 3)
-    $sel = intval($MESSAGE->headers->priority);
+  else if ($MESSAGE->headers && intval($MESSAGE->headers->priority) != 3)
+    $sel = $MESSAGE->headers->priority;
   else
     $sel = 0;
 
   $out = $form_start ? "$form_start\n" : '';
-  $out .= $selector->show($sel);
+  $out .= $selector->show(strval($sel));
   $out .= $form_end ? "\n$form_end" : '';
 
   return $out;
