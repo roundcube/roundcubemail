@@ -256,7 +256,9 @@ function rcube_webmail()
         }
         else if (this.env.action == 'compose') {
           this.env.address_group_stack = [];
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin'];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
+            'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin',
+            'insert-response', 'save-response', 'edit-responses'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -270,6 +272,22 @@ function rcube_webmail()
             this.env.spellcheck.spelling_state_observer = function(s) { ref.spellcheck_state(); };
             this.env.compose_commands.push('spellcheck')
             this.enable_command('spellcheck', true);
+          }
+
+          // init canned response functions
+          if (this.gui_objects.responseslist) {
+            $('a.insertresponse', this.gui_objects.responseslist)
+              .mousedown(function(e){ return rcube_event.cancel(e); })
+              .mouseup(function(e){
+                ref.command('insert-response', $(this).attr('rel'));
+                $(document.body).trigger('mouseup');  // hides the menu
+                return rcube_event.cancel(e);
+              });
+
+              // avoid textarea loosing focus when hitting the save-response button/link
+              for (var i=0; this.buttons['save-response'] && i < this.buttons['save-response'].length; i++) {
+                $('#'+this.buttons['save-response'][i].id).mousedown(function(e){ return rcube_event.cancel(e); })
+              }
           }
 
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
@@ -3281,6 +3299,108 @@ function rcube_webmail()
     }
 
     return true;
+  };
+
+  this.insert_response = function(key)
+  {
+    var insert = this.env.textresponses[key] ? this.env.textresponses[key].text : null;
+    if (!insert)
+      return false;
+
+    // get cursor pos
+    var textarea = rcube_find_object(this.env.composebody),
+      selection = $(textarea).is(':focus') ? this.get_input_selection(textarea) : { start:0, end:0 },
+      inp_value = textarea.value;
+      pre = inp_value.substring(0, selection.start),
+      end = inp_value.substring(selection.end, inp_value.length);
+
+    // insert response text
+    textarea.value = pre + insert + end;
+
+    // set caret after inserted text
+    this.set_caret_pos(textarea, selection.start + insert.length);
+    textarea.focus();
+  };
+
+  /**
+   * Open the dialog to save a new canned response
+   */
+  this.save_response = function()
+  {
+    var textarea = rcube_find_object(this.env.composebody),
+      text = '', sigstart;
+
+    if (textarea && $(textarea).is(':focus')) {
+      text = this.get_input_selection(textarea).text;
+    }
+
+    if (!text && textarea) {
+      text = textarea.value;
+
+      // strip off signature
+      sigstart = text.indexOf('-- \n');
+      if (sigstart > 0) {
+        text = textarea.value.substring(0, sigstart);
+      }
+    }
+
+    // show dialog to enter a name and to modify the text to be saved
+    var buttons = {},
+      html = '<form class="propform">' +
+      '<div class="prop block"><label>' + this.get_label('responsename') + '</label>' +
+      '<input type="text" name="name" id="ffresponsename" size="40" /></div>' +
+      '<div class="prop block"><label>' + this.get_label('responsetext') + '</label>' +
+      '<textarea name="text" id="ffresponsetext" cols="40" rows="8"></textarea></div>' +
+      '</form>';
+
+    buttons[this.gettext('save')] = function(e) {
+      var name = $('#ffresponsename').val(),
+        text = $('#ffresponsetext').val();
+
+      if (!text) {
+        $('#ffresponsetext').select();
+        return false;
+      }
+      if (!name)
+        name = text.substring(0,40);
+
+      var lock = ref.display_message(ref.get_label('savingresponse'), 'loading');
+      ref.http_post('settings/responses', { _insert:1, _name:name, _text:text }, lock);
+      $(this).dialog('close');
+    };
+
+    buttons[this.gettext('cancel')] = function() {
+      $(this).dialog('close');
+    };
+
+    this.show_popup_dialog(html, this.gettext('savenewresponse'), buttons);
+
+    $('#ffresponsetext').val(text);
+    $('#ffresponsename').select();
+  };
+
+  this.add_response_item = function(response)
+  {
+    var key = response.key;
+    this.env.textresponses[key] = response;
+
+    // append to responses list
+    if (this.gui_objects.responseslist) {
+      var li = $('<li>').appendTo(this.gui_objects.responseslist);
+      $('<a>').addClass('insertresponse active')
+        .attr('href', '#')
+        .attr('rel', key)
+        .html(response.name)
+        .appendTo(li)
+        .mousedown(function(e){
+          return rcube_event.cancel(e);
+        })
+        .mouseup(function(e){
+          ref.command('insert-response', key);
+          $(document.body).trigger('mouseup');  // hides the menu
+          return rcube_event.cancel(e);
+        });
+    }
   };
 
   this.stop_spellchecking = function()
@@ -6820,6 +6940,54 @@ function rcube_webmail()
       range.moveStart('character', pos);
       range.select();
     }
+  };
+
+  // get selected text from an input field
+  // http://stackoverflow.com/questions/7186586/how-to-get-the-selected-text-in-textarea-using-jquery-in-internet-explorer-7
+  this.get_input_selection = function(obj)
+  {
+    var start = 0, end = 0,
+      normalizedValue, range,
+      textInputRange, len, endRange;
+
+    if (typeof obj.selectionStart == "number" && typeof obj.selectionEnd == "number") {
+        normalizedValue = obj.value;
+        start = obj.selectionStart;
+        end = obj.selectionEnd;
+    } else {
+        range = document.selection.createRange();
+
+        if (range && range.parentElement() == obj) {
+            len = obj.value.length;
+            normalizedValue = obj.value.replace(/\r\n/g, "\n");
+
+            // create a working TextRange that lives only in the input
+            textInputRange = obj.createTextRange();
+            textInputRange.moveToBookmark(range.getBookmark());
+
+            // Check if the start and end of the selection are at the very end
+            // of the input, since moveStart/moveEnd doesn't return what we want
+            // in those cases
+            endRange = obj.createTextRange();
+            endRange.collapse(false);
+
+            if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                start = end = len;
+            } else {
+                start = -textInputRange.moveStart("character", -len);
+                start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+                if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                    end = len;
+                } else {
+                    end = -textInputRange.moveEnd("character", -len);
+                    end += normalizedValue.slice(0, end).split("\n").length - 1;
+                }
+            }
+        }
+    }
+
+    return { start:start, end:end, text:normalizedValue.substr(start, end-start) };
   };
 
   // disable/enable all fields of a form

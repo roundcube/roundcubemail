@@ -232,6 +232,14 @@ $labels['checkspelling'] = 'Check spelling';
 $labels['resumeediting'] = 'Resume editing';
 $labels['revertto']      = 'Revert to';
 
+$labels['responses'] = 'Responses';
+$labels['insertresponse'] = 'Insert a response';
+$labels['manageresponses'] = 'Manage responses';
+$labels['savenewresponse'] = 'Save new response';
+$labels['editresponses'] = 'Edit responses';
+$labels['responsename'] = 'Name';
+$labels['responsetext'] = 'Response Text';
+
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
