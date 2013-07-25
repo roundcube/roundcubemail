@@ -410,6 +410,25 @@ class rcube_washtml
         );
         $html = preg_replace($html_search, $html_replace, trim($html));
 
+        //-> Replace all of those weird MS Word quotes and other high characters
+        $badwordchars=array(
+            "\xe2\x80\x98", // left single quote
+            "\xe2\x80\x99", // right single quote
+            "\xe2\x80\x9c", // left double quote
+            "\xe2\x80\x9d", // right double quote
+            "\xe2\x80\x94", // em dash
+            "\xe2\x80\xa6" // elipses
+        );
+        $fixedwordchars=array(
+            "'",
+            "'",
+            '"',
+            '"',
+            '&mdash;',
+            '...'
+        );
+        $html = str_replace($badwordchars,$fixedwordchars, $html);
+
         // PCRE errors handling (#1486856), should we use something like for every preg_* use?
         if ($html === null && ($preg_error = preg_last_error()) != PREG_NO_ERROR) {
             $errstr = "Could not clean up HTML message! PCRE Error: $preg_error.";
