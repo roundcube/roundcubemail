@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix identity-selection using Return-Path headers (#1489241)
 - Fix parsing of links with ... in URL (#1489192)
 - Fix compose priority selector when opening in new window (#1489257)
 - Respect HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP variables for session IP check
