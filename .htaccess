@@ -21,9 +21,6 @@ php_flag	session.auto_start	Off
 php_value	session.gc_maxlifetime	21600
 php_value	session.gc_divisor	500
 php_value	session.gc_probability	1
-
-# http://bugs.php.net/bug.php?id=30766
-php_value	mbstring.func_overload	0
 </IfModule>
 
 <IfModule mod_rewrite.c>
