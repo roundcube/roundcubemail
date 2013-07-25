@@ -38,7 +38,7 @@ class rcube_string_replacer
         $url1       = '.:;,';
         $url2       = 'a-zA-Z0-9%=#$@+?!&\\/_~\\[\\]\\(\\){}\*-';
 
-        $this->link_pattern = "/([\w]+:\/\/|\W[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)($utf_domain([$url1]?[$url2]+)*)/";
+        $this->link_pattern = "/([\w]+:\/\/|\W[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)($utf_domain([$url1]*[$url2]+)*)/";
         $this->mailto_pattern = "/("
             ."[-\w!\#\$%&\'*+~\/^`|{}=]+(?:\.[-\w!\#\$%&\'*+~\/^`|{}=]+)*"  // local-part
             ."@$utf_domain"                                                 // domain-part
