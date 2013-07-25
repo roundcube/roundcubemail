@@ -1803,9 +1803,8 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
     // Try Return-Path
     if ($from_idx === null && ($return_path = $MESSAGE->headers->others['return-path'])) {
         foreach ($identities as $idx => $ident) {
-            $ident = str_replace('@', '=', $ident['email_ascii']) . '@';
             foreach ((array)$return_path as $path) {
-                if (strpos($path, $ident) !== false) {
+                if (stripos($path, $ident['email_ascii']) !== false) {
                     $from_idx = $idx;
                     break 2;
                 }
