@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix parsing of links with ... in URL (#1489192)
+- Fix compose priority selector when opening in new window (#1489257)
 - Respect HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP variables for session IP check
 - Simplified configuration by merging it into one file + defaults (#1487311)
 - Make message list header stay on top when scrolling (#1295420)
