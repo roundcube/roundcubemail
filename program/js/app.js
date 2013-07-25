@@ -3307,19 +3307,27 @@ function rcube_webmail()
     if (!insert)
       return false;
 
-    // get cursor pos
-    var textarea = rcube_find_object(this.env.composebody),
-      selection = $(textarea).is(':focus') ? this.get_input_selection(textarea) : { start:0, end:0 },
-      inp_value = textarea.value;
-      pre = inp_value.substring(0, selection.start),
-      end = inp_value.substring(selection.end, inp_value.length);
+    // insert into tinyMCE editor
+    if ($("input[name='_is_html']").val() == '1') {
+      var editor = tinyMCE.get(this.env.composebody);
+      editor.getWin().focus(); // correct focus in IE & Chrome
+      editor.selection.setContent(insert, { format:'text' });
+    }
+    // replace selection in compose textarea
+    else {
+      var textarea = rcube_find_object(this.env.composebody),
+        selection = $(textarea).is(':focus') ? this.get_input_selection(textarea) : { start:0, end:0 },
+        inp_value = textarea.value;
+        pre = inp_value.substring(0, selection.start),
+        end = inp_value.substring(selection.end, inp_value.length);
 
-    // insert response text
-    textarea.value = pre + insert + end;
+      // insert response text
+      textarea.value = pre + insert + end;
 
-    // set caret after inserted text
-    this.set_caret_pos(textarea, selection.start + insert.length);
-    textarea.focus();
+      // set caret after inserted text
+      this.set_caret_pos(textarea, selection.start + insert.length);
+      textarea.focus();
+    }
   };
 
   /**
@@ -3327,20 +3335,37 @@ function rcube_webmail()
    */
   this.save_response = function()
   {
-    var textarea = rcube_find_object(this.env.composebody),
-      text = '', sigstart;
+    var sigstart, text = '', strip = false;
 
-    if (textarea && $(textarea).is(':focus')) {
-      text = this.get_input_selection(textarea).text;
+    // get selected text from tinyMCE editor
+    if ($("input[name='_is_html']").val() == '1') {
+      var editor = tinyMCE.get(this.env.composebody);
+      editor.getWin().focus(); // correct focus in IE & Chrome
+      text = editor.selection.getContent({ format:'text' });
+
+      if (!text) {
+        text = editor.getContent({ format:'text' });
+        strip = true;
+      }
+    }
+    // get selected text from compose textarea
+    else {
+      var textarea = rcube_find_object(this.env.composebody), sigstart;
+      if (textarea && $(textarea).is(':focus')) {
+        text = this.get_input_selection(textarea).text;
+      }
+
+      if (!text && textarea) {
+        text = textarea.value;
+        strip = true;
+      }
     }
 
-    if (!text && textarea) {
-      text = textarea.value;
-
-      // strip off signature
+    // strip off signature
+    if (strip) {
       sigstart = text.indexOf('-- \n');
       if (sigstart > 0) {
-        text = textarea.value.substring(0, sigstart);
+        text = text.substring(0, sigstart);
       }
     }
 
@@ -3390,7 +3415,7 @@ function rcube_webmail()
       $('<a>').addClass('insertresponse active')
         .attr('href', '#')
         .attr('rel', key)
-        .html(response.name)
+        .html(this.quote_html(response.name))
         .appendTo(li)
         .mousedown(function(e){
           return rcube_event.cancel(e);
@@ -6878,6 +6903,14 @@ function rcube_webmail()
   /*********            helper methods            *********/
   /********************************************************/
 
+  /**
+   * Quote html entities
+   */
+  this.quote_html = function(str)
+  {
+    return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
   // get window.opener.rcmail if available
   this.opener = function()
   {
@@ -6951,40 +6984,43 @@ function rcube_webmail()
       textInputRange, len, endRange;
 
     if (typeof obj.selectionStart == "number" && typeof obj.selectionEnd == "number") {
-        normalizedValue = obj.value;
-        start = obj.selectionStart;
-        end = obj.selectionEnd;
-    } else {
-        range = document.selection.createRange();
+      normalizedValue = obj.value;
+      start = obj.selectionStart;
+      end = obj.selectionEnd;
+    }
+    else {
+      range = document.selection.createRange();
 
-        if (range && range.parentElement() == obj) {
-            len = obj.value.length;
-            normalizedValue = obj.value.replace(/\r\n/g, "\n");
+      if (range && range.parentElement() == obj) {
+        len = obj.value.length;
+        normalizedValue = obj.value.replace(/\r\n/g, "\n");
 
-            // create a working TextRange that lives only in the input
-            textInputRange = obj.createTextRange();
-            textInputRange.moveToBookmark(range.getBookmark());
+        // create a working TextRange that lives only in the input
+        textInputRange = obj.createTextRange();
+        textInputRange.moveToBookmark(range.getBookmark());
 
-            // Check if the start and end of the selection are at the very end
-            // of the input, since moveStart/moveEnd doesn't return what we want
-            // in those cases
-            endRange = obj.createTextRange();
-            endRange.collapse(false);
+        // Check if the start and end of the selection are at the very end
+        // of the input, since moveStart/moveEnd doesn't return what we want
+        // in those cases
+        endRange = obj.createTextRange();
+        endRange.collapse(false);
 
-            if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
-                start = end = len;
-            } else {
-                start = -textInputRange.moveStart("character", -len);
-                start += normalizedValue.slice(0, start).split("\n").length - 1;
-
-                if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
-                    end = len;
-                } else {
-                    end = -textInputRange.moveEnd("character", -len);
-                    end += normalizedValue.slice(0, end).split("\n").length - 1;
-                }
-            }
+        if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+          start = end = len;
         }
+        else {
+          start = -textInputRange.moveStart("character", -len);
+          start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+          if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+            end = len;
+          }
+          else {
+            end = -textInputRange.moveEnd("character", -len);
+            end += normalizedValue.slice(0, end).split("\n").length - 1;
+          }
+        }
+      }
     }
 
     return { start:start, end:end, text:normalizedValue.substr(start, end-start) };
