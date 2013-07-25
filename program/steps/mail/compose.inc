@@ -1454,7 +1454,7 @@ function rcmail_priority_selector($attrib)
 
   if (isset($_POST['_priority']))
     $sel = $_POST['_priority'];
-  else if ($MESSAGE->headers && intval($MESSAGE->headers->priority) != 3)
+  else if (isset($MESSAGE->headers->priority) && intval($MESSAGE->headers->priority) != 3)
     $sel = $MESSAGE->headers->priority;
   else
     $sel = 0;
