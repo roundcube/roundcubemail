@@ -595,8 +595,7 @@ class Net_SMTP
          * extension, are connected to an SMTP server which supports the 
          * STARTTLS extension, and aren't already connected over a secure 
          * (SSL) socket connection. */
-        if ($tls && version_compare(PHP_VERSION, '5.1.0', '>=') &&
-            extension_loaded('openssl') && isset($this->_esmtp['STARTTLS']) &&
+        if ($tls && extension_loaded('openssl') && isset($this->_esmtp['STARTTLS']) &&
             strncasecmp($this->host, 'ssl://', 6) !== 0) {
             /* Start the TLS connection attempt. */
             if (PEAR::isError($result = $this->_put('STARTTLS'))) {
