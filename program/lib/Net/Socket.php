@@ -672,15 +672,10 @@ class Net_Socket extends PEAR
      */
     function enableCrypto($enabled, $type)
     {
-        if (version_compare(phpversion(), "5.1.0", ">=")) {
-            if (!is_resource($this->fp)) {
-                return $this->raiseError('not connected');
-            }
-            return @stream_socket_enable_crypto($this->fp, $enabled, $type);
-        } else {
-            $msg = 'Net_Socket::enableCrypto() requires php version >= 5.1.0';
-            return $this->raiseError($msg);
+        if (!is_resource($this->fp)) {
+            return $this->raiseError('not connected');
         }
+        return @stream_socket_enable_crypto($this->fp, $enabled, $type);
     }
 
 }
