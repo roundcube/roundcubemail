@@ -674,21 +674,25 @@ class rcube_charset
 
             // Prioritize charsets according to current language (#1485669)
             switch ($language) {
-            case 'ja_JP': // for Japanese
+            case 'ja_JP':
                 $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
                 break;
 
-            case 'zh_CN': // for Chinese (Simplified)
-            case 'zh_TW': // for Chinese (Traditional)
+            case 'zh_CN':
+            case 'zh_TW':
                 $prio = array('UTF-8', 'BIG-5', 'GB2312', 'EUC-TW');
                 break;
 
-            case 'ko_KR': // for Korean
+            case 'ko_KR':
                 $prio = array('UTF-8', 'EUC-KR', 'ISO-2022-KR');
                 break;
 
-            case 'ru_RU': // for Russian
+            case 'ru_RU':
                 $prio = array('UTF-8', 'WINDOWS-1251', 'KOI8-R');
+                break;
+
+            case 'tr_TR':
+                $prio = array('UTF-8', 'ISO-8859-9', 'WINDOWS-1254');
                 break;
 
             default:
