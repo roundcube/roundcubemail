@@ -30,7 +30,7 @@ php_value	mbstring.func_overload	0
 RewriteEngine On
 RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 # security rules
-RewriteRule .git - [F]
+RewriteRule \.git - [F]
 RewriteRule ^/?(README(.md)?|INSTALL|LICENSE|CHANGELOG|UPGRADING)$ - [F]
 RewriteRule ^/?(SQL|bin) - [F]
 </IfModule>
