@@ -134,7 +134,7 @@ else if (strlen($part_id)) {
       $valid = $file_extension && in_array($file_extension, (array)$extensions) || !empty($_REQUEST['_mimeclass']);
 
       // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
-      if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || $mimetype == 'text/plain') {
+      if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || stripos($mimetype, 'text/') === 0) {
         if ($part->body)  // part body is already loaded
           $body = $part->body;
         else if ($part->size && $part->size < 1024*1024)   // load the entire part if it's small enough
@@ -189,8 +189,8 @@ else if (strlen($part_id)) {
               rcube_label(array(
                 'name' => 'attachmentvalidationerror',
                 'vars' => array(
-                  'expected' => $mimetype . ($file_extension ? "(.$file_extension)" : ''),
-                  'detected' => $real_mimetype . ($extensions[0] ? "(.$extensions[0])" : ''),
+                  'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
+                  'detected' => $real_mimetype . ($extensions[0] ? " (.$extensions[0])" : ''),
                 )
               )) .
               html::p(array('class' => 'rcmail-inline-buttons'),
@@ -232,7 +232,6 @@ else if (strlen($part_id)) {
       header("Content-Type: $mimetype");
       header("Content-Transfer-Encoding: binary");
     }
-
 
     // deliver part content
     if ($ctype_primary == 'text' && $ctype_secondary == 'html' && empty($plugin['download'])) {
