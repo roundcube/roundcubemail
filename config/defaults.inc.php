@@ -961,8 +961,8 @@ $config['spellcheck_before_send'] = false;
 $config['autocomplete_single'] = false;
 
 // Default font size for composed HTML message.
-// Supported sizes: 8px, 10px, 12px, 14px
-$config['default_font_size'] = '12px';
+// Supported sizes: 8pt, 10pt, 12pt, 14pt, 18pt, 24pt, 36pt
+$config['default_font_size'] = '10pt';
 
 // Default font for composed HTML message.
 // Supported fonts: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
