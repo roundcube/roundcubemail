@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix downloading binary files with (wrong) text/* content-type (#1489267)
 - Fix rewrite rule in .htaccess (#1489240)
 - Fix detecting Turkish language in ISO-8859-9 encoding (#1489252)
 - Fix identity-selection using Return-Path headers (#1489241)

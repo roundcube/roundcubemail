@@ -357,7 +357,8 @@ else if (strlen($part_id)) {
             header("Content-Length: $size");
           }
 
-          $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true);
+          // 8th argument disables re-formatting of text/* parts (#1489267)
+          $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true, null, false, 0, false);
         }
       }
 
