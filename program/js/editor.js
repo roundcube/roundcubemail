@@ -80,6 +80,9 @@ function rcmail_editor_callback()
   if (rcmail.env.default_font)
     $(tinyMCE.get(rcmail.env.composebody).getBody()).css('font-family', rcmail.env.default_font);
 
+  if (rcmail.env.default_font_size)
+    $(tinyMCE.get(rcmail.env.composebody).getBody()).css('font-size', rcmail.env.default_font_size);
+
   if (elem && elem.type == 'select-one') {
     rcmail.change_identity(elem);
     // Focus previously focused element
