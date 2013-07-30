@@ -844,7 +844,7 @@ function rcmail_user_prefs($current = null)
 
                 $field_id = 'rcmfd_default_font_size';
                 $selected = $config['default_font_size'];
-                $fontsizes = array('8px', '10px', '12px', '14px');
+                $fontsizes = array('8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
 
                 $select = '<select name="_default_font_size" id="'.$field_id.'">';
                 $select .= '<option value=""' . (!$selected ? ' selected="selected"' : '') . '>---</option>';
