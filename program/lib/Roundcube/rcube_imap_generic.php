@@ -2492,7 +2492,7 @@ class rcube_imap_generic
         }
 
         if ($binary) {
-            // WARNING: Use $formatting argument with care, this may break binary data stream
+            // WARNING: Use $formatted argument with care, this may break binary data stream
             $mode = -1;
         }
 
