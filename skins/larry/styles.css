@@ -50,6 +50,8 @@ textarea {
 
 input[type="text"]:focus,
 input[type="password"]:focus,
+input[type="text"]:required,
+input[type="password"]:required,
 input.button:focus,
 textarea:focus {
 	border-color: #4787b1;
@@ -611,6 +613,7 @@ a.iconlink.upload {
 #toplogo {
 	padding-top: 2px;
 	cursor: pointer;
+	border: none;
 }
 
 .topleft {
@@ -1578,6 +1581,7 @@ ul.proplist li {
 
 #login-form #logo {
 	margin-bottom: 20px;
+	border: none;
 }
 
 #login-form #message {

@@ -546,7 +546,7 @@ function rcmail_user_prefs($current = null)
                 $blocks['main']['options']['default_charset'] = array(
                     'title' => html::label($field_id, Q(rcube_label('defaultcharset'))),
                     'content' => $RCMAIL->output->charset_selector(array(
-                        'name' => '_default_charset', 'selected' => $config['default_charset']
+                        'id' => $field_id, 'name' => '_default_charset', 'selected' => $config['default_charset']
                 )));
             }
 
