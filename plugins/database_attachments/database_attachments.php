@@ -84,14 +84,10 @@ class database_attachments extends filesystem_attachments
      */
     function remove($args)
     {
-        $args['status'] = false;
-
         $cache  = $this->get_cache();
         $status = $cache->remove($args['id']);
 
-        if ($status) {
-            $args['status'] = true;
-        }
+        $args['status'] = true;
 
         return $args;
     }
