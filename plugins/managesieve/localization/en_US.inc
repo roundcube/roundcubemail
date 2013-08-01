@@ -49,6 +49,7 @@ $labels['messagesendcopy'] = 'Send message copy to';
 $labels['messagereply'] = 'Reply with message';
 $labels['messagedelete'] = 'Delete message';
 $labels['messagediscard'] = 'Discard with message';
+$labels['messagekeep'] = 'Keep message in Inbox';
 $labels['messagesrules'] = 'For incoming mail:';
 $labels['messagesactions'] = '...execute the following actions:';
 $labels['add'] = 'Add';
