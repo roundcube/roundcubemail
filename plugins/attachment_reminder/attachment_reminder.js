@@ -20,7 +20,7 @@ function rcmail_check_message(msg)
 {
   var i, rx, keywords = rcmail.gettext('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
 
-  $.each(keywords, function(n) { return RegExp.escape(n); });
+  keywords = $.map(keywords, function(n) { return RegExp.escape(n); });
   rx = new RegExp('(' + keywords.join('|') + ')', 'i');
 
   return msg.search(rx) != -1;
