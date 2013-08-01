@@ -980,10 +980,14 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
       && count($MESSAGE->mime_parts) > 0)
   {
     $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
+  }
 
-    // replace cid with href in inline images links
-    if ($cid_map)
-      $body = str_replace(array_keys($cid_map), array_values($cid_map), $body);
+  // clean up html tags - XSS prevention (#1489251)
+  $body = rcmail_wash_html($body, array('safe' => 1), $cid_map);
+
+  // replace cid with href in inline images links
+  if ($cid_map) {
+    $body = str_replace(array_keys($cid_map), array_values($cid_map), $body);
   }
 
   return $body;

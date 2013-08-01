@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix XSS vulnerability when editing a message "as new" or draft (#1489251)
 - Fix rewrite rule in .htaccess (#1489240)
 - Fix detecting Turkish language in ISO-8859-9 encoding (#1489252)
 - Fix identity-selection using Return-Path headers (#1489241)
