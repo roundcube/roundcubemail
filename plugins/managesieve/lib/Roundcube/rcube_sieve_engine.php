@@ -1550,6 +1550,7 @@ class rcube_sieve_engine
         if (in_array('enotify', $this->exts) || in_array('notify', $this->exts)) {
             $select_action->add(rcube::Q($this->plugin->gettext('notify')), 'notify');
         }
+        $select_action->add(rcube::Q($this->plugin->gettext('messagekeep')), 'keep');
         $select_action->add(rcube::Q($this->plugin->gettext('rulestop')), 'stop');
 
         $select_type = $action['type'];

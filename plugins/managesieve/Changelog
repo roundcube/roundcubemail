@@ -4,6 +4,7 @@
 - Support date, currendate and index tests - RFC5260 (#1488120)
 - Split plugin file into two files
 - Fix handling of &, <, > characters in scripts/filter names (#1489208)
+- Support 'keep' action (#1489226)
 
 * version 6.2 [2013-02-17]
 -----------------------------------------------------------
