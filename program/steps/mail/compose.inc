@@ -1005,12 +1005,17 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
     $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
   }
 
-  // clean up html tags - XSS prevention (#1489251)
-  $body = rcmail_wash_html($body, array('safe' => 1), $cid_map);
+  // clean up HTML tags - XSS prevention (#1489251)
+  if ($bodyIsHtml) {
+    $body = rcmail_wash_html($body, array('safe' => 1), $cid_map);
 
-  // replace cid with href in inline images links
-  if ($cid_map) {
-    $body = str_replace(array_keys($cid_map), array_values($cid_map), $body);
+    // remove comments (produced by washtml)
+    $body = preg_replace('/<!--[^>]+-->/', '', $body);
+
+    // replace cid with href in inline images links
+    if (!empty($cid_map)) {
+      $body = str_replace(array_keys($cid_map), array_values($cid_map), $body);
+    }
   }
 
   return $body;
