@@ -498,11 +498,11 @@ class rcube
 
         if ($tmp && ($dir = opendir($tmp))) {
             while (($fname = readdir($dir)) !== false) {
-                if ($fname{0} == '.') {
+                if ($fname[0] == '.') {
                     continue;
                 }
 
-                if (filemtime($tmp.'/'.$fname) < $expire) {
+                if (@filemtime($tmp.'/'.$fname) < $expire) {
                     @unlink($tmp.'/'.$fname);
                 }
             }
