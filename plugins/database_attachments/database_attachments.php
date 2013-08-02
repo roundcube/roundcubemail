@@ -13,7 +13,9 @@
  * @author Aleksander Machniak <alec@alec.pl>
  * @version @package_version@
  */
-require_once('plugins/filesystem_attachments/filesystem_attachments.php');
+
+require_once INSTALL_PATH . 'plugins/filesystem_attachments/filesystem_attachments.php';
+
 class database_attachments extends filesystem_attachments
 {
     // Cache object
