@@ -12,7 +12,7 @@ if header :index 2 :contains ["From","To"] "test@domain.tld"
 	stop;
 }
 # rule:[index-address]
-if address :index 1 :all :is "From" "nagios@domain.tld"
+if address :index 1 :is "From" "nagios@domain.tld"
 {
 	fileinto "domain.tld";
 	stop;

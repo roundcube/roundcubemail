@@ -39,7 +39,7 @@ if true
 }
 fileinto "Test";
 # rule:[address test]
-if address :all :is "From" "nagios@domain.tld"
+if address :is "From" "nagios@domain.tld"
 {
 	fileinto "domain.tld";
 	stop;

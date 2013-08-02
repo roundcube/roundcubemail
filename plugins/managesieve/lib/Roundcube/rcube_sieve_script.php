@@ -260,7 +260,8 @@ class rcube_sieve_script
                             $this->add_index($test, $tests[$i], $exts);
                         }
 
-                        if (!empty($test['part'])) {
+                        // :all address-part is optional, skip it
+                        if (!empty($test['part']) && $test['part'] != 'all') {
                             $tests[$i] .= ' :' . $test['part'];
                             if ($test['part'] == 'user' || $test['part'] == 'detail') {
                                 array_push($exts, 'subaddress');

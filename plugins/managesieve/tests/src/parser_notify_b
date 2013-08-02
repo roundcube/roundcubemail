@@ -1,6 +1,6 @@
 require ["envelope","notify","variables"];
 # rule:[from]
-if envelope :all :matches "from" "*"
+if envelope :matches "from" "*"
 {
 	set "env_from" " [really: ${1}]";
 }
@@ -10,7 +10,7 @@ if header :matches "Subject" "*"
 	set "subject" "${1}";
 }
 # rule:[from notify]
-if address :all :matches "from" "*"
+if address :matches "from" "*"
 {
 	set "from_addr" "${1}";
 	notify :message "${from_addr}${env_from}: ${subject}" :method "sms:1234567890";
