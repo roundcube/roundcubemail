@@ -120,7 +120,7 @@ class rcube_image
             $p['-opts'] = array('-resize' => $p['size'].'>');
 
             if (in_array($type, explode(',', $p['types']))) { // Valid type?
-                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace RGB -quality {quality} {-opts} {intype}:{in} {type}:{out}', $p);
+                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -quality {quality} {-opts} {intype}:{in} {type}:{out}', $p);
             }
 
             if ($result === '') {
@@ -222,7 +222,7 @@ class rcube_image
             $p['out']  = $filename;
             $p['type'] = self::$extensions[$type];
 
-            $result = rcube::exec($convert . ' 2>&1 -colorspace RGB -quality 75 {in} {type}:{out}', $p);
+            $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -quality 75 {in} {type}:{out}', $p);
 
             if ($result === '') {
                 @chmod($filename, 0600);
