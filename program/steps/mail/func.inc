@@ -1798,27 +1798,13 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
         }
     }
 
-    // Fallback using Delivered-To
-    if ($from_idx === null && ($delivered_to = $MESSAGE->headers->others['delivered-to'])) {
-        foreach ($identities as $idx => $ident) {
-            if (in_array($ident['email_ascii'], (array)$delivered_to)) {
-                $from_idx = $idx;
-                break;
-            }
-        }
-    }
+    // See identity_select plugin for example usage of this hook
+    $plugin = rcmail::get_instance()->plugins->exec_hook('identity_select',
+        array('message' => $MESSAGE, 'identities' => $identities, 'selected' => $from_idx));
 
-    // Fallback using Envelope-To
-    if ($from_idx === null && ($envelope_to = $MESSAGE->headers->others['envelope-to'])) {
-        foreach ($identities as $idx => $ident) {
-            if (in_array($ident['email_ascii'], (array)$envelope_to)) {
-                $from_idx = $idx;
-                break;
-            }
-        }
-    }
+    $selected = $plugin['selected'];
 
-    return $identities[$from_idx !== null ? $from_idx : $default_identity];
+    return $identities[$selected !== null ? $selected : $default_identity];
 }
 
 // Fixes some content-type names

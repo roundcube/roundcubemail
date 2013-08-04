@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Move identity selection based on non-standard headers into (new) identity_select plugin (#1488553)
 - Fix colorspace issue on image conversion using ImageMagick (#1489270)
 - Fix XSS vulnerability when editing a message "as new" or draft (#1489251)
 - Fix downloading binary files with (wrong) text/* content-type (#1489267)
