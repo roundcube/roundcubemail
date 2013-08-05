@@ -322,8 +322,8 @@ foreach ($parts as $header) {
       else if (!empty($MESSAGE->headers->from))
         $fvalue = $MESSAGE->headers->from;
 
-      // Reply to message sent by yourself (#1487074)
-      if (!empty($ident) && $fvalue == $ident['ident']) {
+      // Reply to message sent by yourself (#1487074, #1489230)
+      if (!empty($ident) && in_array($ident['ident'], array($fvalue, $MESSAGE->headers->from))) {
         $fvalue = $MESSAGE->headers->to;
       }
     }
