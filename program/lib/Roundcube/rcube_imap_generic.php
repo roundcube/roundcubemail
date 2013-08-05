@@ -800,23 +800,21 @@ class rcube_imap_generic
 
         // TLS connection
         if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
-            if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
-                $res = $this->execute('STARTTLS');
+            $res = $this->execute('STARTTLS');
 
-                if ($res[0] != self::ERROR_OK) {
-                    $this->closeConnection();
-                    return false;
-                }
-
-                if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
-                    $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
-                    $this->closeConnection();
-                    return false;
-                }
-
-                // Now we're secure, capabilities need to be reread
-                $this->clearCapability();
+            if ($res[0] != self::ERROR_OK) {
+                $this->closeConnection();
+                return false;
             }
+
+            if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
+                $this->closeConnection();
+                return false;
+            }
+
+            // Now we're secure, capabilities need to be reread
+            $this->clearCapability();
         }
 
         // Send ID info
