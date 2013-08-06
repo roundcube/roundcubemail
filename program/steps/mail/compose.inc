@@ -1422,7 +1422,7 @@ function rcmail_compose_attachment_form($attrib)
 
   $out = html::div($attrib,
     $OUTPUT->form_tag(array('id' => $attrib['id'].'Frm', 'name' => 'uploadform', 'method' => 'post', 'enctype' => 'multipart/form-data'),
-      html::div(null, rcmail_compose_attachment_field(array('size' => $attrib['attachmentfieldsize']))) .
+      html::div(null, rcmail_compose_attachment_field()) .
       html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
       (get_boolean($attrib['buttons']) ? html::div('buttons',
         $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
