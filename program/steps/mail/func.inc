@@ -1924,7 +1924,6 @@ function rcmail_message_import_form($attrib = array())
   $fileinput = new html_inputfield(array(
       'type' => 'file',
       'name' => '_file[]',
-      'size' => $attrib['attachmentfieldsize'],
       'multiple' => 'multiple',
       'accept' => ".eml, .mbox, message/rfc822, text/*",
   ));
