@@ -660,7 +660,6 @@ function rule_adv_switch(id, elem)
 
 function action_type_select(id)
 {
-console.log(id);
   var obj = document.getElementById('action_type' + id),
     v = obj.value, enabled = {},
     elems = {
