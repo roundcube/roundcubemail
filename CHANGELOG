@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix base URL resolving on attribute values with no quotes (#1489275)
 - Fix wrong handling of links with '|' character (#1489276)
 - Fix colorspace issue on image conversion using ImageMagick (#1489270)
 - Fix XSS vulnerability when saving HTML signatures (#1489251)
