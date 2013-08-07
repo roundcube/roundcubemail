@@ -617,6 +617,10 @@ table.messagelist.fixedcopy {
 	background-position: -24px -997px;
 }
 
+.messagelist thead tr td.priority span.priority {
+	background-position: 0 -1056px;
+}
+
 .messagelist tbody tr td.attachment span.report {
 	background-position: -24px -1116px;
 }
