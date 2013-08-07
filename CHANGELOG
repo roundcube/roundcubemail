@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix wrong handling of links with '|' character (#1489276)
 - Fix XSS vulnerability when saving HTML signatures (#1489251)
 - Move identity selection based on non-standard headers into (new) identity_select plugin (#1488553)
 - Fix colorspace issue on image conversion using ImageMagick (#1489270)
