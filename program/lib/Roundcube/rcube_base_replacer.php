@@ -44,8 +44,8 @@ class rcube_base_replacer
     public function replace($body)
     {
         return preg_replace_callback(array(
-            '/(src|background|href)=(["\']?)([^"\'\s]+)(\2|\s|>)/Ui',
-            '/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/Ui',
+            '/(src|background|href)=(["\']?)([^"\'\s>]+)(\2|\s|>)/i',
+            '/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/i',
         ),
         array($this, 'callback'), $body);
     }
