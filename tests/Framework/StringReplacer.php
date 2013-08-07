@@ -41,6 +41,7 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
             array('http://', 'http://'),
             array('1@1.com www.domain.tld', '<a href="mailto:1@1.com">1@1.com</a> <a href="http://www.domain.tld" target="_blank">www.domain.tld</a>'),
             array(' www.domain.tld ', ' <a href="http://www.domain.tld" target="_blank">www.domain.tld</a> '),
+            array(' www.domain.tld/#!download|856p1|2 ', ' <a href="http://www.domain.tld/#!download|856p1|2" target="_blank">www.domain.tld/#!download|856p1|2</a> '),
         );
     }
 

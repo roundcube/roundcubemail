@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix wrong handling of links with '|' character (#1489276)
 - Fix colorspace issue on image conversion using ImageMagick (#1489270)
 - Fix XSS vulnerability when saving HTML signatures (#1489251)
 - Fix XSS vulnerability when editing a message "as new" or draft (#1489251)
