@@ -4995,7 +4995,7 @@ function rcube_webmail()
   this.replace_contact_photo = function(id)
   {
     var img_src = id == '-del-' ? this.env.photo_placeholder :
-      this.env.comm_path + '&_action=photo&_source=' + this.env.source + '&_cid=' + this.env.cid + '&_photo=' + id;
+      this.env.comm_path + '&_action=photo&_source=' + this.env.source + '&_cid=' + (this.env.cid || 0) + '&_photo=' + id;
 
     this.set_photo_actions(id);
     $(this.gui_objects.contactphoto).children('img').attr('src', img_src);

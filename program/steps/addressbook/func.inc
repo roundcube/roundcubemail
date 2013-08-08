@@ -893,7 +893,6 @@ $OUTPUT->add_handlers(array(
 // register action aliases
 $RCMAIL->register_action_map(array(
     'add' => 'edit.inc',
-    'photo' => 'show.inc',
     'group-create' => 'groups.inc',
     'group-rename' => 'groups.inc',
     'group-delete' => 'groups.inc',
