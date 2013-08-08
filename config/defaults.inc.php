@@ -143,7 +143,7 @@ $config['imap_force_ns'] = false;
 // Note: Because the list is cached, re-login is required after change.
 $config['imap_disabled_caps'] = array();
 
-// IMAP connection timeout, in seconds. Default: 0 (no limit)
+// IMAP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
 $config['imap_timeout'] = 0;
 
 // Optional IMAP authentication identifier to be used as authorization proxy
@@ -208,7 +208,7 @@ $config['smtp_auth_pw'] = null;
 // localhost if that isn't defined.
 $config['smtp_helo_host'] = '';
 
-// SMTP connection timeout, in seconds. Default: 0 (no limit)
+// SMTP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
 // Note: There's a known issue where using ssl connection with
 // timeout > 0 causes connection errors (https://bugs.php.net/bug.php?id=54511)
 $config['smtp_timeout'] = 0;
