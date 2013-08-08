@@ -751,12 +751,28 @@ function rcmail_contact_photo($attrib)
 
     $plugin = $RCMAIL->plugins->exec_hook('contact_photo', array('record' => $record, 'data' => $record['photo']));
 
+    // check if we have photo data from contact form
+    if ($GLOBALS['EDIT_RECORD']) {
+        $rec = $GLOBALS['EDIT_RECORD'];
+        if ($rec['photo'] == '-del-') {
+            $record['photo'] = '';
+        }
+        else if ($_SESSION['contacts']['files'][$rec['photo']]) {
+            $record['photo'] = $file_id = $rec['photo'];
+        }
+    }
+
     if ($plugin['url'])
         $photo_img = $plugin['url'];
     else if (preg_match('!^https?://!i', $record['photo']))
         $photo_img = $record['photo'];
-    else if ($record['photo'])
-        $photo_img = $RCMAIL->url(array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID));
+    else if ($record['photo']) {
+        $url = array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID);
+        if ($file_id) {
+            $url['_photo'] = $ff_value = $file_id;
+        }
+        $photo_img = $RCMAIL->url($url);
+    }
     else
         $ff_value = '-del-'; // will disable delete-photo action
 

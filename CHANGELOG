@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where uploaded photo was lost when contact form did not validate (#1489274)
 - Fix base URL resolving on attribute values with no quotes (#1489275)
 - Fix wrong handling of links with '|' character (#1489276)
 - Fix XSS vulnerability when saving HTML signatures (#1489251)
