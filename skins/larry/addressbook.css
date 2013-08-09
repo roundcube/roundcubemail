@@ -219,7 +219,7 @@
 }
 
 #contactpic img {
-	width: 112px;
+	max-width: 112px;
 	visibility: inherit;
 }
 

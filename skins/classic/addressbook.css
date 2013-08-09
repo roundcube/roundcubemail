@@ -357,7 +357,8 @@ body.iframe,
 }
 
 #contactpic img {
-	width: 60px;
+	max-width: 60px;
+	max-height: 80px;
 }
 
 #contactpic.droptarget.hover {

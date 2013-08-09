@@ -105,7 +105,6 @@ class rcube_image
         if ($convert) {
             $p['out']  = $filename;
             $p['in']   = $this->image_file;
-            $p['size'] = $size.'x'.$size;
             $type      = $props['type'];
 
             if (!$type && ($data = $this->identify())) {
@@ -120,11 +119,37 @@ class rcube_image
                 $type = 'jpg';
             }
 
-            $p += array('type' => $type, 'types' => "bmp,eps,gif,jp2,jpg,png,svg,tif", 'quality' => 75);
-            $p['-opts'] = array('-resize' => $p['size'].'>');
+            // If only one dimension is greater than the limit convert doesn't
+            // work as expected, we need to calculate new dimensions
+            $scale = $size / max($props['width'], $props['height']);
 
-            if (in_array($type, explode(',', $p['types']))) { // Valid type?
-                $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip -quality {quality} {-opts} {intype}:{in} {type}:{out}', $p);
+            // if file is smaller than the limit, we do nothing
+            // but copy original file to destination file
+            if ($scale >= 1 && $p['intype'] == $type) {
+                $result = ($this->image_file == $filename || copy($this->image_file, $filename)) ? '' : false;
+            }
+            else {
+                if ($scale >= 1) {
+                    $width  = $props['width'];
+                    $height = $props['height'];
+                }
+                else {
+                    $width  = intval($props['width']  * $scale);
+                    $height = intval($props['height'] * $scale);
+                }
+
+                $valid_types = "bmp,eps,gif,jp2,jpg,png,svg,tif";
+
+                $p += array(
+                    'type'    => $type,
+                    'quality' => 75,
+                    'size'    => $width . 'x' . $height,
+                );
+
+                if (in_array($type, explode(',', $valid_types))) { // Valid type?
+                    $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
+                        . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
+                }
             }
 
             if ($result === '') {
@@ -161,34 +186,34 @@ class rcube_image
             // Imagemagick resize is implemented in shrinking mode (see -resize argument above)
             // we do the same here, if an image is smaller than specified size
             // we do nothing but copy original file to destination file
-            if ($scale > 1) {
-                return $this->image_file == $filename || copy($this->image_file, $filename) ? $type : false;
+            if ($scale >= 1) {
+                $result = $this->image_file == $filename || copy($this->image_file, $filename);
             }
+            else {
+                $width     = intval($props['width']  * $scale);
+                $height    = intval($props['height'] * $scale);
+                $new_image = imagecreatetruecolor($width, $height);
 
-            $width  = $props['width']  * $scale;
-            $height = $props['height'] * $scale;
+                // Fix transparency of gif/png image
+                if ($props['gd_type'] != IMAGETYPE_JPEG) {
+                    imagealphablending($new_image, false);
+                    imagesavealpha($new_image, true);
+                    $transparent = imagecolorallocatealpha($new_image, 255, 255, 255, 127);
+                    imagefilledrectangle($new_image, 0, 0, $width, $height, $transparent);
+                }
 
-            $new_image = imagecreatetruecolor($width, $height);
+                imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
+                $image = $new_image;
 
-            // Fix transparency of gif/png image
-            if ($props['gd_type'] != IMAGETYPE_JPEG) {
-                imagealphablending($new_image, false);
-                imagesavealpha($new_image, true);
-                $transparent = imagecolorallocatealpha($new_image, 255, 255, 255, 127);
-                imagefilledrectangle($new_image, 0, 0, $width, $height, $transparent);
-            }
-
-            imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
-            $image = $new_image;
-
-            if ($props['gd_type'] == IMAGETYPE_JPEG) {
-                $result = imagejpeg($image, $filename, 75);
-            }
-            elseif($props['gd_type'] == IMAGETYPE_GIF) {
-                $result = imagegif($image, $filename);
-            }
-            elseif($props['gd_type'] == IMAGETYPE_PNG) {
-                $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                if ($props['gd_type'] == IMAGETYPE_JPEG) {
+                    $result = imagejpeg($image, $filename, 75);
+                }
+                elseif($props['gd_type'] == IMAGETYPE_GIF) {
+                    $result = imagegif($image, $filename);
+                }
+                elseif($props['gd_type'] == IMAGETYPE_PNG) {
+                    $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                }
             }
 
             if ($result) {
