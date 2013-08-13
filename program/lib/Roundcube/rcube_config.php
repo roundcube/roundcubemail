@@ -187,7 +187,7 @@ class rcube_config
     public function load_from_file($file)
     {
         $fpath = $this->resolve_path($file);
-        if ($fpath && is_file($fpath) && is_readable($fpath)) {
+        if ($fpath && (is_file($fpath) || file_exists($fpath)) && is_readable($fpath)) {
             // use output buffering, we don't need any output here 
             ob_start();
             include($fpath);
@@ -214,7 +214,11 @@ class rcube_config
     public function resolve_path($file, $use_env = true)
     {
         if (strpos($file, '/') === false) {
-            $file = realpath($this->basedir . '/' . $file);
+            $file = rtrim($this->basedir, '/') . '/' . $file;
+
+            if (!realpath($file) === false) {
+                $file = realpath($file);
+            }
         }
 
         // check if <file>-env.ini exists
