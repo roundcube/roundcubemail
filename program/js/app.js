@@ -388,7 +388,7 @@ function rcube_webmail()
         }
         else if (this.env.action == 'edit-folder' && this.gui_objects.editform) {
           this.enable_command('save', 'folder-size', true);
-          parent.rcmail.env.messagecount = this.env.messagecount;
+          parent.rcmail.env.exists = this.env.messagecount;
           parent.rcmail.enable_command('purge', this.env.messagecount);
           $("input[type='text']").first().select();
         }
