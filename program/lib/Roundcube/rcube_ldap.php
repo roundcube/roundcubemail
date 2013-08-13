@@ -514,7 +514,8 @@ class rcube_ldap extends rcube_addressbook
             $this->result = new rcube_result_set($entries['count'], ($this->list_page-1) * $this->page_size);
         }
         else {
-            $prop = $this->group_id ? $this->group_data : $this->prop;
+            $prop    = $this->group_id ? $this->group_data : $this->prop;
+            $base_dn = $this->group_id ? $this->group_base_dn : $this->base_dn;
 
             // use global search filter
             if (!empty($this->filter))
@@ -522,7 +523,7 @@ class rcube_ldap extends rcube_addressbook
 
             // exec LDAP search if no result resource is stored
             if ($this->ready && !$this->ldap_result)
-                $this->ldap_result = $this->ldap->search($prop['base_dn'], $prop['filter'], $prop['scope'], $this->prop['attributes'], $prop);
+                $this->ldap_result = $this->ldap->search($base_dn, $prop['filter'], $prop['scope'], $this->prop['attributes'], $prop);
 
             // count contacts for this user
             $this->result = $this->count();
@@ -841,12 +842,13 @@ class rcube_ldap extends rcube_addressbook
         }
         // We have a connection but no result set, attempt to get one.
         else if ($this->ready) {
-            $prop = $this->group_id ? $this->group_data : $this->prop;
+            $prop    = $this->group_id ? $this->group_data : $this->prop;
+            $base_dn = $this->group_id ? $this->group_base_dn : $this->base_dn;
 
             if (!empty($this->filter)) {  // Use global search filter
                 $prop['filter'] = $this->filter;
             }
-            $count = $this->ldap->search($prop['base_dn'], $prop['filter'], $prop['scope'], array('dn'), $prop, true);
+            $count = $this->ldap->search($base_dn, $prop['filter'], $prop['scope'], array('dn'), $prop, true);
         }
 
         return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
@@ -1584,6 +1586,7 @@ class rcube_ldap extends rcube_addressbook
 
         $base_dn    = $this->groups_base_dn;
         $filter     = $this->prop['groups']['filter'];
+        $scope      = $this->prop['groups']['scope'];
         $name_attr  = $this->prop['groups']['name_attr'];
         $email_attr = $this->prop['groups']['email_attr'] ? $this->prop['groups']['email_attr'] : 'mail';
         $sort_attrs = $this->prop['groups']['sort'] ? (array)$this->prop['groups']['sort'] : array($name_attr);
@@ -1604,7 +1607,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         $attrs     = array_unique(array('dn', 'objectClass', $name_attr, $email_attr, $sort_attr));
-        $ldap_data = $ldap->search($base_dn, $filter, $this->prop['groups']['scope'], $attrs, $this->prop['groups']);
+        $ldap_data = $ldap->search($base_dn, $filter, $scope, $attrs, $this->prop['groups']);
 
         if ($ldap_data === false) {
             return array();
