@@ -27,7 +27,7 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
             array('http://domain.tld/path*path2', '<a href="http://domain.tld/path*path2" target="_blank">http://domain.tld/path*path2</a>'),
             array("Click this link:\nhttps://mail.xn--brderli-o2a.ch/rc/ EOF", "Click this link:\n<a href=\"https://mail.xn--brderli-o2a.ch/rc/\" target=\"_blank\">https://mail.xn--brderli-o2a.ch/rc/</a> EOF"),
             array('Start http://localhost/?foo End', 'Start <a href="http://localhost/?foo" target="_blank">http://localhost/?foo</a> End'),
-            array('http://localhost/?foo=bar. Period', '<a href="http://localhost/?foo=bar">http://localhost/?foo=bar</a>. Period'),
+            array('http://localhost/?foo=bar. Period', '<a href="http://localhost/?foo=bar" target="_blank">http://localhost/?foo=bar</a>. Period'),
             array('www.domain.tld', '<a href="http://www.domain.tld" target="_blank">www.domain.tld</a>'),
             array('WWW.DOMAIN.TLD', '<a href="http://WWW.DOMAIN.TLD" target="_blank">WWW.DOMAIN.TLD</a>'),
             array('[http://link.com]', '[<a href="http://link.com" target="_blank">http://link.com</a>]'),
@@ -36,11 +36,12 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
             array('(http://link.com)', '(<a href="http://link.com" target="_blank">http://link.com</a>)'),
             array('http://link.com?a(b)c', '<a href="http://link.com?a(b)c" target="_blank">http://link.com?a(b)c</a>'),
             array('http://link.com?(link)', '<a href="http://link.com?(link)" target="_blank">http://link.com?(link)</a>'),
-            array('https://github.com/a/b/compare/3a0f82...1f4b2a after', '<a href="https://github.com/a/b/compare/3a0f82...1f4b2a">https://github.com/a/b/compare/3a0f82...1f4b2a</a> after'),
+            array('https://github.com/a/b/compare/3a0f82...1f4b2a after', '<a href="https://github.com/a/b/compare/3a0f82...1f4b2a" target="_blank">https://github.com/a/b/compare/3a0f82...1f4b2a</a> after'),
             array('http://<test>', 'http://<test>'),
             array('http://', 'http://'),
             array('1@1.com www.domain.tld', '<a href="mailto:1@1.com">1@1.com</a> <a href="http://www.domain.tld" target="_blank">www.domain.tld</a>'),
             array(' www.domain.tld ', ' <a href="http://www.domain.tld" target="_blank">www.domain.tld</a> '),
+            array(' www.domain.tld/#!download|856p1|2 ', ' <a href="http://www.domain.tld/#!download|856p1|2" target="_blank">www.domain.tld/#!download|856p1|2</a> '),
         );
     }
 

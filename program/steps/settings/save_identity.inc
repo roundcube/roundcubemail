@@ -76,6 +76,15 @@ foreach ($email_checks as $email) {
   }
 }
 
+// XSS protection in HTML signature (#1489251)
+if (!empty($save_data['signature']) && !empty($save_data['html_signature'])) {
+  $save_data['signature'] = rcmail_wash_html($save_data['signature']);
+
+  // clear POST data of signature, we want to use safe content
+  // when the form is displayed again
+  unset($_POST['_signature']);
+}
+
 // update an existing contact
 if ($_POST['_iid']) {
   $iid = get_input_value('_iid', RCUBE_INPUT_POST);
@@ -167,3 +176,40 @@ if (!empty($_REQUEST['_framed'])) {
 }
 else
   rcmail_overwrite_action('identities');
+
+
+/**
+ * Sanity checks/cleanups on HTML body of signature
+ */
+function rcmail_wash_html($html)
+{
+    // Add header with charset spec., washtml cannot work without that
+    $html = '<html><head>'
+        . '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />'
+        . '</head><body>' . $html . '</body></html>';
+
+    // clean HTML with washhtml by Frederic Motte
+    $wash_opts = array(
+        'show_washed' => false,
+        'allow_remote' => 1,
+        'charset' => RCMAIL_CHARSET,
+        'html_elements' => array('body', 'link'),
+        'html_attribs' => array('rel', 'type'),
+    );
+
+    // initialize HTML washer
+    $washer = new rcube_washtml($wash_opts);
+
+    //$washer->add_callback('form', 'rcmail_washtml_callback');
+    //$washer->add_callback('style', 'rcmail_washtml_callback');
+
+    // Remove non-UTF8 characters (#1487813)
+    $html = rc_utf8_clean($html);
+
+    $html = $washer->wash($html);
+
+    // remove unwanted comments and tags (produced by washtml)
+    $html = preg_replace(array('/<!--[^>]+-->/', '/<\/?body>/'), '', $html);
+
+  return $html;
+}

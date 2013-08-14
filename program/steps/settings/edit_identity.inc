@@ -77,7 +77,7 @@ function rcube_identity_form($attrib)
     'signature' => array(
       'name' => rcube_label('signature'),
       'content' => array(
-        'signature'	     => array('type' => 'textarea', 'size' => $t_cols, 'rows' => $t_rows,
+        'signature'      => array('type' => 'textarea', 'size' => $t_cols, 'rows' => $t_rows,
             'spellcheck' => true),
         'html_signature' => array('type' => 'checkbox', 'label' => rcube_label('htmlsignature'),
             'onclick' => 'return rcmail_toggle_editor(this, \'rcmfd_signature\');'),
@@ -138,6 +138,7 @@ function rcube_identity_form($attrib)
 
         $label = !empty($colprop['label']) ? $colprop['label'] :
             rcube_label(str_replace('-', '', $col));
+
         $value = !empty($colprop['value']) ? $colprop['value'] :
             rcmail_get_edit_field($col, $IDENTITY_RECORD[$col], $colprop, $colprop['type']);
 

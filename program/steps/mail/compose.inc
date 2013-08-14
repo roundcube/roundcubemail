@@ -198,7 +198,10 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment']))
   if (!empty($MESSAGE->headers->charset))
     $RCMAIL->storage->set_charset($MESSAGE->headers->charset);
 
-  if ($compose_mode == RCUBE_COMPOSE_REPLY) {
+  if (!$MESSAGE->headers) {
+    // error
+  }
+  else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
     $COMPOSE['reply_uid'] = $msg_uid;
     $COMPOSE['reply_msgid'] = $MESSAGE->headers->messageID;
     $COMPOSE['references']  = trim($MESSAGE->headers->references . " " . $MESSAGE->headers->messageID);
@@ -980,10 +983,19 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
       && count($MESSAGE->mime_parts) > 0)
   {
     $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
+  }
+
+  // clean up HTML tags - XSS prevention (#1489251)
+  if ($bodyIsHtml) {
+    $body = rcmail_wash_html($body, array('safe' => 1), $cid_map);
+
+    // remove comments (produced by washtml)
+    $body = preg_replace('/<!--[^>]+-->/', '', $body);
 
     // replace cid with href in inline images links
-    if ($cid_map)
+    if (!empty($cid_map)) {
       $body = str_replace(array_keys($cid_map), array_values($cid_map), $body);
+    }
   }
 
   return $body;
