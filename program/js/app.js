@@ -1733,6 +1733,14 @@ function rcube_webmail()
     if (!row.depth && row.has_children && (expando = document.getElementById('rcmexpando'+row.uid))) {
       row.expando = expando;
       expando.onmousedown = function(e) { return self.expand_message_row(e, uid); };
+      if (bw.mobile) {
+        expando.addEventListener('touchend', function(e) {
+          if (e.changedTouches.length == 1) {
+            self.expand_message_row(e, uid);
+            return rcube_event.cancel(e);
+          }
+        }, false);
+      }
     }
 
     this.triggerEvent('insertrow', { uid:uid, row:row });
