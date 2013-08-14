@@ -7,7 +7,7 @@
  * to or remove them from outgoing messages.
  *
  * Enable the plugin in config.inc.php and add your desired headers:
- * $rcmail_config['additional_message_headers'] = array('User-Agent');
+ * $config['additional_message_headers'] = array('User-Agent' => 'My-Very-Own-Webmail');
  *
  * @version @package_version@
  * @author Ziba Scott
