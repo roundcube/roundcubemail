@@ -125,14 +125,22 @@ init_row: function(row)
     if (bw.mobile) {
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
-          if (!self.drag_row(rcube_event.touchevent(e.touches[0]), this.uid))
-            e.preventDefault();
+          self.touchmoved = false;
+          self.drag_row(rcube_event.touchevent(e.touches[0]), this.uid)
         }
       }, false);
       row.addEventListener('touchend', function(e) {
-        if (e.changedTouches.length == 1)
-          if (!self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid))
+        if (e.changedTouches.length == 1) {
+          if (!self.touchmoved && !self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid))
             e.preventDefault();
+        }
+      }, false);
+      row.addEventListener('touchmove', function(e) {
+        if (e.changedTouches.length == 1) {
+          self.touchmoved = true;
+          if (self.drag_active)
+            e.preventDefault();
+        }
       }, false);
     }
 
@@ -157,7 +165,7 @@ init_header: function()
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
       $(this.list.tHead).find('tr td').attr('style', '');  // remove fixed widths
     }
-    else if (this.list.className.indexOf('fixedheader') >= 0) {
+    else if (!bw.mobile && this.list.className.indexOf('fixedheader') >= 0) {
       this.init_fixed_header();
     }
 
@@ -408,7 +416,7 @@ drag_row: function(e, id)
   if (rcube_event.get_button(e) == 2)
     return true;
 
-  this.in_selection_before = this.in_selection(id) ? id : false;
+  this.in_selection_before = e.istouch || this.in_selection(id) ? id : false;
 
   // selects currently unselected row
   if (!this.in_selection_before) {
@@ -416,7 +424,7 @@ drag_row: function(e, id)
     this.select_row(id, mod_key, false);
   }
 
-  if (this.draggable && this.selection.length) {
+  if (this.draggable && this.selection.length && this.in_selection(id)) {
     this.drag_start = true;
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
     rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
@@ -1256,7 +1264,7 @@ drag_mouse_move: function(e)
 {
   // convert touch event
   if (e.type == 'touchmove') {
-    if (e.changedTouches.length == 1)
+    if (e.touches.length == 1 && e.changedTouches.length == 1)
       e = rcube_event.touchevent(e.changedTouches[0]);
     else
       return rcube_event.cancel(e);
