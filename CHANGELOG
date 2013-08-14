@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed iframe scrolling on touch devices
+- Optimized message list for touch devices
 - Fix replacement variables in user-specific base_dn in some LDAP requests (#1489279)
 - Fix purge action in folder manager (#1489280)
 - Fix image scaling issues when image has only one dimension smaller than the limit (#1489274)
