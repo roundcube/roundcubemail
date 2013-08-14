@@ -877,6 +877,15 @@ a.iconlink.upload {
 	background-repeat: no-repeat;
 }
 
+/* fix scrolling within iframes in webkit browsers on touch devices */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.iframebox {
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+}
+
+
 /*** lists ***/
 
 .listbox {
