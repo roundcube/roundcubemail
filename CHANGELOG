@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Optimized message list for touch devices
 - Fix purge action in folder manager (#1489280)
 - Fix base URL resolving on attribute values with no quotes (#1489275)
 - Fix wrong handling of links with '|' character (#1489276)
