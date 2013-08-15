@@ -62,7 +62,7 @@ function roundcube_browser()
   this.safari = (!this.chrome && (this.agent_lc.indexOf('safari') > 0 || this.agent_lc.indexOf('applewebkit') > 0));
   this.konq = (this.agent_lc.indexOf('konqueror') > 0);
   this.mz = (this.dom && !this.ie && !this.ns && !this.chrome && !this.safari && !this.konq && this.agent.indexOf('Mozilla') >= 0);
-  this.iphone = (this.safari && this.agent_lc.indexOf('iphone') > 0);
+  this.iphone = (this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0));
   this.ipad = (this.safari && this.agent_lc.indexOf('ipad') > 0);
   this.opera = window.opera ? true : false;
 
@@ -83,7 +83,9 @@ function roundcube_browser()
   if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc)))
     this.lang = RegExp.$1;
 
-  this.mobile = this.agent_lc.match(/iphone|ipad|ipod|android|blackberry|iemobile|opera mini|opera mobi/);
+  this.tablet = /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
+  this.mobile = /iphone|ipod|blackberry|iemobile|opera mini|opera mobi|mobile/i.test(this.agent_lc);
+  this.touch = this.mobile || this.tablet;
   this.dhtml = ((this.ie4 && this.win) || this.ie5 || this.ie6 || this.ns4 || this.mz);
   this.vml = (this.win && this.ie && this.dom && !this.opera);
   this.pngalpha = (this.mz || (this.opera && this.vendver >= 6) || (this.ie && this.mac && this.vendver >= 5) ||
@@ -127,6 +129,8 @@ function roundcube_browser()
 
     if (this.mobile)
       classname += ' mobile';
+    if (this.tablet)
+      classname += ' tablet';
 
     if (document.documentElement)
       document.documentElement.className += classname;

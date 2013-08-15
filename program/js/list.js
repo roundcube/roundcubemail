@@ -122,7 +122,7 @@ init_row: function(row)
     row.onmousedown = function(e){ return self.drag_row(e, this.uid); };
     row.onmouseup = function(e){ return self.click_row(e, this.uid); };
 
-    if (bw.mobile) {
+    if (bw.touch) {
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
           self.touchmoved = false;
@@ -165,7 +165,7 @@ init_header: function()
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
       $(this.list.tHead).find('tr td').attr('style', '');  // remove fixed widths
     }
-    else if (!bw.mobile && this.list.className.indexOf('fixedheader') >= 0) {
+    else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
       this.init_fixed_header();
     }
 
@@ -429,7 +429,7 @@ drag_row: function(e, id)
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
     rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
     rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
-    if (bw.mobile) {
+    if (bw.touch) {
       rcube_event.add_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
       rcube_event.add_listener({event:'touchend', object:this, method:'drag_mouse_up'});
     }
@@ -1370,7 +1370,7 @@ drag_mouse_up: function(e)
   rcube_event.remove_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
   rcube_event.remove_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
 
-  if (bw.mobile) {
+  if (bw.touch) {
     rcube_event.remove_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
     rcube_event.remove_listener({event:'touchend', object:this, method:'drag_mouse_up'});
   }
