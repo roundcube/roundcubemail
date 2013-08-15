@@ -49,6 +49,10 @@ function rcube_mail_ui()
     if (parseInt(minmode) || (minmode === null && $(window).height() < 850)) {
       $(document.body).addClass('minimal');
     }
+
+    if (bw.tablet) {
+      $('#viewport').attr('content', "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+    }
   }
 
 
