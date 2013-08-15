@@ -294,6 +294,9 @@ $config['session_domain'] = '';
 // Session name. Default: 'roundcube_sessid'
 $config['session_name'] = null;
 
+// Session authentication cookie name. Default: 'roundcube_sessauth'
+$config['session_auth_name'] = null;
+
 // Session path. Defaults to PHP session.cookie_path setting.
 $config['session_path'] = null;
 
