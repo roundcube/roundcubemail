@@ -436,6 +436,10 @@ class rcube
         $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
         $this->session->set_ip_check($this->config->get('ip_check'));
 
+        if ($this->config->get('session_auth_name')) {
+            $this->session->set_cookiename($this->config->get('session_auth_name'));
+        }
+
         // start PHP session (if not in CLI mode)
         if ($_SERVER['REMOTE_ADDR']) {
             session_start();

@@ -253,6 +253,9 @@ $rcmail_config['session_domain'] = '';
 // Session name. Default: 'roundcube_sessid'
 $rcmail_config['session_name'] = null;
 
+// Session authentication cookie name. Default: 'roundcube_sessauth'
+$rcmail_config['session_auth_name'] = null;
+
 // Session path. Defaults to PHP session.cookie_path setting.
 $rcmail_config['session_path'] = null;
 
