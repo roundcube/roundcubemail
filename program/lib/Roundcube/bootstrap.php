@@ -84,6 +84,13 @@ if (extension_loaded('mbstring')) {
     @mb_regex_encoding(RCUBE_CHARSET);
 }
 
+// make sure the lib directory is in the include_path
+$rcube_include_path = realpath(RCUBE_LIB_DIR . '..');
+$sep = PATH_SEPARATOR;
+if (!preg_match("!(^|$sep)$rcube_include_path($sep|\$)!", ini_get('include_path'))) {
+    set_include_path(ini_get('include_path') . PATH_SEPARATOR . $rcube_include_path);
+}
+
 // Register autoloader
 spl_autoload_register('rcube_autoload');
 
