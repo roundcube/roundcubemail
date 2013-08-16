@@ -307,7 +307,7 @@ drag_row: function(e, id)
   if (rcube_event.get_button(e) == 2)
     return true;
 
-  this.in_selection_before = e.istouch || this.in_selection(id) ? id : false;
+  this.in_selection_before = e && e.istouch || this.in_selection(id) ? id : false;
 
   // selects currently unselected row
   if (!this.in_selection_before) {
