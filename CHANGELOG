@@ -1,54 +1,28 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fixed iframe scrolling on touch devices
-- Optimized message list for touch devices
 - Fix replacement variables in user-specific base_dn in some LDAP requests (#1489279)
-- Fix purge action in folder manager (#1489280)
 - Fix image scaling issues when image has only one dimension smaller than the limit (#1489274)
 - Fix issue where uploaded photo was lost when contact form did not validate (#1489274)
-- Fix base URL resolving on attribute values with no quotes (#1489275)
-- Fix wrong handling of links with '|' character (#1489276)
-- Fix XSS vulnerability when saving HTML signatures (#1489251)
 - Move identity selection based on non-standard headers into (new) identity_select plugin (#1488553)
-- Fix colorspace issue on image conversion using ImageMagick (#1489270)
-- Fix XSS vulnerability when editing a message "as new" or draft (#1489251)
 - Fix downloading binary files with (wrong) text/* content-type (#1489267)
-- Fix rewrite rule in .htaccess (#1489240)
-- Fix detecting Turkish language in ISO-8859-9 encoding (#1489252)
-- Fix identity-selection using Return-Path headers (#1489241)
-- Fix parsing of links with ... in URL (#1489192)
-- Fix compose priority selector when opening in new window (#1489257)
 - Respect HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP variables for session IP check
 - Simplified configuration by merging it into one file + defaults (#1487311)
 - Make message list header stay on top when scrolling (#1295420)
-- Fix bug where signature wasn't changed on identity selection when editing a draft (#1489229)
-- Fix IMAP SETMETADATA parameters quoting (#1489231)
 - Add support for 'enchant' spellcheck engine
-- Fix "could not load message" error on valid empty message body (#1489228)
 - Check filetype detection in installer and update script (#1489193)
-- Fix handling of message/rfc822 attachments on message forward and edit (#1489214)
 - Fix folder names truncation in Classic skin (#1489220)
-- Fix parsing of square bracket characters in IMAP response strings (#1489223)
-- Don't clear References and in-Reply-To when a message is "edited as new" (#1489216)
 - Make possible to disable some (broken) IMAP extensions with imap_disable_caps option (#1489184)
 - Contacts drag-n-drop default action is to move contacts (#1488751)
 - Added possibility to choose to move or copy contacts from drag-n-drop menu (#1488751)
-- Fix messages list sorting with THREAD=REFS
 - Fix Close link and remove About link on error pages (#1489109)
-- Remove deprecated (in PHP 5.5) PREG /e modifier usage (#1489174)
-- Fix empty messages list when register_globals is enabled (#1489157)
 - Improved/unified attachment preview screen, added print button
 - Fix lack of space between searchfiler and quicksearchbar in Larry skin (#1489158)
-- Fix so valid and set date.timezone is not required by installer checks (#1489180)
-- Canonize boolean ini_get() results (#1489189)
 - Cache LDAP's user_specific search and use vlv for better performance (#1489186)
 - LDAP: auto-detect and use VLV indices for all search operations
 - LDAP: additional group configuration options for  address books
 - LDAP: separated address book implementation from a generic LDAP wrapper class
 - Allow address books to browse a multi-level group hierarchy in the contacts list
-- Fix so install do not fail when one of DB driver checks fails but other drivers exist (#1489178)
-- Fix so exported vCard specifies encoding in v3-compatible format (#1489183)
 - Fix session issues when local and database time differs (#1486132)
 - Fix thread cache syncronization/validation (#1489028)
 - Added feature to import messages to the currently selected folder
@@ -82,6 +56,35 @@ CHANGELOG Roundcube Webmail
 - Extended archive plugin with user-configurable options to store messages into subfolders
 - Fix export of selected contacts from search result (#1488905)
 - Feature to export only selected contacts from addressbook (by Phil Weir)
+
+RELEASE 0.9.3
+-------------
+- Fixed iframe scrolling on touch devices
+- Optimized message list for touch devices
+- Fix purge action in folder manager (#1489280)
+- Fix base URL resolving on attribute values with no quotes (#1489275)
+- Fix wrong handling of links with '|' character (#1489276)
+- Fix colorspace issue on image conversion using ImageMagick (#1489270)
+- Fix XSS vulnerability when editing a message "as new" or draft (#1489251)
+- Fix XSS vulnerability when saving HTML signatures (#1489251)
+- Fix rewrite rule in .htaccess (#1489240)
+- Fix detecting Turkish language in ISO-8859-9 encoding (#1489252)
+- Fix identity-selection using Return-Path headers (#1489241)
+- Fix parsing of links with ... in URL (#1489192)
+- Fix compose priority selector when opening in new window (#1489257)
+- Fix bug where signature wasn't changed on identity selection when editing a draft (#1489229)
+- Fix IMAP SETMETADATA parameters quoting (#1489231)
+- Fix "could not load message" error on valid empty message body (#1489228)
+- Fix handling of message/rfc822 attachments on message forward and edit (#1489214)
+- Fix parsing of square bracket characters in IMAP response strings (#1489223)
+- Don't clear References and in-Reply-To when a message is "edited as new" (#1489216)
+- Fix messages list sorting with THREAD=REFS
+- Remove deprecated (in PHP 5.5) PREG /e modifier usage (#1489174)
+- Fix empty messages list when register_globals is enabled (#1489157)
+- Fix so valid and set date.timezone is not required by installer checks (#1489180)
+- Canonize boolean ini_get() results (#1489189)
+- Fix so install do not fail when one of DB driver checks fails but other drivers exist (#1489178)
+- Fix so exported vCard specifies encoding in v3-compatible format (#1489183)
 
 RELEASE 0.9.2
 -------------
