@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.9.3
+-------------
 - Optimized UI behavior for touch devices
 - Fix purge action in folder manager (#1489280)
 - Fix base URL resolving on attribute values with no quotes (#1489275)
