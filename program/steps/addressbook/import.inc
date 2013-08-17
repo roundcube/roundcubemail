@@ -206,6 +206,7 @@ if (is_array($_FILES['_file'])) {
             $CONTACTS->delete_all();
         }
 
+        $import_groups = $CONTACTS->list_groups();
         foreach ($vcards as $vcard) {
             $a_record = $vcard->get_assoc();
 
@@ -228,6 +229,16 @@ if (is_array($_FILES['_file'])) {
             $email = $vcard->email[0];
             $email = rcube_idn_to_utf8($email);
 
+            //set group ID for this contact if group present
+            if(isset($a_record['group:home'][0] 
+              && trim($a_record['group:home'][0]) != "") {
+              $group_name = $a_record['group:home'][0];
+              $group_id = get_group_id($group_name,$CONTACTS,$import_groups);
+              $CONTACTS->set_group($group_id);
+            }
+            else {
+              $CONTACTS->set_group(0);
+            }
             if (!$replace) {
                 $existing = null;
                 // compare e-mail address
@@ -239,6 +250,8 @@ if (is_array($_FILES['_file'])) {
                     $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
                 }
                 if ($existing && $existing->count) {
+                    if(isset($group_name))
+                      $CONTACTS->add_to_group($group_id,$existing->records[0]['id']);
                     $IMPORT_STATS->skipped++;
                     $IMPORT_STATS->skipped_names[] = $vcard->displayname ? $vcard->displayname : $email;
                     continue;
@@ -280,3 +293,18 @@ $OUTPUT->add_handlers(array(
 
 // render page
 $OUTPUT->send('importcontacts');
+
+// returns the group-id. If group is absent then it creates a new group.
+function get_group_id($group_name,$CONTACTS,&$import_groups) {
+  foreach ($import_groups as $key => $value) {
+    if(strtolower($value['name']) == strtolower($group_name))
+      return $value['ID'];
+  }
+
+  //create a new group
+  $new_group = $CONTACTS->create_group(strtolower($group_name));
+
+  //get the updated groups
+  $import_groups = $CONTACTS->list_groups();
+  return $new_group['id'];
+}

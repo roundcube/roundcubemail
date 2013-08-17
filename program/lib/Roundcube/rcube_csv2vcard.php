@@ -145,6 +145,7 @@ class rcube_csv2vcard
         'work_mobile'           => 'phone:work,cell',
         'work_title'            => 'jobtitle',
         'work_zip'              => 'zipcode:work',
+        'group'                 => 'group:home',
     );
 
     /**
@@ -268,6 +269,7 @@ class rcube_csv2vcard
         'work_mobile'       => "Work Mobile",
         'work_title'        => "Work Title",
         'work_zip'          => "Work Zip",
+        'group'             => "Group",
     );
 
     protected $local_label_map = array();

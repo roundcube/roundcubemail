@@ -47,6 +47,7 @@ class rcube_vcard
         'manager'     => 'X-MANAGER',
         'spouse'      => 'X-SPOUSE',
         'edit'        => 'X-AB-EDIT',
+        'group'       => 'X-GROUP',
     );
     private $typemap = array(
         'IPHONE'   => 'mobile',
