@@ -247,7 +247,7 @@
 
  This driver is fully compatible with the ldap driver, but
  does not require (or uses) the
-    $rcmail_config['password_ldap_force_replace'] variable.
+    $config['password_ldap_force_replace'] variable.
  Other advantages:
     * Connects only once with the LDAP server when using the search user.
     * Does not read the DN, but only replaces the password within (that is
@@ -306,9 +306,9 @@
  Driver for the daemon of vpopmail. Vpopmail is used with qmail to
  enable virtual users that are saved in a database and not in /etc/passwd.
 
- Set $rcmail_config['password_vpopmaild_host'] to the host where vpopmaild runs.
+ Set $config['password_vpopmaild_host'] to the host where vpopmaild runs.
 
- Set $rcmail_config['password_vpopmaild_port'] to the port of vpopmaild.
+ Set $config['password_vpopmaild_port'] to the port of vpopmaild.
 
 
  3. Driver API

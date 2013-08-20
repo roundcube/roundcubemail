@@ -10,9 +10,9 @@
  * Add it to the plugins list in config.inc.php to enable the user option
  * The user option can be hidden and set globally by adding 'use_subscriptions'
  * to the 'dont_override' configure line:
- * $rcmail_config['dont_override'] = array('use_subscriptions');
+ * $config['dont_override'] = array('use_subscriptions');
  * and then set the global preference
- * $rcmail_config['use_subscriptions'] = true; // or false
+ * $config['use_subscriptions'] = true; // or false
  *
  * Roundcube caches folder lists.  When a user changes this option or visits
  * their folder list, this cache is refreshed.  If the option is on the

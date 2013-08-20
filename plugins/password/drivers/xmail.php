@@ -10,10 +10,10 @@
  * Setup xmail_host, xmail_user, xmail_pass and xmail_port into
  * config.inc.php of password plugin as follows:
  *
- * $rcmail_config['xmail_host'] = 'localhost';
- * $rcmail_config['xmail_user'] = 'YourXmailControlUser';
- * $rcmail_config['xmail_pass'] = 'YourXmailControlPass';
- * $rcmail_config['xmail_port'] = 6017;
+ * $config['xmail_host'] = 'localhost';
+ * $config['xmail_user'] = 'YourXmailControlUser';
+ * $config['xmail_pass'] = 'YourXmailControlPass';
+ * $config['xmail_port'] = 6017;
  *
  */
 

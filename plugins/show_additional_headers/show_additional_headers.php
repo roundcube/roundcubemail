@@ -7,7 +7,7 @@
  * and display them in the message view.
  *
  * Enable the plugin in config.inc.php and add your desired headers:
- *   $rcmail_config['show_additional_headers'] = array('User-Agent');
+ *   $config['show_additional_headers'] = array('User-Agent');
  *
  * @version @package_version@
  * @author Thomas Bruederli

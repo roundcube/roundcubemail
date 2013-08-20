@@ -12,13 +12,13 @@
  * The email query could optionally select identity data columns in specified order:
  *    name, organization, reply-to, bcc, signature, html_signature
  *
- * $rcmail_config['virtuser_query'] = array('email' => '', 'user' => '', 'host' => '', 'alias' => '');
+ * $config['virtuser_query'] = array('email' => '', 'user' => '', 'host' => '', 'alias' => '');
  *
  * The email query can return more than one record to create more identities.
  * This requires identities_level option to be set to value less than 2.
  *
  * By default Roundcube database is used. To use different database (or host)
- * you can specify DSN string in $rcmail_config['virtuser_query_dsn'] option.
+ * you can specify DSN string in $config['virtuser_query_dsn'] option.
  *
  * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>

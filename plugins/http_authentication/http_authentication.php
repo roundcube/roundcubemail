@@ -7,7 +7,7 @@
  *
  * Configuration:
  * // redirect the client to this URL after logout. This page is then responsible to clear HTTP auth
- * $rcmail_config['logout_url'] = 'http://server.tld/logout.html';
+ * $config['logout_url'] = 'http://server.tld/logout.html';
  *
  * See logout.html (in this directory) for an example how HTTP auth can be cleared.
  *

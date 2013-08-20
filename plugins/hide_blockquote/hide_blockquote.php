@@ -8,7 +8,7 @@
  * Configuration:
  * // Minimum number of citation lines. Longer citation blocks will be hidden.
  * // 0 - no limit (no hidding).
- * $rcmail_config['hide_blockquote_limit'] = 0;
+ * $config['hide_blockquote_limit'] = 0;
  *
  * @version @package_version@
  * @license GNU GPLv3+

@@ -10,7 +10,7 @@
  * identity selection more accurate.
  *
  * Enable the plugin in config.inc.php and add your desired headers:
- *   $rcmail_config['identity_select_headers'] = array('Delivered-To');
+ *   $config['identity_select_headers'] = array('Delivered-To');
  *
  * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
