@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix setting refresh_interval to "Never" in Preferences (#1489286)
+
 RELEASE 0.9.3
 -------------
 - Optimized UI behavior for touch devices
