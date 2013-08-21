@@ -33,7 +33,7 @@ $labels['addressbook'] = 'Buku Alamat';
 
 // mailbox names
 $labels['inbox']  = 'Kotak Masuk';
-$labels['drafts'] = 'Daftar tunggu';
+$labels['drafts'] = 'Konsep';
 $labels['sent']   = 'Terkirim';
 $labels['trash']  = 'Surat Terhapus';
 $labels['junk']   = 'Sampah';
@@ -65,7 +65,7 @@ $labels['copy']     = 'Salin';
 $labels['move']     = 'Pindahkan';
 $labels['moveto']   = 'Pindahkan ke...';
 $labels['download'] = 'Unduh';
-$labels['open']     = 'Open';
+$labels['open']     = 'Buka';
 $labels['showattachment'] = 'Tampilkan';
 $labels['showanyway'] = 'Tampilkan saja';
 
@@ -163,7 +163,7 @@ $labels['currpage'] = 'Halaman sekarang';
 $labels['unread'] = 'Belum terbaca';
 $labels['flagged'] = 'Ditandai';
 $labels['unanswered'] = 'Belum terjawab';
-$labels['withattachment'] = 'With attachment';
+$labels['withattachment'] = 'Dengan lampiran';
 $labels['deleted'] = 'Terhapus';
 $labels['undeleted'] = 'Tidak terhapus';
 $labels['invert'] = 'Sebaliknya';
@@ -205,12 +205,13 @@ $labels['resetsearch']  = 'Atur ulang pencarian';
 $labels['searchmod']  = 'Peubah pencarian';
 $labels['msgtext']  = 'Seluruh pesan';
 $labels['body']  = 'Badan';
-$labels['type'] = 'Type';
+$labels['type'] = 'Tipe';
+$labels['namex'] = 'Nama';
 
 $labels['openinextwin'] = 'Buka dalam jendela baru';
 $labels['emlsave'] = 'Unduh (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Tampilkan dalam format text biasa';
+$labels['changeformathtml'] = 'Tampilkan dalam format HTML';
 
 // message compose
 $labels['editasnew']      = 'Sunting sebagai pesan baru';
@@ -429,7 +430,7 @@ $labels['showremoteimages'] = 'Tampilkan remote inline images';
 $labels['fromknownsenders'] = 'dari pengirim yang dikenal';
 $labels['always'] = 'selalu';
 $labels['showinlineimages'] = 'Tampilkan gambar terlampir dibawah pesan';
-$labels['autosavedraft']  = 'Otomatis menyimpan pesan tertunda';
+$labels['autosavedraft']  = 'Otomatis menyimpan konsep';
 $labels['everynminutes']  = 'setiap $n menit';
 $labels['refreshinterval']  = 'Refresh (memeriksa pesan baru, dsb)';
 $labels['never']  = 'tidak pernah';

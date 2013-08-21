@@ -26,11 +26,11 @@ $messages = array();
 $messages['nopassword'] = 'Пожалуйста, введите новый пароль.';
 $messages['nocurpassword'] = 'Пожалуйста, введите текущий пароль.';
 $messages['passwordincorrect'] = 'Текущий пароль неверен.';
-$messages['passwordinconsistency'] = 'Пароли не совпадают, попробуйте, пожалуйста, ещё.';
+$messages['passwordinconsistency'] = 'Пароли не совпадают, попробуйте ещё раз, пожалуйста.';
 $messages['crypterror'] = 'Не могу сохранить новый пароль. Отсутствует криптографическая функция.';
 $messages['connecterror'] = 'Не могу сохранить новый пароль. Ошибка соединения.';
 $messages['internalerror'] = 'Не могу сохранить новый пароль.';
-$messages['passwordshort'] = 'Пароль должен быть длиной как минимум $length символов.';
+$messages['passwordshort'] = 'Длина пароля должна быть как минимум $length символов.';
 $messages['passwordweak'] = 'Пароль должен включать в себя как минимум одну цифру и один знак пунктуации.';
 $messages['passwordforbidden'] = 'Пароль содержит недопустимые символы.';
 

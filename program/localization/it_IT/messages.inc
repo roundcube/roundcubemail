@@ -17,7 +17,7 @@
 */
 
 $messages = array();
-$messages['errortitle']  = 'C\'è stato qualche errore';
+$messages['errortitle']  = 'Si è verificato un errore!';
 $messages['loginfailed']  = 'Impossibile accedere. Utente o password non corretti';
 $messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies';
 $messages['sessionerror'] = 'Sessione non valida o scaduta';
@@ -101,13 +101,16 @@ $messages['converting'] = 'Rimozione della formattazione dal messaggio...';
 $messages['messageopenerror'] = 'Impossibile caricare il messaggio dal server';
 $messages['fileuploaderror'] = 'Errore durante il caricamento del file';
 $messages['filesizeerror'] = 'Il file da caricare supera il limite massimo di $size';
-$messages['copysuccess'] = 'Copiati $nr indirizzi';
-$messages['copyerror'] = 'Impossibile copiare gli indirizzi';
+$messages['copysuccess'] = 'Copiati correttamente $nr contatti.';
+$messages['movesuccess'] = '$nr contatti spostati correttamente.';
+$messages['copyerror'] = 'Impossibile copiare i contatti.';
+$messages['moveerror'] = 'Impossibile spostare i contatti.';
 $messages['sourceisreadonly'] = 'La rubrica è in sola lettura';
 $messages['errorsavingcontact'] = 'Impossibile salvare il contatto';
 $messages['movingmessage'] = 'Spostamento del messaggio...';
 $messages['copyingmessage'] = 'Copia del messaggio...';
 $messages['copyingcontact'] = 'Copia del contatto...';
+$messages['movingcontact'] = 'Spostamento contatto(i)';
 $messages['deletingmessage'] = 'Cancellazione messaggio...';
 $messages['markingmessage'] = 'Marca messaggio...';
 $messages['addingmember'] = 'Aggiunta contatto al gruppo...';
@@ -126,6 +129,8 @@ $messages['importwait'] = 'Importazione in corso, attendere...';
 $messages['importformaterror'] = 'Importazione fallita! Il file caricato non è un file valido per l\'importazione.';
 $messages['importconfirm'] = '<b>$inserted contatti importati con successo</p>';
 $messages['importconfirmskipped'] = '<b>$skipped ignorati perché esistono già</b>';
+$messages['importmessagesuccess'] = 'Importati correttamente $nr messaggi';
+$messages['importmessageerror'] = 'Importazione fallita! Il file caricato non è un messaggio o una casella postale valida.';
 $messages['opnotpermitted'] = 'Operazione non consentita!';
 $messages['nofromaddress'] = 'Indirizzo e-mail mancante nell\'identità selezionata';
 $messages['editorwarning'] = 'Passare all\'editor testuale farà perdere tutte le informazioni di formattazione. Sicuro di voler continuare?';
