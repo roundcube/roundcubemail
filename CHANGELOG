@@ -1,7 +1,6 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix setting refresh_interval to "Never" in Preferences (#1489286)
 - Fix replacement variables in user-specific base_dn in some LDAP requests (#1489279)
 - Fix image scaling issues when image has only one dimension smaller than the limit (#1489274)
 - Fix issue where uploaded photo was lost when contact form did not validate (#1489274)
@@ -60,6 +59,7 @@ CHANGELOG Roundcube Webmail
 
 RELEASE 0.9.3
 -------------
+- Fix setting refresh_interval to "Never" in Preferences (#1489286)
 - Fixed iframe scrolling on touch devices
 - Optimized message list for touch devices
 - Fix purge action in folder manager (#1489280)
