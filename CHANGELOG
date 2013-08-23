@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix unquoted path in PREG expression on Windows (#1489290)
+
 RELEASE 0.9.3
 -------------
 - Fix setting refresh_interval to "Never" in Preferences (#1489286)
