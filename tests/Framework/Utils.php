@@ -271,11 +271,19 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $test = array(
             '1' => 1,
             '' => 0,
+            '2013-04-22' => 1366581600,
+            '2013/04/22' => 1366581600,
+            '2013.04.22' => 1366581600,
+            '22-04-2013' => 1366581600,
+            '22/04/2013' => 1366581600,
+            '22.04.2013' => 1366581600,
+            '22.4.2013'  => 1366581600,
+            '20130422'   => 1366581600,
         );
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::strtotime($datetime);
-            $this->assertSame($ts, $result);
+            $this->assertSame($ts, $result, "Error parsing date: $datetime");
         }
     }
 

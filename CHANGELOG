@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of non-default date formats (#1489294)
 - Fix unquoted path in PREG expression on Windows (#1489290)
 - Fix replacement variables in user-specific base_dn in some LDAP requests (#1489279)
 - Fix image scaling issues when image has only one dimension smaller than the limit (#1489274)
