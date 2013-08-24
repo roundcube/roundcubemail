@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix Junk folder icon alignment when it's nested in inbox folder (#1489292)
 - Fix unquoted path in PREG expression on Windows (#1489290)
 
 RELEASE 0.9.3

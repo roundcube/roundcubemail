@@ -191,15 +191,9 @@ a.iconbutton.threadmode.selected {
 #mailboxlist li.mailbox.junk > a {
 	background-position: 6px -334px;
 }
-#mailboxlist li.mailbox ul li.junk > a {
-	background-position: 22px -334px;
-}
 
 #mailboxlist li.mailbox.junk.selected > a {
 	background-position: 6px -358px;
-}
-#mailboxlist li.mailbox ul li.junk.selected > a {
-	background-position: 22px -358px;
 }
 
 #mailboxlist li.mailbox.trash > a {
