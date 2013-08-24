@@ -1592,6 +1592,7 @@ ul.proplist li {
 	-o-box-shadow: none;
 	background: url(images/buttons.png) -100px 0 no-repeat transparent;
 	border: 0;
+	border-radius: 0;
 }
 
 .toolbar a.button.disabled {
