@@ -84,13 +84,6 @@ if (extension_loaded('mbstring')) {
     @mb_regex_encoding(RCUBE_CHARSET);
 }
 
-<<<<<<< HEAD
-// make sure the lib directory is in the include_path
-$rcube_include_path = realpath(RCUBE_LIB_DIR . '..');
-$sep = PATH_SEPARATOR;
-if (!preg_match("!(^|$sep)$rcube_include_path($sep|\$)!", ini_get('include_path'))) {
-    set_include_path(ini_get('include_path') . PATH_SEPARATOR . $rcube_include_path);
-=======
 // make sure the Roundcube lib directory is in the include_path
 $rcube_path = realpath(RCUBE_LIB_DIR . '..');
 $sep        = PATH_SEPARATOR;
@@ -99,7 +92,6 @@ $path       = ini_get('include_path');
 
 if (!preg_match($regexp, $path)) {
     set_include_path($path . PATH_SEPARATOR . $rcube_path);
->>>>>>> 9f75449... Fix unquoted path in PREG expression on Windows (#1489290)
 }
 
 // Register autoloader
