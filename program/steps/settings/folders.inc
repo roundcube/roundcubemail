@@ -349,7 +349,7 @@ function rcube_subscription_form($attrib)
             array('value' => $folder_utf8, 'disabled' => $disabled ? 'disabled' : '')));
 
         $a_js_folders['rcmrow'.$idx] = array($folder_utf8,
-            Q($display_folder), $protected || $folder['virtual']);
+            $display_folder, $protected || $folder['virtual']);
     }
 
     $RCMAIL->plugins->exec_hook('folders_list', array('table' => $table));
