@@ -15,29 +15,32 @@
  */
 class additional_message_headers extends rcube_plugin
 {
-    public $task = 'mail';
-
     function init()
     {
-        $this->add_hook('message_outgoing_headers', array($this, 'message_headers'));
+        $this->add_hook('message_before_send', array($this, 'message_headers'));
     }
 
     function message_headers($args)
     {
-	$this->load_config();
+        $this->load_config();
+
+        $headers = $args['message']->headers();
+        $rcube   = rcube::get_instance();
 
         // additional email headers
-        $additional_headers = rcmail::get_instance()->config->get('additional_message_headers',array());
-        foreach($additional_headers as $header=>$value){
+        $additional_headers = $rcube->config->get('additional_message_headers', array());
+        foreach ((array)$additional_headers as $header => $value) {
             if (null === $value) {
-                unset($args['headers'][$header]);
-            } else {
-                $args['headers'][$header] = $value;
+                unset($headers[$header]);
+            }
+            else {
+                $headers[$header] = $value;
             }
         }
+
+        $args['message']->_headers = array();
+        $args['message']->headers($headers);
 
         return $args;
     }
 }
-
-?>

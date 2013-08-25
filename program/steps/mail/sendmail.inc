@@ -462,6 +462,7 @@ if (!empty($CONFIG['useragent'])) {
 }
 
 // exec hook for header checking and manipulation
+// Depracated: use message_before_send hook instead
 $data = $RCMAIL->plugins->exec_hook('message_outgoing_headers', array('headers' => $headers));
 
 // sending aborted by plugin

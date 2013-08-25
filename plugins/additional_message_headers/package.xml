@@ -13,11 +13,10 @@
   <email>email@example.org</email>
   <active>yes</active>
  </lead>
- <date>2010-01-16</date>
- <time>18:19:33</time>
+ <date>2013-08-25</date>
  <version>
-  <release>1.1.0</release>
-  <api>1.1.0</api>
+  <release>1.2.0</release>
+  <api>1.2.0</api>
  </version>
  <stability>
   <release>stable</release>

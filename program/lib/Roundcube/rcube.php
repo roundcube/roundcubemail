@@ -1295,6 +1295,7 @@ class rcube
             return $_SESSION['language'];
         }
     }
+
 }
 
 
