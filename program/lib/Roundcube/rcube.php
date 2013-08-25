@@ -1397,6 +1397,10 @@ class rcube
             'options' => $options,
         ));
 
+        if ($plugin['abort']) {
+            return isset($plugin['result']) ? $plugin['result'] : false;
+        }
+
         $from    = $plugin['from'];
         $mailto  = $plugin['mailto'];
         $options = $plugin['options'];

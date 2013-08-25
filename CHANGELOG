@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so additional headers are added to all messages sent (#1489284)
 - Fix display issue after moving folder in Folder Manager (#1489293)
 - Fix handling of non-default date formats (#1489294)
 - Fix unquoted path in PREG expression on Windows (#1489290)
