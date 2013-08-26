@@ -926,11 +926,11 @@ class rcmail_output_html extends rcmail_output
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
                     if (is_array($this->config->get('skin_logo'))) {
-                       if (isset($attrib['type']) && array_key_exists($attrib['type'], $this->config->get('skin_logo'))) {
-                           $attrib['src'] = $this->config->get('skin_logo')[$attrib['type']];
+                       if ($logo = $this->config->get('skin_logo')[$this->template_name]) {
+                           $attrib['src'] = $logo;
                        }
-                       elseif (array_key_exists('default', $this->config->get('skin_logo'))) {
-                           $attrib['src'] = $this->config->get('skin_logo')['default'];
+                       elseif ($logo = $this->config->get('skin_logo')['*']) {
+                           $attrib['src'] = $logo;
                        }
                     }
                     elseif ($logo = $this->config->get('skin_logo')) {
