@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bugs when invoking contact creation form when read-only addressbook is selected (#1489296)
 - Fix identity selection on reply (#1489291)
 - Fix so additional headers are added to all messages sent (#1489284)
 - Fix display issue after moving folder in Folder Manager (#1489293)
