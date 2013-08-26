@@ -240,6 +240,9 @@ $config['support_url'] = '';
 
 // replace Roundcube logo with this image
 // specify an URL relative to the document root of this Roundcube installation
+// an array can be used to specify different logos for different screens
+// for example array("default" => "/images/roundcube_logo.png", "print" => "/images/roundcube_logo_print.png")
+// available options: default, login, print
 $config['skin_logo'] = null;
 
 // automatically create a new Roundcube user when log-in the first time.
