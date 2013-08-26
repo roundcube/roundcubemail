@@ -43,16 +43,14 @@ if ($RCMAIL->action == 'edit') {
 else {
     $source = get_input_value('_source', RCUBE_INPUT_GPC);
 
-    if (!strlen($source)) {
-        // Give priority to configured default
-        $source = $RCMAIL->config->get('default_addressbook');
+    if (strlen($source)) {
+        $CONTACTS = $RCMAIL->get_address_book($source, true);
     }
 
-    $CONTACTS = $RCMAIL->get_address_book($source, true);
-
-    // find writable addressbook
-    if (!$CONTACTS || $CONTACTS->readonly)
-        $source = $RCMAIL->get_address_book(-1, true);
+    if (!$CONTACTS || $CONTACTS->readonly) {
+        $CONTACTS = $RCMAIL->get_address_book(-1, true);
+        $source   = $RCMAIL->get_address_book_id($CONTACTS);
+    }
 
     // Initialize addressbook
     $CONTACTS = rcmail_contact_source($source, true);
