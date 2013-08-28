@@ -739,11 +739,22 @@ class rcube_utils
      */
     public static function strtotime($date)
     {
+        $date = trim($date);
+
         // check for MS Outlook vCard date format YYYYMMDD
-        if (preg_match('/^([12][90]\d\d)([01]\d)(\d\d)$/', trim($date), $matches)) {
-            return mktime(0,0,0, intval($matches[2]), intval($matches[3]), intval($matches[1]));
+        if (preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $date, $m)) {
+            return mktime(0,0,0, intval($m[2]), intval($m[3]), intval($m[1]));
         }
-        else if (is_numeric($date)) {
+
+        // common little-endian formats, e.g. dd/mm/yyyy (not all are supported by strtotime)
+        if (preg_match('/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/', $date, $m)
+            && $m[1] > 0 && $m[1] <= 31 && $m[2] > 0 && $m[2] <= 12 && $m[3] >= 1970
+        ) {
+            return mktime(0,0,0, intval($m[2]), intval($m[1]), intval($m[3]));
+        }
+
+        // unix timestamp
+        if (is_numeric($date)) {
             return (int) $date;
         }
 

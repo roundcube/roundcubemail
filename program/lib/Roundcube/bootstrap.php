@@ -58,7 +58,7 @@ define('RCUBE_VERSION', '1.0-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
-    define('RCUBE_LIB_DIR', dirname(__FILE__).'/');
+    define('RCUBE_LIB_DIR', dirname(__FILE__).DIRECTORY_SEPARATOR);
 }
 
 if (!defined('RCUBE_INSTALL_PATH')) {
@@ -81,6 +81,16 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 if (extension_loaded('mbstring')) {
     mb_internal_encoding(RCUBE_CHARSET);
     @mb_regex_encoding(RCUBE_CHARSET);
+}
+
+// make sure the Roundcube lib directory is in the include_path
+$rcube_path = realpath(RCUBE_LIB_DIR . '..');
+$sep        = PATH_SEPARATOR;
+$regexp     = "!(^|$sep)" . preg_quote($rcube_path, '!') . "($sep|\$)!";
+$path       = ini_get('include_path');
+
+if (!preg_match($regexp, $path)) {
+    set_include_path($path . PATH_SEPARATOR . $rcube_path);
 }
 
 // Register autoloader

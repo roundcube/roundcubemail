@@ -49,6 +49,7 @@ $labels['messagesendcopy'] = 'Envoyer une copie du message à';
 $labels['messagereply'] = 'Répondre avec le message';
 $labels['messagedelete'] = 'Supprimer le message';
 $labels['messagediscard'] = 'Rejeter avec le message';
+$labels['messagekeep'] = 'Conserver le message dans la boîte de réception';
 $labels['messagesrules'] = 'Pour les courriels entrants :';
 $labels['messagesactions'] = '...exécuter les actions suivantes:';
 $labels['add'] = 'Ajouter';

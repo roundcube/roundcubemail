@@ -18,7 +18,7 @@
 
 $labels = array();
 $labels['buttontext'] = 'СПАМ';
-$labels['buttontitle'] = 'Переместить в "СПАМ';
-$labels['reportedasjunk'] = 'Перемещено в "СПАМ';
+$labels['buttontitle'] = 'Переместить в СПАМ';
+$labels['reportedasjunk'] = 'Перемещено в СПАМ';
 
 ?>

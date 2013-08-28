@@ -5,7 +5,6 @@
  *
  * @version 2.0
  * @author Roland 'rosali' Liebl <myroundcube@mail4us.net>
- *
  */
 
 class rcube_hmail_password
@@ -39,8 +38,7 @@ class rcube_hmail_password
         else {
             $domain = $rcmail->config->get('username_domain',false);
             if (!$domain) {
-                rcube::write_log('errors','Plugin password (hmail driver): $rcmail_config[\'username_domain\'] is not defined.');
-                rcube::write_log('errors','Plugin password (hmail driver): Hint: Use hmail_login plugin (http://myroundcube.googlecode.com');
+                rcube::write_log('errors','Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
                 return PASSWORD_ERROR;
             }
             $username = $username . "@" . $domain;

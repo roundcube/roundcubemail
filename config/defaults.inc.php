@@ -294,6 +294,9 @@ $config['session_domain'] = '';
 // Session name. Default: 'roundcube_sessid'
 $config['session_name'] = null;
 
+// Session authentication cookie name. Default: 'roundcube_sessauth'
+$config['session_auth_name'] = null;
+
 // Session path. Defaults to PHP session.cookie_path setting.
 $config['session_path'] = null;
 
@@ -475,7 +478,8 @@ $config['language'] = null;
 $config['date_format'] = 'Y-m-d';
 
 // give this choice of date formats to the user to select from
-$config['date_formats'] = array('Y-m-d', 'd-m-Y', 'Y/m/d', 'm/d/Y', 'd/m/Y', 'd.m.Y', 'j.n.Y');
+// Note: do not use ambiguous formats like m/d/Y
+$config['date_formats'] = array('Y-m-d', 'Y/m/d', 'Y.m.d', 'd-m-Y', 'd/m/Y', 'd.m.Y', 'j.n.Y');
 
 // use this format for time display (date or strftime format)
 $config['time_format'] = 'H:i';

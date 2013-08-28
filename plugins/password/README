@@ -42,6 +42,7 @@
  2.16. DBMail (dbmail)
  2.17. Expect (expect)
  2.18. Samba (smb)
+ 2.19. Vpopmail daemon (vpopmaild)
  3. Driver API
 
 
@@ -246,7 +247,7 @@
 
  This driver is fully compatible with the ldap driver, but
  does not require (or uses) the
-    $rcmail_config['password_ldap_force_replace'] variable.
+    $config['password_ldap_force_replace'] variable.
  Other advantages:
     * Connects only once with the LDAP server when using the search user.
     * Does not read the DN, but only replaces the password within (that is
@@ -298,6 +299,16 @@
 
  Driver to change Samba user password via the 'smbpasswd' command.
  See config.inc.php.dist file for configuration description.
+
+ 2.19. Vpopmail daemon (vpopmaild)
+ -----------------------------------
+
+ Driver for the daemon of vpopmail. Vpopmail is used with qmail to
+ enable virtual users that are saved in a database and not in /etc/passwd.
+
+ Set $config['password_vpopmaild_host'] to the host where vpopmaild runs.
+
+ Set $config['password_vpopmaild_port'] to the port of vpopmaild.
 
 
  3. Driver API

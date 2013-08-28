@@ -14,12 +14,12 @@
  *
  *  // The id of the address book to use to automatically set a new
  *  // user's full name in their new identity. (This should be an
- *  // string, which refers to the $rcmail_config['ldap_public'] array.)
- *  $rcmail_config['new_user_identity_addressbook'] = 'People';
+ *  // string, which refers to the $config['ldap_public'] array.)
+ *  $config['new_user_identity_addressbook'] = 'People';
  *
  *  // When automatically setting a new users's full name in their
  *  // new identity, match the user's login name against this field.
- *  $rcmail_config['new_user_identity_match'] = 'uid';
+ *  $config['new_user_identity_match'] = 'uid';
  */
 class new_user_identity extends rcube_plugin
 {

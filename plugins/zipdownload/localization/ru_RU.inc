@@ -18,6 +18,6 @@
 
 $labels = array();
 $labels['downloadall'] = 'Загрузить все вложения';
-$labels['downloadfolder'] = 'Загрузить каталог';
+$labels['downloadfolder'] = 'Загрузить папку';
 
 ?>

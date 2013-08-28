@@ -3,10 +3,10 @@
 // By default this plugin stores attachments in filesystem
 // and copies them into sql database.
 // You can change it to use 'memcache' or 'apc'.
-$rcmail_config['database_attachments_cache'] = 'db';
+$config['database_attachments_cache'] = 'db';
 
 // Attachment data expires after specied TTL time in seconds (max.2592000).
 // Default is 12 hours.
-$rcmail_config['database_attachments_cache_ttl'] = 12 * 60 * 60;
+$config['database_attachments_cache_ttl'] = 12 * 60 * 60;
 
 ?>
