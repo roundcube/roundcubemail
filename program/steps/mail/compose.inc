@@ -947,10 +947,10 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
     $prefix .= rcube_label('from')    . ': ' . $MESSAGE->get_header('from') . "\n";
     $prefix .= rcube_label('to')      . ': ' . $MESSAGE->get_header('to') . "\n";
 
-    if ($MESSAGE->headers->cc)
-      $prefix .= rcube_label('cc') . ': ' . $MESSAGE->get_header('cc') . "\n";
-    if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
-      $prefix .= rcube_label('replyto') . ': ' . $MESSAGE->get_header('replyto') . "\n";
+    if ($cc = $MESSAGE->headers->get('cc'))
+      $prefix .= rcube_label('cc') . ': ' . $cc . "\n";
+    if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from'))
+      $prefix .= rcube_label('replyto') . ': ' . $replyto . "\n";
 
     $prefix .= "\n";
     $body = trim($body, "\r\n");
@@ -973,15 +973,13 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
       rcube_label('from'), Q($MESSAGE->get_header('from'), 'replace'),
       rcube_label('to'), Q($MESSAGE->get_header('to'), 'replace'));
 
-    if ($MESSAGE->headers->cc)
+    if ($cc = $MESSAGE->headers->get('cc'))
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
-        rcube_label('cc'),
-        Q($MESSAGE->get_header('cc'), 'replace'));
+        rcube_label('cc'), Q($cc, 'replace'));
 
-    if ($MESSAGE->headers->replyto && $MESSAGE->headers->replyto != $MESSAGE->headers->from)
+    if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from'))
       $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
-        rcube_label('replyto'),
-        Q($MESSAGE->get_header('replyto'), 'replace'));
+        rcube_label('replyto'), Q($replyto, 'replace'));
 
     $prefix .= "</tbody></table><br>";
   }
