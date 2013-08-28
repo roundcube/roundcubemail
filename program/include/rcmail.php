@@ -773,7 +773,7 @@ class rcmail extends rcube
     }
 
     // write performance stats to logs/console
-    if ($this->config->get('devel_mode')) {
+    if ($this->config->get('devel_mode') || $this->config->get('performance_stats')) {
       if (function_exists('memory_get_usage'))
         $mem = $this->show_bytes(memory_get_usage());
       if (function_exists('memory_get_peak_usage'))
