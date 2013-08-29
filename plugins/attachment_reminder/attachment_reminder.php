@@ -56,32 +56,32 @@ class attachment_reminder extends rcube_plugin
 
     function prefs_list($args)
     {
-        if ($args['section'] == 'compose') {
-            $this->add_texts('localization/');
+        if ($args['section'] != 'compose') return $args;
 
-            $reminder = rcube::get_instance()->config->get('attachment_reminder');
+        $this->add_texts('localization/');
 
-            $field_id = 'rcmfd_attachment_reminder';
+        $reminder = rcube::get_instance()->config->get('attachment_reminder');
 
-            $checkbox = new html_checkbox(array('name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1));
+        $field_id = 'rcmfd_attachment_reminder';
 
-            $args['blocks']['main']['options']['attachment_reminder'] = array(
-                'title'   => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
-                'content' => $checkbox->show($reminder ? 1 : 0),
-            );
-        }
+        $checkbox = new html_checkbox(array('name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1));
+
+        $args['blocks']['main']['options']['attachment_reminder'] = array(
+            'title'   => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
+            'content' => $checkbox->show($reminder ? 1 : 0),
+        );
 
         return $args;
     }
 
     function prefs_save($args)
     {
-        if ($args['section'] == 'compose') {
-            $dont_override = rcube::get_instance()->config->get('dont_override', array());
+        if ($args['section'] != 'compose') return $args;
 
-            if (!in_array('attachment_reminder', $dont_override)) {
-                $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
-            }
+        $dont_override = rcube::get_instance()->config->get('dont_override', array());
+
+        if (!in_array('attachment_reminder', $dont_override)) {
+            $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
         }
 
         return $args;

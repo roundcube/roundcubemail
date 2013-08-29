@@ -82,16 +82,11 @@ class debug_logger extends rcube_plugin
 
         $start_string = "";
 
-        $action       = rcmail::get_instance()->action;
-        $task         = rcmail::get_instance()->task;
+        $action = rcmail::get_instance()->action;
+        $task   = rcmail::get_instance()->task;
 
-        if ($action) {
-            $start_string .= "Action: " . $action . ". ";
-        }
-
-        if ($task) {
-            $start_string .= "Task: " . $task . ". ";
-        }
+        if ($action) $start_string .= "Action: " . $action . ". ";
+        if ($task)   $start_string .= "Task: " . $task . ". ";
 
         $this->runlog->start($start_string);
 
@@ -114,39 +109,23 @@ class debug_logger extends rcube_plugin
         if (!isset($args[1])) {
             // This could be extended to detect types based on the
             // file which called console. For now only rcube_imap/rcube_storage is supported
-            $bt   = debug_backtrace();
+            $bt = debug_backtrace();
 
             $file = $bt[3]['file'];
 
             switch (basename($file)) {
-                case 'rcube_imap.php':
-                    $type = 'imap';
-                    break;
-                case 'rcube_storage.php':
-                    $type = 'storage';
-                    break;
-                default:
-                    $type = false;
-                    break;
+                case 'rcube_imap.php':    $type = 'imap'; break;
+                case 'rcube_storage.php': $type = 'storage'; break;
+                default:                  $type = false; break;
             }
         }
 
-        switch ($note) {
-            case 'end':
-                $type = 'end';
-                break;
-        }
+        if ($note == 'end') $type = 'end';
 
         switch ($type) {
-            case 'start':
-                $this->runlog->start($note);
-                break;
-            case 'end':
-                $this->runlog->end();
-                break;
-            default:
-                $this->runlog->note($note, $type);
-                break;
+            case 'start': $this->runlog->start($note); break;
+            case 'end':   $this->runlog->end(); break;
+            default:      $this->runlog->note($note, $type); break;
         }
 
         return $args;
@@ -154,8 +133,6 @@ class debug_logger extends rcube_plugin
 
     function __destruct()
     {
-        if ($this->runlog) {
-            $this->runlog->end();
-        }
+        if ($this->runlog) $this->runlog->end();
     }
 }

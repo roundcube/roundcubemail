@@ -35,7 +35,7 @@ class runlog
 
     public function start($name, $tag = false)
     {
-        $this->run_log[]      = array(
+        $this->run_log[] = array(
             'type'    => 'start',
             'tag'     => $tag,
             'index'   => count($this->run_log),
@@ -64,7 +64,7 @@ class runlog
             }
         }
 
-        $start                             = $this->run_log[$lastk]['time'];
+        $start = $this->run_log[$lastk]['time'];
 
         $this->run_log[$lastk]['duration'] = microtime(true) - $start;
         $this->run_log[$lastk]['ended']    = true;
@@ -81,30 +81,28 @@ class runlog
 
         $this->indent--;
 
-        if ($this->run_log[$lastk]['duration'] >= $this->threshold) {
-            $tag_report = "";
+        if ($this->run_log[$lastk]['duration'] < $this->threshold) return;
 
-            foreach ($this->tag_count as $tag => $count) {
-                $tag_report .= "$tag: $count, ";
-            }
+        $tag_report = "";
 
-            if (!empty($tag_report)) {
-//                $tag_report = "\n$tag_report\n";
-            }
-
-            $end_txt = sprintf("end: $name - %0.4f seconds $tag_report", $this->run_log[$lastk]['duration']);
-
-            $this->print_to_console($end_txt, $this->run_log[$lastk]['tag'], 'end');
-
-            $this->print_to_file($end_txt, $this->run_log[$lastk]['tag'], 'end');
+        foreach ($this->tag_count as $tag => $count) {
+            $tag_report .= "$tag: $count, ";
         }
+
+        if (!empty($tag_report)) {
+//                $tag_report = "\n$tag_report\n";
+        }
+
+        $end_txt = sprintf("end: $name - %0.4f seconds $tag_report", $this->run_log[$lastk]['duration']);
+
+        $this->print_to_console($end_txt, $this->run_log[$lastk]['tag'], 'end');
+
+        $this->print_to_file($end_txt, $this->run_log[$lastk]['tag'], 'end');
     }
 
     public function increase_tag_count($tag)
     {
-        if (!isset($this->tag_count[$tag])) {
-            $this->tag_count[$tag] = 0;
-        }
+        if (!isset($this->tag_count[$tag])) $this->tag_count[$tag] = 0;
 
         $this->tag_count[$tag]++;
     }
@@ -144,17 +142,13 @@ class runlog
 
     public function note($msg, $tag = false)
     {
-        if ($tag) {
-            $this->increase_tag_count($tag);
-        }
+        if ($tag) $this->increase_tag_count($tag);
 
-        if (is_array($msg)) {
-            $msg = '<pre>' . print_r($msg, true) . '</pre>';
-        }
+        if (is_array($msg)) $msg = '<pre>' . print_r($msg, true) . '</pre>';
 
         $this->debug_messages[] = $msg;
 
-        $this->run_log[]        = array(
+        $this->run_log[] = array(
             'type'    => 'note',
             'tag'     => $tag ? $tag : "text",
             'value'   => htmlentities($msg),
@@ -169,11 +163,7 @@ class runlog
 
     public function print_to_file($msg, $tag = false, $type = false)
     {
-        if (!$tag) {
-            $file_handle_tag = 'master';
-        } else {
-            $file_handle_tag = $tag;
-        }
+        $file_handle_tag = $tag ? $tag : 'master';
 
         if ($file_handle_tag != 'master' && isset($this->file_handles[$file_handle_tag])) {
             $buffer = $this->get_indent();
@@ -186,6 +176,7 @@ class runlog
 
             fwrite($this->file_handles[$file_handle_tag], wordwrap($buffer, $this->max_line_size, "\n     "));
         }
+
         if (isset($this->file_handles['master']) && $this->file_handles['master']) {
             $buffer = $this->get_indent();
 
@@ -211,22 +202,24 @@ class runlog
 
     public function print_to_console($msg, $tag = false)
     {
-        if ($this->print_to_console) {
-            if (is_array($this->print_to_console)) {
-                if (in_array($tag, $this->print_to_console)) {
-                    echo $this->get_indent();
-                    if ($tag) {
-                        echo "$tag: ";
-                    }
-                    echo "$msg\n";
-                }
-            } else {
-                echo $this->get_indent();
-                if ($tag) {
-                    echo "$tag: ";
-                }
-                echo "$msg\n";
-            }
+        if (!$this->print_to_console) return;
+
+        if (!is_array($this->print_to_console)) {
+            echo $this->get_indent();
+
+            if ($tag) echo "$tag: ";
+
+            echo "$msg\n";
+
+            return;
+        }
+
+        if (in_array($tag, $this->print_to_console)) {
+            echo $this->get_indent();
+
+            if ($tag) echo "$tag: ";
+
+            echo "$msg\n";
         }
     }
 
