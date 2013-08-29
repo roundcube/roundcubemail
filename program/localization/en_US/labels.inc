@@ -237,6 +237,7 @@ $labels['insertresponse'] = 'Insert a response';
 $labels['manageresponses'] = 'Manage responses';
 $labels['savenewresponse'] = 'Save new response';
 $labels['editresponses'] = 'Edit responses';
+$labels['editresponse'] = 'Edit response';
 $labels['responsename'] = 'Name';
 $labels['responsetext'] = 'Response Text';
 

@@ -399,7 +399,7 @@ function rcube_webmail()
         break;
 
       case 'settings':
-        this.enable_command('preferences', 'identities', 'save', 'folders', true);
+        this.enable_command('preferences', 'identities', 'responses', 'save', 'folders', true);
 
         if (this.env.action == 'identities') {
           this.enable_command('add', this.env.identities_level < 2);
@@ -420,6 +420,9 @@ function rcube_webmail()
           parent.rcmail.enable_command('purge', this.env.messagecount);
           $("input[type='text']").first().select();
         }
+        else if (this.env.action == 'responses') {
+          this.enable_command('add', true);
+        }
 
         if (this.gui_objects.identitieslist) {
           this.identity_list = new rcube_list_widget(this.gui_objects.identitieslist, {multiselect:false, draggable:false, keyboard:false});
@@ -436,8 +439,22 @@ function rcube_webmail()
           this.sections_list.init();
           this.sections_list.focus();
         }
-        else if (this.gui_objects.subscriptionlist)
+        else if (this.gui_objects.subscriptionlist) {
           this.init_subscription_list();
+        }
+        else if (this.gui_objects.responseslist) {
+          this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:false});
+          this.responses_list.addEventListener('select', function(list){
+            var win, id = list.get_single_selection();
+            p.enable_command('delete', !!id);
+            if (id && (win = p.get_frame_window(p.env.contentframe))) {
+              p.set_busy(true);
+              p.location_href({ _action:'edit-response', _key:id, _framed:1 }, win);
+            }
+          });
+          this.responses_list.init();
+          this.responses_list.focus();
+        }
 
         break;
 
@@ -743,6 +760,13 @@ function rcube_webmail()
       case 'add':
         if (this.task == 'addressbook')
           this.load_contact(0, 'add');
+        else if (this.task == 'settings' && this.env.action == 'responses') {
+          var frame;
+          if ((frame = this.get_frame_window(this.env.contentframe))) {
+            this.set_busy(true);
+            this.location_href({ _action:'add-response', _framed:1 }, frame);
+          }
+        }
         else if (this.task == 'settings') {
           this.identity_list.clear_selection();
           this.load_identity(0, 'add-identity');
@@ -806,7 +830,10 @@ function rcube_webmail()
         // addressbook task
         else if (this.task == 'addressbook')
           this.delete_contacts();
-        // user settings task
+        // settings: canned response
+        else if (this.task == 'settings' && this.env.action == 'responses')
+          this.delete_response();
+        // settings: user identities
         else if (this.task == 'settings')
           this.delete_identity();
         break;
@@ -1191,6 +1218,7 @@ function rcube_webmail()
       // user settings commands
       case 'preferences':
       case 'identities':
+      case 'responses':
       case 'folders':
         this.goto_url('settings/' + command);
         break;
@@ -3428,6 +3456,27 @@ function rcube_webmail()
     }
   };
 
+  this.edit_responses = function()
+  {
+    // TODO: decide what to do here...
+  };
+
+  this.delete_response = function(key)
+  {
+    if (!key && this.responses_list) {
+      var selection = this.responses_list.get_selection();
+      key = selection[0];
+    }
+
+    // submit delete request
+    if (key && confirm(this.get_label('deleteresponseconfirm'))) {
+      this.http_post('settings/delete-response', { _key: key }, false);
+      return true;
+    }
+
+    return false;
+  };
+
   this.stop_spellchecking = function()
   {
     var ed;
@@ -5340,6 +5389,35 @@ function rcube_webmail()
     }
     else {
       list.update_row(rid, [ name ]);
+    }
+  };
+
+  this.update_response_row = function(response, oldkey)
+  {
+    var list = this.responses_list;
+
+    if (list && oldkey) {
+      list.update_row(oldkey, [ response.name ], response.key, true);
+    }
+    else if (list) {
+      list.insert_row({ id:'rcmrow'+response.key, cols:[ { className:'name', innerHTML:response.name } ] });
+      list.select(response.key);
+    }
+  };
+
+  this.remove_response = function(key)
+  {
+    var frame;
+
+    if (this.env.textresponses) {
+      delete this.env.textresponses[key];
+    }
+
+    if (this.responses_list) {
+      this.responses_list.remove_row(key);
+      if (this.env.contentframe && (frame = this.get_frame_window(this.env.contentframe))) {
+        frame.location.href = this.env.blankpage;
+      }
     }
   };
 

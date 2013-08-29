@@ -1707,23 +1707,16 @@ function rcmail_compose_responses_list($attrib)
     $attrib += array('id' => 'rcmresponseslist', 'tagname' => 'ul', 'cols' => 1);
 
     $jsenv = array();
-    $items = array();
-    foreach ($RCMAIL->config->get('compose_responses', array()) as $response) {
-        $key = $response['key'] ? $response['key'] : substr(md5($response['name']), 0, 16);
-        $items[strtolower($response['name'])] = html::a(array(
+    $list = new html_table($attrib);
+    foreach ($RCMAIL->get_compose_responses(true) as $response) {
+        $key = $response['key'];
+        $item = html::a(array(
             'href '=> '#'.urlencode($response['name']),
             'class' => rtrim('insertresponse ' . $attrib['itemclass']),
             'rel' => $key,
         ), Q($response['name']));
 
         $jsenv[$key] = $response;
-    }
-
-    // sort list by name
-    ksort($items, SORT_LOCALE_STRING);
-    
-    $list = new html_table($attrib);
-    foreach ($items as $item) {
         $list->add(array(), $item);
     }
 

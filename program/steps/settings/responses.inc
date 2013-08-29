@@ -21,12 +21,12 @@
 
 
 if (!empty($_POST['_insert'])) {
-    $name = get_input_value('_name', RCUBE_INPUT_POST);
+    $name = trim(get_input_value('_name', RCUBE_INPUT_POST));
     $text = trim(get_input_value('_text', RCUBE_INPUT_POST));
 
     if (!empty($name) && !empty($text)) {
         $dupes = 0;
-        $responses = $RCMAIL->config->get('compose_responses', array());
+        $responses = $RCMAIL->get_compose_responses();
         foreach ($responses as $resp) {
             if (strcasecmp($name, preg_replace('/\s\(\d+\)$/', '', $resp['name'])) == 0)
                 $dupes++;
@@ -46,8 +46,81 @@ if (!empty($_POST['_insert'])) {
             $RCMAIL->output->command('display_message', rcube_label('errorsaving'), 'error');
         }
     }
+
+    // send response
+    $RCMAIL->output->send();
 }
 
-// send response
-$RCMAIL->output->send();
 
+if ($RCMAIL->action == 'delete-response') {
+    if ($key = get_input_value('_key', RCUBE_INPUT_GPC)) {
+        $responses = $RCMAIL->get_compose_responses();
+        foreach ($responses as $i => $response) {
+            if (empty($response['key']))
+                $response['key'] = substr(md5($response['name']), 0, 16);
+            if ($response['key'] == $key) {
+                unset($responses[$i]);
+                $deleted = $RCMAIL->user->save_prefs(array('compose_responses' => $responses));
+                break;
+            }
+        }
+    }
+
+    if ($deleted) {
+        $RCMAIL->output->command('display_message', rcube_label('successfullydeleted'), 'confirmation');
+        $RCMAIL->output->command('remove_response', $key);
+    }
+
+    if ($RCMAIL->output->ajax_call) {
+        $RCMAIL->output->send();
+    }
+}
+
+
+$OUTPUT->set_pagetitle(rcube_label('responses'));
+$OUTPUT->include_script('list.js');
+
+
+/**
+ *
+ */
+function rcmail_responses_list($attrib)
+{
+    global $RCMAIL, $OUTPUT;
+
+    $attrib += array('id' => 'rcmresponseslist', 'tagname' => 'table', 'cols' => 1);
+
+    $plugin = $RCMAIL->plugins->exec_hook('responses_list', array(
+        'list' => $RCMAIL->get_compose_responses(true),
+        'cols' => array('name')
+    ));
+
+    $out = rcube_table_output($attrib, $plugin['list'], $plugin['cols'], 'key');
+
+    // set client env
+    $OUTPUT->add_gui_object('responseslist', $attrib['id']);
+
+    return $out;
+}
+
+
+// similar function as /steps/addressbook/func.inc::rcmail_contact_frame()
+function rcmail_response_frame($attrib)
+{
+    global $OUTPUT;
+
+    if (!$attrib['id']) {
+        $attrib['id'] = 'rcmResponseFrame';
+    }
+
+    $OUTPUT->set_env('contentframe', $attrib['id']);
+    return $OUTPUT->frame($attrib, true);
+}
+
+$OUTPUT->add_handlers(array(
+    'responseframe' => 'rcmail_response_frame',
+    'responseslist' => 'rcmail_responses_list',
+));
+$OUTPUT->add_label('deleteresponseconfirm');
+
+$OUTPUT->send('responses');

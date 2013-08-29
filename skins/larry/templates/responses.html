@@ -1,0 +1,41 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="noscroll">
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen" class="offset">
+
+<roundcube:include file="/includes/settingstabs.html" />
+
+<div id="settings-right">
+
+<div id="identitieslist" class="uibox listbox">
+<h2 class="boxtitle"><roundcube:label name="responses" /></h2>
+<div class="scroller withfooter">
+<roundcube:object name="responsesList" id="identities-table" class="listing" cellspacing="0" summary="Responses list" noheader="true" />
+</div>
+<div class="boxfooter">
+<roundcube:button command="add" type="link" title="savenewresponse" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button command="delete" type="link" title="delete" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" content="-" />
+</div>
+</div>
+
+<div id="identity-details" class="uibox contentbox">
+	<div class="iframebox">
+		<roundcube:object name="responseframe" id="preferences-frame" style="width:100%; height:100%" frameborder="0" src="/watermark.html" />
+	</div>
+	<roundcube:object name="message" id="message" class="statusbar" />
+</div>
+
+</div>
+
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>
