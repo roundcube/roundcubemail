@@ -211,7 +211,7 @@ $rcmail_config['log_dir'] = 'logs/';
 $rcmail_config['temp_dir'] = 'temp/';
 
 // expire files in temp_dir after 48 hours
-$rcmail_config['temp_dir_ttl'] = 48;
+$rcmail_config['temp_dir_ttl'] = '48h';
 
 // lifetime of message cache
 // possible units: s, m, h, d, w
