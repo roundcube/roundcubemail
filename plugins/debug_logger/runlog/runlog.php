@@ -274,10 +274,15 @@ class runlog
             }
         }
 
-        if ($this->file_handle) {
-            foreach ($totals as $name => $details) {
-                fwrite($this->file_handle, $name . ": " . number_format($details['duration'], 4) . "sec,  " . $details['count'] . " calls \n");
-            }
+        if (!$this->file_handle) return;
+
+        foreach ($totals as $name => $details) {
+            fwrite(
+                $this->file_handle,
+                $name . ": "
+                . number_format($details['duration'], 4)
+                . "sec,  " . $details['count'] . " calls \n"
+            );
         }
     }
 
