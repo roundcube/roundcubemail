@@ -618,6 +618,8 @@ class acl extends rcube_plugin
      * @param array $acl2 ACL rights array (or string)
      *
      * @param       int   Comparision result, 2 - full match, 1 - partial match, 0 - no match
+     *
+     * @return int
      */
     function acl_compare($acl1, $acl2)
     {
@@ -651,7 +653,7 @@ class acl extends rcube_plugin
      */
     function rights_supported()
     {
-        if ($this->supported !== null)  return $this->supported;
+        if ($this->supported !== null) return $this->supported;
 
         $capa = $this->rc->storage->get_capability('RIGHTS');
 
@@ -745,7 +747,7 @@ class acl extends rcube_plugin
         $config['required_fields'] = array($uid_field);
 
         // set search filter
-        if ($filter)$config['filter'] = $filter;
+        if ($filter) $config['filter'] = $filter;
 
         // disable vlv
         $config['vlv'] = false;
