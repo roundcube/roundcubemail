@@ -28,9 +28,13 @@ class acl extends rcube_plugin
     public $task = 'settings|addressbook|calendar';
 
     private $rc;
+
     private $supported = null;
+
     private $mbox;
+
     private $ldap;
+
     private $specials = array('anyone', 'anonymous');
 
     /**
@@ -143,10 +147,10 @@ class acl extends rcube_plugin
         if (!strlen($mbox_imap)) return $args;
 
         /*
-                // Do nothing on protected folders (?)
-                if ($args['options']['protected']) {
-                    return $args;
-                }
+        // Do nothing on protected folders (?)
+        if ($args['options']['protected']) {
+            return $args;
+        }
         */
 
         // Get MYRIGHTS
@@ -199,6 +203,7 @@ class acl extends rcube_plugin
 
         $this->rc->output->set_env('autocomplete_max', (int) $this->rc->config->get('autocomplete_max', 15));
         $this->rc->output->set_env('autocomplete_min_length', $this->rc->config->get('autocomplete_min_length'));
+
         $this->rc->output->add_label('autocompletechars', 'autocompletemore');
 
         $args['form']['sharing'] = array(
@@ -218,9 +223,7 @@ class acl extends rcube_plugin
      */
     function templ_table($attrib)
     {
-        if (empty($attrib['id'])) {
-            $attrib['id'] = 'acl-table';
-        }
+        if (empty($attrib['id'])) $attrib['id'] = 'acl-table';
 
         $out = $this->list_rights($attrib);
 
@@ -244,30 +247,27 @@ class acl extends rcube_plugin
         // depending on server capability either use 'te' or 'd' for deleting msgs
         $deleteright = implode(array_intersect(str_split('ted'), $supported));
 
-        $ul  = '';
-
         $input = new html_checkbox();
 
         // Advanced rights
         $attrib['id'] = 'advancedrights';
+
+        $ul  = '';
         foreach ($supported as $val) {
             $id = "acl$val";
 
             $ul .= html::tag(
                 'li',
                 null,
-                $input->show('', array(
-                    'name' => "acl[$val]", 'value' => $val, 'id' => $id
-                ))
-                . html::label(array('for' => $id, 'title' => $this->gettext('longacl' . $val)),
-                    $this->gettext('acl' . $val)));
+                $input->show('', array('name' => "acl[$val]", 'value' => $val, 'id' => $id))
+                   . html::label(array('for' => $id, 'title' => $this->gettext('longacl' . $val)),
+                $this->gettext('acl' . $val))
+            );
         }
 
         $out = html::tag('ul', $attrib, $ul, html::$common_attrib);
 
         // Simple rights
-        $ul = '';
-
         $attrib['id'] = 'simplerights';
 
         $items = array(
@@ -277,6 +277,7 @@ class acl extends rcube_plugin
             'other'  => preg_replace('/[lrswi' . $deleteright . ']/', '', implode($supported)),
         );
 
+        $ul = '';
         foreach ($items as $key => $val) {
             $id = "acl$key";
 
@@ -314,13 +315,19 @@ class acl extends rcube_plugin
 
         $textfield = new html_inputfield($attrib);
 
-        $fields['user'] = html::label(array('for' => 'iduser'), $this->gettext('username'))
+        $fields['user'] = html::label(
+                array('for' => 'iduser'),
+                $this->gettext('username')
+            )
             . ' ' . $textfield->show();
 
         // Add special entries
         if (!empty($this->specials)) {
             foreach ($this->specials as $key) {
-                $fields[$key] = html::label(array('for' => 'id' . $key), $this->gettext($key));
+                $fields[$key] = html::label(
+                    array('for' => 'id' . $key),
+                    $this->gettext($key)
+                );
             }
         }
 
@@ -381,9 +388,7 @@ class acl extends rcube_plugin
         // Sort the list by username
         uksort($acl, 'strnatcasecmp');
 
-        if (!empty($acl_special)) {
-            $acl = array_merge($acl_special, $acl);
-        }
+        if (!empty($acl_special)) $acl = array_merge($acl_special, $acl);
 
         // Get supported rights and build column names
         $supported = $this->rights_supported();
@@ -441,6 +446,7 @@ class acl extends rcube_plugin
 
             foreach ($items as $key => $right) {
                 $in = $this->acl_compare($userrights, $right);
+
                 switch ($in) {
                     case 2:
                         $class = 'enabled';
@@ -531,6 +537,8 @@ class acl extends rcube_plugin
      */
     private function action_delete()
     {
+        $error = false;
+
         $mbox = trim(rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)); // UTF7-IMAP
 
         $user = trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC));
