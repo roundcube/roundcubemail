@@ -14,6 +14,7 @@ class DebugLogger_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new debug_logger($rcube->api);
 
         $this->assertInstanceOf('debug_logger', $plugin);
