@@ -987,10 +987,11 @@ function rcmail_user_prefs($current = null)
                     'maxlength'     => 30,
                     'folder_filter' => 'mail',
                     'folder_rights' => 'w',
-                    // #1486114, #1488279
-                    'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
                 ));
             }
+
+            // #1486114, #1488279, #1489219
+            $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
 
             if (!isset($no_override['drafts_mbox'])) {
                 if (!$current) {
@@ -999,7 +1000,7 @@ function rcmail_user_prefs($current = null)
 
                 $blocks['main']['options']['drafts_mbox'] = array(
                     'title'   => Q(rcube_label('drafts')),
-                    'content' => $select->show($config['drafts_mbox'], array('name' => "_drafts_mbox")),
+                    'content' => $select->show($config['drafts_mbox'], array('name' => "_drafts_mbox", 'onchange' => $onchange)),
                 );
             }
 
@@ -1010,7 +1011,7 @@ function rcmail_user_prefs($current = null)
 
                 $blocks['main']['options']['sent_mbox'] = array(
                     'title'   => Q(rcube_label('sent')),
-                    'content' => $select->show($config['sent_mbox'], array('name' => "_sent_mbox")),
+                    'content' => $select->show($config['sent_mbox'], array('name' => "_sent_mbox", 'onchange' => '')),
                 );
             }
 
@@ -1021,7 +1022,7 @@ function rcmail_user_prefs($current = null)
 
                 $blocks['main']['options']['junk_mbox'] = array(
                     'title'   => Q(rcube_label('junk')),
-                    'content' => $select->show($config['junk_mbox'], array('name' => "_junk_mbox")),
+                    'content' => $select->show($config['junk_mbox'], array('name' => "_junk_mbox", 'onchange' => $onchange)),
                 );
             }
 
@@ -1032,7 +1033,7 @@ function rcmail_user_prefs($current = null)
 
                 $blocks['main']['options']['trash_mbox'] = array(
                     'title'   => Q(rcube_label('trash')),
-                    'content' => $select->show($config['trash_mbox'], array('name' => "_trash_mbox")),
+                    'content' => $select->show($config['trash_mbox'], array('name' => "_trash_mbox", 'onchange' => $onchange)),
                 );
             }
         break;

@@ -177,7 +177,9 @@ function rcmail_message_list_smart_column_name()
   $sent_mbox   = $RCMAIL->config->get('sent_mbox');
   $drafts_mbox = $RCMAIL->config->get('drafts_mbox');
 
-  if (strpos($mbox.$delim, $sent_mbox.$delim) === 0 || strpos($mbox.$delim, $drafts_mbox.$delim) === 0) {
+  if ((strpos($mbox.$delim, $sent_mbox.$delim) === 0 || strpos($mbox.$delim, $drafts_mbox.$delim) === 0)
+    && strtoupper($mbox) != 'INBOX'
+  ) {
     return 'to';
   }
 
