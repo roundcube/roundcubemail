@@ -704,22 +704,11 @@ class rcube_imap_generic
      */
     function connect($host, $user, $password, $options=null)
     {
-        // set options
-        if (is_array($options)) {
-            $this->prefs = $options;
-        }
-        // set auth method
-        if (!empty($this->prefs['auth_type'])) {
-            $auth_method = strtoupper($this->prefs['auth_type']);
-        } else {
-            $auth_method = 'CHECK';
-        }
+        // configure
+        $this->set_prefs($options);
 
-        if (!empty($this->prefs['disabled_caps'])) {
-            $this->prefs['disabled_caps'] = array_map('strtoupper', (array)$this->prefs['disabled_caps']);
-        }
-
-        $result = false;
+        $auth_method = $this->prefs['auth_type'];
+        $result      = false;
 
         // initialize connection
         $this->error    = '';
@@ -893,6 +882,36 @@ class rcube_imap_generic
         $this->closeConnection();
 
         return false;
+    }
+
+    /**
+     * Initializes environment
+     */
+    protected function set_prefs($prefs)
+    {
+        // set preferences
+        if (is_array($prefs)) {
+            $this->prefs = $prefs;
+        }
+
+        // set auth method
+        if (!empty($this->prefs['auth_type'])) {
+            $this->prefs['auth_type'] = strtoupper($this->prefs['auth_type']);
+        }
+        else {
+            $this->prefs['auth_type'] = 'CHECK';
+        }
+
+        // disabled capabilities
+        if (!empty($this->prefs['disabled_caps'])) {
+            $this->prefs['disabled_caps'] = array_map('strtoupper', (array)$this->prefs['disabled_caps']);
+        }
+
+        // additional message flags
+        if (!empty($this->prefs['message_flags'])) {
+            $this->flags = array_merge($this->flags, $this->prefs['message_flags']);
+            unset($this->prefs['message_flags']);
+        }
     }
 
     /**
