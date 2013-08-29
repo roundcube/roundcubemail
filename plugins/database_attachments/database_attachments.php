@@ -157,6 +157,8 @@ class database_attachments extends filesystem_attachments
      * Helper method to generate a unique key for the given attachment file
      *
      * @param array $args
+     *
+     * @return string
      */
     protected function _key($args)
     {
