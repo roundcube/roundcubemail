@@ -25,16 +25,34 @@
 
 class acl extends rcube_plugin
 {
+    /**
+     * @var string
+     */
     public $task = 'settings|addressbook|calendar';
 
+    /**
+     * @var object rcmail
+     */
     private $rc;
 
+    /**
+     * @var array List of supported access rights
+     */
     private $supported = null;
 
+    /**
+     * @var string Name of mailbox
+     */
     private $mbox;
 
+    /**
+     * @var object rcube_ldap
+     */
     private $ldap;
 
+    /**
+     * @var array Special entries
+     */
     private $specials = array('anyone', 'anonymous');
 
     /**
