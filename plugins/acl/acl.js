@@ -252,7 +252,7 @@ rcube_webmail.prototype.acl_add_row = function (o, sel) {
 
     // Update new row
     $('td', row).map(function () {
-        var r, cl = this.className.replace(/^acl/, '');
+        var cl = this.className.replace(/^acl/, '');
 
         if (items && items[cl]) {
             cl = items[cl];
