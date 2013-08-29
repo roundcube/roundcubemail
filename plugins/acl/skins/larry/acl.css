@@ -65,16 +65,12 @@
 
 #acltable tbody td.partial
 {
-  background-image: url(images/partial.png);
-  background-position: center;
-  background-repeat: no-repeat;
+  background: url(images/partial.png) no-repeat center;
 }
 
 #acltable tbody td.enabled
 {
-  background-image: url(images/enabled.png);
-  background-position: center;
-  background-repeat: no-repeat;
+  background: url(images/enabled.png) no-repeat center;
 }
 
 #acltable tbody tr.selected td.partial
