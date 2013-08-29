@@ -37,7 +37,9 @@ class attachment_reminder extends rcube_plugin
         if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
             if ($rcmail->config->get('attachment_reminder')) {
                 $this->include_script('attachment_reminder.js');
+
                 $this->add_texts('localization/', array('keywords', 'forgotattachment'));
+
                 $rcmail->output->add_label('addattachment', 'send');
             }
         }
@@ -56,8 +58,11 @@ class attachment_reminder extends rcube_plugin
     {
         if ($args['section'] == 'compose') {
             $this->add_texts('localization/');
+
             $reminder = rcube::get_instance()->config->get('attachment_reminder');
+
             $field_id = 'rcmfd_attachment_reminder';
+
             $checkbox = new html_checkbox(array('name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1));
 
             $args['blocks']['main']['options']['attachment_reminder'] = array(
@@ -73,6 +78,7 @@ class attachment_reminder extends rcube_plugin
     {
         if ($args['section'] == 'compose') {
             $dont_override = rcube::get_instance()->config->get('dont_override', array());
+
             if (!in_array('attachment_reminder', $dont_override)) {
                 $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
             }

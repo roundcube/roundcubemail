@@ -67,6 +67,7 @@ class debug_logger extends rcube_plugin
     function init()
     {
         require_once(dirname(__FILE__) . '/runlog/runlog.php');
+
         $this->runlog = new runlog();
 
         if (!rcmail::get_instance()->config->get('log_dir')) {
@@ -80,14 +81,18 @@ class debug_logger extends rcube_plugin
         }
 
         $start_string = "";
+
         $action       = rcmail::get_instance()->action;
         $task         = rcmail::get_instance()->task;
+
         if ($action) {
             $start_string .= "Action: " . $action . ". ";
         }
+
         if ($task) {
             $start_string .= "Task: " . $task . ". ";
         }
+
         $this->runlog->start($start_string);
 
         $this->add_hook('console', array($this, 'console'));
@@ -110,7 +115,9 @@ class debug_logger extends rcube_plugin
             // This could be extended to detect types based on the
             // file which called console. For now only rcube_imap/rcube_storage is supported
             $bt   = debug_backtrace();
+
             $file = $bt[3]['file'];
+
             switch (basename($file)) {
                 case 'rcube_imap.php':
                     $type = 'imap';
@@ -123,12 +130,12 @@ class debug_logger extends rcube_plugin
                     break;
             }
         }
+
         switch ($note) {
             case 'end':
                 $type = 'end';
                 break;
         }
-
 
         switch ($type) {
             case 'start':

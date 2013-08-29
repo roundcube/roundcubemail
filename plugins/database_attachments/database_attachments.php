@@ -32,19 +32,21 @@ class database_attachments extends filesystem_attachments
         $args['status'] = false;
 
         $cache = $this->get_cache();
-        $key   = $this->_key($args);
-        $data  = file_get_contents($args['path']);
 
-        if ($data === false) {
-            return $args;
-        }
+        $key = $this->_key($args);
 
-        $data   = base64_encode($data);
+        $data = file_get_contents($args['path']);
+
+        if ($data === false) return $args;
+
+        $data = base64_encode($data);
+
         $status = $cache->write($key, $data);
 
         if ($status) {
             $args['id']     = $key;
             $args['status'] = true;
+
             unset($args['path']);
         }
 
@@ -59,17 +61,17 @@ class database_attachments extends filesystem_attachments
         $args['status'] = false;
 
         $cache = $this->get_cache();
-        $key   = $this->_key($args);
+
+        $key = $this->_key($args);
 
         if ($args['path']) {
             $args['data'] = file_get_contents($args['path']);
 
-            if ($args['data'] === false) {
-                return $args;
-            }
+            if ($args['data'] === false) return $args;
         }
 
-        $data   = base64_encode($args['data']);
+        $data = base64_encode($args['data']);
+
         $status = $cache->write($key, $data);
 
         if ($status) {
@@ -86,7 +88,8 @@ class database_attachments extends filesystem_attachments
      */
     function remove($args)
     {
-        $cache  = $this->get_cache();
+        $cache = $this->get_cache();
+
         $status = $cache->remove($args['id']);
 
         $args['status'] = true;
@@ -111,7 +114,8 @@ class database_attachments extends filesystem_attachments
     function get($args)
     {
         $cache = $this->get_cache();
-        $data  = $cache->read($args['id']);
+
+        $data = $cache->read($args['id']);
 
         if ($data) {
             $args['data']   = base64_decode($data);
@@ -127,6 +131,7 @@ class database_attachments extends filesystem_attachments
     function cleanup($args)
     {
         $cache = $this->get_cache();
+
         $cache->remove($args['group'], true);
     }
 
@@ -149,9 +154,9 @@ class database_attachments extends filesystem_attachments
             $this->load_config();
 
             $rcmail = rcube::get_instance();
-            $ttl    = 12 * 60 * 60; // default: 12 hours
-            $ttl    = $rcmail->config->get('database_attachments_cache_ttl', $ttl);
-            $type   = $rcmail->config->get('database_attachments_cache', 'db');
+
+            $ttl  = $rcmail->config->get('database_attachments_cache_ttl', 12 * 60 * 60); // default: 12 hours
+            $type = $rcmail->config->get('database_attachments_cache', 'db');
 
             // Init SQL cache (disable cache data serialization)
             $this->cache = $rcmail->get_cache($this->prefix, 'db', $ttl, false);
