@@ -70,23 +70,21 @@ class debug_logger extends rcube_plugin
 
         $this->runlog = new runlog();
 
-        if (!rcmail::get_instance()->config->get('log_dir')) {
-            rcmail::get_instance()->config->set('log_dir', INSTALL_PATH . 'logs');
+        $rcmail = rcmail::get_instance();
+
+        if (!$rcmail->config->get('log_dir')) {
+            $rcmail->config->set('log_dir', INSTALL_PATH . 'logs');
         }
 
-        $log_config = rcmail::get_instance()->config->get('debug_logger', array());
+        $log_config = $rcmail->config->get('debug_logger', array());
 
         foreach ($log_config as $type => $file) {
-            $this->runlog->set_file(rcmail::get_instance()->config->get('log_dir') . '/' . $file, $type);
+            $this->runlog->set_file($rcmail->config->get('log_dir') . '/' . $file, $type);
         }
 
         $start_string = "";
-
-        $action = rcmail::get_instance()->action;
-        $task   = rcmail::get_instance()->task;
-
-        if ($action) $start_string .= "Action: " . $action . ". ";
-        if ($task)   $start_string .= "Task: " . $task . ". ";
+        if ($rcmail->action) $start_string .= "Action: " . $rcmail->action . ". ";
+        if ($rcmail->task)   $start_string .= "Task: " . $rcmail->task . ". ";
 
         $this->runlog->start($start_string);
 
