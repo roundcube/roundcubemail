@@ -252,7 +252,7 @@ class acl extends rcube_plugin
         // Advanced rights
         $attrib['id'] = 'advancedrights';
 
-        $ul  = '';
+        $ul = '';
         foreach ($supported as $val) {
             $id = "acl$val";
 
@@ -260,8 +260,8 @@ class acl extends rcube_plugin
                 'li',
                 null,
                 $input->show('', array('name' => "acl[$val]", 'value' => $val, 'id' => $id))
-                   . html::label(array('for' => $id, 'title' => $this->gettext('longacl' . $val)),
-                $this->gettext('acl' . $val))
+                . html::label(array('for' => $id, 'title' => $this->gettext('longacl' . $val)),
+                    $this->gettext('acl' . $val))
             );
         }
 
@@ -489,8 +489,7 @@ class acl extends rcube_plugin
 
         $users = $oldid ? array($user) : explode(',', $user);
 
-        $result = 0;
-
+        $result = false;
         foreach ($users as $user) {
             $user = trim($user);
 
@@ -520,7 +519,7 @@ class acl extends rcube_plugin
 
                     $this->rc->output->command('acl_update', $ret);
 
-                    $result++;
+                    $result = true;
                 }
             }
         }
@@ -537,16 +536,16 @@ class acl extends rcube_plugin
      */
     private function action_delete()
     {
-        $error = false;
-
         $mbox = trim(rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)); // UTF7-IMAP
 
         $user = trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC));
 
         $user = explode(',', $user);
 
+        $error = false;
         foreach ($user as $u) {
             $u = trim($u);
+
             if ($this->rc->storage->delete_acl($mbox, $u)) {
                 $this->rc->output->command('acl_remove_row', rcube_utils::html_identifier($u));
             } else {
@@ -572,8 +571,7 @@ class acl extends rcube_plugin
 
         $this->mbox = trim(rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)); // UTF7-IMAP
 
-        $advanced = trim(rcube_utils::get_input_value('_mode', rcube_utils::INPUT_GPC));
-        $advanced = $advanced == 'advanced' ? true : false;
+        $advanced = trim(rcube_utils::get_input_value('_mode', rcube_utils::INPUT_GPC)) == 'advanced';
 
         // Save state in user preferences
         $this->rc->user->save_prefs(array('acl_advanced_mode' => $advanced));
@@ -624,9 +622,7 @@ class acl extends rcube_plugin
      * @param array $acl1 ACL rights array (or string)
      * @param array $acl2 ACL rights array (or string)
      *
-     * @param       int   Comparison result, 2 - full match, 1 - partial match, 0 - no match
-     *
-     * @return int
+     * @return int Comparison result, 2 - full match, 1 - partial match, 0 - no match
      */
     function acl_compare($acl1, $acl2)
     {
@@ -682,7 +678,6 @@ class acl extends rcube_plugin
     {
         // When user enters a username without domain part, realm
         // allows to add it to the username (and display correct username in the table)
-
         if (isset($_SESSION['acl_username_realm'])) {
             return $_SESSION['acl_username_realm'];
         }
@@ -714,6 +709,8 @@ class acl extends rcube_plugin
 
     /**
      * Initializes autocomplete LDAP backend
+     *
+     * @return bool Ready State
      */
     private function init_ldap()
     {
@@ -727,11 +724,13 @@ class acl extends rcube_plugin
         // not an array, use configured ldap_public source
         if (!is_array($config)) {
             $ldap_config = (array) $this->rc->config->get('ldap_public');
-            $config      = $ldap_config[$config];
+
+            $config = $ldap_config[$config];
         }
 
         $uid_field = $this->rc->config->get('acl_users_field', 'mail');
-        $filter    = $this->rc->config->get('acl_users_filter');
+
+        $filter = $this->rc->config->get('acl_users_filter');
 
         if (empty($uid_field) || empty($config)) return false;
 
@@ -771,6 +770,8 @@ class acl extends rcube_plugin
 
     /**
      * Modify user login according to 'login_lc' setting
+     *
+     * @return string User
      */
     protected function mod_login($user)
     {
