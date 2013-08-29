@@ -49,9 +49,7 @@ rcube_webmail.prototype.acl_edit = function () {
     // @TODO: multi-row edition
     var id = this.acl_list.get_single_selection();
 
-    if (id) {
-        this.acl_init_form(id);
-    }
+    if (id) this.acl_init_form(id);
 };
 
 // ACL entry delete
@@ -59,9 +57,12 @@ rcube_webmail.prototype.acl_delete = function () {
     var users = this.acl_get_usernames();
 
     if (users && users.length && confirm(this.get_label('acl.deleteconfirm'))) {
-        this.http_request('settings/plugin.acl', '_act=delete&_user=' + urlencode(users.join(','))
-            + '&_mbox=' + urlencode(this.env.mailbox),
-            this.set_busy(true, 'acl.deleting'));
+        this.http_request(
+            'settings/plugin.acl',
+            '_act=delete&_user=' + urlencode(users.join(','))
+                + '&_mbox=' + urlencode(this.env.mailbox),
+            this.set_busy(true, 'acl.deleting')
+        );
     }
 };
 
@@ -70,15 +71,11 @@ rcube_webmail.prototype.acl_save = function () {
     var user = $('#acluser').val(), rights = '', type;
 
     $(':checkbox', this.env.acl_advanced ? $('#advancedrights') : sim_ul = $('#simplerights')).map(function () {
-        if (this.checked) {
-            rights += this.value;
-        }
+        if (this.checked) rights += this.value;
     });
 
     if (type = $('input:checked[name=usertype]').val()) {
-        if (type != 'user') {
-            user = type;
-        }
+        if (type != 'user') user = type;
     }
 
     if (!user) {
@@ -113,8 +110,8 @@ rcube_webmail.prototype.acl_cancel = function () {
 
 // Update data after save (and hide form)
 rcube_webmail.prototype.acl_update = function (o) {
-    // delete old row
     if (o.old) {
+        // delete old row
         this.acl_remove_row(o.old);
     } else if (this.env.acl[o.id]) {
         // make sure the same ID doesn't exist
@@ -187,10 +184,11 @@ rcube_webmail.prototype.acl_list_dblclick = function (list) {
 rcube_webmail.prototype.acl_list_keypress = function (list) {
     if (list.key_pressed == list.ENTER_KEY) {
         this.command('acl-edit');
-    } else if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY) {
-        if (!this.acl_form || !this.acl_form.is(':visible')) {
+    } else if (
+        (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
+        && (!this.acl_form || !this.acl_form.is(':visible'))
+        ) {
             this.command('acl-delete');
-        }
     }
 };
 
@@ -203,7 +201,8 @@ rcube_webmail.prototype.acl_list_update = function (html) {
 
 // Returns names of users in selected rows
 rcube_webmail.prototype.acl_get_usernames = function () {
-    var users = [], n, len, cell, row,
+    var users = [],
+        n, len, cell, row,
         list = this.acl_list,
         selection = list.get_selection();
 
@@ -213,9 +212,7 @@ rcube_webmail.prototype.acl_get_usernames = function () {
         } else if (row = list.rows[selection[n]]) {
             cell = $('td.user', row.obj);
 
-            if (cell.length == 1) {
-                users.push(cell.text());
-            }
+            if (cell.length == 1) users.push(cell.text());
         }
     }
 
@@ -273,12 +270,12 @@ rcube_webmail.prototype.acl_add_row = function (o, sel) {
 
     // sorting... (create an array of user identifiers, then sort it)
     for (n in this.env.acl) {
-        if (this.env.acl[n]) {
-            if (this.env.acl_specials.length && $.inArray(n, this.env.acl_specials) >= 0) {
-                spec.push(n);
-            } else {
-                ids.push(n);
-            }
+        if (!this.env.acl[n]) continue;
+
+        if (this.env.acl_specials.length && $.inArray(n, this.env.acl_specials) >= 0) {
+            spec.push(n);
+        } else {
+            ids.push(n);
         }
     }
 
@@ -289,15 +286,15 @@ rcube_webmail.prototype.acl_add_row = function (o, sel) {
 
     // find current id
     for (n = 0, len = ids.length; n < len; n++) {
-        if (ids[n] == id) {
-            break;
-        }
+        if (ids[n] == id) break;
     }
 
     // add row
     if (n && n < len) {
         $('#rcmrow' + ids[n - 1]).after(row);
+
         list.init_row(row);
+
         list.rowcount++;
     } else {
         list.insert_row(row);
@@ -310,8 +307,13 @@ rcube_webmail.prototype.acl_add_row = function (o, sel) {
 
 // Initializes and shows ACL create/edit form
 rcube_webmail.prototype.acl_init_form = function (id) {
-    var ul, row, td, val = '', type = 'user', li_elements, body = $('body'),
-        adv_ul = $('#advancedrights'), sim_ul = $('#simplerights'),
+    var ul, row, td,
+        val = '',
+        type = 'user',
+        li_elements,
+        body = $('body'),
+        adv_ul = $('#advancedrights'),
+        sim_ul = $('#simplerights'),
         name_input = $('#acluser');
 
     if (!this.acl_form) {
@@ -347,7 +349,9 @@ rcube_webmail.prototype.acl_init_form = function (id) {
 
         li_elements.map(function () {
             val = this.value;
+
             td = $('td.' + this.id, row);
+
             if (td.length && td.hasClass('enabled')) {
                 this.checked = true;
             }
@@ -374,16 +378,12 @@ rcube_webmail.prototype.acl_init_form = function (id) {
     // position the form horizontally
     var bw = body.width(), mw = this.acl_form.width();
 
-    if (bw >= mw) {
-        this.acl_form.css({left: parseInt((bw - mw) / 2) + 'px'});
-    }
+    if (bw >= mw) this.acl_form.css({left: parseInt((bw - mw) / 2) + 'px'});
 
     // display it
     this.acl_form.show();
 
-    if (type == 'user') {
-        name_input.focus();
-    }
+    if (type == 'user') name_input.focus();
 
     // unfocus the list, make backspace key in name input field working
     this.acl_list.blur();
@@ -397,9 +397,7 @@ rcube_webmail.prototype.acl_class = function (acl1, acl2) {
     acl2 = String(acl2);
 
     for (i = 0, len = acl2.length; i < len; i++) {
-        if (acl1.indexOf(acl2[i]) > -1) {
-            found++;
-        }
+        if (acl1.indexOf(acl2[i]) > -1) found++;
     }
 
     if (found == len) {
