@@ -7,7 +7,9 @@
  */
 class runlog
 {
-
+    /**
+     * @var int timestamp when log buffer was started
+     */
     private $start_time = false;
 
     private $parent_stack = array();
@@ -28,6 +30,9 @@ class runlog
 
     private $run_log = array();
 
+    /**
+     * Initialize start time as now
+     */
     function runlog()
     {
         $this->start_time = microtime(true);

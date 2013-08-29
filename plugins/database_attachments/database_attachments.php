@@ -18,14 +18,22 @@ require_once INSTALL_PATH . 'plugins/filesystem_attachments/filesystem_attachmen
 
 class database_attachments extends filesystem_attachments
 {
-    // Cache object
+    /**
+     * @var object Cache object
+     */
     protected $cache;
 
-    // A prefix for the cache key used in the session and in the key field of the cache table
+    /**
+     * @var string A prefix for the cache key used in the session and in the key field of the cache table
+     */
     protected $prefix = "db_attach";
 
     /**
      * Save a newly uploaded attachment
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function upload($args)
     {
@@ -55,6 +63,10 @@ class database_attachments extends filesystem_attachments
 
     /**
      * Save an attachment from a non-upload source (draft or forward)
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function save($args)
     {
@@ -85,6 +97,10 @@ class database_attachments extends filesystem_attachments
     /**
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function remove($args)
     {
@@ -101,6 +117,10 @@ class database_attachments extends filesystem_attachments
      * When composing an html message, image attachments may be shown
      * For this plugin, $this->get() will check the file and
      * return it's contents
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function display($args)
     {
@@ -110,6 +130,10 @@ class database_attachments extends filesystem_attachments
     /**
      * When displaying or sending the attachment the file contents are fetched
      * using this method. This is also called by the attachment_display hook.
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function get($args)
     {
@@ -127,6 +151,8 @@ class database_attachments extends filesystem_attachments
 
     /**
      * Delete all temp files associated with this user
+     *
+     * @param array $args
      */
     function cleanup($args)
     {
@@ -137,6 +163,8 @@ class database_attachments extends filesystem_attachments
 
     /**
      * Helper method to generate a unique key for the given attachment file
+     *
+     * @param array $args
      */
     protected function _key($args)
     {
