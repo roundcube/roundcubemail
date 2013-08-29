@@ -94,6 +94,13 @@ class debug_logger extends rcube_plugin
         $this->add_hook('authenticate', array($this, 'authenticate'));
     }
 
+    /**
+     * Note authentication event for a user in the log
+     *
+     * @param array $args
+     *
+     * @return array
+     */
     function authenticate($args)
     {
         $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);

@@ -54,6 +54,13 @@ class attachment_reminder extends rcube_plugin
         }
     }
 
+    /**
+     * Attach a list of attachments to an argument list
+     *
+     * @param $args array
+     *
+     * @return array
+     */
     function prefs_list($args)
     {
         if ($args['section'] != 'compose') return $args;
@@ -74,6 +81,12 @@ class attachment_reminder extends rcube_plugin
         return $args;
     }
 
+    /**
+     * Save Preferences to an argument list
+     * @param $args array
+     *
+     * @return array
+     */
     function prefs_save($args)
     {
         if ($args['section'] != 'compose') return $args;

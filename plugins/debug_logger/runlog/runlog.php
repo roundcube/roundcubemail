@@ -33,6 +33,12 @@ class runlog
         $this->start_time = microtime(true);
     }
 
+    /**
+     * Initialize Log
+     *
+     * @param string $name
+     * @param string $tag
+     */
     public function start($name, $tag = false)
     {
         $this->run_log[] = array(
@@ -54,6 +60,9 @@ class runlog
         $this->indent++;
     }
 
+    /**
+     * Finalize log, writing to console and/or file
+     */
     public function end()
     {
         $name = array_pop($this->parent_stack);
@@ -107,6 +116,11 @@ class runlog
         $this->tag_count[$tag]++;
     }
 
+    /**
+     * Return log buffer as text
+     *
+     * @return string
+     */
     public function get_text()
     {
         $text = "";
@@ -129,6 +143,12 @@ class runlog
         return $text;
     }
 
+    /**
+     * Choose which file to write to
+     *
+     * @param string $filename path to write to
+     * @param string $tag
+     */
     public function set_file($filename, $tag = 'master')
     {
         if (!isset($this->file_handle[$tag])) {
@@ -161,6 +181,13 @@ class runlog
         $this->print_to_console($msg, $tag);
     }
 
+    /**
+     * Write log entry to file
+     *
+     * @param string $msg
+     * @param string $tag
+     * @param string $type
+     */
     public function print_to_file($msg, $tag = false, $type = false)
     {
         $file_handle_tag = $tag ? $tag : 'master';
@@ -200,6 +227,12 @@ class runlog
         }
     }
 
+    /**
+     * Write log entry to console
+     *
+     * @param string $msg
+     * @param string $tag
+     */
     public function print_to_console($msg, $tag = false)
     {
         if (!$this->print_to_console) return;
@@ -223,6 +256,9 @@ class runlog
         }
     }
 
+    /**
+     * Print the total number of entries in the current log buffer to the log
+     */
     public function print_totals()
     {
         $totals = array();
@@ -240,6 +276,11 @@ class runlog
         }
     }
 
+    /**
+     * Translate the current indent level to a string of space characters
+     *
+     * @return string
+     */
     private function get_indent()
     {
         $buf = "";

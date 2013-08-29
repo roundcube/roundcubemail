@@ -17,6 +17,13 @@ class autologon extends rcube_plugin
         $this->add_hook('authenticate', array($this, 'authenticate'));
     }
 
+    /**
+     * Set action to login if we don't have a user or when this is on localhost
+     *
+     * @param $args array
+     *
+     * @return array
+     */
     function startup($args)
     {
         // change action to login
@@ -27,6 +34,12 @@ class autologon extends rcube_plugin
         return $args;
     }
 
+    /**
+     * Set dummy values if this is on localhost
+     * @param $args array
+     *
+     * @return array
+     */
     function authenticate($args)
     {
         if (!empty($_GET['_autologin']) && $this->is_localhost()) {
