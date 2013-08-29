@@ -244,14 +244,13 @@ class acl extends rcube_plugin
         // depending on server capability either use 'te' or 'd' for deleting msgs
         $deleteright = implode(array_intersect(str_split('ted'), $supported));
 
-        $out = '';
         $ul  = '';
 
         $input = new html_checkbox();
 
         // Advanced rights
         $attrib['id'] = 'advancedrights';
-        foreach ($supported as $key => $val) {
+        foreach ($supported as $val) {
             $id = "acl$val";
 
             $ul .= html::tag(
