@@ -47,9 +47,7 @@ class database_attachments extends filesystem_attachments
 
         if ($data === false) return $args;
 
-        $data = base64_encode($data);
-
-        $status = $cache->write($key, $data);
+        $status = $cache->write($key, base64_encode($data));
 
         if ($status) {
             $args['id']     = $key;
@@ -82,9 +80,7 @@ class database_attachments extends filesystem_attachments
             if ($args['data'] === false) return $args;
         }
 
-        $data = base64_encode($args['data']);
-
-        $status = $cache->write($key, $data);
+        $status = $cache->write($key, base64_encode($args['data']));
 
         if ($status) {
             $args['id']     = $key;
@@ -154,9 +150,7 @@ class database_attachments extends filesystem_attachments
      */
     function cleanup($args)
     {
-        $cache = $this->get_cache();
-
-        $cache->remove($args['group'], true);
+        $this->get_cache()->remove($args['group'], true);
     }
 
     /**
@@ -166,9 +160,10 @@ class database_attachments extends filesystem_attachments
      */
     protected function _key($args)
     {
-        $uname = $args['path'] ? $args['path'] : $args['name'];
-
-        return $args['group'] . md5(mktime() . $uname . $_SESSION['user_id']);
+        return $args['group']
+            . md5(mktime()
+            . ($args['path'] ? $args['path'] : $args['name'])
+            . $_SESSION['user_id']);
     }
 
     /**
