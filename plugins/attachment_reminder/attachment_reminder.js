@@ -12,7 +12,7 @@ function rcmail_get_compose_message() {
     }
 
     return msg;
-};
+}
 
 function rcmail_check_message(msg) {
     var i, rx, keywords = rcmail.gettext('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
@@ -24,11 +24,11 @@ function rcmail_check_message(msg) {
     rx = new RegExp('(' + keywords.join('|') + ')', 'i');
 
     return msg.search(rx) != -1;
-};
+}
 
 function rcmail_have_attachments() {
     return rcmail.env.attachments && $('li', rcmail.gui_objects.attachmentlist).length;
-};
+}
 
 function rcmail_attachment_reminder_dialog() {
     var buttons = {};
@@ -54,7 +54,7 @@ function rcmail_attachment_reminder_dialog() {
     rcmail.env.attachment_reminder = false;
 
     rcmail.show_popup_dialog(rcmail.gettext('attachment_reminder.forgotattachment'), '', buttons);
-};
+}
 
 if (window.rcmail) {
     rcmail.addEventListener('beforesend', function (evt) {
