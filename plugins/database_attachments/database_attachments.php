@@ -9,8 +9,8 @@
  *
  * This plugin relies on the core filesystem_attachments plugin
  *
- * @author Ziba Scott <ziba@umich.edu>
- * @author Aleksander Machniak <alec@alec.pl>
+ * @author  Ziba Scott <ziba@umich.edu>
+ * @author  Aleksander Machniak <alec@alec.pl>
  * @version @package_version@
  */
 
@@ -43,7 +43,7 @@ class database_attachments extends filesystem_attachments
         $status = $cache->write($key, $data);
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
             unset($args['path']);
         }
@@ -73,7 +73,7 @@ class database_attachments extends filesystem_attachments
         $status = $cache->write($key, $data);
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
         }
 
@@ -114,7 +114,7 @@ class database_attachments extends filesystem_attachments
         $data  = $cache->read($args['id']);
 
         if ($data) {
-            $args['data'] = base64_decode($data);
+            $args['data']   = base64_decode($data);
             $args['status'] = true;
         }
 
@@ -136,6 +136,7 @@ class database_attachments extends filesystem_attachments
     protected function _key($args)
     {
         $uname = $args['path'] ? $args['path'] : $args['name'];
+
         return $args['group'] . md5(mktime() . $uname . $_SESSION['user_id']);
     }
 

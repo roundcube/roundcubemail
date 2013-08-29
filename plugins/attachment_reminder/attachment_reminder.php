@@ -5,8 +5,8 @@
  * A plugin that reminds a user to attach the files
  *
  * @version @package_version@
- * @author Thomas Yu - Sian, Liu
- * @author Aleksander Machniak <machniak@kolabsys.com>
+ * @author  Thomas Yu - Sian, Liu
+ * @author  Aleksander Machniak <machniak@kolabsys.com>
  *
  * Copyright (C) 2013 Thomas Yu - Sian, Liu
  * Copyright (C) 2013, Kolab Systems AG
@@ -29,7 +29,6 @@ class attachment_reminder extends rcube_plugin
 {
     public $task = 'mail|settings';
     public $noajax = true;
-
 
     function init()
     {
@@ -62,7 +61,7 @@ class attachment_reminder extends rcube_plugin
             $checkbox = new html_checkbox(array('name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1));
 
             $args['blocks']['main']['options']['attachment_reminder'] = array(
-                'title' => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
+                'title'   => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
                 'content' => $checkbox->show($reminder ? 1 : 0),
             );
         }
@@ -78,7 +77,7 @@ class attachment_reminder extends rcube_plugin
                 $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
             }
         }
+
         return $args;
     }
-
 }
