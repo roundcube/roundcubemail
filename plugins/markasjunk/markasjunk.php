@@ -19,6 +19,7 @@ class markasjunk extends rcube_plugin
     $rcmail = rcmail::get_instance();
 
     $this->register_action('plugin.markasjunk', array($this, 'request_action'));
+    $this->add_hook('storage_init', array($this, 'storage_init'));
 
     if ($rcmail->action == '' || $rcmail->action == 'show') {
       $skin_path = $this->local_skin_path();
@@ -38,24 +39,36 @@ class markasjunk extends rcube_plugin
     }
   }
 
+  function storage_init($args)
+  {
+    $flags = array(
+      'JUNK'    => 'Junk',
+      'NONJUNK' => 'NonJunk',
+    );
+
+    // register message flags
+    $args['message_flags'] = array_merge((array)$args['message_flags'], $flags);
+
+    return $args;
+  }
+
   function request_action()
   {
     $this->add_texts('localization');
 
-    $GLOBALS['IMAP_FLAGS']['JUNK'] = 'Junk';
-    $GLOBALS['IMAP_FLAGS']['NONJUNK'] = 'NonJunk';
-    
-    $uids = get_input_value('_uid', RCUBE_INPUT_POST);
-    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
-    
-    $rcmail = rcmail::get_instance();
-    $rcmail->storage->unset_flag($uids, 'NONJUNK');
-    $rcmail->storage->set_flag($uids, 'JUNK');
-    
+    $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+
+    $rcmail  = rcmail::get_instance();
+    $storage = $rcmail->get_storage();
+
+    $storage->unset_flag($uids, 'NONJUNK');
+    $storage->set_flag($uids, 'JUNK');
+
     if (($junk_mbox = $rcmail->config->get('junk_mbox')) && $mbox != $junk_mbox) {
       $rcmail->output->command('move_messages', $junk_mbox);
     }
-    
+
     $rcmail->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
     $rcmail->output->send();
   }

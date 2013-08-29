@@ -39,7 +39,7 @@ abstract class rcube_storage
     protected $default_charset = 'ISO-8859-1';
     protected $default_folders = array('INBOX');
     protected $search_set;
-    protected $options = array('auth_method' => 'check');
+    protected $options = array('auth_type' => 'check');
     protected $page_size = 10;
     protected $threading = false;
 

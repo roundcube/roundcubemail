@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix setting of Junk and NonJunk flags by markasjunk plugin (#1489285)
 - Fix lack of Reply-To address in header of forwarded message body (#1489298)
 - Fix bugs when invoking contact creation form when read-only addressbook is selected (#1489296)
 - Fix identity selection on reply (#1489291)
