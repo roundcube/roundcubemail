@@ -1,60 +1,51 @@
-#aclcontainer
-{
+#aclcontainer {
   overflow-x: auto;
-  border: 1px solid #CCDDE4;
-  background-color: #D9ECF4;
+  border: 1px solid #ccdde4;
+  background-color: #d9ecf4;
   height: 272px;
   box-shadow: none;
 }
 
-#acllist-content
-{
+#acllist-content {
   position: relative;
   height: 230px;
   background-color: white;
 }
 
-#acllist-footer
-{
+#acllist-footer {
   position: relative;
 }
 
-#acltable
-{
+#acltable {
   width: 100%;
   border-collapse: collapse;
   border: none;
 }
 
-#acltable td
-{
+#acltable td {
   white-space: nowrap;
   border: none;
   text-align: center;
 }
 
-#acltable thead tr td
-{
-  border-left: #BBD3DA dotted 1px;
+#acltable thead tr td {
+  border-left: #bbd3da dotted 1px;
   font-size: 11px;
   font-weight: bold;
 }
 
-#acltable tbody td
-{
-  border-bottom: #DDDDDD 1px solid;
+#acltable tbody td {
+  border-bottom: #ddd 1px solid;
   text-align: center;
   padding: 2px;
   cursor: default;
 }
 
-#acltable thead td.user
-{
+#acltable thead td.user {
   border-left: none;
 }
 
-#acltable tbody td.user
-{
+#acltable tbody td.user {
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -63,60 +54,52 @@
   width: 50px;
 }
 
-#acltable tbody td.partial
-{
+#acltable tbody td.partial {
   background: url(images/partial.png) no-repeat center;
 }
 
-#acltable tbody td.enabled
-{
+#acltable tbody td.enabled {
   background: url(images/enabled.png) no-repeat center;
 }
 
-#acltable tbody tr.selected td.partial
-{
+#acltable tbody tr.selected td.partial {
   background-color: #019bc6;
   background-image: url(images/partial.png), -moz-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-  background-image: url(images/partial.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#019bc6), color-stop(100%,#017cb4));
+  background-image: url(images/partial.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #019bc6), color-stop(100%, #017cb4));
   background-image: url(images/partial.png), -o-linear-gradient(top, #019bc6 0%, #017cb4 100%);
   background-image: url(images/partial.png), -ms-linear-gradient(top, #019bc6 0%, #017cb4 100%);
   background-image: url(images/partial.png), linear-gradient(top, #019bc6 0%, #017cb4 100%);
 }
 
-#acltable tbody tr.selected td.enabled
-{
+#acltable tbody tr.selected td.enabled {
   background-color: #019bc6;
   background-image: url(images/enabled.png), -moz-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-  background-image: url(images/enabled.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#019bc6), color-stop(100%,#017cb4));
+  background-image: url(images/enabled.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #019bc6), color-stop(100%, #017cb4));
   background-image: url(images/enabled.png), -o-linear-gradient(top, #019bc6 0%, #017cb4 100%);
   background-image: url(images/enabled.png), -ms-linear-gradient(top, #019bc6 0%, #017cb4 100%);
   background-image: url(images/enabled.png), linear-gradient(top, #019bc6 0%, #017cb4 100%);
 }
 
-#aclform
-{
+#aclform {
   top: 80px;
   width: 480px;
   padding: 10px;
   background-color: white;
 }
 
-#aclform div
-{
+#aclform div {
   padding: 0;
   text-align: center;
   clear: both;
 }
 
-#aclform ul
-{
+#aclform ul {
   list-style: none;
   margin: 0.2em;
   padding: 0;
 }
 
-#aclform ul li label
-{
+#aclform ul li label {
   margin-left: 0.5em;
 }
 
