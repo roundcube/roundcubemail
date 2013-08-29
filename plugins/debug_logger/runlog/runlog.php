@@ -283,12 +283,7 @@ class runlog
      */
     private function get_indent()
     {
-        $buf = "";
-        for ($i = 0; $i < $this->indent; $i++) {
-            $buf .= "  ";
-        }
-
-        return $buf;
+        return str_pad('', $this->indent);
     }
 
     function  __destruct()
