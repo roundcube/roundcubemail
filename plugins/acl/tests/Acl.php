@@ -5,7 +5,7 @@ class Acl_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../acl.php';
+        include_once dirname( __FILE__ ) . '/../acl.php';
     }
 
     /**
@@ -14,10 +14,11 @@ class Acl_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new acl($rcube->api);
 
-        $this->assertInstanceOf('acl', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        $plugin = new acl( $rcube->api );
+
+        $this->assertInstanceOf( 'acl', $plugin );
+        $this->assertInstanceOf( 'rcube_plugin', $plugin );
     }
 }
 

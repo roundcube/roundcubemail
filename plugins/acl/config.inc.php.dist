@@ -2,7 +2,7 @@
 
 // Default look of access rights table
 // In advanced mode all access rights are displayed separately
-// In simple mode access rights are grouped into four groups: read, write, delete, full 
+// In simple mode access rights are grouped into four groups: read, write, delete, full
 $config['acl_advanced_mode'] = false;
 
 // LDAP addressbook that would be searched for user names autocomplete.
