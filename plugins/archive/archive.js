@@ -48,9 +48,7 @@ if (window.rcmail) {
         rcmail.addEventListener('plugin.move2archive_response', function (result)
         {
             // refresh list
-            if (result.update) {
-                rcmail.command('checkmail');
-            }
+            if (result.update) rcmail.command('checkmail');
         });
     })
 }

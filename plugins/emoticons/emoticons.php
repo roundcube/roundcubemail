@@ -64,7 +64,8 @@ class emoticons extends rcube_plugin
 
         if ($args['type'] == 'plain') {
             $args['body'] = preg_replace(
-                array_keys($map), array_values($map), $args['body']);
+                array_keys($map), array_values($map), $args['body']
+            );
         }
 
         return $args;
