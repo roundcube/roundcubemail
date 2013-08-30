@@ -6,8 +6,8 @@
  * Provide the jQuery UI library with according themes.
  *
  * @version 1.9.1
- * @author Cor Bosman <roundcube@wa.ter.net>
- * @author Thomas Bruederli <roundcube@gmail.com>
+ * @author  Cor Bosman <roundcube@wa.ter.net>
+ * @author  Thomas Bruederli <roundcube@gmail.com>
  * @license GNU GPLv3+
  */
 class jqueryui extends rcube_plugin
@@ -25,14 +25,13 @@ class jqueryui extends rcube_plugin
         $this->include_script("js/jquery-ui-$version.custom.min.js");
 
         // include UI stylesheet
-        $skin = $rcmail->config->get('skin');
-        $ui_map = $rcmail->config->get('jquery_ui_skin_map', array());
+        $skin     = $rcmail->config->get('skin');
+        $ui_map   = $rcmail->config->get('jquery_ui_skin_map', array());
         $ui_theme = $ui_map[$skin] ? $ui_map[$skin] : $skin;
 
         if (file_exists($this->home . "/themes/$ui_theme/jquery-ui-$version.custom.css")) {
             $this->include_stylesheet("themes/$ui_theme/jquery-ui-$version.custom.css");
-        }
-        else {
+        } else {
             $this->include_stylesheet("themes/larry/jquery-ui-$version.custom.css");
         }
 
@@ -59,9 +58,7 @@ class jqueryui extends rcube_plugin
             foreach ($jquery_ui_i18n as $package) {
                 if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_l.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_l.js");
-                }
-                else
-                if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_s.js")) {
+                } else if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_s.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_s.js");
                 }
             }
@@ -70,14 +67,13 @@ class jqueryui extends rcube_plugin
         // Date format for datepicker
         $date_format = $rcmail->config->get('date_format', 'Y-m-d');
         $date_format = strtr($date_format, array(
-                'y' => 'y',
-                'Y' => 'yy',
-                'm' => 'mm',
-                'n' => 'm',
-                'd' => 'dd',
-                'j' => 'd',
+            'y' => 'y',
+            'Y' => 'yy',
+            'm' => 'mm',
+            'n' => 'm',
+            'd' => 'dd',
+            'j' => 'd',
         ));
         $rcmail->output->set_env('date_format', $date_format);
     }
-
 }

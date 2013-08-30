@@ -15,7 +15,7 @@
  *
  * @version @package_version@
  * @license GNU GPLv3+
- * @author Thomas Bruederli
+ * @author  Thomas Bruederli
  */
 class http_authentication extends rcube_plugin
 {
@@ -36,8 +36,7 @@ class http_authentication extends rcube_plugin
             // handle login action
             if (empty($args['action']) && empty($_SESSION['user_id'])) {
                 $args['action'] = 'login';
-            }
-            // Set user password in session (see shutdown() method for more info)
+            } // Set user password in session (see shutdown() method for more info)
             else if (!empty($_SESSION['user_id']) && empty($_SESSION['password'])) {
                 $_SESSION['password'] = $rcmail->encrypt($_SERVER['PHP_AUTH_PW']);
             }
@@ -52,8 +51,9 @@ class http_authentication extends rcube_plugin
         $this->load_config();
 
         $host = rcmail::get_instance()->config->get('http_authentication_host');
-        if (is_string($host) && trim($host) !== '' && empty($args['host']))
+        if (is_string($host) && trim($host) !== '' && empty($args['host'])) {
             $args['host'] = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
+        }
 
         // Allow entering other user data in login form,
         // e.g. after log out (#1487953)
@@ -67,7 +67,7 @@ class http_authentication extends rcube_plugin
         }
 
         $args['cookiecheck'] = false;
-        $args['valid'] = true;
+        $args['valid']       = true;
 
         return $args;
     }

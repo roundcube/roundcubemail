@@ -14,6 +14,7 @@ class HttpAuthentication_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new http_authentication($rcube->api);
 
         $this->assertInstanceOf('http_authentication', $plugin);

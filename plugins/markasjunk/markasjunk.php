@@ -8,69 +8,70 @@
  *
  * @version @package_version@
  * @license GNU GPLv3+
- * @author Thomas Bruederli
+ * @author  Thomas Bruederli
  */
 class markasjunk extends rcube_plugin
 {
-  public $task = 'mail';
+    public $task = 'mail';
 
-  function init()
-  {
-    $rcmail = rcmail::get_instance();
+    function init()
+    {
+        $rcmail = rcmail::get_instance();
 
-    $this->register_action('plugin.markasjunk', array($this, 'request_action'));
-    $this->add_hook('storage_init', array($this, 'storage_init'));
+        $this->register_action('plugin.markasjunk', array($this, 'request_action'));
+        $this->add_hook('storage_init', array($this, 'storage_init'));
 
-    if ($rcmail->action == '' || $rcmail->action == 'show') {
-      $skin_path = $this->local_skin_path();
-      $this->include_script('markasjunk.js');
-      if (is_file($this->home . "/$skin_path/markasjunk.css"))
-        $this->include_stylesheet("$skin_path/markasjunk.css");
-      $this->add_texts('localization', true);
+        if ($rcmail->action == '' || $rcmail->action == 'show') {
+            $skin_path = $this->local_skin_path();
+            $this->include_script('markasjunk.js');
+            if (is_file($this->home . "/$skin_path/markasjunk.css")) {
+                $this->include_stylesheet("$skin_path/markasjunk.css");
+            }
+            $this->add_texts('localization', true);
 
-      $this->add_button(array(
-        'type' => 'link',
-        'label' => 'buttontext',
-        'command' => 'plugin.markasjunk',
-        'class' => 'button buttonPas junk disabled',
-        'classact' => 'button junk',
-        'title' => 'buttontitle',
-        'domain' => 'markasjunk'), 'toolbar');
-    }
-  }
-
-  function storage_init($args)
-  {
-    $flags = array(
-      'JUNK'    => 'Junk',
-      'NONJUNK' => 'NonJunk',
-    );
-
-    // register message flags
-    $args['message_flags'] = array_merge((array)$args['message_flags'], $flags);
-
-    return $args;
-  }
-
-  function request_action()
-  {
-    $this->add_texts('localization');
-
-    $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-
-    $rcmail  = rcmail::get_instance();
-    $storage = $rcmail->get_storage();
-
-    $storage->unset_flag($uids, 'NONJUNK');
-    $storage->set_flag($uids, 'JUNK');
-
-    if (($junk_mbox = $rcmail->config->get('junk_mbox')) && $mbox != $junk_mbox) {
-      $rcmail->output->command('move_messages', $junk_mbox);
+            $this->add_button(array(
+                'type'     => 'link',
+                'label'    => 'buttontext',
+                'command'  => 'plugin.markasjunk',
+                'class'    => 'button buttonPas junk disabled',
+                'classact' => 'button junk',
+                'title'    => 'buttontitle',
+                'domain'   => 'markasjunk'
+            ), 'toolbar');
+        }
     }
 
-    $rcmail->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
-    $rcmail->output->send();
-  }
+    function storage_init($args)
+    {
+        $flags = array(
+            'JUNK'    => 'Junk',
+            'NONJUNK' => 'NonJunk',
+        );
 
+        // register message flags
+        $args['message_flags'] = array_merge((array) $args['message_flags'], $flags);
+
+        return $args;
+    }
+
+    function request_action()
+    {
+        $this->add_texts('localization');
+
+        $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+        $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+
+        $storage->unset_flag($uids, 'NONJUNK');
+        $storage->set_flag($uids, 'JUNK');
+
+        if (($junk_mbox = $rcmail->config->get('junk_mbox')) && $mbox != $junk_mbox) {
+            $rcmail->output->command('move_messages', $junk_mbox);
+        }
+
+        $rcmail->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
+        $rcmail->output->send();
+    }
 }
