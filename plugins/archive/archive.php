@@ -20,7 +20,9 @@ class archive extends rcube_plugin
 
         // There is no "Archived flags"
         // $GLOBALS['IMAP_FLAGS']['ARCHIVED'] = 'Archive';
-        if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')
+        if (
+            $rcmail->task == 'mail'
+            && ($rcmail->action == '' || $rcmail->action == 'show')
             && ($archive_folder = $rcmail->config->get('archive_mbox'))
         ) {
             $skin_path = $this->local_skin_path();
