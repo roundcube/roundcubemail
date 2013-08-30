@@ -15,8 +15,10 @@ class help extends rcube_plugin
 {
     // all task excluding 'login' and 'logout'
     public $task = '?(?!login|logout).*';
+
     // we've got no ajax handlers
     public $noajax = true;
+
     // skip frames
     public $noframe = true;
 

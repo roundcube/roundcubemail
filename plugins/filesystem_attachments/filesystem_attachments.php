@@ -50,8 +50,10 @@ class filesystem_attachments extends rcube_plugin
     function upload($args)
     {
         $args['status'] = false;
-        $group          = $args['group'];
-        $rcmail         = rcmail::get_instance();
+
+        $group = $args['group'];
+
+        $rcmail = rcmail::get_instance();
 
         // use common temp dir for file uploads
         $temp_dir = $rcmail->config->get('temp_dir');
@@ -76,17 +78,22 @@ class filesystem_attachments extends rcube_plugin
      */
     function save($args)
     {
-        $group          = $args['group'];
+        $group = $args['group'];
+
         $args['status'] = false;
 
         if (!$args['path']) {
-            $rcmail   = rcmail::get_instance();
+            $rcmail = rcmail::get_instance();
+
             $temp_dir = $rcmail->config->get('temp_dir');
             $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
 
             if ($fp = fopen($tmp_path, 'w')) {
+
                 fwrite($fp, $args['data']);
+
                 fclose($fp);
+
                 $args['path'] = $tmp_path;
             } else {
                 return $args;

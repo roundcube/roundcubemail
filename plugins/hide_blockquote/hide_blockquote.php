@@ -35,7 +35,7 @@ class hide_blockquote extends rcube_plugin
 
         $limit = $rcmail->config->get('hide_blockquote_limit');
 
-        if ( ($rcmail->action == 'preview' || $rcmail->action == 'show') && $limit ) {
+        if (($rcmail->action == 'preview' || $rcmail->action == 'show') && $limit) {
             // include styles
             $this->include_stylesheet($this->local_skin_path() . "/style.css");
 
@@ -55,13 +55,13 @@ class hide_blockquote extends rcube_plugin
 
         $this->add_texts('localization');
 
-        $rcmail   = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
-        $limit    = (int) $rcmail->config->get('hide_blockquote_limit');
+        $limit = (int) $rcmail->config->get('hide_blockquote_limit');
 
         $field_id = 'hide_blockquote_limit';
 
-        $input    = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 5));
+        $input = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 5));
 
         $args['blocks']['main']['options']['hide_blockquote_limit'] = array(
             'title'   => $this->gettext('quotelimit'),
