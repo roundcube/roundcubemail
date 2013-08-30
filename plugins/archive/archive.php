@@ -141,9 +141,9 @@ class archive extends rcube_plugin
 
         $uids = explode(',', rcube_utils::get_input_value('_uid', RCUBE_INPUT_POST));
         foreach ($uids as $uid) {
-            if (!$archive_folder || !($message = $rcmail->storage->get_message($uid))) {
-                continue;
-            }
+            $message = $rcmail->storage->get_message($uid);
+
+            if (!$archive_folder || !$message) continue;
 
             $subfolder = null;
             switch ($archive_type) {
