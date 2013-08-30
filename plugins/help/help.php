@@ -44,13 +44,16 @@ class help extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         // add taskbar button
-        $this->add_button(array(
-            'command'    => 'help',
-            'class'      => 'button-help',
-            'classsel'   => 'button-help button-selected',
-            'innerclass' => 'button-inner',
-            'label'      => 'help.help',
-        ), 'taskbar');
+        $this->add_button(
+            array(
+                'command'    => 'help',
+                'class'      => 'button-help',
+                'classsel'   => 'button-help button-selected',
+                'innerclass' => 'button-inner',
+                'label'      => 'help.help',
+            ),
+            'taskbar'
+        );
 
         $this->include_script('help.js');
 
@@ -69,10 +72,12 @@ class help extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         // register UI objects
-        $rcmail->output->add_handlers(array(
-            'helpcontent' => array($this, 'content'),
-            'tablink'     => array($this, 'tablink'),
-        ));
+        $rcmail->output->add_handlers(
+            array(
+                'helpcontent' => array($this, 'content'),
+                'tablink'     => array($this, 'tablink'),
+            )
+        );
 
         if ($rcmail->action == 'about') {
             $rcmail->output->set_pagetitle($this->gettext('about'));

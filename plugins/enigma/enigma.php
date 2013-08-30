@@ -333,11 +333,10 @@ class enigma extends rcube_plugin
             $p['prefix'] .= html::div($attrib, $msg);
         }
 
+        $sig = $this->engine->signatures[$this->engine->signed_parts[$part_id]];
+
         // Signature verification status
-        if (
-            !isset($this->engine->signed_parts[$part_id])
-            || !($sig = $this->engine->signatures[$this->engine->signed_parts[$part_id]])
-        ) {
+        if ( !isset($this->engine->signed_parts[$part_id]) || !$sig ) {
             return $p;
         }
 
@@ -459,6 +458,7 @@ class enigma extends rcube_plugin
                 $this->keys_parts[] = $attachment->mime_id;
             }
         }
+
         // the same with message bodies
         foreach ((array) $this->message->parts as $part) {
             if ($this->is_keys_part($part)) {
@@ -466,6 +466,7 @@ class enigma extends rcube_plugin
                 $this->keys_bodies[] = $part->mime_id;
             }
         }
+
         // @TODO: inline PGP keys
 
         if ($this->keys_parts) $this->add_texts('localization');
@@ -483,7 +484,6 @@ class enigma extends rcube_plugin
         $attach_script = false;
 
         foreach ($this->keys_parts as $part) {
-
             // remove part's body
             if (in_array($part, $this->keys_bodies)) $p['content'] = '';
 
