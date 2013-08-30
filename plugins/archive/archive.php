@@ -168,10 +168,12 @@ class archive extends rcube_plugin
                     }
 
                     // replace reserved characters in folder name
-                    $repl                     = $delimiter == '-' ? '_' : '-';
+                    $repl = $delimiter == '-' ? '_' : '-';
+
                     $replacements[$delimiter] = $repl;
                     $replacements['.']        = $repl; // some IMAP server do not allow . characters
-                    $subfolder                = strtr($subfolder, $replacements);
+
+                    $subfolder = strtr($subfolder, $replacements);
                     break;
 
                 default:
@@ -195,7 +197,7 @@ class archive extends rcube_plugin
             } else {
                 $result['errors'][] = $uid;
             }
-        } // end for
+        }
 
         // send response
         if ($result['errors']) {
