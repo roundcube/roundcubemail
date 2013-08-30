@@ -18,8 +18,6 @@ class archive extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        if (!($rcmail->task == 'settings') && !($rcmail->task == 'mail')) return;
-
         if ($rcmail->task == 'settings') {
             $dont_override = $rcmail->config->get('dont_override', array());
 
