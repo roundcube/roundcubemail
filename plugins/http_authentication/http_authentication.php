@@ -53,6 +53,7 @@ class http_authentication extends rcube_plugin
         $this->load_config();
 
         $host = rcmail::get_instance()->config->get('http_authentication_host');
+
         if (is_string($host) && trim($host) !== '' && empty($args['host'])) {
             $args['host'] = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
         }

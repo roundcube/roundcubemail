@@ -33,7 +33,9 @@ class identity_select extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        if ($add_headers = (array) $rcmail->config->get('identity_select_headers', array())) {
+        $add_headers = (array) $rcmail->config->get('identity_select_headers', array());
+
+        if (!empty($add_headers)) {
             $p['fetch_headers'] = trim($p['fetch_headers'] . ' ' . strtoupper(join(' ', $add_headers)));
         }
 
@@ -51,14 +53,20 @@ class identity_select extends rcube_plugin
 
         $rcmail = rcmail::get_instance();
 
-        foreach ((array) $rcmail->config->get('identity_select_headers', array()) as $header) {
-            if ($header = $p['message']->headers->get($header, false)) {
-                foreach ($p['identities'] as $idx => $ident) {
-                    if (in_array($ident['email_ascii'], (array) $header)) {
-                        $p['selected'] = $idx;
+        $headers = (array) $rcmail->config->get('identity_select_headers', array());
 
-                        break 2;
-                    }
+        foreach ($headers as $header) {
+            $header = $p['message']->headers->get($header, false);
+
+            if (empty($header)) continue;
+
+            $header = (array) $header;
+
+            foreach ($p['identities'] as $idx => $ident) {
+                if (in_array($ident['email_ascii'], $header)) {
+                    $p['selected'] = $idx;
+
+                    break 2;
                 }
             }
         }
