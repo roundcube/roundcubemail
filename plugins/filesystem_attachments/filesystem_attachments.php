@@ -61,6 +61,7 @@ class filesystem_attachments extends rcube_plugin
             $args['id']     = $this->file_id();
             $args['path']   = $tmpfname;
             $args['status'] = true;
+
             @chmod($tmpfname, 0600); // set correct permissions (#1488996)
 
             // Note the file for later cleanup
@@ -144,14 +145,12 @@ class filesystem_attachments extends rcube_plugin
         // the file to disk, but does not make an entry in that array
         if (is_array($_SESSION['plugins']['filesystem_attachments'])) {
             foreach ($_SESSION['plugins']['filesystem_attachments'] as $group => $files) {
-                if ($args['group'] && $args['group'] != $group) {
-                    continue;
-                }
+                if ($args['group'] && $args['group'] != $group) continue;
+
                 foreach ((array) $files as $filename) {
-                    if (file_exists($filename)) {
-                        unlink($filename);
-                    }
+                    if (file_exists($filename)) unlink($filename);
                 }
+
                 unset($_SESSION['plugins']['filesystem_attachments'][$group]);
             }
         }
@@ -162,6 +161,7 @@ class filesystem_attachments extends rcube_plugin
     function file_id()
     {
         $userid = rcmail::get_instance()->user->ID;
+
         list($usec, $sec) = explode(' ', microtime());
 
         return preg_replace('/[^0-9]/', '', $userid . $sec . $usec);

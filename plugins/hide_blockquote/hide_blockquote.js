@@ -35,8 +35,7 @@ function hide_blockquote()
             .css({position: 'absolute', 'z-Index': 2})
             .text(rcmail.gettext('hide_blockquote.show'))
             .data('parent', div)
-            .click(function ()
-            {
+            .click(function () {
                 var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
 
                 t.text(rcmail.gettext(visible ? 'hide' : 'show', 'hide_blockquote'))

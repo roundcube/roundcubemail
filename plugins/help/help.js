@@ -9,16 +9,19 @@ if (window.rcmail) {
     {
         // catch clicks to help task button
         if (prop == 'help') {
-            if (rcmail.task == 'help')  // we're already there
-            {
-                return false;
-            }
+            // Check if we're already there
+            if (rcmail.task == 'help') return false;
 
-            var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/' + rcmail.env.action : '') });
+            var url = rcmail.url(
+                'help/index',
+                {
+                    _rel: rcmail.task + (rcmail.env.action ? '/' + rcmail.env.action : '')
+                }
+            );
+
             if (rcmail.env.help_open_extwin) {
                 rcmail.open_window(url, 1020, false);
-            }
-            else {
+            } else {
                 rcmail.redirect(url, false);
             }
 
