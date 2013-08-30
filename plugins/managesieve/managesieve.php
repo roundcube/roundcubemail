@@ -8,7 +8,7 @@
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
  * @version @package_version@
- * @author Aleksander Machniak <alec@alec.pl>
+ * @author  Aleksander Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist)
  *
@@ -45,8 +45,7 @@ class managesieve extends rcube_plugin
 
         if ($this->rc->task == 'settings') {
             $this->init_ui();
-        }
-        else if ($this->rc->task == 'mail') {
+        } else if ($this->rc->task == 'mail') {
             // register message hook
             $this->add_hook('message_headers_output', array($this, 'mail_headers'));
 
@@ -67,7 +66,7 @@ class managesieve extends rcube_plugin
         }
 
         // load localization
-        $this->add_texts('localization/', array('filters','managefilters'));
+        $this->add_texts('localization/', array('filters', 'managefilters'));
         $this->include_script('managesieve.js');
 
         $this->ui_initialized = true;
@@ -96,13 +95,13 @@ class managesieve extends rcube_plugin
         }
 
         // add 'Create filter' item to message menu
-        $this->api->add_content(html::tag('li', null, 
+        $this->api->add_content(html::tag('li', null,
             $this->api->output->button(array(
-                'command'  => 'managesieve-create',
-                'label'    => 'managesieve.filtercreate',
-                'type'     => 'link',
-                'classact' => 'icon filterlink active',
-                'class'    => 'icon filterlink',
+                'command'    => 'managesieve-create',
+                'label'      => 'managesieve.filtercreate',
+                'type'       => 'link',
+                'classact'   => 'icon filterlink active',
+                'class'      => 'icon filterlink',
                 'innerclass' => 'icon filterlink',
             ))), 'messagemenu');
 
@@ -128,8 +127,9 @@ class managesieve extends rcube_plugin
         $headers = $args['headers'];
         $ret     = array();
 
-        if ($headers->subject)
+        if ($headers->subject) {
             $ret[] = array('Subject', rcube_mime::decode_header($headers->subject));
+        }
 
         // @TODO: List-Id, others?
         foreach (array('From', 'To') as $h) {
@@ -144,11 +144,11 @@ class managesieve extends rcube_plugin
             }
         }
 
-        if ($this->rc->action == 'preview')
+        if ($this->rc->action == 'preview') {
             $this->rc->output->command('parent.set_env', array('sieve_headers' => $ret));
-        else
+        } else {
             $this->rc->output->set_env('sieve_headers', $ret);
-
+        }
 
         return $args;
     }
@@ -169,7 +169,7 @@ class managesieve extends rcube_plugin
     function managesieve_save()
     {
         // load localization
-        $this->add_texts('localization/', array('filters','managefilters'));
+        $this->add_texts('localization/', array('filters', 'managefilters'));
 
         // include main js script
         if ($this->api->output->type == 'html') {

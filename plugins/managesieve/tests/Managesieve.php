@@ -13,7 +13,8 @@ class Managesieve_Plugin extends PHPUnit_Framework_TestCase
      */
     function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
+
         $plugin = new managesieve($rcube->api);
 
         $this->assertInstanceOf('managesieve', $plugin);
