@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add temp_dir_ttl configuration option (#1489304)
 - Fix newmail_notifier issue where favicon wasn't changed back to default (#1489313)
 - Allow setting INBOX as Sent folder (#1489219)
 - Fix setting of Junk and NonJunk flags by markasjunk plugin (#1489285)
