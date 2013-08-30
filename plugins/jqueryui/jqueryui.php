@@ -12,6 +12,9 @@
  */
 class jqueryui extends rcube_plugin
 {
+    /**
+     * @var bool We've got no ajax handlers
+     */
     public $noajax = true;
 
     public function init()

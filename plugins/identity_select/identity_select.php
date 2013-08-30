@@ -18,6 +18,9 @@
  */
 class identity_select extends rcube_plugin
 {
+    /**
+     * @var string Permitted Tasks
+     */
     public $task = 'mail';
 
     function init()
@@ -28,6 +31,10 @@ class identity_select extends rcube_plugin
 
     /**
      * Adds additional headers to supported headers list
+     *
+     * @param array $p Parameters
+     *
+     * @return array
      */
     function storage_init($p)
     {
@@ -44,6 +51,10 @@ class identity_select extends rcube_plugin
 
     /**
      * Identity selection
+     *
+     * @param array $p Parameters
+     *
+     * @return array
      */
     function select($p)
     {

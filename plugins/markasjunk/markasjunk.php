@@ -12,6 +12,9 @@
  */
 class markasjunk extends rcube_plugin
 {
+    /**
+     * @var string Permitted Tasks
+     */
     public $task = 'mail';
 
     function init()
@@ -45,6 +48,11 @@ class markasjunk extends rcube_plugin
         ), 'toolbar');
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     function storage_init($args)
     {
         $flags = array(

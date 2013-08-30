@@ -26,6 +26,11 @@ class http_authentication extends rcube_plugin
         $this->add_hook('logout_after', array($this, 'logout'));
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     function startup($args)
     {
         if (empty($_SERVER['PHP_AUTH_USER']) || !empty($_SERVER['PHP_AUTH_PW'])) {
@@ -47,6 +52,11 @@ class http_authentication extends rcube_plugin
         return $args;
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     function authenticate($args)
     {
         // Load plugin's config file
@@ -73,6 +83,9 @@ class http_authentication extends rcube_plugin
         return $args;
     }
 
+    /**
+     * @param array $args
+     */
     function logout($args)
     {
         // redirect to configured URL in order to clear HTTP auth credentials
