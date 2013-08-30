@@ -16,6 +16,9 @@
  */
 class hide_blockquote extends rcube_plugin
 {
+    /**
+     * @var string Supported tasks
+     */
     public $task = 'mail|settings';
 
     function init()
@@ -49,6 +52,11 @@ class hide_blockquote extends rcube_plugin
         }
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     function prefs_table($args)
     {
         if ($args['section'] != 'mailview') return $args;
@@ -71,6 +79,11 @@ class hide_blockquote extends rcube_plugin
         return $args;
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     function save_prefs($args)
     {
         if ($args['section'] == 'mailview') {

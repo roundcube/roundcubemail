@@ -30,12 +30,40 @@
 class enigma extends rcube_plugin
 {
     public $task = 'mail|settings';
+
+    /**
+     * @var rcmail
+     */
     public $rc;
+
+    /**
+     * @var enigma_engine
+     */
     public $engine;
 
+    /**
+     * @var enigma_ui
+     */
+    public $ui;
+
+    /**
+     * @var bool Is Environment loaded?
+     */
     private $env_loaded;
+
+    /**
+     * @var string
+     */
     private $message;
+
+    /**
+     * @var array
+     */
     private $keys_parts = array();
+
+    /**
+     * @var array
+     */
     private $keys_bodies = array();
 
     /**
@@ -141,7 +169,7 @@ class enigma extends rcube_plugin
      * Handler for message_part_structure hook.
      * Called for every part of the message.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -166,7 +194,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_sections_list hook.
      * Adds Enigma settings sections into preferences sections list.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -197,7 +225,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_list hook.
      * Adds options blocks into Enigma settings sections in Preferences.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -219,7 +247,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_save hook.
      * Executed on Enigma settings form submit.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -250,7 +278,7 @@ class enigma extends rcube_plugin
      * Adds infobox about signature verification and/or decryption
      * status above the body.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -381,7 +409,7 @@ class enigma extends rcube_plugin
     /**
      * Handler for plain/text message.
      *
-     * @param array Reference to hook's parameters (see enigma::parse_structure())
+     * @param array $p Reference to hook's parameters (see enigma::parse_structure())
      */
     private function parse_plain(&$p)
     {
@@ -394,7 +422,7 @@ class enigma extends rcube_plugin
      * Handler for multipart/signed message.
      * Verifies signature.
      *
-     * @param array Reference to hook's parameters (see enigma::parse_structure())
+     * @param array $p Reference to hook's parameters (see enigma::parse_structure())
      */
     private function parse_signed(&$p)
     {
@@ -406,7 +434,7 @@ class enigma extends rcube_plugin
     /**
      * Handler for multipart/encrypted and application/pkcs7-mime message.
      *
-     * @param array Reference to hook's parameters (see enigma::parse_structure())
+     * @param array $p Reference to hook's parameters (see enigma::parse_structure())
      */
     private function parse_encrypted(&$p)
     {
@@ -418,6 +446,8 @@ class enigma extends rcube_plugin
     /**
      * Handler for message_load hook.
      * Check message bodies and attachments for keys/certs.
+     *
+     * @param array $p
      */
     function message_load($p)
     {
@@ -445,6 +475,8 @@ class enigma extends rcube_plugin
      * Handler for template_object_messagebody hook.
      * This callback function adds a box below the message content
      * if there is a key/cert attachment available
+     *
+     * @param array $p
      */
     function message_output($p)
     {
@@ -503,7 +535,7 @@ class enigma extends rcube_plugin
     /**
      * Checks if specified message part is a PGP-key or S/MIME cert data
      *
-     * @param rcube_message_part Part object
+     * @param rcube_message_part $part Part object
      *
      * @return boolean True if part is a key/cert
      */

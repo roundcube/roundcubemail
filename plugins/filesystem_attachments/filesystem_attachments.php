@@ -20,6 +20,9 @@
  */
 class filesystem_attachments extends rcube_plugin
 {
+    /**
+     * @var string
+     */
     public $task = '?(?!login).*';
 
     function init()
@@ -46,6 +49,10 @@ class filesystem_attachments extends rcube_plugin
 
     /**
      * Save a newly uploaded attachment
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function upload($args)
     {
@@ -75,6 +82,10 @@ class filesystem_attachments extends rcube_plugin
 
     /**
      * Save an attachment from a non-upload source (draft or forward)
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function save($args)
     {
@@ -112,6 +123,10 @@ class filesystem_attachments extends rcube_plugin
     /**
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function remove($args)
     {
@@ -124,6 +139,10 @@ class filesystem_attachments extends rcube_plugin
      * When composing an html message, image attachments may be shown
      * For this plugin, the file is already in place, just check for
      * the existance of the proper metadata
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function display($args)
     {
@@ -136,6 +155,10 @@ class filesystem_attachments extends rcube_plugin
      * This attachment plugin doesn't require any steps to put the file
      * on disk for use.  This stub function is kept here to make this
      * class handy as a parent class for other plugins which may need it.
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function get($args)
     {
@@ -144,6 +167,10 @@ class filesystem_attachments extends rcube_plugin
 
     /**
      * Delete all temp files associated with this user
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function cleanup($args)
     {

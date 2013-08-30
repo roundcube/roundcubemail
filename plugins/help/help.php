@@ -13,13 +13,19 @@
 
 class help extends rcube_plugin
 {
-    // all task excluding 'login' and 'logout'
+    /**
+     * @var string all tasks, excluding 'login' and 'logout'
+     */
     public $task = '?(?!login|logout).*';
 
-    // we've got no ajax handlers
+    /**
+     * @var bool We've got no ajax handlers
+     */
     public $noajax = true;
 
-    // skip frames
+    /**
+     * @var bool skip frames
+     */
     public $noframe = true;
 
     function init()
@@ -79,6 +85,11 @@ class help extends rcube_plugin
         $rcmail->output->send('help.help');
     }
 
+    /**
+     * @param array $attrib
+     *
+     * @return string
+     */
     function tablink($attrib)
     {
         $rcmail = rcmail::get_instance();
@@ -89,6 +100,11 @@ class help extends rcube_plugin
         return $rcmail->output->button($attrib);
     }
 
+    /**
+     * @param array $attrib
+     *
+     * @return string
+     */
     function content($attrib)
     {
         $rcmail = rcmail::get_instance();
@@ -141,6 +157,11 @@ class help extends rcube_plugin
         return $rcmail->output->frame($attrib);
     }
 
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
     private function resolve_language($path)
     {
         // resolve language placeholder
