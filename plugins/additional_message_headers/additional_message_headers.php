@@ -25,11 +25,12 @@ class additional_message_headers extends rcube_plugin
         $this->load_config();
 
         $headers = $args['message']->headers();
-        $rcube   = rcube::get_instance();
+
+        $rcube = rcube::get_instance();
 
         // additional email headers
-        $additional_headers = $rcube->config->get('additional_message_headers', array());
-        foreach ((array) $additional_headers as $header => $value) {
+        $additional_headers = (array) $rcube->config->get('additional_message_headers', array());
+        foreach ($additional_headers as $header => $value) {
             if (null === $value) {
                 unset($headers[$header]);
             } else {

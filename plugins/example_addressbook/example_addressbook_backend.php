@@ -55,7 +55,16 @@ class example_addressbook_backend extends rcube_addressbook
     public function list_records($cols = null, $subset = 0)
     {
         $this->result = $this->count();
-        $this->result->add(array('ID' => '111', 'name' => "Example Contact", 'firstname' => "Example", 'surname' => "Contact", 'email' => "example@roundcube.net"));
+
+        $this->result->add(
+            array(
+                'ID' => '111',
+                'name' => "Example Contact",
+                'firstname' => "Example",
+                'surname' => "Contact",
+                'email' => "example@roundcube.net"
+            )
+        );
 
         return $this->result;
     }
@@ -79,7 +88,9 @@ class example_addressbook_backend extends rcube_addressbook
     public function get_record($id, $assoc = false)
     {
         $this->list_records();
+
         $first   = $this->result->first();
+
         $sql_arr = $first['ID'] == $id ? $first : null;
 
         return $assoc && $sql_arr ? $sql_arr : $this->result;

@@ -24,12 +24,15 @@ class archive extends rcube_plugin
             && ($archive_folder = $rcmail->config->get('archive_mbox'))
         ) {
             $skin_path = $this->local_skin_path();
+
             if (is_file($this->home . "/$skin_path/archive.css")) {
                 $this->include_stylesheet("$skin_path/archive.css");
             }
 
             $this->include_script('archive.js');
+
             $this->add_texts('localization', true);
+
             $this->add_button(
                 array(
                     'type'     => 'link',
@@ -42,7 +45,8 @@ class archive extends rcube_plugin
                     'title'    => 'buttontitle',
                     'domain'   => $this->ID,
                 ),
-                'toolbar');
+                'toolbar'
+            );
 
             // register hook to localize the archive folder
             $this->add_hook('render_mailboxlist', array($this, 'render_mailboxlist'));
@@ -61,6 +65,7 @@ class archive extends rcube_plugin
             $this->register_action('plugin.move2archive', array($this, 'move_messages'));
         } else if ($rcmail->task == 'settings') {
             $dont_override = $rcmail->config->get('dont_override', array());
+
             if (!in_array('archive_mbox', $dont_override)) {
                 $this->add_hook('preferences_list', array($this, 'prefs_table'));
                 $this->add_hook('preferences_save', array($this, 'save_prefs'));
@@ -73,7 +78,8 @@ class archive extends rcube_plugin
      */
     function render_mailboxlist($p)
     {
-        $rcmail         = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
+
         $archive_folder = $rcmail->config->get('archive_mbox');
         $show_real_name = $rcmail->config->get('show_real_foldernames');
 
@@ -81,8 +87,8 @@ class archive extends rcube_plugin
         if ($archive_folder && !$show_real_name) {
             if (isset($p['list'][$archive_folder])) {
                 $p['list'][$archive_folder]['name'] = $this->gettext('archivefolder');
-            } else // search in subfolders
-            {
+            } else {
+                // search in subfolders
                 $this->_mod_folder_name($p['list'], $archive_folder, $this->gettext('archivefolder'));
             }
         }
@@ -117,12 +123,15 @@ class archive extends rcube_plugin
     function move_messages()
     {
         $rcmail = rcmail::get_instance();
+
         $this->add_texts('localization');
 
         $storage = $rcmail->get_storage();
+
         $storage->set_folder(($current_mbox = rcube_utils::get_input_value('_mbox', RCUBE_INPUT_POST)));
 
-        $delimiter      = $storage->get_hierarchy_delimiter();
+        $delimiter = $storage->get_hierarchy_delimiter();
+
         $archive_folder = $rcmail->config->get('archive_mbox');
         $archive_type   = $rcmail->config->get('archive_type', '');
 
@@ -190,6 +199,7 @@ class archive extends rcube_plugin
         if ($result['errors']) {
             $rcmail->output->show_message($this->gettext('archiveerror'), 'warning');
         }
+
         if ($result['reload']) {
             $rcmail->output->show_message($this->gettext('archivedreload'), 'confirmation');
         } else if ($result['update']) {
@@ -228,6 +238,7 @@ class archive extends rcube_plugin
 
             // add option for structuring the archive folder
             $archive_type = new html_select(array('name' => '_archive_type', 'id' => 'ff_archive_type'));
+
             $archive_type->add($this->gettext('none'), '');
             $archive_type->add($this->gettext('archivetypeyear'), 'year');
             $archive_type->add($this->gettext('archivetypemonth'), 'month');

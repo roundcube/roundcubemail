@@ -13,10 +13,10 @@ function rcmail_archive(prop)
         if (!rcmail.env.archive_type) {
             // simply move to archive folder (if no partition type is set)
             rcmail.command('move', rcmail.env.archive_folder);
-        }
-        else {
+        } else {
             // let the server sort the messages to the according subfolders
             var post_data = { _uid: rcmail.message_list.get_selection().join(','), _mbox: rcmail.env.mailbox };
+
             rcmail.http_post('plugin.move2archive', post_data);
         }
     }
@@ -39,6 +39,7 @@ if (window.rcmail) {
 
         // set css style for archive folder
         var li;
+
         if (rcmail.env.archive_folder && (li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true))) {
             $(li).addClass('archive');
         }
@@ -46,9 +47,10 @@ if (window.rcmail) {
         // callback for server response
         rcmail.addEventListener('plugin.move2archive_response', function (result)
         {
+            // refresh list
             if (result.update) {
                 rcmail.command('checkmail');
-            }  // refresh list
+            }
         });
     })
 }
