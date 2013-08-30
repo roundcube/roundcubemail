@@ -4,6 +4,5 @@
 }
 
 #mailboxlist li.mailbox.archive {
-    background-image: url(foldericon.png);
-    background-position: 5px 1px;
+    background: url(foldericon.png) 5px 1px;
 }
