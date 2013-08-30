@@ -257,6 +257,10 @@ $config['log_dir'] = 'logs/';
 // use this folder to store temp files (must be writeable for apache user)
 $config['temp_dir'] = 'temp/';
 
+// expire files in temp_dir after 48 hours
+// possible units: s, m, h, d, w
+$config['temp_dir_ttl'] = '48h';
+
 // enforce connections over https
 // with this option enabled, all non-secure connections will be redirected.
 // set the port for the ssl connection as value of this option if it differs from the default 443
