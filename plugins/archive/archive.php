@@ -109,6 +109,10 @@ class archive extends rcube_plugin
     /**
      * Helper method to find the archive folder in the mailbox tree
      *
+     * @param array $list
+     * @param string $folder
+     * @param string $new_name
+     *
      * @return bool
      */
     private function _mod_folder_name(&$list, $folder, $new_name)
