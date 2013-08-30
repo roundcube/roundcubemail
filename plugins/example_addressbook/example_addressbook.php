@@ -25,11 +25,11 @@ class example_addressbook extends rcube_plugin
 
         $sources = (array) $config->get('autocomplete_addressbooks', array('sql'));
 
-        if (!in_array($this->abook_id, $sources)) {
-            $sources[] = $this->abook_id;
+        if (in_array($this->abook_id, $sources)) return;
 
-            $config->set('autocomplete_addressbooks', $sources);
-        }
+        $sources[] = $this->abook_id;
+
+        $config->set('autocomplete_addressbooks', $sources);
     }
 
     public function address_sources($p)
