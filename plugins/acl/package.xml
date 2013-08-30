@@ -9,8 +9,8 @@
     <name>acl</name>
     <channel>pear.roundcube.net</channel>
     <summary>Folders Access Control Lists</summary>
-    <description>IMAP Folders Access Control Lists Management (RFC4314,
-        RFC2086).
+    <description>
+        IMAP Folders Access Control Lists Management (RFC4314, RFC2086).
     </description>
     <lead>
         <name>Aleksander Machniak</name>
