@@ -496,11 +496,9 @@ class acl extends rcube_plugin
      */
     private function action_save()
     {
-        $mbox = trim(rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)); // UTF7-IMAP
-
-        $user = trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC));
-        $acl  = trim(rcube_utils::get_input_value('_acl', rcube_utils::INPUT_GPC));
-
+        $mbox  = trim(rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)); // UTF7-IMAP
+        $user  = trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC));
+        $acl   = trim(rcube_utils::get_input_value('_acl', rcube_utils::INPUT_GPC));
         $oldid = trim(rcube_utils::get_input_value('_old', rcube_utils::INPUT_GPC));
 
         $acl = array_intersect(str_split($acl), $this->rights_supported());
@@ -722,7 +720,9 @@ class acl extends rcube_plugin
             }
         }
 
-        return $_SESSION['acl_username_realm'] = $domain;
+        $_SESSION['acl_username_realm'] = $domain;
+
+        return $domain;
     }
 
     /**
