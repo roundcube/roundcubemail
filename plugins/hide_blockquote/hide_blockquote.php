@@ -12,7 +12,7 @@
  *
  * @version @package_version@
  * @license GNU GPLv3+
- * @author Aleksander Machniak <alec@alec.pl>
+ * @author  Aleksander Machniak <alec@alec.pl>
  */
 class hide_blockquote extends rcube_plugin
 {
@@ -35,8 +35,7 @@ class hide_blockquote extends rcube_plugin
 
             // set env variable for client
             $rcmail->output->set_env('blockquote_limit', $limit);
-        }
-        else if ($rcmail->task == 'settings') {
+        } else if ($rcmail->task == 'settings') {
             $dont_override = $rcmail->config->get('dont_override', array());
             if (!in_array('hide_blockquote_limit', $dont_override)) {
                 $this->add_hook('preferences_list', array($this, 'prefs_table'));
@@ -56,10 +55,10 @@ class hide_blockquote extends rcube_plugin
         $rcmail   = rcmail::get_instance();
         $limit    = (int) $rcmail->config->get('hide_blockquote_limit');
         $field_id = 'hide_blockquote_limit';
-        $input    = new html_inputfield(array('name' => '_'.$field_id, 'id' => $field_id, 'size' => 5));
+        $input    = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 5));
 
         $args['blocks']['main']['options']['hide_blockquote_limit'] = array(
-            'title' => $this->gettext('quotelimit'),
+            'title'   => $this->gettext('quotelimit'),
             'content' => $input->show($limit ? $limit : '')
         );
 
@@ -74,5 +73,4 @@ class hide_blockquote extends rcube_plugin
 
         return $args;
     }
-
 }

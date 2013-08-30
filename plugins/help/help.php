@@ -3,12 +3,12 @@
 /**
  * Roundcube Help Plugin
  *
- * @author Aleksander 'A.L.E.C' Machniak
- * @author Thomas Bruederli <thomas@roundcube.net>
+ * @author  Aleksander 'A.L.E.C' Machniak
+ * @author  Thomas Bruederli <thomas@roundcube.net>
  * @license GNU GPLv3+
  *
  * Configuration (see config.inc.php.dist)
- * 
+ *
  **/
 
 class help extends rcube_plugin
@@ -61,24 +61,26 @@ class help extends rcube_plugin
         // register UI objects
         $rcmail->output->add_handlers(array(
             'helpcontent' => array($this, 'content'),
-            'tablink' => array($this, 'tablink'),
+            'tablink'     => array($this, 'tablink'),
         ));
 
-        if ($rcmail->action == 'about')
+        if ($rcmail->action == 'about') {
             $rcmail->output->set_pagetitle($this->gettext('about'));
-        else if ($rcmail->action == 'license')
+        } else if ($rcmail->action == 'license') {
             $rcmail->output->set_pagetitle($this->gettext('license'));
-        else
+        } else {
             $rcmail->output->set_pagetitle($this->gettext('help'));
+        }
 
         $rcmail->output->send('help.help');
     }
 
     function tablink($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail         = rcmail::get_instance();
         $attrib['name'] = 'helplink' . $attrib['action'];
         $attrib['href'] = $rcmail->url(array('_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null));
+
         return $rcmail->output->button($attrib);
     }
 
@@ -107,12 +109,13 @@ class help extends rcube_plugin
 
                 // resolve task/action for depp linking
                 $index_map = $rcmail->config->get('help_index_map', array());
-                $rel = $_REQUEST['_rel'];
-                list($task,$action) = explode('/', $rel);
-                if ($add = $index_map[$rel])
+                $rel       = $_REQUEST['_rel'];
+                list($task, $action) = explode('/', $rel);
+                if ($add = $index_map[$rel]) {
                     $src .= $add;
-                else if ($add = $index_map[$task])
+                } else if ($add = $index_map[$task]) {
                     $src .= $add;
+                }
                 break;
         }
 
@@ -121,21 +124,22 @@ class help extends rcube_plugin
             $attrib['src'] = $this->resolve_language($src);
         }
 
-        if (empty($attrib['id']))
+        if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmailhelpcontent';
+        }
 
         $attrib['name'] = $attrib['id'];
 
         return $rcmail->output->frame($attrib);
     }
 
-
     private function resolve_language($path)
     {
         // resolve language placeholder
-        $rcmail = rcmail::get_instance();
+        $rcmail  = rcmail::get_instance();
         $langmap = $rcmail->config->get('help_language_map', array('*' => 'en_US'));
-        $lang = !empty($langmap[$_SESSION['language']]) ? $langmap[$_SESSION['language']] : $langmap['*'];
+        $lang    = !empty($langmap[$_SESSION['language']]) ? $langmap[$_SESSION['language']] : $langmap['*'];
+
         return str_replace('%l', $lang, $path);
     }
 }

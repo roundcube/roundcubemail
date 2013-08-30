@@ -14,6 +14,7 @@ class FilesystemAttachments_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new filesystem_attachments($rcube->api);
 
         $this->assertInstanceOf('filesystem_attachments', $plugin);

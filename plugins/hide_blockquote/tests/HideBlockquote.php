@@ -14,6 +14,7 @@ class HideBlockquote_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new hide_blockquote($rcube->api);
 
         $this->assertInstanceOf('hide_blockquote', $plugin);
