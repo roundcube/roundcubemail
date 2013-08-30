@@ -160,7 +160,7 @@ rcube_webmail.prototype.enigma_search = function (props)
     }
 
     return false;
-}
+};
 
 // Reset search filter and the list
 rcube_webmail.prototype.enigma_search_reset = function (props)
@@ -178,7 +178,7 @@ rcube_webmail.prototype.enigma_search_reset = function (props)
     }
 
     return false;
-}
+};
 
 // Keys/certs listing
 rcube_webmail.prototype.enigma_list = function (page)
@@ -195,7 +195,7 @@ rcube_webmail.prototype.enigma_list = function (page)
     this.enigma_clear_list();
 
     this.http_post('plugin.enigma', params, lock);
-}
+};
 
 // Change list page
 rcube_webmail.prototype.enigma_list_page = function (page)
@@ -211,7 +211,7 @@ rcube_webmail.prototype.enigma_list_page = function (page)
     }
 
     this.enigma_list(page);
-}
+};
 
 // Remove list rows
 rcube_webmail.prototype.enigma_clear_list = function ()
@@ -219,7 +219,7 @@ rcube_webmail.prototype.enigma_clear_list = function ()
     this.enigma_loadframe();
 
     if (this.keys_list)  this.keys_list.clear(true);
-}
+};
 
 // Adds a row to the list
 rcube_webmail.prototype.enigma_add_list_row = function (r)
@@ -245,7 +245,7 @@ rcube_webmail.prototype.enigma_add_list_row = function (r)
     row.appendChild(col);
 
     list.insert_row(row);
-}
+};
 
 /*********************************************************/
 /*********        Enigma Message methods         *********/
