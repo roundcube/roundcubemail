@@ -7,8 +7,8 @@
  *
  * @version @package_version@
  * @license GNU GPLv3+
- * @author Thomas Bruederli
- * @author Aleksander Machniak
+ * @author  Thomas Bruederli
+ * @author  Aleksander Machniak
  * @website http://roundcube.net
  */
 class emoticons extends rcube_plugin
@@ -36,30 +36,30 @@ class emoticons extends rcube_plugin
 
         // map of emoticon replacements
         $map = array(
-            '/:\)/'             => $this->img_tag('smiley-smile.gif',       ':)'    ),
-            '/:-\)/'            => $this->img_tag('smiley-smile.gif',       ':-)'   ),
-            '/(?<!mailto):D/'   => $this->img_tag('smiley-laughing.gif',    ':D'    ),
-            '/:-D/'             => $this->img_tag('smiley-laughing.gif',    ':-D'   ),
-            '/:\(/'             => $this->img_tag('smiley-frown.gif',       ':('    ),
-            '/:-\(/'            => $this->img_tag('smiley-frown.gif',       ':-('   ),
-            '/'.$entity.';\)/'  => $this->img_tag('smiley-wink.gif',        ';)'    ),
-            '/'.$entity.';-\)/' => $this->img_tag('smiley-wink.gif',        ';-)'   ),
-            '/8\)/'             => $this->img_tag('smiley-cool.gif',        '8)'    ),
-            '/8-\)/'            => $this->img_tag('smiley-cool.gif',        '8-)'   ),
-            '/(?<!mailto):O/i'  => $this->img_tag('smiley-surprised.gif',   ':O'    ),
-            '/(?<!mailto):-O/i' => $this->img_tag('smiley-surprised.gif',   ':-O'   ),
-            '/(?<!mailto):P/i'  => $this->img_tag('smiley-tongue-out.gif',  ':P'    ),
-            '/(?<!mailto):-P/i' => $this->img_tag('smiley-tongue-out.gif',  ':-P'   ),
-            '/(?<!mailto):@/i'  => $this->img_tag('smiley-yell.gif',        ':@'    ),
-            '/(?<!mailto):-@/i' => $this->img_tag('smiley-yell.gif',        ':-@'   ),
-            '/O:\)/i'           => $this->img_tag('smiley-innocent.gif',    'O:)'   ),
-            '/O:-\)/i'          => $this->img_tag('smiley-innocent.gif',    'O:-)'  ),
-            '/(?<!mailto):$/'   => $this->img_tag('smiley-embarassed.gif',  ':$'    ),
-            '/(?<!mailto):-$/'  => $this->img_tag('smiley-embarassed.gif',  ':-$'   ),
-            '/(?<!mailto):\*/i'  => $this->img_tag('smiley-kiss.gif',       ':*'    ),
-            '/(?<!mailto):-\*/i' => $this->img_tag('smiley-kiss.gif',       ':-*'   ),
-            '/(?<!mailto):S/i'  => $this->img_tag('smiley-undecided.gif',   ':S'    ),
-            '/(?<!mailto):-S/i' => $this->img_tag('smiley-undecided.gif',   ':-S'   ),
+            '/:\)/'                 => $this->img_tag('smiley-smile.gif', ':)'),
+            '/:-\)/'                => $this->img_tag('smiley-smile.gif', ':-)'),
+            '/(?<!mailto):D/'       => $this->img_tag('smiley-laughing.gif', ':D'),
+            '/:-D/'                 => $this->img_tag('smiley-laughing.gif', ':-D'),
+            '/:\(/'                 => $this->img_tag('smiley-frown.gif', ':('),
+            '/:-\(/'                => $this->img_tag('smiley-frown.gif', ':-('),
+            '/' . $entity . ';\)/'  => $this->img_tag('smiley-wink.gif', ';)'),
+            '/' . $entity . ';-\)/' => $this->img_tag('smiley-wink.gif', ';-)'),
+            '/8\)/'                 => $this->img_tag('smiley-cool.gif', '8)'),
+            '/8-\)/'                => $this->img_tag('smiley-cool.gif', '8-)'),
+            '/(?<!mailto):O/i'      => $this->img_tag('smiley-surprised.gif', ':O'),
+            '/(?<!mailto):-O/i'     => $this->img_tag('smiley-surprised.gif', ':-O'),
+            '/(?<!mailto):P/i'      => $this->img_tag('smiley-tongue-out.gif', ':P'),
+            '/(?<!mailto):-P/i'     => $this->img_tag('smiley-tongue-out.gif', ':-P'),
+            '/(?<!mailto):@/i'      => $this->img_tag('smiley-yell.gif', ':@'),
+            '/(?<!mailto):-@/i'     => $this->img_tag('smiley-yell.gif', ':-@'),
+            '/O:\)/i'               => $this->img_tag('smiley-innocent.gif', 'O:)'),
+            '/O:-\)/i'              => $this->img_tag('smiley-innocent.gif', 'O:-)'),
+            '/(?<!mailto):$/'       => $this->img_tag('smiley-embarassed.gif', ':$'),
+            '/(?<!mailto):-$/'      => $this->img_tag('smiley-embarassed.gif', ':-$'),
+            '/(?<!mailto):\*/i'     => $this->img_tag('smiley-kiss.gif', ':*'),
+            '/(?<!mailto):-\*/i'    => $this->img_tag('smiley-kiss.gif', ':-*'),
+            '/(?<!mailto):S/i'      => $this->img_tag('smiley-undecided.gif', ':S'),
+            '/(?<!mailto):-S/i'     => $this->img_tag('smiley-undecided.gif', ':-S'),
         );
 
         if ($args['type'] == 'plain') {
@@ -71,8 +71,9 @@ class emoticons extends rcube_plugin
     }
 
     private function img_tag($ico, $title)
-    { 
+    {
         $path = './program/js/tiny_mce/plugins/emotions/img/';
-        return html::img(array('src' => $path.$ico, 'title' => $title));
+
+        return html::img(array('src' => $path . $ico, 'title' => $title));
     }
 }

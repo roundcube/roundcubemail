@@ -1,10 +1,9 @@
-
 #messagetoolbar a.button.archive {
-	text-indent: -5000px;
-	background: url(archive_act.png) 0 0 no-repeat;
+    text-indent: -5000px;
+    background: url(archive_act.png) 0 0 no-repeat;
 }
 
 #mailboxlist li.mailbox.archive {
-	background-image: url(foldericon.png);
-	background-position: 5px 1px;
+    background-image: url(foldericon.png);
+    background-position: 5px 1px;
 }

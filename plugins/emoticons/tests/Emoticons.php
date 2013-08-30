@@ -14,6 +14,7 @@ class Emoticons_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new emoticons($rcube->api);
 
         $this->assertInstanceOf('emoticons', $plugin);
