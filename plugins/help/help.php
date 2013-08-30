@@ -136,7 +136,7 @@ class help extends rcube_plugin
             default:
                 $src = $rcmail->config->get('help_source');
 
-                // resolve task/action for depp linking
+                // resolve task/action for deep linking
                 $index_map = $rcmail->config->get('help_index_map', array());
 
                 $rel = $_REQUEST['_rel'];
