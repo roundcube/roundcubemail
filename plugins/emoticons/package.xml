@@ -9,7 +9,9 @@
     <name>emoticons</name>
     <channel>pear.roundcube.net</channel>
     <summary>Display emoticons in text messages</summary>
-    <description>Sample plugin to replace emoticons in plain text message body with real icons.
+    <description>
+        Sample plugin to replace emoticons in plain text message body with real
+        icons.
     </description>
     <lead>
         <name>Thomas Bruederli</name>
@@ -38,7 +40,8 @@
         <dir baseinstalldir="/" name="/">
             <file name="emoticons.php" role="php">
                 <tasks:replace from="@name@" to="name" type="package-info"/>
-                <tasks:replace from="@package_version@" to="version" type="package-info"/>
+                <tasks:replace from="@package_version@" to="version"
+                               type="package-info"/>
             </file>
         </dir>
         <!-- / -->

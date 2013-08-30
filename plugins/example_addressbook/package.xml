@@ -9,7 +9,10 @@
     <name>example_addressbook</name>
     <channel>pear.roundcube.net</channel>
     <summary>Example addressbook plugin implementation</summary>
-    <description>Sample plugin to add a new address book with just a static list of contacts.</description>
+    <description>
+        Sample plugin to add a new address book with just a static list of
+        contacts.
+    </description>
     <lead>
         <name>Thomas Bruederli</name>
         <user>thomasb</user>
@@ -31,11 +34,13 @@
         <dir baseinstalldir="/" name="/">
             <file name="example_addressbook.php" role="php">
                 <tasks:replace from="@name@" to="name" type="package-info"/>
-                <tasks:replace from="@package_version@" to="version" type="package-info"/>
+                <tasks:replace from="@package_version@" to="version"
+                               type="package-info"/>
             </file>
             <file name="example_addressbook_backend.php" role="php">
                 <tasks:replace from="@name@" to="name" type="package-info"/>
-                <tasks:replace from="@package_version@" to="version" type="package-info"/>
+                <tasks:replace from="@package_version@" to="version"
+                               type="package-info"/>
             </file>
         </dir>
         <!-- / -->
