@@ -56,6 +56,7 @@ class identity_select extends rcube_plugin
                 foreach ($p['identities'] as $idx => $ident) {
                     if (in_array($ident['email_ascii'], (array) $header)) {
                         $p['selected'] = $idx;
+
                         break 2;
                     }
                 }

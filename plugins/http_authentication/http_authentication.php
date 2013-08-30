@@ -19,7 +19,6 @@
  */
 class http_authentication extends rcube_plugin
 {
-
     function init()
     {
         $this->add_hook('startup', array($this, 'startup'));
@@ -29,17 +28,20 @@ class http_authentication extends rcube_plugin
 
     function startup($args)
     {
-        if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
-            $rcmail = rcmail::get_instance();
-            $rcmail->add_shutdown_function(array('http_authentication', 'shutdown'));
+        if (empty($_SERVER['PHP_AUTH_USER']) || !empty($_SERVER['PHP_AUTH_PW'])) {
+            return $args;
+        }
 
+        $rcmail = rcmail::get_instance();
+
+        $rcmail->add_shutdown_function(array('http_authentication', 'shutdown'));
+
+        if (empty($args['action']) && empty($_SESSION['user_id'])) {
             // handle login action
-            if (empty($args['action']) && empty($_SESSION['user_id'])) {
-                $args['action'] = 'login';
-            } // Set user password in session (see shutdown() method for more info)
-            else if (!empty($_SESSION['user_id']) && empty($_SESSION['password'])) {
-                $_SESSION['password'] = $rcmail->encrypt($_SERVER['PHP_AUTH_PW']);
-            }
+            $args['action'] = 'login';
+        } else if (!empty($_SESSION['user_id']) && empty($_SESSION['password'])) {
+            // Set user password in session (see shutdown() method for more info)
+            $_SESSION['password'] = $rcmail->encrypt($_SERVER['PHP_AUTH_PW']);
         }
 
         return $args;
@@ -57,9 +59,7 @@ class http_authentication extends rcube_plugin
 
         // Allow entering other user data in login form,
         // e.g. after log out (#1487953)
-        if (!empty($args['user'])) {
-            return $args;
-        }
+        if (!empty($args['user'])) return $args;
 
         if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
             $args['user'] = $_SERVER['PHP_AUTH_USER'];

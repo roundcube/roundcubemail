@@ -16,14 +16,12 @@ function rcmail_markasjunk(prop)
 if (window.rcmail) {
     rcmail.addEventListener('init', function (evt)
     {
-
         // register command (directly enable in message view mode)
         rcmail.register_command('plugin.markasjunk', rcmail_markasjunk, rcmail.env.uid);
 
         // add event-listener to message list
         if (rcmail.message_list) {
-            rcmail.message_list.addEventListener('select', function (list)
-            {
+            rcmail.message_list.addEventListener('select', function (list) {
                 rcmail.enable_command('plugin.markasjunk', list.get_selection().length > 0);
             });
         }
