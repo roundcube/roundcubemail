@@ -1,6 +1,7 @@
 /* Attachment Reminder plugin script */
 
-function rcmail_get_compose_message() {
+function rcmail_get_compose_message()
+{
     var msg;
 
     if (window.tinyMCE && (ed = tinyMCE.get(rcmail.env.composebody))) {
@@ -14,10 +15,12 @@ function rcmail_get_compose_message() {
     return msg;
 }
 
-function rcmail_check_message(msg) {
+function rcmail_check_message(msg)
+{
     var i, rx, keywords = rcmail.gettext('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
 
-    keywords = $.map(keywords, function (n) {
+    keywords = $.map(keywords, function (n)
+    {
         return RegExp.escape(n);
     });
 
@@ -26,14 +29,17 @@ function rcmail_check_message(msg) {
     return msg.search(rx) != -1;
 }
 
-function rcmail_have_attachments() {
+function rcmail_have_attachments()
+{
     return rcmail.env.attachments && $('li', rcmail.gui_objects.attachmentlist).length;
 }
 
-function rcmail_attachment_reminder_dialog() {
+function rcmail_attachment_reminder_dialog()
+{
     var buttons = {};
 
-    buttons[rcmail.gettext('addattachment')] = function () {
+    buttons[rcmail.gettext('addattachment')] = function ()
+    {
         $(this).remove();
 
         if (window.UI && UI.show_uploadform) {
@@ -45,7 +51,8 @@ function rcmail_attachment_reminder_dialog() {
         }
     };
 
-    buttons[rcmail.gettext('send')] = function (e) {
+    buttons[rcmail.gettext('send')] = function (e)
+    {
         $(this).remove();
         rcmail.env.attachment_reminder = true;
         rcmail.command('send', '', e);
@@ -57,14 +64,15 @@ function rcmail_attachment_reminder_dialog() {
 }
 
 if (window.rcmail) {
-    rcmail.addEventListener('beforesend', function (evt) {
+    rcmail.addEventListener('beforesend', function (evt)
+    {
         var msg = rcmail_get_compose_message(),
             subject = $('#compose-subject').val();
 
         if (
             !rcmail.env.attachment_reminder && !rcmail_have_attachments()
-            && (rcmail_check_message(msg) || rcmail_check_message(subject))
-            ) {
+                && (rcmail_check_message(msg) || rcmail_check_message(subject))
+        ) {
             rcmail_attachment_reminder_dialog();
 
             return false;
