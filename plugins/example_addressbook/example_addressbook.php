@@ -32,6 +32,11 @@ class example_addressbook extends rcube_plugin
         $config->set('autocomplete_addressbooks', $sources);
     }
 
+    /**
+     * @param array $p
+     *
+     * @return array
+     */
     public function address_sources($p)
     {
         $abook = new example_addressbook_backend($this->abook_name);
@@ -46,6 +51,11 @@ class example_addressbook extends rcube_plugin
         return $p;
     }
 
+    /**
+     * @param array $p
+     *
+     * @return array
+     */
     public function get_address_book($p)
     {
         if ($p['id'] === $this->abook_id) {

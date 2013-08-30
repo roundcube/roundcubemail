@@ -23,27 +23,42 @@ class example_addressbook_backend extends rcube_addressbook
         $this->name  = $name;
     }
 
+    /**
+     * @see rcube_addressbook::get_name
+     */
     public function get_name()
     {
         return $this->name;
     }
 
+    /**
+     * @see rcube_addressbook::set_search_set
+     */
     public function set_search_set($filter)
     {
         $this->filter = $filter;
     }
 
+    /**
+     * @see rcube_addressbook::get_search_set
+     */
     public function get_search_set()
     {
         return $this->filter;
     }
 
+    /**
+     * @see rcube_addressbook::reset
+     */
     public function reset()
     {
         $this->result = null;
         $this->filter = null;
     }
 
+    /**
+     * @see rcube_addressbook::list_groups
+     */
     function list_groups($search = null)
     {
         return array(
@@ -52,6 +67,9 @@ class example_addressbook_backend extends rcube_addressbook
         );
     }
 
+    /**
+     * @see rcube_addressbook::list_records
+     */
     public function list_records($cols = null, $subset = 0)
     {
         $this->result = $this->count();
@@ -69,22 +87,33 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->result;
     }
 
+    /**
+     * @see rcube_addressbook::search
+     */
     public function search($fields, $value, $strict = false, $select = true, $nocount = false, $required = array())
     {
-        // no search implemented, just list all records
         return $this->list_records();
     }
 
+    /**
+     * @see rcube_addressbook::count
+     */
     public function count()
     {
         return new rcube_result_set(1, ($this->list_page - 1) * $this->page_size);
     }
 
+    /**
+     * @see rcube_addressbook::get_result
+     */
     public function get_result()
     {
         return $this->result;
     }
 
+    /**
+     * @see rcube_addressbook::get_record
+     */
     public function get_record($id, $assoc = false)
     {
         $this->list_records();
@@ -96,6 +125,9 @@ class example_addressbook_backend extends rcube_addressbook
         return $assoc && $sql_arr ? $sql_arr : $this->result;
     }
 
+    /**
+     * @see rcube_addressbook::create_group
+     */
     function create_group($name)
     {
         $result = false;
@@ -103,21 +135,33 @@ class example_addressbook_backend extends rcube_addressbook
         return $result;
     }
 
+    /**
+     * @see rcube_addressbook::delete_group
+     */
     function delete_group($gid)
     {
         return false;
     }
 
+    /**
+     * @see rcube_addressbook::rename_group
+     */
     function rename_group($gid, $newname)
     {
         return $newname;
     }
 
+    /**
+     * @see rcube_addressbook::add_to_group
+     */
     function add_to_group($group_id, $ids)
     {
         return false;
     }
 
+    /**
+     * @see rcube_addressbook::remove_from_group
+     */
     function remove_from_group($group_id, $ids)
     {
         return false;

@@ -20,6 +20,11 @@ class additional_message_headers extends rcube_plugin
         $this->add_hook('message_before_send', array($this, 'message_headers'));
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     function message_headers($args)
     {
         $this->load_config();

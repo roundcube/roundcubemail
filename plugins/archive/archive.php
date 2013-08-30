@@ -83,6 +83,10 @@ class archive extends rcube_plugin
 
     /**
      * Hook to give the archive folder a localized name in the mailbox list
+     *
+     * @param array $p
+     *
+     * @return array
      */
     function render_mailboxlist($p)
     {
@@ -106,6 +110,8 @@ class archive extends rcube_plugin
 
     /**
      * Helper method to find the archive folder in the mailbox tree
+     *
+     * @return bool
      */
     private function _mod_folder_name(&$list, $folder, $new_name)
     {
@@ -127,6 +133,8 @@ class archive extends rcube_plugin
     /**
      * Plugin action to move the submitted list of messages to the archive subfolders
      * according to the user settings and their headers.
+     *
+     * @return void
      */
     function move_messages()
     {
@@ -221,6 +229,10 @@ class archive extends rcube_plugin
 
     /**
      * Hook to inject plugin-specific user settings
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function prefs_table($args)
     {
@@ -271,6 +283,10 @@ class archive extends rcube_plugin
 
     /**
      * Hook to save plugin-specific user settings
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function save_prefs($args)
     {

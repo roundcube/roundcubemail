@@ -20,6 +20,12 @@ class emoticons extends rcube_plugin
         $this->add_hook('message_part_after', array($this, 'replace'));
     }
 
+    /**
+     * Replace emoticons with their corresponding html <img> elements
+     * @param array $args
+     *
+     * @return array
+     */
     function replace($args)
     {
         // This is a lookbehind assertion which will exclude html entities
@@ -71,6 +77,12 @@ class emoticons extends rcube_plugin
         return $args;
     }
 
+    /**
+     * @param string $ico   Filename of the emoticon
+     * @param string $title html title attribute
+     *
+     * @return string
+     */
     private function img_tag($ico, $title)
     {
         $path = './program/js/tiny_mce/plugins/emotions/img/';
