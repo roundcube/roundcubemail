@@ -478,6 +478,8 @@ class enigma extends rcube_plugin
      * if there is a key/cert attachment available
      *
      * @param array $p
+     *
+     * @return array
      */
     function message_output($p)
     {
