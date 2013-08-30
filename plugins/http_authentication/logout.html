@@ -10,9 +10,8 @@
         $(document).ready(function ()
         {
             if (document.all && document.execCommand) {
-                document.execCommand("ClearAuthenticationCache", "false");
-            }
-            else {
+                document.execCommand("ClearAuthenticationCache", false);
+            } else {
                 $.ajax({
                     url:      location.href,
                     type:     'POST',
