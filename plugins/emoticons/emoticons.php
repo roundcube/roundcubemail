@@ -28,6 +28,8 @@ class emoticons extends rcube_plugin
      */
     function replace($args)
     {
+        if ($args['type'] != 'plain') return $args;
+
         // This is a lookbehind assertion which will exclude html entities
         // E.g. situation when ";)" in "&quot;)" shouldn't be replaced by the icon
         // It's so long because of assertion format restrictions
@@ -68,11 +70,9 @@ class emoticons extends rcube_plugin
             '/(?<!mailto):-S/i'     => $this->img_tag('smiley-undecided.gif', ':-S'),
         );
 
-        if ($args['type'] == 'plain') {
-            $args['body'] = preg_replace(
-                array_keys($map), array_values($map), $args['body']
-            );
-        }
+        $args['body'] = preg_replace(
+            array_keys($map), array_values($map), $args['body']
+        );
 
         return $args;
     }
