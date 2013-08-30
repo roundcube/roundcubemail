@@ -33,7 +33,7 @@ class archive extends rcube_plugin
 
         // There is no "Archived flags"
         // $GLOBALS['IMAP_FLAGS']['ARCHIVED'] = 'Archive';
-        if ( !in_array($rcmail->action, array('', 'show')) && !$archive_folder ) {
+        if ( !in_array($rcmail->action, array('', 'show')) || !$archive_folder ) {
             // handler for ajax request
             $this->register_action('plugin.move2archive', array($this, 'move_messages'));
 
