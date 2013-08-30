@@ -4,29 +4,31 @@ if (window.rcmail) {
     rcmail.addEventListener('init', function (evt)
     {
         if (rcmail.env.task == 'settings') {
-            rcmail.register_command('plugin.enigma', function ()
-            {
+            rcmail.register_command('plugin.enigma', function () {
                 rcmail.goto_url('plugin.enigma')
             }, true);
 
-            rcmail.register_command('plugin.enigma-key-import', function ()
-            {
+            rcmail.register_command('plugin.enigma-key-import', function () {
                 rcmail.enigma_key_import()
             }, true);
 
-            rcmail.register_command('plugin.enigma-key-export', function ()
-            {
+            rcmail.register_command('plugin.enigma-key-export', function () {
                 rcmail.enigma_key_export()
             }, true);
 
             if (rcmail.gui_objects.keyslist) {
                 var p = rcmail;
 
-                rcmail.keys_list = new rcube_list_widget(rcmail.gui_objects.keyslist,
-                    {multiselect: false, draggable: false, keyboard: false});
+                rcmail.keys_list = new rcube_list_widget(
+                    rcmail.gui_objects.keyslist,
+                    {
+                        multiselect: false,
+                        draggable: false,
+                        keyboard: false
+                    }
+                );
 
-                rcmail.keys_list.addEventListener('select', function (o)
-                {
+                rcmail.keys_list.addEventListener('select', function (o) {
                     p.enigma_key_select(o);
                 });
 
@@ -35,45 +37,37 @@ if (window.rcmail) {
 
                 rcmail.enigma_list();
 
-                rcmail.register_command('firstpage', function (props)
-                {
+                rcmail.register_command('firstpage', function (props) {
                     return rcmail.enigma_list_page('first');
                 });
 
-                rcmail.register_command('previouspage', function (props)
-                {
+                rcmail.register_command('previouspage', function (props) {
                     return rcmail.enigma_list_page('previous');
                 });
 
-                rcmail.register_command('nextpage', function (props)
-                {
+                rcmail.register_command('nextpage', function (props) {
                     return rcmail.enigma_list_page('next');
                 });
 
-                rcmail.register_command('lastpage', function (props)
-                {
+                rcmail.register_command('lastpage', function (props) {
                     return rcmail.enigma_list_page('last');
                 });
             }
 
             if (rcmail.env.action == 'edit-prefs') {
-                rcmail.register_command('search', function (props)
-                {
+                rcmail.register_command('search', function (props) {
                     return rcmail.enigma_search(props);
                 }, true);
 
-                rcmail.register_command('reset-search', function (props)
-                {
+                rcmail.register_command('reset-search', function (props) {
                     return rcmail.enigma_search_reset(props);
                 }, true);
             } else if (rcmail.env.action == 'plugin.enigma') {
-                rcmail.register_command('plugin.enigma-import', function ()
-                {
+                rcmail.register_command('plugin.enigma-import', function () {
                     rcmail.enigma_import()
                 }, true);
 
-                rcmail.register_command('plugin.enigma-export', function ()
-                {
+                rcmail.register_command('plugin.enigma-export', function () {
                     rcmail.enigma_export()
                 }, true);
             }
