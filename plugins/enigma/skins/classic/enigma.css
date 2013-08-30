@@ -5,8 +5,7 @@
 #enigma-message,
     /* fixes border-top */
 #messagebody div #enigma-message {
-    margin: 0;
-    margin-bottom: 5px;
+    margin: 0 0 5px;
     min-height: 20px;
     padding: 10px 10px 6px 46px;
 }
@@ -14,24 +13,21 @@
 div.enigmaerror,
     /* fixes border-top */
 #messagebody div.enigmaerror {
-    background: url(enigma_error.png) 6px 1px no-repeat;
-    background-color: #ef9398;
+    background: #ef9398 url(enigma_error.png) no-repeat 6px 1px;
     border: 1px solid #dc5757;
 }
 
 div.enigmanotice,
     /* fixes border-top */
 #messagebody div.enigmanotice {
-    background: url(enigma.png) 6px 1px no-repeat;
-    background-color: #a6ef7b;
+    background: #a6ef7b url(enigma.png) 6px 1px no-repeat;
     border: 1px solid #76c83f;
 }
 
 div.enigmawarning,
     /* fixes border-top */
 #messagebody div.enigmawarning {
-    background: url(enigma.png) 6px 1px no-repeat;
-    background-color: #f7fdcb;
+    background: #f7fdcb url(enigma.png) 6px 1px no-repeat;
     border: 1px solid #c2d071;
 }
 
