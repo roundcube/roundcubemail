@@ -222,14 +222,15 @@ class rcube_sieve_engine
 
         $action = rcube_utils::get_input_value('_act', rcube_utils::INPUT_GPC);
 
+        // Make sure we have something to do here
         if (empty($action) && ($this->rc->task != 'mail')) {
             $this->send();
 
             return;
         }
 
+        // If we don't have an action, initialize the form
         if (empty($action)) {
-            // Initialize the form
             $rules = rcube_utils::get_input_value('r', rcube_utils::INPUT_GET);
 
             if (!empty($rules)) {
@@ -257,8 +258,13 @@ class rcube_sieve_engine
                     ),
                 );
             }
+
+            $this->send();
+
+            return;
         }
 
+        // Some actions do not permit an error to have happened
         $fatals = array('delete', 'move', 'act', 'setact', 'deact', 'setdel');
 
         if (in_array($action, $fatals) && $error) {
@@ -272,8 +278,22 @@ class rcube_sieve_engine
         // Handle user requests
         $fid = (int) rcube_utils::get_input_value('_fid', rcube_utils::INPUT_POST);
 
-        if ($action == 'delete') {
-            if (isset($this->script[$fid])) {
+        // Some actions require a script rule to be set
+        $scriptcheck = array('delete', 'move', 'act');
+
+        $scriptset = isset($this->script[$fid]);
+
+        if (in_array($action, $scriptcheck) && !$scriptset ) {
+            $this->rc->output->send();
+
+            $this->send();
+
+            return;
+        }
+
+        switch ($action) {
+            case 'delete':
+                $result = false;
                 if ($this->sieve->script->delete_rule($fid)) {
                     $result = $this->save_script();
                 }
@@ -284,9 +304,10 @@ class rcube_sieve_engine
                 } else {
                     $this->rc->output->show_message('managesieve.filterdeleteerror', 'error');
                 }
-            }
-        } else if ($action == 'move') {
-            if (isset($this->script[$fid])) {
+
+                break;
+
+            case 'move':
                 $to = (int) rcube_utils::get_input_value('_to', rcube_utils::INPUT_POST);
 
                 $rule = $this->script[$fid];
@@ -328,9 +349,10 @@ class rcube_sieve_engine
                 } else {
                     $this->rc->output->show_message('managesieve.moveerror', 'error');
                 }
-            }
-        } else if ($action == 'act') {
-            if (isset($this->script[$fid])) {
+
+                break;
+
+            case 'act':
                 $rule = $this->script[$fid];
 
                 $disabled = $rule['disabled'] ? true : false;
@@ -339,9 +361,7 @@ class rcube_sieve_engine
 
                 $result = $this->sieve->script->update_rule($fid, $rule);
 
-                if ($result !== false) {
-                    $result = $this->save_script();
-                }
+                if ($result !== false) $result = $this->save_script();
 
                 if ($result === true) {
                     if ($rule['disabled']) {
@@ -362,115 +382,136 @@ class rcube_sieve_engine
                         $this->rc->output->show_message('managesieve.activateerror', 'error');
                     }
                 }
-            }
-        } else if ($action == 'setact') {
-            $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
 
-            $result = $this->activate_script($script_name);
+                break;
 
-            $kep14 = $this->rc->config->get('managesieve_kolab_master');
+            case 'setact':
+                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
 
-            if ($result === true) {
-                $this->rc->output->set_env('active_sets', $this->active);
+                $result = $this->activate_script($script_name);
 
-                $this->rc->output->show_message('managesieve.setactivated', 'confirmation');
+                $kep14 = $this->rc->config->get('managesieve_kolab_master');
 
-                $this->rc->output->command(
-                    'managesieve_updatelist',
-                    'setact',
-                    array('name' => $script_name, 'active' => true, 'all' => !$kep14)
-                );
-            } else {
-                $this->rc->output->show_message('managesieve.setactivateerror', 'error');
-            }
-        } else if ($action == 'deact') {
-            $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                if ($result === true) {
+                    $this->rc->output->set_env('active_sets', $this->active);
 
-            $result = $this->deactivate_script($script_name);
+                    $this->rc->output->show_message('managesieve.setactivated', 'confirmation');
 
-            if ($result === true) {
-                $this->rc->output->set_env('active_sets', $this->active);
+                    $this->rc->output->command(
+                        'managesieve_updatelist',
+                        'setact',
+                        array('name' => $script_name, 'active' => true, 'all' => !$kep14)
+                    );
+                } else {
+                    $this->rc->output->show_message('managesieve.setactivateerror', 'error');
+                }
 
-                $this->rc->output->show_message('managesieve.setdeactivated', 'confirmation');
+                break;
 
-                $this->rc->output->command(
-                    'managesieve_updatelist',
-                    'setact',
-                    array('name' => $script_name, 'active' => false)
-                );
-            } else {
-                $this->rc->output->show_message('managesieve.setdeactivateerror', 'error');
-            }
-        } else if ($action == 'setdel') {
-            $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+            case 'deact':
+                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
 
-            $result = $this->remove_script($script_name);
+                $result = $this->deactivate_script($script_name);
 
-            if ($result === true) {
-                $this->rc->output->show_message('managesieve.setdeleted', 'confirmation');
+                if ($result === true) {
+                    $this->rc->output->set_env('active_sets', $this->active);
 
-                $this->rc->output->command(
-                    'managesieve_updatelist',
-                    'setdel',
-                    array('name' => $script_name)
-                );
+                    $this->rc->output->show_message('managesieve.setdeactivated', 'confirmation');
 
-                $this->rc->session->remove('managesieve_current');
-            } else {
-                $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
-            }
-        } else if ($action == 'setget') {
-            $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                    $this->rc->output->command(
+                        'managesieve_updatelist',
+                        'setact',
+                        array('name' => $script_name, 'active' => false)
+                    );
+                } else {
+                    $this->rc->output->show_message('managesieve.setdeactivateerror', 'error');
+                }
 
-            $script = $this->sieve->get_script($script_name);
+                break;
 
-            if (PEAR::isError($script)) {
+            case 'setdel':
+                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+
+                $result = $this->remove_script($script_name);
+
+                if ($result === true) {
+                    $this->rc->output->show_message('managesieve.setdeleted', 'confirmation');
+
+                    $this->rc->output->command(
+                        'managesieve_updatelist',
+                        'setdel',
+                        array('name' => $script_name)
+                    );
+
+                    $this->rc->session->remove('managesieve_current');
+                } else {
+                    $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
+                }
+
+                break;
+
+            case 'setget':
+                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+
+                $script = $this->sieve->get_script($script_name);
+
+                if (PEAR::isError($script)) exit;
+
+                $browser = new rcube_browser;
+
+                // send download headers
+                header("Content-Type: application/octet-stream");
+                header("Content-Length: " . strlen($script));
+
+                if ($browser->ie) {
+                    header("Content-Type: application/force-download");
+                }
+
+                if ($browser->ie && $browser->ver < 7) {
+                    $filename = rawurlencode(abbreviate_string($script_name, 55));
+                } else if ($browser->ie) {
+                    $filename = rawurlencode($script_name);
+                } else {
+                    $filename = addcslashes($script_name, '\\"');
+                }
+
+                header("Content-Disposition: attachment; filename=\"$filename.txt\"");
+
+                echo $script;
+
                 exit;
-            }
 
-            $browser = new rcube_browser;
+                break;
 
-            // send download headers
-            header("Content-Type: application/octet-stream");
-            header("Content-Length: " . strlen($script));
+            case 'list':
+                $result = $this->list_rules();
 
-            if ($browser->ie) {
-                header("Content-Type: application/force-download");
-            }
+                $this->rc->output->command('managesieve_updatelist', 'list', array('list' => $result));
 
-            if ($browser->ie && $browser->ver < 7) {
-                $filename = rawurlencode(abbreviate_string($script_name, 55));
-            } else if ($browser->ie) {
-                $filename = rawurlencode($script_name);
-            } else {
-                $filename = addcslashes($script_name, '\\"');
-            }
+                break;
 
-            header("Content-Disposition: attachment; filename=\"$filename.txt\"");
+            case 'ruleadd':
+                $rid = rcube_utils::get_input_value('_rid', rcube_utils::INPUT_GPC);
 
-            echo $script;
+                $id = $this->genid();
 
-            exit;
-        } else if ($action == 'list') {
-            $result = $this->list_rules();
+                $content = $this->rule_div($fid, $id, false);
 
-            $this->rc->output->command('managesieve_updatelist', 'list', array('list' => $result));
-        } else if ($action == 'ruleadd') {
-            $rid = rcube_utils::get_input_value('_rid', rcube_utils::INPUT_GPC);
+                $this->rc->output->command('managesieve_rulefill', $content, $id, $rid);
 
-            $id = $this->genid();
+                break;
 
-            $content = $this->rule_div($fid, $id, false);
+            case 'actionadd':
+                $aid = rcube_utils::get_input_value('_aid', rcube_utils::INPUT_GPC);
 
-            $this->rc->output->command('managesieve_rulefill', $content, $id, $rid);
-        } else if ($action == 'actionadd') {
-            $aid = rcube_utils::get_input_value('_aid', rcube_utils::INPUT_GPC);
+                $id = $this->genid();
 
-            $id = $this->genid();
+                $content = $this->action_div($fid, $id, false);
 
-            $content = $this->action_div($fid, $id, false);
+                $this->rc->output->command('managesieve_actionfill', $content, $id, $aid);
 
-            $this->rc->output->command('managesieve_actionfill', $content, $id, $aid);
+                break;
+
         }
 
         $this->rc->output->send();
