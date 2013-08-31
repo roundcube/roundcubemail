@@ -31,11 +31,29 @@
 
 class newmail_notifier extends rcube_plugin
 {
+    /**
+     * @see rcube_plugin::$task
+     */
     public $task = 'mail|settings';
 
+    /**
+     * @var rcmail
+     */
     private $rc;
+
+    /**
+     * @var bool Is Notified?
+     */
     private $notified;
+
+    /**
+     * @var array Options
+     */
     private $opt = array();
+
+    /**
+     * @var array Exceptions
+     */
     private $exceptions = array();
 
     /**

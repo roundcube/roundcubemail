@@ -35,15 +35,24 @@ require_once(RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.
 
 class redundant_attachments extends filesystem_attachments
 {
-    // A prefix for the cache key used in the session and in the key field of the cache table
+    /**
+     * @var string A prefix for the cache key used in the session and in the key field of the cache table
+     */
     private $prefix = "ATTACH";
 
-    // rcube_cache instance for SQL DB
+    /**
+     * @var rcube_cache instance for SQL DB
+     */
     private $cache;
 
-    // rcube_cache instance for memcache
+    /**
+     * @var rcube_cache instance for memcache
+     */
     private $mem_cache;
 
+    /**
+     * @var bool Flag for loaded status of drivers
+     */
     private $loaded;
 
     /**

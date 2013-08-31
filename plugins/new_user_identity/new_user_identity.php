@@ -23,8 +23,14 @@
  */
 class new_user_identity extends rcube_plugin
 {
+    /**
+     * @see rcube_plugin::$task
+     */
     public $task = 'login';
 
+    /**
+     * @var new_user_identity_ldap_backend
+     */
     private $ldap;
 
     function init()

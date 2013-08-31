@@ -14,8 +14,14 @@
  */
 class new_user_dialog extends rcube_plugin
 {
+    /**
+     * @see rcube_plugin::$task
+     */
     public $task = 'login|mail';
 
+    /**
+     * @see rcube_plugin::$noframe
+     */
     public $noframe = true;
 
     function init()
