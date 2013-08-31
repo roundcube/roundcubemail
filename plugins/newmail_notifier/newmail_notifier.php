@@ -87,6 +87,10 @@ class newmail_notifier extends rcube_plugin
 
     /**
      * Handler for user preferences form (preferences_list hook)
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function prefs_list($args)
     {
@@ -135,6 +139,10 @@ class newmail_notifier extends rcube_plugin
 
     /**
      * Handler for user preferences save (preferences_save hook)
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function prefs_save($args)
     {
@@ -158,6 +166,10 @@ class newmail_notifier extends rcube_plugin
 
     /**
      * Handler for new message action (new_messages hook)
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function notify($args)
     {

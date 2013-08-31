@@ -44,6 +44,8 @@ class new_user_dialog extends rcube_plugin
     /**
      * Callback function when HTML page is rendered
      * We'll add an overlay box here.
+     *
+     * @param array $p
      */
     function render_page($p)
     {

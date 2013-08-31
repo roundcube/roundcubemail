@@ -32,6 +32,13 @@ class new_user_identity extends rcube_plugin
         $this->add_hook('user_create', array($this, 'lookup_user_name'));
     }
 
+    /**
+     * Look up a username for name and/or email address
+     *
+     * @param array $args
+     *
+     * @return array
+     */
     function lookup_user_name($args)
     {
         if (!$this->init_ldap($args['host'])) return $args;
@@ -52,6 +59,13 @@ class new_user_identity extends rcube_plugin
         return $args;
     }
 
+    /**
+     * Initialize LDAP connection
+     *
+     * @param string $host
+     *
+     * @return bool
+     */
     private function init_ldap($host)
     {
         if ($this->ldap) return $this->ldap->ready;
@@ -81,6 +95,11 @@ class new_user_identity extends rcube_plugin
 
 class new_user_identity_ldap_backend extends rcube_ldap
 {
+    /**
+     * @see rcube_ldap::__construct
+     *
+     * @param array $search
+     */
     function __construct($p, $debug, $mail_domain, $search)
     {
         parent::__construct($p, $debug, $mail_domain);
