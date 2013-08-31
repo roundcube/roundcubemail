@@ -10,7 +10,7 @@
  *              supported by Chrome and Firefox with 'HTML5 Notifications' plugin)
  *
  * @version @package_version@
- * @author Aleksander Machniak <alec@alec.pl>
+ * @author  Aleksander Machniak <alec@alec.pl>
  *
  *
  * Copyright (C) 2011, Kolab Systems AG
@@ -38,7 +38,6 @@ class newmail_notifier extends rcube_plugin
     private $opt = array();
     private $exceptions = array();
 
-
     /**
      * Plugin initialization
      */
@@ -50,8 +49,7 @@ class newmail_notifier extends rcube_plugin
         if ($this->rc->task == 'settings') {
             $this->add_hook('preferences_list', array($this, 'prefs_list'));
             $this->add_hook('preferences_save', array($this, 'prefs_save'));
-        }
-        else { // if ($this->rc->task == 'mail') {
+        } else { // if ($this->rc->task == 'mail') {
             // add script when not in ajax and not in frame
             if ($this->rc->output->type == 'html' && empty($_REQUEST['_framed'])) {
                 $this->add_texts('localization/');
@@ -79,7 +77,7 @@ class newmail_notifier extends rcube_plugin
 
                     $this->add_hook('new_messages', array($this, 'notify'));
                 }
-             }
+            }
         }
     }
 
@@ -113,11 +111,11 @@ class newmail_notifier extends rcube_plugin
                 $field_id = '_' . $key;
                 $input    = new html_checkbox(array('name' => $field_id, 'id' => $field_id, 'value' => 1));
                 $content  = $input->show($this->rc->config->get($key))
-                    . ' ' . html::a(array('href' => '#', 'onclick' => 'newmail_notifier_test_'.$type.'()'),
+                    . ' ' . html::a(array('href' => '#', 'onclick' => 'newmail_notifier_test_' . $type . '()'),
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = array(
-                    'title' => html::label($field_id, rcube::Q($this->gettext($type))),
+                    'title'   => html::label($field_id, rcube::Q($this->gettext($type))),
                     'content' => $content
                 );
             }
@@ -144,7 +142,7 @@ class newmail_notifier extends rcube_plugin
         foreach (array('basic', 'desktop', 'sound') as $type) {
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
-                $args['prefs'][$key] = rcube_utils::get_input_value('_'.$key, rcube_utils::INPUT_POST) ? true : false;
+                $args['prefs'][$key] = rcube_utils::get_input_value('_' . $key, rcube_utils::INPUT_POST) ? true : false;
             }
         }
 
@@ -167,7 +165,7 @@ class newmail_notifier extends rcube_plugin
 
         // Skip exception (sent/drafts) folders (and their subfolders)
         foreach ($this->exceptions as $folder) {
-            if (strpos($mbox.$delimiter, $folder.$delimiter) === 0) {
+            if (strpos($mbox . $delimiter, $folder . $delimiter) === 0) {
                 return $args;
             }
         }

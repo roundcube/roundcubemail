@@ -7,7 +7,7 @@
  * This plugin requires that a working public_ldap directory be configured.
  *
  * @version @package_version@
- * @author Kris Steinhoff
+ * @author  Kris Steinhoff
  * @license GNU GPLv3+
  *
  * Example configuration:
@@ -46,6 +46,7 @@ class new_user_identity extends rcube_plugin
                 }
             }
         }
+
         return $args;
     }
 
@@ -58,7 +59,7 @@ class new_user_identity extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         $addressbook = $rcmail->config->get('new_user_identity_addressbook');
-        $ldap_config = (array)$rcmail->config->get('ldap_public');
+        $ldap_config = (array) $rcmail->config->get('ldap_public');
         $match       = $rcmail->config->get('new_user_identity_match');
 
         if (empty($addressbook) || empty($match) || empty($ldap_config[$addressbook])) {
@@ -80,6 +81,6 @@ class new_user_identity_ldap_backend extends rcube_ldap
     function __construct($p, $debug, $mail_domain, $search)
     {
         parent::__construct($p, $debug, $mail_domain);
-        $this->prop['search_fields'] = (array)$search;
+        $this->prop['search_fields'] = (array) $search;
     }
 }
