@@ -59,9 +59,7 @@ class redundant_attachments extends filesystem_attachments
      */
     private function _load_drivers()
     {
-        if ($this->loaded) {
-            return;
-        }
+        if ($this->loaded) return;
 
         $rcmail = rcmail::get_instance();
 
@@ -101,7 +99,7 @@ class redundant_attachments extends filesystem_attachments
 
         $this->_load_drivers();
 
-        $key  = $this->_key($args);
+        $key = $this->_key($args);
 
         $data = base64_encode(file_get_contents($args['path']));
 
