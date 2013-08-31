@@ -134,7 +134,7 @@ function newmail_notifier_desktop(body)
 
             popup.onclick = function () {
                 this.cancel();
-            }
+            };
 
             popup.show();
 
