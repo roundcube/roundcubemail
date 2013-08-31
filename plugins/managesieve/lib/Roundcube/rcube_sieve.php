@@ -35,11 +35,15 @@ define('SIEVE_ERROR_OTHER', 255); // other/unknown error
 class rcube_sieve
 {
     private $sieve; // Net_Sieve object
+
     private $error = false; // error flag
+
     private $list = array(); // scripts list
 
     public $script; // rcube_sieve_script object
+
     public $current; // name of currently loaded script
+
     private $exts; // array of supported extensions
 
     /**
@@ -56,10 +60,11 @@ class rcube_sieve
      * @param string  Proxy authentication identifier
      * @param string  Proxy authentication password
      */
-    public function __construct($username, $password = '', $host = 'localhost', $port = 2000,
-                                $auth_type = null, $usetls = true, $disabled = array(), $debug = false,
-                                $auth_cid = null, $auth_pw = null)
-    {
+    public function __construct(
+        $username, $password = '', $host = 'localhost', $port = 2000,
+        $auth_type = null, $usetls = true, $disabled = array(), $debug = false,
+        $auth_cid = null, $auth_pw = null
+    ) {
         $this->sieve = new Net_Sieve();
 
         if ($debug) {
@@ -240,6 +245,7 @@ class rcube_sieve
         }
 
         $ext = $this->sieve->getExtensions();
+
         // we're working on lower-cased names
         $ext = array_map('strtolower', (array) $ext);
 
@@ -354,6 +360,7 @@ class rcube_sieve
                         continue 2;
                     }
                 }
+
                 if (!empty($script->content[$idx + 1]) && $script->content[$idx + 1]['type'] != 'if') {
                     $script->content[$idx]['actions'][] = array('type' => 'stop');
                 }
