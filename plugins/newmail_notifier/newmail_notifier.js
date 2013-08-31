@@ -32,9 +32,9 @@ function newmail_notifier_run(prop)
 function newmail_notifier_stop(prop)
 {
     // revert original favicon
-    if (rcmail.env.favicon_href && (!prop || prop.action != 'check-recent')) {
-        $('<link rel="shortcut icon" href="' + rcmail.env.favicon_href + '"/>').replaceAll('link[rel="shortcut icon"]');
-        rcmail.env.favicon_href = null;
+    if (rcmail.env.favicon_href && rcmail.env.favicon_changed && (!prop || prop.action != 'check-recent')) {
+        $('<link rel="shortcut icon" href="'+rcmail.env.favicon_href+'"/>').replaceAll('link[rel="shortcut icon"]');
+        rcmail.env.favicon_changed = 0;
     }
 
     // Remove IE icon overlay if we're pinned to Taskbar
@@ -57,8 +57,10 @@ function newmail_notifier_basic()
     var link = $('<link rel="shortcut icon" href="plugins/newmail_notifier/favicon.ico"/>'),
         oldlink = $('link[rel="shortcut icon"]', w.document);
 
-    rcmail.env.favicon_href = oldlink.attr('href');
+    if (!rcmail.env.favicon_href)
+        rcmail.env.favicon_href = oldlink.attr('href');
 
+    rcmail.env.favicon_changed = 1;
     link.replaceAll(oldlink);
 
     // Add IE icon overlay if we're pinned to Taskbar
