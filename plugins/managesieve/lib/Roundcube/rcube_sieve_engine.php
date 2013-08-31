@@ -793,10 +793,11 @@ class rcube_sieve_engine
                         }
                     } else {
                         $cust_header = $headers = $this->strip_value(array_shift($cust_headers));
-                        $mod         = $this->strip_value($mods[$idx]);
-                        $mod_type    = $this->strip_value($mod_types[$idx]);
-                        $index       = $this->strip_value($indexes[$idx]);
-                        $indexlast   = $this->strip_value($lastindexes[$idx]);
+
+                        $mod       = $this->strip_value($mods[$idx]);
+                        $mod_type  = $this->strip_value($mod_types[$idx]);
+                        $index     = $this->strip_value($indexes[$idx]);
+                        $indexlast = $this->strip_value($lastindexes[$idx]);
 
                         if (preg_match('/^not/', $operator)) {
                             $this->form['tests'][$i]['not'] = true;
@@ -923,7 +924,7 @@ class rcube_sieve_engine
                         }
 
                         if ($type == 'redirect_copy') {
-                            $type                              = 'redirect';
+                            $type = 'redirect';
 
                             $this->form['actions'][$i]['copy'] = true;
                         }
@@ -948,9 +949,9 @@ class rcube_sieve_engine
                         break;
 
                     case 'vacation':
-                        $reason                                    = $this->strip_value($reasons[$idx]);
+                        $reason = $this->strip_value($reasons[$idx]);
 
-                        $interval_type                             = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
+                        $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
 
                         $this->form['actions'][$i]['reason']       = str_replace("\r\n", "\n", $reason);
                         $this->form['actions'][$i]['subject']      = $subject[$idx];
@@ -1053,7 +1054,6 @@ class rcube_sieve_engine
                     }
                 } else {
                     $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
-
                     //$this->rc->output->send();
                 }
             }
@@ -1126,7 +1126,7 @@ class rcube_sieve_engine
                 foreach ($list as $idx => $set) {
                     $scripts['S' . $idx] = $set;
 
-                    $result[]            = array(
+                    $result[] = array(
                         'name'  => $set,
                         'id'    => 'S' . $idx,
                         'class' => !in_array($set, $this->active) ? 'disabled' : '',
@@ -1209,8 +1209,8 @@ class rcube_sieve_engine
         $input_name = new html_inputfield(
             array(
                 'name'  => '_name',
-                'id' => '_name',
-                'size' => 30,
+                'id'    => '_name',
+                'size'  => 30,
                 'class' => ($this->errors['name'] ? 'error' : '')
             )
         );
@@ -1230,7 +1230,7 @@ class rcube_sieve_engine
         $out .= sprintf('<label for="%s">%s</label> ', 'from_none', rcube::Q($this->plugin->gettext('none')));
 
         // filters set list
-        $list   = $this->list_scripts();
+        $list = $this->list_scripts();
 
         $select = new html_select(array('name' => '_copy', 'id' => '_copy'));
 
@@ -1365,7 +1365,7 @@ class rcube_sieve_engine
         $out .= sprintf("%s<label for=\"%s\">%s</label>\n",
             $input_join, $field_id, rcube::Q($this->plugin->gettext('filteranyof')));
 
-        $field_id   = '_any';
+        $field_id = '_any';
 
         $input_join = new html_radiobutton(array(
             'name'    => '_join', 'id' => $field_id, 'value' => 'any',
@@ -1527,7 +1527,7 @@ class rcube_sieve_engine
                 'year', 'month', 'day', 'hour', 'minute', 'second', 'weekday', 'zone'
             );
 
-            $select_dp  = new html_select(array(
+            $select_dp = new html_select(array(
                 'name'  => "_rule_date_part[]", 'id' => 'rule_date_part' . $id,
                 'style' => $rule['test'] == 'currentdate' || $rule['test'] == 'date' ? '' : 'display:none',
                 'class' => 'datepart_selector',
@@ -1542,11 +1542,11 @@ class rcube_sieve_engine
 
         // target(s) input
         if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
-            $test   = ($rule['not'] ? 'not' : '') . ($rule['type'] ? $rule['type'] : 'is');
+            $test = ($rule['not'] ? 'not' : '') . ($rule['type'] ? $rule['type'] : 'is');
 
             $target = $rule['arg2'];
         } else if (in_array($rule['test'], array('body', 'date', 'currentdate'))) {
-            $test   = ($rule['not'] ? 'not' : '') . ($rule['type'] ? $rule['type'] : 'is');
+            $test = ($rule['not'] ? 'not' : '') . ($rule['type'] ? $rule['type'] : 'is');
 
             $target = $rule['arg'];
         } else if ($rule['test'] == 'size') {
@@ -1619,7 +1619,7 @@ class rcube_sieve_engine
 
         $need_mod = $rule['test'] != 'size' && $rule['test'] != 'body';
 
-        $mout     = '<div id="rule_mod' . $id . '" class="adv"' . (!$need_mod ? ' style="display:none"' : '') . '>';
+        $mout = '<div id="rule_mod' . $id . '" class="adv"' . (!$need_mod ? ' style="display:none"' : '') . '>';
         $mout .= ' <span class="label">' . rcube::Q($this->plugin->gettext('modifier')) . ' </span>';
         $mout .= $select_mod->show($rule['test']);
         $mout .= ' <span id="rule_mod_type' . $id . '"';
@@ -1716,7 +1716,7 @@ class rcube_sieve_engine
 
     function action_div($fid, $id, $div = true)
     {
-        $action   = isset($this->form) ? $this->form['actions'][$id] : $this->script[$fid]['actions'][$id];
+        $action = isset($this->form) ? $this->form['actions'][$id] : $this->script[$fid]['actions'][$id];
 
         $rows_num = isset($this->form) ? sizeof($this->form['actions']) : sizeof($this->script[$fid]['actions']);
 
@@ -1826,7 +1826,7 @@ class rcube_sieve_engine
         $out .= '</div>';
 
         // flags
-        $flags        = array(
+        $flags = array(
             'read'     => '\\Seen',
             'answered' => '\\Answered',
             'flagged'  => '\\Flagged',
@@ -1905,7 +1905,7 @@ class rcube_sieve_engine
             1 => 'notifyimportancehigh'
         );
 
-        $select_importance  = new html_select(array(
+        $select_importance = new html_select(array(
             'name'  => '_action_notifyimportance[' . $id . ']',
             'id'    => '_action_notifyimportance' . $id,
             'class' => $this->error_class($id, 'action', 'importance', 'action_notifyimportance')
@@ -2075,11 +2075,11 @@ class rcube_sieve_engine
      */
     private function mod_mailbox($mailbox, $mode = 'out')
     {
-        $delimiter         = $_SESSION['imap_delimiter'];
+        $delimiter = $_SESSION['imap_delimiter'];
 
         $replace_delimiter = $this->rc->config->get('managesieve_replace_delimiter');
 
-        $mbox_encoding     = $this->rc->config->get('managesieve_mbox_encoding', 'UTF7-IMAP');
+        $mbox_encoding = $this->rc->config->get('managesieve_mbox_encoding', 'UTF7-IMAP');
 
         if ($mode == 'out') {
             $mailbox = rcube_charset::convert($mailbox, $mbox_encoding, 'UTF7-IMAP');
@@ -2132,9 +2132,9 @@ class rcube_sieve_engine
 
             // get active script(s), read USER script
             if ($user_script) {
-                $extension                           = $this->rc->config->get('managesieve_filename_extension', '.sieve');
+                $extension = $this->rc->config->get('managesieve_filename_extension', '.sieve');
 
-                $filename_regex                      = '/' . preg_quote($extension, '/') . '$/';
+                $filename_regex = '/' . preg_quote($extension, '/') . '$/';
 
                 $_SESSION['managesieve_user_script'] = $user_script;
 
@@ -2143,7 +2143,7 @@ class rcube_sieve_engine
                 foreach ($this->sieve->script->as_array() as $rules) {
                     foreach ($rules['actions'] as $action) {
                         if ($action['type'] == 'include' && empty($action['global'])) {
-                            $name           = preg_replace($filename_regex, '', $action['target']);
+                            $name = preg_replace($filename_regex, '', $action['target']);
 
                             $this->active[] = $name;
                         }
@@ -2213,7 +2213,7 @@ class rcube_sieve_engine
     {
         // Kolab's KEP:14
         if ($this->rc->config->get('managesieve_kolab_master')) {
-            $extension   = $this->rc->config->get('managesieve_filename_extension', '.sieve');
+            $extension = $this->rc->config->get('managesieve_filename_extension', '.sieve');
 
             $user_script = $_SESSION['managesieve_user_script'];
 
@@ -2223,7 +2223,7 @@ class rcube_sieve_engine
                 if ($this->sieve->load($user_script)) {
                     $script = $this->sieve->script->as_array();
 
-                    $list   = array();
+                    $list = array();
 
                     $regexp = '/' . preg_quote($extension, '/') . '$/';
 
@@ -2302,7 +2302,7 @@ class rcube_sieve_engine
     {
         // Kolab's KEP:14
         if ($this->rc->config->get('managesieve_kolab_master')) {
-            $extension   = $this->rc->config->get('managesieve_filename_extension', '.sieve');
+            $extension = $this->rc->config->get('managesieve_filename_extension', '.sieve');
 
             $user_script = $_SESSION['managesieve_user_script'];
 
@@ -2312,7 +2312,7 @@ class rcube_sieve_engine
                 if ($this->sieve->load($user_script)) {
                     $script = $this->sieve->script->as_array();
 
-                    $name   = $name . $extension;
+                    $name = $name . $extension;
 
                     foreach ($script as $rid => $rules) {
                         foreach ($rules['actions'] as $action) {
@@ -2378,7 +2378,7 @@ class rcube_sieve_engine
                 continue;
             }
 
-            $fname    = $filter['name'] ? $filter['name'] : "#$i";
+            $fname = $filter['name'] ? $filter['name'] : "#$i";
 
             $result[] = array(
                 'id'    => $idx,
