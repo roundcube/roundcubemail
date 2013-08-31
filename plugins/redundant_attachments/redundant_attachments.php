@@ -102,6 +102,7 @@ class redundant_attachments extends filesystem_attachments
         $this->_load_drivers();
 
         $key  = $this->_key($args);
+
         $data = base64_encode(file_get_contents($args['path']));
 
         $status = $this->cache->write($key, $data);

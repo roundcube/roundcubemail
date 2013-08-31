@@ -53,7 +53,9 @@ class newmail_notifier extends rcube_plugin
             // add script when not in ajax and not in frame
             if ($this->rc->output->type == 'html' && empty($_REQUEST['_framed'])) {
                 $this->add_texts('localization/');
+
                 $this->rc->output->add_label('newmail_notifier.title', 'newmail_notifier.body');
+
                 $this->include_script('newmail_notifier.js');
             }
 
@@ -68,8 +70,10 @@ class newmail_notifier extends rcube_plugin
                 if (!empty($this->opt)) {
                     // Get folders to skip checking for
                     $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox');
+
                     foreach ($exceptions as $folder) {
                         $folder = $this->rc->config->get($folder);
+
                         if (strlen($folder) && $folder != 'INBOX') {
                             $this->exceptions[] = $folder;
                         }
@@ -86,9 +90,7 @@ class newmail_notifier extends rcube_plugin
      */
     function prefs_list($args)
     {
-        if ($args['section'] != 'mailbox') {
-            return $args;
-        }
+        if ($args['section'] != 'mailbox') return $args;
 
         // Load configuration
         $this->load_config();
@@ -107,18 +109,25 @@ class newmail_notifier extends rcube_plugin
 
         foreach (array('basic', 'desktop', 'sound') as $type) {
             $key = 'newmail_notifier_' . $type;
-            if (!in_array($key, $dont_override)) {
-                $field_id = '_' . $key;
-                $input    = new html_checkbox(array('name' => $field_id, 'id' => $field_id, 'value' => 1));
-                $content  = $input->show($this->rc->config->get($key))
-                    . ' ' . html::a(array('href' => '#', 'onclick' => 'newmail_notifier_test_' . $type . '()'),
-                        $this->gettext('test'));
+            if (in_array($key, $dont_override)) continue;
 
-                $args['blocks']['new_message']['options'][$key] = array(
-                    'title'   => html::label($field_id, rcube::Q($this->gettext($type))),
-                    'content' => $content
+            $field_id = '_' . $key;
+
+            $input = new html_checkbox(array('name' => $field_id, 'id' => $field_id, 'value' => 1));
+
+            $content = $input->show($this->rc->config->get($key))
+                . ' ' . html::a(
+                    array(
+                        'href'    => '#',
+                        'onclick' => 'newmail_notifier_test_' . $type . '()'
+                    ),
+                    $this->gettext('test')
                 );
-            }
+
+            $args['blocks']['new_message']['options'][$key] = array(
+                'title'   => html::label($field_id, rcube::Q($this->gettext($type))),
+                'content' => $content
+            );
         }
 
         return $args;
@@ -129,9 +138,7 @@ class newmail_notifier extends rcube_plugin
      */
     function prefs_save($args)
     {
-        if ($args['section'] != 'mailbox') {
-            return $args;
-        }
+        if ($args['section'] != 'mailbox') return $args;
 
         // Load configuration
         $this->load_config();
@@ -155,12 +162,12 @@ class newmail_notifier extends rcube_plugin
     function notify($args)
     {
         // Already notified or unexpected input
-        if ($this->notified || empty($args['diff']['new'])) {
-            return $args;
-        }
+        if ($this->notified || empty($args['diff']['new'])) return $args;
 
-        $mbox      = $args['mailbox'];
-        $storage   = $this->rc->get_storage();
+        $mbox = $args['mailbox'];
+
+        $storage = $this->rc->get_storage();
+
         $delimiter = $storage->get_hierarchy_delimiter();
 
         // Skip exception (sent/drafts) folders (and their subfolders)
@@ -172,8 +179,10 @@ class newmail_notifier extends rcube_plugin
 
         // Check if any of new messages is UNSEEN
         $deleted = $this->rc->config->get('skip_deleted') ? 'UNDELETED ' : '';
-        $search  = $deleted . 'UNSEEN UID ' . $args['diff']['new'];
-        $unseen  = $storage->search_once($mbox, $search);
+
+        $search = $deleted . 'UNSEEN UID ' . $args['diff']['new'];
+
+        $unseen = $storage->search_once($mbox, $search);
 
         if ($unseen->count()) {
             $this->notified = true;
