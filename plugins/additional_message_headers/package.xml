@@ -35,8 +35,7 @@
         <dir baseinstalldir="/" name="/">
             <file name="additional_message_headers.php" role="php">
                 <tasks:replace from="@name@" to="name" type="package-info"/>
-                <tasks:replace from="@package_version@" to="version"
-                               type="package-info"/>
+                <tasks:replace from="@package_version@" to="version" type="package-info"/>
             </file>
             <file name="config.inc.php.dist" role="data"></file>
         </dir>

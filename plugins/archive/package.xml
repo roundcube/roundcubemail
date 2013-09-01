@@ -35,13 +35,11 @@
         <dir baseinstalldir="/" name="/">
             <file name="archive.php" role="php">
                 <tasks:replace from="@name@" to="name" type="package-info"/>
-                <tasks:replace from="@package_version@" to="version"
-                               type="package-info"/>
+                <tasks:replace from="@package_version@" to="version" type="package-info"/>
             </file>
             <file name="archive.js" role="data">
                 <tasks:replace from="@name@" to="name" type="package-info"/>
-                <tasks:replace from="@package_version@" to="version"
-                               type="package-info"/>
+                <tasks:replace from="@package_version@" to="version" type="package-info"/>
             </file>
             <file name="localization/ar_SA.inc" role="data"></file>
             <file name="localization/az_AZ.inc" role="data"></file>

@@ -40,8 +40,7 @@
         <dir baseinstalldir="/" name="/">
             <file name="emoticons.php" role="php">
                 <tasks:replace from="@name@" to="name" type="package-info"/>
-                <tasks:replace from="@package_version@" to="version"
-                               type="package-info"/>
+                <tasks:replace from="@package_version@" to="version" type="package-info"/>
             </file>
         </dir>
         <!-- / -->
