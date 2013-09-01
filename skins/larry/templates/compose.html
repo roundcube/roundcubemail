@@ -85,25 +85,25 @@
 	</tr><tr id="compose-cc">
 		<td class="title top">
 			<label for="_cc"><roundcube:label name="cc" /></label>
-			<a href="#cc" onclick="return UI.hide_header_row('cc');" class="iconbutton cancel" title="<roundcube:label name='delete' />" />x</a>
+			<a href="#cc" onclick="return UI.hide_header_row('cc');" class="iconbutton cancel" title="<roundcube:label name='delete' />">x</a>
 		</td>
 		<td class="editfield"><roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="1" tabindex="3" /></td>
 	</tr><tr id="compose-bcc">
 		<td class="title top">
 			<label for="_bcc"><roundcube:label name="bcc" /></label>
-			<a href="#bcc" onclick="return UI.hide_header_row('bcc');" class="iconbutton cancel" title="<roundcube:label name='delete' />" />x</a>
+			<a href="#bcc" onclick="return UI.hide_header_row('bcc');" class="iconbutton cancel" title="<roundcube:label name='delete' />">x</a>
 		</td>
 		<td colspan="2" class="editfield"><roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="1" tabindex="4" /></td>
 	</tr><tr id="compose-replyto">
 		<td class="title top">
 			<label for="_replyto"><roundcube:label name="replyto" /></label>
-			<a href="#replyto" onclick="return UI.hide_header_row('replyto');" class="iconbutton cancel" title="<roundcube:label name='delete' />" />x</a>
+			<a href="#replyto" onclick="return UI.hide_header_row('replyto');" class="iconbutton cancel" title="<roundcube:label name='delete' />">x</a>
 		</td>
 		<td class="editfield"><roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="5" /></td>
 	</tr><tr id="compose-followupto">
 		<td class="title top">
 			<label for="_followupto"><roundcube:label name="followupto" /></label>
-			<a href="#followupto" onclick="return UI.hide_header_row('followupto');" class="iconbutton cancel" title="<roundcube:label name='delete' />" />x</a>
+			<a href="#followupto" onclick="return UI.hide_header_row('followupto');" class="iconbutton cancel" title="<roundcube:label name='delete' />">x</a>
 		</td>
 		<td class="editfield"><roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="7" /></td>
 	</tr><tr>
@@ -185,7 +185,7 @@
 </div><!-- end mainscreen -->
 
 <div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='addattachment' />">
-	<roundcube:object name="composeAttachmentForm" id="uploadform" attachmentFieldSize="40" buttons="no" />
+	<roundcube:object name="composeAttachmentForm" id="uploadform" buttons="no" />
 	<div class="formbuttons">
 		<roundcube:button command="send-attachment" type="input" class="button mainaction" label="upload" />
 		<roundcube:button name="close" type="input" class="button" label="cancel" onclick="UI.show_uploadform()" />
