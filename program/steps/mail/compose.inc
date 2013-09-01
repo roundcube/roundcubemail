@@ -1434,7 +1434,7 @@ function rcmail_compose_attachment_form($attrib)
 }
 
 
-function rcmail_compose_attachment_field($attrib)
+function rcmail_compose_attachment_field($attrib = array())
 {
   $attrib['type'] = 'file';
   $attrib['name'] = '_attachments[]';
