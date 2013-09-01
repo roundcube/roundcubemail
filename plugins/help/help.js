@@ -5,7 +5,7 @@
 
 // hook into switch-task event to open the help window
 if (window.rcmail) {
-    rcmail.addEventListener('beforeswitch-task', function (prop)
+    rcmail.addEventListener('beforeswitch-task', function(prop)
     {
         // catch clicks to help task button
         if (prop == 'help') {
