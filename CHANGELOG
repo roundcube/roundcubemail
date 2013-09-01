@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where legacy config was overriden by default config (#1489288)
 - Fix newmail_notifier issue where favicon wasn't changed back to default (#1489313)
 - Fix setting of Junk and NonJunk flags by markasjunk plugin (#1489285)
 - Fix lack of Reply-To address in header of forwarded message body (#1489298)

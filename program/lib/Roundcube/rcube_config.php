@@ -237,8 +237,8 @@ class rcube_config
      */
     public function merge($prefs)
     {
+        $prefs = $this->fix_legacy_props($prefs);
         $this->prop = array_merge($this->prop, $prefs, $this->userprefs);
-        $this->fix_legacy_props();
     }
 
 
@@ -250,6 +250,8 @@ class rcube_config
      */
     public function set_user_prefs($prefs)
     {
+        $prefs = $this->fix_legacy_props($prefs);
+
         // Honor the dont_override setting for any existing user preferences
         $dont_override = $this->get('dont_override');
         if (is_array($dont_override) && !empty($dont_override)) {
@@ -271,8 +273,6 @@ class rcube_config
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);
 
-        $this->fix_legacy_props();
-
         // override timezone settings with client values
         if ($this->prop['timezone'] == 'auto') {
             $this->prop['_timezone_value'] = isset($_SESSION['timezone']) ? $this->client_timezone() : $this->prop['_timezone_value'];
@@ -285,7 +285,7 @@ class rcube_config
     /**
      * Getter for all config options
      *
-     * @return array  Hash array containg all config properties
+     * @return array  Hash array containing all config properties
      */
     public function all()
     {
@@ -437,16 +437,22 @@ class rcube_config
 
     /**
      * Convert legacy options into new ones
+     *
+     * @param array $props Hash array with config props
+     *
+     * @return array Converted config props
      */
-    private function fix_legacy_props()
+    private function fix_legacy_props($props)
     {
         foreach ($this->legacy_props as $new => $old) {
-            if (isset($this->prop[$old])) {
-                if (!isset($this->prop[$new])) {
-                    $this->prop[$new] = $this->prop[$old];
+            if (isset($props[$old])) {
+                if (!isset($props[$new])) {
+                    $props[$new] = $props[$old];
                 }
-                unset($this->prop[$old]);
+                unset($props[$old]);
             }
         }
+
+        return $props;
     }
 }
