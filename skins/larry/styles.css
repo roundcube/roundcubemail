@@ -878,7 +878,7 @@ a.iconlink.upload {
 }
 
 /* fix scrolling within iframes in webkit browsers on touch devices */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio:0) and (max-device-width:1024px) {
 	.iframebox {
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
