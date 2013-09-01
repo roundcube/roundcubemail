@@ -1831,7 +1831,11 @@ ul.proplist li {
 }
 
 .toolbar a.button.download {
-	background-position: center -1906px;
+	background-position: center -1892px;
+}
+
+.toolbar a.button.responses {
+	background-position: center -1932px;
 }
 
 a.menuselector {

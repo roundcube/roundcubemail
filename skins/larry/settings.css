@@ -110,6 +110,14 @@
 	background-position: 6px -1819px;
 }
 
+#settings-sections span.responses a {
+	background-position: 6px -1972px;
+}
+
+#settings-sections span.responses.selected a {
+	background-position: 6px -1996px;
+}
+
 #sections-table #rcmrowgeneral td.section {
 	background-position: 6px -573px;
 }
