@@ -264,8 +264,11 @@ function rcmail_folder_form($attrib)
             $content = rcmail_get_form_part($tab, $attrib);
         }
 
-        if ($content) {
+        if ($content && sizeof($form) > 1) {
             $out .= html::tag('fieldset', null, html::tag('legend', null, Q($tab['name'])) . $content) ."\n";
+        }
+        else {
+            $out .= $content ."\n";
         }
     }
 
