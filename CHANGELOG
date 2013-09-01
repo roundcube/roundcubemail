@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.9.4
+-------------
+- Fix iframe scrollbars on webkit desktop browsers (#1489306)
 - Fix issue where legacy config was overriden by default config (#1489288)
 - Fix newmail_notifier issue where favicon wasn't changed back to default (#1489313)
 - Fix setting of Junk and NonJunk flags by markasjunk plugin (#1489285)
