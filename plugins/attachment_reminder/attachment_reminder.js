@@ -19,7 +19,7 @@ function rcmail_check_message(msg)
 {
     var i, rx, keywords = rcmail.gettext('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
 
-    keywords = $.map(keywords, function (n)
+    keywords = $.map(keywords, function(n)
     {
         return RegExp.escape(n);
     });
@@ -38,7 +38,7 @@ function rcmail_attachment_reminder_dialog()
 {
     var buttons = {};
 
-    buttons[rcmail.gettext('addattachment')] = function ()
+    buttons[rcmail.gettext('addattachment')] = function()
     {
         $(this).remove();
 
@@ -51,7 +51,7 @@ function rcmail_attachment_reminder_dialog()
         }
     };
 
-    buttons[rcmail.gettext('send')] = function (e)
+    buttons[rcmail.gettext('send')] = function(e)
     {
         $(this).remove();
         rcmail.env.attachment_reminder = true;
@@ -64,7 +64,7 @@ function rcmail_attachment_reminder_dialog()
 }
 
 if (window.rcmail) {
-    rcmail.addEventListener('beforesend', function (evt)
+    rcmail.addEventListener('beforesend', function(evt)
     {
         var msg = rcmail_get_compose_message(),
             subject = $('#compose-subject').val();
