@@ -1,18 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix issue where legacy config was overriden by default config (#1489288)
 - Add temp_dir_ttl configuration option (#1489304)
-- Fix newmail_notifier issue where favicon wasn't changed back to default (#1489313)
 - Allow setting INBOX as Sent folder (#1489219)
-- Fix setting of Junk and NonJunk flags by markasjunk plugin (#1489285)
-- Fix lack of Reply-To address in header of forwarded message body (#1489298)
-- Fix bugs when invoking contact creation form when read-only addressbook is selected (#1489296)
-- Fix identity selection on reply (#1489291)
-- Fix so additional headers are added to all messages sent (#1489284)
-- Fix display issue after moving folder in Folder Manager (#1489293)
-- Fix handling of non-default date formats (#1489294)
-- Fix unquoted path in PREG expression on Windows (#1489290)
 - Fix replacement variables in user-specific base_dn in some LDAP requests (#1489279)
 - Fix image scaling issues when image has only one dimension smaller than the limit (#1489274)
 - Fix issue where uploaded photo was lost when contact form did not validate (#1489274)
@@ -68,6 +58,21 @@ CHANGELOG Roundcube Webmail
 - Extended archive plugin with user-configurable options to store messages into subfolders
 - Fix export of selected contacts from search result (#1488905)
 - Feature to export only selected contacts from addressbook (by Phil Weir)
+
+RELEASE 0.9.4
+-------------
+- Fix iframe scrollbars on webkit desktop browsers (#1489306)
+- Fix issue where legacy config was overriden by default config (#1489288)
+- Fix newmail_notifier issue where favicon wasn't changed back to default (#1489313)
+- Fix setting of Junk and NonJunk flags by markasjunk plugin (#1489285)
+- Fix lack of Reply-To address in header of forwarded message body (#1489298)
+- Fix bugs when invoking contact creation form when read-only addressbook is selected (#1489296)
+- Fix identity selection on reply (#1489291)
+- Fix so additional headers are added to all messages sent (#1489284)
+- Fix display issue after moving folder in Folder Manager (#1489293)
+- Fix handling of non-default date formats (#1489294)
+- Fix unquoted path in PREG expression on Windows (#1489290)
+- Fix wrong close tag in /template/mail.html (#1489295)
 
 RELEASE 0.9.3
 -------------
