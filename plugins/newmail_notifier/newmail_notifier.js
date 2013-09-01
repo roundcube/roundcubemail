@@ -10,7 +10,7 @@ if (window.rcmail && rcmail.env.task == 'mail') {
 
     rcmail.addEventListener('actionbefore', newmail_notifier_stop);
 
-    rcmail.addEventListener('init', function () {
+    rcmail.addEventListener('init', function() {
         // bind to messages list select event, so favicon will be reverted on message preview too
         if (rcmail.message_list) {
             rcmail.message_list.addEventListener('select', newmail_notifier_stop);
@@ -112,11 +112,11 @@ function newmail_notifier_desktop(body)
                 icon: "plugins/newmail_notifier/mail.png"
             });
 
-            popup.onclick = function () {
+            popup.onclick = function() {
                 this.close();
             };
 
-            setTimeout(function () {
+            setTimeout(function() {
                 popup.close();
             }, 10000); // close after 10 seconds
 
@@ -134,13 +134,13 @@ function newmail_notifier_desktop(body)
             var popup = window.webkitNotifications.createNotification('plugins/newmail_notifier/mail.png',
                 rcmail.gettext('title', 'newmail_notifier'), body);
 
-            popup.onclick = function () {
+            popup.onclick = function() {
                 this.cancel();
             };
 
             popup.show();
 
-            setTimeout(function () {
+            setTimeout(function() {
                 popup.cancel();
             }, 10000); // close after 10 seconds
 
@@ -171,7 +171,7 @@ function newmail_notifier_test_desktop()
             if (!dn.checkPermission()) {
                 newmail_notifier_desktop(txt);
             } else {
-                dn.requestPermission(function () {
+                dn.requestPermission(function() {
                     if (!newmail_notifier_desktop(txt)) {
                         rcmail.display_message(rcmail.gettext('desktopdisabled', 'newmail_notifier'), 'error');
                     }
@@ -196,7 +196,7 @@ function newmail_notifier_test_sound()
 
 function newmail_notifier_desktop_authorize()
 {
-    Notification.requestPermission(function (perm)
+    Notification.requestPermission(function(perm)
     {
         if (perm == 'denied') {
             rcmail.display_message(rcmail.gettext('desktopdisabled', 'newmail_notifier'), 'error');
