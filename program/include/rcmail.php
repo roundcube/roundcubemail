@@ -954,7 +954,7 @@ class rcmail extends rcube
     /**
      * Write login data (name, ID, IP address) to the 'userlogins' log file.
      */
-    public function log_login($user, $failed_login = false, $error_code = 0)
+    public function log_login($user = null, $failed_login = false, $error_code = 0)
     {
         if (!$this->config->get('log_logins')) {
             return;
