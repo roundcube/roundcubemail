@@ -896,4 +896,8 @@ $rcmail_config['autocomplete_single'] = false;
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
 $rcmail_config['default_font'] = 'Verdana';
 
+// Default font size for composed HTML message.
+// Supported sizes: 8pt, 10pt, 12pt, 14pt, 18pt, 24pt, 36pt
+$rcmail_config['default_font_size'] = '10pt';
+
 // end of config file
