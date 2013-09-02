@@ -837,6 +837,30 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            if (!isset($no_override['default_font_size'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_default_font_size';
+                $selected = $config['default_font_size'];
+                $fontsizes = array('8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
+
+                $select = '<select name="_default_font_size" id="'.$field_id.'">';
+                $select .= '<option value=""' . (!$selected ? ' selected="selected"' : '') . '>---</option>';
+                foreach ($fontsizes as $fontsize) {
+                    $select .= '<option value="'.$fontsize.'"'
+                        . ($fontsize == $selected ? ' selected="selected"' : '')
+                        . '>'.Q($fontsize).'</option>';
+                }
+                $select .= '</select>';
+
+                $blocks['main']['options']['default_font_size'] = array(
+                    'title' => html::label($field_id, Q(rcube_label('defaultfontsize'))),
+                    'content' => $select
+                );
+            }
+
             if (!isset($no_override['default_font'])) {
                 if (!$current) {
                     continue 2;
