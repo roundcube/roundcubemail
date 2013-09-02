@@ -838,6 +838,10 @@ function rcmail_user_prefs($current = null)
             }
 
             if (!isset($no_override['default_font'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
                 // Default font size
                 $field_id = 'rcmfd_default_font_size';
                 $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
