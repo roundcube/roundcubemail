@@ -485,7 +485,6 @@ if ($isHtml) {
   $font_size = $RCMAIL->config->get('default_font_size');
   $bstyle = " style='font: ".$font_size.$font.";'";
 
-
   // append doctype and html/body wrappers
   $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">' .
     "\r\n<html><body".$bstyle.">\r\n" . $message_body;
