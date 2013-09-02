@@ -109,11 +109,9 @@ class acl extends rcube_plugin
         $this->load_config();
 
         $search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
-
-        $sid = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
+        $sid    = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 
         $users = array();
-
         if ($this->init_ldap()) {
             $max  = (int) $this->rc->config->get('autocomplete_max', 15);
             $mode = (int) $this->rc->config->get('addressbook_search_mode');
