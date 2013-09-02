@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Log also failed logins to userlogins log
 - Add temp_dir_ttl configuration option (#1489304)
 - Allow setting INBOX as Sent folder (#1489219)
 - Fix replacement variables in user-specific base_dn in some LDAP requests (#1489279)

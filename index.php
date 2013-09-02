@@ -138,7 +138,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
   }
   else {
     if (!$auth['valid']) {
-      $error_code  = RCMAIL::ERROR_INVALID_REQUEST;
+      $error_code = RCMAIL::ERROR_INVALID_REQUEST;
     }
     else {
       $error_code = $auth['error'] ? $auth['error'] : $RCMAIL->login_error();
@@ -152,6 +152,9 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     );
 
     $error_message = $error_labels[$error_code] ? $error_labels[$error_code] : 'loginfailed';
+
+    // log failed login
+    $RCMAIL->log_login($auth['user'], true, $error_code);
 
     $OUTPUT->show_message($error_message, 'warning');
     $RCMAIL->plugins->exec_hook('login_failed', array(

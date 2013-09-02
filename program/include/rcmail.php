@@ -954,22 +954,32 @@ class rcmail extends rcube
     /**
      * Write login data (name, ID, IP address) to the 'userlogins' log file.
      */
-    public function log_login()
+    public function log_login($user, $failed_login = false, $error_code = 0)
     {
         if (!$this->config->get('log_logins')) {
             return;
         }
 
-        $user_name = $this->get_user_name();
-        $user_id   = $this->get_user_id();
+        // failed login
+        if ($failed_login) {
+            $message = sprintf('Failed login for %s from %s in session %s (error: %d)',
+                $user, rcube_utils::remote_ip(), session_id(), $error_code);
+        }
+        // successful login
+        else {
+            $user_name = $this->get_user_name();
+            $user_id   = $this->get_user_id();
 
-        if (!$user_id) {
-            return;
+            if (!$user_id) {
+                return;
+            }
+
+            $message = sprintf('Successful login for %s (ID: %d) from %s in session %s',
+                    $user_name, $user_id, rcube_utils::remote_ip(), session_id());
         }
 
-        self::write_log('userlogins',
-            sprintf('Successful login for %s (ID: %d) from %s in session %s',
-                $user_name, $user_id, rcube_utils::remote_ip(), session_id()));
+        // log login
+        self::write_log('userlogins', $message);
     }
 
 

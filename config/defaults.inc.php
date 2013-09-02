@@ -63,7 +63,7 @@ $config['syslog_facility'] = LOG_USER;
 // Log sent messages to <log_dir>/sendmail or to syslog
 $config['smtp_log'] = true;
 
-// Log successful logins to <log_dir>/userlogins or to syslog
+// Log successful/failed logins to <log_dir>/userlogins or to syslog
 $config['log_logins'] = false;
 
 // Log session authentication errors to <log_dir>/session or to syslog
