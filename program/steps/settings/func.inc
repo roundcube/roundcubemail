@@ -838,29 +838,29 @@ function rcmail_user_prefs($current = null)
             }
 
             if (!isset($no_override['default_font'])) {
-              // Default font size
-              $field_id = 'rcmfd_default_font_size';
-              $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
+                // Default font size
+                $field_id = 'rcmfd_default_font_size';
+                $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
 
-              $fontsizes = array('8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
-              foreach ($fontsizes as $size) {
-                $select_default_font_size->add($size, $size);
-              }
+                $fontsizes = array('8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
+                foreach ($fontsizes as $size) {
+                    $select_default_font_size->add($size, $size);
+                }
 
-              // Default font
-              $field_id = 'rcmfd_default_font';
-              $select_default_font = new html_select(array('name' => '_default_font', 'id' => $field_id));
+                // Default font
+                $field_id = 'rcmfd_default_font';
+                $select_default_font = new html_select(array('name' => '_default_font', 'id' => $field_id));
 
-              $fonts = rcube_fontdefs();
-              foreach ($fonts as $fname => $font) {
-                $select_default_font->add($fname, $fname);
-              }
+                $fonts = rcube_fontdefs();
+                foreach ($fonts as $fname => $font) {
+                    $select_default_font->add($fname, $fname);
+                }
 
-              $blocks['main']['options']['default_font'] = array(
-                'title' => html::label($field_id, Q(rcube_label('defaultfont'))),
-                'content' => $select_default_font_size->show($RCMAIL->config->get('default_font_size', 1)).
-                             $select_default_font->show($RCMAIL->config->get('default_font', 1))
-              );
+                $blocks['main']['options']['default_font'] = array(
+                    'title' => html::label($field_id, Q(rcube_label('defaultfont'))),
+                    'content' => $select_default_font_size->show($RCMAIL->config->get('default_font_size', 1)).
+                                 $select_default_font->show($RCMAIL->config->get('default_font', 1))
+                );
             }
         break;
 
