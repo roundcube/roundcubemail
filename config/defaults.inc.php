@@ -973,5 +973,9 @@ $config['autocomplete_single'] = false;
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
 $config['default_font'] = 'Verdana';
 
+// Default font size for composed HTML message.
+// Supported sizes: 8pt, 10pt, 12pt, 14pt, 18pt, 24pt, 36pt
+$rcmail_config['default_font_size'] = '10pt';
+
 // Enables display of email address with name instead of a name (and address in title)
 $config['message_show_email'] = false;
