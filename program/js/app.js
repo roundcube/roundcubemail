@@ -3259,11 +3259,6 @@ function rcube_webmail()
         setTimeout(function() {
           $(tinyMCE.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
         }, 500);
-
-      if (this.env.default_font_size)
-        setTimeout(function() {
-          $(tinyMCE.get(props.id).getBody()).css('font-size', rcmail.env.default_font_size);
-        }, 500);
     }
     else {
       var thisMCE = tinyMCE.get(props.id), existingHtml;
