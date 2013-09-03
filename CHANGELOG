@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where too big message data was stored in cache causing sql errors (#1489316)
+
 RELEASE 0.9.4
 -------------
 - Fix iframe scrollbars on webkit desktop browsers (#1489306)

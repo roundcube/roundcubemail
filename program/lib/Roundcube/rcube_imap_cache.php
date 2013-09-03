@@ -1092,13 +1092,13 @@ class rcube_imap_cache
         // Save current message from internal cache
         if ($message = $this->icache['__message']) {
             // clean up some object's data
-            $object = $this->message_object_prepare($message['object']);
+            $this->message_object_prepare($message['object']);
 
             // calculate current md5 sum
-            $md5sum = md5(serialize($object));
+            $md5sum = md5(serialize($message['object']));
 
             if ($message['md5sum'] != $md5sum) {
-                $this->add_message($message['mailbox'], $object, !$message['exists']);
+                $this->add_message($message['mailbox'], $message['object'], !$message['exists']);
             }
 
             $this->icache['__message']['md5sum'] = $md5sum;
@@ -1108,8 +1108,10 @@ class rcube_imap_cache
 
     /**
      * Prepares message object to be stored in database.
+     *
+     * @param rcube_message_header|rcube_message_part
      */
-    private function message_object_prepare($msg)
+    private function message_object_prepare(&$msg)
     {
         // Remove body too big (>25kB)
         if ($msg->body && strlen($msg->body) > 25 * 1024) {
@@ -1123,13 +1125,19 @@ class rcube_imap_cache
             list($msg->ctype_primary, $msg->ctype_secondary) = explode('/', $msg->mimetype);
         }
 
+        unset($msg->replaces);
+
         if (is_array($msg->structure->parts)) {
-            foreach ($msg->structure->parts as $idx => $part) {
-                $msg->structure->parts[$idx] = $this->message_object_prepare($part);
+            foreach ($msg->structure->parts as $part) {
+                $this->message_object_prepare($part);
             }
         }
 
-        return $msg;
+        if (is_array($msg->parts)) {
+            foreach ($msg->parts as $part) {
+                $this->message_object_prepare($part);
+            }
+        }
     }
 
 
