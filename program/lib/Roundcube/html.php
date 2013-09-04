@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,7 @@ class html
 
     public static $doctype = 'xhtml';
     public static $lc_tags = true;
-    public static $common_attrib = array('id','class','style','title','align');
+    public static $common_attrib = array('id','class','style','title','align','unselectable');
     public static $containers = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script');
 
 

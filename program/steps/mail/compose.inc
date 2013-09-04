@@ -1713,6 +1713,7 @@ function rcmail_compose_responses_list($attrib)
         $item = html::a(array(
             'href '=> '#'.urlencode($response['name']),
             'class' => rtrim('insertresponse ' . $attrib['itemclass']),
+            'unselectable' => 'on',
             'rel' => $key,
         ), Q($response['name']));
 

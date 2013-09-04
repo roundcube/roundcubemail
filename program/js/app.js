@@ -258,12 +258,12 @@ function rcube_webmail()
           this.env.address_group_stack = [];
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
             'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin',
-            'insert-response', 'save-response', 'edit-responses'];
+            'insert-response', 'save-response'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
 
-          this.enable_command(this.env.compose_commands, 'identities', true);
+          this.enable_command(this.env.compose_commands, 'identities', 'responses', true);
 
           // add more commands (not enabled)
           $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
@@ -277,6 +277,7 @@ function rcube_webmail()
           // init canned response functions
           if (this.gui_objects.responseslist) {
             $('a.insertresponse', this.gui_objects.responseslist)
+              .attr('unselectable', 'on')
               .mousedown(function(e){ return rcube_event.cancel(e); })
               .mouseup(function(e){
                 ref.command('insert-response', $(this).attr('rel'));
@@ -3458,7 +3459,7 @@ function rcube_webmail()
 
   this.edit_responses = function()
   {
-    // TODO: decide what to do here...
+    // TODO: implement inline editing of responses
   };
 
   this.delete_response = function(key)
