@@ -511,7 +511,8 @@ body.iframe .boxtitle
   margin: 3px -4px;
 }
 
-.popupmenu li a
+.popupmenu li a,
+.popupmenu li label
 {
   display: block;
   color: #a0a0a0;
@@ -519,6 +520,14 @@ body.iframe .boxtitle
   text-decoration: none;
   min-height: 14px;
   background: transparent;
+}
+
+.popupmenu li label.comment
+{
+  color: #999;
+  font-style: italic;
+  padding-top: 4px;
+  padding-bottom: 3px;
 }
 
 .popupmenu li a.active,
@@ -703,6 +712,24 @@ ul.treelist li div.expanded
   border: none;
   outline: none;
 }
+
+.propform div.prop
+{
+  margin-bottom: 0.5em;
+}
+
+.propform div.prop.block label
+{
+  display: block;
+  margin-bottom: 2px;
+}
+
+.propform div.prop.block input,
+.propform div.prop.block textarea
+{
+  width: 97%;
+}
+
 
 /***** roundcube webmail pre-defined classes *****/
 
