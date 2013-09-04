@@ -7072,7 +7072,7 @@ function rcube_webmail()
 
       if (range && range.parentElement() == obj) {
         len = obj.value.length;
-        normalizedValue = obj.value.replace(/\r\n/g, "\n");
+        normalizedValue = obj.value; //.replace(/\r\n/g, "\n");
 
         // create a working TextRange that lives only in the input
         textInputRange = obj.createTextRange();
