@@ -138,17 +138,6 @@ class rcube_config
         // enable display_errors in 'show' level, but not for ajax requests
         ini_set('display_errors', intval(empty($_REQUEST['_remote']) && ($this->prop['debug_level'] & 4)));
 
-        // set timezone auto settings values
-        if ($this->prop['timezone'] == 'auto') {
-          $this->prop['_timezone_value'] = $this->client_timezone();
-        }
-        else if (is_numeric($this->prop['timezone']) && ($tz = timezone_name_from_abbr("", $this->prop['timezone'] * 3600, 0))) {
-          $this->prop['timezone'] = $tz;
-        }
-        else if (empty($this->prop['timezone'])) {
-          $this->prop['timezone'] = 'UTC';
-        }
-
         // remove deprecated properties
         unset($this->prop['dst_active']);
 
@@ -246,8 +235,10 @@ class rcube_config
 
         $rcube = rcube::get_instance();
 
-        if ($name == 'timezone' && isset($this->prop['_timezone_value'])) {
-            $result = $this->prop['_timezone_value'];
+        if ($name == 'timezone') {
+            if (empty($result) || $result == 'auto') {
+                $result = $this->client_timezone();
+            }
         }
         else if ($name == 'client_mimetypes') {
             if ($result == null && $def == null)
@@ -305,11 +296,6 @@ class rcube_config
             }
         }
 
-        // convert user's timezone into the new format
-        if (is_numeric($prefs['timezone']) && ($tz = timezone_name_from_abbr('', $prefs['timezone'] * 3600, 0))) {
-            $prefs['timezone'] = $tz;
-        }
-
         // larry is the new default skin :-)
         if ($prefs['skin'] == 'default') {
             $prefs['skin'] = self::DEFAULT_SKIN;
@@ -317,13 +303,6 @@ class rcube_config
 
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);
-
-        // override timezone settings with client values
-        if ($this->prop['timezone'] == 'auto') {
-            $this->prop['_timezone_value'] = isset($_SESSION['timezone']) ? $this->client_timezone() : $this->prop['_timezone_value'];
-        }
-        else if (isset($this->prop['_timezone_value']))
-           unset($this->prop['_timezone_value']);
     }
 
 
@@ -464,13 +443,12 @@ class rcube_config
      */
     private function client_timezone()
     {
-        if (isset($_SESSION['timezone']) && is_numeric($_SESSION['timezone'])
-              && ($ctz = timezone_name_from_abbr("", $_SESSION['timezone'] * 3600, 0))) {
-            return $ctz;
-        }
-        else if (!empty($_SESSION['timezone'])) {
+        // @TODO: remove this legacy timezone handling in the future
+        $props = $this->fix_legacy_props(array('timezone' => $_SESSION['timezone']));
+
+        if (!empty($props['timezone'])) {
             try {
-                $tz = timezone_open($_SESSION['timezone']);
+                $tz = new DateTimeZone($props['timezone']);
                 return $tz->getName();
             }
             catch (Exception $e) { /* gracefully ignore */ }
@@ -495,6 +473,16 @@ class rcube_config
                     $props[$new] = $props[$old];
                 }
                 unset($props[$old]);
+            }
+        }
+
+        // convert deprecated numeric timezone value
+        if (isset($props['timezone']) && is_numeric($props['timezone'])) {
+            if ($tz = timezone_name_from_abbr("", $props['timezone'] * 3600, 0)) {
+                $props['timezone'] = $tz;
+            }
+            else {
+                unset($props['timezone']);
             }
         }
 
