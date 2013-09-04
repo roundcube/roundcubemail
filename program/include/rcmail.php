@@ -355,6 +355,7 @@ class rcmail extends rcube
    */
   public function get_compose_responses($sorted = false)
   {
+    $responses = array();
     foreach ($this->config->get('compose_responses', array()) as $response) {
       if (empty($response['key']))
         $response['key'] = substr(md5($response['name']), 0, 16);
@@ -362,13 +363,12 @@ class rcmail extends rcube
       $responses[$k] = $response;
     }
 
+    // sort list by name
     if ($sorted) {
-      // sort list by name
       ksort($responses, SORT_LOCALE_STRING);
-      return array_values($responses);
     }
 
-    return $responses;
+    return array_values($responses);
   }
 
 
