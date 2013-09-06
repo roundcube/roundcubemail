@@ -3,8 +3,6 @@ CHANGELOG Roundcube Webmail
 
 - Fix error_reporting directive check (#1489323)
 - Make cached message size limit configurable - messages_cache_threshold (#1489317)
-- Make identities matching case insensitive (#1485480)
-- Fix issue where too big message data was stored in cache causing sql errors (#1489316)
 - Log also failed logins to userlogins log
 - Add temp_dir_ttl configuration option (#1489304)
 - Allow setting INBOX as Sent folder (#1489219)
@@ -66,6 +64,8 @@ CHANGELOG Roundcube Webmail
 
 RELEASE 0.9.4
 -------------
+- Make identities matching case insensitive (#1485480)
+- Fix issue where too big message data was stored in cache causing sql errors (#1489316)
 - Fix iframe scrollbars on webkit desktop browsers (#1489306)
 - Fix issue where legacy config was overriden by default config (#1489288)
 - Fix newmail_notifier issue where favicon wasn't changed back to default (#1489313)
