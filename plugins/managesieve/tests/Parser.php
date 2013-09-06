@@ -2,7 +2,6 @@
 
 class Parser extends PHPUnit_Framework_TestCase
 {
-
     function setUp()
     {
         include_once dirname(__FILE__) . '/../lib/Roundcube/rcube_sieve_script.php';
@@ -24,6 +23,7 @@ class Parser extends PHPUnit_Framework_TestCase
         }
 
         $script = new rcube_sieve_script($input, $caps);
+
         $result = $script->as_text();
 
         $this->assertEquals(trim($result), trim($output), $message);
@@ -35,8 +35,10 @@ class Parser extends PHPUnit_Framework_TestCase
     function data_parser()
     {
         $dir_path = realpath(dirname(__FILE__) . '/src');
-        $dir      = opendir($dir_path);
-        $result   = array();
+
+        $dir = opendir($dir_path);
+
+        $result = array();
 
         while ($file = readdir($dir)) {
             if (preg_match('/^[a-z0-9_]+$/', $file)) {
@@ -44,8 +46,7 @@ class Parser extends PHPUnit_Framework_TestCase
 
                 if (file_exists($dir_path . '/' . $file . '.out')) {
                     $output = file_get_contents($dir_path . '/' . $file . '.out');
-                }
-                else {
+                } else {
                     $output = $input;
                 }
 
