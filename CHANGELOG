@@ -1,11 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Make identities matching case insensitive (#1485480)
-- Fix issue where too big message data was stored in cache causing sql errors (#1489316)
-
 RELEASE 0.9.4
 -------------
+- Make identities matching case insensitive (#1485480)
+- Fix issue where too big message data was stored in cache causing sql errors (#1489316)
 - Fix iframe scrollbars on webkit desktop browsers (#1489306)
 - Fix issue where legacy config was overriden by default config (#1489288)
 - Fix newmail_notifier issue where favicon wasn't changed back to default (#1489313)
