@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix error_reporting directive check (#1489323)
+
 RELEASE 0.9.4
 -------------
 - Make identities matching case insensitive (#1485480)
