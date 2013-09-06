@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make cached message size limit configurable - messages_cache_threshold (#1489317)
 - Make identities matching case insensitive (#1485480)
 - Fix issue where too big message data was stored in cache causing sql errors (#1489316)
 - Log also failed logins to userlogins log

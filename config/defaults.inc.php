@@ -164,6 +164,11 @@ $config['imap_cache_ttl'] = '10d';
 // Lifetime of messages cache. Possible units: s, m, h, d, w
 $config['messages_cache_ttl'] = '10d';
 
+// Maximum cached message size in kilobytes.
+// Note: On MySQL this should be less than (max_allowed_packet - 30%)
+$config['messages_cache_threshold'] = 50;
+
+
 // ----------------------------------
 // SMTP
 // ----------------------------------

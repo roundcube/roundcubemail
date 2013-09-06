@@ -56,6 +56,13 @@ class rcube_imap_cache
     private $ttl;
 
     /**
+     * Maximum cached message size
+     *
+     * @var int
+     */
+    private $threshold;
+
+    /**
      * Internal (in-memory) cache
      *
      * @var array
@@ -96,9 +103,9 @@ class rcube_imap_cache
      * @param int        $userid       User identifier
      * @param bool       $skip_deleted skip_deleted flag
      * @param string     $ttl          Expiration time of memcache/apc items
-     *
+     * @param int        $threshold    Maximum cached message size
      */
-    function __construct($db, $imap, $userid, $skip_deleted, $ttl=0)
+    function __construct($db, $imap, $userid, $skip_deleted, $ttl=0, $threshold=0)
     {
         // convert ttl string to seconds
         $ttl = get_offset_sec($ttl);
@@ -109,6 +116,7 @@ class rcube_imap_cache
         $this->userid       = $userid;
         $this->skip_deleted = $skip_deleted;
         $this->ttl          = $ttl;
+        $this->threshold    = $threshold;
     }
 
 
@@ -1174,11 +1182,16 @@ class rcube_imap_cache
      *
      * @param rcube_message_header|rcube_message_part
      */
-    private function message_object_prepare(&$msg)
+    private function message_object_prepare(&$msg, &$size = 0)
     {
-        // Remove body too big (>25kB)
-        if ($msg->body && strlen($msg->body) > 25 * 1024) {
-            unset($msg->body);
+        // Remove body too big
+        if ($msg->body && ($length = strlen($msg->body))) {
+            $size += $length;
+
+            if ($size > $this->threshold * 1024) {
+                $size -= $length;
+                unset($msg->body);
+            }
         }
 
         // Fix mimetype which might be broken by some code when message is displayed
@@ -1192,13 +1205,13 @@ class rcube_imap_cache
 
         if (is_array($msg->structure->parts)) {
             foreach ($msg->structure->parts as $part) {
-                $this->message_object_prepare($part);
+                $this->message_object_prepare($part, $size);
             }
         }
 
         if (is_array($msg->parts)) {
             foreach ($msg->parts as $part) {
-                $this->message_object_prepare($part);
+                $this->message_object_prepare($part, $size);
             }
         }
     }
