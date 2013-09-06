@@ -35,15 +35,24 @@ require_once(RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.
 
 class redundant_attachments extends filesystem_attachments
 {
-    // A prefix for the cache key used in the session and in the key field of the cache table
+    /**
+     * @var string A prefix for the cache key used in the session and in the key field of the cache table
+     */
     private $prefix = "ATTACH";
 
-    // rcube_cache instance for SQL DB
+    /**
+     * @var rcube_cache instance for SQL DB
+     */
     private $cache;
 
-    // rcube_cache instance for memcache
+    /**
+     * @var rcube_cache instance for memcache
+     */
     private $mem_cache;
 
+    /**
+     * @var bool Flag for loaded status of drivers
+     */
     private $loaded;
 
     /**
@@ -59,9 +68,7 @@ class redundant_attachments extends filesystem_attachments
      */
     private function _load_drivers()
     {
-        if ($this->loaded) {
-            return;
-        }
+        if ($this->loaded) return;
 
         $rcmail = rcmail::get_instance();
 
@@ -84,15 +91,24 @@ class redundant_attachments extends filesystem_attachments
 
     /**
      * Helper method to generate a unique key for the given attachment file
+     *
+     * @param array $args
+     *
+     * @return string
      */
     private function _key($args)
     {
         $uname = $args['path'] ? $args['path'] : $args['name'];
+
         return $args['group'] . md5(mktime() . $uname . $_SESSION['user_id']);
     }
 
     /**
      * Save a newly uploaded attachment
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function upload($args)
     {
@@ -100,7 +116,8 @@ class redundant_attachments extends filesystem_attachments
 
         $this->_load_drivers();
 
-        $key  = $this->_key($args);
+        $key = $this->_key($args);
+
         $data = base64_encode(file_get_contents($args['path']));
 
         $status = $this->cache->write($key, $data);
@@ -110,7 +127,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
         }
 
@@ -119,6 +136,10 @@ class redundant_attachments extends filesystem_attachments
 
     /**
      * Save an attachment from a non-upload source (draft or forward)
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function save($args)
     {
@@ -140,7 +161,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
         }
 
@@ -150,6 +171,10 @@ class redundant_attachments extends filesystem_attachments
     /**
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function remove($args)
     {
@@ -174,6 +199,10 @@ class redundant_attachments extends filesystem_attachments
      * When composing an html message, image attachments may be shown
      * For this plugin, $this->get() will check the file and
      * return it's contents
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function display($args)
     {
@@ -183,14 +212,19 @@ class redundant_attachments extends filesystem_attachments
     /**
      * When displaying or sending the attachment the file contents are fetched
      * using this method. This is also called by the attachment_display hook.
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function get($args)
     {
         // attempt to get file from local file system
         $args = parent::get($args);
 
-        if ($args['path'] && ($args['status'] = file_exists($args['path'])))
-          return $args;
+        if ($args['path'] && ($args['status'] = file_exists($args['path']))) {
+            return $args;
+        }
 
         $this->_load_drivers();
 
@@ -203,7 +237,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($data) {
-            $args['data'] = base64_decode($data);
+            $args['data']   = base64_decode($data);
             $args['status'] = true;
         }
 
@@ -212,6 +246,10 @@ class redundant_attachments extends filesystem_attachments
 
     /**
      * Delete all temp files associated with this user
+     *
+     * @param array $args
+     *
+     * @return array
      */
     function cleanup($args)
     {

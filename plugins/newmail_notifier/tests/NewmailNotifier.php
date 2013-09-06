@@ -2,7 +2,6 @@
 
 class NewmailNotifier_Plugin extends PHPUnit_Framework_TestCase
 {
-
     function setUp()
     {
         include_once dirname(__FILE__) . '/../newmail_notifier.php';
@@ -14,6 +13,7 @@ class NewmailNotifier_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new newmail_notifier($rcube->api);
 
         $this->assertInstanceOf('newmail_notifier', $plugin);
