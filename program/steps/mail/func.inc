@@ -1748,7 +1748,7 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
         $a_to = rcube_mime::decode_address_list($MESSAGE->headers->to, null, true, $MESSAGE->headers->charset);
         foreach ($a_to as $addr) {
             if (!empty($addr['mailto'])) {
-                $a_recipients[] = format_email($addr['mailto']);
+                $a_recipients[] = strtolower($addr['mailto']);
                 $a_names[]      = $addr['name'];
             }
         }
@@ -1757,7 +1757,7 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
             $a_cc = rcube_mime::decode_address_list($MESSAGE->headers->cc, null, true, $MESSAGE->headers->charset);
             foreach ($a_cc as $addr) {
                 if (!empty($addr['mailto'])) {
-                    $a_recipients[] = format_email($addr['mailto']);
+                    $a_recipients[] = strtolower($addr['mailto']);
                     $a_names[]      = $addr['name'];
                 }
             }
@@ -1783,7 +1783,7 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
             break;
         }
         // use replied message recipients
-        else if (($found = array_search($ident['email_ascii'], $a_recipients)) !== false) {
+        else if (($found = array_search(strtolower($ident['email_ascii']), $a_recipients)) !== false) {
             if ($found_idx === null) {
                 $found_idx = $idx;
             }
