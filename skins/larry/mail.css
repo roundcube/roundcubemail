@@ -1492,6 +1492,10 @@ div.message-partheaders .headers-table td.header {
 	bottom: 0;
 }
 
+#composebodycontainer.fullwidth {
+	right:22px;	
+}
+
 #composebodycontainer.buttons {
 	bottom: 42px;
 }
@@ -1535,6 +1539,10 @@ div.message-partheaders .headers-table td.header {
 	border-width: 1px;
 	padding: 8px;
 	overflow: auto;
+}
+
+#compose-attachments.reduced {
+	width:2px;
 }
 
 #compose-attachments.droptarget {
