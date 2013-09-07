@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -27,7 +27,7 @@ class rcube_config
     const DEFAULT_SKIN = 'larry';
 
     private $env = '';
-    private $basedir = 'config/';
+    private $paths = array();
     private $prop = array();
     private $errors = array();
     private $userprefs = array();
@@ -58,7 +58,32 @@ class rcube_config
     public function __construct($env = '')
     {
         $this->env = $env;
-        $this->basedir = RCUBE_CONFIG_DIR;
+
+        if ($paths = getenv('RCUBE_CONFIG_PATH')) {
+            $this->paths = explode(PATH_SEPARATOR, $paths);
+            // make all paths absolute
+            foreach ($this->paths as $i => $path) {
+                if (!$this->_is_absolute($path)) {
+                    if ($realpath = realpath(RCUBE_INSTALL_PATH . $path)) {
+                        $this->paths[$i] = unslashify($realpath) . '/';
+                    }
+                    else {
+                        unset($this->paths[$i]);
+                    }
+                }
+                else {
+                    $this->paths[$i] = unslashify($path) . '/';
+                }
+            }
+        }
+
+        if (defined('RCUBE_CONFIG_DIR') && !in_array(RCUBE_CONFIG_DIR, $this->paths)) {
+            $this->paths[] = RCUBE_CONFIG_DIR;
+        }
+
+        if (empty($this->paths)) {
+            $this->paths[] = RCUBE_INSTALL_PATH . 'config/';
+        }
 
         $this->load();
 
@@ -175,47 +200,73 @@ class rcube_config
      */
     public function load_from_file($file)
     {
-        $fpath = $this->resolve_path($file);
-        if ($fpath && is_file($fpath) && is_readable($fpath)) {
-            // use output buffering, we don't need any output here 
-            ob_start();
-            include($fpath);
-            ob_end_clean();
+        $success = false;
 
-            if (is_array($config)) {
-                $this->merge($config);
-                return true;
-            }
-            // deprecated name of config variable
-            else if (is_array($rcmail_config)) {
-                $this->merge($rcmail_config);
-                return true;
+        foreach ($this->resolve_paths($file) as $fpath) {
+            if ($fpath && is_file($fpath) && is_readable($fpath)) {
+                // use output buffering, we don't need any output here 
+                ob_start();
+                include($fpath);
+                ob_end_clean();
+
+                if (is_array($config)) {
+                    $this->merge($config);
+                    $success = true;
+                }
+                // deprecated name of config variable
+                else if (is_array($rcmail_config)) {
+                    $this->merge($rcmail_config);
+                    $success = true;
+                }
             }
         }
 
-        return false;
+        return $success;
     }
 
     /**
-     * Helper method to resolve the absolute path to the given config file.
+     * Helper method to resolve absolute paths to the given config file.
      * This also takes the 'env' property into account.
+     *
+     * @param string  Filename or absolute file path
+     * @param boolean Return -$env file path if exists
+     * @return array  List of candidates in config dir path(s)
      */
-    public function resolve_path($file, $use_env = true)
+    private function resolve_paths($file, $use_env = true)
     {
-        if (strpos($file, '/') === false) {
-            $file = realpath($this->basedir . '/' . $file);
+        $files = array();
+        $abs_path = $this->_is_absolute($file);
+
+        foreach ($this->paths as $basepath) {
+            $realpath = $abs_path ? $file : realpath($basepath . '/' . $file);
+
+            // check if <file>-env.ini exists
+            if ($realpath && $use_env && !empty($this->env)) {
+                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $realpath);
+                if (is_file($envfile))
+                    $realpath = $envfile;
+            }
+
+            if ($realpath) {
+                $files[] = $realpath;
+
+                // no need to continue the loop if an absolute file path is given
+                if ($abs_path) {
+                    break;
+                }
+            }
         }
 
-        // check if <file>-env.ini exists
-        if ($file && $use_env && !empty($this->env)) {
-            $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $file);
-            if (is_file($envfile))
-                return $envfile;
-        }
-
-        return $file;
+        return $files;
     }
 
+    /**
+     * Determine whether the given file path is absolute or relative
+     */
+    private function _is_absolute($path)
+    {
+        return $path[0] == DIRECTORY_SEPARATOR || preg_match('!^[a-z]:[\\\\/]!i', $path);
+    }
 
     /**
      * Getter for a specific config parameter
