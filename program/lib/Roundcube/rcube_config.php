@@ -232,7 +232,7 @@ class rcube_config
      * @param boolean Return -$env file path if exists
      * @return array  List of candidates in config dir path(s)
      */
-    private function resolve_paths($file, $use_env = true)
+    public function resolve_paths($file, $use_env = true)
     {
         $files = array();
         $abs_path = $this->_is_absolute($file);
