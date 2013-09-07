@@ -155,10 +155,11 @@
 
 <!-- message compose body -->
 <div id="composeview-bottom">
-	<div id="composebodycontainer">
+	<div id="composebodycontainer" class="fullwidth">
 		<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" tabindex="9" />
 	</div>
-	<div id="compose-attachments" class="rightcol">
+	<div id="compose-attachments" class="rightcol reduced">
+		<a style="cusor: pointer;" href="#attachments" id="composeattachmenttoggle" class="moreheaderstoggle remove"><span class="iconlink" title="<roundcube:label name='attachments' />"></span></a>
 		<div style="text-align:center; margin-bottom:20px">
 			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="addattachment" onclick="UI.show_uploadform();return false" />
 		</div>
