@@ -133,6 +133,14 @@ function rcube_mail_ui()
           return false;
         }).css('cursor', 'pointer');
 
+        $('#composeattachmenttoggle').click(function(){
+          $('#composeattachmenttoggle').toggleClass('remove');
+          $('#composebodycontainer').toggleClass('fullwidth');
+          $('#compose-attachments').toggleClass('reduced');
+          layout_composeview();
+          return false;
+        }).css('cursor', 'pointer');
+
         // toggle compose options if opened in new window and they were visible before
         var opener_rc = rcmail.opener();
         if (opener_rc && opener_rc.env.action == 'compose' && $('#composeoptionstoggle', opener.document).hasClass('remove'))
