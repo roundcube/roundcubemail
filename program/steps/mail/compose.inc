@@ -368,7 +368,12 @@ foreach ($parts as $header) {
       $mailto = format_email(rcube_idn_to_utf8($addr_part['mailto']));
 
       if (!in_array($mailto, $a_recipients)
-        && ($header == 'to' || empty($MESSAGE->compose['from_email']) || $mailto != $MESSAGE->compose['from_email'])
+        && (
+          $header == 'to'
+          || $compose_mode != RCUBE_COMPOSE_REPLY
+          || empty($MESSAGE->compose['from_email'])
+          || $mailto != $MESSAGE->compose['from_email']
+        )
       ) {
         if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
           $string = format_email_recipient($mailto, $addr_part['name']);
