@@ -34,6 +34,7 @@ class rcube_ldap extends rcube_addressbook
     public $ready       = false;
     public $group_id    = 0;
     public $coltypes    = array();
+    public $export_groups = false;
 
     // private properties
     protected $ldap;

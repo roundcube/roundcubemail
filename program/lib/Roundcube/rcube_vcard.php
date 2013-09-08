@@ -47,6 +47,7 @@ class rcube_vcard
         'manager'     => 'X-MANAGER',
         'spouse'      => 'X-SPOUSE',
         'edit'        => 'X-AB-EDIT',
+        'groups'      => 'CATEGORIES',
     );
     private $typemap = array(
         'IPHONE'   => 'mobile',
@@ -756,7 +757,7 @@ class rcube_vcard
      *
      * @return string Joined and quoted string
      */
-    private static function vcard_quote($s, $sep = ';')
+    public static function vcard_quote($s, $sep = ';')
     {
         if (is_array($s)) {
             foreach($s as $part) {
@@ -765,7 +766,7 @@ class rcube_vcard
             return(implode($sep, (array)$r));
         }
 
-        return strtr($s, array('\\' => '\\\\', "\r" => '', "\n" => '\n', ',' => '\,', ';' => '\;'));
+        return strtr($s, array('\\' => '\\\\', "\r" => '', "\n" => '\n', $sep => '\\'.$sep));
     }
 
     /**

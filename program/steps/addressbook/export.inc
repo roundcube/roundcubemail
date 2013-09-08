@@ -5,7 +5,7 @@
  | program/steps/addressbook/export.inc                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
  | Copyright (C) 2011, Kolab Systems AG                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -20,6 +20,46 @@
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
  +-----------------------------------------------------------------------+
 */
+
+
+/**
+ * Copy contact record properties into a vcard object
+ */
+function prepare_for_export(&$record, $source = null)
+{
+    $groups = $source && $source->groups && $source->export_groups ? $source->get_record_groups($record['ID']) : null;
+
+    if (empty($record['vcard'])) {
+        $vcard = new rcube_vcard();
+        if ($source) {
+            $vcard->extend_fieldmap($source->vcard_map);
+        }
+        $vcard->load($record['vcard']);
+        $vcard->reset();
+
+        foreach ($record as $key => $values) {
+            list($field, $section) = explode(':', $key);
+            foreach ((array)$values as $value) {
+                if (is_array($value) || @strlen($value)) {
+                    $vcard->set($field, $value, strtoupper($section));
+                }
+            }
+        }
+
+        // append group names
+        if ($groups) {
+            $vcard->set('groups', join(',', $groups), null);
+        }
+
+        $record['vcard'] = $vcard->export(true);
+    }
+    // patch categories to alread existing vcard block
+    else if ($record['vcard'] && !empty($groups) && !strpos($record['vcard'], 'CATEGORIES:')) {
+        $vgroups = 'CATEGORIES:' . rcube_vcard::vcard_quote(join(',', $groups));
+        $record['vcard'] = str_replace('END:VCARD', $vgroups . rcube_vcard::$eol . 'END:VCARD', $record['vcard']);
+    }
+}
+
 
 // Use search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']]))
@@ -42,23 +82,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 
         while ($record = $result->next()) {
             // because vcard_map is per-source we need to create vcard here
-            if (empty($record['vcard']) || empty($record['name'])) {
-                $vcard = new rcube_vcard();
-                $vcard->extend_fieldmap($source->vcard_map);
-                $vcard->load($record['vcard']);
-                $vcard->reset();
-
-                foreach ($record as $key => $values) {
-                    list($field, $section) = explode(':', $key);
-                    foreach ((array)$values as $value) {
-                        if (is_array($value) || @strlen($value)) {
-                            $vcard->set($field, $value, strtoupper($section));
-                        }
-                    }
-                }
-
-                $record['vcard'] = $vcard->export(true);
-            }
+            prepare_for_export($record, $source);
 
             $record['sourceid'] = $s;
             $key = rcube_addressbook::compose_contact_key($record, $sort_col);
@@ -90,23 +114,7 @@ else if (!empty($_REQUEST['_cid'])) {
 
         while ($record = $result->next()) {
             // because vcard_map is per-source we need to create vcard here
-            if (empty($record['vcard']) || empty($record['name'])) {
-                $vcard = new rcube_vcard();
-                $vcard->extend_fieldmap($source->vcard_map);
-                $vcard->load($record['vcard']);
-                $vcard->reset();
-
-                foreach ($record as $key => $values) {
-                    list($field, $section) = explode(':', $key);
-                    foreach ((array)$values as $value) {
-                        if (is_array($value) || @strlen($value)) {
-                            $vcard->set($field, $value, strtoupper($section));
-                        }
-                    }
-                }
-
-                $record['vcard'] = $vcard->export(true);
-            }
+            prepare_for_export($record, $source);
 
             $record['sourceid'] = $s;
             $key = rcube_addressbook::compose_contact_key($record, $sort_col);
@@ -136,30 +144,12 @@ header('Content-Type: text/x-vcard; charset='.RCMAIL_CHARSET);
 header('Content-Disposition: attachment; filename="contacts.vcf"');
 
 while ($result && ($row = $result->next())) {
-    // we already have a vcard record
-    if ($row['vcard'] && $row['name']) {
-        // fix folding and end-of-line chars
-        $row['vcard'] = preg_replace('/\r|\n\s+/', '', $row['vcard']);
-        $row['vcard'] = preg_replace('/\n/', rcube_vcard::$eol, $row['vcard']);
-        echo rcube_vcard::rfc2425_fold($row['vcard']) . rcube_vcard::$eol;
-    }
-    // copy values into vcard object
-    else {
-        $vcard = new rcube_vcard();
-        $vcard->extend_fieldmap($CONTACTS->vcard_map);
-        $vcard->load($row['vcard']);
-        $vcard->reset();
+    prepare_for_export($row, $CONTACTS);
 
-        foreach ($row as $key => $values) {
-            list($field, $section) = explode(':', $key);
-            foreach ((array)$values as $value) {
-                if (is_array($value) || @strlen($value))
-                    $vcard->set($field, $value, strtoupper($section));
-            }
-        }
-
-        echo $vcard->export(true) . rcube_vcard::$eol;
-    }
+    // fix folding and end-of-line chars
+    $row['vcard'] = preg_replace('/\r|\n\s+/', '', $row['vcard']);
+    $row['vcard'] = preg_replace('/\n/', rcube_vcard::$eol, $row['vcard']);
+    echo rcube_vcard::rfc2425_fold($row['vcard']) . rcube_vcard::$eol;
 }
 
 exit;

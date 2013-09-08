@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -35,6 +35,7 @@ abstract class rcube_addressbook
     /** public properties (mandatory) */
     public $primary_key;
     public $groups = false;
+    public $export_groups = true;
     public $readonly = true;
     public $searchonly = false;
     public $undelete = false;
