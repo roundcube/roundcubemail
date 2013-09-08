@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where From address was removed from Cc and Bcc fields when editing a draft (#1489319)
 - Add option to import Vcards with group assignments
 - Save groups membership in Vcard export (#1488509)
 - Workaround broken PHP function timezone_name_from_abbr (#1489261)
