@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Workaround broken PHP function timezone_name_from_abbr (#1489261)
 - Fix error_reporting directive check (#1489323)
 - Make cached message size limit configurable - messages_cache_threshold (#1489317)
 - Log also failed logins to userlogins log
