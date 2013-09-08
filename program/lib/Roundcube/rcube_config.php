@@ -529,7 +529,7 @@ class rcube_config
 
         // convert deprecated numeric timezone value
         if (isset($props['timezone']) && is_numeric($props['timezone'])) {
-            if ($tz = timezone_name_from_abbr("", $props['timezone'] * 3600, 0)) {
+            if ($tz = self::timezone_name_from_abbr($props['timezone'])) {
                 $props['timezone'] = $tz;
             }
             else {
@@ -538,5 +538,66 @@ class rcube_config
         }
 
         return $props;
+    }
+
+    /**
+     * timezone_name_from_abbr() replacement. Converts timezone offset
+     * into timezone name abbreviation.
+     *
+     * @param float $offset Timezone offset (in hours)
+     *
+     * @return string Timezone abbreviation
+     */
+    static public function timezone_name_from_abbr($offset)
+    {
+        // List of timezones here is not complete - https://bugs.php.net/bug.php?id=44780
+        if ($tz = timezone_name_from_abbr('', $offset * 3600, 0)) {
+            return $tz;
+        }
+
+        // try with more complete list (#1489261)
+        $timezones = array(
+            '-660' => "Pacific/Apia",
+            '-600' => "Pacific/Honolulu",
+            '-570' => "Pacific/Marquesas",
+            '-540' => "America/Anchorage",
+            '-480' => "America/Los_Angeles",
+            '-420' => "America/Denver",
+            '-360' => "America/Chicago",
+            '-300' => "America/New_York",
+            '-270' => "America/Caracas",
+            '-240' => "America/Halifax",
+            '-210' => "Canada/Newfoundland",
+            '-180' => "America/Sao_Paulo",
+             '-60' => "Atlantic/Azores",
+               '0' => "Europe/London",
+              '60' => "Europe/Paris",
+             '120' => "Europe/Helsinki",
+             '180' => "Europe/Moscow",
+             '210' => "Asia/Tehran",
+             '240' => "Asia/Dubai",
+             '300' => "Asia/Karachi",
+             '270' => "Asia/Kabul",
+             '300' => "Asia/Karachi",
+             '330' => "Asia/Kolkata",
+             '345' => "Asia/Katmandu",
+             '360' => "Asia/Yekaterinburg",
+             '390' => "Asia/Rangoon",
+             '420' => "Asia/Krasnoyarsk",
+             '480' => "Asia/Shanghai",
+             '525' => "Australia/Eucla",
+             '540' => "Asia/Tokyo",
+             '570' => "Australia/Adelaide",
+             '600' => "Australia/Melbourne",
+             '630' => "Australia/Lord_Howe",
+             '660' => "Asia/Vladivostok",
+             '690' => "Pacific/Norfolk",
+             '720' => "Pacific/Auckland",
+             '765' => "Pacific/Chatham",
+             '780' => "Pacific/Enderbury",
+             '840' => "Pacific/Kiritimati",
+        );
+
+        return $timezones[(string) intval($offset * 60)];
     }
 }
