@@ -40,6 +40,7 @@ function rcmail_import_form($attrib)
     'multiple' => 'multiple',
   ));
   $form = html::p(null, html::label('rcmimportfile', rcube_label('importfromfile')) . $upload->show());
+  $table = new html_table(array('cols' => 2));
 
   // addressbook selector
   if (count($writable_books) > 1) {
@@ -48,17 +49,31 @@ function rcmail_import_form($attrib)
     foreach ($writable_books as $book)
         $select->add($book['name'], $book['id']);
 
-    $form .= html::p(null, html::label('rcmimporttarget', rcube_label('importtarget'))
-        . $select->show($target));
+    $table->add('title', html::label('rcmimporttarget', rcube_label('importtarget')));
+    $table->add(null, $select->show($target));
   }
   else {
     $abook = new html_hiddenfield(array('name' => '_target', 'value' => key($writable_books)));
     $form .= $abook->show();
   }
 
+  // selector for group import options
+  if (count($writable_books) > 1 || $writable_books[0]->groups) {
+    $select = new html_select(array('name' => '_groups', 'id' => 'rcmimportgroups', 'is_escaped' => true));
+    $select->add(rcube_label('none'), '0');
+    $select->add(rcube_label('importgroupsall'), '1');
+    $select->add(rcube_label('importgroupsexisting'), '2');
+
+    $table->add('title', html::label('rcmimportgroups', rcube_label('importgroups')));
+    $table->add(null, $select->show(get_input_value('_groups', RCUBE_INPUT_GPC)));
+  }
+
+  // checkbox to replace the entire address book
   $check_replace = new html_checkbox(array('name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace'));
-  $form .= html::p(null, $check_replace->show(get_input_value('_replace', RCUBE_INPUT_GPC)) .
-    html::label('rcmimportreplace', rcube_label('importreplace')));
+  $table->add('title', html::label('rcmimportreplace', rcube_label('importreplace')));
+  $table->add(null, $check_replace->show(get_input_value('_replace', RCUBE_INPUT_GPC)));
+
+  $form .= $table->show(array('id' => null) + $attrib);
 
   $OUTPUT->set_env('writable_source', !empty($writable_books));
   $OUTPUT->add_label('selectimportfile','importwait');
@@ -134,18 +149,49 @@ function rcmail_import_buttons($attrib)
 }
 
 
+/**
+ * Returns the matching group id. If group doesn't exist, it'll be created if allowed.
+ */
+function rcmail_import_group_id($group_name, $CONTACTS, $create, &$import_groups)
+{
+    $group_id = 0;
+    foreach ($import_groups as $key => $group) {
+        if (strtolower($group['name']) == strtolower($group_name)) {
+            $group_id = $group['ID'];
+            break;
+        }
+    }
+
+    // create a new group
+    if (!$group_id && $create) {
+        $new_group = $CONTACTS->create_group($group_name);
+        if (!$new_group['ID'])
+            $new_group['ID'] = $new_group['id'];
+        $import_groups[] = $new_group;
+        $group_id = $new_group['ID'];
+    }
+
+    return $group_id;
+}
+
+
 /** The import process **/
 
 $importstep = 'rcmail_import_form';
 
 if (is_array($_FILES['_file'])) {
-    $replace  = (bool)get_input_value('_replace', RCUBE_INPUT_GPC);
-    $target   = get_input_value('_target', RCUBE_INPUT_GPC);
+    $replace      = (bool)get_input_value('_replace', RCUBE_INPUT_GPC);
+    $target       = get_input_value('_target', RCUBE_INPUT_GPC);
+    $with_groups  = intval(get_input_value('_groups', RCUBE_INPUT_GPC));
 
     $vcards       = array();
     $upload_error = null;
 
     $CONTACTS = $RCMAIL->get_address_book($target, true);
+
+    if (!$CONTACTS->groups) {
+        $with_groups = false;
+    }
 
     if ($CONTACTS->readonly) {
         $OUTPUT->show_message('addresswriterror', 'error');
@@ -206,6 +252,10 @@ if (is_array($_FILES['_file'])) {
             $CONTACTS->delete_all();
         }
 
+        if ($with_groups) {
+            $import_groups = $CONTACTS->list_groups();
+        }
+
         foreach ($vcards as $vcard) {
             $a_record = $vcard->get_assoc();
 
@@ -258,6 +308,15 @@ if (is_array($_FILES['_file'])) {
                 $success = $plugin['result'];
 
             if ($success) {
+                // assign groups for this contact (if enabled)
+                if ($with_groups && !empty($a_record['groups'])) {
+                    foreach (explode(',', $a_record['groups'][0]) as $group_name) {
+                        if ($group_id = rcmail_import_group_id($group_name, $CONTACTS, $with_groups == 1, $import_groups)) {
+                            $CONTACTS->add_to_group($group_id, $success);
+                        }
+                    }
+                }
+
                 $IMPORT_STATS->inserted++;
                 $IMPORT_STATS->names[] = $a_record['name'] ? $a_record['name'] : $email;
             }

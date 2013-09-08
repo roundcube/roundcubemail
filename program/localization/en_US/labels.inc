@@ -367,8 +367,11 @@ $labels['searchdelete'] = 'Delete search';
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
-$labels['importtarget'] = 'Add new contacts to address book:';
+$labels['importtarget'] = 'Add contacts to';
 $labels['importreplace'] = 'Replace the entire address book';
+$labels['importgroups'] = 'Import group assignments';
+$labels['importgroupsall'] = 'All (create groups if necessary)';
+$labels['importgroupsexisting'] = 'Only for existing groups';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
 
