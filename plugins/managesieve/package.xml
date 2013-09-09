@@ -17,10 +17,10 @@
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2013-02-17</date>
+	<date>2013-09-09</date>
 	<version>
-		<release>6.2</release>
-		<api>6.0</api>
+		<release>7.0</release>
+		<api>7.0</api>
 	</version>
 	<stability>
 		<release>stable</release>
@@ -38,6 +38,10 @@
 				<tasks:replace from="@name@" to="name" type="package-info"/>
 				<tasks:replace from="@package_version@" to="version" type="package-info"/>
 			</file>
+			<file name="lib/Roundcube/rcube_sieve.php" role="php"></file>
+			<file name="lib/Roundcube/rcube_sieve_engine.php" role="php"></file>
+			<file name="lib/Roundcube/rcube_sieve_script.php" role="php"></file>
+			<file name="lib/Net/Sieve.php" role="php"></file>
 			<file name="localization/be_BE.inc" role="data"></file>
 			<file name="localization/bg_BG.inc" role="data"></file>
 			<file name="localization/bs_BA.inc" role="data"></file>
@@ -106,10 +110,6 @@
 			<file name="skins/larry/images/down_small.gif" role="data"></file>
 			<file name="skins/larry/images/erase.png" role="data"></file>
 			<file name="skins/larry/images/up_small.gif" role="data"></file>
-			<file name="lib/Roundcube/rcube_sieve.php" role="php"></file>
-			<file name="lib/Roundcube/rcube_sieve_engine.php" role="php"></file>
-			<file name="lib/Roundcube/rcube_sieve_script.php" role="php"></file>
-			<file name="lib/Net/Sieve.php" role="php"></file>
 			<file name="config.inc.php.dist" role="data"></file>
 		</dir>
 		<!-- / -->

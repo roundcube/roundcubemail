@@ -195,7 +195,7 @@ class rcube_sieve_engine
         }
         else {
             $this->exts = $this->sieve->get_extensions();
-            $this->script = $this->sieve->script->as_array();
+            $this->init_script();
             $this->rc->output->set_env('currentset', $this->sieve->current);
             $_SESSION['managesieve_current'] = $this->sieve->current;
         }
@@ -742,13 +742,22 @@ class rcube_sieve_engine
                                 $cust_header = (is_array($headers) && count($headers) == 1) ? $headers[0] : $headers;
                         }
 
+                        $header = $header == '...' ? $cust_header : $header;
+
+                        if (is_array($header)) {
+                            foreach ($header as $h_index => $val) {
+                                if (isset($this->headers[$val])) {
+                                    $header[$h_index] = $this->headers[$val];
+                                }
+                            }
+                        }
+
                         if ($type == 'exists') {
                             $this->form['tests'][$i]['test'] = 'exists';
-                            $this->form['tests'][$i]['arg'] = $header == '...' ? $cust_header : $header;
+                            $this->form['tests'][$i]['arg'] = $header;
                         }
                         else {
-                            $test   = 'header';
-                            $header = $header == '...' ? $cust_header : $header;
+                            $test = 'header';
 
                             if ($mod == 'address' || $mod == 'envelope') {
                                 $found = false;
@@ -1258,27 +1267,33 @@ class rcube_sieve_engine
         $select_header = new html_select(array('name' => "_header[]", 'id' => 'header'.$id,
             'onchange' => 'rule_header_select(' .$id .')'));
 
-        foreach ($this->headers as $name => $val)
-            $select_header->add(rcube::Q($this->plugin->gettext($name)), Q($val));
-        $select_header->add(rcube::Q($this->plugin->gettext('...')), '...');
+        foreach ($this->headers as $index => $header) {
+            $header = $this->rc->text_exists($index) ? $this->plugin->gettext($index) : $header;
+            $select_header->add($header, $index);
+        }
+        $select_header->add($this->plugin->gettext('...'), '...');
         if (in_array('body', $this->exts))
-            $select_header->add(rcube::Q($this->plugin->gettext('body')), 'body');
-        $select_header->add(rcube::Q($this->plugin->gettext('size')), 'size');
+            $select_header->add($this->plugin->gettext('body'), 'body');
+        $select_header->add($this->plugin->gettext('size'), 'size');
         if (in_array('date', $this->exts)) {
-            $select_header->add(rcube::Q($this->plugin->gettext('datetest')), 'date');
-            $select_header->add(rcube::Q($this->plugin->gettext('currdate')), 'currentdate');
+            $select_header->add($this->plugin->gettext('datetest'), 'date');
+            $select_header->add($this->plugin->gettext('currdate'), 'currentdate');
         }
 
         if (isset($rule['test'])) {
             if (in_array($rule['test'], array('header', 'address', 'envelope'))
-                && !is_array($rule['arg1']) && in_array($rule['arg1'], $this->headers)
+                && !is_array($rule['arg1'])
+                && ($header = strtolower($rule['arg1']))
+                && isset($this->headers[$header])
             ) {
-                $test = $rule['arg1'];
+                $test = $header;
             }
             else if ($rule['test'] == 'exists'
-                && !is_array($rule['arg']) && in_array($rule['arg'], $this->headers)
+                && !is_array($rule['arg'])
+                && ($header = strtolower($rule['arg']))
+                && isset($this->headers[$header])
             ) {
-                $test = $rule['arg'];
+                $test = $header;
             }
             else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate'))) {
                 $test = $rule['test'];
@@ -2119,5 +2134,38 @@ class rcube_sieve_engine
         }
 
         return $result;
+    }
+
+    /**
+     * Initializes internal script data
+     */
+    private function init_script()
+    {
+        $this->script = $this->sieve->script->as_array();
+
+        if (!$this->script) {
+            return;
+        }
+
+        $headers = array();
+
+        // find common headers used in script, will be added to the list
+        // of available (predefined) headers (#1489271)
+        foreach ($this->script as $rule) {
+            foreach ((array) $rule['tests'] as $test) {
+                if ($test['test'] == 'header') {
+                    foreach ((array) $test['arg1'] as $header) {
+                        $lc_header = strtolower($header);
+                        if (!isset($this->headers[$lc_header]) && !isset($headers[$lc_header])) {
+                            $headers[$lc_header] = $header;
+                        }
+                    }
+                }
+            }
+        }
+
+        ksort($headers);
+
+        $this->headers += $headers;
     }
 }

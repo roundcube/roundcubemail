@@ -1,3 +1,5 @@
+* version 7.0 [2013-09-09]
+-----------------------------------------------------------
 - Add vacation-seconds extension support (RFC 6131)
 - Several script parser code improvements
 - Support string list arguments in filter form (#1489018)
@@ -5,6 +7,7 @@
 - Split plugin file into two files
 - Fix handling of &, <, > characters in scripts/filter names (#1489208)
 - Support 'keep' action (#1489226)
+- Add common headers to header selector (#1489271)
 
 * version 6.2 [2013-02-17]
 -----------------------------------------------------------
