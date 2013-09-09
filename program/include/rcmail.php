@@ -481,15 +481,22 @@ class rcmail extends rcube
         $port = $config['default_port'];
     }
 
-    /* Modify username with domain if required
-       Inspired by Marco <P0L0_notspam_binware.org>
-    */
-    // Check if we need to add domain
-    if (!empty($config['username_domain']) && strpos($username, '@') === false) {
-      if (is_array($config['username_domain']) && isset($config['username_domain'][$host]))
-        $username .= '@'.rcube_utils::parse_host($config['username_domain'][$host], $host);
-      else if (is_string($config['username_domain']))
-        $username .= '@'.rcube_utils::parse_host($config['username_domain'], $host);
+    // Check if we need to add/force domain to username
+    if (!empty($config['username_domain'])) {
+      $domain = is_array($config['username_domain']) ? $config['username_domain'][$host] : $config['username_domain'];
+
+      if ($domain = rcube_utils::parse_host((string)$domain, $host)) {
+        $pos = strpos($username, '@');
+
+        // force configured domains
+        if (!empty($config['username_domain_forced']) && $pos !== false) {
+          $username = substr($username, 0, $pos) . '@' . $domain;
+        }
+        // just add domain if not specified
+        else if ($pos === false) {
+          $username .= '@' . $domain;
+        }
+      }
     }
 
     if (!isset($config['login_lc'])) {

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option force specified domain in user login - username_domain_forced (#1489264)
 - Fix issue where From address was removed from Cc and Bcc fields when editing a draft (#1489319)
 - Add option to import Vcards with group assignments
 - Save groups membership in Vcard export (#1488509)

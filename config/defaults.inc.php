@@ -346,6 +346,10 @@ $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 // For example %n = mail.domain.tld, %t = domain.tld
 $config['username_domain'] = '';
 
+// Force domain configured in username_domain to be used for login.
+// Any domain in username will be replaced by username_domain.
+$config['username_domain_forced'] = false;
+
 // This domain will be used to form e-mail addresses of new users
 // Specify an array with 'host' => 'domain' values to support multiple hosts
 // Supported replacement variables:
