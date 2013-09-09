@@ -424,7 +424,7 @@ abstract class rcube_addressbook
      * @param boolean True to return one array with all values, False for hash array with values grouped by type
      * @return array List of column values
      */
-    function get_col_values($col, $data, $flat = false)
+    public static function get_col_values($col, $data, $flat = false)
     {
         $out = array();
         foreach ((array)$data as $c => $values) {
@@ -477,7 +477,8 @@ abstract class rcube_addressbook
             $fn = trim(join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']))));
 
         // use email address part for name
-        $email = is_array($contact['email']) ? $contact['email'][0] : $contact['email'];
+        $email = self::get_col_values('email', $contact, true);
+        $email = $email[0];
 
         if ($email && (empty($fn) || $fn == $email)) {
             // return full email
@@ -524,9 +525,9 @@ abstract class rcube_addressbook
             $fn = $contact['name'];
 
         // fallback to email address
-        $email = is_array($contact['email']) ? $contact['email'][0] : $contact['email'];
-        if (empty($fn) && $email)
-            return $email;
+        if (empty($fn) && ($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+            return $email[0];
+        }
 
         return $fn;
     }
@@ -539,8 +540,8 @@ abstract class rcube_addressbook
         $key = $contact[$sort_col] . ':' . $contact['sourceid'];
 
         // add email to a key to not skip contacts with the same name (#1488375)
-        if (!empty($contact['email'])) {
-            $key .= ':' . implode(':', (array)$contact['email']);
+        if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+            $key .= ':' . implode(':', (array)$email);
         }
 
         return $key;
