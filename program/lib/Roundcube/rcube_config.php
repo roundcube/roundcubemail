@@ -179,7 +179,13 @@ class rcube_config
         $fname = null;
 
         if (is_array($this->prop['include_host_config'])) {
-            $fname = $this->prop['include_host_config'][$_SERVER['HTTP_HOST']];
+            if (array_key_exists($_SERVER['HTTP_HOST'], $this->prop['include_host_config'])) {
+                $fname = $this->prop['include_host_config'][$_SERVER['HTTP_HOST']];
+            } else if (array_key_exists($_SERVER['SERVER_NAME'], $this->prop['include_host_config'])) {
+                $fname = $this->prop['include_host_config'][$_SERVER['SERVER_NAME']];
+            } else if (array_key_exists($_SERVER['SERVER_ADDR'], $this->prop['include_host_config'])) {
+                $fname = $this->prop['include_host_config'][$_SERVER['SERVER_ADDR']];
+            }
         }
         else if (!empty($this->prop['include_host_config'])) {
             $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $_SERVER['HTTP_HOST']) . '.inc.php';
