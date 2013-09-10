@@ -563,9 +563,9 @@ abstract class rcube_addressbook
         // use only strict comparison (mode = 1)
         // @TODO: partial search, e.g. match only day and month
         if (in_array($colname, $this->date_cols)) {
-            return (($value = rcube_utils::strtotime($value))
-                && ($search = rcube_utils::strtotime($search))
-                && date('Ymd', $value) == date('Ymd', $search));
+            return (($value = rcube_utils::anytodatetime($value))
+                && ($search = rcube_utils::anytodatetime($search))
+                && $value->format('Ymd') == $search->format('Ymd'));
         }
 
         // composite field, e.g. address

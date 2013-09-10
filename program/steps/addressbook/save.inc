@@ -77,6 +77,16 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
   else if (isset($_POST[$fname])) {
     $a_record[$col] = get_input_value($fname, RCUBE_INPUT_POST, true);
+
+    // normalize the submitted date strings
+    if ($colprop['type'] == 'date') {
+        if ($timestamp = rcube_utils::strtotime($a_record[$col])) {
+            $a_record[$col] = date('Y-m-d', $timestamp);
+        }
+        else {
+            unset($a_record[$col]);
+        }
+    }
   }
 }
 

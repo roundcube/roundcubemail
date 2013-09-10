@@ -787,6 +787,44 @@ class rcube_utils
         return (int) $ts;
     }
 
+    /**
+     * Date parsing function that turns the given value into a DateTime object
+     *
+     * @param string $date  Date string
+     *
+     * @return object DateTime instance or false on failure
+     */
+    public static function anytodatetime($date)
+    {
+        if (is_object($date) && is_a($date, 'DateTime')) {
+            return $date;
+        }
+
+        $dt = false;
+        $date = trim($date);
+
+        // try to parse string with DateTime first
+        if (!empty($date)) {
+            try {
+                $dt = new DateTime($date);
+            }
+            catch (Exception $e) {
+                // ignore
+            }
+        }
+
+        // try our advanced strtotime() method
+        if (!$dt && ($timestamp = self::strtotime($date))) {
+            try {
+                $dt = new DateTime("@".$timestamp);
+            }
+            catch (Exception $e) {
+                // ignore
+            }
+        }
+
+        return $dt;
+    }
 
     /*
      * Idn_to_ascii wrapper.
