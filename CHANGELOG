@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix issue where From address was removed from Cc and Bcc fields when editing a draft (#1489319)
 - Fix error_reporting directive check (#1489323)
+- Fix de_DE localization of "About" label in Help plugin (#1489325)
 
 RELEASE 0.9.4
 -------------
