@@ -75,8 +75,10 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
 if (empty($a_record['name'])) {
     $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
     // Reset it if equals to email address (from compose_display_name())
-    if ($a_record['name'] == $a_record['email'][0])
+    $email = rcube_addressbook::get_col_values('email', $a_record, true);
+    if ($a_record['name'] == $email[0]) {
         $a_record['name'] = '';
+    }
 }
 
 // do input checks (delegated to $CONTACTS instance)
