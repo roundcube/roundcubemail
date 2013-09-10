@@ -59,9 +59,18 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
   // assign values and subtypes
   else if (is_array($_POST[$fname])) {
-    $values = get_input_value($fname, RCUBE_INPUT_POST, true);
+    $values   = get_input_value($fname, RCUBE_INPUT_POST, true);
     $subtypes = get_input_value('_subtype_' . $col, RCUBE_INPUT_POST);
+
     foreach ($values as $i => $val) {
+      if ($col == 'email') {
+        // extract email from full address specification, e.g. "Name" <addr@domain.tld>
+        $addr = rcube_mime::decode_address_list($val, 1, false);
+        if (!empty($addr) && ($addr = array_pop($addr)) && $addr['mailto']) {
+          $val = $addr['mailto'];
+        }
+      }
+
       $subtype = $subtypes[$i] ? ':'.$subtypes[$i] : '';
       $a_record[$col.$subtype][] = $val;
     }
