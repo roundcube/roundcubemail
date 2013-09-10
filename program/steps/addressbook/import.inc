@@ -58,7 +58,7 @@ function rcmail_import_form($attrib)
   }
 
   // selector for group import options
-  if (count($writable_books) > 1 || $writable_books[0]->groups) {
+  if (count($writable_books) >= 1 || $writable_books[0]->groups) {
     $select = new html_select(array('name' => '_groups', 'id' => 'rcmimportgroups', 'is_escaped' => true));
     $select->add(rcube_label('none'), '0');
     $select->add(rcube_label('importgroupsall'), '1');
