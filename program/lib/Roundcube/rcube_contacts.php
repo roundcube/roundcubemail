@@ -718,6 +718,10 @@ class rcube_contacts extends rcube_addressbook
         foreach ($save_data as $key => $values) {
             list($field, $section) = explode(':', $key);
             $fulltext = in_array($field, $this->fulltext_cols);
+            // avoid casting DateTime objects to array
+            if (is_object($values) && is_a($values, 'DateTime')) {
+                $values = array(0 => $values);
+            }
             foreach ((array)$values as $value) {
                 if (isset($value))
                     $vcard->set($field, $value, $section);
