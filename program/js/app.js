@@ -1786,7 +1786,6 @@ function rcube_webmail()
         + (!flags.seen ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
-        + (flags.unread_children && flags.seen && !this.env.autoexpand_threads ? ' unroot' : '')
         + (message.selected ? ' selected' : ''),
       // for performance use DOM instead of jQuery here
       row = document.createElement('tr');
@@ -1839,6 +1838,9 @@ function rcube_webmail()
         expando = '<div id="rcmexpando' + uid + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
         row_class += ' thread' + (message.expanded? ' expanded' : '');
       }
+
+      if (flags.unread_children && flags.seen && !message.expanded)
+        row_class += ' unroot';
     }
 
     tree += '<span id="msgicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
