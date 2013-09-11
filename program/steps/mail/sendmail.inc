@@ -823,15 +823,24 @@ if ($savedraft) {
 
   // start the auto-save timer again
   $OUTPUT->command('auto_save_start');
-
-  $OUTPUT->send('iframe');
 }
 else {
+  $folders = array();
+
+  if ($COMPOSE['mode'] == 'reply' || $COMPOSE['mode'] == 'forward')
+    $folders[] = $COMPOSE['mailbox'];
+
   rcmail_compose_cleanup($COMPOSE_ID);
 
   if ($store_folder && !$saved)
-    $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'));
-  else
-    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'), $store_target);
-  $OUTPUT->send('iframe');
+    $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'), $folders);
+  else {
+    if ($store_folder) {
+      $folders[] = $store_target;
+    }
+
+    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'), $folders);
+  }
 }
+
+$OUTPUT->send('iframe');

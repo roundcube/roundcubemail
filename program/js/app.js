@@ -3783,7 +3783,7 @@ function rcube_webmail()
     this.env.search_id = null;
   };
 
-  this.sent_successfully = function(type, msg, target)
+  this.sent_successfully = function(type, msg, folders)
   {
     this.display_message(msg, type);
 
@@ -3792,9 +3792,11 @@ function rcube_webmail()
       this.lock_form(this.gui_objects.messageform);
       if (rc) {
         rc.display_message(msg, type);
-        // refresh the folder where sent message was saved
-        if (target && rc.env.task == 'mail' && rc.env.action == '' && rc.env.mailbox == target)
-          rc.command('checkmail');
+        // refresh the folder where sent message was saved or replied message comes from
+        if (folders && rc.env.task == 'mail' && rc.env.action == '' && $.inArray(rc.env.mailbox, folders) >= 0) {
+          // @TODO: try with 'checkmail' here when #1485186 is fixed. See also #1489249.
+          rc.command('list', rc.env.mailbox);
+        }
       }
       setTimeout(function(){ window.close() }, 1000);
     }

@@ -165,6 +165,8 @@ else if ($msg_uid = $COMPOSE['param']['forward_uid']) {
 else if ($msg_uid = $COMPOSE['param']['uid']) {
   $compose_mode = RCUBE_COMPOSE_EDIT;
 }
+
+$COMPOSE['mode'] = $compose_mode;
 $OUTPUT->set_env('compose_mode', $compose_mode);
 
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
