@@ -92,13 +92,11 @@ rcube_webmail.prototype.acl_save = function()
 
     if (!user) {
         alert(this.get_label('acl.nouser'));
-
         return;
     }
 
     if (!rights) {
         alert(this.get_label('acl.norights'));
-
         return;
     }
 

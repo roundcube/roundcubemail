@@ -743,7 +743,6 @@ class acl extends rcube_plugin
                 foreach (array_keys($acl) as $name) {
                     if (preg_match($regexp, $name, $matches)) {
                         $domain = $matches[1];
-
                         break;
                     }
                 }
