@@ -51,12 +51,12 @@
 
 <script type="text/javascript">
     function show_aclmenu() {
-        if ( !rcmail_ui ) {
+        if (!rcmail_ui) {
             rcube_init_mail_ui();
 
-            rcmail_ui.popups.aclmenu = {id: 'aclmenu', above: 1, obj: $( '#aclmenu' )};
+            rcmail_ui.popups.aclmenu = {id: 'aclmenu', above: 1, obj: $('#aclmenu')};
         }
 
-        rcmail_ui.show_popup( 'aclmenu' );
+        rcmail_ui.show_popup('aclmenu');
     }
 </script>
