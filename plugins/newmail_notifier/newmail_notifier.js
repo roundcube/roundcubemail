@@ -90,13 +90,11 @@ function newmail_notifier_sound()
 // - Require Chrome or Firefox latest version (22+) / 21.0 or older with a plugin
 function newmail_notifier_desktop(body)
 {
+    var timeout = rcmail.env.newmail_notifier_timeout || 10;
 
-/**
- * Fix: As of 17 June 2013, Chrome/Chromium does not implement Notification.permission correctly that
- *      it gives 'undefined' until an object has been created:
- *      https://code.google.com/p/chromium/issues/detail?id=163226
- *
- */
+    // As of 17 June 2013, Chrome/Chromium does not implement Notification.permission correctly that
+    // it gives 'undefined' until an object has been created:
+    // https://code.google.com/p/chromium/issues/detail?id=163226
     try {
         if (Notification.permission == 'granted' || Notification.permission == undefined) {
             var popup = new Notification(rcmail.gettext('title', 'newmail_notifier'), {
@@ -109,7 +107,7 @@ function newmail_notifier_desktop(body)
             popup.onclick = function() {
                 this.close();
             }
-            setTimeout(function() { popup.close(); }, 10000); // close after 10 seconds
+            setTimeout(function() { popup.close(); }, timeout * 1000);
             if (popup.permission == 'granted') return true;
         }
     }
@@ -125,7 +123,7 @@ function newmail_notifier_desktop(body)
                 this.cancel();
             }
             popup.show();
-            setTimeout(function() { popup.cancel(); }, 10000); // close after 10 seconds
+            setTimeout(function() { popup.cancel(); }, timeout * 1000);
             rcmail.newmail_popup = popup;
             return true;
         }
