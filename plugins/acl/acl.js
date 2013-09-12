@@ -6,8 +6,7 @@
  */
 
 if (window.rcmail) {
-    rcmail.addEventListener('init', function()
-    {
+    rcmail.addEventListener('init', function() {
         if (rcmail.gui_objects.acltable) {
             rcmail.acl_list_init();
 
