@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix attachment icon issue when rare font/language is used (#1489326)
 - Fix expanded thread root message styling after refreshing messages list (#1489327)
 - Fix issue where From address was removed from Cc and Bcc fields when editing a draft (#1489319)
 - Fix error_reporting directive check (#1489323)

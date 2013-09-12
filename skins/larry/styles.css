@@ -2199,12 +2199,13 @@ ul.toolbarmenu li span.conversation {
 	display: block;
 	color: #333;
 	font-weight: bold;
-	padding: 8px 4px 3px 30px;
+	padding: 3px 4px 3px 30px;
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	line-height: 20px;
 }
 
 #compose-attachments ul li {
@@ -2222,9 +2223,9 @@ ul.toolbarmenu li span.conversation {
 .attachmentslist li a.delete,
 .attachmentslist li a.cancelupload {
 	position: absolute;
-	top: 6px;
+	top: 4px;
 	right: 0;
-	width: 24px;
+	width: 20px;
 	height: 18px;
 	padding: 0;
 	text-decoration: none;

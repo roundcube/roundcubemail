@@ -1568,6 +1568,7 @@ input.from_address
 #compose-attachments ul li
 {
   height: 18px;
+  line-height: 16px;
   font-size: 11px;
   padding-left: 2px;
   padding-top: 2px;
