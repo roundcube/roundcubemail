@@ -633,8 +633,7 @@ class acl extends rcube_plugin
 
         $supported = $this->rights_supported();
 
-        $list = array();
-
+        $list   = array();
         $attrib = array(
             'name'  => 'rcmyrights',
             'style' => 'margin:0; padding:0 15px;',
