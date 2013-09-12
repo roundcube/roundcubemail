@@ -112,8 +112,8 @@ class acl extends rcube_plugin
 
         $search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
         $sid    = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
+        $users  = array();
 
-        $users = array();
         if ($this->init_ldap()) {
             $max  = (int) $this->rc->config->get('autocomplete_max', 15);
             $mode = (int) $this->rc->config->get('addressbook_search_mode');
@@ -516,8 +516,7 @@ class acl extends rcube_plugin
         $user  = trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC));
         $acl   = trim(rcube_utils::get_input_value('_acl', rcube_utils::INPUT_GPC));
         $oldid = trim(rcube_utils::get_input_value('_old', rcube_utils::INPUT_GPC));
-
-        $acl = array_intersect(str_split($acl), $this->rights_supported());
+        $acl   = array_intersect(str_split($acl), $this->rights_supported());
 
         $users = $oldid ? array($user) : explode(',', $user);
 
