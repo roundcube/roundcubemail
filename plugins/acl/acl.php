@@ -379,8 +379,8 @@ class acl extends rcube_plugin
 
             $out = html::tag('ul', array('id' => 'usertype'), $ul, html::$common_attrib);
         }
+        // Display text input alone
         else {
-            // Display text input alone
             $out = $fields['user'];
         }
 
