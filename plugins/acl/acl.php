@@ -162,7 +162,9 @@ class acl extends rcube_plugin
         $myrights = $args['options']['rights'];
 
         // Edited folder name (empty in create-folder mode)
-        if (!strlen($mbox_imap)) return $args;
+        if (!strlen($mbox_imap)) {
+            return $args;
+        }
 
         /*
         // Do nothing on protected folders (?)
@@ -172,7 +174,9 @@ class acl extends rcube_plugin
         */
 
         // Get MYRIGHTS
-        if (empty($myrights)) return $args;
+        if (empty($myrights)) {
+            return $args;
+        }
 
         // Load localization and include scripts
         $this->load_config();
@@ -205,7 +209,9 @@ class acl extends rcube_plugin
         );
 
         // Return if not folder admin
-        if (!in_array('a', $myrights)) return $args;
+        if (!in_array('a', $myrights)) {
+            return $args;
+        }
 
         // The 'Sharing' tab
         $this->mbox = $mbox_imap;
@@ -241,7 +247,9 @@ class acl extends rcube_plugin
      */
     function templ_table($attrib)
     {
-        if (empty($attrib['id'])) $attrib['id'] = 'acl-table';
+        if (empty($attrib['id'])) {
+            $attrib['id'] = 'acl-table';
+        }
 
         $out = $this->list_rights($attrib);
 
@@ -391,7 +399,9 @@ class acl extends rcube_plugin
         // Get ACL for the folder
         $acl = $this->rc->storage->get_acl($this->mbox);
 
-        if (!is_array($acl)) $acl = array();
+        if (!is_array($acl)) {
+            $acl = array();
+        }
 
         // Keep special entries (anyone/anonymous) on top of the list
         if (!empty($this->specials) && !empty($acl)) {
@@ -407,7 +417,9 @@ class acl extends rcube_plugin
         // Sort the list by username
         uksort($acl, 'strnatcasecmp');
 
-        if (!empty($acl_special)) $acl = array_merge($acl_special, $acl);
+        if (!empty($acl_special)) {
+            $acl = array_merge($acl_special, $acl);
+        }
 
         // Get supported rights and build column names
         $supported = $this->rights_supported();
@@ -449,7 +461,9 @@ class acl extends rcube_plugin
 
         $js_table = array();
         foreach ($acl as $user => $rights) {
-            if ($this->rc->storage->conn->user == $user) continue;
+            if ($this->rc->storage->conn->user == $user) {
+                continue;
+            }
 
             // filter out virtual rights (c or d) the server may return
             $userrights = array_intersect($rights, $supported);
@@ -522,7 +536,9 @@ class acl extends rcube_plugin
                 $username = $user;
             }
 
-            if (!$acl || !$user || !strlen($mbox)) continue;
+            if (!$acl || !$user || !strlen($mbox)) {
+                continue;
+            }
 
             $user     = $this->mod_login($user);
             $username = $this->mod_login($username);
@@ -614,7 +630,9 @@ class acl extends rcube_plugin
      */
     function acl2text($rights)
     {
-        if (empty($rights)) return '';
+        if (empty($rights)) {
+            return '';
+        }
 
         $supported = $this->rights_supported();
 
@@ -648,9 +666,13 @@ class acl extends rcube_plugin
      */
     function acl_compare($acl1, $acl2)
     {
-        if (!is_array($acl1)) $acl1 = str_split($acl1);
+        if (!is_array($acl1)) {
+            $acl1 = str_split($acl1);
+        }
 
-        if (!is_array($acl2)) $acl2 = str_split($acl2);
+        if (!is_array($acl2)) {
+            $acl2 = str_split($acl2);
+        }
 
         $rights = $this->rights_supported();
 
@@ -680,7 +702,9 @@ class acl extends rcube_plugin
      */
     function rights_supported()
     {
-        if ($this->supported !== null) return $this->supported;
+        if ($this->supported !== null) {
+            return $this->supported;
+        }
 
         $capa = $this->rc->storage->get_capability('RIGHTS');
 
@@ -741,12 +765,16 @@ class acl extends rcube_plugin
      */
     private function init_ldap()
     {
-        if ($this->ldap) return $this->ldap->ready;
+        if ($this->ldap) {
+            return $this->ldap->ready;
+        }
 
         // get LDAP config
         $config = $this->rc->config->get('acl_users_source');
 
-        if (empty($config)) return false;
+        if (empty($config)) {
+            return false;
+        }
 
         // not an array, use configured ldap_public source
         if (!is_array($config)) {
@@ -759,7 +787,9 @@ class acl extends rcube_plugin
 
         $filter = $this->rc->config->get('acl_users_filter');
 
-        if (empty($uid_field) || empty($config)) return false;
+        if (empty($uid_field) || empty($config)) {
+            return false;
+        }
 
         // get name attribute
         if (!empty($config['fieldmap'])) {
@@ -767,7 +797,9 @@ class acl extends rcube_plugin
         }
 
         // ... no fieldmap, use the old method
-        if (empty($name_field)) $name_field = $config['name_field'];
+        if (empty($name_field)) {
+            $name_field = $config['name_field'];
+        }
 
         // add UID field to fieldmap, so it will be returned in a record with name
         $config['fieldmap'] = array(
@@ -780,7 +812,9 @@ class acl extends rcube_plugin
         $config['required_fields'] = array($uid_field);
 
         // set search filter
-        if ($filter) $config['filter'] = $filter;
+        if ($filter) {
+            $config['filter'] = $filter;
+        }
 
         // disable vlv
         $config['vlv'] = false;
