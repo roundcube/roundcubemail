@@ -124,7 +124,8 @@ rcube_webmail.prototype.acl_update = function(o)
     if (o.old) {
         // delete old row
         this.acl_remove_row(o.old);
-    } else if (this.env.acl[o.id]) {
+    }
+	else if (this.env.acl[o.id]) {
         // make sure the same ID doesn't exist
         this.acl_remove_row(o.id);
     }
@@ -203,7 +204,8 @@ rcube_webmail.prototype.acl_list_keypress = function(list)
 {
     if (list.key_pressed == list.ENTER_KEY) {
         this.command('acl-edit');
-    } else if (
+    }
+	else if (
         (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
             && (!this.acl_form || !this.acl_form.is(':visible'))
         ) {
@@ -230,7 +232,8 @@ rcube_webmail.prototype.acl_get_usernames = function()
     for (n = 0, len = selection.length; n < len; n++) {
         if (this.env.acl_specials.length && $.inArray(selection[n], this.env.acl_specials) >= 0) {
             users.push(selection[n]);
-        } else if (row = list.rows[selection[n]]) {
+        }
+		else if (row = list.rows[selection[n]]) {
             cell = $('td.user', row.obj);
 
             if (cell.length == 1) {
@@ -282,7 +285,8 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
 
         if (cl == 'user') {
             $(this).text(o.username);
-        } else {
+        }
+		else {
             $(this).addClass(rcmail.acl_class(o.acl, cl)).text('');
         }
     });
@@ -301,7 +305,8 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
 
         if (this.env.acl_specials.length && $.inArray(n, this.env.acl_specials) >= 0) {
             spec.push(n);
-        } else {
+        }
+		else {
             ids.push(n);
         }
     }
@@ -325,7 +330,8 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
         list.init_row(row);
 
         list.rowcount++;
-    } else {
+    }
+	else {
         list.insert_row(row);
     }
 
@@ -362,7 +368,8 @@ rcube_webmail.prototype.acl_init_form = function(id)
         sim_ul.hide();
 
         ul = adv_ul;
-    } else {
+    }
+	else {
         sim_ul.show();
         adv_ul.hide();
 
@@ -390,10 +397,12 @@ rcube_webmail.prototype.acl_init_form = function(id)
 
         if (!this.env.acl_specials.length || $.inArray(id, this.env.acl_specials) < 0) {
             val = $('td.user', row).text();
-        } else {
+        }
+		else {
             type = id;
         }
-    } else {
+    }
+	else {
         // mark read (lrs) rights by default
         li_elements.filter(function() {
             return this.id.match(/^acl([lrs]|read)$/);
@@ -440,7 +449,8 @@ rcube_webmail.prototype.acl_class = function(acl1, acl2)
 
     if (found == len) {
         return 'enabled';
-    } else if (found) {
+    }
+	else if (found) {
         return 'partial';
     }
 
