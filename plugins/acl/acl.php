@@ -91,9 +91,11 @@ class acl extends rcube_plugin
 
         if ($action == 'save') {
             $this->action_save();
-        } else if ($action == 'delete') {
+        }
+        else if ($action == 'delete') {
             $this->action_delete();
-        } else if ($action == 'list') {
+        }
+        else if ($action == 'list') {
             $this->action_list();
         }
 
@@ -368,7 +370,8 @@ class acl extends rcube_plugin
             }
 
             $out = html::tag('ul', array('id' => 'usertype'), $ul, html::$common_attrib);
-        } else {
+        }
+        else {
             // Display text input alone
             $out = $fields['user'];
         }
@@ -420,7 +423,8 @@ class acl extends rcube_plugin
             foreach ($supported as $sup) {
                 $items[$sup] = $sup;
             }
-        } else {
+        }
+        else {
             $items = array(
                 'read'   => 'lrs',
                 'write'  => 'wi',
@@ -509,7 +513,8 @@ class acl extends rcube_plugin
 
             if (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
-            } else if (!empty($user)) {
+            }
+            else if (!empty($user)) {
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
@@ -540,7 +545,8 @@ class acl extends rcube_plugin
 
         if ($result) {
             $this->rc->output->show_message($oldid ? 'acl.updatesuccess' : 'acl.createsuccess', 'confirmation');
-        } else {
+        }
+        else {
             $this->rc->output->show_message($oldid ? 'acl.updateerror' : 'acl.createerror', 'error');
         }
     }
@@ -562,14 +568,16 @@ class acl extends rcube_plugin
 
             if ($this->rc->storage->delete_acl($mbox, $u)) {
                 $this->rc->output->command('acl_remove_row', rcube_utils::html_identifier($u));
-            } else {
+            }
+            else {
                 $error = true;
             }
         }
 
         if (!$error) {
             $this->rc->output->show_message('acl.deletesuccess', 'confirmation');
-        } else {
+        }
+        else {
             $this->rc->output->show_message('acl.deleteerror', 'error');
         }
     }
@@ -656,9 +664,11 @@ class acl extends rcube_plugin
 
         if ($cnt1 == $cnt2) {
             return 2;
-        } else if ($cnt1) {
+        }
+        else if ($cnt1) {
             return 1;
-        } else {
+        }
+        else {
             return 0;
         }
     }
@@ -676,7 +686,8 @@ class acl extends rcube_plugin
 
         if (is_array($capa)) {
             $rights = strtolower($capa[0]);
-        } else {
+        }
+        else {
             $rights = 'cd';
         }
 
@@ -795,7 +806,8 @@ class acl extends rcube_plugin
 
         if ($login_lc === true || $login_lc == 2) {
             $user = mb_strtolower($user);
-        } else if ($login_lc && strpos($user, '@')) {
+        }
+        else if ($login_lc && strpos($user, '@')) {
             // lowercase domain name
             list($local, $domain) = explode('@', $user);
 
