@@ -722,7 +722,6 @@ class acl extends rcube_plugin
      */
     private function get_realm()
     {
-        //
         if (isset($_SESSION['acl_username_realm'])) {
             return $_SESSION['acl_username_realm'];
         }
