@@ -676,8 +676,7 @@ class acl extends rcube_plugin
 
         $acl1 = array_intersect($acl1, $rights);
         $acl2 = array_intersect($acl2, $rights);
-
-        $res = array_intersect($acl1, $acl2);
+        $res  = array_intersect($acl1, $acl2);
 
         $cnt1 = count($res);
         $cnt2 = count($acl2);
