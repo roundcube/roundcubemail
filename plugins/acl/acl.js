@@ -78,9 +78,10 @@ rcube_webmail.prototype.acl_save = function()
 {
     var user = $('#acluser').val(), rights = '', type;
 
-    $(':checkbox', this.env.acl_advanced ? $('#advancedrights') : sim_ul = $('#simplerights')).map(function()
-    {
-        if (this.checked) rights += this.value;
+    $(':checkbox', this.env.acl_advanced ? $('#advancedrights') : sim_ul = $('#simplerights')).map(function() {
+        if (this.checked) {
+            rights += this.value;
+        }
     });
 
     if (type = $('input:checked[name=usertype]').val()) {
