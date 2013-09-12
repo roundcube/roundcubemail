@@ -381,8 +381,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
     if (id && (row = this.acl_list.rows[id])) {
         row = row.obj;
 
-        li_elements.map(function()
-        {
+        li_elements.map(function() {
             val = this.value;
 
             td = $('td.' + this.id, row);
