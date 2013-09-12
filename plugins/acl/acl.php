@@ -159,8 +159,6 @@ class acl extends rcube_plugin
     {
         $mbox_imap = $args['options']['name'];
 
-        $myrights = $args['options']['rights'];
-
         // Edited folder name (empty in create-folder mode)
         if (!strlen($mbox_imap)) {
             return $args;
@@ -174,7 +172,14 @@ class acl extends rcube_plugin
         */
 
         // Get MYRIGHTS
+        $myrights = $args['options']['rights'];
+
         if (empty($myrights)) {
+            return $args;
+        }
+
+        // Return if not folder admin
+        if (!in_array('a', $myrights)) {
             return $args;
         }
 
@@ -207,11 +212,6 @@ class acl extends rcube_plugin
             'label' => rcube::Q($this->gettext('myrights')),
             'value' => $this->acl2text($myrights)
         );
-
-        // Return if not folder admin
-        if (!in_array('a', $myrights)) {
-            return $args;
-        }
 
         // The 'Sharing' tab
         $this->mbox = $mbox_imap;
@@ -785,8 +785,6 @@ class acl extends rcube_plugin
 
         $uid_field = $this->rc->config->get('acl_users_field', 'mail');
 
-        $filter = $this->rc->config->get('acl_users_filter');
-
         if (empty($uid_field) || empty($config)) {
             return false;
         }
@@ -810,6 +808,8 @@ class acl extends rcube_plugin
         // search in UID and name fields
         $config['search_fields']   = array_values($config['fieldmap']);
         $config['required_fields'] = array($uid_field);
+
+        $filter = $this->rc->config->get('acl_users_filter');
 
         // set search filter
         if ($filter) {
