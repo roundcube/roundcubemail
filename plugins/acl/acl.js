@@ -16,8 +16,7 @@ if (window.rcmail) {
                 rcmail.init_address_input_events($('#acluser'), {action: 'settings/plugin.acl-autocomplete'});
 
                 // fix inserted value
-                rcmail.addEventListener('autocomplete_insert', function(e)
-                {
+                rcmail.addEventListener('autocomplete_insert', function(e) {
                     if (e.field.id != 'acluser') return;
 
                     var value = e.insert;
@@ -112,7 +111,6 @@ rcube_webmail.prototype.acl_save = function()
 rcube_webmail.prototype.acl_cancel = function()
 {
     this.ksearch_blur();
-
     this.acl_form.hide();
 };
 
@@ -269,8 +267,7 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
         row = $('thead > tr', table).clone();
 
     // Update new row
-    $('td', row).map(function()
-    {
+    $('td', row).map(function() {
         var cl = this.className.replace(/^acl/, '');
 
         if (items && items[cl]) {
