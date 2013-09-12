@@ -248,7 +248,6 @@ rcube_webmail.prototype.acl_remove_row = function(id)
     var list = this.acl_list;
 
     list.remove_row(id);
-
     list.clear_selection();
 
     // we don't need it anymore (remove id conflict)
@@ -325,7 +324,6 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
         $('#rcmrow' + ids[n - 1]).after(row);
 
         list.init_row(row);
-
         list.rowcount++;
     }
     else {
