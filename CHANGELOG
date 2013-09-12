@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix attachment icon issue when rare font/language is used (#1489326)
 - After message is sent refresh messages list of replied message folder (#1489249)
 - Add option force specified domain in user login - username_domain_forced (#1489264)
 - Fix expanded thread root message styling after refreshing messages list (#1489327)
