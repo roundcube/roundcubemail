@@ -386,22 +386,36 @@ class rcube_db
         $result = $this->dbh->query($query);
 
         if ($result === false) {
-            $error = $this->dbh->errorInfo();
-
-            if (empty($this->options['ignore_key_errors']) || $error[0] != '23000') {
-                $this->db_error = true;
-                $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
-
-                rcube::raise_error(array('code' => 500, 'type' => 'db',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => $this->db_error_msg . " (SQL Query: $query)"
-                    ), true, false);
-            }
+            $result = $this->handle_error($query);
         }
 
         $this->last_result = $result;
 
         return $result;
+    }
+
+    /**
+     * Helper method to handle DB errors.
+     * This by default logs the error but could be overriden by a driver implementation
+     *
+     * @param string Query that triggered the error
+     * @return mixed Result to be stored and returned
+     */
+    protected function handle_error($query)
+    {
+        $error = $this->dbh->errorInfo();
+
+        if (empty($this->options['ignore_key_errors']) || $error[0] != '23000') {
+            $this->db_error = true;
+            $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
+
+            rcube::raise_error(array('code' => 500, 'type' => 'db',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => $this->db_error_msg . " (SQL Query: $query)"
+                ), true, false);
+        }
+
+        return false;
     }
 
     /**

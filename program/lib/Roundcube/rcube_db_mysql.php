@@ -179,4 +179,29 @@ class rcube_db_mysql extends rcube_db
         return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
     }
 
+    /**
+     * Handle DB errors, re-issue the query on deadlock errors from InnoDB row-level locking
+     *
+     * @param string Query that triggered the error
+     * @return mixed Result to be stored and returned
+     */
+    protected function handle_error($query)
+    {
+        $error = $this->dbh->errorInfo();
+
+        // retry after "Deadlock found when trying to get lock" errors
+        $retries = 2;
+        while ($error[1] == 1213 && $retries >= 0) {
+            usleep(50000);  // wait 50 ms
+            $result = $this->dbh->query($query);
+            if ($result !== false) {
+                return $result;
+            }
+            $error = $this->dbh->errorInfo();
+            $retries--;
+        }
+
+        return parent::handle_error($query);
+    }
+
 }
