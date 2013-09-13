@@ -48,6 +48,26 @@
 	border-radius: 4px 4px 0 0;
 }
 
+#preferences-details fieldset.advanced legend {
+	position: relative;
+	display: block;
+	width: 100%;
+	cursor: pointer;
+}
+
+#preferences-details fieldset.advanced .propform {
+	display: none;
+}
+
+#preferences-details fieldset.advanced .advanced-toggle {
+	position: absolute;
+	top: 2px;
+	right: 6px;
+	text-decoration: none;
+	color: #666;
+	font-size: 11px;
+}
+
 #sections-table tbody td.section,
 #settings-sections span.listitem a,
 #settings-sections span.tablink a {
