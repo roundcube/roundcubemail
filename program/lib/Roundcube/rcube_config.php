@@ -214,7 +214,7 @@ class rcube_config
                     $success = true;
                 }
                 // deprecated name of config variable
-                else if (is_array($rcmail_config)) {
+                if (is_array($rcmail_config)) {
                     $this->merge($rcmail_config);
                     $success = true;
                 }
