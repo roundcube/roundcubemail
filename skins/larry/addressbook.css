@@ -387,3 +387,8 @@ a.deletebutton {
 	overflow: auto;
 	padding: 10px;
 }
+
+#import-box p,
+#import-box .propform {
+  max-width: 50em;
+}
