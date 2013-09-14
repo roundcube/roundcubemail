@@ -4345,7 +4345,7 @@ function rcube_webmail()
         boxtitle.append('&nbsp;&raquo;&nbsp;');
       }
 
-      boxtitle.append($('<span>'+prop.name+'</span>'));
+      boxtitle.append($('<span>').text(prop.name));
     }
 
     this.triggerEvent('groupupdate', prop);
