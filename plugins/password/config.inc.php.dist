@@ -322,8 +322,7 @@ $rcmail_config['hmailserver_server'] = array(
 // 5: domain-username
 // 6: username_domain
 // 7: domain_username
-// 8: username@domain; mbox.username
-$rcmail_config['password_virtualmin_format'] = 8;
+$config['password_virtualmin_format'] = 0;
 
 
 // pw_usermod Driver options
