@@ -3427,7 +3427,8 @@ function rcube_webmail()
       message = input_message.val(),
       is_html = ($("input[name='_is_html']").val() == '1'),
       sig = this.env.identity,
-      delim = this.env.recipients_delimiter,
+      delim = this.env.recipients_separator,
+      rx_delim = RegExp.escape(delim),
       headers = ['replyto', 'bcc'];
 
     // update reply-to/bcc fields with addresses defined in identities
@@ -3444,16 +3445,18 @@ function rcube_webmail()
       }
 
       // cleanup
-      rx = new RegExp(RegExp.escape(delim) + '\\s*' + RegExp(delim), 'g');
-      input_val = input_val.replace(rx, delim)
-      rx = new RegExp('^\\s*' + RegExp.escape(delim) + '\\s*$');
-      input_val = input_val.replace(rx, '')
+      rx = new RegExp(rx_delim + '\\s*' + rx_delim, 'g');
+      input_val = input_val.replace(rx, delim);
+      rx = new RegExp('^[\\s' + rx_delim + ']+');
+      input_val = input_val.replace(rx, '');
 
       // add new address(es)
-      if (new_val) {
-        rx = new RegExp(RegExp.escape(delim) + '\\s*$');
-        if (input_val && !rx.test(input_val))
-          input_val += delim + ' ';
+      if (new_val && input_val.indexOf(new_val) == -1 && input_val.indexOf(new_val.replace(/"/g, '')) == -1) {
+        if (input_val) {
+          rx = new RegExp('[' + rx_delim + '\\s]+$')
+          input_val = input_val.replace(rx, '') + delim + ' ';
+        }
+
         input_val += new_val + delim + ' ';
       }
 
