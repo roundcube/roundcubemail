@@ -157,9 +157,9 @@ function rcmail_message_attachments($attrib)
         $ol .= html::tag('li', null, Q(sprintf("%s (%s)", $filename, $size)));
       }
       else {
-        if (mb_strlen($filename) > 50) {
+        if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
           $title    = $filename;
-          $filename = abbreviate_string($filename, 50);
+          $filename = abbreviate_string($filename, $attrib['maxlength']);
         }
         else {
           $title = '';
@@ -173,6 +173,7 @@ function rcmail_message_attachments($attrib)
               JS_OBJECT_NAME,
               $attach_prop->mime_id,
               rcmail_fix_mimetype($attach_prop->mimetype)),
+              'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
               'title' => Q($title),
             ),
             Q($filename)));

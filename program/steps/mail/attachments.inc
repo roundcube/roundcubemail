@@ -118,8 +118,11 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
           'alt' => rcube_label('delete')
         ));
       }
-      else {
+      else if ($COMPOSE['textbuttons']) {
         $button = Q(rcube_label('delete'));
+      }
+      else {
+        $button = '';
       }
 
       $content = html::a(array(
