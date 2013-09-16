@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make default font size for HTML messages configurable (request #118)
 - Display full attachment name using title attribute when name is too long to display (#1489320)
 - Fix XSS issue in addressbook group name field [CVE-2013-5646] (#1489333)
 - Fix attachment icon issue when rare font/language is used (#1489326)
