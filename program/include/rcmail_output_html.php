@@ -924,8 +924,21 @@ class rcmail_output_html extends rcmail_output
                 }
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
-                    if ($logo = $this->config->get('skin_logo'))
-                        $attrib['src'] = $logo;
+
+                    if ($logo = $this->config->get('skin_logo')) {
+                        if (is_array($logo)) {
+                            if ($template_logo = $logo[$this->template_name]) {
+                                $attrib['src'] = $template_logo;
+                            }
+                            elseif ($template_logo = $logo['*']) {
+                                $attrib['src'] = $template_logo;
+                            }
+                        }
+                        else {
+                            $attrib['src'] = $logo;
+                        }
+                    }
+
                     $content = html::img($attrib);
                 }
                 else if ($object == 'productname') {
