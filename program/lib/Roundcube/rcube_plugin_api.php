@@ -33,8 +33,6 @@ class rcube_plugin_api
 
     public $dir;
     public $url = 'plugins/';
-    public $task = '';
-    public $output;
     public $handlers = array();
     public $allowed_prefs = array();
 
@@ -102,20 +100,35 @@ class rcube_plugin_api
         $this->dir = slashify(RCUBE_PLUGINS_DIR);
     }
 
+    public function __get($name)
+    {
+        switch($name)
+        {
+            case 'task':
+                return $this->app()->task;
+            break;
+
+            case 'output':
+                return $this->app()->output;
+            break;
+
+            default:
+                $this->$name;
+        }
+    }
+
+    protected function app() {
+        return rcmail::get_instance();
+    }
+
     /**
      * Initialize plugin engine
-     *
-     * This has to be done after rcmail::load_gui() or rcmail::json_init()
-     * was called because plugins need to have access to rcmail->output
      *
      * @param object rcube Instance of the rcube base class
      * @param string Current application task (used for conditional plugin loading)
      */
-    public function init($app, $task = '')
+    public function init()
     {
-        $this->task   = $task;
-        $this->output = $app->output;
-
         // register an internal hook
         $this->register_hook('template_container', array($this, 'template_container_hook'));
 
@@ -125,9 +138,6 @@ class rcube_plugin_api
 
     /**
      * Load and init all enabled plugins
-     *
-     * This has to be done after rcmail::load_gui() or rcmail::json_init()
-     * was called because plugins need to have access to rcmail->output
      *
      * @param array List of configured plugins to load
      * @param array List of plugins required by the application
@@ -195,14 +205,8 @@ class rcube_plugin_api
                 $plugin = new $plugin_name($this);
                 // check inheritance...
                 if (is_subclass_of($plugin, 'rcube_plugin')) {
-                    // ... task, request type and framed mode
-                    if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
-                        && (!$plugin->noajax || (is_object($this->output) && $this->output->type == 'html'))
-                        && (!$plugin->noframe || empty($_REQUEST['_framed']))
-                    ) {
-                        $plugin->init();
-                        $this->plugins[$plugin_name] = $plugin;
-                    }
+
+                    $this->plugins[$plugin_name] = $plugin;
 
                     if (!empty($plugin->allowed_prefs)) {
                         $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
@@ -225,6 +229,19 @@ class rcube_plugin_api
         }
 
         return false;
+    }
+
+    public function init_plugins()
+    {
+        foreach($this->plugins AS $plugin) {
+            // ... task, request type and framed mode
+            if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
+                && (!$plugin->noajax || (is_object($this->output) && $this->output->type == 'html'))
+                && (!$plugin->noframe || empty($_REQUEST['_framed']))
+            ) {
+                $plugin->init();
+            }
+        }
     }
 
     /**
