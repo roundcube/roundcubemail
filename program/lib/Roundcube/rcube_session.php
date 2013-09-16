@@ -46,6 +46,7 @@ class rcube_session
     private $storage;
     private $memcache;
 
+    protected $auth_cookie_expiration = 0;
 
     /**
      * Default constructor
@@ -58,7 +59,12 @@ class rcube_session
         $this->logging = $config->get('log_session', false);
 
         $lifetime = $config->get('session_lifetime', 1) * 60;
+        
         $this->set_lifetime($lifetime);
+
+        if($expiration = $config->get('session_auth_cookie_expiration')) {
+            $this->auth_cookie_expiration = $expiration;
+        }
 
         // use memcache backend
         $this->storage = $config->get('session_storage', 'db');
@@ -730,7 +736,7 @@ class rcube_session
     function set_auth_cookie()
     {
         $this->cookie = $this->_mkcookie($this->now);
-        rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
+        rcube_utils::setcookie($this->cookiename, $this->cookie, $this->auth_cookie_expiration);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
 
