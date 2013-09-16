@@ -308,6 +308,11 @@ $config['session_name'] = null;
 // Session authentication cookie name. Default: 'roundcube_sessauth'
 $config['session_auth_name'] = null;
 
+// Session authentication cookie expiration. Default: 0 (expire on browser session close)
+// Always set in the future, e.g. time() + 10 * 60 // (for 10 minutes)
+// If non-zero, should be greater than or equal to session lifetime
+$rcmail_config['session_auth_cookie_expiration'] = 0;
+
 // Session path. Defaults to PHP session.cookie_path setting.
 $config['session_path'] = null;
 
