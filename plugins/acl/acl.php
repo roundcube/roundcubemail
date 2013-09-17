@@ -182,7 +182,6 @@ class acl extends rcube_plugin
             return $args;
         }
 
-        // Load localization and include scripts
         $this->load_config();
 
         $this->specials = $this->rc->config->get('acl_specials', $this->specials);
