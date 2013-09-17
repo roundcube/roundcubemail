@@ -212,8 +212,8 @@ rcube_webmail.prototype.acl_list_update = function(html)
 // Returns names of users in selected rows
 rcube_webmail.prototype.acl_get_usernames = function()
 {
-    var users = [],
-        n, len, cell, row,
+    var n, len, cell, row,
+        users = [],
         list = this.acl_list,
         selection = list.get_selection();
 
