@@ -144,7 +144,6 @@ class acl extends rcube_plugin
         sort($users, SORT_LOCALE_STRING);
 
         $this->rc->output->command('ksearch_query_results', $users, $search, $sid);
-
         $this->rc->output->send();
     }
 
