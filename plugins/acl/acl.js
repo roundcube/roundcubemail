@@ -166,18 +166,9 @@ rcube_webmail.prototype.acl_list_init = function()
         {multiselect: true, draggable: false, keyboard: true, toggleselect: true}
     );
 
-    this.acl_list.addEventListener('select', function(o) {
-        rcmail.acl_list_select(o);
-    });
-
-    this.acl_list.addEventListener('dblclick', function(o) {
-        rcmail.acl_list_dblclick(o);
-    });
-
-    this.acl_list.addEventListener('keypress', function(o) {
-        rcmail.acl_list_keypress(o);
-    });
-
+    this.acl_list.addEventListener('select', function(o) { rcmail.acl_list_select(o); });
+    this.acl_list.addEventListener('dblclick', function(o) { rcmail.acl_list_dblclick(o); });
+    this.acl_list.addEventListener('keypress', function(o) { rcmail.acl_list_keypress(o); });
     this.acl_list.init();
 };
 
