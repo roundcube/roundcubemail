@@ -195,8 +195,8 @@ rcube_webmail.prototype.acl_list_keypress = function(list)
     }
     else if (
         (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
-            && (!this.acl_form || !this.acl_form.is(':visible'))
-        ) {
+        && (!this.acl_form || !this.acl_form.is(':visible'))
+    ) {
         this.command('acl-delete');
     }
 };
