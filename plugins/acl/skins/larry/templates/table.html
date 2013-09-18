@@ -1,31 +1,44 @@
 <div id="aclcontainer" class="uibox listbox">
-<div id="acllist-content" class="scroller withfooter">
-    <roundcube:object name="acltable" id="acltable" class="records-table" />
-</div>
-<div id="acllist-footer" class="boxfooter">
-    <roundcube:button command="acl-create" id="aclcreatelink" type="link" title="acl.newuser" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="aclmenulink" id="aclmenulink" type="link" title="acl.actions" class="listbutton groupactions"onclick="UI.show_popup('aclmenu', undefined, {above:1});return false" innerClass="inner" content="&#9881;" />
-</div>
+    <div id="acllist-content" class="scroller withfooter">
+        <roundcube:object name="acltable" id="acltable" class="records-table"/>
+    </div>
+    <div id="acllist-footer" class="boxfooter">
+        <roundcube:button command="acl-create" id="aclcreatelink" type="link" title="acl.newuser" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+"/>
+        <roundcube:button name="aclmenulink" id="aclmenulink" type="link" title="acl.actions" class="listbutton groupactions" onclick="UI.show_popup('aclmenu', undefined, {above:1});return false" innerClass="inner" content="&#9881;"/>
+    </div>
 </div>
 
 <div id="aclmenu" class="popupmenu">
     <ul class="toolbarmenu selectable iconized">
-        <li><roundcube:button command="acl-edit" label="edit" class="icon" classAct="icon active" innerclass="icon edit" /></li>
-        <li><roundcube:button command="acl-delete" label="delete" class="icon" classAct="icon active" innerclass="icon delete" /></li>
-        <roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)" />
-            <li><roundcube:button name="acl-switch" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch')" class="active" /></li>
-        <roundcube:endif />
+        <li>
+            <roundcube:button command="acl-edit" label="edit" class="icon" classAct="icon active" innerclass="icon edit"/>
+        </li>
+        <li>
+            <roundcube:button command="acl-delete" label="delete" class="icon" classAct="icon active" innerclass="icon delete"/>
+        </li>
+        <roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)"/>
+        <li>
+            <roundcube:button name="acl-switch" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch')" class="active"/>
+        </li>
+        <roundcube:endif/>
     </ul>
 </div>
 
 <div id="aclform" class="popupmenu propform">
-    <fieldset class="thinbordered"><legend><roundcube:label name="acl.identifier" /></legend>
-        <roundcube:object name="acluser" id="acluser" size="35" />
+    <fieldset class="thinbordered">
+        <legend>
+            <roundcube:label name="acl.identifier"/>
+        </legend>
+        <roundcube:object name="acluser" id="acluser" size="35"/>
     </fieldset>
-    <fieldset class="thinbordered"><legend><roundcube:label name="acl.myrights" /></legend>
-        <roundcube:object name="aclrights" />
+    <fieldset class="thinbordered">
+        <legend>
+            <roundcube:label name="acl.myrights"/>
+        </legend>
+        <roundcube:object name="aclrights"/>
     </fieldset>
     <div class="formbuttons">
-        <roundcube:button command="acl-cancel" type="input" class="button" label="cancel" />
-        <roundcube:button command="acl-save" type="input" class="button mainaction" label="save" />
+        <roundcube:button command="acl-cancel" type="input" class="button" label="cancel"/>
+        <roundcube:button command="acl-save" type="input" class="button mainaction" label="save"/>
     </div>
 </div>
