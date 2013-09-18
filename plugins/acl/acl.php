@@ -570,9 +570,9 @@ class acl extends rcube_plugin
         $mbox = trim(rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)); // UTF7-IMAP
         $user = trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC));
 
-        $user = explode(',', $user);
-
+        $user  = explode(',', $user);
         $error = false;
+
         foreach ($user as $u) {
             $u = trim($u);
 
