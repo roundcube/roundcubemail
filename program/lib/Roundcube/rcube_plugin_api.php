@@ -514,7 +514,7 @@ class rcube_plugin_api
                     ." already taken by another plugin or the application itself"), true, false);
         }
         else {
-            $this->app->tasks[$task] = $owner;
+            $this->tasks[$task] = $owner;
             rcmail::$main_tasks[] = $task;
             return true;
         }
@@ -531,7 +531,7 @@ class rcube_plugin_api
      */
     public function is_plugin_task($task)
     {
-        return $this->app->tasks[$task] ? true : false;
+        return $this->tasks[$task] ? true : false;
     }
 
     /**
