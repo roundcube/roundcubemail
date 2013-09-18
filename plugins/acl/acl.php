@@ -127,7 +127,6 @@ class acl extends rcube_plugin
 
                 if (is_array($user)) {
                     $user = array_filter($user);
-
                     $user = $user[0];
                 }
 
