@@ -96,8 +96,8 @@ class managesieve extends rcube_plugin
         }
 
         // add 'Create filter' item to message menu
-        $this->api->add_content(html::tag('li', null, 
-            $this->api->output->button(array(
+        $this->api->app->output->add_content(html::tag('li', null, 
+            $this->api->app->output->output->button(array(
                 'command'  => 'managesieve-create',
                 'label'    => 'managesieve.filtercreate',
                 'type'     => 'link',
@@ -172,7 +172,7 @@ class managesieve extends rcube_plugin
         $this->add_texts('localization/', array('filters','managefilters'));
 
         // include main js script
-        if ($this->api->output->type == 'html') {
+        if ($this->api->app->output->output->type == 'html') {
             $this->include_script('managesieve.js');
         }
 

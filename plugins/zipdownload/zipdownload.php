@@ -44,11 +44,11 @@ class zipdownload extends rcube_plugin
 
 		if ($rcmail->config->get('zipdownload_folder', false) || $rcmail->config->get('zipdownload_selection', false)) {
 			$this->include_script('zipdownload.js');
-			$this->api->output->set_env('zipdownload_selection', $rcmail->config->get('zipdownload_selection', false));
+			$this->api->app->output->output->set_env('zipdownload_selection', $rcmail->config->get('zipdownload_selection', false));
 
 			if ($rcmail->config->get('zipdownload_folder', false) && ($rcmail->action == '' || $rcmail->action == 'show')) {
-				$zipdownload = $this->api->output->button(array('command' => 'plugin.zipdownload.zip_folder', 'type' => 'link', 'classact' => 'active', 'content' => $this->gettext('downloadfolder')));
-				$this->api->add_content(html::tag('li', array('class' => 'separator_above'), $zipdownload), 'mailboxoptions');
+				$zipdownload = $this->api->app->output->output->button(array('command' => 'plugin.zipdownload.zip_folder', 'type' => 'link', 'classact' => 'active', 'content' => $this->gettext('downloadfolder')));
+				$this->api->app->output->add_content(html::tag('li', array('class' => 'separator_above'), $zipdownload), 'mailboxoptions');
 			}
 		}
 	}
