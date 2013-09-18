@@ -177,11 +177,6 @@ class acl extends rcube_plugin
             return $args;
         }
 
-        // Return if not folder admin
-        if (!in_array('a', $myrights)) {
-            return $args;
-        }
-
         $this->load_config();
 
         $this->specials = $this->rc->config->get('acl_specials', $this->specials);
@@ -210,6 +205,11 @@ class acl extends rcube_plugin
             'label' => rcube::Q($this->gettext('myrights')),
             'value' => $this->acl2text($myrights)
         );
+
+        // Return if not folder admin
+        if (!in_array('a', $myrights)) {
+            return $args;
+        }
 
         // The 'Sharing' tab
         $this->mbox = $mbox_imap;
