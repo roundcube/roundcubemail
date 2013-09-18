@@ -14,6 +14,7 @@ class ExampleAddressbook_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new example_addressbook($rcube->api);
 
         $this->assertInstanceOf('example_addressbook', $plugin);

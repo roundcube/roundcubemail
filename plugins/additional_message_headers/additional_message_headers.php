@@ -10,7 +10,7 @@
  * $config['additional_message_headers'] = array('User-Agent' => 'My-Very-Own-Webmail');
  *
  * @version @package_version@
- * @author Ziba Scott
+ * @author  Ziba Scott
  * @website http://roundcube.net
  */
 class additional_message_headers extends rcube_plugin
@@ -20,20 +20,25 @@ class additional_message_headers extends rcube_plugin
         $this->add_hook('message_before_send', array($this, 'message_headers'));
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     function message_headers($args)
     {
         $this->load_config();
 
         $headers = $args['message']->headers();
-        $rcube   = rcube::get_instance();
+
+        $rcube = rcube::get_instance();
 
         // additional email headers
-        $additional_headers = $rcube->config->get('additional_message_headers', array());
-        foreach ((array)$additional_headers as $header => $value) {
+        $additional_headers = (array) $rcube->config->get('additional_message_headers', array());
+        foreach ($additional_headers as $header => $value) {
             if (null === $value) {
                 unset($headers[$header]);
-            }
-            else {
+            } else {
                 $headers[$header] = $value;
             }
         }

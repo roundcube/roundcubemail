@@ -14,6 +14,7 @@ class Archive_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new archive($rcube->api);
 
         $this->assertInstanceOf('archive', $plugin);
