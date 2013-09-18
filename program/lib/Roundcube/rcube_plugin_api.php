@@ -31,6 +31,7 @@ class rcube_plugin_api
 {
     static protected $instance;
 
+    public $app = null;
     public $dir;
     public $url = 'plugins/';
     public $handlers = array();
@@ -100,35 +101,16 @@ class rcube_plugin_api
         $this->dir = slashify(RCUBE_PLUGINS_DIR);
     }
 
-    public function __get($name)
-    {
-        switch($name)
-        {
-            case 'task':
-                return $this->app()->task;
-            break;
-
-            case 'output':
-                return $this->app()->output;
-            break;
-
-            default:
-                $this->$name;
-        }
-    }
-
-    protected function app() {
-        return rcmail::get_instance();
-    }
-
     /**
      * Initialize plugin engine
      *
      * @param object rcube Instance of the rcube base class
      * @param string Current application task (used for conditional plugin loading)
      */
-    public function init()
+    public function init(rcube $app)
     {
+        $this->app = $app;
+
         // register an internal hook
         $this->register_hook('template_container', array($this, 'template_container_hook'));
 
@@ -233,10 +215,11 @@ class rcube_plugin_api
 
     public function init_plugins()
     {
-        foreach($this->plugins AS $plugin) {
+        foreach($this->plugins as $plugin) 
+        {
             // ... task, request type and framed mode
-            if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
-                && (!$plugin->noajax || (is_object($this->output) && $this->output->type == 'html'))
+            if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->app->task))
+                && (!$plugin->noajax || (is_object($this->app->output) && $this->app->output->type == 'html'))
                 && (!$plugin->noframe || empty($_REQUEST['_framed']))
             ) {
                 $plugin->init();
@@ -491,10 +474,10 @@ class rcube_plugin_api
         }
 
         // can register handler only if it's not taken or registered by myself
-        if (is_object($this->output)
+        if (is_object($this->app->output)
             && (!isset($this->objectsmap[$name]) || $this->objectsmap[$name] == $owner)
         ) {
-            $this->output->add_handler($name, $callback);
+            $this->app->output->add_handler($name, $callback);
             $this->objectsmap[$name] = $owner;
         }
         else {
@@ -531,7 +514,7 @@ class rcube_plugin_api
                     ." already taken by another plugin or the application itself"), true, false);
         }
         else {
-            $this->tasks[$task] = $owner;
+            $this->app->tasks[$task] = $owner;
             rcmail::$main_tasks[] = $task;
             return true;
         }
@@ -548,7 +531,7 @@ class rcube_plugin_api
      */
     public function is_plugin_task($task)
     {
-        return $this->tasks[$task] ? true : false;
+        return $this->app->tasks[$task] ? true : false;
     }
 
     /**
@@ -571,9 +554,9 @@ class rcube_plugin_api
      */
     public function include_script($fn)
     {
-        if (is_object($this->output) && $this->output->type == 'html') {
+        if (is_object($this->app->output) && $this->app->output->type == 'html') {
             $src = $this->resource_url($fn);
-            $this->output->add_header(html::tag('script',
+            $this->app->output->add_header(html::tag('script',
                 array('type' => "text/javascript", 'src' => $src)));
         }
     }
@@ -585,9 +568,9 @@ class rcube_plugin_api
      */
     public function include_stylesheet($fn)
     {
-        if (is_object($this->output) && $this->output->type == 'html') {
+        if (is_object($this->app->output) && $this->app->output->type == 'html') {
             $src = $this->resource_url($fn);
-            $this->output->include_css($src);
+            $this->app->output->include_css($src);
         }
     }
 

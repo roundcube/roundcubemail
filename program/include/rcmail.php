@@ -92,8 +92,8 @@ class rcmail extends rcube
     if (($basename = basename($_SERVER['SCRIPT_FILENAME'])) && $basename != 'index.php')
       $this->filename = $basename;
 
-    $this->plugins->init();
-
+    $this->plugins->init($this);
+    
     // load plugins
     $this->plugins->load_plugins((array)$this->config->get('plugins', array()), array('filesystem_attachments', 'jqueryui'));
 
