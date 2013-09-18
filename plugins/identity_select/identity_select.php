@@ -13,13 +13,15 @@
  *   $config['identity_select_headers'] = array('Delivered-To');
  *
  * @version @package_version@
- * @author Aleksander Machniak <alec@alec.pl>
+ * @author  Aleksander Machniak <alec@alec.pl>
  * @license GNU GPLv3+
  */
 class identity_select extends rcube_plugin
 {
+    /**
+     * @var string Permitted Tasks
+     */
     public $task = 'mail';
-
 
     function init()
     {
@@ -29,12 +31,18 @@ class identity_select extends rcube_plugin
 
     /**
      * Adds additional headers to supported headers list
+     *
+     * @param array $p Parameters
+     *
+     * @return array
      */
     function storage_init($p)
     {
         $rcmail = rcmail::get_instance();
 
-        if ($add_headers = (array)$rcmail->config->get('identity_select_headers', array())) {
+        $add_headers = (array) $rcmail->config->get('identity_select_headers', array());
+
+        if (!empty($add_headers)) {
             $p['fetch_headers'] = trim($p['fetch_headers'] . ' ' . strtoupper(join(' ', $add_headers)));
         }
 
@@ -43,6 +51,10 @@ class identity_select extends rcube_plugin
 
     /**
      * Identity selection
+     *
+     * @param array $p Parameters
+     *
+     * @return array
      */
     function select($p)
     {
@@ -52,13 +64,20 @@ class identity_select extends rcube_plugin
 
         $rcmail = rcmail::get_instance();
 
-        foreach ((array)$rcmail->config->get('identity_select_headers', array()) as $header) {
-            if ($header = $p['message']->headers->get($header, false)) {
-                foreach ($p['identities'] as $idx => $ident) {
-                    if (in_array($ident['email_ascii'], (array)$header)) {
-                        $p['selected'] = $idx;
-                        break 2;
-                    }
+        $headers = (array) $rcmail->config->get('identity_select_headers', array());
+
+        foreach ($headers as $header) {
+            $header = $p['message']->headers->get($header, false);
+
+            if (empty($header)) continue;
+
+            $header = (array) $header;
+
+            foreach ($p['identities'] as $idx => $ident) {
+                if (in_array($ident['email_ascii'], $header)) {
+                    $p['selected'] = $idx;
+
+                    break 2;
                 }
             }
         }
