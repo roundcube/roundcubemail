@@ -14,6 +14,7 @@ class Help_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new help($rcube->api);
 
         $this->assertInstanceOf('help', $plugin);

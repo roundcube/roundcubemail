@@ -14,12 +14,15 @@
  *   class myCustom_attachments extends filesystem_attachments
  *
  * @license GNU GPLv3+
- * @author Ziba Scott <ziba@umich.edu>
- * @author Thomas Bruederli <roundcube@gmail.com>
+ * @author  Ziba Scott <ziba@umich.edu>
+ * @author  Thomas Bruederli <roundcube@gmail.com>
  *
  */
 class filesystem_attachments extends rcube_plugin
 {
+    /**
+     * @var string
+     */
     public $task = '?(?!login).*';
 
     function init()
@@ -46,11 +49,17 @@ class filesystem_attachments extends rcube_plugin
 
     /**
      * Save a newly uploaded attachment
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function upload($args)
     {
         $args['status'] = false;
+
         $group = $args['group'];
+
         $rcmail = rcmail::get_instance();
 
         // use common temp dir for file uploads
@@ -58,10 +67,11 @@ class filesystem_attachments extends rcube_plugin
         $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
 
         if (move_uploaded_file($args['path'], $tmpfname) && file_exists($tmpfname)) {
-            $args['id'] = $this->file_id();
-            $args['path'] = $tmpfname;
+            $args['id']     = $this->file_id();
+            $args['path']   = $tmpfname;
             $args['status'] = true;
-            @chmod($tmpfname, 0600);  // set correct permissions (#1488996)
+
+            @chmod($tmpfname, 0600); // set correct permissions (#1488996)
 
             // Note the file for later cleanup
             $_SESSION['plugins']['filesystem_attachments'][$group][] = $tmpfname;
@@ -72,26 +82,36 @@ class filesystem_attachments extends rcube_plugin
 
     /**
      * Save an attachment from a non-upload source (draft or forward)
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function save($args)
     {
         $group = $args['group'];
+
         $args['status'] = false;
 
         if (!$args['path']) {
             $rcmail = rcmail::get_instance();
+
             $temp_dir = $rcmail->config->get('temp_dir');
             $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
 
             if ($fp = fopen($tmp_path, 'w')) {
+
                 fwrite($fp, $args['data']);
+
                 fclose($fp);
+
                 $args['path'] = $tmp_path;
-            } else
+            } else {
                 return $args;
+            }
         }
 
-        $args['id'] = $this->file_id();
+        $args['id']     = $this->file_id();
         $args['status'] = true;
 
         // Note the file for later cleanup
@@ -103,10 +123,15 @@ class filesystem_attachments extends rcube_plugin
     /**
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function remove($args)
     {
         $args['status'] = @unlink($args['path']);
+
         return $args;
     }
 
@@ -114,17 +139,26 @@ class filesystem_attachments extends rcube_plugin
      * When composing an html message, image attachments may be shown
      * For this plugin, the file is already in place, just check for
      * the existance of the proper metadata
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function display($args)
     {
         $args['status'] = file_exists($args['path']);
+
         return $args;
     }
 
     /**
      * This attachment plugin doesn't require any steps to put the file
-     * on disk for use.  This stub function is kept here to make this 
+     * on disk for use.  This stub function is kept here to make this
      * class handy as a parent class for other plugins which may need it.
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function get($args)
     {
@@ -133,31 +167,37 @@ class filesystem_attachments extends rcube_plugin
 
     /**
      * Delete all temp files associated with this user
+     *
+     * @param array $args Arguments
+     *
+     * @return array
      */
     function cleanup($args)
     {
         // $_SESSION['compose']['attachments'] is not a complete record of
         // temporary files because loading a draft or starting a forward copies
         // the file to disk, but does not make an entry in that array
-        if (is_array($_SESSION['plugins']['filesystem_attachments'])){
+        if (is_array($_SESSION['plugins']['filesystem_attachments'])) {
             foreach ($_SESSION['plugins']['filesystem_attachments'] as $group => $files) {
-                if ($args['group'] && $args['group'] != $group)
-                    continue;
-                foreach ((array)$files as $filename){
-                    if(file_exists($filename)){
-                        unlink($filename);
-                    }
+                if ($args['group'] && $args['group'] != $group) continue;
+
+                foreach ((array) $files as $filename) {
+                    if (file_exists($filename)) unlink($filename);
                 }
+
                 unset($_SESSION['plugins']['filesystem_attachments'][$group]);
             }
         }
+
         return $args;
     }
 
     function file_id()
     {
         $userid = rcmail::get_instance()->user->ID;
-	    list($usec, $sec) = explode(' ', microtime()); 
+
+        list($usec, $sec) = explode(' ', microtime());
+
         return preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
     }
 }
