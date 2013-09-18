@@ -1,12 +1,12 @@
 <?php
 /**
- * Attachement Reminder
+ * Attachment Reminder
  *
  * A plugin that reminds a user to attach the files
  *
  * @version @package_version@
- * @author Thomas Yu - Sian, Liu
- * @author Aleksander Machniak <machniak@kolabsys.com>
+ * @author  Thomas Yu - Sian, Liu
+ * @author  Aleksander Machniak <machniak@kolabsys.com>
  *
  * Copyright (C) 2013 Thomas Yu - Sian, Liu
  * Copyright (C) 2013, Kolab Systems AG
@@ -30,7 +30,6 @@ class attachment_reminder extends rcube_plugin
     public $task = 'mail|settings';
     public $noajax = true;
 
-
     function init()
     {
         $rcmail = rcube::get_instance();
@@ -38,7 +37,9 @@ class attachment_reminder extends rcube_plugin
         if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
             if ($rcmail->config->get('attachment_reminder')) {
                 $this->include_script('attachment_reminder.js');
+
                 $this->add_texts('localization/', array('keywords', 'forgotattachment'));
+
                 $rcmail->output->add_label('addattachment', 'send');
             }
         }
@@ -53,32 +54,49 @@ class attachment_reminder extends rcube_plugin
         }
     }
 
+    /**
+     * Attach a list of attachments to an argument list
+     *
+     * @param $args array
+     *
+     * @return array
+     */
     function prefs_list($args)
     {
-        if ($args['section'] == 'compose') {
-            $this->add_texts('localization/');
-            $reminder = rcube::get_instance()->config->get('attachment_reminder');
-            $field_id = 'rcmfd_attachment_reminder';
-            $checkbox = new html_checkbox(array('name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1));
+        if ($args['section'] != 'compose') return $args;
 
-            $args['blocks']['main']['options']['attachment_reminder'] = array(
-                'title' => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
-                'content' => $checkbox->show($reminder ? 1 : 0),
-            );
-        }
+        $this->add_texts('localization/');
+
+        $reminder = rcube::get_instance()->config->get('attachment_reminder');
+
+        $field_id = 'rcmfd_attachment_reminder';
+
+        $checkbox = new html_checkbox(array('name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1));
+
+        $args['blocks']['main']['options']['attachment_reminder'] = array(
+            'title'   => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
+            'content' => $checkbox->show($reminder ? 1 : 0),
+        );
 
         return $args;
     }
 
+    /**
+     * Save Preferences to an argument list
+     * @param $args array
+     *
+     * @return array
+     */
     function prefs_save($args)
     {
-        if ($args['section'] == 'compose') {
-            $dont_override = rcube::get_instance()->config->get('dont_override', array());
-            if (!in_array('attachment_reminder', $dont_override)) {
-                $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
-            }
+        if ($args['section'] != 'compose') return $args;
+
+        $dont_override = rcube::get_instance()->config->get('dont_override', array());
+
+        if (!in_array('attachment_reminder', $dont_override)) {
+            $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
         }
+
         return $args;
     }
-
 }

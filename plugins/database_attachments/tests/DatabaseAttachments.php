@@ -14,6 +14,7 @@ class DatabaseAttachments_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
+
         $plugin = new database_attachments($rcube->api);
 
         $this->assertInstanceOf('database_attachments', $plugin);
