@@ -24,8 +24,6 @@ $responses = $RCMAIL->get_compose_responses();
 // edit-response
 if (($key = get_input_value('_key', RCUBE_INPUT_GPC))) {
     foreach ($responses as $i => $response) {
-        if (empty($response['key']))
-            $response['key'] = substr(md5($response['name']), 0, 16);
         if ($response['key'] == $key) {
             $RESPONSE_RECORD = $response;
             $RESPONSE_RECORD['index'] = $i;
@@ -35,12 +33,9 @@ if (($key = get_input_value('_key', RCUBE_INPUT_GPC))) {
 }
 
 // save response
-if ($RCMAIL->action == 'save-response' && isset($_POST['_name'])) {
+if ($RCMAIL->action == 'save-response' && isset($_POST['_name']) && !$RESPONSE_RECORD['static']) {
     $name = trim(get_input_value('_name', RCUBE_INPUT_POST));
     $text = trim(get_input_value('_text', RCUBE_INPUT_POST));
-
-    if (!empty($_REQUEST['_framed']))
-        $RCMAIL->output->framed = 1;
 
     if (!empty($name) && !empty($text)) {
         $dupes = 0;
@@ -62,9 +57,11 @@ if ($RCMAIL->action == 'save-response' && isset($_POST['_name'])) {
             $responses[] = $response;
         }
 
-        if ($RCMAIL->user->save_prefs(array('compose_responses' => $responses))) {
+        $responses = array_filter($responses, function($item){ return empty($item['static']); });
+        if ($RCMAIL->user->save_prefs(array('compose_responses' => array_values($responses)))) {
             $RCMAIL->output->show_message('successfullysaved', 'confirmation');
-            $RCMAIL->output->command('update_response_row', $response, $key);
+            $RCMAIL->output->command('parent.update_response_row', $response, $key);
+            $RCMAIL->overwrite_action('edit-response');
             $RESPONSE_RECORD = $response;
         }
     }
@@ -79,6 +76,7 @@ function rcube_response_form($attrib)
     global $RCMAIL, $OUTPUT, $RESPONSE_RECORD;
 
     // Set form tags and hidden fields
+    $disabled = !empty($RESPONSE_RECORD['static']);
     $key = $RESPONSE_RECORD['key'];
     list($form_start, $form_end) = get_form_tags($attrib, 'save-response', $key, array('name' => '_key', 'value' => $key));
     unset($attrib['form'], $attrib['id']);
@@ -90,10 +88,10 @@ function rcube_response_form($attrib)
     $label = rcube_label('responsename');
 
     $table->add('title', html::label('ffname', Q(rcube_label('responsename'))));
-    $table->add(null, rcube_output::get_edit_field('name', $RESPONSE_RECORD['name'], array('id' => 'ffname', 'size' => $attrib['size']), 'text'));
+    $table->add(null, rcube_output::get_edit_field('name', $RESPONSE_RECORD['name'], array('id' => 'ffname', 'size' => $attrib['size'], 'disabled' => $disabled), 'text'));
 
     $table->add('title', html::label('fftext', Q(rcube_label('responsetext'))));
-    $table->add(null, rcube_output::get_edit_field('text', $RESPONSE_RECORD['text'], array('id' => 'fftext', 'size' => $attrib['textareacols'], 'rows' => $attrib['textarearows']), 'textarea'));
+    $table->add(null, rcube_output::get_edit_field('text', $RESPONSE_RECORD['text'], array('id' => 'fftext', 'size' => $attrib['textareacols'], 'rows' => $attrib['textarearows'], 'disabled' => $disabled), 'textarea'));
 
     $out .= $table->show($attrib);
     $out .= $form_end;
@@ -101,6 +99,7 @@ function rcube_response_form($attrib)
     return $out;
 }
 
+$OUTPUT->set_env('readonly', !empty($RESPONSE_RECORD['static']));
 $OUTPUT->add_handler('responseform', 'rcube_response_form');
 $OUTPUT->set_pagetitle(rcube_label(($RCMAIL->action=='add-response' ? 'savenewresponse' : 'editresponse')));
 

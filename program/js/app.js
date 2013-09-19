@@ -447,7 +447,7 @@ function rcube_webmail()
           this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:false});
           this.responses_list.addEventListener('select', function(list){
             var win, id = list.get_single_selection();
-            p.enable_command('delete', !!id);
+            p.enable_command('delete', !!id && $.inArray(id, p.env.readonly_responses) < 0);
             if (id && (win = p.get_frame_window(p.env.contentframe))) {
               p.set_busy(true);
               p.location_href({ _action:'edit-response', _key:id, _framed:1 }, win);

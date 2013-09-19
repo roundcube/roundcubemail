@@ -26,7 +26,7 @@ if (!empty($_POST['_insert'])) {
 
     if (!empty($name) && !empty($text)) {
         $dupes = 0;
-        $responses = $RCMAIL->get_compose_responses();
+        $responses = $RCMAIL->get_compose_responses(false, true);
         foreach ($responses as $resp) {
             if (strcasecmp($name, preg_replace('/\s\(\d+\)$/', '', $resp['name'])) == 0)
                 $dupes++;
@@ -54,7 +54,7 @@ if (!empty($_POST['_insert'])) {
 
 if ($RCMAIL->action == 'delete-response') {
     if ($key = get_input_value('_key', RCUBE_INPUT_GPC)) {
-        $responses = $RCMAIL->get_compose_responses();
+        $responses = $RCMAIL->get_compose_responses(false, true);
         foreach ($responses as $i => $response) {
             if (empty($response['key']))
                 $response['key'] = substr(md5($response['name']), 0, 16);
@@ -67,7 +67,7 @@ if ($RCMAIL->action == 'delete-response') {
     }
 
     if ($deleted) {
-        $RCMAIL->output->command('display_message', rcube_label('successfullydeleted'), 'confirmation');
+        $RCMAIL->output->command('display_message', rcube_label('deletedsuccessfully'), 'confirmation');
         $RCMAIL->output->command('remove_response', $key);
     }
 
@@ -99,6 +99,8 @@ function rcmail_responses_list($attrib)
 
     // set client env
     $OUTPUT->add_gui_object('responseslist', $attrib['id']);
+    $OUTPUT->set_env('readonly_responses', array_values(array_map(function($rec){ return $rec['key']; },
+      array_filter($plugin['list'], function($item){ return !empty($item['static']); }))));
 
     return $out;
 }

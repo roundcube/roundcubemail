@@ -13,7 +13,7 @@
 </div>
 
 <div class="footerleft formbuttons">
-	<roundcube:button command="save" type="input" class="button mainaction" label="save" />
+	<roundcube:button command="save" type="input" class="button mainaction" label="save" condition="!env:readonly" />
 </div>
 
 <roundcube:include file="/includes/footer.html" />
