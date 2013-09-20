@@ -227,6 +227,13 @@ class rcmail_output_json extends rcmail_output
         if (!empty($this->callbacks))
             $response['callbacks'] = $this->callbacks;
 
+        // trigger generic hook where plugins can put additional content to the response
+        $hook = $this->app->plugins->exec_hook("render_response", array('response' => $response));
+
+        // save some memory
+        $response = $hook['response'];
+        unset($hook['response']);
+
         echo self::json_serialize($response);
     }
 

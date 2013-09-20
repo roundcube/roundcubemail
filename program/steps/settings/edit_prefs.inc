@@ -40,24 +40,21 @@ function rcmail_user_prefs_form($attrib)
 
   $out = $form_start;
 
-  foreach ($SECTIONS[$CURR_SECTION]['blocks'] as $block) {
+  foreach ($SECTIONS[$CURR_SECTION]['blocks'] as $class => $block) {
     if (!empty($block['options'])) {
       $table = new html_table(array('cols' => 2));
 
       foreach ($block['options'] as $option) {
-        if ($option['advanced'])
-	      $table->set_row_attribs('advanced');
-
         if (isset($option['title'])) {
           $table->add('title', $option['title']);
-  	      $table->add(null, $option['content']);
+          $table->add(null, $option['content']);
         }
         else {
           $table->add(array('colspan' => 2), $option['content']);
         }
       }
 
-      $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $table->show($attrib));
+      $out .= html::tag('fieldset', $class, html::tag('legend', null, $block['name']) . $table->show($attrib));
     }
     else if (!empty($block['content'])) {
       $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $block['content']);

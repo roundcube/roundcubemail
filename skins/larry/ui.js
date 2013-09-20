@@ -195,6 +195,19 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'prefviewsplitter', p1:'#sectionslist', p2:'#preferences-box',
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
       }
+      else if (rcmail.env.action == 'edit-prefs') {
+        $('<a href="#toggle">&#9660;</a>')
+            .addClass('advanced-toggle')
+            .appendTo('#preferences-details fieldset.advanced legend');
+
+          $('#preferences-details fieldset.advanced legend').click(function(e){
+            var collapsed = $(this).hasClass('collapsed'),
+              toggle = $('.advanced-toggle', this).html(collapsed ? '&#9650;' : '&#9660;');
+            $(this)
+              .toggleClass('collapsed')
+              .closest('fieldset').children('.propform').toggle()
+          }).addClass('collapsed')
+      }
     }
     /***  addressbook task  ***/
     else if (rcmail.env.task == 'addressbook') {

@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make default font size for HTML messages configurable (request #118)
+- Display full attachment name using title attribute when name is too long to display (#1489320)
+- Fix XSS issue in addressbook group name field [CVE-2013-5646] (#1489333)
 - Fix attachment icon issue when rare font/language is used (#1489326)
 - After message is sent refresh messages list of replied message folder (#1489249)
 - Add option force specified domain in user login - username_domain_forced (#1489264)
@@ -96,8 +99,8 @@ RELEASE 0.9.3
 - Fix base URL resolving on attribute values with no quotes (#1489275)
 - Fix wrong handling of links with '|' character (#1489276)
 - Fix colorspace issue on image conversion using ImageMagick (#1489270)
-- Fix XSS vulnerability when editing a message "as new" or draft (#1489251)
-- Fix XSS vulnerability when saving HTML signatures (#1489251)
+- Fix XSS vulnerability when editing a message "as new" or draft [CVE-2013-5645] (#1489251)
+- Fix XSS vulnerability when saving HTML signatures [CVE-2013-5645] (#1489251)
 - Fix rewrite rule in .htaccess (#1489240)
 - Fix detecting Turkish language in ISO-8859-9 encoding (#1489252)
 - Fix identity-selection using Return-Path headers (#1489241)
@@ -317,7 +320,7 @@ RELEASE 0.8.5
 - Fix #countcontrols issue in IE<=8 when text is very long (#1488890)
 - Fix unwanted horizontal scrollbar in message preview header (#1488866)
 - Add workaround for IE<=8 bug where Content-Disposition:inline was ignored (#1488844)
-- Fix XSS vulnerability in vbscript: and data:text links handling (#1488850)
+- Fix XSS vulnerability in vbscript: and data:text links handling [CVE-2012-6121] (#1488850)
 - Fix absolute positioning in HTML messages (#1488819)
 - Fix cache (in)validation after setting \Deleted flag
 - Fix keybord events on messages list in opera browser (#1488823)
@@ -372,8 +375,8 @@ RELEASE 0.8.1
 - Fix bug where domain name was converted to lower-case even with login_lc=false (#1488593)
 - Fix lower-casing email address on replies (#1488598)
 - Fix line separator in exported messages (#1488603)
-- Fix XSS issue where plain signatures wasn't secured in HTML mode (#1488613)
-- Fix XSS issue where href="javascript:" wasn't secured (#1488613)
+- Fix XSS issue where plain signatures wasn't secured in HTML mode [CVE-2012-4668] (#1488613)
+- Fix XSS issue where href="javascript:" wasn't secured [CVE-2012-3508] (#1488613)
 - Fix impossible to create message with empty plain text part (#1488610)
 - Fix stripped apostrophes when replying in plain text to HTML message (#1488606)
 - Fix inactive Save search option after advanced search (#1488607)
@@ -408,7 +411,7 @@ RELEASE 0.8.0
 - Fix removing contact photo using LDAP addressbook (#1488420)
 - Fix storing X-ANNIVERSARY date in vCard format (#1488527)
 - Update to Mail_Mime-1.8.5 (#1488521)
-- Fix XSS vulnerability in message subject handling using Larry skin (#1488519)
+- Fix XSS vulnerability in message subject handling using Larry skin [CVE-2012-3507] (#1488519)
 - Fix handling of links with various URI schemes e.g. "skype:" (#1488106)
 - Fix handling of links inside PRE elements on html to text conversion
 - Fix indexing of links on html to text conversion
@@ -535,7 +538,7 @@ RELEASE 0.7
 - Improved handling of some malformed values encoded with quoted-printable (#1488232)
 - Add possibility to do LDAP bind before searching for bind DN
 - Fix handling of empty <U> tags in HTML messages (#1488225)
-- Add content filter for embedded attachments to protect from XSS on IE (#1487895)
+- Add content filter for embedded attachments to protect from XSS on IE [CVE-2012-1253] (#1487895)
 - Use strpos() instead of strstr() when possible (#1488211)
 - Fix handling HTML entities when converting HTML to text (#1488212)
 - Fix fit_string_to_size() renders browser and ui unresponsive (#1488207)
@@ -703,7 +706,7 @@ RELEASE 0.6-beta
 
 RELEASE 0.5.4
 -------------
-- Fix XSS vulnerability in UI messages (#1488030)
+- Fix XSS vulnerability in UI messages [CVE-2011-2937] (#1488030)
 
 RELEASE 0.5.3
 -------------
@@ -753,8 +756,8 @@ RELEASE 0.5.1
 - Security: add optional referer check to prevent CSRF in GET requests
 - Fix email_dns_check setting not used for identities/contacts (#1487740)
 - Fix ICANN example addresses doesn't validate (#1487742)
-- Security: protect login form submission from CSRF
-- Security: prevent from relaying malicious requests through modcss.inc
+- Security: protect login form submission from CSRF [CVE-2011-1491]
+- Security: prevent from relaying malicious requests through modcss.inc [CVE-2011-1492]
 - Fix handling of non-image attachments in multipart/related messages (#1487750)
 - Fix IDNA support when IDN/INTL modules are in use (#1487742)
 - Fix handling of invalid HTML comments in messages (#1487759)
@@ -1197,7 +1200,7 @@ RELEASE 0.3-RC1
 ---------------
 - Fix import of vCard entries with params (#1485453)
 - Fix HTML messages output with empty block elements (#1485974)
-- Use request tokens to protect POST requests from CSRF
+- Use request tokens to protect POST requests from CSRF [CVE-2009-4076, CVE-2009-4077]
 - Added hook when killing a session
 - Added hook to write_log function (#1485971)
 - Performance improvements by use UID commands (#1485690)
@@ -1324,7 +1327,7 @@ RELEASE 0.2.1
 - Fix large search results on server without SORT capability (#1485668)
 - Get rid of preg_replace() with eval modifier and create_function usage (#1485686)
 - Bring back <base> and <link> tags in HTML messages
-- Fix XSS vulnerability through background attributes as reported by Julien Cayssol
+- Fix XSS vulnerability through background attributes [CVE-2009-0413]
 - Fix problems with backslash as IMAP hierarchy delimiter (#1484467)
 - Secure vcard export by getting rid of preg's 'e' modifier use (#1485689)
 - Fix authentication when submitting form with existing session (#1485679)

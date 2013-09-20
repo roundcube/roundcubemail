@@ -1881,7 +1881,7 @@ function rcube_webmail()
         html = expando;
       else if (c == 'subject') {
         if (bw.ie) {
-          col.onmouseover = function() { rcube_webmail.long_subject_title_ie(this, message.depth+1); };
+          col.onmouseover = function() { rcube_webmail.long_subject_title_ex(this, message.depth+1); };
           if (bw.ie8)
             tree = '<span></span>' + tree; // #1487821
         }
@@ -3427,7 +3427,8 @@ function rcube_webmail()
       message = input_message.val(),
       is_html = ($("input[name='_is_html']").val() == '1'),
       sig = this.env.identity,
-      delim = this.env.recipients_delimiter,
+      delim = this.env.recipients_separator,
+      rx_delim = RegExp.escape(delim),
       headers = ['replyto', 'bcc'];
 
     // update reply-to/bcc fields with addresses defined in identities
@@ -3444,16 +3445,18 @@ function rcube_webmail()
       }
 
       // cleanup
-      rx = new RegExp(RegExp.escape(delim) + '\\s*' + RegExp(delim), 'g');
-      input_val = input_val.replace(rx, delim)
-      rx = new RegExp('^\\s*' + RegExp.escape(delim) + '\\s*$');
-      input_val = input_val.replace(rx, '')
+      rx = new RegExp(rx_delim + '\\s*' + rx_delim, 'g');
+      input_val = input_val.replace(rx, delim);
+      rx = new RegExp('^[\\s' + rx_delim + ']+');
+      input_val = input_val.replace(rx, '');
 
       // add new address(es)
-      if (new_val) {
-        rx = new RegExp(RegExp.escape(delim) + '\\s*$');
-        if (input_val && !rx.test(input_val))
-          input_val += delim + ' ';
+      if (new_val && input_val.indexOf(new_val) == -1 && input_val.indexOf(new_val.replace(/"/g, '')) == -1) {
+        if (input_val) {
+          rx = new RegExp('[' + rx_delim + '\\s]+$')
+          input_val = input_val.replace(rx, '') + delim + ' ';
+        }
+
         input_val += new_val + delim + ' ';
       }
 
@@ -3639,7 +3642,12 @@ function rcube_webmail()
       att.html = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
         + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="" />' : this.get_label('cancel')) + '</a>' + att.html;
 
-    var indicator, li = $('<li>').attr('id', name).addClass(att.classname).html(att.html);
+    var indicator, li = $('<li>');
+
+    li.attr('id', name)
+      .addClass(att.classname)
+      .html(att.html)
+      .on('mouseover', function() { rcube_webmail.long_subject_title_ex(this, 0); });
 
     // replace indicator's li
     if (upload_id && (indicator = document.getElementById(upload_id))) {
@@ -4345,7 +4353,7 @@ function rcube_webmail()
         boxtitle.append('&nbsp;&raquo;&nbsp;');
       }
 
-      boxtitle.append($('<span>'+prop.name+'</span>'));
+      boxtitle.append($('<span>').text(prop.name));
     }
 
     this.triggerEvent('groupupdate', prop);
@@ -6986,11 +6994,11 @@ rcube_webmail.long_subject_title = function(elem, indent)
   if (!elem.title) {
     var $elem = $(elem);
     if ($elem.width() + indent * 15 > $elem.parent().width())
-      elem.title = $elem.html();
+      elem.title = $elem.text();
   }
 };
 
-rcube_webmail.long_subject_title_ie = function(elem, indent)
+rcube_webmail.long_subject_title_ex = function(elem, indent)
 {
   if (!elem.title) {
     var $elem = $(elem),

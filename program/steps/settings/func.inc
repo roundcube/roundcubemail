@@ -158,6 +158,7 @@ function rcmail_user_prefs($current = null)
                 'main'    => array('name' => Q(rcube_label('mainoptions'))),
                 'skin'    => array('name' => Q(rcube_label('skin'))),
                 'browser' => array('name' => Q(rcube_label('browseroptions'))),
+                'advanced'=> array('name' => Q(rcube_label('advancedoptions'))),
             );
 
             // language selection
@@ -367,6 +368,7 @@ function rcmail_user_prefs($current = null)
             $blocks = array(
                 'main'        => array('name' => Q(rcube_label('mainoptions'))),
                 'new_message' => array('name' => Q(rcube_label('newmessage'))),
+                'advanced'    => array('name' => Q(rcube_label('advancedoptions'))),
             );
 
             // show config parameter for preview pane
@@ -488,6 +490,7 @@ function rcmail_user_prefs($current = null)
         case 'mailview':
             $blocks = array(
                 'main' => array('name' => Q(rcube_label('mainoptions'))),
+                'advanced'   => array('name' => Q(rcube_label('advancedoptions'))),
             );
 
             // show checkbox to open message view in new window
@@ -543,7 +546,7 @@ function rcmail_user_prefs($current = null)
 
                 $field_id = 'rcmfd_default_charset';
 
-                $blocks['main']['options']['default_charset'] = array(
+                $blocks['advanced']['options']['default_charset'] = array(
                     'title' => html::label($field_id, Q(rcube_label('defaultcharset'))),
                     'content' => $RCMAIL->output->charset_selector(array(
                         'id' => $field_id, 'name' => '_default_charset', 'selected' => $config['default_charset']
@@ -605,6 +608,7 @@ function rcmail_user_prefs($current = null)
                 'main'       => array('name' => Q(rcube_label('mainoptions'))),
                 'sig'        => array('name' => Q(rcube_label('signatureoptions'))),
                 'spellcheck' => array('name' => Q(rcube_label('spellcheckoptions'))),
+                'advanced'   => array('name' => Q(rcube_label('advancedoptions'))),
             );
 
             // show checkbox to compose messages in a new window
@@ -673,8 +677,7 @@ function rcmail_user_prefs($current = null)
                 $select->add(rcube_label('miscfolding'), 1);
                 $select->add(rcube_label('2047folding'), 2);
 
-                $blocks['main']['options']['mime_param_folding'] = array(
-                    'advanced' => true,
+                $blocks['advanced']['options']['mime_param_folding'] = array(
                     'title'    => html::label($field_id, Q(rcube_label('mimeparamfolding'))),
                     'content'  => $select->show($config['mime_param_folding']),
                 );
@@ -688,8 +691,7 @@ function rcmail_user_prefs($current = null)
                 $field_id = 'rcmfd_force_7bit';
                 $input    = new html_checkbox(array('name' => '_force_7bit', 'id' => $field_id, 'value' => 1));
 
-                $blocks['main']['options']['force_7bit'] = array(
-                    'advanced' => true,
+                $blocks['advanced']['options']['force_7bit'] = array(
                     'title'    => html::label($field_id, Q(rcube_label('force7bit'))),
                     'content'  => $input->show($config['force_7bit']?1:0),
                 );
@@ -842,23 +844,28 @@ function rcmail_user_prefs($current = null)
                     continue 2;
                 }
 
-                $field_id = 'rcmfd_default_font';
-                $fonts    = rcube_fontdefs();
-                $selected = $config['default_font'];
+                // Default font size
+                $field_id = 'rcmfd_default_font_size';
+                $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
 
-                $select = '<select name="_default_font" id="'.$field_id.'">';
-                $select .= '<option value=""' . (!$selected ? ' selected="selected"' : '') . '>---</option>';
-                foreach ($fonts as $fname => $font) {
-                    $select .= '<option value="'.$fname.'"'
-                        . ($fname == $selected ? ' selected="selected"' : '')
-                        . ' style=\'font-family: ' . $font . '\'>'
-                        . Q($fname) . '</option>';
+                $fontsizes = array('8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
+                foreach ($fontsizes as $size) {
+                    $select_default_font_size->add($size, $size);
                 }
-                $select .= '</select>';
+
+                // Default font
+                $field_id = 'rcmfd_default_font';
+                $select_default_font = new html_select(array('name' => '_default_font', 'id' => $field_id));
+
+                $fonts = rcube_fontdefs();
+                foreach ($fonts as $fname => $font) {
+                    $select_default_font->add($fname, $fname);
+                }
 
                 $blocks['main']['options']['default_font'] = array(
                     'title' => html::label($field_id, Q(rcube_label('defaultfont'))),
-                    'content' => $select
+                    'content' => $select_default_font->show($RCMAIL->config->get('default_font', 1)) .
+                        $select_default_font_size->show($RCMAIL->config->get('default_font_size', 1))
                 );
             }
         break;
@@ -866,7 +873,8 @@ function rcmail_user_prefs($current = null)
         // Addressbook config
         case 'addressbook':
             $blocks = array(
-                'main' => array('name' => Q(rcube_label('mainoptions'))),
+                'main'     => array('name' => Q(rcube_label('mainoptions'))),
+                'advanced' => array('name' => Q(rcube_label('advancedoptions'))),
             );
 
             if (!isset($no_override['default_addressbook'])
@@ -962,7 +970,8 @@ function rcmail_user_prefs($current = null)
         // Special IMAP folders
         case 'folders':
             $blocks = array(
-                'main' => array('name' => Q(rcube_label('mainoptions'))),
+                'main'     => array('name' => Q(rcube_label('mainoptions'))),
+                'advanced' => array('name' => Q(rcube_label('advancedoptions'))),
             );
 
             if (!isset($no_override['show_real_foldernames'])) {
@@ -1043,6 +1052,7 @@ function rcmail_user_prefs($current = null)
             $blocks = array(
                 'main'        => array('name' => Q(rcube_label('mainoptions'))),
                 'maintenance' => array('name' => Q(rcube_label('maintenance'))),
+                'advanced'    => array('name' => Q(rcube_label('advancedoptions'))),
             );
 
             if (!isset($no_override['read_when_deleted'])) {

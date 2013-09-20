@@ -245,6 +245,8 @@ $config['support_url'] = '';
 
 // replace Roundcube logo with this image
 // specify an URL relative to the document root of this Roundcube installation
+// an array can be used to specify different logos for specific template files, '*' for default logo
+// for example array("*" => "/images/roundcube_logo.png", "messageprint" => "/images/roundcube_logo_print.png")
 $config['skin_logo'] = null;
 
 // automatically create a new Roundcube user when log-in the first time.
@@ -981,6 +983,10 @@ $config['autocomplete_single'] = false;
 // Supported values: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
 // Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
 $config['default_font'] = 'Verdana';
+
+// Default font size for composed HTML message.
+// Supported sizes: 8pt, 10pt, 12pt, 14pt, 18pt, 24pt, 36pt
+$config['default_font_size'] = '10pt';
 
 // Enables display of email address with name instead of a name (and address in title)
 $config['message_show_email'] = false;
