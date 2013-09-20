@@ -871,7 +871,12 @@ class rcube_sieve_engine
 // @TODO: vacation :mime, :from, :handle
 
                     foreach ((array)$this->form['actions'][$i]['addresses'] as $aidx => $address) {
-                        if (!rcube_utils::check_email($address)) {
+                        $this->form['actions'][$i]['addresses'][$aidx] = $address = trim($address);
+
+                        if (empty($address)) {
+                            unset($this->form['actions'][$i]['addresses'][$aidx]);
+                        }
+                        else if (!rcube_utils::check_email($address)) {
                             $this->errors['actions'][$i]['addresses'] = $this->plugin->gettext('noemailwarning');
                             break;
                         }
