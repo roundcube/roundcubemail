@@ -73,6 +73,12 @@ if ($devs = $package->developer) {
     }
 }
 
+if ($package->dependencies->required->extension) {
+    foreach ($package->dependencies->required->extension as $ext) {
+        $data['require']['ext-' . strval($ext->name)] = '*';
+    }
+}
+
 // remove empty values
 $data = array_filter($data);
 
