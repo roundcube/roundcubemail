@@ -54,18 +54,17 @@ if ($package->license) {
 }
 
 if ($package->lead) {
-    $data['authors'][] = array(
-        'name' => strval($package->lead->name),
-        'email' => strval($package->lead->email),
-        'role' => 'Lead',
-    );
+    foreach ($package->lead as $lead) {
+        $data['authors'][] = array(
+            'name' => strval($lead->name),
+            'email' => strval($lead->email),
+            'role' => 'Lead',
+        );
+    }
 }
 
 if ($devs = $package->developer) {
-    if (!is_array($devs)) {
-        $devs = array($package->developer);
-    }
-    foreach ($devs as $dev) {
+    foreach ($package->developer as $dev) {
         $data['authors'][] = array(
             'name' => strval($dev->name),
             'email' => strval($dev->email),
