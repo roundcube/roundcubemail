@@ -12,7 +12,7 @@ if header :contains ["From","To"] "test@domain.tld"
 	stop;
 }
 # rule:[test2]
-if anyof (not header :comparator "i;octet" :contains "Subject" "[test]", header :contains "Subject" "[test2]")
+if anyof (not header :contains :comparator "i;octet" "Subject" "[test]", header :contains "Subject" "[test2]")
 {
 	fileinto "test";
 	stop;

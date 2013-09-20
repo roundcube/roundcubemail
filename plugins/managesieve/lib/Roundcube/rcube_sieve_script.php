@@ -943,7 +943,7 @@ class rcube_sieve_script
         if (preg_match('/^(value|count)-([gteqnl]{2})/', $test['type'], $m)) {
             array_push($exts, 'relational');
 
-            $out .= ' :' . $m[1] . ' "' . $m[2];
+            $out .= ' :' . $m[1] . ' "' . $m[2] . '"';
         }
         else {
             if ($test['type'] == 'regex') {
