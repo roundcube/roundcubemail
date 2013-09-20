@@ -939,22 +939,21 @@ class rcube_sieve_script
             return;
         }
 
-        // relational operator + comparator
+        // relational operator
         if (preg_match('/^(value|count)-([gteqnl]{2})/', $test['type'], $m)) {
             array_push($exts, 'relational');
-            array_push($exts, 'comparator-i;ascii-numeric');
 
-            $out .= ' :' . $m[1] . ' "' . $m[2] . '" :comparator "i;ascii-numeric"';
+            $out .= ' :' . $m[1] . ' "' . $m[2];
         }
         else {
-            $this->add_comparator($test, $out, $exts);
-
             if ($test['type'] == 'regex') {
                 array_push($exts, 'regex');
             }
 
             $out .= ' :' . $test['type'];
         }
+
+        $this->add_comparator($test, $out, $exts);
     }
 
     /**

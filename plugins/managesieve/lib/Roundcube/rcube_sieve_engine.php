@@ -622,7 +622,21 @@ class rcube_sieve_engine
                             if (!count($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
                             }
-                            else if ($type != 'regex' && $type != 'matches') {
+                            else if (strpos($type, 'count-') === 0) {
+                                foreach ($target as $arg) {
+                                    if (preg_match('/[^0-9]/', $arg)) {
+                                        $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
+                                    }
+                                }
+                            }
+                            else if (strpos($type, 'value-') === 0) {
+                                // Some date/time formats do not support i;ascii-numeric comparator
+                                if ($comparator == 'i;ascii-numeric' && in_array($datepart, array('date', 'time', 'iso8601', 'std11'))) {
+                                    $comparator = '';
+                                }
+                            }
+
+                            if (!preg_match('/^(regex|matches|count-)/', $type) && count($target)) {
                                 foreach ($target as $arg) {
                                     if (!$this->validate_date_part($datepart, $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('invaliddateformat');
@@ -668,7 +682,21 @@ class rcube_sieve_engine
                             if (!count($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
                             }
-                            else if ($type != 'regex' && $type != 'matches') {
+                            else if (strpos($type, 'count-') === 0) {
+                                foreach ($target as $arg) {
+                                    if (preg_match('/[^0-9]/', $arg)) {
+                                        $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
+                                    }
+                                }
+                            }
+                            else if (strpos($type, 'value-') === 0) {
+                                // Some date/time formats do not support i;ascii-numeric comparator
+                                if ($comparator == 'i;ascii-numeric' && in_array($datepart, array('date', 'time', 'iso8601', 'std11'))) {
+                                    $comparator = '';
+                                }
+                            }
+
+                            if (count($target) && !preg_match('/^(regex|matches|count-)/', $type)) {
                                 foreach ($target as $arg) {
                                     if (!$this->validate_date_part($datepart, $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('invaliddateformat');
@@ -699,7 +727,7 @@ class rcube_sieve_engine
                         }
                         else if (preg_match('/^(value|count)-/', $type)) {
                             foreach ($target as $target_value) {
-                                if (!preg_match('/[0-9]+/', $target_value)) {
+                                if (preg_match('/[^0-9]/', $target_value)) {
                                     $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
                                 }
                             }
@@ -781,7 +809,7 @@ class rcube_sieve_engine
                             }
                             else if (preg_match('/^(value|count)-/', $type)) {
                                 foreach ($target as $target_value) {
-                                    if (!preg_match('/[0-9]+/', $target_value)) {
+                                    if (preg_match('/[^0-9]/', $target_value)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
                                     }
                                 }
@@ -794,9 +822,6 @@ class rcube_sieve_engine
                     }
 
                     if ($header != 'size' && $comparator) {
-                        if (preg_match('/^(value|count)/', $this->form['tests'][$i]['type']))
-                            $comparator = 'i;ascii-numeric';
-
                         $this->form['tests'][$i]['comparator'] = $comparator;
                     }
 
@@ -806,7 +831,7 @@ class rcube_sieve_engine
 
             $i = 0;
             // actions
-            foreach($act_types as $idx => $type) {
+            foreach ($act_types as $idx => $type) {
                 $type   = $this->strip_value($type);
                 $target = $this->strip_value($act_targets[$idx]);
 
@@ -1359,22 +1384,6 @@ class rcube_sieve_engine
             $select_op->add(rcube::Q($this->plugin->gettext('valuenotequals')), 'value-ne');
         }
 
-        // (current)date part select
-        if (in_array('date', $this->exts) || in_array('currentdate', $this->exts)) {
-            $date_parts = array('date', 'iso8601', 'std11', 'julian', 'time',
-                'year', 'month', 'day', 'hour', 'minute', 'second', 'weekday', 'zone');
-            $select_dp = new html_select(array('name' => "_rule_date_part[]", 'id' => 'rule_date_part'.$id,
-                'style' => $rule['test'] == 'currentdate' || $rule['test'] == 'date' ? '' : 'display:none',
-                'class' => 'datepart_selector',
-            ));
-
-            foreach ($date_parts as $part) {
-                $select_dp->add(rcube::Q($this->plugin->gettext($part)), $part);
-            }
-
-            $tout .= $select_dp->show($rule['test'] == 'currentdate' || $rule['test'] == 'date' ? $rule['part'] : '');
-        }
-
         // target(s) input
         if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
             $test   = ($rule['not'] ? 'not' : '').($rule['type'] ? $rule['type'] : 'is');
@@ -1399,6 +1408,22 @@ class rcube_sieve_engine
         else {
             $test   = ($rule['not'] ? 'not' : '').$rule['test'];
             $target =  '';
+        }
+
+        // (current)date part select
+        if (in_array('date', $this->exts) || in_array('currentdate', $this->exts)) {
+            $date_parts = array('date', 'iso8601', 'std11', 'julian', 'time',
+                'year', 'month', 'day', 'hour', 'minute', 'second', 'weekday', 'zone');
+            $select_dp = new html_select(array('name' => "_rule_date_part[]", 'id' => 'rule_date_part'.$id,
+                'style' => in_array($rule['test'], array('currentdate', 'date')) && !preg_match('/^(notcount|count)-/', $test) ? '' : 'display:none',
+                'class' => 'datepart_selector',
+            ));
+
+            foreach ($date_parts as $part) {
+                $select_dp->add(rcube::Q($this->plugin->gettext($part)), $part);
+            }
+
+            $tout .= $select_dp->show($rule['test'] == 'currentdate' || $rule['test'] == 'date' ? $rule['part'] : '');
         }
 
         $tout .= $select_op->show($test);
@@ -2152,7 +2177,8 @@ class rcube_sieve_engine
             return;
         }
 
-        $headers = array();
+        $headers    = array();
+        $exceptions = array('date', 'currentdate', 'size', 'body');
 
         // find common headers used in script, will be added to the list
         // of available (predefined) headers (#1489271)
@@ -2161,6 +2187,12 @@ class rcube_sieve_engine
                 if ($test['test'] == 'header') {
                     foreach ((array) $test['arg1'] as $header) {
                         $lc_header = strtolower($header);
+
+                        // skip special names to not confuse UI
+                        if (in_array($lc_header, $exceptions)) {
+                            continue;
+                        }
+
                         if (!isset($this->headers[$lc_header]) && !isset($headers[$lc_header])) {
                             $headers[$lc_header] = $header;
                         }
