@@ -960,6 +960,7 @@ $config['mdn_requests'] = 0;
 $config['mdn_default'] = 0;
 
 // Delivery Status Notification checkbox default state
+// Note: This can be used only if smtp_server is non-empty
 $config['dsn_default'] = 0;
 
 // Place replies in the folder of the message being replied to

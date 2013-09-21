@@ -140,9 +140,11 @@
 	<span class="composeoption">
 		<label><roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" /> <roundcube:label name="returnreceipt" /></label>
 	</span>
+	<roundcube:if condition="config:smtp_server != ''" />
 	<span class="composeoption">
 		<label><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" /> <roundcube:label name="dsn" /></label>
 	</span>
+	<roundcube:endif />
 	<roundcube:if condition="!config:no_save_sent_messages" />
 	<span class="composeoption">
 		<label><roundcube:label name="savesentmessagein" /> <roundcube:object name="storetarget" maxlength="30" style="max-width:12em" /></label>
