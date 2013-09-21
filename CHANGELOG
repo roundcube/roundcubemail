@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Hide Delivery Status Notification option when smtp_server is unset (#1489336)
 - Display full attachment name using title attribute when name is too long to display (#1489320)
 - Fix attachment icon issue when rare font/language is used (#1489326)
 - Fix expanded thread root message styling after refreshing messages list (#1489327)

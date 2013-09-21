@@ -178,16 +178,23 @@
     <tr>
         <td><label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" />:</label></td>
         <td><roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" /></td>
-    </tr><tr>
+    </tr>
+    <roundcube:if condition="config:smtp_server != ''" />
+    <tr>
         <td><label for="rcmcomposedsn"><roundcube:label name="dsn" />:</label></td>
         <td><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" /></td>
-    </tr><tr>
+    </tr>
+    <roundcube:endif />
+    <tr>
         <td><label for="rcmcomposepriority"><roundcube:label name="priority" />:</label></td>
         <td><roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" /></td>
-    </tr><roundcube:if condition="!config:no_save_sent_messages" /><tr>
+    </tr>
+    <roundcube:if condition="!config:no_save_sent_messages" />
+    <tr>
         <td><label><roundcube:label name="savesentmessagein" />:</label></td>
         <td><roundcube:object name="storetarget" maxlength="30" /></td>
-    </tr><roundcube:endif />
+    </tr>
+    <roundcube:endif />
     </table>
 </div>
 
