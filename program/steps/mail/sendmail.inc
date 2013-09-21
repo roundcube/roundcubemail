@@ -473,13 +473,19 @@ $isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
 $message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
 
 if ($isHtml) {
-  $font_family = rcube_fontdefs($RCMAIL->config->get('default_font', 'Arial'));
-  $font_size = $RCMAIL->config->get('default_font_size');
-  $bstyle = ' style="font:' . $font_size . ' ' . $font_family . ';"';
+  $bstyle = array();
+
+  if ($font_size = $RCMAIL->config->get('default_font_size')) {
+    $bstyle[] = 'font-size: ' . $font_size;
+  }
+  if ($font_family = $RCMAIL->config->get('default_font')) {
+    $bstyle[] = 'font-family: ' . rcmail::font_defs($font_family);
+  }
 
   // append doctype and html/body wrappers
-  $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">' .
-    "\r\n<html><body$bstyle>\r\n" . $message_body;
+  $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">'
+    . "\r\n<html><body" . (!empty($bstyle) ? " style='" . implode($bstyle, '; ') . "'" : '') . ">\r\n"
+    . $message_body;
 }
 
 if (!$savedraft) {

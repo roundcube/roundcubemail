@@ -74,14 +74,18 @@ function rcmail_editor_init(config)
 // react to real individual tinyMCE editor init
 function rcmail_editor_callback()
 {
-  var elem = rcube_find_object('_from'),
+  var css = {},
+    elem = rcube_find_object('_from'),
     fe = rcmail.env.compose_focus_elem;
 
   if (rcmail.env.default_font)
-    $(tinyMCE.get(rcmail.env.composebody).getBody()).css('font-family', rcmail.env.default_font);
+    css['font-family'] = rcmail.env.default_font;
 
   if (rcmail.env.default_font_size)
-    $(tinyMCE.get(rcmail.env.composebody).getBody()).css('font-size', rcmail.env.default_font_size);
+    css['font-size'] = rcmail.env.default_font_size;
+
+  if (css['font-family'] || css['font-size'])
+    $(tinyMCE.get(rcmail.env.composebody).getBody()).css(css);
 
   if (elem && elem.type == 'select-one') {
     rcmail.change_identity(elem);

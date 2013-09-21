@@ -839,7 +839,7 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
-            if (!isset($no_override['default_font'])) {
+            if (!isset($no_override['default_font']) || !isset($no_override['default_font_size'])) {
                 if (!$current) {
                     continue 2;
                 }
@@ -848,7 +848,7 @@ function rcmail_user_prefs($current = null)
                 $field_id = 'rcmfd_default_font_size';
                 $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
 
-                $fontsizes = array('8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
+                $fontsizes = array('', '8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
                 foreach ($fontsizes as $size) {
                     $select_default_font_size->add($size, $size);
                 }
@@ -856,6 +856,7 @@ function rcmail_user_prefs($current = null)
                 // Default font
                 $field_id = 'rcmfd_default_font';
                 $select_default_font = new html_select(array('name' => '_default_font', 'id' => $field_id));
+                $select_default_font->add('', '');
 
                 $fonts = rcube_fontdefs();
                 foreach ($fonts as $fname => $font) {
