@@ -268,6 +268,10 @@ class rcube_ldap_password
                 return FALSE; //Your PHP install does not have the mhash() function. Cannot do SHA hashes.
             }
             break;
+            
+        case 'adir':
+            $cryptedPassword = rcube_charset::convert('"' . $passwordClear . '"', RCUBE_CHARSET, 'UTF-16LE');
+            break;
 
         case 'samba':
             if (function_exists('hash')) {
