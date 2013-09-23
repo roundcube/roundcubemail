@@ -703,6 +703,9 @@ class rcube
         if (empty($lang) || $lang == 'auto') {
             $accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             $lang         = str_replace('-', '_', $accept_langs[0]);
+            if (strpos($lang, '_')) {
+                $lang = explode('_', $lang)[0] . '_' .  strtoupper(explode('_', $lang)[1]);
+            }
         }
 
         if (empty($rcube_languages)) {
