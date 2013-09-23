@@ -18,8 +18,7 @@ class rcube_virtualmin_password
 {
     function save($currpass, $newpass)
     {
-        $rcmail = rcmail::get_instance();
-
+        $rcmail   = rcmail::get_instance();
         $format   = $rcmail->config->get('password_virtualmin_format', 0);
         $username = $_SESSION['username'];
 
@@ -50,6 +49,10 @@ class rcube_virtualmin_password
             break;
         default: // username@domain
             $domain = substr(strrchr($username, "@"), 1);
+        }
+
+        if (!$domain) {
+            $domain = $rcmail->user->get_username('domain');
         }
 
         $username = escapeshellcmd($username);
