@@ -247,6 +247,9 @@ class rcube_ldap_simple_password
                 return false;
             }
             break;
+        case 'ad':
+            $crypted_password = rcube_charset::convert('"' . $password_clear . '"', RCUBE_CHARSET, 'UTF-16LE');
+            break;
         case 'clear':
         default:
             $crypted_password = $password_clear;
