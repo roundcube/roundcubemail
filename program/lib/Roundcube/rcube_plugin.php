@@ -114,7 +114,10 @@ abstract class rcube_plugin
 
     /**
      * Load local config file from plugins directory.
-     * The loaded values are patched over the global configuration.
+     * Load plugin config file from roundcube config dir (config/plugin.inc.php)
+     * The loaded values from roundcube config dir are patched over the local plugin configuration
+     *
+     * The combined loaded values are patched over the global configuration.
      *
      * @param string $fname Config file name relative to the plugin's folder
      *
@@ -122,15 +125,22 @@ abstract class rcube_plugin
      */
     public function load_config($fname = 'config.inc.php')
     {
-        $fpath = $this->home.'/'.$fname;
+        $files = array(
+            $this->home.'/'.$fname,
+            RCUBE_CONFIG_DIR.$this->ID.'.inc.php'
+        );
         $rcube = rcube::get_instance();
 
-        if (is_file($fpath) && !$rcube->config->load_from_file($fpath)) {
-            rcube::raise_error(array(
-                'code' => 527, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Failed to load config from $fpath"), true, false);
-            return false;
+        foreach($files AS $fpath)
+        {
+            if (is_file($fpath) && !$rcube->config->load_from_file($fpath)) 
+            {
+                rcube::raise_error(array(
+                    'code' => 527, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Failed to load config from $fpath"), true, false);
+                return false;
+            }
         }
 
         return true;
