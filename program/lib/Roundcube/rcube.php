@@ -702,7 +702,11 @@ class rcube
         // user HTTP_ACCEPT_LANGUAGE if no language is specified
         if (empty($lang) || $lang == 'auto') {
             $accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            $lang         = str_replace('-', '_', $accept_langs[0]);
+            $lang         = $accept_langs[0];
+
+            if (preg_match('/^([a-z]+)[_-]([a-z]+)$/i', $lang, $m)) {
+                $lang = $m[1] . '_' . strtoupper($m[2]);
+            }
         }
 
         if (empty($rcube_languages)) {
