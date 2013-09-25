@@ -119,8 +119,7 @@ class rcube_config
         }
 
         // load host-specific configuration
-        if (!empty($_SERVER['HTTP_HOST']))
-            $this->load_host_config();
+        $this->load_host_config();
 
         // set skin (with fallback to old 'skin_path' property)
         if (empty($this->prop['skin'])) {
@@ -176,20 +175,30 @@ class rcube_config
      */
     private function load_host_config()
     {
-        $fname = null;
-
-        if (is_array($this->prop['include_host_config'])) {
-            $fname = $this->prop['include_host_config'][$_SERVER['HTTP_HOST']];
-        }
-        else if (!empty($this->prop['include_host_config'])) {
-            $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $_SERVER['HTTP_HOST']) . '.inc.php';
+        if (empty($this->prop['include_host_config'])) {
+            return;
         }
 
-        if ($fname) {
-            $this->load_from_file($fname);
+        foreach (array('HTTP_HOST', 'SERVER_NAME', 'SERVER_ADDR') as $key) {
+            $fname = null;
+            $name  = $_SERVER[$key];
+
+            if (!$name) {
+                continue;
+            }
+
+            if (is_array($this->prop['include_host_config'])) {
+                $fname = $this->prop['include_host_config'][$name];
+            }
+            else {
+                $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $name) . '.inc.php';
+            }
+
+            if ($fname && $this->load_from_file($fname)) {
+                return;
+            }
         }
     }
-
 
     /**
      * Read configuration from a file
