@@ -39,6 +39,7 @@ $data = array(
     'description' => trim(strval($package->description), '- ') ? trim(strval($package->description)) : trim(strval($package->summary)),
     'homepage' => strval($package->uri),
     'license' => 'GPLv3+',
+    'version' => strval($package->version->release),
     'authors' => array(),
     'repositories' => array(
         array('type' => 'composer', 'url' => 'http://plugins.roundcube.net'),
@@ -55,6 +56,9 @@ if ($package->license) {
 
 if ($package->lead) {
     foreach ($package->lead as $lead) {
+        if (strval($lead->active) == 'no') {
+            continue;
+        }
         $data['authors'][] = array(
             'name' => strval($lead->name),
             'email' => strval($lead->email),
