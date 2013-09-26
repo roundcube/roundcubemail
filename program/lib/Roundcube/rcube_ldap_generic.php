@@ -696,11 +696,17 @@ class rcube_ldap_generic
      * Turn an LDAP entry into a regular PHP array with attributes as keys.
      *
      * @param array $entry Attributes array as retrieved from ldap_get_attributes() or ldap_get_entries()
+     *
      * @return array       Hash array with attributes as keys
      */
     public static function normalize_entry($entry)
     {
+        if (!isset($entry['count'])) {
+            return $entry;
+        }
+
         $rec = array();
+
         for ($i=0; $i < $entry['count']; $i++) {
             $attr = $entry[$i];
             if ($entry[$attr]['count'] == 1) {
