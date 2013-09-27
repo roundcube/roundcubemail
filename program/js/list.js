@@ -35,7 +35,7 @@ function rcube_list_widget(list, p)
   this.tbody;
   this.fixed_header;
   this.frame = null;
-  this.rows = [];
+  this.rows = {};
   this.selection = [];
   this.rowcount = 0;
   this.colcount = 0;
@@ -86,7 +86,7 @@ init: function()
   }
 
   if (this.tbody) {
-    this.rows = [];
+    this.rows = {};
     this.rowcount = 0;
 
     var r, len, rows = this.tbody.childNodes;
@@ -240,7 +240,7 @@ clear: function(sel)
     $(this.row_tagname() + ':not(.thead)', this.tbody).remove();
   }
 
-  this.rows = [];
+  this.rows = {};
   this.rowcount = 0;
 
   if (sel)
@@ -471,7 +471,7 @@ click_row: function(e, id)
   this.in_selection_before = false;
 
   // row was double clicked
-  if (this.rows && dblclicked && this.in_selection(id)) {
+  if (this.rowcount && dblclicked && this.in_selection(id)) {
     this.triggerEvent('dblclick');
     now = 0;
   }
@@ -703,7 +703,7 @@ update_expando: function(uid, expanded)
  */
 get_next_row: function()
 {
-  if (!this.rows)
+  if (!this.rowcount)
     return false;
 
   var last_selected_row = this.rows[this.last_selected],
@@ -717,7 +717,7 @@ get_next_row: function()
 
 get_prev_row: function()
 {
-  if (!this.rows)
+  if (!this.rowcount)
     return false;
 
   var last_selected_row = this.rows[this.last_selected],
@@ -969,7 +969,7 @@ in_selection: function(id)
  */
 select_all: function(filter)
 {
-  if (!this.rows || !this.rows.length)
+  if (!this.rowcount)
     return false;
 
   // reset but remember selection first
@@ -1001,7 +1001,7 @@ select_all: function(filter)
  */
 invert_selection: function()
 {
-  if (!this.rows || !this.rows.length)
+  if (!this.rowcount)
     return false;
 
   // remember old selection

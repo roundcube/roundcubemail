@@ -2832,10 +2832,10 @@ function rcube_webmail()
   {
     var len = a_uids.length,
       i, uid, all_deleted = true,
-      rows = this.message_list ? this.message_list.rows : [];
+      rows = this.message_list ? this.message_list.rows : {};
 
     if (len == 1) {
-      if (!rows.length || (rows[a_uids[0]] && !rows[a_uids[0]].deleted))
+      if (!this.message_list || (rows[a_uids[0]] && !rows[a_uids[0]].deleted))
         this.flag_as_deleted(a_uids);
       else
         this.flag_as_undeleted(a_uids);
@@ -2876,7 +2876,7 @@ function rcube_webmail()
     var r_uids = [],
       post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'delete'}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading'),
-      rows = this.message_list ? this.message_list.rows : [],
+      rows = this.message_list ? this.message_list.rows : {},
       count = 0;
 
     for (var i=0, len=a_uids.length; i<len; i++) {
@@ -2896,7 +2896,7 @@ function rcube_webmail()
 
     // make sure there are no selected rows
     if (this.env.skip_deleted && this.message_list) {
-      if(!this.env.display_next)
+      if (!this.env.display_next)
         this.message_list.clear_selection();
       if (count < 0)
         post_data._count = (count*-1);
@@ -2920,7 +2920,7 @@ function rcube_webmail()
   this.flag_deleted_as_read = function(uids)
   {
     var icn_src, uid, i, len,
-      rows = this.message_list ? this.message_list.rows : [];
+      rows = this.message_list ? this.message_list.rows : {};
 
     uids = String(uids).split(',');
 
