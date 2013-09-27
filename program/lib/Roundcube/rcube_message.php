@@ -435,17 +435,24 @@ class rcube_message
                     continue;
                 }
 
+                // We've encountered (malformed) messages with more than
+                // one text/plain or text/html part here. There's no way to choose
+                // which one is better, so we'll display first of them and add
+                // others as attachments (#1489358)
+
                 // check if sub part is
                 if ($is_multipart)
                     $related_part = $p;
-                else if ($sub_mimetype == 'text/plain')
+                else if ($sub_mimetype == 'text/plain' && !$plain_part)
                     $plain_part = $p;
-                else if ($sub_mimetype == 'text/html')
+                else if ($sub_mimetype == 'text/html' && !$html_part)
                     $html_part = $p;
-                else if ($sub_mimetype == 'text/enriched')
+                else if ($sub_mimetype == 'text/enriched' && !$enriched_part)
                     $enriched_part = $p;
-                else
-                    $attach_part = $p;
+                else {
+                    // add unsupported/unrecognized parts to attachments list
+                    $this->attachments[] = $sub_part;
+                }
             }
 
             // parse related part (alternative part could be in here)
@@ -485,11 +492,6 @@ class rcube_message
                 $c->realtype        = 'text/html';
 
                 $this->parts[] = $c;
-            }
-
-            // add unsupported/unrecognized parts to attachments list
-            if ($attach_part) {
-                $this->attachments[] = $structure->parts[$attach_part];
             }
         }
         // this is an ecrypted message -> create a plaintext body with the according message
