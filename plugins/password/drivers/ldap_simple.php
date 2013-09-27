@@ -13,21 +13,37 @@
 
 class rcube_ldap_simple_password
 {
+    private $debug = false;
+
     function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
 
+        $this->debug = $rcmail->config->get('ldap_debug');
+
+        $ldap_host = $rcmail->config->get('password_ldap_host');
+        $ldap_port = $rcmail->config->get('password_ldap_port');
+
+        $this->_debug("C: Connect to $ldap_host:$ldap_port");
+
         // Connect
-        if (!$ds = ldap_connect($rcmail->config->get('password_ldap_host'), $rcmail->config->get('password_ldap_port'))) {
-            ldap_unbind($ds);
+        if (!$ds = ldap_connect($ldap_host, $ldap_port)) {
+            $this->_debug("S: NOT OK");
+
+            rcube::raise_error(array(
+                    'code' => 100, 'type' => 'ldap',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Could not connect to LDAP server"
+                ),
+                true);
+
             return PASSWORD_CONNECT_ERROR;
         }
 
+        $this->_debug("S: OK");
+
         // Set protocol version
-        if (!ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, $rcmail->config->get('password_ldap_version'))) {
-            ldap_unbind($ds);
-            return PASSWORD_CONNECT_ERROR;
-        }
+        ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, $rcmail->config->get('password_ldap_version'));
 
         // Start TLS
         if ($rcmail->config->get('password_ldap_starttls')) {
@@ -40,8 +56,15 @@ class rcube_ldap_simple_password
         // include 'ldap' driver, we share some static methods with it
         require_once INSTALL_PATH . 'plugins/password/drivers/ldap.php';
 
+        // other plugins might want to modify user DN
+        $plugin = $rcmail->plugins->exec_hook('password_ldap_bind', array(
+            'user_dn' => '', 'conn' => $ds));
+
         // Build user DN
-        if ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
+        if (!empty($plugin['user_dn'])) {
+            $user_dn = $plugin['user_dn'];
+        }
+        else if ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
             $user_dn = rcube_ldap_password::substitute_vars($user_dn);
         }
         else {
@@ -90,36 +113,51 @@ class rcube_ldap_simple_password
             return PASSWORD_CRYPT_ERROR;
         }
 
+        $this->_debug("C: Bind $binddn [pass: $bindpw]");
+
         // Bind
         if (!ldap_bind($ds, $binddn, $bindpw)) {
+            $this->_debug("S: ".ldap_error($ds));
+
             ldap_unbind($ds);
+
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $entree[$pwattr] = $crypted_pass;
+        $this->_debug("S: OK");
+
+        $entry[$pwattr] = $crypted_pass;
 
         // Update PasswordLastChange Attribute if desired
         if ($lchattr) {
-            $entree[$lchattr] = (int)(time() / 86400);
+            $entry[$lchattr] = (int)(time() / 86400);
         }
 
         // Update Samba password
         if ($smbpwattr) {
-            $entree[$smbpwattr] = $samba_pass;
+            $entry[$smbpwattr] = $samba_pass;
         }
 
         // Update Samba password last change
         if ($smblchattr) {
-            $entree[$smblchattr] = time();
+            $entry[$smblchattr] = time();
         }
 
-        if (!ldap_modify($ds, $user_dn, $entree)) {
+        $this->_debug("C: Modify $user_dn: " . print_r($entry, true));
+
+        if (!ldap_modify($ds, $user_dn, $entry)) {
+            $this->_debug("S: ".ldap_error($ds));
+
             ldap_unbind($ds);
+
             return PASSWORD_CONNECT_ERROR;
         }
 
+        $this->_debug("S: OK");
+
         // All done, no error
         ldap_unbind($ds);
+
         return PASSWORD_SUCCESS;
     }
 
@@ -133,25 +171,52 @@ class rcube_ldap_simple_password
         $search_user = $rcmail->config->get('password_ldap_searchDN');
         $search_pass = $rcmail->config->get('password_ldap_searchPW');
 
+        if (empty($search_user)) {
+            return null;
+        }
+
+        $this->_debug("C: Bind $search_user [pass: $search_pass]");
+
         // Bind
         if (!ldap_bind($ds, $search_user, $search_pass)) {
+            $this->_debug("S: ".ldap_error($ds));
             return false;
         }
+
+        $this->_debug("S: OK");
 
         $search_base   = $rcmail->config->get('password_ldap_search_base');
         $search_filter = $rcmail->config->get('password_ldap_search_filter');
         $search_filter = rcube_ldap_password::substitute_vars($search_filter);
 
+        $this->_debug("C: Search $search_base for $search_filter");
+
         // Search for the DN
         if (!$sr = ldap_search($ds, $search_base, $search_filter)) {
+            $this->_debug("S: ".ldap_error($ds));
             return false;
         }
 
+        $found = ldap_count_entries($ds, $sr);
+
+        $this->_debug("S: OK [found $found records]");
+
         // If no or more entries were found, return false
-        if (ldap_count_entries($ds, $sr) != 1) {
+        if ($found != 1) {
             return false;
         }
 
         return ldap_get_dn($ds, ldap_first_entry($ds, $sr));
     }
+
+    /**
+     * Prints debug info to the log
+     */
+    private function _debug($str)
+    {
+        if ($this->debug) {
+            rcube::write_log('ldap', $str);
+        }
+    }
+
 }
