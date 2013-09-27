@@ -969,7 +969,7 @@ in_selection: function(id)
  */
 select_all: function(filter)
 {
-  if (!this.rows || !this.rows.length)
+  if (!this.rows || !Object.keys(this.rows).length)
     return false;
 
   // reset but remember selection first
@@ -1001,7 +1001,7 @@ select_all: function(filter)
  */
 invert_selection: function()
 {
-  if (!this.rows || !this.rows.length)
+  if (!this.rows || !Object.keys(this.rows).length)
     return false;
 
   // remember old selection
