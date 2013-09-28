@@ -1246,9 +1246,66 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
             $name_utf8, $display_name, $protected, $class_name);
 }
 
+/**
+ * Render the list of settings sections (AKA tabs)
+ */
+function rcmail_settings_tabs($attrib)
+{
+    global $RCMAIL, $OUTPUT;
+
+    // add default attributes
+    $attrib += array('tagname' => 'span', 'idprefix' => 'settingstab', 'selclass' => 'selected');
+
+    $default_actions = array(
+        array('command' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'),
+        array('command' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'),
+        array('command' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'),
+    );
+
+    // get all identites from DB and define list of cols to be displayed
+    $plugin = $RCMAIL->plugins->exec_hook('settings_actions', array(
+        'actions' => $default_actions,
+        'attrib' => $attrib,
+    ));
+
+    $attrib = $plugin['attrib'];
+    $tagname = $attrib['tagname'];
+    $tabs = array();
+
+    foreach ($plugin['actions'] as $k => $action) {
+        if (!$action['command'] && !$action['href'] && $action['action']) {
+            $action['href'] = $RCMAIL->url(array('_action' => $action['action']));
+        }
+
+        $button = $OUTPUT->button($action);
+        $attr = $attrib;
+
+        $cmd = $action['action'] ? $action['action'] : $action['command'];
+        $id = $action['id'] ? $action['id'] : $cmd;
+        if (!empty($id)) {
+            $attr['id'] = preg_replace('/[^a-z0-9]/i', '', $attrib['idprefix'] . $id);
+        }
+        $classnames = array($attrib['class']);
+        if (!empty($action['class'])) {
+            $classnames[] = $action['class'];
+        }
+        else if (!empty($cmd)) {
+            $classnames[] = $cmd;
+        }
+        if ($RCMAIL->action == $cmd) {
+            $classnames[] = $attrib['selclass'];
+        }
+        $attr['class'] = join(' ', $classnames);
+        $tabs[] = html::tag($tagname, $attr, $button, html::$common_attrib);
+    }
+
+    return join('', $tabs);
+}
+
 
 // register UI objects
 $OUTPUT->add_handlers(array(
+    'settingstabs' => 'rcmail_settings_tabs',
     'prefsframe' => 'rcmail_preferences_frame',
     'sectionslist' => 'rcmail_sections_list',
     'identitieslist' => 'rcmail_identities_list',

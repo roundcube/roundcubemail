@@ -29,7 +29,7 @@
 	<roundcube:button command="logout" label="logout" class="button-logout" classSel="button-logout" innerClass="button-inner" />
 	<span class="minmodetoggle"></span>
 	</div>
-	<roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" alt="Logo" onclick="rcmail.command('switch-task','mail');return false;" />
+	<roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" alt="Logo" onclick="if(window.rcmail)rcmail.command('switch-task','mail')" />
 </div>
 <roundcube:endif />
 

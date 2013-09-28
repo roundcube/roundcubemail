@@ -1055,7 +1055,7 @@ class rcmail_output_html extends rcmail_output
         // these commands can be called directly via url
         $a_static_commands = array('compose', 'list', 'preferences', 'folders', 'identities');
 
-        if (!($attrib['command'] || $attrib['name'])) {
+        if (!($attrib['command'] || $attrib['name'] || $attrib['href'])) {
             return '';
         }
 

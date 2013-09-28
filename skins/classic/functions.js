@@ -10,7 +10,7 @@ function rcube_init_settings_tabs()
 {
   var el, cl, container = $('#tabsbar'),
     last_tab = $('span:last', container),
-    tab = '#settingstabdefault',
+    tab = '#settingstabpreferences',
     action = window.rcmail && rcmail.env.action ? rcmail.env.action : null;
 
   // move About tab to the end
@@ -22,7 +22,7 @@ function rcube_init_settings_tabs()
 
   // get selected tab
   if (action)
-    tab = '#settingstab' + (action == 'preferences' ? 'default' : (action.indexOf('identity')>0 ? 'identities' : action.replace(/\./g, '')));
+    tab = '#settingstab' + (action.indexOf('identity')>0 ? 'identities' : action.replace(/\./g, ''));
 
   $(tab).addClass('tablink-selected');
   $('a', tab).removeAttr('onclick').click(function() { return false; });

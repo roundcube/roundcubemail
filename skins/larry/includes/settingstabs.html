@@ -1,9 +1,7 @@
 <div id="settings-sections" class="uibox listbox">
 <h2 class="boxtitle"><roundcube:label name="settings" /></h2>
 <div id="settings-tabs" class="scroller">
-	<span id="settingstabpreferences" class="listitem preferences"><roundcube:button command="preferences" type="link" label="preferences" title="editpreferences" /></span>
-	<span id="settingstabfolders" class="listitem folders"><roundcube:button command="folders" type="link" label="folders" title="managefolders" /></span>
-	<span id="settingstabidentities" class="listitem identities"><roundcube:button command="identities" type="link" label="identities" title="manageidentities" /></span>
+	<roundcube:object name="settingstabs" class="listitem" />
 	<roundcube:container name="tabs" id="settings-tabs" />
 </div>
 </div>
