@@ -69,11 +69,17 @@ class password extends rcube_plugin
             }
         }
 
-        // add Tab label
-        $rcmail->output->add_label('password');
+        $this->add_hook('settings_actions', array($this, 'settings_actions'));
         $this->register_action('plugin.password', array($this, 'password_init'));
         $this->register_action('plugin.password-save', array($this, 'password_save'));
         $this->include_script('password.js');
+    }
+
+    function settings_actions($args)
+    {
+        // register as settings action
+        $args['actions'][] = array('action' => 'plugin.password', 'class' => 'password', 'label' => 'password', 'domain' => 'password');
+        return $args;
     }
 
     function password_init()
