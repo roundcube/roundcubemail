@@ -3805,7 +3805,7 @@ function rcube_webmail()
         // refresh the folder where sent message was saved or replied message comes from
         if (folders && rc.env.task == 'mail' && rc.env.action == '' && $.inArray(rc.env.mailbox, folders) >= 0) {
           // @TODO: try with 'checkmail' here when #1485186 is fixed. See also #1489249.
-          rc.command('list', rc.env.mailbox);
+          rc.command('list');
         }
       }
       setTimeout(function(){ window.close() }, 1000);
