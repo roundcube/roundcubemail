@@ -1470,9 +1470,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     $mailto = rcube_idn_to_utf8($mailto);
 
     if ($PRINT_MODE) {
-      $out .= ($out ? ', ' : '') . sprintf('%s &lt;%s&gt;', Q($name), $mailto);
-      // for printing we display all addresses
-      continue;
+      $address = sprintf('%s &lt;%s&gt;', Q($name), Q($mailto));
     }
     else if ($valid) {
       if ($linked) {
@@ -1536,6 +1534,15 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
   }
 
   if ($moreadrs) {
+    if ($PRINT_MODE) {
+      $out .= ' ' . html::a(array(
+        'href' => '#more',
+        'class' => 'morelink',
+        'onclick' => '$(this).hide().next().show()',
+      ), Q(rcube_label(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs))))) .
+      html::span(array('style' => 'display:none'), join(', ', $allvalues));
+    }
+    else {
       $out .= ' ' . html::a(array(
           'href' => '#more',
           'class' => 'morelink',
@@ -1545,6 +1552,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             JQ($title))
         ),
         Q(rcube_label(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs)))));
+    }
   }
 
   return $out;
