@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use DOMDocument LIBXML_PARSEHUGE and LIBXML_COMPACT options if possible (#1489302)
 - Support HTTP_HOST, SERVER_NAME and SERVER_ADDR values in include_host_config feature
 - Hide Delivery Status Notification option when smtp_server is unset (#1489336)
 - Make default font size for HTML messages configurable (request #118)

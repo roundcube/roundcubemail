@@ -377,7 +377,14 @@ class rcube_washtml
         // Detect max nesting level (for dumpHTML) (#1489110)
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
-        @$node->loadHTML($html);
+        // Use optimizations if supported
+        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+            @$node->loadHTML($html, LIBXML_PARSEHUGE | LIBXML_COMPACT);
+        }
+        else {
+            @$node->loadHTML($html);
+        }
+
         return $this->dumpHtml($node);
     }
 
