@@ -664,7 +664,7 @@ function action_type_select(id)
     v = obj.value, enabled = {},
     elems = {
       mailbox: document.getElementById('action_mailbox' + id),
-      target: document.getElementById('action_target' + id),
+      target: document.getElementById('redirect_target' + id),
       target_area: document.getElementById('action_target_area' + id),
       flags: document.getElementById('action_flags' + id),
       vacation: document.getElementById('action_vacation' + id),

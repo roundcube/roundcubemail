@@ -535,6 +535,7 @@ class rcube_sieve_engine
             $act_types      = rcube_utils::get_input_value('_action_type', rcube_utils::INPUT_POST, true);
             $mailboxes      = rcube_utils::get_input_value('_action_mailbox', rcube_utils::INPUT_POST, true);
             $act_targets    = rcube_utils::get_input_value('_action_target', rcube_utils::INPUT_POST, true);
+            $domain_targets = rcube_utils::get_input_value('_action_target_domain', rcube_utils::INPUT_POST);
             $area_targets   = rcube_utils::get_input_value('_action_target_area', rcube_utils::INPUT_POST, true);
             $reasons        = rcube_utils::get_input_value('_action_reason', rcube_utils::INPUT_POST, true);
             $addresses      = rcube_utils::get_input_value('_action_addresses', rcube_utils::INPUT_POST, true);
@@ -832,15 +833,14 @@ class rcube_sieve_engine
             $i = 0;
             // actions
             foreach ($act_types as $idx => $type) {
-                $type   = $this->strip_value($type);
-                $target = $this->strip_value($act_targets[$idx]);
+                $type = $this->strip_value($type);
 
                 switch ($type) {
-
                 case 'fileinto':
                 case 'fileinto_copy':
                     $mailbox = $this->strip_value($mailboxes[$idx], false, false);
                     $this->form['actions'][$i]['target'] = $this->mod_mailbox($mailbox, 'in');
+
                     if ($type == 'fileinto_copy') {
                         $type = 'fileinto';
                         $this->form['actions'][$i]['copy'] = true;
@@ -858,17 +858,31 @@ class rcube_sieve_engine
 
                 case 'redirect':
                 case 'redirect_copy':
+                    $target = $this->strip_value($act_targets[$idx]);
+                    $domain = $this->strip_value($domain_targets[$idx]);
+
+                    // force one of the configured domains
+                    $domains = (array) $this->rc->config->get('managesieve_domains');
+                    if (!empty($domains) && !empty($target)) {
+                        if (!$domain || !in_array($domain, $domains)) {
+                            $domain = $domains[0];
+                        }
+
+                        $target .= '@' . $domain;
+                    }
+
                     $this->form['actions'][$i]['target'] = $target;
 
-                    if ($this->form['actions'][$i]['target'] == '')
+                    if ($target == '')
                         $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                    else if (!rcube_utils::check_email($this->form['actions'][$i]['target']))
-                        $this->errors['actions'][$i]['target'] = $this->plugin->gettext('noemailwarning');
+                    else if (!rcube_utils::check_email($target))
+                        $this->errors['actions'][$i]['target'] = $this->plugin->gettext(!empty($domains) ? 'forbiddenchars' : 'noemailwarning');
 
                     if ($type == 'redirect_copy') {
                         $type = 'redirect';
                         $this->form['actions'][$i]['copy'] = true;
                     }
+
                     break;
 
                 case 'addflag':
@@ -889,6 +903,7 @@ class rcube_sieve_engine
                 case 'vacation':
                     $reason        = $this->strip_value($reasons[$idx]);
                     $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
+
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
                     $this->form['actions'][$i]['subject']   = $subject[$idx];
                     $this->form['actions'][$i]['addresses'] = array_shift($addresses);
@@ -1608,11 +1623,34 @@ class rcube_sieve_engine
 
         // actions target inputs
         $out .= '<td class="rowtargets">';
-        // shared targets
-        $out .= '<input type="text" name="_action_target['.$id.']" id="action_target' .$id. '" '
-            .'value="' .($action['type']=='redirect' ? rcube::Q($action['target'], 'strict', false) : ''). '" size="35" '
-            .'style="display:' .($action['type']=='redirect' ? 'inline' : 'none') .'" '
-            . $this->error_class($id, 'action', 'target', 'action_target') .' />';
+
+        // force domain selection in redirect email input
+        $domains = (array) $this->rc->config->get('managesieve_domains');
+        if (!empty($domains)) {
+            sort($domains);
+
+            $domain_select = new html_select(array('name' => "_action_target_domain[$id]", 'id' => 'action_target_domain'.$id));
+            $domain_select->add(array_combine($domains, $domains));
+
+            $parts = explode('@', $action['target']);
+
+            if (!empty($parts)) {
+                $action['domain'] = array_pop($parts);
+                $action['target'] = implode('@', $parts);
+            }
+        }
+
+        // redirect target
+        $out .= '<span id="redirect_target' . $id . '" style="white-space:nowrap;'
+            . ' display:' . ($action['type'] == 'redirect' ? 'inline' : 'none') . '">'
+            . '<input type="text" name="_action_target['.$id.']" id="action_target' .$id. '"'
+            . ' value="' .($action['type'] == 'redirect' ? rcube::Q($action['target'], 'strict', false) : '') . '"'
+            . (!empty($domains) ? ' size="20"' : ' size="35"')
+            . $this->error_class($id, 'action', 'target', 'action_target') .' />'
+            . (!empty($domains) ? ' @ ' . $domain_select->show($action['domain']) : '')
+            . '</span>';
+
+        // (e)reject target
         $out .= '<textarea name="_action_target_area['.$id.']" id="action_target_area' .$id. '" '
             .'rows="3" cols="35" '. $this->error_class($id, 'action', 'targetarea', 'action_target_area')
             .'style="display:' .(in_array($action['type'], array('reject', 'ereject')) ? 'inline' : 'none') .'">'

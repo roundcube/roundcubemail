@@ -64,4 +64,8 @@ $config['managesieve_filename_extension'] = '.sieve';
 // Scripts listed here will be not presented to the user.
 $config['managesieve_filename_exceptions'] = array();
 
+// List of domains limiting destination emails in redirect action
+// If not empty, user will need to select domain from a list
+$config['managesieve_domains'] = array();
+
 ?>

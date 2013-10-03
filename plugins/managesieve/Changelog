@@ -1,3 +1,4 @@
+- Added managesieve_domains option to limit redirect destinations
 - Fix bug where at least one additional address of vacation message was required (#1489345)
 - Fix so i;ascii-numeric comparator is not forced as default for :count and :value operators
 - Fix date/currentdate related form issues and comparators handling (#1489346)
