@@ -414,9 +414,6 @@ if (!empty($headers['Reply-To'])) {
 if (!empty($_POST['_followupto'])) {
   $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_followupto', RCUBE_INPUT_POST, TRUE, $message_charset));
 }
-if (!empty($COMPOSE['reply_msgid'])) {
-  $headers['In-Reply-To'] = $COMPOSE['reply_msgid'];
-}
 
 // remember reply/forward UIDs in special headers
 if (!empty($COMPOSE['reply_uid']) && $savedraft) {
@@ -426,6 +423,9 @@ else if (!empty($COMPOSE['forward_uid']) && $savedraft) {
   $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $COMPOSE['forward_uid']);
 }
 
+if (!empty($COMPOSE['reply_msgid'])) {
+  $headers['In-Reply-To'] = $COMPOSE['reply_msgid'];
+}
 if (!empty($COMPOSE['references'])) {
   $headers['References'] = $COMPOSE['references'];
 }
@@ -759,7 +759,7 @@ if ($store_target) {
 
     if (PEAR::isError($msg))
       raise_error(array('code' => 650, 'type' => 'php',
-	    'file' => __FILE__, 'line' => __LINE__,
+        'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not create message: ".$msg->getMessage()),
             TRUE, FALSE);
     else {

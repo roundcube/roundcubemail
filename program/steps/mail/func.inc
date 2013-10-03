@@ -1383,9 +1383,6 @@ function rcmail_alter_html_link($matches)
 {
   global $RCMAIL;
 
-  // Support unicode/punycode in top-level domain part
-  $EMAIL_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[^&@"\'.][^@&"\']*\\.([^\\x00-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,}))';
-
   $tag    = strtolower($matches[1]);
   $attrib = parse_attrib_string($matches[2]);
   $end    = '>';
@@ -1400,12 +1397,36 @@ function rcmail_alter_html_link($matches)
     $attrib['href'] = $RCMAIL->url(array('task' => 'utils', 'action' => 'modcss', 'u' => $tempurl, 'c' => $GLOBALS['rcmail_html_container_id']));
     $end = ' />';
   }
-  else if (preg_match('/^mailto:'.$EMAIL_PATTERN.'(\?[^"\'>]+)?/i', $attrib['href'], $mailto)) {
-    $attrib['href'] = $mailto[0];
-    $attrib['onclick'] = sprintf(
-      "return %s.command('compose','%s',this)",
-      JS_OBJECT_NAME,
-      JQ($mailto[1].$mailto[3]));
+  else if (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
+    list($mailto, $url) = explode('?', html_entity_decode($mailto[1], ENT_QUOTES, 'UTF-8'), 2);
+
+    $url       = urldecode($url);
+    $mailto    = urldecode($mailto);
+    $addresses = rcube_mime::decode_address_list($mailto, null, true);
+    $mailto    = array();
+
+    // do sanity checks on recipients
+    foreach ($addresses as $idx => $addr) {
+      if (rcube_utils::check_email($addr['mailto'], false)) {
+        $addresses[$idx] = $addr['mailto'];
+        $mailto[] = $addr['string'];
+      }
+      else {
+        unset($addresses[$idx]);
+      }
+    }
+
+    if (!empty($addresses)) {
+      $attrib['href'] = 'mailto:' . implode(',', $addresses);
+      $attrib['onclick'] = sprintf(
+        "return %s.command('compose','%s',this)",
+        JS_OBJECT_NAME,
+        JQ(implode(',', $mailto) . ($url ? "?$url" : '')));
+    }
+    else {
+      $attrib['href'] = '#NOP';
+      $attrib['onclick'] = '';
+    }
   }
   else if (empty($attrib['href']) && !$attrib['name']) {
     $attrib['href'] = './#NOP';
@@ -1476,7 +1497,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
       if ($linked) {
         $attrs = array(
            'href' => 'mailto:' . $mailto,
-           'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ($mailto)),
+           'onclick' => sprintf("return %s.command('compose','%s',this)", JS_OBJECT_NAME, JQ(format_email_recipient($mailto, $name))),
            'class' => "rcmContactAddress",
         );
 

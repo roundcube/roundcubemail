@@ -54,30 +54,12 @@ if (!is_array($COMPOSE))
   $COMPOSE_ID = uniqid(mt_rand());
   $_SESSION['compose_data_'.$COMPOSE_ID] = array(
     'id'      => $COMPOSE_ID,
-    'param'   => request2param(RCUBE_INPUT_GET),
+    'param'   => rcube_utils::request2param(RCUBE_INPUT_GET, 'task|action', true),
     'mailbox' => $RCMAIL->storage->get_folder(),
   );
   $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
-  // process values like "mailto:foo@bar.com?subject=new+message&cc=another"
-  if ($COMPOSE['param']['to']) {
-    // #1486037: remove "mailto:" prefix
-    $COMPOSE['param']['to'] = preg_replace('/^mailto:/i', '', $COMPOSE['param']['to']);
-    $mailto = explode('?', $COMPOSE['param']['to']);
-    if (count($mailto) > 1) {
-      $COMPOSE['param']['to'] = $mailto[0];
-      parse_str($mailto[1], $query);
-      foreach ($query as $f => $val)
-        $COMPOSE['param'][$f] = $val;
-    }
-  }
-
-  // select folder where to save the sent message
-  $COMPOSE['param']['sent_mbox'] = $RCMAIL->config->get('sent_mbox');
-
-  // pipe compose parameters thru plugins
-  $plugin = $RCMAIL->plugins->exec_hook('message_compose', $COMPOSE);
-  $COMPOSE['param'] = array_merge($COMPOSE['param'], $plugin['param']);
+  rcmail_process_compose_params($COMPOSE);
 
   // add attachments listed by message_compose hook
   if (is_array($plugin['attachments'])) {
@@ -260,6 +242,14 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment']))
 }
 else {
   $MESSAGE = new stdClass();
+
+  // apply mailto: URL parameters
+  if (!empty($COMPOSE['param']['in-reply-to'])) {
+    $COMPOSE['reply_msgid'] = '<' . $COMPOSE['param']['in-reply-to'] . '>';
+  }
+  if (!empty($COMPOSE['param']['references'])) {
+    $COMPOSE['references'] = $COMPOSE['param']['references'];
+  }
 }
 
 $MESSAGE->compose = array();
@@ -413,6 +403,53 @@ $MESSAGE_BODY = rcmail_prepare_message_body();
 
 
 /****** compose mode functions ********/
+
+// process compose request parameters
+function rcmail_process_compose_params(&$COMPOSE)
+{
+  if ($COMPOSE['param']['to']) {
+    $mailto = explode('?', $COMPOSE['param']['to'], 2);
+
+    // #1486037: remove "mailto:" prefix
+    $COMPOSE['param']['to'] = preg_replace('/^mailto:/i', '', $mailto[0]);
+
+    // Supported case-insensitive tokens in mailto URL
+    $url_tokens = array('to', 'cc', 'bcc', 'reply-to', 'in-reply-to', 'references', 'subject', 'body');
+
+    if (!empty($mailto[1])) {
+      parse_str($mailto[1], $query);
+      foreach ($query as $f => $val) {
+        if (($key = array_search(strtolower($f), $url_tokens)) !== false) {
+          $f = $url_tokens[$key];
+        }
+
+        // merge mailto: addresses with addresses from 'to' parameter
+        if ($f == 'to' && !empty($COMPOSE['param']['to'])) {
+          $to_addresses  = rcube_mime::decode_address_list($COMPOSE['param']['to'], null, true, null, true);
+          $add_addresses = rcube_mime::decode_address_list($val, null, true);
+          foreach ($add_addresses as $addr) {
+            if (!in_array($addr['mailto'], $to_addresses)) {
+              $to_addresses[] = $addr['mailto'];
+              $COMPOSE['param']['to'] = (!empty($to_addresses) ? ', ' : '') . $addr['string'];
+            }
+          }
+        }
+        else {
+          $COMPOSE['param'][$f] = $val;
+        }
+      }
+    }
+  }
+
+  $RCMAIL = rcmail::get_instance();
+
+  // select folder where to save the sent message
+  $COMPOSE['param']['sent_mbox'] = $RCMAIL->config->get('sent_mbox');
+
+  // pipe compose parameters thru plugins
+  $plugin = $RCMAIL->plugins->exec_hook('message_compose', $COMPOSE);
+  $COMPOSE['param'] = array_merge($COMPOSE['param'], $plugin['param']);
+}
 
 function rcmail_compose_headers($attrib)
 {

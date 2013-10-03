@@ -390,12 +390,13 @@ class rcube_utils
      * Convert array of request parameters (prefixed with _)
      * to a regular array with non-prefixed keys.
      *
-     * @param int    $mode   Source to get value from (GPC)
-     * @param string $ignore PCRE expression to skip parameters by name
+     * @param int     $mode       Source to get value from (GPC)
+     * @param string  $ignore     PCRE expression to skip parameters by name
+     * @param boolean $allow_html Allow HTML tags in field value
      *
      * @return array Hash array with all request parameters
      */
-    public static function request2param($mode = null, $ignore = 'task|action')
+    public static function request2param($mode = null, $ignore = 'task|action', $allow_html = false)
     {
         $out = array();
         $src = $mode == self::INPUT_GET ? $_GET : ($mode == self::INPUT_POST ? $_POST : $_REQUEST);
@@ -403,7 +404,7 @@ class rcube_utils
         foreach (array_keys($src) as $key) {
             $fname = $key[0] == '_' ? substr($key, 1) : $key;
             if ($ignore && !preg_match('/^(' . $ignore . ')$/', $fname)) {
-                $out[$fname] = self::get_input_value($key, $mode);
+                $out[$fname] = self::get_input_value($key, $mode, $allow_html);
             }
         }
 
