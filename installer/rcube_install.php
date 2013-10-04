@@ -406,7 +406,7 @@ class rcube_install
    *
    * @param rcube_db Database object
    *
-   * @return boolean True if the schema is up-to-date, false if not or an error occured
+   * @return boolean True if the schema is up-to-date, false if not or an error occurred
    */
   function db_schema_check($DB)
   {

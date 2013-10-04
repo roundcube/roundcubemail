@@ -1390,7 +1390,7 @@ RELEASE 0.2-STABLE
 - Allow deleting identities when multiple_identities=false (#1485435)
 - Added option focus_on_new_message (#1485374)
 - Fix html2text class autoloading on Windows (#1485505)
-- Fix html signature formatting when identity save error occured (#1485426)
+- Fix html signature formatting when identity save error occurred (#1485426)
 - Add feedback and set busy when moving folder (#1485497)
 - Fix 'Empty' link visibility for some languages e.g. Slovak (#1485489)
 - Fix messages count bar overlapping (#1485270)
