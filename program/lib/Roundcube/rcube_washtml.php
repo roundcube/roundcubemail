@@ -429,7 +429,7 @@ class rcube_washtml
         }
 
         // fix (unknown/malformed) HTML tags before "wash"
-        $html = preg_replace_callback('/(<[\/]*)([^\s>]+)/', array($this, 'html_tag_callback'), $html);
+        $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)/', array($this, 'html_tag_callback'), $html);
 
         // Remove invalid HTML comments (#1487759)
         // Don't remove valid conditional comments

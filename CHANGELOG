@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed issues where HTML comments inside style tag would hang Internet Explorer
 - Fix setting domain in virtualmin password driver (#1489332)
 - Hide Delivery Status Notification option when smtp_server is unset (#1489336)
 - Display full attachment name using title attribute when name is too long to display (#1489320)

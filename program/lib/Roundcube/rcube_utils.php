@@ -476,9 +476,9 @@ class rcube_utils
 
         // remove html comments and add #container to each tag selector.
         // also replace body definition because we also stripped off the <body> tag
-        $styles = preg_replace(
+        $source = preg_replace(
             array(
-                '/(^\s*<!--)|(-->\s*$)/',
+                '/(^\s*<\!--)|(-->\s*$)/m',
                 '/(^\s*|,\s*|\}\s*)([a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
                 '/'.preg_quote($container_id, '/').'\s+body/i',
             ),
@@ -490,9 +490,9 @@ class rcube_utils
             $source);
 
         // put block contents back in
-        $styles = $replacements->resolve($styles);
+        $source = $replacements->resolve($source);
 
-        return $styles;
+        return $source;
     }
 
 
