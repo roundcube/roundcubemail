@@ -1069,8 +1069,8 @@ class rcube
      *      - code:    Error code (required)
      *      - type:    Error type [php|db|imap|javascript] (required)
      *      - message: Error message
-     *      - file:    File where error occured
-     *      - line:    Line where error occured
+     *      - file:    File where error occurred
+     *      - line:    Line where error occurred
      * @param boolean True to log the error
      * @param boolean Terminate script execution
      */

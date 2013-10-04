@@ -359,7 +359,7 @@ class rcube_install
    * required for this version of Roundcube
    *
    * @param boolean True if the schema schould be updated
-   * @return boolean True if the schema is up-to-date, false if not or an error occured
+   * @return boolean True if the schema is up-to-date, false if not or an error occurred
    */
   function db_schema_check($DB, $update = false)
   {

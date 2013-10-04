@@ -133,7 +133,7 @@ abstract class rcube_addressbook
     abstract function get_record($id, $assoc=false);
 
     /**
-     * Returns the last error occured (e.g. when updating/inserting failed)
+     * Returns the last error occurred (e.g. when updating/inserting failed)
      *
      * @return array Hash array with the following fields: type, message
      */

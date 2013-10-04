@@ -260,4 +260,3 @@ RELEASE 0.9-beta
     Unified global functions naming (rcube_ prefix)
     Better classes separation
     Framework files moved to lib/Roundcube
-

@@ -17,7 +17,7 @@
 */
 
 $messages = array();
-$messages['errortitle']  = 'An error occured.';
+$messages['errortitle']  = 'An error occurred.';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
 $messages['sessionerror'] = 'Your session is invalid or has expired.';
@@ -139,7 +139,7 @@ $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Incorrect e-mail address: $email';
 $messages['toomanyrecipients'] = 'Too many recipients. Reduce the number of recipients to $max.';
 $messages['maxgroupmembersreached'] = 'The number of group members exceeds the maximum of $max.';
-$messages['internalerror'] = 'An internal error occured. Please try again.';
+$messages['internalerror'] = 'An internal error occurred. Please try again.';
 $messages['contactdelerror'] = 'Could not delete contact(s).';
 $messages['contactdeleted'] = 'Contact(s) deleted successfully.';
 $messages['contactrestoreerror'] = 'Could not restore deleted contact(s).';
