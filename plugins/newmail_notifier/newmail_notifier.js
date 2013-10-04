@@ -71,7 +71,13 @@ function newmail_notifier_basic()
 // Sound notification
 function newmail_notifier_sound()
 {
-    var elem, src = 'plugins/newmail_notifier/sound.wav';
+    var elem, src = 'plugins/newmail_notifier/sound',
+        plugin = navigator.mimeTypes ? navigator.mimeTypes['audio/mp3'] : {};
+
+    // Internet Explorer does not support wav files,
+    // support in other browsers depends on enabled plugins,
+    // so we use wav as a fallback
+    src += bw.ie || (plugin && plugin.enabledPlugin) ? '.mp3' : '.wav';
 
     // HTML5
     try {
