@@ -147,7 +147,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         // render HTML in normal mode
         $html = rcmail_html4inline(rcmail_print_body($part, array('safe' => false)), 'foo');
 
-        $mailto = '<a href="mailto:me@me.com?subject=this is the subject&amp;body=this is the body"'
+        $mailto = '<a href="mailto:me@me.com"'
             .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
 
         $this->assertRegExp('|'.preg_quote($mailto, '|').'|', $html, "Extended mailto links");
