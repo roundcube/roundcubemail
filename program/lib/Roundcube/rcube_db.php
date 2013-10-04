@@ -32,6 +32,7 @@ class rcube_db
     protected $db_connected = false;  // Already connected ?
     protected $db_mode;               // Connection mode
     protected $dbh;                   // Connection handle
+    protected $dbhs = array();
 
     protected $db_error     = false;
     protected $db_error_msg = '';
@@ -97,6 +98,7 @@ class rcube_db
         $this->db_dsnw  = $db_dsnw;
         $this->db_dsnr  = $db_dsnr;
         $this->db_pconn = $pconn;
+        $this->db_dsnw_noread = rcube::get_instance()->config->get('db_dsnw_noread', false);
 
         $this->db_dsnw_array = self::parse_dsn($db_dsnw);
         $this->db_dsnr_array = self::parse_dsn($db_dsnr);
@@ -112,6 +114,13 @@ class rcube_db
     {
         $this->db_error     = false;
         $this->db_error_msg = null;
+
+        // return existing handle
+        if ($this->dbhs[$mode]) {
+            $this->dbh = $this->dbhs[$mode];
+            $this->db_mode = $mode;
+            return $this->dbh;
+        }
 
         // Get database specific connection options
         $dsn_string  = $this->dsn_string($dsn);
@@ -147,6 +156,7 @@ class rcube_db
         }
 
         $this->dbh          = $dbh;
+        $this->dbhs[$mode]  = $dbh;
         $this->db_mode      = $mode;
         $this->db_connected = true;
         $this->conn_configure($dsn, $dbh);
@@ -190,14 +200,13 @@ class rcube_db
 
         // Already connected
         if ($this->db_connected) {
-            // connected to db with the same or "higher" mode
-            if ($this->db_mode == 'w' || $this->db_mode == $mode) {
+            // connected to db with the same or "higher" mode (if allowed)
+            if ($this->db_mode == $mode || $this->db_mode == 'w' && !$this->db_dsnw_noread) {
                 return;
             }
         }
 
         $dsn = ($mode == 'r') ? $this->db_dsnr_array : $this->db_dsnw_array;
-
         $this->dsn_connect($dsn, $mode);
 
         // use write-master when read-only fails

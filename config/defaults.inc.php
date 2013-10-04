@@ -30,6 +30,9 @@ $config['db_dsnw'] = 'mysql://roundcube:@localhost/roundcubemail';
 // useful for database replication
 $config['db_dsnr'] = '';
 
+// Disable the use of already established dsnw connections for subsequent reads
+$config['db_dsnw_noread'] = false;
+
 // use persistent db-connections
 // beware this will not "always" work as expected
 // see: http://www.php.net/manual/en/features.persistent-connections.php
