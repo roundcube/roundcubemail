@@ -341,7 +341,7 @@ abstract class rcube_plugin
      */
     public function add_button($p, $container)
     {
-        if ($this->api->output->type == 'html') {
+        if ($this->api->app->output->type == 'html') {
             // fix relative paths
             foreach (array('imagepas', 'imageact', 'imagesel') as $key) {
                 if ($p[$key]) {
@@ -349,7 +349,7 @@ abstract class rcube_plugin
                 }
             }
 
-            $this->api->add_content($this->api->output->button($p), $container);
+            $this->api->add_content($this->api->app->output->button($p), $container);
         }
     }
 
