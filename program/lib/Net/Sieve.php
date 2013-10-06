@@ -39,7 +39,7 @@
  * @copyright 2002-2003 Richard Heyes
  * @copyright 2006-2008 Anish Mistry
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
- * @version   SVN: $Id: Sieve.php 300898 2010-07-01 09:49:02Z yunosh $
+ * @version   SVN: $Id$
  * @link      http://pear.php.net/package/Net_Sieve
  */
 
@@ -83,12 +83,12 @@ define('NET_SIEVE_STATE_TRANSACTION', 3, true);
  * @copyright 2002-2003 Richard Heyes
  * @copyright 2006-2008 Anish Mistry
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
- * @version   Release: 1.3.0
+ * @version   Release: 1.3.2
  * @link      http://pear.php.net/package/Net_Sieve
- * @link      http://www.ietf.org/rfc/rfc3028.txt RFC 3028 (Sieve: A Mail
+ * @link      http://tools.ietf.org/html/rfc5228 RFC 5228 (Sieve: An Email
  *            Filtering Language)
- * @link      http://tools.ietf.org/html/draft-ietf-sieve-managesieve A
- *            Protocol for Remotely Managing Sieve Scripts
+ * @link      http://tools.ietf.org/html/rfc5804 RFC 5804 A Protocol for
+ *            Remotely Managing Sieve Scripts
  */
 class Net_Sieve
 {
@@ -299,7 +299,7 @@ class Net_Sieve
         $this->_data['host'] = $host;
         $this->_data['port'] = $port;
         $this->_useTLS       = $useTLS;
-        if (!empty($options) && is_array($options)) {
+        if (is_array($options)) {
             $this->_options = array_merge($this->_options, $options);
         }
 
@@ -489,8 +489,7 @@ class Net_Sieve
             return PEAR::raiseError('Not currently in TRANSACTION state', 1);
         }
 
-        $command = sprintf('HAVESPACE %s %d', $this->_escape($scriptname), $size);
-        if (PEAR::isError($res = $this->_doCmd($command))) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf('HAVESPACE %s %d', $this->_escape($scriptname), $size)))) {
             return $res;
         }
         return true;
@@ -614,6 +613,13 @@ class Net_Sieve
 
         if (PEAR::isError($res = $this->_doCmd())) {
             return $res;
+        }
+
+        // Query the server capabilities again now that we are authenticated.
+        if (PEAR::isError($res = $this->_cmdCapability())) {
+            return PEAR::raiseError(
+                'Failed to connect, server said: ' . $res->getMessage(), 2
+            );
         }
 
         return $result;
@@ -756,8 +762,7 @@ class Net_Sieve
             return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
 
-        $command = sprintf('DELETESCRIPT %s', $this->_escape($scriptname));
-        if (PEAR::isError($res = $this->_doCmd($command))) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf('DELETESCRIPT %s', $this->_escape($scriptname))))) {
             return $res;
         }
         return true;
@@ -776,8 +781,7 @@ class Net_Sieve
             return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
 
-        $command = sprintf('GETSCRIPT %s', $this->_escape($scriptname));
-        if (PEAR::isError($res = $this->_doCmd($command))) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf('GETSCRIPT %s', $this->_escape($scriptname))))) {
             return $res;
         }
 
@@ -798,8 +802,7 @@ class Net_Sieve
             return PEAR::raiseError('Not currently in AUTHORISATION state', 1);
         }
 
-        $command = sprintf('SETACTIVE %s', $this->_escape($scriptname));
-        if (PEAR::isError($res = $this->_doCmd($command))) {
+        if (PEAR::isError($res = $this->_doCmd(sprintf('SETACTIVE %s', $this->_escape($scriptname))))) {
             return $res;
         }
 
@@ -856,8 +859,9 @@ class Net_Sieve
 
         $stringLength = $this->_getLineLength($scriptdata);
         $command      = sprintf("PUTSCRIPT %s {%d+}\r\n%s",
-            $this->_escape($scriptname), $stringLength, $scriptdata);
-
+                                $this->_escape($scriptname),
+                                $stringLength,
+                                $scriptdata);
         if (PEAR::isError($res = $this->_doCmd($command))) {
             return $res;
         }
@@ -1005,9 +1009,9 @@ class Net_Sieve
     }
 
     /**
-     * Receives x bytes from the server.
+     * Receives a number of bytes from the server.
      *
-     * @param int $length  Number of bytes to read
+     * @param integer $length  Number of bytes to read.
      *
      * @return string  The server response.
      */
@@ -1015,14 +1019,11 @@ class Net_Sieve
     {
         $response = '';
         $response_length = 0;
-
         while ($response_length < $length) {
             $response .= $this->_sock->read($length - $response_length);
             $response_length = $this->_getLineLength($response);
         }
-
-        $this->_debug("S: " . rtrim($response));
-
+        $this->_debug('S: ' . rtrim($response));
         return $response;
     }
 
@@ -1059,7 +1060,7 @@ class Net_Sieve
 
                 if ('NO' == substr($uc_line, 0, 2)) {
                     // Check for string literal error message.
-                    if (preg_match('/{([0-9]+)}$/i', $line, $matches)) {
+                    if (preg_match('/{([0-9]+)}$/', $line, $matches)) {
                         $line = substr($line, 0, -(strlen($matches[1])+2))
                             . str_replace(
                                 "\r\n", ' ', $this->_recvBytes($matches[1] + 2)
@@ -1098,12 +1099,9 @@ class Net_Sieve
                     return PEAR::raiseError(trim($response . $line), 6);
                 }
 
-                // "\+?" is added in the regexp to workaround DBMail bug
-                // http://dbmail.org/mantis/view.php?id=963
-                if (preg_match('/^{([0-9]+)\+?}/i', $line, $matches)) {
+                if (preg_match('/^{([0-9]+)}/', $line, $matches)) {
                     // Matches literal string responses.
                     $line = $this->_recvBytes($matches[1] + 2);
-
                     if (!$auth) {
                         // Receive the pending OK only if we aren't
                         // authenticating since string responses during
@@ -1187,16 +1185,16 @@ class Net_Sieve
 
         // The server should be sending a CAPABILITY response after
         // negotiating TLS. Read it, and ignore if it doesn't.
-        // Doesn't work with older timsieved versions
-        $regexp = '/^CYRUS TIMSIEVED V([0-9.]+)/';
-        if (!preg_match($regexp, $this->_capability['implementation'], $matches)
-            || version_compare($matches[1], '2.3.10', '>=')
-        ) {
+        // Unfortunately old Cyrus versions are broken and don't send a
+        // CAPABILITY response, thus we would wait here forever. Parse the
+        // Cyrus version and work around this broken behavior.
+        if (!preg_match('/^CYRUS TIMSIEVED V([0-9.]+)/', $this->_capability['implementation'], $matches) ||
+            version_compare($matches[1], '2.3.10', '>=')) {
             $this->_doCmd();
         }
 
-        // RFC says we need to query the server capabilities again now that we
-        // are under encryption.
+        // Query the server capabilities again now that we are under
+        // encryption.
         if (PEAR::isError($res = $this->_cmdCapability())) {
             return PEAR::raiseError(
                 'Failed to connect, server said: ' . $res->getMessage(), 2
@@ -1239,16 +1237,16 @@ class Net_Sieve
     }
 
     /**
-     * Convert string into RFC's quoted-string or literal-c2s form
+     * Converts strings into RFC's quoted-string or literal-c2s form.
      *
-     * @param string $string The string to convert.
+     * @param string $string  The string to convert.
      *
-     * @return string Result string
+     * @return string  Result string.
      */
     function _escape($string)
     {
-        // Some implementations doesn't allow UTF-8 characters in quoted-string
-        // It's safe to use literal-c2s
+        // Some implementations don't allow UTF-8 characters in quoted-string,
+        // use literal-c2s.
         if (preg_match('/[^\x01-\x09\x0B-\x0C\x0E-\x7F]/', $string)) {
             return sprintf("{%d+}\r\n%s", $this->_getLineLength($string), $string);
         }
