@@ -31,8 +31,10 @@ class rcube_db
     protected $db_dsnr;               // DSN for read operations
     protected $db_connected = false;  // Already connected ?
     protected $db_mode;               // Connection mode
+    protected $db_table_dsn_map = array();
     protected $dbh;                   // Connection handle
     protected $dbhs = array();
+    protected $table_connections = array();
 
     protected $db_error     = false;
     protected $db_error_msg = '';
@@ -102,6 +104,8 @@ class rcube_db
 
         $this->db_dsnw_array = self::parse_dsn($db_dsnw);
         $this->db_dsnr_array = self::parse_dsn($db_dsnr);
+
+        $this->db_table_dsn_map = array_map(array($this, 'table_name'), rcube::get_instance()->config->get('db_table_dsn', array()));
     }
 
     /**
@@ -185,8 +189,9 @@ class rcube_db
      * Connect to appropriate database depending on the operation
      *
      * @param string $mode Connection mode (r|w)
+     * @param boolean $force Enforce using the given mode
      */
-    public function db_connect($mode)
+    public function db_connect($mode, $force = false)
     {
         // previous connection failed, don't attempt to connect again
         if ($this->conn_failure) {
@@ -201,7 +206,7 @@ class rcube_db
         // Already connected
         if ($this->db_connected) {
             // connected to db with the same or "higher" mode (if allowed)
-            if ($this->db_mode == $mode || $this->db_mode == 'w' && !$this->db_dsnw_noread) {
+            if ($this->db_mode == $mode || $this->db_mode == 'w' && !$force && !$this->db_dsnw_noread) {
                 return;
             }
         }
@@ -215,6 +220,46 @@ class rcube_db
         }
 
         $this->conn_failure = !$this->db_connected;
+    }
+
+    /**
+     * Analyze the given SQL statement and select the appropriate connection to use
+     */
+    protected function dsn_select($query)
+    {
+        // no replication
+        if ($this->db_dsnw == $this->db_dsnr) {
+            return 'w';
+        }
+
+        // Read or write ?
+        $mode = preg_match('/^(select|show|set)/i', $query) ? 'r' : 'w';
+
+        // find tables involved in this query
+        if (preg_match_all('/(?:^|\s)(from|update|into|join)\s+'.$this->options['identifier_start'].'?([a-z0-9._]+)'.$this->options['identifier_end'].'?\s+/i', $query, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $m) {
+                $table = $m[2];
+
+                // always use direct mapping
+                if ($this->db_table_dsn_map[$table]) {
+                    $mode = $this->db_table_dsn_map[$table];
+                    break;  // primary table rules
+                }
+                else if ($mode == 'r') {
+                    // connected to db with the same or "higher" mode for this table
+                    $db_mode = $this->table_connections[$table];
+                    if ($db_mode == 'w' && !$this->db_dsnw_noread) {
+                        $mode = $db_mode;
+                    }
+                }
+            }
+
+            // remember mode chosen (for primary table)
+            $table = $matches[0][2];
+            $this->table_connections[$table];
+        }
+
+        return $mode;
     }
 
     /**
@@ -349,10 +394,7 @@ class rcube_db
     {
         $query = trim($query);
 
-        // Read or write ?
-        $mode = preg_match('/^(select|show|set)/i', $query) ? 'r' : 'w';
-
-        $this->db_connect($mode);
+        $this->db_connect($this->dsn_select($query), true);
 
         // check connection before proceeding
         if (!$this->is_connected()) {
@@ -877,10 +919,14 @@ class rcube_db
      */
     public function table_name($table)
     {
-        $rcube = rcube::get_instance();
+        static $rcube;
+
+        if (!$rcube) {
+            $rcube = rcube::get_instance();
+        }
 
         // add prefix to the table name if configured
-        if ($prefix = $rcube->config->get('db_prefix')) {
+        if (($prefix = $rcube->config->get('db_prefix')) && strpos($table, $prefix) !== 0) {
             return $prefix . $table;
         }
 
@@ -896,6 +942,17 @@ class rcube_db
     public function set_option($name, $value)
     {
         $this->options[$name] = $value;
+    }
+
+    /**
+     * Set DSN connection to be used for the given table
+     *
+     * @param string Table name
+     * @param string DSN connection ('r' or 'w') to be used
+     */
+    public function set_table_dsn($table, $mode)
+    {
+        $this->db_table_dsn_map[$this->table_name($table)] = $mode;
     }
 
     /**

@@ -41,6 +41,16 @@ $config['db_persistent'] = false;
 // you can define specific table (and sequence) names prefix
 $config['db_prefix'] = '';
 
+// Mapping of table names and connections to use for ALL operations.
+// This can be used in a setup with replicated databases and a DB master
+// where read/write access to cache tables should not go to master.
+$config['db_table_dsn'] = array(
+//    'cache' => 'r',
+//    'cache_index' => 'r',
+//    'cache_thread' => 'r',
+//    'cache_messages' => 'r',
+);
+
 
 // ----------------------------------
 // LOGGING/DEBUGGING
