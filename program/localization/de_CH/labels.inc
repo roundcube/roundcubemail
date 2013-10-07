@@ -231,6 +231,15 @@ $labels['checkspelling'] = 'Rechtschreibung prüfen';
 $labels['resumeediting'] = 'Bearbeitung fortsetzen';
 $labels['revertto']      = 'Zurück zu';
 
+$labels['responses'] = 'Vorlagen';
+$labels['insertresponse'] = 'Vorlage einfügen';
+$labels['manageresponses'] = 'Vorlagen verwalten';
+$labels['savenewresponse'] = 'Neue Vorlage speichern';
+$labels['editresponses'] = 'Vorlagen bearbeiten';
+$labels['editresponse'] = 'Vorlage bearbeiten';
+$labels['responsename'] = 'Name';
+$labels['responsetext'] = 'Vorlagentext';
+
 $labels['attach'] = 'Anhängen';
 $labels['attachments'] = 'Anhänge';
 $labels['upload'] = 'Hochladen';
