@@ -25,5 +25,6 @@ $labels['body'] = 'Vi ricevis novan mesaĝon.';
 $labels['testbody'] = 'Tio estas testo pri atentigo.';
 $labels['desktopdisabled'] = 'Atentigoj de komputilo estas malŝaltitaj en via retumilo.';
 $labels['desktopunsupported'] = 'Via retumilo ne subtenas atentigojn de komputilo.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

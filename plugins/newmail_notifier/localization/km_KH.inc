@@ -25,5 +25,6 @@ $labels['body'] = 'អ្នកបានទទួលសារថ្មី';
 $labels['testbody'] = 'នេះជាការសាក្បងដំណឹង';
 $labels['desktopdisabled'] = 'Desktop notifications are disabled in your browser.';
 $labels['desktopunsupported'] = 'Your browser does not support desktop notifications.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

@@ -206,6 +206,7 @@ $labels['searchmod']  = 'Portée de la recherche';
 $labels['msgtext']  = 'Message entier';
 $labels['body']  = 'Corps';
 $labels['type'] = 'Type';
+$labels['namex'] = 'Nom';
 
 $labels['openinextwin'] = 'Ouvrir dans une nouvelle fenêtre';
 $labels['emlsave'] = 'Télécharger (.eml)';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Supprimer la recherche';
 $labels['import'] = 'Importer';
 $labels['importcontacts'] = 'Importer les contacts';
 $labels['importfromfile'] = 'Importer depuis un fichier :';
-$labels['importtarget'] = 'Ajouter de nouveaux contact au carnet d’adresses :';
+$labels['importtarget'] = 'Ajouter les contacts à';
 $labels['importreplace'] = 'Remplacer le carnet d\'adresses entier';
+$labels['importgroups'] = 'Importer les affectations de groupe';
+$labels['importgroupsall'] = 'Tous (créer les groupes si nécessaire)';
+$labels['importgroupsexisting'] = 'Uniquement pour les groupes existants';
 $labels['importdesc'] = 'Vous pouvez transférer des contacts à partir d\'un carnet d\'adresses existant.<br/>Nous supportons actuellement l\'importation d\'adresses à partir des format de données <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (champs séparés par une virgule).';
 $labels['done'] = 'Terminé';
 

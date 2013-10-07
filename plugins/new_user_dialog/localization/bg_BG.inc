@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['identitydialogtitle'] = 'Моля попълнете Вашите данни.';
-$labels['identitydialoghint'] = 'Това съобщение се появява само при първото влизане.';
+$labels['identitydialogtitle'] = 'Моля попълнете Вашите данни за идентичност на подател';
+$labels['identitydialoghint'] = 'Този диалог се появява само при първоначално регистриране.';
 
 ?>

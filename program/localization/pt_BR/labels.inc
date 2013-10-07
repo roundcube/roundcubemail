@@ -206,6 +206,7 @@ $labels['searchmod']  = 'Opções da pesquisa';
 $labels['msgtext']  = 'Mensagem inteira';
 $labels['body']  = 'Conteúdo';
 $labels['type'] = 'Tipo';
+$labels['namex'] = 'Nome';
 
 $labels['openinextwin'] = 'Abrir em nova janela';
 $labels['emlsave'] = 'Baixar (formato .eml)';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Excluir pesquisa';
 $labels['import'] = 'Importar';
 $labels['importcontacts'] = 'Importar contatos';
 $labels['importfromfile'] = 'Importar do arquivo:';
-$labels['importtarget'] = 'Adicionar novos contatos ao catálogo de endereços:';
+$labels['importtarget'] = 'Adicionar contatos para';
 $labels['importreplace'] = 'Substituir o catálogo de endereços atual';
+$labels['importgroups'] = 'Importar atribuições do grupo';
+$labels['importgroupsall'] = 'Todos (criar grupo se necessário)';
+$labels['importgroupsexisting'] = 'Somente para grupos existentes';
 $labels['importdesc'] = 'Você pode enviar contatos de um catálogo de endereços existente.<br/>Os contatos devem ser enviados no formato <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (valores separados por vírgula).';
 $labels['done'] = 'Concluído';
 

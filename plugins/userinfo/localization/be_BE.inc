@@ -20,6 +20,6 @@ $labels = array();
 $labels['userinfo'] = 'Асабістыя звесткі';
 $labels['created'] = 'Створаны';
 $labels['lastlogin'] = 'Апошні ўваход';
-$labels['defaultidentity'] = 'Стандартнае ўвасабленне';
+$labels['defaultidentity'] = 'Стандартныя асабістыя звесткі';
 
 ?>

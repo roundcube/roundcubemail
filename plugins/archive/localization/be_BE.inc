@@ -20,15 +20,15 @@ $labels = array();
 $labels['buttontext'] = 'Архіў';
 $labels['buttontitle'] = 'Перанесці ў Архіў';
 $labels['archived'] = 'Паспяхова перанесены ў Архіў';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Паспяхова перанесены ў Архіў. Перазагрузіце старонку, каб пабачыць новыя архіўныя папкі.';
+$labels['archiveerror'] = 'Некаторыя лісты не могуць быць перанесены ў архіў';
 $labels['archivefolder'] = 'Архіў';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Архіў';
+$labels['archivetype'] = 'Раздзяліць архіў паводле';
+$labels['archivetypeyear'] = 'году (прыкладам, Архіў/2012)';
+$labels['archivetypemonth'] = 'месяца (прыкладам, Архіў/2012/06)';
+$labels['archivetypefolder'] = 'Арыгінальная папка';
+$labels['archivetypesender'] = 'Эл. пошта адпраўніка';
+$labels['unkownsender'] = 'невядомы';
 
 ?>

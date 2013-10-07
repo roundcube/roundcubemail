@@ -37,7 +37,7 @@ $labels['drafts'] = 'Ciorne';
 $labels['sent']   = 'Trimise';
 $labels['trash']  = 'Gunoi';
 $labels['junk']   = 'Spam';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
+$labels['show_real_foldernames'] = 'Arata numele reale pentru folderele speciale';
 
 // message listing
 $labels['subject'] = 'Subiect';
@@ -194,7 +194,7 @@ $labels['listmode'] = 'Mod de vizualizare';
 $labels['folderactions'] = 'Acțiuni dosar...';
 $labels['compact'] = 'Compactează';
 $labels['empty'] = 'Goleşte';
-$labels['importmessages'] = 'Import messages';
+$labels['importmessages'] = 'Import mesaje';
 
 $labels['quota'] = 'Spaţiu folosit';
 $labels['unknown']  = 'necunoscut';
@@ -205,7 +205,8 @@ $labels['resetsearch']  = 'Anulează căutarea';
 $labels['searchmod']  = 'Parametrii de căutare';
 $labels['msgtext']  = 'Tot mesajul';
 $labels['body']  = 'Corp';
-$labels['type'] = 'Type';
+$labels['type'] = 'Tip';
+$labels['namex'] = 'Nume';
 
 $labels['openinextwin'] = 'Deschide în fereastră nouă';
 $labels['emlsave'] = 'Salvează în format .eml';
@@ -357,7 +358,7 @@ $labels['lastpage']       = 'Ultima pagină';
 
 $labels['group'] = 'Grup';
 $labels['groups'] = 'Grupuri';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Lista membrii grupului';
 $labels['personaladrbook'] = 'Adrese personale';
 
 $labels['searchsave'] = 'Salvează căutarea';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Şterge căutarea';
 $labels['import'] = 'Importă';
 $labels['importcontacts'] = 'Importă contacte';
 $labels['importfromfile'] = 'Importă din fişier:';
-$labels['importtarget'] = 'Adaugă contactele noi în agenda:';
+$labels['importtarget'] = 'Adaugă contactele la';
 $labels['importreplace'] = 'Înlocuieşte întreaga agendă';
+$labels['importgroups'] = 'Importă atribuirile în grup';
+$labels['importgroupsall'] = 'Toate (creează grupurile dacă este necesar)';
+$labels['importgroupsexisting'] = 'Doar pentru grupurile existente';
 $labels['importdesc'] = 'Puteți încărca contacte dintr-o agendă existentă.<br/>Momentan este suportat importul în formatul <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> sau în formatul CSV (comma-separated).';
 $labels['done'] = 'Finalizat';
 
@@ -476,7 +480,7 @@ $labels['spellcheckignorenums'] = 'Ignoră cuvintele cu numere';
 $labels['spellcheckignorecaps'] = 'Ignoră cuvintele din litere mari';
 $labels['addtodict'] = 'Adaugă la dicţionar';
 $labels['mailtoprotohandler'] = 'Îregistrează handler protocol pentru mailto: link-uri';
-$labels['standardwindows'] = 'Handle popups as standard windows';
+$labels['standardwindows'] = 'Trateaza popupsurile ca ferestre standard';
 $labels['forwardmode'] = 'Trimitere mai departe mesaj';
 $labels['inline'] = 'într-e linii';
 $labels['asattachment'] = 'ca atașament';

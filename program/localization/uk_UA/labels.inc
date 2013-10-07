@@ -65,7 +65,7 @@ $labels['copy']     = 'Копіювати';
 $labels['move']     = 'Перемістити';
 $labels['moveto']   = 'Перемістити до...';
 $labels['download'] = 'Завантажити';
-$labels['open']     = 'Open';
+$labels['open']     = 'Відкрити';
 $labels['showattachment'] = 'Показати';
 $labels['showanyway'] = 'Все одно показати';
 
@@ -194,7 +194,7 @@ $labels['listmode'] = 'Режим перегляду';
 $labels['folderactions'] = 'Операції з папкою...';
 $labels['compact'] = 'Стиснути';
 $labels['empty'] = 'Спорожнити';
-$labels['importmessages'] = 'Import messages';
+$labels['importmessages'] = 'Імпорт повідомлень';
 
 $labels['quota'] = 'Використано';
 $labels['unknown']  = 'невідомо';
@@ -206,11 +206,12 @@ $labels['searchmod']  = 'Де шукати';
 $labels['msgtext']  = 'В усьому листі';
 $labels['body']  = 'Тіло повідомлення';
 $labels['type'] = 'Type';
+$labels['namex'] = 'Ім\'я';
 
 $labels['openinextwin'] = 'Відкрити в новому вікні';
 $labels['emlsave'] = 'Зберегти (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
+$labels['changeformattext'] = 'Відображення в текстовому форматі';
+$labels['changeformathtml'] = 'Відображення у форматі HTML';
 
 // message compose
 $labels['editasnew']      = 'Редагувати як новий';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Видалити пошук';
 $labels['import'] = 'Імпорт';
 $labels['importcontacts'] = 'Імпортувати контакти';
 $labels['importfromfile'] = 'Імпортувати з файлу:';
-$labels['importtarget'] = 'Додати нові контакти до адресної книги';
+$labels['importtarget'] = 'Add contacts to';
 $labels['importreplace'] = 'Замінити всю адресну книгу';
+$labels['importgroups'] = 'Import group assignments';
+$labels['importgroupsall'] = 'All (create groups if necessary)';
+$labels['importgroupsexisting'] = 'Лише для існуючих груп';
 $labels['importdesc'] = 'Ви можете завантажити контакти з існуючої адресної книги.<br/>В даний час ми підтримуємо імпорт адрес в форматі візитної картки <a href="http://en.wikipedia.org/wiki/VCard"> vCard</ a> або CSV (дані розділені комами).';
 $labels['done'] = 'Готово';
 

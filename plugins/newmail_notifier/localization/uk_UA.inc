@@ -25,5 +25,6 @@ $labels['body'] = 'Ви отримали нове повідомлення.';
 $labels['testbody'] = 'Це тестове сповіщення';
 $labels['desktopdisabled'] = 'Повідомлення на робочому столі відключені у вашому браузері.';
 $labels['desktopunsupported'] = 'Ваш браузер не підтримує повідомлення на робочому столі.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

@@ -25,5 +25,6 @@ $labels['body'] = '您有一封新郵件';
 $labels['testbody'] = '這是測試通知';
 $labels['desktopdisabled'] = '您的瀏覽器已停用桌面通知';
 $labels['desktopunsupported'] = '您的瀏覽器不支援桌面通知功能';
+$labels['desktoptimeout'] = '自動關閉桌面通知';
 
 ?>

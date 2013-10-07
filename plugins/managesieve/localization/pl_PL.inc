@@ -18,7 +18,7 @@
 
 
 $labels['filters'] = 'Filtry';
-$labels['managefilters'] = 'Zarządzaj filtrami wiadomości przychodzących';
+$labels['managefilters'] = 'Zarządzanie filtrami poczty przychodzącej';
 $labels['filtername'] = 'Nazwa filtru';
 $labels['newfilter'] = 'Nowy filtr';
 $labels['filteradd'] = 'Dodaj filtr';
@@ -49,13 +49,14 @@ $labels['messagesendcopy'] = 'Wyślij kopię do';
 $labels['messagereply'] = 'Odpowiedz wiadomością o treści';
 $labels['messagedelete'] = 'Usuń wiadomość';
 $labels['messagediscard'] = 'Odrzuć z komunikatem';
-$labels['messagesrules'] = 'W stosunku do przychodzących wiadomości:';
+$labels['messagekeep'] = 'Zachowaj wiadomość w Odebranych';
+$labels['messagesrules'] = 'W stosunku do przychodzącej poczty:';
 $labels['messagesactions'] = '...wykonaj następujące czynności:';
 $labels['add'] = 'Dodaj';
 $labels['del'] = 'Usuń';
 $labels['sender'] = 'Nadawca';
 $labels['recipient'] = 'Odbiorca';
-$labels['vacationaddr'] = 'Dodatkowy/e adres(y) e-mail:';
+$labels['vacationaddr'] = 'Moje dodatkowe adresy email:';
 $labels['vacationdays'] = 'Częstotliwość wysyłania wiadomości (w dniach):';
 $labels['vacationinterval'] = 'Jak często wysyłać wiadomości:';
 $labels['days'] = 'dni';
@@ -115,7 +116,7 @@ $labels['notifysubject'] = 'Tytuł powiadomienia:';
 $labels['notifyfrom'] = 'Nadawca powiadomienia:';
 $labels['notifyimportance'] = 'Priorytet:';
 $labels['notifyimportancelow'] = 'niski';
-$labels['notifyimportancenormal'] = 'ormalny';
+$labels['notifyimportancenormal'] = 'normalny';
 $labels['notifyimportancehigh'] = 'wysoki';
 $labels['filtercreate'] = 'Utwórz filtr';
 $labels['usedata'] = 'Użyj następujących danych do utworzenia filtra:';

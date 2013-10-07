@@ -25,5 +25,6 @@ $labels['body'] = 'Du har modtaget en ny besked.';
 $labels['testbody'] = 'Dette er en test meddelelse.';
 $labels['desktopdisabled'] = 'Skrivebordsbeskeder er deaktiveret i din browser.';
 $labels['desktopunsupported'] = 'Din browser understøtter ikke skrivebordsbeskeder.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

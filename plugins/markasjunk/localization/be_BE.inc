@@ -17,8 +17,8 @@
 */
 
 $labels = array();
-$labels['buttontext'] = 'Junk';
-$labels['buttontitle'] = 'Пазначыць як спам';
-$labels['reportedasjunk'] = 'Паспяхова пазначаны як спам';
+$labels['buttontext'] = 'Непажаданыя';
+$labels['buttontitle'] = 'Пазначыць як непажаданы';
+$labels['reportedasjunk'] = 'Паспяхова пазначаны як напажаданы';
 
 ?>

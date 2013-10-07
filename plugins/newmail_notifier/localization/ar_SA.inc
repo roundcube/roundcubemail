@@ -25,5 +25,6 @@ $labels['body'] = 'لديك رسالة جديدة';
 $labels['testbody'] = 'هذه رسالة تجربية';
 $labels['desktopdisabled'] = 'رسائل التنبيه على سطح المكتب غير مفعلة فى متصفح الانترنت الخاص بك';
 $labels['desktopunsupported'] = 'المتصفح الخاص بك لا يدعم رسائل سطح المكتب';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

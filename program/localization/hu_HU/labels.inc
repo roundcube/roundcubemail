@@ -37,7 +37,7 @@ $labels['drafts'] = 'Piszkozatok';
 $labels['sent']   = 'Küldött levelek';
 $labels['trash']  = 'Törölt elemek';
 $labels['junk']   = 'Kéretlen levelek';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
+$labels['show_real_foldernames'] = 'Az valós nevek megjelenítése a speciális mappáknál.';
 
 // message listing
 $labels['subject'] = 'Tárgy';
@@ -194,7 +194,7 @@ $labels['listmode'] = 'Megjelenítési mód';
 $labels['folderactions'] = 'Mappaműveletek...';
 $labels['compact'] = 'Tömörítés';
 $labels['empty'] = 'Kiürítés';
-$labels['importmessages'] = 'Import messages';
+$labels['importmessages'] = 'Üzenetek importálása';
 
 $labels['quota'] = 'Helyfoglalás';
 $labels['unknown']  = 'ismeretlen';
@@ -205,7 +205,8 @@ $labels['resetsearch']  = 'Alapállapot';
 $labels['searchmod']  = 'Keresési opciók';
 $labels['msgtext']  = 'Teljes üzenet';
 $labels['body']  = 'Törzs';
-$labels['type'] = 'Type';
+$labels['type'] = 'Típus';
+$labels['namex'] = 'Név';
 
 $labels['openinextwin'] = 'Megnyitás új ablakban';
 $labels['emlsave'] = 'Letöltés (.eml)';
@@ -357,7 +358,7 @@ $labels['lastpage']       = 'Utolsó oldal';
 
 $labels['group'] = 'Csoport';
 $labels['groups'] = 'Csoportok';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Csoport tagjainak listája';
 $labels['personaladrbook'] = 'Személyes címjegyzék';
 
 $labels['searchsave'] = 'Keresés mentése';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Keresés törlése';
 $labels['import'] = 'Importálás';
 $labels['importcontacts'] = 'Kapcsolatok importálása';
 $labels['importfromfile'] = 'Importálás fájlból:';
-$labels['importtarget'] = 'Kapcsolatok hozzáadása a címjegyzékhez:';
+$labels['importtarget'] = 'Kapcsolatok hozzáadása ';
 $labels['importreplace'] = 'A teljes címjegyzék cseréje';
+$labels['importgroups'] = 'Csoport hozzárendelések importálása';
+$labels['importgroupsall'] = 'Mind(csoport létrehozása amennyiben szükséges)';
+$labels['importgroupsexisting'] = 'Csak már létező csoportoknak';
 $labels['importdesc'] = 'Feltölthetsz partnereket egyébb már létező címjegyzékekből. <br/>Jelenleg a következő két tipusú címjegyzékek importálása lehetséges  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> és a CSV (comma-separated/vesszővel tagolt) formátum.';
 $labels['done'] = 'Kész';
 

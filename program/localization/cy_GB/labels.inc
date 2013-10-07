@@ -194,7 +194,7 @@ $labels['listmode'] = 'Golwg rhestr';
 $labels['folderactions'] = 'Gweithredoedd ffolder...';
 $labels['compact'] = 'Crynhoi';
 $labels['empty'] = 'Gwagio';
-$labels['importmessages'] = 'Import messages';
+$labels['importmessages'] = 'Mewnforio negeseuon';
 
 $labels['quota'] = 'Defnydd';
 $labels['unknown']  = 'anhysbys';
@@ -205,7 +205,8 @@ $labels['resetsearch']  = 'Ail-osod chwiliad';
 $labels['searchmod']  = 'Addasyddion chwilio';
 $labels['msgtext']  = 'Y neges yn llawn';
 $labels['body']  = 'Corff';
-$labels['type'] = 'Type';
+$labels['type'] = 'Math';
+$labels['namex'] = 'Enw';
 
 $labels['openinextwin'] = 'Agor mewn ffenest newydd';
 $labels['emlsave'] = 'Llwytho lawr (.eml)';
@@ -357,7 +358,7 @@ $labels['lastpage']       = 'Dangos y set olaf';
 
 $labels['group'] = 'Grŵp';
 $labels['groups'] = 'Grwpiau';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Rhestru aelodau\'r grŵp';
 $labels['personaladrbook'] = 'Cyfeiriadau Personol';
 
 $labels['searchsave'] = 'Cadw chwiliad';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Dileu chwiliad';
 $labels['import'] = 'Mewnforio';
 $labels['importcontacts'] = 'Mewnforio cysylltiadau';
 $labels['importfromfile'] = 'Mewnforio o ffeil:';
-$labels['importtarget'] = 'Ychwanegu cysylltiadau newydd i\'r llyfr cyfeiriad:';
+$labels['importtarget'] = 'Ychwanegu cysylltiadau i';
 $labels['importreplace'] = 'Dileu y llyfr cyfeiriadau cyfan wrth lwytho';
+$labels['importgroups'] = 'Mewnforio penodiadau grŵp';
+$labels['importgroupsall'] = 'Holl (creu grwpiau os oes angen)';
+$labels['importgroupsexisting'] = 'Dim ond ar gyfer grwpiau sy\'n bodoli';
 $labels['importdesc'] = 'Fe allwch chi lwytho fyny cysylltiadau o lyfr cyfeiriadau presennol.<br/>Ar hyn o bryd, rydym yn cefnogi mewnforio cyfeiriadau o\'r fformatau <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> neu CSV.';
 $labels['done'] = 'Wedi gorffen';
 

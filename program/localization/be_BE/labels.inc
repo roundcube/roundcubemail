@@ -42,16 +42,16 @@ $labels['show_real_foldernames'] = 'Show real names for special folders';
 // message listing
 $labels['subject'] = 'Тэма';
 $labels['from']    = 'Ад каго';
-$labels['sender']  = 'Sender';
+$labels['sender']  = 'Адпраўнік';
 $labels['to']      = 'Каму';
-$labels['cc']      = 'Копія (СС)';
-$labels['bcc']     = 'Сх.копія (ВСС)';
-$labels['replyto'] = 'Адказаць на';
-$labels['followupto'] = 'Followup-To';
+$labels['cc']      = 'Копія';
+$labels['bcc']     = 'Схаваная копія';
+$labels['replyto'] = 'Адказаць-на';
+$labels['followupto'] = 'Групавы-адказ-на';
 $labels['date']    = 'Дата';
 $labels['size']    = 'Памер';
 $labels['priority'] = 'Прыярытэт';
-$labels['organization'] = 'Organization';
+$labels['organization'] = 'Установа';
 $labels['readstatus'] = 'Не прачытанае';
 $labels['listoptions'] = 'List options...';
 
@@ -61,36 +61,36 @@ $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'Message $nr of $count';
 $labels['fromtoshort'] = '$from – $to of $count';
 
-$labels['copy']     = 'Copy';
-$labels['move']     = 'Move';
-$labels['moveto']   = 'Move to...';
-$labels['download'] = 'Download';
+$labels['copy']     = 'Капіраваць';
+$labels['move']     = 'Перамясціць';
+$labels['moveto']   = 'Перамясціць у...';
+$labels['download'] = 'Спампаваць';
 $labels['open']     = 'Open';
-$labels['showattachment'] = 'Show';
+$labels['showattachment'] = 'Паказаць';
 $labels['showanyway'] = 'Show it anyway';
 
-$labels['filename'] = 'File name';
-$labels['filesize'] = 'File size';
+$labels['filename'] = 'Імя файла';
+$labels['filesize'] = 'Памер файла';
 
-$labels['addtoaddressbook'] = 'Add to address book';
+$labels['addtoaddressbook'] = 'Дадаць у адрасную кнігу';
 
 // weekdays short
-$labels['sun'] = 'Sun';
-$labels['mon'] = 'Mon';
-$labels['tue'] = 'Tue';
-$labels['wed'] = 'Wed';
-$labels['thu'] = 'Thu';
-$labels['fri'] = 'Fri';
-$labels['sat'] = 'Sat';
+$labels['sun'] = 'Ндз';
+$labels['mon'] = 'Пн';
+$labels['tue'] = 'Аўт';
+$labels['wed'] = 'Сер';
+$labels['thu'] = 'Чц';
+$labels['fri'] = 'Пт';
+$labels['sat'] = 'Сб';
 
 // weekdays long
-$labels['sunday']    = 'Sunday';
-$labels['monday']    = 'Monday';
-$labels['tuesday']   = 'Tuesday';
-$labels['wednesday'] = 'Wednesday';
-$labels['thursday']  = 'Thursday';
-$labels['friday']    = 'Friday';
-$labels['saturday']  = 'Saturday';
+$labels['sunday']    = 'нядзеля';
+$labels['monday']    = 'панядзелак';
+$labels['tuesday']   = 'аўторак';
+$labels['wednesday'] = 'серада';
+$labels['thursday']  = 'чацвер';
+$labels['friday']    = 'пятніца';
+$labels['saturday']  = 'субота';
 
 // months short
 $labels['jan']	= 'Jan';
@@ -206,6 +206,7 @@ $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
+$labels['namex'] = 'Name';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Delete search';
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
-$labels['importtarget'] = 'Add new contacts to address book:';
+$labels['importtarget'] = 'Add contacts to';
 $labels['importreplace'] = 'Replace the entire address book';
+$labels['importgroups'] = 'Import group assignments';
+$labels['importgroupsall'] = 'All (create groups if necessary)';
+$labels['importgroupsexisting'] = 'Only for existing groups';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
 

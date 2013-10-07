@@ -25,5 +25,6 @@ $labels['body'] = 'Sait uuden viestin.';
 $labels['testbody'] = 'Tämä on testi-ilmoitus.';
 $labels['desktopdisabled'] = 'Työpöytäilmoitukset on estetty selaimessa.';
 $labels['desktopunsupported'] = 'Selaimesi ei tue työpöytäilmoituksia.';
+$labels['desktoptimeout'] = 'Sulje työpöytäilmoitus';
 
 ?>

@@ -206,6 +206,7 @@ $labels['searchmod']  = 'Suchkriterien ändern';
 $labels['msgtext']  = 'Ganze Nachricht';
 $labels['body']  = 'Inhalt';
 $labels['type'] = 'Typ';
+$labels['namex'] = 'Name';
 
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Herunterladen (.eml)';
@@ -366,8 +367,11 @@ $labels['searchdelete'] = 'Suche löschen';
 $labels['import'] = 'Importieren';
 $labels['importcontacts'] = 'Adressen importieren';
 $labels['importfromfile'] = 'Import aus Datei:';
-$labels['importtarget'] = 'Neue Kontakte speichern in:';
+$labels['importtarget'] = 'Importieren nach';
 $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
+$labels['importgroups'] = 'Gruppenzuweisungen importieren';
+$labels['importgroupsall'] = 'Alle (nicht vorhandene Gruppen erstellen)';
+$labels['importgroupsexisting'] = 'Für für existierende Gruppen';
 $labels['importdesc'] = 'Sie können Kontakte aus einem bestehenden Adressbuch hochladen.rnEs können Adressbücher im <a href="http://de.wikipedia.org/wiki/VCard">vCard</a>- oder CSV-Format importiert werden.';
 $labels['done'] = 'Fertig';
 

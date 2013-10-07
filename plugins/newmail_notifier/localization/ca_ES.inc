@@ -25,5 +25,6 @@ $labels['body'] = 'Heu rebut un missatge nou.';
 $labels['testbody'] = 'Això és una notificació de prova.';
 $labels['desktopdisabled'] = 'Les notificacions d\'escriptori estan deshabilitades al vostre navegador.';
 $labels['desktopunsupported'] = 'El vostre navegador no permet les notificacions d\'escriptori.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

@@ -25,5 +25,6 @@ $labels['body'] = 'Vous avez reçu un nouveau message';
 $labels['testbody'] = 'Test de notification';
 $labels['desktopdisabled'] = 'Les notifications sur le bureau sont désactivées dans votre navigateur';
 $labels['desktopunsupported'] = 'Votre navigateur ne supporte pas les notifications sur le bureau';
+$labels['desktoptimeout'] = 'Fermer les notifications de bureau';
 
 ?>

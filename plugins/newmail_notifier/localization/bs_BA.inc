@@ -25,5 +25,6 @@ $labels['body'] = 'Dobili ste novu poruku.';
 $labels['testbody'] = 'Ovo je testna obavijest.';
 $labels['desktopdisabled'] = 'Desktop obavijesti su onemogućene u vašem pregledniku.';
 $labels['desktopunsupported'] = 'Vaš preglednik ne podržava desktop obavijesti.';
+$labels['desktoptimeout'] = 'Zatvori desktop obavijesti';
 
 ?>

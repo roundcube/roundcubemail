@@ -25,5 +25,6 @@ $labels['body'] = 'Du har mottatt ei ny melding.';
 $labels['testbody'] = 'Dette er eit testvarsel.';
 $labels['desktopdisabled'] = 'Skrivebordsvarsel er slått av i din nettlesar.';
 $labels['desktopunsupported'] = 'Din nettlesar støttar ikkje vising av varsel på skrivebordet.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

@@ -25,5 +25,6 @@ $labels['body'] = 'Prejeli ste novo sporočilo.';
 $labels['testbody'] = 'To je testno obvestilo.';
 $labels['desktopdisabled'] = 'Obvestila na namizju so v vašem brskalniku onemogočena.';
 $labels['desktopunsupported'] = 'Vaš brskalnik ne podpira izpis obvestil na namizju.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>

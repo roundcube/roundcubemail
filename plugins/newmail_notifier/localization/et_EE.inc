@@ -25,5 +25,6 @@ $labels['body'] = 'Saabus uus kiri.';
 $labels['testbody'] = 'See on teavituse proov.';
 $labels['desktopdisabled'] = 'Töölaua märguanded on su veebilehitsejas keelatud.';
 $labels['desktopunsupported'] = 'Sinu veebilehitseja ei toeta töölaua märguandeid.';
+$labels['desktoptimeout'] = 'Close desktop notification';
 
 ?>
