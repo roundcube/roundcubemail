@@ -3760,12 +3760,17 @@ class rcube_imap extends rcube_storage
     /**
      * Enable or disable messages caching
      *
-     * @param boolean $set Flag
+     * @param boolean $set  Flag
+     * @param int     $mode Cache mode
      */
-    public function set_messages_caching($set)
+    public function set_messages_caching($set, $mode = null)
     {
         if ($set) {
             $this->messages_caching = true;
+
+            if ($mode && ($cache = $this->get_mcache_engine())) {
+                $cache->set_mode($mode);
+            }
         }
         else {
             if ($this->mcache) {
@@ -3800,7 +3805,7 @@ class rcube_imap extends rcube_storage
      * Clears the messages cache.
      *
      * @param string $folder Folder name
-     * @param array  $uids    Optional message UIDs to remove from cache
+     * @param array  $uids   Optional message UIDs to remove from cache
      */
     protected function clear_message_cache($folder = null, $uids = null)
     {

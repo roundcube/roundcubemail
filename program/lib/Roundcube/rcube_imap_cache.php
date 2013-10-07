@@ -27,6 +27,9 @@
  */
 class rcube_imap_cache
 {
+    const MODE_INDEX   = 1;
+    const MODE_MESSAGE = 2;
+
     /**
      * Instance of rcube_imap
      *
@@ -70,6 +73,7 @@ class rcube_imap_cache
     private $icache = array();
 
     private $skip_deleted = false;
+    private $mode;
 
     /**
      * List of known flags. Thanks to this we can handle flag changes
@@ -95,6 +99,7 @@ class rcube_imap_cache
     );
 
 
+
     /**
      * Object constructor.
      *
@@ -117,6 +122,9 @@ class rcube_imap_cache
         $this->skip_deleted = $skip_deleted;
         $this->ttl          = $ttl;
         $this->threshold    = $threshold;
+
+        // cache all possible information by default
+        $this->mode = self::MODE_INDEX | self::MODE_MESSAGE;
     }
 
 
@@ -127,6 +135,17 @@ class rcube_imap_cache
     {
         $this->save_icache();
         $this->icache = null;
+    }
+
+
+    /**
+     * Set cache mode
+     *
+     * @param int $mode Cache mode
+     */
+    public function set_mode($mode)
+    {
+        $this->mode = $mode;
     }
 
 
@@ -308,27 +327,29 @@ class rcube_imap_cache
             return array();
         }
 
-        // Fetch messages from cache
-        $sql_result = $this->db->query(
-            "SELECT uid, data, flags"
-            ." FROM ".$this->db->table_name('cache_messages')
-            ." WHERE user_id = ?"
-                ." AND mailbox = ?"
-                ." AND uid IN (".$this->db->array2list($msgs, 'integer').")",
-            $this->userid, $mailbox);
-
         $msgs   = array_flip($msgs);
         $result = array();
 
-        while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-            $uid          = intval($sql_arr['uid']);
-            $result[$uid] = $this->build_message($sql_arr);
+        if ($this->mode & self::MODE_MESSAGE) {
+            // Fetch messages from cache
+            $sql_result = $this->db->query(
+                "SELECT uid, data, flags"
+                ." FROM ".$this->db->table_name('cache_messages')
+                ." WHERE user_id = ?"
+                    ." AND mailbox = ?"
+                    ." AND uid IN (".$this->db->array2list($msgs, 'integer').")",
+                $this->userid, $mailbox);
 
-            if (!empty($result[$uid])) {
-                // save memory, we don't need message body here (?)
-                $result[$uid]->body = null;
+            while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+                $uid          = intval($sql_arr['uid']);
+                $result[$uid] = $this->build_message($sql_arr);
 
-                unset($msgs[$uid]);
+                if (!empty($result[$uid])) {
+                    // save memory, we don't need message body here (?)
+                    $result[$uid]->body = null;
+
+                    unset($msgs[$uid]);
+                }
             }
         }
 
@@ -339,7 +360,10 @@ class rcube_imap_cache
             // Insert to DB and add to result list
             if (!empty($messages)) {
                 foreach ($messages as $msg) {
-                    $this->add_message($mailbox, $msg, !array_key_exists($msg->uid, $result));
+                    if ($this->mode & self::MODE_MESSAGE) {
+                        $this->add_message($mailbox, $msg, !array_key_exists($msg->uid, $result));
+                    }
+
                     $result[$msg->uid] = $msg;
                 }
             }
@@ -370,23 +394,29 @@ class rcube_imap_cache
             return $this->icache['__message']['object'];
         }
 
-        $sql_result = $this->db->query(
-            "SELECT flags, data"
-            ." FROM ".$this->db->table_name('cache_messages')
-            ." WHERE user_id = ?"
-                ." AND mailbox = ?"
-                ." AND uid = ?",
-                $this->userid, $mailbox, (int)$uid);
+        if ($this->mode & self::MODE_MESSAGE) {
+            $sql_result = $this->db->query(
+                "SELECT flags, data"
+                ." FROM ".$this->db->table_name('cache_messages')
+                ." WHERE user_id = ?"
+                    ." AND mailbox = ?"
+                    ." AND uid = ?",
+                    $this->userid, $mailbox, (int)$uid);
 
-        if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-            $message = $this->build_message($sql_arr);
-            $found   = true;
+            if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+                $message = $this->build_message($sql_arr);
+                $found   = true;
+            }
         }
 
         // Get the message from IMAP server
         if (empty($message) && $update) {
             $message = $this->imap->get_message_headers($uid, $mailbox, true);
             // cache will be updated in close(), see below
+        }
+
+        if (!($this->mode & self::MODE_MESSAGE)) {
+            return $message;
         }
 
         // Save the message in internal cache, will be written to DB in close()
@@ -421,6 +451,10 @@ class rcube_imap_cache
     function add_message($mailbox, $message, $force = false)
     {
         if (!is_object($message) || empty($message->uid)) {
+            return;
+        }
+
+        if (!($this->mode & self::MODE_MESSAGE)) {
             return;
         }
 
@@ -495,6 +529,10 @@ class rcube_imap_cache
             return;
         }
 
+        if (!($this->mode & self::MODE_MESSAGE)) {
+            return;
+        }
+
         $flag = strtoupper($flag);
         $idx  = (int) array_search($flag, $this->flags);
         $uids = (array) $uids;
@@ -535,6 +573,10 @@ class rcube_imap_cache
      */
     function remove_message($mailbox = null, $uids = null)
     {
+        if (!($this->mode & self::MODE_MESSAGE)) {
+            return;
+        }
+
         if (!strlen($mailbox)) {
             $this->db->query(
                 "DELETE FROM ".$this->db->table_name('cache_messages')
@@ -1036,15 +1078,17 @@ class rcube_imap_cache
         $removed = array();
 
         // Get known UIDs
-        $sql_result = $this->db->query(
-            "SELECT uid"
-            ." FROM ".$this->db->table_name('cache_messages')
-            ." WHERE user_id = ?"
-                ." AND mailbox = ?",
-            $this->userid, $mailbox);
+        if ($this->mode & self::MODE_MESSAGE) {
+            $sql_result = $this->db->query(
+                "SELECT uid"
+                ." FROM ".$this->db->table_name('cache_messages')
+                ." WHERE user_id = ?"
+                    ." AND mailbox = ?",
+                $this->userid, $mailbox);
 
-        while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-            $uids[] = $sql_arr['uid'];
+            while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+                $uids[] = $sql_arr['uid'];
+            }
         }
 
         // Synchronize messages data
