@@ -256,7 +256,7 @@ class rcube_db
 
             // remember mode chosen (for primary table)
             $table = $matches[0][2];
-            $this->table_connections[$table];
+            $this->table_connections[$table] = $mode;
         }
 
         return $mode;
