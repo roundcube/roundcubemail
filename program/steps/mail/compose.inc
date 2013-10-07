@@ -127,7 +127,8 @@ if (!is_array($COMPOSE))
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
-    'fileuploaderror', 'sendmessage');
+    'fileuploaderror', 'sendmessage', 'savenewresponse', 'responsename', 'responsetext', 'save',
+    'savingresponse');
 
 $OUTPUT->set_env('compose_id', $COMPOSE['id']);
 $OUTPUT->set_pagetitle(rcube_label('compose'));
@@ -1684,6 +1685,38 @@ function compose_file_drop_area($attrib)
 }
 
 
+/**
+ *
+ */
+function rcmail_compose_responses_list($attrib)
+{
+    global $RCMAIL, $OUTPUT;
+
+    $attrib += array('id' => 'rcmresponseslist', 'tagname' => 'ul', 'cols' => 1);
+
+    $jsenv = array();
+    $list = array();
+    foreach ($RCMAIL->get_compose_responses(true) as $response) {
+        $key = $response['key'];
+        $item = html::a(array(
+            'href '=> '#'.urlencode($response['name']),
+            'class' => rtrim('insertresponse ' . $attrib['itemclass']),
+            'unselectable' => 'on',
+            'rel' => $key,
+        ), Q($response['name']));
+
+        $jsenv[$key] = $response;
+        $list[] = html::tag('li', null, html::span(null, $item));
+    }
+
+    // set client env
+    $OUTPUT->set_env('textresponses', $jsenv);
+    $OUTPUT->add_gui_object('responseslist', $attrib['id']);
+
+    return html::tag('ul', $attrib, join("\n", $list));
+}
+
+
 // register UI objects
 $OUTPUT->add_handlers(array(
   'composeheaders' => 'rcmail_compose_headers',
@@ -1700,6 +1733,7 @@ $OUTPUT->add_handlers(array(
   'storetarget' => 'rcmail_store_target_selection',
   'addressbooks' => 'rcmail_addressbook_list',
   'addresslist' => 'rcmail_contacts_list',
+  'responseslist' => 'rcmail_compose_responses_list',
 ));
 
 $OUTPUT->send('compose');

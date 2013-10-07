@@ -155,6 +155,10 @@
   background-position: -416px -32px;
 }
 
+#messagetoolbar a.responses {
+  background-position: -512px 0;
+}
+
 #messagetoolbar select.mboxlist
 {
   position: relative;
