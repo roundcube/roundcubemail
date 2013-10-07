@@ -52,7 +52,7 @@ class rcube_db_mssql extends rcube_db
     protected function conn_configure($dsn, $dbh)
     {
         // Set date format in case of non-default language (#1488918)
-        $this->query("SET DATEFORMAT ymd");
+        $dbh->query("SET DATEFORMAT ymd");
     }
 
     /**

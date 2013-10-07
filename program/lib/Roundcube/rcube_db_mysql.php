@@ -60,7 +60,7 @@ class rcube_db_mysql extends rcube_db
      */
     protected function conn_configure($dsn, $dbh)
     {
-        $this->query("SET NAMES 'utf8'");
+        $dbh->query("SET NAMES 'utf8'");
     }
 
     /**
