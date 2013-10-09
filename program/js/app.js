@@ -31,6 +31,7 @@ function rcube_webmail()
   this.onloads = [];
   this.messages = {};
   this.group2expand = {};
+  this.http_request_jobs = {};
 
   // webmail client settings
   this.dblclick_time = 500;
@@ -4338,7 +4339,7 @@ function rcube_webmail()
       p = inp_value.lastIndexOf(this.env.recipients_separator, cpos-1),
       q = inp_value.substring(p+1, cpos),
       min = this.env.autocomplete_min_length,
-      ac = this.ksearch_data;
+      data = this.ksearch_data;
 
     // trim query string
     q = $.trim(q);
@@ -4365,34 +4366,26 @@ function rcube_webmail()
       return;
 
     // ...new search value contains old one and previous search was not finished or its result was empty
-    if (old_value && old_value.length && q.startsWith(old_value) && (!ac || ac.num <= 0) && this.env.contacts && !this.env.contacts.length)
+    if (old_value && old_value.length && q.startsWith(old_value) && (!data || data.num <= 0) && this.env.contacts && !this.env.contacts.length)
       return;
 
-    var i, lock, source, xhr, reqid = new Date().getTime(),
-      post_data = {_search: q, _id: reqid},
-      threads = props && props.threads ? props.threads : 1,
-      sources = props && props.sources ? props.sources : [],
-      action = props && props.action ? props.action : 'mail/autocomplete';
+    var sources = props && props.sources ? props.sources : [''];
+    var reqid = this.multi_thread_http_request({
+      items: sources,
+      threads: props && props.threads ? props.threads : 1,
+      action:  props && props.action ? props.action : 'mail/autocomplete',
+      postdata: { _search:q, _source:'%s' },
+      lock: this.display_message(this.get_label('searching'), 'loading')
+    });
 
-    this.ksearch_data = {id: reqid, sources: sources.slice(), action: action,
-      locks: [], requests: [], num: sources.length};
-
-    for (i=0; i<threads; i++) {
-      source = this.ksearch_data.sources.shift();
-      if (threads > 1 && source === undefined)
-        break;
-
-      post_data._source = source ? source : '';
-      lock = this.display_message(this.get_label('searching'), 'loading');
-      xhr = this.http_post(action, post_data, lock);
-
-      this.ksearch_data.locks.push(lock);
-      this.ksearch_data.requests.push(xhr);
-    }
+    this.ksearch_data = { id:reqid, sources:sources.slice(), num:sources.length };
   };
 
   this.ksearch_query_results = function(results, search, reqid)
   {
+    // trigger multi-thread http response callback
+    this.multi_thread_http_response(results, reqid);
+
     // search stopped in meantime?
     if (!this.ksearch_value)
       return;
@@ -4404,7 +4397,6 @@ function rcube_webmail()
     // display search results
     var i, len, ul, li, text, init,
       value = this.ksearch_value,
-      data = this.ksearch_data,
       maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
 
     // create results pane if not present
@@ -4458,27 +4450,8 @@ function rcube_webmail()
     if (len)
       this.env.contacts = this.env.contacts.concat(results);
 
-    // run next parallel search
-    if (data.id == reqid) {
-      data.num--;
-      if (maxlen > 0 && data.sources.length) {
-        var lock, xhr, source = data.sources.shift(), post_data;
-        if (source) {
-          post_data = {_search: value, _id: reqid, _source: source};
-          lock = this.display_message(this.get_label('searching'), 'loading');
-          xhr = this.http_post(data.action, post_data, lock);
-
-          this.ksearch_data.locks.push(lock);
-          this.ksearch_data.requests.push(xhr);
-        }
-      }
-      else if (!maxlen) {
-        if (!this.ksearch_msg)
-          this.ksearch_msg = this.display_message(this.get_label('autocompletemore'));
-        // abort pending searches
-        this.ksearch_abort();
-      }
-    }
+    if (this.ksearch_data.id == reqid)
+      this.ksearch_data.num--;
   };
 
   this.ksearch_click = function(node)
@@ -4513,7 +4486,8 @@ function rcube_webmail()
   // Clears autocomplete data/requests
   this.ksearch_destroy = function()
   {
-    this.ksearch_abort();
+    if (this.ksearch_data)
+      this.multi_thread_request_abort(this.ksearch_data.id);
 
     if (this.ksearch_info)
       this.hide_message(this.ksearch_info);
@@ -4524,18 +4498,6 @@ function rcube_webmail()
     this.ksearch_data = null;
     this.ksearch_info = null;
     this.ksearch_msg = null;
-  }
-
-  // Aborts pending autocomplete requests
-  this.ksearch_abort = function()
-  {
-    var i, len, ac = this.ksearch_data;
-
-    if (!ac)
-      return;
-
-    for (i=0, len=ac.locks.length; i<len; i++)
-      this.abort_request({request: ac.requests[i], lock: ac.locks[i]});
   };
 
 
@@ -7057,6 +7019,130 @@ function rcube_webmail()
 
     if (this.submit_timer)
       clearTimeout(this.submit_timer);
+  };
+
+  /**
+   Send multi-threaded parallel HTTP requests to the server for a list if items.
+   The string '%' in either a GET query or POST parameters will be replaced with the respective item value.
+   This is the argument object expected: {
+       items: ['foo','bar','gna'],      // list of items to send requests for
+       action: 'task/some-action',      // Roudncube action to call
+       query: { q:'%s' },               // GET query parameters
+       postdata: { source:'%s' },       // POST data (sends a POST request if present)
+       threads: 3,                      // max. number of concurrent requests
+       onresponse: function(data){ },   // Callback function called for every response received from server
+       whendone: function(alldata){ }   // Callback function called when all requests have been sent
+   }
+  */
+  this.multi_thread_http_request = function(prop)
+  {
+    var reqid = new Date().getTime();
+
+    prop.reqid = reqid;
+    prop.running = 0;
+    prop.requests = [];
+    prop.result = [];
+    prop._items = $.extend([], prop.items);  // copy items
+
+    if (!prop.lock)
+      prop.lock = this.display_message(this.get_label('loading'), 'loading');
+
+    // add the request arguments to the jobs pool
+    this.http_request_jobs[reqid] = prop;
+
+    // start n threads
+    var item, threads = prop.threads || 1;
+    for (var i=0; i < threads; i++) {
+      item = prop._items.shift();
+      if (item === undefined)
+        break;
+
+      prop.running++;
+      prop.requests.push(this.multi_thread_send_request(prop, item));
+    }
+
+    return reqid;
+  };
+
+  // helper method to send an HTTP request with the given iterator value
+  this.multi_thread_send_request = function(prop, item)
+  {
+    var postdata, query;
+
+    // replace %s in post data
+    if (prop.postdata) {
+      postdata = {};
+      for (var k in prop.postdata) {
+        postdata[k] = String(prop.postdata[k]).replace('%s', item);
+      }
+      postdata._reqid = prop.reqid;
+    }
+    // replace %s in query
+    else if (typeof prop.query == 'string') {
+      query = prop.query.replace('%s', item);
+      query += '&_reqid=' + prop.reqid;
+    }
+    else if (typeof prop.query == 'object' && prop.query) {
+      query = {};
+      for (var k in prop.query) {
+        query[k] = String(prop.query[k]).replace('%s', item);
+      }
+      query._reqid = prop.reqid;
+    }
+
+    // send HTTP GET or POST request
+    return postdata ? this.http_post(prop.action, postdata) : this.http_request(prop.action, query);
+  };
+
+  // callback function for multi-threaded http responses
+  this.multi_thread_http_response = function(data, reqid)
+  {
+    var prop = this.http_request_jobs[reqid];
+    if (!prop || prop.running <= 0 || prop.cancelled)
+      return;
+
+    prop.running--;
+
+    // trigger response callback
+    if (prop.onresponse && typeof prop.onresponse == 'function') {
+      prop.onresponse(data);
+    }
+
+    prop.result = $.extend(prop.result, data);
+
+    // send next request if prop.items is not yet empty
+    var item = prop._items.shift();
+    if (item !== undefined) {
+      prop.running++;
+      prop.requests.push(this.multi_thread_send_request(prop, item));
+    }
+    // trigger whendone callback and mark this request as done
+    else if (prop.running == 0) {
+      if (prop.whendone && typeof prop.whendone == 'function') {
+        prop.whendone(prop.result);
+      }
+
+      this.set_busy(false, '', prop.lock);
+
+      // remove from this.http_request_jobs pool
+      delete this.http_request_jobs[reqid];
+    }
+  };
+
+  // abort a running multi-thread request with the given identifier
+  this.multi_thread_request_abort = function(reqid)
+  {
+    var prop = this.http_request_jobs[reqid];
+    if (prop) {
+      for (var i=0; prop.running > 0 && i < prop.requests.length; i++) {
+        if (prop.requests[i].abort)
+          prop.requests[i].abort();
+      }
+
+      prop.running = 0;
+      prop.cancelled = true;
+      this.set_busy(false, '', prop.lock);
+    }
   };
 
   // post the given form to a hidden iframe
