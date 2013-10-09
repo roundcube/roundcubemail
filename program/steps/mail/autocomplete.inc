@@ -47,7 +47,7 @@ $mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
 $single = (bool) $RCMAIL->config->get('autocomplete_single');
 $search = get_input_value('_search', RCUBE_INPUT_GPC, true);
 $source = get_input_value('_source', RCUBE_INPUT_GPC);
-$sid    = get_input_value('_id', RCUBE_INPUT_GPC);
+$reqid  = get_input_value('_reqid', RCUBE_INPUT_GPC);
 
 if (strlen($source))
   $book_types = array($source);
@@ -141,5 +141,5 @@ if (!empty($book_types) && strlen($search)) {
   }
 }
 
-$OUTPUT->command('ksearch_query_results', $contacts, $search, $sid);
+$OUTPUT->command('ksearch_query_results', $contacts, $search, $reqid);
 $OUTPUT->send();
