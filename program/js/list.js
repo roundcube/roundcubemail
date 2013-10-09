@@ -373,6 +373,20 @@ blur: function()
 
 
 /**
+ * Set/unset the given column as hidden
+ */
+hide_column: function(col, hide)
+{
+  var method = hide ? 'addClass' : 'removeClass';
+
+  if (this.fixed_header)
+    $(this.row_tagname()+' '+this.col_tagname()+'.'+col, this.fixed_header)[method]('hidden');
+
+  $(this.row_tagname()+' '+this.col_tagname()+'.'+col, this.list)[method]('hidden');
+},
+
+
+/**
  * onmousedown-handler of message list column
  */
 drag_column: function(e, col)

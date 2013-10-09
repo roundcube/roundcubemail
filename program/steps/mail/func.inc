@@ -363,6 +363,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
         $cont = show_bytes($header->$col);
       else if ($col == 'date')
         $cont = format_date($header->date);
+      else if ($col == 'folder')
+        $cont = Q(rcube_charset::convert($header->folder, 'UTF7-IMAP'));
       else
         $cont = Q($header->$col);
 
@@ -386,7 +388,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
       $a_msg_flags['prio'] = (int) $header->priority;
 
     $a_msg_flags['ctype'] = Q($header->ctype);
-    $a_msg_flags['mbox'] = $mbox;
+    $a_msg_flags['mbox'] = $header->folder;
 
     // merge with plugin result (Deprecated, use $header->flags)
     if (!empty($header->list_flags) && is_array($header->list_flags))
