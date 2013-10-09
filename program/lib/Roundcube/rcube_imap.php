@@ -1111,6 +1111,7 @@ class rcube_imap extends rcube_storage
         }
 
         foreach ($headers as $h) {
+            $h->folder = $folder;
             $a_msg_headers[$h->uid] = $h;
         }
 

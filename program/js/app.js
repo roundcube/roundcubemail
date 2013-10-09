@@ -6399,8 +6399,10 @@ function rcube_webmail()
     if ((n = $.inArray('status', this.env.coltypes)) >= 0)
       this.env.status_col = n;
 
-    if (list)
+    if (list) {
+      list.hide_column('folder', !(this.env.search_request || this.env.search_id));
       list.init_header();
+    }
   };
 
   // replace content of row count display
