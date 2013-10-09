@@ -126,9 +126,23 @@ $_SESSION['search_request'] = $search_request;
 $result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
 $count = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 
+// Add 'folder' column to list
+if ($multi_folder_search) {
+  $a_show_cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
+  if (!in_array($a_show_cols))
+    $a_show_cols[] = 'folder';
+
+  // make message UIDs unique by appending the folder name
+  foreach ($result_h as $i => $header) {
+    $header->uid .= '-'.$header->folder;
+    if ($header->parent_uid)
+      $header->parent_uid .= '-'.$header->folder;
+  }
+}
+
 // Make sure we got the headers
 if (!empty($result_h)) {
-  rcmail_js_message_list($result_h);
+  rcmail_js_message_list($result_h, false, $a_show_cols);
   if ($search_str)
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $RCMAIL->storage->count(NULL, 'ALL')));
 }

@@ -25,11 +25,11 @@ if (!$OUTPUT->ajax_call)
 
 // move messages
 if (!empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-    $uids   = get_input_value('_uid', RCUBE_INPUT_POST);
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
-    $mbox   = get_input_value('_mbox', RCUBE_INPUT_POST, true);
 
-    $copied = $RCMAIL->storage->copy_message($uids, $target, $mbox);
+    foreach (rcmail_get_uids() as $mbox => $uids) {
+      $copied += (int)$RCMAIL->storage->copy_message($uids, $target, $mbox);
+    }
 
     if (!$copied) {
         // send error message

@@ -5,7 +5,7 @@
  | program/steps/mail/move_del.inc                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,12 +30,13 @@ $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 
 // move messages
 if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-    $count  = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
     $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
-    $mbox   = get_input_value('_mbox', RCUBE_INPUT_POST, true);
     $trash  = $RCMAIL->config->get('trash_mbox');
 
-    $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
+    foreach (rcmail_get_uids() as $mbox => $uids) {
+        $moved += (int)$RCMAIL->storage->move_message($uids, $target, $mbox);
+        $count += count($uids);
+    }
 
     if (!$moved) {
         // send error message
@@ -46,17 +47,17 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
         exit;
     }
     else {
-      $OUTPUT->show_message('messagemoved', 'confirmation');
+        $OUTPUT->show_message('messagemoved', 'confirmation');
     }
 
     $addrows = true;
 }
 // delete messages 
 else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
-    $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
-    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
-
-    $del = $RCMAIL->storage->delete_message($uids, $mbox);
+    foreach (rcmail_get_uids() as $mbox => $uids) {
+        $del += (int)$RCMAIL->storage->delete_message($uids, $mbox);
+        $count += count($uids);
+    }
 
     if (!$del) {
         // send error message
@@ -67,7 +68,7 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
         exit;
     }
     else {
-      $OUTPUT->show_message('messagedeleted', 'confirmation');
+        $OUTPUT->show_message('messagedeleted', 'confirmation');
     }
 
     $addrows = true;
