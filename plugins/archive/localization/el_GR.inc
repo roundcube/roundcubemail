@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Αρχειοθέτηση';
 $labels['buttontitle'] = 'Αρχειοθέτηση μηνύματος';
 $labels['archived'] = 'Αρχειοθετήθηκε με επιτυχία';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'Μηνας (π.χ. Αρχειο/2012/06)';
 $labels['archivetypefolder'] = 'Αυθεντικος φακελος';
 $labels['archivetypesender'] = 'Αποστολέας email';
 $labels['unkownsender'] = 'άγνωστο';
-
 ?>

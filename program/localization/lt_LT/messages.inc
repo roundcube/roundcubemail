@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Įvyko klaida!';
 $messages['loginfailed']  = 'Prisijungti nepavyko.';
 $messages['cookiesdisabled'] = 'Jūsų naršyklė nepriima slapukų.';

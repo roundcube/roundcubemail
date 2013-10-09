@@ -16,12 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'تغيير كلمة المرور';
 $labels['curpasswd']  = 'كلمة المرور الحالية:';
 $labels['newpasswd']  = 'كلمة المرور الجديدة:';
 $labels['confpasswd']  = 'تأكيد كلمة المرور الجديدة:';
-$messages = array();
 $messages['nopassword'] = 'من فضلك أدخل كلمة المرور الجديدة.';
 $messages['nocurpassword'] = 'من فضلك أدخل كلمة المرور الحالية.';
 $messages['passwordincorrect'] = 'كلمة المرور الحالية غير صحيحة.';

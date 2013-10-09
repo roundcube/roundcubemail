@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Virhe havaittu.';
 $messages['loginfailed']  = 'Sisäänkirjautuminen epäonnistui';
 $messages['cookiesdisabled'] = 'Selaimesi ei hyväksy evästeitä';

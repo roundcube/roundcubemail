@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'büyük küçük harf duyarsız(ascii-casemap)';
 $labels['asciinumeric'] = 'sayı (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'geriye yönelik';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Bilinmeyen sunucu hatası.';
 $messages['filterconnerror'] = 'Sunucuya bağlanamıyor.';
 $messages['filterdeleteerror'] = 'Filtre silinemedi. Sunucuda hata oluştu.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'rezerve edilmiş isim.';
 $messages['setexist'] = 'Set zaten var.';
 $messages['nodata'] = 'En az bir pozisyon seçilmelidir.';
 $messages['invaliddateformat'] = 'geçersiz tarih veya tarih biçimi';
-
 ?>

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
 
-$labels = array();
 $labels['hide'] = 'Ezkutatu';
 $labels['show'] = 'Erakutsi';
 $labels['quotelimit'] = 'Ezkutatu aipamena lerroen kopurua hau baino handiagoa denean';

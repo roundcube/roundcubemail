@@ -25,7 +25,6 @@ $labels['actions'] = '權限設定';
 $labels['anyone'] = '所有使用者 (anyone)';
 $labels['anonymous'] = '訪客 (anonymous)';
 $labels['identifier'] = '識別';
-
 $labels['acll'] = '尋找';
 $labels['aclr'] = '讀取訊息';
 $labels['acls'] = '保持上線狀態';
@@ -39,13 +38,11 @@ $labels['aclt'] = '刪除訊息';
 $labels['acle'] = '刪去';
 $labels['aclx'] = '刪除資料夾';
 $labels['acla'] = '管理者';
-
 $labels['aclfull'] = '完全控制';
 $labels['aclother'] = '其它';
 $labels['aclread'] = '讀取';
 $labels['aclwrite'] = '寫入';
 $labels['acldelete'] = '刪除';
-
 $labels['shortacll'] = '尋找';
 $labels['shortaclr'] = '讀取';
 $labels['shortacls'] = '保存';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = '刪除';
 $labels['shortacle'] = '刪去';
 $labels['shortaclx'] = '資料夾刪除';
 $labels['shortacla'] = '管理者';
-
 $labels['shortaclother'] = '其它';
 $labels['shortaclread'] = '讀取';
 $labels['shortaclwrite'] = '寫入';
 $labels['shortacldelete'] = '刪除';
-
 $labels['longacll'] = '此資料夾權限可以訂閱和瀏覽';
 $labels['longaclr'] = '資料夾能被打開與讀取';
 $labels['longacls'] = '能修改訊息標幟';
@@ -78,12 +73,10 @@ $labels['longaclt'] = '能修改訊息刪除標幟';
 $labels['longacle'] = '能抹除訊息';
 $labels['longaclx'] = '資料夾能被刪除或重新命名';
 $labels['longacla'] = '能變更資料夾權限';
-
 $labels['longaclfull'] = '完全控制包含資料夾管理';
 $labels['longaclread'] = '資料夾能被打開與讀取';
 $labels['longaclwrite'] = '信件可以被標記、編寫或複製到資料夾';
 $labels['longacldelete'] = '訊息能被刪除';
-
 $messages['deleting'] = '刪除權限...';
 $messages['saving'] = '儲存權限...';
 $messages['updatesuccess'] = '權限變更完成';
@@ -95,5 +88,4 @@ $messages['createerror'] = '無法新增權限';
 $messages['deleteconfirm'] = '您確定要刪除所選取使用者的權限嗎?';
 $messages['norights'] = '沒有指定任何權限';
 $messages['nouser'] = '沒有指定用戶名稱';
-
 ?>

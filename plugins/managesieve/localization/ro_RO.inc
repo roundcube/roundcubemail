@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'ignoră majusculele (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'invers';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Eroare necunoscută la server:';
 $messages['filterconnerror'] = 'Nu mă pot conecta la server.';
 $messages['filterdeleteerror'] = 'Nu pot şterge filtrul. S-a produs o eroare la server.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nume rezervat.';
 $messages['setexist'] = 'Setul există deja.';
 $messages['nodata'] = 'Trebuie selectată cel putin o poziţie!';
 $messages['invaliddateformat'] = 'Data sau parte din data in format invalid';
-
 ?>

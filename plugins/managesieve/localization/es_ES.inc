@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'no sensible a mayúsculas (ascii-casemap)';
 $labels['asciinumeric'] = 'numerico (ascii-numeric)';
 $labels['index'] = 'índice:';
 $labels['indexlast'] = 'hacia atrás';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Error desconocido de servidor.';
 $messages['filterconnerror'] = 'Imposible conectar con el servidor managesieve.';
 $messages['filterdeleteerror'] = 'Imposible borrar filtro. Ha ocurrido un error en el servidor.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nombre reservado.';
 $messages['setexist'] = 'El conjunto ya existe.';
 $messages['nodata'] = '¡Al menos una posición debe ser seleccionada!';
 $messages['invaliddateformat'] = 'Fecha o formato de parte de la fecha no válido';
-
 ?>

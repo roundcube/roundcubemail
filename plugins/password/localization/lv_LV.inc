@@ -16,13 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'Nomainīt paroli';
 $labels['curpasswd']  = 'Pašreizējā parole:';
 $labels['newpasswd']  = 'Jaunā parole:';
 $labels['confpasswd']  = 'Apstiprināt jauno paroli:';
-
-$messages = array();
 $messages['nopassword'] = 'Lūdzu ievadiet jauno paroli.';
 $messages['nocurpassword'] = 'Lūdzu ievadiet pašreizējo paroli.';
 $messages['passwordincorrect'] = 'Pašreizējā parole nav pareiza.';
@@ -33,5 +30,4 @@ $messages['internalerror'] = 'Nevarēja saglabāt jauno paroli.';
 $messages['passwordshort'] = 'Jaunajai parolei jābūt vismaz $length simbolu garai.';
 $messages['passwordweak'] = 'Jaunajai parolei jāsatur vismaz viens cipars un speciālais simbols.';
 $messages['passwordforbidden'] = 'Parole satur neatļautus simbolus.';
-
 ?>

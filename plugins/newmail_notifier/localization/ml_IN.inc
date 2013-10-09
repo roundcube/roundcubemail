@@ -26,5 +26,4 @@ $labels['testbody'] = 'ഇത് ഒരു പരീക്ഷണ അറിയി
 $labels['desktopdisabled'] = 'താങ്കളുടെ ബ്രൌസറില്‍ ഡെസ്ക്ക്ടോപ്പ് നോട്ടിഫിക്കേഷന്‍ പ്രവര്‍ത്തനരഹിതമാണ്.';
 $labels['desktopunsupported'] = 'താങ്കളുടെ ബ്രൌസ്സര്‍ ഡെസ്ക്ടോപ്പ് അറിയിപ്പുകള്‍ പിന്‍തുണയ്ക്കുന്നില്ല.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

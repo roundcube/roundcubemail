@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unknown server error';
 $messages['filterconnerror'] = 'Unable to connect to managesieve server';
 $messages['filterdeleteerror'] = 'Unable to delete filter. Server error occured';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Reserved name.';
 $messages['setexist'] = 'Set already exists.';
 $messages['nodata'] = 'At least one position must be selected!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

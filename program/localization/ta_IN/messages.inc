@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'நுழைவு தோல்வியடைந்தது';
 $messages['cookiesdisabled'] = 'உங்கள் உலாவி நினைவிகளை அனுமதிப்பதில்லை';

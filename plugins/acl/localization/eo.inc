@@ -25,7 +25,6 @@ $labels['actions'] = 'Agoj de atingrajtoj...';
 $labels['anyone'] = 'Ĉiuj uzantoj (iu ajn)';
 $labels['anonymous'] = 'Gasto (sennome)';
 $labels['identifier'] = 'Identigilo';
-
 $labels['acll'] = 'Elserĉo';
 $labels['aclr'] = 'Legi mesaĝojn';
 $labels['acls'] = 'Manteni legitan staton';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Forigi mesaĝojn';
 $labels['acle'] = 'Expunge';
 $labels['aclx'] = 'Forigi dosierujon';
 $labels['acla'] = 'Administri';
-
 $labels['aclfull'] = 'Plena kontrolo';
 $labels['aclother'] = 'Alia';
 $labels['aclread'] = 'Legi';
 $labels['aclwrite'] = 'Skribi';
 $labels['acldelete'] = 'Forigi';
-
 $labels['shortacll'] = 'Elserĉo';
 $labels['shortaclr'] = 'Legi';
 $labels['shortacls'] = 'Manteni';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Forigi';
 $labels['shortacle'] = 'Expunge';
 $labels['shortaclx'] = 'Forigo de dosierujo';
 $labels['shortacla'] = 'Administri';
-
 $labels['shortaclother'] = 'Alia';
 $labels['shortaclread'] = 'Legi';
 $labels['shortaclwrite'] = 'Skribi';
 $labels['shortacldelete'] = 'Forigi';
-
 $labels['longacll'] = 'La dosierujo videblas en listoj kaj oni povas aboni al ĝi';
 $labels['longaclr'] = 'La dosierujo malfermeblas por legado';
 $labels['longacls'] = 'Messages Seen flag can be changed';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Messages Delete flag can be changed';
 $labels['longacle'] = 'Messages can be expunged';
 $labels['longaclx'] = 'The folder can be deleted or renamed';
 $labels['longacla'] = 'The folder access rights can be changed';
-
 $labels['longaclfull'] = 'Full control including folder administration';
 $labels['longaclread'] = 'La dosierujo malfermeblas por legado';
 $labels['longaclwrite'] = 'Messages can be marked, written or copied to the folder';
 $labels['longacldelete'] = 'Messages can be deleted';
-
 $messages['deleting'] = 'Deleting access rights...';
 $messages['saving'] = 'Saving access rights...';
 $messages['updatesuccess'] = 'Successfully changed access rights';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Unable to add access rights';
 $messages['deleteconfirm'] = 'Are you sure, you want to remove access rights of selected user(s)?';
 $messages['norights'] = 'No rights has been specified!';
 $messages['nouser'] = 'No username has been specified!';
-
 ?>

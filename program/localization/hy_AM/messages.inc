@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Սխա՛լ';
 $messages['loginfailed']  = 'Մուտքը ձախողվեց';
 $messages['cookiesdisabled'] = 'Сookies–ների ապահովվումը բացակայում է';

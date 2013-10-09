@@ -16,12 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'Αλλαγη κωδικου προσβασης';
 $labels['curpasswd']  = 'Τρεχων κωδικος προσβασης:';
 $labels['newpasswd']  = 'Νεος κωδικος προσβασης:';
 $labels['confpasswd']  = 'Επιβεβαιωση κωδικου προσβασης:';
-$messages = array();
 $messages['nopassword'] = 'Εισαγετε εναν νεο κωδικο.';
 $messages['nocurpassword'] = 'Εισαγετε τον τρεχων κωδικο.';
 $messages['passwordincorrect'] = 'Ο τρεχων κωδικος ειναι λαθος.';

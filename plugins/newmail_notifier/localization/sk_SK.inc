@@ -26,5 +26,4 @@ $labels['testbody'] = 'Toto je skúšobné upozornenie.';
 $labels['desktopdisabled'] = 'Upozornenia na ploche sú vo vašom prehliadači vypnuté.';
 $labels['desktopunsupported'] = 'Váč prehliadač nepodporuje upozornenia na ploche.';
 $labels['desktoptimeout'] = 'Zatvoriť notifikáciu na ploche';
-
 ?>

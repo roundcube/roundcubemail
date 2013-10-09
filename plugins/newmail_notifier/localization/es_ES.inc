@@ -26,5 +26,4 @@ $labels['testbody'] = 'Esta es una notificación de pruebas.';
 $labels['desktopdisabled'] = 'Las notificaciones de escritorio están deshabilitadas en tu navegador.';
 $labels['desktopunsupported'] = 'Tu navegador no soporta notificaciones de escritorio.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

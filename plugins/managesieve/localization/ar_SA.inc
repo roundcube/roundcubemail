@@ -32,5 +32,4 @@ $labels['advancedopts'] = 'خيارات متقدّمة';
 $labels['address'] = 'العنوان';
 $labels['allparts'] = 'الكل';
 $labels['domain'] = 'المجال';
-$messages = array();
 ?>

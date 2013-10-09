@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'A avut loc o EROARE!';
 $messages['loginfailed']  = 'Autentificare eşuată';
 $messages['cookiesdisabled'] = 'Browserul dumneavoastră nu acceptă cookies';

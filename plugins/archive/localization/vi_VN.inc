@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Lưu trữ';
 $labels['buttontitle'] = 'Lưu lại bức thư này';
 $labels['archived'] = 'Lưu lại thành công';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
 $labels['archivetypefolder'] = 'Original folder';
 $labels['archivetypesender'] = 'Sender email';
 $labels['unkownsender'] = 'unknown';
-
 ?>

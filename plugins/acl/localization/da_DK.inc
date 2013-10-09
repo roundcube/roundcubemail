@@ -25,7 +25,6 @@ $labels['actions'] = 'Tilgangsrettigheder...';
 $labels['anyone'] = 'Alle brugere';
 $labels['anonymous'] = 'Gæst (anonym)';
 $labels['identifier'] = 'Identifikator';
-
 $labels['acll'] = 'Slå op';
 $labels['aclr'] = 'Læs beskeder';
 $labels['acls'] = 'Behold læst-status';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Slet beskeder';
 $labels['acle'] = 'Udslet';
 $labels['aclx'] = 'Slet mappe';
 $labels['acla'] = 'Administrer';
-
 $labels['aclfull'] = 'Fuld kontrol';
 $labels['aclother'] = 'Andet';
 $labels['aclread'] = 'Læse';
 $labels['aclwrite'] = 'Skrive';
 $labels['acldelete'] = 'Slet';
-
 $labels['shortacll'] = 'Slå op';
 $labels['shortaclr'] = 'Læse';
 $labels['shortacls'] = 'Behold';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Slet';
 $labels['shortacle'] = 'Udslet';
 $labels['shortaclx'] = 'Slet mappe';
 $labels['shortacla'] = 'Administrer';
-
 $labels['shortaclother'] = 'Andet';
 $labels['shortaclread'] = 'Læse';
 $labels['shortaclwrite'] = 'Skrive';
 $labels['shortacldelete'] = 'Slet';
-
 $labels['longacll'] = 'Mappen er synlig på listen og kan abonneres på';
 $labels['longaclr'] = 'Mappen kan åbnes for læsning';
 $labels['longacls'] = 'Beskeders Læst-flag kan ændres';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Beskeders Slet-flag kan ændres';
 $labels['longacle'] = 'Beskeder kan slettes';
 $labels['longaclx'] = 'Mappen kan blive slettet eller omdøbt';
 $labels['longacla'] = 'Mappen adgangsrettigheder kan ændres';
-
 $labels['longaclfull'] = 'Fuld kontrol inklusiv mappeadministration';
 $labels['longaclread'] = 'Mappen kan åbnes for læsning';
 $labels['longaclwrite'] = 'Beskeder kan blive markeret, skrevet eller kopieret til mappen';
 $labels['longacldelete'] = 'Beskeder kan slettes';
-
 $messages['deleting'] = 'Slette rettigheder...';
 $messages['saving'] = 'Gemme rettigheder...';
 $messages['updatesuccess'] = 'Tilgangsrettighederne blev ændret';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Kunne ikke tilføje tilgangsrettigheder';
 $messages['deleteconfirm'] = 'Er du sikker på, at du vil slette tilgangsrettigheder fra de(n) valgte bruger(e)?';
 $messages['norights'] = 'Der er ikke specificeret nogle rettigheder!';
 $messages['nouser'] = 'Der er ikke angiver et brugernavn!';
-
 ?>

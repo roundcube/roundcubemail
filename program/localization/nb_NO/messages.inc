@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Det oppsto en feil!';
 $messages['loginfailed']  = 'Pålogging mislyktes';
 $messages['cookiesdisabled'] = 'Nettleseren din tillater ikke informasjonskapsler (cookies)';

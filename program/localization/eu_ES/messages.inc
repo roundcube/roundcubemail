@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Errore bat gertatu da!';
 $messages['loginfailed']  = 'Saio hasierak huts egin du.';
 $messages['cookiesdisabled'] = 'Zure nabigatzaileak ez ditu cookie-rik onartzen';

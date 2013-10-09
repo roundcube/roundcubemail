@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Ocurreu un erro!';
 $messages['loginfailed']  = 'O contrasinal ou o nome de usuario son incorrectos.';
 $messages['cookiesdisabled'] = 'O seu navegador non acepta galletas.';

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Došlo k chybě!';
 $messages['loginfailed']  = 'Přihlášení selhalo';
 $messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nezbytné';

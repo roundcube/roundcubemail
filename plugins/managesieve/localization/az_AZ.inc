@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'qeydiyyat üzrə müstəqil (ascii-casemap)';
 $labels['asciinumeric'] = 'ədədi (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Serverin naməlum xətası.';
 $messages['filterconnerror'] = 'Serverə qoşulmaq alınmır';
 $messages['filterdeleteerror'] = 'Süzgəci silmək mümkün deyil. Server xətası.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Rezerv edilmiş ad.';
 $messages['setexist'] = 'Dəst artıq mövcuddur.';
 $messages['nodata'] = 'Heç olmasa bir mövqe tutmaq lazımdır!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

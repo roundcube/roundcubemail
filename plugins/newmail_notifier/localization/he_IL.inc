@@ -26,5 +26,4 @@ $labels['testbody'] = 'זה איתות לנסיון';
 $labels['desktopdisabled'] = 'איתותים משולחן העבודה אינם פעילים בדפדפן שלך';
 $labels['desktopunsupported'] = 'הדפדפן שלך אינו תומך באיתותים משולחן העבודה';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

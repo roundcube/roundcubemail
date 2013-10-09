@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = '오류 발생!';
 $messages['loginfailed']  = '로그인이 실패하였습니다.';
 $messages['cookiesdisabled'] = '브라우저가 쿠키를 지원하지 않습니다.';

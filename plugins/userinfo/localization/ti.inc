@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
 
-$labels = array();
 $labels['userinfo'] = 'ሓብሬታ በዓል ዋና ';
 $labels['created'] = 'እዋን ፍጥረት';
 $labels['lastlogin'] = 'እዋን እታው';

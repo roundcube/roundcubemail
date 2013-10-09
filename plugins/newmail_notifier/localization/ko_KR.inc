@@ -26,5 +26,4 @@ $labels['testbody'] = '이 것은 시험용 알림입니다.';
 $labels['desktopdisabled'] = '당신의 브라우져에서는 데스크탑의 알림이 불가능하도록 되어있습니다.';
 $labels['desktopunsupported'] = '당신의 브라우져에서는 데스크탑의 알림을 지원하지 않습니다.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Wystąpił błąd!';
 $messages['loginfailed']  = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';

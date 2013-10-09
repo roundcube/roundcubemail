@@ -16,8 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 
-$labels = array();
 $labels['downloadall'] = 'Llwytho lawr holl atodiadau';
 $labels['downloadfolder'] = 'Ffolder llwytho lawr';
-
 ?>

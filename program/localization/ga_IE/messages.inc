@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'Theip an iarraidh chun logáil tú isteach';
 $messages['cookiesdisabled'] = 'Níor glac do sracléitheoir an fianán seisiúin';

@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'אינדקס:';
 $labels['indexlast'] = 'בחזרה';
-
-$messages = array();
 $messages['filterunknownerror'] = 'שגיאת שרת בלתי מוכרת.';
 $messages['filterconnerror'] = 'לא ניתן להתחבר לשרת.';
 $messages['filterdeleteerror'] = 'לא ניתן למחוק את המסנן. אירעה שגיאה בצד השרת.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'השם הזה שמור.';
 $messages['setexist'] = 'הערכה כבר קיימת.';
 $messages['nodata'] = 'חובה לבחור במיקום אחד לפחות!';
 $messages['invaliddateformat'] = 'תאריך לא חוקי אן פורמט לא תקין';
-
 ?>

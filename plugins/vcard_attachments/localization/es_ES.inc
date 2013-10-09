@@ -16,8 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
 
-$labels = array();
 $labels['addvcardmsg'] = 'Añadir la tarjeta a la libreta de direcciones';
 $labels['vcardsavefailed'] = 'No ha sido posible guardar la tarjeta';
-
 ?>

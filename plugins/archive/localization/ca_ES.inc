@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Arxiva';
 $labels['buttontitle'] = 'Arxiva aquest missatge';
 $labels['archived'] = 'Arxivat correctament';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'Mes (p.ex. Arxiu/2012/06)';
 $labels['archivetypefolder'] = 'Carpeta original';
 $labels['archivetypesender'] = 'Adreça del remitent';
 $labels['unkownsender'] = 'desconegut';
-
 ?>

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'بایگانی';
 $labels['buttontitle'] = 'بایگانی این پیغام';
 $labels['archived'] = 'با موفقیت بایگانی شد';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'ماه (به عنوان مثال بایگانی/�
 $labels['archivetypefolder'] = 'پوشه اصلی';
 $labels['archivetypesender'] = 'ایمیل فرستنده';
 $labels['unkownsender'] = 'ناشناخته';
-
 ?>

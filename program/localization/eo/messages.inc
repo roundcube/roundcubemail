@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Eraro okazis!';
 $messages['loginfailed']  = 'Malsukcesis ensaluti';
 $messages['cookiesdisabled'] = 'Via foliumilo ne akceptas kuketojn';

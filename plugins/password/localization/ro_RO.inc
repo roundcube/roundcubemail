@@ -16,13 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'Schimbați parola';
 $labels['curpasswd']  = 'Parola curentă:';
 $labels['newpasswd']  = 'Parola nouă:';
 $labels['confpasswd']  = 'Confirmați parola nouă:';
-
-$messages = array();
 $messages['nopassword'] = 'Te rog să introduci noua parolă.';
 $messages['nocurpassword'] = 'Te rog să introduci parola curentă';
 $messages['passwordincorrect'] = 'Parola curentă este incorectă.';
@@ -33,5 +30,4 @@ $messages['internalerror'] = 'Nu am reușit să salvez noua parolă.';
 $messages['passwordshort'] = 'Parola trebuie să aibă $length caractere.';
 $messages['passwordweak'] = 'Parola trebuie să conțina cel puțin un număr si un semn de punctuație';
 $messages['passwordforbidden'] = 'Parola conține caractere nepermise.';
-
 ?>

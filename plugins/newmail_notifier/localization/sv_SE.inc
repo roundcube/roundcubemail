@@ -26,5 +26,4 @@ $labels['testbody'] = 'Denna avisering är ett prov.';
 $labels['desktopdisabled'] = 'Avisering på skrivbordet är avstängt i webbläsaren.';
 $labels['desktopunsupported'] = 'Avisering på skrivbordet stöds inte av webbläsaren.';
 $labels['desktoptimeout'] = 'Stäng avisering på skrivbordet';
-
 ?>

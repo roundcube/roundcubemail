@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'الأرشيف';
 $labels['buttontitle'] = 'أرشف هذه الرسالة';
 $labels['archived'] = 'أُرشفت بنجاح';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'الشهر (مثال. الارشيف/2012/06)';
 $labels['archivetypefolder'] = 'المجلد الاصلي';
 $labels['archivetypesender'] = 'ايميل المرسل';
 $labels['unkownsender'] = 'مجهول';
-
 ?>

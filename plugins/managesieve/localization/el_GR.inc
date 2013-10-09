@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'πεζά ή κεφαλαία (ascii-casemap)';
 $labels['asciinumeric'] = 'αριθμητικό (ascii-αριθμητικο)';
 $labels['index'] = 'ευρετήριο:';
 $labels['indexlast'] = 'προς τα πίσω';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Άγνωστο σφάλμα διακομιστή';
 $messages['filterconnerror'] = 'Αδυναμία σύνδεσης στον διακομιστή managesieve';
 $messages['filterdeleteerror'] = 'Αδυναμία διαγραφής φίλτρου. Προέκυψε σφάλμα στον διακομιστή';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Δεσμευμένο όνομα. ';
 $messages['setexist'] = 'Set υπάρχει ήδη. ';
 $messages['nodata'] = 'Τουλάχιστον μία θέση πρέπει να επιλεγεί!';
 $messages['invaliddateformat'] = 'Μη έγκυρη ημερομηνία ή η ημερομηνία μορφής τμήμα';
-
 ?>

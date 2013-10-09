@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'store og små bogstaver (ascii-bogstaver)';
 $labels['asciinumeric'] = 'numerisk (ascii-numerisk)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'baglends';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Ukendt server fejl.';
 $messages['filterconnerror'] = 'Kan ikke forbinde til server.';
 $messages['filterdeleteerror'] = 'Kan ikke slette filter. Server fejl.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Reserveret navn.';
 $messages['setexist'] = 'Filterv sæt eksisterer allerede';
 $messages['nodata'] = 'Mindst en position skal vælges!';
 $messages['invaliddateformat'] = 'Ugyldigt dato- eller tidsformat';
-
 ?>

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
 
-$labels = array();
 $labels['hide'] = 'Скрий';
 $labels['show'] = 'Покажи';
 $labels['quotelimit'] = 'Скрива цитатите когато броя редове е по-голям от';

@@ -16,12 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'መሕለፊ ቃል ይለወጥ';
 $labels['curpasswd']  = 'ህልው መሕለፊ ቃል:';
 $labels['newpasswd']  = 'ሓዱሽ መሕለፊ ቃል:';
 $labels['confpasswd']  = 'መረጋገፂ ሓዱሽ መሕለፊ ቃል :';
-$messages = array();
 $messages['nopassword'] = 'ሓዱሽ መሕለፊ ቃል አብዚ ይእቶ::';
 $messages['nocurpassword'] = 'ህልው መሕለፊ ቃል ኣብዚ ይእቶ::';
 $messages['passwordincorrect'] = 'ህልው መሕለፊ ቃል  ከምኡ ኣይኮነን::';

@@ -25,7 +25,6 @@ $labels['actions'] = 'Cách ứng xử quyền truy cập';
 $labels['anyone'] = 'Tất cả người dùng (bất kỳ ai)';
 $labels['anonymous'] = 'Khách (nặc danh)';
 $labels['identifier'] = 'Định danh';
-
 $labels['acll'] = 'Tìm kiếm';
 $labels['aclr'] = 'Đọc thư';
 $labels['acls'] = 'Giữ trạng thái đã xem qua';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Xóa thư';
 $labels['acle'] = 'Thải bỏ';
 $labels['aclx'] = 'Xóa giữ liệu';
 $labels['acla'] = 'Quản lý';
-
 $labels['aclfull'] = 'Quản lý toàn bộ';
 $labels['aclother'] = 'Loại khác';
 $labels['aclread'] = 'Đọc';
 $labels['aclwrite'] = 'Viết';
 $labels['acldelete'] = 'Xoá';
-
 $labels['shortacll'] = 'Tìm kiếm';
 $labels['shortaclr'] = 'Đọc';
 $labels['shortacls'] = 'Giữ';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Xoá';
 $labels['shortacle'] = 'Thải bỏ';
 $labels['shortaclx'] = 'Giữ liệu được xóa';
 $labels['shortacla'] = 'Quản lý';
-
 $labels['shortaclother'] = 'Loại khác';
 $labels['shortaclread'] = 'Đọc';
 $labels['shortaclwrite'] = 'Viết';
 $labels['shortacldelete'] = 'Xoá';
-
 $labels['longacll'] = 'Giữ liệu đã được liệt kê và có thể đóng góp';
 $labels['longaclr'] = 'Giữ liệu có thể được mở để đọc';
 $labels['longacls'] = 'Cờ đánh dấu thư đã xem qua có thể thay đổi';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Cờ đánh dấu thư xóa có thể thay đổi';
 $labels['longacle'] = 'Thư có thể thải bỏ';
 $labels['longaclx'] = 'Giữ liệu có thể xóa được hoặc đặt lại tên';
 $labels['longacla'] = 'Quyên truy cập giữ liệu có thể thay đổi';
-
 $labels['longaclfull'] = 'Quản lý toàn bộ bao gồm cả sự thi hành giữ liệu';
 $labels['longaclread'] = 'Giữ liệu có thể được mở để đọc';
 $labels['longaclwrite'] = 'Thư có thể được đánh dấu, ghi hoăc sao chép vào giữ liệu';
 $labels['longacldelete'] = 'Thư có thể bị xóa';
-
 $messages['deleting'] = 'Xóa quyền truy cập...';
 $messages['saving'] = 'Lưu quyền truy cập...';
 $messages['updatesuccess'] = 'Thay đổi quyền truy cập thành công...';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Không thể thêm quyền truy cập';
 $messages['deleteconfirm'] = 'Bạn có chắc là muốn xóa bỏ quyền truy cập của người dùng được chọn?';
 $messages['norights'] = 'Chưa có quyền nào được chỉ định!';
 $messages['nouser'] = 'Chưa có tên truy nhập được chỉ định!';
-
 ?>

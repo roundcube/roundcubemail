@@ -25,7 +25,6 @@ $labels['actions'] = 'פעולות על זכויות גישה...';
 $labels['anyone'] = 'כל המשתמשים (כל אחד)';
 $labels['anonymous'] = 'אורחים (אנונימי)';
 $labels['identifier'] = 'מזהה';
-
 $labels['acll'] = 'חיפוש';
 $labels['aclr'] = 'קריאת הודעות';
 $labels['acls'] = 'שמירה על סטטוס נראה';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'מחיקת הודעות';
 $labels['acle'] = 'ניקוי רשומות שבוטלו';
 $labels['aclx'] = 'מחיקת תיקיה';
 $labels['acla'] = 'מנהל';
-
 $labels['aclfull'] = 'שליטה מלאה';
 $labels['aclother'] = 'אחר';
 $labels['aclread'] = 'קריאה';
 $labels['aclwrite'] = 'כתיבה';
 $labels['acldelete'] = 'מחיקה';
-
 $labels['shortacll'] = 'חיפוש';
 $labels['shortaclr'] = 'קריאה';
 $labels['shortacls'] = 'להשאיר';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'מחיקה';
 $labels['shortacle'] = 'ניקוי רשומות שבוטלו';
 $labels['shortaclx'] = 'מחיקת תיקיה';
 $labels['shortacla'] = 'מנהל';
-
 $labels['shortaclother'] = 'אחר';
 $labels['shortaclread'] = 'קריאה';
 $labels['shortaclwrite'] = 'כתיבה';
 $labels['shortacldelete'] = 'מחיקה';
-
 $labels['longacll'] = 'התיקיה תראה ברשימות וניתן יהיה להרשם אליה';
 $labels['longaclr'] = 'ניתן לפתוח את התיקיה ולקרוא בה';
 $labels['longacls'] = 'ניתן לשנות דגל נראה בהודעות';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'ניתן לשנות דגל נמחק של הודעות';
 $labels['longacle'] = 'ניתן לנקות הודעות שסומנו כמבוטלות';
 $labels['longaclx'] = 'ניתן למחוק תיקיה זו או לשנות שמה';
 $labels['longacla'] = 'ניתן לשנות זכויות גישה של תיקיה זו';
-
 $labels['longaclfull'] = 'שליטה מלאה כולל ניהול התיקיה';
 $labels['longaclread'] = 'ניתן לפתוח את התיקיה ולקרוא בה';
 $labels['longaclwrite'] = 'ניתן לסמן, לכתוב או להעתיק הודעות לתיקיה זו';
 $labels['longacldelete'] = 'ניתן למחוק הודעות';
-
 $messages['deleting'] = 'זכויות גישה נמחקות...';
 $messages['saving'] = 'זכויות גישה נשמרות...';
 $messages['updatesuccess'] = 'זכויות גישה שונו בהצלחה';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'לא ניתן להוסיף זכויות גישה';
 $messages['deleteconfirm'] = 'האם ודאי שברצונך להסיר זכויות גישה של המשתמש(ים) שנבחרו?';
 $messages['norights'] = 'לא צוינו זכויות גישה כלשהן !';
 $messages['nouser'] = 'לא צוין שם משתמש כלשהו!';
-
 ?>

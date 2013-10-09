@@ -26,5 +26,4 @@ $labels['testbody'] = 'Dies ist eine Testbenachrichtigung';
 $labels['desktopdisabled'] = 'Desktop-Benachrichtigungen sind deaktiviert.';
 $labels['desktopunsupported'] = 'Ihr Browser unterstützt keine Desktop-Benachrichtigungen.';
 $labels['desktoptimeout'] = 'Anzeige im Browser schliessen';
-
 ?>

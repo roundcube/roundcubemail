@@ -26,5 +26,4 @@ $labels['testbody'] = 'notifica di prova';
 $labels['desktopdisabled'] = 'le notifiche sul desktop sono disabilitate nel tuo browser';
 $labels['desktopunsupported'] = 'il tuo browser non supporta le notifiche sul desktop';
 $labels['desktoptimeout'] = 'Chiudi la notifica visualizzata sul desktop';
-
 ?>

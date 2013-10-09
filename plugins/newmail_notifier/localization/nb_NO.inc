@@ -26,5 +26,4 @@ $labels['testbody'] = 'Dette er et testvarsel.';
 $labels['desktopdisabled'] = 'Skrivebordsvarsel er slått av i din nettleser.';
 $labels['desktopunsupported'] = 'Din nettleser støtter ikke visning av varsel på skrivebordet.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

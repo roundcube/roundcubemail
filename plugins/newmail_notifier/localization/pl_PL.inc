@@ -26,5 +26,4 @@ $labels['testbody'] = 'To jest testowe powiadomienie.';
 $labels['desktopdisabled'] = 'Powiadomienia na pulpicie zostały zablokowane w twojej przeglądarce.';
 $labels['desktopunsupported'] = 'Twoja przeglądarka nie obsługuje powiadomień na pulpicie.';
 $labels['desktoptimeout'] = 'Zamknij powiadomienie pulpitu';
-
 ?>

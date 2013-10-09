@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'خطایی رخ داد!';
 $messages['loginfailed']  = 'ورود ناموفق بود.';
 $messages['cookiesdisabled'] = 'مرورگر شما کوکی‌ها را قبول نمی‌کند.';

@@ -25,7 +25,6 @@ $labels['actions'] = 'Prístupové práva činností...';
 $labels['anyone'] = 'Všetci užívatelia (ktokoľvek)';
 $labels['anonymous'] = 'Hostia (anonymne)';
 $labels['identifier'] = 'Identifikátor';
-
 $labels['acll'] = 'Vyhľadať';
 $labels['aclr'] = 'Čítať správy';
 $labels['acls'] = 'Ponechať ako prečítané';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Zmazať správy';
 $labels['acle'] = 'Vyčistiť';
 $labels['aclx'] = 'Zmazať priečinok';
 $labels['acla'] = 'Spravovať';
-
 $labels['aclfull'] = 'Plný prístup';
 $labels['aclother'] = 'Ostatné';
 $labels['aclread'] = 'Čítanie';
 $labels['aclwrite'] = 'Zápis';
 $labels['acldelete'] = 'Odstrániť';
-
 $labels['shortacll'] = 'Vyhľadať';
 $labels['shortaclr'] = 'Čítanie';
 $labels['shortacls'] = 'Ponechať';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Odstrániť';
 $labels['shortacle'] = 'Vyčistiť';
 $labels['shortaclx'] = 'Odstrániť priečinok';
 $labels['shortacla'] = 'Spravovať';
-
 $labels['shortaclother'] = 'Ostatné';
 $labels['shortaclread'] = 'Čítanie';
 $labels['shortaclwrite'] = 'Zápis';
 $labels['shortacldelete'] = 'Odstrániť';
-
 $labels['longacll'] = 'Priečinok je v zoznamoch viditeľný a dá sa doň zapísať';
 $labels['longaclr'] = 'Prečinok je možné otvoriť na čítanie';
 $labels['longacls'] = 'Príznak "Prečítané" je možné zmeniť';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Príznak správ "Vymazané" je možné zmeniť';
 $labels['longacle'] = 'Správy je možné vymazať';
 $labels['longaclx'] = 'Priečinok je možné vymazať alebo premenovať';
 $labels['longacla'] = 'Je možné zmeniť prístupové práva k priečinku';
-
 $labels['longaclfull'] = 'Úplný prístup, vrátane správy priečinka';
 $labels['longaclread'] = 'Prečinok je možné otvoriť na čítanie';
 $labels['longaclwrite'] = 'Správy je možné označiť, zapísať alebo skopírovať do prečinka';
 $labels['longacldelete'] = 'Správy je možné vymazať';
-
 $messages['deleting'] = 'Odstraňovanie prístupových práv...';
 $messages['saving'] = 'Ukladanie prístupových práv...';
 $messages['updatesuccess'] = 'Prístupové práva boli úspešne zmenené';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Prístupové práva sa nepodarilo pridať';
 $messages['deleteconfirm'] = 'Ste si istý, že chcete odstrániť prístupové práva vybranému používateľovi/používateľom?';
 $messages['norights'] = 'Neboli určené žiadne práva!';
 $messages['nouser'] = 'Nebolo určené žiadne meno používateľa!';
-
 ?>

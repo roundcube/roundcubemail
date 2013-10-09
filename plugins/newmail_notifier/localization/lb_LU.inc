@@ -25,5 +25,4 @@ $labels['body'] = 'Du hues en neie Message kritt.';
 $labels['testbody'] = 'Dëst ass eng Test-Benoorichtegung.';
 $labels['desktopdisabled'] = 'Desktop-Notifikatioune sinn an dengem Browser ausgeschalt.';
 $labels['desktopunsupported'] = 'Däi Browser ënnerstëtzt keng Desktop-Notifikatiounen.';
-
 ?>

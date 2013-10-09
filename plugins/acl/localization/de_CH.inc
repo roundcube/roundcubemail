@@ -25,7 +25,6 @@ $labels['actions'] = 'Zugriffsrechte Aktionen...';
 $labels['anyone'] = 'Alle Benutzer (anyone)';
 $labels['anonymous'] = 'Gäste (anonymous)';
 $labels['identifier'] = 'Bezeichnung';
-
 $labels['acll'] = 'Sichtbar';
 $labels['aclr'] = 'Nachrichten lesen';
 $labels['acls'] = 'Lesestatus ändern';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Nachrichten als gelöscht markieren';
 $labels['acle'] = 'Endgültig löschen';
 $labels['aclx'] = 'Ordner löschen';
 $labels['acla'] = 'Verwalten';
-
 $labels['aclfull'] = 'Vollzugriff';
 $labels['aclother'] = 'Andere';
 $labels['aclread'] = 'Lesen';
 $labels['aclwrite'] = 'Schreiben';
 $labels['acldelete'] = 'Löschen';
-
 $labels['shortacll'] = 'Sichtbar';
 $labels['shortaclr'] = 'Lesen';
 $labels['shortacls'] = 'Behalte';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Löschen';
 $labels['shortacle'] = 'Endgültig löschen';
 $labels['shortaclx'] = 'Ordner löschen';
 $labels['shortacla'] = 'Verwalten';
-
 $labels['shortaclother'] = 'Andere';
 $labels['shortaclread'] = 'Lesen';
 $labels['shortaclwrite'] = 'Schreiben';
 $labels['shortacldelete'] = 'Löschen';
-
 $labels['longacll'] = 'Der Ordner ist sichtbar und kann abonniert werden';
 $labels['longaclr'] = 'Der Ordnerinhalt kann gelesen werden';
 $labels['longacls'] = 'Der Lesestatus von Nachrichten kann geändert werden';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Der "gelöscht" Status von Nachrichten kann geändert wer
 $labels['longacle'] = 'Als "gelöscht" markierte Nachrichten können entfernt werden';
 $labels['longaclx'] = 'Der Ordner kann gelöscht oder umbenannt werden';
 $labels['longacla'] = 'Die Zugriffsrechte des Ordners können geändert werden';
-
 $labels['longaclfull'] = 'Vollzugriff inklusive Ordner-Verwaltung';
 $labels['longaclread'] = 'Der Ordnerinhalt kann gelesen werden';
 $labels['longaclwrite'] = 'Nachrichten können markiert, an den Ordner gesendet und in den Ordner kopiert oder verschoben werden';
 $labels['longacldelete'] = 'Nachrichten können gelöscht werden';
-
 $messages['deleting'] = 'Zugriffsrechte werden entzogen...';
 $messages['saving'] = 'Zugriffsrechte werden gespeichert...';
 $messages['updatesuccess'] = 'Zugriffsrechte erfolgreich geändert';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Zugriffsrechte konnten nicht gewährt werden';
 $messages['deleteconfirm'] = 'Sind Sie sicher, dass Sie die Zugriffsrechte den ausgewählten Benutzern entziehen möchten?';
 $messages['norights'] = 'Es wurden keine Zugriffsrechte ausgewählt!';
 $messages['nouser'] = 'Es wurde kein Benutzer ausgewählt!';
-
 ?>

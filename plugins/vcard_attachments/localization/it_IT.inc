@@ -16,8 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
 
-$labels = array();
 $labels['addvcardmsg'] = 'Aggiungi vCard alla Agenda';
 $labels['vcardsavefailed'] = 'Abilita a salvare vCard';
-
 ?>

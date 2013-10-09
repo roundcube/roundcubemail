@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Fe gafwyd gwall!';
 $messages['loginfailed']  = 'Methwyd a\'ch mewngofnodi';
 $messages['cookiesdisabled'] = 'Nid yw eich porwr yn derbyn cwcis';

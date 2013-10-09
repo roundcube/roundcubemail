@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'non sensible a maiúsculas/minúsculas (ascii-casemap
 $labels['asciinumeric'] = 'numérico (ascii-numerico)';
 $labels['index'] = 'índice:';
 $labels['indexlast'] = 'cara atrás';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Erro descoñecido servidor';
 $messages['filterconnerror'] = 'Imposible conectar co servidor managesieve';
 $messages['filterdeleteerror'] = 'Imposible eliminar filtro. Ocurriu un erro no servidor';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nome reservado';
 $messages['setexist'] = 'Xa existe o conxunto';
 $messages['nodata'] = 'É preciso seleccionar polo menos unha posición!';
 $messages['invaliddateformat'] = 'Formato de data ou parte dos datos inválidos';
-
 ?>

@@ -16,9 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Roskaposti';
 $labels['buttontitle'] = 'Merkitse roskapostiksi';
 $labels['reportedasjunk'] = 'Roskapostista on ilmoitettu onnistuneesti';
-
 ?>

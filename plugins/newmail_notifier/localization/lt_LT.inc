@@ -26,5 +26,4 @@ $labels['testbody'] = 'Tai – bandomasis pranešimas.';
 $labels['desktopdisabled'] = 'Jūsų naršyklėje sistemos pranešimai išjungti.';
 $labels['desktopunsupported'] = 'Jūsų naršyklėje sistemos pranešimai nepalaikomi.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

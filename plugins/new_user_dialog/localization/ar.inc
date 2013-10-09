@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
-$labels = array();
 $labels['identitydialogtitle'] = 'يرجى إكمال هوية المرسل';
 $labels['identitydialoghint'] = 'يظهر هذا المربع مرة واحدة فقط عند تسجيل الدخول أول مرة .';
 ?>

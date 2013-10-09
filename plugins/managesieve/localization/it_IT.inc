@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'non differenziare maiuscole/minuscole (ascii-casemap)
 $labels['asciinumeric'] = 'numerico';
 $labels['index'] = 'indice:';
 $labels['indexlast'] = 'indietro';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Errore sconosciuto del server';
 $messages['filterconnerror'] = 'Collegamento al server managesieve fallito';
 $messages['filterdeleteerror'] = 'Eliminazione del filtro fallita. Si è verificato un errore nel server';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'nome riservato';
 $messages['setexist'] = 'Il gruppo esiste già';
 $messages['nodata'] = 'selezionare almeno una posizione';
 $messages['invaliddateformat'] = 'Formato della data non valido';
-
 ?>

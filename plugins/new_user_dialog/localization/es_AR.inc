@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
-$labels = array();
 $labels['identitydialogtitle'] = 'Por favor, seleccione una identidad para los mensajes salientes';
 $labels['identitydialoghint'] = 'Este diálogo aparecerá sólo una vez durante el primer ingreso';
 ?>

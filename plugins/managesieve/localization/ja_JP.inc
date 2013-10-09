@@ -159,8 +159,6 @@ $labels['asciicasemap'] = '大文字小文字を区別しない(ascii-casemap)';
 $labels['asciinumeric'] = '数値(ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = '不明なサーバーのエラーです。';
 $messages['filterconnerror'] = 'サーバに接続できません。';
 $messages['filterdeleteerror'] = 'フィルターを削除できませんでした。サーバーでエラーが発生しました。';
@@ -193,5 +191,4 @@ $messages['namereserved'] = '予約されている名前です。';
 $messages['setexist'] = 'フィルターセットが既に存在します。';
 $messages['nodata'] = '少なくとも1つの場所を選択しなければなりません!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

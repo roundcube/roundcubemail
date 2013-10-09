@@ -16,9 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
 
-$labels = array();
 $labels['help'] = '說明';
 $labels['about'] = '關於';
 $labels['license'] = '許可證';
-
 ?>

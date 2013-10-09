@@ -16,9 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
 
-$labels = array();
 $labels['hide'] = 'Piilota';
 $labels['show'] = 'Näytä';
 $labels['quotelimit'] = 'Hide citation when lines count is greater than';
-
 ?>

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Ilmnes tõrge!';
 $messages['loginfailed']  = 'Sisselogimine ebaõnnestus';
 $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';

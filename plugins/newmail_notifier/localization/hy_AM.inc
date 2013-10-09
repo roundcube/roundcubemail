@@ -26,5 +26,4 @@ $labels['testbody'] = 'Սա փորձնական ծանուցում է';
 $labels['desktopdisabled'] = 'Սեղանադրի ծանուցումները Ձեր զննարկչում անջատված են';
 $labels['desktopunsupported'] = 'Ձեր զննարկիչը չունի սեղանադրի ծանուցումների հնարավորություն։';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

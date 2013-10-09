@@ -16,9 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Als Spam markéieren';
 $labels['reportedasjunk'] = 'Erfollegräich als Spam gemellt';
-
 ?>

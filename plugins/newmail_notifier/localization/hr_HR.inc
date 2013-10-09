@@ -26,5 +26,4 @@ $labels['testbody'] = 'Ovo je probna dojava.';
 $labels['desktopdisabled'] = 'Dojave na desktopu su onemogućene u vašem pregledniku.';
 $labels['desktopunsupported'] = 'Vaš preglednik ne podržava dojave na desktopu.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

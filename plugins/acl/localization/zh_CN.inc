@@ -25,7 +25,6 @@ $labels['actions'] = '权限设置...';
 $labels['anyone'] = '所有用户(任何人)';
 $labels['anonymous'] = '来宾(匿名)';
 $labels['identifier'] = '标识符';
-
 $labels['acll'] = '查找';
 $labels['aclr'] = '读取消息';
 $labels['acls'] = '保存已读状态';
@@ -39,13 +38,11 @@ $labels['aclt'] = '删除消息';
 $labels['acle'] = '清除';
 $labels['aclx'] = '删除文件夹';
 $labels['acla'] = '管理';
-
 $labels['aclfull'] = '全部控制';
 $labels['aclother'] = '其它';
 $labels['aclread'] = '读取';
 $labels['aclwrite'] = '写入';
 $labels['acldelete'] = '删除';
-
 $labels['shortacll'] = '查找';
 $labels['shortaclr'] = '读取';
 $labels['shortacls'] = '保存';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = '删除';
 $labels['shortacle'] = '清除';
 $labels['shortaclx'] = '删除文件夹';
 $labels['shortacla'] = '管理';
-
 $labels['shortaclother'] = '其他';
 $labels['shortaclread'] = '读取';
 $labels['shortaclwrite'] = '写入';
 $labels['shortacldelete'] = '删除';
-
 $labels['longacll'] = '该文件夹在列表上可见且可被订阅';
 $labels['longaclr'] = '该文件夹可被打开阅读';
 $labels['longacls'] = 'Messages Seen flag can be changed';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Messages Delete flag can be changed';
 $labels['longacle'] = '消息可被清除';
 $labels['longaclx'] = '该文件夹可被删除或重命名';
 $labels['longacla'] = '文件夹访问权限可被修改';
-
 $labels['longaclfull'] = 'Full control including folder administration';
 $labels['longaclread'] = '该文件夹可被打开阅读';
 $labels['longaclwrite'] = '消息可被标记，撰写或复制至文件夹中';
 $labels['longacldelete'] = '信息可被删除';
-
 $messages['deleting'] = '删除访问权限中…';
 $messages['saving'] = '保存访问权限中…';
 $messages['updatesuccess'] = '成功修改访问权限';
@@ -95,5 +88,4 @@ $messages['createerror'] = '无法添加访问权限';
 $messages['deleteconfirm'] = '您确定要移除选中用户的访问权限吗?';
 $messages['norights'] = '没有已指定的权限!';
 $messages['nouser'] = '没有已指定的用户名!';
-
 ?>

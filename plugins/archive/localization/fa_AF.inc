@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'ارشیو';
 $labels['buttontitle'] = 'ارشیو این پیام';
 $labels['archived'] = 'با موفقیت ارشیو شد';

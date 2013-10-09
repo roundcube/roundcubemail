@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Er is een fout opgetreden!';
 $messages['loginfailed']  = 'Aanmelden mislukt...';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies...';

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'Innskráning mistókst';
 $messages['cookiesdisabled'] = 'Vafrinn þinn vill ekki taka við kökum (cookies)';

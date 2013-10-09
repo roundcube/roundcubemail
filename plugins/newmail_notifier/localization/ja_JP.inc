@@ -26,5 +26,4 @@ $labels['testbody'] = 'これはテストの通知です。';
 $labels['desktopdisabled'] = 'ブラウザーでデスクトップ通知が無効になっています。';
 $labels['desktopunsupported'] = 'ブラウザーがデスクトップ通知をサポートしていません。';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

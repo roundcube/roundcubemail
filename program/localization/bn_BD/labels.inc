@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
-$labels = array();
 
 $labels['welcome']   = 'স্বাগতম';
 $labels['username']  = 'গ্রাহক নাম (username)';

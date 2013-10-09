@@ -26,5 +26,4 @@ $labels['testbody'] = 'हा एक चाचणी निर्देश आ�
 $labels['desktopdisabled'] = 'Desktop notifications are disabled in your browser.';
 $labels['desktopunsupported'] = 'Your browser does not support desktop notifications.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

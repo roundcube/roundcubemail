@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Archivovať';
 $labels['buttontitle'] = 'Archivovať túto správu';
 $labels['archived'] = 'Úspešne archivované';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'Mesiac (napríklad Archív/2012/06)';
 $labels['archivetypefolder'] = 'Pôvodný priečinok';
 $labels['archivetypesender'] = 'E-mailová adresa odosielateľa';
 $labels['unkownsender'] = 'neznámy';
-
 ?>

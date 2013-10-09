@@ -26,5 +26,4 @@ $labels['testbody'] = 'Ez egy teszt értesítés.';
 $labels['desktopdisabled'] = 'Az asztali értesítés ki van kapcsolva a böngésződben.';
 $labels['desktopunsupported'] = 'A böngésződ nem támogatja az asztali értesítéseket.';
 $labels['desktoptimeout'] = 'Az asztali értesítés bezárása';
-
 ?>

@@ -16,9 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Indésirables';
 $labels['buttontitle'] = 'Marquer comme indésirable';
 $labels['reportedasjunk'] = 'Notification de message indésirable envoyée';
-
 ?>

@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'حساس به حروه کوچک و بزرگ (ascii-ca
 $labels['asciinumeric'] = 'عددی (ascii-numeric)';
 $labels['index'] = 'فهرست:';
 $labels['indexlast'] = 'به عقب';
-
-$messages = array();
 $messages['filterunknownerror'] = 'خطای سرور نامعلوم.';
 $messages['filterconnerror'] = 'ناتوانی در اتصال به سرور.';
 $messages['filterdeleteerror'] = 'ناتوانی در حذف صافی. خطای سرور رخ داد.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'نام رزرو شده.';
 $messages['setexist'] = 'مجموعه در حال حاضر موجود است.';
 $messages['nodata'] = 'حداقل باید یک موقعیت باید انتخاب شود.';
 $messages['invaliddateformat'] = 'قالب تاریخ اشتباه';
-
 ?>

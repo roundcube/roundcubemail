@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Սերվերի անհայտ սխալ';
 $messages['filterconnerror'] = 'Սերվերի հետ կապի խնդիր։';
 $messages['filterdeleteerror'] = 'Սերվերի սխալ, զտիչի ջնջումն ձախողվեց։';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Անթույլատրելի անուն։';
 $messages['setexist'] = 'Համալիրը արդեն գոյություն ունի։';
 $messages['nodata'] = 'Պահանջվում է նշել գոնե մեկ դիրք։';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

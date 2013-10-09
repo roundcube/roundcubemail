@@ -16,10 +16,8 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
 
-$labels = array();
 $labels['userinfo'] = 'Titouroù an arveriad';
 $labels['created'] = 'Krouet';
 $labels['lastlogin'] = 'Kennask diwezhañ';
 $labels['defaultidentity'] = 'Default Identity';
-
 ?>

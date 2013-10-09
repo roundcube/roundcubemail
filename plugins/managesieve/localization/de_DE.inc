@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'Groß-/Kleinschreibung ignorieren';
 $labels['asciinumeric'] = 'numerisch (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'rückwärts';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann keine Verbindung mit Managesieve-Server herstellen';
 $messages['filterdeleteerror'] = 'Fehler beim Löschen des Filters. Serverfehler';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Reservierter Name.';
 $messages['setexist'] = 'Filtersatz existiert bereits.';
 $messages['nodata'] = 'Mindestens eine Position muss ausgewählt werden!';
 $messages['invaliddateformat'] = 'Ungültiges Datum oder Teil-Format';
-
 ?>

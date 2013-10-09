@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'індэкс:';
 $labels['indexlast'] = 'назад';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unknown server error.';
 $messages['filterconnerror'] = 'Unable to connect to server.';
 $messages['filterdeleteerror'] = 'Unable to delete filter. Server error occured.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Зарэзерваваная назва.';
 $messages['setexist'] = 'Набор ужо існуе.';
 $messages['nodata'] = 'Мінімум адна пазіцыя павінна быць вылучана!';
 $messages['invaliddateformat'] = 'Няслушная дата альбо фармат даты';
-
 ?>

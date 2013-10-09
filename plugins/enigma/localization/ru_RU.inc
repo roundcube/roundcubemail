@@ -17,7 +17,6 @@
 
 */
 
-$labels = array();
 $labels['enigmasettings'] = 'Enigma: Настройки';
 $labels['enigmacerts'] = 'Enigma: Сертификаты (S/MIME)';
 $labels['enigmakeys'] = 'Enigma: Ключи (PGP)';
@@ -34,7 +33,6 @@ $labels['typepublickey'] = 'Открытый ключ';
 $labels['typekeypair'] = 'пара ключей';
 $labels['keyattfound'] = 'Это сообщение содержит один или несколько ключей PGP.';
 $labels['keyattimport'] = 'Импортировать ключи';
-
 $labels['createkeys'] = 'Создать новую пару ключей';
 $labels['importkeys'] = 'Импортировать ключ(и)';
 $labels['exportkeys'] = 'Экспортировать ключ(и)';
@@ -44,8 +42,6 @@ $labels['keydisable'] = 'Отключить ключ';
 $labels['keyrevoke'] = 'Отозвать ключ';
 $labels['keysend'] = 'Отправить публичный ключ в собщении';
 $labels['keychpass'] = 'Изменить пароль';
-
-$messages = array();
 $messages['sigvalid'] = 'Проверенная подпись у $sender.';
 $messages['siginvalid'] = 'Неверная подпись у $sender.';
 $messages['signokey'] = 'Непроверяемая подпись. Открытый ключ не найден. Идентификатор ключа: $keyid.';
@@ -61,5 +57,4 @@ $messages['keysimportfailed'] = 'Невозможно импортировать
 $messages['keysimportsuccess'] = 'Ключи успешно импортированы. Импортировано: $new, без изменений: $old.';
 $messages['keyconfirmdelete'] = 'Вы точно хотите удалить выбранные ключи?';
 $messages['keyimporttext'] = 'Вы можете импортировать открытые и секретные ключи или сообщения об отзыве ключей в формате ASCII-Armor.';
-
 ?>

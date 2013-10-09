@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
 
-$labels = array();
 $labels['addvcardmsg'] = 'Gehitu vCard helbide-liburura';
 $labels['vcardsavefailed'] = 'Ezin da vCard gorde';
 ?>

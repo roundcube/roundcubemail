@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'teckenlägesokänslig (ascii-casemap)';
 $labels['asciinumeric'] = 'numerisk (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'omvänd';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Okänt serverfel';
 $messages['filterconnerror'] = 'Anslutning till serverns filtertjänst misslyckades';
 $messages['filterdeleteerror'] = 'Filtret kunde inte tas bort på grund av serverfel';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Reserverat namn.';
 $messages['setexist'] = 'Filtergrupp finns redan.';
 $messages['nodata'] = 'Minst en position måste väljas!';
 $messages['invaliddateformat'] = 'Ogiltigt datum eller del av datumformat';
-
 ?>

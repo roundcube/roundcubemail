@@ -26,5 +26,4 @@ $labels['testbody'] = 'Bu bir test bildirimidir.';
 $labels['desktopdisabled'] = 'Web tarayıcınızda masa üstü bildirimi iptal edildi';
 $labels['desktopunsupported'] = 'Web tarayıcınız masa üstü bildidrimleri desteklemiyor';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'tõstutundetu (ascii-casemap)';
 $labels['asciinumeric'] = 'numbriline (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'tagasisuunas';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Tundmatu serveri tõrge';
 $messages['filterconnerror'] = 'Managesieve serveriga ühendumine nurjus';
 $messages['filterdeleteerror'] = 'Filtri kustutamine nurjus. Ilmnes serveri tõrge.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nimi on reserveeritud.';
 $messages['setexist'] = 'Kogum on juba olemas.';
 $messages['nodata'] = 'Valitud peab olema vähemalt üks asukoht!';
 $messages['invaliddateformat'] = 'Vigane kuupäev või kuupäeva formaat';
-
 ?>

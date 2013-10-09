@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
-$messages = array();
 $messages['forgotattachment'] = "Glemte du å legge ved en fil?";
 $messages['reminderoption'] = "Gi meg en påminnelse om glemte vedlegg";
 $messages['keywords'] = "vedlegg, fil, legg ved, lagt ved, legger ved, lukket, CV, følgebrev";

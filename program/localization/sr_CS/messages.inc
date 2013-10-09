@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Дошло је до грешке!';
 $messages['loginfailed']  = 'Неуспешно пријављивање';
 $messages['cookiesdisabled'] = 'Ваш интернет прегледач не подржава колачиће';

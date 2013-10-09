@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Tuntematon palvelinvirhe.';
 $messages['filterconnerror'] = 'Yhteys palvelimeen epäonnistui.';
 $messages['filterdeleteerror'] = 'Suodattimen poisto epäonnistui palvelinvirheen vuoksi.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Reserved name.';
 $messages['setexist'] = 'Set already exists.';
 $messages['nodata'] = 'At least one position must be selected!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

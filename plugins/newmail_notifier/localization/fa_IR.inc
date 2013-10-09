@@ -26,5 +26,4 @@ $labels['testbody'] = 'این یک تذکر آزمایشی است.';
 $labels['desktopdisabled'] = 'تذکرهای رومیزی در مرورگر شما غیرفعال شده‌اند.';
 $labels['desktopunsupported'] = 'مرورگر شما تذکرهای رومیزی را پشتیبانی نمی‌کند.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

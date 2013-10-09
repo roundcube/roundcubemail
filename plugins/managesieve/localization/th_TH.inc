@@ -44,5 +44,4 @@ $labels['sender'] = 'ผู้ส่ง';
 $labels['recipient'] = 'ผู้รับ';
 $labels['vacationsubject'] = 'หัวเรื่องข้อความ:';
 $labels['enable'] = 'เปิดใช้งาน/ปิดใช้งาน';
-$messages = array();
 ?>

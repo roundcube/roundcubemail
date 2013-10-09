@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'ikkje skil mellom store og små bokstavar (ascii-case
 $labels['asciinumeric'] = 'numerisk (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Ukjent problem med tenar.';
 $messages['filterconnerror'] = 'Kunne ikkje kople til tenaren.';
 $messages['filterdeleteerror'] = 'Kunne ikkje slette filter. Det oppstod ein feil på tenaren.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Namnet er reservert.';
 $messages['setexist'] = 'Settet eksisterer alt.';
 $messages['nodata'] = 'Du må velje minst éin posisjon!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

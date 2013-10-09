@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'maint llythrennau (ascii-casemap)';
 $labels['asciinumeric'] = 'rhifau (ascii-numeric)';
 $labels['index'] = 'mynegai:';
 $labels['indexlast'] = 'o chwith';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Gwall gweinydd anhysbys.';
 $messages['filterconnerror'] = 'Methwyd cysylltu a\'r gweinydd.';
 $messages['filterdeleteerror'] = 'Methwyd dileu hidlydd. Cafwydd gwall gweinydd.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Enw neilltuedig.';
 $messages['setexist'] = 'Mae\'r set yn bodoli\'n barod.';
 $messages['nodata'] = 'Rhaid dewis o leia un safle!';
 $messages['invaliddateformat'] = 'Dyddiad neu fformat dyddiad annilys';
-
 ?>

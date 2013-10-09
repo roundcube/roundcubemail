@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'Không phân biệt chữ hoa chữ thường';
 $labels['asciinumeric'] = 'Bảng mã ASCII';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Không tìm được lỗi máy chủ';
 $messages['filterconnerror'] = 'Không kết nối được với máy chủ.';
 $messages['filterdeleteerror'] = 'Không thể xóa bộ lọc. Xuất hiện lỗi ở máy chủ';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Tên đã được bảo vệ';
 $messages['setexist'] = 'Thiết lập đã tồn tại';
 $messages['nodata'] = 'Ít nhất một vị trí phải được chọn';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

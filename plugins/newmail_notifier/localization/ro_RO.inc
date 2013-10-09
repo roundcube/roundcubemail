@@ -26,5 +26,4 @@ $labels['testbody'] = 'Aceasta este o notificare de test.';
 $labels['desktopdisabled'] = 'Notificările desktop sunt dezactivate în browser.';
 $labels['desktopunsupported'] = 'Browser-ul dumneavoastră nu suportă notificări desktop.';
 $labels['desktoptimeout'] = 'Închide notificarea de birou';
-
 ?>

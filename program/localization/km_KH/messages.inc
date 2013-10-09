@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'ការពិនិត្យចូលមិនបានសំរេចព្រោះមានបញ្ហាកើតឡើង';
 $messages['cookiesdisabled'] = 'កម្មវិធីមើលគេហទំព័រនេះមិនទទួលយកCookies';

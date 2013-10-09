@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'Hyrja dështoi';
 $messages['cookiesdisabled'] = 'Shfletuesi juaj nuk i pranon sheqerkat';

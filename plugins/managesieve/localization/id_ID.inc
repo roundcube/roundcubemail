@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Error pada server tak dikenali.';
 $messages['filterconnerror'] = 'Tidak dapat menyambung ke server.';
 $messages['filterdeleteerror'] = 'Tidak bisa menghapus penyaringan. Terjadi error pada server.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nama sudah terpesan.';
 $messages['setexist'] = 'Kumpulan sudah ada.';
 $messages['nodata'] = 'Setidaknya satu posisi harus dipilih!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Gorde';
 $labels['buttontitle'] = 'Gorde mezu hau';
 $labels['archived'] = 'Ongi gorde da';

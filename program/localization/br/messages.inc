@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Degouezhet ez eus bet ur fazi !';
 $messages['loginfailed']  = 'C\'hwitadenn war kennaskañ';
 $messages['cookiesdisabled'] = 'N\'eus ket c\'hoant toupinoù Hor merder';

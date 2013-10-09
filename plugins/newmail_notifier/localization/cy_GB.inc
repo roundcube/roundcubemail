@@ -26,5 +26,4 @@ $labels['testbody'] = 'Hysbysiad prawf yw hwn.';
 $labels['desktopdisabled'] = 'Mae hysbysiadau penbwrdd wedi ei analluogi yn eich porwr';
 $labels['desktopunsupported'] = 'Nid yw eich porwr yn cefnogi hysbysiadau penbwrdd.';
 $labels['desktoptimeout'] = 'Cau hysbysiad penbwrdd';
-
 ?>

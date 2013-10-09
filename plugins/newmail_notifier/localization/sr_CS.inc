@@ -26,5 +26,4 @@ $labels['testbody'] = 'Ово је пробно обавештење.';
 $labels['desktopdisabled'] = 'Обавештења у систему су искључена у вашем прегледачу';
 $labels['desktopunsupported'] = 'Ваш прегледач не подржава обавештења у систему.';
 $labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

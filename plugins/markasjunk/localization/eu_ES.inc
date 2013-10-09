@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Zabor-mezua';
 $labels['buttontitle'] = 'Markatu zabor-mezu bezala';
 $labels['reportedasjunk'] = 'Zabor bezala markatu da';

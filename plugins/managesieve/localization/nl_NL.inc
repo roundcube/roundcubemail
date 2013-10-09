@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'hoofdletterongevoelig (ascii-casemap)';
 $labels['asciinumeric'] = 'numeriek (ascii-numeriek)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'terugwaarts';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Onbekende fout';
 $messages['filterconnerror'] = 'Kan geen verbinding maken met de managesieve server';
 $messages['filterdeleteerror'] = 'Kan filter niet verwijderen. Er is een fout opgetreden';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Gereserveerde naam.';
 $messages['setexist'] = 'Set bestaat al.';
 $messages['nodata'] = 'Tenminste één positie moet geselecteerd worden!';
 $messages['invaliddateformat'] = 'Ongeldige datum of datumformaat';
-
 ?>

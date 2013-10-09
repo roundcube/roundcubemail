@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'insensible à la casse (ascii-casemap)';
 $labels['asciinumeric'] = 'numérique (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'retour arrière';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Erreur du serveur inconnue';
 $messages['filterconnerror'] = 'Connexion au serveur Managesieve impossible';
 $messages['filterdeleteerror'] = 'Suppression du filtre impossible. Le serveur à produit une erreur';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nom réservé.';
 $messages['setexist'] = 'Ce groupe existe déjà.';
 $messages['nodata'] = 'Au moins un élément doit être selectionné !';
 $messages['invaliddateformat'] = 'Date non valide ou format d\'une partie de la date';
-
 ?>

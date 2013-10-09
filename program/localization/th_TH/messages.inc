@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'เกิดข้อผิดพลาดบางประการ!';
 $messages['loginfailed']  = 'ไม่สามารถเข้าสู่ระบบได้';
 $messages['cookiesdisabled'] = 'Browser ของคุณไม่ได้เปิดการใช้งาน Cookie ไว้';

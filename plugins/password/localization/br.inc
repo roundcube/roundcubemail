@@ -16,13 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'Kemmañ ar ger-tremen';
 $labels['curpasswd']  = 'Ger-tremen red :';
 $labels['newpasswd']  = 'Ger-tremen nevez :';
 $labels['confpasswd']  = 'Kadarnaat ar ger-tremen :';
-
-$messages = array();
 $messages['nopassword'] = 'Roit ur ger-tremen nevez, mar plij.';
 $messages['nocurpassword'] = 'Roit ar ger-tremen red, mar plij.';
 $messages['passwordincorrect'] = 'Direizh eo ar ger-tremen red.';
@@ -33,5 +30,4 @@ $messages['internalerror'] = 'N\'haller ket enrollañ ar ger-tremen nevez.';
 $messages['passwordshort'] = 'Ret eo d\'ar ger-tremen bezañ hiroc\'h eget $length arouezenn.';
 $messages['passwordweak'] = 'Password must include at least one number and one punctuation character.';
 $messages['passwordforbidden'] = 'Arouezennoù difennet zo er ger-tremen.';
-
 ?>

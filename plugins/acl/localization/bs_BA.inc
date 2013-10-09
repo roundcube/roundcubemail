@@ -25,7 +25,6 @@ $labels['actions'] = 'Akcije za prava pristupa...';
 $labels['anyone'] = 'Svi korisnici (bilo ko)';
 $labels['anonymous'] = 'Gosti (anonimno)';
 $labels['identifier'] = 'Identifikator';
-
 $labels['acll'] = 'Pronađi';
 $labels['aclr'] = 'Pročitaj poruke';
 $labels['acls'] = 'Zadrži stanje pregleda';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Obriši poruke';
 $labels['acle'] = 'Izbriši';
 $labels['aclx'] = 'Obriši folder';
 $labels['acla'] = 'Administracija';
-
 $labels['aclfull'] = 'Puna kontrola';
 $labels['aclother'] = 'Ostalo';
 $labels['aclread'] = 'Pročitano';
 $labels['aclwrite'] = 'Piši';
 $labels['acldelete'] = 'Obriši';
-
 $labels['shortacll'] = 'Pronađi';
 $labels['shortaclr'] = 'Pročitano';
 $labels['shortacls'] = 'Zadrži';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Obriši';
 $labels['shortacle'] = 'Izbriši';
 $labels['shortaclx'] = 'Brisanje foldera';
 $labels['shortacla'] = 'Administracija';
-
 $labels['shortaclother'] = 'Ostalo';
 $labels['shortaclread'] = 'Pročitano';
 $labels['shortaclwrite'] = 'Piši';
 $labels['shortacldelete'] = 'Obriši';
-
 $labels['longacll'] = 'Ovaj folder je vidljiv u listama i moguće je izvršiti pretplatu na njega';
 $labels['longaclr'] = 'Folder je moguće otvoriti radi čitanja';
 $labels['longacls'] = 'Oznaka čitanja za poruke se može promijeniti';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Oznaka za obrisane poruke se može mijenjati';
 $labels['longacle'] = 'Poruke je moguće obrisati';
 $labels['longaclx'] = 'Folder je moguće obrisati ili preimenovati';
 $labels['longacla'] = 'Pristupna prava foldera je moguće promijeniti';
-
 $labels['longaclfull'] = 'Puna kontrola uključujući i administraciju foldera';
 $labels['longaclread'] = 'Folder je moguće otvoriti radi čitanja';
 $labels['longaclwrite'] = 'Moguće je označavati, zapisivati i kopirati poruke u folder';
 $labels['longacldelete'] = 'Moguće je obrisati poruke';
-
 $messages['deleting'] = 'Brišem prava pristupa...';
 $messages['saving'] = 'Snimam prava pristupa...';
 $messages['updatesuccess'] = 'Prava pristupa su uspješno promijenjena';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Nije moguće dodati prava pristupa';
 $messages['deleteconfirm'] = 'Jeste li sigurni da želite ukloniti prava pristupa za odabrane korisnike?';
 $messages['norights'] = 'Niste odabrali prava pristupa!';
 $messages['nouser'] = 'Niste odabrali korisničko ime!';
-
 ?>

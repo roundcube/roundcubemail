@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Archivéieren';
 $labels['buttontitle'] = 'Dëse Message archivéieren';
 $labels['archived'] = 'Erfollegräich archivéiert';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'Mount (z.B. Archiv/2013/06)';
 $labels['archivetypefolder'] = 'Original-Dossier';
 $labels['archivetypesender'] = 'Sender-E-Mail';
 $labels['unkownsender'] = 'onbekannt';
-
 ?>

@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Невідома помилка сервера';
 $messages['filterconnerror'] = 'Неможливо з\'єднатися з сервером';
 $messages['filterdeleteerror'] = 'Неможливо видалити фільтр. Помилка сервера';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Reserved name.';
 $messages['setexist'] = 'Set already exists.';
 $messages['nodata'] = 'At least one position must be selected!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

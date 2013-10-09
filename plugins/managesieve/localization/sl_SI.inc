@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'ni občutljiv na velike/male črke (ascii-casemap)';
 $labels['asciinumeric'] = 'numerično (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'obraten vrstni red';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Prišlo je do neznane napake.';
 $messages['filterconnerror'] = 'Povezave s strežnikom (managesieve) ni bilo mogoče vzpostaviti';
 $messages['filterdeleteerror'] = 'Pravila ni bilo mogoče izbrisati. Prišlo je do napake.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Rezervirano ime.';
 $messages['setexist'] = 'Nastavitev filtra že obstaja.';
 $messages['nodata'] = 'Izbrana mora biti vsaj ena nastavitev!';
 $messages['invaliddateformat'] = 'Neveljaven datum ali oblika zapisa datuma';
-
 ?>

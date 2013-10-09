@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'തങ്കളുടെ ബ്രവു്സര്‍ കുക്കീസ് സ്വീകരിക്കുന്നതല്ല';

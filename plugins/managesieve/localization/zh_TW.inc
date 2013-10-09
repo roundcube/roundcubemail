@@ -159,8 +159,6 @@ $labels['asciicasemap'] = '不區分大小寫(採用ASCII-Casemap)';
 $labels['asciinumeric'] = '數字類型(ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = '未知的伺服器錯誤';
 $messages['filterconnerror'] = '無法與伺服器連線';
 $messages['filterdeleteerror'] = '無法刪除篩選器。發生伺服器錯誤';
@@ -193,5 +191,4 @@ $messages['namereserved'] = '保留名稱.';
 $messages['setexist'] = '設定已存在';
 $messages['nodata'] = '至少要選擇一個位置';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

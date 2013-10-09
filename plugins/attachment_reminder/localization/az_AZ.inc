@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
-$messages = array();
 $messages['forgotattachment'] = "Faylı əlavə etməyi unutdunuz?";
 $messages['reminderoption'] = "Unudulmuş qoşmalardan xəbərdar et";
 $messages['keywords'] = "qoşmalar,fayl,qoşma,qoşulub,qoşulur,qapalı,CV,qoşma məktub";

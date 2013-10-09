@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'osjetljivo na velika/mala slova (ascii-casemap)';
 $labels['asciinumeric'] = 'numerički (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'unazad';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Nepoznata serverska greška.';
 $messages['filterconnerror'] = 'Nije se moguće povezati na server.';
 $messages['filterdeleteerror'] = 'Nije moguće obrisati filter. Desila se serverska greška.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Ime je rezervisano.';
 $messages['setexist'] = 'Set već postoji.';
 $messages['nodata'] = 'Morate označiti barem jednu poziciju!';
 $messages['invaliddateformat'] = 'Netačan datum ili dio formata datuma';
-
 ?>

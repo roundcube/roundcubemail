@@ -25,7 +25,6 @@ $labels['actions'] = 'Acțiunea drepturilor de acces...';
 $labels['anyone'] = 'Toți utilizatori (oricare)';
 $labels['anonymous'] = 'Vizitator';
 $labels['identifier'] = 'Identificator';
-
 $labels['acll'] = 'Caută';
 $labels['aclr'] = 'Citire mesaje';
 $labels['acls'] = 'Menține starea de Vâzut';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Ștergere mesaje';
 $labels['acle'] = 'Elimină';
 $labels['aclx'] = 'Ștergere dosar';
 $labels['acla'] = 'Administrează';
-
 $labels['aclfull'] = 'Control complet';
 $labels['aclother'] = 'Altul';
 $labels['aclread'] = 'Citeşte';
 $labels['aclwrite'] = 'Scrie';
 $labels['acldelete'] = 'Șterge';
-
 $labels['shortacll'] = 'Caută';
 $labels['shortaclr'] = 'Citeşte';
 $labels['shortacls'] = 'Păstrează';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Șterge';
 $labels['shortacle'] = 'Elimină';
 $labels['shortaclx'] = 'Ștergere dosar';
 $labels['shortacla'] = 'Administrează';
-
 $labels['shortaclother'] = 'Altul';
 $labels['shortaclread'] = 'Citeşte';
 $labels['shortaclwrite'] = 'Scrie';
 $labels['shortacldelete'] = 'Șterge';
-
 $labels['longacll'] = 'Dosarul este vizibil pe liste și se poate înscrie pe el';
 $labels['longaclr'] = 'Dosarul se poate deschide pentru citire';
 $labels['longacls'] = 'Indicatorul de Văzut a fost schimbat';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Indicatorul de Șters al mesajelor se pot modifica';
 $labels['longacle'] = 'Mesajele se pot elimina';
 $labels['longaclx'] = 'Dosarul se poate șterge sau redenumi';
 $labels['longacla'] = 'Drepturile de acces la dosar se pot schimba';
-
 $labels['longaclfull'] = 'Control complet include și administrare dosar';
 $labels['longaclread'] = 'Dosarul se poate deschide pentru citire';
 $labels['longaclwrite'] = 'Mesajul se poate marca, scrie sau copia într-un dosar';
 $labels['longacldelete'] = 'Mesajul se poate șterge';
-
 $messages['deleting'] = 'Drepturile de acces la ștergere...';
 $messages['saving'] = 'Drepturile de acces la salvare...';
 $messages['updatesuccess'] = 'Drepturile de acces au fost schimbate cu succes';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Nu sau putut adăuga drepturi de acces';
 $messages['deleteconfirm'] = 'Sunteți sigur că doriți să ștergeți drepturile de acces la utilizatorul(i) selectați?';
 $messages['norights'] = 'Nu au fost specificate drepturi!';
 $messages['nouser'] = 'Nu a fost specificat nume de utilizator!';
-
 ?>

@@ -16,9 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Смеће';
 $labels['buttontitle'] = 'Означи као cмеће';
 $labels['reportedasjunk'] = 'Успешно пријављени као cмеће';
-
 ?>

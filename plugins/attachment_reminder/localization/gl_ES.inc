@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
-$messages = array();
 $messages['forgotattachment'] = "Esqueceches adxuntar un ficheiro?";
 $messages['reminderoption'] = "Lembrete de adxuntos esquecidos";
 $messages['keywords'] = "adxunto,ficheiro,engádega, engadido,engadindo,anexo,CV,cuberta,carta";

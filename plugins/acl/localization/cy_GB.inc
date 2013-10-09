@@ -25,7 +25,6 @@ $labels['actions'] = 'Gweithredoedd hawl mynediad...';
 $labels['anyone'] = 'Pob defnyddiwr (unrhywun)';
 $labels['anonymous'] = 'Gwestai (anhysbys)';
 $labels['identifier'] = 'Dynodwr';
-
 $labels['acll'] = 'Chwilio';
 $labels['aclr'] = 'Darllen negeseuon';
 $labels['acls'] = 'Cadw stad Gwelwyd';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Dileu negeseuon';
 $labels['acle'] = 'Dileu';
 $labels['aclx'] = 'Dileu ffolder';
 $labels['acla'] = 'Gweinyddu';
-
 $labels['aclfull'] = 'Rheolaeth lawn';
 $labels['aclother'] = 'Arall';
 $labels['aclread'] = 'Darllen';
 $labels['aclwrite'] = 'Ysgrifennu';
 $labels['acldelete'] = 'Dileu';
-
 $labels['shortacll'] = 'Chwilio';
 $labels['shortaclr'] = 'Darllen';
 $labels['shortacls'] = 'Cadw';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Dileu';
 $labels['shortacle'] = 'Dileu';
 $labels['shortaclx'] = 'Dileu ffolder';
 $labels['shortacla'] = 'Gweinyddu';
-
 $labels['shortaclother'] = 'Arall';
 $labels['shortaclread'] = 'Darllen';
 $labels['shortaclwrite'] = 'Ysgrifennu';
 $labels['shortacldelete'] = 'Dileu';
-
 $labels['longacll'] = 'Mae\'r ffolder hwn i\'w weld ar y rhestrau a mae\'n bosib tanysgrifio iddo';
 $labels['longaclr'] = 'Gellir agor y ffolder hwn i\'w ddarllen';
 $labels['longacls'] = 'Gellir newid y fflag negeseuon Gwelwyd';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Gellir newid fflag neges Dileu';
 $labels['longacle'] = 'Gellir gwaredu negeseuon';
 $labels['longaclx'] = 'Gellir dileu neu ail-enwi\'r ffolder';
 $labels['longacla'] = 'Gellir newid hawliau mynediad y ffolder';
-
 $labels['longaclfull'] = 'Rheolaeth lawn yn cynnwys rheolaeth ffolderi';
 $labels['longaclread'] = 'Gellir agor y ffolder hwn i\'w ddarllen';
 $labels['longaclwrite'] = 'Gellir nodi, ysgrifennu neu copïo negeseuon i\'r ffolder';
 $labels['longacldelete'] = 'Gellir dileu negeseuon';
-
 $messages['deleting'] = 'Yn dileu hawliau mynediad...';
 $messages['saving'] = 'Yn cadw hawliau mynediad...';
 $messages['updatesuccess'] = 'Wedi newid hawliau mynediad yn llwyddiannus';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Methwyd ychwanegu hawliau mynediad';
 $messages['deleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu hawliau mynediad y defnyddiwr/wyr ddewiswyd?';
 $messages['norights'] = 'Nid oes hawliau wedi eu nodi!';
 $messages['nouser'] = 'Nid oes enw defnyddiwr wedi ei nodi!';
-
 ?>

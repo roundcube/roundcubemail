@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'Gross-/Kleinschreibung ignorieren';
 $labels['asciinumeric'] = 'numerisch (ascii-numeric)';
 $labels['index'] = 'Index:';
 $labels['indexlast'] = 'rückwärts';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann nicht zum Sieve-Server verbinden';
 $messages['filterdeleteerror'] = 'Fehler beim des löschen  Filters. Serverfehler';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Reservierter Name.';
 $messages['setexist'] = 'Filtersatz existiert bereits.';
 $messages['nodata'] = 'Mindestens eine Position muss ausgewählt werden!';
 $messages['invaliddateformat'] = 'Ungültiges Datumsformat';
-
 ?>

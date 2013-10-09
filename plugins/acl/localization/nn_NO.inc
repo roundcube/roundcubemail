@@ -25,7 +25,6 @@ $labels['actions'] = 'Val for tilgangsrettar...';
 $labels['anyone'] = 'Alle brukarar (alle)';
 $labels['anonymous'] = 'Gjester (anonyme)';
 $labels['identifier'] = 'Identifikator';
-
 $labels['acll'] = 'Oppslag';
 $labels['aclr'] = 'Les meldingar';
 $labels['acls'] = 'Behald lesestatus';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Slett meldingar';
 $labels['acle'] = 'Slett fullstendig';
 $labels['aclx'] = 'Slett mappe';
 $labels['acla'] = 'Administrér';
-
 $labels['aclfull'] = 'Full kontroll';
 $labels['aclother'] = 'Anna';
 $labels['aclread'] = 'Les';
 $labels['aclwrite'] = 'Skriv';
 $labels['acldelete'] = 'Slett';
-
 $labels['shortacll'] = 'Oppslag';
 $labels['shortaclr'] = 'Les';
 $labels['shortacls'] = 'Behald';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Slett';
 $labels['shortacle'] = 'Slett fullstendig';
 $labels['shortaclx'] = 'Slett mappe';
 $labels['shortacla'] = 'Administrér';
-
 $labels['shortaclother'] = 'Anna';
 $labels['shortaclread'] = 'Les';
 $labels['shortaclwrite'] = 'Skriv';
 $labels['shortacldelete'] = 'Slett';
-
 $labels['longacll'] = 'Mappa er synleg og kan abonnerast på';
 $labels['longaclr'] = 'Mappa kan opnast for lesing';
 $labels['longacls'] = 'Meldingane sine lesestatusflagg kan endrast';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Meldingane sine flagg for sletting kan endrast';
 $labels['longacle'] = 'Meldinga kan slettast for godt';
 $labels['longaclx'] = 'Mappa kan slettast eller få nytt namn';
 $labels['longacla'] = 'Mappa sine tilgangsrettar kan endrast';
-
 $labels['longaclfull'] = 'Full kontroll, inkludert mappeadministrasjon';
 $labels['longaclread'] = 'Mappa kan opnast for lesing';
 $labels['longaclwrite'] = 'Meldingar kan merkast, lagrast i eller flyttast til mappa';
 $labels['longacldelete'] = 'Meldinga kan slettast';
-
 $messages['deleting'] = 'Slettar tilgangsrettar…';
 $messages['saving'] = 'Lagrar tilgangsrettar…';
 $messages['updatesuccess'] = 'Tilgangsrettiar vart endra';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Kunne ikkje leggje til tilgangsrettar';
 $messages['deleteconfirm'] = 'Er du sikker på at du vil fjerne tilgangen til  valde brukarar?';
 $messages['norights'] = 'Ingen rettar er spesifisert!';
 $messages['nouser'] = 'Brukarnamn er ikkje spesifisert!';
-
 ?>

@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'nierozróżniający wielkości liter (ascii-casemap)'
 $labels['asciinumeric'] = 'numeryczny (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'wstecz';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Nieznany błąd serwera.';
 $messages['filterconnerror'] = 'Nie można nawiązać połączenia z serwerem.';
 $messages['filterdeleteerror'] = 'Nie można usunąć filtra. Błąd serwera.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nazwa zarezerwowana.';
 $messages['setexist'] = 'Zbiór już istnieje.';
 $messages['nodata'] = 'Należy wybrać co najmniej jedną pozycję!';
 $messages['invaliddateformat'] = 'Nieprawidłowy format daty lub fragmentu daty';
-
 ?>

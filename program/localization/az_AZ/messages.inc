@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Xəta baş verdi!';
 $messages['loginfailed']  = 'Giriş uğursuz oldu.';
 $messages['cookiesdisabled'] = 'Sizin brauzer kukiləri qəbul etmir.';

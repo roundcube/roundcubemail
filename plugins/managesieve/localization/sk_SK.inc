@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'nerozlišuje veľké a malé písmená (ascii tabuľk
 $labels['asciinumeric'] = 'numerické (ascii čísla)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'dozadu';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Neznáma chyba serveru';
 $messages['filterconnerror'] = 'Nepodarilo sa pripojiť k managesieve serveru';
 $messages['filterdeleteerror'] = 'Nepodarilo sa zmazať filter, server ohlásil chybu';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Rezervovaný názov.';
 $messages['setexist'] = 'Množina už existuje.';
 $messages['nodata'] = 'Aspoň jedna pozícia musí byť zvolená.';
 $messages['invaliddateformat'] = 'Neplatný formát dátumu alebo časti dátumu';
-
 ?>

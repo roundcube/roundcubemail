@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'लॉगिन नहीं हो पाया';
 $messages['cookiesdisabled'] = 'आपका ब्राऊसर कुकी स्वीकार नहीं कर रहा है';

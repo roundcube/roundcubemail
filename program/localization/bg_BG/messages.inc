@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'Възникна грешка!';
 $messages['loginfailed']  = 'Неуспешно установяване на самоличност.';
 $messages['cookiesdisabled'] = 'Вашият браузър не приема cookies.';

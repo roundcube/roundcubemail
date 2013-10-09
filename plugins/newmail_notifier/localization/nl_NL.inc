@@ -26,5 +26,4 @@ $labels['testbody'] = 'Dit is een testmelding.';
 $labels['desktopdisabled'] = 'Bureaubladmeldingen zijn uitgeschakeld in uw browser.';
 $labels['desktopunsupported'] = 'Uw browser ondersteunt geen bureaubladmeldingen.';
 $labels['desktoptimeout'] = 'Sluit bureaubladmelding';
-
 ?>

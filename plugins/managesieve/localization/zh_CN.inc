@@ -159,8 +159,6 @@ $labels['asciicasemap'] = '不区分大小写(ascii 字符)';
 $labels['asciinumeric'] = '数字类型(ascii 数字)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = '未知的服务器错误';
 $messages['filterconnerror'] = '无法连接至服务器';
 $messages['filterdeleteerror'] = '无法删除过滤器。服务器发生错误';
@@ -193,5 +191,4 @@ $messages['namereserved'] = '保留名称。';
 $messages['setexist'] = '设置已存在。';
 $messages['nodata'] = '至少选择一个位置！';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

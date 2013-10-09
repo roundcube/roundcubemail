@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'No distingeix entre majúscules i minúscules  (ascii
 $labels['asciinumeric'] = 'numèric (ascii-numeric)';
 $labels['index'] = 'índex:';
 $labels['indexlast'] = 'cap enrere';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Error desconegut al servidor.';
 $messages['filterconnerror'] = 'No s\'ha pogut connectar al servidor.';
 $messages['filterdeleteerror'] = 'No s\'ha pogut suprimir el filtre. Hi ha hagut un error al servidor.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nom reservat.';
 $messages['setexist'] = 'El conjunt ja existeix.';
 $messages['nodata'] = 'S\'ha de seleccionar com a mínim una posició!';
 $messages['invaliddateformat'] = 'data no vàlida o format no vàlid';
-
 ?>

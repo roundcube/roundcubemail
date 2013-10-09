@@ -25,7 +25,6 @@ $labels['actions'] = 'Optioune fir d\'Zougrëffsrechter';
 $labels['anyone'] = 'All d\'Benotzer (jiddwereen)';
 $labels['anonymous'] = 'Gaascht (anonym)';
 $labels['identifier'] = 'Identifiant';
-
 $labels['acll'] = 'Noschloen';
 $labels['aclr'] = 'Messagë liesen';
 $labels['acls'] = 'Lies-Status behalen';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Messagë läschen';
 $labels['acle'] = 'Ausläschen';
 $labels['aclx'] = 'Dossier läschen';
 $labels['acla'] = 'Administréieren';
-
 $labels['aclfull'] = 'Voll Kontroll';
 $labels['aclother'] = 'Aner';
 $labels['aclread'] = 'Liesen';
 $labels['aclwrite'] = 'Schreiwen';
 $labels['acldelete'] = 'Läschen';
-
 $labels['shortacll'] = 'Noschloen';
 $labels['shortaclr'] = 'Liesen';
 $labels['shortacls'] = 'Halen';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Läschen';
 $labels['shortacle'] = 'Ausläschen';
 $labels['shortaclx'] = 'Dossier läschen';
 $labels['shortacla'] = 'Administréieren';
-
 $labels['shortaclother'] = 'Aner';
 $labels['shortaclread'] = 'Liesen';
 $labels['shortaclwrite'] = 'Schreiwen';
 $labels['shortacldelete'] = 'Läschen';
-
 $labels['longacll'] = 'The folder is visible on lists and can be subscribed to';
 $labels['longaclr'] = 'The folder can be opened for reading';
 $labels['longacls'] = 'Messages Seen flag can be changed';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Messages Delete flag can be changed';
 $labels['longacle'] = 'Messages can be expunged';
 $labels['longaclx'] = 'The folder can be deleted or renamed';
 $labels['longacla'] = 'The folder access rights can be changed';
-
 $labels['longaclfull'] = 'Full control including folder administration';
 $labels['longaclread'] = 'The folder can be opened for reading';
 $labels['longaclwrite'] = 'Messages can be marked, written or copied to the folder';
 $labels['longacldelete'] = 'Messagë kënne geläscht ginn';
-
 $messages['deleting'] = 'Zougrëffsrechter gi geläscht...';
 $messages['saving'] = 'Zougrëffsrechter gi gespäichert...';
 $messages['updatesuccess'] = 'Rechter erfollegräich geännert';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Zougrëffsrechter kënnen net dobäigesat ginn';
 $messages['deleteconfirm'] = 'Bass du dir sécher, dass du d\'Zougrëffsrechter fir déi ausgewielte Benotzer wëlls ewechhuelen?';
 $messages['norights'] = 'Et goufe keng Rechter uginn! ';
 $messages['nouser'] = 'Et gouf kee Benotzernumm uginn!';
-
 ?>

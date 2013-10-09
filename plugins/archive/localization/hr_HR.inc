@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Arhiva';
 $labels['buttontitle'] = 'Arhiviraj poruku';
 $labels['archived'] = 'Uspješno arhivirana';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
 $labels['archivetypefolder'] = 'Original folder';
 $labels['archivetypesender'] = 'Sender email';
 $labels['unkownsender'] = 'unknown';
-
 ?>

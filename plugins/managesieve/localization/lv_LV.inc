@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'reģistrnejutīgs (ascii tabula)';
 $labels['asciinumeric'] = 'skaitļu (ascii skaitļu)';
 $labels['index'] = 'indekss:';
 $labels['indexlast'] = '"backwards"';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Nezināma servera kļūda.';
 $messages['filterconnerror'] = 'Neizdevās pieslēgties ManageSieve serverim.';
 $messages['filterdeleteerror'] = 'Neizdevās izdzēst filtru - servera kļūda.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Rezervētais nosaukums.';
 $messages['setexist'] = 'Kopa jau eksistē.';
 $messages['nodata'] = 'Ir jābūt atzīmētai vismaz vienai pozīcijai!';
 $messages['invaliddateformat'] = 'Nederīgs datums vai datuma formāts';
-
 ?>

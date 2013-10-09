@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'necitlivé na velikost písmen (ascii-casemap)';
 $labels['asciinumeric'] = 'číslené (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'pozpátku';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Neznámá chyba serveru';
 $messages['filterconnerror'] = 'Nebylo možné se připojit k sieve serveru';
 $messages['filterdeleteerror'] = 'Nebylo možné smazat filtr. Server nahlásil chybu';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Vyhrazený název.';
 $messages['setexist'] = 'Sada již existuje.';
 $messages['nodata'] = 'Musí být vybrána minimálně jedna pozice!';
 $messages['invaliddateformat'] = 'Neplatné datum nebo část data';
-
 ?>

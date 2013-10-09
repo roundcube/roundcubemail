@@ -25,5 +25,4 @@ $labels['body'] = 'Jūs esat saņēmis jaunu vēstuli.';
 $labels['testbody'] = 'Šis ir testa paziņojums.';
 $labels['desktopdisabled'] = 'Darbavirsmas paziņojumi Jūsu pārlūkprogrammā ir atslēgti.';
 $labels['desktopunsupported'] = 'Jūsu pārlūkprogramma neatbalsta darbavirsmas paziņojumus.';
-
 ?>

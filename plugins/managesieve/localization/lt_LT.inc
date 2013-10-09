@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'nepaisantis raidžių registro („ascii-casemap“)'
 $labels['asciinumeric'] = 'skaitinis („ascii-numeric“)';
 $labels['index'] = 'turinys:';
 $labels['indexlast'] = 'atbulai';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Nežinoma serverio klaida.';
 $messages['filterconnerror'] = 'Neįmanoma užmegzti ryšio su serveriu.';
 $messages['filterdeleteerror'] = 'Filtro panaikinti neįmanoma. Įvyko serverio klaida.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Rezervuotas vardas.';
 $messages['setexist'] = 'Rinkinys jau yra sukurtas.';
 $messages['nodata'] = 'Būtina pasirinkti bent vieną poziciją!';
 $messages['invaliddateformat'] = 'Neteisingas datos ar jos dalies formatas';
-
 ?>

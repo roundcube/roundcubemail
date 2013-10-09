@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
 $labels['buttontext'] = 'Архив';
 $labels['buttontitle'] = 'Переместить выбранное в архив';
 $labels['archived'] = 'Перенесено в Архив';
@@ -30,5 +29,4 @@ $labels['archivetypemonth'] = 'Месяц (например, Архив/2012/06)
 $labels['archivetypefolder'] = 'Исходная папка';
 $labels['archivetypesender'] = 'Адрес отправителя';
 $labels['unkownsender'] = 'неизвестно';
-
 ?>

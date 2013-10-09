@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'kis-nagybetüre nem érzékeny (ascii-casemap)';
 $labels['asciinumeric'] = 'számszerü (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'visszafelé';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Ismeretlen szerverhiba';
 $messages['filterconnerror'] = 'Nem tudok a szűrőszerverhez kapcsolódni';
 $messages['filterdeleteerror'] = 'A szűrőt nem lehet törölni, szerverhiba történt';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nem használható (foglalt) név-';
 $messages['setexist'] = 'A készlet már létezik.';
 $messages['nodata'] = 'Legalább egyet ki kell választani.';
 $messages['invaliddateformat'] = 'hibás dátum formátum';
-
 ?>

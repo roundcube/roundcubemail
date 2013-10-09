@@ -25,7 +25,6 @@ $labels['actions'] = 'Přístupové právo akce ...';
 $labels['anyone'] = 'Všichni uživatelé (kdokoli)';
 $labels['anonymous'] = 'Hosté (anonymní)';
 $labels['identifier'] = 'Identifikátor';
-
 $labels['acll'] = 'Vyhledat';
 $labels['aclr'] = 'Číst zprávy';
 $labels['acls'] = 'Ponechat stav Přečteno';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Smazat zprávy';
 $labels['acle'] = 'Vyprázdnit';
 $labels['aclx'] = 'Smazat složku';
 $labels['acla'] = 'Spravovat';
-
 $labels['aclfull'] = 'Plný přístup';
 $labels['aclother'] = 'Ostatní';
 $labels['aclread'] = 'Číst';
 $labels['aclwrite'] = 'Zapsat';
 $labels['acldelete'] = 'Smazat';
-
 $labels['shortacll'] = 'Vyhledat';
 $labels['shortaclr'] = 'Číst';
 $labels['shortacls'] = 'Zachovat';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Smazat';
 $labels['shortacle'] = 'Vyprázdnit';
 $labels['shortaclx'] = 'Mazat složky';
 $labels['shortacla'] = 'Spravovat';
-
 $labels['shortaclother'] = 'Ostatní';
 $labels['shortaclread'] = 'Číst';
 $labels['shortaclwrite'] = 'Zapsat';
 $labels['shortacldelete'] = 'Smazat';
-
 $labels['longacll'] = 'Složka je viditelná v seznamu a může být přihlášena';
 $labels['longaclr'] = 'Složka může být otevřena pro čtení';
 $labels['longacls'] = 'Označená zpráva byla změněna';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Značka o smazání zprávy může být změněna';
 $labels['longacle'] = 'Zpráva může být smazána';
 $labels['longaclx'] = 'Složka může být smazána nebo přejmenována';
 $labels['longacla'] = 'Přístupová práva složky mohou být změněna';
-
 $labels['longaclfull'] = 'Plný přístup včetně správy složky';
 $labels['longaclread'] = 'Složka může být otevřena pro čtení';
 $labels['longaclwrite'] = 'Zpráva může být označena, napsána nebo zkopírována do složky';
 $labels['longacldelete'] = 'Zprávy mohou být smazány';
-
 $messages['deleting'] = 'Odstraňuji přístupová práva...';
 $messages['saving'] = 'Ukládám přístupová práva...';
 $messages['updatesuccess'] = 'Přístupová práva byla úspěšně změněna';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Nelze přidat přístupová práva';
 $messages['deleteconfirm'] = 'Opravdu si přejete odstranit přístupová práva pro vybrané(ho) uživatele?';
 $messages['norights'] = 'Nejsou specifikována žádná práva!';
 $messages['nouser'] = 'Není specifikováno uživatelské jméno';
-
 ?>

@@ -157,7 +157,6 @@ $labels['asciicasemap'] = 'minuskulak eta maiuskulak (ascii-casemap)';
 $labels['asciinumeric'] = 'numerikoa  (ascii-numeric)';
 $labels['index'] = 'indexatu:';
 $labels['indexlast'] = 'atzeraka';
-$messages = array();
 $messages['filterunknownerror'] = 'Zerbitzari ezezaguna errorea';
 $messages['filterconnerror'] = 'Ezin da konektatu zerbitzariarekin.';
 $messages['filterdeleted'] = 'Iragazkia ongi ezabatu da.';

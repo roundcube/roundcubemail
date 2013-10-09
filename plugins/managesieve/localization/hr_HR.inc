@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'neosjetljivo na veličinu slova (ascii-casemap)';
 $labels['asciinumeric'] = 'numerički (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Nepoznata greška na poslužitelju';
 $messages['filterconnerror'] = 'Nemoguće spajanje na poslužitelj (managesieve)';
 $messages['filterdeleteerror'] = 'Nemoguće brisanje filtera. Greška na poslužitelju';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Rezervirano ime.';
 $messages['setexist'] = 'Skup već postoji.';
 $messages['nodata'] = 'Barem jedan pozicija mora biti odabrana!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
-
 ?>

@@ -25,7 +25,6 @@ $labels['actions'] = '접근 권한 동작...';
 $labels['anyone'] = '모든 사용자 (아무나)';
 $labels['anonymous'] = '방문자 (익명)';
 $labels['identifier'] = '식별자';
-
 $labels['acll'] = '조회';
 $labels['aclr'] = '읽은 메시지';
 $labels['acls'] = '읽은 상태로 유지';
@@ -39,13 +38,11 @@ $labels['aclt'] = '메시지 삭제';
 $labels['acle'] = '영구 제거';
 $labels['aclx'] = '폴더 삭제';
 $labels['acla'] = '관리자';
-
 $labels['aclfull'] = '전체 제어권';
 $labels['aclother'] = '기타';
 $labels['aclread'] = '읽기';
 $labels['aclwrite'] = '쓰기';
 $labels['acldelete'] = '삭제';
-
 $labels['shortacll'] = '조회';
 $labels['shortaclr'] = '읽기';
 $labels['shortacls'] = '보관';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = '삭제';
 $labels['shortacle'] = '지움';
 $labels['shortaclx'] = '폴더 삭제';
 $labels['shortacla'] = '관리';
-
 $labels['shortaclother'] = '기타';
 $labels['shortaclread'] = '읽기';
 $labels['shortaclwrite'] = '쓱';
 $labels['shortacldelete'] = '삭제';
-
 $labels['longacll'] = '폴더가 목록에 나타나고 다음 사용자가 구독할 수 있음:';
 $labels['longaclr'] = '읽기 위해 폴더를 열 수 있음';
 $labels['longacls'] = '읽은 메시지 깃발이 변경될 수 있음';
@@ -78,12 +73,10 @@ $labels['longaclt'] = '메시지 삭제 깃발이 변경될 수 있음';
 $labels['longacle'] = '메시지가 영구 제거될 수 있음';
 $labels['longaclx'] = '폴더를 삭제하거나 이름을 변경 할 수 있음';
 $labels['longacla'] = '폴더의 접근 권한을 변경할 수 있음';
-
 $labels['longaclfull'] = '폴더 관리를 포함한 모든 제어권';
 $labels['longaclread'] = '폴더를 열어 읽을 수 있음';
 $labels['longaclwrite'] = '메시지에 표시하거나, 폴더로 이동하거나 복사할 수 있음';
 $labels['longacldelete'] = '메시지를 삭제할 수 있음';
-
 $messages['deleting'] = '접근 권한을 삭제하는 중...';
 $messages['saving'] = '접근 권한을 저장하는 중...';
 $messages['updatesuccess'] = '접근 권한을 성공적으로 변경함.';
@@ -95,5 +88,4 @@ $messages['createerror'] = '접근 권한을 추가할 수 없음.';
 $messages['deleteconfirm'] = '정말로 선택한 사용자의 접근 권한을 삭제하시겠습니까?';
 $messages['norights'] = '지정된 권한이 없음!';
 $messages['nouser'] = '지정된 사용자명이 없음!';
-
 ?>

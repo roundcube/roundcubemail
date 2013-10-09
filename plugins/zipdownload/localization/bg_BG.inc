@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 
-$labels = array();
 $labels['downloadall'] = 'Изтегляне на всички прикачени файлове';
 $labels['downloadfolder'] = 'Изтегляне на папка';
 ?>

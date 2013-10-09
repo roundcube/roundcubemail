@@ -25,7 +25,6 @@ $labels['actions'] = 'Action sur les droits d\'accès...';
 $labels['anyone'] = 'Tous les utilisateurs (tout le monde)';
 $labels['anonymous'] = 'Invités (anonymes)';
 $labels['identifier'] = 'Identifiant';
-
 $labels['acll'] = 'Consultation';
 $labels['aclr'] = 'Lire les messages';
 $labels['acls'] = 'Garder l\'état vu';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Supprimer des messages';
 $labels['acle'] = 'Purger';
 $labels['aclx'] = 'Supprimer un dossier';
 $labels['acla'] = 'Administrer';
-
 $labels['aclfull'] = 'Contrôle total';
 $labels['aclother'] = 'Autre';
 $labels['aclread'] = 'Lecture';
 $labels['aclwrite'] = 'Écriture';
 $labels['acldelete'] = 'Translation can be either \'Supprimer\' or \'Effacer\'  depends of the whole context.';
-
 $labels['shortacll'] = 'Consultation';
 $labels['shortaclr'] = 'Lecture';
 $labels['shortacls'] = 'Conserver';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Translation can be either \'Supprimer\' or \'Effacer\'  
 $labels['shortacle'] = 'Purger';
 $labels['shortaclx'] = 'Supprimer un dossier';
 $labels['shortacla'] = 'Administrer';
-
 $labels['shortaclother'] = 'Autre';
 $labels['shortaclread'] = 'Lecture';
 $labels['shortaclwrite'] = 'Écriture';
 $labels['shortacldelete'] = 'Translation can be either \'Supprimer\' or \'Effacer\'  depends of the whole context.';
-
 $labels['longacll'] = 'Ce dossier est visible dans les listes et peut être souscrit';
 $labels['longaclr'] = 'Le dossier peut-être ouvert pour lecture';
 $labels['longacls'] = 'L\'étiquette Lu peut-être changée';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'L\'étiquette de suppression des messages peut-être modi
 $labels['longacle'] = 'Les messages peuvent-être purgés';
 $labels['longaclx'] = 'Le dossier peut-être supprimé ou renommé';
 $labels['longacla'] = 'Les droits d\'accès au dossier peuvent-être modifiés';
-
 $labels['longaclfull'] = 'Contrôle total, dossier d\'administration inclus';
 $labels['longaclread'] = 'Le dossier peut-être ouvert pour lecture';
 $labels['longaclwrite'] = 'Les messages peuvent-être marqué, écrit ou copié dans ce dossier';
 $labels['longacldelete'] = 'Les messages peuvent-être supprimé';
-
 $messages['deleting'] = 'Suppression des droits d\'accès…';
 $messages['saving'] = 'Sauvegarde des droits d\'accès…';
 $messages['updatesuccess'] = 'Les droits d\'accès ont été changé avec succès';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Impossible d\'ajouter des droits d\'accès';
 $messages['deleteconfirm'] = 'Êtes-vous sûr de vouloir retirer les droits d\'accès du/des utilisateur(s) sélectionné ?';
 $messages['norights'] = 'Aucun droit n\'a été spécifié !';
 $messages['nouser'] = 'Aucun nom d\'utilisateur n\'a été spécifié !';
-
 ?>

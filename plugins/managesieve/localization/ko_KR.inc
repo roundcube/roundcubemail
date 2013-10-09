@@ -159,8 +159,6 @@ $labels['asciicasemap'] = '대/소문자 구분 (ascii-casemap)';
 $labels['asciinumeric'] = '숫자 (ascii-numeric)';
 $labels['index'] = '색인:';
 $labels['indexlast'] = '역방향';
-
-$messages = array();
 $messages['filterunknownerror'] = '알수 없는 서버 오류.';
 $messages['filterconnerror'] = '서버에 연결할 수 없음.';
 $messages['filterdeleteerror'] = '필터를 삭제할 수 없음. 서버 오류가 발생함.';
@@ -193,5 +191,4 @@ $messages['namereserved'] = '예약된 이름.';
 $messages['setexist'] = '세트가 이미 존재함.';
 $messages['nodata'] = '최소 하나의 위치가 선택되어야 합니다!';
 $messages['invaliddateformat'] = '유효하지 않은 날짜 또는 날짜 일부 형식';
-
 ?>

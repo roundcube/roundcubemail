@@ -16,12 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'Змяніць пароль';
 $labels['curpasswd']  = 'Бягучы пароль:';
 $labels['newpasswd']  = 'Новы пароль:';
 $labels['confpasswd']  = 'Паўтарыце новы пароль:';
-$messages = array();
 $messages['nopassword'] = 'Увядзіце новы пароль.';
 $messages['nocurpassword'] = 'Увядзіце бягучы пароль.';
 $messages['passwordincorrect'] = 'Няслушны бягучы пароль.';

@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
 $messages['errortitle']  = 'දෝෂයක් මතුවිය!';
 $messages['loginfailed']  = 'ඇතුල්වීම අසාර්ථකයි.';
 $messages['cookiesdisabled'] = 'ඔබේ බෞසරය කුකී බාර ගන්නේ නැත';

@@ -159,8 +159,6 @@ $labels['asciicasemap'] = 'não sensível a maiúsculas/minúsculas (caracteres 
 $labels['asciinumeric'] = 'numérico (numérico ascii)';
 $labels['index'] = 'índice:';
 $labels['indexlast'] = 'retroceder';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Erro de servidor desconhecido';
 $messages['filterconnerror'] = 'Não é possível ligar ao servidor Sieve';
 $messages['filterdeleteerror'] = 'Não foi possível eliminar o filtro. Erro no servidor';
@@ -193,5 +191,4 @@ $messages['namereserved'] = 'Nome invertido.';
 $messages['setexist'] = 'O conjunto já existe.';
 $messages['nodata'] = 'Deve selecionar pelo menos uma posição.';
 $messages['invaliddateformat'] = 'Data ou formato de data inválido.';
-
 ?>

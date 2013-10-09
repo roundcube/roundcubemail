@@ -25,7 +25,6 @@ $labels['actions'] = 'Giriş hüququ ilə hərəkət...';
 $labels['anyone'] = 'Bütün istifadəçilər (istənilən)';
 $labels['anonymous'] = 'Qonaqlar (anonimlər)';
 $labels['identifier'] = 'İdentifikator';
-
 $labels['acll'] = 'Baxış';
 $labels['aclr'] = 'Məktubu oxu';
 $labels['acls'] = 'Oxunulan kimi saxla';
@@ -39,13 +38,11 @@ $labels['aclt'] = 'Məktubu sil';
 $labels['acle'] = 'Poz';
 $labels['aclx'] = 'Qovluğu sil';
 $labels['acla'] = 'İdarə';
-
 $labels['aclfull'] = 'Tam idarə';
 $labels['aclother'] = 'Digər';
 $labels['aclread'] = 'Oxu';
 $labels['aclwrite'] = 'Yaz';
 $labels['acldelete'] = 'Sil';
-
 $labels['shortacll'] = 'Baxış';
 $labels['shortaclr'] = 'Oxu';
 $labels['shortacls'] = 'Saxla';
@@ -59,12 +56,10 @@ $labels['shortaclt'] = 'Sil';
 $labels['shortacle'] = 'Poz';
 $labels['shortaclx'] = 'Qovluğun silinməsi';
 $labels['shortacla'] = 'İdarə';
-
 $labels['shortaclother'] = 'Digər';
 $labels['shortaclread'] = 'Oxu';
 $labels['shortaclwrite'] = 'Yaz';
 $labels['shortacldelete'] = 'Sil';
-
 $labels['longacll'] = 'Qovluq siyahıda görünür və yazılmağa hazırdır';
 $labels['longaclr'] = 'Bu qovluq oxunmaq üçün açıla bilər';
 $labels['longacls'] = 'Oxunulan flaqı dəyişdirilə bilər';
@@ -78,12 +73,10 @@ $labels['longaclt'] = 'Silinən flaqı dəyişdirilə bilər';
 $labels['longacle'] = 'Məktublar pozula bilər';
 $labels['longaclx'] = 'Bu qovluq silinə və ya adı dəyişdirilə bilər';
 $labels['longacla'] = 'Bu qovluğa giriş hüququ dəyişdirilə bilər';
-
 $labels['longaclfull'] = 'Qovluğun idarəsi ilə birlikdə, tam giriş.';
 $labels['longaclread'] = 'Bu qovluq oxunmaq üçün açıla bilər';
 $labels['longaclwrite'] = 'Məktubu bu qovluğa qeyd etmək, yazmaq və kopyalamaq olar';
 $labels['longacldelete'] = 'Məktubu silmək olar';
-
 $messages['deleting'] = 'Giriş hüququnun silinməsi...';
 $messages['saving'] = 'Giriş hüququnun saxlanılması...';
 $messages['updatesuccess'] = 'Giriş hüququ dəyişdirildi';
@@ -95,5 +88,4 @@ $messages['createerror'] = 'Giriş hüququnu əlavə etmək mümkün deyil';
 $messages['deleteconfirm'] = 'Seçilmiş istifadəçilərin giriş hüququnu silməkdə əminsiniz?';
 $messages['norights'] = 'Giriş hüquqları göstərilməyib!';
 $messages['nouser'] = 'İstifadəçi adı təyin olunmayıb!';
-
 ?>
