@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Nun puede crease/movese la carpeta a la carpet
 $messages['messagetoobig'] = 'Esta parte del mensaxe ye enforma grande pa procesala';
 $messages['attachmentvalidationerror'] = '¡ATENCIÓN! Esti axuntu ye sospechosu porque\'l so tipu nun concasa col tipu declaráu nel mensaxe. Si nun confíes nel so remitente, nun tendríes d\'abrilu nel to navegador porque podría tener conteníu maliciosu.<br/<br/> <em>Esperábase: $expected; atopóse: $detected</em>';
 $messages['noscriptwarning'] = 'Avisu: ¡esti serviciu de webmail necesita Javascript! Pa poder usalu, habilita\'l soporte de Javascript nel to navegador, por favor.';
-
 ?>

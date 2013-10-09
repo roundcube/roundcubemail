@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Добродошли на $product';
 $labels['username']  = 'Корисничко име';
 $labels['password']  = 'Лозинка';
 $labels['server']    = 'Сервер';
 $labels['login']     = 'Пријава';
-
-// taskbar
 $labels['logout']   = 'Одјава';
 $labels['mail']     = 'Сандуче';
 $labels['settings'] = 'Подешавања';
 $labels['addressbook'] = 'Именик';
-
-// mailbox names
 $labels['inbox']  = 'Примљене';
 $labels['drafts'] = 'U pripremi';
 $labels['sent']   = 'Послате';
 $labels['trash']  = 'Канта';
 $labels['junk']   = 'Смеће';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Наслов';
 $labels['from']    = 'Од';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Приоритет';
 $labels['organization'] = 'Организација';
 $labels['readstatus'] = 'Статус поруке';
 $labels['listoptions'] = 'Излистај опције...';
-
 $labels['mailboxlist'] = 'Фасцикле';
 $labels['messagesfromto'] = 'Поруке $from до $to од укупно $count';
 $labels['threadsfromto'] = 'Страница $from до $to од $count';
 $labels['messagenrof'] = 'Порука број $nr од $count';
 $labels['fromtoshort'] = '$from – $to од $count';
-
 $labels['copy']     = 'Копирај';
 $labels['move']     = 'Пребаци';
 $labels['moveto']   = 'Пребаци у...';
@@ -68,13 +59,9 @@ $labels['download'] = 'Преузми (скидање)';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'Име датотекеe';
 $labels['filesize'] = 'Величина датотеке';
-
 $labels['addtoaddressbook'] = 'Додај у именик';
-
-// weekdays short
 $labels['sun'] = 'Нед';
 $labels['mon'] = 'Пон';
 $labels['tue'] = 'Уто';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Сре';
 $labels['thu'] = 'Чет';
 $labels['fri'] = 'Пет';
 $labels['sat'] = 'Суб';
-
-// weekdays long
 $labels['sunday']    = 'Недеља';
 $labels['monday']    = 'Понедељак';
 $labels['tuesday']   = 'Уторак';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Среда';
 $labels['thursday']  = 'Четвртак';
 $labels['friday']    = 'Петак';
 $labels['saturday']  = 'Субота';
-
-// months short
 $labels['jan']	= 'Јан';
 $labels['feb']	= 'Феб';
 $labels['mar']	= 'Мар';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Сеп';
 $labels['oct']	= 'Окт';
 $labels['nov']	= 'Нов';
 $labels['dec']	= 'Дец';
-
-// months long
 $labels['longjan']	= 'Јануар';
 $labels['longfeb']	= 'Фебруар';
 $labels['longmar']	= 'Март';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'Септембар';
 $labels['longoct']	= 'Октобар';
 $labels['longnov']	= 'Новембар';
 $labels['longdec']	= 'Децембар';
-
 $labels['today'] = 'Данас';
-
-// toolbar buttons
 $labels['refresh']          = 'Освежи';
 $labels['checkmail']        = 'Провера нових порука';
 $labels['compose']          = 'Нова порука';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'Остале радње...';
 $labels['more']             = 'Више';
 $labels['back']             = 'Назад';
 $labels['options']          = 'Опције';
-
 $labels['select'] = 'Одабери';
 $labels['all'] = 'Све';
 $labels['none'] = 'Ништа';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Прошири све';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Сажми све';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'само са непрочитаним порукама';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'Лист колона';
 $labels['listsorting'] = 'Сортирање колонe';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'Лист режим приказивања';
-
 $labels['folderactions'] = 'Поставке фасцикле';
 $labels['compact'] = 'Компакција';
 $labels['empty'] = 'Испразни';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Квота';
 $labels['unknown']  = 'непозната';
 $labels['unlimited']  = 'бесконачна';
-
 $labels['quicksearch']  = 'Брза претрага';
 $labels['resetsearch']  = 'Прикажи све поруке';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Цела порука';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Отвори у новом прозору';
 $labels['emlsave'] = 'Довнлоад (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Модификуј као ново';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Пошаљи поруку';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Потврда о приспећу';
 $labels['dsn']            = 'Обавештење о статусу слања поруке';
 $labels['mailreplyintro'] = 'Дана $date, $sender је написао:';
 $labels['originalmessage'] = 'Оригинална порука';
-
 $labels['editidents']    = 'Модификуј псеудониме';
 $labels['spellcheck']    = 'Провера правописа';
 $labels['checkspelling'] = 'Провера правописа';
 $labels['resumeediting'] = 'Повратак у режим писања';
 $labels['revertto']      = 'Врати се на';
-
 $labels['attach'] = 'Приложи';
 $labels['attachments'] = 'Прилози';
 $labels['upload'] = 'Додај';
 $labels['uploadprogress'] = '$percent ($current од $total)';
 $labels['close']  = 'Затвори';
 $labels['messageoptions']  = 'Опције поруке';
-
 $labels['low']     = 'Низак';
 $labels['lowest']  = 'Најнижи';
 $labels['normal']  = 'Средњи';
 $labels['high']    = 'Висок';
 $labels['highest'] = 'Највиши';
-
 $labels['nosubject']  = '(без наслова)';
 $labels['showimages'] = 'Прикажи слике';
 $labels['alwaysshow'] = 'Увек покажи слике од $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Обичан текст';
 $labels['savesentmessagein'] = 'Послате поруке сачувај у';
 $labels['dontsave'] = 'Не сачувај';
 $labels['maxuploadsize'] = 'Максимална величина податка је $size';
-
 $labels['addcc'] = 'Додај Cc';
 $labels['addbcc'] = 'Додај Bcc';
 $labels['addreplyto'] = 'Додај Одговор-за';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'Пошиљалац ове поруке је замолио да буде обавештен када прочитате ову поруку. Да ли желите да обавестите пошиљаоца?';
 $labels['receiptread'] = 'Обавештење о приспећу (прочитана порука)';
 $labels['yourmessage'] = 'Ово је обавештење о приспећу за вашу поруку';
 $labels['receiptnote'] = 'Пажња: Ово обавештење само потврђује да је порука приказана на рачунару примаоца. Не постоји гаранција да је прималац прочитао или разумео садржај поруке.';
-
-// address boook
 $labels['name']         = 'Пуно име';
 $labels['firstname']    = 'Име';
 $labels['surname']      = 'Презиме';
@@ -304,7 +264,6 @@ $labels['search'] = 'Тражи';
 $labels['advsearch'] = 'Напредна претрага';
 $labels['advanced'] = 'Напредно';
 $labels['other'] = 'Остало';
-
 $labels['typehome']   = 'Кућа';
 $labels['typework']   = 'Посао';
 $labels['typeother']  = 'Остало';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Асистент';
 $labels['typehomepage']  = 'Почетна страница';
 $labels['typeblog'] = 'Блог';
 $labels['typeprofile'] = 'Профил';
-
 $labels['addfield'] = 'Додај поље';
 $labels['addcontact'] = 'Додај нови контакт';
 $labels['editcontact'] = 'Измени контакт';
 $labels['contacts'] = 'Конакти';
 $labels['contactproperties'] = 'Својства контакта';
 $labels['personalinfo'] = 'Личне информације';
-
 $labels['edit']   = 'Измени';
 $labels['cancel'] = 'Откажи';
 $labels['save']   = 'Сачувај';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Преименуј';
 $labels['addphoto'] = 'Додај';
 $labels['replacephoto'] = 'Измени';
 $labels['uploadphoto'] = 'Постави фотографију';
-
 $labels['newcontact']     = 'Додај нови контакт';
 $labels['deletecontact']  = 'Обриши одабране контакте';
 $labels['composeto']      = 'Напиши поруку...';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Креирај нову контакт групу'
 $labels['grouprename']    = 'Преименуј групу';
 $labels['groupdelete']    = 'Обриши групу';
 $labels['groupremoveselected'] = 'Избриши изабране контакте из групе';
-
 $labels['previouspage']   = 'Прикажи претходну страну';
 $labels['firstpage']      = 'Прикажи први скуп';
 $labels['nextpage']       = 'Прикажи следећу страну';
 $labels['lastpage']       = 'Прикажи последњи скуп';
-
 $labels['group'] = 'Група';
 $labels['groups'] = 'Групе';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Личне адресе';
-
 $labels['searchsave'] = 'Сачувај претрагу';
 $labels['searchdelete'] = 'Избриши претрагу';
-
 $labels['import'] = 'Увези';
 $labels['importcontacts'] = 'Увези контакте';
 $labels['importfromfile'] = 'Увези из датотеке:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Додај нове контакте у адреса�
 $labels['importreplace'] = 'Измени цели адресар';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Готово';
-
-// settings
 $labels['settingsfor'] = 'Подешавања за';
 $labels['about'] = 'Инфо';
 $labels['preferences'] = 'Подешавања';
 $labels['userpreferences'] = 'Општа подешавања';
 $labels['editpreferences'] = 'Измена општих подешавања';
-
 $labels['identities'] = 'Идентитети';
 $labels['manageidentities'] = 'Подеси идентитете за овај налог';
 $labels['newidentity'] = 'Додај идентитет';
-
 $labels['newitem'] = 'Нова ставка';
 $labels['edititem'] = 'Измена ставке';
-
 $labels['preferhtml'] = 'Предност дај ХТМЛ формату';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'ХТМЛ формат поруке';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Фасцикла';
 $labels['folders']  = 'Фасцикле';
 $labels['foldername']  = 'Име фасцикле';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'типа фасцикле';
 $labels['personalfolder']  = 'Приватна фасцикла';
 $labels['otherfolder']  = 'Фасцикла Других Корисникa';
 $labels['sharedfolder']  = 'Јавна фасцикла';
-
 $labels['sortby'] = 'Сортирај по';
 $labels['sortasc']  = 'Сортирај растуће';
 $labels['sortdesc'] = 'Сортирај опадајуће';
 $labels['undo'] = 'Унатраг';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Додаци';
 $labels['version'] = 'Верзија';
 $labels['source'] = 'Извор';
 $labels['license'] = 'Лиценца';
 $labels['support'] = 'подршка';
-
-// units
 $labels['B'] = 'Б';
 $labels['KB'] = 'КБ';
 $labels['MB'] = 'МБ';
 $labels['GB'] = 'ГБ';
-
-// character sets
 $labels['unicode'] = 'Универзални код';
 $labels['english'] = 'Енглески';
 $labels['westerneuropean'] = 'Западна Европа';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Вијетнамски';
 $labels['japanese'] = 'Јапански';
 $labels['korean'] = 'Кореански';
 $labels['chinese'] = 'Кинески';
-
 ?>

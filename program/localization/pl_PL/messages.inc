@@ -169,5 +169,4 @@ $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wyb
 $messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
 $messages['attachmentvalidationerror'] = 'UWAGA! Ten załącznik jest podejrzany ponieważ jego typ nie jest zgodny z typem zadeklarownym w wiadomości. Jeśli nie ufasz temu nadawcy nie powinieneś otwierać go w przeglądarce, bo może zawierać złośliwe oprogramowanie.<br/><br/><em>Spodziwany: $expected; znaleziono: $detected</em>';
 $messages['noscriptwarning'] = 'Uwaga: Usługa wymaga Javascriptu! Aby z niej skorzystać proszę włączyć obsługę języka Javascript w ustawieniach przeglądarki.';
-
 ?>

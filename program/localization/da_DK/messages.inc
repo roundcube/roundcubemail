@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Kan ikke oprette/flytte mappe ind i valgt mapp
 $messages['messagetoobig'] = 'Denne del af beskeden er for stor til at blive behandlet.';
 $messages['attachmentvalidationerror'] = 'ADVARSEL! Den vedhæftede fil er mistænkelig - Typen stemmer ikke overens med den oplyste type. Hvis du ikke har tillid til afsender, skal du ikke åbne filen da den kan indholde onsindet indhold. <br/><br/><em>Forventet: $expected; Fundet: $detected</em>';
 $messages['noscriptwarning'] = 'Advarsel: Denne webmailclient kræver Javascript! For at kunne bruge den slå venligst Javascripts til i din browserindstillinger.';
-
 ?>

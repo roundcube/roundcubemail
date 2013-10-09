@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Mirëseerdhe te $product';
 $labels['username']  = 'Përdoruesi';
 $labels['password']  = 'Fjalëkalimi';
 $labels['server']    = 'Serveri';
 $labels['login']     = 'Hyr';
-
-// taskbar
 $labels['logout']   = 'Dil';
 $labels['mail']     = 'Mesazhet';
 $labels['settings'] = 'Konfigurimi Personal';
 $labels['addressbook'] = 'Libri i Adresave';
-
-// mailbox names
 $labels['inbox']  = 'Ardhjet';
 $labels['drafts'] = 'Drafte';
 $labels['sent']   = 'Dërguar';
 $labels['trash']  = 'Fshirë';
 $labels['junk']   = 'Reklama';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Tema';
 $labels['from']    = 'Dërguesi';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Përparësia';
 $labels['organization'] = 'Organizata';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'Kutitë';
 $labels['messagesfromto'] = 'Mesazhet $from në $to nga $count';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'Mesazhi $nr nga $count';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'Kopje';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'ço te...';
@@ -68,13 +59,9 @@ $labels['download'] = 'shkarko';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'Emër skedari';
 $labels['filesize'] = 'Madhësi skedari';
-
 $labels['addtoaddressbook'] = 'Shto në librin e adresave';
-
-// weekdays short
 $labels['sun'] = 'Dje';
 $labels['mon'] = 'Hën';
 $labels['tue'] = 'Mar';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Mër';
 $labels['thu'] = 'Enj';
 $labels['fri'] = 'Pre';
 $labels['sat'] = 'Sht';
-
-// weekdays long
 $labels['sunday']    = 'e djelë';
 $labels['monday']    = 'e hënë';
 $labels['tuesday']   = 'e martë';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'e mërkurë';
 $labels['thursday']  = 'e enjte';
 $labels['friday']    = 'e premte';
 $labels['saturday']  = 'e shtunë';
-
-// months short
 $labels['jan']	= 'Jan';
 $labels['feb']	= 'Feb';
 $labels['mar']	= 'Mar';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Sep';
 $labels['oct']	= 'Oct';
 $labels['nov']	= 'Nov';
 $labels['dec']	= 'Dec';
-
-// months long
 $labels['longjan']	= 'January';
 $labels['longfeb']	= 'February';
 $labels['longmar']	= 'March';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'September';
 $labels['longoct']	= 'October';
 $labels['longnov']	= 'November';
 $labels['longdec']	= 'December';
-
 $labels['today'] = 'sot';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'Shiko për mesazhe të reja';
 $labels['compose']          = 'Shkruaj një mesazh';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'More actions...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'Zgjidh';
 $labels['all'] = 'Të gjitha';
 $labels['none'] = 'Asnjë';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Zvogëlo';
 $labels['empty'] = 'Boshatis';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Përdorimi i diskut';
 $labels['unknown']  = 'i panjohur';
 $labels['unlimited']  = 'i pakufizuar';
-
 $labels['quicksearch']  = 'Kërkim i shpejtë';
 $labels['resetsearch']  = 'Pastro kërkimin';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Dërgoje mesazhin tani';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Njoftim marrje';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'Kontroll gabimesh';
 $labels['resumeediting'] = 'Vazhdo editimin';
 $labels['revertto']      = 'Ktheje te';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Bashkangjitjet';
 $labels['upload'] = 'Ngarko';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'Mbyll';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'I ulët';
 $labels['lowest']  = 'Më i ulëti';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'I lartë';
 $labels['highest'] = 'Më i larti';
-
 $labels['nosubject']  = '(pa subjekt)';
 $labels['showimages'] = 'Shfaq imazhet';
 $labels['alwaysshow'] = 'Always show images from $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'TEXT';
 $labels['savesentmessagein'] = 'Save sent message in';
 $labels['dontsave'] = 'don\'t save';
 $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
-
 $labels['addcc'] = 'Shto Cc';
 $labels['addbcc'] = 'Shto Bcc';
 $labels['addreplyto'] = 'Shto Reply-To';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'Dërguesi i këtij mesazhi ka kërkuar që të njoftohet kur ju të lexoni këtë mesazh. Dëshironi ta njoftoni dërguesin?';
 $labels['receiptread'] = 'Njoftim Leximi';
 $labels['yourmessage'] = 'Ky është një njoftim leximi për mesazhin tuaj';
 $labels['receiptnote'] = 'Shënim: Ky njoftim tregon vetëm që mesazhi u shfaq në kompjuterin e marrësit. Nuk ka siguri që marrësi e ka lexuar ose e ka kuptuar përmbajtjen e mesazhit.';
-
-// address boook
 $labels['name']         = 'Emri që thirret';
 $labels['firstname']    = 'Emri';
 $labels['surname']      = 'Mbiemri';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Shto një kontakt të ri';
 $labels['editcontact'] = 'Ndrysho kontaktin';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'Ndrysho';
 $labels['cancel'] = 'Anullo';
 $labels['save']   = 'Ruaj';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'Krijo nje kartë të re kontakti';
 $labels['deletecontact']  = 'Fshi kontaktet e zgjedhura';
 $labels['composeto']      = 'Shkruaj email për';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'Shfaq grupin e mëparshëm';
 $labels['firstpage']      = 'Shfaq grupin e parë';
 $labels['nextpage']       = 'Shfaq grupin tjetër';
 $labels['lastpage']       = 'Shfaq grupin e fundit';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'Grupet';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Adresat Personale';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
-
-// settings
 $labels['settingsfor'] = 'Konfigurimet për';
 $labels['about'] = 'About';
 $labels['preferences'] = 'Preferencat';
 $labels['userpreferences'] = 'Preferencat e përdoruesit';
 $labels['editpreferences'] = 'Ndrysho preferencat e përdoruesit';
-
 $labels['identities'] = 'Identitetet';
 $labels['manageidentities'] = 'Manaxho identitetet per këtë llogari';
 $labels['newidentity'] = 'Identitet i ri';
-
 $labels['newitem'] = 'Element i ri';
 $labels['edititem'] = 'Ndrysho element';
-
 $labels['preferhtml'] = 'Shfaq HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'Mesazh HTML';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Kutia';
 $labels['folders']  = 'Kutitë';
 $labels['foldername']  = 'Emër kutie';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'Rradhit sipas';
 $labels['sortasc']  = 'Rradhitje rritëse';
 $labels['sortdesc'] = 'Rradhitje zbritëse';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

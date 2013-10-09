@@ -169,5 +169,4 @@ $messages['parentnotwritable'] = 'Podmape v tej mapi ni bilo mogoče ustvariti/p
 $messages['messagetoobig'] = 'Sporočilo je preveliko za obdelavo.';
 $messages['attachmentvalidationerror'] = 'OPOZORILO! Priponka vsebuje sumljivo vsebino, saj tip priponke ne ustreza tipu, določenemu v sporočilu. Če ne zaupate pošiljatelju, priponke v brskalniku ne odpirajte, saj lahko vsebuje zlonamerno vsebino. <br/><br/><em>Pričakovano: $expected; Najdeno: $detected</em>';
 $messages['noscriptwarning'] = 'Opozorilo: Ta spletna stran zahteva Javascript! Za uporabo jo vključite v nastavitvah vašega brskalnika.';
-
 ?>

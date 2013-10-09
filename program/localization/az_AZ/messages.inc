@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Qovluğu seçilmiş ana qovluğa köçürmək/
 $messages['messagetoobig'] = 'Məktubun bir hissəsi emal üçün böyükdür.';
 $messages['attachmentvalidationerror'] = 'DİQQƏT! Bu qoşma şübhəlidir, çünki məktubda deyilən növlə eyni deyil. Əgər siz göndərə güvənmirsinizsə, brauzerdə bunu açmayın. Tərkibi təhlükəli ola bilər.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Xəbərdarlıq: Bu vebmeyl xidməti Javascript tələb edir! Funksiyanı istifadə etmək üçün lütfən, brauzerinizin ayarlarında Javascript-i yandırın.';
-
 ?>

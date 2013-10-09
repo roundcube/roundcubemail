@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'ยินดีต้อนรับสู่ $product';
 $labels['username']  = 'บัญชีผู้ใช้';
 $labels['password']  = 'รหัสผ่าน';
 $labels['server']    = 'เซิร์ฟเวอร์';
 $labels['login']     = 'เข้าสู่ระบบ';
-
-// taskbar
 $labels['logout']   = 'ออกจากระบบ';
 $labels['mail']     = 'อีเมล์';
 $labels['settings'] = 'ปรับแต่งค่าส่วนตัว';
 $labels['addressbook'] = 'สมุดรายชื่อ';
-
-// mailbox names
 $labels['inbox']  = 'กล่องขาเข้า';
 $labels['drafts'] = 'กล่องจดหมายร่าง';
 $labels['sent']   = 'กล่องขาออก';
 $labels['trash']  = 'ถังขยะ';
 $labels['junk']   = 'กล่องจดหมายขยะ';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'หัวจดหมาย';
 $labels['from']    = 'ผู้ส่ง';
 $labels['sender']  = 'ผู้ส่ง';
@@ -54,13 +47,11 @@ $labels['priority'] = 'ระดับความสำคัญ';
 $labels['organization'] = 'องค์กร';
 $labels['readstatus'] = 'สถานะการเปิดอ่าน';
 $labels['listoptions'] = 'ตัวเลือกการแสดงรายการ';
-
 $labels['mailboxlist'] = 'กล่องจดหมาย';
 $labels['messagesfromto'] = 'จดหมายจาก $from ถึง $to จำนวน $count ฉบับ';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'จดหมายฉบับที่ $nr จาก $count ฉบับ';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'คัดลอก';
 $labels['move']     = 'เลื่อน';
 $labels['moveto']   = 'ย้ายไป...';
@@ -68,13 +59,9 @@ $labels['download'] = 'ดาวน์โหลด';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'แสดง';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'ชื่อไฟล์';
 $labels['filesize'] = 'ขนาดไฟล์';
-
 $labels['addtoaddressbook'] = 'บันทึกในสมุดรายชื่อ';
-
-// weekdays short
 $labels['sun'] = 'อ';
 $labels['mon'] = 'จ';
 $labels['tue'] = 'อ';
@@ -82,8 +69,6 @@ $labels['wed'] = 'พ';
 $labels['thu'] = 'พฤ';
 $labels['fri'] = 'ศ';
 $labels['sat'] = 'ส';
-
-// weekdays long
 $labels['sunday']    = 'วันอาทิตย์';
 $labels['monday']    = 'วันจันทร์';
 $labels['tuesday']   = 'วันอังคาร';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'วันพุธ';
 $labels['thursday']  = 'วันพฤหัสบดี';
 $labels['friday']    = 'วันศุกร์';
 $labels['saturday']  = 'วันเสาร์';
-
-// months short
 $labels['jan']	= 'ม.ค.';
 $labels['feb']	= 'ก.พ.';
 $labels['mar']	= 'มี.ค.';
@@ -105,8 +88,6 @@ $labels['sep']	= 'ก.ย.';
 $labels['oct']	= 'ต.ค.';
 $labels['nov']	= 'พ.ย.';
 $labels['dec']	= 'ธ.ค.';
-
-// months long
 $labels['longjan']	= 'มกราคม';
 $labels['longfeb']	= 'กุมภาพันธ์';
 $labels['longmar']	= 'มีนาคม';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'กันยายน';
 $labels['longoct']	= 'ตุลาคม';
 $labels['longnov']	= 'พฤศจิกายน';
 $labels['longdec']	= 'ธันวาคม';
-
 $labels['today'] = 'วันนี้';
-
-// toolbar buttons
 $labels['refresh']          = 'รีเฟรช';
 $labels['checkmail']        = 'ตรวจสอบจดหมายใหม่';
 $labels['compose']          = 'เขียนจดหมายใหม่';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'การกระทำเพิ่มเติ�
 $labels['more']             = 'เพิ่มเติม';
 $labels['back']             = 'ย้อนกลับ';
 $labels['options']          = 'ตัวเลือก';
-
 $labels['select'] = 'เลือก';
 $labels['all'] = 'ทั้งหมด';
 $labels['none'] = 'ไม่เลือก';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'แสดงทั้งหมด';
 $labels['expand-unread'] = 'แสดงเฉพาะที่ยังไม่ได้อ่าน';
 $labels['collapse-all'] = 'ปิดทั้งหมด';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'จัดเรียงคอลัมน์';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'แบบย่อ';
 $labels['empty'] = 'ว่างเปล่า';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'พื้นที่ใช้งาน';
 $labels['unknown']  = 'ไม่ทราบ';
 $labels['unlimited']  = 'ไม่จำกัด';
-
 $labels['quicksearch']  = 'ค้นหาแบบด่วน';
 $labels['resetsearch']  = 'ล้างการค้นหา';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'เนื้อหา';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'ส่งจดหมาย';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'ตอบกลับผู้รับ';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'ตรวจสอบคำผิด';
 $labels['resumeediting'] = 'แก้ไขต่อ';
 $labels['revertto']      = 'ย้นกลับไปยัง';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'ไฟล์แนบ';
 $labels['upload'] = 'อัพโหลด';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'ปิด';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'ต่ำ';
 $labels['lowest']  = 'ต่ำสุด';
 $labels['normal']  = 'ปกติ';
 $labels['high']    = 'สูง';
 $labels['highest'] = 'สูงสุด';
-
 $labels['nosubject']  = '(ไม่มีหัวข้อ)';
 $labels['showimages'] = 'แสดงรูป';
 $labels['alwaysshow'] = 'Always show images from $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plain text';
 $labels['savesentmessagein'] = 'Save sent message in';
 $labels['dontsave'] = 'don\'t save';
 $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
-
 $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
 $labels['addreplyto'] = 'Add Reply-To';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
 $labels['receiptread'] = 'Return Receipt (read)';
 $labels['yourmessage'] = 'This is a Return Receipt for your message';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
-
-// address boook
 $labels['name']         = 'ชื่อแสดง';
 $labels['firstname']    = 'ชื่อ';
 $labels['surname']      = 'สกุล';
@@ -304,7 +264,6 @@ $labels['search'] = 'ค้นหา';
 $labels['advsearch'] = 'ค้นหาขั้นสูง';
 $labels['advanced'] = 'ขั้นสูง';
 $labels['other'] = 'อื่นๆ';
-
 $labels['typehome']   = 'บ้าน';
 $labels['typework']   = 'สถานที่ทำงาน';
 $labels['typeother']  = 'อื่นๆ';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'โฮมเพจ';
 $labels['typeblog'] = 'บล็อก';
 $labels['typeprofile'] = 'โปรไฟล์';
-
 $labels['addfield'] = 'เพิ่มช่องข้อมูล...';
 $labels['addcontact'] = 'เพิ่มรายชื่อ';
 $labels['editcontact'] = 'แก้ไขรายชื่อ';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'แก้ไข';
 $labels['cancel'] = 'ยกเลิก';
 $labels['save']   = 'บันทึก';
@@ -335,7 +292,6 @@ $labels['rename'] = 'เปลี่ยนชื่อ';
 $labels['addphoto'] = 'เพิ่ม';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'สร้างรายชื่อใหม่';
 $labels['deletecontact']  = 'ลบรายชื่อที่เลือก';
 $labels['composeto']      = 'เขียนจดหมายถึง';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'หน้าที่แล้ว';
 $labels['firstpage']      = 'Show first page';
 $labels['nextpage']       = 'หน้าถัดไป';
 $labels['lastpage']       = 'Show last page';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'Groups';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Personal Addresses';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
-
-// settings
 $labels['settingsfor'] = 'ตั้งค่าสำหรับ';
 $labels['about'] = 'About';
 $labels['preferences'] = 'ปรับแต่ง';
 $labels['userpreferences'] = 'ข้อมูลส่วนตัว';
 $labels['editpreferences'] = 'แก้ไขข้อมูลส่วนตัว';
-
 $labels['identities'] = 'ชื่อแสดงตัว';
 $labels['manageidentities'] = 'จัดการชื่อแสดงตัวสำหรับรายชื่อนี้';
 $labels['newidentity'] = 'ชื่อแสดงตัวใหม่';
-
 $labels['newitem'] = 'New item';
 $labels['edititem'] = 'Edit item';
-
 $labels['preferhtml'] = 'อ่านแบบ HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'จดหมาย HTML';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'เป็นไฟล์แนบ';
-
 $labels['folder']  = 'กล่องจดหมาย';
 $labels['folders']  = 'กล่องจดหมาย';
 $labels['foldername']  = 'ชื่อกล่องจดหมาย';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'ประเภทโฟลเดอร์';
 $labels['personalfolder']  = 'โฟลเดอร์ส่วนตัว';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'โฟลเดอร์สาธารณะ';
-
 $labels['sortby'] = 'เรียงตาม';
 $labels['sortasc']  = 'เรียงจากหน้าไปหลัง';
 $labels['sortdesc'] = 'เรียงจากหลังไปหน้า';
 $labels['undo'] = 'เลิกทำ';
-
 $labels['installedplugins'] = 'ปลั๊กอินที่ติดตั้ง';
 $labels['plugin'] = 'ปลั๊กอิน';
 $labels['version'] = 'รุ่น';
 $labels['source'] = 'Source';
 $labels['license'] = 'สัญญาอนุญาต';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

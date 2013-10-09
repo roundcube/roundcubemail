@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Degemer mat war $product';
 $labels['username']  = 'Anv an arveriad';
 $labels['password']  = 'Ger-Tremen';
 $labels['server']    = 'Dafariad';
 $labels['login']     = 'Kennaskañ';
-
-// taskbar
 $labels['logout']   = 'Digennaskañ';
 $labels['mail']     = 'Postel elektronek';
 $labels['settings'] = 'Arventennoù';
 $labels['addressbook'] = 'Karned chomlec\'hioù';
-
-// mailbox names
 $labels['inbox']  = 'Boest degemer';
 $labels['drafts'] = 'Brouilhedoù';
 $labels['sent']   = 'Kaset';
 $labels['trash']  = 'Pod-lastez';
 $labels['junk']   = 'Stroboù';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Sujed';
 $labels['from']    = 'Eus';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Kentwir';
 $labels['organization'] = 'Aozadur';
 $labels['readstatus'] = 'Stad al lenn';
 $labels['listoptions'] = 'Dibarzhioù ar roll...';
-
 $labels['mailboxlist'] = 'Teuliadoù';
 $labels['messagesfromto'] = 'Kemennadoù eus $from da $to war $count';
 $labels['threadsfromto'] = 'Sujedoù $from da $to war $count';
 $labels['messagenrof'] = 'Kemennad $nr war $count';
 $labels['fromtoshort'] = '$from - $to war $count';
-
 $labels['copy']     = 'Eilañ';
 $labels['move']     = 'Dilec\'hiañ';
 $labels['moveto']   = 'Dilec\'hiañ da...';
@@ -68,13 +59,9 @@ $labels['download'] = 'Pellgargañ';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Diskouez';
 $labels['showanyway'] = 'Diskouez anezhañ memestra';
-
 $labels['filename'] = 'Anv ar restr';
 $labels['filesize'] = 'Ment ar restr';
-
 $labels['addtoaddressbook'] = 'Ouzhpennañ er c\'harned chomlec\'hioù';
-
-// weekdays short
 $labels['sun'] = 'Sul';
 $labels['mon'] = 'Lun';
 $labels['tue'] = 'Meu';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Mer';
 $labels['thu'] = 'Yao';
 $labels['fri'] = 'Gwe';
 $labels['sat'] = 'Sad';
-
-// weekdays long
 $labels['sunday']    = 'Sul';
 $labels['monday']    = 'Lun';
 $labels['tuesday']   = 'Meurzh';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Merc\'her';
 $labels['thursday']  = 'Yaou';
 $labels['friday']    = 'Gwener';
 $labels['saturday']  = 'Sadorn';
-
-// months short
 $labels['jan']	= 'Gen';
 $labels['feb']	= 'C\'hwe';
 $labels['mar']	= 'Meu';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Gwe';
 $labels['oct']	= 'Her';
 $labels['nov']	= 'Du';
 $labels['dec']	= 'Ker';
-
-// months long
 $labels['longjan']	= 'Genver';
 $labels['longfeb']	= 'C\'hwevrer';
 $labels['longmar']	= 'Meurzh';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'Gwengolo';
 $labels['longoct']	= 'Here';
 $labels['longnov']	= 'Du';
 $labels['longdec']	= 'Kerzu';
-
 $labels['today'] = 'Hiziv';
-
-// toolbar buttons
 $labels['refresh']          = 'Azgrenaat';
 $labels['checkmail']        = 'Gwiriañ kemennadoù nevez';
 $labels['compose']          = 'Skrivañ ur c\'hemennad nevez';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'More actions...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'Diuzañ';
 $labels['all'] = 'An holl';
 $labels['none'] = 'Ebet';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Stummaat';
 $labels['empty'] = 'Skarzhañ';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Implijadur pladenn';
 $labels['unknown']  = 'Dianav';
 $labels['unlimited']  = 'didermen';
-
 $labels['quicksearch']  = 'Klask prim';
 $labels['resetsearch']  = 'Aderaouekaat ar glask';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Kas ar c\'hemennad diouzhtu';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Testeni degemer';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'Gwiriañ ar reizhskrivadur';
 $labels['resumeediting'] = 'Distreiñ en aozer';
 $labels['revertto']      = 'Distreiñ en/r';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Restroù staget';
 $labels['upload'] = 'Stagañ';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'Serriñ';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'Izel';
 $labels['lowest']  = 'An izelañ';
 $labels['normal']  = 'Reizh';
 $labels['high']    = 'Uhel';
 $labels['highest'] = 'An uhelañ';
-
 $labels['nosubject']  = '(n\'eus ket sujed)';
 $labels['showimages'] = 'Diskouez ar skeudennoù';
 $labels['alwaysshow'] = 'Always show images from $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'testenn kriz';
 $labels['savesentmessagein'] = 'Save sent message in';
 $labels['dontsave'] = 'don\'t save';
 $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
-
 $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
 $labels['addreplyto'] = 'Add Reply-To';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
 $labels['receiptread'] = 'Return Receipt (read)';
 $labels['yourmessage'] = 'This is a Return Receipt for your message';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
-
-// address boook
 $labels['name']         = 'Anv da ziskouez';
 $labels['firstname']    = 'Raganv';
 $labels['surname']      = 'Anv';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Ouzhpennañ an darempred diuzet en hor c\'harned chomlec\'hioù';
 $labels['editcontact'] = 'Cheñch an darempred';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'Cheñch';
 $labels['cancel'] = 'Nullañ';
 $labels['save']   = 'Gwarediñ';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'Krouiñ un darempred nevez';
 $labels['deletecontact']  = 'Dilemel an darempredoù diuzet';
 $labels['composeto']      = 'Skrivañ ur c\'hemennad ouzh';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'Diskouez pajenn a-raok';
 $labels['firstpage']      = 'Gwelout ar bajenn gentañ';
 $labels['nextpage']       = 'Diskouez pajenn da heul';
 $labels['lastpage']       = 'Gwelout ar bajenn diwezhañ';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'Strolladoù';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Chomlec\'h personel';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
-
-// settings
 $labels['settingsfor'] = 'Arventennoù evit';
 $labels['about'] = 'About';
 $labels['preferences'] = 'Dibarzhioù';
 $labels['userpreferences'] = 'Dibarzhioù implijer';
 $labels['editpreferences'] = 'Cheñch dibarzhioù implijer';
-
 $labels['identities'] = 'Identelezhioù';
 $labels['manageidentities'] = 'Merañ an identelezhioù evit ar c\'hont-se';
 $labels['newidentity'] = 'Identelezh nevez';
-
 $labels['newitem'] = 'Elfenn nevez';
 $labels['edititem'] = 'Cheñch an elfenn';
-
 $labels['preferhtml'] = 'Diskouez en HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'Kemennad en HTML';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Renkell';
 $labels['folders']  = 'Teuliadoù';
 $labels['foldername']  = 'Anv ar renkell';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'Rummañ dre';
 $labels['sortasc']  = 'Rumm diagentad';
 $labels['sortdesc'] = 'Rumm diskennad';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'მოგესალმებათ $product';
 $labels['username']  = 'მომხმარებელი';
 $labels['password']  = 'პაროლი';
 $labels['server']    = 'სერვერი';
 $labels['login']     = 'შესვლა';
-
-// taskbar
 $labels['logout']   = 'გამოსვლა';
 $labels['mail']     = 'ელფოსტა';
 $labels['settings'] = 'პარამეტრები';
 $labels['addressbook'] = 'მისამართები';
-
-// mailbox names
 $labels['inbox']  = 'მიღებული';
 $labels['drafts'] = 'დროებითი';
 $labels['sent']   = 'გაგზავნილი';
 $labels['trash']  = 'წაშლილი';
 $labels['junk']   = 'სპამი';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'სათაური';
 $labels['from']    = 'გამგზავნი';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'პრიორიტეტი';
 $labels['organization'] = 'ორგანიზაცია';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'საქაღალდეები';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'შეტყობინება $nr დან $count';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'ასლი';
 $labels['move']     = 'გადატანა';
 $labels['moveto']   = 'გადატანა...';
@@ -68,13 +59,9 @@ $labels['download'] = 'გადმოწერა';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'ფაილის სახელი';
 $labels['filesize'] = 'ფაილის ზომა';
-
 $labels['addtoaddressbook'] = 'მისამართებში დამატება';
-
-// weekdays short
 $labels['sun'] = 'კვი';
 $labels['mon'] = 'ორშ';
 $labels['tue'] = 'სამ';
@@ -82,8 +69,6 @@ $labels['wed'] = 'ოთხ';
 $labels['thu'] = 'ხუთ';
 $labels['fri'] = 'პარ';
 $labels['sat'] = 'შაბ';
-
-// weekdays long
 $labels['sunday']    = 'კვირა';
 $labels['monday']    = 'ორშაბათი';
 $labels['tuesday']   = 'სამშაბათი';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'ოთხშაბათი';
 $labels['thursday']  = 'ხუთშაბათი';
 $labels['friday']    = 'პარასკევი';
 $labels['saturday']  = 'შაბათი';
-
-// months short
 $labels['jan']	= 'იან';
 $labels['feb']	= 'თებ';
 $labels['mar']	= 'მარ';
@@ -105,8 +88,6 @@ $labels['sep']	= 'სექ';
 $labels['oct']	= 'ოქტ';
 $labels['nov']	= 'ნოე';
 $labels['dec']	= 'დეკ';
-
-// months long
 $labels['longjan']	= 'იანვარი';
 $labels['longfeb']	= 'თებერვალი';
 $labels['longmar']	= 'მარტი';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'სექტემბერი';
 $labels['longoct']	= 'ოქტომბერი';
 $labels['longnov']	= 'ნოემბერი';
 $labels['longdec']	= 'დეკემბერი';
-
 $labels['today'] = 'დღეს';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'შემოწმება ახალ შეტყობინებაზე';
 $labels['compose']          = 'შეტყობინების დაწერა';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'მეტი მოქმედება...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'მონიშვნა';
 $labels['all'] = 'ყველა';
 $labels['none'] = 'არცერთი';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'ყველას გაშლა';
 $labels['expand-unread'] = 'წაუკითხავის გაშლა';
 $labels['collapse-all'] = 'ყველას დაკეცვა';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'დალაგება';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'შეკუმშვა';
 $labels['empty'] = 'გაცარიელება';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'შეზღუდვა';
 $labels['unknown']  = 'უცნობი';
 $labels['unlimited']  = 'შეუზღუდავი';
-
 $labels['quicksearch']  = 'სწრაფი ძიება';
 $labels['resetsearch']  = 'ძიების გასუფთავება';
 $labels['searchmod']  = 'ძებნის ვარიანტები';
 $labels['msgtext']  = 'ყველა შეტყობინება';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'გახსნა ახალ ფანჯარაში';
 $labels['emlsave'] = 'გადმოწერა (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'რედაქტირება როგორც ახლის';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'შეტყობინების გაგზავნა';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'პასუხის მოთხოვნა';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'ორთოგრაფიული შემოწმება';
 $labels['resumeediting'] = 'რედაქტირების გაგრძელება';
 $labels['revertto']      = 'გაუქმება';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'გზავნილები';
 $labels['upload'] = 'ატვირთვა';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'დახურვა';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'დაბალი';
 $labels['lowest']  = 'უდაბლესი';
 $labels['normal']  = 'საშუალო';
 $labels['high']    = 'მაღალი';
 $labels['highest'] = 'უმაღლესი';
-
 $labels['nosubject']  = '(უსათაურო)';
 $labels['showimages'] = 'გამოსახულების ჩვენება';
 $labels['alwaysshow'] = 'ყოველთვის გამოაჩინე სურათები $sender –გან';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'ტექსტური';
 $labels['savesentmessagein'] = 'შეინახე შეტყობინება';
 $labels['dontsave'] = 'არ შეინახო';
 $labels['maxuploadsize'] = 'მაქსიმალური დაშვებული ფაილის ზომა $size';
-
 $labels['addcc'] = 'დაამატე კოპიო';
 $labels['addbcc'] = 'დაამატე ფარული კოპიო';
 $labels['addreplyto'] = 'დაამატე გამომგზავნი';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'გამომგზავნს სურს შეიტყოს წერილის მიღება. გსურთ შეატყობინოთ გამომგზავნს?';
 $labels['receiptread'] = 'გზავნილის დაბრუნება';
 $labels['yourmessage'] = 'ეს არის მიღების დასტური თქვენს შეტყობინებაზე';
 $labels['receiptnote'] = 'განმარტება: ეს ნიშნავს რომ ადრესატმა მიიღო შეტყობინება. მაგრამ, არ ნიშნავს რომ წაიკითხა ან გაიგო ტექსტი';
-
-// address boook
 $labels['name']         = 'სრული სახელი';
 $labels['firstname']    = 'სახელი';
 $labels['surname']      = 'გვარი';
@@ -304,7 +264,6 @@ $labels['search'] = 'ძებნა';
 $labels['advsearch'] = 'გაფართოებული ძებნა';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'სხვა';
-
 $labels['typehome']   = 'სახლი';
 $labels['typework']   = 'სამსახური';
 $labels['typeother']  = 'სხვა';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'ბლოგი';
 $labels['typeprofile'] = 'პროფილი';
-
 $labels['addfield'] = 'ველის დამატება...';
 $labels['addcontact'] = 'კონტაქტებში დამატება';
 $labels['editcontact'] = 'კონტაქტის რედაქტირება';
 $labels['contacts'] = 'კონტაქტები';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'პირადი ინფორმაცია';
-
 $labels['edit']   = 'რედაქტირება';
 $labels['cancel'] = 'გაუქმება';
 $labels['save']   = 'შენახვა';
@@ -335,7 +292,6 @@ $labels['rename'] = 'გადარქმევა';
 $labels['addphoto'] = 'დამატება';
 $labels['replacephoto'] = 'გამოცვლა';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'კონტაქტის შექმნა';
 $labels['deletecontact']  = 'მონიშნელი კონტაქტის წაშლა';
 $labels['composeto']      = 'ფოსტის გაგზავნა შერჩეულ ადრესატებთან';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'ახალი საკონტაქტო ჯ
 $labels['grouprename']    = 'ჯგუფის სახელის შეცვლა';
 $labels['groupdelete']    = 'ჯგუფის წაშლა';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'წინას ჩვენება';
 $labels['firstpage']      = 'პირველის ჩვენება';
 $labels['nextpage']       = 'შემდეგის ჩვენება';
 $labels['lastpage']       = 'ბოლოს ჩვენება';
-
 $labels['group'] = 'ჯგუფი';
 $labels['groups'] = 'ჯგუფები';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'პერსონალური მისამართები';
-
 $labels['searchsave'] = 'ძებნის შენახვა';
 $labels['searchdelete'] = 'ძებნის წაშლა';
-
 $labels['import'] = 'შემოტანა';
 $labels['importcontacts'] = 'კონტაქტების შემოტანა';
 $labels['importfromfile'] = 'შემოტანა ფაილიდან:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'ჩაანაცვლეთ არსებული მისამართები';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'დასრულებულია';
-
-// settings
 $labels['settingsfor'] = 'პარამეტრები';
 $labels['about'] = 'About';
 $labels['preferences'] = 'პარამეტრები';
 $labels['userpreferences'] = 'მომხმარებლის პარამეტრები';
 $labels['editpreferences'] = 'მომხმარებლის პარამეტრების რედაქტირება';
-
 $labels['identities'] = 'პროფილები';
 $labels['manageidentities'] = 'პროფილების მართვა';
 $labels['newidentity'] = 'ახალი პროფილი';
-
 $labels['newitem'] = 'ახალი';
 $labels['edititem'] = 'რედაქტირება';
-
 $labels['preferhtml'] = 'როგორც HTML';
 $labels['defaultcharset'] = 'ნაგულისხმები სიმბოლოთა ნაკრები';
 $labels['htmlmessage'] = 'HTML შეტყობინება';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'საქაღალდე';
 $labels['folders']  = 'საქაღალდეები';
 $labels['foldername']  = 'საქაღალდის დასახელება';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'დასტის ტიპი';
 $labels['personalfolder']  = 'კერძო დასტა';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'საჯარო დასტა';
-
 $labels['sortby'] = 'დალაგება';
 $labels['sortasc']  = 'დალაგება ზრდადობით';
 $labels['sortdesc'] = 'დალაგება კლებადობით';
 $labels['undo'] = 'დაბრუნება';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'ბტ';
 $labels['KB'] = 'კბტ';
 $labels['MB'] = 'მბტ';
 $labels['GB'] = 'გბტ';
-
-// character sets
 $labels['unicode'] = 'უნიკოდი';
 $labels['english'] = 'ინსგლისური';
 $labels['westerneuropean'] = 'დასავლურევროპული';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'ვიეტნამური';
 $labels['japanese'] = 'იაპონური';
 $labels['korean'] = 'კორეული';
 $labels['chinese'] = 'ჩინური';
-
 ?>

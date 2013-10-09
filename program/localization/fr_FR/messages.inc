@@ -167,5 +167,4 @@ $messages['parentnotwritable'] = 'Impossible de créer/déplacer le dossier dans
 $messages['messagetoobig'] = 'Le message est trop gros pour être traité.';
 $messages['attachmentvalidationerror'] = 'ATTENTION ! Cette pièce jointe est suspecte car son type ne correspond pas au type déclaré dans ce message. Si vous ne faites pas confiance à l\'expéditeur, vous ne devriez pas l\'ouvrir dans le navigateur, car il peut contenir des contenus malveillants.<br/><br/><em>Attendu : $expected; trouvé : $detected</em>';
 $messages['noscriptwarning'] = 'Atention : Ce service de webmail nécessite Javascript ! Pour pouvoir l\'utiliser, merci d\'activer Javascript dans les préférences de votre navigateur.';
-
 ?>

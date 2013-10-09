@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Không thể tạo/chuyển folder vào folder
 $messages['messagetoobig'] = 'Một phần thư quá lớn để xử lý nó.';
 $messages['attachmentvalidationerror'] = 'Cảnh báo: Tệp tin đính kèm có dấu hiệu nguy hiểm, vì kiểu tệp tin không trùng với kiểu được khai báo sử dụng trong thư. Nếu bạn không biết người gửi, bạn không nên mở thư vì nó có thể có các dữ liệu gây hại. <br/><br/><em>Dự kiến: $expected; được tìm thấy: $detected</em>';
 $messages['noscriptwarning'] = 'Cảnh báo: Dịch vụ webmail này yêu cầu sử dụng Javascript. Để sử dụng, bạn cần kích hoạt hỗ trợ Javascript trong cấu hình trình duyệt Internet đang sử dụng.';
-
 ?>

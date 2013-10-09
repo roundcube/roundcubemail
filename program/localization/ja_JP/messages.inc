@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = '選択した親フォルダーに作成また�
 $messages['messagetoobig'] = 'その処理をするにはメッセージ部分が大きすぎます。';
 $messages['attachmentvalidationerror'] = '警告!  この添付ファイルはメッセージの宣言と一致しない種類という理由のため疑わしいです。送信者を信頼できないなら、悪意のある内容を含んでいるかもしれないのでブラウザーで開いてはなりません。<br/><br/><em>予測した種類: $expected; 発見した種類: $found</em>';
 $messages['noscriptwarning'] = '警告: このウェブメールサービスにはJavascriptが必要です!  使用するにはJavascriptをブラウザーの設定で有効にしてください。';
-
 ?>

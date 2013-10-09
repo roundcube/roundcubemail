@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'به اين پروژه خوش امديد';
 $labels['username']  = 'نام کاربر';
 $labels['password']  = 'شفر';
 $labels['server']    = 'سرور';
 $labels['login']     = 'داخل شدن';
-
-// taskbar
 $labels['logout']   = 'خروج';
 $labels['mail']     = 'ايميل';
 $labels['settings'] = 'تنظیمات شخصی';
 $labels['addressbook'] = 'کتاب ادرس';
-
-// mailbox names
 $labels['inbox']  = 'نامه های ارسالي';
 $labels['drafts'] = 'نامه های ناتکمیل';
 $labels['sent']   = 'ارسال شده';
 $labels['trash']  = 'اشغال دانی';
 $labels['junk']   = 'بیکاره';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'مضمون';
 $labels['from']    = 'ارسال کننده';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'اولویت';
 $labels['organization'] = 'تنظیمات';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'پوشه ها';
 $labels['messagesfromto'] = 'از  مقدار پيغام به مقدار حساب شده';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'از شمار پيغام های حساب شده';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'تکثیر';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'انتقال بدهید به ...';
@@ -68,13 +59,9 @@ $labels['download'] = 'داونلود کردن';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'نام فايل';
 $labels['filesize'] = 'اندازه فايل';
-
 $labels['addtoaddressbook'] = 'در کتاب ادرس علاوه نماييد';
-
-// weekdays short
 $labels['sun'] = 'يکشنپبه';
 $labels['mon'] = 'دوشنبه';
 $labels['tue'] = 'سه شنبه';
@@ -82,8 +69,6 @@ $labels['wed'] = 'چهارشنبه';
 $labels['thu'] = 'پنج شنبه';
 $labels['fri'] = 'جمعه';
 $labels['sat'] = 'شنبه';
-
-// weekdays long
 $labels['sunday']    = 'يکشنبه';
 $labels['monday']    = 'دوشنبه';
 $labels['tuesday']   = 'سه شنبه';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'چهارشنبه';
 $labels['thursday']  = 'پنج شنبه';
 $labels['friday']    = 'جمعه';
 $labels['saturday']  = 'شنبه';
-
-// months short
 $labels['jan']	= 'جنوری';
 $labels['feb']	= 'فبروری';
 $labels['mar']	= 'مارچ';
@@ -105,8 +88,6 @@ $labels['sep']	= 'سپتمبر';
 $labels['oct']	= 'اکتوبر';
 $labels['nov']	= 'نومبر';
 $labels['dec']	= 'دسمبر';
-
-// months long
 $labels['longjan']	= 'جنوری';
 $labels['longfeb']	= 'فبروری';
 $labels['longmar']	= 'مارچ';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'سپتمبر';
 $labels['longoct']	= 'اکتوبر';
 $labels['longnov']	= 'نومبر';
 $labels['longdec']	= 'دسمبر';
-
 $labels['today'] = 'امروز';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'بررسي کردن پيغام های جديد';
 $labels['compose']          = 'نوشتن پیام حدید';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'More actions...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'انتخاب کردن';
 $labels['all'] = 'تمام';
 $labels['none'] = 'هيچ کدام';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'خلاصه';
 $labels['empty'] = 'خالي';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = '‌طريقه استعمال ديسک';
 $labels['unknown']  = 'نامعلوم';
 $labels['unlimited']  = 'نامعين/ نامحدود';
-
 $labels['quicksearch']  = 'جستجوی سریع';
 $labels['resetsearch']  = 'بازنشاندن جستجو';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'در پینجره ای جدید باز کنید';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'پيغام را همين حالا ارسال کنيد';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'رسید برای مراجعت نامه';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'املا را بررسي کنيد';
 $labels['resumeediting'] = 'ادامه / بازگشت به تصحیی کردن / نوشتن';
 $labels['revertto']      = 'رجوع کردن به';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'ضميمه ها';
 $labels['upload'] = 'اپلود کردن';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'بستن';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'کم';
 $labels['lowest']  = 'کمترین';
 $labels['normal']  = 'عادی';
 $labels['high']    = 'عالي';
 $labels['highest'] = 'عاليترين';
-
 $labels['nosubject']  = 'مضمون ندارد';
 $labels['showimages'] = 'نمايش دادن تصاوير';
 $labels['alwaysshow'] = 'همیشه نشان بده تصاویر را از این فرسیتنده﷼';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'ایچ تی ام ایل';
 $labels['plaintoggle'] = 'متن ساده';
 $labels['savesentmessagein'] = 'پیام ارسال شده را ذخیره کن در';
 $labels['dontsave'] = 'ذخیره نکنید';
 $labels['maxuploadsize'] = '$sizeزیاد ترین اندازه اجازه داده شده فایل عبارت است از';
-
 $labels['addcc'] = 'نسخیه دوم  را علاوه کنید';
 $labels['addbcc'] = 'نسخه پنهان را علاوه کنید';
 $labels['addreplyto'] = 'علاوه کردن';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'فرستانده این پیام خواهش نموده زمانیکه شما نامه را خواندید براش آگاهی داده شود آيا شما ميخواهيد که فرستنده را آګاه سازيد';
 $labels['receiptread'] = 'بازگشت رسید (خوانده شده)';
 $labels['yourmessage'] = 'برای پيغام شما اين يک رسید بازگشت است';
 $labels['receiptnote'] = 'يادداشت : اين رسيد شما را فقط اګاه ميسازد که پيغام به کامپیوتر گیرنده نمایش داده شده است  هیچ گارنتی وجود ندارد که گیرنده پیام این پیام را خوانده و یا مطالب آن را درک کرده باشد.';
-
-// address boook
 $labels['name']         = 'نشان دادن نام';
 $labels['firstname']    = 'اسم/ نام';
 $labels['surname']      = 'اسم فاميلي / تخلص';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'آدرس جديد را علاوه کنيد';
 $labels['editcontact'] = 'آدرس جدید را تصحیح کنید';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'تصحيح کردن';
 $labels['cancel'] = 'لغو کردن/ حذف کردن';
 $labels['save']   = 'حفظ کردن';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'کارت تماس جديد را بسازيد';
 $labels['deletecontact']  = 'آدرس های انتخاب شده را حذف کنيد';
 $labels['composeto']      = 'ايمیل را نوشته کنيد به';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'بسته قبلي را نشان دهيد';
 $labels['firstpage']      = 'بسته اولي را نشان دهيد';
 $labels['nextpage']       = 'بسته بعدي را نشان دهيد';
 $labels['lastpage']       = 'بسته اخير را نشان دهيد';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'گروه ها';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'ادرس های شخصي';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'وارد کردن';
 $labels['importcontacts'] = 'آدرس ها را وارد نمایید';
 $labels['importfromfile'] = 'از یک فایل وارد نمایید';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'تمام کتاب آدرس ها را عوض نمایید';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'اجرا شد';
-
-// settings
 $labels['settingsfor'] = 'تنظیمات برای';
 $labels['about'] = 'About';
 $labels['preferences'] = 'ترجيحات';
 $labels['userpreferences'] = 'ترجيحات کاربر';
 $labels['editpreferences'] = 'تصحيح کردن ترجيحات  کاربر';
-
 $labels['identities'] = 'شناخت ها';
 $labels['manageidentities'] = 'اداره کردن شناسای ها برای اين آدرس';
 $labels['newidentity'] = 'شناخت جديد';
-
 $labels['newitem'] = 'فقره جديد';
 $labels['edititem'] = 'تصحيح کردن فقره';
-
 $labels['preferhtml'] = 'نشان دادن ايچ ټي ام ايل';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'پيغام ايچ ټي‌ام ايل';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'پوشه';
 $labels['folders']  = 'پوشه ها';
 $labels['foldername']  = 'نام پوشه';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'فهرست کردن توسط';
 $labels['sortasc']  = 'فهرست کردن از طرف بالا به پايين';
 $labels['sortdesc'] = 'فهرست کردن از طرف پايين به بالا';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'بایت';
 $labels['KB'] = 'کیلو بایت';
 $labels['MB'] = 'میگا بایت';
 $labels['GB'] = 'گیگا بایت';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

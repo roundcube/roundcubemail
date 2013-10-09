@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Bienllegáu a $product';
 $labels['username']  = 'Usuariu';
 $labels['password']  = 'Clave';
 $labels['server']    = 'Sirvidor';
 $labels['login']     = 'Entrar';
-
-// taskbar
 $labels['logout']   = 'Zarrar';
 $labels['mail']     = 'Corréu';
 $labels['settings'] = 'Axustes';
 $labels['addressbook'] = 'Llibreta de direiciones';
-
-// mailbox names
 $labels['inbox']  = 'Entrantes';
 $labels['drafts'] = 'Borradores';
 $labels['sent']   = 'Unviaos';
 $labels['trash']  = 'Papelera';
 $labels['junk']   = 'Puxarra';
 $labels['show_real_foldernames'] = 'Amosar nomes reales pa carpetes especiales';
-
-// message listing
 $labels['subject'] = 'Asuntu';
 $labels['from']    = 'De';
 $labels['sender']  = 'Remitente';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Prioridá';
 $labels['organization'] = 'Organización';
 $labels['readstatus'] = 'Lleer estáu';
 $labels['listoptions'] = 'Llista d\'oopciones...';
-
 $labels['mailboxlist'] = 'Bandexes';
 $labels['messagesfromto'] = 'Mensaxes del $from a $to de $count';
 $labels['threadsfromto'] = 'Filos $from a $to de $count';
 $labels['messagenrof'] = 'Mensaxe $nr de $count';
 $labels['fromtoshort'] = '$from – $to de $count';
-
 $labels['copy']     = 'Copia';
 $labels['move']     = 'Mover';
 $labels['moveto']   = 'mover a...';
@@ -68,13 +59,9 @@ $labels['download'] = 'Descargar';
 $labels['open']     = 'Abrir';
 $labels['showattachment'] = 'Amosar';
 $labels['showanyway'] = 'Amosar de toes formes';
-
 $labels['filename'] = 'Nome del Ficheru';
 $labels['filesize'] = 'Tamañu del ficheru';
-
 $labels['addtoaddressbook'] = 'Amestar a la llibreta de direiciones';
-
-// weekdays short
 $labels['sun'] = 'Dom';
 $labels['mon'] = 'Llu';
 $labels['tue'] = 'Mar';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Mie';
 $labels['thu'] = 'Xue';
 $labels['fri'] = 'Vie';
 $labels['sat'] = 'Sab';
-
-// weekdays long
 $labels['sunday']    = 'Domingu';
 $labels['monday']    = 'Llunes';
 $labels['tuesday']   = 'Martes';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Miércoles';
 $labels['thursday']  = 'Xueves';
 $labels['friday']    = 'Vienres';
 $labels['saturday']  = 'Sábadu';
-
-// months short
 $labels['jan']	= 'Xin';
 $labels['feb']	= 'Feb';
 $labels['mar']	= 'Mar';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Set';
 $labels['oct']	= 'Och';
 $labels['nov']	= 'Pay';
 $labels['dec']	= 'Avi';
-
-// months long
 $labels['longjan']	= 'Xineru';
 $labels['longfeb']	= 'Febreru';
 $labels['longmar']	= 'Marzu';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'Setiembre';
 $labels['longoct']	= 'Ochobre';
 $labels['longnov']	= 'Payares';
 $labels['longdec']	= 'Avientu';
-
 $labels['today'] = 'Güei';
-
-// toolbar buttons
 $labels['refresh']          = 'Refrescar';
 $labels['checkmail']        = 'Buscar mensaxes nuevos';
 $labels['compose']          = 'Escribir un mensaxe';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'Más aiciones...';
 $labels['more']             = 'Más';
 $labels['back']             = 'Volver';
 $labels['options']          = 'Opciones';
-
 $labels['select'] = 'Escoyer';
 $labels['all'] = 'Toos';
 $labels['none'] = 'Dengún';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Espander toos';
 $labels['expand-unread'] = 'Espander non lleíos';
 $labels['collapse-all'] = 'Contrayer toos';
 $labels['threaded'] = 'Encadenaos';
-
 $labels['autoexpand_threads'] = 'Espander filos de mensaxes';
 $labels['do_expand'] = 'tolos filos';
 $labels['expand_only_unread'] = 'namái con mensaxes non lleíos';
@@ -190,16 +166,13 @@ $labels['listcolumns'] = 'Llistar columnes';
 $labels['listsorting'] = 'Columna de llistáu';
 $labels['listorder'] = 'Orde de llistáu';
 $labels['listmode'] = 'Mou de vista de llista';
-
 $labels['folderactions'] = 'Aiciones de bandexa...';
 $labels['compact'] = 'Compautar';
 $labels['empty'] = 'Vaciar';
 $labels['importmessages'] = 'Importar mensaxes';
-
 $labels['quota'] = 'Espaciu en discu';
 $labels['unknown']  = 'desconocíu';
 $labels['unlimited']  = 'ensin llímite';
-
 $labels['quicksearch']  = 'Gueta rápida';
 $labels['resetsearch']  = 'Anovar la gueta';
 $labels['searchmod']  = 'Guetar modificadores';
@@ -207,13 +180,10 @@ $labels['msgtext']  = 'Mensaxe';
 $labels['body']  = 'Cuerpu';
 $labels['type'] = 'Tipu';
 $labels['namex'] = 'Nome';
-
 $labels['openinextwin'] = 'Abrir nuna ventana nueva';
 $labels['emlsave'] = 'Baxar (.eml)';
 $labels['changeformattext'] = 'Amosar en formatu de testu planu';
 $labels['changeformathtml'] = 'Amosar en formatu HTML';
-
-// message compose
 $labels['editasnew']      = 'Editar como nuevu';
 $labels['send']           = 'Unviar';
 $labels['sendmessage']    = 'Unviar el mensaxe yá';
@@ -225,26 +195,22 @@ $labels['returnreceipt']  = 'Avisu de recibu';
 $labels['dsn']            = 'Entrega de notificaciones d\'estáu';
 $labels['mailreplyintro'] = 'El $date, $sender escribió:';
 $labels['originalmessage'] = 'Mensaxe orixinal';
-
 $labels['editidents']    = 'Editar identidaes';
 $labels['spellcheck']    = 'Correutor ortográficu';
 $labels['checkspelling'] = 'Revisar ortografía';
 $labels['resumeediting'] = 'Siguir cola edición';
 $labels['revertto']      = 'Revertir a';
-
 $labels['attach'] = 'Axuntar';
 $labels['attachments'] = 'Axuntos';
 $labels['upload'] = 'Xubir';
 $labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Zarrar';
 $labels['messageoptions']  = 'Opciones de mensaxe...';
-
 $labels['low']     = 'Baxu';
 $labels['lowest']  = 'Mui baxu';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Altu';
 $labels['highest'] = 'Mui altu';
-
 $labels['nosubject']  = '(ensin asuntu)';
 $labels['showimages'] = 'Amosar imáxenes';
 $labels['alwaysshow'] = 'Amosar siempre les imáxenes de $sender';
@@ -252,25 +218,19 @@ $labels['isdraft']    = 'Esti mensaxe ye un borrador.';
 $labels['andnmore']   = '$nr más...';
 $labels['togglemoreheaders'] = 'Amosar más testeres del mensaxe';
 $labels['togglefullheaders'] = 'Amosar o anubrir testeres de mensaxes';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Testu';
 $labels['savesentmessagein'] = 'Guardar mensaxe unviáu en';
 $labels['dontsave'] = 'nun guardar';
 $labels['maxuploadsize'] = 'El tamañu másimu pa un ficheru ye $size';
-
 $labels['addcc'] = 'Amestar Cc';
 $labels['addbcc'] = 'Amestar Cct';
 $labels['addreplyto'] = 'Amestar Rempuesta pa';
 $labels['addfollowupto'] = 'Amestar Siguir a';
-
-// mdn
 $labels['mdnrequest'] = 'El qu\'unvia esti mensaxe quier que lu avises cuando lleas el corréu. ¿Quies avisalu?';
 $labels['receiptread'] = 'Avisu de llectura';
 $labels['yourmessage'] = 'Esto ye un avisu de llectura del to mensaxe';
 $labels['receiptnote'] = 'Nota: Esti avisu namás quier dicir que\'l to mensaxe amosóse nel equipu del receutor. Nun hai forma de garantizate que lu lleera o que atalantara\'l conteníu del to mensaxe.';
-
-// address boook
 $labels['name']         = 'Nome completu';
 $labels['firstname']    = 'Nome';
 $labels['surname']      = 'Apellíu';
@@ -305,7 +265,6 @@ $labels['search'] = 'Guetar';
 $labels['advsearch'] = 'Gueta avanzada';
 $labels['advanced'] = 'Avanzaes';
 $labels['other'] = 'Otru';
-
 $labels['typehome']   = 'Casa';
 $labels['typework']   = 'Trabayu';
 $labels['typeother']  = 'Otru';
@@ -320,14 +279,12 @@ $labels['typeassistant']  = 'Auxiliar';
 $labels['typehomepage']  = 'Aniciu';
 $labels['typeblog'] = 'Blogue';
 $labels['typeprofile'] = 'Perfil';
-
 $labels['addfield'] = 'Amestar campu...';
 $labels['addcontact'] = 'Amestar contautu nuevu';
 $labels['editcontact'] = 'Editar contautu';
 $labels['contacts'] = 'Contautos';
 $labels['contactproperties'] = 'Propiedaes del contautu';
 $labels['personalinfo'] = 'Información personal';
-
 $labels['edit']   = 'Editar';
 $labels['cancel'] = 'Encaboxar';
 $labels['save']   = 'Guardar';
@@ -336,7 +293,6 @@ $labels['rename'] = 'Renomar';
 $labels['addphoto'] = 'Amestar';
 $labels['replacephoto'] = 'Trocar';
 $labels['uploadphoto'] = 'Xubir xemeya';
-
 $labels['newcontact']     = 'Facer un contautu nuevu';
 $labels['deletecontact']  = 'Desaniciar los contautos marcaos';
 $labels['composeto']      = 'Unviar mensaxe a';
@@ -350,20 +306,16 @@ $labels['newcontactgroup'] = 'Crear un grupu nuevu de contautos';
 $labels['grouprename']    = 'Renomar grupu';
 $labels['groupdelete']    = 'Desaniciar grupu';
 $labels['groupremoveselected'] = 'Desaniciar los contautos seleicionaos del grupu';
-
 $labels['previouspage']   = 'Amosar páxina previa';
 $labels['firstpage']      = 'Amosar primer páxina';
 $labels['nextpage']       = 'Amosar siguiente páxina';
 $labels['lastpage']       = 'Amosar última páxina';
-
 $labels['group'] = 'Grupu';
 $labels['groups'] = 'Grupos';
 $labels['listgroup'] = 'Llistar miembros del grupu';
 $labels['personaladrbook'] = 'Direiciones personales';
-
 $labels['searchsave'] = 'Guardar gueta';
 $labels['searchdelete'] = 'Desaniciar gueta';
-
 $labels['import'] = 'Importar';
 $labels['importcontacts'] = 'Importar contautos';
 $labels['importfromfile'] = 'Importar dende un ficheru:';
@@ -374,21 +326,16 @@ $labels['importgroupsall'] = 'Toos (crear grupos si ye necesario)';
 $labels['importgroupsexisting'] = 'Namái pa los grupos esistentes';
 $labels['importdesc'] = 'Pues xubir contautos dende una llibreta de direiciones esistente.<br/>Anguaño permitimos la importación dende los formatos de datos <a href="http://es.wikipedia.org/wiki/VCard">vCard</a> o CSV (separtaos per comes).';
 $labels['done'] = 'Fecho';
-
-// settings
 $labels['settingsfor'] = 'Axustes pa';
 $labels['about'] = 'Tocante a';
 $labels['preferences'] = 'Preferencies';
 $labels['userpreferences'] = 'Preferencies d\'usuariu';
 $labels['editpreferences'] = 'Editar preferencies d\'usuariu';
-
 $labels['identities'] = 'Identidaes';
 $labels['manageidentities'] = 'Remanar identidaes pa esta cuenta';
 $labels['newidentity'] = 'Identidá nueva';
-
 $labels['newitem'] = 'Nuevu';
 $labels['edititem'] = 'Editar';
-
 $labels['preferhtml'] = 'Amosar HTML';
 $labels['defaultcharset'] = 'Xuegu de caráuteres predetermináu';
 $labels['htmlmessage'] = 'Mensaxe HTML';
@@ -484,7 +431,6 @@ $labels['standardwindows'] = 'Xestionar ventanes emerxentes como ventanes están
 $labels['forwardmode'] = 'Reunviu de mensaxes';
 $labels['inline'] = 'en llinia';
 $labels['asattachment'] = 'como axuntu';
-
 $labels['folder']  = 'Bandexa';
 $labels['folders']  = 'Bandexes';
 $labels['foldername']  = 'Nome de bandexa';
@@ -505,26 +451,20 @@ $labels['foldertype'] = 'Tipu de bandexa';
 $labels['personalfolder']  = 'Bandexa privada';
 $labels['otherfolder']  = 'Bandexa d\'otru usuariu';
 $labels['sharedfolder']  = 'Bandexa pública';
-
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc']  = 'Orde ascendente';
 $labels['sortdesc'] = 'Orde descendente';
 $labels['undo'] = 'Desfacer';
-
 $labels['installedplugins'] = 'Complementos instalaos';
 $labels['plugin'] = 'Complementu';
 $labels['version'] = 'Versión';
 $labels['source'] = 'Orixe';
 $labels['license'] = 'Llicencia';
 $labels['support'] = 'Obtener soporte';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'Inglés';
 $labels['westerneuropean'] = 'Européu occidental';
@@ -543,5 +483,4 @@ $labels['vietnamese'] = 'Vietnamín';
 $labels['japanese'] = 'Xaponés';
 $labels['korean'] = 'Coreanu';
 $labels['chinese'] = 'Chinu';
-
 ?>

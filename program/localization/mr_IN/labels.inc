@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = '$product वरती स्वागत आहे';
 $labels['username']  = 'वापरकर्त्याचे नाव(तुमचे इमेल)';
 $labels['password']  = 'परवलीचा शब्द';
 $labels['server']    = 'सर्व्हर';
 $labels['login']     = 'प्रवेश';
-
-// taskbar
 $labels['logout']   = 'बाहेर जा';
 $labels['mail']     = 'इ-मेल';
 $labels['settings'] = 'तुमची पसंती';
 $labels['addressbook'] = 'पत्ता नोंदवही';
-
-// mailbox names
 $labels['inbox']  = 'आलेले संदेश';
 $labels['drafts'] = 'मसुदा';
 $labels['sent']   = 'पाठवलेले';
 $labels['trash']  = 'कचरा पेटी';
 $labels['junk']   = 'नको असलेले कचरा संदेश';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'विषय';
 $labels['from']    = 'प्रेषक';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'प्राधान्य';
 $labels['organization'] = 'संस्था';
 $labels['readstatus'] = 'वाचन स्थिती';
 $labels['listoptions'] = 'विकल्प सूची';
-
 $labels['mailboxlist'] = 'फोल्डर्स';
 $labels['messagesfromto'] = 'संदेश $from कडून $to साठी $count वा';
 $labels['threadsfromto'] = 'धागे $from कडून $to साठी $count वा';
 $labels['messagenrof'] = 'Message $nr of $count';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'नक्‍कल';
 $labels['move']     = 'हलवा';
 $labels['moveto']   = 'या फोल्डरमधे ठेवा';
@@ -68,13 +59,9 @@ $labels['download'] = 'उतरवून घ्या';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'फाईलचे नाव';
 $labels['filesize'] = 'फाईलचा आकार';
-
 $labels['addtoaddressbook'] = 'पत्ता नोंदवहीत नोंदवा';
-
-// weekdays short
 $labels['sun'] = 'रवी';
 $labels['mon'] = 'सोम';
 $labels['tue'] = 'मंगळ';
@@ -82,8 +69,6 @@ $labels['wed'] = 'बुध';
 $labels['thu'] = 'गुरु';
 $labels['fri'] = 'शुक्र';
 $labels['sat'] = 'शनी';
-
-// weekdays long
 $labels['sunday']    = 'रविवार';
 $labels['monday']    = 'सोमवार';
 $labels['tuesday']   = 'मंगळवार';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'बुधवार';
 $labels['thursday']  = 'गुरुवार';
 $labels['friday']    = 'शुक्रवार';
 $labels['saturday']  = 'शनीवार';
-
-// months short
 $labels['jan']	= 'जाने';
 $labels['feb']	= 'फेब्';
 $labels['mar']	= 'मार्च';
@@ -105,8 +88,6 @@ $labels['sep']	= 'सप्टें';
 $labels['oct']	= 'ऑक्टो';
 $labels['nov']	= 'नोव्हें';
 $labels['dec']	= 'डिसें';
-
-// months long
 $labels['longjan']	= 'जानेवारी';
 $labels['longfeb']	= 'फेब्रूवारी';
 $labels['longmar']	= 'मार्च';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'सप्टेंबर';
 $labels['longoct']	= 'ऑक्टोबर';
 $labels['longnov']	= 'नोव्हेंबर';
 $labels['longdec']	= 'डिसेंबर';
-
 $labels['today'] = 'आज';
-
-// toolbar buttons
 $labels['refresh']          = 'अद्ययावत करा';
 $labels['checkmail']        = 'नवीन संदेश आले आहेत का पहा';
 $labels['compose']          = 'नवीन संदेश तयार करा';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'अधिक कृती..';
 $labels['more']             = 'अधिक';
 $labels['back']             = 'मागे';
 $labels['options']          = 'पर्याय';
-
 $labels['select'] = 'निवडा';
 $labels['all'] = 'सर्व';
 $labels['none'] = 'कोणताही नाही';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'सर्व विस्‍तारीत करा';
 $labels['expand-unread'] = 'न वाचलेला विस्‍तारा';
 $labels['collapse-all'] = 'सर्व मिटवा';
 $labels['threaded'] = 'धागा लावलेला';
-
 $labels['autoexpand_threads'] = 'संदेश धागे विस्‍तारा';
 $labels['do_expand'] = 'सर्व धागे';
 $labels['expand_only_unread'] = 'फक्‍त न वाचलेल्‍या संदेशांबददल';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'सुची स्‍तंभ';
 $labels['listsorting'] = 'स्‍तंभ वर्गीकरण';
 $labels['listorder'] = 'वर्गीकरण क्रम';
 $labels['listmode'] = 'यादी दर्शक पध्‍दत';
-
 $labels['folderactions'] = 'फोल्डर कृती..';
 $labels['compact'] = 'छोटा';
 $labels['empty'] = 'रिकामा';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'डिस्कचा वापर';
 $labels['unknown']  = 'माहित नसलेला';
 $labels['unlimited']  = 'अमर्याद';
-
 $labels['quicksearch']  = 'चटकन शोध';
 $labels['resetsearch']  = 'परत शोध';
 $labels['searchmod']  = 'बदलकर्त्‍यांना शोधा';
 $labels['msgtext']  = 'संपूर्ण संदेश';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'नवीन खिडकी उघडा';
 $labels['emlsave'] = 'इएमएल स्‍वरूपात उतरवून घ्या';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'नवीन आहे असा संपादित करा';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'आत्ता पाठवा';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'पोच पावती';
 $labels['dsn']            = 'पोच स्थिती निर्देशक';
 $labels['mailreplyintro'] = '$date या दिवशी $sender ने लिहीले :';
 $labels['originalmessage'] = 'खरा संदेश';
-
 $labels['editidents']    = 'ओळख संपादित करा';
 $labels['spellcheck']    = 'लिखाण';
 $labels['checkspelling'] = 'शुध्द लेखन';
 $labels['resumeediting'] = 'परत संदेश संपादित करा';
 $labels['revertto']      = 'परत जा';
-
 $labels['attach'] = 'जोडा';
 $labels['attachments'] = 'जोडलेल्या';
 $labels['upload'] = 'चढवा';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'बंद';
 $labels['messageoptions']  = 'संदेश पर्याय..';
-
 $labels['low']     = 'कमी';
 $labels['lowest']  = 'कमित कमी';
 $labels['normal']  = 'नेहमी प्रमाणे';
 $labels['high']    = 'तातडीचे';
 $labels['highest'] = 'अतिशय तातडीचे';
-
 $labels['nosubject']  = '(विषय नाही)';
 $labels['showimages'] = 'चित्र दाखवा';
 $labels['alwaysshow'] = '$sender कडून आलेल्या संदेशातील चित्रे नेहमी दाखवा';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'हा मसुदा संदेश आहे';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'एच टी एम एल';
 $labels['plaintoggle'] = 'साधे लिखाण';
 $labels['savesentmessagein'] = 'पाठवलेला संदेश या फोल्डरमधे ठेवा';
 $labels['dontsave'] = 'संदेश साठवू नका';
 $labels['maxuploadsize'] = 'जास्‍तीत जास्‍त फाइलचा आकार $size असू शकतो';
-
 $labels['addcc'] = 'प्रत करा';
 $labels['addbcc'] = 'गुप्त प्रत करा';
 $labels['addreplyto'] = 'आणखी लोकांना संदेश पाठवा';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'हा संदेश पाठवणार्‍याने हा संदेश तुम्ही वाचल्यावर कळवावयाला सांगितले आहे. तुम्हाला असे कळवणे चालेल ना?';
 $labels['receiptread'] = 'पोच पावती (संदेश वाचला)';
 $labels['yourmessage'] = 'ही तुमच्या संदेशाची पोच पावती आहे.';
 $labels['receiptnote'] = 'सूचना: ही पोच पावती तुम्ही ज्यांना  संदेश पाठवला त्यांच्या संगणकावर दिसला एवढेच सांगते. तुम्ही ज्यांना हा संदेश पाठवला, त्यांनी तो वाचला, आणि त्यांना तो नक्की समजला हे मात्र सांगत नाही.';
-
-// address boook
 $labels['name']         = 'टोपणनाव';
 $labels['firstname']    = 'नाव';
 $labels['surname']      = 'आडनाव';
@@ -304,7 +264,6 @@ $labels['search'] = 'शोध';
 $labels['advsearch'] = 'प्रगत शोध';
 $labels['advanced'] = 'आधुनिक';
 $labels['other'] = 'इतर';
-
 $labels['typehome']   = 'मुख्यपृष्ठ';
 $labels['typework']   = 'काम';
 $labels['typeother']  = 'इतर';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'सहाय्यक';
 $labels['typehomepage']  = 'मुख्य पृष्ठ';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'नवीन पत्ता नोंदवहीत ठेवा';
 $labels['editcontact'] = 'नोंदवहीतील पत्ता सुधारा';
 $labels['contacts'] = 'संपर्क';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'वैयक्तिक माहिती';
-
 $labels['edit']   = 'संदेश तयार करा';
 $labels['cancel'] = 'रद्द करा';
 $labels['save']   = 'ठेवून द्या';
@@ -335,7 +292,6 @@ $labels['rename'] = 'दूसरे नाव द्या';
 $labels['addphoto'] = 'समावेश करा';
 $labels['replacephoto'] = 'बदला';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'नोंदवहीत नवीन संपर्क लिहिण्यासाठी';
 $labels['deletecontact']  = 'खूण केलेले सर्व संपर्काचे पत्ते काढून टाका';
 $labels['composeto']      = 'साठी नवीन संदेश तयार करा';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'नवीन पत्‍त्‍यांचा 
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'गट नष्ट करा';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'आधिचा संच दाखवा';
 $labels['firstpage']      = 'पहिला संच दाखवा';
 $labels['nextpage']       = 'नंतरचा संच दाखवा';
 $labels['lastpage']       = 'शेवटचा संच दाखवा';
-
 $labels['group'] = 'गट';
 $labels['groups'] = 'अनेक गट';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'वैयक्तिक पत्ते';
-
 $labels['searchsave'] = 'शोध जतन करा';
 $labels['searchdelete'] = 'शोध नष्ट करा';
-
 $labels['import'] = 'आयात करा';
 $labels['importcontacts'] = 'पत्ते आयात करा';
 $labels['importfromfile'] = 'या फाईल मधून आयात करा';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'नवीन पत्ता नोंदवहीत
 $labels['importreplace'] = 'संपूर्ण पत्ता नोंदवही बदला';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'झाले';
-
-// settings
 $labels['settingsfor'] = 'साठी सेटिंग्ज';
 $labels['about'] = 'च्या विषयी';
 $labels['preferences'] = 'तुमची पसंती';
 $labels['userpreferences'] = 'वापरकर्त्याची पसंती';
 $labels['editpreferences'] = 'वापरकर्त्याची पसंती सुधारा';
-
 $labels['identities'] = 'ओळख';
 $labels['manageidentities'] = 'या खात्यासाठी ओळखींचे नियोजन करा';
 $labels['newidentity'] = 'नवीन ओळख';
-
 $labels['newitem'] = 'नवीन प्रकार';
 $labels['edititem'] = 'प्रकार सुधारा';
-
 $labels['preferhtml'] = 'एच टी एम एल दाखवा';
 $labels['defaultcharset'] = 'नेहमीचा अक्षर संच';
 $labels['htmlmessage'] = 'एच टी एम एल संदेश';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'फोल्डर';
 $labels['folders']  = 'फोल्डर्स';
 $labels['foldername']  = 'फोल्डरचे नाव';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'ने वर्गवारी करा';
 $labels['sortasc']  = 'चढत्या क्रमाने';
 $labels['sortdesc'] = 'उतरत्या क्रमाने';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'बाइट';
 $labels['KB'] = 'केबी';
 $labels['MB'] = 'एमबी';
 $labels['GB'] = 'जीबी';
-
-// character sets
 $labels['unicode'] = 'युनिकोड';
 $labels['english'] = 'इंग्रजी';
 $labels['westerneuropean'] = 'पश्चिम युरोपियन';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'व्हिएतनामी';
 $labels['japanese'] = 'जपानी';
 $labels['korean'] = 'कोरियन';
 $labels['chinese'] = 'चिनी';
-
 ?>

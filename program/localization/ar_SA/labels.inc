@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'مرحباً بكم في $product';
 $labels['username']  = 'اسم المستخدم';
 $labels['password']  = 'كلمة المرور';
 $labels['server']    = 'الخادم';
 $labels['login']     = 'تسجيل الدخول';
-
-// taskbar
 $labels['logout']   = 'تسجيل الخروج';
 $labels['mail']     = 'البريد';
 $labels['settings'] = 'الإعدادات الشخصية';
 $labels['addressbook'] = 'دفتر العناوين';
-
-// mailbox names
 $labels['inbox']  = 'الوارد';
 $labels['drafts'] = 'المسودات';
 $labels['sent']   = 'المرسل';
 $labels['trash']  = 'المهملات';
 $labels['junk']   = 'غير المرغوب';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'الموضوع';
 $labels['from']    = 'المرسل';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'الأولوية';
 $labels['organization'] = 'المنظمة';
 $labels['readstatus'] = 'حالة القراءة';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'مجلدات';
 $labels['messagesfromto'] = 'الرسالة $from إلى $to من مجموع $count';
 $labels['threadsfromto'] = 'جهات الإتصال $from إلى $to من مجموع $count';
 $labels['messagenrof'] = 'الرسالة $nr من $count';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'نسخ';
 $labels['move']     = 'نقل';
 $labels['moveto']   = 'نقل إلى...';
@@ -68,13 +59,9 @@ $labels['download'] = 'تنزيل';
 $labels['open']     = 'فتح';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'اسم الملف';
 $labels['filesize'] = 'حجم الملف';
-
 $labels['addtoaddressbook'] = 'إضافة إلى دفتر العناوين';
-
-// weekdays short
 $labels['sun'] = 'أحد';
 $labels['mon'] = 'إثنين';
 $labels['tue'] = 'ثلاثاء';
@@ -82,8 +69,6 @@ $labels['wed'] = 'أربعاء';
 $labels['thu'] = 'خميس';
 $labels['fri'] = 'جمعة';
 $labels['sat'] = 'سبت';
-
-// weekdays long
 $labels['sunday']    = 'الأحد';
 $labels['monday']    = 'الإثنين';
 $labels['tuesday']   = 'الثلاثاء';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'الأربعاء';
 $labels['thursday']  = 'الخميس';
 $labels['friday']    = 'الجمعة';
 $labels['saturday']  = 'السبت';
-
-// months short
 $labels['jan']	= 'يناير';
 $labels['feb']	= 'فبراير';
 $labels['mar']	= 'مارس';
@@ -105,8 +88,6 @@ $labels['sep']	= 'سبتمبر';
 $labels['oct']	= 'أكتوبر';
 $labels['nov']	= 'نوفمبر';
 $labels['dec']	= 'ديسمبر';
-
-// months long
 $labels['longjan']	= 'يناير';
 $labels['longfeb']	= 'فبراير';
 $labels['longmar']	= 'مارس';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'سبتمبر';
 $labels['longoct']	= 'أكتوبر';
 $labels['longnov']	= 'نوفمبر';
 $labels['longdec']	= 'ديسمبر';
-
 $labels['today'] = 'اليوم';
-
-// toolbar buttons
 $labels['refresh']          = 'تحديث';
 $labels['checkmail']        = 'التحقق من وجود رسائل جديدة';
 $labels['compose']          = 'إنشاء رسالة';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'إجراءات إضافية...';
 $labels['more']             = 'المزيد';
 $labels['back']             = 'العودة';
 $labels['options']          = 'خيارات';
-
 $labels['select'] = 'تحديد';
 $labels['all'] = 'الكل';
 $labels['none'] = 'لاشيء';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'إظهار الكل';
 $labels['expand-unread'] = 'إظهار الغير مقروءة';
 $labels['collapse-all'] = 'ضمّ الكل';
 $labels['threaded'] = 'متتابع';
-
 $labels['autoexpand_threads'] = 'إظهار تتابعات الرسائل';
 $labels['do_expand'] = 'جميع التتابعات';
 $labels['expand_only_unread'] = 'فقط مع الرسائل الغير مقروءة';
@@ -190,16 +166,13 @@ $labels['listcolumns'] = 'أعمدة السرد';
 $labels['listsorting'] = 'أعمدة الترتيب';
 $labels['listorder'] = 'طريقة الترتيب';
 $labels['listmode'] = 'وضع طريقة السرد';
-
 $labels['folderactions'] = 'إجراءات المجلد...';
 $labels['compact'] = 'ضغط';
 $labels['empty'] = 'تفريغ';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'المساحة المستخدمة';
 $labels['unknown']  = 'مجهول';
 $labels['unlimited']  = 'غير محدود';
-
 $labels['quicksearch']  = 'البحث السريع';
 $labels['resetsearch']  = 'استعادة البحث للافتراضي';
 $labels['searchmod']  = 'أماكن البحث';
@@ -207,13 +180,10 @@ $labels['msgtext']  = 'كامل الرسالة';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
 $labels['namex'] = 'Name';
-
 $labels['openinextwin'] = 'افتح في نافذة جديدة';
 $labels['emlsave'] = 'تنزيل (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'تعديل كجديد';
 $labels['send']           = 'ارسل';
 $labels['sendmessage']    = 'إرسال الرسالة الآن';
@@ -225,26 +195,22 @@ $labels['returnreceipt']  = 'ايصال استلام';
 $labels['dsn']            = 'تنويه حالة التوصيل';
 $labels['mailreplyintro'] = 'كتب $sender في $date:';
 $labels['originalmessage'] = 'الرسالة الأساسية';
-
 $labels['editidents']    = 'تعديل الهويات';
 $labels['spellcheck']    = 'التدقيق اﻹملائى';
 $labels['checkspelling'] = 'التدقيق الإملائي';
 $labels['resumeediting'] = 'متابعة التحرير';
 $labels['revertto']      = 'استعادة إلى';
-
 $labels['attach'] = 'إرفاق';
 $labels['attachments'] = 'مرفقات';
 $labels['upload'] = 'تحميل';
 $labels['uploadprogress'] = '$percent ($current من $total)';
 $labels['close']  = 'إغلاق';
 $labels['messageoptions']  = 'خيارات الرسائل...';
-
 $labels['low']     = 'منخض';
 $labels['lowest']  = 'الأقل';
 $labels['normal']  = 'عادي';
 $labels['high']    = 'مرتفع';
 $labels['highest'] = 'الأعلى';
-
 $labels['nosubject']  = '(دون موضوع)';
 $labels['showimages'] = 'إظهار الصور';
 $labels['alwaysshow'] = 'دائماً أظهر الصّور القادمة من $sender';
@@ -252,25 +218,19 @@ $labels['isdraft']    = 'هذه مسودّة رسالة';
 $labels['andnmore']   = '$nr المزيد ...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'نص مجرد';
 $labels['savesentmessagein'] = 'احفظ الرسالة المُرسلة في';
 $labels['dontsave'] = 'لا تحفظها';
 $labels['maxuploadsize'] = 'أقصى حجم للملف هو $size';
-
 $labels['addcc'] = 'أضف CC';
 $labels['addbcc'] = 'أضف BCC';
 $labels['addreplyto'] = 'أضيف Reply-To';
 $labels['addfollowupto'] = 'إضافة Mail-Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'طلب المرسل إعلامه عند قراءتك لرسالته. هل تود إعلام المرسل؟';
 $labels['receiptread'] = 'إيصال الاستلام )بالقراءة)';
 $labels['yourmessage'] = 'هذا إيصال بقراءة رسالتك';
 $labels['receiptnote'] = 'ملاحظة: يُعلمك هذا الإيصال بأن رسالتك قد ظهرت على جهاز المستقبِل. ليست هناك أية ضمانات أن المستقبل قد قرأ أو فهم محتويات الرسالة.';
-
-// address boook
 $labels['name']         = 'اسم العرض';
 $labels['firstname']    = 'الإسم الأول';
 $labels['surname']      = 'الإسم الأخير';
@@ -305,7 +265,6 @@ $labels['search'] = 'بحث';
 $labels['advsearch'] = 'بحث متقدم';
 $labels['advanced'] = 'مُتقدم';
 $labels['other'] = 'آخر';
-
 $labels['typehome']   = 'المنزل';
 $labels['typework']   = 'العمل';
 $labels['typeother']  = 'آخر';
@@ -320,14 +279,12 @@ $labels['typeassistant']  = 'المساعد';
 $labels['typehomepage']  = 'الرئيسية';
 $labels['typeblog'] = 'المدوّنة';
 $labels['typeprofile'] = 'الملف الشخصي';
-
 $labels['addfield'] = 'إضافة حقل...';
 $labels['addcontact'] = 'إضافة المراسل المحدد إلى دفتر عناويني';
 $labels['editcontact'] = 'تحرير بيانات المراسل';
 $labels['contacts'] = 'المراسلين';
 $labels['contactproperties'] = 'خواص جهة الإتصال';
 $labels['personalinfo'] = 'المعلومات الشخصية';
-
 $labels['edit']   = 'تحرير';
 $labels['cancel'] = 'إلغاء';
 $labels['save']   = 'حفظ';
@@ -336,7 +293,6 @@ $labels['rename'] = 'إعادة التسمية';
 $labels['addphoto'] = 'إضافة';
 $labels['replacephoto'] = 'استبدال';
 $labels['uploadphoto'] = 'ارفع صورة';
-
 $labels['newcontact']     = 'إنشاء بطاقة مراسل جديدة';
 $labels['deletecontact']  = 'حذف المراسلين المحددين';
 $labels['composeto']      = 'إنشاء رسالة إليه';
@@ -350,20 +306,16 @@ $labels['newcontactgroup'] = 'إنشاء مجموعة مراسلين جديدة'
 $labels['grouprename']    = 'تغيير اسم المجموعة';
 $labels['groupdelete']    = 'حذف المجموعة';
 $labels['groupremoveselected'] = 'حذف العنوان المختار من المجموعة';
-
 $labels['previouspage']   = 'عرض المجموعة السابقة';
 $labels['firstpage']      = 'عرض المجموعة الأولى';
 $labels['nextpage']       = 'عرض المجموعة التالية';
 $labels['lastpage']       = 'عرض المجموعة الأخيرة';
-
 $labels['group'] = 'مجموعة';
 $labels['groups'] = 'المجموعات';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'العناوين الشخصية';
-
 $labels['searchsave'] = 'حفظ البحث';
 $labels['searchdelete'] = 'حذف البحث';
-
 $labels['import'] = 'استورد';
 $labels['importcontacts'] = 'استورد المراسلين';
 $labels['importfromfile'] = 'استورد من ملف:';
@@ -374,21 +326,16 @@ $labels['importgroupsall'] = 'All (create groups if necessary)';
 $labels['importgroupsexisting'] = 'Only for existing groups';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'تم';
-
-// settings
 $labels['settingsfor'] = 'إعدادات';
 $labels['about'] = 'نبذة';
 $labels['preferences'] = 'التفضيلات';
 $labels['userpreferences'] = 'تفضيلات المستخدم';
 $labels['editpreferences'] = 'تحرير تفضيلات المستخدم';
-
 $labels['identities'] = 'الهويات';
 $labels['manageidentities'] = 'إدارة هويات هذا الحساب';
 $labels['newidentity'] = 'هوية جديدة';
-
 $labels['newitem'] = 'عنصر جديد';
 $labels['edititem'] = 'تحرير عنصر';
-
 $labels['preferhtml'] = 'تفضيل صيغة HTML';
 $labels['defaultcharset'] = 'ترميز المحارف الافتراضي';
 $labels['htmlmessage'] = 'رسالة بنسق HTML';
@@ -484,7 +431,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'مجلد';
 $labels['folders']  = 'مجلدات';
 $labels['foldername']  = 'اسم المجلد';
@@ -505,26 +451,20 @@ $labels['foldertype'] = 'نوع المجلد';
 $labels['personalfolder']  = 'مجلد خاص';
 $labels['otherfolder']  = 'مجلد مستخدم آخر';
 $labels['sharedfolder']  = 'مجلد عام';
-
 $labels['sortby'] = 'ترتيب بحسب';
 $labels['sortasc']  = 'ترتيب تصاعدي';
 $labels['sortdesc'] = 'ترتيب تنازلي';
 $labels['undo'] = 'تراجع';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'إضافة';
 $labels['version'] = 'النسخة';
 $labels['source'] = 'المصدر';
 $labels['license'] = 'الترخيص';
 $labels['support'] = 'احصل على الدعم الفني';
-
-// units
 $labels['B'] = 'ب';
 $labels['KB'] = 'ك.ب';
 $labels['MB'] = 'م.ب';
 $labels['GB'] = 'ج.ب';
-
-// character sets
 $labels['unicode'] = 'يونيكود';
 $labels['english'] = 'الإنجليزية';
 $labels['westerneuropean'] = 'الغرب أوروبية';
@@ -543,5 +483,4 @@ $labels['vietnamese'] = 'الفيتنامية';
 $labels['japanese'] = 'اليابانية';
 $labels['korean'] = 'الكورية';
 $labels['chinese'] = 'الصينية';
-
 ?>

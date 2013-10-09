@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Fáilte go $product';
 $labels['username']  = 'Úsáideoir';
 $labels['password']  = 'Pasfhocal';
 $labels['server']    = 'Freastalaí';
 $labels['login']     = 'Logáil isteach';
-
-// taskbar
 $labels['logout']   = 'Logáil amach';
 $labels['mail']     = 'Postas';
 $labels['settings'] = 'Socruithe Pearsanta';
 $labels['addressbook'] = 'Leabhair Seoltaí';
-
-// mailbox names
 $labels['inbox']  = 'Isteach';
 $labels['drafts'] = 'Dréachtaí';
 $labels['sent']   = 'Amach';
 $labels['trash']  = 'Bosca bruscair';
 $labels['junk']   = 'Dramhaíl';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Ábhair';
 $labels['from']    = 'Seolaí';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Tosaíocht';
 $labels['organization'] = 'Eagraíocht';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'Fillteán';
 $labels['messagesfromto'] = 'Teachtaireachta as $from go $to as $count';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'Teachtaireacht $nr as $count';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'Cóipeáil';
 $labels['move']     = 'Bog';
 $labels['moveto']   = 'bog go...';
@@ -68,13 +59,9 @@ $labels['download'] = 'síos-luchtú';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'Comhad';
 $labels['filesize'] = 'Toirt';
-
 $labels['addtoaddressbook'] = 'Sábháil i mo leabhair seoltaí';
-
-// weekdays short
 $labels['sun'] = 'Do';
 $labels['mon'] = 'Lu';
 $labels['tue'] = 'Mh';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Ch';
 $labels['thu'] = 'Dé';
 $labels['fri'] = 'Ao';
 $labels['sat'] = 'Sa';
-
-// weekdays long
 $labels['sunday']    = 'Domhnach';
 $labels['monday']    = 'An Luan';
 $labels['tuesday']   = 'An Mháirt';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'An Chéadaoin';
 $labels['thursday']  = 'An Déardaoin';
 $labels['friday']    = 'Aoine';
 $labels['saturday']  = 'An Satharn';
-
-// months short
 $labels['jan']	= 'Ean';
 $labels['feb']	= 'Fea';
 $labels['mar']	= 'Már';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Sep';
 $labels['oct']	= 'Oct';
 $labels['nov']	= 'Sam';
 $labels['dec']	= 'Nol';
-
-// months long
 $labels['longjan']	= 'Eanáir';
 $labels['longfeb']	= 'Feabhra';
 $labels['longmar']	= 'Márta';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'Meán Fómhair';
 $labels['longoct']	= 'Deireadh Fómhair';
 $labels['longnov']	= 'Samhain';
 $labels['longdec']	= 'Nollag';
-
 $labels['today'] = 'Inniu';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'Seiceáil chun teachtaireacht nua';
 $labels['compose']          = 'Scríobh teachtaireacht';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'More actions...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'Togh';
 $labels['all'] = 'An uile';
 $labels['none'] = 'Aon cheann';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Comhbhrúigh';
 $labels['empty'] = 'Folmhaigh';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Toilleadh diosca atá athláimhe';
 $labels['unknown']  = 'gan aithne';
 $labels['unlimited']  = 'gan teorainn';
-
 $labels['quicksearch']  = 'Mearcuardaigh';
 $labels['resetsearch']  = 'Athshocraigh an cuardach';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Seol mo teachtaireacht láithreach bonn';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Admháil léite';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'Fiosrú ar mo litriú';
 $labels['resumeediting'] = 'Athdhúisigh eagarthóireacht';
 $labels['revertto']      = 'Filleadh ar';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Iatání';
 $labels['upload'] = 'Aistriú suas';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'Dún';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'Íseal';
 $labels['lowest']  = 'Is Ísle';
 $labels['normal']  = 'Gnách';
 $labels['high']    = 'Ard';
 $labels['highest'] = 'Is Airde';
-
 $labels['nosubject']  = '(Níl aon Ábhair)';
 $labels['showimages'] = 'Taispeáin na híomhánna';
 $labels['alwaysshow'] = 'Always show images from $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Téacs amháin';
 $labels['savesentmessagein'] = 'Save sent message in';
 $labels['dontsave'] = 'don\'t save';
 $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
-
 $labels['addcc'] = 'Add Cc';
 $labels['addbcc'] = 'Add Bcc';
 $labels['addreplyto'] = 'Add Reply-To';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
 $labels['receiptread'] = 'Return Receipt (read)';
 $labels['yourmessage'] = 'This is a Return Receipt for your message';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
-
-// address boook
 $labels['name']         = 'Leasainm';
 $labels['firstname']    = 'Ainm baiste';
 $labels['surname']      = 'Sloinne';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Sábháil duine nua';
 $labels['editcontact'] = 'Chuir chara in eagar';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'Athraigh';
 $labels['cancel'] = 'Cealaigh';
 $labels['save']   = 'Sábháil';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'Scríobh carta teagmháil nua';
 $labels['deletecontact']  = 'Scrios na daoine seo';
 $labels['composeto']      = 'Scríobh teachtaireacht go';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'Taispeáin an foireann roimhe seo';
 $labels['firstpage']      = 'Taispeáin an céad foireann';
 $labels['nextpage']       = 'Taispeáin an foireann ina dhiaidh sin';
 $labels['lastpage']       = 'Taispeáin an foireann deireanach';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'Grúpaí';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Seoltaí Pearsanta';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
-
-// settings
 $labels['settingsfor'] = 'Socruithe chun';
 $labels['about'] = 'About';
 $labels['preferences'] = 'Tosaíocht';
 $labels['userpreferences'] = 'Tosaíocht Pearsanta';
 $labels['editpreferences'] = 'Athraigh tosaíocht pearsanta';
-
 $labels['identities'] = 'Céannachtaí';
 $labels['manageidentities'] = 'Stiúir céannachtaí i cuntas seo';
 $labels['newidentity'] = 'Céannacht nua';
-
 $labels['newitem'] = 'Mír nua';
 $labels['edititem'] = 'Athraigh mhír';
-
 $labels['preferhtml'] = 'Taispeáin an HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'Teachtaireacht HTML';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Fillteán';
 $labels['folders']  = 'Fillteán';
 $labels['foldername']  = 'Ainm fillteán';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'Sórtáil trí';
 $labels['sortasc']  = 'Sórtáil in ord méadaitheach';
 $labels['sortdesc'] = 'Sórtáil in ord neartaitheach';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

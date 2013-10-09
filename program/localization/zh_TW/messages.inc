@@ -173,5 +173,4 @@ $messages['messagetoobig'] = '郵件太大無法處理';
 $messages['attachmentvalidationerror'] = '警告！這個附件是可疑的，因為它的檔案類型與其宣稱的不同。如果您不能相信寄件者請不要開啟附件，它可能含有惡意的內容。<br /><br />
 <em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = '警告：使用Webmail需要Javascript支援，請檢查您瀏覽器的Javascript設定';
-
 ?>

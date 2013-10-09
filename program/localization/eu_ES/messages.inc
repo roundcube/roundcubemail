@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Ezin da karpeta sortu/mugi hautatutako goragok
 $messages['messagetoobig'] = 'Mezu-zatia handiegia da prozesatzeko.';
 $messages['attachmentvalidationerror'] = 'KONTUZ! Eranskin hau susmagarria da zeren bere izaera ez dator bat mezuan deklaratutakoarekin. Bidaltzailearekin fidatzen ez bazara ez zenuke nabigatzailean ireki behar eduki maltzurra izan dezakeelako.<br/><br/><em>Deklaratua: $expected; erreala: $detected</em>';
 $messages['noscriptwarning'] = 'Kontuz: web-posta zerbitzu honek Javascript behar du! Erabili nahi baduzu gaitu Javascript zure nabigatzailearen hobespenetan.';
-
 ?>

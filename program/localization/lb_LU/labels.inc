@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Wëllkomm bei $product';
 $labels['username']  = 'Benotzernumm';
 $labels['password']  = 'Passwuert';
 $labels['server']    = 'Server';
 $labels['login']     = 'Aloggen';
-
-// taskbar
 $labels['logout']   = 'Ausloggen';
 $labels['mail']     = 'Mailen';
 $labels['settings'] = 'Astellungen';
 $labels['addressbook'] = 'Adressbuch';
-
-// mailbox names
 $labels['inbox']  = 'Mailbox';
 $labels['drafts'] = 'Brouillonen';
 $labels['sent']   = 'Verschéckt';
 $labels['trash']  = 'Poubelle';
 $labels['junk']   = 'Spam';
 $labels['show_real_foldernames'] = 'Richteg Nimm vu de speziellen Dossieren uweisen';
-
-// message listing
 $labels['subject'] = 'Sujet';
 $labels['from']    = 'Vun';
 $labels['sender']  = 'Geschéckt vun';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Prioritéit';
 $labels['organization'] = 'Organisatioun';
 $labels['readstatus'] = 'Lies-Status';
 $labels['listoptions'] = 'Optiounen oplëschten';
-
 $labels['mailboxlist'] = 'Dossieren';
 $labels['messagesfromto'] = 'Messagen $from bis $to vun $count';
 $labels['threadsfromto'] = 'Diskussiounen $from bis $to vun $count';
 $labels['messagenrof'] = 'Message $nr vun $count';
 $labels['fromtoshort'] = '$from bis $to vun $count';
-
 $labels['copy']     = 'Kopéieren';
 $labels['move']     = 'Réckelen';
 $labels['moveto']   = 'Réckelen an...';
@@ -68,13 +59,9 @@ $labels['download'] = 'Eroflueden';
 $labels['open']     = 'Opmaachen';
 $labels['showattachment'] = 'Weisen';
 $labels['showanyway'] = 'Trotzdeem weisen';
-
 $labels['filename'] = 'Numm vum Fichier';
 $labels['filesize'] = 'Gréisst vum Fichier';
-
 $labels['addtoaddressbook'] = 'An d\'Adressbuch setzen';
-
-// weekdays short
 $labels['sun'] = 'Son';
 $labels['mon'] = 'Méi';
 $labels['tue'] = 'Dën';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Don';
 $labels['thu'] = 'Fre';
 $labels['fri'] = 'Sam';
 $labels['sat'] = 'Son';
-
-// weekdays long
 $labels['sunday']    = 'Sonndeg';
 $labels['monday']    = 'Méindeg';
 $labels['tuesday']   = 'Dënschdeg';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Mëttwoch';
 $labels['thursday']  = 'Donneschdeg';
 $labels['friday']    = 'Freideg';
 $labels['saturday']  = 'Samschdeg';
-
-// months short
 $labels['jan']	= 'Jan';
 $labels['feb']	= 'Feb';
 $labels['mar']	= 'Mäe';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Sep';
 $labels['oct']	= 'Okt';
 $labels['nov']	= 'Nov';
 $labels['dec']	= 'Dez';
-
-// months long
 $labels['longjan']	= 'Januar';
 $labels['longfeb']	= 'Februar';
 $labels['longmar']	= 'Mäerz';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'September';
 $labels['longoct']	= 'Oktober';
 $labels['longnov']	= 'November';
 $labels['longdec']	= 'Dezember';
-
 $labels['today'] = 'Haut';
-
-// toolbar buttons
 $labels['refresh']          = 'Nei lueden';
 $labels['checkmail']        = 'Nei Messagen ofruffen';
 $labels['compose']          = 'Schreiwen';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'Mei Aktiounen...';
 $labels['more']             = 'Méi';
 $labels['back']             = 'Zréck';
 $labels['options']          = 'Optiounen';
-
 $labels['select'] = 'Auswielen';
 $labels['all'] = 'All';
 $labels['none'] = 'Keng';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'All opfächeren';
 $labels['expand-unread'] = 'Ongelies opfächeren';
 $labels['collapse-all'] = 'All zesummefächeren';
 $labels['threaded'] = 'Diskussiounen zesummefaassen';
-
 $labels['autoexpand_threads'] = 'Diskussiounen auserneefächeren';
 $labels['do_expand'] = 'All d\'Diskussiounen';
 $labels['expand_only_unread'] = 'just ongeliese Messagen';
@@ -190,16 +166,13 @@ $labels['listcolumns'] = 'Kolonnen oplëschten';
 $labels['listsorting'] = 'Kolonne sortéieren';
 $labels['listorder'] = 'Sortéier-Reiefolleg';
 $labels['listmode'] = 'Oplëschtungs-Modus';
-
 $labels['folderactions'] = 'Dossiers-Aktiounen...';
 $labels['compact'] = 'Kompaktéieren';
 $labels['empty'] = 'Eidel';
 $labels['importmessages'] = 'Messagen importéieren';
-
 $labels['quota'] = 'Plazverbrauch';
 $labels['unknown']  = 'onbekannt';
 $labels['unlimited']  = 'onlimitéiert';
-
 $labels['quicksearch']  = 'Séier Sich';
 $labels['resetsearch']  = 'Sich zerécksetzen';
 $labels['searchmod']  = 'Sich-Parameter';
@@ -207,13 +180,10 @@ $labels['msgtext']  = 'Ganze Message';
 $labels['body']  = 'Kierper';
 $labels['type'] = 'Typ';
 $labels['namex'] = 'Numm';
-
 $labels['openinextwin'] = 'An enger neier Fënster opmaachen';
 $labels['emlsave'] = 'Eroflueden (.eml)';
 $labels['changeformattext'] = 'Als Text ouni Formatéierungen uweisen';
 $labels['changeformathtml'] = 'Als formatéierten Text uweisen';
-
-// message compose
 $labels['editasnew']      = 'Als nei editéieren';
 $labels['send']           = 'Schécken';
 $labels['sendmessage']    = 'Message schécken';
@@ -225,26 +195,22 @@ $labels['returnreceipt']  = 'Empfanksbestätegung';
 $labels['dsn']            = 'Empfanks-Status-Meldung';
 $labels['mailreplyintro'] = 'Den $date, $sender schreift:';
 $labels['originalmessage'] = 'Original-Message';
-
 $labels['editidents']    = 'Identitéiten editéieren';
 $labels['spellcheck']    = 'Orthographie';
 $labels['checkspelling'] = 'Orthographie kontrolléieren';
 $labels['resumeediting'] = 'Weider editéieren';
 $labels['revertto']      = 'Zréck bei';
-
 $labels['attach'] = 'Drunhänken';
 $labels['attachments'] = 'Unhäng';
 $labels['upload'] = 'Eroplueden';
 $labels['uploadprogress'] = '$percent ($current vun $total)';
 $labels['close']  = 'Zoumaachen';
 $labels['messageoptions']  = 'Message-Optiounen...';
-
 $labels['low']     = 'Niddreg';
 $labels['lowest']  = 'Am niddregsten';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Héich';
 $labels['highest'] = 'Am héchsten';
-
 $labels['nosubject']  = '(kee Sujet)';
 $labels['showimages'] = 'Biller uweisen';
 $labels['alwaysshow'] = 'Biller vun $sender ëmmer uweisen';
@@ -252,25 +218,19 @@ $labels['isdraft']    = 'Dëst ass e Brouillon.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Méi Message-Headeren uweisen';
 $labels['togglefullheaders'] = 'Réi Message-Headeren an-/ausblenden';
-
 $labels['htmltoggle'] = 'Text mat Formatéierungen';
 $labels['plaintoggle'] = 'Text ouni Formatéierungen';
 $labels['savesentmessagein'] = 'Dee verschéckte Message späicheren an';
 $labels['dontsave'] = 'net späicheren';
 $labels['maxuploadsize'] = 'Déi maximal erlaabte Fichiers-Gréisst ass $size';
-
 $labels['addcc'] = 'CC dobäisetzen';
 $labels['addbcc'] = 'BCC dobäisetzen';
 $labels['addreplyto'] = '"Äntwert un" dobäisetzen';
 $labels['addfollowupto'] = '"Noverfollgung un" dobäisetzen';
-
-// mdn
 $labels['mdnrequest'] = 'De Sender vun dësem Message huet gefrot fir informéiert ze gi wann de Message gelies gëtt. Wëlls du de Sender informéieren?';
 $labels['receiptread'] = 'Empfanksbestätegung (gelies)';
 $labels['yourmessage'] = 'Dëst ass eng Empfanksbestätegung fir Äre Message.';
 $labels['receiptnote'] = 'Bemierkung: Dës Bestätegung bezeit just datt de Message beim Empfänger ugewise ginn ass. Et gëtt keng Garantie dass den Empfänger den Inhalt vum Message gelies oder verstanen huet.';
-
-// address boook
 $labels['name']         = 'Ganzen Numm';
 $labels['firstname']    = 'Virnumm';
 $labels['surname']      = 'Nonumm';
@@ -305,7 +265,6 @@ $labels['search'] = 'Sichen';
 $labels['advsearch'] = 'Avancéiert Sich';
 $labels['advanced'] = 'Avancéiert';
 $labels['other'] = 'Aneres';
-
 $labels['typehome']   = 'Doheem';
 $labels['typework']   = 'Aarbecht';
 $labels['typeother']  = 'Aneres';
@@ -320,14 +279,12 @@ $labels['typeassistant']  = 'Assistent';
 $labels['typehomepage']  = 'Websäit';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profil';
-
 $labels['addfield'] = 'Feld dobäisetzen...';
 $labels['addcontact'] = 'Neie Kontakt dobäisetzen';
 $labels['editcontact'] = 'Kontakt editéieren';
 $labels['contacts'] = 'Kontakter';
 $labels['contactproperties'] = 'Kontakt-Eegeschaften';
 $labels['personalinfo'] = 'Perséinlech Informatioun';
-
 $labels['edit']   = 'Änneren';
 $labels['cancel'] = 'Ofbriechen';
 $labels['save']   = 'Späicheren';
@@ -336,7 +293,6 @@ $labels['rename'] = 'Ëmbenennen';
 $labels['addphoto'] = 'Dobäisetzen';
 $labels['replacephoto'] = 'Ersetzen';
 $labels['uploadphoto'] = 'Foto eroplueden';
-
 $labels['newcontact']     = 'Nei Kontakt-Kaart erstellen';
 $labels['deletecontact']  = 'Déi ausgewielte Kontakter läschen';
 $labels['composeto']      = 'Mail schreiwen un';
@@ -350,20 +306,16 @@ $labels['newcontactgroup'] = 'Nei Kontakt-Grupp erstellen';
 $labels['grouprename']    = 'Grupp ëmbenennen';
 $labels['groupdelete']    = 'Grupp läschen';
 $labels['groupremoveselected'] = 'Ausgewielte Kontakter aus Grupp eraushuele';
-
 $labels['previouspage']   = 'Säit virdru weisen';
 $labels['firstpage']      = 'Éischt Säit weisen';
 $labels['nextpage']       = 'Nächst Säit weisen';
 $labels['lastpage']       = 'Lescht Säit weisen';
-
 $labels['group'] = 'Grup';
 $labels['groups'] = 'Gruppen';
 $labels['listgroup'] = 'Gruppe-Memberen oplëschten';
 $labels['personaladrbook'] = 'Perséinlech Adressen';
-
 $labels['searchsave'] = 'Sich späicheren';
 $labels['searchdelete'] = 'Sich läschen';
-
 $labels['import'] = 'Importéieren';
 $labels['importcontacts'] = 'Kontakter importéieren';
 $labels['importfromfile'] = 'Aus Fichier importéieren:';
@@ -371,21 +323,16 @@ $labels['importtarget'] = 'Nei Kontakter an d\'Adressbuch setzen:';
 $labels['importreplace'] = 'Dat ganzt Adressbuch ersetzen';
 $labels['importdesc'] = 'Du kanns Kontakter aus engem existéierenden Adressbuch eroplueden.<br/>Mir ënnerstëtze momentan en Adress-Import vum <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>- oder CSV (mat Komma getrennt)-Date-Format.';
 $labels['done'] = 'Erleedegt';
-
-// settings
 $labels['settingsfor'] = 'Astellunge fir';
 $labels['about'] = 'Iwwert';
 $labels['preferences'] = 'Astellungen';
 $labels['userpreferences'] = 'Benotzer-Astellungen';
 $labels['editpreferences'] = 'Benotzer-Astellungen änneren';
-
 $labels['identities'] = 'Identitéiten';
 $labels['manageidentities'] = 'Identitéite fir dësen Account geréieren';
 $labels['newidentity'] = 'Nei Identitéit';
-
 $labels['newitem'] = 'Neit Element';
 $labels['edititem'] = 'Element änneren';
-
 $labels['preferhtml'] = 'HTML uweisen';
 $labels['defaultcharset'] = 'Standard Zeechesaz';
 $labels['htmlmessage'] = 'HTML-Message';
@@ -481,7 +428,6 @@ $labels['standardwindows'] = 'Popup-Fënstere wéi normal Fënstere behandelen';
 $labels['forwardmode'] = 'Messagë-Weiderleedung';
 $labels['inline'] = 'am Message';
 $labels['asattachment'] = 'als Unhank';
-
 $labels['folder']  = 'Dossier';
 $labels['folders']  = 'Dossieren';
 $labels['foldername']  = 'Dossiersnumm';
@@ -502,26 +448,20 @@ $labels['foldertype'] = 'Dossiers-Typ';
 $labels['personalfolder']  = 'Privaten Dossier';
 $labels['otherfolder']  = 'Dossier vun anerem Benotzer';
 $labels['sharedfolder']  = 'Ëffentlechen Dossier';
-
 $labels['sortby'] = 'Sortéieren no';
 $labels['sortasc']  = 'Opsteigend sortéieren';
 $labels['sortdesc'] = 'Ofsteigend sortéieren';
 $labels['undo'] = 'Réckgängeg maachen';
-
 $labels['installedplugins'] = 'Installéiert Plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Versioun';
 $labels['source'] = 'Source';
 $labels['license'] = 'Lizenz';
 $labels['support'] = 'Support ufroen';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'kB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'Englesch';
 $labels['westerneuropean'] = 'West-Europäesch';
@@ -540,5 +480,4 @@ $labels['vietnamese'] = 'Vietnamesesch';
 $labels['japanese'] = 'Japanesch';
 $labels['korean'] = 'Koreanesch';
 $labels['chinese'] = 'Chinesesch';
-
 ?>

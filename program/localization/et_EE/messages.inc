@@ -169,5 +169,4 @@ $messages['parentnotwritable'] = 'Kasuta loomine/liigutamine valitud kausta nurj
 $messages['messagetoobig'] = 'Kiri on töötlemiseks liiga suur.';
 $messages['attachmentvalidationerror'] = 'HOIATUS! See manus on kahtlane, sest selle tüüp ei ole vastavuses kirjas määratuga. Kui sa ei usalda kirja saatjat, siis ei tohiks seda brauseris avada, sest see võib sisaldada pahavara.<br/><br/><em>Oodati: $expected; leiti: $detected</em>';
 $messages['noscriptwarning'] = 'Hoiatus: see veebimaili teenus vajab Javascripti! Teenuse kasutamiseks luba Javascript oma brauseri seadetes.';
-
 ?>

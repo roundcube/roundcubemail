@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Katalogen kunde inte skapas eller flyttas. Åt
 $messages['messagetoobig'] = 'Denna del av meddelandet är alltför stor för att hantera.';
 $messages['attachmentvalidationerror'] = 'VARNING! Bilagan misstänks vara av annan typ än vad som anges i meddelandet. Om du inte litar på avsändaren ska du inte öppna bilagan.<br/><br/><em>Angiven typ: $expected; funnen typ: $detected</em>';
 $messages['noscriptwarning'] = 'Varning: Denna webbmailtjänst fungerar inte utan Javascript! Aktivera Javascript i webbläsarens inställningar.';
-
 ?>

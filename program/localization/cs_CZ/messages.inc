@@ -169,5 +169,4 @@ $messages['parentnotwritable'] = 'Nelze vytvořit/přesunout složku do vybrané
 $messages['messagetoobig'] = 'Část zprávy je příliš velká pro zpracování.';
 $messages['attachmentvalidationerror'] = 'Varování: Tato příloha je podezřelá, protože její typ se neshoduje s typem uvedeným ve zprávě. Pokud nedůvěřujete odesílateli, neměli byste přílohu otevírat v prohlížeči, protože může obsahovat škodlivý obsah.<br/><br/><em>Očekáváno: $expected; nalezeno: $detected</em>';
 $messages['noscriptwarning'] = 'Upozornění: Tato emailová aplikace vyžaduje Javascript! Prosím, zapněte Javascript v nastavení prohlížeče.';
-
 ?>

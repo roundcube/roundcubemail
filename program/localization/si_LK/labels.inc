@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = '$product වෙත පිළිගනිමු';
 $labels['username']  = 'පරිශීලක නාමය';
 $labels['password']  = 'මුරපදය';
 $labels['server']    = 'පද්ධතිය';
 $labels['login']     = 'පිවිසුම';
-
-// taskbar
 $labels['logout']   = 'පිටවීම';
 $labels['mail']     = 'විද්‍යුත් තැපැල';
 $labels['settings'] = 'සැකසුම්';
 $labels['addressbook'] = 'ලිපින පොත';
-
-// mailbox names
 $labels['inbox']  = 'Inbox';
 $labels['drafts'] = 'කටු සටහන්';
 $labels['sent']   = 'යැවූ';
 $labels['trash']  = 'ඉවතලන බඳුන';
 $labels['junk']   = 'සුන්බුන්';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'මාතෘකාව';
 $labels['from']    = 'වෙතින්';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'ප්‍රමුඛත්වය';
 $labels['organization'] = 'සංවිධානය';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'බහාලුම්';
 $labels['messagesfromto'] = '$from වෙතින් $to වෙත පණිවිඩ $count';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = 'පණිවිඩ $count න් $nr';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'පිටපත් කරන්න';
 $labels['move']     = 'ගෙනයන්න';
 $labels['moveto']   = 'ගෙන යන්න...';
@@ -68,13 +59,9 @@ $labels['download'] = 'බාගත කරන්න';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'ගොනුවේ නම';
 $labels['filesize'] = 'ගොනුවේ ප්‍රමාණය';
-
 $labels['addtoaddressbook'] = 'ලිපින පොතට එක් කරන්න';
-
-// weekdays short
 $labels['sun'] = 'ඉ';
 $labels['mon'] = 'ස';
 $labels['tue'] = 'අ';
@@ -82,8 +69,6 @@ $labels['wed'] = 'බ';
 $labels['thu'] = 'බ්‍ර';
 $labels['fri'] = 'සි';
 $labels['sat'] = 'සෙ';
-
-// weekdays long
 $labels['sunday']    = 'ඉරිදා';
 $labels['monday']    = 'සඳුදා';
 $labels['tuesday']   = 'අඟහරුවාදා';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'බදාදා';
 $labels['thursday']  = 'බ්‍රහස්පතින්දා';
 $labels['friday']    = 'සිකුරාදා';
 $labels['saturday']  = 'සෙනසුරාදා';
-
-// months short
 $labels['jan']	= 'ජන';
 $labels['feb']	= 'පෙබ';
 $labels['mar']	= 'මාර්';
@@ -105,8 +88,6 @@ $labels['sep']	= 'සැප්';
 $labels['oct']	= 'ඔක්';
 $labels['nov']	= 'නොවැ';
 $labels['dec']	= 'දෙසැ';
-
-// months long
 $labels['longjan']	= 'ජනවාරි';
 $labels['longfeb']	= 'පෙබරවාරි';
 $labels['longmar']	= 'මාර්තු';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'සැප්තැම්බර්';
 $labels['longoct']	= 'ඔක්තෝම්බර්';
 $labels['longnov']	= 'නොවැම්බර්';
 $labels['longdec']	= 'දෙසැම්බර්';
-
 $labels['today'] = 'අද';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'අඵත් පණිවිඩ සඳහා පිරික්සීම';
 $labels['compose']          = 'පණිවිඩයක් සෑදීම';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'තවත් ක්‍රියා...';
 $labels['more']             = 'තවත්';
 $labels['back']             = 'ආපසු';
 $labels['options']          = 'විකල්ප';
-
 $labels['select'] = 'තෝරන්න';
 $labels['all'] = 'සියල්ල';
 $labels['none'] = 'කිසිවක් නැත';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'සියල්ල දිගහරින්න';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'සියල්ල හකුළන්න';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'බහාලුම් ක්‍රියා...';
 $labels['compact'] = 'සංයුක්ත';
 $labels['empty'] = 'හිස්';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Disk usage';
 $labels['unknown']  = 'නොදනී';
 $labels['unlimited']  = 'අසීමිත';
-
 $labels['quicksearch']  = 'ඉක්මන් සෙවුම';
 $labels['resetsearch']  = 'සෙවුම යලි පිහිටවීම';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'සම්පූර්ණ පණිවිඩය';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'නව කවුළුවක විවෘත කරන්න';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'පණිවිඩය යවන්න';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'නැවත ලබන්නා';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'අක්‍ෂර වින්‍යාසය පරික්‍ෂාකරන්න';
 $labels['resumeediting'] = 'සම්පාදන නැවත ඇරඹීම';
 $labels['revertto']      = 'ආපසු ඒම';
-
 $labels['attach'] = 'අමුණන්න';
 $labels['attachments'] = 'ඇමුණුම්';
 $labels['upload'] = 'ඇතුල් කරීම';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'වසන්න';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'අඩු';
 $labels['lowest']  = 'අඩුම';
 $labels['normal']  = 'සාමාන්‍ය';
 $labels['high']    = 'ඉහළ';
 $labels['highest'] = 'ඉහළම';
-
 $labels['nosubject']  = '(මාතෘකාව නොමැත)';
 $labels['showimages'] = 'රූප පෙන්වන්න';
 $labels['alwaysshow'] = 'Always show images from $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'පැහැදිලි අකුරු';
 $labels['savesentmessagein'] = 'Save sent message in';
 $labels['dontsave'] = 'don\'t save';
 $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
-
 $labels['addcc'] = 'Cc එක් කරන්න';
 $labels['addbcc'] = 'Bcc එක් කරන්න';
 $labels['addreplyto'] = '\'පිළිතුරු සඳහා\' එක් කරන්න';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'මෙම පණිවුඩය එවන්නා ඔබ එය කියවු බව අසයි. එය දැන්වීමට ඔබ කැමතිද?';
 $labels['receiptread'] = 'ලැබීම් ලදුපත (කියවීම)';
 $labels['yourmessage'] = 'මෙය ඔබගේ පණිවුඩයේ ලැබීම් ලදුපතයි';
 $labels['receiptnote'] = 'සටහන: ලැබීම් ලදුපත මගින් මෙම පණිවුඩය කියවූ බව හෝ තේරුම් ගත් බව ගම්‍ය නොවේ. පණිවුඩය ලබන්නාට පෙන්නුම් කල බවටට සාක්ෂියක් පමණි';
-
-// address boook
 $labels['name']         = 'ප්‍රදර්ශනය වන නම';
 $labels['firstname']    = 'මුල් නම';
 $labels['surname']      = 'අවසන් නම';
@@ -304,7 +264,6 @@ $labels['search'] = 'සොයන්න';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'සංකීර්ණ‍';
 $labels['other'] = 'වෙනත්';
-
 $labels['typehome']   = 'නිවස';
 $labels['typework']   = 'රක්ෂාව';
 $labels['typeother']  = 'වෙනත්';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'සහායක';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'බ්ලොග්';
 $labels['typeprofile'] = 'පැතිකඩ';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'නව සබඳතාවය එක් කරන්න';
 $labels['editcontact'] = 'ලිපිනය වෙනස් කිරීම';
 $labels['contacts'] = 'සබඳතා';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'පුද්ගලික තොරතුරු';
-
 $labels['edit']   = 'සංස්කරණය';
 $labels['cancel'] = 'අවලංගු කරන්න';
 $labels['save']   = 'සුරකින්න';
@@ -335,7 +292,6 @@ $labels['rename'] = 'නම වෙනස් කරන්න';
 $labels['addphoto'] = 'එක් කරන්න';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'අඵත් ලිපින පතක් සෑදීම';
 $labels['deletecontact']  = 'තෝරාගත් ලිපින මකාදමන්න';
 $labels['composeto']      = 'පනිවුඩයක් සෑදීම';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'පෙර පිටුව පෙන්වන්න';
 $labels['firstpage']      = 'පළමුවන පිටුව පෙන්වන්න';
 $labels['nextpage']       = 'මීළඟ පිටුව පෙන්වන්න';
 $labels['lastpage']       = 'අවසාන පිටුව පෙන්වන්න';
-
 $labels['group'] = 'කණ්ඩායම';
 $labels['groups'] = 'කණ්ඩායම්';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'පුද්ගලික ලිපිනය';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'ආනයනය කරන්න';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'අවසානයි';
-
-// settings
 $labels['settingsfor'] = 'සඳහා සැකසුම්';
 $labels['about'] = 'පිළිබඳ';
 $labels['preferences'] = 'අභිමතය';
 $labels['userpreferences'] = 'පරිශීලක අභිමතය';
 $labels['editpreferences'] = 'පරිශීලක අභිමතය වෙනස් කිරීම්';
-
 $labels['identities'] = 'අනන්‍යතාවන්';
 $labels['manageidentities'] = 'මෙම ගිණුමෙ අනන්නයතාව හැසිරවීම';
 $labels['newidentity'] = 'අඵත් අනන්නයතාව';
-
 $labels['newitem'] = 'අඵත් අයිතම';
 $labels['edititem'] = 'අයිතම වෙනස් කිරීම්';
-
 $labels['preferhtml'] = 'HTML විදහා පෙන්වීම';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML පණිවිඩය';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'බහාලුම';
 $labels['folders']  = 'බහාලුම්';
 $labels['foldername']  = 'බහාලුමේ නම';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'බහාලුම් වර්ගය';
 $labels['personalfolder']  = 'පුද්ගලික බහාලුම';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'පොදු බහාලුම';
-
 $labels['sortby'] = 'වර්ග කරන්න';
 $labels['sortasc']  = 'ආරෝහණ වර්ග කිරීම';
 $labels['sortdesc'] = 'අවරෝහණ වර්ග කිරීම';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'ප්ලගිනය';
 $labels['version'] = 'අනුවාදය';
 $labels['source'] = 'මූලාශ්‍රය';
 $labels['license'] = 'බලපත්‍රය';
 $labels['support'] = 'සහය ලබාගන්න';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'යුනිකේත';
 $labels['english'] = 'ඉංග්‍රීසි';
 $labels['westerneuropean'] = 'බටහිර යුරෝපීය';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'වියට්නාම';
 $labels['japanese'] = 'ජපන්';
 $labels['korean'] = 'කොරියානු';
 $labels['chinese'] = 'චීන';
-
 ?>

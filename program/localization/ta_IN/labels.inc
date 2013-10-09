@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'நல்வரவு';
 $labels['username']  = 'பயனர்';
 $labels['password']  = 'கடவுச்சொல்';
 $labels['server']    = 'சேவையகம்';
 $labels['login']     = 'நுழை';
-
-// taskbar
 $labels['logout']   = 'வெளியேறு';
 $labels['mail']     = 'மின்னஞ்சல்';
 $labels['settings'] = 'அமைப்புகள்';
 $labels['addressbook'] = 'தொடர்புகள்';
-
-// mailbox names
 $labels['inbox']  = 'அகப்பெட்டி';
 $labels['drafts'] = 'வரைவுகள்';
 $labels['sent']   = 'அனுப்பிய அஞ்சல்';
 $labels['trash']  = 'குப்பை';
 $labels['junk']   = 'எரிதம்';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'தலைப்பு';
 $labels['from']    = 'அனுப்புனர்';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'முக்கியத்துவம்';
 $labels['organization'] = 'நிறுவனம்';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'அடைவுகள்';
 $labels['messagesfromto'] = 'செய்திகள் $countல் $from லிருந்து $to வரை';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = '$countல் $nr வது செய்தி';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'நகல்';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'இதற்கு அனுப்பு...';
@@ -68,13 +59,9 @@ $labels['download'] = 'பதிவிறக்கு';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'கோப்பு பெயர்';
 $labels['filesize'] = 'கோப்பு அளவு';
-
 $labels['addtoaddressbook'] = 'தொடர்புகளுக்கு சேர்க்கவும்';
-
-// weekdays short
 $labels['sun'] = 'ஞாயிறு';
 $labels['mon'] = 'திங்கள்';
 $labels['tue'] = 'செவ்வாய்';
@@ -82,8 +69,6 @@ $labels['wed'] = 'புதன்';
 $labels['thu'] = 'வியாழன்';
 $labels['fri'] = 'வெள்ளி';
 $labels['sat'] = 'சனி';
-
-// weekdays long
 $labels['sunday']    = 'ஞாயிறு';
 $labels['monday']    = 'திங்கள்';
 $labels['tuesday']   = 'செவ்வாய்';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'புதன்';
 $labels['thursday']  = 'வியாழன்';
 $labels['friday']    = 'வெள்ளி';
 $labels['saturday']  = 'சனி';
-
-// months short
 $labels['jan']	= 'சனவரி';
 $labels['feb']	= 'பிப்ரவரி';
 $labels['mar']	= 'மார்ச்';
@@ -105,8 +88,6 @@ $labels['sep']	= 'செப்டம்பர்';
 $labels['oct']	= 'அக்டோபர்';
 $labels['nov']	= 'நவம்பர்';
 $labels['dec']	= 'டிசம்பர்';
-
-// months long
 $labels['longjan']	= 'சனவரி';
 $labels['longfeb']	= 'பிப்ரவரி';
 $labels['longmar']	= 'மார்ச்';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'செப்டம்பர்';
 $labels['longoct']	= 'அக்டோபர்';
 $labels['longnov']	= 'நவம்பர்';
 $labels['longdec']	= 'டிசம்பர்';
-
 $labels['today'] = 'இன்று';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'புது அஞ்சல்களை பார்க்கவும்';
 $labels['compose']          = 'அஞ்சல் எழுது';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'More actions...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'தேர்ந்தெடு';
 $labels['all'] = 'எல்லாம்';
 $labels['none'] = 'எதுவுமில்லை';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'குறுகிய';
 $labels['empty'] = 'காலி';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'பயன்பாட்டு அளவு';
 $labels['unknown']  = 'தெரியாத';
 $labels['unlimited']  = 'அளவில்லா';
-
 $labels['quicksearch']  = 'விரைவு தேடல்';
 $labels['resetsearch']  = 'தேடலை மறுஅமை';
 $labels['searchmod']  = 'மாற்றிகளை தேடு';
 $labels['msgtext']  = 'முழு செய்தி';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'புது சாளரத்தில் திற';
 $labels['emlsave'] = 'பதிவிறக்கு (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'புதியதாக திருத்து';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'இப்போது அனுப்பு';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'திரும்பு சீட்டு';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'எழுத்துப்பிழை சரிபார்';
 $labels['resumeediting'] = 'திருத்துவதை தொடரவும்';
 $labels['revertto']      = 'முந்திய நிலைக்கு திரும்பவும்';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'கோப்பு இணைப்புகள்';
 $labels['upload'] = 'பதிவேற்று';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'மூடு';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'குறைந்த';
 $labels['lowest']  = 'மிக குறைந்த';
 $labels['normal']  = 'சாதாரண';
 $labels['high']    = 'அதிக';
 $labels['highest'] = 'மிக அதிக';
-
 $labels['nosubject']  = '(தலைப்பில்லா)';
 $labels['showimages'] = 'படங்களை காட்டு';
 $labels['alwaysshow'] = '$-னிடமிருந்து வரும் படங்களை காட்டு';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'எளிய உரை';
 $labels['savesentmessagein'] = 'அனுப்பிய அஞ்சலை இங்கு சேமிக்கவும்';
 $labels['dontsave'] = 'சேமிக்காதே';
 $labels['maxuploadsize'] = 'அனுமதிக்கப்படும் அதிகபட்ச கோப்பு அளவு $';
-
 $labels['addcc'] = 'நகல் சேர்';
 $labels['addbcc'] = 'மறை நகல் சேர்';
 $labels['addreplyto'] = 'பதிலளிக்க வேண்டியவர்களை சேர்';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'இந்த செய்தியின் அனுப்புனர் இதை படித்தவுடன் அறிவிக்கும்படி கேட்டார். அறிவிக்க விரும்புகிறீர்களா ?';
 $labels['receiptread'] = 'திரும்பு சீட்டு (படி)';
 $labels['yourmessage'] = 'இது உங்கள் செய்தியின் திரும்பு சீட்டு';
 $labels['receiptnote'] = 'குறிப்பு: இந்த ஒப்புகை பெறுனரிடம் செய்தியை காட்டியதற்காக வருகிறது. அவர் அதை படித்ததற்கு எந்த உத்திரவாதமும் இல்லை';
-
-// address boook
 $labels['name']         = 'காட்சி பெயர்';
 $labels['firstname']    = 'முதற் பெயர்';
 $labels['surname']      = 'கடைசி பெயர்';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'புது தொடர்பை சேர்';
 $labels['editcontact'] = 'தொடர்பை திருத்து';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'திருத்து';
 $labels['cancel'] = 'ரத்து';
 $labels['save']   = 'சேமி';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'புது தொடர்பு அட்டையை உருவாக்கு';
 $labels['deletecontact']  = 'தேர்ந்தெடுத்த தொடர்புகளை நீக்கு';
 $labels['composeto']      = 'இவர்-கு அஞ்சல் எழுது';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'முந்திய குழுவை காட்டு';
 $labels['firstpage']      = 'முதல் குழுவை காட்டு';
 $labels['nextpage']       = 'அடுத்த குழுவை காட்டு';
 $labels['lastpage']       = 'கடைசி குழுவை காட்டு';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'குழுக்கள்';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'சுய முகவரி';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'இறக்குமதி';
 $labels['importcontacts'] = 'தொடர்புகளை இறக்குமதி செய்யவும்';
 $labels['importfromfile'] = 'இந்த கோப்பிலிருந்து இறக்குமதி செய்யவும்:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'எல்லா தொடர்புகளையும் மாற்றி அமை';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'முடிந்தது';
-
-// settings
 $labels['settingsfor'] = 'இதற்கான அமைப்புகள்';
 $labels['about'] = 'About';
 $labels['preferences'] = 'விருப்பங்கள்';
 $labels['userpreferences'] = 'பயனர் விருப்பங்கள்';
 $labels['editpreferences'] = 'பயனர் விருப்பங்களை திருத்து';
-
 $labels['identities'] = 'அடையாளங்கள்';
 $labels['manageidentities'] = 'இந்த கணக்கிற்கான அடையாளங்களை நிற்வாகிக்கவும்';
 $labels['newidentity'] = 'புது அடையாளம்';
-
 $labels['newitem'] = 'புது உருப்படி';
 $labels['edititem'] = 'உருப்படியை திருத்து';
-
 $labels['preferhtml'] = 'HTML காட்டு';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML செய்தி';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'அடைவு';
 $labels['folders']  = 'அடைவுகள்';
 $labels['foldername']  = 'அடைவு பெயர்';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'வாரியாக அடுக்கு';
 $labels['sortasc']  = 'ஏறு வரிசையாக அடுக்கு';
 $labels['sortdesc'] = 'இறங்கு வரிசையாக அடுக்கு';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

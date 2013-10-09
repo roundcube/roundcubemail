@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Bixêr hatî $product \'ê';
 $labels['username']  = 'Bikarhêner';
 $labels['password']  = 'Nasnav';
 $labels['server']    = 'Pêşkêşkar';
 $labels['login']     = 'Têkevê';
-
-// taskbar
 $labels['logout']   = 'Derkeve';
 $labels['mail']     = 'E-Peyam';
 $labels['settings'] = 'Mîhengên Takekesî';
 $labels['addressbook'] = 'Lênûska Navnîşanan';
-
-// mailbox names
 $labels['inbox']  = 'Hatî';
 $labels['drafts'] = 'Hilanînî';
 $labels['sent']   = 'Şandî';
 $labels['trash']  = 'Çop';
 $labels['junk']   = 'Biikêrnehatî';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Mijar';
 $labels['from']    = 'Şandyar';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Girîngî';
 $labels['organization'] = 'Sazî';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'Peldank';
 $labels['messagesfromto'] = 'Peyam $count ên di navbera $from - $to';
 $labels['threadsfromto'] = 'Threads $from to $to of $count';
 $labels['messagenrof'] = '$nr a peyama $count';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'Kopiya Karbon';
 $labels['move']     = 'Move';
 $labels['moveto']   = 'bibe...';
@@ -68,13 +59,9 @@ $labels['download'] = 'daxe';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'Navê pelê';
 $labels['filesize'] = 'Mezinahiya pelê';
-
 $labels['addtoaddressbook'] = 'Têxe lênûska navnîşanan';
-
-// weekdays short
 $labels['sun'] = 'Yş';
 $labels['mon'] = 'Dş';
 $labels['tue'] = 'Sş';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Çş';
 $labels['thu'] = 'Pş';
 $labels['fri'] = 'În';
 $labels['sat'] = 'Şe';
-
-// weekdays long
 $labels['sunday']    = 'Yekşem';
 $labels['monday']    = 'Duşem';
 $labels['tuesday']   = 'Sêşem';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Çarşem';
 $labels['thursday']  = 'Pêncşem';
 $labels['friday']    = 'În';
 $labels['saturday']  = 'Şemî';
-
-// months short
 $labels['jan']	= 'Jan';
 $labels['feb']	= 'Feb';
 $labels['mar']	= 'Mar';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Sep';
 $labels['oct']	= 'Oct';
 $labels['nov']	= 'Nov';
 $labels['dec']	= 'Dec';
-
-// months long
 $labels['longjan']	= 'January';
 $labels['longfeb']	= 'February';
 $labels['longmar']	= 'March';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'September';
 $labels['longoct']	= 'October';
 $labels['longnov']	= 'November';
 $labels['longdec']	= 'December';
-
 $labels['today'] = 'Îro';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'Li peyamên nû venihêre';
 $labels['compose']          = 'Peyamekê biafirîne';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'More actions...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'Hilbijêre';
 $labels['all'] = 'Hemû';
 $labels['none'] = 'Ne yek jî';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Kompakt';
 $labels['empty'] = 'Vala Bike';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Bikaranîna dîskê';
 $labels['unknown']  = 'nayê zanîn';
 $labels['unlimited']  = 'bêsînor';
-
 $labels['quicksearch']  = 'Lêgerîna bilez';
 $labels['resetsearch']  = 'Lêgerînê reset bike';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Peyamê niha bişîne';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Rapora Vegerînê';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'Kontrola rastnivîsê';
 $labels['resumeediting'] = 'Serastkirinê bidomîne';
 $labels['revertto']      = 'Şûnde bîne';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Pêvek';
 $labels['upload'] = 'Bar bike';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'Bigire';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'Nizm';
 $labels['lowest']  = 'Nizmtirîn';
 $labels['normal']  = 'Asayî';
 $labels['high']    = 'Bilind';
 $labels['highest'] = 'Bilintirîn';
-
 $labels['nosubject']  = '(bê mijar)';
 $labels['showimages'] = 'Xuyakirina wêneyan';
 $labels['alwaysshow'] = 'Always show images from $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Deqa tazî';
 $labels['savesentmessagein'] = 'Save sent message in';
 $labels['dontsave'] = 'don\'t save';
 $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
-
 $labels['addcc'] = 'Cc Têxê';
 $labels['addbcc'] = 'Bcc Têxê';
 $labels['addreplyto'] = 'Bibersivîne têxê';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'Şandyara/ê vê peyamê xwest dema ku te peyam vekir, jê re hişyarî here. Dixwazî jê re hişyarî here?';
 $labels['receiptread'] = 'Rapora Vegerînê (xwendî)';
 $labels['yourmessage'] = 'Ev rapora vegerîna peyama te ye';
 $labels['receiptnote'] = 'Nîşe: Ev dide zanîn ka peyama te şand hat xwendin an na. Naveroka peyamê bi mîgogerî nayê zanîn.';
-
-// address boook
 $labels['name']         = 'Navê xuya dibe';
 $labels['firstname']    = 'Nav';
 $labels['surname']      = 'Paşnav';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Têkiliyeke nû têxê';
 $labels['editcontact'] = 'Têkiliyê serast bike';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'Serast bike';
 $labels['cancel'] = 'Betal';
 $labels['save']   = 'Tomar bike';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'kardeke nû a têkiliyê biafirîne';
 $labels['deletecontact']  = 'Têkiliyên hilbijartî jê bibe';
 $labels['composeto']      = 'Ji têkiliya hilbijartî re peyam bişîne';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'Seta berê nîşan bide';
 $labels['firstpage']      = 'Seta yekemîn nîşan bide';
 $labels['nextpage']       = 'Seta di rêzê de nîşan bide';
 $labels['lastpage']       = 'Seta dawî nîşan bide';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'Kom';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Navnîşanên Takekesî';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
-
-// settings
 $labels['settingsfor'] = 'Mîheng ji bo';
 $labels['about'] = 'About';
 $labels['preferences'] = 'Vebijêrk';
 $labels['userpreferences'] = 'Vebijêrkên bikarhêner';
 $labels['editpreferences'] = 'Vebijêrkên bikarhêner serast bike';
-
 $labels['identities'] = 'Nasname';
 $labels['manageidentities'] = 'Nasnameyên vê hesabê serast bike';
 $labels['newidentity'] = 'Nasnameya nû';
-
 $labels['newitem'] = 'Parçeya nû';
 $labels['edititem'] = 'Parçeyê serast bike';
-
 $labels['preferhtml'] = 'Wekî HTML nîşan bide';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'Peyama HTML';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Peldank';
 $labels['folders']  = 'Peldank';
 $labels['foldername']  = 'Navê peldankê';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'Şêweyê rêzkirinê';
 $labels['sortasc']  = 'Wekî zêde dibe';
 $labels['sortdesc'] = 'Wekî kêm dibe';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

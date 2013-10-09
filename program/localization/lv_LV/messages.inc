@@ -169,5 +169,4 @@ $messages['parentnotwritable'] = 'Neizdevās izveidot/pārvietot mapi atzīmēta
 $messages['messagetoobig'] = 'Vēstule daļa ir pārāk liela, lai to varētu apstrādāt.';
 $messages['attachmentvalidationerror'] = 'BRĪDINĀJUMS! Šis pielikums ir aizdomīgs, jo tā tips neatbilst tipam, kurš ir uzrādīts e-pasta ziņojumā. Ja jūs neuzticaties sūtītājam, šo failu Jums vaļā vērt nevajadzētu, jo tas var saturēt ļaunprātīgu saturu. <br/><br/><em>Būtu jābūt: $expected; Bet ir: $detected</em>';
 $messages['noscriptwarning'] = 'Uzmanību: lai lasītu e-pastus, Jūsu pārlūkprogrammā jābūt ieslēgtiem JavaScript.';
-
 ?>

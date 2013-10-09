@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Tidak bisa membuat/memindahkan map ke map indu
 $messages['messagetoobig'] = 'Pesan terlalu besar untuk diproses.';
 $messages['attachmentvalidationerror'] = 'PERINGATAN! Lampiran ini mencurigakan karena jenisnya tidak cocok dengan jenis yang dinyatakan di dalam pesan. Jika Anda tidak mempercayai pengirim, Anda tidak perlu membukanya di browser karena mungkin berisi konten berbahaya.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Peringatan: Layanan ini membutuhkan Javascript! Untuk menggunakannya silahkan aktifkan Javascript di pengaturan browser Anda.';
-
 ?>

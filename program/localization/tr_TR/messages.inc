@@ -169,5 +169,4 @@ $messages['parentnotwritable'] = 'Klasör, seçilen üst klasöre taşınamıyor
 $messages['messagetoobig'] = 'Bu ileti parçası işlenemeyecek kadar büyük.';
 $messages['attachmentvalidationerror'] = 'UYARI! Bu eklenti mesajda belirtilenden farklı olduğu için şüpheli bulundu. Eğer göndericiye güvenmiyorsanız eki web tarayıcısında açmayın. Şüpheli içerik bulunabilir.';
 $messages['noscriptwarning'] = 'Uyarı: Bu e-posta servisi Javascript gerektirmektedir! Servisi kullanabilmek için lütfen web tarayıcınızın ayarlarından Javascript\'i etkinleştiriniz.';
-
 ?>

@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = '$product សូមស្វាគមន៍';
 $labels['username']  = 'ឈ្មោះអ្នកប្រើ';
 $labels['password']  = 'ពាក្យសំងាត់';
 $labels['server']    = 'ម៉ាស៊ីនមេ';
 $labels['login']     = 'ពិនិត្យចូល';
-
-// taskbar
 $labels['logout']   = 'ពិនិត្យចេញ';
 $labels['mail']     = 'អ៊ីមែល';
 $labels['settings'] = 'កំនត់ការប្រើប្រាស់';
 $labels['addressbook'] = 'សៀវភៅអាសយដ្ឋាន';
-
-// mailbox names
 $labels['inbox']  = 'ប្រអប់សំបុត្រ';
 $labels['drafts'] = 'សំបុត្រពង្រៀង';
 $labels['sent']   = 'សំបុត្រដែលបានបញ្ជូន';
 $labels['trash']  = 'ធុងសំរាម';
 $labels['junk']   = 'សំបុត្រមិនល្អ';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'ចំណងជើង';
 $labels['from']    = 'អ្នកផ្ញើ';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'អទិភាព';
 $labels['organization'] = 'អង្គភាព';
 $labels['readstatus'] = 'ស្ថានភាពនៃការអាន';
 $labels['listoptions'] = 'List options...';
-
 $labels['mailboxlist'] = 'ថតទាំងអស់';
 $labels['messagesfromto'] = 'សំបុត្រពី $from ទៅដល់ $toក្នុងចំណោម $count សំបុត្រ';
 $labels['threadsfromto'] = 'បន្តុំសំបុត្រពី $from ទៅដល់ $toក្នុងចំណោម $count សំបុត្រ';
 $labels['messagenrof'] = 'សំបុត្រ $nr នៃ $count';
 $labels['fromtoshort'] = '$from – $to of $count';
-
 $labels['copy']     = 'ចំលង';
 $labels['move']     = 'ផ្ទេរ';
 $labels['moveto']   = 'ផ្ទេរទៅ';
@@ -68,13 +59,9 @@ $labels['download'] = 'ទាញយក';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'ឈ្មោះឯកសារ';
 $labels['filesize'] = 'ទំហំឯកសារ';
-
 $labels['addtoaddressbook'] = 'រក្សាទុកក្នុងសៀវភៅអាសយដ្ឋាន';
-
-// weekdays short
 $labels['sun'] = 'អាទិត្យ';
 $labels['mon'] = 'ច័ន្ទ';
 $labels['tue'] = 'អង្គារ';
@@ -82,8 +69,6 @@ $labels['wed'] = 'ពុធ';
 $labels['thu'] = 'ព្រហស្បតិ៍';
 $labels['fri'] = 'សុក្រ';
 $labels['sat'] = 'សៅរ៍';
-
-// weekdays long
 $labels['sunday']    = 'អាទិត្យ';
 $labels['monday']    = 'ច័ន្ទ';
 $labels['tuesday']   = 'អង្គារ';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'ពុធ';
 $labels['thursday']  = 'ព្រហស្បតិ៍';
 $labels['friday']    = 'សុក្រ';
 $labels['saturday']  = 'សៅរ៍';
-
-// months short
 $labels['jan']	= 'មករា';
 $labels['feb']	= 'កុម្ភះ';
 $labels['mar']	= 'មិនា';
@@ -105,8 +88,6 @@ $labels['sep']	= 'កញ្ញា';
 $labels['oct']	= 'តុលា';
 $labels['nov']	= 'វិច្ឆិកា';
 $labels['dec']	= 'ធ្នូ';
-
-// months long
 $labels['longjan']	= 'មករា';
 $labels['longfeb']	= 'កុម្ភះ';
 $labels['longmar']	= 'មិនា';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'កញ្ញា';
 $labels['longoct']	= 'តុលា';
 $labels['longnov']	= 'វិច្ឆិកា';
 $labels['longdec']	= 'ធ្នូ';
-
 $labels['today'] = 'ថ្ងៃនេះ';
-
-// toolbar buttons
 $labels['refresh']          = 'Refresh';
 $labels['checkmail']        = 'ពិនិត្យសំបុត្រថ្មី';
 $labels['compose']          = 'សរសេរសំបុត្រថ្មី';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'More actions...';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
-
 $labels['select'] = 'ជ្រើសរើស';
 $labels['all'] = 'ទាំងអស់';
 $labels['none'] = 'មិនតំរៀប';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'បង្ហាញសំបុត្រទាំងអ�
 $labels['expand-unread'] = 'បង្ហាញសំបុត្រមិនទាន់អាន';
 $labels['collapse-all'] = 'បិទសំបុត្រទាំងអស់';
 $labels['threaded'] = 'បានបែកចែកជាក្រុមរួច';
-
 $labels['autoexpand_threads'] = 'បង្ហាញបណ្តុំសំបុត្រ';
 $labels['do_expand'] = 'បណ្តុំទាំងអស់';
 $labels['expand_only_unread'] = 'បង្ហាញតែសំបុត្រដែលមិនទាន់អាន';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'តារាងជួរឈ';
 $labels['listsorting'] = 'តំរៀបជួរឈ';
 $labels['listorder'] = 'លំដាប់នៃការតំរៀប';
 $labels['listmode'] = 'បង្ហាញជាតារាង';
-
 $labels['folderactions'] = 'មុខងារថត';
 $labels['compact'] = 'បង្រួម';
 $labels['empty'] = 'ទទេរ';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'ទំហំសំបុត្រទាំងអស់ដែលមាន';
 $labels['unknown']  = 'មិនស្គាល់';
 $labels['unlimited']  = 'គ្មានកំនត់';
-
 $labels['quicksearch']  = 'ស្វែងរក';
 $labels['resetsearch']  = 'កំណត់លក្ខខ័ណ្ឌស្វែងរកជាថ្មី';
 $labels['searchmod']  = 'កែសំរួលលក្ខខ័ណ្ឌស្វែងរក';
 $labels['msgtext']  = 'សំបុត្រទាំងមូល';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'បើកក្នុងវីនដូវថ្មី';
 $labels['emlsave'] = 'រក្សាទុកទិន្នន័យជាឯកសារប្រភេទ(.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'កែហើយរក្សាទុកដូចជាសំបុត្រថ្មី';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'ផ្ញើសំបុត្រនេះ';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'អត្ថបទបញ្ជាក់ពីកា
 $labels['dsn']            = 'ប្រាប់អំពីស្ថានភាពផ្ញើ';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
-
 $labels['editidents']    = 'ផ្លាស់ប្តូរអត្តសញ្ញាណ';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'ពិនិត្យអក្ខរាវិរុទ្ធ';
 $labels['resumeediting'] = 'បន្តរការកែតំរូវ';
 $labels['revertto']      = 'ត្រលប់ទៅ';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'ឯកសារភ្ជាប់';
 $labels['upload'] = 'ភ្ជាប់ឯកសារ';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'បិទ';
 $labels['messageoptions']  = 'កំណត់ជំរើសរបស់សំបុត្រ';
-
 $labels['low']     = 'ទាប';
 $labels['lowest']  = 'ទាបបំផុត';
 $labels['normal']  = 'ធម្មតា';
 $labels['high']    = 'ខ្ពស់';
 $labels['highest'] = 'ខ្ពស់បំផុត';
-
 $labels['nosubject']  = '(គ្មានចំណងជើង)';
 $labels['showimages'] = 'បង្ហាញរូបភាព';
 $labels['alwaysshow'] = 'បង្ហាញជានិច្ចរាល់រូបភាពបញ្ជូនពី$sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'អត្ថបទ HTML';
 $labels['plaintoggle'] = 'អត្ថបទធម្មតា';
 $labels['savesentmessagein'] = 'រក្សាសំបុត្រដែលបានផ្ញើក្នុង';
 $labels['dontsave'] = 'មិនរក្សាទុក';
 $labels['maxuploadsize'] = 'ទំហំឯកសារធំបំផុតដែលអាចភ្ជាប់បានគឺ$size';
-
 $labels['addcc'] = 'បន្ថែម Cc';
 $labels['addbcc'] = 'បន្ថែម Bcc';
 $labels['addreplyto'] = 'បន្ថែម Reply-To';
 $labels['addfollowupto'] = 'បន្ថែម Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
 $labels['receiptread'] = 'អត្ថបទផ្ញើត្រលប់ (បានអាន)';
 $labels['yourmessage'] = 'នេះគឺជាអត្ថបទផ្ញើត្រលប់សំរាប់សំបុត្ររបស់លោកអ្នក។';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
-
-// address boook
 $labels['name']         = 'ឈ្មោះសំរាប់បង្ហាញ';
 $labels['firstname']    = 'នាមត្រកូល';
 $labels['surname']      = 'នាមខ្លួន';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'ផ្សេងពីនេះ';
-
 $labels['typehome']   = 'គេហដ្ឋាន';
 $labels['typework']   = 'កន្លែងធ្វើការ';
 $labels['typeother']  = 'ផ្សេងពីនេះ';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'ជំនួយការ';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'បន្ថែម';
 $labels['addcontact'] = 'បន្ថែមអាសយដ្ឋានទាក់ទង';
 $labels['editcontact'] = 'កែប្រែអាសយដ្ឋានទាក់ទង';
 $labels['contacts'] = 'អាសយដ្ឋានទាក់ទងទាំងអស់';
 $labels['contactproperties'] = 'ព័ត៌មានអំពីទំនាក់ទំនង';
 $labels['personalinfo'] = 'ព័ត៌មានផ្ទាល់ខ្លួន';
-
 $labels['edit']   = 'កែតំរូវ';
 $labels['cancel'] = 'លះបង់';
 $labels['save']   = 'រក្សាទុក';
@@ -335,7 +292,6 @@ $labels['rename'] = 'ប្តូរឈ្មោះ';
 $labels['addphoto'] = 'បន្ថែមរូបថត';
 $labels['replacephoto'] = 'លុបរូបថត';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'បង្កើតអាសយដ្ឋានទាក់ទងថ្មី';
 $labels['deletecontact']  = 'លុបអាសយដ្ឋានទាក់ទងដែលបានជ្រើសរើស';
 $labels['composeto']      = 'ផ្ញើសំបុត្រទៅ';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'បង្កើតក្រុមអាសយដ�
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'ទំព័រមុន';
 $labels['firstpage']      = 'ទំព័រដំបូង';
 $labels['nextpage']       = 'ទំព័របន្ទាប់';
 $labels['lastpage']       = 'ទំព័រចុងក្រោយ';
-
 $labels['group'] = 'ក្រុម';
 $labels['groups'] = 'ក្រុម';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'អាសយដ្ឋានផ្ទាល់ខ្លួន';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'បញ្ចូល';
 $labels['importcontacts'] = 'បញ្ចូលអាសយដ្ឋាន';
 $labels['importfromfile'] = 'បញ្ចូលពី ឯកសារ';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'ផ្លាស់ប្តូរអាសយដ្ឋានទាំងអស់';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'ចប់រួចរាល់';
-
-// settings
 $labels['settingsfor'] = 'កំណត់សំរាប់';
 $labels['about'] = 'About';
 $labels['preferences'] = 'កំណត់តាមការចូលចិត្ត';
 $labels['userpreferences'] = 'កំណត់តាមការចូលចិត្តរបស់អ្នកប្រើ';
 $labels['editpreferences'] = 'ផ្លាស់ប្តូរការចូលចិត្តរបស់អ្នកប្រើ';
-
 $labels['identities'] = 'អត្តសញ្ញាណ';
 $labels['manageidentities'] = 'គ្រប់គ្រងអត្តសញ្ញាណ';
 $labels['newidentity'] = 'អត្តសញ្ញាណថ្មី';
-
 $labels['newitem'] = 'វត្ថុថ្មី';
 $labels['edititem'] = 'កែប្រែវត្ថុ';
-
 $labels['preferhtml'] = 'បង្ហាញជា HTML';
 $labels['defaultcharset'] = 'លេខកូតអក្សរមានស្រាប់';
 $labels['htmlmessage'] = 'សំបុត្រប្រភេទ HTML';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'ថត';
 $labels['folders']  = 'ថតទាំងអស់';
 $labels['foldername']  = 'ឈ្មោះថត';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'តំរៀបតាម';
 $labels['sortasc']  = 'តំរៀបតាមលំដាប់ចុះ';
 $labels['sortdesc'] = 'តំរៀបតាមលំដាប់ឡើង';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'យូនីកូដ';
 $labels['english'] = 'ភាសាអង់គ្លេស';
 $labels['westerneuropean'] = 'អឺរ៉ុបខាងលិច';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'ភាសាវៀតណាម';
 $labels['japanese'] = 'ភាសាជប៉ុន';
 $labels['korean'] = 'ភាសាកូរ៉េ';
 $labels['chinese'] = 'ភាសាចិន';
-
 ?>

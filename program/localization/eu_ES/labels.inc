@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Ongi etorri $product';
 $labels['username']  = 'Erabiltzailea';
 $labels['password']  = 'Pasahitza';
 $labels['server']    = 'Zerbitzaria';
 $labels['login']     = 'Saio hasiera';
-
-// taskbar
 $labels['logout']   = 'Irten';
 $labels['mail']     = 'ePosta';
 $labels['settings'] = 'Ezarpen Pertsonalak';
 $labels['addressbook'] = 'Helbide Liburua';
-
-// mailbox names
 $labels['inbox']  = 'Sarrera';
 $labels['drafts'] = 'Zirriborroak';
 $labels['sent']   = 'Bidalitakoak';
 $labels['trash']  = 'Zakarrontzia';
 $labels['junk']   = 'Zabor-posta';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Gaia';
 $labels['from']    = 'Nork';
 $labels['sender']  = 'Igorlea';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Lehentasuna';
 $labels['organization'] = 'Erakundea';
 $labels['readstatus'] = 'Irakurketaren egoera';
 $labels['listoptions'] = 'Zerrendaren aukerak...';
-
 $labels['mailboxlist'] = 'Karpetak';
 $labels['messagesfromto'] = '$from -tik $to -ra $count mezuetatik';
 $labels['threadsfromto'] = '$from -etik $to -rako gaiak (guztira $count)';
 $labels['messagenrof'] = '$nr mezua $count -tik';
 $labels['fromtoshort'] = '$from - $to , guztira $count';
-
 $labels['copy']     = 'Kopia';
 $labels['move']     = 'Mugitu';
 $labels['moveto']   = 'mugitu hona...';
@@ -68,13 +59,9 @@ $labels['download'] = 'deskargatu';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'Fitxategi Izena';
 $labels['filesize'] = 'Fitxategi Tamaina';
-
 $labels['addtoaddressbook'] = 'Helbide liburura gehitu';
-
-// weekdays short
 $labels['sun'] = 'Iga';
 $labels['mon'] = 'Al';
 $labels['tue'] = 'As';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Azt';
 $labels['thu'] = 'Og';
 $labels['fri'] = 'Or';
 $labels['sat'] = 'Lar';
-
-// weekdays long
 $labels['sunday']    = 'Igandea';
 $labels['monday']    = 'Astelehena';
 $labels['tuesday']   = 'Asteartea';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Asteazkena';
 $labels['thursday']  = 'Osteguna';
 $labels['friday']    = 'Ostirala';
 $labels['saturday']  = 'Larunbata';
-
-// months short
 $labels['jan']	= 'Urt';
 $labels['feb']	= 'Ots';
 $labels['mar']	= 'Mar';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Ira';
 $labels['oct']	= 'Urr';
 $labels['nov']	= 'Aza';
 $labels['dec']	= 'Abe';
-
-// months long
 $labels['longjan']	= 'Urtarrila';
 $labels['longfeb']	= 'Otsaila';
 $labels['longmar']	= 'Martxoa';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'Iraila';
 $labels['longoct']	= 'Urria';
 $labels['longnov']	= 'Azaroa';
 $labels['longdec']	= 'Abendua';
-
 $labels['today'] = 'Gaur';
-
-// toolbar buttons
 $labels['refresh']          = 'Eguneratu';
 $labels['checkmail']        = 'Mezu berrien bila arakatu';
 $labels['compose']          = 'Mezu bat sortu';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'Ekintza gehiago...';
 $labels['more']             = 'Gehiago';
 $labels['back']             = 'Atzera';
 $labels['options']          = 'Aukerak';
-
 $labels['select'] = 'Hautatu';
 $labels['all'] = 'Denak';
 $labels['none'] = 'Bat ere ez';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
-
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
 $labels['expand_only_unread'] = 'only with unread messages';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Trinkotu';
 $labels['empty'] = 'Hustu';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Disko erabilera';
 $labels['unknown']  = 'ezezaguna';
 $labels['unlimited']  = 'mugagabea';
-
 $labels['quicksearch']  = 'Bilaketa azkarra';
 $labels['resetsearch']  = 'Bilaketa berrabiarazi';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Lehio berrian ireki';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Edit as new';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Mezua orain bidali';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Bidaltzaileari itzuli';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Jatorrizko mezua';
-
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'Egiaztaketa ortografikoa';
 $labels['resumeediting'] = 'Editatzen jarraitu';
 $labels['revertto']      = 'Itzuli hona';
-
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Eranskinak';
 $labels['upload'] = 'Igo';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'Itxi';
 $labels['messageoptions']  = 'Message options...';
-
 $labels['low']     = 'Baxua';
 $labels['lowest']  = 'Baxuena';
 $labels['normal']  = 'Normala';
 $labels['high']    = 'Altua';
 $labels['highest'] = 'Altuena';
-
 $labels['nosubject']  = '(gairik gabea)';
 $labels['showimages'] = 'Irudiak bistarazi';
 $labels['alwaysshow'] = 'Beti ikusi $sender -en irudiak';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Testu laua';
 $labels['savesentmessagein'] = 'Gorde mezua hemen';
 $labels['dontsave'] = 'ez gorde';
 $labels['maxuploadsize'] = 'Maximum allowed file size is $size';
-
 $labels['addcc'] = 'Gehitu Cc (kopia)';
 $labels['addbcc'] = 'Gehitu Bcc (kopia ezkutua)';
 $labels['addreplyto'] = 'Gehitu erantzun-honi';
 $labels['addfollowupto'] = 'Add Followup-To';
-
-// mdn
 $labels['mdnrequest'] = 'Mezu honen bidaltzaileak mezua irakurtzen duzunean jakinaraztea eskatu du. Bidaltzailea ohartu nahi duzu?';
 $labels['receiptread'] = 'Itzulketa agiria (irakurria)';
 $labels['yourmessage'] = 'Hau zure mezuaren Itzulketa Agiria da';
 $labels['receiptnote'] = 'Oharra: Agiri honek hartzailearen ordenagailuan mezua ikusi dala adierazten du besterik gabe. Honek ez du esan nahi hartzaileak mezua irakurri edo/eta ulertu duenik:';
-
-// address boook
 $labels['name']         = 'Izena bistarazi';
 $labels['firstname']    = 'Izena';
 $labels['surname']      = 'Abizena';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Txartel berria gehitu';
 $labels['editcontact'] = 'Txartela editatu';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['personalinfo'] = 'Informazio pertsonala';
-
 $labels['edit']   = 'Editatu';
 $labels['cancel'] = 'Utzi';
 $labels['save']   = 'Gorde';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'Helbide liburu txartel berria sortu';
 $labels['deletecontact']  = 'Aukeraturiko txartelak ezabatu';
 $labels['composeto']      = 'Bidali mezua honi:';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'Aurreko sorta ikusi';
 $labels['firstpage']      = 'Lehenengo sorta ikusi';
 $labels['nextpage']       = 'Hurrengo sorta ikusi';
 $labels['lastpage']       = 'Azken sorta ikusi';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'Taldeak';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Helbide pertsonalak';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
-
-// settings
 $labels['settingsfor'] = 'Honen ezarpenak:';
 $labels['about'] = 'About';
 $labels['preferences'] = 'Hobespenak';
 $labels['userpreferences'] = 'Erabiltzaile hobespenak';
 $labels['editpreferences'] = 'Erabiltzaile hobespenak editatu';
-
 $labels['identities'] = 'Identitateak';
 $labels['manageidentities'] = 'Kontu honetako identitateak kudeatu';
 $labels['newidentity'] = 'Identitate berria';
-
 $labels['newitem'] = 'Elementu berria';
 $labels['edititem'] = 'Elementua Editatu';
-
 $labels['preferhtml'] = 'HTML nahiago';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Mezua';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Karpeta';
 $labels['folders']  = 'Karpetak';
 $labels['foldername']  = 'Karpeta izena';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'Honela ordenatu';
 $labels['sortasc']  = 'Goraka ordenatu';
 $labels['sortdesc'] = 'Beheraka ordenatu';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

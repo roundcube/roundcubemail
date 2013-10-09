@@ -165,5 +165,4 @@ $messages['parentnotwritable'] = '无法创建和转移到所选的目录,权限
 $messages['messagetoobig'] = '由于邮件部分过大无法处理。';
 $messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
-
 ?>

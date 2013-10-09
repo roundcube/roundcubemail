@@ -169,5 +169,4 @@ $messages['parentnotwritable'] = 'No se puede crear/mover la carpeta a la carpet
 $messages['messagetoobig'] = 'Esta parte del mensaje es demasiada grande para procesarla.';
 $messages['attachmentvalidationerror'] = '¡ATENCIÓN! Este adjunto es sospechoso porque su tipo no coincide con el tipo declarado en el mensaje. Si no confía en su remitente, no debería abrirlo en su navegador porque podría tener contenido malicioso.<br/<br/> <em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Advertencia: ¡este servicio de webmail necesita Javascript! Para poder usarlo habilite el soporte de Javascript en su navegador, por favor.';
-
 ?>

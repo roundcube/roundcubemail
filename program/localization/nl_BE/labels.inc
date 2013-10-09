@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Welkom bij $product';
 $labels['username']  = 'Gebruikersnaam';
 $labels['password']  = 'Wachtwoord';
 $labels['server']    = 'Server';
 $labels['login']     = 'Aanmelden';
-
-// taskbar
 $labels['logout']   = 'Afmelden';
 $labels['mail']     = 'Berichten';
 $labels['settings'] = 'Instellingen';
 $labels['addressbook'] = 'Contactpersonen';
-
-// mailbox names
 $labels['inbox']  = 'Postvak IN';
 $labels['drafts'] = 'Concepten';
 $labels['sent']   = 'Verzonden berichten';
 $labels['trash']  = 'Prullenbak';
 $labels['junk']   = 'Spam';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Onderwerp';
 $labels['from']    = 'Van';
 $labels['sender']  = 'Afzender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Prioriteit';
 $labels['organization'] = 'Organisatie';
 $labels['readstatus'] = 'Gelezen?';
 $labels['listoptions'] = 'Lijstopties...';
-
 $labels['mailboxlist'] = 'Mappen';
 $labels['messagesfromto'] = 'Berichten $from - $to van $count';
 $labels['threadsfromto'] = 'Conversaties $from - $to van $count';
 $labels['messagenrof'] = 'Bericht $nr van $count';
 $labels['fromtoshort'] = '$from - $to van $count';
-
 $labels['copy']     = 'Kopieer';
 $labels['move']     = 'Verplaats';
 $labels['moveto']   = 'Verplaats naar...';
@@ -68,13 +59,9 @@ $labels['download'] = 'Downloaden';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Weergeven';
 $labels['showanyway'] = 'Toch weergeven';
-
 $labels['filename'] = 'Bestandsnaam';
 $labels['filesize'] = 'Bestandsgrootte';
-
 $labels['addtoaddressbook'] = 'Voeg toe aan lijst met contactpersonen';
-
-// weekdays short
 $labels['sun'] = 'Zo';
 $labels['mon'] = 'Ma';
 $labels['tue'] = 'Di';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Wo';
 $labels['thu'] = 'Do';
 $labels['fri'] = 'Vr';
 $labels['sat'] = 'Za';
-
-// weekdays long
 $labels['sunday']    = 'Zondag';
 $labels['monday']    = 'Maandag';
 $labels['tuesday']   = 'Dinsdag';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Woensdag';
 $labels['thursday']  = 'Donderdag';
 $labels['friday']    = 'Vrijdag';
 $labels['saturday']  = 'Zaterdag';
-
-// months short
 $labels['jan']	= 'Jan';
 $labels['feb']	= 'Feb';
 $labels['mar']	= 'Mrt';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Sep';
 $labels['oct']	= 'Okt';
 $labels['nov']	= 'Nov';
 $labels['dec']	= 'Dec';
-
-// months long
 $labels['longjan']	= 'Januari';
 $labels['longfeb']	= 'Februari';
 $labels['longmar']	= 'Maart';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'September';
 $labels['longoct']	= 'Oktober';
 $labels['longnov']	= 'November';
 $labels['longdec']	= 'December';
-
 $labels['today'] = 'Vandaag';
-
-// toolbar buttons
 $labels['refresh']          = 'Vernieuwen';
 $labels['checkmail']        = 'Controleer op nieuwe berichten';
 $labels['compose']          = 'Nieuw bericht opstellen';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'Meer acties...';
 $labels['more']             = 'Meer';
 $labels['back']             = 'Terug';
 $labels['options']          = 'Opties';
-
 $labels['select'] = 'Selecteren';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Geen';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Alles uitklappen';
 $labels['expand-unread'] = 'Ongelezen uitklappen';
 $labels['collapse-all'] = 'Alles inklappen';
 $labels['threaded'] = 'Conversaties';
-
 $labels['autoexpand_threads'] = 'Klap alle conversaties uit';
 $labels['do_expand'] = 'alle conversaties';
 $labels['expand_only_unread'] = 'alleen met ongelezen berichten';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'Kolommen';
 $labels['listsorting'] = 'Sorteerkolom';
 $labels['listorder'] = 'Sorteervolgorde';
 $labels['listmode'] = 'Lijstweergave mode';
-
 $labels['folderactions'] = 'Acties voor map...';
 $labels['compact'] = 'Comprimeren';
 $labels['empty'] = 'Legen';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Gebruikte schijfruimte';
 $labels['unknown']  = 'onbekend';
 $labels['unlimited']  = 'onbeperkt';
-
 $labels['quicksearch']  = 'Snelzoeken';
 $labels['resetsearch']  = 'Zoek opnieuw';
 $labels['searchmod']  = 'Zoekopties';
 $labels['msgtext']  = 'Volledig bericht';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Als nieuw bewerken';
 $labels['send']           = 'Verzenden';
 $labels['sendmessage']    = 'Bericht verzenden';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Ontvangstbevestiging';
 $labels['dsn']            = 'Delivery Status Notification';
 $labels['mailreplyintro'] = 'Op $date, schreef $sender:';
 $labels['originalmessage'] = 'Orgineel bericht';
-
 $labels['editidents']    = 'Bewerk identiteiten';
 $labels['spellcheck']    = 'Spellen';
 $labels['checkspelling'] = 'Controleer spelling';
 $labels['resumeediting'] = 'Hervat bewerken';
 $labels['revertto']      = 'Ongedaan maken';
-
 $labels['attach'] = 'Bijvoegen';
 $labels['attachments'] = 'Bijlagen';
 $labels['upload'] = 'Uploaden';
 $labels['uploadprogress'] = '$percent ($current van $total)';
 $labels['close']  = 'Sluiten';
 $labels['messageoptions']  = 'Opties voor bericht...';
-
 $labels['low']     = 'Laag';
 $labels['lowest']  = 'Laagste';
 $labels['normal']  = 'Normaal';
 $labels['high']    = 'Hoog';
 $labels['highest'] = 'Hoogste';
-
 $labels['nosubject']  = '(geen onderwerp)';
 $labels['showimages'] = 'Toon afbeeldingen';
 $labels['alwaysshow'] = 'Afbeeldingen van $sender altijd tonen';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'Dit is een concept bericht.';
 $labels['andnmore']   = '$nr meer...';
 $labels['togglemoreheaders'] = 'Toon meer berichthoofden';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Platte tekst';
 $labels['savesentmessagein'] = 'Bewaar verzonden bericht in';
 $labels['dontsave'] = 'niet bewaren';
 $labels['maxuploadsize'] = 'Maximum toegestane bestandsgrootte is $size';
-
 $labels['addcc'] = 'Cc toevoegen';
 $labels['addbcc'] = 'Bcc toevoegen';
 $labels['addreplyto'] = 'Antwoorden aan toevoegen';
 $labels['addfollowupto'] = 'Followup aan toevoegen';
-
-// mdn
 $labels['mdnrequest'] = 'De afzender heeft een ontvangstbevestiging gevraagd. Wilt u deze versturen?';
 $labels['receiptread'] = 'Ontvangstbevestiging (gelezen)';
 $labels['yourmessage'] = 'Dir is een onvangstbevestiging voor uw bericht';
 $labels['receiptnote'] = 'Opmerking: deze ontvangstbevestiging houdt enkel in dat het bericht was weergegeven bij de ontvanger. Er is geen garantie dat de ontvanger het bericht daadwerkelijk heeft gelezen en/of begrepen.';
-
-// address boook
 $labels['name']         = 'Naam';
 $labels['firstname']    = 'Voornaam';
 $labels['surname']      = 'Achternaam';
@@ -304,7 +264,6 @@ $labels['search'] = 'Search';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
-
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Assistant';
 $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
-
 $labels['addfield'] = 'Add field...';
 $labels['addcontact'] = 'Geselecteerde contactpersoon toevoegen';
 $labels['editcontact'] = 'Contactpersoon bewerken';
 $labels['contacts'] = 'Contactpersonen';
 $labels['contactproperties'] = 'Eigenschappen van contactpersoon';
 $labels['personalinfo'] = 'Personal information';
-
 $labels['edit']   = 'Bewerken';
 $labels['cancel'] = 'Annuleren';
 $labels['save']   = 'Opslaan';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Hernoemen';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
-
 $labels['newcontact']     = 'Contactpersoon toevoegen';
 $labels['deletecontact']  = 'Verwijder geselecteerde contactpersonen';
 $labels['composeto']      = 'Mail sturen aan';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Maak een nieuwe contactgroep';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'Toon vorige';
 $labels['firstpage']      = 'Toon eerste';
 $labels['nextpage']       = 'Toon volgende';
 $labels['lastpage']       = 'Toon laatste';
-
 $labels['group'] = 'Groep';
 $labels['groups'] = 'Groepen';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Personlijke adressen';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Importeer';
 $labels['importcontacts'] = 'Contactpersonen importeren';
 $labels['importfromfile'] = 'Importeer van bestand:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Vervang het complete adresboek';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Klaar';
-
-// settings
 $labels['settingsfor'] = 'Instellingen voor';
 $labels['about'] = 'About';
 $labels['preferences'] = 'Voorkeuren';
 $labels['userpreferences'] = 'Gebruikersvoorkeuren';
 $labels['editpreferences'] = 'Gebruikersvoorkeuren bewerken';
-
 $labels['identities'] = 'Identiteiten';
 $labels['manageidentities'] = 'Beheer de identiteiten voor deze gebruiker';
 $labels['newidentity'] = 'Nieuwe identiteit';
-
 $labels['newitem'] = 'Nieuw';
 $labels['edititem'] = 'Bewerken';
-
 $labels['preferhtml'] = 'Gebruik HTML-opmaak';
 $labels['defaultcharset'] = 'Standaard karakterset';
 $labels['htmlmessage'] = 'HTML-bericht';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Map';
 $labels['folders']  = 'Mappen';
 $labels['foldername']  = 'Naam';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'Sorteren op';
 $labels['sortasc']  = 'Oplopend sorteren';
 $labels['sortdesc'] = 'Aflopend sorteren';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'Engels';
 $labels['westerneuropean'] = 'West-Europees';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamees';
 $labels['japanese'] = 'Japans';
 $labels['korean'] = 'Koreaans';
 $labels['chinese'] = 'Chinees';
-
 ?>

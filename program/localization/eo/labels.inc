@@ -18,28 +18,21 @@
 
 $labels = array();
 
-// login page
 $labels['welcome']   = 'Bonvenon al $product';
 $labels['username']  = 'Uzantnomo';
 $labels['password']  = 'Pasvorto';
 $labels['server']    = 'Servilo';
 $labels['login']     = 'Ensaluti';
-
-// taskbar
 $labels['logout']   = 'Elsaluti';
 $labels['mail']     = 'Retpoŝto';
 $labels['settings'] = 'Agordoj';
 $labels['addressbook'] = 'Adresaro';
-
-// mailbox names
 $labels['inbox']  = 'Ricevitujo';
 $labels['drafts'] = 'Malnetujo';
 $labels['sent']   = 'Senditujo';
 $labels['trash']  = 'Rubujo';
 $labels['junk']   = 'Spamujo';
 $labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Temo';
 $labels['from']    = 'Sendanto';
 $labels['sender']  = 'Sender';
@@ -54,13 +47,11 @@ $labels['priority'] = 'Prioritato';
 $labels['organization'] = 'Organizo';
 $labels['readstatus'] = 'Legis statuson';
 $labels['listoptions'] = 'List-agordoj...';
-
 $labels['mailboxlist'] = 'Dosierujoj';
 $labels['messagesfromto'] = 'Mesaĝoj ekde $from ĝis $to de $count';
 $labels['threadsfromto'] = 'Fadenoj $from al $to de $count';
 $labels['messagenrof'] = 'Mesaĝo $nr-a de $count';
 $labels['fromtoshort'] = '$from - $to de $count';
-
 $labels['copy']     = 'Kopii';
 $labels['move']     = 'Movi';
 $labels['moveto']   = 'transloku al...';
@@ -68,13 +59,9 @@ $labels['download'] = 'elŝutu';
 $labels['open']     = 'Open';
 $labels['showattachment'] = 'Show';
 $labels['showanyway'] = 'Show it anyway';
-
 $labels['filename'] = 'Dosiernomo';
 $labels['filesize'] = 'Dosiergrando';
-
 $labels['addtoaddressbook'] = 'Aldonu al adresaro';
-
-// weekdays short
 $labels['sun'] = 'Dim';
 $labels['mon'] = 'Lun';
 $labels['tue'] = 'Mar';
@@ -82,8 +69,6 @@ $labels['wed'] = 'Mer';
 $labels['thu'] = 'Ĵaŭ';
 $labels['fri'] = 'Ven';
 $labels['sat'] = 'Sab';
-
-// weekdays long
 $labels['sunday']    = 'Dimanĉo';
 $labels['monday']    = 'Lundo';
 $labels['tuesday']   = 'Mardo';
@@ -91,8 +76,6 @@ $labels['wednesday'] = 'Merkredo';
 $labels['thursday']  = 'Ĵaŭdo';
 $labels['friday']    = 'Vendredo';
 $labels['saturday']  = 'Sabato';
-
-// months short
 $labels['jan']	= 'Jan';
 $labels['feb']	= 'Feb';
 $labels['mar']	= 'Mar';
@@ -105,8 +88,6 @@ $labels['sep']	= 'Sep';
 $labels['oct']	= 'Okt';
 $labels['nov']	= 'Nov';
 $labels['dec']	= 'Dec';
-
-// months long
 $labels['longjan']	= 'Januaro';
 $labels['longfeb']	= 'Februaro';
 $labels['longmar']	= 'Marto';
@@ -119,10 +100,7 @@ $labels['longsep']	= 'Septembro';
 $labels['longoct']	= 'Oktobro';
 $labels['longnov']	= 'Novembro';
 $labels['longdec']	= 'Decembro';
-
 $labels['today'] = 'Hodiaŭ';
-
-// toolbar buttons
 $labels['refresh']          = 'Aktualigi';
 $labels['checkmail']        = 'Kontroli por novaj mesaĝoj';
 $labels['compose']          = 'Verki';
@@ -155,7 +133,6 @@ $labels['moreactions']      = 'Pliaj agoj';
 $labels['more']             = 'Pli';
 $labels['back']             = 'Malantaŭen';
 $labels['options']          = 'Agordoj';
-
 $labels['select'] = 'Elektu';
 $labels['all'] = 'Ĉion';
 $labels['none'] = 'Nenion';
@@ -174,7 +151,6 @@ $labels['expand-all'] = 'Malfaldi ĉion';
 $labels['expand-unread'] = 'Malfaldi Nelegitajn';
 $labels['collapse-all'] = 'Faldi ĉion';
 $labels['threaded'] = 'Fadenita';
-
 $labels['autoexpand_threads'] = 'Malfaldi mesaĝ-fadenojn';
 $labels['do_expand'] = 'Ĉiuj fadenoj';
 $labels['expand_only_unread'] = 'Nur kun nelegitaj mesaĝoj';
@@ -190,29 +166,23 @@ $labels['listcolumns'] = 'List-rubrikoj';
 $labels['listsorting'] = 'Ordig-rubriko';
 $labels['listorder'] = 'Ordig-ordo';
 $labels['listmode'] = 'List view mode';
-
 $labels['folderactions'] = 'Dosierujo-agoj';
 $labels['compact'] = 'Kompakta';
 $labels['empty'] = 'Malplena';
 $labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Diskuzo';
 $labels['unknown']  = 'nekonata';
 $labels['unlimited']  = 'senlima';
-
 $labels['quicksearch']  = 'Rapida serĉo';
 $labels['resetsearch']  = 'Vakigu serĉon';
 $labels['searchmod']  = 'Serĉ-opcioj';
 $labels['msgtext']  = 'Tuta mesaĝo';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Malfermu en nova fenestro';
 $labels['emlsave'] = 'Elŝutu (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
 $labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Redaktu kiel nova';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Sendu mesaĝon';
@@ -224,26 +194,22 @@ $labels['returnreceipt']  = 'Return receipt';
 $labels['dsn']            = 'Ricev-status-konfirmo';
 $labels['mailreplyintro'] = 'Je $date, $sender skribis:';
 $labels['originalmessage'] = 'Originala mesaĝo';
-
 $labels['editidents']    = 'Redaktu identojn';
 $labels['spellcheck']    = 'Literumu';
 $labels['checkspelling'] = 'Kontrolu literumadon';
 $labels['resumeediting'] = 'Rekomencu redaktadon';
 $labels['revertto']      = 'Reiru al';
-
 $labels['attach'] = 'Alfiksu';
 $labels['attachments'] = 'Alfiksaĵoj';
 $labels['upload'] = 'Alŝutu';
 $labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Fermi';
 $labels['messageoptions']  = 'Mesaĝ-agordoj...';
-
 $labels['low']     = 'Malalta';
 $labels['lowest']  = 'Plej malalta';
 $labels['normal']  = 'Normala';
 $labels['high']    = 'Alta';
 $labels['highest'] = 'Plej alta';
-
 $labels['nosubject']  = '(sen temo)';
 $labels['showimages'] = 'Montru bildojn';
 $labels['alwaysshow'] = 'Ĉiam montru bildojn de $sender';
@@ -251,25 +217,19 @@ $labels['isdraft']    = 'Ĉi-mesaĝo estas malneto';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Plata teksto';
 $labels['savesentmessagein'] = 'Konservu senditan mesaĝon en';
 $labels['dontsave'] = 'Ne konservu';
 $labels['maxuploadsize'] = 'Maksimuma permesata dosier-grando estas $size';
-
 $labels['addcc'] = 'Aldonu kopi-ricevanton';
 $labels['addbcc'] = 'Aldonu blindan kopi-ricevanton';
 $labels['addreplyto'] = 'Aldonu Respondu-Al';
 $labels['addfollowupto'] = 'Aldonu Respondu-Al';
-
-// mdn
 $labels['mdnrequest'] = 'La sendinto de ĉi tiu mesaĝo petis sciigon de kiam vi legas ĝin. Ĉu volas sciigi la sendinton?';
 $labels['receiptread'] = 'Legokonfirmo';
 $labels['yourmessage'] = 'Jen estas legokonfirmo de via mesaĝo';
 $labels['receiptnote'] = 'Notu: Ĉi tiu konfirmo nur asertas ke la mesaĝo estis malfermita je la komputilo de la ricevinto. Ne estas garantio ke la ricevinto legis aŭ komprenis la enhavon.';
-
-// address boook
 $labels['name']         = 'Nomo';
 $labels['firstname']    = 'Antaŭnomo';
 $labels['surname']      = 'Familia nomo';
@@ -304,7 +264,6 @@ $labels['search'] = 'Serĉu';
 $labels['advsearch'] = 'Detala sercô';
 $labels['advanced'] = 'Altnivela';
 $labels['other'] = 'Alia';
-
 $labels['typehome']   = 'Hejmo';
 $labels['typework']   = 'Laboro';
 $labels['typeother']  = 'Alia';
@@ -319,14 +278,12 @@ $labels['typeassistant']  = 'Asistanto';
 $labels['typehomepage']  = 'Hejmpaĝo';
 $labels['typeblog'] = 'Blogo';
 $labels['typeprofile'] = 'Profilo';
-
 $labels['addfield'] = 'Aldonu kampon...';
 $labels['addcontact'] = 'Aldonu kontakton';
 $labels['editcontact'] = 'Redaktu kontakton';
 $labels['contacts'] = 'Kontaktoj';
 $labels['contactproperties'] = 'Kontakt-informoj';
 $labels['personalinfo'] = 'Personaj informoj';
-
 $labels['edit']   = 'Redaktu';
 $labels['cancel'] = 'Nuligi';
 $labels['save']   = 'Konservi';
@@ -335,7 +292,6 @@ $labels['rename'] = 'Alinomu';
 $labels['addphoto'] = 'Aldonu';
 $labels['replacephoto'] = 'Anstataŭu';
 $labels['uploadphoto'] = 'Alŝutu bildon';
-
 $labels['newcontact']     = 'Kreu novan kontakton';
 $labels['deletecontact']  = 'Forigu elektatajn kontaktojn';
 $labels['composeto']      = 'Verku mesaĝon al';
@@ -349,20 +305,16 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
-
 $labels['previouspage']   = 'Montru auntaŭan';
 $labels['firstpage']      = 'Montru unuan';
 $labels['nextpage']       = 'Montru sekvan';
 $labels['lastpage']       = 'Montru lastan';
-
 $labels['group'] = 'Group';
 $labels['groups'] = 'Grupoj';
 $labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Persona Adresoj';
-
 $labels['searchsave'] = 'Save search';
 $labels['searchdelete'] = 'Delete search';
-
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importfromfile'] = 'Import from file:';
@@ -370,21 +322,16 @@ $labels['importtarget'] = 'Add new contacts to address book:';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
-
-// settings
 $labels['settingsfor'] = 'Preferoj de';
 $labels['about'] = 'About';
 $labels['preferences'] = 'Preferoj';
 $labels['userpreferences'] = 'Uzant-preferoj';
 $labels['editpreferences'] = 'Redaktu uzant-preferojn';
-
 $labels['identities'] = 'Identoj';
 $labels['manageidentities'] = 'Administru identojn de ĉi tiu konto';
 $labels['newidentity'] = 'Nova idento';
-
 $labels['newitem'] = 'Nova ero';
 $labels['edititem'] = 'Redaktu eron';
-
 $labels['preferhtml'] = 'Montru HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Mesaĝo';
@@ -480,7 +427,6 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
-
 $labels['folder']  = 'Dosierujo';
 $labels['folders']  = 'Dosierujoj';
 $labels['foldername']  = 'Dosierujo-nomo';
@@ -501,26 +447,20 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder']  = 'Private Folder';
 $labels['otherfolder']  = 'Other User\'s Folder';
 $labels['sharedfolder']  = 'Public Folder';
-
 $labels['sortby'] = 'Ordigu per';
 $labels['sortasc']  = 'Ordigu kreskante';
 $labels['sortdesc'] = 'Ordigu malkreskante';
 $labels['undo'] = 'Undo';
-
 $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'English';
 $labels['westerneuropean'] = 'Western European';
@@ -539,5 +479,4 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-
 ?>

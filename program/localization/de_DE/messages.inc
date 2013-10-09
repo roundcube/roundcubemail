@@ -172,5 +172,4 @@ $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben.
 $messages['messagetoobig'] = 'Die Nachricht ist zu gross und kann nicht verarbeitet werden.';
 $messages['attachmentvalidationerror'] = 'WARNUNG! Dieser Anhang ist verdächtig, weil sein Typ nicht dem in der Nachricht deklarierten Typ entspricht. Wenn Sie dem Sender nicht trauen, sollten Sie den Anhang nicht öffnen, weil er schadhaften Inhalte beinhalten könnte.<br/><br/><em>Erwartet: $expected; gefunden: $detected</em>';
 $messages['noscriptwarning'] = 'Warnung: Dieser Webmail-Service erfordert Javascript. Um ihn zu benutzten aktivieren Sie Javascript in ihren Browser-Einstellungen.';
-
 ?>
