@@ -685,7 +685,7 @@ function rcube_webmail()
 
       case 'open':
         if (uid = this.get_single_uid()) {
-          obj.href = this.url('show', {_mbox: this.env.mailbox, _uid: uid});
+          obj.href = this.url('show', {_mbox: this.get_message_mailbox(uid), _uid: uid});
           return true;
         }
         break;
@@ -788,9 +788,9 @@ function rcube_webmail()
           this.load_contact(cid, 'edit');
         else if (this.task == 'settings' && props)
           this.load_identity(props, 'edit-identity');
-        else if (this.task == 'mail' && (cid = this.get_single_uid())) {
-          url = { _mbox: this.env.mailbox };
-          url[this.env.mailbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = cid;
+        else if (this.task == 'mail' && (uid = this.get_single_uid())) {
+          url = { _mbox: this.get_message_mailbox(uid) };
+          url[this.env.mailbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = uid;
           this.open_compose_step(url);
         }
         break;
@@ -1070,7 +1070,7 @@ function rcube_webmail()
       case 'reply-list':
       case 'reply':
         if (uid = this.get_single_uid()) {
-          url = {_reply_uid: uid, _mbox: this.env.mailbox};
+          url = {_reply_uid: uid, _mbox: this.get_message_mailbox(uid)};
           if (command == 'reply-all')
             // do reply-list, when list is detected and popup menu wasn't used
             url._all = (!props && this.env.reply_all_mode == 1 && this.commands['reply-list'] ? 'list' : 'all');
@@ -1098,7 +1098,7 @@ function rcube_webmail()
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {
-          ref.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox)+(this.env.safemode ? '&_safe=1' : ''), true, true);
+          ref.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.get_message_mailbox(uid))+(this.env.safemode ? '&_safe=1' : ''), true, true);
           if (this.printwin) {
             if (this.env.action != 'show')
               this.mark_message('read', uid);
@@ -1115,8 +1115,9 @@ function rcube_webmail()
         if (this.env.action == 'get') {
           location.href = location.href.replace(/_frame=/, '_download=');
         }
-        else if (uid = this.get_single_uid())
-          this.goto_url('viewsource', { _uid: uid, _mbox: this.env.mailbox, _save: 1 });
+        else if (uid = this.get_single_uid()) {
+          this.goto_url('viewsource', { _uid: uid, _mbox: this.get_message_mailbox(uid), _save: 1 });
+        }
         break;
 
       // quicksearch
@@ -1820,6 +1821,7 @@ function rcube_webmail()
       selected: this.select_all_mode || this.message_list.in_selection(uid),
       ml: flags.ml?1:0,
       ctype: flags.ctype,
+      mbox: flags.mbox,
       // flags from plugins
       flags: flags.extra_flags
     });
@@ -2022,7 +2024,7 @@ function rcube_webmail()
 
     var win, target = window,
       action = preview ? 'preview': 'show',
-      url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.env.mailbox);
+      url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.get_message_mailbox(id));
 
     if (preview && (win = this.get_frame_window(this.env.contentframe))) {
       target = win;
@@ -7423,6 +7425,13 @@ function rcube_webmail()
   {
     return this.env.cid ? this.env.cid : (this.contact_list ? this.contact_list.get_single_selection() : null);
   };
+
+  // get the IMP mailbox of the message with the given UID
+  this.get_message_mailbox = function(uid)
+  {
+    var msg = this.env.messages ? this.env.messages[uid] : {};
+    return msg.mbox || this.env.mailbox;
+  }
 
   // gets cursor position
   this.get_caret_pos = function(obj)

@@ -68,6 +68,21 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     $OUTPUT->set_env('search_text', $_SESSION['last_text_search']);
 }
 
+// remove mbox part from _uid
+if (($_uid  = get_input_value('_uid', RCUBE_INPUT_GPC)) && preg_match('/^\d+-[^,]+$/', $_uid)) {
+  list($_uid, $mbox) = explode('-', $_uid);
+  if (isset($_GET['_uid']))  $_GET['_uid']  = $_uid;
+  if (isset($_POST['_uid'])) $_POST['_uid'] = $_uid;
+  $_REQUEST['_uid'] = $_uid;
+  unset($_uid);
+
+  if (empty($_REQUEST['_mbox']) && !empty($mbox)) {
+    $_GET['_mbox']  = $mbox;
+    $_POST['_mbox'] = $mbox;
+  }
+}
+
+
 // set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     // connect to storage server and trigger error on failure
@@ -165,6 +180,35 @@ $RCMAIL->register_action_map(array(
     'group-expand'       => 'autocomplete.inc',
 ));
 
+
+/**
+ * Returns message UID(s) and IMAP folder(s) from GET/POST data
+ *
+ * @return array List of message UIDs per folder
+ */
+function rcmail_get_uids()
+{
+    // message UID (or comma-separated list of IDs) is provided in
+    // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
+
+    $_uid  = get_input_value('_uid', RCUBE_INPUT_GPC);
+    $_mbox = (string)get_input_value('_mbox', RCUBE_INPUT_GPC);
+
+    if (is_array($uid)) {
+        return $uid;
+    }
+
+    // create a per-folder UIDs array
+    $result = array();
+    foreach (explode(',', $_uid) as $uid) {
+        list($uid, $mbox) = explode('-', $uid, 2);
+        if (empty($mbox))
+            $mbox = $_mbox;
+        $result[$mbox][] = $uid;
+    }
+
+    return $result;
+}
 
 
 /**
