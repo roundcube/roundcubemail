@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'Įtraukti vizitinę kortelę į adresų knygą';
 $labels['vcardsavefailed'] = 'Įrašyti vizitinės kortelės nepavyko';
-
 ?>

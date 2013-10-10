@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtres';
 $labels['managefilters'] = 'Gestiona els filtres dels missatges d\'entrada';
 $labels['filtername'] = 'Nom del filtre';
@@ -56,7 +54,6 @@ $labels['add'] = 'Afegeix';
 $labels['del'] = 'Suprimeix';
 $labels['sender'] = 'Remitent';
 $labels['recipient'] = 'Destinatari/a';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'Cada quan enviar un missatge (en dies):';
 $labels['vacationinterval'] = 'Amb quina freqüència enviar missatges:';
 $labels['days'] = 'dies';
@@ -159,39 +156,27 @@ $labels['asciicasemap'] = 'No distingeix entre majúscules i minúscules  (ascii
 $labels['asciinumeric'] = 'numèric (ascii-numeric)';
 $labels['index'] = 'índex:';
 $labels['indexlast'] = 'cap enrere';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Error desconegut al servidor.';
 $messages['filterconnerror'] = 'No s\'ha pogut connectar al servidor.';
-$messages['filterdeleteerror'] = 'No s\'ha pogut suprimir el filtre. Hi ha hagut un error al servidor.';
 $messages['filterdeleted'] = 'El filtre s\'ha suprimit correctament.';
 $messages['filtersaved'] = 'Filtre desat correctament.';
-$messages['filtersaveerror'] = 'No s\'ha pogut desar el filtre. Hi ha hagut un error al servidor.';
 $messages['filterdeleteconfirm'] = 'Realment voleu suprimit el filtre seleccionat?';
 $messages['ruledeleteconfirm'] = 'Esteu segur que voleu suprimir la norma seleccionada?';
 $messages['actiondeleteconfirm'] = 'Esteu segur que voleu suprimir l\'acció seleccionada?';
 $messages['forbiddenchars'] = 'El camp conté caràcters prohibits.';
 $messages['cannotbeempty'] = 'El camp no pot estar buit.';
 $messages['ruleexist'] = 'Ja existeix un filtre amb aquest nom';
-$messages['setactivateerror'] = 'No s\'ha pogut activar el fitlre seleccionat. Hi ha hagut un error al servidor.';
-$messages['setdeactivateerror'] = 'No s\'ha pogut desactivar el fitlre seleccionat. Hi ha hagut un error al servidor.';
-$messages['setdeleteerror'] = 'No s\'ha pogut suprimir el conjunt de filtres seleccionats. Hi ha hagut un error al servidor.';
 $messages['setactivated'] = 'El conjunt de filtres s\'ha activat correctament.';
 $messages['setdeactivated'] = 'El conjunt de filtres s\'ha desactivat correctament.';
 $messages['setdeleted'] = 'El conjunt de filtres s\'ha suprimit correctament.';
 $messages['setdeleteconfirm'] = 'Esteu segurs que voleu suprimir el conjunt de filtres seleccionats?';
-$messages['setcreateerror'] = 'No s\'ha pogut crear el conjunt de filtres. Hi ha hagut un error al servidor.';
 $messages['setcreated'] = 'S\'ha creat correctament el conjunt de filtres.';
-$messages['activateerror'] = 'No s\'ha pogut habilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
-$messages['deactivateerror'] = 'No s\'ha pogut deshabilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
 $messages['deactivated'] = 'Filtre(s) habilitat(s) correctament.';
 $messages['activated'] = 'Filtre(s) deshabilitat(s) correctament.';
 $messages['moved'] = 'S\'ha mogut correctament el filtre.';
-$messages['moveerror'] = 'No s\'ha pogut moure el filtre seleccionat. Hi ha hagut un error al servidor.';
 $messages['nametoolong'] = 'El nom és massa llarg.';
 $messages['namereserved'] = 'Nom reservat.';
 $messages['setexist'] = 'El conjunt ja existeix.';
 $messages['nodata'] = 'S\'ha de seleccionar com a mínim una posició!';
 $messages['invaliddateformat'] = 'data no vàlida o format no vàlid';
-
 ?>

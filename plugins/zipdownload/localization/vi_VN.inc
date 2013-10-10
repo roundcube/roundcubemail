@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
-$labels = array();
 $labels['downloadall'] = 'Tải tất cả đính kèm về';
 $labels['downloadfolder'] = 'Tải giữ liệu về';
-
 ?>

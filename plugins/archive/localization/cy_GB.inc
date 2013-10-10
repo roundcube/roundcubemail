@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Archif';
 $labels['buttontitle'] = 'Archifo\'r neges hwn';
 $labels['archived'] = 'Archifwyd yn llwyddiannus';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = 'Mis (e.g. Archif/2012/06)';
 $labels['archivetypefolder'] = 'Ffolder gwreiddiol';
 $labels['archivetypesender'] = 'Ebost anfonwr';
 $labels['unkownsender'] = 'anhysbys';
-
 ?>

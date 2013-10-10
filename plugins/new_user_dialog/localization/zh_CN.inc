@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = '请填写发送人身份';
 $labels['identitydialoghint'] = '本提示仅在第一次登录时显示。';
-
 ?>

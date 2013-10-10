@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Si us plau, completeu la identitat del vostre remitent';
 $labels['identitydialoghint'] = 'Aquest quadre només apareix un cop a la primera entrada.';
-
 ?>

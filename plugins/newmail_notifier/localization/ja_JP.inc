@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = '新しいメッセージの通知をブラウザーに表示';
 $labels['desktop'] = '新しいメッセージの通知をデスクトップに表示';
 $labels['sound'] = '新しいメッセージが届くと音を再生';
@@ -25,6 +24,5 @@ $labels['body'] = '新しいメッセージを受信しました。';
 $labels['testbody'] = 'これはテストの通知です。';
 $labels['desktopdisabled'] = 'ブラウザーでデスクトップ通知が無効になっています。';
 $labels['desktopunsupported'] = 'ブラウザーがデスクトップ通知をサポートしていません。';
-$labels['desktoptimeout'] = 'Close desktop notification';
-
+$labels['desktoptimeout'] = 'デスクトップ通知を閉じる';
 ?>

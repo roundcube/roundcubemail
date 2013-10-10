@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Hi ha hagut un error!';
 $messages['loginfailed']  = 'L\'accés ha fallat.';
 $messages['cookiesdisabled'] = 'El vostre navegador no accepta cookies.';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'No s\'ha trobat el contacte sol·licitat.';
 $messages['contactsearchonly'] = 'Introduïu termes de cerca per trobar contactes';
 $messages['sendingfailed'] = 'Error enviant el missatge.';
 $messages['senttooquickly'] = 'Si us plau, espereu $sec segon(s) abans d\'enviar aquest missatge.';
-$messages['errorsavingsent'] = 'Hi ha hagut un error mentre es desava el missatge enviat.';
-$messages['errorsaving'] = 'Hi ha hagut un error mentre s\'estava desant.';
 $messages['errormoving'] = 'No s\'ha pogut moure el(s) missatge(s).';
 $messages['errorcopying'] = 'No s\'ha pogut copiar el(s) missatge(s).';
 $messages['errordeleting'] = 'No s\'ha pogut suprimir el(s) missatge(s).';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Adreça de correu no vàlida: $email';
 $messages['toomanyrecipients'] = 'Massa destinataris. Reduïu el nombre de destinataris a $max.';
 $messages['maxgroupmembersreached'] = 'El nombre de membres del grup excedeix el màxim de $max.';
-$messages['internalerror'] = 'Hi ha hagut un error intern. Si us plau torneu-ho a provar.';
 $messages['contactdelerror'] = 'No s\'han pogut suprimir el(s) contacte(s).';
 $messages['contactdeleted'] = 'Contacte(s) suprimit(s) correctament.';
 $messages['contactrestoreerror'] = 'No s\'ha pogut restaurar el(s) contacte(s) suprimit(s).';
@@ -172,5 +167,4 @@ $messages['parentnotwritable'] = 'No s\'ha pogut crear/moure la carpeta dins de 
 $messages['messagetoobig'] = 'La part del missatge és massa gran per processar-la.';
 $messages['attachmentvalidationerror'] = 'ATENCIÓ! Aquest adjunt és sospitós perquè el seu tipus no coincideix amb el tipus declarat al missatge. Si no confieu en l\'emissor, no l\'hauríeu d\'obrir al navegador perquè pot contenir elements maliciosos. <br/><br/><em>S\'esperava: $expected; s\'ha trobat: $detected</em>';
 $messages['noscriptwarning'] = 'Atenció: Aquest client de correu necessita Javascript! Per a poder fer-lo servir, heu d\'activar Javascript a les opcions del navegador.';
-
 ?>

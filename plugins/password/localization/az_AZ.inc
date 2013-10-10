@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Şifrəni dəyiş';
 $labels['curpasswd']  = 'Hal-hazırki şifrə:';
 $labels['newpasswd']  = 'Yeni şifrə:';
 $labels['confpasswd']  = 'Yeni şifrə: (təkrar)';
-
-$messages = array();
 $messages['nopassword'] = 'Yeni şifrəni daxil edin.';
 $messages['nocurpassword'] = 'Hal-hazırda istifadə etdiyiniz şifrəni daxil edin.';
 $messages['passwordincorrect'] = 'Yalnış şifrə daxil etdiniz.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Yeni şifrənin saxlanılması mümkün olmadı.';
 $messages['passwordshort'] = 'Yeni şifrə $length simvoldan uzun olmalıdır.';
 $messages['passwordweak'] = 'Şifrədə heç olmasa minimum bir rəqəm və simvol olmalıdır.';
 $messages['passwordforbidden'] = 'Şifrədə icazə verilməyən simvollar vardır.';
-
 ?>

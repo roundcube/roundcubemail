@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Levélszemét';
 $labels['buttontitle'] = 'Szemétnek jelölés';
 $labels['reportedasjunk'] = 'Sikeresen szemétnek jelentve';
-
 ?>

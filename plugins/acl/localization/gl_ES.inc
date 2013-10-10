@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Compartindo';
 $labels['myrights'] = 'Dereitos de acceso';
 $labels['username'] = 'Usuario:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Accións sobre os dereitos de acceso...';
 $labels['anyone'] = 'Tódolos usuarios (calquera)';
 $labels['anonymous'] = 'Invitados (anónimo)';
 $labels['identifier'] = 'Identificador';
-
 $labels['acll'] = 'Bloquear';
 $labels['aclr'] = 'Ler mensaxes';
 $labels['acls'] = 'Manter o estado coma visto';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Borrar mensaxes';
 $labels['acle'] = 'Expurga';
 $labels['aclx'] = 'Eliminar carpeta';
 $labels['acla'] = 'Administrar';
-
 $labels['aclfull'] = 'Control total';
 $labels['aclother'] = 'Outros';
 $labels['aclread'] = 'Lectura';
 $labels['aclwrite'] = 'Escritura';
 $labels['acldelete'] = 'Borrado';
-
 $labels['shortacll'] = 'Busca';
 $labels['shortaclr'] = 'Ler';
 $labels['shortacls'] = 'Manter';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Borrar';
 $labels['shortacle'] = 'Expurga';
 $labels['shortaclx'] = 'Borrar cartafol';
 $labels['shortacla'] = 'Administrar';
-
 $labels['shortaclother'] = 'Outros';
 $labels['shortaclread'] = 'Lectura';
 $labels['shortaclwrite'] = 'Escritura';
 $labels['shortacldelete'] = 'Borrado';
-
 $labels['longacll'] = 'O cartafol é visible e pode ser suscrito';
 $labels['longaclr'] = 'Pódese abrir o cartafol para lectura';
 $labels['longacls'] = 'Pódese mudar o marcador de Mensaxes Enviadas';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'Pódense mudar as mensaxes coa marca de Borrado';
 $labels['longacle'] = 'Pódense eliminar as mensaxes';
 $labels['longaclx'] = 'Pódese borrar ou renomear o cartafol';
 $labels['longacla'] = 'Pódense mudar os dereitos de acceso ao cartafol';
-
 $labels['longaclfull'] = 'Control total inclúe administración de cartafois';
 $labels['longaclread'] = 'Pódese abrir o cartafol para lectura';
 $labels['longaclwrite'] = 'Pódense marcar, escribir ou copiar as mensaxes no cartafol';
 $labels['longacldelete'] = 'Pódense borrar as mensaxes';
-
 $messages['deleting'] = 'Borrando dereitos de acceso...';
 $messages['saving'] = 'Gardando dereitos de acceso...';
 $messages['updatesuccess'] = 'Mudados con éxito os dereitos de acceso';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'Non se poden engadir dereitos de acceso';
 $messages['deleteconfirm'] = 'De certo quere eliminar os dereitos de acceso do usuario(s) escollido?';
 $messages['norights'] = 'Non se especificaron permisos!';
 $messages['nouser'] = 'Non se especificou o nome de usuario!';
-
 ?>

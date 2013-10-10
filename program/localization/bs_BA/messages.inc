@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Desila se greška!';
 $messages['loginfailed']  = 'Prijava nije uspjela.';
 $messages['cookiesdisabled'] = 'Vaš preglednik ne prihvata kolačiće.';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Traženi kontakt nije pronađen.';
 $messages['contactsearchonly'] = 'Unesite neki pojam za pretragu';
 $messages['sendingfailed'] = 'Greška pri slanju poruke.';
 $messages['senttooquickly'] = 'Molimo sačekajte $sec sekundi prije slanja ove poruke.';
-$messages['errorsavingsent'] = 'Desila se greška pri snimanju poslane poruke.';
-$messages['errorsaving'] = 'Desila se greška pri snimanju.';
 $messages['errormoving'] = 'Nije moguće premjestiti poruke.';
 $messages['errorcopying'] = 'Nije moguće kopirati poruke.';
 $messages['errordeleting'] = 'Nije moguće obrisati poruke.';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'SMTP greška: $msg';
 $messages['emailformaterror'] = 'Netačna email adresa: $email';
 $messages['toomanyrecipients'] = 'Previše primaoca. Smanjite broj primaoca na $max.';
 $messages['maxgroupmembersreached'] = 'Broj članova grupe prelazi maksimum od $max.';
-$messages['internalerror'] = 'Dogodila se interna greška. Molimo vas da pokušate ponovo.';
 $messages['contactdelerror'] = 'Kontakti ne mogu biti obrisani.';
 $messages['contactdeleted'] = 'Kontakti su uspješno obrisani.';
 $messages['contactrestoreerror'] = 'Nije moguće vratiti obrisane kontakte.';
@@ -172,5 +167,4 @@ $messages['parentnotwritable'] = 'Nije moguće kreirati/premjestiti folder u oda
 $messages['messagetoobig'] = 'Dio poruke je prevelik za procesiranje.';
 $messages['attachmentvalidationerror'] = 'UPOZORENJE! Ovaj prilog je sumnjiv zbog toga što se njegov tip ne poklapa s tipom navedenim u poruci. Ako nemate povjerenja u pošiljaova, ne biste trebali da otvarate ovaj prilog u vašem browseru jer bi on mogao da sadrži zlonamjerni sadržaj.<br/><br/><em>Očekivano: $expected; pronađeno: $detected</em>';
 $messages['noscriptwarning'] = 'Upozorenje! Ovom webmail servisu je potreban Javascript! Da biste ga mogli koristiti, prvo je potrebno da omogućite Javascript u postavkama vašeg browsera.';
-
 ?>

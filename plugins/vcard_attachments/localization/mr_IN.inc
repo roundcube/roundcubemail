@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'व्हीकार्ड पत्ते नोंदवहीत समाविष्ट करा';
 $labels['vcardsavefailed'] = 'व्हीकार्ड जतन करण्यास असमर्थ';
-
 ?>

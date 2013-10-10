@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Muuda parooli';
 $labels['curpasswd']  = 'Vana parool:';
 $labels['newpasswd']  = 'Uus parool:';
 $labels['confpasswd']  = 'Uus parool uuesti:';
-
-$messages = array();
 $messages['nopassword'] = 'Palun sisesta uus parool.';
 $messages['nocurpassword'] = 'Palun sisesta vana parool.';
 $messages['passwordincorrect'] = 'Vana parool on vale.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Uue parooli andmebaasi salvestamine nurjus.';
 $messages['passwordshort'] = 'Parool peab olema vähemalt $length märki pikk.';
 $messages['passwordweak'] = 'Parool peab sisaldama vähemalt üht numbrit ja märki.';
 $messages['passwordforbidden'] = 'Parool sisaldab keelatud märki.';
-
 ?>

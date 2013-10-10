@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Skrýt';
 $labels['show'] = 'Zobrazit';
 $labels['quotelimit'] = 'Skrýt citaci pokud je počet řádků větší než';
-
 ?>

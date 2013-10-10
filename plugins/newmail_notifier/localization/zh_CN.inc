@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = '在浏览器中显示新邮件提醒';
 $labels['desktop'] = '在桌面显示新邮件提醒';
 $labels['sound'] = '收到新邮件时播放声音';
@@ -25,6 +24,4 @@ $labels['body'] = '您收到一封新邮件。';
 $labels['testbody'] = '这是一个提醒测试。';
 $labels['desktopdisabled'] = '您的浏览器已禁止桌面提醒功能。';
 $labels['desktopunsupported'] = '您的浏览器不支持桌面提醒功能。';
-$labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

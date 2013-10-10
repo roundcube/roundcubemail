@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Prašom užpildyti trūkstamą informaciją apie save';
 $labels['identitydialoghint'] = 'Šis langas rodomas tik prisijungus pirmąjį kartą.';
-
 ?>

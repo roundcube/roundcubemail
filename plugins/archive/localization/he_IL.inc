@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = 'ארכיון';
 $labels['buttontitle'] = 'משלוח ההודעה לארכיב';
 $labels['archived'] = 'עדכון הארכיון הצליח';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = 'חודש ( לדוגמה, ארכיב/2012/96 )';
 $labels['archivetypefolder'] = 'תיקיה מקורית';
 $labels['archivetypesender'] = 'שולח ההודעה';
 $labels['unkownsender'] = 'לא ידוע';
-
 ?>

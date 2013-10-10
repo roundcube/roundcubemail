@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'מסננים';
 $labels['managefilters'] = 'ניהול מסננים לדואר נכנס';
 $labels['filtername'] = 'שם המסנן';
@@ -56,7 +54,6 @@ $labels['add'] = 'הוספה';
 $labels['del'] = 'מחיקה';
 $labels['sender'] = 'השולח';
 $labels['recipient'] = 'הנמען';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'באיזו תדירות ( בימים ) לשלוח הודעות:';
 $labels['vacationinterval'] = 'באיזו תדירות לשלוח ההודעה';
 $labels['days'] = 'ימים';
@@ -159,39 +156,27 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'אינדקס:';
 $labels['indexlast'] = 'בחזרה';
-
-$messages = array();
 $messages['filterunknownerror'] = 'שגיאת שרת בלתי מוכרת.';
 $messages['filterconnerror'] = 'לא ניתן להתחבר לשרת.';
-$messages['filterdeleteerror'] = 'לא ניתן למחוק את המסנן. אירעה שגיאה בצד השרת.';
 $messages['filterdeleted'] = 'המסנן נמחק בהצלחה.';
 $messages['filtersaved'] = 'המסנן נשמר בהצלחה.';
-$messages['filtersaveerror'] = 'לא ניתן לשמור את המסנן. אירעה שגיאה בצד השרת.';
 $messages['filterdeleteconfirm'] = 'האם אכן ברצונך למחוק את המסנן הנבחר?';
 $messages['ruledeleteconfirm'] = 'האם אכן ברצונך למחוק את הכלל הנבחר?';
 $messages['actiondeleteconfirm'] = 'האם אכן ברצונך למחוק את הפעולה הנבחרת?';
 $messages['forbiddenchars'] = 'תווים אסורים בשדה.';
 $messages['cannotbeempty'] = 'השדה לא יכול להישאר ריק.';
 $messages['ruleexist'] = 'כבר קיים מסנן בשם כזה.';
-$messages['setactivateerror'] = 'לא ניתן להפעיל את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
-$messages['setdeactivateerror'] = 'לא ניתן לנטרל את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
-$messages['setdeleteerror'] = 'לא ניתן למחוק את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
 $messages['setactivated'] = 'ערכת המסננים הופעלה בהצלחה.';
 $messages['setdeactivated'] = 'ערכת המסננים נוטרלה בהצלחה.';
 $messages['setdeleted'] = 'ערכת המסננים נמחקה בהצלחה.';
 $messages['setdeleteconfirm'] = 'האם אכן ברצונך למחוק את ערכת המסננים הנבחרת?';
-$messages['setcreateerror'] = 'לא ניתן ליצור ערכת מסננים. אירעה שגיאה בצד השרת.';
 $messages['setcreated'] = 'ערכת המסננים נוצרה בהצלחה.';
-$messages['activateerror'] = 'לא ניתן להפעיל את המסננים הנבחרים. אירעה שגיאה בצד השרת.';
-$messages['deactivateerror'] = 'לא ניתן לנטרל את המסננים הנבחרים. אירעה שגיאה בצד השרת.';
 $messages['deactivated'] = 'המסננים הופעלו בהצלחה.';
 $messages['activated'] = 'המסננים נוטרלו בהצלחה.';
 $messages['moved'] = 'המסנן הועבר בהצלחה.';
-$messages['moveerror'] = 'לא ניתן להעביר את המסנן הנבחר. אירעה שגיאה בצד השרת.';
 $messages['nametoolong'] = 'השם ארוך מדי.';
 $messages['namereserved'] = 'השם הזה שמור.';
 $messages['setexist'] = 'הערכה כבר קיימת.';
 $messages['nodata'] = 'חובה לבחור במיקום אחד לפחות!';
 $messages['invaliddateformat'] = 'תאריך לא חוקי אן פורמט לא תקין';
-
 ?>

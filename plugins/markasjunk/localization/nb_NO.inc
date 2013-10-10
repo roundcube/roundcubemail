@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Useriøs e-post';
 $labels['buttontitle'] = 'Marker som useriøs e-post';
 $labels['reportedasjunk'] = 'Rapportering av useriøs e-post var vellykket';
-
 ?>

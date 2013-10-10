@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = 'بنجل';
 $labels['buttontitle'] = 'علامت گذاری به عنوان بنجل';
 $labels['reportedasjunk'] = 'با موفقیت به عنوان بنجل گزارش شد';
-
 ?>

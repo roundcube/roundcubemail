@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Promijeni šifru';
 $labels['curpasswd']  = 'Trenutna šifra:';
 $labels['newpasswd']  = 'Nova šifra:';
 $labels['confpasswd']  = 'Potvrdite novu šifru:';
-
-$messages = array();
 $messages['nopassword'] = 'Molimo vas da upišete novu šifru.';
 $messages['nocurpassword'] = 'Molimo vas da upišete trenutnu šifru.';
 $messages['passwordincorrect'] = 'Trenutna šifra je netačna.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Nije moguće sačuvati novu šifru.';
 $messages['passwordshort'] = 'Šifra mora sadržavati barem $length znakova.';
 $messages['passwordweak'] = 'Šifra mora imati barem jedan broj i jedan interpunkcijski znak.';
 $messages['passwordforbidden'] = 'Šifra sadrži nedozvoljene znakove.';
-
 ?>

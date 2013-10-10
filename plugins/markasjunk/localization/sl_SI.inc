@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Nezaželena sporočila';
 $labels['buttontitle'] = 'Označi kot spam';
 $labels['reportedasjunk'] = 'Uspešno označeno kot spam';
-
 ?>

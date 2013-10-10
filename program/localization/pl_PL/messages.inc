@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Wystąpił błąd!';
 $messages['loginfailed']  = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
@@ -101,13 +99,16 @@ $messages['converting'] = 'Konwertowanie tekstu...';
 $messages['messageopenerror'] = 'Nie można załadować wiadomości z serwera.';
 $messages['fileuploaderror'] = 'Załączanie pliku nie powiodło się.';
 $messages['filesizeerror'] = 'Plik przekracza maksymalną wielkość $size.';
-$messages['copysuccess'] = 'Pomyślnie skopiowano następującą liczbę adresów: $nr.';
-$messages['copyerror'] = 'Nie można skopiować żadnego adresu.';
+$messages['copysuccess'] = 'Pomyślnie skopiowano $nr kontaktów.';
+$messages['movesuccess'] = 'Pomyślnie przeniesiono $nr kontaktów.';
+$messages['copyerror'] = 'Nie udało się skopiować żadnego kontaktu.';
+$messages['moveerror'] = 'Nie udało się przenieść żadnego kontaktu.';
 $messages['sourceisreadonly'] = 'Źródło adresu jest tylko do odczytu.';
 $messages['errorsavingcontact'] = 'Nie można było zapisać adresu kontaktu.';
 $messages['movingmessage'] = 'Przenoszenie wiadomości...';
 $messages['copyingmessage'] = 'Kopiowanie wiadomości...';
 $messages['copyingcontact'] = 'Kopiowanie kontaktów...';
+$messages['movingcontact'] = 'Przenoszenie kontaktów...';
 $messages['deletingmessage'] = 'Usuwanie wiadomości...';
 $messages['markingmessage'] = 'Oznaczanie wiadomości...';
 $messages['addingmember'] = 'Dodawanie kontaktów do grupy...';
@@ -167,7 +168,6 @@ $messages['invalidimageformat'] = 'Niepoprawny format obrazka.';
 $messages['mispellingsfound'] = 'Wykryto błędy pisowni w tej wiadomości.';
 $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wybrane miejsce. Brak upranień.';
 $messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
-$messages['attachmentvalidationerror'] = 'UWAGA! Ten załącznik jest podejrzany ponieważ jego typ nie jest zgodny z typem zadeklarownym w wiadomości. Jeśli nie ufasz temu nadawcy nie powinieneś otwierać go w przeglądarce, bo może zawierać złośliwe oprogramowanie.<br/><br/><em>Spodziwany: $expected; znaleziono: $detected</em>';
+$messages['attachmentvalidationerror'] = 'UWAGA! Ten załącznik jest podejrzany ponieważ jego typ nie jest zgodny z typem zadeklarownym w wiadomości. Jeśli nie ufasz temu nadawcy nie powinieneś otwierać go w przeglądarce, gdyż może zawierać złośliwe oprogramowanie.<br/><br/><em>Zadeklarowany: $expected; wykryty: $detected</em>';
 $messages['noscriptwarning'] = 'Uwaga: Usługa wymaga Javascriptu! Aby z niej skorzystać proszę włączyć obsługę języka Javascript w ustawieniach przeglądarki.';
-
 ?>

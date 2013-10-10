@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Kaŝi';
 $labels['show'] = 'Montri';
 $labels['quotelimit'] = 'Kaŝi citaĵon kiam la nombro de linioj estas pligranda ol';
-
 ?>

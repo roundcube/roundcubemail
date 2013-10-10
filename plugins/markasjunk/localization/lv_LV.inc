@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Mēstules';
 $labels['buttontitle'] = 'Atzīmēt kā mēstuli';
 $labels['reportedasjunk'] = 'Sekmīgi iatzīmēta kā mēstule';
-
 ?>

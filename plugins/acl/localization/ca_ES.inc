@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Comparteix';
 $labels['myrights'] = 'Permisos d\'accés';
 $labels['username'] = 'Usuari:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Accions dels permisos d\'accés';
 $labels['anyone'] = 'Tots els usuaris';
 $labels['anonymous'] = 'Convidats';
 $labels['identifier'] = 'Identificador';
-
 $labels['acll'] = 'Cerca';
 $labels['aclr'] = 'Llegeix missatges';
 $labels['acls'] = 'Conserva\'l com a llegit';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Suprimeix missatges';
 $labels['acle'] = 'Buida';
 $labels['aclx'] = 'Suprimeix carpeta';
 $labels['acla'] = 'Administra';
-
 $labels['aclfull'] = 'Control total';
 $labels['aclother'] = 'Un altre';
 $labels['aclread'] = 'Lectura';
 $labels['aclwrite'] = 'Escriptura';
 $labels['acldelete'] = 'Suprimeix';
-
 $labels['shortacll'] = 'Cerca';
 $labels['shortaclr'] = 'Lectura';
 $labels['shortacls'] = 'Conserva';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Suprimeix';
 $labels['shortacle'] = 'Buida';
 $labels['shortaclx'] = 'Suprimeix carpeta';
 $labels['shortacla'] = 'Administra';
-
 $labels['shortaclother'] = 'Un altre';
 $labels['shortaclread'] = 'Lectura';
 $labels['shortaclwrite'] = 'Escriptura';
 $labels['shortacldelete'] = 'Suprimeix';
-
 $labels['longacll'] = 'La carpeta és visible a les llistes i s\'hi pot subscriure';
 $labels['longaclr'] = 'La carpeta pot ser oberta per llegir';
 $labels['longacls'] = 'Els missatges marcats com a Llegit poden ser canviats';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'Poden ser canviats els missatges amb l\'indicador Suprimi
 $labels['longacle'] = 'Els missatges poden ser purgats';
 $labels['longaclx'] = 'La carpeta pot ser suprimida o reanomenada';
 $labels['longacla'] = 'Els permisos d\'accés a la carpeta poden ser canviats';
-
 $labels['longaclfull'] = 'Control total fins i tot la gestió de carpetes';
 $labels['longaclread'] = 'La carpeta pot ser oberta per llegir';
 $labels['longaclwrite'] = 'Els missatges poden ser marcats, escrits o copiats a la carpeta';
 $labels['longacldelete'] = 'Els missatges poden ser suprimits';
-
 $messages['deleting'] = 'Suprimint els permisos d\'accés...';
 $messages['saving'] = 'Desant els permisos d\'accés...';
 $messages['updatesuccess'] = 'Els permisos d\'accés han estat canviats correctament';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'No s\'ha pogut afegir els permisos d\'accés';
 $messages['deleteconfirm'] = 'Esteu segurs que voleu suprimir els permisos d\'accés de l\'usuari o usuaris seleccionats?';
 $messages['norights'] = 'No s\'ha especificat cap permís';
 $messages['nouser'] = 'No s\'ha especificat cap nom d\'usuari';
-
 ?>

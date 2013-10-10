@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'visualizza notifica nel browser per nuovi messaggi';
 $labels['desktop'] = 'visualizza notifiche sul desktop per nuovi messaggi';
 $labels['sound'] = 'riproduci il suono per nuovi messaggi';
@@ -26,5 +25,4 @@ $labels['testbody'] = 'notifica di prova';
 $labels['desktopdisabled'] = 'le notifiche sul desktop sono disabilitate nel tuo browser';
 $labels['desktopunsupported'] = 'il tuo browser non supporta le notifiche sul desktop';
 $labels['desktoptimeout'] = 'Chiudi la notifica visualizzata sul desktop';
-
 ?>

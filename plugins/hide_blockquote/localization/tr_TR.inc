@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Gizle';
 $labels['show'] = 'Göster';
 $labels['quotelimit'] = 'Satır sayısı şu satır sayısındna fazla ile alıntıları gizle:';
-
 ?>

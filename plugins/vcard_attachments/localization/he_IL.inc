@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'הוספת כרטיס ביקור בפורמט vCard לספר הכתובות';
 $labels['vcardsavefailed'] = 'לא ניתן לשמור את כרטיס הביקור  vCard';
-
 ?>

@@ -15,11 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
-$labels = array();
 $labels['userinfo'] = 'nawnişani bakar henar';
 $labels['created'] = 'Hat afirandin';
 $labels['lastlogin'] = 'axrin hatna jurawa';
 $labels['defaultidentity'] = 'Nasnameya Pêşsalixbûyî';
-
 ?>

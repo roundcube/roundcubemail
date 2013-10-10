@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
-$labels['identitydialogtitle'] = 'Калі ласка, запоўніце асабістыя звесткі';
-$labels['identitydialoghint'] = 'Гэтае вакно з\'яўляецца толькі аднойчы, у час першага ўваходу.';
-
+$labels['identitydialogtitle'] = 'Калі ласка, запоўніце тоеснасць адпраўніка';
+$labels['identitydialoghint'] = 'Гэтае акно з\'яўляецца толькі аднойчы, у час першага ўваходу.';
 ?>

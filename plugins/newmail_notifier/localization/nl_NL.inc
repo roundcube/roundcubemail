@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Toon melding in browser bij nieuw bericht';
 $labels['desktop'] = 'Toon melding op bureaublad bij nieuw bericht';
 $labels['sound'] = 'Geluid afspelen bij nieuw bericht';
@@ -26,5 +25,4 @@ $labels['testbody'] = 'Dit is een testmelding.';
 $labels['desktopdisabled'] = 'Bureaubladmeldingen zijn uitgeschakeld in uw browser.';
 $labels['desktopunsupported'] = 'Uw browser ondersteunt geen bureaubladmeldingen.';
 $labels['desktoptimeout'] = 'Sluit bureaubladmelding';
-
 ?>

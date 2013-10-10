@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
-
-$labels = array();
 $labels['help'] = 'Trợ giúp';
 $labels['about'] = 'Giới thiệu';
 $labels['license'] = 'Bản quyền';
-
 ?>

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Mostrar notificação quando uma nova mensagem chegar';
 $labels['desktop'] = 'Mostrar alerta no ambiente de trabalho de nova mensagem';
 $labels['sound'] = 'Alerta sonoro para nova mensagem';
@@ -26,5 +25,4 @@ $labels['testbody'] = 'Isto é uma notificação de teste.';
 $labels['desktopdisabled'] = 'As notificações no ambiente de trabalho estão desactivadas no seu navegador.';
 $labels['desktopunsupported'] = 'O seu navegador não suporta notificações no ambiente de trabalho';
 $labels['desktoptimeout'] = 'Fechar notificação no ambiente de trabalho';
-
 ?>

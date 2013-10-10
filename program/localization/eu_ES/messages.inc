@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Errore bat gertatu da!';
 $messages['loginfailed']  = 'Saio hasierak huts egin du.';
 $messages['cookiesdisabled'] = 'Zure nabigatzaileak ez ditu cookie-rik onartzen';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Eskatutako txartela ez da aurkitu';
 $messages['contactsearchonly'] = 'Sartu kontaktua aurkitzeko bilaketa daturen bat.';
 $messages['sendingfailed'] = 'Huts mezua bidaltzerakoan';
 $messages['senttooquickly'] = 'Itxaron $sec segundo mezua bidali aurretik, mesedez.';
-$messages['errorsavingsent'] = 'Errorea gertatu da bidalitako mezua gordetzean';
-$messages['errorsaving'] = 'Errore bat gertatu da gordetzean';
 $messages['errormoving'] = 'Ezin da mezua mugitu';
 $messages['errorcopying'] = 'Ezin d(ir)a kopiatu mezua(k).';
 $messages['errordeleting'] = 'Ezin da mezua ezabatu';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'SMTP errorea: $msg';
 $messages['emailformaterror'] = 'Helbide elektronikoa ez da baliozkoa: $email';
 $messages['toomanyrecipients'] = 'Hartzaile gehiegi. Txikitu hartzaile kopura hona $max.';
 $messages['maxgroupmembersreached'] = 'Taldeko partaideen kopurua $max -ko maximoa gainditzen du:';
-$messages['internalerror'] = 'Barne akatsa. Saiatu berriz, mesedez.';
 $messages['contactdelerror'] = 'Ezin d(ir)a kontaktua(k) ezabatu.';
 $messages['contactdeleted'] = 'Kontaktua(k) ongi ezabatu dira.';
 $messages['contactrestoreerror'] = 'Ezin d(ir)a ezabatutako kontaktua(k) leheneratu.';
@@ -172,5 +167,4 @@ $messages['parentnotwritable'] = 'Ezin da karpeta sortu/mugi hautatutako goragok
 $messages['messagetoobig'] = 'Mezu-zatia handiegia da prozesatzeko.';
 $messages['attachmentvalidationerror'] = 'KONTUZ! Eranskin hau susmagarria da zeren bere izaera ez dator bat mezuan deklaratutakoarekin. Bidaltzailearekin fidatzen ez bazara ez zenuke nabigatzailean ireki behar eduki maltzurra izan dezakeelako.<br/><br/><em>Deklaratua: $expected; erreala: $detected</em>';
 $messages['noscriptwarning'] = 'Kontuz: web-posta zerbitzu honek Javascript behar du! Erabili nahi baduzu gaitu Javascript zure nabigatzailearen hobespenetan.';
-
 ?>

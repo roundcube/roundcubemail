@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Молимо вас да попуните свој идентитет пошиљаоца';
 $labels['identitydialoghint'] = 'Ово поље се појављује само једном у првом логовању';
-
 ?>

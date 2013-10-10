@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Prikaži obavijesti za nove poruke u pregledniku';
 $labels['desktop'] = 'Prikaži obavijesti za nove poruke na desktopu';
 $labels['sound'] = 'Zvučni signal za novu poruku';
@@ -26,5 +25,4 @@ $labels['testbody'] = 'Ovo je testna obavijest.';
 $labels['desktopdisabled'] = 'Desktop obavijesti su onemogućene u vašem pregledniku.';
 $labels['desktopunsupported'] = 'Vaš preglednik ne podržava desktop obavijesti.';
 $labels['desktoptimeout'] = 'Zatvori desktop obavijesti';
-
 ?>

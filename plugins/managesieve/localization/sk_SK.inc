@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Správa filtrov príchádzajúcej pošty';
 $labels['filtername'] = 'Názov filtra';
@@ -159,39 +157,27 @@ $labels['asciicasemap'] = 'nerozlišuje veľké a malé písmená (ascii tabuľk
 $labels['asciinumeric'] = 'numerické (ascii čísla)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'dozadu';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Neznáma chyba serveru';
 $messages['filterconnerror'] = 'Nepodarilo sa pripojiť k managesieve serveru';
-$messages['filterdeleteerror'] = 'Nepodarilo sa zmazať filter, server ohlásil chybu';
 $messages['filterdeleted'] = 'Filter bol zmazaný';
 $messages['filtersaved'] = 'Filter bol uložený';
-$messages['filtersaveerror'] = 'Nepodarilo sa uložiť filter, server ohlásil chybu';
 $messages['filterdeleteconfirm'] = 'Naozaj si prajete zmazať tento filter?';
 $messages['ruledeleteconfirm'] = 'Naozaj si prajete zamzať toto pravidlo?';
 $messages['actiondeleteconfirm'] = 'Naozaj si prajete zmazať túto akciu?';
 $messages['forbiddenchars'] = 'Pole obsahuje nepovolené znaky';
 $messages['cannotbeempty'] = 'Pole nemôže byť prázdne';
 $messages['ruleexist'] = 'Filter so zadaným menom už existuje.';
-$messages['setactivateerror'] = 'Nepodarilo sa aktivovať zvolenú sadu filtrov, server ohlásil chybu';
-$messages['setdeactivateerror'] = 'Nepodarilo sa deaktivovať zvolenú sadu filtrov, server ohlásil chybu';
-$messages['setdeleteerror'] = 'Nepodarilo sa zmazať zvolenú sadu filtrov, server ohlásil chybu';
 $messages['setactivated'] = 'Sada filtrov bola aktivovaná';
 $messages['setdeactivated'] = 'Sada filtrov bola deaktivovaná';
 $messages['setdeleted'] = 'Sada filtrov bola zmazaná';
 $messages['setdeleteconfirm'] = 'Naozaj si prajete zmazať túto sadu filtrov?';
-$messages['setcreateerror'] = 'Nepodarilo sa vytvoriť sadu filtrov, server ohlásil chybu';
 $messages['setcreated'] = 'Sada filtrov bola vytvorená';
-$messages['activateerror'] = 'Nepodarilo sa povoliť vybraný filter(e). Chyba servera.';
-$messages['deactivateerror'] = 'Nepodarilo sa vypnúť vybraný filter(e). Chyba servera.';
 $messages['deactivated'] = 'Filter(e) povolený.';
 $messages['activated'] = 'Filter(e) úspešne vypnutý.';
 $messages['moved'] = 'Filter presunutý.';
-$messages['moveerror'] = 'Nemôžem presunúť zvolený filter. Chyba servera.';
 $messages['nametoolong'] = 'Názov sady filtrov je príliš dlhý';
 $messages['namereserved'] = 'Rezervovaný názov.';
 $messages['setexist'] = 'Množina už existuje.';
 $messages['nodata'] = 'Aspoň jedna pozícia musí byť zvolená.';
 $messages['invaliddateformat'] = 'Neplatný formát dátumu alebo časti dátumu';
-
 ?>

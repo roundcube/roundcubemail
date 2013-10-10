@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Lūdzu aizpildiet Jūsu, kā sūtītāja, identitātes informāciju';
 $labels['identitydialoghint'] = 'Šis logs parādīsies tikai pirmajā autorizācijas reizē.';
-
 ?>

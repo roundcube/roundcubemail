@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = '필터';
 $labels['managefilters'] = '수신 메일 필터 관리';
 $labels['filtername'] = '필터명';
@@ -56,7 +54,6 @@ $labels['add'] = '추가';
 $labels['del'] = '삭제';
 $labels['sender'] = '발신인';
 $labels['recipient'] = '수신인';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = '메시지 발신 주기 (일):';
 $labels['vacationinterval'] = '메시지 발신 주기:';
 $labels['days'] = '일';
@@ -159,39 +156,27 @@ $labels['asciicasemap'] = '대/소문자 구분 (ascii-casemap)';
 $labels['asciinumeric'] = '숫자 (ascii-numeric)';
 $labels['index'] = '색인:';
 $labels['indexlast'] = '역방향';
-
-$messages = array();
 $messages['filterunknownerror'] = '알수 없는 서버 오류.';
 $messages['filterconnerror'] = '서버에 연결할 수 없음.';
-$messages['filterdeleteerror'] = '필터를 삭제할 수 없음. 서버 오류가 발생함.';
 $messages['filterdeleted'] = '필터가 성공적으로 삭제됨.';
 $messages['filtersaved'] = '필터가 성공적으로 저장됨.';
-$messages['filtersaveerror'] = '필터를 저장할 수 없음. 서버 오류가 발생함.';
 $messages['filterdeleteconfirm'] = '정말로 선택한 필터를 삭제하시겠습니까?';
 $messages['ruledeleteconfirm'] = '정말로 선택한 규칙을 삭제하시겠습니까?';
 $messages['actiondeleteconfirm'] = '정말로 선택한 동작을 삭제하시겠습니까?';
 $messages['forbiddenchars'] = '필드에 금지된 문자가 존재함.';
 $messages['cannotbeempty'] = '필드는 비워둘 수 없음.';
 $messages['ruleexist'] = '지정한 이름의 필터가 이미 존재함.';
-$messages['setactivateerror'] = '선택한 필터 세트를 활성화 할 수 없음. 서버 오류가 발생함.';
-$messages['setdeactivateerror'] = '선택한 필터 세트를 비활성화 할 수 없음. 서버 오류가 발생함.';
-$messages['setdeleteerror'] = '선택한 필터 세트를 삭제할 수 없음. 서버 오류가 발생함.';
 $messages['setactivated'] = '필터 세트가 성공적으로 활성화됨.';
 $messages['setdeactivated'] = '필터 세트가 성공적으로 비활성화됨.';
 $messages['setdeleted'] = '필터 세트가 성공적으로 삭제됨.';
 $messages['setdeleteconfirm'] = '정말로 선택한 필터 세트를 삭제하시겠습니까?';
-$messages['setcreateerror'] = '필터 세트를 생성할 수 없음. 서버 오류가 발생함.';
 $messages['setcreated'] = '필터 세트가 성공적으로 생성됨.';
-$messages['activateerror'] = '선택한 필터를 활성화할 수 없음. 서버 오류가 발생함.';
-$messages['deactivateerror'] = '선택한 필터를 비활성화할 수 없음. 서버 오류가 발생함.';
 $messages['deactivated'] = '필터가 성공적으로 비활성화됨.';
 $messages['activated'] = '필터가 성공적으로 활성화됨.';
 $messages['moved'] = '필터가 성공적으로 이동함.';
-$messages['moveerror'] = '선택한 필터를 이동할 수 없음. 서버 오류가 발생함.';
 $messages['nametoolong'] = '이름이 너무 김.';
 $messages['namereserved'] = '예약된 이름.';
 $messages['setexist'] = '세트가 이미 존재함.';
 $messages['nodata'] = '최소 하나의 위치가 선택되어야 합니다!';
 $messages['invaliddateformat'] = '유효하지 않은 날짜 또는 날짜 일부 형식';
-
 ?>

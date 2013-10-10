@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Yeni məktubun gəlməsi haqda brauzerdə xəbər ver';
 $labels['desktop'] = 'Yeni məktubun gəlməsi haqda iş masasında xəbər ver';
 $labels['sound'] = 'Yeni məktubun gəlməsi haqda səs siqnalı ver';
@@ -25,6 +24,4 @@ $labels['body'] = 'Sizə məktub gəldi';
 $labels['testbody'] = 'Bu sınaq bildirişidir';
 $labels['desktopdisabled'] = 'Sizin brauzerdə iş masasında bildiriş söndürülüb';
 $labels['desktopunsupported'] = 'Sizin brauzer iş masasında bildiriş funksiyasını dəstəkləmir';
-$labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

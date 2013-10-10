@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filteri';
 $labels['managefilters'] = 'Upravljanje dolaznim email filterima';
 $labels['filtername'] = 'Naziv filtera';
@@ -159,39 +157,27 @@ $labels['asciicasemap'] = 'osjetljivo na velika/mala slova (ascii-casemap)';
 $labels['asciinumeric'] = 'numerički (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'unazad';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Nepoznata serverska greška.';
 $messages['filterconnerror'] = 'Nije se moguće povezati na server.';
-$messages['filterdeleteerror'] = 'Nije moguće obrisati filter. Desila se serverska greška.';
 $messages['filterdeleted'] = 'Filter je uspješno obrisan.';
 $messages['filtersaved'] = 'Filter je uspješno sačuvan.';
-$messages['filtersaveerror'] = 'Nije moguće sačuvati filter. Desila se serverska greška.';
 $messages['filterdeleteconfirm'] = 'Da li zaista želite obrisati označeni filter?';
 $messages['ruledeleteconfirm'] = 'Jeste li sigurni da želite obrisati označeno pravilo?';
 $messages['actiondeleteconfirm'] = 'Jeste li sigurni da želite obrisati označenu akciju?';
 $messages['forbiddenchars'] = 'U polje su uneseni nedozvoljeni znakovi.';
 $messages['cannotbeempty'] = 'Polje ne može biti prazno.';
 $messages['ruleexist'] = 'Filter s tim imenom već postoji.';
-$messages['setactivateerror'] = 'Nije moguće aktivirati označeni set filtera. Desila se serverska greška.';
-$messages['setdeactivateerror'] = 'Nije moguće deaktivirati označeni set filtera. Desila se serverska greška.';
-$messages['setdeleteerror'] = 'Nije moguće obrisati označeni set filtera. Desila se serverska greška.';
 $messages['setactivated'] = 'Set filtera je uspješno aktiviran.';
 $messages['setdeactivated'] = 'Set filtera je uspješno deaktiviran.';
 $messages['setdeleted'] = 'Set filtera je uspješno obrisan.';
 $messages['setdeleteconfirm'] = 'Jeste li sigurni da želite obrisati označeni set filtera?';
-$messages['setcreateerror'] = 'Nije moguće kreirati se filtera. Desila se serverska greška.';
 $messages['setcreated'] = 'Set filtera je uspješno kreiran.';
-$messages['activateerror'] = 'Nije moguće omogućiti označene filtere. Desila se serverska greška.';
-$messages['deactivateerror'] = 'Nije moguće onemogućiti označene filtere. Desila se serverska greška.';
 $messages['deactivated'] = 'Filteri su uspješno omogućeni.';
 $messages['activated'] = 'Filteri su uspješno onemogućeni.';
 $messages['moved'] = 'Filteri su uspješno premješteni.';
-$messages['moveerror'] = 'Nije moguće premjestiti označeni filter. Desila se serverska greška.';
 $messages['nametoolong'] = 'Ime je predugo.';
 $messages['namereserved'] = 'Ime je rezervisano.';
 $messages['setexist'] = 'Set već postoji.';
 $messages['nodata'] = 'Morate označiti barem jednu poziciju!';
 $messages['invaliddateformat'] = 'Netačan datum ili dio formata datuma';
-
 ?>

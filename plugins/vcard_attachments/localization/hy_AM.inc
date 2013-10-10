@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'Ավելացնել vCard-ը հասցեագրքում';
 $labels['vcardsavefailed'] = 'vCard-ի պահպանումը ձախողվեց';
-
 ?>

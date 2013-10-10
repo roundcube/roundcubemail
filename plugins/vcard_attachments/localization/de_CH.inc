@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'Kontakt im Adressbuch speichern';
 $labels['vcardsavefailed'] = 'Der Kontakt konnte nicht gespeichert werden';
-
 ?>

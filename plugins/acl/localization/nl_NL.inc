@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Delen';
 $labels['myrights'] = 'Toegangsrechten';
 $labels['username'] = 'Gebruiker:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Toegangsrechtenopties...';
 $labels['anyone'] = 'Alle gebruikers (iedereen)';
 $labels['anonymous'] = 'Gasten (anoniem)';
 $labels['identifier'] = 'Identificatie';
-
 $labels['acll'] = 'Opzoeken';
 $labels['aclr'] = 'Berichten lezen';
 $labels['acls'] = 'Onthoud gelezen-status';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Berichten verwijderen';
 $labels['acle'] = 'Vernietigen';
 $labels['aclx'] = 'Map verwijderen';
 $labels['acla'] = 'Beheren';
-
 $labels['aclfull'] = 'Volledige toegang';
 $labels['aclother'] = 'Overig';
 $labels['aclread'] = 'Lezen';
 $labels['aclwrite'] = 'Schrijven';
 $labels['acldelete'] = 'Verwijderen';
-
 $labels['shortacll'] = 'Opzoeken';
 $labels['shortaclr'] = 'Lezen';
 $labels['shortacls'] = 'Behouden';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Verwijderen';
 $labels['shortacle'] = 'Vernietigen';
 $labels['shortaclx'] = 'Map verwijderen';
 $labels['shortacla'] = 'Beheren';
-
 $labels['shortaclother'] = 'Overig';
 $labels['shortaclread'] = 'Lezen';
 $labels['shortaclwrite'] = 'Schrijven';
 $labels['shortacldelete'] = 'Verwijderen';
-
 $labels['longacll'] = 'De map is zichtbaar in lijsten en het is mogelijk om te abonneren op deze map';
 $labels['longaclr'] = 'De map kan geopend worden om te lezen';
 $labels['longacls'] = 'De berichtmarkering \'Gelezen\' kan aangepast worden';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'De berichtmarkering \'Verwijderd\' kan aangepast worden';
 $labels['longacle'] = 'Berichten kunnen vernietigd worden';
 $labels['longaclx'] = 'De map kan verwijderd of hernoemd worden';
 $labels['longacla'] = 'De toegangsrechten voor deze map kunnen veranderd worden';
-
 $labels['longaclfull'] = 'Volledige controle inclusief mappenbeheer';
 $labels['longaclread'] = 'De map kan geopend worden om te lezen';
 $labels['longaclwrite'] = 'Berichten kunnen gemarkeerd worden, opgesteld worden of gekopieerd worden naar deze map';
 $labels['longacldelete'] = 'Berichten kunnen verwijderd worden';
-
 $messages['deleting'] = 'Toegangsrechten worden verwijderd...';
 $messages['saving'] = 'Toegangsrechten worden opgeslagen...';
 $messages['updatesuccess'] = 'Toegangsrechten succesvol veranderd';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'Toegangsrechten kunnen niet toegevoegd worden';
 $messages['deleteconfirm'] = 'Weet u zeker dat u de toegangsrechten van de geselecteerde gebruiker(s) wilt verwijderen?';
 $messages['norights'] = 'Er zijn geen toegangsrechten opgegeven!';
 $messages['nouser'] = 'Er is geen gebruikersnaam opgegeven!';
-
 ?>

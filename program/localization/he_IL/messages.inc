@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'קרתה שגיאה !';
 $messages['loginfailed']  = 'הכניסה נכשלה';
 $messages['cookiesdisabled'] = 'הדפדפן אינו מקבל עוגיות';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'איש הקשר המבוקש לא נמצא';
 $messages['contactsearchonly'] = 'יש להקיש מפתחות חיפוש כדי למצוא אנשי קשר';
 $messages['sendingfailed'] = 'שליחת ההודעה נכשלה';
 $messages['senttooquickly'] = 'נא להמתין $sec שניות לפני מסירת הודעה זו';
-$messages['errorsavingsent'] = 'נגרמה שגיאה במהלך שמירת ההודעה בתיק הודעות יוצאות';
-$messages['errorsaving'] = 'נגרמה שגיאה במהלך השמירה';
 $messages['errormoving'] = 'לא ניתן לתייק את ההודעה';
 $messages['errorcopying'] = 'העתקת ההודעות נכשלה';
 $messages['errordeleting'] = 'לא ניתן למחוק את ההודעה';
@@ -101,13 +97,16 @@ $messages['converting'] = 'הסרת העיצוב מההודעה';
 $messages['messageopenerror'] = 'לא ניתן לטעון ההודעה מהשרת';
 $messages['fileuploaderror'] = 'העלאת הקובץ נכשלה';
 $messages['filesizeerror'] = 'הקובץ לטעינה גדול מהגודל המקסימלי שהוא $size';
-$messages['copysuccess'] = '$nr כתובות הועתקו בהצלחה';
-$messages['copyerror'] = 'לא ניתן להעתיק אף כתובת';
+$messages['copysuccess'] = '$nr אנשי קשר הועתקו בהצלחה';
+$messages['movesuccess'] = '$nr אנשי קשר הועברו בהצלחה';
+$messages['copyerror'] = 'לא ניתן היה להעתיק אנשי קשר כלשהם';
+$messages['moveerror'] = 'לא ניתן היה להעביר אנשי קשר כלשהם';
 $messages['sourceisreadonly'] = 'המקור לכתובת הוא לקריאה בלבד';
 $messages['errorsavingcontact'] = 'לא ניתן לשמור את כתובת איש הקשר';
 $messages['movingmessage'] = 'תיוק ההודעה...';
 $messages['copyingmessage'] = 'הודעת מועתקת...';
 $messages['copyingcontact'] = 'העתקת אנשי קשר...';
+$messages['movingcontact'] = 'אנשי קשר עוברים...';
 $messages['deletingmessage'] = 'המחיקה בתהליך...';
 $messages['markingmessage'] = 'סימון ההודעה בתהליך...';
 $messages['addingmember'] = 'הוספת אנשי קשר לקבוצה...';
@@ -141,7 +140,6 @@ $messages['smtperror'] = 'SMTP: $msg';
 $messages['emailformaterror'] = '$email  כתובת דוא"ל שגויה';
 $messages['toomanyrecipients'] = 'יותר מדי נמענים. יש להקטין מספרם ל - $max';
 $messages['maxgroupmembersreached'] = 'מספרם של חברי הקבוצה אינו יכול לעבור $max';
-$messages['internalerror'] = 'שגיאת מערכת. נא לנסות שנית';
 $messages['contactdelerror'] = 'לא ניתן למחוק איש קשר';
 $messages['contactdeleted'] = 'איש הקשר נמחק';
 $messages['contactrestoreerror'] = 'לא ניתן לשחזר איש קשר שנמחק';
@@ -169,5 +167,4 @@ $messages['parentnotwritable'] = 'לא ניתן ליצור/להעביר תיקי
 $messages['messagetoobig'] = 'ההודעה גדולה מעבר ליכולת העיבוד של התוכנה';
 $messages['attachmentvalidationerror'] = 'זהירות ! הצרופה חשודה כי אינה מהסוג שצוין בהודעה. אם לא ניתן לבטוח בשולח אזי להמנע מלפתוח את הקובץ בדפדפן כי הקובץ יכול להכיל קוד זדוני.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'זהירות! תוכנה זו דורשת שימוש בג\'אווהסקריפט! כדי להשתמש בכלי, יש לבחור באפשרות זו בהגדרות הדפדפן.';
-
 ?>

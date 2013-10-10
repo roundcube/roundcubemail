@@ -15,10 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
-$labels['buttontext'] = 'Junk';
 $labels['buttontitle'] = 'සුන්බුන් ලෙස සලකුණු කරන්න';
 $labels['reportedasjunk'] = 'සුන්බුන් ලෙස වාර්තා කිරීම සාර්ථකයි';
-
 ?>

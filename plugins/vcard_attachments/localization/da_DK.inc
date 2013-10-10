@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'Tilføj vCard til adressebogen';
 $labels['vcardsavefailed'] = 'Kan ikke gemme dette vCard';
-
 ?>

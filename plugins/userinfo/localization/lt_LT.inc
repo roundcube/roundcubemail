@@ -15,11 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
-$labels = array();
 $labels['userinfo'] = 'Informacija apie naudotoją';
 $labels['created'] = 'Sukurtas';
 $labels['lastlogin'] = 'Paskutinį kartą prisijungė';
 $labels['defaultidentity'] = 'Numatytoji tapatybė';
-
 ?>

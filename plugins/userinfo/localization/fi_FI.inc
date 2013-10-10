@@ -15,11 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
-$labels = array();
 $labels['userinfo'] = 'Käyttäjätiedot';
 $labels['created'] = 'Luotu';
 $labels['lastlogin'] = 'Viimeisin kirjautuminen';
 $labels['defaultidentity'] = 'Oletushenkilöys';
-
 ?>

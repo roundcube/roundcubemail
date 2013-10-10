@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Doplňte prosím Vašu identifikáciu odosielateľa';
 $labels['identitydialoghint'] = 'Toto okno sa objaví len pri prvom prihlásení.';
-
 ?>

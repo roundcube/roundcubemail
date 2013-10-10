@@ -15,31 +15,21 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-$labels = array();
-
-// login page
 $labels['welcome']   = '$productにようこそ';
 $labels['username']  = 'ユーザー名';
 $labels['password']  = 'パスワード';
 $labels['server']    = 'サーバー';
 $labels['login']     = 'ログイン';
-
-// taskbar
 $labels['logout']   = 'ログアウト';
 $labels['mail']     = '電子メール';
 $labels['settings'] = '設定';
 $labels['addressbook'] = 'アドレス帳';
-
-// mailbox names
 $labels['inbox']  = '受信箱';
 $labels['drafts'] = '下書き';
 $labels['sent']   = '送信済み';
 $labels['trash']  = 'ごみ箱';
 $labels['junk']   = '迷惑メール';
 $labels['show_real_foldernames'] = '特殊フォルダーの実際の名前を表示';
-
-// message listing
 $labels['subject'] = '件名';
 $labels['from']    = '発信者';
 $labels['sender']  = '送信者';
@@ -54,13 +44,11 @@ $labels['priority'] = '優先度';
 $labels['organization'] = '企業名';
 $labels['readstatus'] = '閲覧の状態';
 $labels['listoptions'] = '一覧のオプション...';
-
 $labels['mailboxlist'] = 'フォルダー';
 $labels['messagesfromto'] = '$count通の$from通目から$to通目のメッセージ';
 $labels['threadsfromto'] = '$count通の$from通目から$to通目のスレッド';
 $labels['messagenrof'] = '$count通の$nr通目のメッセージ';
 $labels['fromtoshort'] = '$count通の$from通目から$to通目';
-
 $labels['copy']     = 'コピー';
 $labels['move']     = '移動';
 $labels['moveto']   = 'フォルダーに移動';
@@ -68,13 +56,9 @@ $labels['download'] = 'ダウンロード';
 $labels['open']     = '開く';
 $labels['showattachment'] = '表示';
 $labels['showanyway'] = 'とにかく表示';
-
 $labels['filename'] = 'ファイル名';
 $labels['filesize'] = 'ファイルの大きさ';
-
 $labels['addtoaddressbook'] = 'アドレス帳に追加';
-
-// weekdays short
 $labels['sun'] = '日';
 $labels['mon'] = '月';
 $labels['tue'] = '火';
@@ -82,8 +66,6 @@ $labels['wed'] = '水';
 $labels['thu'] = '木';
 $labels['fri'] = '金';
 $labels['sat'] = '土';
-
-// weekdays long
 $labels['sunday']    = '日曜日';
 $labels['monday']    = '月曜日';
 $labels['tuesday']   = '火曜日';
@@ -91,8 +73,6 @@ $labels['wednesday'] = '水曜日';
 $labels['thursday']  = '木曜日';
 $labels['friday']    = '金曜日';
 $labels['saturday']  = '土曜日';
-
-// months short
 $labels['jan']	= '1月';
 $labels['feb']	= '2月';
 $labels['mar']	= '3月';
@@ -105,8 +85,6 @@ $labels['sep']	= '9月';
 $labels['oct']	= '10月';
 $labels['nov']	= '11月';
 $labels['dec']	= '12月';
-
-// months long
 $labels['longjan']	= '1月';
 $labels['longfeb']	= '2月';
 $labels['longmar']	= '3月';
@@ -119,10 +97,7 @@ $labels['longsep']	= '9月';
 $labels['longoct']	= '10月';
 $labels['longnov']	= '11月';
 $labels['longdec']	= '12月';
-
 $labels['today'] = '今日';
-
-// toolbar buttons
 $labels['refresh']          = '再読込み';
 $labels['checkmail']        = '新しく届いたメッセージを確認';
 $labels['compose']          = 'メッセージの作成';
@@ -155,7 +130,6 @@ $labels['moreactions']      = 'その他の操作...';
 $labels['more']             = '続く';
 $labels['back']             = '戻る';
 $labels['options']          = 'オプション';
-
 $labels['select'] = '選択';
 $labels['all'] = 'すべて';
 $labels['none'] = 'なし';
@@ -174,7 +148,6 @@ $labels['expand-all'] = 'すべて展開';
 $labels['expand-unread'] = '未開封のメッセージを展開';
 $labels['collapse-all'] = 'すべて折りたたむ';
 $labels['threaded'] = 'スレッド化';
-
 $labels['autoexpand_threads'] = 'メッセージのスレッドを展開';
 $labels['do_expand'] = 'すべてのスレッド';
 $labels['expand_only_unread'] = '未読のメッセージだけ';
@@ -190,29 +163,24 @@ $labels['listcolumns'] = '列を一覧';
 $labels['listsorting'] = '並べ替える列';
 $labels['listorder'] = '並べ替える順序';
 $labels['listmode'] = '一覧表示モード';
-
 $labels['folderactions'] = 'フォルダーの操作...';
 $labels['compact'] = '圧縮';
 $labels['empty'] = '空';
 $labels['importmessages'] = 'メッセージをインポート';
-
 $labels['quota'] = 'ディスクの使用状況';
 $labels['unknown']  = '不明';
 $labels['unlimited']  = '無制限';
-
 $labels['quicksearch']  = '高速検索';
 $labels['resetsearch']  = '検索を解除';
 $labels['searchmod']  = '検索の条件';
 $labels['msgtext']  = 'メッセージ全体';
 $labels['body']  = '本文';
-$labels['type'] = 'Type';
-
+$labels['type'] = '種類';
+$labels['namex'] = '名前';
 $labels['openinextwin'] = '新しいウィンドウで開く';
 $labels['emlsave'] = 'ダウンロード(.eml形式)';
 $labels['changeformattext'] = 'テキスト形式で表示';
 $labels['changeformathtml'] = 'HTML形式で表示';
-
-// message compose
 $labels['editasnew']      = '新しいメッセージとして編集';
 $labels['send']           = '送信';
 $labels['sendmessage']    = 'メッセージを送信';
@@ -224,26 +192,22 @@ $labels['returnreceipt']  = '開封確認';
 $labels['dsn']            = '配送状態通知';
 $labels['mailreplyintro'] = '$date に $sender さんは書きました:';
 $labels['originalmessage'] = '元のメッセージ';
-
 $labels['editidents']    = '識別情報を編集';
 $labels['spellcheck']    = 'スペル';
 $labels['checkspelling'] = 'スペルチェック';
 $labels['resumeediting'] = '編集を再開';
 $labels['revertto']      = '元に戻す';
-
 $labels['attach'] = '添付';
 $labels['attachments'] = '添付ファイル';
 $labels['upload'] = 'アップロード';
 $labels['uploadprogress'] = '$percent ($current / $total)';
 $labels['close']  = '閉じる';
 $labels['messageoptions']  = 'メッセージのオプション...';
-
 $labels['low']     = '低';
 $labels['lowest']  = '最低';
 $labels['normal']  = '通常';
 $labels['high']    = '高';
 $labels['highest'] = '最高';
-
 $labels['nosubject']  = '(件名なし)';
 $labels['showimages'] = '画像を表示';
 $labels['alwaysshow'] = '$sender から届いた画像は常に表示';
@@ -251,25 +215,19 @@ $labels['isdraft']    = 'これは下書きのメッセージです。';
 $labels['andnmore']   = 'さらに$nr件...';
 $labels['togglemoreheaders'] = 'さらにメッセージのヘッダーを表示';
 $labels['togglefullheaders'] = 'メッセージヘッダーの生の表示と切り替え';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'テキスト';
 $labels['savesentmessagein'] = '送信したメッセージの保存先';
 $labels['dontsave'] = '保存しない';
 $labels['maxuploadsize'] = '添付可能なファイルは最大で$sizeです。';
-
 $labels['addcc'] = '写し(Cc)を追加';
 $labels['addbcc'] = '隠した写し(Bcc)を追加';
 $labels['addreplyto'] = '返信先(Reply-To)を追加';
 $labels['addfollowupto'] = 'フォロー先(Followup-Toを追加';
-
-// mdn
 $labels['mdnrequest'] = 'このメッセージを読んだときに、送信者が通知を受けたいと依頼しています。開封確認の通知を送信しますか?';
 $labels['receiptread'] = '開封確認(表示済み)';
 $labels['yourmessage'] = 'これはあなたが送信したメッセージに対する開封確認です。';
 $labels['receiptnote'] = '注意: この開封確認は、メッセージが宛先のコンピューターで表示されたことだけを知らせるものです。受信者がメッセージを読んだり、内容を理解したと保証するものではありません。';
-
-// address boook
 $labels['name']         = '表示名';
 $labels['firstname']    = '名';
 $labels['surname']      = '姓';
@@ -304,7 +262,6 @@ $labels['search'] = '検索';
 $labels['advsearch'] = '高度な検索';
 $labels['advanced'] = '高度';
 $labels['other'] = 'その他';
-
 $labels['typehome']   = '自宅';
 $labels['typework']   = '職場';
 $labels['typeother']  = 'その他';
@@ -319,14 +276,12 @@ $labels['typeassistant']  = 'アシスタント';
 $labels['typehomepage']  = 'ホームページ';
 $labels['typeblog'] = 'ブログ';
 $labels['typeprofile'] = 'プロフィール';
-
 $labels['addfield'] = '項目を追加...';
 $labels['addcontact'] = '新しい連絡先を追加';
 $labels['editcontact'] = '連絡先を編集';
 $labels['contacts'] = '連絡先';
 $labels['contactproperties'] = '連絡先の属性';
 $labels['personalinfo'] = '個人情報';
-
 $labels['edit']   = '編集';
 $labels['cancel'] = '取り消し';
 $labels['save']   = '保存';
@@ -335,7 +290,6 @@ $labels['rename'] = '名前を変更';
 $labels['addphoto'] = '追加';
 $labels['replacephoto'] = '置き換え';
 $labels['uploadphoto'] = '写真をアップロード';
-
 $labels['newcontact']     = '新しい連絡先カードを作成';
 $labels['deletecontact']  = '選択した連絡先を削除';
 $labels['composeto']      = 'この連絡先宛にメッセージを作成';
@@ -349,42 +303,36 @@ $labels['newcontactgroup'] = '連絡先グループを新しく作成';
 $labels['grouprename']    = 'グループ名を変更';
 $labels['groupdelete']    = 'グループを削除';
 $labels['groupremoveselected'] = '選択した連絡先をグループから削除';
-
 $labels['previouspage']   = '前のページを表示';
 $labels['firstpage']      = '最初のページを表示';
 $labels['nextpage']       = '次のページを表示';
 $labels['lastpage']       = '最後のページを表示';
-
 $labels['group'] = 'グループ';
 $labels['groups'] = 'グループ';
 $labels['listgroup'] = 'グループのメンバーを一覧';
 $labels['personaladrbook'] = '個人の住所';
-
 $labels['searchsave'] = '検索情報を保存';
 $labels['searchdelete'] = '検索情報を削除';
-
 $labels['import'] = 'インポート';
 $labels['importcontacts'] = '連絡先をインポート';
 $labels['importfromfile'] = 'ファイルからインポート';
-$labels['importtarget'] = 'アドレス帳に新しい連絡先の追加:';
+$labels['importtarget'] = '次に連絡先を追加';
 $labels['importreplace'] = 'アドレス帳全体と置き換え';
+$labels['importgroups'] = 'グループの割り当てをインポート';
+$labels['importgroupsall'] = 'すべて (必要ならグループを作成)';
+$labels['importgroupsexisting'] = '存在するグループだけ';
 $labels['importdesc'] = '連絡先を既存のアドレス帳からアップロードできます。<br />現在、<a href="http://ja.wikipedia.org/wiki/VCard">vCard</a>またはCSV(コンマ区切り)のデータ形式からアドレスのインポートをサポートしています。';
 $labels['done'] = '完了';
-
-// settings
 $labels['settingsfor'] = '次の設定:';
 $labels['about'] = 'このプログラムについて';
 $labels['preferences'] = '設定';
 $labels['userpreferences'] = 'ユーザー設定';
 $labels['editpreferences'] = 'ユーザー設定を変更';
-
 $labels['identities'] = '識別情報';
 $labels['manageidentities'] = 'このアカウントの識別情報を管理';
 $labels['newidentity'] = '新しい識別情報';
-
 $labels['newitem'] = '新しい項目';
 $labels['edititem'] = '項目の編集';
-
 $labels['preferhtml'] = 'HTMLを表示';
 $labels['defaultcharset'] = '初期設定の文字セット';
 $labels['htmlmessage'] = 'HTMLメッセージ';
@@ -480,7 +428,6 @@ $labels['standardwindows'] = 'ポップアップを通常のウィンドウと�
 $labels['forwardmode'] = 'メッセージの転送形式';
 $labels['inline'] = 'インライン';
 $labels['asattachment'] = '添付ファイル';
-
 $labels['folder']  = 'フォルダー';
 $labels['folders']  = 'フォルダー';
 $labels['foldername']  = 'フォルダー名';
@@ -501,26 +448,20 @@ $labels['foldertype'] = 'フォルダーの種類';
 $labels['personalfolder']  = '個人フォルダー';
 $labels['otherfolder']  = '他のユーザーのフォルダー';
 $labels['sharedfolder']  = '公開フォルダー';
-
 $labels['sortby'] = '並べ替え';
 $labels['sortasc']  = '昇順で並べ替え';
 $labels['sortdesc'] = '降順で並べ替え';
 $labels['undo'] = '取り消し';
-
 $labels['installedplugins'] = 'インストールしているプラグイン';
 $labels['plugin'] = 'プラグイン';
 $labels['version'] = 'バージョン';
 $labels['source'] = 'ソース';
 $labels['license'] = 'ライセンス';
 $labels['support'] = 'サポートを得る';
-
-// units
 $labels['B'] = 'バイト';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = '英語';
 $labels['westerneuropean'] = '西ヨーロッパ言語';
@@ -539,5 +480,4 @@ $labels['vietnamese'] = 'ベトナム語';
 $labels['japanese'] = '日本語';
 $labels['korean'] = '韓国語';
 $labels['chinese'] = '中国語';
-
 ?>

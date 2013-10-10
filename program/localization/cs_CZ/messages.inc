@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Došlo k chybě!';
 $messages['loginfailed']  = 'Přihlášení selhalo';
 $messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nezbytné';
@@ -101,13 +99,16 @@ $messages['converting'] = 'Odstraňuji formátování ze zprávy...';
 $messages['messageopenerror'] = 'Nemohu načíst zprávu ze serveru';
 $messages['fileuploaderror'] = 'Nahrávání souboru selhalo';
 $messages['filesizeerror'] = 'Soubor přesáhl maximální velikost $size';
-$messages['copysuccess'] = 'Úspěšně zkopírováno $nr adres';
-$messages['copyerror'] = 'Nemohu zkopírovat žádnou adresu';
+$messages['copysuccess'] = 'Úspěšně zkopírováno $nr kontaktů.';
+$messages['movesuccess'] = 'Úspěšně přesunuto $nr kontaktů.';
+$messages['copyerror'] = 'Kontakty nelze kopírovat.';
+$messages['moveerror'] = 'Kontakty nelze přesunout.';
 $messages['sourceisreadonly'] = 'Tento zdroj adres je pouze pro čtení';
 $messages['errorsavingcontact'] = 'Nemohu uložit adresu kontaktu';
 $messages['movingmessage'] = 'Přesouvám zprávu...';
 $messages['copyingmessage'] = 'Kopíruji zprávu...';
 $messages['copyingcontact'] = 'Kopíruji kontakty...';
+$messages['movingcontact'] = 'Přesouvání kontaktů()...';
 $messages['deletingmessage'] = 'Odstraňuji zprávu...';
 $messages['markingmessage'] = 'Označuji zprávu...';
 $messages['addingmember'] = 'Přidávám kontakty do skupiny...';
@@ -141,7 +142,7 @@ $messages['smtperror'] = 'Chyba SMTP: $msg';
 $messages['emailformaterror'] = 'Neplatná e-mailová adresa: $email';
 $messages['toomanyrecipients'] = 'Příliš mnoho příjemců. Změňte počet příjemců na $max.';
 $messages['maxgroupmembersreached'] = 'Počet členských skupin dosáhl maximum z $max';
-$messages['internalerror'] = 'Došlo k interní chybě. Zkuste to znovu';
+$messages['internalerror'] = 'Došlo k interní chybě. Zkuste to prosím znovu.';
 $messages['contactdelerror'] = 'Kontakty nelze odstranit';
 $messages['contactdeleted'] = 'Kontakty byly odstraněny';
 $messages['contactrestoreerror'] = 'Nelze obnovit smazané kontakty';
@@ -169,5 +170,4 @@ $messages['parentnotwritable'] = 'Nelze vytvořit/přesunout složku do vybrané
 $messages['messagetoobig'] = 'Část zprávy je příliš velká pro zpracování.';
 $messages['attachmentvalidationerror'] = 'Varování: Tato příloha je podezřelá, protože její typ se neshoduje s typem uvedeným ve zprávě. Pokud nedůvěřujete odesílateli, neměli byste přílohu otevírat v prohlížeči, protože může obsahovat škodlivý obsah.<br/><br/><em>Očekáváno: $expected; nalezeno: $detected</em>';
 $messages['noscriptwarning'] = 'Upozornění: Tato emailová aplikace vyžaduje Javascript! Prosím, zapněte Javascript v nastavení prohlížeče.';
-
 ?>

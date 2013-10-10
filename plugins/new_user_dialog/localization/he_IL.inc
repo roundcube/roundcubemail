@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'נא להשלים את פרטי זהותך';
 $labels['identitydialoghint'] = 'תיבה זו מופיעה פעם אחת בזמן הכניסה הראשונה למערכת';
-
 ?>

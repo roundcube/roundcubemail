@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Ŝanĝi pasvorton';
 $labels['curpasswd']  = 'Nuna pasvorto:';
 $labels['newpasswd']  = 'Nova pasvorto:';
 $labels['confpasswd']  = 'Konfirmi novan pasvorton:';
-
-$messages = array();
 $messages['nopassword'] = 'Bonvole tajpu novan pasvorton.';
 $messages['nocurpassword'] = 'Bonvole tajpu nunan pasvorton.';
 $messages['passwordincorrect'] = 'Nuna pasvorto nekorekta.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Nova pasvorto ne konserveblas.';
 $messages['passwordshort'] = 'Pasvorto longu almenaŭ $length signojn.';
 $messages['passwordweak'] = 'La pasvorto enhavu almenaŭ unu ciferon kaj unu interpunktan signon.';
 $messages['passwordforbidden'] = 'La pasvorto enhavas malpermesitajn signojn.';
-
 ?>

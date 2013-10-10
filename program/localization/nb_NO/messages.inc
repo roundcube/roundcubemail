@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Det oppsto en feil!';
 $messages['loginfailed']  = 'Pålogging mislyktes';
 $messages['cookiesdisabled'] = 'Nettleseren din tillater ikke informasjonskapsler (cookies)';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Den ønskede kontakten ble ikke funnet';
 $messages['contactsearchonly'] = 'Skriv inn noen søkeord for å finne kontakter.';
 $messages['sendingfailed'] = 'Kunne ikke sende e-posten';
 $messages['senttooquickly'] = 'Vennligst vent $sec sekund(er) før du sender denne meldingen';
-$messages['errorsavingsent'] = 'En feil oppsto under lagring av sendt melding';
-$messages['errorsaving'] = 'Det oppstod en feil ved lagring av data';
 $messages['errormoving'] = 'Kunne ikke flytte meldingen(e)';
 $messages['errorcopying'] = 'Kunne ikke kopiere meldingen(e)';
 $messages['errordeleting'] = 'Kunne ikke slette meldingen(e)';
@@ -101,16 +97,11 @@ $messages['converting'] = 'Fjerner formatering fra meldingen ...';
 $messages['messageopenerror'] = 'Kunne ikke hente meldingen fra server';
 $messages['fileuploaderror'] = 'Feil under opplastning.';
 $messages['filesizeerror'] = 'Filen overstiger maksimum tillatt filstørrelse ($size)';
-$messages['copysuccess'] = 'Successfully copied $nr contacts.';
-$messages['movesuccess'] = 'Successfully moved $nr contacts.';
-$messages['copyerror'] = 'Could not copy any contacts.';
-$messages['moveerror'] = 'Could not move any contacts.';
 $messages['sourceisreadonly'] = 'Denne adressekilden er skrivebeskyttet';
 $messages['errorsavingcontact'] = 'Kunne ikke lagre kontaktadressen.';
 $messages['movingmessage'] = 'Flytter e-post ...';
 $messages['copyingmessage'] = 'Kopierer e-post...';
 $messages['copyingcontact'] = 'Kopierer kontakt(er) …';
-$messages['movingcontact'] = 'Moving contact(s)...';
 $messages['deletingmessage'] = 'Sletter melding(er) …';
 $messages['markingmessage'] = 'Markerer melding(er) ...';
 $messages['addingmember'] = 'Legger til kontakt(er) i gruppa ...';
@@ -144,7 +135,6 @@ $messages['smtperror'] = 'SMTP-feil ($code): $msg';
 $messages['emailformaterror'] = 'Ukorrekt e-postadresse: $email';
 $messages['toomanyrecipients'] = 'For mange mottakere. Reduser antall mottakere til $max.';
 $messages['maxgroupmembersreached'] = 'Antall gruppemedlemmer overskrider maksgrensen på $max';
-$messages['internalerror'] = 'Intern feil, prøv igjen senere.';
 $messages['contactdelerror'] = 'Kunne ikke slette kontakt(er)';
 $messages['contactdeleted'] = 'Kontakt(er) slettet uten feil.';
 $messages['contactrestoreerror'] = 'Kunne ikke gjenopprette kontakt(er).';
@@ -172,5 +162,4 @@ $messages['parentnotwritable'] = 'Kunne ikke opprette/flytte mappen i valgt over
 $messages['messagetoobig'] = 'Meldingsdelen er for stor til at den kan prosesseres.';
 $messages['attachmentvalidationerror'] = 'ADVARSEL! Dette vedlegget er mistenkelig fordi det er av en type som ikke passer med det som er deklarert i meldingen. Hvis du ikke stoler på avsenderen burde du ikke åpne det i nettleseren, fordi det kan ha skadelig innhold.<br/><br/><em>Forventet: $expected; fant: $detected</em>rnrnWARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'NB: Denne webmail-klienten krever Javascript! Skru på Javascript i nettleseren din for å kunne bruke den.';
-
 ?>

@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Skjul';
 $labels['show'] = 'Vis';
 $labels['quotelimit'] = 'Skjul sitat når antall linjer er flere enn';
-
 ?>

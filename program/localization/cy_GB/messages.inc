@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Fe gafwyd gwall!';
 $messages['loginfailed']  = 'Methwyd a\'ch mewngofnodi';
 $messages['cookiesdisabled'] = 'Nid yw eich porwr yn derbyn cwcis';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Ni gafwyd hyd i\'r cysylltiad gofynnwyd amdano';
 $messages['contactsearchonly'] = 'Rhowch dermau chwilio i ganfod cysylltiadau';
 $messages['sendingfailed'] = 'Methwyd danfon y neges';
 $messages['senttooquickly'] = 'Arhoswch $sec eiliad cyn danfon y neges';
-$messages['errorsavingsent'] = 'Fe gafwyd gwall wrth cadw\'r neges ddanfonwyd';
-$messages['errorsaving'] = 'Fe gafwyd gwall wrth gadw';
 $messages['errormoving'] = 'Methwyd symud y neges';
 $messages['errorcopying'] = 'Methwyd copïo\'r neges(euon)';
 $messages['errordeleting'] = 'Methwyd dileu y neges';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'Gwall SMTP: $msg';
 $messages['emailformaterror'] = 'Cyfeiriad e-bost anghywir: $email';
 $messages['toomanyrecipients'] = 'Gormod o dderbynnwyr. Lleihewch y nifer i $max';
 $messages['maxgroupmembersreached'] = 'Mae nifer o aelodau\'r grŵp yn fwy na\'r uchafswm o $max';
-$messages['internalerror'] = 'Fe gafwyd gwall mewnol. Rhowch gynnig arni eto.';
 $messages['contactdelerror'] = 'Methwyd dileu cyswllt';
 $messages['contactdeleted'] = 'Cyswllt wedi ei ddileu yn llwyddiannus';
 $messages['contactrestoreerror'] = 'Methwyd adfer y cyswllt/cysylltiadau a ddilëwyd';
@@ -172,5 +167,4 @@ $messages['parentnotwritable'] = 'Methwyd creu/symud ffolder i\'r ffolder rhiant
 $messages['messagetoobig'] = 'Mae darn y neges yn rhy fawr i\'w brosesu.';
 $messages['attachmentvalidationerror'] = 'RHYBUDD! Mae\'r atodiad yn amheus oherwydd nid yw ei fath yn gymharu\'r gyda\'r math ddatganwyd yn y neges. Os nad ydych yn ymddiried yn y danfonwr, ni ddylech agor hwn yn y porwr oherwydd fe all gynnwys ffeil maleisus.<br></br><em>Disgwylwyd:$expected;canfuwyd:$detected</em>';
 $messages['noscriptwarning'] = 'Rhybudd: Mae\'r gwasanaeth gwebost angen Javascript i weithio! Er mwyn ei ddefnyddio, galluogwch Javascript yng ngosodiadau eich porwr.';
-
 ?>

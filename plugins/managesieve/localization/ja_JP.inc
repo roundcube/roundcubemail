@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'フィルター';
 $labels['managefilters'] = '受信メールのフィルターを管理';
 $labels['filtername'] = 'フィルター名';
@@ -159,39 +157,36 @@ $labels['asciicasemap'] = '大文字小文字を区別しない(ascii-casemap)';
 $labels['asciinumeric'] = '数値(ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
-
-$messages = array();
 $messages['filterunknownerror'] = '不明なサーバーのエラーです。';
 $messages['filterconnerror'] = 'サーバに接続できません。';
-$messages['filterdeleteerror'] = 'フィルターを削除できませんでした。サーバーでエラーが発生しました。';
+$messages['filterdeleteerror'] = 'フィルターを削除できません。サーバーでエラーが発生しました。';
 $messages['filterdeleted'] = 'フィルターを削除しました。';
 $messages['filtersaved'] = 'フィルターを保存しました。';
-$messages['filtersaveerror'] = 'フィルターの保存できませんでした。サーバーでエラーが発生しました。';
+$messages['filtersaveerror'] = 'フィルターの保存できません。サーバーでエラーが発生しました。';
 $messages['filterdeleteconfirm'] = '本当に選択したフィルターを削除しますか?';
 $messages['ruledeleteconfirm'] = '本当に選択したルールを削除しますか?';
 $messages['actiondeleteconfirm'] = '本当に選択した操作を削除しますか?';
 $messages['forbiddenchars'] = '項目に禁止している文字が含まれています。';
 $messages['cannotbeempty'] = '項目は空欄にできません。';
 $messages['ruleexist'] = '指定した名前のフィルターが既に存在します。';
-$messages['setactivateerror'] = '選択したフィルターセットを有効にできませんでした。サーバーでエラーが発生しました。';
-$messages['setdeactivateerror'] = '選択したフィルターセットを無効にできませんでした。サーバーでエラーが発生しました。';
-$messages['setdeleteerror'] = '選択したフィルターセットを削除できませんでした。サーバーでエラーが発生しました。';
+$messages['setactivateerror'] = '選択したフィルターセットを有効にできません。サーバーでエラーが発生しました。';
+$messages['setdeactivateerror'] = '選択したフィルターセットを無効にできません。サーバーでエラーが発生しました。';
+$messages['setdeleteerror'] = '選択したフィルターセットを削除できません。サーバーでエラーが発生しました。';
 $messages['setactivated'] = 'フィルターセットを有効にしました。';
 $messages['setdeactivated'] = 'フィルターセットを無効にしました。';
 $messages['setdeleted'] = 'フィルターセットを削除しました。';
 $messages['setdeleteconfirm'] = '本当に選択したフィルターセットを削除しますか?';
-$messages['setcreateerror'] = 'フィルターセットを作成できませんでした。サーバーでエラーが発生しました。';
+$messages['setcreateerror'] = 'フィルターセットを作成できません。サーバーでエラーが発生しました。';
 $messages['setcreated'] = 'フィルターセットを作成しました。';
-$messages['activateerror'] = '選択したフィルターを有効にできませんでした。サーバーでエラーが発生しました。';
-$messages['deactivateerror'] = '選択したフィルターを無効にできませんでした。サーバーでエラーが発生しました。';
+$messages['activateerror'] = '選択したフィルターを有効にできません。サーバーでエラーが発生しました。';
+$messages['deactivateerror'] = '選択したフィルターを無効にできません。サーバーでエラーが発生しました。';
 $messages['deactivated'] = 'フィルターを有効にしました。';
 $messages['activated'] = 'フィルターを無効にしました。';
 $messages['moved'] = 'フィルターを移動しました。';
-$messages['moveerror'] = '選択したフィルターを移動できませんでした。サーバーでエラーが発生しました。';
+$messages['moveerror'] = 'Unable to move selected filter. Server error occurred.';
 $messages['nametoolong'] = '名前が長すぎます。';
 $messages['namereserved'] = '予約されている名前です。';
 $messages['setexist'] = 'フィルターセットが既に存在します。';
 $messages['nodata'] = '少なくとも1つの場所を選択しなければなりません!';
-$messages['invaliddateformat'] = 'Invalid date or date part format';
-
+$messages['invaliddateformat'] = '無効な日付または日付部分の書式';
 ?>

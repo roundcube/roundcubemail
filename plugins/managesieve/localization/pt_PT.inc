@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Gerir filtros';
 $labels['filtername'] = 'Nome do filtro';
@@ -159,14 +157,12 @@ $labels['asciicasemap'] = 'não sensível a maiúsculas/minúsculas (caracteres 
 $labels['asciinumeric'] = 'numérico (numérico ascii)';
 $labels['index'] = 'índice:';
 $labels['indexlast'] = 'retroceder';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Erro de servidor desconhecido';
 $messages['filterconnerror'] = 'Não é possível ligar ao servidor Sieve';
-$messages['filterdeleteerror'] = 'Não foi possível eliminar o filtro. Erro no servidor';
+$messages['filterdeleteerror'] = 'Não foi possível eliminar o filtro.  Ocorreu um erro no servidor.';
 $messages['filterdeleted'] = 'Filtro eliminado com sucesso';
 $messages['filtersaved'] = 'Filtro guardado com sucesso';
-$messages['filtersaveerror'] = 'Não foi possível guardar o filtro. Erro no servidor';
+$messages['filtersaveerror'] = 'Não foi possível guardar o filtro.  Ocorreu um erro no servidor.';
 $messages['filterdeleteconfirm'] = 'Tem a certeza que pretende eliminar este filtro?';
 $messages['ruledeleteconfirm'] = 'Tem a certeza que pretende eliminar esta regra?';
 $messages['actiondeleteconfirm'] = 'Tem a certeza que pretende eliminar esta acção?';
@@ -193,5 +189,4 @@ $messages['namereserved'] = 'Nome invertido.';
 $messages['setexist'] = 'O conjunto já existe.';
 $messages['nodata'] = 'Deve selecionar pelo menos uma posição.';
 $messages['invaliddateformat'] = 'Data ou formato de data inválido.';
-
 ?>

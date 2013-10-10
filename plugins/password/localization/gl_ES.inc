@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Cambiar contrasinal';
 $labels['curpasswd']  = 'Contrasinal actual:';
 $labels['newpasswd']  = 'Contrasinal novo:';
 $labels['confpasswd']  = 'Confirmar contrasinal:';
-
-$messages = array();
 $messages['nopassword'] = 'Por favor, introduza un contrasinal novo.';
 $messages['nocurpassword'] = 'Por favor, introduza o contrasinal actual.';
 $messages['passwordincorrect'] = 'O contrasinal actual é incorrecto.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Non foi posible gardar o contrasinal novo.';
 $messages['passwordshort'] = 'O contrasinal debe ter polo menos $length caracteres.';
 $messages['passwordweak'] = 'O contrasinal debe incluir polo menos un número e un signo de puntuación.';
 $messages['passwordforbidden'] = 'O contrasinal contén caracteres non permitidos.';
-
 ?>

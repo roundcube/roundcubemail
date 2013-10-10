@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'tkaya nawnişani nenar ba tawawi bnwsa';
 $labels['identitydialoghint'] = 'am qtwia wadiara yak jar la sarata krawatawa';
-
 ?>

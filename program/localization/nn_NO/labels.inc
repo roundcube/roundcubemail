@@ -15,31 +15,20 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-$labels = array();
-
-// login page
 $labels['welcome']   = 'Velkomen til $product';
 $labels['username']  = 'Brukarnamn';
 $labels['password']  = 'Passord';
 $labels['server']    = 'Tenar';
 $labels['login']     = 'Logg inn';
-
-// taskbar
 $labels['logout']   = 'Logg ut';
 $labels['mail']     = 'E-post';
 $labels['settings'] = 'Personlege innstillingar';
 $labels['addressbook'] = 'Adressebok';
-
-// mailbox names
 $labels['inbox']  = 'Innboks';
 $labels['drafts'] = 'Kladd';
 $labels['sent']   = 'Sendt';
 $labels['trash']  = 'Sletta';
 $labels['junk']   = 'Søppel';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
-
-// message listing
 $labels['subject'] = 'Emne';
 $labels['from']    = 'Frå';
 $labels['sender']  = 'Avsendar';
@@ -54,27 +43,20 @@ $labels['priority'] = 'Prioritet';
 $labels['organization'] = 'Organisasjon';
 $labels['readstatus'] = 'Lesestatus';
 $labels['listoptions'] = 'Listeinnstillingar …';
-
 $labels['mailboxlist'] = 'Mapper';
 $labels['messagesfromto'] = 'Melding $from til $to av $count';
 $labels['threadsfromto'] = 'Tråd $from til $to ($count stk)';
 $labels['messagenrof'] = 'Melding $nr av $count';
 $labels['fromtoshort'] = '$from-$to av $count';
-
 $labels['copy']     = 'Kopier';
 $labels['move']     = 'Flytt';
 $labels['moveto']   = 'flytt til …';
 $labels['download'] = 'Last ned';
-$labels['open']     = 'Open';
 $labels['showattachment'] = 'Vis';
 $labels['showanyway'] = 'Vis likevel';
-
 $labels['filename'] = 'Filnamn';
 $labels['filesize'] = 'Filstorleik';
-
 $labels['addtoaddressbook'] = 'Legg til i adressebok';
-
-// weekdays short
 $labels['sun'] = 'Sun';
 $labels['mon'] = 'Mån';
 $labels['tue'] = 'Tys';
@@ -82,8 +64,6 @@ $labels['wed'] = 'Ons';
 $labels['thu'] = 'Tor';
 $labels['fri'] = 'Fre';
 $labels['sat'] = 'Lau';
-
-// weekdays long
 $labels['sunday']    = 'Sundag';
 $labels['monday']    = 'Måndag';
 $labels['tuesday']   = 'Tysdag';
@@ -91,8 +71,6 @@ $labels['wednesday'] = 'Onsdag';
 $labels['thursday']  = 'Torsdag';
 $labels['friday']    = 'Fredag';
 $labels['saturday']  = 'Laurdag';
-
-// months short
 $labels['jan']	= 'Jan';
 $labels['feb']	= 'Feb';
 $labels['mar']	= 'Mar';
@@ -105,8 +83,6 @@ $labels['sep']	= 'Sep';
 $labels['oct']	= 'Okt';
 $labels['nov']	= 'Nov';
 $labels['dec']	= 'Des';
-
-// months long
 $labels['longjan']	= 'Januar';
 $labels['longfeb']	= 'Februar';
 $labels['longmar']	= 'Mars';
@@ -119,10 +95,7 @@ $labels['longsep']	= 'September';
 $labels['longoct']	= 'Oktober';
 $labels['longnov']	= 'November';
 $labels['longdec']	= 'Desember';
-
 $labels['today'] = 'I dag';
-
-// toolbar buttons
 $labels['refresh']          = 'Frisk opp att';
 $labels['checkmail']        = 'Sjå etter nye meldingar';
 $labels['compose']          = 'Skriv ei melding';
@@ -155,7 +128,6 @@ $labels['moreactions']      = 'Fleire handlingar';
 $labels['more']             = 'Meir';
 $labels['back']             = 'Tilbake';
 $labels['options']          = 'Innstillingar';
-
 $labels['select'] = 'Vel';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Ingen';
@@ -163,7 +135,6 @@ $labels['currpage'] = 'Gjeldande side';
 $labels['unread'] = 'Uleste';
 $labels['flagged'] = 'Flagga';
 $labels['unanswered'] = 'Ikkje svara';
-$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Sletta';
 $labels['undeleted'] = 'Ikkje sletta';
 $labels['invert'] = 'Inverter';
@@ -174,7 +145,6 @@ $labels['expand-all'] = 'Utvid alle';
 $labels['expand-unread'] = 'Utvid ulesne';
 $labels['collapse-all'] = 'Slå saman alle';
 $labels['threaded'] = 'Tråda';
-
 $labels['autoexpand_threads'] = 'Utvid eposttråder';
 $labels['do_expand'] = 'alle tråder';
 $labels['expand_only_unread'] = 'berre med ulesne epostar';
@@ -190,29 +160,19 @@ $labels['listcolumns'] = 'Vis kolonner';
 $labels['listsorting'] = 'Sorteringskolonne';
 $labels['listorder'] = 'Sorteringsveg';
 $labels['listmode'] = 'Listevisningmodus';
-
 $labels['folderactions'] = 'Mappehandlingar';
 $labels['compact'] = 'Kompakt';
 $labels['empty'] = 'Tom';
-$labels['importmessages'] = 'Import messages';
-
 $labels['quota'] = 'Plassbruk';
 $labels['unknown']  = 'ukjend';
 $labels['unlimited']  = 'ubegrensa';
-
 $labels['quicksearch']  = 'Snøggsøk';
 $labels['resetsearch']  = 'Tilbakestill søk';
 $labels['searchmod']  = 'Søkeutsagn';
 $labels['msgtext']  = 'Heile eposten';
 $labels['body']  = 'Meldingstekst';
-$labels['type'] = 'Type';
-
 $labels['openinextwin'] = 'Opna i nytt vindauga';
 $labels['emlsave'] = 'Last ned (.eml)';
-$labels['changeformattext'] = 'Display in plain text format';
-$labels['changeformathtml'] = 'Display in HTML format';
-
-// message compose
 $labels['editasnew']      = 'Rediger som ny';
 $labels['send']           = 'Send';
 $labels['sendmessage']    = 'Send meldinga no';
@@ -224,26 +184,22 @@ $labels['returnreceipt']  = 'Epost-er-lest-kvittering';
 $labels['dsn']            = 'Leveringsstatus';
 $labels['mailreplyintro'] = 'Den $date skreiv $sender:';
 $labels['originalmessage'] = 'Opphavleg melding';
-
 $labels['editidents']    = 'Redigere identitetar';
 $labels['spellcheck']    = 'Stavekontroll';
 $labels['checkspelling'] = 'Stavekontroll';
 $labels['resumeediting'] = 'Hald fram redigering';
 $labels['revertto']      = 'Tilbakestill til';
-
 $labels['attach'] = 'Legg ved';
 $labels['attachments'] = 'Vedlegg';
 $labels['upload'] = 'Last opp';
 $labels['uploadprogress'] = '$percent ($current frå $total)';
 $labels['close']  = 'Steng';
 $labels['messageoptions']  = 'Meldingsalternativ';
-
 $labels['low']     = 'Låg';
 $labels['lowest']  = 'Lågast';
 $labels['normal']  = 'Normal';
 $labels['high']    = 'Høg';
 $labels['highest'] = 'Høgast';
-
 $labels['nosubject']  = '(ingen emne)';
 $labels['showimages'] = 'Vis bilete';
 $labels['alwaysshow'] = 'Alltid vis bilete frå $sender';
@@ -251,25 +207,19 @@ $labels['isdraft']    = 'Dette er ein kladd.';
 $labels['andnmore']   = '$nr fleire …';
 $labels['togglemoreheaders'] = 'Vis fleire meldingshovud';
 $labels['togglefullheaders'] = 'Veksle vising av meldinga sine headere i råformat';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Vanleg tekst';
 $labels['savesentmessagein'] = 'Lagra sendt epost i';
 $labels['dontsave'] = 'Ikkje lagra';
 $labels['maxuploadsize'] = 'Maksimalt tillatte storleik på filar er $size';
-
 $labels['addcc'] = 'Legg til kopi';
 $labels['addbcc'] = 'Legg til blindkopi';
 $labels['addreplyto'] = 'Legg til svaradressa';
 $labels['addfollowupto'] = 'Legg til oppfylgjing';
-
-// mdn
 $labels['mdnrequest'] = 'Sendaren av denne meldinga ynskjer å få kvittering når du har lest meldinga. Ynskjer du å senda denne kvitteringa?';
 $labels['receiptread'] = 'Svarkvittering (eposten-er-lest-kvittering)';
 $labels['yourmessage'] = 'Dette er ein retur-kvittering for meldinga di.';
 $labels['receiptnote'] = 'Hugs: Denne kvitteringa seier berre at meldinga di vart vist på mottakar sin datamaskin. Det er ingen garanti for at mottakaren faktisk har lese eller forstått innhaldet i meldinga.';
-
-// address boook
 $labels['name']         = 'Visingsnamn';
 $labels['firstname']    = 'Førenamn';
 $labels['surname']      = 'Etternamn';
@@ -304,7 +254,6 @@ $labels['search'] = 'Søk';
 $labels['advsearch'] = 'Avansert søk';
 $labels['advanced'] = 'Avansert';
 $labels['other'] = 'Andre';
-
 $labels['typehome']   = 'Heim';
 $labels['typework']   = 'Jobb';
 $labels['typeother']  = 'Andre';
@@ -319,14 +268,12 @@ $labels['typeassistant']  = 'Assistent';
 $labels['typehomepage']  = 'Heimeside';
 $labels['typeblog'] = 'Blogg';
 $labels['typeprofile'] = 'Profil';
-
 $labels['addfield'] = 'Legg til felt...';
 $labels['addcontact'] = 'Legg til ny kontakt';
 $labels['editcontact'] = 'Redigere kontakt';
 $labels['contacts'] = 'Kontakter';
 $labels['contactproperties'] = 'Eigenskapar';
 $labels['personalinfo'] = 'Personleg informasjon';
-
 $labels['edit']   = 'Redigere';
 $labels['cancel'] = 'Avbryt';
 $labels['save']   = 'Lagre';
@@ -335,7 +282,6 @@ $labels['rename'] = 'Gi nytt namn';
 $labels['addphoto'] = 'Legg til';
 $labels['replacephoto'] = 'Erstatt';
 $labels['uploadphoto'] = 'Last opp bilete';
-
 $labels['newcontact']     = 'Opprett nytt kontaktkort';
 $labels['deletecontact']  = 'Slett valde kontaktar';
 $labels['composeto']      = 'Ny melding til';
@@ -349,42 +295,31 @@ $labels['newcontactgroup'] = 'Lag ny kontaktgruppe';
 $labels['grouprename']    = 'Endre namn på gruppe';
 $labels['groupdelete']    = 'Slett gruppe';
 $labels['groupremoveselected'] = 'Fjern valde kontaktar frå gruppe';
-
 $labels['previouspage']   = 'Førre side';
 $labels['firstpage']      = 'Første side';
 $labels['nextpage']       = 'Neste side';
 $labels['lastpage']       = 'Siste side';
-
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Gruppar';
-$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Personlege adresser';
-
 $labels['searchsave'] = 'Lagre søk';
 $labels['searchdelete'] = 'Slett søk';
-
 $labels['import'] = 'Importer';
 $labels['importcontacts'] = 'Importer kontaktar';
 $labels['importfromfile'] = 'Importer frå fil:';
-$labels['importtarget'] = 'Legg til kontakter i adresseboka';
 $labels['importreplace'] = 'Byt ut heile adresseboka';
 $labels['importdesc'] = 'Du kan laste opp kontaktar frå ei eksisterande adressebok.<br/>Vi støttar adressebøker i formata <a href="http://no.wikipedia.org/wiki/VCard">vCard</a> og CSV (kommaseparert).';
 $labels['done'] = 'Ferdig';
-
-// settings
 $labels['settingsfor'] = 'Innstillingar for';
 $labels['about'] = 'Om';
 $labels['preferences'] = 'Innstillingar';
 $labels['userpreferences'] = 'Brukarinnstillingar';
 $labels['editpreferences'] = 'Redigere brukarinnstillingar';
-
 $labels['identities'] = 'Identitetar';
 $labels['manageidentities'] = 'Administrere identitetar for denne kontoen';
 $labels['newidentity'] = 'Ny identitet';
-
 $labels['newitem'] = 'Nytt element';
 $labels['edititem'] = 'Redigere element';
-
 $labels['preferhtml'] = 'Føretrekk HTML';
 $labels['defaultcharset'] = 'Standard karaktersett (charset)';
 $labels['htmlmessage'] = 'HTML-melding';
@@ -406,7 +341,6 @@ $labels['htmleditor'] = 'Lag HTML-meldingar';
 $labels['htmlonreply'] = 'ved svar på HTML-melding';
 $labels['htmlonreplyandforward'] = 'ved vidaresending av eller svar på HTML-melding';
 $labels['htmlsignature'] = 'HTML-signatur';
-$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Vis førehandsvisningsboks';
 $labels['skin'] = 'Bunad';
 $labels['logoutclear'] = 'Fjern alt i «sletta element» ved utlogging';
@@ -476,11 +410,9 @@ $labels['spellcheckignorenums'] = 'Ignorer ord med tal';
 $labels['spellcheckignorecaps'] = 'Ignorer ord med berre store bokstavar';
 $labels['addtodict'] = 'Legg til i ordliste';
 $labels['mailtoprotohandler'] = 'Registrer protokollhandsaming for mailto-lenkjer';
-$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Meldingar vidaresendast';
 $labels['inline'] = 'i teksten';
 $labels['asattachment'] = 'som vedlegg';
-
 $labels['folder']  = 'Mappe';
 $labels['folders']  = 'Mapper';
 $labels['foldername']  = 'Mappenamn';
@@ -501,26 +433,20 @@ $labels['foldertype'] = 'Mappetype';
 $labels['personalfolder']  = 'Privat mappe';
 $labels['otherfolder']  = 'Annan brukar si mappe';
 $labels['sharedfolder']  = 'Offentleg mappe';
-
 $labels['sortby'] = 'Sorter etter';
 $labels['sortasc']  = 'Sorter stigande';
 $labels['sortdesc'] = 'Sorter søkkjande';
 $labels['undo'] = 'Gjer om';
-
 $labels['installedplugins'] = 'Installerte tillegg';
 $labels['plugin'] = 'Tilleggsmodul';
 $labels['version'] = 'Versjon';
 $labels['source'] = 'Kjelde';
 $labels['license'] = 'Lisens';
 $labels['support'] = 'Få hjelp';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'UNicode';
 $labels['english'] = 'Engelsk';
 $labels['westerneuropean'] = 'Vest-europesik';
@@ -539,5 +465,4 @@ $labels['vietnamese'] = 'Vietnamesisk';
 $labels['japanese'] = 'Japansk';
 $labels['korean'] = 'Koreansk';
 $labels['chinese'] = 'Kinesisk';
-
 ?>

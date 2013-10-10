@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Compartir';
 $labels['myrights'] = 'Permisos de acceso';
 $labels['username'] = 'Usuario:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Acciones sobre los permisos de acceso…';
 $labels['anyone'] = 'Todos los usuarios (cualquiera)';
 $labels['anonymous'] = 'Invitados (anónimo)';
 $labels['identifier'] = 'Identificador';
-
 $labels['acll'] = 'Búsqueda';
 $labels['aclr'] = 'Leer mensajes';
 $labels['acls'] = 'Mantener como "Leído';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Borrar mensajes';
 $labels['acle'] = 'Expurgar';
 $labels['aclx'] = 'Borrar carpeta';
 $labels['acla'] = 'Administrar';
-
 $labels['aclfull'] = 'Control total';
 $labels['aclother'] = 'Otro';
 $labels['aclread'] = 'Leer';
 $labels['aclwrite'] = 'Escribir';
 $labels['acldelete'] = 'Borrar';
-
 $labels['shortacll'] = 'Búsqueda';
 $labels['shortaclr'] = 'Leer';
 $labels['shortacls'] = 'Conservar';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Borrar';
 $labels['shortacle'] = 'Expurgar';
 $labels['shortaclx'] = 'Borrar carpeta';
 $labels['shortacla'] = 'Administrar';
-
 $labels['shortaclother'] = 'Otro';
 $labels['shortaclread'] = 'Leer';
 $labels['shortaclwrite'] = 'Escribir';
 $labels['shortacldelete'] = 'Borrar';
-
 $labels['longacll'] = 'La carpeta es visible en las listas y es posible suscribirse a ella';
 $labels['longaclr'] = 'Se puede abrir la carpeta para leer';
 $labels['longacls'] = 'Se pueden cambiar los mensajes con la etiqueta "Leído';
@@ -78,22 +72,19 @@ $labels['longaclt'] = 'No se pueden cambiar los mensajes etiquetados como "Borra
 $labels['longacle'] = 'No se pueden expurgar los mensajes';
 $labels['longaclx'] = 'La carpeta se puede borrar o renombrar';
 $labels['longacla'] = 'Se pueden cambiar los permisos de acceso';
-
 $labels['longaclfull'] = 'Control total, incluyendo la gestión de carpetas';
 $labels['longaclread'] = 'Se puede abrir la carpeta para leer';
 $labels['longaclwrite'] = 'Se pueden etiquetar, escribir o copiar mensajes a la carpeta';
 $labels['longacldelete'] = 'Los mensajes se pueden borrar';
-
 $messages['deleting'] = 'Borrando permisos de acceso…';
 $messages['saving'] = 'Guardando permisos de acceso…';
 $messages['updatesuccess'] = 'Se han cambiado los permisos de acceso';
 $messages['deletesuccess'] = 'Se han borrado los permisos de acceso';
 $messages['createsuccess'] = 'Se han añadido los permisos de acceso';
-$messages['updateerror'] = 'No se han podido actualizar los permisos de acceso';
+$messages['updateerror'] = 'No ha sido posible actualizar los derechos de acceso';
 $messages['deleteerror'] = 'No se han podido borrar los permisos de acceso';
 $messages['createerror'] = 'No se han podido añadir los permisos de acceso';
 $messages['deleteconfirm'] = '¿Seguro que quiere borrar los permisos de acceso del usuairo seleccionado?';
 $messages['norights'] = 'No se han especificado los permisos de acceso';
 $messages['nouser'] = 'No se ha especificado un nombre de usuario';
-
 ?>

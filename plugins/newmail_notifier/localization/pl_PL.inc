@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Wyświetlaj powiadomienia o nadejściu nowej wiadomości w przeglądarce';
 $labels['desktop'] = 'Wyświetlaj powiadomienia o nadejściu nowej wiadomości na pulpicie';
 $labels['sound'] = 'Odtwarzaj dźwięk o nadejściu nowej wiadomości';
@@ -26,5 +25,4 @@ $labels['testbody'] = 'To jest testowe powiadomienie.';
 $labels['desktopdisabled'] = 'Powiadomienia na pulpicie zostały zablokowane w twojej przeglądarce.';
 $labels['desktopunsupported'] = 'Twoja przeglądarka nie obsługuje powiadomień na pulpicie.';
 $labels['desktoptimeout'] = 'Zamknij powiadomienie pulpitu';
-
 ?>

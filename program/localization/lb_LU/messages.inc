@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Ee Feeler ass opgetrueden!';
 $messages['loginfailed']  = 'Login feelgeschloen.';
 $messages['cookiesdisabled'] = 'Däi Browser acceptéiert keng Cookien.';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Den ugefrotene Kontakt gouf net fonnt.';
 $messages['contactsearchonly'] = 'Gëff e puer Sichbegrëffer a fir Kontakter ze fannen';
 $messages['sendingfailed'] = 'De Message konnt net verschéckt ginn.';
 $messages['senttooquickly'] = 'Waart wann ech gelift $sec Sekonn(en) bevir s du de Message verschécks. ';
-$messages['errorsavingsent'] = 'Beim Späichere vum verschéckte Message ass e Feeler opgetrueden';
-$messages['errorsaving'] = 'Beim Späicheren ass e Feeler opgetrueden.';
 $messages['errormoving'] = 'D\'Messagë konnten net verréckelt ginn.';
 $messages['errorcopying'] = 'D\'Messagë konnten net kopéiert ginn.';
 $messages['errordeleting'] = 'D\'Messagë konnten net geläscht ginn.';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'SMTP-Feeler: $msg';
 $messages['emailformaterror'] = 'Ongëlteg E-Mail-Adress: $email';
 $messages['toomanyrecipients'] = 'Zevill Empfänger. Reduzéier d\'Zuel vun den Empfänger op $max.';
 $messages['maxgroupmembersreached'] = 'D\'Unzuel vu Gruppememberen iwwersteigt de Maximum vun $max.';
-$messages['internalerror'] = 'En interne Feeler ass opgetrueden. Probéier w.e.gl nach eng Kéier.';
 $messages['contactdelerror'] = 'Kontakter konnten net geläscht ginn.';
 $messages['contactdeleted'] = 'Kontakter erfollegräich geläscht.';
 $messages['contactrestoreerror'] = 'Déi geläschte Kontakter konnten net recuperéiert ginn.';
@@ -172,5 +167,4 @@ $messages['parentnotwritable'] = 'Den Dossier konnt net am ausgewielten Dossier 
 $messages['messagetoobig'] = 'Den Messagen-Deel ass ze grouss fir verschafft ze ginn.';
 $messages['attachmentvalidationerror'] = 'WARNUNG! Dësen Unhank ass verdächteg well den tatsächlechen Typ vum Fichier net mam Typ deen am Message deklaréiert ass iwwertenee stëmmt. Falls du dem Ofsender net traus sollts du den Unhank net am Browser opmaache well e béisaartegen Inhalt enthaale kéint.<br/><br/><em>Erwaart: $expected; fonnt: $detected</em>';
 $messages['noscriptwarning'] = 'Warnung: Dëse Webmail brauch JavaScript! Fir de Service benotzen ze kënnen, aktivéier w.e.gl JavaScript an denge Browser-Astellungen.';
-
 ?>

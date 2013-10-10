@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Rämps';
 $labels['buttontitle'] = 'Märgista Rämpsuks';
 $labels['reportedasjunk'] = 'Edukalt Rämpsuks märgitud';
-
 ?>

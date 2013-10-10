@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'Dodaj wizytówkę (vCard) do kontaktów';
 $labels['vcardsavefailed'] = 'Nie można zapisać wizytówki (vCard)';
-
 ?>

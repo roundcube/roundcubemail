@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = 'アーカイブ';
 $labels['buttontitle'] = 'このメッセージをアーカイブ';
 $labels['archived'] = 'アーカイブしました。';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = '月 (e.g. アーカイブ/2012/06)';
 $labels['archivetypefolder'] = '元のフォルダー';
 $labels['archivetypesender'] = '電子メールの送信者';
 $labels['unkownsender'] = '不明';
-
 ?>

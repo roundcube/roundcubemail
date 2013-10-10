@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'कृपया पाठवणा-याची ओळख पूर्ण करा';
 $labels['identitydialoghint'] = 'हा चौकोन पहिल्यांदा लॉगिन करताना एकदाच दिसेल.';
-
 ?>

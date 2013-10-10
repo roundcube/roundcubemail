@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Verwalte eingehende Nachrichtenfilter';
 $labels['filtername'] = 'Filtername';
@@ -159,39 +157,27 @@ $labels['asciicasemap'] = 'Gross-/Kleinschreibung ignorieren';
 $labels['asciinumeric'] = 'numerisch (ascii-numeric)';
 $labels['index'] = 'Index:';
 $labels['indexlast'] = 'rückwärts';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann nicht zum Sieve-Server verbinden';
-$messages['filterdeleteerror'] = 'Fehler beim des löschen  Filters. Serverfehler';
 $messages['filterdeleted'] = 'Filter erfolgreich gelöscht';
 $messages['filtersaved'] = 'Filter gespeichert';
-$messages['filtersaveerror'] = 'Serverfehler, konnte den Filter nicht speichern.';
 $messages['filterdeleteconfirm'] = 'Möchten Sie den Filter löschen ?';
 $messages['ruledeleteconfirm'] = 'Sicher, dass Sie die Regel löschen wollen?';
 $messages['actiondeleteconfirm'] = 'Sicher, dass Sie die ausgewaehlte Aktion löschen wollen?';
 $messages['forbiddenchars'] = 'Unerlaubte Zeichen im Feld';
 $messages['cannotbeempty'] = 'Feld darf nicht leer sein';
 $messages['ruleexist'] = 'Ein Filter mit dem angegebenen Namen existiert bereits.';
-$messages['setactivateerror'] = 'Filtersatz kann nicht aktiviert werden. Serverfehler.';
-$messages['setdeactivateerror'] = 'Filtersatz kann nicht deaktiviert werden. Serverfehler.';
-$messages['setdeleteerror'] = 'Filtersatz kann nicht gelöscht werden. Serverfehler.';
 $messages['setactivated'] = 'Filtersatz erfolgreich aktiviert.';
 $messages['setdeactivated'] = 'Filtersatz erfolgreich deaktiviert.';
 $messages['setdeleted'] = 'Filtersatz erfolgreich gelöscht.';
 $messages['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
-$messages['setcreateerror'] = 'Filtersatz kann nicht erstellt werden. Serverfehler.';
 $messages['setcreated'] = 'Filter erfolgreich erstellt.';
-$messages['activateerror'] = 'Filter kann nicht aktiviert werden. Serverfehler.';
-$messages['deactivateerror'] = 'Filter kann nicht deaktiviert werden. Serverfehler.';
 $messages['deactivated'] = 'Filter erfolgreich aktiviert.';
 $messages['activated'] = 'Filter erfolgreich deaktiviert.';
 $messages['moved'] = 'Filter erfolgreich verschoben.';
-$messages['moveerror'] = 'Filter kann nicht verschoben werden. Serverfehler.';
 $messages['nametoolong'] = 'Filtersatz kann nicht erstellt werden. Name zu lang.';
 $messages['namereserved'] = 'Reservierter Name.';
 $messages['setexist'] = 'Filtersatz existiert bereits.';
 $messages['nodata'] = 'Mindestens eine Position muss ausgewählt werden!';
 $messages['invaliddateformat'] = 'Ungültiges Datumsformat';
-
 ?>

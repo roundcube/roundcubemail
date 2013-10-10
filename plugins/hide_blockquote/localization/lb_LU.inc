@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Verstoppen';
 $labels['show'] = 'Weisen';
 $labels['quotelimit'] = 'Zitat verstoppe wann d\'Zeilenunzuel méi grouss ass ewéi';
-
 ?>

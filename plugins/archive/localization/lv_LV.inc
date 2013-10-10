@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Arhīvs';
 $labels['buttontitle'] = 'Arhivēt šo vēstuli';
 $labels['archived'] = 'Vēstule veiksmīgi arhivēta';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = 'Mēnešiem (piem. Arhīvs/2012/06)';
 $labels['archivetypefolder'] = 'Sākotnējā mape';
 $labels['archivetypesender'] = 'Sūtītāja e-pasts';
 $labels['unkownsender'] = 'nezināms';
-
 ?>

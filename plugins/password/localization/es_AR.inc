@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Cambiar Contraseña';
 $labels['curpasswd']  = 'Contraseña Actual:';
 $labels['newpasswd']  = 'Contraseña Nueva:';
 $labels['confpasswd']  = 'Confirmar Contraseña:';
-
-$messages = array();
 $messages['nopassword'] = 'Por favor introduce una nueva contraseña.';
 $messages['nocurpassword'] = 'Por favor introduce la contraseña actual.';
 $messages['passwordincorrect'] = 'Contraseña actual incorrecta.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'No se pudo guardar la contraseña nueva.';
 $messages['passwordshort'] = 'Tu contraseña debe tener una longitud mínima de $length.';
 $messages['passwordweak'] = 'Tu nueva contraseña debe incluir al menos un número y un signo de puntuación.';
 $messages['passwordforbidden'] = 'La contraseña contiene caracteres inválidos.';
-
 ?>

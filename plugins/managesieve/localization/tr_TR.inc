@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtreler';
 $labels['managefilters'] = 'Gelen e-posta filtrelerini yönet';
 $labels['filtername'] = 'Filtre adı';
@@ -56,7 +54,7 @@ $labels['add'] = 'Ekle';
 $labels['del'] = 'Sil';
 $labels['sender'] = 'Gönderici';
 $labels['recipient'] = 'Alıcı';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
+$labels['vacationaddr'] = 'Ek e-posta adres(ler)im:';
 $labels['vacationdays'] = 'Ne sıklıkla mesajlar gönderilir(gün)';
 $labels['vacationinterval'] = 'Ne kadar sıklıkla mesaj gönderirsiniz:';
 $labels['days'] = 'günler';
@@ -159,39 +157,27 @@ $labels['asciicasemap'] = 'büyük küçük harf duyarsız(ascii-casemap)';
 $labels['asciinumeric'] = 'sayı (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'geriye yönelik';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Bilinmeyen sunucu hatası.';
 $messages['filterconnerror'] = 'Sunucuya bağlanamıyor.';
-$messages['filterdeleteerror'] = 'Filtre silinemedi. Sunucuda hata oluştu.';
 $messages['filterdeleted'] = 'Filtre başarıyla silindi.';
 $messages['filtersaved'] = 'Filter başarıyla kaydedildi.';
-$messages['filtersaveerror'] = 'Filtre kaydedilemedi. Sunucuda hata oluştu.';
 $messages['filterdeleteconfirm'] = 'Seçilen filtreleri  gerçekten silmek istiyor musun?';
 $messages['ruledeleteconfirm'] = 'Seçili kuralları silmek istediğinizden emin misiniz?';
 $messages['actiondeleteconfirm'] = 'Seçili aksiyonları silmek istediğinizden emin misiniz?';
 $messages['forbiddenchars'] = 'Alanda izin verilmeyen karakterler var.';
 $messages['cannotbeempty'] = 'Alan boş olmaz';
 $messages['ruleexist'] = 'Belirtilen isimde bir filtre zaten var.';
-$messages['setactivateerror'] = 'Seçilen filtreler etkinleştirilemedi. Sunucuda hata oluştu.';
-$messages['setdeactivateerror'] = 'Seçilen filtreler pasifleştirilemedi. Sunucuda hata oluştu.';
-$messages['setdeleteerror'] = 'Seçilen filtreler silinemedi. Sunucuda hata oluştu.';
 $messages['setactivated'] = 'Filtreler başarıyla etkinleştirilemedi.';
 $messages['setdeactivated'] = 'Filtreler başarıyla pasifleştirildi.';
 $messages['setdeleted'] = 'Filtre seti başarıyla silindi.';
 $messages['setdeleteconfirm'] = 'Seçilen filtre setlerini silmek istediğinizden emin misiniz?';
-$messages['setcreateerror'] = 'Filtre setleri oluşturulamadı. Sunucuda hata oluştu.';
 $messages['setcreated'] = 'Filtre setleri başarıyla oluşturuldu.';
-$messages['activateerror'] = 'Seçilen filtre(ler) etkinleştirilemedi. Sunucuda hata oluştu.';
-$messages['deactivateerror'] = 'Seçilen filtre(ler) pasifleştirilemedi. Sunucuda hata oluştu.';
 $messages['deactivated'] = 'Filtre(ler) başarıyla etkinleştirildi.';
 $messages['activated'] = 'Filtre(ler) başarıyla iptal edildi.';
 $messages['moved'] = 'Filtre başarıyla taşındı.';
-$messages['moveerror'] = 'Seçilen filtre(ler) taşınamadı. Sunucuda hata oluştu.';
 $messages['nametoolong'] = 'İsim çok uzun.';
 $messages['namereserved'] = 'rezerve edilmiş isim.';
 $messages['setexist'] = 'Set zaten var.';
 $messages['nodata'] = 'En az bir pozisyon seçilmelidir.';
 $messages['invaliddateformat'] = 'geçersiz tarih veya tarih biçimi';
-
 ?>

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Archiválás';
 $labels['buttontitle'] = 'Üzenet archiválása';
 $labels['archived'] = 'Sikeres archiválás';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = 'Honap ( pl Arhívum/2012/06)';
 $labels['archivetypefolder'] = 'Eredeti mappa';
 $labels['archivetypesender'] = 'Feladó';
 $labels['unkownsender'] = 'ismeretlen';
-
 ?>

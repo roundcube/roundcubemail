@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Berbagi';
 $labels['myrights'] = 'Hak Akses';
 $labels['username'] = 'Pengguna:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Aksi hak akses...';
 $labels['anyone'] = 'Semua pengguna (siapa saja)';
 $labels['anonymous'] = 'Para tamu (anonim)';
 $labels['identifier'] = 'Yang mengidentifikasi';
-
 $labels['acll'] = 'Cari';
 $labels['aclr'] = 'Baca pesan';
 $labels['acls'] = 'Jaga status terbaca';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Hapus pesan';
 $labels['acle'] = 'Menghapus';
 $labels['aclx'] = 'Hapus folder';
 $labels['acla'] = 'Kelola';
-
 $labels['aclfull'] = 'Kendali penuh';
 $labels['aclother'] = 'Lainnya';
 $labels['aclread'] = 'Baca';
 $labels['aclwrite'] = 'Tulis';
 $labels['acldelete'] = 'Hapus';
-
 $labels['shortacll'] = 'Cari';
 $labels['shortaclr'] = 'Baca';
 $labels['shortacls'] = 'Simpan';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Hapus';
 $labels['shortacle'] = 'Buang';
 $labels['shortaclx'] = 'Hapus folder';
 $labels['shortacla'] = 'Kelola';
-
 $labels['shortaclother'] = 'Lainnya';
 $labels['shortaclread'] = 'Baca';
 $labels['shortaclwrite'] = 'Tulis';
 $labels['shortacldelete'] = 'Hapus';
-
 $labels['longacll'] = 'Folder terlihat di daftar dan dapat dijadikan langganan';
 $labels['longaclr'] = 'Folder dapat dibuka untuk dibaca';
 $labels['longacls'] = 'Tanda pesan terbaca dapat diubah';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'Tanda hapus pesan dapat diubah';
 $labels['longacle'] = 'Pesan dapat dibuang';
 $labels['longaclx'] = 'Folder dapat dihapus atau diubah namanya';
 $labels['longacla'] = 'Hak akses folder dapat diubah';
-
 $labels['longaclfull'] = 'Kendali penuh penuh termasuk administrasi';
 $labels['longaclread'] = 'Folder dapat dibuka untuk dibaca';
 $labels['longaclwrite'] = 'Pesan dapat ditandai, ditulis atau disalin kedalam folder';
 $labels['longacldelete'] = 'Pesan dapat dihapus';
-
 $messages['deleting'] = 'Menghapus hak akses...';
 $messages['saving'] = 'Menyimpan hak akses...';
 $messages['updatesuccess'] = 'Hak akses berhasil diubah';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'Tidak dapat menambah hak akses';
 $messages['deleteconfirm'] = 'Apakah Anda yakin ingin menghapus hak akses dari user terpilih?';
 $messages['norights'] = 'Hak belum ditentukan!';
 $messages['nouser'] = 'Username belum ditentukan!';
-
 ?>

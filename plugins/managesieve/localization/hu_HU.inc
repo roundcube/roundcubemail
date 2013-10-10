@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Üzenetszűrők';
 $labels['managefilters'] = 'Bejövő üzenetek szűrői';
 $labels['filtername'] = 'Szűrő neve';
@@ -159,39 +157,27 @@ $labels['asciicasemap'] = 'kis-nagybetüre nem érzékeny (ascii-casemap)';
 $labels['asciinumeric'] = 'számszerü (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'visszafelé';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Ismeretlen szerverhiba';
 $messages['filterconnerror'] = 'Nem tudok a szűrőszerverhez kapcsolódni';
-$messages['filterdeleteerror'] = 'A szűrőt nem lehet törölni, szerverhiba történt';
 $messages['filterdeleted'] = 'A szűrő törlése sikeres';
 $messages['filtersaved'] = 'A szűrő mentése sikeres';
-$messages['filtersaveerror'] = 'A szűrő mentése sikertelen, szerverhiba történt';
 $messages['filterdeleteconfirm'] = 'Biztosan törli ezt a szűrőt?';
 $messages['ruledeleteconfirm'] = 'Biztosan törli ezt a szabályt?';
 $messages['actiondeleteconfirm'] = 'Biztosan törli ezt a műveletet?';
 $messages['forbiddenchars'] = 'Érvénytelen karakter a mezőben';
 $messages['cannotbeempty'] = 'A mező nem lehet üres';
 $messages['ruleexist'] = 'Már van ilyen névvel elmentett szűrő.';
-$messages['setactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült engedélyezni. Szerver hiba történt.';
-$messages['setdeactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült tiltani. Szerver hiba történt.';
-$messages['setdeleteerror'] = 'Nem sikerült a kiválasztott szűrő készletet törölni. Szerver hiba történt.';
 $messages['setactivated'] = 'A filter készlet engedélyezése sikeresen végrehajtódott.';
 $messages['setdeactivated'] = 'A filter készlet tiltása sikeresen végrehajtódott.';
 $messages['setdeleted'] = 'A filter készlet törlése sikeresen végrehajtódott.';
 $messages['setdeleteconfirm'] = 'Biztosan törölni szeretnéd a kiválasztott szűrő készleteket?';
-$messages['setcreateerror'] = 'Nem sikerült létrehozni a szűrő készletet. Szerver hiba történt.';
 $messages['setcreated'] = 'A szűrő készlet sikeresen létrejött.';
-$messages['activateerror'] = 'Nem sikerült engedélyezni a kiválasztott szűrö(k)et. Szerver hiba történt.';
-$messages['deactivateerror'] = 'Nem sikerült kikapcsolni a kiválasztott szűrő(ke)t. Szerver hiba történt.';
 $messages['deactivated'] = 'Szűrő(k) sikeresen bekapcsolva.';
 $messages['activated'] = 'Szűrő(k) sikeresen kikapcsolva.';
 $messages['moved'] = 'A szűrő sikeresen áthelyezve.';
-$messages['moveerror'] = 'Az áthelyezés nem sikerült. Szerver hiba történt.';
 $messages['nametoolong'] = 'Túll hosszu név';
 $messages['namereserved'] = 'Nem használható (foglalt) név-';
 $messages['setexist'] = 'A készlet már létezik.';
 $messages['nodata'] = 'Legalább egyet ki kell választani.';
 $messages['invaliddateformat'] = 'hibás dátum formátum';
-
 ?>

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Arhiveeri';
 $labels['buttontitle'] = 'Arhiveeri see kiri';
 $labels['archived'] = 'Edukalt arhiveeritud';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = 'Kuu (nt. Arhiiv/2012/06)';
 $labels['archivetypefolder'] = 'Esialgne kaust';
 $labels['archivetypesender'] = 'Saatja e-post';
 $labels['unkownsender'] = 'teadmata';
-
 ?>

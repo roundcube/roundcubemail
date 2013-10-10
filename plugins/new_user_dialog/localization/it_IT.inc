@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Per favore completa le informazioni riguardo la tua identità';
 $labels['identitydialoghint'] = 'Questa finestra comparirà una volta sola al primo accesso';
-
 ?>

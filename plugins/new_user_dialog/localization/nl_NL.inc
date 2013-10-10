@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Vul alstublieft uw afzendergegevens in.';
 $labels['identitydialoghint'] = 'Dit scherm verschijnt eenmalig bij uw eerste aanmelding.';
-
 ?>

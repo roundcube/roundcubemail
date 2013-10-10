@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Գաղտնաբառի փոփոխում';
 $labels['curpasswd']  = 'Առկա գաղտնաբառը`';
 $labels['newpasswd']  = 'Նոր գաղտնաբառը`';
 $labels['confpasswd']  = 'Կրկնեք նոր գաղտնաբառը`';
-
-$messages = array();
 $messages['nopassword'] = 'Ներմուցեք նոր գաղտնաբառը։';
 $messages['nocurpassword'] = 'Ներմուցեք առկա գաղտնաբառը։';
 $messages['passwordincorrect'] = 'Առկա գաղտնաբառը սխալ է։';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Նոր գաղտնաբառի պահպանումը �
 $messages['passwordshort'] = 'Գաղտնաբառերը պետք է լինեն առնվազն $length նիշ երկարությամբ։';
 $messages['passwordweak'] = 'Գաղտնաբառերը պետք է պարունակեն առնվազն մեկ թիվ և մեկ կետադրական նիշ։';
 $messages['passwordforbidden'] = 'Գաղտնաբառը պարունակում է արգելված նիշ։';
-
 ?>

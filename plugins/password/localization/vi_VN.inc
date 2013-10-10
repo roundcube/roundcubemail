@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Thay đổi mật khẩu';
 $labels['curpasswd']  = 'Mật khẩu hiện tại';
 $labels['newpasswd']  = 'Mật khẩu mới:';
 $labels['confpasswd']  = 'Xác nhận mật khẩu mới';
-
-$messages = array();
 $messages['nopassword'] = 'Mời nhập mật khẩu mới';
 $messages['nocurpassword'] = 'Mời nhập mật khẩu hiện tại';
 $messages['passwordincorrect'] = 'Mật khẩu hiện thời không đúng';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Không thể lưu mật khẩu mới';
 $messages['passwordshort'] = 'Mật khẩu phải dài ít nhất $ ký tự';
 $messages['passwordweak'] = 'Mật khẩu phải bao gồm ít nhất 1 con số và 1 ký tự dấu câu';
 $messages['passwordforbidden'] = 'Mật khẩu bao gồm ký tự không hợp lệ';
-
 ?>

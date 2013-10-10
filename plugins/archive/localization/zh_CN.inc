@@ -15,20 +15,17 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = '存档';
-$labels['buttontitle'] = '将该信息存档';
+$labels['buttontitle'] = '存档该信息';
 $labels['archived'] = '存档成功';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = '存档成功。请刷新本页以查看新的存档文件夹。';
+$labels['archiveerror'] = '部分信息无法存档';
 $labels['archivefolder'] = '存档';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
-
+$labels['settingstitle'] = '存档';
+$labels['archivetype'] = '分类存档按';
+$labels['archivetypeyear'] = '年(例如 存档/2012)';
+$labels['archivetypemonth'] = '月(例如 存档/2012/06)';
+$labels['archivetypefolder'] = '原始文件夹';
+$labels['archivetypesender'] = '发件人邮件';
+$labels['unkownsender'] = '未知';
 ?>

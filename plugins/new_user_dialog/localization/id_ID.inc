@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Tolong lengkapi identitas pengirim Anda';
 $labels['identitydialoghint'] = 'Kotak ini hanya muncul sekali saat masuk pertama kali.';
-
 ?>

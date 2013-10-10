@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtry';
 $labels['managefilters'] = 'Nastavení filtrů';
 $labels['filtername'] = 'Název filtru';
@@ -56,7 +54,7 @@ $labels['add'] = 'Přidej';
 $labels['del'] = 'Smaž';
 $labels['sender'] = 'Odesílatel';
 $labels['recipient'] = 'Příjemce';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
+$labels['vacationaddr'] = 'Moje další e-mailová adresa(y):';
 $labels['vacationdays'] = 'Počet dnů mezi automatickými odpověďmi:';
 $labels['vacationinterval'] = 'Prodleva mezi automatickými odpověďmi:';
 $labels['days'] = 'dnů';
@@ -159,14 +157,12 @@ $labels['asciicasemap'] = 'necitlivé na velikost písmen (ascii-casemap)';
 $labels['asciinumeric'] = 'číslené (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'pozpátku';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Neznámá chyba serveru';
 $messages['filterconnerror'] = 'Nebylo možné se připojit k sieve serveru';
-$messages['filterdeleteerror'] = 'Nebylo možné smazat filtr. Server nahlásil chybu';
+$messages['filterdeleteerror'] = 'Nebylo možné smazat filtr. Došlo k chybě serveru.';
 $messages['filterdeleted'] = 'Filtr byl smazán';
 $messages['filtersaved'] = 'Filtr byl uložen';
-$messages['filtersaveerror'] = 'Nebylo možné uložit filtr. Server nahlásil chybu.';
+$messages['filtersaveerror'] = 'Nebylo možné uložit filtr. Došlo k chybě serveru.';
 $messages['filterdeleteconfirm'] = 'Opravdu chcete smazat vybraný filtr?';
 $messages['ruledeleteconfirm'] = 'Jste si jisti, že chcete smazat vybrané pravidlo?';
 $messages['actiondeleteconfirm'] = 'Jste si jisti, že chcete smazat vybranou akci?';
@@ -187,11 +183,10 @@ $messages['deactivateerror'] = 'Nelze vypnout vybrané filtr/y. Došlo k chybě 
 $messages['deactivated'] = 'Filtr/y úspěšně zapnuty.';
 $messages['activated'] = 'Filtr/y úspěšne vypnuty.';
 $messages['moved'] = 'Filtr byl úspěšně přesunut.';
-$messages['moveerror'] = 'Nelze přesunout vybraný filtr. Došlo k chybě na serveru.';
+$messages['moveerror'] = 'Nelze přesunout vybraný filtr. Došlo k chybě serveru.';
 $messages['nametoolong'] = 'Příliš dlouhý název.';
 $messages['namereserved'] = 'Vyhrazený název.';
 $messages['setexist'] = 'Sada již existuje.';
 $messages['nodata'] = 'Musí být vybrána minimálně jedna pozice!';
 $messages['invaliddateformat'] = 'Neplatné datum nebo část data';
-
 ?>

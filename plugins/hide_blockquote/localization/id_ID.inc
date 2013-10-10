@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Sembunyi';
 $labels['show'] = 'Tampil';
 $labels['quotelimit'] = 'Sembunyikan kutipan ketika jumlah baris lebih besar dari';
-
 ?>

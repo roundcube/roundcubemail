@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = '보관';
 $labels['buttontitle'] = '이 메시지를 보관';
 $labels['archived'] = '성공적으로 보관됨';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = '월 (예: 보관 편지함/2012/06)';
 $labels['archivetypefolder'] = '원본 폴더';
 $labels['archivetypesender'] = '발신인 이메일';
 $labels['unkownsender'] = '알 수 없음';
-
 ?>

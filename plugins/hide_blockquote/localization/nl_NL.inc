@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Verbergen';
 $labels['show'] = 'Tonen';
 $labels['quotelimit'] = 'Verberg citaat wanneer aantal regels groter is dan';
-
 ?>

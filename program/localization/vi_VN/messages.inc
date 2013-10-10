@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Xuất hiện 1 lỗi';
 $messages['loginfailed']  = 'Không đăng nhập được';
 $messages['cookiesdisabled'] = 'Trình duyệt không hỗ trợ cookies';
@@ -28,8 +26,6 @@ $messages['dberror'] = 'Lỗi cơ sở dữ liệu';
 $messages['requesttimedout'] = 'Yêu cầu hết  hạn';
 $messages['errorreadonly'] = 'Không thể thực hiện thao tác. Thư mục chỉ cho phép đọc.';
 $messages['errornoperm'] = 'Bạn không đủ quyền hạn để thực hiện thao tác này.';
-$messages['erroroverquota'] = 'Unable to perform operation. No free disk space.';
-$messages['erroroverquotadelete'] = 'No free disk space. Use SHIFT+DEL to delete a message.';
 $messages['invalidrequest'] = 'Yêu cầu không hợp lệ! Không có dữ liệu nào được lưu.';
 $messages['invalidhost'] = 'Sai thông tin máy chủ';
 $messages['nomessagesfound'] = 'Không thấy có thư nào trong hộp thư này.';
@@ -56,8 +52,6 @@ $messages['contactnotfound'] = 'Không tìm thấy liên lạc được yêu c�
 $messages['contactsearchonly'] = 'Gõ một vài từ tìm kiếm để tìm liên hệ';
 $messages['sendingfailed'] = 'Không gửi được thư';
 $messages['senttooquickly'] = 'Xin đợi vài giây trước khi gửi thư này';
-$messages['errorsavingsent'] = 'Xuất hiện một lỗi trong khi lưu thư đã gửi';
-$messages['errorsaving'] = 'Lỗi trong quá trình lưu.';
 $messages['errormoving'] = 'Không thể chuyển được thư';
 $messages['errorcopying'] = 'Không thể sao chép thư';
 $messages['errordeleting'] = 'Không thể xóa được thư';
@@ -101,16 +95,11 @@ $messages['converting'] = 'Loại bỏ định dạng...';
 $messages['messageopenerror'] = 'Không thể tải thư từ máy chủ';
 $messages['fileuploaderror'] = 'Tải tập tin lên thất bại';
 $messages['filesizeerror'] = 'Tập tin được tải lên vượt quá dung lượng tối đa....';
-$messages['copysuccess'] = 'Successfully copied $nr contacts.';
-$messages['movesuccess'] = 'Successfully moved $nr contacts.';
-$messages['copyerror'] = 'Could not copy any contacts.';
-$messages['moveerror'] = 'Could not move any contacts.';
 $messages['sourceisreadonly'] = 'Nguồn địa chỉ này chỉ cho đọc';
 $messages['errorsavingcontact'] = 'Không thể lưu địa chỉ liên lạc';
 $messages['movingmessage'] = 'Đang chuyển thư...';
 $messages['copyingmessage'] = 'Đang sao chép thư...';
 $messages['copyingcontact'] = 'Đang sao chép liên lạc...';
-$messages['movingcontact'] = 'Moving contact(s)...';
 $messages['deletingmessage'] = 'Đang xóa thư...';
 $messages['markingmessage'] = 'Đánh dấu thư...';
 $messages['addingmember'] = 'Đang thêm liên lạc vào nhóm...';
@@ -129,8 +118,6 @@ $messages['importwait'] = 'Đang nhập, xin chờ...';
 $messages['importformaterror'] = 'Nhập dữ liệu lỗi. Tệp tin vừa tải lên không phải tệp dữ liệu chính xác.';
 $messages['importconfirm'] = 'Đã nhập $inserted liên hệ đã chèn vào thành công.';
 $messages['importconfirmskipped'] = 'Đã bỏ qua được $skipped mục tồn tại.';
-$messages['importmessagesuccess'] = 'Successfully imported $nr messages';
-$messages['importmessageerror'] = 'Import failed! The uploaded file is not a valid message or mailbox file';
 $messages['opnotpermitted'] = 'Thao tác không được cho phép!';
 $messages['nofromaddress'] = 'Địa chỉ email mất ở trong nhận dạng đã chọn';
 $messages['editorwarning'] = 'Việc chuyển soạn thảo text gốc sẽ gây ra toàn bộ định dạng text đã có bị mất. Bạn có muốn tiếp tục không?';
@@ -144,7 +131,6 @@ $messages['smtperror'] = 'Lỗi SMTP: $msg';
 $messages['emailformaterror'] = 'Địa chỉ email không hợp lệ';
 $messages['toomanyrecipients'] = 'Quá nhiều người nhận. Hãy giảm số lượng người nhận xuống tối đa là $max.';
 $messages['maxgroupmembersreached'] = 'Số lượng thành viên trong nhóm vượt quá mức tối đa là $max.';
-$messages['internalerror'] = 'Xuất hiện một lỗi nội bộ. Xin hãy thử lại';
 $messages['contactdelerror'] = 'Không thể xóa liên lạc';
 $messages['contactdeleted'] = 'Liên lạc được xóa thành công';
 $messages['contactrestoreerror'] = 'Không thể khôi phục liên lạc đã xóa';
@@ -172,5 +158,4 @@ $messages['parentnotwritable'] = 'Không thể tạo/chuyển folder vào folder
 $messages['messagetoobig'] = 'Một phần thư quá lớn để xử lý nó.';
 $messages['attachmentvalidationerror'] = 'Cảnh báo: Tệp tin đính kèm có dấu hiệu nguy hiểm, vì kiểu tệp tin không trùng với kiểu được khai báo sử dụng trong thư. Nếu bạn không biết người gửi, bạn không nên mở thư vì nó có thể có các dữ liệu gây hại. <br/><br/><em>Dự kiến: $expected; được tìm thấy: $detected</em>';
 $messages['noscriptwarning'] = 'Cảnh báo: Dịch vụ webmail này yêu cầu sử dụng Javascript. Để sử dụng, bạn cần kích hoạt hỗ trợ Javascript trong cấu hình trình duyệt Internet đang sử dụng.';
-
 ?>

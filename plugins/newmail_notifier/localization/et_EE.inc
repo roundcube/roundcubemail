@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Uue kirja saabumisel näita lehitsejas teavitust';
 $labels['desktop'] = 'Uue kirja saabumisel näita töölaua teavitust';
 $labels['sound'] = 'Uue kirja saabumisel mängi heli';
@@ -25,6 +24,4 @@ $labels['body'] = 'Saabus uus kiri.';
 $labels['testbody'] = 'See on teavituse proov.';
 $labels['desktopdisabled'] = 'Töölaua märguanded on su veebilehitsejas keelatud.';
 $labels['desktopunsupported'] = 'Sinu veebilehitseja ei toeta töölaua märguandeid.';
-$labels['desktoptimeout'] = 'Close desktop notification';
-
 ?>

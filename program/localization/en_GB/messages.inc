@@ -15,9 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
-$messages['errortitle']  = 'An error occurred.';
+$messages['errortitle']  = 'An error occured.';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
 $messages['sessionerror'] = 'Your session is invalid or has expired.';
@@ -28,8 +26,6 @@ $messages['dberror'] = 'Database Error!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
 $messages['errornoperm'] = 'Unable to perform operation. Permission denied.';
-$messages['erroroverquota'] = 'Unable to perform operation. No free disk space.';
-$messages['erroroverquotadelete'] = 'No free disk space. Use SHIFT+DEL to delete a message.';
 $messages['invalidrequest'] = 'Invalid request! No data was saved.';
 $messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'No messages found in this mailbox.';
@@ -56,8 +52,6 @@ $messages['contactnotfound'] = 'The requested contact was not found.';
 $messages['contactsearchonly'] = 'Enter some search terms to find contacts';
 $messages['sendingfailed'] = 'Failed to send message.';
 $messages['senttooquickly'] = 'Please wait $sec sec(s). before sending this message.';
-$messages['errorsavingsent'] = 'An error occurred while saving sent message.';
-$messages['errorsaving'] = 'An error occurred while saving.';
 $messages['errormoving'] = 'Could not move the message(s).';
 $messages['errorcopying'] = 'Could not copy the message(s).';
 $messages['errordeleting'] = 'Could not delete the message(s).';
@@ -101,16 +95,11 @@ $messages['converting'] = 'Removing formatting...';
 $messages['messageopenerror'] = 'Could not load message from server.';
 $messages['fileuploaderror'] = 'File upload failed.';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size.';
-$messages['copysuccess'] = 'Successfully copied $nr contacts.';
-$messages['movesuccess'] = 'Successfully moved $nr contacts.';
-$messages['copyerror'] = 'Could not copy any contacts.';
-$messages['moveerror'] = 'Could not move any contacts.';
 $messages['sourceisreadonly'] = 'This address book is read-only.';
 $messages['errorsavingcontact'] = 'Could not save the contact address.';
 $messages['movingmessage'] = 'Moving message(s)...';
 $messages['copyingmessage'] = 'Copying message(s)...';
 $messages['copyingcontact'] = 'Copying contact(s)...';
-$messages['movingcontact'] = 'Moving contact(s)...';
 $messages['deletingmessage'] = 'Deleting message(s)...';
 $messages['markingmessage'] = 'Marking message(s)...';
 $messages['addingmember'] = 'Adding contact(s) to the group...';
@@ -129,8 +118,6 @@ $messages['importwait'] = 'Importing, please wait...';
 $messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts</b>';
 $messages['importconfirmskipped'] = '<b>Skipped $skipped existing entries</b>';
-$messages['importmessagesuccess'] = 'Successfully imported $nr messages';
-$messages['importmessageerror'] = 'Import failed! The uploaded file is not a valid message or mailbox file';
 $messages['opnotpermitted'] = 'Operation not permitted!';
 $messages['nofromaddress'] = 'Missing e-mail address in selected identity.';
 $messages['editorwarning'] = 'Switching to the plain text editor will cause all text formatting to be lost. Do you wish to continue?';
@@ -144,7 +131,6 @@ $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Incorrect e-mail address: $email';
 $messages['toomanyrecipients'] = 'Too many recipients. Reduce the number of recipients to $max.';
 $messages['maxgroupmembersreached'] = 'The number of group members exceeds the maximum of $max.';
-$messages['internalerror'] = 'An internal error occurred. Please try again.';
 $messages['contactdelerror'] = 'Could not delete contact(s).';
 $messages['contactdeleted'] = 'Contact(s) deleted successfully.';
 $messages['contactrestoreerror'] = 'Could not restore deleted contact(s).';
@@ -172,5 +158,4 @@ $messages['parentnotwritable'] = 'Unable to create/move folder into selected par
 $messages['messagetoobig'] = 'The message part is too big to process it.';
 $messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
-
 ?>

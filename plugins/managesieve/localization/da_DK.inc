@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Ændre indgående mail filtreing';
 $labels['filtername'] = 'Filter navn';
@@ -49,14 +47,12 @@ $labels['messagesendcopy'] = 'Send kopi af besked til';
 $labels['messagereply'] = 'Svar med besked';
 $labels['messagedelete'] = 'Slet besked';
 $labels['messagediscard'] = 'Slet med besked';
-$labels['messagekeep'] = 'Keep message in Inbox';
 $labels['messagesrules'] = 'For indkomne besked:';
 $labels['messagesactions'] = '...udfør følgende aktioner:';
 $labels['add'] = 'Tilføje';
 $labels['del'] = 'Fjern';
 $labels['sender'] = 'Afsender';
 $labels['recipient'] = 'Modtager';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'Hvor tit skal besked sendes (i dage):';
 $labels['vacationinterval'] = 'Hvor tit skal besked sendes:';
 $labels['days'] = 'dage';
@@ -159,39 +155,27 @@ $labels['asciicasemap'] = 'store og små bogstaver (ascii-bogstaver)';
 $labels['asciinumeric'] = 'numerisk (ascii-numerisk)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'baglends';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Ukendt server fejl.';
 $messages['filterconnerror'] = 'Kan ikke forbinde til server.';
-$messages['filterdeleteerror'] = 'Kan ikke slette filter. Server fejl.';
 $messages['filterdeleted'] = 'Filter slettet.';
 $messages['filtersaved'] = 'Filter gemt.';
-$messages['filtersaveerror'] = 'Kan ikke gemme filter. Server fejl.';
 $messages['filterdeleteconfirm'] = 'Vil du slette det valgte filter?';
 $messages['ruledeleteconfirm'] = 'Er du sikker på at du vil slette den valgte regel?';
 $messages['actiondeleteconfirm'] = 'Er du sikker på du vil slette den valgte handling?';
 $messages['forbiddenchars'] = 'Ulovlige tegn i feltet';
 $messages['cannotbeempty'] = 'Feltet kan ikke være tomt.';
 $messages['ruleexist'] = 'Filter med dette navn eksisterer allerede.';
-$messages['setactivateerror'] = 'Kan ikke aktiverer valgt filter sæt. Server fejl.';
-$messages['setdeactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
-$messages['setdeleteerror'] = 'Kan ikke slette valgt filter sæt. Server fejl.';
 $messages['setactivated'] = 'Filter sæt aktiveret.';
 $messages['setdeactivated'] = 'Filter sæt deaktiveret.';
 $messages['setdeleted'] = 'Filter sæt slettet.';
 $messages['setdeleteconfirm'] = 'Er du sikker på du vil slette valgt filter sæt?';
-$messages['setcreateerror'] = 'Kan ikke oprette filter sæt. Server fejl.';
 $messages['setcreated'] = 'Filter sæt oprettet.';
-$messages['activateerror'] = 'Kan ikek aktivere valgt filter sæt. Server fejl.';
-$messages['deactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
 $messages['deactivated'] = 'Filter(filtre) aktiveret.';
 $messages['activated'] = 'Filter(filtre) deaktiveret.';
 $messages['moved'] = 'Filter flyttet.';
-$messages['moveerror'] = 'Kan ikke flytte valgt filter. Server fejl.';
 $messages['nametoolong'] = 'Navn er for langt.';
 $messages['namereserved'] = 'Reserveret navn.';
 $messages['setexist'] = 'Filterv sæt eksisterer allerede';
 $messages['nodata'] = 'Mindst en position skal vælges!';
 $messages['invaliddateformat'] = 'Ugyldigt dato- eller tidsformat';
-
 ?>

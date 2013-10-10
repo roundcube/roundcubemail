@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Compartilhamento';
 $labels['myrights'] = 'Permissões de Acesso';
 $labels['username'] = 'Usuário:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Ações de direito de acesso...';
 $labels['anyone'] = 'Todos os usuários (qualquer um)';
 $labels['anonymous'] = 'Convidados (anônimos)';
 $labels['identifier'] = 'Identificador';
-
 $labels['acll'] = 'Pesquisar';
 $labels['aclr'] = 'Ler mensagens';
 $labels['acls'] = 'Manter estado de enviado';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Apagar mensagens';
 $labels['acle'] = 'Expurgar';
 $labels['aclx'] = 'Apagar pasta';
 $labels['acla'] = 'Administrar';
-
 $labels['aclfull'] = 'Controle total';
 $labels['aclother'] = 'Outro';
 $labels['aclread'] = 'Ler';
 $labels['aclwrite'] = 'Salvar';
 $labels['acldelete'] = 'Excluir';
-
 $labels['shortacll'] = 'Pesquisar';
 $labels['shortaclr'] = 'Ler';
 $labels['shortacls'] = 'Manter';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Excluir';
 $labels['shortacle'] = 'Expurgar';
 $labels['shortaclx'] = 'Excluir pasta';
 $labels['shortacla'] = 'Administrar';
-
 $labels['shortaclother'] = 'Outro';
 $labels['shortaclread'] = 'Ler';
 $labels['shortaclwrite'] = 'Salvar';
 $labels['shortacldelete'] = 'Excluir';
-
 $labels['longacll'] = 'A pasta está visível nas listas e pode ser inscrita para';
 $labels['longaclr'] = 'A pasta pode ser aberta para leitura';
 $labels['longacls'] = 'Marcador de Mensagem Enviada pode ser modificadas';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'O marcador de Mensagens Excluídas podem ser modificadas'
 $labels['longacle'] = 'As mensagens podem ser expurgadas';
 $labels['longaclx'] = 'A pasta pode ser apagada ou renomeada';
 $labels['longacla'] = 'As permissões de acesso da pasta podem ser alteradas';
-
 $labels['longaclfull'] = 'Controle total incluindo a pasta de administração';
 $labels['longaclread'] = 'A pasta pode ser aberta para leitura';
 $labels['longaclwrite'] = 'As mensagens podem ser marcadas, salvas ou copiadas para a pasta';
 $labels['longacldelete'] = 'Mensagens podem ser apagadas';
-
 $messages['deleting'] = 'Apagando permissões de acesso...';
 $messages['saving'] = 'Salvando permissões de acesso...';
 $messages['updatesuccess'] = 'Permissões de acesso alteradas com sucesso';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'Não foi possível adicionar as permissões de acess
 $messages['deleteconfirm'] = 'Tem certeza que deseja remover as permissões de acesso do(s) usuário(s) delecionado(s)?';
 $messages['norights'] = 'Não foram definidas permissões!';
 $messages['nouser'] = 'Nome de usuário não especificado!';
-
 ?>

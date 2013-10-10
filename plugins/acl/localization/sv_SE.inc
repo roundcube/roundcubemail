@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Utdelning';
 $labels['myrights'] = 'Åtkomsträttigheter';
 $labels['username'] = 'Användare:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Hantera åtkomsträttigheter...';
 $labels['anyone'] = 'Alla användare (alla)';
 $labels['anonymous'] = 'Gäster (anonyma)';
 $labels['identifier'] = 'Identifikation';
-
 $labels['acll'] = 'Uppslagning';
 $labels['aclr'] = 'Läs meddelanden';
 $labels['acls'] = 'Behåll status Sett';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Ta bort meddelanden';
 $labels['acle'] = 'Utplåna';
 $labels['aclx'] = 'Ta bort katalog';
 $labels['acla'] = 'Administrera';
-
 $labels['aclfull'] = 'Full kontroll';
 $labels['aclother'] = 'Övrig';
 $labels['aclread'] = 'Läs';
 $labels['aclwrite'] = 'Skriv';
 $labels['acldelete'] = 'Ta bort';
-
 $labels['shortacll'] = 'Uppslagning';
 $labels['shortaclr'] = 'Läs';
 $labels['shortacls'] = 'Behåll';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Ta bort';
 $labels['shortacle'] = 'Utplåna';
 $labels['shortaclx'] = 'Ta bort katalog';
 $labels['shortacla'] = 'Administrera';
-
 $labels['shortaclother'] = 'Övrig';
 $labels['shortaclread'] = 'Läs';
 $labels['shortaclwrite'] = 'Skriv';
 $labels['shortacldelete'] = 'Ta bort';
-
 $labels['longacll'] = 'Katalogen är synlig i listor och den kan prenumereras på';
 $labels['longaclr'] = 'Katalogen kan öppnas för läsning';
 $labels['longacls'] = 'Meddelandeflagga Sett kan ändras';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'Meddelandeflagga Raderat kan ändras';
 $labels['longacle'] = 'Meddelanden kan utplånas';
 $labels['longaclx'] = 'Katalogen kan tas bort eller ges annat namn';
 $labels['longacla'] = 'Katalogens åtkomsträttigheter kan ändras';
-
 $labels['longaclfull'] = 'Full kontroll inklusive katalogadministration';
 $labels['longaclread'] = 'Katalogen kan öppnas för läsning';
 $labels['longaclwrite'] = 'Meddelanden kan märkas, skrivas eller kopieras till katalogen';
 $labels['longacldelete'] = 'Meddelanden kan tas bort';
-
 $messages['deleting'] = 'Tar bort åtkomsträttigheter...';
 $messages['saving'] = 'Sparar åtkomsträttigheter...';
 $messages['updatesuccess'] = 'Åtkomsträttigheterna är ändrade';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'Åtkomsträttigheterna kunde inte läggas till';
 $messages['deleteconfirm'] = 'Vill du verkligen ta bort åtkomsträttigheterna för markerade användare?';
 $messages['norights'] = 'Inga åtkomsträttigheter angavs!';
 $messages['nouser'] = 'Inget användarnamn angavs!';
-
 ?>

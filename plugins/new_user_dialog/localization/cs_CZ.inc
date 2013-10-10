@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Prosím doplňte své jméno a e-mail';
 $labels['identitydialoghint'] = 'Tento dialog se objeví pouze při prvním přihlášení.';
-
 ?>

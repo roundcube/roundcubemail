@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Condivisione';
 $labels['myrights'] = 'Diritti d\'accesso';
 $labels['username'] = 'Utente:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Azioni permessi d\'accesso...';
 $labels['anyone'] = 'Tutti gli utenti';
 $labels['anonymous'] = 'Osptiti (anonimi)';
 $labels['identifier'] = 'Identificatore';
-
 $labels['acll'] = 'Ricerca';
 $labels['aclr'] = 'Leggi messaggi';
 $labels['acls'] = 'Mantieni lo stato Visto';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Elimina messaggi';
 $labels['acle'] = 'Elimina';
 $labels['aclx'] = 'Elimina cartella';
 $labels['acla'] = 'Amministra';
-
 $labels['aclfull'] = 'Controllo completo';
 $labels['aclother'] = 'Altro';
 $labels['aclread'] = 'Lettura';
 $labels['aclwrite'] = 'Scrittura';
 $labels['acldelete'] = 'Elimina';
-
 $labels['shortacll'] = 'Ricerca';
 $labels['shortaclr'] = 'Lettura';
 $labels['shortacls'] = 'Mantieni';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Elimina';
 $labels['shortacle'] = 'Elimina';
 $labels['shortaclx'] = 'Elimina cartella';
 $labels['shortacla'] = 'Amministra';
-
 $labels['shortaclother'] = 'Altro';
 $labels['shortaclread'] = 'Lettura';
 $labels['shortaclwrite'] = 'Scrittura';
 $labels['shortacldelete'] = 'Elimina';
-
 $labels['longacll'] = 'La cartella è visibile sulle liste e può essere sottoscritta';
 $labels['longaclr'] = 'Questa cartella può essere aperta in lettura';
 $labels['longacls'] = 'Il flag Messaggio Visto può essere cambiato';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'Il flag Messaggio Eliminato può essere cambiato';
 $labels['longacle'] = 'I messaggi possono essere cancellati';
 $labels['longaclx'] = 'La cartella può essere eliminata o rinominata';
 $labels['longacla'] = 'I diritti di accesso della cartella possono essere cambiati';
-
 $labels['longaclfull'] = 'Controllo completo incluso cartella di amministrazione';
 $labels['longaclread'] = 'Questa cartella può essere aperta in lettura';
 $labels['longaclwrite'] = 'I messaggi possono essere marcati, scritti o copiati nella cartella';
 $labels['longacldelete'] = 'I messaggi possono essere eliminati';
-
 $messages['deleting'] = 'Sto eliminando i diritti di accesso...';
 $messages['saving'] = 'Sto salvando i diritti di accesso...';
 $messages['updatesuccess'] = 'I diritti d\'accesso sono stati cambiati';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'Impossibile aggiungere i diritti d\'accesso';
 $messages['deleteconfirm'] = 'Sei sicuro, vuoi rimuovere i diritti d\'accesso degli utenti selezionati?';
 $messages['norights'] = 'Nessun diritto specificato!';
 $messages['nouser'] = 'Lo username non è stato specificato!';
-
 ?>

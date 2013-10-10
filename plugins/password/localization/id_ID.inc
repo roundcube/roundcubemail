@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Ubah Sandi';
 $labels['curpasswd']  = 'Sandi saat ini:';
 $labels['newpasswd']  = 'Sandi Baru:';
 $labels['confpasswd']  = 'Konfirmasi Sandi Baru:';
-
-$messages = array();
 $messages['nopassword'] = 'Masukkan sandi baru.';
 $messages['nocurpassword'] = 'Masukkan sandi saat ini.';
 $messages['passwordincorrect'] = 'Sandi saat ini salah.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Tidak dapat menyimpan sandi baru.';
 $messages['passwordshort'] = 'Panjang password minimal $length karakter';
 $messages['passwordweak'] = 'Sandi harus menyertakan setidaknya satu angka dan satu tanda baca.';
 $messages['passwordforbidden'] = 'Sandi mengandung karakter terlarang.';
-
 ?>

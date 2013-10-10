@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = '¡Ha ocurrido un error!';
 $messages['loginfailed']  = 'Contraseña o nombre de usuario incorrecto.';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies.';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'El contacto solicitado no existe.';
 $messages['contactsearchonly'] = 'Ingrese algún criterio para buscar contactos';
 $messages['sendingfailed'] = 'Error al enviar mensaje.';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de mandar este mensaje.';
-$messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje enviado.';
-$messages['errorsaving'] = 'Ocurrió un error mientras se guardaba.';
 $messages['errormoving'] = 'No se ha podido mover el/los mensaje(s).';
 $messages['errorcopying'] = 'No se ha podido copiar el/los mensaje(s).';
 $messages['errordeleting'] = 'No se ha podido eliminar el/los mensaje(s).';
@@ -101,13 +97,16 @@ $messages['converting'] = 'Quitando el formato del mensaje...';
 $messages['messageopenerror'] = 'No puedo descargar el mensaje del servidor.';
 $messages['fileuploaderror'] = 'Error al subir archivos.';
 $messages['filesizeerror'] = 'El archivo excede el tamaño máximo ($size).';
-$messages['copysuccess'] = '$nr direcciones copiadas correctamente.';
-$messages['copyerror'] = 'No se pudo copiar ninguna dirección.';
+$messages['copysuccess'] = '$nr contactos copiados correctamente.';
+$messages['movesuccess'] = '$nr contactos movidos correctamente.';
+$messages['copyerror'] = 'No se ha podido copiar ningún contacto.';
+$messages['moveerror'] = 'No se ha podido mover ningún contacto.';
 $messages['sourceisreadonly'] = 'Esta dirección es de sólo lectura.';
 $messages['errorsavingcontact'] = 'No se pudo guardar la dirección de contacto.';
 $messages['movingmessage'] = 'Moviendo mensaje(s)...';
 $messages['copyingmessage'] = 'Copiando mensaje(s)...';
 $messages['copyingcontact'] = 'Copiando contacto(s)…';
+$messages['movingcontact'] = 'Moviendo contacto(s)...';
 $messages['deletingmessage'] = 'Eliminando mensaje(s)...';
 $messages['markingmessage'] = 'Marcando mensaje(s)...';
 $messages['addingmember'] = 'Añadiendo contacto(s) al grupo…';
@@ -141,7 +140,6 @@ $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Dirección e-mail incorrecta: $email';
 $messages['toomanyrecipients'] = 'Hay demasiados destinatarios. Reduzca el número de destinatarios a $max.';
 $messages['maxgroupmembersreached'] = 'El número de miembros del grupo excede el máximo de $max.';
-$messages['internalerror'] = 'Ocurrió un error interno. Por favor, inténtelo de nuevo.';
 $messages['contactdelerror'] = 'No se ha podido eliminar el/los contacto(s).';
 $messages['contactdeleted'] = 'Contacto(s) eliminado(s) correctamente.';
 $messages['contactrestoreerror'] = 'No se han podido restaurar los contactos borrados.';
@@ -169,5 +167,4 @@ $messages['parentnotwritable'] = 'No se puede crear/mover la carpeta a la carpet
 $messages['messagetoobig'] = 'Esta parte del mensaje es demasiada grande para procesarla.';
 $messages['attachmentvalidationerror'] = '¡ATENCIÓN! Este adjunto es sospechoso porque su tipo no coincide con el tipo declarado en el mensaje. Si no confía en su remitente, no debería abrirlo en su navegador porque podría tener contenido malicioso.<br/<br/> <em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Advertencia: ¡este servicio de webmail necesita Javascript! Para poder usarlo habilite el soporte de Javascript en su navegador, por favor.';
-
 ?>

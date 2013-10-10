@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Arsip';
 $labels['buttontitle'] = 'Arsipkan pesan ini';
 $labels['archived'] = 'Berhasil mengarsipkan';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = 'Bulan (contoh: Arsip/2012/06)';
 $labels['archivetypefolder'] = 'Folder asli';
 $labels['archivetypesender'] = 'Email pengirim';
 $labels['unkownsender'] = 'Tidak dikenal';
-
 ?>

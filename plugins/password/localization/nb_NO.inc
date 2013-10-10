@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Bytt passord';
 $labels['curpasswd']  = 'Nåværende passord:';
 $labels['newpasswd']  = 'Nytt passord:';
 $labels['confpasswd']  = 'Bekreft nytt passord';
-
-$messages = array();
 $messages['nopassword'] = 'Vennligst skriv inn nytt passord';
 $messages['nocurpassword'] = 'Vennligst skriv inn nåværende passord';
 $messages['passwordincorrect'] = 'Nåværende passord er feil.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Kunne ikke lagre nytt passord';
 $messages['passwordshort'] = 'Passordet må minimum inneholde $length tegn.';
 $messages['passwordweak'] = 'Passordet må inneholde minst ett tall og ett tegnsettingssymbol.';
 $messages['passwordforbidden'] = 'Passordet inneholder forbudte tegn.';
-
 ?>

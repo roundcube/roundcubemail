@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Vaihda salasana';
 $labels['curpasswd']  = 'Nykyinen salasana:';
 $labels['newpasswd']  = 'Uusi salasana:';
 $labels['confpasswd']  = 'Vahvista uusi salasana:';
-
-$messages = array();
 $messages['nopassword'] = 'Syötä uusi salasana.';
 $messages['nocurpassword'] = 'Syötä nykyinen salasana.';
 $messages['passwordincorrect'] = 'Nykyinen salasana on väärin.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Uuden salasanan tallennus epäonnistui.';
 $messages['passwordshort'] = 'Salasanassa täytyy olla vähintään $length merkkiä.';
 $messages['passwordweak'] = 'Salasanan täytyy sisältää vähintään yksi numero ja yksi välimerkki.';
 $messages['passwordforbidden'] = 'Salasana sisältää virheellisiä merkkejä.';
-
 ?>

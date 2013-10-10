@@ -15,10 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
-$labels['buttontext'] = 'Junk';
 $labels['buttontitle'] = 'nawnişani bka ba şkaw';
 $labels['reportedasjunk'] = 'ba gşti raport kra';
-
 ?>

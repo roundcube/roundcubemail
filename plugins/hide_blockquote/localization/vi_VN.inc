@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Ẩn';
 $labels['show'] = 'Hiển thị';
 $labels['quotelimit'] = 'Ẩn trích dẫn khi tổng số dòng lớn hơn';
-
 ?>

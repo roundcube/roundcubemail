@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = 'Lastez';
 $labels['buttontitle'] = 'Merkañ evel lastez';
 $labels['reportedasjunk'] = 'Danevellet evel lastez gant berzh';
-
 ?>

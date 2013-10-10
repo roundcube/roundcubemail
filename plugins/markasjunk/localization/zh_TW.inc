@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels = array();
 $labels['buttontext'] = '垃圾郵件';
 $labels['buttontitle'] = '標示為垃圾信';
 $labels['reportedasjunk'] = '成功回報垃圾信';
-
 ?>

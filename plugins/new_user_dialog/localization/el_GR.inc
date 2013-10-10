@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Παρακαλώ συμπληρώστε την ταυτότητα του αποστολέα';
 $labels['identitydialoghint'] = 'Αυτό το πλαίσιο εμφανίζεται μια φορά κατά την πρώτη σύνδεση';
-
 ?>

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Fehlermeldung';
 $messages['loginfailed']  = 'Login fehlgeschlagen';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Die gewählte Adresse wurde nicht gefunden';
 $messages['contactsearchonly'] = 'Geben Sie einen Suchbegriff ein, um Kontakte zu finden';
 $messages['sendingfailed'] = 'Versand der Nachricht fehlgeschlagen';
 $messages['senttooquickly'] = 'Bitte warten Sie $sec Sekunde(n) vor dem Senden dieser Nachricht';
-$messages['errorsavingsent'] = 'Beim Speichern der gesendeten Nachricht ist ein Fehler aufgetreten.';
-$messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten';
 $messages['errormoving'] = 'Nachricht(en) konnte(n) nicht verschoben werden.';
 $messages['errorcopying'] = 'Nachticht(en) konnte(n) nicht kopiert werden.';
 $messages['errordeleting'] = 'Nachricht(en) konnte(n) nicht gelöscht werden.';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'SMTP Fehler: $msg';
 $messages['emailformaterror'] = 'Ungültige E-Mail-Adresse: $email';
 $messages['toomanyrecipients'] = 'Zuviele Empfänger angegeben. Reduzieren Sie die Empfängeradressen auf $max.';
 $messages['maxgroupmembersreached'] = 'Die Anzahl Adressen in dieser Gruppe überschreitet das Maximum von $max.';
-$messages['internalerror'] = 'Ein interner Fehler ist aufgetreten. Bitte versuchen Sie den Vorgang erneut.';
 $messages['contactdelerror'] = 'Fehler beim Löschen.';
 $messages['contactdeleted'] = 'Kontakt(e) erfolgreich gelöscht.';
 $messages['contactrestoreerror'] = 'Die gelöschten Kontakte konnten nicht wiederhergestellt werden.';
@@ -172,5 +167,4 @@ $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben.
 $messages['messagetoobig'] = 'Die Nachricht ist zu gross und kann nicht verarbeitet werden.';
 $messages['attachmentvalidationerror'] = 'WARNUNG! Dieser Anhang ist verdächtig, da sein Dateityp nicht dem entspricht, was in der Nachricht angegeben wird. Wenn Sie dem Absender nicht vertrauen, sollten Sie diesen Anhang nicht im Browser öffnen, da er Ihrem Computer Schaden zuführen könnte. <br/><br/><em>Erwartet: $expected; gefunden: $detected</em>';
 $messages['noscriptwarning'] = 'Achtung! Dieser Webmail-Service erfordert Javascript. Um ihn zu benutzten aktivieren Sie Javascript in ihren Browser-Einstellungen.';
-
 ?>

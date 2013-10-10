@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
-$labels = array();
 $labels['addvcardmsg'] = 'വിലാസപുസ്തകത്തിലേക്ക് വികാര്‍ഡ് ചേര്‍ക്കുക';
 $labels['vcardsavefailed'] = 'വികാര്‍ഡ് ചേര്‍ക്കാന്‍ പറ്റിയില്ല';
-
 ?>

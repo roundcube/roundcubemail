@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Si è verificato un errore!';
 $messages['loginfailed']  = 'Impossibile accedere. Utente o password non corretti';
 $messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Il contatto richiesto non è stato trovato';
 $messages['contactsearchonly'] = 'Inserisci dei termini per cercare i contatti';
 $messages['sendingfailed'] = 'Impossibile inviare il messaggio';
 $messages['senttooquickly'] = 'Per favore, attendi $sec secondi prima di inviare questo messaggio';
-$messages['errorsavingsent'] = 'C\'è stato un errore nel salvare il messaggio inviato';
-$messages['errorsaving'] = 'Impossibile salvare';
 $messages['errormoving'] = 'Impossibile spostare il messaggio';
 $messages['errorcopying'] = 'Impossibile copiare il messaggio';
 $messages['errordeleting'] = 'Impossibile eliminare il messaggio';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'Errore SMTP: $msg';
 $messages['emailformaterror'] = 'Indirizzo e-mail non corretto: $email';
 $messages['toomanyrecipients'] = 'Numero eccessivo di destinatari, ridurlo a $max';
 $messages['maxgroupmembersreached'] = 'Il numero dei membri del gruppo eccede il massimo di $max';
-$messages['internalerror'] = 'Si è verificato un errore interno. Si prega di riprovare di nuovo.';
 $messages['contactdelerror'] = 'Impossibile eliminare il/i contatto/i';
 $messages['contactdeleted'] = 'Contatto/i correttamente eliminato/i';
 $messages['contactrestoreerror'] = 'Impossibile ripristinare il/i contatto/i cancellato/i';
@@ -172,5 +167,4 @@ $messages['parentnotwritable'] = 'Impossibile creare o muovere la cartella: acce
 $messages['messagetoobig'] = 'La parte del messaggio è troppo grande per essere processata.';
 $messages['attachmentvalidationerror'] = 'ATTENZIONE! Questo allegato è sospetto poiché non rispetta il tipo dichiarato nel messaggio. Se non conosci il mittente, non dovresti aprire l\'allegato nel browser in quanto potrebbe contenere malware.<br/><br/><em>Atteso: $expected; rilevato: $detected</em>';
 $messages['noscriptwarning'] = 'Attenzione: questo servizio di webmail richiede Javascript! Per utilizzarlo abilita Javascript nelle impostazioni del tuo browser.';
-
 ?>

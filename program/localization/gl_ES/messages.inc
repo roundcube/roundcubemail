@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = 'Ocurreu un erro!';
 $messages['loginfailed']  = 'O contrasinal ou o nome de usuario son incorrectos.';
 $messages['cookiesdisabled'] = 'O seu navegador non acepta galletas.';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = 'Non se atopou o contacto solicitado.';
 $messages['contactsearchonly'] = 'Introduza algún termo para atopar contactos';
 $messages['sendingfailed'] = 'Fallou o envío da mensaxe.';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundos antes de enviar esta mensaxe.';
-$messages['errorsavingsent'] = 'Ocurriu un erro mentres se gardaba a mensaxe enviada.';
-$messages['errorsaving'] = 'Ocurriu un erro mentres se gardaba.';
 $messages['errormoving'] = 'Non foi posible mover a(s) mensaxe(s).';
 $messages['errorcopying'] = 'Non foi posible copiar a(s) mensaxe(s).';
 $messages['errordeleting'] = 'Non foi posible eliminar a(s) mensaxe(s).';
@@ -101,8 +97,6 @@ $messages['converting'] = 'Eliminando o formato da mensaxe...';
 $messages['messageopenerror'] = 'Non foi posible cargar a mensaxe desde o servidor.';
 $messages['fileuploaderror'] = 'Fallou a carga do ficheiro.';
 $messages['filesizeerror'] = 'O ficheiro cargado é máis grande que o tamaño máximo de $size.';
-$messages['copysuccess'] = 'Copiáronse correctamente $nr enderezos.';
-$messages['copyerror'] = 'Non foi posible copiar ningún enderezo.';
 $messages['sourceisreadonly'] = 'A orixe é de só lectura.';
 $messages['errorsavingcontact'] = 'Non foi posible gardar o contacto.';
 $messages['movingmessage'] = 'Movendo a(s) mensaxe(s)...';
@@ -141,7 +135,6 @@ $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'O enderezo de correo electrónico é incorrecto: $email.';
 $messages['toomanyrecipients'] = 'Especificou destinatarios de máis. Por favor, redúzaos a un máximo de $max.';
 $messages['maxgroupmembersreached'] = 'O número de membros do grupo excede o máximo de $max.';
-$messages['internalerror'] = 'Ocurriu un erro interno. Por favor, probe outra vez.';
 $messages['contactdelerror'] = 'Non foi posible eliminar o(s) contacto(s).';
 $messages['contactdeleted'] = 'Borráronse correctamente o(s) contacto(s).';
 $messages['contactrestoreerror'] = 'Non foi posible restaurar o(s) contacto(s) borrado(s).';
@@ -169,5 +162,4 @@ $messages['parentnotwritable'] = 'Non foi posible crear/mover o cartafol no cart
 $messages['messagetoobig'] = 'A mensaxe é demasiado grande para procesala';
 $messages['attachmentvalidationerror'] = 'ATENCIÓN! Este anexo é sospeitoso porque o seu tipo non coincide o tipo declarado na mensaxe. Se non confía no remitente, non debería abrilo, porque podería conter un virus ou malware.<br/><br/><em>Tipo agardado: $expected; Tipo detectado: $detected</em>';
 $messages['noscriptwarning'] = 'Atención: Este servicio de correo web precisa de Javascript!. Por favor, active javascript nas opción do seu navegador.';
-
 ?>

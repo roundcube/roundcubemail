@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
-$messages = array();
 $messages['errortitle']  = '發生錯誤！';
 $messages['loginfailed']  = '登入失敗';
 $messages['cookiesdisabled'] = '你的瀏覽器不接受 cookies';
@@ -44,7 +42,7 @@ $messages['checkingmail'] = '檢查新郵件...';
 $messages['sendingmessage'] = '寄出郵件中...';
 $messages['messagesent'] = '郵件寄出成功';
 $messages['savingmessage'] = '儲存郵件中...';
-$messages['messagesaved'] = '訊息已經存至';
+$messages['messagesaved'] = '郵件已經儲存至草稿匣';
 $messages['successfullysaved'] = '儲存成功';
 $messages['addedsuccessfully'] = '聯絡人已經成功地新增至通訊錄';
 $messages['contactexists'] = '此聯絡人的電子郵件位址已存在';
@@ -56,8 +54,6 @@ $messages['contactnotfound'] = '找不到要求的聯絡人';
 $messages['contactsearchonly'] = '輸入關鍵字找尋連絡人';
 $messages['sendingfailed'] = '郵件寄出失敗';
 $messages['senttooquickly'] = '你寄出的郵件太過於頻繁，請稍候 $sec 秒後再試一次。';
-$messages['errorsavingsent'] = '儲存寄件備份時發生錯誤';
-$messages['errorsaving'] = '儲存時發生錯誤';
 $messages['errormoving'] = '無法移動此郵件';
 $messages['errorcopying'] = '無法訊息';
 $messages['errordeleting'] = '無法刪除此郵件';
@@ -101,16 +97,16 @@ $messages['converting'] = '移除郵件格式中...';
 $messages['messageopenerror'] = '無法從伺服器載入郵件';
 $messages['fileuploaderror'] = '檔案上傳失敗';
 $messages['filesizeerror'] = '上傳的檔案超過了 $size 的大小限制';
-$messages['copysuccess'] = 'Successfully copied $nr contacts.';
-$messages['movesuccess'] = 'Successfully moved $nr contacts.';
-$messages['copyerror'] = 'Could not copy any contacts.';
-$messages['moveerror'] = 'Could not move any contacts.';
+$messages['copysuccess'] = '成功複製 $nr 個聯絡人。';
+$messages['movesuccess'] = '成功移動 $nr 個聯絡人。';
+$messages['copyerror'] = '無法複製任何聯絡人。';
+$messages['moveerror'] = '無法移動任何聯絡人。';
 $messages['sourceisreadonly'] = '此來源位址是唯讀的';
 $messages['errorsavingcontact'] = '無法儲存連絡人的位址';
 $messages['movingmessage'] = '移動郵件中...';
 $messages['copyingmessage'] = '複製訊息...';
 $messages['copyingcontact'] = '複製群組...';
-$messages['movingcontact'] = 'Moving contact(s)...';
+$messages['movingcontact'] = '正在移動連絡人...';
 $messages['deletingmessage'] = '刪除訊息...';
 $messages['markingmessage'] = '標示訊息...';
 $messages['addingmember'] = '新增連絡人至群組';
@@ -129,8 +125,8 @@ $messages['importwait'] = '匯入中，請稍候...';
 $messages['importformaterror'] = '匯入失敗！上載的檔案格式不支援';
 $messages['importconfirm'] = '<b>成功匯入 $inserted 筆資料，略過 $skipped 筆已存在的資料</b>：<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>略過 $skipped 個已存在的項目</b>';
-$messages['importmessagesuccess'] = 'Successfully imported $nr messages';
-$messages['importmessageerror'] = 'Import failed! The uploaded file is not a valid message or mailbox file';
+$messages['importmessagesuccess'] = '成功匯入 $nr 封郵件';
+$messages['importmessageerror'] = '匯入失敗！上載的檔案不是有效的郵件或資料夾檔案';
 $messages['opnotpermitted'] = '不允許的操作';
 $messages['nofromaddress'] = '在選擇的身分中遺失了電子郵件位址';
 $messages['editorwarning'] = '切換到純文字編輯模式將會遺失所有設定的樣式。您確定要繼續嗎？';
@@ -144,7 +140,6 @@ $messages['smtperror'] = 'SMTP 錯誤：$msg';
 $messages['emailformaterror'] = '錯誤電子郵件：$email';
 $messages['toomanyrecipients'] = '太多收件人。請減少至 $max 人';
 $messages['maxgroupmembersreached'] = '太多群組成員，超過最大人數 $max 人';
-$messages['internalerror'] = '內部發生錯誤。請再次嘗試';
 $messages['contactdelerror'] = '無法刪除聯絡人';
 $messages['contactdeleted'] = '聯絡人成功刪除';
 $messages['contactrestoreerror'] = '無法復原刪除的連絡人';
@@ -173,5 +168,4 @@ $messages['messagetoobig'] = '郵件太大無法處理';
 $messages['attachmentvalidationerror'] = '警告！這個附件是可疑的，因為它的檔案類型與其宣稱的不同。如果您不能相信寄件者請不要開啟附件，它可能含有惡意的內容。<br /><br />
 <em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = '警告：使用Webmail需要Javascript支援，請檢查您瀏覽器的Javascript設定';
-
 ?>

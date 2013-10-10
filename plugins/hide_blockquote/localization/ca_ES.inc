@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'Amaga';
 $labels['show'] = 'Mostra';
 $labels['quotelimit'] = 'Amaga la cita quan el nombre de línies sigui més gran de';
-
 ?>

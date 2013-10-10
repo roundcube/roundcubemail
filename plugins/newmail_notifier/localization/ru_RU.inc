@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Показывать в браузере уведомление о приходе нового сообщения';
 $labels['desktop'] = 'Показывать на рабочем столе уведомление о приходе нового сообщения';
 $labels['sound'] = 'Подавать звуковой сигнал о приходе нового сообщения';
@@ -26,5 +25,4 @@ $labels['testbody'] = 'Это тестовое уведомление.';
 $labels['desktopdisabled'] = 'В Вашем браузере отключены уведомления на рабочем столе.';
 $labels['desktopunsupported'] = 'Ваш браузер не поддерживает уведомления на рабочем столе.';
 $labels['desktoptimeout'] = 'Закрыть уведомление на рабочем столе';
-
 ?>

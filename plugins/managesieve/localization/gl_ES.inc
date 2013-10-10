@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Xestionar os filtros de correo entrante';
 $labels['filtername'] = 'Nome do filtro';
@@ -49,14 +47,12 @@ $labels['messagesendcopy'] = 'Enviar copia da mensaxe a';
 $labels['messagereply'] = 'Respostar con unha mensaxe';
 $labels['messagedelete'] = 'Eliminar a mensaxe';
 $labels['messagediscard'] = 'Descartar con unha mensaxe';
-$labels['messagekeep'] = 'Keep message in Inbox';
 $labels['messagesrules'] = 'Para o correo entrante:';
 $labels['messagesactions'] = '... executar as seguintes accións:';
 $labels['add'] = 'Engadir';
 $labels['del'] = 'Eliminar';
 $labels['sender'] = 'Remitente';
 $labels['recipient'] = 'Destinatario';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'Cada canto enviar mensaxes (en días):';
 $labels['vacationinterval'] = 'Con qué frecuencia vanse enviar mensaxes:';
 $labels['days'] = 'días';
@@ -159,39 +155,27 @@ $labels['asciicasemap'] = 'non sensible a maiúsculas/minúsculas (ascii-casemap
 $labels['asciinumeric'] = 'numérico (ascii-numerico)';
 $labels['index'] = 'índice:';
 $labels['indexlast'] = 'cara atrás';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Erro descoñecido servidor';
 $messages['filterconnerror'] = 'Imposible conectar co servidor managesieve';
-$messages['filterdeleteerror'] = 'Imposible eliminar filtro. Ocurriu un erro no servidor';
 $messages['filterdeleted'] = 'Filtro borrado con éxito';
 $messages['filtersaved'] = 'Filtro gardado con éxito';
-$messages['filtersaveerror'] = 'Imposible gardar o filtro. Ocurriu un erro no servidor';
 $messages['filterdeleteconfirm'] = 'Realmente desexa eliminar o filtro seleccionado?';
 $messages['ruledeleteconfirm'] = 'Está seguro de que desexa eliminar a regra seleccionada?';
 $messages['actiondeleteconfirm'] = 'Está seguro de que desexa eliminar a acción seleccionada?';
 $messages['forbiddenchars'] = 'Caracteres non permitidos no campo';
 $messages['cannotbeempty'] = 'O campo non pode estar baleiro';
 $messages['ruleexist'] = 'Xa existe un filtro con nome especificado.';
-$messages['setactivateerror'] = 'Imposible activar o conxunto de filtros seleccionado. Ocurriu un erro no servidor';
-$messages['setdeactivateerror'] = 'Imposible desactivar o conxunto de filtros seleccionado. Ocurriu un error no servidor';
-$messages['setdeleteerror'] = 'Imposible eliminar o conxunto de filtros seleccionado. Ocurriu un error no servidor';
 $messages['setactivated'] = 'O conxunto de filtros activouse con éxito';
 $messages['setdeactivated'] = 'O conxunto de filtros desactivouse con éxito';
 $messages['setdeleted'] = 'O Conxunto de filtros borrouse con éxito';
 $messages['setdeleteconfirm'] = 'Está seguro de que desexa eliminar o conxunto de filtros seleccionado?';
-$messages['setcreateerror'] = 'Imposible crear o conxunto de filtros. Ocurriu un error no servidor';
 $messages['setcreated'] = 'Conxunto de filtros creado con éxito';
-$messages['activateerror'] = 'Non foi posible activar o(s) filtro(s) seleccionado(s). Ocurriu un erro no servidor.';
-$messages['deactivateerror'] = 'Non foi posible desactivar o(s) filtro(s) seleccionado(s). Ocurriu un erro no servidor.';
 $messages['deactivated'] = 'Desactiváronse os filtros correctamente.';
 $messages['activated'] = 'Activáronse os filtros correctamente';
 $messages['moved'] = 'Moveuse correctamente o filtro.';
-$messages['moveerror'] = 'Non foi posible mover o(s) filtro(s) seleccionado(s). Ocurriu un erro no servidor.';
 $messages['nametoolong'] = 'Imposible crear o conxunto de filtros. O nome é longo de máis';
 $messages['namereserved'] = 'Nome reservado';
 $messages['setexist'] = 'Xa existe o conxunto';
 $messages['nodata'] = 'É preciso seleccionar polo menos unha posición!';
 $messages['invaliddateformat'] = 'Formato de data ou parte dos datos inválidos';
-
 ?>

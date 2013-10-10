@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Bonvole plenumu vian identon pri sendanto';
 $labels['identitydialoghint'] = 'Ĉi tiu kesto aperas nur unufoje je la unua ensaluto.';
-
 ?>

@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = 'Udfyld din afsender identitet';
 $labels['identitydialoghint'] = 'Denne boks vises kun én gang ved første login';
-
 ?>

@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'Newid Cyfrinair';
 $labels['curpasswd']  = 'Cyfrinair Presennol:';
 $labels['newpasswd']  = 'Cyfrinair Newydd:';
 $labels['confpasswd']  = 'Cadarnhau Cyfrinair Newydd:';
-
-$messages = array();
 $messages['nopassword'] = 'Rhowch eich cyfrinair newydd.';
 $messages['nocurpassword'] = 'Rhowch eich cyfrinair presennol.';
 $messages['passwordincorrect'] = 'Roedd y cyfrinair presennol yn anghywir.';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'Methwyd cadw\'r cyfrinair newydd.';
 $messages['passwordshort'] = 'Rhaid i\'r cyfrinair fod o leia $length llythyren o hyd.';
 $messages['passwordweak'] = 'Rhaid i\'r cyfrinair gynnwys o leia un rhif a un cymeriad atalnodi.';
 $messages['passwordforbidden'] = 'Mae\'r cyfrinair yn cynnwys llythrennau wedi gwahardd.';
-
 ?>

@@ -15,10 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
-$labels = array();
 $labels['hide'] = 'مخفی کردن';
 $labels['show'] = 'نشان دادن';
 $labels['quotelimit'] = 'مخفی کردن نقل‌قول وقتی تعداد خطوط بیشتر است از';
-
 ?>

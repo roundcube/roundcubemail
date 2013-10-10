@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
-$labels = array();
 $labels['downloadall'] = 'Pellgargañ an holl stagadennoù';
 $labels['downloadfolder'] = 'Pellgargañ an teuliad';
-
 ?>

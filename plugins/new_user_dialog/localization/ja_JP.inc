@@ -15,9 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels = array();
 $labels['identitydialogtitle'] = '送信者情報の入力を完了してください。';
 $labels['identitydialoghint'] = 'このボックスは最初のログイン時に一度だけ表示されます。';
-
 ?>

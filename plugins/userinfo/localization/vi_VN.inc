@@ -15,11 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
-$labels = array();
 $labels['userinfo'] = 'Thông tin người dùng';
 $labels['created'] = 'Được tạo';
 $labels['lastlogin'] = 'Lần đăng nhập cuối';
 $labels['defaultidentity'] = 'Nhận diện mặc định';
-
 ?>

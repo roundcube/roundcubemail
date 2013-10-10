@@ -15,11 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
-$labels = array();
 $labels['userinfo'] = 'Uživatel';
 $labels['created'] = 'Vytvořen';
 $labels['lastlogin'] = 'Naspoledy přihlášen';
 $labels['defaultidentity'] = 'Výchozí identita';
-
 ?>

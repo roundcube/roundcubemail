@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Megosztás';
 $labels['myrights'] = 'Hozzáférési jogok';
 $labels['username'] = 'Felhasználó:';
@@ -25,7 +24,6 @@ $labels['actions'] = 'Hozzáférési jogok müveletei..';
 $labels['anyone'] = 'Minden felhasználó (bárki)';
 $labels['anonymous'] = 'Vendégek (névtelen)';
 $labels['identifier'] = 'Azonosító';
-
 $labels['acll'] = 'Keresés';
 $labels['aclr'] = 'Üzenetek olvasása';
 $labels['acls'] = 'Olvasottsági állapot megtartása';
@@ -39,13 +37,11 @@ $labels['aclt'] = 'Üzenetek törlése';
 $labels['acle'] = 'Törölt üzenetek eltávolítása';
 $labels['aclx'] = 'Mappa törlés';
 $labels['acla'] = 'Adminisztrátor';
-
 $labels['aclfull'] = 'Teljes hozzáférés';
 $labels['aclother'] = 'Egyéb';
 $labels['aclread'] = 'Olvasás';
 $labels['aclwrite'] = 'Írás';
 $labels['acldelete'] = 'Törlés';
-
 $labels['shortacll'] = 'Keresés';
 $labels['shortaclr'] = 'Olvasás';
 $labels['shortacls'] = 'Megtartás';
@@ -59,12 +55,10 @@ $labels['shortaclt'] = 'Törlés';
 $labels['shortacle'] = 'Törölt üzenetek eltávolítása';
 $labels['shortaclx'] = 'Mappa törlése';
 $labels['shortacla'] = 'Adminisztrátor';
-
 $labels['shortaclother'] = 'Egyéb';
 $labels['shortaclread'] = 'Olvasás';
 $labels['shortaclwrite'] = 'Írás';
 $labels['shortacldelete'] = 'Törlés';
-
 $labels['longacll'] = 'A mappa látható a listán és fel tudsz rá iratkozni.';
 $labels['longaclr'] = 'A mappa olvasásra megnyitható';
 $labels['longacls'] = 'Az üzenet megtekintési állapota módosítható';
@@ -78,12 +72,10 @@ $labels['longaclt'] = 'Üzenet törölve jelző módositható.';
 $labels['longacle'] = 'Az üzenetek véglegesen eltávolíthatóak';
 $labels['longaclx'] = 'A mappa törölhető vagy átnevezhető';
 $labels['longacla'] = 'A mappa hozzáférési jogai módosíthatóak';
-
 $labels['longaclfull'] = 'Teljes hozzáférés beleértve a mappák kezelését';
 $labels['longaclread'] = 'A mappa olvasásra megnyitható';
 $labels['longaclwrite'] = 'Az üzenetek megjelölhetök, irhatók és másolhatók ebbe a mappába';
 $labels['longacldelete'] = 'Az üzenetek törölhetőek';
-
 $messages['deleting'] = 'Hozzáférési jogok törlése...';
 $messages['saving'] = 'Hozzáférési jogok mentése...';
 $messages['updatesuccess'] = 'A hozzáférési jogok sikeresen módosultak.';
@@ -95,5 +87,4 @@ $messages['createerror'] = 'Nem sikerült a hozzáférési jogok hozzáadása';
 $messages['deleteconfirm'] = 'Biztosan eltávolítja a kiválasztott felhasználó(k) hozzáférési jogait?';
 $messages['norights'] = 'Nincsennek jogok megadva.';
 $messages['nouser'] = 'A felhasználónév nincs megadva.';
-
 ?>

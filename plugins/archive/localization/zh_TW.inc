@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
-$labels = array();
 $labels['buttontext'] = '封存';
 $labels['buttontitle'] = '封存此信件';
 $labels['archived'] = '已成功封存';
@@ -30,5 +28,4 @@ $labels['archivetypemonth'] = '月份(例如: 封存/2012/06)';
 $labels['archivetypefolder'] = '原始資料夾';
 $labels['archivetypesender'] = '寄件者電子信箱';
 $labels['unkownsender'] = '未知';
-
 ?>

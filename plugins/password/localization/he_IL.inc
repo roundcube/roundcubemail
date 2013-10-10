@@ -15,14 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
-$labels = array();
 $labels['changepasswd']  = 'שינוי סיסמה';
 $labels['curpasswd']  = 'סיסמה נוכחית:';
 $labels['newpasswd']  = 'סיסמה חדשה:';
 $labels['confpasswd']  = 'אימות הסיסמה החדשה:';
-
-$messages = array();
 $messages['nopassword'] = 'נא להקליד סיסמה חדשה';
 $messages['nocurpassword'] = 'נא להקיש הסיסמה הנוכחית';
 $messages['passwordincorrect'] = 'הוקשה סיסמה נוכחית שגויה';
@@ -33,5 +29,4 @@ $messages['internalerror'] = 'לא ניתן לשמור על הסיסמה החד�
 $messages['passwordshort'] = 'הסיסמה צריכה להיות לפחות בעלת $length תווים';
 $messages['passwordweak'] = 'הסיסמה חייבת לכלול לפחות סיפרה אחת ולפחות סימן פיסוק אחד.';
 $messages['passwordforbidden'] = 'הסיסמה מכילה תווים אסורים.';
-
 ?>
