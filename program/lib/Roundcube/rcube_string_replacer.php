@@ -24,11 +24,14 @@
  */
 class rcube_string_replacer
 {
-    public static $pattern = '/##str_replacement\[([0-9]+)\]##/';
+    public static $pattern = '/##str_replacement\{([0-9]+)\}##/';
     public $mailto_pattern;
     public $link_pattern;
+
     private $values = array();
     private $options = array();
+    private $linkrefs = array();
+    private $urls = array();
 
 
     function __construct($options = array())
@@ -45,6 +48,8 @@ class rcube_string_replacer
             ."@$utf_domain"                                                 // domain-part
             ."(\?[$url1$url2]+)?"                                           // e.g. ?subject=test...
             .")/";
+        $this->linkref_index = '/\[([a-zA-Z0-9]+)\]:?\s*##str_replacement\{(\d+)\}##/';
+        $this->linkref_pattern = '/\[([a-zA-Z0-9]+)\]/';
 
         $this->options = $options;
     }
@@ -67,7 +72,7 @@ class rcube_string_replacer
      */
     public function get_replacement($i)
     {
-        return '##str_replacement['.$i.']##';
+        return '##str_replacement{'.$i.'}##';
     }
 
     /**
@@ -96,11 +101,39 @@ class rcube_string_replacer
             $attrib['href'] = $url_prefix . $url;
 
             $i = $this->add(html::a($attrib, rcube::Q($url)) . $suffix);
+            $this->urls[$i] = $attrib['href'];
         }
 
         // Return valid link for recognized schemes, otherwise
         // return the unmodified string for unrecognized schemes.
         return $i >= 0 ? $prefix . $this->get_replacement($i) : $matches[0];
+    }
+
+    /**
+     * Callback to add an entry to the link index
+     */
+    public function linkref_addindex($matches)
+    {
+        $key = $matches[1];
+        $this->linkrefs[$key] = $matches[2];
+
+        return $matches[0];
+    }
+
+    /**
+     * Callback to replace link references with real links
+     */
+    public function linkref_callback($matches)
+    {
+        $i = 0;
+        $key = isset($this->linkrefs[$matches[1]]) ? $this->linkrefs[$matches[1]] : '-';
+        if ($url = $this->urls[$key]) {
+            $attrib = (array)$this->options['link_attribs'];
+            $attrib['href'] = $url;
+            $i = $this->add(html::a($attrib, rcube::Q($matches[1])));
+        }
+
+        return $i > 0 ? '['.$this->get_replacement($i).']' : $matches[0];
     }
 
     /**
@@ -142,6 +175,9 @@ class rcube_string_replacer
         // search for patterns like links and e-mail addresses
         $str = preg_replace_callback($this->link_pattern, array($this, 'link_callback'), $str);
         $str = preg_replace_callback($this->mailto_pattern, array($this, 'mailto_callback'), $str);
+        // resolve link references
+        $str = preg_replace_callback($this->linkref_index, array($this, 'linkref_addindex'), $str);
+        $str = preg_replace_callback($this->linkref_pattern, array($this, 'linkref_callback'), $str);
 
         return $str;
     }

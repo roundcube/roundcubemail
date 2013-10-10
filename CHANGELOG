@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Replace markdown-style [1] link indexes in plain text email bodies
 - Fixed issues where HTML comments inside style tag would hang Internet Explorer
 - Improved mailto: link arguments handling (#1489363)
 - Use DOMDocument LIBXML_PARSEHUGE and LIBXML_COMPACT options if possible (#1489302)
