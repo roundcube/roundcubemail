@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = 'להוריד את כל הצרופות';
 $labels['downloadfolder'] = 'תיקיית צרופות';
 ?>

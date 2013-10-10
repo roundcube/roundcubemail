@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Καλώς ήρθατε στο $product';
 $labels['username']  = 'Όνομα Χρήστη';
 $labels['password']  = 'Κωδικός Πρόσβασης';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'Επαναφορά Αναζήτησης';
 $labels['searchmod']  = 'Aλλαγή αναζήτησης';
 $labels['msgtext']  = 'Σε όλο το μήνυμα';
 $labels['body']  = 'Σώμα';
-$labels['type'] = 'Type';
+$labels['type'] = 'Τυπος';
+$labels['namex'] = 'όνομα';
 $labels['openinextwin'] = 'Άνοιγμα σε νέο παράθυρο';
 $labels['emlsave'] = 'Λήψη αρχείου (.eml)';
 $labels['changeformattext'] = 'Εμφάνιση σε μορφή απλού κειμένου';
@@ -310,14 +309,13 @@ $labels['nextpage']       = 'Εμφάνιση επόμενης σελίδας';
 $labels['lastpage']       = 'Εμφάνιση της τελευταίας σελίδας';
 $labels['group'] = 'Ομάδα';
 $labels['groups'] = 'Ομάδες';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Μέλη της ομάδας λίστας';
 $labels['personaladrbook'] = 'Προσωπικές Διυθύνσεις';
 $labels['searchsave'] = 'Αποθήκευση αναζήτησης';
 $labels['searchdelete'] = 'Διαγραφή αποθηκευμένης αναζήτησης';
 $labels['import'] = 'Εισαγωγή';
 $labels['importcontacts'] = 'Εισαγωγή επαφών';
 $labels['importfromfile'] = 'Εισαγωγή από το αρχείο:';
-$labels['importtarget'] = 'Προσθήκη νέων επαφών στο βιβλίο διευθύνσεων:';
 $labels['importreplace'] = 'Αντικατάσταση όλου του βιβλίου διευθύνσεων';
 $labels['importdesc'] = 'Μπορείτε να ανεβάσετε επαφές από ένα υπάρχον βιβλίο διευθύνσεων.<br/>Υποστηρίζεται η εισαγωγή διευθύνσεων από αρχεία τύπου <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ή CSV (διαχωρισμένα με κόμμα).';
 $labels['done'] = 'Ολοκληρώθηκε';

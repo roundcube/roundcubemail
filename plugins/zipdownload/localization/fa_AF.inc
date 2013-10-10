@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = 'بارگزاری همه ضمیمه ها';
 $labels['downloadfolder'] = 'بارگزاری  پوشه';
 ?>

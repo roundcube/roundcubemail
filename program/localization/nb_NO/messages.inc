@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Det oppsto en feil!';
 $messages['loginfailed']  = 'Pålogging mislyktes';
 $messages['cookiesdisabled'] = 'Nettleseren din tillater ikke informasjonskapsler (cookies)';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Den ønskede kontakten ble ikke funnet';
 $messages['contactsearchonly'] = 'Skriv inn noen søkeord for å finne kontakter.';
 $messages['sendingfailed'] = 'Kunne ikke sende e-posten';
 $messages['senttooquickly'] = 'Vennligst vent $sec sekund(er) før du sender denne meldingen';
-$messages['errorsavingsent'] = 'En feil oppsto under lagring av sendt melding';
-$messages['errorsaving'] = 'Det oppstod en feil ved lagring av data';
 $messages['errormoving'] = 'Kunne ikke flytte meldingen(e)';
 $messages['errorcopying'] = 'Kunne ikke kopiere meldingen(e)';
 $messages['errordeleting'] = 'Kunne ikke slette meldingen(e)';
@@ -100,16 +97,11 @@ $messages['converting'] = 'Fjerner formatering fra meldingen ...';
 $messages['messageopenerror'] = 'Kunne ikke hente meldingen fra server';
 $messages['fileuploaderror'] = 'Feil under opplastning.';
 $messages['filesizeerror'] = 'Filen overstiger maksimum tillatt filstørrelse ($size)';
-$messages['copysuccess'] = 'Successfully copied $nr contacts.';
-$messages['movesuccess'] = 'Successfully moved $nr contacts.';
-$messages['copyerror'] = 'Could not copy any contacts.';
-$messages['moveerror'] = 'Could not move any contacts.';
 $messages['sourceisreadonly'] = 'Denne adressekilden er skrivebeskyttet';
 $messages['errorsavingcontact'] = 'Kunne ikke lagre kontaktadressen.';
 $messages['movingmessage'] = 'Flytter e-post ...';
 $messages['copyingmessage'] = 'Kopierer e-post...';
 $messages['copyingcontact'] = 'Kopierer kontakt(er) …';
-$messages['movingcontact'] = 'Moving contact(s)...';
 $messages['deletingmessage'] = 'Sletter melding(er) …';
 $messages['markingmessage'] = 'Markerer melding(er) ...';
 $messages['addingmember'] = 'Legger til kontakt(er) i gruppa ...';
@@ -143,7 +135,6 @@ $messages['smtperror'] = 'SMTP-feil ($code): $msg';
 $messages['emailformaterror'] = 'Ukorrekt e-postadresse: $email';
 $messages['toomanyrecipients'] = 'For mange mottakere. Reduser antall mottakere til $max.';
 $messages['maxgroupmembersreached'] = 'Antall gruppemedlemmer overskrider maksgrensen på $max';
-$messages['internalerror'] = 'Intern feil, prøv igjen senere.';
 $messages['contactdelerror'] = 'Kunne ikke slette kontakt(er)';
 $messages['contactdeleted'] = 'Kontakt(er) slettet uten feil.';
 $messages['contactrestoreerror'] = 'Kunne ikke gjenopprette kontakt(er).';

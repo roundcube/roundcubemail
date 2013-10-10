@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'Sothach';
 $labels['buttontitle'] = 'Nodi fel Sbwriel';
 $labels['reportedasjunk'] = 'Adroddwyd yn llwyddiannus fel Sbwriel';

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Vítejte v $product';
 $labels['username']  = 'Uživatel';
 $labels['password']  = 'Heslo';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'Zrušit vyhledávání';
 $labels['searchmod']  = 'Parametry hledání';
 $labels['msgtext']  = 'Celá zpráva';
 $labels['body']  = 'Tělo';
-$labels['type'] = 'Type';
+$labels['type'] = 'Typ';
+$labels['namex'] = 'Jméno';
 $labels['openinextwin'] = 'Otevřít v novém okně';
 $labels['emlsave'] = 'Stáhnout (.eml)';
 $labels['changeformattext'] = 'Zobrazit v textovém formátu';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Smazat hledání';
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Importovat kontakty';
 $labels['importfromfile'] = 'Importovat ze souboru';
-$labels['importtarget'] = 'Přidat nové kontakty do seznamu kontaktů:';
+$labels['importtarget'] = 'Přidat kontakty k';
 $labels['importreplace'] = 'Nahradit celý seznam kontaktů';
+$labels['importgroups'] = 'Importovat přiřazení do skupin';
+$labels['importgroupsall'] = 'Vše (vytvořit skupiny v případě potřeby)';
+$labels['importgroupsexisting'] = 'Pouze pro existující skupiny';
 $labels['importdesc'] = 'Můžete nahrát kontakty z existujícího adresáře kontaktů.<br/>Momentálně podporujeme kontakty ve formátu <a href="http://cs.wikipedia.org/wiki/VCard">vCard</a> nebo CSV (comma-separated).';
 $labels['done'] = 'Hotovo';
 $labels['settingsfor'] = 'Nastavení pro';

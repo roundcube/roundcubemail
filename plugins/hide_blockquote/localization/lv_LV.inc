@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Slēpt';
 $labels['show'] = 'Rādīt';
 $labels['quotelimit'] = 'Slēpt citātu kad līniju skaits ir lielāks kā';

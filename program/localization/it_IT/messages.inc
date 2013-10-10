@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Si è verificato un errore!';
 $messages['loginfailed']  = 'Impossibile accedere. Utente o password non corretti';
 $messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Il contatto richiesto non è stato trovato';
 $messages['contactsearchonly'] = 'Inserisci dei termini per cercare i contatti';
 $messages['sendingfailed'] = 'Impossibile inviare il messaggio';
 $messages['senttooquickly'] = 'Per favore, attendi $sec secondi prima di inviare questo messaggio';
-$messages['errorsavingsent'] = 'C\'è stato un errore nel salvare il messaggio inviato';
-$messages['errorsaving'] = 'Impossibile salvare';
 $messages['errormoving'] = 'Impossibile spostare il messaggio';
 $messages['errorcopying'] = 'Impossibile copiare il messaggio';
 $messages['errordeleting'] = 'Impossibile eliminare il messaggio';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'Errore SMTP: $msg';
 $messages['emailformaterror'] = 'Indirizzo e-mail non corretto: $email';
 $messages['toomanyrecipients'] = 'Numero eccessivo di destinatari, ridurlo a $max';
 $messages['maxgroupmembersreached'] = 'Il numero dei membri del gruppo eccede il massimo di $max';
-$messages['internalerror'] = 'Si è verificato un errore interno. Si prega di riprovare di nuovo.';
 $messages['contactdelerror'] = 'Impossibile eliminare il/i contatto/i';
 $messages['contactdeleted'] = 'Contatto/i correttamente eliminato/i';
 $messages['contactrestoreerror'] = 'Impossibile ripristinare il/i contatto/i cancellato/i';

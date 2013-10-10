@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'Correo lixo';
 $labels['buttontitle'] = 'Marcar como correo lixo';
 $labels['reportedasjunk'] = 'Mensaxe marcada como correo lixo';

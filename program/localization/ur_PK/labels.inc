@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = ' $product میں خوش آمدید';
 $labels['server']    = 'سَروَر';
 $labels['mail']     = 'میل';

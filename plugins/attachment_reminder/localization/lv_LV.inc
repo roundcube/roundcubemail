@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-
 $messages['forgotattachment'] = "Vai Jūs nepiemirsāt pievienot failu?";
 $messages['reminderoption'] = "Atgādināt par nepievienotajiem pielikumiem";
 $messages['keywords'] = "pielikums,fails,pievienot,pielikt,pievienots,pielikts,ievietot,ievietots,CV";

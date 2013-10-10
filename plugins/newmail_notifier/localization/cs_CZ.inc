@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Zobrazit upozornění v prohlížeči při příchozí zprávě';
 $labels['desktop'] = 'Zobrazit upozornění na ploše při příchozí zprávě';
 $labels['sound'] = 'Přehrát zvuk při příchozí zprávě';

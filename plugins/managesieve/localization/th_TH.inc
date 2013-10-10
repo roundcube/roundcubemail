@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'ตัวกรองข้อมูล';
 $labels['filtername'] = 'ชื่อตัวกรองข้อมูล';
 $labels['newfilter'] = 'สร้างตัวกรองข้อมูลใหม่';

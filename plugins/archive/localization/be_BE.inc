@@ -15,16 +15,15 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Архіў';
 $labels['buttontitle'] = 'Перанесці ў Архіў';
-$labels['archived'] = 'Паспяхова перанесены ў Архіў';
-$labels['archivedreload'] = 'Паспяхова перанесены ў Архіў. Перазагрузіце старонку, каб пабачыць новыя архіўныя папкі.';
-$labels['archiveerror'] = 'Некаторыя лісты не могуць быць перанесены ў архіў';
+$labels['archived'] = 'Перанесена ў Архіў';
+$labels['archivedreload'] = 'Перанесена ў Архіў. Перазагрузіце старонку, каб пабачыць новыя архіўныя папкі.';
+$labels['archiveerror'] = 'Некаторыя паведамленні не могуць быць перанесены ў архіў';
 $labels['archivefolder'] = 'Архіў';
 $labels['settingstitle'] = 'Архіў';
 $labels['archivetype'] = 'Раздзяліць архіў паводле';
-$labels['archivetypeyear'] = 'году (прыкладам, Архіў/2012)';
+$labels['archivetypeyear'] = 'года (прыкладам, Архіў/2012)';
 $labels['archivetypemonth'] = 'месяца (прыкладам, Архіў/2012/06)';
 $labels['archivetypefolder'] = 'Арыгінальная папка';
 $labels['archivetypesender'] = 'Эл. пошта адпраўніка';

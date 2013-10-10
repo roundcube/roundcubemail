@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtres';
 $labels['managefilters'] = 'Gérer les filtres sur les courriels entrants';
 $labels['filtername'] = 'Nom du filtre';
@@ -161,31 +159,22 @@ $labels['index'] = 'index:';
 $labels['indexlast'] = 'retour arrière';
 $messages['filterunknownerror'] = 'Erreur du serveur inconnue';
 $messages['filterconnerror'] = 'Connexion au serveur Managesieve impossible';
-$messages['filterdeleteerror'] = 'Suppression du filtre impossible. Le serveur à produit une erreur';
 $messages['filterdeleted'] = 'Le filtre a bien été supprimé';
 $messages['filtersaved'] = 'Le filtre a bien été enregistré';
-$messages['filtersaveerror'] = 'Enregistrement du filtre impossibe. Le serveur à produit une erreur';
 $messages['filterdeleteconfirm'] = 'Voulez-vous vraiment supprimer le filtre sélectionné?';
 $messages['ruledeleteconfirm'] = 'Voulez-vous vraiment supprimer la règle sélectionnée?';
 $messages['actiondeleteconfirm'] = 'Voulez-vous vraiment supprimer l\'action sélectionnée?';
 $messages['forbiddenchars'] = 'Caractères interdits dans le champ';
 $messages['cannotbeempty'] = 'Le champ ne peut pas être vide';
 $messages['ruleexist'] = 'Un filtre existe déjà avec ce nom.';
-$messages['setactivateerror'] = 'Impossible d\'aactiver le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
-$messages['setdeactivateerror'] = 'Impossible de désactiver le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
-$messages['setdeleteerror'] = 'Impossible de supprimer le groupe de filtres sélectionné. Le serveur a rencontré une erreur.';
 $messages['setactivated'] = 'Le groupe de filtres a bien été activé.';
 $messages['setdeactivated'] = 'Le groupe de filtres a bien été désactivé.';
 $messages['setdeleted'] = 'Le groupe de filtres a bien été supprimé.';
 $messages['setdeleteconfirm'] = 'Voulez vous vraiment supprimer le groupe de filtres sélectionné ?';
-$messages['setcreateerror'] = 'Impossible de créer le groupe de filtres. Le serveur a rencontré une erreur.';
 $messages['setcreated'] = 'Le groupe de filtres a bien été créé.';
-$messages['activateerror'] = 'Impossible d\'activer le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
-$messages['deactivateerror'] = 'Impossible de désactiver le(s) filtre(s) sélectionné(s). Une erreur serveur s\'est produite.';
 $messages['deactivated'] = 'Filtre(s) désactivé(s) avec succès.';
 $messages['activated'] = 'Filtre(s) activé(s) avec succès.';
 $messages['moved'] = 'Filtre déplacé avec succès.';
-$messages['moveerror'] = 'Déplacement du filtre sélectionné impossible. Le serveur a renvoyé une erreur.';
 $messages['nametoolong'] = 'Nom trop long.';
 $messages['namereserved'] = 'Nom réservé.';
 $messages['setexist'] = 'Ce groupe existe déjà.';

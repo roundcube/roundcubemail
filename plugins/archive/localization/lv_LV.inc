@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Arhīvs';
 $labels['buttontitle'] = 'Arhivēt šo vēstuli';
 $labels['archived'] = 'Vēstule veiksmīgi arhivēta';

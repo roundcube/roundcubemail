@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-
 $messages['forgotattachment'] = "Unohditko liittää tiedoston?";
 $messages['reminderoption'] = "Muistuta mahdollisesti unohtuneista liitteistä";
 $messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter,liite,tiedosto,liitteenä,liitetiedosto";

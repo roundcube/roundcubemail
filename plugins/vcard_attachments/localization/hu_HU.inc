@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
 $labels['addvcardmsg'] = 'vCard hozzáadása a címjegyzékhez';
 $labels['vcardsavefailed'] = 'Sikertelen a vCard mentése';
 ?>

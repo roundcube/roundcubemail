@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Arkivera';
 $labels['buttontitle'] = 'Arkivera meddelande';
 $labels['archived'] = 'Meddelandet är arkiverat';

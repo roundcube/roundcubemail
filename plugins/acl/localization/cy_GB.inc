@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Rhannu';
 $labels['myrights'] = 'Hawliau Mynediad';
 $labels['username'] = 'Defnyddiwr:';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'خطایی رخ داد!';
 $messages['loginfailed']  = 'ورود ناموفق بود.';
 $messages['cookiesdisabled'] = 'مرورگر شما کوکی‌ها را قبول نمی‌کند.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'مخاطب درخواست شده پیدا نشد
 $messages['contactsearchonly'] = 'برای یافتن مخاطب عبارتی را جستجو کنید';
 $messages['sendingfailed'] = 'ارسال پیغام ناموفق بود.';
 $messages['senttooquickly'] = 'لطفا قبل از ارسال این پیغام $sec ثانیه صبر کنید.';
-$messages['errorsavingsent'] = 'در لحظه ذخیره پیغام ارسال شده، مشکلی رخ داد.';
-$messages['errorsaving'] = 'هنگام ذخیره‌سازی، مشکلی رخ داد.';
 $messages['errormoving'] = 'پیغام(ها) منتقل نشدند.';
 $messages['errorcopying'] = 'پیغام(ها) کپی نشدند.';
 $messages['errordeleting'] = 'پیغام(ها) حذف نشدند.';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'خطای SMTP: $msg';
 $messages['emailformaterror'] = 'پست الکترونیکی نامعتبر: $email';
 $messages['toomanyrecipients'] = 'گیرنده‌های بیش از اندازه: تعداد گیرنده ها را به $max کاهش دهید.';
 $messages['maxgroupmembersreached'] = 'تعداد اعضای گروه بیشتر از $max است.';
-$messages['internalerror'] = 'خطای داخلی رخ داد. لطفا دوباره امتحان کنید.';
 $messages['contactdelerror'] = 'حذف مخاطب(ها) انجام شد.';
 $messages['contactdeleted'] = 'مخاطب(ها) با موفقیت حذف شدند.';
 $messages['contactrestoreerror'] = 'مخاطب(های) حذف شده بازگردانی نخواهند شد.';

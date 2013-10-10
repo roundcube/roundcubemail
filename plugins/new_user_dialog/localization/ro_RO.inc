@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
-$labels['identitydialogtitle'] = 'Te rog completează identitatea de expeditor.';
-$labels['identitydialoghint'] = 'Această căsuţă apare o data la prima autentificare.';
+$labels['identitydialogtitle'] = 'Te rog completează identitatea expeditorului.';
+$labels['identitydialoghint'] = 'Această căsuţă apare doar la prima autentificare.';
 ?>

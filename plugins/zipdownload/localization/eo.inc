@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = 'Elŝuti ĉiujn kunsendaĵojn';
 $labels['downloadfolder'] = 'Elŝuti dosierujon';
 ?>

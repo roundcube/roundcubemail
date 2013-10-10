@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Desila se greška!';
 $messages['loginfailed']  = 'Prijava nije uspjela.';
 $messages['cookiesdisabled'] = 'Vaš preglednik ne prihvata kolačiće.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Traženi kontakt nije pronađen.';
 $messages['contactsearchonly'] = 'Unesite neki pojam za pretragu';
 $messages['sendingfailed'] = 'Greška pri slanju poruke.';
 $messages['senttooquickly'] = 'Molimo sačekajte $sec sekundi prije slanja ove poruke.';
-$messages['errorsavingsent'] = 'Desila se greška pri snimanju poslane poruke.';
-$messages['errorsaving'] = 'Desila se greška pri snimanju.';
 $messages['errormoving'] = 'Nije moguće premjestiti poruke.';
 $messages['errorcopying'] = 'Nije moguće kopirati poruke.';
 $messages['errordeleting'] = 'Nije moguće obrisati poruke.';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP greška: $msg';
 $messages['emailformaterror'] = 'Netačna email adresa: $email';
 $messages['toomanyrecipients'] = 'Previše primaoca. Smanjite broj primaoca na $max.';
 $messages['maxgroupmembersreached'] = 'Broj članova grupe prelazi maksimum od $max.';
-$messages['internalerror'] = 'Dogodila se interna greška. Molimo vas da pokušate ponovo.';
 $messages['contactdelerror'] = 'Kontakti ne mogu biti obrisani.';
 $messages['contactdeleted'] = 'Kontakti su uspješno obrisani.';
 $messages['contactrestoreerror'] = 'Nije moguće vratiti obrisane kontakte.';

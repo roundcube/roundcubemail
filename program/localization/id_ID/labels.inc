@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Selamat datang di $product';
 $labels['username']  = 'Username';
 $labels['password']  = 'Password';
@@ -31,7 +29,7 @@ $labels['drafts'] = 'Konsep';
 $labels['sent']   = 'Terkirim';
 $labels['trash']  = 'Surat Terhapus';
 $labels['junk']   = 'Sampah';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
+$labels['show_real_foldernames'] = 'Tampilkan nama asli untuk folder spesial';
 $labels['subject'] = 'Judul';
 $labels['from']    = 'Pengirim';
 $labels['sender']  = 'Pengirim';
@@ -168,7 +166,7 @@ $labels['listmode'] = 'Perlihatkan mode tinjauan';
 $labels['folderactions'] = 'Tindakan pada folder...';
 $labels['compact'] = 'Rampingkan';
 $labels['empty'] = 'Kosong';
-$labels['importmessages'] = 'Import messages';
+$labels['importmessages'] = 'Impor pesan';
 $labels['quota'] = 'Penggunaan ruang';
 $labels['unknown']  = 'Tidak dikenal';
 $labels['unlimited']  = 'Tidak terbatas';
@@ -311,14 +309,13 @@ $labels['nextpage']       = 'Perlihatkan himpunan selanjutnya';
 $labels['lastpage']       = 'Perlihatkan himpunan terakhir';
 $labels['group'] = 'Kelompok';
 $labels['groups'] = 'Kelompok';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Daftar anggota grup';
 $labels['personaladrbook'] = 'Alamat pribadi';
 $labels['searchsave'] = 'Simpan pencarian';
 $labels['searchdelete'] = 'Hapus pencarian';
 $labels['import'] = 'Impor';
 $labels['importcontacts'] = 'Impor kontak';
 $labels['importfromfile'] = 'Impor dari berkas:';
-$labels['importtarget'] = 'Tambahkan kontak baru ke buku alamat:';
 $labels['importreplace'] = 'Ganti seluruh buku alamat';
 $labels['importdesc'] = 'Anda dapat mengunggah kontak dari buku alamat yang telah ada.<br/>Saat ini kami mendukung import alamat dari format data <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> atau CSV (comma-separated).';
 $labels['done'] = 'Selesai';
@@ -353,7 +350,7 @@ $labels['htmleditor'] = 'Tulis pesan HTML';
 $labels['htmlonreply'] = 'balasan untuk pesan HTML saja';
 $labels['htmlonreplyandforward'] = 'ketika meneruskan atau membalas pesan HTML';
 $labels['htmlsignature'] = 'Tandatangan HTML';
-$labels['showemail'] = 'Show email address with display name';
+$labels['showemail'] = 'Tampilkan alamat email dengan nama';
 $labels['previewpane'] = 'Unjuk pratinjau';
 $labels['skin'] = 'Tampilan antarmuka';
 $labels['logoutclear'] = 'Bersihkan Tong Sampah saat keluar';
@@ -423,7 +420,7 @@ $labels['spellcheckignorenums'] = 'Abaikan kata-kata yang bernomor';
 $labels['spellcheckignorecaps'] = 'Abaikan kata-kata dengan huruf besar semua';
 $labels['addtodict'] = 'Tambahkan ke kamus';
 $labels['mailtoprotohandler'] = 'Daftarkan pengampu protokol untuk link mailto:';
-$labels['standardwindows'] = 'Handle popups as standard windows';
+$labels['standardwindows'] = 'Kelola popup sebagai standar window';
 $labels['forwardmode'] = 'Meneruskan pesan';
 $labels['inline'] = 'dalam surat';
 $labels['asattachment'] = 'sebagai sisipan';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Показва известия в браузъра при ново писмо';
 $labels['desktop'] = 'Показва известия на работния плот при ново писмо';
 $labels['sound'] = 'Възпроизведи звук при ново писмо';

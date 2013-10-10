@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'ברוך בואך אל $product';
 $labels['username']  = 'שם משתמש';
 $labels['password']  = 'סיסמה';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'ניקוי תיבת החיפוש';
 $labels['searchmod']  = 'מאפייני חיפוש';
 $labels['msgtext']  = 'כל ההודעה';
 $labels['body']  = 'גוף ההודעה';
-$labels['type'] = 'Type';
+$labels['type'] = 'סוג';
+$labels['namex'] = 'שם';
 $labels['openinextwin'] = 'פתיחה בחלון חדש';
 $labels['emlsave'] = 'הורדת הודעה בפורמט  EML';
 $labels['changeformattext'] = 'הצגה בפורמט לא מעוצב';
@@ -310,14 +309,13 @@ $labels['nextpage']       = 'הצגת הקבוצה הבאה';
 $labels['lastpage']       = 'הצגת הקבוצה האחרונה';
 $labels['group'] = 'קבוצה';
 $labels['groups'] = 'קבוצות';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'רשימה של חברי קבוצה';
 $labels['personaladrbook'] = 'כתובות פרטיות';
 $labels['searchsave'] = 'שמירת החיפוש';
 $labels['searchdelete'] = 'מחיקת החיפוש';
 $labels['import'] = 'ייבוא';
 $labels['importcontacts'] = 'ייבוא אנשי קשר';
 $labels['importfromfile'] = 'ייבוא מקובץ';
-$labels['importtarget'] = 'הוספת אנשי קשר לספר הכתובות';
 $labels['importreplace'] = 'החלפת כל פנקס הכתובות';
 $labels['importdesc'] = 'ניתן לטעון אנשי קשר מקובץ חיצוני. אנו תומכים בקבצים הערוכים בצורה של 
  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>  או 

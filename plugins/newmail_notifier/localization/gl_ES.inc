@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Amosar notificacións no navegador cando entre unha mensaxe nova';
 $labels['desktop'] = 'Amosar notificacións no escritorio cando chegue unha mensaxe nova';
 $labels['sound'] = 'Tocar un son cando chegue unha mensaxe nova';
@@ -25,5 +24,4 @@ $labels['body'] = 'Recibiu unha mensaxe nova';
 $labels['testbody'] = 'Esta é unha notificación de proba';
 $labels['desktopdisabled'] = 'As notificacións de escritorio están desactivadas no seu navegador';
 $labels['desktopunsupported'] = 'O teu navegador non soporta notificacións de escritorio.';
-$labels['desktoptimeout'] = 'Close desktop notification';
 ?>

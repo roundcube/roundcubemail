@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Bistaratu nabigatzailearen jakinarazpenak mezu berrian';
 $labels['desktop'] = 'Bistaratu sistemaren jakinarazpenak mezu berrian';
 $labels['sound'] = 'Jo soinu bat mezu berriarekin';

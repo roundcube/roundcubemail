@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Ett fel uppstod!';
 $messages['loginfailed']  = 'Inloggningen misslyckades';
 $messages['cookiesdisabled'] = 'Din webbläsare accepterar inte cookies';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Efterfrågad kontakt hittades inte';
 $messages['contactsearchonly'] = 'Ange sökord för att hitta kontakter';
 $messages['sendingfailed'] = 'Meddelandet kunde inte skickas';
 $messages['senttooquickly'] = 'Vänta ytterligare $sec sekunder med att skicka meddelandet';
-$messages['errorsavingsent'] = 'Ett fel inträffade när det skickade meddelandet skulle sparas';
-$messages['errorsaving'] = 'Meddelandet kunde inte sparas';
 $messages['errormoving'] = 'Meddelandet kunde inte flyttas';
 $messages['errorcopying'] = 'Meddelandet kunde inte kopieras';
 $messages['errordeleting'] = 'Meddelandet kunde inte tas bort';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP-fel: $msg';
 $messages['emailformaterror'] = 'Felaktig adress: $email';
 $messages['toomanyrecipients'] = 'Förmånga mottagare. Minska antalet till högst $max';
 $messages['maxgroupmembersreached'] = 'Antalet gruppmedlemmar får inte överstiga $max';
-$messages['internalerror'] = 'Ett internt fel uppstod. Försök igen.';
 $messages['contactdelerror'] = 'Kontakt kunde inte tas bort';
 $messages['contactdeleted'] = 'Kontakt borttagen.';
 $messages['contactrestoreerror'] = 'Borttagna kontakter kunde inte återskapas';

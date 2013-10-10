@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Dobrodošli u $product';
 $labels['username']  = 'Korisnik';
 $labels['password']  = 'Šifra';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Modifikacija pretrage';
 $labels['msgtext']  = 'Cijela poruka';
 $labels['body']  = 'Tijelo';
 $labels['type'] = 'Vrsta';
+$labels['namex'] = 'Ime';
 $labels['openinextwin'] = 'Otvori u novom prozoru';
 $labels['emlsave'] = 'Preuzmi (.eml)';
 $labels['changeformattext'] = 'Prikaži kao obični tekst';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Obriši pretragu';
 $labels['import'] = 'Uvoz';
 $labels['importcontacts'] = 'Uvoz kontakata';
 $labels['importfromfile'] = 'Uvoz iz datoteke:';
-$labels['importtarget'] = 'Dodaj novi kontakt u adresar:';
+$labels['importtarget'] = 'Dodaj kontakte u';
 $labels['importreplace'] = 'Zamijeni cijeli adresar';
+$labels['importgroups'] = 'Uvezi grupne zadatke';
+$labels['importgroupsall'] = 'Sve (kreiraj grupe ako je potrebno)';
+$labels['importgroupsexisting'] = 'Samo za postojeće grupe';
 $labels['importdesc'] = 'Kontakte možete dodati iz postojećeg adresara.<br/>Trenutno podržavamo uvoz adresara u formatima <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ili CSV (comma-separated).';
 $labels['done'] = 'Završeno';
 $labels['settingsfor'] = 'Podešavanja za';

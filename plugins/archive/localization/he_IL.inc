@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'ארכיון';
 $labels['buttontitle'] = 'משלוח ההודעה לארכיב';
 $labels['archived'] = 'עדכון הארכיון הצליח';

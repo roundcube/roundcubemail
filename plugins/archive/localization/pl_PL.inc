@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Archiwum';
 $labels['buttontitle'] = 'Przenieś do archiwum';
 $labels['archived'] = 'Pomyślnie zarchiwizowano';

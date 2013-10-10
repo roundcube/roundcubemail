@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Der opstod en fejl!';
 $messages['loginfailed']  = 'Det lykkedes ikke at logge på.';
 $messages['cookiesdisabled'] = 'Din browser accepterer ikke cookies.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Den søgte kontakt blev ikke fundet.';
 $messages['contactsearchonly'] = 'Indtast søgeord for at finde kontakter.';
 $messages['sendingfailed'] = 'Beskeden kunne ikke sendes.';
 $messages['senttooquickly'] = 'Vent venligst $sec sekunder før du sender denne besked.';
-$messages['errorsavingsent'] = 'Der opstod en fejl da den sendte besked blev gemt.';
-$messages['errorsaving'] = 'Der opstod en fejl under gemning.';
 $messages['errormoving'] = 'Beskeden kunne ikke flyttes.';
 $messages['errorcopying'] = 'Beskeden kunne ikke kopieres.';
 $messages['errordeleting'] = 'Beskeden kunne ikke slettes.';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP fejl: $msg';
 $messages['emailformaterror'] = 'Ugyldig e-mailadresse: $email';
 $messages['toomanyrecipients'] = 'For mange modtagere. Reducer antallet af modtagere til $max.';
 $messages['maxgroupmembersreached'] = 'Antallet af gruppemedlemmer overstiger maksimum på $max.';
-$messages['internalerror'] = 'Der opstod en intern fejl - prøv venligst igen.';
 $messages['contactdelerror'] = 'Kunne ikke slette kontakt(er).';
 $messages['contactdeleted'] = 'Kontakt(er) slettet.';
 $messages['contactrestoreerror'] = 'Kunne ikke gendanne slettede kontakt(er).';

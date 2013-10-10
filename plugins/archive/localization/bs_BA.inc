@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Arhiva';
 $labels['buttontitle'] = 'Arhiviraj ovu poruku';
 $labels['archived'] = 'Arhiviranje uspješno';

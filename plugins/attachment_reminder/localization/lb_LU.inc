@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-
 $messages['forgotattachment'] = "Hues du vergiess e Fichier drunzehänken?";
 $messages['reminderoption'] = "U vergiessen Unhäng erënneren";
 $messages['keywords'] = "Attachment,Fichier,Unhank,Unhang,Unhäng,ugehaangen,unhänken,attachment,file,attach,attached,attaching,enclosed,CV,cover letter,fichier joint";

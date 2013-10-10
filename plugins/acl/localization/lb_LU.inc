@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Sharing';
 $labels['myrights'] = 'Zougrëffsrechter';
 $labels['username'] = 'Benotzer:';
@@ -28,11 +27,6 @@ $labels['identifier'] = 'Identifiant';
 $labels['acll'] = 'Noschloen';
 $labels['aclr'] = 'Messagë liesen';
 $labels['acls'] = 'Lies-Status behalen';
-$labels['aclw'] = 'Write flags';
-$labels['acli'] = 'Insert (Copy into)';
-$labels['aclp'] = 'Post';
-$labels['aclc'] = 'Create subfolders';
-$labels['aclk'] = 'Create subfolders';
 $labels['acld'] = 'Messagë läschen';
 $labels['aclt'] = 'Messagë läschen';
 $labels['acle'] = 'Ausläschen';
@@ -60,22 +54,6 @@ $labels['shortaclother'] = 'Aner';
 $labels['shortaclread'] = 'Liesen';
 $labels['shortaclwrite'] = 'Schreiwen';
 $labels['shortacldelete'] = 'Läschen';
-$labels['longacll'] = 'The folder is visible on lists and can be subscribed to';
-$labels['longaclr'] = 'The folder can be opened for reading';
-$labels['longacls'] = 'Messages Seen flag can be changed';
-$labels['longaclw'] = 'Messages flags and keywords can be changed, except Seen and Deleted';
-$labels['longacli'] = 'Messages can be written or copied to the folder';
-$labels['longaclp'] = 'Messages can be posted to this folder';
-$labels['longaclc'] = 'Folders can be created (or renamed) directly under this folder';
-$labels['longaclk'] = 'Folders can be created (or renamed) directly under this folder';
-$labels['longacld'] = 'Messages Delete flag can be changed';
-$labels['longaclt'] = 'Messages Delete flag can be changed';
-$labels['longacle'] = 'Messages can be expunged';
-$labels['longaclx'] = 'The folder can be deleted or renamed';
-$labels['longacla'] = 'The folder access rights can be changed';
-$labels['longaclfull'] = 'Full control including folder administration';
-$labels['longaclread'] = 'The folder can be opened for reading';
-$labels['longaclwrite'] = 'Messages can be marked, written or copied to the folder';
 $labels['longacldelete'] = 'Messagë kënne geläscht ginn';
 $messages['deleting'] = 'Zougrëffsrechter gi geläscht...';
 $messages['saving'] = 'Zougrëffsrechter gi gespäichert...';

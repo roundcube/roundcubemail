@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Iragazkiak';
 $labels['managefilters'] = 'Administratu postaren sarrera-iragazkiak';
 $labels['filtername'] = 'Iragazkiaren izena';

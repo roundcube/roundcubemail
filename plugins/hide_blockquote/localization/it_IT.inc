@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Nascondi';
 $labels['show'] = 'Mostra';
 $labels['quotelimit'] = 'Nascondi la citazione quando il numero di righe è maggiore di';

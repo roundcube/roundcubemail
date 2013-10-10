@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Կիսվել';
 $labels['myrights'] = 'Մուտքի իրավունքներ';
 $labels['username'] = 'Օգտատեր`';
@@ -82,7 +81,6 @@ $messages['saving'] = 'Պահպանվում են մուտքի իրավունքն
 $messages['updatesuccess'] = 'Մուտքի իրավունքները բարեհաջող փոփոխվեցին։';
 $messages['deletesuccess'] = 'Մուտքի իրավունքները բարեհաջող ջնջվեցին։';
 $messages['createsuccess'] = 'Մուտքի իրավունքները բարեհաջող ավելացվեցվին։';
-$messages['updateerror'] = 'Մուտքի իրավունքները թարմացումը ձախողվեց։';
 $messages['deleteerror'] = 'Մուտքի իրավունքները ջնջումը ձախողվեց։';
 $messages['createerror'] = 'Մուտքի իրավունքները ավելացումը ձախողվեց։';
 $messages['deleteconfirm'] = 'Դուք վստա՞հ էք, որ ցանկանում եք նշված օգտվողներին զրկել մուտքի իրավունքներից։';

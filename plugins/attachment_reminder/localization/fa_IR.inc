@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-
 $messages['forgotattachment'] = "آیا شما پیوست کردن پرونده را فراموش کرده‌اید؟";
 $messages['reminderoption'] = "یادآوری فراموشی پیوست‌ها";
 $messages['keywords'] = "پیوست،پرونده،پیوست کردن، پیوست شده، CV";

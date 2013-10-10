@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Amosar notificaciones del navegador cuando aporte un mensaxe nuevu';
 $labels['desktop'] = 'Amosar notificaciones del escritoriu cuando aporte un mensaxe nuevu';
 $labels['sound'] = 'Reproducir soníu cuando aporte un mensaxe nuevu';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Chia sẻ';
 $labels['myrights'] = 'Quyền truy cập';
 $labels['username'] = 'Người dùng:';
@@ -82,7 +81,6 @@ $messages['saving'] = 'Lưu quyền truy cập...';
 $messages['updatesuccess'] = 'Thay đổi quyền truy cập thành công...';
 $messages['deletesuccess'] = 'Xóa quyền truy cập thành công...';
 $messages['createsuccess'] = 'Thêm quyền truy cập thành công...';
-$messages['updateerror'] = 'Không thể cập nhật quyền truy cập';
 $messages['deleteerror'] = 'Khôngthể xóa quyền truy cập';
 $messages['createerror'] = 'Không thể thêm quyền truy cập';
 $messages['deleteconfirm'] = 'Bạn có chắc là muốn xóa bỏ quyền truy cập của người dùng được chọn?';

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Rediger filter for innkommende e-post';
 $labels['filtername'] = 'Filternavn';
@@ -49,14 +47,12 @@ $labels['messagesendcopy'] = 'Send en kopi av meldingen til';
 $labels['messagereply'] = 'Svar med melding';
 $labels['messagedelete'] = 'Slett melding';
 $labels['messagediscard'] = 'Avvis med melding';
-$labels['messagekeep'] = 'Keep message in Inbox';
 $labels['messagesrules'] = 'For innkommende e-post';
 $labels['messagesactions'] = '... gjør følgende:';
 $labels['add'] = 'Legg til';
 $labels['del'] = 'Slett';
 $labels['sender'] = 'Avsender';
 $labels['recipient'] = 'Mottaker';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'Periode mellom meldinger (i dager):';
 $labels['vacationinterval'] = 'Periode mellom meldinger:';
 $labels['days'] = 'dager';
@@ -161,31 +157,22 @@ $labels['index'] = 'index:';
 $labels['indexlast'] = 'baklengs';
 $messages['filterunknownerror'] = 'Ukjent problem med tjener.';
 $messages['filterconnerror'] = 'Kunne ikke koble til tjeneren.';
-$messages['filterdeleteerror'] = 'Kunne ikke slette filter. Det dukket opp en feil på tjeneren.';
 $messages['filterdeleted'] = 'Filteret er blitt slettet.';
 $messages['filtersaved'] = 'Filteret er blitt lagret.';
-$messages['filtersaveerror'] = 'Kunne ikke lagre filteret. Det dukket opp en feil på tjeneren.';
 $messages['filterdeleteconfirm'] = 'Vil du virkelig slette det valgte filteret?';
 $messages['ruledeleteconfirm'] = 'Er du sikker på at du vil slette valgte regel?';
 $messages['actiondeleteconfirm'] = 'Er du sikker på at du vil slette valgte hendelse?';
 $messages['forbiddenchars'] = 'Ugyldige tegn i felt.';
 $messages['cannotbeempty'] = 'Feltet kan ikke stå tomt.';
 $messages['ruleexist'] = 'Det finnes allerede et filter med dette navnet.';
-$messages['setactivateerror'] = 'Kunne ikke aktivere det valgte filtersettet. Det oppsto en tjenerfeil.';
-$messages['setdeactivateerror'] = 'Kunne ikke deaktivere det valgte filtersettet. Det oppsto en tjenerfeil.';
-$messages['setdeleteerror'] = 'Kunne ikke slette det valgte filtersettet. Det oppsto en tjenerfeil.';
 $messages['setactivated'] = 'Filtersett aktivert.';
 $messages['setdeactivated'] = 'Filtersett deaktivert.';
 $messages['setdeleted'] = 'Filtersett slettet.';
 $messages['setdeleteconfirm'] = 'Er du sikker på at du vil slette det valgte filtersettet?';
-$messages['setcreateerror'] = 'Kunne ikke opprette filtersettet. Det oppsto en tjenerfeil.';
 $messages['setcreated'] = 'Filtersett opprettet.';
-$messages['activateerror'] = 'Kunne ikke skru på valgte filter. Det oppsto en tjenerfeil.';
-$messages['deactivateerror'] = 'Kunne ikke skru av valgte filter. Det oppsto en tjenerfeil.';
 $messages['deactivated'] = 'Filter skrudd på.';
 $messages['activated'] = 'Filter skrudd av.';
 $messages['moved'] = 'Filter ble flyttet.';
-$messages['moveerror'] = 'Kunne ikke flytte valgte filter. Det oppsto en tjenerfeil.';
 $messages['nametoolong'] = 'Navnet er for langt.';
 $messages['namereserved'] = 'Navnet er reservert.';
 $messages['setexist'] = 'Settet eksisterer allerede.';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Įvyko klaida!';
 $messages['loginfailed']  = 'Prisijungti nepavyko.';
 $messages['cookiesdisabled'] = 'Jūsų naršyklė nepriima slapukų.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Ieškotas adresatas nerastas.';
 $messages['contactsearchonly'] = 'Įveskite reikšminius žodžius adresatų paieškai';
 $messages['sendingfailed'] = 'Laiško išsiųsti nepavyko.';
 $messages['senttooquickly'] = 'Turite luktelėti $sec sek., kad galėtumėte išsiųsti laišką.';
-$messages['errorsavingsent'] = 'Įrašant išsiųstą laišką įvyko klaida.';
-$messages['errorsaving'] = 'Įrašant įvyko klaida.';
 $messages['errormoving'] = 'Laiško(-ų) perkelti nepavyko.';
 $messages['errorcopying'] = 'Laiško(-ų) nukopijuoti nepavyko.';
 $messages['errordeleting'] = 'Laiško(-ų) pašalinti nepavyko.';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP klaida: $msg';
 $messages['emailformaterror'] = 'Netinkamas el. pašto adresas: $email';
 $messages['toomanyrecipients'] = 'Per daug gavėjų. Sumažinkite jų bent iki $max.';
 $messages['maxgroupmembersreached'] = 'Grupės narių skaičius viršijo maksimalų leistiną ($max).';
-$messages['internalerror'] = 'Įvyko klaida. Prašom bandyti iš naujo.';
 $messages['contactdelerror'] = 'Nepavyko pašalinti adresato(-ų).';
 $messages['contactdeleted'] = 'Adresatas(-ai) sėkmingai pašalintas(-i).';
 $messages['contactrestoreerror'] = 'Nepavyko atkurti pašalinto(-ų) adresato(-ų).';

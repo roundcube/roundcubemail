@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Dölj';
 $labels['show'] = 'Visa';
 $labels['quotelimit'] = 'Dölj citat när antalet rader överstiger';

@@ -15,15 +15,9 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
-$labels['basic'] = 'Display browser notifications on new message';
-$labels['desktop'] = 'Display desktop notifications on new message';
 $labels['sound'] = 'បន្លឹសម្កេងពេលមានសារថ្មី';
 $labels['test'] = 'សាកល្បង';
 $labels['title'] = 'មានសារថ្មី';
 $labels['body'] = 'អ្នកបានទទួលសារថ្មី';
 $labels['testbody'] = 'នេះជាការសាក្បងដំណឹង';
-$labels['desktopdisabled'] = 'Desktop notifications are disabled in your browser.';
-$labels['desktopunsupported'] = 'Your browser does not support desktop notifications.';
-$labels['desktoptimeout'] = 'Close desktop notification';
 ?>

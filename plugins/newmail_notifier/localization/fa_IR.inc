@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'نمایش تذکرهای مرورگر برای پیغام جدید';
 $labels['desktop'] = 'نمایش تذکرهای رومیزی برای پیغام جدید';
 $labels['sound'] = 'پخش صدا برای پیغام جدید';
@@ -25,5 +24,4 @@ $labels['body'] = 'شما یک پیغام جدید دریافت کرده‌ای�
 $labels['testbody'] = 'این یک تذکر آزمایشی است.';
 $labels['desktopdisabled'] = 'تذکرهای رومیزی در مرورگر شما غیرفعال شده‌اند.';
 $labels['desktopunsupported'] = 'مرورگر شما تذکرهای رومیزی را پشتیبانی نمی‌کند.';
-$labels['desktoptimeout'] = 'Close desktop notification';
 ?>

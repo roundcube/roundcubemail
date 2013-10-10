@@ -15,7 +15,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 $map = array();
 $map['anniversary'] = "Anniversaire de mariage ou fête";
 $map['assistants_name'] = "Nom de l''assistant(e)";

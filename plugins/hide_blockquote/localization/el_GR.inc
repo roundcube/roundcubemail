@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Αποκρυψη';
 $labels['show'] = 'Εμφάνιση';
 $labels['quotelimit'] = 'Απόκρυψη παραπομπων όταν οι γραμμές μέτρησης είναι μεγαλύτερες από';

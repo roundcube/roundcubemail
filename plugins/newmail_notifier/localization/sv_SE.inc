@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Avisera nytt meddelande i webbläsaren';
 $labels['desktop'] = 'Avisera nytt meddelande på skrivbordet';
 $labels['sound'] = 'Avisera nytt meddelande med ljudsignal';

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Bienvenido a $product';
 $labels['username']  = 'Nombre de usuario';
 $labels['password']  = 'Contraseña';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Opciones de búsqueda';
 $labels['msgtext']  = 'Mensaje completo';
 $labels['body']  = 'Cuerpo';
 $labels['type'] = 'Tipo';
+$labels['namex'] = 'Nombre';
 $labels['openinextwin'] = 'Abrir en nueva ventana';
 $labels['emlsave'] = 'Descargar (.eml)';
 $labels['changeformattext'] = 'Mostrar en formato de texto sencillo';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Borrar búsqueda';
 $labels['import'] = 'Importar';
 $labels['importcontacts'] = 'Importar contactos';
 $labels['importfromfile'] = 'Importar desde archivo:';
-$labels['importtarget'] = 'Añadir un nuevo contacto a la los contactos:';
+$labels['importtarget'] = 'Agregar contactos a';
 $labels['importreplace'] = 'Reemplazar toda la lista de contactos';
+$labels['importgroups'] = 'Importar asignaciones de grupo';
+$labels['importgroupsall'] = 'Todos (crear grupos si es necesario)';
+$labels['importgroupsexisting'] = 'Sólo para los grupos existentes';
 $labels['importdesc'] = 'Puede subir contactos desde una libreta de direcciones existente.<br/>Actualmente permitimos la importación desde los formatos de datos <a href="http://es.wikipedia.org/wiki/VCard">vCard</a> o CSV (separados por comas).';
 $labels['done'] = 'Hecho';
 $labels['settingsfor'] = 'Configuración para';

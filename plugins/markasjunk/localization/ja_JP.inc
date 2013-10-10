@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = '迷惑メール';
 $labels['buttontitle'] = '迷惑メールとして設定';
 $labels['reportedasjunk'] = '迷惑メールとして報告しました。';

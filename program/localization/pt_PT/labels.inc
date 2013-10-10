@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Bem-vindo ao $product';
 $labels['username']  = 'Utilizador';
 $labels['password']  = 'Palavra-passe';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'Limpar pesquisa';
 $labels['searchmod']  = 'Pesquisar em';
 $labels['msgtext']  = 'Mensagem completa';
 $labels['body']  = 'Corpo';
-$labels['type'] = 'Type';
+$labels['type'] = 'Tipo';
+$labels['namex'] = 'Nome';
 $labels['openinextwin'] = 'Abrir numa nova janela';
 $labels['emlsave'] = 'Guardar como (.eml)';
 $labels['changeformattext'] = 'Mostrar em formato de texto simples';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Eliminar pesquisa';
 $labels['import'] = 'Importar';
 $labels['importcontacts'] = 'Importação de contactos';
 $labels['importfromfile'] = 'Importar do ficheiro:';
-$labels['importtarget'] = 'Adicionar novo contacto ao livro de endereços:';
+$labels['importtarget'] = 'Adicionar contactos a';
 $labels['importreplace'] = 'Substituir todo o livro de endereços.';
+$labels['importgroups'] = 'Importar atribuições de grupo';
+$labels['importgroupsall'] = 'Todos (criar grupos se necessário)';
+$labels['importgroupsexisting'] = 'Apenas para grupos existentes';
 $labels['importdesc'] = 'Pode enviar/carregar contactos de um livro de endereços existente.<br/>Neste momento suportamos a importação nos seguintes formatos: <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (valores separados por vírgula).';
 $labels['done'] = 'Terminado';
 $labels['settingsfor'] = 'Configurações para';
@@ -361,8 +363,8 @@ $labels['uisettings'] = 'Interface do utilizador';
 $labels['serversettings'] = 'Definições do servidor';
 $labels['mailboxview'] = 'Visualização da Caixa de Entrada';
 $labels['mdnrequests'] = 'Enviar notificações';
-$labels['askuser'] = 'perguntar ao ultilizador';
-$labels['autosend'] = 'enviar automáticamente';
+$labels['askuser'] = 'perguntar ao utilizador';
+$labels['autosend'] = 'enviar automaticamente';
 $labels['autosendknown'] = 'enviar recibo de leitura apenas para os meus contactos';
 $labels['autosendknownignore'] = 'enviar recibo para os meus contactos, caso contrário, ignorar';
 $labels['ignore'] = 'ignorar';

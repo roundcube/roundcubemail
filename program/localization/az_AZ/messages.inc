@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Xəta baş verdi!';
 $messages['loginfailed']  = 'Giriş uğursuz oldu.';
 $messages['cookiesdisabled'] = 'Sizin brauzer kukiləri qəbul etmir.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Tələb olunan ünvan tapılmadı';
 $messages['contactsearchonly'] = 'Kontaqların axtarışı üçün şərti daxil edin';
 $messages['sendingfailed'] = 'Məktub göndərilmədi';
 $messages['senttooquickly'] = 'Məktub göndərmək üçün $sec saniyə gözləmək gərəkir';
-$messages['errorsavingsent'] = 'Göndərilən məktub saxlanılan zaman xəta baş verdi';
-$messages['errorsaving'] = 'Saxlanma prosesi zamanı problem baş verdi';
 $messages['errormoving'] = 'Məktubu (məktubları) köçürmək alnmadı';
 $messages['errorcopying'] = 'Məktubu (məktubları) kopyalamaq alınmadı';
 $messages['errordeleting'] = 'Məktubu (məktubları) silmək alınmadı';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP Error ($code): $msg';
 $messages['emailformaterror'] = 'Səhv ünvan: $email';
 $messages['toomanyrecipients'] = 'Qəbul edənlər həddindən artıq çoxdur. Lütfən, $max qədər azaldın.';
 $messages['maxgroupmembersreached'] = 'Qrupun ölçüsü imkan verilən maksimumdan artıqdır - $max';
-$messages['internalerror'] = 'Daxili xəta baş verdi. Lütfən, bir daha cəhd edin';
 $messages['contactdelerror'] = 'Kontak(lar)ı silmək alınmadı';
 $messages['contactdeleted'] = 'Kontak(lar) uğurla silindi';
 $messages['contactrestoreerror'] = 'Silinmiş kontakt(lar)ın bərpası alınmadı';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = '보관';
 $labels['buttontitle'] = '이 메시지를 보관';
 $labels['archived'] = '성공적으로 보관됨';

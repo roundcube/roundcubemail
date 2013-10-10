@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Deling';
 $labels['myrights'] = 'Tilgangsrettar';
 $labels['username'] = 'Brukar:';
@@ -82,7 +81,6 @@ $messages['saving'] = 'Lagrar tilgangsrettar…';
 $messages['updatesuccess'] = 'Tilgangsrettiar vart endra';
 $messages['deletesuccess'] = 'Tilgangsretter vart sletta';
 $messages['createsuccess'] = 'Tilgangsrettar vart legne til';
-$messages['updateerror'] = 'Kunne ikkje oppdatere tilgangsrettar';
 $messages['deleteerror'] = 'Kunne ikkje fjerne tilgangsrettar';
 $messages['createerror'] = 'Kunne ikkje leggje til tilgangsrettar';
 $messages['deleteconfirm'] = 'Er du sikker på at du vil fjerne tilgangen til  valde brukarar?';

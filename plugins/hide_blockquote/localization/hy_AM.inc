@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Թաքցնել';
 $labels['show'] = 'Ցուցադրել';
 $labels['quotelimit'] = 'Թաքցնել ցիտումը երբ տողերի քանակը գերազանցում է';

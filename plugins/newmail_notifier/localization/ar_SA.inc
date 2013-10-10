@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'إظهار رسالة تنبيه فى المتصفح عند وصول رسالة جديدة';
 $labels['desktop'] = 'إظهار رسالة تنبيه على سطح المكتب عند وصول رسالة جديدة';
 $labels['sound'] = 'التنبيه الصوتى عند وصول رسالة جديدة';
@@ -25,5 +24,4 @@ $labels['body'] = 'لديك رسالة جديدة';
 $labels['testbody'] = 'هذه رسالة تجربية';
 $labels['desktopdisabled'] = 'رسائل التنبيه على سطح المكتب غير مفعلة فى متصفح الانترنت الخاص بك';
 $labels['desktopunsupported'] = 'المتصفح الخاص بك لا يدعم رسائل سطح المكتب';
-$labels['desktoptimeout'] = 'Close desktop notification';
 ?>

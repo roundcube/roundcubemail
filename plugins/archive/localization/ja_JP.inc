@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'アーカイブ';
 $labels['buttontitle'] = 'このメッセージをアーカイブ';
 $labels['archived'] = 'アーカイブしました。';

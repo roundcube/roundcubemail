@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Welkom bij $product';
 $labels['username']  = 'Gebruikersnaam';
 $labels['password']  = 'Wachtwoord';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Zoekopties';
 $labels['msgtext']  = 'Gehele bericht';
 $labels['body']  = 'Inhoud';
 $labels['type'] = 'Type';
+$labels['namex'] = 'Naam';
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
 $labels['changeformattext'] = 'Weergeven als platte tekst';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Zoekopdracht verwijderen';
 $labels['import'] = 'Importeren';
 $labels['importcontacts'] = 'Contactpersonen importeren';
 $labels['importfromfile'] = 'Importeer van bestand:';
-$labels['importtarget'] = 'Voeg nieuwe contactpersonen toe aan adresboek:';
+$labels['importtarget'] = 'Contacten toevoegen aan';
 $labels['importreplace'] = 'Vervang het complete adresboek';
+$labels['importgroups'] = 'Importeer groepstoewijzingen';
+$labels['importgroupsall'] = 'Allemaal (maak groepen aan indien nodig)';
+$labels['importgroupsexisting'] = 'Alleen voor bestaande groepen';
 $labels['importdesc'] = 'U kunt contactpersonen uploaden van een bestaand adresboek<br/>Momenteel wordt het importeren van adresboeken in <a href="http://en.wikipedia.org/wiki/VCard">vCard-formaat</a> of CSV-formaat (kommagescheiden tekstbestand) ondersteund.';
 $labels['done'] = 'Klaar';
 $labels['settingsfor'] = 'Instellingen voor';

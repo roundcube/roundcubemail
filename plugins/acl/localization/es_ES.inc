@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Compartir';
 $labels['myrights'] = 'Permisos de acceso';
 $labels['username'] = 'Usuario:';
@@ -82,7 +81,7 @@ $messages['saving'] = 'Guardando permisos de acceso…';
 $messages['updatesuccess'] = 'Se han cambiado los permisos de acceso';
 $messages['deletesuccess'] = 'Se han borrado los permisos de acceso';
 $messages['createsuccess'] = 'Se han añadido los permisos de acceso';
-$messages['updateerror'] = 'No se han podido actualizar los permisos de acceso';
+$messages['updateerror'] = 'No ha sido posible actualizar los derechos de acceso';
 $messages['deleteerror'] = 'No se han podido borrar los permisos de acceso';
 $messages['createerror'] = 'No se han podido añadir los permisos de acceso';
 $messages['deleteconfirm'] = '¿Seguro que quiere borrar los permisos de acceso del usuairo seleccionado?';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Skrij';
 $labels['show'] = 'Prikaži';
 $labels['quotelimit'] = 'Skrij citiran tekst, ko je število vrstic večje od';

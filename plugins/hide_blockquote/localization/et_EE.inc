@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Peida';
 $labels['show'] = 'Näita';
 $labels['quotelimit'] = 'Peida tsitaat kui ridade arv on suurem kui';

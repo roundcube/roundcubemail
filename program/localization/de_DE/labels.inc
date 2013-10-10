@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Willkommen bei $product';
 $labels['username']  = 'Benutzername';
 $labels['password']  = 'Passwort';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'Suche zurücksetzen';
 $labels['searchmod']  = 'Suchkriterien ändern';
 $labels['msgtext']  = 'Nachricht';
 $labels['body']  = 'Inhalt';
-$labels['type'] = 'Type';
+$labels['type'] = 'Typ';
+$labels['namex'] = 'Name';
 $labels['openinextwin'] = 'In neuem Fenster öffnen';
 $labels['emlsave'] = 'Lokal speichern (.eml)';
 $labels['changeformattext'] = 'Als reiner Text anzeigen';
@@ -310,15 +309,16 @@ $labels['nextpage']       = 'Nächste Seite';
 $labels['lastpage']       = 'Letzte Seite';
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Gruppen';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Gruppenmitglieder auflisten';
 $labels['personaladrbook'] = 'Persönliches Adressbuch';
 $labels['searchsave'] = 'Suchergebnisse speichern';
 $labels['searchdelete'] = 'Suchergebnisse löschen';
 $labels['import'] = 'Importieren';
 $labels['importcontacts'] = 'Kontakte importieren';
 $labels['importfromfile'] = 'Import aus Datei:';
-$labels['importtarget'] = 'Einen neuen Kontakt hinzufügen:';
+$labels['importtarget'] = 'Kontakte hinzufügen zu';
 $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
+$labels['importgroupsexisting'] = 'Nur für existierende Gruppen';
 $labels['importdesc'] = 'Sie können Kontakte von einem vorhandenen Adressbuch hochladen.<br/>Zur Zeit wird der Import von Adressen im <a href="http://de.wikipedia.org/wiki/VCard">vCard</a> oder <a href="http://de.wikipedia.org/wiki/CSV_(Dateiformat)">CSV</a>Format unterstützt.';
 $labels['done'] = 'Fertig';
 $labels['settingsfor'] = 'Einstellungen für';

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Dobrodošli v $product';
 $labels['username']  = 'Uporabniško ime';
 $labels['password']  = 'Geslo';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Spremembe iskanja';
 $labels['msgtext']  = 'Celotno sporočilo';
 $labels['body']  = 'Vsebina sporočila';
 $labels['type'] = 'Tip';
+$labels['namex'] = 'Ime';
 $labels['openinextwin'] = 'Odpri v novem oknu';
 $labels['emlsave'] = 'Prenos datoteke (.eml)';
 $labels['changeformattext'] = 'Prikaži kot golo besedilo';
@@ -317,7 +316,6 @@ $labels['searchdelete'] = 'Izbriši iskanje';
 $labels['import'] = 'Uvozi';
 $labels['importcontacts'] = 'Uvozi stike';
 $labels['importfromfile'] = 'Uvozi iz datoteke:';
-$labels['importtarget'] = 'Dodaj nove stike v imenik:';
 $labels['importreplace'] = 'Zamenjaj celoten imenik';
 $labels['importdesc'] = 'Stike lahko naložite iz obstoječega imenika. <br/>Trenutno je podprt uvoz stikov v zapisu  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ali v CSV (z vejico ločene vrednosti) zapisu.';
 $labels['done'] = 'Dokončano';

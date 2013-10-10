@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Ցուցադրել զննարկչի ծանուցում նոր հաղորդագրություն ստանալիս';
 $labels['desktop'] = 'Ցուցադրել սեղանադրի ծանուցում նոր հաղորդագրություն ստանալիս';
 $labels['sound'] = 'Ձայն հանել նոր հաղորդագրություն ստանալիս';
@@ -25,5 +24,4 @@ $labels['body'] = 'Դուք ստացաք նոր հաղորդագրություն
 $labels['testbody'] = 'Սա փորձնական ծանուցում է';
 $labels['desktopdisabled'] = 'Սեղանադրի ծանուցումները Ձեր զննարկչում անջատված են';
 $labels['desktopunsupported'] = 'Ձեր զննարկիչը չունի սեղանադրի ծանուցումների հնարավորություն։';
-$labels['desktoptimeout'] = 'Close desktop notification';
 ?>

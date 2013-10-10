@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = '¡Hebo un fallu!';
 $messages['loginfailed']  = 'Contraseña o nome d\'usuariu incorreutu.';
 $messages['cookiesdisabled'] = 'El to navegador nun aceuta "cookies';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Nun s\'atopa\'l contautu solicitáu.';
 $messages['contactsearchonly'] = 'Introduz dalgún criteriu pa guetar contautos';
 $messages['sendingfailed'] = 'Falló l\'unviu del mensaxe';
 $messages['senttooquickly'] = 'Por favor espera $sec segundu/os enantes d\'unviar esti mensaxe.';
-$messages['errorsavingsent'] = 'Hebo un fallu al guardar el mensaxe unviáu.';
-$messages['errorsaving'] = 'Falló al guardase.';
 $messages['errormoving'] = 'Nun pudo movese el/los mensaxe(s).';
 $messages['errorcopying'] = 'Nun pudo copiase el/los mensaxe(s).';
 $messages['errordeleting'] = 'Nun pudo desaniciase el/los mensaxe(s)';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'Fallu SMTP: $msg';
 $messages['emailformaterror'] = 'Direición de corréu incorreuta: $email';
 $messages['toomanyrecipients'] = 'Hai munchos destinatarios. Amenorga\'l númberu de destinatarios a $max.';
 $messages['maxgroupmembersreached'] = 'El númberu de miembros del grupu perpasa\'l máximu de $max.';
-$messages['internalerror'] = 'Hebo un fallu internu. Por favor, inténtalo de nueves.';
 $messages['contactdelerror'] = 'Nun pudo desaniciase el/los contautu(os).';
 $messages['contactdeleted'] = 'Contautu(os) desaniciáu(os) correchamente.';
 $messages['contactrestoreerror'] = 'Nun pudieron restaurase los contautos desaniciaos.';

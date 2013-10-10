@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Velkommen til $product';
 $labels['username']  = 'Brukernavn';
 $labels['password']  = 'Passord';
@@ -31,7 +29,6 @@ $labels['drafts'] = 'Kladd';
 $labels['sent']   = 'Sendt';
 $labels['trash']  = 'Slettet';
 $labels['junk']   = 'Spam';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
 $labels['subject'] = 'Emne';
 $labels['from']    = 'Avsender';
 $labels['sender']  = 'Avsender';
@@ -168,7 +165,6 @@ $labels['listmode'] = 'Listevisningsmodus';
 $labels['folderactions'] = 'Mappehandlinger...';
 $labels['compact'] = 'Rydd opp';
 $labels['empty'] = 'Tøm';
-$labels['importmessages'] = 'Import messages';
 $labels['quota'] = 'Plassforbruk';
 $labels['unknown']  = 'ukjent';
 $labels['unlimited']  = 'ubegrenset';
@@ -177,7 +173,6 @@ $labels['resetsearch']  = 'Nullstill søk';
 $labels['searchmod']  = 'Søke felt';
 $labels['msgtext']  = 'Hele meldingen';
 $labels['body']  = 'Meldingstekst';
-$labels['type'] = 'Type';
 $labels['openinextwin'] = 'Åpne i nytt vindu';
 $labels['emlsave'] = 'Last ned (.eml)';
 $labels['changeformattext'] = 'Vis i ren tekst';
@@ -310,14 +305,12 @@ $labels['nextpage']       = 'Vis neste sett';
 $labels['lastpage']       = 'Vis siste sett';
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Grupper';
-$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Egne adresser';
 $labels['searchsave'] = 'Lagre søk';
 $labels['searchdelete'] = 'Slett søk';
 $labels['import'] = 'Importer';
 $labels['importcontacts'] = 'Importer kontakter';
 $labels['importfromfile'] = 'Importer fra fil:';
-$labels['importtarget'] = 'Legg til kontakter i adresseboka:';
 $labels['importreplace'] = 'Erstatt hele adresseboken';
 $labels['importdesc'] = 'Du kan laste opp kontakter fra en eksisterende adressebok.<br/>Vi støtter adressebøker i <a href="http://no.wikipedia.org/wiki/VCard">vCard</a> eller CSV (kommaseparert) .';
 $labels['done'] = 'Fullført';
@@ -422,7 +415,6 @@ $labels['spellcheckignorenums'] = 'Ignorer ord med tall';
 $labels['spellcheckignorecaps'] = 'Ignorer ord med kun store bokstaver';
 $labels['addtodict'] = 'Legg til i ordbok';
 $labels['mailtoprotohandler'] = 'Registrer protokollhåndtering for mailto-lenker';
-$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Meldinger videresendes';
 $labels['inline'] = 'i teksten';
 $labels['asattachment'] = 'som vedlegg';

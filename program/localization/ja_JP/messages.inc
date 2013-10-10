@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'エラーが発生しました!';
 $messages['loginfailed']  = 'ログインできませんでした。';
 $messages['cookiesdisabled'] = 'ブラウザーがCookieを受け付けません。';
@@ -55,7 +54,7 @@ $messages['contactnotfound'] = '連絡先が見つかりません。';
 $messages['contactsearchonly'] = '連絡先を探すための検索語を入力してください';
 $messages['sendingfailed'] = 'メッセージを送信できませんでした。';
 $messages['senttooquickly'] = 'このメッセージを送信するまで、$sec秒お待ちください。';
-$messages['errorsavingsent'] = '送信メッセージの保存中にエラーが発生しました。';
+$messages['errorsavingsent'] = '送信したメッセージの保存中にエラーが発生しました。';
 $messages['errorsaving'] = '保存中にエラーが発生しました。';
 $messages['errormoving'] = 'メッセージを移動できません。';
 $messages['errorcopying'] = 'メッセージをコピーできません。';

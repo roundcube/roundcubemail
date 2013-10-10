@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Witamy w $product';
 $labels['username']  = 'Nazwa';
 $labels['password']  = 'Hasło';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'Wyczyść filtr';
 $labels['searchmod']  = 'Parametry wyszukiwania';
 $labels['msgtext']  = 'Cała wiadomość';
 $labels['body']  = 'Treść';
-$labels['type'] = 'Type';
+$labels['type'] = 'Typ';
+$labels['namex'] = 'Nazwa';
 $labels['openinextwin'] = 'Otwórz w nowym oknie';
 $labels['emlsave'] = 'Pobierz (.eml)';
 $labels['changeformattext'] = 'Wyświetl w formacie tekstowym';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Usuń wyszukiwanie';
 $labels['import'] = 'Importuj';
 $labels['importcontacts'] = 'Import kontaktów';
 $labels['importfromfile'] = 'Import z pliku:';
-$labels['importtarget'] = 'Dodaj nowe kontakty do książki adresowej:';
+$labels['importtarget'] = 'Dodaj kontakty do';
 $labels['importreplace'] = 'Zastąp całą książkę adresową';
+$labels['importgroups'] = 'Importuj powiązania z grupami';
+$labels['importgroupsall'] = 'Wszystkie (utwórz grupy jeśli potrzeba)';
+$labels['importgroupsexisting'] = 'Tylko do isniejących grup';
 $labels['importdesc'] = 'Import kontaktów z isniejącej książki adresowej.<br/>Obecnie obsługiwany jest import w formacie <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> lub CSV (pola oddzielone przecinkiem).';
 $labels['done'] = 'Wykonane';
 $labels['settingsfor'] = 'Ustawienia dla';
@@ -360,7 +362,7 @@ $labels['logoutcompact'] = 'Przy wylogowaniu porządkuj folder Odebrane';
 $labels['uisettings'] = 'Interfejs użytkownika';
 $labels['serversettings'] = 'Ustawienia serwera';
 $labels['mailboxview'] = 'Widok skrzynki pocztowej';
-$labels['mdnrequests'] = 'Na żadanie potwierdzenia odbioru';
+$labels['mdnrequests'] = 'Na żądanie potwierdzenia odbioru';
 $labels['askuser'] = 'pytaj mnie';
 $labels['autosend'] = 'wyślij potwierdzenie';
 $labels['autosendknown'] = 'wyślij potwierdzenie tylko do moich kontaktów, pytaj o pozostałe';
@@ -387,7 +389,7 @@ $labels['2231folding'] = 'RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (przestarzałe)';
 $labels['force7bit'] = 'Używaj kodowania MIME dla znaków 8-bitowych';
-$labels['advancedoptions'] = 'opcje zaawansowane';
+$labels['advancedoptions'] = 'Opcje zaawansowane';
 $labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';
 $labels['checkallfolders'] = 'Sprawdzaj czy nadeszły nowe wiadomości we wszystkich folderach';
 $labels['displaynext'] = 'Po usunięciu/przeniesieniu wiadomości wyświetl następną';

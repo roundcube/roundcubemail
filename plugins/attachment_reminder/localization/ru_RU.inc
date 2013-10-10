@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-
 $messages['forgotattachment'] = "Вы не забыли прикрепить файл?";
 $messages['reminderoption'] = "Напоминать о забытых вложениях";
 $messages['keywords'] = "вложение,файл, вложенный, прикрепленный,резюме,документ";

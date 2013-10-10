@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = '封存';
 $labels['buttontitle'] = '封存此信件';
 $labels['archived'] = '已成功封存';

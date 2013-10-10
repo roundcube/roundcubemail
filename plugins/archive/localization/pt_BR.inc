@@ -15,18 +15,17 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Arquivo';
 $labels['buttontitle'] = 'Arquivar esta mensagem';
 $labels['archived'] = 'Arquivada com sucesso';
-$labels['archivedreload'] = 'Successfully archived. Reload the page to see the new archive folders.';
-$labels['archiveerror'] = 'Some messages could not be archived';
+$labels['archivedreload'] = 'Arquivado com sucesso. Recarregue a página para ver as novas pastas de arquivo.';
+$labels['archiveerror'] = 'Algumas mensagens não puderam ser arquivadas';
 $labels['archivefolder'] = 'Arquivo';
-$labels['settingstitle'] = 'Archive';
-$labels['archivetype'] = 'Divide archive by';
-$labels['archivetypeyear'] = 'Year (e.g. Archive/2012)';
-$labels['archivetypemonth'] = 'Month (e.g. Archive/2012/06)';
-$labels['archivetypefolder'] = 'Original folder';
-$labels['archivetypesender'] = 'Sender email';
-$labels['unkownsender'] = 'unknown';
+$labels['settingstitle'] = 'Arquivo';
+$labels['archivetype'] = 'Dividir arquivo por';
+$labels['archivetypeyear'] = 'Ano (isto é, Arquivo/2012)';
+$labels['archivetypemonth'] = 'Mês (isto é, Arquivo/2012/06)';
+$labels['archivetypefolder'] = 'Pasta original';
+$labels['archivetypesender'] = 'E-mail do remetente';
+$labels['unkownsender'] = 'desconhecido';
 ?>

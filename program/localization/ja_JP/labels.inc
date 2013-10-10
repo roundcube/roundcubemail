@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = '$productにようこそ';
 $labels['username']  = 'ユーザー名';
 $labels['password']  = 'パスワード';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = '検索を解除';
 $labels['searchmod']  = '検索の条件';
 $labels['msgtext']  = 'メッセージ全体';
 $labels['body']  = '本文';
-$labels['type'] = 'Type';
+$labels['type'] = '種類';
+$labels['namex'] = '名前';
 $labels['openinextwin'] = '新しいウィンドウで開く';
 $labels['emlsave'] = 'ダウンロード(.eml形式)';
 $labels['changeformattext'] = 'テキスト形式で表示';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = '検索情報を削除';
 $labels['import'] = 'インポート';
 $labels['importcontacts'] = '連絡先をインポート';
 $labels['importfromfile'] = 'ファイルからインポート';
-$labels['importtarget'] = 'アドレス帳に新しい連絡先の追加:';
+$labels['importtarget'] = '次に連絡先を追加';
 $labels['importreplace'] = 'アドレス帳全体と置き換え';
+$labels['importgroups'] = 'グループの割り当てをインポート';
+$labels['importgroupsall'] = 'すべて (必要ならグループを作成)';
+$labels['importgroupsexisting'] = '存在するグループだけ';
 $labels['importdesc'] = '連絡先を既存のアドレス帳からアップロードできます。<br />現在、<a href="http://ja.wikipedia.org/wiki/VCard">vCard</a>またはCSV(コンマ区切り)のデータ形式からアドレスのインポートをサポートしています。';
 $labels['done'] = '完了';
 $labels['settingsfor'] = '次の設定:';

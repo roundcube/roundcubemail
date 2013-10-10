@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = 'Bütün qoşmaları endir';
 $labels['downloadfolder'] = 'Qovluğu endir';
 ?>

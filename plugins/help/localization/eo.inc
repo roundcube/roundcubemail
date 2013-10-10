@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
-
 $labels['help'] = 'Helpo';
 $labels['about'] = 'Pri';
 $labels['license'] = 'Permesilo';

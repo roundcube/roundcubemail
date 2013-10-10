@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Ocorreu um erro!';
 $messages['loginfailed']  = 'O utilizador ou palavra-passe que introduziu não correspondem.';
 $messages['cookiesdisabled'] = 'O seu navegador não suporta cookies';
@@ -55,8 +54,8 @@ $messages['contactnotfound'] = 'O contacto especificado não foi encontrado';
 $messages['contactsearchonly'] = 'Insira os termos de pesquisa para localizar os contactos';
 $messages['sendingfailed'] = 'Falha no envio da mensagem';
 $messages['senttooquickly'] = 'Por favor espere $sec seg(s) antes de enviar esta mensagem';
-$messages['errorsavingsent'] = 'Ocorreu um erro ao guardar a mensagem enviada';
-$messages['errorsaving'] = 'Ocorreu um erro ao guardar';
+$messages['errorsavingsent'] = 'Ocorreu um erro ao gravar a mensagem enviada.';
+$messages['errorsaving'] = 'Ocorreu um erro ao gravar.';
 $messages['errormoving'] = 'Não foi possível mover a mensagem';
 $messages['errorcopying'] = 'Não foi possível copiar a mensagem';
 $messages['errordeleting'] = 'Não foi possível eliminar a mensagem';

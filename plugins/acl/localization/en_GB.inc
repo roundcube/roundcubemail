@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Sharing';
 $labels['myrights'] = 'Access Rights';
 $labels['username'] = 'User:';
@@ -82,7 +81,6 @@ $messages['saving'] = 'Saving access rights...';
 $messages['updatesuccess'] = 'Successfully changed access rights';
 $messages['deletesuccess'] = 'Successfully deleted access rights';
 $messages['createsuccess'] = 'Successfully added access rights';
-$messages['updateerror'] = 'Ubable to update access rights';
 $messages['deleteerror'] = 'Unable to delete access rights';
 $messages['createerror'] = 'Unable to add access rights';
 $messages['deleteconfirm'] = 'Are you sure, you want to remove access rights of selected user(s)?';

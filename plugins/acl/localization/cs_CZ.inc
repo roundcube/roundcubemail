@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Sdílení';
 $labels['myrights'] = 'Přístupová práva';
 $labels['username'] = 'Uživatel:';
@@ -64,12 +63,12 @@ $labels['longacll'] = 'Složka je viditelná v seznamu a může být přihláše
 $labels['longaclr'] = 'Složka může být otevřena pro čtení';
 $labels['longacls'] = 'Označená zpráva byla změněna';
 $labels['longaclw'] = 'Značky a klíčová slova u zpráv je možné měnit, kromě příznaku Přečteno a Smazáno';
-$labels['longacli'] = 'Zpŕava může být napsána nebo zkopírována do složky';
-$labels['longaclp'] = 'Zpráva byla odeslána do složky';
+$labels['longacli'] = 'Zpráva může být napsána nebo zkopírována do složky';
+$labels['longaclp'] = 'Zpráva může být odeslána do této složky';
 $labels['longaclc'] = 'Složka může být vytvořena (nebo přejmenována) přimo v této složce';
 $labels['longaclk'] = 'Složka může být vytvořena (nebo přejmenována) přimo v této složce';
-$labels['longacld'] = 'Značka o smazání zprávy může být změněna';
-$labels['longaclt'] = 'Značka o smazání zprávy může být změněna';
+$labels['longacld'] = 'Příznak smazané zprávy může být změněn';
+$labels['longaclt'] = 'Příznak smazané zprávy může být změněn';
 $labels['longacle'] = 'Zpráva může být smazána';
 $labels['longaclx'] = 'Složka může být smazána nebo přejmenována';
 $labels['longacla'] = 'Přístupová práva složky mohou být změněna';
@@ -80,12 +79,12 @@ $labels['longacldelete'] = 'Zprávy mohou být smazány';
 $messages['deleting'] = 'Odstraňuji přístupová práva...';
 $messages['saving'] = 'Ukládám přístupová práva...';
 $messages['updatesuccess'] = 'Přístupová práva byla úspěšně změněna';
-$messages['deletesuccess'] = 'Přístupová páva byla úspěšně odstraněna';
-$messages['createsuccess'] = 'Přístupová práva byla úspěšně přídána';
-$messages['updateerror'] = 'Nelze upravit přístupová práva';
-$messages['deleteerror'] = 'Nelze odstranit přístupová práva';
-$messages['createerror'] = 'Nelze přidat přístupová práva';
+$messages['deletesuccess'] = 'Přístupová práva byla úspěšně odstraněna';
+$messages['createsuccess'] = 'Přístupová práva byla úspěšně přidána';
+$messages['updateerror'] = 'Úprava přístupových práv se nezdařila';
+$messages['deleteerror'] = 'Smazání přístupových práv se nezdařilo';
+$messages['createerror'] = 'Přidání přístupových práv se nezdařilo';
 $messages['deleteconfirm'] = 'Opravdu si přejete odstranit přístupová práva pro vybrané(ho) uživatele?';
 $messages['norights'] = 'Nejsou specifikována žádná práva!';
-$messages['nouser'] = 'Není specifikováno uživatelské jméno';
+$messages['nouser'] = 'Není specifikováno uživatelské jméno!';
 ?>

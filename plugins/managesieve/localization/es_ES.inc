@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Administrar filtros de correo entrante';
 $labels['filtername'] = 'Nombre del filtro';
@@ -56,7 +54,7 @@ $labels['add'] = 'Agregar';
 $labels['del'] = 'Eliminar';
 $labels['sender'] = 'Remitente';
 $labels['recipient'] = 'Destinatario';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
+$labels['vacationaddr'] = 'Mis direcciones adicionales de correo electrónico:';
 $labels['vacationdays'] = 'Cada cuánto enviar mensajes (en días):';
 $labels['vacationinterval'] = 'Cada cuánto enviar mensajes:';
 $labels['days'] = 'días';
@@ -161,31 +159,22 @@ $labels['index'] = 'índice:';
 $labels['indexlast'] = 'hacia atrás';
 $messages['filterunknownerror'] = 'Error desconocido de servidor.';
 $messages['filterconnerror'] = 'Imposible conectar con el servidor managesieve.';
-$messages['filterdeleteerror'] = 'Imposible borrar filtro. Ha ocurrido un error en el servidor.';
 $messages['filterdeleted'] = 'Filtro borrado satisfactoriamente.';
 $messages['filtersaved'] = 'Filtro guardado satisfactoriamente.';
-$messages['filtersaveerror'] = 'Imposible guardar el filtro. Ha ocurrido un error en el servidor.';
 $messages['filterdeleteconfirm'] = '¿Realmente desea borrar el filtro seleccionado?';
 $messages['ruledeleteconfirm'] = '¿Está seguro de que desea borrar la regla seleccionada?';
 $messages['actiondeleteconfirm'] = '¿Está seguro de que desea borrar la acción seleccionada?';
 $messages['forbiddenchars'] = 'Caracteres prohibidos en el campo.';
 $messages['cannotbeempty'] = 'El campo no puede estar vacío.';
 $messages['ruleexist'] = 'Ya existe un filtro con el nombre especificado.';
-$messages['setactivateerror'] = 'Imposible activar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor.';
-$messages['setdeactivateerror'] = 'Imposible desactivar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor.';
-$messages['setdeleteerror'] = 'Imposible borrar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor.';
 $messages['setactivated'] = 'Conjunto de filtros activado satisfactoriamente.';
 $messages['setdeactivated'] = 'Conjunto de filtros desactivado satisfactoriamente.';
 $messages['setdeleted'] = 'Conjunto de filtros borrado satisfactoriamente.';
 $messages['setdeleteconfirm'] = '¿Está seguro de que desea borrar el conjunto de filtros seleccionado?';
-$messages['setcreateerror'] = 'Imposible crear el conjunto de filtros. Ha ocurrido un error en el servidor.';
 $messages['setcreated'] = 'Conjunto de filtros creado satisfactoriamente.';
-$messages['activateerror'] = 'No se ha podido habilitar el filtro(s) seleccionado. Se ha producido un error de servidor.';
-$messages['deactivateerror'] = 'No se ha podido deshabilitar el filtro(s) seleccionado. Se ha producido un error de servidor.';
 $messages['deactivated'] = 'Filtro(s) deshabilitado(s) correctamente.';
 $messages['activated'] = 'Filtro(s) habilitado(s) correctamente.';
 $messages['moved'] = 'Filtro movido correctamente.';
-$messages['moveerror'] = 'No se ha podido mover el filtro seleccionado. Ha ocurrido un error de servidor.';
 $messages['nametoolong'] = 'Imposible crear el conjunto de filtros. Nombre demasiado largo';
 $messages['namereserved'] = 'Nombre reservado.';
 $messages['setexist'] = 'El conjunto ya existe.';

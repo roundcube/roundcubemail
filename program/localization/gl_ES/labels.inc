@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Benvido a $product';
 $labels['username']  = 'Nome de usuario';
 $labels['password']  = 'Contrasinal';
@@ -177,7 +175,6 @@ $labels['resetsearch']  = 'Restablecer a busca';
 $labels['searchmod']  = 'Modificadores de busca';
 $labels['msgtext']  = 'Mensaxe enteira';
 $labels['body']  = 'Corpo';
-$labels['type'] = 'Type';
 $labels['openinextwin'] = 'Abrir nunha nova fiestra';
 $labels['emlsave'] = 'Gardar (.eml)';
 $labels['changeformattext'] = 'Amosar en texto plano';
@@ -310,14 +307,12 @@ $labels['nextpage']       = 'Amosar o seguinte grupo';
 $labels['lastpage']       = 'Amosar o último grupo';
 $labels['group'] = 'Grupo';
 $labels['groups'] = 'Grupos';
-$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Enderezos persoais';
 $labels['searchsave'] = 'Gardar procura';
 $labels['searchdelete'] = 'Eliminar procura';
 $labels['import'] = 'Importar';
 $labels['importcontacts'] = 'Importar contactos';
 $labels['importfromfile'] = 'Importar desde ficheiro:';
-$labels['importtarget'] = 'Engadir contactos ao caderno de enderezos:';
 $labels['importreplace'] = 'Substituír completamente o caderno de enderezos';
 $labels['importdesc'] = 'Pode cargar contactos desde un caderno de enderezos preexistente.<br/>Pódense importar enderezos en formato <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (valores separados por comas)';
 $labels['done'] = 'Rematado';

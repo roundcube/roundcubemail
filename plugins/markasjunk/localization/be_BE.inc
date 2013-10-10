@@ -15,8 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
-$labels['buttontext'] = 'Непажаданыя';
-$labels['buttontitle'] = 'Пазначыць як непажаданы';
-$labels['reportedasjunk'] = 'Паспяхова пазначаны як напажаданы';
+$labels['buttontext'] = 'Спам';
+$labels['buttontitle'] = 'Пазначыць як спам';
+$labels['reportedasjunk'] = 'Пазначаны як спам';
 ?>

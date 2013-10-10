@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-
 $labels['identitydialogtitle'] = 'Vervollstänneg w.e.gl deng Sender-Identitéit';
 $labels['identitydialoghint'] = 'Dës Këscht erschéngt just beim éischte Login.';
 ?>

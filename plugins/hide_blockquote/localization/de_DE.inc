@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'ausblenden';
 $labels['show'] = 'einblenden';
 $labels['quotelimit'] = 'Zitate verbergen ab einer Zeilenlänge von';

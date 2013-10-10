@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'visualizza notifica nel browser per nuovi messaggi';
 $labels['desktop'] = 'visualizza notifiche sul desktop per nuovi messaggi';
 $labels['sound'] = 'riproduci il suono per nuovi messaggi';

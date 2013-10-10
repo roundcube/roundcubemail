@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Ee Feeler ass opgetrueden!';
 $messages['loginfailed']  = 'Login feelgeschloen.';
 $messages['cookiesdisabled'] = 'Däi Browser acceptéiert keng Cookien.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Den ugefrotene Kontakt gouf net fonnt.';
 $messages['contactsearchonly'] = 'Gëff e puer Sichbegrëffer a fir Kontakter ze fannen';
 $messages['sendingfailed'] = 'De Message konnt net verschéckt ginn.';
 $messages['senttooquickly'] = 'Waart wann ech gelift $sec Sekonn(en) bevir s du de Message verschécks. ';
-$messages['errorsavingsent'] = 'Beim Späichere vum verschéckte Message ass e Feeler opgetrueden';
-$messages['errorsaving'] = 'Beim Späicheren ass e Feeler opgetrueden.';
 $messages['errormoving'] = 'D\'Messagë konnten net verréckelt ginn.';
 $messages['errorcopying'] = 'D\'Messagë konnten net kopéiert ginn.';
 $messages['errordeleting'] = 'D\'Messagë konnten net geläscht ginn.';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP-Feeler: $msg';
 $messages['emailformaterror'] = 'Ongëlteg E-Mail-Adress: $email';
 $messages['toomanyrecipients'] = 'Zevill Empfänger. Reduzéier d\'Zuel vun den Empfänger op $max.';
 $messages['maxgroupmembersreached'] = 'D\'Unzuel vu Gruppememberen iwwersteigt de Maximum vun $max.';
-$messages['internalerror'] = 'En interne Feeler ass opgetrueden. Probéier w.e.gl nach eng Kéier.';
 $messages['contactdelerror'] = 'Kontakter konnten net geläscht ginn.';
 $messages['contactdeleted'] = 'Kontakter erfollegräich geläscht.';
 $messages['contactrestoreerror'] = 'Déi geläschte Kontakter konnten net recuperéiert ginn.';

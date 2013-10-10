@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'សំបុត្រមិនល្អ';
 $labels['buttontitle'] = 'ចាត់ជា សំបុត្រមិនល្អ';
 $labels['reportedasjunk'] = 'រាយការណ៏ថាជា សំបុត្រមិនល្អ បានសំរេច';

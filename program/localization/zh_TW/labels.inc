@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = '歡迎使用 $product';
 $labels['username']  = '使用者名稱';
 $labels['password']  = '使用者密碼';
@@ -177,7 +175,6 @@ $labels['resetsearch']  = '重設搜尋';
 $labels['searchmod']  = '修改搜尋';
 $labels['msgtext']  = '整封郵件';
 $labels['body']  = '內文';
-$labels['type'] = 'Type';
 $labels['namex'] = '名稱';
 $labels['openinextwin'] = '在新視窗開啟';
 $labels['emlsave'] = '下載（.eml）';
@@ -311,16 +308,13 @@ $labels['nextpage']       = '顯示下一頁';
 $labels['lastpage']       = '顯示最後一頁';
 $labels['group'] = '群組';
 $labels['groups'] = '群組';
-$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = '個人通訊錄';
 $labels['searchsave'] = '儲存搜尋結果';
 $labels['searchdelete'] = '刪除搜尋結果';
 $labels['import'] = '匯入通訊錄';
 $labels['importcontacts'] = '由檔案匯入通訊錄';
 $labels['importfromfile'] = '選擇你要匯入的檔案:';
-$labels['importtarget'] = 'Add contacts to';
 $labels['importreplace'] = '以匯入的資料取代已存在的重複資料';
-$labels['importgroups'] = 'Import group assignments';
 $labels['importgroupsall'] = '全部(如有必要,新增群組)';
 $labels['importgroupsexisting'] = '僅限於既有群組';
 $labels['importdesc'] = '您可以將已存在的資料匯入通訊錄，目前支援匯入 <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> 與 CSV (逗點分隔)格式資料';
@@ -426,7 +420,6 @@ $labels['spellcheckignorenums'] = '忽略數字';
 $labels['spellcheckignorecaps'] = '忽略大寫字母';
 $labels['addtodict'] = '加入詞典';
 $labels['mailtoprotohandler'] = '註冊mailto:協定處理程式';
-$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = '郵件轉寄方式';
 $labels['inline'] = '放入內文';
 $labels['asattachment'] = '當成附件';

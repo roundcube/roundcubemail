@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Mostrar notificación cuando haya nuevos mensajes';
 $labels['desktop'] = 'Mostrar notificación en escritorio cuando haya nuevos mensajes';
 $labels['sound'] = 'Reproducir sonido cuando haya nuevos mensajes';

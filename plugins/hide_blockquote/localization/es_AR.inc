@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Ocultar';
 $labels['show'] = 'Mostrar';
 $labels['quotelimit'] = 'Ocultar el mail citado cuando el número de líneas sea mayor que';

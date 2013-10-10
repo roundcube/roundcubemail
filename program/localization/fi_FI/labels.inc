@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Tervetuloa $product -käyttäjäksi';
 $labels['username']  = 'Käyttäjätunnus';
 $labels['password']  = 'Salasana';
@@ -31,7 +29,6 @@ $labels['drafts'] = 'Luonnokset';
 $labels['sent']   = 'Lähetetyt';
 $labels['trash']  = 'Roskakori';
 $labels['junk']   = 'Roskaposti';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
 $labels['subject'] = 'Aihe';
 $labels['from']    = 'Lähettäjä';
 $labels['sender']  = 'Lähettäjä';
@@ -178,6 +175,7 @@ $labels['searchmod']  = 'Hakukriteerit';
 $labels['msgtext']  = 'Koko viesti';
 $labels['body']  = 'Runko';
 $labels['type'] = 'Tyyppi';
+$labels['namex'] = 'Nimi';
 $labels['openinextwin'] = 'Avaa uudessa ikkunassa';
 $labels['emlsave'] = 'Tallenna (.eml)';
 $labels['changeformattext'] = 'Näytä raakatekstimuodossa';
@@ -310,14 +308,12 @@ $labels['nextpage']       = 'Näytä seuraava luettelo';
 $labels['lastpage']       = 'Näytä viimeinen luettelo';
 $labels['group'] = 'Ryhmä';
 $labels['groups'] = 'Ryhmät';
-$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Henkilökohtaiset osoitteet';
 $labels['searchsave'] = 'Tallenna haku';
 $labels['searchdelete'] = 'Poista haku';
 $labels['import'] = 'Tuo';
 $labels['importcontacts'] = 'Tuo yhteystiedot';
 $labels['importfromfile'] = 'Tuo tiedostosta:';
-$labels['importtarget'] = 'Lisää uudet yhteystiedot osoitekirjaan:';
 $labels['importreplace'] = 'Korvaa koko osoitekirja';
 $labels['importdesc'] = 'Voit tuoda yhteystietoja olemassa olevasta osoitekirjasta.<br/>Tuettuja muotoja ovat <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ja CSV (pilkuin erotetut arvot).';
 $labels['done'] = 'Valmis';
@@ -334,7 +330,6 @@ $labels['edititem'] = 'Muokkaa';
 $labels['preferhtml'] = 'Käytä HTML:aa';
 $labels['defaultcharset'] = 'Oletusmerkistökoodaus';
 $labels['htmlmessage'] = 'HTML-viesti';
-$labels['messagepart'] = 'Part';
 $labels['digitalsig'] = 'Digitaalinen allekirjoitus';
 $labels['dateformat'] = 'Päiväyksen muoto';
 $labels['timeformat'] = 'Ajan muoto';
@@ -424,7 +419,6 @@ $labels['addtodict'] = 'Lisää sanakirjaan';
 $labels['mailtoprotohandler'] = 'Rekisteröi mailto:-linkkien protokollakäsitteljä';
 $labels['standardwindows'] = 'Käsittele popup-ikkunoita tavallisina ikkunoina';
 $labels['forwardmode'] = 'Viestin välitys';
-$labels['inline'] = 'inline';
 $labels['asattachment'] = 'liitteenä';
 $labels['folder']  = 'Kansio';
 $labels['folders']  = 'Kansiot';

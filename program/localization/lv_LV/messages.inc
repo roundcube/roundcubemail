@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Radās kļūda!';
 $messages['loginfailed']  = 'Pieslēgties neizdevās';
 $messages['cookiesdisabled'] = 'Jūsu pārlūkprogramma neatbalsta sīkdatnes (cookies)';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Pieprasītais kontakts nav atrasts';
 $messages['contactsearchonly'] = 'Lai atrastu kontaktus, ievadiet meklēšanas kritērijus';
 $messages['sendingfailed'] = 'Vēstule netika nosūtīta';
 $messages['senttooquickly'] = 'Lūdzu uzgaidiet $sec sekundi(-es) pirms sūtiet šo vēstuli';
-$messages['errorsavingsent'] = 'Saglabājot vēstuli notika kļūda - vēstule netika saglabāta';
-$messages['errorsaving'] = 'Saglabājot notika kļūda';
 $messages['errormoving'] = 'Vēstule(s) netika pārvietota(s)';
 $messages['errorcopying'] = 'Vēstules pārkopēt neizdevās';
 $messages['errordeleting'] = 'Vēstules izdzēst neizdevās';
@@ -100,13 +97,16 @@ $messages['converting'] = 'Tiek noņemts vēstules formatējums...';
 $messages['messageopenerror'] = 'Nevarēja ielādēt vēstuli no servera';
 $messages['fileuploaderror'] = 'Faila augšupielāde neveiksmīga';
 $messages['filesizeerror'] = 'Augšupielādētais fails pārsniedz pieļaujamo $size izmēru.';
-$messages['copysuccess'] = 'Veiksmīgi nokopētas $nr adreses.';
-$messages['copyerror'] = 'Nevarēja nokopēt nevienu adresi.';
+$messages['copysuccess'] = '$nr kontakti tika veiksmīgi pārkopēti.';
+$messages['movesuccess'] = '$nr kontakti tika veiksmīgi pārvietoti.';
+$messages['copyerror'] = 'Kontaktus pārkopēt neizdevās.';
+$messages['moveerror'] = 'Kontaktus pārvietot neizdevās.';
 $messages['sourceisreadonly'] = 'Adreses avots ir lasīšanas režīmā tikai';
 $messages['errorsavingcontact'] = 'Kontakta adresi nevarēja saglabāt.';
 $messages['movingmessage'] = 'Pārvieto vēstules...';
 $messages['copyingmessage'] = 'Kopē vēstules...';
 $messages['copyingcontact'] = 'Kopē kontaktus...';
+$messages['movingcontact'] = 'Pārvieto kontaktu(s)...';
 $messages['deletingmessage'] = 'Dzēš vēstules...';
 $messages['markingmessage'] = 'Atzīmē vēstules...';
 $messages['addingmember'] = 'Kontaktus pievieno grupai...';
@@ -140,7 +140,6 @@ $messages['smtperror'] = 'SMTP kļūda: $msg';
 $messages['emailformaterror'] = 'Nepareiza e-pasta adrese: $email';
 $messages['toomanyrecipients'] = 'Pārāk daudz saņēmēju. Samaziniet skaitu līdz $max.';
 $messages['maxgroupmembersreached'] = 'Grupas dalībnieku skaits pārsniedz limitu $max.';
-$messages['internalerror'] = 'Notika servera iekšējā kļūda. Lūdzu mēģiniet vēlreiz.';
 $messages['contactdelerror'] = 'Kontaktus izdzēst neizdevās.';
 $messages['contactdeleted'] = 'Kontakti izdzēsti veiksmīgi.';
 $messages['contactrestoreerror'] = 'Izdzēstos kontaktus atjaunot neizdevās.';

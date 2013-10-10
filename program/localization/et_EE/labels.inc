@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Tere tulemast! See on $product.';
 $labels['username']  = 'Kasutajanimi';
 $labels['password']  = 'Parool';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'Lähtesta otsing';
 $labels['searchmod']  = 'Otsingu laiendid';
 $labels['msgtext']  = 'Kogu kirjast';
 $labels['body']  = 'Keha';
-$labels['type'] = 'Type';
+$labels['type'] = 'Tüüp';
+$labels['namex'] = 'Nimi';
 $labels['openinextwin'] = 'Ava uues aknas';
 $labels['emlsave'] = 'Salvesta (.eml)';
 $labels['changeformattext'] = 'Näita lihttekstina';
@@ -317,7 +316,6 @@ $labels['searchdelete'] = 'Kustuta otsing';
 $labels['import'] = 'Impordi';
 $labels['importcontacts'] = 'Impordi kontakte';
 $labels['importfromfile'] = 'Impordi failist:';
-$labels['importtarget'] = 'Lisa uued kontaktid aadressiraamatusse:';
 $labels['importreplace'] = 'Asenda kogu aadressiraamat';
 $labels['importdesc'] = 'Sa saad laadida kontakte olemasolevast aadressiraamatust.<br/>Praegu on võimalik importida <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> või CSV (komaga eraldatud) formaadis andmeid. ';
 $labels['done'] = 'Valmis';

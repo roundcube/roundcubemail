@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Hiba történt!';
 $messages['loginfailed']  = 'Sikertelen bejelentkezés.';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'A kiválasztott kapcsolat nem található';
 $messages['contactsearchonly'] = 'Adjon meg keresőkifejezéseket a kapcsolatok közti kereséshez';
 $messages['sendingfailed'] = 'Az üzenet elküldése nem sikerült';
 $messages['senttooquickly'] = 'Kérem várjon még $sec másodpercet az üzenet elküldése előtt';
-$messages['errorsavingsent'] = 'Hiba történt az elküldött üzenet mentése közben';
-$messages['errorsaving'] = 'A mentés során hiba lépett fel';
 $messages['errormoving'] = 'Az üzenet(ek)et nem sikerült áthelyezni';
 $messages['errorcopying'] = 'Az üzenet(ek)et nem sikerült másolni';
 $messages['errordeleting'] = 'Az üzenet(ek)et nem sikerült törölni';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP hiba ($code): $msg';
 $messages['emailformaterror'] = 'Helytelen formátumú e-mail cím: $email';
 $messages['toomanyrecipients'] = 'Túl sok a címzett. Csökkentse a címzettek számát maximum $max címre!';
 $messages['maxgroupmembersreached'] = 'A csoport létszáma meghaladja a maximum $max főt';
-$messages['internalerror'] = 'Belső hiba történt, kérjük próbálja újra!';
 $messages['contactdelerror'] = 'Hiba a kapcsolat(ok) törlésekor';
 $messages['contactdeleted'] = 'Kapcsolat(ok) sikeresen törölve';
 $messages['contactrestoreerror'] = 'Nem sikerült a törölt kapcsolat(ok) helyreállítása';

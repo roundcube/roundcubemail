@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Prišlo je do napake!';
 $messages['loginfailed']  = 'Prijava ni uspela';
 $messages['cookiesdisabled'] = 'Vaš spletni brskalnik ne sprejema piškotkov.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Iskanega stika ni bilo mogoče najti.';
 $messages['contactsearchonly'] = 'Vpišite iskalni parameter za iskanje stika';
 $messages['sendingfailed'] = 'Sporočila ni bilo mogoče poslati.';
 $messages['senttooquickly'] = 'Počakajte $sec sekund in nato znova poskusite s pošiljanjem sporočila.';
-$messages['errorsavingsent'] = 'Pri shranjevanju poslanega sporočila je prišlo do napake.';
-$messages['errorsaving'] = 'Pri shranjevanju je prišlo do napake.';
 $messages['errormoving'] = 'Sporočila ni bilo mogoče premakniti.';
 $messages['errorcopying'] = 'Sporočila ni bilo mogoče kopirati.';
 $messages['errordeleting'] = 'Sporočila ni bilo mogoče izbrisati.';
@@ -100,13 +97,16 @@ $messages['converting'] = 'Odstranjevanje nastavitev oblikovanja...';
 $messages['messageopenerror'] = 'Sporočila ni bilo mogoče prenesti iz strežnika';
 $messages['fileuploaderror'] = 'Prenos datoteke je spodletel';
 $messages['filesizeerror'] = 'Naložena datoteka presega največjo dovoljeno velikost $size';
-$messages['copysuccess'] = '$nr naslovov je bilo uspešno prenešenih';
-$messages['copyerror'] = 'Nobenih naslovov ni bilo mogoče kopirati';
+$messages['copysuccess'] = 'Uspešno ste kopirali $nr stikov.';
+$messages['movesuccess'] = 'Uspešno ste premaknili $nr stikov.';
+$messages['copyerror'] = 'Stikov ni bilo mogoče kopirati.';
+$messages['moveerror'] = 'Stikov ni bilo mogoče premakniti.';
 $messages['sourceisreadonly'] = 'Ta naslov je na voljo samo za branje';
 $messages['errorsavingcontact'] = 'Stika ni bilo mogoče shraniti';
 $messages['movingmessage'] = 'Premikanje sporočila...';
 $messages['copyingmessage'] = 'Kopiranje sporočila...';
 $messages['copyingcontact'] = 'Kopiranje stika/ov';
+$messages['movingcontact'] = 'Premikanje stika(ov)...';
 $messages['deletingmessage'] = 'Brisanje sporočil/a';
 $messages['markingmessage'] = 'Označevanje sporočil/a';
 $messages['addingmember'] = 'Dodajanje stika/ov v skupino...';
@@ -140,7 +140,6 @@ $messages['smtperror'] = 'Napaka pri pošiljanju:$msg';
 $messages['emailformaterror'] = 'Nepravilen elektronski naslov: $email';
 $messages['toomanyrecipients'] = 'Navedli ste preveč prejemnikov. Zmanjšajte število prejemnikov na $max';
 $messages['maxgroupmembersreached'] = 'Število članov skupine presega največje dovoljeno število $max.';
-$messages['internalerror'] = 'Prišlo je do napake. Poskusite znova.';
 $messages['contactdelerror'] = 'Stika/ov ni bilo mogoče izbrisati';
 $messages['contactdeleted'] = 'Stik/i so bili uspešno izbrisani';
 $messages['contactrestoreerror'] = 'Ni bilo mogoče obnoviti izbrisanih stikov.';

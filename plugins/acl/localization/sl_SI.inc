@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Skupna raba';
 $labels['myrights'] = 'Pravice dostopa';
 $labels['username'] = 'Uporabnik:';

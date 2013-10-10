@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtrid';
 $labels['managefilters'] = 'Halda sisenevate kirjade filtreid';
 $labels['filtername'] = 'Filtri nimi';
@@ -49,14 +47,12 @@ $labels['messagesendcopy'] = 'Saada kirja koopia';
 $labels['messagereply'] = 'Vasta kirjaga';
 $labels['messagedelete'] = 'Kustuta kiri';
 $labels['messagediscard'] = 'Viska ära teatega';
-$labels['messagekeep'] = 'Keep message in Inbox';
 $labels['messagesrules'] = 'Siseneva kirja puhul, mis:';
 $labels['messagesactions'] = '...käivita järgnevad tegevused:';
 $labels['add'] = 'Lisa';
 $labels['del'] = 'Kustuta';
 $labels['sender'] = 'Saatja';
 $labels['recipient'] = 'Saaja';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'Kui tihti kirju saata (päevades):';
 $labels['vacationinterval'] = 'Kui tihti kirju saata:';
 $labels['days'] = 'päeva';
@@ -161,31 +157,22 @@ $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'tagasisuunas';
 $messages['filterunknownerror'] = 'Tundmatu serveri tõrge';
 $messages['filterconnerror'] = 'Managesieve serveriga ühendumine nurjus';
-$messages['filterdeleteerror'] = 'Filtri kustutamine nurjus. Ilmnes serveri tõrge.';
 $messages['filterdeleted'] = 'Filter edukalt kustutatud';
 $messages['filtersaved'] = 'Filter edukalt salvestatud';
-$messages['filtersaveerror'] = 'Filtri salvestamine nurjus. Ilmnes serveri tõrge.';
 $messages['filterdeleteconfirm'] = 'Soovid valitud filtri kustutada?';
 $messages['ruledeleteconfirm'] = 'Soovid valitud reegli kustutada?';
 $messages['actiondeleteconfirm'] = 'Soovid valitud tegevuse kustutada?';
 $messages['forbiddenchars'] = 'Väljal on lubamatu märk';
 $messages['cannotbeempty'] = 'Väli ei või tühi olla';
 $messages['ruleexist'] = 'Määratud nimega filter on juba olemas';
-$messages['setactivateerror'] = 'Valitud filtrite kogumi aktiveerimine nurjus. Ilmnes serveri tõrge.';
-$messages['setdeactivateerror'] = 'Valitud filtrite kogumi deaktiveerimine nurjus. Ilmnes serveri tõrge.';
-$messages['setdeleteerror'] = 'Valitud filtrite kogumi kustutamine nurjus. Ilmnes serveri tõrge.';
 $messages['setactivated'] = 'Filtrite kogumi aktiveerimine õnnestus.';
 $messages['setdeactivated'] = 'Filtrite kogumi deaktiveerimine õnnestus.';
 $messages['setdeleted'] = 'Filtrite kogumi kustutamine õnnestus.';
 $messages['setdeleteconfirm'] = 'Oled kindel, et soovid valitud filtrite kogumi kustutada?';
-$messages['setcreateerror'] = 'Filtrite kogumi loomine nurjus. Ilmnes serveri tõrge.';
 $messages['setcreated'] = 'Filtrite kogumi loomine õnnestus.';
-$messages['activateerror'] = 'Valitud filtrite lubamine nurjus. Ilmnes serveri tõrge.';
-$messages['deactivateerror'] = 'Valitud filtrite keelamine nurjus. Ilmnes serveri tõrge.';
 $messages['deactivated'] = 'Filter edukalt lubatud.';
 $messages['activated'] = 'Filter edukalt keelatud.';
 $messages['moved'] = 'Filter edukalt liigutatud.';
-$messages['moveerror'] = 'Valitud filtri liigutamine nurjus. Ilmnes serveri tõrge.';
 $messages['nametoolong'] = 'Nimi on liiga pikk.';
 $messages['namereserved'] = 'Nimi on reserveeritud.';
 $messages['setexist'] = 'Kogum on juba olemas.';

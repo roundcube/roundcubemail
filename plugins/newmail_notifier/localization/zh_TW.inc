@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = '當有新郵件顯示瀏覽器通知';
 $labels['desktop'] = '當有新郵件顯示桌面通知';
 $labels['sound'] = '當有新郵件播放音效';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Archief';
 $labels['buttontitle'] = 'Archiveer dit bericht';
 $labels['archived'] = 'Succesvol gearchiveerd';

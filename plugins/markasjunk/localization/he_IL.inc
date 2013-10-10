@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'זבל';
 $labels['buttontitle'] = 'סמן כדואר זבל';
 $labels['reportedasjunk'] = 'דואר הזבל דווח בהצלחה';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
 $labels['changepasswd']  = 'Slaptažodžio keitimas';
 $labels['curpasswd']  = 'Dabartinis slaptažodis:';
 $labels['newpasswd']  = 'Naujasis slaptažodis:';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Elrejtés';
 $labels['show'] = 'Megjelenítés';
 $labels['quotelimit'] = 'Idézet elrejtése ha a sorok száma több mint';

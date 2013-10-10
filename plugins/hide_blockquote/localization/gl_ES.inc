@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Agochar';
 $labels['show'] = 'Amosar';
 $labels['quotelimit'] = 'Agochar mencións cando haxa demasiadas liñas';

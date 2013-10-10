@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'Skräp';
 $labels['buttontitle'] = 'Märk som skräp';
 $labels['reportedasjunk'] = 'Framgångsrikt rapporterat som skräp';

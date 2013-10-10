@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Saņemot jaunu vēstuli, parādīt paziņojumu';
 $labels['desktop'] = 'Saņemot jaunu vēstuli, parādīt darbavirsmas paziņojumu';
 $labels['sound'] = 'Saņemot jaunu vēstuli, atskaņot skaņas signālu';

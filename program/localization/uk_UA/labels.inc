@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Ласкаво просимо до $product';
 $labels['username']  = 'Ім\'я користувача';
 $labels['password']  = 'Пароль';
@@ -31,7 +29,6 @@ $labels['drafts'] = 'Чернетки';
 $labels['sent']   = 'Надіслані';
 $labels['trash']  = 'Кошик';
 $labels['junk']   = 'Спам';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
 $labels['subject'] = 'Тема';
 $labels['from']    = 'Відправник';
 $labels['sender']  = 'Відправник';
@@ -139,7 +136,6 @@ $labels['currpage'] = 'Поточна сторінка';
 $labels['unread'] = 'Непрочитані';
 $labels['flagged'] = 'Із зірочкою';
 $labels['unanswered'] = 'Без відповіді';
-$labels['withattachment'] = 'With attachment';
 $labels['deleted'] = 'Видалені';
 $labels['undeleted'] = 'Не видалено';
 $labels['invert'] = 'Інвертувати виділення';
@@ -177,7 +173,6 @@ $labels['resetsearch']  = 'Очистити пошук';
 $labels['searchmod']  = 'Де шукати';
 $labels['msgtext']  = 'В усьому листі';
 $labels['body']  = 'Тіло повідомлення';
-$labels['type'] = 'Type';
 $labels['namex'] = 'Ім\'я';
 $labels['openinextwin'] = 'Відкрити в новому вікні';
 $labels['emlsave'] = 'Зберегти (.eml)';
@@ -311,17 +306,13 @@ $labels['nextpage']       = 'Наступна сторінка';
 $labels['lastpage']       = 'Остання сторінка';
 $labels['group'] = 'Група';
 $labels['groups'] = 'Групи';
-$labels['listgroup'] = 'List group members';
 $labels['personaladrbook'] = 'Персональні адреси';
 $labels['searchsave'] = 'Зберегти пошук';
 $labels['searchdelete'] = 'Видалити пошук';
 $labels['import'] = 'Імпорт';
 $labels['importcontacts'] = 'Імпортувати контакти';
 $labels['importfromfile'] = 'Імпортувати з файлу:';
-$labels['importtarget'] = 'Add contacts to';
 $labels['importreplace'] = 'Замінити всю адресну книгу';
-$labels['importgroups'] = 'Import group assignments';
-$labels['importgroupsall'] = 'All (create groups if necessary)';
 $labels['importgroupsexisting'] = 'Лише для існуючих груп';
 $labels['importdesc'] = 'Ви можете завантажити контакти з існуючої адресної книги.<br/>В даний час ми підтримуємо імпорт адрес в форматі візитної картки <a href="http://en.wikipedia.org/wiki/VCard"> vCard</ a> або CSV (дані розділені комами).';
 $labels['done'] = 'Готово';
@@ -356,7 +347,6 @@ $labels['htmleditor'] = 'Створювати листи в HTML';
 $labels['htmlonreply'] = 'тільки у відповідь на HTML повідомлення';
 $labels['htmlonreplyandforward'] = 'під час пересилання або відповіді на повідомлення HTML';
 $labels['htmlsignature'] = 'Підпис в HTML';
-$labels['showemail'] = 'Show email address with display name';
 $labels['previewpane'] = 'Показати панель перегляду';
 $labels['skin'] = 'Тема';
 $labels['logoutclear'] = 'Очищати кошик при виході';
@@ -426,7 +416,6 @@ $labels['spellcheckignorenums'] = 'Ігнорувати слова із числ
 $labels['spellcheckignorecaps'] = 'Ігнорувати слова із великими буквами';
 $labels['addtodict'] = 'Додати до словника';
 $labels['mailtoprotohandler'] = 'Зареєструвати обробник для посилань mailto';
-$labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Пересилання повідомлень';
 $labels['inline'] = 'у тексті';
 $labels['asattachment'] = 'як вкладення';

@@ -15,9 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
-$labels['welcome']   = '$product, Hoş Geldiniz';
+$labels['welcome']   = '$product E-Posta Sistemine Hoş Geldiniz';
 $labels['username']  = 'Kullanıcı Adı';
 $labels['password']  = 'Parola';
 $labels['server']    = 'Sunucu';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Arama detayları';
 $labels['msgtext']  = 'Tüm posta gövdesi';
 $labels['body']  = 'Gövde';
 $labels['type'] = 'Tip';
+$labels['namex'] = 'Ad';
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
 $labels['changeformattext'] = 'Düz yazı formatında göster';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Aramayı sil';
 $labels['import'] = 'İçe aktar';
 $labels['importcontacts'] = 'Kişileri içe aktar';
 $labels['importfromfile'] = 'Dosyadan içe aktar:';
-$labels['importtarget'] = 'Yeni kişiler eklenecek adres defteri:';
+$labels['importtarget'] = 'Kişileri ekle';
 $labels['importreplace'] = 'Tüm adres defterinin yerine geçsin';
+$labels['importgroups'] = 'Grup atamalarını içe aktar';
+$labels['importgroupsall'] = 'Tümü (Gerekirse grupları oluştur)';
+$labels['importgroupsexisting'] = 'Sadece mevcut gruplar için';
 $labels['importdesc'] = 'Mevcut bir adres defterinden kişileri yükleyebilirsiniz.<br/> Şu anda <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> veya CSV (virgülle ayrılmış) veri formatları desteklenmektedir.';
 $labels['done'] = 'Tamam';
 $labels['settingsfor'] = 'Ayarlar';

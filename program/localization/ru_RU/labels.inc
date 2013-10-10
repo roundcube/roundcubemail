@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Добро пожаловать в $product!';
 $labels['username']  = 'Имя пользователя';
 $labels['password']  = 'Пароль';
@@ -318,8 +316,11 @@ $labels['searchdelete'] = 'Удалить запрос';
 $labels['import'] = 'Импортировать';
 $labels['importcontacts'] = 'Импортировать контакты';
 $labels['importfromfile'] = 'Импортировать из файла:';
-$labels['importtarget'] = 'Добавить новые контакты в адресную книгу:';
+$labels['importtarget'] = 'Добавить контакты в';
 $labels['importreplace'] = 'Заменить всю адресную книгу';
+$labels['importgroups'] = 'Распределение по группам при импорте.';
+$labels['importgroupsall'] = 'Все (создать группы при необходимости)';
+$labels['importgroupsexisting'] = 'Только для существующих групп';
 $labels['importdesc'] = 'Вы можете загрузить контакты из существующей адресной книги. <br/>В настоящее время мы поддерживаем импорт адресов в формате визитной карточки <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> или CSV (данные разделённые запятой).';
 $labels['done'] = 'Завершено';
 $labels['settingsfor'] = 'Настройки для';

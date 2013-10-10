@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Възникна грешка!';
 $messages['loginfailed']  = 'Неуспешно установяване на самоличност.';
 $messages['cookiesdisabled'] = 'Вашият браузър не приема cookies.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Търсеният контакт не е нам
 $messages['contactsearchonly'] = 'Използвайте полето за да търсите контакти';
 $messages['sendingfailed'] = 'Неуспешно изпращане на писмо.';
 $messages['senttooquickly'] = 'Моля изчакайте $sec секунди преди да изпратите писмото.';
-$messages['errorsavingsent'] = 'Възникна грешка при записване на изпратеното писмо.';
-$messages['errorsaving'] = 'Възникна грешка при записването.';
 $messages['errormoving'] = 'Писмото не може да бъде преместено.';
 $messages['errorcopying'] = 'Писмото не може да бъде копирано.';
 $messages['errordeleting'] = 'Писмото не може да бъде изтрито.';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'SMTP грешка: $msg';
 $messages['emailformaterror'] = 'Невалиден e-mail адрес: $email';
 $messages['toomanyrecipients'] = 'Прекалено много адреси за изпращане (максимум: $max).';
 $messages['maxgroupmembersreached'] = 'Броят на членовете на групата е повече от максималния: $max.';
-$messages['internalerror'] = 'Възникна вътрешна грешка. Моля опитайте отново.';
 $messages['contactdelerror'] = 'Невъзможно изтриване на контакти.';
 $messages['contactdeleted'] = 'Контактът беше изтрит успешно.';
 $messages['contactrestoreerror'] = 'Неуспешно възстановяване на изтрите контакти.';

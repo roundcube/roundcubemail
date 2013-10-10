@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'Junk';
 $labels['buttontitle'] = 'Mark as Junk';
 $labels['reportedasjunk'] = 'Successfully reported as Junk';

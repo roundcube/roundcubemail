@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Gerir filtros';
 $labels['filtername'] = 'Nome do filtro';
@@ -161,10 +159,10 @@ $labels['index'] = 'índice:';
 $labels['indexlast'] = 'retroceder';
 $messages['filterunknownerror'] = 'Erro de servidor desconhecido';
 $messages['filterconnerror'] = 'Não é possível ligar ao servidor Sieve';
-$messages['filterdeleteerror'] = 'Não foi possível eliminar o filtro. Erro no servidor';
+$messages['filterdeleteerror'] = 'Não foi possível eliminar o filtro.  Ocorreu um erro no servidor.';
 $messages['filterdeleted'] = 'Filtro eliminado com sucesso';
 $messages['filtersaved'] = 'Filtro guardado com sucesso';
-$messages['filtersaveerror'] = 'Não foi possível guardar o filtro. Erro no servidor';
+$messages['filtersaveerror'] = 'Não foi possível guardar o filtro.  Ocorreu um erro no servidor.';
 $messages['filterdeleteconfirm'] = 'Tem a certeza que pretende eliminar este filtro?';
 $messages['ruledeleteconfirm'] = 'Tem a certeza que pretende eliminar esta regra?';
 $messages['actiondeleteconfirm'] = 'Tem a certeza que pretende eliminar esta acção?';

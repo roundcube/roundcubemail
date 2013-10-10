@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = '分享';
 $labels['myrights'] = '存取權限';
 $labels['username'] = '使用者：';

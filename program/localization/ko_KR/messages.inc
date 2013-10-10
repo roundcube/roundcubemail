@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = '오류 발생!';
 $messages['loginfailed']  = '로그인이 실패하였습니다.';
 $messages['cookiesdisabled'] = '브라우저가 쿠키를 지원하지 않습니다.';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = '요청한 연락처를 찾을 수 없었습니�
 $messages['contactsearchonly'] = '연락처를 찾기 위해 일부 검색용어를 입력하세요.';
 $messages['sendingfailed'] = '메시지 보내기를 실패하였음.';
 $messages['senttooquickly'] = '이 메시지를 보내기 전에 $sec초 동안 기다리세요.';
-$messages['errorsavingsent'] = '보낸 메시지를 저장하는 동안 오류가 발생했습니다.';
-$messages['errorsaving'] = '저장 중 오류가 발생했습니다.';
 $messages['errormoving'] = '메시지를 이동할 수 없었음.';
 $messages['errorcopying'] = '메시지를 복사할 수 없었음.';
 $messages['errordeleting'] = '메시지를 삭제할 수 없었음.';
@@ -100,16 +97,16 @@ $messages['converting'] = '서식 설정 삭제 중...';
 $messages['messageopenerror'] = '서버에서 메시지를 불러올 수 없음.';
 $messages['fileuploaderror'] = '파일 업로드를 실패함.';
 $messages['filesizeerror'] = '업로드된 파일이 최대 크기인 $size를 초과하였습니다.';
-$messages['copysuccess'] = 'Successfully copied $nr contacts.';
-$messages['movesuccess'] = 'Successfully moved $nr contacts.';
-$messages['copyerror'] = 'Could not copy any contacts.';
-$messages['moveerror'] = 'Could not move any contacts.';
+$messages['copysuccess'] = '$nr개의 연락처를 성공적으로 복사함';
+$messages['movesuccess'] = '$nr개의 연락처를 성공적으로 이동함';
+$messages['copyerror'] = '전체 연락처를 복사할 수 없없음';
+$messages['moveerror'] = '전체 연락처를 이동할 수 없없음';
 $messages['sourceisreadonly'] = '이 주소의 소스는 읽기 전용입니다.';
 $messages['errorsavingcontact'] = '연락처의 주소를 저장할 수 없음.';
 $messages['movingmessage'] = '메시지를 이동하는 중...';
 $messages['copyingmessage'] = '메시지 복사하는 중...';
 $messages['copyingcontact'] = '연락처 복사하는 중...';
-$messages['movingcontact'] = 'Moving contact(s)...';
+$messages['movingcontact'] = '연락처 이동 중...';
 $messages['deletingmessage'] = '메시지 삭제하는 중...';
 $messages['markingmessage'] = '메시지에 표시하는 중...';
 $messages['addingmember'] = '그룹에 연락처를 추가하는 중...';
@@ -128,8 +125,8 @@ $messages['importwait'] = '가져오는 중, 기다려주시기 바랍니다...'
 $messages['importformaterror'] = '가져오기를 실패함! 업로드된 파일은 유효하지 않은 가져오기 데이터 파일입니다.';
 $messages['importconfirm'] = '<b>$inserted 연락처를 성공적으로 가져옴<b>';
 $messages['importconfirmskipped'] = '<b>기존 기재사항인 $skipped을(를) 건너뜀</b>';
-$messages['importmessagesuccess'] = 'Successfully imported $nr messages';
-$messages['importmessageerror'] = 'Import failed! The uploaded file is not a valid message or mailbox file';
+$messages['importmessagesuccess'] = '$nr개의 메시지를 성공적으로 가져옴';
+$messages['importmessageerror'] = '가져오기 실패! 업로드된 파일은 유효하지 않은 메시지 또는 메일함 파일임';
 $messages['opnotpermitted'] = '작업이 허가되지 않음!';
 $messages['nofromaddress'] = '선택된 신원에 이메일 주소 가 누락됨.';
 $messages['editorwarning'] = '일반 텍스트 편집기로 바꾸면 모든 텍스트 서식이 사라집니다. 계속하시겠습니까?';
@@ -144,7 +141,6 @@ $messages['smtperror'] = 'SMTP 오류: $msg';
 $messages['emailformaterror'] = '유효하지 않은 이메일 주소: $email';
 $messages['toomanyrecipients'] = '수신인이 너무 많음. 수신인 수를 $max명으로 줄이세요.';
 $messages['maxgroupmembersreached'] = '그룹 구성원의 수가 최대 인원인 $max명을 초과합니다.';
-$messages['internalerror'] = '내부 오류가 발생함. 재시도 해주시기 바랍니다.';
 $messages['contactdelerror'] = '연락처를 삭제할 수 없음.';
 $messages['contactdeleted'] = '연락처가 성공적으로 삭제됨.';
 $messages['contactrestoreerror'] = '삭제된 연락처를 복구할 수 없음.';

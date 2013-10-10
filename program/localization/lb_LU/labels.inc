@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Wëllkomm bei $product';
 $labels['username']  = 'Benotzernumm';
 $labels['password']  = 'Passwuert';
@@ -318,7 +316,6 @@ $labels['searchdelete'] = 'Sich läschen';
 $labels['import'] = 'Importéieren';
 $labels['importcontacts'] = 'Kontakter importéieren';
 $labels['importfromfile'] = 'Aus Fichier importéieren:';
-$labels['importtarget'] = 'Nei Kontakter an d\'Adressbuch setzen:';
 $labels['importreplace'] = 'Dat ganzt Adressbuch ersetzen';
 $labels['importdesc'] = 'Du kanns Kontakter aus engem existéierenden Adressbuch eroplueden.<br/>Mir ënnerstëtze momentan en Adress-Import vum <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>- oder CSV (mat Komma getrennt)-Date-Format.';
 $labels['done'] = 'Erleedegt';

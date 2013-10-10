@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Dangos hysbysiadau porwr ar neges newydd';
 $labels['desktop'] = 'Dangos hysbysiadau penbwrdd ar neges newydd';
 $labels['sound'] = 'Chwarae sŵn ar neges newydd';

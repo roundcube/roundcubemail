@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'Թափոն';
 $labels['buttontitle'] = 'Նշել որպես Թափոն';
 $labels['reportedasjunk'] = 'Բարեհաջող հաղորդվեց որպես Թափոն';

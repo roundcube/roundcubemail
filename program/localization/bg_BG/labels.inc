@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Добре дошли в $product';
 $labels['username']  = 'Потребител';
 $labels['password']  = 'Парола';

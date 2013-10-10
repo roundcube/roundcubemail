@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
 $labels['userinfo'] = 'Informoj pri uzanto';
 $labels['created'] = 'Kreita';
 $labels['lastlogin'] = 'Lasta ensaluto';

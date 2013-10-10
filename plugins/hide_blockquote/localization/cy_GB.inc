@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Cuddio';
 $labels['show'] = 'Dangos';
 $labels['quotelimit'] = 'Cuddio dyfynniad pan mae\'r nifer o linellau yn fwy na';

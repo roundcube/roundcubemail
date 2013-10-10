@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
 $labels['userinfo'] = '使用者資訊';
 $labels['created'] = '建立時間';
 $labels['lastlogin'] = '上次登入';

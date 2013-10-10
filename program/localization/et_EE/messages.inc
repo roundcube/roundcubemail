@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Ilmnes tõrge!';
 $messages['loginfailed']  = 'Sisselogimine ebaõnnestus';
 $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Otsitud kontakti ei leitud';
 $messages['contactsearchonly'] = 'Sisesta otsingusõna kontaktide leidmiseks';
 $messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
 $messages['senttooquickly'] = 'Palun oota enne selle kirja saatmist $sec sekundit.';
-$messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';
-$messages['errorsaving'] = 'Salvestamise ajal ilmnes viga';
 $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
 $messages['errorcopying'] = 'Kirju ei õnnestunud kopeerida';
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
@@ -100,13 +97,16 @@ $messages['converting'] = 'Eemaldan kirjast vormindust...';
 $messages['messageopenerror'] = 'Kirjade serverist laadimine ebaõnnestus';
 $messages['fileuploaderror'] = 'Faili üleslaadimine ebaõnnestus';
 $messages['filesizeerror'] = 'Üleslaetava faili suurus ületab maksimaalse suuruse $size';
-$messages['copysuccess'] = '$nr aadressi edukalt kopeeritud';
-$messages['copyerror'] = 'Ühegi aadressi kopeerimine ei õnnestunud';
+$messages['copysuccess'] = '$nr kontakti edukalt kopeeritud.';
+$messages['movesuccess'] = '$nr kontakti edukalt liigutatud.';
+$messages['copyerror'] = 'Ühegi kontakti kopeerimine ei õnnestunud.';
+$messages['moveerror'] = 'Ühegi kontakti liigutamine ei õnnestunud.';
 $messages['sourceisreadonly'] = 'Aadressi asukohas puuduvad kirjutusõigused';
 $messages['errorsavingcontact'] = 'Kontakti aadressi salvestamine ebaõnnestus';
 $messages['movingmessage'] = 'Liigutan kirja...';
 $messages['copyingmessage'] = 'Kopeerin kirja...';
 $messages['copyingcontact'] = 'Kontakti(de) kopeerimine…';
+$messages['movingcontact'] = 'Kontakti(de) liigutamine…';
 $messages['deletingmessage'] = 'Kustutan kirja...';
 $messages['markingmessage'] = 'Märgin kirja...';
 $messages['addingmember'] = 'Kontakti(de) gruppi lisamine…';
@@ -140,7 +140,6 @@ $messages['smtperror'] = 'SMTP tõrge: $msg';
 $messages['emailformaterror'] = 'Lubamatu e-posti aadress: $email';
 $messages['toomanyrecipients'] = 'Liiga palju adressaate. Vähenda kirja saajate hulka $max-ni.';
 $messages['maxgroupmembersreached'] = 'Grupi liikmete arv ületab suurima lubatud $max';
-$messages['internalerror'] = 'Ilmnes sisemine tõrge. Palun proovi uuesti.';
 $messages['contactdelerror'] = 'Kontaktide kustutamine nurjus';
 $messages['contactdeleted'] = 'Kontaktide kustutamine õnnestus';
 $messages['contactrestoreerror'] = 'Kustutatud kontakti(de) taastamine nurjus.';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-
 $labels['userinfo'] = 'Gwybodaeth defnyddiwr';
 $labels['created'] = 'Crëwyd';
 $labels['lastlogin'] = 'Mewngofnodiad diwethaf';

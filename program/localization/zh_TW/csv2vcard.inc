@@ -15,7 +15,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 $map = array();
 $map['anniversary'] = "紀念日";
 $map['assistants_name'] = "助理";

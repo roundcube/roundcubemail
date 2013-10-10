@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Произошла ошибка!';
 $messages['loginfailed']  = 'Неудачная попытка входа.';
 $messages['cookiesdisabled'] = 'Ваш браузер не принимает cookie.';

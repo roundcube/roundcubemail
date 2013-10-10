@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Benvenuto in $product';
 $labels['username']  = 'Utente';
 $labels['password']  = 'Password';
@@ -31,7 +29,7 @@ $labels['drafts'] = 'Bozze';
 $labels['sent']   = 'Inviata';
 $labels['trash']  = 'Cestino';
 $labels['junk']   = 'Spam';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
+$labels['show_real_foldernames'] = 'Mostra nomi reali per le cartelle speciali';
 $labels['subject'] = 'Oggetto';
 $labels['from']    = 'Mittente';
 $labels['sender']  = 'Mittente';
@@ -168,7 +166,7 @@ $labels['listmode'] = 'Modalità di visualizzazione';
 $labels['folderactions'] = 'Operazioni cartella';
 $labels['compact'] = 'Compatta';
 $labels['empty'] = 'Svuota';
-$labels['importmessages'] = 'Import messages';
+$labels['importmessages'] = 'Importa messaggi';
 $labels['quota'] = 'Spazio utilizzato';
 $labels['unknown']  = 'sconosciuto';
 $labels['unlimited']  = 'illimitato';
@@ -177,7 +175,8 @@ $labels['resetsearch']  = 'Annulla ricerca';
 $labels['searchmod']  = 'Ambito di ricerca';
 $labels['msgtext']  = 'Intero messaggio';
 $labels['body']  = 'Body';
-$labels['type'] = 'Type';
+$labels['type'] = 'Tipo';
+$labels['namex'] = 'Nome';
 $labels['openinextwin'] = 'Apri in una nuova finestra';
 $labels['emlsave'] = 'Scarica (.eml)';
 $labels['changeformattext'] = 'Visualizza nel formato testo semplice';
@@ -310,15 +309,18 @@ $labels['nextpage']       = 'Pagina successiva';
 $labels['lastpage']       = 'Ultima pagina';
 $labels['group'] = 'Gruppo';
 $labels['groups'] = 'Gruppi';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Elenca membri dei gruppi';
 $labels['personaladrbook'] = 'Rubrica Personale';
 $labels['searchsave'] = 'Salva ricerca';
 $labels['searchdelete'] = 'Elimina ricerca';
 $labels['import'] = 'Importa';
 $labels['importcontacts'] = 'Importa contatti';
 $labels['importfromfile'] = 'Importa da file:';
-$labels['importtarget'] = 'Aggiungi nuovi contattu alla rubrica:';
+$labels['importtarget'] = 'Aggiungi contatti a';
 $labels['importreplace'] = 'Sostituisci l\'intera rubrica';
+$labels['importgroups'] = 'Importa le assegnazioni di gruppo';
+$labels['importgroupsall'] = 'Tutti (crea i gruppi se necessario)';
+$labels['importgroupsexisting'] = 'Solo per i gruppi esistenti';
 $labels['importdesc'] = 'Puoi caricare i contatti da una rubrica esistente.<br/>Attualmente si possono importare contatti in formato  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> o CSV (comma-separated).';
 $labels['done'] = 'Fatto';
 $labels['settingsfor'] = 'Impostazioni per';
@@ -369,7 +371,7 @@ $labels['ignore'] = 'ignora';
 $labels['readwhendeleted'] = 'Marca il messaggio come letto prima di eliminarlo';
 $labels['flagfordeletion'] = 'Marca il messaggio come eliminato invece di eliminarlo';
 $labels['skipdeleted'] = 'Non mostrare i messaggi marcati come eliminati';
-$labels['deletealways'] = 'Quando non è possinile spostare i messaggi nel Cestino eliminali';
+$labels['deletealways'] = 'Quando non è possibile spostare i messaggi nel Cestino, eliminali';
 $labels['deletejunk'] = 'Elimina direttamente i messaggi in Spam';
 $labels['showremoteimages'] = 'Mostra immagini remote contenute nel messaggio';
 $labels['fromknownsenders'] = 'da mittenti conosciuti';

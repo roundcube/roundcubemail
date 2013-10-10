@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Ocorreu um erro!';
 $messages['loginfailed']  = 'Falha no login';
 $messages['cookiesdisabled'] = 'Seu navegador não aceita cookies';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'O contato solicitado não foi encontrado.';
 $messages['contactsearchonly'] = 'Informe os termos de pesquisa para localizar os contatos';
 $messages['sendingfailed'] = 'Falha no envio da mensagem.';
 $messages['senttooquickly'] = 'Aguarde $sec s para enviar a mensagem.';
-$messages['errorsavingsent'] = 'Ocorreu um erro ao salvar a mensagem enviada.';
-$messages['errorsaving'] = 'Ocorreu um erro ao salvar.';
 $messages['errormoving'] = 'Não foi possível mover a(s) mensagem(ns).';
 $messages['errorcopying'] = 'Não foi possível copiar a(s) mensagem(ns).';
 $messages['errordeleting'] = 'Não foi possível apagar a(s) mensagem(ns).';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'Endereço de e-mail inválido: $email';
 $messages['toomanyrecipients'] = 'Há muitos destinatários. Reduza o número de destinatários para $max.';
 $messages['maxgroupmembersreached'] = 'O número de membros do grupo excede o máximo de $max';
-$messages['internalerror'] = 'Ocorreu um erro interno. Por favor tente novamente.';
 $messages['contactdelerror'] = 'Não foi possível excluir o(s) contato(s).';
 $messages['contactdeleted'] = 'Contato(s) excluído(s) com sucesso.';
 $messages['contactrestoreerror'] = 'Não foi possivel recuperar o(s) contato(s) excluído(s).';

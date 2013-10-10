@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Paslėpti';
 $labels['show'] = 'Parodyti';
 $labels['quotelimit'] = 'Paslėpti citatą, kai joje eilučių daugiau negu';

@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Hidlyddion';
 $labels['managefilters'] = 'Rheoli hidlyddion ebost i fewn';
 $labels['filtername'] = 'Enw hidlydd';
@@ -161,31 +159,22 @@ $labels['index'] = 'mynegai:';
 $labels['indexlast'] = 'o chwith';
 $messages['filterunknownerror'] = 'Gwall gweinydd anhysbys.';
 $messages['filterconnerror'] = 'Methwyd cysylltu a\'r gweinydd.';
-$messages['filterdeleteerror'] = 'Methwyd dileu hidlydd. Cafwydd gwall gweinydd.';
 $messages['filterdeleted'] = 'Dilëuwyd hidlydd yn llwyddiannus.';
 $messages['filtersaved'] = 'Cadwyd hidlydd yn llwyddiannus.';
-$messages['filtersaveerror'] = 'Methwyd cadw hidlydd. Cafwyd gwall gweinydd.';
 $messages['filterdeleteconfirm'] = 'Ydych chi wir am ddileu yr hidlydd ddewiswyd?';
 $messages['ruledeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r rheol ddewiswyd?';
 $messages['actiondeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r weithred ddewiswyd?';
 $messages['forbiddenchars'] = 'Llythrennau gwaharddedig yn y maes.';
 $messages['cannotbeempty'] = 'Ni all y maes fod yn wag.';
 $messages['ruleexist'] = 'Mae hidlydd gyda\'r enw yma yn bodoli\'n barod.';
-$messages['setactivateerror'] = 'Methwyd bywiogi y set hidlydd dewiswyd. Cafwyd gwall gweinydd.';
-$messages['setdeactivateerror'] = 'Methwyd dadfywiogi y set hidlydd dewiswyd. Cafwyd gwall gweinydd.';
-$messages['setdeleteerror'] = 'Methwyd dileu y set hidlydd dewiswyd. Cafwyd gwall gweinydd.';
 $messages['setactivated'] = 'Bywiogwyd y set hidlydd yn llwyddiannus.';
 $messages['setdeactivated'] = 'Dadfywiogwyd y set hidlydd yn llwyddiannus.';
 $messages['setdeleted'] = 'Dilëuwyd y set hidlydd yn llwyddiannus.';
 $messages['setdeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r set hidlydd ddewiswyd?';
-$messages['setcreateerror'] = 'Methwyd creu set hidlydd. Cafwyd gwall gweinydd.';
 $messages['setcreated'] = 'Crëuwyd y set hidlydd yn llwyddiannus.';
-$messages['activateerror'] = 'Methwyd galluogi y hidlydd(ion) dewiswyd. Cafwyd gwall gweinydd.';
-$messages['deactivateerror'] = 'Methwyd analluogi y hidlydd(ion) dewiswyd. Cafwyd gwall gweinydd.';
 $messages['deactivated'] = 'Galluogwyd y hidlydd(ion) yn llwyddiannus.';
 $messages['activated'] = 'Analluogwyd y hidlydd(ion) yn llwyddiannus.';
 $messages['moved'] = 'Symudwyd y hidlydd yn llwyddiannus.';
-$messages['moveerror'] = 'Methwyd symud y hidlydd dewiswyd. Cafwyd gwall gweinydd.';
 $messages['nametoolong'] = 'Enw yn rhy hir.';
 $messages['namereserved'] = 'Enw neilltuedig.';
 $messages['setexist'] = 'Mae\'r set yn bodoli\'n barod.';

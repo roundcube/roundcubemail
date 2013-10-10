@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Arsip';
 $labels['buttontitle'] = 'Arsipkan pesan ini';
 $labels['archived'] = 'Berhasil mengarsipkan';

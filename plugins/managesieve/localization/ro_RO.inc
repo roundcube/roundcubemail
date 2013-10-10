@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Administreaza filtrele pentru mesaje primite.';
 $labels['filtername'] = 'Nume filtru';
@@ -161,31 +159,22 @@ $labels['index'] = 'index:';
 $labels['indexlast'] = 'invers';
 $messages['filterunknownerror'] = 'Eroare necunoscută la server:';
 $messages['filterconnerror'] = 'Nu mă pot conecta la server.';
-$messages['filterdeleteerror'] = 'Nu pot şterge filtrul. S-a produs o eroare la server.';
 $messages['filterdeleted'] = 'Filtrul a fost şters cu succes.';
 $messages['filtersaved'] = 'Filtrul a fost salvat cu succes.';
-$messages['filtersaveerror'] = 'Nu am putut salva filtrul. S-a produs o eroare la server.';
 $messages['filterdeleteconfirm'] = 'Chiar vrei să ştergi filtrul selectat?';
 $messages['ruledeleteconfirm'] = 'Eşti sigur că vrei să ştergi regula selectată?';
 $messages['actiondeleteconfirm'] = 'Eşti sigur că vrei să ştergi acţiunea selectată?';
 $messages['forbiddenchars'] = 'Caractere nepermise în câmp.';
 $messages['cannotbeempty'] = 'Câmpul nu poate fi gol.';
 $messages['ruleexist'] = 'Filtrul cu numele specificat există deja.';
-$messages['setactivateerror'] = 'Nu pot activa setul de filtre selectat. S-a produs o eroare la server.';
-$messages['setdeactivateerror'] = 'Nu pot dezactiva setul de filtre selectat. S-a produs o eroare la server.';
-$messages['setdeleteerror'] = 'Nu pot şterge setul de filtre selectat. S-a produs o eroare la server.';
 $messages['setactivated'] = 'Setul de filtre activat cu succes.';
 $messages['setdeactivated'] = 'Setul de filtre dezactivat cu succes.';
 $messages['setdeleted'] = 'Setul de filtre şters cu succes.';
 $messages['setdeleteconfirm'] = 'Eşti sigur(ă) că vrei să ştergi setul de filtre selectat?';
-$messages['setcreateerror'] = 'Nu am putut crea setul de filtre. S-a produs o eroare la server.';
 $messages['setcreated'] = 'Setul de filtre creat cu succes.';
-$messages['activateerror'] = 'Nu am putut activa filtrele selectate. S-a produs o eroare la server.';
-$messages['deactivateerror'] = 'Nu am putut dezactiva filtrele selectate. S-a produs o eroare la server.';
 $messages['deactivated'] = 'Filtrele au fost activate cu succes.';
 $messages['activated'] = 'Filtrele au fost dezactivate cu succes.';
 $messages['moved'] = 'Filtrele au fost mutate cu succes.';
-$messages['moveerror'] = 'Nu am putut muta filtreele selectate. S-a produs o eroare la server.';
 $messages['nametoolong'] = 'Numele este prea lung.';
 $messages['namereserved'] = 'Nume rezervat.';
 $messages['setexist'] = 'Setul există deja.';

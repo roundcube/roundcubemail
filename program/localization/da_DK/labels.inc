@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Velkommen til $product';
 $labels['username']  = 'Brugernavn';
 $labels['password']  = 'Adgangskode';
@@ -31,7 +29,7 @@ $labels['drafts'] = 'Kladder';
 $labels['sent']   = 'Sendt post';
 $labels['trash']  = 'Papirkurv';
 $labels['junk']   = 'Spam';
-$labels['show_real_foldernames'] = 'Show real names for special folders';
+$labels['show_real_foldernames'] = 'Vis rigtige navne for specielle mapper';
 $labels['subject'] = 'Emne';
 $labels['from']    = 'Afsender';
 $labels['sender']  = 'Afsender';
@@ -168,7 +166,7 @@ $labels['listmode'] = 'Listevisningsmode';
 $labels['folderactions'] = 'Mappehandlinger...';
 $labels['compact'] = 'Ryd op';
 $labels['empty'] = 'Tøm';
-$labels['importmessages'] = 'Import messages';
+$labels['importmessages'] = 'Importer beskeder';
 $labels['quota'] = 'Diskforbrug';
 $labels['unknown']  = 'ukendt';
 $labels['unlimited']  = 'ubegrænset';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Søgeparametre';
 $labels['msgtext']  = 'Hele beskeden';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
+$labels['namex'] = 'Navn';
 $labels['openinextwin'] = 'Åbn i nyt vindue';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Vis i ren tekst format';
@@ -310,14 +309,13 @@ $labels['nextpage']       = 'Vis næste side';
 $labels['lastpage']       = 'Vis sidste side';
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Grupper';
-$labels['listgroup'] = 'List group members';
+$labels['listgroup'] = 'Vis gruppemedlemmer';
 $labels['personaladrbook'] = 'Personlige adresser';
 $labels['searchsave'] = 'Gem søgning';
 $labels['searchdelete'] = 'Slet søgning';
 $labels['import'] = 'Importér';
 $labels['importcontacts'] = 'Importér kontakter';
 $labels['importfromfile'] = 'Importér fra fil:';
-$labels['importtarget'] = 'Tilføj nye kontakter til adressebogen:';
 $labels['importreplace'] = 'Overskriv hele adressebogen';
 $labels['importdesc'] = 'Du kan uploade kontakter fra en eksisterende adressebog. <br/>I øjeblikket supportere vi import af adresser fra <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> og CSV (komma-separeret) data format.';
 $labels['done'] = 'Færdig';

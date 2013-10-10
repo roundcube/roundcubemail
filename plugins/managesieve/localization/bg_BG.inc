@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Филтри';
 $labels['managefilters'] = 'Управление на филтри за входяща поща';
 $labels['filtername'] = 'Име на филтър';
@@ -161,31 +159,22 @@ $labels['index'] = 'индекс:';
 $labels['indexlast'] = 'наобратно';
 $messages['filterunknownerror'] = 'Неизвестна сървърна грешка.';
 $messages['filterconnerror'] = 'Неуспешно свързване с managesieve сървъра.';
-$messages['filterdeleteerror'] = 'Невъзможно изтриване на филтъра. Възникна сървърна грешка.';
 $messages['filterdeleted'] = 'Филтърът е изтрит успешно.';
 $messages['filtersaved'] = 'Филтърът е записан успешно.';
-$messages['filtersaveerror'] = 'Невъзможно записване на филтъра. Възникна сървърна грешка.';
 $messages['filterdeleteconfirm'] = 'Наистина ли желаете да изтриете избрания филтър?';
 $messages['ruledeleteconfirm'] = 'Сигурни ли сте, че желаете да изтриете избраното условие?';
 $messages['actiondeleteconfirm'] = 'Сигурни ли сте, че желаете да изтриете избраното действие?';
 $messages['forbiddenchars'] = 'Забранени символи в полето.';
 $messages['cannotbeempty'] = 'Полето не може да бъде празно.';
 $messages['ruleexist'] = 'Вече има филтър с указаното име.';
-$messages['setactivateerror'] = 'Невъзможно активиране на избрания набор от филтри. Възникна сървърна грешка.';
-$messages['setdeactivateerror'] = 'Невъзможно деактивиране на избрания набор от филтри. Възникна сървърна грешка.';
-$messages['setdeleteerror'] = 'Невъзможно изтриване на избрания набор от филтри. Възникна сървърна грешка.';
 $messages['setactivated'] = 'Наборът от филтри е активиран успешно.';
 $messages['setdeactivated'] = 'Наборът от филтри е деактивиран успешно.';
 $messages['setdeleted'] = 'Наборът от филтри е изтрит успешно.';
 $messages['setdeleteconfirm'] = 'Сигурни ли сте, че желаете да изтриете избрания набор от филтри?';
-$messages['setcreateerror'] = 'Невъзможно създаване на набор от филтри. Възникна сървърна грешка.';
 $messages['setcreated'] = 'Наборът от филтри е създаден успешно.';
-$messages['activateerror'] = 'Невъзможно включване на филтъра. Възникна сървърна грешка.';
-$messages['deactivateerror'] = 'Невъзможно изключване на филтъра. Възникна сървърна грешка.';
 $messages['deactivated'] = 'Филтърът е изключен успешно.';
 $messages['activated'] = 'Филтърът е включен успешно.';
 $messages['moved'] = 'Филтърът е преместен успешно.';
-$messages['moveerror'] = 'Невъзможно преместване на филтъра. Възникна сървърна грешка.';
 $messages['nametoolong'] = 'Името е прекалено дълго.';
 $messages['namereserved'] = 'Резервирано име.';
 $messages['setexist'] = 'Вече има такъв набор филтри.';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-
 $messages['errortitle']  = 'Έχει προκύψει κάποιο σφάλμα!';
 $messages['loginfailed']  = 'Είσοδος απέτυχε';
 $messages['cookiesdisabled'] = 'Ο περιηγητής σας (browser) δεν αποδέχεται cookies';
@@ -55,8 +54,6 @@ $messages['contactnotfound'] = 'Η ζητούμενη επαφή δεν βρέθ
 $messages['contactsearchonly'] = 'Εισάγετε κάποιους όρους προς αναζήτηση';
 $messages['sendingfailed'] = 'Αποστολή μηνύματος απέτυχε';
 $messages['senttooquickly'] = 'Παρακαλώ περιμένετε $sec δευτερόλεπτα, πριν στείλετε το μήνυμα';
-$messages['errorsavingsent'] = 'Παρουσιάστηκε σφάλμα, κατά την αποθήκευση του απεσταλμένου μηνύματος';
-$messages['errorsaving'] = 'Παρουσιάστηκε σφάλμα κατά την αποθήκευση';
 $messages['errormoving'] = 'Το μήνυμα δε μπορούσε να μετακινηθεί';
 $messages['errorcopying'] = 'Δεν είναι δυνατή η αντιγραφή του μηνύματος/των';
 $messages['errordeleting'] = 'Το μήνυμα δε μπορούσε να διαγραφεί';
@@ -143,7 +140,6 @@ $messages['smtperror'] = 'Σφάλμα SMTP: $msg';
 $messages['emailformaterror'] = 'Λανθασμένη διεύθνση email: $email';
 $messages['toomanyrecipients'] = 'Μεγάλο πλήθος αποδεκτών. Μειώστε τον αριθμό των αποδεκτών σε $max.';
 $messages['maxgroupmembersreached'] = 'Ο αριθμός των μελών της ομάδας υπερβαίνει τον μέγιστο των $max μελών.';
-$messages['internalerror'] = 'Προέκυψε ένα εσωτερικό σφάλμα. Παρακαλώ δοκιμάστε πάλι.';
 $messages['contactdelerror'] = 'Δεν είναι δυνατή η διαγραφή της επαφής/ων';
 $messages['contactdeleted'] = 'Η επαφή/ές διαγράφηκαν με επιτυχία.';
 $messages['contactrestoreerror'] = 'Οι διαγραφημενη επαφη(ες) δεν μπορουν να επαναφερθουν.';

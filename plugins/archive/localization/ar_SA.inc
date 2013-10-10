@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'الأرشيف';
 $labels['buttontitle'] = 'أرشف هذه الرسالة';
 $labels['archived'] = 'أُرشفت بنجاح';

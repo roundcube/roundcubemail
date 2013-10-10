@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'İstenmeyen';
 $labels['buttontitle'] = 'Çöp olarak işaretle';
 $labels['reportedasjunk'] = 'Spam olarak rapor edildi';

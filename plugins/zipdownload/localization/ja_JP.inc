@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = 'すべての添付ファイルをダウンロード';
 $labels['downloadfolder'] = 'ダウンロード先のフォルダー';
 ?>

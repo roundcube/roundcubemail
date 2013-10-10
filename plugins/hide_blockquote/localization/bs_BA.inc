@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Sakrij';
 $labels['show'] = 'Prikaži';
 $labels['quotelimit'] = 'Sakrij citate kada je broj linija veći od';

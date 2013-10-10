@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'Afişează notificări în browser la mesaj nou.';
 $labels['desktop'] = 'Afişează notificări desktop la mesaj nou.';
 $labels['sound'] = 'Redă un sunet la mesaj nou.';

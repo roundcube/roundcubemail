@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Välkommen till $product';
 $labels['username']  = 'Användarnamn';
 $labels['password']  = 'Lösenord';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Sökalternativ';
 $labels['msgtext']  = 'Hela meddelandet';
 $labels['body']  = 'Innehåll';
 $labels['type'] = 'Typ';
+$labels['namex'] = 'Namn';
 $labels['openinextwin'] = 'Öppna i nytt fönster';
 $labels['emlsave'] = 'Spara (.eml)';
 $labels['changeformattext'] = 'Visa i text-format';
@@ -317,8 +316,11 @@ $labels['searchdelete'] = 'Ta bort sökning';
 $labels['import'] = 'Importera';
 $labels['importcontacts'] = 'Importera kontakter';
 $labels['importfromfile'] = 'Importera från fil:';
-$labels['importtarget'] = 'Lägg till nya kontakter till adressbok:';
+$labels['importtarget'] = 'Lägg till kontakter i';
 $labels['importreplace'] = 'Ersätt samtliga kontakter i adressboken';
+$labels['importgroups'] = 'Importera grupptillhörigheter';
+$labels['importgroupsall'] = 'Alla (skapa grupper om nödvändigt)';
+$labels['importgroupsexisting'] = 'Endast till befintliga grupper';
 $labels['importdesc'] = 'Kontakter kan importeras från en befintlig adressbok.<br/>Programmet stödjer inläsning av kontakter i formatet <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> eller formatet CSV (kommaseparerad data).';
 $labels['done'] = 'Klart';
 $labels['settingsfor'] = 'Inställningar för';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = '모든 첨부파일을 다운로드';
 $labels['downloadfolder'] = '다운로드 폴더';
 ?>

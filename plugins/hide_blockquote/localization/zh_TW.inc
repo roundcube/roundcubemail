@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = '隱藏';
 $labels['show'] = '顯示';
 $labels['quotelimit'] = '隱藏引文當行數大於';

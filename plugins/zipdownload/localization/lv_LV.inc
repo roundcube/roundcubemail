@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = 'Lejupielādēt visus pielikumus';
 $labels['downloadfolder'] = 'Lejupielādēt mapi';
 ?>

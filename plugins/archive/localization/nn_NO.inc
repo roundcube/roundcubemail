@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Arkiver';
 $labels['buttontitle'] = 'Arkiver meldinga';
 $labels['archived'] = 'Arkivert';
@@ -27,6 +26,6 @@ $labels['archivetype'] = 'Del arkiv etter';
 $labels['archivetypeyear'] = 'År (f.eks. Arkiv/2012)';
 $labels['archivetypemonth'] = 'Månad (f.eks. Arkiv/2012/06)';
 $labels['archivetypefolder'] = 'Opprinneleg mappe';
-$labels['archivetypesender'] = 'Sender email';
+$labels['archivetypesender'] = 'Avsendar';
 $labels['unkownsender'] = 'ukjent';
 ?>

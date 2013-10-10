@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'הסתר';
 $labels['show'] = 'הצג';
 $labels['quotelimit'] = 'הסתר ציטוט כאשר מספר השורות גדול מ-';

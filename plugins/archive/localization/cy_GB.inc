@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-
 $labels['buttontext'] = 'Archif';
 $labels['buttontitle'] = 'Archifo\'r neges hwn';
 $labels['archived'] = 'Archifwyd yn llwyddiannus';

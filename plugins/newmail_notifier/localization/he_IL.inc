@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-
 $labels['basic'] = 'איתות מהדפדפן על הגעת הודעות חדשות';
 $labels['desktop'] = 'איתות משולחן העבודה על הגעת הודעות חדשות';
 $labels['sound'] = 'השמעת איתות קולי בעת הגעה של הודעה חדשה';
@@ -25,5 +24,4 @@ $labels['body'] = 'התקבלה הודעה חדשה';
 $labels['testbody'] = 'זה איתות לנסיון';
 $labels['desktopdisabled'] = 'איתותים משולחן העבודה אינם פעילים בדפדפן שלך';
 $labels['desktopunsupported'] = 'הדפדפן שלך אינו תומך באיתותים משולחן העבודה';
-$labels['desktoptimeout'] = 'Close desktop notification';
 ?>

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-
 $labels['downloadall'] = 'Laadi alla kõik manused';
 $labels['downloadfolder'] = 'Allalaadimiste kaust';
 ?>

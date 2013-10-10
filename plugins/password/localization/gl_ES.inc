@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-
 $labels['changepasswd']  = 'Cambiar contrasinal';
 $labels['curpasswd']  = 'Contrasinal actual:';
 $labels['newpasswd']  = 'Contrasinal novo:';

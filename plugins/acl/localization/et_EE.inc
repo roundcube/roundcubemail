@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-
 $labels['sharing'] = 'Jagamine';
 $labels['myrights'] = 'Ligipääsuõigused';
 $labels['username'] = 'Kasutaja:';
@@ -25,10 +24,7 @@ $labels['actions'] = 'Ligipääsuõiguste toimingud...';
 $labels['anyone'] = 'Kõik kasutajad';
 $labels['anonymous'] = 'Külalised (anonüümsed)';
 $labels['identifier'] = 'Tuvastaja';
-$labels['acll'] = 'Lookup';
 $labels['aclr'] = 'Lugeda kirju';
-$labels['acls'] = 'Keep Seen state';
-$labels['aclw'] = 'Write flags';
 $labels['acli'] = 'Sisesta (kopeeri)';
 $labels['aclp'] = 'Postita';
 $labels['aclc'] = 'Luua alamkaustu';
@@ -43,7 +39,6 @@ $labels['aclother'] = 'Muu';
 $labels['aclread'] = 'Loe';
 $labels['aclwrite'] = 'Kirjuta';
 $labels['acldelete'] = 'Kustuta';
-$labels['shortacll'] = 'Lookup';
 $labels['shortaclr'] = 'Loe';
 $labels['shortacls'] = 'Säilita';
 $labels['shortaclw'] = 'Kirjuta';
@@ -62,12 +57,6 @@ $labels['shortaclwrite'] = 'Kirjuta';
 $labels['shortacldelete'] = 'Kustuta';
 $labels['longacll'] = 'See kaust on nimekirjas nähtav ja seda saab tellida';
 $labels['longaclr'] = 'Kausta saab lugemiseks avada';
-$labels['longacls'] = 'Messages Seen flag can be changed';
-$labels['longaclw'] = 'Messages flags and keywords can be changed, except Seen and Deleted';
-$labels['longacli'] = 'Messages can be written or copied to the folder';
-$labels['longaclp'] = 'Messages can be posted to this folder';
-$labels['longaclc'] = 'Folders can be created (or renamed) directly under this folder';
-$labels['longaclk'] = 'Folders can be created (or renamed) directly under this folder';
 $labels['longacld'] = 'Kirja kustutamis lippu saab muuta';
 $labels['longaclt'] = 'Kirja kustutamis lippu saab muuta';
 $labels['longacle'] = 'Kirju saab eemaldada';
@@ -75,7 +64,6 @@ $labels['longaclx'] = 'Seda kausta ei saa kustutada ega ümber nimetada';
 $labels['longacla'] = 'Selle kausta ligipääsuõigusi saab muuta';
 $labels['longaclfull'] = 'Täielik kontroll koos kaustade haldamisega';
 $labels['longaclread'] = 'Kausta saab lugemiseks avada';
-$labels['longaclwrite'] = 'Messages can be marked, written or copied to the folder';
 $labels['longacldelete'] = 'Kirju saab kustutada';
 $messages['deleting'] = 'Ligipääsuõiguste kustutamine...';
 $messages['saving'] = 'Ligipääsuõiguste salvestamine...';

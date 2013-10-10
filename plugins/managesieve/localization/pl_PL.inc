@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtry';
 $labels['managefilters'] = 'Zarządzanie filtrami poczty przychodzącej';
 $labels['filtername'] = 'Nazwa filtru';

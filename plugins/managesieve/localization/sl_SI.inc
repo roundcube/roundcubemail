@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filtri';
 $labels['managefilters'] = 'Uredi filtre za dohodno pošto';
 $labels['filtername'] = 'Ime filtra';
@@ -56,7 +54,6 @@ $labels['add'] = 'Dodaj';
 $labels['del'] = 'Izbriši';
 $labels['sender'] = 'Pošiljatelj';
 $labels['recipient'] = 'Prejemnik';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'Kako pogosto naj bodo sporočila poslana (v dnevih):';
 $labels['vacationinterval'] = 'Sporočila pošlji na:';
 $labels['days'] = 'dni';
@@ -161,31 +158,22 @@ $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'obraten vrstni red';
 $messages['filterunknownerror'] = 'Prišlo je do neznane napake.';
 $messages['filterconnerror'] = 'Povezave s strežnikom (managesieve) ni bilo mogoče vzpostaviti';
-$messages['filterdeleteerror'] = 'Pravila ni bilo mogoče izbrisati. Prišlo je do napake.';
 $messages['filterdeleted'] = 'Pravilo je bilo uspešno izbrisano.';
 $messages['filtersaved'] = 'Pravilo je bilo uspešno shranjeno';
-$messages['filtersaveerror'] = 'Pravilo ni bilo shranjeno. Prišlo je do napake.';
 $messages['filterdeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano pravilo?';
 $messages['ruledeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano pravilo?';
 $messages['actiondeleteconfirm'] = 'Ste prepričani, da želite izbrisati izbrano dejanje?';
 $messages['forbiddenchars'] = 'V polju so neveljavni znaki';
 $messages['cannotbeempty'] = 'Polje ne sme biti prazno';
 $messages['ruleexist'] = 'Filer s tem imenom že obstaja';
-$messages['setactivateerror'] = 'Izbranega filtra ni bilo mogoče vključiti. Prišlo je do napake na strežniku.';
-$messages['setdeactivateerror'] = 'Izbranega filtra ni bilo mogoče izključiti. Prišlo je do napake na strežniku.';
-$messages['setdeleteerror'] = 'Izbranega filtra ni bilo mogoče izbrisati. Prišlo je do napake na strežniku.';
 $messages['setactivated'] = 'Filter je bil uspešno vključen.';
 $messages['setdeactivated'] = 'Filter je bil uspešno onemogočen.';
 $messages['setdeleted'] = 'Filter je bil uspešno izbrisan.';
 $messages['setdeleteconfirm'] = 'Ste prepričani, da želite izbrisati ta filter?';
-$messages['setcreateerror'] = 'Filtra ni bilo mogoče ustvariti. Prišlo je do napake na strežniku.';
 $messages['setcreated'] = 'Filter je bil uspešno ustvarjen.';
-$messages['activateerror'] = 'Izbranega/ih filtra/ov ni bilo mogoče vključiti. Prišlo je do napake na strežniku.';
-$messages['deactivateerror'] = 'Izbranega/ih fitra/ov ni bilo mogoče izključiti. Prišlo je do napake na strežniku.';
 $messages['deactivated'] = 'Filtri so bili uspešno omogočeni.';
 $messages['activated'] = 'Filtri so bili uspešno onemogočeni.';
 $messages['moved'] = 'Filter je bil uspešno premaknjen.';
-$messages['moveerror'] = 'Izbranega filtra ni bilo mogoče premakniti. Prišlo je do napake na strežniku.';
 $messages['nametoolong'] = 'Ime je predolgo.';
 $messages['namereserved'] = 'Rezervirano ime.';
 $messages['setexist'] = 'Nastavitev filtra že obstaja.';

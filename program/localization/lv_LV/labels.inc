@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
-
 $labels['welcome']   = 'Esiet laipni lūgti $product';
 $labels['username']  = 'Lietotājvārds';
 $labels['password']  = 'Parole';
@@ -178,6 +176,7 @@ $labels['searchmod']  = 'Meklēšanas modifikatori:';
 $labels['msgtext']  = 'Visā vēstulē';
 $labels['body']  = 'Pamatteksts';
 $labels['type'] = 'Tips';
+$labels['namex'] = 'Vārds';
 $labels['openinextwin'] = 'Atvērt jaunā logā';
 $labels['emlsave'] = 'lejupielādēt (.eml)';
 $labels['changeformattext'] = 'Rādīt kā neformatētu tekstu';
@@ -317,8 +316,10 @@ $labels['searchdelete'] = 'Dzēst saglabāto meklēšanas pieprasījumu';
 $labels['import'] = 'Importēt';
 $labels['importcontacts'] = 'Importēt kontaktus';
 $labels['importfromfile'] = 'Importēt no faila:';
-$labels['importtarget'] = 'Pievienot jaunus kontaktus adrešu grāmatai:';
+$labels['importtarget'] = 'Kontaktus pievienot';
 $labels['importreplace'] = 'Aizvietot visu adrešu grāmatu';
+$labels['importgroupsall'] = 'Visus (ja nepieciešams, izveidojiet grupas)';
+$labels['importgroupsexisting'] = 'Tikai esošām grupām';
 $labels['importdesc'] = 'Jūs varat ieimportēt kontaktus no jau esošas adrešu grāmatas.<br/>Uz doto brīdi tiek atbalstīti <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> vai CSV (ar komatu atdalītie) datu formāti.';
 $labels['done'] = 'Pabeigts';
 $labels['settingsfor'] = 'Iestatījumi';

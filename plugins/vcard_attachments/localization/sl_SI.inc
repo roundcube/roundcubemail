@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-
 $labels['addvcardmsg'] = 'Dodaj vCard med Stike.';
 $labels['vcardsavefailed'] = 'Stika vCard ni bilo mogoče shraniti.';
 ?>

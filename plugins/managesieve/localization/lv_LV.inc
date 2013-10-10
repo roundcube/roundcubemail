@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Vēstuļu filtri';
 $labels['managefilters'] = 'Pārvaldīt ienākošo vēstuļu filtrus';
 $labels['filtername'] = 'Filtra nosaukums';
@@ -49,14 +47,12 @@ $labels['messagesendcopy'] = 'Pārsūtīt vēstules kopiju uz';
 $labels['messagereply'] = 'Atbildēt ar vēstuli';
 $labels['messagedelete'] = 'Dzēst vēstuli';
 $labels['messagediscard'] = 'Dzēst vēstuli un atbildēt';
-$labels['messagekeep'] = 'Keep message in Inbox';
 $labels['messagesrules'] = 'Ienākošajām vēstulēm:';
 $labels['messagesactions'] = '...izpildīt sekojošās darbības:';
 $labels['add'] = 'Pievienot';
 $labels['del'] = 'Dzēst';
 $labels['sender'] = 'Sūtītājs';
 $labels['recipient'] = 'Saņēmējs';
-$labels['vacationaddr'] = 'My additional e-mail address(es):';
 $labels['vacationdays'] = 'Cik dienu laikā vienam un tam pašam sūtītājam neatbildēt atkārtoti (piem., 7):';
 $labels['vacationinterval'] = 'Cik bieži sūtīt vēstules:';
 $labels['days'] = 'dienas';
@@ -161,31 +157,22 @@ $labels['index'] = 'indekss:';
 $labels['indexlast'] = '"backwards"';
 $messages['filterunknownerror'] = 'Nezināma servera kļūda.';
 $messages['filterconnerror'] = 'Neizdevās pieslēgties ManageSieve serverim.';
-$messages['filterdeleteerror'] = 'Neizdevās izdzēst filtru - servera kļūda.';
 $messages['filterdeleted'] = 'Filtrs veiksmīgi izdzēsts.';
 $messages['filtersaved'] = 'Filtrs veiksmīgi saglabāts.';
-$messages['filtersaveerror'] = 'Neizdevās saglabāt filtru - servera kļūda.';
 $messages['filterdeleteconfirm'] = 'Vai Jūs tiešām vēlaties dzēst atzīmēto filtru?';
 $messages['ruledeleteconfirm'] = 'Vai Jūs tiešām vēlaties dzēst atzīmēto nosacījumu?';
 $messages['actiondeleteconfirm'] = 'Vai Jūs tiešām vēlaties dzēst atzīmēto darbību?';
 $messages['forbiddenchars'] = 'Lauks satur aizliegtus simbolus.';
 $messages['cannotbeempty'] = 'Lauks nedrīkst būt tukšs.';
 $messages['ruleexist'] = 'Filtrs ar tādu nosaukumu jau pastāv.';
-$messages['setactivateerror'] = 'Neizdevās aktivizēt atzīmēto filtru kopu - servera kļūda.';
-$messages['setdeactivateerror'] = 'Neizdevās deaktivizēt atzīmēto filtru kopu - servera kļūda.';
-$messages['setdeleteerror'] = 'Neizdevās izdzēst atzīmēto filtru kopu - servera kļūda.';
 $messages['setactivated'] = 'Filtru kopa veiksmīgi aktivizēta.';
 $messages['setdeactivated'] = 'Filtru kopa veiksmīgi deaktivizēta.';
 $messages['setdeleted'] = 'Filtru kopa veiksmīgi izdzēsta.';
 $messages['setdeleteconfirm'] = 'Vai tiešām Jūs vēlaties dzēst atzīmēto filtru kopu?';
-$messages['setcreateerror'] = 'Neizdevās izveidot filtru kopu - servera kļūda.';
 $messages['setcreated'] = 'Filtru kopa veiksmīgi izveidota.';
-$messages['activateerror'] = 'Nav iespējams ieslēgt izvēlēto(s) filtru(s) - servera kļūda.';
-$messages['deactivateerror'] = 'Nav iespējams atslēgt izvēlēto(s) filtru(s) - servera kļūda.';
 $messages['deactivated'] = 'Filtrs(i) veiksmīgi atslēgts(i).';
 $messages['activated'] = 'Filtrs(i) veiksmīgi ieslēgts(i).';
 $messages['moved'] = 'Filtrs veiksmīgi pārvietots.';
-$messages['moveerror'] = 'Nav iespējams pārvietot izvēlēto filtru - servera kļūda.';
 $messages['nametoolong'] = 'Neizdevās izveidot filtru kopu. Pārāk garš kopas nosaukums.';
 $messages['namereserved'] = 'Rezervētais nosaukums.';
 $messages['setexist'] = 'Kopa jau eksistē.';

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-
 $labels['hide'] = 'Gøym';
 $labels['show'] = 'Vis';
 $labels['quotelimit'] = 'Gøym sitat når talet på linjer er større enn';

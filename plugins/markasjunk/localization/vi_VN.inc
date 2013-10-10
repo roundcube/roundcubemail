@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-
 $labels['buttontext'] = 'Thư rác';
 $labels['buttontitle'] = 'Đánh dấu để được xem là thư rác';
 $labels['reportedasjunk'] = 'Đánh dấu để được xem là thư rác thành công';
