@@ -566,15 +566,20 @@ $config['enable_spellcheck'] = true;
 // Setting it to 'shared' will make the dictionary shared by all users.
 $config['spellcheck_dictionary'] = false;
 
-// Set the spell checking engine. 'googie' is the default.
-// 'pspell' and 'enchant' are also available, but they require
-// PHP Pspell or Enchant extensions. When using Nox Spell Server, also set 'googie' here.
+// Set the spell checking engine. Possible values:
+// - 'googie'  - the default
+// - 'pspell'  - requires the PHP Pspell module and aspell installed
+// - 'enchant' - requires the PHP Enchant module
+// - 'atd'     - install your own After the Deadline server or check with the people at http://www.afterthedeadline.com before using their API
+// Since Google shut down their public spell checking service, you need to 
+// connect to a Nox Spell Server when using 'googie' here. Therefore specify the 'spellcheck_uri'
 $config['spellcheck_engine'] = 'googie';
 
-// For a locally installed Nox Spell Server, please specify the URI to call it.
-// Get Nox Spell Server from http://orangoo.com/labs/?page_id=72
-// Leave empty to use the Google spell checking service, what means
-// that the message content will be sent to Google in order to check spelling
+// For locally installed Nox Spell Server or After the Deadline services,
+// please specify the URI to call it.
+// Get Nox Spell Server from http://orangoo.com/labs/?page_id=72 or
+// the After the Deadline package from http://www.afterthedeadline.com.
+// Leave empty to use the public API of service.afterthedeadline.com
 $config['spellcheck_uri'] = '';
 
 // These languages can be selected for spell checking.

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add spellchecker backend for the After the Deadline service
 - Replace markdown-style [1] link indexes in plain text email bodies
 - Fixed issues where HTML comments inside style tag would hang Internet Explorer
 - Improved mailto: link arguments handling (#1489363)
