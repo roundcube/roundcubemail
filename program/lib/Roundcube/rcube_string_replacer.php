@@ -27,6 +27,8 @@ class rcube_string_replacer
     public static $pattern = '/##str_replacement\{([0-9]+)\}##/';
     public $mailto_pattern;
     public $link_pattern;
+    public $linkref_index;
+    public $linkref_pattern;
 
     private $values = array();
     private $options = array();
@@ -48,8 +50,8 @@ class rcube_string_replacer
             ."@$utf_domain"                                                 // domain-part
             ."(\?[$url1$url2]+)?"                                           // e.g. ?subject=test...
             .")/";
-        $this->linkref_index = '/\[([a-zA-Z0-9]+)\]:?\s*##str_replacement\{(\d+)\}##/';
-        $this->linkref_pattern = '/\[([a-zA-Z0-9]+)\]/';
+        $this->linkref_index = '/\[([^\]#]+)\](:?\s*##str_replacement\{(\d+)\}##)/';
+        $this->linkref_pattern = '/\[([^\]#]+)\]/';
 
         $this->options = $options;
     }
@@ -115,9 +117,9 @@ class rcube_string_replacer
     public function linkref_addindex($matches)
     {
         $key = $matches[1];
-        $this->linkrefs[$key] = $matches[2];
+        $this->linkrefs[$key] = $this->urls[$matches[3]];
 
-        return $matches[0];
+        return $this->get_replacement($this->add('['.$key.']')) . $matches[2];
     }
 
     /**
@@ -126,8 +128,7 @@ class rcube_string_replacer
     public function linkref_callback($matches)
     {
         $i = 0;
-        $key = isset($this->linkrefs[$matches[1]]) ? $this->linkrefs[$matches[1]] : '-';
-        if ($url = $this->urls[$key]) {
+        if ($url = $this->linkrefs[$matches[1]]) {
             $attrib = (array)$this->options['link_attribs'];
             $attrib['href'] = $url;
             $i = $this->add(html::a($attrib, rcube::Q($matches[1])));
