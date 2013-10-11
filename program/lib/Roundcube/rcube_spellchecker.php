@@ -3,8 +3,8 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2011, Kolab Systems AG                                  |
- | Copyright (C) 2008-2011, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2013, Kolab Systems AG                             |
+ | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,19 +28,13 @@ class rcube_spellchecker
 {
     private $matches = array();
     private $engine;
+    private $backend;
     private $lang;
     private $rc;
     private $error;
-    private $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.](?=\W|$)/';
     private $options = array();
     private $dict;
     private $have_dict;
-
-
-    // default settings
-    const GOOGLE_HOST = 'ssl://www.google.com';
-    const GOOGLE_PORT = 443;
-    const MAX_SUGGESTIONS = 10;
 
 
     /**
@@ -60,6 +54,15 @@ class rcube_spellchecker
             'ignore_caps' => $this->rc->config->get('spellcheck_ignore_caps'),
             'dictionary'  => $this->rc->config->get('spellcheck_dictionary'),
         );
+
+        $cls = 'rcube_spellcheck_' . $this->engine;
+        if (class_exists($cls)) {
+            $this->backend = new $cls($this, $this->lang);
+            $this->backend->options = $this->options;
+        }
+        else {
+            $this->error = "Unknown spellcheck engine '$this->engine'";
+        }
     }
 
 
@@ -81,14 +84,8 @@ class rcube_spellchecker
             $this->content = $text;
         }
 
-        if ($this->engine == 'pspell') {
-            $this->matches = $this->_pspell_check($this->content);
-        }
-        else if ($this->engine == 'enchant') {
-            $this->matches = $this->_enchant_check($this->content);
-        }
-        else {
-            $this->matches = $this->_googie_check($this->content);
+        if ($this->backend) {
+            $this->matches = $this->backend->check($this->content);
         }
 
         return $this->found() == 0;
@@ -115,14 +112,11 @@ class rcube_spellchecker
      */
     function get_suggestions($word)
     {
-        if ($this->engine == 'pspell') {
-            return $this->_pspell_suggestions($word);
-        }
-        else if ($this->engine == 'enchant') {
-            return $this->_enchant_suggestions($word);
+        if ($this->backend) {
+            return $this->backend->get_suggestions($word);
         }
 
-        return $this->_googie_suggestions($word);
+        return array();
     }
 
 
@@ -136,14 +130,15 @@ class rcube_spellchecker
      */
     function get_words($text = null, $is_html=false)
     {
-        if ($this->engine == 'pspell') {
-            return $this->_pspell_words($text, $is_html);
-        }
-        else if ($this->engine == 'enchant') {
-            return $this->_enchant_words($text, $is_html);
+        if ($is_html) {
+            $text = $this->html2text($text);
         }
 
-        return $this->_googie_words($text, $is_html);
+        if ($this->backend) {
+            return $this->backend->get_words($text);
+        }
+
+        return array();
     }
 
 
@@ -199,394 +194,7 @@ class rcube_spellchecker
      */
     function error()
     {
-        return $this->error;
-    }
-
-
-    /**
-     * Checks the text using pspell
-     *
-     * @param string $text Text content for spellchecking
-     */
-    private function _pspell_check($text)
-    {
-        // init spellchecker
-        $this->_pspell_init();
-
-        if (!$this->plink) {
-            return array();
-        }
-
-        // tokenize
-        $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
-
-        $diff       = 0;
-        $matches    = array();
-
-        foreach ($text as $w) {
-            $word = trim($w[0]);
-            $pos  = $w[1] - $diff;
-            $len  = mb_strlen($word);
-
-            // skip exceptions
-            if ($this->is_exception($word)) {
-            }
-            else if (!pspell_check($this->plink, $word)) {
-                $suggestions = pspell_suggest($this->plink, $word);
-
-                if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
-                    $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
-                }
-
-                $matches[] = array($word, $pos, $len, null, $suggestions);
-            }
-
-            $diff += (strlen($word) - $len);
-        }
-
-        return $matches;
-    }
-
-
-    /**
-     * Returns the misspelled words
-     */
-    private function _pspell_words($text = null, $is_html=false)
-    {
-        $result = array();
-
-        if ($text) {
-            // init spellchecker
-            $this->_pspell_init();
-
-            if (!$this->plink) {
-                return array();
-            }
-
-            // With PSpell we don't need to get suggestions to return misspelled words
-            if ($is_html) {
-                $text = $this->html2text($text);
-            }
-
-            $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
-
-            foreach ($text as $w) {
-                $word = trim($w[0]);
-
-                // skip exceptions
-                if ($this->is_exception($word)) {
-                    continue;
-                }
-
-                if (!pspell_check($this->plink, $word)) {
-                    $result[] = $word;
-                }
-            }
-
-            return $result;
-        }
-
-        foreach ($this->matches as $m) {
-            $result[] = $m[0];
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * Returns suggestions for misspelled word
-     */
-    private function _pspell_suggestions($word)
-    {
-        // init spellchecker
-        $this->_pspell_init();
-
-        if (!$this->plink) {
-            return array();
-        }
-
-        $suggestions = pspell_suggest($this->plink, $word);
-
-        if (sizeof($suggestions) > self::MAX_SUGGESTIONS)
-            $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
-
-        return is_array($suggestions) ? $suggestions : array();
-    }
-
-
-    /**
-     * Initializes PSpell dictionary
-     */
-    private function _pspell_init()
-    {
-        if (!$this->plink) {
-            if (!extension_loaded('pspell')) {
-                $this->error = "Pspell extension not available";
-                return;
-            }
-
-            $this->plink = pspell_new($this->lang, null, null, RCUBE_CHARSET, PSPELL_FAST);
-        }
-
-        if (!$this->plink) {
-            $this->error = "Unable to load Pspell engine for selected language";
-        }
-    }
-
-
-    /**
-     * Checks the text using enchant
-     *
-     * @param string $text Text content for spellchecking
-     */
-    private function _enchant_check($text)
-    {
-        // init spellchecker
-        $this->_enchant_init();
-
-        if (!$this->enchant_dictionary) {
-            return array();
-        }
-
-        // tokenize
-        $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
-
-        $diff       = 0;
-        $matches    = array();
-
-        foreach ($text as $w) {
-            $word = trim($w[0]);
-            $pos  = $w[1] - $diff;
-            $len  = mb_strlen($word);
-
-            // skip exceptions
-            if ($this->is_exception($word)) {
-            }
-            else if (!enchant_dict_check($this->enchant_dictionary, $word)) {
-                $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
-
-                if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
-                    $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
-                }
-
-                $matches[] = array($word, $pos, $len, null, $suggestions);
-            }
-
-            $diff += (strlen($word) - $len);
-        }
-
-        return $matches;
-    }
-
-
-    /**
-     * Returns the misspelled words
-     */
-    private function _enchant_words($text = null, $is_html=false)
-    {
-        $result = array();
-
-        if ($text) {
-            // init spellchecker
-            $this->_enchant_init();
-
-            if (!$this->enchant_dictionary) {
-                return array();
-            }
-
-            // With Enchant we don't need to get suggestions to return misspelled words
-            if ($is_html) {
-                $text = $this->html2text($text);
-            }
-
-            $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
-
-            foreach ($text as $w) {
-                $word = trim($w[0]);
-
-                // skip exceptions
-                if ($this->is_exception($word)) {
-                    continue;
-                }
-
-                if (!enchant_dict_check($this->enchant_dictionary, $word)) {
-                    $result[] = $word;
-                }
-            }
-
-            return $result;
-        }
-
-        foreach ($this->matches as $m) {
-            $result[] = $m[0];
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * Returns suggestions for misspelled word
-     */
-    private function _enchant_suggestions($word)
-    {
-        // init spellchecker
-        $this->_enchant_init();
-
-        if (!$this->enchant_dictionary) {
-            return array();
-        }
-
-        $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
-
-        if (sizeof($suggestions) > self::MAX_SUGGESTIONS)
-            $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
-
-        return is_array($suggestions) ? $suggestions : array();
-    }
-
-
-    /**
-     * Initializes PSpell dictionary
-     */
-    private function _enchant_init()
-    {
-        if (!$this->enchant_broker) {
-            if (!extension_loaded('enchant')) {
-                $this->error = "Enchant extension not available";
-                return;
-            }
-
-            $this->enchant_broker = enchant_broker_init();
-        }
-
-        if (!enchant_broker_dict_exists($this->enchant_broker, $this->lang)) {
-            $this->error = "Unable to load dictionary for selected language using Enchant";
-            return;
-        }
-
-        $this->enchant_dictionary = enchant_broker_request_dict($this->enchant_broker, $this->lang);
-    }
-
-
-    private function _googie_check($text)
-    {
-        // spell check uri is configured
-        $url = $this->rc->config->get('spellcheck_uri');
-
-        if ($url) {
-            $a_uri = parse_url($url);
-            $ssl   = ($a_uri['scheme'] == 'https' || $a_uri['scheme'] == 'ssl');
-            $port  = $a_uri['port'] ? $a_uri['port'] : ($ssl ? 443 : 80);
-            $host  = ($ssl ? 'ssl://' : '') . $a_uri['host'];
-            $path  = $a_uri['path'] . ($a_uri['query'] ? '?'.$a_uri['query'] : '') . $this->lang;
-        }
-        else {
-            $host = self::GOOGLE_HOST;
-            $port = self::GOOGLE_PORT;
-            $path = '/tbproxy/spell?lang=' . $this->lang;
-        }
-
-        // Google has some problem with spaces, use \n instead
-        $gtext = str_replace(' ', "\n", $text);
-
-        $gtext = '<?xml version="1.0" encoding="utf-8" ?>'
-            .'<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
-            .'<text>' . $gtext . '</text>'
-            .'</spellrequest>';
-
-        $store = '';
-        if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
-            $out = "POST $path HTTP/1.0\r\n";
-            $out .= "Host: " . str_replace('ssl://', '', $host) . "\r\n";
-            $out .= "Content-Length: " . strlen($gtext) . "\r\n";
-            $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
-            $out .= "Connection: Close\r\n\r\n";
-            $out .= $gtext;
-            fwrite($fp, $out);
-
-            while (!feof($fp))
-                $store .= fgets($fp, 128);
-            fclose($fp);
-        }
-
-        // parse HTTP response
-        if (preg_match('!^HTTP/1.\d (\d+)(.+)!', $store, $m)) {
-            $http_status = $m[1];
-            if ($http_status != '200')
-                $this->error = 'HTTP ' . $m[1] . $m[2];
-        }
-
-        if (!$store) {
-            $this->error = "Empty result from spelling engine";
-        }
-        else if (preg_match('/<spellresult error="([^"]+)"/', $store, $m) && $m[1]) {
-            $this->error = "Error code $m[1] returned";
-        }
-
-        preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $store, $matches, PREG_SET_ORDER);
-
-        // skip exceptions (if appropriate options are enabled)
-        if (!empty($this->options['ignore_syms']) || !empty($this->options['ignore_nums'])
-            || !empty($this->options['ignore_caps']) || !empty($this->options['dictionary'])
-        ) {
-            foreach ($matches as $idx => $m) {
-                $word = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
-                // skip  exceptions
-                if ($this->is_exception($word)) {
-                    unset($matches[$idx]);
-                }
-            }
-        }
-
-        return $matches;
-    }
-
-
-    private function _googie_words($text = null, $is_html=false)
-    {
-        if ($text) {
-            if ($is_html) {
-                $text = $this->html2text($text);
-            }
-
-            $matches = $this->_googie_check($text);
-        }
-        else {
-            $matches = $this->matches;
-            $text    = $this->content;
-        }
-
-        $result = array();
-
-        foreach ($matches as $m) {
-            $result[] = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
-        }
-
-        return $result;
-    }
-
-
-    private function _googie_suggestions($word)
-    {
-        if ($word) {
-            $matches = $this->_googie_check($word);
-        }
-        else {
-            $matches = $this->matches;
-        }
-
-        if ($matches[0][4]) {
-            $suggestions = explode("\t", $matches[0][4]);
-            if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
-                $suggestions = array_slice($suggestions, 0, MAX_SUGGESTIONS);
-            }
-
-            return $suggestions;
-        }
-
-        return array();
+        return $this->error ? $this->error : ($this->backend ? $this->backend->error() : false);
     }
 
 
