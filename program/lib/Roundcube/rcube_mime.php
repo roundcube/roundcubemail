@@ -637,7 +637,8 @@ class rcube_mime
                     if ($nextChar === ' ' || $nextChar === $separator) {
                         $afterNextChar = mb_substr($string, $width + 1, 1);
 
-                        if ($afterNextChar === false) {
+                        // Note: mb_substr() does never return False
+                        if ($afterNextChar === false || $afterNextChar === '') {
                             $subString .= $nextChar;
                         }
 
@@ -650,16 +651,16 @@ class rcube_mime
                             $subString = mb_substr($subString, 0, $spacePos);
                             $cutLength = $spacePos + 1;
                         }
-                        else if ($cut === false && $breakPos === false) {
-                            $subString = $string;
-                            $cutLength = null;
-                        }
                         else if ($cut === false) {
                             $spacePos = mb_strpos($string, ' ', 0);
 
-                            if ($spacePos !== false && $spacePos < $breakPos) {
+                            if ($spacePos !== false && ($breakPos === false || $spacePos < $breakPos)) {
                                 $subString = mb_substr($string, 0, $spacePos);
                                 $cutLength = $spacePos + 1;
+                            }
+                            else if ($breakPos === false) {
+                                $subString = $string;
+                                $cutLength = null;
                             }
                             else {
                                 $subString = mb_substr($string, 0, $breakPos);
@@ -667,7 +668,6 @@ class rcube_mime
                             }
                         }
                         else {
-                            $subString = mb_substr($subString, 0, $width);
                             $cutLength = $width;
                         }
                     }

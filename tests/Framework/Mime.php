@@ -197,6 +197,10 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
                 array("http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/", 70),
                 "http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/",
             ),
+            array(
+                array("this-is-just-some-blabla-to-make-this-more-than-seventy-five-characters-in-a-row -- this line should be wrapped", 20, "\n"),
+                "this-is-just-some-blabla-to-make-this-more-than-seventy-five-characters-in-a-row\n-- this line should\nbe wrapped",
+            ),
         );
 
         foreach ($samples as $sample) {

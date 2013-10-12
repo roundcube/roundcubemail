@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix text wrapping issue with long unwrappable lines (#1489371)
 - Add spellchecker backend for the After the Deadline service
 - Replace markdown-style [1] link indexes in plain text email bodies
 - Fixed issues where HTML comments inside style tag would hang Internet Explorer
