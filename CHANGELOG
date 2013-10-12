@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix text wrapping issue with long unwrappable lines (#1489371)
 - Fixed mispelling: occured -> occurred (#1489366)
 - Fixed issues where HTML comments inside style tag would hang Internet Explorer
 - Fix setting domain in virtualmin password driver (#1489332)
