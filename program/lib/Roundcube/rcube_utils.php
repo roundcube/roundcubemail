@@ -445,34 +445,38 @@ class rcube_utils
         $source   = self::xss_entity_decode($source);
         $stripped = preg_replace('/[^a-z\(:;]/i', '', $source);
         $evilexpr = 'expression|behavior|javascript:|import[^a]' . (!$allow_remote ? '|url\(' : '');
+
         if (preg_match("/$evilexpr/i", $stripped)) {
             return '/* evil! */';
         }
 
+        $strict_url_regexp = '!url\s*\([ "\'](https?:)//[a-z0-9/._+-]+["\' ]\)!Uims';
+
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
             $styles = substr($source, $pos+1, $pos2-($pos+1));
+            $length = strlen($styles);
 
             // check every line of a style block...
             if ($allow_remote) {
                 $a_styles = preg_split('/;[\r\n]*/', $styles, -1, PREG_SPLIT_NO_EMPTY);
+
                 foreach ($a_styles as $line) {
                     $stripped = preg_replace('/[^a-z\(:;]/i', '', $line);
                     // ... and only allow strict url() values
-                    $regexp = '!url\s*\([ "\'](https?:)//[a-z0-9/._+-]+["\' ]\)!Uims';
-                    if (stripos($stripped, 'url(') && !preg_match($regexp, $line)) {
+                    if (stripos($stripped, 'url(') && !preg_match($strict_url_regexp, $line)) {
                         $a_styles = array('/* evil! */');
                         break;
                     }
                 }
+
                 $styles = join(";\n", $a_styles);
             }
 
-            $key = $replacements->add($styles);
-            $source = substr($source, 0, $pos+1)
-                . $replacements->get_replacement($key)
-                . substr($source, $pos2, strlen($source)-$pos2);
-            $last_pos = $pos+2;
+            $key      = $replacements->add($styles);
+            $repl     = $replacements->get_replacement($key);
+            $source   = substr_replace($source, $repl, $pos+1, $length);
+            $last_pos = $pos2 - ($length - strlen($repl));
         }
 
         // remove html comments and add #container to each tag selector.

@@ -24,7 +24,7 @@
  */
 class rcube_string_replacer
 {
-    public static $pattern = '/##str_replacement\{([0-9]+)\}##/';
+    public static $pattern = '/##str_replacement_(\d+)##/';
     public $mailto_pattern;
     public $link_pattern;
     public $linkref_index;
@@ -50,7 +50,7 @@ class rcube_string_replacer
             ."@$utf_domain"                                                 // domain-part
             ."(\?[$url1$url2]+)?"                                           // e.g. ?subject=test...
             .")/";
-        $this->linkref_index = '/\[([^\]#]+)\](:?\s*##str_replacement\{(\d+)\}##)/';
+        $this->linkref_index = '/\[([^\]#]+)\](:?\s*##str_replacement_(\d+)##)/';
         $this->linkref_pattern = '/\[([^\]#]+)\]/';
 
         $this->options = $options;
@@ -74,7 +74,7 @@ class rcube_string_replacer
      */
     public function get_replacement($i)
     {
-        return '##str_replacement{'.$i.'}##';
+        return '##str_replacement_' . $i . '##';
     }
 
     /**
