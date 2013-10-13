@@ -90,8 +90,8 @@ class rcube_base_replacer
 
             if (preg_match_all('/\.\.\//', $path, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $a_match) {
-                    if (strrpos($base_url, '/')) {
-                        $base_url = substr($base_url, 0, strrpos($base_url, '/'));
+                    if ($pos = strrpos($base_url, '/')) {
+                        $base_url = substr($base_url, 0, $pos);
                     }
                     $path = substr($path, 3);
                 }

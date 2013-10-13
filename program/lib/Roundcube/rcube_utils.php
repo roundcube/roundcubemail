@@ -454,8 +454,8 @@ class rcube_utils
 
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
-            $styles = substr($source, $pos+1, $pos2-($pos+1));
-            $length = strlen($styles);
+            $length = $pos2 - $pos - 1;
+            $styles = substr($source, $pos+1, $length);
 
             // check every line of a style block...
             if ($allow_remote) {

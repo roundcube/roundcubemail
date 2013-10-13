@@ -611,11 +611,13 @@ class rcube_html2text
                     $body = preg_replace_callback('/((?:^|\n)>*)([^\n]*)/', array($this, 'blockquote_citation_ballback'), trim($body));
                     $body = '<pre>' . htmlspecialchars($body) . '</pre>';
 
-                    $text = substr($text, 0, $start) . $body . "\n" . substr($text, $end + 13);
+                    $text = substr_replace($text, $body . "\n", $start, $end + 13 - $start);
                     $offset = 0;
+
                     break;
                 }
-            } while ($end || $next);
+            }
+            while ($end || $next);
         }
     }
 
@@ -624,8 +626,9 @@ class rcube_html2text
      */
     public function blockquote_citation_ballback($m)
     {
-        $line = ltrim($m[2]);
+        $line  = ltrim($m[2]);
         $space = $line[0] == '>' ? '' : ' ';
+
         return $m[1] . '>' . $space . $line;
     }
 
