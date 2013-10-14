@@ -195,8 +195,6 @@ class rcube_message
     /**
      * Determine if the message contains a HTML part. This must to be
      * a real part not an attachment (or its part)
-     * This must to be
-     * a real part not an attachment (or its part)
      *
      * @param bool $enriched Enables checking for text/enriched parts too
      *
@@ -214,14 +212,15 @@ class rcube_message
 
                 $level = explode('.', $part->mime_id);
 
-                // Check if the part belongs to higher-level's alternative/related
+                // Check if the part belongs to higher-level's multipart part
+                // this can be alternative/related/signed/encrypted, but not mixed
                 while (array_pop($level) !== null) {
                     if (!count($level)) {
                         return true;
                     }
 
                     $parent = $this->mime_parts[join('.', $level)];
-                    if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
+                    if (!preg_match('/^multipart\/(alternative|related|signed|encrypted)$/', $parent->mimetype)) {
                         continue 2;
                     }
                 }
