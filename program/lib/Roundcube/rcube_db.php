@@ -456,7 +456,7 @@ class rcube_db
     {
         $error = $this->dbh->errorInfo();
 
-        if (empty($this->options['ignore_key_errors']) || $error[0] != '23000') {
+        if (empty($this->options['ignore_key_errors']) || !in_array($error[0], array('23000', '23505'))) {
             $this->db_error = true;
             $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
