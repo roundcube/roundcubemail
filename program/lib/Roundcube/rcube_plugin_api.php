@@ -403,7 +403,7 @@ class rcube_plugin_api
                 $args = $ret + $args;
             }
 
-            if ($args['abort']) {
+            if ($args['break']) {
                 break;
             }
         }
