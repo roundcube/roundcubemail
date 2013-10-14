@@ -1713,7 +1713,7 @@ function rcube_webmail()
     // set eventhandler to status icon
     if (row.icon = document.getElementById(status_icon)) {
       row.icon._row = row.obj;
-      row.icon.onmousedown = function(e) { self.command('toggle_status', this); rcube_event.cancel(e); };
+      row.icon.onclick = function(e) { self.command('toggle_status', this); return rcube_event.cancel(e); };
     }
 
     // save message icon position too
@@ -1725,12 +1725,12 @@ function rcube_webmail()
     // set eventhandler to flag icon, if icon found
     if (this.env.flagged_col != null && (row.flagicon = document.getElementById('flagicn'+row.uid))) {
       row.flagicon._row = row.obj;
-      row.flagicon.onmousedown = function(e) { self.command('toggle_flag', this); rcube_event.cancel(e); };
+      row.flagicon.onclick = function(e) { self.command('toggle_flag', this); return rcube_event.cancel(e); };
     }
 
     if (!row.depth && row.has_children && (expando = document.getElementById('rcmexpando'+row.uid))) {
       row.expando = expando;
-      expando.onmousedown = function(e) { return self.expand_message_row(e, uid); };
+      expando.onclick = function(e) { return self.expand_message_row(e, uid); };
       if (bw.touch) {
         expando.addEventListener('touchend', function(e) {
           if (e.changedTouches.length == 1) {
