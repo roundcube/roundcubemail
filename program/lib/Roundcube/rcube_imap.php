@@ -945,6 +945,50 @@ class rcube_imap extends rcube_storage
             return array();
         }
 
+        // gather messages from a multi-folder search
+        if ($this->search_set->multi) {
+            $page_size = $this->page_size;
+            $sort_field = $this->sort_field;
+            $search_set = $this->search_set;
+
+            $this->sort_field = null;
+            $this->page_size = 100;  // limit to 100 messages per folder
+
+            $a_msg_headers = array();
+            foreach ($search_set->sets as $resultset) {
+                if (!$resultset->is_empty()) {
+                    $this->search_set = $resultset;
+                    $this->search_threads = $resultset instanceof rcube_result_thread;
+                    $a_msg_headers = array_merge($a_msg_headers, $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1));
+                }
+            }
+
+            // do sorting and paging
+            $cnt   = $search_set->count();
+            $from  = ($page-1) * $page_size;
+            $to    = $from + $page_size;
+
+            // sort headers
+            if (!$this->threading) {
+                $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+            }
+
+            // only return the requested part of the set
+            $slice_length  = min($page_size, $cnt - ($to > $cnt ? $from : $to));
+            $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
+
+            if ($slice) {
+                $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
+            }
+
+            // restore members
+            $this->sort_field = $sort_field;
+            $this->page_size = $page_size;
+            $this->search_set = $search_set;
+
+            return $a_msg_headers;
+        }
+
         // use saved messages from searching
         if ($this->threading) {
             return $this->list_search_thread_messages($folder, $page, $slice);
@@ -1423,11 +1467,33 @@ class rcube_imap extends rcube_storage
             $str = 'ALL';
         }
 
-        if (!strlen($folder)) {
+        if (empty($folder)) {
             $folder = $this->folder;
         }
 
-        $results = $this->search_index($folder, $str, $charset, $sort_field);
+        // multi-folder search
+        if (is_array($folder) && count($folder) > 1 && $str != 'ALL') {
+            new rcube_result_index; // trigger autoloader and make these classes available for threaded context
+            new rcube_result_thread;
+
+            // connect IMAP
+            if (!defined('PTHREADS_INHERIT_ALL')) {
+                $this->check_connection();
+            }
+
+            $searcher = new rcube_imap_search($this->options, $this->conn);
+            $results = $searcher->exec(
+                $folder,
+                $str,
+                $charset ? $charset : $this->default_charset,
+                $sort_field && $this->get_capability('SORT') ? $sort_field : null,
+                $this->threading
+            );
+        }
+        else {
+            $folder = is_array($folder) ? $folder[0] : $folder;
+            $results = $this->search_index($folder, $str, $charset, $sort_field);
+        }
 
         $this->set_search_set(array($str, $results, $charset, $sort_field,
             $this->threading || $this->search_sorted ? true : false));
@@ -1501,7 +1567,7 @@ class rcube_imap extends rcube_storage
             // but I've seen that Courier doesn't support UTF-8)
             if ($threads->is_error() && $charset && $charset != 'US-ASCII') {
                 $threads = $this->conn->thread($folder, $this->threading,
-                    $this->convert_criteria($criteria, $charset), true, 'US-ASCII');
+                    self::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
 
             return $threads;
@@ -1515,7 +1581,7 @@ class rcube_imap extends rcube_storage
             // but I've seen Courier with disabled UTF-8 support)
             if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
                 $messages = $this->conn->sort($folder, $sort_field,
-                    $this->convert_criteria($criteria, $charset), true, 'US-ASCII');
+                    self::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
 
             if (!$messages->is_error()) {
@@ -1530,7 +1596,7 @@ class rcube_imap extends rcube_storage
         // Error, try with US-ASCII (some servers may support only US-ASCII)
         if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
             $messages = $this->conn->search($folder,
-                $this->convert_criteria($criteria, $charset), true);
+                self::convert_criteria($criteria, $charset), true);
         }
 
         $this->search_sorted = false;
@@ -1548,7 +1614,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string  Search string
      */
-    protected function convert_criteria($str, $charset, $dest_charset='US-ASCII')
+    public static function convert_criteria($str, $charset, $dest_charset='US-ASCII')
     {
         // convert strings to US_ASCII
         if (preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE)) {
@@ -2410,7 +2476,7 @@ class rcube_imap extends rcube_storage
                     $this->refresh_search();
                 }
                 else {
-                    $this->search_set->filter(explode(',', $uids));
+                    $this->search_set->filter(explode(',', $uids), $this->folder);
                 }
             }
 
