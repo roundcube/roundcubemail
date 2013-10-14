@@ -409,7 +409,7 @@ drag_row: function(e, id)
   var evtarget = rcube_event.get_target(e),
     tagname = evtarget.tagName.toLowerCase();
 
-  if (this.dont_select || (evtarget && (tagname == 'input' || tagname == 'img' || evtarget.onclick)))
+  if (this.dont_select || (evtarget && (tagname == 'input' || tagname == 'img' || (tagname != 'a' && evtarget.onclick))))
     return true;
 
   // accept right-clicks
