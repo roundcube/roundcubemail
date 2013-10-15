@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix address matching in Return-Path header on identity selection (#1489374)
 - Fix HTML part detection when encapsulated inside multipart/signed (#1489372)
 - Fix text wrapping issue with long unwrappable lines (#1489371)
 - Add spellchecker backend for the After the Deadline service
