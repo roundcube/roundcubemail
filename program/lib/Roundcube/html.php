@@ -604,16 +604,17 @@ class html_select extends html
      *
      * @param mixed $names  Option name or array with option names
      * @param mixed $values Option value or array with option values
+     * @param array $attrib Additional attributes for the option entry
      */
-    public function add($names, $values = null)
+    public function add($names, $values = null, $attrib = array())
     {
         if (is_array($names)) {
             foreach ($names as $i => $text) {
-                $this->options[] = array('text' => $text, 'value' => $values[$i]);
+                $this->options[] = array('text' => $text, 'value' => $values[$i]) + $attrib;
             }
         }
         else {
-            $this->options[] = array('text' => $names, 'value' => $values);
+            $this->options[] = array('text' => $names, 'value' => $values) + $attrib;
         }
     }
 
@@ -644,7 +645,7 @@ class html_select extends html
                 $option_content = self::quote($option_content);
             }
 
-            $this->content .= self::tag('option', $attr, $option_content);
+            $this->content .= self::tag('option', $attr + $option, $option_content, array('class','style','title','disabled'));
         }
 
         return parent::show();
