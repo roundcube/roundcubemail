@@ -327,7 +327,6 @@ class rcube_imap_cache
             return array();
         }
 
-        $msgs   = array_flip($msgs);
         $result = array();
 
         if ($this->mode & self::MODE_MESSAGE) {
@@ -340,6 +339,8 @@ class rcube_imap_cache
                     ." AND uid IN (".$this->db->array2list($msgs, 'integer').")",
                 $this->userid, $mailbox);
 
+            $msgs = array_flip($msgs);
+
             while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
                 $uid          = intval($sql_arr['uid']);
                 $result[$uid] = $this->build_message($sql_arr);
@@ -351,11 +352,13 @@ class rcube_imap_cache
                     unset($msgs[$uid]);
                 }
             }
+
+            $msgs = array_flip($msgs);
         }
 
         // Fetch not found messages from IMAP server
         if (!empty($msgs)) {
-            $messages = $this->imap->fetch_headers($mailbox, array_keys($msgs), false, true);
+            $messages = $this->imap->fetch_headers($mailbox, $msgs, false, true);
 
             // Insert to DB and add to result list
             if (!empty($messages)) {
