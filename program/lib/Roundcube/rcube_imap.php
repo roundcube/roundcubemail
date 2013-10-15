@@ -969,7 +969,7 @@ class rcube_imap extends rcube_storage
             $to    = $from + $page_size;
 
             // sort headers
-            if (!$this->threading) {
+            if (!$this->threading && !empty($a_msg_headers)) {
                 $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
             }
 
@@ -1476,10 +1476,8 @@ class rcube_imap extends rcube_storage
             new rcube_result_index; // trigger autoloader and make these classes available for threaded context
             new rcube_result_thread;
 
-            // connect IMAP
-            if (!defined('PTHREADS_INHERIT_ALL')) {
-                $this->check_connection();
-            }
+            // connect IMAP to have all the required classes and settings loaded
+            $this->check_connection();
 
             $searcher = new rcube_imap_search($this->options, $this->conn);
             $results = $searcher->exec(
