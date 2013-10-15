@@ -54,7 +54,12 @@ class rcube_domainfactory_password
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
 				if ($result = curl_exec($ch)) {
 
-					// did the new password match the requirements?
+					// has the password been changed?
+					if (strpos($result, 'Einstellungen erfolgreich') !== false) {
+						return PASSWORD_SUCCESS;
+					}
+
+					// show error message(s) if possible
 					if (strpos($result, '<div class="d-msg-text">') !== false) {
 						preg_match_all('#<div class="d-msg-text">(.*?)</div>#s', $result, $errors);
 						if (isset($errors[1])) {
@@ -66,9 +71,6 @@ class rcube_domainfactory_password
 						}
 					}
 
-					if (strpos($result, 'Einstellungen erfolgreich') !== false) {
-						return PASSWORD_SUCCESS;
-					}
 
 				} else {
 					return PASSWORD_CONNECT_ERROR;
