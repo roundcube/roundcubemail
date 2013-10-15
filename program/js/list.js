@@ -50,7 +50,6 @@ function rcube_list_widget(list, p)
   this.keyboard = false;
   this.toggleselect = false;
 
-  this.dont_select = false;
   this.drag_active = false;
   this.col_drag_active = false;
   this.column_fixed = null;
@@ -409,7 +408,7 @@ drag_row: function(e, id)
   var evtarget = rcube_event.get_target(e),
     tagname = evtarget.tagName.toLowerCase();
 
-  if (this.dont_select || (evtarget && (tagname == 'input' || tagname == 'img' || (tagname != 'a' && evtarget.onclick))))
+  if (evtarget && (tagname == 'input' || tagname == 'img' || (tagname != 'a' && evtarget.onclick)))
     return true;
 
   // accept right-clicks
@@ -454,12 +453,6 @@ click_row: function(e, id)
 
   if ((evtarget && (tagname == 'input' || tagname == 'img')))
     return true;
-
-  // don't do anything (another action processed before)
-  if (this.dont_select) {
-    this.dont_select = false;
-    return false;
-  }
 
   var dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
@@ -509,8 +502,6 @@ expand_row: function(e, id)
     evtarget = rcube_event.get_target(e),
     mod_key = rcube_event.get_modifier(e);
 
-  // Don't select this message
-  this.dont_select = true;
   // Don't treat double click on the expando as double click on the message.
   row.clicked = 0;
 
