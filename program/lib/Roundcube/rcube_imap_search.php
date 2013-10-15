@@ -172,9 +172,9 @@ class rcube_imap_search_job extends Stackable
 
     public function run()
     {
-        #trigger_error("Start search $this->folder", E_USER_NOTICE);
+        // trigger_error("Start search $this->folder", E_USER_NOTICE);
         $this->result = $this->search_index();
-        #trigger_error("End search $this->folder: " . $this->result->count(), E_USER_NOTICE);
+        // trigger_error("End search $this->folder: " . $this->result->count(), E_USER_NOTICE);
     }
 
     /**
@@ -182,6 +182,7 @@ class rcube_imap_search_job extends Stackable
      */
     protected function search_index()
     {
+        $pthreads = defined('PTHREADS_INHERIT_ALL');
         $criteria = $this->search;
         $charset = $this->charset;
 
@@ -216,6 +217,10 @@ class rcube_imap_search_job extends Stackable
                     rcube_imap::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
 
+            // close IMAP connection again
+            if ($pthreads)
+                $imap->closeConnection();
+
             return $threads;
         }
 
@@ -228,20 +233,22 @@ class rcube_imap_search_job extends Stackable
                 $messages = $imap->sort($this->folder, $this->sort_field,
                     rcube_imap::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
+        }
 
-            if (!$messages->is_error()) {
-                return $messages;
+        if (!$messages || !$messages->is_error()) {
+            $messages = $imap->search($this->folder,
+                ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
+
+            // Error, try with US-ASCII (some servers may support only US-ASCII)
+            if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
+                $messages = $imap->search($this->folder,
+                    rcube_imap::convert_criteria($criteria, $charset), true);
             }
         }
 
-        $messages = $imap->search($this->folder,
-            ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
-
-        // Error, try with US-ASCII (some servers may support only US-ASCII)
-        if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
-            $messages = $imap->search($this->folder,
-                rcube_imap::convert_criteria($criteria, $charset), true);
-        }
+        // close IMAP connection again
+        if ($pthreads)
+            $imap->closeConnection();
 
         return $messages;
     }
@@ -279,6 +286,8 @@ class rcube_imap_search_worker extends Worker
      */
     public function __construct($id, $options)
     {
+        $options['ident']['command'] = 'search-'.$id;
+
         $this->id = $id;
         $this->options = $options;
     }
@@ -296,11 +305,12 @@ class rcube_imap_search_worker extends Worker
         # $conn->setDebug(true, function($conn, $message){ trigger_error($message, E_USER_NOTICE); });
 
         if ($this->options['user'] && $this->options['password']) {
+            // TODO: do this synchronized to avoid warnings like "Only one Id allowed in non-authenticated state"
             $conn->connect($this->options['host'], $this->options['user'], $this->options['password'], $this->options);
         }
 
         if ($conn->error)
-            trigger_error($this->conn->error, E_USER_WARNING);
+            trigger_error($conn->error, E_USER_WARNING);
 
         #$this->conn = $conn;
         return $conn;
