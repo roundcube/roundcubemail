@@ -17,8 +17,6 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $RCMAIL->storage_init(false);
 
         require_once INSTALL_PATH . 'program/steps/mail/func.inc';
-
-        $GLOBALS['EMAIL_ADDRESS_PATTERN'] = $EMAIL_ADDRESS_PATTERN;
     }
 
     /**
