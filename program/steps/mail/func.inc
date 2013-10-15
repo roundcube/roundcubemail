@@ -1802,15 +1802,19 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
 
     // Try Return-Path
     if ($from_idx === null && ($return_path = $MESSAGE->headers->others['return-path'])) {
+        $return_path = array_map('strtolower', (array) $return_path);
+
         foreach ($identities as $idx => $ident) {
             // Return-Path header contains an email address, but on some mailing list
             // it can be e.g. <pear-dev-return-55250-local=domain.tld@lists.php.net>
             // where local@domain.tld is the address we're looking for (#1489241)
-            $ident1 = $ident['email_ascii'];
+            $ident1 = strtolower($ident['email_ascii']);
             $ident2 = str_replace('@', '=', $ident1);
+            $ident1 = '<' . $ident1 . '>';
+            $ident2 = '-' . $ident2 . '@';
 
-            foreach ((array)$return_path as $path) {
-                if (stripos($path, $ident1) !== false || stripos($path, $ident2)) {
+            foreach ($return_path as $path) {
+                if ($path == $ident1 || stripos($path, $ident2)) {
                     $from_idx = $idx;
                     break 2;
                 }

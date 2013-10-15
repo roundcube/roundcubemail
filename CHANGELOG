@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix address matching in Return-Path header on identity selection (#1489374)
 - Fix text wrapping issue with long unwrappable lines (#1489371)
 - Fixed mispelling: occured -> occurred (#1489366)
 - Fixed issues where HTML comments inside style tag would hang Internet Explorer
