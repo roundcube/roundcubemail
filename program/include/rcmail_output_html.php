@@ -1274,7 +1274,12 @@ class rcmail_output_html extends rcmail_output
      */
     public function _write($templ = '', $base_path = '')
     {
-        $output = empty($templ) ? $this->default_template : trim($templ);
+        $output = trim($templ);
+
+        if (empty($output)) {
+            $output   = $this->default_template;
+            $is_empty = true;
+        }
 
         // set default page title
         if (empty($this->pagetitle)) {
@@ -1365,8 +1370,8 @@ class rcmail_output_html extends rcmail_output
         }
 
         // add css files in head, before scripts, for speed up with parallel downloads
-        if (!empty($this->css_files) && 
-            (($pos = stripos($output, '<script ')) || ($pos = stripos($output, '</head>')))
+        if (!empty($this->css_files) && !$is_empty
+            && (($pos = stripos($output, '<script ')) || ($pos = stripos($output, '</head>')))
         ) {
             $css = '';
             foreach ($this->css_files as $file) {
