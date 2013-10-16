@@ -6534,7 +6534,7 @@ function rcube_webmail()
   // post the given form to a hidden iframe
   this.async_upload_form = function(form, action, onload)
   {
-    var ts = new Date().getTime(),
+    var frame, ts = new Date().getTime(),
       frame_name = 'rcmupload'+ts;
 
     // upload progress support
@@ -6553,21 +6553,19 @@ function rcube_webmail()
     // have to do it this way for IE
     // otherwise the form will be posted to a new window
     if (document.all) {
-      var html = '<iframe name="'+frame_name+'" src="program/resources/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>';
-      document.body.insertAdjacentHTML('BeforeEnd', html);
+      document.body.insertAdjacentHTML('BeforeEnd', '<iframe name="'+frame_name+'"'
+        + ' src="program/resources/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>');
+      frame = $('iframe[name="'+frame_name+'"]');
     }
-    else { // for standards-compilant browsers
-      var frame = document.createElement('iframe');
-      frame.name = frame_name;
-      frame.style.border = 'none';
-      frame.style.width = 0;
-      frame.style.height = 0;
-      frame.style.visibility = 'hidden';
-      document.body.appendChild(frame);
+    // for standards-compliant browsers
+    else {
+      frame = $('<iframe>').attr('name', frame_name)
+        .css({border: 'none', width: 0, height: 0, visibility: 'hidden'})
+        .appendTo(document.body);
     }
 
     // handle upload errors, parsing iframe content in onload
-    $(frame_name).bind('load', {ts:ts}, onload);
+    frame.bind('load', {ts:ts}, onload);
 
     $(form).attr({
         target: frame_name,
