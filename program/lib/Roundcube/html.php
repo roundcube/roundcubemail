@@ -645,7 +645,7 @@ class html_select extends html
                 $option_content = self::quote($option_content);
             }
 
-            $this->content .= self::tag('option', $attr + $option, $option_content, array('class','style','title','disabled','selected'));
+            $this->content .= self::tag('option', $attr + $option, $option_content, array('value','label','class','style','title','disabled','selected'));
         }
 
         return parent::show();
