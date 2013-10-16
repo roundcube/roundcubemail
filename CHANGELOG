@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix iframe onload for upload errors handling (#1489379)
 - Fix address matching in Return-Path header on identity selection (#1489374)
 - Fix text wrapping issue with long unwrappable lines (#1489371)
 - Fixed mispelling: occured -> occurred (#1489366)
