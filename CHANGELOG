@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix vulnerability in handling _session argument of utils/save-prefs (#1489382)
+
 RELEASE 0.7.4
 -------------
 - Fix security issue in save-pref command
