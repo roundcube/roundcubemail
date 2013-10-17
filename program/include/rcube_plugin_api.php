@@ -30,13 +30,14 @@
 class rcube_plugin_api
 {
   static private $instance;
-  
+
   public $dir;
   public $url = 'plugins/';
   public $output;
   public $config;
-  public $allowed_prefs = array();
-  
+  public $allowed_prefs         = array();
+  public $allowed_session_prefs = array();
+
   public $handlers = array();
   private $plugins = array();
   private $tasks = array();
