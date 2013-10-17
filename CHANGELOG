@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.7.4
+-------------
 - Fix security issue in save-pref command
 - Fix XSS vulnerability in handling of text/enriched messages (#1488806)
 - Fix compatybility with MDB2 2.5.0b4 (#1488779)
