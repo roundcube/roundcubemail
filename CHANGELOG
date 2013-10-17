@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 0.8.6
+-------------
 - Fix security issue in save-pref command
 
 RELEASE 0.8.5
