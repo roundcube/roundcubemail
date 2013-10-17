@@ -35,8 +35,9 @@ class rcube_plugin_api
     public $url = 'plugins/';
     public $task = '';
     public $output;
-    public $handlers = array();
-    public $allowed_prefs = array();
+    public $handlers              = array();
+    public $allowed_prefs         = array();
+    public $allowed_session_prefs = array();
 
     protected $plugins = array();
     protected $tasks = array();

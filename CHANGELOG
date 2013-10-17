@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix vulnerability in handling _session argument of utils/save-prefs (#1489382)
 - Fix iframe onload for upload errors handling (#1489379)
 - Fix address matching in Return-Path header on identity selection (#1489374)
 - Fix HTML part detection when encapsulated inside multipart/signed (#1489372)
