@@ -31,6 +31,24 @@ class rcube_spellcheck_enchant extends rcube_spellcheck_engine
     private $matches = array();
 
     /**
+     * Return a list of languages supported by this backend
+     *
+     * @see rcube_spellcheck_engine::languages()
+     */
+    function languages()
+    {
+        $this->init();
+
+        $langs = array();
+        $dicts = enchant_broker_list_dicts($this->enchant_broker);
+        foreach ($dicts as $dict) {
+            $langs[] = preg_replace('/-.*$/', '', $dict['lang_tag']);
+        }
+
+        return array_unique($langs);
+    }
+
+    /**
      * Initializes Enchant dictionary
      */
     private function init()

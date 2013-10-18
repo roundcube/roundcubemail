@@ -43,6 +43,13 @@ abstract class rcube_spellcheck_engine
     }
 
     /**
+     * Return a list of languages supported by this backend
+     *
+     * @return array Indexed list of language codes
+     */
+    abstract function languages();
+
+    /**
      * Set content and check spelling
      *
      * @param string $text    Text content for spellchecking

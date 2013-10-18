@@ -26,11 +26,26 @@
  */
 class rcube_spellcheck_googie extends rcube_spellcheck_engine
 {
-    const GOOGLE_HOST = 'ssl://www.google.com';
-    const GOOGLE_PORT = 443;
+    const GOOGIE_HOST = 'ssl://spell.roundcube.net';
+    const GOOGIE_PORT = 443;
 
     private $matches = array();
     private $content;
+
+    /**
+     * Return a list of languages supported by this backend
+     *
+     * @see rcube_spellcheck_engine::languages()
+     */
+    function languages()
+    {
+        return array('am','ar','ar','bg','br','ca','cs','cy','da',
+            'de_CH','de_DE','el','en_GB','en_US',
+            'eo','es','et','eu','fa','fi','fr_FR','ga','gl','gl',
+            'he','hr','hu','hy','is','it','ku','lt','lv','nl',
+            'pl','pt_BR','pt_PT','ro','ru',
+            'sk','sl','sv','uk');
+    }
 
     /**
      * Set content and check spelling
@@ -52,25 +67,25 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
             $path  = $a_uri['path'] . ($a_uri['query'] ? '?'.$a_uri['query'] : '') . $this->lang;
         }
         else {
-            $host = self::GOOGLE_HOST;
-            $port = self::GOOGLE_PORT;
+            $host = self::GOOGIE_HOST;
+            $port = self::GOOGIE_PORT;
             $path = '/tbproxy/spell?lang=' . $this->lang;
         }
 
-        // Google has some problem with spaces, use \n instead
-        $gtext = str_replace(' ', "\n", $text);
+        $path .= sprintf('&key=%06d', $_SESSION['user_id']);
 
         $gtext = '<?xml version="1.0" encoding="utf-8" ?>'
             .'<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
-            .'<text>' . $gtext . '</text>'
+            .'<text>' . htmlspecialchars($text, ENT_QUOTES, RCUBE_CHARSET) . '</text>'
             .'</spellrequest>';
 
         $store = '';
         if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
             $out = "POST $path HTTP/1.0\r\n";
             $out .= "Host: " . str_replace('ssl://', '', $host) . "\r\n";
+            $out .= "User-Agent: Roundcube Webmail/" . RCMAIL_VERSION . " (Googiespell Wrapper)\r\n";
             $out .= "Content-Length: " . strlen($gtext) . "\r\n";
-            $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
+            $out .= "Content-Type: text/xml\r\n";
             $out .= "Connection: Close\r\n\r\n";
             $out .= $gtext;
             fwrite($fp, $out);
@@ -83,8 +98,10 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
         // parse HTTP response
         if (preg_match('!^HTTP/1.\d (\d+)(.+)!', $store, $m)) {
             $http_status = $m[1];
-            if ($http_status != '200')
+            if ($http_status != '200') {
                 $this->error = 'HTTP ' . $m[1] . $m[2];
+                $this->error .= "\n" . $store;
+            }
         }
 
         if (!$store) {
@@ -92,6 +109,7 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
         }
         else if (preg_match('/<spellresult error="([^"]+)"/', $store, $m) && $m[1]) {
             $this->error = "Error code $m[1] returned";
+            $this->error .= preg_match('/<errortext>([^<]+)/', $store, $m) ? ": " . html_entity_decode($m[1]) : '';
         }
 
         preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $store, $matches, PREG_SET_ORDER);

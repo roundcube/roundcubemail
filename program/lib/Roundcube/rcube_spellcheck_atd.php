@@ -39,6 +39,18 @@ class rcube_spellcheck_atd extends rcube_spellcheck_engine
     );
 
     /**
+     * Return a list of languages supported by this backend
+     *
+     * @see rcube_spellcheck_engine::languages()
+     */
+    function languages()
+    {
+        $langs = array_values($this->langhosts);
+        $langs[] = 'en';
+        return $langs;
+    }
+
+    /**
      * Set content and check spelling
      *
      * @see rcube_spellcheck_engine::check()

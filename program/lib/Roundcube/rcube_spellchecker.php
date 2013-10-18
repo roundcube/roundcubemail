@@ -65,6 +65,49 @@ class rcube_spellchecker
         }
     }
 
+    /**
+     * Return a list of supported languages
+     */
+    function languages()
+    {
+        // trust configuration
+        $configured = $this->rc->config->get('spellcheck_languages');
+        if (!empty($configured) && is_array($configured) && !$configured[0]) {
+            return $configured;
+        }
+        else if (!empty($configured)) {
+            $langs = (array)$configured;
+        }
+        else if ($this->backend) {
+            $langs = $this->backend->languages();
+        }
+
+        // load index
+        @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+
+        // add correct labels
+        $languages = array();
+        foreach ($langs as $lang) {
+            $langc = strtolower(substr($lang, 0, 2));
+            $alias = $rcube_language_aliases[$langc];
+            if (!$alias) {
+                $alias = $langc.'_'.strtoupper($langc);
+            }
+            if ($rcube_languages[$lang]) {
+                $languages[$lang] = $rcube_languages[$lang];
+            }
+            else if ($rcube_languages[$alias]) {
+                $languages[$lang] = $rcube_languages[$alias];
+            }
+            else {
+                $languages[$lang] = ucfirst($lang);
+            }
+        }
+
+        asort($languages);
+
+        return $languages;
+    }
 
     /**
      * Set content and check spelling
@@ -152,7 +195,7 @@ class rcube_spellchecker
         // send output
         $out = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><spellresult charschecked="'.mb_strlen($this->content).'">';
 
-        foreach ($this->matches as $item) {
+        foreach ((array)$this->matches as $item) {
             $out .= '<c o="'.$item[1].'" l="'.$item[2].'">';
             $out .= is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
             $out .= '</c>';
@@ -173,7 +216,7 @@ class rcube_spellchecker
     {
         $result = array();
 
-        foreach ($this->matches as $item) {
+        foreach ((array)$this->matches as $item) {
             if ($this->engine == 'pspell') {
                 $word = $item[0];
             }

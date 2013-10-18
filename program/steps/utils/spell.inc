@@ -47,6 +47,9 @@ if ($err = $spellchecker->error()) {
         'file' => __FILE__, 'line' => __LINE__,
         'message' => "Spell check engine error: " . trim($err)),
         true, false);
+
+    header("HTTP/1.0 500 Internal Server Error");
+    exit;
 }
 
 // set response length

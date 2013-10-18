@@ -30,6 +30,35 @@ class rcube_spellcheck_pspell extends rcube_spellcheck_engine
     private $matches = array();
 
     /**
+     * Return a list of languages supported by this backend
+     *
+     * @see rcube_spellcheck_engine::languages()
+     */
+    function languages()
+    {
+        $defaults = array('en');
+        $langs = array();
+
+        // get aspell dictionaries
+        exec('aspell dump dicts', $dicts);
+        if (!empty($dicts)) {
+            $seen = array();
+            foreach ($dicts as $lang) {
+                $lang = preg_replace('/-.*$/', '', $lang);
+                $langc = strlen($lang) == 2 ? $lang.'_'.strtoupper($lang) : $lang;
+                if (!$seen[$langc]++)
+                    $langs[] = $lang;
+            }
+            $langs = array_unique($langs);
+        }
+        else {
+            $langs = $defaults;
+        }
+
+        return $langs;
+    }
+
+    /**
      * Initializes PSpell dictionary
      */
     private function init()
