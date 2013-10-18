@@ -483,6 +483,8 @@ body.iframe .boxtitle
   top: 32px;
   left: 90px;
   width: auto;
+  max-height: 70%;
+  overflow: auto;
   display: none;
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.95);

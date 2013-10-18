@@ -1906,6 +1906,8 @@ select.decorated option {
 	top: 32px;
 	left: 90px;
 	width: auto;
+	max-height: 70%;
+	overflow: auto;
 	background: #444;
 	border: 1px solid #999;
 	z-index: 240;
