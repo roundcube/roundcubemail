@@ -38,7 +38,7 @@ class rcube_spellchecker
 
 
     // default settings
-    const GOOGLE_HOST = 'ssl://www.google.com';
+    const GOOGLE_HOST = 'ssl://spell.roundcube.net';
     const GOOGLE_PORT = 443;
     const MAX_SUGGESTIONS = 10;
 
