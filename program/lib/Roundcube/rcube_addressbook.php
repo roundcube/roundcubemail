@@ -230,6 +230,10 @@ abstract class rcube_addressbook
             'valid'   => $valid,
         ));
 
+        if ($valid && !$plugin['valid']) {
+            $this->set_error(self::ERROR_VALIDATE, $plugin['error']);
+        }
+
         if (is_array($plugin['record'])) {
             $save_data = $plugin['record'];
         }
