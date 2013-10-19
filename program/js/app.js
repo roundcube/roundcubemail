@@ -3559,6 +3559,7 @@ function rcube_webmail()
     }
 
     this.env.identity = id;
+    this.triggerEvent('change_identity');
     return true;
   };
 
