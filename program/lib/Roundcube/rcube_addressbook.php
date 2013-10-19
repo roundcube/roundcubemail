@@ -209,6 +209,7 @@ abstract class rcube_addressbook
     public function validate(&$save_data, $autofix = false)
     {
         $rcube = rcube::get_instance();
+        $valid = true;
 
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
@@ -216,12 +217,30 @@ abstract class rcube_addressbook
                 if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
                     $error = $rcube->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
                     $this->set_error(self::ERROR_VALIDATE, $error);
-                    return false;
+                    $valid = false;
+                    break;
                 }
             }
         }
 
-        return true;
+        // require at least one email address or a name
+        if ($valid && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name']) && !array_filter($this->get_col_values('email', $save_data, true))) {
+            $this->set_error(self::ERROR_VALIDATE, 'noemailwarning');
+            $valid = false;
+        }
+
+        // allow plugins to do contact validation and auto-fixing
+        $plugin = $rcube->plugins->exec_hook('contact_validate', array(
+            'record'  => $save_data,
+            'autofix' => $autofix,
+            'valid'   => $valid,
+        ));
+
+        if (is_array($plugin['record'])) {
+            $save_data = $plugin['record'];
+        }
+
+        return $plugin['valid'];
     }
 
     /**
