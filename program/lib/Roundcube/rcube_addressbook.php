@@ -223,12 +223,6 @@ abstract class rcube_addressbook
             }
         }
 
-        // require at least one email address or a name
-        if ($valid && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name']) && !array_filter($this->get_col_values('email', $save_data, true))) {
-            $this->set_error(self::ERROR_VALIDATE, 'noemailwarning');
-            $valid = false;
-        }
-
         // allow plugins to do contact validation and auto-fixing
         $plugin = $rcube->plugins->exec_hook('contact_validate', array(
             'record'  => $save_data,

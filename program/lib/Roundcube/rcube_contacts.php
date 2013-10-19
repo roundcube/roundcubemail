@@ -592,8 +592,8 @@ class rcube_contacts extends rcube_addressbook
         // validate e-mail addresses
         $valid = parent::validate($save_data, $autofix);
 
-        // require at least one e-mail address (syntax check is already done)
-        if ($valid && !array_filter($this->get_col_values('email', $save_data, true))) {
+        // require at least one email address or a name
+        if ($valid && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name']) && !array_filter($this->get_col_values('email', $save_data, true))) {
             $this->set_error(self::ERROR_VALIDATE, 'noemailwarning');
             $valid = false;
         }
