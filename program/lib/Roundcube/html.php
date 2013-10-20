@@ -288,7 +288,7 @@ class html
             }
 
             // attributes with no value
-            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'autofocus'))) {
+            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'autofocus', 'readonly'))) {
                 if ($value) {
                     $attrib_arr[] = $key . '="' . $key . '"';
                 }
