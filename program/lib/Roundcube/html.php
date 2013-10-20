@@ -537,7 +537,7 @@ class html_textarea extends html
 {
     protected $tagname = 'textarea';
     protected $allowed = array('name','rows','cols','wrap','tabindex',
-        'onchange','disabled','readonly','spellcheck');
+        'onchange','disabled','readonly','spellcheck','onblur','onfocus');
 
     /**
      * Get HTML code for this object
@@ -597,7 +597,7 @@ class html_select extends html
     protected $tagname = 'select';
     protected $options = array();
     protected $allowed = array('name','size','tabindex','autocomplete',
-        'multiple','onchange','disabled','rel');
+        'multiple','onchange','disabled','rel','onblur','onfocus');
 
     /**
      * Add a new option to this drop-down
