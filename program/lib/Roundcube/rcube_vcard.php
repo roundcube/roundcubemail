@@ -611,8 +611,8 @@ class rcube_vcard
                 $enc   = null;
 
                 foreach($regs2[1] as $attrid => $attr) {
+                    $attr = preg_replace('/[\s\t\n\r\0\x0B]/', '', $attr);
                     if ((list($key, $value) = explode('=', $attr)) && $value) {
-                        $value = trim($value);
                         if ($key == 'ENCODING') {
                             $value = strtoupper($value);
                             // add next line(s) to value string if QP line end detected
@@ -791,7 +791,7 @@ class rcube_vcard
                 return $result;
             }
 
-            $s = strtr($s, $rep2);
+            $s = trim(strtr($s, $rep2));
         }
 
         // some implementations (GMail) use non-standard backslash before colon (#1489085)
