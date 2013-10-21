@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix failing vCard import when email address field contains spaces (#1489386)
 - Fix default spell-check configuration after Google suspended their spell service
 - Fix vulnerability in handling _session argument of utils/save-prefs (#1489382)
 - Fix iframe onload for upload errors handling (#1489379)
