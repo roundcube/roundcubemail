@@ -294,7 +294,7 @@ while ($redirects < 5) {
 }
 
 if ($RCMAIL->action == 'refresh') {
-  $RCMAIL->plugins->exec_hook('refresh', array());
+  $RCMAIL->plugins->exec_hook('refresh', array('last' => intval(rcube_utils::get_input_value('_last', rcube_utils::INPUT_GPC))));
 }
 
 // parse main template (default)

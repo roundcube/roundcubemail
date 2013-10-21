@@ -463,6 +463,7 @@ function rcube_webmail()
 
     // flag object as complete
     this.loaded = true;
+    this.env.lastrefresh = new Date();
 
     // show message
     if (this.pending_message)
@@ -6298,7 +6299,7 @@ function rcube_webmail()
       if (result === false)
         return false;
       else
-        query = result;
+        url = this.url(action, result);
     }
 
     url += '&_remote=1';
@@ -6742,6 +6743,9 @@ function rcube_webmail()
 
     if (this.task == 'mail' && this.gui_objects.mailboxlist)
       params = this.check_recent_params();
+
+    params._last = Math.floor(this.env.lastrefresh.getTime() / 1000);
+    this.env.lastrefresh = new Date();
 
     // plugins should bind to 'requestrefresh' event to add own params
     this.http_request('refresh', params, lock);
