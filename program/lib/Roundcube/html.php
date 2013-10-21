@@ -288,7 +288,7 @@ class html
             }
 
             // attributes with no value
-            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'autofocus'))) {
+            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'autofocus', 'readonly'))) {
                 if ($value) {
                     $attrib_arr[] = $key . '="' . $key . '"';
                 }
@@ -361,7 +361,7 @@ class html_inputfield extends html
         'type','name','value','size','tabindex','autocapitalize','required',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
         'spellcheck','results','maxlength','src','multiple','accept',
-        'placeholder','autofocus',
+        'placeholder','autofocus','onblur','onfocus'
     );
 
     /**
@@ -537,7 +537,7 @@ class html_textarea extends html
 {
     protected $tagname = 'textarea';
     protected $allowed = array('name','rows','cols','wrap','tabindex',
-        'onchange','disabled','readonly','spellcheck');
+        'onchange','disabled','readonly','spellcheck','onblur','onfocus');
 
     /**
      * Get HTML code for this object
@@ -597,7 +597,7 @@ class html_select extends html
     protected $tagname = 'select';
     protected $options = array();
     protected $allowed = array('name','size','tabindex','autocomplete',
-        'multiple','onchange','disabled','rel');
+        'multiple','onchange','disabled','rel','onblur','onfocus');
 
     /**
      * Add a new option to this drop-down
