@@ -30,6 +30,10 @@ class rcube_utils
     const INPUT_GET  = 0x0101;
     const INPUT_POST = 0x0102;
     const INPUT_GPC  = 0x0103;
+    
+    const INPUT_GET_TRIMMED   = 0x0104;
+    const INPUT_POST_TRIMMED  = 0x0105;
+    const INPUT_GPC_TRIMMED   = 0x0106;
 
     /**
      * Helper method to set a cookie with the current path and host settings
@@ -309,25 +313,25 @@ class rcube_utils
     {
         $value = NULL;
 
-        if ($source == self::INPUT_GET) {
+        if ($source == (self::INPUT_GET || self::INPUT_GET_TRIMMED)) {
             if (isset($_GET[$fname])) {
-                $value = $_GET[$fname];
+                $value = self::INPUT_GET_TRIMMED ? trim($_GET[$fname]) : $_GET[$fname];
             }
         }
-        else if ($source == self::INPUT_POST) {
+        else if ($source == (self::INPUT_POST || self::INPUT_POST_TRIMMED)) {
             if (isset($_POST[$fname])) {
-                $value = $_POST[$fname];
+                $value = self::INPUT_POST_TRIMMED ? trim($_POST[$fname]) : $_POST[$fname];
             }
         }
-        else if ($source == self::INPUT_GPC) {
+        else if ($source == (self::INPUT_GPC || self::INPUT_GPC_TRIMMED)) {
             if (isset($_POST[$fname])) {
-                $value = $_POST[$fname];
+                $value = self::INPUT_GPC_TRIMMED ? trim($_POST[$fname]) : $_POST[$fname];
             }
             else if (isset($_GET[$fname])) {
-                $value = $_GET[$fname];
+                $value = self::INPUT_GPC_TRIMMED ? trim($_GET[$fname]) : $_GET[$fname];
             }
             else if (isset($_COOKIE[$fname])) {
-                $value = $_COOKIE[$fname];
+                $value = self::INPUT_GPC_TRIMMED ? trim($_COOKIE[$fname]) : $_COOKIE[$fname];
             }
         }
 
