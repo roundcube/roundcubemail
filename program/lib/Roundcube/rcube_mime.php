@@ -810,7 +810,7 @@ class rcube_mime
         }
 
         $mime_types = $mime_extensions = array();
-        $regex = "/([\w\+\-\.\/]+)\t+([\w\s]+)/i"; 
+        $regex = "/([\w\+\-\.\/]+)\s+([\w\s]+)/i";
         foreach((array)$lines as $line) {
              // skip comments or mime types w/o any extensions
             if ($line[0] == '#' || !preg_match($regex, $line, $matches))
