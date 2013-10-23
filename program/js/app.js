@@ -5900,24 +5900,23 @@ function rcube_webmail()
   };
 
   // open a jquery UI dialog with the given content
-  this.show_popup_dialog = function(html, title, buttons)
+  this.show_popup_dialog = function(html, title, buttons, options)
   {
     // forward call to parent window
     if (this.is_framed()) {
-      parent.rcmail.show_popup_dialog(html, title, buttons);
-      return;
+      return parent.rcmail.show_popup_dialog(html, title, buttons);
     }
 
     var popup = $('<div class="popup">')
       .html(html)
-      .dialog({
+      .dialog($.extend({
         title: title,
         buttons: buttons,
         modal: true,
         resizable: true,
         width: 500,
         close: function(event, ui) { $(this).remove() }
-      });
+      }, options || {}));
 
     // resize and center popup
     var win = $(window), w = win.width(), h = win.height(),
@@ -5927,6 +5926,8 @@ function rcube_webmail()
       height: Math.min(h - 40, height + 75 + (buttons ? 50 : 0)),
       width: Math.min(w - 20, width + 20)
     });
+
+    return popup;
   };
 
   // enable/disable buttons for page shifting
