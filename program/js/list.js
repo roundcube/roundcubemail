@@ -456,12 +456,11 @@ click_row: function(e, id)
 
   var dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
-  // unselects currently selected row
-  if (!this.drag_active && this.in_selection_before == id && !dblclicked)
-    this.select_row(id, mod_key, false);
-
+  // selects/unselects currently selected row
+  if (!this.drag_active && !dblclicked)
+    this.select_row(id, mod_key, true);
+    
   this.drag_start = false;
-  this.in_selection_before = false;
 
   // row was double clicked
   if (this.rowcount && dblclicked && this.in_selection(id)) {
@@ -787,7 +786,7 @@ select_row: function(id, mod_key, with_mouse)
         break;
 
       case CONTROL_KEY:
-        if (!with_mouse)
+        if (with_mouse)
           this.highlight_row(id, true);
         break;
 
