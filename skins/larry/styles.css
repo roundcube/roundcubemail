@@ -1939,6 +1939,7 @@ ul.toolbarmenu li,
 	margin: 0;
 	border-top: 1px solid #5a5a5a;
 	border-bottom: 1px solid #333;
+	padding-right: 10px;
 }
 
 .googie_list tr:first-child td,

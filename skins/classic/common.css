@@ -517,7 +517,7 @@ body.iframe .boxtitle
 {
   display: block;
   color: #a0a0a0;
-  padding: 2px 10px;
+  padding: 2px 16px 2px 10px;
   text-decoration: none;
   min-height: 14px;
   background: transparent;
