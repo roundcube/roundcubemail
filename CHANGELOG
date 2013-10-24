@@ -1,32 +1,19 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix failing vCard import when email address field contains spaces (#1489386)
-- Fix default spell-check configuration after Google suspended their spell service
-- Fix vulnerability in handling _session argument of utils/save-prefs (#1489382)
-- Fix iframe onload for upload errors handling (#1489379)
-- Fix address matching in Return-Path header on identity selection (#1489374)
 - Fix HTML part detection when encapsulated inside multipart/signed (#1489372)
-- Fix text wrapping issue with long unwrappable lines (#1489371)
 - Add spellchecker backend for the After the Deadline service
 - Replace markdown-style [1] link indexes in plain text email bodies
-- Fixed issues where HTML comments inside style tag would hang Internet Explorer
 - Improved mailto: link arguments handling (#1489363)
 - Use DOMDocument LIBXML_PARSEHUGE and LIBXML_COMPACT options if possible (#1489302)
 - Support HTTP_HOST, SERVER_NAME and SERVER_ADDR values in include_host_config feature
-- Hide Delivery Status Notification option when smtp_server is unset (#1489336)
 - Make default font size for HTML messages configurable (request #118)
-- Display full attachment name using title attribute when name is too long to display (#1489320)
 - Fix XSS issue in addressbook group name field [CVE-2013-5646] (#1489333)
-- Fix attachment icon issue when rare font/language is used (#1489326)
 - After message is sent refresh messages list of replied message folder (#1489249)
 - Add option force specified domain in user login - username_domain_forced (#1489264)
-- Fix expanded thread root message styling after refreshing messages list (#1489327)
-- Fix issue where From address was removed from Cc and Bcc fields when editing a draft (#1489319)
 - Add option to import Vcards with group assignments
 - Save groups membership in Vcard export (#1488509)
 - Workaround broken PHP function timezone_name_from_abbr (#1489261)
-- Fix error_reporting directive check (#1489323)
 - Make cached message size limit configurable - messages_cache_threshold (#1489317)
 - Log also failed logins to userlogins log
 - Add temp_dir_ttl configuration option (#1489304)
@@ -86,6 +73,23 @@ CHANGELOG Roundcube Webmail
 - Extended archive plugin with user-configurable options to store messages into subfolders
 - Fix export of selected contacts from search result (#1488905)
 - Feature to export only selected contacts from addressbook (by Phil Weir)
+
+RELEASE 0.9.5
+-------------
+- Fix failing vCard import when email address field contains spaces (#1489386)
+- Fix default spell-check configuration after Google suspended their spell service
+- Fix vulnerability in handling _session argument of utils/save-prefs (#1489382)
+- Fix iframe onload for upload errors handling (#1489379)
+- Fix address matching in Return-Path header on identity selection (#1489374)
+- Fix text wrapping issue with long unwrappable lines (#1489371)
+- Fixed issues where HTML comments inside style tag would hang Internet Explorer
+- Hide Delivery Status Notification option when smtp_server is unset (#1489336)
+- Display full attachment name using title attribute when name is too long to display (#1489320)
+- Fix attachment icon issue when rare font/language is used (#1489326)
+- Fix expanded thread root message styling after refreshing messages list (#1489327)
+- Fix issue where From address was removed from Cc and Bcc fields when editing a draft (#1489319)
+- Fix error_reporting directive check (#1489323)
+- Fix de_DE localization of "About" label in Help plugin (#1489325)
 
 RELEASE 0.9.4
 -------------
