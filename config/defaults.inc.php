@@ -687,6 +687,8 @@ $config['ldap_public']['Verisign'] = array(
   // DN and password to bind as before searching for bind DN, if anonymous search is not allowed
   'search_bind_dn' => '',
   'search_bind_pw' => '',
+  // Optional map of replacement strings => attributes used when binding for an individual address book
+  'search_bind_attrib' => array(),  // e.g. array('%udc' => 'ou')
   // Default for %dn variable if search doesn't return DN value
   'search_dn_default' => '',
   // Optional authentication identifier to be used as SASL authorization proxy
@@ -768,14 +770,19 @@ $config['ldap_public']['Verisign'] = array(
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
   // -> in this case, assure that groups and contacts are separated due to the concernig filters! 
   'groups'  => array(
-    'base_dn'        => '',
-    'scope'          => 'sub',       // Search mode: sub|base|list
-    'filter'         => '(objectClass=groupOfNames)',
-    'object_classes' => array("top", "groupOfNames"),
-    'member_attr'    => 'member',   // Name of the member attribute, e.g. uniqueMember
-    'name_attr'      => 'cn',       // Attribute to be used as group name
-    'member_filter'  => '(objectclass=*)',  // Optional filter to use when querying for group members
-    'vlv'            => false,      // Use VLV controls to list groups
+    'base_dn'           => '',
+    'scope'             => 'sub',       // Search mode: sub|base|list
+    'filter'            => '(objectClass=groupOfNames)',
+    'object_classes'    => array('top', 'groupOfNames'),   // Object classes to be assigned to new groups
+    'member_attr'       => 'member',   // Name of the default member attribute, e.g. uniqueMember
+    'name_attr'         => 'cn',       // Attribute to be used as group name
+    'email_attr'        => 'mail',     // Group email address attribute (e.g. for mailing lists)
+    'member_filter'     => '(objectclass=*)',  // Optional filter to use when querying for group members
+    'vlv'               => false,      // Use VLV controls to list groups
+    'class_member_attr' => array(      // Mapping of group object class to member attribute used in these objects
+      'groupofnames'       => 'member',
+      'groupofuniquenames' => 'uniquemember'
+    ),
   ),
   // this configuration replaces the regular groups listing in the directory tree with
   // a hard-coded list of groups, each listing entries with the configured base DN and filter.
