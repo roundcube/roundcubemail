@@ -1206,16 +1206,21 @@ use_plusminus_key: function(keyCode, mod_key)
 
   if (keyCode == 32)
     keyCode = selected_row.expanded ? 109 : 61;
-  if (keyCode == 61 || keyCode == 107)
+  if (keyCode == 61 || keyCode == 107) {
+    if( this.row_children(this.last_selected).length === 0)
+      return;
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.expand_all(selected_row);
     else
      this.expand(selected_row);
-  else
+  } else {
+    if (this.find_root(this.last_selected) !== this.last_selected)
+      return;
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.collapse_all(selected_row);
     else
       this.collapse(selected_row);
+  }
 
   this.update_expando(selected_row.uid, selected_row.expanded);
 
