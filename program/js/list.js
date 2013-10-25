@@ -1214,7 +1214,7 @@ use_plusminus_key: function(keyCode, mod_key)
     else
      this.expand(selected_row);
   } else {
-    if (this.find_root(this.last_selected) !== this.last_selected)
+    if (!selected_row.expanded || this.find_root(this.last_selected) !== this.last_selected)
       return;
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.collapse_all(selected_row);
