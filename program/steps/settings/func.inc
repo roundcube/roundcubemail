@@ -1321,4 +1321,7 @@ $RCMAIL->register_action_map(array(
     'purge'         => 'folders.inc',
     'folder-size'   => 'folders.inc',
     'add-identity'  => 'edit_identity.inc',
+    'add-response'  => 'edit_response.inc',
+    'save-response' => 'edit_response.inc',
+    'delete-response' => 'responses.inc',
 ));

@@ -1184,7 +1184,7 @@ class rcmail_output_html extends rcmail_output
 
         // generate html code for button
         if ($btn_content) {
-            $attrib_str = html::attrib_string($attrib, $link_attrib);
+            $attrib_str = html::attrib_string($attrib, array_merge(html::$common_attrib, $link_attrib));
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 

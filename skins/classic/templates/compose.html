@@ -40,6 +40,7 @@
         <span id="spellmenulink" onclick="rcmail_ui.show_popup('spellmenu');return false"></span>
     </span>
 <roundcube:endif />
+    <a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="rcmail_ui.show_popup('responsesmenu');return false">&nbsp;</a>
     <roundcube:container name="toolbar" id="compose-toolbar" />
     <roundcube:button name="messageoptions" id="composemenulink" type="link" class="button messagemenu" title="messageoptions" onclick="rcmail_ui.show_popup('composemenu', true);return false" content=" " />
 </div>
@@ -196,6 +197,16 @@
     </tr>
     <roundcube:endif />
     </table>
+</div>
+
+<div id="responsesmenu" class="popupmenu">
+    <ul id="textresponsesmenu">
+        <li><label class="comment"><roundcube:label name="insertresponse" /></label></li>
+        <roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
+        <li><label class="comment"><roundcube:label name="manageresponses" /></label></li>
+        <li><roundcube:button command="save-response" type="link" label="savenewresponse" classAct="active" unselectable="on" /></li>
+        <li><roundcube:button command="responses" type="link" label="editresponses" classAct="active" /></li>
+    </ul>
 </div>
 
 <div id="spellmenu" class="popupmenu selectable"></div>

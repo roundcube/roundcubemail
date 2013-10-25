@@ -346,6 +346,44 @@ class rcmail extends rcube
     return $list;
   }
 
+  /**
+   * Getter for compose responses.
+   * These are stored in local config and user preferences.
+   *
+   * @param boolean True to sort the list alphabetically
+   * @param boolean True if only this user's responses shall be listed
+   * @return array List of the current user's stored responses
+   */
+  public function get_compose_responses($sorted = false, $user_only = false)
+  {
+    $responses = array();
+
+    if (!$user_only) {
+      foreach ($this->config->get('compose_responses_static', array()) as $response) {
+        if (empty($response['key']))
+          $response['key'] = substr(md5($response['name']), 0, 16);
+        $response['static'] = true;
+        $response['class'] = 'readonly';
+        $k = $sorted ? '0000-' . strtolower($response['name']) : $response['key'];
+        $responses[$k] = $response;
+      }
+    }
+
+    foreach ($this->config->get('compose_responses', array()) as $response) {
+      if (empty($response['key']))
+        $response['key'] = substr(md5($response['name']), 0, 16);
+      $k = $sorted ? strtolower($response['name']) : $response['key'];
+      $responses[$k] = $response;
+    }
+
+    // sort list by name
+    if ($sorted) {
+      ksort($responses, SORT_LOCALE_STRING);
+    }
+
+    return array_values($responses);
+  }
+
 
   /**
    * Init output object for GUI and add common scripts.

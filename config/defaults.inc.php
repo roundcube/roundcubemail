@@ -615,6 +615,12 @@ $config['upload_progress'] = false;
 // Setting it to 0, disables the feature.
 $config['undo_timeout'] = 0;
 
+// A static list of canned responses which are immutable for the user
+$config['compose_responses_static'] = array(
+//  array('name' => 'Canned Response 1', 'text' => 'Static Response One'),
+//  array('name' => 'Canned Response 2', 'text' => 'Static Response Two'),
+);
+
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------

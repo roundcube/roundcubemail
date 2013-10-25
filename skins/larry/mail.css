@@ -621,6 +621,10 @@ table.messagelist.fixedcopy {
 	background-position: -24px -1116px;
 }
 
+.messagelist thead tr td.priority span.priority {
+	background-position: -24px -1845px;
+}
+
 .messagelist tr td.priority span.prio5 {
 	background-position: 0 -1905px;
 }

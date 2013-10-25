@@ -256,12 +256,14 @@ function rcube_webmail()
         }
         else if (this.env.action == 'compose') {
           this.env.address_group_stack = [];
-          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel', 'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin'];
+          this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
+            'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin',
+            'insert-response', 'save-response'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
 
-          this.enable_command(this.env.compose_commands, 'identities', true);
+          this.enable_command(this.env.compose_commands, 'identities', 'responses', true);
 
           // add more commands (not enabled)
           $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
@@ -270,6 +272,23 @@ function rcube_webmail()
             this.env.spellcheck.spelling_state_observer = function(s) { ref.spellcheck_state(); };
             this.env.compose_commands.push('spellcheck')
             this.enable_command('spellcheck', true);
+          }
+
+          // init canned response functions
+          if (this.gui_objects.responseslist) {
+            $('a.insertresponse', this.gui_objects.responseslist)
+              .attr('unselectable', 'on')
+              .mousedown(function(e){ return rcube_event.cancel(e); })
+              .mouseup(function(e){
+                ref.command('insert-response', $(this).attr('rel'));
+                $(document.body).trigger('mouseup');  // hides the menu
+                return rcube_event.cancel(e);
+              });
+
+              // avoid textarea loosing focus when hitting the save-response button/link
+              for (var i=0; this.buttons['save-response'] && i < this.buttons['save-response'].length; i++) {
+                $('#'+this.buttons['save-response'][i].id).mousedown(function(e){ return rcube_event.cancel(e); })
+              }
           }
 
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
@@ -381,7 +400,7 @@ function rcube_webmail()
         break;
 
       case 'settings':
-        this.enable_command('preferences', 'identities', 'save', 'folders', true);
+        this.enable_command('preferences', 'identities', 'responses', 'save', 'folders', true);
 
         if (this.env.action == 'identities') {
           this.enable_command('add', this.env.identities_level < 2);
@@ -402,6 +421,9 @@ function rcube_webmail()
           parent.rcmail.enable_command('purge', this.env.messagecount);
           $("input[type='text']").first().select();
         }
+        else if (this.env.action == 'responses') {
+          this.enable_command('add', true);
+        }
 
         if (this.gui_objects.identitieslist) {
           this.identity_list = new rcube_list_widget(this.gui_objects.identitieslist, {multiselect:false, draggable:false, keyboard:false});
@@ -418,8 +440,22 @@ function rcube_webmail()
           this.sections_list.init();
           this.sections_list.focus();
         }
-        else if (this.gui_objects.subscriptionlist)
+        else if (this.gui_objects.subscriptionlist) {
           this.init_subscription_list();
+        }
+        else if (this.gui_objects.responseslist) {
+          this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:false});
+          this.responses_list.addEventListener('select', function(list){
+            var win, id = list.get_single_selection();
+            p.enable_command('delete', !!id && $.inArray(id, p.env.readonly_responses) < 0);
+            if (id && (win = p.get_frame_window(p.env.contentframe))) {
+              p.set_busy(true);
+              p.location_href({ _action:'edit-response', _key:id, _framed:1 }, win);
+            }
+          });
+          this.responses_list.init();
+          this.responses_list.focus();
+        }
 
         break;
 
@@ -726,6 +762,13 @@ function rcube_webmail()
       case 'add':
         if (this.task == 'addressbook')
           this.load_contact(0, 'add');
+        else if (this.task == 'settings' && this.env.action == 'responses') {
+          var frame;
+          if ((frame = this.get_frame_window(this.env.contentframe))) {
+            this.set_busy(true);
+            this.location_href({ _action:'add-response', _framed:1 }, frame);
+          }
+        }
         else if (this.task == 'settings') {
           this.identity_list.clear_selection();
           this.load_identity(0, 'add-identity');
@@ -789,7 +832,10 @@ function rcube_webmail()
         // addressbook task
         else if (this.task == 'addressbook')
           this.delete_contacts();
-        // user settings task
+        // settings: canned response
+        else if (this.task == 'settings' && this.env.action == 'responses')
+          this.delete_response();
+        // settings: user identities
         else if (this.task == 'settings')
           this.delete_identity();
         break;
@@ -1174,6 +1220,7 @@ function rcube_webmail()
       // user settings commands
       case 'preferences':
       case 'identities':
+      case 'responses':
       case 'folders':
         this.goto_url('settings/' + command);
         break;
@@ -3286,6 +3333,154 @@ function rcube_webmail()
     return true;
   };
 
+  this.insert_response = function(key)
+  {
+    var insert = this.env.textresponses[key] ? this.env.textresponses[key].text : null;
+    if (!insert)
+      return false;
+
+    // insert into tinyMCE editor
+    if ($("input[name='_is_html']").val() == '1') {
+      var editor = tinyMCE.get(this.env.composebody);
+      editor.getWin().focus(); // correct focus in IE & Chrome
+      editor.selection.setContent(insert, { format:'text' });
+    }
+    // replace selection in compose textarea
+    else {
+      var textarea = rcube_find_object(this.env.composebody),
+        selection = $(textarea).is(':focus') ? this.get_input_selection(textarea) : { start:0, end:0 },
+        inp_value = textarea.value;
+        pre = inp_value.substring(0, selection.start),
+        end = inp_value.substring(selection.end, inp_value.length);
+
+      // insert response text
+      textarea.value = pre + insert + end;
+
+      // set caret after inserted text
+      this.set_caret_pos(textarea, selection.start + insert.length);
+      textarea.focus();
+    }
+  };
+
+  /**
+   * Open the dialog to save a new canned response
+   */
+  this.save_response = function()
+  {
+    var sigstart, text = '', strip = false;
+
+    // get selected text from tinyMCE editor
+    if ($("input[name='_is_html']").val() == '1') {
+      var editor = tinyMCE.get(this.env.composebody);
+      editor.getWin().focus(); // correct focus in IE & Chrome
+      text = editor.selection.getContent({ format:'text' });
+
+      if (!text) {
+        text = editor.getContent({ format:'text' });
+        strip = true;
+      }
+    }
+    // get selected text from compose textarea
+    else {
+      var textarea = rcube_find_object(this.env.composebody), sigstart;
+      if (textarea && $(textarea).is(':focus')) {
+        text = this.get_input_selection(textarea).text;
+      }
+
+      if (!text && textarea) {
+        text = textarea.value;
+        strip = true;
+      }
+    }
+
+    // strip off signature
+    if (strip) {
+      sigstart = text.indexOf('-- \n');
+      if (sigstart > 0) {
+        text = text.substring(0, sigstart);
+      }
+    }
+
+    // show dialog to enter a name and to modify the text to be saved
+    var buttons = {},
+      html = '<form class="propform">' +
+      '<div class="prop block"><label>' + this.get_label('responsename') + '</label>' +
+      '<input type="text" name="name" id="ffresponsename" size="40" /></div>' +
+      '<div class="prop block"><label>' + this.get_label('responsetext') + '</label>' +
+      '<textarea name="text" id="ffresponsetext" cols="40" rows="8"></textarea></div>' +
+      '</form>';
+
+    buttons[this.gettext('save')] = function(e) {
+      var name = $('#ffresponsename').val(),
+        text = $('#ffresponsetext').val();
+
+      if (!text) {
+        $('#ffresponsetext').select();
+        return false;
+      }
+      if (!name)
+        name = text.substring(0,40);
+
+      var lock = ref.display_message(ref.get_label('savingresponse'), 'loading');
+      ref.http_post('settings/responses', { _insert:1, _name:name, _text:text }, lock);
+      $(this).dialog('close');
+    };
+
+    buttons[this.gettext('cancel')] = function() {
+      $(this).dialog('close');
+    };
+
+    this.show_popup_dialog(html, this.gettext('savenewresponse'), buttons);
+
+    $('#ffresponsetext').val(text);
+    $('#ffresponsename').select();
+  };
+
+  this.add_response_item = function(response)
+  {
+    var key = response.key;
+    this.env.textresponses[key] = response;
+
+    // append to responses list
+    if (this.gui_objects.responseslist) {
+      var li = $('<li>').appendTo(this.gui_objects.responseslist);
+      $('<a>').addClass('insertresponse active')
+        .attr('href', '#')
+        .attr('rel', key)
+        .html(this.quote_html(response.name))
+        .appendTo(li)
+        .mousedown(function(e){
+          return rcube_event.cancel(e);
+        })
+        .mouseup(function(e){
+          ref.command('insert-response', key);
+          $(document.body).trigger('mouseup');  // hides the menu
+          return rcube_event.cancel(e);
+        });
+    }
+  };
+
+  this.edit_responses = function()
+  {
+    // TODO: implement inline editing of responses
+  };
+
+  this.delete_response = function(key)
+  {
+    if (!key && this.responses_list) {
+      var selection = this.responses_list.get_selection();
+      key = selection[0];
+    }
+
+    // submit delete request
+    if (key && confirm(this.get_label('deleteresponseconfirm'))) {
+      this.http_post('settings/delete-response', { _key: key }, false);
+      return true;
+    }
+
+    return false;
+  };
+
   this.stop_spellchecking = function()
   {
     var ed;
@@ -5212,6 +5407,35 @@ function rcube_webmail()
     }
   };
 
+  this.update_response_row = function(response, oldkey)
+  {
+    var list = this.responses_list;
+
+    if (list && oldkey) {
+      list.update_row(oldkey, [ response.name ], response.key, true);
+    }
+    else if (list) {
+      list.insert_row({ id:'rcmrow'+response.key, cols:[ { className:'name', innerHTML:response.name } ] });
+      list.select(response.key);
+    }
+  };
+
+  this.remove_response = function(key)
+  {
+    var frame;
+
+    if (this.env.textresponses) {
+      delete this.env.textresponses[key];
+    }
+
+    if (this.responses_list) {
+      this.responses_list.remove_row(key);
+      if (this.env.contentframe && (frame = this.get_frame_window(this.env.contentframe))) {
+        frame.location.href = this.env.blankpage;
+      }
+    }
+  };
+
 
   /*********************************************************/
   /*********        folder manager methods         *********/
@@ -6774,6 +6998,14 @@ function rcube_webmail()
   /*********            helper methods            *********/
   /********************************************************/
 
+  /**
+   * Quote html entities
+   */
+  this.quote_html = function(str)
+  {
+    return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
   // get window.opener.rcmail if available
   this.opener = function()
   {
@@ -6836,6 +7068,57 @@ function rcube_webmail()
       range.moveStart('character', pos);
       range.select();
     }
+  };
+
+  // get selected text from an input field
+  // http://stackoverflow.com/questions/7186586/how-to-get-the-selected-text-in-textarea-using-jquery-in-internet-explorer-7
+  this.get_input_selection = function(obj)
+  {
+    var start = 0, end = 0,
+      normalizedValue, range,
+      textInputRange, len, endRange;
+
+    if (typeof obj.selectionStart == "number" && typeof obj.selectionEnd == "number") {
+      normalizedValue = obj.value;
+      start = obj.selectionStart;
+      end = obj.selectionEnd;
+    }
+    else {
+      range = document.selection.createRange();
+
+      if (range && range.parentElement() == obj) {
+        len = obj.value.length;
+        normalizedValue = obj.value; //.replace(/\r\n/g, "\n");
+
+        // create a working TextRange that lives only in the input
+        textInputRange = obj.createTextRange();
+        textInputRange.moveToBookmark(range.getBookmark());
+
+        // Check if the start and end of the selection are at the very end
+        // of the input, since moveStart/moveEnd doesn't return what we want
+        // in those cases
+        endRange = obj.createTextRange();
+        endRange.collapse(false);
+
+        if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+          start = end = len;
+        }
+        else {
+          start = -textInputRange.moveStart("character", -len);
+          start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+          if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+            end = len;
+          }
+          else {
+            end = -textInputRange.moveEnd("character", -len);
+            end += normalizedValue.slice(0, end).split("\n").length - 1;
+          }
+        }
+      }
+    }
+
+    return { start:start, end:end, text:normalizedValue.substr(start, end-start) };
   };
 
   // disable/enable all fields of a form
