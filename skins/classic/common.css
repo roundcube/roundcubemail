@@ -484,7 +484,8 @@ body.iframe .boxtitle
   left: 90px;
   width: auto;
   max-height: 70%;
-  overflow: auto;
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: auto;
   display: none;
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.95);

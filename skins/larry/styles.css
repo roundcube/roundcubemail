@@ -1925,7 +1925,8 @@ select.decorated option {
 	left: 90px;
 	width: auto;
 	max-height: 70%;
-	overflow: auto;
+	overflow: -moz-scrollbars-vertical;
+	overflow-y: auto;
 	background: #444;
 	border: 1px solid #999;
 	z-index: 240;
@@ -1958,7 +1959,6 @@ ul.toolbarmenu li,
 	margin: 0;
 	border-top: 1px solid #5a5a5a;
 	border-bottom: 1px solid #333;
-	padding-right: 10px;
 }
 
 .googie_list tr:first-child td,
