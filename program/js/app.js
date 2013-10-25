@@ -862,37 +862,24 @@ function rcube_webmail()
         break;
 
       case 'toggle_status':
-        if (props && !props._row)
-          break;
+      case 'toggle_flag':
+        flag = command == 'toggle_flag' ? 'flagged' : 'read';
 
-        flag = 'read';
-
-        if (props._row.uid) {
-          uid = props._row.uid;
-
+        if (uid = props) {
+          // toggle flagged/unflagged
+          if (flag == 'flagged') {
+            if (this.message_list.rows[uid].flagged)
+              flag = 'unflagged';
+          }
           // toggle read/unread
-          if (this.message_list.rows[uid].deleted)
+          else if (this.message_list.rows[uid].deleted)
             flag = 'undelete';
           else if (!this.message_list.rows[uid].unread)
             flag = 'unread';
+
+          this.mark_message(flag, uid);
         }
 
-        this.mark_message(flag, uid);
-        break;
-
-      case 'toggle_flag':
-        if (props && !props._row)
-          break;
-
-        flag = 'flagged';
-
-        if (props._row.uid) {
-          uid = props._row.uid;
-          // toggle flagged/unflagged
-          if (this.message_list.rows[uid].flagged)
-            flag = 'unflagged';
-        }
-        this.mark_message(flag, uid);
         break;
 
       case 'always-load':
@@ -1752,7 +1739,7 @@ function rcube_webmail()
 
   this.init_message_row = function(row)
   {
-    var expando, self = this, uid = row.uid,
+    var i, fn = {}, self = this, uid = row.uid,
       status_icon = (this.env.status_col != null ? 'status' : 'msg') + 'icn' + row.uid;
 
     if (uid && this.env.messages[uid])
@@ -1760,8 +1747,7 @@ function rcube_webmail()
 
     // set eventhandler to status icon
     if (row.icon = document.getElementById(status_icon)) {
-      row.icon._row = row.obj;
-      row.icon.onclick = function(e) { self.command('toggle_status', this); return rcube_event.cancel(e); };
+      fn.icon = function(e) { self.command('toggle_status', uid); };
     }
 
     // save message icon position too
@@ -1770,24 +1756,28 @@ function rcube_webmail()
     else
       row.msgicon = row.icon;
 
-    // set eventhandler to flag icon, if icon found
+    // set eventhandler to flag icon
     if (this.env.flagged_col != null && (row.flagicon = document.getElementById('flagicn'+row.uid))) {
-      row.flagicon._row = row.obj;
-      row.flagicon.onclick = function(e) { self.command('toggle_flag', this); return rcube_event.cancel(e); };
+      fn.flagicon = function(e) { self.command('toggle_flag', uid); };
     }
 
-    if (!row.depth && row.has_children && (expando = document.getElementById('rcmexpando'+row.uid))) {
-      row.expando = expando;
-      expando.onclick = function(e) { return self.expand_message_row(e, uid); };
+    // set event handler to thread expand/collapse icon
+    if (!row.depth && row.has_children && (row.expando = document.getElementById('rcmexpando'+row.uid))) {
+      fn.expando = function(e) { self.expand_message_row(e, uid); };
+    }
+
+    // attach events
+    $.each(fn, function(i, f) {
+      row[i].onclick = function(e) { f(e); return rcube_event.cancel(e); };
       if (bw.touch) {
-        expando.addEventListener('touchend', function(e) {
+        row[i].addEventListener('touchend', function(e) {
           if (e.changedTouches.length == 1) {
-            self.expand_message_row(e, uid);
+            f(e);
             return rcube_event.cancel(e);
           }
         }, false);
       }
-    }
+    });
 
     this.triggerEvent('insertrow', { uid:uid, row:row });
   };

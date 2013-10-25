@@ -457,10 +457,11 @@ click_row: function(e, id)
   var dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
   // selects/unselects currently selected row
-  if (!this.drag_active && !dblclicked)
+  if (!this.drag_active && this.in_selection_before == id && !dblclicked)
     this.select_row(id, mod_key, true);
-    
+
   this.drag_start = false;
+  this.in_selection_before = false;
 
   // row was double clicked
   if (this.rowcount && dblclicked && this.in_selection(id)) {
