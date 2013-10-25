@@ -911,7 +911,8 @@ shift_select: function(id, control)
     from_rowIndex = this._rowIndex(this.rows[this.shift_start].obj),
     to_rowIndex = this._rowIndex(to_row.obj);
 
-  if (!to_row.expanded && to_row.has_children)
+  // if we're going down the list, and we hit a thread, and it's closed, select the whole thread
+  if (from_rowIndex < to_rowIndex && !to_row.expanded && to_row.has_children)
     if (to_row = this.rows[(this.row_children(id)).pop()])
       to_rowIndex = this._rowIndex(to_row.obj);
 
@@ -932,6 +933,7 @@ shift_select: function(id, control)
     }
   }
 },
+
 
 /**
  * Helper method to emulate the rowIndex property of non-tr elements
