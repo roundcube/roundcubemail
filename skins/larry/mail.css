@@ -646,7 +646,7 @@ table.messagelist.fixedcopy {
 }
 
 .messagelist thead tr td.flag span.flagged {
-	background-position: -24px -1036px;
+	background-position: -22px -1036px;
 }
 
 .messagelist tr td.status span.msgicon:hover {
@@ -700,7 +700,7 @@ table.messagelist.fixedcopy {
 }
 
 .messagelist thead tr td.status span.status {
-	background-position: -24px -1016px;
+	background-position: -23px -1017px;
 }
 
 .messagelist tr td div.collapsed {
