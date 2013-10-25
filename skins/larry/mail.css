@@ -772,6 +772,7 @@ table.messagelist.fixedcopy {
 	width: 100%;
 	bottom: 27px;
 	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 #messageheader,
