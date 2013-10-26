@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added icon for priority column in messages list header (#1489234)
+- New feature "Canned Responses" to save and recall boilerplate text snippets
 - Fix HTML part detection when encapsulated inside multipart/signed (#1489372)
 - Add spellchecker backend for the After the Deadline service
 - Replace markdown-style [1] link indexes in plain text email bodies
