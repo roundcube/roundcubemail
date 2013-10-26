@@ -171,6 +171,12 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/#rcmbody h1\s\{/', $mod, "Prefix tag styles (single)");
         $this->assertRegExp('/#rcmbody h1, #rcmbody h2, #rcmbody h3, #rcmbody textarea\s+\{/', $mod, "Prefix tag styles (multiple)");
         $this->assertRegExp('/#rcmbody \.noscript\s+\{/', $mod, "Prefix class styles");
+
+        $css = file_get_contents(TESTS_DIR . 'src/media.css');
+        $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
+
+        $this->assertContains('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
+        $this->assertContains('#rcmbody {width:600px', $mod, 'Replace body selector nested in @media block');
     }
 
     /**

@@ -454,6 +454,9 @@ class rcube_utils
 
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
+            $nested = strpos($source, '{', $pos+1);
+            if ($nested && $nested < $pos2)  // when dealing with nested blocks (e.g. @media), take the inner one
+                $pos = $nested;
             $length = $pos2 - $pos - 1;
             $styles = substr($source, $pos+1, $length);
 
