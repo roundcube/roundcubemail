@@ -1135,10 +1135,13 @@ key_press: function(e)
       // Stop propagation so that the browser doesn't scroll
       rcube_event.cancel(e);
       return this.use_arrow_key(keyCode, mod_key);
-    case 61:
-    case 107: // Plus sign on a numeric keypad (fc11 + firefox 3.5.2)
-    case 109:
     case 32:
+      rcube_event.cancel(e);
+      return this.select_row(this.last_selected, mod_key, true);
+    case 37: // Left arrow key
+    case 39: // Right arrow key
+    case 107: // Plus sign on a numeric keypad
+    case 109: // Minus sign on a numeric keypad
       // Stop propagation
       rcube_event.cancel(e);
       var ret = this.use_plusminus_key(keyCode, mod_key);
@@ -1206,9 +1209,7 @@ use_plusminus_key: function(keyCode, mod_key)
   if (!selected_row)
     return;
 
-  if (keyCode == 32)
-    keyCode = selected_row.expanded ? 109 : 61;
-  if (keyCode == 61 || keyCode == 107)
+  if (keyCode == 39 || keyCode == 107)
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.expand_all(selected_row);
     else
