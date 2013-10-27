@@ -28,9 +28,16 @@ RewriteEngine On
 RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 # security rules
 RewriteRule \.git - [F]
-RewriteRule ^/?(README(.md)?|INSTALL|LICENSE|CHANGELOG|UPGRADING)$ - [F]
-RewriteRule ^/?(SQL|bin) - [F]
+RewriteRule ^/?(README(.md)?|INSTALL|LICENSE|CHANGELOG|UPGRADING)$ - [NC,F]
+RewriteRule ^/?(SQL|bin) - [NC,F]
 </IfModule>
+
+# deny access to all files not containing a "." (dot)
+# to block access to different README, ChangeLog, etc. files
+# of various skins and plugins.
+<FilesMatch "^[^\.]+$">
+Deny from all
+</FilesMatch>
 
 <IfModule mod_deflate.c>
 SetOutputFilter DEFLATE
